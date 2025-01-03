@@ -4,9 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-07-10 03:43:04
  */
-import { SubjectComments } from '@stores/subject/types'
+import { Crt, Ep, Staff, SubjectComments, SubjectFromHTML } from '@stores/subject/types'
 import { factory } from '@utils'
 import {
+  Collection,
+  Cover,
   DeepPartial,
   Expand,
   GetRouteParams,
@@ -14,10 +16,13 @@ import {
   Loaded,
   Navigation,
   Optional,
+  Override,
+  Rating,
   ReadonlyResult,
   RouteSubject,
   Sites,
-  SubjectId
+  SubjectId,
+  SubjectTypeValue
 } from '@types'
 import Store from './store'
 
@@ -31,6 +36,25 @@ export type Ctx = {
 }
 
 export type Params = GetRouteParams<RouteSubject>
+
+export type SubjectSnapshot = Override<
+  Omit<SubjectFromHTML, 'type' | 'watchedEps' | 'friend' | 'who' | 'formhash' | '_loaded'>,
+  {
+    id: SubjectId
+    type: SubjectTypeValue
+    name: string
+    name_cn: string
+    image: Cover<'c'>
+    eps: Ep[]
+    collection: Collection
+    summary: string
+    rating: Rating
+    character: Crt[]
+    staff: Staff[]
+    titleLabel: string
+    _loaded: Loaded
+  }
+>
 
 export type SubjectCommentValue = ReadonlyResult<Optional<SubjectComments, 'version'>>
 

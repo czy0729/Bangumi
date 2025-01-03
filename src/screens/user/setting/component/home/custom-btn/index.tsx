@@ -71,7 +71,7 @@ function CustomBtn() {
         </Flex>
         <ActionSheet
           show={state}
-          height={440}
+          height={520}
           onClose={() => {
             setFalse()
             if (lastValue !== lastSelected) {

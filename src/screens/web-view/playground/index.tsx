@@ -9,9 +9,17 @@ import { View } from 'react-native'
 import { useObserver } from 'mobx-react'
 import { Button, Component, HeaderV2, Page } from '@components'
 import { _ } from '@stores'
-import { get, update } from '@utils/kv'
+import { useMount } from '@utils/hooks'
+import { get, lx, update } from '@utils/kv'
 
 const Playground = () => {
+  useMount(async () => {
+    const data = await lx(`ある時、最古の神竜が人間に討たれた。
+悠久の時を生き、神々すらひれ伏す絶大な力を持つその竜は、孤独と共に己の死を受け入れた。
+しかし、次に気がついた時、竜は辺境の村人ドランとして第二の生を受けていた。`)
+    console.log(data)
+  })
+
   return useObserver(() => (
     <Component id='screen-playground'>
       <Page>

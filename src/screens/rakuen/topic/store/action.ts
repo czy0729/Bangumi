@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:09:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-08 11:40:34
+ * @Last Modified time: 2025-01-03 07:17:14
  */
 import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
-import { rakuenStore, uiStore } from '@stores'
+import { rakuenStore, systemStore, uiStore } from '@stores'
 import { feedback, HTMLDecode, info, loading, removeHTMLTag, updateVisibleBottom } from '@utils'
 import CacheManager from '@utils/cache-manager'
 import { baiduTranslate, t } from '@utils/fetch'
-import { update } from '@utils/kv'
+import { lx, update } from '@utils/kv'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HOST, IOS } from '@constants'
 import { RakuenReplyType } from '@constants/html/types'
@@ -468,28 +468,46 @@ export default class Action extends Fetch {
       topicId: this.topicId
     })
 
+    const isDeepLX = systemStore.setting.translateEngine === 'deeplx'
+    const errorInfo = `翻译${isDeepLX ? '超时' : '失败'}, 请重试`
     let hide: () => void
     try {
       hide = loading()
-      const response = await baiduTranslate(getTopicMainFloorRawText(this.title, this.html))
-      hide()
 
-      const { trans_result: translateResult } = JSON.parse(response)
-      if (Array.isArray(translateResult)) {
-        this.setState({
-          translateResult
-        })
-        return
+      const text = getTopicMainFloorRawText(this.title, this.html)
+      if (isDeepLX) {
+        const response = await lx(text)
+        hide()
+
+        if (response) {
+          this.setState({
+            translateResult: response
+          })
+          return
+        }
+      } else {
+        const response = await baiduTranslate(text)
+        hide()
+
+        const { trans_result: translateResult } = JSON.parse(response)
+        if (Array.isArray(translateResult)) {
+          this.setState({
+            translateResult
+          })
+          return
+        }
       }
-      info('翻译失败, 请重试')
+
+      info(errorInfo)
     } catch (error) {
       if (hide) hide()
-      info('翻译失败, 请重试')
+
+      info(errorInfo)
     }
   }
 
   /** 翻译楼层 */
-  doTranslateFloor = async (floorId, msg) => {
+  doTranslateFloor = async (floorId, msg: string) => {
     const { translateResultFloor } = this.state
     if (translateResultFloor[floorId]) return
 
@@ -497,26 +515,47 @@ export default class Action extends Fetch {
       floorId
     })
 
-    let hide
+    const isDeepLX = systemStore.setting.translateEngine === 'deeplx'
+    const errorInfo = `翻译${isDeepLX ? '超时' : '失败'}, 请重试`
+    let hide: () => void
     try {
       hide = loading()
-      const response = await baiduTranslate(removeHTMLTag(msg.replace(/<br>/g, '\n'), false))
-      hide()
 
-      const { trans_result: translateResult } = JSON.parse(response)
-      if (Array.isArray(translateResult)) {
-        this.setState({
-          translateResultFloor: {
-            ...translateResultFloor,
-            [floorId]: translateResult.map(item => item.dst).join('\n')
-          }
-        })
-        return
+      const text = removeHTMLTag(msg.replace(/<br>/g, '\n'), false)
+      if (isDeepLX) {
+        const translateResult = await lx(text)
+        hide()
+
+        if (translateResult) {
+          this.setState({
+            translateResultFloor: {
+              ...translateResultFloor,
+              [floorId]: translateResult.map(item => item.dst).join('\n')
+            }
+          })
+          return
+        }
+      } else {
+        const response = await baiduTranslate(text)
+        hide()
+
+        const { trans_result: translateResult } = JSON.parse(response)
+        if (Array.isArray(translateResult)) {
+          this.setState({
+            translateResultFloor: {
+              ...translateResultFloor,
+              [floorId]: translateResult.map(item => item.dst).join('\n')
+            }
+          })
+          return
+        }
       }
-      info('翻译失败, 请重试')
+
+      info(errorInfo)
     } catch (error) {
       if (hide) hide()
-      info('翻译失败, 请重试')
+
+      info(errorInfo)
     }
   }
 }

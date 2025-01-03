@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 10:03:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-11 04:30:03
+ * @Last Modified time: 2025-01-03 10:09:30
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
@@ -12,18 +12,25 @@ export const COMPONENT = rc(PARENT, 'Katakana')
 export const TEXTS = {
   engine: {
     setting: {
-      title: '翻译引擎'
+      title: '翻译引擎',
+      information:
+        'DeepLX 是基于深度学习的自然语言处理工具，选择使用后翻译不再显示原文译文对应；因翻译效率问题，片假名终结者暂不接入此引擎'
     },
     baidu: {
-      title: '百度翻译'
+      title: '百度翻译',
+      information: '百度翻译开放平台'
     },
     google: {
       title: '谷歌翻译',
       information: '因服务已退出国内\n故无限期搁置'
     },
+    deeplx: {
+      title: 'DeepLX',
+      information: 'Powerful DeepL Translation API（实验性）'
+    },
     custom: {
       title: '自定义百度翻译账号',
-      information: '需填写 APP ID 和秘钥，当两项都有值的时候才会使用'
+      information: '允许使用私人账户调用接口，需填写 APP ID 和秘钥，当两项都有值的时候才会使用'
     }
   },
   katakana: {

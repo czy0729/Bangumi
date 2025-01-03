@@ -399,6 +399,9 @@ export const INIT_SETTING = {
   /** 自定义百度翻译秘钥 */
   baiduKey: '',
 
+  /** 翻译引擎 */
+  translateEngine: 'baidu' as 'baidu' | 'deeplx',
+
   /** 条目页面布局 */
   ...INIT_SUBJECT_LAYOUT
 }

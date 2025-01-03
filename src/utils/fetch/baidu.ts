@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-05-16 16:55:06
  */
-import { STORYBOOK } from '@constants/device'
+import { WEB } from '@constants/device'
 import { syncSystemStore } from '../async'
 import Crypto from '../crypto'
 import { get, update } from '../kv'
@@ -36,7 +36,7 @@ export async function baiduTranslate(query: string, to = 'zh') {
   try {
     const q = query.split('\r\n').join('\n')
 
-    // 云缓存, 因每个月免费翻译额度有限, 避免过多调用百度翻译
+    // 云缓存, 因每个月免费翻译额度有限, 避免过多调用
     let cache: { [x: string]: any }
     const k = `fanyi_${hash(q)}`
 
@@ -58,7 +58,7 @@ export async function baiduTranslate(query: string, to = 'zh') {
     }
 
     // 网页版暂时不允许直接调用百度翻译
-    if (STORYBOOK) {
+    if (WEB) {
       console.info('[@utils/baidu]', 'baiduTranslate denied')
       return ''
     }

@@ -7,7 +7,7 @@
 import { useCallback, useRef, useState } from 'react'
 import { systemStore } from '@stores'
 import { Setting } from '@stores/system/types'
-import { scrollToView } from '@utils'
+import { feedback, scrollToView } from '@utils'
 import { useMount, useRunAfter } from '@utils/hooks'
 import { BooleanKeys, NavigationProps, NonBooleanKeys } from '@types'
 
@@ -64,6 +64,8 @@ export function useSettingPage({ route }: NavigationProps) {
 export function useAsyncSwitchSetting(key: BooleanKeys<Setting>) {
   const [value, setValue] = useState(systemStore.setting[key])
   const handleSwitch = useCallback(() => {
+    feedback(true)
+
     setValue(!value)
     setTimeout(() => {
       systemStore.switchSetting(key)
@@ -81,6 +83,8 @@ export function useAsyncSetSetting<T extends NonBooleanKeys<Setting>>(key: T) {
   const [value, setValue] = useState(systemStore.setting[key])
   const handleSet = useCallback(
     (updateValue: Setting[T]) => {
+      feedback(true)
+
       setValue(updateValue)
       setTimeout(() => {
         systemStore.setSetting(key, updateValue)

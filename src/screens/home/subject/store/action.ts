@@ -40,7 +40,7 @@ import {
   updateVisibleBottom
 } from '@utils'
 import { baiduTranslate, t } from '@utils/fetch'
-import { download, temp } from '@utils/kv'
+import { download, lx, temp } from '@utils/kv'
 import axios from '@utils/thirdParty/axios'
 import { s2t } from '@utils/thirdParty/open-cc'
 import { webhookCollection, webhookEp } from '@utils/webhooks'
@@ -1208,23 +1208,40 @@ export default class Action extends Fetch {
       subjectId: this.subjectId
     })
 
+    const isDeepLX = systemStore.setting.translateEngine === 'deeplx'
+    const errorInfo = `翻译${isDeepLX ? '超时' : '失败'}, 请重试`
     let hide: () => void
     try {
       hide = loading('请求中...')
-      const response = await baiduTranslate(this.summary)
-      hide()
 
-      const { trans_result: translateResult } = JSON.parse(response)
-      if (Array.isArray(translateResult)) {
-        this.setState({
-          translateResult
-        })
-        return
+      if (isDeepLX) {
+        const response = await lx(this.summary)
+        hide()
+
+        if (response) {
+          this.setState({
+            translateResult: response
+          })
+          return
+        }
+      } else {
+        const response = await baiduTranslate(this.summary)
+        hide()
+
+        const { trans_result: translateResult } = JSON.parse(response)
+        if (Array.isArray(translateResult)) {
+          this.setState({
+            translateResult
+          })
+          return
+        }
       }
-      info('翻译失败, 请重试')
+
+      info(errorInfo)
     } catch (error) {
       if (hide) hide()
-      info('翻译失败, 请重试')
+
+      info(errorInfo)
     }
   }
 
@@ -1243,9 +1260,11 @@ export default class Action extends Fetch {
       })
     })
 
-    let hide
+    let hide: () => void
     try {
       hide = loading('请求中...')
+
+      // 曲目翻译使用 DeepLX 效果不好, 暂不进行接入
       const response = await baiduTranslate(discTitle.join('\n'))
       hide()
 

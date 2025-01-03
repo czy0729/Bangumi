@@ -64,14 +64,27 @@ const Summary = memo(
               <View>
                 {fixedTranslateResult(translateResult, content).map((item, index) => (
                   <View key={index} style={_.mt.sm}>
-                    <Text style={_.mt.md} type='sub' size={12} lineHeight={14} selectable>
-                      {item.src.trim()}
-                    </Text>
-                    <Text style={_.mt.sm} size={15} lineHeight={17} bold selectable>
+                    {!!item.src && (
+                      <Text
+                        style={[_.mt.md, _.mb.xs]}
+                        type='sub'
+                        size={12}
+                        lineHeight={14}
+                        selectable
+                      >
+                        {item.src.trim()}
+                      </Text>
+                    )}
+                    <Text style={_.mt.xs} size={15} lineHeight={17} selectable>
                       {item.dst.trim()}
                     </Text>
                   </View>
                 ))}
+                {systemStore.setting.translateEngine === 'deeplx' && (
+                  <Text style={[_.mt.sm, _.mr.sm]} type='sub' size={10} bold align='right'>
+                    by DeepLX
+                  </Text>
+                )}
               </View>
             ) : (
               !!content && (

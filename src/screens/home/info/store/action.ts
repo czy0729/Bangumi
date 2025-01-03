@@ -1,3 +1,4 @@
+import { systemStore } from '@stores'
 /*
  * @Author: czy0729
  * @Date: 2024-11-08 06:51:35
@@ -6,6 +7,7 @@
  */
 import { info, loading } from '@utils'
 import { baiduTranslate } from '@utils/fetch'
+import { lx } from '@utils/kv'
 import Computed from './computed'
 
 export default class Action extends Computed {
@@ -13,23 +15,40 @@ export default class Action extends Computed {
   doTranslate = async () => {
     if (this.state.translateResult.length) return
 
+    const isDeepLX = systemStore.setting.translateEngine === 'deeplx'
+    const errorInfo = `翻译${isDeepLX ? '超时' : '失败'}, 请重试`
     let hide: () => void
     try {
       hide = loading('请求中...')
-      const response = await baiduTranslate(this.summary)
-      hide()
 
-      const { trans_result: translateResult } = JSON.parse(response)
-      if (Array.isArray(translateResult)) {
-        this.setState({
-          translateResult
-        })
-        return
+      if (isDeepLX) {
+        const response = await lx(this.summary)
+        hide()
+
+        if (response) {
+          this.setState({
+            translateResult: response
+          })
+          return
+        }
+      } else {
+        const response = await baiduTranslate(this.summary)
+        hide()
+
+        const { trans_result: translateResult } = JSON.parse(response)
+        if (Array.isArray(translateResult)) {
+          this.setState({
+            translateResult
+          })
+          return
+        }
       }
-      info('翻译失败, 请重试')
+
+      info(errorInfo)
     } catch (error) {
       if (hide) hide()
-      info('翻译失败, 请重试')
+
+      info(errorInfo)
     }
   }
 }

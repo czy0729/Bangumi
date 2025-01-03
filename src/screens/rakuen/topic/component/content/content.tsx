@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-01-03 20:09:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-08 11:41:25
+ * @Last Modified time: 2025-01-03 07:11:47
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Heatmap, Loading, RenderHtml, Text } from '@components'
 import { IconTouchable, Likes } from '@_'
-import { _, uiStore } from '@stores'
+import { _, systemStore, uiStore } from '@stores'
 import { isChineseParagraph, removeHTMLTag, removeURLs } from '@utils'
 import { memo } from '@utils/decorators'
 import { fixedTranslateResult } from '@screens/home/subject/component/utils'
@@ -42,14 +42,27 @@ const Content = memo(
             {fixedTranslateResult(translateResult, getTopicMainFloorRawText(title, html)).map(
               (item, index) => (
                 <View key={index}>
-                  <Text style={_.mt.md} size={13} lineHeight={14} type='sub'>
-                    {item.src.trim()}
-                  </Text>
-                  <Text style={_.mt.xs} size={15} lineHeight={17}>
+                  {!!item.src && (
+                    <Text
+                      style={[_.mt.md, _.mb.xs]}
+                      size={13}
+                      lineHeight={14}
+                      type='sub'
+                      selectable
+                    >
+                      {item.src.trim()}
+                    </Text>
+                  )}
+                  <Text style={_.mt.sm} size={15} lineHeight={17} selectable>
                     {item.dst.trim()}
                   </Text>
                 </View>
               )
+            )}
+            {systemStore.setting.translateEngine === 'deeplx' && (
+              <Text style={[_.mt.sm, _.mr.sm]} type='sub' size={10} bold align='right'>
+                by DeepLX
+              </Text>
             )}
           </View>
         ) : (

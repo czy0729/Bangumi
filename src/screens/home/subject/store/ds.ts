@@ -5,21 +5,10 @@
  * @Last Modified time: 2024-08-22 17:11:16
  */
 import { _ } from '@stores'
-import { Crt, Ep, Staff, SubjectFromHTML } from '@stores/subject/types'
 import { LIST_EMPTY, WEB } from '@constants'
-import {
-  Collection,
-  Cover,
-  Loaded,
-  Override,
-  Rating,
-  RatingStatus,
-  Sites,
-  SubjectId,
-  SubjectTypeValue
-} from '@types'
+import { Loaded, RatingStatus, Sites, TranslateResult } from '@types'
 import { COMPONENT } from '../ds'
-import { AnitabiData, EpsData } from '../types'
+import { AnitabiData, EpsData, SubjectSnapshot } from '../types'
 
 /** 唯一命名空间 */
 export const NAMESPACE = `Screen${COMPONENT}` as const
@@ -51,30 +40,13 @@ export const EXCLUDE_STATE = {
   filterScores: [],
 
   /** 翻译缓存 */
-  translateResult: [],
+  translateResult: [] as TranslateResult,
 
   /** 曲目名字翻译缓存 */
-  discTranslateResult: [],
+  discTranslateResult: [] as TranslateResult,
 
   /** 云端缓存的条目信息 */
-  subject: {} as Override<
-    Omit<SubjectFromHTML, 'type' | 'watchedEps' | 'friend' | 'who' | 'formhash' | '_loaded'>,
-    {
-      id: SubjectId
-      type: SubjectTypeValue
-      name: string
-      name_cn: string
-      image: Cover<'c'>
-      eps: Ep[]
-      collection: Collection
-      summary: string
-      rating: Rating
-      character: Crt[]
-      staff: Staff[]
-      titleLabel: string
-      _loaded: Loaded
-    }
-  >,
+  subject: {} as SubjectSnapshot,
 
   /** 云端缓存的留言信息 */
   comments: LIST_EMPTY,

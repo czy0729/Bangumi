@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-10-18 04:21:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-16 09:20:03
+ * @Last Modified time: 2025-01-03 10:02:03
  */
 import { _ } from '@stores'
 import { EVENT, FROZEN_FN } from '@constants'
-import { Navigation, RakuenNewFloorStyleCn, UserId } from '@types'
+import { Navigation, RakuenNewFloorStyleCn, TopicId, UserId } from '@types'
 import { Props } from '../types'
 import { memoStyles } from './styles'
 
@@ -14,7 +14,7 @@ export const DEFAULT_PROPS = {
   navigation: {} as Navigation,
   styles: {} as ReturnType<typeof memoStyles>,
   extraStyle: {} as Props['extraStyle'],
-  topicId: '' as string,
+  topicId: '' as TopicId,
   authorId: '' as Props['authorId'],
   avatar: '' as Props['avatar'],
   blockKeywords: [] as any[],

@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Text } from '@components'
-import { _, useStore } from '@stores'
+import { _, systemStore, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { fixedTranslateResult } from '@screens/home/subject/component/utils'
 import { Ctx } from '../../types'
@@ -27,14 +27,21 @@ function Summary() {
         <View>
           {fixedTranslateResult(translateResult, content).map((item, index) => (
             <View key={index} style={_.mt.sm}>
-              <Text style={_.mt.md} type='sub' size={12} lineHeight={14} selectable>
-                {item.src.trim()}
-              </Text>
-              <Text style={_.mt.sm} size={15} lineHeight={17} bold selectable>
+              {!!item.src && (
+                <Text style={[_.mt.md, _.mb.xs]} type='sub' size={12} lineHeight={14} selectable>
+                  {item.src.trim()}
+                </Text>
+              )}
+              <Text style={_.mt.xs} size={15} lineHeight={17} selectable>
                 {item.dst.trim()}
               </Text>
             </View>
           ))}
+          {systemStore.setting.translateEngine === 'deeplx' && (
+            <Text style={[_.mt.sm, _.mr.sm]} type='sub' size={10} bold align='right'>
+              by DeepLX
+            </Text>
+          )}
         </View>
       ) : (
         !!content && (

@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-06-23 01:47:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-01 13:26:54
+ * @Last Modified time: 2025-01-03 07:09:06
  */
 import axios from '@utils/thirdParty/axios'
 import { WEB } from '@constants/device'
+import { TranslateResult } from '@types'
 import { isDevtoolsOpen } from '../dom'
 import hash from '../thirdParty/hash'
 import { getTimestamp } from '../utils'
 import { Result, ResultTemp } from './type'
 import { log } from './utils'
-import { HOST, UPDATE_CACHE_MAP } from './ds'
+import { HOST, HOST_LX, UPDATE_CACHE_MAP } from './ds'
 
 /** 获取 */
 export async function get(key: string): Promise<any> {
@@ -260,6 +261,7 @@ export async function extract(q: string) {
   ).map(item => [item.word, item.weight.toFixed(0)]) as [string, string][]
 }
 
+/** 收藏排名 */
 export async function collectRank(count: number = 200) {
   if (isDevtoolsOpen()) return Promise.reject('denied')
 
@@ -276,4 +278,62 @@ export async function collectRank(count: number = 200) {
   })
 
   return data
+}
+
+export async function lx(text: string): Promise<false | TranslateResult> {
+  if (isDevtoolsOpen()) return Promise.reject('denied')
+
+  // 云缓存, 因每个月免费翻译额度有限, 避免过多调用
+  const q = text.split('\r\n').join('\n')
+  const k = `fanyi_lx_${hash(q)}`
+  // const cache = await get(k)
+  // if (Array.isArray(cache?.data) && cache.data.length) return cache.data
+
+  // @ts-expect-error
+  const { data } = await axios({
+    method: 'post',
+    url: HOST_LX,
+    data: {
+      text,
+      source_lang: 'JP',
+      target_lang: 'ZH'
+    }
+  })
+
+  if (!Array.isArray(data?.alternatives)) return false
+
+  const response: string = data.alternatives?.[0] || ''
+  if (!response.length) return false
+
+  const transResult = splitAndKeepPunctuation(response).map(item => ({
+    src: '',
+    dst: item
+  }))
+  setTimeout(() => {
+    update(k, {
+      data: transResult
+    })
+  }, 0)
+
+  return transResult
+}
+
+function splitAndKeepPunctuation(str: string) {
+  // 首先，使用正则表达式分割字符串，保留分隔符
+  const parts = str.split(/(。|！|？)/)
+  const result = []
+
+  for (let i = 0; i < parts.length; i++) {
+    // 如果是分隔符，将前一个元素和分隔符合并，然后添加到结果数组
+    if (['。', '！', '？'].includes(parts[i])) {
+      if (result.length > 0) {
+        result[result.length - 1] += parts[i]
+      }
+    } else {
+      // 如果不是分隔符，直接添加到结果数组
+      result.push(parts[i])
+    }
+  }
+
+  return result
 }

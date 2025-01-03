@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-18 04:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-07 07:46:49
+ * @Last Modified time: 2025-01-03 07:24:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -209,7 +209,7 @@ export default memo(
               />
               {!!translate && (
                 <Text style={styles.translate} size={11} lineHeight={13}>
-                  {translate}
+                  {translate.trim()}
                 </Text>
               )}
               {showQuoteAvatar && (

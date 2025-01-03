@@ -12,7 +12,7 @@ import { Text } from '../text'
 import { KatakanaProvider, KatakanaProviderProps } from './provider'
 import { getCache, matchKatakanas, translate } from './utils'
 import { COMPONENT } from './ds'
-import { Props as KatakanaProps } from './types'
+import { Context, Props as KatakanaProps } from './types'
 
 export { KatakanaProviderProps, KatakanaProps }
 
@@ -72,7 +72,7 @@ const Katakana = class KatakanaComponent extends React.Component<KatakanaProps> 
       translate(jp, (cache: { [x: string]: any }) => {
         const en = cache[jp]
         if (en) {
-          const { onKatakana } = this.context
+          const { onKatakana } = this.context as Context
           if (onKatakana) {
             setTimeout(() => {
               onKatakana({
@@ -96,13 +96,15 @@ const Katakana = class KatakanaComponent extends React.Component<KatakanaProps> 
   }
 
   get isOn() {
-    return this.context.active || systemStore.setting.katakana
+    return (this.context as Context).active || systemStore.setting.katakana
   }
 
   render() {
     r(COMPONENT)
 
-    return <Text {...this.props} lineHeightIncrease={this.context.lineHeightIncrease} />
+    return (
+      <Text {...this.props} lineHeightIncrease={(this.context as Context).lineHeightIncrease} />
+    )
   }
 }
 

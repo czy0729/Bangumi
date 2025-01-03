@@ -56,10 +56,6 @@ async function doTranslate() {
     const { trans_result: transResult } = JSON.parse(response as string)
 
     if (Array.isArray(transResult)) {
-      console.log({
-        transResult
-      })
-
       // [{ dst: 'Studio pulp', src: 'スタジオパルプ' }]
       transResult.forEach(item => (memo[item.src] = item.dst))
       save()

@@ -4,9 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-01-10 04:42:22
  */
-import { tinygrailStore, userStore } from '@stores'
+import { systemStore, tinygrailStore, userStore } from '@stores'
 import { feedback, info, loading, open, removeHTMLTag } from '@utils'
 import { baiduTranslate, fetchHTML, t } from '@utils/fetch'
+import { lx } from '@utils/kv'
 import { webhookMono } from '@utils/webhooks'
 import { HOST } from '@constants'
 import { Id, Navigation } from '@types'
@@ -108,27 +109,43 @@ export default class Action extends Fetch {
       monoId: this.monoId
     })
 
+    const isDeepLX = systemStore.setting.translateEngine === 'deeplx'
+    const errorInfo = `翻译${isDeepLX ? '超时' : '失败'}, 请重试`
     let hide: () => void
     try {
       hide = loading()
-      const response = await baiduTranslate(
-        String(content)
-          .replace(/<br \/>/g, '\n')
-          .replace(/<\/?[^>]*>/g, '') // 去除HTML tag
-      )
-      hide()
 
-      const { trans_result } = JSON.parse(response)
-      if (Array.isArray(trans_result)) {
-        this.setState({
-          [key]: trans_result
-        })
-        return
+      const text = String(content)
+        .replace(/<br \/>/g, '\n')
+        .replace(/<\/?[^>]*>/g, '') // 去除HTML tag
+      if (isDeepLX) {
+        const response = await lx(text)
+        hide()
+
+        if (response) {
+          this.setState({
+            [key]: response
+          })
+          return
+        }
+      } else {
+        const response = await baiduTranslate(text)
+        hide()
+
+        const { trans_result } = JSON.parse(response)
+        if (Array.isArray(trans_result)) {
+          this.setState({
+            [key]: trans_result
+          })
+          return
+        }
       }
-      info('翻译失败, 请重试')
+
+      info(errorInfo)
     } catch (error) {
       if (hide) hide()
-      info('翻译失败, 请重试')
+
+      info(errorInfo)
     }
   }
 
@@ -141,26 +158,47 @@ export default class Action extends Fetch {
       floorId
     })
 
+    const isDeepLX = systemStore.setting.translateEngine === 'deeplx'
+    const errorInfo = `翻译${isDeepLX ? '超时' : '失败'}, 请重试`
     let hide: () => void
     try {
       hide = loading()
-      const response = await baiduTranslate(removeHTMLTag(msg.replace(/<br>/g, '\n')))
-      hide()
 
-      const { trans_result: translateResult } = JSON.parse(response)
-      if (Array.isArray(translateResult)) {
-        this.setState({
-          translateResultFloor: {
-            ...translateResultFloor,
-            [floorId]: translateResult.map(item => item.dst).join('\n')
-          }
-        })
-        return
+      const text = removeHTMLTag(msg.replace(/<br>/g, '\n'))
+      if (isDeepLX) {
+        const translateResult = await lx(text)
+        hide()
+
+        if (translateResult) {
+          this.setState({
+            translateResultFloor: {
+              ...translateResultFloor,
+              [floorId]: translateResult.map(item => item.dst).join('\n')
+            }
+          })
+          return
+        }
+      } else {
+        const response = await baiduTranslate(text)
+        hide()
+
+        const { trans_result: translateResult } = JSON.parse(response)
+        if (Array.isArray(translateResult)) {
+          this.setState({
+            translateResultFloor: {
+              ...translateResultFloor,
+              [floorId]: translateResult.map(item => item.dst).join('\n')
+            }
+          })
+          return
+        }
       }
-      info('翻译失败, 请重试')
+
+      info(errorInfo)
     } catch (error) {
       if (hide) hide()
-      info('翻译失败, 请重试')
+
+      info(errorInfo)
     }
   }
 }

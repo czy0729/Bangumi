@@ -8,7 +8,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { RenderHtml, Text } from '@components'
 import { IconTouchable } from '@_'
-import { _, useStore } from '@stores'
+import { _, systemStore, useStore } from '@stores'
 import { appNavigate, isChineseParagraph, removeHTMLTag, removeURLs } from '@utils'
 import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
@@ -23,18 +23,23 @@ function Content() {
   if (translateResult.length) {
     return (
       <View style={styles.content}>
-        <View>
-          {translateResult.map((item, index) => (
-            <View key={index}>
-              <Text style={_.mt.md} size={13} lineHeight={14} type='sub'>
+        {translateResult.map((item, index) => (
+          <View key={index} style={_.mt.sm}>
+            {!!item.src && (
+              <Text style={[_.mt.md, _.mb.xs]} type='sub' size={12} lineHeight={14} selectable>
                 {item.src.trim()}
               </Text>
-              <Text style={_.mt.xs} size={15} lineHeight={17}>
-                {item.dst.trim()}
-              </Text>
-            </View>
-          ))}
-        </View>
+            )}
+            <Text style={_.mt.xs} size={15} lineHeight={17} selectable>
+              {item.dst.trim()}
+            </Text>
+          </View>
+        ))}
+        {systemStore.setting.translateEngine === 'deeplx' && (
+          <Text style={_.mt.sm} type='sub' size={10} bold align='right'>
+            by DeepLX
+          </Text>
+        )}
       </View>
     )
   }

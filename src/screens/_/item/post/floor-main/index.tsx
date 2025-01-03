@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-23 18:48:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-16 09:24:34
+ * @Last Modified time: 2025-01-03 07:23:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -97,7 +97,7 @@ function FloorMain({
       </View>
       {!!translate && (
         <Text style={styles.translate} size={11} lineHeight={13}>
-          {translate}
+          {translate.trim()}
         </Text>
       )}
     </Flex.Item>

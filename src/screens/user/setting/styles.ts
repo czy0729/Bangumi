@@ -45,5 +45,12 @@ export const styles = _.create({
     ..._.fontSize16,
     borderWidth: 0,
     backgroundColor: 'transparent'
+  },
+  input2: {
+    height: 44,
+    paddingVertical: 0,
+    paddingHorizontal: 17,
+    ..._.fontSize14,
+    borderWidth: 0
   }
 })
