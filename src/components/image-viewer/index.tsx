@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-05 21:12:15
+ * @Last Modified time: 2025-01-03 10:20:21
  */
 import React from 'react'
 import { Modal, View } from 'react-native'
@@ -78,6 +78,8 @@ export const ImageViewer = observer(
     }
 
     renderImage = (props: any) => {
+      if (!(props?.style?.width || props?.style?.height)) return null
+
       const { imageUrls } = this.props
       return (
         <Image
