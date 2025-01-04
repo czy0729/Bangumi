@@ -2,16 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-12-14 16:28:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-04 16:19:11
+ * @Last Modified time: 2025-01-04 16:24:18
  */
 import React from 'react'
 import { useObserver } from 'mobx-react'
-import { ActionSheet, Button, Touchable } from '@components'
 import { useBoolean } from '@utils/hooks'
 import { FROZEN_FN } from '@constants'
+import { ActionSheet } from '../action-sheet'
+import { Button } from '../button'
+import { Touchable } from '../touchable'
 import { styles } from './styles'
 
-export default ({ style, data = [], onSelect = FROZEN_FN, children }) => {
+export const Popover = ({ style, data = [], onSelect = FROZEN_FN, children }) => {
   const { state, setTrue, setFalse } = useBoolean(false)
 
   return useObserver(() => (
