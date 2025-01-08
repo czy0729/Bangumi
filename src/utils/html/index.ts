@@ -284,7 +284,17 @@ export function cText($el: any, matchRawTextNode: boolean = false): string {
 /** cheerio.attr(key) */
 export function cData(
   $el: any,
-  key: 'id' | 'class' | 'style' | 'href' | 'src' | 'title' | 'value' | 'action' | 'onclick'
+  key:
+    | 'id'
+    | 'class'
+    | 'style'
+    | 'href'
+    | 'src'
+    | 'title'
+    | 'value'
+    | 'action'
+    | 'order'
+    | 'onclick'
 ): string {
   try {
     return $el.attr(key) || ''

@@ -84,7 +84,7 @@ export type UrlEp = `${Host}/ep/${EpId}`
 export type UrlStatic = `${Url}/pic`
 
 /** 头像地址 */
-export type Avatar<S extends 'l' | 'm' | 's' = 'l'> =
+export type Avatar<S extends 'l' | 'm' | 's' | 'g' = 'l'> =
   | `${UrlStatic}/user/${S}/${string}.jpg?r=${number}`
   | '${UrlStatic}/user/${S}/icon.jpg'
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-20 00:13:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 07:23:44
+ * @Last Modified time: 2025-01-08 07:52:29
  */
 import React from 'react'
 import { Button, ToolBar as ToolBarComp } from '@components'
@@ -22,16 +22,20 @@ function ToolBar() {
     <ToolBarComp>
       <Sort />
       <Layout />
-      <Collect />
-      <Button
-        style={styles.btn}
-        styleText={_.fontSize12}
-        type='plain'
-        bold
-        onPress={$.fetchSubjectsQueue}
-      >
-        更新评分
-      </Button>
+      {!!$.catalogDetail.list.length && (
+        <>
+          <Collect />
+          <Button
+            style={styles.btn}
+            styleText={_.fontSize12}
+            type='plain'
+            bold
+            onPress={$.fetchSubjectsQueue}
+          >
+            更新评分
+          </Button>
+        </>
+      )}
       <Reverse />
     </ToolBarComp>
   )

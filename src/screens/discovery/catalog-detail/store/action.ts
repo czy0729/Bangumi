@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-07-29 19:39:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-24 21:05:54
+ * @Last Modified time: 2025-01-07 16:07:47
  */
 import { discoveryStore, userStore } from '@stores'
 import { confirm, feedback, info, removeHTMLTag, updateVisibleBottom } from '@utils'
@@ -115,6 +115,13 @@ export default class Action extends Fetch {
       visibleBottom: EXCLUDE_STATE.visibleBottom
     })
     this.save()
+  }
+
+  /** 切换类型筛选 */
+  onType = (type: string) => {
+    this.setState({
+      type: type.split(' ')?.[0] || '动画'
+    })
   }
 
   /** 更新可视范围底部 y */

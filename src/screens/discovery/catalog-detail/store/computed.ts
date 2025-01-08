@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-07-29 19:28:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-28 15:32:09
+ * @Last Modified time: 2025-01-08 07:49:05
  */
 import { computed } from 'mobx'
 import { _, discoveryStore, subjectStore, userStore } from '@stores'
@@ -95,6 +95,50 @@ export default class Computed extends State {
     }
 
     return CacheManager.set(key, list)
+  }
+
+  /** 目录列表拥有的类型 */
+  @computed get typeData() {
+    const { list = [], crt = [], prsn = [], ep = [] } = this.catalogDetail
+    const data: string[] = []
+    if (list.length) data.push(`动画  ${list.length}`)
+    if (crt.length) data.push(`角色  ${crt.length}`)
+    if (prsn.length) data.push(`人物  ${prsn.length}`)
+    if (ep.length) data.push(`章节  ${ep.length}`)
+    return data
+  }
+
+  /** 目录列表当前筛选类型 */
+  @computed get type() {
+    const { length } = this.catalogDetail.list
+    if (length && this.typeData.length <= 1) return '动画'
+
+    if (!length && this.state.type === '动画') {
+      return (this.typeData?.[0] || '').split(' ')?.[0] || '动画'
+    }
+
+    return this.state.type || '动画'
+  }
+
+  /** 当前类型列表 */
+  @computed get data() {
+    const { reverse } = this.state
+    if (this.type === '角色') {
+      const { crt = [] } = this.catalogDetail
+      return reverse ? crt.slice().reverse() : crt
+    }
+
+    if (this.type === '人物') {
+      const { prsn = [] } = this.catalogDetail
+      return reverse ? prsn.slice().reverse() : prsn
+    }
+
+    if (this.type === '章节') {
+      const { ep = [] } = this.catalogDetail
+      return reverse ? ep.slice().reverse() : ep
+    }
+
+    return reverse ? this.list.slice().reverse() : this.list
   }
 
   /** 目录是否已收藏 */

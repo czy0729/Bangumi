@@ -4,8 +4,19 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-28 15:56:05
  */
-import { cData, cheerio, cMap, cText, HTMLDecode, htmlMatch, matchUserId, safeObject } from '@utils'
-import { SubjectTypeCn } from '@types'
+import {
+  cData,
+  cheerio,
+  cHtml,
+  cMap,
+  cText,
+  HTMLDecode,
+  htmlMatch,
+  matchUserId,
+  safeObject
+} from '@utils'
+import { Avatar, Cover, SubjectTypeCn } from '@types'
+import { CatalogDetail } from './types'
 
 /** 标签 */
 export function cheerioTags(html: string) {
@@ -64,14 +75,51 @@ export function cheerioCatalog(html: string) {
 }
 
 /** 目录详情 */
-export function cheerioCatalogDetail(html: string) {
+export function cheerioCatalogDetail(html: string): CatalogDetail {
   const $ = cheerio(htmlMatch(html, '<div id="header">', '<div id="footer">'))
-  const list = $('li.item')
-    .map((_index: number, element: any) => {
-      const $li = cheerio(element)
-      const $a = $li.find('a.l')
+  const $a = $('div.grp_box > a.l')
+  const [time = '', collect = ''] = cText($('div.grp_box > span.tip_j')).split('/')
 
-      const _type = $li.find('span.ico_subject_type').attr('class') || ''
+  const href = cData($('div.rr > a'), 'href')
+  let joinUrl = ''
+  let byeUrl = ''
+  if (href.includes('erase_collect')) {
+    byeUrl = href
+  } else {
+    joinUrl = href
+  }
+
+  const mono = cMap($('.browserCrtList > div'), $row => ({
+    id: cData($row.find('a.l'), 'href'),
+    image: cData($row.find('img.avatar'), 'src') as Avatar<'g'>,
+    title: cText($row.find('a.l')),
+    info: cText($row.find('span.tip')),
+    comment: cText($row.find('.text_main_even .text'))
+  }))
+
+  return {
+    title: cText($('div#header > h1')),
+    avatar: cData($('img.avatar'), 'src') as Avatar<'m'>,
+    progress: cText($('div.progress small')),
+    nickname: cText($a),
+    userId: cData($a, 'href').replace('/user/', ''),
+    time: time.replace('创建于 ', '').trim(),
+    collect: collect.match(/\d+/) && collect.match(/\d+/)[0],
+    content: cHtml($('div.line_detail > span.tip')),
+    replyCount: $('.timeline_img li.clearit').length,
+    joinUrl,
+    byeUrl,
+
+    /** 条目 */
+    list: cMap($('#browserItemList li.item'), $row => {
+      const $a = $row.find('a.l')
+
+      // /update/137458?keepThis=false&TB_iframe=true&height=350&amp;width=500
+      const _id = cData($a, 'href').replace('/subject/', '')
+      const _idTemp = _id.split('?')?.[0]?.split('/')
+      const id = _idTemp[_idTemp.length - 1]
+
+      const _type = cData($row.find('span.ico_subject_type'), 'class')
       let type: SubjectTypeCn
       if (_type.includes('subject_type_2')) {
         type = '动画'
@@ -83,54 +131,38 @@ export function cheerioCatalogDetail(html: string) {
         type = '三次元'
       }
 
-      // /update/137458?keepThis=false&TB_iframe=true&height=350&amp;width=500
-      const _id = ($a.attr('href') || '').replace('/subject/', '')
-      const _idTemp = _id.split('?')[0].split('/')
-      const id = _idTemp[_idTemp.length - 1]
-      const $modify = $li.find('.tb_idx_rlt')
-
-      return safeObject({
+      const $modify = $row.find('.tb_idx_rlt')
+      return {
         id,
-        image: $li.find('img.cover').attr('src'),
-        title: ($a.text().trim() || '').replace('修改删除', ''),
+        image: cData($row.find('img.cover'), 'src') as Cover<'c'>,
+        title: cText($a).replace('修改删除', ''),
         type,
-        info: $li.find('p.info').text().trim(),
-        comment: HTMLDecode($li.find('div.text_main_even > div.text').text().trim()),
-        isCollect: !!$li.find('p.collectModify').text().trim(),
+        info: cText($row.find('p.info')),
+        comment: cText($row.find('div.text_main_even > div.text')),
+        isCollect: !!cText($row.find('p.collectModify')),
 
         // 以下属性自己创建的目录才会存在
-        order: $modify.attr('order') || '0',
-        modify: $modify.attr('id')?.replace('modify_', '') || '',
-        erase: $li.find('.erase_idx_rlt').attr('href') || ''
-      })
-    })
-    .get()
+        order: cData($modify, 'order') || '0',
+        modify: cData($modify, 'id')?.replace('modify_', ''),
+        erase: cData($row.find('.erase_idx_rlt'), 'href')
+      }
+    }),
 
-  const $a = $('div.grp_box > a.l')
-  const [time = '', collect = ''] = ($('div.grp_box > span.tip_j').text().trim() || '').split('/')
+    /** 角色 */
+    crt: mono.filter(item => item.id.includes('character')),
 
-  const href = $('div.rr > a').attr('href') || ''
-  let joinUrl = ''
-  let byeUrl = ''
-  if (href.includes('erase_collect')) {
-    byeUrl = href
-  } else {
-    joinUrl = href
-  }
+    /** 人物 */
+    prsn: mono.filter(item => item.id.includes('person')),
 
-  return {
-    list: list.filter(item => !item.id.includes('ep/')),
-    title: $('div#header > h1').text().trim(),
-    avatar: $('img.avatar').attr('src'),
-    progress: $('div.progress small').text().trim(),
-    nickname: $a.text().trim(),
-    userId: ($a.attr('href') || '').replace('/user/', ''),
-    time: time.replace('创建于 ', '').trim(),
-    collect: collect.match(/\d+/) && collect.match(/\d+/)[0],
-    content: $('div.line_detail > span.tip').html(),
-    replyCount: $('.timeline_img li.clearit').length,
-    joinUrl,
-    byeUrl
+    /** 章节 */
+    ep: cMap($('.browserList li.item'), $row => ({
+      id: cData($row.find('a.l'), 'href'),
+      image: cData($row.find('img.avatar'), 'src') as Cover<'g'>,
+      title: cText($row.find('a.l')),
+      info: cText($row.find('span.tip')),
+      subId: cData($row.find('h3 + a'), 'href'),
+      comment: cText($row.find('.text_main_even .text'))
+    }))
   }
 }
 

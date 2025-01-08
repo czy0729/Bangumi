@@ -19,7 +19,7 @@ import {
 } from '@types'
 
 /** 目录 */
-export type Catalog = DeepPartial<{
+export type Catalog = {
   list: {
     avatar: Avatar<'s'>
     name: string
@@ -34,8 +34,8 @@ export type Catalog = DeepPartial<{
     game: string
     real: string
   }[]
-  _loaded: number
-}>
+  _loaded: Loaded
+}
 
 /** 目录详情列表项 */
 export type CatalogDetailItem = {
@@ -51,9 +51,27 @@ export type CatalogDetailItem = {
   erase: string
 }
 
+/** 目录详情人物列表项 */
+export type CatalogDetailMonoItem = {
+  id: string
+  image: Avatar<'g'>
+  title: string
+  info: string
+  comment: string
+}
+
+/** 目录详情章节列表项 */
+export type CatalogDetailEpItem = {
+  id: string
+  image: Cover<'g'>
+  title: string
+  info: string
+  subId: string
+  comment: string
+}
+
 /** 目录详情 */
 export type CatalogDetail = {
-  list: CatalogDetailItem[]
   title: string
   avatar: Avatar<'m'>
   progress: string
@@ -65,7 +83,20 @@ export type CatalogDetail = {
   content: string
   joinUrl: string
   byeUrl: string
-  _loaded: Loaded
+
+  /** 条目 */
+  list: CatalogDetailItem[]
+
+  /** 角色 */
+  crt: CatalogDetailMonoItem[]
+
+  /** 人物 */
+  prsn: CatalogDetailMonoItem[]
+
+  /** 章节 */
+  ep: CatalogDetailEpItem[]
+
+  _loaded?: Loaded
 }
 
 /** 目录详情 (云缓存) */

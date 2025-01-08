@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-19 12:28:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-05 15:35:33
+ * @Last Modified time: 2025-01-08 07:56:55
  */
 import React, { useCallback, useEffect, useState } from 'react'
 import { LayoutChangeEvent, View } from 'react-native'
@@ -21,7 +21,7 @@ if (!DEV) {
   }, 20000)
 }
 
-export default ({ index = 0, y = 0, log = DEV, flex, visibleBottom, children, ...other }) => {
+export default ({ index = 0, y = 0, log, flex, visibleBottom, children, ...other }) => {
   r(COMPONENT)
 
   const [currentY, setCurrentY] = useState(y)
