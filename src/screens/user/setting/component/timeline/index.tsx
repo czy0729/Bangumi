@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-15 13:07:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-25 05:02:23
+ * @Last Modified time: 2025-01-08 09:18:40
  */
 import React, { useEffect } from 'react'
 import { ActionSheet } from '@components'
@@ -10,7 +10,6 @@ import { ItemSetting } from '@_'
 import { uiStore } from '@stores'
 import { r } from '@utils/dev'
 import { useBoolean, useIsFocused, useObserver } from '@utils/hooks'
-import commonStyles from '../../styles'
 import { getShows } from '../../utils'
 import TimelinePopable from './timeline-popable'
 import { COMPONENT, TEXTS } from './ds'

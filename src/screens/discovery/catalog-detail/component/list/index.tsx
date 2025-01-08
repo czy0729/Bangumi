@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-06 15:35:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-08 07:40:28
+ * @Last Modified time: 2025-01-08 08:26:27
  */
 import React from 'react'
 import { PaginationList2 } from '@_'
@@ -17,7 +17,7 @@ import { COMPONENT } from './ds'
 
 function List({ onScroll }) {
   const { $ } = useStore<Ctx>()
-  const numColumns = $.isList ? undefined : $.gridNum
+  const numColumns = $.type !== '动画' ? 1 : $.isList ? undefined : $.gridNum
   return (
     <PaginationList2
       key={`${$.state.layout}${numColumns}`}

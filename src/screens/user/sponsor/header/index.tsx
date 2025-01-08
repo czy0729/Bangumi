@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-07 15:16:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-11 21:21:14
+ * @Last Modified time: 2025-01-08 10:41:37
  */
 import React from 'react'
 import { HeaderV2 } from '@components'
@@ -40,7 +40,7 @@ function Header() {
                   `生存情况：已存活 ${timeDiff()}`,
                   '图表根据赞助额按比例划分',
                   '点击方格隐藏 1 格，若你为赞助者长按可进入空间',
-                  '除此外还有 30 多个赞助者没有留名',
+                  '除此外还有 50 多个赞助者没有留名',
                   '@senken 提供的 100 刀 iOS 开发账号',
                   '@magma 提供的服务器和 OSS 服务',
                   '数据不定期更新，感谢各位的支持！'

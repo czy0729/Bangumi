@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-01-07 21:53:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-11 22:53:16
+ * @Last Modified time: 2025-01-08 10:44:07
  */
 import React from 'react'
 import { Flex, Text, UserStatus } from '@components'
@@ -20,6 +20,16 @@ function ListItem({ item, index }) {
   const navigation = useNavigation()
   const data = USERS_MAP[item.data]
   const userId = item.data
+
+  let level = ''
+  if (item.weight >= 100) {
+    level = '\u{1F947}'
+  } else if (item.weight >= 50) {
+    level = '\u{1F948}'
+  } else if (item.weight >= 20) {
+    level = '\u{1F949}'
+  }
+
   return (
     <Flex style={styles.item}>
       <InView style={styles.inView} y={48 * (Math.floor(index / 2) + 1)}>
@@ -34,12 +44,19 @@ function ListItem({ item, index }) {
         </UserStatus>
       </InView>
       <Flex.Item style={_.ml.sm}>
-        <Text size={12} bold>
-          {HTMLDecode(data?.n)}
-        </Text>
-        <Text size={10} type='sub'>
-          @{userId}
-        </Text>
+        <Flex>
+          <Flex.Item>
+            <Text size={12} bold numberOfLines={1}>
+              {HTMLDecode(data?.n)}
+            </Text>
+            <Text size={10} lineHeight={12} type='sub'>
+              @{userId}
+            </Text>
+          </Flex.Item>
+          <Text style={styles.level} size={16}>
+            {level}
+          </Text>
+        </Flex>
       </Flex.Item>
     </Flex>
   )

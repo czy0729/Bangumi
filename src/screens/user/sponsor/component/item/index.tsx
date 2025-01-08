@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-10 13:39:10
+ * @Last Modified time: 2025-01-08 10:38:22
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -26,7 +26,7 @@ function Item({ w, h, x, y, data, percent, price, isFilter, onPress, onLongPress
   const avatarSize = Math.min(64, parseInt(String(ratioHeight * 240)))
 
   let backgroundStyle: ViewStyle
-  if (price >= 200) {
+  if (price >= 100) {
     backgroundStyle = styles.l4
   } else if (price >= 50) {
     backgroundStyle = styles.l3

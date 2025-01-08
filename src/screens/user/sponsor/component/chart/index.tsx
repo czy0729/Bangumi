@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-11 21:20:33
+ * @Last Modified time: 2025-01-08 10:38:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -55,7 +55,7 @@ function Chart({ navigation }: NavigationProps) {
               <Flex>
                 <View style={[styles.l, styles.l4]} />
                 <Text style={_.mr.sm} size={10} bold>
-                  ≥ 200
+                  ≥ 100
                 </Text>
               </Flex>
             </Touchable>

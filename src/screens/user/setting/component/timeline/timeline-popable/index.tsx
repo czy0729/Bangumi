@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-04-25 04:56:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-25 05:03:07
+ * @Last Modified time: 2025-01-08 09:21:57
  */
 import React from 'react'
-import { Flex, Heatmap, SwitchPro, Text, Touchable } from '@components'
-import { ItemSetting, TapListener } from '@_'
+import { Heatmap, SwitchPro, Touchable } from '@components'
+import { ItemSetting } from '@_'
 import { uiStore } from '@stores'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
@@ -40,7 +40,7 @@ function TimelinePopable({ filter }) {
       >
         <Heatmap id='设置.切换' title='显示缩略信息' />
       </ItemSetting>
-      <TapListener>
+      {/* <TapListener>
         <Flex style={commonStyles.acSearch}>
           <Text size={13}>试一试：</Text>
           <Text size={13}>
@@ -125,7 +125,7 @@ function TimelinePopable({ filter }) {
             </Text>
           </Text>
         </Flex>
-      </TapListener>
+      </TapListener> */}
       <Touchable
         style={commonStyles.closePopablePlaceholder}
         withoutFeedback
