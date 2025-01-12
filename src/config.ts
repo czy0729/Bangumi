@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-27 04:57:02
+ * @Last Modified time: 2025-01-10 18:17:31
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
@@ -31,7 +31,7 @@ export const RERENDER_SHOW_DIFF = false
 export const ANDROID_DEV_MENU = true
 
 /** 是否不显示图片 (开发用) false 是为了打包后的 apk 稳定显示图片 */
-export const TEXT_ONLY = DEV ? DEV : false
+export const TEXT_ONLY = DEV ? !DEV : false
 
 /** 反代地址 */
 export const HOST_PROXY = 'https://bangumi-app-webproxy-dev.magmablock.top'
@@ -42,14 +42,14 @@ export const HOST_PROXY = 'https://bangumi-app-webproxy-dev.magmablock.top'
 const CONFIGS: Configs = {
   initialRouteName: DEV ? 'HomeTab' : 'HomeTab',
   initialRouteParams: {
-    // subjectId: 283730 // anime: 296870, music: 302514, book: 267358, game: 137458
-    // topicId: 'ep/1308344' // group/366561
+    // subjectId: 296870 // anime: 296870, music: 302514, book: 267358, game: 283730
+    // topicId: 'group/407299' // group/366561
     // userId: 'magma' // 456208, 419012, 'lilyurey'
-    // monoId: 'character/76270' // character/70323 person/5745
+    // monoId: 'character/52876' // character/70323 person/5745
     // id: 37896791
     // ids: [72649, 59610, 59611, 72648, 72650, 72651, 72652, 74522, 75203, 75207]
     // blogId: 307175 // 294448
-    // catalogId: 37787
+    // catalogId: 52349
     // groupId: 'fillgrids' // fillgrids
     // jp: 'ようこそ実力至上主義の教室へ',
     // cn: '无职转生 ～在异世界认真地活下去～'

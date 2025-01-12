@@ -4,7 +4,7 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2024-11-17 01:09:23
  */
-import { calendarStore, useInitStore } from '@stores'
+import { useInitStore } from '@stores'
 import { useRunAfter } from '@utils/hooks'
 import { NavigationProps } from '@types'
 import store from './store'
@@ -18,7 +18,7 @@ export function useCalendarPage(props: NavigationProps) {
   useRunAfter(() => {
     $.init()
 
-    calendarStore.fetchRaw()
+    // calendarStore.fetchRaw()
   })
 
   return context
