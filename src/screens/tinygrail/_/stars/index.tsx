@@ -12,9 +12,13 @@ import { ob } from '@utils/decorators'
 function Stars({ value = 0, size = 11 }) {
   if (!value) return null
 
-  const style = {
-    lineHeight: _.fontSize(12).lineHeight
-  }
+  const passProps = {
+    style: {
+      color: '#ffc107',
+      lineHeight: _.fontSize(12).lineHeight
+    },
+    size
+  } as const
   const sun = Math.floor(value / 25)
   const moon = Math.floor((value - sun * 25) / 5)
   const star = value - sun * 25 - moon * 5
@@ -23,21 +27,15 @@ function Stars({ value = 0, size = 11 }) {
       {!!sun &&
         new Array(sun)
           .fill('')
-          .map((_item, index) => (
-            <Iconfont key={index} style={style} name='sunny' size={size} color='#ffc107' />
-          ))}
+          .map((_item, index) => <Iconfont key={index} {...passProps} name='sunny' />)}
       {!!moon &&
         new Array(moon)
           .fill('')
-          .map((_item, index) => (
-            <Iconfont key={index} style={style} name='moon' size={size} color='#ffc107' />
-          ))}
+          .map((_item, index) => <Iconfont key={index} {...passProps} name='moon' />)}
       {!!star &&
         new Array(star)
           .fill('')
-          .map((_item, index) => (
-            <Iconfont key={index} style={style} name='md-star' size={size} color='#ffc107' />
-          ))}
+          .map((_item, index) => <Iconfont key={index} {...passProps} name='md-star' />)}
     </>
   )
 }

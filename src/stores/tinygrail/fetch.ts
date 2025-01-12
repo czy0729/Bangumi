@@ -972,7 +972,8 @@ export default class Fetch extends Computed {
               sacrifices: charaAllMap[item.Id]?.sacrifices || 0,
               rank: item.Rank || 0,
               stars: item.Stars || 0,
-              starForces: item.StarForces || 0
+              starForces: item.StarForces || 0,
+              listedDate: item.ListedDate || ''
             }
           }),
           pagination: paginationOnePage,
@@ -1016,7 +1017,7 @@ export default class Fetch extends Computed {
     })
     this.save(key)
 
-    return Promise.resolve(data)
+    return data
   }
 
   /** ICO 参与者 */

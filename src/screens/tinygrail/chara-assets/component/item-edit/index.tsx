@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-03 14:48:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-24 20:41:59
+ * @Last Modified time: 2025-01-08 19:59:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,7 +16,7 @@ import { styles } from './styles'
 
 function ItemEdit({ item, type, users, event }) {
   const { $ } = useStore<Ctx>()
-  const { editing, editingIds } = $.state
+  const { sort, editing, editingIds } = $.state
   const { id, monoId, state } = item
   const isActive = editingIds[id]
   const el = (
@@ -35,6 +35,7 @@ function ItemEdit({ item, type, users, event }) {
           {...item}
           type={type}
           users={users === 'ico' ? $.mpiUsers[monoId] : users}
+          sort={sort}
           event={event}
           showMenu={!editing}
           withoutFeedback={editing}

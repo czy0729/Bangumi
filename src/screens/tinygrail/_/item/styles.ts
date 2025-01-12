@@ -11,9 +11,6 @@ export const memoStyles = _.memoStyles(() => ({
     paddingLeft: _.wind,
     backgroundColor: _.colorTinygrailContainer
   },
-  wrap: {
-    paddingRight: _.wind - _._wind
-  },
   item: {
     paddingVertical: _.md,
     paddingLeft: _.sm,

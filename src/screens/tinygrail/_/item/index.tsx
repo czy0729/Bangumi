@@ -60,7 +60,7 @@ function Item(props) {
   return (
     <Flex style={stl(styles.container, style)} align='start'>
       <Icon {...props} style={_.mt.md} />
-      <Flex.Item style={styles.wrap}>
+      <Flex.Item>
         <Flex align='start'>
           <Flex.Item style={_.mr.sm}>
             <Touchable style={styles.item} withoutFeedback={withoutFeedback} onPress={onPress}>
@@ -73,9 +73,9 @@ function Item(props) {
               </Flex>
             </Touchable>
           </Flex.Item>
-          <Control {...props} />
         </Flex>
       </Flex.Item>
+      <Control {...props} />
     </Flex>
   )
 }

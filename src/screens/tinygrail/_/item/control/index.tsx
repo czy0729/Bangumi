@@ -5,6 +5,7 @@
  * @Last Modified time: 2024-11-20 12:08:18
  */
 import React from 'react'
+import { Flex } from '@components'
 import { IconTouchable } from '@_'
 import { _, tinygrailStore } from '@stores'
 import { confirm } from '@utils'
@@ -44,7 +45,7 @@ function Control(props: Props) {
   const auctioning = auctionText === '竞拍中'
 
   return (
-    <>
+    <Flex style={styles.control}>
       {isAuction && auctioning && (
         <IconTouchable
           style={styles.auctionCancel}
@@ -68,7 +69,7 @@ function Control(props: Props) {
           onCollect={tinygrailStore.toggleCollect}
         />
       )}
-    </>
+    </Flex>
   )
 }
 

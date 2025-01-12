@@ -172,6 +172,8 @@ export default class Action extends Fetch {
 
   /** 切换是否显示角色股价预览 */
   toggleStockPreview = () => {
+    return
+
     const { _stockPreview } = this.state
     this.setState({
       _stockPreview: !_stockPreview

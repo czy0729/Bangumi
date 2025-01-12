@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 21:22:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 15:54:48
+ * @Last Modified time: 2025-01-10 18:32:39
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -12,6 +12,7 @@ import { _ } from '@stores'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { FROZEN_FN, SCROLL_VIEW_RESET_PROPS } from '@constants'
+import { scrollToX } from './utils'
 import { memoStyles } from './styles'
 import { Props } from './types'
 
@@ -58,6 +59,9 @@ function ToolBar({
         <ScrollView
           contentContainerStyle={styles.contentContainerStyle}
           horizontal
+          ref={scrollView => {
+            scrollToX(scrollView, data, sort)
+          }}
           {...SCROLL_VIEW_RESET_PROPS}
         >
           {data.map(item => {
@@ -70,7 +74,7 @@ function ToolBar({
                   </Text>
                   {isActive && !!direction && (
                     <Iconfont
-                      style={_.ml._xs}
+                      style={_.mr._xs}
                       name={`md-arrow-drop-${direction}`}
                       color={_.colorWarning}
                     />

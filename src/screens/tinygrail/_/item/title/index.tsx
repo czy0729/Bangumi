@@ -11,7 +11,7 @@ import { HTMLDecode } from '@utils'
 import { ob } from '@utils/decorators'
 import Rank from '../../rank'
 
-function Title({ rank, name = '', level, bonus }) {
+function Title({ rank, name = '', level, crown }) {
   return (
     <Flex wrap='wrap'>
       <Rank value={rank} />
@@ -28,9 +28,9 @@ function Title({ rank, name = '', level, bonus }) {
           lv{level}
         </Text>
       )}
-      {!!bonus && (
+      {!!crown && (
         <Text style={_.ml.xs} type='warning' size={11} lineHeight={14} bold>
-          x{bonus}
+          x{crown}
         </Text>
       )}
     </Flex>

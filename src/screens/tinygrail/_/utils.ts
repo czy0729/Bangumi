@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-04 13:51:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-11 19:56:54
+ * @Last Modified time: 2025-01-08 20:07:19
  */
 import { ToastAndroid } from 'react-native'
 import { _, tinygrailStore } from '@stores'
@@ -199,6 +199,27 @@ export function sortList(sort: string, direction: string, list: any[]) {
     case SORT_XFJL.value:
       return list.slice().sort((a, b) => (parseInt(b.bonus || 0) - parseInt(a.bonus || 0)) * base)
 
+    case SORT_XZL.value:
+      return list.slice().sort((a, b) => ((b.starForces || 0) - (a.starForces || 0)) * base)
+
+    case SORT_XJB.value:
+      return list
+        .slice()
+        .sort(
+          (a, b) =>
+            (calculateRate(b.rate, b.rank, b.stars) / (b.current || 10000) -
+              calculateRate(a.rate, a.rank, a.stars) / (a.current || 10000)) *
+            base
+        )
+
+    case SORT_MWCS.value:
+      return list.slice().sort((a, b) => ((b.crown || 0) - (a.crown || 0)) * base)
+
+    case SORT_SSSJ.value:
+      return list
+        .slice()
+        .sort((a, b) => String(b.listedDate || '').localeCompare(String(a.listedDate || '')) * base)
+
     default:
       return list
   }
@@ -238,14 +259,25 @@ export function relation(data: any) {
   // }
 }
 
+/** @deprecated 同排名 */
 export const SORT_RK = {
   label: '通天塔',
   value: 'rk'
 } as const
 
 export const SORT_XX = {
-  label: '星星',
+  label: '星级',
   value: 'xx'
+} as const
+
+export const SORT_XZL = {
+  label: '星之力',
+  value: 'xzl'
+} as const
+
+export const SORT_PM = {
+  label: '排名',
+  value: 'pm'
 } as const
 
 export const SORT_GF = {
@@ -258,23 +290,32 @@ export const SORT_SC = {
   value: 'sc'
 } as const
 
+/** @deprecated */
 export const SORT_GX = {
   label: '股息',
   value: 'gx'
 } as const
 
+/** @deprecated 总股息 */
 export const SORT_ZGX = {
-  label: '总股息',
+  label: '合计股息',
   value: 'zgx'
 } as const
 
+/** 生效股息 */
 export const SORT_SSGX = {
-  label: '生效股息',
+  label: '实际股息',
   value: 'ssgx'
 } as const
 
+export const SORT_XJB = {
+  label: '性价比',
+  value: 'xjb'
+} as const
+
+/** 合计股息 (生效总股息) */
 export const SORT_SSZGX = {
-  label: '生效总股息',
+  label: '合计股息',
   value: 'sszgx'
 } as const
 
@@ -304,12 +345,13 @@ export const SORT_GDS = {
 } as const
 
 export const SORT_CGS = {
-  label: '持股',
+  label: '持股数',
   value: 'cgs'
 } as const
 
+/** 塔 */
 export const SORT_GDZC = {
-  label: '塔',
+  label: '固定资产',
   value: 'gdzc'
 } as const
 
@@ -323,13 +365,15 @@ export const SORT_HYD = {
   value: 'hyd'
 } as const
 
+/** 市场价 */
 export const SORT_SCJ = {
-  label: '市场价',
+  label: '最高买单',
   value: 'scj'
 } as const
 
+/** 发行量 */
 export const SORT_FHL = {
-  label: '发行量',
+  label: '流通量',
   value: 'fhl'
 } as const
 
@@ -343,9 +387,35 @@ export const SORT_DQZD = {
   value: 'dqzd'
 } as const
 
+/** @deprecated */
 export const SORT_XFJL = {
   label: '新番奖励',
   value: 'xfjl'
+} as const
+
+export const SORT_MWCS = {
+  label: '萌王次数',
+  value: 'mwcs'
+} as const
+
+export const SORT_YLDSL = {
+  label: '英灵殿数量',
+  value: 'yldsl'
+} as const
+
+export const SORT_HXXSL = {
+  label: '幻想乡数量',
+  value: 'hxxsl'
+} as const
+
+export const SORT_ST = {
+  label: 'ST',
+  value: 'st'
+} as const
+
+export const SORT_SSSJ = {
+  label: '上市时间',
+  value: 'sssj'
 } as const
 
 function _info(message: string) {

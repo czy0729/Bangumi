@@ -7,6 +7,12 @@
 import { _ } from '@stores'
 
 export const styles = _.create({
+  control: {
+    position: 'absolute',
+    zIndex: 1,
+    top: -1,
+    right: 0
+  },
   auctionCancel: {
     paddingVertical: _.md,
     paddingLeft: _.sm,
