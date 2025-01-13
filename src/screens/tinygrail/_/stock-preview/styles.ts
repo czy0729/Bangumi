@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-07 18:35:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-07 18:36:39
+ * @Last Modified time: 2025-01-14 00:09:57
  */
 import { _ } from '@stores'
 
@@ -53,7 +53,8 @@ export const memoStyles = _.memoStyles(() => ({
   ico: {
     height: '100%',
     maxHeight: 68,
-    paddingRight: _._wind
+    paddingRight: _._wind,
+    marginTop: 24
   },
   icoBar: {
     width: _.r(96),

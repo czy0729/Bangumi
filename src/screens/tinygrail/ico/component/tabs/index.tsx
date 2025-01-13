@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-03-11 08:37:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-17 05:42:00
+ * @Last Modified time: 2025-01-14 07:02:48
  */
 import React from 'react'
-
 import { ob } from '@utils/decorators'
 import TabsComp from '@tinygrail/_/tabs-v2'
 import { TABS } from '../../ds'

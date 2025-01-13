@@ -2,13 +2,9 @@
  * @Author: czy0729
  * @Date: 2021-03-05 14:43:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-11 10:31:43
+ * @Last Modified time: 2025-01-14 07:02:27
  */
-import { Loaded } from '@types'
-
 export const COMPONENT = 'TinygrailICO'
-
-export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const TABS = [
   {
@@ -28,8 +24,3 @@ export const TABS = [
     key: 'rai'
   }
 ] as const
-
-export const STATE = {
-  page: 0,
-  _loaded: false as Loaded
-}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 11:40:55
+ * @Last Modified time: 2025-01-14 00:06:37
  */
 import React from 'react'
 import { Loading } from '@components'
@@ -22,14 +22,13 @@ function List({ id }: { id: TabsKey }) {
 
   return (
     <PaginationList2
+      keyExtractor={keyExtractor}
       style={_.container.flex}
       contentContainerStyle={_.container.bottom}
-      keyExtractor={keyExtractor}
       refreshControlProps={refreshControlProps}
       footerTextType='tinygrailText'
       data={list.list}
       limit={24}
-      scrollToTop
       renderItem={renderItem}
       onHeaderRefresh={() => $.fetchList(id)}
     />
