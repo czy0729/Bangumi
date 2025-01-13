@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-03-03 23:17:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-09 10:53:45
+ * @Last Modified time: 2025-01-13 22:29:04
  */
 import React from 'react'
+import { View } from 'react-native'
 import { Text } from '@components'
-import { _, tinygrailStore } from '@stores'
+import { tinygrailStore } from '@stores'
 import {
   caculateICO,
   formatNumber,
@@ -32,6 +33,7 @@ import {
   SORT_XZL
 } from '@tinygrail/_/utils'
 import { COLOR_MAP, TIMEZONE, TYPES } from './ds'
+import { styles } from './styles'
 
 function Detail(props) {
   const {
@@ -168,8 +170,8 @@ function Detail(props) {
   const elSplit = <Text {...textBaseProps}>{' / '}</Text>
 
   return (
-    <>
-      <Text style={_.mt.xs} {...textBaseProps}>
+    <View style={styles.detail}>
+      <Text {...textBaseProps}>
         {!!sortText && (
           <Text {...textBaseProps} bold>
             {sortText}
@@ -213,7 +215,7 @@ function Detail(props) {
         </Text>
       )}
       {!!extra4.length && <Text {...textBaseProps}>{extra4.join(' / ')}</Text>}
-    </>
+    </View>
   )
 }
 

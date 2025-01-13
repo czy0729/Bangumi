@@ -11,7 +11,8 @@ import { HTMLDecode } from '@utils'
 import { ob } from '@utils/decorators'
 import Rank from '../../rank'
 
-function Title({ rank, name = '', level, crown }) {
+function Title({ rank, name = '', level, cLevel, crown }) {
+  const lv = cLevel || level || 0
   return (
     <Flex wrap='wrap'>
       <Rank value={rank} />
@@ -23,9 +24,9 @@ function Title({ rank, name = '', level, crown }) {
       >
         {HTMLDecode(name)}
       </Text>
-      {parseInt(level) > 1 && (
+      {parseInt(lv) > 1 && (
         <Text style={_.ml.xs} type='ask' size={11} lineHeight={14} bold>
-          lv{level}
+          lv{lv}
         </Text>
       )}
       {!!crown && (

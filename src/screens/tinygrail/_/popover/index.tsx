@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 21:04:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-20 12:06:40
+ * @Last Modified time: 2025-01-13 22:30:44
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
@@ -15,7 +15,13 @@ import { EVENT, FROZEN_FN } from '@constants'
 import { styles } from './styles'
 import { Props } from './types'
 
-const DATA = ['收藏', 'K线', '买入', '卖出', '资产重组'] as const
+const DATA = [
+  // '收藏',
+  '买入',
+  '卖出',
+  '资产重组'
+  // 'K线'
+] as const
 
 function Popover({
   id,

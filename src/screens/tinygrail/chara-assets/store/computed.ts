@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-10-24 20:17:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-24 20:18:24
+ * @Last Modified time: 2025-01-13 23:04:43
  */
 import { computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import { getTimestamp } from '@utils'
-import { levelList, relation, sortList } from '@tinygrail/_/utils'
+import { levelList, sortList } from '@tinygrail/_/utils'
 import State from './state'
 
 export default class Computed extends State {
@@ -23,14 +23,14 @@ export default class Computed extends State {
       const { characters, initials } = tinygrailStore.charaAssets(this.userId)
       const _loaded = getTimestamp()
       return {
-        chara: relation({
+        chara: {
           list: characters,
           pagination: {
             page: 1,
             pageTotal: 1
           },
           _loaded
-        }),
+        },
         ico: {
           list: initials,
           pagination: {
@@ -45,7 +45,7 @@ export default class Computed extends State {
 
     return {
       ...tinygrailStore.myCharaAssets,
-      chara: relation(tinygrailStore.myCharaAssets.chara)
+      chara: tinygrailStore.myCharaAssets.chara
     }
   }
 
@@ -75,6 +75,7 @@ export default class Computed extends State {
     return computed(() => tinygrailStore.list('mpi')).get()
   }
 
+  /** ICO 用户 */
   @computed get mpiUsers() {
     const users = {}
     const { list } = this.mpi
@@ -120,11 +121,13 @@ export default class Computed extends State {
     chara.list.forEach(item => (map[item.id] = item))
     temple.list.forEach(item => {
       if (!map[item.id]) {
+        const itemChara = tinygrailStore.characters(item.id)
         map[item.id] = {
-          ...tinygrailStore.characters(item.id),
+          ...itemChara,
           id: item.id,
           icon: item.cover,
           level: item.level,
+          cLevel: itemChara.level,
           monoId: item.id,
           name: item.name,
           rank: item.rank,
@@ -148,13 +151,14 @@ export default class Computed extends State {
     let list = Object.values(map)
     if (level) list = levelList(level, list)
     if (sort) list = sortList(sort, direction, list)
-    return relation({
+
+    return {
       list,
       pagination: {
         page: 1,
         pageTotal: 1
       },
       _loaded: getTimestamp()
-    })
+    }
   }
 }

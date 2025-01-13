@@ -5,5 +5,5 @@
  * @Last Modified time: 2024-03-08 19:40:52
  */
 export function keyExtractor(item: any, index: number) {
-  return String(item?.id || index)
+  return item.name ? `${item.name}${item.rank}` : String(item?.id || index)
 }

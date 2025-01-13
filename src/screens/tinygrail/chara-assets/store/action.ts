@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-24 20:22:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-24 20:24:11
+ * @Last Modified time: 2025-01-13 23:03:52
  */
 import { tinygrailStore } from '@stores'
 import { alert, confirm, copy, feedback, info } from '@utils'
@@ -12,54 +12,54 @@ import { Direction } from '../types'
 import Fetch from './fetch'
 
 export default class Action extends Fetch {
+  /** 标签页切换 */
   onChange = (page: number) => {
     if (page === this.state.page) return
-
-    t('我的持仓.标签页切换', {
-      page
-    })
 
     this.setState({
       page
     })
     this.save()
     this.tabChangeCallback(page)
+
+    t('我的持仓.标签页切换', {
+      page
+    })
   }
 
+  /** 设置前往路由 */
   onSelectGo = (title: string) => {
-    t('我的持仓.设置前往', {
-      title
-    })
-
     this.setState({
       go: title
     })
     this.save()
+
+    t('我的持仓.设置前往', {
+      title
+    })
   }
 
+  /** 查看别人持仓时才会刷新对应数据 */
   tabChangeCallback = (page: number) => {
     if (this.userId) return
 
-    const { _loaded } = this.myCharaAssets
-    if (!_loaded) this.fetchMyCharaAssets()
-
+    if (!this.myCharaAssets._loaded) this.fetchMyCharaAssets()
     if (page === 2) this.fetchTemple()
-
-    const { editing } = this.state
-    if (editing) this.toggleBatchEdit()
+    if (this.state.editing) this.toggleBatchEdit()
   }
 
+  /** 选择等级筛选 */
   onLevelSelect = (level: any) => {
     this.setState({
       level
     })
-
     this.save()
   }
 
+  /** 排序回调 */
   onSortPress = (item: string) => {
-    const { sort, direction } = this.state
-    if (item === sort) {
+    if (item === this.state.sort) {
+      const { direction } = this.state
       let nextSort = item
       let nextDirection: Direction = 'down'
       if (direction === 'down') {
@@ -93,30 +93,30 @@ export default class Action extends Fetch {
     this.save()
   }
 
+  /** 切换批量操作 */
   toggleBatchEdit = (batchAction = '') => {
-    const { editing } = this.state
     this.setState({
-      editing: !editing,
+      editing: !this.state.editing,
       batchAction
     })
     this.clearState('editingIds', {})
   }
 
+  /** 批量操作切换一项 */
   toggleEditingId = (id: string | number, count: any) => {
-    const { editingIds } = this.state
-    const _editingIds = {
-      ...editingIds
+    const ids = {
+      ...this.state.editingIds
     }
-
-    if (_editingIds[id]) {
-      delete _editingIds[id]
+    if (ids[id]) {
+      delete ids[id]
     } else {
-      _editingIds[id] = count
+      ids[id] = count
     }
 
-    this.clearState('editingIds', _editingIds)
+    this.clearState('editingIds', ids)
   }
 
+  /** 批量操作自增多选 */
   increaseBatchSelect = () => {
     const { editingIds } = this.state
     const { list } = this.charaList
@@ -205,7 +205,7 @@ export default class Action extends Fetch {
   }
 
   /** 批量以当前价挂卖单 */
-  doBatchAsk = async () => {
+  doBatchAsk = async (distance = 0) => {
     const { editingIds } = this.state
     const ids = Object.keys(editingIds)
     if (!ids.length) return
@@ -227,7 +227,7 @@ export default class Action extends Fetch {
               const { current, state } = item
               const { State } = await tinygrailStore.doAsk({
                 monoId: id,
-                price: current,
+                price: current + distance,
                 amount: state,
                 isIce: false
               })
@@ -245,7 +245,7 @@ export default class Action extends Fetch {
         }
         feedback()
 
-        // 当成功数量少于20个, 使用局部更新
+        // 当成功数量少于 20 个, 使用局部更新
         if (successIds.length <= 20) {
           tinygrailStore.batchUpdateMyCharaAssetsByIds(successIds)
         } else {

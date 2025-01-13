@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-03 13:57:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-24 20:30:35
+ * @Last Modified time: 2025-01-13 22:34:36
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
@@ -41,6 +41,10 @@ function Right({ $ }: Ctx) {
 
               case '批量挂卖单':
                 $.doBatchAsk()
+                break
+
+              case '批量挂-1cc卖单':
+                $.doBatchAsk(-1)
                 break
 
               case '批量分享':
