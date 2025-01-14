@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:26:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-30 10:03:43
+ * @Last Modified time: 2025-01-14 07:25:33
  */
 import * as Device from 'expo-device'
 import { _, systemStore, userStore } from '@stores'
@@ -104,6 +104,7 @@ class ScreenHomeV2 extends Action {
   initQueue = async () => {
     const data = await Promise.all([userStore.fetchCollection()])
     if (data?.[0]?.list?.length) return this.fetchSubjectsQueue(data[0].list)
+
     return false
   }
 
@@ -121,21 +122,26 @@ class ScreenHomeV2 extends Action {
       this.save()
 
       update(`u_${this.userId}`, {
-        b: Device.brand,
-        y: Device.deviceYearClass,
-        i: Device.modelId,
-        d: Device.modelName,
-        o: Device.osVersion,
-        m: `${Math.floor(Device.totalMemory / 1000 / 1000 / 1000)}G`,
         v: VERSION_GITHUB_RELEASE,
         a: systemStore.advance,
         n: boot,
+        t: date('Y-m-d H:i:s', getTimestamp()),
+        ipa: IOS_IPA,
         l: {
           statusBar: _.statusBarHeight,
           header: _.headerHeight,
           tarBar: _.tabBarHeight,
           isDark: _.isDark,
-          deepDark: _.deepDark
+          deepDark: _.deepDark,
+          ..._.window
+        },
+        d: {
+          brand: Device.brand,
+          year: Device.deviceYearClass,
+          id: Device.modelId,
+          name: Device.modelName,
+          os: Device.osVersion,
+          mem: `${Math.floor(Device.totalMemory / 1000 / 1000 / 1000)}G`
         },
         s: pick(systemStore.setting, [
           'androidBlur',
@@ -163,9 +169,7 @@ class ScreenHomeV2 extends Action {
           'vibration',
           'webhook'
         ]),
-        e: sortObject(systemStore.t),
-        t: date('Y-m-d H:i:s', getTimestamp()),
-        ipa: IOS_IPA
+        e: sortObject(systemStore.t)
       })
     }, 8000)
   }

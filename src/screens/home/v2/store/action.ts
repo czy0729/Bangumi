@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:23:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-10 16:21:14
+ * @Last Modified time: 2025-01-14 07:20:42
  */
 import { getCoverSrc } from '@components/cover/utils'
 import { collectionStore, userStore } from '@stores'
@@ -47,10 +47,6 @@ import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 export default class Action extends Fetch {
   /** 标签页切换 */
   onChange = (page: number) => {
-    t('首页.标签页切换', {
-      page
-    })
-
     const renderedTabsIndex = [...this.state.renderedTabsIndex]
     if (!renderedTabsIndex.includes(page)) renderedTabsIndex.push(page)
 
@@ -65,21 +61,24 @@ export default class Action extends Fetch {
 
     // 游戏需要初始化 state.grid
     if (this.tabs[page]?.key === 'game') state.grid = STATE.grid
-
     this.setState(state)
     this.save()
+
+    t('首页.标签页切换', {
+      page
+    })
   }
 
   /** 显示收藏管理 Modal */
   showManageModal = (subjectId: SubjectId, modal?: typeof EXCLUDE_STATE.modal) => {
-    t('首页.显示收藏管理', {
-      subjectId
-    })
-
     this.setState({
       visible: true,
       subjectId,
       modal: modal || EXCLUDE_STATE.modal // 游戏没有主动请求条目数据, 需要手动传递标题
+    })
+
+    t('首页.显示收藏管理', {
+      subjectId
     })
   }
 
@@ -93,10 +92,6 @@ export default class Action extends Fetch {
 
   /** 展开或收起 Item */
   itemToggleExpand = (subjectId: SubjectId) => {
-    t('首页.展开或收起条目', {
-      subjectId
-    })
-
     const state = this.$Item(subjectId)
     const { expand } = state
     this.setState({
@@ -113,15 +108,14 @@ export default class Action extends Fetch {
       this.fetchSubject(subjectId)
       this.fetchUserProgress(subjectId)
     }
+
+    t('首页.展开或收起条目', {
+      subjectId
+    })
   }
 
   /** 置顶或取消置顶 Item */
   itemToggleTop = (subjectId: SubjectId, isTop?: boolean) => {
-    t('首页.置顶或取消置顶', {
-      subjectId,
-      isTop
-    })
-
     const { top } = this.state
     const _top = [...top]
     const index = _top.indexOf(subjectId)
@@ -138,12 +132,15 @@ export default class Action extends Fetch {
       top: _top
     })
     this.save()
+
+    t('首页.置顶或取消置顶', {
+      subjectId,
+      isTop
+    })
   }
 
   /** 全部展开 (书籍不展开, 展开就收不回去了) */
   expandAll = () => {
-    t('首页.全部展开')
-
     const item = {}
     this.collection.list.forEach(({ subject_id: subjectId, subject }) => {
       const type = MODEL_SUBJECT_TYPE.getTitle(subject.type)
@@ -158,22 +155,20 @@ export default class Action extends Fetch {
       item
     })
     this.save()
+
+    t('首页.全部展开')
   }
 
   /** 全部关闭 */
   closeAll = () => {
-    t('首页.全部关闭')
-
     this.clearState('item')
     this.save()
+
+    t('首页.全部关闭')
   }
 
   /** 格子布局条目选择 */
   selectGirdSubject = (subjectId: SubjectId, grid?: typeof STATE.grid) => {
-    t('首页.格子布局条目选择', {
-      subjectId
-    })
-
     this.setState({
       current: subjectId,
       grid: grid || STATE.grid
@@ -181,6 +176,10 @@ export default class Action extends Fetch {
     this.fetchSubject(subjectId)
     this.fetchUserProgress(subjectId)
     this.save()
+
+    t('首页.格子布局条目选择', {
+      subjectId
+    })
   }
 
   scrollToIndex = {}

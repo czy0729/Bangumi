@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-24 16:03:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-08 12:41:56
+ * @Last Modified time: 2025-01-14 10:24:33
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -41,6 +41,9 @@ export const {
   landscapeWindSm,
   _wind
 } = getAppLayout()
+
+/** 小设备 */
+export const isSmallDevice = window.height <= 600
 
 /** 平台 1px */
 export const { hairlineWidth } = StyleSheet

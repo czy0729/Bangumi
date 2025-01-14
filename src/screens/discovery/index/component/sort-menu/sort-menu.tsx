@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-09-10 07:56:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 20:13:32
+ * @Last Modified time: 2025-01-14 10:38:24
  */
 import React, { useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
 import { Flex, Text } from '@components'
 import { DraggableGrid } from '@components/@/react-native-draggable-grid/draggable-grid'
+import { _ } from '@stores'
 import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { ORIENTATION_PORTRAIT } from '@constants'
@@ -22,7 +23,7 @@ const SortMenu = memo(
     const menus = useMemo(() => getMenus(menu), [menu])
 
     const openIndex = menus.findIndex(item => item.key === 'Open')
-    const renderItem = useCallback(
+    const handleRenderItem = useCallback(
       (item: { key: string }, index?: number, scale: boolean = true) => (
         <View
           key={item.key}
@@ -37,7 +38,7 @@ const SortMenu = memo(
       [openIndex, styles.item, styles.transparent]
     )
 
-    const onDragRelease = useCallback(data => {
+    const handleDragRelease = useCallback(data => {
       const _menu = []
       data.forEach(item => {
         if (item.key === 'Save') return
@@ -47,14 +48,14 @@ const SortMenu = memo(
       setMenu(_menu)
     }, [])
 
-    const onCancel = useCallback(() => {
+    const handleCancel = useCallback(() => {
       onToggle()
       setTimeout(() => {
         setMenu(discoveryMenu)
       }, 80)
     }, [discoveryMenu, onToggle])
 
-    const onSave = useCallback(() => {
+    const handleSave = useCallback(() => {
       onSubmit(menu)
       setTimeout(() => {
         onToggle()
@@ -62,8 +63,8 @@ const SortMenu = memo(
     }, [menu, onSubmit, onToggle])
 
     const elBtns = useMemo(
-      () => dragging && <Btns setMenu={setMenu} onCancel={onCancel} onSave={onSave} />,
-      [dragging, onCancel, onSave]
+      () => dragging && <Btns setMenu={setMenu} onCancel={handleCancel} onSave={handleSave} />,
+      [dragging, handleCancel, handleSave]
     )
 
     let data: any[]
@@ -85,6 +86,10 @@ const SortMenu = memo(
     const isPortrait = orientation === ORIENTATION_PORTRAIT
     const isScale = discoveryMenuNum <= 4
 
+    // 小尺寸屏幕自定义时, 不显示图标, 以尽量能显示完整
+    let itemHeight = styles.dragItem.height * (isScale ? 0.8 : 1)
+    if (dragging && _.isSmallDevice) itemHeight = 48
+
     return (
       <View style={dragging && styles.dragging}>
         {isPortrait && dragging && (
@@ -98,12 +103,12 @@ const SortMenu = memo(
             key={`${orientation}|${discoveryMenuNum}`}
             data={data}
             numColumns={discoveryMenuNum}
-            itemHeight={styles.dragItem.height * (isScale ? 0.8 : 1)}
-            renderItem={(item, index) => renderItem(item, index, isScale)}
-            onDragRelease={onDragRelease}
+            itemHeight={itemHeight}
+            renderItem={(item, index) => handleRenderItem(item, index, isScale)}
+            onDragRelease={handleDragRelease}
           />
         ) : (
-          <Flex wrap='wrap'>{data.map((item, index) => renderItem(item, index, false))}</Flex>
+          <Flex wrap='wrap'>{data.map((item, index) => handleRenderItem(item, index, false))}</Flex>
         )}
         {isPortrait && elBtns}
       </View>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 14:20:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-04 14:46:37
+ * @Last Modified time: 2025-01-14 10:25:42
  */
 import { StyleSheet } from 'react-native'
 import { computed } from 'mobx'
@@ -24,6 +24,9 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 平板放大比例 */
   // readonly ratio = _.ratio
+
+  /** 小设备 */
+  readonly isSmallDevice = _.isSmallDevice
 
   /** -------------------- 统一布局单位 -------------------- */
   /** 超小 */

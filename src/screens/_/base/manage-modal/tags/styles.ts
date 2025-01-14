@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-07-28 04:31:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-28 04:34:57
+ * @Last Modified time: 2025-01-14 10:26:08
  */
 import { _ } from '@stores'
 
@@ -27,6 +27,7 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.colorIcon
   },
   wrap: {
+    height: _.isSmallDevice ? 52 : 'auto',
     marginTop: 12,
     marginRight: -_.sm + 1,
     overflow: 'hidden'

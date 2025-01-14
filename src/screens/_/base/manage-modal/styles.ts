@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 15:54:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-28 05:28:37
+ * @Last Modified time: 2025-01-14 10:40:12
  */
 import { _ } from '@stores'
 
@@ -12,6 +12,7 @@ export const memoStyles = _.memoStyles(() => ({
     maxWidth: _.device(408, 560),
     paddingTop: _.device(_.md + 2, 28),
     paddingHorizontal: _.device(0, _.sm),
+    marginTop: _.isSmallDevice ? -24 : 0,
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
     borderRadius: _.radiusMd
   },
@@ -29,7 +30,7 @@ export const memoStyles = _.memoStyles(() => ({
     width: '100%',
     minHeight: 96,
     maxHeight: _.select(136, 132),
-    marginTop: 6,
-    paddingVertical: 12
+    paddingVertical: 12,
+    marginTop: 6
   }
 }))

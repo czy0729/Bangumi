@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-19 17:56:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-02 18:41:37
+ * @Last Modified time: 2025-01-14 10:31:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,7 @@ import { GROUP_THUMB_MAP } from '@assets/images'
 import { COMPONENT_MAIN } from './ds'
 import { memoStyles } from './styles'
 
-const BtnMain = ({ item, userId, onPress }) => {
+const BtnMain = ({ item, userId, showIcon = true, onPress }) => {
   const styles = memoStyles()
   const { key, name, text, icon, size, login } = item
   const isSm = systemStore.setting.discoveryMenuNum >= 5
@@ -42,25 +42,27 @@ const BtnMain = ({ item, userId, onPress }) => {
   const elContent = (
     <Flex style={wrapStyle} justify='center'>
       <Flex style={itemStyle} direction='column' justify='center'>
-        <Squircle style={iconWrapStyle} width={width} height={width} radius={width}>
-          <Flex style={iconStyle} justify='center'>
-            {key === 'WordCloud' ? (
-              <Image
-                src={GROUP_THUMB_MAP[_.select('wordcloud_0', 'wordcloud')]}
-                size={19}
-                resizeMode='contain'
-                placeholder={false}
-                skeleton={false}
-              />
-            ) : text ? (
-              <Text type='__plain__' size={iconTextSize} bold>
-                {text}
-              </Text>
-            ) : (
-              <Iconfont name={icon} size={iconSize} color={_.__colorPlain__} />
-            )}
-          </Flex>
-        </Squircle>
+        {showIcon && (
+          <Squircle style={iconWrapStyle} width={width} height={width} radius={width}>
+            <Flex style={iconStyle} justify='center'>
+              {key === 'WordCloud' ? (
+                <Image
+                  src={GROUP_THUMB_MAP[_.select('wordcloud_0', 'wordcloud')]}
+                  size={19}
+                  resizeMode='contain'
+                  placeholder={false}
+                  skeleton={false}
+                />
+              ) : text ? (
+                <Text type='__plain__' size={iconTextSize} bold>
+                  {text}
+                </Text>
+              ) : (
+                <Iconfont name={icon} size={iconSize} color={_.__colorPlain__} />
+              )}
+            </Flex>
+          </Squircle>
+        )}
         <Text style={_.mt.sm} size={textSize} align='center' bold numberOfLines={1}>
           {name}
         </Text>

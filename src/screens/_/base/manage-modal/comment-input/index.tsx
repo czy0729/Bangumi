@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-07-27 16:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-28 04:22:21
+ * @Last Modified time: 2025-01-14 10:25:54
  */
 import React from 'react'
 import { Flex, Input, Text } from '@components'
@@ -30,7 +30,7 @@ function CommentInput({
           defaultValue={comment}
           placeholder='吐槽点什么'
           multiline
-          numberOfLines={!_.isPad && _.isLandscape ? 2 : 6}
+          numberOfLines={_.isSmallDevice || (!_.isPad && _.isLandscape) ? 2 : 6}
           onFocus={onFocus}
           onBlur={onBlur}
           onChangeText={onChangeText}

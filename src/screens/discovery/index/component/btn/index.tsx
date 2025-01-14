@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-06-11 15:08:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-14 20:43:06
+ * @Last Modified time: 2025-01-14 10:35:43
  */
 import React from 'react'
 import { Clipboard } from 'react-native'
-import { userStore, useStore } from '@stores'
+import { _, userStore, useStore } from '@stores'
 import { appNavigate, info, matchBgmUrl } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -88,7 +88,14 @@ function BtnWrap({ item }) {
     }
   }
 
-  return <Btn item={item} userId={userId} onPress={handlePress} />
+  return (
+    <Btn
+      item={item}
+      userId={userId}
+      showIcon={!(dragging && _.isSmallDevice)}
+      onPress={handlePress}
+    />
+  )
 }
 
 export default ob(BtnWrap, COMPONENT)

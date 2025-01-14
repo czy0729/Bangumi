@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2024-09-02 11:57:54
- * @Last Modified by:   czy0729
- * @Last Modified time: 2024-09-02 11:57:54
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2025-01-14 10:47:35
  */
 
 /** 域 */
@@ -27,7 +27,7 @@ export const HOST_NING_MOE = 'https://www.ningmoe.com'
 export const HOST_ANITAMA = 'https://app.anitama.net'
 
 /** 动漫之家 */
-export const HOST_DMZJ = 'https://m.news.idmzj.com'
+export const HOST_DMZJ = 'https://mnews.idmzj.com'
 
 /** @deprecated HD 漫画 */
 export const HOST_MANGA = 'https://tinygrail.mange.cn/app'
