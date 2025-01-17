@@ -28,7 +28,11 @@ function Auction({ type, price, state, amount }: AnyObject) {
   }
 
   return (
-    <View>
+    <View
+      style={{
+        marginRight: auctionText === '竞拍中' ? 44 : 12
+      }}
+    >
       <Text type={auctionTextColor} bold align='right'>
         {auctionText}
       </Text>

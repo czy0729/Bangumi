@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-05 15:53:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-16 20:59:52
+ * @Last Modified time: 2025-01-16 16:26:10
  */
 import {
   SORT_DJ,
@@ -10,26 +10,18 @@ import {
   SORT_DQZD,
   SORT_FHL,
   SORT_GDS,
-  SORT_GX,
   SORT_HYD,
-  SORT_RK,
-  SORT_SC,
+  SORT_PM,
   SORT_SCJ,
   SORT_SSGX,
-  SORT_XFJL,
+  SORT_SSSJ,
+  SORT_XJB,
   SORT_XX
 } from '@tinygrail/_/utils'
-import { Loaded } from '@types'
 
-export const EXCLUDE_STATE = {
-  page: 0,
-  level: '',
-  sort: '',
-  direction: '' as '' | 'up' | 'down',
-  _loaded: false as Loaded
-}
+export const COMPONENT = 'TinygrailBid'
 
-export const tabs = [
+export const TABS = [
   {
     title: '我的买单',
     key: 'bid'
@@ -45,17 +37,16 @@ export const tabs = [
 ] as const
 
 export const SORT_DS = [
-  SORT_SC,
   SORT_GDS,
-  SORT_GX,
-  SORT_SSGX,
-  SORT_RK,
+  SORT_DJ,
   SORT_XX,
-  SORT_HYD,
+  SORT_PM,
   SORT_DQJ,
+  SORT_SSGX,
+  SORT_XJB,
+  SORT_HYD,
   SORT_SCJ,
   SORT_DQZD,
-  SORT_DJ,
-  SORT_XFJL,
-  SORT_FHL
+  SORT_FHL,
+  SORT_SSSJ
 ] as const

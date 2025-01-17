@@ -1,110 +1,21 @@
 /*
  * @Author: czy0729
- * @Date: 2019-08-25 19:40:56
+ * @Date: 2025-01-14 16:40:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 06:41:15
+ * @Last Modified time: 2025-01-14 16:46:54
  */
-import { computed, observable } from 'mobx'
 import { tinygrailStore } from '@stores'
 import { t } from '@utils/fetch'
-import store from '@utils/store'
 import { feedback, info } from '@utils/ui'
-import { levelList, relation, sortList, throttleInfo } from '@tinygrail/_/utils'
+import { throttleInfo } from '@tinygrail/_/utils'
 import { Id } from '@types'
-import { EXCLUDE_STATE, tabs } from './ds'
-import { Params, TabsKeys } from './types'
+import { TABS } from '../ds'
+import { Direction } from '../types'
+import Fetch from './fetch'
 
-export default class ScreenTinygrailBid extends store<typeof EXCLUDE_STATE> {
-  params: Params
-
-  state = observable({
-    page: 0,
-    level: '',
-    sort: '',
-    direction: '' as '' | 'up' | 'down',
-    _loaded: false
-  })
-
-  init = async () => {
-    const { type } = this.params
-    const page = tabs.findIndex(item => item.key === type)
-    this.setState({
-      page,
-      _loaded: true
-    })
-    this.fetchList(this.currentKey)
-  }
-
-  // -------------------- fetch --------------------
-  fetchList = (key?: TabsKeys) => {
-    if (key === 'bid') return tinygrailStore.fetchBid()
-    if (key === 'asks') return tinygrailStore.fetchAsks()
-    return tinygrailStore.fetchAuction()
-  }
-
-  // -------------------- get --------------------
-  @computed get currentKey() {
-    const { page } = this.state
-    return tabs[page].key
-  }
-
-  @computed get currentTitle() {
-    const { page } = this.state
-    return tabs[page].title.replace('我的', '')
-  }
-
-  @computed get canCancelCount() {
-    if (this.currentTitle === '拍卖') {
-      return this.computedList(this.currentKey).list.filter(item => item.state === 0).length
-    }
-    return this.computedList(this.currentKey).list.length
-  }
-
-  @computed get levelMap() {
-    const { list } = this.list(this.currentKey)
-    const data = {}
-    list.forEach(item =>
-      data[item.level || 1] ? (data[item.level || 1] += 1) : (data[item.level || 1] = 1)
-    )
-    return data
-  }
-
-  list(key: TabsKeys = 'bid') {
-    return computed(() => relation(tinygrailStore.list(key))).get()
-  }
-
-  computedList(key: TabsKeys) {
-    const { sort, level, direction } = this.state
-    return computed(() => {
-      const list = this.list(key)
-      if (!list._loaded) return list
-
-      let _list = list
-      if (level) {
-        _list = {
-          ..._list,
-          list: levelList(level, _list.list)
-        }
-      }
-
-      if (sort) {
-        _list = {
-          ..._list,
-          list: sortList(sort, direction, _list.list)
-        }
-      }
-
-      return _list
-    }).get()
-  }
-
-  // -------------------- page --------------------
+export default class Action extends Fetch {
   onChange = (page: number) => {
     if (page === this.state.page) return
-
-    t('我的委托.标签页切换', {
-      page
-    })
 
     this.setState({
       page,
@@ -112,12 +23,15 @@ export default class ScreenTinygrailBid extends store<typeof EXCLUDE_STATE> {
       direction: ''
     })
     this.tabChangeCallback(page)
+
+    t('我的委托.标签页切换', {
+      page
+    })
   }
 
   tabChangeCallback = (page: number) => {
-    const { key } = tabs[page]
-    const { _loaded } = this.list(key)
-    if (!_loaded) this.fetchList(key)
+    const { key } = TABS[page]
+    if (!this.list(key)._loaded) this.fetchList(key)
   }
 
   onLevelSelect = (level: any) => {
@@ -130,7 +44,7 @@ export default class ScreenTinygrailBid extends store<typeof EXCLUDE_STATE> {
     const { sort, direction } = this.state
     if (item === sort) {
       let nextSort = item
-      let nextDirection = 'down'
+      let nextDirection: Direction = 'down'
       if (direction === 'down') {
         nextDirection = 'up'
       } else if (direction === 'up') {

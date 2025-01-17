@@ -804,7 +804,7 @@ export default class Fetch extends Computed {
     })
     this.save(key)
 
-    return Promise.resolve(data)
+    return data
   }
 
   /** 我的卖单 */

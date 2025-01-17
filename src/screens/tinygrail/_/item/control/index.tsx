@@ -59,7 +59,7 @@ function Control(props: Props) {
         />
       )}
       {!isAuction && <StockPreview {...props} style={styles.stockPreview} _loaded />}
-      {showMenu && !isICO && (
+      {!isAuction && showMenu && !isICO && (
         <Popover
           event={event}
           id={monoId || id}

@@ -14,9 +14,9 @@ export const styles = _.create({
     right: 0
   },
   auctionCancel: {
-    paddingVertical: _.md,
-    paddingLeft: _.sm,
-    marginTop: 1.5
+    marginTop: 8,
+    marginRight: 10,
+    marginLeft: -10
   },
   stockPreview: {
     marginTop: -0.5,
