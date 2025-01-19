@@ -14,13 +14,11 @@ export const memoStyles = _.memoStyles(() => ({
   disabledLine: {
     position: 'absolute',
     zIndex: 1,
-    top: 10,
-    bottom: 10,
+    top: 9,
+    bottom: 9,
     left: '46%',
-    width: 5,
+    width: 3,
     backgroundColor: _.select(_.colorIcon, '#777'),
-    borderLeftWidth: 2,
-    borderRightWidth: 1,
     borderColor: _.select(_.colorBg, _._colorDarkModeLevel2),
     transform: [
       {

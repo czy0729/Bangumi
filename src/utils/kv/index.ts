@@ -262,7 +262,7 @@ export async function extract(q: string) {
 }
 
 /** 收藏排名 */
-export async function collectRank(count: number = 200) {
+export async function collectRank(count: number = 300) {
   if (isDevtoolsOpen()) return Promise.reject('denied')
 
   // @ts-expect-error

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-13 05:12:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-01 11:06:43
+ * @Last Modified time: 2025-01-19 11:23:30
  */
 import React, { useEffect, useState } from 'react'
 import { useObserver } from 'mobx-react'
@@ -69,7 +69,6 @@ function A({ style, attrs = {}, passProps, children, onPress, ...other }: Props)
     return (
       <Text
         style={style}
-        selectable
         underline={!WEB}
         {...other}
         onPress={() => {

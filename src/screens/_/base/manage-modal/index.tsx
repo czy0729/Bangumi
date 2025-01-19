@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-29 11:32:11
+ * @Last Modified time: 2025-01-17 15:07:30
  */
 import React from 'react'
 import { BackHandler } from 'react-native'
@@ -237,6 +237,13 @@ export const ManageModal = ob(
       this.setState({
         focus: false
       })
+
+      // 安卓中收起键盘并不会把聚焦取消, 主动取消以使跨端表现一致
+      try {
+        if (typeof this?.commentRef?.inputRef?.blur === 'function') {
+          this.commentRef.inputRef.blur()
+        }
+      } catch (error) {}
     }
 
     handleSubmit = async () => {

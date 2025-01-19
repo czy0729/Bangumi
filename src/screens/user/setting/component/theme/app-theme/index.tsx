@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-20 00:38:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-12 06:47:18
+ * @Last Modified time: 2025-01-18 11:51:52
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -15,7 +15,7 @@ import { getYuqueThumbs } from '../../../utils'
 import { handleDark, handleDeepDark, handleLight } from './utils'
 
 /** 主题 */
-function AppTheme({ navigation, filter }) {
+function AppTheme({ filter }) {
   return useObserver(() => (
     <ItemSettingBlock
       style={_.mt.sm}
@@ -34,9 +34,7 @@ function AppTheme({ navigation, filter }) {
           iconColor={_.colorYellow}
           active={!_.isDark}
           filter={filter}
-          onPress={() => {
-            handleLight(navigation)
-          }}
+          onPress={handleLight}
           {...TEXTS.theme.light}
         >
           <Heatmap id='设置.切换' title='黑暗模式' />
@@ -48,9 +46,7 @@ function AppTheme({ navigation, filter }) {
         iconColor={_.colorYellow}
         active={_.isDark && systemStore.setting.deepDark}
         filter={filter}
-        onPress={() => {
-          handleDeepDark(navigation)
-        }}
+        onPress={handleDeepDark}
         {...TEXTS.theme.deepDark}
       >
         <Heatmap id='设置.切换' title='纯黑' />
@@ -60,9 +56,7 @@ function AppTheme({ navigation, filter }) {
         iconColor={_.colorYellow}
         active={_.isDark && !systemStore.setting.deepDark}
         filter={filter}
-        onPress={() => {
-          handleDark(navigation)
-        }}
+        onPress={handleDark}
         {...TEXTS.theme.dark}
       >
         <Heatmap id='设置.切换' title='纯黑' />

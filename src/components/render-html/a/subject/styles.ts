@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-13 05:17:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-06 15:27:56
+ * @Last Modified time: 2025-01-19 08:36:06
  */
 import { _ } from '@stores'
 
@@ -22,11 +22,5 @@ export const memoStyles = _.memoStyles(() => ({
   },
   top: {
     maxWidth: _.web('96%', _.window.contentWidth / 2)
-  },
-  bottom: {
-    maxWidth: _.web('96%', _.window.contentWidth / 2.2)
-  },
-  a: {
-    color: _.colorMain
   }
 }))

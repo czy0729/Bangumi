@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-10 07:56:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-14 10:38:24
+ * @Last Modified time: 2025-01-17 15:27:38
  */
 import React, { useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
@@ -83,7 +83,8 @@ const SortMenu = memo(
       data = menus.filter((_item, index) => index <= openIndex)
     }
 
-    const isPortrait = orientation === ORIENTATION_PORTRAIT
+    // 小屏或横屏设备, 把提交按钮放在顶部
+    const isSpecLayout = _.isSmallDevice ? false : orientation === ORIENTATION_PORTRAIT
     const isScale = discoveryMenuNum <= 4
 
     // 小尺寸屏幕自定义时, 不显示图标, 以尽量能显示完整
@@ -92,12 +93,12 @@ const SortMenu = memo(
 
     return (
       <View style={dragging && styles.dragging}>
-        {isPortrait && dragging && (
+        {isSpecLayout && dragging && (
           <Text style={styles.text} size={13} bold>
             按住拖拽排序，拖动到分割线左侧显示，右侧隐藏
           </Text>
         )}
-        {!isPortrait && elBtns}
+        {!isSpecLayout && elBtns}
         {dragging ? (
           <DraggableGrid
             key={`${orientation}|${discoveryMenuNum}`}
@@ -110,7 +111,7 @@ const SortMenu = memo(
         ) : (
           <Flex wrap='wrap'>{data.map((item, index) => handleRenderItem(item, index, false))}</Flex>
         )}
-        {isPortrait && elBtns}
+        {isSpecLayout && elBtns}
       </View>
     )
   },

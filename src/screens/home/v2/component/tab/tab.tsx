@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-10 16:35:29
+ * @Last Modified time: 2025-01-17 15:42:21
  */
 import React from 'react'
 import { TabView } from '@components'
@@ -18,7 +18,6 @@ function Tab({ renderScene }) {
   return (
     <TabView
       key={_.orientation}
-      style={_.mt._sm}
       lazy
       lazyPreloadDistance={1}
       navigationState={$.navigationState}

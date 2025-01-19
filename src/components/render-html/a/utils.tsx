@@ -2,24 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-05-13 05:32:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-01 10:55:20
+ * @Last Modified time: 2025-01-19 09:44:09
  */
 import React from 'react'
-import { View } from 'react-native'
-import { _, rakuenStore, subjectStore } from '@stores'
+import { rakuenStore, subjectStore } from '@stores'
 import { getInt } from '@stores/rakuen/utils'
 import { navigationReference, runAfter } from '@utils'
 import { IOS, WEB } from '@constants'
 import { Fn, ReactNode } from '@types'
-import { Cover } from '../../cover'
-import { Flex } from '../../flex'
-import { Text } from '../../text'
-import { Touchable } from '../../touchable'
 import { fetchMediaQueue } from '../utils'
 import ACText from './ac-text'
+import Mono from './mono'
 import Subject from './subject'
 import Topic from './topic'
-import { memoStyles } from './styles'
 
 /** @todo 待优化, 安卓 Text 中一定要过滤非文字节点 */
 export function filterChildren(childrens: ReactNode[]): ReactNode[] {
@@ -171,41 +166,9 @@ export async function getMono({ passProps, params, onLinkPress }) {
         runAfter(() => fetchMediaQueue('mono', monoId))
       }, 2000)
     } else {
-      const styles = memoStyles()
       if (cover) {
-        /**
-         * https://lain.bgm.tv/r/400/pic/crt/l/fc/77/114888_crt_hd3gG.jpg ->
-         * https://lain.bgm.tv/pic/crt/g/fc/77/114888_crt_hd3gG.jpg
-         */
-        const gCover = cover.replace(/\/r\/\d+/g, '').replace(/\/(l|m)\//g, '/g/')
-        const bottom = nameCn === text ? name : nameCn
         return (
-          <View style={styles.wrap}>
-            <Touchable animate onPress={onLinkPress}>
-              <Flex style={styles.body}>
-                <Cover src={gCover} size={48} radius />
-                <View style={_.ml.sm}>
-                  <Text style={styles.top} size={11} bold numberOfLines={2} selectable>
-                    {text}
-                  </Text>
-                  {bottom !== text && (
-                    <Flex style={_.mt.xs}>
-                      <Text
-                        style={styles.bottom}
-                        type='sub'
-                        size={10}
-                        bold
-                        numberOfLines={1}
-                        selectable
-                      >
-                        {bottom}
-                      </Text>
-                    </Flex>
-                  )}
-                </View>
-              </Flex>
-            </Touchable>
-          </View>
+          <Mono text={text} cover={cover} name={name} nameCn={nameCn} onLinkPress={onLinkPress} />
         )
       }
     }

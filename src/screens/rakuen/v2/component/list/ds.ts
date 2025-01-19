@@ -9,4 +9,4 @@ import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'List')
 
-export const ENTERING_EXITING_ANIMATIONS_NUM = 8
+export const ENTERING_EXITING_ANIMATIONS_NUM = 10

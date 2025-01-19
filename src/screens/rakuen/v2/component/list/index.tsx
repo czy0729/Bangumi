@@ -22,7 +22,7 @@ function List({ index }) {
   const { $ } = useStore<Ctx>()
   const handleForwardRef = useCallback(
     (ref: { scrollToIndex: ScrollToIndex }) => $.connectRef(ref, index),
-    [index]
+    [$, index]
   )
 
   return useObserver(() => {

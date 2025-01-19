@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 03:27:55
+ * @Last Modified time: 2025-01-17 15:43:11
  */
 import React from 'react'
 import { TabView } from '@components'
@@ -23,7 +23,6 @@ function Tab() {
     <BlurViewRoot>
       <TabView
         key={_.orientation}
-        style={_.mt._sm}
         lazy
         lazyPreloadDistance={0}
         navigationState={$.navigationState}

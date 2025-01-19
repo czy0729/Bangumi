@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-16 06:38:46
+ * @Last Modified time: 2025-01-19 10:37:02
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -163,7 +163,10 @@ export const RenderHtml = observer(
 
     onLinkPress = (_evt: any, href: string) => {
       const { onLinkPress } = this.props
-      if (onLinkPress) return onLinkPress(href)
+      if (typeof onLinkPress === 'function') {
+        onLinkPress(href)
+        return
+      }
 
       open(href)
     }

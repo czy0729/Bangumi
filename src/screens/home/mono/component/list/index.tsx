@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-26 03:42:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 10:04:51
+ * @Last Modified time: 2025-01-19 11:25:22
  */
 import React from 'react'
 import { PaginationList2 } from '@_'
@@ -23,10 +23,8 @@ function List({ onScroll }) {
       data={$.list}
       limit={20}
       scrollEventThrottle={16}
-      scrollToTop
       ListHeaderComponent={<Info />}
       progressViewOffset={_.ios(_.statusBarHeight, _.headerHeight)}
-      removeClippedSubviews={$.list.length >= 100}
       renderItem={renderItem}
       onScroll={onScroll}
       onHeaderRefresh={$.onHeaderRefresh}

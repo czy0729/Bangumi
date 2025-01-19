@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-25 05:18:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-29 20:11:48
+ * @Last Modified time: 2025-01-18 11:52:02
  */
 import React from 'react'
 import { ActionSheet } from '@components'
@@ -20,7 +20,7 @@ import LogoToggleTheme from './logo-toggle-theme'
 import { COMPONENT, TEXTS } from './ds'
 
 /** 主题 */
-function Theme({ navigation, filter }) {
+function Theme({ filter }) {
   r(COMPONENT)
 
   const { state, setTrue, setFalse } = useBoolean(false)
@@ -38,7 +38,7 @@ function Theme({ navigation, filter }) {
           height={filter || IOS ? 560 : 760}
           onClose={setFalse}
         >
-          {shows.theme && <AppTheme navigation={navigation} filter={filter} />}
+          {shows.theme && <AppTheme filter={filter} />}
           {!WEB && shows.logoToggleTheme && <LogoToggleTheme filter={filter} />}
           {!WEB && !IS_BEFORE_ANDROID_10 && shows.autoColorScheme && (
             <AutoColorScheme filter={filter} />

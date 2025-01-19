@@ -7,6 +7,7 @@
 export const DEFAULT_SCREEN_OPTIONS = {
   statusBarColor: 'transparent',
   headerShown: false,
+  headerTransparent: false,
   headerShadowVisible: false,
   cardStyle: {
     backgroundColor: 'transparent',

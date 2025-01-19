@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-10 02:55:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-16 20:23:38
+ * @Last Modified time: 2025-01-17 15:58:13
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -11,6 +11,7 @@ import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { WEB } from '@constants'
 import { COMPONENT } from './ds'
+import { styles } from './styles'
 
 function Label({ focused, model, label, value, onSelect }) {
   return (
@@ -19,7 +20,7 @@ function Label({ focused, model, label, value, onSelect }) {
       data={model.data.map(item => item.label)}
       onSelect={onSelect}
     >
-      <Flex style={_.container.block} justify='center'>
+      <Flex style={styles.label} justify='center'>
         <Text type='title' size={13} bold={focused} noWrap>
           {label}
         </Text>

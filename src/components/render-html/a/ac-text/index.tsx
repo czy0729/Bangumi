@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-13 05:16:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-06 14:21:26
+ * @Last Modified time: 2025-01-19 11:00:09
  */
 import React from 'react'
 import { _ } from '@stores'
@@ -10,13 +10,13 @@ import { stl } from '@utils'
 import { syncRakuenStore, syncUIStore } from '@utils/async'
 import { t } from '@utils/fetch'
 import { HOST, WEB } from '@constants'
-import { Text } from '../../text'
+import { Text } from '../../../text'
+import { Props } from './types'
 
-function ACText({ navigation, style, subjectId, text, onPress }) {
+function ACText({ navigation, style, subjectId, text, onPress }: Props) {
   return (
     <Text
       style={stl(WEB && _.mr.xxs, style)}
-      selectable
       underline
       onPress={() => {
         const rakuenStore = syncRakuenStore()

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-10 10:10:35
+ * @Last Modified time: 2025-01-18 11:52:16
  */
 import React from 'react'
 import { Component, HeaderV2, Input, Page, ScrollView } from '@components'
@@ -62,7 +62,7 @@ const Setting = (props: NavigationProps) => {
           </Block>
           <Block>
             <Tip>基本</Tip>
-            <Theme navigation={navigation} filter={filter} />
+            <Theme filter={filter} />
             <UI filter={filter} />
             <Custom filter={filter} />
             <CDN navigation={navigation} filter={filter} />

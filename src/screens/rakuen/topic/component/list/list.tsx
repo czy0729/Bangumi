@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-03 22:16:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-14 10:03:44
+ * @Last Modified time: 2025-01-19 11:22:10
  */
 import React, { useCallback } from 'react'
 import { ListView } from '@components'
@@ -39,7 +39,7 @@ const List = memo(
       contentContainerStyle: WEB ? _.container.bottom : styles.list,
       lazy: postId ? undefined : 4,
       progressViewOffset: _.ios(_.statusBarHeight, 0),
-      removeClippedSubviews: false,
+      removeClippedSubviews: true,
       renderItem,
       onScroll,
       onScrollToIndexFailed,

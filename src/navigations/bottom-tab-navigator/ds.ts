@@ -6,6 +6,8 @@
  */
 export const DEFAULT_SCREEN_OPTIONS = {
   headerShown: false,
+  headerTransparent: false,
+  headerShadowVisible: false,
   initialParams: {
     fromBottomTab: true
   }
