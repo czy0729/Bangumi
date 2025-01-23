@@ -45,11 +45,12 @@ export function initLazyac() {
       anime = await loadJSON('substrings/anime')
 
       // 安卓环境一次性初始化太多词条会卡死, 所以下面做了分组初始化
-      initTrie(
-        [].concat(Object.keys(addon), Object.keys(alias), Object.keys(anime)).filter(item => {
+      const subjects = []
+        .concat(Object.keys(addon), Object.keys(alias), Object.keys(anime))
+        .filter(item => {
           if (
             // 过滤掉比较长的条目名字, 命中率很低
-            item.length > 6 ||
+            item.length > 8 ||
             item.length <= 1 ||
             IGNORE_ITEMS.includes(item) ||
             // 带特殊符号的通常用户很少手动输入, 命中率很低
@@ -60,7 +61,8 @@ export function initLazyac() {
 
           return true
         })
-      )
+
+      initTrie(subjects)
     }, 0)
   }
 

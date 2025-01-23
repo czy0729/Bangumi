@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:20:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 16:58:21
+ * @Last Modified time: 2025-01-24 06:01:55
  */
 import { rc } from '@utils/dev'
-import { EVENT, FROZEN_FN } from '@constants'
+import { EVENT, FROZEN_FN, IMG_HEIGHT, IMG_WIDTH } from '@constants'
 import { Navigation } from '@types'
 import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
@@ -14,6 +14,12 @@ import { Props } from './types'
 export const COMPONENT = rc(PARENT, 'ItemCollections')
 
 export const COMPONENT_MAIN = rc(COMPONENT)
+
+export const ITEM_HEIGHT = 156
+
+export const COVER_WIDTH = Math.floor(IMG_WIDTH * 1.1)
+
+export const COVER_HEIGHT = Math.floor(IMG_HEIGHT * 1.1)
 
 export const DEFAULT_PROPS = {
   navigation: {} as Navigation,
@@ -48,5 +54,6 @@ export const DEFAULT_PROPS = {
   event: EVENT as Props['event'],
   filter: '' as Props['filter'],
   showManage: false as Props['showManage'],
+  touchPosition: 'outer' as Props['touchPosition'],
   onEdit: FROZEN_FN as Props['onEdit']
 } as const

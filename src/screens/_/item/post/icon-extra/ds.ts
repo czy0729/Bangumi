@@ -10,7 +10,7 @@ export const ACTION_REPLY = '回复'
 
 export const ACTION_EDIT = '编辑'
 
-export const ACTION_COPY = '复制'
+export const ACTION_COPY = '复制吐槽'
 
 export const ACTION_COPY_URL = '复制楼层链接'
 

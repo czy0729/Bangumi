@@ -50,7 +50,7 @@ export const TITLE_COMMENT = '吐槽'
 
 export const TEXT_LIKES = '贴贴'
 
-export const TEXT_COPY_COMMENT = '复制评论'
+export const TEXT_COPY_COMMENT = '复制吐槽'
 
 export const TEXT_BLOCK_USER = '屏蔽用户'
 

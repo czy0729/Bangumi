@@ -39,5 +39,6 @@ export type Props = {
   event?: EventType
   filter?: string
   showManage?: boolean
+  touchPosition?: 'outer' | 'inner'
   onEdit?: (modify?: string) => any
 }

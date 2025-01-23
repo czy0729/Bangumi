@@ -2,25 +2,26 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:19:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 05:14:49
+ * @Last Modified time: 2025-01-24 06:29:31
  */
 import React from 'react'
-import { Component, Cover, Flex, Text, Touchable } from '@components'
+import { Component, Flex, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { _, uiStore } from '@stores'
-import { getAction, HTMLDecode, x18 } from '@utils'
+import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { IMG_HEIGHT, IMG_WIDTH, MODEL_COLLECTION_STATUS } from '@constants'
-import { CollectionStatus } from '@types'
-import { InView, Manage } from '../../base'
+import { IMG_WIDTH } from '@constants'
 import { IconTouchable } from '../../icon'
 import Bottom from './bottom'
+import Comments from './comments'
+import Container from './container'
+import Content from './content'
+import Cover from './cover'
 import Likes from './likes'
+import Manage from './manage'
+import Tip from './tip'
 import Title from './title'
-import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
-
-const ITEM_HEIGHT = 156
+import { COMPONENT_MAIN, DEFAULT_PROPS, ITEM_HEIGHT } from './ds'
 
 const Item = memo(
   ({
@@ -54,96 +55,67 @@ const Item = memo(
     event,
     filter,
     showManage,
+    touchPosition = 'outer',
     onEdit
   }) => {
-    const typeCn = type
-
-    let justify: 'between'
-    if (!isCatalog || (!comments && !isEditable)) justify = 'between'
-
     const subjectId = String(id).replace('/subject/', '')
-    const titleLength = name.length + nameCn.length
-    const width = IMG_WIDTH * 1.1
     const hasComment = !!comments && comments !== 'undefined'
+
+    const isOuterTouch = touchPosition === 'outer'
+    const handleNavigate = () => {
+      navigation.push('Subject', {
+        subjectId: id,
+        _jp: name,
+        _cn: nameCn,
+        _image: getCoverSrc(cover, IMG_WIDTH * 1.1),
+        _type: type
+      })
+
+      t(event.id, {
+        to: 'Subject',
+        subjectId: id,
+        type: 'list',
+        ...event.data
+      })
+    }
+    const elTitle = (
+      <Title name={name} nameCn={nameCn} filter={filter} numberOfLines={comments ? 1 : 2} />
+    )
+
     return (
       <Component id='item-collections' data-key={id}>
-        <Touchable
-          style={styles.container}
-          animate
-          onPress={() => {
-            const { id: eventId, data: eventData } = event
-            t(eventId, {
-              to: 'Subject',
-              subjectId: id,
-              type: 'list',
-              ...eventData
-            })
-
-            navigation.push('Subject', {
-              subjectId: id,
-              _jp: name,
-              _cn: nameCn,
-              _image: getCoverSrc(cover, width),
-              _type: type
-            })
-          }}
-        >
+        <Container onPress={isOuterTouch ? handleNavigate : undefined}>
           <Flex style={styles.wrap} align='start'>
-            <InView style={styles.inView} y={ITEM_HEIGHT * index + inViewY + 1}>
-              <Cover
-                src={cover}
-                width={width}
-                height={IMG_HEIGHT * 1.1}
-                radius
-                type={type}
-                cdn={!x18(subjectId)}
-                priority={index < 4 ? 'high' : 'normal'}
-              />
-            </InView>
+            <Cover
+              index={index}
+              subjectId={subjectId}
+              cover={cover}
+              y={ITEM_HEIGHT * (index + 1) + inViewY}
+              type={type}
+              onPress={isOuterTouch ? undefined : handleNavigate}
+            />
             <Flex.Item style={styles.body}>
-              <Flex
-                style={!!justify && styles.content}
-                direction='column'
-                justify={justify}
-                align='start'
-              >
+              <Content comments={comments} isCatalog={isCatalog} isEditable={isEditable}>
                 <Flex style={_.container.block} align='start'>
                   <Flex.Item>
-                    <Title
-                      name={name}
-                      nameCn={nameCn}
-                      filter={filter}
-                      numberOfLines={comments ? 1 : 2}
-                    />
+                    {isOuterTouch ? (
+                      elTitle
+                    ) : (
+                      <Touchable onPress={handleNavigate}>{elTitle}</Touchable>
+                    )}
                   </Flex.Item>
                   {showManage && (
                     <Manage
                       subjectId={subjectId}
+                      name={name}
+                      nameCn={nameCn}
                       collection={collection}
-                      typeCn={typeCn}
-                      onPress={() => {
-                        uiStore.showManageModal(
-                          {
-                            subjectId,
-                            title: nameCn,
-                            desc: name,
-                            status: MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection),
-                            action: getAction(typeCn)
-                          },
-                          '收藏'
-                        )
-                      }}
+                      typeCn={type}
                     />
                   )}
                 </Flex>
                 {!!tip && (
-                  <Text
-                    size={11}
-                    lineHeight={12}
-                    numberOfLines={Math.max(2, numberOfLines - (titleLength >= 36 ? 1 : 0))}
-                  >
-                    {HTMLDecode(tip)}
-                  </Text>
+                  <Tip name={name} nameCn={nameCn} numberOfLines={numberOfLines} value={tip} />
                 )}
                 <Flex>
                   <Flex.Item>
@@ -171,20 +143,12 @@ const Item = memo(
                     />
                   )}
                 </Flex>
-              </Flex>
-              {hasComment && (
-                <Text
-                  style={styles.comments}
-                  size={comments.length >= 80 ? 12 : comments.length >= 40 ? 13 : 14}
-                  lineHeight={16}
-                >
-                  {comments}
-                </Text>
-              )}
+              </Content>
+              {hasComment && <Comments value={comments} />}
               <Likes relatedId={relatedId} subjectId={id} />
             </Flex.Item>
           </Flex>
-        </Touchable>
+        </Container>
       </Component>
     )
   },

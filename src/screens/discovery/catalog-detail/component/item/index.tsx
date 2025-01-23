@@ -46,6 +46,7 @@ function Item({ index = 0, item }: Props) {
           showManage
           isCatalog
           isEditable={$.isSelf}
+          touchPosition='inner'
           onEdit={$.onEdit}
         />
         {!index && <Heatmap id='目录详情.跳转' />}

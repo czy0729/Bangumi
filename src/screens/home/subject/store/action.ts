@@ -637,7 +637,7 @@ export default class Action extends Fetch {
     },
     comment: string
   ) => {
-    copy(comment, `已复制 ${userData?.userName} 的评论`)
+    copy(comment, `已复制 ${userData?.userName} 的吐槽`)
     feedback()
   }
 

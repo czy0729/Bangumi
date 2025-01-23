@@ -46,6 +46,7 @@ export const ItemCollections = ob(
     event,
     filter,
     showManage,
+    touchPosition,
     onEdit
   }: ItemCollectionsProps) => {
     return (
@@ -82,6 +83,7 @@ export const ItemCollections = ob(
         event={event}
         filter={filter}
         showManage={showManage}
+        touchPosition={touchPosition}
         onEdit={onEdit}
       />
     )

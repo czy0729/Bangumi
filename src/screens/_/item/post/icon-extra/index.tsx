@@ -109,7 +109,7 @@ function IconExtra({
             break
 
           case ACTION_COPY:
-            copy(getCommentPlainText(msg), `已复制 ${userName} 的回复`)
+            copy(getCommentPlainText(msg), `已复制 ${userName} 的吐槽`)
 
             t('帖子.复制回复')
             break
