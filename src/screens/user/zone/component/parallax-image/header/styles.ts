@@ -17,14 +17,8 @@ export const styles = _.create({
   },
   title: {
     position: 'absolute',
-    left: '50%',
-    width: 240,
-    bottom: H_RADIUS_LINE + 14,
-    transform: [
-      {
-        translateX: -120
-      }
-    ]
+    left: _.wind + 32,
+    bottom: H_RADIUS_LINE + 15
   },
   avatar: {
     backgroundColor: 'rgba(255, 255, 255, 0.8)'

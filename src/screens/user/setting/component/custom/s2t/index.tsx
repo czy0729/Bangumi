@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-19 04:11:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-28 17:06:35
+ * @Last Modified time: 2025-01-25 14:44:06
  */
 import React from 'react'
 import { Heatmap, SwitchPro, Text } from '@components'
@@ -10,7 +10,6 @@ import { ItemSetting, ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
-import { s2t } from '@utils/thirdParty/open-cc'
 import commonStyles from '../../../styles'
 import { TEXTS } from '../ds'
 import { useAsyncSetSetting, useAsyncSwitchSetting } from '../../../hooks'

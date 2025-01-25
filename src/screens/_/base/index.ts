@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-08 18:25:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-01 17:48:40
+ * @Last Modified time: 2025-01-25 11:06:30
  */
 export * from './app-common'
 export * from './auth'
@@ -54,5 +54,6 @@ export * from './stock-preview'
 export * from './tag'
 export * from './tags'
 export * from './tap-listener'
+export * from './user-age'
 export * from './user-status-avatar'
 export * from './vertical-align'

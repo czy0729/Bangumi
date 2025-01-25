@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-02 19:38:25
+ * @Last Modified time: 2025-01-25 14:43:37
  */
 import {
   MODEL_SETTING_CDN_ORIGIN,
@@ -183,6 +183,9 @@ export const INIT_SETTING = {
 
   /** 打开外部浏览器前复制网址 */
   openInfo: true,
+
+  /** 显示用户站龄 */
+  userAge: false,
 
   /** 隐藏他人评分 */
   hideScore: false,

@@ -2,25 +2,23 @@
  * @Author: czy0729
  * @Date: 2024-10-14 06:26:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 08:13:41
+ * @Last Modified time: 2025-01-24 17:36:54
  */
 import React from 'react'
 import { Image, Touchable } from '@components'
-import { _, useStore } from '@stores'
+import { useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { GROUP_THUMB_MAP } from '@assets/images'
 import { Ctx } from '../../../types'
+import { memoStyles } from './styles'
 
 function Milestone() {
   const { $, navigation } = useStore<Ctx>()
+  const styles = memoStyles()
   return (
     <Touchable
-      style={{
-        padding: 8,
-        marginRight: 8,
-        opacity: _.select(1, 0.9)
-      }}
+      style={styles.touch}
       onPress={() => {
         const { id, username } = $.usersInfo
         const userId = username || id

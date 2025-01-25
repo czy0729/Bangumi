@@ -9,7 +9,7 @@ import './styles'
 import { Component } from '@components'
 import { _, StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { IOS, WEB } from '@constants'
+import { ANDROID } from '@constants'
 import { NavigationProps } from '@types'
 import Extra from './component/extra'
 import { useZonePage } from './hooks'
@@ -25,7 +25,7 @@ const Zone = (props: NavigationProps) => {
       <StoreContext.Provider value={id}>
         {!!$.state._loaded && (
           <>
-            {!IOS && !WEB ? <NestedScroll /> : <Scroll $={$} />}
+            {ANDROID ? <NestedScroll /> : <Scroll $={$} />}
             <Extra />
           </>
         )}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-06-14 20:53:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 14:56:13
+ * @Last Modified time: 2025-01-25 11:38:34
  */
 import React, { useCallback, useState } from 'react'
 import { Text } from '@components'
@@ -27,7 +27,7 @@ function VerticalAlignWithRemoveSpec({
     (removeSpecText: string) => {
       setName(removeSpecText)
     },
-    [name, setName]
+    [setName]
   )
 
   return useObserver(() => (

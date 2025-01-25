@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:43:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-01 18:04:18
+ * @Last Modified time: 2025-01-25 14:57:10
  */
 import React from 'react'
+import { View } from 'react-native'
 import { Flex, Iconfont, Text } from '@components'
-import { _, uiStore, userStore } from '@stores'
+import { _, systemStore, uiStore, userStore } from '@stores'
 import { correctAgo, HTMLDecode, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { LIKE_TYPE_TIMELINE, WEB } from '@constants'
-import { Likes, Name, Popover, Stars, UserStatusAvatar } from '../../base'
+import { Likes, Name, Popover, Stars, UserAge, UserStatusAvatar } from '../../base'
 import { formatTime } from './utils'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
@@ -49,21 +50,30 @@ const ItemComment = memo(
         <Flex.Item style={styles.content}>
           <Flex>
             <Flex.Item>
-              <Name
-                size={14}
-                bold
-                userId={userId}
-                showFriend
-                right={
-                  <Text type='sub' size={11} lineHeight={14}>
-                    {'  '}
-                    {status ? `${status} · ` : ''}
-                    {String(time).includes('ago') ? correctAgo(formatTime(time)) : time}
-                  </Text>
-                }
-              >
-                {userName}
-              </Name>
+              <Flex>
+                <View style={systemStore.setting.userAge && styles.name}>
+                  <Name
+                    size={14}
+                    bold
+                    userId={userId}
+                    showFriend
+                    right={
+                      <Text type='sub' size={11} lineHeight={14}>
+                        {'  '}
+                        {status ? `${status} · ` : ''}
+                        {String(time).includes('ago') ? correctAgo(formatTime(time)) : time}
+                      </Text>
+                    }
+                  >
+                    {userName}
+                  </Name>
+                </View>
+                {systemStore.setting.userAge && (
+                  <Flex.Item>
+                    <UserAge style={styles.userAge} value={userId} avatar={avatar} />
+                  </Flex.Item>
+                )}
+              </Flex>
             </Flex.Item>
             {!!popoverData && typeof onSelect === 'function' && (
               <Popover

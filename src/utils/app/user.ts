@@ -2,33 +2,41 @@
  * @Author: czy0729
  * @Date: 2023-12-23 06:33:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-03 16:12:10
+ * @Last Modified time: 2025-01-25 08:37:10
  */
 import { UserId } from '@types'
 import { syncRakuenStore } from '../async'
+import { postTask } from '../scheduler'
 
 /** 处理屏蔽用户, 追踪计数 uuid */
 const memoBlockedUser = new Map<string, true>()
 
-/** 处理屏蔽用户 */
+/**
+ * 检查用户是否被屏蔽，并进行追踪
+ * @param blockUserIds - 屏蔽用户 ID 列表（格式为 "用户名@用户ID"）
+ * @param userName - 当前用户的用户名
+ * @param userId - 当前用户的用户ID
+ * @param trackUUID - 跟踪的 UUID（可选）
+ * @returns 是否被屏蔽
+ */
 export function getIsBlockedUser(
   blockUserIds: string[],
   userName: string,
   userId: UserId,
   trackUUID?: string
-) {
-  const findIndex = blockUserIds.findIndex(item => {
-    const [itemUserName, itemUserId] = item.split('@')
-    if (!itemUserId || itemUserId === 'undefined') return itemUserName === userName
-    return itemUserId === userId
-  })
+): boolean {
+  const isBlock =
+    blockUserIds.findIndex(item => {
+      const [itemUserName, itemUserId] = item.split('@')
+      if (!itemUserId || itemUserId === 'undefined') return itemUserName === userName
+      return itemUserId === userId
+    }) !== -1
 
-  const isBlock = findIndex !== -1
   if (isBlock && trackUUID) {
-    const key = `${userId}|${trackUUID}`
-    if (!memoBlockedUser.has(key)) {
-      memoBlockedUser.set(key, true)
-      setTimeout(() => {
+    const memoKey = `${userId}|${trackUUID}`
+    if (!memoBlockedUser.has(memoKey)) {
+      memoBlockedUser.set(memoKey, true)
+      postTask(() => {
         syncRakuenStore().trackBlockedUser(userId)
       }, 0)
     }
@@ -40,14 +48,25 @@ export function getIsBlockedUser(
 /** 处理屏蔽关键字, 追踪计数 uuid */
 const memoBlocked = new Map<string, true>()
 
-/** 处理屏蔽关键字 */
-export function getIsBlocked(blockKeywords: string[], keyword: string, trackUUID?: string) {
+/**
+ * 检查关键词是否被屏蔽，并进行追踪
+ * @param blockKeywords - 屏蔽关键字列表
+ * @param keyword - 当前关键词
+ * @param trackUUID - 跟踪的UUID（可选）
+ * @returns 是否被屏蔽
+ */
+export function getIsBlocked(
+  blockKeywords: string[],
+  keyword: string,
+  trackUUID?: string
+): boolean {
   const isBlock = blockKeywords.some(item => keyword.includes(item))
+
   if (isBlock && trackUUID) {
-    const key = `${keyword}|${trackUUID}`
-    if (!memoBlocked.has(key)) {
-      memoBlocked.set(key, true)
-      setTimeout(() => {
+    const memoKey = `${keyword}|${trackUUID}`
+    if (!memoBlocked.has(memoKey)) {
+      memoBlocked.set(memoKey, true)
+      postTask(() => {
         syncRakuenStore().trackBlocked(keyword)
       }, 0)
     }

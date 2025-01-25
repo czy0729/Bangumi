@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-18 04:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-03 07:24:10
+ * @Last Modified time: 2025-01-25 14:56:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,7 +19,7 @@ import {
 import { memo } from '@utils/decorators'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { IMAGES_MAX_WIDTH_SUB, REG_MARK } from '../ds'
-import { Likes, Name, UserStatusAvatar } from '../../../base'
+import { Likes, Name, UserAge, UserStatusAvatar } from '../../../base'
 import CollapsedHtml from '../collapsed-html'
 import FloorNew from '../floor-new'
 import FloorText from '../floor-text'
@@ -169,15 +169,22 @@ export default memo(
           <Flex.Item style={styles.content}>
             <Flex align='start'>
               <Flex.Item>
-                <Name
-                  userId={userId}
-                  size={userName.length > 10 ? 12 : 14}
-                  lineHeight={14}
-                  bold
-                  right={<UserLabel isAuthor={isAuthor} isFriend={isFriend} isLayer={isLayer} />}
-                >
-                  {HTMLDecode(userName)}
-                </Name>
+                <Flex>
+                  <Name
+                    userId={userId}
+                    size={userName.length > 10 ? 12 : 14}
+                    lineHeight={14}
+                    bold
+                    right={<UserLabel isAuthor={isAuthor} isFriend={isFriend} isLayer={isLayer} />}
+                  >
+                    {HTMLDecode(userName)}
+                  </Name>
+                  {systemStore.setting.userAge && (
+                    <Flex.Item>
+                      <UserAge style={styles.userAge} value={userId} avatar={avatar} />
+                    </Flex.Item>
+                  )}
+                </Flex>
               </Flex.Item>
               <IconExtra
                 style={extraStyle}

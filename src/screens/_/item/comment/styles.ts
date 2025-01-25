@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:43:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-29 22:05:57
+ * @Last Modified time: 2025-01-25 14:36:36
  */
 import { _ } from '@stores'
 
@@ -49,5 +49,11 @@ export const memoStyles = _.memoStyles(() => ({
     borderRadius: _.web(12, 4),
     overflow: 'hidden',
     pointerEvent: 'none'
+  },
+  name: {
+    maxWidth: '90%'
+  },
+  userAge: {
+    marginTop: 2
   }
 }))

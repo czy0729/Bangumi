@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-14 00:44:35
+ * @Last Modified time: 2025-01-25 15:05:35
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
@@ -18,8 +18,8 @@ import {
   Touchable,
   UserStatus
 } from '@components'
-import { Name } from '@_'
-import { _ } from '@stores'
+import { Name, UserAge } from '@_'
+import { _, systemStore } from '@stores'
 import { appNavigate, findSubjectCn, HTMLDecode, simpleTime } from '@utils'
 import { memo } from '@utils/decorators'
 import { HOST, IMG_EMPTY, IMG_EMPTY_DARK } from '@constants'
@@ -148,9 +148,12 @@ const Top = memo(
               )}
               {!!userId && (
                 <Flex.Item style={_.ml.sm}>
-                  <Name userId={userId} numberOfLines={1} bold>
-                    {userName}
-                  </Name>
+                  <Flex>
+                    <Name userId={userId} numberOfLines={1} bold>
+                      {userName}
+                    </Name>
+                    {systemStore.setting.userAge && <UserAge value={userId} avatar={avatar} />}
+                  </Flex>
                   <Text
                     style={_.mt.xs}
                     type='sub'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-07 07:53:31
+ * @Last Modified time: 2025-01-25 13:42:44
  */
 import React from 'react'
 import { memo } from '@utils/decorators'
@@ -95,6 +95,7 @@ const Item = memo(
               userId,
               userName,
               userSign,
+              avatar,
               formhash,
               likeType,
               event,

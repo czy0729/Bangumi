@@ -37,7 +37,7 @@ function Header({ style }) {
         }
       ]}
     >
-      <Flex style={styles.title} justify='center'>
+      <Flex style={styles.title}>
         <Avatar
           style={styles.avatar}
           size={28}

@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2024-01-23 18:48:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-03 07:23:49
+ * @Last Modified time: 2025-01-25 15:06:43
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text } from '@components'
+import { systemStore } from '@stores'
 import { HTMLDecode, stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { useNavigation } from '@utils/hooks'
 import { IMAGES_MAX_WIDTH } from '../ds'
-import { Likes, Name } from '../../../base'
+import { Likes, Name, UserAge } from '../../../base'
 import CollapsedHtml from '../collapsed-html'
 import FloorText from '../floor-text'
 import IconExtra from '../icon-extra'
@@ -37,6 +38,7 @@ function FloorMain({
   userId,
   userName,
   userSign,
+  avatar,
   formhash,
   likeType,
   event,
@@ -50,15 +52,24 @@ function FloorMain({
     <Flex.Item style={stl(styles.content, contentStyle)}>
       <Flex align='start'>
         <Flex.Item>
-          <Name
-            userId={userId}
-            size={userName.length > 10 ? 12 : 14}
-            lineHeight={14}
-            bold
-            right={<UserLabel isAuthor={isAuthor} isFriend={isFriend} userSign={userSign} />}
-          >
-            {HTMLDecode(userName)}
-          </Name>
+          <Flex>
+            <View style={systemStore.setting.userAge && styles.name}>
+              <Name
+                userId={userId}
+                size={userName.length > 10 ? 12 : 14}
+                lineHeight={14}
+                bold
+                right={<UserLabel isAuthor={isAuthor} isFriend={isFriend} userSign={userSign} />}
+              >
+                {HTMLDecode(userName)}
+              </Name>
+            </View>
+            {systemStore.setting.userAge && (
+              <Flex.Item>
+                <UserAge style={styles.userAge} value={userId} avatar={avatar} />
+              </Flex.Item>
+            )}
+          </Flex>
         </Flex.Item>
         <IconExtra
           style={extraStyle}
