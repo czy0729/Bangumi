@@ -2,18 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-06-15 10:47:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-30 17:08:24
+ * @Last Modified time: 2025-01-25 23:20:15
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Cover, Flex, Text, Touchable } from '@components'
-import { getCoverSrc } from '@components/cover/utils'
-import { _, uiStore } from '@stores'
-import { appNavigate, cnjp, getAction, HTMLDecode, stl, x18 } from '@utils'
+import { Flex, Text } from '@components'
+import { _ } from '@stores'
 import { memo } from '@utils/decorators'
-import { IMG_HEIGHT_LG, IMG_WIDTH_LG, MODEL_COLLECTION_STATUS } from '@constants'
-import { CollectionStatus } from '@types'
-import { InView, Manage, Rank, Stars, Tag } from '../../base'
+import { IMG_HEIGHT_LG, IMG_WIDTH_LG } from '@constants'
+import { Rank, Stars } from '../../base'
+import Container from './container'
+import Content from './content'
+import Cover from './cover'
+import Manage from './manage'
+import Postions from './positions'
+import Tip from './tip'
 import Title from './title'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
@@ -41,7 +43,6 @@ const Item = memo(
     event
   }) => {
     const subjectId = String(id).replace('/subject/', '')
-    const justify = tip || position.length ? 'between' : 'start'
 
     // 人物高清图不是正方形的图, 所以要特殊处理
     const isMono = !String(id).includes('/subject/')
@@ -53,93 +54,49 @@ const Item = memo(
       height = Math.floor(height * 1.1)
     }
 
+    const hasPositions = !!position.length
+
     return (
-      <Touchable
-        style={stl(styles.container, style)}
-        animate
-        onPress={() => {
-          appNavigate(
-            String(id),
-            navigation,
-            {
-              _jp: name,
-              _cn: nameCn,
-              _image: getCoverSrc(cover, width),
-              _type: typeCn,
-              _collection: collection
-            },
-            event
-          )
-        }}
+      <Container
+        navigation={navigation}
+        style={style}
+        id={id}
+        name={name}
+        nameCn={nameCn}
+        cover={cover}
+        width={width}
+        collection={collection}
+        typeCn={typeCn}
+        event={event}
       >
         <Flex style={styles.wrap} align='start'>
-          <InView
-            style={{
-              minWidth: width,
-              minHeight: height
-            }}
-            y={height * (index + 1)}
-          >
-            <Cover
-              src={cover}
-              placeholder={!isMono}
-              width={width}
-              height={height}
-              type={typeCn}
-              cdn={!x18(subjectId)}
-              priority={index < 4 ? 'high' : 'normal'}
-              radius
-            />
-          </InView>
-          <Flex
-            style={stl(styles.content, !!comments && styles.flux, isMusic && styles.musicContent)}
-            direction='column'
-            justify={justify}
-            align='start'
-          >
+          <Cover
+            index={index}
+            width={width}
+            height={height}
+            cover={cover}
+            subjectId={subjectId}
+            typeCn={typeCn}
+            isMono={isMono}
+          />
+          <Content tip={tip} comments={comments} position={hasPositions} isMusic={isMusic}>
             <Flex style={styles.title} align='start'>
               <Flex.Item>
                 <Title name={name} nameCn={nameCn} comments={comments} highlight={highlight} />
               </Flex.Item>
               {showManage && !isMono && (
-                <View style={styles.manage}>
-                  <Manage
-                    subjectId={subjectId}
-                    collection={collection}
-                    typeCn={typeCn}
-                    onPress={() => {
-                      uiStore.showManageModal(
-                        {
-                          subjectId,
-                          title: cnjp(nameCn, name),
-                          desc: cnjp(name, nameCn),
-                          status: MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection),
-                          action: getAction(typeCn)
-                        },
-                        screen
-                      )
-                    }}
-                  />
-                </View>
+                <Manage
+                  subjectId={subjectId}
+                  collection={collection}
+                  typeCn={typeCn}
+                  name={name}
+                  nameCn={nameCn}
+                  screen={screen}
+                />
               )}
             </Flex>
-            {!!tip && (
-              <Text
-                style={isMusic && _.mt.xs}
-                size={11}
-                lineHeight={14}
-                numberOfLines={isMusic ? 2 : 3}
-              >
-                {HTMLDecode(tip)}
-              </Text>
-            )}
-            {!!position.length && (
-              <Flex style={_.mt.sm} wrap='wrap'>
-                {position.map(item => (
-                  <Tag key={item} style={_.mr.sm} value={item} />
-                ))}
-              </Flex>
-            )}
+            {!!tip && <Tip tip={tip} isMusic={isMusic} />}
+            {hasPositions && <Postions position={position} />}
             <Flex style={_.mt.md}>
               <Rank value={rank} />
               <Stars value={score} />
@@ -147,9 +104,9 @@ const Item = memo(
                 {total}
               </Text>
             </Flex>
-          </Flex>
+          </Content>
         </Flex>
-      </Touchable>
+      </Container>
     )
   },
   DEFAULT_PROPS,

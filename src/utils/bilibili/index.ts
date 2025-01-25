@@ -35,7 +35,7 @@ export async function search(q: string, artist: string) {
       cheerio(htmlMatch(_response, '<div class="search-content', '<div id="biliMainFooter"'))(
         '.bili-video-card'
       )
-        .map((index: number, element: any) => {
+        .map((_index: number, element: any) => {
           const $row = cheerio(element)
           return {
             result_type: 'video',
@@ -67,7 +67,7 @@ export async function search(q: string, artist: string) {
 
         return false
       })
-      .filter((item, index: number) => index <= 6)
+      .filter((_item, index: number) => index <= 6)
   } catch (ex) {
     console.error(ex)
   }
