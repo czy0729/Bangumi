@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-01-25 08:41:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-25 14:39:14
+ * @Last Modified time: 2025-01-26 15:29:25
  */
 import { UserId } from '@types'
 
@@ -36,10 +36,12 @@ const SPLITS = [
   [909835, 2024.7],
   [919651, 2024.8],
   [931684, 2024.9],
-  [947430, 2025]
+  [947430, 2025],
+  [955000, 2025.1]
 ] as const
 
-const CURRENT_YEAR = new Date().getFullYear()
+const CURRENT_YEAR = getCurrentYearWithDecimal()
+
 const MEMO = new Map<UserId, string | number>()
 
 /**
@@ -97,6 +99,19 @@ function extractIdFromAvatar(avatar: string): number | undefined {
  * @param {number} num - 要格式化的数字
  * @returns {string} - 格式化后的字符串
  */
-function formatNumber(num) {
-  return num % 1 === 0 ? num.toString() : num.toFixed(1)
+function formatNumber(num: number): string {
+  if (num < 1) return num.toFixed(1)
+  return Math.round(num).toString()
+}
+
+function getCurrentYearWithDecimal(): number {
+  const now = new Date()
+  const year = now.getFullYear()
+  const startOfYear = new Date(year, 0, 1)
+  const nowTime = now.getTime()
+  const startOfYearTime = startOfYear.getTime()
+  const daysSinceStartOfYear = (nowTime - startOfYearTime) / (24 * 60 * 60 * 1000)
+  const fractionOfYear = daysSinceStartOfYear / 365
+  const yearWithDecimal = year + fractionOfYear
+  return parseFloat(yearWithDecimal.toFixed(1))
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-01-25 14:45:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-25 14:52:19
+ * @Last Modified time: 2025-01-26 18:28:06
  */
 import React from 'react'
 import { Heatmap, SwitchPro } from '@components'
@@ -36,6 +36,7 @@ function UserAge({ filter }) {
       }
       filter={filter}
       thumb={getYuqueThumbs([
+        '0/2025/png/386799/1737887237571-599dbdd5-0f78-4fee-ab88-090651b5b400.png',
         '0/2025/png/386799/1737787893742-58339256-7090-486e-8b6b-083cebe5e9b7.png'
       ])}
       {...TEXTS.userAge}

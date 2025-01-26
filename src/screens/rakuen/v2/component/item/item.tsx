@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 12:47:16
+ * @Last Modified time: 2025-01-26 14:57:30
  */
 import React from 'react'
 import { Flex, Touchable, UserStatus } from '@components'
@@ -58,6 +58,7 @@ const Item = memo(
                       replyCount={replyCount}
                       userId={userId}
                       userName={userName}
+                      avatar={avatar}
                       isGroup={isGroup}
                     />
                   </Flex.Item>
