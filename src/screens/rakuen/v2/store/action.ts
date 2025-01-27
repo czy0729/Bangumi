@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-16 19:56:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-18 17:49:35
+ * @Last Modified time: 2025-01-27 15:04:01
  */
 import { ScrollToIndex } from '@components'
 import { rakuenStore } from '@stores'
@@ -10,6 +10,7 @@ import { confirm, feedback, info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
 import { LIMIT_TOPIC_PUSH, MODEL_RAKUEN_TYPE_GROUP, MODEL_RAKUEN_TYPE_MONO } from '@constants'
 import {
+  MonoId,
   Navigation,
   RakuenTypeGroup,
   RakuenTypeGroupCn,
@@ -88,7 +89,7 @@ export default class Action extends Fetch {
     const eventId = '超展开.项额外点击'
     let subjectId: string
     let groupId: string
-    let monoId: string
+    let monoId: MonoId
 
     switch (title) {
       case '进入小组':
@@ -117,7 +118,7 @@ export default class Action extends Fetch {
         break
 
       case '进入人物':
-        monoId = values.topicId.replace('prsn/', 'person/').replace('crt/', 'character/')
+        monoId = values.topicId.replace('prsn/', 'person/').replace('crt/', 'character/') as MonoId
         t(eventId, {
           title,
           monoId
@@ -236,7 +237,7 @@ export default class Action extends Fetch {
       length: ids.length
     })
 
-    const _ids = ids.filter((item, index) => index < PREFETCH_COUNT)
+    const _ids = ids.filter((_item, index) => index < PREFETCH_COUNT)
     let prefetchCurrent = 0
     this.setState({
       prefetching: true,
@@ -305,6 +306,22 @@ export default class Action extends Fetch {
     } catch (error) {
       console.error('Rakuen', 'onRefreshThenScrollTop', error)
     }
+  }
+
+  /** 选项卡开始滑动 */
+  onSwipeStart = () => {
+    this.setState({
+      swiping: true
+    })
+  }
+
+  /** 选项卡结束滑动 */
+  onSwipeEnd = () => {
+    setTimeout(() => {
+      this.setState({
+        swiping: false
+      })
+    }, 240)
   }
 
   /** 更新可视范围底部 y */

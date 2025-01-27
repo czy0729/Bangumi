@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-03 05:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-16 20:23:47
+ * @Last Modified time: 2025-01-26 21:04:58
  */
 import { _ } from '@stores'
 import {
@@ -26,6 +26,7 @@ export const EXCLUDE_STATE = {
   /** 可视范围底部 y */
   visibleBottom: _.window.height,
   isFocused: true,
+  swiping: false,
   _mounted: WEB
 }
 

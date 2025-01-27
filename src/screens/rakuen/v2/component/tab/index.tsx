@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-17 15:43:11
+ * @Last Modified time: 2025-01-26 21:16:52
  */
 import React from 'react'
 import { TabView } from '@components'
@@ -12,7 +12,7 @@ import { ob } from '@utils/decorators'
 import { TABS } from '../../ds'
 import { Ctx } from '../../types'
 import renderScene from './renderScene'
-import TabBar from './tab-bar'
+import { renderTabBar } from './utils'
 import { COMPONENT } from './ds'
 
 function Tab() {
@@ -29,6 +29,8 @@ function Tab() {
         renderTabBar={renderTabBar}
         renderBackground={<BlurViewTab length={TABS.length} />}
         renderScene={renderScene}
+        onSwipeStart={$.onSwipeStart}
+        onSwipeEnd={$.onSwipeEnd}
         onIndexChange={$.onChange}
       />
       <BlurViewBottomTab />
@@ -37,7 +39,3 @@ function Tab() {
 }
 
 export default ob(Tab, COMPONENT)
-
-function renderTabBar(props) {
-  return <TabBar {...props} />
-}

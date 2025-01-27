@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 03:26:35
+ * @Last Modified time: 2025-01-27 15:02:00
  */
 import React from 'react'
 import { rakuenStore, useStore } from '@stores'
@@ -59,6 +59,8 @@ function ItemWrap({
       replyCount={replyCount}
       isGroup={getIsGroup(topicId)}
       onPress={() => {
+        if ($.state.swiping) return
+
         handlePress(navigation, $.onItemPress, {
           avatar,
           group,
