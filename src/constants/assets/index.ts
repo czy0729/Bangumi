@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-11-02 17:15:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-02 17:22:45
+ * @Last Modified time: 2025-01-27 15:36:14
  */
-import { STORYBOOK } from '../device'
 import { HOST_DOGE } from '../cdn'
+import { WEB } from '../device'
 
 // @ts-ignore
-const ENV_STORYBOOK_DEV = STORYBOOK && window?.CONFIG_TYPE === 'DEVELOPMENT'
+const ENV_STORYBOOK_DEV = WEB && window?.CONFIG_TYPE === 'DEVELOPMENT'
 
 /** 年鉴封面 */
 export const ASSETS_AWARDS = {
+  2024: require('@assets/images/static/2024.png'),
   2022: ENV_STORYBOOK_DEV
     ? `${HOST_DOGE}/assets/static/2022.png`
     : require('@assets/images/static/2022.png'),
@@ -68,15 +69,11 @@ export const ASSETS_ICONS = {
   music: ENV_STORYBOOK_DEV
     ? `${HOST_DOGE}/assets/cloud/music.png`
     : require('@assets/cloud/music.png'),
-  pic: ENV_STORYBOOK_DEV
-    ? `${HOST_DOGE}/assets/cloud/pic.png`
-    : require('@assets/cloud/pic.png'),
+  pic: ENV_STORYBOOK_DEV ? `${HOST_DOGE}/assets/cloud/pic.png` : require('@assets/cloud/pic.png'),
   video: ENV_STORYBOOK_DEV
     ? `${HOST_DOGE}/assets/cloud/video.png`
     : require('@assets/cloud/video.png'),
-  zip: ENV_STORYBOOK_DEV
-    ? `${HOST_DOGE}/assets/cloud/zip.png`
-    : require('@assets/cloud/zip.png'),
+  zip: ENV_STORYBOOK_DEV ? `${HOST_DOGE}/assets/cloud/zip.png` : require('@assets/cloud/zip.png'),
   origin: ENV_STORYBOOK_DEV
     ? `${HOST_DOGE}/assets/cloud/origin.png`
     : require('@assets/cloud/origin.png')
