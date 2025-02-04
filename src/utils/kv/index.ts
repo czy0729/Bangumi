@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-23 01:47:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-03 07:09:06
+ * @Last Modified time: 2025-02-05 05:01:34
  */
 import axios from '@utils/thirdParty/axios'
 import { WEB } from '@constants/device'
@@ -12,7 +12,7 @@ import hash from '../thirdParty/hash'
 import { getTimestamp } from '../utils'
 import { Result, ResultTemp } from './type'
 import { log } from './utils'
-import { HOST, HOST_LX, UPDATE_CACHE_MAP } from './ds'
+import { HOST, HOST_COMPLETIONS, HOST_LX, UPDATE_CACHE_MAP } from './ds'
 
 /** 获取 */
 export async function get(key: string): Promise<any> {
@@ -316,6 +316,41 @@ export async function lx(text: string): Promise<false | TranslateResult> {
   }, 0)
 
   return transResult
+}
+
+export async function completions(prompt: string, roleSystem: string, roleUser: string) {
+  if (isDevtoolsOpen()) return Promise.reject('denied')
+
+  try {
+    // @ts-expect-error
+    const response = await axios({
+      method: 'post',
+      url: HOST_COMPLETIONS,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: {
+        messages: [
+          {
+            role: 'system',
+            content: `${prompt}${roleSystem}`
+          },
+          {
+            role: 'user',
+            content: roleUser
+          }
+        ],
+        temperature: 1.2
+      }
+    })
+
+    const text = response?.data?.choices?.[0]?.message?.content || ''
+    console.info('completions', text)
+
+    return text
+  } catch (error) {
+    return ''
+  }
 }
 
 function splitAndKeepPunctuation(str: string) {

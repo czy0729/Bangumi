@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:09:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-03 07:17:14
+ * @Last Modified time: 2025-02-02 05:30:18
  */
 import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
 import { rakuenStore, systemStore, uiStore } from '@stores'
@@ -557,5 +557,15 @@ export default class Action extends Fetch {
 
       info(errorInfo)
     }
+  }
+
+  doCompletion = async () => {
+    console.log((this.userName, this.title, removeHTMLTag(this.html.replace(/<br>/g, '\n'), false)))
+    // const text = await completion(
+    //   this.userName,
+    //   this.title,
+    //   removeHTMLTag(this.html.replace(/<br>/g, '\n'), false)
+    // )
+    // console.log(text)
   }
 }

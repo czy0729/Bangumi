@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-07 12:22:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 02:01:51
+ * @Last Modified time: 2025-02-05 04:24:28
  */
 import { _ } from '@stores'
 
@@ -49,7 +49,7 @@ export const styles = _.create({
     height: 38
   },
   close: {
-    marginRight: -_.sm,
+    marginRight: -11,
     marginLeft: 3
   },
   comment: {
@@ -80,7 +80,7 @@ export const styles = _.create({
     marginLeft: 2
   },
   iconReverse: {
-    marginRight: -_.sm,
+    marginRight: -11,
     marginLeft: 4
   },
   searchDiscBtn: {

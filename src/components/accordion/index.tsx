@@ -1,15 +1,22 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /*
  * @Author: czy0729
  * @Date: 2021-09-26 13:37:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-06 20:37:47
+ * @Last Modified time: 2025-02-04 20:03:51
  */
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Animated, LayoutChangeEvent, View } from 'react-native'
-import { runAfter } from '@utils'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { LayoutChangeEvent, View } from 'react-native'
+import Animated, {
+  runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+  withTiming
+} from 'react-native-reanimated'
+import { _ } from '@stores'
 import { r } from '@utils/dev'
 import { COMPONENT, MIN_HEIGHT } from './ds'
-import { styles } from './styles'
 import { Props as AccordionProps } from './types'
 
 export { AccordionProps }
@@ -20,60 +27,69 @@ export const Accordion = ({ style, expand = false, lazy = true, children }: Acco
 
   const [show, setShow] = useState(lazy ? expand : true)
   const expanded = useRef(expand)
-  const [h, setH] = useState(0)
-  const aH = useRef(new Animated.Value(expand ? 1 : 0))
-  const animatedStyles = useMemo(
-    () => [
-      styles.container,
-      {
-        height: h
-          ? aH.current.interpolate({
-              inputRange: [0, 1],
-              outputRange: [0, Math.max(h, MIN_HEIGHT)]
-            })
-          : ('auto' as const)
-      },
-      style
-    ],
-    [h, style]
-  )
+  const contentHeight = useSharedValue(0) // 存储 children 的实际高度
+  const translateY = useSharedValue(0) // 用于 translateY 动画
+
+  // 动态样式
+  const animatedStyles = useAnimatedStyle(() => ({
+    transform: [{ translateY: translateY.value }],
+    overflow: 'hidden'
+  }))
+
+  // 监听 children 高度变化
   const handleLayout = useCallback(
     (evt: LayoutChangeEvent) => {
-      const { height } = evt.nativeEvent.layout
-      if (height <= h) return
+      const newHeight = Math.max(evt.nativeEvent.layout.height, MIN_HEIGHT)
+      if (contentHeight.value === newHeight) return // 如果高度没有变化，直接返回
 
-      runAfter(() => {
-        setH(height)
-      }, true)
+      // 更新内容高度
+      contentHeight.value = newHeight
+
+      // 如果当前是展开状态，同步更新 translateY
+      if (expand) {
+        translateY.value = withSpring(0, {
+          damping: 20, // 阻尼，控制回弹力度
+          stiffness: 200 // 刚度，控制动画速度
+        })
+      }
     },
-    [h]
+    [expand]
   )
 
+  // 展开/收起控制
   useEffect(() => {
-    runAfter(() => {
-      if (expand) {
-        setShow(true)
-        expanded.current = true
-      }
-
-      Animated.timing(aH.current, {
-        toValue: expand ? 1 : 0,
-        duration: 160,
-        useNativeDriver: false
-      }).start()
-
-      if (!expand) {
-        setTimeout(() => {
-          setShow(false)
-        }, 180)
-      }
-    })
+    if (expand) {
+      setShow(true)
+      expanded.current = true
+      // 展开时，translateY 使用弹簧动画过渡到 0
+      translateY.value = withSpring(0, {
+        damping: 20, // 阻尼，控制回弹力度
+        stiffness: 200 // 刚度，控制动画速度
+      })
+    } else {
+      // 收起时，translateY 使用普通动画过渡到 contentHeight.value
+      translateY.value = withTiming(contentHeight.value + _.bottom, { duration: 160 }, finished => {
+        if (finished) {
+          runOnJS(setShow)(false)
+        }
+      })
+    }
   }, [expand])
+
+  // 如果 children 高度变化，重新触发动画
+  useEffect(() => {
+    if (expand) {
+      translateY.value = withSpring(0, {
+        damping: 20,
+        stiffness: 200
+      })
+    }
+  }, [contentHeight.value]) // 监听 contentHeight 的变化
 
   if (!expanded.current && lazy && !show) return null
 
   return (
-    <Animated.View style={animatedStyles}>
+    <Animated.View style={[animatedStyles, style]}>
       <View onLayout={handleLayout}>{children}</View>
     </Animated.View>
   )

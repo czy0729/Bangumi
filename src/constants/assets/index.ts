@@ -12,7 +12,9 @@ const ENV_STORYBOOK_DEV = WEB && window?.CONFIG_TYPE === 'DEVELOPMENT'
 
 /** 年鉴封面 */
 export const ASSETS_AWARDS = {
-  2024: require('@assets/images/static/2024.png'),
+  2024: ENV_STORYBOOK_DEV
+    ? `${HOST_DOGE}/assets/static/2024.png`
+    : require('@assets/images/static/2024.png'),
   2022: ENV_STORYBOOK_DEV
     ? `${HOST_DOGE}/assets/static/2022.png`
     : require('@assets/images/static/2022.png'),

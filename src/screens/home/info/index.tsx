@@ -5,7 +5,6 @@
  * @Last Modified time: 2024-11-17 09:55:58
  */
 import React from 'react'
-import { View } from 'react-native'
 import { useObserver } from 'mobx-react'
 import { Component, Page, ScrollView } from '@components'
 import { _, StoreContext } from '@stores'
@@ -23,11 +22,9 @@ const SubjectInfo = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-info'>
       <StoreContext.Provider value={id}>
-        <Page loaded={$.state._loaded}>
-          <View style={_.container.header}>
-            <Type />
-            <ScrollView>{$.state.type === '简介' ? <Summary /> : <Info />}</ScrollView>
-          </View>
+        <Page style={_.container.header} loaded={$.state._loaded}>
+          <Type />
+          <ScrollView>{$.state.type === '简介' ? <Summary /> : <Info />}</ScrollView>
         </Page>
         <Header />
       </StoreContext.Provider>

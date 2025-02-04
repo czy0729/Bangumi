@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-25 11:10:27
+ * @Last Modified time: 2025-02-05 04:17:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,6 +15,7 @@ import { SHARE_MODE } from '@constants'
 import { TITLE_BOX } from '../../ds'
 import IconClose from '../icon/close'
 import IconFolder from '../icon/folder'
+import IconWordCloud from '../icon/word-cloud'
 import Comment from './comment'
 import Extra from './extra'
 import FlipBtn from './flip-btn'
@@ -39,6 +40,7 @@ const Box = memo(
           style={styles.sectionTitle}
           right={
             <>
+              <IconWordCloud />
               <IconFolder />
               <IconClose />
             </>

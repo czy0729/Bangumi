@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 17:24:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-27 20:12:22
+ * @Last Modified time: 2025-02-02 18:30:41
  */
 import { _ } from '@stores'
 
@@ -25,6 +25,5 @@ export const memoStyles = _.memoStyles(() => ({
     borderWidth: 5,
     borderRadius: _.radiusMd,
     borderColor: _.select('rgba(255, 255, 255, 0.5)', 'rgba(255, 255, 255, 0.88)')
-  },
-  moreStyle: {}
+  }
 }))

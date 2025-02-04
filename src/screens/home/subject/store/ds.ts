@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:30:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-22 17:11:16
+ * @Last Modified time: 2025-02-04 07:27:02
  */
 import { _ } from '@stores'
 import { LIST_EMPTY, WEB } from '@constants'
@@ -57,6 +57,9 @@ export const EXCLUDE_STATE = {
 
   /** Eps 中按钮是否允许使用翻页动画 */
   flipEps: false,
+
+  /** 是否显示聊天模态框 */
+  chatModalVisible: false,
 
   /** 是否完成渲染 */
   rendered: WEB,
@@ -120,6 +123,12 @@ export const STATE = {
 
   /** 评论只看当前版本 */
   filterVersion: false,
+
+  /** 聊天 */
+  chat: {
+    value: '',
+    _loaded: false as Loaded
+  },
 
   /** 页面 store 初始化完成 */
   _loaded: false as Loaded

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-08 13:25:58
+ * @Last Modified time: 2025-02-05 04:59:00
  */
 import { StatusBar } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
@@ -31,6 +31,7 @@ import {
   getCoverLarge,
   getCoverMedium,
   getSPAParams,
+  getTimestamp,
   info,
   loading,
   open,
@@ -40,7 +41,8 @@ import {
   updateVisibleBottom
 } from '@utils'
 import { baiduTranslate, t } from '@utils/fetch'
-import { download, lx, temp } from '@utils/kv'
+import { completions, download, lx, temp } from '@utils/kv'
+import { MESUME_SUBJECT_PROMPT } from '@utils/kv/ds'
 import axios from '@utils/thirdParty/axios'
 import { s2t } from '@utils/thirdParty/open-cc'
 import { webhookCollection, webhookEp } from '@utils/webhooks'
@@ -62,6 +64,7 @@ import {
   WEB
 } from '@constants'
 import i18n from '@constants/i18n'
+import { getPlainText, removeSlogan } from '@screens/discovery/word-cloud/store/utils'
 import { EpStatus, Id, Navigation, RatingStatus, ScrollEvent, UserId } from '@types'
 import { TEXT_BLOCK_USER, TEXT_COPY_COMMENT, TEXT_IGNORE_USER, TEXT_LIKES } from '../ds'
 import { EpsItem } from '../types'
@@ -777,6 +780,19 @@ export default class Action extends Fetch {
     this.updateStatusBar()
   }
 
+  showChatModal = () => {
+    this.setState({
+      chatModalVisible: true
+    })
+    feedback(true)
+  }
+
+  hideChatModal = () => {
+    this.setState({
+      chatModalVisible: false
+    })
+  }
+
   // -------------------- action --------------------
   /** 管理收藏 */
   doUpdateCollection = async (values: Parameters<typeof collectionStore.doUpdateCollection>[0]) => {
@@ -1337,6 +1353,50 @@ export default class Action extends Fetch {
       })
 
       open(download(data.downloadKey))
+    }
+  }
+
+  /** 聊天 */
+  doChat = async () => {
+    t('条目.聊天', {
+      subjectId: this.subjectId
+    })
+
+    this.showChatModal()
+
+    if (this.state.chat.value) return
+
+    if (this.subjectComments.list.length <= 20) await this.fetchSubjectComments()
+
+    const roleSystem = `以下是条目《${this.cn}》（可提及），当前全站评分为${
+      this.rating.score || '-'
+    }，其中最近班友的吐槽（每个换行为一个，若班友进行过评分在最前方使用了中括号标记，满分为十分），请总结条目当前的风评：`
+
+    let roleUser = ''
+    if (this.subjectId) {
+      const limit = 20
+      this.subjectComments.list.forEach((item, index) => {
+        if (index + 1 >= limit) return
+
+        roleUser += `\n${item.star ? `[${item.star}分] ` : ''}${removeSlogan(
+          getPlainText(item.comment.slice(0, 32))
+        )}`
+      })
+    }
+
+    const value = await completions(MESUME_SUBJECT_PROMPT, roleSystem, roleUser)
+    feedback()
+
+    if (value) {
+      this.setState({
+        chat: {
+          value,
+          _loaded: getTimestamp()
+        }
+      })
+      this.save()
+    } else {
+      info('请求超时请重试')
     }
   }
 }

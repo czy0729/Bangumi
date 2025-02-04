@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-18 03:52:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 02:11:05
+ * @Last Modified time: 2025-02-04 06:57:55
  */
 import React from 'react'
 import { IconTouchable } from '@_'
@@ -32,4 +32,5 @@ function PopToTop() {
     />
   )
 }
+
 export default ob(PopToTop)

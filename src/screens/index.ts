@@ -24,12 +24,10 @@ export const Catalog = lazy(() => import('./discovery/catalog'))
 export const CatalogDetail = lazy(() => import('./discovery/catalog-detail'))
 export const Channel = lazy(() => import('./discovery/channel'))
 export const Character = lazy(() => import('./discovery/character'))
-// export const Discovery = lazy(() => import('./discovery/index/index'))
 export { default as Discovery } from './discovery/index/index'
 export const DiscoveryBlog = lazy(() => import('./discovery/blog'))
 export const Dollars = lazy(() => import('./discovery/dollars'))
 export const Game = lazy(() => import('./discovery/game'))
-// export const Guess = lazy(() => import('./discovery/guess'))
 export const Hentai = lazy(() => import('./discovery/hentai'))
 export const Like = lazy(() => import('./discovery/like'))
 export const Manga = lazy(() => import('./discovery/manga'))
@@ -52,13 +50,11 @@ export const Yearbook = lazy(() => import('./discovery/yearbook'))
 
 // Timeline
 export const Say = lazy(() => import('./timeline/say'))
-// export const Timeline = lazy(() => import('./timeline/v2'))
 export { default as Timeline } from './timeline/v2'
 
 // Home
 export const Characters = lazy(() => import('./home/characters'))
 export const Episodes = lazy(() => import('./home/episodes'))
-// export const Home = lazy(() => import('./home/v2'))
 export { default as Home } from './home/v2'
 export const Mono = lazy(() => import('./home/mono'))
 export const Overview = lazy(() => import('./home/overview'))
@@ -80,7 +76,6 @@ export const Board = lazy(() => import('./rakuen/board'))
 export const Group = lazy(() => import('./rakuen/group'))
 export const Mine = lazy(() => import('./rakuen/mine'))
 export const Notify = lazy(() => import('./rakuen/notify'))
-// export const Rakuen = lazy(() => import('./rakuen/v2'))
 export { default as Rakuen } from './rakuen/v2'
 export const RakuenHistory = lazy(() => import('./rakuen/history'))
 export const RakuenSearch = lazy(() => import('./rakuen/search'))
@@ -104,7 +99,6 @@ export const ServerStatus = lazy(() => import('./user/server-status'))
 export const Setting = lazy(() => import('./user/setting'))
 export const Smb = lazy(() => import('./user/smb'))
 export const Sponsor = lazy(() => import('./user/sponsor'))
-// export const User = lazy(() => import('./user/v2'))
 export { default as User } from './user/v2'
 export const UserSetting = lazy(() => import('./user/user-setting'))
 export const UserTimeline = lazy(() => import('./user/timeline'))

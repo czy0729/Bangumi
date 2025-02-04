@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 /*
  * @Author: czy0729
  * @Date: 2019-08-14 16:28:40
@@ -32,8 +31,8 @@ export function a(htmlAttribs, children, convertedCSSStyles, passProps) {
   if (parentWrapper === 'Text') {
     return (
       <Text
-        key={key}
         {...passProps}
+        key={key}
         style={stl(!IOS && androidTextFixedStyle, style)}
         textBreakStrategy='simple'
         numberOfLines={0}

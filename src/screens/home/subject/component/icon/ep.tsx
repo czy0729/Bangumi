@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-17 00:58:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 01:49:39
+ * @Last Modified time: 2025-02-05 04:25:22
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -16,7 +16,10 @@ function IconEp() {
   const { $, navigation } = useStore<Ctx>()
   return (
     <IconTouchable
-      style={_.ml.xs}
+      style={{
+        marginRight: -1,
+        marginLeft: _.xs
+      }}
       name='md-menu'
       onPress={() => {
         navigation.push('Episodes', {

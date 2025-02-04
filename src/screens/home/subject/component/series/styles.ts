@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-26 10:01:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-18 02:20:13
+ * @Last Modified time: 2025-02-05 04:21:40
  */
 import { _ } from '@stores'
 
@@ -21,6 +21,6 @@ export const memoStyles = _.memoStyles(() => ({
     overflow: 'hidden'
   },
   icon: {
-    marginRight: -_.sm
+    marginRight: -12
   }
 }))

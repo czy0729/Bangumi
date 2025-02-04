@@ -2,13 +2,8 @@
  * @Author: czy0729
  * @Date: 2024-01-03 00:08:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-04 04:05:26
+ * @Last Modified time: 2025-02-04 07:05:53
  */
-import { rc } from '@utils/dev'
-import { COMPONENT as PARENT } from '../ds'
-
-export const COMPONENT = rc(PARENT, 'Header')
-
 export const TEXT_COPY = '复制链接'
 
 export const TEXT_SHARE = '复制分享'
