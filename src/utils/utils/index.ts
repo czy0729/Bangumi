@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-08 06:24:53
+ * @Last Modified time: 2025-02-05 06:31:48
  */
 import { ComponentType } from 'react'
 import { Linking } from 'react-native'
@@ -575,4 +575,33 @@ export function truncateMiddle(text: string = '', maxLength: number = 20, charsT
   const startLength = Math.ceil((maxLength - charsToShow) / 2)
   const endLength = Math.floor((maxLength - charsToShow) / 2)
   return text.substring(0, startLength) + '...' + text.substring(text.length - endLength)
+}
+
+/** 随机挑选数组项 */
+export function getRandomItems<T>(array: T[], count: number): T[] {
+  // 如果数组为空或 count 为 0，直接返回空数组
+  if (array.length === 0 || count === 0) {
+    return []
+  }
+
+  // 如果数组长度小于等于需要的数量，直接返回打乱后的数组
+  if (array.length <= count) {
+    return shuffleArray(array)
+  }
+
+  // 复制数组以避免修改原数组
+  const shuffled = shuffleArray(array.slice())
+
+  // 返回前 count 项
+  return shuffled.slice(0, count)
+}
+
+/** Fisher-Yates 洗牌算法 */
+function shuffleArray<T>(array: T[]): T[] {
+  const shuffled = array.slice()
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+  }
+  return shuffled
 }

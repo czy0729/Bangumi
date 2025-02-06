@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:30:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-04 07:27:02
+ * @Last Modified time: 2025-02-06 07:30:28
  */
 import { _ } from '@stores'
 import { LIST_EMPTY, WEB } from '@constants'
-import { Loaded, RatingStatus, Sites, TranslateResult } from '@types'
+import { CompletionItem, Loaded, RatingStatus, Sites, TranslateResult } from '@types'
 import { COMPONENT } from '../ds'
 import { AnitabiData, EpsData, SubjectSnapshot } from '../types'
 
@@ -58,8 +58,11 @@ export const EXCLUDE_STATE = {
   /** Eps 中按钮是否允许使用翻页动画 */
   flipEps: false,
 
-  /** 是否显示聊天模态框 */
+  /** 是否显示锐评框 */
   chatModalVisible: false,
+
+  /** 锐评请求中 */
+  chatLoading: false,
 
   /** 是否完成渲染 */
   rendered: WEB,
@@ -124,9 +127,10 @@ export const STATE = {
   /** 评论只看当前版本 */
   filterVersion: false,
 
-  /** 聊天 */
+  /** 锐评 */
   chat: {
-    value: '',
+    values: [] as CompletionItem[],
+    index: -1,
     _loaded: false as Loaded
   },
 

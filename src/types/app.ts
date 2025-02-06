@@ -3,14 +3,14 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-12 06:45:31
+ * @Last Modified time: 2025-02-05 05:11:41
  */
 import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
 import IoniconsIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/Ionicons.json'
 import MaterialIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/MaterialIcons.json'
 import { SITES } from '@constants'
 import { EventKeys } from '@constants/events'
-import { Id, SubjectId } from './bangumi'
+import { Id, SubjectId, UserId } from './bangumi'
 import { NavigationPushType, Paths } from './route'
 import { AnyObject, DeepPartial, Expand, Override } from './utils'
 
@@ -181,3 +181,10 @@ export type TranslateResult = {
   /** 译话 */
   dst: string
 }[]
+
+/** 锐评项 */
+export type CompletionItem = {
+  text: string
+  userId: UserId
+  _loaded: Loaded
+}

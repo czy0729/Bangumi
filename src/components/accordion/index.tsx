@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2021-09-26 13:37:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-04 20:03:51
+ * @Last Modified time: 2025-02-05 06:22:43
  */
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { LayoutChangeEvent, View } from 'react-native'
@@ -89,8 +89,10 @@ export const Accordion = ({ style, expand = false, lazy = true, children }: Acco
   if (!expanded.current && lazy && !show) return null
 
   return (
-    <Animated.View style={[animatedStyles, style]}>
-      <View onLayout={handleLayout}>{children}</View>
+    <Animated.View style={[animatedStyles, style]} pointerEvents='box-none'>
+      <View pointerEvents='box-none' onLayout={handleLayout}>
+        {children}
+      </View>
     </Animated.View>
   )
 }

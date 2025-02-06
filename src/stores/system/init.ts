@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-25 14:43:37
+ * @Last Modified time: 2025-02-06 07:29:36
  */
 import {
+  IOS,
   MODEL_SETTING_CDN_ORIGIN,
   MODEL_SETTING_HOME_COUNT_VIEW,
   MODEL_SETTING_HOME_GRID_COVER_LAYOUT,
@@ -206,7 +207,7 @@ export const INIT_SETTING = {
   speech: true,
 
   /** 震动反馈 */
-  vibration: false,
+  vibration: IOS,
 
   /** 主题跟随系统 */
   autoColorScheme: false,

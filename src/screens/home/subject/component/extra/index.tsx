@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-03 00:51:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-04 07:30:46
+ * @Last Modified time: 2025-02-06 07:32:09
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -15,11 +15,30 @@ import { COMPONENT } from './ds'
 
 function Extra() {
   const { $ } = useStore<Ctx>()
-  const { chatModalVisible, chat } = $.state
+  const { chatModalVisible, chatLoading, chat } = $.state
+  const { values, index } = chat
+
+  let value = ''
+  if (values.length) {
+    if (index === -1 || index > values.length - 1) {
+      value = values[0].text
+    } else {
+      value = values[index].text
+    }
+  }
+
   return (
     <>
       <Modal />
-      <MesumeChat show={chatModalVisible} value={chat.value} onClose={$.hideChatModal} />
+      <MesumeChat
+        show={chatModalVisible}
+        value={value}
+        loading={chatLoading}
+        onClose={$.hideChatModal}
+        onBefore={$.beforeChat}
+        onNext={$.nextChat}
+        onRefresh={() => $.doChat(true)}
+      />
       <Heatmap id='条目' screen='Subject' />
     </>
   )

@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-05 04:59:00
+ * @Last Modified time: 2025-02-06 07:31:41
  */
+import { toJS } from 'mobx'
 import { StatusBar } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
@@ -30,6 +31,7 @@ import {
   getBangumiUrl,
   getCoverLarge,
   getCoverMedium,
+  getRandomItems,
   getSPAParams,
   getTimestamp,
   info,
@@ -41,7 +43,7 @@ import {
   updateVisibleBottom
 } from '@utils'
 import { baiduTranslate, t } from '@utils/fetch'
-import { completions, download, lx, temp } from '@utils/kv'
+import { completions, download, get, lx, temp, update } from '@utils/kv'
 import { MESUME_SUBJECT_PROMPT } from '@utils/kv/ds'
 import axios from '@utils/thirdParty/axios'
 import { s2t } from '@utils/thirdParty/open-cc'
@@ -65,7 +67,7 @@ import {
 } from '@constants'
 import i18n from '@constants/i18n'
 import { getPlainText, removeSlogan } from '@screens/discovery/word-cloud/store/utils'
-import { EpStatus, Id, Navigation, RatingStatus, ScrollEvent, UserId } from '@types'
+import { CompletionItem, EpStatus, Id, Navigation, RatingStatus, ScrollEvent, UserId } from '@types'
 import { TEXT_BLOCK_USER, TEXT_COPY_COMMENT, TEXT_IGNORE_USER, TEXT_LIKES } from '../ds'
 import { EpsItem } from '../types'
 import { OriginItem, replaceOriginUrl } from '../../../user/origin-setting/utils'
@@ -73,17 +75,17 @@ import Fetch from './fetch'
 import { NAMESPACE } from './ds'
 
 export default class Action extends Fetch {
-  private updateStatusBarTimeoutId = null
+  private _updateStatusBarTimeoutId = null
 
   /** 更新状态栏主题色 */
   updateStatusBar = () => {
-    if (this.updateStatusBarTimeoutId) return
+    if (this._updateStatusBarTimeoutId) return
 
-    this.updateStatusBarTimeoutId = setTimeout(() => {
+    this._updateStatusBarTimeoutId = setTimeout(() => {
       StatusBar.setBarStyle(
         _.isDark ? 'light-content' : this.state.fixed ? 'dark-content' : 'light-content'
       )
-      this.updateStatusBarTimeoutId = null
+      this._updateStatusBarTimeoutId = null
     }, 80)
   }
 
@@ -750,7 +752,7 @@ export default class Action extends Fetch {
 
   onScrollY = 0
 
-  private closeLikesGridTimeoutId = null
+  private _closeLikesGridTimeoutId = null
 
   /** 滑动回调 */
   onScroll = (e: ScrollEvent) => {
@@ -759,10 +761,10 @@ export default class Action extends Fetch {
     this.updateVisibleBottom(e)
 
     // 关闭吐槽区可能展开的回复表情选择弹出层
-    if (!this.closeLikesGridTimeoutId && y >= _.window.height * 2) {
-      this.closeLikesGridTimeoutId = setTimeout(() => {
+    if (!this._closeLikesGridTimeoutId && y >= _.window.height * 2) {
+      this._closeLikesGridTimeoutId = setTimeout(() => {
         uiStore.closeLikesGrid()
-        this.closeLikesGridTimeoutId = null
+        this._closeLikesGridTimeoutId = null
       }, 80)
     }
 
@@ -780,6 +782,7 @@ export default class Action extends Fetch {
     this.updateStatusBar()
   }
 
+  /** 显示锐评框 */
   showChatModal = () => {
     this.setState({
       chatModalVisible: true
@@ -787,10 +790,53 @@ export default class Action extends Fetch {
     feedback(true)
   }
 
+  /** 隐藏锐评框 */
   hideChatModal = () => {
     this.setState({
       chatModalVisible: false
     })
+  }
+
+  /** 前一个锐评 */
+  beforeChat = () => {
+    const { chat } = this.state
+    let { index } = chat
+    if (index === -1) return
+
+    if (index === 0) {
+      index = chat.values.length - 1
+    } else {
+      index -= 1
+    }
+    this.setState({
+      chat: {
+        index
+      }
+    })
+    this.save()
+
+    feedback(true)
+  }
+
+  /** 后一个锐评 */
+  nextChat = () => {
+    const { chat } = this.state
+    let { index } = chat
+    if (index === -1) return
+
+    if (index === chat.values.length - 1) {
+      index = 0
+    } else {
+      index += 1
+    }
+    this.setState({
+      chat: {
+        index
+      }
+    })
+    this.save()
+
+    feedback(true)
   }
 
   // -------------------- action --------------------
@@ -1356,47 +1402,98 @@ export default class Action extends Fetch {
     }
   }
 
-  /** 聊天 */
-  doChat = async () => {
+  private _doChatUpdate = false
+
+  /** 锐评 */
+  doChat = async (refresh = false) => {
+    if (this.state.chatLoading) return
+
     t('条目.聊天', {
       subjectId: this.subjectId
     })
 
     this.showChatModal()
 
-    if (this.state.chat.value) return
+    const now = getTimestamp()
+    const id = `completions_subject_${this.subjectId}` as const
+    const { values } = this.state.chat
+    if (!values.length) {
+      const data = await get(id)
+      if (Array.isArray(data?.data) && data.data.length) {
+        this.setState({
+          chat: {
+            values: data.data,
+            index: 0,
+            _loaded: now
+          }
+        })
+        return
+      }
+    }
 
-    if (this.subjectComments.list.length <= 20) await this.fetchSubjectComments()
+    if (!refresh && values.length) return
+
+    if (this.subjectComments.list.length <= 20) {
+      this.setState({
+        chatLoading: true
+      })
+      await this.fetchSubjectComments()
+    }
 
     const roleSystem = `以下是条目《${this.cn}》（可提及），当前全站评分为${
       this.rating.score || '-'
     }，其中最近班友的吐槽（每个换行为一个，若班友进行过评分在最前方使用了中括号标记，满分为十分），请总结条目当前的风评：`
 
     let roleUser = ''
-    if (this.subjectId) {
-      const limit = 20
-      this.subjectComments.list.forEach((item, index) => {
-        if (index + 1 >= limit) return
 
-        roleUser += `\n${item.star ? `[${item.star}分] ` : ''}${removeSlogan(
-          getPlainText(item.comment.slice(0, 32))
-        )}`
-      })
-    }
+    // 适当打乱数据, 让结果能呈现更多的不同
+    getRandomItems(
+      this.subjectComments.list.filter(item => !(item.avatar || '').includes('icon.jpg')),
+      20
+    ).forEach(item => {
+      roleUser += `\n${item.star ? `[${item.star}分] ` : ''}${removeSlogan(
+        getPlainText(item.comment.slice(0, 32))
+      )}`
+    })
 
+    this.setState({
+      chatLoading: true
+    })
     const value = await completions(MESUME_SUBJECT_PROMPT, roleSystem, roleUser)
+    this.setState({
+      chatLoading: false
+    })
     feedback()
 
-    if (value) {
-      this.setState({
-        chat: {
-          value,
-          _loaded: getTimestamp()
-        }
-      })
-      this.save()
-    } else {
+    if (!value) {
       info('请求超时请重试')
+      return
+    }
+
+    const newValues: CompletionItem[] = toJS(values)
+    newValues.push({
+      text: value,
+      userId: this.userId || 0,
+      _loaded: now
+    })
+    if (newValues.length > 10) newValues.shift()
+
+    const { length } = newValues
+    this.setState({
+      chat: {
+        values: newValues,
+        index: length - 1,
+        _loaded: now
+      }
+    })
+    this.save()
+
+    // 长度1优先能让快照拥有数据; 长度5可以保证有比较多数据; 长度10为数据最大长度, 如果更新过就不再更新, 否则会一直更新
+    if (length === 1 || length === 5 || (length === 10 && !this._doChatUpdate)) {
+      update(id, {
+        data: newValues
+      })
+      this._doChatUpdate = true
     }
   }
 }
