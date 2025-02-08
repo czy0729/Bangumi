@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:01:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-02 06:57:54
+ * @Last Modified time: 2025-02-07 06:26:17
  */
 import { computed } from 'mobx'
 import { rakuenStore, subjectStore, systemStore, usersStore, userStore } from '@stores'
 import { asc, freeze, HTMLDecode } from '@utils'
 import CacheManager from '@utils/cache-manager'
-import { URL_DEFAULT_AVATAR } from '@constants'
+import { HOST, URL_DEFAULT_AVATAR } from '@constants'
 import { Id, TopicId, UserId } from '@types'
 import State from './state'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
@@ -442,5 +442,14 @@ export default class Computed extends State {
       /(<br\s*\/?>){3,}/g,
       '<br><br>'
     )
+  }
+
+  /** 帖子网址 */
+  @computed get url() {
+    return this.params?._url || `${HOST}/rakuen/topic/${this.topicId}`
+  }
+
+  @computed get hm() {
+    return [this.url, 'Topic'] as const
   }
 }

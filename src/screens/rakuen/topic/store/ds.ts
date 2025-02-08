@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-09-28 17:50:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-08 11:43:45
+ * @Last Modified time: 2025-02-07 06:46:07
  */
 import { _ } from '@stores'
 import { Comments, Topic } from '@stores/rakuen/types'
 import { WEB } from '@constants'
-import { Id, Loaded, TranslateResult } from '@types'
+import { CompletionItem, Id, Loaded, TranslateResult } from '@types'
 import { COMPONENT } from '../ds'
 import { FilterType } from '../types'
 
@@ -64,7 +64,13 @@ export const EXCLUDE_STATE = {
   } as Comments,
 
   /** 评论是否只看跳转楼层 */
-  filterPost: ''
+  filterPost: '',
+
+  /** 是否显示锐评框 */
+  chatModalVisible: false,
+
+  /** 锐评请求中 */
+  chatLoading: false
 }
 
 export const STATE = {
@@ -101,6 +107,13 @@ export const STATE = {
 
   /** 导演位置楼层名 */
   directFloor: '',
+
+  /** 锐评 */
+  chat: {
+    values: [] as CompletionItem[],
+    index: -1,
+    _loaded: false as Loaded
+  },
 
   /** 页面初始化 */
   _loaded: false as Loaded

@@ -7,8 +7,12 @@
 
 /** 帖子主楼纯文本, 用于翻译 */
 export function getTopicMainFloorRawText(title: string, html: string) {
+  let str = ''
+  if (title) str += `${title}。\n`
+  str += html
+
   return (
-    String(`${title}。\n${html}`)
+    str
       .replace(/<br \/>/g, '\n')
       // 去除 HTML tag
       .replace(/<\/?[^>]*>/g, '')

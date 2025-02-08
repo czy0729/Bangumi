@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-02-02 17:26:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-06 07:36:15
+ * @Last Modified time: 2025-02-07 07:32:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -29,10 +29,18 @@ export const MesumeChat = ({
 }: MesumeChatProps) => {
   return useObserver(() => {
     const styles = memoStyles()
+
+    let size = 14
     const text = value ? value.trim() : placeholder
+    if (text.length >= 300) {
+      size -= 2
+    } else if (text.length >= 200) {
+      size -= 1
+    }
+
     return (
       <>
-        {show && <Mask linear onPress={onClose} />}
+        {show && <Mask style={styles.mask} linear onPress={onClose} />}
         <View style={styles.container} pointerEvents='box-none'>
           <Accordion expand={show}>
             <Flex style={styles.item} align='start'>
@@ -53,9 +61,10 @@ export const MesumeChat = ({
                 {text.split(`\n\n`).map((item, index) => (
                   <Text
                     key={index}
-                    style={!!index && _.mt.md}
+                    style={!!index && (text.length >= 200 ? _.mt.sm : _.mt.md)}
                     type='__plain__'
-                    lineHeight={15}
+                    size={size}
+                    lineHeight={size + 1}
                     bold
                     shadow
                   >

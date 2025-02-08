@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2025-02-02 17:27:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-05 05:48:41
+ * @Last Modified time: 2025-02-07 07:32:59
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   container: {
     position: 'absolute',
-    zIndex: 10,
+    zIndex: 1110,
     right: 0,
     bottom: 20,
     left: 0,
@@ -23,9 +23,12 @@ export const memoStyles = _.memoStyles(() => ({
     borderRadius: 20,
     overflow: 'hidden'
   },
+  mask: {
+    zIndex: 1100
+  },
   linear: {
     position: 'absolute',
-    zIndex: 1,
+    zIndex: 1101,
     top: 0,
     right: 0,
     bottom: 0,

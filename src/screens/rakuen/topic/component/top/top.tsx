@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-25 15:05:35
+ * @Last Modified time: 2025-02-07 06:41:46
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
@@ -27,6 +27,7 @@ import Content from '../content'
 import Ep from '../ep'
 import Milestone from '../milestone'
 import SectionTitle from '../section-title'
+import WordCloud from '../word-cloud'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Top = memo(
@@ -128,6 +129,7 @@ const Top = memo(
                 </Text>
               </Flex.Item>
             )}
+            <WordCloud />
             <Heatmap right={74} id='帖子.跳转' to='Group' alias='小组' />
             <Heatmap id='帖子.跳转' to='Subject' alias='条目' transparent />
           </Flex>

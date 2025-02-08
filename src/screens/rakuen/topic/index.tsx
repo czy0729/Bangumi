@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-03 13:25:13
+ * @Last Modified time: 2025-02-07 07:21:34
  */
 import React from 'react'
 import './styles'
@@ -12,7 +12,7 @@ import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { NavigationProps } from '@types'
 import Bottom from './component/bottom'
-import Heatmaps from './component/heatmaps'
+import Extra from './component/extra'
 import List from './component/list'
 import TouchScroll from './component/touch-scroll'
 import Header from './header'
@@ -45,7 +45,7 @@ const Topic = (props: NavigationProps) => {
         </TapListener>
         <Header />
         <Bottom fixedTextareaRef={fixedTextareaRef} onDirect={onDirect} />
-        <Heatmaps />
+        <Extra />
       </StoreContext.Provider>
     </Component>
   ))

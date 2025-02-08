@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:40:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-02 06:46:44
+ * @Last Modified time: 2025-02-07 06:52:05
  */
 
 /** Rakuen */
@@ -77,6 +77,7 @@ export default {
   '帖子.绝交': 'Topic.blockUser',
   '帖子.特别关注': 'Topic.trackUsersComment',
   '帖子.取消特别关注': 'Topic.cancelTrackUsersComment',
+  '帖子.聊天': 'Topic.chat',
 
   // 日志
   '日志.跳转': 'Blog.to',

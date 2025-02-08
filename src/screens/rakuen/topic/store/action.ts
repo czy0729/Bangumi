@@ -2,18 +2,30 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:09:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-02 05:30:18
+ * @Last Modified time: 2025-02-07 07:18:59
  */
+import { toJS } from 'mobx'
 import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
 import { rakuenStore, systemStore, uiStore } from '@stores'
-import { feedback, HTMLDecode, info, loading, removeHTMLTag, updateVisibleBottom } from '@utils'
+import {
+  feedback,
+  getRandomItems,
+  getTimestamp,
+  HTMLDecode,
+  info,
+  loading,
+  removeHTMLTag,
+  updateVisibleBottom
+} from '@utils'
 import CacheManager from '@utils/cache-manager'
 import { baiduTranslate, t } from '@utils/fetch'
-import { lx, update } from '@utils/kv'
+import { completions, get, lx, update } from '@utils/kv'
+import { MESUME_EP_PROMPT, MESUME_TOPIC_PROMPT } from '@utils/kv/ds'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HOST, IOS } from '@constants'
 import { RakuenReplyType } from '@constants/html/types'
-import { AnyObject, Fn, Id, ScrollEvent, TopicType } from '@types'
+import { getPlainText, removeSlogan } from '@screens/discovery/word-cloud/store/utils'
+import { AnyObject, CompletionItem, Fn, Id, ScrollEvent, TopicType } from '@types'
 import { getTopicMainFloorRawText } from '../utils'
 import Fetch from './fetch'
 
@@ -296,6 +308,63 @@ export default class Action extends Fetch {
     })
   }
 
+  /** 显示锐评框 */
+  showChatModal = () => {
+    this.setState({
+      chatModalVisible: true
+    })
+    feedback(true)
+  }
+
+  /** 隐藏锐评框 */
+  hideChatModal = () => {
+    this.setState({
+      chatModalVisible: false
+    })
+  }
+
+  /** 前一个锐评 */
+  beforeChat = () => {
+    const { chat } = this.state
+    let { index } = chat
+    if (index === -1) return
+
+    if (index === 0) {
+      index = chat.values.length - 1
+    } else {
+      index -= 1
+    }
+    this.setState({
+      chat: {
+        index
+      }
+    })
+    this.save()
+
+    feedback(true)
+  }
+
+  /** 后一个锐评 */
+  nextChat = () => {
+    const { chat } = this.state
+    let { index } = chat
+    if (index === -1) return
+
+    if (index === chat.values.length - 1) {
+      index = 0
+    } else {
+      index += 1
+    }
+    this.setState({
+      chat: {
+        index
+      }
+    })
+    this.save()
+
+    feedback(true)
+  }
+
   // -------------------- action --------------------
   /** 提交回复 */
   doSubmit = (content: string) => {
@@ -559,13 +628,98 @@ export default class Action extends Fetch {
     }
   }
 
-  doCompletion = async () => {
-    console.log((this.userName, this.title, removeHTMLTag(this.html.replace(/<br>/g, '\n'), false)))
-    // const text = await completion(
-    //   this.userName,
-    //   this.title,
-    //   removeHTMLTag(this.html.replace(/<br>/g, '\n'), false)
-    // )
-    // console.log(text)
+  private _doChatUpdate = false
+
+  /** 锐评 */
+  doChat = async (refresh = false) => {
+    if (this.state.chatLoading || !this.topic._loaded) return
+
+    t('帖子.聊天', {
+      topicId: this.topicId
+    })
+
+    this.showChatModal()
+
+    const now = getTimestamp()
+    const id = `completions_topic_${this.topicId.replace('/', '_')}` as const
+    const { values } = this.state.chat
+    if (!values.length) {
+      const data = await get(id)
+      if (Array.isArray(data?.data) && data.data.length) {
+        this.setState({
+          chat: {
+            values: data.data,
+            index: 0,
+            _loaded: now
+          }
+        })
+        return
+      }
+    }
+
+    if (!refresh && values.length) return
+
+    let prompt = ''
+    let roleSystem = ''
+    let roleUser = ''
+    if (this.isEp) {
+      prompt = MESUME_EP_PROMPT
+      roleSystem = `你正在和用户一起浏览条目《${this.group}》（可提及）的章节"${this.title}"的吐槽。请评论：`
+      roleUser = '最近班友们的吐槽：'
+
+      // 适当打乱数据, 让结果能呈现更多的不同
+      getRandomItems(
+        this.topicComments.list.filter(item => !(item.avatar || '').includes('icon.jpg')),
+        12
+      ).forEach(item => {
+        roleUser += `${removeSlogan(
+          getPlainText(getTopicMainFloorRawText('', item.message).slice(0, 32))
+        )}；`
+      })
+    } else {
+      prompt = MESUME_TOPIC_PROMPT
+      roleSystem = `你正在和用户一起浏览班友"${this.userName}"发布的帖子。请评论：`
+      roleUser = `标题：${getTopicMainFloorRawText(this.title, this.html)}`
+    }
+
+    this.setState({
+      chatLoading: true
+    })
+    const value = await completions(prompt, roleSystem, roleUser)
+    this.setState({
+      chatLoading: false
+    })
+    feedback()
+
+    if (!value) {
+      info('请求超时请重试')
+      return
+    }
+
+    const newValues: CompletionItem[] = toJS(values)
+    newValues.push({
+      text: value,
+      userId: this.userId || 0,
+      _loaded: now
+    })
+    if (newValues.length > 10) newValues.shift()
+
+    const { length } = newValues
+    this.setState({
+      chat: {
+        values: newValues,
+        index: length - 1,
+        _loaded: now
+      }
+    })
+    this.save()
+
+    // 长度1优先能让快照拥有数据; 长度5可以保证有比较多数据; 长度10为数据最大长度, 如果更新过就不再更新, 否则会一直更新
+    if (length === 1 || length === 5 || (length === 10 && !this._doChatUpdate)) {
+      update(id, {
+        data: newValues
+      })
+      this._doChatUpdate = true
+    }
   }
 }

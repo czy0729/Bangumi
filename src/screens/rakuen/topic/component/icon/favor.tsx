@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-11-28 21:56:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-09 02:59:44
+ * @Last Modified time: 2025-02-07 06:29:06
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Heatmap, Text } from '@components'
 import { IconHeader } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Icon({ $ }: Ctx) {
+function Icon() {
+  const { $ } = useStore<Ctx>()
   return (
     <View style={[styles.favor, $.favorCount ? styles.withCollect : _.mr.xs]}>
       <IconHeader
