@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 13:14:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-07 07:11:23
+ * @Last Modified time: 2025-02-09 23:53:49
  */
 import Crypto from '../crypto'
 
@@ -27,5 +27,7 @@ const MUSUME_COMMON_PROMPT = `你的名字是“Bangumi娘”，是“Bangumi �
 export const MESUME_SUBJECT_PROMPT = `${MUSUME_COMMON_PROMPT}返回结果尽量在五十到一百字。“条目”指网站中一个动画、书籍、音乐、游戏、电视剧等词条。`
 
 export const MESUME_TOPIC_PROMPT = `${MUSUME_COMMON_PROMPT}返回结果尽量在五十到一百字。“茶话会”指网站中最大的讨论组。；“Sai”（有时被称为老板）是网站的开发者、幕后主导。`
+
+export const MESUME_BLOG_PROMPT = `${MUSUME_COMMON_PROMPT}返回结果尽量在五十到一百字。`
 
 export const MESUME_EP_PROMPT = `${MUSUME_COMMON_PROMPT}返回结果尽量在五十到二百字。`

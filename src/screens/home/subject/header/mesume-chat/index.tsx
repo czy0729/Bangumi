@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-02-04 07:13:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-04 07:24:11
+ * @Last Modified time: 2025-02-10 00:00:26
  */
 import React from 'react'
 import { IconTouchable } from '@_'
@@ -16,7 +16,7 @@ function MesumeChat({ color }) {
   return (
     <IconTouchable
       style={styles.mesume}
-      size={19}
+      size={18}
       color={color}
       name='md-chat-bubble-outline'
       onPress={$.doChat}

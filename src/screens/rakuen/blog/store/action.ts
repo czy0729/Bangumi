@@ -2,15 +2,18 @@
  * @Author: czy0729
  * @Date: 2024-06-21 05:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-03 10:35:03
+ * @Last Modified time: 2025-02-09 23:53:54
  */
+import { toJS } from 'mobx'
 import { rakuenStore } from '@stores'
-import { feedback, info, removeHTMLTag } from '@utils'
+import { feedback, getTimestamp, info, removeHTMLTag } from '@utils'
 import { t } from '@utils/fetch'
-import { update } from '@utils/kv'
+import { completions, get, update } from '@utils/kv'
+import { MESUME_BLOG_PROMPT } from '@utils/kv/ds'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HOST, IOS } from '@constants'
-import { Fn, Id, TopicId } from '@types'
+import { getTopicMainFloorRawText } from '@screens/rakuen/topic/utils'
+import { CompletionItem, Fn, Id, TopicId } from '@types'
 import Fetch from './fetch'
 import { EXCLUDE_STATE } from './ds'
 
@@ -105,6 +108,63 @@ export default class Action extends Fetch {
       expands: expands.includes(id) ? expands.filter(item => item !== id) : [...expands, id]
     })
     this.save()
+  }
+
+  /** 显示锐评框 */
+  showChatModal = () => {
+    this.setState({
+      chatModalVisible: true
+    })
+    feedback(true)
+  }
+
+  /** 隐藏锐评框 */
+  hideChatModal = () => {
+    this.setState({
+      chatModalVisible: false
+    })
+  }
+
+  /** 前一个锐评 */
+  beforeChat = () => {
+    const { chat } = this.state
+    let { index } = chat
+    if (index === -1) return
+
+    if (index === 0) {
+      index = chat.values.length - 1
+    } else {
+      index -= 1
+    }
+    this.setState({
+      chat: {
+        index
+      }
+    })
+    this.save()
+
+    feedback(true)
+  }
+
+  /** 后一个锐评 */
+  nextChat = () => {
+    const { chat } = this.state
+    let { index } = chat
+    if (index === -1) return
+
+    if (index === chat.values.length - 1) {
+      index = 0
+    } else {
+      index += 1
+    }
+    this.setState({
+      chat: {
+        index
+      }
+    })
+    this.save()
+
+    feedback(true)
   }
 
   // -------------------- action --------------------
@@ -263,6 +323,82 @@ export default class Action extends Fetch {
 
         update(`favor_${key.replace('/', '_')}`, data)
       }
+    }
+  }
+
+  private _doChatUpdate = false
+
+  /** 锐评 */
+  doChat = async (refresh = false) => {
+    if (this.state.chatLoading || !this.blog._loaded) return
+
+    t('日志.聊天', {
+      blogId: this.blogId
+    })
+
+    this.showChatModal()
+
+    const now = getTimestamp()
+    const id = `completions_blog_${this.blogId.replace('/', '_')}` as const
+    const { values } = this.state.chat
+    if (!values.length) {
+      const data = await get(id)
+      if (Array.isArray(data?.data) && data.data.length) {
+        this.setState({
+          chat: {
+            values: data.data,
+            index: 0,
+            _loaded: now
+          }
+        })
+        return
+      }
+    }
+
+    if (!refresh && values.length) return
+
+    const prompt = MESUME_BLOG_PROMPT
+    const roleSystem = `你正在和用户一起浏览班友"${this.userName}"发布的日志。请评论：`
+    const roleUser = `标题：${getTopicMainFloorRawText(this.title, this.html)}`
+
+    this.setState({
+      chatLoading: true
+    })
+    const value = await completions(prompt, roleSystem, roleUser)
+    this.setState({
+      chatLoading: false
+    })
+    feedback()
+
+    if (!value) {
+      info('请求超时请重试')
+      return
+    }
+
+    const newValues: CompletionItem[] = toJS(values)
+    newValues.push({
+      text: value,
+      userId: this.userId || 0,
+      _loaded: now
+    })
+    if (newValues.length > 10) newValues.shift()
+
+    const { length } = newValues
+    this.setState({
+      chat: {
+        values: newValues,
+        index: length - 1,
+        _loaded: now
+      }
+    })
+    this.save()
+
+    // 长度1优先能让快照拥有数据; 长度5可以保证有比较多数据; 长度10为数据最大长度, 如果更新过就不再更新, 否则会一直更新
+    if (length === 1 || length === 5 || (length === 10 && !this._doChatUpdate)) {
+      update(id, {
+        data: newValues
+      })
+      this._doChatUpdate = true
     }
   }
 }

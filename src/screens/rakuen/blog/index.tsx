@@ -9,7 +9,7 @@ import { Component, Page } from '@components'
 import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { NavigationProps } from '@types'
-import Heatmaps from './component/heatmaps'
+import Extra from './component/extra'
 import List from './component/list'
 import Header from './header'
 import { useBlogPage } from './hooks'
@@ -25,7 +25,7 @@ const Blog = (props: NavigationProps) => {
           <List $={$} onScroll={onScroll} />
         </Page>
         <Header fixed={fixed} />
-        <Heatmaps />
+        <Extra />
       </StoreContext.Provider>
     </Component>
   ))

@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-06-21 05:26:49
  */
-import { Id, Loaded } from '@types'
+import { CompletionItem, Id, Loaded } from '@types'
 import { COMPONENT } from '../ds'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
@@ -28,12 +28,25 @@ export const EXCLUDE_STATE = {
   /** 云快照 */
   ota: {},
 
+  /** 是否显示锐评框 */
+  chatModalVisible: false,
+
+  /** 锐评请求中 */
+  chatLoading: false,
+
   showHeaderTitle: false
 }
 
 export const STATE = {
   /** 展开的子楼层 ID */
   expands: [],
+
+  /** 锐评 */
+  chat: {
+    values: [] as CompletionItem[],
+    index: -1,
+    _loaded: false as Loaded
+  },
 
   ...EXCLUDE_STATE,
   _loaded: false as Loaded

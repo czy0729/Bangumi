@@ -87,6 +87,7 @@ export default {
   '日志.回复失败': 'Blog.recoveryContent',
   '日志.删除回复': 'Blog.doDeleteReply',
   '日志.楼层跳转': 'Blog.scrollTo',
+  '日志.聊天': 'Blog.chat',
 
   // 社区指导原则
   '社区指导原则.跳转': 'UCG.to',
