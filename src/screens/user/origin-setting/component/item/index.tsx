@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-23 09:54:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 06:59:03
+ * @Last Modified time: 2025-02-12 06:27:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -42,6 +42,8 @@ const Item = ({
   const { edit } = $.state
   const isEdit =
     edit.type === type && ((id && edit.item.id === id) || (uuid && edit.item.uuid === uuid))
+
+  const isClient = !((url || '').indexOf('http') === 0)
   return (
     <>
       <View style={styles.container}>
@@ -137,6 +139,11 @@ const Item = ({
             <Text style={_.mt.sm} size={11} bold numberOfLines={1}>
               {name}
             </Text>
+            {isClient && (
+              <Text type='sub' size={10} lineHeight={12} bold>
+                客户端
+              </Text>
+            )}
             {(!!sort || !isBase) && (
               <Text type='sub' size={8} lineHeight={12} bold>
                 {sort ? `[${sort}] ` : ''}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-19 07:09:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 03:52:05
+ * @Last Modified time: 2025-02-12 06:24:04
  */
 export const COMPONENT = 'OriginSetting'
 
@@ -81,6 +81,14 @@ export const SITES_ANIME = [
     iconSquare: true,
     sort: 0,
     active: 1
+  },
+  {
+    id: 'anime|animeko',
+    name: 'Animeko',
+    url: 'ani://subjects/[ID]',
+    icon: require('@assets/images/icon/animeko.png'),
+    sort: 0,
+    active: 0
   },
   {
     id: 'anime|dmys3',
