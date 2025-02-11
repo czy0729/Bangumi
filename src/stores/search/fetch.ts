@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 15:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-30 17:15:47
+ * @Last Modified time: 2025-02-12 05:21:53
  */
 import { getTimestamp } from '@utils'
 import { fetchHTML } from '@utils/fetch'
@@ -80,10 +80,11 @@ export default class Fetch extends Computed {
   fetchRakuenSearch = async (q: string, withMessage: boolean = false) => {
     const data = await search(q, withMessage)
     if (data?.code === 200) {
+      const list = data?.data || []
       this.setState({
         rakuenSearch: {
           [`${q}|${withMessage}`]: {
-            list: (data?.data || []).sort((a: any, b: any) => b.id - a.id),
+            list: list.sort((a: any, b: any) => b.id - a.id),
             pagination: {
               page: 1,
               pageTotal: 1
@@ -92,6 +93,10 @@ export default class Fetch extends Computed {
           }
         }
       })
+
+      return list
     }
+
+    return null
   }
 }

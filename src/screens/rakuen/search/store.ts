@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:20:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-08 00:59:02
+ * @Last Modified time: 2025-02-12 05:23:04
  */
 import { computed, observable } from 'mobx'
 import { searchStore, systemStore } from '@stores'
-import { info, updateVisibleBottom } from '@utils'
+import { feedback, info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
 import store from '@utils/store'
 import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
@@ -107,7 +107,10 @@ export default class ScreenRakuenSearch extends store<typeof STATE> {
     this.save()
 
     try {
-      await searchStore.fetchRakuenSearch(value, true)
+      const data = await searchStore.fetchRakuenSearch(value, true)
+      feedback(true)
+
+      if (!data || !data?.length) info('没有查询到结果, 也有可能是搜索服务失效了')
     } catch (ex) {
       info('请稍候再查询')
     }

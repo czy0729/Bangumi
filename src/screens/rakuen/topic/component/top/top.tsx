@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-07 06:41:46
+ * @Last Modified time: 2025-02-12 05:25:55
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
@@ -122,13 +122,13 @@ const Top = memo(
                 </Touchable>
               </Flex>
             )}
-            {!!time && (
-              <Flex.Item>
+            <Flex.Item>
+              {!!time && (
                 <Text type='sub' size={13}>
                   {simpleTime(time)}
                 </Text>
-              </Flex.Item>
-            )}
+              )}
+            </Flex.Item>
             <WordCloud />
             <Heatmap right={74} id='帖子.跳转' to='Group' alias='小组' />
             <Heatmap id='帖子.跳转' to='Subject' alias='条目' transparent />
