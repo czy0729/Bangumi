@@ -9,9 +9,8 @@ import { Flex } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import Back from './back'
-import Friend from './friend'
-// import Member from './member'
 import MenuComp from './menu'
+import MesumeChat from './mesume-chat'
 import Milestone from './milestone'
 import WordCloud from './word-cloud'
 import { styles } from './styles'
@@ -21,9 +20,10 @@ function Menu() {
     <>
       <Back />
       <Flex style={[_.header.right, styles.right]}>
+        <MesumeChat />
         <WordCloud />
         <Milestone />
-        <Friend />
+        {/* <Friend /> */}
         {/* <Member /> */}
         <MenuComp />
       </Flex>

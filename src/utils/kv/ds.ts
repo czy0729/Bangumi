@@ -31,3 +31,5 @@ export const MESUME_TOPIC_PROMPT = `${MUSUME_COMMON_PROMPT}返回结果尽量在
 export const MESUME_BLOG_PROMPT = `${MUSUME_COMMON_PROMPT}返回结果尽量在五十到一百字。`
 
 export const MESUME_EP_PROMPT = `${MUSUME_COMMON_PROMPT}返回结果尽量在五十到二百字。`
+
+export const MESUME_ZONE_PROMPT = `${MUSUME_COMMON_PROMPT}返回结果尽量在五十到一百字。`

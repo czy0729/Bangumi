@@ -53,7 +53,7 @@ export const MesumeChat = ({
                   radius={_.radiusSm}
                   skeleton={false}
                 />
-                <Text style={_.mt.sm} size={12} bold align='center'>
+                <Text style={_.mt.sm} type='__plain__' size={12} bold shadow align='center'>
                   Bangumi娘
                 </Text>
               </Flex>

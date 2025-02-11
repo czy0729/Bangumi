@@ -15,8 +15,8 @@ export const styles = _.create({
     marginTop: _.md
   },
   badge: {
-    paddingVertical: 4,
-    paddingHorizontal: 8,
+    paddingVertical: 3,
+    paddingHorizontal: 7,
     marginRight: _.sm,
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.08)',

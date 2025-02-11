@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-11-30 02:04:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-01 10:32:55
+ * @Last Modified time: 2025-02-12 01:59:05
  */
 import { INIT_USERS } from '@stores/users/init'
 import { TIMELINE_TYPE } from '@constants'
-import { Loaded, TimeLineType } from '@types'
+import { CompletionItem, Loaded, TimeLineType } from '@types'
 import { COMPONENT } from '../ds'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
@@ -48,6 +48,12 @@ export const EXCLUDE_STATE = {
   /** 备注弹窗输入框 */
   remarkModalInput: '',
 
+  /** 是否显示锐评框 */
+  chatModalVisible: false,
+
+  /** 锐评请求中 */
+  chatLoading: false,
+
   /** 当前页面实例是否在路由栈中 */
   mounted: true
 }
@@ -58,6 +64,16 @@ export const STATE = {
 
   /** 是否最近活跃，用于判断是否显示该用户自定义头像和背景 */
   recent: {},
+
+  /** 锐评 */
+  chat: {
+    values: [] as CompletionItem[],
+    index: -1,
+    _loaded: false as Loaded
+  },
+
+  /** 成为好友的时间 */
+  friendStatus: '',
 
   ...EXCLUDE_STATE,
   _loaded: false as Loaded

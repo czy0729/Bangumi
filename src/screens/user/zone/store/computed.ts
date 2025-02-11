@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-08 12:49:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 01:13:14
+ * @Last Modified time: 2025-02-12 01:59:02
  */
 import { computed } from 'mobx'
 import { fixedHD, getCDNAvatar } from '@components/avatar/utils'
@@ -22,8 +22,19 @@ import { H_HEADER } from '@screens/user/v2/ds'
 import { ImageSource } from '@types'
 import { TABS, TABS_WITH_TINYGRAIL } from '../ds'
 import State from './state'
+import { EXCLUDE_STATE, NAMESPACE } from './ds'
 
 export default class Computed extends State {
+  /** 本地化 */
+  save = () => {
+    return this.saveStorage(this.namespace, EXCLUDE_STATE)
+  }
+
+  /** 页面唯一命名空间 */
+  @computed get namespace() {
+    return `${NAMESPACE}|${this.userId}`
+  }
+
   /** 标签页数据 */
   @computed get tabs() {
     return systemStore.setting.tinygrail ? TABS_WITH_TINYGRAIL : TABS
@@ -161,6 +172,18 @@ export default class Computed extends State {
   /** 用户备注 */
   @computed get userRemark() {
     return systemStore.userRemark(this.username)
+  }
+
+  /** 去除客户端高清头像背景的代码 */
+  @computed get content() {
+    let text = String(this.users.sign || '')
+      .replace(/<span style="font-size:0px; line-height:0px;">(.+?)<\/span>/g, '')
+      .replace(/\[(bg|avatar)\].*?\[\/\1\]/g, '')
+
+    // 以前是 font-size: 0, 后来网站貌似改掉了至少是 8px, 所以需要主动清理
+    text = text.replace(/<span style="font-size:8px; line-height:8px;"><\/span>/g, '').trim()
+
+    return text
   }
 
   /** 小圣杯 / 用户资产 */

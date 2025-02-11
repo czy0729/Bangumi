@@ -10,10 +10,9 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
-import { IOS } from '@constants'
 import { Component } from '../component'
 import { Touchable } from '../touchable'
-import { COMPONENT } from './ds'
+import { COMPONENT, DARK_THEME, LIGHT_THEME } from './ds'
 import { styles } from './styles'
 import { MaskProps } from './types'
 
@@ -28,15 +27,11 @@ export const Mask = ({ style, linear, onPress }: MaskProps) => {
       {linear ? (
         <LinearGradient
           style={stl(styles.linear, style)}
-          colors={[
-            `rgba(${_.colorPlainRaw.join()}, 0)`,
-            `rgba(${_.colorPlainRaw.join()}, ${_.select(0.75, 0.5)})`,
-            `rgba(${_.colorPlainRaw.join()}, 1)`
-          ]}
-          pointerEvents={IOS ? 'none' : 'auto'}
+          colors={_.select(LIGHT_THEME, DARK_THEME)}
+          pointerEvents='none'
         />
       ) : (
-        <Animated.View style={stl(styles.mask, style)} pointerEvents={IOS ? 'none' : 'auto'} />
+        <Animated.View style={stl(styles.mask, style)} pointerEvents='none' />
       )}
       <Touchable style={styles.press} useRN ripple={false} onPress={onPress} />
     </Component>

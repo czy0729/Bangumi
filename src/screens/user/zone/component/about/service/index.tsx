@@ -27,6 +27,15 @@ function Service() {
     })
   }
 
+  if ($.users.disconnectUrl) {
+    data.unshift({
+      label: '好友',
+      value: $.state.friendStatus || '查询时间',
+      color: _.colorMain,
+      href: ''
+    })
+  }
+
   if (!data.length) return null
 
   return (
@@ -42,24 +51,22 @@ function Service() {
                 }
               )}
             >
-              <Text size={10} type='__plain__' bold shadow>
+              <Text size={9} type='__plain__' bold shadow>
                 {item.label}
               </Text>
             </View>
             <Text
               size={11}
               bold
-              onPress={
-                item.label === 'VIP'
-                  ? () => {
-                      info('本标签只会在高级会员之间显示', 3)
-                    }
-                  : item.href
-                  ? () => {
-                      open(item.href)
-                    }
-                  : undefined
-              }
+              onPress={() => {
+                if (item.label === 'VIP') {
+                  info('本标签只会在高级会员之间显示', 3)
+                } else if (item.label === '好友') {
+                  $.logFriendStatus()
+                } else if (item.href) {
+                  open(item.href)
+                }
+              }}
             >
               {item.value}
             </Text>

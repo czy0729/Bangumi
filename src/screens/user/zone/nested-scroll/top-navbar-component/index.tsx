@@ -11,17 +11,17 @@ import { _, useStore } from '@stores'
 import { HTMLDecode } from '@utils'
 import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
-import { COMPONENT } from './ds'
+import { AVATAR_SIZE, COMPONENT } from './ds'
 import { styles } from './styles'
 
 function TopNavbarComponent() {
   const { $ } = useStore<Ctx>()
   return (
-    <Flex style={styles.topNavbar} justify='center'>
+    <Flex style={styles.topNavbar}>
       <Avatar
         key={String($.src)}
         style={styles.avatar}
-        size={28}
+        size={AVATAR_SIZE}
         src={$.src}
         fallbackSrc={$.usersInfo.avatar.large}
         borderWidth={0}

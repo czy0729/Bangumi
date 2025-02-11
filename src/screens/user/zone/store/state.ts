@@ -8,7 +8,7 @@ import { Animated } from 'react-native'
 import { observable } from 'mobx'
 import Store from '@utils/store'
 import { Params } from '../types'
-import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
+import { STATE } from './ds'
 
 export default class State extends Store<typeof STATE> {
   params: Params
@@ -16,8 +16,4 @@ export default class State extends Store<typeof STATE> {
   state = observable(STATE)
 
   scrollY = new Animated.Value(0)
-
-  save = () => {
-    return this.saveStorage(NAMESPACE, EXCLUDE_STATE)
-  }
 }

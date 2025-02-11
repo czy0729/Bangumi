@@ -9,7 +9,7 @@ import { WEB } from '@constants'
 import { H_HEADER, H_RADIUS_LINE, H_TABBAR } from '@screens/user/v2/ds'
 import Action from './action'
 import { updateTrackUserInfo } from './utils'
-import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
+import { EXCLUDE_STATE, STATE } from './ds'
 
 export { H_RADIUS_LINE, H_HEADER, H_TABBAR }
 
@@ -17,7 +17,7 @@ export { H_RADIUS_LINE, H_HEADER, H_TABBAR }
 class ScreenZone extends Action {
   init = async () => {
     const state: typeof STATE = {
-      ...(await this.getStorage(NAMESPACE)),
+      ...(await this.getStorage(this.namespace)),
       ...EXCLUDE_STATE,
       _loaded: true
     }

@@ -29,7 +29,6 @@ function Head({ style }: { style?: ViewStyle }) {
         <Join style={styles.l1} />
         <Sync style={styles.l2} />
         <Recent style={styles.l3} />
-        {/* <Character style={styles.r1} /> */}
         <Blogs style={styles.r1} />
         <Catalogs style={styles.r2} />
         <Remark style={styles.r3} />

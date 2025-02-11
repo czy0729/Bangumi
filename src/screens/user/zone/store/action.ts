@@ -4,12 +4,22 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-10-14 06:27:23
  */
+import { toJS } from 'mobx'
 import { systemStore, timelineStore, uiStore, userStore } from '@stores'
-import { feedback, info, loading } from '@utils'
+import { feedback, getTimestamp, info, loading } from '@utils'
 import { fetchHTML, t } from '@utils/fetch'
+import { completions, get, update } from '@utils/kv'
+import { MESUME_ZONE_PROMPT } from '@utils/kv/ds'
 import { webhookFriend } from '@utils/webhooks'
 import { HOST, MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants'
-import { Navigation, ScrollEvent, TimeLineScope, TimeLineType, TimeLineTypeCn } from '@types'
+import {
+  CompletionItem,
+  Navigation,
+  ScrollEvent,
+  TimeLineScope,
+  TimeLineType,
+  TimeLineTypeCn
+} from '@types'
 import Fetch from './fetch'
 
 export default class Action extends Fetch {
@@ -233,13 +243,14 @@ export default class Action extends Fetch {
 
   /** 显示好友状态 (在 timelineStore 查找添加好友的时间, 最多请求 3 页) */
   logFriendStatus = async () => {
+    const hide = loading('查询好友信息中...')
+    feedback(true)
+
     const { username } = this.usersInfo
     const query = {
       scope: MODEL_TIMELINE_SCOPE.getValue<TimeLineScope>('自己'),
       type: MODEL_TIMELINE_TYPE.getValue<TimeLineType>('好友')
     }
-
-    const hide = loading('查询好友信息中...')
     let data = await timelineStore.fetchTimeline(query, true)
     let find = data.list.find(item => item?.p3?.url?.[0]?.includes(`/user/${username}`))
 
@@ -247,15 +258,84 @@ export default class Action extends Fetch {
       await timelineStore.fetchTimeline(query)
       await timelineStore.fetchTimeline(query)
       data = await timelineStore.fetchTimeline(query)
+      feedback(true)
     }
     find = data.list.find(item => item?.p3?.url?.[0]?.includes(`/user/${username}`))
 
     hide()
-    if (!find) return info('是你的好友')
+    if (!find) {
+      info('是你的好友')
+      this.setState({
+        friendStatus: '很久之前'
+      })
+      this.save()
+      return
+    }
 
     const { time } = find
-    info(`${time.split(' · ')[0]}加为了好友`)
-    return
+    const friendStatus = time.split(' · ')[0]
+    info(`${friendStatus}加为了好友`)
+    this.setState({
+      friendStatus
+    })
+    this.save()
+  }
+
+  /** 显示锐评框 */
+  showChatModal = () => {
+    this.setState({
+      chatModalVisible: true
+    })
+    feedback(true)
+  }
+
+  /** 隐藏锐评框 */
+  hideChatModal = () => {
+    this.setState({
+      chatModalVisible: false
+    })
+  }
+
+  /** 前一个锐评 */
+  beforeChat = () => {
+    const { chat } = this.state
+    let { index } = chat
+    if (index === -1) return
+
+    if (index === 0) {
+      index = chat.values.length - 1
+    } else {
+      index -= 1
+    }
+    this.setState({
+      chat: {
+        index
+      }
+    })
+    this.save()
+
+    feedback(true)
+  }
+
+  /** 后一个锐评 */
+  nextChat = () => {
+    const { chat } = this.state
+    let { index } = chat
+    if (index === -1) return
+
+    if (index === chat.values.length - 1) {
+      index = 0
+    } else {
+      index += 1
+    }
+    this.setState({
+      chat: {
+        index
+      }
+    })
+    this.save()
+
+    feedback(true)
   }
 
   /** 添加好友 */
@@ -306,5 +386,81 @@ export default class Action extends Fetch {
 
     this.fetchUsersTimeline(true)
     return result
+  }
+
+  private _doChatUpdate = false
+
+  /** 锐评 */
+  doChat = async (refresh = false) => {
+    if (this.state.chatLoading || !this.username) return
+
+    t('空间.聊天', {
+      username: this.username
+    })
+
+    this.showChatModal()
+
+    const now = getTimestamp()
+    const id = `completions_zone_${this.username}` as const
+    const { values } = this.state.chat
+    if (!values.length) {
+      const data = await get(id)
+      if (Array.isArray(data?.data) && data.data.length) {
+        this.setState({
+          chat: {
+            values: data.data,
+            index: 0,
+            _loaded: now
+          }
+        })
+        return
+      }
+    }
+
+    if (!refresh && values.length) return
+
+    const roleSystem = `你正在和用户一起浏览班友"${this.nickname}"（可提及）的个人空间，请评论：`
+    let roleUser = `注册时间：${this.users.join}。`
+    if (this.content) roleUser += `个人简介：${this.content.slice(0, 400)}。`
+
+    this.setState({
+      chatLoading: true
+    })
+    const value = await completions(MESUME_ZONE_PROMPT, roleSystem, roleUser)
+    this.setState({
+      chatLoading: false
+    })
+    feedback()
+
+    if (!value) {
+      info('请求超时请重试')
+      return
+    }
+
+    const newValues: CompletionItem[] = toJS(values)
+    newValues.push({
+      text: value,
+      userId: this.userId || 0,
+      _loaded: now
+    })
+    if (newValues.length > 10) newValues.shift()
+
+    const { length } = newValues
+    this.setState({
+      chat: {
+        values: newValues,
+        index: length - 1,
+        _loaded: now
+      }
+    })
+    this.save()
+
+    // 长度1优先能让快照拥有数据; 长度5可以保证有比较多数据; 长度10为数据最大长度, 如果更新过就不再更新, 否则会一直更新
+    if (length === 1 || length === 5 || (length === 10 && !this._doChatUpdate)) {
+      update(id, {
+        data: newValues
+      })
+      this._doChatUpdate = true
+    }
   }
 }
