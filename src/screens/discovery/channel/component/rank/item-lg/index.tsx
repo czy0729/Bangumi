@@ -21,7 +21,7 @@ import { memoStyles } from './styles'
 function ItemLg({ item, index }: { item: ChannelRankItem; index: number }) {
   const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
-  const collection = collectionStore.collect(item.id)
+  const collection = collectionStore.collect(item.id, $.typeCn) || ''
   const value = index + 1
   return (
     <Touchable

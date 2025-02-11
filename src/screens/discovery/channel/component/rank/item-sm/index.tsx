@@ -21,18 +21,9 @@ import { memoStyles } from './styles'
 function ItemSm({ item, index }: { item: ChannelRankItem; index: number }) {
   const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
-  let collection = collectionStore.collect(item.id) || ''
-  if ($.typeCn === '书籍') {
-    collection = collection.replace('看', '读')
-  } else if ($.typeCn === '音乐') {
-    collection = collection.replace('看', '听')
-  } else if ($.typeCn === '游戏') {
-    collection = collection.replace('看', '玩')
-  }
-
+  const collection = collectionStore.collect(item.id, $.typeCn) || ''
   const isMusic = $.typeCn === '音乐'
   const numberOfLines = isMusic ? 2 : 3
-
   const value = index + 4
   return (
     <View style={stl(styles.item, index % 2 !== 0 && styles.side)}>
