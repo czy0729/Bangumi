@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-10-30 16:45:06
  */
-import { usersStore } from '@stores'
+import { systemStore, usersStore } from '@stores'
 import { debounce, info, loading, t2s, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
 import { MODEL_SEARCH_CAT, MODEL_SEARCH_LEGACY } from '@constants'
@@ -72,7 +72,7 @@ export default class Action extends Fetch {
 
   /** 输入框改变 */
   onChangeText = (text: string) => {
-    if (this.state.t2s) text = t2s(text)
+    if (systemStore.setting.s2t && this.state.t2s) text = t2s(text)
 
     const state: Partial<typeof EXCLUDE_STATE> = {
       _value: text

@@ -9,6 +9,7 @@ import {
   Keyboard,
   NativeSyntheticEvent,
   TextInput as RNTextInput,
+  TextInputProps,
   TextInputSubmitEditingEventData,
   TouchableWithoutFeedback,
   View
@@ -18,6 +19,7 @@ import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { FROZEN_FN, IOS } from '@constants'
+import { Override } from '@types'
 import { Component } from '../component'
 import Clear from './clear'
 import TextInput from './text-input'
@@ -199,7 +201,12 @@ export const Input = observer(
     get overrideProps() {
       const { inputStyle, numberOfLines, placeholderTextColor, onFocus, onScrollIntoViewIfNeeded } =
         this.props
-      const props: any = {
+      const props: Override<
+        Partial<TextInputProps>,
+        {
+          forwardRef: any
+        }
+      > = {
         forwardRef: this.forwardRef,
         numberOfLines,
         allowFontScaling: false,
