@@ -18,7 +18,7 @@ function FilterYear() {
     <ToolBar.Popover
       data={FILTER_YEAR_DS}
       iconColor={_.colorDesc}
-      text={filterYear === '不限' ? '年份' : filterYear}
+      text={filterYear === '不限' ? '年份' : String(filterYear)}
       type='desc'
       onSelect={(title: string | number) => $.onFilterChange('filterYear', title)}
     />

@@ -68,16 +68,22 @@ export default class Computed extends State {
     }
 
     if (filterYear && filterYear !== '不限') {
-      if (filterYear === '近1年') {
+      if (String(filterYear) === '近1年') {
         const ts = getTimestamp()
-        const day = Number(`${Number(date('Y', ts)) - 1}${date('md', ts)}`)
-        list = list.filter(item => Number(item.last.replace(/-/g, '')) >= day)
-      } else if (filterYear === '近3年') {
+        const day = Number(`${String(Number(date('Y', ts)) - 1)}${String(date('md', ts))}`)
+        list = list.filter(item => {
+          const lastDate = String(item.last).replace(/-/g, '')
+          return !isNaN(Number(lastDate)) && Number(lastDate) >= day
+        })
+      } else if (String(filterYear) === '近3年') {
         const ts = getTimestamp()
-        const day = Number(`${Number(date('Y', ts)) - 3}${date('md', ts)}`)
-        list = list.filter(item => Number(item.last.replace(/-/g, '')) >= day)
+        const day = Number(`${String(Number(date('Y', ts)) - 3)}${String(date('md', ts))}`)
+        list = list.filter(item => {
+          const lastDate = String(item.last).replace(/-/g, '')
+          return !isNaN(Number(lastDate)) && Number(lastDate) >= day
+        })
       } else {
-        list = list.filter(item => item.last.includes(String(filterYear)))
+        list = list.filter(item => String(item.last).includes(String(filterYear)))
       }
     }
 
