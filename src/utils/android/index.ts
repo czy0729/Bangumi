@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /*
  * @Author: czy0729
  * @Date: 2021-07-10 16:08:30
@@ -13,3 +14,11 @@ export async function saveBase64ImageToCameraRoll(
   _success: Fn = FROZEN_FN,
   _fail: Fn = FROZEN_FN
 ) {}
+
+export async function isHighRefreshRateSupported(): Promise<boolean> {
+  return false
+}
+
+export async function enableHighRefreshRate(): Promise<boolean> {
+  return false
+}
