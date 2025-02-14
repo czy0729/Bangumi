@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-28 17:51:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-21 12:33:13
+ * @Last Modified time: 2025-02-14 12:40:14
  */
 import React from 'react'
 import { Avatar, Flex, Text, Touchable } from '@components'
@@ -101,9 +101,10 @@ function Log({
                     @{HTMLDecode(userName)}
                   </Text>
                   <Flex.Item style={_.ml.xs}>
-                    <Text type='bid' size={10} numberOfLines={1}>
+                    <Text type={type === 4 ? 'ask' : 'bid'} size={10} numberOfLines={1}>
                       +{formatNumber(amount, 0)}
                       {type === 3 && ' 精炼成功'}
+                      {type === 4 && ' 精炼失败'}
                     </Text>
                   </Flex.Item>
                 </Flex>

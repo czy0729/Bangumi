@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-10-23 11:33:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 02:16:33
+ * @Last Modified time: 2025-02-14 13:21:11
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Divider, Flex, Heatmap, Highlight, Text, Touchable } from '@components'
 import { Avatar, InView } from '@_'
 import { _, useStore } from '@stores'
-import { getTimestamp, lastDate } from '@utils'
+import { getTimestamp, lastDate, removeHTMLTag } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../types'
@@ -54,7 +54,7 @@ function Item({ index, id, title, message, avatar, userId, userName, time, group
         </Flex>
       </Touchable>
       <Highlight lineHeight={16} value={value}>
-        {content}
+        {removeHTMLTag(content)}
       </Highlight>
       {!index && <Heatmap id='帖子搜索.跳转' />}
     </View>
