@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2025-02-05 05:19:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-06 07:33:38
+ * @Last Modified time: 2025-02-14 09:28:42
  */
-import { Fn } from '@types'
+import { Fn, Loaded } from '@types'
 
 export type Props = {
   /** 是否显示锐评框 */
@@ -12,6 +12,9 @@ export type Props = {
 
   /** 当前锐评文本 */
   value: string
+
+  /** 文本生成的时间戳 */
+  time?: Loaded
 
   /** 未有文本前的占位 */
   placeholder?: string

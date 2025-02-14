@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-02-02 17:27:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-07 07:32:59
+ * @Last Modified time: 2025-02-14 12:11:53
  */
 import { _ } from '@stores'
 
@@ -50,6 +50,11 @@ export const memoStyles = _.memoStyles(() => ({
     borderWidth: 5,
     borderRadius: _.radiusMd,
     borderColor: _.select('rgba(255, 255, 255, 0.5)', 'rgba(255, 255, 255, 0.88)')
+  },
+  time: {
+    marginTop: -1,
+    marginRight: 4,
+    opacity: 0.64
   },
   toolBar: {
     marginTop: _.sm,

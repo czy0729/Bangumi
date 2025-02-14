@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2025-02-02 17:26:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-07 07:32:48
+ * @Last Modified time: 2025-02-14 12:12:19
  */
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { Accordion, Avatar, Flex, Loading, Mask, Text } from '@components'
 import { IconTouchable } from '@_/icon'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
+import { info, lastDate } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { GROUP_THUMB_MAP } from '@assets/images'
 import { memoStyles } from './styles'
@@ -20,6 +21,7 @@ export { MesumeChatProps }
 export const MesumeChat = ({
   show,
   value,
+  time,
   placeholder = 'Bangumi娘思考中...',
   loading,
   onBefore,
@@ -27,6 +29,20 @@ export const MesumeChat = ({
   onRefresh,
   onClose
 }: MesumeChatProps) => {
+  const [lastRefreshTime, setLastRefreshTime] = useState<number | null>(null)
+  const handleRefresh = useCallback(() => {
+    if (!systemStore.advance) {
+      const now = Date.now()
+      if (lastRefreshTime && now - lastRefreshTime < 30000) {
+        info('普通用户有 30 秒刷新间隔')
+        return
+      }
+
+      setLastRefreshTime(now)
+    }
+    onRefresh?.()
+  }, [lastRefreshTime, onRefresh])
+
   return useObserver(() => {
     const styles = memoStyles()
 
@@ -89,8 +105,13 @@ export const MesumeChat = ({
                       />
                     </Flex>
                   </Flex.Item>
+                  {!!time && typeof time === 'number' && (
+                    <Text style={styles.time} type='__plain__' size={12} bold shadow align='right'>
+                      {lastDate(time)}
+                    </Text>
+                  )}
                   {loading ? (
-                    <View style={_.mr.sm}>
+                    <View style={_.mh.sm}>
                       <Loading.Medium color='rgba(255, 255, 255, 0.8)' />
                     </View>
                   ) : (
@@ -98,7 +119,7 @@ export const MesumeChat = ({
                       name='md-refresh'
                       size={20}
                       color='rgba(255, 255, 255, 0.64)'
-                      onPress={onRefresh}
+                      onPress={handleRefresh}
                     />
                   )}
                 </Flex>
