@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-12 13:36:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-15 01:48:49
+ * @Last Modified time: 2025-02-14 08:49:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,6 +10,7 @@ import { Flex, Heatmap, Iconfont, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { stl, toFixed } from '@utils'
 import { memo } from '@utils/decorators'
+import VibTrend from '../vib-trend'
 import { getDeviation, getDispute, getHeight } from './utils'
 import { COMPONENT_MAIN, DEFAULT_PROPS, DEFAULT_RATES, MESSAGES } from './ds'
 
@@ -112,9 +113,9 @@ const Chart = memo(
               <Text size={12} lineHeight={12} type='sub'>
                 {getDispute(deviation)}{' '}
               </Text>
-              <Iconfont style={_.ml.xs} name='md-info-outline' size={16} />
             </Flex>
           </Touchable>
+          <VibTrend />
         </Flex>
       </>
     )

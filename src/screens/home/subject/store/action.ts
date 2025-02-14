@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-06 07:31:41
+ * @Last Modified time: 2025-02-12 05:34:49
  */
 import { toJS } from 'mobx'
 import { StatusBar } from '@components'
@@ -1442,7 +1442,7 @@ export default class Action extends Fetch {
 
     const roleSystem = `以下是条目《${this.cn}》（可提及），当前全站评分为${
       this.rating.score || '-'
-    }，其中最近班友的吐槽（每个换行为一个，若班友进行过评分在最前方使用了中括号标记，满分为十分），请总结条目当前的风评：`
+    }，其中最近班友的吐槽（每个换行为一个，若班友进行过评分在最前方使用了中括号标记，满分为十分），请总结条目当前的风评，但请勿剧透：`
 
     let roleUser = ''
 
