@@ -2,16 +2,18 @@
  * @Author: czy0729
  * @Date: 2025-02-02 17:26:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-14 12:12:19
+ * @Last Modified time: 2025-02-16 07:28:17
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
-import { Accordion, Avatar, Flex, Loading, Mask, Text } from '@components'
+import { Accordion, Avatar, Flex, Loading, Mask, Text, Touchable } from '@components'
 import { IconTouchable } from '@_/icon'
 import { _, systemStore } from '@stores'
-import { info, lastDate } from '@utils'
+import { feedback, info, lastDate } from '@utils'
+import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
 import { GROUP_THUMB_MAP } from '@assets/images'
+import { MUSUME_CONFIG, MUSUME_DATA } from './ds'
 import { memoStyles } from './styles'
 import { Props as MesumeChatProps } from './types'
 
@@ -22,7 +24,7 @@ export const MesumeChat = ({
   show,
   value,
   time,
-  placeholder = 'Bangumi娘思考中...',
+  placeholder = '思考中...',
   loading,
   onBefore,
   onNext,
@@ -30,6 +32,7 @@ export const MesumeChat = ({
   onClose
 }: MesumeChatProps) => {
   const [lastRefreshTime, setLastRefreshTime] = useState<number | null>(null)
+  const [showPannel, setShowPannel] = useState(false)
   const handleRefresh = useCallback(() => {
     if (!systemStore.advance) {
       const now = Date.now()
@@ -45,35 +48,83 @@ export const MesumeChat = ({
 
   return useObserver(() => {
     const styles = memoStyles()
+    const { musumePrompt } = systemStore.setting
 
     let size = 14
-    const text = value ? value.trim() : placeholder
+    const text = value ? value.trim() : `${MUSUME_CONFIG[musumePrompt].name}${placeholder}`
     if (text.length >= 300) {
       size -= 2
     } else if (text.length >= 200) {
       size -= 1
     }
 
+    const avatarProps = {
+      size: 52,
+      borderWidth: 2,
+      borderColor: _.select(_.colorBorder, 'rgba(255, 255, 255, 0.88)'),
+      radius: _.radiusSm,
+      skeleton: false
+    } as const
+    const nameProps = {
+      style: _.mt.sm,
+      type: '__plain__',
+      size: 12,
+      bold: true,
+      shadow: true,
+      align: 'center'
+    } as const
+
     return (
       <>
         {show && <Mask style={styles.mask} linear onPress={onClose} />}
         <View style={styles.container} pointerEvents='box-none'>
           <Accordion expand={show}>
-            <Flex style={styles.item} align='start'>
-              <Flex style={styles.avatar} direction='column'>
-                <Avatar
-                  src={GROUP_THUMB_MAP.mesume_icon}
-                  size={52}
-                  borderWidth={2}
-                  borderColor={_.select(_.colorBorder, 'rgba(255, 255, 255, 0.88)')}
-                  radius={_.radiusSm}
-                  skeleton={false}
-                />
-                <Text style={_.mt.sm} type='__plain__' size={12} bold shadow align='center'>
-                  Bangumi娘
-                </Text>
+            {showPannel && (
+              <Flex>
+                {MUSUME_DATA.filter(item => item !== musumePrompt).map(item => {
+                  const config = MUSUME_CONFIG[item]
+                  return (
+                    <Touchable
+                      key={item}
+                      onPress={() => {
+                        systemStore.setSetting('musumePrompt', item)
+                        setShowPannel(!showPannel)
+                        setTimeout(() => {
+                          feedback(true)
+
+                          t('其他.切换人格', {
+                            value: item
+                          })
+                        }, 0)
+                      }}
+                    >
+                      <Flex style={styles.avatar} direction='column'>
+                        <Avatar {...avatarProps} src={GROUP_THUMB_MAP[config.icon]} />
+                        <Text {...nameProps}>{config.name}</Text>
+                      </Flex>
+                    </Touchable>
+                  )
+                })}
               </Flex>
-              <Flex.Item style={styles.content}>
+            )}
+            <Flex style={styles.item} align='start'>
+              <Flex key={musumePrompt} style={styles.avatar} direction='column'>
+                <Touchable onPress={() => setShowPannel(!showPannel)}>
+                  <Avatar
+                    {...avatarProps}
+                    src={GROUP_THUMB_MAP[MUSUME_CONFIG[musumePrompt].icon]}
+                  />
+                </Touchable>
+                <Text {...nameProps}>{MUSUME_CONFIG[musumePrompt].name}</Text>
+              </Flex>
+              <Flex.Item
+                style={[
+                  styles.content,
+                  {
+                    backgroundColor: MUSUME_CONFIG[musumePrompt].color
+                  }
+                ]}
+              >
                 {text.split(`\n\n`).map((item, index) => (
                   <Text
                     key={index}

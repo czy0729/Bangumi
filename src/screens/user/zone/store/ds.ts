@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-30 02:04:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-12 01:59:05
+ * @Last Modified time: 2025-02-16 07:45:37
  */
 import { INIT_USERS } from '@stores/users/init'
 import { TIMELINE_TYPE } from '@constants'
@@ -67,7 +67,9 @@ export const STATE = {
 
   /** 锐评 */
   chat: {
-    values: [] as CompletionItem[],
+    bangumi: [] as CompletionItem[],
+    burakkuSakura: [] as CompletionItem[],
+    miku: [] as CompletionItem[],
     index: -1,
     _loaded: false as Loaded
   },

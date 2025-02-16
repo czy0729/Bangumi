@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-04-08 18:28:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-14 06:27:23
+ * @Last Modified time: 2025-02-16 07:47:37
  */
 import { toJS } from 'mobx'
 import { systemStore, timelineStore, uiStore, userStore } from '@stores'
 import { feedback, getTimestamp, info, loading } from '@utils'
 import { fetchHTML, t } from '@utils/fetch'
 import { completions, get, update } from '@utils/kv'
-import { MESUME_ZONE_PROMPT } from '@utils/kv/ds'
+import { MUSUME_PROMPT, MUSUME_ZONE_PROMPT } from '@utils/kv/ds'
 import { webhookFriend } from '@utils/webhooks'
 import { HOST, MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants'
 import {
@@ -298,12 +298,11 @@ export default class Action extends Fetch {
 
   /** 前一个锐评 */
   beforeChat = () => {
-    const { chat } = this.state
-    let { index } = chat
+    let { index } = this.state.chat
     if (index === -1) return
 
     if (index === 0) {
-      index = chat.values.length - 1
+      index = this.currentChatValues.length - 1
     } else {
       index -= 1
     }
@@ -319,11 +318,10 @@ export default class Action extends Fetch {
 
   /** 后一个锐评 */
   nextChat = () => {
-    const { chat } = this.state
-    let { index } = chat
+    let { index } = this.state.chat
     if (index === -1) return
 
-    if (index === chat.values.length - 1) {
+    if (index === this.currentChatValues.length - 1) {
       index = 0
     } else {
       index += 1
@@ -400,15 +398,18 @@ export default class Action extends Fetch {
 
     this.showChatModal()
 
+    const { musumePrompt } = systemStore.setting
+    let id = 'completions_zone'
+    if (musumePrompt !== 'bangumi') id += `_${musumePrompt}`
+    id += `_${this.username}`
+
     const now = getTimestamp()
-    const id = `completions_zone_${this.username}` as const
-    const { values } = this.state.chat
-    if (!values.length) {
+    if (!this.currentChatValues.length) {
       const data = await get(id)
       if (Array.isArray(data?.data) && data.data.length) {
         this.setState({
           chat: {
-            values: data.data,
+            [musumePrompt]: data.data,
             index: 0,
             _loaded: now
           }
@@ -417,7 +418,7 @@ export default class Action extends Fetch {
       }
     }
 
-    if (!refresh && values.length) return
+    if (!refresh && this.currentChatValues.length) return
 
     const roleSystem = `你正在和用户一起浏览班友"${this.nickname}"（可提及）的个人空间，请评论：`
     let roleUser = `注册时间：${this.users.join}。`
@@ -426,7 +427,11 @@ export default class Action extends Fetch {
     this.setState({
       chatLoading: true
     })
-    const value = await completions(MESUME_ZONE_PROMPT, roleSystem, roleUser)
+    const value = await completions(
+      `${MUSUME_PROMPT[musumePrompt]}${MUSUME_ZONE_PROMPT}`,
+      roleSystem,
+      roleUser
+    )
     this.setState({
       chatLoading: false
     })
@@ -437,7 +442,7 @@ export default class Action extends Fetch {
       return
     }
 
-    const newValues: CompletionItem[] = toJS(values)
+    const newValues: CompletionItem[] = toJS(this.currentChatValues)
     newValues.push({
       text: value,
       userId: this.userId || 0,
@@ -448,7 +453,7 @@ export default class Action extends Fetch {
     const { length } = newValues
     this.setState({
       chat: {
-        values: newValues,
+        [musumePrompt]: newValues,
         index: length - 1,
         _loaded: now
       }

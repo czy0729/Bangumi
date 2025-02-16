@@ -129,7 +129,9 @@ export const STATE = {
 
   /** 锐评 */
   chat: {
-    values: [] as CompletionItem[],
+    bangumi: [] as CompletionItem[],
+    burakkuSakura: [] as CompletionItem[],
+    miku: [] as CompletionItem[],
     index: -1,
     _loaded: false as Loaded
   },

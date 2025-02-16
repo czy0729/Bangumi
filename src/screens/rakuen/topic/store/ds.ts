@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-28 17:50:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-07 06:46:07
+ * @Last Modified time: 2025-02-16 07:19:27
  */
 import { _ } from '@stores'
 import { Comments, Topic } from '@stores/rakuen/types'
@@ -110,7 +110,9 @@ export const STATE = {
 
   /** 锐评 */
   chat: {
-    values: [] as CompletionItem[],
+    bangumi: [] as CompletionItem[],
+    burakkuSakura: [] as CompletionItem[],
+    miku: [] as CompletionItem[],
     index: -1,
     _loaded: false as Loaded
   },

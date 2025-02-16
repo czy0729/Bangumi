@@ -11,6 +11,8 @@ export const GROUP_THUMB_MAP = {
   mesume_0: require('@assets/images/mesume_0.png'),
   mesume_icon: require('@assets/images/mesume_icon.png'),
   circle: require('@assets/images/circle.png'),
+  burakku_sakura_icon: require('@assets/images/burakku_sakura.png'),
+  miku_icon: require('@assets/images/miku.png'),
   '//lain.bgm.tv/pic/icon/s/000/00/00/11.jpg': require('@assets/images/group/a.jpg'),
   '//lain.bgm.tv/pic/icon/s/000/00/00/2.jpg': require('@assets/images/group/forum.jpg'),
   '//lain.bgm.tv/pic/icon/s/000/00/03/364.jpg': require('@assets/images/group/boring.jpg'),

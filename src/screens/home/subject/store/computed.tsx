@@ -1347,4 +1347,8 @@ export default class Computed extends State {
     data.push(`${TITLE_COMMENT} (${this.commentLength}+)`)
     return freeze(data)
   }
+
+  @computed get currentChatValues() {
+    return this.state.chat[systemStore.setting.musumePrompt] || []
+  }
 }

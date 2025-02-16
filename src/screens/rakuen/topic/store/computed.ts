@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:01:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-07 06:26:17
+ * @Last Modified time: 2025-02-16 07:19:40
  */
 import { computed } from 'mobx'
 import { rakuenStore, subjectStore, systemStore, usersStore, userStore } from '@stores'
@@ -451,5 +451,9 @@ export default class Computed extends State {
 
   @computed get hm() {
     return [this.url, 'Topic'] as const
+  }
+
+  @computed get currentChatValues() {
+    return this.state.chat[systemStore.setting.musumePrompt] || []
   }
 }

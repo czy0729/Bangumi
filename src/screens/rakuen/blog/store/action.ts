@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-06-21 05:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-09 23:53:54
+ * @Last Modified time: 2025-02-16 09:09:19
  */
 import { toJS } from 'mobx'
-import { rakuenStore } from '@stores'
+import { rakuenStore, systemStore } from '@stores'
 import { feedback, getTimestamp, info, removeHTMLTag } from '@utils'
 import { t } from '@utils/fetch'
 import { completions, get, update } from '@utils/kv'
-import { MESUME_BLOG_PROMPT } from '@utils/kv/ds'
+import { MUSUME_BLOG_PROMPT, MUSUME_PROMPT } from '@utils/kv/ds'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HOST, IOS } from '@constants'
 import { getTopicMainFloorRawText } from '@screens/rakuen/topic/utils'
@@ -127,12 +127,11 @@ export default class Action extends Fetch {
 
   /** 前一个锐评 */
   beforeChat = () => {
-    const { chat } = this.state
-    let { index } = chat
+    let { index } = this.state.chat
     if (index === -1) return
 
     if (index === 0) {
-      index = chat.values.length - 1
+      index = this.currentChatValues.length - 1
     } else {
       index -= 1
     }
@@ -148,11 +147,10 @@ export default class Action extends Fetch {
 
   /** 后一个锐评 */
   nextChat = () => {
-    const { chat } = this.state
-    let { index } = chat
+    let { index } = this.state.chat
     if (index === -1) return
 
-    if (index === chat.values.length - 1) {
+    if (index === this.currentChatValues.length - 1) {
       index = 0
     } else {
       index += 1
@@ -338,15 +336,18 @@ export default class Action extends Fetch {
 
     this.showChatModal()
 
+    const { musumePrompt } = systemStore.setting
+    let id = 'completions_blog'
+    if (musumePrompt !== 'bangumi') id += `_${musumePrompt}`
+    id += `_${this.blogId.replace('/', '_')}`
+
     const now = getTimestamp()
-    const id = `completions_blog_${this.blogId.replace('/', '_')}` as const
-    const { values } = this.state.chat
-    if (!values.length) {
+    if (!this.currentChatValues.length) {
       const data = await get(id)
       if (Array.isArray(data?.data) && data.data.length) {
         this.setState({
           chat: {
-            values: data.data,
+            [musumePrompt]: data.data,
             index: 0,
             _loaded: now
           }
@@ -355,9 +356,9 @@ export default class Action extends Fetch {
       }
     }
 
-    if (!refresh && values.length) return
+    if (!refresh && this.currentChatValues.length) return
 
-    const prompt = MESUME_BLOG_PROMPT
+    const prompt = `${MUSUME_PROMPT[musumePrompt]}${MUSUME_BLOG_PROMPT}`
     const roleSystem = `你正在和用户一起浏览班友"${this.userName}"发布的日志。请评论：`
     const roleUser = `标题：${getTopicMainFloorRawText(this.title, this.html)}`
 
@@ -375,7 +376,7 @@ export default class Action extends Fetch {
       return
     }
 
-    const newValues: CompletionItem[] = toJS(values)
+    const newValues: CompletionItem[] = toJS(this.currentChatValues)
     newValues.push({
       text: value,
       userId: this.userId || 0,
@@ -386,7 +387,7 @@ export default class Action extends Fetch {
     const { length } = newValues
     this.setState({
       chat: {
-        values: newValues,
+        [musumePrompt]: newValues,
         index: length - 1,
         _loaded: now
       }

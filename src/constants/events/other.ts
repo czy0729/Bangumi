@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:41:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-07 03:51:54
+ * @Last Modified time: 2025-02-16 07:16:10
  */
 
 /** Other */
@@ -25,6 +25,7 @@ export default {
   '其他.批量添加日历': 'Other.batchSaveCalenderEvent',
   '其他.重新授权': 'Other.reOauth',
   '其他.自定义跳转': 'Other.onAction',
+  '其他.切换人格': 'Other.musumePrompt',
   '其他.Webhooks': 'Other.webhooks',
 
   // AC搜索

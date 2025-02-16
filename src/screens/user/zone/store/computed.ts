@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-08 12:49:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-12 01:59:02
+ * @Last Modified time: 2025-02-16 07:45:52
  */
 import { computed } from 'mobx'
 import { fixedHD, getCDNAvatar } from '@components/avatar/utils'
@@ -213,5 +213,9 @@ export default class Computed extends State {
     if (!userStore.isDeveloper) return ''
 
     return systemStore.advanceDetail[this.userId || this.username]
+  }
+
+  @computed get currentChatValues() {
+    return this.state.chat[systemStore.setting.musumePrompt] || []
   }
 }

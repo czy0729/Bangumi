@@ -4,6 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-02-06 07:29:36
  */
+import { MUSUME_PROMPT } from '@utils/kv/ds'
 import {
   IOS,
   MODEL_SETTING_CDN_ORIGIN,
@@ -405,6 +406,9 @@ export const INIT_SETTING = {
 
   /** 翻译引擎 */
   translateEngine: 'baidu' as 'baidu' | 'deeplx',
+
+  /** 看板娘锐评人格 */
+  musumePrompt: 'bangumi' as keyof typeof MUSUME_PROMPT,
 
   /** 条目页面布局 */
   ...INIT_SUBJECT_LAYOUT

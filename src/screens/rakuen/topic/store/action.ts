@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:09:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-07 07:18:59
+ * @Last Modified time: 2025-02-16 07:22:39
  */
 import { toJS } from 'mobx'
 import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
@@ -20,7 +20,7 @@ import {
 import CacheManager from '@utils/cache-manager'
 import { baiduTranslate, t } from '@utils/fetch'
 import { completions, get, lx, update } from '@utils/kv'
-import { MESUME_EP_PROMPT, MESUME_TOPIC_PROMPT } from '@utils/kv/ds'
+import { MUSUME_EP_PROMPT, MUSUME_PROMPT, MUSUME_TOPIC_PROMPT } from '@utils/kv/ds'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HOST, IOS } from '@constants'
 import { RakuenReplyType } from '@constants/html/types'
@@ -325,12 +325,11 @@ export default class Action extends Fetch {
 
   /** 前一个锐评 */
   beforeChat = () => {
-    const { chat } = this.state
-    let { index } = chat
+    let { index } = this.state.chat
     if (index === -1) return
 
     if (index === 0) {
-      index = chat.values.length - 1
+      index = this.currentChatValues.length - 1
     } else {
       index -= 1
     }
@@ -346,11 +345,10 @@ export default class Action extends Fetch {
 
   /** 后一个锐评 */
   nextChat = () => {
-    const { chat } = this.state
-    let { index } = chat
+    let { index } = this.state.chat
     if (index === -1) return
 
-    if (index === chat.values.length - 1) {
+    if (index === this.currentChatValues.length - 1) {
       index = 0
     } else {
       index += 1
@@ -640,15 +638,18 @@ export default class Action extends Fetch {
 
     this.showChatModal()
 
+    const { musumePrompt } = systemStore.setting
+    let id = 'completions_topic'
+    if (musumePrompt !== 'bangumi') id += `_${musumePrompt}`
+    id += `_${this.topicId.replace('/', '_')}`
+
     const now = getTimestamp()
-    const id = `completions_topic_${this.topicId.replace('/', '_')}` as const
-    const { values } = this.state.chat
-    if (!values.length) {
+    if (!this.currentChatValues.length) {
       const data = await get(id)
       if (Array.isArray(data?.data) && data.data.length) {
         this.setState({
           chat: {
-            values: data.data,
+            [musumePrompt]: data.data,
             index: 0,
             _loaded: now
           }
@@ -657,13 +658,13 @@ export default class Action extends Fetch {
       }
     }
 
-    if (!refresh && values.length) return
+    if (!refresh && this.currentChatValues.length) return
 
     let prompt = ''
     let roleSystem = ''
     let roleUser = ''
     if (this.isEp) {
-      prompt = MESUME_EP_PROMPT
+      prompt = `${MUSUME_PROMPT[musumePrompt]}${MUSUME_EP_PROMPT}`
       roleSystem = `你正在和用户一起浏览条目《${this.group}》（可提及）的章节"${this.title}"的吐槽。请评论：`
       roleUser = '最近班友们的吐槽：'
 
@@ -677,7 +678,7 @@ export default class Action extends Fetch {
         )}；`
       })
     } else {
-      prompt = MESUME_TOPIC_PROMPT
+      prompt = `${MUSUME_PROMPT[musumePrompt]}${MUSUME_TOPIC_PROMPT}`
       roleSystem = `你正在和用户一起浏览班友"${this.userName}"发布的帖子。请评论：`
       roleUser = `标题：${getTopicMainFloorRawText(this.title, this.html)}`
     }
@@ -696,7 +697,7 @@ export default class Action extends Fetch {
       return
     }
 
-    const newValues: CompletionItem[] = toJS(values)
+    const newValues: CompletionItem[] = toJS(this.currentChatValues)
     newValues.push({
       text: value,
       userId: this.userId || 0,
@@ -707,7 +708,7 @@ export default class Action extends Fetch {
     const { length } = newValues
     this.setState({
       chat: {
-        values: newValues,
+        [musumePrompt]: newValues,
         index: length - 1,
         _loaded: now
       }

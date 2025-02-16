@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-12 05:34:49
+ * @Last Modified time: 2025-02-16 07:20:10
  */
 import { toJS } from 'mobx'
 import { StatusBar } from '@components'
@@ -44,7 +44,7 @@ import {
 } from '@utils'
 import { baiduTranslate, t } from '@utils/fetch'
 import { completions, download, get, lx, temp, update } from '@utils/kv'
-import { MESUME_SUBJECT_PROMPT } from '@utils/kv/ds'
+import { MUSUME_PROMPT, MUSUME_SUBJECT_PROMPT } from '@utils/kv/ds'
 import axios from '@utils/thirdParty/axios'
 import { s2t } from '@utils/thirdParty/open-cc'
 import { webhookCollection, webhookEp } from '@utils/webhooks'
@@ -799,12 +799,11 @@ export default class Action extends Fetch {
 
   /** 前一个锐评 */
   beforeChat = () => {
-    const { chat } = this.state
-    let { index } = chat
+    let { index } = this.state.chat
     if (index === -1) return
 
     if (index === 0) {
-      index = chat.values.length - 1
+      index = this.currentChatValues.length - 1
     } else {
       index -= 1
     }
@@ -820,11 +819,10 @@ export default class Action extends Fetch {
 
   /** 后一个锐评 */
   nextChat = () => {
-    const { chat } = this.state
-    let { index } = chat
+    let { index } = this.state.chat
     if (index === -1) return
 
-    if (index === chat.values.length - 1) {
+    if (index === this.currentChatValues.length - 1) {
       index = 0
     } else {
       index += 1
@@ -1414,15 +1412,18 @@ export default class Action extends Fetch {
 
     this.showChatModal()
 
+    const { musumePrompt } = systemStore.setting
+    let id = 'completions_subject'
+    if (musumePrompt !== 'bangumi') id += `_${musumePrompt}`
+    id += `_${this.subjectId}`
+
     const now = getTimestamp()
-    const id = `completions_subject_${this.subjectId}` as const
-    const { values } = this.state.chat
-    if (!values.length) {
+    if (!this.currentChatValues.length) {
       const data = await get(id)
       if (Array.isArray(data?.data) && data.data.length) {
         this.setState({
           chat: {
-            values: data.data,
+            [musumePrompt]: data.data,
             index: 0,
             _loaded: now
           }
@@ -1431,7 +1432,7 @@ export default class Action extends Fetch {
       }
     }
 
-    if (!refresh && values.length) return
+    if (!refresh && this.currentChatValues.length) return
 
     if (this.subjectComments.list.length <= 20) {
       this.setState({
@@ -1459,7 +1460,11 @@ export default class Action extends Fetch {
     this.setState({
       chatLoading: true
     })
-    const value = await completions(MESUME_SUBJECT_PROMPT, roleSystem, roleUser)
+    const value = await completions(
+      `${MUSUME_PROMPT[musumePrompt]}${MUSUME_SUBJECT_PROMPT}`,
+      roleSystem,
+      roleUser
+    )
     this.setState({
       chatLoading: false
     })
@@ -1470,7 +1475,7 @@ export default class Action extends Fetch {
       return
     }
 
-    const newValues: CompletionItem[] = toJS(values)
+    const newValues: CompletionItem[] = toJS(this.currentChatValues)
     newValues.push({
       text: value,
       userId: this.userId || 0,
@@ -1481,7 +1486,7 @@ export default class Action extends Fetch {
     const { length } = newValues
     this.setState({
       chat: {
-        values: newValues,
+        [musumePrompt]: newValues,
         index: length - 1,
         _loaded: now
       }

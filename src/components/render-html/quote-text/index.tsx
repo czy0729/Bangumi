@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:05:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:00:41
+ * @Last Modified time: 2025-02-16 07:43:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -51,7 +51,7 @@ class QuoteText extends React.Component<{
     const { show, toggle } = this.state
     if (!show) {
       return (
-        <Text style={this.styles.quoteTextPlaceholder} selectable onPress={this.show}>
+        <Text style={this.styles.quoteTextPlaceholder} onPress={this.show}>
           「...」
         </Text>
       )
@@ -60,7 +60,7 @@ class QuoteText extends React.Component<{
     return (
       <Flex>
         <View style={this.styles.quote}>
-          <Text size={12} selectable numberOfLines={toggle ? 10 : 3} onPress={this.toggle}>
+          <Text size={12} numberOfLines={toggle ? 10 : 3} onPress={this.toggle}>
             {this.children}
           </Text>
         </View>

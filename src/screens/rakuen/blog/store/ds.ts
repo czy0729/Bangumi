@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-17 06:54:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-21 05:26:49
+ * @Last Modified time: 2025-02-16 08:59:47
  */
 import { CompletionItem, Id, Loaded } from '@types'
 import { COMPONENT } from '../ds'
@@ -43,7 +43,9 @@ export const STATE = {
 
   /** 锐评 */
   chat: {
-    values: [] as CompletionItem[],
+    bangumi: [] as CompletionItem[],
+    burakkuSakura: [] as CompletionItem[],
+    miku: [] as CompletionItem[],
     index: -1,
     _loaded: false as Loaded
   },

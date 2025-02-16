@@ -35,7 +35,8 @@ export const memoStyles = _.memoStyles(() => ({
     left: 0
   },
   item: {
-    paddingVertical: 12
+    paddingTop: 24,
+    paddingBottom: 12
   },
   avatar: {
     width: 80,
@@ -46,7 +47,6 @@ export const memoStyles = _.memoStyles(() => ({
     paddingHorizontal: 12,
     paddingBottom: 12,
     marginTop: -1,
-    backgroundColor: '#ee827c',
     borderWidth: 5,
     borderRadius: _.radiusMd,
     borderColor: _.select('rgba(255, 255, 255, 0.5)', 'rgba(255, 255, 255, 0.88)')
