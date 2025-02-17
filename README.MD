@@ -61,8 +61,6 @@ iOS 和安卓都做了兼容，并最大限度保持一致
 
 # 版本
 
-[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/wb0727zmhxxv7tiy?singleDoc)
-
 ## 8.18.0 - 2025/02/14
 
 ### 新增
@@ -78,6 +76,8 @@ iOS 和安卓都做了兼容，并最大限度保持一致
 - [x] [搜索] 修复了非繁体用户输入框会自动转换简繁体的问题
 - [x] [超展开搜索] 修复了功能失效的问题
 - [x] 修复若干问题不详
+
+![8.18.0](https://github.com/user-attachments/assets/7d09f336-d425-454a-8cbd-6c1f6e354018)
 
 [当前版本图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/kozcmvlgwezrthkz?singleDoc)
 
