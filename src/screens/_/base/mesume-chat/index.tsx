@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-02-02 17:26:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-16 07:28:17
+ * @Last Modified time: 2025-02-16 13:41:10
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
@@ -91,6 +91,7 @@ export const MesumeChat = ({
                         setShowPannel(!showPannel)
                         setTimeout(() => {
                           feedback(true)
+                          handleRefresh()
 
                           t('其他.切换人格', {
                             value: item
@@ -108,9 +109,10 @@ export const MesumeChat = ({
               </Flex>
             )}
             <Flex style={styles.item} align='start'>
-              <Flex key={musumePrompt} style={styles.avatar} direction='column'>
+              <Flex style={styles.avatar} direction='column'>
                 <Touchable onPress={() => setShowPannel(!showPannel)}>
                   <Avatar
+                    key={musumePrompt}
                     {...avatarProps}
                     src={GROUP_THUMB_MAP[MUSUME_CONFIG[musumePrompt].icon]}
                   />

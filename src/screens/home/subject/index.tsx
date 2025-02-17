@@ -6,7 +6,6 @@
  */
 import React from 'react'
 import { Component, Page } from '@components'
-import { TapListener } from '@_'
 import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { IOS } from '@constants'
@@ -24,16 +23,14 @@ const Subject = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-subject'>
       <StoreContext.Provider value={id}>
-        <TapListener>
-          <Page statusBarEvent={false}>
-            {IOS && <Bg />}
-            <List
-              forwardRef={forwardRef}
-              onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
-              onBlockRef={onBlockRef}
-            />
-          </Page>
-        </TapListener>
+        <Page statusBarEvent={false}>
+          {IOS && <Bg />}
+          <List
+            forwardRef={forwardRef}
+            onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
+            onBlockRef={onBlockRef}
+          />
+        </Page>
         <Header onScrollTo={onScrollTo} />
         <Extra />
       </StoreContext.Provider>

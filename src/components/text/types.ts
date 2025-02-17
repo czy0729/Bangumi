@@ -4,8 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-11 04:21:41
  */
-import { TextProps } from 'react-native'
-import { Override, TextStyle, ReactNode } from '@types'
+import { MutableRefObject } from 'react'
+import { Text as RNText, TextProps } from 'react-native'
+import { Override, ReactNode, TextStyle } from '@types'
 
 export type TextType =
   | 'plain'
@@ -30,8 +31,8 @@ export type TextType =
 export type Props = Override<
   TextProps,
   {
-    /** 获取 ref  */
-    forwardRef?: (ref?: any) => any
+    /** 获取 ref */
+    forwardRef?: MutableRefObject<RNText>
 
     /** 样式 */
     style?: TextStyle

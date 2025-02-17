@@ -7,7 +7,6 @@
 import React from 'react'
 import './styles'
 import { Component, Page } from '@components'
-import { TapListener } from '@_'
 import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { NavigationProps } from '@types'
@@ -33,16 +32,14 @@ const Topic = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-topic'>
       <StoreContext.Provider value={id}>
-        <TapListener>
-          <Page statusBarEvent={false}>
-            <List
-              forwardRef={forwardRef}
-              onScrollToIndexFailed={onScrollToIndexFailed}
-              onShowFixedTextarea={onShowFixedTextarea}
-            />
-            <TouchScroll onPress={onFloorPress} />
-          </Page>
-        </TapListener>
+        <Page statusBarEvent={false}>
+          <List
+            forwardRef={forwardRef}
+            onScrollToIndexFailed={onScrollToIndexFailed}
+            onShowFixedTextarea={onShowFixedTextarea}
+          />
+          <TouchScroll onPress={onFloorPress} />
+        </Page>
         <Header />
         <Bottom fixedTextareaRef={fixedTextareaRef} onDirect={onDirect} />
         <Extra />

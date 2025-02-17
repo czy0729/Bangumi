@@ -65,6 +65,7 @@ function TextComp(
       lineBreakStrategyIOS='push-out'
       textBreakStrategy='simple'
       android_hyphenationFrequency='none'
+      dataDetectorType='none'
     >
       {s2t && systemStore.setting.s2t ? format(children) : children}
     </RNText>
