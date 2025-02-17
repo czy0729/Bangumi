@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-09-29 20:01:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-30 09:02:09
+ * @Last Modified time: 2025-02-17 12:46:47
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
 import { HOST, VERSION_CODE } from '@constants/constants'
-import { STORYBOOK } from '@constants/device'
+import { WEB } from '@constants/device'
 import events from '@constants/events'
 import { DEV, GITHUB_ACTION, IOS_IPA } from '@src/config'
 import { AnyObject, EventKeys } from '@types'
@@ -55,7 +55,7 @@ export async function umami(
   if (interceptor('umami', arguments)) return
 
   const _url = url.replace(HOST, '')
-  if (STORYBOOK) {
+  if (WEB) {
     const url = _url.split('?')?.[0]
 
     // @ts-ignore
@@ -87,7 +87,7 @@ export async function umamiEvent(
   if (/\.查看$/g.test(eventId) || interceptor('umamiEvent', arguments)) return
 
   const _url = url.replace(HOST, '')
-  if (STORYBOOK) {
+  if (WEB) {
     const url = _url.split('?')?.[0]
 
     // @ts-ignore

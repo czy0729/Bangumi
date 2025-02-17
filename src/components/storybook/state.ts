@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-04-13 18:28:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 22:18:11
+ * @Last Modified time: 2025-02-17 12:52:01
  */
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 
 type NavigateAction = 'PUSH' | 'REPLACE' | 'POP'
 
@@ -34,7 +34,7 @@ export function __FORCE_SET_NAVIGATING__() {
   StorybookState.navigating = true
 }
 
-if (STORYBOOK) {
+if (WEB) {
   // @ts-expect-error
   if (!window.bgm) window.bgm = {}
   // @ts-expect-error

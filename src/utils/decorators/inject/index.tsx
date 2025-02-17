@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-27 13:18:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-19 11:01:54
+ * @Last Modified time: 2025-02-17 12:44:23
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { NavigationEvents } from '@components'
 import Stores from '@stores'
 import { contextTypes } from '@constants/constants'
-import { STORYBOOK } from '@constants/device'
+import { WEB } from '@constants/device'
 import { getScreenKey } from './utils'
 import { Config, Props, WrapComponentProps } from './types'
 
@@ -79,7 +79,7 @@ const Inject = (Store, config?: Config) => {
         }
 
         get passProps() {
-          if (STORYBOOK) {
+          if (WEB) {
             return {
               onMounted: this.props.onMounted
             }

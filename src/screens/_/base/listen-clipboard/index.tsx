@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-03-11 11:32:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 00:01:43
+ * @Last Modified time: 2025-02-17 12:50:54
  */
 import React from 'react'
 import { AppState, AppStateStatus, Clipboard, NativeEventSubscription } from 'react-native'
 import { Component } from '@components'
 import { appNavigate, confirm, matchBgmUrl, navigationReference } from '@utils'
 import { r } from '@utils/dev'
-import { IOS, STORYBOOK } from '@constants'
+import { IOS, WEB } from '@constants'
 import { COMPONENT } from './ds'
 
 let lastUrl = ''
@@ -24,7 +24,7 @@ export const ListenClipboard = class ListenClipboardComponent extends React.Comp
 
   componentDidMount() {
     // 从 iOS 14 开始会有粘贴板读取提示, 很烦人暂时屏蔽
-    if (IOS || STORYBOOK) return
+    if (IOS || WEB) return
 
     this.appStateListener = AppState.addEventListener('change', this.onAppStateChange)
     setTimeout(() => {
@@ -33,7 +33,7 @@ export const ListenClipboard = class ListenClipboardComponent extends React.Comp
   }
 
   componentWillUnmount() {
-    if (IOS || STORYBOOK) return
+    if (IOS || WEB) return
 
     try {
       this.appStateListener.remove()

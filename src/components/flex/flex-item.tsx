@@ -3,11 +3,11 @@
  * @Author: czy0729
  * @Date: 2023-04-11 12:49:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 15:51:10
+ * @Last Modified time: 2025-02-17 12:51:45
  */
 import React, { ReactNode } from 'react'
 import { StyleProp, TouchableWithoutFeedback, View, ViewStyle } from 'react-native'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 
 interface FlexItemPropsType {
   disabled?: boolean
@@ -33,7 +33,7 @@ export default class FlexItem extends React.Component<FlexItemProps, any> {
     const flexItemStyle: ViewStyle = {
       flex: flex || 1
     }
-    if (STORYBOOK) flexItemStyle.width = '100%'
+    if (WEB) flexItemStyle.width = '100%'
 
     // support other touchablewithoutfeedback props
     // TODO  support TouchableHighlight

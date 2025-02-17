@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-05 15:18:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 19:40:51
+ * @Last Modified time: 2025-02-17 12:50:50
  */
 import React from 'react'
 import { Bgm, BgmText, Flex, Touchable } from '@components'
@@ -10,7 +10,7 @@ import { rakuenStore, timelineStore, uiStore } from '@stores'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { LIKE_TYPE_RAKUEN, LIKE_TYPE_TIMELINE, STORYBOOK } from '@constants'
+import { LIKE_TYPE_RAKUEN, LIKE_TYPE_TIMELINE, WEB } from '@constants'
 import { HIT_SLOP } from './ds'
 import { styles } from './styles'
 
@@ -83,7 +83,7 @@ function Grid({ data, value, topicId, floorId, formhash, likeType }) {
             style={stl(styles.item, String(value) === String(item[1]) && styles.itemActive)}
             justify='center'
           >
-            {STORYBOOK || item[0] > 100 ? (
+            {WEB || item[0] > 100 ? (
               <Bgm style={styles.bgm} index={item[0]} size={18} textOnly={false} />
             ) : (
               <BgmText index={item[0]} size={18} />

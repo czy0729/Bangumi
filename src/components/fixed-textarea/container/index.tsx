@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2023-08-01 19:19:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-28 11:49:24
+ * @Last Modified time: 2025-02-17 12:51:41
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { BlurView } from 'expo-blur'
 import { _ } from '@stores'
-import { IOS, STORYBOOK } from '@constants'
+import { IOS, WEB } from '@constants'
 import { BLURVIEW_TINT_DARK, BLURVIEW_TINT_LIGHT } from '../../blur-view'
 import { SafeAreaBottom } from '../../safe-area-bottom'
 import { memoStyles } from './styles'
 
 function Container({ children }) {
   const styles = memoStyles()
-  if (IOS || STORYBOOK) {
+  if (IOS || WEB) {
     return (
       <BlurView
         style={styles.container}

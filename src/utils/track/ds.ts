@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-09-29 20:02:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-28 06:10:07
+ * @Last Modified time: 2025-02-17 12:46:39
  */
 import { IOS } from '@constants/constants'
-import { STORYBOOK, WSA } from '@constants/device'
+import { WEB, WSA } from '@constants/device'
 import { DEV, GITHUB_ACTION, IOS_IPA } from '@src/config'
 import { window } from '../../styles/layout'
 import { get } from '../crypto'
@@ -55,7 +55,7 @@ const WEBSITE_WSA = '5df0b010-8042-4e39-9586-7b6e4050313f'
 
 export const WEBSITE = DEV
   ? WEBSITE_DEV
-  : STORYBOOK
+  : WEB
   ? WEBSITE_WEB
   : WSA
   ? WEBSITE_WSA

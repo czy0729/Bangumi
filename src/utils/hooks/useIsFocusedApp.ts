@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-04-08 05:02:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-08 05:10:34
+ * @Last Modified time: 2025-02-17 12:45:46
  */
-import * as React from 'react'
-import { useState } from 'react'
-import { STORYBOOK } from '@constants'
+import { useDebugValue, useEffect, useState } from 'react'
+import { WEB } from '@constants'
 import useNavigation from './useNavigation'
 
 /**
@@ -15,9 +14,9 @@ import useNavigation from './useNavigation'
  */
 export default function useIsFocusedApp(): boolean {
   const navigation = useNavigation()
-  const [isFocused, setIsFocused] = useState(STORYBOOK ? true : navigation.isFocused)
+  const [isFocused, setIsFocused] = useState(WEB ? true : navigation.isFocused)
 
-  const valueToReturn = STORYBOOK ? true : navigation.isFocused()
+  const valueToReturn = WEB ? true : navigation.isFocused()
   if (isFocused !== valueToReturn) {
     // If the value has changed since the last render, we need to update it.
     // This could happen if we missed an update from the event listeners during re-render.
@@ -27,7 +26,7 @@ export default function useIsFocusedApp(): boolean {
     setIsFocused(valueToReturn)
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     const unsubscribeFocus = navigation.addListener('focus', () => setIsFocused(true))
     const unsubscribeBlur = navigation.addListener('blur', () => setIsFocused(false))
     return () => {
@@ -36,7 +35,7 @@ export default function useIsFocusedApp(): boolean {
     }
   }, [navigation])
 
-  React.useDebugValue(valueToReturn)
+  useDebugValue(valueToReturn)
 
   return valueToReturn
 }

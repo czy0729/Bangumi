@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-08-11 14:02:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 04:02:06
+ * @Last Modified time: 2025-02-17 12:51:56
  */
 import React from 'react'
 import { StatusBarStyle } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
-import { IOS, STORYBOOK } from '@constants'
+import { IOS, WEB } from '@constants'
 import { NavigationEvents } from '../navigation/events'
 import { StatusBar } from '../status-bar'
 import { COMPONENT } from './ds'
@@ -32,7 +32,7 @@ export const StatusBarEvents = observer(
   }: StatusBarEventsProps) => {
     r(COMPONENT)
 
-    if (STORYBOOK) return null
+    if (WEB) return null
 
     let _barStyle: StatusBarStyle
     if (tinygrail) {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-08 09:59:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 03:09:20
+ * @Last Modified time: 2025-02-17 13:36:09
  */
 import React from 'react'
 import { Component, Flex, Touchable } from '@components'
@@ -43,6 +43,7 @@ export const ItemNotify = ob(
     const elBody = (
       <Flex style={styles.container} align='start'>
         <Avatar
+          key={avatar}
           navigation={navigation}
           index={index}
           avatar={avatar}

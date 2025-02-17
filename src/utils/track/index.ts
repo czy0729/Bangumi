@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-04-13 00:32:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 01:21:52
+ * @Last Modified time: 2025-02-17 12:46:40
  */
 import { HOST, IOS, VERSION_GITHUB_RELEASE } from '@constants/constants'
-import { STORYBOOK } from '@constants/device'
+import { WEB } from '@constants/device'
 import events, { EventKeys } from '@constants/events'
 import { DEV, IOS_IPA } from '@src/config'
 import { syncSystemStore as _s, syncThemeStore as _, syncUserStore as _u } from '../async'
@@ -53,7 +53,7 @@ export function hm(url?: string, screen?: string, title?: string) {
 
 /** UV */
 export function ua() {
-  if (STORYBOOK || isDevtoolsOpen()) return
+  if (WEB || isDevtoolsOpen()) return
 
   runAfter(() => {
     try {
@@ -119,7 +119,7 @@ export function withT<T extends (...args: any[]) => any>(
 
 /** Fatal Error */
 export function err(desc: string) {
-  if (!desc || DEV || STORYBOOK || isDevtoolsOpen()) return
+  if (!desc || DEV || WEB || isDevtoolsOpen()) return
 
   try {
     umamiEvent(

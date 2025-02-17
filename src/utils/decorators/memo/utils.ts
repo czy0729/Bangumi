@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2021-08-09 01:49:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-06 19:48:22
+ * @Last Modified time: 2025-02-17 12:44:33
  */
 import isEqual from 'lodash.isequal'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { AnyObject } from '@types'
 
 /** 封装通用 React.memo 的第二参数, 注意返回 true 代表不更新, false 代表强制更新 */
@@ -111,7 +111,7 @@ function mapKey<P extends AnyObject>(target: P, key: keyof P, value: P[keyof P])
 /** 对象值是否完全相同 */
 function isEqualEnv<P extends AnyObject>(prevProps: P, nextProps: P): boolean {
   try {
-    return STORYBOOK
+    return WEB
       ? isEqual(prevProps, nextProps)
       : /** @todo RN 环境中暂不明其他库里面的 isEqual 误判 */
         JSON.stringify(prevProps) === JSON.stringify(nextProps)

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-12-05 03:12:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-13 04:55:09
+ * @Last Modified time: 2025-02-17 12:44:39
  */
 import { useEffect } from 'react'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 
 const TITLE = 'Bangumi 番组计划'
 
@@ -13,7 +13,7 @@ const TITLE_BOTTOM_TABS = ['发现', '时间胶囊', '超展开', '搜索'] as c
 
 export default function useDomTitle(title: string) {
   useEffect(() => {
-    if (!STORYBOOK) return
+    if (!WEB) return
 
     if (title && !isInclude(title)) {
       document.title = `${title} | ${TITLE}`

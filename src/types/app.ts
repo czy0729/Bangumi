@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-05 05:11:41
+ * @Last Modified time: 2025-02-17 12:46:14
  */
 import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
 import IoniconsIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/Ionicons.json'
@@ -78,6 +78,9 @@ export type Navigation = {
     name: string
     params: AnyObject
   }
+
+  /** 是否当前页面 */
+  isFocused?: () => boolean
 }
 
 /**  带 navigation 定义的 props */

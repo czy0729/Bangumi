@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-02 04:15:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 16:58:27
+ * @Last Modified time: 2025-02-17 13:35:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -60,6 +60,7 @@ export const ItemPM = ob(
             <View style={styles.avatar}>
               <InView style={styles.inView} y={ITEM_HEIGHT * index + 1}>
                 <Avatar
+                  key={avatar}
                   navigation={navigation}
                   userId={userId}
                   name={name}

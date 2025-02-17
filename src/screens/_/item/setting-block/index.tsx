@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-01-19 06:36:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 03:13:04
+ * @Last Modified time: 2025-02-17 12:50:58
  */
 import React from 'react'
 import { Component, Flex, Highlight, Iconfont, Touchable } from '@components'
 import { _ } from '@stores'
 import { navigationReference, open, showImageViewer, stl } from '@utils'
 import { ob } from '@utils/decorators'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import Item from './item'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -45,7 +45,7 @@ const ItemSettingBlock: IItemSettingBlock = ob(
               <Touchable
                 style={styles.icon}
                 onPress={() => {
-                  if (STORYBOOK) {
+                  if (WEB) {
                     const navigation = navigationReference()
                     if (navigation) {
                       navigation.push('Information', {
