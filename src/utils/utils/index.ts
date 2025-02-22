@@ -580,20 +580,13 @@ export function truncateMiddle(text: string = '', maxLength: number = 20, charsT
 /** 随机挑选数组项 */
 export function getRandomItems<T>(array: T[], count: number): T[] {
   // 如果数组为空或 count 为 0，直接返回空数组
-  if (array.length === 0 || count === 0) {
-    return []
-  }
+  if (array.length === 0 || count === 0) return []
 
   // 如果数组长度小于等于需要的数量，直接返回打乱后的数组
-  if (array.length <= count) {
-    return shuffleArray(array)
-  }
-
-  // 复制数组以避免修改原数组
-  const shuffled = shuffleArray(array.slice())
+  if (array.length <= count) return shuffleArray(array)
 
   // 返回前 count 项
-  return shuffled.slice(0, count)
+  return shuffleArray(array).slice(0, count)
 }
 
 /** Fisher-Yates 洗牌算法 */

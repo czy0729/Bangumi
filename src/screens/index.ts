@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-14 00:17:22
+ * @Last Modified time: 2025-02-18 05:14:06
  */
 import { lazy } from 'react'
 
@@ -139,6 +139,7 @@ export const TinygrailValhall = lazy(() => import('./tinygrail/valhall'))
 export const BilibiliSync = lazy(() => import('./web-view/bilibili-sync'))
 export const DoubanSync = lazy(() => import('./web-view/douban-sync'))
 export const Information = lazy(() => import('./web-view/information'))
+export const Log = lazy(() => import('./web-view/log'))
 export const Playground = lazy(() => import('./web-view/playground'))
 export const Share = lazy(() => import('./web-view/share'))
 export const Tips = lazy(() => import('./web-view/tips'))

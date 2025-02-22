@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-13 11:23:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-10 17:23:33
+ * @Last Modified time: 2025-02-20 06:03:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,7 +17,6 @@ import UpdateAdvance from './components/update-advance'
 import UpdateKey from './components/update-key'
 import UpdateTourist from './components/update-tourist'
 import { HM } from './ds'
-// import UsersAdvance from './components/users-advance'
 import { memoStyles } from './styles'
 
 const DEV = ({ navigation }: NavigationProps) => {

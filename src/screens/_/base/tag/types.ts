@@ -15,7 +15,7 @@ export type Props = {
   type?: TextType
 
   /** 标签值 */
-  value?: string
+  value?: string | number
 
   /** 文字大小 */
   size?: number

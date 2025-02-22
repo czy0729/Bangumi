@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-01 11:45:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-09 21:16:42
+ * @Last Modified time: 2025-02-20 06:04:02
  */
 import React from 'react'
 import { Switch, Text, Touchable } from '@components'
@@ -44,6 +44,20 @@ function Base({ navigation }: NavigationProps) {
                 name='md-navigate-next'
                 onPress={() => {
                   navigation.push('Playground')
+                }}
+              />
+            }
+            withoutFeedback
+          />
+        )}
+        {userStore.isDeveloper && (
+          <ItemSetting
+            hd='错误上报分析'
+            ft={
+              <IconTouchable
+                name='md-navigate-next'
+                onPress={() => {
+                  navigation.push('Log')
                 }}
               />
             }

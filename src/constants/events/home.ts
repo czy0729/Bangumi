@@ -7,7 +7,7 @@
 
 /** Home */
 export default {
-  // 首页
+  首页: 'Home',
   '首页.跳转': 'Home.to',
   '首页.标签页点击': 'Home.tabsPress',
   '首页.标签页切换': 'Home.tabsChange',
@@ -27,7 +27,7 @@ export default {
   '首页.再搜索': 'Home.goSearch',
   '首页.导出日程': 'Home.ics',
 
-  // 人物
+  人物: 'Mono',
   '人物.跳转': 'Mono.to',
   '人物.右上角菜单': 'Mono.topRightMenu',
   '人物.收藏人物': 'Mono.doCollect',
@@ -37,7 +37,7 @@ export default {
   '人物.翻译内容': 'Mono.doTranslate',
   '人物.更多资料': 'Mono.onMore',
 
-  // 条目
+  条目: 'Subject',
   '条目.查看': 'Subject.view',
   '条目.跳转': 'Subject.to',
   '条目.显示收藏管理': 'Subject.showManageModel',
@@ -82,18 +82,18 @@ export default {
   '条目.聊天': 'Subject.chat',
   '条目.趋势': 'Subject.trend',
 
-  // 条目详情
+  条目详情: 'SubjectInfo',
   '条目详情.跳转': 'SubjectInfo.to',
 
-  // 章节
+  章节: 'Episodes',
   '章节.跳转': 'Episodes.to',
   '章节.右上角菜单': 'Episodes.topRightMenu',
 
-  // 条目目录
+  条目目录: 'SubjectCatalogs',
   '条目目录.跳转': 'SubjectCatalogs.to',
   '条目目录.右上角菜单': 'SubjectCatalogs.topRightMenu',
 
-  // 用户标签
+  用户标签: 'Tag',
   '用户标签.跳转': 'Tag.to',
   '用户标签.右上角菜单': 'Tag.topRightMenu',
   '用户标签.排序选择': 'Tag.onOrderSelect',
@@ -102,38 +102,38 @@ export default {
   '用户标签.公共标签': 'Tag.onMeta',
   '用户标签.切换布局': 'Tag.toggleList',
 
-  // 作品
+  作品: 'Works',
   '作品.跳转': 'Works.to',
   '作品.右上角菜单': 'Works.topRightMenu',
   '作品.切换布局': 'Works.toggleList',
   '作品.排序选择': 'Works.onOrderSelect',
   '作品.职位选择': 'Works.onFilterSelect',
 
-  // 角色
+  角色: 'Voices',
   '角色.跳转': 'Voices.to',
   '角色.右上角菜单': 'Voices.topRightMenu',
   '角色.职位选择': 'Voices.onFilterSelect',
 
-  // 更多角色
+  更多角色: 'Characters',
   '更多角色.跳转': 'Characters.to',
   '更多角色.右上角菜单': 'Characters.topRightMenu',
 
-  // 制作人员
+  制作人员: 'Persons',
   '制作人员.跳转': 'Persons.to',
   '制作人员.右上角菜单': 'Persons.topRightMenu',
 
-  // 用户评分
+  用户评分: 'Rating',
   '用户评分.跳转': 'Rating.to',
   '用户评分.标签页切换': 'Rating.tabsChange',
   '用户评分.切换类型': 'Rating.toggleFilter',
   '用户评分.右上角菜单': 'Rating.topRightMenu',
 
-  // 修订历史
+  修订历史: 'SubjectWiki',
   '修订历史.右上角菜单': 'SubjectWiki.topRightMenu',
 
-  // 分类排行
+  分类排行: 'Typerank',
   '分类排行.跳转': 'Typerank.to',
 
-  // 照片墙.跳转
+  照片墙: 'Overview',
   '照片墙.跳转': 'Overview.to'
 }

@@ -7,14 +7,14 @@
 
 /** Discovery */
 export default {
-  // Anime
+  Anime: 'Anime',
   'Anime.跳转': 'Anime.to',
   'Anime.选择': 'Anime.onSelect',
   'Anime.到顶': 'Anime.scrollToTop',
   'Anime.切换布局': 'Anime.switchLayout',
   'Anime.更多': 'Anime.onPage',
 
-  // Anitama
+  Anitama: 'Anitama',
   'Anitama.跳转': 'Anitama.to',
   'Anitama.右上角菜单': 'Anitama.topRightMenu',
   'Anitama.上一页': 'Anitama.prev',
@@ -23,17 +23,17 @@ export default {
   'Anitama.切换站点': 'Anitama.toggleType',
   'Anitama.内置浏览器': 'Anitama.toggleUseWebView',
 
-  // Dollars
+  Dollars: 'Dollars',
   'Dollars.跳转': 'Dollars.to',
   'Dollars.发送': 'Dollars.onSubmit',
 
-  // 年鉴
+  年鉴: 'Award',
   '年鉴.跳转': 'Award.to',
   '年鉴.错误': 'Award.error',
   '年鉴.浏览器打开': 'Award.browser',
   'Bangumi年鉴.跳转': 'Yearbook.to',
 
-  // 索引
+  索引: 'Browser',
   '索引.跳转': 'Browser.to',
   '索引.右上角菜单': 'Browser.topRightMenu',
   '索引.类型选择': 'Browser.onSelect',
@@ -45,7 +45,7 @@ export default {
   '索引.切换布局': 'Browser.switchLayout',
   '索引.更多': 'Browser.onPage',
 
-  // 每日放送
+  每日放送: 'Calendar',
   '每日放送.跳转': 'Calendar.to',
   '每日放送.右上角菜单': 'Calendar.topRightMenu',
   '每日放送.切换布局': 'Calendar.switchLayout',
@@ -54,7 +54,7 @@ export default {
   '每日放送.切换标签': 'Calendar.onTag',
   '每日放送.切换动画制作': 'Calendar.onOrigin',
 
-  // 目录
+  目录: 'Catalog',
   '目录.跳转': 'Catalog.to',
   '目录.切换类型': 'Catalog.toggleType',
   '目录.上一页': 'Catalog.prev',
@@ -64,7 +64,7 @@ export default {
   '目录.切换锁定': 'Catalog.onToggleFixed',
   '目录.右上角菜单': 'Catalog.topRightMenu',
 
-  // 目录详情
+  目录详情: 'CatalogDetail',
   '目录详情.跳转': 'CatalogDetail.to',
   '目录详情.右上角菜单': 'CatalogDetail.topRightMenu',
   '目录详情.收藏': 'CatalogDetail.doCollect',
@@ -76,22 +76,22 @@ export default {
   '目录详情.复制': 'CatalogDetail.doCopy',
   '目录详情.切换布局': 'CatalogDetail.switchLayout',
 
-  // 收藏的人物
+  收藏的人物: 'Character',
   '收藏的人物.跳转': 'Character.to',
   '收藏的人物.右上角菜单': 'Character.topRightMenu',
   '收藏的人物.标签页切换': 'Character.tabsChange',
 
-  // 发现
+  发现: 'Discovery',
   '发现.跳转': 'Discovery.to',
   '发现.剪贴板': 'Discovery.linkModal',
   '发现.更新菜单': 'Discovery.saveMenus',
   '发现.下拉刷新': 'Discovery.onHeaderRefresh',
   '发现.滑动到边': 'Discovery.onEndReached',
 
-  // 随便看看
+  随便看看: 'Random',
   '随便看看.跳转': 'Random.to',
 
-  // 排行榜
+  排行榜: 'Rank',
   '排行榜.跳转': 'Rank.to',
   '排行榜.右上角菜单': 'Rank.topRightMenu',
   '排行榜.排序选择': 'Rank.onSortSelect',
@@ -112,7 +112,7 @@ export default {
   '排行榜.下一页': 'Rank.next',
   '排行榜.页码跳转': 'Rank.doSearch',
 
-  // 搜索
+  搜索: 'Search',
   '搜索.跳转': 'Search.to',
   '搜索.右上角菜单': 'Search.topRightMenu',
   '搜索.切换类型': 'Search.onSelect',
@@ -125,14 +125,14 @@ export default {
   '搜索.条目直达': 'Search.navigate',
   '搜索.人物直达': 'Search.navigateMono',
 
-  // 标签索引
+  标签索引: 'Tags',
   '标签索引.跳转': 'Tags.to',
   '标签索引.右上角菜单': 'Tags.topRightMenu',
   '标签索引.标签页切换': 'Tags.tabsChange',
   '标签索引.标签类型切换': 'Tags.valueChange',
   '标签索引.筛选': 'Tags.submitEditing',
 
-  // 全站日志
+  全站日志: 'DiscoveryBlog',
   '全站日志.跳转': 'DiscoveryBlog.to',
   '全站日志.右上角菜单': 'DiscoveryBlog.topRightMenu',
   '全站日志.标签页切换': 'DiscoveryBlog.tabsChange',
@@ -141,79 +141,79 @@ export default {
   '全站日志.下一页': 'DiscoveryBlog.next',
   '全站日志.页码跳转': 'DiscoveryBlog.doSearch',
 
-  // 频道
+  频道: 'Channel',
   '频道.跳转': 'Channel.to',
   '频道.右上角菜单': 'Channel.topRightMenu',
 
-  // 文库
+  文库: 'Wenku',
   '文库.跳转': 'Wenku.to',
   '文库.选择': 'Wenku.onSelect',
   '文库.到顶': 'Wenku.scrollToTop',
   '文库.切换布局': 'Wenku.switchLayout',
   '文库.更多': 'Wenku.onPage',
 
-  // Manga
+  Manga: 'Manga',
   'Manga.跳转': 'Manga.to',
   'Manga.选择': 'Manga.onSelect',
   'Manga.到顶': 'Manga.scrollToTop',
   'Manga.切换布局': 'Manga.switchLayout',
   'Manga.更多': 'Manga.onPage',
 
-  // 游戏
+  游戏: 'Game',
   '游戏.跳转': 'Game.to',
   '游戏.选择': 'Game.onSelect',
   '游戏.到顶': 'Game.scrollToTop',
   '游戏.切换布局': 'Game.switchLayout',
   '游戏.更多': 'Game.onPage',
 
-  // ADV
+  ADV: 'ADV',
   'ADV.跳转': 'ADV.to',
   'ADV.选择': 'ADV.onSelect',
   'ADV.到顶': 'ADV.scrollToTop',
   'ADV.切换布局': 'ADV.switchLayout',
   'ADV.更多': 'ADV.onPage',
 
-  // 推荐
+  推荐: 'Guess',
   '推荐.跳转': 'Guess.to',
   '推荐.刷新': 'Guess.refresh',
 
-  // 新番档期
+  新番档期: 'Staff',
   '新番档期.跳转': 'Staff.to',
   '新番档期.右上角菜单': 'Staff.topRightMenu',
 
-  // Hentai
+  Hentai: 'Hentai',
   'Hentai.跳转': 'Hentai.to',
   'Hentai.选择': 'Hentai.onSelect',
   'Hentai.到顶': 'Hentai.scrollToTop',
   'Hentai.切换布局': 'Hentai.switchLayout',
   'Hentai.更多': 'Hentai.onPage',
 
-  // NSFW
+  NSFW: 'NSFW',
   'NSFW.跳转': 'NSFW.to',
   'NSFW.选择': 'NSFW.onSelect',
   'NSFW.到顶': 'NSFW.scrollToTop',
   'NSFW.切换布局': 'NSFW.switchLayout',
   'NSFW.更多': 'NSFW.onPage',
 
-  // 维基人
+  维基人: 'Wiki',
   '维基人.右上角菜单': 'Wiki.topRightMenu',
 
-  // 猜你喜欢
+  猜你喜欢: 'Like',
   '猜你喜欢.跳转': 'Like.to',
   '猜你喜欢.切换': 'Like.switch',
 
-  // 评分月刊
+  评分月刊: 'VIB',
   '评分月刊.跳转': 'VIB.to',
   '评分月刊.缩略框': 'VIB.popable',
   '评分月刊.上一期': 'VIB.prev',
   '评分月刊.下一期': 'VIB.next',
   '评分月刊.选择': 'VIB.select',
 
-  // 半月刊
+  半月刊: 'BiWeekly',
   '半月刊.右上角菜单': 'BiWeekly.topRightMenu',
   '半月刊.跳转': 'BiWeekly.to',
 
-  // 词云
+  词云: 'WordCloud',
   '词云.刷新': 'WordCloud.batch',
   '词云.分词': 'WordCloud.cut',
   '词云.点击': 'WordCloud.press',
