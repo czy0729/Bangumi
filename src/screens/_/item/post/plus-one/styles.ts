@@ -8,7 +8,7 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   item: {
-    marginBottom: _.md
+    marginBottom: _.sm
   },
   round: {
     padding: 4,
@@ -21,9 +21,6 @@ export const memoStyles = _.memoStyles(() => ({
     paddingRight: 8,
     backgroundColor: _.colorBg,
     borderRadius: _.radiusSm
-  },
-  html: {
-    marginTop: -4
   },
   direct: {
     position: 'absolute',

@@ -11,7 +11,8 @@ export const styles = _.create({
     width: _.r(36)
   },
   sub: {
-    paddingTop: _.md
+    paddingTop: _.md,
+    paddingBottom: _.sm
   },
   expand: {
     paddingVertical: _.sm,

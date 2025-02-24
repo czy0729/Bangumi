@@ -79,7 +79,6 @@ export const ItemPost = ob(
             userName={userName}
             avatar={avatar}
             url={url}
-            floor={floor}
             directFloor={directFloor}
             isAuthor={isAuthor}
             isFriend={isFriend}

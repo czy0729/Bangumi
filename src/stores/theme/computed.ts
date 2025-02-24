@@ -872,6 +872,10 @@ export default class Computed extends State implements StoreConstructor<typeof S
   /** <RenderHTML> baseFontStyle 通用封装 */
   @computed get baseFontStyle() {
     return computed(() => ({
+      xs: {
+        fontSize: 11 + this.fontSizeAdjust,
+        lineHeight: 18
+      },
       sm: {
         fontSize: 12 + this.fontSizeAdjust,
         lineHeight: 20

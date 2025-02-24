@@ -8,7 +8,8 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   delete: {
-    paddingBottom: _.sm,
-    paddingHorizontal: _.wind
+    paddingTop: _.sm,
+    paddingHorizontal: _.wind,
+    marginRight: -_._wind
   }
 }))

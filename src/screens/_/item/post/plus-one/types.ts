@@ -13,7 +13,6 @@ export type Props = {
   userName: string
   avatar: string
   url: string
-  floor?: string
   directFloor?: boolean
   isAuthor?: boolean
   isFriend?: boolean

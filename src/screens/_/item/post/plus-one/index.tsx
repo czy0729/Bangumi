@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Avatar, Flex, RenderHtml, Text, UserStatus } from '@components'
+import { Avatar, Flex, RenderHtml, UserStatus } from '@components'
 import { _, systemStore } from '@stores'
 import { appNavigate, HTMLDecode, open } from '@utils'
 import { ob } from '@utils/decorators'
@@ -25,7 +25,6 @@ function ItemPlusOne({
   userName,
   avatar,
   url,
-  floor,
   directFloor,
   isAuthor,
   isFriend,
@@ -40,28 +39,26 @@ function ItemPlusOne({
     <View style={styles.item}>
       <Flex>
         <Flex style={avatarRound ? styles.round : styles.rectangle}>
-          <View style={_.mr.xs}>
-            <UserStatus userId={userId} mini>
-              <Avatar
-                navigation={navigation}
-                size={AVATAR_WIDTH}
-                userId={userId}
-                name={userName}
-                src={avatar}
-                radius={avatarRound ? undefined : 6}
-                event={event}
-              />
-            </UserStatus>
-          </View>
-          <Name userId={userId} size={10} bold>
+          <UserStatus userId={userId} mini>
+            <Avatar
+              navigation={navigation}
+              size={AVATAR_WIDTH}
+              userId={userId}
+              name={userName}
+              src={avatar}
+              radius={avatarRound ? undefined : 5}
+              event={event}
+            />
+          </UserStatus>
+          <Name style={_.ml.xs} userId={userId} size={10} bold>
             {HTMLDecode(userName)}
           </Name>
           <UserLabel isAuthor={isAuthor} isFriend={isFriend} isLayer={isLayer} lineHeight={10} />
         </Flex>
-        <Flex style={styles.html} align='end'>
+        <Flex>
           <RenderHtml
             style={_.ml.sm}
-            baseFontStyle={_.baseFontStyle.sm}
+            baseFontStyle={_.baseFontStyle.xs}
             imagesMaxWidth={imagesMaxWidthSub}
             html={message}
             onLinkPress={href => {
@@ -69,12 +66,6 @@ function ItemPlusOne({
             }}
             onImageFallback={() => open(`${url}#post_${id}`)}
           />
-          {!!floor && (
-            <Text type='sub' size={11} lineHeight={14}>
-              {'  '}
-              {floor}
-            </Text>
-          )}
         </Flex>
       </Flex>
 
