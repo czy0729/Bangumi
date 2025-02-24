@@ -2,21 +2,21 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-10 13:59:06
+ * @Last Modified time: 2025-02-22 12:26:59
  */
 
 /** User */
 export default {
-  // 个人设置
+  个人设置: 'UserSetting',
   '个人设置.查看原图': 'UserSetting.origin',
   '个人设置.保存': 'UserSetting.save',
 
-  // 好友
+  好友: 'Friends',
   '好友.跳转': 'Friends.to',
   '好友.排序': 'Friends.sort',
   '好友.右上角菜单': 'Friends.topRightMenu',
 
-  // 我的
+  我的: 'User',
   '我的.跳转': 'User.to',
   '我的.右上角菜单': 'User.topRightMenu',
   '我的.标签页点击': 'User.tabsPress',
@@ -27,25 +27,25 @@ export default {
   '我的.布局选择': 'User.toggleList',
   '我的.在线状态': 'User.onlineStatus',
 
-  // 短信
+  短信: 'PM',
   '短信.跳转': 'PM.to',
   '短信.显示评论框': 'PM.showFixedTextarea',
   '短信.回复短信': 'PM.doReply',
   '短信.新短信': 'PM.doCreate',
   '短信.右上角菜单': 'PM.topRightMenu',
 
-  // 设置
+  设置: 'Setting',
   '设置.跳转': 'Setting.to',
   '设置.切换': 'Setting.switch',
   '设置.清除缓存': 'Setting.clear',
   '设置.恢复默认设置': 'Setting.reset',
   '设置.退出登陆': 'Setting.logout',
 
-  // 网络探针
+  网络探针: 'ServerStatus',
   '网络探针.全部检测': 'ServerStatus.pingAll',
   '网络探针.检测': 'ServerStatus.pingOne',
 
-  // 空间
+  空间: 'Zone',
   '空间.跳转': 'Zone.to',
   '空间.右上角菜单': 'Zone.topRightMenu',
   '空间.标签页点击': 'Zone.tabsPress',
@@ -57,11 +57,11 @@ export default {
   '空间.绝交': 'Zone.blockUser',
   '空间.聊天': 'Zone.chat',
 
-  // 时间线
+  时间线: 'UserTimeline',
   '时间线.跳转': 'UserTimeline.to',
   '时间线.点击瓷砖': 'UserTimeline.mosaicTilePress',
 
-  // 自定义源头
+  自定义源头: 'OriginSetting',
   '自定义源头.右上角菜单': 'OriginSetting.topRightMenu',
   '自定义源头.编辑表单': 'OriginSetting.openEdit',
   '自定义源头.关闭表单': 'OriginSetting.closeEdit',
@@ -71,7 +71,7 @@ export default {
   '自定义源头.下载': 'OriginSetting.download',
   '自定义源头.上传': 'OriginSetting.upload',
 
-  // 自定义跳转
+  自定义跳转: 'Actions',
   '自定义跳转.保存': 'Actions.submitEdit',
   '自定义跳转.编辑表单': 'Actions.openEdit',
   '自定义跳转.关闭表单': 'Actions.closeEdit',
@@ -79,21 +79,21 @@ export default {
   '自定义跳转.启用': 'Actions.activeItem',
   '自定义跳转.删除': 'Actions.deleteItem',
 
-  // 用户日志
+  用户日志: 'UserBlogs',
   '用户日志.右上角菜单': 'UserBlogs.topRightMenu',
   '用户日志.跳转': 'UserBlogs.to',
 
-  // 用户目录
+  用户目录: 'UserCatalogs',
   '用户目录.右上角菜单': 'UserCatalogs.topRightMenu',
   '用户目录.标签页切换': 'UserCatalogs.tabsChange',
   '用户目录.跳转': 'UserCatalogs.to',
 
-  // 赞助者
+  赞助者: 'Sponsor',
   '赞助者.跳转': 'Sponsor.to',
   '赞助者.切换布局': 'Sponsor.toggle',
   '赞助者.提示': 'Sponsor.info',
 
-  // 本地备份
+  本地备份: 'Backup',
   '本地备份.获取': 'Backup.get',
   '本地备份.报错': 'Backup.catch',
   '本地备份.导出': 'Backup.export',
@@ -101,7 +101,7 @@ export default {
   '本地备份.置底': 'Backup.onBottom',
   '本地备份.同步': 'Backup.onSubmit',
 
-  // SMB
+  SMB: 'SMB',
   'SMB.跳转': 'SMB.to',
   'SMB.扫描': 'SMB.connect',
   'SMB.请求条目': 'SMB.fetchSubjects',

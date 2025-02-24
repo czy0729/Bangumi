@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:44:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-02 16:35:01
+ * @Last Modified time: 2025-02-22 12:23:10
  */
 
 /** Timeline */
 export default {
-  // 时间胶囊
+  时间胶囊: 'Timeline',
   '时间胶囊.跳转': 'Timeline.to',
   '时间胶囊.新吐槽': 'Timeline.say',
   '时间胶囊.标签页点击': 'Timeline.tabsPress',
@@ -18,7 +18,7 @@ export default {
   '时间胶囊.缩略框': 'Timeline.popable',
   '时间胶囊.贴贴': 'Timeline.doLike',
 
-  // 吐槽
+  吐槽: 'Say',
   '吐槽.跳转': 'Say.to',
   '吐槽.右上角菜单': 'Say.topRightMenu',
   '吐槽.显示评论框': 'Say.showFixedTextarea',

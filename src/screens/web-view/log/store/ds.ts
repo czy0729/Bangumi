@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-02-19 07:03:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-20 05:51:03
+ * @Last Modified time: 2025-02-23 14:57:24
  */
 import { Loaded, UserId } from '@types'
 import { COMPONENT } from '../ds'
@@ -11,6 +11,30 @@ export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const EXCLUDE_STATE = {
   show: false,
+  data2: {},
+  detail: ''
+}
+
+export const STATE = {
+  /** 错误上报地址 */
+  url: '',
+  url2: '',
+
+  /** 错误详细信息具体定位地址 */
+  navigate: '',
+
+  /** 错误上报客户端版本号 */
+  referer: '',
+
+  /** 错误上报客户端事件号 */
+  event: '',
+
+  /** 授权 */
+  authorization: '',
+  usersPrefixed: '',
+  infosPrefixed: '',
+
+  /** 错误报告列表 */
   data: {
     list: [] as {
       i: string
@@ -21,25 +45,16 @@ export const EXCLUDE_STATE = {
     }[],
     _loaded: false as Loaded
   },
-  data2: {} as Record<
+
+  /** 错误日均统计次数 */
+  stats: {} as Record<
     string | number,
     {
-      list: []
-      _loaded: false
+      a: number[]
+      _loaded: Loaded
     }
   >,
-  detail: ''
-}
 
-export const STATE = {
-  url: '',
-  url2: '',
-  navigate: '',
-  referer: '',
-  event: '',
-  authorization: '',
-  usersPrefixed: '',
-  infosPrefixed: '',
   users: {} as Record<
     UserId,
     {
@@ -48,6 +63,7 @@ export const STATE = {
       _loaded: Loaded
     }
   >,
+
   infos: {} as Record<
     UserId,
     {
@@ -59,6 +75,7 @@ export const STATE = {
       _loaded: Loaded
     }
   >,
+  distance: '120000',
   ...EXCLUDE_STATE,
   _loaded: false as Loaded
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-02-20 04:46:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-20 05:56:27
+ * @Last Modified time: 2025-02-23 04:46:50
  */
 import React from 'react'
 import { HeaderV2 } from '@components'
@@ -17,14 +17,24 @@ function Header() {
   const { show } = $.state
   return (
     <HeaderV2
-      title='错误上报分析'
+      title={`错误上报分析 (${$.state.data.list.length})`}
       headerRight={() => (
-        <IconTouchable
-          style={_.mr.xs}
-          name={show ? 'md-close' : 'md-refresh'}
-          color={_.colorDesc}
-          onPress={$.onToggleForm}
-        />
+        <>
+          <IconTouchable
+            style={_.mr.xs}
+            name='md-insert-chart-outlined'
+            size={18}
+            color={_.colorDesc}
+            onPress={$.getStatsQueue}
+          />
+          <IconTouchable
+            style={_.mr.xs}
+            name={show ? 'md-close' : 'md-notes'}
+            size={20}
+            color={_.colorDesc}
+            onPress={$.onToggleForm}
+          />
+        </>
       )}
     />
   )

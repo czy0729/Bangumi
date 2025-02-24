@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-17 11:43:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-20 04:51:03
+ * @Last Modified time: 2025-02-23 14:54:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,8 +17,18 @@ import { memoStyles } from './styles'
 function Form() {
   const { $ } = useStore<Ctx>()
   const styles = memoStyles()
-  const { show, url, authorization, usersPrefixed, infosPrefixed, navigate, referer, event } =
-    $.state
+  const {
+    show,
+    url,
+    url2,
+    authorization,
+    usersPrefixed,
+    infosPrefixed,
+    distance,
+    navigate,
+    referer,
+    event
+  } = $.state
   return (
     <>
       {show && <View style={styles.mask} />}
@@ -29,6 +39,12 @@ function Form() {
             defaultValue={url}
             placeholder='url'
             onChangeText={value => $.onChange('url', value)}
+          />
+          <Input
+            style={[styles.input, _.mt.md]}
+            defaultValue={url2}
+            placeholder='url2'
+            onChangeText={value => $.onChange('url2', value)}
           />
           <Input
             style={[styles.input, _.mt.md]}
@@ -53,6 +69,14 @@ function Form() {
                 defaultValue={infosPrefixed}
                 placeholder='infosPrefixed'
                 onChangeText={value => $.onChange('infosPrefixed', value)}
+              />
+            </Flex.Item>
+            <Flex.Item style={_.ml.md}>
+              <Input
+                style={styles.input}
+                defaultValue={distance}
+                placeholder='distance'
+                onChangeText={value => $.onChange('distance', value)}
               />
             </Flex.Item>
           </Flex>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-02-18 05:18:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-20 16:50:59
+ * @Last Modified time: 2025-02-23 14:57:39
  */
 import { useInitStore } from '@stores'
 import { feedback } from '@utils'
@@ -26,7 +26,7 @@ export function useLogPage(props: NavigationProps) {
 
       $.getData()
       feedback(true)
-    }, 30000)
+    }, Number($.state.distance) || 120000)
 
     return () => {
       clearInterval(intervalId)

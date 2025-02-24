@@ -56,11 +56,11 @@ const Medium = observer(({ color, size = 'small' }: ActivityIndicatorProps) => {
 })
 
 /** Loading (小) */
-const Mini = observer(({ color, size = 'small' }: ActivityIndicatorProps) => {
+const Mini = observer(({ style, color, size = 'small' }: ActivityIndicatorProps) => {
   r(COMPONENT)
 
   return (
-    <Component id='component-loading' style={styles.mini}>
+    <Component id='component-loading' style={stl(styles.mini, style)}>
       <ActivityIndicator color={color || _.select(_.colorSub, _.colorDesc)} size={size} />
     </Component>
   )

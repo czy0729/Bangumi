@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-02-19 07:51:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-20 05:59:24
+ * @Last Modified time: 2025-02-23 04:36:08
  */
 import { usersStore } from '@stores'
 import { getTimestamp, omit } from '@utils'
@@ -53,23 +53,22 @@ export default class Fetch extends Computed {
     const prefix = usersPrefixed
     if (!prefix) return false
 
-    const datas = await gets(
-      [
-        ...new Set(
-          data.list
-            .map(item => item.u.split('user/')?.[1])
-            .filter(item => {
-              if (!item || item === '0') return false
-              if (users[item]?.n) return false
-              if (this._hasGetUsers[item]) return false
-              return true
-            })
-            .map(item => `${prefix}_${item}`)
-        )
-      ],
-      ['avatar', 'userName']
-    )
+    const ids = [
+      ...new Set(
+        data.list
+          .map(item => item.u.split('user/')?.[1])
+          .filter(item => {
+            if (!item || item === '0') return false
+            if (users[item]?.n) return false
+            if (this._hasGetUsers[item]) return false
+            return true
+          })
+          .map(item => `${prefix}_${item}`)
+      )
+    ]
+    if (!ids.length) return false
 
+    const datas = await gets(ids)
     if (datas) {
       const newUsers: typeof users = {}
       const now = getTimestamp()
@@ -136,34 +135,42 @@ export default class Fetch extends Computed {
     const prefix = infosPrefixed
     if (!prefix) return false
 
-    const datas = await gets(
-      [
-        ...new Set(
-          data.list
-            .map(item => item.u.split('user/')?.[1])
-            .filter(item => {
-              if (!item || item === '0') return false
-              if (item in infos) return false
-              return true
-            })
-            .map(item => `${prefix}_${item}`)
-        )
-      ],
-      ['v', 'a', 'n', 'ipa', 'b', 'd']
-    )
+    const ids = [
+      ...new Set(
+        data.list
+          .map(item => item.u.split('user/')?.[1])
+          .filter(item => {
+            if (!item || item === '0') return false
+            if (item in infos) return false
+            return true
+          })
+          .map(item => `${prefix}_${item}`)
+      )
+    ]
+    if (!ids.length) return false
 
+    const datas = await gets(ids, ['v', 'a', 'n', 'ipa', 'b', 'd'])
     if (datas) {
       const newInfos: typeof infos = {}
       const now = getTimestamp()
       Object.entries(datas).forEach(([key, value]) => {
         const id = key.replace(`${prefix}_`, '')
         if (value) {
+          let b = ''
+          if (value?.d?.brand) {
+            b = value.d.brand
+            if (value.d.name) b += ` (${value.d.name})`
+          } else if (value?.b) {
+            b = value.b
+            if (value.d) b += ` (${value.d})`
+          }
+
           newInfos[id] = {
             v: value?.v,
             a: value?.a,
             n: value?.n,
             i: value?.ipa,
-            b: value?.d?.brand || value?.b || value?.d || '',
+            b,
             _loaded: now
           }
         } else {
@@ -177,6 +184,62 @@ export default class Fetch extends Computed {
         infos: newInfos
       })
       this.save()
+    }
+
+    return true
+  }
+
+  getStats = async (u: string) => {
+    const { url2, authorization } = this.state
+    if (!u || !url2 || !authorization) return false
+
+    const now = new Date()
+    const startAt = new Date(now)
+    startAt.setDate(now.getDate() - 29)
+    startAt.setHours(0, 0, 0, 0)
+
+    const endAt = new Date(now)
+    endAt.setHours(23, 59, 59, 999)
+
+    // @ts-expect-error
+    const response = await axios({
+      url: `${url2}&url=${encodeURIComponent(
+        u
+      )}&unit=day&startAt=${startAt.getTime()}&endAt=${endAt.getTime()}`,
+      headers: {
+        Authorization: authorization
+      }
+    })
+    if (response?.data) {
+      const keys = Object.keys(response.data).sort((a, b) => a.localeCompare(b))
+      this.setState({
+        stats: {
+          [u]: {
+            a: response.data[keys[0]].map(item => item.y),
+            // b: response.data[keys[1]],
+            _loaded: getTimestamp()
+          }
+        }
+      })
+      this.save()
+    }
+  }
+
+  getStatsQueue = async () => {
+    const { url2, authorization, data, stats } = this.state
+    if (!url2 || !authorization) return false
+
+    const { list } = data
+    if (!list.length) return false
+
+    for (let i = 0; i < list.length; i += 1) {
+      const { u } = list[i]
+      if (u in stats) continue
+
+      const id = u.split('user/')?.[1] || ''
+      if (!id || id === '0') continue
+
+      await this.getStats(u)
     }
 
     return true

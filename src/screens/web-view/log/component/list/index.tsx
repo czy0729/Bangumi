@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2025-02-18 06:26:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-20 05:28:35
+ * @Last Modified time: 2025-02-22 11:12:23
  */
 import React from 'react'
+import { Loading } from '@components'
 import { PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
@@ -15,6 +16,8 @@ function List() {
   const { $ } = useStore<Ctx>()
   return useObserver(() => {
     const { data } = $.state
+    if (!data.list.length) return <Loading />
+
     return (
       <PaginationList2
         keyExtractor={keyExtractor}

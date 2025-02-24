@@ -4,9 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-02-24 23:34:52
  */
-import { Override, ColorValue, ViewStyle } from '@types'
+import { ColorValue, Override, ViewStyle } from '@types'
 
 export type ActivityIndicatorProps = {
+  style?: ViewStyle
   color?: ColorValue
   size?: 'small' | 'large' | number
   spinnerStyle?: ViewStyle

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:40:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-07 06:52:05
+ * @Last Modified time: 2025-02-22 12:23:00
  */
 
 /** Rakuen */
 export default {
-  // 超展开
+  超展开: 'Rakuen',
   '超展开.跳转': 'Rakuen.to',
   '超展开.右上角菜单': 'Rakuen.topRightMenu',
   '超展开.标签页点击': 'Rakuen.tabsPress',
@@ -18,7 +18,7 @@ export default {
   '超展开.预读取': 'Rakuen.prefetch',
   '超展开.取消预读取': 'Rakuen.cancelPrefetch',
 
-  // 小组
+  小组: 'Group',
   '小组.跳转': 'Group.to',
   '小组.右上角菜单': 'Group.topRightMenu',
   '小组.上一页': 'Group.prev',
@@ -28,24 +28,24 @@ export default {
   '小组.退出': 'Group.doBye',
   '小组.封面图查看': 'Group.imageView',
 
-  // 我的小组
+  我的小组: 'Mine',
   '我的小组.跳转': 'Mine.to',
   '我的小组.右上角菜单': 'Mine.topRightMenu',
   '我的小组.类型切换': 'Mine.onChange',
   '我的小组.筛选': 'Mine.submitEditing',
 
-  // 本地帖子
+  本地帖子: 'RakuenHistory',
   '本地帖子.跳转': 'RakuenHistory.to',
   '本地帖子.切换收藏': 'RakuenHistory.toggleFavor',
 
-  // 电波提醒
+  电波提醒: 'Notify',
   '电波提醒.跳转': 'Notify.to',
   '电波提醒.右上角菜单': 'Notify.topRightMenu',
   '电波提醒.清除': 'Notify.clear',
   '电波提醒.添加好友': 'Notify.doConnect',
   '电波提醒.忽略好友': 'Notify.doErase',
 
-  // 超展开设置
+  超展开设置: 'RakuenSetting',
   '超展开设置.右上角菜单': 'RakuenSetting.topRightMenu',
   '超展开设置.切换': 'RakuenSetting.switch',
   '超展开设置.取消关键字': 'RakuenSetting.cancelBlock',
@@ -54,7 +54,7 @@ export default {
   '超展开设置.绝交': 'RakuenSetting.blockUser',
   '超展开设置.取消绝交': 'RakuenSetting.cancelBlockUser',
 
-  // 帖子
+  帖子: 'Topic',
   '帖子.跳转': 'Topic.to',
   '帖子.右上角菜单': 'Topic.topRightMenu',
   '帖子.吐槽倒序': 'Topic.toggleReverseComments',
@@ -79,7 +79,7 @@ export default {
   '帖子.取消特别关注': 'Topic.cancelTrackUsersComment',
   '帖子.聊天': 'Topic.chat',
 
-  // 日志
+  日志: 'Blog',
   '日志.跳转': 'Blog.to',
   '日志.右上角菜单': 'Blog.topRightMenu',
   '日志.显示评论框': 'Blog.showFixedTextarea',
@@ -89,18 +89,18 @@ export default {
   '日志.楼层跳转': 'Blog.scrollTo',
   '日志.聊天': 'Blog.chat',
 
-  // 社区指导原则
+  社区指导原则: 'UCG',
   '社区指导原则.跳转': 'UCG.to',
   '社区指导原则.不同意': 'UCG.disagree',
   '社区指导原则.同意': 'UCG.agree',
 
-  // 帖子搜索
+  帖子搜索: 'RakuenSearch',
   '帖子搜索.跳转': 'RakuenSearch.to',
   '帖子搜索.选择历史': 'RakuenSearch.selectHistory',
   '帖子搜索.删除历史': 'RakuenSearch.deleteHistory',
   '帖子搜索.搜索': 'RakuenSearch.doSearch',
 
-  // 讨论版
+  讨论版: 'Board',
   '讨论版.跳转': 'Board.to',
   '讨论版.右上角菜单': 'Board.topRightMenu'
 }

@@ -3,15 +3,18 @@
  * @Author: czy0729
  * @Date: 2022-08-06 13:14:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-21 13:56:00
+ * @Last Modified time: 2025-02-23 03:48:21
  */
+import { WEB } from '@constants/device'
+import { DEV } from '@src/config'
 import Crypto from '../crypto'
 
-export const HOST = 'http://192.168.31.87:3001'
-
-// export const HOST = Crypto.get(
-//   'U2FsdGVkX19sKQa+Q0MrgGAoUhowY87a3+FsQyrAcNCiMLDVhjAmyghrdc2h9lO5mEnKOzxNbgEVmyGYnTeLsw=='
-// )
+export const HOST =
+  WEB && DEV
+    ? 'http://192.168.31.87:3001'
+    : Crypto.get(
+        'U2FsdGVkX19sKQa+Q0MrgGAoUhowY87a3+FsQyrAcNCiMLDVhjAmyghrdc2h9lO5mEnKOzxNbgEVmyGYnTeLsw=='
+      )
 
 export const HOST_LX = Crypto.get(
   'U2FsdGVkX19pLR7XLr87YUdwqLAbDOLoIh0+V0P3rl3iUsFt410ARe5W67LGUkY+KvkcBKmPw2Yoi/wrpZoytw=='
