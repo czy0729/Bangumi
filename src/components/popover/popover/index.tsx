@@ -46,14 +46,18 @@ function Popover({ children, ...other }) {
   useEffect(() => {
     const subscription = DeviceEventEmitter.addListener(
       eventType,
-      value => {
+      eventValue => {
+        const { value, pageX, pageY } = eventValue || {}
         let index = -1
         try {
           index = items.filter(item => !item.isTitle).findIndex(item => item.text === value)
         } catch (error) {}
 
         setTimeout(() => {
-          onSelect(data[index], index)
+          onSelect(data[index], index, {
+            pageX,
+            pageY
+          })
         }, 160)
       },
       [onSelect]

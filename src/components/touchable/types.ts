@@ -40,5 +40,8 @@ export type Props = Override<
 
     /** 点击中动画缩放比例, 默认 0.95 */
     scale?: number
+
+    /** 覆写 onPress */
+    onPress?: (evt: { pageX?: number; pageY?: number }) => any
   }
 >

@@ -61,12 +61,13 @@ export const Likes = ({
             <Touchable
               animate
               hitSlop={HIT_SLOP}
-              onPress={() => {
+              onPress={({ pageX, pageY }) => {
                 if (uiStore.likesGrid.visible) {
                   uiStore.closeLikesGrid()
                   return
                 }
 
+                uiStore.setXY(pageX, pageY - 24)
                 uiStore.showLikesGrid(topicId, id, formhash, likeType, offsets)
               }}
             >

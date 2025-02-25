@@ -24,6 +24,12 @@ export default class Store<
     _loaded?: Loaded
   }>
 > {
+  state: T
+
+  constructor(initialState: T) {
+    this.state = initialState
+  }
+
   /** 同步的增量 setState 方法 */
   setState = action((state: DeepPartial<T>, stateKey: string = 'state') => {
     Object.entries(state).forEach(([key, item]) => {
@@ -66,9 +72,7 @@ export default class Store<
    * @param {*} data 置换值
    */
   clearState = action((key: string, data: any = {}) => {
-    // @ts-expect-error
     if (typeof this.state[key] === 'undefined') {
-      // @ts-expect-error
       extendObservable(this.state, {
         [key]: data
       })
@@ -153,7 +157,6 @@ export default class Store<
         }
       })
     } else if (stateKey) {
-      // @ts-expect-error
       const initState = this.state[stateKey]
 
       // @ts-expect-error
@@ -186,7 +189,6 @@ export default class Store<
       let _key = key || this.namespace
       _key += '|state'
 
-      // @ts-expect-error
       const data = this.state
       return setStorage(_key, data)
     }
@@ -196,7 +198,6 @@ export default class Store<
     if (key) _key += `|${key}`
     _key += '|state'
 
-    // @ts-expect-error
     const data = key ? value || this.state[key] : this.state
     return setStorage(_key, data)
   }
@@ -213,7 +214,6 @@ export default class Store<
       // @ts-expect-error
       const key = `${namespace || this.namespace}|state`
 
-      // @ts-expect-error
       const data = omit(this.state, Object.keys(excludeState))
 
       // if (DEV) {
@@ -270,7 +270,6 @@ export default class Store<
     if (!config.length) return true
 
     const data = await Promise.all(
-      // @ts-expect-error
       config.map(key => this.getStorage(key, namespace, this.state[key]))
     )
     const state = Object.assign(
@@ -290,7 +289,6 @@ export default class Store<
    * @param  {String} key 保存值的键值
    * @return {Object}
    */
-  // @ts-expect-error
   toJS = (key: string): object => toJS(this.state[key] || this.state)
 
   /** 唯一队列请求 */

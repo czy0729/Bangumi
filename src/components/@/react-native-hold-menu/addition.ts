@@ -13,8 +13,14 @@ export function onPressEventEmit(item: {
   isTitle?: boolean
   isDestructive?: boolean
   withSeparator?: boolean
+  pageX?: number
+  pageY?: number
   eventType?: any
 }) {
-  const { eventType, text } = item
-  DeviceEventEmitter.emit(eventType, text)
+  const { eventType, text, pageX, pageY } = item
+  DeviceEventEmitter.emit(eventType, {
+    value: text,
+    pageX,
+    pageY
+  })
 }

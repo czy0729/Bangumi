@@ -89,9 +89,10 @@ function IconExtra({
     <Popover
       style={stl(styles.touch, style)}
       data={data.filter(item => !!item)}
-      onSelect={title => {
+      onSelect={(title, _index, { pageX, pageY }) => {
         switch (title) {
           case ACTION_LIKES:
+            uiStore.setXY(pageX, pageY - 48)
             uiStore.showLikesGrid(topicId, id, formhash, likeType, {
               recommandPosition: 'top'
             })

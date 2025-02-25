@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-02-19 11:14:07
  */
 import React, { useCallback } from 'react'
-import { TouchableOpacity } from 'react-native'
+import { GestureResponderEvent, TouchableOpacity } from 'react-native'
 import { TouchableOpacity as GHTouchableOpacity } from 'react-native-gesture-handler'
 import {
   BORDER_DARK_COLOR,
@@ -50,17 +50,25 @@ const MenuItemComponent = ({ item, isLast }: MenuItemComponentProps) => {
     return { color: getColor(item.isTitle, item.isDestructive, theme.value) }
   }, [theme, item])
 
-  const handleOnPress = useCallback(() => {
-    if (!item.isTitle) {
-      // const params = menuProps.value.actionParams[item.text] || []
+  const handleOnPress = useCallback(
+    (event: GestureResponderEvent) => {
+      if (!item.isTitle) {
+        // const params = menuProps.value.actionParams[item.text] || []
 
-      // if (item.onPress) item.onPress(...params)
-      // 使用订阅模式绕过报错, 实现onPress
-      onPressEventEmit(item)
+        // if (item.onPress) item.onPress(...params)
+        // 使用订阅模式绕过报错, 实现onPress
+        const { pageX, pageY } = event.nativeEvent
+        onPressEventEmit({
+          ...item,
+          pageX,
+          pageY
+        })
 
-      state.value = CONTEXT_MENU_STATE.END
-    }
-  }, [state, item])
+        state.value = CONTEXT_MENU_STATE.END
+      }
+    },
+    [state, item]
+  )
 
   return (
     <>

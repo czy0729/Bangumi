@@ -26,7 +26,7 @@ export default class Popover extends React.Component<any> {
     this.ref = ref
   }
 
-  showPopupAndroid = () => {
+  showPopupAndroid = evt => {
     const { data } = this.props
     UIManager.showPopupMenu(
       findNodeHandle(this.ref),
@@ -34,12 +34,12 @@ export default class Popover extends React.Component<any> {
         ? data.map((item: string) => (typeof item === 'string' ? s2t(item) : item))
         : data,
       FROZEN_FN, // err callback
-      this.onPopupItemPress
+      (event, index) => this.onPopupItemPress(event, index, evt)
     )
   }
 
-  onPopupItemPress = (_evt: any, index: string | number) => {
-    if (index !== undefined) this.props.onSelect(this.props.data[index], index)
+  onPopupItemPress = (_evt: any, index: string | number, evt) => {
+    if (index !== undefined) this.props.onSelect(this.props.data[index], index, evt)
   }
 
   render() {

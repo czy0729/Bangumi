@@ -28,7 +28,14 @@ export type Props<Data extends PopoverData> = {
   hitSlop?: Record<'top' | 'right' | 'bottom' | 'left', number>
 
   /** 菜单选择 */
-  onSelect?: (title?: Data[number], index?: number) => any
+  onSelect?: (
+    title?: Data[number],
+    index?: number,
+    evt?: {
+      pageX?: number
+      pageY?: number
+    }
+  ) => any
 
   /** 菜单长按选择 (不推荐使用) */
   onLongPress?: (title?: Data[number]) => any

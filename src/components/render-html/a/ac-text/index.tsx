@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-01-19 11:00:09
  */
-import React, { useCallback, useRef } from 'react'
-import { GestureResponderEvent, Text as RNText } from 'react-native'
+import React, { useCallback } from 'react'
+import { GestureResponderEvent } from 'react-native'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { syncRakuenStore, syncUIStore } from '@utils/async'
@@ -15,8 +15,6 @@ import { Text } from '../../../text'
 import { Props } from './types'
 
 function ACText({ navigation, style, subjectId, text, onPress }: Props) {
-  const textRef = useRef<RNText>(null)
-
   const handlePress = useCallback(
     (event: GestureResponderEvent) => {
       const rakuenStore = syncRakuenStore()
@@ -25,18 +23,12 @@ function ACText({ navigation, style, subjectId, text, onPress }: Props) {
           subjectId
         })
 
-        if (textRef.current) {
-          textRef.current.measure(() => {
-            const { pageX, pageY } = event.nativeEvent
-
-            const uiStore = syncUIStore()
-            uiStore.setXY(pageX, pageY)
-            uiStore.showPopableSubject({
-              subjectId
-            })
-          })
-        }
-
+        const uiStore = syncUIStore()
+        const { pageX, pageY } = event.nativeEvent
+        uiStore.setXY(pageX, pageY - 8)
+        uiStore.showPopableSubject({
+          subjectId
+        })
         return
       }
 
@@ -62,7 +54,7 @@ function ACText({ navigation, style, subjectId, text, onPress }: Props) {
   )
 
   return (
-    <Text forwardRef={textRef} style={stl(WEB && _.mr.xxs, style)} underline onPress={handlePress}>
+    <Text style={stl(WEB && _.mr.xxs, style)} underline onPress={handlePress}>
       {text}
     </Text>
   )
