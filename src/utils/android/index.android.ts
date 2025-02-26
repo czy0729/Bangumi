@@ -4,14 +4,15 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-02 15:49:59
  */
-import { NativeModules, PermissionsAndroid } from 'react-native'
+import { PermissionsAndroid } from 'react-native'
 import RNFS from 'react-native-fs'
 import RNFetchBlob from 'rn-fetch-blob'
 import CameraRoll from '@react-native-community/cameraroll'
 import { FROZEN_FN } from '@constants/init'
 import { Fn } from '@types'
 
-const { HighRefreshRateModule } = NativeModules
+// import { NativeModules } from 'react-native'
+// const { HighRefreshRateModule } = NativeModules
 
 /** 保存 base64 图片到相册 */
 export async function saveBase64ImageToCameraRoll(
@@ -53,21 +54,21 @@ async function hasAndroidPermission() {
 }
 
 export const isHighRefreshRateSupported = async () => {
-  try {
-    const isSupported = await HighRefreshRateModule.isHighRefreshRateSupported()
-    return isSupported
-  } catch (error) {
-    console.error('Failed to check high refresh rate support:', error)
-    return false
-  }
+  // try {
+  //   const isSupported = await HighRefreshRateModule.isHighRefreshRateSupported()
+  //   return isSupported
+  // } catch (error) {
+  //   console.error('Failed to check high refresh rate support:', error)
+  //   return false
+  // }
 }
 
 export const enableHighRefreshRate = async () => {
-  try {
-    const success = await HighRefreshRateModule.enableHighRefreshRate()
-    return success
-  } catch (error) {
-    console.error('Failed to enable high refresh rate:', error)
-    return false
-  }
+  // try {
+  //   const success = await HighRefreshRateModule.enableHighRefreshRate()
+  //   return success
+  // } catch (error) {
+  //   console.error('Failed to enable high refresh rate:', error)
+  //   return false
+  // }
 }

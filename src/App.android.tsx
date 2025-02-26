@@ -13,7 +13,7 @@ import Provider from '@ant-design/react-native/lib/provider'
 import { BackAndroid, DeepLink, DEV } from '@components'
 import { AppCommon } from '@_'
 import { _ } from '@stores'
-import { enableHighRefreshRate, isHighRefreshRateSupported } from '@utils/android'
+// import { enableHighRefreshRate, isHighRefreshRateSupported } from '@utils/android'
 import {
   useCachedResources,
   useDimensions,
@@ -54,13 +54,14 @@ export default function App() {
   }, [window])
 
   // 启用高刷 (应该默认为启用, 但是有些机型默认就是不打开?)
-  useEffect(() => {
-    const checkAndEnableHighRefreshRate = async () => {
-      if (await isHighRefreshRateSupported()) enableHighRefreshRate()
-    }
+  // 部分机型在启动时上方出现不明空白, 暂时屏蔽此逻辑
+  // useEffect(() => {
+  //   const checkAndEnableHighRefreshRate = async () => {
+  //     if (await isHighRefreshRateSupported()) enableHighRefreshRate()
+  //   }
 
-    checkAndEnableHighRefreshRate()
-  }, [])
+  //   checkAndEnableHighRefreshRate()
+  // }, [])
 
   if (!loadingResult) return null
 

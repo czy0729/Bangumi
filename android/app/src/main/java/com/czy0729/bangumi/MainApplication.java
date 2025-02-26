@@ -23,7 +23,7 @@ import com.umeng.commonsdk.UMConfigure;
 import com.czy0729.bangumi.umeng.DplusReactPackage;
 import com.czy0729.bangumi.umeng.RNUMConfigure;
 import com.czy0729.bangumi.daynight.DayNightPackage;
-import com.czy0729.bangumi.HighRefreshRatePackage;
+// import com.czy0729.bangumi.HighRefreshRatePackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -42,7 +42,7 @@ public class MainApplication extends Application implements ReactApplication {
         // packages.add(new MyReactNativePackage());
         packages.add(new DplusReactPackage());
         packages.add(new DayNightPackage());
-        packages.add(new HighRefreshRatePackage());
+        // packages.add(new HighRefreshRatePackage());
         return packages;
       }
 
