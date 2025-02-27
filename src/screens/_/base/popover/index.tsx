@@ -25,7 +25,11 @@ function PopoverWithMenu<ItemT extends string[] | readonly string[]>({
           <Menu
             style={menuStyle}
             data={data || []}
-            onSelect={title => setTimeout(() => onSelect(title), 0)}
+            onSelect={(title, index, evt) => {
+              setTimeout(() => {
+                onSelect(title, index, evt)
+              }, 0)
+            }}
           />
         )
       }

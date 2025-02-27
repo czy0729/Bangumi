@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-11-22 05:08:57
  */
-import { ViewStyle, ReactNode } from '@types'
+import { ReactNode, ViewStyle } from '@types'
 
 type TitleItemType =
   | string
@@ -26,5 +26,12 @@ export type Props = {
   title?: TitleItemType[]
   desc?: string
   data?: DataItemType[] | readonly DataItemType[]
-  onSelect?: (title?: string, index?: number) => any
+  onSelect?: (
+    title?: string,
+    index?: number,
+    evt?: {
+      pageX?: number
+      pageY?: number
+    }
+  ) => any
 }

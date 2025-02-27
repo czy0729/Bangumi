@@ -44,3 +44,21 @@ export function isBlockUser(userId: UserId, userName: string, replySub = '', tra
 
   return isBlock
 }
+
+/** 是否特殊显示楼层 */
+export function isSpecFloor(text: string, subLength: number) {
+  // 屏蔽内容删除
+  if (rakuenStore.setting.filterDelete && text.includes('删除了回复')) return true
+
+  // 有子楼层或者本楼层文本很长
+  if (subLength || text.length > 10) return false
+
+  return (
+    text.toLocaleLowerCase().includes('mark') ||
+    text.includes('+1') ||
+    text.includes('马克') ||
+    text.includes('插眼') ||
+    text === '1' ||
+    text === 'm'
+  )
+}

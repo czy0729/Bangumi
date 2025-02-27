@@ -6,7 +6,7 @@
  */
 import { _ } from '@stores'
 import { EVENT, FROZEN_FN } from '@constants'
-import { Navigation, RakuenNewFloorStyleCn, TopicId, UserId } from '@types'
+import { BlogId, Navigation, RakuenNewFloorStyleCn, TopicId, UserId } from '@types'
 import { Props } from '../types'
 import { memoStyles } from './styles'
 
@@ -14,7 +14,7 @@ export const DEFAULT_PROPS = {
   navigation: {} as Navigation,
   styles: {} as ReturnType<typeof memoStyles>,
   extraStyle: {} as Props['extraStyle'],
-  topicId: '' as TopicId,
+  topicId: '' as TopicId | BlogId,
   authorId: '' as Props['authorId'],
   avatar: '' as Props['avatar'],
   blockKeywords: [] as any[],

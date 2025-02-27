@@ -8,7 +8,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text } from '@components'
 import { systemStore } from '@stores'
-import { HTMLDecode, stl } from '@utils'
+import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { useNavigation } from '@utils/hooks'
 import { IMAGES_MAX_WIDTH } from '../ds'
@@ -61,7 +61,7 @@ function FloorMain({
                 bold
                 right={<UserLabel isAuthor={isAuthor} isFriend={isFriend} userSign={userSign} />}
               >
-                {HTMLDecode(userName)}
+                {userName}
               </Name>
             </View>
             {systemStore.setting.userAge && (

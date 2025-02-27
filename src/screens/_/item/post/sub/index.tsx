@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import { rakuenStore, useStore } from '@stores'
+import { HTMLDecode } from '@utils'
 import { ob } from '@utils/decorators'
 import { useNavigation } from '@utils/hooks'
 import { isBlockUser } from '../utils'
@@ -42,6 +43,7 @@ export default ob(
     // 屏蔽脏数据
     if (!userId) return null
 
+    userName = HTMLDecode(userName)
     if (isBlockUser(userId, userName, replySub)) return null
 
     const { translateResultFloor } = $?.state || {}

@@ -4,7 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-16 09:13:21
  */
-import React from 'react'
+import React, { useRef } from 'react'
+import { View } from 'react-native'
 import { Flex, Iconfont } from '@components'
 import { _, rakuenStore, uiStore, userStore, useStore } from '@stores'
 import {
@@ -18,8 +19,8 @@ import {
   removeURLs,
   stl
 } from '@utils'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import { HTML_BLOG, HTML_TOPIC } from '@constants'
 import { AnyObject, TopicId } from '@types'
 import { Popover } from '../../../base'
@@ -56,137 +57,155 @@ function IconExtra({
   topicId: TopicId
 }>) {
   const { $ } = useStore<Ctx>()
-  const data = [
-    // 编辑
-    erase && $?.doDeleteReply && ACTION_EDIT,
+  const viewRef = useRef(null)
 
-    // 贴贴
-    rakuenStore.setting.likes && likeType && ACTION_LIKES,
+  return useObserver(() => {
+    const data = [
+      // 编辑
+      erase && $?.doDeleteReply && ACTION_EDIT,
 
-    // 回复
-    replySub && !userStore.isLimit && $?.showFixedTextarea && ACTION_REPLY,
+      // 贴贴
+      rakuenStore.setting.likes && likeType && ACTION_LIKES,
 
-    // 复制
-    ACTION_COPY,
-    ACTION_COPY_URL,
+      // 回复
+      replySub && !userStore.isLimit && $?.showFixedTextarea && ACTION_REPLY,
 
-    // 关注
-    rakuenStore.commentTracked(userId) ? ACTION_UNTRACK : ACTION_TRACK,
+      // 复制
+      ACTION_COPY,
+      ACTION_COPY_URL,
 
-    // 翻译
-    $?.doTranslateFloor &&
-      !isChineseParagraph(removeURLs(removeHTMLTag(msg)), 0.5) &&
-      ACTION_TRANSLATE,
+      // 关注
+      rakuenStore.commentTracked(userId) ? ACTION_UNTRACK : ACTION_TRACK,
 
-    // 屏蔽
-    !erase && userStore.isWebLogin && ACTION_IGNORE,
+      // 翻译
+      $?.doTranslateFloor &&
+        !isChineseParagraph(removeURLs(removeHTMLTag(msg)), 0.5) &&
+        ACTION_TRANSLATE,
 
-    // 删除
-    erase && $?.doDeleteReply && ACTION_DELETE
-  ] as const
+      // 屏蔽
+      !erase && userStore.isWebLogin && ACTION_IGNORE,
 
-  return (
-    <Popover
-      style={stl(styles.touch, style)}
-      data={data.filter(item => !!item)}
-      onSelect={(title, _index, { pageX, pageY }) => {
-        switch (title) {
-          case ACTION_LIKES:
-            uiStore.setXY(pageX, pageY - 48)
-            uiStore.showLikesGrid(topicId, id, formhash, likeType, {
-              recommandPosition: 'top'
-            })
-            break
+      // 删除
+      erase && $?.doDeleteReply && ACTION_DELETE
+    ] as const
 
-          case ACTION_REPLY:
-            if (typeof $?.showFixedTextarea === 'function')
-              $.showFixedTextarea(userName, replySub, message, msg)
-            if (typeof onShowFixedTextare === 'function') onShowFixedTextare()
-            break
+    return (
+      <Popover
+        style={stl(styles.touch, style)}
+        data={data.filter(item => !!item)}
+        onSelect={title => {
+          switch (title) {
+            case ACTION_LIKES:
+              viewRef.current.measure(
+                (_x: any, _y: any, _width: any, _height: any, pageX: number, pageY: number) => {
+                  uiStore.setXY(pageX, pageY)
+                  uiStore.showLikesGrid(topicId, id, formhash, likeType, {
+                    recommandPosition: 'top'
+                  })
+                }
+              )
+              break
 
-          case ACTION_EDIT:
-            if (typeof $?.showFixedTextareaEdit === 'function')
-              $.showFixedTextareaEdit(id, onShowFixedTextare, onJumpTo)
-            break
-
-          case ACTION_COPY:
-            copy(getCommentPlainText(msg), `已复制 ${userName} 的吐槽`)
-
-            t('帖子.复制回复')
-            break
-
-          case ACTION_COPY_URL:
-            if (typeof topicId === 'string') {
-              if (topicId.includes('blog')) {
-                copy(HTML_BLOG(topicId.split('/')?.[1], id), '已复制')
-              } else {
-                copy(HTML_TOPIC(topicId, id), '已复制')
+            case ACTION_REPLY:
+              if (typeof $?.showFixedTextarea === 'function') {
+                $.showFixedTextarea(userName, replySub, message, msg)
               }
 
-              t('帖子.复制楼层链接')
-            }
-            break
-
-          case ACTION_TRACK:
-            rakuenStore.trackUsersComment(userId)
-
-            t('帖子.特别关注', {
-              userId
-            })
-            break
-
-          case ACTION_UNTRACK:
-            rakuenStore.cancelTrackUsersComment(userId)
-
-            t('帖子.取消特别关注', {
-              userId
-            })
-            break
-
-          case ACTION_TRANSLATE:
-            if (typeof $?.doTranslateFloor === 'function') $.doTranslateFloor(id, msg)
-            break
-
-          case ACTION_IGNORE:
-            confirm(
-              `与 ${userName} 绝交（不再看到用户的所有话题、评论、日志、私信、提醒）?`,
-              async () => {
-                if (!rakuenStore.formhash) await rakuenStore.fetchPrivacy()
-
-                rakuenStore.doBlockUser(
-                  {
-                    keyword: String(userId)
-                  },
-                  async () => {
-                    info('已添加绝交')
-                    feedback()
-                    rakuenStore.fetchPrivacy()
-
-                    t('帖子.绝交')
-                  },
-                  () => {
-                    info('添加失败, 可能授权信息过期')
-                  }
-                )
+              if (typeof onShowFixedTextare === 'function') {
+                onShowFixedTextare()
               }
-            )
-            break
+              break
 
-          case ACTION_DELETE:
-            if (typeof $?.doDeleteReply === 'function')
-              confirm('确定删除回复?', () => $.doDeleteReply(erase))
-            break
+            case ACTION_EDIT:
+              if (typeof $?.showFixedTextareaEdit === 'function') {
+                $.showFixedTextareaEdit(id, onShowFixedTextare, onJumpTo)
+              }
+              break
 
-          default:
-            break
-        }
-      }}
-    >
-      <Flex style={styles.icon} justify='center'>
-        <Iconfont style={_.ml.md} name='md-more-vert' size={18} />
-      </Flex>
-    </Popover>
-  )
+            case ACTION_COPY:
+              copy(getCommentPlainText(msg), `已复制 ${userName} 的吐槽`)
+
+              t('帖子.复制回复')
+              break
+
+            case ACTION_COPY_URL:
+              if (typeof topicId === 'string') {
+                if (topicId.includes('blog')) {
+                  copy(HTML_BLOG(topicId.split('/')?.[1], id), '已复制')
+                } else {
+                  copy(HTML_TOPIC(topicId, id), '已复制')
+                }
+
+                t('帖子.复制楼层链接')
+              }
+              break
+
+            case ACTION_TRACK:
+              rakuenStore.trackUsersComment(userId)
+
+              t('帖子.特别关注', {
+                userId
+              })
+              break
+
+            case ACTION_UNTRACK:
+              rakuenStore.cancelTrackUsersComment(userId)
+
+              t('帖子.取消特别关注', {
+                userId
+              })
+              break
+
+            case ACTION_TRANSLATE:
+              if (typeof $?.doTranslateFloor === 'function') {
+                $.doTranslateFloor(id, msg)
+              }
+              break
+
+            case ACTION_IGNORE:
+              confirm(
+                `与 ${userName} 绝交（不再看到用户的所有话题、评论、日志、私信、提醒）?`,
+                async () => {
+                  if (!rakuenStore.formhash) await rakuenStore.fetchPrivacy()
+
+                  rakuenStore.doBlockUser(
+                    {
+                      keyword: String(userId)
+                    },
+                    async () => {
+                      info('已添加绝交')
+                      feedback()
+                      rakuenStore.fetchPrivacy()
+
+                      t('帖子.绝交')
+                    },
+                    () => {
+                      info('添加失败, 可能授权信息过期')
+                    }
+                  )
+                }
+              )
+              break
+
+            case ACTION_DELETE:
+              if (typeof $?.doDeleteReply === 'function') {
+                confirm('确定删除回复?', () => $.doDeleteReply(erase))
+              }
+              break
+
+            default:
+              break
+          }
+        }}
+      >
+        <View ref={viewRef}>
+          <Flex style={styles.icon} justify='center'>
+            <Iconfont style={_.ml.md} name='md-more-vert' size={18} />
+          </Flex>
+        </View>
+      </Popover>
+    )
+  })
 }
 
-export default ob(IconExtra)
+export default IconExtra

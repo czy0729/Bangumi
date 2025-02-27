@@ -55,6 +55,9 @@ export type TopicType = 'group' | 'subject' | 'ep' | 'prsn' | 'crt'
 /** 帖子 ID */
 export type TopicId = `${TopicType}/${Id}`
 
+/** 日志 ID */
+export type BlogId = `blog/${Id}`
+
 export type Url = '//lain.bgm.tv'
 
 export type Host = 'https://bgm.tv'

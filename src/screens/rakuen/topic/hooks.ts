@@ -298,6 +298,9 @@ export function useTopicPage(props: NavigationProps) {
   useMount(() => {
     return () => {
       setTimeout(() => {
+        uiStore.closePopableSubject()
+        uiStore.closeLikesGrid()
+
         $.setState({
           fixed: false
         })

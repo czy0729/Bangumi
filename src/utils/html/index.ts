@@ -195,20 +195,14 @@ export function findTreeNode(children: any, cmd: string = '', defaultValue?) {
     }
     return item.tag === _tag
   })
-  if (!find.length) {
-    return undefined || defaultValue
-  }
-  if (!tags.length) {
-    return find
-  }
+  if (!find.length) return defaultValue
+  if (!tags.length) return find
 
   const _find = []
   find.forEach(item => {
     _find.push(...(findTreeNode(item.children, tags.join(split)) || []))
   })
-  if (!_find.length) {
-    return undefined || defaultValue
-  }
+  if (!_find.length) return defaultValue
   return _find
 }
 

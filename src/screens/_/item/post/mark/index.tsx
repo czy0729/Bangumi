@@ -8,7 +8,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { Avatar, Flex, RenderHtml, UserStatus } from '@components'
 import { _, systemStore } from '@stores'
-import { appNavigate, HTMLDecode, open } from '@utils'
+import { appNavigate, open } from '@utils'
 import { ob } from '@utils/decorators'
 import { useNavigation } from '@utils/hooks'
 import { Name } from '../../../base'
@@ -47,7 +47,7 @@ function Mark({
           </UserStatus>
         </View>
         <Name userId={userId} size={10} bold>
-          {HTMLDecode(userName)}
+          {userName}
         </Name>
       </Flex>
       <RenderHtml

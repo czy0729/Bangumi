@@ -8,7 +8,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { Avatar, Flex, RenderHtml, UserStatus } from '@components'
 import { _, systemStore } from '@stores'
-import { appNavigate, HTMLDecode, open } from '@utils'
+import { appNavigate, open } from '@utils'
 import { ob } from '@utils/decorators'
 import { useNavigation } from '@utils/hooks'
 import { Name } from '../../../base'
@@ -51,7 +51,7 @@ function ItemPlusOne({
             />
           </UserStatus>
           <Name style={_.ml.xs} userId={userId} size={10} bold>
-            {HTMLDecode(userName)}
+            {userName}
           </Name>
           <UserLabel isAuthor={isAuthor} isFriend={isFriend} isLayer={isLayer} lineHeight={10} />
         </Flex>

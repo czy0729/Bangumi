@@ -11,19 +11,30 @@ import { Popover as PopoverComp } from './index'
 import { PopoverData, Props } from './types'
 
 export const Popover = <Data extends PopoverData>({
-  data = [],
+  data,
   onSelect = FROZEN_FN,
   children,
   ...other
 }: Props<Data>) => {
   const popoverProps = IOS
     ? {
-        overlay: <Menu data={data} onSelect={title => setTimeout(() => onSelect(title), 0)} />
+        overlay: (
+          <Menu
+            data={data || []}
+            onSelect={(title, index, evt) => {
+              setTimeout(() => {
+                onSelect(title, index, evt)
+              }, 0)
+            }}
+          />
+        )
       }
     : {
-        data,
+        ...other,
+        data: data || [],
         onSelect
       }
+
   return (
     <PopoverComp placement='bottom' {...popoverProps} {...other}>
       {children}

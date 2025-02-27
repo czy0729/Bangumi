@@ -7,13 +7,13 @@
 import React from 'react'
 import { Component } from '@components'
 import { rakuenStore, uiStore, useStore } from '@stores'
-import { getIsBlocked, getTimestamp } from '@utils'
+import { getIsBlocked, getTimestamp, HTMLDecode } from '@utils'
 import { ob } from '@utils/decorators'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HOST, MODEL_RAKUEN_NEW_FLOOR_STYLE } from '@constants'
 import Item from './item'
 import PlusOne from './plus-one'
-import { isBlockUser } from './utils'
+import { isBlockUser, isSpecFloor } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Ctx, Props as ItemPostProps } from './types'
@@ -53,23 +53,16 @@ export const ItemPost = ob(
 
     // 屏蔽用户
     const uuid = `Topic|${id}`
+    userName = HTMLDecode(userName)
     if (isBlockUser(userId, userName, replySub, uuid)) return null
-
-    // 屏蔽内容删除
-    let msg = decoder(message)
-    const isDelete: boolean = msg.includes('删除了回复')
-    if (isDelete && rakuenStore.setting.filterDelete) return null
 
     const styles = memoStyles()
     const url = $?.params?._url || `${HOST}/rakuen/topic/${$?.topicId}`
     const directFloor = $?.state?.directFloor === floor
     const isAuthor = authorId === userId
     const isFriend = $?.myFriendsMap?.[userId]
-    const isBadge: boolean =
-      !sub.length &&
-      msg.length <= 10 &&
-      (msg.toLocaleLowerCase().includes('mark') || msg.includes('+1'))
-    if (isDelete || isBadge) {
+    let msg = decoder(message)
+    if (isSpecFloor(msg, sub.length)) {
       return (
         <Component id='item-post' data-key={id} data-type='plus-one' style={styles.delete}>
           <PlusOne

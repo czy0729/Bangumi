@@ -8,14 +8,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { Avatar, Component, Flex, Text } from '@components'
 import { _, systemStore } from '@stores'
-import {
-  getIsBlocked,
-  getTimestamp,
-  HTMLDecode,
-  matchUserIdFromAvatar,
-  removeHTMLTag,
-  stl
-} from '@utils'
+import { getIsBlocked, getTimestamp, matchUserIdFromAvatar, removeHTMLTag, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { IMAGES_MAX_WIDTH_SUB, REG_MARK } from '../ds'
@@ -177,7 +170,7 @@ export default memo(
                     bold
                     right={<UserLabel isAuthor={isAuthor} isFriend={isFriend} isLayer={isLayer} />}
                   >
-                    {HTMLDecode(userName)}
+                    {userName}
                   </Name>
                   {systemStore.setting.userAge && (
                     <Flex.Item>

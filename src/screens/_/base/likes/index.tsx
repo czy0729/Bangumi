@@ -10,7 +10,7 @@ import { Component, Flex, Iconfont, ScrollView, Touchable } from '@components'
 import { rakuenStore, timelineStore, uiStore } from '@stores'
 import { r } from '@utils/dev'
 import { useBoolean, useObserver } from '@utils/hooks'
-import { LIKE_TYPE_TIMELINE } from '@constants'
+import { IOS, LIKE_TYPE_TIMELINE } from '@constants'
 import Btn from './btn'
 import Flip from './flip'
 import { COMPONENT, HIT_SLOP, LIMIT } from './ds'
@@ -67,7 +67,7 @@ export const Likes = ({
                   return
                 }
 
-                uiStore.setXY(pageX, pageY - 24)
+                uiStore.setXY(pageX, pageY - (IOS ? 0 : 24))
                 uiStore.showLikesGrid(topicId, id, formhash, likeType, offsets)
               }}
             >
