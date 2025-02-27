@@ -6,4 +6,4 @@
  */
 export const AVATAR_SIZE = 36
 
-export const ITEM_HEIGHT = 100
+export const ITEM_HEIGHT = 80

@@ -7,7 +7,7 @@
 import React from 'react'
 import { Katakana, Text } from '@components'
 import { systemStore, uiStore } from '@stores'
-import { findSubjectCn, getCoverMedium, HTMLDecode } from '@utils'
+import { feedback, findSubjectCn, getCoverMedium, HTMLDecode } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST_NAME } from '@constants'
@@ -32,12 +32,13 @@ function P3({ image, p3Text, p3Url, onNavigate }) {
           bold
           onPress={() => {
             if (isSubject && subjectId && systemStore.setting.timelinePopable) {
-              t('时间胶囊.缩略框', {
-                to: 'Subject',
+              uiStore.showPopableSubject({
                 subjectId
               })
+              feedback(true)
 
-              uiStore.showPopableSubject({
+              t('时间胶囊.缩略框', {
+                to: 'Subject',
                 subjectId
               })
               return
@@ -76,11 +77,13 @@ function P3({ image, p3Text, p3Url, onNavigate }) {
         bold
         onPress={() => {
           if (isSubject && subjectId && systemStore.setting.timelinePopable) {
-            t('时间胶囊.缩略框', {
-              to: 'Subject',
+            uiStore.showPopableSubject({
               subjectId
             })
-            uiStore.showPopableSubject({
+            feedback(true)
+
+            t('时间胶囊.缩略框', {
+              to: 'Subject',
               subjectId
             })
             return

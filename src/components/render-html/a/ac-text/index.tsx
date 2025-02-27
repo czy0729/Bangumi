@@ -7,7 +7,7 @@
 import React, { useCallback } from 'react'
 import { GestureResponderEvent } from 'react-native'
 import { _ } from '@stores'
-import { stl } from '@utils'
+import { feedback, stl } from '@utils'
 import { syncRakuenStore, syncUIStore } from '@utils/async'
 import { t } from '@utils/fetch'
 import { HOST, WEB } from '@constants'
@@ -19,14 +19,15 @@ function ACText({ navigation, style, subjectId, text, onPress }: Props) {
     (event: GestureResponderEvent) => {
       const rakuenStore = syncRakuenStore()
       if (rakuenStore.setting.acSearchPopable) {
-        t('AC搜索.缩略框', {
-          subjectId
-        })
-
         const uiStore = syncUIStore()
         const { pageX, pageY } = event.nativeEvent
         uiStore.setXY(pageX, pageY - 8)
         uiStore.showPopableSubject({
+          subjectId
+        })
+        feedback(true)
+
+        t('AC搜索.缩略框', {
           subjectId
         })
         return

@@ -8,7 +8,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { Expand, Katakana, Text } from '@components'
 import { _, systemStore, uiStore } from '@stores'
-import { findSubjectCn, getCoverMedium } from '@utils'
+import { feedback, findSubjectCn, getCoverMedium } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { styles } from './styles'
@@ -30,10 +30,12 @@ function Desc({ navigation, subject, subjectId, image, comment, replyContent, re
                   ...data
                 }
                 if (subjectId && systemStore.setting.timelinePopable) {
-                  t('时间胶囊.缩略框', eventData)
                   uiStore.showPopableSubject({
                     subjectId
                   })
+                  feedback(true)
+
+                  t('时间胶囊.缩略框', eventData)
                   return
                 }
 

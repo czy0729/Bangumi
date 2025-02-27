@@ -9,7 +9,7 @@ import { Animated, LayoutChangeEvent, View } from 'react-native'
 import { useObserver } from 'mobx-react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { _ } from '@stores'
-import { runAfter, stl } from '@utils'
+import { feedback, runAfter, stl } from '@utils'
 import { r } from '@utils/dev'
 import { Component } from '../component'
 import { Flex } from '../flex'
@@ -84,6 +84,8 @@ export const Expand = ({
     [checkLayout, ratioHeight, handleExpand]
   )
   const handlePress = useCallback(() => {
+    feedback(true)
+
     if (typeof onPress === 'function') {
       onPress()
     } else {

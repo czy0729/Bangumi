@@ -8,7 +8,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
 import { _, uiStore } from '@stores'
-import { findSubjectJp, HTMLDecode } from '@utils'
+import { feedback, findSubjectJp, HTMLDecode } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { COMPONENT } from './ds'
@@ -52,6 +52,7 @@ function Item({ navigation, item, index }: Props) {
           uiStore.showPopableSubject({
             subjectId: item.id
           })
+          feedback(true)
 
           t('评分月刊.缩略框', {
             subjectId: item.id

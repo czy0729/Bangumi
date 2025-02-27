@@ -8,6 +8,7 @@ import React from 'react'
 import { Flex, SwitchPro, Text } from '@components'
 import { ItemSetting } from '@_'
 import { uiStore } from '@stores'
+import { feedback } from '@utils'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
@@ -117,6 +118,7 @@ function Media() {
               uiStore.showPopableSubject({
                 subjectId: 364450
               })
+              feedback(true)
             }}
           >
             石蒜

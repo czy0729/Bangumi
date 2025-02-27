@@ -15,7 +15,7 @@ import { styles } from './styles'
 function Avatar({ index, inViewY, userId, userName, avatar, event }) {
   const navigation = useNavigation()
   return (
-    <InView style={styles.inView} y={ITEM_HEIGHT * index + inViewY + 1}>
+    <InView style={styles.inView} y={ITEM_HEIGHT * index + inViewY}>
       <UserStatusAvatar
         navigation={navigation}
         like={rakuenStore.commentTracked(userId)}

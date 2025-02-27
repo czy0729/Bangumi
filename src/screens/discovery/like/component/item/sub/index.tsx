@@ -7,7 +7,7 @@
 import React from 'react'
 import { Flex, Text } from '@components'
 import { uiStore, useStore } from '@stores'
-import { desc, getType, similar } from '@utils'
+import { desc, feedback, getType, similar } from '@utils'
 import { ob } from '@utils/decorators'
 import { MODEL_COLLECTION_STATUS } from '@constants'
 import { Ctx } from '../../../types'
@@ -55,6 +55,7 @@ function Sub({ name, relates, action }: Props) {
                   uiStore.showPopableSubject({
                     subjectId: subject.id
                   })
+                  feedback(true)
                 }}
               >
                 {!!status && (

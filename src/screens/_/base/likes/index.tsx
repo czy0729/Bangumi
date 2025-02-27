@@ -8,6 +8,7 @@ import React from 'react'
 import { toJS } from 'mobx'
 import { Component, Flex, Iconfont, ScrollView, Touchable } from '@components'
 import { rakuenStore, timelineStore, uiStore } from '@stores'
+import { feedback } from '@utils'
 import { r } from '@utils/dev'
 import { useBoolean, useObserver } from '@utils/hooks'
 import { IOS, LIKE_TYPE_TIMELINE } from '@constants'
@@ -69,6 +70,7 @@ export const Likes = ({
 
                 uiStore.setXY(pageX, pageY - (IOS ? 0 : 24))
                 uiStore.showLikesGrid(topicId, id, formhash, likeType, offsets)
+                feedback(true)
               }}
             >
               <Flex style={styles.item} justify='center'>
