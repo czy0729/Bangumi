@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-17 04:49:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-17 14:13:17
+ * @Last Modified time: 2025-02-28 13:55:08
  */
 import { FlatListProps, SectionListScrollParams } from 'react-native'
 import { ListEmpty, Override, ReactNode } from '@types'
@@ -11,9 +11,6 @@ import { REFRESH_STATE } from './ds'
 export type Props<ItemT> = Override<
   FlatListProps<ItemT>,
   {
-    /** 此函数用于为给定的 item 生成一个不重复的 key */
-    keyExtractor?: (item: ItemT, index?: number) => string
-
     /** 是否使用 Animated.ListView 渲染 */
     animated?: boolean
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-03 15:49:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-20 01:30:16
+ * @Last Modified time: 2025-02-28 17:12:15
  */
 import { _ } from '@stores'
 import { PAD } from '@constants'
@@ -136,7 +136,8 @@ export const memoStyles = _.memoStyles(() => ({
     borderRadius: _.radiusSm + 2,
     overflow: _.ios(undefined, 'hidden')
   },
-  scale: {
+  loading: {
+    opacity: 0.64,
     transform: [
       {
         scale: 0.8

@@ -89,7 +89,7 @@ export const Button = observer(
     const content = (
       <Flex justify='center'>
         {loading ? (
-          <View style={styles.scale}>
+          <View style={styles.loading}>
             <Activity color={type === 'plain' ? 'rgb(128, 128, 128)' : 'white'} size='small' />
           </View>
         ) : (

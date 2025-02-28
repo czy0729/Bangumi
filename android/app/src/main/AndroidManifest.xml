@@ -30,6 +30,7 @@
     <meta-data android:name="UMENT_APPKEY" android:value="5ddceaa10cafb2ea9900066a"/>
     <meta-data android:name="expo.modules.updates.EXPO_UPDATE_URL" android:value="YOUR-APP-URL-HERE"/>
     <meta-data android:name="expo.modules.updates.EXPO_SDK_VERSION" android:value="YOUR-APP-SDK-VERSION-HERE"/>
+    <meta-data android:name="android.autofill" android:resource="@xml/autofill_service"/>
     <activity
       android:name=".MainActivity"
       android:label="@string/app_name"

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-01-25 08:41:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-26 15:29:25
+ * @Last Modified time: 2025-02-28 17:17:00
  */
 import { UserId } from '@types'
 
@@ -37,7 +37,8 @@ const SPLITS = [
   [919651, 2024.8],
   [931684, 2024.9],
   [947430, 2025],
-  [955000, 2025.1]
+  [955000, 2025.1],
+  [972000, 2025.2]
 ] as const
 
 const CURRENT_YEAR = getCurrentYearWithDecimal()

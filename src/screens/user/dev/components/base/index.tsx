@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-03-01 11:45:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-20 06:04:02
+ * @Last Modified time: 2025-02-28 16:01:58
  */
 import React from 'react'
 import { Switch, Text, Touchable } from '@components'
 import { IconTouchable, ItemSetting } from '@_'
-import { systemStore, userStore } from '@stores'
+import { _, systemStore, userStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { NavigationProps } from '@types'
 import { memoStyles } from './styles'
@@ -25,6 +25,7 @@ function Base({ navigation }: NavigationProps) {
         />
         {userStore.isDeveloper && (
           <ItemSetting
+            style={_.mt._sm}
             hd='Track Points'
             ft={
               <Switch
@@ -38,6 +39,7 @@ function Base({ navigation }: NavigationProps) {
         )}
         {userStore.isDeveloper && (
           <ItemSetting
+            style={_.mt._sm}
             hd='Playground'
             ft={
               <IconTouchable
@@ -52,6 +54,7 @@ function Base({ navigation }: NavigationProps) {
         )}
         {userStore.isDeveloper && (
           <ItemSetting
+            style={_.mt._sm}
             hd='错误上报分析'
             ft={
               <IconTouchable
@@ -65,6 +68,7 @@ function Base({ navigation }: NavigationProps) {
           />
         )}
         <ItemSetting
+          style={_.mt._sm}
           hd='JS Exception Test'
           ft={
             <Touchable

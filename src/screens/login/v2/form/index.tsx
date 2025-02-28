@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-16 20:24:00
+ * @Last Modified time: 2025-02-28 17:21:47
  */
 import React from 'react'
 import { Image as RNImage, View } from 'react-native'
@@ -115,6 +115,8 @@ class Form extends React.Component<Props> {
               style={this.styles.input}
               value={email}
               placeholder='Email'
+              autoComplete='username'
+              textContentType='username'
               returnKeyType='next'
               onFocus={onFocus}
               onBlur={onBlur}
@@ -130,6 +132,8 @@ class Form extends React.Component<Props> {
               style={this.styles.input}
               value={password}
               placeholder='密码'
+              autoComplete='password'
+              textContentType='password'
               secureTextEntry
               returnKeyType='next'
               onFocus={onFocus}
