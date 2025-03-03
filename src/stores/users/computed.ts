@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-04-25 13:59:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-10 12:06:50
+ * @Last Modified time: 2025-03-03 19:00:08
  */
 import { computed } from 'mobx'
 import { HTMLDecode } from '@utils'
 import { fixedRemote } from '@utils/user-setting'
 import { LIST_EMPTY } from '@constants'
-import { StoreConstructor, UserId } from '@types'
+import { Avatar, StoreConstructor, UserId } from '@types'
 import userStore from '../user'
 import { INIT_USERS, INIT_USERS_INFO, STATE } from './init'
 import State from './state'
@@ -29,6 +29,15 @@ export default class Computed
   extends State
   implements StoreConstructor<Omit<typeof STATE, 'catalogsCollect'>>
 {
+  /** 寻找头像 */
+  avatars(userId?: UserId) {
+    this.init('avatars')
+    return computed(() => {
+      const value = this.state.avatars[userId]
+      return (value ? `https://lain.bgm.tv/pic/user/l/000/${value}` : '') as Avatar<'l'>
+    }).get()
+  }
+
   /** 好友列表 */
   friends(userId?: UserId) {
     this.init('friends')

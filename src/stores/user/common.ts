@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-01 22:42:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 01:59:45
+ * @Last Modified time: 2025-03-03 19:10:17
  */
 import { cData, cheerio, cHtml, cMap, cText, htmlMatch, matchAvatar, safeObject } from '@utils'
 
@@ -22,7 +22,7 @@ export function cheerioPM(html: string) {
           id: id ? id.match(/\d+/g)[0] : '',
           title: $a.text().trim(),
           content: $row.find('span.tip').text().trim(),
-          avatar: String($row.find('img').attr('src')).split('?')[0],
+          avatar: $row.find('img').attr('src'),
           name: $user.text().trim(),
           userId: String($user.attr('href')).replace('/user/', ''),
           time: $row.find('small.grey').text().trim(),

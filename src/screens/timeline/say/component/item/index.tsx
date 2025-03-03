@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-06-17 11:17:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-10 18:06:42
+ * @Last Modified time: 2025-03-03 19:01:05
  */
 import React from 'react'
 import { Text } from '@components'
 import { ItemSay } from '@_'
-import { userStore, useStore } from '@stores'
+import { usersStore, userStore, useStore } from '@stores'
 import { SayItem } from '@stores/timeline/types'
 import { getAvatarLocal } from '@utils'
 import { ob } from '@utils/decorators'
@@ -29,7 +29,7 @@ function Item({ item, index }) {
         index={index}
         event={EVENT}
         position={isMe ? 'right' : 'left'}
-        avatar={getAvatarLocal(item.id) || API_AVATAR(item.id)}
+        avatar={usersStore.avatars(item.id) || getAvatarLocal(item.id) || API_AVATAR(item.id)}
         showName={prevItem.name !== item.name}
         onLongPress={() => $.at(item.id)}
       />

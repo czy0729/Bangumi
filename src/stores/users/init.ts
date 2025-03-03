@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:32:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-08 22:01:57
+ * @Last Modified time: 2025-03-03 18:57:40
  */
 import { LIST_EMPTY } from '@constants'
 import { Users } from './types'
@@ -110,6 +110,11 @@ export const INIT_CATALOGS = {
 }
 
 export const STATE = {
+  /** 全局用户头像缓存索引 */
+  avatars: {
+    0: '' as string
+  },
+
   /** 好友列表 */
   friends: {
     0: LIST_EMPTY
@@ -160,6 +165,7 @@ export const STATE = {
 }
 
 export const LOADED = {
+  avatars: false,
   blogs: false,
   catalogs: false,
   catalogsCollect: false,

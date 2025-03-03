@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:26:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 15:50:54
+ * @Last Modified time: 2025-03-03 18:53:14
  */
 import { getTimestamp, HTMLTrim } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -281,7 +281,8 @@ export default class Fetch extends Computed {
 
     return {
       setCookie,
-      html
+      html,
+      list
     }
   }
 

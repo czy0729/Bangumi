@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-18 06:52:39
+ * @Last Modified time: 2025-03-03 20:07:56
  */
+import { usersStore } from '@stores'
 import { queue } from '@utils/fetch'
 import { TYPE_PAGE } from '../ds'
 import Action from './action'
@@ -19,7 +20,8 @@ export default class ScreenMono extends Action {
     return queue([
       () => this.fetchNotify(),
       () => this.fetchPM(true, 'pmIn'),
-      () => this.fetchPM(true, 'pmOut')
+      () => this.fetchPM(true, 'pmOut'),
+      () => usersStore.fetchFriends()
     ])
   }
 }
