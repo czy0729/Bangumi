@@ -24,7 +24,8 @@ function TabWrap({ keys }: Props) {
       routes[item] = () => <List title={TABS_ITEM[item].title} />
     })
     return SceneMap(routes)
-  }, [keys])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [keys.join()])
 
   const { length } = keys
   return (

@@ -4,10 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-15 02:58:18
  */
-import React from 'react'
-import { Loading } from '@components'
+import React, { useCallback, useMemo } from 'react'
+import { Loading, ScrollToIndex } from '@components'
 import { _, systemStore, useStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { MODEL_SETTING_HOME_LAYOUT } from '@constants'
 import { Ctx } from '../../types'
 import Grid from '../grid/index.lazy'
@@ -16,32 +17,45 @@ import { COMPONENT } from './ds'
 import { Props } from './types'
 
 function ListWrap({ title = '全部' }: Props) {
+  r(COMPONENT)
+
   const { $ } = useStore<Ctx>()
-  if (systemStore.setting.homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue('网格')) {
-    return <Grid title={title} />
-  }
-
-  if (!$.collection._loaded) return <Loading />
-
-  const showItem = $.showItem(title)
-  if (!showItem) return null
-
-  return (
-    <List
-      forwardRef={ref => $.forwardRef(ref, title)}
-      style={{
-        paddingTop: $.listPaddingTop,
-        paddingBottom: _.bottom
-      }}
-      data={$.currentCollection(title)}
-      title={title}
-      scrollToTop={$.scrollToTop(title)}
-      showItem={showItem}
-      onScroll={$.onScroll}
-      onHeaderRefresh={$.onHeaderRefresh}
-      onFooterRefresh={title === '游戏' ? $.onFooterRefresh : undefined}
-    />
+  const style = useMemo(
+    () => ({
+      paddingTop: $.listPaddingTop,
+      paddingBottom: _.bottom
+    }),
+    [$.listPaddingTop]
   )
+  const handleForwardRef = useCallback(
+    (ref: { scrollToIndex: ScrollToIndex }) => $.forwardRef(ref, title),
+    [$, title]
+  )
+
+  return useObserver(() => {
+    if (systemStore.setting.homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue('网格')) {
+      return <Grid title={title} />
+    }
+
+    if (!$.collection._loaded) return <Loading />
+
+    const showItem = $.showItem(title)
+    if (!showItem) return null
+
+    return (
+      <List
+        forwardRef={handleForwardRef}
+        style={style}
+        data={$.currentCollection(title)}
+        title={title}
+        scrollToTop={$.scrollToTop(title)}
+        showItem={showItem}
+        onScroll={$.onScroll}
+        onHeaderRefresh={$.onHeaderRefresh}
+        onFooterRefresh={title === '游戏' ? $.onFooterRefresh : undefined}
+      />
+    )
+  })
 }
 
-export default ob(ListWrap, COMPONENT)
+export default ListWrap

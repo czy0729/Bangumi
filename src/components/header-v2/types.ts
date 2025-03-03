@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-11-22 07:52:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-17 16:07:54
+ * @Last Modified time: 2025-03-03 18:17:31
  */
 import { ReactNode, ViewStyle } from '@types'
 import { TrackProps } from '../track'
@@ -37,6 +37,9 @@ export type Props = {
 
   /** 模式为 'transition' 时有效, 代替 title 显示 */
   headerTitle?: ReactNode
+
+  /** 标题容器样式 */
+  headerTitleStyle?: ViewStyle
 
   /** 标题对齐 */
   headerTitleAlign?: 'center' | 'left'

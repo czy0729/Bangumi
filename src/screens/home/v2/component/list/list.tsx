@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-19 12:58:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-10 17:17:29
+ * @Last Modified time: 2025-03-01 19:00:11
  */
 import React, { useCallback, useMemo } from 'react'
 import { PaginationList2 } from '@_'
@@ -29,7 +29,7 @@ const List = memo(
     const { $, navigation } = useStore<Ctx>()
     const { length } = data.list
     const elEmpty = <Empty title={title} length={length} />
-    const _renderItem = useCallback(
+    const handleRenderItem = useCallback(
       ({ item, index }) => {
         // iOS 因为头顶毛玻璃的问题, 不能懒加载 Tab, 所以在 Item 渲染的时候控制是否渲染
         // 安卓是懒加载, 所以可以一直显示
@@ -45,21 +45,21 @@ const List = memo(
     )
     const ListHeaderComponent = useMemo(
       () => <Filter $={$} navigation={navigation} title={title} length={length} />,
-      [title, length]
+      [$, navigation, title, length]
     )
 
     return (
       <PaginationList2
+        keyExtractor={keyExtractor}
         forwardRef={forwardRef}
         contentContainerStyle={style}
         progressViewOffset={style.paddingTop}
-        keyExtractor={keyExtractor}
         data={data.list}
         limit={20}
         scrollToTop={scrollToTop}
         keyboardDismissMode='on-drag'
         ListHeaderComponent={ListHeaderComponent}
-        renderItem={_renderItem}
+        renderItem={handleRenderItem}
         footerEmptyDataComponent={elEmpty}
         footerNoMoreDataComponent={elEmpty}
         footerNoMoreDataText=''

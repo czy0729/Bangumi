@@ -9,7 +9,7 @@ import { View } from 'react-native'
 import { Accordion, Avatar, Flex, Loading, Mask, Text, Touchable } from '@components'
 import { IconTouchable } from '@_/icon'
 import { _, systemStore } from '@stores'
-import { feedback, info, lastDate } from '@utils'
+import { copy, feedback, info, lastDate } from '@utils'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
 import { GROUP_THUMB_MAP } from '@assets/images'
@@ -73,6 +73,9 @@ export const MesumeChat = ({
       shadow: true,
       align: 'center'
     } as const
+    const handleCopy = () => {
+      copy(text, '已复制')
+    }
 
     return (
       <>
@@ -136,6 +139,7 @@ export const MesumeChat = ({
                     lineHeight={size + 1}
                     bold
                     shadow
+                    onLongPress={handleCopy}
                   >
                     {item}
                   </Text>

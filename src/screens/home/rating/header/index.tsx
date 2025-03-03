@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 17:39:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-06 17:09:12
+ * @Last Modified time: 2025-03-03 18:18:59
  */
 import React from 'react'
 import { HeaderV2, HeaderV2Popover } from '@components'
@@ -14,6 +14,7 @@ import { TEXT_MENU_BROWSER } from '@constants'
 import Filter from '../component/filter'
 import { Ctx } from '../types'
 import { COMPONENT, DATA } from './ds'
+import { styles } from './styles'
 
 function Header() {
   const { $ } = useStore<Ctx>()
@@ -21,6 +22,7 @@ function Header() {
     <HeaderV2
       title={$.params?.name || '用户评分'}
       headerTitleAlign='left'
+      headerTitleStyle={styles.headerTitleStyle}
       alias='用户评分'
       hm={$.hm}
       headerRight={() => (

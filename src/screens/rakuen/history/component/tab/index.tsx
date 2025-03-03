@@ -2,20 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-03-15 17:19:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 08:30:22
+ * @Last Modified time: 2025-03-03 18:13:59
  */
 import React, { useCallback, useMemo } from 'react'
-import { SceneMap } from 'react-native-tab-view'
-import { useObserver } from 'mobx-react'
 import { Flex, TabBar, TabView, Text } from '@components'
 import { _, useStore } from '@stores'
 import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { TABS } from '../../ds'
 import { Ctx } from '../../types'
-import FavorList from '../favor-list'
-import HotList from '../hot-list'
-import LocalList from '../local-list'
-import ReplyList from '../reply-list'
+import renderScene from './renderScene'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
@@ -32,19 +28,7 @@ function Tab() {
     }),
     [page]
   )
-
-  const renderScene = useMemo(
-    () =>
-      SceneMap({
-        reply: () => <ReplyList />,
-        favor: () => <FavorList />,
-        hot: () => <HotList />,
-        local: () => <LocalList />
-      }),
-    []
-  )
-
-  const renderTabBar = useCallback(
+  const handleRenderTabBar = useCallback(
     props => (
       <TabBar
         {...props}
@@ -88,7 +72,7 @@ function Tab() {
       style={_.container.header}
       lazyPreloadDistance={0}
       navigationState={navigationState}
-      renderTabBar={renderTabBar}
+      renderTabBar={handleRenderTabBar}
       renderScene={renderScene}
       onIndexChange={$.onIndexChange}
     />

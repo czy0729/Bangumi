@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:14:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-14 20:13:32
+ * @Last Modified time: 2025-03-01 19:08:07
  */
 import { computed } from 'mobx'
 import { _, calendarStore, collectionStore, subjectStore, systemStore, userStore } from '@stores'
 import { Ep } from '@stores/subject/types'
+import { UserCollection } from '@stores/user/types'
 import { desc, findLastIndex, freeze, getOnAir, getPinYinFilterValue, t2s, x18 } from '@utils'
 import CacheManager from '@utils/cache-manager'
 import {
@@ -166,47 +167,80 @@ export default class Computed extends State {
    * 列表排序
    * 章节排序: 放送中还有未看 > 放送中没未看 > 明天放送还有未看 > 明天放送中没未看 > 未完结新番还有未看 > 默认排序
    */
-  sortList = (list = []) => {
-    return computed(() => {
-      if (!list.length) return []
+  sortList = (list: UserCollection['list']) => {
+    return freeze(
+      computed(() => {
+        if (!list?.length) return []
 
-      const topMap = this.getTopMap()
+        const topMap = this.getTopMap()
 
-      // 网页顺序: 不需要处理
-      if (
-        systemStore.setting.homeSorting ===
-        MODEL_SETTING_HOME_SORTING.getValue<SettingHomeSorting>('网页')
-      ) {
-        return list.slice().sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
-      }
+        // 网页顺序: 不需要处理
+        if (
+          systemStore.setting.homeSorting ===
+          MODEL_SETTING_HOME_SORTING.getValue<SettingHomeSorting>('网页')
+        ) {
+          return list.slice().sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
+        }
 
-      try {
-        // 计算每一个条目看过 ep 的数量
-        const weightMap = {}
+        try {
+          // 计算每一个条目看过 ep 的数量
+          const weightMap = {}
 
-        // 放送顺序: 根据今天星期几, 每天递减, 放送中的番剧优先
-        if (this.sortOnAir) {
-          const day = new Date().getDay()
+          // 放送顺序: 根据今天星期几, 每天递减, 放送中的番剧优先
+          if (this.sortOnAir) {
+            const day = new Date().getDay()
+            list.forEach(item => {
+              const { subject_id: subjectId } = item
+              const { weekDay, isOnair } = this.onAirCustom(subjectId)
+              if (!isOnair) {
+                weightMap[subjectId] = 1
+              } else if (this.isToday(subjectId)) {
+                weightMap[subjectId] = 1001
+              } else if (this.isNextDay(subjectId)) {
+                weightMap[subjectId] = 1000
+              } else if (day === 0) {
+                weightMap[subjectId] = 100 - weekDay
+              } else if (weekDay >= day) {
+                weightMap[subjectId] = 100 - weekDay
+              } else {
+                weightMap[subjectId] = 10 - weekDay
+              }
+
+              // 看完下沉逻辑
+              if (systemStore.setting.homeSortSink && !this.hasNewEp(subjectId)) {
+                weightMap[subjectId] = weightMap[subjectId] - 10000
+              }
+            })
+
+            return list
+              .slice()
+              .sort((a, b) => desc(a, b, item => weightMap[item.subject_id]))
+              .sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
+          }
+
+          // APP 顺序：未看 > 放送中 > 明天 > 本季 > 网页
           list.forEach(item => {
             const { subject_id: subjectId } = item
-            const { weekDay, isOnair } = this.onAirCustom(subjectId)
-            if (!isOnair) {
-              weightMap[subjectId] = 1
-            } else if (this.isToday(subjectId)) {
-              weightMap[subjectId] = 1001
+            const progress = this.userProgress(subjectId)
+
+            let watchedCount = 0
+            Object.keys(progress).forEach(i => {
+              if (progress[i] === '看过') watchedCount += 1
+            })
+
+            // air 代表该条目放送到哪一集
+            const { air = 0 } = calendarStore.onAir[subjectId] || {}
+            if (this.isToday(subjectId)) {
+              weightMap[subjectId] = air > watchedCount ? 100000 : 10000
             } else if (this.isNextDay(subjectId)) {
-              weightMap[subjectId] = 1000
-            } else if (day === 0) {
-              weightMap[subjectId] = 100 - weekDay
-            } else if (weekDay >= day) {
-              weightMap[subjectId] = 100 - weekDay
+              weightMap[subjectId] = air > watchedCount ? 1000 : 100
             } else {
-              weightMap[subjectId] = 10 - weekDay
+              weightMap[subjectId] = air > watchedCount ? 10 : 1
             }
 
             // 看完下沉逻辑
             if (systemStore.setting.homeSortSink && !this.hasNewEp(subjectId)) {
-              weightMap[subjectId] = weightMap[subjectId] - 10000
+              weightMap[subjectId] = weightMap[subjectId] - 100001
             }
           })
 
@@ -214,46 +248,14 @@ export default class Computed extends State {
             .slice()
             .sort((a, b) => desc(a, b, item => weightMap[item.subject_id]))
             .sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
+        } catch (error) {
+          return list
+            .slice()
+            .sort((a, b) => desc(a, b, item => this.isToday(item.subject_id)))
+            .sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
         }
-
-        // APP 顺序：未看 > 放送中 > 明天 > 本季 > 网页
-        list.forEach(item => {
-          const { subject_id: subjectId } = item
-          const progress = this.userProgress(subjectId)
-
-          let watchedCount = 0
-          Object.keys(progress).forEach(i => {
-            if (progress[i] === '看过') watchedCount += 1
-          })
-
-          // air 代表该条目放送到哪一集
-          const { air = 0 } = calendarStore.onAir[subjectId] || {}
-          if (this.isToday(subjectId)) {
-            weightMap[subjectId] = air > watchedCount ? 100000 : 10000
-          } else if (this.isNextDay(subjectId)) {
-            weightMap[subjectId] = air > watchedCount ? 1000 : 100
-          } else {
-            weightMap[subjectId] = air > watchedCount ? 10 : 1
-          }
-
-          // 看完下沉逻辑
-          if (systemStore.setting.homeSortSink && !this.hasNewEp(subjectId)) {
-            weightMap[subjectId] = weightMap[subjectId] - 100001
-          }
-        })
-
-        return list
-          .slice()
-          .sort((a, b) => desc(a, b, item => weightMap[item.subject_id]))
-          .sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
-      } catch (error) {
-        // fallback
-        return list
-          .slice()
-          .sort((a, b) => desc(a, b, item => this.isToday(item.subject_id)))
-          .sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
-      }
-    }).get()
+      }).get()
+    )
   }
 
   /** 当前列表有过滤 */
