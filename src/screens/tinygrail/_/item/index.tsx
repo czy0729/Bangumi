@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-03 10:38:05
+ * @Last Modified time: 2025-03-03 20:23:28
  */
 import React from 'react'
 import { Flex, Touchable } from '@components'
@@ -29,7 +29,7 @@ function Item(props) {
   const isAuction = type === 'auction'
   const isValhall = type === 'valhall'
 
-  const onPress = () => {
+  const handlePress = () => {
     if (isICO) {
       // ICO 不受复写 go 参数影响跳转
       t(event.id, {
@@ -38,13 +38,17 @@ function Item(props) {
         ...event.data
       })
 
-      return navigation.push('TinygrailICODeal', {
+      navigation.push('TinygrailICODeal', {
         monoId: `character/${monoId || id}`
       })
+      return
     }
 
     const _id = isAuction || isValhall ? monoId || id : id
-    if (go) return getOnPress(_id, go, navigation, event.id, event.data, props)()
+    if (go) {
+      getOnPress(_id, go, navigation, event.id, event.data, props)()
+      return
+    }
 
     t(event.id, {
       to: 'TinygrailDeal',
@@ -52,7 +56,7 @@ function Item(props) {
       ...event.data
     })
 
-    return navigation.push('TinygrailDeal', {
+    navigation.push('TinygrailDeal', {
       monoId: `character/${_id}`
     })
   }
@@ -63,7 +67,7 @@ function Item(props) {
       <Flex.Item>
         <Flex align='start'>
           <Flex.Item style={_.mr.sm}>
-            <Touchable style={styles.item} withoutFeedback={withoutFeedback} onPress={onPress}>
+            <Touchable style={styles.item} withoutFeedback={withoutFeedback} onPress={handlePress}>
               <Flex align='start'>
                 <Flex.Item>
                   <Title {...props} />

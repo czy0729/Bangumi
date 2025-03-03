@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-03 23:17:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-13 22:29:04
+ * @Last Modified time: 2025-03-03 20:50:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -186,10 +186,13 @@ function Detail(props) {
         )}
         {!!sacrifices && (
           <Text {...textBaseProps} type='bid' bold>
-            资产
-            {!stockPreview || !assets || assets === sacrifices
-              ? formatNumber(sacrifices, 0)
-              : `${formatNumber(sacrifices, 0)}(${formatNumber(assets, 0)})`}
+            资产{formatNumber(assets || sacrifices, 0)}
+            {!!sacrifices && !!assets && sacrifices !== assets && (
+              <Text {...textBaseProps} type='tinygrailText' bold>
+                {' '}
+                ({((assets / sacrifices) * 100).toFixed(0)}%)
+              </Text>
+            )}
             {elSplit}
           </Text>
         )}

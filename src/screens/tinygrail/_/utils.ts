@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-04 13:51:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-08 20:07:19
+ * @Last Modified time: 2025-03-03 21:05:59
  */
 import { ToastAndroid } from 'react-native'
 import { _, tinygrailStore } from '@stores'
@@ -115,8 +115,6 @@ export function sortList(sort: string, direction: string, list: any[]) {
         )
 
     case SORT_SSZGX.value:
-      return list.slice().sort((a, b) => (calculateTotalRate(b) - calculateTotalRate(a)) * base)
-
     case SORT_ZGX.value:
       return list
         .slice()
@@ -164,7 +162,9 @@ export function sortList(sort: string, direction: string, list: any[]) {
         )
 
     case SORT_DJ.value:
-      return list.slice().sort((a, b) => ((b.level || 1) - (a.level || 1)) * base)
+      return list
+        .slice()
+        .sort((a, b) => ((b.cLevel || b.level || 1) - (a.cLevel || a.level || 1)) * base)
 
     case SORT_CGS.value:
       return list.slice().sort((a, b) => ((b.state || 0) - (a.state || 0)) * base)
@@ -201,6 +201,9 @@ export function sortList(sort: string, direction: string, list: any[]) {
 
     case SORT_XZL.value:
       return list.slice().sort((a, b) => ((b.starForces || 0) - (a.starForces || 0)) * base)
+
+    case SORT_PM.value:
+      return list.slice().sort((a, b) => ((a.rank || 0) - (b.rank || 0)) * base)
 
     case SORT_XJB.value:
       return list
