@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 22:34:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-20 11:58:43
+ * @Last Modified time: 2025-03-04 19:36:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,7 +20,7 @@ import { memoStyles } from './styles'
 function Header({ goBack = FROZEN_FN }) {
   const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
-  const { icon, name, current, fluctuation, bonus } = $.chara
+  const { icon, name, current, fluctuation } = $.chara
   let color = _.colorTinygrailPlain
   if (fluctuation < 0) {
     color = _.colorAsk
@@ -48,6 +48,7 @@ function Header({ goBack = FROZEN_FN }) {
             />
             <Avatar
               src={tinygrailOSS(icon)}
+              size={36}
               borderColor='transparent'
               name={name}
               skeletonType='tinygrail'
@@ -63,18 +64,13 @@ function Header({ goBack = FROZEN_FN }) {
                 })
               }}
             />
-            <Text style={_.ml.md} type='tinygrailPlain' size={16} bold numberOfLines={1}>
+            <Text style={_.ml.sm} type='tinygrailPlain' bold numberOfLines={1}>
               {name}
-              {!!bonus && (
-                <Text size={12} lineHeight={16} type='warning'>
-                  {' '}
-                  X{bonus}
-                </Text>
-              )}
             </Text>
             <IconTouchable
               name='md-workspaces-outline'
               color={_.colorTinygrailPlain}
+              size={18}
               onPress={() => {
                 t('K线.跳转', {
                   to: 'TinygrailSacrifice',

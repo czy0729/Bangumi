@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:38:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-31 01:08:29
+ * @Last Modified time: 2025-03-04 19:46:39
  */
 import { toJS } from 'mobx'
 import { getTimestamp, HTMLDecode, info, lastDate, toFixed } from '@utils'
@@ -273,6 +273,7 @@ export default class Fetch extends Computed {
       data.data = result.data.Value
         // K线图排除掉刮刮乐10元的记录, 以获得更正常的K线表现
         .filter(item => !(item.Low === 10 && item.Low !== item.High))
+        .filter(item => item.Price !== 0)
         .map(item => ({
           time: item.Time,
           begin: item.Begin,
@@ -292,7 +293,7 @@ export default class Fetch extends Computed {
     })
     this.save(key)
 
-    return Promise.resolve(data)
+    return data
   }
 
   /** 深度图 */

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-24 20:22:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-13 23:03:52
+ * @Last Modified time: 2025-03-04 17:23:50
  */
 import { tinygrailStore } from '@stores'
 import { alert, confirm, copy, feedback, info } from '@utils'
@@ -211,7 +211,9 @@ export default class Action extends Fetch {
     if (!ids.length) return
 
     confirm(
-      `批量对 (${ids.length}) 个角色以当前价 (挂卖单), 确定? (若角色当前有挂单, 可用数与显示数对不上时, 操作会失败)`,
+      `批量对 (${ids.length}) 个角色以当前价${
+        distance !== 0 ? `${distance}cc` : ''
+      } (挂卖单), 确定? (若角色当前有挂单, 可用数与显示数对不上时, 操作会失败)`,
       async () => {
         t('我的持仓.批量挂单', {
           length: ids.length
@@ -227,7 +229,7 @@ export default class Action extends Fetch {
               const { current, state } = item
               const { State } = await tinygrailStore.doAsk({
                 monoId: id,
-                price: current + distance,
+                price: Math.max(5, current + distance),
                 amount: state,
                 isIce: false
               })

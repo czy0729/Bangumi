@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-28 07:27:22
+ * @Last Modified time: 2025-03-04 17:48:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -82,6 +82,7 @@ function Header() {
                   numberOfLines={1}
                   lineHeight={13}
                   bold
+                  shrink
                 >
                   {name}
                 </Text>

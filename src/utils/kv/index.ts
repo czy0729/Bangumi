@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-23 01:47:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-12 02:00:07
+ * @Last Modified time: 2025-03-04 17:07:36
  */
 import axios from '@utils/thirdParty/axios'
 import { WEB } from '@constants/device'
@@ -286,8 +286,8 @@ export async function lx(text: string): Promise<false | TranslateResult> {
   // 云缓存, 因每个月免费翻译额度有限, 避免过多调用
   const q = text.split('\r\n').join('\n')
   const k = `fanyi_lx_${hash(q)}`
-  // const cache = await get(k)
-  // if (Array.isArray(cache?.data) && cache.data.length) return cache.data
+  const cache = await get(k)
+  if (Array.isArray(cache?.data) && cache.data.length) return cache.data
 
   // @ts-expect-error
   const { data } = await axios({

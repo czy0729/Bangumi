@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-05-01 12:03:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-04 13:54:28
+ * @Last Modified time: 2025-03-04 17:48:19
  */
 import { Text, TextInput } from 'react-native'
 import { _ } from '@stores'
 import { setDefaultProps } from '@utils'
 import { s2t } from '@utils/thirdParty/open-cc'
 import { IOS, PAD, WEB } from '@constants'
-import { Props as TextProps } from './types'
 import { memoStyles } from './styles'
+import { Props as TextProps } from './types'
 
 /** 平板设备统一放大单位 */
 export const PAD_INCREASE = PAD === 2 ? 4 : 2
@@ -62,6 +62,7 @@ export function getTextStyle({
   bold = false,
   underline = false,
   shadow = false,
+  shrink = false,
   noWrap = false
 }: Partial<TextProps>) {
   const styles = memoStyles()
@@ -88,6 +89,7 @@ export function getTextStyle({
   if (align && align !== 'left')
     textStyle.push(align === 'right' ? styles.alignRight : styles.alignCenter)
   if (shadow) textStyle.push(styles.shadow)
+  if (shrink) textStyle.push(styles.shrink)
   if (noWrap) textStyle.push(styles.noWrap)
   if (style) textStyle.push(style)
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-01 11:46:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-04 13:53:05
+ * @Last Modified time: 2025-03-04 17:47:50
  */
 import React from 'react'
 import { Text as RNText } from 'react-native'
@@ -31,6 +31,7 @@ function TextComp(
     bold,
     underline,
     shadow,
+    shrink,
     selectable = WEB,
     noWrap,
     s2t = true,
@@ -55,6 +56,7 @@ function TextComp(
         bold,
         underline,
         shadow,
+        shrink,
         noWrap
       })}
       allowFontScaling={false}

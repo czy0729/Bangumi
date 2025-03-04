@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-12 22:44:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 12:41:18
+ * @Last Modified time: 2025-03-04 18:20:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -98,14 +98,9 @@ function List({ style = undefined }) {
                   </Text>
                 )}
               </Text>
-              <Flex style={_.mt.sm}>
-                <Text size={12} bold>
-                  {userName}
-                </Text>
-                <Text style={_.ml.xs} type='sub' size={11} bold>
-                  {correctAgo(time)}
-                </Text>
-              </Flex>
+              <Text style={_.mt.xs} type='sub' size={12} lineHeight={13} bold>
+                {userName} · {correctAgo(time)}
+              </Text>
             </View>
             {!index && <Heatmap id='小组.跳转' />}
           </Touchable>

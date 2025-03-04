@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 13:51:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-20 12:02:31
+ * @Last Modified time: 2025-03-04 19:34:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -36,7 +36,6 @@ class KLine extends React.Component<Props> {
 
   onLoad = () => {
     const { $, focus } = this.props
-
     if (focus) {
       setTimeout(() => {
         $.setState({

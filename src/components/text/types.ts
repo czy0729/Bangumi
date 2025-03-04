@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-13 10:52:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-11 04:21:41
+ * @Last Modified time: 2025-03-04 17:47:39
  */
 import { MutableRefObject } from 'react'
 import { Text as RNText, TextProps } from 'react-native'
@@ -66,6 +66,9 @@ export type Props = Override<
 
     /** 是否带阴影 */
     shadow?: boolean
+
+    /** 允许文本收缩 */
+    shrink?: boolean
 
     /** 是否可选择 */
     selectable?: boolean

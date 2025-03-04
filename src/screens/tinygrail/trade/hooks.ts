@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-11-20 11:38:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-20 11:54:39
+ * @Last Modified time: 2025-03-04 19:33:46
  */
 import { useCallback, useState } from 'react'
 import { useInitStore } from '@stores'
 import { hm, t } from '@utils/fetch'
-import { useRunAfter } from '@utils/hooks'
+import { useIsFocused, useRunAfter } from '@utils/hooks'
 import { NavigationProps } from '@types'
 import store from './store'
 import { Ctx } from './types'
@@ -45,9 +45,12 @@ export function useTinygrailTradePage(props: NavigationProps) {
     [$.monoId, navigation]
   )
 
+  const isFocused = useIsFocused()
+
   return {
     ...context,
     showMask,
+    isFocused,
     handleHideMask,
     handleNavigate
   }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-01 11:46:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-11 13:56:01
+ * @Last Modified time: 2025-03-04 17:48:47
  */
 import { _ } from '@stores'
 
@@ -31,6 +31,9 @@ export const memoStyles = _.memoStyles(() => ({
     },
     textShadowRadius: 1,
     textShadowColor: 'rgba(0, 0, 0, 0.32)'
+  },
+  shrink: {
+    flexShrink: 1
   },
   noWrap: {
     // @ts-ignore

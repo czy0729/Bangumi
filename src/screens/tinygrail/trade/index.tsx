@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 00:34:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-20 12:03:06
+ * @Last Modified time: 2025-03-04 19:33:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,7 +21,7 @@ import { memoStyles } from './styles'
 
 /** K 线 */
 const TinygrailTrade = (props: NavigationProps) => {
-  const { id, $, navigation, showMask, handleHideMask, handleNavigate } =
+  const { id, $, navigation, showMask, isFocused, handleHideMask, handleNavigate } =
     useTinygrailTradePage(props)
 
   return useObserver(() => {
@@ -40,7 +40,7 @@ const TinygrailTrade = (props: NavigationProps) => {
                 scrollToTop
               >
                 <View style={styles.kline}>
-                  <KLine $={$} navigation={navigation} />
+                  <KLine $={$} navigation={navigation} focus={isFocused} />
                   {showMask && <Touchable style={styles.mask} useRN onPress={handleHideMask} />}
                 </View>
                 <DepthMap />
@@ -64,10 +64,6 @@ const TinygrailTrade = (props: NavigationProps) => {
       </Component>
     )
   })
-}
-
-TinygrailTrade.navigationOptions = {
-  header: null
 }
 
 export default TinygrailTrade

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-11 06:51:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 13:36:28
+ * @Last Modified time: 2025-03-04 18:35:41
  */
 import React from 'react'
 import { Flex, Text, TextProps } from '@components'
@@ -27,10 +27,10 @@ function Item({ desc, change }) {
     if (match && match.length) {
       if (['买入', '获得', '获奖'].some(item => desc.includes(item))) {
         changeType = 'bid'
-        changeNum = `+${match[0].replace('股', '')}`
+        changeNum = `+${match[0]}`
       } else {
         changeType = 'ask'
-        changeNum = `-${match[0].replace('股', '')}`
+        changeNum = `-${match[0]}`
       }
     }
   }
