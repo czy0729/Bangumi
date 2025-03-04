@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 07:17:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-25 14:49:42
+ * @Last Modified time: 2025-03-03 21:19:11
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
@@ -34,7 +34,8 @@ export const TEXTS = {
     hd: '隐藏评分'
   },
   filterDefault: {
-    hd: '屏蔽无头像用户相关信息'
+    hd: '屏蔽无头像用户相关信息',
+    information: '请注意，若你注册至今从未在网页端更改过头像，启动后可能会把自己的信息都屏蔽掉'
   },
   filter18x: {
     hd: '屏蔽敏感内容',

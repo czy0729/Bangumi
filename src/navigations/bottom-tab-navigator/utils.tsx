@@ -1,3 +1,4 @@
+import React from 'react'
 /*
  * @Author: czy0729
  * @Date: 2024-03-04 17:17:25
@@ -5,6 +6,7 @@
  * @Last Modified time: 2024-03-04 17:20:03
  */
 import { systemStore } from '@stores'
+import { Discovery, Home, Rakuen, Timeline, Tinygrail, User } from '@screens'
 import TabBar from '../tab-bar'
 
 export const renderTabBar = (props: any) => <TabBar {...props} />
@@ -18,3 +20,40 @@ export function getInitialRouteName() {
   if (!systemStore.setting.tinygrail && initialRouteName === 'Tinygrail') initialRouteName = 'Home'
   return initialRouteName
 }
+
+export const getTabConfig = (isTinygrailEnabled: boolean) => [
+  {
+    name: 'Discovery',
+    component: Discovery,
+    showCondition: (homeRenderTabs: string[]) => homeRenderTabs.includes('Discovery')
+  },
+  {
+    name: 'Timeline',
+    component: Timeline,
+    showCondition: (homeRenderTabs: string[]) => homeRenderTabs.includes('Timeline')
+  },
+  {
+    name: 'Home',
+    component: Home,
+    showCondition: () => true
+  },
+  {
+    name: 'Rakuen',
+    component: Rakuen,
+    showCondition: (homeRenderTabs: string[]) => homeRenderTabs.includes('Rakuen')
+  },
+  {
+    name: 'User',
+    component: User,
+    showCondition: () => true
+  },
+  {
+    name: 'Tinygrail',
+    component: Tinygrail,
+    showCondition: (homeRenderTabs: string[]) =>
+      homeRenderTabs.includes('Tinygrail') && isTinygrailEnabled,
+    initialParams: {
+      fromBottomTab: true
+    }
+  }
+]

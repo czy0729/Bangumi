@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2022-07-18 09:43:27
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-07-18 09:43:27
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2025-03-04 16:14:46
  */
 import { _ } from '@stores'
 
@@ -18,17 +18,12 @@ export const memoStyles = _.memoStyles(() => ({
   disabledLine: {
     position: 'absolute',
     zIndex: 1,
-    top: 5,
-    bottom: 4,
-    width: 5,
+    top: 16,
+    right: 12,
+    left: 12,
+    height: 2,
     backgroundColor: _.select(_.colorIcon, '#777'),
-    borderLeftWidth: 2,
-    borderRightWidth: 1,
     borderColor: _.select(_.colorBg, _._colorDarkModeLevel2),
-    transform: [
-      {
-        rotate: '45deg'
-      }
-    ]
+    opacity: 0.8
   }
 }))
