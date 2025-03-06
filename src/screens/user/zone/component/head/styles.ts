@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-29 06:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-28 09:11:29
+ * @Last Modified time: 2025-03-06 19:23:30
  */
 import { _ } from '@stores'
 
@@ -31,6 +31,9 @@ const rStyle = (top: number, left: number): object => ({
 })
 
 export const memoStyles = _.memoStyles(() => ({
+  head: {
+    paddingTop: 12
+  },
   l1: lStyle(16, 100),
   l2: lStyle(52, 116),
   l3: lStyle(88, 100),

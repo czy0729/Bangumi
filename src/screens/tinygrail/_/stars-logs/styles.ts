@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-09 06:57:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-10 04:09:19
+ * @Last Modified time: 2025-03-06 19:14:13
  */
 import { _ } from '@stores'
 
@@ -29,7 +29,7 @@ export const memoStyles = _.memoStyles(() => ({
   },
   list: {
     zIndex: 4,
-    width: _.r(256),
+    width: _.r(264),
     backgroundColor: _.colorTinygrailContainer
   }
 }))

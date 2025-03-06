@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-08-04 15:48:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-04 16:16:32
+ * @Last Modified time: 2025-03-06 17:44:20
  */
-import { IconfontNames, Paths } from '@types'
+import { IconfontNames, Navigation, Paths } from '@types'
 import { routesConfig } from './config'
 
 export type RouteNames = keyof (typeof routesConfig)[]
@@ -45,4 +45,10 @@ export type RoutesConfig = {
     size?: number
     label: string
   }
+}
+
+export type Props = {
+  state: State
+  descriptors: Descriptors
+  navigation: Navigation
 }

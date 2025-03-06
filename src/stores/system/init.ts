@@ -246,6 +246,9 @@ export const INIT_SETTING = {
   /** 启动页 */
   initialPage: MODEL_SETTING_INITIAL_PAGE.getValue<SettingInitialPage>('进度'),
 
+  /** 底栏页面是否懒加载 */
+  bottomTabLazy: true,
+
   /** @deprecated 图片质量 */
   // quality: MODEL_SETTING_QUALITY.getValue<SettingQuality>('默认'),
 

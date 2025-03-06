@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-05-04 16:25:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 06:21:35
+ * @Last Modified time: 2025-03-06 19:03:16
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
-import { _ } from '@stores'
-import { alert, open } from '@utils'
+import { _, systemStore } from '@stores'
+import { alert, feedback, info, open } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
@@ -25,7 +25,9 @@ function Footer() {
           {VERSION_TINYGRAIL_PLUGIN}
         </Text>
       </View>
-      <Text type='tinygrailText'>·</Text>
+      <Text style={styles.split} type='tinygrailText'>
+        ·
+      </Text>
       <Touchable
         style={styles.touch}
         onPress={() => {
@@ -41,7 +43,9 @@ function Footer() {
           QQ群
         </Text>
       </Touchable>
-      <Text type='tinygrailText'>·</Text>
+      <Text style={styles.split} type='tinygrailText'>
+        ·
+      </Text>
       <Touchable
         style={styles.touch}
         onPress={() => {
@@ -59,7 +63,9 @@ function Footer() {
           小组讨论
         </Text>
       </Touchable>
-      <Text type='tinygrailText'>·</Text>
+      <Text style={styles.split} type='tinygrailText'>
+        ·
+      </Text>
       <Touchable
         style={styles.touch}
         onPress={() => {
@@ -67,7 +73,33 @@ function Footer() {
         }}
       >
         <Text type='tinygrailText' size={12}>
-          fuyuake.top
+          fuyuake
+        </Text>
+      </Touchable>
+      <Text style={styles.split} type='tinygrailText'>
+        ·
+      </Text>
+      <Touchable
+        style={styles.touch}
+        onPress={() => {
+          const { routes } = navigation.getState()
+          if (!routes?.length) return
+
+          // 若在首屏操作, 则先推进 Tinygrail 页面再更新设置
+          const isFromHomeTab = !routes[0].key.startsWith('HomeTab')
+          if (isFromHomeTab) navigation.push('Tinygrail')
+
+          setTimeout(() => {
+            const value = systemStore.calcHomeRenderTabs('Tinygrail')
+            systemStore.setSetting('homeRenderTabs', value)
+
+            info(value.includes('Tinygrail') ? '已常驻' : '已取消常驻')
+            feedback()
+          }, 0)
+        }}
+      >
+        <Text type='tinygrailText' size={12}>
+          {systemStore.setting.homeRenderTabs.includes('Tinygrail') ? '已' : '启用'}常驻
         </Text>
       </Touchable>
     </Flex>

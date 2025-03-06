@@ -11,9 +11,6 @@ export const memoStyles = _.memoStyles(() => ({
     marginBottom: _.md,
     backgroundColor: _.colorTinygrailContainer
   },
-  user: {
-    maxWidth: '70%'
-  },
   change: {
     minWidth: 28,
     paddingHorizontal: _.xs,

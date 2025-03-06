@@ -26,6 +26,11 @@ export const TEXTS = {
   initialPage: {
     setting: '启动页',
     ...COMMON
+  },
+  bottomTabLazy: {
+    hd: '底栏页面懒加载',
+    information:
+      '默认开启，开启后点击进入各底栏页面才开始初始化。若关闭可能会增加冷启动时长，但会加速底栏页面显示。'
   }
 } as const
 

@@ -11,6 +11,7 @@ import { r } from '@utils/dev'
 import { useBoolean, useObserver } from '@utils/hooks'
 import { WEB } from '@constants'
 import { getShows } from '../../utils'
+import BottomTabLazy from './bottom-tab-lazy'
 import HomeRenderTabs from './home-render-tabs'
 import InitialPage from './initial-page'
 import { COMPONENT, TEXTS } from './ds'
@@ -28,9 +29,10 @@ function Route({ filter }) {
     return (
       <>
         <ItemSetting hd='底栏' arrow highlight filter={filter} onPress={setTrue} />
-        <ActionSheet show={state} title='底栏' onClose={setFalse}>
+        <ActionSheet show={state} title='底栏' height={560} onClose={setFalse}>
           {shows.blocks && <HomeRenderTabs filter={filter} />}
           {shows.initialPage && <InitialPage filter={filter} />}
+          {shows.bottomTabLazy && <BottomTabLazy filter={filter} />}
         </ActionSheet>
       </>
     )

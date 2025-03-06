@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-28 17:51:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-14 12:40:14
+ * @Last Modified time: 2025-03-06 19:13:18
  */
 import React from 'react'
 import { Avatar, Flex, Text, Touchable } from '@components'
@@ -70,6 +70,7 @@ function Log({
               size={name.length > 12 ? 8 : name.length > 8 ? 10 : 12}
               bold
               numberOfLines={1}
+              shrink
             >
               {name}
             </Text>
@@ -97,16 +98,19 @@ function Log({
             <Flex.Item>
               {userName ? (
                 <Flex>
-                  <Text style={styles.user} type='tinygrailText' size={10} numberOfLines={1}>
+                  <Text type='tinygrailText' size={10} numberOfLines={1} shrink>
                     @{HTMLDecode(userName)}
                   </Text>
-                  <Flex.Item style={_.ml.xs}>
-                    <Text type={type === 4 ? 'ask' : 'bid'} size={10} numberOfLines={1}>
-                      +{formatNumber(amount, 0)}
-                      {type === 3 && ' 精炼成功'}
-                      {type === 4 && ' 精炼失败'}
-                    </Text>
-                  </Flex.Item>
+                  <Text
+                    style={_.ml.xs}
+                    type={type === 4 ? 'ask' : 'bid'}
+                    size={10}
+                    numberOfLines={1}
+                  >
+                    +{formatNumber(amount, 0)}
+                    {type === 3 && ' 精炼成功'}
+                    {type === 4 && ' 精炼失败'}
+                  </Text>
                 </Flex>
               ) : (
                 <Text type='ask' size={10}>
@@ -117,7 +121,7 @@ function Log({
                 </Text>
               )}
             </Flex.Item>
-            <Text style={_.ml.sm} type='tinygrailText' size={10}>
+            <Text style={_.ml.md} type='tinygrailText' size={10}>
               {time}
             </Text>
           </Flex>

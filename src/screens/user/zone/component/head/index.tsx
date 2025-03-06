@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-09 15:49:52
+ * @Last Modified time: 2025-03-06 19:23:14
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex } from '@components'
+import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { ViewStyle } from '@types'
 import Avatar from './avatar'
@@ -23,7 +24,7 @@ import { memoStyles } from './styles'
 function Head({ style }: { style?: ViewStyle }) {
   const styles = memoStyles()
   return (
-    <Flex style={style} direction='column'>
+    <Flex style={stl(styles.head, style)} direction='column'>
       <View>
         <Avatar />
         <Join style={styles.l1} />

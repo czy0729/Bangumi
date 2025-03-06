@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-01 19:05:20
+ * @Last Modified time: 2025-03-06 18:23:34
  */
 import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
 import IoniconsIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/Ionicons.json'
@@ -55,7 +55,13 @@ export type Navigation = {
   getRootState: (arg0?: any) => any
 
   /** 获取路由状态 */
-  getState: () => any
+  getState: () => AnyObject<{
+    routes?: {
+      key: string
+      name: string
+      params: AnyObject
+    }[]
+  }>
 
   /** 动态设置路由参数 */
   setOptions: (params?: object) => any

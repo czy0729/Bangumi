@@ -1,10 +1,10 @@
-import React from 'react'
 /*
  * @Author: czy0729
  * @Date: 2024-03-04 17:17:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-04 17:20:03
+ * @Last Modified time: 2025-03-06 17:47:41
  */
+import React from 'react'
 import { systemStore } from '@stores'
 import { Discovery, Home, Rakuen, Timeline, Tinygrail, User } from '@screens'
 import TabBar from '../tab-bar'
