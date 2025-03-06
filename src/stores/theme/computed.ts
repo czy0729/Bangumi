@@ -263,7 +263,8 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 主题颜色 (小圣杯) */
   @computed get tinygrailThemeMode() {
-    return this.state.tinygrailThemeMode
+    // return this.state.tinygrailThemeMode
+    return this.state.mode
   }
 
   /** 粉 (主题色) */
@@ -489,7 +490,8 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 是否黑暗模式 (小圣杯) */
   @computed get isTinygrailDark() {
-    return this.tinygrailThemeMode === 'dark'
+    // return this.tinygrailThemeMode === 'dark'
+    return this.isDark
   }
 
   /** 是否主题绿色模式 (小圣杯) */

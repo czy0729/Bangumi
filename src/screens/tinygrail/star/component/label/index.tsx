@@ -18,7 +18,7 @@ function Label({ $ }: Ctx) {
       style={styles.segment}
       type='tinygrailPlain'
       tintColor={_.colorTinygrailContainer}
-      backgroundColor={_.tSelect(_.colorTinygrailBorder, _.colorTinygrailBg)}
+      backgroundColor={_.select(_.colorTinygrailBg, _.colorTinygrailBorder)}
       size={11}
       values={LABEL_DS}
       selectedIndex={LABEL_DS.findIndex(item => item === $.state.label)}

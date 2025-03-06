@@ -13,13 +13,13 @@ export const memoStyles = _.memoStyles(() => ({
   btn: {
     width: _.r(56),
     height: _.r(36),
-    backgroundColor: _.tSelect(_.colorTinygrailIcon, _.colorTinygrailBg),
+    backgroundColor: _.select(_.colorTinygrailBg, _.colorTinygrailIcon),
     border: 0,
     borderRadius: _.radiusXs,
     overflow: 'hidden'
   },
   text: {
-    color: _.tSelect(_.__colorPlain__, _.colorTinygrailPlain),
+    color: _.select(_.colorTinygrailPlain, _.__colorPlain__),
     ..._.fontSize13
   }
 }))

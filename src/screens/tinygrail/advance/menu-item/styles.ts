@@ -20,7 +20,7 @@ export const memoStyles = _.memoStyles(() => ({
     width: sectionWidth,
     height: sectionHeight,
     paddingLeft: 20,
-    backgroundColor: _.tSelect(_.colorTinygrailBorder, _.colorTinygrailBg)
+    backgroundColor: _.select(_.colorTinygrailBg, _.colorTinygrailBorder)
   },
   icon: {
     position: 'absolute',

@@ -15,7 +15,7 @@ export const memoStyles = _.memoStyles(() => ({
     paddingVertical: _.sm,
     paddingHorizontal: _.md - 1,
     marginHorizontal: _.xs,
-    backgroundColor: _.tSelect(_.colorTinygrailBorder, 'rgba(238, 238, 238, 0.8)'),
+    backgroundColor: _.select('rgba(238, 238, 238, 0.8)', _.colorTinygrailBorder),
     borderRadius: 16
   }
 }))

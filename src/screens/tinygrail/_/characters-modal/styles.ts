@@ -10,7 +10,7 @@ export const memoStyles = _.memoStyles(() => ({
   modal: {
     width: _.r(_.window.width - 2 * _.wind),
     maxWidth: _.r(400),
-    backgroundColor: _.tSelect(_.colorTinygrailContainer, _.__colorPlain__),
+    backgroundColor: _.select(_.__colorPlain__, _.colorTinygrailContainer),
     borderRadius: _.radiusMd
   },
   focus: {

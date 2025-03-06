@@ -114,12 +114,12 @@ export type EventType = {
 
 /** 列表对象 */
 export type ListEmpty<T = any> = Expand<{
-  list: T[] | readonly T[]
+  list: T extends readonly any[] ? readonly T[number][] : T[]
   pagination?: {
     page: number
     pageTotal: number
   }
-  _list?: T[] | readonly T[]
+  _list?: readonly T[]
   _loaded?: Loaded
 }>
 

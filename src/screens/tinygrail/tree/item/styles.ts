@@ -9,7 +9,7 @@ import { _ } from '@stores'
 export const memoStyles = _.memoStyles(() => ({
   item: {
     position: 'absolute',
-    borderWidth: _.tSelect(1, _.hairlineWidth),
+    borderWidth: _.select(_.hairlineWidth, 1),
     borderColor: _.colorTinygrailBorder,
     overflow: 'hidden'
   }

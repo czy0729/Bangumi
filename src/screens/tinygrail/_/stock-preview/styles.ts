@@ -59,7 +59,7 @@ export const memoStyles = _.memoStyles(() => ({
   icoBar: {
     width: _.r(96),
     height: 16,
-    backgroundColor: _.tSelect(_.colorTinygrailBorder, _.colorTinygrailBg),
+    backgroundColor: _.select(_.colorTinygrailBg, _.colorTinygrailBorder),
     borderRadius: 8,
     overflow: 'hidden'
   },

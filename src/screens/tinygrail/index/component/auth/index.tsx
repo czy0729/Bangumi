@@ -19,14 +19,15 @@ function Auth() {
   const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const { nickname, avatar } = $.userInfo
+  const src = tinygrailOSS(avatar?.large)
   return (
     <Flex style={_.mb.sm}>
       {!$.params.fromBottomTab && (
         <IconBack style={styles.back} navigation={navigation} color={_.colorTinygrailPlain} />
       )}
       <Avatar
-        key={tinygrailOSS(avatar?.large)}
-        src={tinygrailOSS(avatar?.large)}
+        key={src}
+        src={src}
         size={36}
         name={nickname}
         borderColor='transparent'
@@ -52,15 +53,11 @@ function Auth() {
           </Touchable>
           <IconTouchable
             style={_.ml._xs}
-            name={_.tSelect('md-brightness-2', 'md-brightness-5')}
+            name={_.select('md-brightness-5', 'md-brightness-2')}
             color={_.colorTinygrailPlain}
             size={18}
             onPress={() => {
-              _.toggleTinygrailThemeMode()
-
-              setTimeout(() => {
-                if (_.tinygrailThemeMode !== _.mode) _.toggleMode()
-              }, 40)
+              _.toggleMode()
             }}
           />
         </Flex>

@@ -47,7 +47,7 @@ const BtnMain = ({ item, userId, showIcon = true, onPress }) => {
             <Flex style={iconStyle} justify='center'>
               {key === 'WordCloud' ? (
                 <Image
-                  src={GROUP_THUMB_MAP[_.select('wordcloud_0', 'wordcloud')]}
+                  src={GROUP_THUMB_MAP.wordcloud}
                   size={19}
                   resizeMode='contain'
                   placeholder={false}

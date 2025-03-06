@@ -73,10 +73,11 @@ export default class Action extends Computed {
     return this.deepDark ? deepDarkValue : darkValue
   }
 
-  /** 小圣杯主题选择, 白天模式使用第二个值 */
-  tSelect: SelectFn = (lightValue, darkValue) => {
-    return this.isTinygrailDark ? lightValue : darkValue
-  }
+  /** @deprecated 小圣杯主题选择, 白天模式使用第二个值 */
+  tSelect = this.select
+  // tSelect: SelectFn = (lightValue, darkValue) => {
+  //   return this.isTinygrailDark ? lightValue : darkValue
+  // }
 
   /** 切换主题模式 */
   toggleMode = (mode?: Mode) => {
@@ -223,7 +224,7 @@ export default class Action extends Computed {
        * */
       const hash = getMemoStylesHash([
         this.mode,
-        this.tinygrailThemeMode,
+        // this.tinygrailThemeMode,
         this.deepDark,
         this.orientation,
         this.customFontFamily,

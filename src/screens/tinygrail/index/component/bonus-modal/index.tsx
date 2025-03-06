@@ -115,7 +115,7 @@ class BonusModal extends React.Component<Props> {
                   </Text>
                   <Text
                     style={_.mt.xxs}
-                    type={_.tSelect('tinygrailText', 'tinygrailPlain')}
+                    type={_.select('tinygrailPlain', 'tinygrailText')}
                     size={12}
                     bold
                     align='center'
@@ -129,9 +129,9 @@ class BonusModal extends React.Component<Props> {
               </View>
             ))}
           </Flex>
-          <Text type={_.tSelect('tinygrailPlain', 'tinygrailText')} align='center' bold>
+          <Text type={_.select('tinygrailText', 'tinygrailPlain')} align='center' bold>
             总价值
-            <Text type={_.tSelect('tinygrailText', 'tinygrailPlain')} bold>
+            <Text type={_.select('tinygrailPlain', 'tinygrailText')} bold>
               {' '}
               ₵{toFixed(this.total)}{' '}
             </Text>

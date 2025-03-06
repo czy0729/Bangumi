@@ -26,7 +26,7 @@ export default class Store<
 > {
   state: T
 
-  constructor(initialState: T) {
+  constructor(initialState?: T) {
     this.state = initialState
   }
 
