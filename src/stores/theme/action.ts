@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 14:27:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-25 08:47:24
+ * @Last Modified time: 2025-03-06 23:34:54
  */
 import { StyleSheet } from 'react-native'
 import { androidDayNightToggle, runAfter } from '@utils'
@@ -153,13 +153,13 @@ export default class Action extends Computed {
     }
   }
 
-  /** 切换小圣杯主题模式 */
+  /** @deprecated 切换小圣杯主题模式 */
   toggleTinygrailThemeMode = () => {
-    const key = 'tinygrailThemeMode'
-    this.setState({
-      [key]: this.tSelect('light', 'dark')
-    })
-    this.save(key)
+    // const key = 'tinygrailThemeMode'
+    // this.setState({
+    //   [key]: this.tSelect('light', 'dark')
+    // })
+    // this.save(key)
   }
 
   /** 切换小圣杯涨跌颜色 */
@@ -200,7 +200,7 @@ export default class Action extends Computed {
 
     runAfter(() => {
       try {
-        androidDayNightToggle(this.isTinygrailDark)
+        androidDayNightToggle(this.isDark)
       } catch (error) {
         console.error('[ThemeStore] changeNavigationBarColorTinygrail', error)
       }

@@ -51,10 +51,6 @@ export const Logo = ob(
             }
 
             setTimeout(() => {
-              if (_.mode !== _.tinygrailThemeMode) _.toggleTinygrailThemeMode()
-            }, 40)
-
-            setTimeout(() => {
               pendding = false
             }, 2000)
           }, 40)

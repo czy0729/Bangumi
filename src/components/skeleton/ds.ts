@@ -6,6 +6,7 @@
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
+import { _colorTinygrailBorder, _colorTinygrailIcon } from '@styles'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'Skeleton')
@@ -19,7 +20,7 @@ export const SHIMMER_COLORS_DARK = [
 ]
 
 export const SHIMMER_COLORS_TINYGRAIL_DARK = [
-  _.colorTinygrailBorder,
-  _.colorTinygrailIcon,
-  _.colorTinygrailBorder
+  _colorTinygrailBorder,
+  _colorTinygrailIcon,
+  _colorTinygrailBorder
 ]

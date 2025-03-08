@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-23 01:47:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-04 17:07:36
+ * @Last Modified time: 2025-03-05 05:21:42
  */
 import axios from '@utils/thirdParty/axios'
 import { WEB } from '@constants/device'
@@ -10,7 +10,7 @@ import { TranslateResult } from '@types'
 import { isDevtoolsOpen } from '../dom'
 import hash from '../thirdParty/hash'
 import { getTimestamp } from '../utils'
-import { Result, ResultTemp } from './type'
+import { Result, ResultCollectList, ResultTemp } from './type'
 import { log } from './utils'
 import { HOST, HOST_COMPLETIONS, HOST_LX, UPDATE_CACHE_MAP } from './ds'
 
@@ -64,7 +64,8 @@ export async function update(
   key: string,
   value: string | object,
   updateTS: boolean = true,
-  allowWebCommit: boolean = false
+  allowWebCommit: boolean = false,
+  fingerCheck: boolean = true
 ): Promise<Result> {
   if (isDevtoolsOpen()) return Promise.reject('denied')
 
@@ -81,11 +82,16 @@ export async function update(
           },
     updateTS
   }
-  const finger = hash(JSON.stringify(fingerValue)).slice(0, 4)
-  if (UPDATE_CACHE_MAP.has(finger)) return
 
-  UPDATE_CACHE_MAP.set(finger, true)
-  log('update', key, finger)
+  if (fingerCheck) {
+    const finger = hash(JSON.stringify(fingerValue)).slice(0, 4)
+    if (UPDATE_CACHE_MAP.has(finger)) return
+
+    UPDATE_CACHE_MAP.set(finger, true)
+    log('update', key, finger)
+  } else {
+    log('update', key)
+  }
 
   // @ts-expect-error
   const { data } = await axios({
@@ -178,7 +184,7 @@ export async function collect(
 }
 
 /** 所有收藏 */
-export async function collectList(userID: string | number): Promise<Result> {
+export async function collectList(userID: string | number): Promise<ResultCollectList> {
   if (isDevtoolsOpen()) return Promise.reject('denied')
 
   // @ts-expect-error
@@ -263,6 +269,25 @@ export async function extract(q: string) {
 
 /** 收藏排名 */
 export async function collectRank(count: number = 300) {
+  if (isDevtoolsOpen()) return Promise.reject('denied')
+
+  // @ts-expect-error
+  const { data } = await axios({
+    method: 'post',
+    url: `${HOST}/v1/collect/rank`,
+    data: {
+      // startTime: dayjs().subtract(30, 'day').unix(),
+      // endTime: dayjs().unix(),
+      // startsWith,
+      count
+    }
+  })
+
+  return data
+}
+
+/** 收藏排名 */
+export async function list(count: number = 100) {
   if (isDevtoolsOpen()) return Promise.reject('denied')
 
   // @ts-expect-error

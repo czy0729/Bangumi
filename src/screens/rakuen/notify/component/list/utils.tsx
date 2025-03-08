@@ -9,7 +9,7 @@ import ItemNotify from '../item-notify'
 import ItemPM from '../item-pm'
 
 export function keyExtractor(item: any, index: number) {
-  return String(index)
+  return `${JSON.stringify(item)}|${index}`
 }
 
 export function renderNotifyItem({ item, index }) {

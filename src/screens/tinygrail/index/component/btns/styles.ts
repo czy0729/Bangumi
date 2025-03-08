@@ -11,8 +11,8 @@ export const memoStyles = _.memoStyles(() => ({
     marginLeft: 12
   },
   btn: {
-    width: _.r(56),
-    height: _.r(36),
+    width: 48,
+    height: 36,
     backgroundColor: _.select(_.colorTinygrailBg, _.colorTinygrailIcon),
     border: 0,
     borderRadius: _.radiusXs,

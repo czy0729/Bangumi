@@ -212,82 +212,82 @@ export const colorIconPlain = `rgba(${colorPlainRaw.join()}, 0.88)`
 
 // -------------------- 小圣杯 --------------------
 /** 买入 */
-export const colorBid = 'rgb(0, 173, 146)'
+export const colorBid = 'rgb(1, 173, 145)'
 
 /** 买入深度 */
-export const colorDepthBid = 'rgb(15, 61, 67)'
+export const colorDepthBid = 'rgb(226, 241, 238)'
 
 /** 卖出 */
-export const colorAsk = 'rgb(209, 77, 100)'
+export const colorAsk = 'rgb(206, 97, 117)'
 
 /** 卖出深度 */
-export const colorDepthAsk = 'rgb(39, 36, 52)'
+export const colorDepthAsk = 'rgb(243, 233, 234)'
 
 /** 白 (小圣杯) */
-export const colorTinygrailPlain = 'rgba(255, 255, 255, 0.8)'
+export const colorTinygrailPlain = 'rgb(39, 43, 48)'
 
 /** 蓝 (小圣杯) */
-export const colorTinygrailPrimary = 'rgb(9, 153, 223)'
+export const colorTinygrailPrimary = 'rgb(42, 114, 241)'
 
 /** 背景 (小圣杯) */
-export const colorTinygrailBg = 'rgb(14, 25, 36)'
+export const colorTinygrailBg = 'rgb(240, 241, 243)'
 
 /** 容器 (小圣杯) */
-export const colorTinygrailContainer = 'rgb(20, 30, 50)'
+export const colorTinygrailContainer = 'rgb(255, 255, 255)'
 
 /** 容器 Hex (小圣杯) */
-export const colorTinygrailContainerHex = '#141e32'
+export const colorTinygrailContainerHex = '#ffffff'
 
 /** 边框 (小圣杯) */
-export const colorTinygrailBorder = 'rgb(29, 42, 61)'
+export const colorTinygrailBorder = colorBorder
 
 /** 图标 (小圣杯) */
-export const colorTinygrailIcon = 'rgb(62, 84, 108)'
+export const colorTinygrailIcon = 'rgb(172, 182, 188)'
 
 /** 文字 (小圣杯) */
-export const colorTinygrailText = 'rgb(99, 117, 144)'
+export const colorTinygrailText = 'rgb(128, 128, 128)'
 
 /** 激活 (小圣杯) */
-export const colorTinygrailActive = 'rgb(39, 40, 46)'
+export const colorTinygrailActive = 'rgb(247, 242, 232)'
 
 /** 买入 (dark) */
-export const _colorBid = 'rgb(1, 173, 145)'
+export const _colorBid = 'rgb(0, 173, 146)'
 
 /** 买入深度 (dark) */
-export const _colorDepthBid = 'rgb(226, 241, 238)'
+export const _colorDepthBid = 'rgb(15, 61, 67)'
 
 /** 卖出 (dark) */
-export const _colorAsk = 'rgb(206, 97, 117)'
+export const _colorAsk = 'rgb(209, 77, 100)'
 
 /** 卖出深度 (dark) */
-export const _colorDepthAsk = 'rgb(243, 233, 234)'
+export const _colorDepthAsk = 'rgb(39, 36, 52)'
 
 /** 白 (dark) */
-export const _colorTinygrailPlain = 'rgb(39, 43, 48)'
+export const _colorTinygrailPlain = 'rgba(255, 255, 255, 0.8)'
 
 /** 蓝 (dark) */
-export const _colorTinygrailPrimary = 'rgb(42, 114, 241)'
+export const _colorTinygrailPrimary = 'rgb(9, 153, 223)'
 
 /** 背景 (dark) */
-export const _colorTinygrailBg = 'rgb(240, 241, 243)'
+export const _colorTinygrailBg = 'rgb(14, 25, 36)'
 
 /** 容器 (dark) */
-export const _colorTinygrailContainer = 'rgb(255, 255, 255)'
+export const _colorTinygrailContainer = 'rgb(20, 30, 50)'
 
 /** 容器 Hex (dark) */
-export const _colorTinygrailContainerHex = '#ffffff'
+export const _colorTinygrailContainerHex = '#141e32'
 
 /** 边框 (dark) */
-export const _colorTinygrailBorder = colorBorder
+export const _colorTinygrailBorder = 'rgb(29, 42, 61)'
 
 /** 图标 (dark) */
-export const _colorTinygrailIcon = 'rgb(172, 182, 188)'
+export const _colorTinygrailIcon = 'rgb(62, 84, 108)'
 
 /** 文字 (dark) */
-export const _colorTinygrailText = 'rgb(128, 128, 128)'
+export const _colorTinygrailText = 'rgb(99, 117, 144)'
 
 /** 激活 (dark) */
-export const _colorTinygrailActive = 'rgb(247, 242, 232)'
+export const _colorTinygrailActive = 'rgb(39, 40, 46)'
 
 /** [未使用] 买入 (web) */
 export const colorBidWeb = 'rgb(228, 111, 161)'

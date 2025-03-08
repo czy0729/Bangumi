@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:12:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-12 05:18:11
+ * @Last Modified time: 2025-03-06 23:34:30
  */
 import React from 'react'
 import { Touchable, Flex, Iconfont } from '@components'
@@ -30,10 +30,6 @@ function Logo({ forceUpdate }) {
               forceUpdate()
             }, 0)
           }
-
-          setTimeout(() => {
-            if (_.mode !== _.tinygrailThemeMode) _.toggleTinygrailThemeMode()
-          }, 40)
         }, 40)
       }}
       onLongPress={() => {

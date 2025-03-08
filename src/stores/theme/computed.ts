@@ -488,9 +488,8 @@ export default class Computed extends State implements StoreConstructor<typeof S
     return this.deepDark ? _._colorThemeDeepDark.colorPlainRaw : _._colorPlainRaw
   }
 
-  /** 是否黑暗模式 (小圣杯) */
+  /** @deprecated 是否黑暗模式 (小圣杯) */
   @computed get isTinygrailDark() {
-    // return this.tinygrailThemeMode === 'dark'
     return this.isDark
   }
 
@@ -507,74 +506,74 @@ export default class Computed extends State implements StoreConstructor<typeof S
   /** 买入 */
   @computed get colorBid() {
     if (this.isWeb) return _.colorBidWeb
-    if (this.isGreen) return this.isTinygrailDark ? _.colorBid : _._colorBid
-    return this.isTinygrailDark ? _.colorAsk : _._colorAsk
+    if (this.isGreen) return this.isDark ? _._colorBid : _.colorBid
+    return this.isDark ? _._colorAsk : _.colorAsk
   }
 
   /** 买入深度 */
   @computed get colorDepthBid() {
     if (this.isWeb) return _.colorDepthBidWeb
-    if (this.isGreen) return this.isTinygrailDark ? _.colorDepthBid : _._colorDepthBid
-    return this.isTinygrailDark ? _.colorDepthAsk : _._colorDepthAsk
+    if (this.isGreen) return this.isDark ? _._colorDepthBid : _.colorDepthBid
+    return this.isDark ? _._colorDepthAsk : _.colorDepthAsk
   }
 
   /** 卖出 */
   @computed get colorAsk() {
     if (this.isWeb) return _.colorAskWeb
-    if (this.isGreen) return this.isTinygrailDark ? _.colorAsk : _._colorAsk
-    return this.isTinygrailDark ? _.colorBid : _._colorBid
+    if (this.isGreen) return this.isDark ? _._colorAsk : _.colorAsk
+    return this.isDark ? _._colorBid : _.colorBid
   }
 
   /** 卖出深度 */
   @computed get colorDepthAsk() {
     if (this.isWeb) return _.colorDepthAskWeb
-    if (this.isGreen) return this.isTinygrailDark ? _.colorDepthAsk : _._colorDepthAsk
-    return this.isTinygrailDark ? _.colorDepthBid : _._colorDepthBid
+    if (this.isGreen) return this.isDark ? _._colorDepthAsk : _.colorDepthAsk
+    return this.isDark ? _._colorDepthBid : _.colorDepthBid
   }
 
   /** 白 (小圣杯) */
   @computed get colorTinygrailPlain() {
-    return this.isTinygrailDark ? _.colorTinygrailPlain : _._colorTinygrailPlain
+    return this.isDark ? _._colorTinygrailPlain : _.colorTinygrailPlain
   }
 
   /** 蓝 (小圣杯) */
   @computed get colorTinygrailPrimary() {
-    return this.isTinygrailDark ? _.colorTinygrailPrimary : _._colorTinygrailPrimary
+    return this.isDark ? _._colorTinygrailPrimary : _.colorTinygrailPrimary
   }
 
   /** 背景 (小圣杯) */
   @computed get colorTinygrailBg() {
-    return this.isTinygrailDark ? _.colorTinygrailBg : _._colorTinygrailBg
+    return this.isDark ? _._colorTinygrailBg : _.colorTinygrailBg
   }
 
   /** 容器 (小圣杯) */
   @computed get colorTinygrailContainer() {
-    return this.isTinygrailDark ? _.colorTinygrailContainer : _._colorTinygrailContainer
+    return this.isDark ? _._colorTinygrailContainer : _.colorTinygrailContainer
   }
 
   /** 容器 Hex (小圣杯) */
   @computed get colorTinygrailContainerHex() {
-    return this.isTinygrailDark ? _.colorTinygrailContainerHex : _._colorTinygrailContainerHex
+    return this.isDark ? _._colorTinygrailContainerHex : _.colorTinygrailContainerHex
   }
 
   /** 边框 (小圣杯) */
   @computed get colorTinygrailBorder() {
-    return this.isTinygrailDark ? _.colorTinygrailBorder : _._colorTinygrailBorder
+    return this.isDark ? _._colorTinygrailBorder : _.colorTinygrailBorder
   }
 
   /** 图标 (小圣杯) */
   @computed get colorTinygrailIcon() {
-    return this.isTinygrailDark ? _.colorTinygrailIcon : _._colorTinygrailIcon
+    return this.isDark ? _._colorTinygrailIcon : _.colorTinygrailIcon
   }
 
   /** 文字 (小圣杯) */
   @computed get colorTinygrailText() {
-    return this.isTinygrailDark ? _.colorTinygrailText : _._colorTinygrailText
+    return this.isDark ? _._colorTinygrailText : _.colorTinygrailText
   }
 
   /** 激活 (小圣杯) */
   @computed get colorTinygrailActive() {
-    return this.isTinygrailDark ? _.colorTinygrailActive : _._colorTinygrailActive
+    return this.isDark ? _._colorTinygrailActive : _.colorTinygrailActive
   }
 
   /** User 和 Zone 页面上方用的可变高度块的高度限制属性 */

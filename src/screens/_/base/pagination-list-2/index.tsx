@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-24 22:00:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-03 15:10:04
+ * @Last Modified time: 2025-03-07 17:18:23
  */
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Component, ListView } from '@components'
@@ -43,7 +43,7 @@ export const PaginationList2 = <ItemT extends AnyObject>({
     _loaded: false
   })
 
-  const onFooterRefresh = useCallback(() => {
+  const handleFooterRefresh = useCallback(() => {
     const { page, pageTotal } = list.pagination
     if (page >= pageTotal) return true
 
@@ -94,7 +94,13 @@ export const PaginationList2 = <ItemT extends AnyObject>({
         ref={forwardRef || connectRef}
         data={list}
         {...other}
-        onFooterRefresh={onFooterRefresh}
+        onFooterRefresh={
+          list.pagination.page &&
+          list.pagination.pageTotal &&
+          list.pagination.page >= list.pagination.pageTotal
+            ? undefined
+            : handleFooterRefresh
+        }
       />
     </Component>
   )

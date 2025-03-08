@@ -98,7 +98,7 @@ function Menus() {
         pathname='TinygrailLogs'
         icon='md-insert-chart-outlined'
       />
-      <MenuItem index={13} title='人物查询' pathname='TinygrailSearch' icon='md-search' />
+      <MenuItem index={13} title='圣杯广场' pathname='TinygrailTransaction' icon='md-data-usage' />
       <MenuItem
         index={14}
         style={{

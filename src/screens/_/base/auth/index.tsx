@@ -41,10 +41,6 @@ export const Auth = ob(() => {
             onPress={() => {
               setTimeout(() => {
                 _.toggleMode()
-
-                setTimeout(() => {
-                  if (_.mode !== _.tinygrailThemeMode) _.toggleTinygrailThemeMode()
-                }, 40)
               }, 40)
             }}
           />

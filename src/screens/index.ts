@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-18 05:14:06
+ * @Last Modified time: 2025-03-04 20:23:01
  */
 import { lazy } from 'react'
 
@@ -131,6 +131,7 @@ export const TinygrailStar = lazy(() => import('./tinygrail/star'))
 export const TinygrailTemples = lazy(() => import('./tinygrail/temples'))
 export const TinygrailTopWeek = lazy(() => import('./tinygrail/top-week'))
 export const TinygrailTrade = lazy(() => import('./tinygrail/trade'))
+export const TinygrailTransaction = lazy(() => import('./tinygrail/transaction'))
 export const TinygrailTree = lazy(() => import('./tinygrail/tree'))
 export const TinygrailTreeRich = lazy(() => import('./tinygrail/tree-rich'))
 export const TinygrailValhall = lazy(() => import('./tinygrail/valhall'))

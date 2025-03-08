@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:40:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-26 01:51:34
+ * @Last Modified time: 2025-03-08 21:33:52
  */
 import { toJS } from 'mobx'
 import { getTimestamp, info } from '@utils'
@@ -29,7 +29,7 @@ import {
   SDK
 } from '@constants'
 import { TinygrailMagic } from '@constants/api/types'
-import { Id, MonoId } from '@types'
+import { Id, MonoId, UserId } from '@types'
 import Fetch from './fetch'
 
 export default class Action extends Fetch {
@@ -296,9 +296,9 @@ export default class Action extends Fetch {
   }
 
   /** 新年快乐 */
-  doSend = async (count = 10000) => {
+  doSend = async (count: number = 10000, userId: UserId = 'sukaretto') => {
     const { data } = await this.fetch(
-      `https://tinygrail.com/api/event/send/sukaretto/${count}`,
+      `https://tinygrail.com/api/event/send/${userId}/${count}`,
       true
     )
     return data

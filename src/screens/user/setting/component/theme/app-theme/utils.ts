@@ -12,11 +12,6 @@ export function handleLight() {
 
   _.toggleMode()
 
-  // 用于主动刷新头部颜色
-  setTimeout(() => {
-    if (_.mode !== _.tinygrailThemeMode) _.toggleTinygrailThemeMode()
-  }, 40)
-
   t('设置.切换', {
     title: '黑暗模式',
     checked: !_.isDark
@@ -30,10 +25,6 @@ export function handleDeepDark() {
   if (!deepDark) systemStore.switchSetting('deepDark')
   _.toggleMode('dark')
 
-  setTimeout(() => {
-    if (_.mode !== _.tinygrailThemeMode) _.toggleTinygrailThemeMode()
-  }, 40)
-
   t('设置.切换', {
     title: '纯黑',
     checked: !deepDark
@@ -46,10 +37,6 @@ export function handleDark() {
 
   if (deepDark) systemStore.switchSetting('deepDark')
   _.toggleMode('dark')
-
-  setTimeout(() => {
-    if (_.mode !== _.tinygrailThemeMode) _.toggleTinygrailThemeMode()
-  }, 40)
 
   t('设置.切换', {
     title: '纯黑',

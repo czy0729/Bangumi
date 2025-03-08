@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 06:18:35
+ * @Last Modified time: 2025-03-06 23:35:18
  */
 import React from 'react'
 import { Avatar, Flex, Text, Touchable } from '@components'
@@ -57,7 +57,9 @@ function Auth() {
             color={_.colorTinygrailPlain}
             size={18}
             onPress={() => {
-              _.toggleMode()
+              setTimeout(() => {
+                _.toggleMode()
+              }, 40)
             }}
           />
         </Flex>
