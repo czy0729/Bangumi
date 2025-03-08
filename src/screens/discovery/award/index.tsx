@@ -36,7 +36,7 @@ class Award extends React.Component<Props> {
   redirectCount = 0
 
   async componentDidMount() {
-    const html = HTML_CACHE[this.year]
+    const html = HTML_CACHE[this.uri]
     if (html) {
       this.setState({
         html
@@ -65,8 +65,11 @@ class Award extends React.Component<Props> {
 
   fetch = async () => {
     try {
+      let url = `${HOST}/award/${this.year}`
+      if (this.uri.includes('/winner')) url += '/winner'
+
       let html = await fetchHTML({
-        url: `${HOST}/award/${this.year}`
+        url
       })
 
       // 抹除不必要的元素
@@ -89,12 +92,12 @@ class Award extends React.Component<Props> {
         .replace(/\/r\/400\/pic/g, '/r/200/pic')}<style>${
         resetStyle[this.year]
       }</style><script>${injectedStaticJavaScript}</script>`.replace(/\/r\/400\/pic/g, '/r/200/pic')
-      HTML_CACHE[this.year] = html
+      HTML_CACHE[this.uri] = html
       this.setState({
         html
       })
 
-      if (WEB) setStorage(`${NAMESPACE}|html|${this.year}`, html)
+      if (WEB) setStorage(`${NAMESPACE}|html|${this.uri}`, html)
     } catch (error) {
       this.onError()
     }
@@ -172,7 +175,7 @@ class Award extends React.Component<Props> {
   }
 
   get year() {
-    const uris = this.uri.split('/')
+    const uris = this.uri.replace('/winner', '').split('/')
     return uris[uris.length - 1]
   }
 
