@@ -1,0 +1,56 @@
+{
+  "images": [
+    {
+      "idiom": "universal",
+      "filename": "image.png",
+      "scale": "1x"
+    },
+    {
+      "idiom": "universal",
+      "filename": "image@2x.png",
+      "scale": "2x"
+    },
+    {
+      "idiom": "universal",
+      "filename": "image@3x.png",
+      "scale": "3x"
+    },
+    {
+      "idiom": "universal",
+      "appearances": [
+        {
+          "appearance": "luminosity",
+          "value": "dark"
+        }
+      ],
+      "scale": "1x",
+      "filename": "dark_image.png"
+    },
+    {
+      "idiom": "universal",
+      "appearances": [
+        {
+          "appearance": "luminosity",
+          "value": "dark"
+        }
+      ],
+      "scale": "2x",
+      "filename": "dark_image@2x.png"
+    },
+    {
+      "idiom": "universal",
+      "appearances": [
+        {
+          "appearance": "luminosity",
+          "value": "dark"
+        }
+      ],
+      "scale": "3x",
+      "filename": "dark_image@3x.png"
+    }
+  ],
+  "info": {
+    "version": 1,
+    "author": "expo"
+  }
+}
