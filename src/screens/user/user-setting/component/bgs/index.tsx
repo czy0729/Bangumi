@@ -34,6 +34,7 @@ function Bgs({ avatar, more, onViewOrigin, onMore }) {
             radius
             blurRadius={IOS ? ($.state.avatar ? 64 : 16) : 8}
             fallback
+            errorToHide
           />
           <Text style={styles.blurText} type='__plain__' bold align='center'>
             头像毛玻璃
@@ -65,6 +66,7 @@ function Bgs({ avatar, more, onViewOrigin, onMore }) {
                   height={styles.image.height}
                   headers={getHeaders(item)}
                   radius
+                  errorToHide
                 />
               </InView>
             </Touchable>

@@ -30,6 +30,7 @@ function Preview({ bg, avatar, blurRadius }: { bg: string; avatar: string; blurR
         height={styles.preview.height}
         blurRadius={blurRadius}
         fallback={!!blurRadius}
+        errorToHide
       />
       <Flex style={styles.mask} direction='column' justify='center'>
         <Image
@@ -42,8 +43,8 @@ function Preview({ bg, avatar, blurRadius }: { bg: string; avatar: string; blurR
           border={_.__colorPlain__}
           borderWidth={1.5}
           placeholder={false}
-          shadow
           fallback
+          errorToHide
         />
         <Text style={_.mt.sm} type={_.select('plain', 'title')} size={12}>
           {nickname}

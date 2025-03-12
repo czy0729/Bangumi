@@ -6,6 +6,7 @@
  */
 import { _ } from '@stores'
 import { getCover400, getStorage, setStorage, showImageViewer } from '@utils'
+import { HOST_IMAGE } from '@utils/app/ds'
 import { t } from '@utils/fetch'
 import hash from '@utils/thirdParty/hash'
 import ImageCacheManager from '@utils/thirdParty/image-cache-manager'
@@ -17,6 +18,7 @@ import {
   OSS_BGM,
   OSS_BGM_EMOJI_PREFIX
 } from './ds'
+import { Props } from './types'
 
 /** 记录 451 (OSS 鉴定为敏感) 的图片 */
 let memo451: Map<string, boolean>
@@ -94,7 +96,7 @@ export function checkError404(src: string): boolean {
 }
 
 /** 记录超时的图片地址 */
-export function setErrorTimeout(src: string) {
+export function setErrorTimeout(src: Props['src']) {
   if (!memoTimeout || typeof src !== 'string') return false
 
   const id = hash(src)
@@ -105,7 +107,7 @@ export function setErrorTimeout(src: string) {
 }
 
 /** 检查是否存在过超时返回 */
-export function checkErrorTimeout(src: string): boolean {
+export function checkErrorTimeout(src: Props['src']): boolean {
   if (!memoTimeout || typeof src !== 'string') return false
 
   return memoTimeout.has(hash(src))
@@ -258,6 +260,10 @@ export function fixedRemoteImageUrl(url: any) {
 
   // 协议
   if (url.indexOf('https:') === -1 && url.indexOf('http:') === -1) return `https:${url}`
+
+  // 来自官方的图片是支持 https 的, 而 IPA 一定是 https 的图片才能正常显示
+  // 这里保证来自官方的图片必须能正常显示, 强制转换
+  if (url.startsWith(`http:${HOST_IMAGE}`)) url = url.replace('http://', 'https://')
 
   return url
 }

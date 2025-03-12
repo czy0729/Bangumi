@@ -39,6 +39,7 @@ function Avatars({ avatar }) {
                     borderWidth={0}
                     placeholder={false}
                     fallback
+                    errorToHide
                   />
                 </Touchable>
               )
@@ -60,8 +61,8 @@ function Avatars({ avatar }) {
                   border={_.__colorPlain__}
                   borderWidth={0}
                   placeholder={false}
-                  shadow
                   fallback
+                  errorToHide
                 />
               </Touchable>
             )
