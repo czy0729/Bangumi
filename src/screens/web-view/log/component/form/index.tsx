@@ -2,106 +2,100 @@
  * @Author: czy0729
  * @Date: 2022-10-17 11:43:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-23 14:54:21
+ * @Last Modified time: 2025-03-16 06:55:15
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Input } from '@components'
+import { useObserver } from 'mobx-react'
+import { Flex, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
-import { stl } from '@utils'
-import { ob } from '@utils/decorators'
+import { confirm, stl } from '@utils'
+import { r } from '@utils/dev'
 import { Ctx } from '../../types'
+import FormItem from '../form-item'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function Form() {
+  r(COMPONENT)
+
   const { $ } = useStore<Ctx>()
-  const styles = memoStyles()
-  const {
-    show,
-    url,
-    url2,
-    authorization,
-    usersPrefixed,
-    infosPrefixed,
-    distance,
-    navigate,
-    referer,
-    event
-  } = $.state
-  return (
-    <>
-      {show && <View style={styles.mask} />}
-      <View style={stl(styles.fixed, !show && styles.hide)}>
-        <View style={styles.user}>
-          <Input
-            style={styles.input}
-            defaultValue={url}
-            placeholder='url'
-            onChangeText={value => $.onChange('url', value)}
-          />
-          <Input
-            style={[styles.input, _.mt.md]}
-            defaultValue={url2}
-            placeholder='url2'
-            onChangeText={value => $.onChange('url2', value)}
-          />
-          <Input
-            style={[styles.input, _.mt.md]}
-            defaultValue={authorization}
-            placeholder='authorization'
-            multiline
-            numberOfLines={2}
-            onChangeText={value => $.onChange('authorization', value)}
-          />
-          <Flex style={_.mt.md}>
-            <Flex.Item>
-              <Input
-                style={styles.input}
-                defaultValue={usersPrefixed}
-                placeholder='usersPrefixed'
-                onChangeText={value => $.onChange('usersPrefixed', value)}
-              />
-            </Flex.Item>
-            <Flex.Item style={_.ml.md}>
-              <Input
-                style={styles.input}
-                defaultValue={infosPrefixed}
-                placeholder='infosPrefixed'
-                onChangeText={value => $.onChange('infosPrefixed', value)}
-              />
-            </Flex.Item>
-            <Flex.Item style={_.ml.md}>
-              <Input
-                style={styles.input}
-                defaultValue={distance}
-                placeholder='distance'
-                onChangeText={value => $.onChange('distance', value)}
-              />
-            </Flex.Item>
-          </Flex>
-          <Input
-            style={[styles.input, _.mt.md]}
-            defaultValue={navigate}
-            placeholder='navigate'
-            onChangeText={value => $.onChange('navigate', value)}
-          />
-          <Input
-            style={[styles.input, _.mt.md]}
-            defaultValue={referer}
-            placeholder='referer'
-            onChangeText={value => $.onChange('referer', value)}
-          />
-          <Input
-            style={[styles.input, _.mt.md]}
-            defaultValue={event}
-            placeholder='event'
-            onChangeText={value => $.onChange('event', value)}
-          />
+
+  return useObserver(() => {
+    const styles = memoStyles()
+    const { show, showName } = $.state
+    return (
+      <>
+        {show && <View style={styles.mask} />}
+        <View style={stl(styles.fixed, !show && styles.hide)}>
+          <View style={styles.body}>
+            <Flex>
+              <Flex.Item>
+                <FormItem name='url' />
+              </Flex.Item>
+              <Flex.Item style={_.ml.md}>
+                <FormItem name='url2' />
+              </Flex.Item>
+            </Flex>
+            <Flex style={_.mt.sm}>
+              <Flex.Item flex={1.8}>
+                <FormItem name='authorization' />
+              </Flex.Item>
+              <Flex.Item style={_.ml.md}>
+                <FormItem name='distance' />
+              </Flex.Item>
+            </Flex>
+            <Flex style={_.mt.sm}>
+              <Flex.Item>
+                <FormItem name='usersPrefixed' />
+              </Flex.Item>
+              <Flex.Item style={_.ml.md}>
+                <FormItem name='infosPrefixed' />
+              </Flex.Item>
+              <Flex.Item style={_.ml.md}>
+                <FormItem name='unitDay' />
+              </Flex.Item>
+            </Flex>
+            <Flex style={_.mt.sm}>
+              <Flex.Item>
+                <FormItem name='navigate' />
+              </Flex.Item>
+              <Flex.Item style={_.ml.md}>
+                <FormItem name='referer' />
+              </Flex.Item>
+              <Flex.Item style={_.ml.md}>
+                <FormItem name='event' />
+              </Flex.Item>
+            </Flex>
+            <Flex style={_.mt.sm} justify='end'>
+              <Flex.Item>
+                <Touchable style={styles.touch} onPress={$.onToggleName}>
+                  <Text type='sub' size={12} bold>
+                    name: {showName ? 'yes' : 'no'}
+                  </Text>
+                </Touchable>
+              </Flex.Item>
+              <Touchable style={styles.touch} onPress={$.onCopy}>
+                <Text type='sub' size={12} bold>
+                  copy
+                </Text>
+              </Touchable>
+              <Touchable
+                style={[styles.touch, _.ml.sm]}
+                onPress={() => {
+                  confirm('应用?', $.onPaste)
+                }}
+              >
+                <Text type='sub' size={12} bold>
+                  paste
+                </Text>
+              </Touchable>
+            </Flex>
+          </View>
         </View>
-      </View>
-    </>
-  )
+      </>
+    )
+  })
 }
 
-export default ob(Form, COMPONENT)
+export default Form

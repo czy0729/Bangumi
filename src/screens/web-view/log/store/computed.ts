@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2025-02-19 07:51:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-22 11:35:30
+ * @Last Modified time: 2025-03-14 09:30:47
  */
 import { computed } from 'mobx'
+import { lastDate } from '@utils'
 import State from './state'
 
 export default class Computed extends State {
   users(u: string) {
     return computed(() => {
       const id = u.split('user/')?.[1]
-      if (!id) return null
+      if (!id || !(id in this.state.users)) return null
       return this.state.users[id]
     }).get()
   }
@@ -19,7 +20,7 @@ export default class Computed extends State {
   infos(u: string) {
     return computed(() => {
       const id = u.split('user/')?.[1]
-      if (!id) return null
+      if (!id || !(id in this.state.infos)) return null
       return this.state.infos[id]
     }).get()
   }
@@ -28,5 +29,15 @@ export default class Computed extends State {
     return computed(() => {
       return this.state.stats[u] || null
     }).get()
+  }
+
+  @computed get headerInfo() {
+    const { list } = this.state.data
+    const { length } = list
+    let text = String(length)
+    if (!length) return text
+
+    text += ` (${lastDate(new Date(list[length - 1].d).valueOf() / 1000)})`
+    return text
   }
 }

@@ -17,7 +17,7 @@ function Header() {
   const { show } = $.state
   return (
     <HeaderV2
-      title={`错误上报分析 (${$.state.data.list.length})`}
+      title={$.headerInfo || '错误上报分析'}
       headerRight={() => (
         <>
           <IconTouchable

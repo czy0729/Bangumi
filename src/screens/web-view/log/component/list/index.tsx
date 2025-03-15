@@ -2,18 +2,24 @@
  * @Author: czy0729
  * @Date: 2025-02-18 06:26:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-22 11:12:23
+ * @Last Modified time: 2025-03-14 09:28:38
  */
 import React from 'react'
 import { Loading } from '@components'
 import { PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
+import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
-import Item from '../item'
+import Summary from '../summary'
+import { keyExtractor, renderItem } from './utils'
+import { COMPONENT } from './ds'
 
 function List() {
+  r(COMPONENT)
+
   const { $ } = useStore<Ctx>()
+
   return useObserver(() => {
     const { data } = $.state
     if (!data.list.length) return <Loading />
@@ -24,7 +30,8 @@ function List() {
         contentContainerStyle={_.container.bottom}
         skipEnteringExitingAnimations={10}
         data={data.list}
-        limit={100}
+        limit={20}
+        ListHeaderComponent={<Summary />}
         renderItem={renderItem}
         onHeaderRefresh={$.getData}
       />
@@ -33,11 +40,3 @@ function List() {
 }
 
 export default List
-
-function keyExtractor(item) {
-  return `${item.i}${item.d}`
-}
-
-function renderItem({ item }) {
-  return <Item {...item} />
-}

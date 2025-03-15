@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-02-20 16:37:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-23 04:06:23
+ * @Last Modified time: 2025-03-14 07:52:07
  */
 import React, { useState } from 'react'
 import { View } from 'react-native'
@@ -10,16 +10,20 @@ import { Flex, Highlight, ScrollView, Text } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { desc } from '@utils'
+import { r } from '@utils/dev'
 import { useMount, useObserver } from '@utils/hooks'
 import { get } from '@utils/kv'
 import { WEB } from '@constants'
 import events from '@constants/events'
 import { Ctx } from '../../types'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 const flipped = Object.fromEntries(Object.entries(events).map(([key, value]) => [value, key]))
 
 function Detail({ id }) {
+  r(COMPONENT)
+
   const { $ } = useStore<Ctx>()
   const [value, setValue] = useState({})
   const [source, setSource] = useState(false)

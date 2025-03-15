@@ -75,7 +75,11 @@ export const STATE = {
       _loaded: Loaded
     }
   >,
+
   distance: '120000',
+  unitDay: '29',
+  showName: false,
+
   ...EXCLUDE_STATE,
   _loaded: false as Loaded
 }

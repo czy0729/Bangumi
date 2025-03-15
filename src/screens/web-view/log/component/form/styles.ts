@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-17 11:43:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-20 04:48:46
+ * @Last Modified time: 2025-03-16 06:53:02
  */
 import { _ } from '@stores'
 
@@ -41,21 +41,11 @@ export const memoStyles = _.memoStyles(() => ({
     overflow: 'hidden'
   },
   body: {
-    paddingHorizontal: _.md,
-    paddingBottom: 28
-  },
-  btn: {
-    width: 128
-  },
-  btnStyle: {
-    height: 40
-  },
-  user: {
+    paddingTop: _.md,
     paddingVertical: 12,
     paddingHorizontal: _._wind
   },
-  input: {
-    backgroundColor: _.colorBg,
-    borderRadius: _.radiusSm - 2
+  touch: {
+    padding: 8
   }
 }))

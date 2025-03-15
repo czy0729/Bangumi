@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2025-02-19 06:19:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-23 04:54:01
+ * @Last Modified time: 2025-03-15 00:52:18
  */
 import React from 'react'
 import { Avatar, Flex, Loading, Text, Touchable, UserStatus } from '@components'
 import { IconTouchable, Tag } from '@_'
 import { _, useStore } from '@stores'
 import { lastDate, open, stl } from '@utils'
+import { r as render } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { HOST, IMG_AVATAR_DEFAULT, IMG_INFO_ONLY, VERSION_GITHUB_RELEASE } from '@constants'
 import AdvanceData from '@assets/json/advance.json'
@@ -16,14 +17,17 @@ import { Ctx } from '../../types'
 import Detail from '../detail'
 import Stats from '../stats'
 import { getReleaseDistance } from './utils'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function Item({ i, d, o, u, r }) {
+  render(COMPONENT)
+
   const { $, navigation } = useStore<Ctx>()
 
   return useObserver(() => {
     const styles = memoStyles()
-    const { navigate, url2, referer, event } = $.state
+    const { navigate, url2, referer, event, showName } = $.state
     const users = $.users(u)
     const infos = $.infos(u)
     const id = u.split('user/')?.[1] || ''
@@ -86,7 +90,11 @@ function Item({ i, d, o, u, r }) {
               />
             )}
             {!!infos?.b && platform !== 'IPA' && (
-              <Tag style={styles.tag} value={infos.b} size={12} />
+              <Tag
+                style={styles.tag}
+                value={showName ? infos.b : infos.b.split('(')?.[0]}
+                size={12}
+              />
             )}
             {!!platform && <Tag style={styles.tag} value={platform} type='primary' />}
             {!!amount && <Tag style={styles.tag} value={amount} />}

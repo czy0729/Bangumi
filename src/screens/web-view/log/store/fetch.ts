@@ -190,12 +190,12 @@ export default class Fetch extends Computed {
   }
 
   getStats = async (u: string) => {
-    const { url2, authorization } = this.state
+    const { url2, authorization, unitDay } = this.state
     if (!u || !url2 || !authorization) return false
 
     const now = new Date()
     const startAt = new Date(now)
-    startAt.setDate(now.getDate() - 29)
+    startAt.setDate(now.getDate() - Number(unitDay || 29))
     startAt.setHours(0, 0, 0, 0)
 
     const endAt = new Date(now)
