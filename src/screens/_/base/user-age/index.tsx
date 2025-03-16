@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2025-01-25 11:02:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-28 17:18:43
+ * @Last Modified time: 2025-03-16 10:00:55
  */
 import React from 'react'
 import { Component, Flex, Text } from '@components'
+import { systemStore } from '@stores'
 import { stl } from '@utils'
 import { getAge } from '@utils/app/ages'
 import { r } from '@utils/dev'
@@ -23,7 +24,15 @@ export const UserAge = ({ style, value, avatar }: UserAgeProps) => {
   const age = getAge(value, avatar)
   return useObserver(() => {
     const styles = memoStyles()
-    const text = !age || age == 0 ? '最近' : `${age}年`
+    let text = !age || age == 0 ? '最近' : age
+    if (text !== '最近') {
+      if (systemStore.setting.userAgeType === 'month' && Number(age) < 1) {
+        text = `${Math.floor(Number(age) * 12)}月`
+      } else {
+        text += '年'
+      }
+    }
+
     return (
       <Component id='base-user-age'>
         <Flex style={stl(styles.userAge, style)} wrap='nowrap'>

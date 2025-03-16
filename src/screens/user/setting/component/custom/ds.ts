@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 07:17:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-03 21:19:11
+ * @Last Modified time: 2025-03-16 09:24:25
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
@@ -27,7 +27,7 @@ export const TEXTS = {
     information: '已于 24 年 4 月使用 OpenCC 替换原来的暴力转换'
   },
   userAge: {
-    hd: '用户站龄',
+    title: '用户站龄',
     information: '在相关吐槽页面，用户信息后方显示注册年龄'
   },
   hideScore: {

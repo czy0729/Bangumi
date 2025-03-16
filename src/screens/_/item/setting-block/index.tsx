@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 06:36:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-17 12:50:58
+ * @Last Modified time: 2025-03-16 10:16:07
  */
 import React from 'react'
 import { Component, Flex, Highlight, Iconfont, Touchable } from '@components'
@@ -24,7 +24,7 @@ const ItemSettingBlock: IItemSettingBlock = ob(
     title,
     information,
     informationType = 'sub',
-    size = 16,
+    size = WEB ? 14 : 15,
     filter,
     thumb,
     url,

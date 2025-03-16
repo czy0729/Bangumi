@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-06 07:29:36
+ * @Last Modified time: 2025-03-16 09:12:29
  */
 import { MUSUME_PROMPT } from '@utils/kv/ds'
 import {
@@ -188,6 +188,9 @@ export const INIT_SETTING = {
 
   /** 显示用户站龄 */
   userAge: false,
+
+  /** 显示用户站龄时, 当少于 1 年时, 显示月份 */
+  userAgeType: 'year' as 'year' | 'month',
 
   /** 隐藏他人评分 */
   hideScore: false,
