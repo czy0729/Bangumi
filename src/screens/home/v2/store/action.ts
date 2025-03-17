@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:23:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-14 07:20:42
+ * @Last Modified time: 2025-03-17 09:44:22
  */
 import { getCoverSrc } from '@components/cover/utils'
 import { collectionStore, userStore } from '@stores'
@@ -316,15 +316,28 @@ export default class Action extends Fetch {
     }
   }
 
-  /** Eps 状态按钮做动画前, 需要先设置开启 */
+  private _flipTimeoutId = null
+
+  /** 章节按钮做动画前, 需要先设置开启 */
   prepareEpsFlip = (subjectId: SubjectId) => {
+    if (this._flipTimeoutId) clearTimeout(this._flipTimeoutId)
+
     this.setState({
       flip: subjectId
     })
+
+    this._flipTimeoutId = setTimeout(() => {
+      this.afterFlipEps()
+    }, 8000)
   }
 
-  /** Eps 状态按钮完全动画后, 需要设置关闭才能做下一次动画 */
+  /** 章节按钮完成动画后, 需要设置关闭才能做下一次动画 */
   afterFlipEps = debounce(() => {
+    if (this._flipTimeoutId) {
+      clearTimeout(this._flipTimeoutId)
+      this._flipTimeoutId = null
+    }
+
     this.setState({
       flip: 0
     })

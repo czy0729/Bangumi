@@ -1,16 +1,12 @@
 /*
  * @Author: czy0729
- * @Date: 2022-07-15 19:48:19
- * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-15 19:57:23
+ * @Date: 2025-03-17 08:58:28
+ * @Last Modified by:   czy0729
+ * @Last Modified time: 2025-03-17 08:58:28
  */
-import { Override } from '@types'
-import { Ctx, TabsLabel } from '../../types'
+import { TabsLabel } from '../../types'
 
-export type Props = Override<
-  Ctx,
-  {
-    title: TabsLabel
-    length: number
-  }
->
+export type Props = {
+  title: TabsLabel
+  length: number
+}

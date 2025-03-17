@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-19 12:57:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 15:57:08
+ * @Last Modified time: 2025-03-17 09:23:58
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
@@ -22,7 +22,6 @@ export const DEFAULT_PROPS = {
   forwardRef: FROZEN_FN as (ref: any) => ReturnType<$['forwardRef']>,
   data: LIST_EMPTY as ReturnType<$['currentCollection']>,
   title: '' as TabsLabel,
-  scrollToTop: false as boolean,
   showItem: (IOS ? false : true) as boolean,
   onScroll: FROZEN_FN as $['onScroll'],
   onHeaderRefresh: FROZEN_FN as $['onHeaderRefresh'],

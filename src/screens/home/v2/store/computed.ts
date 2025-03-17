@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:14:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-01 19:08:07
+ * @Last Modified time: 2025-03-17 08:55:09
  */
 import { computed } from 'mobx'
 import { _, calendarStore, collectionStore, subjectStore, systemStore, userStore } from '@stores'
@@ -110,6 +110,17 @@ export default class Computed extends State {
   @computed get filter() {
     // 转大写和简体
     return t2s(this.state.filter.toUpperCase())
+  }
+
+  /** 实际过滤框的值 */
+  filterValue(title: TabsLabel) {
+    return computed(() => {
+      const { filterPage } = this.state
+      if (filterPage >= 0 && filterPage <= this.tabs.length) {
+        if (title === this.tabs[filterPage].title) return this.state.filter
+      }
+      return ''
+    }).get()
   }
 
   /** 列表当前数据 */

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-21 10:28:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-16 06:06:26
+ * @Last Modified time: 2025-03-17 09:26:39
  */
 import React from 'react'
 import { Flex } from '@components'
@@ -26,10 +26,11 @@ function Icons() {
           style={styles.icon}
           name='md-search'
           onPress={() => {
+            navigation.push('Search')
+
             t('首页.跳转', {
               to: 'Search'
             })
-            navigation.push('Search')
           }}
         />
       )}

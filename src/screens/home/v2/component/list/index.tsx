@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 02:58:18
+ * @Last Modified time: 2025-03-17 09:23:49
  */
 import React, { useCallback, useMemo } from 'react'
 import { Loading, ScrollToIndex } from '@components'
@@ -48,7 +48,6 @@ function ListWrap({ title = '全部' }: Props) {
         style={style}
         data={$.currentCollection(title)}
         title={title}
-        scrollToTop={$.scrollToTop(title)}
         showItem={showItem}
         onScroll={$.onScroll}
         onHeaderRefresh={$.onHeaderRefresh}

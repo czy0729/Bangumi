@@ -2,31 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-06-19 12:58:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-01 19:00:11
+ * @Last Modified time: 2025-03-17 09:23:59
  */
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback } from 'react'
 import { PaginationList2 } from '@_'
-import { useStore } from '@stores'
+import { systemStore } from '@stores'
 import { memo } from '@utils/decorators'
-import { Ctx } from '../../types'
 import Empty from '../empty'
 import Filter from '../filter'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const List = memo(
-  ({
-    forwardRef,
-    style,
-    data,
-    title,
-    scrollToTop,
-    showItem,
-    onScroll,
-    onHeaderRefresh,
-    onFooterRefresh
-  }) => {
-    const { $, navigation } = useStore<Ctx>()
+  ({ forwardRef, style, data, title, showItem, onScroll, onHeaderRefresh, onFooterRefresh }) => {
     const { length } = data.list
     const elEmpty = <Empty title={title} length={length} />
     const handleRenderItem = useCallback(
@@ -43,10 +31,6 @@ const List = memo(
       },
       [title, showItem]
     )
-    const ListHeaderComponent = useMemo(
-      () => <Filter $={$} navigation={navigation} title={title} length={length} />,
-      [$, navigation, title, length]
-    )
 
     return (
       <PaginationList2
@@ -56,9 +40,10 @@ const List = memo(
         progressViewOffset={style.paddingTop}
         data={data.list}
         limit={20}
-        scrollToTop={scrollToTop}
         keyboardDismissMode='on-drag'
-        ListHeaderComponent={ListHeaderComponent}
+        ListHeaderComponent={
+          systemStore.setting.homeFilter ? <Filter title={title} length={length} /> : null
+        }
         renderItem={handleRenderItem}
         footerEmptyDataComponent={elEmpty}
         footerNoMoreDataComponent={elEmpty}

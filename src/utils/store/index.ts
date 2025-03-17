@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-09 03:14:55
+ * @Last Modified time: 2025-03-17 10:15:01
  */
 import { action, configure, extendObservable, isObservableArray, toJS } from 'mobx'
 import { LIST_EMPTY } from '@constants/constants'
@@ -105,22 +105,21 @@ export default class Store<
     } = {}
   ) => {
     const { list, storage, namespace } = otherConfig
-    let _fetchConfig: any = {}
+    let mergeConfig: any = {}
     if (typeof fetchConfig === 'object') {
-      _fetchConfig = {
+      mergeConfig = {
         ...fetchConfig
       }
     } else {
-      _fetchConfig.url = fetchConfig
+      mergeConfig.url = fetchConfig
     }
-    _fetchConfig.retryCb = () => this.fetch(fetchConfig, stateKey, otherConfig)
+    mergeConfig.retryCb = () => this.fetch(fetchConfig, stateKey, otherConfig)
 
-    const res = fetch(_fetchConfig)
-    let data = await res
+    let data = await fetch(mergeConfig)
 
-    /* ===== @todo start 20220216 以下旧 API 不再响应敏感条目, 暂时使用请求网页代替 ===== */
-    if (_fetchConfig?.info === '条目信息') {
-      switch (_fetchConfig?.info) {
+    // 20220216 以下旧 API 不再响应 NSFW 条目, 暂时使用请求网页代替
+    if (mergeConfig?.info === '条目信息') {
+      switch (mergeConfig?.info) {
         case '条目信息':
           if (!data?.id) data = await fetchSubjectV0(fetchConfig)
           break
@@ -129,39 +128,43 @@ export default class Store<
           break
       }
     }
-    /* ===== @todo end ===== */
 
-    let _data
+    let mergeData: any
     if (Array.isArray(data)) {
       if (list) {
-        _data = {
+        mergeData = {
           ...LIST_EMPTY,
           list: data,
           _loaded: getTimestamp()
         }
       } else {
-        _data = data
+        mergeData = data
       }
     } else {
-      _data = {
+      mergeData = {
         ...data,
         _loaded: getTimestamp()
       }
     }
 
+    const error: string = data?.error || ''
     if (Array.isArray(stateKey)) {
-      // @ts-expect-error
-      this.setState({
-        [stateKey[0]]: {
-          [stateKey[1]]: _data
-        }
-      })
-    } else if (stateKey) {
-      const initState = this.state[stateKey]
+      // 若之前已缓存过数据, 若出现 token 过期等情况, 不把缓存覆盖以尽可能显示既有数据
+      if (error && this.state?.[stateKey[0]]?.[stateKey[1]]?._loaded) return mergeData
 
       // @ts-expect-error
       this.setState({
-        [stateKey]: _data || initState
+        [stateKey[0]]: {
+          [stateKey[1]]: mergeData
+        }
+      })
+    } else if (stateKey) {
+      // 同上
+      if (error && this.state?.[stateKey]?._loaded) return mergeData
+
+      // @ts-expect-error
+      this.setState({
+        [stateKey]: mergeData || this.state[stateKey]
       })
     }
 
@@ -172,7 +175,7 @@ export default class Store<
       this.setStorage(key, undefined, namespace)
     }
 
-    return _data
+    return mergeData
   }
 
   /**
