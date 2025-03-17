@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-22 15:23:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 16:10:01
+ * @Last Modified time: 2025-03-17 11:04:17
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -19,12 +19,13 @@ function LinkImage({ style, src }) {
 
   const styles = memoStyles()
   const ext = src.includes('.jpg')
-    ? 'jpg'
+    ? 'JPG'
     : src.includes('.png')
-    ? 'png'
+    ? 'PNG'
     : src.includes('.gif')
-    ? 'gif'
-    : 'img'
+    ? 'GIF'
+    : 'IMG'
+
   return (
     <Touchable
       style={stl(style, styles.img)}
@@ -32,7 +33,7 @@ function LinkImage({ style, src }) {
         open(src)
       }}
     >
-      <Flex>
+      <Flex style={styles.content}>
         <Flex.Item>
           <Text type='sub' size={12} numberOfLines={1}>
             [{ext}] {src}

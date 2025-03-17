@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-05 06:31:48
+ * @Last Modified time: 2025-03-17 11:13:24
  */
 import { ComponentType } from 'react'
 import { Linking } from 'react-native'
@@ -261,6 +261,8 @@ export function open(url: any, encode: boolean = false): boolean {
     info('地址不合法')
     return false
   }
+
+  if (url.startsWith('//')) url = `https:${url}`
 
   if (encode) url = encodeURI(url)
 
