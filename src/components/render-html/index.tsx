@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-19 10:37:02
+ * @Last Modified time: 2025-03-20 22:20:42
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -93,23 +93,13 @@ export const RenderHtml = observer(
         }
       },
       classesStyles: {
-        tag: {
-          // paddingHorizontal: 8,
-          marginRight: 8
-          // borderWidth: 1,
-          // borderColor: _.select(_.colorBorder, 'rgba(255, 255, 255, 0.24)'),
-          // borderRadius: 16
-        },
         group_section: {
-          display: 'flex',
-          paddingVertical: 4,
-          paddingHorizontal: 8,
-          backgroundColor: _.colorBg
+          textAlign: 'center'
         }
       },
       textSelectable: true,
 
-      // 渲染定义tag前回调
+      // 渲染定义 tag 前回调
       renderers: {
         img: (attrs: any, _children: any, _css: any, passProps: any) =>
           img({
@@ -143,6 +133,7 @@ export const RenderHtml = observer(
           li({
             key: passProps.key,
             style: attrs.style || '',
+            className: attrs.class || '',
             children
           }),
         a: matchLink

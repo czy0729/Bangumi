@@ -2,24 +2,44 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-16 08:39:19
+ * @Last Modified time: 2025-03-20 22:08:24
  */
 import React from 'react'
 import { View, ViewProps } from 'react-native'
+import { useObserver } from 'mobx-react'
 import { stl } from '@utils'
 import { ReactNode } from '@types'
-import { styles } from './styles'
+import { Divider } from '../../divider'
+import { memoStyles } from './styles'
 
 type Props = ViewProps & {
+  className?: string
   children?: ReactNode
 }
 
-function Li({ style, children, ...other }: Props) {
-  return (
-    <View style={stl(style, styles.li)} {...other}>
-      {children}
-    </View>
-  )
+function Li({ style, className, children, ...other }: Props) {
+  return useObserver(() => {
+    const styles = memoStyles()
+    const el = (
+      <View
+        style={stl(style, styles.li, className === 'group_section' && styles.groupSection)}
+        {...other}
+      >
+        {children}
+      </View>
+    )
+
+    if (className === 'sub_group') {
+      return (
+        <>
+          <Divider />
+          {el}
+        </>
+      )
+    }
+
+    return el
+  })
 }
 
 export default Li
