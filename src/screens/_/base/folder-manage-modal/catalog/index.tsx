@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-07 16:06:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 13:05:32
+ * @Last Modified time: 2025-03-20 16:04:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,6 +15,7 @@ import { CONTROL_DS } from '../ds'
 import { IconTouchable } from '../../../icon'
 import { Popover } from '../../popover'
 import { memoStyles } from './styles'
+import { Props } from './types'
 
 function Catalog({
   id,
@@ -30,7 +31,7 @@ function Catalog({
   onControl,
   onCreate,
   onSubmitCatalog
-}) {
+}: Props) {
   const styles = memoStyles()
   const isIn = detail?.list?.some(i => i.id == id)
   const date = item.time?.split(' ')[0]?.replace('创建于:', '') || ''
@@ -62,20 +63,22 @@ function Catalog({
           <Touchable onPress={() => onExpand(item)}>
             <Flex>
               <Text bold>
-                {item.title}{' '}
+                {item.title}
                 <Text size={11} lineHeight={14} type='sub' bold>
+                  {' '}
                   ({detail.list.length})
                 </Text>
               </Text>
               <Iconfont
-                style={_.ml.sm}
                 name={expand.includes(item.id) ? 'md-keyboard-arrow-down' : 'md-navigate-next'}
-                size={22}
+                size={20}
                 lineHeight={24}
               />
             </Flex>
-            <Text style={_.mt.xs} size={10} type='sub' bold numberOfLines={2}>
-              {date} · {HTMLDecode(String(detail.content)).replace(/<br>/g, '')}
+            <Text style={_.mt.xs} type='sub' size={10} lineHeight={11} bold numberOfLines={2}>
+              {date}
+              {detail.content ? ' · ' : ''}
+              {HTMLDecode(String(detail.content)).replace(/<br>/g, '')}
             </Text>
           </Touchable>
         )}
@@ -85,23 +88,21 @@ function Catalog({
           <>
             {!!id && (
               <IconTouchable
-                style={_.ml.sm}
+                style={styles.star}
                 name={isIn ? 'md-star' : 'md-star-outline'}
-                size={18}
-                color={isIn ? _.colorWarning : _.colorSub}
+                size={20}
+                color={isIn ? _.colorWarning : _.colorIcon}
                 onPress={() => onToggle(item, detail, isIn)}
               />
             )}
-            {/** @ts-expect-error */}
             <Popover.Old
               style={styles.popover}
               data={CONTROL_DS.root}
               onSelect={title => onControl(title, item)}
             >
               <Flex style={styles.touch} justify='center'>
-                <Iconfont name='md-more-vert' size={18} color={_.colorSub} />
+                <Iconfont name='md-menu' size={18} />
               </Flex>
-              {/** @ts-expect-error */}
             </Popover.Old>
           </>
         )}

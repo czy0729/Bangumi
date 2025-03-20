@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-07 16:11:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-07 16:15:48
+ * @Last Modified time: 2025-03-20 16:04:35
  */
 import { _ } from '@stores'
 
@@ -28,9 +28,13 @@ export const memoStyles = _.memoStyles(() => ({
     minWidth: 48,
     height: '100%'
   },
+  star: {
+    marginLeft: _.xs,
+    marginRight: -5
+  },
   popover: {
     marginLeft: _.xs,
-    marginRight: -2,
+    marginRight: -3,
     borderRadius: 20,
     overflow: 'hidden'
   },

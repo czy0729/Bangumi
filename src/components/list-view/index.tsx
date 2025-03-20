@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 03:42:21
+ * @Last Modified time: 2025-03-17 11:27:14
  */
 import React from 'react'
 import { FlatList, RefreshControl } from 'react-native'
@@ -39,7 +39,7 @@ export { ListViewProps, ScrollToEnd, ScrollToIndex, ScrollToItem, ScrollToLocati
  * */
 export const ListView = observer(
   class ListViewComponent<ItemT> extends React.Component<ListViewProps<ItemT>, State> {
-    static defaultProps = {
+    static defaultProps: Partial<ListViewProps<any>> = {
       data: LIST_EMPTY,
       sectionKey: '',
       refreshControlProps: {},
@@ -56,7 +56,7 @@ export const ListView = observer(
       scrollIndicatorInsets: {
         right: 1
       }
-    } as ListViewProps<any>
+    }
 
     state: State = {
       refreshState: REFRESH_STATE.Idle,

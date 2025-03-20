@@ -149,7 +149,7 @@ export type Blogs = ListEmpty<
 >
 
 /** 用户目录项 */
-export type CalalogsItem = {
+export type CatalogsItem = {
   id: Id
   title: string
   userId: UserId
@@ -160,4 +160,4 @@ export type CalalogsItem = {
 }
 
 /** 用户目录 */
-export type Catalogs = ListEmpty<CalalogsItem>
+export type Catalogs = ListEmpty<CatalogsItem>

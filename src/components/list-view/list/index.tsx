@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-11-30 04:24:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-17 11:42:36
+ * @Last Modified time: 2025-03-17 11:29:05
  */
 import React from 'react'
 import { FlatList, SectionList } from 'react-native'
 import { observer } from 'mobx-react'
-import { IOS_IPA } from '@src/config'
 import EnteringExiting from '../entering-exiting'
 import { AnimatedFlatList, AnimatedSectionList } from './ds'
 import { ListProps } from './types'
@@ -21,7 +20,6 @@ function List<ItemT>({
   data,
   ...other
 }: ListProps<ItemT>) {
-  let Component: any
   const passProps: any = {
     ref: connectRef,
     removeClippedSubviews: true,
@@ -31,8 +29,9 @@ function List<ItemT>({
     alwaysBounceVertical: false,
     legacyImplementation: false
   }
+  let Component: any
 
-  if (skipEnteringExitingAnimations && !IOS_IPA) {
+  if (skipEnteringExitingAnimations) {
     passProps.data = data
     Component = EnteringExiting
   } else if (sections) {

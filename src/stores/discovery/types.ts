@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 14:21:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 17:41:22
+ * @Last Modified time: 2025-03-20 15:52:46
  */
 import {
   Avatar,
@@ -39,7 +39,7 @@ export type Catalog = {
 
 /** 目录详情列表项 */
 export type CatalogDetailItem = {
-  id: Id
+  id: SubjectId
   image: Cover<'c'>
   title: string
   type: SubjectTypeCn

@@ -48,9 +48,10 @@ function PopoverWithMenu<ItemT extends string[] | readonly string[]>({
   )
 }
 
-const Popover = ob(PopoverWithMenu, COMPONENT)
+const Popover = ob(PopoverWithMenu, COMPONENT) as typeof PopoverWithMenu & {
+  Old: typeof PopoverOld
+}
 
-// @ts-expect-error
 Popover.Old = PopoverOld
 
 export { Popover }

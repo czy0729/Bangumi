@@ -12,7 +12,7 @@ import { useBoolean } from '@utils/hooks'
 import { FROZEN_FN } from '@constants'
 import { memoStyles } from './styles'
 
-export default ({ style, data = [], onSelect = FROZEN_FN, children }) => {
+export default ({ style, data = [], onSelect = FROZEN_FN, children }: any) => {
   const { state, setTrue, setFalse } = useBoolean(false)
 
   return useObserver(() => {

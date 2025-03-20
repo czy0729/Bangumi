@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 19:17:54
+ * @Last Modified time: 2025-03-20 16:14:27
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
-import { Component, Divider, Empty, Modal } from '@components'
-import { _, discoveryStore, usersStore, userStore } from '@stores'
-import { CatalogDetail, CatalogDetailItem } from '@stores/discovery/types'
-import { CalalogsItem } from '@stores/users/types'
+import { Collapsible, Component, Divider, Empty, Modal } from '@components'
+import { _, collectionStore, discoveryStore, usersStore, userStore } from '@stores'
+import { CatalogsItem } from '@stores/users/types'
 import {
   asc,
   confirm,
@@ -31,10 +30,38 @@ import { IconTouchable } from '../../icon/touchable'
 import Catalog from './catalog'
 import Create from './create'
 import Subjects from './subjects'
+import ToolBar from './tool-bar'
 import { fixedOrder } from './utils'
-import { COMPONENT, STORAGE_KEY } from './ds'
+import {
+  COMPONENT,
+  ORDER_DS,
+  SORT_DS,
+  STORAGE_KEY_EXPAND,
+  STORAGE_KEY_ORDER,
+  STORAGE_KEY_SORT
+} from './ds'
 import { memoStyles } from './styles'
-import { Props as FolderManageModalProps, State } from './types'
+import {
+  CatalogDetail,
+  CatalogDetailItem,
+  HandleChange,
+  HandleControl,
+  HandleCreate,
+  HandleExpand,
+  HandleForwardRef,
+  HandleOrder,
+  HandleSort,
+  HandleSortType,
+  HandleSubjectControl,
+  HandleSubjectEdit,
+  HandleSubmit,
+  HandleSubmitCatalog,
+  HandleToggle,
+  Props as FolderManageModalProps,
+  SortOrder,
+  SortType,
+  State
+} from './types'
 
 export { FolderManageModalProps }
 
@@ -43,13 +70,12 @@ let loaded = false
 /** 目录管理弹窗 */
 export const FolderManageModal = ob(
   class FolderManageModalComponent extends React.Component<FolderManageModalProps, State> {
-    static defaultProps = {
+    static defaultProps: FolderManageModalProps = {
       id: 0,
       defaultExpand: 0,
       defaultEditItem: null,
       visible: false,
       title: '目录',
-      onSubmit: FROZEN_FN,
       onClose: FROZEN_FN
     }
 
@@ -62,23 +88,24 @@ export const FolderManageModal = ob(
       edit: 0,
       content: '',
       order: '0',
-      list: []
+      list: [],
+      sortType: SORT_DS[0].value,
+      sortOrder: ORDER_DS[0].value
     }
 
     formhash: string
 
     textareaRef: any
 
-    forwardRef = (ref: any) => (this.textareaRef = ref)
+    forwardRef: HandleForwardRef = (ref: any) => {
+      this.textareaRef = ref
+    }
 
     async componentDidMount() {
-      const expand: string[] = await getStorage(STORAGE_KEY)
-      if (Array.isArray(expand)) {
-        this.setState({
-          expand
-        })
+      this.getLocalData()
+      if (this.props.defaultExpand) {
+        this.fetchCollectStatusQueue(this.props.defaultExpand)
       }
-
       BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid)
     }
 
@@ -102,9 +129,7 @@ export const FolderManageModal = ob(
             })
           }
 
-          if (defaultEditItem) {
-            this.onSubjectEdit(defaultEditItem)
-          }
+          if (defaultEditItem) this.onSubjectEdit(defaultEditItem)
         }, 80)
       }
     }
@@ -119,6 +144,24 @@ export const FolderManageModal = ob(
       } catch (error) {}
     }
 
+    /** 读取本地化设置 */
+    getLocalData = async () => {
+      const expand: string[] = await getStorage(STORAGE_KEY_EXPAND)
+      if (Array.isArray(expand)) {
+        this.setState({
+          expand
+        })
+      }
+
+      const sortType: SortType = (await getStorage(STORAGE_KEY_SORT)) || SORT_DS[0].value
+      const sortOrder: SortOrder = (await getStorage(STORAGE_KEY_ORDER)) || ORDER_DS[0].value
+      this.setState({
+        sortType,
+        sortOrder
+      })
+    }
+
+    /** 监听安卓返回键 */
     onBackAndroid = () => {
       const { visible, onClose } = this.props
       if (visible) {
@@ -155,20 +198,30 @@ export const FolderManageModal = ob(
 
     /** 缓存列表 */
     updateList = () => {
-      const { id, defaultExpand } = this.props
-      const { list } = usersStore.catalogs()
-      this.setState({
-        list: list.slice().sort((a, b) => {
-          if (defaultExpand == a.id) return -1
-
-          const detailA = this.catalogDetail(a.id)
-          const detailB = this.catalogDetail(b.id)
-          const isInA = detailA?.list?.some(i => i.id == id)
-          const isInB = detailB?.list?.some(i => i.id == id)
-          if (isInA && isInB) return desc(String(b.time || ''), String(a.time || ''))
-          if (isInA && !isInB) return -1
-          return 1
+      const { sortType, sortOrder } = this.state
+      let list = usersStore.catalogs().list.slice()
+      if (sortType === 'date') {
+        list = list.sort((a, b) => {
+          const dateA = Date.parse(a.time.replace('创建于:', ''))
+          const dateB = Date.parse(b.time.replace('创建于:', ''))
+          return sortOrder === 'desc' ? dateB - dateA : dateA - dateB
         })
+      } else if (sortType === 'name') {
+        list = list.sort((a, b) => {
+          return sortOrder === 'desc'
+            ? b.title.localeCompare(a.title)
+            : a.title.localeCompare(b.title)
+        })
+      } else if (sortType === 'count') {
+        list = list.sort((a, b) => {
+          return sortOrder === 'desc'
+            ? Number(b.num) - Number(a.num)
+            : Number(a.num) - Number(b.num)
+        })
+      }
+
+      this.setState({
+        list
       })
     }
 
@@ -184,15 +237,24 @@ export const FolderManageModal = ob(
         id
       })
 
-      // 缓存最新formhash
+      // 缓存最新 formhash
       const { list } = this.catalogDetail(id)
-      if (list && list.length) {
+      if (list?.length) {
         const { erase } = list[0]
         const formhash = erase?.split('?gh=')[1]
         if (formhash) this.formhash = formhash
       }
 
       return true
+    }
+
+    /** 批量获取目录中已收藏条目的最新状态 */
+    fetchCollectStatusQueue = (id: Id) => {
+      const { list } = this.catalogDetail(id)
+      if (list.length) {
+        const subjectIds = list.filter(item => item.isCollect).map(item => item.id)
+        if (subjectIds.length) collectionStore.fetchCollectionStatusQueue(subjectIds)
+      }
     }
 
     /** track */
@@ -205,7 +267,7 @@ export const FolderManageModal = ob(
     }
 
     /** 目录展开 */
-    onExpand = (item: { id: Id }) => {
+    onExpand: HandleExpand = item => {
       const { expand } = this.state
       this.setState(
         {
@@ -217,13 +279,14 @@ export const FolderManageModal = ob(
           order: '0'
         },
         () => {
-          setStorage(STORAGE_KEY, this.state.expand)
+          setStorage(STORAGE_KEY_EXPAND, this.state.expand)
+          this.fetchCollectStatusQueue(item.id)
         }
       )
     }
 
-    /** 添加/移出 */
-    onToggle = (item: { id: any }, detail: { list: any[] }, isIn: boolean) => {
+    /** 添加 / 移出 */
+    onToggle: HandleToggle = (item, detail, isIn) => {
       if (!isIn) {
         discoveryStore.doCatalogAddRelate(
           {
@@ -264,7 +327,7 @@ export const FolderManageModal = ob(
     }
 
     /** 更多菜单 */
-    onControl = (title: string, item: { id: any; title: any }) => {
+    onControl: HandleControl = (title, item) => {
       const detail = this.catalogDetail(item.id)
       switch (title) {
         case '修改':
@@ -306,7 +369,7 @@ export const FolderManageModal = ob(
     }
 
     /** 创建目录 */
-    onCreate = (isNew: boolean) => {
+    onCreate: HandleCreate = isNew => {
       if (isNew) {
         if (!(this.formhash || userStore.formhash)) {
           info(`授权信息有误, 无法操作, 请尝试重新${i18n.login()}`)
@@ -326,8 +389,8 @@ export const FolderManageModal = ob(
       })
     }
 
-    /** 提交创建/修改目录 */
-    onSubmitCatalog = () => {
+    /** 提交创建 / 修改目录 */
+    onSubmitCatalog: HandleSubmitCatalog = () => {
       if (!(this.formhash || userStore.formhash)) {
         info(`授权信息有误, 无法操作, 请尝试重新${i18n.login()}`)
         return
@@ -379,7 +442,7 @@ export const FolderManageModal = ob(
     }
 
     /** 条目更多菜单 */
-    onSubjectControl = (title: string, item: CatalogDetailItem, pItem: CalalogsItem) => {
+    onSubjectControl: HandleSubjectControl = (title, item, pItem) => {
       const detail = this.catalogDetail(pItem.id)
       const current = fixedOrder(item.order)
       let order = 0
@@ -479,7 +542,7 @@ export const FolderManageModal = ob(
     }
 
     /** 编辑项 */
-    onSubjectEdit = (item?: CatalogDetailItem) => {
+    onSubjectEdit: HandleSubjectEdit = (item?: CatalogDetailItem) => {
       if (item) {
         this.setState({
           edit: item.id,
@@ -505,15 +568,14 @@ export const FolderManageModal = ob(
     }
 
     /** 改变文字 */
-    onChange = (value: string, key = 'content') => {
-      // @ts-expect-error
+    onChange: HandleChange = (value, key = 'content') => {
       this.setState({
         [key]: value
-      })
+      } as Pick<State, Parameters<HandleChange>[1]>)
     }
 
     /** 改变排序 */
-    onOrder = (order: string | number) => {
+    onOrder: HandleOrder = order => {
       if (!order) {
         this.setState({
           order: ''
@@ -530,7 +592,7 @@ export const FolderManageModal = ob(
     }
 
     /** 直接提交顺序 */
-    onSort = (item: CatalogDetailItem, order: string | number, pItem: CalalogsItem) => {
+    onSort: HandleSort = (item, order, pItem) => {
       const formhash = item.erase?.split('?gh=')[1]
       if (!formhash) {
         info('目录信息有误, 暂不能修改条目, 请重新进入页面')
@@ -552,7 +614,7 @@ export const FolderManageModal = ob(
     }
 
     /** 提交 */
-    onSubmit = (item: CatalogDetailItem, pItem: CalalogsItem) => {
+    onSubmit: HandleSubmit = (item, pItem) => {
       const formhash = item.erase?.split('?gh=')[1]
       if (!formhash) {
         info('目录信息有误, 暂不能修改条目, 请重新进入页面')
@@ -574,6 +636,33 @@ export const FolderManageModal = ob(
           this.t('onSubmit:subject')
         }
       )
+    }
+
+    /** 工具栏排序切换 */
+    onSortType: HandleSortType = sortType => {
+      if (sortType !== this.state.sortType) {
+        this.setState(
+          {
+            sortType
+          },
+          () => {
+            setStorage(STORAGE_KEY_SORT, this.state.sortType)
+            this.updateList()
+          }
+        )
+      } else {
+        this.setState(
+          {
+            sortOrder: this.state.sortOrder === 'asc' ? 'desc' : 'asc'
+          },
+          () => {
+            setStorage(STORAGE_KEY_ORDER, this.state.sortOrder)
+            this.updateList()
+          }
+        )
+      }
+
+      feedback(true)
     }
 
     /** 目录详情 */
@@ -613,6 +702,11 @@ export const FolderManageModal = ob(
       )
     }
 
+    renderToolBar() {
+      const { sortType, sortOrder } = this.state
+      return <ToolBar sortType={sortType} sortOrder={sortOrder} onSortType={this.onSortType} />
+    }
+
     renderList() {
       const { create, expand, list } = this.state
       if (create === true) {
@@ -624,29 +718,31 @@ export const FolderManageModal = ob(
       }
 
       return (
-        <ScrollView
-          style={this.styles.scrollView}
-          contentContainerStyle={this.styles.list}
-          {...SCROLL_VIEW_RESET_PROPS}
-          // scrollEnabled={!expand.length}
-        >
-          {list.map(item => {
-            const detail = this.catalogDetail(item.id)
-            const showDivider = expand.includes(item.id)
-            return (
-              <View key={item.id}>
-                {this.renderCatalog(item, detail)}
-                {this.renderSubjects(item, detail)}
-                {showDivider && <Divider style={_.mb.md} />}
-              </View>
-            )
-          })}
-          {!create && !list.length && <Empty text='还没有创建过目录' />}
-        </ScrollView>
+        <>
+          {this.renderToolBar()}
+          <ScrollView
+            style={this.styles.scrollView}
+            contentContainerStyle={this.styles.list}
+            {...SCROLL_VIEW_RESET_PROPS}
+          >
+            {list.map(item => {
+              const detail = this.catalogDetail(item.id)
+              const showDivider = expand.includes(item.id)
+              return (
+                <View key={item.id}>
+                  {this.renderCatalog(item, detail)}
+                  {this.renderSubjects(item, detail)}
+                  {showDivider && <Divider style={this.styles.divider} />}
+                </View>
+              )
+            })}
+            {!create && !list.length && <Empty text='还没有创建过目录' />}
+          </ScrollView>
+        </>
       )
     }
 
-    renderCatalog(item: CalalogsItem, detail: CatalogDetail) {
+    renderCatalog(item: CatalogsItem, detail: CatalogDetail) {
       const { expand, create, edit, desc } = this.state
       return (
         <Catalog
@@ -667,27 +763,27 @@ export const FolderManageModal = ob(
       )
     }
 
-    renderSubjects(item: CalalogsItem, detail: CatalogDetail) {
-      const { create, expand } = this.state
-      if (!(expand.includes(item.id) || create == item.id)) return null
-
-      const { edit, content, order } = this.state
+    renderSubjects(item: CatalogsItem, detail: CatalogDetail) {
+      const { create, expand, edit, content, order } = this.state
+      const collapsed = !(expand.includes(item.id) || create == item.id)
       return (
-        <Subjects
-          id={this.props.id}
-          create={create}
-          edit={edit}
-          content={content}
-          order={order}
-          item={item}
-          detail={detail}
-          forwardRef={this.forwardRef}
-          onChange={this.onChange}
-          onOrder={this.onOrder}
-          onSubjectEdit={this.onSubjectEdit}
-          onSubjectControl={this.onSubjectControl}
-          onSubmit={this.onSubmit}
-        />
+        <Collapsible collapsed={collapsed}>
+          <Subjects
+            id={this.props.id}
+            create={create}
+            edit={edit}
+            content={content}
+            order={order}
+            item={item}
+            detail={detail}
+            forwardRef={this.forwardRef}
+            onChange={this.onChange}
+            onOrder={this.onOrder}
+            onSubjectEdit={this.onSubjectEdit}
+            onSubjectControl={this.onSubjectControl}
+            onSubmit={this.onSubmit}
+          />
+        </Collapsible>
       )
     }
 

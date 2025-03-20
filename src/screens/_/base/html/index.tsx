@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-04-16 10:55:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-16 06:47:48
+ * @Last Modified time: 2025-03-17 11:24:12
  */
 import React, { useCallback, useState } from 'react'
-import { Component, Expand, RenderHtml } from '@components'
+import { Component, Expand, RenderHtml, RenderHtmlProps } from '@components'
 import { _ } from '@stores'
-import { appNavigate, open } from '@utils'
+import { appNavigate, open, removeHTMLTag } from '@utils'
 import { r } from '@utils/dev'
 import { COMPONENT } from './ds'
 import { Props as HTMLProps } from './types'
@@ -30,7 +30,7 @@ export const HTML = ({
   r(COMPONENT)
 
   const [expand, setExpand] = useState(false)
-  const onExpand = useCallback(() => {
+  const handleExpand = useCallback(() => {
     setExpand(true)
   }, [setExpand])
 
@@ -43,7 +43,7 @@ export const HTML = ({
     )
   }
 
-  const passProps = {
+  const passProps: RenderHtmlProps = {
     style,
     baseFontStyle: _.baseFontStyle.md,
     imagesMaxWidth,
@@ -53,10 +53,10 @@ export const HTML = ({
   }
 
   // 若文本超长, 配合 Expand 组件减少首屏显示范围和渲染文字长度
-  if (msg.length >= length) {
+  if (removeHTMLTag(msg, false).length >= length) {
     return (
       <Component id='base-html' data-type='split'>
-        <Expand ratio={ratio} checkLayout={false} onExpand={onExpand}>
+        <Expand ratio={ratio} checkLayout={false} onExpand={handleExpand}>
           <RenderHtml {...passProps} html={expand ? html : html.slice(0, length)} />
         </Expand>
       </Component>

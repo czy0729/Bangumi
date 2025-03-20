@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 13:38:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-07 19:04:14
+ * @Last Modified time: 2025-03-17 11:50:00
  */
 import { _ } from '@stores'
 
@@ -14,17 +14,21 @@ export const memoStyles = _.memoStyles(() => ({
     borderRadius: _.radiusMd
   },
   scrollView: {
-    height: _.window.height * 0.7,
+    height: Math.floor(_.window.height * 0.7),
     marginTop: _.md,
     marginBottom: _.sm
   },
   list: {
-    paddingBottom: _.window.height * 0.5
+    paddingBottom: Math.floor(_.window.height * 0.4)
   },
   create: {
     position: 'absolute',
     zIndex: 1,
     top: -31,
     right: 12
+  },
+  divider: {
+    marginVertical: _.md,
+    marginLeft: 4
   }
 }))

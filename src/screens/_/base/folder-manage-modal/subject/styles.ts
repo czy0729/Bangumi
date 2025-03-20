@@ -1,37 +1,21 @@
 /*
  * @Author: czy0729
- * @Date: 2023-03-07 16:23:26
+ * @Date: 2025-03-19 22:51:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 20:21:14
+ * @Last Modified time: 2025-03-20 16:05:37
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
-  subjects: {
-    height: 364,
-    maxHeight: Math.floor(_.window.height * 0.64),
-    paddingLeft: _.sm,
-    paddingBottom: _.sm,
-    marginTop: -_.sm
-  },
   subject: {
     paddingVertical: _.sm
   },
   content: {
     paddingLeft: 12
   },
-  close: {
-    marginTop: -_.sm
-  },
-  check: {
-    marginRight: -6,
-    marginLeft: _.sm
-  },
-  collection: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 2,
-    left: 0
+  manage: {
+    marginTop: 5,
+    marginRight: 7
   },
   comment: {
     padding: _.sm,
@@ -41,6 +25,27 @@ export const memoStyles = _.memoStyles(() => ({
     borderColor: _.select(_.colorIcon, _.colorBorder),
     borderRadius: _.radiusXs,
     overflow: 'hidden'
+  },
+  close: {
+    marginTop: -_.sm
+  },
+  popover: {
+    marginTop: -6,
+    marginRight: -3,
+    borderRadius: 20,
+    overflow: 'hidden'
+  },
+  touch: {
+    width: 38,
+    height: 38
+  },
+  control: {
+    paddingRight: _.sm,
+    marginTop: _.md
+  },
+  check: {
+    marginRight: -6,
+    marginLeft: _.sm
   },
   textarea: {
     padding: _.sm,
@@ -52,19 +57,5 @@ export const memoStyles = _.memoStyles(() => ({
     borderColor: _.select(_.colorIcon, _.colorBorder),
     borderRadius: _.radiusXs,
     overflow: 'hidden'
-  },
-  control: {
-    paddingRight: _.sm,
-    marginTop: _.md
-  },
-  popover: {
-    marginLeft: _.xs,
-    marginRight: -2,
-    borderRadius: 20,
-    overflow: 'hidden'
-  },
-  touch: {
-    width: 38,
-    height: 38
   }
 }))

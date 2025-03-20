@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-07 16:47:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-07 16:53:05
+ * @Last Modified time: 2025-03-20 11:37:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,8 +12,9 @@ import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { IconTouchable } from '../../../icon'
 import { memoStyles } from './styles'
+import { Props } from './types'
 
-function Create({ title, desc, onChange, onCreate, onSubmitCatalog }) {
+function Create({ title, desc, onChange, onCreate, onSubmitCatalog }: Props) {
   const styles = memoStyles()
   return (
     <View style={styles.create}>

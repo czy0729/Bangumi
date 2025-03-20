@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-22 16:15:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-09 01:37:31
+ * @Last Modified time: 2025-03-17 11:35:13
  */
 import React from 'react'
 import { ListView, ListViewProps } from '@components'
@@ -27,6 +27,7 @@ function List({ id }: { id: TabsKey }) {
   switch (id) {
     case 'notify':
       passProps.data = $.mergeNotify
+      passProps.skipEnteringExitingAnimations = 10
       passProps.renderItem = renderNotifyItem
       passProps.onHeaderRefresh = $.fetchNotify
       break

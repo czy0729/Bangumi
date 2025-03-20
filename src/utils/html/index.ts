@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 01:56:17
+ * @Last Modified time: 2025-03-17 11:24:02
  */
 import cheerioRN from 'cheerio-without-node-native'
 import { DEV } from '@src/config'
@@ -12,7 +12,7 @@ import { safeObject } from '../utils'
 /** 去除 HTML */
 export function removeHTMLTag(str: any, removeAllSpace: boolean = true): string {
   const _str = String(str)
-    .replace(/<\/?[^>]*>/g, '') // 去除HTML tag
+    .replace(/<\/?[^>]*>/g, '') // 去除 HTML tag
     .replace(/[ | ]*\n/g, '\n') // 去除行尾空白
     .replace(/\n[\s| | ]*\r/g, '\n') // 去除多余空行
 
