@@ -2,55 +2,63 @@
  * @Author: czy0729
  * @Date: 2019-08-14 16:28:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 12:56:07
+ * @Last Modified time: 2025-03-21 05:51:00
  */
 import React from 'react'
-import { TouchableOpacity, Text, View, Platform } from 'react-native'
-import { _constructStyles, _getElementClassStyles } from 'react-native-render-html/src/HTMLStyles'
+import { Platform, Text, TouchableOpacity, View } from 'react-native'
 import HTMLImage from 'react-native-render-html/src/HTMLImage'
+import { _constructStyles, _getElementClassStyles } from 'react-native-render-html/src/HTMLStyles'
 import WebView from '@components/@/web-view'
 import { stl } from '@utils'
 import { IOS } from '@constants'
 import { androidTextFixedStyle } from '@styles'
 
-export function a(htmlAttribs, children, convertedCSSStyles, passProps) {
+export function a(htmlAttribs, children, _convertedCSSStyles, passProps) {
   const style = _constructStyles({
     tagName: 'a',
     htmlAttribs,
     passProps,
     styleSet: passProps.parentWrapper === 'Text' ? 'TEXT' : 'VIEW'
   })
+
   // !! This deconstruction needs to happen after the styles construction since
   // the passed props might be altered by it !!
   const { parentWrapper, onLinkPress, key, data } = passProps
-  const onPress = evt =>
+  const handlePress = evt =>
     onLinkPress && htmlAttribs && htmlAttribs.href
       ? onLinkPress(evt, htmlAttribs.href, htmlAttribs)
       : undefined
 
   if (parentWrapper === 'Text') {
     return (
-      <Text
-        {...passProps}
-        key={key}
-        style={stl(!IOS && androidTextFixedStyle, style)}
-        textBreakStrategy='simple'
-        numberOfLines={0}
-        onPress={onPress}
-      >
-        {children || data}
-      </Text>
-    )
-  } else {
-    return (
-      <TouchableOpacity key={key} onPress={onPress}>
-        {children || data}
-      </TouchableOpacity>
+      <>
+        <Text
+          {...passProps}
+          key={key}
+          style={stl(!IOS && androidTextFixedStyle, style)}
+          textBreakStrategy='simple'
+          numberOfLines={0}
+          onPress={handlePress}
+        >
+          {children || data}
+        </Text>
+        {htmlAttribs?.class?.includes('tag') && (
+          <Text key={`${key}-padding`} textBreakStrategy='simple' numberOfLines={0}>
+            {' '}
+          </Text>
+        )}
+      </>
     )
   }
+
+  return (
+    <TouchableOpacity key={key} onPress={handlePress}>
+      {children || data}
+    </TouchableOpacity>
+  )
 }
 
-export function img(htmlAttribs, children, convertedCSSStyles, passProps = {}) {
+export function img(htmlAttribs, _children, _convertedCSSStyles, passProps = {}) {
   if (!htmlAttribs.src) {
     return false
   }
@@ -74,7 +82,7 @@ export function img(htmlAttribs, children, convertedCSSStyles, passProps = {}) {
   )
 }
 
-export function ul(htmlAttribs, children, convertedCSSStyles, passProps = {}) {
+export function ul(htmlAttribs, children, convertedCSSStyles, passProps: any = {}) {
   const style = _constructStyles({
     tagName: 'ul',
     htmlAttribs,
@@ -154,7 +162,7 @@ export function ul(htmlAttribs, children, convertedCSSStyles, passProps = {}) {
 }
 export const ol = ul
 
-export function iframe(htmlAttribs, children, convertedCSSStyles, passProps) {
+export function iframe(htmlAttribs, _children, _convertedCSSStyles, passProps) {
   const { staticContentMaxWidth, tagsStyles, classesStyles } = passProps
 
   const tagStyleHeight = tagsStyles.iframe && tagsStyles.iframe.height
@@ -183,7 +191,7 @@ export function iframe(htmlAttribs, children, convertedCSSStyles, passProps) {
   return <WebView key={passProps.key} source={source} style={style} />
 }
 
-export function pre(htlmAttribs, children, convertedCSSStyles, passProps) {
+export function pre(_htlmAttribs, children, _convertedCSSStyles, passProps) {
   return (
     <Text
       key={passProps.key}
@@ -198,7 +206,7 @@ export function pre(htlmAttribs, children, convertedCSSStyles, passProps) {
   )
 }
 
-export function br(htlmAttribs, children, convertedCSSStyles, passProps) {
+export function br(_htlmAttribs, _children, _convertedCSSStyles, passProps) {
   return (
     <Text
       allowFontScaling={passProps.allowFontScaling}
@@ -216,7 +224,7 @@ export function br(htlmAttribs, children, convertedCSSStyles, passProps) {
 }
 
 export function textwrapper(
-  htmlAttribs,
+  _htmlAttribs,
   children,
   convertedCSSStyles,
   { allowFontScaling, key, selectable }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-14 07:18:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-14 07:22:21
+ * @Last Modified time: 2025-03-21 05:52:35
  */
 import React from 'react'
 import { TextStyle } from '@types'
@@ -11,9 +11,18 @@ import { BgmText } from '../../bgm-text'
 import HiddenText from '../hidden-text'
 import LineThroughtText from '../line-throught-text'
 import MaskText from '../mask-text'
+import TagText from '../tag-text'
 import { fixedBaseFontStyle } from '../utils'
 
-export function span({ key, style, defaultBaseFontStyle, baseFontStyle, rawChildren, children }) {
+export function span({
+  key,
+  style,
+  className,
+  defaultBaseFontStyle,
+  baseFontStyle,
+  rawChildren,
+  children
+}) {
   if (typeof style === 'string' && style.includes('font-size:0px')) return null
 
   try {
@@ -25,7 +34,7 @@ export function span({ key, style, defaultBaseFontStyle, baseFontStyle, rawChild
       if (target) {
         if (target?.children) {
           // 防剧透字中有表情
-          target?.children?.forEach((item, index) => {
+          target?.children?.forEach((item: { data: any; children: any[] }, index: number) => {
             if (item.data) {
               // 文字
               text.push(item.data)
@@ -50,6 +59,7 @@ export function span({ key, style, defaultBaseFontStyle, baseFontStyle, rawChild
           text.push(target?.data)
         }
       }
+
       return (
         <MaskText
           key={key}
@@ -94,6 +104,23 @@ export function span({ key, style, defaultBaseFontStyle, baseFontStyle, rawChild
         >
           {text}
         </HiddenText>
+      )
+    }
+
+    // 标签样式
+    if (className?.includes('tag')) {
+      const target = rawChildren?.[0]
+      const text = target?.data || ''
+      return (
+        <TagText
+          key={key}
+          style={{
+            ...defaultBaseFontStyle,
+            ...baseFontStyle
+          }}
+        >
+          {text}
+        </TagText>
       )
     }
   } catch (error) {

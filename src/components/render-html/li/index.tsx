@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-20 22:08:24
+ * @Last Modified time: 2025-03-21 05:30:26
  */
 import React from 'react'
 import { View, ViewProps } from 'react-native'
@@ -22,14 +22,14 @@ function Li({ style, className, children, ...other }: Props) {
     const styles = memoStyles()
     const el = (
       <View
-        style={stl(style, styles.li, className === 'group_section' && styles.groupSection)}
+        style={stl(style, styles.li, className?.includes('group_section') && styles.groupSection)}
         {...other}
       >
         {children}
       </View>
     )
 
-    if (className === 'sub_group') {
+    if (className?.includes('sub_group')) {
       return (
         <>
           <Divider />

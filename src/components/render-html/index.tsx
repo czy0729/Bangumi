@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-20 22:20:42
+ * @Last Modified time: 2025-03-21 05:17:45
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -114,6 +114,7 @@ export const RenderHtml = observer(
           span({
             key: passProps.key,
             style: attrs.style || '',
+            className: attrs.class || '',
             defaultBaseFontStyle: this.defaultBaseFontStyle,
             baseFontStyle: passProps.baseFontStyle,
             rawChildren: passProps.rawChildren,
