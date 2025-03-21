@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-11 11:32:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-17 12:50:54
+ * @Last Modified time: 2025-03-22 07:04:35
  */
 import React from 'react'
 import { AppState, AppStateStatus, Clipboard, NativeEventSubscription } from 'react-native'
@@ -62,7 +62,7 @@ export const ListenClipboard = class ListenClipboardComponent extends React.Comp
       const { length } = urls.filter(item => item.includes('/character/'))
       if (!(length > 1)) {
         confirm(`检测到链接${url}, 前往页面?`, () => {
-          appNavigate(url, navigationReference())
+          appNavigate(content, navigationReference())
         })
         Clipboard.setString('')
       }

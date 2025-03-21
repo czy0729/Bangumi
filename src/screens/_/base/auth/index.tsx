@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-14 17:59:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-12 06:46:10
+ * @Last Modified time: 2025-03-21 20:15:38
  */
 import React from 'react'
 import { Button, Component, Flex, Iconfont, Text, Touchable } from '@components'
@@ -51,14 +51,18 @@ export const Auth = ob(() => {
           name='md-search'
           color={_.colorDesc}
           size={22}
-          onPress={() => navigation.push('Search')}
+          onPress={() => {
+            navigation.push('Search')
+          }}
         />
         <IconTouchable
           style={styles.setting}
           name='setting'
           color={_.colorDesc}
           size={18}
-          onPress={() => navigation.push('Setting')}
+          onPress={() => {
+            navigation.push('Setting')
+          }}
         />
       </Flex>
       <Flex style={styles.go} direction='column' justify='center'>

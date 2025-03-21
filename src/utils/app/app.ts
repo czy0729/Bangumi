@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:19:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-06 19:54:37
+ * @Last Modified time: 2025-03-22 07:01:48
  */
 import { Alert, BackHandler } from 'react-native'
 import { ON_AIR } from '@stores/calendar/onair'
@@ -135,19 +135,19 @@ export function appNavigate(
 ): boolean {
   try {
     const { id, data = {} } = event
-    const _url = fixedBgmUrl(url)
-    const result = matchBgmLink(_url)
+    const value = fixedBgmUrl(url)
+    const result = matchBgmLink(value)
 
     // 没路由对象或者非本站
-    if (!navigation || !_url.includes(HOST) || !result) {
+    if (!navigation || !value.includes(HOST) || !result) {
       if (openWebBrowser) {
         t(id, {
           to: 'WebBrowser',
-          url: _url,
+          url: value,
           ...data
         })
 
-        open(_url)
+        open(value)
       }
       return false
     }
@@ -162,7 +162,7 @@ export function appNavigate(
     navigation.push(
       route as any,
       {
-        _url,
+        _url: value,
         ...params,
         ...passParams
       } as any

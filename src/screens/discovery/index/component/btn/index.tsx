@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-11 15:08:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-14 10:35:43
+ * @Last Modified time: 2025-03-22 07:00:43
  */
 import React from 'react'
 import { Clipboard } from 'react-native'
@@ -67,13 +67,13 @@ function BtnWrap({ item }) {
       if (key === 'Link') {
         const content = await Clipboard.getString()
         const urls = matchBgmUrl(content, true) || []
-        const url = urls[0]
-        if (!url) {
+        if (!urls?.[0]) {
           $.toggleLinkModal()
           return true
         }
 
-        return appNavigate(url, navigation)
+        appNavigate(content, navigation)
+        return
       }
 
       navigation.push(

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:16:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-06 19:54:51
+ * @Last Modified time: 2025-03-22 07:03:17
  */
 import { isObservableArray } from 'mobx'
 import { FROZEN_ARRAY, FROZEN_OBJECT } from '@constants'
 import { CDN_OSS_MAGMA_MONO, CDN_OSS_MAGMA_POSTER, CDN_OSS_SUBJECT } from '@constants/cdn'
-import { HOST, HOST_2, IMG_DEFAULT } from '@constants/constants'
+import { HOST, HOST_2, HOST_3, IMG_DEFAULT } from '@constants/constants'
 import { getJSON } from '@assets/json'
 import userData from '@assets/json/user.json'
 import {
@@ -211,21 +211,33 @@ export function x18s(str: string) {
 }
 
 /** 修复链接 */
-export function fixedBgmUrl(url: string = '') {
+export function fixedBgmUrl(url: string = ''): string {
   try {
     let _url = url
-    if (!_url.includes('http://') && !_url.includes('https://')) {
+
+    // 如果 URL 没有协议头，添加默认的 HOST
+    if (!_url.startsWith('http://') && !_url.startsWith('https://')) {
       _url = `${HOST}${_url}`
     }
-    _url.includes('http://') && (_url = _url.replace('http://', 'https://'))
-    _url.includes(HOST_2) && (_url = _url.replace(HOST_2, HOST))
+
+    // 替换协议和 HOST
+    const replacements = [
+      { from: 'http://', to: 'https://' },
+      { from: HOST_2, to: HOST },
+      { from: HOST_3, to: HOST }
+    ]
+
+    replacements.forEach(({ from, to }) => {
+      if (_url.includes(from)) _url = _url.replace(from, to)
+    })
+
     return _url
   } catch (error) {
     return url
   }
 }
 
-/** 判断是否bgm的链接, 若是返回页面信息, 否则返回 false */
+/** 判断是否 bgm 的链接, 若是返回页面信息, 否则返回 false */
 export function matchBgmLink(url: string = ''):
   | false
   | {
@@ -234,11 +246,13 @@ export function matchBgmLink(url: string = ''):
       app?: boolean
     } {
   try {
-    const _url = fixedBgmUrl(url)
+    const value = fixedBgmUrl(url)
 
-    // 自定义的 App 内协议
-    if (_url.indexOf('https://App/') === 0) {
-      const [, , , route = '', params = ''] = _url.split('/')
+    /**
+     * 客户端内部跳转协议
+     */
+    if (value.indexOf('https://App/') === 0) {
+      const [, , , route = '', params = ''] = value.split('/')
       if (route && params) {
         const [key, value] = params.split(':')
         return {
@@ -251,11 +265,15 @@ export function matchBgmLink(url: string = ''):
       }
     }
 
-    if (!_url.includes(HOST)) return false
+    if (!value.includes(HOST)) return false
 
-    // 超展开内容 [/rakuen/topic/{topicId}]
-    if (_url.includes('/rakuen/topic/')) {
-      const topicId = _url.replace(`${HOST}/rakuen/topic/`, '')
+    /**
+     * 超展开板块
+     *  - [/rakuen/topic/{topicId}]
+     *  - https://bgm.tv/rakuen/topic/group/350677
+     */
+    if (value.includes('/rakuen/topic/')) {
+      const topicId = value.replace(`${HOST}/rakuen/topic/`, '')
       return {
         route: 'Topic',
         params: {
@@ -264,8 +282,13 @@ export function matchBgmLink(url: string = ''):
       }
     }
 
-    if (_url.includes('/group/topic/')) {
-      const topicId = `group/${_url.replace(`${HOST}/group/topic/`, '')}`
+    /**
+     * 帖子
+     *  - [/group/topic/{id}]
+     *  - https://bgm.tv/group/topic/350677
+     */
+    if (value.includes('/group/topic/')) {
+      const topicId = `group/${value.replace(`${HOST}/group/topic/`, '')}`
       return {
         route: 'Topic',
         params: {
@@ -274,9 +297,13 @@ export function matchBgmLink(url: string = ''):
       }
     }
 
-    // 条目 > 讨论版
-    if (_url.includes('/subject/topic/')) {
-      const topicId = `subject/${_url.replace(`${HOST}/subject/topic/`, '')}`
+    /**
+     * 条目讨论版
+     *  - [/subject/topic/{subjectId}]
+     *  - https://bgm.tv/subject/topic/33680
+     */
+    if (value.includes('/subject/topic/')) {
+      const topicId = `subject/${value.replace(`${HOST}/subject/topic/`, '')}`
       return {
         route: 'Topic',
         params: {
@@ -285,10 +312,15 @@ export function matchBgmLink(url: string = ''):
       }
     }
 
-    // 本集讨论 [/ep/\d+]
-    // 结构与超展开内容类似, 跳转到超展开内容
-    if (_url.includes('/ep/')) {
-      const topicId = _url.replace(`${HOST}/`, '').replace('subject/', '')
+    /**
+     * 条目本集讨论 (结构与超展开内容类似, 跳转到超展开内容)
+     *  - [/ep/{id}]
+     *  - https://bgm.tv/ep/1440332
+     *  - https://bgm.tv/rakuen/topic/ep/1440332
+     *  - https://bgm.tv/rakuen/topic/subject/34480
+     */
+    if (value.includes('/ep/')) {
+      const topicId = value.replace(`${HOST}/`, '').replace('subject/', '')
       return {
         route: 'Topic',
         params: {
@@ -297,9 +329,13 @@ export function matchBgmLink(url: string = ''):
       }
     }
 
-    // 条目 [/subject/{subjectId}]
-    if (_url.includes('/subject/')) {
-      const subjectId = _url.replace(`${HOST}/subject/`, '')
+    /**
+     * 条目
+     *  - [/subject/{subjectId}]
+     *  - https://bgm.tv/subject/454684
+     */
+    if (value.includes('/subject/')) {
+      const subjectId = value.replace(`${HOST}/subject/`, '')
       return {
         route: 'Subject',
         params: {
@@ -308,10 +344,14 @@ export function matchBgmLink(url: string = ''):
       }
     }
 
-    // 个人中心 [/user/{userId}]
-    // 排除时间线回复 [user/{userId}/timeline/status/{timelineId}]
-    if (_url.includes('/user/') && _url.split('/').length <= 6) {
-      const userId = _url.replace(`${HOST}/user/`, '')
+    /**
+     * 个人中心
+     *  - [/user/{userId}]
+     *  - https://bgm.tv/user/sukaretto
+     *  - 排除时间线回复 ![/user/{userId}/timeline/status/{timelineId}]
+     */
+    if (value.includes('/user/') && value.split('/').length <= 6) {
+      const userId = value.replace(`${HOST}/user/`, '')
       return {
         route: 'Zone',
         params: {
@@ -320,9 +360,15 @@ export function matchBgmLink(url: string = ''):
       }
     }
 
-    // 人物 [/character/\d+, /person/\d+]
-    if (_url.includes('/character/') || _url.includes('/person/')) {
-      const monoId = _url.replace(`${HOST}/`, '')
+    /**
+     * 人物
+     *  - [/character/{id}]
+     *  - [/person/{id}]
+     *  - https://bgm.tv/character/132476
+     *  - https://bgm.tv/person/40794
+     */
+    if (value.includes('/character/') || value.includes('/person/')) {
+      const monoId = value.replace(`${HOST}/`, '')
       return {
         route: 'Mono',
         params: {
@@ -331,9 +377,28 @@ export function matchBgmLink(url: string = ''):
       }
     }
 
-    // 小组
-    if (_url.includes('/group/')) {
-      const groupId = _url.replace(`${HOST}/group/`, '')
+    /**
+     * 搜索
+     *  - [/subject_search/{keyword}?cat={subjectType}]
+     */
+    if (value.match(/subject_search\/([^?]+)/)) {
+      const keyword = value.match(/subject_search\/([^?]+)/)?.[1] || ''
+      const cat = value.match(/[?&]cat=([^&]+)/)?.[1] || 'all'
+      return {
+        route: 'Search',
+        params: {
+          value: decodeURIComponent(keyword || ''),
+          cat: `subject_${cat || 'all'}`
+        }
+      }
+    }
+
+    /**
+     * 小组
+     *  - [/group/{...other}]
+     */
+    if (value.includes('/group/')) {
+      const groupId = value.replace(`${HOST}/group/`, '')
       return {
         route: 'Group',
         params: {
@@ -342,10 +407,15 @@ export function matchBgmLink(url: string = ''):
       }
     }
 
-    // 标签
-    if (_url.includes('/tag/')) {
-      // ['https:', ', 'bangumi.tv', 'anime', 'tag', '剧场版', 'airtime', '2018']
-      const params = _url.split('/')
+    /**
+     * 标签
+     *  - [/{subjectType}/tag/{...other}]
+     *  - https://bgm.tv/anime/tag/TV
+     *  - https://bgm.tv/anime/tag/TV/airtime/2025?sort=collects
+     */
+    if (value.includes('/tag/')) {
+      // ['https:', ', 'bgm.tv', 'anime', 'tag', '剧场版', 'airtime', '2018']
+      const params = value.split('/')
       return {
         route: 'Tag',
         params: {
@@ -356,9 +426,13 @@ export function matchBgmLink(url: string = ''):
       }
     }
 
-    // 吐槽
-    if (_url.includes('/timeline/status/')) {
-      const splits = _url.split('/timeline/status/')
+    /**
+     * 吐槽
+     *  - [/user/{userId}/timeline/status/{id}]
+     *  - https://bgm.tv/user/sukaretto/timeline/status/48252302#post_172076
+     */
+    if (value.includes('/timeline/status/')) {
+      const splits = value.split('/timeline/status/')
       const _userId = splits[0].replace('https://bgm.tv/user/', '')
       const _id = splits[1]
       return {
@@ -370,9 +444,13 @@ export function matchBgmLink(url: string = ''):
       }
     }
 
-    // 目录
-    if (_url.includes('/index/')) {
-      const _id = _url.split('/index/')[1]
+    /**
+     * 目录
+     *  - [/index/{id}]
+     *  - https://bgm.tv/index/35176
+     */
+    if (value.includes('/index/')) {
+      const _id = value.split('/index/')[1]
       return {
         route: 'CatalogDetail',
         params: {
@@ -381,9 +459,13 @@ export function matchBgmLink(url: string = ''):
       }
     }
 
-    // 日志
-    if (_url.includes('/blog/')) {
-      const _id = _url.split('/blog/')[1]
+    /**
+     * 日志
+     *  - [/blog/{id}]
+     *  - https://bgm.tv/blog/295515
+     */
+    if (value.includes('/blog/')) {
+      const _id = value.split('/blog/')[1]
       return {
         route: 'Blog',
         params: {
