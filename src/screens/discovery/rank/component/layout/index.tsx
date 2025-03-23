@@ -32,7 +32,7 @@ function Layout() {
         onScroll={$.onScroll}
       >
         {!fixed && elToolbar}
-        {show && $.list._loaded && (list ? <List /> : <Grid />)}
+        {show && !!$.list._loaded && (list ? <List /> : <Grid />)}
         {!fixedPagination && elPagination}
       </ScrollView>
       {fixedPagination && elPagination}

@@ -37,7 +37,6 @@ function ToolBar() {
         <Year />
         <Month />
         {showExpand && <Expand />}
-        {/* <More /> */}
       </ToolBarComp>
       {showExpand && $.state.expand && (
         <ToolBarComp>

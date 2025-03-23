@@ -4,10 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-16 09:48:09
  */
-import React from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { ToolBar } from '@components'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { MODEL_RANK_BOOK_FILTER_SUB, MODEL_RANK_GAME_FILTER_SUB } from '@constants'
 import { RankFilterSub } from '@types'
 import { Ctx } from '../../types'
@@ -23,23 +23,36 @@ const TEXT = {
 } as const
 
 /** 二级分类 */
-function Filter() {
+function FilterSub() {
   const { $ } = useStore<Ctx>()
-  if (!DATA[$.typeCn]) return null
 
-  const { filterSub } = $.state
-  const data = DATA[$.typeCn]
-  const text: string = data.getLabel(filterSub)
-  return (
-    <ToolBar.Popover
-      key={$.typeCn}
-      data={data.data.map((item: { label: string }) => item.label)}
-      text={text === '全部' ? TEXT[$.typeCn] : text}
-      type={filterSub === '' ? undefined : 'desc'}
-      onSelect={(title: RankFilterSub) => $.onFilterSubSelect(title, data)}
-      heatmap='排行榜.二级分类选择'
-    />
-  )
+  return useObserver(() => {
+    const data = DATA[$.typeCn]
+    const menuData = useMemo(() => {
+      if (!data?.data) return []
+      return data.data.map((item: { label: string }) => item.label)
+    }, [data?.data])
+    const handleSelect = useCallback(
+      (title: RankFilterSub) => {
+        $.onFilterSubSelect(title, data)
+      },
+      [data]
+    )
+    if (!data) return null
+
+    const { filterSub } = $.state
+    const text: string = data.getLabel(filterSub)
+    return (
+      <ToolBar.Popover
+        key={$.typeCn}
+        data={menuData}
+        text={text === '全部' ? TEXT[$.typeCn] : text}
+        type={filterSub === '' ? undefined : 'desc'}
+        onSelect={handleSelect}
+        heatmap='排行榜.二级分类选择'
+      />
+    )
+  })
 }
 
-export default ob(Filter)
+export default FilterSub
