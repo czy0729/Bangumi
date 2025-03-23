@@ -37,7 +37,6 @@ import {
   SETTING_HOME_LAYOUT,
   SETTING_HOME_SORTING,
   SETTING_INITIAL_PAGE,
-  SETTING_QUALITY,
   SETTING_TRANSITION,
   SETTING_USER_GRID_NUM,
   SUBJECT_TYPE,
@@ -139,9 +138,6 @@ export type SettingHomeSortingCn = ModelValueOf<typeof SETTING_HOME_SORTING, 'la
 
 export type SettingInitialPage = ModelValueOf<typeof SETTING_INITIAL_PAGE>
 export type SettingInitialPageCn = ModelValueOf<typeof SETTING_INITIAL_PAGE, 'label'>
-
-export type SettingQuality = ModelValueOf<typeof SETTING_QUALITY>
-export type SettingQualityCn = ModelValueOf<typeof SETTING_QUALITY, 'label'>
 
 export type SettingTransition = ModelValueOf<typeof SETTING_TRANSITION>
 export type SettingTransitionCn = ModelValueOf<typeof SETTING_TRANSITION, 'label'>

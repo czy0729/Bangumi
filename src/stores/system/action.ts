@@ -16,11 +16,11 @@ import {
   MODEL_SETTING_HOME_LAYOUT,
   MODEL_SETTING_HOME_SORTING,
   MODEL_SETTING_INITIAL_PAGE,
-  MODEL_SETTING_QUALITY,
   MODEL_SETTING_TRANSITION,
   MODEL_SETTING_USER_GRID_NUM
 } from '@constants'
 import {
+  EventKeys,
   SettingCDNOrigin,
   SettingHomeCountView,
   SettingHomeCountViewCn,
@@ -30,8 +30,6 @@ import {
   SettingHomeSortingCn,
   SettingInitialPage,
   SettingInitialPageCn,
-  SettingQuality,
-  SettingQualityCn,
   SettingTransition,
   SettingTransitionCn,
   SettingUserGridNum,
@@ -42,7 +40,7 @@ import {
 import UserStore from '../user'
 import Fetch from './fetch'
 import { INIT_DEV_EVENT, INIT_IMAGE_VIEWER, INIT_SETTING, INIT_SUBJECT_LAYOUT } from './init'
-import { HomeRenderTabs, SettingKeys } from './types'
+import { HomeRenderTabs, HomeTabsKeys, SettingKeys } from './types'
 
 export default class Actions extends Fetch {
   /** 还原 CDN */
@@ -66,21 +64,6 @@ export default class Actions extends Fetch {
       return false
     } catch (error) {
       return false
-    }
-  }
-
-  /** 设置 `图片质量` */
-  setQuality = (label: SettingQualityCn) => {
-    const quality = MODEL_SETTING_QUALITY.getValue<SettingQuality>(label)
-    if (quality) {
-      const key = 'setting'
-      this.setState({
-        [key]: {
-          ...this.setting,
-          quality
-        }
-      })
-      this.save(key)
     }
   }
 
@@ -160,9 +143,7 @@ export default class Actions extends Fetch {
   }
 
   /** 计算 `首页功能块` */
-  calcHomeRenderTabs = (
-    label: 'Tinygrail' | 'Discovery' | 'Timeline' | 'Home' | 'Rakuen' | 'User'
-  ) => {
+  calcHomeRenderTabs = (label: HomeTabsKeys) => {
     const { homeRenderTabs } = this.setting
 
     let data: HomeRenderTabs
@@ -182,9 +163,7 @@ export default class Actions extends Fetch {
   }
 
   /** 设置 `首页功能块` */
-  setHomeRenderTabs = (
-    label: 'Tinygrail' | 'Discovery' | 'Timeline' | 'Home' | 'Rakuen' | 'User'
-  ) => {
+  setHomeRenderTabs = (label: HomeTabsKeys) => {
     const key = 'setting'
     this.setState({
       [key]: {
@@ -407,8 +386,8 @@ export default class Actions extends Fetch {
 
   private _track = 0
 
-  /** 统计 */
-  track = (eventId: string) => {
+  /** 内部统计 */
+  track = (eventId: EventKeys) => {
     const key = 't'
     const value = this.state[key][eventId]
     this.setState({

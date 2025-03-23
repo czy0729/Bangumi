@@ -21,6 +21,7 @@ import {
 import { IOS_IMAGE_CACHE_V2 } from '@src/config'
 import { radiusMd } from '@styles'
 import {
+  EventKeys,
   SettingCDNOrigin,
   SettingHomeCountView,
   SettingHomeGridCoverLayout,
@@ -252,9 +253,6 @@ export const INIT_SETTING = {
   /** 底栏页面是否懒加载 */
   bottomTabLazy: true,
 
-  /** @deprecated 图片质量 */
-  // quality: MODEL_SETTING_QUALITY.getValue<SettingQuality>('默认'),
-
   /** 切页动画 */
   transition: MODEL_SETTING_TRANSITION.getValue<SettingTransition>('水平'),
 
@@ -444,7 +442,7 @@ export const INIT_IMAGE_VIEWER = {
 }
 
 export const STATE = {
-  /** 云端配置数据 */
+  /** @deprecated 云端配置数据 */
   ota: {},
 
   /** 高级会员 */
@@ -476,11 +474,11 @@ export const STATE = {
   /** 用于标记 APP 启动后是否进入静止期 */
   rendered: false,
 
-  /** 用于在 bangumi-oss ota hash 更新后, 强制刷新 APP 内所有封面 */
+  /** @deprecated 用于在 bangumi-oss ota hash 更新后, 强制刷新 APP 内所有封面 */
   hashSubjectOTALoaded: 0,
 
-  /** 统计 */
-  t: {}
+  /** 内部统计, 用于确认某个功能是否第一次使用 */
+  t: {} as Record<EventKeys, number>
 }
 
 export const LOADED = {

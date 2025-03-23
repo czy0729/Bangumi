@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-01-28 11:47:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-28 13:15:43
+ * @Last Modified time: 2025-03-23 23:09:51
  */
-import React from 'react'
 import { calendarStore, rakuenStore, systemStore, userStore } from '@stores'
 import { confirm, feedback, info, loading } from '@utils'
 import { t } from '@utils/fetch'
 import i18n from '@constants/i18n'
 
-/** 下载设置 */
+/** 是否下载设置 */
 export function handleDownload() {
   if (!userStore.isLogin || !userStore.userInfo.id) {
     info(`下载需先${i18n.login()}`)
@@ -18,27 +17,30 @@ export function handleDownload() {
   }
 
   setTimeout(() => {
-    confirm('确定恢复到云端的设置?', async () => {
-      t('设置.恢复默认设置', {
-        label: '下载'
-      })
-
-      let hide = loading('下载设置(1/3)...')
-      const flag = await systemStore.downloadSetting()
-      hide()
-
-      hide = loading('超展开设置(2/3)...')
-      await rakuenStore.downloadSetting()
-      hide()
-
-      hide = loading('自定义放送数据(3/3)')
-      await calendarStore.downloadSetting()
-      hide()
-
-      feedback()
-      info(flag ? '已恢复' : '下载设置失败')
-    })
+    confirm('确定恢复到云端的设置?', confirmDownloadSetting)
   }, 160)
+}
+
+/** 下载设置 */
+export async function confirmDownloadSetting() {
+  t('设置.恢复默认设置', {
+    label: '下载'
+  })
+
+  let hide = loading('下载设置(1/3)...')
+  const flag = await systemStore.downloadSetting()
+  hide()
+
+  hide = loading('超展开设置(2/3)...')
+  await rakuenStore.downloadSetting()
+  hide()
+
+  hide = loading('自定义放送数据(3/3)')
+  await calendarStore.downloadSetting()
+  hide()
+
+  feedback(true)
+  info(flag ? '已下载设置' : '下载设置失败')
 }
 
 /** 上传设置 */

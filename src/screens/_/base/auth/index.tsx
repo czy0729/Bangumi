@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-03-14 17:59:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-21 20:15:38
+ * @Last Modified time: 2025-03-23 23:01:03
  */
 import React from 'react'
 import { Button, Component, Flex, Iconfont, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { open } from '@utils'
+import { feedback, open } from '@utils'
 import { ob } from '@utils/decorators'
 import { useNavigation } from '@utils/hooks'
 import { URL_ZHINAN, WEB } from '@constants'
@@ -37,9 +37,10 @@ export const Auth = ob(() => {
             style={_.mr.xs}
             name={_.isDark ? 'moon' : 'sunny'}
             color={_.colorDesc}
-            size={22}
+            size={18}
             onPress={() => {
               setTimeout(() => {
+                feedback(true)
                 _.toggleMode()
               }, 40)
             }}

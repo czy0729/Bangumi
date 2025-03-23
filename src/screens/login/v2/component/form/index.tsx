@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-28 17:21:47
+ * @Last Modified time: 2025-03-23 23:07:33
  */
 import React from 'react'
 import { Image as RNImage, View } from 'react-native'
@@ -13,12 +13,12 @@ import { _ } from '@stores'
 import { alert } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { FROZEN_FN, HOST, HOST_2, HOST_3, WEB } from '@constants'
+import { FROZEN_FN, WEB } from '@constants'
 import i18n from '@constants/i18n'
+import InputPassword from '../input-password'
+import { HOST_DS } from './ds'
 import { memoStyles } from './styles'
 import { Props } from './types'
-
-const DATA = [HOST, HOST_2, HOST_3] as const
 
 class Form extends React.Component<Props> {
   static defaultProps = {
@@ -34,62 +34,76 @@ class Form extends React.Component<Props> {
   }
 
   state = {
-    config: false
+    config: false,
+    focusPassword: false
   }
+
+  private _passwordRef: any
+  private _codeRef: any
 
   componentDidMount() {
     const { email, password, captcha } = this.props
     if (email && password && !captcha) {
       try {
-        if (typeof this?.codeRef?.inputRef?.focus === 'function') {
-          this.codeRef.inputRef.focus()
+        if (typeof this?._codeRef?.inputRef?.focus === 'function') {
+          this._codeRef.inputRef.focus()
         }
       } catch (error) {}
     }
   }
 
-  passwordRef
-
-  codeRef
-
   showConfig = () => {
-    return this.setState({
+    this.setState({
       config: true
     })
   }
 
-  onNoticeHost = () => {
-    t('登陆.配置提示', {
-      name: 'host'
+  onFocusPassword = () => {
+    this.props.onFocus()
+    this.setState({
+      focusPassword: true
     })
+  }
 
+  onBlurPassword = () => {
+    this.props.onBlur()
+    this.setState({
+      focusPassword: false
+    })
+  }
+
+  onNoticeHost = () => {
     alert(
       `三个选项都是同一个站点的不同域名，只是具体服务器位置不同。 \n\n${i18n.login()}建议优先使用 bgm.tv，出现问题再尝试 bangumi.tv，最后尝试 chii.in。`
     )
+
+    t('登陆.配置提示', {
+      name: 'host'
+    })
   }
 
   onNoticeUA = () => {
-    t('登陆.配置提示', {
-      name: 'ua'
-    })
-
     alert(
       `假如您频繁掉授权状态，不妨试试把这个选项勾上，通常${i18n.login()}状态生存时间为7天。 \n\n这是个不稳定的选项，若${i18n.login()}正常不建议勾上，可能会遇到预测不能的状况。`
     )
+
+    t('登陆.配置提示', {
+      name: 'ua'
+    })
   }
 
   onSubmitEditingEmail = () => {
     try {
-      if (typeof this?.passwordRef?.inputRef?.focus === 'function') {
-        this.passwordRef.inputRef.focus()
+      if (typeof this?._passwordRef?.inputRef?.focus === 'function') {
+        this._passwordRef.inputRef.focus()
       }
     } catch (error) {}
   }
 
   onSubmitEditingPassword = () => {
     try {
-      if (typeof this?.codeRef?.inputRef?.focus === 'function') {
-        this.codeRef.inputRef.focus()
+      if (typeof this?._codeRef?.inputRef?.focus === 'function') {
+        this._codeRef.inputRef.focus()
       }
     } catch (error) {}
   }
@@ -127,17 +141,12 @@ class Form extends React.Component<Props> {
         </Flex>
         <Flex style={_.mt.md}>
           <Flex.Item>
-            <Input
-              ref={ref => (this.passwordRef = ref)}
+            <InputPassword
+              forwardRef={ref => (this._passwordRef = ref)}
               style={this.styles.input}
               value={password}
-              placeholder='密码'
-              autoComplete='password'
-              textContentType='password'
-              secureTextEntry
-              returnKeyType='next'
-              onFocus={onFocus}
-              onBlur={onBlur}
+              onFocus={this.onFocusPassword}
+              onBlur={this.onBlurPassword}
               onChange={evt => onChange(evt, 'password')}
               onSubmitEditing={this.onSubmitEditingPassword}
             />
@@ -148,7 +157,7 @@ class Form extends React.Component<Props> {
             <Input
               ref={ref => {
                 forwardRef(ref)
-                this.codeRef = ref
+                this._codeRef = ref
               }}
               style={this.styles.input}
               value={captcha}
@@ -181,31 +190,32 @@ class Form extends React.Component<Props> {
   }
 
   renderConfig() {
-    const { failed, isCommonUA, host, onSelect, onUAChange } = this.props
-    if (!failed) return null
-
+    const { isCommonUA, isSyncSetting, host, onSelect, onUAChange, onSyncSettingChange } =
+      this.props
     const { config } = this.state
     if (!config) {
       return (
-        <Touchable style={[this.styles.touch, _.mt.sm]} onPress={this.showConfig}>
-          <Flex style={this.styles.content}>
-            <Text type='sub' size={12}>
-              {i18n.login()}配置
-            </Text>
-            <Iconfont name='md-navigate-next' />
-          </Flex>
-          <Heatmap id='登陆.切换域名' />
-          <Heatmap bottom={-32} id='登陆.配置提示' transparent />
-        </Touchable>
+        <View style={this.styles.config}>
+          <Touchable style={this.styles.touch} onPress={this.showConfig}>
+            <Flex>
+              <Text type='sub' size={12}>
+                {i18n.login()}配置
+              </Text>
+              <Iconfont name='md-navigate-next' />
+            </Flex>
+            <Heatmap id='登陆.切换域名' />
+            <Heatmap bottom={-32} id='登陆.配置提示' transparent />
+          </Touchable>
+        </View>
       )
     }
 
     return (
-      <>
-        <Flex style={[this.styles.touch, _.mt.sm]}>
+      <View style={this.styles.config}>
+        <Flex style={_.mt._xs}>
           <Flex.Item>
-            <Popover style={this.styles.touch} data={DATA} onSelect={onSelect}>
-              <Flex style={this.styles.content}>
+            <Popover style={this.styles.touch} data={HOST_DS} onSelect={onSelect}>
+              <Flex>
                 <Text type='sub' size={12}>
                   使用 {host} 进行{i18n.login()}
                 </Text>
@@ -219,17 +229,17 @@ class Form extends React.Component<Props> {
             </Flex>
           </Touchable>
         </Flex>
-        <Flex style={this.styles.touch}>
+        <Flex style={_.mt._xs}>
           <Flex.Item>
             <Touchable style={this.styles.touch} onPress={onUAChange}>
-              <Flex style={this.styles.content}>
+              <Flex>
                 <Iconfont
                   name={isCommonUA ? 'md-radio-button-on' : 'md-radio-button-off'}
                   color={isCommonUA ? _.colorMain : _.colorSub}
                   size={18}
                 />
                 <Text style={_.ml.xs} type='sub' size={12}>
-                  使用固定UA{i18n.login()} (频繁掉线请勾选)
+                  使用固定UA{i18n.login()} (频繁掉线可尝试勾选)
                 </Text>
               </Flex>
             </Touchable>
@@ -240,7 +250,28 @@ class Form extends React.Component<Props> {
             </Flex>
           </Touchable>
         </Flex>
-      </>
+        <Flex style={_.mt._xs}>
+          <Flex.Item>
+            <Touchable style={this.styles.touch} onPress={onSyncSettingChange}>
+              <Flex>
+                <Iconfont
+                  name={isSyncSetting ? 'md-radio-button-on' : 'md-radio-button-off'}
+                  color={isSyncSetting ? _.colorMain : _.colorSub}
+                  size={18}
+                />
+                <Text style={_.ml.xs} type='sub' size={12}>
+                  {i18n.login()}后同步云端设置
+                </Text>
+              </Flex>
+            </Touchable>
+          </Flex.Item>
+          <Touchable style={this.styles.touchIcon} onPress={this.onNoticeUA}>
+            <Flex style={this.styles.icon} justify='center'>
+              <Iconfont name='md-info-outline' size={18} />
+            </Flex>
+          </Touchable>
+        </Flex>
+      </View>
     )
   }
 
@@ -255,9 +286,7 @@ class Form extends React.Component<Props> {
           lineHeight={16}
           type='sub'
           onPress={() => {
-            if (isError) {
-              navigation.push('Login')
-            }
+            if (isError) navigation.push('Login')
           }}
         >
           {info}
@@ -268,9 +297,11 @@ class Form extends React.Component<Props> {
             size={12}
             lineHeight={16}
             type='sub'
-            onPress={() => navigation.push('LoginAssist')}
+            onPress={() => {
+              navigation.push('LoginAssist')
+            }}
           >
-            请尝试切换另一域名进行重试，或尝试切换wifi或4g网络，实在没法{i18n.login()}
+            请尝试切换另一域名进行重试，或尝试切换 wifi 或移动网络，实在没法{i18n.login()}
             ，可点击这里前往辅助{i18n.login()}→
           </Text>
         )}
@@ -280,11 +311,12 @@ class Form extends React.Component<Props> {
 
   render() {
     const { loading, onLogin } = this.props
+    const { focusPassword } = this.state
     return (
       <View style={_.container.column}>
         <View style={this.styles.form}>
           <Flex justify='center'>
-            <Mesume />
+            <Mesume index={focusPassword ? 4 : undefined} />
           </Flex>
           {this.renderForm()}
           {!WEB && this.renderConfig()}

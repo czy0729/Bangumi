@@ -6,7 +6,7 @@
  */
 import { LIST_EMPTY, MODEL_SUBJECT_TYPE } from '@constants'
 import { ImagesAvatar, SubjectType } from '@types'
-import { Pm } from './types'
+import { Pm, UserCollection } from './types'
 
 export const NAMESPACE = 'User'
 
@@ -78,7 +78,7 @@ export const STATE = {
   userCollection: LIST_EMPTY,
 
   /** 在看收藏 (新 API, 取代 userCollection) */
-  collection: LIST_EMPTY,
+  collection: LIST_EMPTY as UserCollection,
 
   /** 收视进度 (章节) */
   userProgress: {

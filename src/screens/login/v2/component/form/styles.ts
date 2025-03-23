@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2022-09-03 03:41:06
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-09-03 03:41:06
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2025-03-22 17:51:33
  */
 import { _ } from '@stores'
 
@@ -37,13 +37,13 @@ export const memoStyles = _.memoStyles(() => ({
     borderRadius: _.radiusSm,
     overflow: 'hidden'
   },
-  content: {
-    paddingVertical: 4
-  },
   touchIcon: {
     marginLeft: _.md,
     borderRadius: 20,
     overflow: 'hidden'
+  },
+  config: {
+    paddingTop: 12
   },
   icon: {
     width: 36,

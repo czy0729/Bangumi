@@ -1,28 +1,18 @@
 /*
  * @Author: czy0729
- * @Date: 2022-09-02 17:28:56
+ * @Date: 2025-03-22 20:02:03
  * @Last Modified by:   czy0729
- * @Last Modified time: 2022-09-02 17:28:56
+ * @Last Modified time: 2025-03-22 20:02:03
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
-  old: {
+  footer: {
     position: 'absolute',
     zIndex: 1,
     bottom: _.bottom,
     left: _.wind,
     right: _.wind,
     padding: _.sm
-  },
-  ps: {
-    position: 'absolute',
-    right: _.wind * 2,
-    bottom: _.bottom,
-    left: _.wind * 2
-  },
-  border: {
-    borderLeftWidth: 1,
-    borderColor: _.colorBorder
   }
 }))

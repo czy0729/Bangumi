@@ -14,7 +14,9 @@ import { INIT_SETTING } from './init'
  */
 export type LayoutValue = true | false | -1
 
-export type HomeRenderTabs = ('Discovery' | 'Timeline' | 'Home' | 'Rakuen' | 'User' | 'Tinygrail')[]
+export type HomeTabsKeys = 'Discovery' | 'Timeline' | 'Home' | 'Rakuen' | 'User' | 'Tinygrail'
+
+export type HomeRenderTabs = HomeTabsKeys[]
 
 export type HomeTabs = ('all' | 'anime' | 'book' | 'real')[]
 

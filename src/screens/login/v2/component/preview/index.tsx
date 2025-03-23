@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 10:03:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 15:56:30
+ * @Last Modified time: 2025-03-22 17:27:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { open } from '@utils'
 import { ob } from '@utils/decorators'
 import { FROZEN_FN, HOST, WEB } from '@constants'
 import i18n from '@constants/i18n'
+import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 function Preview({ onLogin = FROZEN_FN, onTour = FROZEN_FN }) {
@@ -47,4 +48,4 @@ function Preview({ onLogin = FROZEN_FN, onTour = FROZEN_FN }) {
   )
 }
 
-export default ob(Preview)
+export default ob(Preview, COMPONENT)

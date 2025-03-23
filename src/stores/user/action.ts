@@ -274,19 +274,19 @@ export default class Action extends Fetch {
   }
 
   /** 当前获取 access_token 重试次数 */
-  private oauthRetryCount: number = 0
+  private _oauthRetryCount: number = 0
 
   /** 存放 loading.hide */
-  private hide: any
+  private _hide: any
 
   /** 重新授权次数 */
-  private reOauthCount: number = 0
+  private _reOauthCount: number = 0
 
   /** 获取授权表单码 */
   reOauth = async () => {
-    if (this.reOauthCount < 2) {
-      this.hide = loading('正在重新授权...')
-      this.reOauthCount += 1
+    if (this._reOauthCount < 2) {
+      this._hide = loading('正在重新授权...')
+      this._reOauthCount += 1
     }
 
     // @ts-expect-error
@@ -307,7 +307,7 @@ export default class Action extends Fetch {
   }
 
   /** 授权获取 code */
-  authorize = async formhash => {
+  authorize = async (formhash: string) => {
     // @ts-expect-error
     axios.defaults.withCredentials = false
 
@@ -334,11 +334,11 @@ export default class Action extends Fetch {
     try {
       return this.getAccessToken(code)
     } catch (error) {
-      this.oauthRetryCount += 1
-      if (this.oauthRetryCount >= 6) {
-        if (typeof this.hide === 'function') {
-          this.hide()
-          this.hide = null
+      this._oauthRetryCount += 1
+      if (this._oauthRetryCount >= 6) {
+        if (typeof this._hide === 'function') {
+          this._hide()
+          this._hide = null
         }
         info('重新授权失败，请重新登录')
         this.logout()
@@ -349,7 +349,7 @@ export default class Action extends Fetch {
   }
 
   /** code 获取 access_token */
-  getAccessToken = async code => {
+  getAccessToken = async (code: string) => {
     // @ts-expect-error
     axios.defaults.withCredentials = false
 
@@ -377,10 +377,10 @@ export default class Action extends Fetch {
       throw new TypeError(status)
     }
 
-    this.oauthRetryCount = 0
-    if (typeof this.hide === 'function') {
-      this.hide()
-      this.hide = null
+    this._oauthRetryCount = 0
+    if (typeof this._hide === 'function') {
+      this._hide()
+      this._hide = null
     }
     this.updateAccessToken(data)
     return true

@@ -555,25 +555,6 @@ export const SETTING_INITIAL_PAGE = [
 /** [设置] 启动页面 */
 export const MODEL_SETTING_INITIAL_PAGE = new Model(SETTING_INITIAL_PAGE, 'SETTING_INITIAL_PAGE')
 
-/** [设置] 图片质量 */
-export const SETTING_QUALITY = [
-  {
-    label: '默认',
-    value: 'default'
-  },
-  {
-    label: '高',
-    value: 'best'
-  },
-  {
-    label: '低',
-    value: 'mini'
-  }
-] as const
-
-/** [设置] 图片质量 */
-export const MODEL_SETTING_QUALITY = new Model(SETTING_QUALITY, 'SETTING_QUALITY')
-
 /** [设置] 字号 */
 export const SETTING_FONTSIZEADJUST = [
   {
