@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-16 10:35:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-08 19:44:11
+ * @Last Modified time: 2025-03-25 20:17:34
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
@@ -31,14 +31,9 @@ import TrackComment from '../track-comment'
 
 export const COMPONENT = rc(PARENT, 'HeaderComponent')
 
-export const TopEls = [Lock, Box, Ep, SMB, Tags] as const
+export const TopEls = [Lock, Box, Ep, SMB, Tags, Summary, Thumbs, Info, Game, Rating] as const
 
 export const BottomEls = [
-  Summary,
-  Thumbs,
-  Info,
-  Game,
-  Rating,
   Character,
   Staff,
   Anitabi,

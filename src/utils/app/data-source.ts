@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:16:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-22 07:03:17
+ * @Last Modified time: 2025-03-25 20:19:54
  */
 import { isObservableArray } from 'mobx'
 import { FROZEN_ARRAY, FROZEN_OBJECT } from '@constants'
@@ -58,12 +58,11 @@ export function updateVisibleBottom({ nativeEvent }: ScrollEvent) {
   if (typeof this.setState !== 'function') return
 
   const { contentOffset, layoutMeasurement } = nativeEvent
-  const screenHeight = layoutMeasurement.height
-  const visibleBottom = contentOffset.y + screenHeight
+  const visibleBottom = contentOffset.y + layoutMeasurement.height
   if (visibleBottom <= (this.state.visibleBottom || 0)) return
 
   this.setState({
-    visibleBottom: visibleBottom + HEIGHT * 0.5
+    visibleBottom: Math.floor(visibleBottom + HEIGHT * 0.5)
   })
 }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:30:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-06 07:30:28
+ * @Last Modified time: 2025-03-25 19:18:29
  */
 import { _ } from '@stores'
 import { LIST_EMPTY, WEB } from '@constants'
@@ -19,7 +19,7 @@ export const EXCLUDE_STATE = {
   fixed: false,
 
   /** 可视范围底部 y */
-  visibleBottom: _.window.height,
+  visibleBottom: Math.floor(_.window.height * 2),
 
   /** 是否显示管理模态框 */
   visible: false,

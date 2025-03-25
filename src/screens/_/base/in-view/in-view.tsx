@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-19 12:28:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-08 07:56:55
+ * @Last Modified time: 2025-03-25 20:22:14
  */
 import React, { useCallback, useEffect, useState } from 'react'
 import { LayoutChangeEvent, View } from 'react-native'
@@ -15,9 +15,10 @@ import { styles } from './styles'
 
 /** 提前渲染的 y 轴距离 */
 let preDistance = 0
+
 if (!DEV) {
   setTimeout(() => {
-    preDistance = _.window.height * 0.5
+    preDistance = Math.floor(_.window.height * 0.5)
   }, 20000)
 }
 
@@ -26,7 +27,7 @@ export default ({ index = 0, y = 0, log, flex, visibleBottom, children, ...other
 
   const [currentY, setCurrentY] = useState(y)
   const [show, setShow] = useState(y && visibleBottom ? y <= visibleBottom : false)
-  const onLayout = useCallback((event: LayoutChangeEvent) => {
+  const handleLayout = useCallback((event: LayoutChangeEvent) => {
     setCurrentY(event.nativeEvent.layout.y)
   }, [])
 
@@ -47,7 +48,7 @@ export default ({ index = 0, y = 0, log, flex, visibleBottom, children, ...other
   }, [show, visibleBottom, currentY])
 
   const logText: string[] = []
-  if (log) {
+  if (DEV && log) {
     logText.push(`c:${Math.floor(visibleBottom)}`)
     if (y) {
       logText.push(`y:${Math.floor(y)}`)
@@ -60,7 +61,7 @@ export default ({ index = 0, y = 0, log, flex, visibleBottom, children, ...other
   const Component = flex ? Flex : View
   return (
     // @ts-expect-error
-    <Component {...other} onLayout={y ? undefined : onLayout}>
+    <Component {...other} onLayout={y ? undefined : handleLayout}>
       {show ? children : null}
       {log && (
         <Flex style={styles.dev}>

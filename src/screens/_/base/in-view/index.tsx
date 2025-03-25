@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-19 12:14:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 01:39:35
+ * @Last Modified time: 2025-03-25 20:23:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,7 +18,7 @@ export { InViewProps }
 export const InView = ob(({ index, y, log, flex, children, ...other }: InViewProps) => {
   const { $ } = useStore<Ctx>()
 
-  // web 或者若页面没有管理的 y 轴数值, 或者传递了 index
+  // 浏览器或者若页面没有管理的 y 轴数值, 或者传递了 index
   if (WEB || (typeof index === 'number' && index < 8) || $?.state?.visibleBottom === undefined) {
     return Object.keys(other).length ? <View {...other}>{children}</View> : children
   }
