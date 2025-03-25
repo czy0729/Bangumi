@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-16 09:24:59
+ * @Last Modified time: 2025-03-25 19:14:39
  */
 import React from 'react'
 import { Component, Cover, Flex, Touchable } from '@components'
@@ -12,6 +12,7 @@ import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
 import { EVENT } from '@constants'
+import { MonoId } from '@types'
 import { InView } from '../../base'
 import Actors from './actors'
 import Content from './content'
@@ -41,9 +42,9 @@ export const ItemCharacter = ob(
     const styles = memoStyles()
     const cn = cnjp(nameCn, name).trim()
     const jp = cnjp(name, nameCn).trim()
-    const y = ITEM_HEIGHT * index + 1
+    const y = ITEM_HEIGHT * index
     const handlePress = () => {
-      const monoId = String(id).includes(type) ? id : `${type}/${id}`
+      const monoId = (String(id).includes(type) ? id : `${type}/${id}`) as MonoId
       navigation.push('Mono', {
         monoId,
         _name: cn,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-17 23:01:17
+ * @Last Modified time: 2025-03-25 19:15:07
  */
 import { ImageSourcePropType } from 'react-native'
 import {
@@ -350,10 +350,10 @@ export type RouteMono = Route<
     _jp?: string
 
     /** 人物头像 */
-    _image?: string
+    _image?: string | ImageSourcePropType
 
     /** 吐槽 +N */
-    _count?: number
+    _count?: string | number
   }
 >
 

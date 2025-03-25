@@ -823,7 +823,7 @@ export default class Computed extends State {
             _image: images?.medium || IMG_INFO_ONLY,
             name: nameCn || name,
             nameJP: name,
-            desc: actors?.[0]?.name || roleName,
+            desc: roleName || actors?.[0]?.name,
             actorId: actors?.[0]?.id
           })
         )

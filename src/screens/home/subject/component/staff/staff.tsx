@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:28:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-19 19:35:29
+ * @Last Modified time: 2025-03-25 19:18:39
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -14,6 +14,7 @@ import { t } from '@utils/fetch'
 import { TITLE_STAFF } from '../../ds'
 import IconHidden from '../icon/hidden'
 import IconStaff from '../icon/staff'
+import { removeDuplicateItemsById } from './utils'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
@@ -33,21 +34,20 @@ const Staff = memo(
           <>
             <HorizontalList
               style={_.mt.sm}
-              data={staff}
-              quality={false}
+              data={removeDuplicateItemsById(staff)}
               initialRenderNums={_.device(Math.floor(_.window.contentWidth / 56) + 1, 8)}
               onPress={({ id, name, nameJP, _image }) => {
-                t('条目.跳转', {
-                  to: 'Mono',
-                  from: TITLE_STAFF,
-                  subjectId
-                })
-
                 navigation.push('Mono', {
                   monoId: `person/${id}`,
                   _name: name,
                   _jp: nameJP,
                   _image
+                })
+
+                t('条目.跳转', {
+                  to: 'Mono',
+                  from: TITLE_STAFF,
+                  subjectId
                 })
               }}
             />
