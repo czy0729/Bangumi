@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:20:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-22 00:39:40
+ * @Last Modified time: 2025-03-25 20:56:21
  */
 import { collectionStore, subjectStore, userStore } from '@stores'
 import { getTimestamp, queue } from '@utils'
@@ -70,12 +70,16 @@ export default class Fetch extends Computed {
   }
 
   /** 队列请求条目信息 */
-  fetchSubjectsQueue = async (list = []) => {
+  fetchSubjectsQueue = async (list = [], count?: number) => {
     if (this.state.progress.fetching) return false
 
-    const fetchs = this.sortList(list).map(({ subject_id }, index) => () => {
-      return this.fetchSubject(subject_id, index, true)
-    })
+    const sortedList = this.sortList(list)
+    const limitedList = typeof count === 'number' && count ? sortedList.slice(0, count) : sortedList
+    const fetchs = limitedList.map(
+      ({ subject_id }, index) =>
+        () =>
+          this.fetchSubject(subject_id, index, true)
+    )
 
     if (fetchs.length) {
       this.setState({

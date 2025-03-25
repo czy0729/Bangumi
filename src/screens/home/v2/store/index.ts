@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:26:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-14 07:25:33
+ * @Last Modified time: 2025-03-25 20:57:06
  */
 import * as Device from 'expo-device'
 import { _, systemStore, userStore } from '@stores'
-import { date, feedback, getTimestamp, info, pick, sortObject } from '@utils'
+import { date, feedback, getTimestamp, info, pick, postTask, sortObject } from '@utils'
 import { t } from '@utils/fetch'
 import { update } from '@utils/kv'
 import { get } from '@utils/protobuf'
@@ -36,7 +36,7 @@ class ScreenHomeV2 extends Action {
       this.initUser()
       inited = true
 
-      setTimeout(() => {
+      postTask(() => {
         this.initFetch()
       }, 4000)
     }
@@ -75,7 +75,7 @@ class ScreenHomeV2 extends Action {
       flag = true
     }
 
-    // 需要刷新数据
+    // 需要全刷新数据
     if (flag) {
       if (await this.initQueue()) return true
 
@@ -95,15 +95,18 @@ class ScreenHomeV2 extends Action {
           reOauthing = false
         }
       }
+    } else {
+      // 不需要全刷新也至少刷新首屏
+      return this.initQueue(6)
     }
 
     return true
   }
 
   /** 初始化进度和条目等数据 */
-  initQueue = async () => {
+  initQueue = async (count?: number) => {
     const data = await Promise.all([userStore.fetchCollection()])
-    if (data?.[0]?.list?.length) return this.fetchSubjectsQueue(data[0].list)
+    if (data?.[0]?.list?.length) return this.fetchSubjectsQueue(data[0].list, count)
 
     return false
   }
