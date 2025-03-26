@@ -4,11 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-03-06 23:34:54
  */
-import { StyleSheet } from 'react-native'
-import { androidDayNightToggle, runAfter } from '@utils'
+import { Appearance, StyleSheet } from 'react-native'
+import { androidDayNightToggle, feedback, info, runAfter } from '@utils'
 import { IOS, WEB, WSA } from '@constants'
 import _, { IS_IOS_5_6_7_8 } from '@styles'
 import { AnyObject, SelectFn, SettingFontsizeadjust } from '@types'
+import systemStore from '../system'
 import Computed from './computed'
 import { STYLES_DARK, STYLES_LIGHT } from './init'
 import { getMemoStyles, getMemoStylesHash } from './utils'
@@ -80,7 +81,7 @@ export default class Action extends Computed {
   // }
 
   /** 切换主题模式 */
-  toggleMode = (mode?: Mode) => {
+  toggleMode = async (mode?: Mode) => {
     // web 端暂不开放白天模式
     if (WEB && mode === 'light') return false
 
@@ -123,6 +124,15 @@ export default class Action extends Computed {
     this.save(key)
     this.changeNavigationBarColor()
     androidDayNightToggle(this.isDark)
+
+    // 若用户启用了主题跟随系统, 而切换后与系统主题不一致, 需要提醒
+    if (systemStore.setting.autoColorScheme) {
+      const colorScheme = Appearance.getColorScheme()
+      if (colorScheme && this.mode && colorScheme !== this.mode) {
+        info('请注意: 当前设置了跟随系统主题')
+        feedback(true)
+      }
+    }
   }
 
   /** 切换方向 */
