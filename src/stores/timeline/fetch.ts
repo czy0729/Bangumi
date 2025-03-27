@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 16:29:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-15 04:45:42
+ * @Last Modified time: 2025-03-27 19:49:46
  */
 import { getTimestamp, queue } from '@utils'
 import { fetchHTML } from '@utils/fetch'
@@ -57,7 +57,11 @@ export default class Fetch extends Computed {
     },
     refresh?: boolean
   ) => {
-    const { userId = userStore.myUserId, type = DEFAULT_TYPE } = args || {}
+    let { userId, type } = args || {}
+
+    // ID 若改过必须要用改过后的
+    if (!userId) userId = userStore.myId
+    if (!type) type = DEFAULT_TYPE
 
     // 范围是自己返回的是某个人的请求地址
     const scope = MODEL_TIMELINE_SCOPE.getValue<TimeLineScope>('自己')

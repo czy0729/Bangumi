@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 16:25:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 00:57:45
+ * @Last Modified time: 2025-03-27 19:47:14
  */
 import { computed } from 'mobx'
 import { desc } from '@utils'
@@ -26,8 +26,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   /** 其他人的时间胶囊 */
   usersTimeline(userId?: UserId) {
     return computed<Timeline>(() => {
-      const key = userId || userStore.myUserId
-      return this.state.usersTimeline[key] || LIST_EMPTY
+      return this.state.usersTimeline[userId || userStore.myId] || LIST_EMPTY
     }).get()
   }
 

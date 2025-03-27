@@ -57,6 +57,9 @@ export function guessTotalCount(list: ListEmpty, limit: number = 10) {
 export function updateVisibleBottom({ nativeEvent }: ScrollEvent) {
   if (typeof this.setState !== 'function') return
 
+  const now = Date.now()
+  if (this.__lastVisibleBottomUpdate && now - this.__lastVisibleBottomUpdate < 32) return
+
   const { contentOffset, layoutMeasurement } = nativeEvent
   const visibleBottom = contentOffset.y + layoutMeasurement.height
   if (visibleBottom <= (this.state.visibleBottom || 0)) return
@@ -64,6 +67,7 @@ export function updateVisibleBottom({ nativeEvent }: ScrollEvent) {
   this.setState({
     visibleBottom: Math.floor(visibleBottom + HEIGHT * 0.5)
   })
+  this.__lastVisibleBottomUpdate = now
 }
 
 /** 是否数组, 若为 mobx 观察的数组使用原生方法是判断不出来的 */
