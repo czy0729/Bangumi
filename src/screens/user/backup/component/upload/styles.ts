@@ -18,7 +18,7 @@ export const memoStyles = _.memoStyles(() => ({
   fixed: {
     position: 'absolute',
     zIndex: 2,
-    top: 8,
+    bottom: _.lg,
     right: _.wind,
     width: _.window.contentWidth,
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2),

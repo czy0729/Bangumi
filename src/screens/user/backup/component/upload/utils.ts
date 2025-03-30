@@ -4,6 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-12-20 23:02:57
  */
+import { _ } from '@stores'
+
 export const TYPE_IMPORT = 'CSV_IMPORT'
 
 export function injectedHTML() {
@@ -18,6 +20,9 @@ export function injectedHTML() {
         * {
           padding: 0;
           margin: 0;
+        }
+        body {
+          background-color: ${_.isDark ? _.colorDarkModeLevel1 : '#fff'};
         }
         #upload_wrap {
           height: 120px;

@@ -54,7 +54,11 @@ export default class Fetch extends Computed {
             }
           })
 
-          await this.fetchCollections(SUBJECT_TYPE[i].value, COLLECTION_STATUS[j].title)
+          const result = await this.fetchCollections(
+            SUBJECT_TYPE[i].value,
+            COLLECTION_STATUS[j].title
+          )
+          if (!result) break
         }
         this.save()
       }
@@ -117,6 +121,8 @@ export default class Fetch extends Computed {
       this.setState({
         [key]: [...toJS(this.state[key]), ...list]
       })
+    } else {
+      return false
     }
 
     if (data.total && data.offset + LIMIT < data.total) {
