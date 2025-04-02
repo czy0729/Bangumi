@@ -61,18 +61,27 @@ iOS 和安卓都做了兼容，并最大限度保持一致
 
 # 版本
 
-## 8.19.0 - 2025/03/08
+## 8.20.0 - 2025/04/03
+
+### 优化
+
+- [x] [条目] 目录管理增加了排序
+- [x] [条目] 版本显示微调
+- [x] [超展开] 站龄少于 1 年支持用月份显示
+- [x] 更新本地 2025S2 番剧元数据
+- [x] [登录] 细节优化、登录成功后自动同步黑名单、可选同步云端设置
+- [x] [进度] 启动后若不需要全量刷新，现在也会至少刷新首屏几个项数据
 
 ### 修复
 
-- [x] [电波提醒] 修复了进入详细页用户最新头像不一致的问题
-- [x] 修复条目缩略框弹出坐标问题
-- [x] [小圣杯] 修复大量问题
-- [x] 修复大量细节问题，不详细说明
+- [x] [帖子] 修复楼层中部分链接无法点击跳转问题
+- [x] 恢复了分屏与小窗（如果窗口大小改变后崩溃那作者也没什么办法，凑合用吧）
+- [x] [条目] 修复 NSFW 角色优先度排序问题、修复职员重复问题
+- [x] [用户空间] 修复了自己查看自己的时间线, 只能显示第一页的问题
+- [x] 稍微修复了部分平板设备样式
+- [x] [iOS] IPA 修复不能正常加载头像问题
 
-![8.19.0](https://www.yuque.com/chenzhenyu-k0epm/znygb4/eo79o18253lecthq?singleDoc)
-
-[当前版本图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/kozcmvlgwezrthkz?singleDoc)
+[当前版本图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/csic9v?singleDoc)
 
 [所有更新 CHANGELOG](https://github.com/czy0729/Bangumi/blob/master/web/CHANGELOG.MD)
 
