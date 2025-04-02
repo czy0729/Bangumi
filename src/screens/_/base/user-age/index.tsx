@@ -22,6 +22,8 @@ export const UserAge = ({ style, value, avatar }: UserAgeProps) => {
   r(COMPONENT)
 
   const age = getAge(value, avatar)
+  if (age === null) return null
+
   return useObserver(() => {
     const styles = memoStyles()
     let text = !age || age == 0 ? '最近' : age

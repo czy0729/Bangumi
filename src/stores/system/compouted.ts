@@ -113,10 +113,13 @@ export default class Computed extends State implements StoreConstructor<typeof S
           if (value) amount += value
         }
 
-        temp = this.advanceDetail[userName] || 0
-        if (typeof temp === 'string') {
-          const value = Number(temp.split('|')?.[1])
-          if (value) amount += value
+        // 若改过 ID 才进行二次计算
+        if (userId && userName && userId !== userName) {
+          temp = this.advanceDetail[userName] || 0
+          if (typeof temp === 'string') {
+            const value = Number(temp.split('|')?.[1])
+            if (value) amount += value
+          }
         }
       } catch (error) {}
 

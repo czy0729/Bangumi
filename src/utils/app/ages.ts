@@ -38,12 +38,13 @@ const SPLITS = [
   [931684, 2024.9],
   [947430, 2025],
   [955000, 2025.1],
-  [972000, 2025.2]
+  [972000, 2025.2],
+  [990000, 2025.3]
 ] as const
 
 const CURRENT_YEAR = getCurrentYearWithDecimal()
 
-const MEMO = new Map<UserId, string | number>()
+const MEMO = new Map<UserId, string | number | null>()
 
 /**
  * 根据自增 ID 或头像地址推测站龄
@@ -51,9 +52,9 @@ const MEMO = new Map<UserId, string | number>()
  * @param avatar - 头像地址（头像最后有原始 ID，可以用来判断）
  * @returns 年龄
  */
-export function getAge(id: UserId, avatar?: string): string | number {
+export function getAge(id: UserId, avatar?: string): string | number | null {
   // 检查缓存
-  if (MEMO.has(id)) return MEMO.get(id)!
+  if (MEMO.has(id)) return MEMO.get(id)
 
   let age: string | number = 0
 
@@ -64,7 +65,13 @@ export function getAge(id: UserId, avatar?: string): string | number {
   // 如果 ID 无效，尝试从头像地址获取年龄
   if (age === 0 && avatar && typeof avatar === 'string') {
     const extractedId = extractIdFromAvatar(avatar)
-    if (extractedId) age = calculateAgeFromId(extractedId)
+    if (extractedId) {
+      age = calculateAgeFromId(extractedId)
+    } else {
+      // 改过 ID 并且没有设置过头像的用户是无法推断的, 直接返回
+      MEMO.set(id, null)
+      return null
+    }
   }
 
   age = formatNumber(age)
