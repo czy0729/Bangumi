@@ -31,7 +31,7 @@ function HeaderComponent(props) {
   )
 
   return useObserver(() => (
-    <Component id='screen-subject-header-component'>
+    <Component key={_.orientation} id='screen-subject-header-component'>
       {!IOS && (
         <ErrorBoundary>
           <Bg />

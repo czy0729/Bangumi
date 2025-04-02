@@ -5,35 +5,41 @@
  * @Last Modified time: 2023-01-11 10:06:28
  */
 import { useEffect, useState } from 'react'
-import * as ScreenOrientation from 'expo-screen-orientation'
+import {
+  addOrientationChangeListener,
+  getOrientationAsync,
+  lockAsync,
+  Orientation,
+  OrientationChangeEvent,
+  OrientationLock,
+  removeOrientationChangeListener
+} from 'expo-screen-orientation'
 import { PAD } from '@constants/device'
 
+/** 默认锁竖屏, 并且监听屏幕方向 */
 export default function useOrientation() {
-  const [screenOrientation, setScreenOrientation] = useState(
-    ScreenOrientation.Orientation.PORTRAIT_UP
-  )
+  const [screenOrientation, setScreenOrientation] = useState(Orientation.PORTRAIT_UP)
 
   useEffect(() => {
     try {
-      if (!PAD) ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT)
+      if (!PAD) lockAsync(OrientationLock.PORTRAIT)
     } catch (error) {}
 
-    const onOrientationChange = currentOrientation => {
+    const handleOrientationChange = (currentOrientation: OrientationChangeEvent) => {
       const orientationValue = currentOrientation.orientationInfo.orientation
       setScreenOrientation(orientationValue)
     }
 
     const initScreenOrientation = async () => {
-      const currentOrientation = await ScreenOrientation.getOrientationAsync()
+      const currentOrientation = await getOrientationAsync()
       setScreenOrientation(currentOrientation)
     }
 
-    const screenOrientationListener =
-      ScreenOrientation.addOrientationChangeListener(onOrientationChange)
+    const screenOrientationListener = addOrientationChangeListener(handleOrientationChange)
 
     initScreenOrientation()
     return () => {
-      ScreenOrientation.removeOrientationChangeListener(screenOrientationListener)
+      removeOrientationChangeListener(screenOrientationListener)
     }
   }, [])
 

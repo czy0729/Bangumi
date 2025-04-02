@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Component } from '@components'
-import { useStore } from '@stores'
+import { _, useStore } from '@stores'
 import { getCover400 } from '@utils'
 import { ob } from '@utils/decorators'
 import { IOS, TEXT_ONLY } from '@constants'
@@ -32,7 +32,7 @@ function BgWrap() {
 
   return (
     <Component id='screen-subject-bg'>
-      <Bg style={styles.bg} src={src} cdn={cdn} />
+      <Bg style={styles.bg} src={src} cdn={cdn} height={_.ios(styles.bg.height, _.window.width)} />
     </Component>
   )
 }

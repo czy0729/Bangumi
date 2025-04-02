@@ -11,15 +11,15 @@ import { memo } from '@utils/decorators'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Bg = memo(
-  ({ style, src, cdn = true }) => (
+  ({ style, src, cdn = true, height }) => (
     <BlurView
       style={style}
       tint={_.select(BLURVIEW_TINT_LIGHT, BLURVIEW_TINT_DARK)}
       src={src}
+      height={height}
       intensity={80}
       blurRadius={_.web(16, 8)}
       cdn={cdn}
-      height={_.ios(style.height, _.window.width)}
     />
   ),
   DEFAULT_PROPS,

@@ -22,7 +22,8 @@ import {
 /** iPhone 非全面屏系列 */
 export const IS_IOS_5_6_7_8 =
   !!String(Device.modelName).match(/iPhone (5|6|7|8|SE)/gi) ||
-  !!(String(Device.modelName).match(/iPhone/gi) && Constants.statusBarHeight <= 24)
+  !!(String(Device.modelName).match(/iPhone/gi) && Constants.statusBarHeight <= 24) ||
+  (IOS && Constants.statusBarHeight === 20)
 
 // -------------------- 设备 --------------------
 /** 是否平板 */

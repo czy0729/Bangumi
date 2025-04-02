@@ -10,6 +10,7 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { BlurView as ExpoBlurView } from 'expo-blur'
+import { _ } from '@stores'
 import { matchCoverUrl, stl } from '@utils'
 import { r } from '@utils/dev'
 import { IOS } from '@constants'
@@ -66,6 +67,11 @@ export const BlurView = observer(
         <Image
           imageStyle={stl(
             styles.image,
+            {
+              width: _.isLandscape
+                ? Math.max(_.window.width, _.window.height)
+                : Math.min(_.window.width, _.window.height)
+            },
             height && {
               height
             }

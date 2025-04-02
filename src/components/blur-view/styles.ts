@@ -13,7 +13,7 @@ export const styles = _.create({
     right: 0,
     bottom: 0,
     left: 0,
-    width: _.ios('auto', _.window.width),
+    width: 'auto',
     height: 'auto'
   },
   mask: {
