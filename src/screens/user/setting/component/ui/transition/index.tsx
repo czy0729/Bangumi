@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-04-20 20:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-03 20:10:23
+ * @Last Modified time: 2025-04-03 22:07:41
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex } from '@components'
+import { Flex, Heatmap } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
@@ -66,19 +66,21 @@ function Transition({ filter }) {
           </Flex>
         </ItemSettingBlock.Item>
 
-        <ItemSettingBlock.Item style={_.ml.sm} {...genItemProps('vertical')}>
+        <ItemSettingBlock.Item style={_.ml.md} {...genItemProps('vertical')}>
           <Flex style={styles.container} direction='column' justify='center'>
             <View style={[styles.page, styles.pageVertical]} />
             <View style={[styles.page, styles.pageVertical, styles.pageCurrent]} />
           </Flex>
         </ItemSettingBlock.Item>
 
-        <ItemSettingBlock.Item style={_.ml.sm} {...genItemProps('scale')}>
+        <ItemSettingBlock.Item style={_.ml.md} {...genItemProps('scale')}>
           <Flex style={styles.container} direction='column' justify='center'>
-            <View style={styles.page} />
             <View style={[styles.page, styles.pageScale]} />
+            <View style={[styles.page, styles.pageScaleCurrent]} />
           </Flex>
         </ItemSettingBlock.Item>
+
+        <Heatmap id='设置.切换' title='切页动画' />
       </ItemSettingBlock>
     )
   })

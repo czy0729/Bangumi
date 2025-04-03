@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-04-03 18:58:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-03 20:06:33
+ * @Last Modified time: 2025-04-03 21:26:47
  */
 import { _ } from '@stores'
 
@@ -29,22 +29,29 @@ export const memoStyles = _.memoStyles(() => ({
     marginBottom: -2
   },
   pageScale: {
-    position: 'absolute',
-    zIndex: 2,
-    top: 5,
-    left: 0,
     transform: [
       {
-        scale: 0.64
+        scale: 1.12
       }
-    ],
-    opacity: 0.5
+    ]
   },
   pageCurrent: {
     zIndex: 2,
     transform: [
       {
         scale: 0.9
+      }
+    ],
+    opacity: 0.5
+  },
+  pageScaleCurrent: {
+    position: 'absolute',
+    zIndex: 2,
+    top: 6,
+    left: 0,
+    transform: [
+      {
+        scale: 0.76
       }
     ],
     opacity: 0.5

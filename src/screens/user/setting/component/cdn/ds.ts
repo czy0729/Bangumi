@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 08:31:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-21 17:58:43
+ * @Last Modified time: 2025-04-03 21:55:16
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
@@ -67,8 +67,10 @@ export const TEXTS = {
       '警告：此选项仅建议部分加载不到图片的 iOS 设备开启，若您的设备图片能正常加载请勿开启，开启后可能会导致图片每次都进行网络请求，切换后需要重新冷启动才能生效'
   },
   imageSkeleton: {
-    hd: '图片加载动画',
-    information: '部分手机显示骨架屏动画卡顿，可尝试关闭提升流畅度'
+    setting: {
+      title: '图片加载动画',
+      information: '部分手机显示骨架屏动画卡顿，可尝试关闭提升流畅度'
+    }
   },
   imageFadeIn: {
     hd: '图片渐出动画'

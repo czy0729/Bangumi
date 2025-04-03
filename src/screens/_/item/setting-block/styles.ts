@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 20:07:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-17 20:08:10
+ * @Last Modified time: 2025-04-03 21:21:23
  */
 import { _ } from '@stores'
 
@@ -25,7 +25,7 @@ export const memoStyles = _.memoStyles(() => ({
     borderColor: _.colorSuccess
   },
   body: {
-    height: 76,
+    height: 80,
     paddingHorizontal: _.xs
   }
 }))

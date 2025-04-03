@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2024-04-21 16:57:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-21 17:56:55
+ * @Last Modified time: 2025-04-03 22:35:59
  */
-
 import React, { useEffect, useState } from 'react'
 import { Flex, Highlight, Text } from '@components'
 import { Cover, ItemSettingBlock } from '@_'
@@ -30,7 +29,7 @@ function CDNTest({ filter }) {
       }
       cb()
     }
-  }, [test])
+  }, [pings, test])
 
   return useObserver(() => (
     <ItemSettingBlock style={_.mt.md} filter={filter} {...TEXTS.test}>

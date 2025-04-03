@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 07:17:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-16 09:24:25
+ * @Last Modified time: 2025-04-03 21:32:25
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
@@ -16,7 +16,7 @@ export const TEXTS = {
   },
   heatMap: {
     title: '章节讨论热力图',
-    information: '按钮下方不同透明度橙色条块，可快速了解讨论激烈程度'
+    information: '按钮下方不同透明度橙色条块，可快速了解讨论的激烈程度'
   },
   openInfo: {
     hd: '打开外部浏览器前复制网址',

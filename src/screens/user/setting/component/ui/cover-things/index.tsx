@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-20 19:17:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-20 19:21:59
+ * @Last Modified time: 2025-04-03 21:31:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -70,8 +70,8 @@ function CoverThings({ filter }) {
                 angleStyle={styles.musicAngle}
                 type='音乐'
                 useType
-                size={width * 1.1}
-                height={height * 1.1}
+                size={Math.floor(width * 1.2)}
+                height={Math.floor(width * 1.2)}
                 src={URL_MUSIC}
                 radius
               />

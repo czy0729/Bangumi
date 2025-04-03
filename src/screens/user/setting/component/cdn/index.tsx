@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 10:32:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-23 05:34:02
+ * @Last Modified time: 2025-04-03 22:35:07
  */
 import React from 'react'
 import { ActionSheet, Text } from '@components'
@@ -57,9 +57,9 @@ function CDN({ navigation, filter }) {
             <CDNCover navigation={navigation} filter={filter} setFalse={setFalse} />
           )}
           {!WEB && shows.cdnAvatarV2 && <CDNAvatar filter={filter} />}
-          {!WEB && shows.test && <CDNTest filter={filter} />}
           {shows.imageSkeleton && <ImageSkeleton filter={filter} />}
           {shows.imageFadeIn && <ImageFadeIn filter={filter} />}
+          {!WEB && shows.test && <CDNTest filter={filter} />}
           {IOS && shows.iOSImageCache && <IOSImageCache filter={filter} />}
         </ActionSheet>
       </>

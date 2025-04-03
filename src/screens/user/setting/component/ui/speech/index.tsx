@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-04-20 20:09:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-20 20:16:00
+ * @Last Modified time: 2025-04-03 22:06:46
  */
 import React from 'react'
-import { Heatmap, Mesume, Text } from '@components'
+import { Heatmap, Text } from '@components'
 import { randomSpeech } from '@components/mesume/utils'
 import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
@@ -48,6 +48,7 @@ function Speech({ filter }) {
           {randomSpeech()}
         </Text>
       </ItemSettingBlock.Item>
+
       <ItemSettingBlock.Item
         style={_.ml.md}
         title='关闭'
@@ -63,9 +64,8 @@ function Speech({ filter }) {
             checked: !value
           })
         }}
-      >
-        <Mesume style={_.mt.xxs} size={40} />
-      </ItemSettingBlock.Item>
+      />
+
       <Heatmap id='设置.切换' title='看板娘吐槽' />
     </ItemSettingBlock>
   ))

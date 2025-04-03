@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 07:07:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-03 20:27:15
+ * @Last Modified time: 2025-04-03 21:20:22
  */
 import { rc } from '@utils/dev'
 import {
@@ -53,7 +53,7 @@ export const TEXTS = {
   },
   speech: {
     title: '看板娘吐槽',
-    information: '通常在列表尾部出现表示已到底'
+    information: '通常在列表尾部出现，表示已到底'
   },
   avatarRound: {
     setting: {
@@ -77,7 +77,7 @@ export const TEXTS = {
   transition: {
     setting: {
       title: '切页动画',
-      information: '不建议更改，切换可能需要重新启动才能正确生效',
+      information: '切换可能需要重新启动才能正确生效（不建议更改）',
       search: SETTING_TRANSITION.map(item => item.label).join()
     },
     horizontal: {
@@ -92,6 +92,6 @@ export const TEXTS = {
   },
   vibration: {
     hd: '震动',
-    information: '提交操作完成后追加轻震动反馈'
+    information: '提交操作完成后追加中度震动反馈，部分切换操作后追加轻度震动反馈（若可以建议开启）'
   }
 } as const
