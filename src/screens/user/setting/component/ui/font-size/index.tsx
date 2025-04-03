@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-20 20:17:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-20 20:22:57
+ * @Last Modified time: 2025-04-04 01:34:28
  */
 import React from 'react'
 import { Heatmap, ScrollView, Text } from '@components'
@@ -34,7 +34,7 @@ function FontSize({ filter }) {
         {SETTING_FONTSIZEADJUST.map((item, index) => (
           <ItemSettingBlock.Item
             key={item.label}
-            style={!!index && _.ml.sm}
+            style={!!index && styles.margin}
             title={item.label}
             active={_.fontSizeAdjust == Number(item.value)}
             filter={filter}

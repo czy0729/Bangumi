@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 10:48:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-11 04:38:48
+ * @Last Modified time: 2025-04-04 01:14:44
  */
 import { rc } from '@utils/dev'
 import { SETTING_HOME_GRID_COVER_LAYOUT } from '@constants'
@@ -57,8 +57,8 @@ export const TEXTS = {
     information: '因网格模式高度有限只够放 3 排按钮\n对章节较少的条目，按钮宽度自适应尽量铺满'
   },
   homeCountView: {
-    title: '放送数字显示',
-    information: '自定义显示组合\n例：4 代表看到，6 代表已放送，12 代表总集数',
+    title: '放送数字显示组合',
+    information: '例：4 代表看到，6 代表已放送，12 代表总集数',
     search: HOME_COUNT_VIEW
   },
   homeCustom: {

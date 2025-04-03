@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-23 20:52:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-15 16:36:25
+ * @Last Modified time: 2025-04-04 01:12:48
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -27,7 +27,7 @@ function Qiafan({ navigation, filter }) {
         highlight
         information={
           systemStore.advance &&
-          `已收到巨款${amount ? ` (¥${amount})` : ''}，您已成为高级会员，感谢支持`
+          `已收到巨款${amount ? ` (¥${amount})` : ''}，您已成为高级用户，感谢支持`
         }
         informationType='success'
         filter={filter}

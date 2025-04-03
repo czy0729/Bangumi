@@ -2,17 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-03-25 20:22:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-26 03:33:22
+ * @Last Modified time: 2025-04-04 01:55:40
  */
 import React from 'react'
-import { Flex, Image, Text } from '@components'
+import { Flex, Image, ScrollView, Text } from '@components'
 import { _ } from '@stores'
 import { getTimestamp, lastDate } from '@utils'
 import { ob } from '@utils/decorators'
-import { HOST_DOGE, TEXT_SECTION_INDENT, TEXT_UPDATE_QIAFAN } from '@constants'
+import { TEXT_SECTION_INDENT, TEXT_UPDATE_QIAFAN } from '@constants'
 import { FONT_BASE, FONT_STRONG } from '../../ds'
+import { memoStyles } from './styles'
 
 function Section1() {
+  const styles = memoStyles()
   return (
     <>
       <Text {...FONT_BASE}>
@@ -26,14 +28,22 @@ function Section1() {
       </Text>
       <Flex style={_.mt.md} justify='center'>
         <Image
-          src={`${HOST_DOGE}/assets/commits.png`}
-          width={300}
-          height={184}
-          radius
+          src={require('@assets/images/repo/commits.png')}
+          width={320}
+          height={156}
+          radius={_.radiusSm}
           border
-          errorToHide
         />
       </Flex>
+      <ScrollView style={styles.scroll} contentContainerStyle={styles.container} horizontal>
+        <Image
+          src={require('@assets/images/repo/overtime.png')}
+          width={618}
+          height={240}
+          radius={_.radiusSm}
+          border
+        />
+      </ScrollView>
       <Text style={_.mt.md} {...FONT_BASE}>
         {TEXT_SECTION_INDENT}
         不得不说客户端比网页难做太多了，很多正常的功能比如图片加载、网络请求并发，浏览器直接就能提供最优解，而客户端内几乎一切都是刀耕火种。

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-23 05:21:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-03 10:09:43
+ * @Last Modified time: 2025-04-04 01:13:08
  */
 import React, { useCallback, useRef } from 'react'
 import { View } from 'react-native'
@@ -61,7 +61,7 @@ function TranslateEngine({ filter }) {
             if (value === 'deeplx') return
 
             if (!systemStore.advance) {
-              alert('此翻译引擎使用了作者的每日限额，当前仅供会员使用。')
+              alert('此翻译引擎使用了作者的每日限额，当前仅供打赏用户使用。')
               return
             }
 

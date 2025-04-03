@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-21 17:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-21 18:03:00
+ * @Last Modified time: 2025-04-04 01:12:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -65,7 +65,7 @@ function CDNCover({ navigation, filter, setFalse }) {
 
             if (!systemStore.advance) {
               confirm(
-                '此域名对达到条件的高级会员开放，当前开放试用，10 分钟后或下次启动后会还原，是否试用？',
+                '此域名对达到条件的高级用户开放，当前开放试用，10 分钟后或下次启动后会还原，是否试用？',
                 () => {
                   if (!value) handleSwitch()
                   systemStore.setSetting(
@@ -113,7 +113,7 @@ function CDNCover({ navigation, filter, setFalse }) {
                   title: '关于 Magma ',
                   message: [
                     '此域名为用户 @magma 提供，支持非 NSFW 封面图（NSFW 会回滚到 bgm），并自带缩放压缩、webp、稳定CDN加速。',
-                    `作者与其达成了约定，因流量是需要自费的，目前仅对历史打赏达到 [${APP_ADVANCE_CDN}元] 的高级会员开放测试，恳请谅解。`,
+                    `作者与其达成了约定，因流量是需要自费的，目前仅对历史打赏达到 [${APP_ADVANCE_CDN}元] 的高级用户开放测试，恳请谅解。`,
                     '科普: 目前 OSS 1G 的费用因有各种回流等策略，资费不低于 0.2 元，1 个用户首次访问 10-20 个路径的页面，封面图可能会产生 50-100MB 的流量。',
                     '为什么需要？因官方图片第二档质量不够清晰，而最高质量又过大，如果直接使用最大图片，一来会浪费大量流量，二来就算手机再强也会随着程序使用而崩溃。',
                     'PS: 若漏算了历史打赏金额的，可私信作者修正。'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-20 20:04:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-20 20:06:23
+ * @Last Modified time: 2025-04-04 01:33:47
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -31,24 +31,6 @@ function Squircle({ filter }) {
       {...TEXTS.squircle}
     >
       <ItemSettingBlock.Item
-        title='开启'
-        active={value}
-        filter={filter}
-        onPress={() => {
-          if (value) return
-
-          handleSwitch()
-
-          t('设置.切换', {
-            title: '圆角过渡',
-            checked: !value
-          })
-        }}
-      >
-        {/*  */}
-      </ItemSettingBlock.Item>
-      <ItemSettingBlock.Item
-        style={_.ml.md}
         title='系统默认'
         active={!value}
         filter={filter}
@@ -62,9 +44,25 @@ function Squircle({ filter }) {
             checked: !value
           })
         }}
-      >
-        {/*  */}
-      </ItemSettingBlock.Item>
+      />
+
+      <ItemSettingBlock.Item
+        style={_.ml.md}
+        title='开启'
+        active={value}
+        filter={filter}
+        onPress={() => {
+          if (value) return
+
+          handleSwitch()
+
+          t('设置.切换', {
+            title: '圆角过渡',
+            checked: !value
+          })
+        }}
+      />
+
       <Heatmap id='设置.切换' title='圆角过渡' />
     </ItemSettingBlock>
   ))
