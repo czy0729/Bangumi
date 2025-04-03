@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-02-19 07:51:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-14 09:30:47
+ * @Last Modified time: 2025-04-04 06:46:45
  */
 import { computed } from 'mobx'
 import { lastDate } from '@utils'
@@ -35,7 +35,7 @@ export default class Computed extends State {
     const { list } = this.state.data
     const { length } = list
     let text = String(length)
-    if (!length) return text
+    if (length == 0) return text
 
     text += ` (${lastDate(new Date(list[length - 1].d).valueOf() / 1000)})`
     return text

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-16 21:27:13
+ * @Last Modified time: 2025-04-04 07:34:24
  */
 import React from 'react'
 import { Component, HeaderV2, Page } from '@components'
@@ -17,7 +17,7 @@ import { useTinygrailNewPage } from './hooks'
 import List from './list'
 import { HM, TABS } from './ds'
 
-/** 资金日志 */
+/** 新番榜单 */
 const TinygrailNew = (props: NavigationProps) => {
   const { id, $ } = useTinygrailNewPage(props)
 

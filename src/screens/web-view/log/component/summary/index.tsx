@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-03-14 07:47:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-14 09:23:59
+ * @Last Modified time: 2025-04-04 04:17:03
  */
 import React from 'react'
 import { Flex, ScrollView } from '@components'
@@ -36,11 +36,13 @@ function Summary() {
         v[infos.v] = 1
       }
 
-      const temp = infos.b.split(' (')?.[0]
-      if (b[temp]) {
-        b[temp] += 1
-      } else {
-        b[temp] = 1
+      if (infos.b) {
+        const temp = infos.b.split(' (')?.[0]
+        if (b[temp]) {
+          b[temp] += 1
+        } else {
+          b[temp] = 1
+        }
       }
     })
 

@@ -11,7 +11,7 @@ import Crypto from '../crypto'
 
 export const HOST =
   WEB && DEV
-    ? 'http://192.168.31.66:3001'
+    ? 'http://192.168.31.150:3001'
     : Crypto.get(
         'U2FsdGVkX19sKQa+Q0MrgGAoUhowY87a3+FsQyrAcNCiMLDVhjAmyghrdc2h9lO5mEnKOzxNbgEVmyGYnTeLsw=='
       )

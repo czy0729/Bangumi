@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-02-20 04:46:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-23 04:46:50
+ * @Last Modified time: 2025-04-04 06:46:13
  */
 import React from 'react'
 import { HeaderV2 } from '@components'
@@ -18,6 +18,7 @@ function Header() {
   return (
     <HeaderV2
       title={$.headerInfo || '错误上报分析'}
+      headerTitleAlign='left'
       headerRight={() => (
         <>
           <IconTouchable

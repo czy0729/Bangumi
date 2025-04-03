@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-23 12:07:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 06:21:19
+ * @Last Modified time: 2025-04-04 07:03:00
  */
 import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
@@ -34,7 +34,7 @@ function Btns() {
         '节日福利',
         '重新授权',
         '粘贴板',
-        '人物搜索',
+        '小组讨论',
         '设置'
       ],
       [price]
@@ -68,6 +68,12 @@ function Btns() {
 
           case '人物搜索':
             navigation.push('TinygrailSearch')
+            break
+
+          case '小组讨论':
+            navigation.push('Group', {
+              groupId: 'tinygrail'
+            })
             break
 
           case '意见反馈':

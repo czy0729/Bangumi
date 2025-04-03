@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-05 12:14:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 16:45:16
+ * @Last Modified time: 2025-04-04 07:51:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,8 @@ import { _, useStore } from '@stores'
 import { stl, tinygrailOSS } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function Result({ style }) {
@@ -27,7 +28,6 @@ function Result({ style }) {
               <View style={_.mr.sm}>
                 <Avatar
                   src={tinygrailOSS(item.icon)}
-                  size={28}
                   borderColor='transparent'
                   skeletonType='tinygrail'
                   onPress={() => {
@@ -72,7 +72,10 @@ function Result({ style }) {
               >
                 <Text type='tinygrailPlain' bold>
                   <Text type='bid'>{item.ico ? '[ICO] ' : ''}</Text>
-                  {item.name} #{item.id}
+                  {item.name}{' '}
+                  <Text type='tinygrailText' bold>
+                    #{item.id}
+                  </Text>
                 </Text>
               </Touchable>
             </Flex.Item>
@@ -83,4 +86,4 @@ function Result({ style }) {
   )
 }
 
-export default ob(Result)
+export default ob(Result, COMPONENT)

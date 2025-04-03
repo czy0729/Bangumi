@@ -2,19 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-10-29 20:49:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-17 05:38:22
+ * @Last Modified time: 2025-04-04 07:23:22
  */
 import React from 'react'
 import { ListView } from '@components'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../types'
-import Item from '../../_/item'
-
-const EVENT = {
-  id: '粘贴板.跳转'
-} as const
+import { Ctx } from '../../types'
+import { renderItem } from './utils'
+import { COMPONENT } from './ds'
 
 function List() {
   const { $ } = useStore<Ctx>()
@@ -39,8 +36,4 @@ function List() {
   )
 }
 
-export default ob(List)
-
-function renderItem({ item, index }) {
-  return <Item index={index} event={EVENT} {...item} />
-}
+export default ob(List, COMPONENT)

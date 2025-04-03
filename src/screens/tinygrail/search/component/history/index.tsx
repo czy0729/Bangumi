@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-03 22:06:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 16:44:38
+ * @Last Modified time: 2025-04-04 07:43:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,8 @@ import { Flex, Iconfont, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function History({ style }) {
@@ -48,4 +49,4 @@ function History({ style }) {
   )
 }
 
-export default ob(History)
+export default ob(History, COMPONENT)

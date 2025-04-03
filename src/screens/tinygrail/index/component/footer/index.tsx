@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-04 16:25:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-06 19:03:16
+ * @Last Modified time: 2025-04-04 07:03:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -49,26 +49,6 @@ function Footer() {
       <Touchable
         style={styles.touch}
         onPress={() => {
-          t('小圣杯.跳转', {
-            to: 'Group',
-            title: '小组讨论'
-          })
-
-          navigation.push('Group', {
-            groupId: 'tinygrail'
-          })
-        }}
-      >
-        <Text type='tinygrailText' size={12}>
-          小组讨论
-        </Text>
-      </Touchable>
-      <Text style={styles.split} type='tinygrailText'>
-        ·
-      </Text>
-      <Touchable
-        style={styles.touch}
-        onPress={() => {
           open('https://fuyuake.top/xsb/chara/all')
         }}
       >
@@ -100,6 +80,24 @@ function Footer() {
       >
         <Text type='tinygrailText' size={12}>
           {systemStore.setting.homeRenderTabs.includes('Tinygrail') ? '已' : '启用'}常驻
+        </Text>
+      </Touchable>
+      <Text style={styles.split} type='tinygrailText'>
+        ·
+      </Text>
+      <Touchable
+        style={styles.touch}
+        onPress={() => {
+          t('小圣杯.跳转', {
+            to: 'TinygrailSearch',
+            title: '人物搜索'
+          })
+
+          navigation.push('TinygrailSearch')
+        }}
+      >
+        <Text type='tinygrailText' size={12}>
+          人物搜索
         </Text>
       </Touchable>
     </Flex>

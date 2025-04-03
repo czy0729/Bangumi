@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-11-30 20:28:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 10:29:49
+ * @Last Modified time: 2025-04-04 07:26:04
  */
 import React from 'react'
 import { Button, Flex } from '@components'
 import { useStore } from '@stores'
 import { confirm } from '@utils'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function Btn() {
@@ -37,4 +38,4 @@ function Btn() {
   )
 }
 
-export default ob(Btn)
+export default ob(Btn, COMPONENT)
