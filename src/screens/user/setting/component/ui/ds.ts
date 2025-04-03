@@ -2,10 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-07-18 07:07:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-11 04:47:21
+ * @Last Modified time: 2025-04-03 20:27:15
  */
 import { rc } from '@utils/dev'
-import { IMG_HEIGHT_SM, IMG_WIDTH_SM, SETTING_FONTSIZEADJUST, SETTING_TRANSITION } from '@constants'
+import {
+  IMG_HEIGHT_SM,
+  IMG_WIDTH_SM,
+  MODEL_SETTING_TRANSITION,
+  SETTING_FONTSIZEADJUST,
+  SETTING_TRANSITION
+} from '@constants'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'UI')
@@ -69,9 +75,20 @@ export const TEXTS = {
     information: '按钮被按下时产生涟漪效果，关闭可提升性能'
   },
   transition: {
-    hd: '切页动画',
-    information: '不建议更改，切换可能需要重新启动才能正确生效',
-    search: SETTING_TRANSITION.map(item => item.label).join()
+    setting: {
+      title: '切页动画',
+      information: '不建议更改，切换可能需要重新启动才能正确生效',
+      search: SETTING_TRANSITION.map(item => item.label).join()
+    },
+    horizontal: {
+      title: MODEL_SETTING_TRANSITION.getLabel('horizontal')
+    },
+    vertical: {
+      title: MODEL_SETTING_TRANSITION.getLabel('vertical')
+    },
+    scale: {
+      title: MODEL_SETTING_TRANSITION.getLabel('scale')
+    }
   },
   vibration: {
     hd: '震动',

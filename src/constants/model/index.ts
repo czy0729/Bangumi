@@ -4,9 +4,9 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-20 10:39:18
+ * @Last Modified time: 2025-04-03 20:25:39
  */
-import { HOST_DMZJ } from '../constants'
+import { HOST_DMZJ, IOS } from '../constants'
 import { Model } from './utils'
 
 /** 条目类型 */
@@ -619,7 +619,7 @@ export const SETTING_TRANSITION = [
     value: 'vertical'
   },
   {
-    label: '居中缩放',
+    label: IOS ? '渐变' : '居中缩放',
     value: 'scale'
   }
 ] as const
