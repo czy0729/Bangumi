@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:19:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-22 07:01:48
+ * @Last Modified time: 2025-04-07 06:32:26
  */
 import { Alert, BackHandler } from 'react-native'
 import { ON_AIR } from '@stores/calendar/onair'
@@ -240,14 +240,16 @@ export function tinygrailOSS(str: string, w: 120 | 150 | 480 = 120) {
   if (typeof str !== 'string') return str
 
   if (str.includes('lain.bgm.tv')) {
-    const cover = str
+    let cover = str
       .replace(/lain.bgm.tv\/pic\/crt\/(g|s|c|m)\//, `lain.bgm.tv/pic/crt/l/`)
       .replace(/r\/\d+\//, '')
-    return cover.includes('/user/')
+    cover = cover.includes('/user/')
       ? cover
       : w === 120
       ? cover.replace('/l/', '/g/')
       : cover.replace('pic/crt/', `r/200/pic/crt/`)
+    if (cover.startsWith('//')) cover = `https:${cover}`
+    return cover
   }
 
   if (str.includes('aliyuncs.com') || str.includes('tinygrail.mange.cn')) {

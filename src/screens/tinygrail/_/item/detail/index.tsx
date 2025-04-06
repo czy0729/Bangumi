@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-03 23:17:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-03 20:50:39
+ * @Last Modified time: 2025-04-07 04:57:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,14 +23,7 @@ import {
   calculateRate,
   calculateTotalRate,
   decimal,
-  SORT_CCJZ,
-  SORT_FHL,
-  SORT_SSGX,
-  SORT_SSSJ,
-  SORT_SSZGX,
-  SORT_XJB,
-  SORT_XX,
-  SORT_XZL
+  getCharaItemSortText
 } from '@tinygrail/_/utils'
 import { COLOR_MAP, TIMEZONE, TYPES } from './ds'
 import { styles } from './styles'
@@ -51,10 +44,7 @@ function Detail(props) {
     state,
     total,
     type,
-    users,
-    current,
-    listedDate,
-    sort
+    users
   } = props
   const { _stockPreview: stockPreview } = tinygrailStore.state
   const isICO = !!end
@@ -131,28 +121,7 @@ function Detail(props) {
     icoHighlight = distance === 1 || distance === 2
   }
 
-  let sortText: string
-  if (sort) {
-    if (sort === SORT_SSZGX.value) {
-      sortText = `${SORT_SSZGX.label}${decimal(calculateTotalRate(props, true))}`
-    } else if (sort === SORT_XX.value) {
-      sortText = `${SORT_XX.label}${stars}`
-    } else if (sort === SORT_XZL.value) {
-      sortText = `${SORT_XZL.label}${formatNumber(starForces, 0)}`
-    } else if (sort === SORT_SSGX.value) {
-      sortText = `${SORT_SSGX.label}${Number(toFixed(calculateRate(rate, rank, stars), 1))}`
-    } else if (sort === SORT_XJB.value) {
-      sortText = `${SORT_XJB.label}${Number(
-        toFixed(calculateRate(rate, rank, stars) / (current || 10000))
-      )}`
-    } else if (sort === SORT_FHL.value) {
-      sortText = `${SORT_FHL.label}${decimal(total)}`
-    } else if (sort === SORT_CCJZ.value) {
-      sortText = `${SORT_CCJZ.label}${decimal((state || 0) * (current || 0))}`
-    } else if (sort === SORT_SSSJ.value) {
-      sortText = `${SORT_SSSJ.label} ${String(listedDate || '').split('T')?.[0]}`
-    }
-  }
+  const sortText = getCharaItemSortText(props)
 
   let prevText: string
   if (TYPES.includes(type) && state) {

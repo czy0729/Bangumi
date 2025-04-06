@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-06 19:27:46
+ * @Last Modified time: 2025-04-07 05:59:15
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Iconfont, Touchable } from '@components'
+import { Iconfont, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
@@ -37,6 +37,7 @@ function ItemTemple({
   lastActive,
   type,
   userId,
+  extra,
   onPress,
   onItem
 }: Props) {
@@ -80,6 +81,11 @@ function ItemTemple({
             </Touchable>
           )}
         </View>
+      )}
+      {!!extra && (
+        <Text style={_.mt.sm} type='tinygrailText' size={10} align='center' bold>
+          {extra}
+        </Text>
       )}
     </View>
   )

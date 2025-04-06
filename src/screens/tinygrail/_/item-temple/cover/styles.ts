@@ -2,32 +2,36 @@
  * @Author: czy0729
  * @Date: 2024-03-05 04:21:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-13 08:02:31
+ * @Last Modified time: 2025-04-07 07:00:55
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => {
   const { width } = _.grid(3)
-  const imageHeight = width * 1.28
-  const imageResizeWidth = width * 1.2
-  const imageResizeHeight = imageHeight * 1.2
+  const imageHeight = Math.floor(width * 1.28)
+  const imageResizeWidth = Math.floor(width * 1.16)
+  const imageResizeHeight = Math.floor(imageHeight * 1.16)
   return {
     wrap: {
       width,
       height: imageHeight,
-      borderRadius: _.radiusSm,
+      borderRadius: _.radiusXs,
       overflow: 'hidden'
     },
     image: {
       position: 'absolute',
-      zIndex: 1,
+      zIndex: 2,
       top: 0,
       left: 0,
-      marginLeft: -(imageResizeWidth - width) / 2
+      width,
+      height: imageHeight
     },
     imageResize: {
       width: imageResizeWidth,
-      height: imageResizeHeight
+      height: imageResizeHeight,
+      marginTop: -(imageResizeHeight - imageHeight) / 3,
+      marginLeft: -(imageResizeWidth - width) / 2,
+      backgroundColor: '#fff'
     },
     absolute: {
       position: 'absolute',
@@ -43,7 +47,7 @@ export const memoStyles = _.memoStyles(() => {
       minWidth: 28,
       padding: 2,
       paddingBottom: 4,
-      borderBottomRightRadius: _.radiusSm,
+      borderBottomRightRadius: _.radiusXs,
       overflow: 'hidden'
     }
   }

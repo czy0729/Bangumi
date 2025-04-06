@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-04 13:51:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-03 21:05:59
+ * @Last Modified time: 2025-04-07 06:23:43
  */
 import { ToastAndroid } from 'react-native'
 import { _, tinygrailStore } from '@stores'
@@ -428,3 +428,58 @@ function _info(message: string) {
 export const throttleInfo = throttle(_info, IOS ? 400 : ToastAndroid.SHORT) as (
   info: string
 ) => void
+
+/** 获取当前排序, 角色、圣殿根据的根据信息 */
+export function getCharaItemSortText(props: any, showAll: boolean = false) {
+  const {
+    sort,
+    stars,
+    starForces,
+    rate,
+    rank,
+    cLevel,
+    level,
+    current,
+    total,
+    state,
+    sacrifices,
+    listedDate
+  } = props || {}
+  let text = ''
+  if (!sort) return text
+
+  if (sort === SORT_SSZGX.value) {
+    text = `${SORT_SSZGX.label} ${decimal(calculateTotalRate(props, true))}`
+  } else if (sort === SORT_XX.value) {
+    text = `${SORT_XX.label} ${stars}`
+  } else if (sort === SORT_XZL.value) {
+    text = `${SORT_XZL.label} ${formatNumber(starForces, 0)}`
+  } else if (sort === SORT_SSGX.value) {
+    text = `${SORT_SSGX.label} ${Number(toFixed(calculateRate(rate, rank, stars), 1))}`
+  } else if (sort === SORT_XJB.value) {
+    text = `${SORT_XJB.label} ${Number(
+      toFixed(calculateRate(rate, rank, stars) / (current || 10000))
+    )}`
+  } else if (sort === SORT_FHL.value) {
+    text = `${SORT_FHL.label} ${decimal(total || 0)}`
+  } else if (sort === SORT_CCJZ.value) {
+    text = `${SORT_CCJZ.label} ${decimal((state || 0) * (current || 0))}`
+  } else if (sort === SORT_SSSJ.value) {
+    text = `${SORT_SSSJ.label} ${String(listedDate || '').split('T')?.[0]}`
+  } else if (showAll) {
+    if (sort === SORT_CGS.value) {
+      text = `${SORT_CGS.label} ${state || 0}`
+    } else if (sort === SORT_GDZC.value) {
+      text = `${SORT_GDZC.label} ${decimal(sacrifices || 0)}`
+    } else if (sort === SORT_DJ.value) {
+      text = `${SORT_DJ.label} ${cLevel || level || 0}`
+    } else if (sort === SORT_PM.value) {
+      text = `${SORT_PM.label} ${rank || 0}`
+    } else if (sort === SORT_PM.value) {
+      text = `${SORT_PM.label} ${rank || 0}`
+    } else if (sort === SORT_DQJ.value) {
+      text = `${SORT_DQJ.label} ${decimal(current || 0)}`
+    }
+  }
+  return text
+}
