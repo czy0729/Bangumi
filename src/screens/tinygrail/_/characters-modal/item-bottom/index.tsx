@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-03 15:08:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-16 17:33:10
+ * @Last Modified time: 2025-04-06 19:15:29
  */
 import React from 'react'
 import { Avatar, Flex, Text, Touchable } from '@components'
@@ -15,6 +15,7 @@ function ItemBottom({ src, name, level, change, type, onPress }) {
     <Touchable onPress={onPress}>
       <Flex>
         <Avatar
+          key={tinygrailOSS(src)}
           src={tinygrailOSS(src)}
           size={32}
           name={name}

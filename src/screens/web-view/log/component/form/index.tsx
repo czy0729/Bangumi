@@ -23,7 +23,7 @@ function Form() {
 
   return useObserver(() => {
     const styles = memoStyles()
-    const { show, showName } = $.state
+    const { show, showName, showTour, showDefault } = $.state
     return (
       <>
         {show && <View style={styles.mask} />}
@@ -69,11 +69,23 @@ function Form() {
             </Flex>
             <Flex style={_.mt.sm} justify='end'>
               <Flex.Item>
-                <Touchable style={styles.touch} onPress={$.onToggleName}>
-                  <Text type='sub' size={12} bold>
-                    name: {showName ? 'yes' : 'no'}
-                  </Text>
-                </Touchable>
+                <Flex>
+                  <Touchable style={styles.touch} onPress={$.onToggleName}>
+                    <Text style={!showName && styles.lineThrough} type='sub' size={12} bold>
+                      name
+                    </Text>
+                  </Touchable>
+                  <Touchable style={styles.touch} onPress={$.onToggleTour}>
+                    <Text style={!showTour && styles.lineThrough} type='sub' size={12} bold>
+                      tour
+                    </Text>
+                  </Touchable>
+                  <Touchable style={styles.touch} onPress={$.onToggleDefault}>
+                    <Text style={!showDefault && styles.lineThrough} type='sub' size={12} bold>
+                      default
+                    </Text>
+                  </Touchable>
+                </Flex>
               </Flex.Item>
               <Touchable style={styles.touch} onPress={$.onCopy}>
                 <Text type='sub' size={12} bold>

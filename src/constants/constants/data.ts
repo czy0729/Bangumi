@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-02 12:03:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-21 13:06:12
+ * @Last Modified time: 2025-04-06 08:30:58
  */
 import { ImageRequireSource } from 'react-native'
 import PropTypes from 'prop-types'
@@ -479,6 +479,9 @@ export const DATA_META = ['公共标签', '用户标签'] as const
 
 /** 1 分钟 */
 export const M1 = 60
+
+/** 2 分钟 */
+export const M2 = M1 * 2
 
 /** 5 分钟 */
 export const M5 = M1 * 5

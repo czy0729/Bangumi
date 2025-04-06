@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-24 20:30:05
+ * @Last Modified time: 2025-04-06 08:09:11
  */
 import React from 'react'
 import { Loading } from '@components'
@@ -38,7 +38,7 @@ function List({ id }: Props) {
     data = $.myCharaAssets.ico
   }
 
-  const onHeaderRefresh = () => {
+  const handleHeaderRefresh = () => {
     if (isMerge) {
       $.fetchTemple()
       return $.fetchMyCharaAssets()
@@ -46,6 +46,7 @@ function List({ id }: Props) {
 
     return isTemple ? $.fetchTemple() : $.fetchMyCharaAssets()
   }
+  const handleRenderItem = ({ item, index }) => <Item id={id} index={index} item={item} />
 
   const numColumns = isTemple ? 3 : undefined
   return (
@@ -57,8 +58,8 @@ function List({ id }: Props) {
       contentContainerStyle={isTemple ? styles.temple : styles.list}
       data={data.list}
       numColumns={numColumns}
-      renderItem={({ item, index }) => <Item id={id} index={index} item={item} />}
-      onHeaderRefresh={onHeaderRefresh}
+      renderItem={handleRenderItem}
+      onHeaderRefresh={handleHeaderRefresh}
     />
   )
 }

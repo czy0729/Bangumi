@@ -9,13 +9,13 @@ import { View } from 'react-native'
 import { Flex, Text } from '@components'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { Ctx, Stats as StatsType } from '../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Stats({ u }) {
+function Stats({ u }: any) {
   const { $ } = useStore<Ctx>()
-  const data = $.stats(u)
+  const data: StatsType = u ? $.stats(u) : $.state.series
   if (!data) return null
 
   const { length } = data.a
@@ -43,7 +43,7 @@ function Stats({ u }) {
           <Text type={sum >= 100 ? 'main' : 'sub'} size={10}>
             {sum}
           </Text>
-          , {length})
+          , {length}, {(sum / length).toFixed(1)}, {(sum / 30).toFixed(1)})
         </Text>
       </Flex>
       <Flex.Item />

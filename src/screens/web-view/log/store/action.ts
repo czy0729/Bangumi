@@ -16,6 +16,12 @@ export default class Action extends Fetch {
     })
   }
 
+  onToggleStats = () => {
+    this.setState({
+      showStats: !this.state.showStats
+    })
+  }
+
   onChange = (key: keyof typeof STATE, value: string) => {
     this.setState({
       [key]: value
@@ -32,6 +38,20 @@ export default class Action extends Fetch {
   onToggleName = () => {
     this.setState({
       showName: !this.state.showName
+    })
+    this.save()
+  }
+
+  onToggleTour = () => {
+    this.setState({
+      showTour: !this.state.showTour
+    })
+    this.save()
+  }
+
+  onToggleDefault = () => {
+    this.setState({
+      showDefault: !this.state.showDefault
     })
     this.save()
   }

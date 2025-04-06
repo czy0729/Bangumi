@@ -2,21 +2,21 @@
  * @Author: czy0729
  * @Date: 2022-06-08 11:00:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-24 20:28:05
+ * @Last Modified time: 2025-04-06 08:28:37
  */
 import React from 'react'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { useNavigation } from '@utils/hooks'
 import ItemTemple from '@tinygrail/_/item-temple'
+import { Ctx } from '../../types'
 import ItemEdit from '../item-edit'
 import { COMPONENT, EVENT } from './ds'
 import { styles } from './styles'
 import { Props } from './types'
 
 function Item({ id, index, item }: Props) {
-  const navigation = useNavigation()
+  const { $, navigation } = useStore<Ctx>()
   if (id === 'temple') {
     return (
       <ItemTemple
@@ -32,6 +32,7 @@ function Item({ id, index, item }: Props) {
             monoId: item.id
           })
         }}
+        onItem={() => $.onShowModal(item.id)}
       />
     )
   }

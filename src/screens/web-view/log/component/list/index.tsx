@@ -11,7 +11,6 @@ import { _, useStore } from '@stores'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
-import Summary from '../summary'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
 
@@ -31,7 +30,6 @@ function List() {
         skipEnteringExitingAnimations={10}
         data={data.list}
         limit={20}
-        ListHeaderComponent={<Summary />}
         renderItem={renderItem}
         onHeaderRefresh={$.getData}
       />

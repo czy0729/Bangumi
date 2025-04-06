@@ -11,6 +11,7 @@ import { _, StoreContext } from '@stores'
 import { NavigationProps } from '@types'
 import Form from './component/form'
 import List from './component/list'
+import Summary from './component/summary'
 import Header from './header'
 import { useLogPage } from './hooks'
 
@@ -26,6 +27,7 @@ const Log = (props: NavigationProps) => {
         </Page>
         <Form />
         <Header />
+        <Summary />
       </StoreContext.Provider>
     </Component>
   ))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-01 17:20:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-16 17:31:19
+ * @Last Modified time: 2025-04-06 19:15:17
  */
 import React from 'react'
 import { Avatar, Flex, Text, Touchable } from '@components'
@@ -33,7 +33,13 @@ function Item({
     <Touchable onPress={() => onPress(item)}>
       <Flex style={stl(styles.item, !disabled && styles[type])}>
         {src ? (
-          <Avatar src={tinygrailOSS(src)} size={30} radius={_.radiusXs} skeletonType='tinygrail' />
+          <Avatar
+            key={tinygrailOSS(src)}
+            src={tinygrailOSS(src)}
+            size={30}
+            radius={_.radiusXs}
+            skeletonType='tinygrail'
+          />
         ) : (
           <Text type='tinygrailPlain' size={9} lineHeight={10} bold numberOfLines={1}>
             #{id}{' '}

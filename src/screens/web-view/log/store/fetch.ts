@@ -35,10 +35,26 @@ export default class Fetch extends Computed {
             u: item.urlPath,
             r: item.referrerDomain,
             d: item.createdAt
-          })),
+          }))
+          .filter(
+            (item: { u: any }, index: any, self: any[]) =>
+              index === self.findIndex(t => t.u === item.u)
+          ),
         _loaded: getTimestamp()
       }
     })
+
+    if (response?.data?.series) {
+      const keys = Object.keys(response.data.series).sort((a, b) => a.localeCompare(b))
+      this.setState({
+        series: {
+          a: response.data.series[keys[0]].map(item => item.y),
+          // b: response.data[keys[1]],
+          _loaded: getTimestamp()
+        }
+      })
+      this.save()
+    }
 
     await this.getUsers()
     await this.getInfos()
@@ -226,14 +242,22 @@ export default class Fetch extends Computed {
   }
 
   getStatsQueue = async () => {
-    const { url2, authorization, data, stats } = this.state
+    const { url2, authorization, data, stats, showTour, showDefault } = this.state
     if (!url2 || !authorization) return false
 
-    const { list } = data
-    if (!list.length) return false
+    const filterList = data.list.filter(item => {
+      let flag = true
+      if (!showTour || !showDefault) {
+        const users = this.users(item.u)
+        if (!showTour && !users?.n) flag = false
+        if (!showDefault && !users?.a) flag = false
+      }
+      return flag
+    })
+    if (!filterList.length) return false
 
-    for (let i = 0; i < list.length; i += 1) {
-      const { u } = list[i]
+    for (let i = 0; i < filterList.length; i += 1) {
+      const { u } = filterList[i]
       if (u in stats) continue
 
       const id = u.split('user/')?.[1] || ''

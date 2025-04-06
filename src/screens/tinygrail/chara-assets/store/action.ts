@@ -2,11 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-10-24 20:22:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-04 17:23:50
+ * @Last Modified time: 2025-04-06 22:33:40
  */
 import { tinygrailStore } from '@stores'
-import { alert, confirm, copy, feedback, info } from '@utils'
+import { alert, confirm, copy, feedback, info, toFixed } from '@utils'
 import { t } from '@utils/fetch'
+import { ITEMS_TYPE } from '@tinygrail/_/characters-modal'
+import { ItemUseParams } from '@tinygrail/items/types'
+import { FnParams, Override } from '@types'
 import { PER_BATCH_COUNT } from '../ds'
 import { Direction } from '../types'
 import Fetch from './fetch'
@@ -145,6 +148,24 @@ export default class Action extends Fetch {
 
     const start = startIndex === -1 ? 1 : startIndex + 2
     info(`已选 ${start} - ${start + PER_BATCH_COUNT - 1}`)
+  }
+
+  /** 打开道具模态框 */
+  onShowModal = (monoId: number) => {
+    this.setState({
+      visible: true,
+      title: '星光碎片',
+      monoId
+    })
+  }
+
+  /** 关闭道具模态框 */
+  onCloseModal = () => {
+    this.setState({
+      visible: false,
+      title: '',
+      monoId: 0
+    })
   }
 
   /** 批量献祭 */
@@ -292,5 +313,59 @@ export default class Action extends Fetch {
       `已复制 ${items.length} 个角色的分享链接`
     )
     this.toggleBatchEdit()
+  }
+
+  /** 使用道具 */
+  doUse = async (
+    params: Override<
+      ItemUseParams,
+      {
+        leftItem?: any
+        rightItem?: any
+      }
+    >
+  ) => {
+    try {
+      const { title, monoId, toMonoId, amount, isTemple } = params
+      const type = ITEMS_TYPE[title]
+      if (!type) return false
+
+      const data: FnParams<typeof tinygrailStore.doMagic> = {
+        monoId,
+        type
+      }
+      if (toMonoId) data.toMonoId = toMonoId
+      if (amount !== undefined) data.amount = amount
+      if (isTemple !== undefined) data.isTemple = isTemple
+
+      const { State, Value, Message } = await tinygrailStore.doMagic(data)
+      feedback()
+
+      if (State === 0) {
+        alert(
+          typeof Value === 'string'
+            ? Value
+            : `获得${Value.Name}x${Value.Amount}，当前价${toFixed(
+                Value.CurrentPrice,
+                2
+              )}，价值${toFixed(Value.Amount * Value.CurrentPrice, 2)}`,
+          '小圣杯助手'
+        )
+
+        if (title === '星光碎片') {
+          tinygrailStore.batchUpdateTemplesByIds([monoId, toMonoId])
+        }
+
+        return tinygrailStore.batchUpdateMyCharaAssetsByIds(
+          [monoId, toMonoId].filter(item => !!item)
+        )
+      }
+
+      info(Message)
+      return false
+    } catch (error) {
+      info('操作失败，可能授权过期了')
+      return false
+    }
   }
 }

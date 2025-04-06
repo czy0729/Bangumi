@@ -8,6 +8,7 @@ import { _ } from '@stores'
 
 export const styles = _.create({
   stats: {
+    minWidth: _.window.contentWidth - 80,
     height: 32,
     paddingLeft: 6,
     marginTop: _.sm,

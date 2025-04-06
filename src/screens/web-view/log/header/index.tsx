@@ -9,30 +9,35 @@ import { HeaderV2 } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
+import { WEB } from '@constants'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 
 function Header() {
   const { $ } = useStore<Ctx>()
-  const { show } = $.state
+  const { show, showStats } = $.state
+  const itemProps = {
+    style: _.mr.xs,
+    size: 18,
+    color: _.colorDesc
+  } as const
   return (
     <HeaderV2
       title={$.headerInfo || '错误上报分析'}
       headerTitleAlign='left'
       headerRight={() => (
         <>
+          {WEB && <IconTouchable {...itemProps} name='md-refresh' onPress={$.getData} />}
+          <IconTouchable {...itemProps} name='md-insert-chart-outlined' onPress={$.getStatsQueue} />
           <IconTouchable
-            style={_.mr.xs}
-            name='md-insert-chart-outlined'
-            size={18}
-            color={_.colorDesc}
-            onPress={$.getStatsQueue}
+            {...itemProps}
+            name='md-waterfall-chart'
+            color={showStats ? _.colorMain : _.colorDesc}
+            onPress={$.onToggleStats}
           />
           <IconTouchable
-            style={_.mr.xs}
+            {...itemProps}
             name={show ? 'md-close' : 'md-notes'}
-            size={20}
-            color={_.colorDesc}
             onPress={$.onToggleForm}
           />
         </>

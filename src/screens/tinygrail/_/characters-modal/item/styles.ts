@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-11-11 06:59:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-02 11:34:34
+ * @Last Modified time: 2025-04-06 18:44:52
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   item: {
-    height: 48,
-    paddingVertical: 5,
+    height: 44,
     paddingHorizontal: 6,
     marginBottom: _.sm,
     borderWidth: 1,

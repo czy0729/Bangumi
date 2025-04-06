@@ -17,7 +17,8 @@ export const memoStyles = _.memoStyles(() => ({
     marginLeft: 12
   },
   active: {
-    backgroundColor: _.colorBg
+    backgroundColor: _.select(_.colorBg, _.colorDarkModeLevel2),
+    borderBottomWidth: 0
   },
   tags: {
     paddingRight: 100

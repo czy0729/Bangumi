@@ -47,5 +47,8 @@ export const memoStyles = _.memoStyles(() => ({
   },
   touch: {
     padding: 8
+  },
+  lineThrough: {
+    textDecorationLine: 'line-through'
   }
 }))

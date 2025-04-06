@@ -26,9 +26,12 @@ function Item({ i, d, o, u, r }) {
   const { $, navigation } = useStore<Ctx>()
 
   return useObserver(() => {
+    const users = $.users(u)
+    if (!users?.n && !$.state.showTour) return null
+    if (!users?.a && !$.state.showDefault) return null
+
     const styles = memoStyles()
     const { navigate, url2, referer, event, showName } = $.state
-    const users = $.users(u)
     const infos = $.infos(u)
     const id = u.split('user/')?.[1] || ''
     const platform = infos?.i ? 'IPA' : String(o).toLocaleLowerCase().includes('ios') ? 'iOS' : ''
@@ -57,7 +60,7 @@ function Item({ i, d, o, u, r }) {
 
         <Flex.Item style={styles.content}>
           <Flex style={_.mb.sm}>
-            <Text type={infos?.a ? 'main' : 'desc'} size={13} bold>
+            <Text type={infos?.a ? 'warning' : 'desc'} size={13} bold>
               {text}
             </Text>
             {!isTour && (
@@ -72,6 +75,7 @@ function Item({ i, d, o, u, r }) {
                 </Text>
               </Touchable>
             )}
+            {!!amount && <Tag style={_.ml.sm} value={amount} />}
           </Flex>
           <Flex style={styles.tags} wrap='wrap'>
             {(!!infos?.v || r) && (
@@ -97,7 +101,6 @@ function Item({ i, d, o, u, r }) {
               />
             )}
             {!!platform && <Tag style={styles.tag} value={platform} type='primary' />}
-            {!!amount && <Tag style={styles.tag} value={amount} />}
           </Flex>
           <Stats u={u} />
           {$.state.detail === `${i}${d}` && <Detail id={id} />}

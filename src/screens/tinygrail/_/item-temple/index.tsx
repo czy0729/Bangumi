@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-20 12:06:58
+ * @Last Modified time: 2025-04-06 19:27:46
  */
 import React from 'react'
 import { View } from 'react-native'
+import { Iconfont, Touchable } from '@components'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
@@ -36,7 +37,8 @@ function ItemTemple({
   lastActive,
   type,
   userId,
-  onPress
+  onPress,
+  onItem
 }: Props) {
   const navigation = useNavigation()
   const styles = memoStyles()
@@ -70,7 +72,14 @@ function ItemTemple({
         cLevel={cLevel}
       />
       {!isFromTemplesPage && !!sacrifices && (
-        <Progress style={_.mt.sm} size='sm' assets={assets} sacrifices={sacrifices} />
+        <View style={_.mt.sm}>
+          <Progress size='sm' assets={assets} sacrifices={sacrifices} />
+          {sacrifices - assets >= 50 && (
+            <Touchable style={styles.btn} onPress={onItem}>
+              <Iconfont name='md-add' size={13} color={'rgba(255, 255, 255, 0.4)'} />
+            </Touchable>
+          )}
+        </View>
       )}
     </View>
   )

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-26 02:04:38
+ * @Last Modified time: 2025-04-06 19:42:57
  */
 import React from 'react'
-import { BackHandler, View } from 'react-native'
+import { View } from 'react-native'
 import { computed } from 'mobx'
 import { Button, Flex, Iconfont, Modal, Text } from '@components'
 import { Popover } from '@_'
@@ -22,28 +22,29 @@ import {
   trim
 } from '@utils'
 import { ob } from '@utils/decorators'
-import { FROZEN_FN } from '@constants'
+import { FROZEN_FN, M2 } from '@constants'
 import { calculateRate } from '../utils'
+import BackHandler from './back-handler'
 import Item from './item'
 import ItemBottom from './item-bottom'
 import List from './list'
 import SearchInput from './search-input'
 import { assets, bottomTextType, charge, cover, lv, rk } from './utils'
-import { HIT_SLOP, ITEMS_TYPE, ITEMS_USED, NAMESPACE } from './ds'
+import { HIT_SLOP, ITEMS_NOTIFY, ITEMS_TYPE, ITEMS_USED, NAMESPACE } from './ds'
 import { memoStyles } from './styles'
-import { Props } from './types'
+import { PickItem, Props, State } from './types'
 
 export { ITEMS_TYPE, ITEMS_USED }
 
-class CharactersModal extends React.Component<Props> {
-  static defaultProps = {
+class CharactersModal extends React.Component<Props, State> {
+  static defaultProps: Props = {
     title: '',
     visible: false,
     onClose: FROZEN_FN,
     onSubmit: FROZEN_FN
   }
 
-  state = {
+  state: State = {
     leftItem: null,
     leftValue: '',
     leftFilter: '',
@@ -58,9 +59,11 @@ class CharactersModal extends React.Component<Props> {
     focus: false
   }
 
-  title: any
+  private _title: string
 
   async componentDidMount() {
+    this._title = this.props.title
+
     const state = (await getStorage(NAMESPACE)) || {}
     this.setState({
       ...state,
@@ -70,25 +73,15 @@ class CharactersModal extends React.Component<Props> {
       focus: false,
       title: this.props.title
     })
-    this.title = this.props.title
-    this.initFetch()
 
-    BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid)
+    await this.initFetch()
+    this.setDefaultRightItem(this.props.rightItemId)
   }
 
-  componentWillUnmount() {
-    try {
-      BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid)
-    } catch (error) {}
-  }
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    if (nextProps.title !== this._title) {
+      this._title = nextProps.title
 
-  UNSAFE_componentWillReceiveProps(nextProps: {
-    title?: any
-    visible?: any
-    leftItem?: any
-    rightItem?: any
-  }) {
-    if (nextProps.title !== this.title) {
       const { leftItem = null, rightItem = null } = nextProps
       this.setState({
         leftItem,
@@ -96,8 +89,23 @@ class CharactersModal extends React.Component<Props> {
         loading: false,
         title: nextProps.title
       })
-      this.title = nextProps.title
     }
+
+    this.setDefaultRightItem(nextProps.rightItemId)
+  }
+
+  setDefaultRightItem = (nextId: number) => {
+    setTimeout(() => {
+      const id = nextId || this.props.rightItemId
+      if (id && this.right && this.right?.list?.length) {
+        const find = this.right.list.find(item => item.id == id)
+        if (find) {
+          this.setState({
+            rightItem: find
+          })
+        }
+      }
+    }, 0)
   }
 
   onBackAndroid = () => {
@@ -106,10 +114,11 @@ class CharactersModal extends React.Component<Props> {
       onClose()
       return true
     }
+
     return false
   }
 
-  onSelectLeft = (item: { id: any }) => {
+  onSelectLeft = (item: PickItem) => {
     const { leftItem } = this.state
     const actived = leftItem && leftItem.id === item.id
     this.setState(
@@ -129,7 +138,7 @@ class CharactersModal extends React.Component<Props> {
     )
   }
 
-  onSelectRight = (item: { id: any }) => {
+  onSelectRight = (item: PickItem) => {
     const { rightItem } = this.state
     const actived = rightItem && rightItem.id === item.id
     this.setState(
@@ -180,7 +189,7 @@ class CharactersModal extends React.Component<Props> {
     }
   }
 
-  onChangeNum = (value: any) => {
+  onChangeNum = (value: string) => {
     let _value: any = parseInt(value)
     if (Number.isNaN(_value) || _value == 0) _value = ''
     this.setState({
@@ -298,28 +307,28 @@ class CharactersModal extends React.Component<Props> {
     const current = getTimestamp()
     if (
       !this.temple._loaded ||
-      (this.temple._loaded && current - Number(this.temple._loaded) > 120)
+      (this.temple._loaded && current - Number(this.temple._loaded) > M2)
     ) {
-      this.fetchTemple()
+      return this.fetchTemple()
     }
 
-    if (!this.chara._loaded || (this.chara._loaded && current - Number(this.chara._loaded) > 120)) {
-      this.fetchMyCharaAssets()
+    if (!this.chara._loaded || (this.chara._loaded && current - Number(this.chara._loaded) > M2)) {
+      return this.fetchMyCharaAssets()
     }
 
-    if (!this.msrc._loaded || (this.msrc._loaded && current - Number(this.msrc._loaded) > 120)) {
-      this.fetchMsrc()
+    if (!this.msrc._loaded || (this.msrc._loaded && current - Number(this.msrc._loaded) > M2)) {
+      return this.fetchMsrc()
     }
 
-    if (!this.star._loaded || (this.star._loaded && current - Number(this.star._loaded) > 120)) {
-      this.fetchStar()
+    if (!this.star._loaded || (this.star._loaded && current - Number(this.star._loaded) > M2)) {
+      return this.fetchStar()
     }
 
     if (
       !this.fantasy._loaded ||
-      (this.fantasy._loaded && current - Number(this.fantasy._loaded) > 120)
+      (this.fantasy._loaded && current - Number(this.fantasy._loaded) > M2)
     ) {
-      this.fetchFantasy()
+      return this.fetchFantasy()
     }
   }
 
@@ -344,8 +353,7 @@ class CharactersModal extends React.Component<Props> {
   }
 
   @computed get chara() {
-    const { chara } = tinygrailStore.myCharaAssets
-    return chara
+    return tinygrailStore.myCharaAssets.chara
   }
 
   @computed get msrc() {
@@ -362,28 +370,23 @@ class CharactersModal extends React.Component<Props> {
 
   // -------------------- type --------------------
   @computed get isChaos() {
-    const { title } = this.props
-    return title === '混沌魔方'
+    return this.props.title === '混沌魔方'
   }
 
   @computed get isGuidePost() {
-    const { title } = this.props
-    return title === '虚空道标'
+    return this.props.title === '虚空道标'
   }
 
   @computed get isStarDust() {
-    const { title } = this.props
-    return title === '星光碎片'
+    return this.props.title === '星光碎片'
   }
 
   @computed get isStarBreak() {
-    const { title } = this.props
-    return title === '闪光结晶'
+    return this.props.title === '闪光结晶'
   }
 
   @computed get isFishEye() {
-    const { title } = this.props
-    return title === '鲤鱼之眼'
+    return this.props.title === '鲤鱼之眼'
   }
 
   // -------------------- computed data --------------------
@@ -398,7 +401,7 @@ class CharactersModal extends React.Component<Props> {
           .filter(item => {
             if (this.props.leftItem) return item.id === this.props.leftItem.id
 
-            // 一次消耗100且成塔
+            // 一次消耗 100 且成塔
             if (item.assets < 100 || item.sacrifices < 500) return false
 
             if (rightItem) {
@@ -434,6 +437,7 @@ class CharactersModal extends React.Component<Props> {
                     item.name.includes(leftValue) && lv(item) + (isTemple ? 0 : 1) >= lv(rightItem)
                   )
                 }
+
                 return (
                   item.name.includes(leftValue) && assets(item) >= Math.min(32, 2 ** -(_lv + 1))
                 )
@@ -448,7 +452,13 @@ class CharactersModal extends React.Component<Props> {
 
             return true
           })
-          .sort((a, b) => lv(b) - lv(a))
+          .sort((a, b) => {
+            const lA = lv(a)
+            const lB = lv(b)
+            if (lA !== lB) return lB - lA
+
+            return a.current - b.current
+          })
       }
     }
 
@@ -500,11 +510,10 @@ class CharactersModal extends React.Component<Props> {
       (total, level) => total + this.leftLevelMap[level],
       0
     )
-    const leftDS = [
+    return [
       `全部 (${sum})`,
       ...Object.keys(this.leftLevelMap).map(level => `lv${level} (${this.leftLevelMap[level]})`)
     ]
-    return leftDS
   }
 
   @computed get leftChangeText() {
@@ -564,6 +573,8 @@ class CharactersModal extends React.Component<Props> {
         ...this.temple,
         list: this.temple.list
           .filter(item => {
+            if (this.props.rightItemId) return item.id === this.props.rightItemId
+
             if (this.props.rightItem) return item.id === this.props.rightItem.id
 
             if (item.assets === item.sacrifices) return false
@@ -668,13 +679,12 @@ class CharactersModal extends React.Component<Props> {
       (total, level) => total + this.rightLevelMap[level],
       0
     )
-    const rightDS = [
+    return [
       `全部 (${sum})`,
       ...Object.keys(this.rightLevelMap)
         .map(level => `lv${level} (${this.rightLevelMap[level]})`)
         .reverse()
     ]
-    return rightDS
   }
 
   @computed get rightChangeText() {
@@ -701,15 +711,11 @@ class CharactersModal extends React.Component<Props> {
   }
 
   @computed get alert() {
-    if (this.isGuidePost) {
-      return '虚空道标：消耗100点塔值，抽取目标随机数量的股份，消耗目标的等级必须大于等于抽取目标等级。\n左侧数据基于自己的圣殿。\n右侧数据基于最高股息前面的角色，点击搜索可以查询远端所有角色。'
-    }
+    if (this.isGuidePost) return ITEMS_NOTIFY['混沌魔方']
 
-    if (this.isStarDust) {
-      return '星光碎片：消耗活股或塔值补充目标已损失塔值。\n消耗目标的等级必须大于等于补充目标等级，使用活股时消耗等级可以比目标等级少1级。\n塔值少于250时塔会找不到请自行查询远端数据。'
-    }
+    if (this.isStarDust) return ITEMS_NOTIFY['星光碎片']
 
-    return '混沌魔方：消耗10点塔值，抽取随机目标10-100的股份。\n当前每天可使用3次。'
+    return ITEMS_NOTIFY['混沌魔方']
   }
 
   renderFilter(
@@ -719,7 +725,6 @@ class CharactersModal extends React.Component<Props> {
     onSelect: { (lv: any): void; (lv: any): void; (arg0: any): void }
   ) {
     return (
-      // @ts-expect-error
       <Popover.Old
         data={data}
         hitSlop={HIT_SLOP}
@@ -739,7 +744,6 @@ class CharactersModal extends React.Component<Props> {
             {map[filter] ? ` (${map[filter]})` : ''}
           </Text>
         </Flex>
-        {/* @ts-ignore */}
       </Popover.Old>
     )
   }
@@ -763,7 +767,7 @@ class CharactersModal extends React.Component<Props> {
     )
   }
 
-  renderLeftItem = ({ item }) => {
+  renderLeftItem = ({ item }: { item: PickItem }) => {
     const { leftItem, isTemple } = this.state
     const disabled = leftItem?.id !== item?.id
     const extra = []
@@ -837,7 +841,7 @@ class CharactersModal extends React.Component<Props> {
     )
   }
 
-  renderRightItem = ({ item }) => {
+  renderRightItem = ({ item }: { item: PickItem }) => {
     const { rightItem } = this.state
     const disabled = rightItem?.id !== item?.id
     const extra = []
@@ -952,14 +956,17 @@ class CharactersModal extends React.Component<Props> {
           消耗股份
         </Text>
         <Flex.Item style={_.ml.sm}>
-          <SearchInput
+          <Text type='tinygrailPlain' size={10}>
+            {amount}
+          </Text>
+          {/* <SearchInput
             keyboardType='numeric'
             placeholder='数量'
             value={amount}
             onFocus={this.onFocus}
             onBlur={this.onBlur}
             onChangeText={this.onChangeNum}
-          />
+          /> */}
         </Flex.Item>
       </>
     )
@@ -969,20 +976,23 @@ class CharactersModal extends React.Component<Props> {
     const { visible, title } = this.props
     const { focus } = this.state
     return (
-      <Modal
-        style={stl(this.styles.modal, focus && this.styles.focus)}
-        visible={visible}
-        title={title}
-        focus={false}
-        type='tinygrailPlain'
-        onClose={this.onClose}
-      >
-        <Flex style={this.styles.wrap}>
-          <Flex.Item>{this.renderLeft()}</Flex.Item>
-          <Flex.Item style={_.ml.md}>{this.renderRight()}</Flex.Item>
-        </Flex>
-        {this.renderBottom()}
-      </Modal>
+      <>
+        <Modal
+          style={stl(this.styles.modal, focus && this.styles.focus)}
+          visible={visible}
+          title={title}
+          focus={false}
+          type='tinygrailPlain'
+          onClose={this.onClose}
+        >
+          <Flex style={this.styles.wrap}>
+            <Flex.Item>{this.renderLeft()}</Flex.Item>
+            <Flex.Item style={_.ml.md}>{this.renderRight()}</Flex.Item>
+          </Flex>
+          {this.renderBottom()}
+        </Modal>
+        <BackHandler handler={this.onBackAndroid} />
+      </>
     )
   }
 

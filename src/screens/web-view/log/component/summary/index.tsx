@@ -5,13 +5,15 @@
  * @Last Modified time: 2025-04-04 04:17:03
  */
 import React from 'react'
+import { View } from 'react-native'
 import { Flex, ScrollView } from '@components'
-import { Tag } from '@_'
+import { BlurView, Tag } from '@_'
 import { _, useStore } from '@stores'
 import { desc } from '@utils'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
+import Stats from '../stats'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
@@ -21,7 +23,10 @@ function Summary() {
   const { $ } = useStore<Ctx>()
 
   return useObserver(() => {
-    const { list } = $.state.data
+    const { showStats, data } = $.state
+    if (!showStats) return null
+
+    const { list } = data
     if (!list.length) return null
 
     const v: Record<string, number> = {}
@@ -47,26 +52,31 @@ function Summary() {
     })
 
     return (
-      <>
-        <ScrollView style={styles.summary} horizontal>
-          <Flex>
-            {Object.entries(v)
-              .sort((a: any[], b: any[]) => desc(a[1], b[1]))
-              .map(item => (
-                <Tag key={item[0]} style={_.mr.sm} value={`${item[0]} (${item[1]})`} />
-              ))}
-          </Flex>
-        </ScrollView>
-        <ScrollView style={styles.summary} horizontal>
-          <Flex>
-            {Object.entries(b)
-              .sort((a: any[], b: any[]) => desc(a[1], b[1]))
-              .map(item => (
-                <Tag key={item[0]} style={_.mr.sm} value={`${item[0]} (${item[1]})`} />
-              ))}
-          </Flex>
-        </ScrollView>
-      </>
+      <View style={styles.summary}>
+        <BlurView style={styles.blur}>
+          <ScrollView style={styles.row} horizontal>
+            <Flex>
+              {Object.entries(v)
+                .sort((a: any[], b: any[]) => desc(a[1], b[1]))
+                .map(item => (
+                  <Tag key={item[0]} style={_.mr.sm} value={`${item[0]} (${item[1]})`} />
+                ))}
+            </Flex>
+          </ScrollView>
+          <ScrollView style={styles.row} horizontal>
+            <Flex>
+              {Object.entries(b)
+                .sort((a: any[], b: any[]) => desc(a[1], b[1]))
+                .map(item => (
+                  <Tag key={item[0]} style={_.mr.sm} value={`${item[0]} (${item[1]})`} />
+                ))}
+            </Flex>
+          </ScrollView>
+          <View style={styles.row}>
+            <Stats />
+          </View>
+        </BlurView>
+      </View>
     )
   })
 }

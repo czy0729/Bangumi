@@ -6,11 +6,13 @@
  */
 import { Loaded, UserId } from '@types'
 import { COMPONENT } from '../ds'
+import { Stats } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const EXCLUDE_STATE = {
   show: false,
+  showStats: false,
   data2: {},
   detail: ''
 }
@@ -46,14 +48,14 @@ export const STATE = {
     _loaded: false as Loaded
   },
 
+  /** 绘图坐标 */
+  series: {
+    a: [],
+    _loaded: false
+  } as Stats,
+
   /** 错误日均统计次数 */
-  stats: {} as Record<
-    string | number,
-    {
-      a: number[]
-      _loaded: Loaded
-    }
-  >,
+  stats: {} as Record<string | number, Stats>,
 
   users: {} as Record<
     UserId,
@@ -79,6 +81,8 @@ export const STATE = {
   distance: '120000',
   unitDay: '29',
   showName: false,
+  showTour: false,
+  showDefault: false,
 
   ...EXCLUDE_STATE,
   _loaded: false as Loaded
