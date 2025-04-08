@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-06 08:09:11
+ * @Last Modified time: 2025-04-08 19:43:55
  */
-import React from 'react'
-import { Loading } from '@components'
+import React, { useCallback } from 'react'
 import { PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { TINYGRAIL_LIST_PROPS } from '@tinygrail/_/ds'
-import { ListEmpty } from '@types'
 import { Ctx } from '../../types'
 import Item from '../item'
 import { keyExtractor } from './utils'
@@ -19,49 +18,52 @@ import { styles } from './styles'
 import { Props } from './types'
 
 function List({ id }: Props) {
+  r(COMPONENT)
+
   const { $ } = useStore<Ctx>()
-  if (!$.myCharaAssets._loaded) {
-    return <Loading style={_.container.flex} color={_.colorTinygrailText} />
-  }
 
-  const isMerge = id === 'merge'
-  const isChara = id === 'chara'
-  const isTemple = id === 'temple'
-  let data: ListEmpty
-  if (isMerge) {
-    data = $.mergeList
-  } else if (isChara) {
-    data = $.charaList
-  } else if (isTemple) {
-    data = $.temple
-  } else {
-    data = $.myCharaAssets.ico
-  }
-
-  const handleHeaderRefresh = () => {
-    if (isMerge) {
-      $.fetchTemple()
-      return $.fetchMyCharaAssets()
+  return useObserver(() => {
+    const dataSources = {
+      merge: () => $.mergeList,
+      chara: () => $.charaList,
+      temple: () => $.temple,
+      default: () => $.myCharaAssets.ico
     }
 
-    return isTemple ? $.fetchTemple() : $.fetchMyCharaAssets()
-  }
-  const handleRenderItem = ({ item, index }) => <Item id={id} index={index} item={item} />
+    const refreshHandlers = {
+      merge: () => Promise.all([$.fetchTemple, $.fetchMyCharaAssets]),
+      temple: () => $.fetchTemple(),
+      default: () => $.fetchMyCharaAssets()
+    }
 
-  const numColumns = isTemple ? 3 : undefined
-  return (
-    <PaginationList2
-      {...TINYGRAIL_LIST_PROPS}
-      key={`${_.orientation}${numColumns}`}
-      keyExtractor={keyExtractor}
-      style={_.container.flex}
-      contentContainerStyle={isTemple ? styles.temple : styles.list}
-      data={data.list}
-      numColumns={numColumns}
-      renderItem={handleRenderItem}
-      onHeaderRefresh={handleHeaderRefresh}
-    />
-  )
+    const isTemple = id === 'temple'
+    const numColumns = isTemple ? 3 : undefined
+    const data = (dataSources[id] || dataSources.default)() // 惰性执行
+
+    const handleHeaderRefresh = useCallback(
+      () => (refreshHandlers[id] || refreshHandlers.default)(),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [$, id]
+    )
+    const handleRenderItem = useCallback(
+      ({ item, index }) => <Item id={id} index={index} item={item} />,
+      []
+    )
+
+    return (
+      <PaginationList2
+        {...TINYGRAIL_LIST_PROPS}
+        key={`${_.orientation}${numColumns}`}
+        keyExtractor={keyExtractor}
+        style={_.container.flex}
+        contentContainerStyle={isTemple ? styles.temple : styles.list}
+        data={data.list}
+        numColumns={numColumns}
+        renderItem={handleRenderItem}
+        onHeaderRefresh={handleHeaderRefresh}
+      />
+    )
+  })
 }
 
-export default ob(List, COMPONENT)
+export default List

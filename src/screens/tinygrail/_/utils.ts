@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-04 13:51:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-07 06:23:43
+ * @Last Modified time: 2025-04-07 07:30:31
  */
 import { ToastAndroid } from 'react-native'
 import { _, tinygrailStore } from '@stores'
@@ -17,41 +17,32 @@ import {
   toFixed
 } from '@utils'
 import { B, IOS, M } from '@constants'
-import { ColorValue } from '@types'
+import { ColorValue, ListArray } from '@types'
 
 /** 等级背景颜色 */
-export function getLevelBackground(level: number) {
-  let backgroundColor: ColorValue
+export function getLevelBackground(level: number): ColorValue {
   switch (level) {
     case 0:
-      backgroundColor = '#aaa'
-      break
+      return '#aaa'
 
     case 1:
-      backgroundColor = _.colorBid
-      break
+      return _.colorBid
 
     case 2:
-      backgroundColor = _.colorPrimary
-      break
+      return _.colorPrimary
 
     case 3:
-      backgroundColor = '#ffdc51'
-      break
+      return '#ffdc51'
 
     case 4:
-      backgroundColor = _.colorWarning
-      break
+      return _.colorWarning
 
     case 5:
-      backgroundColor = _.colorMain
-      break
+      return _.colorMain
 
     default:
-      backgroundColor = _.colorAsk
-      break
+      return _.colorAsk
   }
-  return backgroundColor
 }
 
 /** 计算角色当前股息比率 */
@@ -62,6 +53,7 @@ export function calculateRatio(rank = 0) {
 /** 计算角色当前股息 (活股) */
 export function calculateRate(rate = 0, rank = 0, stars = 0) {
   if (rank && rank < 501 && rate > 0) return calculateRatio(rank) * rate
+
   return stars * 2
 }
 
@@ -70,23 +62,47 @@ export function calculateTempleRate(rate = 0, rank = 0, stars = 0, level = 0, re
   if (rank && rank < 501 && rate > 0) {
     return (calculateRate(rate, rank, stars) / (2 * level + 1)) * (2 * (level + refine) + 1)
   }
+
   return stars * 2
 }
 
 /** 计算角色当前总股息 */
 export function calculateTotalRate(
   item: {
-    rate: any
-    rank: any
-    stars: any
-    state: any
-    sacrifices: any
-    assets: any
-  },
+    rate?: any
+    rank?: any
+    stars?: any
+    amount?: any
+    state?: any
+    sacrifices?: any
+    assets?: any
+  } = {},
+
+  /** 是否计算基本股息 (通常不传, 并没有太大意义) */
   isBase: boolean = false
 ) {
-  const currentRate = isBase ? item.rate || 0 : calculateRate(item.rate, item.rank, item.stars)
-  return ((item.state || 0) + (item.assets || item.sacrifices || 0)) * currentRate
+  return (
+    (item.amount || item.state || 0) *
+    (isBase ? item.rate || 0 : calculateRate(item.rate, item.rank, item.stars))
+  )
+}
+
+/** 计算角色当前圣殿总股息 */
+export function calculateTempleTotalRate(
+  item: {
+    rate?: any
+    rank?: any
+    stars?: any
+    level?: any
+    cLevel?: any
+    refine?: any
+    assets?: any
+  } = {}
+) {
+  return (
+    calculateTempleRate(item.rate, item.rank, item.stars, item.cLevel || item.level, item.refine) *
+    (item.assets || 0)
+  )
 }
 
 /** 计算角色精炼消耗 */
@@ -96,143 +112,10 @@ export function calculateRefineCost(refine: number = 0) {
 
 /** 数目缩略 */
 export function decimal(value: number) {
-  const _value = Math.abs(value)
-  if (_value >= B) return `${value < 0 ? '-' : ''}${toFixed(_value / B, 1)}亿`
-  if (_value >= M) return `${value < 0 ? '-' : ''}${toFixed(_value / M, 1)}万`
-  return `${value < 0 ? '-' : ''}${formatNumber(_value, 0)}`
-}
-
-/** 列表排序 */
-export function sortList(sort: string, direction: string, list: any[]) {
-  const base = direction === 'down' ? 1 : -1
-  switch (sort) {
-    case SORT_SSGX.value:
-      return list
-        .slice()
-        .sort(
-          (a, b) =>
-            (calculateRate(b.rate, b.rank, b.stars) - calculateRate(a.rate, a.rank, a.stars)) * base
-        )
-
-    case SORT_SSZGX.value:
-    case SORT_ZGX.value:
-      return list
-        .slice()
-        .sort((a, b) => (calculateTotalRate(b, true) - calculateTotalRate(a, true)) * base)
-
-    case SORT_RK.value:
-      return list.slice().sort((a, b) => ((a.rank || 0) - (b.rank || 0)) * base)
-
-    case SORT_XX.value:
-      return list.slice().sort((a, b) => ((b.stars || 0) - (a.stars || 0)) * base)
-
-    case SORT_GF.value:
-      return list.slice().sort((a, b) => ((b.amount || 0) - (a.amount || 0)) * base)
-
-    case SORT_SC.value:
-      return list.slice().sort((a, b) => {
-        const aCollected = tinygrailStore.collected(a.id || 0)
-        const bCollected = tinygrailStore.collected(b.id || 0)
-        return (bCollected - aCollected) * base
-      })
-
-    case SORT_GX.value:
-      return list.slice().sort((a, b) => ((b.rate || 0) - (a.rate || 0)) * base)
-
-    case SORT_GXB.value:
-      return list
-        .slice()
-        .sort(
-          (a, b) => ((b.rate || 0) / (b.current || 10) - (a.rate || 0) / (a.current || 10)) * base
-        )
-
-    case SORT_SDGX.value:
-      return list
-        .slice()
-        .sort((a, b) => ((b.rate || 0) * (b.level || 0) - (a.rate || 0) * (a.level || 0)) * base)
-
-    case SORT_SDGXB.value:
-      return list
-        .slice()
-        .sort(
-          (a, b) =>
-            (((b.rate || 0) * (b.level || 0)) / (b.current || 10) -
-              ((a.rate || 0) * (a.level || 0)) / (a.current || 10)) *
-            base
-        )
-
-    case SORT_DJ.value:
-      return list
-        .slice()
-        .sort((a, b) => ((b.cLevel || b.level || 1) - (a.cLevel || a.level || 1)) * base)
-
-    case SORT_CGS.value:
-      return list.slice().sort((a, b) => ((b.state || 0) - (a.state || 0)) * base)
-
-    case SORT_GDZC.value:
-      return list.slice().sort((a, b) => ((b.sacrifices || 0) - (a.sacrifices || 0)) * base)
-
-    case SORT_CCJZ.value:
-      return list
-        .slice()
-        .sort(
-          (a, b) => ((b.state || 0) * (b.current || 0) - (a.state || 0) * (a.current || 0)) * base
-        )
-
-    case SORT_HYD.value:
-      return list
-        .slice()
-        .sort((a, b) => desc(String(b.lastOrder || ''), String(a.lastOrder || '')) * base)
-
-    case SORT_SCJ.value:
-      return list.slice().sort((a, b) => ((b.marketValue || 0) - (a.marketValue || 0)) * base)
-
-    case SORT_FHL.value:
-      return list.slice().sort((a, b) => ((b.total || 0) - (a.total || 0)) * base)
-
-    case SORT_DQJ.value:
-      return list.slice().sort((a, b) => ((b.current || 0) - (a.current || 0)) * base)
-
-    case SORT_DQZD.value:
-      return list.slice().sort((a, b) => ((b.fluctuation || 0) - (a.fluctuation || 0)) * base)
-
-    case SORT_XFJL.value:
-      return list.slice().sort((a, b) => (parseInt(b.bonus || 0) - parseInt(a.bonus || 0)) * base)
-
-    case SORT_XZL.value:
-      return list.slice().sort((a, b) => ((b.starForces || 0) - (a.starForces || 0)) * base)
-
-    case SORT_PM.value:
-      return list.slice().sort((a, b) => ((a.rank || 0) - (b.rank || 0)) * base)
-
-    case SORT_XJB.value:
-      return list
-        .slice()
-        .sort(
-          (a, b) =>
-            (calculateRate(b.rate, b.rank, b.stars) / (b.current || 10000) -
-              calculateRate(a.rate, a.rank, a.stars) / (a.current || 10000)) *
-            base
-        )
-
-    case SORT_MWCS.value:
-      return list.slice().sort((a, b) => ((b.crown || 0) - (a.crown || 0)) * base)
-
-    case SORT_SSSJ.value:
-      return list
-        .slice()
-        .sort((a, b) => String(b.listedDate || '').localeCompare(String(a.listedDate || '')) * base)
-
-    default:
-      return list
-  }
-}
-
-/** 等级筛选列表 */
-export function levelList(level: string | number, list: any[]) {
-  if (level === undefined) return list
-
-  return list.filter(item => (item.cLevel || item.level) == level)
+  const amount = Math.abs(value)
+  if (amount >= B) return `${value < 0 ? '-' : ''}${toFixed(amount / B, 1)}亿`
+  if (amount >= M) return `${value < 0 ? '-' : ''}${toFixed(amount / M, 1)}万`
+  return `${value < 0 ? '-' : ''}${formatNumber(amount, 0)}`
 }
 
 /** 小圣杯用最近时间 */
@@ -262,22 +145,19 @@ export function relation(data: any) {
   // }
 }
 
-/** @deprecated 同排名 */
-export const SORT_RK = {
-  label: '通天塔',
-  value: 'rk'
-} as const
-
-export const SORT_XX = {
-  label: '星级',
-  value: 'xx'
-} as const
-
+/** 角色星之力 (所有用户贡献总星之力) */
 export const SORT_XZL = {
   label: '星之力',
   value: 'xzl'
 } as const
 
+/** 角色星级 (单一用户献祭1000固定资产转星之力, 升级1星) */
+export const SORT_XX = {
+  label: '星级',
+  value: 'xx'
+} as const
+
+/** 角色星之力排名 (前500名享受股息加成) */
 export const SORT_PM = {
   label: '排名',
   value: 'pm'
@@ -288,24 +168,19 @@ export const SORT_GF = {
   value: 'gf'
 } as const
 
+/** 角色收藏 (是否本地收藏) */
 export const SORT_SC = {
   label: '收藏',
   value: 'sc'
 } as const
 
-/** @deprecated */
+/** 角色基本股息 (不含任何加成) */
 export const SORT_GX = {
-  label: '股息',
+  label: '基本股息',
   value: 'gx'
 } as const
 
-/** @deprecated 总股息 */
-export const SORT_ZGX = {
-  label: '合计股息',
-  value: 'zgx'
-} as const
-
-/** 生效股息 */
+/** 实际股息 (含角色基本加成) */
 export const SORT_SSGX = {
   label: '实际股息',
   value: 'ssgx'
@@ -317,9 +192,15 @@ export const SORT_XJB = {
 } as const
 
 /** 合计股息 (生效总股息) */
-export const SORT_SSZGX = {
+export const SORT_HJGX = {
   label: '合计股息',
   value: 'sszgx'
+} as const
+
+/** 圣殿总股息 */
+export const SORT_SDZGX = {
+  label: '圣殿总股息',
+  value: 'sdzgx'
 } as const
 
 export const SORT_GXB = {
@@ -338,8 +219,13 @@ export const SORT_SDGXB = {
 } as const
 
 export const SORT_DJ = {
-  label: '等级',
+  label: '角色等级',
   value: 'dj'
+} as const
+
+export const SORT_JLDJ = {
+  label: '精炼等级',
+  value: 'jldj'
 } as const
 
 export const SORT_GDS = {
@@ -352,10 +238,28 @@ export const SORT_CGS = {
   value: 'cgs'
 } as const
 
-/** 塔 */
+/** 圣殿固定资产 */
 export const SORT_GDZC = {
   label: '固定资产',
   value: 'gdzc'
+} as const
+
+/** 圣殿剩余资产 */
+export const SORT_SYZC = {
+  label: '剩余资产',
+  value: 'syzc'
+} as const
+
+/** 圣殿受损度 */
+export const SORT_SSD = {
+  label: '受损度',
+  value: 'ssd'
+} as const
+
+/** 圣殿完整度 */
+export const SORT_WZD = {
+  label: '完整度',
+  value: 'wzd'
 } as const
 
 export const SORT_CCJZ = {
@@ -429,57 +333,166 @@ export const throttleInfo = throttle(_info, IOS ? 400 : ToastAndroid.SHORT) as (
   info: string
 ) => void
 
+/** 列表排序 */
+export function sortList<T>(sort: string, direction: '' | 'up' | 'down', list: ListArray<T>): T[] {
+  const base = direction === 'down' ? 1 : -1
+  const sortedList = list.slice()
+
+  if (sort === SORT_SSD.value) {
+    return sortedList
+      .filter((item: any) => !(item.assets === 0 || item.assets === item.sacrifices))
+      .sort(
+        (a: any, b: any) =>
+          ((b.sacrifices || 0) - (b.assets || 0) - ((a.sacrifices || 0) - (a.assets || 0))) * base
+      )
+  }
+
+  if (sort === SORT_WZD.value) {
+    return sortedList
+      .filter(
+        (item: any) =>
+          !(
+            item.assets === 0 ||
+            item.assets === item.sacrifices ||
+            item.sacrifices - item.assets < 100
+          )
+      )
+      .sort((a: any, b: any) => {
+        const aValue = !a.assets || !a.sacrifices ? 0 : a.assets / a.sacrifices
+        const bValue = !b.assets || !b.sacrifices ? 0 : b.assets / b.sacrifices
+        return (bValue - aValue) * base
+      })
+  }
+
+  const numericSort = (a: any, b: any, key: string) => ((b[key] || 0) - (a[key] || 0)) * base
+  const calculatedSort = (a: any, b: any, calcFn: (item: any) => number) =>
+    (calcFn(b) - calcFn(a)) * base
+
+  const sortHandlers: Record<
+    string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    (a: any, b: any) => number
+  > = {
+    [SORT_CCJZ.value]: (a, b) =>
+      ((b.state || 0) * (b.current || 0) - (a.state || 0) * (a.current || 0)) * base,
+    [SORT_CGS.value]: (a, b) => numericSort(a, b, 'state'),
+    [SORT_DJ.value]: (a, b) => numericSort(a, b, 'cLevel') || numericSort(a, b, 'level'),
+    [SORT_DQJ.value]: (a, b) => numericSort(a, b, 'current'),
+    [SORT_DQZD.value]: (a, b) => numericSort(a, b, 'fluctuation'),
+    [SORT_FHL.value]: (a, b) => numericSort(a, b, 'total'),
+    [SORT_GDZC.value]: (a, b) => numericSort(a, b, 'sacrifices'),
+    [SORT_GF.value]: (a, b) => numericSort(a, b, 'amount'),
+    [SORT_GX.value]: (a, b) => numericSort(a, b, 'rate'),
+    [SORT_GXB.value]: (a, b) =>
+      ((b.rate || 0) / (b.current || 10) - (a.rate || 0) / (a.current || 10)) * base,
+    [SORT_HYD.value]: (a, b) => desc(String(b.lastOrder || ''), String(a.lastOrder || '')) * base,
+    [SORT_JLDJ.value]: (a, b) => numericSort(a, b, 'refine'),
+    [SORT_MWCS.value]: (a, b) => numericSort(a, b, 'crown'),
+    [SORT_PM.value]: (a, b) => ((a.rank || 0) - (b.rank || 0)) * base,
+    [SORT_SC.value]: (a, b) =>
+      (tinygrailStore.collected(b.id || 0) - tinygrailStore.collected(a.id || 0)) * base,
+    [SORT_SCJ.value]: (a, b) => numericSort(a, b, 'marketValue'),
+    [SORT_SDGX.value]: (a, b) =>
+      calculatedSort(a, b, item =>
+        calculateTempleRate(
+          item.rate,
+          item.rank,
+          item.stars,
+          item.cLevel || item.level,
+          item.refine
+        )
+      ),
+    [SORT_SDGXB.value]: (a, b) =>
+      (((b.rate || 0) * (b.level || 0)) / (b.current || 10) -
+        ((a.rate || 0) * (a.level || 0)) / (a.current || 10)) *
+      base,
+    [SORT_SDZGX.value]: (a, b) => calculatedSort(a, b, item => calculateTempleTotalRate(item)),
+    [SORT_SSGX.value]: (a, b) =>
+      calculatedSort(a, b, item => calculateRate(item.rate, item.rank, item.stars)),
+    [SORT_SSSJ.value]: (a, b) =>
+      String(b.listedDate || '').localeCompare(String(a.listedDate || '')) * base,
+    [SORT_SYZC.value]: (a, b) => numericSort(a, b, 'assets'),
+    [SORT_XFJL.value]: (a, b) => (parseInt(b.bonus || '0') - parseInt(a.bonus || '0')) * base,
+    [SORT_XJB.value]: (a, b) =>
+      (calculateRate(b.rate, b.rank, b.stars) / (b.current || 10000) -
+        calculateRate(a.rate, a.rank, a.stars) / (a.current || 10000)) *
+      base,
+    [SORT_XX.value]: (a, b) => numericSort(a, b, 'stars'),
+    [SORT_XZL.value]: (a, b) => numericSort(a, b, 'starForces'),
+    [SORT_HJGX.value]: (a, b) =>
+      calculatedSort(a, b, item => calculateTotalRate(item) + calculateTempleTotalRate(item))
+  }
+
+  if (sortHandlers[sort]) return sortedList.sort(sortHandlers[sort])
+
+  return sortedList as T[]
+}
+
+/** 等级筛选列表 */
+export function levelList<T>(level: string | number, list: ListArray<T>): T[] {
+  if (level === undefined) return list as T[]
+
+  return list.filter(item => ((item as any)?.cLevel || (item as any)?.level) == level)
+}
+
 /** 获取当前排序, 角色、圣殿根据的根据信息 */
 export function getCharaItemSortText(props: any, showAll: boolean = false) {
   const {
-    sort,
-    stars,
-    starForces,
-    rate,
-    rank,
+    assets,
     cLevel,
-    level,
     current,
-    total,
-    state,
+    level,
+    listedDate,
+    rank,
+    rate,
+    refine,
     sacrifices,
-    listedDate
+    sort,
+    starForces,
+    stars,
+    state,
+    total
   } = props || {}
-  let text = ''
-  if (!sort) return text
+  if (!sort) return ''
 
-  if (sort === SORT_SSZGX.value) {
-    text = `${SORT_SSZGX.label} ${decimal(calculateTotalRate(props, true))}`
-  } else if (sort === SORT_XX.value) {
-    text = `${SORT_XX.label} ${stars}`
-  } else if (sort === SORT_XZL.value) {
-    text = `${SORT_XZL.label} ${formatNumber(starForces, 0)}`
-  } else if (sort === SORT_SSGX.value) {
-    text = `${SORT_SSGX.label} ${Number(toFixed(calculateRate(rate, rank, stars), 1))}`
-  } else if (sort === SORT_XJB.value) {
-    text = `${SORT_XJB.label} ${Number(
-      toFixed(calculateRate(rate, rank, stars) / (current || 10000))
-    )}`
-  } else if (sort === SORT_FHL.value) {
-    text = `${SORT_FHL.label} ${decimal(total || 0)}`
-  } else if (sort === SORT_CCJZ.value) {
-    text = `${SORT_CCJZ.label} ${decimal((state || 0) * (current || 0))}`
-  } else if (sort === SORT_SSSJ.value) {
-    text = `${SORT_SSSJ.label} ${String(listedDate || '').split('T')?.[0]}`
-  } else if (showAll) {
-    if (sort === SORT_CGS.value) {
-      text = `${SORT_CGS.label} ${state || 0}`
-    } else if (sort === SORT_GDZC.value) {
-      text = `${SORT_GDZC.label} ${decimal(sacrifices || 0)}`
-    } else if (sort === SORT_DJ.value) {
-      text = `${SORT_DJ.label} ${cLevel || level || 0}`
-    } else if (sort === SORT_PM.value) {
-      text = `${SORT_PM.label} ${rank || 0}`
-    } else if (sort === SORT_PM.value) {
-      text = `${SORT_PM.label} ${rank || 0}`
-    } else if (sort === SORT_DQJ.value) {
-      text = `${SORT_DQJ.label} ${decimal(current || 0)}`
-    }
+  const sortHandlers = {
+    [SORT_CCJZ.value]: () => `${SORT_CCJZ.label} ${decimal((state || 0) * (current || 0))}`,
+    [SORT_FHL.value]: () => `${SORT_FHL.label} ${decimal(total || 0)}`,
+    [SORT_SDZGX.value]: () => `${SORT_SDZGX.label} ${decimal(calculateTempleTotalRate(props))}`,
+    [SORT_SSGX.value]: () =>
+      `${SORT_SSGX.label} ${Number(toFixed(calculateRate(rate, rank, stars), 1))}`,
+    [SORT_SSSJ.value]: () => `${SORT_SSSJ.label} ${String(listedDate || '').split('T')?.[0]}`,
+    [SORT_HJGX.value]: () =>
+      `${SORT_HJGX.label} ${decimal(calculateTotalRate(props) + calculateTempleTotalRate(props))}`,
+    [SORT_XJB.value]: () =>
+      `${SORT_XJB.label} ${Number(toFixed(calculateRate(rate, rank, stars) / (current || 10000)))}`,
+    [SORT_XX.value]: () => `${SORT_XX.label} ${stars}`,
+    [SORT_XZL.value]: () => `${SORT_XZL.label} ${formatNumber(starForces, 0)}`,
+
+    [SORT_GDZC.value]: () => `${SORT_GDZC.label} ${decimal(sacrifices || 0)}`,
+    [SORT_GX.value]: () => `${SORT_GX.label} ${toFixed(rate || 0, 1)}`,
+    [SORT_JLDJ.value]: () => `${SORT_JLDJ.label} ${refine || 0}`,
+    [SORT_SDGX.value]: () =>
+      `${SORT_SDGX.label} ${toFixed(
+        calculateTempleRate(rate, rank, stars, cLevel || level, refine),
+        1
+      )}`,
+    [SORT_SSD.value]: () =>
+      `${SORT_SSD.label} ${formatNumber((sacrifices || 0) - (assets || 0), 0)}`,
+    [SORT_WZD.value]: () => `${SORT_WZD.label} ${toFixed((assets / (sacrifices || 1)) * 100, 1)}%`
   }
-  return text
+
+  const showAllHandlers = {
+    [SORT_CGS.value]: () => `${SORT_CGS.label} ${state || 0}`,
+    [SORT_DJ.value]: () => `${SORT_DJ.label} ${cLevel || level || 0}`,
+    [SORT_PM.value]: () => `${SORT_PM.label} ${rank || 0}`,
+    [SORT_DQJ.value]: () => `${SORT_DQJ.label} ${decimal(current || 0)}`,
+    [SORT_SYZC.value]: () => `${SORT_SYZC.label} ${decimal(assets || 0)}`
+  }
+
+  if (sortHandlers[sort]) return sortHandlers[sort]()
+
+  if (showAll && showAllHandlers[sort]) return showAllHandlers[sort]()
+
+  return ''
 }

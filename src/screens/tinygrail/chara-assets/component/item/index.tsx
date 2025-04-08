@@ -26,7 +26,7 @@ function Item({ id, index, item }: Props) {
         extra={getCharaItemSortText(
           {
             ...item,
-            sort: $.state.sort
+            sort: $.state.templeSort
           },
           true
         )}

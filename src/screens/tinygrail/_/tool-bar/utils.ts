@@ -6,7 +6,7 @@
  */
 import { ScrollView } from 'react-native'
 
-export function scrollToX(scrollView: ScrollView, data: readonly any[], value: any, width = 44) {
+export function scrollToX(scrollView: ScrollView, data: readonly any[], value: any, width = 52) {
   try {
     if (scrollView && value) {
       const index = data.findIndex(i => i.value == value)

@@ -72,7 +72,7 @@ function Detail(props) {
     /** ICO 结束时间 */
     extra.push(formatTime(_end))
 
-    /** ICO已筹资金 */
+    /** ICO 已筹资金 */
     extra.push(`已筹${totalText}`)
   } else {
     extra.push(`+${toFixed(rate, 1)} (${Number(toFixed(calculateRate(rate, rank, stars), 1))}) `)

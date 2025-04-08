@@ -52,18 +52,18 @@ export default class Action extends Fetch {
   }
 
   /** 选择等级筛选 */
-  onLevelSelect = (level: any) => {
+  onLevelSelect = (value: string, key: 'level' | 'templeLevel' = 'level') => {
     this.setState({
-      level
+      [key]: value
     })
     this.save()
   }
 
   /** 排序回调 */
-  onSortPress = (item: string) => {
-    if (item === this.state.sort) {
+  onSortPress = (value: string, key: 'sort' | 'templeSort' = 'sort') => {
+    if (value === this.state[key]) {
       const { direction } = this.state
-      let nextSort = item
+      let nextSort = value
       let nextDirection: Direction = 'down'
       if (direction === 'down') {
         nextDirection = 'up'
@@ -72,28 +72,41 @@ export default class Action extends Fetch {
         nextDirection = ''
       }
 
-      t('我的持仓.排序', {
-        sort: nextSort,
+      this.setState({
+        [key]: nextSort,
         direction: nextDirection
       })
 
-      this.setState({
-        sort: nextSort,
-        direction: nextDirection
-      })
+      // t('我的持仓.排序', {
+      //   sort: nextSort,
+      //   direction: nextDirection
+      // })
     } else {
-      t('我的持仓.排序', {
-        sort: item,
+      this.setState({
+        [key]: value,
         direction: 'down'
       })
 
-      this.setState({
-        sort: item,
-        direction: 'down'
-      })
+      // t('我的持仓.排序', {
+      //   sort: value,
+      //   direction: 'down'
+      // })
     }
 
     this.save()
+  }
+
+  onSortLongPress = (key: 'sort' | 'templeSort' = 'sort') => {
+    this.setState({
+      [key]: '',
+      direction: ''
+    })
+    this.save()
+
+    // t('我的持仓.排序', {
+    //   sort: '',
+    //   direction: ''
+    // })
   }
 
   /** 切换批量操作 */

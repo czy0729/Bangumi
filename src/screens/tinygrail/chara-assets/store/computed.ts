@@ -7,17 +7,24 @@
 import { computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import { getTimestamp } from '@utils'
+import { LIST_EMPTY } from '@constants'
 import { levelList, sortList } from '@tinygrail/_/utils'
 import State from './state'
 
 export default class Computed extends State {
+  /** 用户 ID */
   @computed get userId() {
     return this.params.userId
   }
 
-  /** 用户资产概览信息 */
+  /** 圣殿原始数据 */
+  @computed get originalTemple() {
+    return tinygrailStore.temple(this.userId)
+  }
+
+  /** 资产概览 */
   @computed get myCharaAssets() {
-    // 我的持仓页面支持自己和他人公用, 当有用户 id 时, 为显示他人持仓页面
+    // 我的持仓页面支持自己和他人公用, 当有用户 ID 时, 为显示他人持仓页面
     if (this.userId) {
       // 构造跟自己持仓一样的数据结构
       const { characters, initials } = tinygrailStore.charaAssets(this.userId)
@@ -49,102 +56,94 @@ export default class Computed extends State {
     }
   }
 
-  /** 用户圣殿 */
+  /** 圣殿 */
   @computed get temple() {
-    const { sort, level, direction } = this.state
-    let data = tinygrailStore.temple(this.userId)
-    if (level) {
-      data = {
-        ...data,
-        list: levelList(level, data.list)
-      }
-    }
+    const { templeLevel, templeSort, direction } = this.state
 
-    if (sort) {
-      data = {
-        ...data,
-        list: sortList(sort, direction, data.list)
-      }
-    }
+    // 如果不需要筛选和排序，直接返回原始数据
+    if (!templeLevel && !templeSort) return this.originalTemple
 
-    return data
+    let list = this.originalTemple.list
+    if (templeLevel) list = levelList(templeLevel, list)
+    if (templeSort) list = sortList(templeSort, direction, list)
+
+    // 只有当列表被修改时才创建新对象
+    return list === this.originalTemple.list
+      ? this.originalTemple
+      : { ...this.originalTemple, list }
   }
 
-  /** ICO 最高人气, 用于显示自己当前参与的 ICO */
-  @computed get mpi() {
-    return computed(() => tinygrailStore.list('mpi')).get()
-  }
-
-  /** ICO 用户 */
-  @computed get mpiUsers() {
-    const users = {}
-    const { list } = this.mpi
-    list.forEach(item => (users[item.id] = item.users))
-    return users
-  }
-
+  /** 角色列表 (等级筛选、排序) */
   @computed get charaList() {
     const { chara } = this.myCharaAssets
     const { sort, level, direction } = this.state
-    let data = chara
-    if (level) {
-      data = {
-        ...data,
-        list: levelList(level, data.list)
-      }
-    }
 
-    if (sort) {
-      data = {
-        ...data,
-        list: sortList(sort, direction, data.list)
-      }
-    }
+    // 如果不需要筛选和排序，直接返回原始数据
+    if (!level && !sort) return chara
 
-    return data
+    let list = chara.list
+    if (level) list = levelList(level, list)
+    if (sort) list = sortList(sort, direction, list)
+
+    // 只有当列表被修改时才创建新对象
+    return list === chara.list ? chara : { ...chara, list }
   }
 
+  /** 角色列表等级映射 */
   @computed get levelMap() {
-    const { chara } = this.myCharaAssets
-    const data = {}
-    chara.list.forEach(item =>
-      data[item.level] ? (data[item.level] += 1) : (data[item.level] = 1)
-    )
-    return data
+    return this.myCharaAssets.chara.list.reduce((acc, { level }) => {
+      acc[level] = (acc[level] || 0) + 1
+      return acc
+    }, {})
   }
 
-  /** 人物和圣殿合并成总览列表 */
+  /** 圣殿角色列表等级映射 */
+  @computed get templeLevelMap() {
+    return this.originalTemple.list.reduce((acc, item) => {
+      const level = item.cLevel || item.level
+      acc[level] = (acc[level] || 0) + 1
+      return acc
+    }, {})
+  }
+
+  /** 人物和圣殿合组合总览列表 */
   @computed get mergeList() {
     const { chara } = this.myCharaAssets
-    const { temple } = this
+    if (!chara._loaded || !this.originalTemple._loaded) return LIST_EMPTY
+
     const map = {}
-    chara.list.forEach(item => (map[item.id] = item))
-    temple.list.forEach(item => {
-      if (!map[item.id]) {
-        const itemChara = tinygrailStore.characters(item.id)
-        map[item.id] = {
-          ...itemChara,
-          id: item.id,
-          icon: item.cover,
-          level: item.level,
-          cLevel: itemChara.level,
-          monoId: item.id,
-          name: item.name,
-          rank: item.rank,
-          rate: item.rate,
-          sacrifices: item.sacrifices,
-          assets: item.assets,
-          starForces: item.starForces,
-          stars: item.stars
-        }
-      } else {
-        map[item.id] = {
-          ...map[item.id],
-          rank: item.rank,
-          sacrifices: item.sacrifices,
-          assets: item.assets
-        }
-      }
+
+    // 初始化角色数据
+    chara.list.forEach(item => {
+      map[item.id] = Object.assign({}, item)
+    })
+
+    // 合并圣殿数据
+    this.originalTemple.list.forEach(item => {
+      const existing = map[item.id]
+      const itemChara = existing || tinygrailStore.characters(item.id)
+      map[item.id] = existing
+        ? Object.assign(existing, {
+            assets: item.assets,
+            rank: item.rank,
+            refine: item.refine,
+            sacrifices: item.sacrifices
+          })
+        : Object.assign({}, itemChara, {
+            assets: item.assets,
+            cLevel: itemChara.level,
+            icon: item.cover,
+            id: item.id,
+            level: item.level,
+            monoId: item.id,
+            name: item.name,
+            rank: item.rank || itemChara.rank,
+            rate: item.rate || itemChara.rate,
+            refine: item.refine,
+            sacrifices: item.sacrifices,
+            starForces: item.starForces,
+            stars: item.stars || itemChara.stars
+          })
     })
 
     const { sort, level, direction } = this.state
@@ -160,5 +159,15 @@ export default class Computed extends State {
       },
       _loaded: getTimestamp()
     }
+  }
+
+  /** ICO 最高人气 (显示自己当前参与) */
+  @computed get mpi() {
+    return computed(() => tinygrailStore.list('mpi')).get()
+  }
+
+  /** ICO 用户 */
+  @computed get mpiUsers() {
+    return Object.fromEntries(this.mpi.list.map(item => [item.id, item.users]))
   }
 }

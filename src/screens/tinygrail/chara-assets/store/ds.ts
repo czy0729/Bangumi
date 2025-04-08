@@ -33,7 +33,9 @@ export const EXCLUDE_STATE = {
 export const STATE = {
   page: 1,
   level: '',
+  templeLevel: '',
   sort: '',
+  templeSort: '',
   direction: '' as Direction,
   go: '卖出',
 

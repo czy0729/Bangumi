@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-03-05 03:16:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 03:18:39
+ * @Last Modified time: 2025-04-08 19:18:55
  */
-import List from '../list'
+import ListWrap from '../list-wrap'
 import Label from './label'
 
 export function renderLabel({ route, focused }) {
@@ -12,5 +12,5 @@ export function renderLabel({ route, focused }) {
 }
 
 export function renderItem(item: any) {
-  return <List key={item.key} id={item.key} />
+  return <ListWrap id={item.key} />
 }

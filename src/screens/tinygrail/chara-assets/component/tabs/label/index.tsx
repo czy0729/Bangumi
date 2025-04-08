@@ -22,9 +22,9 @@ function Label({ route, focused }) {
 
     case 'temple':
       count =
-        $.temple?.list?.length === TINYGRAIL_ASSETS_LIMIT
+        $.originalTemple?.list?.length === TINYGRAIL_ASSETS_LIMIT
           ? `${TINYGRAIL_ASSETS_LIMIT}+`
-          : $.temple?.list?.length || 0
+          : $.originalTemple?.list?.length || 0
       break
 
     case 'ico':

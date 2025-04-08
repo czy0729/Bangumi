@@ -118,9 +118,12 @@ export type EventType = {
   }
 }
 
+/** 允许配置 readonly 的数组 */
+export type ListArray<T = any> = T extends readonly any[] ? readonly T[number][] : T[]
+
 /** 列表对象 */
 export type ListEmpty<T = any> = Expand<{
-  list: T extends readonly any[] ? readonly T[number][] : T[]
+  list: ListArray<T>
   pagination?: {
     page: number
     pageTotal: number

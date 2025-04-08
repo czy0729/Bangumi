@@ -6,14 +6,20 @@
  */
 import { Fn, ViewStyle } from '@types'
 
+type Item = {
+  label: string
+  value: string
+}
+
 export type Props = {
   style?: ViewStyle
-  data?: any[] | readonly any[]
+  data?: readonly Item[]
   sort?: any
   level?: any
   levelMap?: Record<string, number>
   direction?: '' | 'up' | 'down'
   renderLeft?: any
   onSortPress?: Fn
+  onSortLongPress?: Fn
   onLevelSelect?: Fn
 }
