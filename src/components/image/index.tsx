@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-11-06 21:35:04
  */
 import React from 'react'
-import { Image as RNImage } from 'react-native'
+import { Image as RNImage, ImageErrorEventData, NativeSyntheticEvent } from 'react-native'
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { getTimestamp, omit, pick } from '@utils'
@@ -210,7 +210,7 @@ export const Image = observer(
             fixedSrc === 'https:' ||
             (typeof fixedSrc === 'string' && fixedSrc.includes('https:/img/'))
           ) {
-            this.commitError('error: cache 1')
+            this.commitError('error: cache')
             return false
           }
 
@@ -337,14 +337,14 @@ export const Image = observer(
             })
           },
           () => {
-            this.commitError('error: getSizeWithHeaders')
+            this.commitError('error: getSize')
           }
         )
       }, 0)
     }
 
     /** 加载失败 */
-    onError = async () => {
+    onError = async (evt?: NativeSyntheticEvent<ImageErrorEventData>) => {
       const { src } = this.props
       if (
         typeof src === 'string' &&
@@ -410,7 +410,16 @@ export const Image = observer(
           uri: fixedRemoteImageUrl(fallbackSrc)
         })
       } else {
-        this.commitError('error: onError')
+        const errorInfo = String(evt?.nativeEvent?.error || '')
+
+        // 本地缓存了不能正常读取的图片文件
+        if (errorInfo.includes('The file')) {
+          this.setState({
+            uri: fixedRemoteImageUrl(this.props.src)
+          })
+        } else {
+          this.commitError(`error: onError [${errorInfo}]`)
+        }
       }
     }
 

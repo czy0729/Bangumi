@@ -66,7 +66,7 @@ export default class Fetch extends Computed {
 
   /** 装载云端条目缓存数据 */
   fetchSubjectFromOSS = async () => {
-    if (this.subjectFormHTML._loaded) return
+    if (this.subjectFormHTML._loaded && (this.cn || this.jp)) return
 
     try {
       const data = await get(`subject_${this.subjectId}`)
