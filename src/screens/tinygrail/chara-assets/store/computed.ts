@@ -9,17 +9,13 @@ import { tinygrailStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { LIST_EMPTY } from '@constants'
 import { levelList, sortList } from '@tinygrail/_/utils'
+import { Id } from '@types'
 import State from './state'
 
 export default class Computed extends State {
   /** 用户 ID */
   @computed get userId() {
     return this.params.userId
-  }
-
-  /** 圣殿原始数据 */
-  @computed get originalTemple() {
-    return tinygrailStore.temple(this.userId)
   }
 
   /** 资产概览 */
@@ -56,6 +52,16 @@ export default class Computed extends State {
     }
   }
 
+  /** 角色原始数据 */
+  @computed get originalChara() {
+    return this.myCharaAssets.chara
+  }
+
+  /** 圣殿原始数据 */
+  @computed get originalTemple() {
+    return tinygrailStore.temple(this.userId)
+  }
+
   /** 圣殿 */
   @computed get temple() {
     const { templeLevel, templeSort, direction } = this.state
@@ -70,28 +76,35 @@ export default class Computed extends State {
     // 只有当列表被修改时才创建新对象
     return list === this.originalTemple.list
       ? this.originalTemple
-      : { ...this.originalTemple, list }
+      : {
+          ...this.originalTemple,
+          list
+        }
   }
 
   /** 角色列表 (等级筛选、排序) */
   @computed get charaList() {
-    const { chara } = this.myCharaAssets
     const { sort, level, direction } = this.state
 
     // 如果不需要筛选和排序，直接返回原始数据
-    if (!level && !sort) return chara
+    if (!level && !sort) return this.originalChara
 
-    let list = chara.list
+    let list = this.originalChara.list
     if (level) list = levelList(level, list)
     if (sort) list = sortList(sort, direction, list)
 
     // 只有当列表被修改时才创建新对象
-    return list === chara.list ? chara : { ...chara, list }
+    return list === this.originalChara.list
+      ? this.originalChara
+      : {
+          ...this.originalChara,
+          list
+        }
   }
 
   /** 角色列表等级映射 */
   @computed get levelMap() {
-    return this.myCharaAssets.chara.list.reduce((acc, { level }) => {
+    return this.originalChara.list.reduce((acc, { level }) => {
       acc[level] = (acc[level] || 0) + 1
       return acc
     }, {})
@@ -104,6 +117,18 @@ export default class Computed extends State {
       acc[level] = (acc[level] || 0) + 1
       return acc
     }, {})
+  }
+
+  /** 角色列表持股数映射 */
+  @computed get amountMap() {
+    return Object.fromEntries(this.originalChara.list.map(item => [item.id, item.state]))
+  }
+
+  amount(id: Id) {
+    return computed(() => {
+      if (id in this.amountMap) return this.amountMap[id]
+      return 0
+    }).get()
   }
 
   /** 人物和圣殿合组合总览列表 */

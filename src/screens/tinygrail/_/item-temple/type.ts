@@ -25,6 +25,7 @@ export type Props = {
   type?: 'view'
   userId?: UserId
   extra?: string
+  state?: number
   onPress?: Fn
   onItem?: Fn
 }

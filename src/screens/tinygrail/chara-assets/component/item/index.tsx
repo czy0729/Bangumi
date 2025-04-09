@@ -23,6 +23,7 @@ function Item({ id, index, item }: Props) {
       <ItemTemple
         style={_.isPad && index % 3 === 0 && styles.marginLeft}
         {...item}
+        state={$.amount(item.id)}
         extra={getCharaItemSortText(
           {
             ...item,

@@ -372,6 +372,19 @@ export function sortList<T>(sort: string, direction: '' | 'up' | 'down', list: L
   }
 
   const numericSort = (a: any, b: any, key: string) => ((b[key] || 0) - (a[key] || 0)) * base
+  if (sort === SORT_CGS.value) {
+    return sortedList
+      .filter((item: any) => item.state)
+      .sort((a: any, b: any) => numericSort(a, b, 'state'))
+  }
+
+  if (sort === SORT_JLDJ.value) {
+    return sortedList.sort((a: any, b: any) => {
+      if ((a.refine || 0) === (b.refine || 0)) return numericSort(a, b, 'state')
+      return numericSort(a, b, 'refine')
+    })
+  }
+
   const calculatedSort = (a: any, b: any, calcFn: (item: any) => number) =>
     (calcFn(b) - calcFn(a)) * base
 
@@ -382,7 +395,6 @@ export function sortList<T>(sort: string, direction: '' | 'up' | 'down', list: L
   > = {
     [SORT_CCJZ.value]: (a, b) =>
       ((b.state || 0) * (b.current || 0) - (a.state || 0) * (a.current || 0)) * base,
-    [SORT_CGS.value]: (a, b) => numericSort(a, b, 'state'),
     [SORT_DJ.value]: (a, b) => numericSort(a, b, 'cLevel') || numericSort(a, b, 'level'),
     [SORT_DQJ.value]: (a, b) => numericSort(a, b, 'current'),
     [SORT_DQZD.value]: (a, b) => numericSort(a, b, 'fluctuation'),
@@ -393,7 +405,6 @@ export function sortList<T>(sort: string, direction: '' | 'up' | 'down', list: L
     [SORT_GXB.value]: (a, b) =>
       ((b.rate || 0) / (b.current || 10) - (a.rate || 0) / (a.current || 10)) * base,
     [SORT_HYD.value]: (a, b) => desc(String(b.lastOrder || ''), String(a.lastOrder || '')) * base,
-    [SORT_JLDJ.value]: (a, b) => numericSort(a, b, 'refine'),
     [SORT_MWCS.value]: (a, b) => numericSort(a, b, 'crown'),
     [SORT_PM.value]: (a, b) => ((a.rank || 0) - (b.rank || 0)) * base,
     [SORT_SC.value]: (a, b) =>
@@ -468,7 +479,7 @@ export function getCharaItemSortText(props: any, showAll: boolean = false) {
   const sortHandlers = {
     [SORT_CCJZ.value]: () => `${SORT_CCJZ.label} ${decimal((state || 0) * (current || 0))}`,
     [SORT_FHL.value]: () => `${SORT_FHL.label} ${decimal(total || 0)}`,
-    [SORT_SDZGX.value]: () => `${SORT_SDZGX.label} ${decimal(calculateTempleTotalRate(props))}`,
+    [SORT_SDZGX.value]: () => `总股息 ${decimal(calculateTempleTotalRate(props))}`,
     [SORT_SSGX.value]: () =>
       `${SORT_SSGX.label} ${Number(toFixed(calculateRate(rate, rank, stars), 1))}`,
     [SORT_SSSJ.value]: () => `${SORT_SSSJ.label} ${String(listedDate || '').split('T')?.[0]}`,
@@ -482,7 +493,7 @@ export function getCharaItemSortText(props: any, showAll: boolean = false) {
 
     [SORT_GDZC.value]: () => `${SORT_GDZC.label} ${decimal(sacrifices || 0)}`,
     [SORT_GX.value]: () => `${SORT_GX.label} ${toFixed(rate || 0, 1)}`,
-    [SORT_JLDJ.value]: () => `${SORT_JLDJ.label} ${refine || 0}`,
+    [SORT_JLDJ.value]: () => `精炼 ${refine || 0}`,
     [SORT_SDGX.value]: () =>
       `${SORT_SDGX.label} ${toFixed(
         calculateTempleRate(rate, rank, stars, cLevel || level, refine),
@@ -497,7 +508,7 @@ export function getCharaItemSortText(props: any, showAll: boolean = false) {
 
   const showAllHandlers = {
     [SORT_CGS.value]: () => `${SORT_CGS.label} ${state || 0}`,
-    [SORT_DJ.value]: () => `${SORT_DJ.label} ${cLevel || level || 0}`,
+    [SORT_DJ.value]: () => `等级 ${cLevel || level || 0}`,
     [SORT_PM.value]: () => `${SORT_PM.label} ${rank || 0}`,
     [SORT_DQJ.value]: () => `${SORT_DQJ.label} ${decimal(current || 0)}`,
     [SORT_SYZC.value]: () => `${SORT_SYZC.label} ${decimal(assets || 0)}`,

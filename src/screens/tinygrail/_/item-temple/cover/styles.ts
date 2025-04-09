@@ -42,8 +42,8 @@ export const memoStyles = _.memoStyles(() => {
     refine: {
       position: 'absolute',
       zIndex: 2,
-      top: 0,
-      left: 0,
+      top: -0.5,
+      left: -0.5,
       minWidth: 28,
       padding: 2,
       paddingBottom: 4,

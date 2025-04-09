@@ -39,6 +39,7 @@ function ItemTemple({
   type,
   userId,
   extra,
+  state,
   onPress,
   onItem
 }: Props) {
@@ -84,6 +85,7 @@ function ItemTemple({
       {!!extra && (
         <Text style={_.mt.sm} type='tinygrailText' size={10} align='center' bold>
           {extra}
+          {state ? ` · 持股 ${state}` : ''}
         </Text>
       )}
       {!!userStarForces && !onItem && (
