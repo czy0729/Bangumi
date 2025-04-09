@@ -22,6 +22,11 @@ function Starforce() {
       <Text style={_.ml.xs} type='tinygrailText' size={12}>
         星之力 +{formatNumber($.starForces, 0)}
       </Text>
+      {!!$.myTemple.userStarForces && (
+        <Text style={_.ml.xs} type='tinygrailText' size={12}>
+          (贡献过 {formatNumber($.myTemple.userStarForces, 0)})
+        </Text>
+      )}
       {!!$.chara.subjectName && (
         <>
           <Text style={_.mh.xs} type='tinygrailText' size={12}>

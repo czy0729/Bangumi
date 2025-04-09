@@ -24,14 +24,14 @@ function Modal({ title, visible, onClose }: { title: string; visible: boolean; o
     sacrifices: $.userLogs.sacrifices || 0
   }
 
-  const props: {
+  const passProps: {
     leftItem?: typeof item
     rightItem?: typeof item
   } = {}
   if (['虚空道标', '闪光结晶', '鲤鱼之眼'].includes(title)) {
-    props.leftItem = item
+    passProps.leftItem = item
   } else {
-    props.rightItem = item
+    passProps.rightItem = item
   }
 
   return (
@@ -40,7 +40,7 @@ function Modal({ title, visible, onClose }: { title: string; visible: boolean; o
       visible={visible}
       onClose={onClose}
       onSubmit={$.doUse}
-      {...props}
+      {...passProps}
     />
   )
 }

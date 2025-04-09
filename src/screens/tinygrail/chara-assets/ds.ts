@@ -14,6 +14,7 @@ import {
   SORT_GX,
   SORT_HJGX,
   SORT_JLDJ,
+  SORT_MWCS,
   SORT_PM,
   SORT_SDGX,
   SORT_SDZGX,
@@ -24,7 +25,8 @@ import {
   SORT_WZD,
   SORT_XJB,
   SORT_XX,
-  SORT_XZL
+  SORT_XZL,
+  SORT_ZHXZL
 } from '@tinygrail/_/utils'
 
 export const COMPONENT = 'TinygrailCharaAssets'
@@ -79,21 +81,27 @@ const SORT_DS_CONFIG = [
     index: [0, 1, 2]
   },
 
+  /** 转化星之力 */
+  {
+    data: SORT_ZHXZL,
+    index: [0, 2]
+  },
+
   /** 排名 */
   {
     data: SORT_PM,
     index: [0, 1, 2]
   },
 
-  /** 性价比 */
-  {
-    data: SORT_XJB,
-    index: [0, 1]
-  },
-
   /** 当前价 */
   {
     data: SORT_DQJ,
+    index: [0, 1]
+  },
+
+  /** 性价比 */
+  {
+    data: SORT_XJB,
     index: [0, 1]
   },
 
@@ -142,6 +150,12 @@ const SORT_DS_CONFIG = [
   /** 流通量 */
   {
     data: SORT_FHL,
+    index: [0, 1]
+  },
+
+  /** 萌王次数 */
+  {
+    data: SORT_MWCS,
     index: [0, 1]
   },
 

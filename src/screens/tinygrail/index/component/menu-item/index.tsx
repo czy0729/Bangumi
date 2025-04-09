@@ -23,12 +23,12 @@ function MenuItem({ style, index, iconStyle, pathname, config, title, icon }: Pr
     <Touchable
       style={stl(styles.container, index % num === 0 && styles.left)}
       onPress={() => {
+        navigation.push(pathname, config)
+
         t('小圣杯.跳转', {
           to: pathname,
           ...config
         })
-
-        navigation.push(pathname, config)
       }}
     >
       <Flex style={stl(styles.block, style)}>

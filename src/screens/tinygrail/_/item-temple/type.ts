@@ -20,6 +20,7 @@ export type Props = {
   nickname?: string
   sacrifices?: number
   refine: number
+  userStarForces?: number
   lastActive?: string
   type?: 'view'
   userId?: UserId

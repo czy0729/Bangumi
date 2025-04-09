@@ -80,6 +80,9 @@ export const INIT_CHARACTERS_ITEM = {
   /** 通天塔星之力 */
   starForces: 0,
 
+  /** 你转换的星之力 */
+  userStarForces: 0,
+
   /** 通天塔星星 */
   stars: 0,
 

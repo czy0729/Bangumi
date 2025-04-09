@@ -8,7 +8,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { Iconfont, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { stl } from '@utils'
+import { formatNumber, stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { useNavigation } from '@utils/hooks'
 import { EVENT } from '@constants'
@@ -34,6 +34,7 @@ function ItemTemple({
   nickname,
   sacrifices,
   refine,
+  userStarForces,
   lastActive,
   type,
   userId,
@@ -72,19 +73,22 @@ function ItemTemple({
         rank={rank}
         cLevel={cLevel}
       />
-      {!isFromTemplesPage && !!sacrifices && (
-        <View style={_.mt.sm}>
-          <Progress size='sm' assets={assets} sacrifices={sacrifices} />
-          {sacrifices - assets >= 50 && (
-            <Touchable style={styles.btn} onPress={onItem}>
-              <Iconfont name='md-add' size={13} color={'rgba(255, 255, 255, 0.4)'} />
-            </Touchable>
-          )}
-        </View>
-      )}
+      <View style={_.mt.sm}>
+        <Progress size={isFromTemplesPage ? 'xs' : 'sm'} assets={assets} sacrifices={sacrifices} />
+        {typeof onItem === 'function' && sacrifices - assets >= 50 && (
+          <Touchable style={styles.btn} onPress={onItem}>
+            <Iconfont name='md-add' size={13} color={'rgba(255, 255, 255, 0.4)'} />
+          </Touchable>
+        )}
+      </View>
       {!!extra && (
         <Text style={_.mt.sm} type='tinygrailText' size={10} align='center' bold>
           {extra}
+        </Text>
+      )}
+      {!!userStarForces && !onItem && (
+        <Text style={_.mt.sm} type='warning' size={10} align='center' bold>
+          星之力 {formatNumber(userStarForces, 0)}
         </Text>
       )}
     </View>

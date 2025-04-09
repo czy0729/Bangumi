@@ -452,9 +452,8 @@ export default class Fetch extends Computed {
         [hash]: data
       }
     })
-    // this.save(key)
 
-    return Promise.resolve(data)
+    return data
   }
 
   /**
@@ -952,29 +951,30 @@ export default class Fetch extends Computed {
           list: result.data.Value.Characters.map(item => {
             if (item.Icon) iconsCache[item.Id] = item.Icon
             return {
-              id: item.Id,
-              monoId: item.CharacterId,
-              bids: item.Bids,
               asks: item.Asks,
-              change: item.Change,
-              current: item.Current,
-              fluctuation: item.Fluctuation ? item.Fluctuation * 100 : '',
-              total: item.Total,
-              marketValue: item.MarketValue,
-              lastOrder: item.LastOrder,
-              end: item.End,
-              users: item.Users,
-              name: item.Name,
-              icon: item.Icon,
+              bids: item.Bids,
               bonus: item.Bonus,
-              state: item.State,
-              rate: Number(toFixed(item.Rate, 2)),
+              change: item.Change,
+              crown: item.Crown,
+              current: item.Current,
+              end: item.End,
+              fluctuation: item.Fluctuation ? item.Fluctuation * 100 : '',
+              icon: item.Icon,
+              id: item.Id,
+              lastOrder: item.LastOrder,
               level: item.Level,
-              sacrifices: charaAllMap[item.Id]?.sacrifices || 0,
+              listedDate: item.ListedDate || '',
+              marketValue: item.MarketValue,
+              monoId: item.CharacterId,
+              name: item.Name,
               rank: item.Rank || 0,
-              stars: item.Stars || 0,
+              rate: Number(toFixed(item.Rate, 2)),
+              sacrifices: charaAllMap[item.Id]?.sacrifices || 0,
               starForces: item.StarForces || 0,
-              listedDate: item.ListedDate || ''
+              stars: item.Stars || 0,
+              state: item.State,
+              total: item.Total,
+              users: item.Users
             }
           }),
           pagination: paginationOnePage,
@@ -1150,22 +1150,19 @@ export default class Fetch extends Computed {
       data = {
         ...LIST_EMPTY,
         list: result.data.Value.Items.map(item => ({
-          id: item.CharacterId,
-
-          /** 用户献祭剩余资产 */
           assets: item.Assets,
           cLevel: item.CharacterLevel,
           cover: item.Cover,
+          id: item.CharacterId,
           level: item.Level,
           name: item.Name,
           rank: item.CharacterRank,
           rate: Number(toFixed(item.Rate, 2)),
-
-          /** 用户献祭总数 */
+          refine: item.Refine,
           sacrifices: item.Sacrifices,
           starForces: item.CharacterStarForces,
           stars: item.CharacterStars,
-          refine: item.Refine
+          userStarForces: item.StarForces
         })),
         _loaded: getTimestamp()
       }
@@ -1270,15 +1267,16 @@ export default class Fetch extends Computed {
       data = {
         ...LIST_EMPTY,
         list: result.data.Value.map((item: typeof CHARA_TEMPLE_ITEM) => ({
+          assets: item.Assets,
           avatar: item.Avatar,
-          id: item.CharacterId,
           cover: item.Cover,
+          id: item.CharacterId,
+          level: item.Level,
           name: item.Name,
           nickname: item.Nickname,
-          level: item.Level,
-          assets: item.Assets,
+          refine: item.Refine,
           sacrifices: item.Sacrifices,
-          refine: item.Refine
+          userStarForces: item.StarForces
         })),
         _loaded: getTimestamp()
       }
@@ -1402,7 +1400,9 @@ export default class Fetch extends Computed {
         name: item.CharacterName,
         nickname: item.Nickname,
         level: item.Level,
-        rate: Number(toFixed(item.Rate, 2))
+        rate: Number(toFixed(item.Rate, 2)),
+        assets: item.Assets,
+        sacrifices: item.Sacrifices
       }))
       data = {
         list: refresh ? _list : [...list, ..._list],

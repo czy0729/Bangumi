@@ -13,7 +13,6 @@ import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
 import { decimal } from '@tinygrail/_/utils'
-
 import Avatar from './avatar'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -76,6 +75,8 @@ function Item({
     right = assetsText
   }
 
+  const isBan = state === 666
+
   return (
     <View style={styles.container}>
       <Flex align='start'>
@@ -91,14 +92,14 @@ function Item({
               <Touchable
                 style={styles.item}
                 onPress={() => {
-                  t('番市首富.跳转', {
-                    to: 'TinygrailTree',
-                    userId
-                  })
-
                   navigation.push('TinygrailTree', {
                     userName: userId,
                     name: nickname
+                  })
+
+                  t('番市首富.跳转', {
+                    to: 'TinygrailTree',
+                    userId
                   })
                 }}
               >
@@ -108,14 +109,10 @@ function Item({
                       <Text style={styles.rank} size={12} bold align='center'>
                         {rank}
                       </Text>
-                      <Text type={state === 666 ? 'ask' : 'tinygrailPlain'} bold>
+                      <Text type={isBan ? 'ask' : 'tinygrailPlain'} bold>
                         {nickname}
-                        {!!changeText && (
-                          <Text type={changeColor} size={15}>
-                            {' '}
-                            {changeText}
-                          </Text>
-                        )}
+                        {isBan ? ' [已封禁] ' : ''}
+                        {!!changeText && <Text type={changeColor}> {changeText}</Text>}
                       </Text>
                     </Flex>
                     <Text style={_.mt.xs} type='tinygrailText' size={12} lineHeight={13}>

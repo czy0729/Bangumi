@@ -88,4 +88,17 @@ export default class Action extends Fetch {
 
     this.save()
   }
+
+  onSortLongPress = () => {
+    this.setState({
+      sort: '',
+      direction: ''
+    })
+    this.save()
+
+    t('热门榜单.排序', {
+      sort: '',
+      direction: ''
+    })
+  }
 }

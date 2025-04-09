@@ -15,7 +15,7 @@ import { NavigationProps } from '@types'
 import Menus from './menus'
 import { HM } from './ds'
 
-/** 高级分析 */
+/** 高级功能 */
 const TinygrailAdvance = ({ navigation }: NavigationProps) => {
   return useObserver(() => (
     <>
@@ -24,7 +24,7 @@ const TinygrailAdvance = ({ navigation }: NavigationProps) => {
       </Page>
       <HeaderV2
         backgroundStyle={_.container.tinygrail}
-        title='高级分析'
+        title='高级功能'
         hm={HM}
         headerRight={() => (
           <IconHeader

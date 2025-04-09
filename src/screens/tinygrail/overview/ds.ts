@@ -8,6 +8,8 @@ import {
   SORT_DJ,
   SORT_DQJ,
   SORT_FHL,
+  SORT_GX,
+  SORT_MWCS,
   SORT_PM,
   SORT_SSGX,
   SORT_SSSJ,
@@ -24,9 +26,11 @@ export const SORT_DS = [
   SORT_XZL,
   SORT_PM,
   SORT_DQJ,
-  SORT_SSGX,
   SORT_XJB,
+  SORT_GX,
+  SORT_SSGX,
   SORT_FHL,
+  SORT_MWCS,
   SORT_SSSJ
 ] as const
 

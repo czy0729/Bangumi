@@ -33,9 +33,9 @@ function Amount() {
               clearButtonMode='never'
               onChangeText={$.changeStarForces}
             />
-            {!!$.starForces && (
+            {!!$.myTemple.userStarForces && (
               <Text style={styles.starforce} type='ask' size={12} pointerEvents='none'>
-                已转化 {formatNumber($.starForces, 0)} 星之力
+                已贡献 {formatNumber($.myTemple.userStarForces, 0)} 星之力
               </Text>
             )}
           </View>

@@ -40,7 +40,7 @@ function RankPercents() {
                 value={item.rank}
               />
               <Text size={10} type='tinygrailPlain'>
-                {last ? `已转化 ${item.text}` : `再转化 ${decimal(item.distance)}`}
+                {last ? `当前星之力 ${item.text}` : `再转化 ${decimal(item.distance)}`}
               </Text>
               <Text style={_.ml.xs} size={10} type='tinygrailText'>
                 +{item.rate} (x{calculateRatio(item.rank)}

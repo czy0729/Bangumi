@@ -145,10 +145,16 @@ export function relation(data: any) {
   // }
 }
 
-/** 角色星之力 (所有用户贡献总星之力) */
+/** 角色星之力 (所有用户转化总星之力) */
 export const SORT_XZL = {
   label: '星之力',
   value: 'xzl'
+} as const
+
+/** 角色星之力 (你转化的星之力) */
+export const SORT_ZHXZL = {
+  label: '转化星之力',
+  value: 'zhxzl'
 } as const
 
 /** 角色星级 (单一用户献祭1000固定资产转星之力, 升级1星) */
@@ -284,6 +290,12 @@ export const SORT_FHL = {
   value: 'fhl'
 } as const
 
+/** 萌王次数 */
+export const SORT_MWCS = {
+  label: '萌王次数',
+  value: 'mwcs'
+} as const
+
 export const SORT_DQJ = {
   label: '当前价',
   value: 'dqj'
@@ -298,11 +310,6 @@ export const SORT_DQZD = {
 export const SORT_XFJL = {
   label: '新番奖励',
   value: 'xfjl'
-} as const
-
-export const SORT_MWCS = {
-  label: '萌王次数',
-  value: 'mwcs'
 } as const
 
 export const SORT_YLDSL = {
@@ -420,7 +427,8 @@ export function sortList<T>(sort: string, direction: '' | 'up' | 'down', list: L
     [SORT_XX.value]: (a, b) => numericSort(a, b, 'stars'),
     [SORT_XZL.value]: (a, b) => numericSort(a, b, 'starForces'),
     [SORT_HJGX.value]: (a, b) =>
-      calculatedSort(a, b, item => calculateTotalRate(item) + calculateTempleTotalRate(item))
+      calculatedSort(a, b, item => calculateTotalRate(item) + calculateTempleTotalRate(item)),
+    [SORT_ZHXZL.value]: (a, b) => numericSort(a, b, 'userStarForces')
   }
 
   if (sortHandlers[sort]) return sortedList.sort(sortHandlers[sort])
@@ -440,6 +448,7 @@ export function getCharaItemSortText(props: any, showAll: boolean = false) {
   const {
     assets,
     cLevel,
+    crown,
     current,
     level,
     listedDate,
@@ -451,7 +460,8 @@ export function getCharaItemSortText(props: any, showAll: boolean = false) {
     starForces,
     stars,
     state,
-    total
+    total,
+    userStarForces
   } = props || {}
   if (!sort) return ''
 
@@ -467,7 +477,8 @@ export function getCharaItemSortText(props: any, showAll: boolean = false) {
     [SORT_XJB.value]: () =>
       `${SORT_XJB.label} ${Number(toFixed(calculateRate(rate, rank, stars) / (current || 10000)))}`,
     [SORT_XX.value]: () => `${SORT_XX.label} ${stars}`,
-    [SORT_XZL.value]: () => `${SORT_XZL.label} ${formatNumber(starForces, 0)}`,
+    [SORT_XZL.value]: () =>
+      `${SORT_XZL.label} ${formatNumber(starForces, 0)} (${formatNumber(userStarForces, 0)})`,
 
     [SORT_GDZC.value]: () => `${SORT_GDZC.label} ${decimal(sacrifices || 0)}`,
     [SORT_GX.value]: () => `${SORT_GX.label} ${toFixed(rate || 0, 1)}`,
@@ -479,7 +490,9 @@ export function getCharaItemSortText(props: any, showAll: boolean = false) {
       )}`,
     [SORT_SSD.value]: () =>
       `${SORT_SSD.label} ${formatNumber((sacrifices || 0) - (assets || 0), 0)}`,
-    [SORT_WZD.value]: () => `${SORT_WZD.label} ${toFixed((assets / (sacrifices || 1)) * 100, 1)}%`
+    [SORT_WZD.value]: () => `${SORT_WZD.label} ${toFixed((assets / (sacrifices || 1)) * 100, 1)}%`,
+    [SORT_ZHXZL.value]: () =>
+      `星之力 ${formatNumber(starForces, 0)} (${formatNumber(userStarForces, 0)})`
   }
 
   const showAllHandlers = {
@@ -487,7 +500,8 @@ export function getCharaItemSortText(props: any, showAll: boolean = false) {
     [SORT_DJ.value]: () => `${SORT_DJ.label} ${cLevel || level || 0}`,
     [SORT_PM.value]: () => `${SORT_PM.label} ${rank || 0}`,
     [SORT_DQJ.value]: () => `${SORT_DQJ.label} ${decimal(current || 0)}`,
-    [SORT_SYZC.value]: () => `${SORT_SYZC.label} ${decimal(assets || 0)}`
+    [SORT_SYZC.value]: () => `${SORT_SYZC.label} ${decimal(assets || 0)}`,
+    [SORT_MWCS.value]: () => `${SORT_MWCS.label} ${crown}`
   }
 
   if (sortHandlers[sort]) return sortHandlers[sort]()

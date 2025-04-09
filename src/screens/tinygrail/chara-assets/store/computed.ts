@@ -127,7 +127,8 @@ export default class Computed extends State {
             assets: item.assets,
             rank: item.rank,
             refine: item.refine,
-            sacrifices: item.sacrifices
+            sacrifices: item.sacrifices,
+            userStarForces: item.userStarForces
           })
         : Object.assign({}, itemChara, {
             assets: item.assets,
@@ -142,7 +143,8 @@ export default class Computed extends State {
             refine: item.refine,
             sacrifices: item.sacrifices,
             starForces: item.starForces,
-            stars: item.stars || itemChara.stars
+            stars: item.stars || itemChara.stars,
+            userStarForces: item.userStarForces
           })
     })
 

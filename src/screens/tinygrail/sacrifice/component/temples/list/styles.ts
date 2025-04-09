@@ -8,7 +8,7 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   temples: {
-    paddingTop: _.sm,
+    paddingTop: _.md,
     paddingHorizontal: _.wind - _._wind
   }
 }))

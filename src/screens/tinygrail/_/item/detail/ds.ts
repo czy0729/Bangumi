@@ -15,6 +15,8 @@ export const COLOR_MAP = {
   merge: 'warning'
 } as const
 
+export const TEXT_SPLIT = ' / '
+
 let TIMEZONE: any = new Date().getTimezoneOffset() / -60
 if (String(TIMEZONE).length === 1) TIMEZONE = `0${TIMEZONE}`
 

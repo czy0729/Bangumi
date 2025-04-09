@@ -25,6 +25,7 @@ function ToolBar() {
       direction={$.state.direction}
       onLevelSelect={$.onLevelSelect}
       onSortPress={$.onSortPress}
+      onSortLongPress={$.onSortLongPress}
     />
   )
 }

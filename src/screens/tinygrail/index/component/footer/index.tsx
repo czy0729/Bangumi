@@ -12,7 +12,7 @@ import { alert, feedback, info, open } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
-import { VERSION_TINYGRAIL_PLUGIN } from '@constants'
+import { VERSION_TINYGRAIL_PLUGIN, WEB } from '@constants'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
@@ -56,32 +56,36 @@ function Footer() {
           fuyuake
         </Text>
       </Touchable>
-      <Text style={styles.split} type='tinygrailText'>
-        ·
-      </Text>
-      <Touchable
-        style={styles.touch}
-        onPress={() => {
-          const { routes } = navigation.getState()
-          if (!routes?.length) return
+      {!WEB && (
+        <>
+          <Text style={styles.split} type='tinygrailText'>
+            ·
+          </Text>
+          <Touchable
+            style={styles.touch}
+            onPress={() => {
+              const { routes } = navigation.getState()
+              if (!routes?.length) return
 
-          // 若在首屏操作, 则先推进 Tinygrail 页面再更新设置
-          const isFromHomeTab = !routes[0].key.startsWith('HomeTab')
-          if (isFromHomeTab) navigation.push('Tinygrail')
+              // 若在首屏操作, 则先推进 Tinygrail 页面再更新设置
+              const isFromHomeTab = !routes[0].key.startsWith('HomeTab')
+              if (isFromHomeTab) navigation.push('Tinygrail')
 
-          setTimeout(() => {
-            const value = systemStore.calcHomeRenderTabs('Tinygrail')
-            systemStore.setSetting('homeRenderTabs', value)
+              setTimeout(() => {
+                const value = systemStore.calcHomeRenderTabs('Tinygrail')
+                systemStore.setSetting('homeRenderTabs', value)
 
-            info(value.includes('Tinygrail') ? '已常驻' : '已取消常驻')
-            feedback()
-          }, 0)
-        }}
-      >
-        <Text type='tinygrailText' size={12}>
-          {systemStore.setting.homeRenderTabs.includes('Tinygrail') ? '已' : '启用'}常驻
-        </Text>
-      </Touchable>
+                info(value.includes('Tinygrail') ? '已常驻' : '已取消常驻')
+                feedback()
+              }, 0)
+            }}
+          >
+            <Text type='tinygrailText' size={12}>
+              {systemStore.setting.homeRenderTabs.includes('Tinygrail') ? '已' : '启用'}常驻
+            </Text>
+          </Touchable>
+        </>
+      )}
       <Text style={styles.split} type='tinygrailText'>
         ·
       </Text>
@@ -89,15 +93,15 @@ function Footer() {
         style={styles.touch}
         onPress={() => {
           t('小圣杯.跳转', {
-            to: 'TinygrailSearch',
-            title: '人物搜索'
+            to: 'TinygrailAdvance',
+            title: '高级功能'
           })
 
-          navigation.push('TinygrailSearch')
+          navigation.push('TinygrailAdvance')
         }}
       >
         <Text type='tinygrailText' size={12}>
-          人物搜索
+          高级功能
         </Text>
       </Touchable>
     </Flex>

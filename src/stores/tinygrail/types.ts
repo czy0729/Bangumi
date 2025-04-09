@@ -38,6 +38,7 @@ export type MyTemple = {
   level: number
   assets: number
   sacrifices: number
+  userStarForces: number
   refine: number
   _loaded: Loaded
 }

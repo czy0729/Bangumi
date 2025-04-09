@@ -5,8 +5,7 @@
  * @Last Modified time: 2025-04-07 04:57:19
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Text } from '@components'
+import { Flex, Text } from '@components'
 import { tinygrailStore } from '@stores'
 import {
   caculateICO,
@@ -25,7 +24,7 @@ import {
   decimal,
   getCharaItemSortText
 } from '@tinygrail/_/utils'
-import { COLOR_MAP, TIMEZONE, TYPES } from './ds'
+import { COLOR_MAP, TEXT_SPLIT, TIMEZONE, TYPES } from './ds'
 import { styles } from './styles'
 
 function Detail(props) {
@@ -73,7 +72,7 @@ function Detail(props) {
     extra.push(formatTime(_end))
 
     /** ICO 已筹资金 */
-    extra.push(`已筹${totalText}`)
+    extra.push(`已筹 ${totalText}`)
   } else {
     extra.push(`+${toFixed(rate, 1)} (${Number(toFixed(calculateRate(rate, rank, stars), 1))}) `)
     if (stockPreview && (state || sacrifices)) {
@@ -84,10 +83,10 @@ function Detail(props) {
 
     if (isValhall) {
       /** 英灵殿底价 */
-      extra2.push(`底价${toFixed(price, 1)}`)
+      extra2.push(`底价 ${toFixed(price, 1)}`)
 
       /** 英灵殿数量 */
-      extra2.push(`数量${formatNumber(state, 0)}`)
+      extra2.push(`数量 ${formatNumber(state, 0)}`)
     } else {
       if ((stockPreview || isAuction) && lastOrder) {
         /** 最近交易或拍卖出价时间 */
@@ -95,19 +94,19 @@ function Detail(props) {
       }
 
       /** 市场流通量 */
-      if (totalText) extra4.push(`流通量${totalText}`)
+      if (totalText) extra4.push(`流通量 ${totalText}`)
 
       /** 市场总值 */
-      if (marketValueText) extra4.push(`总值${marketValueText}`)
+      if (marketValueText) extra4.push(`总值 ${marketValueText}`)
     }
   }
 
   if (stockPreview) {
     /** 市场总献祭量 */
-    if (sa) extra3.push(`献祭${decimal(sa)}`)
+    if (sa) extra3.push(`献祭 ${decimal(sa)}`)
 
     /** 星之力 */
-    if (starForces) extra3.push(`通天塔${decimal(starForces)}`)
+    if (starForces) extra3.push(`通天塔 ${decimal(starForces)}`)
   }
 
   let icoUser: number
@@ -127,7 +126,7 @@ function Detail(props) {
   if (TYPES.includes(type) && state) {
     prevText = `${formatNumber(state, 0)}股`
   } else if (type === 'ico') {
-    prevText = `注资${decimal(state)}`
+    prevText = `注资 ${decimal(state)}`
   }
 
   const size = stockPreview ? 10 : 11
@@ -136,10 +135,10 @@ function Detail(props) {
     size,
     lineHeight: 12
   } as const
-  const elSplit = <Text {...textBaseProps}>{' / '}</Text>
+  const elSplit = <Text {...textBaseProps}>{TEXT_SPLIT}</Text>
 
   return (
-    <View style={styles.detail}>
+    <Flex style={styles.detail} wrap='wrap'>
       <Text {...textBaseProps}>
         {!!sortText && (
           <Text {...textBaseProps} bold>
@@ -165,29 +164,40 @@ function Detail(props) {
             {elSplit}
           </Text>
         )}
-        {extra.join(' / ')}
+        {extra.join(TEXT_SPLIT)}
         {!!icoUser && (
           <Text
             {...textBaseProps}
             type={icoHighlight ? 'warning' : 'tinygrailText'}
             bold={icoHighlight}
           >
-            {' / '}
+            {TEXT_SPLIT}
             当前{icoUser}人
           </Text>
         )}{' '}
         {!stockPreview && <Stars value={stars} />}
       </Text>
-      {!!extra2.length && <Text {...textBaseProps}>{extra2.join(' / ')}</Text>}
+      {!!extra2.length && (
+        <Text {...textBaseProps}>
+          {TEXT_SPLIT}
+          {extra2.join(TEXT_SPLIT)}
+        </Text>
+      )}
       {!!extra3.length && (
         <Text {...textBaseProps}>
-          {extra3.join(' / ')}
-          {!!stars && ' / '}
+          {TEXT_SPLIT}
+          {extra3.join(TEXT_SPLIT)}
+          {!!stars && TEXT_SPLIT}
           <Stars value={stars} />
         </Text>
       )}
-      {!!extra4.length && <Text {...textBaseProps}>{extra4.join(' / ')}</Text>}
-    </View>
+      {!!extra4.length && (
+        <Text {...textBaseProps}>
+          {TEXT_SPLIT}
+          {extra4.join(TEXT_SPLIT)}
+        </Text>
+      )}
+    </Flex>
   )
 }
 

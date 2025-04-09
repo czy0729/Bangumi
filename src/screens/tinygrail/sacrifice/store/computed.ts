@@ -27,7 +27,7 @@ export default class Computed extends State {
 
   /** 角色 ID */
   @computed get id() {
-    return this.chara.id || this.params._props?.id || this.monoId || 0
+    return (this.chara.id || this.params._props?.id || this.monoId || 0) as number
   }
 
   /** 角色名 */

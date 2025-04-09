@@ -77,20 +77,20 @@ export default class Action extends Fetch {
         direction: nextDirection
       })
 
-      // t('我的持仓.排序', {
-      //   sort: nextSort,
-      //   direction: nextDirection
-      // })
+      t('我的持仓.排序', {
+        sort: nextSort,
+        direction: nextDirection
+      })
     } else {
       this.setState({
         [key]: value,
         direction: 'down'
       })
 
-      // t('我的持仓.排序', {
-      //   sort: value,
-      //   direction: 'down'
-      // })
+      t('我的持仓.排序', {
+        sort: value,
+        direction: 'down'
+      })
     }
 
     this.save()
@@ -103,10 +103,10 @@ export default class Action extends Fetch {
     })
     this.save()
 
-    // t('我的持仓.排序', {
-    //   sort: '',
-    //   direction: ''
-    // })
+    t('我的持仓.排序', {
+      sort: '',
+      direction: ''
+    })
   }
 
   /** 切换批量操作 */

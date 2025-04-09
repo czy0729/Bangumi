@@ -19,11 +19,11 @@ function Items() {
   const [title, setTitle] = useState('')
   const [visible, setVisible] = useState(false)
 
-  const onOpen = useCallback((title: string) => {
+  const handleOpen = useCallback((title: string) => {
     setTitle(title)
     setVisible(true)
   }, [])
-  const onClose = useCallback(() => {
+  const handleClose = useCallback(() => {
     setTitle('')
     setVisible(false)
   }, [])
@@ -35,8 +35,8 @@ function Items() {
         <Head />
         {$.state.showItems && (
           <>
-            <List onOpen={onOpen} />
-            <Modal title={title} visible={visible} onClose={onClose} />
+            <List onOpen={handleOpen} />
+            <Modal title={title} visible={visible} onClose={handleClose} />
           </>
         )}
       </View>
