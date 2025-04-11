@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-08 06:49:01
+ * @Last Modified time: 2025-04-11 21:45:30
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -54,6 +54,7 @@ const Summary = memo(
             )
           }
           icon={!showSummary && 'md-navigate-next'}
+          splitStyles
           onPress={() => onSwitchBlock('showSummary')}
         >
           {TITLE_SUMMARY}

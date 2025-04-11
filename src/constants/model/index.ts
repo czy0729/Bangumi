@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-03 20:25:39
+ * @Last Modified time: 2025-04-11 01:06:50
  */
 import { HOST_DMZJ, IOS } from '../constants'
 import { Model } from './utils'
@@ -626,6 +626,44 @@ export const SETTING_TRANSITION = [
 
 /** [设置] 切页动画 */
 export const MODEL_SETTING_TRANSITION = new Model(SETTING_TRANSITION, 'SETTING_TRANSITION')
+
+/** [设置] 条目版块分割线样式 */
+export const SETTING_SUBJECT_SPLIT_STYLES = [
+  {
+    label: '不使用',
+    value: 'off'
+  },
+  {
+    label: '分割线 (1)',
+    value: 'line-1'
+  },
+  {
+    label: '分割线 (2)',
+    value: 'line-2'
+  },
+  {
+    label: '标题 (粉)',
+    value: 'title-main'
+  },
+  {
+    label: '标题 (橙)',
+    value: 'title-warning'
+  },
+  {
+    label: '标题 (蓝)',
+    value: 'title-primary'
+  },
+  {
+    label: '标题 (绿)',
+    value: 'title-success'
+  }
+] as const
+
+/** [设置] 条目版块分割线样式 */
+export const MODEL_SETTING_SUBJECT_SPLIT_STYLES = new Model(
+  SETTING_SUBJECT_SPLIT_STYLES,
+  'SETTING_SUBJECT_SPLIT_STYLES'
+)
 
 /** [设置] 同步设置 */
 export const SETTING_SYNC = [

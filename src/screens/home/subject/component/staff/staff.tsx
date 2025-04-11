@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:28:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-25 19:18:39
+ * @Last Modified time: 2025-04-11 21:45:34
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -26,6 +26,7 @@ const Staff = memo(
           style={_.container.wind}
           right={showStaff ? <IconStaff /> : <IconHidden name={TITLE_STAFF} value='showStaff' />}
           icon={!showStaff && 'md-navigate-next'}
+          splitStyles
           onPress={() => onSwitchBlock('showStaff')}
         >
           {TITLE_STAFF}

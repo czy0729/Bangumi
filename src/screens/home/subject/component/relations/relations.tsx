@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 10:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-19 22:03:11
+ * @Last Modified time: 2025-04-11 21:45:41
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -31,6 +31,7 @@ const Relations = memo(
             )
           }
           icon={!showRelations && 'md-navigate-next'}
+          splitStyles
           onPress={() => onSwitchBlock('showRelations')}
         >
           {TITLE_RELATIONS}

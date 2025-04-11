@@ -11,6 +11,7 @@ import { _, systemStore, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { TITLE_LIKE } from '../../ds'
 import { Ctx } from '../../types'
+import Split from '../split'
 import Like from './like.lazy'
 import { COMPONENT } from './ds'
 
@@ -30,6 +31,7 @@ function LikeWrap({ onBlockRef }) {
           typeCn={$.type}
           onSwitchBlock={$.onSwitchBlock}
         />
+        <Split />
       </Component>
     </Suspense>
   )

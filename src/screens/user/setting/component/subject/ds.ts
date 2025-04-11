@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-07-18 13:22:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-08 07:08:49
+ * @Last Modified time: 2025-04-11 04:58:39
  */
 import { rc } from '@utils/dev'
+import { MODEL_SETTING_SUBJECT_SPLIT_STYLES, SETTING_SUBJECT_SPLIT_STYLES } from '@constants'
 import i18n from '@constants/i18n'
 import { COMPONENT as PARENT } from '../ds'
 
@@ -79,10 +80,38 @@ export const VALUES = ['显示', '折叠', '隐藏'] as const
 export const VALUES_2 = ['显示', '隐藏'] as const
 
 export const TEXTS = {
-  subjectShowAirdayMonth: {
+  splitStyles: {
+    setting: {
+      title: '版块分割线样式',
+      information: '各版块之间默认没有分割，若觉得区分度不够、信息太密集可以考虑开启',
+      search: SETTING_SUBJECT_SPLIT_STYLES.map(item => item.label).join()
+    },
+    off: {
+      title: MODEL_SETTING_SUBJECT_SPLIT_STYLES.getLabel('off')
+    },
+    'line-1': {
+      title: MODEL_SETTING_SUBJECT_SPLIT_STYLES.getLabel('line-1')
+    },
+    'line-2': {
+      title: MODEL_SETTING_SUBJECT_SPLIT_STYLES.getLabel('line-2')
+    },
+    'title-main': {
+      title: MODEL_SETTING_SUBJECT_SPLIT_STYLES.getLabel('title-main')
+    },
+    'title-warning': {
+      title: MODEL_SETTING_SUBJECT_SPLIT_STYLES.getLabel('title-warning')
+    },
+    'title-primary': {
+      title: MODEL_SETTING_SUBJECT_SPLIT_STYLES.getLabel('title-primary')
+    },
+    'title-success': {
+      title: MODEL_SETTING_SUBJECT_SPLIT_STYLES.getLabel('title-success')
+    }
+  },
+  showAirdayMonth: {
     hd: '发布日期显示到月份'
   },
-  subjectHtmlExpand: {
+  htmlExpand: {
     hd: '简介、详情使用新页面展开'
   },
   showCount: {

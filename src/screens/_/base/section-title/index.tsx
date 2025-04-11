@@ -2,30 +2,59 @@
  * @Author: czy0729
  * @Date: 2019-04-10 15:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 02:46:23
+ * @Last Modified time: 2025-04-12 02:35:22
  */
 import React from 'react'
+import { View } from 'react-native'
+import { useObserver } from 'mobx-react'
 import { Component, Flex, Iconfont, Text, Touchable } from '@components'
-import { _ } from '@stores'
-import { isObject } from '@utils'
-import { memo } from '@utils/decorators'
+import { _, systemStore } from '@stores'
+import { stl } from '@utils'
 import { r } from '@utils/dev'
+import { ReactNode } from '@types'
 import { COMPONENT } from './ds'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 import { Props as SectionTitleProps } from './types'
 
 export { SectionTitleProps }
 
 /** 块(章节) 标题 */
-export const SectionTitle = memo(
-  ({ style, icon, left, right, children, onPress }: SectionTitleProps) => {
-    r(COMPONENT)
+export const SectionTitle = ({
+  style,
+  icon = '',
+  left,
+  right,
+  splitStyles,
+  children,
+  onPress
+}: SectionTitleProps) => {
+  r(COMPONENT)
+
+  return useObserver(() => {
+    const styles = memoStyles()
+
+    let splitStylesTitle: ReactNode = null
+    if (splitStyles) {
+      const { subjectSplitStyles } = systemStore.setting
+      if (subjectSplitStyles.startsWith('title-')) {
+        const styleMap = {
+          main: styles.titleMain,
+          warning: styles.titleWarning,
+          primary: styles.titlePrimary,
+          success: styles.titleSuccess
+        }
+        const styleKey = subjectSplitStyles.split('-')?.[1] || 'main'
+        const selectedStyle = styleMap[styleKey] || styles.titleMain
+        splitStylesTitle = <View style={stl(styles.title, selectedStyle)} />
+      }
+    }
 
     return (
       <Component id='base-section-title'>
         <Flex style={style}>
           <Flex.Item style={_.mr.sm}>
             <Flex>
+              {splitStylesTitle}
               {onPress ? (
                 <Touchable style={styles.touch} onPress={onPress}>
                   <Flex>
@@ -47,24 +76,7 @@ export const SectionTitle = memo(
         </Flex>
       </Component>
     )
-  },
-  {
-    style: undefined,
-    icon: '',
-    left: undefined,
-    right: undefined,
-    children: undefined,
-    onPress: undefined
-  },
-  ({ left, right, children, ...other }) => {
-    /** right 只会 React.Element, 若存在强制更新 */
-    if (isObject(right) || isObject(children)) return false
-
-    return {
-      children,
-      ...other
-    }
-  }
-)
+  })
+}
 
 export default SectionTitle

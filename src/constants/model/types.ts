@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-22 13:09:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-31 13:14:42
+ * @Last Modified time: 2025-04-11 01:06:31
  */
 import { ModelValueOf } from '@types'
 import {
@@ -37,6 +37,7 @@ import {
   SETTING_HOME_LAYOUT,
   SETTING_HOME_SORTING,
   SETTING_INITIAL_PAGE,
+  SETTING_SUBJECT_SPLIT_STYLES,
   SETTING_TRANSITION,
   SETTING_USER_GRID_NUM,
   SUBJECT_TYPE,
@@ -141,6 +142,9 @@ export type SettingInitialPageCn = ModelValueOf<typeof SETTING_INITIAL_PAGE, 'la
 
 export type SettingTransition = ModelValueOf<typeof SETTING_TRANSITION>
 export type SettingTransitionCn = ModelValueOf<typeof SETTING_TRANSITION, 'label'>
+
+export type SettingSubjectSplitStyles = ModelValueOf<typeof SETTING_SUBJECT_SPLIT_STYLES>
+export type SettingSubjectSplitStylesCn = ModelValueOf<typeof SETTING_SUBJECT_SPLIT_STYLES, 'label'>
 
 export type SettingUserGridNum = ModelValueOf<typeof SETTING_USER_GRID_NUM>
 export type SettingUserGridNumCn = ModelValueOf<typeof SETTING_USER_GRID_NUM, 'label'>

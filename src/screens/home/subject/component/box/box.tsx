@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-05 04:17:58
+ * @Last Modified time: 2025-04-11 21:47:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -45,6 +45,7 @@ const Box = memo(
               <IconClose />
             </>
           }
+          splitStyles
         >
           {TITLE_BOX}
         </SectionTitle>

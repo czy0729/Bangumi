@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-28 15:10:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 00:24:13
+ * @Last Modified time: 2025-04-11 21:47:05
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -30,6 +30,7 @@ const Catalog = memo(
             showCatalog ? <IconCatalog /> : <IconHidden name={TITLE_CATALOG} value='showCatalog' />
           }
           icon={!showCatalog && 'md-navigate-next'}
+          splitStyles
           onPress={() => onSwitchBlock('showCatalog')}
         >
           {TITLE_CATALOG}

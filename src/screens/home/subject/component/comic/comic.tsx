@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:02:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-19 22:06:27
+ * @Last Modified time: 2025-04-11 21:46:55
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -22,7 +22,11 @@ const Comic = memo(
   ({ navigation, subjectId, comic }) => {
     return (
       <InView style={styles.container}>
-        <SectionTitle style={_.container.wind} right={<IconRelation title='单行本' list={comic} />}>
+        <SectionTitle
+          style={_.container.wind}
+          right={<IconRelation title='单行本' list={comic} />}
+          splitStyles
+        >
           {TITLE_COMIC}
         </SectionTitle>
         <HorizontalList

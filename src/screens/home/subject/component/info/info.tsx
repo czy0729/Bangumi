@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-08 06:48:35
+ * @Last Modified time: 2025-04-11 21:45:57
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
@@ -50,6 +50,7 @@ const Info = memo(
           style={_.container.wind}
           right={showInfo ? <IconWiki /> : <IconHidden name='详情' value='showInfo' />}
           icon={!showInfo && 'md-navigate-next'}
+          splitStyles
           onPress={() => onSwitchBlock('showInfo')}
         >
           详情

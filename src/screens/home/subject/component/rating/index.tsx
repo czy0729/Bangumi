@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-12 13:34:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-14 08:41:46
+ * @Last Modified time: 2025-04-10 07:06:56
  */
 import React, { Suspense } from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { _, systemStore, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { TITLE_RATING } from '../../ds'
 import { Ctx } from '../../types'
+import Split from '../split'
 import Rating from './rating.lazy'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -28,6 +29,7 @@ function RatingWrap({ onBlockRef }) {
           showRating={systemStore.setting.showRating}
           hideScore={systemStore.setting.hideScore}
         />
+        <Split />
       </Component>
     </Suspense>
   )

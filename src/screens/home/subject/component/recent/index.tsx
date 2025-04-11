@@ -11,6 +11,7 @@ import { _, systemStore, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { TITLE_RECENT } from '../../ds'
 import { Ctx } from '../../types'
+import Split from '../split'
 import Recent from './recent.lazy'
 import { COMPONENT } from './ds'
 
@@ -30,6 +31,7 @@ function RecentWrap({ onBlockRef }) {
           hideScore={systemStore.setting.hideScore}
           onSwitchBlock={$.onSwitchBlock}
         />
+        <Split />
       </Component>
     </Suspense>
   )

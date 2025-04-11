@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 02:26:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-22 08:15:20
+ * @Last Modified time: 2025-04-11 21:46:24
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
@@ -31,6 +31,7 @@ const Disc = memo(
               {!discTranslateResult.length && <IconDisc />}
             </>
           }
+          splitStyles
         >
           曲目列表
         </SectionTitle>

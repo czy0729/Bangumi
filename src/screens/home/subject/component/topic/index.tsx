@@ -11,6 +11,7 @@ import { _, systemStore, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { TITLE_TOPIC } from '../../ds'
 import { Ctx } from '../../types'
+import Split from '../split'
 import Topic from './topic.lazy'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -31,6 +32,7 @@ function TopicWrap({ onBlockRef }) {
           topic={$.filterTopic}
           onSwitchBlock={$.onSwitchBlock}
         />
+        <Split />
       </Component>
     </Suspense>
   )

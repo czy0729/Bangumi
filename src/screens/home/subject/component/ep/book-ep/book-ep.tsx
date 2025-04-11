@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-09 16:36:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 00:07:33
+ * @Last Modified time: 2025-04-11 21:46:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -49,6 +49,7 @@ const BookEp = memo(
               <IconHD />
             </>
           }
+          splitStyles
         >
           {TITLE_EP}
         </SectionTitle>

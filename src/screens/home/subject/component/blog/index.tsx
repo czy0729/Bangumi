@@ -11,6 +11,7 @@ import { _, systemStore, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { TITLE_BLOG } from '../../ds'
 import { Ctx } from '../../types'
+import Split from '../split'
 import Blog from './blog.lazy'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -31,6 +32,7 @@ function BlogWrap({ onBlockRef }) {
           blog={$.filterBlog}
           onSwitchBlock={$.onSwitchBlock}
         />
+        <Split />
       </Component>
     </Suspense>
   )

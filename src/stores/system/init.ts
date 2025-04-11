@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-16 09:12:29
+ * @Last Modified time: 2025-04-11 01:07:07
  */
 import { MUSUME_PROMPT } from '@utils/kv/ds'
 import {
@@ -13,6 +13,7 @@ import {
   MODEL_SETTING_HOME_LAYOUT,
   MODEL_SETTING_HOME_SORTING,
   MODEL_SETTING_INITIAL_PAGE,
+  MODEL_SETTING_SUBJECT_SPLIT_STYLES,
   MODEL_SETTING_TRANSITION,
   MODEL_SETTING_USER_GRID_NUM,
   VERSION_GITHUB_RELEASE,
@@ -28,6 +29,7 @@ import {
   SettingHomeLayout,
   SettingHomeSorting,
   SettingInitialPage,
+  SettingSubjectSplitStyles,
   SettingTransition,
   SettingUserGridNum
 } from '@types'
@@ -148,13 +150,10 @@ export const INIT_SETTING = {
   /** 黑暗模式是否纯黑 */
   deepDark: true,
 
-  /** @deprecated 设置页面显示最基本的设置 */
-  // simple: true,
-
   /** 头像是否圆形 */
   avatarRound: false,
 
-  /** @deprecated 默认的封面圆角大小 */
+  /** 默认的封面圆角大小 (已不支持修改) */
   coverRadius: radiusMd,
 
   /* 圆角过渡 */
@@ -163,7 +162,7 @@ export const INIT_SETTING = {
   /** 使用 CDN 加速 */
   cdn: false,
 
-  /** @deprecated CDN 源头 */
+  /** CDN 源头 (已不支持修改) */
   cdnOrigin: MODEL_SETTING_CDN_ORIGIN.getValue<SettingCDNOrigin>('magma'),
 
   /** 头像启用付费 CDN */
@@ -177,9 +176,6 @@ export const INIT_SETTING = {
 
   /** 屏蔽默认头像用户相关信息 */
   filterDefault: false,
-
-  /** @deprecated 扁平化 */
-  // flat: true,
 
   /** 章节热力图 */
   heatMap: true,
@@ -198,12 +194,6 @@ export const INIT_SETTING = {
 
   /** 图片渐出 */
   imageFadeIn: true,
-
-  /** @deprecated iOS 风格弹出菜单 */
-  // iosMenu: false,
-
-  /** @deprecated 首页收藏阴影 */
-  // itemShadow: false,
 
   /** 片假名终结者 */
   katakana: false,
@@ -226,10 +216,10 @@ export const INIT_SETTING = {
   /** 首页显示游戏分类 */
   showGame: false,
 
-  /** 是否开启小圣杯 */
+  /** 是否开启小圣杯玩法 */
   tinygrail: false,
 
-  /** 小圣杯缩短资金数字显示 */
+  /** 小圣杯是否缩短资产数字显示 */
   xsbShort: true,
 
   /** 回复是否显示来源 */
@@ -250,34 +240,34 @@ export const INIT_SETTING = {
   /** 启动页 */
   initialPage: MODEL_SETTING_INITIAL_PAGE.getValue<SettingInitialPage>('进度'),
 
-  /** 底栏页面是否懒加载 */
+  /** 首屏底栏页面是否懒加载 */
   bottomTabLazy: true,
 
   /** 切页动画 */
   transition: MODEL_SETTING_TRANSITION.getValue<SettingTransition>('水平'),
 
-  /** 显示正版播放源 */
+  /** 是否显示正版播放源 */
   showLegalSource: WEB,
 
-  /** 首页列表搜索框 */
+  /** 首页列表是否显示搜索框 */
   homeFilter: true,
 
-  /** 首页条目显示搜索源头 */
+  /** 首页条目是否显示搜索源头 */
   homeOrigin: false as LayoutValue,
 
-  /** 首页条目一直显示放送时间 */
+  /** 首页条目是否一直显示放送时间 */
   homeOnAir: false,
 
-  /** 首页已放送章节看完条目下沉 */
+  /** 首页是否下沉已放送章节看完的条目 */
   homeSortSink: true,
 
   /** 长篇动画从最后看过开始显示 */
   homeEpStartAtLastWathed: true,
 
-  /** 首页 Tabs 项 */
+  /** 首页底栏项 */
   homeRenderTabs: ['Discovery', 'Timeline', 'Home', 'Rakuen', 'User'] as HomeRenderTabs,
 
-  /** 首页进度 Tabs 范围 */
+  /** 首页进度选项卡类型范围 */
   homeTabs: ['all', 'anime', 'book', 'real'] as HomeTabs,
 
   /** 首页收藏布局 */
@@ -343,6 +333,10 @@ export const INIT_SETTING = {
 
   /** 条目简介、详情是否展开，否则跳转到新页面展示 */
   subjectHtmlExpand: false,
+
+  /** 条目不同板块间是否显示分割线 (支持多种样式) */
+  subjectSplitStyles:
+    MODEL_SETTING_SUBJECT_SPLIT_STYLES.getValue<SettingSubjectSplitStyles>('不显示'),
 
   /** 突出显示源头按钮 */
   focusOrigin: WEB,

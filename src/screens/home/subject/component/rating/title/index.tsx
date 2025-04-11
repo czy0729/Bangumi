@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-12 15:30:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-14 08:42:52
+ * @Last Modified time: 2025-04-11 21:45:49
  */
 import React from 'react'
 import { Text } from '@components'
@@ -29,6 +29,7 @@ function Title({ showScore }) {
         )
       }
       icon={!showRating && 'md-navigate-next'}
+      splitStyles
       onPress={() => $.onSwitchBlock('showRating')}
     >
       {TITLE_RATING}{' '}

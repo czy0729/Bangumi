@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-01-12 06:39:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-02 01:13:04
+ * @Last Modified time: 2025-04-11 21:47:19
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -62,6 +62,7 @@ const Anitabi = memo(
             )
           }
           icon={!showAnitabi && 'md-navigate-next'}
+          splitStyles
           onPress={() => onSwitchBlock('showAnitabi')}
         >
           {TITLE_ANITABI}

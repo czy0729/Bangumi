@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-19 04:40:47
+ * @Last Modified time: 2025-04-11 21:45:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -36,6 +36,7 @@ const Tags = memo(
             )
           }
           icon={!showTags && 'md-navigate-next'}
+          splitStyles
           onPress={() => onSwitchBlock('showTags')}
         >
           {TITLE_TAGS}

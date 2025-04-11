@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-14 16:22:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-27 04:25:33
+ * @Last Modified time: 2025-04-11 21:46:28
  */
 import React from 'react'
 import { Heatmap, Text } from '@components'
@@ -34,6 +34,7 @@ const Comment = memo(
             )
           }
           icon={!showComment && 'md-navigate-next'}
+          splitStyles
           onPress={() => onSwitchBlock('showComment')}
         >
           吐槽

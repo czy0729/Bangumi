@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-25 18:25:38
+ * @Last Modified time: 2025-04-11 21:47:01
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -32,6 +32,7 @@ const Character = memo(
             )
           }
           icon={!showCharacter && 'md-navigate-next'}
+          splitStyles
           onPress={() => onSwitchBlock('showCharacter')}
         >
           {TITLE_CHARACTER}

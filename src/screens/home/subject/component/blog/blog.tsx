@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:36:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-09 11:04:38
+ * @Last Modified time: 2025-04-11 21:47:12
  */
 import React from 'react'
 import { Expand, Heatmap } from '@components'
@@ -25,6 +25,7 @@ const Blog = memo(
           style={styles.sectionTitle}
           right={showBlog ? <IconBlog /> : <IconHidden name={TITLE_BLOG} value='showBlog' />}
           icon={!showBlog && 'md-navigate-next'}
+          splitStyles
           onPress={() => onSwitchBlock('showBlog')}
         >
           {TITLE_BLOG}

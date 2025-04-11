@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:00:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-19 22:11:35
+ * @Last Modified time: 2025-04-11 21:45:53
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -32,6 +32,7 @@ const Like = memo(
             )
           }
           icon={!showLike && 'md-navigate-next'}
+          splitStyles
           onPress={() => onSwitchBlock('showLike')}
         >
           {TITLE_LIKE}

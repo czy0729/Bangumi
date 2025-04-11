@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 05:09:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-09 11:04:25
+ * @Last Modified time: 2025-04-11 21:45:00
  */
 import React from 'react'
 import { Expand, Heatmap } from '@components'
@@ -25,6 +25,7 @@ const Topic = memo(
           style={_.container.wind}
           right={showTopic ? <IconTopic /> : <IconHidden name={TITLE_TOPIC} value='showTopic' />}
           icon={!showTopic && 'md-navigate-next'}
+          splitStyles
           onPress={() => onSwitchBlock('showTopic')}
         >
           {TITLE_TOPIC}

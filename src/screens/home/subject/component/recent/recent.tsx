@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-16 07:40:54
+ * @Last Modified time: 2025-04-11 21:45:45
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -26,6 +26,7 @@ const Recent = memo(
           style={_.container.wind}
           right={!showRecent && <IconHidden name={TITLE_RECENT} value='showRecent' />}
           icon={!showRecent && 'md-navigate-next'}
+          splitStyles
           onPress={() => onSwitchBlock('showRecent')}
         >
           {TITLE_RECENT}

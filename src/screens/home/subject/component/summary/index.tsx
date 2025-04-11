@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 02:07:35
+ * @Last Modified time: 2025-04-10 07:20:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { cnjp } from '@utils'
 import { ob } from '@utils/decorators'
 import { TITLE_SUMMARY } from '../../ds'
 import { Ctx } from '../../types'
+import Split from '../split'
 import Summary from './summary'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -33,6 +34,7 @@ function SummaryWrap({ onBlockRef }) {
         name={cnjp($.cn, $.jp)}
         onSwitchBlock={$.onSwitchBlock}
       />
+      <Split />
     </Component>
   )
 }

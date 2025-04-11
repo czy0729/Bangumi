@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 02:10:09
+ * @Last Modified time: 2025-04-11 21:45:21
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
@@ -17,6 +17,7 @@ import { TITLE_THUMBS } from '../../ds'
 import { Ctx } from '../../types'
 import IconHidden from '../icon/hidden'
 import IconPreview from '../icon/preview'
+import Split from '../split'
 import Preview from './preview'
 import Video from './video'
 import { COMPONENT } from './ds'
@@ -75,6 +76,7 @@ function Thumbs({ onBlockRef }) {
             style={_.container.wind}
             right={elRight}
             icon={!showThumbs && 'md-navigate-next'}
+            splitStyles
             onPress={() => $.onSwitchBlock('showThumbs')}
           >
             {title}
@@ -122,6 +124,7 @@ function Thumbs({ onBlockRef }) {
           <PreventTouchPlaceholder />
           <Heatmap id='条目.预览' />
         </InView>
+        <Split />
       </Component>
     )
   })

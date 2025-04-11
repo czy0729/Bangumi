@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 01:36:35
+ * @Last Modified time: 2025-04-10 07:20:50
  */
 import React, { Suspense } from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { _, systemStore, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { TITLE_CHARACTER } from '../../ds'
 import { Ctx } from '../../types'
+import Split from '../split'
 import Character from './character.lazy'
 import { COMPONENT } from './ds'
 
@@ -29,6 +30,11 @@ function CharacterWrap({ onBlockRef }) {
           crt={$.crt}
           crtCounts={$.subjectFormHTML.crtCounts}
           onSwitchBlock={$.onSwitchBlock}
+        />
+        <Split
+          style={{
+            marginTop: 28
+          }}
         />
       </Component>
     </Suspense>

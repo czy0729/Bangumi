@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 02:09:32
+ * @Last Modified time: 2025-04-10 07:15:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { _, systemStore, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { TITLE_TAGS } from '../../ds'
 import { Ctx } from '../../types'
+import Split from '../split'
 import Tags from './tags'
 import { COMPONENT } from './ds'
 
@@ -29,6 +30,12 @@ function TagsWrap({ onBlockRef }) {
         rank={$.rank}
         focusOrigin={systemStore.setting.focusOrigin}
         onSwitchBlock={$.onSwitchBlock}
+      />
+      <Split
+        style={{
+          marginTop: 0,
+          marginBottom: 24
+        }}
       />
     </Component>
   )

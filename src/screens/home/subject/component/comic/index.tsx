@@ -11,6 +11,7 @@ import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { TITLE_COMIC } from '../../ds'
 import { Ctx } from '../../types'
+import Split from '../split'
 import Comic from './comic.lazy'
 import { COMPONENT } from './ds'
 
@@ -23,6 +24,7 @@ function ComicWrap({ onBlockRef }) {
       <Component id='screen-subject-comic'>
         <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_COMIC)} />
         <Comic navigation={navigation} subjectId={$.subjectId} comic={$.comic} />
+        <Split />
       </Component>
     </Suspense>
   )

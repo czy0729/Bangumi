@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 01:39:32
+ * @Last Modified time: 2025-04-10 06:59:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,7 @@ import { MODEL_SUBJECT_TYPE } from '@constants'
 import { TITLE_DISC, TITLE_EP } from '../../ds'
 import { Ctx } from '../../types'
 import Disc from '../disc'
+import Split from '../split'
 import BookEp from './book-ep'
 import Ep from './ep'
 import { COMPONENT } from './ds'
@@ -51,6 +52,7 @@ function EpWrap({ onBlockRef, onScrollIntoViewIfNeeded }) {
           doUpdateSubjectEp={$.doUpdateSubjectEp}
         />
       )}
+      <Split />
     </Component>
   )
 }
