@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-04-19 16:42:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-01 16:29:06
+ * @Last Modified time: 2025-04-11 19:59:10
  */
 import { useCallback, useRef, useState } from 'react'
 import { systemStore } from '@stores'
 import { Setting } from '@stores/system/types'
 import { feedback, scrollToView } from '@utils'
 import { useMount, useRunAfter } from '@utils/hooks'
-import { BooleanKeys, NavigationProps, NonBooleanKeys } from '@types'
+import { NavigationProps } from '@types'
+import { SetSettingKeys, SwitchSettingKeys } from './types'
 
 /** 设置页面逻辑 */
 export function useSettingPage({ route }: NavigationProps) {
@@ -61,12 +62,12 @@ export function useSettingPage({ route }: NavigationProps) {
 }
 
 /** 延迟切换设置, 更快响应且避免卡住 UI */
-export function useAsyncSwitchSetting(key: BooleanKeys<Setting>) {
+export function useAsyncSwitchSetting(key: SwitchSettingKeys) {
   const [value, setValue] = useState(systemStore.setting[key])
   const handleSwitch = useCallback(() => {
+    setValue(!value)
     feedback(true)
 
-    setValue(!value)
     setTimeout(() => {
       systemStore.switchSetting(key)
     }, 40)
@@ -79,13 +80,13 @@ export function useAsyncSwitchSetting(key: BooleanKeys<Setting>) {
 }
 
 /** 延迟更新设置, 更快响应且避免卡住 UI */
-export function useAsyncSetSetting<T extends NonBooleanKeys<Setting>>(key: T) {
+export function useAsyncSetSetting<T extends SetSettingKeys>(key: T) {
   const [value, setValue] = useState(systemStore.setting[key])
   const handleSet = useCallback(
     (updateValue: Setting[T]) => {
+      setValue(updateValue)
       feedback(true)
 
-      setValue(updateValue)
       setTimeout(() => {
         systemStore.setSetting(key, updateValue)
       }, 40)

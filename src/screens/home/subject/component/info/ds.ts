@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-26 00:59:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-08 05:45:51
+ * @Last Modified time: 2025-04-12 17:32:37
  */
 import { systemStore } from '@stores'
 import { rc } from '@utils/dev'
@@ -21,6 +21,7 @@ export const DEFAULT_PROPS = {
   styles: {} as ReturnType<typeof memoStyles>,
   subjectId: 0 as $['subjectId'],
   showInfo: true as typeof systemStore.setting.showInfo,
+  subjectHtmlExpand: true as typeof systemStore.setting.subjectHtmlExpand,
   info: '' as $['info'],
   name: '',
   onSwitchBlock: FROZEN_FN as $['onSwitchBlock']

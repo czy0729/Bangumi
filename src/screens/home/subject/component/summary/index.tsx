@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-10 07:20:08
+ * @Last Modified time: 2025-04-12 17:33:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -29,6 +29,7 @@ function SummaryWrap({ onBlockRef }) {
         styles={memoStyles()}
         subjectId={$.subjectId}
         showSummary={systemStore.setting.showSummary}
+        subjectHtmlExpand={systemStore.setting.subjectHtmlExpand}
         translateResult={$.state.translateResult.slice()}
         content={$.summary.replace(/\r\n\r\n/g, '\r\n')}
         name={cnjp($.cn, $.jp)}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-11 21:45:30
+ * @Last Modified time: 2025-04-12 17:34:20
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -23,6 +23,7 @@ const Summary = memo(
     styles,
     subjectId,
     showSummary,
+    subjectHtmlExpand,
     translateResult,
     content,
     name,
@@ -89,10 +90,7 @@ const Summary = memo(
               </View>
             ) : (
               !!content && (
-                <Expand
-                  ratio={0.88}
-                  onPress={systemStore.setting.subjectHtmlExpand ? undefined : handlePress}
-                >
+                <Expand ratio={0.88} onPress={subjectHtmlExpand ? undefined : handlePress}>
                   <Text style={_.mt.md} size={15} lineHeight={22} selectable>
                     {content}
                   </Text>

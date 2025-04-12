@@ -2,43 +2,25 @@
  * @Author: czy0729
  * @Date: 2024-11-08 07:07:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-08 07:09:13
+ * @Last Modified time: 2025-04-12 17:28:38
  */
 import React from 'react'
-import { Heatmap, SwitchPro } from '@components'
-import { ItemSetting } from '@_'
-import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
-import commonStyles from '../../../styles'
+import { WithFilterProps } from '../../../types'
 import { TEXTS } from '../ds'
-import { useAsyncSwitchSetting } from '../../../hooks'
+import ItemSettingSwitch from '../../item-setting-switch'
+import { THUMB } from './ds'
 
 /** 简介、详情使用新页面展开 */
-function HtmlExpand({ filter }) {
-  const { value, handleSwitch } = useAsyncSwitchSetting('subjectHtmlExpand')
-
-  return useObserver(() => (
-    <ItemSetting
-      ft={
-        <SwitchPro
-          style={commonStyles.switch}
-          value={!value}
-          onSyncPress={() => {
-            handleSwitch()
-
-            t('设置.切换', {
-              title: '简介、详情使用新页面展开',
-              checked: value
-            })
-          }}
-        />
-      }
+function HtmlExpand({ filter }: WithFilterProps) {
+  return (
+    <ItemSettingSwitch
+      setting='subjectHtmlExpand'
       filter={filter}
-      {...TEXTS.subjectHtmlExpand}
-    >
-      <Heatmap id='设置.切换' title='简介、详情使用新页面展开' />
-    </ItemSetting>
-  ))
+      thumb={THUMB}
+      reverse
+      {...TEXTS.htmlExpand}
+    />
+  )
 }
 
 export default HtmlExpand

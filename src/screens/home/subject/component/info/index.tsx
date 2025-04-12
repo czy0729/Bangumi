@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-10 07:06:02
+ * @Last Modified time: 2025-04-12 17:32:42
  */
 import React, { Suspense } from 'react'
 import { View } from 'react-native'
@@ -30,6 +30,7 @@ function InfoWrap({ onBlockRef }) {
           styles={memoStyles()}
           subjectId={$.subjectId}
           showInfo={systemStore.setting.showInfo}
+          subjectHtmlExpand={systemStore.setting.subjectHtmlExpand}
           info={$.rawInfo.replace('展开+', '')}
           name={cnjp($.cn, $.jp)}
           onSwitchBlock={$.onSwitchBlock}

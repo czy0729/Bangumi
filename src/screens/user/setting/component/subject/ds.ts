@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 13:22:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-11 04:58:39
+ * @Last Modified time: 2025-04-12 19:00:49
  */
 import { rc } from '@utils/dev'
 import { MODEL_SETTING_SUBJECT_SPLIT_STYLES, SETTING_SUBJECT_SPLIT_STYLES } from '@constants'
@@ -78,6 +78,17 @@ export const THUMBS = {
 export const VALUES = ['显示', '折叠', '隐藏'] as const
 
 export const VALUES_2 = ['显示', '隐藏'] as const
+
+export const LAYOUT_VALUES = [
+  {
+    label: '显示',
+    value: true
+  },
+  {
+    label: '隐藏',
+    value: false
+  }
+] as const
 
 export const TEXTS = {
   splitStyles: {

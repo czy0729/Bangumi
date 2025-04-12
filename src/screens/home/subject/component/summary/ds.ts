@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-26 01:32:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-08 06:37:53
+ * @Last Modified time: 2025-04-12 17:33:43
  */
 import { systemStore } from '@stores'
 import { rc } from '@utils/dev'
@@ -21,6 +21,7 @@ export const DEFAULT_PROPS = {
   styles: {} as ReturnType<typeof memoStyles>,
   subjectId: 0 as $['subjectId'],
   showSummary: true as typeof systemStore.setting.showSummary,
+  subjectHtmlExpand: true as typeof systemStore.setting.subjectHtmlExpand,
   translateResult: [] as $['state']['translateResult'],
   content: '' as $['summary'],
   name: '',

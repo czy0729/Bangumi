@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-11 21:45:57
+ * @Last Modified time: 2025-04-12 17:32:56
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { Expand, Heatmap, RenderHtml } from '@components'
 import { SectionTitle } from '@_'
-import { _, systemStore } from '@stores'
+import { _ } from '@stores'
 import { appNavigate } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -17,7 +17,7 @@ import IconWiki from '../icon/wiki'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Info = memo(
-  ({ navigation, styles, subjectId, showInfo, info, name, onSwitchBlock }) => {
+  ({ navigation, styles, subjectId, showInfo, subjectHtmlExpand, info, name, onSwitchBlock }) => {
     const [expand, setExpand] = useState(false)
     const handleExpand = useCallback(() => {
       setExpand(true)
@@ -62,7 +62,7 @@ const Info = memo(
                 ratio={0.88}
                 checkLayout={false}
                 onExpand={handleExpand}
-                onPress={systemStore.setting.subjectHtmlExpand ? undefined : handlePress}
+                onPress={subjectHtmlExpand ? undefined : handlePress}
               >
                 <RenderHtml
                   style={styles.info}
