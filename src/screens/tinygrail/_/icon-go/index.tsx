@@ -2,23 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-02-14 03:17:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 01:39:12
+ * @Last Modified time: 2025-04-13 19:49:40
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Text } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
+import { DATA, HIT_SLOP } from './ds'
 import { styles } from './styles'
-
-const DATA = ['资产重组', '买入', '卖出', 'K线'] as const
-
-const HIT_SLOP = {
-  top: 4,
-  right: 8,
-  bottom: 4,
-  left: 8
-} as const
 
 function IconGo({ $ }) {
   const { go } = $.state

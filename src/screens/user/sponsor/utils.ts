@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-07 00:56:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-10 13:46:02
+ * @Last Modified time: 2025-04-13 20:04:02
  */
 import { useCallback, useState } from 'react'
 import dayjs from 'dayjs'
@@ -10,7 +10,7 @@ import { _, usersStore } from '@stores'
 import { queue, toFixed } from '@utils'
 import { update } from '@utils/kv'
 import treemap from '@utils/thirdParty/treemap'
-import { IOS } from '@constants'
+import { DEV, IOS } from '@constants'
 import advanceJSON from '@assets/json/advance.json'
 import { AnyObject, UserId } from '@types'
 import { FILTER_RATE, LIST } from './ds'
@@ -160,7 +160,7 @@ function caculateTotal(nodes: any[]) {
 }
 
 export async function devGetUsersInfo() {
-  console.info('devGetUsersInfo start')
+  if (!DEV) return
 
   const USERS_MAP = {}
   const items = Object.keys(advanceJSON)
@@ -188,7 +188,7 @@ export async function devGetUsersInfo() {
 }
 
 export async function devLocalUsersInfo() {
-  console.info('devLocalUsersInfo')
+  if (!DEV) return
 
   await usersStore.init('users')
   const USERS_MAP = {}

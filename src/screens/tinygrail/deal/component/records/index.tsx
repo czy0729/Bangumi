@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-12 19:58:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-28 06:59:33
+ * @Last Modified time: 2025-04-13 19:41:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,14 +15,14 @@ import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-const LIMIT = 5
+const LIMIT = 10
 
 function Records() {
   const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const { expand } = $.state
   const { bidHistory, askHistory } = $.userLogs
-  const needShowExpand = bidHistory.length > 10 || askHistory.length > 10
+  const needShowExpand = bidHistory.length > LIMIT || askHistory.length > LIMIT
   return (
     <View style={styles.container}>
       <Flex align='start'>
@@ -54,7 +54,7 @@ function Records() {
                       </Text>
                     </Text>
                   </Flex.Item>
-                  <Text size={12} type='tinygrailPlain'>
+                  <Text type={item.price ? 'tinygrailPlain' : 'tinygrailText'} size={12}>
                     {item.price
                       ? `-${formatNumber(item.price * item.amount, 2, $.short)}`
                       : lastDate(getTimestamp(String(item.time).replace('T', ' ')))}
@@ -91,7 +91,7 @@ function Records() {
                       </Text>
                     </Text>
                   </Flex.Item>
-                  <Text type='tinygrailPlain' size={12}>
+                  <Text type={item.price ? 'tinygrailPlain' : 'tinygrailText'} size={12}>
                     {item.price
                       ? `+${formatNumber(item.price * item.amount, 2, $.short)}`
                       : lastDate(getTimestamp(String(item.time).replace('T', ' ')))}

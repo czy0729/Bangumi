@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-23 18:18:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-16 09:24:49
+ * @Last Modified time: 2025-04-13 19:36:36
  */
 import React from 'react'
 import { rakuenStore } from '@stores'
@@ -15,7 +15,7 @@ import { styles } from './styles'
 function Avatar({ index, inViewY, userId, userName, avatar, event }) {
   const navigation = useNavigation()
   return (
-    <InView style={styles.inView} y={ITEM_HEIGHT * index + inViewY}>
+    <InView style={styles.inView} y={ITEM_HEIGHT * (index + 1) + inViewY}>
       <UserStatusAvatar
         navigation={navigation}
         like={rakuenStore.commentTracked(userId)}

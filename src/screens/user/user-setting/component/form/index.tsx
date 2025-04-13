@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-01-22 09:15:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 07:48:39
+ * @Last Modified time: 2025-04-13 20:25:28
  */
 import React from 'react'
 import { Flex, Input, Text, Touchable } from '@components'
-import { IconTouchable } from '@_'
+import { IconTouchable, Notice } from '@_'
 import { _, useStore } from '@stores'
-import { confirm, open } from '@utils'
+import { confirm, open, stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { HOST_IMAGE_UPLOAD } from '@constants'
 import { Ctx } from '../../types'
@@ -97,13 +97,20 @@ function Form({ expand, onExpand }) {
           </Flex>
         </>
       )}
-      <Touchable style={styles.more} onPress={onExpand}>
+      <Touchable style={stl(styles.more, expand && _.mb.md)} onPress={onExpand}>
         <Flex justify='center'>
           <Text style={[_.mt.sm, _.mb.sm]} size={13} type='sub' bold>
             {expand ? '收起资料' : '展开资料'}
           </Text>
         </Flex>
       </Touchable>
+      {!expand && (
+        <Notice style={styles.notice}>
+          <Text size={12} lineHeight={13} bold>
+            这是一个过时的功能，背景和头像仅在客户端中生效，建议到官方网页中设置。
+          </Text>
+        </Notice>
+      )}
     </>
   )
 }

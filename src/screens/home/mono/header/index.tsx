@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-03-15 02:13:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-07 15:57:53
+ * @Last Modified time: 2025-04-13 19:38:13
  */
 import React from 'react'
 import { Flex, Header as HeaderComp, HeaderV2Popover } from '@components'
-import { IconWordCloud } from '@_'
 import { useStore } from '@stores'
 import { cnjp, copy, open } from '@utils'
 import { ob } from '@utils/decorators'
@@ -31,18 +30,6 @@ function Header({ fixed }) {
       headerTitle={<HeaderTitle $={$} navigation={navigation} />}
       headerRight={() => (
         <Flex style={styles.headerRight}>
-          <IconWordCloud
-            onPress={() => {
-              navigation.push('WordCloud', {
-                monoId: $.monoId
-              })
-
-              t('人物.跳转', {
-                to: 'WordCloud',
-                monoId: $.monoId
-              })
-            }}
-          />
           <Extra $={$} navigation={navigation} />
           <HeaderV2Popover
             data={DATA}

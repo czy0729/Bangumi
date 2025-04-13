@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-12-28 05:41:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-28 06:43:14
+ * @Last Modified time: 2025-04-13 19:54:16
  */
 import { tinygrailStore } from '@stores'
 import { confirm, feedback, info, toFixed } from '@utils'
@@ -80,10 +80,16 @@ export default class Action extends Computed {
 
   /** 金额变动 */
   changeValue = (value: any, amount?: any) => {
-    this.setState({
-      value: this.moneyNatural(value),
-      amount: this.state.type === 'bid' ? amount || 0 : 0
-    })
+    if (this.state.type === 'bid') {
+      this.setState({
+        value: this.moneyNatural(value),
+        amount: amount || 0
+      })
+    } else {
+      this.setState({
+        value: this.moneyNatural(value)
+      })
+    }
   }
 
   /** 减少 */
@@ -142,7 +148,7 @@ export default class Action extends Computed {
   doSubmit = () => {
     const { value, amount } = this.state
     if (!amount) {
-      info('数量不能0')
+      info('数量不能 0')
       return
     }
 
@@ -152,7 +158,11 @@ export default class Action extends Computed {
     }
 
     if (this.isBid && Number(value) * amount > 20000) {
-      confirm(`金额较大, 当前买入${amount}股 * ${value}, 确定?`, this.doSubmitConfirm, '小圣杯助手')
+      confirm(
+        `金额较大, 当前买入 ${amount}股 * ${value}, 确定?`,
+        this.doSubmitConfirm,
+        '小圣杯助手'
+      )
       return
     }
 

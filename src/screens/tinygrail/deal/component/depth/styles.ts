@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2022-11-08 20:32:35
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-11-08 20:32:35
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2025-04-13 19:44:27
  */
 import { _ } from '@stores'
 
@@ -20,6 +20,9 @@ export const memoStyles = _.memoStyles(() => ({
   current: {
     paddingVertical: _.sm,
     paddingHorizontal: _.sm
+  },
+  currentPrice: {
+    marginLeft: -4
   },
   block: {
     width: '100%',

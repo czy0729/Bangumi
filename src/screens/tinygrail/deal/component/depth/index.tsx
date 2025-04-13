@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-09-11 15:01:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-28 07:03:14
+ * @Last Modified time: 2025-04-13 19:44:50
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, TextType, Touchable } from '@components'
 import { _, useStore } from '@stores'
-import { toFixed } from '@utils'
+import { formatNumber, toFixed } from '@utils'
 import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
@@ -97,7 +97,7 @@ function Depth() {
                       </Text>
                     </Flex.Item>
                     <Text style={_.mr.wind} type='tinygrailText' size={12}>
-                      {item.amount}
+                      {formatNumber(item.amount, 0)}
                     </Text>
                     <View
                       style={[
@@ -114,7 +114,10 @@ function Depth() {
         </Flex>
         <Flex style={styles.current}>
           <Flex.Item>
-            <Touchable onPress={() => $.changeValue(toFixed(current, 2))}>
+            <Touchable
+              style={styles.currentPrice}
+              onPress={() => $.changeValue(toFixed(current, 2))}
+            >
               <Text type={color} size={18} bold>
                 {toFixed(current, 2)}{' '}
               </Text>
@@ -122,7 +125,7 @@ function Depth() {
           </Flex.Item>
           {!!$.issuePrice && (
             <Text type='tinygrailText' size={10}>
-              发行价 {toFixed($.issuePrice, 1)}
+              发行价 {toFixed($.issuePrice, 0)}
             </Text>
           )}
         </Flex>
@@ -150,7 +153,7 @@ function Depth() {
                       </Text>
                     </Flex.Item>
                     <Text style={_.mr.wind} type='tinygrailText' size={12}>
-                      {item.amount}
+                      {formatNumber(item.amount, 0)}
                     </Text>
                     <View
                       style={[
