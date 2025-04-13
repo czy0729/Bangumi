@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-07 20:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 18:44:02
+ * @Last Modified time: 2025-04-13 03:20:49
  */
 import React from 'react'
 import { Flex } from '@components'
@@ -23,8 +23,6 @@ function Menu() {
         <MesumeChat />
         <WordCloud />
         <Milestone />
-        {/* <Friend /> */}
-        {/* <Member /> */}
         <MenuComp />
       </Flex>
     </>

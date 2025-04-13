@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2024-04-13 16:32:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-30 10:02:05
+ * @Last Modified time: 2025-04-13 14:52:11
  */
 import * as OpenCC from 'opencc-js/dist/esm-lib/core'
 import CN from 'opencc-js/dist/esm-lib/from/cn'
@@ -12,34 +12,51 @@ import TW from 'opencc-js/dist/esm-lib/to/tw'
 import { getSetting } from '../../app'
 import hash from '../hash'
 
-/** 缓存结果 */
-const memoHK = new Map<string, string>()
-const memoTW = new Map<string, string>()
+const memoCache = {
+  hk: new Map<string, string>(),
+  tw: new Map<string, string>(),
+  noCn: new Map<string, boolean>()
+}
 
-let converterHK: OpenCC.Converter
-let converterTW: OpenCC.Converter
+const converters = {
+  hk: null as OpenCC.Converter | null,
+  tw: null as OpenCC.Converter | null
+}
+
+/** 检查字符串是否包含中文 */
+function containsChinese(str: string): boolean {
+  return /[\u4e00-\u9fa5]/.test(str)
+}
 
 /** 简转繁 */
-export function s2t(str: string) {
+export function s2t(str: string): string {
   if (typeof str !== 'string') return str
 
-  let converter: typeof converterTW | typeof converterHK
-  let memo: typeof memoTW | typeof memoHK
-  if (getSetting().s2tLocal === 'hk') {
-    if (!converterHK) converterHK = OpenCC.ConverterFactory(CN, HK)
-    converter = converterHK
-    memo = memoHK
-  } else {
-    if (!converterTW) converterTW = OpenCC.ConverterFactory(CN, TW)
-    converter = converterTW
-    memo = memoTW
+  // 哈希键
+  const id = hash(str)
+
+  // 先检查无中文缓存
+  if (memoCache.noCn.has(id)) return str
+
+  // 检查是否包含中文
+  if (!containsChinese(str)) {
+    memoCache.noCn.set(id, true)
+    return str
   }
 
-  const id = hash(str)
-  if (memo.has(id)) return memo.get(id)
+  const targetLocale = getSetting().s2tLocal === 'hk' ? 'hk' : 'tw'
 
-  const result = converter(str)
-  memo.set(id, result)
+  // 检查目标语言缓存
+  if (memoCache[targetLocale].has(id)) return memoCache[targetLocale].get(id)!
+
+  // 初始化转换器
+  if (!converters[targetLocale]) {
+    converters[targetLocale] = OpenCC.ConverterFactory(CN, targetLocale === 'hk' ? HK : TW)
+  }
+
+  // 执行转换并缓存结果
+  const result = converters[targetLocale]!(str)
+  memoCache[targetLocale].set(id, result)
 
   return result
 }
