@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-11 11:32:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-22 07:04:35
+ * @Last Modified time: 2025-04-13 21:19:02
  */
 import React from 'react'
 import { AppState, AppStateStatus, Clipboard, NativeEventSubscription } from 'react-native'
@@ -29,7 +29,7 @@ export const ListenClipboard = class ListenClipboardComponent extends React.Comp
     this.appStateListener = AppState.addEventListener('change', this.onAppStateChange)
     setTimeout(() => {
       this.checkContent()
-    }, 1200)
+    }, 2800)
   }
 
   componentWillUnmount() {
@@ -61,7 +61,7 @@ export const ListenClipboard = class ListenClipboardComponent extends React.Comp
       // 排除多个角色 小圣杯粘贴板逻辑
       const { length } = urls.filter(item => item.includes('/character/'))
       if (!(length > 1)) {
-        confirm(`检测到链接${url}, 前往页面?`, () => {
+        confirm(`检测到链接 ${url}, 前往页面?`, () => {
           appNavigate(content, navigationReference())
         })
         Clipboard.setString('')
