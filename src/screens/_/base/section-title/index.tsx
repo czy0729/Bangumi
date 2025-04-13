@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-10 15:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-12 02:35:22
+ * @Last Modified time: 2025-04-13 21:39:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -36,7 +36,7 @@ export const SectionTitle = ({
     let splitStylesTitle: ReactNode = null
     if (splitStyles) {
       const { subjectSplitStyles } = systemStore.setting
-      if (subjectSplitStyles.startsWith('title-')) {
+      if (String(subjectSplitStyles || '').startsWith('title-')) {
         const styleMap = {
           main: styles.titleMain,
           warning: styles.titleWarning,
