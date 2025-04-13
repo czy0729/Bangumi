@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:38:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-04 19:46:39
+ * @Last Modified time: 2025-04-13 17:22:20
  */
 import { toJS } from 'mobx'
 import { getTimestamp, HTMLDecode, info, lastDate, toFixed } from '@utils'
@@ -1877,7 +1877,7 @@ export default class Fetch extends Computed {
     })
     this.save(key)
 
-    return Promise.resolve(data)
+    return data
   }
 
   /** 通天塔(α)记录 */

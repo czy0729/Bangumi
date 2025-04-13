@@ -2,21 +2,39 @@
  * @Author: czy0729
  * @Date: 2024-04-20 20:17:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-04 01:34:28
+ * @Last Modified time: 2025-04-13 19:11:22
  */
-import React from 'react'
-import { Heatmap, ScrollView, Text } from '@components'
+import React, { useCallback, useRef } from 'react'
+import { Heatmap, ScrollTo, ScrollView, Text } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
+import { useMount, useObserver } from '@utils/hooks'
 import { SETTING_FONTSIZEADJUST } from '@constants'
+import { WithFilterProps } from '../../../types'
 import { TEXTS } from '../ds'
 import { getYuqueThumbs } from '../../../utils'
 import { styles } from './styles'
 
 /** 字号 */
-function FontSize({ filter }) {
+function FontSize({ filter }: WithFilterProps) {
+  const scrollToRef = useRef<ScrollTo>(null)
+  const handleForwardRef = useCallback((scrollTo: ScrollTo) => {
+    scrollToRef.current = scrollTo
+  }, [])
+
+  useMount(() => {
+    setTimeout(() => {
+      if (_.fontSizeAdjust && typeof scrollToRef.current === 'function') {
+        scrollToRef.current({
+          x: SETTING_FONTSIZEADJUST.findIndex(item => _.fontSizeAdjust == Number(item.value)) * 48,
+          y: 0,
+          animated: false
+        })
+      }
+    }, 0)
+  })
+
   return useObserver(() => (
     <ItemSettingBlock
       style={styles.block}
@@ -30,7 +48,7 @@ function FontSize({ filter }) {
       ])}
       {...TEXTS.fontSize}
     >
-      <ScrollView contentContainerStyle={styles.scroll} horizontal>
+      <ScrollView forwardRef={handleForwardRef} contentContainerStyle={styles.scroll} horizontal>
         {SETTING_FONTSIZEADJUST.map((item, index) => (
           <ItemSettingBlock.Item
             key={item.label}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-02-04 07:04:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-12 21:08:03
+ * @Last Modified time: 2025-04-13 18:41:41
  */
 import React, { useCallback, useMemo } from 'react'
 import { HeaderV2Popover } from '@components'
@@ -22,7 +22,7 @@ function MenuComponent({ color }) {
     const memoData = useMemo(
       () =>
         [
-          `浏览器打开 ${TEXT_MENU_SPLIT_LEFT}${$.subjectId}${TEXT_MENU_SPLIT_RIGHT}`,
+          `浏览器打开${TEXT_MENU_SPLIT_LEFT}${$.subjectId}${TEXT_MENU_SPLIT_RIGHT}`,
           ...MENU_DS
         ] as const,
       []

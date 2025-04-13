@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:23:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-17 09:44:22
+ * @Last Modified time: 2025-04-13 03:02:17
  */
 import { getCoverSrc } from '@components/cover/utils'
 import { collectionStore, userStore } from '@stores'
@@ -42,7 +42,17 @@ import { EpId, EpStatus, Id, Navigation, RatingStatus, SubjectId } from '@types'
 import { EpsItem, TabsLabel } from '../types'
 import { OriginItem, replaceOriginUrl } from '../../../user/origin-setting/utils'
 import Fetch from './fetch'
-import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
+import {
+  EXCLUDE_STATE,
+  NAMESPACE,
+  STATE,
+  TEXT_ADD_REMINDER,
+  TEXT_COLLAPSE_ALL,
+  TEXT_EXPAND_ALL,
+  TEXT_EXPORT_SCHEDULE,
+  TEXT_PIN,
+  TEXT_UNPIN
+} from './ds'
 
 export default class Action extends Fetch {
   /** 标签页切换 */
@@ -286,27 +296,27 @@ export default class Action extends Fetch {
     }
 
     switch (label) {
-      case '置顶':
+      case TEXT_PIN:
         this.itemToggleTop(subjectId, true)
         break
 
-      case '取消置顶':
+      case TEXT_UNPIN:
         this.itemToggleTop(subjectId, false)
         break
 
-      case '全部展开':
+      case TEXT_EXPAND_ALL:
         this.expandAll()
         break
 
-      case '全部收起':
+      case TEXT_COLLAPSE_ALL:
         this.closeAll()
         break
 
-      case '一键添加提醒':
+      case TEXT_ADD_REMINDER:
         this.doBatchSaveCalenderEvent(subjectId)
         break
 
-      case '导出放送日程ICS':
+      case TEXT_EXPORT_SCHEDULE:
         this.doExportCalenderEventICS(subjectId)
         break
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-09 20:16:11
+ * @Last Modified time: 2025-04-13 19:33:07
  */
 import { systemStore, tinygrailStore } from '@stores'
 import { getTimestamp } from '@utils'
@@ -24,16 +24,8 @@ export default class ScreenTinygrail extends Action {
     if (!_loaded && !DEV) await this.doAuth()
 
     // 获取资产和用户唯一标识
-    await queue([
-      () => tinygrailStore.fetchAssets(),
-      () => tinygrailStore.fetchHash(),
-      () => this.fetchCharaAssets()
-    ])
-
-    systemStore.fetchAdvance()
-    this.caculateChange()
-    this.fetchCount()
-    this.checkCount()
+    await queue([tinygrailStore.fetchAssets, tinygrailStore.fetchHash, this.fetchCharaAssets])
+    queue([systemStore.fetchAdvance, this.caculateChange, this.fetchCount, this.checkCount])
 
     return true
   }

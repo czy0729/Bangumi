@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-03-08 20:48:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-10 04:14:26
+ * @Last Modified time: 2025-04-13 17:58:13
  */
 import { computed, observable } from 'mobx'
 import { tinygrailStore } from '@stores'
 import store from '@utils/store'
-import { EXCLUD_STATE, NAMESPACE, STATE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 
 export default class ScreenTinygrailStar extends store<typeof STATE> {
   state = observable(STATE)
@@ -15,18 +15,36 @@ export default class ScreenTinygrailStar extends store<typeof STATE> {
   init = async () => {
     this.setState({
       ...(await this.getStorage(NAMESPACE)),
-      ...EXCLUD_STATE,
+      ...EXCLUDE_STATE,
       _loaded: true
     })
 
     const { page, limit } = this.state
-    this.fetchStar(page, limit)
+    return this.fetchStar(page, limit)
+  }
+
+  save = () => {
+    return this.saveStorage(NAMESPACE, EXCLUDE_STATE)
   }
 
   // -------------------- fetch --------------------
   /** 通天塔(β) */
   fetchStar = (page: number, limit: number) => {
     return tinygrailStore.fetchStar(page, limit)
+  }
+
+  /** 通天塔指数 */
+  fetchStarIndex = async () => {
+    const { list } = await tinygrailStore.fetchStar(1, 100)
+    const starIndexWeight = list.reduce((sum, char) => {
+      return sum + char.rate || 0
+    }, 0)
+    if (starIndexWeight) {
+      this.setState({
+        starIndexWeight: Math.floor(starIndexWeight)
+      })
+      this.save()
+    }
   }
 
   // -------------------- get --------------------
@@ -57,13 +75,13 @@ export default class ScreenTinygrailStar extends store<typeof STATE> {
       page,
       limit
     })
-    this.saveStorage(NAMESPACE)
+    this.save()
   }
 
   setLabel = (label: string) => {
     this.setState({
       label
     })
-    this.saveStorage(NAMESPACE)
+    this.save()
   }
 }

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-12-17 03:40:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-29 11:11:17
+ * @Last Modified time: 2025-04-13 17:36:49
  */
 import { Loaded } from '@types'
-import { COMPONENT } from '../ds'
+import { COMPONENT, STAR_INDEX_WEIGHT } from '../ds'
 
 export const NAMESPACE = `Screen${COMPONENT}`
 
@@ -29,6 +29,9 @@ export const STATE = {
   currentTotal: 0,
   lastBalance: 0,
   lastTotal: 0,
+
+  lastStarIndexWeight: STAR_INDEX_WEIGHT,
+  starIndexWeight: STAR_INDEX_WEIGHT,
 
   ...EXCLUDE_STATE,
   _loaded: false as Loaded

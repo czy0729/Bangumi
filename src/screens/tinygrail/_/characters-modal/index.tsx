@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-06 19:42:57
+ * @Last Modified time: 2025-04-13 19:32:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -85,7 +85,9 @@ class CharactersModal extends React.Component<Props, State> {
       const { leftItem = null, rightItem = null } = nextProps
       this.setState({
         leftItem,
+        leftFilter: leftItem ? '' : this.state.leftFilter,
         rightItem,
+        rightFilter: rightItem ? '' : this.state.rightFilter,
         loading: false,
         title: nextProps.title
       })
@@ -101,7 +103,8 @@ class CharactersModal extends React.Component<Props, State> {
         const find = this.right.list.find(item => item.id == id)
         if (find) {
           this.setState({
-            rightItem: find
+            rightItem: find,
+            rightFilter: ''
           })
         }
       }
@@ -956,17 +959,14 @@ class CharactersModal extends React.Component<Props, State> {
           消耗股份
         </Text>
         <Flex.Item style={_.ml.sm}>
-          <Text type='tinygrailPlain' size={10}>
-            {amount}
-          </Text>
-          {/* <SearchInput
+          <SearchInput
             keyboardType='numeric'
             placeholder='数量'
             value={amount}
             onFocus={this.onFocus}
             onBlur={this.onBlur}
             onChangeText={this.onChangeNum}
-          /> */}
+          />
         </Flex.Item>
       </>
     )

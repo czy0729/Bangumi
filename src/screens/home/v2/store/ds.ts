@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:13:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-14 20:12:47
+ * @Last Modified time: 2025-04-13 03:01:36
  */
 import { _ } from '@stores'
 import { Loaded, Override, Subject, SubjectId } from '@types'
@@ -95,3 +95,15 @@ export const BANGUMI_INFO = {
     'zh-Hans': [] as any
   }
 } as const
+
+export const TEXT_PIN = '置顶'
+
+export const TEXT_UNPIN = '取消置顶'
+
+export const TEXT_EXPAND_ALL = '全部展开'
+
+export const TEXT_COLLAPSE_ALL = '全部收起'
+
+export const TEXT_ADD_REMINDER = '一键添加提醒'
+
+export const TEXT_EXPORT_SCHEDULE = '导出放送日程ICS'

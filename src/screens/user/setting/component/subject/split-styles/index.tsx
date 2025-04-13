@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-04-10 23:31:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-12 03:05:32
+ * @Last Modified time: 2025-04-13 19:04:15
  */
 import React, { useCallback, useRef } from 'react'
 import { View } from 'react-native'
@@ -13,12 +13,13 @@ import { t } from '@utils/fetch'
 import { useAsyncSetSetting, useMount, useObserver } from '@utils/hooks'
 import { MODEL_SETTING_SUBJECT_SPLIT_STYLES, SETTING_SUBJECT_SPLIT_STYLES } from '@constants'
 import { SettingSubjectSplitStyles } from '@types'
+import { WithFilterProps } from '../../../types'
 import { TEXTS } from '../ds'
 import { ITEM_WIDTH } from './ds'
 import { memoStyles } from './styles'
 
 /** 条目版块分割线样式 */
-function SplitStyles({ filter }) {
+function SplitStyles({ filter }: WithFilterProps) {
   const { value, handleSet } = useAsyncSetSetting('subjectSplitStyles')
   const scrollToRef = useRef<ScrollTo>(null)
   const handleForwardRef = useCallback((scrollTo: ScrollTo) => {
