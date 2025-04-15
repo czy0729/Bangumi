@@ -36,18 +36,17 @@ function BtnOrigin({ subjectId }: { subjectId: SubjectId }) {
     const isAnime = ['动画', '三次元'].includes(title)
     const isPinned = $.state.top.indexOf(subjectId) !== -1
 
+    // 来源
+    const origins = [...$.actions(subjectId).map(item => item.name)]
+    if (systemStore.setting.homeOrigin === true) {
+      origins.push(
+        ...$.onlineOrigins(subjectId).map(item => (typeof item === 'object' ? item.name : item))
+      )
+    }
+
     // 构建操作菜单数据
     const buildMenuData = () => {
-      const data: string[] = []
-
-      // 添加来源操作
-      const origins = [...$.actions(subjectId).map(item => item.name)]
-      if (systemStore.setting.homeOrigin === true) {
-        origins.push(
-          ...$.onlineOrigins(subjectId).map(item => (typeof item === 'object' ? item.name : item))
-        )
-      }
-      data.push(...origins)
+      const data: string[] = [...origins]
 
       // 添加置顶/取消置顶操作
       data.push(isPinned ? TEXT_UNPIN : TEXT_UNPIN)
@@ -70,7 +69,7 @@ function BtnOrigin({ subjectId }: { subjectId: SubjectId }) {
     }
 
     const menuData = buildMenuData()
-    const hasOrigins = menuData.length > 1
+    const hasOrigins = origins.length > 1
     const handleSelect = useCallback((label: string) => {
       $.onPopover(label, subjectId)
     }, [])
