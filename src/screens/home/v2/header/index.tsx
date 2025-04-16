@@ -7,18 +7,46 @@
 import React from 'react'
 import { Flex, Heatmap } from '@components'
 import { IconNotify, IconTabsHeader, LogoHeader } from '@_'
-import { _, systemStore } from '@stores'
+import { _, systemStore, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { useNavigation } from '@utils/hooks'
+import { Ctx } from '../types'
 import { MENU_MAP } from '../../../discovery/index/ds'
 import { COMPONENT, EVENT } from './ds'
 import { styles } from './styles'
 
 function Header() {
-  const navigation = useNavigation()
-  const left = MENU_MAP[systemStore.setting.homeTopLeftCustom]
-  const right = MENU_MAP[systemStore.setting.homeTopRightCustom]
+  const { $, navigation } = useStore<Ctx>()
+  const { homeTopLeftCustom, homeTopRightCustom } = systemStore.setting
+  const leftItem = MENU_MAP[homeTopLeftCustom]
+  const rightItem = MENU_MAP[homeTopRightCustom]
+
+  const handleItemPress = item => {
+    if (!['Open', 'Netabare', 'Link'].includes(item.key)) {
+      if (item.key === 'Search') {
+        navigation.push('Search', {
+          type: ($.tabsLabel === '全部' ? '条目' : $.tabsLabel) || '条目'
+        })
+      } else {
+        navigation.push(item.key)
+      }
+
+      t('首页.跳转', {
+        to: item.key
+      })
+    }
+  }
+
+  const renderIcon = (item, isRight = false) => (
+    <IconTabsHeader
+      style={isRight ? styles.iconRight : styles.icon}
+      name={item.icon}
+      text={item.text}
+      size={(item.size || 23) - 1}
+      onPress={() => handleItemPress(item)}
+    />
+  )
+
   return (
     <LogoHeader
       navigation={navigation}
@@ -30,36 +58,8 @@ function Header() {
       }
       right={
         <Flex style={_.mr.xs}>
-          {!!left && (
-            <IconTabsHeader
-              style={styles.icon}
-              name={left.icon}
-              text={left.text}
-              size={(left.size || 23) - 1}
-              onPress={() => {
-                t('首页.跳转', {
-                  to: left.key
-                })
-
-                navigation.push(left.key)
-              }}
-            />
-          )}
-          {!!right && (
-            <IconTabsHeader
-              style={styles.iconRight}
-              name={right.icon}
-              text={right.text}
-              size={(right.size || 23) - 1}
-              onPress={() => {
-                t('首页.跳转', {
-                  to: right.key
-                })
-
-                navigation.push(right.key)
-              }}
-            />
-          )}
+          {leftItem && renderIcon(leftItem)}
+          {rightItem && renderIcon(rightItem, true)}
         </Flex>
       }
     />

@@ -29,14 +29,14 @@ function Empty({ title, length }) {
           style={styles.btn}
           type='ghostMain'
           onPress={() => {
-            t('首页.再搜索', {
-              type: title,
-              value: filter
-            })
-
             navigation.push('Search', {
               _type: title === '全部' ? '条目' : title,
               _value: filter
+            })
+
+            t('首页.再搜索', {
+              type: title,
+              value: filter
             })
           }}
         >

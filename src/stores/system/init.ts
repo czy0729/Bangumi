@@ -23,6 +23,7 @@ import { IOS_IMAGE_CACHE_V2 } from '@src/config'
 import { radiusMd } from '@styles'
 import {
   EventKeys,
+  Paths,
   SettingCDNOrigin,
   SettingHomeCountView,
   SettingHomeGridCoverLayout,
@@ -293,10 +294,10 @@ export const INIT_SETTING = {
   homeSorting: MODEL_SETTING_HOME_SORTING.getValue<SettingHomeSorting>('网页'),
 
   /** 首页右上角自定义功能 (左) */
-  homeTopLeftCustom: 'Calendar',
+  homeTopLeftCustom: 'Calendar' as Paths,
 
   /** 首页右上角自定义功能 (右) */
-  homeTopRightCustom: 'Search',
+  homeTopRightCustom: 'Search' as Paths,
 
   /** 发现页自定义菜单 */
   discoveryMenu: [...INIT_DISCOVERY_MENU],
