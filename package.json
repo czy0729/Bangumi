@@ -16,7 +16,9 @@
     "mv": "sudo yarn k && mv ios ios_ && mv android android_",
     "pub": "sudo eas update --channel production --message \"release\"",
     "re": "sudo mv ios_ ios && mv android_ android && yarn k",
-    "open:win": "start .\\android\\app\\build\\outputs\\apk\\release\\"
+    "open:win": "start .\\android\\app\\build\\outputs\\apk\\release\\",
+    "build:ipa": "sudo cd ios && xcodebuild -workspace Bangumi.xcworkspace -scheme Bangumi -configuration Release -sdk iphoneos CODE_SIGN_IDENTITY=\"\" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO -derivedDataPath build",
+    "make:ipa": "sudo node web/ipa.js"
   },
   "resolutions": {
     "@types/react": "17.0.2",
