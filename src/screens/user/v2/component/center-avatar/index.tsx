@@ -8,6 +8,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { Flex, Heatmap, Iconfont, Image, Touchable } from '@components'
 import { getCDNAvatar } from '@components/avatar/utils'
+import { fixedRemoteImageUrl } from '@components/image/utils'
 import { _, systemStore, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
@@ -19,7 +20,7 @@ function CenterAvatar() {
   const { $, navigation } = useStore<Ctx>()
   const { onlineStatus } = systemStore.setting
   const { avatar } = $.usersInfo
-  const src = getCDNAvatar($.avatar || avatar?.large, 'bgm_poster_200')
+  const src = fixedRemoteImageUrl(getCDNAvatar($.avatar || avatar?.large, 'bgm_poster_200'))
   const fallback = typeof src === 'string' && !src.includes('//lain.bgm.tv/pic/user/l/')
   return (
     <View style={_.mt.md}>

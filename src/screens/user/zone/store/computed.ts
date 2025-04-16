@@ -6,6 +6,7 @@
  */
 import { computed } from 'mobx'
 import { fixedHD, getCDNAvatar } from '@components/avatar/utils'
+import { fixedRemoteImageUrl } from '@components/image/utils'
 import {
   _,
   rakuenStore,
@@ -135,9 +136,11 @@ export default class Computed extends State {
 
   /** 实际显示头像地址 */
   @computed get src() {
-    return getCDNAvatar(
-      fixedHD(this.avatar || this.params._image || this.usersInfo.avatar?.large),
-      'bgm_poster_200'
+    return fixedRemoteImageUrl(
+      getCDNAvatar(
+        fixedHD(this.avatar || this.params._image || this.usersInfo.avatar?.large),
+        'bgm_poster_200'
+      )
     )
   }
 
