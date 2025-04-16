@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-07-08 09:18:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-08 09:32:35
+ * @Last Modified time: 2025-04-15 20:14:17
  */
 export const HIT_SLOP = {
   top: 8,
@@ -10,9 +10,3 @@ export const HIT_SLOP = {
   bottom: 8,
   left: 8
 } as const
-
-export const ORIGINS_MANAGE = '源头管理'
-
-export const ACTIONS_MANAGE = '跳转管理'
-
-export const ICS_MANAGE = '导出放送日程ICS'

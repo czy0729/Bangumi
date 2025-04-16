@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2025-04-10 06:18:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-11 04:17:05
+ * @Last Modified time: 2025-04-15 19:33:20
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Divider } from '@components'
 import { systemStore } from '@stores'
 import { stl } from '@utils'
+import { useObserver } from '@utils/hooks'
 import { ViewStyle } from '@types'
 import { memoStyles } from './styles'
 

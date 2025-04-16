@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-10 06:59:35
+ * @Last Modified time: 2025-04-15 19:29:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,9 +12,9 @@ import { ob } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { TITLE_DISC, TITLE_EP } from '../../ds'
 import { Ctx } from '../../types'
-import Disc from '../disc'
 import Split from '../split'
 import BookEp from './book-ep'
+import Disc from './disc'
 import Ep from './ep'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -46,8 +46,6 @@ function EpWrap({ onBlockRef, onScrollIntoViewIfNeeded }) {
           showCustomOnair={systemStore.setting.showCustomOnair}
           focusOrigin={systemStore.setting.focusOrigin}
           onChangeText={$.changeText}
-          onSelectOnAir={$.onSelectOnAir}
-          onResetOnAirUser={$.resetOnAirUser}
           onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
           doUpdateSubjectEp={$.doUpdateSubjectEp}
         />

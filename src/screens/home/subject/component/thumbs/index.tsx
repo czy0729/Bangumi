@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-11 21:45:21
+ * @Last Modified time: 2025-04-15 19:33:25
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Component, Flex, Heatmap, Iconfont, ScrollViewHorizontal, Text } from '@components'
 import { InView, PreventTouchPlaceholder, SectionTitle } from '@_'
 import { _, systemStore, useStore } from '@stores'
 import { open, stl } from '@utils'
 import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { ReactNode } from '@types'
 import { TITLE_THUMBS } from '../../ds'
 import { Ctx } from '../../types'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-26 11:22:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 15:59:15
+ * @Last Modified time: 2025-04-15 18:33:00
  */
 import { systemStore } from '@stores'
 import { rc } from '@utils/dev'
@@ -28,8 +28,6 @@ export const DEFAULT_PROPS = {
   showCustomOnair: true as typeof systemStore.setting.showCustomOnair,
   focusOrigin: false as typeof systemStore.setting.focusOrigin,
   onChangeText: FROZEN_FN as $['changeText'],
-  onSelectOnAir: FROZEN_FN as $['onSelectOnAir'],
-  onResetOnAirUser: FROZEN_FN as $['resetOnAirUser'],
   onScrollIntoViewIfNeeded: FROZEN_FN as (y: number) => any,
   doUpdateSubjectEp: FROZEN_FN as $['doUpdateSubjectEp']
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-16 07:20:10
+ * @Last Modified time: 2025-04-16 01:28:48
  */
 import { toJS } from 'mobx'
 import { StatusBar } from '@components'
@@ -72,7 +72,16 @@ import { TEXT_BLOCK_USER, TEXT_COPY_COMMENT, TEXT_IGNORE_USER, TEXT_LIKES } from
 import { EpsItem } from '../types'
 import { OriginItem, replaceOriginUrl } from '../../../user/origin-setting/utils'
 import Fetch from './fetch'
-import { NAMESPACE } from './ds'
+import {
+  NAMESPACE,
+  TEXT_ACTIONS_MANAGE,
+  TEXT_ANI_DB,
+  TEXT_ICS_MANAGE,
+  TEXT_MAL,
+  TEXT_NETABA,
+  TEXT_ORIGINS_MANAGE,
+  TEXT_VIB
+} from './ds'
 
 export default class Action extends Fetch {
   private _updateStatusBarTimeoutId = null
@@ -489,14 +498,14 @@ export default class Action extends Fetch {
     })
   }
 
-  /** 自定义跳转点击回调 */
+  /** 自定义跳转菜单回调 */
   onActionsPress = (title: string, navigation: Navigation) => {
-    if (title === '跳转管理') {
+    if (title === TEXT_ACTIONS_MANAGE) {
       navigation.push('Actions', {
         subjectId: this.subjectId,
         name: this.cn || this.jp
       })
-      return true
+      return
     }
 
     const find = this.actions.find(item => item.name === title)
@@ -507,10 +516,131 @@ export default class Action extends Fetch {
         from: 'Subject',
         key: `${this.subjectId}|${find.name}|${find.url}`
       })
-      return true
+      return
+    }
+  }
+
+  /** 源头菜单回调 */
+  onOnlinePress = (title: string, navigation: Navigation) => {
+    if (title === TEXT_ORIGINS_MANAGE) {
+      navigation.push('OriginSetting')
+      return
     }
 
-    return false
+    if (title === TEXT_ACTIONS_MANAGE) {
+      navigation.push('Actions', {
+        subjectId: this.subjectId,
+        name: this.cn || this.jp
+      })
+      return
+    }
+
+    if (title === TEXT_ICS_MANAGE) {
+      this.doExportCalenderEventICS()
+      return
+    }
+
+    this.onlinePlaySelected(title)
+  }
+
+  /** 曲目菜单回调 */
+  onDiscPress = (title: string, navigation: Navigation) => {
+    if (title === TEXT_ORIGINS_MANAGE) {
+      navigation.push('OriginSetting')
+      return
+    }
+
+    if (title === TEXT_ACTIONS_MANAGE) {
+      navigation.push('Actions', {
+        subjectId: this.subjectId,
+        name: this.cn || this.jp
+      })
+      return
+    }
+
+    this.onlineDiscSelected(title)
+  }
+
+  /** 游戏菜单回调 */
+  onGamePress = (title: string, navigation: Navigation) => {
+    if (title === TEXT_ORIGINS_MANAGE) {
+      navigation.push('OriginSetting')
+      return
+    }
+
+    if (title === TEXT_ACTIONS_MANAGE) {
+      navigation.push('Actions', {
+        subjectId: this.subjectId,
+        name: this.cn || this.jp
+      })
+      return
+    }
+
+    this.onlineGameSelected(title)
+  }
+
+  /** 书籍菜单回调 */
+  onComicPress = (title: string, navigation: Navigation) => {
+    if (title === TEXT_ORIGINS_MANAGE) {
+      navigation.push('OriginSetting')
+      return
+    }
+
+    if (title === TEXT_ACTIONS_MANAGE) {
+      navigation.push('Actions', {
+        subjectId: this.subjectId,
+        name: this.cn || this.jp
+      })
+      return
+    }
+
+    this.onlineComicSelected(title)
+  }
+
+  /** VIB 评分透视菜单回调 */
+  onVIBPress = (title: string, navigation: Navigation) => {
+    if (title === TEXT_VIB) {
+      t('条目.跳转', {
+        to: 'Stats',
+        from: '评分分布',
+        subjectId: this.subjectId
+      })
+
+      navigation.push('WebBrowser', {
+        title: `${cnjp(this.cn, this.jp)}的透视`,
+        url: `https://bgm.tv/subject/${this.subjectId}/stats`
+      })
+      return
+    }
+
+    if (title === TEXT_NETABA) {
+      t('条目.跳转', {
+        to: 'Netabare',
+        from: '评分分布',
+        subjectId: this.subjectId
+      })
+
+      navigation.push('WebBrowser', {
+        title: `${cnjp(this.cn, this.jp)}的趋势`,
+        url: `https://netaba.re/subject/${this.subjectId}`
+      })
+      return
+    }
+
+    if (title === TEXT_ANI_DB) {
+      open(
+        `https://anidb.net/anime/?adb.search=${(this.jp || this.cn).replace(
+          /～|、|・/g,
+          ' '
+        )}&do.search=1`
+      )
+      return
+    }
+
+    if (title === TEXT_MAL) {
+      open(`https://myanimelist.net/anime.php?q=${this.jp || this.cn}`)
+      return
+    }
   }
 
   /** @deprecated 屏蔽用户 */

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:30:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-25 19:18:29
+ * @Last Modified time: 2025-04-15 20:49:53
  */
 import { _ } from '@stores'
 import { LIST_EMPTY, WEB } from '@constants'
@@ -180,3 +180,17 @@ export const SORT_RELATION_DESC = {
 
 /** 完全隐藏一个模块 */
 export const NON_SHOW = [false, false] as const
+
+export const TEXT_ACTIONS_MANAGE = '跳转管理'
+
+export const TEXT_ORIGINS_MANAGE = '源头管理'
+
+export const TEXT_ICS_MANAGE = '导出放送日程ICS'
+
+export const TEXT_VIB = 'VIB'
+
+export const TEXT_ANI_DB = 'AniDB'
+
+export const TEXT_MAL = 'MAL'
+
+export const TEXT_NETABA = 'netaba.re'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-08 04:55:15
+ * @Last Modified time: 2025-04-16 01:26:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -77,7 +77,20 @@ import {
 import { SubjectCommentValue } from '../types'
 import { getOriginConfig, OriginItem } from '../../../user/origin-setting/utils'
 import State from './state'
-import { EXCLUDE_STATE, INIT_RATING, NAMESPACE, NON_SHOW, SORT_RELATION_DESC } from './ds'
+import {
+  EXCLUDE_STATE,
+  INIT_RATING,
+  NAMESPACE,
+  NON_SHOW,
+  SORT_RELATION_DESC,
+  TEXT_ACTIONS_MANAGE,
+  TEXT_ANI_DB,
+  TEXT_ICS_MANAGE,
+  TEXT_MAL,
+  TEXT_NETABA,
+  TEXT_ORIGINS_MANAGE,
+  TEXT_VIB
+} from './ds'
 
 export default class Computed extends State {
   /** 本地化 */
@@ -1351,5 +1364,48 @@ export default class Computed extends State {
 
   @computed get currentChatValues() {
     return this.state.chat[systemStore.setting.musumePrompt] || []
+  }
+
+  /** 自定义跳转菜单 */
+  @computed get actionsData() {
+    return [...this.actions.map(item => item.name), TEXT_ACTIONS_MANAGE] as const
+  }
+
+  /** 动画、三次元源头菜单 */
+  @computed get onlineData() {
+    const data = [...this.onlineOrigins, TEXT_ORIGINS_MANAGE]
+    if (!this.actions.length) data.push(TEXT_ACTIONS_MANAGE)
+    if (systemStore.setting.exportICS) data.push(TEXT_ICS_MANAGE)
+    return data.map(item => (typeof item === 'object' ? item.name : item))
+  }
+
+  /** 书籍源头菜单 */
+  @computed get comicData() {
+    const data = [...this.onlineComicOrigins, TEXT_ORIGINS_MANAGE]
+    if (!this.actions.length) data.push(TEXT_ACTIONS_MANAGE)
+    return data.map(item => (typeof item === 'object' ? item.name : item))
+  }
+
+  /** 游戏源头菜单 */
+  @computed get gameData() {
+    const data = [...this.onlineGameOrigins, TEXT_ORIGINS_MANAGE]
+    if (!this.actions.length) data.push(TEXT_ACTIONS_MANAGE)
+    return data.map(item => (typeof item === 'object' ? item.name : item))
+  }
+
+  /** 曲目源头菜单 */
+  @computed get discData() {
+    const data = [...this.onlineDiscOrigins, TEXT_ORIGINS_MANAGE]
+    if (!this.actions.length) data.push(TEXT_ACTIONS_MANAGE)
+    return data.map(item => (typeof item === 'object' ? item.name : item))
+  }
+
+  /** VIB 评分透视菜单 */
+  @computed get vibData() {
+    const data = [TEXT_VIB]
+    if (this.vib.anidb) data.push(TEXT_ANI_DB)
+    if (this.vib.mal) data.push(TEXT_MAL)
+    if (this.type === '动画') data.push(TEXT_NETABA)
+    return data
   }
 }

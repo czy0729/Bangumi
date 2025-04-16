@@ -74,6 +74,13 @@ export const TYPES_DS = [
 
 export const SITES_ANIME = [
   {
+    id: 'anime|anich',
+    name: 'Anich',
+    url: 'https://anich.emmmm.eu.org/bangumi/search/[CN]',
+    sort: 0,
+    active: 0
+  },
+  {
     id: 'anime|libvio',
     name: 'LIBVIO',
     url: 'https://www.libvio.pw/search/-------------.html?wd=[CN]',

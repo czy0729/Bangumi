@@ -36,7 +36,7 @@ function FlipBtn({ style, styleText, type, text, onAnimated }) {
         { rotateX: withTiming(activeRef.value ? '90deg' : '0deg', config) },
         { translateY: withTiming(-activeRef.value * height, config) }
       ]
-    }
+    } as const
   })
   const afterStyle = useAnimatedStyle(() => {
     return {
@@ -46,7 +46,7 @@ function FlipBtn({ style, styleText, type, text, onAnimated }) {
         { rotateX: withTiming(activeRef.value ? '0deg' : '90deg', config) },
         { translateY: withTiming(-activeRef.value * height, config) }
       ]
-    }
+    } as const
   })
 
   const [beforeProps, setBeforeProps] = useState({
@@ -111,7 +111,8 @@ function FlipBtn({ style, styleText, type, text, onAnimated }) {
     const styles = {
       container: {
         height: height * 2 + space,
-        paddingTop: space
+        paddingTop: space,
+        backfaceVisibility: 'hidden'
       },
       animated: {
         marginTop: -height
@@ -119,7 +120,7 @@ function FlipBtn({ style, styleText, type, text, onAnimated }) {
       placeholder: {
         height
       }
-    }
+    } as const
     const { text: beforeText, ...beforeRest } = beforeProps
     const { text: afterText, ...afterRest } = afterProps
     return (

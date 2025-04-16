@@ -4,99 +4,57 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-15 02:05:43
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { View } from 'react-native'
 import { Flex, Text } from '@components'
 import { Popover } from '@_'
 import { useStore } from '@stores'
-import { cnjp, open } from '@utils'
-import { ob } from '@utils/decorators'
-import { t } from '@utils/fetch'
+import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function VIB() {
+  r(COMPONENT)
+
   const { $, navigation } = useStore<Ctx>()
-  const styles = memoStyles()
-  const data = ['VIB']
-  if ($.vib.anidb) data.push('AniDB')
-  if ($.vib.mal) data.push('MAL')
-  if ($.type === '动画') data.push('netaba.re')
 
-  return (
-    <View style={styles.vib}>
-      <Popover
-        data={data}
-        onSelect={label => {
-          if (label === 'VIB') {
-            t('条目.跳转', {
-              to: 'Stats',
-              from: '评分分布',
-              subjectId: $.subjectId
-            })
+  return useObserver(() => {
+    const styles = memoStyles()
 
-            navigation.push('WebBrowser', {
-              title: `${cnjp($.cn, $.jp)}的透视`,
-              url: `https://bgm.tv/subject/${$.subjectId}/stats`
-            })
-            return
-          }
+    const handleSelect = useCallback((title: string) => {
+      $.onVIBPress(title, navigation)
+    }, [])
 
-          if (label === 'netaba.re') {
-            t('条目.跳转', {
-              to: 'Netabare',
-              from: '评分分布',
-              subjectId: $.subjectId
-            })
-
-            navigation.push('WebBrowser', {
-              title: `${cnjp($.cn, $.jp)}的趋势`,
-              url: `https://netaba.re/subject/${$.subjectId}`
-            })
-            return
-          }
-
-          if (label === 'AniDB') {
-            open(
-              `https://anidb.net/anime/?adb.search=${($.jp || $.cn).replace(
-                /～|、|・/g,
-                ' '
-              )}&do.search=1`
-            )
-            return
-          }
-
-          if (label === 'MAL') {
-            open(`https://myanimelist.net/anime.php?q=${$.jp || $.cn}`)
-            return
-          }
-        }}
-      >
-        <Flex style={styles.container} direction='column' align='end'>
-          {$.vib.avg ? (
-            <Text type='sub' size={10} lineHeight={11}>
-              VIB: {Number($.vib.avg).toFixed(1)} ({$.vib.total})
-            </Text>
-          ) : (
-            <Text type='sub' size={10} lineHeight={11}>
-              VIB: N/A
-            </Text>
-          )}
-          {!!$.vib.anidb && (
-            <Text type='sub' size={10} lineHeight={11}>
-              AniDB: {Number($.vib.anidb).toFixed(1)} ({$.vib.anidbTotal})
-            </Text>
-          )}
-          {!!$.vib.mal && (
-            <Text type='sub' size={10} lineHeight={11}>
-              MAL: {Number($.vib.mal).toFixed(1)} ({$.vib.malTotal})
-            </Text>
-          )}
-        </Flex>
-      </Popover>
-    </View>
-  )
+    return (
+      <View style={styles.vib}>
+        <Popover data={$.vibData} onSelect={handleSelect}>
+          <Flex style={styles.container} direction='column' align='end'>
+            {$.vib.avg ? (
+              <Text type='sub' size={10} lineHeight={11}>
+                VIB: {Number($.vib.avg).toFixed(1)} ({$.vib.total})
+              </Text>
+            ) : (
+              <Text type='sub' size={10} lineHeight={11}>
+                VIB: N/A
+              </Text>
+            )}
+            {!!$.vib.anidb && (
+              <Text type='sub' size={10} lineHeight={11}>
+                AniDB: {Number($.vib.anidb).toFixed(1)} ({$.vib.anidbTotal})
+              </Text>
+            )}
+            {!!$.vib.mal && (
+              <Text type='sub' size={10} lineHeight={11}>
+                MAL: {Number($.vib.mal).toFixed(1)} ({$.vib.malTotal})
+              </Text>
+            )}
+          </Flex>
+        </Popover>
+      </View>
+    )
+  })
 }
 
-export default ob(VIB, COMPONENT)
+export default VIB

@@ -83,7 +83,7 @@ export default memo(({ styles, heatMap, props, item, eps, isSp, num }) => {
           ]}
         />
       ),
-    [heatMap, item.comment]
+    [heatMap, item.comment, max, min, styles.bar]
   )
 
   return (
