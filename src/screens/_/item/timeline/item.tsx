@@ -64,12 +64,22 @@ const Item = memo(
     const rightCoverIsAvatar = !String(!!p3Url.length && p3Url[0]).includes('subject')
     const showImages = image.length >= 3
 
-    const onNavigate = useCallback(
-      (url, passParams?) => appNavigate(url, navigation, passParams, event),
+    const handleNavigate = useCallback(
+      (url: string, passParams?: object) => {
+        appNavigate(url, navigation, passParams, event)
+      },
       [event, navigation]
     )
-    const onClear = useCallback(() => {
-      confirm('确定删除?', () => onDelete(clearHref))
+    const handleSelect = useCallback(
+      (title: string) => {
+        onHidden(title, userId)
+      },
+      [onHidden, userId]
+    )
+    const handleClear = useCallback(() => {
+      confirm('确定删除?', () => {
+        onDelete(clearHref)
+      })
     }, [clearHref, onDelete])
 
     let type: SubjectTypeCn
@@ -111,7 +121,7 @@ const Item = memo(
                   p4Text={p4Text}
                   userId={userId}
                   avatarSrc={avatarSrc}
-                  onNavigate={onNavigate}
+                  onNavigate={handleNavigate}
                 />
                 <Desc
                   navigation={navigation}
@@ -130,7 +140,7 @@ const Item = memo(
                   image={image}
                   p3Text={p3Text}
                   p3Url={p3Url}
-                  onNavigate={onNavigate}
+                  onNavigate={handleNavigate}
                 />
               </InView>
               <Likes
@@ -145,7 +155,7 @@ const Item = memo(
               <Flex style={image.length === 1 && !(comment || replyCount) ? _.mt.lg : _.mt.md}>
                 {!!replyCount && (
                   <>
-                    <Touchable animate scale={0.9} onPress={() => onNavigate(replyUrl)}>
+                    <Touchable animate scale={0.9} onPress={() => handleNavigate(replyUrl)}>
                       <Text type='primary' size={12}>
                         {replyCount}
                       </Text>
@@ -168,7 +178,7 @@ const Item = memo(
                     style={styles.cover}
                     animate
                     onPress={() => {
-                      onNavigate(!!p3Url.length && p3Url[0], {
+                      handleNavigate(!!p3Url.length && p3Url[0], {
                         _jp: !!p3Text.length && p3Text[0],
                         _name: !!p3Text.length && p3Text[0],
                         _image: rightCoverIsAvatar ? _image : getCoverSrc(_image, IMG_WIDTH_SM),
@@ -190,17 +200,13 @@ const Item = memo(
               <View style={styles.menu}>
                 {!SHARE_MODE &&
                   (clearHref ? (
-                    <Touchable style={styles.touch} onPress={onClear}>
+                    <Touchable style={styles.touch} onPress={handleClear}>
                       <Flex style={styles.extra} justify='center'>
                         <Iconfont name='md-close' size={18} />
                       </Flex>
                     </Touchable>
                   ) : (
-                    <Popover
-                      style={styles.touch}
-                      data={HIDDEN_DS}
-                      onSelect={title => onHidden(title, userId)}
-                    >
+                    <Popover style={styles.touch} data={HIDDEN_DS} onSelect={handleSelect}>
                       <Flex style={styles.extra} justify='center'>
                         <Iconfont name='md-more-vert' size={18} />
                       </Flex>

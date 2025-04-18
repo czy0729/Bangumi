@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-08-03 14:55:49
  */
 import React from 'react'
-import { Popover } from 'react-native-popable'
+import { Popover as Popable } from 'react-native-popable'
 import { Component, Portal } from '@components'
 import { _, rakuenStore } from '@stores'
 import { ob } from '@utils/decorators'
@@ -34,7 +34,7 @@ export const LikesGrid = ob(
     return (
       <Component id='base-likes-grid'>
         <Portal key={String(portalKey)}>
-          <Popover
+          <Popable
             style={[styles.subject, position.style]}
             position={position.position}
             visible={visible}
@@ -61,7 +61,7 @@ export const LikesGrid = ob(
                 />
               </BlurView>
             )}
-          </Popover>
+          </Popable>
         </Portal>
       </Component>
     )

@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Popover } from 'react-native-popable'
+import { Popover as RNPopable } from 'react-native-popable'
 import { Component, Cover, Flex, Portal, Skeleton, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { _, subjectStore, systemStore, uiStore } from '@stores'
@@ -32,7 +32,7 @@ export const Popable = ob(({ subjectId, visible, portalKey, x, y }) => {
   return (
     <Component id='base-popable'>
       <Portal key={String(portalKey)}>
-        <Popover
+        <RNPopable
           style={[styles.subject, position.style]}
           position={position.position}
           visible={visible}
@@ -113,7 +113,7 @@ export const Popable = ob(({ subjectId, visible, portalKey, x, y }) => {
               )}
             </BlurView>
           )}
-        </Popover>
+        </RNPopable>
       </Portal>
     </Component>
   )

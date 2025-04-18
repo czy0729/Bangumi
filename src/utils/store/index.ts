@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-17 10:15:01
+ * @Last Modified time: 2025-04-18 03:45:49
  */
 import { action, configure, extendObservable, isObservableArray, toJS } from 'mobx'
 import { LIST_EMPTY } from '@constants/constants'
@@ -30,40 +30,110 @@ export default class Store<
     this.state = initialState
   }
 
-  /** 同步的增量 setState 方法 */
+  /**
+   * 同步的增量 setState 方法
+   * @date 20190226
+   * */
+  // setState = action((state: DeepPartial<T>, stateKey: string = 'state') => {
+  //   Object.entries(state).forEach(([key, item]) => {
+  //     const observerTarget = this[stateKey]
+
+  //     // 键值不存在时需手动创建观察
+  //     if (!(key in observerTarget)) {
+  //       extendObservable(observerTarget, {
+  //         [key]: item
+  //       })
+  //       return
+  //     }
+
+  //     if (typeof item !== 'object') {
+  //       observerTarget[key] = item
+  //       return
+  //     }
+
+  //     // 第一层观察对象整个应用的逻辑都是增量修改
+  //     if (!Array.isArray(item)) {
+  //       observerTarget[key] = {
+  //         ...observerTarget[key],
+  //         ...item
+  //       }
+  //       return
+  //     }
+
+  //     if (isObservableArray(observerTarget[key])) {
+  //       observerTarget[key].replace(item)
+  //       return
+  //     }
+
+  //     observerTarget[key] = item
+  //   })
+  // })
+
+  /**
+   * 同步的增量 setState 方法（优化版）
+   * @date 20250418
+   * */
   setState = action((state: DeepPartial<T>, stateKey: string = 'state') => {
-    Object.entries(state).forEach(([key, item]) => {
-      const observerTarget = this[stateKey]
+    const observerTarget = this[stateKey]
+    const newProps: Record<string, any> = {}
+    const updates: Array<{ key: string; item: any }> = []
 
-      // 键值不存在时需手动创建观察
-      if (!(key in observerTarget)) {
-        extendObservable(observerTarget, {
-          [key]: item
-        })
-        return
-      }
-
-      if (typeof item !== 'object') {
-        observerTarget[key] = item
-        return
-      }
-
-      // 第一层观察对象整个应用的逻辑都是增量修改
-      if (!Array.isArray(item)) {
-        observerTarget[key] = {
-          ...observerTarget[key],
-          ...item
+    // 第一次遍历：收集新属性和待更新项
+    for (const key in state) {
+      if (Object.prototype.hasOwnProperty.call(state, key)) {
+        const item = state[key]
+        if (!(key in observerTarget)) {
+          newProps[key] = item
+        } else {
+          updates.push({ key, item })
         }
-        return
+      }
+    }
+
+    // 批量添加新属性
+    if (Object.keys(newProps).length > 0) {
+      extendObservable(observerTarget, newProps)
+    }
+
+    // 第二次遍历：处理更新
+    for (const { key, item } of updates) {
+      const current = observerTarget[key]
+
+      // 基本类型或 null：直接比较并赋值
+      if (item === null || typeof item !== 'object') {
+        if (current === item) continue
+
+        observerTarget[key] = item
+        continue
       }
 
-      if (isObservableArray(observerTarget[key])) {
-        observerTarget[key].replace(item)
-        return
+      // 数组处理
+      if (Array.isArray(item)) {
+        if (current === item) continue
+        if (isObservableArray(current)) {
+          current.replace(item)
+        } else {
+          observerTarget[key] = item
+        }
+        continue
       }
 
-      observerTarget[key] = item
-    })
+      // 对象处理
+      if (current === item) continue
+
+      if (current !== null && typeof current === 'object' && !Array.isArray(current)) {
+        // 增量合并属性，仅更新变化的属性
+        for (const subKey in item) {
+          if (Object.prototype.hasOwnProperty.call(item, subKey)) {
+            const nextVal = item[subKey]
+            if (current[subKey] !== nextVal) current[subKey] = nextVal
+          }
+        }
+      } else {
+        // 当前值非对象，直接替换
+        observerTarget[key] = item
+      }
+    }
   })
 
   /**
@@ -295,7 +365,7 @@ export default class Store<
   toJS = (key: string): object => toJS(this.state[key] || this.state)
 
   /** 唯一队列请求 */
-  private memoFetched = new Map<Fn, true>()
+  private _memoFetched = new Map<Fn, true>()
 
   /** 唯一队列请求 */
   fetchQueueUnique = (fetchs: Fn[]) => {
@@ -303,14 +373,14 @@ export default class Store<
       queue(
         fetchs.map(callback => {
           return async () => {
-            if (!this.memoFetched.has(callback)) {
-              this.memoFetched.set(callback, true)
+            if (!this._memoFetched.has(callback)) {
+              this._memoFetched.set(callback, true)
               await callback()
             }
             return true
           }
         })
       )
-    }, 200 * this.memoFetched.size)
+    }, 200 * this._memoFetched.size)
   }
 }

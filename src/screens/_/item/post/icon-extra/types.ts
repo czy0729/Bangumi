@@ -4,7 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-16 09:16:32
  */
-import { DeepPartial, Fn } from '@types'
+import { AnyObject, DeepPartial, Fn, TopicId } from '@types'
+
+export type Props = AnyObject<{
+  topicId: TopicId
+}>
 
 export type Ctx = DeepPartial<{
   $: {

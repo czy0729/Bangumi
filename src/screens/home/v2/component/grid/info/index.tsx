@@ -35,17 +35,17 @@ function Info({ subjectId = 0, subject = {}, epStatus = '', tip = '', time = '' 
           subjectId={subjectId}
           subject={subject}
           onPress={() => {
-            t('首页.跳转', {
-              to: 'Subject',
-              from: 'grid',
-              subjectId
-            })
-
             navigation.push('Subject', {
               subjectId,
               _jp: subject.name,
               _cn: subject.name_cn,
               _image: getCoverSrc(subject?.images?.medium || '', IMG_WIDTH_SM)
+            })
+
+            t('首页.跳转', {
+              to: 'Subject',
+              from: 'grid',
+              subjectId
             })
           }}
         />
