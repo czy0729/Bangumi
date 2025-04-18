@@ -1,0 +1,33 @@
+diff --git a/node_modules/react-native-collapsible/Accordion.d.ts b/node_modules/react-native-collapsible/Accordion.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-collapsible/Accordion.js b/node_modules/react-native-collapsible/Accordion.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-collapsible/Collapsible.js b/node_modules/react-native-collapsible/Collapsible.js
+old mode 100644
+new mode 100755
+index dc4d3b8..e089fcd
+--- a/node_modules/react-native-collapsible/Collapsible.js
++++ b/node_modules/react-native-collapsible/Collapsible.js
+@@ -188,7 +188,7 @@ export default class Collapsible extends Component {
+     const hasKnownHeight = !measuring && (measured || collapsed);
+     const style = {
+       overflow: 'hidden',
+-      height: hasKnownHeight ? height : 0,
++      height: hasKnownHeight ? height : 'unset',
+     };
+     const contentStyle = {};
+     if (measuring) {
+diff --git a/node_modules/react-native-collapsible/LICENSE b/node_modules/react-native-collapsible/LICENSE
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-collapsible/README.md b/node_modules/react-native-collapsible/README.md
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-collapsible/babel.config.js b/node_modules/react-native-collapsible/babel.config.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-collapsible/index.d.ts b/node_modules/react-native-collapsible/index.d.ts
+old mode 100644
+new mode 100755

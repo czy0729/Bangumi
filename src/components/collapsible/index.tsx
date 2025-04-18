@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-06-25 17:18:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 03:24:30
+ * @Last Modified time: 2025-04-18 13:52:16
  */
 import React, { useEffect, useState } from 'react'
+import RNCollapsible from 'react-native-collapsible'
 import { r } from '@utils/dev'
-import RNCollapsible from './collapsible'
 import { COMPONENT } from './ds'
 import { Props as CollapsibleProps } from './types'
 
