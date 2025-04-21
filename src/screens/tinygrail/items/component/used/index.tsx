@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-12-26 01:13:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-27 07:46:03
+ * @Last Modified time: 2025-04-22 04:14:02
  */
 import React from 'react'
 import { useObserver } from 'mobx-react'
@@ -26,48 +26,35 @@ function Used({ name }: { name: ItemsKeys }) {
     if (!memo.monoId) return null
 
     const styles = memoStyles()
+
+    const renderMonoInfo = (mono: typeof memo, prefix = 'mono') => (
+      <Flex>
+        <Icon
+          monoId={mono[`${prefix}Id`]}
+          name={mono[`${prefix}Name`]}
+          icon={mono[`${prefix}Avatar`]}
+          size={28}
+          radius={_.radiusXs}
+        />
+        <Flex.Item style={_.ml.sm}>
+          <Text type='tinygrailPlain' size={10} lineHeight={12} numberOfLines={1}>
+            {HTMLDecode(mono[`${prefix}Name`])}
+          </Text>
+          <Text type='ask' size={9} lineHeight={11}>
+            lv{mono[`${prefix}Lv`]}
+          </Text>
+        </Flex.Item>
+      </Flex>
+    )
+
     return (
       <Flex style={styles.memo}>
-        <Flex.Item>
-          <Flex>
-            <Icon
-              monoId={memo.monoId}
-              name={memo.monoName}
-              icon={memo.monoAvatar}
-              size={28}
-              radius={_.radiusXs}
-            />
-            <Flex.Item style={_.ml.sm}>
-              <Text type='tinygrailPlain' size={11} numberOfLines={1}>
-                {HTMLDecode(memo.monoName)}
-              </Text>
-              <Text type='ask' size={10} lineHeight={11}>
-                lv{memo.monoLv}
-              </Text>
-            </Flex.Item>
-          </Flex>
-        </Flex.Item>
-        {!!memo.toMonoId && (
-          <Flex.Item style={_.ml.md}>
-            <Flex>
-              <Icon
-                size={28}
-                monoId={memo.toMonoId}
-                name={memo.toMonoName}
-                icon={memo.toMonoAvatar}
-              />
-              <Flex.Item style={_.ml.sm}>
-                <Text type='tinygrailPlain' size={11} numberOfLines={1}>
-                  {HTMLDecode(memo.toMonoName)}
-                </Text>
-                <Text type='ask' size={10} lineHeight={11}>
-                  lv{memo.toMonoLv}
-                </Text>
-              </Flex.Item>
-            </Flex>
-          </Flex.Item>
-        )}
+        <Flex.Item>{renderMonoInfo(memo)}</Flex.Item>
+
+        {!!memo.toMonoId && <Flex.Item style={_.ml.md}>{renderMonoInfo(memo, 'toMono')}</Flex.Item>}
+
         <Touchable
+          style={_.ml.md}
           onPress={() => {
             $.doUse(memo, false)
           }}

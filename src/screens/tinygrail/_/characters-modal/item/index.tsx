@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-01 17:20:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-06 19:15:17
+ * @Last Modified time: 2025-04-22 00:26:22
  */
 import React from 'react'
 import { Avatar, Flex, Text, Touchable } from '@components'
@@ -24,6 +24,7 @@ function Item({
   extra,
   assets = 0,
   sacrifices = 0,
+  refine = 0,
   disabled,
   item,
   onPress
@@ -34,7 +35,7 @@ function Item({
       <Flex style={stl(styles.item, !disabled && styles[type])}>
         {src ? (
           <Avatar
-            key={tinygrailOSS(src)}
+            key={src}
             src={tinygrailOSS(src)}
             size={30}
             radius={_.radiusXs}
@@ -56,7 +57,16 @@ function Item({
             </Flex.Item>
           </Flex>
           {assets && sacrifices ? (
-            <Progress style={_.mt.xs} size='xs' assets={assets} sacrifices={sacrifices} />
+            <Flex style={_.mt.xs}>
+              <Flex.Item>
+                <Progress size='xs' assets={assets} sacrifices={sacrifices} />
+              </Flex.Item>
+              {!!refine && (
+                <Text style={_.ml.xs} type='tinygrailText' size={9} bold>
+                  +{refine}
+                </Text>
+              )}
+            </Flex>
           ) : (
             !!extra && (
               <Text style={_.mt.xs} type='tinygrailText' size={9} numberOfLines={1}>

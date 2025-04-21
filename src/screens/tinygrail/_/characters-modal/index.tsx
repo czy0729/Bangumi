@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-13 19:32:36
+ * @Last Modified time: 2025-04-22 00:20:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,6 +16,7 @@ import {
   getStorage,
   getTimestamp,
   info,
+  queue,
   setStorage,
   stl,
   toFixed,
@@ -23,6 +24,7 @@ import {
 } from '@utils'
 import { ob } from '@utils/decorators'
 import { FROZEN_FN, M2 } from '@constants'
+import { Loaded } from '@types'
 import { calculateRate } from '../utils'
 import BackHandler from './back-handler'
 import Item from './item'
@@ -307,32 +309,17 @@ class CharactersModal extends React.Component<Props, State> {
 
   // -------------------- fetch --------------------
   initFetch = async () => {
-    const current = getTimestamp()
-    if (
-      !this.temple._loaded ||
-      (this.temple._loaded && current - Number(this.temple._loaded) > M2)
-    ) {
-      return this.fetchTemple()
-    }
-
-    if (!this.chara._loaded || (this.chara._loaded && current - Number(this.chara._loaded) > M2)) {
-      return this.fetchMyCharaAssets()
-    }
-
-    if (!this.msrc._loaded || (this.msrc._loaded && current - Number(this.msrc._loaded) > M2)) {
-      return this.fetchMsrc()
-    }
-
-    if (!this.star._loaded || (this.star._loaded && current - Number(this.star._loaded) > M2)) {
-      return this.fetchStar()
-    }
-
-    if (
-      !this.fantasy._loaded ||
-      (this.fantasy._loaded && current - Number(this.fantasy._loaded) > M2)
-    ) {
-      return this.fetchFantasy()
-    }
+    const now = getTimestamp()
+    const isStale = (loaded: Loaded) => !loaded || now - Number(loaded) > M2
+    return queue(
+      [
+        isStale(this.temple._loaded) && this.fetchTemple,
+        isStale(this.chara._loaded) && this.fetchMyCharaAssets,
+        isStale(this.msrc._loaded) && this.fetchMsrc,
+        isStale(this.star._loaded) && this.fetchStar,
+        isStale(this.fantasy._loaded) && this.fetchFantasy
+      ].filter(Boolean) as (() => Promise<any>)[]
+    )
   }
 
   /** 我的圣殿 */
@@ -804,6 +791,7 @@ class CharactersModal extends React.Component<Props, State> {
         assets={item.assets}
         sacrifices={item.sacrifices}
         disabled={disabled}
+        refine={item.refine}
         item={item}
         onPress={this.onSelectLeft}
       />

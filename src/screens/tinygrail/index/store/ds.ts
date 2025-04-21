@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-12-17 03:40:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-13 17:36:49
+ * @Last Modified time: 2025-04-20 16:20:28
  */
 import { Loaded } from '@types'
 import { COMPONENT, STAR_INDEX_WEIGHT } from '../ds'
 
-export const NAMESPACE = `Screen${COMPONENT}`
+export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const ERROR_STR = '/false'
 

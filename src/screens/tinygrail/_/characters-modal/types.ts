@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-02 11:01:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-06 19:36:53
+ * @Last Modified time: 2025-04-22 00:20:12
  */
 import { Fn } from '@types'
 
@@ -31,6 +31,7 @@ export type PickItem = Partial<{
   total: number
   users: any
   assets: number
+  refine: number
   userAmount: number
 }>
 

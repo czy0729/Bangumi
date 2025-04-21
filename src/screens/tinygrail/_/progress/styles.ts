@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-03 07:04:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-21 19:51:41
+ * @Last Modified time: 2025-04-22 00:25:58
  */
 import { _ } from '@stores'
 
@@ -35,7 +35,6 @@ export const memoStyles = _.memoStyles(() => ({
     top: 0.5,
     right: 0,
     bottom: 0,
-    left: 0,
-    paddingHorizontal: _.sm
+    left: 0
   }
 }))

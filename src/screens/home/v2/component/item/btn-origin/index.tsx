@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:49:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-13 03:15:14
+ * @Last Modified time: 2025-04-18 13:34:41
  */
 import React, { useCallback } from 'react'
 import { Flex, Heatmap, Iconfont } from '@components'
@@ -16,6 +16,7 @@ import {
   TEXT_COLLAPSE_ALL,
   TEXT_EXPAND_ALL,
   TEXT_EXPORT_SCHEDULE,
+  TEXT_PIN,
   TEXT_UNPIN
 } from '@screens/home/v2/store/ds'
 import { SubjectId, SubjectTypeCn } from '@types'
@@ -49,7 +50,7 @@ function BtnOrigin({ subjectId }: { subjectId: SubjectId }) {
       const data: string[] = [...origins]
 
       // 添加置顶/取消置顶操作
-      data.push(isPinned ? TEXT_UNPIN : TEXT_UNPIN)
+      data.push(isPinned ? TEXT_UNPIN : TEXT_PIN)
 
       // 动画类条目特有操作
       if (isAnime) {
