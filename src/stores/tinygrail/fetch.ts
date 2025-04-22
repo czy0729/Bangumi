@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:38:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-13 17:22:20
+ * @Last Modified time: 2025-04-22 05:35:05
  */
 import { toJS } from 'mobx'
 import { getTimestamp, HTMLDecode, info, lastDate, toFixed } from '@utils'
@@ -60,7 +60,7 @@ import {
   NAMESPACE
 } from './init'
 import { CHARA_ITEM, CHARA_TEMPLE_ITEM, REFINE_TEMPLE_ITEM, STAR_LOGS_ITEM } from './mock'
-import { calculateRate, throttleInfo, toCharacter } from './utils'
+import { calculateRate, mapItems, throttleInfo, toCharacter } from './utils'
 import { defaultKey, defaultSort, paginationOnePage } from './ds'
 import { ListKey } from './types'
 
@@ -257,7 +257,7 @@ export default class Fetch extends Computed {
     })
     this.save(key)
 
-    return Promise.resolve(data)
+    return data
   }
 
   /** K 线原始数据 */
@@ -323,7 +323,7 @@ export default class Fetch extends Computed {
     })
     this.save(key)
 
-    return Promise.resolve(data)
+    return data
   }
 
   /** 用户唯一标识 */
@@ -341,7 +341,7 @@ export default class Fetch extends Computed {
     })
     this.save(key)
 
-    return Promise.resolve(data)
+    return data
   }
 
   /** 资产信息 */
@@ -367,7 +367,7 @@ export default class Fetch extends Computed {
     })
     this.save(key)
 
-    return Promise.resolve(data)
+    return data
   }
 
   /** 其他用户资产信息 */
@@ -394,7 +394,7 @@ export default class Fetch extends Computed {
       }
     })
 
-    return Promise.resolve(data)
+    return data
   }
 
   /** 用户资产概览信息 */
@@ -592,30 +592,32 @@ export default class Fetch extends Computed {
 
   /** 我的道具 */
   fetchItems = async () => {
-    const result = await this.fetch(API_TINYGRAIL_ITEMS())
+    const STATE_KEY = 'items'
 
-    const data = {
-      ...LIST_EMPTY
-    }
-    if (result.data.State === 0) {
-      data._loaded = getTimestamp()
-      data.list = result.data.Value.Items.map(item => ({
-        id: item.Id,
-        name: item.Name,
-        icon: item.Icon,
-        line: item.Line,
-        amount: item.Amount,
-        last: item.Last
-      }))
-    }
+    try {
+      const result = await this.fetch(API_TINYGRAIL_ITEMS())
+      const { State, Value } = result.data
+      if (State === 0) {
+        const next = mapItems(Value.Items, {
+          id: 'Id',
+          name: 'Name',
+          icon: 'Icon',
+          line: 'Line',
+          amount: 'Amount',
+          last: 'Last'
+        })
+        this.setState({
+          [STATE_KEY]: {
+            list: next,
+            pagination: { page: 1, pageTotal: 1 },
+            _loaded: getTimestamp()
+          }
+        })
+        this.save(STATE_KEY)
+      }
+    } catch (error) {}
 
-    const key = 'items'
-    this.setState({
-      [key]: data
-    })
-    this.save(key)
-
-    return Promise.resolve(data)
+    return this[STATE_KEY]
   }
 
   /** 每周萌王 */
@@ -660,7 +662,7 @@ export default class Fetch extends Computed {
     })
     this.save(key)
 
-    return Promise.resolve(data)
+    return data
   }
 
   /** 检测用户有多少圣殿 */
@@ -856,7 +858,7 @@ export default class Fetch extends Computed {
     })
     this.save(key)
 
-    return Promise.resolve(data)
+    return data
   }
 
   /** 我的拍卖列表 */
@@ -903,7 +905,7 @@ export default class Fetch extends Computed {
     })
     this.save(key)
 
-    return Promise.resolve(data)
+    return data
   }
 
   /** 当前拍卖状态 */
@@ -926,7 +928,7 @@ export default class Fetch extends Computed {
         [monoId]: data
       }
     })
-    return Promise.resolve(data)
+    return data
   }
 
   /**
@@ -1054,39 +1056,39 @@ export default class Fetch extends Computed {
       }
     })
 
-    return Promise.resolve(data)
+    return data
   }
 
   /** 资金日志 */
-  fetchBalance = async () => {
-    const result = await this.fetch(API_TINYGRAIL_BALANCE())
+  fetchBalance = async (refresh: boolean = false) => {
+    const STATE_KEY = 'balance'
+    const { list, pagination } = this[STATE_KEY]
+    const nextPage = refresh ? 1 : pagination.page + 1
 
-    let data = {
-      ...LIST_EMPTY
-    }
-    if (result.data.State === 0) {
-      data = {
-        ...LIST_EMPTY,
-        list: result.data.Value.Items.map(item => ({
-          id: item.Id,
-          balance: item.Balance,
-          change: item.Change,
-          time: item.LogTime,
-          charaId: item.RelatedId,
-          desc: item.Description
-        })),
-        pagination: paginationOnePage,
-        _loaded: getTimestamp()
+    try {
+      const result = await this.fetch(API_TINYGRAIL_BALANCE(nextPage))
+      const { State, Value } = result.data
+      if (State === 0) {
+        const next = mapItems(Value.Items, {
+          id: 'Id',
+          balance: 'Balance',
+          change: 'Change',
+          time: 'LogTime',
+          charaId: 'RelatedId',
+          desc: 'Description'
+        })
+        this.setState({
+          [STATE_KEY]: {
+            list: refresh ? next : [...list, ...next],
+            pagination: refresh ? { page: 1, pageTotal: 100 } : { ...pagination, page: nextPage },
+            _loaded: getTimestamp()
+          }
+        })
+        this.save(STATE_KEY)
       }
-    }
+    } catch (error) {}
 
-    const key = 'balance'
-    this.setState({
-      [key]: data
-    })
-    this.save(key)
-
-    return Promise.resolve(data)
+    return this[STATE_KEY]
   }
 
   /** 董事会 */
@@ -1119,7 +1121,7 @@ export default class Fetch extends Computed {
       }
     })
 
-    return Promise.resolve(data)
+    return data
   }
 
   /** 角色奖池 */
@@ -1178,7 +1180,7 @@ export default class Fetch extends Computed {
       this.save(key)
     }
 
-    return Promise.resolve(data)
+    return data
   }
 
   /** 用户资产概览信息 */
@@ -1223,7 +1225,7 @@ export default class Fetch extends Computed {
       this.save(key)
     }
 
-    return Promise.resolve(data)
+    return data
   }
 
   /** 我的某角色圣殿 */
@@ -1349,7 +1351,7 @@ export default class Fetch extends Computed {
       }
     })
 
-    return Promise.resolve(data)
+    return data
   }
 
   /** 角色发行价 */
@@ -1424,7 +1426,7 @@ export default class Fetch extends Computed {
       [key]: data
     })
 
-    return Promise.resolve(data)
+    return data
   }
 
   /** 卖一推荐 (从市场查找) */
@@ -1519,7 +1521,7 @@ export default class Fetch extends Computed {
     })
     this.save(key)
 
-    return Promise.resolve(data)
+    return data
   }
 
   /** 买一推荐 (从自己持仓中查找) */
@@ -1596,7 +1598,7 @@ export default class Fetch extends Computed {
     })
     this.save(key)
 
-    return Promise.resolve(data)
+    return data
   }
 
   /** 拍卖推荐 (从英灵殿中查找) */
@@ -1639,7 +1641,7 @@ export default class Fetch extends Computed {
     })
     this.save(key)
 
-    return Promise.resolve(data)
+    return data
   }
 
   /** 拍卖推荐 (按假设角色是通天塔250名来计算, 从英灵殿中查找) */
@@ -1686,7 +1688,7 @@ export default class Fetch extends Computed {
     })
     this.save(key)
 
-    return Promise.resolve(data)
+    return data
   }
 
   /** 献祭推荐 (从自己持仓中查找) */
@@ -1714,7 +1716,7 @@ export default class Fetch extends Computed {
     })
     this.save(key)
 
-    return Promise.resolve(data)
+    return data
   }
 
   /**
@@ -1783,7 +1785,7 @@ export default class Fetch extends Computed {
     //   [key]: data
     // })
     // this.save(key)
-    // return Promise.resolve(data)
+    // return data
   }
 
   /** 低价股 (从市场查找) */
@@ -1915,7 +1917,7 @@ export default class Fetch extends Computed {
       [key]: data
     })
 
-    return Promise.resolve(data)
+    return data
   }
 
   /** 预测股息 */

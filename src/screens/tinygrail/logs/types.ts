@@ -2,20 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-11-09 05:43:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-10 16:47:43
+ * @Last Modified time: 2025-04-21 23:37:15
  */
-import { factory } from '@utils'
 import { Navigation } from '@types'
 import Store from './store'
-import { TABS } from './ds'
-
-const f = factory(Store)
-
-export type StoreType = typeof f
+import { ITEMS_DS, TABS } from './ds'
 
 export type Ctx = {
-  $: StoreType
+  $: InstanceType<typeof Store>
   navigation?: Navigation
 }
 
 export type TabsTitle = (typeof TABS)[number]['title']
+
+export type ItemsType = (typeof ITEMS_DS)[number]

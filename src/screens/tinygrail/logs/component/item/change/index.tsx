@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-11 06:51:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-04 18:35:41
+ * @Last Modified time: 2025-04-22 05:41:16
  */
 import React from 'react'
 import { Flex, Text, TextProps } from '@components'
@@ -22,10 +22,17 @@ function Item({ desc, change }) {
 
   let changeType: TextProps['type']
   let changeNum: string
+  let changeType2: TextProps['type']
+  let changeNum2: string
   if (!change) {
     const match = desc.match(/\d+股/g)
     if (match && match.length) {
-      if (['买入', '获得', '获奖'].some(item => desc.includes(item))) {
+      if (['充能'].some(item => desc.includes(item)) && match?.[1]) {
+        changeType = 'ask'
+        changeNum = `-${match[0]}`
+        changeType2 = 'bid'
+        changeNum2 = `+${match[1]}`
+      } else if (['买入', '获得', '获奖'].some(item => desc.includes(item))) {
         changeType = 'bid'
         changeNum = `+${match[0]}`
       } else {
@@ -35,10 +42,23 @@ function Item({ desc, change }) {
     }
   }
 
+  const textProps = {
+    size: changeNum2 ? 13 : 15,
+    bold: true
+  } as const
+
   return (
-    <Flex style={_.ml.md} justify='end'>
+    <Flex
+      style={[
+        _.ml.md,
+        {
+          minWidth: 56
+        }
+      ]}
+      justify='end'
+    >
       {change ? (
-        <Text type={type} size={15} bold align='right'>
+        <Text type={type} {...textProps}>
           {change
             ? `${type === 'bid' ? '+' : '-'}${formatNumber(
                 Math.abs(change),
@@ -48,9 +68,21 @@ function Item({ desc, change }) {
             : ''}
         </Text>
       ) : (
-        <Text type={changeType} size={15} bold align='right'>
-          {changeNum}
-        </Text>
+        <>
+          <Text type={changeType} {...textProps}>
+            {changeNum}
+          </Text>
+          {!!changeNum2 && (
+            <>
+              <Text type='tinygrailText' {...textProps}>
+                {` / `}
+              </Text>
+              <Text type={changeType2} {...textProps}>
+                {changeNum2}
+              </Text>
+            </>
+          )}
+        </>
       )}
     </Flex>
   )

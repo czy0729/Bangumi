@@ -127,7 +127,8 @@ export const API_TINYGRAIL_MY_CHARA_ASSETS = () =>
   `${API_HOST_TINYGRAIL}/api/chara/user/assets/0/true`
 
 /** 资金日志 */
-export const API_TINYGRAIL_BALANCE = () => `${API_HOST_TINYGRAIL}/api/chara/user/balance/1/200`
+export const API_TINYGRAIL_BALANCE = (page = 1) =>
+  `${API_HOST_TINYGRAIL}/api/chara/user/balance/${page}/200`
 
 /** ICO 参与者 */
 export const API_TINYGRAIL_INITIAL = (icoId: Id, page = 1) =>

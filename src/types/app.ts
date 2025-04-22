@@ -128,7 +128,7 @@ export type ListEmpty<T = any> = Expand<{
     page: number
     pageTotal: number
   }
-  _list?: readonly T[]
+  _list?: T[] | readonly T[]
   _loaded?: Loaded
 }>
 

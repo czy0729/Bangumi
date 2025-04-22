@@ -2,16 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 13:35:44
+ * @Last Modified time: 2025-04-22 05:09:22
  */
 import React from 'react'
-import { Component, Page } from '@components'
-import { _, StoreContext } from '@stores'
+import { Component } from '@components'
+import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
+import TinygrailHeader from '@tinygrail/_/header'
+import TinygrailPage from '@tinygrail/_/page'
 import { NavigationProps } from '@types'
 import Tabs from './component/tabs'
-import Header from './header'
 import { useTinygrailLogsPage } from './hooks'
+import { HM } from './ds'
 
 /** 资金日志 */
 const TinygrailLogs = (props: NavigationProps) => {
@@ -20,14 +22,10 @@ const TinygrailLogs = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-tinygrail-logs'>
       <StoreContext.Provider value={id}>
-        <Page
-          style={[_.container.tinygrail, _.container.header]}
-          loaded={$.state._loaded}
-          loadingColor={_.colorTinygrailText}
-        >
+        <TinygrailPage loading={!$.balance._loaded}>
           <Tabs />
-        </Page>
-        <Header />
+        </TinygrailPage>
+        <TinygrailHeader title='资金日志' hm={HM} go />
       </StoreContext.Provider>
     </Component>
   ))

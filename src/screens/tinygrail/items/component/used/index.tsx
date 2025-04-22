@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2024-12-26 01:13:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-22 04:14:02
+ * @Last Modified time: 2025-04-22 05:13:32
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { HTMLDecode } from '@utils'
 import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { ITEMS_TYPE } from '@tinygrail/_/characters-modal'
 import Icon from '@tinygrail/_/icon'
-import { Ctx, ItemsKeys } from '../../types'
+import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+import { Props } from './types'
 
-function Used({ name }: { name: ItemsKeys }) {
+function Used({ name }: Props) {
   r(COMPONENT)
 
   const { $ } = useStore<Ctx>()

@@ -6,6 +6,7 @@
  */
 import { ImageRequireSource } from 'react-native'
 import PropTypes from 'prop-types'
+import { ListEmpty } from '@types'
 import { HOST_DOGE } from '../cdn/ds'
 import { PAD, RATIO, WEB } from '../device'
 import { IOS } from './env'
@@ -81,7 +82,7 @@ export const TIMEZONE_IS_GMT8 = TIMEZONE_OFFSET_LOCAL === TIMEZONE_OFFSET_GMT8
 export const USE_NATIVE_DRIVER = !WEB
 
 /** App 列表数据结构 */
-export const LIST_EMPTY = {
+export const LIST_EMPTY: ListEmpty = {
   list: [],
   pagination: {
     page: 0,

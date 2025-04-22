@@ -29,6 +29,42 @@ function _info(message: string) {
  */
 export const throttleInfo = throttle(_info, IOS ? 400 : ToastAndroid.SHORT)
 
+/**
+ * 严格数据映射函数（只映射明确指定的字段）
+ * @param items 原始数据数组
+ * @param fieldMap 字段映射配置 { 新字段名: 原始字段名或转换函数 }
+ * @returns 映射后的新数组（只包含fieldMap中指定的字段）
+ */
+export function mapItems<
+  T extends Record<string, any>,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  M extends Record<string, string | ((item: T) => any)>
+>(
+  items: T[],
+  fieldMap: M
+): {
+  [K in keyof M]: M[K] extends string
+    ? T[M[K] extends keyof T ? M[K] : never]
+    : M[K] extends (item: T) => infer R
+    ? R
+    : never
+}[] {
+  return items.map(item => {
+    const result: any = {}
+
+    for (const [newField, originalField] of Object.entries(fieldMap)) {
+      if (typeof originalField === 'function') {
+        // 如果是函数，直接执行
+        result[newField] = (originalField as (item: T) => any)(item)
+      } else {
+        // 只映射明确指定的字段
+        result[newField] = item[originalField as keyof T]
+      }
+    }
+    return result
+  })
+}
+
 const TO_CHARACTER_KEYS = Object.keys(INIT_CHARACTERS_ITEM)
 
 /** 把服务器的返回结果后处理成 APP 内使用的结构 */

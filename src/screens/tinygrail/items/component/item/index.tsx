@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-12-26 01:13:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-22 04:38:09
+ * @Last Modified time: 2025-04-22 05:13:26
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Flex, Iconfont, Image, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
-import { TinygrailItemsItem } from '@stores/tinygrail/types'
 import { formatNumber, tinygrailOSS } from '@utils'
 import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { ITEMS_USED } from '@tinygrail/_/characters-modal'
 import { ITEMS_DESC } from '@tinygrail/_/ds'
 import { IMAGE_WIDTH } from '../../ds'
@@ -19,8 +18,9 @@ import { Ctx, ItemsKeys } from '../../types'
 import Used from '../used'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+import { Props } from './types'
 
-function Item({ item }: { item: TinygrailItemsItem }) {
+function Item({ item }: Props) {
   r(COMPONENT)
 
   const { $ } = useStore<Ctx>()

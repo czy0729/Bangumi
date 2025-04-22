@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:14:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-17 08:55:09
+ * @Last Modified time: 2025-04-18 13:28:39
  */
 import { computed } from 'mobx'
 import { _, calendarStore, collectionStore, subjectStore, systemStore, userStore } from '@stores'
@@ -36,37 +36,37 @@ import { BANGUMI_INFO, INIT_ITEM, NAMESPACE, PAGE_LIMIT_GRID, PAGE_LIMIT_LIST } 
 export default class Computed extends State {
   /** 置顶的映射 */
   getTopMap() {
-    const topMap: Record<SubjectId, number> = {}
-    this.state.top.forEach((subjectId, order) => (topMap[subjectId] = order + 1))
-    return freeze(topMap)
+    return this.state.top.reduce<Record<SubjectId, number>>((map, subjectId, index) => {
+      map[subjectId] = index + 1
+      return map
+    }, {})
   }
 
   /** Tabs SceneMap */
   @computed get tabs() {
-    const tabs: Tabs = []
-    systemStore.setting.homeTabs.forEach(item => {
-      if (TABS_ITEM[item]) tabs.push(TABS_ITEM[item])
-    })
-    if (systemStore.setting.showGame) tabs.push(TABS_ITEM.game)
+    const { homeTabs, showGame } = systemStore.setting
+    const tabs: Tabs = homeTabs.map(item => TABS_ITEM[item]).filter(Boolean)
+    if (showGame) tabs.push(TABS_ITEM.game)
     return freeze(tabs)
   }
 
   /** Tabs navigationState */
   @computed get navigationState() {
     const { page } = this.state
+    const { tabs } = this
+    const safeIndex = Math.min(Math.max(0, page), tabs.length - 1)
     return freeze({
-      index: page > this.tabs.length - 1 ? 0 : page,
-      routes: this.tabs
+      index: safeIndex,
+      routes: tabs
     })
   }
 
   /** 列表上内距 */
   @computed get listPaddingTop() {
-    return (
-      _.headerHeight +
-      (this.tabs.length <= 1 ? _.sm : H_TABBAR) +
-      (IOS && PAD ? _.statusBarHeight : 0)
-    )
+    const { tabs } = this
+    const basePadding = _.headerHeight + (tabs.length <= 1 ? _.sm : H_TABBAR)
+    const iosPadAdjustment = IOS && PAD ? _.statusBarHeight : 0
+    return basePadding + iosPadAdjustment
   }
 
   /** 自己用户信息 Id */
@@ -536,9 +536,6 @@ export default class Computed extends State {
   /** bangumi-data 数据扩展 */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   bangumiInfo(_subjectId: SubjectId) {
-    // 暂时不使用 bangumi-data 数据
-    return BANGUMI_INFO
-
     // return computed(() => {
     //   if (!this.state.loadedBangumiData) {
     //     return {
@@ -562,6 +559,9 @@ export default class Computed extends State {
     //     )
     //   )
     // }).get()
+
+    // 暂时不使用 bangumi-data 数据
+    return BANGUMI_INFO
   }
 
   /** 在线源头数据 */

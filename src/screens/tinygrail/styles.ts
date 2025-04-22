@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 16:59:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 21:18:32
+ * @Last Modified time: 2025-04-22 04:55:43
  */
 import { _ } from '@stores'
 
@@ -22,3 +22,10 @@ export const refreshControlProps = {
   titleColor: _.colorTinygrailText,
   tintColor: _.colorTinygrailText
 }
+
+export const TINYGRAIL_LIST_PROPS = {
+  style: _.container.flex,
+  contentContainerStyle: _.container.bottom,
+  refreshControlProps,
+  footerTextType: 'tinygrailText'
+} as const

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-10 16:53:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-10 16:56:53
+ * @Last Modified time: 2025-04-22 05:44:13
  */
 import { t } from '@utils/fetch'
 import { AnyObject, MonoId, Navigation, Paths } from '@types'
@@ -49,4 +49,14 @@ export function getOnPress(charaId: MonoId, go: string, navigation: Navigation) 
       ...params
     })
   }
+}
+
+export function insertNewlineBeforeSecondBracket(text: string) {
+  if (text.length >= 40) return text
+
+  let count = 0
+  return text.replace(/「/g, match => {
+    count++
+    return count === 2 ? '\n「' : match
+  })
 }
