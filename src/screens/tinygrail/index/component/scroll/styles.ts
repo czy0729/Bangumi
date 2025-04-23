@@ -9,8 +9,7 @@ import { _ } from '@stores'
 export const memoStyles = _.memoStyles(() => ({
   container: {
     flex: 1,
-    paddingHorizontal: _.wind,
-    backgroundColor: _.colorTinygrailContainer
+    paddingHorizontal: _.wind
   },
   contentContainerStyle: {
     paddingTop: _.sm,

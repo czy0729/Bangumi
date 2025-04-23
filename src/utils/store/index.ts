@@ -383,4 +383,23 @@ export default class Store<
       )
     }, 200 * this._memoFetched.size)
   }
+
+  /** 创建带 loading 状态的方法 */
+  withLoading<K extends keyof T>(
+    stateKey: K & (T[K] extends boolean ? K : never),
+    fn: (...args: any[]) => Promise<any>
+  ) {
+    return async (...args: any[]) => {
+      try {
+        this.setState({
+          [stateKey]: true
+        } as DeepPartial<T>)
+        return await fn(...args)
+      } finally {
+        this.setState({
+          [stateKey]: false
+        } as DeepPartial<T>)
+      }
+    }
+  }
 }

@@ -20,6 +20,8 @@ import {
 
 export const COMPONENT = 'TinygrailOverview'
 
+export const HM = ['tinygrail/overview', 'TinygrailOverview'] as const
+
 export const SORT_DS = [
   SORT_DJ,
   SORT_XX,

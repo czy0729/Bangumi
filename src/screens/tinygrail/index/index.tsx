@@ -5,11 +5,12 @@
  * @Last Modified time: 2024-11-21 12:34:14
  */
 import React from 'react'
-import { Component, Page } from '@components'
+import { Component } from '@components'
 import { StatusBarPlaceholder } from '@_'
-import { _, StoreContext } from '@stores'
+import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
-import StarsLogs from '@tinygrail/_/stars-logs'
+import TinygrailPage from '@tinygrail/_/page'
+import TinygrailStarsLogs from '@tinygrail/_/stars-logs'
 import { NavigationProps } from '@types'
 import Auth from './component/auth'
 import BonusModal from './component/bonus-modal'
@@ -25,16 +26,20 @@ const Tinygrail = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-tinygrail'>
       <StoreContext.Provider value={id}>
-        <Page style={_.container.tinygrail}>
+        <TinygrailPage header={false}>
           <StatusBarPlaceholder />
           <Scroll>
             <Auth />
             <Menus />
             <Footer />
           </Scroll>
-          <BonusModal $={$} navigation={navigation} visible={$.state.visible} />
-          <StarsLogs navigation={navigation} show={$.state.show} onToggle={$.onToggleLogs} />
-        </Page>
+          <BonusModal />
+          <TinygrailStarsLogs
+            navigation={navigation}
+            show={$.state.show}
+            onToggle={$.onToggleLogs}
+          />
+        </TinygrailPage>
       </StoreContext.Provider>
     </Component>
   ))

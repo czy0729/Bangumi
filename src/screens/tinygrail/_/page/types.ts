@@ -9,4 +9,5 @@ import { PageProps } from '@components'
 
 export type Props = PropsWithChildren<{
   loading?: PageProps['loading']
+  header?: boolean
 }>

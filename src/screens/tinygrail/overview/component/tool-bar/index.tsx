@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-03-02 04:49:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 15:42:57
+ * @Last Modified time: 2025-04-23 07:57:52
  */
 import React from 'react'
 import { useStore } from '@stores'
 import { ob } from '@utils/decorators'
-import ToolBarComp from '@tinygrail/_/tool-bar'
+import TinygrailToolBar from '@tinygrail/_/tool-bar'
 import { SORT_DS } from '../../ds'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
@@ -17,7 +17,7 @@ function ToolBar() {
   if ($.currentKey === 'refine/temple') return null
 
   return (
-    <ToolBarComp
+    <TinygrailToolBar
       data={SORT_DS}
       level={$.state.level}
       levelMap={$.levelMap}

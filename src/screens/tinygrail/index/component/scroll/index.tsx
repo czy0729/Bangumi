@@ -8,7 +8,7 @@ import React from 'react'
 import { BlurViewBottomTab, BlurViewRoot } from '@_'
 import { useStore } from '@stores'
 import { ob } from '@utils/decorators'
-import ScrollView from '@tinygrail/_/scroll-view'
+import TinygrailScrollView from '@tinygrail/_/scroll-view'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -16,14 +16,15 @@ import { memoStyles } from './styles'
 function Scroll({ children }) {
   const { $ } = useStore<Ctx>()
   const styles = memoStyles()
+
   const elScroll = (
-    <ScrollView
+    <TinygrailScrollView
       style={styles.container}
       contentContainerStyle={styles.contentContainerStyle}
       onRefresh={$.refresh}
     >
       {children}
-    </ScrollView>
+    </TinygrailScrollView>
   )
   if (!$.params.fromBottomTab) return elScroll
 

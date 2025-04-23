@@ -10,36 +10,22 @@ import Computed from './computed'
 
 export default class Fetch extends Computed {
   /** 用户资产概览信息 */
-  fetchCharaAssets = async () => {
-    this.setState({
-      loadingAssets: true
-    })
-
-    const data = await tinygrailStore.fetchCharaAssets(this.hash)
-    this.setState({
-      loadingAssets: false
-    })
-
-    return data
-  }
+  fetchCharaAssets = this.withLoading('loadingAssets', () => {
+    return tinygrailStore.fetchCharaAssets(this.hash)
+  })
 
   /** 获取买单卖单数量 */
   fetchCount = (refresh: boolean = false) => {
-    const fetchs = []
-    if (refresh || !this.list('bid')._loaded) {
-      fetchs.push(() => tinygrailStore.fetchBid())
-    }
-
-    if (refresh || !this.list('asks')._loaded) {
-      fetchs.push(() => tinygrailStore.fetchAsks())
-    }
-
-    if (refresh || !this.list('auction')._loaded) {
-      fetchs.push(() => tinygrailStore.fetchAuction())
-    }
-
-    if (fetchs.length) {
-      queue(fetchs)
-    }
+    return queue(
+      (
+        [
+          ['bid', tinygrailStore.fetchBid],
+          ['asks', tinygrailStore.fetchAsks],
+          ['auction', tinygrailStore.fetchAuction]
+        ] as const
+      )
+        .filter(([type]) => refresh || !this.list(type)._loaded)
+        .map(([, fn]) => fn)
+    )
   }
 }

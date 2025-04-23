@@ -28,14 +28,14 @@ import {
 import i18n from '@constants/i18n'
 import { Navigation } from '@types'
 import Fetch from './fetch'
-import { ERROR_STR, MAX_ERROR_COUNT, NAMESPACE } from './ds'
+import { ERROR_STR, MAX_ERROR_COUNT } from './ds'
 
 export default class Action extends Fetch {
-  formhash = ''
+  private _formhash = ''
 
-  errorCount = 0
+  private _errorCount = 0
 
-  _doAuthFailCount = 0
+  private _doAuthFailCount = 0
 
   refresh = async () => {
     const results = await Promise.all([tinygrailStore.fetchAssets(), this.fetchCharaAssets()])
@@ -56,7 +56,6 @@ export default class Action extends Fetch {
     })
 
     try {
-      // await this.logout()
       await this.oauth()
       res = this.authorize()
 
@@ -71,7 +70,7 @@ export default class Action extends Fetch {
         loading: false,
         _loaded: getTimestamp()
       })
-      this.saveStorage(NAMESPACE)
+      this.save()
     } catch (error) {
       t('小圣杯.授权失败')
 
@@ -333,7 +332,7 @@ export default class Action extends Fetch {
     const data = await res
     const { request } = data
     const { _response } = request
-    this.formhash = cheerio.load(_response)('input[name=formhash]').attr('value')
+    this._formhash = cheerio.load(_response)('input[name=formhash]').attr('value')
 
     return res
   }
@@ -357,7 +356,7 @@ export default class Action extends Fetch {
         'User-Agent': userAgent
       },
       data: urlStringify({
-        formhash: this.formhash,
+        formhash: this._formhash,
         redirect_uri: '',
         client_id: TINYGRAIL_APP_ID,
         submit: '授权'
@@ -367,11 +366,11 @@ export default class Action extends Fetch {
     const { request } = data
     const { responseURL } = request
 
-    // tinygrail服务器那边获取access_token也会失败, 需要重试
+    // tinygrail 服务器那边获取 access_token 也会失败, 需要重试
     if (!responseURL.includes('code=')) {
-      this.errorCount += 1
+      this._errorCount += 1
 
-      if (this.errorCount < MAX_ERROR_COUNT) {
+      if (this._errorCount < MAX_ERROR_COUNT) {
         return this.authorize()
       }
       return false
@@ -394,7 +393,7 @@ export default class Action extends Fetch {
       lastBalance: currentBalance,
       lastTotal: currentTotal
     })
-    this.saveStorage(NAMESPACE)
+    this.save()
   }
 
   /** 开启 / 关闭缩略资金 */

@@ -4,102 +4,78 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-19 06:20:35
  */
-import React from 'react'
-import { BackHandler, View } from 'react-native'
+import React, { useCallback } from 'react'
+import { View } from 'react-native'
 import { Button, Flex, Image, Modal, Text, Touchable } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { stl, tinygrailOSS, toFixed } from '@utils'
-import { ob } from '@utils/decorators'
 import { r } from '@utils/dev'
+import { useBackHandler, useObserver } from '@utils/hooks'
+import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props } from './types'
 
-class BonusModal extends React.Component<Props> {
-  static defaultProps = {
-    visible: false
-  }
+const BonusModal = () => {
+  r(COMPONENT)
 
-  componentDidMount() {
-    BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid)
-  }
+  const { $, navigation } = useStore<Ctx>()
 
-  componentWillUnmount() {
-    try {
-      BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid)
-    } catch (error) {}
-  }
+  return useObserver(() => {
+    const styles = memoStyles()
 
-  onBackAndroid = () => {
-    const { $ } = this.props
-    const { visible } = this.props
-    if (visible) {
-      $.onCloseModal()
-      return true
-    }
+    const { visible = false, bonus, isBonus2, loadingBonus } = $.state
+    const handleBackAndroid = useCallback(() => {
+      if (visible) {
+        $.onCloseModal()
+        return true
+      }
+      return false
+    }, [visible])
+    useBackHandler(handleBackAndroid)
 
-    return false
-  }
+    const imageWidth = Math.floor(
+      bonus.length <= 4
+        ? (Math.min(_.window.width - 2 * _.wind, 400) - 2 * _._wind - _.md) * 0.5
+        : (Math.min(_.window.width - 2 * _.wind, 400) - 2 * (_._wind + _.md)) * 0.33
+    )
+    const imageHeight = Math.floor(imageWidth * 1.28)
 
-  get imageWidth() {
-    const { $ } = this.props
-    const { bonus } = $.state
-    if (bonus.length <= 4) {
-      return Math.floor((Math.min(_.window.width - 2 * _.wind, 400) - 2 * _._wind - _.md) * 0.5)
-    }
-
-    return Math.floor((Math.min(_.window.width - 2 * _.wind, 400) - 2 * (_._wind + _.md)) * 0.33)
-  }
-
-  get imageHeight() {
-    return this.imageWidth * 1.28
-  }
-
-  get total() {
-    const { $ } = this.props
-    const { bonus } = $.state
-    return bonus.reduce((total, item) => total + item.Amount * item.CurrentPrice, 0)
-  }
-
-  render() {
-    r(COMPONENT)
-
-    const { $, navigation, visible } = this.props
-    const { bonus, isBonus2, loadingBonus } = $.state
+    const total = bonus.reduce((total, item) => total + item.Amount * item.CurrentPrice, 0)
     return (
       <Modal
-        style={this.styles.modal}
+        style={styles.modal}
         visible={visible}
         title='刮刮乐'
         type='tinygrailPlain'
         onClose={$.onCloseModal}
       >
-        <View style={this.styles.wrap}>
+        <View style={styles.wrap}>
           <Flex align='start' wrap='wrap'>
             {bonus.map((item, index) => (
               <View
                 key={String(item.Id)}
                 style={stl(
-                  this.styles.item,
+                  styles.item,
                   {
-                    width: this.imageWidth
+                    width: imageWidth
                   },
                   (index + 1) % (bonus.length <= 4 ? 2 : 3) && _.mr.md
                 )}
               >
                 <Image
-                  size={this.imageWidth}
-                  height={this.imageHeight}
                   src={tinygrailOSS(item.Cover, 480)}
-                  radius
+                  size={imageWidth}
+                  height={imageHeight}
                   imageViewer
                   imageViewerSrc={tinygrailOSS(item.Cover, 480)}
                   skeletonType='tinygrail'
+                  radius
                 />
                 <Touchable
                   style={_.mt.sm}
                   onPress={() => {
                     $.onCloseModal()
+
                     navigation.push('TinygrailDeal', {
                       monoId: `character/${item.Id}`,
                       type: 'ask'
@@ -133,13 +109,13 @@ class BonusModal extends React.Component<Props> {
             总价值
             <Text type={_.select('tinygrailPlain', 'tinygrailText')} bold>
               {' '}
-              ₵{toFixed(this.total)}{' '}
+              ₵{toFixed(total)}{' '}
             </Text>
           </Text>
           <Flex style={_.mt.md} justify='center'>
             <Button
-              style={this.styles.btn}
-              styleText={this.styles.text}
+              style={styles.btn}
+              styleText={styles.text}
               size='sm'
               loading={loadingBonus}
               onPress={() => $.doLottery(navigation, isBonus2)}
@@ -150,11 +126,7 @@ class BonusModal extends React.Component<Props> {
         </View>
       </Modal>
     )
-  }
-
-  get styles() {
-    return memoStyles()
-  }
+  })
 }
 
-export default ob(BonusModal)
+export default BonusModal

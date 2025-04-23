@@ -18,13 +18,7 @@ import { memoStyles } from './styles'
 function Assets() {
   const { $ } = useStore<Ctx>()
   const styles = memoStyles()
-  const {
-    // loadingAssets,
-    currentBalance,
-    currentTotal,
-    lastBalance,
-    lastTotal
-  } = $.state
+  const { currentBalance, currentTotal, lastBalance, lastTotal } = $.state
   const { balance, lastIndex } = $.assets
 
   // 缩短

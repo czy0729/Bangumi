@@ -7,15 +7,16 @@
 import React from 'react'
 import { Page } from '@components'
 import { _, useStore } from '@stores'
+import { stl } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { Props } from './types'
 
-function TinygrailPage({ loading, children }: Props) {
+function TinygrailPage({ loading, header = true, children }: Props) {
   const { $ } = useStore<any>()
 
   return useObserver(() => (
     <Page
-      style={[_.container.tinygrail, _.container.header]}
+      style={stl(_.container.tinygrail, header && _.container.header)}
       loaded={$?.state?._loaded}
       loadingColor={_.colorTinygrailText}
       loading={loading}

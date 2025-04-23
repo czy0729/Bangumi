@@ -13,9 +13,6 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.select(_.__colorBg__, _.colorTinygrailContainer),
     borderRadius: _.radiusMd
   },
-  focus: {
-    marginTop: -Math.floor(_.window.height * 0.56)
-  },
   wrap: {
     width: '100%',
     maxWidth: _.window.maxWidth,
