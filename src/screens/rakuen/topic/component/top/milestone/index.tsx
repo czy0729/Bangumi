@@ -9,7 +9,7 @@ import { View } from 'react-native'
 import { WebView } from 'react-native-webview'
 import { useStore } from '@stores'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 

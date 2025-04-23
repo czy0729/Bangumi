@@ -2,18 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-07-18 17:25:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-01 19:11:12
+ * @Last Modified time: 2025-04-23 08:13:56
  */
-import { factory } from '@utils'
 import { GetRouteParams, Navigation, RouteTopic } from '@types'
 import Store from './store'
 
-const f = factory(Store)
-
-export type StoreType = typeof f
-
 export type Ctx = {
-  $: StoreType
+  $: InstanceType<typeof Store>
   navigation?: Navigation
 }
 

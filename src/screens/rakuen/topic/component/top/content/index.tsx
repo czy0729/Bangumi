@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-03-19 00:38:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-08 11:41:23
+ * @Last Modified time: 2025-04-23 10:14:51
  */
 import React, { useCallback } from 'react'
 import { useStore } from '@stores'
 import { appNavigate } from '@utils'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { Ctx } from '../../../types'
 import Content from './content'
 import { COMPONENT } from './ds'
 
 function ContentWrap() {
   const { $, navigation } = useStore<Ctx>()
   const onLinkPress = useCallback(
-    (href, passProps = {}) => {
+    (href: string, passProps = {}) => {
       appNavigate(href, navigation, passProps, {
         id: '帖子.跳转',
         data: {

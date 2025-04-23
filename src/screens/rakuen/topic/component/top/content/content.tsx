@@ -12,7 +12,7 @@ import { _, systemStore, uiStore } from '@stores'
 import { isChineseParagraph, removeHTMLTag, removeURLs } from '@utils'
 import { memo } from '@utils/decorators'
 import { fixedTranslateResult } from '@screens/home/subject/component/utils'
-import { getTopicMainFloorRawText } from '../../utils'
+import { getTopicMainFloorRawText } from '../../../utils'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 

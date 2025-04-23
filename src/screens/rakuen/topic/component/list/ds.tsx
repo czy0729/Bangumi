@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-01-03 22:15:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 13:09:03
+ * @Last Modified time: 2025-04-23 10:14:22
  */
 import { keyExtractor } from '@utils'
 import { rc } from '@utils/dev'
 import { FROZEN_FN, LIST_EMPTY } from '@constants'
-import { StoreType as $ } from '../../types'
+import { Ctx } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
 import Top from '../top'
 
@@ -25,6 +25,8 @@ export const LISTVIEW_PROPS = {
   keyboardDismissMode: 'on-drag',
   ListHeaderComponent: <Top />
 }
+
+type $ = Ctx['$']
 
 export const DEFAULT_PROPS = {
   forwardRef: FROZEN_FN,

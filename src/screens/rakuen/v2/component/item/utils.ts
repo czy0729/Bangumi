@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-09-03 11:16:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-16 18:07:46
+ * @Last Modified time: 2025-04-23 10:38:49
  */
 import { appNavigate, confirm, open } from '@utils'
 import { t } from '@utils/fetch'
 import { HOST, IMG_DEFAULT_AVATAR, LIMIT_TOPIC_PUSH } from '@constants'
 import { Navigation, TopicId } from '@types'
-import { StoreType as $ } from '../../types'
+import { Ctx } from '../../types'
 import { AD_REPLIES_COUNT } from './ds'
 
 /** 处理屏蔽用户 */
@@ -53,7 +53,7 @@ export function getIsGroup(topicId: string = '') {
 
 export function handlePress(
   navigation: Navigation,
-  onItemPress: $['onItemPress'],
+  onItemPress: Ctx['$']['onItemPress'],
   { avatar, group, href, replyCount, time, title, topicId, userId, userName }
 ) {
   const go = () => {

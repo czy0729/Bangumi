@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-05 15:14:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-01 09:34:47
+ * @Last Modified time: 2025-04-23 10:15:36
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
@@ -10,7 +10,7 @@ import { _, subjectStore, useStore } from '@stores'
 import { cnjp, HTMLDecode } from '@utils'
 import { ob } from '@utils/decorators'
 import { InferArray } from '@types'
-import { Ctx } from '../../types'
+import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 

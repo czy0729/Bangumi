@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-14 23:16:27
+ * @Last Modified time: 2025-04-23 10:19:24
  */
 import React from 'react'
 import { useObserver } from 'mobx-react'
@@ -79,7 +79,7 @@ export const Avatar = ({
       border: borderColor,
       borderWidth,
       placeholder
-    }
+    } as const
     const key = typeof avatarSrc === 'string' ? avatarSrc : 'avatar'
 
     const el = avatarRadius ? (

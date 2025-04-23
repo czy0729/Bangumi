@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:01:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-16 07:19:40
+ * @Last Modified time: 2025-04-23 08:41:08
  */
 import { computed } from 'mobx'
 import { rakuenStore, subjectStore, systemStore, usersStore, userStore } from '@stores'
-import { asc, freeze, HTMLDecode } from '@utils'
+import { asc, freeze, getGroupThumbStatic, HTMLDecode } from '@utils'
+import { HOST_IMAGE } from '@utils/app/ds'
 import CacheManager from '@utils/cache-manager'
-import { HOST, URL_DEFAULT_AVATAR } from '@constants'
+import { CDN_OSS_MAGMA_PIC, CDN_OSS_MAGMA_POSTER, HOST, URL_DEFAULT_AVATAR } from '@constants'
 import { Id, TopicId, UserId } from '@types'
 import State from './state'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
@@ -401,6 +402,24 @@ export default class Computed extends State {
     return this.topic.groupThumb || this.topicFromOSS.groupThumb || ''
   }
 
+  /** 最终帖子小组封面 */
+  @computed get groupThumbFinal() {
+    let src = getGroupThumbStatic(this.groupThumb)
+    if (
+      typeof src === 'string' &&
+      systemStore.setting.cdn &&
+      systemStore.setting.cdnOrigin === 'magma' &&
+      src.includes(HOST_IMAGE)
+    ) {
+      if (src.includes('pic/cover')) {
+        src = CDN_OSS_MAGMA_POSTER(src.replace('/s/', '/l/'), 'bgm_poster_100')
+      } else {
+        src = CDN_OSS_MAGMA_PIC(src)
+      }
+    }
+    return src
+  }
+
   /** 帖子小组地址 */
   @computed get groupHref() {
     return this.topic.groupHref || this.topicFromOSS.groupHref || ''
@@ -455,5 +474,15 @@ export default class Computed extends State {
 
   @computed get currentChatValues() {
     return this.state.chat[systemStore.setting.musumePrompt] || []
+  }
+
+  @computed get event() {
+    return {
+      id: '帖子.跳转',
+      data: {
+        from: '#1',
+        topicId: this.topicId
+      }
+    } as const
   }
 }
