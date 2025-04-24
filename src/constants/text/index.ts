@@ -33,6 +33,9 @@ export const TEXT_UPDATE_MANGA = '2024-09-23'
 /** 赞助者最后更新时间 */
 export const TEXT_UPDATE_SPONSOR = '2025-04-13'
 
+/** 分类排名更新时间 */
+export const TEXT_UPDATE_TYPERANK = '2025-04-02'
+
 /** 开发者话语最后更新时间 */
 export const TEXT_UPDATE_QIAFAN = '2024-09'
 

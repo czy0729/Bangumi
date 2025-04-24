@@ -22,7 +22,7 @@ const Information = ({ navigation, route }) => {
         <ScrollView style={_.container.wind} contentContainerStyle={styles.contentContainerStyle}>
           {!!title && (
             <Text style={[_.mt.md, _.mb.sm]} size={24} lineHeight={28} bold selectable>
-              {title}说明
+              「{title}」补充说明
             </Text>
           )}
           {messageData

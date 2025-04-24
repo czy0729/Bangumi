@@ -21,7 +21,7 @@ function List() {
   return (
     <PaginationList2
       keyExtractor={keyExtractor}
-      contentContainerStyle={_.container.header}
+      contentContainerStyle={_.container.page}
       data={ids}
       limit={12}
       renderItem={renderItem}
