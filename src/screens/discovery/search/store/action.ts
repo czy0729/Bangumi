@@ -129,21 +129,21 @@ export default class Action extends Fetch {
     if (this.isUser) {
       const { value } = this.state
       if (!value) {
-        info('请输入完整的用户ID')
+        info('请输入完整的用户 ID')
         return
       }
 
       const chineseRegex = /[\u4e00-\u9fa5]/
       if (chineseRegex.test(value)) {
-        info('请输入用户ID而非用户昵称')
+        info('请输入用户 ID 而非用户昵称')
         return
       }
 
-      const hide = loading('检查用户ID')
+      const hide = loading('检查用户 ID')
       const isExist = await usersStore.checkUserExist(value)
       hide()
       if (!isExist) {
-        info('该用户ID不存在')
+        info('该用户 ID 不存在')
         return
       }
 
@@ -153,7 +153,9 @@ export default class Action extends Fetch {
       return
     }
 
-    return this.doSearch(true)
+    setTimeout(() => {
+      this.doSearch(true)
+    }, 800)
   }
 
   /** 本地快速搜索索引点击 */

@@ -4,6 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-10-30 17:09:58
  */
+import { Keyboard } from 'react-native'
 import { collectionStore, searchStore } from '@stores'
 import { feedback, info } from '@utils'
 import { t } from '@utils/fetch'
@@ -14,7 +15,7 @@ export default class Fetch extends Computed {
   /** 搜索 */
   doSearch = async (refresh?: boolean) => {
     const { history, cat, legacy, value } = this.state
-    if (value === '') {
+    if (!value.trim()) {
       info('请输入内容')
       return
     }
@@ -24,14 +25,11 @@ export default class Fetch extends Computed {
       value
     })
 
-    const _history = [...history]
-    if (!history.includes(value)) _history.unshift(value)
+    const updatedHistory = history.includes(value) ? [...history] : [value, ...history].slice(0, 11)
 
     if (refresh) {
-      if (_history.length > 10) _history.pop()
-
       this.setState({
-        history: _history,
+        history: updatedHistory,
         searching: true,
         visibleBottom: EXCLUDE_STATE.visibleBottom
       })
@@ -47,6 +45,7 @@ export default class Fetch extends Computed {
         },
         refresh
       )
+      Keyboard.dismiss()
 
       // 延迟获取收藏中的条目的具体收藏状态
       setTimeout(() => {

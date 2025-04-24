@@ -17,7 +17,14 @@ function BtnSubmit() {
   const { $, navigation } = useStore<Ctx>()
   return (
     <View style={_.ml.sm}>
-      <Button style={styles.btn} type='ghostPlain' size='sm' onPress={() => $.onSubmit(navigation)}>
+      <Button
+        style={styles.btn}
+        type='ghostPlain'
+        size='sm'
+        onPress={() => {
+          $.onSubmit(navigation)
+        }}
+      >
         {$.isUser ? '前往' : '查询'}
       </Button>
       <Heatmap id='搜索.搜索' />

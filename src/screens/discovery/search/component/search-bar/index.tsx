@@ -30,7 +30,9 @@ function SearchBar() {
       onChangeText={$.onChangeText}
       onFocus={$.onFocus}
       onBlur={$.onBlur}
-      onSubmitEditing={() => $.onSubmit(navigation)}
+      onSubmitEditing={() => {
+        $.onSubmit(navigation)
+      }}
       accessibilityRole='search'
     />
   )
