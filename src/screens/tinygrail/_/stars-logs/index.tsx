@@ -21,7 +21,10 @@ function StarsLogs({ navigation, show, onToggle }: Props) {
 
   const x = useRef(new Animated.Value(0))
   const handleHeaderRefresh = useCallback(() => {
-    return tinygrailStore.fetchStarLogs(1, 100)
+    return tinygrailStore.fetchStarLogs(true)
+  }, [])
+  const handleFooterRefresh = useCallback(() => {
+    return tinygrailStore.fetchStarLogs()
   }, [])
 
   useEffect(() => {
@@ -80,8 +83,9 @@ function StarsLogs({ navigation, show, onToggle }: Props) {
             >
               <List
                 navigation={navigation}
-                onHeaderRefresh={handleHeaderRefresh}
                 onToggle={onToggle}
+                onHeaderRefresh={handleHeaderRefresh}
+                onFooterRefresh={handleFooterRefresh}
               />
             </Animated.View>
           </Flex>

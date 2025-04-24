@@ -59,7 +59,7 @@ import {
   INIT_USER_LOGS,
   NAMESPACE
 } from './init'
-import { CHARA_ITEM, CHARA_TEMPLE_ITEM, REFINE_TEMPLE_ITEM, STAR_LOGS_ITEM } from './mock'
+import { CHARA_ITEM, CHARA_TEMPLE_ITEM, REFINE_TEMPLE_ITEM } from './mock'
 import { calculateRate, mapItems, throttleInfo, toCharacter } from './utils'
 import { defaultKey, defaultSort, paginationOnePage } from './ds'
 import { ListKey } from './types'
@@ -1882,42 +1882,41 @@ export default class Fetch extends Computed {
     return data
   }
 
-  /** 通天塔(α)记录 */
-  fetchStarLogs = async (page = 1, limit = 100) => {
-    const result = await this.fetch(API_TINYGRAIL_STAR_LOGS(page, limit))
+  /** 通天塔记录 */
+  fetchStarLogs = async (refresh: boolean = false) => {
+    const STATE_KEY = 'starLogs'
+    const { list, pagination } = this[STATE_KEY]
+    const nextPage = refresh ? 1 : pagination.page + 1
 
-    let data = {
-      ...LIST_EMPTY
-    }
-
-    if (result.data.State === 0) {
-      data = {
-        ...LIST_EMPTY,
-        list: result.data.Value.Items.map((item: typeof STAR_LOGS_ITEM) => ({
-          id: item.Id,
-          monoId: item.CharacterId,
-          fromMonoId: item.FromCharacterId,
-          name: item.CharacterName,
-          icon: item.Icon,
-          amount: item.Amount,
-          oldRank: item.OldRank,
-          rank: item.Rank,
-          userName: item.Nickname,
-          userId: item.UserName,
-          time: lastDate(getTimestamp(item.LogTime.replace('T', ' '))),
-          type: item.Type
-        })),
-        pagination: paginationOnePage,
-        _loaded: getTimestamp()
+    try {
+      const result = await this.fetch(API_TINYGRAIL_STAR_LOGS(nextPage))
+      const { State, Value } = result.data
+      if (State === 0) {
+        const next = mapItems(Value.Items, {
+          id: 'Id',
+          monoId: 'CharacterId',
+          fromMonoId: 'FromCharacterId',
+          name: 'CharacterName',
+          icon: 'Icon',
+          amount: 'Amount',
+          oldRank: 'OldRank',
+          rank: 'Rank',
+          userName: 'Nickname',
+          userId: 'UserName',
+          time: item => lastDate(getTimestamp(item.LogTime.replace('T', ' '))),
+          type: 'Type'
+        })
+        this.setState({
+          [STATE_KEY]: {
+            list: refresh ? next : [...list, ...next],
+            pagination: refresh ? { page: 1, pageTotal: 100 } : { ...pagination, page: nextPage },
+            _loaded: getTimestamp()
+          }
+        })
       }
-    }
+    } catch (error) {}
 
-    const key = 'starLogs'
-    this.setState({
-      [key]: data
-    })
-
-    return data
+    return this[STATE_KEY]
   }
 
   /** 预测股息 */

@@ -5,6 +5,7 @@
  * @Last Modified time: 2025-03-06 19:14:13
  */
 import { _ } from '@stores'
+import { DRAWER_WITDH } from './ds'
 
 export const memoStyles = _.memoStyles(() => ({
   logs: {
@@ -29,7 +30,7 @@ export const memoStyles = _.memoStyles(() => ({
   },
   list: {
     zIndex: 4,
-    width: _.r(264),
+    width: DRAWER_WITDH,
     backgroundColor: _.colorTinygrailContainer
   }
 }))

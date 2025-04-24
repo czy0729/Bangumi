@@ -12,7 +12,6 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.colorTinygrailContainer
   },
   change: {
-    minWidth: 28,
     paddingHorizontal: _.xs,
     marginTop: -1,
     marginRight: 4,

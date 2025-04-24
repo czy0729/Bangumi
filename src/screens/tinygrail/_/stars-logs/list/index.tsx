@@ -2,24 +2,25 @@
  * @Author: czy0729
  * @Date: 2024-03-10 04:02:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-12 05:57:10
+ * @Last Modified time: 2025-04-24 20:09:37
  */
 import React, { useCallback } from 'react'
 import { SafeAreaView } from 'react-navigation'
 import { useObserver } from 'mobx-react'
 import { ListView, Loading } from '@components'
 import { _, tinygrailStore } from '@stores'
-import { keyExtractor } from '@utils/app'
-import { refreshControlProps } from '@tinygrail/styles'
+import { keyExtractor } from '@utils'
+import { TINYGRAIL_LIST_PROPS } from '@tinygrail/styles'
+// import ItemsFilter from '../items-filter'
 import Log from '../log'
 import { styles } from './styles'
 import { Props } from './types'
 
-function List({ navigation, onHeaderRefresh, onToggle }: Props) {
-  const renderItem = useCallback(
-    ({ item, index }) => (
-      <Log navigation={navigation} {...item} index={index} onToggle={onToggle} />
-    ),
+function List({ navigation, onToggle, onHeaderRefresh, onFooterRefresh }: Props) {
+  // const [filter, setFilter] = useState('全部')
+
+  const handleRenderItem = useCallback(
+    ({ item }) => <Log navigation={navigation} {...item} onToggle={onToggle} />,
     [navigation, onToggle]
   )
 
@@ -28,15 +29,15 @@ function List({ navigation, onHeaderRefresh, onToggle }: Props) {
 
     return (
       <SafeAreaView style={_.container.flex}>
+        {/* <ItemsFilter value={filter} onValueChange={setFilter} /> */}
         <ListView
-          style={_.container.flex}
-          contentContainerStyle={styles.contentContainerStyle}
+          {...TINYGRAIL_LIST_PROPS}
           keyExtractor={keyExtractor}
-          refreshControlProps={refreshControlProps}
+          contentContainerStyle={styles.contentContainerStyle}
           data={tinygrailStore.starLogs}
-          showFooter={false}
-          renderItem={renderItem}
+          renderItem={handleRenderItem}
           onHeaderRefresh={onHeaderRefresh}
+          onFooterRefresh={onFooterRefresh}
         />
       </SafeAreaView>
     )

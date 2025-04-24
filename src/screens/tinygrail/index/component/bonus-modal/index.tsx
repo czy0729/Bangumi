@@ -8,7 +8,7 @@ import React, { useCallback } from 'react'
 import { View } from 'react-native'
 import { Button, Flex, Image, Modal, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
-import { stl, tinygrailOSS, toFixed } from '@utils'
+import { desc, formatNumber, stl, tinygrailOSS, toFixed } from '@utils'
 import { r } from '@utils/dev'
 import { useBackHandler, useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
@@ -36,7 +36,7 @@ const BonusModal = () => {
     const imageWidth = Math.floor(
       bonus.length <= 4
         ? (Math.min(_.window.width - 2 * _.wind, 400) - 2 * _._wind - _.md) * 0.5
-        : (Math.min(_.window.width - 2 * _.wind, 400) - 2 * (_._wind + _.md)) * 0.33
+        : (Math.min(_.window.width - 2 * _.wind, 400) - 2 * (_._wind + _.md)) * 0.33333
     )
     const imageHeight = Math.floor(imageWidth * 1.28)
 
@@ -51,65 +51,68 @@ const BonusModal = () => {
       >
         <View style={styles.wrap}>
           <Flex align='start' wrap='wrap'>
-            {bonus.map((item, index) => (
-              <View
-                key={String(item.Id)}
-                style={stl(
-                  styles.item,
-                  {
-                    width: imageWidth
-                  },
-                  (index + 1) % (bonus.length <= 4 ? 2 : 3) && _.mr.md
-                )}
-              >
-                <Image
-                  src={tinygrailOSS(item.Cover, 480)}
-                  size={imageWidth}
-                  height={imageHeight}
-                  imageViewer
-                  imageViewerSrc={tinygrailOSS(item.Cover, 480)}
-                  skeletonType='tinygrail'
-                  radius
-                />
-                <Touchable
-                  style={_.mt.sm}
-                  onPress={() => {
-                    $.onCloseModal()
-
-                    navigation.push('TinygrailDeal', {
-                      monoId: `character/${item.Id}`,
-                      type: 'ask'
-                    })
-                  }}
+            {bonus
+              .slice()
+              .sort((a, b) => desc(a.CurrentPrice, b.CurrentPrice))
+              .map((item, index) => (
+                <View
+                  key={String(item.Id)}
+                  style={stl(
+                    styles.item,
+                    {
+                      width: imageWidth
+                    },
+                    (index + 1) % (bonus.length <= 4 ? 2 : 3) && _.mr.md
+                  )}
                 >
-                  <Text type='tinygrailPlain' bold align='center'>
-                    {item.Name}
-                    <Text type='ask' size={12} lineHeight={14}>
-                      {' '}
-                      lv{item.Level}
-                    </Text>
-                  </Text>
-                  <Text
-                    style={_.mt.xxs}
-                    type={_.select('tinygrailPlain', 'tinygrailText')}
-                    size={12}
-                    bold
-                    align='center'
+                  <Image
+                    src={tinygrailOSS(item.Cover, 480)}
+                    size={imageWidth}
+                    height={imageHeight}
+                    imageViewer
+                    imageViewerSrc={tinygrailOSS(item.Cover, 480)}
+                    skeletonType='tinygrail'
+                    radius={_.radiusSm}
+                  />
+                  <Touchable
+                    style={_.mt.sm}
+                    onPress={() => {
+                      $.onCloseModal()
+
+                      navigation.push('TinygrailDeal', {
+                        monoId: `character/${item.Id}`,
+                        type: 'ask'
+                      })
+                    }}
                   >
-                    ₵{toFixed(item.CurrentPrice)}{' '}
-                    <Text type='warning' size={12}>
-                      x{item.Amount}
+                    <Text type='tinygrailPlain' size={13} bold align='center'>
+                      {item.Name}
+                      <Text type='ask' size={12} lineHeight={13}>
+                        {' '}
+                        lv{item.Level}
+                      </Text>
                     </Text>
-                  </Text>
-                </Touchable>
-              </View>
-            ))}
+                    <Text
+                      style={_.mt.xs}
+                      type={_.select('tinygrailPlain', 'tinygrailText')}
+                      size={11}
+                      bold
+                      align='center'
+                    >
+                      ₵{toFixed(item.CurrentPrice)}{' '}
+                      <Text type='warning' size={11}>
+                        x{item.Amount}
+                      </Text>
+                    </Text>
+                  </Touchable>
+                </View>
+              ))}
           </Flex>
           <Text type={_.select('tinygrailText', 'tinygrailPlain')} align='center' bold>
             总价值
             <Text type={_.select('tinygrailPlain', 'tinygrailText')} bold>
               {' '}
-              ₵{toFixed(total)}{' '}
+              ₵{formatNumber(total)}{' '}
             </Text>
           </Text>
           <Flex style={_.mt.md} justify='center'>
@@ -118,7 +121,9 @@ const BonusModal = () => {
               styleText={styles.text}
               size='sm'
               loading={loadingBonus}
-              onPress={() => $.doLottery(navigation, isBonus2)}
+              onPress={() => {
+                $.doLottery(navigation, isBonus2)
+              }}
             >
               再刮一次 ({$.nextPrice})
             </Button>

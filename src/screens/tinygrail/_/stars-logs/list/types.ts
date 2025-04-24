@@ -8,6 +8,7 @@ import { Fn, Navigation } from '@types'
 
 export type Props = {
   navigation: Navigation
-  onHeaderRefresh: Fn
   onToggle: Fn
+  onHeaderRefresh: Fn
+  onFooterRefresh: Fn
 }

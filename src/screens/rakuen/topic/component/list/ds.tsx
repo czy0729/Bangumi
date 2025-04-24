@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-03 22:15:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-23 10:14:22
+ * @Last Modified time: 2025-04-24 03:05:11
  */
 import { keyExtractor } from '@utils'
 import { rc } from '@utils/dev'
@@ -24,7 +24,7 @@ export const LISTVIEW_PROPS = {
   scrollToTop: true,
   keyboardDismissMode: 'on-drag',
   ListHeaderComponent: <Top />
-}
+} as const
 
 type $ = Ctx['$']
 

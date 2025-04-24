@@ -23,7 +23,10 @@ export const memoStyles = _.memoStyles(() => ({
     marginBottom: _.md
   },
   btn: {
-    width: 240,
+    width: 280,
+    maxWidth: '100%',
+    height: 40,
+    marginTop: _.xs,
     backgroundColor: _.select(_.colorTinygrailBg, _.colorTinygrailIcon),
     borderColor: _.select(_.colorTinygrailBg, _.colorTinygrailIcon)
   },

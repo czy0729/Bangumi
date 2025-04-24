@@ -10,4 +10,6 @@ import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'StarsLogs')
 
-export const DRAWER_WITDH = _.r(280)
+export const DRAWER_WITDH = _.r(264)
+
+export const ITEMS_DS = ['全部', '星之力', '鲤鱼', '成功', '失败'] as const
