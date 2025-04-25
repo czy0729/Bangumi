@@ -89,7 +89,7 @@ const Anitabi = memo(
               scrollEventThrottle={16}
               onScroll={onScroll}
             >
-              {list.map((item, index) => (
+              {list.map((item, index: number) => (
                 <View key={item.id} style={_.mr.sm}>
                   <Squircle width={THUMB_WIDTH} height={THUMB_HEIGHT} radius={_.radiusXs}>
                     {item.image ? (
@@ -119,11 +119,12 @@ const Anitabi = memo(
                   {item.ep || item.s ? (
                     <Text style={styles.sub} type='sub' size={11} bold numberOfLines={1}>
                       {item.ep ? `EP${item.ep} ` : ''}
-                      {item.s ? date('i:s', item.s) : ''}
+                      {item.s ? date('i:s', item.s) : ''} · #{index + 1}
                     </Text>
                   ) : (
                     <Text style={styles.sub} type='sub' size={11} bold numberOfLines={1}>
-                      坐标 {item.geo.join('，')}
+                      #{index + 1}
+                      {/* 坐标 {item.geo.join('，')} */}
                     </Text>
                   )}
                 </View>

@@ -10,7 +10,7 @@ import { _, userStore, useStore } from '@stores'
 import { appNavigate, info, matchBgmUrl } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { DEV } from '@constants'
+import { DEV, HOST_NETABA } from '@constants'
 import i18n from '@constants/i18n'
 import { getLastPath } from '@screens/_/base/filter-switch'
 import { Fn } from '@types'
@@ -51,7 +51,7 @@ function BtnWrap({ item }) {
 
       if (key === 'Netabare') {
         navigation.push('WebBrowser', {
-          url: 'https://netaba.re/trending',
+          url: `${HOST_NETABA}/trending`,
           title: '评分趋势'
         })
         return

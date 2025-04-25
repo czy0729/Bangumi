@@ -6,6 +6,7 @@
  */
 import { open } from '@utils'
 import { t } from '@utils/fetch'
+import { HOST_NETABA } from '@constants'
 import { Navigation } from '@types'
 import { DATA_ME, DATA_OTHER } from './ds'
 
@@ -54,7 +55,7 @@ export function handleMenuPopoverPress(
       break
 
     case '我的netaba.re':
-      open(`https://netaba.re/user/${id}`)
+      open(`${HOST_NETABA}/user/${id}`)
       break
 
     case 'TA的好友':
@@ -64,7 +65,7 @@ export function handleMenuPopoverPress(
       break
 
     case 'TA的netaba.re':
-      open(`https://netaba.re/user/${id}`)
+      open(`${HOST_NETABA}/user/${id}`)
       break
 
     default:

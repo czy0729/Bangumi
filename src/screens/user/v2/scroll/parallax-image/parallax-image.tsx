@@ -12,7 +12,7 @@ import { _ } from '@stores'
 import { getBlurRadius, HTMLDecode, open } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { IOS, TEXT_ONLY } from '@constants'
+import { HOST_NETABA, IOS, TEXT_ONLY } from '@constants'
 import { UserId, ViewStyle } from '@types'
 import HeaderComponent from '../../component/header-component'
 import { H_HEADER } from '../../ds'
@@ -117,7 +117,7 @@ export default memo(
             break
 
           case '我的netaba.re':
-            open(`https://netaba.re/user/${id}`)
+            open(`${HOST_NETABA}/user/${id}`)
             break
 
           case 'TA的好友':
@@ -127,14 +127,14 @@ export default memo(
             break
 
           case 'TA的netaba.re':
-            open(`https://netaba.re/user/${id}`)
+            open(`${HOST_NETABA}/user/${id}`)
             break
 
           default:
             break
         }
       },
-      [navigation, userId, id]
+      [navigation, userId, username, id]
     )
 
     const AnimatedView = useMemo(() => {

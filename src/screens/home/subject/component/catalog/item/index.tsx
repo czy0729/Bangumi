@@ -43,7 +43,7 @@ function Item({ item }) {
           cdn={!x18($.subjectId)}
         />
         <Flex.Item style={_.ml.md}>
-          <Text style={styles.text} size={11} lineHeight={12} bold numberOfLines={2}>
+          <Text style={styles.text} size={9} lineHeight={12} bold numberOfLines={2}>
             {title}
             {title.length <= 6 ? '\n' : ' '}
             <Text size={9} lineHeight={12} type='sub'>

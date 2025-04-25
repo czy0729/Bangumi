@@ -24,6 +24,6 @@ export const DEFAULT_PROPS = {
   onSwitchBlock: FROZEN_FN as $['onSwitchBlock']
 }
 
-export const THUMB_WIDTH = _.r(160)
+export const THUMB_WIDTH = _.r(180)
 
 export const THUMB_HEIGHT = THUMB_WIDTH * 0.56

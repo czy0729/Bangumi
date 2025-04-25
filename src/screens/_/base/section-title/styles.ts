@@ -16,6 +16,7 @@ export const memoStyles = _.memoStyles(() => ({
   title: {
     width: 3,
     height: 18,
+    marginTop: 1,
     marginRight: 10,
     marginLeft: 2,
     borderRadius: 2,

@@ -58,7 +58,7 @@ const Head = memo(
     // 主标题大小
     const hasRelation = !!(subjectPrev || subjectAfter || subjectSeries)
     let size =
-      (cn.length > 32 ? 12 : cn.length > 24 ? 13 : cn.length > 16 ? 13 : 16) + (PAD === 2 ? 4 : 2)
+      (cn.length > 32 ? 11 : cn.length > 24 ? 12 : cn.length > 16 ? 12 : 15) + (PAD === 2 ? 4 : 2)
     if (showRelation && hasRelation) size = Math.max(11, size - 2)
     if (isMusic) size -= 1
 
@@ -66,7 +66,7 @@ const Head = memo(
     const maxLen = 28
     const tops: string[] = []
     let topsString = ''
-    let topSize = 13
+    let topSize = 12
     if (top !== bottom) {
       tops.push(`${String(top).slice(0, maxLen)}${String(top).length >= maxLen ? '...' : ''}`)
     }
@@ -75,9 +75,9 @@ const Head = memo(
     topsString = tops.join(' · ')
 
     if (topsString.length >= 32) {
-      topSize = 11
+      topSize = 10
     } else if (topsString.length >= 22) {
-      topSize = 12
+      topSize = 11
     }
 
     const left = imageWidth + _.wind + _.device(12, 20)
@@ -119,11 +119,11 @@ const Head = memo(
                   lineHeight={size + 1}
                   bold
                   onLongPress={() => {
+                    copy(bottom)
+
                     t('条目.复制标题', {
                       subjectId
                     })
-
-                    copy(bottom)
                   }}
                 >
                   {bottom}
@@ -148,11 +148,11 @@ const Head = memo(
                     size={topSize}
                     numberOfLines={hasSeries ? 2 : 4}
                     onLongPress={() => {
+                      copy(top)
+
                       t('条目.复制标题', {
                         subjectId
                       })
-
-                      copy(top)
                     }}
                   >
                     {topsString}

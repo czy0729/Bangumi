@@ -11,6 +11,7 @@ import {
   CDN_ONAIR,
   GITHUB_RELEASE_REPOS,
   HOST_IMAGE_UPLOAD,
+  HOST_NETABA,
   SITE_AGEFANS,
   URL_OAUTH
 } from '@constants'
@@ -137,9 +138,9 @@ export function getSitesList() {
         loading: false
       },
       {
-        title: 'https://netaba.re',
+        title: HOST_NETABA,
         desc: 'netaba.re',
-        url: 'https://netaba.re',
+        url: HOST_NETABA,
         msg: [],
         loading: false
       },

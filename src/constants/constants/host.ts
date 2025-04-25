@@ -17,6 +17,9 @@ export const HOST_2 = 'https://bangumi.tv'
 /** 备用域名3 */
 export const HOST_3 = 'https://chii.in'
 
+/** Track trending anime with real-time analytics from Bangumi */
+export const HOST_NETABA = 'https://netaba.re'
+
 /** jsDelivr */
 export const HOST_CDN = 'https://cdn.jsdelivr.net'
 

@@ -11,7 +11,7 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.colorPlain
   },
   avatar: {
-    marginTop: _.md - 4,
+    marginTop: _.md - 3,
     marginLeft: _.wind
   },
   content: {

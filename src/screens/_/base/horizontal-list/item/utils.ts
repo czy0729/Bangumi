@@ -15,7 +15,10 @@ export function getTypeCn(
   typeCn?: SubjectTypeCn,
   relationTypeCn?: SubjectTypeCn
 ): SubjectTypeCn {
-  if (String(name).toLocaleLowerCase().includes('soundtrack')) return '音乐'
+  const text = String(name).toLocaleLowerCase().trim()
+  if (text.includes('soundtrack') || (text.endsWith('cd') && desc === '其他')) {
+    return '音乐'
+  }
 
   const str = String(desc || '')
   const id = `${str}|${typeCn}|${relationTypeCn}`

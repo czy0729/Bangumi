@@ -53,6 +53,7 @@ import {
   FROZEN_FN,
   HOST,
   HOST_CDN,
+  HOST_NETABA,
   IMG_WIDTH,
   LIKE_TYPE_TIMELINE,
   MODEL_COLLECTION_STATUS,
@@ -620,10 +621,7 @@ export default class Action extends Fetch {
         subjectId: this.subjectId
       })
 
-      navigation.push('WebBrowser', {
-        title: `${cnjp(this.cn, this.jp)}的趋势`,
-        url: `https://netaba.re/subject/${this.subjectId}`
-      })
+      open(`${HOST_NETABA}/subject/${this.subjectId}`)
       return
     }
 

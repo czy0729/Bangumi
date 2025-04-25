@@ -127,12 +127,12 @@ export default class Computed extends State {
     return undefined
   }
 
-  /** bgm 网址 */
+  /** 官方网址 */
   @computed get url() {
     return `${HOST}/subject/${this.subjectId}`
   }
 
-  /** 用户 id */
+  /** 用户 ID */
   @computed get userId() {
     return userStore.userInfo.id
   }
@@ -147,7 +147,7 @@ export default class Computed extends State {
     return freeze(subjectStore.subjectFormHTML(this.subjectId))
   }
 
-  /** 条目云端缓存数据 */
+  /** 条目缓存 (来自云端快照) */
   @computed get subjectFromOSS() {
     return freeze(this.state.subject)
   }
@@ -178,37 +178,29 @@ export default class Computed extends State {
       }
     }
 
+    const shouldFilterDefault = systemStore.setting.filterDefault || userStore.isLimit
     const { filterScores } = this.state
-    if (systemStore.setting.filterDefault || userStore.isLimit) {
-      return {
-        ...subjectComments,
-        list: subjectComments.list.filter(item => {
-          if (filterScores.length) {
-            return (
-              !item.avatar?.includes?.(URL_DEFAULT_AVATAR) &&
-              Number(item.star) >= Number(filterScores[0]) &&
-              Number(item.star) <= Number(filterScores[1])
-            )
-          }
-          return !item.avatar?.includes?.(URL_DEFAULT_AVATAR)
-        }),
-        version: subjectComments.version || false
-      }
-    }
+    const hasScoreFilter = filterScores.length > 0
+    if (!shouldFilterDefault && !hasScoreFilter) return subjectComments
 
-    if (filterScores.length) {
-      return {
-        ...subjectComments,
-        list: subjectComments.list.filter(
-          item =>
-            Number(item.star) >= Number(filterScores[0]) &&
-            Number(item.star) <= Number(filterScores[1])
-        ),
-        version: subjectComments.version || false
-      }
-    }
+    const filteredList = subjectComments.list.filter(item => {
+      // 过滤默认头像
+      if (shouldFilterDefault && item.avatar?.includes(URL_DEFAULT_AVATAR)) return false
 
-    return subjectComments
+      // 过滤分数范围
+      if (hasScoreFilter) {
+        const score = Number(item.star)
+        return score >= Number(filterScores[0]) && score <= Number(filterScores[1])
+      }
+
+      return true
+    })
+
+    return {
+      ...subjectComments,
+      list: filteredList,
+      version: subjectComments.version || false
+    }
   }
 
   /** 主封面 */
@@ -231,7 +223,7 @@ export default class Computed extends State {
     return freeze(userStore.userProgress(this.subjectId))
   }
 
-  /** 条目类型中文 */
+  /** 条目类型 (中文) */
   @computed get type() {
     if (!this.subject._loaded) {
       const { _type = '' } = this.params
@@ -273,15 +265,14 @@ export default class Computed extends State {
   /** 章节正版播放源 */
   @computed get onlinePlayActionSheetData() {
     const { epsData } = this.state
-    const data: (Sites | '取消')[] = []
-    SITES.forEach((item: Sites) => {
-      if (epsData[item] && Object.keys(epsData[item]).length) {
-        data.push(item)
-      }
-    })
-    data.push('取消')
 
-    return freeze(data)
+    // 过滤并映射有效的播放源
+    const validSources = SITES.filter((item: Sites) => {
+      const sourceData = epsData[item]
+      return sourceData && Object.keys(sourceData).length > 0
+    })
+
+    return [...validSources, '取消']
   }
 
   /** 条目动作 */
@@ -311,8 +302,7 @@ export default class Computed extends State {
   /** 动画和三次元源头 */
   @computed get onlineOrigins() {
     const data: (OriginItem | Sites)[] = []
-
-    if (['动画'].includes(this.type)) {
+    if (this.type === '动画') {
       if (systemStore?.ota?.X18 && userStore.isLogin) {
         let flagX18: boolean
         if (this.nsfw) flagX18 = true
@@ -336,7 +326,7 @@ export default class Computed extends State {
         })
     }
 
-    if (['三次元'].includes(this.type)) {
+    if (this.type === '三次元') {
       // real
       getOriginConfig(subjectStore.origin, 'real')
         .filter(item => item.active)
@@ -883,31 +873,18 @@ export default class Computed extends State {
 
   /** 关联条目 */
   @computed get relations() {
-    let data: {
-      id: any
-      image: any
-      name: any
-      desc: any
-    }[] = []
-    if (this.subject._loaded && this.subject.rating) {
-      data = (this.subjectFormHTML.relations || []).map(({ id, image, title, type }) => ({
-        id,
-        image,
-        name: title,
-        desc: type
-      }))
-    } else {
-      data = (this.subjectFromOSS.relations || []).map(item => ({
-        id: item.id,
-        image: item.image,
-        name: item.title,
-        desc: item.type
-      }))
-    }
-
+    const relations =
+      this.subject._loaded && this.subject.rating
+        ? this.subjectFormHTML.relations || []
+        : this.subjectFromOSS.relations || []
     return freeze(
-      data
-        .slice()
+      relations
+        .map(item => ({
+          id: item.id,
+          image: item.image,
+          name: item.title,
+          desc: item.type
+        }))
         .sort((a, b) => desc(SORT_RELATION_DESC[a.desc] || 0, SORT_RELATION_DESC[b.desc] || 0))
     )
   }
