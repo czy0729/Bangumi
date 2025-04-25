@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-11 01:07:07
+ * @Last Modified time: 2025-04-26 00:57:50
  */
 import { MUSUME_PROMPT } from '@utils/kv/ds'
 import {
@@ -334,6 +334,9 @@ export const INIT_SETTING = {
 
   /** 条目简介、详情是否展开，否则跳转到新页面展示 */
   subjectHtmlExpand: false,
+
+  /** 条目详情中，是否把条目的别名提前展示 */
+  subjectPromoteAlias: false,
 
   /** 条目不同板块间是否显示分割线 (支持多种样式) */
   subjectSplitStyles:

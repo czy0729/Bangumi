@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-28 15:31:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-11 16:57:50
+ * @Last Modified time: 2025-04-26 03:59:31
  */
 import React from 'react'
 import { ActionSheet } from '@components'
@@ -11,6 +11,7 @@ import { r } from '@utils/dev'
 import { useBoolean, useObserver } from '@utils/hooks'
 import { getShows } from '../../utils'
 import HtmlExpand from './html-expand'
+import PromoteAlias from './promote-alias'
 import ShowAirdayMonth from './show-airday-month'
 import ShowCount from './show-count'
 import ShowCustomOnair from './show-custom-onair'
@@ -36,6 +37,7 @@ function Subject({ filter, open = false }) {
           {shows.splitStyles && <SplitStyles filter={filter} />}
           {shows.showAirdayMonth && <ShowAirdayMonth filter={filter} />}
           {shows.htmlExpand && <HtmlExpand filter={filter} />}
+          {shows.promoteAlias && <PromoteAlias filter={filter} />}
           {shows.showCount && <ShowCount filter={filter} />}
           {shows.showEpInput && <ShowEpInput filter={filter} />}
           {shows.showCustomOnair && <ShowCustomOnair filter={filter} />}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 13:22:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-12 19:00:49
+ * @Last Modified time: 2025-04-26 03:52:44
  */
 import { rc } from '@utils/dev'
 import { MODEL_SETTING_SUBJECT_SPLIT_STYLES, SETTING_SUBJECT_SPLIT_STYLES } from '@constants'
@@ -124,6 +124,9 @@ export const TEXTS = {
   },
   htmlExpand: {
     hd: '简介、详情使用新页面展开'
+  },
+  promoteAlias: {
+    hd: '详情中，把别名提前展示'
   },
   showCount: {
     hd: '其他用户收藏数量',
