@@ -12,7 +12,7 @@ import {
   HTML_ACTION_TIMELINE_REPLY,
   HTML_ACTION_TIMELINE_SAY
 } from '@constants'
-import { Fn, Id, UserId } from '@types'
+import { Fn, Id, TimeLineScope, TimeLineType, UserId } from '@types'
 import Fetch from './fetch'
 
 export default class Action extends Fetch {
@@ -34,6 +34,36 @@ export default class Action extends Fetch {
     this.save(key)
 
     return true
+  }
+
+  /** 用于删除时间线后, 不进行请求直接更新本地数据 */
+  removeTimeline = (clearHref: string, scope: TimeLineScope, type: TimeLineType) => {
+    const data = this.timeline(scope, type)
+    const key = 'timeline'
+    const stateKey = `${scope}|${type}`
+    this.setState({
+      [key]: {
+        [stateKey]: {
+          ...data,
+          list: data.list.filter(item => item.clearHref !== clearHref)
+        }
+      }
+    })
+  }
+
+  /** 同 removeTimeline (他人视角) */
+  removeUsersTimeline = (clearHref: string, userId: UserId) => {
+    const data = this.usersTimeline(userId)
+    const key = 'usersTimeline'
+    const stateKey = userId
+    this.setState({
+      [key]: {
+        [stateKey]: {
+          ...data,
+          list: data.list.filter(item => item.clearHref !== clearHref)
+        }
+      }
+    })
   }
 
   // -------------------- action --------------------

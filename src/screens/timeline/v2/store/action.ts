@@ -10,6 +10,7 @@ import { feedback, updateVisibleBottom } from '@utils'
 import { fetchHTML, t } from '@utils/fetch'
 import { MODEL_TIMELINE_SCOPE, TIMELINE_TYPE } from '@constants'
 import { TimeLineScope, UserId } from '@types'
+import { TABS } from '../ds'
 import Fetch from './fetch'
 
 export default class Action extends Fetch {
@@ -112,21 +113,26 @@ export default class Action extends Fetch {
 
   // -------------------- action --------------------
   /** 删除时间线 */
-  doDelete = async (href: string) => {
-    if (!href) return false
+  doDelete = async (clearHref: string) => {
+    if (!clearHref) return false
 
-    const { scope } = this.state
+    const { scope, page } = this.state
     t('时间胶囊.删除时间线', {
       scope
     })
 
-    await fetchHTML({
+    const responseText = await fetchHTML({
       method: 'POST',
-      url: href
+      url: `${clearHref}&ajax=1`
     })
     feedback()
 
-    this.fetchTimeline(true)
+    try {
+      if (JSON.parse(responseText)?.status === 'ok') {
+        timelineStore.removeTimeline(clearHref, scope, TABS[page].key)
+      }
+    } catch (error) {}
+
     return true
   }
 }

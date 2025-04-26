@@ -373,17 +373,22 @@ export default class Action extends Fetch {
   }
 
   /** 删除时间线 */
-  doDelete = async (href: string) => {
-    if (!href) return false
+  doDelete = async (clearHref: string) => {
+    if (!clearHref) return false
 
-    const result = await fetchHTML({
+    const responseText = await fetchHTML({
       method: 'POST',
-      url: href
+      url: `${clearHref}&ajax=1`
     })
     feedback()
 
-    this.fetchUsersTimeline(true)
-    return result
+    try {
+      if (JSON.parse(responseText)?.status === 'ok') {
+        timelineStore.removeUsersTimeline(clearHref, this.userId)
+      }
+    } catch (error) {}
+
+    return true
   }
 
   private _doChatUpdate = false
