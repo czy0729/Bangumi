@@ -19,6 +19,7 @@ function Log({
   navigation,
   // filter,
   monoId,
+  fromMonoId,
   name = '',
   icon,
   amount,
@@ -33,12 +34,21 @@ function Log({
 
   return useObserver(() => {
     const styles = memoStyles()
+
     const rankChange = oldRank - rank
     const isAskType = type === 1 || type === 4
     const textType = isAskType ? 'ask' : 'bid'
     const textMark = isAskType ? '-' : '+'
+
     const nameLength = name.length
     const nameSize = nameLength > 12 ? 8 : nameLength > 8 ? 10 : 12
+
+    const desc = getTypeText(type)
+    const textDescProps = {
+      type: 'tinygrailText',
+      size: 10,
+      numberOfLines: 1
+    } as const
 
     const handleAvatarPress = useCallback(() => {
       const navigationRef = navigation || navigationReference()
@@ -52,7 +62,7 @@ function Log({
         })
       }, 160)
     }, [])
-    const handleItemPress = useCallback(() => {
+    const handlePress = useCallback(() => {
       const navigationRef = navigation || navigationReference()
       if (!navigationRef) return
 
@@ -63,8 +73,20 @@ function Log({
         })
       }, 160)
     }, [])
+    const handleFromPress = useCallback(() => {
+      if (!fromMonoId) return
 
-    const desc = getTypeText(type)
+      const navigationRef = navigation || navigationReference()
+      if (!navigationRef) return
+
+      onToggle?.()
+      setTimeout(() => {
+        navigationRef.push('TinygrailSacrifice', {
+          monoId: `character/${fromMonoId}`
+        })
+      }, 160)
+    }, [])
+
     // if (filter && filter !== '全部' && FILTER_MAP[filter] !== desc) return null
 
     return (
@@ -79,7 +101,7 @@ function Log({
         />
 
         <Flex.Item style={_.ml.sm}>
-          <Touchable onPress={handleItemPress}>
+          <Touchable onPress={handlePress}>
             <Flex>
               <Text
                 style={_.mr.xs}
@@ -111,35 +133,33 @@ function Log({
                 </Text>
               )}
             </Flex>
-
-            <Flex style={_.mt.xs}>
-              <Flex.Item>
-                <Flex>
-                  {!!userName && (
-                    <Text
-                      style={_.mr.xs}
-                      type='tinygrailText'
-                      size={10}
-                      bold
-                      numberOfLines={1}
-                      shrink
-                    >
-                      @{HTMLDecode(userName)}
-                    </Text>
-                  )}
-                  <Text type={textType} size={10} bold numberOfLines={1}>
-                    {textMark}
-                    {formatNumber(amount, 0)}
-                    {desc === '星之力' ? '' : ` ${desc}`}
-                  </Text>
-                </Flex>
-              </Flex.Item>
-
-              <Text style={_.ml.md} type='tinygrailText' size={10}>
-                {time}
-              </Text>
-            </Flex>
           </Touchable>
+
+          <Flex style={_.mt.xs}>
+            <Flex.Item>
+              <Flex>
+                {!!userName && (
+                  <Text {...textDescProps} style={_.mr.xs} shrink>
+                    @{HTMLDecode(userName)}
+                  </Text>
+                )}
+                <Text {...textDescProps} type={textType}>
+                  {textMark}
+                  {formatNumber(amount, 0)}
+                  {desc === '星之力' ? '' : ` ${desc}`}
+                </Text>
+                {!userName && !!fromMonoId && (
+                  <Text {...textDescProps} style={_.ml.xs} bold onPress={handleFromPress}>
+                    from #{fromMonoId}
+                  </Text>
+                )}
+              </Flex>
+            </Flex.Item>
+
+            <Touchable style={_.ml.md} onPress={handlePress}>
+              <Text {...textDescProps}>{time}</Text>
+            </Touchable>
+          </Flex>
         </Flex.Item>
       </Flex>
     )

@@ -17,12 +17,16 @@ export const memoStyles = _.memoStyles(() => ({
     marginTop: -38,
     marginLeft: -6
   },
-  avatar: {
-    padding: 2,
-    borderRadius: 10,
-    overflow: 'hidden'
-  },
   userStatus: {
     backgroundColor: _.colorTinygrailContainer
+  },
+  shadow: {
+    shadowColor: 'rgb(0, 0, 0)',
+    shadowOffset: {
+      width: 1,
+      height: 4
+    },
+    shadowOpacity: 0.64,
+    shadowRadius: 6
   }
 }))

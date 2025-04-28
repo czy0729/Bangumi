@@ -40,6 +40,7 @@ export type MyTemple = {
   sacrifices: number
   userStarForces: number
   refine: number
+  lastActive: string
   _loaded: Loaded
 }
 

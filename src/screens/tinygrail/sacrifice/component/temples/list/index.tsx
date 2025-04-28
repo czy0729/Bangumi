@@ -7,7 +7,7 @@
 import React from 'react'
 import { Flex } from '@components'
 import { useStore } from '@stores'
-import { desc } from '@utils'
+import { formatNumber, getTimestamp, lastDate } from '@utils'
 import { useMount, useObserver } from '@utils/hooks'
 import ItemTemple from '@screens/tinygrail/_/item-temple'
 import { Ctx } from '../../../types'
@@ -22,71 +22,81 @@ function List() {
 
   return useObserver(() => {
     const styles = memoStyles()
-    let list = $.charaTemple.list
-      .slice()
-      .sort((a, b) =>
-        desc(
-          a.userStarForces >= 1000 ? a.userStarForces : 0,
-          b.userStarForces >= 1000 ? b.userStarForces : 0
-        )
-      )
-      // 自己的排最前
-      .sort((a, b) => {
-        let _a = 0
-        let _b = 0
-        if (a.name === $.hash) _a += 1
-        if (b.name === $.hash) _b += 1
-        return _b - _a
-      })
+    const { templesSort } = $.state
 
-    const map = {}
-    $.charaTemple.list.forEach(item => {
-      if (!map[item.cover]) {
-        map[item.cover] = list.length
-        list.push({
-          ...item,
-          // @ts-expect-error
-          count: 1
-        })
-        return
+    // 构建用户最后活跃时间映射
+    const lastActiveMap = $.users.list.reduce((acc, user) => {
+      acc[user.name] = user.lastActiveDate
+      return acc
+    }, {})
+
+    // 获取排序后的角色列表
+    let list = [...$.charaTemple.list].sort((a, b) => {
+      if (templesSort === '剩余资产') {
+        return b.assets - a.assets
       }
 
-      // @ts-expect-error
-      list[map[item.cover]].count += 1
+      if (templesSort === '星之力') {
+        return b.userStarForces - a.userStarForces
+      }
+
+      if (templesSort === '损耗量') {
+        return b.sacrifices - b.assets - (a.sacrifices - a.assets)
+      }
+
+      if (templesSort === '最近活跃') {
+        return (lastActiveMap[b.name] || b.lastActive || '').localeCompare(
+          lastActiveMap[a.name] || a.lastActive || ''
+        )
+      }
+
+      // 按星之力 (>=1000) 降序排序
+      const aStars = a.userStarForces >= 1000 ? a.userStarForces : 0
+      const bStars = b.userStarForces >= 1000 ? b.userStarForces : 0
+      return bStars - aStars
     })
 
-    // 保证能看见自己
-    const myTemple = $.charaTemple.list.find(item => item.name === $.hash)
-    if (myTemple && !list.find(item => item.name === $.hash)) {
-      list.unshift(myTemple)
+    // 确保当前用户可见
+    if (!list.some(item => item.name === $.hash)) {
+      const myTemple = $.charaTemple.list.find(item => item.name === $.hash)
+      myTemple && list.unshift(myTemple)
     }
 
-    if (!$.state.expand) list = list.filter((_item, index) => index < 9)
-
-    // 活跃时间
-    const lastActiveMap = {}
-    $.users.list.forEach(item => {
-      lastActiveMap[item.name] = item.lastActiveDate
-    })
+    // 折叠状态下只显示前 9 项
+    if (!$.state.expand) {
+      list = list.slice(0, 9)
+    }
 
     return (
       <Flex style={styles.temples} wrap='wrap' align='start'>
-        {list.map(item => (
-          <ItemTemple
-            key={item.nickname}
-            assets={item.assets}
-            avatar={item.avatar}
-            cover={item.cover}
-            level={item.level}
-            userId={item.name}
-            nickname={item.nickname}
-            sacrifices={item.sacrifices}
-            refine={item.refine}
-            userStarForces={item.userStarForces}
-            lastActive={lastActiveMap[item.name]}
-            event={EVENT}
-          />
-        ))}
+        {list.map(item => {
+          const lastActive = lastActiveMap[item.name] || item.lastActive || ''
+          let extra = ''
+          if (templesSort === '损耗量') {
+            const amount = item.sacrifices - item.assets
+            if (amount) extra = `已损耗 ${formatNumber(amount, 0)}`
+          } else if (templesSort === '最近活跃') {
+            extra = lastDate(getTimestamp(lastActive))
+          }
+
+          return (
+            <ItemTemple
+              key={item.nickname}
+              assets={item.assets}
+              avatar={item.avatar}
+              cover={item.cover}
+              level={item.level}
+              userId={item.name}
+              nickname={item.nickname}
+              sacrifices={item.sacrifices}
+              refine={item.refine}
+              userStarForces={item.userStarForces}
+              lastActive={lastActive}
+              extra={extra}
+              event={EVENT}
+            />
+          )
+        })}
       </Flex>
     )
   })

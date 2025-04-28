@@ -8,8 +8,8 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   step: {
-    width: 26,
-    height: 26
+    width: 24,
+    height: 24
   },
   stepMinus: {
     borderLeftWidth: 1,
@@ -17,15 +17,15 @@ export const memoStyles = _.memoStyles(() => ({
   },
   minus: {
     width: 12,
-    height: 1,
+    height: 2,
     backgroundColor: _.colorTinygrailIcon
   },
   plus: {
     position: 'absolute',
     zIndex: 1,
-    top: 7,
-    left: 12.5,
-    width: 1,
+    top: 6,
+    left: 11,
+    width: 2,
     height: 12,
     backgroundColor: _.colorTinygrailIcon
   }

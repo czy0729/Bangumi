@@ -19,10 +19,10 @@ function Refine({ rate, rank, stars, level }) {
     const styles = memoStyles()
     return (
       <>
-        <Text type='tinygrailText' size={10}>
-          {' '}
-          / 圣殿{toFixed(calculateTempleRate(rate, rank, stars, level, refine), 1)} (x
-          {calculateRatio(rank)})
+        <Text type='tinygrailText' size={11}>
+          {' / '}
+          {toFixed(calculateTempleRate(rate, rank, stars, level, refine), 1)} [x
+          {calculateRatio(rank)}]
         </Text>
         <Touchable
           style={_.ml.xs}
@@ -36,18 +36,18 @@ function Refine({ rate, rank, stars, level }) {
             <View style={styles.plus} />
           </Flex>
         </Touchable>
-        <Touchable
-          onPress={() => {
-            if (refine <= 1) return
-
-            setRefine(refine - 1)
-            info(`精炼 ${refine - 1}`)
-          }}
-        >
-          <Flex style={styles.step} justify='center'>
-            <View style={styles.minus} />
-          </Flex>
-        </Touchable>
+        {refine > 1 && (
+          <Touchable
+            onPress={() => {
+              setRefine(refine - 1)
+              info(`精炼 ${refine - 1}`)
+            }}
+          >
+            <Flex style={styles.step} justify='center'>
+              <View style={styles.minus} />
+            </Flex>
+          </Touchable>
+        )}
       </>
     )
   })

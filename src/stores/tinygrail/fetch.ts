@@ -59,7 +59,7 @@ import {
   INIT_USER_LOGS,
   NAMESPACE
 } from './init'
-import { CHARA_ITEM, CHARA_TEMPLE_ITEM, REFINE_TEMPLE_ITEM } from './mock'
+import { CHARA_ITEM, REFINE_TEMPLE_ITEM } from './mock'
 import { calculateRate, mapItems, throttleInfo, toCharacter } from './utils'
 import { defaultKey, defaultSort, paginationOnePage } from './ds'
 import { ListKey } from './types'
@@ -1259,38 +1259,41 @@ export default class Fetch extends Computed {
   }
 
   /** 角色圣殿 */
-  fetchCharaTemple = async (id: Id = 0) => {
-    const result = await this.fetch(API_TINYGRAIL_CHARA_TEMPLE(id))
+  fetchCharaTemple = async (id: MonoId) => {
+    const STATE_KEY = 'charaTemple'
+    const ITEM_KEY = id
 
-    let data = {
-      ...LIST_EMPTY
-    }
-    if (result.data.State === 0) {
-      data = {
-        ...LIST_EMPTY,
-        list: result.data.Value.map((item: typeof CHARA_TEMPLE_ITEM) => ({
-          assets: item.Assets,
-          avatar: item.Avatar,
-          cover: item.Cover,
-          id: item.CharacterId,
-          level: item.Level,
-          name: item.Name,
-          nickname: item.Nickname,
-          refine: item.Refine,
-          sacrifices: item.Sacrifices,
-          userStarForces: item.StarForces
-        })),
-        _loaded: getTimestamp()
+    try {
+      const result = await this.fetch(API_TINYGRAIL_CHARA_TEMPLE(ITEM_KEY))
+      const { State, Value } = result.data
+      if (State === 0) {
+        const list = mapItems(Value, {
+          assets: 'Assets',
+          avatar: 'Avatar',
+          cover: 'Cover',
+          id: 'CharacterId',
+          level: 'Level',
+          name: 'Name',
+          nickname: 'Nickname',
+          refine: 'Refine',
+          sacrifices: 'Sacrifices',
+          userStarForces: 'StarForces',
+          lastActive: 'LastActive'
+        })
+        this.setState({
+          [STATE_KEY]: {
+            [ITEM_KEY]: {
+              list,
+              pagination: { page: 1, pageTotal: 1 },
+              _loaded: getTimestamp()
+            }
+          }
+        })
+        // this.save(STATE_KEY)
       }
-    }
+    } catch (error) {}
 
-    const key = 'charaTemple'
-    this.setState({
-      [key]: {
-        [id]: data
-      }
-    })
-    return data
+    return this[STATE_KEY](ITEM_KEY)
   }
 
   /** 可拍卖信息 */

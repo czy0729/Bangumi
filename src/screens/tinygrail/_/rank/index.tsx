@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import { Text } from '@components'
+import { _ } from '@stores'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { memoStyles } from './styles'
@@ -20,7 +21,8 @@ function Rank({ style, size = 9, value }: Props) {
       style={stl(
         styles.rank,
         {
-          backgroundColor: Number(value) <= 500 ? '#ffc107' : '#aaa'
+          backgroundColor: Number(value) <= 500 ? '#ffc107' : '#aaa',
+          opacity: _.select(1, 0.92)
         },
         style
       )}

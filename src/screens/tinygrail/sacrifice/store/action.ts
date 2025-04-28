@@ -18,6 +18,7 @@ import {
 import { t } from '@utils/fetch'
 import { ITEMS_TYPE } from '@tinygrail/_/characters-modal'
 import { AnyObject } from '@types'
+import { TemplesSort } from '../types'
 import Fetch from './fetch'
 
 export default class Action extends Fetch {
@@ -540,6 +541,14 @@ export default class Action extends Fetch {
   toggleItems = () => {
     this.setState({
       showItems: !this.state.showItems
+    })
+    this.save()
+  }
+
+  /** 圣殿排序 */
+  selectTemplesSort = (templesSort: TemplesSort) => {
+    this.setState({
+      templesSort
     })
     this.save()
   }

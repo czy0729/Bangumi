@@ -66,7 +66,7 @@ function Header() {
               })
             }}
           >
-            <Iconfont name='md-waterfall-chart' color={_.colorTinygrailPlain} />
+            <Iconfont name='md-waterfall-chart' size={20} color={_.colorTinygrailPlain} />
           </Touchable>
           <Touchable
             style={[styles.touch, _.mr.xs]}
@@ -75,7 +75,7 @@ function Header() {
               open(`https://fuyuake.top/xsb/chara/${monoId?.replace('character/', '')}`)
             }}
           >
-            <Iconfont name='icon-link' size={20} color={_.colorTinygrailPlain} />
+            <Iconfont name='icon-link' size={19} color={_.colorTinygrailPlain} />
           </Touchable>
         </>
       )}

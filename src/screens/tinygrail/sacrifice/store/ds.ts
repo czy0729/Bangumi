@@ -5,7 +5,8 @@
  * @Last Modified time: 2024-05-19 10:51:03
  */
 import { Loaded } from '@types'
-import { COMPONENT } from '../ds'
+import { COMPONENT, TEMPLES_SORT_DS } from '../ds'
+import { TemplesSort } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}`
 
@@ -83,8 +84,6 @@ export const STATE = {
     _loaded: 0
   },
 
-  ...EXCLUDE_STATE,
-
   /** 角色独立 */
   lastAuction: INIT_LAST_AUCTION,
 
@@ -94,5 +93,12 @@ export const STATE = {
   /** 精炼二次确认 */
   confirmRefine: true,
 
+  /** 固定资产排序 */
+  templesSort: TEMPLES_SORT_DS[0] as TemplesSort,
+
+  /** 董事会排序 */
+  usersSort: '',
+
+  ...EXCLUDE_STATE,
   _loaded: 0 as Loaded
 }

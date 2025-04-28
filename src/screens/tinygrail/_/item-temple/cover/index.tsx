@@ -42,7 +42,7 @@ function Cover({ level, cover, coverSize = 150, name, refine, event, onPress }) 
     } else if (level === 2) {
       colorLevel = '#ffc107'
     } else if (level === 1) {
-      colorLevel = '#f4f4f4'
+      colorLevel = '#c0c0c0'
     }
 
     const isFromBgm = src.includes('lain.bgm.tv')
@@ -52,7 +52,7 @@ function Cover({ level, cover, coverSize = 150, name, refine, event, onPress }) 
           styles.wrap,
           {
             borderColor: colorLevel,
-            borderWidth: colorLevel ? 1.5 : 0
+            borderWidth: colorLevel ? _.select(1, 2) : 0
           }
         ]}
       >

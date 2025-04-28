@@ -410,8 +410,10 @@ export default class Computed extends State implements StoreConstructor<typeof S
   /** 总览列表 */
   list(key: ListKey = defaultKey) {
     this.init(key)
+    // @ts-expect-error
     return computed<ListEmpty<Characters>>(() => {
       return this.state[key] || LIST_EMPTY
+      // @ts-expect-error
     }).get()
   }
 
