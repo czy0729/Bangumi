@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-06 18:23:34
+ * @Last Modified time: 2025-04-29 04:48:57
  */
 import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
 import IoniconsIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/Ionicons.json'
@@ -31,8 +31,9 @@ export type IconfontNames =
   | 'home'
   | 'setting'
   | 'trophy'
-  | 'moon'
   | 'sunny'
+  | 'moon'
+  | 'star'
 
 /** react-navigation 路由对象 */
 export type Navigation = {

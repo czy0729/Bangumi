@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-02 12:03:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-06 08:30:58
+ * @Last Modified time: 2025-04-29 04:10:37
  */
 import { ImageRequireSource } from 'react-native'
 import PropTypes from 'prop-types'
@@ -11,7 +11,7 @@ import { HOST_DOGE } from '../cdn/ds'
 import { PAD, RATIO, WEB } from '../device'
 import { IOS } from './env'
 
-/** @deprecated Bangumi 字眼在 App 内的显示 */
+/** @deprecated Bangumi 字眼在 APP 内的显示 */
 export const TITLE = IOS ? 'bgm.tv' : 'Bangumi'
 
 /** 占位底图 */
@@ -46,25 +46,25 @@ export const IMG_INFO_ONLY = WEB
 /** 默认条目缩略图 */
 export const IMG_SUBJECT_ONLY = 'https://bgm.tv/img/no_icon_subject.png'
 
-const h = (w: any) => parseInt(String(w * 1.4))
+const h = (w: any) => Math.floor(w * 1.4)
 
 /** 头像大小 */
 export const IMG_AVATAR_WIDTH = 32
 
 /** 封面宽度 */
-export const IMG_WIDTH = parseInt(String(RATIO * 82))
+export const IMG_WIDTH = Math.floor(RATIO * 82)
 
 /** 封面高度 */
 export const IMG_HEIGHT = h(IMG_WIDTH)
 
 /** 封面宽度 (小) */
-export const IMG_WIDTH_SM = parseInt(String(RATIO * 72))
+export const IMG_WIDTH_SM = Math.floor(RATIO * 72)
 
 /** 封面高度 (小) */
 export const IMG_HEIGHT_SM = h(IMG_WIDTH_SM)
 
 /** 封面宽度 (大) */
-export const IMG_WIDTH_LG = parseInt(String(IMG_WIDTH * 1.34))
+export const IMG_WIDTH_LG = Math.floor(IMG_WIDTH * 1.34)
 
 /** 封面高度 (大) */
 export const IMG_HEIGHT_LG = h(IMG_WIDTH_LG)
@@ -106,78 +106,26 @@ export const LIMIT_TOPIC_PUSH = 500
 /** 部分首屏渲染任务非常重的页面设置的初始最大项显示值 */
 export const LIMIT_HEAVY_RENDER = 10
 
-/** App 事件埋点数据结构 */
+/** 事件埋点数据结构 */
 export const EVENT = {
   id: '',
   data: {}
 } as const
 
 /** 时间 */
-export const DATA_AIRTIME = [
-  '全部',
-  '2025',
-  '2024',
-  '2023',
-  '2022',
-  '2021',
-  '2020',
-  '2019',
-  '2018',
-  '2017',
-  '2016',
-  '2015',
-  '2014',
-  '2013',
-  '2012',
-  '2011',
-  '2010',
-  '2009',
-  '2008',
-  '2007',
-  '2006',
-  '2005',
-  '2004',
-  '2003',
-  '2002',
-  '2001',
-  '2000',
-  '1999',
-  '1998',
-  '1997',
-  '1996',
-  '1995',
-  '1994',
-  '1993',
-  '1992',
-  '1991',
-  '1990',
-  '1989',
-  '1988',
-  '1987',
-  '1986',
-  '1985',
-  '1984',
-  '1983',
-  '1982',
-  '1981',
-  '1980'
-] as const
+export const DATA_AIRTIME = (() => {
+  const currentYear = new Date().getFullYear()
+  const years = ['全部']
+  for (let year = currentYear; year >= 1980; year--) {
+    years.push(year.toString())
+  }
+  return years
+})()
 
 /** 月份 */
 export const DATA_MONTH = [
   '全部',
-  '1',
-  '2',
-  '3',
-  '4',
-  '5',
-  '6',
-  '7',
-  '8',
-  '9',
-  '10',
-  '11',
-  '12'
+  ...Array.from({ length: 12 }, (_, i) => (i + 1).toString())
 ] as const
 
 /** 来源 */
@@ -349,131 +297,20 @@ export const DATA_REAL_AREA = [
 ] as const
 
 /** 索引年 */
-export const DATA_BROWSER_AIRTIME = [
-  '2025',
-  '2024',
-  '2023',
-  '2022',
-  '2021',
-  '2020',
-  '2019',
-  '2018',
-  '2017',
-  '2016',
-  '2015',
-  '2014',
-  '2013',
-  '2012',
-  '2011',
-  '2010',
-  '2009',
-  '2008',
-  '2007',
-  '2006',
-  '2005',
-  '2004',
-  '2003',
-  '2002',
-  '2001',
-  '2000',
-  '1999',
-  '1998',
-  '1997',
-  '1996',
-  '1995',
-  '1994',
-  '1993',
-  '1992',
-  '1991',
-  '1990',
-  '1989',
-  '1988',
-  '1987',
-  '1986',
-  '1985',
-  '1984',
-  '1983',
-  '1982',
-  '1981',
-  '1980',
-  '1979',
-  '1978',
-  '1977',
-  '1976',
-  '1975',
-  '1974',
-  '1973',
-  '1972',
-  '1971',
-  '1970',
-  '1969',
-  '1968',
-  '1967',
-  '1966',
-  '1965',
-  '1964',
-  '1963',
-  '1962',
-  '1961',
-  '1960',
-  '1959',
-  '1958',
-  '1957',
-  '1956',
-  '1955',
-  '1954',
-  '1953',
-  '1952',
-  '1951',
-  '1950',
-  '1949'
-] as const
+export const DATA_BROWSER_AIRTIME = (() => {
+  const currentYear = new Date().getFullYear()
+  const years: string[] = []
+  for (let year = currentYear; year >= 1949; year--) {
+    years.push(year.toString())
+  }
+  return years
+})()
 
 /** 索引时间月 */
-export const DATA_BROWSER_MONTH = [
-  '1',
-  '2',
-  '3',
-  '4',
-  '5',
-  '6',
-  '7',
-  '8',
-  '9',
-  '10',
-  '11',
-  '12'
-] as const
+export const DATA_BROWSER_MONTH = Array.from({ length: 12 }, (_, i) => (i + 1).toString())
 
 /** 字母表 */
-export const DATA_ALPHABET = [
-  'A',
-  'B',
-  'C',
-  'D',
-  'E',
-  'F',
-  'G',
-  'H',
-  'I',
-  'J',
-  'K',
-  'L',
-  'M',
-  'N',
-  'O',
-  'P',
-  'Q',
-  'R',
-  'S',
-  'T',
-  'U',
-  'V',
-  'W',
-  'X',
-  'Y',
-  'Z'
-] as const
+export const DATA_ALPHABET = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i))
 
 /** 公共标签 */
 export const DATA_META = ['公共标签', '用户标签'] as const

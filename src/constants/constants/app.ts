@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-02 11:54:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-09 20:42:09
+ * @Last Modified time: 2025-04-29 01:04:03
  */
 
 /** App ID https://bgm.tv/dev/app */
@@ -18,14 +18,14 @@ export const APP_SECRET = '1da52e7834bbb73cca90302f9ddbc8dd'
  * - [2022] 27168016,29260639,29987675,31072870
  * - [2023] 32279369,33457566,35103537,35103537,36237364,36996426,37896791
  * - [2024] 39891895,41146160,42096174,43424518,46060874
- * - [2025] 48252302
+ * - [2025] 48252302,51417234
  * */
-export const APP_ID_SAY_DEVELOP = '48252302'
+export const APP_ID_SAY_DEVELOP = '51417234'
 
 /** 小圣杯意见反馈入口 */
 export const APP_ID_SAY_TINYGRAIL = '19820034'
 
-/** APP 游客用户 id
+/** 游客用户 ID
  * - [476179] 6907***59@qq.com
  * - [474489] 2963***10@qq.com
  * - [542389] say***02@163.com
@@ -33,7 +33,7 @@ export const APP_ID_SAY_TINYGRAIL = '19820034'
  * */
 export const APP_USERID_TOURIST = 700939
 
-/** APP 审核用户id */
+/** 审核用户 ID */
 export const APP_USERID_IOS_AUTH = 700939
 
 /** 高级会员不限制达到金额 */

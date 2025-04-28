@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-08 05:50:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 16:20:25
+ * @Last Modified time: 2025-04-29 04:17:36
  */
 import React from 'react'
 import { Flex, Iconfont, Text } from '@components'
@@ -20,7 +20,6 @@ function Head() {
   const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const { showTemples, templesSort } = $.state
-  const isActive = templesSort !== '默认'
   return (
     <Flex style={styles.info}>
       <Flex.Item>
@@ -40,13 +39,9 @@ function Head() {
       {showTemples && (
         <Popover data={TEMPLES_SORT_DS} onSelect={$.selectTemplesSort}>
           <Flex style={styles.touch}>
-            <Iconfont
-              name='md-sort'
-              size={19}
-              color={isActive ? _.colorMain : _.colorTinygrailIcon}
-            />
-            {isActive && (
-              <Text style={_.ml.xs} type='main' size={11}>
+            <Iconfont name='md-sort' color={_.colorTinygrailText} size={19} />
+            {templesSort !== '默认' && (
+              <Text style={_.ml.xs} type='tinygrailText' size={11} bold>
                 {templesSort}
               </Text>
             )}

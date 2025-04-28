@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-08 15:57:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 16:24:54
+ * @Last Modified time: 2025-04-29 04:55:52
  */
 import React from 'react'
 import { Flex } from '@components'
@@ -31,7 +31,11 @@ function List() {
     }, {})
 
     // 获取排序后的角色列表
-    let list = [...$.charaTemple.list].sort((a, b) => {
+    let list = $.charaTemple.list.slice().sort((a, b) => {
+      if (templesSort === '精炼') {
+        return b.refine - a.refine
+      }
+
       if (templesSort === '剩余资产') {
         return b.assets - a.assets
       }
@@ -50,20 +54,18 @@ function List() {
         )
       }
 
-      // 按星之力 (>=1000) 降序排序
-      const aStars = a.userStarForces >= 1000 ? a.userStarForces : 0
-      const bStars = b.userStarForces >= 1000 ? b.userStarForces : 0
-      return bStars - aStars
+      return b.sacrifices - a.sacrifices
     })
+
+    // 折叠状态下只显示前 9 项
+    if (!$.state.expand) {
+      list = list.slice(0, 9)
+    }
 
     // 确保当前用户可见
     if (!list.some(item => item.name === $.hash)) {
       const myTemple = $.charaTemple.list.find(item => item.name === $.hash)
       myTemple && list.unshift(myTemple)
-    }
-
-    // 折叠状态下只显示前 9 项
-    if (!$.state.expand) {
       list = list.slice(0, 9)
     }
 

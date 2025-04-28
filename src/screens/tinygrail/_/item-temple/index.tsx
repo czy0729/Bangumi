@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-07 05:59:15
+ * @Last Modified time: 2025-04-29 04:40:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -83,13 +83,26 @@ function ItemTemple({
         )}
       </View>
       {!!extra && (
-        <Text style={_.mt.sm} type='tinygrailText' size={10} align='center' bold>
+        <Text
+          style={_.mt.sm}
+          type='tinygrailText'
+          size={10}
+          lineHeight={state ? 13 : 10}
+          align='center'
+          bold
+        >
           {extra}
-          {state ? ` · 持股 ${state}` : ''}
+          {state ? `\n持股 ${state}` : ''}
         </Text>
       )}
       {!!userStarForces && !onItem && (
-        <Text style={_.mt.sm} type='warning' size={10} align='center' bold>
+        <Text
+          style={_.mt.sm}
+          type={userStarForces >= 10000 ? 'warning' : 'tinygrailText'}
+          size={10}
+          align='center'
+          bold
+        >
           星之力 {formatNumber(userStarForces, 0)}
         </Text>
       )}

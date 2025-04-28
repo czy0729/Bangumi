@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-05 04:26:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-08 18:31:23
+ * @Last Modified time: 2025-04-28 23:08:58
  */
 import { _ } from '@stores'
 
@@ -26,7 +26,7 @@ export const memoStyles = _.memoStyles(() => ({
       width: 1,
       height: 4
     },
-    shadowOpacity: 0.64,
+    shadowOpacity: _.select(0.32, 0.64),
     shadowRadius: 6
   }
 }))

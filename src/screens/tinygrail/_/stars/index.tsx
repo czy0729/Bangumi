@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-07 20:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-12 06:46:36
+ * @Last Modified time: 2025-04-29 04:49:11
  */
 import React from 'react'
 import { Iconfont } from '@components'
@@ -15,7 +15,7 @@ function Stars({ value = 0, size = 11 }) {
   const passProps = {
     style: {
       color: '#ffc107',
-      lineHeight: _.fontSize(12).lineHeight
+      lineHeight: _.fontSize(11).lineHeight
     },
     size
   } as const
@@ -35,7 +35,7 @@ function Stars({ value = 0, size = 11 }) {
       {!!star &&
         new Array(star)
           .fill('')
-          .map((_item, index) => <Iconfont key={index} {...passProps} name='md-star' />)}
+          .map((_item, index) => <Iconfont key={index} {...passProps} name='star' />)}
     </>
   )
 }

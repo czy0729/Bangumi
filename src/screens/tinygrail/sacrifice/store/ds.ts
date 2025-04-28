@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-11-11 05:08:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-19 10:51:03
+ * @Last Modified time: 2025-04-28 22:38:12
  */
 import { Loaded } from '@types'
-import { COMPONENT, TEMPLES_SORT_DS } from '../ds'
-import { TemplesSort } from '../types'
+import { COMPONENT, TEMPLES_SORT_DS, USERS_SORT_DS } from '../ds'
+import { TemplesSort, UsersSort } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}`
 
@@ -97,7 +97,7 @@ export const STATE = {
   templesSort: TEMPLES_SORT_DS[0] as TemplesSort,
 
   /** 董事会排序 */
-  usersSort: '',
+  usersSort: USERS_SORT_DS[0] as UsersSort,
 
   ...EXCLUDE_STATE,
   _loaded: 0 as Loaded

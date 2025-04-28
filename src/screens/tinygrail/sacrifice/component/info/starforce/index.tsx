@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-03-07 06:19:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 16:15:16
+ * @Last Modified time: 2025-04-29 04:49:23
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
-import { formatNumber } from '@utils'
+import { formatNumber, info } from '@utils'
 import { ob } from '@utils/decorators'
 import Stars from '@tinygrail/_/stars'
 import { Ctx } from '../../../types'
@@ -18,7 +18,15 @@ function Starforce() {
 
   return (
     <Flex style={_.mt.xs} justify='center'>
-      <Stars value={$.stars} size={15} />
+      <Touchable
+        onPress={() => {
+          info($.stars)
+        }}
+      >
+        <Flex>
+          <Stars value={$.stars} size={14} />
+        </Flex>
+      </Touchable>
       <Text style={_.ml.xs} type='tinygrailText' size={12}>
         星之力 +{formatNumber($.starForces, 0)}
       </Text>

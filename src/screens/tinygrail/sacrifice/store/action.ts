@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-19 08:33:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-19 14:08:52
+ * @Last Modified time: 2025-04-28 22:40:50
  */
 import { tinygrailStore } from '@stores'
 import {
@@ -18,7 +18,7 @@ import {
 import { t } from '@utils/fetch'
 import { ITEMS_TYPE } from '@tinygrail/_/characters-modal'
 import { AnyObject } from '@types'
-import { TemplesSort } from '../types'
+import { TemplesSort, UsersSort } from '../types'
 import Fetch from './fetch'
 
 export default class Action extends Fetch {
@@ -549,6 +549,14 @@ export default class Action extends Fetch {
   selectTemplesSort = (templesSort: TemplesSort) => {
     this.setState({
       templesSort
+    })
+    this.save()
+  }
+
+  /** 董事会排序 */
+  selectUsersSort = (usersSort: UsersSort) => {
+    this.setState({
+      usersSort
     })
     this.save()
   }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:38:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-22 05:35:05
+ * @Last Modified time: 2025-04-29 04:35:59
  */
 import { toJS } from 'mobx'
 import { getTimestamp, HTMLDecode, info, lastDate, toFixed } from '@utils'
@@ -1093,35 +1093,36 @@ export default class Fetch extends Computed {
 
   /** 董事会 */
   fetchUsers = async (monoId: MonoId) => {
-    const result = await this.fetch(API_TINYGRAIL_USERS(monoId))
+    const STATE_KEY = 'users'
+    const ITEM_KEY = monoId
 
-    let data: any = []
-    if (result.data.State === 0) {
-      data = {
-        ...LIST_EMPTY,
-        list: result.data.Value.Items.map(item => ({
-          id: item.Id,
-          nickName: item.Nickname,
-          avatar: item.Avatar,
-          balance: item.Balance,
-          name: item.Name,
-          lastIndex: item.LastIndex,
-          lastActiveDate: item.LastActiveDate
-        })),
-        pagination: paginationOnePage,
-        total: result.data.Value.TotalItems,
-        _loaded: getTimestamp()
+    try {
+      const result = await this.fetch(API_TINYGRAIL_USERS(monoId))
+      const { State, Value } = result.data
+      if (State === 0) {
+        const list = mapItems(Value.Items, {
+          id: 'Id',
+          nickName: 'Nickname',
+          avatar: 'Avatar',
+          balance: 'Balance',
+          name: 'Name',
+          lastIndex: 'LastIndex',
+          lastActiveDate: 'LastActiveDate'
+        })
+        this.setState({
+          [STATE_KEY]: {
+            [ITEM_KEY]: {
+              list,
+              pagination: { page: 1, pageTotal: 1 },
+              total: Value.TotalItems,
+              _loaded: getTimestamp()
+            }
+          }
+        })
       }
-    }
+    } catch (error) {}
 
-    const key = 'users'
-    this.setState({
-      [key]: {
-        [monoId]: data
-      }
-    })
-
-    return data
+    return this[STATE_KEY](ITEM_KEY)
   }
 
   /** 角色奖池 */
@@ -1289,7 +1290,7 @@ export default class Fetch extends Computed {
             }
           }
         })
-        // this.save(STATE_KEY)
+        this.save(STATE_KEY)
       }
     } catch (error) {}
 
