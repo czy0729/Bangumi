@@ -106,6 +106,7 @@ export default {
   '资产重组.封面图查看': 'TSacrifice.imageView',
   '资产重组.圣殿图查看': 'TSacrifice.templeView',
   '资产重组.展开收起圣殿': 'TSacrifice.toggleExpand',
+  '资产重组.唯一圣殿': 'TSacrifice.toggleUnique',
   '资产重组.股息查看': 'TSacrifice.rate' /** @deprecated */,
   '资产重组.菜单改变竞拍数量': 'TSacrifice.changeAmountByMenu',
   '资产重组.展开收起封面': 'TSacrifice.toggleCover',

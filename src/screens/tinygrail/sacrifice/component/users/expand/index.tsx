@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-11-19 16:20:45
  */
 import React from 'react'
-import { Flex, Iconfont, Touchable } from '@components'
+import { Flex, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
@@ -16,10 +16,7 @@ function Expand() {
   return (
     <Flex style={_.mt.md} justify='center'>
       <Touchable style={styles.expand} onPress={$.toggleUsers}>
-        <Iconfont
-          name={$.state.showUsers ? 'md-keyboard-arrow-up' : 'md-keyboard-arrow-down'}
-          color={_.colorTinygrailText}
-        />
+        <Text type='tinygrailText'>[{$.state.showUsers ? '隐藏' : '显示'}板块]</Text>
       </Touchable>
     </Flex>
   )

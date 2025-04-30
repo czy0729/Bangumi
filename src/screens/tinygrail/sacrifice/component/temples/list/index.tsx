@@ -5,7 +5,7 @@
  * @Last Modified time: 2025-04-29 04:55:52
  */
 import React from 'react'
-import { Flex } from '@components'
+import { Flex, Text } from '@components'
 import { useStore } from '@stores'
 import { formatNumber, getTimestamp, lastDate } from '@utils'
 import { useMount, useObserver } from '@utils/hooks'
@@ -22,7 +22,7 @@ function List() {
 
   return useObserver(() => {
     const styles = memoStyles()
-    const { templesSort } = $.state
+    const { templesSort, expand, unique } = $.state
 
     // 构建用户最后活跃时间映射
     const lastActiveMap = $.users.list.reduce((acc, user) => {
@@ -57,8 +57,20 @@ function List() {
       return b.sacrifices - a.sacrifices
     })
 
+    // 排除显示相同封面的圣殿
+    if (unique) {
+      const uniqueCovers = new Set<string>()
+      list = list.filter(item => {
+        if (!uniqueCovers.has(item.cover)) {
+          uniqueCovers.add(item.cover)
+          return true
+        }
+        return false
+      })
+    }
+
     // 折叠状态下只显示前 9 项
-    if (!$.state.expand) {
+    if (!expand) {
       list = list.slice(0, 9)
     }
 
@@ -99,6 +111,13 @@ function List() {
             />
           )
         })}
+        {expand && unique && (
+          <Flex style={styles.placeholder} justify='center'>
+            <Text type='tinygrailText' size={20} bold>
+              +{$.charaTemple.list.length - list.length}
+            </Text>
+          </Flex>
+        )}
       </Flex>
     )
   })

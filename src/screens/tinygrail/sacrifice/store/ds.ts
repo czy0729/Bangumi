@@ -31,6 +31,9 @@ export const EXCLUDE_STATE = {
 
   /** 展开所有圣殿 */
   expand: false,
+
+  /** 圣殿保留唯一封面 */
+  unique: true,
   auctionLoading: false,
   auctionAmount: 0,
   auctionPrice: 0 as string | number,

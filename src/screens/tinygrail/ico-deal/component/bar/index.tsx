@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Iconfont, Text, Touchable } from '@components'
-import { useStore } from '@stores'
+import { _, useStore } from '@stores'
 import { stl, toFixed } from '@utils'
 import { ob } from '@utils/decorators'
 import { getLevelBackground } from '@tinygrail/_/utils'
@@ -21,9 +21,10 @@ function Bar({ style, total = 0, level, next = 1 }: Props) {
   const styles = memoStyles()
   const { step } = $.state
   const percent = toFixed((total / next) * 100, 0)
+  const iconColor = _.select('rgba(0, 0, 0, 0.16)', 'rgba(255, 255, 255, 0.28)')
   return (
     <View style={stl(styles.ico, style)}>
-      <Text style={styles.iconText} type='tinygrailPlain' align='center' shadow>
+      <Text style={styles.iconText} type='tinygrailPlain' align='center' bold shadow>
         lv.{level} · {percent}%
       </Text>
       <View style={[styles.icoBar, styles.icoBarDark]}>
@@ -48,7 +49,7 @@ function Bar({ style, total = 0, level, next = 1 }: Props) {
             $.onStep(0)
           }}
         >
-          <Iconfont name='md-navigate-before' size={20} color={'rgba(255, 255, 255, 0.24)'} />
+          <Iconfont name='md-navigate-before' size={20} color={iconColor} />
         </Touchable>
       )}
       <Touchable
@@ -57,7 +58,7 @@ function Bar({ style, total = 0, level, next = 1 }: Props) {
           $.onStep(1)
         }}
       >
-        <Iconfont name='md-navigate-next' size={20} color={'rgba(255, 255, 255, 0.24)'} />
+        <Iconfont name='md-navigate-next' size={20} color={iconColor} />
       </Touchable>
     </View>
   )

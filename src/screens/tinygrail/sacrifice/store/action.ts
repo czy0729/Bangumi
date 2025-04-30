@@ -412,6 +412,18 @@ export default class Action extends Fetch {
     })
   }
 
+  /** 唯一圣殿封面 */
+  toggleUnique = () => {
+    const { unique } = this.state
+    t('资产重组.唯一圣殿', {
+      unique: !unique
+    })
+
+    this.setState({
+      unique: !unique
+    })
+  }
+
   /** 记忆上次出价 */
   cacheLastAuction = (price: string | number, amount: number) => {
     const lastAuction = {

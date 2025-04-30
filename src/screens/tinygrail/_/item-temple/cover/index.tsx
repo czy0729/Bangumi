@@ -52,7 +52,7 @@ function Cover({ level, cover, coverSize = 150, name, refine, event, onPress }) 
           styles.wrap,
           {
             borderColor: colorLevel,
-            borderWidth: colorLevel ? _.select(1, 2) : 0
+            borderWidth: colorLevel ? _.select(1.5, 2) : 0
           }
         ]}
       >

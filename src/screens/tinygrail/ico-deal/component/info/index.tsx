@@ -82,12 +82,12 @@ const Info = () => {
             <>
               <Text type='ask' size={textSize} bold>
                 {' '}
-                lv{level}
+                lv{level - 1}
               </Text>
               {futureICO && (
                 <Text type='tinygrailText' size={textSize} bold>
                   {' '}
-                  ({futureICO.level})
+                  (至lv{futureICO.level})
                 </Text>
               )}
             </>
