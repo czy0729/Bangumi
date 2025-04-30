@@ -31,5 +31,20 @@ export const memoStyles = _.memoStyles(() => ({
     top: 3,
     right: 0,
     left: 0
+  },
+  btn: {
+    position: 'absolute',
+    zIndex: 1,
+    paddingVertical: 4,
+    paddingHorizontal: 6,
+    marginTop: -2
+  },
+  btnAdd: {
+    right: 0,
+    marginRight: -3
+  },
+  btnMinus: {
+    left: 0,
+    marginLeft: -3
   }
 }))

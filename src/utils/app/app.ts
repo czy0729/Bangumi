@@ -198,36 +198,86 @@ export function formatTime(time: string | number | Date) {
   return `${day}d ago`
 }
 
-/** 小圣杯计算 ICO 等级 */
-export function caculateICO(ico: { users?: any; total?: number; Users?: number }) {
+/**
+ * 计算小圣杯 ICO 等级及相关数据
+ * @param ico - ICO 数据对象
+ * @param ico.users - 当前用户数
+ * @param ico.total - 当前总资金
+ * @param ico.Users - 备用用户数字段(兼容不同命名)
+ * @returns ICO 等级信息对象
+ */
+export function caculateICO(ico: { users?: number; total?: number; Users?: number }) {
+  // 初始化基础值
   let level = 0
-  let price = 10
+
+  const initialPrice = 10
+  let price = initialPrice
+
+  const baseAmount = 10000
   let amount = 0
-  let next = 600000
-  let nextUser = 15
 
-  // 人数等级
-  const heads = ico.users
-  let headLevel = Math.floor((heads - 10) / 5)
-  if (headLevel < 0) headLevel = 0
+  const initialThreshold = 600000
+  let nextThreshold = initialThreshold
 
-  // 资金等级
-  while (ico.total >= next && level < headLevel) {
+  const baseUserCount = 15
+  let nextUser = baseUserCount
+
+  // 计算基于用户数的等级
+  const currentUserCount = ico.users ?? 0
+  const userLevel = Math.max(0, Math.floor((currentUserCount - 10) / 5))
+
+  // 计算基于资金的等级
+  const currentTotal = ico.total ?? 0
+  while (currentTotal >= nextThreshold && level < userLevel) {
     level += 1
-    next += Math.pow(level + 1, 2) * 100000
+    nextThreshold += Math.pow(level + 1, 2) * 100000
   }
 
-  amount = 10000 + (level - 1) * 7500
-  price = (ico.total - 500000) / amount
+  // 计算最终值
+  amount = baseAmount + (level - 1) * 7500
+  price = (currentTotal - 500000) / amount
   nextUser = (level + 1) * 5 + 10
 
   return {
     level,
-    next,
+    next: nextThreshold,
     price,
     amount,
     nextUser,
-    users: nextUser - ico.Users
+    users: nextUser - (ico.Users ?? ico.users ?? 0)
+  }
+}
+
+/**
+ * 计算当前 ICO 数据在 step 步后的等级数据
+ * @param ico 当前 ICO 数据
+ * @param step 要计算的步数 (1=下一级，2=下两级，默认1)
+ */
+export function calculateFutureICO(
+  ico: { users?: any; total?: number; Users?: number },
+  step: number = 1
+) {
+  // 计算当前等级
+  const current = caculateICO(ico)
+
+  // 模拟升级到目标等级
+  const targetLevel = current.level + step
+  let targetNext = current.next
+  const targetAmount = 10000 + (targetLevel - 1) * 7500
+
+  // 计算中间所有等级的next阈值
+  for (let l = current.level + 1; l <= targetLevel; l++) {
+    targetNext += Math.pow(l + 1, 2) * 100000
+  }
+
+  // 计算目标等级的数据
+  return {
+    level: targetLevel,
+    next: targetNext,
+    price: (ico.total - 500000) / targetAmount,
+    amount: targetAmount,
+    nextUser: (targetLevel + 1) * 5 + 10,
+    users: (targetLevel + 1) * 5 + 10 - (ico.Users ?? ico.users ?? 0)
   }
 }
 

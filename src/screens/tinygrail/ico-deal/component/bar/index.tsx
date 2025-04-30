@@ -6,21 +6,25 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Text } from '@components'
+import { Iconfont, Text, Touchable } from '@components'
+import { useStore } from '@stores'
 import { stl, toFixed } from '@utils'
 import { ob } from '@utils/decorators'
 import { getLevelBackground } from '@tinygrail/_/utils'
+import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props } from './types'
 
 function Bar({ style, total = 0, level, next = 1 }: Props) {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
+  const { step } = $.state
   const percent = toFixed((total / next) * 100, 0)
   return (
     <View style={stl(styles.ico, style)}>
       <Text style={styles.iconText} type='tinygrailPlain' align='center' shadow>
-        lv.{level} {percent}%
+        lv.{level} · {percent}%
       </Text>
       <View style={[styles.icoBar, styles.icoBarDark]}>
         <View
@@ -34,6 +38,27 @@ function Bar({ style, total = 0, level, next = 1 }: Props) {
           ]}
         />
       </View>
+      {step > 0 && (
+        <Touchable
+          style={[styles.btn, styles.btnMinus]}
+          onPress={() => {
+            $.onStep(-1)
+          }}
+          onLongPress={() => {
+            $.onStep(0)
+          }}
+        >
+          <Iconfont name='md-navigate-before' size={20} color={'rgba(255, 255, 255, 0.24)'} />
+        </Touchable>
+      )}
+      <Touchable
+        style={[styles.btn, styles.btnAdd]}
+        onPress={() => {
+          $.onStep(1)
+        }}
+      >
+        <Iconfont name='md-navigate-next' size={20} color={'rgba(255, 255, 255, 0.24)'} />
+      </Touchable>
     </View>
   )
 }

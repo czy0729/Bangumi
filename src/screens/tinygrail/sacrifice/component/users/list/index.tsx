@@ -43,63 +43,66 @@ function List() {
 
     return (
       <Flex style={_.mt.sm} wrap='wrap' align='start'>
-        {list.map(item => (
-          <Flex key={item.nickName} style={styles.item}>
-            {$.state.showUsers && (
-              <View style={styles.user}>
-                <UserStatus
-                  style={styles.userStatus}
-                  last={getTimestamp((item.lastActiveDate || '').replace('T', ' '))}
-                  mini
-                >
-                  <Avatar
-                    navigation={navigation}
-                    src={item.avatar}
-                    size={36}
-                    userId={item.name}
-                    name={item.nickName}
-                    skeletonType='tinygrail'
-                    event={EVENT}
-                    params={PARAMS}
-                  />
-                </UserStatus>
-              </View>
-            )}
-            <Flex.Item>
-              <Flex style={_.mt.xs}>
-                <Rank style={styles.rank} value={item.lastIndex} />
-                <Flex.Item>
-                  <Text type='tinygrailPlain' size={11} bold numberOfLines={1}>
-                    {item.nickName}
-                  </Text>
-                </Flex.Item>
-              </Flex>
-              <Text style={_.mt.xs} type='tinygrailText' size={10} bold numberOfLines={1}>
-                {usersSort === '最近活跃'
-                  ? `${lastDate(getTimestamp(item.lastActiveDate))} · `
-                  : ''}
-                {item.balance
-                  ? `+${formatNumber(item.balance, 0)} (${toFixed(
-                      (item.balance / $.total) * 100,
-                      2
-                    )}%)`
-                  : `#${item.index + 1}`}
-              </Text>
-              {!!item.balance && (
-                <View style={styles.progress}>
-                  <View
-                    style={[
-                      styles.progressBar,
-                      {
-                        width: `${Math.max(0.04, item.balance / ($.total || 10000)) * 100}%`
-                      }
-                    ]}
-                  />
+        {list.map(item => {
+          const showAmount = !!item.balance
+          return (
+            <Flex key={item.nickName} style={styles.item}>
+              {$.state.showUsers && (
+                <View style={styles.user}>
+                  <UserStatus
+                    style={styles.userStatus}
+                    last={getTimestamp((item.lastActiveDate || '').replace('T', ' '))}
+                    mini
+                  >
+                    <Avatar
+                      navigation={navigation}
+                      src={item.avatar}
+                      size={showAmount ? 46 : 36}
+                      userId={item.name}
+                      name={item.nickName}
+                      skeletonType='tinygrail'
+                      event={EVENT}
+                      params={PARAMS}
+                    />
+                  </UserStatus>
                 </View>
               )}
-            </Flex.Item>
-          </Flex>
-        ))}
+              <Flex.Item>
+                <Flex style={_.mt.xs}>
+                  <Rank style={styles.rank} value={item.lastIndex} />
+                  <Flex.Item>
+                    <Text type='tinygrailPlain' size={11} bold numberOfLines={1}>
+                      {item.nickName}
+                    </Text>
+                  </Flex.Item>
+                </Flex>
+                <Text style={_.mt.xs} type='tinygrailText' size={10} bold numberOfLines={1}>
+                  {usersSort === '最近活跃'
+                    ? `${lastDate(getTimestamp(item.lastActiveDate))} · `
+                    : ''}
+                  {item.balance
+                    ? `+${formatNumber(item.balance, 0)} (${toFixed(
+                        (item.balance / $.total) * 100,
+                        2
+                      )}%)`
+                    : `#${item.index + 1}`}
+                </Text>
+                {showAmount && (
+                  <View style={styles.progress}>
+                    <View
+                      style={[
+                        styles.progressBar,
+                        {
+                          width: `${Math.max(0.04, item.balance / ($.total || 10000)) * 100}%`
+                        }
+                      ]}
+                    />
+                  </View>
+                )}
+              </Flex.Item>
+            </Flex>
+          )
+        })}
       </Flex>
     )
   })

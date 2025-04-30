@@ -8,7 +8,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { Avatar, Flex, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
-import { caculateICO, formatNumber, tinygrailOSS } from '@utils'
+import { caculateICO, calculateFutureICO, formatNumber, tinygrailOSS } from '@utils'
 import { ob } from '@utils/decorators'
 import Rank from '@tinygrail/_/rank'
 import { Ctx } from '../../types'
@@ -18,9 +18,11 @@ import { memoStyles } from './styles'
 function Initial() {
   const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
+  const { step } = $.state
   const { users } = $.chara
   const { list } = $.initial
   const { nextUser, amount } = caculateICO($.chara)
+  const futureICO = step ? calculateFutureICO($.chara, step) : null
   return (
     <View style={styles.container}>
       <Text type='tinygrailPlain' size={12} lineHeight={16}>
@@ -28,6 +30,12 @@ function Initial() {
           参与者 {users}
         </Text>{' '}
         / {nextUser}
+        {futureICO && (
+          <Text type='tinygrailText' size={12} lineHeight={16}>
+            {' '}
+            ({futureICO.nextUser})
+          </Text>
+        )}
       </Text>
       <Flex style={_.mt.sm} wrap='wrap'>
         {list.map((item, index: number) => {

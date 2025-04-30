@@ -86,4 +86,11 @@ export default class Action extends Computed {
       amount: _amount
     })
   }
+
+  onStep = (value: 1 | -1 | 0 = 1) => {
+    this.setState({
+      step: value === 0 ? 0 : this.state.step + value
+    })
+    feedback(true)
+  }
 }

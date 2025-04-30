@@ -10,6 +10,7 @@ import { CountDown, Flex, Iconfont, Image, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import {
   caculateICO,
+  calculateFutureICO,
   formatNumber,
   getCoverLarge,
   getTimestamp,
@@ -23,18 +24,31 @@ import Bar from '../bar'
 import { COMPONENT, MAX_SIZE } from './ds'
 import { memoStyles } from './styles'
 
-function Info() {
+const Info = () => {
   const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
+
   const { icon, monoId, name, total, end = '', bonus } = $.chara
-  const { next, level, price, amount } = caculateICO($.chara)
+  const icoData = caculateICO($.chara)
+  const { next, level, price, amount } = icoData
   const endTime = getTimestamp(end.replace('T', ' '))
-  const EVENT = {
-    id: 'ICO交易.封面图查看',
-    data: {
+
+  const { step } = $.state
+  const futureICO = step ? calculateFutureICO($.chara, step) : null
+  const textSize = step ? 14 : 15
+
+  const handlePress = () => {
+    navigation.push('Mono', {
+      monoId: `character/${monoId}`,
+      _name: name
+    })
+
+    t('ICO交易.跳转', {
+      to: 'Mono',
       monoId
-    }
-  } as const
+    })
+  }
+
   return (
     <View style={styles.container}>
       {!!icon && (
@@ -45,66 +59,82 @@ function Info() {
             imageViewer
             imageViewerSrc={tinygrailOSS(getCoverLarge(icon), 480)}
             skeletonType='tinygrail'
-            event={EVENT}
+            event={{
+              id: 'ICO交易.封面图查看',
+              data: { monoId }
+            }}
           />
         </Flex>
       )}
-      <Touchable
-        style={_.mt.md}
-        onPress={() => {
-          t('ICO交易.跳转', {
-            to: 'Mono',
-            monoId
-          })
 
-          navigation.push('Mono', {
-            monoId: `character/${monoId}`,
-            _name: name
-          })
-        }}
-      >
+      <Touchable style={_.mt.md} onPress={handlePress}>
         <Flex justify='center'>
-          <Text type='tinygrailPlain' size={15} bold>
-            #{monoId} -
-          </Text>
-          {!!level && (
-            <Text type='ask' size={15} bold>
-              {' '}
-              lv{level}{' '}
-            </Text>
-          )}
-          <Text type='tinygrailPlain' size={15} bold>
-            {HTMLDecode(name)}
+          <Text type='tinygrailPlain' size={textSize} bold>
+            #{monoId} - {HTMLDecode(name)}
           </Text>
           {!!bonus && (
-            <Text type='warning' size={15} bold>
+            <Text type='warning' size={textSize} bold>
               {' '}
               x{bonus}
             </Text>
           )}
+          {level ? (
+            <>
+              <Text type='ask' size={textSize} bold>
+                {' '}
+                lv{level}
+              </Text>
+              {futureICO && (
+                <Text type='tinygrailText' size={textSize} bold>
+                  {' '}
+                  ({futureICO.level})
+                </Text>
+              )}
+            </>
+          ) : null}
           <Iconfont name='md-navigate-next' color={_.colorTinygrailText} />
         </Flex>
       </Touchable>
+
       <Flex style={_.mt.sm} justify='center'>
-        <Text type='tinygrailText' size={15}>
+        <Text type='tinygrailText' size={textSize}>
           剩余时间:{' '}
         </Text>
-        <CountDown
-          style={{
-            color: _.colorTinygrailText
-          }}
-          size={15}
-          end={endTime}
-        />
+        <CountDown style={{ color: _.colorTinygrailText }} size={textSize} end={endTime} />
       </Flex>
-      <Text style={_.mt.md} type='tinygrailPlain' align='center'>
+
+      <Text style={_.mt.md} type='tinygrailPlain' size={textSize} align='center'>
         已筹
-        <Text type='warning'> {formatNumber(total, 0, $.short)}</Text> / 下一等级需要{' '}
-        {formatNumber(next, 0, $.short)}
+        <Text type='warning' size={textSize}>
+          {' '}
+          {formatNumber(total, 0, $.short)}
+        </Text>{' '}
+        / 下一等级需要 {formatNumber(next, 0, $.short)}
+        {futureICO && (
+          <Text type='tinygrailText' size={textSize}>
+            {' '}
+            ({formatNumber(futureICO.next, 0, $.short)})
+          </Text>
+        )}
       </Text>
-      <Text style={_.mt.sm} type='tinygrailPlain' align='center'>
-        预计发行量: 约 {formatNumber(amount, 0, $.short)} 股 / 发行价 ₵{formatNumber(price)}
+
+      <Text style={_.mt.sm} type='tinygrailPlain' size={textSize} align='center'>
+        预计发行量: 约 {formatNumber(amount, 0, $.short)}
+        {futureICO && (
+          <Text type='tinygrailText' size={textSize}>
+            {' '}
+            ({formatNumber(futureICO.amount, 0, $.short)})
+          </Text>
+        )}{' '}
+        股 / 发行价 ₵{formatNumber(price)}
+        {futureICO && (
+          <Text type='tinygrailText' size={textSize}>
+            {' '}
+            (₵{formatNumber(futureICO.price, 0, $.short)})
+          </Text>
+        )}
       </Text>
+
       <Bar style={_.mt.md} total={total} level={level} next={next} />
     </View>
   )

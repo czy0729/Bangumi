@@ -11,7 +11,7 @@ export default class ScreenTinygrailICODeal extends Action {
   init = () => {
     const { _loaded } = this.state
     const current = getTimestamp()
-    const needFetch = !_loaded || current - _loaded > 60
+    const needFetch = !_loaded || current - Number(_loaded) > 60
     this.setState({
       _loaded: needFetch ? current : _loaded
     })
