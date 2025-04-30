@@ -8,7 +8,6 @@ import React, { useCallback } from 'react'
 import { Loading } from '@components'
 import { PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
-import { keyExtractor } from '@utils'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import TinygrailItem from '@tinygrail/_/item'
@@ -39,7 +38,6 @@ function List({ id }: Props) {
     return (
       <PaginationList2
         {...TINYGRAIL_LIST_PROPS}
-        keyExtractor={keyExtractor}
         data={list.list}
         limit={25}
         renderItem={renderItem}

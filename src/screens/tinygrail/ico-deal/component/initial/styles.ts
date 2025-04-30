@@ -12,9 +12,22 @@ export const memoStyles = _.memoStyles(() => ({
     marginTop: _.md
   },
   item: {
-    width: '47%',
+    width: '50%',
     paddingVertical: _.sm,
-    paddingRight: _.md,
-    marginRight: '3%'
+    paddingRight: 20
+  },
+  progress: {
+    maxWidth: Math.floor(_.window.contentWidth * 0.33),
+    height: 2,
+    marginRight: _.sm,
+    backgroundColor: _.select(_.colorBorder, _.colorTinygrailIcon),
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
+  },
+  progressBar: {
+    height: 2,
+    backgroundColor: _.colorSuccess,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
   }
 }))

@@ -6,6 +6,8 @@
  */
 export const COMPONENT = 'TinygrailICO'
 
+export const HM = ['tinygrail/ico', 'TinygrailICO'] as const
+
 export const TABS = [
   {
     title: '最多资金',

@@ -9,7 +9,6 @@ import { SafeAreaView } from 'react-navigation'
 import { useObserver } from 'mobx-react'
 import { ListView, Loading } from '@components'
 import { _, tinygrailStore } from '@stores'
-import { keyExtractor } from '@utils'
 import { TINYGRAIL_LIST_PROPS } from '@tinygrail/styles'
 // import ItemsFilter from '../items-filter'
 import Log from '../log'
@@ -32,7 +31,6 @@ function List({ navigation, onToggle, onHeaderRefresh, onFooterRefresh }: Props)
         {/* <ItemsFilter value={filter} onValueChange={setFilter} /> */}
         <ListView
           {...TINYGRAIL_LIST_PROPS}
-          keyExtractor={keyExtractor}
           contentContainerStyle={styles.contentContainerStyle}
           data={tinygrailStore.starLogs}
           renderItem={handleRenderItem}

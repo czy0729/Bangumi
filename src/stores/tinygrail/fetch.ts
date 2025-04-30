@@ -137,12 +137,14 @@ export default class Fetch extends Computed {
    *  - 20210306 optimize
    */
   fetchList = async (key: ListKey = defaultKey) => {
-    const result = await this.fetch(API_TINYGRAIL_LIST(key))
-    if (result.data.State === 0) {
-      const iconsCache = {}
-      const data = {
-        ...LIST_EMPTY,
-        list: (result.data.Value.Items || result.data.Value).map(
+    const STATE_KEY = key
+
+    try {
+      const result = await this.fetch(API_TINYGRAIL_LIST(key))
+      const { State, Value } = result.data
+      if (State === 0) {
+        const iconsCache = {}
+        const list = (Value.Items || Value).map(
           (
             item: {
               CharacterId: any
@@ -159,9 +161,9 @@ export default class Fetch extends Computed {
             if (item.End) {
               return {
                 ...character,
-                _index: index + 1,
                 id,
-                icoId: item.End ? item.Id : 0
+                icoId: item.End ? item.Id : 0,
+                _index: index + 1
               }
             }
 
@@ -170,19 +172,20 @@ export default class Fetch extends Computed {
               _index: index + 1
             }
           }
-        ),
-        pagination: paginationOnePage,
-        _loaded: getTimestamp()
+        )
+        this.setState({
+          [STATE_KEY]: {
+            list,
+            pagination: { page: 1, pageTotal: 1 },
+            _loaded: getTimestamp()
+          }
+        })
+        this.save(STATE_KEY)
+        this.updateIconsCache(iconsCache)
       }
+    } catch (error) {}
 
-      this.updateIconsCache(iconsCache)
-      this.setState({
-        [key]: data
-      })
-      this.save(key)
-    }
-
-    return this.state[key]
+    return this.state[STATE_KEY]
   }
 
   /** 精炼排行 */
@@ -1024,39 +1027,41 @@ export default class Fetch extends Computed {
   }
 
   /** ICO 参与者 */
-  fetchInitial = async (monoId: Id) => {
-    // TotalPages
-    const result = await this.fetch(API_TINYGRAIL_INITIAL(monoId))
+  fetchInitial = async (monoId: Id, refresh: boolean = false) => {
+    const STATE_KEY = 'initial'
+    const ITEM_KEY = monoId
+    const { list, pagination } = this[STATE_KEY](ITEM_KEY)
+    const nextPage = refresh ? 1 : pagination.page + 1
 
-    let data = {
-      ...LIST_EMPTY
-    }
-    if (result.data.State === 0) {
-      data = {
-        ...LIST_EMPTY,
-        list: result.data.Value.Items.map(item => ({
-          id: item.InitialId,
-          avatar: item.Avatar,
-          userId: item.UserId,
-          state: item.State,
-          nickName: HTMLDecode(item.NickName),
-          name: item.Name,
-          amount: item.Amount,
-          lastIndex: item.LastIndex
-        })),
-        pagination: paginationOnePage,
-        _loaded: getTimestamp()
+    try {
+      const result = await this.fetch(API_TINYGRAIL_INITIAL(monoId, nextPage))
+      const { State, Value } = result.data
+      if (State === 0) {
+        const next = mapItems(Value.Items, {
+          id: 'InitialId',
+          avatar: 'Avatar',
+          userId: 'UserId',
+          state: 'State',
+          nickName: item => HTMLDecode(item.NickName),
+          name: 'Name',
+          amount: 'Amount',
+          lastIndex: 'LastIndex'
+        })
+        this.setState({
+          [STATE_KEY]: {
+            [ITEM_KEY]: {
+              list: refresh ? next : [...list, ...next],
+              pagination: refresh ? { page: 1, pageTotal: 100 } : { ...pagination, page: nextPage },
+              _loaded: getTimestamp()
+            }
+          }
+        })
       }
+    } catch (error) {
+      console.log(error)
     }
 
-    const key = 'initial'
-    this.setState({
-      [key]: {
-        [monoId]: data
-      }
-    })
-
-    return data
+    return this[STATE_KEY](ITEM_KEY)
   }
 
   /** 资金日志 */

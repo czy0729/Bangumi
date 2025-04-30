@@ -4,35 +4,37 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-01-14 00:06:37
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Loading } from '@components'
 import { PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
-import { keyExtractor } from '@utils'
-import { ob } from '@utils/decorators'
-import { refreshControlProps } from '@tinygrail/styles'
+import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
+import { TINYGRAIL_LIST_PROPS } from '@tinygrail/styles'
 import { Ctx, TabsKey } from '../../types'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
 
 function List({ id }: { id: TabsKey }) {
-  const { $ } = useStore<Ctx>()
-  const list = $.list(id)
-  if (!list._loaded) return <Loading style={_.container.flex} color={_.colorTinygrailText} />
+  r(COMPONENT)
 
-  return (
-    <PaginationList2
-      keyExtractor={keyExtractor}
-      style={_.container.flex}
-      contentContainerStyle={_.container.bottom}
-      refreshControlProps={refreshControlProps}
-      footerTextType='tinygrailText'
-      data={list.list}
-      limit={24}
-      renderItem={renderItem}
-      onHeaderRefresh={() => $.fetchList(id)}
-    />
-  )
+  const { $ } = useStore<Ctx>()
+
+  return useObserver(() => {
+    const list = $.list(id)
+    const handleHeaderRefresh = useCallback(() => $.fetchList(id), [])
+    if (!list._loaded) return <Loading style={_.container.flex} color={_.colorTinygrailText} />
+
+    return (
+      <PaginationList2
+        {...TINYGRAIL_LIST_PROPS}
+        data={list.list}
+        limit={24}
+        renderItem={renderItem}
+        onHeaderRefresh={handleHeaderRefresh}
+      />
+    )
+  })
 }
 
-export default ob(List, COMPONENT)
+export default List

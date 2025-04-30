@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Avatar, Flex, Text } from '@components'
+import { Avatar, Flex, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { caculateICO, formatNumber, tinygrailOSS } from '@utils'
 import { ob } from '@utils/decorators'
@@ -20,7 +20,7 @@ function Initial() {
   const styles = memoStyles()
   const { users } = $.chara
   const { list } = $.initial
-  const { nextUser } = caculateICO($.chara)
+  const { nextUser, amount } = caculateICO($.chara)
   return (
     <View style={styles.container}>
       <Text type='tinygrailPlain' size={12} lineHeight={16}>
@@ -30,34 +30,76 @@ function Initial() {
         / {nextUser}
       </Text>
       <Flex style={_.mt.sm} wrap='wrap'>
-        {list.map((item, index) => (
-          <Flex key={index} style={styles.item}>
-            <Avatar
-              navigation={navigation}
-              src={tinygrailOSS(item.avatar)}
-              size={32}
-              userId={item.name}
-              name={item.nickName}
-              borderColor='transparent'
-              skeletonType='tinygrail'
-              event={EVENT}
-            />
-            <Flex.Item style={_.ml.sm}>
-              <Flex>
-                <Rank value={item.lastIndex} />
-                <Text type='tinygrailPlain' size={12} bold numberOfLines={1}>
-                  {item.nickName}
+        {list.map((item, index: number) => {
+          const showAmount = !!item.amount
+          let percent = 0
+          if (showAmount) {
+            percent = item.amount / ($.chara.total || 10000)
+          }
+
+          return (
+            <Flex key={item.name} style={styles.item}>
+              <Avatar
+                navigation={navigation}
+                src={tinygrailOSS(item.avatar)}
+                size={showAmount ? 46 : 36}
+                userId={item.name}
+                name={item.nickName}
+                borderColor='transparent'
+                skeletonType='tinygrail'
+                event={EVENT}
+              />
+              <Flex.Item style={_.ml.sm}>
+                <Flex>
+                  <Rank value={item.lastIndex} />
+                  <Text type='tinygrailPlain' size={12} bold numberOfLines={1}>
+                    {item.nickName}
+                  </Text>
+                </Flex>
+                <Text style={_.mt.xs} type='tinygrailText' size={10} bold>
+                  {showAmount && (
+                    <Text type='warning' size={10} bold>
+                      +{formatNumber(item.amount, 0, $.short)}{' '}
+                    </Text>
+                  )}
+                  #{index + 1}
                 </Text>
-              </Flex>
-              {!!item.amount && (
-                <Text type='warning' size={10} lineHeight={13} bold>
-                  +{formatNumber(item.amount, 0, $.short)}
-                </Text>
-              )}
-            </Flex.Item>
-          </Flex>
-        ))}
+                {showAmount && (
+                  <Flex style={_.mt.xxs}>
+                    <Flex.Item>
+                      <View style={styles.progress}>
+                        <View
+                          style={[
+                            styles.progressBar,
+                            {
+                              width: `${Math.max(0.04, percent) * 100}%`
+                            }
+                          ]}
+                        />
+                      </View>
+                    </Flex.Item>
+                    <Text type='tinygrailText' size={10} bold>
+                      {formatNumber(Math.ceil(amount * percent), 0)} 股
+                    </Text>
+                  </Flex>
+                )}
+              </Flex.Item>
+            </Flex>
+          )
+        })}
       </Flex>
+      {!!list.length && list.length % 20 === 0 && (
+        <Touchable
+          style={_.mt.md}
+          onPress={() => {
+            $.fetchInitial()
+          }}
+        >
+          <Text type='tinygrailText' size={13} bold align='center'>
+            [加载更多]
+          </Text>
+        </Touchable>
+      )}
     </View>
   )
 }

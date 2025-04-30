@@ -12,10 +12,13 @@ import Computed from './computed'
 export default class Action extends Computed {
   prev: any
 
+  fetchInitial = (refresh = false) => {
+    return tinygrailStore.fetchInitial(this.chara.id, refresh)
+  }
+
   refresh = async () => {
     await Promise.all([tinygrailStore.fetchCharacters([this.monoId]), tinygrailStore.fetchAssets()])
-
-    return tinygrailStore.fetchInitial(this.chara.id)
+    return this.fetchInitial(true)
   }
 
   /** 注资 */
@@ -24,7 +27,7 @@ export default class Action extends Computed {
     if (loading) return
 
     if (!amount || amount < 5000) {
-      info('必须大于5000')
+      info('必须大于 5000')
       return
     }
 

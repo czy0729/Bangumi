@@ -8,7 +8,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { Button, Flex, Input, Slider as SliderComp, Text } from '@components'
 import { _, useStore } from '@stores'
-import { debounce, formatNumber } from '@utils'
+import { confirm, debounce, formatNumber } from '@utils'
 import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
@@ -38,7 +38,14 @@ function Slider() {
             type='bid'
             radius={false}
             loading={loading}
-            onPress={$.doSubmit}
+            onPress={() => {
+              if (amount > 100000) {
+                confirm(`确定注资 ${formatNumber(amount)}`, $.doSubmit)
+                return
+              }
+
+              $.doSubmit()
+            }}
           >
             确定
           </Button>

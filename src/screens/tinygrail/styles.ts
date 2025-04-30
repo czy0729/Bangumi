@@ -5,6 +5,7 @@
  * @Last Modified time: 2025-04-22 04:55:43
  */
 import { _ } from '@stores'
+import { keyExtractor } from '@utils'
 
 export const withHeaderParams = () => ({
   headerStyle: {
@@ -24,6 +25,7 @@ export const refreshControlProps = {
 }
 
 export const TINYGRAIL_LIST_PROPS = {
+  keyExtractor,
   style: _.container.flex,
   contentContainerStyle: _.container.bottom,
   refreshControlProps,

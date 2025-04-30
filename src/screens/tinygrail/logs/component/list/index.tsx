@@ -9,7 +9,6 @@ import { useObserver } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
-import { keyExtractor } from '@utils'
 import { r } from '@utils/dev'
 import { TINYGRAIL_LIST_PROPS } from '@tinygrail/styles'
 import { Ctx } from '../../types'
@@ -47,7 +46,6 @@ function List({ title = '全部' }: Props) {
         {title === '道具' && <ItemsFilter />}
         <PaginationList2
           {...TINYGRAIL_LIST_PROPS}
-          keyExtractor={keyExtractor}
           data={createFilteredData($.balance, title).list}
           limit={50}
           renderItem={renderItem}

@@ -172,7 +172,7 @@ function Detail(props) {
             bold={icoHighlight}
           >
             {TEXT_SPLIT}
-            当前{icoUser}人
+            当前 {icoUser} 人
           </Text>
         )}{' '}
         {!stockPreview && <Stars value={stars} />}
