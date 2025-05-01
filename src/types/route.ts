@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-25 19:15:07
+ * @Last Modified time: 2025-05-01 16:08:17
  */
 import { ImageSourcePropType } from 'react-native'
 import {
@@ -642,10 +642,23 @@ export type RouteActions = Route<
 export type RouteInformation = (
   path: 'Information',
   params: {
+    /** 标题 */
     title: string
-    message: string[]
+
+    /** 正文 (浏览器端: 字符串逗号分割) */
+    message: string | string[]
+
+    /** 是否会员相关 */
     advance?: boolean
-    images?: string[]
+
+    /** 缩略图 (浏览器端: 字符串逗号分割) */
+    images?: string | string[]
+
+    /** 引用地址 */
+    url?: string
+
+    /** AI 相关 */
+    ai?: boolean
   }
 ) => any
 

@@ -25,6 +25,11 @@ export function assets(item: { state?: any; assets?: any }) {
   return item.state || item.assets || 0
 }
 
+/** 取精炼 */
+export function refine(item: { refine?: any }) {
+  return item.refine || 0
+}
+
 /** 取补充数量 */
 export function charge(item: { sacrifices?: any; assets?: any }) {
   return (item.sacrifices || 0) - (item.assets || 0)

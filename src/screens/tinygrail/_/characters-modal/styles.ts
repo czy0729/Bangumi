@@ -29,8 +29,8 @@ export const memoStyles = _.memoStyles(() => ({
     zIndex: 1,
     top: 0,
     right: 0,
-    marginTop: -28,
-    marginRight: 8
+    marginTop: -30,
+    marginRight: 10
   },
   bottom: {
     height: 40,

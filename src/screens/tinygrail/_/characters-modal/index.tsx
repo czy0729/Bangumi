@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-22 00:20:18
+ * @Last Modified time: 2025-05-02 06:02:06
  */
 import React from 'react'
 import { View } from 'react-native'
 import { computed } from 'mobx'
 import { Button, Flex, Iconfont, Modal, Text } from '@components'
-import { Popover } from '@_'
+import { IconTouchable, Popover } from '@_'
 import { _, tinygrailStore } from '@stores'
 import {
-  alert,
   formatNumber,
   getStorage,
   getTimestamp,
   info,
+  navigationReference,
   queue,
   setStorage,
   stl,
@@ -31,12 +31,12 @@ import Item from './item'
 import ItemBottom from './item-bottom'
 import List from './list'
 import SearchInput from './search-input'
-import { assets, bottomTextType, charge, cover, lv, rk } from './utils'
+import { assets, bottomTextType, charge, cover, lv, refine, rk } from './utils'
 import { HIT_SLOP, ITEMS_NOTIFY, ITEMS_TYPE, ITEMS_USED, NAMESPACE } from './ds'
 import { memoStyles } from './styles'
 import { PickItem, Props, State } from './types'
 
-export { ITEMS_TYPE, ITEMS_USED }
+export { ITEMS_TYPE, ITEMS_USED, ITEMS_NOTIFY }
 
 class CharactersModal extends React.Component<Props, State> {
   static defaultProps: Props = {
@@ -283,7 +283,20 @@ class CharactersModal extends React.Component<Props, State> {
     this.setState({
       loading: true
     })
-    await onSubmit({
+
+    setTimeout(() => {
+      this.setState({
+        loading: false
+      })
+
+      if (this.isStarDust) {
+        this.setState({
+          amount: 0
+        })
+      }
+    }, 1000)
+
+    return onSubmit({
       title,
       monoId: leftItem.id,
       toMonoId: rightItem ? rightItem.id : 0,
@@ -292,19 +305,21 @@ class CharactersModal extends React.Component<Props, State> {
       leftItem,
       rightItem
     })
-
-    this.setState({
-      loading: false
-    })
-    if (this.isStarDust) {
-      this.setState({
-        amount: 0
-      })
-    }
   }
 
-  onAlert = () => {
-    alert(this.alert, '使用说明')
+  onInformation = () => {
+    const { title } = this.props
+    if (!ITEMS_NOTIFY[title]) return
+
+    const navigation = navigationReference()
+    if (!navigation) return
+
+    const { onClose } = this.props
+    if (typeof onClose === 'function') onClose()
+
+    setTimeout(() => {
+      navigation.push('Information', ITEMS_NOTIFY[title])
+    }, 800)
   }
 
   // -------------------- fetch --------------------
@@ -381,6 +396,8 @@ class CharactersModal extends React.Component<Props, State> {
 
   // -------------------- computed data --------------------
   @computed get left() {
+    console.log('left')
+
     const { rightItem, leftValue, isTemple } = this.state
 
     // 虚空道标 (消耗我的圣殿)
@@ -471,6 +488,8 @@ class CharactersModal extends React.Component<Props, State> {
   }
 
   @computed get computedLeft() {
+    console.log('computedLeft')
+
     const { leftFilter } = this.state
     if (!leftFilter || !this.left?.list?.length) return this.left
 
@@ -526,6 +545,8 @@ class CharactersModal extends React.Component<Props, State> {
   }
 
   @computed get right() {
+    console.log('right')
+
     const { title } = this.props
     if (!title || this.isChaos) return false
 
@@ -587,7 +608,22 @@ class CharactersModal extends React.Component<Props, State> {
 
             return true
           })
-          .sort((a, b) => rk(a) - rk(b))
+          .sort((a, b) => {
+            const rankA = rk(a)
+            const rankB = rk(b)
+
+            // 只有在rank<=500时才计算refine
+            const refineA = rankA <= 500 ? refine(a) : 0
+            const refineB = rankB <= 500 ? refine(b) : 0
+
+            // 如果任一元素有有效的refine值(rank<=500)，则按refine排序
+            if ((rankA <= 500 && refineA) || (rankB <= 500 && refineB)) {
+              return refineB - refineA
+            }
+
+            // 否则按rank排序
+            return rankA - rankB
+          })
       }
     }
 
@@ -636,6 +672,8 @@ class CharactersModal extends React.Component<Props, State> {
   }
 
   @computed get computedRight() {
+    console.log('computedRight')
+
     if (!this.right) return this.right
 
     const { rightFilter } = this.state
@@ -698,14 +736,6 @@ class CharactersModal extends React.Component<Props, State> {
     if (this.isStarDust) return !!(leftItem && rightItem && amount)
 
     return !!leftItem
-  }
-
-  @computed get alert() {
-    if (this.isGuidePost) return ITEMS_NOTIFY['混沌魔方']
-
-    if (this.isStarDust) return ITEMS_NOTIFY['星光碎片']
-
-    return ITEMS_NOTIFY['混沌魔方']
   }
 
   renderFilter(
@@ -862,8 +892,23 @@ class CharactersModal extends React.Component<Props, State> {
         sacrifices={item.sacrifices}
         rank={item.rank}
         disabled={disabled}
+        refine={item.refine}
         item={item}
         onPress={this.onSelectRight}
+      />
+    )
+  }
+
+  renderInformation() {
+    const { title } = this.props
+    if (!ITEMS_NOTIFY[title]) return null
+
+    return (
+      <IconTouchable
+        style={this.styles.information}
+        name='md-info-outline'
+        size={20}
+        onPress={this.onInformation}
       />
     )
   }
@@ -977,6 +1022,7 @@ class CharactersModal extends React.Component<Props, State> {
             <Flex.Item>{this.renderLeft()}</Flex.Item>
             <Flex.Item style={_.ml.md}>{this.renderRight()}</Flex.Item>
           </Flex>
+          {this.renderInformation()}
           {this.renderBottom()}
         </Modal>
         <BackHandler handler={this.onBackAndroid} />

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-12-26 01:13:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-22 05:13:26
+ * @Last Modified time: 2025-05-02 05:53:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -42,7 +42,7 @@ function Item({ item }: Props) {
           <Text type='tinygrailPlain' size={15} bold>
             {item.name}
           </Text>
-          <Text style={_.mt.xs} type='tinygrailText' size={10}>
+          <Text style={_.mt.xs} type='tinygrailText' size={12}>
             {ITEMS_DESC[item.name] || item.line}
           </Text>
         </Flex.Item>
