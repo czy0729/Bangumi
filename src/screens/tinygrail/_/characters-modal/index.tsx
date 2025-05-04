@@ -154,37 +154,6 @@ function CharactersModal({
     }
   }, [rightText])
 
-  // 提交表单
-  const handleSubmit = useCallback(() => {
-    if (!memoCanSubmit || loading) return
-
-    setLoading(true)
-    setTimeout(() => {
-      setLoading(false)
-      if (itemType.isStarDust) setAmount(0)
-    }, 1000)
-
-    return onSubmit({
-      title,
-      monoId: leftSelected.id,
-      toMonoId: rightSelected ? rightSelected.id : 0,
-      amount,
-      isTemple,
-      leftItem: leftSelected,
-      rightItem: rightSelected
-    })
-  }, [
-    amount,
-    isTemple,
-    itemType.isStarDust,
-    leftSelected,
-    loading,
-    memoCanSubmit,
-    onSubmit,
-    rightSelected,
-    title
-  ])
-
   // 左侧列表过滤
   const handleFilterLeft = useCallback((value: string) => {
     setLeftFilter(value)
@@ -447,23 +416,64 @@ function CharactersModal({
     title
   ])
 
+  // 提交表单
+  const handleSubmit = useCallback(async () => {
+    if (!memoCanSubmit || loading) return
+
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+      if (itemType.isStarDust) setAmount(0)
+    }, 1000)
+
+    await onSubmit({
+      title,
+      monoId: leftSelected.id,
+      toMonoId: rightSelected ? rightSelected.id : 0,
+      amount,
+      isTemple,
+      leftItem: leftSelected,
+      rightItem: rightSelected
+    })
+    if (itemType.isStarDust) handleUpdateLeft()
+  }, [
+    amount,
+    handleUpdateLeft,
+    isTemple,
+    itemType.isStarDust,
+    leftSelected,
+    loading,
+    memoCanSubmit,
+    onSubmit,
+    rightSelected,
+    title
+  ])
+
   // 请求数据
-  const handleInitFetch = useCallback(async () => {
-    const now = getTimestamp()
-    const isStale = (loaded: Loaded) => !loaded || now - Number(loaded) > M2
-    await queue(
-      [
-        isStale(tinygrailStore.temple()._loaded) && (() => tinygrailStore.fetchTemple()),
-        isStale(tinygrailStore.myCharaAssets.chara._loaded) &&
-          (() => tinygrailStore.fetchMyCharaAssets()),
-        isStale(tinygrailStore.msrc._loaded) && (() => tinygrailStore.fetchList('msrc')),
-        isStale(tinygrailStore.star('1|100')._loaded) && (() => tinygrailStore.fetchStar(1, 100)),
-        isStale(tinygrailStore.fantasy._loaded) && (() => tinygrailStore.fetchFantasyList())
-      ].filter(Boolean) as (() => Promise<any>)[]
-    )
-    handleUpdateLeft()
-    handleUpdateRight()
-  }, [handleUpdateLeft, handleUpdateRight])
+  const handleInitFetch = useCallback(
+    async (refresh: boolean = false) => {
+      const now = getTimestamp()
+      const isStale = (loaded: Loaded) => (refresh ? true : !loaded || now - Number(loaded) > M2)
+      await queue(
+        [
+          isStale(tinygrailStore.temple()._loaded) && (() => tinygrailStore.fetchTemple()),
+          isStale(tinygrailStore.myCharaAssets.chara._loaded) &&
+            (() => tinygrailStore.fetchMyCharaAssets()),
+          isStale(tinygrailStore.msrc._loaded) && (() => tinygrailStore.fetchList('msrc')),
+          isStale(tinygrailStore.star('1|100')._loaded) && (() => tinygrailStore.fetchStar(1, 100)),
+          isStale(tinygrailStore.fantasy._loaded) && (() => tinygrailStore.fetchFantasyList())
+        ].filter(Boolean) as (() => Promise<any>)[]
+      )
+      handleUpdateLeft()
+      handleUpdateRight()
+    },
+    [handleUpdateLeft, handleUpdateRight]
+  )
+
+  // 下拉刷新
+  // const handleHeaderRefresh = useCallback(() => {
+  //   return handleInitFetch(true)
+  // }, [handleInitFetch])
 
   // 设置右侧选中项
   const handleSetRightSelected = useCallback(

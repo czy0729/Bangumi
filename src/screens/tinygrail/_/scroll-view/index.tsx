@@ -18,17 +18,15 @@ function ScrollView({ style, contentContainerStyle, onRefresh, children }: Props
   r(COMPONENT)
 
   const [refreshing, setRefreshing] = useState(false)
-  const handleRefreshCallback = useCallback(() => {
+  const handleRefreshCallback = useCallback(async () => {
     if (!onRefresh) return
 
     setRefreshing(true)
-    setTimeout(async () => {
+    try {
       await onRefresh()
-
-      setTimeout(() => {
-        setRefreshing(false)
-      }, 1200)
-    }, 0)
+    } finally {
+      setTimeout(() => setRefreshing(false), 2800)
+    }
   }, [onRefresh])
 
   return useObserver(() => (

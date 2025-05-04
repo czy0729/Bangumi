@@ -81,7 +81,7 @@ function Bottom({
               />
             ) : (
               <Text type='tinygrailText' size={10}>
-                - 选择消耗 -
+                [请选择消耗]
               </Text>
             )}
           </Flex.Item>
@@ -98,7 +98,7 @@ function Bottom({
                 />
               ) : (
                 <Text type='tinygrailText' size={10}>
-                  - 选择目标 -
+                  [请选择目标]
                 </Text>
               )}
             </Flex.Item>

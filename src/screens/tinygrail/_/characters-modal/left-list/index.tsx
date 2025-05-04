@@ -40,35 +40,29 @@ const LeftList = React.memo(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filter, source._loaded, source.list.length])
 
-    const MemoizedItem = React.memo(
-      ({ item, disabled }: { item: PickItem; disabled: boolean }) => {
-        const extra = useMemo(() => {
-          const result = []
-          if (!isStarDust) {
-            if (item.assets !== (item.sacrifices || item.state)) {
-              result.push(
-                `${formatNumber(item.assets, 0)} (${formatNumber(
-                  item.sacrifices || item.state,
-                  0
-                )})`
-              )
-            } else {
-              result.push(formatNumber(item.sacrifices || item.state, 0))
-            }
-          } else if (isTemple) {
-            result.push(formatNumber(item.sacrifices || item.state, 0))
+    const handleRenderItem = useCallback(
+      ({ item }: { item: PickItem }) => {
+        const result = []
+        if (!isStarDust) {
+          if (item.assets !== (item.sacrifices || item.state)) {
+            result.push(
+              `${formatNumber(item.assets, 0)} (${formatNumber(item.sacrifices || item.state, 0)})`
+            )
           } else {
-            result.push(formatNumber(item.state, 0))
+            result.push(formatNumber(item.sacrifices || item.state, 0))
           }
-          if (item.current) result.push(`₵${formatNumber(item.current, 0)}`)
-          result.push(
-            `+${toFixed(item.rate, 1)} (${toFixed(
-              calculateRate(item.rate, item.rank, item.stars),
-              1
-            )})`
-          )
-          return result.join(' / ')
-        }, [item])
+        } else if (isTemple) {
+          result.push(formatNumber(item.sacrifices || item.state, 0))
+        } else {
+          result.push(formatNumber(item.state, 0))
+        }
+        if (item.current) result.push(`₵${formatNumber(item.current, 0)}`)
+        result.push(
+          `+${toFixed(item.rate, 1)} (${toFixed(
+            calculateRate(item.rate, item.rank, item.stars),
+            1
+          )})`
+        )
 
         return (
           <Item
@@ -78,25 +72,17 @@ const LeftList = React.memo(
             level={lv(item)}
             name={item.name}
             rank={item.rank}
-            extra={extra}
+            extra={result.join(' / ')}
             assets={item.assets}
             sacrifices={item.sacrifices}
-            disabled={disabled}
+            disabled={selected?.id !== item.id}
             refine={item.refine}
             item={item}
             onPress={onSelect}
           />
         )
       },
-      (prev, next) => prev.disabled === next.disabled && prev.item === next.item
-    )
-
-    const handleRenderItem = useCallback(
-      ({ item }: { item: PickItem }) => (
-        <MemoizedItem item={item} disabled={selected?.id !== item?.id} />
-      ),
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      [selected?.id]
+      [isStarDust, isTemple, onSelect, selected?.id]
     )
 
     return useObserver(() => (

@@ -7,7 +7,7 @@
 import { tinygrailStore } from '@stores'
 import { getTimestamp, toFixed } from '@utils'
 import { xhrCustom } from '@utils/fetch'
-import { API_TINYGRAIL_STAR } from '@constants'
+import { API_TINYGRAIL_STAR, D7, M5 } from '@constants'
 import Computed from './computed'
 
 export default class Fetch extends Computed {
@@ -15,11 +15,11 @@ export default class Fetch extends Computed {
   fetchTest = () => {
     if (!this.state.mounted) return
 
-    if (this.test._loaded && getTimestamp() - Number(this.test._loaded) < 60 * 60 * 24 * 7) {
+    if (this.test._loaded && getTimestamp() - Number(this.test._loaded) < D7) {
       return true
     }
 
-    // console.info('0 股息预测')
+    console.info('0 股息预测')
     return tinygrailStore.fetchTest()
   }
 
@@ -27,7 +27,7 @@ export default class Fetch extends Computed {
   fetchCharacters = () => {
     if (!this.state.mounted) return
 
-    // console.info('1 角色小圣杯信息')
+    console.info('1 角色小圣杯信息')
     return tinygrailStore.fetchCharacters([this.monoId])
   }
 
@@ -35,7 +35,7 @@ export default class Fetch extends Computed {
   fetchIssuePrice = () => {
     if (!this.state.mounted) return
 
-    // console.info('2 角色发行价')
+    console.info('2 角色发行价')
     return tinygrailStore.fetchIssuePrice(this.monoId)
   }
 
@@ -43,7 +43,7 @@ export default class Fetch extends Computed {
   fetchUserLogs = () => {
     if (!this.state.mounted) return
 
-    // console.info('3 本角色我的交易信息')
+    console.info('3 本角色我的交易信息')
     return tinygrailStore.fetchUserLogs(this.monoId)
   }
 
@@ -51,7 +51,7 @@ export default class Fetch extends Computed {
   fetchMyTemple = async () => {
     if (!this.state.mounted) return
 
-    // console.info('4 本角色我的圣殿')
+    console.info('4 本角色我的圣殿')
     return tinygrailStore.fetchMyTemple(this.monoId)
   }
 
@@ -59,7 +59,7 @@ export default class Fetch extends Computed {
   fetchCharaTemple = () => {
     if (!this.state.mounted) return
 
-    // console.info('5 所有人固定资产')
+    console.info('5 所有人固定资产')
     return tinygrailStore.fetchCharaTemple(this.monoId)
   }
 
@@ -67,7 +67,7 @@ export default class Fetch extends Computed {
   fetchAssets = () => {
     if (!this.state.mounted) return
 
-    // console.info('6 自己的资产')
+    console.info('6 自己的资产')
     return tinygrailStore.fetchAssets()
   }
 
@@ -75,7 +75,7 @@ export default class Fetch extends Computed {
   fetchValhallChara = async () => {
     if (!this.state.mounted) return
 
-    // console.info('7 本次拍卖信息')
+    console.info('7 本次拍卖信息')
     try {
       const { price } = await tinygrailStore.fetchValhallChara(this.monoId)
       if (price) {
@@ -92,7 +92,7 @@ export default class Fetch extends Computed {
   fetchAuctionStatus = () => {
     if (!this.state.mounted) return
 
-    // console.info('8 当前拍卖状态')
+    console.info('8 当前拍卖状态')
     return tinygrailStore.fetchAuctionStatus(this.monoId)
   }
 
@@ -100,7 +100,7 @@ export default class Fetch extends Computed {
   fetchAuctionList = () => {
     if (!this.state.mounted) return
 
-    // console.info('9 上周拍卖信息')
+    console.info('9 上周拍卖信息')
     return tinygrailStore.fetchAuctionList(this.monoId)
   }
 
@@ -108,7 +108,7 @@ export default class Fetch extends Computed {
   fetchUsers = () => {
     if (!this.state.mounted) return
 
-    // console.info('10 董事会')
+    console.info('10 董事会')
     return tinygrailStore.fetchUsers(this.monoId)
   }
 
@@ -116,7 +116,7 @@ export default class Fetch extends Computed {
   fetchCharaPool = () => {
     if (!this.state.mounted) return
 
-    // console.info('11 角色奖池')
+    console.info('11 角色奖池')
     return tinygrailStore.fetchCharaPool(this.monoId)
   }
 
@@ -125,9 +125,9 @@ export default class Fetch extends Computed {
     if (!this.state.mounted) return
 
     const { _loaded } = this.state.rankStarForces
-    if (_loaded && Number(this.state._loaded) - _loaded <= 600) return
+    if (_loaded && Number(this.state._loaded) - _loaded <= M5) return
 
-    // console.info('12 通天塔')
+    console.info('12 通天塔')
     const rankStarForces = {
       _loaded: getTimestamp()
     }
@@ -160,7 +160,7 @@ export default class Fetch extends Computed {
   updateMyCharaAssets = () => {
     if (!this.state.mounted) return
 
-    // console.info('13 更新我的资产')
+    console.info('13 更新我的资产')
     const { amount = 0, sacrifices = 0 } = this.userLogs
     return tinygrailStore.updateMyCharaAssets(this.monoId, amount, sacrifices)
   }

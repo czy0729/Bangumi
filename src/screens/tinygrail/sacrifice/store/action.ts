@@ -33,6 +33,20 @@ export default class Action extends Fetch {
     ])
   }
 
+  refreshAll = async () => {
+    await this.refresh()
+
+    return queue([
+      this.fetchIssuePrice,
+      this.fetchCharaTemple,
+      this.fetchValhallChara,
+      this.fetchAuctionList,
+      this.fetchUsers,
+      this.fetchCharaPool,
+      this.fetchStarForcesRankValues
+    ])
+  }
+
   /** 资产重组 */
   doSacrifice = async () => {
     if (this.state.loading) return

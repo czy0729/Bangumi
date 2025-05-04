@@ -88,15 +88,9 @@ const Item = React.memo(
     })
   },
   (prevProps, nextProps) =>
-    prevProps.id === nextProps.id &&
-    prevProps.src === nextProps.src &&
-    prevProps.level === nextProps.level &&
-    prevProps.rank === nextProps.rank &&
-    prevProps.name === nextProps.name &&
     prevProps.extra === nextProps.extra &&
     prevProps.assets === nextProps.assets &&
     prevProps.sacrifices === nextProps.sacrifices &&
-    prevProps.refine === nextProps.refine &&
     prevProps.disabled === nextProps.disabled &&
     prevProps.onPress === nextProps.onPress
 )

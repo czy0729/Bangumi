@@ -30,7 +30,7 @@ const TinygrailSacrifice = (props: NavigationProps) => {
     <Component id='screen-tinygrail-sacrifice'>
       <StoreContext.Provider value={id}>
         <Page style={_.container.tinygrail}>
-          <ScrollView contentContainerStyle={_.container.page} onRefresh={$.refresh}>
+          <ScrollView contentContainerStyle={_.container.page} onRefresh={$.refreshAll}>
             <Info />
             <Sacrifice />
             <Starforces />

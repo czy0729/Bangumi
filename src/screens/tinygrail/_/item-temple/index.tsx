@@ -74,14 +74,20 @@ function ItemTemple({
         rank={rank}
         cLevel={cLevel}
       />
-      <View style={_.mt.sm}>
-        <Progress size={isFromTemplesPage ? 'xs' : 'sm'} assets={assets} sacrifices={sacrifices} />
-        {typeof onItem === 'function' && sacrifices - assets >= 50 && (
-          <Touchable style={styles.btn} onPress={onItem}>
-            <Iconfont name='md-add' size={13} color={'rgba(255, 255, 255, 0.4)'} />
-          </Touchable>
-        )}
-      </View>
+      {!!(assets || sacrifices) && (
+        <View style={_.mt.sm}>
+          <Progress
+            size={isFromTemplesPage ? 'xs' : 'sm'}
+            assets={assets}
+            sacrifices={sacrifices}
+          />
+          {typeof onItem === 'function' && sacrifices - assets >= 50 && (
+            <Touchable style={styles.btn} onPress={onItem}>
+              <Iconfont name='md-add' size={13} color={'rgba(255, 255, 255, 0.4)'} />
+            </Touchable>
+          )}
+        </View>
+      )}
       {!!extra && (
         <Text
           style={_.mt.sm}

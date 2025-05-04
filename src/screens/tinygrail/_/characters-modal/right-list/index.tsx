@@ -39,35 +39,24 @@ const RightList = React.memo(function ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter, source._loaded, source.list.length])
 
-  const MemoizedItem = React.memo(
-    ({
-      item,
-      disabled,
-      isStarBreak
-    }: {
-      item: PickItem
-      disabled: boolean
-      isStarBreak: boolean
-    }) => {
-      const extra = useMemo(() => {
-        const result = []
-        if (item.assets && item.assets !== item.sacrifices) {
-          result.push(`${formatNumber(item.assets, 0)} (${formatNumber(item.sacrifices, 0)})`)
-        } else if (item.sacrifices) {
-          result.push(formatNumber(item.sacrifices, 0))
-        }
-        if (item.current) result.push(`₵${formatNumber(item.current, 0)}`)
-        if (item.userAmount) result.push(formatNumber(item.userAmount, 0))
-        if (item.rate) {
-          result.push(
-            `+${toFixed(item.rate, 1)} (${toFixed(
-              calculateRate(item.rate, item.rank, item.stars),
-              1
-            )})`
-          )
-        }
-        return result.join(' / ')
-      }, [item])
+  const handleRenderItem = useCallback(
+    ({ item }: { item: PickItem }) => {
+      const result = []
+      if (item.assets && item.assets !== item.sacrifices) {
+        result.push(`${formatNumber(item.assets, 0)} (${formatNumber(item.sacrifices, 0)})`)
+      } else if (item.sacrifices) {
+        result.push(formatNumber(item.sacrifices, 0))
+      }
+      if (item.current) result.push(`₵${formatNumber(item.current, 0)}`)
+      if (item.userAmount) result.push(formatNumber(item.userAmount, 0))
+      if (item.rate) {
+        result.push(
+          `+${toFixed(item.rate, 1)} (${toFixed(
+            calculateRate(item.rate, item.rank, item.stars),
+            1
+          )})`
+        )
+      }
 
       return (
         <Item
@@ -76,29 +65,18 @@ const RightList = React.memo(function ({
           src={cover(item)}
           level={lv(item)}
           name={item.name}
-          extra={extra}
+          extra={result.join(' / ')}
           assets={item.assets}
           sacrifices={item.sacrifices}
           rank={item.rank}
-          disabled={disabled}
+          disabled={selected?.id !== item.id}
           refine={item.refine}
           item={item}
           onPress={onSelect}
         />
       )
     },
-    (prev, next) =>
-      prev.disabled === next.disabled &&
-      prev.isStarBreak === next.isStarBreak &&
-      prev.item === next.item
-  )
-
-  const handleRenderItem = useCallback(
-    ({ item }: { item: PickItem }) => (
-      <MemoizedItem item={item} disabled={selected?.id !== item?.id} isStarBreak={isStarBreak} />
-    ),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [selected?.id, isStarBreak]
+    [isStarBreak, onSelect, selected?.id]
   )
 
   return useObserver(() => (
@@ -107,7 +85,7 @@ const RightList = React.memo(function ({
         <LevelFilter source={source} value={filter} onSelect={onFilter} />
         <Flex.Item style={_.ml.sm}>
           <SearchInput
-            placeholder='消耗'
+            placeholder='目标'
             value={text}
             onChangeText={onChangeText}
             onSubmitEditing={onSubmitEditing}
