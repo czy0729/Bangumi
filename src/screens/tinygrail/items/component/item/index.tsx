@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-12-26 01:13:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-02 05:53:46
+ * @Last Modified time: 2025-05-02 22:48:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { _, useStore } from '@stores'
 import { formatNumber, tinygrailOSS } from '@utils'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import { ITEMS_USED } from '@tinygrail/_/characters-modal'
+import { ITEMS_USED } from '@screens/tinygrail/_/characters-modal'
 import { ITEMS_DESC } from '@tinygrail/_/ds'
 import { IMAGE_WIDTH } from '../../ds'
 import { Ctx, ItemsKeys } from '../../types'

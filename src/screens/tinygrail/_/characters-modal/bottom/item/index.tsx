@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-07-03 15:08:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-06 19:15:29
+ * @Last Modified time: 2025-05-03 16:28:21
  */
 import React from 'react'
 import { Avatar, Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { tinygrailOSS } from '@utils'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 
-function ItemBottom({ src, name, level, change, type, onPress }) {
-  return (
+function Item({ src, name, level, change, type, onPress }) {
+  return useObserver(() => (
     <Touchable onPress={onPress}>
       <Flex>
         <Avatar
@@ -35,7 +35,7 @@ function ItemBottom({ src, name, level, change, type, onPress }) {
         </Flex.Item>
       </Flex>
     </Touchable>
-  )
+  ))
 }
 
-export default ob(ItemBottom)
+export default Item

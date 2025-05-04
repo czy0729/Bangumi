@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-03-08 05:32:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 16:17:05
+ * @Last Modified time: 2025-05-02 22:49:22
  */
 import React from 'react'
 import { useStore } from '@stores'
 import { ob } from '@utils/decorators'
-import CharactersModal from '@tinygrail/_/characters-modal'
+import CharactersModal from '@screens/tinygrail/_/characters-modal'
 import { Fn } from '@types'
 import { Ctx } from '../../../types'
 

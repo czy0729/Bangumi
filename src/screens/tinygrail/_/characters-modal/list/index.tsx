@@ -2,30 +2,31 @@
  * @Author: czy0729
  * @Date: 2020-07-09 10:24:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 07:01:05
+ * @Last Modified time: 2025-05-03 18:32:47
  */
 import React from 'react'
 import { PaginationList2 } from '@_'
-import { keyExtractor } from '@utils/app'
-import { ob } from '@utils/decorators'
-import { refreshControlProps } from '@tinygrail/styles'
+import { useObserver } from '@utils/hooks'
+import { TINYGRAIL_LIST_PROPS } from '@tinygrail/styles'
 import { styles } from './styles'
 
 function List({ data, renderItem }) {
-  if (!data) return null
+  return useObserver(() => {
+    if (!data) return null
 
-  return (
-    <PaginationList2
-      style={styles.listView}
-      keyExtractor={keyExtractor}
-      refreshControlProps={refreshControlProps}
-      data={data.list}
-      showMesume={false}
-      footerTextType='tinygrailText'
-      footerEmptyDataText='没有符合的结果'
-      renderItem={renderItem}
-    />
-  )
+    const { list, _loaded } = data
+    return (
+      <PaginationList2
+        {...TINYGRAIL_LIST_PROPS}
+        style={styles.list}
+        data={list}
+        limit={12}
+        showMesume={false}
+        footerEmptyDataText={!!_loaded && !list.length ? '没有符合的结果' : '加载中'}
+        renderItem={renderItem}
+      />
+    )
+  })
 }
 
-export default ob(List)
+export default List

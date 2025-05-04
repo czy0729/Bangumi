@@ -7,7 +7,7 @@
 import { tinygrailStore } from '@stores'
 import { alert, feedback, info, toFixed } from '@utils'
 import { t } from '@utils/fetch'
-import { ITEMS_TYPE } from '@tinygrail/_/characters-modal'
+import { ITEMS_TYPE } from '@screens/tinygrail/_/characters-modal'
 import { FnParams, Override } from '@types'
 import { ItemsType, ItemUseParams } from '../types'
 import Fetch from './fetch'

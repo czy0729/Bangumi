@@ -6,13 +6,7 @@
  */
 export const NAMESPACE = 'TinygrailCompCharactersModal'
 
-export const HIT_SLOP = {
-  top: 6,
-  right: 6,
-  bottom: 6,
-  left: 6
-} as const
-
+/** 道具 ID */
 export const ITEMS_TYPE = {
   混沌魔方: 'chaos',
   虚空道标: 'guidepost',
@@ -21,6 +15,7 @@ export const ITEMS_TYPE = {
   鲤鱼之眼: 'fisheye'
 } as const
 
+/** 道具排序优先度 */
 export const ITEMS_USED = {
   混沌魔方: 100,
   虚空道标: 90,
@@ -29,6 +24,7 @@ export const ITEMS_USED = {
   鲤鱼之眼: 60
 } as const
 
+/** 道具说明 */
 export const ITEMS_NOTIFY = {
   混沌魔方: {
     title: '混沌魔方',
@@ -116,4 +112,11 @@ export const ITEMS_NOTIFY = {
     ai: true,
     url: 'https://bgm.tv/group/topic/388838#post_2504304'
   }
+} as const
+
+export const HIT_SLOP = {
+  top: 6,
+  right: 6,
+  bottom: 6,
+  left: 6
 } as const

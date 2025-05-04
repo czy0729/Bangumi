@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-05-02 05:54:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-02 06:06:08
+ * @Last Modified time: 2025-05-02 22:49:17
  */
 import React, { useCallback } from 'react'
 import { Flex, Iconfont } from '@components'
@@ -10,7 +10,7 @@ import { Popover } from '@_'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
 import { useNavigation, useObserver } from '@utils/hooks'
-import { ITEMS_NOTIFY } from '@tinygrail/_/characters-modal'
+import { ITEMS_NOTIFY } from '@screens/tinygrail/_/characters-modal'
 import TinygrailHeader from '@tinygrail/_/header'
 import { COMPONENT, DS, HM } from './ds'
 import { styles } from './styles'

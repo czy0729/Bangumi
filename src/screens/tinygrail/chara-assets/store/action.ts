@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-10-24 20:22:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-06 22:33:40
+ * @Last Modified time: 2025-05-02 22:48:35
  */
 import { tinygrailStore } from '@stores'
 import { alert, confirm, copy, feedback, info, toFixed } from '@utils'
 import { t } from '@utils/fetch'
-import { ITEMS_TYPE } from '@tinygrail/_/characters-modal'
+import { ITEMS_TYPE } from '@screens/tinygrail/_/characters-modal'
 import { ItemUseParams } from '@tinygrail/items/types'
 import { FnParams, Override } from '@types'
 import { PER_BATCH_COUNT } from '../ds'

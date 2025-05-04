@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2025-05-02 05:55:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-02 06:05:53
+ * @Last Modified time: 2025-05-02 22:48:42
  */
 import { rc } from '@utils/dev'
-import { ITEMS_NOTIFY } from '@tinygrail/_/characters-modal'
+import { ITEMS_NOTIFY } from '@screens/tinygrail/_/characters-modal'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'Item')

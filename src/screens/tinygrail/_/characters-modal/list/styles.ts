@@ -7,7 +7,7 @@
 import { _ } from '@stores'
 
 export const styles = _.create({
-  listView: {
+  list: {
     flex: 1,
     marginTop: _.sm
   }

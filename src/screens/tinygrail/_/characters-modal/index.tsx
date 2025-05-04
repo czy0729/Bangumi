@@ -2,1037 +2,588 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-02 06:02:06
+ * @Last Modified time: 2025-05-04 18:10:02
  */
-import React from 'react'
-import { View } from 'react-native'
-import { computed } from 'mobx'
-import { Button, Flex, Iconfont, Modal, Text } from '@components'
-import { IconTouchable, Popover } from '@_'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Flex, Text } from '@components'
 import { _, tinygrailStore } from '@stores'
-import {
-  formatNumber,
-  getStorage,
-  getTimestamp,
-  info,
-  navigationReference,
-  queue,
-  setStorage,
-  stl,
-  toFixed,
-  trim
-} from '@utils'
-import { ob } from '@utils/decorators'
-import { FROZEN_FN, M2 } from '@constants'
-import { Loaded } from '@types'
-import { calculateRate } from '../utils'
-import BackHandler from './back-handler'
-import Item from './item'
-import ItemBottom from './item-bottom'
-import List from './list'
-import SearchInput from './search-input'
-import { assets, bottomTextType, charge, cover, lv, refine, rk } from './utils'
-import { HIT_SLOP, ITEMS_NOTIFY, ITEMS_TYPE, ITEMS_USED, NAMESPACE } from './ds'
-import { memoStyles } from './styles'
-import { PickItem, Props, State } from './types'
+import { getTimestamp, info, queue, trim } from '@utils'
+import { useBackHandler, useMount, useObserver } from '@utils/hooks'
+import { FROZEN_FN, LIST_EMPTY, M2 } from '@constants'
+import { ListEmpty, Loaded } from '@types'
+import Bottom from './bottom'
+import Content from './content'
+import Information from './information'
+import LeftList from './left-list'
+import Modal from './modal'
+import RightList from './right-list'
+import { assets, charge, getLocal, lv, refine, rk, setLocal } from './utils'
+import { PickItem, Props } from './types'
 
-export { ITEMS_TYPE, ITEMS_USED, ITEMS_NOTIFY }
+export { ITEMS_TYPE, ITEMS_USED, ITEMS_NOTIFY } from './ds'
 
-class CharactersModal extends React.Component<Props, State> {
-  static defaultProps: Props = {
-    title: '',
-    visible: false,
-    onClose: FROZEN_FN,
-    onSubmit: FROZEN_FN
-  }
+function CharactersModal({
+  visible,
+  title,
+  leftItem,
+  rightItem,
+  rightItemId,
+  onClose = FROZEN_FN,
+  onSubmit
+}: Props) {
+  // 物品类型判断
+  const itemType = useMemo(
+    () => ({
+      isChaos: title === '混沌魔方',
+      isFishEye: title === '鲤鱼之眼',
+      isGuidePost: title === '虚空道标',
+      isStarBreak: title === '闪光结晶',
+      isStarDust: title === '星光碎片'
+    }),
+    [title]
+  )
 
-  state: State = {
-    leftItem: null,
-    leftValue: '',
-    leftFilter: '',
-    rightItem: null,
-    rightValue: '',
-    rightFilter: '',
-    search: null,
-    loading: false,
-    title: '',
-    amount: 0,
-    isTemple: false,
-    focus: false
-  }
+  // 组件状态
+  const [focus, setFocus] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [search, setSearch] = useState<PickItem[]>(null)
+  const [amount, setAmount] = useState(0)
+  const [isTemple] = useState(false)
 
-  private _title: string
+  // 左侧列表相关状态
+  const [left, setLeft] = useState<ListEmpty>({ ...LIST_EMPTY })
+  const [leftFilter, setLeftFilter] = useState('')
+  const [leftSelected, setLeftSelected] = useState<PickItem>(null)
+  const [leftText, setLeftText] = useState('')
 
-  async componentDidMount() {
-    this._title = this.props.title
+  // 右侧列表相关状态
+  const [right, setRight] = useState<ListEmpty>({ ...LIST_EMPTY })
+  const [rightFilter, setRightFilter] = useState('')
+  const [rightSelected, setRightSelected] = useState<PickItem>(null)
+  const [rightText, setRightText] = useState('')
 
-    const state = (await getStorage(NAMESPACE)) || {}
-    this.setState({
-      ...state,
-      leftItem: null,
-      rightItem: null,
-      loading: false,
-      focus: false,
-      title: this.props.title
-    })
+  // 记录上次使用的道具类型
+  const titleRef = useRef(title)
 
-    await this.initFetch()
-    this.setDefaultRightItem(this.props.rightItemId)
-  }
+  // 用 ref 保存所有需要本地化的状态
+  const stateRef = useRef({
+    leftFilter,
+    leftSelected,
+    leftText,
+    rightFilter,
+    rightSelected,
+    rightText
+  })
 
-  UNSAFE_componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.title !== this._title) {
-      this._title = nextProps.title
-
-      const { leftItem = null, rightItem = null } = nextProps
-      this.setState({
-        leftItem,
-        leftFilter: leftItem ? '' : this.state.leftFilter,
-        rightItem,
-        rightFilter: rightItem ? '' : this.state.rightFilter,
-        loading: false,
-        title: nextProps.title
-      })
+  // 实时同步状态到 ref
+  useEffect(() => {
+    stateRef.current = {
+      leftFilter,
+      leftSelected,
+      leftText,
+      rightFilter,
+      rightSelected,
+      rightText
     }
+  }, [leftFilter, leftSelected, leftText, rightFilter, rightSelected, rightText])
 
-    this.setDefaultRightItem(nextProps.rightItemId)
-  }
+  // 是否可以提交
+  const memoCanSubmit = useMemo(() => {
+    if (itemType.isGuidePost) return !!(leftSelected && rightSelected)
+    if (itemType.isStarDust) return !!(leftSelected && rightSelected && amount)
+    return !!leftSelected
+  }, [amount, itemType.isGuidePost, itemType.isStarDust, leftSelected, rightSelected])
 
-  setDefaultRightItem = (nextId: number) => {
-    setTimeout(() => {
-      const id = nextId || this.props.rightItemId
-      if (id && this.right && this.right?.list?.length) {
-        const find = this.right.list.find(item => item.id == id)
-        if (find) {
-          this.setState({
-            rightItem: find,
-            rightFilter: ''
-          })
-        }
-      }
-    }, 0)
-  }
+  // 处理焦点变化
+  const handleFocus = useCallback(() => {
+    setFocus(true)
+  }, [])
+  const handleBlur = useCallback(() => {
+    setFocus(false)
+  }, [])
 
-  onBackAndroid = () => {
-    const { visible, onClose } = this.props
-    if (visible) {
-      onClose()
-      return true
-    }
-
-    return false
-  }
-
-  onSelectLeft = (item: PickItem) => {
-    const { leftItem } = this.state
-    const actived = leftItem && leftItem.id === item.id
-    this.setState(
-      {
-        leftItem: actived ? null : item,
-        amount: 0
-      },
-      () => {
-        // 自动计算补充数量
-        const { leftItem, rightItem } = this.state
-        if (this.isStarDust && leftItem && rightItem) {
-          this.setState({
-            amount: Math.min(assets(leftItem), charge(rightItem))
-          })
-        }
-      }
-    )
-  }
-
-  onSelectRight = (item: PickItem) => {
-    const { rightItem } = this.state
-    const actived = rightItem && rightItem.id === item.id
-    this.setState(
-      {
-        rightItem: actived ? null : item,
-        amount: 0
-      },
-      () => {
-        // 自动计算补充数量
-        const { leftItem, rightItem } = this.state
-        if (this.isStarDust && leftItem && rightItem) {
-          this.setState({
-            amount: Math.min(assets(leftItem), charge(rightItem))
-          })
-        }
-      }
-    )
-  }
-
-  onCancelLeft = () => {
-    this.setState({
-      leftItem: null
-    })
-  }
-
-  onCancelRight = () => {
-    this.setState({
-      rightItem: null
-    })
-  }
-
-  onChangeLeft = (value: string) => {
-    this.setState({
-      leftValue: trim(value)
-    })
-  }
-
-  onChangeRight = (value: string) => {
-    const rightValue = trim(value)
-    this.setState({
-      rightValue
-    })
-
-    if (rightValue === '') {
-      this.setState({
-        search: null
-      })
-    }
-  }
-
-  onChangeNum = (value: string) => {
-    let _value: any = parseInt(value)
-    if (Number.isNaN(_value) || _value == 0) _value = ''
-    this.setState({
-      amount: _value
-    })
-  }
-
-  onToogleIsTemple = (title: string) => {
-    const { isTemple } = this.state
-    if ((isTemple && title === '消耗圣殿') || (!isTemple && title === '消耗活股')) {
-      return
-    }
-
-    this.setState({
-      leftItem: null,
-      isTemple: !isTemple
-    })
-  }
-
-  onClose = () => {
-    const { onClose } = this.props
+  // 关闭模态框
+  const handleClose = useCallback(() => {
     onClose()
-    this.setState({
-      loading: false
-    })
-    setStorage(NAMESPACE, this.state)
-  }
+    setLoading(false)
+    setLocal(stateRef.current)
+  }, [onClose])
 
-  onFocus = () => {
-    this.setState({
-      focus: true
-    })
-  }
+  // 数量变化处理
+  const handleChangeAmount = useCallback((text: string) => {
+    const value = parseInt(text)
+    setAmount(Number.isNaN(value) || value === 0 ? 0 : value)
+  }, [])
 
-  onBlur = () => {
-    this.setState({
-      focus: false
-    })
-  }
-
-  doSearch = async () => {
-    const { rightValue } = this.state
-    const keyword = String(rightValue).trim()
+  // 搜索处理
+  const handleSearch = useCallback(async () => {
+    const keyword = trim(rightText)
     if (!keyword) {
+      setSearch(null)
       info('请输入关键字')
       return
     }
 
+    // 纯数字搜索视为 ID 搜索
     if (/^\d+$/.test(keyword)) {
-      this.setState({
-        search: [
-          {
-            id: Number(keyword),
-            name: '指定 ID 人物',
-            level: 0
-          }
-        ],
-        rightItem: null
-      })
+      setSearch([
+        {
+          id: Number(keyword),
+          name: '指定 ID 人物',
+          level: 0
+        }
+      ])
+      setRightSelected(null)
       return
     }
 
+    // 执行搜索
     const result = await tinygrailStore.doSearch({
-      keyword: rightValue
+      keyword
     })
-    if (result.data && result.data.State === 0) {
-      const search = result.data.Value.filter((item: { ICO: any }) => !item.ICO).map(
+    if (result?.data?.State === 0) {
+      const searchResults = result.data.Value.filter((item: { ICO: any }) => !item.ICO).map(
         (item: { Id: any; Name: any; Level: any }) => ({
           id: item.Id,
           name: item.Name,
           level: item.Level
         })
       )
-      this.setState({
-        search,
-        rightItem: null
-      })
+      setSearch(searchResults)
+      setRightSelected(null)
     }
-  }
+  }, [rightText])
 
-  onSubmit = async () => {
-    const { leftItem, rightItem, amount, isTemple, loading } = this.state
-    if (!this.canSubmit || loading) return
+  // 提交表单
+  const handleSubmit = useCallback(() => {
+    if (!memoCanSubmit || loading) return
 
-    const { title, onSubmit } = this.props
-    this.setState({
-      loading: true
-    })
-
+    setLoading(true)
     setTimeout(() => {
-      this.setState({
-        loading: false
-      })
-
-      if (this.isStarDust) {
-        this.setState({
-          amount: 0
-        })
-      }
+      setLoading(false)
+      if (itemType.isStarDust) setAmount(0)
     }, 1000)
 
     return onSubmit({
       title,
-      monoId: leftItem.id,
-      toMonoId: rightItem ? rightItem.id : 0,
+      monoId: leftSelected.id,
+      toMonoId: rightSelected ? rightSelected.id : 0,
       amount,
       isTemple,
-      leftItem,
-      rightItem
+      leftItem: leftSelected,
+      rightItem: rightSelected
     })
-  }
+  }, [
+    amount,
+    isTemple,
+    itemType.isStarDust,
+    leftSelected,
+    loading,
+    memoCanSubmit,
+    onSubmit,
+    rightSelected,
+    title
+  ])
 
-  onInformation = () => {
-    const { title } = this.props
-    if (!ITEMS_NOTIFY[title]) return
+  // 左侧列表过滤
+  const handleFilterLeft = useCallback((value: string) => {
+    setLeftFilter(value)
+  }, [])
 
-    const navigation = navigationReference()
-    if (!navigation) return
+  // 左侧项选择
+  const handleSelectedLeft = useCallback(
+    (item: PickItem) => {
+      setLeftSelected(prev => {
+        const isActive = prev?.id === item.id
+        const newSelected = isActive ? null : item
 
-    const { onClose } = this.props
-    if (typeof onClose === 'function') onClose()
+        // 自动计算补充数量(仅星光碎片)
+        setTimeout(() => {
+          if (itemType.isStarDust && newSelected && rightSelected) {
+            setAmount(Math.min(assets(newSelected), charge(rightSelected)))
+          } else {
+            setAmount(0)
+          }
+        }, 0)
 
-    setTimeout(() => {
-      navigation.push('Information', ITEMS_NOTIFY[title])
-    }, 800)
-  }
+        return newSelected
+      })
+    },
+    [itemType.isStarDust, rightSelected]
+  )
 
-  // -------------------- fetch --------------------
-  initFetch = async () => {
-    const now = getTimestamp()
-    const isStale = (loaded: Loaded) => !loaded || now - Number(loaded) > M2
-    return queue(
-      [
-        isStale(this.temple._loaded) && this.fetchTemple,
-        isStale(this.chara._loaded) && this.fetchMyCharaAssets,
-        isStale(this.msrc._loaded) && this.fetchMsrc,
-        isStale(this.star._loaded) && this.fetchStar,
-        isStale(this.fantasy._loaded) && this.fetchFantasy
-      ].filter(Boolean) as (() => Promise<any>)[]
-    )
-  }
+  // 左侧文本变化
+  const handleChangeLeftText = useCallback((text: string) => {
+    setLeftText(text)
+  }, [])
 
-  /** 我的圣殿 */
-  fetchTemple = () => tinygrailStore.fetchTemple()
+  // 取消左侧选择
+  const handleCancelLeft = useCallback(() => {
+    setLeftSelected(null)
+  }, [])
 
-  /** 我的持仓 */
-  fetchMyCharaAssets = () => tinygrailStore.fetchMyCharaAssets()
+  // 右侧列表过滤
+  const handleFilterRight = useCallback((value: string) => {
+    setRightFilter(value)
+  }, [])
 
-  /** 最高股息 */
-  fetchMsrc = () => tinygrailStore.fetchList('msrc')
+  // 右侧项选择
+  const handleSelectedRight = useCallback(
+    (item: PickItem) => {
+      setRightSelected(prev => {
+        const isActive = prev?.id === item.id
+        const newSelected = isActive ? null : item
 
-  /** 通天塔 */
-  fetchStar = () => tinygrailStore.fetchStar(1, 100)
+        // 自动计算补充数量(仅星光碎片)
+        setTimeout(() => {
+          if (itemType.isStarDust && newSelected && leftSelected) {
+            setAmount(Math.min(assets(leftSelected), charge(newSelected)))
+          } else {
+            setAmount(0)
+          }
+        }, 0)
 
-  /** 幻想乡 */
-  fetchFantasy = () => tinygrailStore.fetchFantasyList()
+        return newSelected
+      })
+    },
+    [itemType.isStarDust, leftSelected]
+  )
 
-  // -------------------- data --------------------
-  @computed get temple() {
-    return tinygrailStore.temple()
-  }
+  // 右侧文本变化
+  const handleChangeRightText = useCallback((text: string) => {
+    const value = trim(text)
+    setRightText(value)
+    if (value === '') setSearch(null)
+  }, [])
 
-  @computed get chara() {
-    return tinygrailStore.myCharaAssets.chara
-  }
+  // 取消右侧选择
+  const handleCanceRight = useCallback(() => {
+    setRightSelected(null)
+  }, [])
 
-  @computed get msrc() {
-    return tinygrailStore.msrc
-  }
+  // 安卓返回键处理
+  const handleBackAndroid = useCallback(() => {
+    if (!visible) return false
 
-  @computed get star() {
-    return tinygrailStore.star('1|100')
-  }
+    onClose()
+    return true
+  }, [onClose, visible])
+  useBackHandler(handleBackAndroid)
 
-  @computed get fantasy() {
-    return tinygrailStore.fantasy
-  }
-
-  // -------------------- type --------------------
-  @computed get isChaos() {
-    return this.props.title === '混沌魔方'
-  }
-
-  @computed get isGuidePost() {
-    return this.props.title === '虚空道标'
-  }
-
-  @computed get isStarDust() {
-    return this.props.title === '星光碎片'
-  }
-
-  @computed get isStarBreak() {
-    return this.props.title === '闪光结晶'
-  }
-
-  @computed get isFishEye() {
-    return this.props.title === '鲤鱼之眼'
-  }
-
-  // -------------------- computed data --------------------
-  @computed get left() {
-    console.log('left')
-
-    const { rightItem, leftValue, isTemple } = this.state
-
-    // 虚空道标 (消耗我的圣殿)
-    if (this.isGuidePost) {
-      return {
-        ...this.temple,
-        list: this.temple.list
-          .filter(item => {
-            if (this.props.leftItem) return item.id === this.props.leftItem.id
-
-            // 一次消耗 100 且成塔
-            if (item.assets < 100 || item.sacrifices < 500) return false
-
-            if (rightItem) {
-              if (leftValue) return item.name.includes(leftValue)
-            }
-
-            if (leftValue) return item.name.includes(leftValue)
-
-            return true
-          })
-          .sort((a, b) => a.rate - b.rate)
-      }
+  // 更新左侧列表数据
+  const handleUpdateLeft = useCallback(() => {
+    const templeCopy = {
+      ...tinygrailStore.temple(),
+      list: [...tinygrailStore.temple().list]
     }
 
-    /**
-     * 星光碎片 (消耗活股或圣殿)
-     *  - 若消耗股等级 >= 目标股，每增加1点祭献值，消耗流通股或圣殿祭献值 1 股/点
-     *  - [活股必须] 若消耗股等级 < 目标股，每增加1点祭献值，消耗流通股或圣殿祭献值 2^(n-1) 股/点，其中n为两者的等级差且最小为1
-     */
-    if (this.isStarDust) {
-      const data = isTemple ? this.temple : this.chara
-      return {
-        ...data,
-        list: data.list
-          .filter(item => {
-            if (assets(item) < 10) return false
+    let filteredList = templeCopy.list
 
-            if (rightItem) {
-              const _lv = lv(item) - lv(rightItem)
-              if (leftValue) {
-                if (isTemple) {
-                  return (
-                    item.name.includes(leftValue) && lv(item) + (isTemple ? 0 : 1) >= lv(rightItem)
-                  )
-                }
+    if (itemType.isGuidePost) {
+      filteredList = filteredList
+        .filter(item => {
+          if (leftItem) return item.id === leftItem.id
+          if (item.assets < 100 || item.sacrifices < 500) return false
+          if (rightItem && leftText) return item.name.includes(leftText)
+          if (leftText) return item.name.includes(leftText)
+          return true
+        })
+        .sort((a, b) => a.rate - b.rate)
+    } else if (itemType.isStarDust) {
+      const dataCopy = isTemple
+        ? { ...tinygrailStore.temple(), list: [...tinygrailStore.temple().list] }
+        : {
+            ...tinygrailStore.myCharaAssets.chara,
+            list: [...tinygrailStore.myCharaAssets.chara.list]
+          }
 
+      filteredList = dataCopy.list
+        .filter(item => {
+          if (leftText && !item.name.includes(leftText)) return false
+          if (rightItem) {
+            const _lv = lv(item) - lv(rightItem)
+            if (leftText) {
+              if (isTemple) {
                 return (
-                  item.name.includes(leftValue) && assets(item) >= Math.min(32, 2 ** -(_lv + 1))
+                  item.name.includes(leftText) && lv(item) + (isTemple ? 0 : 1) >= lv(rightItem)
                 )
               }
-
-              return isTemple
-                ? lv(item) + (isTemple ? 0 : 1) >= lv(rightItem)
-                : assets(item) >= Math.min(32, 2 ** -(_lv + 1))
+              return item.name.includes(leftText) && assets(item) >= Math.min(32, 2 ** -(_lv + 1))
             }
-
-            if (leftValue) return item.name.includes(leftValue)
-
-            return true
-          })
-          .sort((a, b) => {
-            const lA = lv(a)
-            const lB = lv(b)
-            if (lA !== lB) return lB - lA
-
-            return a.current - b.current
-          })
-      }
-    }
-
-    // 混沌魔方 (消耗我的圣殿) | 兼容星光碎片
-    return {
-      ...this.temple,
-      list: this.temple.list
+            return isTemple
+              ? lv(item) + (isTemple ? 0 : 1) >= lv(rightItem)
+              : assets(item) >= Math.min(32, 2 ** -(_lv + 1))
+          }
+          if (leftText) return item.name.includes(leftText)
+          return true
+        })
+        .sort((a, b) => {
+          const lA = lv(a)
+          const lB = lv(b)
+          if (lA !== lB) return lB - lA
+          return a.current - b.current
+        })
+    } else {
+      filteredList = filteredList
         .filter(item => {
-          if (this.props.leftItem) return item.id === this.props.leftItem.id
-
-          // 一次消耗10且成塔
+          if (leftItem) return item.id === leftItem.id
           if (assets(item) < 250 || item.sacrifices < 500) return false
-
-          if (leftValue) return item.name.includes(leftValue)
-
+          if (leftText) return item.name.includes(leftText)
           return true
         })
         .sort((a, b) => a.rate - b.rate)
     }
-  }
 
-  @computed get computedLeft() {
-    console.log('computedLeft')
+    setLeft({ ...templeCopy, list: filteredList })
+  }, [itemType.isGuidePost, itemType.isStarDust, isTemple, leftItem, leftText, rightItem])
 
-    const { leftFilter } = this.state
-    if (!leftFilter || !this.left?.list?.length) return this.left
+  // 更新右侧列表数据
+  const handleUpdateRight = useCallback(() => {
+    if (!title || itemType.isChaos) return
 
-    return {
-      ...this.left,
-      list: this.left.list.filter(item => lv(item) == leftFilter)
-    }
-  }
-
-  @computed get leftLevelMap() {
-    const { list } = this.left
-    const data = {}
-
-    try {
-      ;(list || []).forEach(item =>
-        data[lv(item) || 0] ? (data[lv(item) || 0] += 1) : (data[lv(item) || 0] = 1)
-      )
-    } catch (error) {
-      console.error(error)
-    }
-
-    return data
-  }
-
-  @computed get leftDS() {
-    const sum = Object.keys(this.leftLevelMap).reduce(
-      (total, level) => total + this.leftLevelMap[level],
-      0
-    )
-    return [
-      `全部 (${sum})`,
-      ...Object.keys(this.leftLevelMap).map(level => `lv${level} (${this.leftLevelMap[level]})`)
-    ]
-  }
-
-  @computed get leftChangeText() {
-    const { amount, isTemple } = this.state
-    if (this.isChaos) return '-10'
-
-    if (this.isGuidePost || this.isStarBreak || this.isFishEye) return '-100'
-
-    if (this.isStarDust) {
-      const { leftItem, rightItem } = this.state
-      if (!isTemple && leftItem && rightItem) {
-        const _lv = lv(leftItem) - lv(rightItem)
-        if (_lv < 0) return `每 -${Math.min(32, 2 ** -(_lv + 1))}`
-      }
-
-      return `-${amount || '?'}`
-    }
-
-    return ''
-  }
-
-  @computed get right() {
-    console.log('right')
-
-    const { title } = this.props
-    if (!title || this.isChaos) return false
-
-    const { search, leftItem, rightValue, isTemple } = this.state
     if (search) {
-      return {
-        list: search,
-        pagination: {
-          page: 1,
-          pageTotal: 1
-        },
+      setRight({
+        list: [...search],
+        pagination: { page: 1, pageTotal: 1 },
         _loaded: getTimestamp()
-      }
+      })
+      return
     }
 
-    if (this.isGuidePost) {
-      return {
-        ...this.msrc,
-        list: this.msrc.list
-          .filter(item => {
-            if (leftItem) {
-              if (rightValue) return item.name.includes(rightValue)
-            }
+    const rightData = { ...LIST_EMPTY }
 
-            if (rightValue) return item.name.includes(rightValue)
-
-            return true
-          })
-          .sort((a, b) => rk(a) - rk(b))
+    if (itemType.isGuidePost) {
+      const msrcCopy = {
+        ...tinygrailStore.msrc,
+        list: [...tinygrailStore.msrc.list]
       }
-    }
 
-    if (this.isStarDust) {
-      return {
-        ...this.temple,
-        list: this.temple.list
-          .filter(item => {
-            if (this.props.rightItemId) return item.id === this.props.rightItemId
-
-            if (this.props.rightItem) return item.id === this.props.rightItem.id
-
-            if (item.assets === item.sacrifices) return false
-
-            if (leftItem) {
-              if (rightValue) {
-                if (isTemple) {
-                  return (
-                    item.name.includes(rightValue) && lv(item) <= lv(leftItem) + (isTemple ? 0 : 1)
-                  )
-                }
-
-                return item.name.includes(rightValue)
-              }
-
-              return isTemple ? lv(item) <= lv(leftItem) + (isTemple ? 0 : 1) : true
-            }
-
-            if (rightValue) return item.name.includes(rightValue)
-
-            return true
-          })
-          .sort((a, b) => {
-            const rankA = rk(a)
-            const rankB = rk(b)
-
-            // 只有在rank<=500时才计算refine
-            const refineA = rankA <= 500 ? refine(a) : 0
-            const refineB = rankB <= 500 ? refine(b) : 0
-
-            // 如果任一元素有有效的refine值(rank<=500)，则按refine排序
-            if ((rankA <= 500 && refineA) || (rankB <= 500 && refineB)) {
-              return refineB - refineA
-            }
-
-            // 否则按rank排序
-            return rankA - rankB
-          })
-      }
-    }
-
-    if (this.isStarBreak) {
-      return {
-        ...this.star,
-        list: this.star.list.filter(item => {
-          if (rightValue) return item.name.includes(rightValue)
-
+      rightData.list = msrcCopy.list
+        .filter(item => {
+          if (rightText) return item.name.includes(rightText)
           return true
         })
+        .sort((a, b) => rk(a) - rk(b))
+    } else if (itemType.isStarDust) {
+      const templeCopy = {
+        ...tinygrailStore.temple(),
+        list: [...tinygrailStore.temple().list]
       }
-    }
 
-    if (this.isFishEye) {
-      return {
-        ...this.fantasy,
-        list: this.fantasy.list.filter(item => {
-          if (rightValue) return item.name.includes(rightValue)
-
+      rightData.list = templeCopy.list
+        .filter(item => {
+          if (rightItemId) return item.id === rightItemId
+          if (rightItem) return item.id === rightItem.id
+          if (item.assets === item.sacrifices) return false
+          if (leftItem) {
+            return rightText
+              ? item.name.includes(rightText) && lv(item) <= lv(leftItem) + (isTemple ? 0 : 1)
+              : lv(item) <= lv(leftItem) + (isTemple ? 0 : 1)
+          }
+          if (rightText) return item.name.includes(rightText)
           return true
         })
+        .sort((a, b) => {
+          const rankA = rk(a)
+          const rankB = rk(b)
+          const refineA = rankA <= 500 ? refine(a) : 0
+          const refineB = rankB <= 500 ? refine(b) : 0
+          return refineA || refineB ? refineB - refineA : rankA - rankB
+        })
+    } else if (itemType.isStarBreak) {
+      const starCopy = {
+        ...tinygrailStore.star('1|100'),
+        list: [...tinygrailStore.star('1|100').list]
       }
-    }
 
-    return {
-      ...this.temple,
-      list: this.temple.list
+      rightData.list = starCopy.list.filter(item => {
+        if (rightText) return item.name.includes(rightText)
+        return true
+      })
+    } else if (itemType.isFishEye) {
+      const fantasyCopy = {
+        ...tinygrailStore.fantasy,
+        list: [...tinygrailStore.fantasy.list]
+      }
+
+      rightData.list = fantasyCopy.list.filter(item => {
+        if (rightText) return item.name.includes(rightText)
+        return true
+      })
+    } else {
+      const templeCopy = {
+        ...tinygrailStore.temple(),
+        list: [...tinygrailStore.temple().list]
+      }
+
+      rightData.list = templeCopy.list
         .filter(item => {
           if (item.assets === item.sacrifices) return false
-
           if (leftItem) {
-            if (rightValue) {
-              return item.name.includes(rightValue) && lv(item) <= lv(leftItem) + (isTemple ? 0 : 1)
+            if (rightText) {
+              return item.name.includes(rightText) && lv(item) <= lv(leftItem) + (isTemple ? 0 : 1)
             }
-
             return lv(item) <= lv(leftItem) + (isTemple ? 0 : 1)
           }
-
-          if (rightValue) return item.name.includes(rightValue)
-
+          if (rightText) return item.name.includes(rightText)
           return true
         })
         .sort((a, b) => lv(b) - lv(a))
     }
-  }
 
-  @computed get computedRight() {
-    console.log('computedRight')
+    setRight(rightData)
+  }, [
+    itemType.isChaos,
+    itemType.isFishEye,
+    itemType.isGuidePost,
+    itemType.isStarBreak,
+    itemType.isStarDust,
+    isTemple,
+    leftItem,
+    rightItem,
+    rightItemId,
+    rightText,
+    search,
+    title
+  ])
 
-    if (!this.right) return this.right
-
-    const { rightFilter } = this.state
-    if (!rightFilter || !this.right?.list?.length) return this.right
-
-    return {
-      ...this.right,
-      list: this.right?.list.filter(
-        (item: { cLevel?: any; level?: any }) => lv(item) == rightFilter
-      )
-    }
-  }
-
-  @computed get rightLevelMap() {
-    const { list } = this.right || {}
-    const data = {}
-
-    try {
-      ;(list || []).forEach((item: { cLevel: any; level: any }) =>
-        data[lv(item) || 0] ? (data[lv(item) || 0] += 1) : (data[lv(item) || 0] = 1)
-      )
-    } catch (error) {
-      console.error(error)
-    }
-
-    return data
-  }
-
-  @computed get rightDS() {
-    const sum = Object.keys(this.rightLevelMap).reduce(
-      (total, level) => total + this.rightLevelMap[level],
-      0
+  // 请求数据
+  const handleInitFetch = useCallback(async () => {
+    const now = getTimestamp()
+    const isStale = (loaded: Loaded) => !loaded || now - Number(loaded) > M2
+    await queue(
+      [
+        isStale(tinygrailStore.temple()._loaded) && (() => tinygrailStore.fetchTemple()),
+        isStale(tinygrailStore.myCharaAssets.chara._loaded) &&
+          (() => tinygrailStore.fetchMyCharaAssets()),
+        isStale(tinygrailStore.msrc._loaded) && (() => tinygrailStore.fetchList('msrc')),
+        isStale(tinygrailStore.star('1|100')._loaded) && (() => tinygrailStore.fetchStar(1, 100)),
+        isStale(tinygrailStore.fantasy._loaded) && (() => tinygrailStore.fetchFantasyList())
+      ].filter(Boolean) as (() => Promise<any>)[]
     )
-    return [
-      `全部 (${sum})`,
-      ...Object.keys(this.rightLevelMap)
-        .map(level => `lv${level} (${this.rightLevelMap[level]})`)
-        .reverse()
-    ]
-  }
+    handleUpdateLeft()
+    handleUpdateRight()
+  }, [handleUpdateLeft, handleUpdateRight])
 
-  @computed get rightChangeText() {
-    if (this.isChaos) return '+10-100'
-
-    if (this.isGuidePost) return '+10-100'
-
-    const { amount } = this.state
-    if (this.isStarDust || this.isFishEye) return `+${amount || '?'}`
-
-    if (this.isStarBreak) return '-20-200'
-
-    return ''
-  }
-
-  // -------------------- status --------------------
-  @computed get canSubmit() {
-    const { leftItem, rightItem, amount } = this.state
-    if (this.isGuidePost) return !!(leftItem && rightItem)
-
-    if (this.isStarDust) return !!(leftItem && rightItem && amount)
-
-    return !!leftItem
-  }
-
-  renderFilter(
-    filter: string,
-    data: string[],
-    map: { [x: string]: any },
-    onSelect: { (lv: any): void; (lv: any): void; (arg0: any): void }
-  ) {
-    return (
-      <Popover.Old
-        data={data}
-        hitSlop={HIT_SLOP}
-        onSelect={(title: string) => {
-          const lv = title.split(' ')[0]
-          onSelect(lv === '全部' ? '' : lv.replace('lv', ''))
-        }}
-      >
-        <Flex justify='center'>
-          <Iconfont
-            name='md-filter-list'
-            size={14}
-            color={filter ? _.colorAsk : _.colorTinygrailText}
-          />
-          <Text style={_.ml.xs} size={10} type={filter ? 'ask' : 'tinygrailText'}>
-            {filter ? `lv${filter}` : '等级'}
-            {map[filter] ? ` (${map[filter]})` : ''}
-          </Text>
-        </Flex>
-      </Popover.Old>
-    )
-  }
-
-  renderLeft() {
-    const { leftValue, leftFilter } = this.state
-    return (
-      <>
-        <Flex style={_.ml.xs}>
-          {this.renderFilter(leftFilter, this.leftDS, this.leftLevelMap, (lv: any) =>
-            this.setState({
-              leftFilter: lv
-            })
-          )}
-          <Flex.Item style={_.ml.sm}>
-            <SearchInput placeholder='消耗' value={leftValue} onChangeText={this.onChangeLeft} />
-          </Flex.Item>
-        </Flex>
-        <List data={this.computedLeft} renderItem={this.renderLeftItem} />
-      </>
-    )
-  }
-
-  renderLeftItem = ({ item }: { item: PickItem }) => {
-    const { leftItem, isTemple } = this.state
-    const disabled = leftItem?.id !== item?.id
-    const extra = []
-    if (!this.isStarDust) {
-      if (item.assets !== (item.sacrifices || item.state)) {
-        extra.push(
-          `${formatNumber(item.assets, 0)} (${formatNumber(item.sacrifices || item.state, 0)})`
-        )
-      } else {
-        extra.push(formatNumber(item.sacrifices || item.state, 0))
+  // 设置右侧选中项
+  const handleSetRightSelected = useCallback(
+    (nextId: number) => {
+      const id = nextId || rightItemId
+      if (id && right.list?.length) {
+        const foundItem = right.list.find(item => item.id == id)
+        if (foundItem) {
+          setRightSelected(foundItem)
+          setRightFilter('')
+        }
       }
-    } else if (isTemple) {
-      extra.push(formatNumber(item.sacrifices || item.state, 0))
-    } else {
-      extra.push(formatNumber(item.state, 0))
+    },
+    [right.list, rightItemId]
+  )
+
+  // 初始化组件本地状态
+  useMount(() => {
+    const callback = async () => {
+      try {
+        const state = await getLocal()
+        if (state?.leftFilter !== undefined) setLeftFilter(state.leftFilter)
+        if (state?.leftSelected !== undefined) setLeftSelected(state.leftSelected)
+        if (state?.leftText !== undefined) setLeftText(state.leftText)
+        if (state?.rightFilter !== undefined) setRightFilter(state.rightFilter)
+        if (state?.rightSelected !== undefined) setRightSelected(state.rightSelected)
+        if (state?.rightText !== undefined) setRightText(state.rightText)
+      } catch (error) {}
     }
-    if (item.current) extra.push(`₵${formatNumber(item.current, 0)}`)
-    extra.push(
-      `+${toFixed(item.rate, 1)} (${toFixed(calculateRate(item.rate, item.rank, item.stars), 1)})`
-    )
+    callback()
+  })
 
-    return (
-      <Item
-        type='ask'
-        id={item.id}
-        src={cover(item)}
-        level={lv(item)}
-        name={item.name}
-        rank={item.rank}
-        extra={extra.join(' / ')}
-        assets={item.assets}
-        sacrifices={item.sacrifices}
-        disabled={disabled}
-        refine={item.refine}
-        item={item}
-        onPress={this.onSelectLeft}
-      />
-    )
-  }
+  // 标题变化
+  useEffect(() => {
+    if (title && titleRef.current !== title) {
+      titleRef.current = title
+      setLoading(false)
+      if (leftItem) setLeftFilter('')
+      if (rightItem) setRightFilter('')
+      setLeftSelected(leftItem || null)
+      setRightSelected(rightItem || null)
+      handleSetRightSelected(rightItemId)
 
-  renderRight() {
-    const { rightValue, rightFilter } = this.state
-    if (this.isChaos) {
-      return (
-        <Text type='tinygrailText' size={13} align='center'>
-          随机目标
-        </Text>
-      )
+      const initData = async () => {
+        await handleInitFetch()
+        handleSetRightSelected(rightItemId)
+      }
+      initData()
     }
+  }, [handleInitFetch, handleSetRightSelected, leftItem, rightItem, rightItemId, title])
 
-    return (
-      <>
-        <Flex>
-          {this.renderFilter(rightFilter, this.rightDS, this.rightLevelMap, lv =>
-            this.setState({
-              rightFilter: lv
-            })
-          )}
-          <Flex.Item style={_.ml.sm}>
-            <SearchInput
-              placeholder='目标'
-              value={rightValue}
-              returnKeyType='search'
-              returnKeyLabel='搜索'
-              onChangeText={this.onChangeRight}
-              onSubmitEditing={this.doSearch}
-            />
-          </Flex.Item>
-        </Flex>
-        <List data={this.computedRight} renderItem={this.renderRightItem} />
-      </>
-    )
-  }
+  // 左搜索框变化
+  useEffect(() => {
+    handleUpdateLeft()
+  }, [leftText, handleUpdateLeft])
 
-  renderRightItem = ({ item }: { item: PickItem }) => {
-    const { rightItem } = this.state
-    const disabled = rightItem?.id !== item?.id
-    const extra = []
+  // 右搜索框变化
+  useEffect(() => {
+    handleUpdateRight()
+  }, [rightText, handleUpdateRight])
 
-    if (item.assets && item.assets !== item.sacrifices) {
-      extra.push(`${formatNumber(item.assets, 0)} (${formatNumber(item.sacrifices, 0)})`)
-    } else if (item.sacrifices) {
-      extra.push(formatNumber(item.sacrifices, 0))
-    }
-    if (item.current) extra.push(`₵${formatNumber(item.current, 0)}`)
-    if (item.userAmount) extra.push(formatNumber(item.userAmount, 0))
-    if (item.rate) {
-      extra.push(
-        `+${toFixed(item.rate, 1)} (${toFixed(calculateRate(item.rate, item.rank, item.stars), 1)})`
-      )
-    }
-
-    return (
-      <Item
-        type={this.isStarBreak ? 'ask' : 'bid'}
-        id={item.id}
-        src={cover(item)}
-        level={lv(item)}
-        name={item.name}
-        extra={extra.join(' / ')}
-        assets={item.assets}
-        sacrifices={item.sacrifices}
-        rank={item.rank}
-        disabled={disabled}
-        refine={item.refine}
-        item={item}
-        onPress={this.onSelectRight}
-      />
-    )
-  }
-
-  renderInformation() {
-    const { title } = this.props
-    if (!ITEMS_NOTIFY[title]) return null
-
-    return (
-      <IconTouchable
-        style={this.styles.information}
-        name='md-info-outline'
-        size={20}
-        onPress={this.onInformation}
-      />
-    )
-  }
-
-  renderBottom() {
-    const { leftItem, rightItem } = this.state
-    return (
-      <View>
-        <Flex style={this.styles.bottom}>
-          <Flex.Item>
-            {leftItem ? (
-              <ItemBottom
-                src={cover(leftItem)}
-                name={leftItem.name}
-                level={lv(leftItem)}
-                // rank={leftItem.rank}
-                change={this.leftChangeText}
-                type={bottomTextType(this.leftChangeText)}
-                onPress={this.onCancelLeft}
-              />
-            ) : (
-              <Text type='tinygrailText' size={10}>
-                - 选择消耗 -
-              </Text>
-            )}
-          </Flex.Item>
-          {this.right !== false && (
-            <Flex.Item style={_.ml.sm}>
-              {rightItem ? (
-                <ItemBottom
-                  src={cover(rightItem)}
-                  name={rightItem.name}
-                  level={lv(rightItem)}
-                  // rank={rightItem.rank}
-                  change={this.rightChangeText}
-                  type={bottomTextType(this.rightChangeText)}
-                  onPress={this.onCancelRight}
-                />
-              ) : (
-                <Text type='tinygrailText' size={10}>
-                  - 选择目标 -
-                </Text>
-              )}
-            </Flex.Item>
-          )}
-          {!this.isStarDust && this.renderSubmitBtn()}
-        </Flex>
-        {this.isStarDust && (
-          <Flex>
-            {this.renderForm()}
-            {this.renderSubmitBtn()}
-          </Flex>
-        )}
-      </View>
-    )
-  }
-
-  renderSubmitBtn() {
-    const { loading } = this.state
-    return (
-      <Button
-        key={String(this.canSubmit)}
-        style={this.canSubmit ? this.styles.btn : this.styles.btnDisabled}
-        styleText={this.styles.btnText}
-        type='bid'
-        loading={loading}
-        onPress={this.onSubmit}
-      >
-        提交
-      </Button>
-    )
-  }
-
-  renderForm() {
-    if (!this.isStarDust) return null
-
-    const { amount } = this.state
-    return (
-      <>
-        <Text type='tinygrailText' size={10}>
-          消耗股份
-        </Text>
-        <Flex.Item style={_.ml.sm}>
-          <SearchInput
-            keyboardType='numeric'
-            placeholder='数量'
-            value={amount}
-            onFocus={this.onFocus}
-            onBlur={this.onBlur}
-            onChangeText={this.onChangeNum}
+  return useObserver(() => (
+    <Modal visible={visible} title={title} focus={focus} onClose={handleClose}>
+      <Content>
+        <Flex.Item>
+          <LeftList
+            source={left}
+            filter={leftFilter}
+            text={leftText}
+            selected={leftSelected}
+            isStarDust={itemType.isStarDust}
+            isTemple={isTemple}
+            onChangeText={handleChangeLeftText}
+            onFilter={handleFilterLeft}
+            onSelect={handleSelectedLeft}
           />
         </Flex.Item>
-      </>
-    )
-  }
-
-  render() {
-    const { visible, title } = this.props
-    const { focus } = this.state
-    return (
-      <>
-        <Modal
-          style={stl(this.styles.modal, focus && this.styles.focus)}
-          visible={visible}
-          title={title}
-          focus={false}
-          type='tinygrailPlain'
-          onClose={this.onClose}
-        >
-          <Flex style={this.styles.wrap}>
-            <Flex.Item>{this.renderLeft()}</Flex.Item>
-            <Flex.Item style={_.ml.md}>{this.renderRight()}</Flex.Item>
-          </Flex>
-          {this.renderInformation()}
-          {this.renderBottom()}
-        </Modal>
-        <BackHandler handler={this.onBackAndroid} />
-      </>
-    )
-  }
-
-  get styles() {
-    return memoStyles()
-  }
+        <Flex.Item style={_.ml.md}>
+          {itemType.isChaos ? (
+            <Text type='tinygrailText' size={13} align='center'>
+              随机目标
+            </Text>
+          ) : (
+            <RightList
+              source={right}
+              filter={rightFilter}
+              text={rightText}
+              selected={rightSelected}
+              isStarBreak={itemType.isStarBreak}
+              onChangeText={handleChangeRightText}
+              onFilter={handleFilterRight}
+              onSelect={handleSelectedRight}
+              onSubmitEditing={handleSearch}
+            />
+          )}
+        </Flex.Item>
+      </Content>
+      <Information title={title} onClose={handleClose} />
+      <Bottom
+        leftSelected={leftSelected}
+        rightSelected={rightSelected}
+        amount={amount}
+        loading={loading}
+        canSubmit={memoCanSubmit}
+        isChaos={itemType.isChaos}
+        isFishEye={itemType.isFishEye}
+        isGuidePost={itemType.isGuidePost}
+        isStarBreak={itemType.isStarBreak}
+        isStarDust={itemType.isStarDust}
+        isTemple={isTemple}
+        hasRight={!!right}
+        onBlur={handleBlur}
+        onCancelLeft={handleCancelLeft}
+        onCancelRight={handleCanceRight}
+        onChangeText={handleChangeAmount}
+        onFocus={handleFocus}
+        onSubmit={handleSubmit}
+      />
+    </Modal>
+  ))
 }
 
-export default ob(CharactersModal)
+export default CharactersModal

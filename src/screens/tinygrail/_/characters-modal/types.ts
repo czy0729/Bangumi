@@ -44,18 +44,3 @@ export type Props = {
   onClose?: Fn
   onSubmit?: Fn
 }
-
-export type State = {
-  leftItem: PickItem
-  leftValue: string
-  leftFilter: string
-  rightItem: PickItem
-  rightValue: string
-  rightFilter: string
-  search: PickItem[]
-  loading: boolean
-  title: string
-  amount: number
-  isTemple: boolean
-  focus: boolean
-}
