@@ -25,7 +25,8 @@ function Media() {
 
   const { value: matchLink, handleSwitch: handleSwitchMatchLink } =
     useAsyncSwitchSetting('matchLink')
-  const { value: acSearch, handleSwitch: handleSwitchAcSearch } = useAsyncSwitchSetting('acSearch')
+  const { value: acSearchV2, handleSwitch: handleSwitchAcSearch } =
+    useAsyncSwitchSetting('acSearchV2')
   const { value: acSearchPopable, handleSwitch: handleSwitchAcSearchPopable } =
     useAsyncSwitchSetting('acSearchPopable')
 
@@ -65,13 +66,13 @@ function Media() {
         ft={
           <SwitchPro
             style={styles.switch}
-            value={acSearch}
+            value={acSearchV2}
             onSyncPress={() => {
               handleSwitchAcSearch()
 
               t('超展开设置.切换', {
                 title: '猜测条目',
-                checked: !acSearch
+                checked: !acSearchV2
               })
             }}
           />
@@ -84,29 +85,32 @@ function Media() {
       />
 
       {/* 猜测条目先显示缩略信息 */}
-      <ItemSetting
-        hd='猜测条目先显示缩略信息'
-        information='若猜测命中关键字，为了不打断阅读，会在图层上方先显示缩略信息，再次点击才会进入条目页面'
-        ft={
-          <SwitchPro
-            style={styles.switch}
-            value={acSearchPopable}
-            onSyncPress={() => {
-              handleSwitchAcSearchPopable()
+      {acSearchV2 && (
+        <ItemSetting
+          hd='猜测条目先显示缩略信息'
+          information='若猜测命中关键字，为了不打断阅读，会在图层上方先显示缩略信息，再次点击才会进入条目页面'
+          ft={
+            <SwitchPro
+              style={styles.switch}
+              value={acSearchPopable}
+              onSyncPress={() => {
+                handleSwitchAcSearchPopable()
 
-              t('超展开设置.切换', {
-                title: '猜测条目',
-                checked: !acSearch
-              })
-            }}
-          />
-        }
-        withoutFeedback
-        thumb={getYuqueThumbs([
-          '0/2022/png/386799/1661157003238-c24ee52e-85ba-43b1-81fb-71e2596c6562.png',
-          '0/2022/png/386799/1661157009090-307ff23e-1734-4914-8c8e-1537faa7e9f9.png'
-        ])}
-      />
+                t('超展开设置.切换', {
+                  title: '猜测条目',
+                  checked: !acSearchV2
+                })
+              }}
+            />
+          }
+          withoutFeedback
+          thumb={getYuqueThumbs([
+            '0/2022/png/386799/1661157003238-c24ee52e-85ba-43b1-81fb-71e2596c6562.png',
+            '0/2022/png/386799/1661157009090-307ff23e-1734-4914-8c8e-1537faa7e9f9.png'
+          ])}
+        />
+      )}
+
       <Flex style={styles.acSearchPopable}>
         <Text size={13}>试一试∶</Text>
         <Text size={13}>
@@ -123,7 +127,7 @@ function Media() {
           >
             石蒜
           </Text>
-          物语是什么鬼翻译[bgm38]
+          物语是什么鬼翻译(bgm38)
         </Text>
       </Flex>
     </Block>

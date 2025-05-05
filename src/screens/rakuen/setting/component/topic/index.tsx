@@ -97,7 +97,7 @@ function Topic() {
 
       {/* 楼层内容使用加宽版展示 */}
       <ItemSetting
-        hd='楼层内容加宽展示'
+        hd='楼层加宽展示'
         ft={
           <SwitchPro
             style={styles.switch}
@@ -121,8 +121,8 @@ function Topic() {
 
       {/* 楼层中图片自动加载 */}
       <ItemSetting
-        hd='楼层中图片自动加载'
-        information='若设置成自动，则无论是否提前获取到图片大小，也会自动加载，请谨慎开启'
+        hd='图片自动加载'
+        information='开启自动加载会强制加载所有图片，但因图床为用户自己选择，可能出现不稳定且图片体积大，导致加载失败或卡顿，建议谨慎开启自动加载。'
         ft={
           <SegmentedControl
             style={styles.segmentedControl}

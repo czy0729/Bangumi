@@ -123,7 +123,7 @@ function removeHTMLTag(str: string) {
 
 /** 匹配 bgm 部分页面链接, 把这些链接变成 Media 块, 与行内文字独立 */
 export function hackMatchMediaLink(html: string) {
-  const { matchLink, acSearch: acSearchSetting } = rakuenStore.setting
+  const { matchLink, acSearchV2: acSearchSetting } = rakuenStore.setting
 
   let _html = html
   let flag: boolean

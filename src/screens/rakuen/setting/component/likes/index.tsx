@@ -28,7 +28,7 @@ function Likes() {
       <Tip>贴贴</Tip>
       <ItemSetting
         hd='贴贴模块'
-        information={`近期新增的帖子回复上面贴表情的功能\n长按数字按钮展开贴过的用户列表\n因在网页版随处可见，不建议关闭`}
+        information='帖子回复上面贴表情的功能，长按数字按钮展开贴过的用户列表。因在网页版随处可见，不建议关闭。'
         ft={
           <SwitchPro
             style={styles.switch}

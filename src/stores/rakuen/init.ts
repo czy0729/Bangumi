@@ -75,8 +75,11 @@ export const INIT_SETTING = {
   /** 楼层正文链接显示成信息块 */
   matchLink: true,
 
-  /** 楼层正文内容猜测条目 */
+  /** @deprecated 楼层正文内容猜测条目 */
   acSearch: true,
+
+  /** 因初始化消耗巨大，不再默认开启 */
+  acSearchV2: false,
 
   /** 猜测条目点击显示 Popable */
   acSearchPopable: true,

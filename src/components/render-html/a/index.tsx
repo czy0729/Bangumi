@@ -31,7 +31,7 @@ function A({ style, attrs = {}, passProps, children, onPress, ...other }: Props)
 
     ;(async () => {
       if (app && route === 'Subject') {
-        if (rakuenStore.setting.acSearch) setEl(getACSearch(args))
+        if (rakuenStore.setting.acSearchV2) setEl(getACSearch(args))
         return
       }
 
