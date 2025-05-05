@@ -2,19 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-05-14 06:11:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-30 04:05:28
+ * @Last Modified time: 2025-05-06 06:50:45
  */
-import { factory } from '@utils'
 import { Navigation, TopicId } from '@types'
 import Store from './store'
 import { TYPE_DS } from './ds'
 
-const f = factory(Store)
-
-export type StoreType = typeof f
-
 export type Ctx = {
-  $: StoreType
+  $: InstanceType<typeof Store>
   navigation?: Navigation
 }
 

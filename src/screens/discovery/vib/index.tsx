@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-05-03 22:42:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-13 07:20:29
+ * @Last Modified time: 2025-05-06 06:41:58
  */
 import React, { useCallback } from 'react'
 import { useObserver } from 'mobx-react'
 import { Component, Page, ScrollView } from '@components'
-import { InView, TapListener } from '@_'
+import { InView } from '@_'
 import { _, StoreContext, uiStore } from '@stores'
 import { NavigationProps, ScrollEvent } from '@types'
 import BlockNew from './component/block-new'
@@ -37,29 +37,27 @@ const VIB = (props: NavigationProps) => {
     return (
       <Component id='screen-vib'>
         <StoreContext.Provider value={id}>
-          <TapListener>
-            <Page loaded={loaded}>
-              <ScrollView
-                forwardRef={handleForwardRef}
-                contentContainerStyle={styles.contentContainerStyle}
-                onScroll={handleScroll}
-              >
-                <Title
-                  text={`${current.title} (${current.desc})`.replace('日到', '至')}
-                  size='primary'
-                />
-                {current.data.map((item, index) => {
-                  const Component = index ? BlockTrend : BlockNew
-                  return (
-                    <InView key={item.title} style={_.mt.lg} y={_.window.height * (index + 1)}>
-                      <Component navigation={navigation} title={item.title} data={item.data} />
-                    </InView>
-                  )
-                })}
-                <Pagination data={data} index={index} onSelect={handleSelect} />
-              </ScrollView>
-            </Page>
-          </TapListener>
+          <Page loaded={loaded}>
+            <ScrollView
+              forwardRef={handleForwardRef}
+              contentContainerStyle={styles.contentContainerStyle}
+              onScroll={handleScroll}
+            >
+              <Title
+                text={`${current.title} (${current.desc})`.replace('日到', '至')}
+                size='primary'
+              />
+              {current.data.map((item, index) => {
+                const Component = index ? BlockTrend : BlockNew
+                return (
+                  <InView key={item.title} style={_.mt.lg} y={_.window.height * (index + 1)}>
+                    <Component navigation={navigation} title={item.title} data={item.data} />
+                  </InView>
+                )
+              })}
+              <Pagination data={data} index={index} onSelect={handleSelect} />
+            </ScrollView>
+          </Page>
           <Header
             navigation={navigation}
             data={data.map(item => item.title)}

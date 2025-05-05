@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-04 05:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-22 15:49:35
+ * @Last Modified time: 2025-05-06 06:44:45
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -11,6 +11,7 @@ import { _, uiStore } from '@stores'
 import { feedback, findSubjectJp, HTMLDecode } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { IOS } from '@constants'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 import { Props } from './types'
@@ -19,9 +20,9 @@ function Item({ navigation, item, index }: Props) {
   const jp = findSubjectJp(item.title, item.id)
   return (
     <Flex style={styles.item} align='start'>
-      <Text size={13} lineHeight={20}>
-        {index + 1}.{' '}
-      </Text>
+      <Flex style={styles.index}>
+        <Text size={13}>{index + 1}. </Text>
+      </Flex>
       <Flex.Item>
         <Touchable
           style={_.ml.xs}
@@ -59,7 +60,8 @@ function Item({ navigation, item, index }: Props) {
         </Touchable>
       </Flex.Item>
       <Touchable
-        onPress={() => {
+        onPress={({ pageX, pageY }) => {
+          uiStore.setXY(pageX, pageY - (IOS ? 0 : 8))
           uiStore.showPopableSubject({
             subjectId: item.id
           })
