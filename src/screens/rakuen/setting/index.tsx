@@ -6,7 +6,6 @@
  */
 import React from 'react'
 import { Component } from '@components'
-import { TapListener } from '@_'
 import { useObserver } from '@utils/hooks'
 import { NavigationProps } from '@types'
 import Scroll from './component/scroll'
@@ -19,9 +18,7 @@ const RakuenSetting = ({ navigation }: NavigationProps) => {
 
   return useObserver(() => (
     <Component id='screen-rakuen-setting'>
-      <TapListener>
-        <Scroll navigation={navigation} />
-      </TapListener>
+      <Scroll navigation={navigation} />
       <Header />
     </Component>
   ))

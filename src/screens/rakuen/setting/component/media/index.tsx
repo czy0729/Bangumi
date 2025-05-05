@@ -5,13 +5,14 @@
  * @Last Modified time: 2024-12-25 15:32:50
  */
 import React from 'react'
-import { Flex, SwitchPro, Text } from '@components'
+import { Flex, SwitchPro, Text, Touchable } from '@components'
 import { ItemSetting } from '@_'
 import { uiStore } from '@stores'
 import { feedback } from '@utils'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
+import { IOS } from '@constants'
 import Block from '@screens/user/setting/component/block'
 import Tip from '@screens/user/setting/component/tip'
 import { styles } from '../styles'
@@ -113,22 +114,20 @@ function Media() {
 
       <Flex style={styles.acSearchPopable}>
         <Text size={13}>试一试∶</Text>
-        <Text size={13}>
-          <Text
-            size={13}
-            bold
-            underline
-            onPress={() => {
-              uiStore.showPopableSubject({
-                subjectId: 364450
-              })
-              feedback(true)
-            }}
-          >
+        <Touchable
+          onPress={({ pageX, pageY }) => {
+            uiStore.setXY(pageX, pageY - (IOS ? 0 : 12))
+            uiStore.showPopableSubject({
+              subjectId: 364450
+            })
+            feedback(true)
+          }}
+        >
+          <Text size={13} bold underline>
             石蒜
           </Text>
-          物语是什么鬼翻译(bgm38)
-        </Text>
+        </Touchable>
+        <Text size={13}>物语是什么鬼翻译(bgm38)</Text>
       </Flex>
     </Block>
   ))
