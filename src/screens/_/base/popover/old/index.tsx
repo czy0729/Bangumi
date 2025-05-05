@@ -5,10 +5,9 @@
  * @Last Modified time: 2025-01-08 20:24:35
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { ActionSheet, Button, Touchable } from '@components'
 import { _ } from '@stores'
-import { useBoolean } from '@utils/hooks'
+import { useBoolean, useObserver } from '@utils/hooks'
 import { FROZEN_FN } from '@constants'
 import { memoStyles } from './styles'
 

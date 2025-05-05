@@ -35,7 +35,7 @@ export type Props = Override<
     noDefault?: boolean
 
     /** 条目类型 */
-    type?: SubjectTypeCn | '目录' | ''
+    type?: SubjectTypeCn | '目录' | '人物' | ''
 
     /** 强制是否使用拟物封面 */
     useType?: boolean

@@ -36,6 +36,7 @@ const Staff = memo(
             <HorizontalList
               style={_.mt.sm}
               data={removeDuplicateItemsById(staff)}
+              typeCn='角色'
               initialRenderNums={_.device(Math.floor(_.window.contentWidth / 56) + 1, 8)}
               onPress={({ id, name, nameJP, _image }) => {
                 navigation.push('Mono', {

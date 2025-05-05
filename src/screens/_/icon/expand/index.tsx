@@ -6,10 +6,10 @@
  */
 import React, { useEffect, useMemo, useRef } from 'react'
 import { Animated } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Component, Iconfont } from '@components'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { USE_NATIVE_DRIVER } from '@constants'
 import { COMPONENT } from './ds'
 import { Props as IconExpandProps } from './types'

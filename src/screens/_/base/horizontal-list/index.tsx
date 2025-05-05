@@ -4,11 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-02 16:57:36
  */
-import React from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { Component } from '@components'
 import { desc } from '@utils'
-import { ob } from '@utils/decorators'
-import { FROZEN_FN } from '@constants'
+import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
+import { FROZEN_ARRAY, FROZEN_FN, FROZEN_OBJECT } from '@constants'
 import { PreventTouchPlaceholder } from '../prevent-touch-placeholder'
 import Item from './item'
 import ScrollViewHorizontal from './scroll-view-horizontal'
@@ -18,96 +19,63 @@ import { Props as HorizontalListProps } from './types'
 export { HorizontalListProps }
 
 /** 水平列表 */
-export const HorizontalList = ob(
-  class HorizontalListComponent extends React.Component<HorizontalListProps> {
-    static defaultProps = {
-      data: [],
-      counts: {},
-      width: 60,
-      height: 60,
-      quality: false,
-      findCn: false,
-      typeCn: '',
-      relationTypeCn: '',
-      ellipsizeMode: 'tail',
-      initialRenderNums: 0,
-      scrolled: false,
-      onPress: FROZEN_FN,
-      onSubPress: undefined
-    }
+export const HorizontalList = ({
+  style,
+  data = FROZEN_ARRAY,
+  counts = FROZEN_OBJECT,
+  width = 60,
+  height = 60,
+  findCn = false,
+  typeCn = '',
+  relationTypeCn = '',
+  ellipsizeMode = 'tail',
+  initialRenderNums = 0,
+  scrolled: initialScrolled = false,
+  onPress = FROZEN_FN,
+  onSubPress
+}: HorizontalListProps) => {
+  r(COMPONENT)
 
-    state = {
-      scrolled: this.props.scrolled
-    }
+  const [scrolled, setScrolled] = useState(initialScrolled)
 
-    onScroll = () => {
-      const { scrolled } = this.state
-      if (!scrolled) {
-        this.setState({
-          scrolled: true
-        })
-      }
-    }
+  const memoData = useMemo(() => {
+    // 没封面图的置后
+    const sortedData = [...data].sort((a, b) => desc(a, b, item => (item.image ? 1 : 0)))
+    if (!initialRenderNums || scrolled) return sortedData
 
-    get data() {
-      const { data, initialRenderNums } = this.props
-      const { scrolled } = this.state
+    return sortedData.filter((_item, index) => index < initialRenderNums)
+  }, [data, initialRenderNums, scrolled])
 
-      // 没封面图的置后
-      if (!initialRenderNums || scrolled) {
-        return data.slice().sort((a, b) => desc(a, b, item => (item.image ? 1 : 0)))
-      }
+  const handleScroll = useCallback(() => {
+    if (!scrolled) setScrolled(true)
+  }, [scrolled])
 
-      return data
-        .slice()
-        .sort((a, b) => desc(a, b, item => (item.image ? 1 : 0)))
-        .filter((_item, index) => index < initialRenderNums)
-    }
-
-    render() {
-      const {
-        style,
-        counts,
-        width,
-        height,
-        findCn,
-        typeCn,
-        relationTypeCn,
-        ellipsizeMode,
-        initialRenderNums,
-        onPress,
-        onSubPress
-      } = this.props
-      const { scrolled } = this.state
-      return (
-        <Component id='base-horizontal-list'>
-          <ScrollViewHorizontal
-            style={style}
-            onScroll={!initialRenderNums || scrolled ? undefined : this.onScroll}
-          >
-            {this.data.map((item, index) => (
-              <Item
-                key={item.id || index}
-                item={item}
-                count={counts[item.id] || 0}
-                width={width}
-                height={height}
-                findCn={findCn}
-                ellipsizeMode={ellipsizeMode}
-                isFirst={index === 0}
-                typeCn={typeCn}
-                relationTypeCn={relationTypeCn}
-                onPress={onPress}
-                onSubPress={onSubPress}
-              />
-            ))}
-          </ScrollViewHorizontal>
-          <PreventTouchPlaceholder />
-        </Component>
-      )
-    }
-  },
-  COMPONENT
-)
+  return useObserver(() => (
+    <Component id='base-horizontal-list'>
+      <ScrollViewHorizontal
+        style={style}
+        onScroll={!initialRenderNums || scrolled ? undefined : handleScroll}
+      >
+        {memoData.map((item, index) => (
+          <Item
+            key={item.id || index}
+            item={item}
+            count={counts[item.id] || 0}
+            width={width}
+            height={height}
+            findCn={findCn}
+            ellipsizeMode={ellipsizeMode}
+            isFirst={index === 0}
+            typeCn={typeCn}
+            relationTypeCn={relationTypeCn}
+            onPress={onPress}
+            onSubPress={onSubPress}
+          />
+        ))}
+      </ScrollViewHorizontal>
+      <PreventTouchPlaceholder />
+    </Component>
+  ))
+}
 
 export default HorizontalList

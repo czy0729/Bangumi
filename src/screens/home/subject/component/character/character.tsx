@@ -59,6 +59,7 @@ const Character = memo(
                 })
                 .sort((a, b) => desc(getSortValue(a), getSortValue(b)))}
               counts={crtCounts}
+              typeCn='角色'
               initialRenderNums={_.device(Math.floor(_.window.contentWidth / 56) + 1, 8)}
               onPress={({ id, name, nameJP, _image }) => {
                 navigation.push('Mono', {

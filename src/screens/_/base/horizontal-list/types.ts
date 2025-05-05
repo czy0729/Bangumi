@@ -14,7 +14,7 @@ export type Props = {
   data: any[] | readonly any[]
 
   /** 数据 id: number */
-  counts: Record<string, number>
+  counts?: Record<string, number>
 
   /** 封面宽度 */
   width?: number
@@ -29,10 +29,10 @@ export type Props = {
   findCn?: boolean
 
   /** 条目类型中文 */
-  typeCn?: SubjectTypeCn
+  typeCn?: SubjectTypeCn | '角色' | ''
 
   /** 关联条目类型中文, 若有值则相关描述例如`不同演绎`会沿用此类型值 */
-  relationTypeCn?: SubjectTypeCn
+  relationTypeCn?: SubjectTypeCn | '角色' | ''
 
   /** 文本溢出显示方式, 在例如单行本中能显示话数, 而不会被溢出折叠 (iOS only) */
   ellipsizeMode?: TextProps['ellipsizeMode']

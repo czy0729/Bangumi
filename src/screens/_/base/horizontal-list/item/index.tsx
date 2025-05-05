@@ -42,7 +42,14 @@ function Item({
         }
       )}
     >
-      <Touchable animate scale={0.9} hitSlop={HIT_SLOP} onPress={() => onPress(item, typeCn)}>
+      <Touchable
+        animate
+        scale={0.9}
+        hitSlop={HIT_SLOP}
+        onPress={() => {
+          onPress(item, typeCn)
+        }}
+      >
         <Cover
           size={w}
           height={_.r(height)}
