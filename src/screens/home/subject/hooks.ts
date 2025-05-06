@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-15 16:13:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 01:26:11
+ * @Last Modified time: 2025-05-06 21:28:43
  */
 import { useCallback, useRef } from 'react'
 import { findNodeHandle, View } from 'react-native'
@@ -153,6 +153,15 @@ export function useSubjectPage(props: NavigationProps) {
       },
       // eslint-disable-next-line react-hooks/exhaustive-deps
       []
-    )
+    ),
+
+    /** 滚动到顶 */
+    onScrollToTop: useCallback(() => {
+      feedback()
+      scrollViewRef.current.scrollToOffset({
+        offset: 0,
+        animated: true
+      })
+    }, [])
   }
 }

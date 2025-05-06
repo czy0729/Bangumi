@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-26 19:26:45
+ * @Last Modified time: 2025-05-06 21:23:47
  */
 import React from 'react'
 import { getCoverMedium } from '@utils'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
 import HeaderTitle from './header-title'
 import { COMPONENT } from './ds'
+import { Props } from './types'
 
-function HeaderTitleWrap({ $ }: Ctx) {
+function HeaderTitleWrap({ $, onScrollToTop }: Props) {
   return (
     <HeaderTitle
       subjectId={$.subjectId}
@@ -22,6 +22,7 @@ function HeaderTitleWrap({ $ }: Ctx) {
       cn={$.cn}
       jp={$.jp}
       titleLabel={$.titleLabel}
+      onScrollToTop={onScrollToTop}
     />
   )
 }

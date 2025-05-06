@@ -14,7 +14,7 @@ import Menu from './menu'
 import PopToTop from './pop-to-top'
 import { COMPONENT } from './ds'
 
-function Header({ onScrollTo }) {
+function Header({ onScrollTo, onScrollToTop }) {
   const { $ } = useStore<Ctx>()
   return (
     <HeaderComp
@@ -25,7 +25,7 @@ function Header({ onScrollTo }) {
       domTitle={$.jp || $.cn}
       hm={[$.url, 'Subject']}
       headerLeft={<PopToTop />}
-      headerTitle={<HeaderTitle $={$} />}
+      headerTitle={<HeaderTitle $={$} onScrollToTop={onScrollToTop} />}
       headerRight={() => <Menu onScrollTo={onScrollTo} />}
     />
   )

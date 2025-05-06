@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-08-26 00:48:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 00:51:56
+ * @Last Modified time: 2025-05-06 21:24:20
  */
 import { rc } from '@utils/dev'
+import { FROZEN_FN } from '@constants'
+import { Fn } from '@types'
 import { COMPONENT as PARENT } from '../ds'
 
 import type { Ctx } from '../../types'
@@ -26,5 +28,6 @@ export const DEFAULT_PROPS = {
   type: '' as $['type'],
   cn: '' as $['cn'],
   jp: '' as $['jp'],
-  titleLabel: '' as $['titleLabel']
+  titleLabel: '' as $['titleLabel'],
+  onScrollToTop: FROZEN_FN as Fn
 }
