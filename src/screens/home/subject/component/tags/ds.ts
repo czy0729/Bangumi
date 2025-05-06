@@ -7,8 +7,10 @@
 import { systemStore } from '@stores'
 import { rc } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
-import { StoreType as $ } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
+
+import type { Ctx } from '../../types'
+type $ = Ctx['$']
 
 export const COMPONENT = rc(PARENT, 'Tags')
 

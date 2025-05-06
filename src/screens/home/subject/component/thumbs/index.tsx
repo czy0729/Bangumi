@@ -70,7 +70,11 @@ function Thumbs({ onBlockRef }) {
 
     return (
       <Component id='screen-subject-thumbs'>
-        <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_THUMBS)} />
+        <View
+          ref={ref => onBlockRef(ref, TITLE_THUMBS)}
+          style={_.container.layout}
+          collapsable={false}
+        />
         <InView style={stl(styles.container, !showThumbs && _.short)}>
           <SectionTitle
             style={_.container.wind}

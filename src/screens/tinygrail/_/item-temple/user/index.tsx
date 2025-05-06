@@ -10,7 +10,6 @@ import { Avatar, Flex, UserStatus } from '@components'
 import { _ } from '@stores'
 import { getTimestamp } from '@utils'
 import { ob } from '@utils/decorators'
-import { IOS } from '@constants'
 import { memoStyles } from './styles'
 
 function User({ navigation, userId, avatar, nickname, lastActive, event }) {
@@ -24,7 +23,7 @@ function User({ navigation, userId, avatar, nickname, lastActive, event }) {
             last={getTimestamp((lastActive || '').replace('T', ' '))}
             mini
           >
-            <View style={IOS && styles.shadow}>
+            <View style={styles.shadow}>
               <Avatar
                 navigation={navigation}
                 size={30}

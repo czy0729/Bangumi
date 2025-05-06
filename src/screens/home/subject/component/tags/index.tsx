@@ -21,7 +21,11 @@ function TagsWrap({ onBlockRef }) {
 
   return (
     <Component id='screen-subject-tags'>
-      <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_TAGS)} />
+      <View
+        ref={ref => onBlockRef(ref, TITLE_TAGS)}
+        style={_.container.layout}
+        collapsable={false}
+      />
       <Tags
         show={systemStore.setting.showTags && !!$.tags.length}
         showTags={systemStore.setting.showTags}

@@ -22,7 +22,11 @@ function StaffWrap({ onBlockRef }) {
   return (
     <Suspense fallback={null}>
       <Component id='screen-subject-staff'>
-        <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_STAFF)} />
+        <View
+          ref={ref => onBlockRef(ref, TITLE_STAFF)}
+          style={_.container.layout}
+          collapsable={false}
+        />
         <Staff
           navigation={navigation}
           showStaff={systemStore.setting.showStaff}

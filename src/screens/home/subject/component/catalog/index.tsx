@@ -23,7 +23,11 @@ function CatalogWrap({ onBlockRef }) {
   return (
     <Suspense fallback={null}>
       <Component id='screen-subject-catalog'>
-        <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_CATALOG)} />
+        <View
+          ref={ref => onBlockRef(ref, TITLE_CATALOG)}
+          style={_.container.layout}
+          collapsable={false}
+        />
         <Catalog
           styles={memoStyles()}
           showCatalog={systemStore.setting.showCatalog}

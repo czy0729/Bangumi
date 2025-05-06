@@ -5,8 +5,10 @@
  * @Last Modified time: 2022-08-26 00:51:56
  */
 import { rc } from '@utils/dev'
-import { StoreType as $ } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
+
+import type { Ctx } from '../../types'
+type $ = Ctx['$']
 
 export const COMPONENT = rc(PARENT, 'HeaderTitle')
 

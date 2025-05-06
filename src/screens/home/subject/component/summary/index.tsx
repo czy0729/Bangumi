@@ -23,7 +23,11 @@ function SummaryWrap({ onBlockRef }) {
 
   return (
     <Component id='screen-subject-summary'>
-      <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_SUMMARY)} />
+      <View
+        ref={ref => onBlockRef(ref, TITLE_SUMMARY)}
+        style={_.container.layout}
+        collapsable={false}
+      />
       <Summary
         navigation={navigation}
         styles={memoStyles()}

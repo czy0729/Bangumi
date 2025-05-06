@@ -27,7 +27,11 @@ function Game({ onBlockRef }) {
   const { showGameInfo } = systemStore.setting
   return (
     <Component id='screen-subject-game'>
-      <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_GAME)} />
+      <View
+        ref={ref => onBlockRef(ref, TITLE_GAME)}
+        style={_.container.layout}
+        collapsable={false}
+      />
       <InView style={stl(_.mt.lg, !showGameInfo && _.short)}>
         <Expand>
           <SectionTitle

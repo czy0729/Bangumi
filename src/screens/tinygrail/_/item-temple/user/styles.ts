@@ -21,12 +21,7 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.colorTinygrailContainer
   },
   shadow: {
-    shadowColor: 'rgb(0, 0, 0)',
-    shadowOffset: {
-      width: 1,
-      height: 4
-    },
-    shadowOpacity: _.select(0.32, 0.64),
-    shadowRadius: 6
+    ..._.shadow,
+    backgroundColor: 'rgba(0, 0, 0, 0.01)'
   }
 }))

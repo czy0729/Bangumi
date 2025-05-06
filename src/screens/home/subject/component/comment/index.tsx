@@ -26,6 +26,7 @@ function CommentWrap({ onBlockRef }) {
         <View
           ref={(ref: any) => onBlockRef(ref, TITLE_COMMENT)}
           style={stl(_.container.layout, hidden && _.mt.lg)}
+          collapsable={false}
         />
         {!hidden && (
           <Comment

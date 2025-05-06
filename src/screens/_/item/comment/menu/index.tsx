@@ -9,11 +9,12 @@ import { View } from 'react-native'
 import { Flex, Iconfont } from '@components'
 import { _, uiStore } from '@stores'
 import { useObserver } from '@utils/hooks'
+import { IOS } from '@constants'
 import { Popover } from '../../../base'
 import { styles } from './styles'
 
 function Menu({ data, avatar, userId, userName, comment, relatedId, onSelect }) {
-  const viewRef = useRef(null)
+  const viewRef = useRef<View>(null)
   const handleSelect = useCallback(
     (title: string) => {
       const callback = () => {
@@ -32,7 +33,7 @@ function Menu({ data, avatar, userId, userName, comment, relatedId, onSelect }) 
       if (title === '贴贴') {
         viewRef.current.measure(
           (_x: any, _y: any, _width: any, _height: any, pageX: number, pageY: number) => {
-            uiStore.setXY(pageX, pageY)
+            uiStore.setXY(pageX, pageY - (IOS ? 0 : 12))
             callback()
           }
         )
@@ -46,7 +47,7 @@ function Menu({ data, avatar, userId, userName, comment, relatedId, onSelect }) 
 
   return useObserver(() => (
     <Popover style={styles.touch} data={data} onSelect={handleSelect}>
-      <View ref={viewRef}>
+      <View ref={viewRef} collapsable={false}>
         <Flex style={styles.icon} justify='center'>
           <Iconfont style={_.ml.md} name='md-more-vert' size={18} />
         </Flex>

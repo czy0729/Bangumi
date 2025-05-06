@@ -23,7 +23,11 @@ function BlogWrap({ onBlockRef }) {
   return (
     <Suspense fallback={null}>
       <Component id='screen-subject-blog'>
-        <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_BLOG)} />
+        <View
+          ref={ref => onBlockRef(ref, TITLE_BLOG)}
+          style={_.container.layout}
+          collapsable={false}
+        />
         <Blog
           navigation={navigation}
           styles={memoStyles()}

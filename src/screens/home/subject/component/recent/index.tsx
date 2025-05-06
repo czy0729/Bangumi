@@ -22,7 +22,11 @@ function RecentWrap({ onBlockRef }) {
   return (
     <Suspense fallback={null}>
       <Component id='screen-subject-recent'>
-        <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_RECENT)} />
+        <View
+          ref={ref => onBlockRef(ref, TITLE_RECENT)}
+          style={_.container.layout}
+          collapsable={false}
+        />
         <Recent
           navigation={navigation}
           showRecent={systemStore.setting.showRecent}

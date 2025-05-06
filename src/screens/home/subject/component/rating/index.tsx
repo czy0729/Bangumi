@@ -23,7 +23,11 @@ function RatingWrap({ onBlockRef }) {
   return (
     <Suspense fallback={null}>
       <Component id='screen-subject-rating'>
-        <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_RATING)} />
+        <View
+          ref={ref => onBlockRef(ref, TITLE_RATING)}
+          style={_.container.layout}
+          collapsable={false}
+        />
         <Rating
           styles={memoStyles()}
           showRating={systemStore.setting.showRating}

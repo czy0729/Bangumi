@@ -27,8 +27,9 @@ function EpWrap({ onBlockRef, onScrollIntoViewIfNeeded }) {
   return (
     <Component id='screen-subject-ep'>
       <View
-        style={_.container.layout}
         ref={ref => onBlockRef(ref, typeCn === '音乐' ? TITLE_DISC : TITLE_EP)}
+        style={_.container.layout}
+        collapsable={false}
       />
       {typeCn === '书籍' ? (
         <BookEp onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded} />

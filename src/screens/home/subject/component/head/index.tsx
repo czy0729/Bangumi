@@ -30,7 +30,7 @@ function HeadWrap({ onBlockRef }) {
 
   return (
     <Component id='screen-subject-head'>
-      <View ref={ref => onBlockRef(ref, TITLE_HEAD)}>
+      <View ref={ref => onBlockRef(ref, TITLE_HEAD)} collapsable={false}>
         <Head
           styles={memoStyles()}
           showRelation={systemStore.setting.showRelation}

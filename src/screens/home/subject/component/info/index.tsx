@@ -26,7 +26,11 @@ function InfoWrap({ onBlockRef }) {
   return (
     <Suspense fallback={null}>
       <Component id='screen-subject-info'>
-        <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_INFO)} />
+        <View
+          ref={ref => onBlockRef(ref, TITLE_INFO)}
+          style={_.container.layout}
+          collapsable={false}
+        />
         <Info
           navigation={navigation}
           styles={memoStyles()}

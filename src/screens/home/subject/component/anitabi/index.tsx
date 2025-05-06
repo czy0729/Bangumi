@@ -23,7 +23,11 @@ function AnitabiWrap({ onBlockRef }) {
   return (
     <Suspense fallback={null}>
       <Component id='screen-subject-anitabi'>
-        <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_ANITABI)} />
+        <View
+          ref={ref => onBlockRef(ref, TITLE_ANITABI)}
+          style={_.container.layout}
+          collapsable={false}
+        />
         <Anitabi
           styles={memoStyles()}
           showAnitabi={systemStore.setting.showAnitabi}

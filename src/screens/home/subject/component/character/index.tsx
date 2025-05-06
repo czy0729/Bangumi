@@ -22,7 +22,11 @@ function CharacterWrap({ onBlockRef }) {
   return (
     <Suspense fallback={null}>
       <Component id='screen-subject-character'>
-        <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_CHARACTER)} />
+        <View
+          ref={ref => onBlockRef(ref, TITLE_CHARACTER)}
+          style={_.container.layout}
+          collapsable={false}
+        />
         <Character
           navigation={navigation}
           showCharacter={systemStore.setting.showCharacter}

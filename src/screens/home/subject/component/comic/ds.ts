@@ -6,8 +6,10 @@
  */
 import { rc } from '@utils/dev'
 import { Navigation } from '@types'
-import { StoreType as $ } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
+
+import type { Ctx } from '../../types'
+type $ = Ctx['$']
 
 export const COMPONENT = rc(PARENT, 'Comic')
 

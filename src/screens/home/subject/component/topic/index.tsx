@@ -23,7 +23,11 @@ function TopicWrap({ onBlockRef }) {
   return (
     <Suspense fallback={null}>
       <Component id='screen-subject-topic'>
-        <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_TOPIC)} />
+        <View
+          ref={ref => onBlockRef(ref, TITLE_TOPIC)}
+          style={_.container.layout}
+          collapsable={false}
+        />
         <Topic
           navigation={navigation}
           styles={memoStyles()}

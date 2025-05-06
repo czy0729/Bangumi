@@ -22,7 +22,11 @@ function LikeWrap({ onBlockRef }) {
   return (
     <Suspense fallback={null}>
       <Component id='screen-subject-like'>
-        <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_LIKE)} />
+        <View
+          ref={ref => onBlockRef(ref, TITLE_LIKE)}
+          style={_.container.layout}
+          collapsable={false}
+        />
         <Like
           navigation={navigation}
           showLike={systemStore.setting.showLike}

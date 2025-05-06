@@ -5,7 +5,6 @@
  * @Last Modified time: 2022-07-10 03:43:04
  */
 import { Crt, Ep, Staff, SubjectComments, SubjectFromHTML } from '@stores/subject/types'
-import { factory } from '@utils'
 import {
   Collection,
   Cover,
@@ -26,12 +25,8 @@ import {
 } from '@types'
 import Store from './store'
 
-const f = factory(Store)
-
-export type StoreType = typeof f
-
 export type Ctx = {
-  $: StoreType
+  $: InstanceType<typeof Store>
   navigation?: Navigation
 }
 

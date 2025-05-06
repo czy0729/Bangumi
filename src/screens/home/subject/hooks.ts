@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-11-15 01:26:11
  */
 import { useCallback, useRef } from 'react'
-import { findNodeHandle } from 'react-native'
+import { findNodeHandle, View } from 'react-native'
 import { _, useInitStore } from '@stores'
 import { feedback, postTask } from '@utils'
 import { scrollToTop } from '@utils/dom'
@@ -64,7 +64,7 @@ export function useSubjectPage(props: NavigationProps) {
   const scrollViewRef = useRef<any>(null)
 
   /** 子组件的 ref */
-  const blockRefs = useRef<any>({})
+  const blockRefs = useRef<Record<string, View>>({})
 
   return {
     ...context,
@@ -75,7 +75,7 @@ export function useSubjectPage(props: NavigationProps) {
     }, []),
 
     /** 收集子组件的 ref */
-    onBlockRef: useCallback((ref: any, component: string) => {
+    onBlockRef: useCallback((ref: View, component: string) => {
       postTask(() => {
         blockRefs.current[component] = ref
       }, 1000)

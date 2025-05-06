@@ -22,7 +22,11 @@ function RelationsWrap({ onBlockRef }) {
   return (
     <Suspense fallback={null}>
       <Component id='screen-subject-relations'>
-        <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_RELATIONS)} />
+        <View
+          ref={ref => onBlockRef(ref, TITLE_RELATIONS)}
+          style={_.container.layout}
+          collapsable={false}
+        />
         <Relations
           navigation={navigation}
           showRelations={systemStore.setting.showRelations}

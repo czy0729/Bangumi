@@ -6,9 +6,11 @@
  */
 import { systemStore } from '@stores'
 import { rc } from '@utils/dev'
-import { StoreType as $ } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../types'
+type $ = Ctx['$']
 
 export const COMPONENT = rc(PARENT, 'Head')
 
@@ -28,7 +30,7 @@ export const DEFAULT_PROPS = {
   imageWidth: 0 as $['imageWidth'],
   imageHeight: 0 as $['imageHeight'],
   titleLabel: '' as $['titleLabel'],
-  hideScore: false as $['hideScore'],
+  hideScore: false as typeof systemStore.setting.hideScore,
   rating: {} as $['rating'],
   nsfw: false as $['nsfw'],
   hasSeries: false as $['hasSeries'],

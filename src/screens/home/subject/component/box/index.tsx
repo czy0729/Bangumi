@@ -20,7 +20,11 @@ function BoxWrap({ onBlockRef }) {
   const { $, navigation } = useStore<Ctx>()
   return (
     <Component id='screen-subject-box'>
-      <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_BOX)} />
+      <View
+        ref={ref => onBlockRef(ref, TITLE_BOX)}
+        style={_.container.layout}
+        collapsable={false}
+      />
       <Box
         styles={memoStyles()}
         navigation={navigation}

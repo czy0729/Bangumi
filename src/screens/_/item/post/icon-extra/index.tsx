@@ -21,7 +21,7 @@ import {
 } from '@utils'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
-import { HTML_BLOG, HTML_TOPIC } from '@constants'
+import { HTML_BLOG, HTML_TOPIC, IOS } from '@constants'
 import { Popover } from '../../../base'
 import {
   ACTION_COPY,
@@ -95,7 +95,7 @@ function IconExtra({
         case ACTION_LIKES:
           viewRef.current.measure(
             (_x: any, _y: any, _w: any, _h: any, pageX: number, pageY: number) => {
-              uiStore.setXY(pageX, pageY)
+              uiStore.setXY(pageX, pageY - (IOS ? 0 : 12))
               uiStore.showLikesGrid(topicId, id, formhash, likeType, {
                 recommandPosition: 'top'
               })
@@ -197,7 +197,7 @@ function IconExtra({
 
     return (
       <Popover style={stl(styles.touch, style)} data={memoData} onSelect={handleSelect}>
-        <View ref={viewRef}>
+        <View ref={viewRef} collapsable={false}>
           <Flex style={styles.icon} justify='center'>
             <Iconfont style={_.ml.md} name='md-more-vert' size={18} />
           </Flex>

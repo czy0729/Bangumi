@@ -22,7 +22,11 @@ function ComicWrap({ onBlockRef }) {
   return (
     <Suspense fallback={null}>
       <Component id='screen-subject-comic'>
-        <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_COMIC)} />
+        <View
+          ref={ref => onBlockRef(ref, TITLE_COMIC)}
+          style={_.container.layout}
+          collapsable={false}
+        />
         <Comic navigation={navigation} subjectId={$.subjectId} comic={$.comic} />
         <Split />
       </Component>
