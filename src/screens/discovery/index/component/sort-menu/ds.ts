@@ -8,13 +8,15 @@ import { _, systemStore } from '@stores'
 import { rc } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
 import { Navigation } from '@types'
-import { StoreType as $ } from '../../types'
+import { Ctx } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
 
 export const COMPONENT = rc(PARENT, 'SortMenu')
 
 export const COMPONENT_MAIN = rc(COMPONENT)
+
+type $ = Ctx['$']
 
 export const DEFAULT_PROPS = {
   navigation: {} as Navigation,

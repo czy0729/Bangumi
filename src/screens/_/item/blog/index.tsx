@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Component, Cover, Flex, Text, Touchable } from '@components'
+import { Component, Cover, Divider, Flex, Text, Touchable } from '@components'
 import { _, discoveryStore } from '@stores'
 import { findSubjectCn, HTMLDecode, stl } from '@utils'
 import { ob } from '@utils/decorators'
@@ -110,6 +110,7 @@ export const ItemBlog = ob(
             </Flex.Item>
           </Flex>
         </View>
+        <Divider />
       </Component>
     )
   },

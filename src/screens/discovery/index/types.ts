@@ -4,16 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-01-06 18:46:06
  */
-import { factory } from '@utils'
 import { IconfontNames, Navigation, Paths } from '@types'
 import Store from './store'
 
-const f = factory(Store)
-
-export type StoreType = typeof f
-
 export type Ctx = {
-  $: StoreType
+  $: InstanceType<typeof Store>
   navigation?: Navigation
 }
 

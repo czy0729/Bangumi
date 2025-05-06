@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-17 15:07:30
+ * @Last Modified time: 2025-05-06 07:02:14
  */
 import React from 'react'
 import { BackHandler } from 'react-native'
@@ -12,6 +12,7 @@ import { _, collectionStore, subjectStore, systemStore, userStore } from '@store
 import {
   alert,
   confirm,
+  feedback,
   getStorage,
   getTimestamp,
   info,
@@ -167,6 +168,7 @@ export const ManageModal = ob(
       this.setState({
         rating: value
       })
+      feedback(true)
     }
 
     handleChangeTags = (text: string) => {
@@ -180,6 +182,7 @@ export const ManageModal = ob(
       this.setState({
         status
       })
+      feedback(true)
     }
 
     handleToggleTag = (name: string) => {
@@ -195,6 +198,7 @@ export const ManageModal = ob(
       this.setState({
         tags: selected.join(' ')
       })
+      feedback(true)
     }
 
     handleTogglePrivacy = () => {
@@ -204,6 +208,7 @@ export const ManageModal = ob(
       this.setState({
         privacy: value
       })
+      feedback(true)
       setStorage(NAMESPACE_PRIVACY, value)
     }
 
@@ -308,10 +313,10 @@ export const ManageModal = ob(
     handleShowHistory = () => {
       try {
         this.handleBlur()
-
         if (typeof this?.commentRef?.inputRef?.blur === 'function') {
           this.commentRef.inputRef.blur()
         }
+        feedback(true)
       } catch (error) {}
 
       return sleep(240)

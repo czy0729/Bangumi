@@ -5,13 +5,15 @@
  * @Last Modified time: 2024-01-04 15:49:34
  */
 import { rc } from '@utils/dev'
-import { StoreType as $ } from '../../types'
+import { Ctx } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
 
 export const COMPONENT = rc(PARENT, 'Today')
 
 export const COMPONENT_MAIN = rc(COMPONENT)
+
+type $ = Ctx['$']
 
 export const DEFAULTP_ROPS = {
   styles: {} as ReturnType<typeof memoStyles>,

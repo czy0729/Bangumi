@@ -55,5 +55,25 @@ export const LINKS = [
     key: '日志',
     value: `${HOST}/blog/`,
     text: `${HOST}/blog/{ID}`
+  },
+  {
+    key: '用户目录',
+    value: `${HOST}/user/替换ID/index`,
+    text: `${HOST}/user/{ID}/index`
+  },
+  {
+    key: '用户日志',
+    value: `${HOST}/user/替换ID/blog`,
+    text: `${HOST}/user/{ID}/blog`
+  },
+  {
+    key: '用户人物',
+    value: `${HOST}/user/替换ID/mono`,
+    text: `${HOST}/user/{ID}/mono`
+  },
+  {
+    key: '用户好友',
+    value: `${HOST}/user/替换ID/friends`,
+    text: `${HOST}/user/{ID}/friends`
   }
 ] as const

@@ -7,7 +7,7 @@
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
 import { SubjectType, ViewStyle } from '@types'
-import { StoreType as $ } from '../../types'
+import { Ctx } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
 
@@ -18,6 +18,8 @@ export const COMPONENT_MAIN = rc(COMPONENT)
 export const INITIAL_RENDER_NUMS_SM = _.device(Math.floor(_.window.contentWidth / 140) + 1, 0)
 
 export const ITEM_HEIGHT = 800
+
+type $ = Ctx['$']
 
 export const DEFAULT_PROPS = {
   styles: {} as ReturnType<typeof memoStyles>,

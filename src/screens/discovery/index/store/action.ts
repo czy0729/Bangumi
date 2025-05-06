@@ -63,6 +63,11 @@ export default class Action extends Fetch {
       return
     }
 
+    if (link.includes('替换')) {
+      info('请把链接中的[替换ID]覆盖为指定的用户ID')
+      return
+    }
+
     if (!(link.includes('http://') || link.includes('https://'))) {
       link = `https://${link}`
     }
@@ -74,11 +79,13 @@ export default class Action extends Fetch {
       return
     }
 
-    appNavigate(url, navigation)
     this.setState({
       visible: false,
       link: ''
     })
+    setTimeout(() => {
+      appNavigate(url, navigation)
+    }, 800)
 
     t('发现.剪贴板', {
       link

@@ -253,6 +253,7 @@ export function matchBgmLink(url: string = ''):
 
     /**
      * 客户端内部跳转协议
+     *  - [https://App/{route}/{key}:{value}]
      */
     if (value.indexOf('https://App/') === 0) {
       const [, , , route = '', params = ''] = value.split('/')
@@ -269,6 +270,73 @@ export function matchBgmLink(url: string = ''):
     }
 
     if (!value.includes(HOST)) return false
+
+    /**
+     * 用户目录
+     *  - [/user/{userId}/index]
+     *  - https://bgm.tv/user/sai/index
+     */
+    if (value.includes('/user/') && value.endsWith('/index')) {
+      const userId = value.replace(`${HOST}/user/`, '').replace('/index', '')
+      return {
+        route: 'Catalogs',
+        params: {
+          userId
+        }
+      }
+    }
+
+    /**
+     * 用户日志
+     *  - [/user/{userId}/blog]
+     *  - https://bgm.tv/user/sai/blog
+     */
+    if (value.includes('/user/') && value.endsWith('/blog')) {
+      const userId = value.replace(`${HOST}/user/`, '').replace('/blog', '')
+      return {
+        route: 'Blogs',
+        params: {
+          userId
+        }
+      }
+    }
+
+    /**
+     * 用户收藏人物
+     *  - [/user/{userId}/mono]
+     *  - https://bgm.tv/user/sai/mono
+     *  - https://bgm.tv/user/sai/mono/character
+     *  - https://bgm.tv/user/sai/mono/person
+     */
+    if (
+      value.includes('/user/') &&
+      (value.endsWith('/mono') ||
+        value.endsWith('/mono/character') ||
+        value.endsWith('/mono/person'))
+    ) {
+      const userId = value.split('/user/')[1].split('/')[0]
+      return {
+        route: 'Character',
+        params: {
+          userId
+        }
+      }
+    }
+
+    /**
+     * 用户好友
+     *  - [/user/{userId}/blog]
+     *  - https://bgm.tv/user/sai/blog
+     */
+    if (value.includes('/user/') && value.endsWith('/friends')) {
+      const userId = value.replace(`${HOST}/user/`, '').replace('/friends', '')
+      return {
+        route: 'Friends',
+        params: {
+          userId
+        }
+      }
+    }
 
     /**
      * 超展开板块
@@ -354,7 +422,8 @@ export function matchBgmLink(url: string = ''):
      *  - 排除时间线回复 ![/user/{userId}/timeline/status/{timelineId}]
      */
     if (value.includes('/user/') && value.split('/').length <= 6) {
-      const userId = value.replace(`${HOST}/user/`, '')
+      // 需要排除掉所有{userId}后面的参数
+      const userId = value.replace(`${HOST}/user/`, '').split('/')[0]
       return {
         route: 'Zone',
         params: {
