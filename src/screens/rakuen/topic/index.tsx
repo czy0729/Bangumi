@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-07 07:21:34
+ * @Last Modified time: 2025-05-06 21:35:20
  */
 import React from 'react'
 import './styles'
@@ -26,6 +26,7 @@ const Topic = (props: NavigationProps) => {
     onFloorPress,
     onShowFixedTextarea,
     onScrollToIndexFailed,
+    onScrollToTop,
     onDirect
   } = useTopicPage(props)
 
@@ -40,7 +41,7 @@ const Topic = (props: NavigationProps) => {
           />
           <TouchScroll onPress={onFloorPress} />
         </Page>
-        <Header />
+        <Header onScrollToTop={onScrollToTop} />
         <Bottom fixedTextareaRef={fixedTextareaRef} onDirect={onDirect} />
         <Extra />
       </StoreContext.Provider>

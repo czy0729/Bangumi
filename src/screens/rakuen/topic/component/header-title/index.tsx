@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-07 06:29:41
+ * @Last Modified time: 2025-05-06 21:35:40
  */
 import React from 'react'
 import { useStore } from '@stores'
@@ -12,7 +12,7 @@ import { Ctx } from '../../types'
 import HeaderTitle from './header-title'
 import { COMPONENT } from './ds'
 
-function HeaderTitleWrap() {
+function HeaderTitleWrap({ onScrollToTop }) {
   const { $, navigation } = useStore<Ctx>()
   return (
     <HeaderTitle
@@ -22,6 +22,7 @@ function HeaderTitleWrap() {
       userName={$.userName}
       title={$.title}
       group={$.group}
+      onScrollToTop={onScrollToTop}
     />
   )
 }

@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-09-28 17:26:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-23 10:13:46
+ * @Last Modified time: 2025-05-06 21:36:01
  */
 import { rc } from '@utils/dev'
-import { Navigation } from '@types'
+import { FROZEN_FN } from '@constants'
+import { Fn, Navigation } from '@types'
 import { Ctx } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
 
@@ -23,5 +24,6 @@ export const DEFAULT_PROPS = {
   userId: '' as $['userId'],
   userName: '' as $['userName'],
   title: '' as $['title'],
-  group: '' as $['group']
+  group: '' as $['group'],
+  onScrollToTop: FROZEN_FN as Fn
 }

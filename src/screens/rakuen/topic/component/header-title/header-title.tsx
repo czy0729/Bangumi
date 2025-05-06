@@ -2,19 +2,40 @@
  * @Author: czy0729
  * @Date: 2022-09-28 17:24:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-14 00:32:51
+ * @Last Modified time: 2025-05-06 21:37:21
  */
 import React from 'react'
-import { Flex, Text, UserStatus } from '@components'
+import { Flex, Text, Touchable, UserStatus } from '@components'
 import { Avatar, VerticalAlign } from '@_'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
+import { IOS } from '@constants'
 import { COMPONENT_MAIN, DEFAULT_PROPS, IMG_WIDTH } from './ds'
 import { styles } from './styles'
 
 const HeaderTitle = memo(
-  ({ navigation, avatar, userId, userName, title, group }) => {
+  ({ navigation, avatar, userId, userName, title, group, onScrollToTop }) => {
     const texts = [userName || group, group].filter(item => !!item).join(' · ')
+    const el = (
+      <>
+        <Text size={13} numberOfLines={1}>
+          {title}
+        </Text>
+        {!!texts && (
+          <VerticalAlign
+            type='sub'
+            text={userName || group}
+            size={10}
+            lineHeight={12}
+            bold
+            numberOfLines={1}
+          >
+            {texts}
+          </VerticalAlign>
+        )}
+      </>
+    )
+
     return (
       <Flex style={styles.container}>
         {!!avatar && (
@@ -29,20 +50,12 @@ const HeaderTitle = memo(
           </UserStatus>
         )}
         <Flex.Item style={_.ml.sm}>
-          <Text size={13} numberOfLines={1}>
-            {title}
-          </Text>
-          {!!texts && (
-            <VerticalAlign
-              type='sub'
-              text={userName || group}
-              size={10}
-              lineHeight={12}
-              bold
-              numberOfLines={1}
-            >
-              {texts}
-            </VerticalAlign>
+          {IOS ? (
+            el
+          ) : (
+            <Touchable withoutFeedback onPress={onScrollToTop}>
+              {el}
+            </Touchable>
           )}
         </Flex.Item>
       </Flex>

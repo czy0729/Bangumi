@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-13 06:25:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-07 06:36:21
+ * @Last Modified time: 2025-05-06 21:35:30
  */
 import React from 'react'
 import { Flex, Header as HeaderComp } from '@components'
@@ -15,7 +15,7 @@ import MesumeChat from '../component/mesume-chat'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 
-function Header() {
+function Header({ onScrollToTop }) {
   const { $ } = useStore<Ctx>()
   return (
     <HeaderComp
@@ -25,7 +25,7 @@ function Header() {
       title={$.topic.title}
       alias='帖子'
       hm={$.hm}
-      headerTitle={<HeaderTitle />}
+      headerTitle={<HeaderTitle onScrollToTop={onScrollToTop} />}
       headerRight={() => (
         <Flex>
           <MesumeChat />

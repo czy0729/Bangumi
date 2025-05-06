@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-21 15:06:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-09 02:21:01
+ * @Last Modified time: 2025-05-06 21:39:45
  */
 import { useCallback, useEffect, useRef } from 'react'
 import { layoutHeightMap } from '@_/item/post/utils'
@@ -328,6 +328,15 @@ export function useTopicPage(props: NavigationProps) {
 
     /** 滚动失败后尝试使用保守的方法再次滚动 */
     onScrollToIndexFailed,
+
+    /** 滚动到顶 */
+    onScrollToTop: useCallback(() => {
+      feedback()
+      forwardRef.current?.scrollToOffset({
+        animated: true,
+        offset: 0 - _.headerHeight
+      })
+    }, []),
 
     /** 显示底部输入框 */
     onShowFixedTextarea
