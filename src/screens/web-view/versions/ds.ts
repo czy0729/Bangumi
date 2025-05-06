@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-10 05:42:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-04 01:58:36
+ * @Last Modified time: 2025-05-06 21:49:52
  */
 import { Loaded } from '@types'
 
@@ -11,6 +11,10 @@ export const COMPONENT = 'Versions'
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const TABS = [
+  {
+    title: '8.21.0 - 2025/05/06',
+    key: 'brhkrc51tg4s6x0e'
+  },
   {
     title: '8.20.0 - 2025/04/03',
     key: 'csic9v'
