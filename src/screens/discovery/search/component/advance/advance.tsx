@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-09 10:55:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-02 20:49:05
+ * @Last Modified time: 2025-05-08 06:08:22
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,11 +10,12 @@ import { Flex, Highlight, Iconfont, Text, Touchable } from '@components'
 import { desc } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { FROZEN_FN } from '@constants'
 import { useResult } from './hooks'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Advance = memo(
-  ({ navigation, styles, cat, value, onSubmit }) => {
+  ({ navigation, styles, cat = 'subject_2', value = '', onSubmit = FROZEN_FN }) => {
     const { result, substrings } = useResult(cat, value)
     const isSubjectId = /\d+/.test(value)
     return (

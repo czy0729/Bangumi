@@ -4,15 +4,23 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-01-01 16:28:02
  */
-import React, { useRef, useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Animated } from 'react-native'
 import { Flex, Input, Loading } from '@components'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
+import { FROZEN_FN } from '@constants'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Filter = memo(
-  ({ styles, showFilter, fliterInputText, isTabActive, isFiltering, onFilterChange }) => {
+  ({
+    styles,
+    showFilter = false,
+    fliterInputText = '',
+    isTabActive = false,
+    isFiltering = false,
+    onFilterChange = FROZEN_FN
+  }) => {
     const inputRef = useRef(null)
     const aHeight = useRef(new Animated.Value(0))
 

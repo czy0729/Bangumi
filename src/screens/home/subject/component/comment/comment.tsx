@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-08-14 16:22:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-11 21:46:28
+ * @Last Modified time: 2025-05-08 06:36:14
  */
 import React from 'react'
 import { Heatmap, Text } from '@components'
 import { SectionTitle } from '@_'
 import { memo } from '@utils/decorators'
+import { FROZEN_FN } from '@constants'
 import IconComment from '../icon/comment'
 import IconHidden from '../icon/hidden'
 import IconVersion from '../icon/version'
@@ -16,7 +17,7 @@ import IconStatus from '../status-segment'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Comment = memo(
-  ({ styles, showComment, commentLength, onSwitchBlock }) => {
+  ({ styles, showComment = true, commentLength = 0, onSwitchBlock = FROZEN_FN }) => {
     return (
       <>
         <SectionTitle

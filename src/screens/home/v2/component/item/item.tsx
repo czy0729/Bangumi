@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-09 08:04:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-27 05:03:12
+ * @Last Modified time: 2025-05-08 07:35:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,6 +10,7 @@ import { Flex, Heatmap } from '@components'
 import { memo } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
+import { TabsLabel } from '../../types'
 import Time from '../time'
 import Collapsible from './collapsible'
 import Container from './container'
@@ -27,7 +28,18 @@ import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
 const Item = memo(
-  ({ index, title, subjectId, type, image, name, name_cn, time, doing, epStatus }) => {
+  ({
+    index = 0,
+    title = '' as TabsLabel,
+    subjectId = 0,
+    type = '2',
+    image = '',
+    name = '',
+    name_cn = '',
+    time = '',
+    doing = 0,
+    epStatus = ''
+  }) => {
     const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
     const isGame = typeCn === '游戏' || title === '游戏'
     const isFirst = index === 0

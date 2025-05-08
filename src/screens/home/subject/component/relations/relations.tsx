@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 10:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-11 21:45:41
+ * @Last Modified time: 2025-05-08 07:10:29
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -11,6 +11,8 @@ import { HorizontalList, InView, SectionTitle } from '@_'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { FROZEN_ARRAY, FROZEN_FN } from '@constants'
+import { SubjectTypeCn } from '@types'
 import { TITLE_RELATIONS } from '../../ds'
 import IconHidden from '../icon/hidden'
 import IconRelation from '../icon/relation'
@@ -18,7 +20,14 @@ import { COMPONENT_MAIN, COVER_HEIGHT, COVER_WIDTH, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
 const Relations = memo(
-  ({ navigation, showRelations, subjectId, relations, typeCn, onSwitchBlock }) => {
+  ({
+    navigation,
+    showRelations = true,
+    subjectId = 0,
+    relations = FROZEN_ARRAY,
+    typeCn = '' as SubjectTypeCn,
+    onSwitchBlock = FROZEN_FN
+  }) => {
     return (
       <InView style={showRelations ? styles.container : styles.hide}>
         <SectionTitle

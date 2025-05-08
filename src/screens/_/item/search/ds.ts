@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-15 10:48:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-25 05:50:33
+ * @Last Modified time: 2025-05-08 05:03:14
  */
 import { rc } from '@utils/dev'
 import { EVENT } from '@constants'
@@ -33,9 +33,6 @@ export const DEFAULT_PROPS = {
 
   /** 动画才有, 具体收藏状态 */
   collection: '' as $['collection'],
-
-  /** 是否收藏 */
-  collected: false as $['collected'],
   showManage: true as boolean,
   position: [] as $['position'],
   screen: '' as string,

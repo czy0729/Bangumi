@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 11:08:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-20 11:17:37
+ * @Last Modified time: 2025-05-08 04:17:38
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
@@ -41,7 +41,6 @@ export const DEFAULT_PROPS = {
   aid: '' as Props['aid'],
   wid: '' as Props['wid'],
   mid: '' as Props['mid'],
-  isCollect: false as Props['isCollect'],
   isRectangle: false as Props['isRectangle'],
   event: EVENT as Props['event']
 } as const

@@ -10,20 +10,20 @@ import { PaginationList2 } from '@_'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils'
 import { memo } from '@utils/decorators'
-import { LIMIT_LIST, WEB } from '@constants'
+import { FROZEN_FN, LIMIT_LIST, LIST_EMPTY, WEB } from '@constants'
 import Item from '../item'
 import { COMPONENT_MAIN, DEFAULT_PROPS, LISTVIEW_PROPS } from './ds'
 import { styles } from './styles'
 
 const List = memo(
   ({
-    forwardRef,
-    data,
-    postId,
-    onScroll,
-    onScrollToIndexFailed,
-    onHeaderRefresh,
-    onShowFixedTextarea
+    forwardRef = FROZEN_FN,
+    data = LIST_EMPTY,
+    postId = '',
+    onScroll = FROZEN_FN,
+    onScrollToIndexFailed = FROZEN_FN,
+    onHeaderRefresh = FROZEN_FN,
+    onShowFixedTextarea = FROZEN_FN
   }) => {
     const renderItem = useCallback(
       ({ item, index }) => (

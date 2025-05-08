@@ -11,7 +11,7 @@ import { _ } from '@stores'
 import { getKeyString, keyExtractor } from '@utils'
 import { memo } from '@utils/decorators'
 import { useMount } from '@utils/hooks'
-import { USE_NATIVE_DRIVER } from '@constants'
+import { FROZEN_FN, LIST_EMPTY, USE_NATIVE_DRIVER } from '@constants'
 import FixedToolBar from '../../component/fixed-tool-bar'
 import Item from '../../component/item'
 import Pagination from '../../component/pagination'
@@ -20,17 +20,17 @@ import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 const List = memo(
   ({
     styles,
-    forwardRef,
-    scrollY,
-    page,
-    list,
-    userPagination,
-    userGridNum,
-    userCollections,
-    onScroll,
-    onRefreshOffset,
-    onHeaderRefresh,
-    onFooterRefresh
+    forwardRef = FROZEN_FN,
+    scrollY = 0,
+    page = 0,
+    list = true,
+    userPagination = false,
+    userGridNum = 4,
+    userCollections = LIST_EMPTY,
+    onScroll = FROZEN_FN,
+    onRefreshOffset = FROZEN_FN,
+    onHeaderRefresh = FROZEN_FN,
+    onFooterRefresh = FROZEN_FN
   }) => {
     const { page: pageCurrent, pageTotal } = userCollections.pagination
     const ListHeaderComponent = useMemo(

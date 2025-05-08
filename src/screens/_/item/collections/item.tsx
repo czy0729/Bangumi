@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:19:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-24 06:29:31
+ * @Last Modified time: 2025-05-08 04:14:52
  */
 import React from 'react'
 import { Component, Flex, Touchable } from '@components'
@@ -10,7 +10,7 @@ import { getCoverSrc } from '@components/cover/utils'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { IMG_WIDTH } from '@constants'
+import { EVENT, FROZEN_FN, IMG_WIDTH } from '@constants'
 import { IconTouchable } from '../../icon'
 import Bottom from './bottom'
 import Comments from './comments'
@@ -27,36 +27,36 @@ const Item = memo(
   ({
     navigation,
     styles,
-    index,
-    inViewY,
-    id,
-    name,
-    nameCn,
-    tip,
-    rank,
-    score,
-    total,
-    simpleStars,
-    tags,
-    comments,
-    time,
-    collection,
-    cover,
+    index = 0,
+    inViewY = 0,
+    id = 0,
+    name = '',
+    nameCn = '',
+    tip = '',
+    rank = '',
+    score = '',
+    total = '',
+    simpleStars = false,
+    tags = '',
+    comments = '',
+    time = '',
+    collection = '',
+    cover = '',
     type,
-    modify,
-    numberOfLines,
-    hideScore,
-    relatedId,
-    isDo,
-    isOnHold,
-    isDropped,
-    isCatalog,
-    isEditable,
-    event,
-    filter,
-    showManage,
+    modify = '',
+    numberOfLines = 2,
+    hideScore = false,
+    relatedId = 0,
+    isDo = false,
+    isOnHold = false,
+    isDropped = false,
+    isCatalog = false,
+    isEditable = false,
+    event = EVENT,
+    filter = '',
+    showManage = false,
     touchPosition = 'outer',
-    onEdit
+    onEdit = FROZEN_FN
   }) => {
     const subjectId = String(id).replace('/subject/', '')
     const hasComment = !!comments && comments !== 'undefined'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 23:19:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-12 05:59:04
+ * @Last Modified time: 2025-05-08 06:15:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,14 +12,14 @@ import { Cover, InView, SectionTitle, Tag } from '@_'
 import { _ } from '@stores'
 import { appNavigate, findSubjectCn, stl } from '@utils'
 import { memo } from '@utils/decorators'
-import { MODEL_SUBJECT_TYPE } from '@constants'
+import { FROZEN_ARRAY, MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { COVER_HEIGHT, COVER_WIDTH } from '../../ds'
 import SectionRight from '../section-right'
 import { COMPONENT_MAIN, DEFAULT_PROPS, EVENT } from './ds'
 
 const Works = memo(
-  ({ navigation, styles, style, works }) => {
+  ({ navigation, styles, style, works = FROZEN_ARRAY }) => {
     return (
       <InView style={stl(styles.container, style)}>
         <SectionTitle

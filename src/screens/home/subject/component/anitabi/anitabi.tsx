@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-01-12 06:39:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-11 21:47:19
+ * @Last Modified time: 2025-05-08 06:17:33
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -13,13 +13,24 @@ import { date, open, showImageViewer, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { useHorizontalLazy } from '@utils/hooks'
-import { SCROLL_VIEW_RESET_PROPS } from '@constants'
+import { FROZEN_FN, SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { TITLE_ANITABI } from '../../ds'
 import IconHidden from '../icon/hidden'
 import { COMPONENT_MAIN, DEFAULT_PROPS, THUMB_HEIGHT, THUMB_WIDTH } from './ds'
 
 const Anitabi = memo(
-  ({ styles, showAnitabi, subjectId, data, onSwitchBlock }) => {
+  ({
+    styles,
+    showAnitabi = true,
+    subjectId = 0,
+    data = {
+      city: '',
+      pointsLength: 0,
+      imagesLength: 0,
+      litePoints: []
+    },
+    onSwitchBlock = FROZEN_FN
+  }) => {
     const { city, pointsLength, imagesLength, litePoints } = data
     const { list, onScroll } = useHorizontalLazy(
       litePoints,

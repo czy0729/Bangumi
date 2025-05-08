@@ -8,6 +8,7 @@ import React, { useCallback } from 'react'
 import { ListView, ListViewProps } from '@components'
 import { keyExtractor } from '@utils'
 import { memo } from '@utils/decorators'
+import { FROZEN_FN, LIST_EMPTY } from '@constants'
 import Item from '../../component/item'
 import Pagination from '../../component/pagination'
 import ToolBar from '../../component/tool-bar'
@@ -16,16 +17,16 @@ import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 const List = memo(
   ({
     styles,
-    list,
-    page,
-    data,
+    list = true,
+    page = 0,
+    data = LIST_EMPTY,
     numColumns,
-    userPagination,
-    onScroll,
-    onHeaderRefresh,
-    onFooterRefresh
+    userPagination = false,
+    onScroll = FROZEN_FN,
+    onHeaderRefresh = FROZEN_FN,
+    onFooterRefresh = FROZEN_FN
   }) => {
-    const passProps: ListViewProps = {
+    const passProps: Partial<ListViewProps<any>> = {
       contentContainerStyle: list ? styles.list : styles.grid
     }
     if (userPagination) {

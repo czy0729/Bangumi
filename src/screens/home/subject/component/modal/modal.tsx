@@ -2,15 +2,25 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:37:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 00:59:53
+ * @Last Modified time: 2025-05-08 06:58:17
  */
 import React from 'react'
-import { ManageModal } from '@_'
+import { ManageModal, ManageModalProps } from '@_'
 import { memo } from '@utils/decorators'
+import { FROZEN_FN } from '@constants'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Modal = memo(
-  ({ visible, disabled, subjectId, name, nameCn, action, onSubmit, onClose }) => {
+  ({
+    visible = false,
+    disabled = false,
+    subjectId = 0,
+    name = '',
+    nameCn = '',
+    action = '看' as ManageModalProps['action'],
+    onSubmit = FROZEN_FN,
+    onClose = FROZEN_FN
+  }) => {
     return (
       <ManageModal
         visible={visible}

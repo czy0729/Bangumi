@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:28:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-11 21:45:34
+ * @Last Modified time: 2025-05-08 07:11:30
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -11,6 +11,7 @@ import { _ } from '@stores'
 import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { FROZEN_ARRAY, FROZEN_FN } from '@constants'
 import { TITLE_STAFF } from '../../ds'
 import IconHidden from '../icon/hidden'
 import IconStaff from '../icon/staff'
@@ -19,7 +20,13 @@ import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
 const Staff = memo(
-  ({ navigation, showStaff, subjectId, staff, onSwitchBlock }) => {
+  ({
+    navigation,
+    showStaff = true,
+    subjectId = 0,
+    staff = FROZEN_ARRAY,
+    onSwitchBlock = FROZEN_FN
+  }) => {
     return (
       <InView style={stl(styles.container, !showStaff && _.short)}>
         <SectionTitle

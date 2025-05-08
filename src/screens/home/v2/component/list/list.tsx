@@ -2,19 +2,33 @@
  * @Author: czy0729
  * @Date: 2022-06-19 12:58:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-17 09:23:59
+ * @Last Modified time: 2025-05-08 07:37:09
  */
 import React, { useCallback } from 'react'
 import { PaginationList2 } from '@_'
-import { systemStore } from '@stores'
+import { _, systemStore } from '@stores'
 import { memo } from '@utils/decorators'
+import { FROZEN_FN, IOS, LIST_EMPTY } from '@constants'
+import { TabsLabel } from '../../types'
 import Empty from '../empty'
 import Filter from '../filter'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const List = memo(
-  ({ forwardRef, style, data, title, showItem, onScroll, onHeaderRefresh, onFooterRefresh }) => {
+  ({
+    forwardRef = FROZEN_FN,
+    style = {
+      paddingTop: 0,
+      paddingBottom: _.bottom
+    },
+    data = LIST_EMPTY,
+    title = '' as TabsLabel,
+    showItem = IOS ? false : true,
+    onScroll = FROZEN_FN,
+    onHeaderRefresh = FROZEN_FN,
+    onFooterRefresh
+  }) => {
     const { length } = data.list
     const elEmpty = <Empty title={title} length={length} />
     const handleRenderItem = useCallback(

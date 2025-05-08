@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-06 21:28:03
+ * @Last Modified time: 2025-05-08 06:49:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,12 +11,22 @@ import { Rank, Stars } from '@_'
 import { _ } from '@stores'
 import { cnjp, x18 } from '@utils'
 import { memo } from '@utils/decorators'
-import { IOS } from '@constants'
+import { FROZEN_FN, IOS } from '@constants'
 import { COMPONENT_MAIN, DEFAULT_PROPS, IMAGE_HEIGHT, IMAGE_WIDTH } from './ds'
 import { styles } from './styles'
 
 const HeaderTitle = memo(
-  ({ subjectId, common, rank, score, type, cn, jp, titleLabel, onScrollToTop }) => {
+  ({
+    subjectId = 0,
+    common = '',
+    rank = '',
+    score = '',
+    type = '',
+    cn = '',
+    jp = '',
+    titleLabel = '',
+    onScrollToTop = FROZEN_FN
+  }) => {
     const el = (
       <>
         <View style={styles.title}>

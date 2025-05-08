@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-25 17:32:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-12 05:59:08
+ * @Last Modified time: 2025-05-08 06:15:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,12 +12,13 @@ import { InView, SectionTitle, Tag } from '@_'
 import { _ } from '@stores'
 import { appNavigate, cnjp, stl } from '@utils'
 import { memo } from '@utils/decorators'
+import { FROZEN_ARRAY } from '@constants'
 import { COVER_HEIGHT, COVER_WIDTH } from '../../ds'
 import SectionRight from '../section-right'
 import { COMPONENT_MAIN, DEFAULT_PROPS, EVENT, IMAGE_WIDTH } from './ds'
 
 const Voice = memo(
-  ({ navigation, styles, style, voices }) => {
+  ({ navigation, styles, style, voices = FROZEN_ARRAY }) => {
     return (
       <InView style={stl(styles.container, style)}>
         <SectionTitle

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-15 18:32:39
+ * @Last Modified time: 2025-05-08 06:40:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,6 +10,7 @@ import { Button, Flex, Heatmap, Input, Text } from '@components'
 import { SectionTitle } from '@_'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
+import { FROZEN_FN } from '@constants'
 import { TITLE_EP } from '../../ds'
 import IconEp from '../icon/ep'
 import IconEpFilter from '../icon/ep-filter'
@@ -22,17 +23,19 @@ import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 const Ep = memo(
   ({
     styles,
-    watchedEps,
-    totalEps,
-    onAirCustom,
-    status,
-    isDoing,
-    showEpInput,
-    showCustomOnair,
-    focusOrigin,
-    onChangeText,
-    onScrollIntoViewIfNeeded,
-    doUpdateSubjectEp
+    watchedEps = '0',
+    totalEps = '0',
+    onAirCustom = {},
+    status = {
+      name: '未收藏'
+    },
+    isDoing = false,
+    showEpInput = true,
+    showCustomOnair = true,
+    focusOrigin = false,
+    onChangeText = FROZEN_FN,
+    onScrollIntoViewIfNeeded = FROZEN_FN,
+    doUpdateSubjectEp = FROZEN_FN
   }) => {
     const _showEpInput = showEpInput
     const canSubmit = !!status.name && status.name !== '未收藏'

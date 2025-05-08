@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-12 13:34:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-15 01:03:22
+ * @Last Modified time: 2025-05-08 06:58:54
  */
 import React, { useState } from 'react'
 import { View } from 'react-native'
@@ -16,7 +16,7 @@ import VIB from './vib'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Rating = memo(
-  ({ styles, hideScore, showRating }) => {
+  ({ styles, hideScore = false, showRating = true }) => {
     const [showScore, setShowScore] = useState(!hideScore)
     return (
       <View style={showRating ? styles.container : styles.hide}>

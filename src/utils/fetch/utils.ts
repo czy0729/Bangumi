@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-08 21:04:03
+ * @Last Modified time: 2025-05-08 19:14:41
  */
 import pLimit from 'p-limit'
 import { DEV } from '@src/config'
@@ -39,5 +39,5 @@ export async function queue(fetchs: Fn[] = [], num: number = 2) {
 
 /** [DEV] */
 export function log(method: string, ...others: any[]) {
-  if (DEV) console.info(`%c[@utils/fetch/${method}]`, 'background: #000; color: #fff', ...others)
+  if (DEV) console.info('⚪', `[@utils/fetch/${method}]`, ...others)
 }

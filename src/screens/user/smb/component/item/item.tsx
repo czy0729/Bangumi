@@ -17,7 +17,25 @@ import Folders from './folders'
 import { DEFAULT_PROPS } from './ds'
 
 export default memo(
-  ({ navigation, styles, subjectId, loaded, jp, cn, image, type, folder, merge }) => {
+  ({
+    navigation,
+    styles,
+    subjectId = 0,
+    loaded = false,
+    jp = '',
+    cn = '',
+    image = '',
+    type = '',
+    folder = {
+      name: '',
+      lastModified: '',
+      path: '',
+      list: [],
+      ids: [],
+      tags: []
+    },
+    merge = []
+  }) => {
     const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
 
     return (

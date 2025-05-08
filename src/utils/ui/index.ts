@@ -49,7 +49,7 @@ export function feedback(light?: boolean) {
 
   if (IOS) {
     if (light) {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+      Haptics.selectionAsync()
     } else {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
     }

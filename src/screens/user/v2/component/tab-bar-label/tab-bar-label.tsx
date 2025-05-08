@@ -10,7 +10,7 @@ import { memo } from '@utils/decorators'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const TabBarLabel = memo(
-  ({ style, title, count, focused }) => {
+  ({ style, title = '', count = 0, focused = false }) => {
     return (
       <Flex style={style} justify='center' align='start'>
         <Text type='title' size={13} bold={focused} noWrap>

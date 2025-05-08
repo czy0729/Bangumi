@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-23 06:33:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-25 08:37:10
+ * @Last Modified time: 2025-05-08 04:58:17
  */
 import { UserId } from '@types'
 import { syncRakuenStore } from '../async'
@@ -56,7 +56,7 @@ const memoBlocked = new Map<string, true>()
  * @returns 是否被屏蔽
  */
 export function getIsBlocked(
-  blockKeywords: string[],
+  blockKeywords: string[] | readonly string[],
   keyword: string,
   trackUUID?: string
 ): boolean {

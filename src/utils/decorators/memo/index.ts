@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-09 01:49:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-05 16:35:17
+ * @Last Modified time: 2025-05-08 03:56:28
  */
 import React from 'react'
 import { DEV } from '@src/config'
@@ -12,6 +12,7 @@ import { CustemCompareFn } from './types'
 
 /**
  * 封装通用 React.memo
+ * @deprecated
  * @param {*} Component
  * @param {*} defaultProps
  * @param {*} param3 devRerenderKey | customCompareFn | dev

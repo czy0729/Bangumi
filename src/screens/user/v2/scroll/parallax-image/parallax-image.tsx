@@ -23,20 +23,20 @@ export default memo(
   ({
     navigation,
     themeStyles,
-    parallaxImageHeight,
-    avatar,
-    bg,
-    bgAvatar,
-    fixed,
-    id,
-    myUserId,
-    nickname,
-    paramsUserId,
-    scrollY,
-    src,
-    textType,
-    userId,
-    username
+    parallaxImageHeight = 0,
+    avatar = {},
+    bg = '',
+    bgAvatar = '',
+    fixed = false,
+    id = '',
+    myUserId = '',
+    nickname = '',
+    paramsUserId = '',
+    scrollY = new Animated.Value(0),
+    src = '',
+    textType = 'plain',
+    userId = '',
+    username = ''
   }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const parallaxStyle: {

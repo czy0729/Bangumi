@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-11 21:45:45
+ * @Last Modified time: 2025-05-08 07:02:02
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -11,14 +11,21 @@ import { Avatar, InView, PreventTouchPlaceholder, SectionTitle, Stars } from '@_
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import { useHorizontalLazy } from '@utils/hooks'
-import { SCROLL_VIEW_RESET_PROPS } from '@constants'
+import { FROZEN_ARRAY, FROZEN_FN, SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { TITLE_RECENT } from '../../ds'
 import IconHidden from '../icon/hidden'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
 const Recent = memo(
-  ({ navigation, subjectId, showRecent, who, hideScore, onSwitchBlock }) => {
+  ({
+    navigation,
+    subjectId = 0,
+    showRecent = true,
+    who = FROZEN_ARRAY,
+    hideScore = false,
+    onSwitchBlock = FROZEN_FN
+  }) => {
     const { list, onScroll } = useHorizontalLazy(who)
     return (
       <InView style={showRecent ? styles.container : styles.hide}>

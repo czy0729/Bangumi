@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:02:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-11 21:46:55
+ * @Last Modified time: 2025-05-08 06:32:30
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -12,14 +12,14 @@ import { _ } from '@stores'
 import { truncateMiddle } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { IOS } from '@constants'
+import { FROZEN_ARRAY, IOS } from '@constants'
 import { TITLE_COMIC } from '../../ds'
 import IconRelation from '../icon/relation'
 import { COMPONENT_MAIN, COVER_HEIGHT, COVER_WIDTH, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
 const Comic = memo(
-  ({ navigation, subjectId, comic }) => {
+  ({ navigation, subjectId = 0, comic = FROZEN_ARRAY }) => {
     return (
       <InView style={styles.container}>
         <SectionTitle

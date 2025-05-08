@@ -72,7 +72,7 @@
     "react": "18.2.0",
     "react-native": "0.72.3",
     "react-native-android-widget": "^0.7.0",
-    "react-native-collapsible": "^1.6.1",
+    "react-native-collapsible": "1.6.1",
     "react-native-device-info": "^10.8.0",
     "react-native-draggable-grid": "2.1.4",
     "react-native-exception-handler": "^2.10.10",

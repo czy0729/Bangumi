@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-10 07:56:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-17 15:27:38
+ * @Last Modified time: 2025-05-08 06:04:51
  */
 import React, { useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
@@ -11,14 +11,22 @@ import { DraggableGrid } from '@components/@/react-native-draggable-grid/draggab
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { memo } from '@utils/decorators'
-import { ORIENTATION_PORTRAIT } from '@constants'
+import { FROZEN_FN, ORIENTATION_PORTRAIT } from '@constants'
 import { getMenus } from '../../ds'
 import Btn from '../btn'
 import Btns from './btns'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const SortMenu = memo(
-  ({ styles, orientation, dragging, discoveryMenu, discoveryMenuNum, onToggle, onSubmit }) => {
+  ({
+    styles,
+    orientation,
+    dragging = false,
+    discoveryMenu = [],
+    discoveryMenuNum = 4,
+    onToggle = FROZEN_FN,
+    onSubmit = FROZEN_FN
+  }) => {
     const [menu, setMenu] = useState(discoveryMenu)
     const menus = useMemo(() => getMenus(menu), [menu])
 

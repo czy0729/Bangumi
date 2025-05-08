@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-19 19:49:24
+ * @Last Modified time: 2025-05-08 06:14:57
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -14,7 +14,7 @@ import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
 const HeaderTitle = memo(
-  ({ tinygrail, cover, nameTop, nameBottom }) => {
+  ({ tinygrail = false, cover = '', nameTop = '', nameBottom = '' }) => {
     return (
       <Flex style={stl(styles.container, tinygrail && styles.containerTinygrail)}>
         {!!cover && <Cover size={styles.container.height} src={cover} radius />}

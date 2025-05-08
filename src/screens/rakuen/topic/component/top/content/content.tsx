@@ -11,6 +11,7 @@ import { IconTouchable, Likes } from '@_'
 import { _, systemStore, uiStore } from '@stores'
 import { isChineseParagraph, removeHTMLTag, removeURLs } from '@utils'
 import { memo } from '@utils/decorators'
+import { FROZEN_ARRAY, FROZEN_FN } from '@constants'
 import { fixedTranslateResult } from '@screens/home/subject/component/utils'
 import { getTopicMainFloorRawText } from '../../../utils'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
@@ -18,16 +19,16 @@ import { styles } from './styles'
 
 const Content = memo(
   ({
-    topicId,
-    title,
-    html,
-    isEp,
-    id,
-    formhash,
-    likeType,
-    translateResult,
-    doTranslate,
-    onLinkPress
+    topicId = '',
+    title = '',
+    html = '',
+    isEp = false,
+    id = '',
+    formhash = '',
+    likeType = '',
+    translateResult = FROZEN_ARRAY,
+    doTranslate = FROZEN_FN,
+    onLinkPress = FROZEN_FN
   }) => {
     const isGroup = topicId.includes('group/')
     return (

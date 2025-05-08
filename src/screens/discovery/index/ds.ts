@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-02 18:42:18
+ * @Last Modified time: 2025-05-08 05:35:08
  */
 import { _ } from '@stores'
 import { IOS, WEB } from '@constants'
@@ -250,4 +250,8 @@ export function getMenus(discoveryMenu: MenuItemType['key'][] = []) {
   return menus
 }
 
-export const linearColor = ['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.64)', 'rgba(0, 0, 0, 0.84)']
+export const linearColor = [
+  'rgba(0, 0, 0, 0)',
+  'rgba(0, 0, 0, 0.64)',
+  'rgba(0, 0, 0, 0.84)'
+] as const

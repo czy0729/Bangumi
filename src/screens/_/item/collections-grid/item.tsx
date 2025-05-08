@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 11:10:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-22 05:28:05
+ * @Last Modified time: 2025-05-08 04:25:25
  */
 import React from 'react'
 import { Component, Cover, Flex, Text, Touchable } from '@components'
@@ -11,6 +11,8 @@ import { _ } from '@stores'
 import { cnjp, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { EVENT } from '@constants'
+import { CollectionStatusCn, SubjectId, SubjectTypeCn } from '@types'
 import { Rank, Stars } from '../../base'
 import Collection from './collection'
 import { COMPONENT_MAIN, DEFAULT_PROPS, HIT_SLOP } from './ds'
@@ -20,23 +22,23 @@ const Item = memo(
     navigation,
     style,
     gridStyles,
-    id,
-    name,
-    nameCn,
-    sub,
-    cover,
-    cdn,
-    score,
-    rank,
-    typeCn,
-    collection,
-    userCollection,
-    airtime,
-    aid,
-    wid,
-    mid,
-    isRectangle,
-    event
+    id = 0,
+    name = '',
+    nameCn = '',
+    sub = '',
+    cover = '',
+    cdn = true,
+    score = '',
+    rank = '',
+    typeCn = '',
+    collection = '',
+    userCollection = '',
+    airtime = '',
+    aid = '',
+    wid = '',
+    mid = '',
+    isRectangle = false,
+    event = EVENT
   }) => {
     const { width } = gridStyles
     return (
@@ -57,7 +59,7 @@ const Item = memo(
           hitSlop={HIT_SLOP}
           onPress={() => {
             const { id: eventId, data: eventData } = event
-            const subjectId = String(id).replace('/subject/', '')
+            const subjectId: SubjectId = String(id).replace('/subject/', '')
             t(eventId, {
               to: 'Subject',
               subjectId,
@@ -73,8 +75,8 @@ const Item = memo(
               _aid: aid,
               _wid: wid,
               _mid: mid,
-              _type: typeCn,
-              _collection: collection || userCollection
+              _type: typeCn as SubjectTypeCn,
+              _collection: (collection || userCollection) as CollectionStatusCn
             })
           }}
         >
@@ -83,7 +85,7 @@ const Item = memo(
             height={isRectangle ? width : gridStyles.height}
             src={cover}
             radius
-            type={typeCn}
+            type={typeCn as SubjectTypeCn}
             cdn={cdn}
           />
           <Text style={_.mt.sm} size={12} lineHeight={13} numberOfLines={3} bold align='center'>

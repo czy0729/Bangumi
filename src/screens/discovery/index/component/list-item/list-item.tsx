@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-09 21:52:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-02 18:13:12
+ * @Last Modified time: 2025-05-08 06:03:07
  */
 import React from 'react'
 import { HorizontalList } from '@components'
@@ -11,7 +11,7 @@ import { _, usersStore } from '@stores'
 import { findSubjectCn, getCoverLarge } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { IMG_DEFAULT, MODEL_SUBJECT_TYPE } from '@constants'
+import { FROZEN_ARRAY, IMG_DEFAULT, MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { INITIAL_RENDER_NUMS_XS } from '../../ds'
 import CoverLg from '../cover/lg'
@@ -21,7 +21,14 @@ import SectionTitle from '../section-title'
 import { COMPONENT_MAIN, DEFAULT_PROPS, INITIAL_RENDER_NUMS_SM, ITEM_HEIGHT } from './ds'
 
 const ListItem = memo(
-  ({ styles, style, index, type, list, friendsChannel }) => {
+  ({
+    styles,
+    style,
+    index = 0,
+    type = 'anime',
+    list = FROZEN_ARRAY,
+    friendsChannel = FROZEN_ARRAY
+  }) => {
     const title = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
     return (
       <InView y={_.window.height * 0.64 + index * ITEM_HEIGHT}>

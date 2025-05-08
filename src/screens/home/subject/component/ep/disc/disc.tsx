@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 02:26:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-15 19:29:33
+ * @Last Modified time: 2025-05-08 06:44:45
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
@@ -11,12 +11,20 @@ import { SectionTitle } from '@_'
 import { _ } from '@stores'
 import { appNavigate, HTMLDecode, stl } from '@utils'
 import { memo } from '@utils/decorators'
+import { FROZEN_ARRAY } from '@constants'
 import IconDisc from '../../icon/disc'
 import IconSearchDisc from '../../icon/search-disc'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Disc = memo(
-  ({ navigation, styles, subjectId, disc, discTranslateResult, focusOrigin }) => {
+  ({
+    navigation,
+    styles,
+    subjectId = 0,
+    disc = FROZEN_ARRAY,
+    discTranslateResult = FROZEN_ARRAY,
+    focusOrigin = false
+  }) => {
     const [expand, setExpand] = useState(false)
     const onExpand = useCallback(() => {
       setExpand(true)

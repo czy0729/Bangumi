@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-11 21:47:09
+ * @Last Modified time: 2025-05-08 06:26:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { SectionTitle } from '@_'
 import { _ } from '@stores'
 import { appNavigate } from '@utils'
 import { memo } from '@utils/decorators'
-import { SHARE_MODE } from '@constants'
+import { FROZEN_ARRAY, FROZEN_FN, SHARE_MODE } from '@constants'
 import { TITLE_BOX } from '../../ds'
 import IconClose from '../icon/close'
 import IconFolder from '../icon/folder'
@@ -22,7 +22,17 @@ import FlipBtn from './flip-btn'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Box = memo(
-  ({ styles, navigation, isLogin, status, url, showCount, showManageModel, toRating, outdate }) => {
+  ({
+    styles,
+    navigation,
+    isLogin = false,
+    status = FROZEN_ARRAY,
+    url = '',
+    showCount = true,
+    showManageModel = FROZEN_FN,
+    toRating = FROZEN_FN,
+    outdate = false
+  }) => {
     const onPress = isLogin
       ? showManageModel
       : () => {

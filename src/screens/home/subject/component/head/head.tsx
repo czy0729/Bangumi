@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-16 11:46:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-30 09:43:35
+ * @Last Modified time: 2025-05-08 06:46:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,23 +20,23 @@ import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 const Head = memo(
   ({
     styles,
-    showRelation,
-    subjectId,
+    showRelation = false,
+    subjectId = 0,
     subjectPrev,
     subjectAfter,
     subjectSeries,
-    cn,
-    jp,
-    release,
-    year,
-    imageWidth,
-    imageHeight,
-    titleLabel,
-    hideScore,
-    rating,
-    nsfw,
-    hasSeries,
-    isMusic
+    cn = '',
+    jp = '',
+    release = '',
+    year = '',
+    imageWidth = 0,
+    imageHeight = 0,
+    titleLabel = '',
+    hideScore = false,
+    rating = {},
+    nsfw = false,
+    hasSeries = false,
+    isMusic = false
   }) => {
     const top = cnjp(jp, cn)
     const bottom = cnjp(cn, jp)

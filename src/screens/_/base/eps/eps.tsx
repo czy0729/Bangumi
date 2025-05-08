@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-08-31 14:21:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-06 20:34:39
+ * @Last Modified time: 2025-05-08 19:49:54
  */
 import React, { useCallback, useMemo, useState } from 'react'
 import { LayoutChangeEvent, View } from 'react-native'
 import { _ } from '@stores'
 import { arrGroup, asc, runAfter } from '@utils'
 import { memo } from '@utils/decorators'
-import { MODEL_EP_TYPE, WSA } from '@constants'
+import { FROZEN_ARRAY, FROZEN_FN, FROZEN_OBJECT, MODEL_EP_TYPE, WSA } from '@constants'
 import { EpTypeCn } from '@types'
 import { Carousel } from './carousel'
 import { NormalButtons } from './normal-buttons'
@@ -19,22 +19,22 @@ import { Props } from './types'
 export default memo(
   ({
     style,
-    advance,
-    canPlay,
-    eps,
-    grid,
-    layoutWidth,
-    lines,
-    login,
-    marginRight,
-    numbersOfLine,
-    pagination,
-    subjectId,
-    userProgress,
-    orientation,
-    flip,
-    onFliped,
-    onSelect
+    advance = false,
+    canPlay = false,
+    eps = FROZEN_ARRAY,
+    grid = false,
+    layoutWidth = 0,
+    lines = 4,
+    login = false,
+    marginRight = 0,
+    numbersOfLine = DEFAULT_PROPS.numbersOfLine,
+    pagination = false,
+    subjectId = 0,
+    userProgress = FROZEN_OBJECT,
+    orientation = _.orientation,
+    flip = false,
+    onFliped = FROZEN_FN,
+    onSelect = FROZEN_FN
   }: Props) => {
     const [width, setWidth] = useState(layoutWidth - marginRight)
 

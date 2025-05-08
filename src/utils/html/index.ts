@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-17 11:24:02
+ * @Last Modified time: 2025-05-08 19:14:31
  */
 import cheerioRN from 'cheerio-without-node-native'
 import { DEV } from '@src/config'
@@ -225,8 +225,8 @@ export function cheerio(
     if (target.indexOf('<!DOCTYPE html>') === 0) {
       if (DEV) {
         console.info(
-          '%c[@utils/html/cheerio]',
-          'background: #000; color: #fff',
+          '⚪',
+          '[@utils/html/cheerio]',
           'need match',
           target.match(/<title>(.*?)<\/title>/g)?.[0]
         )

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-11 21:45:27
+ * @Last Modified time: 2025-05-08 07:28:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { PreventTouchPlaceholder, SectionTitle } from '@_'
 import { _, systemStore } from '@stores'
 import { stl } from '@utils'
 import { memo } from '@utils/decorators'
+import { FROZEN_FN } from '@constants'
 import { TITLE_TAGS } from '../../ds'
 import IconGame from '../icon/game'
 import IconHidden from '../icon/hidden'
@@ -20,7 +21,15 @@ import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
 const Tags = memo(
-  ({ show, showTags, showTyperank, subjectTagsExpand, rank, focusOrigin, onSwitchBlock }) => {
+  ({
+    show = true,
+    showTags = true,
+    showTyperank = false,
+    subjectTagsExpand = true,
+    rank = 0,
+    focusOrigin = false,
+    onSwitchBlock = FROZEN_FN
+  }) => {
     return (
       <View style={stl(_.mt.lg, showTags ? styles.container : _.short, !show && _.mb.md)}>
         <SectionTitle

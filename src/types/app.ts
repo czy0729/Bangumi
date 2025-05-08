@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-29 04:48:57
+ * @Last Modified time: 2025-05-08 07:14:04
  */
 import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
 import IoniconsIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/Ionicons.json'
@@ -187,13 +187,18 @@ export type Actions = Record<
 >
 
 /** 翻译结果 */
-export type TranslateResult = {
-  /** 原话 */
-  src: string
+export type TranslateResult =
+  | {
+      /** 原话 */
+      src: string
 
-  /** 译话 */
-  dst: string
-}[]
+      /** 译话 */
+      dst: string
+    }[]
+  | readonly {
+      src: string
+      dst: string
+    }[]
 
 /** 锐评项 */
 export type CompletionItem = {

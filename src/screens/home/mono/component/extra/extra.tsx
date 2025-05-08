@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-21 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-10 04:38:23
+ * @Last Modified time: 2025-05-08 06:14:01
  */
 import React from 'react'
 import { Flex, Heatmap, Text, Touchable } from '@components'
@@ -11,10 +11,11 @@ import { _ } from '@stores'
 import { confirm } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { FROZEN_FN } from '@constants'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Extra = memo(
-  ({ navigation, monoId, canICO, icoUsers, doICO }) => {
+  ({ navigation, monoId = '', canICO = false, icoUsers, doICO = FROZEN_FN }) => {
     if (canICO) {
       return (
         <Touchable

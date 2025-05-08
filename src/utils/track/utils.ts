@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-29 20:01:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-17 12:46:47
+ * @Last Modified time: 2025-05-08 19:15:04
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
@@ -178,10 +178,6 @@ function eventToUrl(name: EventKeys = '', data: AnyObject = {}) {
 /** [DEV] */
 export function log(method: string, ...others: any[]) {
   if (DEV) {
-    console.info(
-      `%c[@utils/track/${method}]`,
-      'background: #000; color: #fff',
-      ...others.filter(item => !!item)
-    )
+    console.info('⚪', `[@utils/track/${method}]`, ...others.filter(item => !!item))
   }
 }

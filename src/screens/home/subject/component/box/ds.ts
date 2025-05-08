@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-07-10 03:33:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 17:00:01
+ * @Last Modified time: 2025-05-08 06:27:19
  */
-import { systemStore } from '@stores'
+import { systemStore, userStore } from '@stores'
 import { rc } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
 import { Navigation } from '@types'
@@ -23,7 +23,7 @@ export const RATE = [1, 2, 3, 4, 5] as const
 export const DEFAULT_PROPS = {
   navigation: {} as Navigation,
   styles: {} as ReturnType<typeof memoStyles>,
-  isLogin: false as $['isLogin'],
+  isLogin: false as typeof userStore.isLogin,
   status: [] as $['status'],
   url: '' as $['url'],
   showCount: true as typeof systemStore.setting.showCount,

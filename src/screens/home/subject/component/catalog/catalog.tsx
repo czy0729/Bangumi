@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-28 15:10:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-11 21:47:05
+ * @Last Modified time: 2025-05-08 06:28:20
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -12,7 +12,7 @@ import { _ } from '@stores'
 import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { useHorizontalLazy } from '@utils/hooks'
-import { SCROLL_VIEW_RESET_PROPS } from '@constants'
+import { FROZEN_ARRAY, FROZEN_FN, SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { TITLE_CATALOG } from '../../ds'
 import IconCatalog from '../icon/catalog'
 import IconHidden from '../icon/hidden'
@@ -20,7 +20,7 @@ import Item from './item'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Catalog = memo(
-  ({ styles, showCatalog, catalog, onSwitchBlock }) => {
+  ({ styles, showCatalog = true, catalog = FROZEN_ARRAY, onSwitchBlock = FROZEN_FN }) => {
     const { list, onScroll } = useHorizontalLazy(catalog)
     return (
       <InView style={stl(styles.container, !showCatalog && _.short)}>

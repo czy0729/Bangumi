@@ -13,7 +13,7 @@ import { _ } from '@stores'
 import { copy, open } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { IMG_HEIGHT_SM, IMG_WIDTH_SM, MODEL_COLLECTION_STATUS } from '@constants'
+import { FROZEN_FN, IMG_HEIGHT_SM, IMG_WIDTH_SM, MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus, CollectionStatusCn } from '@types'
 import {
   getSelectComment,
@@ -34,13 +34,13 @@ export default memo(
   ({
     navigation,
     styles,
-    item,
-    review,
-    collection,
-    hideSame,
-    onRefreshCollection,
-    onBottom,
-    onSubmit
+    item = {},
+    review = {},
+    collection = {},
+    hideSame = false,
+    onRefreshCollection = FROZEN_FN,
+    onBottom = FROZEN_FN,
+    onSubmit = FROZEN_FN
   }) => {
     const { subjectId } = item
     const isSubject = !!subjectId

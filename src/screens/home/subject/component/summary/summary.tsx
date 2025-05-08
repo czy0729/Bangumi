@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-12 17:34:20
+ * @Last Modified time: 2025-05-08 07:13:26
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { SectionTitle } from '@_'
 import { _, systemStore } from '@stores'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { FROZEN_ARRAY, FROZEN_FN } from '@constants'
 import { TITLE_SUMMARY } from '../../ds'
 import IconHidden from '../icon/hidden'
 import IconTranslate from '../icon/translate'
@@ -21,13 +22,13 @@ const Summary = memo(
   ({
     navigation,
     styles,
-    subjectId,
-    showSummary,
-    subjectHtmlExpand,
-    translateResult,
-    content,
-    name,
-    onSwitchBlock
+    subjectId = 0,
+    showSummary = true,
+    subjectHtmlExpand = true,
+    translateResult = FROZEN_ARRAY,
+    content = '',
+    name = '',
+    onSwitchBlock = FROZEN_FN
   }) => {
     const handlePress = useCallback(() => {
       navigation.push('SubjectInfo', {

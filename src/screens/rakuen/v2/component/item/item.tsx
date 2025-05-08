@@ -8,6 +8,7 @@ import React from 'react'
 import { Flex, Touchable, UserStatus } from '@components'
 import { InView } from '@_'
 import { memo } from '@utils/decorators'
+import { FROZEN_FN } from '@constants'
 import Avatar from './avatar'
 import BtnPopover from './btn-popover'
 import Content from './content'
@@ -18,19 +19,19 @@ import { COMPONENT_MAIN, DEFAULT_PROPS, ITEM_HEIGHT } from './ds'
 const Item = memo(
   ({
     styles,
-    index,
-    avatar,
-    userId,
-    userName,
-    groupHref,
-    groupCn,
-    href,
-    title,
-    time,
-    topicId,
-    replyCount,
-    isGroup,
-    onPress
+    index = 0,
+    avatar = '',
+    userId = '',
+    userName = '',
+    groupHref = '',
+    groupCn = '',
+    href = '',
+    title = '',
+    time = '',
+    topicId = '',
+    replyCount = '',
+    isGroup = false,
+    onPress = FROZEN_FN
   }) => {
     return (
       <Readed topicId={topicId}>

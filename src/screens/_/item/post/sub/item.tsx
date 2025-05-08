@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-18 04:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-25 14:56:06
+ * @Last Modified time: 2025-05-08 05:02:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,8 @@ import { _, systemStore } from '@stores'
 import { getIsBlocked, getTimestamp, matchUserIdFromAvatar, removeHTMLTag, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import decoder from '@utils/thirdParty/html-entities-decoder'
+import { EVENT, FROZEN_ARRAY, FROZEN_FN, FROZEN_OBJECT } from '@constants'
+import { BlogId, TopicId } from '@types'
 import { IMAGES_MAX_WIDTH_SUB, REG_MARK } from '../ds'
 import { Likes, Name, UserAge, UserStatusAvatar } from '../../../base'
 import CollapsedHtml from '../collapsed-html'
@@ -28,40 +30,40 @@ export default memo(
     navigation,
     styles,
     extraStyle,
-    topicId,
-    authorId,
-    avatar,
-    blockKeywords,
-    erase,
-    filterDelete,
-    floor,
-    directFloor,
-    id,
-    isBlockUser,
-    matchLink,
-    message,
-    myFriendsMap,
-    postId,
-    postUsersMap,
-    quote,
-    quoteAvatar,
-    wide,
-    readedTime,
-    replySub,
-    time,
-    translate,
-    uid,
-    url,
-    userId,
-    userName,
-    formhash,
-    like,
-    likeType,
-    newFloorStyle,
-    event,
-    onJumpTo,
-    onLikesLongPress,
-    onShowFixedTextare
+    topicId = '' as TopicId | BlogId,
+    authorId = '',
+    avatar = '',
+    blockKeywords = FROZEN_ARRAY,
+    erase = '',
+    filterDelete = true,
+    floor = '',
+    directFloor = false,
+    id = 0,
+    isBlockUser = false,
+    matchLink = false,
+    message = '',
+    myFriendsMap = FROZEN_OBJECT,
+    postId = '',
+    postUsersMap = FROZEN_OBJECT,
+    quote = true,
+    quoteAvatar = true,
+    wide = false,
+    readedTime = '',
+    replySub = '',
+    time = '',
+    translate = '',
+    uid = '',
+    url = '',
+    userId = '',
+    userName = '',
+    formhash = '',
+    like = false,
+    likeType = '',
+    newFloorStyle = '角标',
+    event = EVENT,
+    onJumpTo = FROZEN_FN,
+    onLikesLongPress = FROZEN_FN,
+    onShowFixedTextare = FROZEN_FN
   }) => {
     const msg = decoder(message)
     const rawMsg = removeHTMLTag(msg)

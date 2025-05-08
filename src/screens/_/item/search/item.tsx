@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-06-15 10:47:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-25 23:20:15
+ * @Last Modified time: 2025-05-08 05:03:13
  */
 import React from 'react'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
-import { IMG_HEIGHT_LG, IMG_WIDTH_LG } from '@constants'
+import { EVENT, FROZEN_ARRAY, IMG_HEIGHT_LG, IMG_WIDTH_LG } from '@constants'
 import { Rank, Stars } from '../../base'
 import Container from './container'
 import Content from './content'
@@ -24,23 +24,23 @@ const Item = memo(
     navigation,
     styles,
     style,
-    index,
-    id,
-    name,
-    nameCn,
-    cover,
-    typeCn,
-    tip,
-    rank,
-    score,
-    total,
-    comments,
-    collection,
-    position,
-    showManage,
-    screen,
-    highlight,
-    event
+    index = 0,
+    id = '',
+    name = '',
+    nameCn = '',
+    cover = '',
+    typeCn = '',
+    tip = '',
+    rank = '',
+    score = '',
+    total = '',
+    comments = '',
+    collection = '',
+    position = FROZEN_ARRAY,
+    showManage = true,
+    screen = '',
+    highlight = '',
+    event = EVENT
   }) => {
     const subjectId = String(id).replace('/subject/', '')
 

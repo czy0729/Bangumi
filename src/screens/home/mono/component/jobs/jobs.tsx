@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-20 14:29:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-16 01:08:20
+ * @Last Modified time: 2025-05-08 06:15:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,13 +12,13 @@ import { InView, SectionTitle, Tag } from '@_'
 import { _, systemStore } from '@stores'
 import { appNavigate, cnjp, getCoverMedium, stl } from '@utils'
 import { memo } from '@utils/decorators'
-import { MODEL_SUBJECT_TYPE } from '@constants'
+import { FROZEN_ARRAY, MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { COVER_HEIGHT, COVER_WIDTH } from '../../ds'
 import { COMPONENT_MAIN, DEFAULT_PROPS, EVENT } from './ds'
 
 const Jobs = memo(
-  ({ navigation, styles, style, jobs }) => {
+  ({ navigation, styles, style, jobs = FROZEN_ARRAY }) => {
     const { avatarRound } = systemStore.setting
     const radius = avatarRound ? COVER_WIDTH : _.radiusSm
     return (

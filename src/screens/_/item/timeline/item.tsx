@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 05:14:56
+ * @Last Modified time: 2025-05-08 05:12:42
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { getCoverSrc } from '@components/cover/utils'
 import { _, uiStore, userStore } from '@stores'
 import { appNavigate, confirm, stl, x18 } from '@utils'
 import { memo } from '@utils/decorators'
-import { IMG_HEIGHT_SM, IMG_WIDTH_SM, SHARE_MODE } from '@constants'
+import { EVENT, FROZEN_ARRAY, FROZEN_FN, IMG_HEIGHT_SM, IMG_WIDTH_SM, SHARE_MODE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { InView, Likes, Popover, Stars } from '../../base'
 import Avatar from './avatar'
@@ -32,26 +32,46 @@ const Item = memo(
     navigation,
     styles,
     style,
-    full,
-    avatar,
-    userId,
-    p1,
-    p2,
-    p3,
-    p4,
-    image,
-    comment,
-    reply,
-    like,
-    time,
-    star,
-    subject,
-    subjectId,
-    clearHref,
-    index,
-    event,
-    onDelete,
-    onHidden
+    full = false,
+    avatar = {
+      src: ''
+    },
+    userId = '',
+    p1 = {
+      text: '',
+      url: ''
+    },
+    p2 = {
+      text: ''
+    },
+    p3 = {
+      text: [],
+      url: []
+    },
+    p4 = {
+      text: ''
+    },
+    image = FROZEN_ARRAY,
+    comment = '',
+    reply = {
+      count: '',
+      url: '',
+      content: ''
+    },
+    like = {
+      mainId: '',
+      relatedId: '',
+      type: ''
+    },
+    time = '',
+    star = '',
+    subject = '',
+    subjectId = 0,
+    clearHref = '',
+    index = 0,
+    event = EVENT,
+    onDelete = FROZEN_FN,
+    onHidden = FROZEN_FN
   }) => {
     const { src: avatarSrc } = avatar
     const { count: replyCount, url: replyUrl, content: replyContent } = reply

@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-25 13:42:44
+ * @Last Modified time: 2025-05-08 04:28:51
  */
 import React from 'react'
 import { memo } from '@utils/decorators'
 import { r } from '@utils/dev'
+import { EVENT, FROZEN_ARRAY, FROZEN_FN } from '@constants'
 import Avatar from './avatar'
 import Container from './container'
 import ContainerLayout from './container-layout'
@@ -18,43 +19,43 @@ import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Item = memo(
   ({
-    inViewY,
-    index,
+    inViewY = 0,
+    index = 0,
     contentStyle,
     extraStyle,
-    topicId,
-    authorId,
-    avatar,
-    erase,
-    floor,
-    directFloor,
-    id,
-    isAuthor,
-    isExpand,
-    isFriend,
-    isJump,
-    isNew,
-    matchLink,
-    msg,
-    postId,
-    readedTime,
-    replySub,
+    topicId = '',
+    authorId = '',
+    avatar = '',
+    erase = '',
+    floor = '',
+    directFloor = false,
+    id = 0,
+    isAuthor = false,
+    isExpand = false,
+    isFriend = false,
+    isJump = false,
+    isNew = false,
+    matchLink = false,
+    msg = '',
+    postId = '',
+    readedTime = '',
+    replySub = '',
     expandNums,
-    sub,
-    time,
-    translate,
-    url,
-    userId,
-    userName,
-    userSign,
-    formhash,
-    likeType,
-    newFloorStyle,
-    event,
-    onJumpTo,
-    onLikesLongPress,
-    onShowFixedTextare,
-    onToggleExpand
+    sub = FROZEN_ARRAY,
+    time = '',
+    translate = '',
+    url = '',
+    userId = '',
+    userName = '',
+    userSign = '',
+    formhash = '',
+    likeType = '',
+    newFloorStyle = '角标',
+    event = EVENT,
+    onJumpTo = FROZEN_FN,
+    onLikesLongPress = FROZEN_FN,
+    onShowFixedTextare = FROZEN_FN,
+    onToggleExpand = FROZEN_FN
   }) => {
     r(COMPONENT_MAIN)
 

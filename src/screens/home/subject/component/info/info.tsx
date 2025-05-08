@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-12 17:32:56
+ * @Last Modified time: 2025-05-08 06:50:16
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
@@ -12,12 +12,22 @@ import { _ } from '@stores'
 import { appNavigate } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { FROZEN_FN } from '@constants'
 import IconHidden from '../icon/hidden'
 import IconWiki from '../icon/wiki'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Info = memo(
-  ({ navigation, styles, subjectId, showInfo, subjectHtmlExpand, info, name, onSwitchBlock }) => {
+  ({
+    navigation,
+    styles,
+    subjectId = 0,
+    showInfo = true,
+    subjectHtmlExpand = true,
+    info = '',
+    name = '',
+    onSwitchBlock = FROZEN_FN
+  }) => {
     const [expand, setExpand] = useState(false)
     const handleExpand = useCallback(() => {
       setExpand(true)

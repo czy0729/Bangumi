@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-25 17:20:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-07 14:51:14
+ * @Last Modified time: 2025-05-08 04:07:32
  */
 import dayjs from 'dayjs'
 import { systemStore } from '@stores'
@@ -77,7 +77,7 @@ export function getType(progress: any, status: any) {
   }
 }
 
-export function getComment(eps: any[]) {
+export function getComment(eps: any[] | readonly any[]) {
   return {
     min: Math.min(...eps.map(item => item.comment || 1).filter(item => !!item)),
     max: Math.max(...eps.map(item => item.comment || 1))

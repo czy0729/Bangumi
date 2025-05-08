@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-11 21:47:01
+ * @Last Modified time: 2025-05-08 06:31:59
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -11,6 +11,7 @@ import { _ } from '@stores'
 import { desc, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { FROZEN_ARRAY, FROZEN_FN, FROZEN_OBJECT } from '@constants'
 import { TITLE_CHARACTER } from '../../ds'
 import IconCharacter from '../icon/character'
 import IconHidden from '../icon/hidden'
@@ -19,7 +20,14 @@ import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
 const Character = memo(
-  ({ navigation, showCharacter, subjectId, crt, crtCounts, onSwitchBlock }) => {
+  ({
+    navigation,
+    showCharacter = true,
+    subjectId = 0,
+    crt = FROZEN_ARRAY,
+    crtCounts = FROZEN_OBJECT,
+    onSwitchBlock = FROZEN_FN
+  }) => {
     return (
       <InView style={stl(styles.container, !showCharacter && _.short)}>
         <SectionTitle

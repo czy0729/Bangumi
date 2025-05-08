@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:00:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-11 21:45:53
+ * @Last Modified time: 2025-05-08 06:51:41
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -12,6 +12,8 @@ import { _ } from '@stores'
 import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { FROZEN_ARRAY, FROZEN_FN } from '@constants'
+import { SubjectTypeCn } from '@types'
 import { TITLE_LIKE } from '../../ds'
 import IconHidden from '../icon/hidden'
 import IconRelation from '../icon/relation'
@@ -19,7 +21,14 @@ import { COMPONENT_MAIN, COVER_HEIGHT, COVER_WIDTH, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
 const Like = memo(
-  ({ navigation, showLike, subjectId, like, typeCn, onSwitchBlock }) => {
+  ({
+    navigation,
+    showLike = true,
+    subjectId = 0,
+    like = FROZEN_ARRAY,
+    typeCn = '' as SubjectTypeCn,
+    onSwitchBlock = FROZEN_FN
+  }) => {
     return (
       <InView style={stl(styles.container, !showLike && _.short)}>
         <SectionTitle

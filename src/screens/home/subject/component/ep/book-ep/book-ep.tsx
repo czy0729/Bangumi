@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-09 16:36:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-11 21:46:07
+ * @Last Modified time: 2025-05-08 06:42:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { Button, Flex, Heatmap, Input, Text } from '@components'
 import { SectionTitle } from '@_'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
+import { FROZEN_FN } from '@constants'
 import { TITLE_EP } from '../../../ds'
 import IconHD from '../../icon/hd'
 import IconManga from '../../icon/manga'
@@ -21,16 +22,18 @@ import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 const BookEp = memo(
   ({
     styles,
-    chap,
-    vol,
-    book,
-    comicLength,
-    status,
-    focusOrigin,
-    onChangeText,
-    onScrollIntoViewIfNeeded,
-    doUpdateBookEp,
-    doUpdateNext
+    chap = '0',
+    vol = '0',
+    book = {},
+    comicLength = 0,
+    status = {
+      name: '未收藏'
+    },
+    focusOrigin = false,
+    onChangeText = FROZEN_FN,
+    onScrollIntoViewIfNeeded = FROZEN_FN,
+    doUpdateBookEp = FROZEN_FN,
+    doUpdateNext = FROZEN_FN
   }) => {
     const { totalChap } = book
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-17 14:06:30
+ * @Last Modified time: 2025-05-08 19:14:53
  */
 import { _, rakuenStore, subjectStore, systemStore } from '@stores'
 import { HTMLDecode, sleep } from '@utils'
@@ -235,10 +235,5 @@ export async function fetchMediaQueue(
 
 /** [DEV] */
 function log(method: string, ...others: any[]) {
-  if (DEV)
-    console.info(
-      `%c[@components/render-html/utils/${method}]`,
-      'background: #000; color: #fff',
-      ...others
-    )
+  if (DEV) console.info('⚪', `[@components/render-html/utils/${method}]`, ...others)
 }

@@ -8,7 +8,7 @@ import React, { useEffect, useRef } from 'react'
 import { View } from 'react-native'
 import { Modal } from '@components'
 import { memo } from '@utils/decorators'
-import { WEB } from '@constants'
+import { FROZEN_FN, WEB } from '@constants'
 import DirectoryItem from './directory-item'
 import Example from './example'
 import Information from './information'
@@ -19,7 +19,7 @@ import TypeItem from './type-item'
 import UrlItem from './url-item'
 import { DEFAULT_PROPS } from './ds'
 
-export default memo(({ store, styles, visible, name, onClose }) => {
+export default memo(({ store, styles, visible = false, name = '', onClose = FROZEN_FN }) => {
   const nameRef = useRef(null)
   const ipRef = useRef(null)
   const usernameRef = useRef(null)

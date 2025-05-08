@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:43:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-26 13:45:11
+ * @Last Modified time: 2025-05-08 04:26:39
  */
 import React from 'react'
 import { Flex, Text } from '@components'
 import { _, uiStore, userStore } from '@stores'
 import { HTMLDecode, stl } from '@utils'
 import { memo } from '@utils/decorators'
-import { LIKE_TYPE_TIMELINE, WEB } from '@constants'
+import { EVENT, LIKE_TYPE_TIMELINE, WEB } from '@constants'
 import { Likes, UserStatusAvatar } from '../../base'
 import Bottom from './bottom'
 import Menu from './menu'
@@ -21,20 +21,20 @@ const ItemComment = memo(
     navigation,
     styles,
     style,
-    time,
-    avatar,
-    userId,
-    userName,
-    star,
-    status,
-    comment,
-    subjectId,
-    relatedId,
-    mainId,
-    mainName,
-    event,
+    time = '',
+    avatar = '',
+    userId = '',
+    userName = '',
+    star = '',
+    status = '',
+    comment = '',
+    subjectId = 0,
+    relatedId = '',
+    mainId = '',
+    mainName = '',
+    event = EVENT,
     popoverData,
-    like,
+    like = false,
     onSelect
   }) => {
     return (

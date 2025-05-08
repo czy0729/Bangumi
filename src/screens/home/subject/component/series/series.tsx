@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 17:05:10
+ * @Last Modified time: 2025-05-08 07:11:00
  */
 import React from 'react'
 import { Cover, Flex, Heatmap, Iconfont, Squircle, Text, Touchable } from '@components'
@@ -20,9 +20,9 @@ const Series = memo(
   ({
     navigation,
     styles,
-    showRelation,
-    size,
-    subjectId,
+    showRelation = true,
+    size = 14,
+    subjectId = 0,
     subjectPrev,
     subjectAfter,
     subjectAnime,

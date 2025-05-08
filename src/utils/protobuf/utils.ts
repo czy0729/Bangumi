@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-13 20:00:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-10 15:25:52
+ * @Last Modified time: 2025-05-08 19:14:20
  */
 import { DEV, LOG_LEVEL } from '@src/config'
 import { DataAssets, Get } from './types'
@@ -63,6 +63,6 @@ export function isPromise(obj: any) {
 /** [DEV] */
 export function log(method: string, ...others: any[]) {
   if (DEV) {
-    console.info(`%c[@utils/protobuf/${method}]`, 'background: #000; color: #fff', ...others)
+    console.info('⚪', `[@utils/protobuf/${method}]`, ...others)
   }
 }

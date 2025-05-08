@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-25 23:12:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-29 10:48:22
+ * @Last Modified time: 2025-05-08 05:28:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { Manage } from '@_'
 import { _, uiStore } from '@stores'
 import { HTMLDecode } from '@utils'
 import { memo } from '@utils/decorators'
-import { MODEL_COLLECTION_STATUS } from '@constants'
+import { FROZEN_OBJECT, MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus } from '@types'
 import Desc from '../../desc'
 import Cover from './cover'
@@ -22,21 +22,21 @@ import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const ItemLine = memo(
   ({
-    index,
     styles,
-    hideScore,
-    subjectId,
-    name,
-    desc,
-    image,
-    time,
-    prevTime,
-    expand,
+    index = 0,
+    hideScore = false,
+    subjectId = 0,
+    name = '',
+    desc = '',
+    image = '',
+    time = '2359',
+    prevTime = '',
+    expand = false,
     collection,
-    rank,
-    score,
-    total,
-    sites
+    rank = 0,
+    score = 0,
+    total = 0,
+    sites = FROZEN_OBJECT
   }) => {
     return (
       <View style={_.container.block}>

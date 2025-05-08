@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-28 02:06:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-01 10:11:09
+ * @Last Modified time: 2025-05-08 19:13:10
  */
 import { _ } from '@stores'
 import { getCover400, getStorage, setStorage, showImageViewer } from '@utils'
@@ -314,6 +314,6 @@ export function getLocalCacheStatic(src: string) {
 /** [DEV] */
 export function log(method: string, ...others: any[]) {
   if (DEV) {
-    console.info(`%c[@component/image/${method}]`, 'background: #000; color: #fff', ...others)
+    console.info('⚪', `[@component/image/${method}]`, ...others)
   }
 }

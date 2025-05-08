@@ -6,15 +6,25 @@
  */
 import React, { useCallback, useRef, useState } from 'react'
 import { Animated } from 'react-native'
+import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import { useMount } from '@utils/hooks'
+import { FROZEN_FN, FROZEN_OBJECT } from '@constants'
 import { ScrollEvent } from '@types'
+import { H_HEADER } from '../ds'
 import ParallaxImage from './parallax-image'
 import Tab from './tab'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Scroll = memo(
-  ({ fixedHeight, page, scrollToOffset, fetchCollections, onChange, onScroll }) => {
+  ({
+    fixedHeight = _.parallaxImageHeight - H_HEADER,
+    page = 0,
+    scrollToOffset = FROZEN_OBJECT,
+    fetchCollections = FROZEN_FN,
+    onChange = FROZEN_FN,
+    onScroll = FROZEN_FN
+  }) => {
     useMount(() => {
       fetchCollections()
     })

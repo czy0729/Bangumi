@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-30 07:52:11
+ * @Last Modified time: 2025-05-08 05:15:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,7 +18,17 @@ import Title from './title'
 import { COMPONENT_MAIN, DEFAULT_PROPS, HIT_SLOP } from './ds'
 
 const ItemGrid = memo(
-  ({ navigation, styles, hideScore, subjectId, name, image, score, collection, time }) => {
+  ({
+    navigation,
+    styles,
+    hideScore = false,
+    subjectId = 0,
+    name = '',
+    image = '',
+    score = '',
+    collection = '',
+    time = '2359'
+  }) => {
     const { width, height } = styles.cover
     return (
       <View style={styles.item}>

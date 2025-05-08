@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-02-13 16:50:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-06 18:02:02
+ * @Last Modified time: 2025-05-08 19:16:01
  */
 import { useEffect, useRef } from 'react'
 import { enableScreens } from 'react-native-screens'
@@ -31,7 +31,7 @@ export function useEnableScreens() {
       const currentPath = convertToPath(navigationRef.current.getCurrentRoute().name)
       if (lastPath && lastPath === currentPath) return
 
-      console.info('\x1b[42m%s\x1b[0m', `./src/screens/${currentPath}/index.tsx`)
+      console.info('🟢', `./src/screens/${currentPath}/index.tsx`)
       lastPath = currentPath
     })
     return unsubscribe

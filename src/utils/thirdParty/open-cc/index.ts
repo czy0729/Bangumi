@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2024-04-13 16:32:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-13 14:52:11
+ * @Last Modified time: 2025-05-08 18:57:47
  */
-import * as OpenCC from 'opencc-js/dist/esm-lib/core'
-import CN from 'opencc-js/dist/esm-lib/from/cn'
-import HK from 'opencc-js/dist/esm-lib/to/hk'
-import TW from 'opencc-js/dist/esm-lib/to/tw'
+import * as OpenCC from 'opencc-js/core'
+import CN from 'opencc-js/from/cn'
+import HK from 'opencc-js/to/hk'
+import TW from 'opencc-js/to/tw'
 import { getSetting } from '../../app'
 import hash from '../hash'
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-10 08:07:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-02 18:14:46
+ * @Last Modified time: 2025-05-08 06:05:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,7 @@ import CoverToday from '../cover/today'
 import { COMPONENT_MAIN, DEFAULTP_ROPS } from './ds'
 
 const Today = memo(
-  ({ styles, todayBangumi }) => {
+  ({ styles, todayBangumi = [] }) => {
     return (
       <HorizontalList
         contentContainerStyle={styles.contentContainerStyle}
