@@ -75,6 +75,7 @@ function TranslateEngine({ filter }) {
           style={_.mt.md}
           {...TEXTS.engine.custom}
           url='https://api.fanyi.baidu.com/api/trans/product/desktop'
+          sub
         >
           <View style={_.container.block}>
             <Input

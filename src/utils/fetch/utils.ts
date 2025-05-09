@@ -5,6 +5,7 @@
  * @Last Modified time: 2025-05-08 19:14:41
  */
 import pLimit from 'p-limit'
+import { TEXT_BADGES } from '@constants/text'
 import { DEV } from '@src/config'
 import { Fn } from '@types'
 
@@ -39,5 +40,5 @@ export async function queue(fetchs: Fn[] = [], num: number = 2) {
 
 /** [DEV] */
 export function log(method: string, ...others: any[]) {
-  if (DEV) console.info('⚪', `[@utils/fetch/${method}]`, ...others)
+  if (DEV) console.info(TEXT_BADGES.plain, `[@utils/fetch/${method}]`, ...others)
 }

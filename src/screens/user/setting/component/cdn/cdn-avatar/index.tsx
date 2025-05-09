@@ -37,6 +37,7 @@ function CDNAvatar({ filter }) {
         />
       }
       filter={filter}
+      sub
       {...TEXTS.cdnAvatarV2}
     >
       <Heatmap id='设置.切换' title='头像加速' />

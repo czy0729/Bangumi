@@ -42,6 +42,7 @@ function HomeGridCoverLayout({ filter }) {
         '0/2022/png/386799/1661062400888-2f305de2-9e5a-40ac-a878-1294c4de40fa.png',
         '0/2022/png/386799/1661062406213-0d748359-9e14-41e3-88a2-eeea58a1617c.png'
       ])}
+      sub
       {...TEXTS.homeGridCoverLayout}
     >
       <Heatmap id='设置.切换' title='封面形状' />

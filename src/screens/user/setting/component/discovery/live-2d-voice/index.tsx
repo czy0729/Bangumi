@@ -34,6 +34,7 @@ function Live2DVoice({ filter }) {
         />
       }
       filter={filter}
+      sub
       {...TEXTS.live2DVoice}
     >
       <Heatmap id='设置.切换' title='看板娘 Live2D 声音' />

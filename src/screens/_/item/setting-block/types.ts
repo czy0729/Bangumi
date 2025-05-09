@@ -31,6 +31,9 @@ export type ItemSettingBlockProps = {
   informationType?: TextType
   size?: number
   filter?: string
+
+  /** 是否二级关联设置 */
+  sub?: boolean
   thumb?:
     | false
     | {

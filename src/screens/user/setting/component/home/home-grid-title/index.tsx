@@ -39,6 +39,7 @@ function HomeGridTitle({ filter }) {
         '0/2023/png/386799/1678163227317-132cc2a7-cc59-4857-80e4-1f3514bc2b54.png',
         '0/2023/png/386799/1678163282725-900bfed3-3d91-466e-ba92-cf62079b69bb.png'
       ])}
+      sub
       {...TEXTS.homeGridTitle}
     >
       <Heatmap id='设置.切换' title='条目下方显示标题' />

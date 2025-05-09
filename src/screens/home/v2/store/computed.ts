@@ -6,8 +6,6 @@
  */
 import { computed } from 'mobx'
 import { _, calendarStore, collectionStore, subjectStore, systemStore, userStore } from '@stores'
-import { Ep } from '@stores/subject/types'
-import { UserCollection } from '@stores/user/types'
 import { desc, findLastIndex, freeze, getOnAir, getPinYinFilterValue, t2s, x18 } from '@utils'
 import CacheManager from '@utils/cache-manager'
 import {
@@ -20,7 +18,12 @@ import {
   WEB
 } from '@constants'
 import { getOriginConfig, OriginItem } from '@src/screens/user/origin-setting/utils'
-import {
+import { H_TABBAR, TABS_ITEM } from '../ds'
+import State from './state'
+import { BANGUMI_INFO, INIT_ITEM, NAMESPACE, PAGE_LIMIT_GRID, PAGE_LIMIT_LIST } from './ds'
+
+import type { Tabs, TabsLabel } from '../types'
+import type {
   CollectionStatus,
   Id,
   SettingHomeSorting,
@@ -28,10 +31,8 @@ import {
   SubjectType,
   SubjectTypeValue
 } from '@types'
-import { H_TABBAR, TABS_ITEM } from '../ds'
-import { Tabs, TabsLabel } from '../types'
-import State from './state'
-import { BANGUMI_INFO, INIT_ITEM, NAMESPACE, PAGE_LIMIT_GRID, PAGE_LIMIT_LIST } from './ds'
+import type { UserCollection } from '@stores/user/types'
+import type { Ep } from '@stores/subject/types'
 
 export default class Computed extends State {
   /** 置顶的映射 */
@@ -44,66 +45,61 @@ export default class Computed extends State {
 
   /** Tabs SceneMap */
   @computed get tabs() {
-    const { homeTabs, showGame } = systemStore.setting
-    const tabs: Tabs = homeTabs.map(item => TABS_ITEM[item]).filter(Boolean)
-    if (showGame) tabs.push(TABS_ITEM.game)
+    const tabs: Tabs = systemStore.setting.homeTabs.map(item => TABS_ITEM[item]).filter(Boolean)
+    if (systemStore.setting.showGame) tabs.push(TABS_ITEM.game)
     return freeze(tabs)
   }
 
   /** Tabs navigationState */
   @computed get navigationState() {
-    const { page } = this.state
     const { tabs } = this
-    const safeIndex = Math.min(Math.max(0, page), tabs.length - 1)
     return freeze({
-      index: safeIndex,
+      index: Math.min(Math.max(0, this.state.page), tabs.length - 1),
       routes: tabs
     })
   }
 
   /** 列表上内距 */
   @computed get listPaddingTop() {
-    const { tabs } = this
-    const basePadding = _.headerHeight + (tabs.length <= 1 ? _.sm : H_TABBAR)
+    const basePadding = _.headerHeight + (this.tabs.length <= 1 ? _.sm : H_TABBAR)
     const iosPadAdjustment = IOS && PAD ? _.statusBarHeight : 0
     return basePadding + iosPadAdjustment
   }
 
-  /** 自己用户信息 Id */
+  /** 自己用户 ID */
   @computed get userId() {
     return userStore.userInfo.username || userStore.myUserId
   }
 
-  /** 用户信息 */
+  /** 自己用户信息 */
   @computed get usersInfo() {
     return freeze(userStore.usersInfo(userStore.myUserId))
   }
 
-  /** 当前 Tabs label */
+  /** 当前 Tabs 类型 */
   @computed get tabsLabel() {
     return this.tabs[this.state.page]?.title
   }
 
-  /** 每个 Item 的状态 */
+  /** Item 状态 */
   $Item(subjectId: SubjectId) {
     return freeze(computed(() => this.state.item[subjectId] || INIT_ITEM).get())
   }
 
-  /** 是否登录 (api) */
+  /** 是否登录 (API) */
   @computed get isLogin() {
     return WEB ? userStore.isStorybookLogin : userStore.isLogin
   }
 
   /** 在看的用户收藏 */
   @computed get collection() {
-    if (userStore.isLimit) {
-      return {
-        ...userStore.collection,
-        list: userStore.collection.list.filter(item => !x18(item.subject_id))
-      }
-    }
+    const { collection } = userStore
+    if (!userStore.isLimit) collection
 
-    return userStore.collection
+    return {
+      ...collection,
+      list: collection.list.filter(item => !x18(item.subject_id))
+    }
   }
 
   /** 过滤条件文字 */
@@ -116,9 +112,12 @@ export default class Computed extends State {
   filterValue(title: TabsLabel) {
     return computed(() => {
       const { filterPage } = this.state
-      if (filterPage >= 0 && filterPage <= this.tabs.length) {
-        if (title === this.tabs[filterPage].title) return this.state.filter
+      const isValidPage = filterPage >= 0 && filterPage < this.tabs.length
+      if (isValidPage) {
+        const currentTab = this.tabs[filterPage]
+        if (title === currentTab?.title) return this.state.filter
       }
+
       return ''
     }).get()
   }
@@ -127,45 +126,45 @@ export default class Computed extends State {
   currentCollection(title: TabsLabel) {
     return computed(() => {
       const key = `${NAMESPACE}|${title}`
+
+      // 优先检查缓存
       if (this.state.progress.fetching) {
-        const data = CacheManager.get(key)
-        if (data) return CacheManager.get(key)
+        const cachedData = CacheManager.get(key)
+        if (cachedData) return cachedData
       }
 
+      // 游戏特殊处理
       if (title === '游戏') return CacheManager.set(key, this.games)
 
-      const data = {
-        ...this.collection
-      }
+      // 基础数据
+      const data = { ...this.collection }
 
       // 过滤条目类型
       const type = MODEL_SUBJECT_TYPE.getValue<SubjectTypeValue>(title)
-      if (type) data.list = data.list.filter(item => item?.subject?.type == type)
+      if (type) {
+        data.list = data.list.filter(item => item?.subject?.type == type)
+      }
 
-      // 若当前 Tab 有文字过滤
-      if (this.isFilter(title)) {
-        // 转大写和简体
+      // 文字过滤处理
+      if (this.isFilter(title) && this.filter.length) {
         data.list = data.list.filter(item => {
-          if (!this.state.filter.length) return true
-
+          // 转大写和简体
           // 暂时只用中文名来过滤 (忽略日文优先设置)
-          const cn = (
+          const cnName = (
             this.subject(item.subject_id).name_cn ||
             item?.subject?.name_cn ||
             item.name ||
             item?.subject?.name ||
             ''
           ).toUpperCase()
-          if (cn.includes(this.filter)) return true
-
-          return getPinYinFilterValue(cn, this.filter)
+          return cnName.includes(this.filter) || getPinYinFilterValue(cnName, this.filter)
         })
       }
 
       if (title === '全部' && systemStore.setting.showGame) {
         data.list = [...this.sortList(data.list), ...this.games.list]
       } else {
-        data.list = this.sortList(data.list)
+        data.list = [...this.sortList(data.list)]
       }
 
       if (WEB) data.list = data.list.slice(0, 50)
@@ -175,98 +174,111 @@ export default class Computed extends State {
   }
 
   /**
-   * 列表排序
-   * 章节排序: 放送中还有未看 > 放送中没未看 > 明天放送还有未看 > 明天放送中没未看 > 未完结新番还有未看 > 默认排序
+   * 列表排序（优先度从上到下）
+   *  - 放送中还有未看
+   *  - 放送中没未看
+   *  - 明天放送还有未看
+   *  - 明天放送中没未看
+   *  - 未完结新番还有未看
+   *  - 默认排序
    */
   sortList = (list: UserCollection['list']) => {
-    return freeze(
-      computed(() => {
-        if (!list?.length) return []
+    return computed(() => {
+      if (!list?.length) return freeze([])
 
-        const topMap = this.getTopMap()
+      const topMap = this.getTopMap()
 
-        // 网页顺序: 不需要处理
-        if (
-          systemStore.setting.homeSorting ===
-          MODEL_SETTING_HOME_SORTING.getValue<SettingHomeSorting>('网页')
-        ) {
-          return list.slice().sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
-        }
+      // 网页顺序: 不需要处理
+      if (
+        systemStore.setting.homeSorting ===
+        MODEL_SETTING_HOME_SORTING.getValue<SettingHomeSorting>('网页')
+      ) {
+        return freeze(list.slice().sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0)))
+      }
 
-        try {
-          // 计算每一个条目看过 ep 的数量
-          const weightMap = {}
+      try {
+        // 计算每一个条目看过章节的数量
+        const weightMap: Record<number, number> = {}
 
-          // 放送顺序: 根据今天星期几, 每天递减, 放送中的番剧优先
-          if (this.sortOnAir) {
-            const day = new Date().getDay()
-            list.forEach(item => {
-              const { subject_id: subjectId } = item
-              const { weekDay, isOnair } = this.onAirCustom(subjectId)
-              if (!isOnair) {
-                weightMap[subjectId] = 1
-              } else if (this.isToday(subjectId)) {
-                weightMap[subjectId] = 1001
-              } else if (this.isNextDay(subjectId)) {
-                weightMap[subjectId] = 1000
-              } else if (day === 0) {
-                weightMap[subjectId] = 100 - weekDay
-              } else if (weekDay >= day) {
-                weightMap[subjectId] = 100 - weekDay
-              } else {
-                weightMap[subjectId] = 10 - weekDay
-              }
-
-              // 看完下沉逻辑
-              if (systemStore.setting.homeSortSink && !this.hasNewEp(subjectId)) {
-                weightMap[subjectId] = weightMap[subjectId] - 10000
-              }
-            })
-
-            return list
-              .slice()
-              .sort((a, b) => desc(a, b, item => weightMap[item.subject_id]))
-              .sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
-          }
-
-          // APP 顺序：未看 > 放送中 > 明天 > 本季 > 网页
+        // 放送顺序: 根据今天星期几每天递减, 放送中优先
+        if (this.sortOnAir) {
+          const day = new Date().getDay()
           list.forEach(item => {
             const { subject_id: subjectId } = item
-            const progress = this.userProgress(subjectId)
-
-            let watchedCount = 0
-            Object.keys(progress).forEach(i => {
-              if (progress[i] === '看过') watchedCount += 1
-            })
-
-            // air 代表该条目放送到哪一集
-            const { air = 0 } = calendarStore.onAir[subjectId] || {}
-            if (this.isToday(subjectId)) {
-              weightMap[subjectId] = air > watchedCount ? 100000 : 10000
-            } else if (this.isNextDay(subjectId)) {
-              weightMap[subjectId] = air > watchedCount ? 1000 : 100
-            } else {
-              weightMap[subjectId] = air > watchedCount ? 10 : 1
+            const { weekDay, isOnair } = this.onAirCustom(subjectId)
+            let weight = 1
+            if (isOnair) {
+              if (this.isToday(subjectId)) {
+                weight = 1001
+              } else if (this.isNextDay(subjectId)) {
+                weight = 1000
+              } else if (day === 0) {
+                weight = 100 - weekDay
+              } else if (weekDay >= day) {
+                weight = 100 - weekDay
+              } else {
+                weight = 10 - weekDay
+              }
             }
 
             // 看完下沉逻辑
             if (systemStore.setting.homeSortSink && !this.hasNewEp(subjectId)) {
-              weightMap[subjectId] = weightMap[subjectId] - 100001
+              weight -= 10000
             }
+
+            weightMap[subjectId] = weight
           })
 
-          return list
+          return freeze(
+            list
+              .slice()
+              .sort((a, b) => desc(a, b, item => weightMap[item.subject_id]))
+              .sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
+          )
+        }
+
+        // 客户端顺序：未看 > 放送中 > 明天 > 本季 > 网页
+        list.forEach(item => {
+          const { subject_id: subjectId } = item
+          const progress = this.userProgress(subjectId)
+          let watchedCount = 0
+          Object.keys(progress).forEach(i => {
+            if (progress[i] === '看过') watchedCount += 1
+          })
+
+          // air 代表该条目放送到哪一集
+          const { air = 0 } = calendarStore.onAir[subjectId] || {}
+          let weight = 1
+          if (this.isToday(subjectId)) {
+            weight = air > watchedCount ? 100000 : 10000
+          } else if (this.isNextDay(subjectId)) {
+            weight = air > watchedCount ? 1000 : 100
+          } else {
+            weight = air > watchedCount ? 10 : 1
+          }
+
+          if (systemStore.setting.homeSortSink && !this.hasNewEp(subjectId)) {
+            weight -= 100001
+          }
+
+          weightMap[subjectId] = weight
+        })
+
+        return freeze(
+          list
             .slice()
             .sort((a, b) => desc(a, b, item => weightMap[item.subject_id]))
             .sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
-        } catch (error) {
-          return list
-            .slice()
-            .sort((a, b) => desc(a, b, item => this.isToday(item.subject_id)))
-            .sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
-        }
-      }).get()
-    )
+        )
+      } catch (error) {}
+
+      return freeze(
+        list
+          .slice()
+          .sort((a, b) => desc(a, b, item => this.isToday(item.subject_id)))
+          .sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
+      )
+    }).get()
   }
 
   /** 当前列表有过滤 */

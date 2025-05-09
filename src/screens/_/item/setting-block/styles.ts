@@ -27,5 +27,13 @@ export const memoStyles = _.memoStyles(() => ({
   body: {
     height: 80,
     paddingHorizontal: _.xs
+  },
+  sub: {
+    paddingTop: 8,
+    paddingLeft: 20,
+    marginLeft: 24,
+    marginBottom: 12,
+    borderLeftWidth: 2,
+    borderLeftColor: _.colorBorder
   }
 }))

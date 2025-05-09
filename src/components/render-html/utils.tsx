@@ -9,7 +9,7 @@ import { HTMLDecode, sleep } from '@utils'
 import { acSearch, getSubStrings } from '@utils/ac-search'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { s2t } from '@utils/thirdParty/open-cc'
-import { DEV, IOS } from '@constants'
+import { DEV, IOS, TEXT_BADGES } from '@constants'
 import { PAD_FONT_ZISE_INCREASE, PAD_LINE_HEIGHT_INCREASE, REGS } from './ds'
 
 /** 获取最后字体渲染字号大小 */
@@ -235,5 +235,5 @@ export async function fetchMediaQueue(
 
 /** [DEV] */
 function log(method: string, ...others: any[]) {
-  if (DEV) console.info('⚪', `[@components/render-html/utils/${method}]`, ...others)
+  if (DEV) console.info(TEXT_BADGES.plain, `[@components/render-html/utils/${method}]`, ...others)
 }

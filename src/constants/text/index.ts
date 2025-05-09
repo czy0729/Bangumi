@@ -109,3 +109,13 @@ export const TEXT_MENU_ONLY_SHOW = '只显示'
 
 /** 菜单: 分页器 */
 export const TEXT_MENU_PAGINATION = '分页器'
+
+/** 标记 */
+export const TEXT_BADGES = {
+  danger: '🔴',
+  plain: '⚪',
+  primary: '🔵',
+  success: '🟢',
+  warning: '🟠',
+  yellow: '🟡'
+} as const

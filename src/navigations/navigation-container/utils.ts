@@ -8,6 +8,7 @@ import { useEffect, useRef } from 'react'
 import { enableScreens } from 'react-native-screens'
 import { devLog } from '@components'
 import { IOS } from '@constants/constants'
+import { TEXT_BADGES } from '@constants/text'
 import { DEV, IOS_IPA } from '@src/config'
 import { Navigation } from '@types'
 
@@ -31,7 +32,7 @@ export function useEnableScreens() {
       const currentPath = convertToPath(navigationRef.current.getCurrentRoute().name)
       if (lastPath && lastPath === currentPath) return
 
-      console.info('🟢', `./src/screens/${currentPath}/index.tsx`)
+      console.info(TEXT_BADGES.primary, `./src/screens/${currentPath}/index.tsx`)
       lastPath = currentPath
     })
     return unsubscribe

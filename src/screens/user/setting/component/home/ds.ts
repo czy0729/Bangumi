@@ -73,7 +73,8 @@ export const TEXTS = {
   },
   homeSorting: {
     title: '排序',
-    information: '若需要使当前没有能观看章节的番剧不靠前，建议打开下方的条目自动下沉设置',
+    information:
+      '若你当前在看番剧过多，排序的效果可能并没有那么明显，推荐选用「网页」排序；若不想让没有可观看章节的番剧显示在列表前列，建议开启下方的「条目自动下沉」功能',
     search: HOME_SORTING_INFORMATION
   },
   homeOrigin: {

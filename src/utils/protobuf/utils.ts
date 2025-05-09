@@ -4,6 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-05-08 19:14:20
  */
+import { TEXT_BADGES } from '@constants/text'
 import { DEV, LOG_LEVEL } from '@src/config'
 import { DataAssets, Get } from './types'
 
@@ -62,7 +63,5 @@ export function isPromise(obj: any) {
 
 /** [DEV] */
 export function log(method: string, ...others: any[]) {
-  if (DEV) {
-    console.info('⚪', `[@utils/protobuf/${method}]`, ...others)
-  }
+  if (DEV) console.info(TEXT_BADGES.plain, `[@utils/protobuf/${method}]`, ...others)
 }

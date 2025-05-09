@@ -10,7 +10,7 @@ import { HOST_IMAGE } from '@utils/app/ds'
 import { t } from '@utils/fetch'
 import hash from '@utils/thirdParty/hash'
 import ImageCacheManager from '@utils/thirdParty/image-cache-manager'
-import { DEV, HOST_CDN, IOS, WEB } from '@constants'
+import { DEV, HOST_CDN, IOS, TEXT_BADGES, WEB } from '@constants'
 import {
   CACHE_KEY_404,
   CACHE_KEY_451,
@@ -313,7 +313,5 @@ export function getLocalCacheStatic(src: string) {
 
 /** [DEV] */
 export function log(method: string, ...others: any[]) {
-  if (DEV) {
-    console.info('⚪', `[@component/image/${method}]`, ...others)
-  }
+  if (DEV) console.info(TEXT_BADGES.plain, `[@component/image/${method}]`, ...others)
 }

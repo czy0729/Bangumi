@@ -39,6 +39,7 @@ function HomeSortSink({ filter }) {
         '0/2022/png/386799/1661045651857-7de7e8b7-34ce-4810-b6bd-d61d35412124.png',
         '0/2022/png/386799/1661045660979-be977cea-5eb2-45a7-8dd2-49ef4ec3966c.png'
       ])}
+      sub
       {...TEXTS.homeSortSink}
     >
       <Heatmap id='设置.切换' title='自动下沉' />

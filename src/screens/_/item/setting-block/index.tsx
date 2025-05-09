@@ -26,6 +26,7 @@ const ItemSettingBlock: IItemSettingBlock = ob(
     informationType = 'sub',
     size = WEB ? 14 : 15,
     filter,
+    sub,
     thumb,
     url,
     align,
@@ -35,7 +36,11 @@ const ItemSettingBlock: IItemSettingBlock = ob(
 
     const styles = memoStyles()
     return (
-      <Component id='item-setting-block' data-key={title} style={stl(styles.container, style)}>
+      <Component
+        id='item-setting-block'
+        data-key={title}
+        style={stl(styles.container, style, sub && styles.sub)}
+      >
         {!!title && (
           <Flex>
             <Highlight type='title' size={size} bold value={filter}>

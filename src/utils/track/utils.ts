@@ -9,6 +9,7 @@ import Constants from 'expo-constants'
 import { HOST, VERSION_CODE } from '@constants/constants'
 import { WEB } from '@constants/device'
 import events from '@constants/events'
+import { TEXT_BADGES } from '@constants/text'
 import { DEV, GITHUB_ACTION, IOS_IPA } from '@src/config'
 import { AnyObject, EventKeys } from '@types'
 import { syncUserStore as _u } from '../async'
@@ -177,7 +178,6 @@ function eventToUrl(name: EventKeys = '', data: AnyObject = {}) {
 
 /** [DEV] */
 export function log(method: string, ...others: any[]) {
-  if (DEV) {
-    console.info('⚪', `[@utils/track/${method}]`, ...others.filter(item => !!item))
-  }
+  if (DEV)
+    console.info(TEXT_BADGES.plain, `[@utils/track/${method}]`, ...others.filter(item => !!item))
 }

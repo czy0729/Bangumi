@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-07-10 10:54:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-10 14:21:48
+ * @Last Modified time: 2025-05-09 23:13:25
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   blocks: {
+    paddingTop: _.sm - 2,
     paddingHorizontal: _.wind,
-    paddingVertical: _.md - 2
+    paddingBottom: _.md - 2
   },
   tabs: {
     paddingHorizontal: _.xs,

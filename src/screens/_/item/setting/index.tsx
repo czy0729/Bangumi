@@ -33,6 +33,7 @@ export const ItemSetting = ob(
     informationType = 'sub',
     thumb,
     filter,
+    sub,
     children,
     onInfoPress,
     onPress,
@@ -42,7 +43,7 @@ export const ItemSetting = ob(
 
     const styles = memoStyles()
     const content = (
-      <View style={stl(styles.item, contentStyle)}>
+      <View style={stl(styles.item, contentStyle, sub && styles.sub)}>
         <Flex>
           <Flex.Item>
             <Flex>
@@ -83,15 +84,11 @@ export const ItemSetting = ob(
         </Flex>
         <Flex>
           {!!information && (
-            <Highlight
-              style={styles.information}
-              type={informationType}
-              size={12}
-              lineHeight={13}
-              value={filter}
-            >
-              {information}
-            </Highlight>
+            <View style={styles.information}>
+              <Highlight type={informationType} size={12} lineHeight={13} value={filter}>
+                {information}
+              </Highlight>
+            </View>
           )}
         </Flex>
         {children}

@@ -15,7 +15,7 @@ import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
 
 /** 优先中文 */
-function CnFirst({ filter }) {
+function CnFirst({ filter, sub = false }) {
   const { value, handleSwitch } = useAsyncSwitchSetting('cnFirst')
 
   return useObserver(() => (
@@ -26,6 +26,7 @@ function CnFirst({ filter }) {
         '0/2022/png/386799/1661129866639-05608a0c-bc41-4065-b3c2-aa53bd63d327.png',
         '0/2022/png/386799/1661129870321-251db53c-5a80-4d99-a32b-a31749c40b27.png'
       ])}
+      sub={sub}
       {...TEXTS.cnFirst}
     >
       <ItemSettingBlock.Item

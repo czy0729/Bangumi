@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 07:17:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-03 21:32:25
+ * @Last Modified time: 2025-05-10 05:19:07
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
@@ -12,7 +12,7 @@ export const COMPONENT = rc(PARENT, 'Custom')
 export const TEXTS = {
   cnFirst: {
     title: '优先中文',
-    information: '客户端本地有历史番剧数据集合，条目名称会尽可能匹配中文名'
+    information: '客户端会智能匹配本地历史番剧数据，尽可能使用中文条目名称'
   },
   heatMap: {
     title: '章节讨论热力图',
@@ -28,7 +28,7 @@ export const TEXTS = {
   },
   userAge: {
     title: '用户站龄',
-    information: '在相关吐槽页面，用户信息后方显示注册年龄'
+    information: '在相关吐槽页面，用户信息后方显示注册年龄（推算）'
   },
   hideScore: {
     hd: '隐藏评分'

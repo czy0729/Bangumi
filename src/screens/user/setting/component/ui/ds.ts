@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 07:07:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-04 01:31:13
+ * @Last Modified time: 2025-05-10 05:21:12
  */
 import { rc } from '@utils/dev'
 import {
@@ -26,12 +26,11 @@ export const height = Math.floor(IMG_HEIGHT_SM / 1.7)
 export const TEXTS = {
   font: {
     title: '字体',
-    information:
-      '开启后会强制使用 Resource Han Rounded (思源幼圆) 字体，以便在各设备达到设计上面的 UI 统一'
+    information: '开启后，系统将强制使用「思源幼圆」字体，以确保不同设备上的 UI 设计统一'
   },
   coverThings: {
     title: '封面拟物',
-    information: '能确定类型的条目封面拟物化，增加区分度'
+    information: '能识别到类型的条目，封面会自动采用拟物风格，提升视觉区分度'
   },
   coverRadius: {
     setting: {
@@ -49,7 +48,7 @@ export const TEXTS = {
   },
   squircle: {
     title: '[实验性] 圆角过渡',
-    information: '对图片使用另一种曲率渲染圆角（暂不建议使用）'
+    information: '在图片上采用特殊曲率算法统一安卓/iOS圆角效果（当前阶段不建议启用）'
   },
   speech: {
     title: '看板娘吐槽',
@@ -92,6 +91,7 @@ export const TEXTS = {
   },
   vibration: {
     hd: '震动',
-    information: '提交操作完成后追加中度震动反馈，部分切换操作后追加轻度震动反馈（若可以建议开启）'
+    information:
+      '提交操作后会提供中度震动反馈，部分切换操作也会触发轻度震动（建议开启以获得完整体验）'
   }
 } as const

@@ -5,6 +5,7 @@
  * @Last Modified time: 2025-05-08 19:14:31
  */
 import cheerioRN from 'cheerio-without-node-native'
+import { TEXT_BADGES } from '@constants/text'
 import { DEV } from '@src/config'
 import HTMLParser from '../thirdParty/html-parser'
 import { safeObject } from '../utils'
@@ -225,7 +226,7 @@ export function cheerio(
     if (target.indexOf('<!DOCTYPE html>') === 0) {
       if (DEV) {
         console.info(
-          '⚪',
+          TEXT_BADGES.plain,
           '[@utils/html/cheerio]',
           'need match',
           target.match(/<title>(.*?)<\/title>/g)?.[0]

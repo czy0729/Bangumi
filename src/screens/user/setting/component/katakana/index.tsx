@@ -39,7 +39,7 @@ function Katakana({ navigation, filter }) {
           )}
           {shows.engine && <TranslateEngine filter={filter} />}
           {shows.katakana && <AppKatakana filter={filter} />}
-          {shows.cnFirst && systemStore.setting.katakana && <CnFirst filter={filter} />}
+          {shows.cnFirst && systemStore.setting.katakana && <CnFirst filter={filter} sub />}
           {shows.webhook && <Webhook navigation={navigation} filter={filter} setFalse={setFalse} />}
         </ActionSheet>
       </>

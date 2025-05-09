@@ -47,7 +47,7 @@ function S2T({ filter }) {
         <Heatmap id='设置.切换' title='繁体' />
       </ItemSetting>
       {value && (
-        <ItemSettingBlock style={_.mt.sm} title='繁体词典'>
+        <ItemSettingBlock style={_.mt.sm} title='繁体词典' sub>
           <ItemSettingBlock.Item
             title='Hong Kong'
             active={s2tLocal === 'hk'}

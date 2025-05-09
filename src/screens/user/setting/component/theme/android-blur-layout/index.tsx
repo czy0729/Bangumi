@@ -7,7 +7,7 @@
 import React from 'react'
 import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
-import { _, systemStore } from '@stores'
+import { systemStore } from '@stores'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
 import styles from '../../../styles'
@@ -23,7 +23,6 @@ function AndroidBlurLayout({ shows, filter }) {
         return (
           <ItemSetting
             key={item}
-            style={_.ml.md}
             show={shows[item]}
             ft={
               <SwitchPro
@@ -40,6 +39,7 @@ function AndroidBlurLayout({ shows, filter }) {
               />
             }
             filter={filter}
+            sub
             {...TEXTS[item]}
           >
             <Heatmap id='设置.切换' title={title} />

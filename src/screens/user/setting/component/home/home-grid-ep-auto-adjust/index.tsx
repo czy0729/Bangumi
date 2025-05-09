@@ -39,6 +39,7 @@ function HomeGridEpAutoAdjust({ filter }) {
         '0/2023/png/386799/1678163227317-132cc2a7-cc59-4857-80e4-1f3514bc2b54.png',
         '0/2023/png/386799/1678163234746-1e3952a5-73cc-495d-9e6a-6480f7d60b48.png'
       ])}
+      sub
       {...TEXTS.homeGridEpAutoAdjust}
     >
       <Heatmap id='设置.切换' title='自动调整章节按钮大小' />

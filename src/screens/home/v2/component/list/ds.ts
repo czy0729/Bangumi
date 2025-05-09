@@ -7,12 +7,15 @@
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
 import { FROZEN_FN, IOS, LIST_EMPTY } from '@constants'
-import { StoreType as $, TabsLabel } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
+
+import type { Ctx, TabsLabel } from '../../types'
 
 export const COMPONENT = rc(PARENT, 'List')
 
 export const COMPONENT_MAIN = rc(COMPONENT)
+
+type $ = Ctx['$']
 
 export const DEFAULT_PROPS = {
   style: {

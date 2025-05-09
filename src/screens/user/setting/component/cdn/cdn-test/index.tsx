@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-21 16:57:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-03 22:35:59
+ * @Last Modified time: 2025-05-09 23:08:47
  */
 import React, { useEffect, useState } from 'react'
 import { Flex, Highlight, Text } from '@components'
@@ -14,6 +14,7 @@ import { CDN_OSS_MAGMA_POSTER } from '@constants'
 import commonStyles from '../../../styles'
 import { IMG_HEIGHT, IMG_WIDTH, TEXTS, URL_LAIN } from '../ds'
 import { Pings } from '../types'
+import { memoStyles } from './styles'
 
 function CDNTest({ filter }) {
   const [test, setTest] = useState(false)
@@ -31,20 +32,19 @@ function CDNTest({ filter }) {
     }
   }, [pings, test])
 
-  return useObserver(() => (
-    <ItemSettingBlock style={_.mt.md} filter={filter} {...TEXTS.test}>
-      {test ? (
-        <>
-          <Flex.Item>
-            <Flex style={_.container.block} direction='column' justify='center'>
+  return useObserver(() => {
+    const styles = memoStyles()
+    return (
+      <ItemSettingBlock style={_.mt.md} filter={filter} {...TEXTS.test}>
+        {test ? (
+          <Flex style={styles.sub}>
+            <Flex direction='column' justify='center'>
               <Cover size={IMG_WIDTH} height={IMG_HEIGHT} src={URL_LAIN} cdn={false} radius />
               <Highlight style={_.mt.sm} type='sub' size={10} align='center' value={filter}>
                 不使用: {pings.lain || 0} ms
               </Highlight>
             </Flex>
-          </Flex.Item>
-          <Flex.Item style={_.ml.md}>
-            <Flex style={_.container.block} direction='column' justify='center'>
+            <Flex style={_.ml.md} direction='column' justify='center'>
               <Cover
                 size={IMG_WIDTH}
                 height={IMG_HEIGHT}
@@ -55,19 +55,18 @@ function CDNTest({ filter }) {
                 Magma: {pings.magma || 0} ms
               </Text>
             </Flex>
-          </Flex.Item>
-          <Flex.Item style={_.ml.md} />
-        </>
-      ) : (
-        <Text style={commonStyles.test} size={12} type='sub' onPress={() => setTest(true)}>
-          各资源域的图片质量和访问速度，
-          <Text size={12} type='warning'>
-            点击测试
+          </Flex>
+        ) : (
+          <Text style={commonStyles.test} size={12} type='sub' onPress={() => setTest(true)}>
+            各资源域的图片质量和访问速度，
+            <Text size={12} type='warning'>
+              点击测试
+            </Text>
           </Text>
-        </Text>
-      )}
-    </ItemSettingBlock>
-  ))
+        )}
+      </ItemSettingBlock>
+    )
+  })
 }
 
 export default CDNTest

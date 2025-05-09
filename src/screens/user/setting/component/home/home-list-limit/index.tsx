@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-24 09:25:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-04 01:13:02
+ * @Last Modified time: 2025-05-09 23:11:03
  */
 import React from 'react'
 import { Text } from '@components'
@@ -23,6 +23,7 @@ function HomeListLimit({ filter }) {
       }
       information={systemStore.advance ? '非打赏用户 100，网页版 25' : '打赏用户 300，网页版 25'}
       filter={filter}
+      sub
       {...TEXTS.homeListLimit}
     />
   ))

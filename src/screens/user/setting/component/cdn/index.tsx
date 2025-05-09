@@ -30,8 +30,9 @@ function CDN({ navigation, filter }) {
   return useObserver(() => {
     if (!shows) return null
 
+    const { cdn } = systemStore.setting
     const label = []
-    if (!systemStore.setting.cdn) label.push('关闭')
+    if (!cdn) label.push('关闭')
 
     return (
       <>
@@ -56,7 +57,7 @@ function CDN({ navigation, filter }) {
           {!WEB && shows.cover && (
             <CDNCover navigation={navigation} filter={filter} setFalse={setFalse} />
           )}
-          {!WEB && shows.cdnAvatarV2 && <CDNAvatar filter={filter} />}
+          {!WEB && shows.cdnAvatarV2 && cdn && <CDNAvatar filter={filter} />}
           {shows.imageSkeleton && <ImageSkeleton filter={filter} />}
           {shows.imageFadeIn && <ImageFadeIn filter={filter} />}
           {!WEB && shows.test && <CDNTest filter={filter} />}

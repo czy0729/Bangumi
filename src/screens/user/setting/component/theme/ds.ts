@@ -15,14 +15,13 @@ export const TEXTS = {
   theme: {
     setting: {
       title: '主题',
-      information: `长按顶部 Logo 可快速前往设置，切换主题可能需要重新启动才能正确生效`
+      information: `长按顶部 Logo 可快速前往设置，切换主题可能需要重新启动才能正确生效；若屏幕为 AMOLED 选用「纯黑」可能更省电`
     },
     light: {
       title: '明亮'
     },
     deepDark: {
-      title: '纯黑',
-      information: 'AMOLED 更省电'
+      title: '纯黑'
     },
     dark: {
       title: '黑暗'
@@ -30,7 +29,7 @@ export const TEXTS = {
   },
   autoColorScheme: {
     hd: '跟随系统',
-    information: '启动客户端时主题是否跟随系统'
+    information: '冷启动客户端时，主题是否跟随系统'
   },
   logoToggleTheme: {
     hd: '快速切换主题',

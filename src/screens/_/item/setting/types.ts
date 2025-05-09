@@ -23,6 +23,9 @@ export type Props = Override<
     information?: string
     informationType?: TextType
     filter?: string
+
+    /** 是否二级关联设置 */
+    sub?: boolean
     thumb?:
       | false
       | {
