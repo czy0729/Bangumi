@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-05-12 15:51:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-14 00:28:33
+ * @Last Modified time: 2025-05-15 07:25:36
  */
 import { ITEMS_NOTIFY } from '@tinygrail/_/characters-modal'
 
@@ -12,15 +12,16 @@ export const HM = ['tinygrail/wiki', 'TinygrailWiki'] as const
 
 export const DATA = [
   {
+    title: '引言',
+    message: ['引用了 kj6w@642028 的《小圣杯游戏指南》', '内容整理自 @DeepSeek', 'v1.0 (20250513) ']
+  },
+  {
     title: '「股」的概念',
     message: [
-      'v1.0 (2025/05/13)',
-      '',
-
       // 1
       '1. 股票基础',
       '1.1 股票等级',
-      '计算公式：等级 = log₁.₃(流通股数/7500)',
+      '计算公式：等级 = log(1.3, 流通股数/7500）',
       '　●　向上取整，每周结算一次',
       '　●　ICO（首次发行）对股票等级影响最大',
       '　●　后续使用「虚空道标」增发和通过「推举萌王」增发',

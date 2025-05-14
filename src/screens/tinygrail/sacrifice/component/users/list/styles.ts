@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-11 06:09:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-28 23:08:12
+ * @Last Modified time: 2025-05-14 15:36:46
  */
 import { _ } from '@stores'
 
@@ -16,14 +16,11 @@ export const memoStyles = _.memoStyles(() => ({
     marginTop: 2,
     marginRight: _.sm
   },
-  userStatus: {
-    backgroundColor: _.colorTinygrailContainer
-  },
   rank: {
     opacity: _.select(1, 0.92)
   },
   progress: {
-    maxWidth: Math.floor(_.window.contentWidth * 0.33),
+    maxWidth: Math.floor(_.window.contentWidth * 0.28),
     height: 2,
     marginTop: _.xs,
     marginRight: _.sm,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 20:24:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 12:09:24
+ * @Last Modified time: 2025-05-14 17:09:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -98,7 +98,7 @@ const Info = () => {
 
       <Flex style={_.mt.sm} justify='center'>
         <Text type='tinygrailText' size={textSize}>
-          剩余时间:{' '}
+          剩余时间：
         </Text>
         <CountDown style={{ color: _.colorTinygrailText }} size={textSize} end={endTime} />
       </Flex>
@@ -119,7 +119,7 @@ const Info = () => {
       </Text>
 
       <Text style={_.mt.sm} type='tinygrailPlain' size={textSize} align='center'>
-        预计发行量: 约 {formatNumber(amount, 0, $.short)}
+        预计发行量：约 {formatNumber(amount, 0, $.short)}
         {futureICO && (
           <Text type='tinygrailText' size={textSize}>
             {' '}
@@ -135,7 +135,12 @@ const Info = () => {
         )}
       </Text>
 
-      <Bar style={_.mt.md} total={total} level={level} next={next} />
+      <Bar
+        style={_.mt.md}
+        total={total}
+        level={futureICO?.level || level}
+        next={futureICO?.next || next}
+      />
     </View>
   )
 }

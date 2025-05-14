@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2025-03-08 20:15:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-14 14:16:55
+ * @Last Modified time: 2025-05-15 07:06:39
  */
 import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
 import { useObserver } from 'mobx-react'
 import { Avatar, Flex, Popover, Text } from '@components'
 import { useStore } from '@stores'
+import { HTMLDecode } from '@utils'
 import { r } from '@utils/dev'
 import { Ctx } from '../../types'
 import { COMPONENT, LIMIT } from './ds'
@@ -22,7 +23,7 @@ function Users({ id }) {
   return useObserver(() => {
     const likes = $.likes(id)
     const data = useMemo(
-      () => likes?.list?.map(item => item.name) || [],
+      () => likes?.list?.map(item => HTMLDecode(item.name)) || [],
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [JSON.stringify(likes?.list)]
     )

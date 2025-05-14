@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-09-20 21:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 12:09:40
+ * @Last Modified time: 2025-05-15 07:41:00
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Avatar, Flex, Text, Touchable } from '@components'
+import { Flex, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
-import { caculateICO, calculateFutureICO, formatNumber, tinygrailOSS } from '@utils'
+import { caculateICO, calculateFutureICO, formatNumber } from '@utils'
 import { ob } from '@utils/decorators'
-import Rank from '@tinygrail/_/rank'
+import TinygrailAvatar from '@tinygrail/_/avatar'
+import TinygrailRank from '@tinygrail/_/rank'
 import { Ctx } from '../../types'
 import { COMPONENT, EVENT } from './ds'
 import { memoStyles } from './styles'
@@ -45,21 +46,27 @@ function Initial() {
             percent = item.amount / ($.chara.total || 10000)
           }
 
+          let last = ''
+          if (item.end && !item.end.startsWith('00')) {
+            last = item.end
+          } else {
+            last = item.begin
+          }
+
           return (
             <Flex key={item.name} style={styles.item}>
-              <Avatar
+              <TinygrailAvatar
                 navigation={navigation}
-                src={tinygrailOSS(item.avatar)}
+                src={item.avatar}
                 size={showAmount ? 46 : 36}
                 userId={item.name}
                 name={item.nickName}
-                borderColor='transparent'
-                skeletonType='tinygrail'
+                last={last}
                 event={EVENT}
               />
               <Flex.Item style={_.ml.sm}>
-                <Flex>
-                  <Rank value={item.lastIndex} />
+                <Flex style={showAmount && _.mt.xs}>
+                  <TinygrailRank value={item.lastIndex} />
                   <Text type='tinygrailPlain' size={12} bold numberOfLines={1}>
                     {item.nickName}
                   </Text>
@@ -107,6 +114,11 @@ function Initial() {
             [加载更多]
           </Text>
         </Touchable>
+      )}
+      {!!list.length && (
+        <Text style={styles.ps} type='tinygrailIcon' size={12} align='center'>
+          PS：长按用户头像显示缩略资产信息
+        </Text>
       )}
     </View>
   )

@@ -6,7 +6,7 @@
  */
 import { _ } from '@stores'
 
-export const memoStyles = _.memoStyles(() => ({
+export const styles = _.create({
   fixed: {
     position: 'absolute',
     zIndex: 1,
@@ -16,12 +16,5 @@ export const memoStyles = _.memoStyles(() => ({
     height: 36,
     marginTop: -38,
     marginLeft: -6
-  },
-  userStatus: {
-    backgroundColor: _.colorTinygrailContainer
-  },
-  shadow: {
-    ..._.shadow,
-    backgroundColor: 'rgba(0, 0, 0, 0.01)'
   }
-}))
+})

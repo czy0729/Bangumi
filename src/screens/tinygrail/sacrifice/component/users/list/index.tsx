@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2024-03-08 17:58:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-29 04:35:19
+ * @Last Modified time: 2025-05-14 15:34:37
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Avatar, Flex, Text, UserStatus } from '@components'
+import { Flex, Text } from '@components'
 import { _, useStore } from '@stores'
 import { formatNumber, getTimestamp, lastDate, toFixed } from '@utils'
 import { useMount, useObserver } from '@utils/hooks'
-import Rank from '@tinygrail/_/rank'
+import TinygrailAvatar from '@tinygrail/_/avatar'
+import TinygrailRank from '@tinygrail/_/rank'
 import { Ctx } from '../../../types'
-import { EVENT, PARAMS } from '../ds'
+import { EVENT } from '../ds'
 import { memoStyles } from './styles'
 
 function List() {
@@ -49,27 +50,20 @@ function List() {
             <Flex key={item.nickName} style={styles.item}>
               {$.state.showUsers && (
                 <View style={styles.user}>
-                  <UserStatus
-                    style={styles.userStatus}
-                    last={getTimestamp((item.lastActiveDate || '').replace('T', ' '))}
-                    mini
-                  >
-                    <Avatar
-                      navigation={navigation}
-                      src={item.avatar}
-                      size={showAmount ? 46 : 36}
-                      userId={item.name}
-                      name={item.nickName}
-                      skeletonType='tinygrail'
-                      event={EVENT}
-                      params={PARAMS}
-                    />
-                  </UserStatus>
+                  <TinygrailAvatar
+                    navigation={navigation}
+                    src={item.avatar}
+                    size={showAmount ? 46 : 36}
+                    userId={item.name}
+                    name={item.nickName}
+                    last={item.lastActiveDate}
+                    event={EVENT}
+                  />
                 </View>
               )}
               <Flex.Item>
                 <Flex style={_.mt.xs}>
-                  <Rank style={styles.rank} value={item.lastIndex} />
+                  <TinygrailRank style={styles.rank} value={item.lastIndex} />
                   <Flex.Item>
                     <Text type='tinygrailPlain' size={11} bold numberOfLines={1}>
                       {item.nickName}

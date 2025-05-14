@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-03-04 19:21:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-14 14:19:29
+ * @Last Modified time: 2025-05-15 07:04:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,9 @@ import { useObserver } from 'mobx-react'
 import { Avatar, Flex, Text, UserStatus } from '@components'
 import { InView } from '@_'
 import { _, useStore } from '@stores'
+import { HTMLDecode } from '@utils'
 import { r } from '@utils/dev'
+import { alertUserAssets } from '@tinygrail/_/utils'
 import { Ctx } from '../../types'
 import Menu from '../menu'
 import Mono from '../mono'
@@ -44,12 +46,15 @@ function Item({ id, index }) {
                   radius={_.radiusSm}
                   userId={detail?.userId}
                   name={detail?.name}
+                  onLongPress={() => {
+                    alertUserAssets(detail?.userId, detail?.name)
+                  }}
                 />
               </View>
             </InView>
           </UserStatus>
           <Text style={_.mt.sm} size={12} bold align='center'>
-            {detail?.name}
+            {HTMLDecode(detail?.name)}
           </Text>
         </Flex>
         <Flex.Item>

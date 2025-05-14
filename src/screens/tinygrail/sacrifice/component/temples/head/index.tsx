@@ -8,9 +8,8 @@ import React from 'react'
 import { Flex, Iconfont, Text } from '@components'
 import { Popover } from '@_'
 import { _, useStore } from '@stores'
-import { toFixed } from '@utils'
 import { ob } from '@utils/decorators'
-import { calculateRate } from '@screens/tinygrail/_/utils'
+
 import { TEMPLES_SORT_DS } from '../../../ds'
 import { Ctx } from '../../../types'
 import Refine from '../refine'
@@ -31,7 +30,8 @@ function Head() {
             {$.charaTemple.list.length || '-'}
           </Text>
           <Text style={_.ml.xs} type='tinygrailText' size={11}>
-            / 股息{toFixed(calculateRate($.rate, $.rank, $.stars), 1)}
+            / 圣殿股息
+            {/* {toFixed(calculateRate($.rate, $.rank, $.stars), 1)} */}
           </Text>
           <Refine rate={$.rate} rank={$.rank} stars={$.stars} level={$.level} />
         </Flex>

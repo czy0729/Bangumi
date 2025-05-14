@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-05-12 15:50:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-14 14:41:23
+ * @Last Modified time: 2025-05-15 07:20:45
  */
 import React, { useCallback, useRef, useState } from 'react'
 import { ScrollView, View } from 'react-native'
@@ -29,7 +29,7 @@ const TinygrailWiki = () => {
 
   const handleScrollTo = useCallback((title: string) => {
     scrollToView(itemRefs.current[title], scrollViewRef.current, () => {
-      feedback()
+      feedback(true)
     })
   }, [])
 

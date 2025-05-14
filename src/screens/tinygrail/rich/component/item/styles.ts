@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-11 06:55:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-11 17:33:44
+ * @Last Modified time: 2025-05-14 16:45:36
  */
 import { _ } from '@stores'
 
@@ -20,17 +20,6 @@ export const memoStyles = _.memoStyles(() => ({
     borderRadius: _.radiusXs,
     overflow: 'hidden'
   },
-  bonus: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 10,
-    right: 2,
-    width: 18,
-    height: 18,
-    borderRadius: 9,
-    backgroundColor: _.colorWarning,
-    overflow: 'hidden'
-  },
   rank: {
     minWidth: 20,
     marginRight: 6,
@@ -44,9 +33,5 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: '#ffc107',
     borderRadius: 2,
     overflow: 'hidden'
-  },
-  amount: {
-    marginRight: -_.xs,
-    marginLeft: _.md
   }
 }))

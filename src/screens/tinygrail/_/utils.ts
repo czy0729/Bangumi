@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-10-04 13:51:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-07 07:30:31
+ * @Last Modified time: 2025-05-15 07:00:53
  */
 import { ToastAndroid } from 'react-native'
 import { _, tinygrailStore } from '@stores'
 import {
+  alert,
   desc,
+  feedback,
   formatNumber,
   getTimestamp,
   info,
@@ -17,7 +19,7 @@ import {
   toFixed
 } from '@utils'
 import { B, IOS, M } from '@constants'
-import { ColorValue, ListArray } from '@types'
+import { ColorValue, ListArray, UserId } from '@types'
 
 /** 等级背景颜色 */
 export function getLevelBackground(level: number): ColorValue {
@@ -507,7 +509,7 @@ export function getCharaItemSortText(props: any, showAll: boolean = false) {
   }
 
   const showAllHandlers = {
-    [SORT_CGS.value]: () => `${SORT_CGS.label} ${state || 0}`,
+    [SORT_CGS.value]: () => `${SORT_CGS.label} ${formatNumber(state || 0, 0)}`,
     [SORT_DJ.value]: () => `等级 ${cLevel || level || 0}`,
     [SORT_PM.value]: () => `${SORT_PM.label} ${rank || 0}`,
     [SORT_DQJ.value]: () => `${SORT_DQJ.label} ${decimal(current || 0)}`,
@@ -520,4 +522,27 @@ export function getCharaItemSortText(props: any, showAll: boolean = false) {
   if (showAll && showAllHandlers[sort]) return showAllHandlers[sort]()
 
   return ''
+}
+
+/** 获取并提示用户简略资产信息 */
+export async function alertUserAssets(userId: UserId, name?: string, last?: string) {
+  if (!userId) return false
+
+  try {
+    const data = await tinygrailStore.fetchUserAssets(userId)
+    feedback()
+
+    alert(
+      [
+        `${name}：@${userId}`,
+        data.lastIndex ? `排名：#${data.lastIndex}` : '',
+        `现金：${decimal(data.balance)}`,
+        `固定资产：${decimal(data.assets)}`,
+        last ? `最后操作：${lastDate(getTimestamp(last.replace('T', ' ')))}` : ''
+      ]
+        .filter(Boolean)
+        .join('\n'),
+      '资产信息'
+    )
+  } catch (error) {}
 }

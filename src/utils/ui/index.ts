@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-05 17:08:57
+ * @Last Modified time: 2025-05-15 07:21:00
  */
 import { Alert, Clipboard, findNodeHandle, NativeModules, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'
@@ -45,7 +45,7 @@ export function feedback(light?: boolean) {
   const { vibration } = syncSystemStore().setting
   if (!vibration) return
 
-  log('feedback', 'vibration')
+  log('feedback', 'vibration', light ? 'light' : '')
 
   if (IOS) {
     if (light) {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:38:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-29 04:35:59
+ * @Last Modified time: 2025-05-14 17:00:22
  */
 import { toJS } from 'mobx'
 import { getTimestamp, HTMLDecode, info, lastDate, toFixed } from '@utils'
@@ -375,29 +375,28 @@ export default class Fetch extends Computed {
 
   /** 其他用户资产信息 */
   fetchUserAssets = async (hash: UserId) => {
-    const result = await this.fetch(API_TINYGRAIL_ASSETS(hash))
+    const STATE_KEY = 'userAssets'
+    const ITEM_KEY = hash
 
-    let data = {
-      ...INIT_ASSETS
-    }
-    if (result.data.State === 0) {
-      data = {
-        id: result.data.Value.Id,
-        balance: result.data.Value.Balance,
-        assets: result.data.Value.Assets,
-        lastIndex: result.data.Value.LastIndex,
-        _loaded: getTimestamp()
+    try {
+      const result = await this.fetch(API_TINYGRAIL_ASSETS(hash))
+      const { State, Value } = result.data
+      if (State === 0) {
+        this.setState({
+          [STATE_KEY]: {
+            [ITEM_KEY]: {
+              id: Value.Id,
+              balance: Value.Balance,
+              assets: Value.Assets,
+              lastIndex: Value.LastIndex,
+              _loaded: getTimestamp()
+            }
+          }
+        })
       }
-    }
+    } catch (error) {}
 
-    const key = 'userAssets'
-    this.setState({
-      [key]: {
-        [hash]: data
-      }
-    })
-
-    return data
+    return this[STATE_KEY](ITEM_KEY)
   }
 
   /** 用户资产概览信息 */
@@ -1045,7 +1044,9 @@ export default class Fetch extends Computed {
           nickName: item => HTMLDecode(item.NickName),
           name: 'Name',
           amount: 'Amount',
-          lastIndex: 'LastIndex'
+          lastIndex: 'LastIndex',
+          begin: 'Begin',
+          end: 'End'
         })
         this.setState({
           [STATE_KEY]: {

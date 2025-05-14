@@ -20,7 +20,7 @@ function Refine({ rate, rank, stars, level }) {
     return (
       <>
         <Text type='tinygrailText' size={11}>
-          {' / '}
+          {' '}
           {toFixed(calculateTempleRate(rate, rank, stars, level, refine), 1)} [x
           {calculateRatio(rank)}]
         </Text>

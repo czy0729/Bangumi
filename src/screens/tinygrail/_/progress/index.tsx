@@ -34,12 +34,16 @@ function Progress({
     barColor = _.colorDanger
   } else if (assets && sacrifices) {
     percent = Math.max(Math.min(assets / sacrifices, 1), 0.06)
-    if (sacrifices < 500 || assets < 250) {
-      barColor = _.colorDisabled
-    } else if (percent <= 0.3) {
-      barColor = _.colorDanger
-    } else if (percent <= 0.5) {
-      barColor = _.colorWarning
+    if (assets > sacrifices) {
+      barColor = _.colorPrimary
+    } else {
+      if (sacrifices < 500 || assets < 250) {
+        barColor = _.colorDisabled
+      } else if (percent <= 0.3) {
+        barColor = _.colorDanger
+      } else if (percent <= 0.5) {
+        barColor = _.colorWarning
+      }
     }
   }
 

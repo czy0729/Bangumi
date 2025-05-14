@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:35:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-09 20:10:33
+ * @Last Modified time: 2025-05-15 07:28:54
  */
 import { computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -190,7 +190,17 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** ICO 参与者 */
   initial(monoId: MonoId | Id) {
-    return computed<ListEmpty>(() => {
+    return computed<
+      ListEmpty<{
+        amount: number
+        begin: string
+        end: string
+        name: string
+        avatar: string
+        nickName: string
+        lastIndex: string
+      }>
+    >(() => {
       return this.state.initial[monoId] || LIST_EMPTY
     }).get()
   }

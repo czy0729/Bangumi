@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-08 18:52:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-17 05:47:53
+ * @Last Modified time: 2025-05-15 07:41:43
  */
 import { _ } from '@stores'
 
@@ -29,5 +29,9 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.colorSuccess,
     borderRadius: _.radiusSm,
     overflow: 'hidden'
+  },
+  ps: {
+    marginTop: 64,
+    marginBottom: -40
   }
 }))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-05-13 14:39:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-14 14:46:09
+ * @Last Modified time: 2025-05-15 07:24:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -22,6 +22,7 @@ function Menu({ show, onToggle, onScrollTo }) {
     const styles = memoStyles()
     return (
       <Drawer
+        style={styles.drawer}
         show={show}
         onToggle={() => {
           onToggle(false)

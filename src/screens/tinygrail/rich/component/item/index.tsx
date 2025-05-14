@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 15:58:51
+ * @Last Modified time: 2025-05-14 16:43:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,9 +12,9 @@ import { getTimestamp, lastDate } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
+import TinygrailAvatar from '@tinygrail/_/avatar'
 import { decimal } from '@tinygrail/_/utils'
-import Avatar from './avatar'
-import { COMPONENT } from './ds'
+import { COMPONENT, EVENT } from './ds'
 import { memoStyles } from './styles'
 
 function Item({
@@ -80,12 +80,17 @@ function Item({
   return (
     <View style={styles.container}>
       <Flex align='start'>
-        <Avatar
-          avatar={avatar}
-          nickname={nickname}
-          userId={userId}
-          lastActiveDate={lastActiveDate}
-        />
+        <View style={_.mt.md}>
+          <TinygrailAvatar
+            navigation={navigation}
+            src={avatar}
+            size={36}
+            userId={userId}
+            name={nickname}
+            last={lastActiveDate}
+            event={EVENT}
+          />
+        </View>
         <Flex.Item style={styles.wrap}>
           <Flex align='start'>
             <Flex.Item style={_.mr.sm}>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-11 09:23:28
+ * @Last Modified time: 2025-05-14 17:16:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -55,7 +55,7 @@ class StockPreview extends React.Component<typeof DEFAULT_PROPS> {
           bold
           shadow
         >
-          lv{level} {percent}%
+          lv{level}·{percent}%
         </Text>
         <View style={this.styles.icoBar}>
           <View

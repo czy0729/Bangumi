@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-07 18:35:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-14 00:09:57
+ * @Last Modified time: 2025-05-14 17:16:55
  */
 import { _ } from '@stores'
 
@@ -72,7 +72,8 @@ export const memoStyles = _.memoStyles(() => ({
     position: 'absolute',
     zIndex: 1,
     left: 0,
-    right: _.sm
+    right: _.sm,
+    opacity: _.select(0.88, 1)
   },
   bottom: {
     marginTop: 4
