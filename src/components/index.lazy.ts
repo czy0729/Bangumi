@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 14:41:12
+ * @Last Modified time: 2025-05-13 14:46:43
  */
 
 /**
@@ -47,6 +47,7 @@ export * from './cover/index.lazy'
 export * from './deep-link/index.lazy'
 export * from './dev/index.lazy'
 export * from './divider/index.lazy'
+export * from './drawer/index.lazy'
 export * from './empty/index.lazy'
 export * from './error-boundary/index.lazy'
 export * from './expand/index.lazy'

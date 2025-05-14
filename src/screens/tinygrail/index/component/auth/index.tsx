@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-06 23:35:18
+ * @Last Modified time: 2025-05-14 14:26:07
  */
 import React from 'react'
 import { Avatar, Flex, Text, Touchable } from '@components'
 import { IconBack, IconTouchable } from '@_'
 import { _, useStore } from '@stores'
-import { tinygrailOSS } from '@utils'
+import { feedback, tinygrailOSS } from '@utils'
 import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Btns from '../btns'
@@ -59,6 +59,7 @@ function Auth() {
             onPress={() => {
               setTimeout(() => {
                 _.toggleMode()
+                feedback()
               }, 40)
             }}
           />

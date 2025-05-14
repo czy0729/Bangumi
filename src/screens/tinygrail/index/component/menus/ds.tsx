@@ -2,26 +2,32 @@
  * @Author: czy0729
  * @Date: 2024-03-04 18:20:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-04 18:31:00
+ * @Last Modified time: 2025-05-14 14:53:37
  */
 import React from 'react'
 import { Text } from '@components'
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
+import { MenuItems } from './types'
 
 export const COMPONENT = rc(PARENT, 'Menus')
 
-export const MENU_ITEMS = [
+export const MENU_ITEMS: MenuItems = [
   {
     title: '热门榜单',
     pathname: 'TinygrailOverview',
     icon: 'md-whatshot'
   },
+  // {
+  //   title: '新番榜单',
+  //   pathname: 'TinygrailNew',
+  //   icon: 'md-local-play'
+  // },
   {
-    title: '新番榜单',
-    pathname: 'TinygrailNew',
-    icon: 'md-local-play'
+    title: '番市首富',
+    pathname: 'TinygrailRich',
+    icon: 'md-money'
   },
   {
     title: 'ICO 榜单',
@@ -29,9 +35,9 @@ export const MENU_ITEMS = [
     icon: 'md-attach-money'
   },
   {
-    title: '番市首富',
-    pathname: 'TinygrailRich',
-    icon: 'md-money'
+    title: '每周萌王',
+    pathname: 'TinygrailTopWeek',
+    icon: 'md-favorite-outline'
   },
   {
     title: '英灵殿',
@@ -44,14 +50,17 @@ export const MENU_ITEMS = [
     icon: 'md-image-aspect-ratio'
   },
   {
-    title: '每周萌王',
-    pathname: 'TinygrailTopWeek',
-    icon: 'md-favorite-outline'
-  },
-  {
     title: '通天塔 (β)',
     pathname: 'TinygrailStar',
     icon: 'md-change-history'
+  },
+  {
+    title: '圣杯广场',
+    pathname: 'TinygrailTransaction',
+    icon: 'md-data-usage',
+    style: () => ({
+      backgroundColor: _.colorTinygrailActive
+    })
   },
   {
     title: '资产'
@@ -120,12 +129,9 @@ export const MENU_ITEMS = [
     icon: 'md-search'
   },
   {
-    title: '圣杯广场',
-    pathname: 'TinygrailTransaction',
-    icon: 'md-data-usage',
-    style: () => ({
-      backgroundColor: _.colorTinygrailActive
-    })
+    title: '游戏指南',
+    pathname: 'TinygrailWiki',
+    icon: 'md-chrome-reader-mode'
   },
   {
     title: '我的道具',

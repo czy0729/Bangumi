@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2025-03-08 20:15:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-08 21:41:35
+ * @Last Modified time: 2025-05-14 14:16:55
  */
 import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
 import { useObserver } from 'mobx-react'
 import { Avatar, Flex, Popover, Text } from '@components'
-import { _, useStore } from '@stores'
+import { useStore } from '@stores'
 import { r } from '@utils/dev'
 import { Ctx } from '../../types'
 import { COMPONENT, LIMIT } from './ds'
+import { styles } from './styles'
 
 function Users({ id }) {
   r(COMPONENT)
@@ -31,7 +32,7 @@ function Users({ id }) {
           {likes?.list
             .filter((_item, index) => index <= LIMIT)
             .map(item => (
-              <View key={item.userId} style={_.mr._sm}>
+              <View key={item.userId} style={styles.avatar}>
                 <Avatar src={item.avatar} size={26} round />
               </View>
             ))}

@@ -35,5 +35,9 @@ export const memoStyles = _.memoStyles(() => ({
     borderRadius: _.radiusMd,
     borderColor: _.select('rgba(255, 255, 255, 0.5)', 'rgba(255, 255, 255, 0.88)'),
     pointerEvents: 'none'
+  },
+  shadow: {
+    ..._.shadow,
+    backgroundColor: 'rgba(0, 0, 0, 0.01)'
   }
 }))

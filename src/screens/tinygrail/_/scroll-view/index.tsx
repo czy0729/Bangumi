@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-01 23:27:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-22 04:21:36
+ * @Last Modified time: 2025-05-13 16:46:53
  */
 import React, { useCallback, useState } from 'react'
 import { RefreshControl } from 'react-native'
@@ -14,7 +14,7 @@ import { refreshControlProps } from '@tinygrail/styles'
 import { COMPONENT } from './ds'
 import { Props } from './types'
 
-function ScrollView({ style, contentContainerStyle, onRefresh, children }: Props) {
+function ScrollView({ forwardRef, style, contentContainerStyle, onRefresh, children }: Props) {
   r(COMPONENT)
 
   const [refreshing, setRefreshing] = useState(false)
@@ -31,6 +31,7 @@ function ScrollView({ style, contentContainerStyle, onRefresh, children }: Props
 
   return useObserver(() => (
     <ScrollViewComp
+      forwardRef={forwardRef}
       style={style}
       contentContainerStyle={contentContainerStyle}
       refreshControl={
@@ -45,7 +46,6 @@ function ScrollView({ style, contentContainerStyle, onRefresh, children }: Props
         ) : undefined
       }
       keyboardDismissMode='on-drag'
-      scrollToTop
     >
       {children}
     </ScrollViewComp>

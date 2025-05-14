@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-04 20:23:01
+ * @Last Modified time: 2025-05-12 16:55:29
  */
 import { lazy } from 'react'
 
@@ -135,6 +135,7 @@ export const TinygrailTransaction = lazy(() => import('./tinygrail/transaction')
 export const TinygrailTree = lazy(() => import('./tinygrail/tree'))
 export const TinygrailTreeRich = lazy(() => import('./tinygrail/tree-rich'))
 export const TinygrailValhall = lazy(() => import('./tinygrail/valhall'))
+export const TinygrailWiki = lazy(() => import('./tinygrail/wiki'))
 
 // Other
 export const BilibiliSync = lazy(() => import('./web-view/bilibili-sync'))

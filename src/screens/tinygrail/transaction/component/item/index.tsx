@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-03-04 19:21:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-08 21:22:40
+ * @Last Modified time: 2025-05-14 14:19:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -34,16 +34,18 @@ function Item({ id, index }) {
         <Flex style={styles.avatar} direction='column'>
           <UserStatus userId={detail?.userId}>
             <InView style={styles.inView} y={ITEM_HEIGHT * (index + 1)}>
-              <Avatar
-                navigation={navigation}
-                src={detail?.avatar}
-                size={52}
-                borderWidth={2}
-                borderColor={_.select(_.colorBorder, 'rgba(255, 255, 255, 0.88)')}
-                radius={_.radiusSm}
-                userId={detail?.userId}
-                name={detail?.name}
-              />
+              <View style={styles.shadow}>
+                <Avatar
+                  navigation={navigation}
+                  src={detail?.avatar}
+                  size={52}
+                  borderWidth={2}
+                  borderColor={_.select(_.colorBorder, 'rgba(255, 255, 255, 0.88)')}
+                  radius={_.radiusSm}
+                  userId={detail?.userId}
+                  name={detail?.name}
+                />
+              </View>
             </InView>
           </UserStatus>
           <Text style={_.mt.sm} size={12} bold align='center'>
