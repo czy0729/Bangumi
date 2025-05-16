@@ -223,6 +223,9 @@ export const INIT_SETTING = {
   /** 小圣杯是否缩短资产数字显示 */
   xsbShort: true,
 
+  /** 在全局中, 是否长按用户头像也显示小圣杯缩略资产 */
+  avatarAlertTinygrailAssets: false,
+
   /** 回复是否显示来源 */
   source: false,
 

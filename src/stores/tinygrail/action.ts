@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:40:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-08 21:33:52
+ * @Last Modified time: 2025-05-16 15:25:40
  */
 import { toJS } from 'mobx'
-import { getTimestamp, info } from '@utils'
+import { alert, decimal, feedback, getTimestamp, info, lastDate } from '@utils'
 import {
   API_TINYGRAIL_ASK,
   API_TINYGRAIL_AUCTION,
@@ -198,6 +198,34 @@ export default class Action extends Fetch {
     })
 
     this.save('collected')
+  }
+
+  /** 获取并提示用户简略资产信息 */
+  alertUserAssets = async (userId: UserId, name?: string, last?: string) => {
+    if (!userId) return false
+
+    try {
+      const data = await this.fetchUserAssets(userId)
+      if (!data?.balance) {
+        feedback(true)
+        info('没有游玩')
+        return false
+      }
+
+      feedback()
+      alert(
+        [
+          `${name ? `${name}：` : ''}@${userId}`,
+          data.lastIndex ? `排名：#${data.lastIndex}` : '',
+          `现金：${decimal(data.balance)}`,
+          `固定资产：${decimal(data.assets)}`,
+          last ? `最后操作：${lastDate(getTimestamp(last.replace('T', ' ')))}` : ''
+        ]
+          .filter(Boolean)
+          .join('\n'),
+        '资产信息'
+      )
+    } catch (error) {}
   }
 
   // -------------------- action --------------------

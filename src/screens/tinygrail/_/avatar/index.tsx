@@ -7,16 +7,16 @@
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
 import { Avatar as AvatarComp, UserStatus } from '@components'
+import { tinygrailStore } from '@stores'
 import { getTimestamp, tinygrailOSS } from '@utils'
 import { useObserver } from '@utils/hooks'
-import { alertUserAssets } from '@tinygrail/_/utils'
 import { PARAMS } from './ds'
 import { memoStyles } from './styles'
 import { Props } from './types'
 
 function Avatar({ navigation, src, size, userId, name, last, shadow, event }: Props) {
   const handleLongPress = useCallback(() => {
-    alertUserAssets(userId, name, last)
+    tinygrailStore.alertUserAssets(userId, name, last)
   }, [last, name, userId])
 
   return useObserver(() => {

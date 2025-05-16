@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { useObserver } from 'mobx-react'
-import { _, systemStore } from '@stores'
+import { _, systemStore, tinygrailStore } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { HOST_CDN, IMG_DEFAULT } from '@constants'
@@ -90,10 +90,22 @@ export const Avatar = ({
       <Image {...passProps} key={key} radius={avatarRadius} />
     )
 
-    if (avatarOnPress || onLongPress) {
+    let handleLongPress = onLongPress
+    if (
+      !handleLongPress &&
+      userId &&
+      systemStore.setting.tinygrail &&
+      systemStore.setting.avatarAlertTinygrailAssets
+    ) {
+      handleLongPress = () => {
+        tinygrailStore.alertUserAssets(userId, name)
+      }
+    }
+
+    if (avatarOnPress || handleLongPress) {
       return (
         <Component id='component-avatar' data-type='press' data-user-id={userId}>
-          <Touchable animate scale={0.88} onPress={avatarOnPress} onLongPress={onLongPress}>
+          <Touchable animate scale={0.88} onPress={avatarOnPress} onLongPress={handleLongPress}>
             {el}
           </Touchable>
         </Component>

@@ -10,6 +10,7 @@ import { Button, Flex, Input, Slider as SliderComp, Text } from '@components'
 import { _, useStore } from '@stores'
 import { confirm, debounce, formatNumber } from '@utils'
 import { ob } from '@utils/decorators'
+import { decimal } from '@tinygrail/_/utils'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -39,8 +40,8 @@ function Slider() {
             radius={false}
             loading={loading}
             onPress={() => {
-              if (amount > 100000) {
-                confirm(`确定注资 ${formatNumber(amount)}`, $.doSubmit)
+              if (amount >= 100000) {
+                confirm(`确定注资 ${decimal(amount)}`, $.doSubmit)
                 return
               }
 

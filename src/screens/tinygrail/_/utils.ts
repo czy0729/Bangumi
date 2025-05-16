@@ -7,9 +7,8 @@
 import { ToastAndroid } from 'react-native'
 import { _, tinygrailStore } from '@stores'
 import {
-  alert,
+  decimal,
   desc,
-  feedback,
   formatNumber,
   getTimestamp,
   info,
@@ -18,8 +17,10 @@ import {
   tinygrailFixedTime,
   toFixed
 } from '@utils'
-import { B, IOS, M } from '@constants'
-import { ColorValue, ListArray, UserId } from '@types'
+import { IOS } from '@constants'
+import { ColorValue, ListArray } from '@types'
+
+export { decimal }
 
 /** 等级背景颜色 */
 export function getLevelBackground(level: number): ColorValue {
@@ -110,14 +111,6 @@ export function calculateTempleTotalRate(
 /** 计算角色精炼消耗 */
 export function calculateRefineCost(refine: number = 0) {
   return Math.floor(Math.pow(1.3, refine) * 10000)
-}
-
-/** 数目缩略 */
-export function decimal(value: number) {
-  const amount = Math.abs(value)
-  if (amount >= B) return `${value < 0 ? '-' : ''}${toFixed(amount / B, 1)}亿`
-  if (amount >= M) return `${value < 0 ? '-' : ''}${toFixed(amount / M, 1)}万`
-  return `${value < 0 ? '-' : ''}${formatNumber(amount, 0)}`
 }
 
 /** 小圣杯用最近时间 */
@@ -522,27 +515,4 @@ export function getCharaItemSortText(props: any, showAll: boolean = false) {
   if (showAll && showAllHandlers[sort]) return showAllHandlers[sort]()
 
   return ''
-}
-
-/** 获取并提示用户简略资产信息 */
-export async function alertUserAssets(userId: UserId, name?: string, last?: string) {
-  if (!userId) return false
-
-  try {
-    const data = await tinygrailStore.fetchUserAssets(userId)
-    feedback()
-
-    alert(
-      [
-        `${name}：@${userId}`,
-        data.lastIndex ? `排名：#${data.lastIndex}` : '',
-        `现金：${decimal(data.balance)}`,
-        `固定资产：${decimal(data.assets)}`,
-        last ? `最后操作：${lastDate(getTimestamp(last.replace('T', ' ')))}` : ''
-      ]
-        .filter(Boolean)
-        .join('\n'),
-      '资产信息'
-    )
-  } catch (error) {}
 }

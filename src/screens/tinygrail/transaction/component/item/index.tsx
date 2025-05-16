@@ -9,10 +9,9 @@ import { View } from 'react-native'
 import { useObserver } from 'mobx-react'
 import { Avatar, Flex, Text, UserStatus } from '@components'
 import { InView } from '@_'
-import { _, useStore } from '@stores'
+import { _, tinygrailStore, useStore } from '@stores'
 import { HTMLDecode } from '@utils'
 import { r } from '@utils/dev'
-import { alertUserAssets } from '@tinygrail/_/utils'
 import { Ctx } from '../../types'
 import Menu from '../menu'
 import Mono from '../mono'
@@ -47,7 +46,7 @@ function Item({ id, index }) {
                   userId={detail?.userId}
                   name={detail?.name}
                   onLongPress={() => {
-                    alertUserAssets(detail?.userId, detail?.name)
+                    tinygrailStore.alertUserAssets(detail?.userId, detail?.name)
                   }}
                 />
               </View>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 15:14:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-25 17:43:38
+ * @Last Modified time: 2025-05-16 15:14:17
  */
 import React from 'react'
 import { ActionSheet, Text } from '@components'
@@ -14,6 +14,7 @@ import { WEB } from '@constants'
 import { getShows } from '../../utils'
 import HomeCustom from '../home/home-custom'
 import AppTinygrail from './app-tinygrail'
+import AvatarAlertTinygrailAssets from './avatar-alert-tinygrail-assets'
 import TinygrailMode from './tinygrail-mode'
 import { COMPONENT, TEXTS } from './ds'
 
@@ -43,10 +44,11 @@ function Tinygrail({ filter, open = false }) {
           filter={filter}
           onPress={setTrue}
         />
-        <ActionSheet show={state} title='小圣杯' onClose={setFalse}>
+        <ActionSheet show={state} title='小圣杯' height={520} onClose={setFalse}>
           {shows.tinygrail && <AppTinygrail filter={filter} />}
           {shows.tinygrailMode && <TinygrailMode filter={filter} />}
           {shows.homeCustom && <HomeCustom filter={filter} />}
+          {shows.avatarAlertTinygrailAssets && <AvatarAlertTinygrailAssets filter={filter} />}
         </ActionSheet>
       </>
     )

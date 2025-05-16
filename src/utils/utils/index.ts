@@ -464,6 +464,14 @@ export function formatNumber(s: string | number, n: number = 2, xsb?: boolean) {
   return t.split('').reverse().join('') + '.' + r
 }
 
+/** 数目缩略 */
+export function decimal(value: number) {
+  const amount = Math.abs(value)
+  if (amount >= B) return `${value < 0 ? '-' : ''}${toFixed(amount / B, 1)}亿`
+  if (amount >= M) return `${value < 0 ? '-' : ''}${toFixed(amount / M, 1)}万`
+  return `${value < 0 ? '-' : ''}${formatNumber(amount, 0)}`
+}
+
 const LAST_DATE_UNITS = [
   { name: '年', seconds: 60 * 60 * 24 * 365 },
   { name: '月', seconds: 60 * 60 * 24 * 30 },
