@@ -23,6 +23,7 @@ function Slider() {
     amount || 0,
     Math.floor(balance / Math.max(Number(auctionPrice), price || 1))
   )
+  const { rank } = $.topWeek
   return (
     <>
       <Flex style={_.mt.md}>
@@ -35,7 +36,13 @@ function Slider() {
           </Text>
         </Flex.Item>
         <Text style={_.ml.sm} type='tinygrailText' size={12}>
-          当前竞拍 {state} 人 / {formatNumber(type, 0)} 股
+          当前竞拍 {state} 人 / {formatNumber(type, 0)} 股 {!!rank && ' / '}
+          {!!rank && (
+            <Text type='warning' size={12}>
+              {' '}
+              本周 #{rank}
+            </Text>
+          )}
         </Text>
       </Flex>
       <View style={styles.slider}>

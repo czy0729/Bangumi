@@ -7,6 +7,9 @@
 import { _ } from '@stores'
 
 export const styles = _.create({
+  headerTitle: {
+    paddingRight: 80
+  },
   touch: {
     paddingVertical: _.sm,
     paddingHorizontal: 10

@@ -8,7 +8,7 @@ import React from 'react'
 import { Component, Page } from '@components'
 import { _, StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
-import ScrollView from '@tinygrail/_/scroll-view'
+import TinygrailScrollView from '@tinygrail/_/scroll-view'
 import { NavigationProps } from '@types'
 import Auction from './component/auction'
 import AuctionList from './component/auction-list'
@@ -30,7 +30,7 @@ const TinygrailSacrifice = (props: NavigationProps) => {
     <Component id='screen-tinygrail-sacrifice'>
       <StoreContext.Provider value={id}>
         <Page style={_.container.tinygrail}>
-          <ScrollView contentContainerStyle={_.container.page} onRefresh={$.refreshAll}>
+          <TinygrailScrollView contentContainerStyle={_.container.page} onRefresh={$.refreshAll}>
             <Info />
             <Sacrifice />
             <Starforces />
@@ -40,7 +40,7 @@ const TinygrailSacrifice = (props: NavigationProps) => {
             <AuctionList />
             <Temples />
             <Users />
-          </ScrollView>
+          </TinygrailScrollView>
         </Page>
         <Header />
       </StoreContext.Provider>

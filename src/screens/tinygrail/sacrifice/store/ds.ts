@@ -5,8 +5,8 @@
  * @Last Modified time: 2025-04-28 22:38:12
  */
 import { Loaded } from '@types'
-import { COMPONENT, TEMPLES_SORT_DS, USERS_SORT_DS } from '../ds'
-import { TemplesSort, UsersSort } from '../types'
+import { AUCTIONS_SORT_DS, COMPONENT, TEMPLES_SORT_DS, USERS_SORT_DS } from '../ds'
+import { AuctionsSort, TemplesSort, UsersSort } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}`
 
@@ -95,6 +95,9 @@ export const STATE = {
 
   /** 精炼二次确认 */
   confirmRefine: true,
+
+  /** 竞拍记录排序 */
+  auctionsSort: AUCTIONS_SORT_DS[0] as AuctionsSort,
 
   /** 固定资产排序 */
   templesSort: TEMPLES_SORT_DS[0] as TemplesSort,

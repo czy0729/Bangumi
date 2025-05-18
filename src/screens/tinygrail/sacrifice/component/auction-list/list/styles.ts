@@ -14,5 +14,28 @@ export const memoStyles = _.memoStyles(() => ({
   },
   time: {
     width: 96
+  },
+  progress: {
+    width: '80%',
+    height: 2,
+    marginTop: _.xs,
+    marginRight: _.sm,
+    backgroundColor: _.select(_.colorBorder, _.colorTinygrailIcon),
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
+  },
+  progressBar: {
+    height: 2,
+    backgroundColor: _.colorBid,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
+  },
+  badge: {
+    position: 'absolute',
+    zIndex: 1,
+    top: 0,
+    left: 0,
+    marginTop: -14,
+    opacity: 0.8
   }
 }))

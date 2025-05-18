@@ -8,7 +8,7 @@ import { Characters } from '@stores/tinygrail/types'
 import { factory } from '@utils'
 import { MonoId, Navigation } from '@types'
 import Store from './store'
-import { TEMPLES_SORT_DS, USERS_SORT_DS } from './ds'
+import { AUCTIONS_SORT_DS, TEMPLES_SORT_DS, USERS_SORT_DS } from './ds'
 
 const f = factory(Store)
 
@@ -24,6 +24,8 @@ export type Params = {
   form?: string
   _props: Partial<Characters>
 }
+
+export type AuctionsSort = (typeof AUCTIONS_SORT_DS)[number]
 
 export type TemplesSort = (typeof TEMPLES_SORT_DS)[number]
 

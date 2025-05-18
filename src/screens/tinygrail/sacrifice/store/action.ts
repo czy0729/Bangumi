@@ -18,7 +18,7 @@ import {
 import { t } from '@utils/fetch'
 import { ITEMS_TYPE } from '@screens/tinygrail/_/characters-modal'
 import { AnyObject } from '@types'
-import { TemplesSort, UsersSort } from '../types'
+import { AuctionsSort, TemplesSort, UsersSort } from '../types'
 import Fetch from './fetch'
 
 export default class Action extends Fetch {
@@ -43,7 +43,8 @@ export default class Action extends Fetch {
       this.fetchAuctionList,
       this.fetchUsers,
       this.fetchCharaPool,
-      this.fetchStarForcesRankValues
+      this.fetchStarForcesRankValues,
+      this.fetchTopWeek
     ])
   }
 
@@ -567,6 +568,14 @@ export default class Action extends Fetch {
   toggleItems = () => {
     this.setState({
       showItems: !this.state.showItems
+    })
+    this.save()
+  }
+
+  /** 竞拍记录排序 */
+  selectAuctionsSort = (auctionsSort: AuctionsSort) => {
+    this.setState({
+      auctionsSort
     })
     this.save()
   }

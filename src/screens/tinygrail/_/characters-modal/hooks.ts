@@ -93,8 +93,8 @@ export const useUpdateLeft = (
         .filter(item => {
           if (leftItem) return item.id === leftItem.id
           if (item.assets < 100 || item.sacrifices < 500) return false
-          if (rightItem && leftText) return item.name.includes(leftText)
-          if (leftText) return item.name.includes(leftText)
+          if (rightItem && leftText) return item?.name?.includes(leftText)
+          if (leftText) return item?.name?.includes(leftText)
           return true
         })
         .sort((a, b) => a.rate - b.rate)
@@ -108,22 +108,22 @@ export const useUpdateLeft = (
 
       filteredList = dataCopy.list
         .filter(item => {
-          if (leftText && !item.name.includes(leftText)) return false
+          if (leftText && !item?.name?.includes(leftText)) return false
           if (rightItem) {
             const _lv = lv(item) - lv(rightItem)
             if (leftText) {
               if (isTemple) {
                 return (
-                  item.name.includes(leftText) && lv(item) + (isTemple ? 0 : 1) >= lv(rightItem)
+                  item?.name?.includes(leftText) && lv(item) + (isTemple ? 0 : 1) >= lv(rightItem)
                 )
               }
-              return item.name.includes(leftText) && assets(item) >= Math.min(32, 2 ** -(_lv + 1))
+              return item?.name?.includes(leftText) && assets(item) >= Math.min(32, 2 ** -(_lv + 1))
             }
             return isTemple
               ? lv(item) + (isTemple ? 0 : 1) >= lv(rightItem)
               : assets(item) >= Math.min(32, 2 ** -(_lv + 1))
           }
-          if (leftText) return item.name.includes(leftText)
+          if (leftText) return item?.name?.includes(leftText)
           return true
         })
         .sort((a, b) => {
@@ -137,7 +137,7 @@ export const useUpdateLeft = (
         .filter(item => {
           if (leftItem) return item.id === leftItem.id
           if (assets(item) < 250 || item.sacrifices < 500) return false
-          if (leftText) return item.name.includes(leftText)
+          if (leftText) return item?.name?.includes(leftText)
           return true
         })
         .sort((a, b) => a.rate - b.rate)
@@ -179,7 +179,7 @@ export const useUpdateRight = (
 
       rightData.list = msrcCopy.list
         .filter(item => {
-          if (rightText) return item.name.includes(rightText)
+          if (rightText) return item?.name?.includes(rightText)
           return true
         })
         .sort((a, b) => rk(a) - rk(b))
@@ -196,10 +196,10 @@ export const useUpdateRight = (
           if (item.assets === item.sacrifices) return false
           if (leftItem) {
             return rightText
-              ? item.name.includes(rightText) && lv(item) <= lv(leftItem) + (isTemple ? 0 : 1)
+              ? item?.name?.includes(rightText) && lv(item) <= lv(leftItem) + (isTemple ? 0 : 1)
               : lv(item) <= lv(leftItem) + (isTemple ? 0 : 1)
           }
-          if (rightText) return item.name.includes(rightText)
+          if (rightText) return item?.name?.includes(rightText)
           return true
         })
         .sort((a, b) => {
@@ -216,7 +216,7 @@ export const useUpdateRight = (
       }
 
       rightData.list = starCopy.list.filter(item => {
-        if (rightText) return item.name.includes(rightText)
+        if (rightText) return item?.name?.includes(rightText)
         return true
       })
     } else if (itemType.isFishEye) {
@@ -226,7 +226,7 @@ export const useUpdateRight = (
       }
 
       rightData.list = fantasyCopy.list.filter(item => {
-        if (rightText) return item.name.includes(rightText)
+        if (rightText) return item?.name?.includes(rightText)
         return true
       })
     } else {
@@ -240,11 +240,13 @@ export const useUpdateRight = (
           if (item.assets === item.sacrifices) return false
           if (leftItem) {
             if (rightText) {
-              return item.name.includes(rightText) && lv(item) <= lv(leftItem) + (isTemple ? 0 : 1)
+              return (
+                item?.name?.includes(rightText) && lv(item) <= lv(leftItem) + (isTemple ? 0 : 1)
+              )
             }
             return lv(item) <= lv(leftItem) + (isTemple ? 0 : 1)
           }
-          if (rightText) return item.name.includes(rightText)
+          if (rightText) return item?.name?.includes(rightText)
           return true
         })
         .sort((a, b) => lv(b) - lv(a))

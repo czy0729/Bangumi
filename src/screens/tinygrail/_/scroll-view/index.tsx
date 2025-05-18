@@ -10,9 +10,14 @@ import { ScrollView as ScrollViewComp } from '@components'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import { refreshControlProps } from '@tinygrail/styles'
 import { COMPONENT } from './ds'
 import { Props } from './types'
+
+const wait = timeout => {
+  return new Promise(resolve => {
+    setTimeout(resolve, timeout)
+  })
+}
 
 function ScrollView({ forwardRef, style, contentContainerStyle, onRefresh, children }: Props) {
   r(COMPONENT)
@@ -25,7 +30,7 @@ function ScrollView({ forwardRef, style, contentContainerStyle, onRefresh, child
     try {
       await onRefresh()
     } finally {
-      setTimeout(() => setRefreshing(false), 2800)
+      wait(2800).then(() => setRefreshing(false))
     }
   }, [onRefresh])
 
@@ -37,13 +42,14 @@ function ScrollView({ forwardRef, style, contentContainerStyle, onRefresh, child
       refreshControl={
         onRefresh ? (
           <RefreshControl
-            {...refreshControlProps}
-            progressBackgroundColor={_.select(_.colorPlain, _._colorDarkModeLevel2)}
             colors={[_.colorMain]}
+            progressBackgroundColor={_.select(_.colorPlain, _._colorDarkModeLevel2)}
+            titleColor={_.colorTinygrailText}
+            tintColor={_.colorTinygrailText}
             refreshing={refreshing}
             onRefresh={handleRefreshCallback}
           />
-        ) : undefined
+        ) : null
       }
       keyboardDismissMode='on-drag'
     >

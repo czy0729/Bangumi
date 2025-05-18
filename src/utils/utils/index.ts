@@ -472,6 +472,45 @@ export function decimal(value: number) {
   return `${value < 0 ? '-' : ''}${formatNumber(amount, 0)}`
 }
 
+/** 计算中位数 */
+export function calculateMedian(data: [price: number, count: number][]): number {
+  // 1. 按价格升序排序
+  data.sort((a, b) => a[0] - b[0])
+
+  // 2. 计算总数量
+  const totalCount = data.reduce(
+    (
+      sum,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      [_, count]
+    ) => sum + count,
+    0
+  )
+
+  // 3. 找到中位数位置
+  const isEven = totalCount % 2 === 0
+  const medianPos = isEven ? [totalCount / 2, totalCount / 2 + 1] : [Math.floor(totalCount / 2) + 1]
+
+  // 4. 遍历累计数量，定位中位数
+  let cumulativeCount = 0
+  const medianValues = []
+  for (const [price, count] of data) {
+    cumulativeCount += count
+    // 检查是否覆盖中位数位置
+    if (!medianValues[0] && cumulativeCount >= medianPos[0]) {
+      medianValues[0] = price
+      if (!isEven) break // 奇数情况，只需一个值
+    }
+    if (isEven && !medianValues[1] && cumulativeCount >= medianPos[1]) {
+      medianValues[1] = price
+      break
+    }
+  }
+
+  // 5. 返回中位数
+  return isEven ? (medianValues[0] + medianValues[1]) / 2 : medianValues[0]
+}
+
 const LAST_DATE_UNITS = [
   { name: '年', seconds: 60 * 60 * 24 * 365 },
   { name: '月', seconds: 60 * 60 * 24 * 30 },

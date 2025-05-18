@@ -268,7 +268,17 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 上周拍卖记录 */
   auctionList(monoId: MonoId) {
-    return computed<ListEmpty>(() => {
+    return computed<
+      ListEmpty<{
+        amount: number
+        id: number
+        name: string
+        nickname: string
+        price: number
+        state: number
+        time: string
+      }>
+    >(() => {
       return this.state.auctionList[monoId] || LIST_EMPTY
     }).get()
   }

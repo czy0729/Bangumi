@@ -156,11 +156,19 @@ export default class Fetch extends Computed {
     this.save()
   }
 
+  /** 本周萌王信息 */
+  fetchTopWeek = () => {
+    if (!this.state.mounted) return
+
+    console.info('13 本周萌王信息')
+    return tinygrailStore.fetchTopWeek()
+  }
+
   /** 更新我的资产 */
   updateMyCharaAssets = () => {
     if (!this.state.mounted) return
 
-    console.info('13 更新我的资产')
+    console.info('14 更新我的资产')
     const { amount = 0, sacrifices = 0 } = this.userLogs
     return tinygrailStore.updateMyCharaAssets(this.monoId, amount, sacrifices)
   }

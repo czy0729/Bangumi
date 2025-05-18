@@ -9,5 +9,11 @@ import { _ } from '@stores'
 export const styles = _.create({
   lastWeek: {
     paddingBottom: _.sm
+  },
+  touch: {
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    marginTop: -3,
+    marginRight: -6
   }
 })

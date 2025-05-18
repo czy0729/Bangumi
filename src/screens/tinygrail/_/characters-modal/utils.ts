@@ -47,5 +47,5 @@ export function charge(item: { sacrifices?: number; assets?: number }): number {
 
 /** 判断文字颜色 */
 export function bottomTextType(changeText: string = ''): 'bid' | 'ask' {
-  return changeText.includes('+') ? 'bid' : 'ask'
+  return changeText?.includes('+') ? 'bid' : 'ask'
 }

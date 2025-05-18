@@ -226,4 +226,9 @@ export default class Computed extends State {
 
     return data
   }
+
+  /** 本周萌王 */
+  @computed get topWeek() {
+    return tinygrailStore.topWeek.list.find(item => item.id === this.id) || {}
+  }
 }
