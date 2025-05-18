@@ -3,14 +3,11 @@
  * @Author: czy0729
  * @Date: 2024-04-13 16:32:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 18:57:47
+ * @Last Modified time: 2025-05-18 07:20:23
  */
-import * as OpenCC from 'opencc-js/core'
-import CN from 'opencc-js/from/cn'
-import HK from 'opencc-js/to/hk'
-import TW from 'opencc-js/to/tw'
 import { getSetting } from '../../app'
 import hash from '../hash'
+import { CN, HK, OpenCC, TW } from './module'
 
 const memoCache = {
   hk: new Map<string, string>(),
