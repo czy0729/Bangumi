@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:32:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-03 18:57:40
+ * @Last Modified time: 2025-05-20 01:00:06
  */
 import { LIST_EMPTY } from '@constants'
-import { Users } from './types'
+import { Recents, Users } from './types'
 
 export const NAMESPACE = 'Users'
 
@@ -146,7 +146,7 @@ export const STATE = {
   },
 
   /** 我收藏人物的最近作品 */
-  recents: LIST_EMPTY,
+  recents: LIST_EMPTY as Recents,
 
   /** 用户日志 */
   blogs: {

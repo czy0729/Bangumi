@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:30:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-15 20:49:53
+ * @Last Modified time: 2025-05-20 05:32:05
  */
 import { _ } from '@stores'
-import { LIST_EMPTY, WEB } from '@constants'
+import { LIST_EMPTY } from '@constants'
 import { CompletionItem, Loaded, RatingStatus, Sites, TranslateResult } from '@types'
 import { COMPONENT } from '../ds'
 import { AnitabiData, EpsData, SubjectSnapshot } from '../types'
@@ -64,11 +64,11 @@ export const EXCLUDE_STATE = {
   /** 锐评请求中 */
   chatLoading: false,
 
-  /** 是否完成渲染 */
-  rendered: WEB,
+  /** 当前页面实例是否在路由栈中 (用于退出页面后马上拦截剩余的请求) */
+  focused: false,
 
-  /** 当前页面实例是否在路由栈中 */
-  mounted: true
+  /** 当前页面实例是否操作过 (用于进入页面时不显示过多看不见的模块) */
+  scrolled: false
 }
 
 /** 页面 state */

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:24:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-15 14:28:49
+ * @Last Modified time: 2025-05-20 00:55:24
  */
 import { computed } from 'mobx'
 import { desc } from '@utils'
@@ -50,7 +50,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
     scope = DEFAULT_SCOPE,
     type: RakuenType | RakuenTypeMono | RakuenTypeGroup = DEFAULT_TYPE
   ) {
-    this.init('rakuen')
+    this.init('rakuen', true)
     return computed<Rakuen>(() => {
       const key = `${scope}|${type}`
       return this.state.rakuen[key] || LIST_EMPTY
@@ -59,7 +59,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 帖子历史查看信息 */
   readed(topicId: TopicId) {
-    this.init('readed')
+    this.init('readed', true)
     return computed<Readed>(() => {
       return this.state.readed[topicId] || INIT_READED_ITEM
     }).get()
@@ -67,7 +67,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 帖子内容 */
   topic(topicId: TopicId) {
-    this.init('topic')
+    this.init('topic', true)
     return computed<Topic>(() => {
       return this.state.topic[topicId] || INIT_TOPIC
     }).get()
@@ -75,7 +75,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 帖子回复表情 */
   likes(topicId: string | number) {
-    this.init('likes')
+    this.init('likes', true)
     return computed<Likes>(() => {
       return this.state.likes[topicId] || {}
     }).get()
@@ -87,7 +87,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
     const last = getInt(topicId)
     const key = `comments${last}` as const
-    this.init(key)
+    this.init(key, true)
 
     return computed(() => {
       return this.state?.[key]?.[topicId] || LIST_EMPTY
@@ -103,7 +103,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 云端帖子内容 */
   cloudTopic(topicId: TopicId) {
-    this.init('cloudTopic')
+    this.init('cloudTopic', true)
     return computed<Topic>(() => {
       return this.state.cloudTopic[topicId] || INIT_TOPIC
     }).get()
@@ -111,19 +111,19 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 电波提醒 */
   @computed get notify(): Notify {
-    this.init('notify')
+    this.init('notify', true)
     return this.state.notify
   }
 
   /** 超展开设置 */
   @computed get setting() {
-    this.init('setting')
+    this.init('setting', true)
     return this.state.setting
   }
 
   /** 是否本地收藏 */
   favor(topicId: TopicId) {
-    this.init('favor')
+    this.init('favor', true)
     return computed<boolean>(() => {
       return this.state.favor[topicId] || false
     }).get()
@@ -139,7 +139,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 小组信息 */
   groupInfo(groupId: Id) {
-    this.init('groupInfo')
+    this.init('groupInfo', true)
     return computed<GroupInfo>(() => {
       return this.state.groupInfo[groupId] || INIT_GROUP_INFO
     }).get()
@@ -147,7 +147,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 小组缩略图缓存 */
   groupThumb(name: string) {
-    this.init('groupThumb')
+    this.init('groupThumb', true)
     return computed<CoverGroup<'l'>>(() => {
       return this.state.groupThumb[name] || ''
     }).get()
@@ -155,13 +155,13 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 我的小组 */
   @computed get mine(): Mine {
-    this.init('mine')
+    this.init('mine', true)
     return this.state.mine || LIST_EMPTY
   }
 
   /** 日志内容 */
   blog(blogId: Id) {
-    this.init('blog')
+    this.init('blog', true)
     return computed<Topic>(() => {
       return this.state.blog[blogId] || INIT_TOPIC
     }).get()
@@ -197,7 +197,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 超展开热门 */
   @computed get hot(): Rakuen {
-    this.init('hot')
+    this.init('hot', true)
     return this.state.hot || LIST_EMPTY
   }
 
@@ -208,7 +208,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 收藏 v2 */
   favorV2(topicId: TopicId | `blog/${Id}`) {
-    this.init('favorV2')
+    this.init('favorV2', true)
     return computed<boolean>(() => {
       return this.state.favorV2[topicId] || false
     }).get()
@@ -216,7 +216,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 收藏人数 v2 */
   favorCount(topicId: TopicId | `blog/${Id}`) {
-    this.init('favorCount')
+    this.init('favorCount', true)
     return computed<number>(() => {
       return this.state.favorCount[topicId] || 0
     }).get()
@@ -224,7 +224,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 屏蔽用户的屏蔽次数追踪 */
   blockedUsersTrack(userId: UserId) {
-    this.init('blockedUsersTrack')
+    this.init('blockedUsersTrack', true)
     return computed<number>(() => {
       return this.state.blockedUsersTrack[userId] || 0
     }).get()
@@ -232,7 +232,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 屏蔽关键字的屏蔽次数追踪 */
   blockedTrack(keyword: string) {
-    this.init('blockedTrack')
+    this.init('blockedTrack', true)
     return computed<number>(() => {
       return this.state.blockedTrack[keyword] || 0
     }).get()
@@ -240,34 +240,34 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 消息与提醒 */
   @computed get privacy() {
-    this.init('privacy')
+    this.init('privacy', true)
     return this.state.privacy
   }
 
   /** 用户绝交 */
   @computed get blockedUsers() {
-    this.init('blockedUsers')
+    this.init('blockedUsers', true)
     return this.state.blockedUsers
   }
 
   /** 用户书签 */
   @computed get bookmarks() {
-    this.init('bookmarks')
+    this.init('bookmarks', true)
     return this.state.bookmarks
   }
 
   /** 表单授权 */
   @computed get formhash() {
-    this.init('formhash')
+    this.init('formhash', true)
     return this.state.formhash
   }
 
   // -------------------- computed --------------------
   /** 收藏的帖子 */
   @computed get favorTopic() {
-    this.init('favor')
-    this.init('topic')
-    this.init('cloudTopic')
+    this.init('favor', true)
+    this.init('topic', true)
+    this.init('cloudTopic', true)
 
     const { favor, topic, cloudTopic } = this.state
     const data = {

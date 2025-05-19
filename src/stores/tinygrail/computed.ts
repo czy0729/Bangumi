@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:35:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-15 07:28:54
+ * @Last Modified time: 2025-05-20 00:58:00
  */
 import { computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -37,7 +37,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 全局人物数据 */
   characters(monoId: MonoId | Id) {
-    this.init('characters')
+    this.init('characters', true)
     return computed<Characters>(() => {
       return this.state.characters[monoId] || INIT_CHARACTERS_ITEM
     }).get()
@@ -45,7 +45,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 番市首富 */
   rich(sort = defaultSort) {
-    this.init('rich')
+    this.init('rich', true)
     return computed<ListEmpty>(() => {
       return this.state.rich[sort] || LIST_EMPTY
     }).get()
@@ -53,7 +53,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** K 线 */
   kline(monoId: MonoId) {
-    this.init('kline')
+    this.init('kline', true)
     return computed<typeof INIT_KLINE_ITEM>(() => {
       return this.state.kline[monoId] || INIT_KLINE_ITEM
     }).get()
@@ -61,7 +61,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 深度图 */
   depth(monoId: MonoId) {
-    this.init('depth')
+    this.init('depth', true)
     return computed<typeof INIT_DEPTH_ITEM>(() => {
       return this.state.depth[monoId] || INIT_DEPTH_ITEM
     }).get()
@@ -69,7 +69,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 用户资产 */
   @computed get assets() {
-    this.init('assets')
+    this.init('assets', true)
     return this.state.assets
   }
 
@@ -82,7 +82,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 用户资产概览信息 */
   charaAssets(hash: UserId) {
-    this.init('charaAssets')
+    this.init('charaAssets', true)
     return computed<typeof INIT_CHARA_ASSETS>(() => {
       return this.state.charaAssets[hash] || INIT_CHARA_ASSETS
     }).get()
@@ -90,7 +90,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 我的挂单和交易记录 */
   userLogs(monoId: MonoId) {
-    this.init('userLogs')
+    this.init('userLogs', true)
     return computed<typeof INIT_USER_LOGS>(() => {
       return this.state.userLogs[monoId] || INIT_USER_LOGS
     }).get()
@@ -158,31 +158,31 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 我的买单 */
   @computed get bid() {
-    this.init('bid')
+    this.init('bid', true)
     return this.state.bid
   }
 
   /** 我的卖单 */
   @computed get asks() {
-    this.init('asks')
+    this.init('asks', true)
     return this.state.asks
   }
 
   /** 我的持仓 */
   @computed get myCharaAssets() {
-    this.init('myCharaAssets')
+    this.init('myCharaAssets', true)
     return this.state.myCharaAssets
   }
 
   /** 资金日志 */
   @computed get balance() {
-    this.init('balance')
+    this.init('balance', true)
     return this.state.balance
   }
 
   /** 记录所有角色的头像 Map (用于没有头像的列表) */
   iconsCache(monoId: MonoId) {
-    this.init('iconsCache')
+    this.init('iconsCache', true)
     return computed<string>(() => {
       return this.state.iconsCache[monoId] || ''
     }).get()
@@ -225,7 +225,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 用户圣殿 */
   temple(hash: UserId = this.hash) {
-    this.init('temple')
+    this.init('temple', true)
     return computed<ListEmpty>(() => {
       return this.state.temple[hash] || LIST_EMPTY
     }).get()
@@ -233,7 +233,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 用户所有角色信息 */
   charaAll(hash: UserId = this.hash) {
-    this.init('charaAll')
+    this.init('charaAll', true)
     return computed<ListEmpty>(() => {
       return this.state.charaAll[hash] || LIST_EMPTY
     }).get()
@@ -241,7 +241,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 我的某角色圣殿 */
   myTemple(monoId: MonoId) {
-    this.init('myTemple')
+    this.init('myTemple', true)
     return computed<MyTemple>(() => {
       return this.state.myTemple[monoId] || {}
     }).get()
@@ -249,7 +249,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 角色圣殿 */
   charaTemple(monoId: MonoId) {
-    this.init('charaTemple')
+    this.init('charaTemple', true)
     return computed<ListEmpty<MyTemple>>(() => {
       return this.state.charaTemple[monoId] || LIST_EMPTY
     }).get()
@@ -285,19 +285,19 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 英灵殿 */
   @computed get valhallList() {
-    this.init('valhallList')
+    this.init('valhallList', true)
     return this.state.valhallList
   }
 
   /** 我的道具 */
   @computed get items() {
-    this.init('items')
+    this.init('items', true)
     return this.state.items
   }
 
   /** 我的拍卖列表 */
   @computed get auction() {
-    this.init('auction')
+    this.init('auction', true)
     return this.state.auction
   }
 
@@ -310,7 +310,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 角色发行价 */
   issuePrice(monoId: MonoId) {
-    this.init('issuePrice')
+    this.init('issuePrice', true)
     return computed<number>(() => {
       return this.state.issuePrice[monoId] || 0
     }).get()
@@ -323,7 +323,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 每周萌王 */
   @computed get topWeek() {
-    this.init('topWeek')
+    this.init('topWeek', true)
     return this.state.topWeek
   }
 
@@ -343,43 +343,43 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 卖一推荐 */
   @computed get advanceList() {
-    this.init('advanceList')
+    this.init('advanceList', true)
     return this.state.advanceList
   }
 
   /** 买一推荐 */
   @computed get advanceBidList() {
-    this.init('advanceBidList')
+    this.init('advanceBidList', true)
     return this.state.advanceBidList
   }
 
   /** 竞拍推荐 */
   @computed get advanceAuctionList() {
-    this.init('advanceAuctionList')
+    this.init('advanceAuctionList', true)
     return this.state.advanceAuctionList
   }
 
   /** 竞拍推荐 (按固定资产) */
   @computed get advanceAuctionList2() {
-    this.init('advanceAuctionList2')
+    this.init('advanceAuctionList2', true)
     return this.state.advanceAuctionList2
   }
 
   /** 献祭推荐 */
   @computed get advanceSacrificeList() {
-    this.init('advanceSacrificeList')
+    this.init('advanceSacrificeList', true)
     return this.state.advanceSacrificeList
   }
 
   /** 低价股 */
   @computed get advanceState() {
-    this.init('advanceState')
+    this.init('advanceState', true)
     return this.state.advanceState
   }
 
   /** 角色本地收藏 */
   collected(monoId: MonoId) {
-    this.init('collected')
+    this.init('collected', true)
     return computed<number>(() => {
       return this.state.collected[monoId] || 0
     }).get()
@@ -387,7 +387,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 通天塔(α) */
   star(monoId: string) {
-    this.init('star')
+    this.init('star', true)
     return computed<ListEmpty>(() => {
       return this.state.star[monoId] || LIST_EMPTY
     }).get()
@@ -400,13 +400,13 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 幻想乡 */
   @computed get fantasy() {
-    this.init('fantasy')
+    this.init('fantasy', true)
     return this.state.fantasy
   }
 
   /** 股息预测 */
   @computed get test() {
-    this.init('test')
+    this.init('test', true)
     return this.state.test
   }
 
@@ -429,7 +429,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   // -------------------- computed --------------------
   /** 总览列表 */
   list(key: ListKey = defaultKey) {
-    this.init(key)
+    this.init(key, true)
     // @ts-expect-error
     return computed<ListEmpty<Characters>>(() => {
       return this.state[key] || LIST_EMPTY

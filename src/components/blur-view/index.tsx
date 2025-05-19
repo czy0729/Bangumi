@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:38:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-06 21:55:55
+ * @Last Modified time: 2025-05-20 04:48:54
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -54,6 +54,7 @@ export const BlurView = observer(
             )}
             src={imageSrc}
             fadeDuration={0}
+            skeleton={false}
             textOnly={false}
           />
           <ExpoBlurView style={StyleSheet.absoluteFill} tint={tint} intensity={intensity} />
@@ -79,6 +80,7 @@ export const BlurView = observer(
           src={imageSrc}
           fadeDuration={0}
           blurRadius={blurRadius}
+          skeleton={false}
           textOnly={false}
           fallback
         />

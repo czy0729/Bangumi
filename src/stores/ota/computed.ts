@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:47:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-20 11:06:01
+ * @Last Modified time: 2025-05-20 00:54:52
  */
 import { computed } from 'mobx'
 import { pick as advPick } from '@utils/subject/adv'
@@ -27,7 +27,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   anime(subjectId: SubjectId) {
-    this.init('anime')
+    this.init('anime', true)
     return computed<AnimeItem>(() => {
       return this.state.anime[`age_${subjectId}`] || {}
     }).get()
@@ -41,7 +41,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   manga(subjectId: SubjectId) {
-    this.init('manga')
+    this.init('manga', true)
     return computed<MangaItem>(() => {
       return this.state.manga[`mox_${subjectId}`] || {}
     }).get()
@@ -55,7 +55,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   game(subjectId: SubjectId) {
-    this.init('game')
+    this.init('game', true)
     return computed<GameItem>(() => {
       return this.state.game[`game_${subjectId}`] || {}
     }).get()
@@ -69,7 +69,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   adv(subjectId: SubjectId) {
-    this.init('adv')
+    this.init('adv', true)
     return computed<ADVItem>(() => {
       return this.state.adv[`adv_${subjectId}`] || {}
     }).get()
@@ -83,7 +83,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   wenku(subjectId: SubjectId) {
-    this.init('wenku')
+    this.init('wenku', true)
     return computed<WenkuItem>(() => {
       return this.state.wenku[`wk8_${subjectId}`] || {}
     }).get()
@@ -97,7 +97,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   hentai(subjectId: SubjectId) {
-    this.init('hentai')
+    this.init('hentai', true)
     return computed<HentaiItem>(() => {
       return this.state.hentai[`hentai_${subjectId}`] || {}
     }).get()
@@ -111,7 +111,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   nsfw(subjectId: SubjectId) {
-    this.init('nsfw')
+    this.init('nsfw', true)
     return computed<NSFWItem>(() => {
       return this.state.nsfw[`nsfw_${subjectId}`] || {}
     }).get()

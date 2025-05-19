@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-06-21 20:54:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-05 20:07:55
+ * @Last Modified time: 2025-05-20 05:12:46
  */
 import React from 'react'
 import { Image, Touchable } from '@components'
-import { _, systemStore, useStore } from '@stores'
+import { systemStore, useStore } from '@stores'
 import { showImageViewer, stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -23,7 +23,6 @@ function Preview({ item, index, thumbs, epsThumbsHeader }: Props) {
 
   return (
     <Touchable
-      style={stl(styles.image, !index && styles.side)}
       withoutFeedback
       onPress={() => {
         showImageViewer(
@@ -38,10 +37,10 @@ function Preview({ item, index, thumbs, epsThumbsHeader }: Props) {
     >
       <Image
         key={item}
+        style={stl(styles.image, !index && styles.side)}
         src={item}
-        autoHeight={IMAGE_HEIGHT}
         headers={epsThumbsHeader}
-        radius={_.radiusSm}
+        autoHeight={IMAGE_HEIGHT}
         skeleton={false}
         errorToHide={!WEB}
       />

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-30 06:32:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-17 14:52:57
+ * @Last Modified time: 2025-05-19 23:26:08
  */
 export { default as useAppState } from './useAppState'
 export { default as useBackHandler } from './useBackHandler'
@@ -28,13 +28,10 @@ export { default as useMount } from './useMount'
 export { default as useNavigation } from './useNavigation'
 export { default as useObserver } from './useObserver'
 export { default as useOrientation } from './useOrientation'
+export { default as usePageLifecycle } from './usePageLifecycle'
 export { default as usePager } from './usePager'
 export { default as usePrevious } from './usePrevious'
 export { default as useRunAfter } from './useRunAfter'
 export { default as useToggle } from './useToggle'
 export { default as useViewport } from './useViewport'
-// export { default as useShortcutsAndroid } from './useShortcutsAndroid'
-
-import { useAsyncSetSetting, useAsyncSwitchSetting } from './useSetting'
-
-export { useAsyncSwitchSetting, useAsyncSetSetting }
+export { useAsyncSetSetting, useAsyncSwitchSetting } from './useSetting'

@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-02-13 16:50:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 19:16:01
+ * @Last Modified time: 2025-05-19 23:40:31
  */
 import { useEffect, useRef } from 'react'
 import { enableScreens } from 'react-native-screens'
 import { devLog } from '@components'
 import { IOS } from '@constants/constants'
-import { TEXT_BADGES } from '@constants/text'
 import { DEV, IOS_IPA } from '@src/config'
 import { Navigation } from '@types'
 
@@ -32,7 +31,7 @@ export function useEnableScreens() {
       const currentPath = convertToPath(navigationRef.current.getCurrentRoute().name)
       if (lastPath && lastPath === currentPath) return
 
-      console.info(TEXT_BADGES.primary, `./src/screens/${currentPath}/index.tsx`)
+      // console.info(TEXT_BADGES.primary, `./src/screens/${currentPath}/index.tsx`)
       lastPath = currentPath
     })
     return unsubscribe

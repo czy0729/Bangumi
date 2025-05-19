@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-04-25 16:16:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-25 11:41:54
+ * @Last Modified time: 2025-05-20 00:57:19
  */
 import { observable } from 'mobx'
+import { runAfter } from '@utils'
 import Store from '@utils/store'
-import { DEV } from '@constants'
-import { LOG_INIT } from '../ds'
 import { Likes } from '../rakuen/types'
 import { LOADED, NAMESPACE, STATE } from './init'
 
@@ -18,13 +17,24 @@ export default class State extends Store<typeof STATE> {
 
   private _loaded = LOADED
 
-  init = (key: CacheKey) => {
-    if (!key || this._loaded[key]) return true
+  init = async (key: CacheKey, async?: boolean) => {
+    if (!key) return false
 
-    if (DEV && LOG_INIT) console.info('TimelineStore /', key)
+    if (this._loaded[key]) return true
 
-    this._loaded[key] = true
-    return this.readStorage([key], NAMESPACE)
+    if (!async) {
+      this._loaded[key] = true
+      return this.readStorage([key], NAMESPACE)
+    }
+
+    runAfter(() => {
+      if (this._loaded[key]) return
+
+      this._loaded[key] = true
+      this.readStorage([key], NAMESPACE)
+    }, true)
+
+    return this._loaded[key]
   }
 
   save = (key: CacheKey) => {

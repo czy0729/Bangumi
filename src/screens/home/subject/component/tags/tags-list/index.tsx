@@ -104,27 +104,23 @@ function TagList({ showTyperank }) {
               </Touchable>
             )
           })}
-        {$.state.rendered && (
-          <>
-            {!expand && $.tags.length > EXPAND_NUM && (
-              <Touchable
-                animate
-                scale={0.9}
-                onPress={() => {
-                  setExpand(true)
-                }}
-              >
-                <Flex style={styles.item}>
-                  <Iconfont name='md-more-horiz' size={16} color={_.colorSub} />
-                </Flex>
-              </Touchable>
-            )}
-            <Block path='Anime' tags={$.animeTags} />
-            <Block path='Game' tags={$.gameTags} />
-            <Block path='Manga' tags={$.mangaTags} />
-            <Block path='Wenku' tags={$.wenkuTags} />
-          </>
+        {!expand && $.tags.length > EXPAND_NUM && (
+          <Touchable
+            animate
+            scale={0.9}
+            onPress={() => {
+              setExpand(true)
+            }}
+          >
+            <Flex style={styles.item}>
+              <Iconfont name='md-more-horiz' size={16} color={_.colorSub} />
+            </Flex>
+          </Touchable>
         )}
+        <Block path='Anime' tags={$.animeTags} />
+        <Block path='Game' tags={$.gameTags} />
+        <Block path='Manga' tags={$.mangaTags} />
+        <Block path='Wenku' tags={$.wenkuTags} />
       </>
     )
   })

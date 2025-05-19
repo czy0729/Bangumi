@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-23 13:43:15
+ * @Last Modified time: 2025-05-20 05:02:40
  */
 import React from 'react'
 import {
@@ -17,13 +17,13 @@ import {
   ViewStyle as RNViewStyle
 } from 'react-native'
 
-/** <View> StyleProp */
+/** RNView StyleProp */
 export type ViewStyle = StyleProp<RNViewStyle>
 
-/** <Text> StyleProp */
+/** RNText StyleProp */
 export type TextStyle = StyleProp<RNTextStyle>
 
-/** <Image> StyleProp */
+/** RNImage StyleProp */
 export type ImageStyle = StyleProp<RNImageStyle>
 
 /** 格子布局分拆工具函数返回样式 */
@@ -35,6 +35,9 @@ export type GridStyle = {
 
 /** React.ReactNode */
 export type ReactNode = React.ReactNode
+
+/** setTimeout or setInterval ref */
+export type TimerRef = ReturnType<typeof setTimeout> extends number ? number : NodeJS.Timeout
 
 /** RNColorValue */
 export type ColorValue = RNColorValue

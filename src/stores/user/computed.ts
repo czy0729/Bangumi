@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-22 16:24:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-16 11:24:17
+ * @Last Modified time: 2025-05-20 00:59:17
  */
 import { computed } from 'mobx'
 import { APP_USERID_IOS_AUTH, APP_USERID_TOURIST, DEV, HOST, LIST_EMPTY, UA, WEB } from '@constants'

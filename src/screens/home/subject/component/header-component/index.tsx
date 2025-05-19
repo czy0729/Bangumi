@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 02:11:58
+ * @Last Modified time: 2025-05-20 04:42:03
  */
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
@@ -40,7 +40,7 @@ function HeaderComponent(props) {
       <Head onBlockRef={props.onBlockRef} />
       <View style={_.container.plain}>
         {elTop}
-        {$.state.rendered && elBottom}
+        {$.state.scrolled && elBottom}
         <Loading />
       </View>
     </Component>

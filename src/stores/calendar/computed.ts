@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:02:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-29 04:02:19
+ * @Last Modified time: 2025-05-20 00:51:50
  */
 import { computed } from 'mobx'
 import { deepClone, getTimestamp, toLocal } from '@utils'
@@ -15,7 +15,7 @@ import { OnAirItem, OnAirUser } from './types'
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   /** 发现页信息聚合 */
   @computed get home() {
-    this.init('home')
+    this.init('home', true)
     return this.state.home
   }
 
@@ -26,7 +26,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** API 每日放送数据, 并整合云端 onAir 数据 */
   @computed get calendar() {
-    this.init('calendar')
+    this.init('calendar', true)
 
     const data = {
       ...deepClone(INIT_CALENDAR),
@@ -66,13 +66,13 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 云端 onAir */
   @computed get onAir() {
-    this.init('onAir')
+    this.init('onAir', true)
     return this.state.onAir
   }
 
   /** 用户自定义放送时间 */
   onAirUser(subjectId: SubjectId) {
-    this.init('onAirUser')
+    this.init('onAirUser', true)
     return computed<OnAirUser>(() => {
       const { onAirUser } = this.state
       return onAirUser[subjectId] || INIT_USER_ONAIR_ITEM

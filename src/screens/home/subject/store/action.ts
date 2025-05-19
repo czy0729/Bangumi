@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-16 01:28:48
+ * @Last Modified time: 2025-05-20 05:30:48
  */
 import { toJS } from 'mobx'
 import { StatusBar } from '@components'
@@ -441,25 +441,6 @@ export default class Action extends Fetch {
     t('条目.展开收起功能块', {
       key: `${key} | -1`
     })
-  }
-
-  /** 用于延迟底部块渲染 (优化条目页面进入渲染时, 同时渲染过多块导致掉帧的问题) */
-  setRendered = () => {
-    if (!this.state.rendered) {
-      this.setState({
-        rendered: true
-      })
-    }
-  }
-
-  unRendered = () => {
-    if (WEB) return
-
-    if (this.state.rendered) {
-      this.setState({
-        rendered: false
-      })
-    }
   }
 
   /** 显示 / 关闭管理目录模态框 */
@@ -907,6 +888,14 @@ export default class Action extends Fetch {
     this.setState({
       fixed: y > HEADER_TRANSITION_HEIGHT
     })
+    if (!this.state.scrolled) {
+      setTimeout(() => {
+        this.setState({
+          scrolled: true
+        })
+      }, 0)
+    }
+
     this.updateStatusBar()
   }
 

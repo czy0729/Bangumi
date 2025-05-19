@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-29 20:01:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 19:15:04
+ * @Last Modified time: 2025-05-20 05:44:21
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
@@ -178,6 +178,5 @@ function eventToUrl(name: EventKeys = '', data: AnyObject = {}) {
 
 /** [DEV] */
 export function log(method: string, ...others: any[]) {
-  if (DEV)
-    console.info(TEXT_BADGES.plain, `[@utils/track/${method}]`, ...others.filter(item => !!item))
+  if (DEV) console.info(TEXT_BADGES.yellow, `[@utils/track/${method}]`, ...others.filter(Boolean))
 }

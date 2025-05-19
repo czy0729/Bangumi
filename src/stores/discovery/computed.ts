@@ -2,13 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:45:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-26 17:16:04
+ * @Last Modified time: 2025-05-20 00:53:24
  */
 import { computed } from 'mobx'
 import { LIST_EMPTY } from '@constants'
 import { Id, StoreConstructor, SubjectId, SubjectType } from '@types'
-import State from './state'
-import { getInt } from './utils'
 import {
   INIT_ANITAMA_TIMELINE_ITEM,
   INIT_BLOG_ITEM,
@@ -18,6 +16,8 @@ import {
   INIT_NINGMOE_DETAIL_ITEM,
   STATE
 } from './init'
+import { getInt } from './utils'
+import State from './state'
 import {
   Blog,
   Catalog,
@@ -32,7 +32,7 @@ import {
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   /** 目录 */
   catalog(type: '' | 'collect' | 'me' = '', page: number = 1) {
-    this.init('catalog')
+    this.init('catalog', true)
     return computed<Catalog>(() => {
       const key = `${type}|${page}`
       return this.state.catalog[key] || INIT_CATALOG_ITEM
@@ -43,7 +43,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   catalogDetail(id: Id) {
     const last = getInt(id)
     const key = `catalogDetail${last}` as const
-    this.init(key)
+    this.init(key, true)
 
     return computed<CatalogDetail>(() => {
       return this.state?.[key]?.[id] || INIT_CATELOG_DETAIL_ITEM
@@ -52,7 +52,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 目录详情 (云缓存) */
   catalogDetailFromOSS(id: Id) {
-    this.init('catalogDetailFromOSS')
+    this.init('catalogDetailFromOSS', true)
     return computed<CatalogDetailFromOSS>(() => {
       return this.state.catalogDetailFromOSS[id] || INIT_CATELOG_DETAIL_ITEM
     }).get()
@@ -68,7 +68,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 全站日志 */
   blog(type: SubjectType | 'all' | '' = '', page: number = 1) {
-    this.init('blog')
+    this.init('blog', true)
     return computed<Blog>(() => {
       const key = `${type}|${page}`
       return this.state.blog[key] || INIT_BLOG_ITEM
@@ -77,7 +77,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 日志查看历史 */
   blogReaded(blogId: Id) {
-    this.init('blogReaded')
+    this.init('blogReaded', true)
     return computed<boolean>(() => {
       return this.state.blogReaded[blogId] || false
     }).get()
@@ -85,7 +85,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 频道聚合 */
   channel(type: SubjectType = 'anime') {
-    this.init('channel')
+    this.init('channel', true)
     return computed<Channel>(() => {
       return this.state.channel[type] || INIT_CHANNEL
     }).get()
@@ -93,13 +93,13 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 在线人数 */
   @computed get online() {
-    this.init('online')
+    this.init('online', true)
     return this.state.online
   }
 
   /** 维基人 */
   @computed get wiki(): Wiki {
-    this.init('wiki')
+    this.init('wiki', true)
     return this.state.wiki
   }
 
@@ -145,7 +145,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** DOLLARS */
   @computed get dollars() {
-    this.init('dollars')
+    this.init('dollars', true)
     return this.state.dollars
   }
 }

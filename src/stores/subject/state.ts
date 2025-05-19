@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:15:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 11:19:41
+ * @Last Modified time: 2025-05-20 00:49:39
  */
 import { observable } from 'mobx'
+import { runAfter } from '@utils'
 import Store from '@utils/store'
-import { DEV } from '@constants'
 import { SubjectId } from '@types'
-import { LOG_INIT } from '../ds'
-import { getInt } from './utils'
 import { LOADED, NAMESPACE, STATE } from './init'
+import { getInt } from './utils'
 
 type CacheKey =
   | keyof typeof LOADED
@@ -24,13 +23,24 @@ export default class State extends Store<typeof STATE> {
 
   private _loaded = LOADED
 
-  init = (key: CacheKey) => {
-    if (!key || this._loaded[key]) return true
+  init = async (key: CacheKey, async?: boolean) => {
+    if (!key) return false
 
-    if (DEV && LOG_INIT) console.info('SubjectStore /', key)
+    if (this._loaded[key]) return true
 
-    this._loaded[key] = true
-    return this.readStorage([key], NAMESPACE)
+    if (!async) {
+      this._loaded[key] = true
+      return this.readStorage([key], NAMESPACE)
+    }
+
+    runAfter(() => {
+      if (this._loaded[key]) return
+
+      this._loaded[key] = true
+      this.readStorage([key], NAMESPACE)
+    }, true)
+
+    return this._loaded[key]
   }
 
   initSubjectV2 = async (subjectIds: SubjectId[]) => {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 16:05:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-25 16:06:43
+ * @Last Modified time: 2025-05-20 00:56:53
  */
 import { computed } from 'mobx'
 import { LIST_EMPTY } from '@constants'
@@ -20,7 +20,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
     order?: TagOrder,
     meta?: boolean
   ) {
-    this.init('tag')
+    this.init('tag', true)
     return computed<Tag>(() => {
       let key = `${text.replace(/ /g, '+')}|${type}|${airtime}|${order}`
       if (meta) key += `|${meta}`
@@ -31,7 +31,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 排行榜 */
   rank(type: SubjectType, filter: RankFilter, order: TagOrder, airtime: string, page: number) {
-    this.init('rank')
+    this.init('rank', true)
     return computed<Rank>(() => {
       const key = [type, filter, order, airtime, page].filter(item => !!item).join('|')
       return this.state.rank[key] || LIST_EMPTY
@@ -40,7 +40,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 索引 */
   browser(type: SubjectType = DEFAULT_TYPE, airtime: string = '', sort: BrowserSort = '') {
-    this.init('browser')
+    this.init('browser', true)
     return computed<Browser>(() => {
       const key = `${type}|${airtime}|${sort}`
       return this.state.browser[key] || LIST_EMPTY

@@ -18,8 +18,14 @@ import { useSubjectPage } from './hooks'
 
 /** 条目 */
 const Subject = (props: NavigationProps) => {
-  const { id, forwardRef, onBlockRef, onScrollIntoViewIfNeeded, onScrollTo, onScrollToTop } =
-    useSubjectPage(props)
+  const {
+    id,
+    handleForwardRef,
+    handleBlockRef,
+    handleScrollIntoViewIfNeeded,
+    handleScrollTo,
+    handleScrollToTop
+  } = useSubjectPage(props)
 
   return useObserver(() => (
     <Component id='screen-subject'>
@@ -27,12 +33,12 @@ const Subject = (props: NavigationProps) => {
         <Page statusBarEvent={false}>
           {IOS && <Bg />}
           <List
-            forwardRef={forwardRef}
-            onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
-            onBlockRef={onBlockRef}
+            forwardRef={handleForwardRef}
+            onScrollIntoViewIfNeeded={handleScrollIntoViewIfNeeded}
+            onBlockRef={handleBlockRef}
           />
         </Page>
-        <Header onScrollTo={onScrollTo} onScrollToTop={onScrollToTop} />
+        <Header onScrollTo={handleScrollTo} onScrollToTop={handleScrollToTop} />
         <Extra />
       </StoreContext.Provider>
     </Component>

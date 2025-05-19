@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:15:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-04 18:18:40
+ * @Last Modified time: 2025-05-20 00:40:50
  */
 import { computed } from 'mobx'
 import { x18 } from '@utils'
@@ -53,7 +53,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   subject(subjectId: SubjectId = 0) {
     const last = getInt(subjectId)
     const key = `subject${last}` as const
-    this.init(key)
+    this.init(key, true)
 
     return computed<Subject>(() => {
       return this.state?.[key]?.[subjectId] || INIT_SUBJECT
@@ -64,7 +64,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   subjectFormHTML(subjectId: SubjectId = 0) {
     const last = getInt(subjectId)
     const key = `subjectFormHTML${last}` as const
-    this.init(key)
+    this.init(key, true)
 
     return computed<SubjectFromHTML>(() => {
       return this.state?.[key]?.[subjectId] || INIT_SUBJECT_FROM_HTML_ITEM
@@ -82,7 +82,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 条目 (云缓存) */
   subjectFromOSS(subjectId: SubjectId) {
-    this.init('subjectFromOSS')
+    this.init('subjectFromOSS', true)
     return computed<Subject>(() => {
       return this.state.subjectFromOSS[subjectId] || INIT_SUBJECT
     }).get()
@@ -113,7 +113,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   subjectComments(subjectId: SubjectId = 0) {
     const last = getInt(subjectId)
     const key = `subjectComments${last}` as const
-    this.init(key)
+    this.init(key, true)
 
     return computed<SubjectComments>(() => {
       return this.state?.[key]?.[subjectId] || LIST_EMPTY
@@ -129,7 +129,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 集数大于 1000 的条目的章节信息 */
   epV2(subjectId: SubjectId) {
-    this.init('epV2')
+    this.init('epV2', true)
     return computed<EpV2>(() => {
       return this.state.epV2[subjectId] || this.state.epV2[0]
     }).get()
@@ -137,7 +137,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 章节内容 */
   mono(monoId: MonoId) {
-    this.init('mono')
+    this.init('mono', true)
     return computed<Mono>(() => {
       return this.state.mono[monoId] || INIT_MONO
     }).get()
@@ -195,7 +195,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 条目分数 (用于收藏按网站评分排序) */
   rank(subjectId: SubjectId) {
-    this.init('rank')
+    this.init('rank', true)
     return computed<RankItem>(() => {
       return (
         this.state.rank[subjectId] || {
@@ -209,7 +209,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** VIB 相关数据 */
   vib(subjectId: SubjectId) {
-    this.init('vib')
+    this.init('vib', true)
     return computed<(typeof STATE.vib)[0]>(() => {
       return this.state.vib[subjectId] || STATE.vib[0]
     }).get()
@@ -217,7 +217,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** r18 */
   nsfw(subjectId: SubjectId) {
-    this.init('nsfw')
+    this.init('nsfw', true)
     return computed<boolean>(() => {
       return this.state.nsfw[subjectId] || this.subjectV2(subjectId).nsfw || x18(subjectId) || false
     }).get()
@@ -232,13 +232,13 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 自定义源头数据 */
   @computed get origin(): Origin {
-    this.init('origin')
+    this.init('origin', true)
     return this.state.origin
   }
 
   /** 自定义跳转 */
   actions(subjectId: SubjectId) {
-    this.init('actions')
+    this.init('actions', true)
     return computed(() => {
       return this.state.actions[subjectId] || []
     }).get()

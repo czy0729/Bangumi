@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 01:43:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-06 15:53:19
+ * @Last Modified time: 2025-05-20 05:16:21
  */
 import React from 'react'
 import { Image, ScrollView, Text, Touchable } from '@components'

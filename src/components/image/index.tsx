@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-06 21:35:04
+ * @Last Modified time: 2025-05-20 05:11:04
  */
 import React from 'react'
 import { Image as RNImage, ImageErrorEventData, NativeSyntheticEvent } from 'react-native'
@@ -612,16 +612,9 @@ export const Image = observer(
     renderImage() {
       if (this.props.textOnly) return <TextOnly style={this.computedStyle.image} />
 
-      if (this.state.error) {
-        // 加载错误后销毁容器
-        if (this.props.errorToHide) return null
-
-        // 加载错误后显示显示图形
-        if (!WEB) {
-          return (
-            <Error style={this.computedStyle.image} size={this.props.width || this.props.size} />
-          )
-        }
+      // 加载错误后显示显示图形
+      if (this.state.error && !WEB) {
+        return <Error style={this.computedStyle.image} size={this.props.width || this.props.size} />
       }
 
       const otherProps = omit(this.props, [
@@ -712,6 +705,7 @@ export const Image = observer(
       return (
         <Skeleton
           style={this.computedStyle.image}
+          uri={this.state.uri}
           type={this.props.skeletonType}
           textOnly={this.props.textOnly}
           placeholder={this.props.placeholder}
@@ -763,6 +757,8 @@ export const Image = observer(
 
     render() {
       r(COMPONENT)
+
+      if (this.state.error && this.props.errorToHide) return null
 
       let onPressHandle = this.props.onPress
 

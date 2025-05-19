@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 14:58:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-30 17:15:36
+ * @Last Modified time: 2025-05-20 00:56:12
  */
 import { computed } from 'mobx'
 import { LIST_EMPTY } from '@constants'
@@ -14,7 +14,7 @@ import { Search } from './types'
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   /** 搜索结果 */
   search(text: string, cat: SearchCat = DEFAULT_CAT) {
-    this.init('search')
+    this.init('search', true)
     return computed<Search>(() => {
       const _text = text.replace(/ /g, '+')
       const key = `${_text}|${cat}`

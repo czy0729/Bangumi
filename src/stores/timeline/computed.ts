@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 16:25:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-27 19:47:14
+ * @Last Modified time: 2025-05-20 00:57:33
  */
 import { computed } from 'mobx'
 import { desc } from '@utils'
@@ -32,7 +32,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 用户条目吐槽联动回复表情 */
   collectionsTimeline(userId: UserId) {
-    this.init('collectionsTimeline')
+    this.init('collectionsTimeline', true)
     return computed(() => {
       return this.state.collectionsTimeline[userId] || {}
     }).get()
@@ -40,7 +40,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 时间胶囊回复表情 */
   likes(id: Id) {
-    this.init('likes')
+    this.init('likes', true)
     return computed<Likes>(() => {
       return {
         [id]: this.state.likes[id] || {}
@@ -50,7 +50,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 吐槽 */
   say(id: Id) {
-    this.init('say')
+    this.init('say', true)
     return computed<Say>(() => {
       const sayId = String(id).split('#')[0]
       return this.state.say[sayId] || LIST_EMPTY
@@ -64,7 +64,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 隐藏 TA */
   @computed get hidden(): Hidden {
-    this.init('hidden')
+    this.init('hidden', true)
     return this.state.hidden
   }
 

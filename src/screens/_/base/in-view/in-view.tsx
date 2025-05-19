@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-19 12:28:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-25 20:22:14
+ * @Last Modified time: 2025-05-20 00:18:15
  */
 import React, { useCallback, useEffect, useState } from 'react'
 import { LayoutChangeEvent, View } from 'react-native'
@@ -61,7 +61,7 @@ export default ({ index = 0, y = 0, log, flex, visibleBottom, children, ...other
   const Component = flex ? Flex : View
   return (
     // @ts-expect-error
-    <Component {...other} onLayout={y ? undefined : handleLayout}>
+    <Component {...other} collapsable={false} onLayout={y ? undefined : handleLayout}>
       {show ? children : null}
       {log && (
         <Flex style={styles.dev}>

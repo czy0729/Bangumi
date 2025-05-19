@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 13:59:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-03 19:00:08
+ * @Last Modified time: 2025-05-20 00:59:41
  */
 import { computed } from 'mobx'
 import { HTMLDecode } from '@utils'
@@ -31,7 +31,7 @@ export default class Computed
 {
   /** 寻找头像 */
   avatars(userId?: UserId) {
-    this.init('avatars')
+    this.init('avatars', true)
     return computed(() => {
       const value = this.state.avatars[userId]
       return (value ? `https://lain.bgm.tv/pic/user/l/000/${value}` : '') as Avatar<'l'>
@@ -40,7 +40,7 @@ export default class Computed
 
   /** 好友列表 */
   friends(userId?: UserId) {
-    this.init('friends')
+    this.init('friends', true)
     return computed<Friends>(() => {
       const key = userId || userStore.myId
       return this.state.friends[key] || LIST_EMPTY
@@ -49,13 +49,13 @@ export default class Computed
 
   /** 我的好友 userId 哈希映射 */
   @computed get myFriendsMap(): MyFriendsMap {
-    this.init('myFriendsMap')
+    this.init('myFriendsMap', true)
     return this.state.myFriendsMap
   }
 
   /** 用户信息 */
   users(userId?: UserId) {
-    this.init('users')
+    this.init('users', true)
     return computed<Users>(() => {
       const key = userId || userStore.myId
       return this.state.users[key] || INIT_USERS
@@ -64,7 +64,7 @@ export default class Computed
 
   /** 用户简短信息 */
   usersInfo(userId?: UserId) {
-    this.init('usersInfo')
+    this.init('usersInfo', true)
     return computed<UsersInfo>(() => {
       const key = userId
       return this.state.usersInfo[key] || INIT_USERS_INFO
@@ -73,7 +73,7 @@ export default class Computed
 
   /** 用户收藏的虚拟角色 */
   characters(userId?: UserId) {
-    this.init('characters')
+    this.init('characters', true)
     return computed<Characters>(() => {
       const key = userId || userStore.myId
       return this.state.characters[key] || LIST_EMPTY
@@ -82,7 +82,7 @@ export default class Computed
 
   /** 用户收藏的现实人物 */
   persons(userId?: UserId) {
-    this.init('persons')
+    this.init('persons', true)
     return computed<Persons>(() => {
       const key = userId || userStore.myId
       return this.state.persons[key] || LIST_EMPTY
@@ -91,13 +91,13 @@ export default class Computed
 
   /** 我收藏人物的最近作品 */
   @computed get recents(): Recents {
-    this.init('recents')
+    this.init('recents', true)
     return this.state.recents
   }
 
   /** 用户日志 */
   blogs(userId?: UserId) {
-    this.init('blogs')
+    this.init('blogs', true)
     return computed<Blogs>(() => {
       const key = userId || userStore.myId
       return this.state.blogs[key] || LIST_EMPTY
@@ -107,7 +107,7 @@ export default class Computed
   /** 用户目录 */
   catalogs(userId?: UserId, isCollect?: boolean) {
     const key = `catalogs${isCollect ? 'Collect' : ''}` as const
-    this.init(key)
+    this.init(key, true)
     return computed<Catalogs>(() => {
       const _userId = userId || userStore.myId
       return this.state[key][_userId] || LIST_EMPTY
