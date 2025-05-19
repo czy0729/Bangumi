@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-02 12:03:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-29 04:10:37
+ * @Last Modified time: 2025-05-20 07:07:53
  */
 import { ImageRequireSource } from 'react-native'
 import PropTypes from 'prop-types'
@@ -342,7 +342,7 @@ export const D1 = H * 24
 /** 1 天 */
 export const D = D1
 
-/** 1 天 */
+/** 3 天 */
 export const D3 = D * 3
 
 /** 7 天 */

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-15 16:13:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-19 23:38:52
+ * @Last Modified time: 2025-05-20 07:01:15
  */
 import { useCallback, useRef } from 'react'
 import { findNodeHandle, FlatList, View } from 'react-native'
@@ -21,26 +21,6 @@ import { Ctx } from './types'
 export function useSubjectPage(props: NavigationProps) {
   const context = useInitStore<Ctx['$']>(props, store)
   const { id, $ } = context
-
-  usePageLifecycle(
-    {
-      onFocus() {
-        $.updateStatusBar()
-      },
-      async onEnterComplete() {
-        await $.init()
-
-        t('条目.查看', {
-          subjectId: $.subjectId,
-          type: $.type
-        })
-      },
-      onLeaveComplete() {
-        $.unmount()
-      }
-    },
-    id
-  )
 
   /** ListView.ref */
   const scrollViewRef = useRef<FlatList>(null)
@@ -140,6 +120,26 @@ export function useSubjectPage(props: NavigationProps) {
       animated: true
     })
   }, [])
+
+  usePageLifecycle(
+    {
+      onFocus() {
+        $.updateStatusBar()
+      },
+      async onEnterComplete() {
+        await $.init()
+
+        t('条目.查看', {
+          subjectId: $.subjectId,
+          type: $.type
+        })
+      },
+      onLeaveComplete() {
+        $.unmount()
+      }
+    },
+    id
+  )
 
   return {
     ...context,

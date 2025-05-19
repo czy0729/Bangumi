@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 04:36:18
+ * @Last Modified time: 2025-05-20 07:19:57
  */
 import { collectionStore, rakuenStore, subjectStore, userStore } from '@stores'
 import { ApiSubjectResponse } from '@stores/subject/types'
@@ -10,7 +10,7 @@ import { getTimestamp, postTask } from '@utils'
 import { queue } from '@utils/fetch'
 import { M5, SHARE_MODE, WEB } from '@constants'
 import Action from './action'
-import { EXCLUDE_STATE } from './ds'
+import { EXCLUDE_STATE, RESET_STATE } from './ds'
 
 /** 条目页面状态机 */
 class ScreenSubject extends Action {
@@ -19,14 +19,13 @@ class ScreenSubject extends Action {
 
   /** 初始化 */
   init = async (): Promise<boolean> => {
-    // 是否需要更新数据
     const now = getTimestamp()
-    const needRefresh =
-      !this._initDoned || !this.state._loaded || now - Number(this.state._loaded) > M5
-    const loadedTime = needRefresh ? now : this.state._loaded
+    const { _loaded } = this.state
+    const needRefresh = !this._initDoned || !_loaded || now - Number(_loaded) > M5
+    const loadedTime = needRefresh ? now : _loaded
 
     try {
-      const storageData = this.state._loaded ? {} : await this.getStorage(this.namespace)
+      const storageData = _loaded ? {} : await this.getStorage(this.namespace)
       this.setState({
         ...storageData,
         ...EXCLUDE_STATE,
@@ -205,7 +204,7 @@ class ScreenSubject extends Action {
   }
 
   unmount = () => {
-    this.setState(EXCLUDE_STATE)
+    this.setState(RESET_STATE)
   }
 }
 

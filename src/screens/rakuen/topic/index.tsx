@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-06 21:35:20
+ * @Last Modified time: 2025-05-20 06:56:44
  */
 import React from 'react'
 import './styles'
@@ -21,13 +21,13 @@ import { useTopicPage } from './hooks'
 const Topic = (props: NavigationProps) => {
   const {
     id,
-    forwardRef,
+    scrollViewRef,
     fixedTextareaRef,
-    onFloorPress,
-    onShowFixedTextarea,
-    onScrollToIndexFailed,
-    onScrollToTop,
-    onDirect
+    handleDirect,
+    handleFloorPress,
+    handleScrollToIndexFailed,
+    handleScrollToTop,
+    handleShowFixedTextarea
   } = useTopicPage(props)
 
   return useObserver(() => (
@@ -35,14 +35,14 @@ const Topic = (props: NavigationProps) => {
       <StoreContext.Provider value={id}>
         <Page statusBarEvent={false}>
           <List
-            forwardRef={forwardRef}
-            onScrollToIndexFailed={onScrollToIndexFailed}
-            onShowFixedTextarea={onShowFixedTextarea}
+            forwardRef={scrollViewRef}
+            onScrollToIndexFailed={handleScrollToIndexFailed}
+            onShowFixedTextarea={handleShowFixedTextarea}
           />
-          <TouchScroll onPress={onFloorPress} />
+          <TouchScroll onPress={handleFloorPress} />
         </Page>
-        <Header onScrollToTop={onScrollToTop} />
-        <Bottom fixedTextareaRef={fixedTextareaRef} onDirect={onDirect} />
+        <Header onScrollToTop={handleScrollToTop} />
+        <Bottom fixedTextareaRef={fixedTextareaRef} onDirect={handleDirect} />
         <Extra />
       </StoreContext.Provider>
     </Component>

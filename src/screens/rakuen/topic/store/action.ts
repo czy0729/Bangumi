@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:09:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-16 07:22:39
+ * @Last Modified time: 2025-05-20 07:13:53
  */
 import { toJS } from 'mobx'
 import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
@@ -299,13 +299,13 @@ export default class Action extends Fetch {
     this.setState({
       fixed: y > HEADER_TRANSITION_HEIGHT
     })
-  }
-
-  /** 更新是否完成渲染 */
-  setRendered = (rendered: boolean) => {
-    this.setState({
-      rendered
-    })
+    if (!this.state.scrolled) {
+      setTimeout(() => {
+        this.setState({
+          scrolled: true
+        })
+      }, 0)
+    }
   }
 
   /** 显示锐评框 */

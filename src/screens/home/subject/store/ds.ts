@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:30:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 05:32:05
+ * @Last Modified time: 2025-05-20 07:19:44
  */
 import { _ } from '@stores'
 import { LIST_EMPTY } from '@constants'
@@ -13,13 +13,24 @@ import { AnitabiData, EpsData, SubjectSnapshot } from '../types'
 /** 唯一命名空间 */
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
-/** 页面 store 初始化后需要还原的 state */
-export const EXCLUDE_STATE = {
+/** 页面每次进入和退出都需要还原的状态 */
+export const RESET_STATE = {
   /** 头部是否固定 */
   fixed: false,
 
   /** 可视范围底部 y */
   visibleBottom: Math.floor(_.window.height * 2),
+
+  /** 当前页面实例是否在路由栈中 (用于退出页面后马上拦截剩余的请求) */
+  focused: false,
+
+  /** 当前页面实例是否操作过 (用于进入页面时不显示过多看不见的模块) */
+  scrolled: false
+}
+
+/** 页面首次初始化后需要还原的状态 */
+export const EXCLUDE_STATE = {
+  ...RESET_STATE,
 
   /** 是否显示管理模态框 */
   visible: false,
@@ -62,16 +73,10 @@ export const EXCLUDE_STATE = {
   chatModalVisible: false,
 
   /** 锐评请求中 */
-  chatLoading: false,
-
-  /** 当前页面实例是否在路由栈中 (用于退出页面后马上拦截剩余的请求) */
-  focused: false,
-
-  /** 当前页面实例是否操作过 (用于进入页面时不显示过多看不见的模块) */
-  scrolled: false
+  chatLoading: false
 }
 
-/** 页面 state */
+/** 页面实例状态 */
 export const STATE = {
   ...EXCLUDE_STATE,
 

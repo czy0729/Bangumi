@@ -2,26 +2,32 @@
  * @Author: czy0729
  * @Date: 2022-09-28 17:50:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-16 07:19:27
+ * @Last Modified time: 2025-05-20 07:20:18
  */
 import { _ } from '@stores'
 import { Comments, Topic } from '@stores/rakuen/types'
-import { WEB } from '@constants'
 import { CompletionItem, Id, Loaded, TranslateResult } from '@types'
 import { COMPONENT } from '../ds'
 import { FilterType } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
-export const EXCLUDE_STATE = {
+export const RESET_STATE = {
   /** 头部是否固定 */
   fixed: false,
 
-  /** 是否完成渲染 */
-  rendered: WEB,
-
   /** 可视范围底部 y */
-  visibleBottom: _.window.height,
+  visibleBottom: Math.floor(_.window.height * 1.2),
+
+  /** 当前页面实例是否在路由栈中 (用于退出页面后马上拦截剩余的请求) */
+  focused: false,
+
+  /** 当前页面实例是否操作过 (用于进入页面时不显示过多看不见的模块) */
+  scrolled: false
+}
+
+export const EXCLUDE_STATE = {
+  ...RESET_STATE,
 
   /** 是否显示头顶吸附标题组件 */
   showHeaderTitle: false,

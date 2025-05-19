@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-04-25 14:05:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-03 20:02:52
+ * @Last Modified time: 2025-05-20 07:08:00
  */
 import { getTimestamp } from '@utils'
+import { D3 } from '@constants'
 import { UserId } from '@types'
 import userStore from '../user'
 import Fetch from './fetch'
@@ -51,11 +52,11 @@ export default class Actions extends Fetch {
     return true
   }
 
-  /** 若登录了, 而且在 2 天内没更新过好友列表, 请求好友列表, 用于帖子楼层标记是否好友 */
+  /** 若登录了, 而且在若干天内没更新过好友列表, 请求好友列表, 用于帖子楼层标记是否好友 */
   updateFriendsMap = () => {
     if (userStore.isLogin) {
       const { _loaded } = this.myFriendsMap
-      if (!_loaded || getTimestamp() - _loaded > 2 * 60 * 60 * 24) {
+      if (!_loaded || getTimestamp() - _loaded > D3) {
         this.fetchFriends()
       }
     }

@@ -2,28 +2,31 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-03 15:38:48
+ * @Last Modified time: 2025-05-20 07:27:40
  */
 import { rakuenStore, usersStore } from '@stores'
 import { getTimestamp } from '@utils'
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, RESET_STATE, STATE } from './ds'
 
 let loadedFavor = false
 
 class ScreenTopic extends Action {
   init = async () => {
+    const now = getTimestamp()
     const { _loaded } = this.state
-    const current = getTimestamp()
-    const needFetch = !_loaded || current - Number(_loaded) > 60
+    const needRefresh = !_loaded || now - Number(_loaded) > 60
+    const loadedTime = needRefresh ? now : _loaded
     const commonState = await this.getStorage(NAMESPACE)
 
     try {
+      const storageData = _loaded ? {} : await this.getStorage(this.namespace)
       const state: typeof STATE = {
-        ...(await this.getStorage(this.namespace)),
+        ...storageData,
         ...EXCLUDE_STATE,
         reverse: commonState.reverse,
-        _loaded: needFetch ? current : _loaded
+        focused: true,
+        _loaded: loadedTime
       }
 
       // 若跳转只显示跳转楼层可以更快跳到指定楼层
@@ -39,7 +42,7 @@ class ScreenTopic extends Action {
         loadedFavor = true
       }
 
-      if (needFetch) {
+      if (needRefresh) {
         // 章节需要请求章节详情
         if (this.isEp) {
           this.fetchEpFormHTML()
@@ -63,11 +66,15 @@ class ScreenTopic extends Action {
       this.setState({
         ...EXCLUDE_STATE,
         reverse: commonState.reverse,
-        _loaded: needFetch ? current : _loaded
+        focused: true,
+        _loaded: loadedTime
       })
+      return true
     }
+  }
 
-    return true
+  unmount = () => {
+    this.setState(RESET_STATE)
   }
 }
 
