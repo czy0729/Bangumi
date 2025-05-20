@@ -141,7 +141,7 @@ export const STATE = {
     _loaded: false as Loaded
   },
 
-  /** 页面 store 初始化完成 */
+  /** 页面初始化完成 */
   _loaded: false as Loaded
 }
 

@@ -30,6 +30,7 @@ type Callbacks = {
   onLeaveComplete?: Fn
 }
 
+/** 客户端页面统一生命周期钩子 */
 export default function usePageLifecycle(callbacks: Callbacks, id: string) {
   if (typeof callbacks?.onEnter === 'function') {
     callbacks.onEnter()
@@ -51,14 +52,14 @@ export default function usePageLifecycle(callbacks: Callbacks, id: string) {
   })
 
   useMount(() => {
-    InteractionManager.runAfterInteractions(() => {
-      setTimeout(() => {
-        if (typeof callbacks?.onEnterComplete === 'function') {
+    if (typeof callbacks?.onEnterComplete === 'function') {
+      InteractionManager.runAfterInteractions(() => {
+        setTimeout(() => {
           log(`[${id}]`, 'onEnterComplete')
           callbacks.onEnterComplete()
-        }
-      }, 240)
-    })
+        }, 240)
+      })
+    }
 
     return () => {
       if (typeof callbacks?.onLeave === 'function') {
@@ -66,14 +67,14 @@ export default function usePageLifecycle(callbacks: Callbacks, id: string) {
         callbacks.onLeave()
       }
 
-      InteractionManager.runAfterInteractions(() => {
-        setTimeout(() => {
-          if (typeof callbacks?.onLeaveComplete === 'function') {
+      if (typeof callbacks?.onLeaveComplete === 'function') {
+        InteractionManager.runAfterInteractions(() => {
+          setTimeout(() => {
             log(`[${id}]`, 'onLeaveComplete')
             callbacks.onLeaveComplete()
-          }
-        }, 240)
-      })
+          }, 240)
+        })
+      }
     }
   })
 }

@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-11-15 02:56:09
  */
 import { useInitStore } from '@stores'
-import { useFocusEffect, useRunAfter } from '@utils/hooks'
+import { usePageLifecycle } from '@utils/hooks'
 import { EVENT_APP_TAB_PRESS } from '@src/navigations/tab-bar'
 import { NavigationProps } from '@types'
 import store from './store'
@@ -14,19 +14,23 @@ import { Ctx } from './types'
 /** 进度页面逻辑 */
 export function useHomePage(props: NavigationProps) {
   const context = useInitStore<Ctx['$']>(props, store)
-  const { $, navigation } = context
+  const { id, $, navigation } = context
 
-  useRunAfter(() => {
-    $.updateInitialPage(navigation)
+  usePageLifecycle(
+    {
+      onEnter() {
+        $.updateInitialPage(navigation)
 
-    navigation.addListener(`${EVENT_APP_TAB_PRESS}|Home`, () => {
-      $.onRefreshThenScrollTop()
-    })
-  })
-
-  useFocusEffect(() => {
-    $.init()
-  })
+        navigation.addListener(`${EVENT_APP_TAB_PRESS}|Home`, () => {
+          $.onRefreshThenScrollTop()
+        })
+      },
+      onFocus() {
+        $.init()
+      }
+    },
+    id
+  )
 
   return context
 }
