@@ -328,13 +328,13 @@ export type RouteSearch = Route<
   'Search',
   {
     /** 默认查询类别 */
-    type?: SearchCatCn
+    type?: SearchCatCn | ''
 
     /** 查询关键字 */
     value?: string
 
     /** 默认查询类别 (若使用 _type 而不使用 type, 会导致页面可能不刷新) */
-    _type?: SearchCatCn
+    _type?: SearchCatCn | ''
 
     /** 查询关键字 (若使用 _value 而不使用 value, 会导致页面可能不刷新) */
     _value?: string

@@ -20,7 +20,9 @@ class ScreenTopic extends Action {
     const commonState = await this.getStorage(NAMESPACE)
 
     try {
-      const storageData = _loaded ? {} : await this.getStorage(this.namespace)
+      const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(
+        this.namespace
+      )
       const state: typeof STATE = {
         ...storageData,
         ...EXCLUDE_STATE,

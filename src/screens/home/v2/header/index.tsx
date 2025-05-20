@@ -25,7 +25,7 @@ function Header() {
     if (!['Open', 'Netabare', 'Link'].includes(item.key)) {
       if (item.key === 'Search') {
         navigation.push('Search', {
-          type: ($.tabsLabel === '全部' ? '条目' : $.tabsLabel) || '条目'
+          type: $.tabsLabel !== '全部' && $.tabs.length >= 2 ? $.tabsLabel : ''
         })
       } else {
         navigation.push(item.key)

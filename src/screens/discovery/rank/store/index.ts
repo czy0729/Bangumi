@@ -5,24 +5,20 @@
  * @Last Modified time: 2024-08-21 05:51:05
  */
 import { SUBJECT_TYPE } from '@constants'
-import { LocalState } from '@types'
 import Action from './action'
 import { EXCLUDE_STATE, NAMESPACE, RESET_STATE, STATE } from './ds'
 
 /** 排行榜页面状态机 */
 class ScreenRank extends Action {
   init = async () => {
-    const state: LocalState<typeof STATE, typeof EXCLUDE_STATE> = this.state._loaded
-      ? {}
-      : await this.getStorage(NAMESPACE)
-
+    const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
     const { type } = this.params
     if (type && SUBJECT_TYPE.findIndex(item => item.label === type) !== -1) {
-      state.type = type
+      storageData.type = type
     }
 
     this.setState({
-      ...state,
+      ...storageData,
       ...EXCLUDE_STATE,
       _loaded: true
     })

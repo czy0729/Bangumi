@@ -5,13 +5,14 @@
  * @Last Modified time: 2024-12-03 13:52:02
  */
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, RESET_STATE, STATE } from './ds'
 
 /** 搜索页面状态机 */
 export default class ScreenSearch extends Action {
   init = async () => {
+    const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
     this.setState({
-      ...(await this.getStorage(NAMESPACE)),
+      ...storageData,
       ...EXCLUDE_STATE,
       _loaded: true
     })
@@ -23,5 +24,9 @@ export default class ScreenSearch extends Action {
   /** 下拉刷新 */
   onHeaderRefresh = () => {
     return this.doSearch(true)
+  }
+
+  unmount = () => {
+    this.setState(RESET_STATE)
   }
 }
