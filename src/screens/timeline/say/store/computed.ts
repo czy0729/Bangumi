@@ -10,7 +10,7 @@ import { HOST } from '@constants'
 import State from './state'
 
 export default class Computed extends State {
-  /** 吐槽 id */
+  /** 吐槽 ID */
   @computed get id() {
     return this.params.sayId || this.params.id
   }

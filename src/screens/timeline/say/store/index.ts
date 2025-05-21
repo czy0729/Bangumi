@@ -4,14 +4,16 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-23 12:07:52
  */
+import { FlatList } from 'react-native'
 import { timelineStore, userStore } from '@stores'
 import { info } from '@utils'
 import Action from './action'
+import { RESET_STATE } from './ds'
 
 class ScreenSay extends Action {
-  scrollViewRef: any = null
+  scrollViewRef: FlatList = null
 
-  init = async (scrollView?: any) => {
+  init = async (scrollView?: FlatList) => {
     if (scrollView) this.scrollViewRef = scrollView
 
     if (this.isNew) {
@@ -27,6 +29,10 @@ class ScreenSay extends Action {
 
     await this.fetchSay()
     if (userStore.isWebLogin) timelineStore.fetchFormHash()
+  }
+
+  unmount = () => {
+    this.setState(RESET_STATE)
   }
 }
 

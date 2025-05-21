@@ -8,6 +8,7 @@ import { usersStore } from '@stores'
 import { queue } from '@utils/fetch'
 import { TYPE_PAGE } from '../ds'
 import Action from './action'
+import { RESET_STATE } from './ds'
 
 /** 人物页面状态机 */
 export default class ScreenMono extends Action {
@@ -23,5 +24,9 @@ export default class ScreenMono extends Action {
       () => this.fetchPM(true, 'pmOut'),
       () => usersStore.fetchFriends()
     ])
+  }
+
+  unmount = () => {
+    this.setState(RESET_STATE)
   }
 }

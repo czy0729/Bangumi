@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-11-18 05:45:26
  */
 import React from 'react'
-import { View } from 'react-native'
+import { FlatList, View } from 'react-native'
 import { FixedTextarea, Flex, Loading, Page, Text } from '@components'
 import { _, userStore } from '@stores'
 import { ob } from '@utils/decorators'
@@ -16,7 +16,7 @@ import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 class Say extends React.Component<Ctx> {
-  scrollView: any
+  scrollView: FlatList
 
   async componentDidMount() {
     const { $ } = this.props
@@ -32,7 +32,7 @@ class Say extends React.Component<Ctx> {
     $.scrollViewRef = null
   }
 
-  connectRefScrollView = (ref: any) => {
+  connectRefScrollView = (ref: FlatList) => {
     if (ref) {
       const { $ } = this.props
       $.scrollViewRef = ref

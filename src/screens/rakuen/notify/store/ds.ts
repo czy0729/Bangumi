@@ -7,12 +7,19 @@
 import { _ } from '@stores'
 import { Loaded } from '@types'
 
-export const STATE = {
+export const RESET_STATE = {
   /** 可视范围底部 y */
-  visibleBottom: _.window.height,
+  visibleBottom: _.window.height
+}
+
+export const EXCLUDE_STATE = {
+  ...RESET_STATE
+}
+
+export const STATE = {
+  ...EXCLUDE_STATE,
 
   /** Tab 当前页 */
   page: 0,
-
   _loaded: false as Loaded
 }

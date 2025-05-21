@@ -4,6 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-12-10 17:36:48
  */
+import { FlatList } from 'react-native'
 import { timelineStore, userStore } from '@stores'
 import { feedback, info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
@@ -15,7 +16,7 @@ import Fetch from './fetch'
 
 export default class Action extends Fetch {
   /** 滚动到底 */
-  scrollToBottom = (scrollView: any, animated = false) => {
+  scrollToBottom = (scrollView: FlatList, animated = false) => {
     if (scrollView?.scrollToIndex) {
       setTimeout(() => {
         try {
@@ -30,13 +31,12 @@ export default class Action extends Fetch {
   }
 
   /** 滚动到顶 */
-  scrollToTop = (scrollView: any, animated = false) => {
+  scrollToTop = (scrollView: FlatList, animated = false) => {
     if (scrollView?.scrollToEnd) {
       setTimeout(() => {
         try {
           scrollView.scrollToEnd({
-            animated,
-            duration: 640
+            animated
           })
         } catch (error) {}
       }, 160)
@@ -89,7 +89,7 @@ export default class Action extends Fetch {
   }
 
   /** 提交 */
-  doSubmit = (content: string, scrollView: any, navigation: Navigation) => {
+  doSubmit = (content: string, scrollView: FlatList, navigation: Navigation) => {
     if (this.isNew) {
       if (!this.formhash) {
         info(`获取表单授权码失败, 请检查${i18n.login()}状态`)
@@ -161,7 +161,7 @@ export default class Action extends Fetch {
   }
 
   /** 回复吐槽 */
-  doReply = (content: string, scrollView: any) => {
+  doReply = (content: string, scrollView: FlatList) => {
     const { list = [] } = timelineStore.say(this.id)
     timelineStore.doReply(
       {

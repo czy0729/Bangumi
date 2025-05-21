@@ -282,9 +282,6 @@ export function useTopicPage(props: NavigationProps) {
 
   usePageLifecycle(
     {
-      onEnter() {
-        useKeyboardAdjustResize()
-      },
       async onEnterComplete() {
         await $.init()
 
@@ -304,6 +301,7 @@ export function useTopicPage(props: NavigationProps) {
     },
     id
   )
+  useKeyboardAdjustResize()
 
   return {
     ...context,

@@ -5,17 +5,12 @@
  * @Last Modified time: 2024-01-18 06:52:34
  */
 import { NotifyItem } from '@stores/rakuen/types'
-import { factory } from '@utils'
 import { GetRouteParams, Navigation, Override, RouteNotify } from '@types'
 import Store from './store'
 import { TABS } from './ds'
 
-const f = factory(Store)
-
-export type StoreType = typeof f
-
 export type Ctx = {
-  $: StoreType
+  $: InstanceType<typeof Store>
   navigation?: Navigation
 }
 

@@ -11,15 +11,18 @@ import { COMPONENT } from '../ds'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
-export const EXCLUDE_STATE = {
+export const RESET_STATE = {
   /** 可视范围底部 y */
-  visibleBottom: _.window.height,
+  visibleBottom: _.window.height
+}
 
-  /** 页面是否聚焦 */
-  isFocused: true
+export const EXCLUDE_STATE = {
+  ...RESET_STATE
 }
 
 export const STATE = {
+  ...EXCLUDE_STATE,
+
   /** 范围 */
   scope: MODEL_TIMELINE_SCOPE.getValue<TimeLineScope>('全站'),
 
@@ -28,6 +31,7 @@ export const STATE = {
 
   /** 已经渲染的 Tab index */
   renderedTabsIndex: [],
-  ...EXCLUDE_STATE,
+
+  /** 页面初始化完成 */
   _loaded: false as Loaded
 }

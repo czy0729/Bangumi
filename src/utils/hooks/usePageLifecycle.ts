@@ -32,11 +32,6 @@ type Callbacks = {
 
 /** 客户端页面统一生命周期钩子 */
 export default function usePageLifecycle(callbacks: Callbacks, id: string) {
-  if (typeof callbacks?.onEnter === 'function') {
-    callbacks.onEnter()
-    log(`[${id}]`, 'onEnter')
-  }
-
   useFocusEffect(() => {
     if (typeof callbacks?.onFocus === 'function') {
       callbacks.onFocus()
@@ -52,6 +47,11 @@ export default function usePageLifecycle(callbacks: Callbacks, id: string) {
   })
 
   useMount(() => {
+    if (typeof callbacks?.onEnter === 'function') {
+      callbacks.onEnter()
+      log(`[${id}]`, 'onEnter')
+    }
+
     if (typeof callbacks?.onEnterComplete === 'function') {
       InteractionManager.runAfterInteractions(() => {
         setTimeout(() => {

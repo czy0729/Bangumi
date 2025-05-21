@@ -68,7 +68,6 @@ function List({ title }: { title?: TabLabel }) {
         contentContainerStyle={styles.contentContainerStyle}
         data={timeline}
         progressViewOffset={styles.contentContainerStyle.paddingTop}
-        // scrollToTop={$.state.isFocused && TABS[$.state.page].title === title}
         renderItem={renderItem}
         scrollEventThrottle={16}
         onScroll={handleScroll}
