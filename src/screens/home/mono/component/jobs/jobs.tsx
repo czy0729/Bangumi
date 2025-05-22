@@ -66,7 +66,7 @@ const Jobs = memo(
                         type={type}
                         size={COVER_WIDTH}
                         height={COVER_HEIGHT}
-                        radius
+                        radius={_.radiusSm}
                       />
                       {!index && <Heatmap right={-32} id='人物.跳转' to='Subject' alias='条目' />}
                       <Flex.Item style={styles.content}>
@@ -101,12 +101,7 @@ const Jobs = memo(
                             <Flex>
                               {!!item.castCover && (
                                 <View style={_.mr.sm}>
-                                  <Cover
-                                    size={_.r(24)}
-                                    src={item.castCover}
-                                    radius={radius}
-                                    shadow
-                                  />
+                                  <Cover size={_.r(24)} src={item.castCover} radius={radius} />
                                 </View>
                               )}
                               <Text size={11} bold>
@@ -142,7 +137,6 @@ const Jobs = memo(
                                     size={_.r(24)}
                                     src={item?.cast2?.castCover}
                                     radius={radius}
-                                    shadow
                                   />
                                 </View>
                                 <Text size={11} bold>

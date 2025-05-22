@@ -64,7 +64,7 @@ export const ItemVoice = ({
             >
               <Flex align='start'>
                 <InView style={styles.inViewAvatar} y={y}>
-                  <Image size={AVATAR_SIZE} src={cover} radius />
+                  <Image size={AVATAR_SIZE} src={cover} radius={_.radiusSm} />
                 </InView>
                 <Flex.Item style={_.ml.sm}>
                   <Text size={12} bold>
@@ -105,13 +105,13 @@ export const ItemVoice = ({
                 >
                   <Flex align='start'>
                     <Flex.Item style={_.mr.md}>
-                      <Text align='right' size={12} bold>
+                      <Text size={12} bold>
                         {cn}
                       </Text>
-                      <Text style={_.mt.xs} size={11} type='sub' align='right' lineHeight={12} bold>
+                      <Text style={_.mt.xs} size={11} type='sub' lineHeight={12} bold>
                         {jp}
                       </Text>
-                      <Flex style={_.mt.sm} justify='end'>
+                      <Flex style={_.mt.sm}>
                         <Tag value={item.staff} />
                       </Flex>
                     </Flex.Item>

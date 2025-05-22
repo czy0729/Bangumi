@@ -5,12 +5,13 @@
  * @Last Modified time: 2024-09-06 01:17:11
  */
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, RESET_STATE, STATE } from './ds'
 
-class ScreenWorks extends Action {
+export default class ScreenWorks extends Action {
   init = async () => {
+    const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
     this.setState({
-      ...((await this.getStorage(NAMESPACE)) || {}),
+      ...storageData,
       ...EXCLUDE_STATE,
       _loaded: true
     })
@@ -22,6 +23,8 @@ class ScreenWorks extends Action {
   onHeaderRefresh = () => {
     return this.fetchMonoWorks(true)
   }
-}
 
-export default ScreenWorks
+  unmount = () => {
+    this.setState(RESET_STATE)
+  }
+}

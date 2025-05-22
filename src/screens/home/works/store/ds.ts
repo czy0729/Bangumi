@@ -11,9 +11,13 @@ import { COMPONENT } from '../ds'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
-export const EXCLUDE_STATE = {
+export const RESET_STATE = {
   /** 可视范围底部 y */
-  visibleBottom: _.window.height,
+  visibleBottom: _.window.height
+}
+
+export const EXCLUDE_STATE = {
+  ...RESET_STATE,
 
   /** 职位, 默认全部 */
   position: '',
@@ -23,6 +27,8 @@ export const EXCLUDE_STATE = {
 }
 
 export const STATE = {
+  ...EXCLUDE_STATE,
+
   /** 排序 */
   order: MODEL_MONO_WORKS_ORDERBY.getValue('日期'),
 
@@ -35,6 +41,6 @@ export const STATE = {
   /** 是否显示收藏条目 (工具条) */
   collected: true,
 
-  ...EXCLUDE_STATE,
+  /** 页面初始化完成 */
   _loaded: false as Loaded
 }

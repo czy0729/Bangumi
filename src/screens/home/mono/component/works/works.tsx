@@ -58,7 +58,7 @@ const Works = memo(
                     size={type === '音乐' ? COVER_WIDTH * 1.14 : COVER_WIDTH}
                     height={COVER_HEIGHT}
                     src={item.cover}
-                    radius
+                    radius={_.radiusSm}
                     type={type}
                   />
                   <Flex.Item style={styles.content}>

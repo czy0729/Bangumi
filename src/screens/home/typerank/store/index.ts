@@ -6,20 +6,23 @@
  */
 import { getIds, loadTyperankData } from '../utils'
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, RESET_STATE, STATE } from './ds'
 
 /** 分类排行页面状态机 */
-class ScreenTyperank extends Action {
+export default class ScreenTyperank extends Action {
   init = async () => {
     await loadTyperankData(this.type)
 
+    const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
     this.setState({
-      ...(await this.getStorage(NAMESPACE)),
+      ...storageData,
       ...EXCLUDE_STATE,
       ids: getIds(this.type, this.tag),
       _loaded: true
     })
   }
-}
 
-export default ScreenTyperank
+  unmount = () => {
+    this.setState(RESET_STATE)
+  }
+}

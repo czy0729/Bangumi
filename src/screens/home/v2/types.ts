@@ -4,14 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-07-10 16:10:46
  */
-import { Navigation } from '@types'
+import { WithNavigation } from '@types'
 import Store from './store'
 import { TABS_ITEM } from './ds'
 
-export type Ctx = {
+export type Ctx = WithNavigation<{
   $: InstanceType<typeof Store>
-  navigation?: Navigation
-}
+}>
 
 export type Tabs = (typeof TABS_ITEM)[keyof typeof TABS_ITEM][]
 

@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-11-17 11:37:02
  */
 import { useInitStore } from '@stores'
-import { useRunAfter } from '@utils/hooks'
+import { usePageLifecycle } from '@utils/hooks'
 import { NavigationProps } from '@types'
 import store from './store'
 import { Ctx } from './types'
@@ -13,11 +13,19 @@ import { Ctx } from './types'
 /** 人物的角色页面逻辑 */
 export function useVoicesPage(props: NavigationProps) {
   const context = useInitStore<Ctx['$']>(props, store)
-  const { $ } = context
+  const { id, $ } = context
 
-  useRunAfter(() => {
-    $.init()
-  })
+  usePageLifecycle(
+    {
+      onEnterComplete() {
+        $.init()
+      },
+      onLeaveComplete() {
+        $.unmount()
+      }
+    },
+    id
+  )
 
   return context
 }

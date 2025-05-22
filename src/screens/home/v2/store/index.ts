@@ -19,7 +19,7 @@ import {
 import { IOS_IPA } from '@src/config'
 import { Navigation } from '@types'
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 
 /** 是否初始化 */
 let inited: boolean
@@ -27,7 +27,7 @@ let inited: boolean
 /** 是否授权中 */
 let reOauthing: boolean
 
-class ScreenHomeV2 extends Action {
+export default class ScreenHomeV2 extends Action {
   /** 初始化 */
   init = async () => {
     if (inited) return
@@ -49,11 +49,11 @@ class ScreenHomeV2 extends Action {
 
   /** 初始化状态 */
   initStore = async () => {
-    const state = await this.getStorage(NAMESPACE)
+    const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
     this.setState({
-      ...state,
+      ...storageData,
       ...EXCLUDE_STATE,
-      renderedTabsIndex: [state?.page || 0],
+      renderedTabsIndex: [storageData?.page || 0],
       loadedBangumiData: !!get('bangumi-data')?.length,
       _loaded: getTimestamp()
     })
@@ -227,5 +227,3 @@ class ScreenHomeV2 extends Action {
     }
   }
 }
-
-export default ScreenHomeV2

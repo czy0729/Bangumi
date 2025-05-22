@@ -5,20 +5,25 @@
  * @Last Modified time: 2024-09-16 20:53:12
  */
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, RESET_STATE, STATE } from './ds'
 
 export default class ScreenVoices extends Action {
   init = async () => {
+    const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
     this.setState({
-      ...((await this.getStorage(NAMESPACE)) || {}),
+      ...storageData,
       ...EXCLUDE_STATE,
       _loaded: true
     })
 
-    return this.fetchMonoVoices()
+    return this.onHeaderRefresh()
   }
 
   onHeaderRefresh = () => {
     return this.fetchMonoVoices()
+  }
+
+  unmount = () => {
+    this.setState(RESET_STATE)
   }
 }

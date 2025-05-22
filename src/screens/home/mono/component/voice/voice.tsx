@@ -57,7 +57,7 @@ const Voice = memo(
                     }}
                   >
                     <Flex align='start'>
-                      <Cover src={item.cover} size={IMAGE_WIDTH} radius shadow />
+                      <Cover src={item.cover} size={IMAGE_WIDTH} radius />
                       <Flex.Item style={_.ml.sm}>
                         <Text style={_.mt.xxs} size={12} bold>
                           {nameTop}
@@ -74,7 +74,7 @@ const Voice = memo(
                     </Flex>
                   </Touchable>
                 </Flex.Item>
-                <Flex.Item style={_.ml.sm} flex={1.5}>
+                <Flex.Item style={_.ml.md} flex={1.4}>
                   <Touchable
                     animate
                     onPress={() => {
@@ -83,17 +83,11 @@ const Voice = memo(
                   >
                     <Flex align='start'>
                       <Flex.Item>
-                        <Text style={_.mt.xxs} size={12} align='right' bold numberOfLines={3}>
+                        <Text style={_.mt.xxs} size={12} bold numberOfLines={3}>
                           {subjectTop}
                         </Text>
                         {!!subjectBottom && subjectBottom !== subjectTop && (
-                          <Text
-                            style={_.mt.xs}
-                            size={10}
-                            type='sub'
-                            align='right'
-                            numberOfLines={2}
-                          >
+                          <Text style={_.mt.xs} size={10} type='sub' numberOfLines={2}>
                             {subjectBottom}
                           </Text>
                         )}
@@ -102,10 +96,9 @@ const Voice = memo(
                         <View style={_.ml.sm}>
                           <Cover
                             src={item.subjectCover}
-                            size={COVER_WIDTH * 0.88}
-                            height={COVER_HEIGHT * 0.88}
-                            radius
-                            shadow
+                            size={COVER_WIDTH}
+                            height={COVER_HEIGHT}
+                            radius={_.radiusSm}
                           />
                         </View>
                       )}

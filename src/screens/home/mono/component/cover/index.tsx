@@ -42,7 +42,6 @@ function Cover({ thumb, src, monoId }) {
             imageViewer
             imageViewerSrc={getCoverLarge(src)}
             fallback
-            shadow
             event={event}
             onLoadEnd={handleLoadEnd}
           />
