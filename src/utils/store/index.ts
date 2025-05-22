@@ -340,7 +340,9 @@ export default class Store<
    * 读取本地缓存 (若已读取则不再次读取)
    * @param {*} namespace 空间名
    * */
-  getStorageOnce = async <State extends object, ExcludeState extends object>(namespace: string) => {
+  getStorageOnce = async <State extends object, ExcludeState extends object = {}>(
+    namespace: string
+  ) => {
     return (this.state._loaded ? {} : await this.getStorage(namespace)) as LocalState<
       State,
       ExcludeState

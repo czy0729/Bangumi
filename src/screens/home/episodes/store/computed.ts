@@ -35,6 +35,6 @@ export default class Computed extends State {
   }
 
   @computed get hm() {
-    return [this.url, 'Episodes']
+    return [this.url, 'Episodes'] as const
   }
 }

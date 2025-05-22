@@ -13,7 +13,6 @@ import {
   GetRouteParams,
   Id,
   Loaded,
-  Navigation,
   Optional,
   Override,
   Rating,
@@ -21,14 +20,14 @@ import {
   RouteSubject,
   Sites,
   SubjectId,
-  SubjectTypeValue
+  SubjectTypeValue,
+  WithNavigation
 } from '@types'
 import Store from './store'
 
-export type Ctx = {
+export type Ctx = WithNavigation<{
   $: InstanceType<typeof Store>
-  navigation?: Navigation
-}
+}>
 
 export type Params = GetRouteParams<RouteSubject>
 

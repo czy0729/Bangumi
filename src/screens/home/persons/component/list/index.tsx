@@ -22,6 +22,7 @@ function List() {
       data={$.list}
       limit={16}
       renderItem={renderItem}
+      onScroll={$.onScroll}
     />
   )
 }

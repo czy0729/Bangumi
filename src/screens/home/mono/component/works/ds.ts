@@ -6,9 +6,10 @@
  */
 import { rc } from '@utils/dev'
 import { Navigation, ViewStyle } from '@types'
-import { StoreType as $ } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../types'
 
 export const COMPONENT = rc(PARENT, 'Works')
 
@@ -20,6 +21,8 @@ export const EVENT = {
     from: '最近参与'
   }
 } as const
+
+type $ = Ctx['$']
 
 export const DEFAULT_PROPS = {
   navigation: {} as Navigation,

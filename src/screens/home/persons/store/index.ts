@@ -5,9 +5,10 @@
  * @Last Modified time: 2024-08-27 13:04:07
  */
 import Action from './action'
+import { RESET_STATE } from './ds'
 
 /** 制作人员页面状态机 */
-class ScreenPersons extends Action {
+export default class ScreenPersons extends Action {
   init = () => {
     this.setState({
       _loaded: true
@@ -15,6 +16,8 @@ class ScreenPersons extends Action {
 
     return this.fetchPersons()
   }
-}
 
-export default ScreenPersons
+  unmount = () => {
+    this.setState(RESET_STATE)
+  }
+}

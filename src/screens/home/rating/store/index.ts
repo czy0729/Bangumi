@@ -6,16 +6,17 @@
  */
 import { STATUS_MAP, TABS } from '../ds'
 import Action from './action'
-import { NAMESPACE } from './ds'
+import { NAMESPACE, STATE } from './ds'
 
 /** 用户评分页面状态机 */
-class ScreenRating extends Action {
+export default class ScreenRating extends Action {
   init = async () => {
-    const state = (await this.getStorage(NAMESPACE)) || {}
+    const storageData = await this.getStorageOnce<typeof STATE>(NAMESPACE)
     const { status } = this.params
-    if (status) state.page = STATUS_MAP[status] || 2
+    if (status) storageData.page = STATUS_MAP[status] || 2
+
     this.setState({
-      ...state,
+      ...storageData,
       _fetching: false,
       _loaded: true
     })
@@ -26,5 +27,3 @@ class ScreenRating extends Action {
     return true
   }
 }
-
-export default ScreenRating

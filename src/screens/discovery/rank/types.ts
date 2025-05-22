@@ -5,18 +5,12 @@
  * @Last Modified time: 2024-10-19 18:06:18
  */
 import { Rank } from '@stores/tag/types'
-import { factory } from '@utils'
-import { GetRouteParams, Navigation, Override, RouteRank } from '@types'
+import { GetRouteParams, Override, RouteRank, WithNavigation } from '@types'
 import Store from './store'
 
-const f = factory(Store)
-
-export type StoreType = typeof f
-
-export type Ctx = {
-  $: StoreType
-  navigation?: Navigation
-}
+export type Ctx = WithNavigation<{
+  $: InstanceType<typeof Store>
+}>
 
 export type Params = GetRouteParams<RouteRank>
 

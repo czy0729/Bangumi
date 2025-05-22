@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-11-17 11:06:38
  */
 import { useInitStore } from '@stores'
-import { useRunAfter } from '@utils/hooks'
+import { usePageLifecycle } from '@utils/hooks'
 import { NavigationProps } from '@types'
 import store from './store'
 import { Ctx } from './types'
@@ -13,11 +13,19 @@ import { Ctx } from './types'
 /** 制作人员页面逻辑 */
 export function usePersonsPage(props: NavigationProps) {
   const context = useInitStore<Ctx['$']>(props, store)
-  const { $ } = context
+  const { id, $ } = context
 
-  useRunAfter(() => {
-    $.init()
-  })
+  usePageLifecycle(
+    {
+      onEnterComplete() {
+        $.init()
+      },
+      onLeaveComplete() {
+        $.unmount()
+      }
+    },
+    id
+  )
 
   return context
 }

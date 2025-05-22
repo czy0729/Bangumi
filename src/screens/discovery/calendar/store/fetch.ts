@@ -7,12 +7,13 @@
 import { collectionStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { decode } from '@utils/protobuf'
+import { D1 } from '@constants'
 import Computed from './computed'
 
 export default class Fetch extends Computed {
   /** 全局管理单独条目的收藏状态 */
   fetchCollectionsQueue = () => {
-    if (getTimestamp() - this.state._lastQueue <= 24 * 60 * 60) return
+    if (getTimestamp() - this.state._lastQueue <= D1) return
 
     setTimeout(async () => {
       try {

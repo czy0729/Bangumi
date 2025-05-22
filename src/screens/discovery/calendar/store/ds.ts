@@ -10,7 +10,14 @@ import { COMPONENT, LAYOUT_DS, TYPE_DS } from '../ds'
 
 export const NAMESPACE = `Screen${COMPONENT}`
 
+export const RESET_STATE = {
+  /** 可视范围底部 y */
+  visibleBottom: _.window.height
+}
+
 export const EXCLUDE_STATE = {
+  ...RESET_STATE,
+
   /** 改编 */
   adapt: '',
 
@@ -20,14 +27,13 @@ export const EXCLUDE_STATE = {
   /** 动画制作 */
   origin: '',
 
-  /** 可视范围底部 y */
-  visibleBottom: _.window.height,
-
   /** 是否加载 bangumi-data */
   loadedBangumiData: false
 }
 
 export const STATE = {
+  ...EXCLUDE_STATE,
+
   /** 布局 */
   layout: LAYOUT_DS[0].key as (typeof LAYOUT_DS)[number]['key'],
 
@@ -39,6 +45,7 @@ export const STATE = {
 
   /** 上次请求全局管理单独条目的收藏状态 */
   _lastQueue: 0 as number,
-  ...EXCLUDE_STATE,
+
+  /** 页面初始化完成 */
   _loaded: false as Loaded
 }

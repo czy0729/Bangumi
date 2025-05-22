@@ -6,19 +6,22 @@
  */
 import { rc } from '@utils/dev'
 import { Navigation, ViewStyle } from '@types'
-import { StoreType } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../types'
 
 export const COMPONENT = rc(PARENT, 'Jobs')
 
 export const COMPONENT_MAIN = rc(COMPONENT)
 
+type $ = Ctx['$']
+
 export const DEFAULT_PROPS = {
   navigation: {} as Navigation,
   styles: {} as ReturnType<typeof memoStyles>,
   style: {} as ViewStyle,
-  jobs: [] as StoreType['jobs']
+  jobs: [] as $['jobs']
 }
 
 export const EVENT = {

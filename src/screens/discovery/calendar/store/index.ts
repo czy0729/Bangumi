@@ -8,12 +8,13 @@ import { calendarStore } from '@stores'
 import { queue } from '@utils/fetch'
 import { get } from '@utils/protobuf'
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, RESET_STATE, STATE } from './ds'
 
 class ScreenCalendar extends Action {
   init = async () => {
+    const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
     this.setState({
-      ...(await this.getStorage(NAMESPACE)),
+      ...storageData,
       ...EXCLUDE_STATE,
       loadedBangumiData: !!get('bangumi-data')?.length,
       _loaded: true
@@ -28,6 +29,10 @@ class ScreenCalendar extends Action {
       ],
       1
     )
+  }
+
+  unmount = () => {
+    this.setState(RESET_STATE)
   }
 }
 

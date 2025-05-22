@@ -6,14 +6,15 @@
  */
 import { subjectStore } from '@stores'
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 
 export default class ScreenWordCloud extends Action {
   init = async () => {
+    const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
     this.setState({
-      ...(await this.getStorage(NAMESPACE)),
+      ...storageData,
       ...EXCLUDE_STATE,
-      type: this.params.type || 'summary',
+      type: this.params.type || '简介',
       _loaded: true
     })
 

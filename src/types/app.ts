@@ -108,6 +108,13 @@ export type NavigationProps<
   T
 >
 
+export type WithNavigation<T> = Override<
+  {
+    navigation?: Navigation
+  },
+  T
+>
+
 /** 埋点名称 */
 export { EventKeys }
 

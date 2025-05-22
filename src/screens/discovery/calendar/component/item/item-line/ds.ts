@@ -7,13 +7,16 @@
 import { rc } from '@utils/dev'
 import { IMG_HEIGHT, IMG_WIDTH } from '@constants'
 import { SubjectId } from '@types'
-import { StoreType as $ } from '../../../types'
 import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../../types'
 
 export const COMPONENT = rc(PARENT, 'ItemList')
 
 export const COMPONENT_MAIN = rc(COMPONENT)
+
+type $ = Ctx['$']
 
 export const DEFAULT_PROPS = {
   index: 0 as number,

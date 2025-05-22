@@ -7,19 +7,15 @@
 import { useCallback, useEffect } from 'react'
 import { useOnScroll } from '@components/header/utils'
 import { useInitStore } from '@stores'
-import { useRunAfter, useViewport } from '@utils/hooks'
-import { NavigationProps } from '@types'
+import { usePageLifecycle, useViewport } from '@utils/hooks'
+import { NavigationProps, ScrollEvent } from '@types'
 import store from './store'
 import { Ctx } from './types'
 
 /** 人物页面逻辑 */
 export function useMonoPage(props: NavigationProps) {
   const context = useInitStore<Ctx['$']>(props, store)
-  const { $ } = context
-
-  useRunAfter(() => {
-    $.init()
-  })
+  const { id, $ } = context
 
   const { visibleBottom, onScroll: onUseViewport } = useViewport()
   useEffect(() => {
@@ -28,18 +24,30 @@ export function useMonoPage(props: NavigationProps) {
     })
   }, [$, visibleBottom])
 
-  const { fixed, onScroll: onUseOnScroll } = useOnScroll()
-  const onScroll = useCallback(
-    evt => {
+  const { fixed, onScroll } = useOnScroll()
+  const handleScroll = useCallback(
+    (evt: ScrollEvent) => {
       onUseViewport(evt)
-      onUseOnScroll(evt)
+      onScroll(evt)
     },
-    [onUseOnScroll, onUseViewport]
+    [onScroll, onUseViewport]
+  )
+
+  usePageLifecycle(
+    {
+      onEnterComplete() {
+        $.init()
+      },
+      onLeaveComplete() {
+        $.unmount()
+      }
+    },
+    id
   )
 
   return {
     ...context,
     fixed,
-    onScroll
+    handleScroll
   }
 }

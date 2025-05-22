@@ -6,11 +6,15 @@
  */
 import { WEB } from '@constants'
 import Fetch from './fetch'
+import { EXCLUDE_STATE, RESET_STATE, STATE } from './ds'
 
-class ScreenPreview extends Fetch {
+export default class ScreenPreview extends Fetch {
   init = async () => {
+    const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(
+      this.namespace
+    )
     this.setState({
-      ...(await this.getStorage(this.namespace)),
+      ...storageData,
       _loaded: true
     })
 
@@ -22,6 +26,8 @@ class ScreenPreview extends Fetch {
       }
     }
   }
-}
 
-export default ScreenPreview
+  unmount = () => {
+    this.setState(RESET_STATE)
+  }
+}

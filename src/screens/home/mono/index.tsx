@@ -15,13 +15,13 @@ import { useMonoPage } from './hooks'
 
 /** 人物 */
 const Mono = (props: NavigationProps) => {
-  const { id, fixed, onScroll } = useMonoPage(props)
+  const { id, fixed, handleScroll } = useMonoPage(props)
 
   return useObserver(() => (
     <Component id='screen-mono'>
       <StoreContext.Provider value={id}>
         <Page statusBarEvent={false}>
-          <List onScroll={onScroll} />
+          <List onScroll={handleScroll} />
           <Heatmap id='人物' screen='Mono' />
         </Page>
         <Header fixed={fixed} />

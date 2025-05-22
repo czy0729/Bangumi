@@ -5,8 +5,9 @@
  * @Last Modified time: 2024-08-21 17:14:44
  */
 import Action from './action'
+import { RESET_STATE } from './ds'
 
-class ScreenStaff extends Action {
+export default class ScreenStaff extends Action {
   init = () => {
     this.setState({
       _loaded: true
@@ -14,6 +15,8 @@ class ScreenStaff extends Action {
 
     return this.fetchCatalogs(true)
   }
-}
 
-export default ScreenStaff
+  unmount = () => {
+    this.setState(RESET_STATE)
+  }
+}

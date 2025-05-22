@@ -5,13 +5,16 @@
  * @Last Modified time: 2024-09-19 22:36:53
  */
 import Action from './action'
+import { RESET_STATE } from './ds'
 
-class ScreenOverview extends Action {
+export default class ScreenOverview extends Action {
   init = () => {
     this.setState({
       _loaded: true
     })
   }
-}
 
-export default ScreenOverview
+  unmount = () => {
+    this.setState(RESET_STATE)
+  }
+}

@@ -4,7 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-01-10 04:42:29
  */
+import { queue } from '@utils'
 import Action from './action'
+import { RESET_STATE } from './ds'
 
 /** 人物页面状态机 */
 export default class ScreenMono extends Action {
@@ -13,7 +15,7 @@ export default class ScreenMono extends Action {
 
     // 设置开启小圣杯和是虚拟人物
     if (this.tinygrail && this.monoId.includes('character/')) {
-      return Promise.all([this.fetchMono(), this.fetchChara()])
+      return queue([() => this.fetchMono(), () => this.fetchChara()])
     }
 
     return this.fetchMono()
@@ -22,5 +24,9 @@ export default class ScreenMono extends Action {
   /** 下拉刷新 */
   onHeaderRefresh = () => {
     return this.fetchMono()
+  }
+
+  unmount = () => {
+    this.setState(RESET_STATE)
   }
 }

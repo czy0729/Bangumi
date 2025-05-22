@@ -6,12 +6,15 @@
  */
 import { rc } from '@utils/dev'
 import { Navigation } from '@types'
-import { StoreType as $ } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
+
+import type { Ctx } from '../../types'
 
 export const COMPONENT = rc(PARENT, 'Extra')
 
 export const COMPONENT_MAIN = rc(COMPONENT)
+
+type $ = Ctx['$']
 
 export const DEFAULT_PROPS = {
   navigation: {} as Navigation,

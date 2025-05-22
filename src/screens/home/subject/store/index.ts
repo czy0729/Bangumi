@@ -10,7 +10,7 @@ import { getTimestamp, postTask } from '@utils'
 import { queue } from '@utils/fetch'
 import { M5, SHARE_MODE, WEB } from '@constants'
 import Action from './action'
-import { EXCLUDE_STATE, RESET_STATE } from './ds'
+import { EXCLUDE_STATE, RESET_STATE, STATE } from './ds'
 
 /** 条目页面状态机 */
 class ScreenSubject extends Action {
@@ -25,7 +25,9 @@ class ScreenSubject extends Action {
     const loadedTime = needRefresh ? now : _loaded
 
     try {
-      const storageData = _loaded ? {} : await this.getStorage(this.namespace)
+      const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(
+        this.namespace
+      )
       this.setState({
         ...storageData,
         ...EXCLUDE_STATE,

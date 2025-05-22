@@ -5,16 +5,11 @@
  * @Last Modified time: 2024-11-29 10:39:07
  */
 import { CalendarItem } from '@stores/calendar/types'
-import { factory } from '@utils'
 import { Navigation, Override } from '@types'
 import Store from './store'
 
-const f = factory(Store)
-
-export type StoreType = typeof f
-
 export type Ctx = {
-  $: StoreType
+  $: InstanceType<typeof Store>
   navigation?: Navigation
 }
 

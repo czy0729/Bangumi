@@ -6,9 +6,10 @@
  */
 import { subjectStore } from '@stores'
 import Action from './action'
+import { RESET_STATE } from './ds'
 
 /** 章节页面状态机 */
-class ScreenEpisodes extends Action {
+export default class ScreenEpisodes extends Action {
   init = () => {
     this.setState({
       _loaded: true
@@ -16,6 +17,8 @@ class ScreenEpisodes extends Action {
 
     return subjectStore.fetchSubject(this.subjectId)
   }
-}
 
-export default ScreenEpisodes
+  unmount = () => {
+    this.setState(RESET_STATE)
+  }
+}
