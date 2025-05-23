@@ -4,19 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-12-03 16:55:38
  */
-import { factory } from '@utils'
-import { GetRouteParams, Navigation, RouteCharacter } from '@types'
+import { GetRouteParams, RouteCharacter, WithNavigation } from '@types'
 import Store from './store'
 import { TABS_SELF } from './ds'
 
-const f = factory(Store)
-
-export type StoreType = typeof f
-
-export type Ctx = {
-  $: StoreType
-  navigation?: Navigation
-}
+export type Ctx = WithNavigation<{
+  $: InstanceType<typeof Store>
+}>
 
 export type Params = GetRouteParams<RouteCharacter>
 

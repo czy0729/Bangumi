@@ -11,15 +11,21 @@ import { FilterKey, FilterType, FilterYear, TypeType } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
-export const EXCLUDE_STATE = {
-  /** 是否加载 catalog */
-  loadedCatalog: false,
-
+export const RESET_STATE = {
   /** 可视范围底部 y */
   visibleBottom: _.window.height
 }
 
+export const EXCLUDE_STATE = {
+  ...RESET_STATE,
+
+  /** 是否加载 catalog */
+  loadedCatalog: false
+}
+
 export const STATE = {
+  ...EXCLUDE_STATE,
+
   /** 列表类型 */
   type: TYPE_DS[0].key as TypeType,
   page: 1,
@@ -41,6 +47,6 @@ export const STATE = {
   /** 是否锁定分页器 */
   fixedPagination: true,
 
-  ...EXCLUDE_STATE,
+  /** 页面初始化完成 */
   _loaded: false as Loaded
 }

@@ -10,17 +10,21 @@ import { COMPONENT } from '../ds'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
-export const EXCLUDE_STATE = {
-  fetching: false,
-  message: '',
-  current: 0,
-  total: 0,
-
+export const RESET_STATE = {
   /** 可视范围底部 y */
   visibleBottom: _.window.height
 }
 
+export const EXCLUDE_STATE = {
+  ...RESET_STATE,
+  fetching: false,
+  message: '',
+  current: 0,
+  total: 0
+}
+
 export const STATE = {
+  ...EXCLUDE_STATE,
   collections: [],
   otherCollections: [],
   relations: {},
@@ -31,7 +35,5 @@ export const STATE = {
   airtime: '',
   status: '',
   fixed: true,
-
-  ...EXCLUDE_STATE,
   _loaded: false as Loaded
 }

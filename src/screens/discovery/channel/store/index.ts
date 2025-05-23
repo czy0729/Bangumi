@@ -7,7 +7,7 @@
 import Action from './action'
 
 /** 频道页面状态机 */
-class ScreenChannel extends Action {
+export default class ScreenChannel extends Action {
   init = () => {
     this.setState({
       type: this.type
@@ -16,5 +16,3 @@ class ScreenChannel extends Action {
     return this.fetchChannel()
   }
 }
-
-export default ScreenChannel

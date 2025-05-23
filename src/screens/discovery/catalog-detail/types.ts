@@ -5,19 +5,13 @@
  * @Last Modified time: 2024-08-10 03:58:40
  */
 import { CatalogDetail } from '@stores/discovery/types'
-import { factory } from '@utils'
-import { GetRouteParams, InferArray, Navigation, Override, RouteCatalogDetail } from '@types'
+import { GetRouteParams, InferArray, Override, RouteCatalogDetail, WithNavigation } from '@types'
 import Store from './store'
 import { COLLECT_DS, LAYOUT_DS, SORT_DS } from './ds'
 
-const f = factory(Store)
-
-export type StoreType = typeof f
-
-export type Ctx = {
-  $: StoreType
-  navigation?: Navigation
-}
+export type Ctx = WithNavigation<{
+  $: InstanceType<typeof Store>
+}>
 
 export type Params = GetRouteParams<RouteCatalogDetail>
 

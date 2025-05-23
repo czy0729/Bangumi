@@ -35,7 +35,7 @@ function Header() {
             name={show ? 'md-close' : 'md-edit'}
             size={show ? 20 : 16}
             color={_.colorTitle}
-            onPress={$.onToggleShow}
+            onPress={() => $.onToggleShow()}
           />
         </>
       )}

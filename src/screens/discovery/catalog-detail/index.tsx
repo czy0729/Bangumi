@@ -17,13 +17,13 @@ import { useCatalogDetailPage } from './hooks'
 
 /** 目录详情 */
 const CatalogDetail = (props: NavigationProps) => {
-  const { id, fixed, onScroll } = useCatalogDetailPage(props)
+  const { id, fixed, handleScroll } = useCatalogDetailPage(props)
 
   return useObserver(() => (
     <Component id='screen-catalog-detail'>
       <StoreContext.Provider value={id}>
         <Page statusBarEvent={false}>
-          <List onScroll={onScroll} />
+          <List onScroll={handleScroll} />
           <Tips />
         </Page>
         <Header fixed={fixed} />

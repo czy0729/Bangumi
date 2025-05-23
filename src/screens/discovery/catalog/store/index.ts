@@ -6,12 +6,13 @@
  */
 import { get } from '@utils/protobuf'
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, RESET_STATE, STATE } from './ds'
 
-class ScreenCatalog extends Action {
+export default class ScreenCatalog extends Action {
   init = async () => {
+    const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
     this.setState({
-      ...(await this.getStorage(NAMESPACE)),
+      ...storageData,
       ...EXCLUDE_STATE,
       loadedCatalog: !!get('catalog')?.length,
       _loaded: true
@@ -19,6 +20,8 @@ class ScreenCatalog extends Action {
 
     return this.fetchCatalog()
   }
-}
 
-export default ScreenCatalog
+  unmount = () => {
+    this.setState(RESET_STATE)
+  }
+}

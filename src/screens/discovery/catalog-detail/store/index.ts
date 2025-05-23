@@ -5,18 +5,21 @@
  * @Last Modified time: 2024-07-29 19:44:32
  */
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, RESET_STATE, STATE } from './ds'
 
-class ScreenCatalogDetail extends Action {
+export default class ScreenCatalogDetail extends Action {
   init = async () => {
+    const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
     this.setState({
-      ...(await this.getStorage(NAMESPACE)),
+      ...storageData,
       ...EXCLUDE_STATE,
       _loaded: true
     })
 
     return this.fetchCatalogDetail()
   }
-}
 
-export default ScreenCatalogDetail
+  unmount = () => {
+    this.setState(RESET_STATE)
+  }
+}

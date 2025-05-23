@@ -12,7 +12,14 @@ import { CollectionsV0Item, CutList, CutType, SnapshotSubjectsItem } from '../ty
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
+export const RESET_STATE = {
+  /** 可视范围底部 y */
+  visibleBottom: Math.floor(_.window.height * 0.75)
+}
+
 export const EXCLUDE_STATE = {
+  ...RESET_STATE,
+
   /** ActionSheet 标题 */
   title: '',
 
@@ -23,13 +30,12 @@ export const EXCLUDE_STATE = {
   fetching: 0,
 
   /** 请求收藏中 */
-  fetchingCollections: false,
-
-  /** 可视范围底部 y */
-  visibleBottom: Math.floor(_.window.height * 0.75)
+  fetchingCollections: false
 }
 
 export const STATE = {
+  ...EXCLUDE_STATE,
+
   /** 分词数据, 独立空间 */
   data: {
     list: [] as CutList,
@@ -66,7 +72,7 @@ export const STATE = {
   /** 趋势 */
   trend: 0,
 
-  ...EXCLUDE_STATE,
+  /** 页面初始化完成 */
   _loaded: false as Loaded
 }
 

@@ -6,13 +6,14 @@
  */
 import { getTimestamp } from '@utils'
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, RESET_STATE, STATE } from './ds'
 
 /** 关联系列页面状态机 */
 export default class ScreenSeries extends Action {
   init = async () => {
+    const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
     this.setState({
-      ...(await this.getStorage(NAMESPACE)),
+      ...storageData,
       ...EXCLUDE_STATE,
       _loaded: getTimestamp()
     })
@@ -24,5 +25,9 @@ export default class ScreenSeries extends Action {
     }
 
     return true
+  }
+
+  unmount = () => {
+    this.setState(RESET_STATE)
   }
 }

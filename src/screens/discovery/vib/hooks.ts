@@ -4,9 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-12-02 10:22:29
  */
-import { useCallback, useEffect, useRef, useState } from 'react'
-import { useInitStore } from '@stores'
-import { NavigationProps } from '@types'
+import { useCallback, useRef, useState } from 'react'
+import { uiStore, useInitStore } from '@stores'
+import { usePageLifecycle } from '@utils/hooks'
+import { NavigationProps, ScrollEvent } from '@types'
 import store from './store'
 import { getData, initBangumiData } from './utils'
 import { Ctx, Data } from './types'
@@ -17,9 +18,10 @@ let memo = null
 /** 评分月刊页面逻辑 */
 export function useVIBPage(props: NavigationProps) {
   const context = useInitStore<Ctx['$']>(props, store)
+  const { id, $ } = context
+
   const [loaded, setLoaded] = useState(fetched)
   const [index, setIndex] = useState(0)
-
   const [data, setData] = useState<Data>(memo || require('@assets/json/vib.json'))
   const callback = async () => {
     if (fetched) return true
@@ -34,13 +36,13 @@ export function useVIBPage(props: NavigationProps) {
     fetched = true
   }
 
-  const scrollTo = useRef(null)
+  const scrollToRef = useRef(null)
   const handleSelect = useCallback(
     (index: number) => {
       setIndex(index)
       setTimeout(() => {
-        if (typeof scrollTo.current === 'function') {
-          scrollTo.current({
+        if (typeof scrollToRef.current === 'function') {
+          scrollToRef.current({
             x: 0,
             y: 0,
             animated: true,
@@ -52,18 +54,38 @@ export function useVIBPage(props: NavigationProps) {
     [setIndex]
   )
 
-  useEffect(() => {
-    initBangumiData(() => {
-      callback()
-    })
-  })
+  const handleForwardRef = useCallback((fn: any) => (scrollToRef.current = fn), [scrollToRef])
+  const handleScroll = useCallback(
+    (event: ScrollEvent) => {
+      $.onScroll(event)
+      uiStore.closePopableSubject()
+    },
+    [$]
+  )
+
+  usePageLifecycle(
+    {
+      onEnterComplete() {
+        initBangumiData(() => {
+          callback()
+        })
+
+        $.init()
+      },
+      onLeaveComplete() {
+        $.unmount()
+      }
+    },
+    id
+  )
 
   return {
     ...context,
     loaded,
     data,
     index,
-    scrollTo,
-    handleSelect
+    handleSelect,
+    handleForwardRef,
+    handleScroll
   }
 }

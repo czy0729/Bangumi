@@ -7,14 +7,15 @@
 import { collectionStore } from '@stores'
 import { init } from '@utils/subject/manga'
 import Action from './action'
-import { NAMESPACE } from './ds'
+import { NAMESPACE, STATE } from './ds'
 
 let _loaded = false
 
-class ScreenManga extends Action {
+export default class ScreenManga extends Action {
   init = async () => {
+    const storageData = await this.getStorageOnce<typeof STATE>(NAMESPACE)
     this.setState({
-      ...(await this.getStorage(NAMESPACE)),
+      ...storageData,
       _loaded
     })
 
@@ -35,5 +36,3 @@ class ScreenManga extends Action {
     }, 120)
   }
 }
-
-export default ScreenManga

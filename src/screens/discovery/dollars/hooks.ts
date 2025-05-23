@@ -6,7 +6,7 @@
  */
 import { useRef } from 'react'
 import { useInitStore } from '@stores'
-import { useMount, useRunAfter } from '@utils/hooks'
+import { useMount, usePageLifecycle } from '@utils/hooks'
 import { NavigationProps } from '@types'
 import store from './store'
 import { Ctx } from './types'
@@ -14,11 +14,19 @@ import { Ctx } from './types'
 /** Dollars 页面逻辑 */
 export function useDollarsPage(props: NavigationProps) {
   const context = useInitStore<Ctx['$']>(props, store)
-  const { $ } = context
+  const { id, $ } = context
 
-  useRunAfter(() => {
-    $.init()
-  })
+  usePageLifecycle(
+    {
+      onEnterComplete() {
+        $.init()
+      },
+      onLeaveComplete() {
+        $.unmount()
+      }
+    },
+    id
+  )
 
   const interval = useRef(null)
   useMount(() => {

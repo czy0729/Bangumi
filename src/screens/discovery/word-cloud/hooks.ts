@@ -8,7 +8,7 @@ import { useCallback, useState } from 'react'
 import { StatusBar } from '@components'
 import { systemStore, useInitStore } from '@stores'
 import { info } from '@utils'
-import { useFocusEffect, useMount, useRunAfter } from '@utils/hooks'
+import { usePageLifecycle } from '@utils/hooks'
 import { WEB } from '@constants'
 import { NavigationProps } from '@types'
 import store from './store'
@@ -17,27 +17,7 @@ import { Ctx } from './types'
 /** 词云页面逻辑 */
 export function useWordCloudPage(props: NavigationProps) {
   const context = useInitStore<Ctx['$']>(props, store)
-  const { $ } = context
-
-  useRunAfter(() => {
-    $.init()
-  })
-
-  useMount(() => {
-    $.fetchTrend()
-
-    return () => {
-      if (WEB) return
-
-      $.onClose()
-    }
-  })
-
-  useFocusEffect(() => {
-    setTimeout(() => {
-      StatusBar.setBarStyle('light-content')
-    }, 40)
-  })
+  const { id, $ } = context
 
   const [refreshing, setRefreshing] = useState(false)
   const handleRefresh = useCallback(async () => {
@@ -59,6 +39,29 @@ export function useWordCloudPage(props: NavigationProps) {
 
     setRefreshing(false)
   }, [$, setRefreshing])
+
+  usePageLifecycle(
+    {
+      onEnter() {
+        $.fetchTrend()
+      },
+      onFocus() {
+        setTimeout(() => {
+          StatusBar.setBarStyle('light-content')
+        }, 40)
+      },
+      onEnterComplete() {
+        $.init()
+      },
+      onLeave() {
+        if (!WEB) $.onClose()
+      },
+      onLeaveComplete() {
+        $.unmount()
+      }
+    },
+    id
+  )
 
   return {
     ...context,

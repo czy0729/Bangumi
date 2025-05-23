@@ -6,14 +6,16 @@
  */
 import { userStore } from '@stores'
 import { WEB } from '@constants'
+import { RESET_STATE } from '../ds'
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 
 /** AI 推荐页面状态机 */
-class ScreenRecommend extends Action {
+export default class ScreenRecommend extends Action {
   init = async () => {
+    const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
     this.setState({
-      ...(await this.getStorage(NAMESPACE)),
+      ...storageData,
       ...EXCLUDE_STATE,
       _loaded: true
     })
@@ -29,6 +31,8 @@ class ScreenRecommend extends Action {
 
     return this.fetchSubjectsFromOSS()
   }
-}
 
-export default ScreenRecommend
+  unmount = () => {
+    this.setState(RESET_STATE)
+  }
+}

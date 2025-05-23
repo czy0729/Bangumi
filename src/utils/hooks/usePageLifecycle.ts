@@ -47,8 +47,6 @@ export default function usePageLifecycle(callbacks: Callbacks, id: string) {
   })
 
   useMount(() => {
-    log(`[${id}]`, 'useMount')
-
     if (typeof callbacks?.onEnter === 'function') {
       callbacks.onEnter()
       log(`[${id}]`, 'onEnter')

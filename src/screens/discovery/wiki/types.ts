@@ -4,18 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-04-04 07:31:16
  */
-import { factory } from '@utils'
-import { Navigation } from '@types'
+import { WithNavigation } from '@types'
 import Store from './store'
 
-const f = factory(Store)
-
-export type StoreType = typeof f
-
-export type Ctx = {
-  $: StoreType
-  navigation?: Navigation
-}
+export type Ctx = WithNavigation<{
+  $: InstanceType<typeof Store>
+}>
 
 export type TopIndex = 0 | 1 | 2
 

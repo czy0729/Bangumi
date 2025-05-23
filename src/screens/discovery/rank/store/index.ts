@@ -9,7 +9,7 @@ import Action from './action'
 import { EXCLUDE_STATE, NAMESPACE, RESET_STATE, STATE } from './ds'
 
 /** 排行榜页面状态机 */
-class ScreenRank extends Action {
+export default class ScreenRank extends Action {
   init = async () => {
     const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
     const { type } = this.params
@@ -30,5 +30,3 @@ class ScreenRank extends Action {
     this.setState(RESET_STATE)
   }
 }
-
-export default ScreenRank

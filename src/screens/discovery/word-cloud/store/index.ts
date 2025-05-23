@@ -6,12 +6,15 @@
  */
 import { subjectStore } from '@stores'
 import Action from './action'
-import { EXCLUDE_STATE } from './ds'
+import { EXCLUDE_STATE, RESET_STATE, STATE } from './ds'
 
 export default class ScreenWordCloud extends Action {
   init = async () => {
+    const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(
+      this.namespace
+    )
     this.setState({
-      ...(await this.getStorage(this.namespace)),
+      ...storageData,
       ...EXCLUDE_STATE,
       _loaded: true
     })
@@ -40,5 +43,9 @@ export default class ScreenWordCloud extends Action {
     }
 
     return true
+  }
+
+  unmount = () => {
+    this.setState(RESET_STATE)
   }
 }

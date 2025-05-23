@@ -7,7 +7,7 @@
 import { useCallback } from 'react'
 import { useOnScroll } from '@components/header/utils'
 import { useInitStore } from '@stores'
-import { useRunAfter } from '@utils/hooks'
+import { usePageLifecycle } from '@utils/hooks'
 import { NavigationProps } from '@types'
 import store from './store'
 import { Ctx } from './types'
@@ -15,14 +15,10 @@ import { Ctx } from './types'
 /** 目录详情页面逻辑 */
 export function useCatalogDetailPage(props: NavigationProps) {
   const context = useInitStore<Ctx['$']>(props, store)
-  const { $ } = context
-
-  useRunAfter(() => {
-    $.init()
-  })
+  const { id, $ } = context
 
   const { fixed, onScroll } = useOnScroll()
-  const onScrollFn = useCallback(
+  const handleScroll = useCallback(
     evt => {
       $.onScroll(evt)
       onScroll(evt)
@@ -30,9 +26,21 @@ export function useCatalogDetailPage(props: NavigationProps) {
     [$, onScroll]
   )
 
+  usePageLifecycle(
+    {
+      onEnterComplete() {
+        $.init()
+      },
+      onLeaveComplete() {
+        $.unmount()
+      }
+    },
+    id
+  )
+
   return {
     ...context,
     fixed,
-    onScroll: onScrollFn
+    handleScroll
   }
 }

@@ -4,13 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-01-06 18:46:06
  */
-import { IconfontNames, Navigation, Paths } from '@types'
+import { IconfontNames, Paths, WithNavigation } from '@types'
 import Store from './store'
 
-export type Ctx = {
+export type Ctx = WithNavigation<{
   $: InstanceType<typeof Store>
-  navigation?: Navigation
-}
+}>
 
 export type MenuItemType = {
   key: Paths | 'Open' | 'Netabare' | 'Link'

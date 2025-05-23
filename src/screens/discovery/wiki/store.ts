@@ -14,8 +14,9 @@ export default class ScreenWiki extends store<typeof STATE> {
   state = observable(STATE)
 
   init = async () => {
+    const storageData = await this.getStorageOnce<typeof STATE>(NAMESPACE)
     this.setState({
-      ...(await this.getStorage(NAMESPACE)),
+      ...storageData,
       _loaded: true
     })
 

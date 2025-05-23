@@ -4,19 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-01-11 16:21:44
  */
-import { factory } from '@utils'
-import { Navigation } from '@types'
+import { WithNavigation } from '@types'
 import Store from './store'
 import { FILTER_KEY_DS, FILTER_TYPE_DS, FILTER_YEAR_DS, TYPE_DS } from './ds'
 
-const f = factory(Store)
-
-export type StoreType = typeof f
-
-export type Ctx = {
-  $: StoreType
-  navigation?: Navigation
-}
+export type Ctx = WithNavigation<{
+  $: InstanceType<typeof Store>
+}>
 
 export type TypeType = (typeof TYPE_DS)[number]['key']
 

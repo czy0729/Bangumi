@@ -7,14 +7,15 @@
 import { collectionStore } from '@stores'
 import { init } from '@utils/subject/nsfw'
 import Action from './action'
-import { NAMESPACE } from './ds'
+import { NAMESPACE, STATE } from './ds'
 
 let _loaded = false
 
-class ScreenNSFW extends Action {
+export default class ScreenNSFW extends Action {
   init = async () => {
+    const storageData = await this.getStorageOnce<typeof STATE>(NAMESPACE)
     this.setState({
-      ...(await this.getStorage(NAMESPACE)),
+      ...storageData,
       _loaded
     })
 
@@ -31,5 +32,3 @@ class ScreenNSFW extends Action {
     }, 120)
   }
 }
-
-export default ScreenNSFW

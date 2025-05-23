@@ -4,12 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-05-06 06:41:58
  */
-import React, { useCallback } from 'react'
+import React from 'react'
 import { useObserver } from 'mobx-react'
 import { Component, Page, ScrollView } from '@components'
 import { InView } from '@_'
-import { _, StoreContext, uiStore } from '@stores'
-import { NavigationProps, ScrollEvent } from '@types'
+import { _, StoreContext } from '@stores'
+import { NavigationProps } from '@types'
 import BlockNew from './component/block-new'
 import BlockTrend from './component/block-trend'
 import Pagination from './component/pagination'
@@ -20,20 +20,12 @@ import { memoStyles } from './styles'
 
 /** 评分月刊 */
 const VIB = (props: NavigationProps) => {
-  const { id, $, navigation, data, index, loaded, scrollTo, handleSelect } = useVIBPage(props)
-
-  const current = data[index]
-  const handleForwardRef = useCallback((fn: any) => (scrollTo.current = fn), [scrollTo])
-  const handleScroll = useCallback(
-    (event: ScrollEvent) => {
-      $.onScroll(event)
-      uiStore.closePopableSubject()
-    },
-    [$]
-  )
+  const { id, navigation, data, index, loaded, handleSelect, handleForwardRef, handleScroll } =
+    useVIBPage(props)
 
   return useObserver(() => {
     const styles = memoStyles()
+    const current = data[index]
     return (
       <Component id='screen-vib'>
         <StoreContext.Provider value={id}>

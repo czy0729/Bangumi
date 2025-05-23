@@ -4,25 +4,24 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-21 05:42:38
  */
-import { LocalState } from '@types'
 import { TABS } from '../ds'
 import { getType, loadTyperankIdsData } from '../utils'
 import Action from './action'
 import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 
 /** 标签页面状态机 */
-class ScreenTags extends Action {
+export default class ScreenTags extends Action {
   init = async () => {
-    const state: LocalState<typeof STATE, typeof EXCLUDE_STATE> = await this.getStorage(NAMESPACE)
+    const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
     const { type } = this.params
     if (type) {
       const page = TABS.findIndex(item => item.key === type)
-      if (page !== -1) state.page = 0
+      if (page !== -1) storageData.page = 0
     }
-    if (state.rec) await loadTyperankIdsData(getType(state.page))
+    if (storageData.rec) await loadTyperankIdsData(getType(storageData.page))
 
     this.setState({
-      ...state,
+      ...storageData,
       ...EXCLUDE_STATE,
       _loaded: true
     })
@@ -30,5 +29,3 @@ class ScreenTags extends Action {
     return this.fetchList(this.type, true)
   }
 }
-
-export default ScreenTags

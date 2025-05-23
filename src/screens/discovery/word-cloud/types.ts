@@ -4,29 +4,23 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-03 07:43:27
  */
-import { factory } from '@utils'
 import {
   Cover,
   CoverCrt,
   GetRouteParams,
   Id,
   Loaded,
-  Navigation,
   RouteWordCloud,
   SubjectId,
-  UserId
+  UserId,
+  WithNavigation
 } from '@types'
 import Store from './store'
 import { CUT_TYPE } from './ds'
 
-const f = factory(Store)
-
-export type StoreType = typeof f
-
-export type Ctx = {
-  $: StoreType
-  navigation?: Navigation
-}
+export type Ctx = WithNavigation<{
+  $: InstanceType<typeof Store>
+}>
 
 export type Params = GetRouteParams<RouteWordCloud>
 

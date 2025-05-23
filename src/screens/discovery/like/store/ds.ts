@@ -1,10 +1,10 @@
-import { _ } from '@stores'
 /*
  * @Author: czy0729
  * @Date: 2023-06-10 05:42:00
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-30 16:08:25
  */
+import { _ } from '@stores'
 import { MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatusValue, Loaded, SubjectId, SubjectType, SubjectTypeValue } from '@types'
 import { COMPONENT } from '../ds'
@@ -12,7 +12,14 @@ import { ListItem, Relates } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
+export const RESET_STATE = {
+  /** 可视范围底部 y */
+  visibleBottom: _.window.height
+}
+
 export const EXCLUDE_STATE = {
+  ...RESET_STATE,
+
   /** 请求中 */
   fetching: false,
 
@@ -26,13 +33,12 @@ export const EXCLUDE_STATE = {
   total: 0,
 
   /** 用户 ID 自定义值 */
-  ipt: '',
-
-  /** 可视范围底部 y */
-  visibleBottom: _.window.height
+  ipt: ''
 }
 
 export const STATE = {
+  ...EXCLUDE_STATE,
+
   /** 当前类型 */
   type: 'anime' as SubjectType,
 
@@ -91,7 +97,7 @@ export const STATE = {
     } | null
   >,
 
-  ...EXCLUDE_STATE,
+  /** 页面初始化完成 */
   _loaded: false as Loaded
 }
 

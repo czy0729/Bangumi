@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-12-02 10:11:00
  */
 import Action from './action'
-import { EXCLUDE_STATE } from './ds'
+import { EXCLUDE_STATE, RESET_STATE } from './ds'
 
 export default class ScreenVIB extends Action {
   init = () => {
@@ -15,5 +15,9 @@ export default class ScreenVIB extends Action {
     })
 
     return true
+  }
+
+  unmount = () => {
+    this.setState(RESET_STATE)
   }
 }

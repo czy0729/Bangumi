@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-12-03 13:52:21
  */
 import Action from './action'
-import { EXCLUDE_STATE } from './ds'
+import { EXCLUDE_STATE, RESET_STATE } from './ds'
 
 /** 搜索页面状态机 */
 export default class ScreenDollars extends Action {
@@ -16,5 +16,9 @@ export default class ScreenDollars extends Action {
     })
 
     return this.fetchDollars()
+  }
+
+  unmount = () => {
+    this.setState(RESET_STATE)
   }
 }
