@@ -55,7 +55,6 @@ import {
   INIT_AUCTION_STATUS,
   INIT_CHARA_ASSETS,
   INIT_DEPTH_ITEM,
-  INIT_MY_CHARA_ASSETS,
   INIT_USER_LOGS,
   NAMESPACE
 } from './init'
@@ -933,96 +932,98 @@ export default class Fetch extends Computed {
     return data
   }
 
-  /**
-   * 我的持仓
-   * @notice 这个接口只显示有流动股的角色
-   */
+  /** 我的持仓 (这个接口只显示有流动股的角色) */
   fetchMyCharaAssets = async () => {
-    await this.fetchCharaAll() // 从这里获取自己的固定资产数量
-    const result = await this.fetch(API_TINYGRAIL_MY_CHARA_ASSETS()) // 这个接口没有返回自己的固定资产数量
+    const STATE_KEY = 'myCharaAssets'
 
-    let data: any = {
-      ...INIT_MY_CHARA_ASSETS
-    }
-    if (result.data.State === 0) {
-      const { list } = this.charaAll(this.hash)
-      const charaAllMap = {}
-      list.forEach(item => (charaAllMap[item.id] = item))
+    try {
+      // 从这里获取自己的固定资产数量
+      await this.fetchCharaAll()
 
-      const iconsCache = toJS(this.state.iconsCache)
-      data = {
-        chara: {
-          list: result.data.Value.Characters.map(item => {
-            if (item.Icon) iconsCache[item.Id] = item.Icon
-            return {
-              asks: item.Asks,
-              bids: item.Bids,
-              bonus: item.Bonus,
-              change: item.Change,
-              crown: item.Crown,
-              current: item.Current,
-              end: item.End,
-              fluctuation: item.Fluctuation ? item.Fluctuation * 100 : '',
-              icon: item.Icon,
-              id: item.Id,
-              lastOrder: item.LastOrder,
-              level: item.Level,
-              listedDate: item.ListedDate || '',
-              marketValue: item.MarketValue,
-              monoId: item.CharacterId,
-              name: item.Name,
-              rank: item.Rank || 0,
-              rate: Number(toFixed(item.Rate, 2)),
-              sacrifices: charaAllMap[item.Id]?.sacrifices || 0,
-              starForces: item.StarForces || 0,
-              stars: item.Stars || 0,
-              state: item.State,
-              total: item.Total,
-              users: item.Users
-            }
-          }),
-          pagination: paginationOnePage,
-          _loaded: getTimestamp()
-        },
-        ico: {
-          list: result.data.Value.Initials.map(item => {
-            if (item.Icon) iconsCache[item.Id] = item.Icon
-            return {
-              id: item.Id,
-              monoId: item.CharacterId,
-              bids: item.Bids,
-              asks: item.Asks,
-              change: item.Change,
-              current: item.Current,
-              fluctuation: item.Fluctuation ? item.Fluctuation * 100 : '',
-              total: item.Total,
-              marketValue: item.MarketValue,
-              lastOrder: item.LastOrder,
-              end: item.End,
-              users: item.Users,
-              name: item.Name,
-              icon: item.Icon,
-              bonus: item.Bonus,
-              state: item.State,
-              rate: Number(toFixed(item.Rate, 2)),
-              level: item.Level
-            }
-          }),
-          pagination: paginationOnePage,
-          _loaded: getTimestamp()
-        },
-        _loaded: getTimestamp()
+      // 这个接口没有返回自己的固定资产数量
+      const result = await this.fetch(API_TINYGRAIL_MY_CHARA_ASSETS())
+      const { State, Value } = result.data
+
+      if (State === 0) {
+        const now = getTimestamp()
+        const charaAllMap = this.charaAll(this.hash).list.reduce((map, item) => {
+          map[item.id] = item
+          return map
+        }, {})
+        const iconsCache = toJS(this.state.iconsCache)
+
+        this.setState({
+          [STATE_KEY]: {
+            chara: {
+              list: mapItems(Value.Characters, {
+                asks: 'Asks',
+                bids: 'Bids',
+                bonus: 'Bonus',
+                change: 'Change',
+                crown: 'Crown',
+                current: 'Current',
+                end: 'End',
+                fluctuation: item => (item.Fluctuation ? item.Fluctuation * 100 : ''),
+                icon: item => {
+                  if (item.Icon) iconsCache[item.Id] = item.Icon
+                  return item.Icon
+                },
+                id: 'Id',
+                lastOrder: 'LastOrder',
+                level: 'Level',
+                listedDate: item => item.ListedDate || '',
+                marketValue: 'MarketValue',
+                monoId: 'CharacterId',
+                name: 'Name',
+                rank: item => item.Rank || 0,
+                rate: item => Number(toFixed(item.Rate, 2)),
+                sacrifices: item =>
+                  Math.max(charaAllMap[item.Id]?.sacrifices || 0, item.Sacrifices || 0),
+                starForces: item => item.StarForces || 0,
+                stars: item => item.Stars || 0,
+                state: 'State',
+                total: 'Total',
+                users: 'Users'
+              }),
+              pagination: { page: 1, pageTotal: 1 },
+              _loaded: now
+            },
+            ico: {
+              list: mapItems(Value.Initials, {
+                id: 'Id',
+                monoId: 'CharacterId',
+                bids: 'Bids',
+                asks: 'Asks',
+                change: 'Change',
+                current: 'Current',
+                fluctuation: item => (item.Fluctuation ? item.Fluctuation * 100 : ''),
+                total: 'Total',
+                marketValue: 'MarketValue',
+                lastOrder: 'LastOrder',
+                end: 'End',
+                users: 'Users',
+                name: 'Name',
+                icon: item => {
+                  if (item.Icon) iconsCache[item.Id] = item.Icon
+                  return item.Icon
+                },
+                bonus: 'Bonus',
+                state: 'State',
+                rate: item => Number(toFixed(item.Rate, 2)),
+                level: 'Level'
+              }),
+              pagination: { page: 1, pageTotal: 1 },
+              _loaded: now
+            },
+            _loaded: now
+          }
+        })
+        this.save(STATE_KEY)
+        this.updateIconsCache(iconsCache)
       }
-      this.updateIconsCache(iconsCache)
-    }
+    } catch (error) {}
 
-    const key = 'myCharaAssets'
-    this.setState({
-      [key]: data
-    })
-    this.save(key)
-
-    return data
+    return this[STATE_KEY]
   }
 
   /** ICO 参与者 */
@@ -1058,9 +1059,7 @@ export default class Fetch extends Computed {
           }
         })
       }
-    } catch (error) {
-      console.log(error)
-    }
+    } catch (error) {}
 
     return this[STATE_KEY](ITEM_KEY)
   }

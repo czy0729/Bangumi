@@ -7,9 +7,9 @@
 import React from 'react'
 import { Text } from '@components'
 import { ItemSay } from '@_'
-import { usersStore, userStore, useStore } from '@stores'
+import { systemStore, tinygrailStore, usersStore, userStore, useStore } from '@stores'
 import { SayItem } from '@stores/timeline/types'
-import { getAvatarLocal } from '@utils'
+import { confirm, getAvatarLocal } from '@utils'
 import { ob } from '@utils/decorators'
 import { API_AVATAR } from '@constants'
 import { Ctx } from '../../types'
@@ -31,7 +31,25 @@ function Item({ item, index }) {
         position={isMe ? 'right' : 'left'}
         avatar={usersStore.avatars(item.id) || getAvatarLocal(item.id) || API_AVATAR(item.id)}
         showName={prevItem.name !== item.name}
-        onLongPress={() => $.at(item.id)}
+        onLongPress={() => {
+          if (systemStore.setting.tinygrail && systemStore.setting.avatarAlertTinygrailAssets) {
+            confirm(
+              '选择操作',
+              () => {
+                $.at(item.id)
+              },
+              '提示',
+              () => {
+                tinygrailStore.alertUserAssets(item.id, item.name)
+              },
+              '@TA',
+              '资产'
+            )
+            return
+          }
+
+          $.at(item.id)
+        }}
       />
       {index + 1 === list.length && !!item.date && (
         <Text size={12} type='sub' align='center'>

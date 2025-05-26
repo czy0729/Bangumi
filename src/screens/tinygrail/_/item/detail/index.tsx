@@ -158,7 +158,7 @@ function Detail(props) {
             {!!sacrifices && !!assets && sacrifices !== assets && (
               <Text {...textBaseProps} type='tinygrailText' bold>
                 {' '}
-                ({((assets / sacrifices) * 100).toFixed(0)}%)
+                ({formatNumber(sacrifices, 0)})
               </Text>
             )}
             {elSplit}
