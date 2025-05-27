@@ -7,15 +7,15 @@
 import { collectionStore } from '@stores'
 import { init } from '@utils/subject/adv'
 import Action from './action'
-import { NAMESPACE } from './ds'
+import { NAMESPACE, STATE } from './ds'
 
 let _loaded = false
 
-class ScreenADV extends Action {
+export default class ScreenADV extends Action {
   init = async () => {
-    const state = await this.getStorage(NAMESPACE)
+    const storageData = await this.getStorageOnce<typeof STATE>(NAMESPACE)
     this.setState({
-      ...state,
+      ...storageData,
       _loaded
     })
     if (!_loaded) await init()
@@ -31,5 +31,3 @@ class ScreenADV extends Action {
     }, 120)
   }
 }
-
-export default ScreenADV

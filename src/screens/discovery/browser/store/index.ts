@@ -5,15 +5,15 @@
  * @Last Modified time: 2024-05-25 08:21:24
  */
 import Action from './action'
-import { DATE, EXCLUDE_STATE, NAMESPACE } from './ds'
+import { DATE, EXCLUDE_STATE, NAMESPACE, RESET_STATE, STATE } from './ds'
 
-class ScreenBrowser extends Action {
+export default class ScreenBrowser extends Action {
   init = async () => {
-    const state = (await this.getStorage(NAMESPACE)) || {}
+    const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
     this.setState({
-      ...state,
-      airtime: state.airtime || DATE.getFullYear(),
-      month: state.month || DATE.getMonth() + 1,
+      ...storageData,
+      airtime: storageData.airtime || DATE.getFullYear(),
+      month: storageData.month || DATE.getMonth() + 1,
       ...EXCLUDE_STATE,
       _loaded: true
     })
@@ -25,6 +25,8 @@ class ScreenBrowser extends Action {
   onHeaderRefresh = () => {
     return this.fetchBrowser(true)
   }
-}
 
-export default ScreenBrowser
+  unmount = () => {
+    this.setState(RESET_STATE)
+  }
+}

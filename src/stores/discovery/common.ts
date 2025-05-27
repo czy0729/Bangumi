@@ -112,7 +112,7 @@ export function cheerioCatalogDetail(html: string): CatalogDetail {
 
     /** 条目 */
     list: cMap($('#browserItemList li.item'), $row => {
-      const $a = $row.find('a.l')
+      const $a = $row.find('h3 a.l')
 
       // /update/137458?keepThis=false&TB_iframe=true&height=350&amp;width=500
       const _id = cData($a, 'href').replace('/subject/', '')

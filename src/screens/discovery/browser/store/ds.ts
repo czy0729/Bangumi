@@ -13,9 +13,13 @@ export const NAMESPACE = `Screen${COMPONENT}`
 
 export const DATE = new Date()
 
-export const EXCLUDE_STATE = {
+export const RESET_STATE = {
   /** 可视范围底部 y */
-  visibleBottom: _.window.height,
+  visibleBottom: _.window.height
+}
+
+export const EXCLUDE_STATE = {
+  ...RESET_STATE,
 
   /** 排序 */
   sort: 'date' as BrowserSort,
@@ -28,6 +32,8 @@ export const EXCLUDE_STATE = {
 }
 
 export const STATE = {
+  ...EXCLUDE_STATE,
+
   /** 类别 */
   type: MODEL_SUBJECT_TYPE.getLabel<SubjectType>('动画'),
 
@@ -46,6 +52,6 @@ export const STATE = {
   /** 是否显示已收藏 (工具栏) */
   collected: true,
 
-  ...EXCLUDE_STATE,
+  /** 页面初始化完成 */
   _loaded: false as Loaded
 }

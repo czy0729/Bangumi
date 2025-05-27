@@ -10,12 +10,18 @@ import { COMPONENT } from '../ds'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
-export const EXCLUDE_STATE = {
+export const RESET_STATE = {
   /** 可视范围底部 y */
   visibleBottom: _.window.height
 }
 
+export const EXCLUDE_STATE = {
+  ...RESET_STATE
+}
+
 export const STATE = {
+  ...EXCLUDE_STATE,
+
   /** tab 的 page */
   page: 0,
 
@@ -42,6 +48,6 @@ export const STATE = {
     real: '1'
   },
 
-  ...EXCLUDE_STATE,
+  /** 页面初始化完成 */
   _loaded: false as Loaded
 }

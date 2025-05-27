@@ -5,7 +5,10 @@
  * @Last Modified time: 2024-08-07 22:43:58
  */
 import Action from './action'
+import { RESET_STATE } from './ds'
 
-class ScreenAnitama extends Action {}
-
-export default ScreenAnitama
+export default class ScreenAnitama extends Action {
+  unmount = () => {
+    this.setState(RESET_STATE)
+  }
+}

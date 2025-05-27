@@ -5,13 +5,12 @@
  * @Last Modified time: 2024-11-29 10:39:07
  */
 import { CalendarItem } from '@stores/calendar/types'
-import { Navigation, Override } from '@types'
+import { Override, WithNavigation } from '@types'
 import Store from './store'
 
-export type Ctx = {
+export type Ctx = WithNavigation<{
   $: InstanceType<typeof Store>
-  navigation?: Navigation
-}
+}>
 
 export type SectionListCalendarItem = Override<
   CalendarItem,

@@ -5,18 +5,21 @@
  * @Last Modified time: 2024-11-30 04:25:14
  */
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, RESET_STATE, STATE } from './ds'
 
-class ScreenBiWeekly extends Action {
+export default class ScreenBiWeekly extends Action {
   init = async () => {
+    const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
     this.setState({
-      ...(await this.getStorage(NAMESPACE)),
+      ...storageData,
       ...EXCLUDE_STATE,
       _loaded: true
     })
 
     return true
   }
-}
 
-export default ScreenBiWeekly
+  unmount = () => {
+    this.setState(RESET_STATE)
+  }
+}

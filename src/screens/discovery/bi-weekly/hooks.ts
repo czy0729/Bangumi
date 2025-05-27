@@ -6,7 +6,7 @@
  */
 import { useState } from 'react'
 import { useInitStore } from '@stores'
-import { useMount } from '@utils/hooks'
+import { usePageLifecycle } from '@utils/hooks'
 import { NavigationProps } from '@types'
 import store from './store'
 import { getData } from './utils'
@@ -18,6 +18,7 @@ let memo = null
 /** Bangumi 半月刊页面逻辑 */
 export function useBiWeeklyPage(props: NavigationProps) {
   const context = useInitStore<Ctx['$']>(props, store)
+  const { id, $ } = context
 
   const [loaded, setLoaded] = useState(fetched)
   const [data, setData] = useState<Data>(memo || require('@assets/json/biweekly.json'))
@@ -34,9 +35,19 @@ export function useBiWeeklyPage(props: NavigationProps) {
     fetched = true
   }
 
-  useMount(() => {
-    callback()
-  })
+  usePageLifecycle(
+    {
+      async onEnterComplete() {
+        await $.init()
+
+        callback()
+      },
+      onLeaveComplete() {
+        $.unmount()
+      }
+    },
+    id
+  )
 
   return {
     ...context,

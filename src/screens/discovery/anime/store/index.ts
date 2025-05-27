@@ -7,17 +7,20 @@
 import { collectionStore } from '@stores'
 import { init } from '@utils/subject/anime'
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, RESET_STATE, STATE } from './ds'
 
 let _loaded = false
 
-class ScreenAnime extends Action {
+export default class ScreenAnime extends Action {
   init = async () => {
+    const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
     const commitState = {
-      ...(await this.getStorage(NAMESPACE)),
+      ...storageData,
       ...EXCLUDE_STATE,
       _loaded
     }
+
+    // @ts-expect-error
     if (!Array.isArray(commitState.tags)) commitState.tags = []
     this.setState(commitState)
 
@@ -36,6 +39,8 @@ class ScreenAnime extends Action {
       })
     }, 120)
   }
-}
 
-export default ScreenAnime
+  unmount = () => {
+    this.setState(RESET_STATE)
+  }
+}

@@ -4,14 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-05-06 06:50:45
  */
-import { Navigation, TopicId } from '@types'
+import { TopicId, WithNavigation } from '@types'
 import Store from './store'
 import { TYPE_DS } from './ds'
 
-export type Ctx = {
+export type Ctx = WithNavigation<{
   $: InstanceType<typeof Store>
-  navigation?: Navigation
-}
+}>
 
 export type Data = {
   topicId: TopicId

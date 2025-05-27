@@ -10,7 +10,7 @@ import { get } from '@utils/protobuf'
 import Action from './action'
 import { EXCLUDE_STATE, NAMESPACE, RESET_STATE, STATE } from './ds'
 
-class ScreenCalendar extends Action {
+export default class ScreenCalendar extends Action {
   init = async () => {
     const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
     this.setState({
@@ -35,5 +35,3 @@ class ScreenCalendar extends Action {
     this.setState(RESET_STATE)
   }
 }
-
-export default ScreenCalendar

@@ -6,25 +6,27 @@
  */
 import { TABS } from '../ds'
 import Action from './action'
-import { NAMESPACE, STATE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, RESET_STATE, STATE } from './ds'
 
-class ScreenDiscoveryBlog extends Action {
+export default class ScreenDiscoveryBlog extends Action {
   init = async () => {
-    const state: typeof STATE = await this.getStorage(NAMESPACE)
+    const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
     const { type } = this.params
     if (type) {
       const page = TABS.findIndex(item => item.key === type)
-      if (page !== -1) state.page = 0
+      if (page !== -1) storageData.page = 0
     }
 
     this.setState({
-      ...state,
+      ...storageData,
       show: true,
       _loaded: true
     })
 
     return this.fetchBlog()
   }
-}
 
-export default ScreenDiscoveryBlog
+  unmount = () => {
+    this.setState(RESET_STATE)
+  }
+}
