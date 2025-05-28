@@ -5,7 +5,8 @@
  * @Last Modified time: 2024-11-06 18:13:22
  */
 import { rakuenStore, systemStore } from '@stores'
-import { D, DEV } from '@constants'
+import { D } from '@constants/constants'
+import { DEV } from '@src/config'
 import { t, ua } from '../fetch'
 import { getStorage, setStorage } from '../storage'
 import { arrGroup, getTimestamp, omit } from '../utils'

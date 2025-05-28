@@ -210,7 +210,7 @@ export const API_TINYGRAIL_SACRIFICE = (monoId: Id, amount: number, isSale: bool
 
 /** 我的拍卖列表 */
 export const API_TINYGRAIL_MY_AUCTION_LIST = () =>
-  `${API_HOST_TINYGRAIL}/api/chara/user/auction/1/400`
+  `${API_HOST_TINYGRAIL}/api/chara/user/auction/1/200`
 
 /** 取消竞拍 */
 export const API_TINYGRAIL_AUCTION_CANCEL = (id: Id) =>

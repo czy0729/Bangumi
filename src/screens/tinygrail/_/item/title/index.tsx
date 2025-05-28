@@ -12,11 +12,11 @@ import { ob } from '@utils/decorators'
 import Rank from '../../rank'
 import { styles } from './styles'
 
-function Title({ rank, name = '', level, cLevel, crown }) {
+function Title({ rank, topWeekRank, name = '', level, cLevel, crown }) {
   const lv = cLevel || level || 0
   return (
     <Flex style={styles.item}>
-      <Rank value={rank} />
+      <Rank value={rank || topWeekRank} />
       <Flex.Item>
         <Flex>
           <Text

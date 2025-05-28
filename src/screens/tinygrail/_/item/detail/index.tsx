@@ -43,18 +43,21 @@ function Detail(props) {
     state,
     total,
     type,
-    users
+    users,
+    auction
   } = props
-  const { _stockPreview: stockPreview } = tinygrailStore.state
+
   const isICO = !!end
   const isAuction = type === 'auction'
   const isValhall = type === 'valhall'
 
   /** 总市场价 */
-  let marketValueText: string
+  let marketValueText = ''
 
   /** 总量 */
-  let totalText: string
+  let totalText = ''
+
+  const stockPreview = tinygrailStore.state._stockPreview
   if (stockPreview || isICO) {
     if (marketValue) marketValueText = decimal(marketValue)
     if (total) totalText = decimal(total)
@@ -64,17 +67,18 @@ function Detail(props) {
   const extra2: string[] = []
   const extra3: string[] = []
   const extra4: string[] = []
+  const extra5: string[] = []
   if (isICO) {
-    let _end = end
-    if (_end) _end = `${end}+${TIMEZONE}:00`
+    let endTime = end
+    if (endTime) endTime = `${end}+${TIMEZONE}:00`
 
-    /** ICO 结束时间 */
-    extra.push(formatTime(_end))
-
-    /** ICO 已筹资金 */
-    extra.push(`已筹 ${totalText}`)
+    // ICO 结束时间和已筹资金
+    extra.push(formatTime(endTime), `已筹 ${totalText}`)
   } else {
-    extra.push(`+${toFixed(rate, 1)} (${Number(toFixed(calculateRate(rate, rank, stars), 1))}) `)
+    let rateText = `+${toFixed(rate, 1)}`
+    if (!isAuction) rateText += ` (${Number(toFixed(calculateRate(rate, rank, stars), 1))}) `
+    extra.push(rateText)
+
     if (stockPreview && (state || sacrifices)) {
       extra2.push(
         `+${decimal(calculateTotalRate(props, true))}(${decimal(calculateTotalRate(props))})`
@@ -82,30 +86,27 @@ function Detail(props) {
     }
 
     if (isValhall) {
-      /** 英灵殿底价 */
-      extra2.push(`底价 ${toFixed(price, 1)}`)
-
-      /** 英灵殿数量 */
-      extra2.push(`数量 ${formatNumber(state, 0)}`)
+      // 英灵殿底价和数量
+      extra2.push(`底价 ${toFixed(price, 1)}`, `数量 ${formatNumber(state, 0)}`)
     } else {
       if ((stockPreview || isAuction) && lastOrder) {
-        /** 最近交易或拍卖出价时间 */
+        // 最近交易或拍卖出价时间
         extra4.push(`${lastDate(getTimestamp(tinygrailFixedTime(lastOrder)))}`)
       }
 
-      /** 市场流通量 */
+      // 市场流通量
       if (totalText) extra4.push(`流通量 ${totalText}`)
 
-      /** 市场总值 */
+      // 市场总值
       if (marketValueText) extra4.push(`总值 ${marketValueText}`)
     }
   }
 
   if (stockPreview) {
-    /** 市场总献祭量 */
+    // 市场总献祭量
     if (sa) extra3.push(`献祭 ${decimal(sa)}`)
 
-    /** 星之力 */
+    // 星之力
     if (starForces) extra3.push(`通天塔 ${decimal(starForces)}`)
   }
 
@@ -121,12 +122,20 @@ function Detail(props) {
   }
 
   const sortText = getCharaItemSortText(props)
-
   let prevText: string
   if (TYPES.includes(type) && state) {
     prevText = `${formatNumber(state, 0)}股`
   } else if (type === 'ico') {
     prevText = `注资 ${decimal(state)}`
+  }
+
+  if (isAuction && auction) {
+    extra5.push(
+      `竞拍人数 ${auction.state} / 总量 ${formatNumber(auction.type, 0)} / 库存 ${formatNumber(
+        auction.total,
+        0
+      )}`
+    )
   }
 
   const size = stockPreview ? 10 : 11
@@ -197,6 +206,7 @@ function Detail(props) {
           {extra4.join(TEXT_SPLIT)}
         </Text>
       )}
+      {!!extra5.length && <Text {...textBaseProps}>{extra5.join(TEXT_SPLIT)}</Text>}
     </Flex>
   )
 }

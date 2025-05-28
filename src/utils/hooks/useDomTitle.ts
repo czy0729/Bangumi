@@ -5,7 +5,7 @@
  * @Last Modified time: 2025-02-17 12:44:39
  */
 import { useEffect } from 'react'
-import { WEB } from '@constants'
+import { WEB } from '@constants/device'
 
 const TITLE = 'Bangumi 番组计划'
 

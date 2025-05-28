@@ -7,6 +7,9 @@
 import { _ } from '@stores'
 
 export const styles = _.create({
+  touch: {
+    paddingVertical: 12
+  },
   switch: {
     marginRight: -8,
     transform: [

@@ -6,9 +6,9 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text } from '@components'
+import { Flex, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
-import { formatNumber } from '@utils'
+import { decimal, formatNumber, info } from '@utils'
 import { useMount, useObserver } from '@utils/hooks'
 import { Ctx } from '../../../types'
 import { memoStyles } from './styles'
@@ -47,9 +47,15 @@ function List({ list, amount, avg, median, current }) {
                 </Text>
               </Flex.Item>
               <Flex.Item style={_.ml.sm}>
-                <Text type='tinygrailText' size={12}>
-                  ₵{formatNumber(item.price)} / {formatNumber(item.amount, 0)}
-                </Text>
+                <Touchable
+                  onPress={() => {
+                    info(`₵${decimal(item.price * item.amount)}`, 1.5)
+                  }}
+                >
+                  <Text type='tinygrailText' size={12}>
+                    ₵{formatNumber(item.price)} / {formatNumber(item.amount, 0)}
+                  </Text>
+                </Touchable>
                 {isSuccess && $.state.auctionsSort === '出价' && (
                   <View style={styles.progress}>
                     <View

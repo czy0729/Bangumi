@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-11-19 16:12:17
  */
 import React from 'react'
-import { Component, Page } from '@components'
+import { Component, Flex, Page } from '@components'
 import { _, StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import TinygrailScrollView from '@tinygrail/_/scroll-view'
@@ -32,11 +32,13 @@ const TinygrailSacrifice = (props: NavigationProps) => {
         <Page style={_.container.tinygrail}>
           <TinygrailScrollView contentContainerStyle={_.container.page} onRefresh={$.refreshAll}>
             <Info />
-            <Sacrifice />
-            <Starforces />
-            <Refine />
-            <Items />
-            <Auction />
+            <Flex wrap='wrap'>
+              <Sacrifice />
+              <Starforces />
+              <Refine />
+              <Items />
+              <Auction />
+            </Flex>
             <AuctionList />
             <Temples />
             <Users />

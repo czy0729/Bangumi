@@ -46,6 +46,7 @@ import {
   API_TINYGRAIL_VALHALL_CHARA,
   API_TINYGRAIL_VALHALL_LIST,
   LIST_EMPTY,
+  TEXT_BADGES,
   TINYGRAIL_ASSETS_LIMIT
 } from '@constants'
 import { Id, MonoId, UserId } from '@types'
@@ -64,6 +65,10 @@ import { defaultKey, defaultSort, paginationOnePage } from './ds'
 import { ListKey } from './types'
 
 export default class Fetch extends Computed {
+  error = (...arg: any) => {
+    console.info(TEXT_BADGES.danger, ...arg)
+  }
+
   updateIconsCache = iconsCache => {
     this.setState({
       iconsCache
@@ -182,7 +187,9 @@ export default class Fetch extends Computed {
         this.save(STATE_KEY)
         this.updateIconsCache(iconsCache)
       }
-    } catch (error) {}
+    } catch (error) {
+      this.error('fetchList', error)
+    }
 
     return this.state[STATE_KEY]
   }
@@ -393,7 +400,9 @@ export default class Fetch extends Computed {
           }
         })
       }
-    } catch (error) {}
+    } catch (error) {
+      this.error('fetchUserAssets', error)
+    }
 
     return this[STATE_KEY](ITEM_KEY)
   }
@@ -616,7 +625,9 @@ export default class Fetch extends Computed {
         })
         this.save(STATE_KEY)
       }
-    } catch (error) {}
+    } catch (error) {
+      this.error('fetchItems', error)
+    }
 
     return this[STATE_KEY]
   }
@@ -864,55 +875,71 @@ export default class Fetch extends Computed {
 
   /** 我的拍卖列表 */
   fetchAuction = async () => {
-    const result = await this.fetch(API_TINYGRAIL_MY_AUCTION_LIST())
+    const STATE_KEY = 'auction'
 
-    let data = {
-      ...LIST_EMPTY
-    }
-    if (result.data.State === 0) {
-      const iconsCache = toJS(this.state.iconsCache)
-      data = {
-        ...LIST_EMPTY,
-        list: result.data.Value.Items.map(item => {
-          if (item.Icon) {
-            iconsCache[item.CharacterId] = item.Icon
+    try {
+      const result = await this.fetch(API_TINYGRAIL_MY_AUCTION_LIST())
+      const { State, Value } = result.data
+      if (State === 0) {
+        const status: Record<Id, any> = {}
+        const auctioningIds = Value.Items.filter(item => item.State === 0).map(
+          item => item.CharacterId
+        )
+        if (auctioningIds?.length) {
+          const statusResult = await this.fetch(API_TINYGRAIL_AUCTION_STATUS(), true, auctioningIds)
+          if (statusResult?.data?.State === 0 && statusResult?.data?.Value?.length) {
+            statusResult.data.Value.forEach((item: any) => (status[item.CharacterId] = item))
           }
+        }
 
-          // <INIT_AUCTION_ITEM>
-          return {
-            id: item.Id,
-            monoId: item.CharacterId,
-            name: item.Name,
-            icon: item.Icon,
-            marketValue: item.MarketValue,
-            total: item.Total,
-            rate: Number(toFixed(item.Rate, 2)),
-            level: item.Level,
-            amount: item.Amount,
-            price: item.Price,
-            state: item.State,
-            lastOrder: item.Bid
+        const iconsCache = toJS(this.state.iconsCache)
+        this.setState({
+          [STATE_KEY]: {
+            list: mapItems(Value.Items, {
+              amount: 'Amount',
+              icon: item => {
+                if (item.Icon) iconsCache[item.Id] = item.Icon
+                return item.Icon
+              },
+              id: 'Id',
+              lastOrder: 'Bid',
+              level: 'Level',
+              marketValue: 'MarketValue',
+              monoId: 'CharacterId',
+              name: 'Name',
+              price: 'Price',
+              rate: item => Number(toFixed(item.Rate, 2)),
+              state: 'State',
+              total: 'Total',
+              auction: item => {
+                const i = status[item.CharacterId]
+                if (i) {
+                  return {
+                    total: item.Type,
+                    state: i.State,
+                    type: i.Type
+                  }
+                }
+                return null
+              }
+            }),
+            pagination: { page: 1, pageTotal: 1 },
+            _loaded: getTimestamp()
           }
-        }),
-        pagination: paginationOnePage,
-        _loaded: getTimestamp()
+        })
+        this.save(STATE_KEY)
+        this.updateIconsCache(iconsCache)
       }
-      this.updateIconsCache(iconsCache)
+    } catch (error) {
+      this.error('fetchAuction', error)
     }
 
-    const key = 'auction'
-    this.setState({
-      [key]: data
-    })
-    this.save(key)
-
-    return data
+    return this[STATE_KEY]
   }
 
   /** 当前拍卖状态 */
   fetchAuctionStatus = async monoId => {
     const result = await this.fetch(API_TINYGRAIL_AUCTION_STATUS(), true, [parseInt(monoId)])
-
     const { State, Value } = result.data
     let data: any = INIT_AUCTION_STATUS
     if (State === 0) {
@@ -943,7 +970,6 @@ export default class Fetch extends Computed {
       // 这个接口没有返回自己的固定资产数量
       const result = await this.fetch(API_TINYGRAIL_MY_CHARA_ASSETS())
       const { State, Value } = result.data
-
       if (State === 0) {
         const now = getTimestamp()
         const charaAllMap = this.charaAll(this.hash).list.reduce((map, item) => {
@@ -990,27 +1016,27 @@ export default class Fetch extends Computed {
             },
             ico: {
               list: mapItems(Value.Initials, {
-                id: 'Id',
-                monoId: 'CharacterId',
-                bids: 'Bids',
                 asks: 'Asks',
+                bids: 'Bids',
+                bonus: 'Bonus',
                 change: 'Change',
                 current: 'Current',
-                fluctuation: item => (item.Fluctuation ? item.Fluctuation * 100 : ''),
-                total: 'Total',
-                marketValue: 'MarketValue',
-                lastOrder: 'LastOrder',
                 end: 'End',
-                users: 'Users',
-                name: 'Name',
+                fluctuation: item => (item.Fluctuation ? item.Fluctuation * 100 : ''),
                 icon: item => {
                   if (item.Icon) iconsCache[item.Id] = item.Icon
                   return item.Icon
                 },
-                bonus: 'Bonus',
-                state: 'State',
+                id: 'Id',
+                lastOrder: 'LastOrder',
+                level: 'Level',
+                marketValue: 'MarketValue',
+                monoId: 'CharacterId',
+                name: 'Name',
                 rate: item => Number(toFixed(item.Rate, 2)),
-                level: 'Level'
+                state: 'State',
+                total: 'Total',
+                users: 'Users'
               }),
               pagination: { page: 1, pageTotal: 1 },
               _loaded: now
@@ -1021,7 +1047,9 @@ export default class Fetch extends Computed {
         this.save(STATE_KEY)
         this.updateIconsCache(iconsCache)
       }
-    } catch (error) {}
+    } catch (error) {
+      this.error('fetchMyCharaAssets', error)
+    }
 
     return this[STATE_KEY]
   }
@@ -1059,7 +1087,9 @@ export default class Fetch extends Computed {
           }
         })
       }
-    } catch (error) {}
+    } catch (error) {
+      this.error('fetchInitial', error)
+    }
 
     return this[STATE_KEY](ITEM_KEY)
   }
@@ -1091,7 +1121,9 @@ export default class Fetch extends Computed {
         })
         this.save(STATE_KEY)
       }
-    } catch (error) {}
+    } catch (error) {
+      this.error('fetchBalance', error)
+    }
 
     return this[STATE_KEY]
   }
@@ -1125,7 +1157,9 @@ export default class Fetch extends Computed {
           }
         })
       }
-    } catch (error) {}
+    } catch (error) {
+      this.error('fetchUsers', error)
+    }
 
     return this[STATE_KEY](ITEM_KEY)
   }
@@ -1149,44 +1183,43 @@ export default class Fetch extends Computed {
 
   /** 用户圣殿 */
   fetchTemple = async (hash: UserId = this.hash) => {
-    const result = await this.fetch(API_TINYGRAIL_TEMPLE(hash))
+    const STATE_KEY = 'temple'
+    const ITEM_KEY = hash
 
-    let data = {
-      ...LIST_EMPTY
-    }
-    if (result.data.State === 0) {
-      data = {
-        ...LIST_EMPTY,
-        list: result.data.Value.Items.map(item => ({
-          assets: item.Assets,
-          cLevel: item.CharacterLevel,
-          cover: item.Cover,
-          id: item.CharacterId,
-          level: item.Level,
-          name: item.Name,
-          rank: item.CharacterRank,
-          rate: Number(toFixed(item.Rate, 2)),
-          refine: item.Refine,
-          sacrifices: item.Sacrifices,
-          starForces: item.CharacterStarForces,
-          stars: item.CharacterStars,
-          userStarForces: item.StarForces
-        })),
-        _loaded: getTimestamp()
+    try {
+      const result = await this.fetch(API_TINYGRAIL_TEMPLE(hash))
+      const { State, Value } = result.data
+      if (State === 0) {
+        this.setState({
+          [STATE_KEY]: {
+            [ITEM_KEY]: {
+              list: mapItems(Value.Items, {
+                assets: 'Assets',
+                cLevel: 'CharacterLevel',
+                cover: 'Cover',
+                id: 'CharacterId',
+                level: 'Level',
+                name: 'Name',
+                rank: 'CharacterRank',
+                rate: item => Number(toFixed(item.Rate, 2)),
+                refine: 'Refine',
+                sacrifices: 'Sacrifices',
+                starForces: 'CharacterStarForces',
+                stars: 'CharacterStars',
+                userStarForces: 'StarForces'
+              }),
+              pagination: { page: 1, pageTotal: 1 },
+              _loaded: getTimestamp()
+            }
+          }
+        })
+        if (ITEM_KEY === this.hash) this.save(STATE_KEY)
       }
+    } catch (error) {
+      this.error('fetchTemple', error)
     }
 
-    const key = 'temple'
-    this.setState({
-      [key]: {
-        [hash]: data
-      }
-    })
-    if (hash === this.hash) {
-      this.save(key)
-    }
-
-    return data
+    return this[STATE_KEY](ITEM_KEY)
   }
 
   /** 用户资产概览信息 */
@@ -1297,7 +1330,9 @@ export default class Fetch extends Computed {
         })
         this.save(STATE_KEY)
       }
-    } catch (error) {}
+    } catch (error) {
+      this.error('fetchCharaTemple', error)
+    }
 
     return this[STATE_KEY](ITEM_KEY)
   }
@@ -1923,7 +1958,9 @@ export default class Fetch extends Computed {
           }
         })
       }
-    } catch (error) {}
+    } catch (error) {
+      this.error('fetchStarLogs', error)
+    }
 
     return this[STATE_KEY]
   }

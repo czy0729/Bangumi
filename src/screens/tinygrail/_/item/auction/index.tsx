@@ -12,32 +12,28 @@ import { formatNumber } from '@utils'
 import { ob } from '@utils/decorators'
 import { AnyObject } from '@types'
 
-function Auction({ type, price, state, amount }: AnyObject) {
-  let auctionText = '竞拍中'
-  let auctionTextColor: TextType = 'warning'
-  let auctionSubText = ''
-  if (type === 'auction') {
-    auctionSubText = `₵${price} / ${formatNumber(amount as number, 0)}`
-    if (state === 1) {
-      auctionText = '成功'
-      auctionTextColor = 'bid'
-    } else if (state === 2) {
-      auctionText = '失败'
-      auctionTextColor = 'ask'
-    }
+function Auction({ price, state, amount }: AnyObject) {
+  let text = '竞拍中'
+  let color: TextType = 'warning'
+  if (state === 1) {
+    text = '成功'
+    color = 'bid'
+  } else if (state === 2) {
+    text = '失败'
+    color = 'ask'
   }
 
   return (
     <View
       style={{
-        marginRight: auctionText === '竞拍中' ? 44 : 12
+        marginRight: text === '竞拍中' ? 40 : 12
       }}
     >
-      <Text type={auctionTextColor} bold align='right'>
-        {auctionText}
+      <Text type={color} bold align='right'>
+        {text}
       </Text>
-      <Text style={_.mt.xs} type='tinygrailText' size={12} align='right'>
-        {auctionSubText}
+      <Text style={_.mt.xs} type='tinygrailText' size={12} lineHeight={13} align='right'>
+        ₵{price} / {formatNumber(amount, 0)}
       </Text>
     </View>
   )

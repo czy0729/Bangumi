@@ -91,7 +91,7 @@ export default class ScreenTinygrailSearch extends store<typeof STATE> {
     if (/^\d+$/.test(checkValue)) {
       await this.doSearchNumber(navigation, checkValue)
     } else {
-      await this.doSearchQuery(navigation, checkValue)
+      await this.doSearchQuery(checkValue)
     }
 
     this.setState({
@@ -100,7 +100,7 @@ export default class ScreenTinygrailSearch extends store<typeof STATE> {
     return true
   }
 
-  doSearchQuery = async (navigation: Navigation, keyword: string) => {
+  doSearchQuery = async (keyword: string) => {
     const { data } = await tinygrailStore.doSearch({
       keyword
     })

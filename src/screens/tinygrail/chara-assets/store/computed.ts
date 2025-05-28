@@ -146,29 +146,29 @@ export default class Computed extends State {
     // 合并圣殿数据
     this.originalTemple.list.forEach(item => {
       const existing = map[item.id]
-      const itemChara = existing || tinygrailStore.characters(item.id)
+      const chara = existing || tinygrailStore.characters(item.id)
       map[item.id] = existing
         ? Object.assign(existing, {
             assets: item.assets,
             rank: item.rank,
             refine: item.refine,
-            sacrifices: item.sacrifices,
+            sacrifices: Math.max(item.sacrifices || 0, chara.sacrifices || 0),
             userStarForces: item.userStarForces
           })
-        : Object.assign({}, itemChara, {
+        : Object.assign({}, chara, {
             assets: item.assets,
-            cLevel: itemChara.level,
+            cLevel: chara.level,
             icon: item.cover,
             id: item.id,
             level: item.level,
             monoId: item.id,
             name: item.name,
-            rank: item.rank || itemChara.rank,
-            rate: item.rate || itemChara.rate,
+            rank: item.rank || chara.rank,
+            rate: item.rate || chara.rate,
             refine: item.refine,
-            sacrifices: item.sacrifices,
+            sacrifices: Math.max(item.sacrifices || 0, chara.sacrifices || 0),
             starForces: item.starForces,
-            stars: item.stars || itemChara.stars,
+            stars: item.stars || chara.stars,
             userStarForces: item.userStarForces
           })
     })

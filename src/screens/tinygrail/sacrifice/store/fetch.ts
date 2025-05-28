@@ -19,7 +19,7 @@ export default class Fetch extends Computed {
       return true
     }
 
-    console.info('0 股息预测')
+    this.log('0 股息预测')
     return tinygrailStore.fetchTest()
   }
 
@@ -27,7 +27,7 @@ export default class Fetch extends Computed {
   fetchCharacters = () => {
     if (!this.state.mounted) return
 
-    console.info('1 角色小圣杯信息')
+    this.log('1 角色小圣杯信息')
     return tinygrailStore.fetchCharacters([this.monoId])
   }
 
@@ -35,7 +35,7 @@ export default class Fetch extends Computed {
   fetchIssuePrice = () => {
     if (!this.state.mounted) return
 
-    console.info('2 角色发行价')
+    this.log('2 角色发行价')
     return tinygrailStore.fetchIssuePrice(this.monoId)
   }
 
@@ -43,7 +43,7 @@ export default class Fetch extends Computed {
   fetchUserLogs = () => {
     if (!this.state.mounted) return
 
-    console.info('3 本角色我的交易信息')
+    this.log('3 本角色我的交易信息')
     return tinygrailStore.fetchUserLogs(this.monoId)
   }
 
@@ -51,7 +51,7 @@ export default class Fetch extends Computed {
   fetchMyTemple = async () => {
     if (!this.state.mounted) return
 
-    console.info('4 本角色我的圣殿')
+    this.log('4 本角色我的圣殿')
     return tinygrailStore.fetchMyTemple(this.monoId)
   }
 
@@ -59,7 +59,7 @@ export default class Fetch extends Computed {
   fetchCharaTemple = () => {
     if (!this.state.mounted) return
 
-    console.info('5 所有人固定资产')
+    this.log('5 所有人固定资产')
     return tinygrailStore.fetchCharaTemple(this.monoId)
   }
 
@@ -67,7 +67,7 @@ export default class Fetch extends Computed {
   fetchAssets = () => {
     if (!this.state.mounted) return
 
-    console.info('6 自己的资产')
+    this.log('6 自己的资产')
     return tinygrailStore.fetchAssets()
   }
 
@@ -75,7 +75,7 @@ export default class Fetch extends Computed {
   fetchValhallChara = async () => {
     if (!this.state.mounted) return
 
-    console.info('7 本次拍卖信息')
+    this.log('7 本次拍卖信息')
     try {
       const { price } = await tinygrailStore.fetchValhallChara(this.monoId)
       if (price) {
@@ -89,18 +89,19 @@ export default class Fetch extends Computed {
   }
 
   /** 当前拍卖状态 */
-  fetchAuctionStatus = () => {
+  fetchAuctionStatus = async () => {
     if (!this.state.mounted) return
 
-    console.info('8 当前拍卖状态')
-    return tinygrailStore.fetchAuctionStatus(this.monoId)
+    this.log('8 当前拍卖状态')
+    const data = await tinygrailStore.fetchAuctionStatus(this.monoId)
+    return data
   }
 
   /** 上周拍卖信息 */
   fetchAuctionList = () => {
     if (!this.state.mounted) return
 
-    console.info('9 上周拍卖信息')
+    this.log('9 上周拍卖信息')
     return tinygrailStore.fetchAuctionList(this.monoId)
   }
 
@@ -108,7 +109,7 @@ export default class Fetch extends Computed {
   fetchUsers = () => {
     if (!this.state.mounted) return
 
-    console.info('10 董事会')
+    this.log('10 董事会')
     return tinygrailStore.fetchUsers(this.monoId)
   }
 
@@ -116,7 +117,7 @@ export default class Fetch extends Computed {
   fetchCharaPool = () => {
     if (!this.state.mounted) return
 
-    console.info('11 角色奖池')
+    this.log('11 角色奖池')
     return tinygrailStore.fetchCharaPool(this.monoId)
   }
 
@@ -127,7 +128,7 @@ export default class Fetch extends Computed {
     const { _loaded } = this.state.rankStarForces
     if (_loaded && Number(this.state._loaded) - _loaded <= M5) return
 
-    console.info('12 通天塔')
+    this.log('12 通天塔')
     const rankStarForces = {
       _loaded: getTimestamp()
     }
@@ -160,7 +161,7 @@ export default class Fetch extends Computed {
   fetchTopWeek = () => {
     if (!this.state.mounted) return
 
-    console.info('13 本周萌王信息')
+    this.log('13 本周萌王信息')
     return tinygrailStore.fetchTopWeek()
   }
 
@@ -168,7 +169,7 @@ export default class Fetch extends Computed {
   updateMyCharaAssets = () => {
     if (!this.state.mounted) return
 
-    console.info('14 更新我的资产')
+    this.log('14 更新我的资产')
     const { amount = 0, sacrifices = 0 } = this.userLogs
     return tinygrailStore.updateMyCharaAssets(this.monoId, amount, sacrifices)
   }

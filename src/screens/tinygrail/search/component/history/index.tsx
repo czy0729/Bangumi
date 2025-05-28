@@ -24,20 +24,20 @@ function History({ style }) {
         <View key={index} style={styles.item}>
           <Flex style={styles.content}>
             <Flex.Item>
-              <Text
-                type='tinygrailPlain'
-                size={15}
+              <Touchable
                 onPress={() => {
+                  $.doSearchNumber(navigation, item)
+
                   t('人物直达.跳转', {
                     monoId: item
                   })
-
-                  $.doSearchNumber(navigation, item)
                 }}
               >
-                {$.chara(item).name || item}
-                {!!$.chara(item).id && ` #${$.chara(item).id}`}
-              </Text>
+                <Text type='tinygrailPlain' size={15}>
+                  {$.chara(item).name || item}
+                  {!!$.chara(item).id && ` #${$.chara(item).id}`}
+                </Text>
+              </Touchable>
             </Flex.Item>
             <Touchable style={styles.close} onPress={() => $.deleteHistory(item)}>
               <Iconfont name='md-close' color={_.colorTinygrailPlain} />

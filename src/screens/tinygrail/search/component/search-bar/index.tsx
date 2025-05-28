@@ -22,10 +22,10 @@ function SearchBar() {
         <Input
           style={styles.searchIpt}
           value={value}
-          returnKeyType='search'
-          placeholder='输入角色名字或id'
+          placeholder='输入角色名字或ID'
           placeholderTextColor={_.colorTinygrailText}
           autoFocus
+          returnKeyType='search'
           onChange={$.onChange}
           onSubmitEditing={() => $.doSearch(navigation)}
         />

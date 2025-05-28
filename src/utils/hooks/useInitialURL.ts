@@ -6,6 +6,7 @@
  */
 import { useState } from 'react'
 import { Linking } from 'react-native'
+import { TEXT_BADGES } from '@constants/text'
 import useMount from './useMount'
 
 export default function useInitialURL() {
@@ -16,7 +17,7 @@ export default function useInitialURL() {
     const getUrlAsync = async () => {
       // Get the deep link used to open the app
       const initialUrl = await Linking.getInitialURL()
-      if (initialUrl) console.info('useInitialURL', initialUrl)
+      if (initialUrl) console.info(TEXT_BADGES.plain, 'useInitialURL', initialUrl)
 
       // The setTimeout is just for testing purpose
       setTimeout(() => {

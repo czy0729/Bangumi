@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { Flex } from '@components'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
@@ -18,16 +19,29 @@ import { memoStyles } from './styles'
 function Auction() {
   const { $ } = useStore<Ctx>()
   const styles = memoStyles()
-  return (
-    <View style={styles.container}>
-      <Head />
-      {$.state.showAuction && (
+  if ($.state.showAuction) {
+    return (
+      <View
+        style={[
+          styles.container,
+          {
+            width: _.window.width
+          }
+        ]}
+      >
+        <Head />
         <View style={_.mb.sm}>
           <Amount />
           <Slider />
         </View>
-      )}
-    </View>
+      </View>
+    )
+  }
+
+  return (
+    <Flex.Item style={styles.container}>
+      <Head />
+    </Flex.Item>
   )
 }
 

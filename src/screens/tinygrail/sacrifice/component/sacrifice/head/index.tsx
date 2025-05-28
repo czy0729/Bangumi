@@ -5,31 +5,35 @@
  * @Last Modified time: 2024-11-19 16:18:24
  */
 import React from 'react'
-import { Flex, Switch, Text } from '@components'
+import { Flex, Switch, Text, Touchable } from '@components'
 import { useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
-import ExpandBtn from '../../expand-btn'
 import { styles } from './styles'
 
 function Head() {
   const { $ } = useStore<Ctx>()
   const { showSacrifice } = $.state
+  if (!showSacrifice) {
+    return (
+      <Touchable onPress={$.toggleSacrifice}>
+        <Text style={styles.touch} type='tinygrailPlain' size={13} align='center'>
+          献祭
+        </Text>
+      </Touchable>
+    )
+  }
+
   return (
     <Flex>
       <Flex.Item>
-        <Text type='tinygrailPlain' size={13}>
-          {showSacrifice
-            ? $.state.isSale
-              ? '出售：出售给英灵殿获得现金'
-              : '献祭：转化为固定资产并获得现金道具'
-            : '献祭'}
-        </Text>
+        <Touchable onPress={$.toggleSacrifice}>
+          <Text style={styles.touch} type='tinygrailPlain' size={13}>
+            {$.state.isSale ? '出售：出售给英灵殿获得现金' : '献祭：转化为固定资产并获得现金道具'}
+          </Text>
+        </Touchable>
       </Flex.Item>
-      {showSacrifice && (
-        <Switch style={styles.switch} checked={$.state.isSale} onChange={$.switchIsSale} />
-      )}
-      <ExpandBtn show={showSacrifice} onPress={$.toggleSacrifice} />
+      <Switch style={styles.switch} checked={$.state.isSale} onChange={$.switchIsSale} />
     </Flex>
   )
 }

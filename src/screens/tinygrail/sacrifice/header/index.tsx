@@ -20,7 +20,7 @@ function Header() {
     <HeaderV2
       backgroundStyle={_.container.tinygrail}
       headerTitleStyle={styles.headerTitle}
-      title={`资产重组${$.name ? ` · ${$.name}` : ''}`}
+      title={$.name ? $.name : '资产重组'}
       headerTitleAlign='left'
       hm={[`tinygrail/sacrifice/${$.monoId}`, 'TinygrailSacrifice']}
       headerRight={() => (

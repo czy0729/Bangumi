@@ -19,18 +19,23 @@ function List({ id }: { id: TabsKeys }) {
   const { $ } = useStore<Ctx>()
   const { sort } = $.state
   const handleRenderItem = useCallback(
-    ({ item, index }: any) => (
-      <Item
-        index={index}
-        type={id}
-        event={EVENT}
-        go={GO[id]}
-        onAuctionCancel={$.doAuctionCancel}
-        {...item}
-        sort={sort}
-      />
-    ),
-    [$.doAuctionCancel, id, sort]
+    ({ item, index }: any) => {
+      const isAuctioning = id === 'auction' && item.state === 0
+      return (
+        <Item
+          index={index}
+          type={id}
+          event={EVENT}
+          go={GO[id]}
+          onAuctionCancel={$.doAuctionCancel}
+          {...item}
+          showMenu
+          sort={sort}
+          topWeekRank={isAuctioning ? $.topWeekRank(item.monoId) : ''}
+        />
+      )
+    },
+    [$, id, sort]
   )
   const handleHeaderRefresh = useCallback(() => $.fetchList(id), [$, id])
 

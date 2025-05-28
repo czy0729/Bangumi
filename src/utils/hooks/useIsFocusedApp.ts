@@ -5,7 +5,7 @@
  * @Last Modified time: 2025-02-17 12:45:46
  */
 import { useDebugValue, useEffect, useState } from 'react'
-import { WEB } from '@constants'
+import { WEB } from '@constants/device'
 import useNavigation from './useNavigation'
 
 /**

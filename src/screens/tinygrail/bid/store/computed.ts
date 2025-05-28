@@ -7,6 +7,7 @@
 import { computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import { levelList, sortList } from '@tinygrail/_/utils'
+import { Id } from '@types'
 import { TABS } from '../ds'
 import { TabsKeys } from '../types'
 import State from './state'
@@ -68,5 +69,12 @@ export default class Computed extends State {
   @computed get hm() {
     const { type = 'bid' } = this.params
     return [`tinygrail/${type}`, 'TinygrailBid'] as const
+  }
+
+  topWeekRank(id: Id) {
+    return computed(() => {
+      const find = tinygrailStore.topWeek.list.find(item => item.id === id)
+      return find?.rank || ''
+    }).get()
   }
 }

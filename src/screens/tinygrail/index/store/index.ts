@@ -16,7 +16,7 @@ export default class ScreenTinygrail extends Action {
     this.setState({
       ...(await this.getStorage(NAMESPACE)),
       ...EXCLUDE_STATE,
-      _loaded: tinygrailStore.cookie ? getTimestamp() : false
+      _loaded: getTimestamp()
     })
 
     // 没有资产就自动授权

@@ -56,7 +56,6 @@ function Tabs() {
 
   return useObserver(() => (
     <TabsComp
-      style={_.container.header}
       routes={TABS}
       renderContentHeaderComponent={<ToolBar />}
       renderItem={handleRenderItem}

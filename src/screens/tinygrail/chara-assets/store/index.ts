@@ -16,7 +16,7 @@ export default class ScreenTinygrailCharaAssets extends Action {
     const current = getTimestamp()
     const needFetch = !_loaded || current - Number(_loaded) > 60
 
-    const state = await this.getStorage(undefined, NAMESPACE)
+    const state = await this.getStorage(NAMESPACE)
     this.setState({
       ...state,
       ...EXCLUDE_STATE,

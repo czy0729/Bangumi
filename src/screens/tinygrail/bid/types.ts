@@ -4,19 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-01-14 16:44:16
  */
-import { factory } from '@utils'
-import { Navigation } from '@types'
+import { WithNavigation } from '@types'
 import Store from './store'
 import { TABS } from './ds'
 
-const f = factory(Store)
-
-export type StoreType = typeof f
-
-export type Ctx = {
-  $: StoreType
-  navigation?: Navigation
-}
+export type Ctx = WithNavigation<{
+  $: InstanceType<typeof Store>
+}>
 
 export type TabsKeys = (typeof TABS)[number]['key']
 

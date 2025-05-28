@@ -62,8 +62,8 @@ function Item(props) {
   }
 
   return (
-    <Flex key={props.id} style={stl(styles.container, style)} align='start'>
-      <Icon {...props} style={_.mt.md} />
+    <Flex style={stl(styles.container, style)} align='start'>
+      <Icon key={props.id} {...props} style={_.mt.md} />
       <Flex.Item>
         <Flex align='start'>
           <Flex.Item style={_.mr.sm}>

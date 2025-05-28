@@ -6,7 +6,8 @@
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
-import { useStore } from '@stores'
+import { Flex } from '@components'
+import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import Head from './head'
@@ -30,16 +31,27 @@ function Items() {
 
   return useObserver(() => {
     const styles = memoStyles()
+    if ($.state.showItems) {
+      return (
+        <View
+          style={[
+            styles.container,
+            {
+              width: _.window.width
+            }
+          ]}
+        >
+          <Head />
+          <List onOpen={handleOpen} />
+          <Modal title={title} visible={visible} onClose={handleClose} />
+        </View>
+      )
+    }
+
     return (
-      <View style={styles.container}>
+      <Flex.Item style={styles.container}>
         <Head />
-        {$.state.showItems && (
-          <>
-            <List onOpen={handleOpen} />
-            <Modal title={title} visible={visible} onClose={handleClose} />
-          </>
-        )}
-      </View>
+      </Flex.Item>
     )
   })
 }

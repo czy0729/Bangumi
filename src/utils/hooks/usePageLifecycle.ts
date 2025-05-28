@@ -6,7 +6,8 @@
  */
 import { InteractionManager } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
-import { DEV, TEXT_BADGES } from '@constants'
+import { TEXT_BADGES } from '@constants/text'
+import { DEV } from '@src/config'
 import { Fn } from '@types'
 import useMount from './useMount'
 

@@ -60,12 +60,11 @@ function AuctionList() {
   const { length } = list
   if (!$.state.showLogs) list = list = list.slice(0, 3)
 
-  const avg = successAmount ? successPrice / successAmount : 0
+  const avg = Math.floor(successAmount ? successPrice / successAmount : 0)
   const median = calculateMedian(success.map(item => [item.price, item.amount]))
-
   const { rank, extra, price, assets, sacrifices } = $.topWeek
   let current = 0
-  if (rank) current = (extra + price * sacrifices) / assets
+  if (rank) current = Math.floor((extra + price * sacrifices) / assets) + 1
 
   return (
     <View style={styles.container}>

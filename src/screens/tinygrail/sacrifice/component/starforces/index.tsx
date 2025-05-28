@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { Flex } from '@components'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
@@ -19,17 +20,30 @@ import { memoStyles } from './styles'
 function Starforces() {
   const { $ } = useStore<Ctx>()
   const styles = memoStyles()
-  return (
-    <View style={styles.container}>
-      <Head />
-      {$.state.showStarForces && (
+  if ($.state.showStarForces) {
+    return (
+      <View
+        style={[
+          styles.container,
+          {
+            width: _.window.width
+          }
+        ]}
+      >
+        <Head />
         <View style={_.mb.sm}>
           <Amount />
           <RankPercents />
           <Slider />
         </View>
-      )}
-    </View>
+      </View>
+    )
+  }
+
+  return (
+    <Flex.Item style={styles.container}>
+      <Head />
+    </Flex.Item>
   )
 }
 

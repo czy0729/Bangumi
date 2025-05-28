@@ -6,7 +6,7 @@
  */
 import { useContext } from 'react'
 import { NavigationContext } from '@react-navigation/native'
-import { WEB } from '@constants'
+import { WEB } from '@constants/device'
 import { Navigation } from '@types'
 
 /**

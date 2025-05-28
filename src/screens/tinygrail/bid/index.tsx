@@ -5,9 +5,10 @@
  * @Last Modified time: 2025-01-16 17:41:15
  */
 import React from 'react'
-import { Component, Page } from '@components'
-import { _, StoreContext } from '@stores'
+import { Component } from '@components'
+import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
+import TinygrailPage from '@tinygrail/_/page'
 import { NavigationProps } from '@types'
 import Tabs from './component/tabs'
 import Header from './header'
@@ -15,18 +16,14 @@ import { useTinygrailBidPage } from './hooks'
 
 /** 我的委托 */
 const TinygrailBid = (props: NavigationProps) => {
-  const { id, $ } = useTinygrailBidPage(props)
+  const { id } = useTinygrailBidPage(props)
 
   return useObserver(() => (
     <Component id='screen-tinygrail-bid'>
       <StoreContext.Provider value={id}>
-        <Page
-          style={_.container.tinygrail}
-          loaded={$.state._loaded}
-          loadingColor={_.colorTinygrailText}
-        >
+        <TinygrailPage>
           <Tabs />
-        </Page>
+        </TinygrailPage>
         <Header />
       </StoreContext.Provider>
     </Component>
