@@ -4,25 +4,28 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-02-01 18:04:16
  */
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { rakuenStore, uiStore, userStore } from '@stores'
 import { Setting } from '@stores/rakuen/types'
-import { useIsFocused, useMount } from '@utils/hooks'
+import { usePageLifecycle } from '@utils/hooks'
 import { BooleanKeys, NonBooleanKeys } from '@types'
 
 /** 超展开设置页面逻辑 */
 export function useRakuenSettingPage() {
-  const isFocused = useIsFocused()
-  useEffect(() => {
-    if (!isFocused) uiStore.closePopableSubject()
-  }, [isFocused])
+  usePageLifecycle(
+    {
+      onEnterComplete() {
+        if (!userStore.isWebLogin) return
 
-  useMount(() => {
-    if (!userStore.isWebLogin) return
-
-    rakuenStore.downloadSetting()
-    rakuenStore.fetchPrivacy()
-  })
+        rakuenStore.downloadSetting()
+        rakuenStore.fetchPrivacy()
+      },
+      onBlur() {
+        uiStore.closePopableSubject()
+      }
+    },
+    'RakuenSetting'
+  )
 }
 
 /** 延迟切换设置, 更快响应且避免卡住 UI */

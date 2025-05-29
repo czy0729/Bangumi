@@ -5,14 +5,13 @@
  * @Last Modified time: 2024-01-18 06:52:34
  */
 import { NotifyItem } from '@stores/rakuen/types'
-import { GetRouteParams, Navigation, Override, RouteNotify } from '@types'
+import { GetRouteParams, Override, RouteNotify, WithNavigation } from '@types'
 import Store from './store'
 import { TABS } from './ds'
 
-export type Ctx = {
+export type Ctx = WithNavigation<{
   $: InstanceType<typeof Store>
-  navigation?: Navigation
-}
+}>
 
 export type Params = GetRouteParams<RouteNotify>
 

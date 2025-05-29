@@ -22,15 +22,21 @@ export const INIT_PREFETCH_STATE = {
   prefetchCurrent: 0
 }
 
-export const EXCLUDE_STATE = {
+export const RESET_STATE = {
   /** 可视范围底部 y */
-  visibleBottom: _.window.height,
+  visibleBottom: _.window.height
+}
+
+export const EXCLUDE_STATE = {
+  ...RESET_STATE,
   isFocused: true,
   swiping: false,
   _mounted: WEB
 }
 
 export const STATE = {
+  ...EXCLUDE_STATE,
+
   /** 超展开板块 */
   scope: MODEL_RAKUEN_SCOPE.getValue<RakuenScope>('全局聚合'),
 
@@ -45,6 +51,7 @@ export const STATE = {
 
   /** Prefetch */
   ...INIT_PREFETCH_STATE,
-  ...EXCLUDE_STATE,
+
+  /** 页面初始化完成 */
   _loaded: false as Loaded
 }

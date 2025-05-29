@@ -6,7 +6,7 @@
  */
 import { useOnScroll } from '@components/header/utils'
 import { useInitStore } from '@stores'
-import { useRunAfter } from '@utils/hooks'
+import { usePageLifecycle } from '@utils/hooks'
 import { NavigationProps } from '@types'
 import store from './store'
 import { Ctx } from './types'
@@ -14,17 +14,21 @@ import { Ctx } from './types'
 /** 小组页面逻辑 */
 export function useGroupPage(props: NavigationProps) {
   const context = useInitStore<Ctx['$']>(props, store)
-  const { $ } = context
-
-  useRunAfter(() => {
-    $.init()
-  })
+  const { id, $ } = context
 
   const { fixed, onScroll } = useOnScroll()
+  usePageLifecycle(
+    {
+      onEnterComplete() {
+        $.init()
+      }
+    },
+    id
+  )
 
   return {
     ...context,
     fixed,
-    onScroll
+    handleScroll: onScroll
   }
 }

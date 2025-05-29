@@ -7,7 +7,7 @@
 import Action from './action'
 import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 
-class ScreenTimeline extends Action {
+export default class ScreenTimeline extends Action {
   init = async () => {
     const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
 
@@ -25,5 +25,3 @@ class ScreenTimeline extends Action {
     return this.fetchTimeline(true)
   }
 }
-
-export default ScreenTimeline

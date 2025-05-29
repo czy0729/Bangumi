@@ -12,7 +12,7 @@ import { RESET_STATE } from './ds'
 
 /** 人物页面状态机 */
 export default class ScreenMono extends Action {
-  init = async () => {
+  init = () => {
     this.setState({
       page: TYPE_PAGE?.[this.params.type] || 0,
       _loaded: true

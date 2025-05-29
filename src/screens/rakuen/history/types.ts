@@ -4,19 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-01 13:22:31
  */
-import { factory } from '@utils'
-import { Navigation, TopicId } from '@types'
+import { TopicId, WithNavigation } from '@types'
 import Store from './store'
 import { DS } from './ds'
 
-const f = factory(Store)
-
-export type StoreType = typeof f
-
-export type Ctx = {
-  $: StoreType
-  navigation?: Navigation
-}
+export type Ctx = WithNavigation<{
+  $: InstanceType<typeof Store>
+}>
 
 export type Types = (typeof DS)[number]
 

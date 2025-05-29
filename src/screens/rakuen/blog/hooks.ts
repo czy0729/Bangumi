@@ -6,7 +6,7 @@
  */
 import { useOnScroll } from '@components/header/utils'
 import { useInitStore } from '@stores'
-import { useKeyboardAdjustResize, useRunAfter } from '@utils/hooks'
+import { useKeyboardAdjustResize, usePageLifecycle } from '@utils/hooks'
 import { NavigationProps } from '@types'
 import store from './store'
 import { Ctx } from './types'
@@ -14,17 +14,22 @@ import { Ctx } from './types'
 /** 日志页面逻辑 */
 export function useBlogPage(props: NavigationProps) {
   const context = useInitStore<Ctx['$']>(props, store)
-  const { $ } = context
+  const { id, $ } = context
 
   const { fixed, onScroll } = useOnScroll()
-  useRunAfter(() => {
-    $.init()
-  })
   useKeyboardAdjustResize()
+  usePageLifecycle(
+    {
+      onEnterComplete() {
+        $.init()
+      }
+    },
+    id
+  )
 
   return {
     ...context,
     fixed,
-    onScroll
+    handleScroll: onScroll
   }
 }

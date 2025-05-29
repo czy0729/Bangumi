@@ -11,7 +11,7 @@ import { EXCLUDE_STATE, NAMESPACE, RESET_STATE, STATE } from './ds'
 
 let loadedFavor = false
 
-class ScreenTopic extends Action {
+export default class ScreenTopic extends Action {
   init = async () => {
     const now = getTimestamp()
     const { _loaded } = this.state
@@ -79,5 +79,3 @@ class ScreenTopic extends Action {
     this.setState(RESET_STATE)
   }
 }
-
-export default ScreenTopic

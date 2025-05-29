@@ -17,7 +17,9 @@ export const EXCLUDE_STATE = {
 }
 
 export const STATE = {
-  type: (WEB ? 'all' : 'mine') as 'all' | 'mine',
   ...EXCLUDE_STATE,
+  type: (WEB ? 'all' : 'mine') as 'all' | 'mine',
+
+  /** 页面初始化完成 */
   _loaded: false as Loaded
 }

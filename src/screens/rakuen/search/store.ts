@@ -9,23 +9,26 @@ import { searchStore, systemStore } from '@stores'
 import { feedback, info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
 import store from '@utils/store'
-import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, RESET_STATE, STATE } from './ds'
 
 export default class ScreenRakuenSearch extends store<typeof STATE> {
   state = observable(STATE)
 
   init = async () => {
-    const state = await this.getStorage(NAMESPACE)
+    const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
     this.setState({
-      ...state,
+      ...storageData,
       ...EXCLUDE_STATE,
       _loaded: true
     })
-    return state
   }
 
   save = () => {
     return this.saveStorage(NAMESPACE, EXCLUDE_STATE)
+  }
+
+  unmount = () => {
+    this.setState(RESET_STATE)
   }
 
   // -------------------- get --------------------

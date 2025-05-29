@@ -18,5 +18,7 @@ export const STATE = {
 
   /** 云快照 */
   ota: {},
+
+  /** 页面初始化完成 */
   _loaded: false as Loaded
 }

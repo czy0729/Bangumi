@@ -19,6 +19,8 @@ export const STATE = {
   collectRank: [] as CollectRankItem[],
   collectRankSort: '收藏数' as CollectRankSort,
   type: '小组' as (typeof DS)[number],
+
+  /** 页面初始化完成 */
   _loaded: false as Loaded
 }
 

@@ -35,6 +35,8 @@ export const STATE = {
   data: LIST_EMPTY,
   layout: 'list',
   expand: false,
+
+  /** 页面初始化完成 */
   _loaded: false as Loaded
 }
 

@@ -20,9 +20,9 @@ export default class ScreenWenku extends store<typeof STATE> {
   state = observable(STATE)
 
   init = async () => {
-    const state = await this.getStorage(NAMESPACE)
+    const storageData = await this.getStorageOnce<typeof STATE>(NAMESPACE)
     this.setState({
-      ...state,
+      ...storageData,
       _loaded
     })
 

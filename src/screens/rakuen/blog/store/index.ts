@@ -6,14 +6,17 @@
  */
 import { rakuenStore, usersStore } from '@stores'
 import Action from './action'
-import { EXCLUDE_STATE } from './ds'
+import { EXCLUDE_STATE, STATE } from './ds'
 
 let loadedFavor = false
 
-class ScreenBlog extends Action {
+export default class ScreenBlog extends Action {
   init = async () => {
+    const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(
+      this.namespace
+    )
     this.setState({
-      ...((await this.getStorage(this.namespace)) || {}),
+      ...storageData,
       ...EXCLUDE_STATE,
       _loaded: true
     })
@@ -22,10 +25,10 @@ class ScreenBlog extends Action {
       rakuenStore.getFavor()
       loadedFavor = true
     }
-    usersStore.updateFriendsMap()
+    setTimeout(() => {
+      usersStore.updateFriendsMap()
+    }, 0)
 
     return this.fetchBlog()
   }
 }
-
-export default ScreenBlog

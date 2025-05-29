@@ -4,13 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-04-23 08:13:56
  */
-import { GetRouteParams, Navigation, RouteTopic } from '@types'
+import { GetRouteParams, RouteTopic, WithNavigation } from '@types'
 import Store from './store'
 
-export type Ctx = {
+export type Ctx = WithNavigation<{
   $: InstanceType<typeof Store>
-  navigation?: Navigation
-}
+}>
 
 export type Params = GetRouteParams<RouteTopic>
 

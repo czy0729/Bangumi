@@ -21,5 +21,7 @@ export const STATE = {
 
   /** Tab 当前页 */
   page: 0,
+
+  /** 页面初始化完成 */
   _loaded: false as Loaded
 }

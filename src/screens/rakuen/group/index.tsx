@@ -20,13 +20,13 @@ import { styles } from './styles'
 
 /** 小组 */
 const Group = (props: NavigationProps) => {
-  const { id, $, fixed, onScroll } = useGroupPage(props)
+  const { id, $, fixed, handleScroll } = useGroupPage(props)
 
   return useObserver(() => (
     <Component id='screen-rakuen-group'>
       <StoreContext.Provider value={id}>
         <Page statusBarEvent={false}>
-          <ScrollView scrollEventThrottle={16} scrollToTop onScroll={onScroll}>
+          <ScrollView scrollEventThrottle={16} scrollToTop onScroll={handleScroll}>
             <Info />
             {$.state.show && (
               <View style={styles.list}>

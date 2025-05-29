@@ -10,7 +10,7 @@ import { info } from '@utils'
 import Action from './action'
 import { RESET_STATE } from './ds'
 
-class ScreenSay extends Action {
+export default class ScreenSay extends Action {
   scrollViewRef: FlatList = null
 
   init = async (scrollView?: FlatList) => {
@@ -35,5 +35,3 @@ class ScreenSay extends Action {
     this.setState(RESET_STATE)
   }
 }
-
-export default ScreenSay

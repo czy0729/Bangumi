@@ -16,13 +16,13 @@ import { useBlogPage } from './hooks'
 
 /** 日志 */
 const Blog = (props: NavigationProps) => {
-  const { id, $, fixed, onScroll } = useBlogPage(props)
+  const { id, $, fixed, handleScroll } = useBlogPage(props)
 
   return useObserver(() => (
     <Component id='screen-blog'>
       <StoreContext.Provider value={id}>
         <Page statusBarEvent={false}>
-          <List $={$} onScroll={onScroll} />
+          <List $={$} onScroll={handleScroll} />
         </Page>
         <Header fixed={fixed} />
         <Extra />

@@ -5,18 +5,23 @@
  * @Last Modified time: 2024-06-22 16:43:48
  */
 import Action from './action'
+import { EXCLUDE_STATE, RESET_STATE, STATE } from './ds'
 
 /** 影评页面状态机 */
-class ScreenBoard extends Action {
+export default class ScreenBoard extends Action {
   init = async () => {
+    const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(this.key)
     this.setState({
-      ...(await this.getStorage(this.key)),
+      ...storageData,
+      ...EXCLUDE_STATE,
       ota: {},
       _loaded: true
     })
 
     return this.initFetch()
   }
-}
 
-export default ScreenBoard
+  unmount = () => {
+    this.setState(RESET_STATE)
+  }
+}

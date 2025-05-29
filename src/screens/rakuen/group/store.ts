@@ -28,9 +28,9 @@ export default class ScreenGroup extends store<typeof STATE> {
   state = observable(STATE)
 
   init = async () => {
-    const state = await this.getStorage(this.key)
+    const storageData = await this.getStorageOnce<typeof STATE>(this.key)
     this.setState({
-      ...state,
+      ...storageData,
       ota: {},
       _loaded: true
     })

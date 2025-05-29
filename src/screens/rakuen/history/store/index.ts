@@ -6,17 +6,17 @@
  */
 import { rakuenStore } from '@stores'
 import Action from './action'
-import { NAMESPACE } from './ds'
+import { NAMESPACE, STATE } from './ds'
 
 /** 本地帖子页面状态机 */
-class ScreenRakuenHistory extends Action {
+export default class ScreenRakuenHistory extends Action {
   init = async () => {
-    const state = await this.getStorage(NAMESPACE)
     await rakuenStore.init('topic')
     await rakuenStore.init('cloudTopic')
+    const storageData = await this.getStorageOnce<typeof STATE>(NAMESPACE)
 
     this.setState({
-      ...state,
+      ...storageData,
       _loaded: true
     })
 
@@ -27,5 +27,3 @@ class ScreenRakuenHistory extends Action {
     return true
   }
 }
-
-export default ScreenRakuenHistory
