@@ -9,17 +9,18 @@ import { queue } from '@utils'
 import { MODEL_COLLECTIONS_ORDERBY } from '@constants'
 import { CollectionsOrderCn } from '@types'
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 
 export default class ScreenUser extends Action {
   init = async () => {
-    const next = {
-      ...(await this.getStorage(NAMESPACE)),
+    const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
+    const state = {
+      ...storageData,
       ...EXCLUDE_STATE,
       _loaded: true
     }
-    next.loadedPage = [next.page]
-    this.setState(next)
+    state.loadedPage = [state.page]
+    this.setState(state)
 
     await queue([
       () => this.fetchUsersInfo(),

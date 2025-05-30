@@ -6,13 +6,17 @@
  */
 import { _ } from '@stores'
 import { Loaded } from '@types'
-import { DEFAULT_SUBJECT_TYPE, DEFAULT_ORDER } from '../ds'
+import { COMPONENT, DEFAULT_ORDER, DEFAULT_SUBJECT_TYPE } from '../ds'
 
-export const NAMESPACE = 'ScreenUser'
+export const NAMESPACE = `Screen${COMPONENT}` as const
+
+export const RESET_STATE = {
+  /** 可视范围底部 y */
+  visibleBottom: _.window.height
+}
 
 export const EXCLUDE_STATE = {
-  /** 可视范围底部 y */
-  visibleBottom: _.window.height,
+  ...RESET_STATE,
   isFocused: true,
   showFilter: false,
   fixed: false,
@@ -23,6 +27,7 @@ export const EXCLUDE_STATE = {
 }
 
 export const STATE = {
+  ...EXCLUDE_STATE,
   subjectType: DEFAULT_SUBJECT_TYPE,
   order: DEFAULT_ORDER,
   list: true,
@@ -34,6 +39,7 @@ export const STATE = {
 
   /** 各类型当前 Input 页数 */
   ipt: '1',
-  ...EXCLUDE_STATE,
+
+  /** 页面初始化完成 */
   _loaded: false as Loaded
 }

@@ -4,10 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-18 07:56:35
  */
-import { useEffect } from 'react'
 import { StatusBar } from '@components'
 import { uiStore, useInitStore } from '@stores'
-import { useFocusEffect, useIsFocused, useMount, useRunAfter } from '@utils/hooks'
+import { usePageLifecycle } from '@utils/hooks'
 import { NavigationProps } from '@types'
 import store from './store'
 import { Ctx } from './types'
@@ -15,35 +14,31 @@ import { Ctx } from './types'
 /** 空间页面逻辑 */
 export function useZonePage(props: NavigationProps) {
   const context = useInitStore<Ctx['$']>(props, store)
-  const { $ } = context
+  const { id, $ } = context
 
-  useRunAfter(() => {
-    $.init()
-  })
-
-  const isFocused = useIsFocused()
-  useEffect(() => {
-    if (!isFocused) {
-      $.resetRemarkModal()
-      uiStore.closePopableSubject()
-      uiStore.closeLikesGrid()
-    }
-  }, [$, isFocused])
-
-  useFocusEffect(() => {
-    setTimeout(() => {
-      StatusBar.setBarStyle('light-content')
-    }, 40)
-  })
-
-  /** 页面销毁 */
-  useMount(() => {
-    return () => {
-      $.setState({
-        mounted: false
-      })
-    }
-  })
+  usePageLifecycle(
+    {
+      onFocus() {
+        setTimeout(() => {
+          StatusBar.setBarStyle('light-content')
+        }, 40)
+      },
+      onEnterComplete() {
+        $.init()
+      },
+      onBlur() {
+        $.resetRemarkModal()
+        uiStore.closePopableSubject()
+        uiStore.closeLikesGrid()
+      },
+      onLeaveComplete() {
+        $.setState({
+          mounted: false
+        })
+      }
+    },
+    id
+  )
 
   return context
 }

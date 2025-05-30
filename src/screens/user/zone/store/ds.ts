@@ -59,6 +59,8 @@ export const EXCLUDE_STATE = {
 }
 
 export const STATE = {
+  ...EXCLUDE_STATE,
+
   /** 选项卡索引位置 */
   page: 0,
 
@@ -77,6 +79,6 @@ export const STATE = {
   /** 成为好友的时间 */
   friendStatus: '',
 
-  ...EXCLUDE_STATE,
+  /** 页面初始化完成 */
   _loaded: false as Loaded
 }

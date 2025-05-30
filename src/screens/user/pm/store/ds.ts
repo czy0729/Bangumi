@@ -12,5 +12,7 @@ export const STATE = {
   placeholder: '',
   replySub: '',
   message: '',
+
+  /** 页面初始化完成 */
   _loaded: false as Loaded
 }

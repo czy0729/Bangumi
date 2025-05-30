@@ -6,18 +6,18 @@
  */
 import { getTimestamp } from '@utils'
 import Action from './action'
-import { NAMESPACE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, RESET_STATE, STATE } from './ds'
 
 export default class ScreenUserSetting extends Action {
   init = async () => {
-    const state = (await this.getStorage(NAMESPACE)) || {}
+    const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
     this.setState({
-      avatar: state.avatar || '',
-      bg: state.bg || '',
-      selectedIndex: state.selectedIndex || 0,
-      bgs: state.bgs || [],
-      pixivs: state.pixivs || [],
-      avatars: state.avatars || [],
+      avatar: storageData.avatar || '',
+      bg: storageData.bg || '',
+      selectedIndex: storageData.selectedIndex || 0,
+      bgs: storageData.bgs || [],
+      pixivs: storageData.pixivs || [],
+      avatars: storageData.avatars || [],
       _loaded: getTimestamp()
     })
 
@@ -25,5 +25,9 @@ export default class ScreenUserSetting extends Action {
     this.onRefresh()
 
     return true
+  }
+
+  unmount = () => {
+    this.setState(RESET_STATE)
   }
 }

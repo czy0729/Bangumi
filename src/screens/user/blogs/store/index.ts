@@ -5,12 +5,13 @@
  * @Last Modified time: 2024-09-14 06:54:02
  */
 import Fetch from './fetch'
-import { NAMESPACE } from './ds'
+import { NAMESPACE, STATE } from './ds'
 
 export default class ScreenBlogs extends Fetch {
   init = async () => {
+    const storageData = await this.getStorageOnce<typeof STATE>(NAMESPACE)
     this.setState({
-      ...(await this.getStorage(NAMESPACE)),
+      ...storageData,
       _loaded: true
     })
 

@@ -21,5 +21,7 @@ export const STATE = {
     sort: '',
     active: 1
   } as Item,
+
+  /** 页面初始化完成 */
   _loaded: false as Loaded
 }

@@ -7,13 +7,13 @@
 import { COLLECTION_STATUS, COLLECTIONS_ORDERBY, SUBJECT_TYPE } from '@constants'
 import { LIMIT, NUM_COLUMNS, NUMBER_OF_LINES, SUB_TITLE } from '../ds'
 import Action from './action'
-// import { cleanQuery } from './utils'
 import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 
 export default class ScreenWordCloud extends Action {
   init = async () => {
+    const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
     this.setState({
-      ...(await this.getStorage(NAMESPACE)),
+      ...storageData,
       ...EXCLUDE_STATE,
       ...this.validateParams(),
       _loaded: true

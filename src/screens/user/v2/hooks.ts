@@ -6,30 +6,34 @@
  */
 import { StatusBar } from '@components'
 import { useInitStore } from '@stores'
-import { useFocusEffect, useRunAfter } from '@utils/hooks'
+import { usePageLifecycle } from '@utils/hooks'
 import { EVENT_APP_TAB_PRESS } from '@src/navigations/tab-bar'
 import { NavigationProps } from '@types'
 import store from './store'
 import { Ctx } from './types'
 
-/** 条目页面逻辑 */
+/** 时光机页面逻辑 */
 export function useUserPage(props: NavigationProps) {
   const context = useInitStore<Ctx['$']>(props, store)
-  const { $, navigation } = context
+  const { id, $, navigation } = context
 
-  useRunAfter(() => {
-    $.init()
+  usePageLifecycle(
+    {
+      onEnter() {
+        $.init()
 
-    navigation.addListener(`${EVENT_APP_TAB_PRESS}|User`, () => {
-      $.onRefreshThenScrollTop()
-    })
-  })
-
-  useFocusEffect(() => {
-    setTimeout(() => {
-      StatusBar.setBarStyle('light-content')
-    }, 40)
-  })
+        navigation.addListener(`${EVENT_APP_TAB_PRESS}|User`, () => {
+          $.onRefreshThenScrollTop()
+        })
+      },
+      onFocus() {
+        setTimeout(() => {
+          StatusBar.setBarStyle('light-content')
+        }, 40)
+      }
+    },
+    id
+  )
 
   return context
 }

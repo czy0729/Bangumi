@@ -16,6 +16,8 @@ export const EXCLUDE_STATE = {
 }
 
 export const STATE = {
+  ...EXCLUDE_STATE,
+
   /** filters */
   subjectType: SUBJECT_TYPE[0].label as SubjectType,
   type: COLLECTION_STATUS[1].value as CollectionStatus,
@@ -37,6 +39,6 @@ export const STATE = {
   lastTime: false,
   limit: 100,
 
-  ...EXCLUDE_STATE,
+  /** 页面初始化完成 */
   _loaded: false as Loaded
 }

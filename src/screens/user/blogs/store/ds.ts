@@ -10,5 +10,6 @@ import { COMPONENT } from '../ds'
 export const NAMESPACE = `Screen${COMPONENT}`
 
 export const STATE = {
+  /** 页面初始化完成 */
   _loaded: false as Loaded
 }

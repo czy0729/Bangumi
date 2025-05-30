@@ -8,11 +8,14 @@ import { _ } from '@stores'
 import { rc } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
 import { COMPONENT as PARENT, H_HEADER } from '../ds'
-import { StoreType as $ } from '../types'
+
+import type { Ctx } from '../types'
 
 export const COMPONENT = rc(PARENT, 'Scroll')
 
 export const COMPONENT_MAIN = rc(COMPONENT)
+
+type $ = Ctx['$']
 
 export const DEFAULT_PROPS = {
   fixedHeight: (_.parallaxImageHeight - H_HEADER) as $['fixedHeight'],

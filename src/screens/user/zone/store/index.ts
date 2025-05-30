@@ -14,10 +14,13 @@ import { EXCLUDE_STATE, STATE } from './ds'
 export { H_RADIUS_LINE, H_HEADER, H_TABBAR }
 
 /** 用户空间页面状态机 */
-class ScreenZone extends Action {
+export default class ScreenZone extends Action {
   init = async () => {
+    const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(
+      this.namespace
+    )
     const state: typeof STATE = {
-      ...(await this.getStorage(this.namespace)),
+      ...storageData,
       ...EXCLUDE_STATE,
       _loaded: true
     }
@@ -75,5 +78,3 @@ class ScreenZone extends Action {
     ])
   }
 }
-
-export default ScreenZone

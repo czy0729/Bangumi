@@ -108,7 +108,6 @@ export function getOriginConfig(
         // 只合并 sort 和 active
         const customBaseItem = base[item.id]
         if (customBaseItem.sort !== undefined) item.sort = customBaseItem.sort
-        // @ts-expect-error
         if (customBaseItem.active !== undefined) item.active = customBaseItem.active
       }
     })

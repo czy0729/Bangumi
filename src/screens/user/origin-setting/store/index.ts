@@ -8,14 +8,14 @@ import { toJS } from 'mobx'
 import { subjectStore } from '@stores'
 import { getTimestamp } from '@utils'
 import Action from './action'
-import { NAMESPACE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 
 export default class ScreenOriginSetting extends Action {
   init = async () => {
-    const state = (await this.getStorage(NAMESPACE)) || {}
+    const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
     this.setState({
       data: toJS(subjectStore.origin),
-      active: state?.active || false,
+      active: storageData?.active || false,
       _loaded: getTimestamp()
     })
   }
