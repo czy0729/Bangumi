@@ -6,14 +6,14 @@
  */
 import { get } from '@utils/protobuf'
 import Action from './action'
-import { NAMESPACE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 
 export default class ScreenBilibiliSync extends Action {
   init = async () => {
-    const state = (await this.getStorage(NAMESPACE)) || {}
+    const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
     this.setState({
-      ...state,
-      hide: !!state?.data?.list?.length,
+      ...storageData,
+      hide: !!storageData?.data?.list?.length,
       loadedBangumiData: !!get('bangumi-data')?.length,
       _loaded: true
     })

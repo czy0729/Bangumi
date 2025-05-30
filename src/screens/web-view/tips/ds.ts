@@ -77,5 +77,7 @@ export const STATE = {
   /** @deprecated */
   page: 0,
   uri: TABS[0].key as string,
+
+  /** 页面初始化完成 */
   _loaded: false as Loaded
 }

@@ -16,6 +16,8 @@ export const EXCLUDE_STATE = {
 }
 
 export const STATE = {
+  ...EXCLUDE_STATE,
+
   /** 追番记录 (bili) */
   data: {
     list: [] as BilibiliItem[],
@@ -48,6 +50,6 @@ export const STATE = {
   /** 收藏是否可见 */
   privacy: false,
 
-  ...EXCLUDE_STATE,
+  /** 页面初始化完成 */
   _loaded: false as Loaded
 }

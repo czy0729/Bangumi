@@ -5,14 +5,14 @@
  * @Last Modified time: 2024-09-16 14:27:56
  */
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 
 export default class ScreenBilibiliSync extends Action {
   init = async () => {
-    const state = (await this.getStorage(NAMESPACE)) || {}
+    const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
     this.setState({
-      ...state,
-      hide: !!state?.data?.list?.length,
+      ...storageData,
+      hide: !!storageData?.data?.list?.length,
       ...EXCLUDE_STATE,
       _loaded: true
     })

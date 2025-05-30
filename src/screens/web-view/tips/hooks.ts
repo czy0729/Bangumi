@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-11-19 05:43:32
  */
 import { useInitStore } from '@stores'
-import { useRunAfter } from '@utils/hooks'
+import { usePageLifecycle } from '@utils/hooks'
 import { NavigationProps } from '@types'
 import store from './store'
 import { Ctx } from './types'
@@ -13,11 +13,16 @@ import { Ctx } from './types'
 /** 特色功能页面逻辑 */
 export function useTipsPage(props: NavigationProps) {
   const context = useInitStore<Ctx['$']>(props, store)
-  const { $ } = context
+  const { id, $ } = context
 
-  useRunAfter(() => {
-    $.init()
-  })
+  usePageLifecycle(
+    {
+      onEnterComplete() {
+        $.init()
+      }
+    },
+    id
+  )
 
   return context
 }

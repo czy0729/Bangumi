@@ -18,6 +18,8 @@ export const EXCLUDE_STATE = {
 }
 
 export const STATE = {
+  ...EXCLUDE_STATE,
+
   /** 错误上报地址 */
   url: '',
   url2: '',
@@ -84,6 +86,6 @@ export const STATE = {
   showTour: false,
   showDefault: false,
 
-  ...EXCLUDE_STATE,
+  /** 页面初始化完成 */
   _loaded: false as Loaded
 }

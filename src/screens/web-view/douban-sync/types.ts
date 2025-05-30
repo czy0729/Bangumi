@@ -4,18 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-10-17 13:40:48
  */
-import { factory } from '@utils'
-import { Id, Loaded, Navigation, SubjectId } from '@types'
+import { Id, Loaded, SubjectId, WithNavigation } from '@types'
 import Store from './store'
 
-const f = factory(Store)
-
-export type StoreType = typeof f
-
-export type Ctx = {
-  $: StoreType
-  navigation?: Navigation
-}
+export type Ctx = WithNavigation<{
+  $: InstanceType<typeof Store>
+}>
 
 type DoubanId = Id
 

@@ -7,9 +7,10 @@
 import { rc } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
 import { InferArray, Navigation } from '@types'
-import { StoreType as $ } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../types'
 
 export const COMPONENT = rc(PARENT, 'Item')
 
@@ -25,6 +26,8 @@ export const HIT_SLOP = {
   bottom: 4,
   left: 20
 } as const
+
+type $ = Ctx['$']
 
 export const DEFAULT_PROPS = {
   navigation: {} as Navigation,
