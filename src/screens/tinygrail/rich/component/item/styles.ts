@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-11 06:55:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-14 16:45:36
+ * @Last Modified time: 2025-06-02 21:17:29
  */
 import { _ } from '@stores'
 
@@ -10,6 +10,9 @@ export const memoStyles = _.memoStyles(() => ({
   container: {
     paddingLeft: _.wind,
     backgroundColor: _.colorTinygrailContainer
+  },
+  highlight: {
+    backgroundColor: _.colorDepthBid
   },
   wrap: {
     paddingRight: _.wind - _._wind

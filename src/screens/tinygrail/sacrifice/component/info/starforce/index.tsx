@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-03-07 06:19:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-29 04:49:23
+ * @Last Modified time: 2025-05-31 22:20:27
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
-import { formatNumber, info } from '@utils'
+import { formatNumber, HTMLDecode, info } from '@utils'
 import { ob } from '@utils/decorators'
 import Stars from '@tinygrail/_/stars'
 import { Ctx } from '../../../types'
@@ -42,7 +42,7 @@ function Starforce() {
           </Text>
           <Touchable
             style={{
-              maxWidth: 128
+              maxWidth: Math.floor(_.window.contentWidth * 0.64)
             }}
             onPress={() => {
               navigation.push('Subject', {
@@ -51,7 +51,7 @@ function Starforce() {
             }}
           >
             <Text type='tinygrailText' size={12} numberOfLines={1} underline={!!$.chara.subjectId}>
-              {$.chara.subjectName}
+              {HTMLDecode($.chara.subjectName)}
             </Text>
           </Touchable>
         </>

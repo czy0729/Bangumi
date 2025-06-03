@@ -6,13 +6,13 @@
  */
 import React from 'react'
 import { ob } from '@utils/decorators'
-import TabsComp from '@tinygrail/_/tabs-v2'
+import TinygrailTabs from '@tinygrail/_/tabs-v2'
 import { TABS } from '../../ds'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
 
 function Tabs() {
-  return <TabsComp routes={TABS} renderItem={renderItem} />
+  return <TinygrailTabs routes={TABS} renderItem={renderItem} />
 }
 
 export default ob(Tabs, COMPONENT)

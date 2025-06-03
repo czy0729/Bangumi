@@ -5,19 +5,13 @@
  * @Last Modified time: 2025-04-28 22:37:53
  */
 import { Characters } from '@stores/tinygrail/types'
-import { factory } from '@utils'
-import { MonoId, Navigation } from '@types'
+import { MonoId, WithNavigation } from '@types'
 import Store from './store'
 import { AUCTIONS_SORT_DS, TEMPLES_SORT_DS, USERS_SORT_DS } from './ds'
 
-const f = factory(Store)
-
-export type StoreType = typeof f
-
-export type Ctx = {
-  $: StoreType
-  navigation?: Navigation
-}
+export type Ctx = WithNavigation<{
+  $: InstanceType<typeof Store>
+}>
 
 export type Params = {
   monoId: MonoId

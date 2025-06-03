@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:10:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-10 18:17:08
+ * @Last Modified time: 2025-05-31 21:49:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,7 @@ import { Ctx } from '../../types'
 import Cover from './cover'
 import Detail from './detail'
 import Expand from './expand'
+import Progress from './progress'
 import Starforce from './starforce'
 import Title from './title'
 import { COMPONENT } from './ds'
@@ -23,7 +24,7 @@ function Info() {
 
   const { $ } = useStore<Ctx>()
   useMount(() => {
-    $.fetchQueueUnique([$.fetchCharacters, $.fetchIssuePrice])
+    $.fetchQueueUnique([$.fetchCharacters, $.fetchIssuePrice, $.fetchValhallChara])
   })
 
   return useObserver(() => {
@@ -34,6 +35,7 @@ function Info() {
         <Title />
         <Starforce />
         <Detail />
+        <Progress />
         <Expand />
       </View>
     )

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-14 16:43:55
+ * @Last Modified time: 2025-06-02 21:17:19
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Text, TextType, Touchable } from '@components'
-import { _ } from '@stores'
-import { getTimestamp, lastDate } from '@utils'
+import { _, userStore } from '@stores'
+import { getTimestamp, lastDate, stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
@@ -78,7 +78,9 @@ function Item({
   const isBan = state === 666
 
   return (
-    <View style={styles.container}>
+    <View
+      style={stl(styles.container, userStore.myId && userStore.myId === userId && styles.highlight)}
+    >
       <Flex align='start'>
         <View style={_.mt.md}>
           <TinygrailAvatar

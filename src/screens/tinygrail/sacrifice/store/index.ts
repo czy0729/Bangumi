@@ -12,7 +12,6 @@ import { EXCLUDE_STATE, INIT_LAST_AUCTION, INIT_LAST_SACRIFICE, NAMESPACE } from
 export default class ScreenTinygrailSacrifice extends Action {
   init = async () => {
     await tinygrailStore.init('test')
-
     this.setState({
       ...((await this.getStorage(NAMESPACE)) || {}),
       ...EXCLUDE_STATE,

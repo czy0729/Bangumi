@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-11-17 04:20:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 16:12:17
+ * @Last Modified time: 2025-05-31 22:24:24
  */
 import React from 'react'
-import { Component, Flex, Page } from '@components'
+import { Component, Flex } from '@components'
 import { _, StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
+import TinygrailPage from '@tinygrail/_/page'
 import TinygrailScrollView from '@tinygrail/_/scroll-view'
 import { NavigationProps } from '@types'
 import Auction from './component/auction'
@@ -29,7 +30,7 @@ const TinygrailSacrifice = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-tinygrail-sacrifice'>
       <StoreContext.Provider value={id}>
-        <Page style={_.container.tinygrail}>
+        <TinygrailPage header={false}>
           <TinygrailScrollView contentContainerStyle={_.container.page} onRefresh={$.refreshAll}>
             <Info />
             <Flex wrap='wrap'>
@@ -43,7 +44,7 @@ const TinygrailSacrifice = (props: NavigationProps) => {
             <Temples />
             <Users />
           </TinygrailScrollView>
-        </Page>
+        </TinygrailPage>
         <Header />
       </StoreContext.Provider>
     </Component>

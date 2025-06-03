@@ -281,6 +281,11 @@ export function calculateFutureICO(
   }
 }
 
+/** 计算当前角色距离升级的数据 */
+export function calculateFutureLevel(level: number = 1, total: number = 0) {
+  return Math.floor(!level || level <= 1 ? 7500 : Math.pow(1.3, level) * 7500) - total
+}
+
 /**
  * 小圣杯 OSS 修正
  *  - https://lain.bgm.tv/pic/crt/g/b7/fe/88670_crt_Zv4H2.jpg -> https://lain.bgm.tv/{r/200|400/}pic/crt/l/b7/fe/88670_crt_Zv4H2.jpg
