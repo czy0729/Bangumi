@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-12-31 01:10:28
  */
 import { computed } from 'mobx'
-import { systemStore, tinygrailStore, userStore } from '@stores'
+import { subjectStore, systemStore, tinygrailStore, userStore } from '@stores'
 import { Id } from '@types'
 import State from './state'
 
@@ -33,6 +33,10 @@ export default class Computed extends State {
 
   @computed get userInfo() {
     return userStore.userInfo
+  }
+
+  @computed get mono() {
+    return subjectStore.mono(`character/${this.chara.monoId}`)
   }
 
   @computed get hm() {

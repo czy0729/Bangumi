@@ -45,6 +45,7 @@ import {
   API_TINYGRAIL_USERS,
   API_TINYGRAIL_VALHALL_CHARA,
   API_TINYGRAIL_VALHALL_LIST,
+  DEV,
   LIST_EMPTY,
   TEXT_BADGES,
   TINYGRAIL_ASSETS_LIMIT
@@ -65,15 +66,18 @@ import { defaultKey, defaultSort, paginationOnePage } from './ds'
 import { ListKey } from './types'
 
 export default class Fetch extends Computed {
+  /** 开发打印 */
   error = (...arg: any) => {
-    console.info(TEXT_BADGES.danger, ...arg)
+    if (DEV) console.info(TEXT_BADGES.danger, ...arg)
   }
 
-  updateIconsCache = iconsCache => {
+  /** 更新人物头像缓存 */
+  updateIconsCache = (data: Record<Id, string>) => {
+    const STATE_KEY = 'iconsCache'
     this.setState({
-      iconsCache
+      [STATE_KEY]: data
     })
-    this.save('iconsCache')
+    this.save(STATE_KEY)
   }
 
   updateCharacters = characters => {

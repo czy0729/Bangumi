@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-12-26 01:25:55
  */
 import { LIST_EMPTY } from '@constants'
-import { ListEmpty, Loaded } from '@types'
+import { Id, ListEmpty, Loaded } from '@types'
 import { TinygrailItemsItem } from './types'
 
 export const NAMESPACE = 'Tinygrail'
@@ -314,8 +314,8 @@ export const STATE = {
   /** 资金日志 */
   balance: LIST_EMPTY,
 
-  /** 记录所有角色的头像 Map (用于没有头像的列表) */
-  iconsCache: {},
+  /** 记录所有角色的头像 (用于没有头像的列表) */
+  iconsCache: {} as Record<Id, string>,
 
   /** ICO 参与者 */
   initial: {},

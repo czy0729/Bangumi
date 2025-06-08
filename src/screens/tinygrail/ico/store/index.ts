@@ -5,22 +5,24 @@
  * @Last Modified time: 2025-01-14 07:01:44
  */
 import { getTimestamp } from '@utils'
+import { M1 } from '@constants'
 import { TABS } from '../ds'
 import Action from './action'
-import { NAMESPACE } from './ds'
+import { NAMESPACE, STATE } from './ds'
 
 export default class ScreenTinygrailICO extends Action {
   init = async () => {
     const { _loaded } = this.state
     const current = getTimestamp()
-    const needFetch = !_loaded || current - Number(_loaded) > 60
+    const needFetch = !_loaded || current - Number(_loaded) > M1
 
+    const storageData = await this.getStorageOnce<typeof STATE>(NAMESPACE)
     this.setState({
-      ...(await this.getStorage(NAMESPACE)),
+      ...storageData,
       _loaded: needFetch ? current : _loaded
     })
 
-    if (needFetch) this.fetchList(TABS[this.state.page].key)
+    if (needFetch) return this.fetchList(TABS[this.state.page].key)
 
     return true
   }

@@ -11,11 +11,12 @@ export const EXCLUDE_STATE = {
 }
 
 export const STATE = {
+  ...EXCLUDE_STATE,
   loading: false,
 
   /** 只能是整数 */
   amount: 5000,
 
-  ...EXCLUDE_STATE,
+  /** 页面初始化完成 */
   _loaded: 0 as Loaded
 }

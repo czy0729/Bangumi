@@ -11,5 +11,7 @@ export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const STATE = {
   page: 0,
+
+  /** 页面初始化完成 */
   _loaded: false as Loaded
 }

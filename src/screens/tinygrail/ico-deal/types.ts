@@ -4,13 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-11-08 18:19:32
  */
-import { MonoId, Navigation } from '@types'
+import { MonoId, WithNavigation } from '@types'
 import Store from './store'
 
-export type Ctx = {
+export type Ctx = WithNavigation<{
   $: InstanceType<typeof Store>
-  navigation?: Navigation
-}
+}>
 
 export type Params = {
   monoId?: MonoId

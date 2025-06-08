@@ -21,6 +21,7 @@ import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../types'
 import Bar from '../bar'
+import Subject from '../subject'
 import { COMPONENT, MAX_SIZE } from './ds'
 import { memoStyles } from './styles'
 
@@ -95,6 +96,8 @@ const Info = () => {
           <Iconfont name='md-navigate-next' color={_.colorTinygrailText} />
         </Flex>
       </Touchable>
+
+      <Subject />
 
       <Flex style={_.mt.sm} justify='center'>
         <Text type='tinygrailText' size={textSize}>

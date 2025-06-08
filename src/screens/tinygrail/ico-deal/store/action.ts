@@ -4,21 +4,34 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-12-31 00:53:49
  */
-import { tinygrailStore } from '@stores'
-import { feedback, info } from '@utils'
+import { subjectStore, tinygrailStore } from '@stores'
+import { feedback, info, queue } from '@utils'
 import { t } from '@utils/fetch'
 import Computed from './computed'
 
 export default class Action extends Computed {
-  prev: any
+  private _prev: string
 
   fetchInitial = (refresh = false) => {
     return tinygrailStore.fetchInitial(this.chara.id, refresh)
   }
 
+  fetchMono = async () => {
+    if (this.mono._loaded) return true
+
+    return subjectStore.fetchMono({
+      monoId: `character/${this.chara?.monoId}`
+    })
+  }
+
   refresh = async () => {
-    await Promise.all([tinygrailStore.fetchCharacters([this.monoId]), tinygrailStore.fetchAssets()])
-    return this.fetchInitial(true)
+    await queue([
+      () => tinygrailStore.fetchCharacters([this.monoId]),
+      () => tinygrailStore.fetchAssets(),
+      () => this.fetchInitial(true)
+    ])
+
+    return this.fetchMono()
   }
 
   /** 注资 */
@@ -69,10 +82,10 @@ export default class Action extends Computed {
     if (v && !/^(([1-9]\d*)|0)(\.\d{0,1}?)?$/.test(v)) {
       if (v === '.') return '0.'
       if (!v) return ''
-      return this.prev
+      return this._prev
     }
 
-    this.prev = v
+    this._prev = v
     return v
   }
 
