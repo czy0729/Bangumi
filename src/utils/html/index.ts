@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 19:14:31
+ * @Last Modified time: 2025-06-08 20:36:53
  */
 import cheerioRN from 'cheerio-without-node-native'
 import { TEXT_BADGES } from '@constants/text'
@@ -289,6 +289,8 @@ export function cData(
     | 'value'
     | 'action'
     | 'order'
+    | 'alt'
+    | 'srcset'
     | 'onclick'
 ): string {
   try {

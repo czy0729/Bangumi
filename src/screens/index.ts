@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-12 16:55:29
+ * @Last Modified time: 2025-06-09 04:39:49
  */
 import { lazy } from 'react'
 
@@ -32,6 +32,7 @@ export const Hentai = lazy(() => import('./discovery/hentai'))
 export const Like = lazy(() => import('./discovery/like'))
 export const Manga = lazy(() => import('./discovery/manga'))
 export const NSFW = lazy(() => import('./discovery/nsfw'))
+export const Pic = lazy(() => import('./discovery/pic'))
 export const Rank = lazy(() => import('./discovery/rank'))
 export const Recommend = lazy(() => import('./discovery/recommend'))
 export const Search = lazy(() => import('./discovery/search'))
@@ -43,10 +44,6 @@ export const Wenku = lazy(() => import('./discovery/wenku'))
 export const Wiki = lazy(() => import('./discovery/wiki'))
 export const WordCloud = lazy(() => import('./discovery/word-cloud'))
 export const Yearbook = lazy(() => import('./discovery/yearbook'))
-
-// Reader
-// export const Comic = lazy(() => import('./reader/comic'))
-// export const HD = lazy(() => import('./reader/hd'))
 
 // Timeline
 export const Say = lazy(() => import('./timeline/say'))
@@ -105,7 +102,7 @@ export const UserTimeline = lazy(() => import('./user/timeline'))
 export const Zone = lazy(() => import('./user/zone'))
 
 // Tinygrail
-export const Tinygrail = lazy(() => import('./tinygrail/index/index'))
+export { default as Tinygrail } from './tinygrail/index/index'
 export const TinygrailAdvance = lazy(() => import('./tinygrail/advance'))
 export const TinygrailAdvanceAsk = lazy(() => import('./tinygrail/advance-ask'))
 export const TinygrailAdvanceAuction = lazy(() => import('./tinygrail/advance-auction'))

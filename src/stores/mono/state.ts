@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:13:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 00:54:01
+ * @Last Modified time: 2025-06-11 20:46:56
  */
 import { observable } from 'mobx'
 import { runAfter } from '@utils'
@@ -22,14 +22,14 @@ export default class State extends Store<typeof STATE> {
     if (this._loaded[key]) return true
 
     if (!async) {
-      // this._loaded[key] = true
+      this._loaded[key] = true
       return this.readStorage([key], NAMESPACE)
     }
 
     runAfter(() => {
       if (this._loaded[key]) return
 
-      // this._loaded[key] = true
+      this._loaded[key] = true
       this.readStorage([key], NAMESPACE)
     }, true)
 

@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-11-11 05:52:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 16:21:20
+ * @Last Modified time: 2025-06-12 02:51:28
  */
 import React from 'react'
-import { HeaderV2, Iconfont, Touchable } from '@components'
-import { _, useStore } from '@stores'
-import { open } from '@utils'
+import { Flex, HeaderV2, Iconfont, Text, Touchable } from '@components'
+import { _, monoStore, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../types'
@@ -16,6 +15,7 @@ import { styles } from './styles'
 
 function Header() {
   const { $, navigation } = useStore<Ctx>()
+  const picTotal = monoStore.picTotal($.name)
   return (
     <HeaderV2
       backgroundStyle={_.container.tinygrail}
@@ -69,7 +69,7 @@ function Header() {
           >
             <Iconfont name='md-waterfall-chart' size={20} color={_.colorTinygrailPlain} />
           </Touchable>
-          <Touchable
+          {/* <Touchable
             style={[styles.touch, _.mr.xs]}
             onPress={() => {
               const { monoId } = $.params
@@ -77,6 +77,23 @@ function Header() {
             }}
           >
             <Iconfont name='icon-link' size={19} color={_.colorTinygrailPlain} />
+          </Touchable> */}
+          <Touchable
+            style={[styles.touch, _.ml.xs]}
+            onPress={() => {
+              navigation.push('Pic', {
+                name: $.name
+              })
+            }}
+          >
+            <Flex>
+              <Iconfont name='icon-image' size={19} color={_.colorTinygrailPlain} />
+              {!!picTotal && (
+                <Text style={styles.num} type='tinygrailPlain' size={10} bold>
+                  {picTotal > 99 ? '99+' : picTotal}
+                </Text>
+              )}
+            </Flex>
           </Touchable>
         </>
       )}

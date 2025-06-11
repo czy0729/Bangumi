@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-15 07:21:00
+ * @Last Modified time: 2025-06-10 17:21:26
  */
 import { Alert, Clipboard, findNodeHandle, NativeModules, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'
@@ -172,11 +172,12 @@ export function showImageViewer(
     headers?: object
   }[] = [],
   index: number = 0,
-  mini: boolean = false
+  mini: boolean = false,
+  useRN: boolean = false
 ) {
   if (!Array.isArray(imageUrls) || imageUrls.length === 0) return
 
-  syncSystemStore().showImageViewer(imageUrls, index, mini)
+  syncSystemStore().showImageViewer(imageUrls, index, mini, useRN)
 }
 
 /** 隐藏 ImageViewer */

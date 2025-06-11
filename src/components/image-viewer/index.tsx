@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-03 10:20:21
+ * @Last Modified time: 2025-06-10 17:22:51
  */
 import React from 'react'
 import { Modal, View } from 'react-native'
@@ -34,6 +34,7 @@ export const ImageViewer = observer(
       visible: false,
       imageUrls: [],
       mini: false,
+      useRN: false,
       onCancel: FROZEN_FN
     }
 
@@ -96,7 +97,7 @@ export const ImageViewer = observer(
     render() {
       r(COMPONENT)
 
-      const { index, visible, imageUrls, mini, onCancel, ...other } = this.props
+      const { index, visible, imageUrls, mini, useRN, onCancel, ...other } = this.props
       return (
         <Component id='component-image-viewer'>
           <Modal
@@ -123,7 +124,7 @@ export const ImageViewer = observer(
                   menus={this.onMenus}
                   saveToLocalByLongPress={false}
                   renderIndicator={this.renderIndicator}
-                  renderImage={this.renderImage}
+                  renderImage={useRN ? undefined : this.renderImage}
                   onCancel={onCancel}
                   {...other}
                 />

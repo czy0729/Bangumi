@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-04-08 18:28:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 00:59:42
+ * @Last Modified time: 2025-06-11 22:26:03
  */
 import { rakuenStore, timelineStore, tinygrailStore, usersStore, userStore } from '@stores'
 import { getTimestamp, omit, opitimize } from '@utils'
 import { get, update } from '@utils/kv'
+import { D7 } from '@constants'
 import Computed from './computed'
 
 export default class Fetch extends Computed {
@@ -37,7 +38,7 @@ export default class Fetch extends Computed {
         })
       }
 
-      if (_loaded - ts >= 60 * 60 * 24 * 7) this.updateThirdParty()
+      if (_loaded - ts >= D7) this.updateThirdParty()
     } catch (error) {}
   }
 

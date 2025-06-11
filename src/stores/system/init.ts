@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-26 00:57:50
+ * @Last Modified time: 2025-06-10 17:21:20
  */
 import { MUSUME_PROMPT } from '@utils/kv/ds'
 import {
@@ -439,7 +439,8 @@ export const INIT_IMAGE_VIEWER = {
   visible: false,
   imageUrls: [],
   index: 0,
-  mini: false
+  mini: false,
+  useRN: false
 }
 
 export const STATE = {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-16 10:54:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-30 20:27:22
+ * @Last Modified time: 2025-06-12 01:34:36
  */
 import React, { useEffect, useMemo, useRef } from 'react'
 import { DeviceEventEmitter, View } from 'react-native'
@@ -15,7 +15,8 @@ import { PopoverIOSItems } from './types'
 const EVENT_TYPE = 'POPOVER_ONSELECT'
 let id = 0
 
-function Popover({ children, ...other }) {
+function Popover({ activateOn, children, ...other }) {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const data = other.data || other.overlay?.props?.data || []
   const title = other.title || other.overlay?.props?.title || ''
   const onSelect = other.onSelect || other.overlay?.props?.onSelect || FROZEN_FN
@@ -73,7 +74,7 @@ function Popover({ children, ...other }) {
         // @ts-expect-error
         styles={styles.holdItem}
         items={items}
-        activateOn='tap'
+        activateOn={activateOn || 'tap'}
         disableMove={items.length >= 10}
         closeOnTap
         hapticFeedback={IOS ? 'Light' : 'None'}

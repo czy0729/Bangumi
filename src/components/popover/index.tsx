@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-02 11:29:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-21 12:53:48
+ * @Last Modified time: 2025-06-12 01:35:16
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -16,6 +16,7 @@ export { PopoverProps, PopoverData }
 /** 点击位置弹出层 */
 function PopoverComp<Data extends PopoverData>({
   data,
+  activateOn,
   onSelect,
   children,
   ...other
@@ -23,7 +24,7 @@ function PopoverComp<Data extends PopoverData>({
   r(COMPONENT)
 
   return (
-    <PopoverIOS {...other} data={data} onSelect={onSelect}>
+    <PopoverIOS {...other} data={data} activateOn={activateOn} onSelect={onSelect}>
       {children}
     </PopoverIOS>
   )

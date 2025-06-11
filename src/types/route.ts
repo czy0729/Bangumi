@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 04:25:07
+ * @Last Modified time: 2025-06-10 06:28:06
  */
 import { ImageSourcePropType } from 'react-native'
 import {
@@ -62,6 +62,7 @@ export type NavigationPushType = RouteActions &
   RouteOverview &
   RoutePM &
   RoutePersons &
+  RoutePic &
   RoutePreview &
   RouteRank &
   RouteRating &
@@ -181,6 +182,14 @@ export type RouteUserTimeline = Route<
     userName?: string
   }
 >
+
+export type RoutePic = (
+  path: 'Pic',
+  params: {
+    /** 关键字 */
+    name: string
+  }
+) => any
 
 export type RouteSay = Route<
   'Say',

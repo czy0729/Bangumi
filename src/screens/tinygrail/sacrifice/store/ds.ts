@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-11 05:08:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-28 22:38:12
+ * @Last Modified time: 2025-06-11 20:47:41
  */
 import { Loaded } from '@types'
 import { AUCTIONS_SORT_DS, COMPONENT, TEMPLES_SORT_DS, USERS_SORT_DS } from '../ds'
@@ -46,6 +46,8 @@ export const EXCLUDE_STATE = {
 }
 
 export const STATE = {
+  ...EXCLUDE_STATE,
+
   /** 显示封面 */
   showCover: false,
 
@@ -105,6 +107,6 @@ export const STATE = {
   /** 董事会排序 */
   usersSort: USERS_SORT_DS[0] as UsersSort,
 
-  ...EXCLUDE_STATE,
+  /** 页面初始化完成 */
   _loaded: 0 as Loaded
 }

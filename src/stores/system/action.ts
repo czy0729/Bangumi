@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:18:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-01 13:49:52
+ * @Last Modified time: 2025-06-10 17:21:05
  */
 import { confirm, info, titleCase } from '@utils'
 import { read } from '@utils/db'
@@ -289,13 +289,19 @@ export default class Actions extends Fetch {
   }
 
   /** 显示 ImageViewer */
-  showImageViewer = (imageUrls: unknown[] = [], index: number, mini: boolean = false) => {
+  showImageViewer = (
+    imageUrls: unknown[] = [],
+    index: number,
+    mini: boolean = false,
+    useRN: boolean = false
+  ) => {
     this.setState({
       imageViewer: {
         visible: true,
         imageUrls,
         index,
-        mini
+        mini,
+        useRN
       }
     })
   }

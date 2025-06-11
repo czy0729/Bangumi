@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:10:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-31 21:49:00
+ * @Last Modified time: 2025-06-10 21:28:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,7 +24,7 @@ function Info() {
 
   const { $ } = useStore<Ctx>()
   useMount(() => {
-    $.fetchQueueUnique([$.fetchCharacters, $.fetchIssuePrice, $.fetchValhallChara])
+    $.fetchQueueUnique([$.fetchCharacters, $.fetchIssuePrice, $.fetchValhallChara, $.fetchPicTotal])
   })
 
   return useObserver(() => {

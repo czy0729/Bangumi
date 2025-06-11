@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-05-19 08:23:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-19 20:14:51
+ * @Last Modified time: 2025-06-11 20:49:09
  */
-import { tinygrailStore } from '@stores'
+import { monoStore, tinygrailStore } from '@stores'
 import { getTimestamp, toFixed } from '@utils'
 import { xhrCustom } from '@utils/fetch'
 import { API_TINYGRAIL_STAR, D7, M5 } from '@constants'
@@ -163,6 +163,14 @@ export default class Fetch extends Computed {
 
     this.log('13 本周萌王信息')
     return tinygrailStore.fetchTopWeek()
+  }
+
+  /** 画集数 */
+  fetchPicTotal = async () => {
+    if (!this.state.mounted || monoStore.picTotal(this.name)) return
+
+    this.log('14 画集')
+    return monoStore.fetchPicTotal(this.name)
   }
 
   /** 更新我的资产 */
