@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:38:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-14 17:00:22
+ * @Last Modified time: 2025-06-14 00:39:20
  */
 import { toJS } from 'mobx'
 import { getTimestamp, HTMLDecode, info, lastDate, toFixed } from '@utils'
@@ -50,7 +50,7 @@ import {
   TEXT_BADGES,
   TINYGRAIL_ASSETS_LIMIT
 } from '@constants'
-import { Id, MonoId, UserId } from '@types'
+import { AnyObject, Id, MonoId, UserId } from '@types'
 import Computed from './computed'
 import {
   INIT_ASSETS,
@@ -89,7 +89,13 @@ export default class Fetch extends Computed {
 
   /** 小圣杯统一请求入口 */
   // @ts-expect-error
-  fetch = (url: string, isPost?: boolean, data?: any, showError?: boolean) => {
+  fetch = (
+    url: string,
+    isPost?: boolean,
+    data?: any,
+    showError?: boolean,
+    headers: AnyObject = {}
+  ) => {
     // @ts-expect-error
     axios.defaults.withCredentials = false
     const config: any = {
@@ -97,7 +103,8 @@ export default class Fetch extends Computed {
       url,
       responseType: 'json',
       headers: {
-        Cookie: this.cookie
+        Cookie: this.cookie,
+        ...headers
       }
     }
     if (data) config.data = data

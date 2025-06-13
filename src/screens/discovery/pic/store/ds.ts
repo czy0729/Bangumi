@@ -52,3 +52,7 @@ export const STATE = {
   /** 页面初始化完成 */
   _loaded: false as Loaded
 }
+
+export const TEXT_FETCHING_WAIT = '请等待先前的请求'
+
+export const TEXT_FETCHING_ABORT = '请等待先前的请求后，再进入此页面'

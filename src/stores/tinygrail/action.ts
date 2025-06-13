@@ -2,11 +2,23 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:40:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-16 15:25:40
+ * @Last Modified time: 2025-06-14 01:56:31
  */
 import { toJS } from 'mobx'
-import { alert, decimal, feedback, getTimestamp, info, lastDate } from '@utils'
 import {
+  alert,
+  arrayBufferToBase64,
+  decimal,
+  feedback,
+  getTimestamp,
+  info,
+  lastDate,
+  loading
+} from '@utils'
+import { xhrCustom } from '@utils/fetch'
+import md5 from '@utils/thirdParty/md5'
+import {
+  API_CHARA_TEMPLE_COVER,
   API_TINYGRAIL_ASK,
   API_TINYGRAIL_AUCTION,
   API_TINYGRAIL_AUCTION_CANCEL,
@@ -22,6 +34,7 @@ import {
   API_TINYGRAIL_JOIN,
   API_TINYGRAIL_LINK,
   API_TINYGRAIL_MAGIC,
+  API_TINYGRAIL_OSS_SIGNATURE,
   API_TINYGRAIL_SACRIFICE,
   API_TINYGRAIL_SCRATCH,
   API_TINYGRAIL_SCRATCH2,
@@ -71,6 +84,7 @@ export default class Action extends Fetch {
       const { name } = temple.list[index]
       info(`${name} 已耗尽`)
 
+      // @ts-expect-error
       temple.list.splice(index, 1)
     } else {
       temple.list[index].sacrifices = sacrifices
@@ -151,6 +165,7 @@ export default class Action extends Fetch {
             const { name } = temple.list[index]
             info(`${name} 已耗尽`)
 
+            // @ts-expect-error
             temple.list.splice(index, 1)
           } else {
             temple.list[index].assets = find.assets
@@ -372,5 +387,69 @@ export default class Action extends Fetch {
   doStarForces = async ({ monoId, amount }) => {
     const { data } = await this.fetch(API_TINYGRAIL_CHARA_STAR(monoId, amount), true)
     return data
+  }
+
+  /** 改变圣殿塔图 */
+  doChangeCover = async (imageUrl: string, monoId: Id) => {
+    let hide: () => void
+    try {
+      hide = loading()
+
+      const imageResponse = await fetch(imageUrl)
+      const blob = await imageResponse.blob()
+      const arrayBuffer = await new Response(blob).arrayBuffer()
+      const imageBase64 = `data:image/jpg;base64,${arrayBufferToBase64(arrayBuffer)}`
+      const hash = md5(imageBase64)
+
+      const signatureResponse = await this.fetch(API_TINYGRAIL_OSS_SIGNATURE(hash), true)
+      const { State, Value } = signatureResponse.data
+      if (State !== 0) {
+        if (hide) hide()
+        info('获取 OSS 签名失败')
+        return false
+      }
+
+      const ossUrl = `https://tinygrail.oss-cn-hangzhou.aliyuncs.com/cover/${hash}.jpg`
+      const uploadResponse = await fetch(ossUrl, {
+        method: 'PUT',
+        headers: {
+          Authorization: `OSS ${Value.Key}:${Value.Sign}`,
+          'Content-Type': 'image/jpeg',
+          'x-oss-date': Value.Date
+        },
+        body: blob
+      })
+
+      if (!uploadResponse.ok) {
+        if (hide) hide()
+        info('上传到 OSS 失败')
+        return false
+      }
+
+      const { _response } = await xhrCustom({
+        method: 'POST',
+        url: API_CHARA_TEMPLE_COVER(monoId),
+        headers: {
+          'Content-Type': 'application/json',
+          Cookie: this.cookie
+        },
+        data: ossUrl
+      })
+      const result = JSON.parse(_response)
+      if (result.State !== 0) {
+        if (hide) hide()
+        info(result.Message || '')
+        return false
+      }
+
+      if (hide) hide()
+      info('更换封面成功')
+      feedback()
+      return true
+    } catch (error) {
+      if (hide) hide()
+      info('更换封面失败')
+      return false
+    }
   }
 }

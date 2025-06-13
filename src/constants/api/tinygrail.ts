@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2022-05-22 14:04:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-02 12:00:14
+ * @Last Modified time: 2025-06-14 00:21:42
  */
 import { Id, UserId } from '@types'
 import { TinygrailMagic, TinygrailType } from './types'
@@ -284,3 +284,11 @@ export const API_TINYGRAIL_CHARA_STAR = (monoId: number = 0, amount: number = 0)
 /** 我的圣殿 */
 export const API_TINYGRAIL_MY_TEMPLE = (hash: UserId, keyword: Id) =>
   `${API_HOST_TINYGRAIL}/api/chara/user/temple/${hash}/1/1?keyword=${keyword}`
+
+/** OSS 签名 */
+export const API_TINYGRAIL_OSS_SIGNATURE = (hash: string) =>
+  `${API_HOST_TINYGRAIL}/api/chara/oss/sign/cover/${hash}/image%2Fjpeg`
+
+/** 改变角色圣殿塔图 */
+export const API_CHARA_TEMPLE_COVER = (monoId: Id) =>
+  `${API_HOST_TINYGRAIL}/api/chara/temple/cover/${monoId}`

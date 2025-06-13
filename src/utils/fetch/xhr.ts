@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:21:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-11 20:10:22
+ * @Last Modified time: 2025-06-14 01:03:42
  */
 import { HOST, HOST_CDN, HOST_NAME, IOS } from '@constants/constants'
 import { WEB } from '@constants/device'
@@ -87,7 +87,14 @@ export function xhrCustom(args: XHRCustomArgs): Promise<{
           return resolve(this)
         }
 
-        log('xhrCustom', 'error:', this.status, url)
+        log(
+          'xhrCustom',
+          'error:',
+          this.status,
+          url,
+          // @ts-expect-error
+          this._response || this.responseText
+        )
         if (this.status === 404) reject(new TypeError('404'))
         if (this.status === 500) reject(new TypeError('500'))
       }
@@ -113,7 +120,11 @@ export function xhrCustom(args: XHRCustomArgs): Promise<{
       request.setRequestHeader(key, headers[key])
     })
 
-    const body = data ? urlStringify(data) : null
+    const body = data
+      ? typeof data === 'string'
+        ? JSON.stringify(data)
+        : urlStringify(data)
+      : null
     request.send(body)
 
     if (showLog) log('xhrCustom', url)

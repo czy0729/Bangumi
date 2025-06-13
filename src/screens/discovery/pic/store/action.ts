@@ -4,14 +4,22 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-06-12 00:58:14
  */
+import { systemStore } from '@stores'
 import { feedback, info, queue, updateVisibleBottom } from '@utils'
 import Fetch from './fetch'
+import { TEXT_FETCHING_WAIT } from './ds'
 
 export default class Action extends Fetch {
   onPage = (page: number) => {
     feedback(true)
+
+    if (page >= 3 && !systemStore.advance) {
+      info('普通用户组暂只开放两页')
+      return
+    }
+
     if (this.state.fetching) {
-      info('请先等待请求结束再跳转')
+      info(TEXT_FETCHING_WAIT)
       return
     }
 

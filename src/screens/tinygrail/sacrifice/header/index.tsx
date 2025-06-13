@@ -79,9 +79,10 @@ function Header() {
             <Iconfont name='icon-link' size={19} color={_.colorTinygrailPlain} />
           </Touchable> */}
           <Touchable
-            style={[styles.touch, _.ml.xs]}
+            style={[styles.touch, _.mh.xs]}
             onPress={() => {
               navigation.push('Pic', {
+                monoId: $.monoId,
                 name: $.name
               })
             }}

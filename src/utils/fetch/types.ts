@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:14:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 01:06:31
+ * @Last Modified time: 2025-06-14 01:04:39
  */
 import { AnyObject } from '@types'
 
@@ -48,7 +48,7 @@ export type XHRArgs = {
 export type XHRCustomArgs = {
   method?: 'GET' | 'POST' | 'PUT'
   url: string
-  data?: object
+  data?: object | string
   headers?: {
     [key: string]: string
   }

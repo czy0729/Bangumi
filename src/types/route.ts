@@ -186,8 +186,14 @@ export type RouteUserTimeline = Route<
 export type RoutePic = (
   path: 'Pic',
   params: {
+    /** 设为塔图的人物 (小圣杯专用) */
+    monoId?: MonoId
+
     /** 关键字 */
     name: string
+
+    /** 下次跳转是否需要替换 */
+    replace?: boolean
   }
 ) => any
 

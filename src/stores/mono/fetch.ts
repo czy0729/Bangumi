@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:16:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-11 22:02:47
+ * @Last Modified time: 2025-06-14 01:44:29
  */
 import { getTimestamp } from '@utils'
 import { fetchHTML } from '@utils/fetch'
@@ -63,6 +63,8 @@ export default class Fetch extends Computed {
 
   /** 画集数 */
   fetchPicTotal = async (name: string) => {
+    if (!name) return false
+
     const STATE_KEY = 'picTotal'
     const ITEM_KEY = name
     if (!ITEM_KEY || this[STATE_KEY](name) !== undefined) return

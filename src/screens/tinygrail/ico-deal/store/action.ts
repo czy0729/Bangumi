@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-12-31 00:51:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-31 00:53:49
+ * @Last Modified time: 2025-06-14 01:44:16
  */
-import { subjectStore, tinygrailStore } from '@stores'
+import { monoStore, subjectStore, tinygrailStore } from '@stores'
 import { feedback, info, queue } from '@utils'
 import { t } from '@utils/fetch'
 import Computed from './computed'
@@ -30,6 +30,7 @@ export default class Action extends Computed {
       () => tinygrailStore.fetchAssets(),
       () => this.fetchInitial(true)
     ])
+    monoStore.fetchPicTotal(this.chara.name)
 
     return this.fetchMono()
   }

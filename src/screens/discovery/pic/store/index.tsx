@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2025-06-09 14:54:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-10 06:30:22
+ * @Last Modified time: 2025-06-14 02:02:53
  */
-import { queue } from '@utils'
+import { userStore } from '@stores'
+import { info, queue } from '@utils'
 import Action from './action'
 import { EXCLUDE_STATE, RESET_STATE, STATE } from './ds'
 
@@ -21,6 +22,11 @@ export default class ScreenPic extends Action {
       ...EXCLUDE_STATE,
       _loaded: true
     })
+
+    if (!userStore.isWebLogin) {
+      info('实验性功能暂只支持登录用户使用')
+      return
+    }
 
     return queue([() => this.fetchList(), () => this.fetchSrcs()], 1)
   }

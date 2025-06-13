@@ -9,6 +9,10 @@ import { Id } from '@types'
 import { ItemInfo } from '../types'
 import { processImages, src, tag } from '../utils'
 import Computed from './computed'
+import { TEXT_FETCHING_ABORT, TEXT_FETCHING_WAIT } from './ds'
+
+/** 此功能必须完成一次完整的请求流程, 才允许进行下一次流程 */
+let globalFetching = false
 
 export default class Fetch extends Computed {
   /** 获取列表数据 */
@@ -16,7 +20,12 @@ export default class Fetch extends Computed {
     if (this.list.length) return true
 
     if (this.state.fetching) {
-      info('请先等待上次请求结束')
+      info(TEXT_FETCHING_WAIT)
+      return false
+    }
+
+    if (globalFetching) {
+      info(TEXT_FETCHING_ABORT)
       return false
     }
 
@@ -25,7 +34,11 @@ export default class Fetch extends Computed {
     })
 
     const { page } = this.state
+
+    globalFetching = true
     const result = await tag(this.keyword, page, this.onListProgress, this.onSrcsProgress)
+    globalFetching = false
+
     if (!result) {
       this.setState({
         fetching: false,
@@ -53,7 +66,12 @@ export default class Fetch extends Computed {
     if (!fetchIds.length) return true
 
     if (this.state.fetching) {
-      info('请先等待上次请求结束')
+      info(TEXT_FETCHING_WAIT)
+      return false
+    }
+
+    if (globalFetching) {
+      info(TEXT_FETCHING_ABORT)
       return false
     }
 
@@ -61,7 +79,10 @@ export default class Fetch extends Computed {
       fetching: true
     })
 
+    globalFetching = true
     const srcs = await src(fetchIds, this.onSrcsProgress)
+    globalFetching = false
+
     this.setState({
       srcs,
       fetching: false

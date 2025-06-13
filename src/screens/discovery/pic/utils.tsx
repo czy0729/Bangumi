@@ -1,10 +1,10 @@
-import { monoStore } from '@stores'
 /*
  * @Author: czy0729
  * @Date: 2025-06-08 20:20:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-12 02:47:32
+ * @Last Modified time: 2025-06-13 21:34:30
  */
+import { monoStore } from '@stores'
 import {
   cData,
   cheerio,
@@ -99,6 +99,7 @@ export async function tag(
         const key = `pic_info_${item.id}`
         if (infos[key]) {
           list[index] = infos[key]
+          await src([item.id], onSrcsProgress)
           return
         }
 
@@ -119,7 +120,6 @@ export async function tag(
           onProgress(list)
         }
         await update(key, item)
-
         await src([item.id], onSrcsProgress)
 
         return src
@@ -147,7 +147,7 @@ export async function tag(
 
 export async function src(ids: Id[], onProgress: HandleSrcsProgress = FROZEN_FN) {
   const data: Srcs = await gets(ids.map(id => `pic_tag_${id}`))
-  const fetchs = ids.map((id, index) => {
+  const fetchs = ids.map(id => {
     return async () => {
       try {
         const key = `pic_tag_${id}`
@@ -161,9 +161,7 @@ export async function src(ids: Id[], onProgress: HandleSrcsProgress = FROZEN_FN)
         const src = (cData($(DECODE.SRC), 'src') || '').split('/large/')?.[1] || 'null'
         data[key] = src
 
-        if (ids.length === 1 || (index && index !== ids.length - 1)) {
-          onProgress(data)
-        }
+        onProgress(data)
         await update(key, src)
 
         return src
