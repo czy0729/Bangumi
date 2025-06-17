@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-05-20 10:28:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-12 02:51:46
+ * @Last Modified time: 2025-06-18 03:48:17
  */
 import { _ } from '@stores'
 
 export const styles = _.create({
   headerTitle: {
-    paddingRight: 88
+    paddingRight: 120
   },
   touch: {
     paddingVertical: _.sm,

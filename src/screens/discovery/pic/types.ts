@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-06-10 06:28:42
  */
-import { GetRouteParams, RoutePic, WithNavigation } from '@types'
+import { GetRouteParams, Id, RoutePic, WithNavigation } from '@types'
 import Store from './store'
 
 export type Ctx = WithNavigation<{
@@ -22,3 +22,11 @@ export type ItemInfo = {
   tags: string
   aspectRatio: number
 }
+
+export type List = ItemInfo[]
+
+export type Srcs = Record<Id, string>
+
+export type HandleListProgress = (data: List) => any
+
+export type HandleSrcsProgress = (data: Srcs) => any

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-11 05:52:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-12 02:51:28
+ * @Last Modified time: 2025-06-18 03:47:47
  */
 import React from 'react'
 import { Flex, HeaderV2, Iconfont, Text, Touchable } from '@components'
@@ -26,7 +26,12 @@ function Header() {
       headerRight={() => (
         <>
           <Touchable
-            style={styles.touch}
+            style={[
+              styles.touch,
+              {
+                marginRight: -4
+              }
+            ]}
             onPress={() => {
               const { form, monoId } = $.params
               t('资产重组.跳转', {
@@ -69,17 +74,17 @@ function Header() {
           >
             <Iconfont name='md-waterfall-chart' size={20} color={_.colorTinygrailPlain} />
           </Touchable>
-          {/* <Touchable
-            style={[styles.touch, _.mr.xs]}
+          <Touchable
+            style={styles.touch}
             onPress={() => {
               const { monoId } = $.params
               open(`https://fuyuake.top/xsb/chara/${monoId?.replace('character/', '')}`)
             }}
           >
             <Iconfont name='icon-link' size={19} color={_.colorTinygrailPlain} />
-          </Touchable> */}
+          </Touchable>
           <Touchable
-            style={[styles.touch, _.mh.xs]}
+            style={styles.touch}
             onPress={() => {
               navigation.push('Pic', {
                 monoId: $.monoId,

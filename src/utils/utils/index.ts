@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-14 01:14:32
+ * @Last Modified time: 2025-06-14 02:29:56
  */
 import { ComponentType } from 'react'
 import { Linking } from 'react-native'
@@ -11,6 +11,7 @@ import pLimit from 'p-limit'
 import { B, IOS, M, TIMEZONE_IS_GMT8 } from '@constants/constants'
 import { AnyObject, Fn } from '@types'
 import { date, getTimestamp } from '../date'
+import Base64 from '../thirdParty/base64'
 import { info } from '../ui'
 import { log } from './utils'
 
@@ -654,5 +655,5 @@ export const arrayBufferToBase64 = (buffer: ArrayBuffer) => {
   for (let i = 0; i < bytes.byteLength; i++) {
     binary += String.fromCharCode(bytes[i])
   }
-  return btoa(binary)
+  return Base64.btoa(binary)
 }

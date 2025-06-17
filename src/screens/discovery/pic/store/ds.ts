@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2025-06-09 04:36:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-12 00:35:18
+ * @Last Modified time: 2025-06-18 03:33:05
  */
 import { _ } from '@stores'
-import { Id, Loaded } from '@types'
+import { Loaded } from '@types'
 import { COMPONENT } from '../ds'
-import { ItemInfo } from '../types'
+import { List, Srcs } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
@@ -33,12 +33,12 @@ export const STATE = {
   ...EXCLUDE_STATE,
 
   /** 分页列表项 */
-  list: {} as Record<number, ItemInfo[]> & {
+  list: {} as Record<number, List> & {
     _loaded: Loaded
   },
 
   /** 实际地址 */
-  srcs: {} as Record<Id, string>,
+  srcs: {} as Srcs,
 
   /** 当前分页 */
   page: 1,
@@ -52,7 +52,3 @@ export const STATE = {
   /** 页面初始化完成 */
   _loaded: false as Loaded
 }
-
-export const TEXT_FETCHING_WAIT = '请等待先前的请求'
-
-export const TEXT_FETCHING_ABORT = '请等待先前的请求后，再进入此页面'

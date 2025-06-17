@@ -17,40 +17,12 @@ import {
   queue,
   sleep
 } from '@utils'
-import Crypto from '@utils/crypto'
 import { xhrCustom } from '@utils/fetch'
 import { get, gets, update } from '@utils/kv'
 import { FROZEN_FN } from '@constants'
 import { Id, ListEmpty } from '@types'
-import { ItemInfo } from './types'
-
-type List = ItemInfo[]
-type Srcs = Record<Id, string>
-type HandleListProgress = (data: List) => any
-type HandleSrcsProgress = (data: Srcs) => any
-
-const DECODE = {
-  BASE: Crypto.get('U2FsdGVkX1821ej1UrCAbmt2N3LNN/nd4iGmBRn3/kRRTtynOAU3fO3y43XqZJ5H') as string,
-  GO: Crypto.get(
-    'U2FsdGVkX19vnk2JaWkcvW+JSD7V9JCGIYAk0o7CMi9/U113Ef1fugD12fiiRWzmgcr65Cv35izi8E4Lbs2e8w=='
-  ) as string,
-  START: Crypto.get('U2FsdGVkX1/P8ir0kD1gMSn2Fzyd7pzLcMb+/sqJV+tuTsMXh+0g682wtRdM5gMg') as string,
-  END: Crypto.get(
-    'U2FsdGVkX19SbbeulS6D6PwdWQv18Vg0tjHjuLhwPdQfn/usdyfY5ralrJKN19We7YU0nMxmhEi6ptjGPR7+OA=='
-  ) as string,
-  CATE: Crypto.get('U2FsdGVkX1+9Ge+gmkYPSgNOuKSTBmbXvENLmV5yPhU=') as string,
-  NUM: Crypto.get('U2FsdGVkX187Exptse19agHhh+QbMYw2+Pll1zcTQtk=') as string,
-  PAGE_TOTAL: Crypto.get('U2FsdGVkX19cOt1GWU/MGZWlzr6WGSTYX7EJuh0FlGs=') as string,
-  SRC: Crypto.get('U2FsdGVkX189CcuNwbF7lq7jvJXpTBd/b7S2BIVeTTg=') as string,
-  URI: Crypto.get(
-    'U2FsdGVkX19uAqpov9MSMl/o3juIgzNsMTKTXKvbukkzowv9oU8oZutdx/K1MrVsrxHZya3gR7JH8w406QXWf/iRQQqfTqgqZYMkeLGx7wtHkmEb6dbPpw//6L3hZ+qu35Zwv58nuw6aDhg77TX88Q=='
-  ) as string
-} as const
-
-const HOST = DECODE.BASE
-const HOST_INFO = (id: Id) => `${HOST}/${id}.html`
-const HOST_URL = (id: Id) => `${DECODE.GO}/${id}.jpg`
-const PROGRESS_LIMIT = 4
+import { DECODE, HOST, HOST_INFO, HOST_URL, PROGRESS_LIMIT } from './ds'
+import { HandleListProgress, HandleSrcsProgress, ItemInfo, List, Srcs } from './types'
 
 export async function tag(
   q: string,
@@ -103,7 +75,7 @@ export async function tag(
           return
         }
 
-        await sleep(1000)
+        await sleep(800)
         const { _response } = await xhrCustom({
           url: HOST_INFO(item.id)
         })
@@ -153,7 +125,7 @@ export async function src(ids: Id[], onProgress: HandleSrcsProgress = FROZEN_FN)
         const key = `pic_tag_${id}`
         if (data[key]) return
 
-        await sleep(1000)
+        await sleep(800)
         const { _response } = await xhrCustom({
           url: HOST_URL(id)
         })

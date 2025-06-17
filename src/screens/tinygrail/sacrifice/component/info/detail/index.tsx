@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-07 06:26:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 16:15:00
+ * @Last Modified time: 2025-06-18 03:59:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,6 +28,16 @@ function Detail() {
     fluctuationText = `${toFixed($.fluctuation, 2)}%`
   }
 
+  const amountText = $.userLogs.amount
+    ? `持有 ${formatNumber(Number($.userLogs.amount), 0)} 股`
+    : '无持股'
+  const assetsText =
+    $.myTemple.assets || $.userLogs.sacrifices
+      ? `资产 ${formatNumber(
+          Number($.myTemple.assets || $.userLogs.sacrifices || 0),
+          0
+        )} (${formatNumber(Number($.myTemple.sacrifices || $.userLogs.sacrifices || 0), 0)})`
+      : '无固定资产'
   return (
     <View style={[_.container.wind, _.mt.xs]}>
       <Flex justify='center' align='baseline'>
@@ -45,9 +55,7 @@ function Detail() {
         </Text>
       </Flex>
       <Text style={_.mt.xs} type='tinygrailText' align='center' size={12} lineHeight={14}>
-        持有 {formatNumber(Number($.userLogs.amount), 0)} 股 / 资产{' '}
-        {formatNumber(Number($.myTemple.assets || $.userLogs.sacrifices || 0), 0)} (
-        {formatNumber(Number($.myTemple.sacrifices || $.userLogs.sacrifices || 0), 0)})
+        {amountText} / {assetsText}
       </Text>
     </View>
   )

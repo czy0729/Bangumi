@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2025-06-09 14:52:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-12 00:58:14
+ * @Last Modified time: 2025-06-18 03:38:25
  */
 import { systemStore } from '@stores'
 import { feedback, info, queue, updateVisibleBottom } from '@utils'
+import { TEXT_FETCHING_WAIT, TEXT_USER_LIMIT } from '../ds'
 import Fetch from './fetch'
-import { TEXT_FETCHING_WAIT } from './ds'
 
 export default class Action extends Fetch {
   onPage = (page: number) => {
     feedback(true)
 
     if (page >= 3 && !systemStore.advance) {
-      info('普通用户组暂只开放两页')
+      info(TEXT_USER_LIMIT)
       return
     }
 

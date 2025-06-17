@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-07 06:19:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-31 22:20:27
+ * @Last Modified time: 2025-06-18 03:57:51
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -24,7 +24,7 @@ function Starforce() {
         }}
       >
         <Flex>
-          <Stars value={$.stars} size={14} />
+          <Stars value={$.stars} size={13} />
         </Flex>
       </Touchable>
       <Text style={_.ml.xs} type='tinygrailText' size={12}>
@@ -32,7 +32,7 @@ function Starforce() {
       </Text>
       {!!$.myTemple.userStarForces && (
         <Text style={_.ml.xs} type='tinygrailText' size={12}>
-          (贡献过 {formatNumber($.myTemple.userStarForces, 0)})
+          (累计贡献 {formatNumber($.myTemple.userStarForces, 0)})
         </Text>
       )}
       {!!$.chara.subjectName && (

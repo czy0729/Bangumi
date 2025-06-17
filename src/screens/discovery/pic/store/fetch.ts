@@ -2,19 +2,23 @@
  * @Author: czy0729
  * @Date: 2025-06-09 14:51:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-11 23:42:35
+ * @Last Modified time: 2025-06-18 03:34:25
  */
 import { getTimestamp, info } from '@utils'
 import { Id } from '@types'
-import { ItemInfo } from '../types'
+import { TEXT_FETCHING_ABORT, TEXT_FETCHING_WAIT } from '../ds'
+import { List, Srcs } from '../types'
 import { processImages, src, tag } from '../utils'
 import Computed from './computed'
-import { TEXT_FETCHING_ABORT, TEXT_FETCHING_WAIT } from './ds'
 
 /** 此功能必须完成一次完整的请求流程, 才允许进行下一次流程 */
 let globalFetching = false
 
 export default class Fetch extends Computed {
+  checkGlobalFetching = () => {
+    return globalFetching
+  }
+
   /** 获取列表数据 */
   fetchList = async () => {
     if (this.list.length) return true
@@ -91,7 +95,7 @@ export default class Fetch extends Computed {
   }
 
   /** 提前更新列表数据 */
-  onListProgress = (data: ItemInfo[]) => {
+  onListProgress = (data: List) => {
     this.setState({
       list: {
         [this.state.page]: processImages(data),
@@ -101,7 +105,7 @@ export default class Fetch extends Computed {
   }
 
   /** 提前更新实际地址数据 */
-  onSrcsProgress = (data: Record<Id, string>) => {
+  onSrcsProgress = (data: Srcs) => {
     this.setState({
       srcs: data
     })

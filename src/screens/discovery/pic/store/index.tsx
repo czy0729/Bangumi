@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2025-06-09 14:54:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-14 02:02:53
+ * @Last Modified time: 2025-06-18 03:37:46
  */
 import { userStore } from '@stores'
 import { info, queue } from '@utils'
+import { TEXT_USER_ABORT } from '../ds'
 import Action from './action'
 import { EXCLUDE_STATE, RESET_STATE, STATE } from './ds'
 
@@ -24,7 +25,7 @@ export default class ScreenPic extends Action {
     })
 
     if (!userStore.isWebLogin) {
-      info('实验性功能暂只支持登录用户使用')
+      info(TEXT_USER_ABORT)
       return
     }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-06-09 15:12:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-12 02:54:46
+ * @Last Modified time: 2025-06-18 03:41:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { _, useStore } from '@stores'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { ITEM_MARGIN, NUM_COLUMNS } from '../../ds'
-import { Ctx, ItemInfo } from '../../types'
+import { Ctx, List as ListType } from '../../types'
 import Item from '../item'
 import Pagination from '../pagination'
 import { COMPONENT } from './ds'
@@ -29,7 +29,7 @@ function List() {
 
     // 动态分配项目到较短的列
     const columns: {
-      items: ItemInfo[]
+      items: ListType
       height: number
     }[] = Array(NUM_COLUMNS)
       .fill(null)
