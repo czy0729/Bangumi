@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-03-05 04:21:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-07 07:00:55
+ * @Last Modified time: 2025-06-18 21:37:53
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => {
   const { width } = _.grid(3)
   const imageHeight = Math.floor(width * 1.28)
-  const imageResizeWidth = Math.floor(width * 1.16)
-  const imageResizeHeight = Math.floor(imageHeight * 1.16)
+  const imageResizeWidth = Math.floor(width * 1.2)
+  const imageResizeHeight = Math.floor(imageHeight * 1.2)
   return {
     wrap: {
       width,

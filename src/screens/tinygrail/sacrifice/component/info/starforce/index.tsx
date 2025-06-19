@@ -2,22 +2,20 @@
  * @Author: czy0729
  * @Date: 2024-03-07 06:19:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-18 03:57:51
+ * @Last Modified time: 2025-06-19 16:48:22
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
-import { formatNumber, HTMLDecode, info } from '@utils'
+import { appNavigate, formatNumber, HTMLDecode, info } from '@utils'
 import { ob } from '@utils/decorators'
 import Stars from '@tinygrail/_/stars'
 import { Ctx } from '../../../types'
 
 function Starforce() {
   const { $, navigation } = useStore<Ctx>()
-  if (!$.starForces) return null
-
   return (
-    <Flex style={_.mt.xs} justify='center'>
+    <Flex style={_.mt.xs} justify='center' wrap='wrap'>
       <Touchable
         onPress={() => {
           info($.stars)
@@ -35,7 +33,7 @@ function Starforce() {
           (累计贡献 {formatNumber($.myTemple.userStarForces, 0)})
         </Text>
       )}
-      {!!$.chara.subjectName && (
+      {!!($.subjectName && $.subjectHref) && (
         <>
           <Text style={_.mh.xs} type='tinygrailText' size={12}>
             /
@@ -45,13 +43,32 @@ function Starforce() {
               maxWidth: Math.floor(_.window.contentWidth * 0.64)
             }}
             onPress={() => {
-              navigation.push('Subject', {
-                subjectId: $.chara.subjectId
-              })
+              appNavigate($.subjectHref, navigation)
             }}
           >
-            <Text type='tinygrailText' size={12} numberOfLines={1} underline={!!$.chara.subjectId}>
-              {HTMLDecode($.chara.subjectName)}
+            <Text type='tinygrailText' size={12} numberOfLines={1} underline>
+              {HTMLDecode($.subjectName)}
+            </Text>
+          </Touchable>
+        </>
+      )}
+      {!!$.subjectCast && (
+        <>
+          <Text style={_.mh.xs} type='tinygrailText' size={12}>
+            /
+          </Text>
+          <Touchable
+            style={{
+              maxWidth: Math.floor(_.window.contentWidth * 0.64)
+            }}
+            onPress={() => {
+              if (!$.subjectCast.href) return
+
+              appNavigate($.subjectCast.href, navigation)
+            }}
+          >
+            <Text type='tinygrailText' size={12} numberOfLines={1} underline={!!$.subjectCast.href}>
+              {HTMLDecode($.subjectCast.name)}
             </Text>
           </Touchable>
         </>

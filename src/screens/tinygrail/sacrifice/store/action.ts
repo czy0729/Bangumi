@@ -16,7 +16,7 @@ import {
   toFixed
 } from '@utils'
 import { t } from '@utils/fetch'
-import { ITEMS_TYPE } from '@screens/tinygrail/_/characters-modal'
+import { ITEMS_TYPE } from '@tinygrail/_/characters-modal'
 import { AnyObject } from '@types'
 import { AuctionsSort, TemplesSort, UsersSort } from '../types'
 import Fetch from './fetch'

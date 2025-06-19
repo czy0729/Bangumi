@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-23 13:55:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-17 15:44:24
+ * @Last Modified time: 2025-06-19 04:38:21
  */
 import React from 'react'
 import { Component, HeaderV2, ListView, Page } from '@components'
@@ -36,10 +36,6 @@ const TinygrailTemples = (props: NavigationProps) => {
               footerTextType='tinygrailText'
               numColumns={3}
               data={$.templeLast}
-              windowSize={6}
-              initialNumToRender={24}
-              maxToRenderPerBatch={24}
-              updateCellsBatchingPeriod={24}
               renderItem={renderItem}
               onHeaderRefresh={$.onHeaderRefresh}
               onFooterRefresh={$.fetchTempleLast}

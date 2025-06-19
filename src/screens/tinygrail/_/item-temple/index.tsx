@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-29 04:40:34
+ * @Last Modified time: 2025-06-19 17:16:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -22,6 +22,7 @@ import { memoStyles } from './styles'
 
 function ItemTemple({
   style,
+  id,
   assets,
   avatar,
   cover,
@@ -70,16 +71,20 @@ function ItemTemple({
       />
       <Title
         style={isFromTemplesPage && _.mt.xs}
+        id={id}
         name={name || nickname}
         rank={rank}
         cLevel={cLevel}
+        type={type}
       />
       {!!(assets || sacrifices) && (
         <View style={_.mt.sm}>
           <Progress
-            size={isFromTemplesPage ? 'xs' : 'sm'}
+            size='sm'
             assets={assets}
             sacrifices={sacrifices}
+            refine={refine}
+            star={userStarForces >= 10000}
           />
           {typeof onItem === 'function' && sacrifices - assets >= 50 && (
             <Touchable style={styles.btn} onPress={onItem}>

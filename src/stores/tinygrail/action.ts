@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:40:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-14 02:29:24
+ * @Last Modified time: 2025-06-18 22:17:11
  */
 import { toJS } from 'mobx'
 import {
@@ -135,7 +135,7 @@ export default class Action extends Fetch {
     return false
   }
 
-  /** 批量根据角色 id 更新我的持仓角色 */
+  /** 批量根据角色 ID 更新我的持仓角色 */
   batchUpdateMyCharaAssetsByIds = async ids => {
     for (const id of ids) {
       const { amount, sacrifices } = (await this.fetchUserLogs(id)) as any
@@ -143,7 +143,7 @@ export default class Action extends Fetch {
     }
   }
 
-  /** 批量根据角色 id 更新我的圣殿资产 */
+  /** 批量根据角色 ID 更新我的圣殿资产 */
   batchUpdateTemplesByIds = async ids => {
     if (!this.hash) return
 
@@ -168,6 +168,7 @@ export default class Action extends Fetch {
             // @ts-expect-error
             temple.list.splice(index, 1)
           } else {
+            temple.list[index].cover = find.cover
             temple.list[index].assets = find.assets
             temple.list[index].sacrifices = find.sacrifices
           }
@@ -445,7 +446,7 @@ export default class Action extends Fetch {
       if (hide) hide()
       info('更换封面成功')
       feedback()
-      return true
+      return this.batchUpdateTemplesByIds([monoId])
     } catch (error) {
       if (hide) hide()
       info('更换封面失败')

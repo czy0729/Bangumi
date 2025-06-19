@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-03-07 20:42:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-28 20:44:38
+ * @Last Modified time: 2025-06-19 15:10:08
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
-import { formatNumber, toFixed } from '@utils'
+import { feedback, formatNumber, toFixed } from '@utils'
 import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { styles } from './styles'
@@ -29,20 +29,43 @@ function Head() {
   return (
     <Flex>
       <Flex.Item>
-        <Touchable onPress={$.toggleAuction}>
-          <Text style={styles.touch} type='tinygrailPlain' size={13}>
-            竞拍
+        <Flex>
+          <Touchable onPress={$.toggleAuction}>
+            <Text style={styles.touch} type='tinygrailPlain' size={13}>
+              竞拍
+            </Text>
+          </Touchable>
+          <Touchable
+            style={_.ml.sm}
+            onPress={() => {
+              if (price) {
+                $.changeAuctionPrice(price + 0.01)
+                feedback(true)
+              }
+            }}
+          >
             <Text type='tinygrailText' size={11} lineHeight={13}>
-              {'  '}
               底价 ({price ? toFixed(price + 0.01, 2) : '-'})
             </Text>
-          </Text>
-        </Touchable>
+          </Touchable>
+        </Flex>
       </Flex.Item>
       <Flex.Item>
-        <Text style={_.ml._sm} type='tinygrailText' size={11}>
-          数量 ({amount ? formatNumber(amount, 0) : '-'} 股)
-        </Text>
+        <Flex>
+          <Touchable
+            style={_.ml._sm}
+            onPress={() => {
+              if (amount) {
+                $.changeAuctionAmount(amount)
+                feedback(true)
+              }
+            }}
+          >
+            <Text type='tinygrailText' size={11}>
+              数量 ({amount ? formatNumber(amount, 0) : '-'} 股)
+            </Text>
+          </Touchable>
+        </Flex>
       </Flex.Item>
     </Flex>
   )

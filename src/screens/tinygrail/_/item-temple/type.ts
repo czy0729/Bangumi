@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-03-05 18:01:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-07 04:42:08
+ * @Last Modified time: 2025-06-19 04:41:48
  */
-import { EventType, Fn, UserId, ViewStyle } from '@types'
+import { EventType, Fn, Id, UserId, ViewStyle } from '@types'
 
 export type Props = {
   style?: ViewStyle
+  id?: Id
   assets?: number
   avatar?: string
   cover: string

@@ -10,7 +10,7 @@ import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { info, toFixed } from '@utils'
 import { useObserver } from '@utils/hooks'
-import { calculateRatio, calculateTempleRate } from '@screens/tinygrail/_/utils'
+import { calculateRatio, calculateTempleRate } from '@tinygrail/_/utils'
 import { memoStyles } from './styles'
 
 function Refine({ rate, rank, stars, level }) {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:20:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-26 01:25:55
+ * @Last Modified time: 2025-06-19 16:57:15
  */
 import { LIST_EMPTY } from '@constants'
 import { Id, ListEmpty, Loaded } from '@types'
@@ -108,7 +108,10 @@ export const INIT_CHARACTERS_ITEM = {
   subjectId: 0,
 
   /** 条目名 */
-  subjectName: ''
+  subjectName: '',
+
+  /** 退市 */
+  st: 0
 } as const
 
 export const INIT_RICH = {

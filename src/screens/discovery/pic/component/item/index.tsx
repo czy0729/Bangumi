@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-06-09 20:03:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-18 03:39:01
+ * @Last Modified time: 2025-06-18 21:56:15
  */
 import React, { useCallback, useMemo } from 'react'
 import { Text } from '@components'
@@ -34,7 +34,8 @@ function Item({ width, height, y, id, tags = '' }) {
         $.params.monoId ? '设为塔图' : false,
         ...tags.split(',').map(item => `# ${item}`)
       ].filter(Boolean) as string[]
-    }, [])
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [tags])
 
     const handlePress = useCallback(() => {
       showImageViewer(

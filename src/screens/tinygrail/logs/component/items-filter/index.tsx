@@ -7,7 +7,7 @@
 import React from 'react'
 import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import SegmentedControl from '@screens/tinygrail/_/segmented-control'
+import SegmentedControl from '@tinygrail/_/segmented-control'
 import { ITEMS_DS } from '../../ds'
 import { Ctx } from '../../types'
 import { memoStyles } from './styles'

@@ -5,7 +5,7 @@
  * @Last Modified time: 2025-05-02 22:48:42
  */
 import { rc } from '@utils/dev'
-import { ITEMS_NOTIFY } from '@screens/tinygrail/_/characters-modal'
+import { ITEMS_NOTIFY } from '@tinygrail/_/characters-modal'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'Item')

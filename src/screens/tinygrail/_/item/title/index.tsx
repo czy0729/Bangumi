@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-03-03 22:55:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-08 19:50:48
+ * @Last Modified time: 2025-06-19 05:11:29
  */
 import React from 'react'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { HTMLDecode } from '@utils'
 import { ob } from '@utils/decorators'
+import Level from '../../level'
 import Rank from '../../rank'
 import { styles } from './styles'
 
@@ -28,11 +29,7 @@ function Title({ rank, topWeekRank, name = '', level, cLevel, crown }) {
           >
             {HTMLDecode(name)}
           </Text>
-          {parseInt(lv) > 1 && (
-            <Text style={_.ml.xs} type='ask' size={11} lineHeight={14} bold>
-              lv{lv}
-            </Text>
-          )}
+          <Level style={_.ml.xs} size={11} lineHeight={14} value={Number(lv)} />
           {!!crown && (
             <Text style={_.ml.xs} type='warning' size={11} lineHeight={14} bold>
               x{crown}

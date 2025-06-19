@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-05-19 08:09:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-19 15:28:53
+ * @Last Modified time: 2025-06-19 17:11:11
  */
 import { computed } from 'mobx'
-import { systemStore, tinygrailStore } from '@stores'
-import { formatNumber, toFixed } from '@utils'
-import { getXsbRelationOTA } from '@constants'
+import { subjectStore, systemStore, tinygrailStore } from '@stores'
+import { asc, formatNumber, toFixed } from '@utils'
+import { getXsbRelationOTA, HOST } from '@constants'
 import { calculateRate, decimal } from '@tinygrail/_/utils'
 import { MonoId } from '@types'
 import State from './state'
@@ -42,7 +42,7 @@ export default class Computed extends State {
 
   /** 角色等级 */
   @computed get level() {
-    return this.chara.level || this.params._props?.level
+    return this.chara.level === undefined ? this.params._props?.level : this.chara.level
   }
 
   /** 角色通天塔等级 */
@@ -230,5 +230,43 @@ export default class Computed extends State {
   /** 本周萌王 */
   @computed get topWeek() {
     return tinygrailStore.topWeek.list.find(item => item.id === this.id) || {}
+  }
+
+  @computed get mono() {
+    return subjectStore.mono(`character/${this.chara.monoId}`)
+  }
+
+  @computed get job() {
+    if (!this.mono?.jobs) return null
+
+    return this.mono.jobs.slice().sort((a, b) => asc(a.cast, b.cast))[0]
+  }
+
+  @computed get subjectName() {
+    if (this.chara.subjectName) return this.chara.subjectName
+
+    if (!this.job) return ''
+
+    return this.job.nameCn || this.job.name || ''
+  }
+
+  @computed get subjectHref() {
+    if (this.chara.subjectId) return `${HOST}/subject/${this.chara.subjectId}`
+
+    if (!this.job) return ''
+
+    return this.job.href
+  }
+
+  @computed get subjectCast() {
+    if (!this.job) return null
+
+    const { cast, castHref } = this.job
+    if (!cast && !castHref) return null
+
+    return {
+      name: cast,
+      href: castHref
+    }
   }
 }

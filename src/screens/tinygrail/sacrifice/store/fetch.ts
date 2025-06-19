@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-05-19 08:23:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-11 20:49:09
+ * @Last Modified time: 2025-06-19 16:56:02
  */
-import { monoStore, tinygrailStore } from '@stores'
+import { monoStore, subjectStore, tinygrailStore } from '@stores'
 import { getTimestamp, toFixed } from '@utils'
 import { xhrCustom } from '@utils/fetch'
 import { API_TINYGRAIL_STAR, D7, M5 } from '@constants'
@@ -180,5 +180,15 @@ export default class Fetch extends Computed {
     this.log('14 更新我的资产')
     const { amount = 0, sacrifices = 0 } = this.userLogs
     return tinygrailStore.updateMyCharaAssets(this.monoId, amount, sacrifices)
+  }
+
+  /** 获取人物信息 */
+  fetchMono = async () => {
+    if ((this.chara.subjectName && this.chara.subjectId) || this.mono._loaded) return true
+
+    this.log('15 人物信息')
+    return subjectStore.fetchMono({
+      monoId: `character/${this.chara?.monoId}`
+    })
   }
 }

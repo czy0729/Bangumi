@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 14:27:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-06 23:34:54
+ * @Last Modified time: 2025-06-18 22:04:25
  */
 import { Appearance, StyleSheet } from 'react-native'
 import { androidDayNightToggle, feedback, info, runAfter } from '@utils'
@@ -158,7 +158,7 @@ export default class Action extends Computed {
     const width = Math.floor((this.window.contentWidth - (num - 1) * marginLeft) / num)
     return {
       width,
-      height: width * 1.4,
+      height: Math.floor(width * 1.4),
       marginLeft
     }
   }

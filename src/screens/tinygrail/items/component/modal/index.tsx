@@ -8,7 +8,7 @@ import React from 'react'
 import { useStore } from '@stores'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import CharactersModal from '@screens/tinygrail/_/characters-modal'
+import CharactersModal from '@tinygrail/_/characters-modal'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 

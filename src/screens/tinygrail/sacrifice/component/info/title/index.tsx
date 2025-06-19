@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-03-07 05:43:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 16:15:26
+ * @Last Modified time: 2025-06-19 17:11:52
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import Bonus from '@screens/tinygrail/_/bonus'
-import Level from '@screens/tinygrail/_/level'
+import Bonus from '@tinygrail/_/bonus'
+import Level from '@tinygrail/_/level'
 import Rank from '@tinygrail/_/rank'
 import { Ctx } from '../../../types'
 
@@ -46,7 +46,7 @@ function Title() {
           >
             #{$.id} - {$.name}
           </Text>
-          <Level value={$.level} size={size - 1} lineHeight={size} />
+          <Level value={$.level} size={size - 1} lineHeight={size} st={$.chara.st} />
           <Bonus value={$.chara.crown} size={size - 1} lineHeight={size} />
           <Iconfont name='md-navigate-next' color={_.colorTinygrailText} />
         </Flex>

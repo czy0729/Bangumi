@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-11-11 05:52:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-18 03:47:47
+ * @Last Modified time: 2025-06-19 18:30:05
  */
 import React from 'react'
 import { Flex, HeaderV2, Iconfont, Text, Touchable } from '@components'
 import { _, monoStore, useStore } from '@stores'
+import { open } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../types'

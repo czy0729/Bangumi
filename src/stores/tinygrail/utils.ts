@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-06 16:26:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-07 06:22:29
+ * @Last Modified time: 2025-06-19 16:56:48
  */
 import { ToastAndroid } from 'react-native'
 import { getTimestamp, throttle, titleCase, toFixed } from '@utils'
@@ -94,6 +94,11 @@ export function toCharacter(item: any, keys = TO_CHARACTER_KEYS) {
 
       case 'icon':
         data[key] = item.Icon || item.Cover
+        break
+
+      case 'st':
+        data[key] = item.ZeroCount
+        break
 
       default:
         data[key] = item[_key] || INIT_CHARACTERS_ITEM[key]

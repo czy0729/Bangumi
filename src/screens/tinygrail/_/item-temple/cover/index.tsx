@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-05 04:16:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-07 06:58:29
+ * @Last Modified time: 2025-06-18 22:02:51
  */
 import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
@@ -57,6 +57,7 @@ function Cover({ level, cover, coverSize = 150, name, refine, event, onPress }) 
         ]}
       >
         <Image
+          key={src}
           style={stl(styles.image, isFromBgm && styles.imageResize)}
           size={isFromBgm ? styles.imageResize.width : styles.image.width}
           height={isFromBgm ? styles.imageResize.height : styles.image.height}

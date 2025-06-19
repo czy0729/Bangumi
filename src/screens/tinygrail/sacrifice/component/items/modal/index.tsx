@@ -7,7 +7,7 @@
 import React from 'react'
 import { useStore } from '@stores'
 import { ob } from '@utils/decorators'
-import CharactersModal from '@screens/tinygrail/_/characters-modal'
+import CharactersModal from '@tinygrail/_/characters-modal'
 import { Fn } from '@types'
 import { Ctx } from '../../../types'
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-07 05:28:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-31 22:22:47
+ * @Last Modified time: 2025-06-19 17:38:45
  */
 import React from 'react'
 import { Flex, Image } from '@components'
@@ -25,7 +25,7 @@ function Cover() {
       {!!$.icon && (
         <Image
           src={tinygrailOSS($.icon, 120)}
-          size={96}
+          size={104}
           imageViewer
           imageViewerSrc={tinygrailOSS(getCoverLarge($.icon), 480)}
           skeletonType='tinygrail'
