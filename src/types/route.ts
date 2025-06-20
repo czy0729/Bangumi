@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-10 06:28:06
+ * @Last Modified time: 2025-06-21 00:46:26
  */
 import { ImageSourcePropType } from 'react-native'
 import {
@@ -353,6 +353,9 @@ export type RouteSearch = Route<
 
     /** 查询关键字 (若使用 _value 而不使用 value, 会导致页面可能不刷新) */
     _value?: string
+
+    /** 传递 false 时不自动聚焦 */
+    _autoFocus?: boolean
   }
 >
 

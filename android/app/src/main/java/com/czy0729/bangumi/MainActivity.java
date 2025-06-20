@@ -2,6 +2,7 @@ package com.czy0729.bangumi;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.content.Intent;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
@@ -16,63 +17,70 @@ import com.umeng.commonsdk.UMConfigure;
 public class MainActivity extends ReactActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    // Set the theme to AppTheme BEFORE onCreate to support
-    // coloring the background, status bar, and navigation bar.
-    // This is required for expo-splash-screen.
     setTheme(R.style.AppTheme);
     super.onCreate(null);
 
-    // 注意：如果您已经在AndroidManifest.xml中配置过appkey和channel值，可以调用此版本初始化函数。
-    // UMConfigure.setLogEnabled(true);
     UMConfigure.setProcessEvent(true);
-    UMConfigure.init(this, "5ddceaa10cafb2ea9900066a", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, null); // Umeng | Google Play
-
-    // interval: 单位是毫秒，默认Session间隔时间是45秒
-    // MobclickAgent.setDebugMode(true);
+    UMConfigure.init(this, "5ddceaa10cafb2ea9900066a", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, null);
     MobclickAgent.setSessionContinueMillis(45000);
     MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.LEGACY_MANUAL);
+
+    // 处理分享文本（冷启动情况）
+    handleSendText(getIntent());
   }
 
-  /**
-   * Returns the name of the main component registered from JavaScript.
-   * This is used to schedule rendering of the component.
-   */
+  @Override
+  public void onNewIntent(Intent intent) {
+    super.onNewIntent(intent);
+    setIntent(intent);
+    // 处理分享文本（热启动情况）
+    handleSendText(intent);
+  }
+
+  private void handleSendText(Intent intent) {
+    if (intent == null) return;
+
+    String sharedText = null;
+
+    // 处理 PROCESS_TEXT 动作
+    if (Intent.ACTION_PROCESS_TEXT.equals(intent.getAction())) {
+      sharedText = intent.getStringExtra(Intent.EXTRA_PROCESS_TEXT);
+    }
+    // 处理 SEND 动作
+    else if (Intent.ACTION_SEND.equals(intent.getAction())
+      && "text/plain".equals(intent.getType())) {
+      sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+    }
+
+    if (sharedText != null) {
+      TextShareModule.sendShareEvent(sharedText);
+    }
+  }
+
   @Override
   protected String getMainComponentName() {
     return "main";
   }
 
-  /**
-   * Returns the instance of the {@link ReactActivityDelegate}. Here we use a util class {@link
-   * DefaultReactActivityDelegate} which allows you to easily enable Fabric and Concurrent React
-   * (aka React 18) with two boolean flags.
-   */
   @Override
   protected ReactActivityDelegate createReactActivityDelegate() {
-    return new ReactActivityDelegateWrapper(this, BuildConfig.IS_NEW_ARCHITECTURE_ENABLED, new DefaultReactActivityDelegate(
+    return new ReactActivityDelegateWrapper(this, BuildConfig.IS_NEW_ARCHITECTURE_ENABLED,
+      new DefaultReactActivityDelegate(
         this,
         getMainComponentName(),
-        // If you opted-in for the New Architecture, we enable the Fabric Renderer.
-        DefaultNewArchitectureEntryPoint.getFabricEnabled()));
+        DefaultNewArchitectureEntryPoint.getFabricEnabled()
+      )
+    );
   }
 
-  /**
-   * Align the back button behavior with Android S
-   * where moving root activities to background instead of finishing activities.
-   * @see <a href="https://developer.android.com/reference/android/app/Activity#onBackPressed()">onBackPressed</a>
-   */
   @Override
   public void invokeDefaultOnBackPressed() {
     if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R) {
       if (!moveTaskToBack(false)) {
-        // For non-root activities, use the default implementation to finish them.
         super.invokeDefaultOnBackPressed();
       }
       return;
     }
-
-    // Use the default back button implementation on Android S
-    // because it's doing more than {@link Activity#moveTaskToBack} in fact.
     super.invokeDefaultOnBackPressed();
   }
 

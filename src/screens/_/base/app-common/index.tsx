@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-14 15:51:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-06 18:12:12
+ * @Last Modified time: 2025-06-20 16:50:35
  */
 import React, { Suspense } from 'react'
 import { toJS } from 'mobx'
@@ -22,7 +22,7 @@ import { COMPONENT } from './ds'
 export const AppCommon = () => {
   r(COMPONENT)
 
-  // App 启动稳定后统一做的操作
+  // 客户端启动稳定后统一做的操作
   useGlobalMount()
 
   // 开发环境保持常亮状态

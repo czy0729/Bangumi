@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-16 01:22:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 06:53:33
+ * @Last Modified time: 2025-06-21 00:47:04
  */
 import React from 'react'
 import { Input } from '@components'
@@ -26,7 +26,7 @@ function SearchBar() {
       returnKeyType='search'
       returnKeyLabel='搜索'
       placeholder={$.isUser ? '输入完整的用户 ID' : '输入关键字'}
-      autoFocus
+      autoFocus={$.params._autoFocus !== false}
       onChangeText={$.onChangeText}
       onFocus={$.onFocus}
       onBlur={$.onBlur}
