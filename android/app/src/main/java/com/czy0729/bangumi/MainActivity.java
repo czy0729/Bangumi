@@ -15,6 +15,9 @@ import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 
 public class MainActivity extends ReactActivity {
+  private static final String TAG = "MainActivity";
+  private static boolean isInitialized = false;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     setTheme(R.style.AppTheme);
@@ -32,6 +35,7 @@ public class MainActivity extends ReactActivity {
   @Override
   public void onNewIntent(Intent intent) {
     super.onNewIntent(intent);
+    // 必须先 setIntent，这样后续 getInten() 才能获取到最新的
     setIntent(intent);
     // 处理分享文本（热启动情况）
     handleSendText(intent);
@@ -40,20 +44,16 @@ public class MainActivity extends ReactActivity {
   private void handleSendText(Intent intent) {
     if (intent == null) return;
 
-    String sharedText = null;
-
-    // 处理 PROCESS_TEXT 动作
-    if (Intent.ACTION_PROCESS_TEXT.equals(intent.getAction())) {
-      sharedText = intent.getStringExtra(Intent.EXTRA_PROCESS_TEXT);
-    }
-    // 处理 SEND 动作
-    else if (Intent.ACTION_SEND.equals(intent.getAction())
-      && "text/plain".equals(intent.getType())) {
-      sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
-    }
-
-    if (sharedText != null) {
-      TextShareModule.sendShareEvent(sharedText);
+    // 只处理来自 ShareActivity 的特定 Action
+    if ("com.czy0729.bangumi.ACTION_SHARE_TEXT".equals(intent.getAction())) {
+      String sharedText = intent.getStringExtra("shared_text");
+      if (sharedText != null) {
+        TextShareModule.sendShareEvent(sharedText);
+        // 【重要】处理完后，清除 Extra，防止重复处理
+        intent.removeExtra("shared_text");
+        // 或者可以将 Action 也置空，更加保险
+        // intent.setAction(null);
+      }
     }
   }
 

@@ -15,6 +15,8 @@ import android.content.Intent;
 
 public class TextShareModule extends ReactContextBaseJavaModule {
   private static ReactApplicationContext reactContext;
+  private static String lastSharedText = null;
+  private static boolean isComponentMounted = false;
 
   public TextShareModule(ReactApplicationContext context) {
     super(context);
@@ -28,27 +30,29 @@ public class TextShareModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
+  public void notifyComponentMounted() {
+    isComponentMounted = true;
+    checkPendingShare();
+  }
+
+  @ReactMethod
+  public void notifyComponentUnmounted() {
+    isComponentMounted = false;
+  }
+
+  @ReactMethod
   public void getSharedText(Promise promise) {
     try {
       Activity currentActivity = getCurrentActivity();
       if (currentActivity != null) {
         Intent intent = currentActivity.getIntent();
-
-        // 检查 PROCESS_TEXT
-        if (Intent.ACTION_PROCESS_TEXT.equals(intent.getAction())) {
-          String text = intent.getStringExtra(Intent.EXTRA_PROCESS_TEXT);
+        if (intent != null && "com.czy0729.bangumi.ACTION_SHARE_TEXT".equals(intent.getAction())) {
+          String text = intent.getStringExtra("shared_text");
           if (text != null) {
             promise.resolve(text);
+            intent.removeExtra("shared_text");
             return;
           }
-        }
-
-        // 检查 SEND
-        if (Intent.ACTION_SEND.equals(intent.getAction())
-          && "text/plain".equals(intent.getType())) {
-          String text = intent.getStringExtra(Intent.EXTRA_TEXT);
-          promise.resolve(text);
-          return;
         }
       }
       promise.resolve(null);
@@ -58,12 +62,26 @@ public class TextShareModule extends ReactContextBaseJavaModule {
   }
 
   public static void sendShareEvent(String text) {
-    if (reactContext != null && text != null) {
+    if (text == null) return;
+
+    lastSharedText = text;
+    if (isComponentMounted && reactContext != null) {
       WritableMap params = Arguments.createMap();
       params.putString("text", text);
       reactContext
         .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
         .emit("onTextShared", params);
+    }
+  }
+
+  private static void checkPendingShare() {
+    if (isComponentMounted && lastSharedText != null && reactContext != null) {
+      WritableMap params = Arguments.createMap();
+      params.putString("text", lastSharedText);
+      reactContext
+        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+        .emit("onTextShared", params);
+      lastSharedText = null;
     }
   }
 }

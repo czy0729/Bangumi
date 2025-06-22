@@ -16,6 +16,15 @@ const { TextShareModule } = NativeModules
 export const ListenSharedText = ({ children, onTextReceived, render }: ListenSharedTextProps) => {
   const [sharedText, setSharedText] = useState<string | null>(null)
 
+  // 通知原生端组件已挂载
+  useEffect(() => {
+    TextShareModule.notifyComponentMounted()
+
+    return () => {
+      TextShareModule.notifyComponentUnmounted()
+    }
+  }, [])
+
   // 获取冷启动时的分享文本
   useEffect(() => {
     TextShareModule.getSharedText().then((text: string | null) => {
@@ -45,10 +54,7 @@ export const ListenSharedText = ({ children, onTextReceived, render }: ListenSha
 
   const renderProps = { sharedText, clearSharedText }
 
-  // 优先使用 render prop，然后是 children，最后返回 null
   if (render) return <>{render(renderProps)}</>
-
   if (children) return <>{children(renderProps)}</>
-
   return null
 }
