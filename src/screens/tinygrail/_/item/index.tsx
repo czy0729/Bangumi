@@ -8,9 +8,9 @@ import React from 'react'
 import { Flex, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { stl } from '@utils'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { EVENT, FROZEN_FN } from '@constants'
+import { useObserver } from '@utils/hooks'
+import { EVENT } from '@constants'
 import Icon from '../icon'
 import Auction from './auction'
 import Control from './control'
@@ -22,72 +22,69 @@ import { Ctx } from './types'
 
 function Item(props) {
   const { $, navigation } = useStore<Ctx>()
-  const styles = memoStyles()
-  const { style, id, monoId, event, type, end, withoutFeedback } = props
-  const go = props.go || $.state.go
-  const isICO = !!end
-  const isAuction = type === 'auction'
-  const isValhall = type === 'valhall'
 
-  const handlePress = () => {
-    if (isICO) {
-      // ICO 不受复写 go 参数影响跳转
+  return useObserver(() => {
+    const styles = memoStyles()
+    const { style, id, monoId, event = EVENT, type, end, withoutFeedback = false } = props
+    const handlePress = () => {
+      if (!!end) {
+        // ICO 不受复写 go 参数影响跳转
+        t(event.id, {
+          to: 'TinygrailICODeal',
+          monoId: monoId || id,
+          ...event.data
+        })
+
+        navigation.push('TinygrailICODeal', {
+          monoId: `character/${monoId || id}`
+        })
+        return
+      }
+
+      const go = props.go || $.state.go
+      const idValue = type === 'auction' || type === 'valhall' ? monoId || id : id
+      if (go) {
+        getOnPress(idValue, go, navigation, event.id, event.data, props)()
+        return
+      }
+
       t(event.id, {
-        to: 'TinygrailICODeal',
-        monoId: monoId || id,
+        to: 'TinygrailDeal',
+        monoId: idValue,
         ...event.data
       })
 
-      navigation.push('TinygrailICODeal', {
-        monoId: `character/${monoId || id}`
+      navigation.push('TinygrailDeal', {
+        monoId: `character/${idValue}`
       })
-      return
     }
 
-    const _id = isAuction || isValhall ? monoId || id : id
-    if (go) {
-      getOnPress(_id, go, navigation, event.id, event.data, props)()
-      return
-    }
-
-    t(event.id, {
-      to: 'TinygrailDeal',
-      monoId: _id,
-      ...event.data
-    })
-
-    navigation.push('TinygrailDeal', {
-      monoId: `character/${_id}`
-    })
-  }
-
-  return (
-    <Flex style={stl(styles.container, style)} align='start'>
-      <Icon key={props.id} {...props} style={_.mt.md} />
-      <Flex.Item>
-        <Flex align='start'>
-          <Flex.Item style={_.mr.sm}>
-            <Touchable style={styles.item} withoutFeedback={withoutFeedback} onPress={handlePress}>
-              <Flex align='start'>
-                <Flex.Item>
-                  <Title {...props} />
-                  <Detail {...props} />
-                </Flex.Item>
-                {isAuction && <Auction {...props} />}
-              </Flex>
-            </Touchable>
-          </Flex.Item>
-        </Flex>
-      </Flex.Item>
-      <Control {...props} />
-    </Flex>
-  )
+    return (
+      <Flex style={stl(styles.container, style)} align='start'>
+        <Icon key={props.id} {...props} style={_.mt.md} />
+        <Flex.Item>
+          <Flex align='start'>
+            <Flex.Item style={_.mr.sm}>
+              <Touchable
+                style={styles.item}
+                withoutFeedback={withoutFeedback}
+                onPress={handlePress}
+              >
+                <Flex align='start'>
+                  <Flex.Item>
+                    <Title {...props} />
+                    <Detail {...props} />
+                  </Flex.Item>
+                  {type === 'auction' && <Auction {...props} />}
+                </Flex>
+              </Touchable>
+            </Flex.Item>
+          </Flex>
+        </Flex.Item>
+        <Control {...props} />
+      </Flex>
+    )
+  })
 }
 
-export default ob(Item, {
-  event: EVENT,
-  showMenu: true,
-  withoutFeedback: false,
-  onAuctionCancel: FROZEN_FN,
-  onCollect: FROZEN_FN
-})
+export default Item

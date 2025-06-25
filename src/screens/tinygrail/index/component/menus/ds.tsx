@@ -75,7 +75,7 @@ export const MENU_ITEMS: MenuItems = [
     ),
     pathname: 'TinygrailBid',
     config: {
-      type: 'bid'
+      type: 'bids'
     },
     icon: 'md-add-circle-outline',
     style: () => ({

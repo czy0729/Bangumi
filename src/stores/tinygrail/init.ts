@@ -57,7 +57,7 @@ export const INIT_CHARACTERS_ITEM = {
   lastOrder: '',
 
   /** 角色等级 */
-  level: 0,
+  level: undefined,
 
   /** 总市值 */
   marketValue: 0,
@@ -308,8 +308,14 @@ export const STATE = {
   /** 我的买单 */
   bid: LIST_EMPTY,
 
+  /** 我的买单映射 <人物 ID, index> */
+  bidMap: {} as Record<Id, number>,
+
   /** 我的卖单 */
   asks: LIST_EMPTY,
+
+  /** 我的卖单映射 <人物 ID, index> */
+  asksMap: {} as Record<Id, number>,
 
   /** 我的持仓 */
   myCharaAssets: INIT_MY_CHARA_ASSETS,
@@ -353,8 +359,11 @@ export const STATE = {
   /** 我的道具 */
   items: LIST_EMPTY as ListEmpty<TinygrailItemsItem>,
 
-  /** 我的拍卖列表 */
+  /** 我的拍卖 */
   auction: LIST_EMPTY,
+
+  /** 我的拍卖映射 <人物 ID, index> */
+  auctionMap: {} as Record<Id, number>,
 
   /** 当前拍卖状态 */
   auctionStatus: {},
@@ -435,7 +444,6 @@ export const LOADED = {
   bid: false,
   charaAll: false,
   charaAssets: false,
-  myTemple: false,
   charaTemple: false,
   characters: false,
   collected: false,
@@ -449,6 +457,7 @@ export const LOADED = {
   kline: false,
   mvi: false,
   myCharaAssets: false,
+  myTemple: false,
   nbc: false,
   recent: false,
   refine_temple: false,

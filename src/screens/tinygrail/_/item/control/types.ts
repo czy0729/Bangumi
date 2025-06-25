@@ -12,5 +12,6 @@ export type Props = AnyObject & {
   monoId?: MonoId
   id?: Id
   withoutFeedback?: boolean
+  showStatus?: boolean
   onAuctionCancel?: Fn
 }

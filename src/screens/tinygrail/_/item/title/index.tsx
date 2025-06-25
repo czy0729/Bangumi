@@ -14,7 +14,7 @@ import Rank from '../../rank'
 import { styles } from './styles'
 
 function Title({ rank, topWeekRank, name = '', level, cLevel, crown }) {
-  const lv = cLevel || level || 0
+  const lv = cLevel || level
   return (
     <Flex style={styles.item}>
       <Rank value={rank || topWeekRank} />

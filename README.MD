@@ -131,7 +131,7 @@ iOS 和安卓都做了兼容，并最大限度保持一致
 
 # 开发心得
 
-从 react-native@0.37 就开始持续开发，当年并没有今天如此多简单而且优秀的方案和第三方库，比如 react hooks、react-native-reanimated、expo libraries，甚至连 Pressable、color scheme 这些概念都没有。最近还涌现了很多一站式解决方案，比如 expo-router，ones 都能在客户端和网页端上直出高性能构建。现在代码上会存在大量老旧的又或者与你现在了解到的 react-native 很多雷同的实现，都已经很难通过使用新的方案迭代过来。
+从 react-native@0.37 就开始持续开发，当年并没有今天如此多简单而且优秀的方案和第三方库，比如 react hooks、react-native-reanimated、expo libraries，甚至连 Pressable、color scheme 这些概念都没有。至于 TypeScript 是最近两三年才开始慢慢补充的，所以很多最初的设计并没考虑过类型问题。最近还涌现了很多一站式解决方案，比如 expo-router，ones 都能在客户端和网页端上直出高性能构建。现在代码上会存在大量老旧的又或者与你现在了解到的 react-native 很多雷同的实现，都已经很难通过使用新的方案迭代过来。
 
 使用 react-native 开发客户端，想做到流畅是需要下很大的功夫的，写法没问题的话一样流畅够用。其实跟开发网页应用没多大区别，无非就是多了一些概念而且还需要转变思路。几年开发下来，关键影响到流畅度，无非就几个点：
 

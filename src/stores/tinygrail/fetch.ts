@@ -87,6 +87,41 @@ export default class Fetch extends Computed {
     this.save('characters')
   }
 
+  updateBidMap = () => {
+    const STATE_KEY = 'bidMap'
+    this.clearState(
+      STATE_KEY,
+      this.bid.list.reduce((acc, item, index) => {
+        acc[item.id] = index
+        return acc
+      }, {})
+    )
+  }
+
+  updateAsksMap = () => {
+    const STATE_KEY = 'asksMap'
+    this.clearState(
+      STATE_KEY,
+      this.asks.list.reduce((acc, item, index) => {
+        acc[item.id] = index
+        return acc
+      }, {})
+    )
+  }
+
+  updateAuctionMap = () => {
+    const STATE_KEY = 'auctionMap'
+    this.clearState(
+      STATE_KEY,
+      this.auction.list
+        .filter(item => item.state === 0)
+        .reduce((acc, item, index) => {
+          acc[item.monoId] = index
+          return acc
+        }, {})
+    )
+  }
+
   /** 小圣杯统一请求入口 */
   // @ts-expect-error
   fetch = (
@@ -782,106 +817,106 @@ export default class Fetch extends Computed {
 
   /** 我的买单 */
   fetchBid = async () => {
-    const result = await this.fetch(API_TINYGRAIL_CHARA_BID())
+    const STATE_KEY = 'bid'
 
-    let data = {
-      ...LIST_EMPTY
-    }
-    if (result.data.State === 0) {
-      const iconsCache = toJS(this.state.iconsCache)
-      data = {
-        ...LIST_EMPTY,
-        list: result.data.Value.Items.map(item => {
-          if (item.Icon) iconsCache[item.Id] = item.Icon
-          return {
-            id: item.Id,
-            bids: item.Bids,
-            asks: item.Asks,
-            change: item.Change,
-            current: item.Current,
-            fluctuation: item.Fluctuation ? item.Fluctuation * 100 : '',
-            total: item.Total,
-            marketValue: item.MarketValue,
-            lastOrder: item.LastOrder,
-            end: item.End,
-            users: item.Users,
-            name: item.Name,
-            icon: item.Icon,
-            bonus: item.Bonus,
-            state: item.State,
-            rate: Number(toFixed(item.Rate, 2)),
-            level: item.Level,
-            sa: item.Sacrifices,
-            rank: item.Rank,
-            stars: item.Stars,
-            starForces: item.StarForces
+    try {
+      const result = await this.fetch(API_TINYGRAIL_CHARA_BID())
+      const { State, Value } = result.data
+      if (State === 0) {
+        const iconsCache: Record<Id, string> = {}
+        this.setState({
+          [STATE_KEY]: {
+            list: mapItems(Value.Items, {
+              asks: 'Asks',
+              bids: 'Bids',
+              bonus: 'Bonus',
+              change: 'Change',
+              current: 'Current',
+              end: 'End',
+              fluctuation: item => (item.Fluctuation ? item.Fluctuation * 100 : ''),
+              icon: item => {
+                if (item.Icon) iconsCache[item.Id] = item.Icon
+                return item.Icon
+              },
+              id: 'Id',
+              lastOrder: 'LastOrder',
+              level: 'Level',
+              marketValue: 'MarketValue',
+              name: 'Name',
+              rank: 'Rank',
+              rate: item => Number(toFixed(item.Rate, 2)),
+              sa: 'Sacrifices',
+              starForces: 'StarForces',
+              stars: 'Stars',
+              state: 'State',
+              total: 'Total',
+              users: 'Users'
+            }),
+            pagination: { page: 1, pageTotal: 1 },
+            _loaded: getTimestamp()
           }
-        }),
-        pagination: paginationOnePage,
-        _loaded: getTimestamp()
+        })
+        this.save(STATE_KEY)
+        this.updateIconsCache(iconsCache)
+        this.updateBidMap()
       }
-      this.updateIconsCache(iconsCache)
+    } catch (error) {
+      this.error('fetchBid', error)
     }
 
-    const key = 'bid'
-    this.setState({
-      [key]: data
-    })
-    this.save(key)
-
-    return data
+    return this[STATE_KEY]
   }
 
   /** 我的卖单 */
   fetchAsks = async () => {
-    const result = await this.fetch(API_TINYGRAIL_CHARA_ASKS())
+    const STATE_KEY = 'asks'
 
-    let data = {
-      ...LIST_EMPTY
-    }
-    if (result.data.State === 0) {
-      const iconsCache = toJS(this.state.iconsCache)
-      data = {
-        ...LIST_EMPTY,
-        list: result.data.Value.Items.map(item => {
-          if (item.Icon) iconsCache[item.Id] = item.Icon
-          return {
-            id: item.Id,
-            bids: item.Bids,
-            asks: item.Asks,
-            change: item.Change,
-            current: item.Current,
-            fluctuation: item.Fluctuation ? item.Fluctuation * 100 : '',
-            total: item.Total,
-            marketValue: item.MarketValue,
-            lastOrder: item.LastOrder,
-            end: item.End,
-            users: item.Users,
-            name: item.Name,
-            icon: item.Icon,
-            bonus: item.Bonus,
-            state: item.State,
-            rate: Number(toFixed(item.Rate, 2)),
-            level: item.Level,
-            sa: item.Sacrifices,
-            rank: item.Rank,
-            stars: item.Stars,
-            starForces: item.StarForces
+    try {
+      const result = await this.fetch(API_TINYGRAIL_CHARA_ASKS())
+      const { State, Value } = result.data
+      if (State === 0) {
+        const iconsCache: Record<Id, string> = {}
+        this.setState({
+          [STATE_KEY]: {
+            list: mapItems(Value.Items, {
+              asks: 'Asks',
+              bids: 'Bids',
+              bonus: 'Bonus',
+              change: 'Change',
+              current: 'Current',
+              end: 'End',
+              fluctuation: item => (item.Fluctuation ? item.Fluctuation * 100 : ''),
+              icon: item => {
+                if (item.Icon) iconsCache[item.Id] = item.Icon
+                return item.Icon
+              },
+              id: 'Id',
+              lastOrder: 'LastOrder',
+              level: 'Level',
+              marketValue: 'MarketValue',
+              name: 'Name',
+              rank: 'Rank',
+              rate: item => Number(toFixed(item.Rate, 2)),
+              sa: 'Sacrifices',
+              starForces: 'StarForces',
+              stars: 'Stars',
+              state: 'State',
+              total: 'Total',
+              users: 'Users'
+            }),
+            pagination: { page: 1, pageTotal: 1 },
+            _loaded: getTimestamp()
           }
-        }),
-        pagination: paginationOnePage,
-        _loaded: getTimestamp()
+        })
+        this.save(STATE_KEY)
+        this.updateIconsCache(iconsCache)
+        this.updateAsksMap()
       }
-      this.updateIconsCache(iconsCache)
+    } catch (error) {
+      this.error('fetchAsks', error)
     }
 
-    const key = 'asks'
-    this.setState({
-      [key]: data
-    })
-    this.save(key)
-
-    return data
+    return this[STATE_KEY]
   }
 
   /** 我的拍卖列表 */
@@ -903,11 +938,18 @@ export default class Fetch extends Computed {
           }
         }
 
-        const iconsCache = toJS(this.state.iconsCache)
+        const iconsCache: Record<Id, string> = {}
         this.setState({
           [STATE_KEY]: {
             list: mapItems(Value.Items, {
               amount: 'Amount',
+              auction: item => {
+                const i = status[item.CharacterId]
+                if (i) {
+                  return { total: item.Type, state: i.State, type: i.Type }
+                }
+                return null
+              },
               icon: item => {
                 if (item.Icon) iconsCache[item.Id] = item.Icon
                 return item.Icon
@@ -921,18 +963,7 @@ export default class Fetch extends Computed {
               price: 'Price',
               rate: item => Number(toFixed(item.Rate, 2)),
               state: 'State',
-              total: 'Total',
-              auction: item => {
-                const i = status[item.CharacterId]
-                if (i) {
-                  return {
-                    total: item.Type,
-                    state: i.State,
-                    type: i.Type
-                  }
-                }
-                return null
-              }
+              total: 'Total'
             }),
             pagination: { page: 1, pageTotal: 1 },
             _loaded: getTimestamp()
@@ -940,6 +971,7 @@ export default class Fetch extends Computed {
         })
         this.save(STATE_KEY)
         this.updateIconsCache(iconsCache)
+        this.updateAuctionMap()
       }
     } catch (error) {
       this.error('fetchAuction', error)

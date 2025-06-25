@@ -39,7 +39,7 @@ function Head() {
             style={_.ml.sm}
             onPress={() => {
               if (price) {
-                $.changeAuctionPrice(price + 0.01)
+                $.changeAuctionPrice(toFixed(price + 0.1, 2))
                 feedback(true)
               }
             }}

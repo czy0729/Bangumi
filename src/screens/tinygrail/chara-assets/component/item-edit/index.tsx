@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-05-03 14:48:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-08 19:59:50
+ * @Last Modified time: 2025-06-25 22:15:48
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
-import Item from '@tinygrail/_/item'
+import TinygrailItem from '@tinygrail/_/item'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
@@ -30,15 +30,16 @@ function ItemEdit({ item, type, users, event }) {
         </View>
       )}
       <Flex.Item pointerEvents={editing ? 'none' : undefined}>
-        <Item
+        <TinygrailItem
           style={editing && styles.edit}
           {...item}
           type={type}
           users={users === 'ico' ? $.mpiUsers[monoId] : users}
           sort={sort}
           event={event}
-          showMenu={!editing}
           withoutFeedback={editing}
+          showMenu={!editing}
+          showStatus
         />
       </Flex.Item>
     </Flex>

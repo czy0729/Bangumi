@@ -4,13 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-03-04 18:36:06
  */
-import { IconfontNames, ReactNode, ViewStyle } from '@types'
+import { IconfontNames, Paths, ReactNode, ViewStyle } from '@types'
 
 export type Props = {
   style?: ViewStyle
   index: number
   iconStyle?: ViewStyle
-  pathname: `Tinygrail${string}`
+  pathname: Paths
   config?: {
     type: string
   }

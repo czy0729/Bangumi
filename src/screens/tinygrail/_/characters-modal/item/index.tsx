@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-01 17:20:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-04 18:22:30
+ * @Last Modified time: 2025-06-25 22:22:22
  */
 import React, { useCallback } from 'react'
 import { Avatar, Flex, Text, Touchable } from '@components'
@@ -66,7 +66,7 @@ const Item = React.memo(
               {assets && sacrifices ? (
                 <Flex style={_.mt.xs}>
                   <Flex.Item>
-                    <Progress size='xs' assets={assets} sacrifices={sacrifices} />
+                    <Progress size='xs' assets={assets} sacrifices={sacrifices} refine={refine} />
                   </Flex.Item>
                   {!!refine && (
                     <Text style={_.ml.xs} type='tinygrailText' size={9} bold>

@@ -27,6 +27,7 @@ export type Props = {
   userId?: UserId
   extra?: string
   state?: number
+  showStatus?: boolean
   onPress?: Fn
   onItem?: Fn
 }

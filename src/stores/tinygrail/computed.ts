@@ -158,14 +158,28 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 我的买单 */
   @computed get bid() {
-    this.init('bid', true)
-    return this.state.bid
+    const STATE_KEY = 'bid'
+    this.init(STATE_KEY, true)
+    return this.state[STATE_KEY]
+  }
+
+  /** 我的买单映射 <人物 ID, index> */
+  @computed get bidMap() {
+    const STATE_KEY = 'bidMap'
+    return this.state[STATE_KEY]
   }
 
   /** 我的卖单 */
   @computed get asks() {
-    this.init('asks', true)
-    return this.state.asks
+    const STATE_KEY = 'asks'
+    this.init(STATE_KEY, true)
+    return this.state[STATE_KEY]
+  }
+
+  /** 我的卖单映射 <人物 ID, index> */
+  @computed get asksMap() {
+    const STATE_KEY = 'asksMap'
+    return this.state[STATE_KEY]
   }
 
   /** 我的持仓 */
@@ -295,10 +309,16 @@ export default class Computed extends State implements StoreConstructor<typeof S
     return this.state.items
   }
 
-  /** 我的拍卖列表 */
+  /** 我的拍卖 */
   @computed get auction() {
     this.init('auction', true)
     return this.state.auction
+  }
+
+  /** 我的拍卖映射 <人物 ID, index> */
+  @computed get auctionMap() {
+    const STATE_KEY = 'auctionMap'
+    return this.state[STATE_KEY]
   }
 
   /** 当前拍卖状态 */

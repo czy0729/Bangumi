@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-03 13:57:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-04 17:22:16
+ * @Last Modified time: 2025-06-25 22:16:34
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
@@ -10,7 +10,7 @@ import { IconTouchable, Popover } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import IconGo from '@tinygrail/_/icon-go'
+import TinygrailIconGo from '@tinygrail/_/icon-go'
 import { TABS } from '../../ds'
 import { Ctx } from '../../types'
 import { COMPONENT, DATA, DATA_ICO } from './ds'
@@ -67,7 +67,7 @@ function Right({ $ }: Ctx) {
   const { title } = TABS[$.state.page]
   return (
     <Flex>
-      <IconGo $={$} />
+      <TinygrailIconGo $={$} />
       {title !== '圣殿' && (
         <Popover
           style={styles.icon}

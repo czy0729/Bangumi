@@ -15,7 +15,7 @@ export default class Fetch extends Computed {
   })
 
   /** 获取买单卖单数量 */
-  fetchCount = (refresh: boolean = false) => {
+  fetchCount = () => {
     return queue(
       (
         [
@@ -24,7 +24,7 @@ export default class Fetch extends Computed {
           ['auction', tinygrailStore.fetchAuction]
         ] as const
       )
-        .filter(([type]) => refresh || !this.list(type)._loaded)
+        // .filter(([type]) => refresh || !this.list(type)._loaded)
         .map(([, fn]) => fn)
     )
   }

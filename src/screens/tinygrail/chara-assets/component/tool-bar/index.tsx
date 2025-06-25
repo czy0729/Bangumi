@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-03-05 02:59:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 03:10:46
+ * @Last Modified time: 2025-06-25 22:16:49
  */
 import React from 'react'
 import { useStore } from '@stores'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import ToolBarComp from '@tinygrail/_/tool-bar'
+import TinygrailToolBar from '@tinygrail/_/tool-bar'
 import { SORT_CHARA_DS, SORT_DS, SORT_TEMPLE_DS } from '../../ds'
 import { Ctx } from '../../types'
 import BatchBtn from '../batch-btn'
@@ -42,7 +42,7 @@ function ToolBar() {
       onSortLongPress: () => $.onSortLongPress(sortKey)
     } as const
 
-    return <ToolBarComp key={String(page)} {...passProps} />
+    return <TinygrailToolBar key={String(page)} {...passProps} />
   })
 }
 

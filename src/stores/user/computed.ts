@@ -131,8 +131,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
     return computed<{
       [K: EpId]: CollectionStatusCn
     }>(() => {
-      const { userProgress } = this.state
-      return userProgress[subjectId] || {}
+      return this.state.userProgress[subjectId] || {}
     }).get()
   }
 

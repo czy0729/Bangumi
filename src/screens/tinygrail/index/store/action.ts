@@ -42,7 +42,7 @@ export default class Action extends Fetch {
     this.caculateChange()
 
     setTimeout(() => {
-      this.fetchCount(true)
+      this.fetchCount()
     }, 400)
 
     return results

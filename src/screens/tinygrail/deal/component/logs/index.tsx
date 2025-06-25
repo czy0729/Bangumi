@@ -21,7 +21,7 @@ function Logs() {
   return (
     <Flex style={styles.container} align='start'>
       <Flex.Item>
-        <Flex style={_.mb.sm}>
+        <Flex>
           <Flex.Item>
             <Text type='bid' size={16}>
               买入委托

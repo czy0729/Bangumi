@@ -2,75 +2,82 @@
  * @Author: czy0729
  * @Date: 2021-03-03 23:46:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-14 16:33:40
+ * @Last Modified time: 2025-06-25 22:13:41
  */
 import React from 'react'
 import { Flex } from '@components'
 import { IconTouchable } from '@_'
 import { _, tinygrailStore } from '@stores'
 import { confirm } from '@utils'
-import { ob } from '@utils/decorators'
-import { FROZEN_FN } from '@constants'
-import Popover from '../../popover'
-import StockPreview from '../../stock-preview'
-import { styles } from './styles'
+import { useObserver } from '@utils/hooks'
+import { EVENT, FROZEN_FN } from '@constants'
+import TinygrailPopover from '../../popover'
+import TinygrailStatus from '../../status'
+import TinygrailStockPreview from '../../stock-preview'
+import { memoStyles } from './styles'
 import { Props } from './types'
 
 function Control(props: Props) {
-  const {
-    _subject,
-    _subjectId,
-    _relation,
-    id,
-    type,
-    monoId,
-    event,
-    showMenu,
-    state,
-    end,
-    withoutFeedback,
-    onAuctionCancel = FROZEN_FN
-  } = props
-  const isICO = !!end
-  const isAuction = type === 'auction'
+  return useObserver(() => {
+    const styles = memoStyles()
+    const {
+      id,
+      type,
+      monoId,
+      event = EVENT,
+      state,
+      end,
+      withoutFeedback = false,
+      showMenu = true,
+      showStatus,
+      onAuctionCancel = FROZEN_FN
+    } = props
 
-  let auctionText = '竞拍中'
-  if (type === 'auction') {
-    if (state === 1) {
-      auctionText = '成功'
-    } else if (state === 2) {
-      auctionText = '失败'
+    // 当前的竞拍状态
+    const isAuction = type === 'auction'
+    let auctionText = '竞拍中'
+    if (type === 'auction') {
+      if (state === 1) {
+        auctionText = '成功'
+      } else if (state === 2) {
+        auctionText = '失败'
+      }
     }
-  }
-  const auctioning = auctionText === '竞拍中'
 
-  return (
-    <Flex style={styles.control}>
-      {isAuction && auctioning && (
-        <IconTouchable
-          style={styles.auctionCancel}
-          name='md-close'
-          color={_.colorTinygrailPlain}
-          size={18}
-          withoutFeedback={withoutFeedback}
-          onPress={() => {
-            confirm('周六取消需要收取手续费, 确定取消?', () => onAuctionCancel(id))
-          }}
-        />
-      )}
-      {!isAuction && <StockPreview {...props} style={styles.stockPreview} _loaded />}
-      {!isAuction && showMenu && !isICO && (
-        <Popover
-          event={event}
-          id={monoId || id}
-          relation={_relation}
-          subject={_subject}
-          subjectId={_subjectId}
-          onCollect={tinygrailStore.toggleCollect}
-        />
-      )}
-    </Flex>
-  )
+    return (
+      <Flex style={styles.control}>
+        {isAuction && auctionText === '竞拍中' && (
+          <IconTouchable
+            style={styles.auctionCancel}
+            name='md-close'
+            color={_.colorTinygrailPlain}
+            size={18}
+            withoutFeedback={withoutFeedback}
+            onPress={() => {
+              confirm('周六取消需要收取手续费, 确定取消?', () => onAuctionCancel(id))
+            }}
+          />
+        )}
+        {!isAuction && (
+          <>
+            <TinygrailStockPreview {...props} style={styles.stockPreview} _loaded />
+            {/* 有 end 代表是 ICO 项 */}
+            {showMenu && !end && (
+              <TinygrailPopover
+                event={event}
+                id={monoId || id}
+                subject={props._subject}
+                subjectId={props._subjectId}
+                relation={props._relation}
+                onCollect={tinygrailStore.toggleCollect}
+              />
+            )}
+          </>
+        )}
+        {showStatus && <TinygrailStatus style={styles.status} id={id} />}
+      </Flex>
+    )
+  })
 }
 
-export default ob(Control)
+export default Control

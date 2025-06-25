@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-19 17:16:35
+ * @Last Modified time: 2025-06-25 22:18:42
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Iconfont, Text, Touchable } from '@components'
+import { Flex, Iconfont, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { formatNumber, stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { useNavigation } from '@utils/hooks'
 import { EVENT } from '@constants'
 import Progress from '../progress'
+import TinygrailStatus from '../status'
 import Cover from './cover'
 import Title from './title'
 import { Props } from './type'
@@ -41,6 +42,7 @@ function ItemTemple({
   userId,
   extra,
   state,
+  showStatus,
   onPress,
   onItem
 }: Props) {
@@ -116,6 +118,11 @@ function ItemTemple({
         >
           星之力 {formatNumber(userStarForces, 0)}
         </Text>
+      )}
+      {showStatus && (
+        <Flex style={_.mt.xs} justify='center'>
+          <TinygrailStatus id={id} />
+        </Flex>
       )}
     </View>
   )

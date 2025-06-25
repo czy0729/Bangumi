@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-06-08 11:00:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-07 06:23:27
+ * @Last Modified time: 2025-06-25 22:16:16
  */
 import React from 'react'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import ItemTemple from '@tinygrail/_/item-temple'
+import TinygrailItemTemple from '@tinygrail/_/item-temple'
 import { getCharaItemSortText } from '@tinygrail/_/utils'
 import { Ctx } from '../../types'
 import ItemEdit from '../item-edit'
@@ -20,7 +20,7 @@ function Item({ id, index, item }: Props) {
   const { $, navigation } = useStore<Ctx>()
   if (id === 'temple') {
     return (
-      <ItemTemple
+      <TinygrailItemTemple
         style={_.isPad && index % 3 === 0 && styles.marginLeft}
         {...item}
         state={$.amount(item.id)}
@@ -31,6 +31,7 @@ function Item({ id, index, item }: Props) {
           },
           true
         )}
+        showStatus
         onPress={() => {
           navigation.push('TinygrailSacrifice', {
             monoId: `character/${item.id}`
