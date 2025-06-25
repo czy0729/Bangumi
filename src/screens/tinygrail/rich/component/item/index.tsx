@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-02 21:17:19
+ * @Last Modified time: 2025-06-26 02:46:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,6 +14,7 @@ import { t } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
 import TinygrailAvatar from '@tinygrail/_/avatar'
 import { decimal } from '@tinygrail/_/utils'
+import { afterTax } from './utils'
 import { COMPONENT, EVENT } from './ds'
 import { memoStyles } from './styles'
 
@@ -60,18 +61,18 @@ function Item({
 
   let text = ''
   let right = ''
-  if (title === '股息') {
-    text = `总值${assetsText} / 流动资金${totalText}`
-    right = shareText
-  } else if (title === '余额') {
+  if (title === '周股息') {
+    text = `周股息${shareText} / ${lastDate(lastActiveTS)}`
+    right = `税后 ${decimal(afterTax(share))}`
+  } else if (title === '流动资金') {
     text = `总值${assetsText} / 股息${shareText}`
     right = totalText
-  } else if (title === '初始') {
+  } else if (title === '初始资金') {
     const principalText = decimal(Math.abs(principal))
-    text = `总值${assetsText} / 股息${shareText} / 流动资金${totalText}`
+    text = `总值${assetsText} / 流动资金${totalText}`
     right = principalText
   } else {
-    text = `周股息${shareText} / 流动资金${totalText} / ${lastDate(lastActiveTS)}`
+    text = `周股息${shareText} / 税后${decimal(afterTax(share))} / ${lastDate(lastActiveTS)}`
     right = assetsText
   }
 
