@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 02:13:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-13 19:38:13
+ * @Last Modified time: 2025-06-26 15:19:13
  */
 import React from 'react'
 import { Flex, Header as HeaderComp, HeaderV2Popover } from '@components'
@@ -30,7 +30,7 @@ function Header({ fixed }) {
       headerTitle={<HeaderTitle $={$} navigation={navigation} />}
       headerRight={() => (
         <Flex style={styles.headerRight}>
-          <Extra $={$} navigation={navigation} />
+          <Extra />
           <HeaderV2Popover
             data={DATA}
             onSelect={key => {

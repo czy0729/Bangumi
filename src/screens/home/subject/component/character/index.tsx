@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-10 07:20:50
+ * @Last Modified time: 2025-06-26 18:31:01
  */
 import React, { Suspense } from 'react'
 import { View } from 'react-native'
@@ -33,6 +33,7 @@ function CharacterWrap({ onBlockRef }) {
           subjectId={$.subjectId}
           crt={$.crt}
           crtCounts={$.subjectFormHTML.crtCounts}
+          subjectName={$.cn}
           onSwitchBlock={$.onSwitchBlock}
         />
         <Split

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 06:31:59
+ * @Last Modified time: 2025-06-26 18:31:12
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -26,6 +26,7 @@ const Character = memo(
     subjectId = 0,
     crt = FROZEN_ARRAY,
     crtCounts = FROZEN_OBJECT,
+    subjectName,
     onSwitchBlock = FROZEN_FN
   }) => {
     return (
@@ -75,7 +76,8 @@ const Character = memo(
                   _name: name,
                   _jp: nameJP,
                   _image,
-                  _count: crtCounts[id] || 0
+                  _count: crtCounts[id] || 0,
+                  _subjectName: subjectName
                 })
 
                 t('条目.跳转', {

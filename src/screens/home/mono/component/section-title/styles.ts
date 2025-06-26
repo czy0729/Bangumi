@@ -17,5 +17,8 @@ export const memoStyles = _.memoStyles(() => ({
     marginRight: _.web(-_.xs, -_.sm),
     borderRadius: _.radiusSm,
     overflow: 'hidden'
+  },
+  opacity: {
+    opacity: 0.64
   }
 }))

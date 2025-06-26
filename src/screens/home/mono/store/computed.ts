@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-21 18:30:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-28 17:21:39
+ * @Last Modified time: 2025-06-26 20:08:39
  */
 import { computed } from 'mobx'
 import { subjectStore, systemStore, tinygrailStore } from '@stores'
@@ -75,7 +75,7 @@ export default class Computed extends State {
 
   /** 人物头像 */
   @computed get thumb() {
-    return getMonoCoverSmall(this.params._image || this.cover || '')
+    return getMonoCoverSmall((this.params._image || this.cover || '') as string)
   }
 
   /** 吐槽数量 */

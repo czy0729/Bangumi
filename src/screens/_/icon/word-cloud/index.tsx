@@ -7,6 +7,7 @@
 import React from 'react'
 import { Image, Touchable } from '@components'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { GROUP_THUMB_MAP } from '@assets/images'
 import { COMPONENT } from './ds'
@@ -16,8 +17,8 @@ import { Props as IconWordCloudProps } from './types'
 export { IconWordCloudProps }
 
 export const IconWordCloud = ob(
-  ({ onPress }: IconWordCloudProps) => (
-    <Touchable style={styles.touch} onPress={onPress}>
+  ({ style, onPress }: IconWordCloudProps) => (
+    <Touchable style={stl(styles.touch, style)} onPress={onPress}>
       <Image
         src={GROUP_THUMB_MAP[_.select('wordcloud_0', 'wordcloud')]}
         size={19}

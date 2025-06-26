@@ -23,5 +23,6 @@ export const DEFAULT_PROPS = {
   subjectId: 0 as $['subjectId'],
   crt: [] as $['crt'],
   crtCounts: {} as Record<string, number>,
+  subjectName: '',
   onSwitchBlock: FROZEN_FN as $['onSwitchBlock']
 }

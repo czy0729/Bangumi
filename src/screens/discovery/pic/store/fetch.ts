@@ -2,9 +2,12 @@
  * @Author: czy0729
  * @Date: 2025-06-09 14:51:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-18 03:34:25
+ * @Last Modified time: 2025-06-26 21:09:33
  */
+import { monoStore } from '@stores'
 import { getTimestamp, info } from '@utils'
+import { get, update } from '@utils/kv'
+import { D7 } from '@constants'
 import { Id } from '@types'
 import { TEXT_FETCHING_ABORT, TEXT_FETCHING_WAIT } from '../ds'
 import { List, Srcs } from '../types'
@@ -21,7 +24,9 @@ export default class Fetch extends Computed {
 
   /** 获取列表数据 */
   fetchList = async () => {
-    if (this.list.length) return true
+    if (this.list.length) {
+      if (this.list.every(item => !!item.tags)) return true
+    }
 
     if (this.state.fetching) {
       info(TEXT_FETCHING_WAIT)
@@ -33,11 +38,20 @@ export default class Fetch extends Computed {
       return false
     }
 
+    const { page } = this.state
+    const key = `pic_error_${this.keyword}`
+    const check = await get(key)
+    if (check?.ts && Number(check.ts) && getTimestamp() - Number(check.ts) <= D7) {
+      this.setState({
+        empty: true
+      })
+      if (page === 1) monoStore.updatePicTotal(this.keyword, 0)
+      return false
+    }
+
     this.setState({
       fetching: true
     })
-
-    const { page } = this.state
 
     globalFetching = true
     const result = await tag(this.keyword, page, this.onListProgress, this.onSrcsProgress)
@@ -48,6 +62,11 @@ export default class Fetch extends Computed {
         fetching: false,
         empty: true
       })
+
+      update(key, {
+        ts: getTimestamp()
+      })
+      if (page === 1) monoStore.updatePicTotal(this.keyword, 0)
       return false
     }
 

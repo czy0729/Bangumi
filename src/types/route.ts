@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-21 00:46:26
+ * @Last Modified time: 2025-06-26 18:48:47
  */
 import { ImageSourcePropType } from 'react-native'
 import {
@@ -192,8 +192,11 @@ export type RoutePic = (
     /** 关键字 */
     name: string
 
-    /** 下次跳转是否需要替换 */
+    /** 下次跳转是否需要替换路由 */
     replace?: boolean
+
+    /** 目标关键字没有结果后, 追加的尝试关键字 */
+    keywords?: string[]
   }
 ) => any
 
@@ -376,6 +379,9 @@ export type RouteMono = Route<
 
     /** 吐槽 +N */
     _count?: string | number
+
+    /** 来源条目名 */
+    _subjectName?: string
   }
 >
 

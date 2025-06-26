@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-11-22 07:43:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-03 18:17:30
+ * @Last Modified time: 2025-06-26 15:31:51
  */
 import React, { useEffect } from 'react'
 import { r } from '@utils/dev'
@@ -24,6 +24,7 @@ export const HeaderV2 = ({
   alias,
   headerTitleAlign,
   headerTitleStyle,
+  headerTitleAppend,
   headerRight
 }: HeaderV2Props) => {
   r(COMPONENT)
@@ -44,9 +45,10 @@ export const HeaderV2 = ({
         style={backgroundStyle}
         transparent={transparent}
         title={title}
-        headerRight={headerRight}
         headerTitleAlign={headerTitleAlign}
         headerTitleStyle={headerTitleStyle}
+        headerTitleAppend={headerTitleAppend}
+        headerRight={headerRight}
       />
       <Track title={title} domTitle={domTitle} hm={hm} alias={alias} />
     </>

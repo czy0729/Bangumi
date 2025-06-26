@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-17 11:27:14
+ * @Last Modified time: 2025-06-26 19:27:15
  */
 import React from 'react'
 import { FlatList, RefreshControl } from 'react-native'
@@ -251,12 +251,12 @@ export const ListView = observer(
         refreshControl: this.renderRefreshControl(),
         onRefresh: onHeaderRefresh ? this.onHeaderRefresh : undefined,
         onEndReached: onFooterRefresh ? this.onEndReached : undefined,
-        onEndReachedThreshold: 0.5,
+        onEndReachedThreshold: 0.3,
 
         /** 常用优化参数 */
-        maxToRenderPerBatch: optimize ? 96 : undefined,
-        updateCellsBatchingPeriod: optimize ? 96 : undefined,
-        initialNumToRender: 24,
+        maxToRenderPerBatch: optimize ? 48 : undefined,
+        updateCellsBatchingPeriod: optimize ? 48 : undefined,
+        initialNumToRender: 12,
         windowSize: optimize ? 21 : undefined,
 
         /** 强制不显示滚动条 */

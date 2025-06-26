@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 22:49:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 03:44:43
+ * @Last Modified time: 2025-06-26 15:39:31
  */
 import React from 'react'
 import { ActivityIndicator } from 'react-native'
@@ -45,11 +45,11 @@ const Normal = observer(({ color, size = 'small' }: ActivityIndicatorProps) => {
 })
 
 /** Loading (中) */
-const Medium = observer(({ color, size = 'small' }: ActivityIndicatorProps) => {
+const Medium = observer(({ style, color, size = 'small' }: ActivityIndicatorProps) => {
   r(COMPONENT)
 
   return (
-    <Component id='component-loading' style={styles.medium}>
+    <Component id='component-loading' style={stl(styles.medium, style)}>
       <ActivityIndicator color={color || _.select(_.colorSub, _.colorDesc)} size={size} />
     </Component>
   )

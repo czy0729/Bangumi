@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2025-06-09 14:50:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-12 00:54:59
+ * @Last Modified time: 2025-06-26 20:06:40
  */
 import { computed } from 'mobx'
 import { Id } from '@types'
+import { keepBasicChars } from '../utils'
 import State from './state'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
 
@@ -61,5 +62,26 @@ export default class Computed extends State {
 
       return entries.map(([name, count]) => `${name} (${count})`)
     }).get()
+  }
+
+  /** 进一步搜索的关键字 */
+  @computed get keywords() {
+    const data: string[] = []
+
+    if (this.keyword !== keepBasicChars(this.keyword)) data.push(keepBasicChars(this.keyword))
+
+    const { keywords } = this.params
+    if (keywords?.length) {
+      data.push(...keywords)
+      keywords.forEach(item => {
+        if (item?.includes?.(' ')) data.push(...item.split(' '))
+      })
+    }
+
+    data.forEach(item => {
+      data.push(keepBasicChars(item))
+    })
+
+    return [...new Set(data.filter(item => !!item && item != 'undefined'))]
   }
 }

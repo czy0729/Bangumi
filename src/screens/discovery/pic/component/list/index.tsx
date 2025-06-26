@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-06-09 15:12:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-18 03:41:50
+ * @Last Modified time: 2025-06-26 20:51:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { ITEM_MARGIN, NUM_COLUMNS } from '../../ds'
 import { Ctx, List as ListType } from '../../types'
+import Empty from '../empty'
 import Item from '../item'
 import Pagination from '../pagination'
 import { COMPONENT } from './ds'
@@ -51,22 +52,27 @@ function List() {
       shortestColumn.height += itemHeight + ITEM_MARGIN
     })
 
+    const showMoreKeywords = !$.state.fetching && $.list.length <= 6
+
     return (
       <ScrollView contentContainerStyle={styles.container} onScroll={$.onScroll}>
-        <View style={styles.list}>
-          {columns.map((column, index) => {
-            let y = 0
-            return (
-              <View key={`column-${index}`} style={styles.column}>
-                {column.items.map(item => {
-                  const w = Math.floor(width - 4)
-                  const h = Math.floor(w / (item.aspectRatio || 1))
-                  y += h + ITEM_MARGIN
-                  return <Item key={item.id} width={w} height={h} y={y - h} {...item} />
-                })}
-              </View>
-            )
-          })}
+        <View style={styles.wrap}>
+          <View style={styles.list}>
+            {columns.map((column, index) => {
+              let y = 0
+              return (
+                <View key={`column-${index}`} style={styles.column}>
+                  {column.items.map(item => {
+                    const w = Math.floor(width - 4)
+                    const h = Math.floor(w / (item.aspectRatio || 1))
+                    y += h + ITEM_MARGIN
+                    return <Item key={item.id} width={w} height={h} y={y - h} {...item} />
+                  })}
+                </View>
+              )
+            })}
+          </View>
+          {showMoreKeywords && <Empty showPagination={false} />}
         </View>
         <Pagination />
       </ScrollView>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-11 16:05:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-17 16:08:56
+ * @Last Modified time: 2025-06-26 15:38:26
  */
 import { _ } from '@stores'
 
@@ -29,6 +29,9 @@ export const memoStyles = _.memoStyles(() => ({
   titleText: {
     fontSize: 16,
     lineHeight: 20,
+    marginTop: -7
+  },
+  titleAppend: {
     marginTop: -7
   },
   transparent: {

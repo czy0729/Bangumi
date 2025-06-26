@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-05-24 11:13:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-12 02:22:07
+ * @Last Modified time: 2025-06-26 21:01:47
  */
 import React from 'react'
-import { HeaderV2 } from '@components'
+import { HeaderV2, Loading } from '@components'
 import { _, useStore } from '@stores'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
@@ -24,8 +24,19 @@ function Header() {
         backgroundColor: _.select('rgba(255, 255, 255, 0.64)', 'rgba(0, 0, 0, 0.64)')
       }}
       title={$.keyword || '图集'}
-      hm={HM}
+      headerTitleAppend={
+        !!$.list.length &&
+        $.state.fetching && (
+          <Loading.Medium
+            style={{
+              marginLeft: 4,
+              marginRight: -22
+            }}
+          />
+        )
+      }
       headerRight={() => <Menu />}
+      hm={HM}
     />
   ))
 }

@@ -2,19 +2,21 @@
  * @Author: czy0729
  * @Date: 2023-04-21 18:32:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 18:07:43
+ * @Last Modified time: 2025-06-26 20:11:18
  */
-import { subjectStore, systemStore, tinygrailStore } from '@stores'
+import { monoStore, subjectStore, systemStore, tinygrailStore } from '@stores'
 import { getTimestamp, omit } from '@utils'
 import { get, update } from '@utils/kv'
 import Computed from './computed'
 
 export default class Fetch extends Computed {
   /** 人物信息和吐槽箱  */
-  fetchMono = () => {
-    return subjectStore.fetchMono({
+  fetchMono = async () => {
+    const result = await subjectStore.fetchMono({
       monoId: this.monoId
     })
+    this.fetchPicTotal()
+    return result
   }
 
   /** 角色信息 */
@@ -68,6 +70,12 @@ export default class Fetch extends Computed {
 
       if (_loaded - ts >= 60 * 60 * 7) this.updateMonoThirdParty()
     } catch (error) {}
+  }
+
+  fetchPicTotal = () => {
+    if (!this.monoId.includes('character')) return false
+
+    return monoStore.fetchPicTotal(this.cn)
   }
 
   /** 更新人物缓存数据 */
