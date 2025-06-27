@@ -67,15 +67,15 @@ export const MENU_ITEMS: MenuItems = [
   },
   {
     title: '我的买单',
-    dynamicTitle: (title: string, bids: number) => (
+    dynamicTitle: (title: string, bid: number) => (
       <>
         {title}
-        <CountText count={bids} />
+        <CountText count={bid} />
       </>
     ),
     pathname: 'TinygrailBid',
     config: {
-      type: 'bids'
+      type: 'bid'
     },
     icon: 'md-add-circle-outline',
     style: () => ({

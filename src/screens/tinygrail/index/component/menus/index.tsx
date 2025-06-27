@@ -16,11 +16,11 @@ import { COMPONENT, MENU_ITEMS } from './ds'
 
 function Menus() {
   const { $ } = useStore<Ctx>()
-  const bids = $.list('bid').list.length
+  const bid = $.list('bid').list.length
   const asks = $.list('asks').list.length
   const auction = $.list('auction').list.filter(item => item.state === 0).length
   const assetsIndex = MENU_ITEMS.findIndex(item => item.title === '资产')
-  const counts = { bids, asks, auction }
+  const counts = { bid, asks, auction }
 
   return (
     <Flex style={_.mt.xs} wrap='wrap'>
@@ -29,7 +29,7 @@ function Menus() {
 
         let title: string | ReactNode = ''
         if ('dynamicTitle' in item && typeof item.dynamicTitle === 'function') {
-          title = item.dynamicTitle(item.title, counts[item?.config?.type || 'bids'])
+          title = item.dynamicTitle(item.title, counts[item?.config?.type || 'bid'])
         } else {
           title = item.title
         }

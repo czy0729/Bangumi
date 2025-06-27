@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-03 17:28:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 04:08:28
+ * @Last Modified time: 2025-06-28 00:41:21
  */
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
@@ -120,7 +120,7 @@ export default memo(
           ) : (
             <Popover {...popoverProps}>
               <Button {...btnPassProps} size='sm' animate={false}>
-                {item.sort}
+                {String(item.sort)}
               </Button>
               {elHeatMap}
             </Popover>
