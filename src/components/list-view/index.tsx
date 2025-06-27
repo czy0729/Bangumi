@@ -254,9 +254,9 @@ export const ListView = observer(
         onEndReachedThreshold: 0.3,
 
         /** 常用优化参数 */
-        maxToRenderPerBatch: optimize ? 48 : undefined,
-        updateCellsBatchingPeriod: optimize ? 48 : undefined,
-        initialNumToRender: 12,
+        maxToRenderPerBatch: optimize ? 40 : undefined,
+        updateCellsBatchingPeriod: optimize ? 40 : undefined,
+        initialNumToRender: this.props.initialNumToRender || 10,
         windowSize: optimize ? 21 : undefined,
 
         /** 强制不显示滚动条 */

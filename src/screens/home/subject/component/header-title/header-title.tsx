@@ -43,12 +43,12 @@ const HeaderTitle = memo(
           </Katakana.Provider>
         </View>
         {score ? (
-          <Flex style={_.mt.xxs}>
+          <Flex style={_.mt.xs}>
             <Rank style={_.mr.xs} value={rank} size={9} />
             <Stars value={score} />
           </Flex>
         ) : (
-          <Text style={_.mt.xxs} size={10} type='sub' numberOfLines={1}>
+          <Text style={_.mt.xs} size={10} type='sub' numberOfLines={1}>
             {cnjp(jp, cn)}
           </Text>
         )}

@@ -1,11 +1,11 @@
-import { HeaderV2Popover } from '@components'
 /*
  * @Author: czy0729
  * @Date: 2025-06-10 19:18:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-12 00:56:57
+ * @Last Modified time: 2025-06-28 00:12:30
  */
-import { useStore } from '@stores'
+import { HeaderV2Popover } from '@components'
+import { _, useStore } from '@stores'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
@@ -20,7 +20,15 @@ function Empty() {
     if (!$.list?.length) return null
 
     const data = [`全部 (${$.list.length})`, ...$.tags($.state.page)]
-    return <HeaderV2Popover data={data} name='md-menu' size={20} onSelect={$.onFilter} />
+    return (
+      <HeaderV2Popover
+        data={data}
+        name='md-menu'
+        color={$.state.filter ? _.colorMain : _.colorTitle}
+        size={20}
+        onSelect={$.onFilter}
+      />
+    )
   })
 }
 

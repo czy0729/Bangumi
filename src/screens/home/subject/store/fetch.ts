@@ -687,4 +687,20 @@ export default class Fetch extends Computed {
 
     return false
   }
+
+  private _fetchPicTotal = false
+
+  /** 获取图集关键字信息 */
+  fetchPicTotal = async () => {
+    if (this._fetchPicTotal) return false
+
+    await queue(
+      [...new Set([...this.subjectKeywords, ...this.crtKeywords])]
+        .filter(Boolean)
+        .map(item => () => monoStore.fetchPicTotal(item))
+    )
+
+    this._fetchPicTotal = true
+    return true
+  }
 }

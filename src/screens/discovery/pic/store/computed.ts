@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2025-06-09 14:50:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-26 20:06:40
+ * @Last Modified time: 2025-06-28 00:28:39
  */
 import { computed } from 'mobx'
+import { keepBasicChars } from '@utils'
 import { Id } from '@types'
-import { keepBasicChars } from '../utils'
 import State from './state'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
 
@@ -17,7 +17,7 @@ export default class Computed extends State {
 
   /** 搜索关键字 */
   @computed get keyword() {
-    return this.params.name || ''
+    return (String(this.params.name || '')?.split('/')?.[0] || '').trim()
   }
 
   /** 页面唯一命名空间 */

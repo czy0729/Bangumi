@@ -5,6 +5,7 @@
  * @Last Modified time: 2025-06-11 21:31:26
  */
 import { computed } from 'mobx'
+import hash from '@utils/thirdParty/hash'
 import { LIST_EMPTY } from '@constants'
 import { StoreConstructor, SubjectId } from '@types'
 import { STATE } from './init'
@@ -27,10 +28,10 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   /** 图集数 */
-  picTotal(name: string) {
+  picTotal(name: string = '') {
     this.init('picTotal', true)
     return computed(() => {
-      return this.state.picTotal[name]
+      return this.state.picTotal[hash(name).slice(0, 4)]
     }).get()
   }
 }

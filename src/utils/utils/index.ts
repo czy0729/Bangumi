@@ -618,6 +618,13 @@ export function isChineseParagraph(text: string = '', threshold: number = 0.8) {
   return chineseRatio >= threshold
 }
 
+/** 保留基本字符 */
+export function keepBasicChars(str: string) {
+  if (!str) return ''
+
+  return String(str).replace(/[^\u4e00-\u9fa5\u3040-\u309F\u30A0-\u30FFa-zA-Z0-9]/g, '')
+}
+
 /** 文字中间省略 */
 export function truncateMiddle(text: string = '', maxLength: number = 20, charsToShow: number = 4) {
   if (text.length <= maxLength) return text

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-06-09 14:51:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-26 21:09:33
+ * @Last Modified time: 2025-06-28 00:30:38
  */
 import { monoStore } from '@stores'
 import { getTimestamp, info } from '@utils'
@@ -63,10 +63,12 @@ export default class Fetch extends Computed {
         empty: true
       })
 
-      update(key, {
-        ts: getTimestamp()
-      })
-      if (page === 1) monoStore.updatePicTotal(this.keyword, 0)
+      if (page === 1) {
+        update(key, {
+          ts: getTimestamp()
+        })
+        monoStore.updatePicTotal(this.keyword, 0)
+      }
       return false
     }
 

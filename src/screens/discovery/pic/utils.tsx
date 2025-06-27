@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-06-08 20:20:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-26 20:03:59
+ * @Last Modified time: 2025-06-28 00:31:09
  */
 import { monoStore } from '@stores'
 import {
@@ -179,8 +179,4 @@ export function getURI(
     | 'large' = 'orj360'
 ) {
   return `${DECODE.URI}/${prefix}/${image}` as const
-}
-
-export function keepBasicChars(str: string) {
-  return String(str).replace(/[^\u4e00-\u9fa5\u3040-\u309F\u30A0-\u30FFa-zA-Z0-9]/g, '')
 }

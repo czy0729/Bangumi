@@ -13,7 +13,7 @@ import Action from './action'
 import { EXCLUDE_STATE, RESET_STATE, STATE } from './ds'
 
 /** 条目页面状态机 */
-class ScreenSubject extends Action {
+export default class ScreenSubject extends Action {
   /** 是否完成过一次全部请求 */
   private _initDoned = false
 
@@ -195,6 +195,12 @@ class ScreenSubject extends Action {
         () => {
           if (!this.state.focused) return
 
+          this.log('this.fetchPicTotal')
+          return this.fetchPicTotal()
+        },
+        () => {
+          if (!this.state.focused) return
+
           this.log('this._initDoned = true')
           this._initDoned = true
         }
@@ -209,5 +215,3 @@ class ScreenSubject extends Action {
     this.setState(RESET_STATE)
   }
 }
-
-export default ScreenSubject

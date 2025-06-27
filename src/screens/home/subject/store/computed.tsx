@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-16 01:26:59
+ * @Last Modified time: 2025-06-28 01:02:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -30,6 +30,7 @@ import {
   getTimestamp,
   HTMLDecode,
   isArray,
+  keepBasicChars,
   matchCoverUrl,
   pad,
   removeHTMLTag,
@@ -542,6 +543,7 @@ export default class Computed extends State {
     const status: {
       status: '' | RatingStatus
       text: string
+      sum?: number
     }[] = []
 
     if (wish) {
@@ -583,7 +585,8 @@ export default class Computed extends State {
     if (sum) {
       status.push({
         status: '',
-        text: `总${wish + collect + doing + onHold + dropped}`
+        text: `总${sum}`,
+        sum
       })
     }
     return freeze(status)
@@ -1384,5 +1387,25 @@ export default class Computed extends State {
     if (this.vib.mal) data.push(TEXT_MAL)
     if (this.type === '动画') data.push(TEXT_NETABA)
     return data
+  }
+
+  /** 条目图集关键字 */
+  @computed get subjectKeywords() {
+    return [...new Set([this.cn, this.jp, keepBasicChars(this.cn)])].filter(Boolean)
+  }
+
+  /** 角色图集关键字 */
+  @computed get crtKeywords() {
+    const temp: string[] = []
+    this.crt
+      .filter(
+        // @ts-ignore
+        item => item.roleName === '主角'
+      )
+      .forEach(item => {
+        // @ts-ignore
+        temp.push(item.name, item.nameJP)
+      })
+    return [...new Set(temp)].filter(Boolean)
   }
 }

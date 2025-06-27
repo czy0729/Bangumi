@@ -89,11 +89,12 @@ function Header() {
             onPress={() => {
               navigation.push('Pic', {
                 monoId: $.monoId,
-                name: $.name
+                name: $.name,
+                keywords: [$.mono.name, $.subjectName].filter(Boolean)
               })
             }}
           >
-            <Flex>
+            <Flex style={_.mr.xs}>
               <Iconfont name='icon-image' size={19} color={_.colorTinygrailPlain} />
               {!!picTotal && (
                 <Text style={styles.num} type='tinygrailPlain' size={10} bold>

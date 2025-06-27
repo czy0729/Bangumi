@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:28:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-11 21:46:00
+ * @Last Modified time: 2025-06-28 01:26:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,6 +14,7 @@ import { ob } from '@utils/decorators'
 import { TITLE_GAME } from '../../ds'
 import { Ctx } from '../../types'
 import IconHidden from '../icon/hidden'
+import IconPic from '../icon/pic'
 import IconPS from '../icon/ps'
 import Split from '../split'
 import Details from './details'
@@ -57,6 +58,17 @@ function Game({ onBlockRef }) {
           )}
           <PreventTouchPlaceholder />
         </Expand>
+        <View
+          style={[
+            _.container.wind,
+            {
+              marginTop: 4,
+              marginLeft: -2
+            }
+          ]}
+        >
+          <IconPic />
+        </View>
       </InView>
       <Split />
     </Component>

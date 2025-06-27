@@ -91,8 +91,9 @@ function Item({ width, height, y, id, tags = '' }) {
         const name = title.split('# ')?.[1]
         if (name) {
           navigation[$.params.replace ? 'replace' : 'push']('Pic', {
-            name,
-            replace: true
+            monoId: $.params.monoId,
+            name
+            // replace: true
           })
         }
       },

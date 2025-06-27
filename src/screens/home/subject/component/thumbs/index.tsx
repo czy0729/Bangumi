@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-15 19:33:25
+ * @Last Modified time: 2025-06-28 00:05:16
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
@@ -16,6 +16,7 @@ import { ReactNode } from '@types'
 import { TITLE_THUMBS } from '../../ds'
 import { Ctx } from '../../types'
 import IconHidden from '../icon/hidden'
+import IconPic from '../icon/pic'
 import IconPreview from '../icon/preview'
 import Split from '../split'
 import Preview from './preview'
@@ -113,7 +114,10 @@ function Thumbs({ onBlockRef }) {
             </ScrollViewHorizontal>
           )}
           {showThumbs && !!reference && (
-            <Flex style={_.container.wind} justify='end'>
+            <Flex style={[_.container.wind, _.mt.sm]}>
+              <Flex.Item>
+                <IconPic />
+              </Flex.Item>
               <Text
                 size={10}
                 type='icon'

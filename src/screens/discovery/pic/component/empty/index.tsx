@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-06-10 17:43:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-26 20:53:27
+ * @Last Modified time: 2025-06-28 00:32:26
  */
 import React from 'react'
 import { Divider, Flex, Text, Touchable } from '@components'
@@ -37,10 +37,11 @@ function Empty({ showPagination = true }) {
                 可尝试搜索
               </Text>
               {$.keywords
-                .filter(
-                  item =>
-                    !!item && item.length <= 20 && !(item.startsWith('第') && item.endsWith('季'))
-                )
+                .filter(item => {
+                  if (!item || item.length > 16 || item.includes('/')) return false
+
+                  return !/^第.*(季|期)$/.test(item)
+                })
                 .filter((_, index) => index < 8)
                 .map(item => {
                   const picTotal = monoStore.picTotal(item)
@@ -51,6 +52,7 @@ function Empty({ showPagination = true }) {
                       style={_.mt.md}
                       onPress={() => {
                         navigation.push('Pic', {
+                          monoId: $.params.monoId,
                           name: item
                         })
                       }}

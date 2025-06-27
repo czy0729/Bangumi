@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-21 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-26 20:00:37
+ * @Last Modified time: 2025-06-28 00:34:13
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
@@ -35,7 +35,7 @@ function ExtraWrap() {
                 doICO={$.doICO}
               />
             )}
-            {Number($.params._count) >= 20 && (
+            {Number($.params._count) >= 8 && (
               <Touchable
                 style={styles.pic}
                 onPress={() => {

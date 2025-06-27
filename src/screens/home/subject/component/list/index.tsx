@@ -20,11 +20,11 @@ function List({ forwardRef, onScrollIntoViewIfNeeded, onBlockRef }) {
     <ListView
       ref={forwardRef}
       keyExtractor={keyExtractor}
+      keyboardDismissMode='on-drag'
       contentContainerStyle={_.container.bottom}
       data={$.subjectComments}
-      scrollEventThrottle={16}
-      keyboardDismissMode='on-drag'
-      footerEmptyDataComponent={$.footerEmptyDataComponent}
+      scrollEventThrottle={20}
+      initialNumToRender={1}
       refreshControlProps={REFRESH_CONTROL_PROPS}
       ListHeaderComponent={
         <HeaderComponent
@@ -33,6 +33,7 @@ function List({ forwardRef, onScrollIntoViewIfNeeded, onBlockRef }) {
         />
       }
       renderItem={renderItem}
+      footerEmptyDataComponent={$.footerEmptyDataComponent}
       onScroll={$.onScroll}
       onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={$.fetchSubjectComments}

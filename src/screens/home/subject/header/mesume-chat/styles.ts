@@ -9,6 +9,6 @@ import { _ } from '@stores'
 export const styles = _.create({
   mesume: {
     marginTop: 2,
-    marginRight: 9
+    marginRight: 8
   }
 })
