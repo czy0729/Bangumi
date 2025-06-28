@@ -12,7 +12,7 @@ export type Ctx = WithNavigation<{
 }>
 
 export type MenuItemType = {
-  key: Paths | 'Open' | 'Netabare' | 'Link'
+  key: Paths | 'Open' | 'Netabare' | 'Split' | 'Link' | 'Cancel' | 'Save'
   name: string
   text?: string
   icon?: IconfontNames

@@ -12,7 +12,7 @@ export const memoStyles = _.memoStyles(() => ({
     minHeight: 100
   },
   dragging: {
-    minHeight: _.web(_.window.height - _.tabBarHeight, 0)
+    minHeight: _.window.height - _.web(_.tabBarHeight, _.statusBarHeight)
   },
   transparent: {
     opacity: _.select(0.6, 0.4)

@@ -7,7 +7,7 @@
 import React from 'react'
 import { Clipboard } from 'react-native'
 import { _, userStore, useStore } from '@stores'
-import { appNavigate, info, matchBgmUrl } from '@utils'
+import { appNavigate, feedback, info, matchBgmUrl } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { DEV, HOST_NETABA } from '@constants'
@@ -36,6 +36,7 @@ function BtnWrap({ item }) {
 
       if (key === 'Open') {
         $.toggleDragging()
+        feedback(true)
         return
       }
 

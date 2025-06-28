@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Iconfont, Text, Touchable } from '@components'
+import { Flex, Text, Touchable } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { INIT_DISCOVERY_MENU } from '@stores/system/init'
@@ -22,7 +22,7 @@ const Btns = ({ setMenu, onCancel, onSave }) => {
   const navigation = useNavigation()
   const styles = memoStyles()
   return (
-    <View style={WEB && styles.web}>
+    <View style={WEB ? styles.web : styles.wrap}>
       <Flex style={styles.btns} justify='end'>
         <Flex.Item>
           <Touchable style={styles.touch} onPress={onCancel}>
@@ -43,7 +43,7 @@ const Btns = ({ setMenu, onCancel, onSave }) => {
           </Touchable>
         </Flex.Item>
         <IconTouchable
-          style={styles.refresh}
+          style={_.ml.md}
           name='md-refresh'
           color={_.colorDesc}
           onPress={() => {
@@ -52,35 +52,31 @@ const Btns = ({ setMenu, onCancel, onSave }) => {
             })
           }}
         />
-      </Flex>
-      {!WEB && (
-        <Touchable
-          style={_.mt.sm}
-          onPress={withT(
-            () => {
-              navigation.push('Setting', {
-                open: 'Discovery'
-              })
+        {!WEB && (
+          <IconTouchable
+            style={_.ml.md}
+            name='icon-setting'
+            size={19}
+            color={_.colorDesc}
+            onPress={withT(
+              () => {
+                navigation.push('Setting', {
+                  open: 'Discovery'
+                })
 
-              setTimeout(() => {
-                onCancel()
-              }, 400)
-            },
-            '发现.跳转',
-            {
-              to: 'Setting',
-              from: 'SortMenu'
-            }
-          )}
-        >
-          <Flex style={styles.setting}>
-            <Flex.Item>
-              <Text>更多设置</Text>
-            </Flex.Item>
-            <Iconfont name='md-navigate-next' size={24} />
-          </Flex>
-        </Touchable>
-      )}
+                setTimeout(() => {
+                  onCancel()
+                }, 400)
+              },
+              '发现.跳转',
+              {
+                to: 'Setting',
+                from: 'SortMenu'
+              }
+            )}
+          />
+        )}
+      </Flex>
     </View>
   )
 }

@@ -8,6 +8,13 @@ import { _ } from '@stores'
 import { WEB } from '@constants'
 
 export const memoStyles = _.memoStyles(() => ({
+  wrap: {
+    position: 'absolute',
+    zIndex: 1,
+    right: 0,
+    bottom: _.md,
+    left: 0
+  },
   web: {
     // @ts-expect-error
     position: 'fixed',
@@ -29,13 +36,5 @@ export const memoStyles = _.memoStyles(() => ({
     height: _.r(36),
     backgroundColor: _.select(_.colorDesc, _._colorDarkModeLevel1),
     borderRadius: _.r(36)
-  },
-  refresh: {
-    marginRight: _.sm,
-    marginLeft: _.md
-  },
-  setting: {
-    paddingHorizontal: _.sm,
-    marginBottom: 24
   }
 }))

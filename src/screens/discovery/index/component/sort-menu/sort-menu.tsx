@@ -9,10 +9,11 @@ import { View } from 'react-native'
 import { Flex, Text } from '@components'
 import { DraggableGrid } from '@components/@/react-native-draggable-grid/draggable-grid'
 import { _ } from '@stores'
-import { stl } from '@utils'
+import { feedback, stl } from '@utils'
 import { memo } from '@utils/decorators'
-import { FROZEN_FN, ORIENTATION_PORTRAIT } from '@constants'
+import { FROZEN_FN } from '@constants'
 import { getMenus } from '../../ds'
+import { MenuItemType } from '../../types'
 import Btn from '../btn'
 import Btns from './btns'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
@@ -28,11 +29,11 @@ const SortMenu = memo(
     onSubmit = FROZEN_FN
   }) => {
     const [menu, setMenu] = useState(discoveryMenu)
-    const menus = useMemo(() => getMenus(menu), [menu])
+    const memoMenus = useMemo(() => getMenus(menu), [menu])
+    const openIndex = memoMenus.findIndex(item => item.key === 'Open')
 
-    const openIndex = menus.findIndex(item => item.key === 'Open')
     const handleRenderItem = useCallback(
-      (item: { key: string }, index?: number, scale: boolean = true) => (
+      (item: MenuItemType, index?: number, scale: boolean = true) => (
         <View
           key={item.key}
           style={stl(
@@ -46,28 +47,31 @@ const SortMenu = memo(
       [openIndex, styles.item, styles.transparent]
     )
 
-    const handleDragRelease = useCallback(data => {
-      const _menu = []
+    const handleDragRelease = useCallback((data: MenuItemType[]) => {
+      const menu = []
       data.forEach(item => {
         if (item.key === 'Save') return
-        if (item.key === 'Split') return _menu.push('Open')
-        _menu.push(item.key)
+
+        if (item.key === 'Split') {
+          menu.push('Open')
+          return
+        }
+
+        menu.push(item.key)
       })
-      setMenu(_menu)
+      setMenu(menu)
     }, [])
 
     const handleCancel = useCallback(() => {
       onToggle()
-      setTimeout(() => {
-        setMenu(discoveryMenu)
-      }, 80)
+      setMenu(discoveryMenu)
+      feedback(true)
     }, [discoveryMenu, onToggle])
 
     const handleSave = useCallback(() => {
       onSubmit(menu)
-      setTimeout(() => {
-        onToggle()
-      }, 80)
+      onToggle()
+      feedback(true)
     }, [menu, onSubmit, onToggle])
 
     const elBtns = useMemo(
@@ -75,24 +79,22 @@ const SortMenu = memo(
       [dragging, handleCancel, handleSave]
     )
 
-    let data: any[]
+    let data: MenuItemType[]
     if (dragging) {
       data = [
-        ...menus.slice(0, openIndex),
+        ...memoMenus.slice(0, openIndex),
         {
           key: 'Split',
           name: '后面隐藏',
           text: '|',
           size: 20
         },
-        ...menus.slice(openIndex + 1, menus.length)
+        ...memoMenus.slice(openIndex + 1, memoMenus.length)
       ]
     } else {
-      data = menus.filter((_item, index) => index <= openIndex)
+      data = memoMenus.filter((_item, index) => index <= openIndex)
     }
 
-    // 小屏或横屏设备, 把提交按钮放在顶部
-    const isSpecLayout = _.isSmallDevice ? false : orientation === ORIENTATION_PORTRAIT
     const isScale = discoveryMenuNum <= 4
 
     // 小尺寸屏幕自定义时, 不显示图标, 以尽量能显示完整
@@ -101,25 +103,26 @@ const SortMenu = memo(
 
     return (
       <View style={dragging && styles.dragging}>
-        {isSpecLayout && dragging && (
-          <Text style={styles.text} size={13} bold>
-            按住拖拽排序，拖动到分割线左侧显示，右侧隐藏
-          </Text>
-        )}
-        {!isSpecLayout && elBtns}
         {dragging ? (
-          <DraggableGrid
-            key={`${orientation}|${discoveryMenuNum}`}
-            data={data}
-            numColumns={discoveryMenuNum}
-            itemHeight={itemHeight}
-            renderItem={(item, index) => handleRenderItem(item, index, isScale)}
-            onDragRelease={handleDragRelease}
-          />
+          <>
+            {!_.isSmallDevice && (
+              <Text style={styles.text} size={13} bold>
+                按住拖拽排序，拖动到分割线左侧显示，右侧隐藏
+              </Text>
+            )}
+            <DraggableGrid
+              key={`${orientation}|${discoveryMenuNum}`}
+              data={data}
+              numColumns={discoveryMenuNum}
+              itemHeight={itemHeight}
+              renderItem={(item, index) => handleRenderItem(item, index, isScale)}
+              onDragRelease={handleDragRelease}
+            />
+            {elBtns}
+          </>
         ) : (
           <Flex wrap='wrap'>{data.map((item, index) => handleRenderItem(item, index, false))}</Flex>
         )}
-        {isSpecLayout && elBtns}
       </View>
     )
   },

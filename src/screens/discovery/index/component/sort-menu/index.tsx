@@ -15,17 +15,15 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function SortMenuWrap() {
-  const { $, navigation } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   return (
     <View style={stl(styles.container, systemStore.setting.discoveryMenuNum < 5 && _.mt.sm)}>
       <SortMenu
-        navigation={navigation}
         styles={styles}
         orientation={_.orientation}
         dragging={$.state.dragging}
         discoveryMenu={systemStore.setting.discoveryMenu}
-        discoveryTodayOnair={systemStore.setting.discoveryTodayOnair}
         discoveryMenuNum={systemStore.setting.discoveryMenuNum}
         onToggle={$.toggleDragging}
         onSubmit={$.saveDiscoveryMenu}
