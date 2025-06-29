@@ -8,7 +8,7 @@ import { Platform } from 'react-native'
 import Constants from 'expo-constants'
 import { HOST, VERSION_CODE } from '@constants/constants'
 import { WEB } from '@constants/device'
-import events from '@constants/events'
+// import events from '@constants/events'
 import { TEXT_BADGES } from '@constants/text'
 import { DEV, GITHUB_ACTION, IOS_IPA } from '@src/config'
 import { AnyObject, EventKeys } from '@types'
@@ -23,7 +23,7 @@ import {
   TIMEOUT,
   TITLE,
   WEBSITE,
-  WEBSITE_EVENT,
+  WEBSITE_EVENT_V2,
   WEBSITE_FATAL_ERROR,
   WEBSITE_TINGRAIL
 } from './ds'
@@ -145,7 +145,7 @@ async function umamiXhr(payload: {
 
   if (data.name && data.website === WEBSITE) {
     data.url = eventToUrl(data.name, data.data)
-    data.website = WEBSITE_EVENT
+    data.website = WEBSITE_EVENT_V2
     delete data.name
     delete data.data
   }
@@ -169,11 +169,16 @@ export function getReferer(beforeKey?: string) {
   return `https://${referrre.join('_')}.com`
 }
 
-function eventToUrl(name: EventKeys = '', data: AnyObject = {}) {
-  return `/${name}?${urlStringify({
-    e: events[name] || '',
-    ...data
-  })}`
+function eventToUrl(
+  name: EventKeys = '',
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _data: AnyObject = {}
+) {
+  // return `/${name}?${urlStringify({
+  //   e: events[name] || '',
+  //   ...data
+  // })}`
+  return `/${name}`
 }
 
 /** [DEV] */

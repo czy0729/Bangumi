@@ -71,6 +71,8 @@ export const WEBSITE_TINGRAIL = DEV ? WEBSITE_DEV : '945f4ab5-424b-4bd6-89f6-773
 
 export const WEBSITE_EVENT = DEV ? WEBSITE_DEV : 'a8aafc8d-6aa9-45cd-a19a-47f246137647'
 
+export const WEBSITE_EVENT_V2 = DEV ? WEBSITE_DEV : '4079f62c-392c-419c-9ae7-5df1f65ff550'
+
 export const WEBSITE_FATAL_ERROR = DEV ? WEBSITE_DEV : 'a8d71a9c-3333-45ca-b223-59600d84b76a'
 
 export const REFERRER = GITHUB_ACTION ? 'https://github.com/' : ''
