@@ -61,41 +61,31 @@ iOS 和安卓都做了兼容，并最大限度保持一致
 
 # 版本
 
-## 8.21.0 - 2025/05/06
+## 8.22.0 - 2025/06/28
+
+### 新增
+
+- [x] [每日放送] 更新 2025S3 元数据
+- [x] [安卓] 客户端外纯文本分享到应用自动跳转到搜索页面
+- [x] [图集] 热门条目、角色新增搜索相关图片（实验性）
 
 ### 优化
 
-- [x] [超展开] 因组件初始化消耗巨大，设置「楼层内容猜测条目」不再默认开启
-- [x] [条目、帖子] 点击顶部标题可以回到顶部
-- [x] 若干优化
-  - [x] [进度] 点击跳转到搜索页面后，会根据进度页面的当前类型设置搜索类型（#253）
-  - [x] [条目] 详情中允许把条目别名等属性提前展示（需要打开条目设置，#216）
-  - [x] [发现] 更新了部分模块的本地数据
-  - [x] [剪贴板] 增加更多用户相关链接的匹配，修复之前没有匹配进去了用户空间闪退的问题
 - [x] [小圣杯] 若干优化
-  - [x] 「我的道具」页面优化
-  - [x] 「资金日志」页面重写
-  - [x] 「资产重组」圣殿列表支持排序
-  - [x] 「资产重组」董事会列表支持排序
-  - [x] 「资产重组」圣殿封面支持显示唯一
-  - [x] 「资产重组」页面下拉刷新主动请求所有接口
-  - [x] 「ICO」当前用户能查看结束后能获得多少股数
-  - [x] 「ICO」角色支持查看未来达标等级的数据
-  - [x] 「我的道具」对各种道具进一步补充说明
-  - [x] 重写「道具使用框」组件
-  - [x] 星之力记录能到底加载更多
+  - [x] 修复「我的资产」固定资产显示错误的问题
+  - [x] 「竞拍记录」页面数据优化；「资产重组」页面布局优化
+  - [x] 「资产重组」显示角色升级进度数据；「番市首富」高亮自己
+  - [x] 「ICO 交易」显示角色所属条目
+  - [x] 新增角色塔图页面
+  - [x] 支持「小圣杯」选塔图
+  - [x] 我的持仓支持显示角色当前的是否有买入、卖出、竞拍的状态标记
+  - [x] 「番市首富」显示税后
 
 ### 修复
 
-- [x] [贴贴] 修复安卓端贴贴框弹出位置不正确的问题
-- [x] [条目] 修复了人物的水平列表，人物有可能识别成其他类型的问题
-- [x] [超展开设置] 修复了安卓中开关组件需要拨动才能更改的问题
-- [x] 若干修复
-  - [x] [搜索] 修复了输入后快速提交无法正常搜索的问题（#252）
-  - [x] [时间胶囊] 删除自己时间线后，若验证成功，直接本地删除对应项，避免重新请求导致跳页（#243）
-  - [x] 自己的头像显示不出来（#249）
+- [x] [条目] 修复了章节 SP0 按钮不显示文字的问题
 
-[当前版本图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/brhkrc51tg4s6x0e?singleDoc)
+[当前版本图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/rwza9yn5fgncaok5?singleDoc)
 
 [所有更新 CHANGELOG](https://github.com/czy0729/Bangumi/blob/master/web/CHANGELOG.MD)
 
@@ -113,13 +103,13 @@ iOS 和安卓都做了兼容，并最大限度保持一致
 
 # 预览
 
-以下为 2024 年 5 月份，一些 UI 相对不重复的页面截屏。图片无法正常加载也可以前往 [语雀](https://www.yuque.com/chenzhenyu-k0epm/znygb4/xcvi52hi66me2kwn?singleDoc) 查看。
+以下为 2025 年 6 月份，一些 UI 相对不重复的页面截屏。图片无法正常加载也可以前往 [语雀](https://www.yuque.com/chenzhenyu-k0epm/znygb4/xcvi52hi66me2kwn?singleDoc) 查看。
 
-![00](https://github.com/user-attachments/assets/e5026836-ac08-40fc-9d35-75aa85a69ce6)
-![10](https://github.com/user-attachments/assets/738edd5a-82d8-4bc8-96f1-ae50ab79775a)
-![20](https://github.com/czy0729/Bangumi/assets/13514316/07ead8c8-fcc1-4fe8-ad25-43c5906aef3b)
-![30](https://github.com/czy0729/Bangumi/assets/13514316/6abd6475-ae22-46dd-833c-67bd914eaeac)
-![40](https://github.com/user-attachments/assets/9915943b-e7b7-4985-b408-22d33a4b961b)
+![00](https://github.com/user-attachments/assets/54391db0-8490-4a43-b270-210040e46458)
+![10](https://github.com/user-attachments/assets/d38ac8b5-255e-4137-9a4d-584ec8e7fb85)
+![20](https://github.com/user-attachments/assets/086a26c8-170f-43ad-9471-ff935edec5a1)
+![30](https://github.com/user-attachments/assets/30b9e5f2-99f1-4744-9b92-7b58e9675cdb)
+![40](https://github.com/user-attachments/assets/78d42532-e1c6-44d9-80cb-ddf0f8e328d4)
 ![50](https://github.com/czy0729/Bangumi/assets/13514316/981d4b30-cc0a-4865-a049-0ea654d71669)
 ![60](https://github.com/czy0729/Bangumi/assets/13514316/eb3e6f5c-b43f-4c61-a03f-830c3082d718)
 ![70](https://github.com/czy0729/Bangumi/assets/13514316/a753a8a7-701e-46cb-95e6-ea172ff1137b)
@@ -249,5 +239,3 @@ yarn
    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=czy0729/Bangumi&type=Date" />
  </picture>
 </a>
-
-[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fczy0729%2FBangumi&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=views&edge_flat=false)](https://hits.seeyoufarm.com)
