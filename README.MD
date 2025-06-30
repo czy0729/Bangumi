@@ -110,7 +110,6 @@ iOS 和安卓都做了兼容，并最大限度保持一致
 ![20](https://github.com/user-attachments/assets/086a26c8-170f-43ad-9471-ff935edec5a1)
 ![30](https://github.com/user-attachments/assets/30b9e5f2-99f1-4744-9b92-7b58e9675cdb)
 ![40](https://github.com/user-attachments/assets/78d42532-e1c6-44d9-80cb-ddf0f8e328d4)
-![50](https://github.com/czy0729/Bangumi/assets/13514316/981d4b30-cc0a-4865-a049-0ea654d71669)
 ![60](https://github.com/czy0729/Bangumi/assets/13514316/eb3e6f5c-b43f-4c61-a03f-830c3082d718)
 ![70](https://github.com/czy0729/Bangumi/assets/13514316/a753a8a7-701e-46cb-95e6-ea172ff1137b)
 ![80](https://github.com/czy0729/Bangumi/assets/13514316/8e05e8fe-15bc-4801-9834-575d9ad59a2d)
