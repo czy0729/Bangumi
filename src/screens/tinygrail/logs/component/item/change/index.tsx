@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-11 06:51:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-22 05:41:16
+ * @Last Modified time: 2025-07-02 15:16:47
  */
 import React from 'react'
 import { Flex, Text, TextProps } from '@components'
@@ -35,6 +35,9 @@ function Item({ desc, change }) {
       } else if (['买入', '获得', '获奖'].some(item => desc.includes(item))) {
         changeType = 'bid'
         changeNum = `+${match[0]}`
+      } else if (['冻结'].some(item => desc.includes(item))) {
+        changeType = 'tinygrailText'
+        changeNum = `-${match[0]}`
       } else {
         changeType = 'ask'
         changeNum = `-${match[0]}`

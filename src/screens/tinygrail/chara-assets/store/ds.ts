@@ -6,7 +6,7 @@
  */
 import { Loaded } from '@types'
 import { COMPONENT } from '../ds'
-import { Direction } from '../types'
+import { BatchAction, Direction } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}`
 
@@ -18,7 +18,7 @@ export const EXCLUDE_STATE = {
   editingIds: {},
 
   /** 批量动作 */
-  batchAction: '' as string,
+  batchAction: '' as BatchAction,
 
   /** 道具模态框标题 */
   title: '',

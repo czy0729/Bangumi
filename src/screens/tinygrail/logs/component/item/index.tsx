@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:42:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-22 05:47:13
+ * @Last Modified time: 2025-07-02 16:15:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,7 +16,7 @@ import { TABS } from '../../ds'
 import { Ctx } from '../../types'
 import Avatar from './avatar'
 import Change from './change'
-import { getOnPress, insertNewlineBeforeSecondBracket } from './utils'
+import { calculatePricePerShare, getOnPress, insertNewlineBeforeSecondBracket } from './utils'
 import { COMPONENT, ITEMS } from './ds'
 import { memoStyles } from './styles'
 import { Props } from './types'
@@ -24,13 +24,13 @@ import { Props } from './types'
 function Item({ balance, desc = '', change, time, charaId }: Props) {
   const { $, navigation } = useStore<Ctx>()
 
+  const styles = memoStyles()
   const { page } = $.state
   if (TABS[page].title === '道具') {
     const { itemsType } = $.state
     if (itemsType && itemsType !== '全部' && !desc.includes(itemsType)) return null
   }
 
-  const styles = memoStyles()
   let icons: string
   let handlePress: Fn
   if (ITEMS.some(item => desc.includes(item))) {
@@ -49,6 +49,7 @@ function Item({ balance, desc = '', change, time, charaId }: Props) {
     }
   }
 
+  const perShare = calculatePricePerShare(desc, change)
   return (
     <Touchable style={styles.container} withoutFeedback={!handlePress} onPress={handlePress}>
       <Flex style={styles.wrap}>
@@ -67,6 +68,11 @@ function Item({ balance, desc = '', change, time, charaId }: Props) {
                 <Text type='tinygrailPlain' size={12} lineHeight={14}>
                   {insertNewlineBeforeSecondBracket(desc)}
                 </Text>
+                {!!perShare && (
+                  <Text type='tinygrailText' size={12} lineHeight={14}>
+                    {perShare}
+                  </Text>
+                )}
               </Flex.Item>
             </Flex>
           </View>

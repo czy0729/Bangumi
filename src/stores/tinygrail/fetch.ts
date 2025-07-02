@@ -52,14 +52,7 @@ import {
 } from '@constants'
 import { AnyObject, Id, MonoId, UserId } from '@types'
 import Computed from './computed'
-import {
-  INIT_ASSETS,
-  INIT_AUCTION_STATUS,
-  INIT_CHARA_ASSETS,
-  INIT_DEPTH_ITEM,
-  INIT_USER_LOGS,
-  NAMESPACE
-} from './init'
+import { INIT_ASSETS, INIT_AUCTION_STATUS, INIT_USER_LOGS, NAMESPACE } from './init'
 import { CHARA_ITEM, REFINE_TEMPLE_ITEM } from './mock'
 import { calculateRate, mapItems, throttleInfo, toCharacter } from './utils'
 import { defaultKey, defaultSort, paginationOnePage } from './ds'
@@ -352,33 +345,37 @@ export default class Fetch extends Computed {
   }
 
   /** 深度图 */
-  fetchDepth = async (monoId: MonoId) => {
-    const result = await this.fetch(API_TINYGRAIL_DEPTH(monoId), true)
+  fetchDepth = async (monoId: Id) => {
+    const STATE_KEY = 'depth'
+    const ITEM_KEY = monoId
 
-    const data: any = {
-      ...INIT_DEPTH_ITEM
-    }
-    if (result.data.State === 0) {
-      data._loaded = getTimestamp()
-      data.asks = result.data.Value.Asks.map(item => ({
-        price: item.Price,
-        amount: item.Amount
-      }))
-      data.bids = result.data.Value.Bids.map(item => ({
-        price: item.Price,
-        amount: item.Amount
-      }))
-    }
-
-    const key = 'depth'
-    this.setState({
-      [key]: {
-        [monoId]: data
+    try {
+      const result = await this.fetch(API_TINYGRAIL_DEPTH(monoId), true)
+      const { State, Value } = result.data
+      if (State === 0) {
+        this.setState({
+          [STATE_KEY]: {
+            [ITEM_KEY]: {
+              id: monoId,
+              asks: mapItems(Value.Asks, {
+                price: 'Price',
+                amount: 'Amount'
+              }),
+              bids: mapItems(Value.Bids, {
+                price: 'Price',
+                amount: 'Amount'
+              }),
+              _loaded: getTimestamp()
+            }
+          }
+        })
+        this.save(STATE_KEY)
       }
-    })
-    this.save(key)
+    } catch (error) {
+      this.error('fetchDepth', error)
+    }
 
-    return data
+    return this[STATE_KEY](ITEM_KEY)
   }
 
   /** 用户唯一标识 */
@@ -455,61 +452,63 @@ export default class Fetch extends Computed {
 
   /** 用户资产概览信息 */
   fetchCharaAssets = async (hash: UserId) => {
-    const result = await this.fetch(API_TINYGRAIL_CHARA_ASSETS(hash))
+    const STATE_KEY = 'charaAssets'
+    const ITEM_KEY = hash
 
-    const data: any = {
-      ...INIT_CHARA_ASSETS
-    }
-    if (result.data.State === 0) {
-      const iconsCache = toJS(this.state.iconsCache)
-      data._loaded = getTimestamp()
-      data.id = result.data.Value.Id
-      data.balance = result.data.Value.Balance
-      data.characters = result.data.Value.Characters.map(item => {
-        if (item.Icon) iconsCache[item.Id] = item.Icon
-        return {
-          id: item.Id,
-          icon: item.Icon,
-          name: item.Name,
-          current: item.Current,
-          state: item.State,
-          total: item.Total,
-          bonus: item.Bonus,
-          rate: Number(toFixed(item.Rate, 2)),
-          level: item.Level,
-          marketValue: item.MarketValue,
-          change: item.Change,
-          fluctuation: item.Fluctuation
-        }
-      })
-      data.initials = result.data.Value.Initials.map(item => {
-        if (item.Icon) iconsCache[item.Id] = item.Icon
-        return {
-          id: item.Id,
-          icon: item.Icon,
-          name: item.Name,
-          current: 0,
-          state: item.State,
-          total: item.Total,
-          bonus: item.Bonus,
-          rate: Number(toFixed(item.Rate, 2)),
-          level: item.Level,
-          marketValue: item.MarketValue,
-          change: item.Change,
-          fluctuation: item.Fluctuation
-        }
-      })
-      this.updateIconsCache(iconsCache)
-    }
-
-    const key = 'charaAssets'
-    this.setState({
-      [key]: {
-        [hash]: data
+    try {
+      const result = await this.fetch(API_TINYGRAIL_CHARA_ASSETS(hash))
+      const { State, Value } = result.data
+      if (State === 0) {
+        const iconsCache: Record<Id, string> = {}
+        this.setState({
+          [STATE_KEY]: {
+            [ITEM_KEY]: {
+              id: Value.Id,
+              balance: Value.Balance,
+              character: mapItems(Value.Characters, {
+                bonus: 'Bonus',
+                change: 'Change',
+                current: 'Current',
+                fluctuation: 'Fluctuation',
+                icon: item => {
+                  if (item.Icon) iconsCache[item.Id] = item.Icon
+                  return item.Icon
+                },
+                id: 'Id',
+                level: 'Level',
+                marketValue: 'MarketValue',
+                name: 'Name',
+                rate: item => Number(toFixed(item.Rate, 2)),
+                state: 'State',
+                total: 'Total'
+              }),
+              initials: mapItems(Value.Initials, {
+                bonus: 'Bonus',
+                change: 'Change',
+                current: () => 0,
+                fluctuation: 'Fluctuation',
+                icon: item => {
+                  if (item.Icon) iconsCache[item.Id] = item.Icon
+                  return item.Icon
+                },
+                id: 'Id',
+                level: 'Level',
+                marketValue: 'MarketValue',
+                name: 'Name',
+                rate: item => Number(toFixed(item.Rate, 2)),
+                state: 'State',
+                total: 'Total'
+              }),
+              _loaded: getTimestamp()
+            }
+          }
+        })
       }
-    })
+    } catch (error) {
+      this.error('fetchCharaAssets', error)
+    }
 
-    return data
+    return this[STATE_KEY](ITEM_KEY)
   }
 
   /**
@@ -1341,7 +1340,7 @@ export default class Fetch extends Computed {
   }
 
   /** 角色圣殿 */
-  fetchCharaTemple = async (id: MonoId) => {
+  fetchCharaTemple = async (id: Id) => {
     const STATE_KEY = 'charaTemple'
     const ITEM_KEY = id
 
@@ -1443,26 +1442,29 @@ export default class Fetch extends Computed {
 
   /** 角色发行价 */
   fetchIssuePrice = async (id: Id = 0) => {
-    // 发行价一旦有数据就不会改变, 不需要再请求
-    if (this.issuePrice[id]) return this.issuePrice[id]
+    const STATE_KEY = 'issuePrice'
+    const ITEM_KEY = id
 
-    const result = await this.fetch(API_TINYGRAIL_ISSUE_PRICE(id))
-    let data = 0
-    if (result.data.State === 0) {
-      if (result.data.Value.length) {
-        data = result.data.Value[0].Begin
+    // 发行价一旦有数据就不会改变, 不需要再请求
+    const value = this[STATE_KEY](ITEM_KEY)
+    if (value) return value
+
+    try {
+      const result = await this.fetch(API_TINYGRAIL_ISSUE_PRICE(id))
+      const { State, Value } = result.data
+      if (State === 0) {
+        this.setState({
+          [STATE_KEY]: {
+            [id]: Value?.[0]?.Begin || 0
+          }
+        })
+        this.save(STATE_KEY)
       }
+    } catch (error) {
+      this.error('fetchIssuePrice', error)
     }
 
-    const key = 'issuePrice'
-    this.setState({
-      [key]: {
-        [id]: data
-      }
-    })
-    this.save(key)
-
-    return data
+    return this[STATE_KEY](ITEM_KEY)
   }
 
   /** 最近圣殿 */

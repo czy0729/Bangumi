@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2022-05-22 14:04:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-14 00:21:42
+ * @Last Modified time: 2025-07-02 16:43:19
  */
 import { Id, UserId } from '@types'
 import { TinygrailMagic, TinygrailType } from './types'
@@ -117,10 +117,10 @@ export const API_TINYGRAIL_CANCEL_ASK = (id: Id) =>
   `${API_HOST_TINYGRAIL}/api/chara/ask/cancel/${id}`
 
 /** 我的买单 */
-export const API_TINYGRAIL_CHARA_BID = () => `${API_HOST_TINYGRAIL}/api/chara/bids/0/1/400`
+export const API_TINYGRAIL_CHARA_BID = () => `${API_HOST_TINYGRAIL}/api/chara/bids/0/1/800`
 
 /** 我的卖单 */
-export const API_TINYGRAIL_CHARA_ASKS = () => `${API_HOST_TINYGRAIL}/api/chara/asks/0/1/400`
+export const API_TINYGRAIL_CHARA_ASKS = () => `${API_HOST_TINYGRAIL}/api/chara/asks/0/1/800`
 
 /** 我的持仓 */
 export const API_TINYGRAIL_MY_CHARA_ASSETS = () =>

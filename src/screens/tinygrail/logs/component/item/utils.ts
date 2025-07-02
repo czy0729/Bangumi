@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-10 16:53:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-22 05:44:13
+ * @Last Modified time: 2025-07-02 16:13:23
  */
 import { t } from '@utils/fetch'
 import { AnyObject, MonoId, Navigation, Paths } from '@types'
@@ -59,4 +59,23 @@ export function insertNewlineBeforeSecondBracket(text: string) {
     count++
     return count === 2 ? '\n「' : match
   })
+}
+
+export function calculatePricePerShare(desc: string, price: number): string {
+  if (!desc.includes('成交')) return ''
+
+  // 匹配"X股"格式的数字，例如"46股"
+  const shareMatch = desc.match(/(\d+)股/)
+
+  // 未找到股数信息
+  if (!shareMatch?.[1]) return ''
+
+  const shares = parseInt(shareMatch[1], 10)
+
+  // 股数必须大于0
+  if (shares <= 0) return null
+
+  // 计算单价并保留2位小数
+  const pricePerShare = price / shares
+  return `成交均价 ₵${pricePerShare.toFixed(2)}`
 }

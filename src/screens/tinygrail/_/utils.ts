@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-04 13:51:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-15 07:00:53
+ * @Last Modified time: 2025-07-02 16:02:06
  */
 import { ToastAndroid } from 'react-native'
 import { _, tinygrailStore } from '@stores'
@@ -515,4 +515,35 @@ export function getCharaItemSortText(props: any, showAll: boolean = false) {
   if (showAll && showAllHandlers[sort]) return showAllHandlers[sort]()
 
   return ''
+}
+
+const CHARA_LEVEL_LOWEST_PRICE = {
+  1: 5,
+  2: 14,
+  3: 28,
+  4: 46,
+  5: 75,
+  6: 101,
+  7: 132,
+  8: 167,
+  9: 207,
+  10: 252,
+  11: 301,
+  12: 354,
+  13: 412,
+  14: 474,
+  15: 541,
+  16: 613,
+  17: 688,
+  18: 769,
+  19: 854,
+  20: 943,
+  21: 1034,
+  22: 1135,
+  23: 1237
+} as const
+
+export function getCharaLevelLowestPrice(level: number = 1) {
+  if (level > 23) return 1500
+  return CHARA_LEVEL_LOWEST_PRICE[level] || 5
 }

@@ -46,14 +46,15 @@ import { Id, MonoId, UserId } from '@types'
 import Fetch from './fetch'
 
 export default class Action extends Fetch {
-  updateCookie = cookie => {
+  updateCookie = (cookie: string) => {
     this.setState({
       cookie
     })
     this.save('cookie')
   }
 
-  updateWebViewShow = show => {
+  /** @deprecated */
+  updateWebViewShow = (show: boolean) => {
     if (SDK >= 36) {
       this.setState({
         _webview: true
@@ -66,8 +67,8 @@ export default class Action extends Fetch {
     })
   }
 
-  /** 更新献祭少于500未成塔的数据 */
-  updateMyTemples = (id, sacrifices = 0) => {
+  /** 更新献祭少于 500 未成塔的数据 */
+  updateMyTemples = (id: Id, sacrifices = 0) => {
     if (!this.hash || sacrifices > 500) {
       return
     }
@@ -79,7 +80,7 @@ export default class Action extends Fetch {
       return
     }
 
-    // 少于0删除项
+    // 少于 0 删除项
     if (sacrifices === 0) {
       const { name } = temple.list[index]
       info(`${name} 已耗尽`)
@@ -100,14 +101,14 @@ export default class Action extends Fetch {
   }
 
   /** 更新我的持仓角色 */
-  updateMyCharaAssets = (id: string, state: number, sacrifices: number) => {
+  updateMyCharaAssets = (id: Id, state: number, sacrifices: number) => {
     // 只有这里能检测到未献祭满 500 角色的圣殿资产变化, 需要联动圣殿资产里面的对应项
     this.updateMyTemples(id, sacrifices)
 
     const key = 'myCharaAssets'
     const { chara = {} } = this[key] as any
     const { list = [] } = chara
-    const index = list.findIndex((item: { monoId: number }) => item.monoId === parseInt(id))
+    const index = list.findIndex((item: { monoId: number }) => item.monoId === Number(id))
     if (index !== -1) {
       const newList = toJS(list)
 
@@ -136,7 +137,7 @@ export default class Action extends Fetch {
   }
 
   /** 批量根据角色 ID 更新我的持仓角色 */
-  batchUpdateMyCharaAssetsByIds = async ids => {
+  batchUpdateMyCharaAssetsByIds = async (ids: Id[]) => {
     for (const id of ids) {
       const { amount, sacrifices } = (await this.fetchUserLogs(id)) as any
       this.updateMyCharaAssets(id, amount, sacrifices)
@@ -144,12 +145,12 @@ export default class Action extends Fetch {
   }
 
   /** 批量根据角色 ID 更新我的圣殿资产 */
-  batchUpdateTemplesByIds = async ids => {
+  batchUpdateTemplesByIds = async (ids: Id[]) => {
     if (!this.hash) return
 
     const key = 'temple'
     const temple = toJS(this[key]())
-    let flag
+    let flag: boolean
 
     for (const id of ids) {
       const { list } = await this.fetchCharaTemple(id)

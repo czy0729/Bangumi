@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2024-10-24 20:22:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-02 22:48:35
+ * @Last Modified time: 2025-07-02 23:01:05
  */
 import { tinygrailStore } from '@stores'
 import { alert, confirm, copy, feedback, info, toFixed } from '@utils'
 import { t } from '@utils/fetch'
+import { getCharaLevelLowestPrice } from '@screens/tinygrail/_/utils'
 import { ITEMS_TYPE } from '@tinygrail/_/characters-modal'
 import { ItemUseParams } from '@tinygrail/items/types'
 import { FnParams, Override } from '@types'
 import { PER_BATCH_COUNT } from '../ds'
-import { Direction } from '../types'
+import { BatchAction, Direction } from '../types'
 import Fetch from './fetch'
 
 export default class Action extends Fetch {
@@ -110,7 +111,7 @@ export default class Action extends Fetch {
   }
 
   /** 切换批量操作 */
-  toggleBatchEdit = (batchAction = '') => {
+  toggleBatchEdit = (batchAction: BatchAction = '') => {
     this.setState({
       editing: !this.state.editing,
       batchAction
@@ -238,16 +239,30 @@ export default class Action extends Fetch {
     )
   }
 
-  /** 批量以当前价挂卖单 */
+  /**
+   * 批量以当前价挂卖单
+   *  - distance < 0 挂减数卖单
+   *  - 1 <= distance <= 2 挂倍数卖单
+   *  - distance === 100 挂发行价卖单
+   *  - distance === 200 挂卖一价 -1cc, 不低于现价
+   * */
   doBatchAsk = async (distance = 0) => {
-    const { editingIds } = this.state
-    const ids = Object.keys(editingIds)
+    const ids = Object.keys(this.state.editingIds)
     if (!ids.length) return
 
+    let actionText = ''
+    if (distance === 200) {
+      actionText = '卖一价与现价取最大值'
+    } else if (distance === 100) {
+      actionText = '发行价'
+    } else if (distance < 0) {
+      actionText = `当前价 ${distance}cc`
+    } else if (distance >= 1 && distance <= 2) {
+      actionText = `当前价 *${distance}cc`
+    }
+
     confirm(
-      `批量对 (${ids.length}) 个角色以当前价${
-        distance !== 0 ? `${distance}cc` : ''
-      } (挂卖单), 确定? (若角色当前有挂单, 可用数与显示数对不上时, 操作会失败)`,
+      `批量对 (${ids.length}) 个角色以${actionText} (挂卖单, 且出价不会低于等级预设价格) 确定? (若角色当前有挂单, 可用会失败)`,
       async () => {
         t('我的持仓.批量挂单', {
           length: ids.length
@@ -260,10 +275,24 @@ export default class Action extends Fetch {
           try {
             const item = list.find(item => item.id == id)
             if (item) {
-              const { current, state } = item
+              const { current, state, level } = item
+              let price = 0
+              if (distance === 200) {
+                const { asks } = await tinygrailStore.fetchDepth(id)
+                price = Math.max((asks?.[0]?.price || 0) - 1, current)
+              } else if (distance === 100) {
+                const issuePrice = await tinygrailStore.fetchIssuePrice(id)
+                price = Number(issuePrice.toFixed(2))
+              } else if (distance < 0) {
+                price = current + distance
+              } else if (distance >= 1 && distance <= 2) {
+                price = Number((current * distance).toFixed(2))
+              } else {
+                price = current
+              }
               const { State } = await tinygrailStore.doAsk({
                 monoId: id,
-                price: Math.max(5, current + distance),
+                price: Math.max(getCharaLevelLowestPrice(level), price),
                 amount: state,
                 isIce: false
               })
@@ -280,13 +309,7 @@ export default class Action extends Fetch {
           info(`正在挂卖单 ${ids.findIndex(item => item === id) + 1} / ${ids.length}`)
         }
         feedback()
-
-        // 当成功数量少于 20 个, 使用局部更新
-        if (successIds.length <= 20) {
-          tinygrailStore.batchUpdateMyCharaAssetsByIds(successIds)
-        } else {
-          this.fetchMyCharaAssets()
-        }
+        this.fetchMyCharaAssets()
 
         if (errorIds.length) {
           alert(`共有 (${errorIds.length}) 个角色 (挂卖单) 失败`, '小圣杯助手')

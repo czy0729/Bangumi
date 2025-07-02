@@ -60,7 +60,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   /** 深度图 */
-  depth(monoId: MonoId) {
+  depth(monoId: Id) {
     this.init('depth', true)
     return computed<typeof INIT_DEPTH_ITEM>(() => {
       return this.state.depth[monoId] || INIT_DEPTH_ITEM
@@ -262,7 +262,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   /** 角色圣殿 */
-  charaTemple(monoId: MonoId) {
+  charaTemple(monoId: Id) {
     this.init('charaTemple', true)
     return computed<ListEmpty<MyTemple>>(() => {
       return this.state.charaTemple[monoId] || LIST_EMPTY
@@ -329,7 +329,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   /** 角色发行价 */
-  issuePrice(monoId: MonoId) {
+  issuePrice(monoId: Id) {
     this.init('issuePrice', true)
     return computed<number>(() => {
       return this.state.issuePrice[monoId] || 0

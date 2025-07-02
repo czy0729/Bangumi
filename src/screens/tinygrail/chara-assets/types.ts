@@ -7,7 +7,7 @@
 import { factory } from '@utils'
 import { GetRouteParams, Navigation, RouteTinygrailCharaAssets } from '@types'
 import Store from './store'
-import { TABS } from './ds'
+import { DATA, TABS } from './ds'
 
 const f = factory(Store)
 
@@ -23,3 +23,5 @@ export type Params = GetRouteParams<RouteTinygrailCharaAssets>
 export type Direction = '' | 'down' | 'up'
 
 export type TabsKey = (typeof TABS)[number]['key']
+
+export type BatchAction = (typeof DATA)[number] | ''

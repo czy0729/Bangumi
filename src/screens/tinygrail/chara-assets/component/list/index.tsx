@@ -6,7 +6,8 @@
  */
 import React, { useCallback } from 'react'
 import { PaginationList2 } from '@_'
-import { _, useStore } from '@stores'
+import { _, tinygrailStore, useStore } from '@stores'
+import { queue } from '@utils'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { TINYGRAIL_LIST_PROPS } from '@tinygrail/_/ds'
@@ -31,7 +32,21 @@ function List({ id }: Props) {
     }
 
     const refreshHandlers = {
-      merge: () => Promise.all([$.fetchTemple, $.fetchMyCharaAssets]),
+      merge: () =>
+        queue([
+          () => $.fetchTemple(),
+          () => $.fetchMyCharaAssets(),
+          () => tinygrailStore.fetchBid(),
+          () => tinygrailStore.fetchAsks(),
+          () => tinygrailStore.fetchAuction()
+        ]),
+      chara: () =>
+        queue([
+          () => $.fetchMyCharaAssets(),
+          () => tinygrailStore.fetchBid(),
+          () => tinygrailStore.fetchAsks(),
+          () => tinygrailStore.fetchAuction()
+        ]),
       temple: () => $.fetchTemple(),
       default: () => $.fetchMyCharaAssets()
     }

@@ -46,6 +46,7 @@ export default class ScreenTinygrailCharaAssets extends Action {
       _loaded: true
     })
 
+    // @ts-expect-error
     const { chara } = await this.fetchMyCharaAssets()
     try {
       const { message = '' } = this.params

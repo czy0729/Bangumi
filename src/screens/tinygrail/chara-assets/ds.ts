@@ -195,3 +195,38 @@ export const SORT_TEMPLE_DS = SORT_DS_CONFIG.filter(item =>
 ).map(item => item.data)
 
 export const PER_BATCH_COUNT = 50
+
+export const TEXT_BATCH_SACRIFICE = '批量献祭'
+
+export const TEXT_BATCH_SALE = '批量出售'
+
+export const TEXT_BATCH_ASKS = '批量挂卖单'
+
+export const TEXT_BATCH_ASKS_MINUS_1 = '批量挂-1cc卖单'
+
+export const TEXT_BATCH_ASKS_MINUS_10 = '批量挂-10cc卖单'
+
+export const TEXT_BATCH_ASKS_MULTI_1 = '批量挂*1.1cc卖单'
+
+export const TEXT_BATCH_ASKS_MULTI_2 = '批量挂*1.2cc卖单'
+
+export const TEXT_BATCH_ASKS_AVG = '批量挂发行价卖单'
+
+export const TEXT_BATCH_ASKS_DEAL_1 = '批量挂卖一价-1cc卖单'
+
+export const TEXT_BATCH_SHARE = '批量分享'
+
+export const DATA = [
+  TEXT_BATCH_SACRIFICE,
+  TEXT_BATCH_SALE,
+  TEXT_BATCH_ASKS,
+  TEXT_BATCH_ASKS_MINUS_1,
+  TEXT_BATCH_ASKS_MINUS_10,
+  TEXT_BATCH_ASKS_MULTI_1,
+  TEXT_BATCH_ASKS_MULTI_2,
+  TEXT_BATCH_ASKS_AVG,
+  TEXT_BATCH_ASKS_DEAL_1,
+  TEXT_BATCH_SHARE
+] as const
+
+export const DATA_ICO = [TEXT_BATCH_SHARE] as const
