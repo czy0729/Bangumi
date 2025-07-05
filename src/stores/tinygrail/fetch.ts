@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:38:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-19 05:06:47
+ * @Last Modified time: 2025-07-05 04:13:46
  */
 import { toJS } from 'mobx'
 import { getTimestamp, HTMLDecode, info, lastDate, toFixed } from '@utils'
@@ -1995,6 +1995,16 @@ export default class Fetch extends Computed {
           time: item => lastDate(getTimestamp(item.LogTime.replace('T', ' '))),
           type: 'Type'
         })
+        if (next?.[0]) {
+          const current = this[STATE_KEY]
+          if (current?.list?.[0]) {
+            if (next[0].time === current.list[0].time && next[0].id === current.list[0].id) {
+              this.log('fetchStarLogs', 'no changes skip update')
+              return this[STATE_KEY]
+            }
+          }
+        }
+
         this.setState({
           [STATE_KEY]: {
             list: refresh ? next : [...list, ...next],

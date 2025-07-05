@@ -6,12 +6,12 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Avatar, Flex, Text, UserStatus } from '@components'
 import { InView } from '@_'
 import { _, tinygrailStore, useStore } from '@stores'
 import { HTMLDecode } from '@utils'
 import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import Menu from '../menu'
 import Mono from '../mono'

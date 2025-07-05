@@ -5,11 +5,11 @@
  * @Last Modified time: 2025-04-24 20:10:05
  */
 import React, { useCallback } from 'react'
-import { useObserver } from 'mobx-react'
 import { Avatar, Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { formatNumber, HTMLDecode, navigationReference, tinygrailOSS } from '@utils'
 import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import Rank from '../../rank'
 import { getTypeText } from './utils'
 import { COMPONENT } from './ds'

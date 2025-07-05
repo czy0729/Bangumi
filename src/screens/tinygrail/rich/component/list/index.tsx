@@ -6,10 +6,10 @@
  */
 import React, { useCallback } from 'react'
 import { toJS } from 'mobx'
-import { useObserver } from 'mobx-react'
 import { ListView, Loading } from '@components'
 import { _, useStore } from '@stores'
 import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { TINYGRAIL_LIST_PROPS } from '@tinygrail/styles'
 import { TABS } from '../../ds'
 import { Ctx } from '../../types'

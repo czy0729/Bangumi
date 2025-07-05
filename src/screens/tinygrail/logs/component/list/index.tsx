@@ -5,11 +5,11 @@
  * @Last Modified time: 2025-04-22 05:06:53
  */
 import React, { useMemo } from 'react'
-import { useObserver } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
 import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { TINYGRAIL_LIST_PROPS } from '@tinygrail/styles'
 import { Ctx } from '../../types'
 import ItemsFilter from '../items-filter'

@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2022-05-22 14:04:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-02 16:43:19
+ * @Last Modified time: 2025-07-05 04:16:16
  */
 import { Id, UserId } from '@types'
 import { TinygrailMagic, TinygrailType } from './types'
@@ -274,7 +274,7 @@ export const API_TINYGRAIL_STAR = (page: number = 1, limit: number = 50) =>
   `${API_HOST_TINYGRAIL}/api/chara/babel/${page}/${limit}`
 
 /** 通天塔(α) 排行记录 */
-export const API_TINYGRAIL_STAR_LOGS = (page: number = 1, limit: number = 50) =>
+export const API_TINYGRAIL_STAR_LOGS = (page: number = 1, limit: number = 200) =>
   `${API_HOST_TINYGRAIL}/api/chara/star/log/${page}/${limit}`
 
 /** 灌注星之力 */

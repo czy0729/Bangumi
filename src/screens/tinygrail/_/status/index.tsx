@@ -6,9 +6,9 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Flex } from '@components'
 import { tinygrailStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { memoStyles } from './styles'
 import { Props } from './types'
 

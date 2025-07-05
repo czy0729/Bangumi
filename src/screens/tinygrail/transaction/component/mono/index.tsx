@@ -6,10 +6,10 @@
  */
 import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Avatar, Popover } from '@components'
 import { useStore } from '@stores'
 import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
