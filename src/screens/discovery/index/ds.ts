@@ -79,12 +79,12 @@ export const MENU_MAP: MenuMapType = {
     name: '猜你喜欢',
     icon: 'md-looks'
   },
-  Recommend: {
-    key: 'Recommend',
-    name: 'AI 推荐',
-    icon: 'md-favorite-outline',
-    size: 21
-  },
+  // Recommend: {
+  //   key: 'Recommend',
+  //   name: 'AI 推荐',
+  //   icon: 'md-favorite-outline',
+  //   size: 21
+  // },
   BiWeekly: {
     key: 'BiWeekly',
     name: '半月刊',

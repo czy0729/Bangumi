@@ -12,7 +12,7 @@ export const memoStyles = _.memoStyles(() => ({
     position: 'absolute',
     zIndex: 1,
     right: 0,
-    bottom: _.md,
+    bottom: _.ios(_.tabBarHeight + _.sm, _.md),
     left: 0
   },
   web: {

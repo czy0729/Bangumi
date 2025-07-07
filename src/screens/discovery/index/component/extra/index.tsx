@@ -6,17 +6,15 @@
  */
 import React from 'react'
 import { Heatmap, Track } from '@components'
-import { _, useStore } from '@stores'
+import { _ } from '@stores'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
 import LinkModal from '../link-modal'
 import { COMPONENT } from './ds'
 
 function Extra() {
-  const { $, navigation } = useStore<Ctx>()
   return (
     <>
-      <LinkModal $={$} navigation={navigation} />
+      <LinkModal />
       <Track title='发现' hm={['discovery', 'Discovery']} />
       <Heatmap bottom={_.bottom} id='发现' screen='Discovery' />
     </>
