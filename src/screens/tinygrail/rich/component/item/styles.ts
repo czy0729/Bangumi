@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-11 06:55:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-02 21:17:29
+ * @Last Modified time: 2025-07-08 18:31:09
  */
 import { _ } from '@stores'
 
@@ -24,8 +24,8 @@ export const memoStyles = _.memoStyles(() => ({
     overflow: 'hidden'
   },
   rank: {
-    minWidth: 20,
-    marginRight: 6,
+    minWidth: 16,
+    marginRight: 4,
     color: _.__colorPlain__,
     textShadowOffset: {
       width: 1,
@@ -34,7 +34,7 @@ export const memoStyles = _.memoStyles(() => ({
     textShadowRadius: 1,
     textShadowColor: 'rgba(0, 0, 0, 0.48)',
     backgroundColor: '#ffc107',
-    borderRadius: 2,
+    borderRadius: 3,
     overflow: 'hidden'
   }
 }))

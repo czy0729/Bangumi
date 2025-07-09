@@ -16,11 +16,11 @@ import { Props as NoticeProps } from './types'
 export { NoticeProps }
 
 /** 轻提示 */
-export const Notice = ob(({ style, children }) => {
+export const Notice = ob(({ style, children, ...other }) => {
   const styles = memoStyles()
   return (
     <Component id='base-notice' style={stl(styles.notice, style)}>
-      <Text size={12} lineHeight={WEB ? 14 : 12} type='sub'>
+      <Text size={12} lineHeight={WEB ? 14 : 12} type='sub' {...other}>
         {children}
       </Text>
     </Component>

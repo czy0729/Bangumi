@@ -42,9 +42,6 @@ function List({ id, title = '全部' }) {
     } else if (title === TABS[2].title) {
       data = toJS(rich)
       data.list = data.list.slice().sort((a, b) => parseInt(b.total) - parseInt(a.total))
-    } else if (title === TABS[3].title) {
-      data = toJS(rich)
-      data.list = data.list.slice().sort((a, b) => parseInt(b.principal) - parseInt(a.principal))
     }
 
     return (

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-04 17:48:53
+ * @Last Modified time: 2025-07-08 21:01:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,7 @@ import { t } from '@utils/fetch'
 import Rank from '@tinygrail/_/rank'
 import { calculateRate } from '@tinygrail/_/utils'
 import { ViewStyle } from '@types'
-import { Ctx } from '../../types'
+import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
@@ -111,7 +111,7 @@ function Header() {
             </Flex.Item>
           </Flex>
         </Flex.Item>
-        <Flex>
+        <Flex style={_.mr._sm}>
           <IconTouchable
             name='md-workspaces-outline'
             color={_.colorTinygrailPlain}

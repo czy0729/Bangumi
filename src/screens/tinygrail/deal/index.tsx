@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:46:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-28 06:21:00
+ * @Last Modified time: 2025-07-08 20:59:54
  */
 import React from 'react'
 import { Component, Page } from '@components'
 import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { NavigationProps } from '@types'
-import Header from './component/header'
 import Scroll from './component/scroll'
+import Header from './header'
 import { useTinygrailDealPage } from './hooks'
 import { memoStyles } from './styles'
 

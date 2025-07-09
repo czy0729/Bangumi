@@ -16,7 +16,7 @@ function Header() {
   const { $ } = useStore<Ctx>()
   return (
     <HeaderV2
-      title={`通天塔 · 指数${$.state.starIndexWeight}`}
+      title='通天塔'
       headerTitleAlign='left'
       backgroundStyle={_.container.tinygrail}
       hm={HM}
