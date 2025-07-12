@@ -8,7 +8,7 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   comment: {
-    marginTop: 6,
+    marginTop: 4,
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2),
     borderWidth: _.select(_.hairlineWidth, 0),
     borderColor: _.colorBorder,
@@ -25,5 +25,15 @@ export const memoStyles = _.memoStyles(() => ({
     bottom: _.sm,
     opacity: 0.8,
     userSelect: 'none'
+  },
+  sensitive: {
+    width: '100%',
+    paddingHorizontal: 4,
+    marginTop: 6,
+    marginBottom: -_.xs
+  },
+  touch: {
+    marginRight: 6,
+    marginBottom: _.sm
   }
 }))

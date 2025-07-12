@@ -13,7 +13,7 @@ import { s2t } from '@utils/thirdParty/open-cc'
 import { memoStyles } from './styles'
 import { Props } from './types'
 
-function TextInput({ style, forwardRef, multiline, placeholder, ...other }: Props) {
+function TextInput({ style, forwardRef, multiline, placeholder, selection, ...other }: Props) {
   const styles = memoStyles()
   return (
     <RNTextInput
@@ -23,6 +23,7 @@ function TextInput({ style, forwardRef, multiline, placeholder, ...other }: Prop
       {...other}
       placeholder={systemStore.setting.s2t ? s2t(placeholder) : placeholder}
       textAlignVertical={multiline ? 'top' : 'center'}
+      selection={selection?.start === 0 && selection?.end === 0 ? undefined : selection}
     />
   )
 }

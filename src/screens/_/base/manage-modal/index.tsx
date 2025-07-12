@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-06 07:02:14
+ * @Last Modified time: 2025-07-10 17:37:44
  */
 import React from 'react'
-import { BackHandler } from 'react-native'
+import { BackHandler, TextInput } from 'react-native'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { Component, Flex, Modal, Text } from '@components'
 import { _, collectionStore, subjectStore, systemStore, userStore } from '@stores'
@@ -65,6 +65,8 @@ export const ManageModal = ob(
       privacy: MODEL_PRIVATE.getValue<Private>('公开')
     }
 
+    private _backHandlerSubscription: { remove: () => void } | null = null
+
     /** 用于判断收藏请求是否已经发出并返回数据 */
     private _fetched = false
 
@@ -72,7 +74,9 @@ export const ManageModal = ob(
     private _changedStatus = false
 
     /** 输入框引用 */
-    commentRef: any
+    commentRef: {
+      inputRef: TextInput
+    } = null
 
     async componentDidMount() {
       try {
@@ -85,13 +89,19 @@ export const ManageModal = ob(
         console.error('manage-modal', 'componentDidMount', error)
       }
 
-      if (!IOS) BackHandler.addEventListener('hardwareBackPress', this.handleBackAndroid)
+      if (!IOS) {
+        this._backHandlerSubscription = BackHandler.addEventListener(
+          'hardwareBackPress',
+          this.handleBackAndroid
+        )
+      }
     }
 
     componentWillUnmount() {
-      try {
-        if (!IOS) BackHandler.removeEventListener('hardwareBackPress', this.handleBackAndroid)
-      } catch (error) {}
+      if (!IOS && this._backHandlerSubscription) {
+        this._backHandlerSubscription.remove()
+        this._backHandlerSubscription = null
+      }
     }
 
     async UNSAFE_componentWillReceiveProps(nextProps: {
@@ -155,9 +165,8 @@ export const ManageModal = ob(
     }
 
     handleBackAndroid = () => {
-      const { visible, onClose } = this.props
-      if (visible) {
-        onClose()
+      if (this.props.visible) {
+        this.props.onClose()
         return true
       }
 
@@ -300,7 +309,7 @@ export const ManageModal = ob(
       } catch (error) {}
     }
 
-    handleForwardRef = (ref: any) => {
+    handleForwardRef = (ref: { inputRef: TextInput }) => {
       this.commentRef = ref
     }
 

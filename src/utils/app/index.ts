@@ -6,6 +6,7 @@
  */
 export * from './app'
 export * from './data-source'
+export * from './sensitive'
 export * from './spa'
 export * from './timezone'
 export * from './user'

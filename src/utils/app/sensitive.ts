@@ -1,0 +1,21 @@
+/*
+ * @Author: czy0729
+ * @Date: 2025-07-10 17:33:24
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2025-07-10 17:36:50
+ */
+import Crypto from '../crypto'
+
+const SENSITIVE_WORDS = JSON.parse(
+  Crypto.get(
+    // eslint-disable-next-line max-len
+    'U2FsdGVkX1/GaHxNMEdHm27lWR7IFQxnjfCKakXkYRVYshchC4KxJo3kG0Rc/irDsU36IBm5c3E/a4JXjsqkNq7eEZmVwAV2cwEBvaDrqVg2ZL66V92OKLNQz3SICuwEptBMAcyuOap5Apa4CO3orOTStULytPVpIjtX5q6hgWNAsigCewo5NV37Kw2yJ997bfHukO2pRL22v6rzaHSRCqoKSMQhlvOaAwD1GJMy+baUQ63ne0zOQjfblXTpETUjEoBg3NRVpTaUeNDVAoWHP+wVgzxA+EDS97Gfr6rZFQQtCvrjmi2uU6vL0xUs78xify3vHHV40IY7K21sHBWLK+rMJ4CYhHUwn+We4zR5C0RULJVNhfwUMd4YtTq/MVC4L2J8CT0ZIxRPdFrV1173aGEwTVJpoIeK4yEEp5F/yagFDA1SPArXk+FeZC2iVPMAnPrGg3JL43KCRRS3th4+G8j53sx1jYRJW3xzyK3ofDIbh7nrt7F9zfwffc9rw8wfsQhCpiu3BbpIMccy/MNZTjodVYnFX/h2n8L0meu/vSK6X321HY2LXzZpFB6O6SPzIZesTHAmmcEaeJbProv2beKIURq0ltSPIa83W4uI8DmWReRlse2ekzznRP9Ya1LA1/0dKWTckkc8+NfJODScGQPs0oKiCJIulb6GNZYK5Xen8f3yaj3XW7cz6/YC1aUl1qajeYRbMqMk5p5P8aRz+SEUSKp3zm9Tf+q+Z4LSjNEVh1uy34813MSkcfnFoajH0FoctpazXR+wtyFS0E4OHeuXu22jOejo3gtP5RY6pfOhtGKGHEhYFpInBRKgCNsFKwJjPA2KIQ67LG0MXpqXleXf8aXQ92a3QG4HX6/y0Kd03ievloxA4UhabQJV4C7TWd107B4htH+KRaN3PDSHb//Fwtk073dFiD+wegvuH4+gKx4ldoJbAYqcoRf9SKfjDu7ki9y+Ibfd8KBm0S0L7b72vj1SHZCo9bponH1jRYNEWQwoTOSqEP1xh8pNOFImK5MSy+0aLuI9ildFpjsD4XLCEQjN/Vk1NA2tVtWK5CgqsaOrdLvM2J/JUPKZmbO9EFyDHw4ZqaAiZI8UNTFSx2DYx3gPO0h2da9w5Up9+lY59kkANhlfoUa4PlS9irw5PbkBem7XBuZrZelm+p1rtb80e1RAaZtAqbxsLsXZXNdPp3ZMQVIiFU9MAmAbjJ8bigM65wutaj4AUg3e+xPPNcRce8L4JJEQBaY6GUqiDpzXL6gtm7CV8/ewfvBGWd9HTi2OdcN/Ee91XPgwokpy24OTDjv5hhk6qG+hhz3cGo+oBZkxK0ZMRgOxMtRAj1XT/dArox5DHn7jpC9ZrXS+0qT+mMnpB1IR00/HDklVNL3C8ULH/DU1NQ3brEWIIRYF+OImdr9Cb8TNgMwelI2few1s8MrJlEwuA3j0+Y5c7qlzKgGmGcylLzDB+j5VUQmdfw72HPYFVIlQx/BcV4/IZFcCGnyR8WhbmuoXRWY8hjx24Wwc/x9as+veV12RLmtBXtkh2O0MDtisXILc79Vw1ATMe8net54dE7GVds2PVBWRNnn6rXDw3bzYAdm9r97zTxy+rQnXjnQ4r+hCYHankIzoyH5ytdERkaES46SZO3JlLUapx/qOoMRrNcbZGb3RezCFRJebi6uswO7+7KGajfyNhu3O6zVVdlkqG9kctwLE+rOG1ZxlzsSmhkNx5sZuI3lrO6YZ5rJJ7JYwPBUVMSq1e/QztVEmJLXQ39J675TG9RjV6Cxqr3YdOo7/kc1+'
+  )
+) as string[]
+
+/** 匹配文本中所有疑似敏感词 (注意区分简繁体) */
+export function detectSensitiveWords(input: string) {
+  if (typeof input !== 'string' || !input) return []
+
+  return SENSITIVE_WORDS.filter(word => input.includes(word))
+}

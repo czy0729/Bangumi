@@ -145,13 +145,10 @@ export const Input = observer(
     }
 
     onChange = (evt: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => {
-      const { onChange } = this.props
-      const { nativeEvent } = evt
-      const { text } = nativeEvent
       this.setState({
-        value: text
+        value: evt.nativeEvent.text
       })
-      onChange(evt)
+      this.props.onChange(evt)
     }
 
     onSubmitEditing = (evt: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => {
@@ -170,10 +167,6 @@ export const Input = observer(
         }
       })
       onChangeText('')
-    }
-
-    get borderRadius() {
-      return _.radiusXs
     }
 
     get clearButtonMode() {
@@ -238,7 +231,7 @@ export const Input = observer(
                   this.styles.multiline,
                   {
                     height: containerHeight,
-                    borderRadius: this.borderRadius
+                    borderRadius: _.radiusXs
                   },
                   style
                 )}
@@ -257,7 +250,7 @@ export const Input = observer(
             style={stl(
               {
                 fontFamily: _.fontBoldFamily,
-                borderRadius: this.borderRadius
+                borderRadius: _.radiusXs
               },
               style
             )}

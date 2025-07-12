@@ -91,7 +91,7 @@ function Tags({
                       <Text
                         style={_.ml.xs}
                         type={_.select('sub', isSelected ? 'main' : 'sub')}
-                        size={12}
+                        size={11}
                       >
                         {count}
                       </Text>

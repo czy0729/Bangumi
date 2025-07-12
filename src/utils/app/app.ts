@@ -20,22 +20,36 @@ import { open } from '../utils'
 import { fixedBgmUrl, matchBgmLink } from './data-source'
 import { PRIVACY_STATE, RANDOM_FACTOR } from './ds'
 
-/** 启动 */
+/** 初始化全局方法和控制台重写 */
 export function bootApp() {
-  const fn = FROZEN_FN
-
-  global.log = globalLog
-  global.warn = globalWarn
-  global.rerender = rerender
-  global.console.warn = fn
-  global.console.error = fn
-
-  if (!DEV) {
-    global.console.info = fn
-    global.console.log = fn
-    global.console.debug = fn
-    global.console.assert = fn
+  // 需要挂载到 global 的方法
+  const GLOBAL_METHODS = {
+    log: globalLog,
+    warn: globalWarn,
+    rerender: rerender
   }
+
+  // 始终重写的 console 方法（生产+开发环境）
+  const ALWAYS_OVERRIDE_CONSOLE = ['warn', 'error']
+
+  // 仅在生产环境重写的 console 方法
+  const PROD_ONLY_OVERRIDE_CONSOLE = ['info', 'log', 'debug', 'assert']
+
+  // 冻结函数
+  const FROZEN_FUNCTION = FROZEN_FN
+
+  for (const [key, value] of Object.entries(GLOBAL_METHODS)) {
+    global[key] = value
+  }
+
+  const consoleMethodsToOverride = [...ALWAYS_OVERRIDE_CONSOLE]
+  if (!DEV) {
+    consoleMethodsToOverride.push(...PROD_ONLY_OVERRIDE_CONSOLE)
+  }
+
+  consoleMethodsToOverride.forEach(method => {
+    global.console[method] = FROZEN_FUNCTION
+  })
 }
 
 /** 获取背景的模糊值 (各平台实际表现是不一样的, 需要分开判断) */
@@ -376,19 +390,26 @@ export function getGroupThumbStatic(src: string) {
   )
 }
 
+const FORMAT_PLAYTIME_REPLACEMENT_MAP = {
+  'very ': '超',
+  long: '长',
+  medium: '中',
+  short: '短',
+  '&lt;': '小于',
+  hours: '时',
+  h: '时',
+  m: '分'
+} as const
+
 export function formatPlaytime(time: string) {
   if (!time || typeof time !== 'string') return ''
 
-  return time
-    .toLocaleLowerCase()
-    .replace('very ', '超')
-    .replace('long', '长')
-    .replace('medium', '中')
-    .replace('short', '短')
-    .replace('&lt;', '小于')
-    .replace('hours', '时')
-    .replace('h', '时')
-    .replace('m', '分')
+  let formattedTime = time.toLowerCase()
+  for (const [key, value] of Object.entries(FORMAT_PLAYTIME_REPLACEMENT_MAP)) {
+    formattedTime = formattedTime.replace(key, value)
+  }
+
+  return formattedTime
 }
 
 export function fixedSubjectInfo(info: string) {
