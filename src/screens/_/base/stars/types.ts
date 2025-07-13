@@ -31,4 +31,7 @@ export type Props = {
 
   /** 额外的文字, 插入在分数后方 */
   extraText?: string
+
+  /** 隐藏评分 */
+  hideScore?: boolean
 }

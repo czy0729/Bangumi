@@ -28,9 +28,11 @@ export const Stars = ob(
     size = 11,
     type = 'sub',
     color,
-    extraText
+    extraText,
+    hideScore
   }: StarsProps) => {
-    if (systemStore.setting.hideScore || !value) return null
+    if (hideScore || !value) return null
+    if (hideScore === undefined && systemStore.setting.hideScore) return null
 
     const transform = WEB && size < 12
     const webStyle = transform && fontSize(size, size, true)

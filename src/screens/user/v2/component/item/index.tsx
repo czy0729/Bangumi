@@ -14,8 +14,7 @@ import { COMPONENT } from './ds'
 
 function Item({ item, index, page }) {
   const { $ } = useStore<Ctx>()
-  const { list } = $.state
-  if (list) return <ItemList item={item} index={index} page={page} />
+  if ($.state.list) return <ItemList item={item} index={index} page={page} />
 
   return <ItemGrid item={item} numColumns={$.numColumns} />
 }

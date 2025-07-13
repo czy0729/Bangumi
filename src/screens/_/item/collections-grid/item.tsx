@@ -38,6 +38,7 @@ const Item = memo(
     wid = '',
     mid = '',
     isRectangle = false,
+    hideScore,
     event = EVENT
   }) => {
     const { width } = gridStyles
@@ -108,7 +109,7 @@ const Item = memo(
           {!!score && (
             <Flex style={_.mt.sm} justify='center'>
               <Rank style={_.mr.xs} value={rank} size={9} />
-              <Stars value={score} size={9} />
+              <Stars value={score} size={9} hideScore={hideScore} />
             </Flex>
           )}
         </Touchable>

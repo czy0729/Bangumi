@@ -25,10 +25,11 @@ function ItemGrid({ item, numColumns }) {
       type={typeCn}
       event={EVENT}
       {...item}
-      isRectangle={typeCn === '音乐'}
       airtime={
         showYear ? (typeCn === '动画' ? matchYearAndMonth(item.tip) : matchYear(item.tip)) : false
       }
+      isRectangle={typeCn === '音乐'}
+      hideScore={false}
     />
   )
 }

@@ -34,8 +34,8 @@ export const ItemCollectionsGrid = ob(
     aid,
     wid,
     mid,
-    isCollect,
     isRectangle,
+    hideScore,
     event
   }: ItemCollectionsGridProps) => {
     return (
@@ -58,8 +58,8 @@ export const ItemCollectionsGrid = ob(
         aid={aid}
         wid={wid}
         mid={mid}
-        isCollect={isCollect}
         isRectangle={isRectangle}
+        hideScore={hideScore}
         event={event}
       />
     )

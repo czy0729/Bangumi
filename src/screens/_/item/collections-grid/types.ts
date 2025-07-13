@@ -26,7 +26,7 @@ export type Props = {
   aid?: string | number
   wid?: string | number
   mid?: string | number
-  isCollect?: boolean
   isRectangle?: boolean
+  hideScore?: boolean
   event?: EventType
 }

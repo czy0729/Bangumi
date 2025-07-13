@@ -67,7 +67,7 @@ function Bottom({
       {hasLeft && (
         <>
           {showRank && <Rank value={rank} />}
-          {showScore && <Stars value={score} simple={simpleStars} />}
+          {showScore && <Stars value={score} simple={simpleStars} hideScore={hideScore} />}
           {showTotal && (
             <Text style={(showRank || showScore) && _.ml.sm} type='sub' size={10}>
               ({total}人评分)

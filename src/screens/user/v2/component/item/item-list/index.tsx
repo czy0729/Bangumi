@@ -35,6 +35,7 @@ function ItemList({ item, index, page }) {
       inViewY={H_HEADER}
       {...item}
       showLabel={false}
+      hideScore={false}
       type={typeCn}
       isDo={type === 'do'}
       isDropped={type === 'dropped'}
