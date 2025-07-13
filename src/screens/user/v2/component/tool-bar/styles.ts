@@ -14,5 +14,16 @@ export const memoStyles = _.memoStyles(() => ({
   },
   list: {
     paddingBottom: 0
+  },
+  touch: {
+    paddingVertical: _.sm,
+    paddingRight: _.lg
   }
 }))
+
+export const styles = _.create({
+  touch: {
+    paddingVertical: _.sm,
+    paddingRight: _.lg
+  }
+})

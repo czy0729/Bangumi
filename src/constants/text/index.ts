@@ -110,6 +110,9 @@ export const TEXT_MENU_ONLY_SHOW = '只显示'
 /** 菜单: 分页器 */
 export const TEXT_MENU_PAGINATION = '分页器'
 
+/** 菜单: 年份 */
+export const TEXT_MENU_YEARS = '年　份'
+
 /** 标记 */
 export const TEXT_BADGES = {
   danger: '🔴',

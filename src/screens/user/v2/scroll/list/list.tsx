@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-13 16:13:57
+ * @Last Modified time: 2025-07-13 21:01:02
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -47,7 +47,7 @@ const List = memo(
       ),
       [onRefreshOffset, page, pageCurrent, pageTotal, styles]
     )
-    const _onScroll = useMemo(
+    const handleScroll = useMemo(
       () =>
         Animated.event(
           [
@@ -67,7 +67,7 @@ const List = memo(
       [onScroll, scrollY]
     )
 
-    const _forwardRef = useCallback(
+    const handleRef = useCallback(
       (ref: { scrollToIndex: any; scrollToOffset: any }) => {
         forwardRef(ref, page)
       },
@@ -104,7 +104,7 @@ const List = memo(
     return (
       <ListView
         key={getKeyString(list, numColumns)}
-        ref={_forwardRef}
+        ref={handleRef}
         keyExtractor={keyExtractor}
         style={styles.listView}
         contentContainerStyle={list ? styles.list : styles.grid}
@@ -117,7 +117,7 @@ const List = memo(
         renderItem={renderItem}
         ListHeaderComponent={ListHeaderComponent}
         scrollEventThrottle={16}
-        onScroll={_onScroll}
+        onScroll={handleScroll}
         {...passProps}
       />
     )
