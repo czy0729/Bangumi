@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-07-27 16:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-17 15:03:28
+ * @Last Modified time: 2025-07-14 20:38:49
  */
 import React, { useCallback, useRef, useState } from 'react'
 import { TextInput } from 'react-native'
@@ -94,7 +94,9 @@ function CommentInput({
             <Touchable
               style={styles.touch}
               onPress={() => {
-                alert('若吐槽中存在敏感词，保存后公开状态可能会被强制设置为「私密」', '警告')
+                alert(
+                  '若吐槽中存在敏感词，保存后公开状态可能会被强制设置为「私密」。因官方词库会动态变化，结果不一定准确仅供参考。'
+                )
               }}
             >
               <Flex>
