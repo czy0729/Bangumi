@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 16:52:28
+ * @Last Modified time: 2025-07-14 18:15:39
  */
 import React from 'react'
+import { TextInput } from 'react-native'
 import { observer } from 'mobx-react'
 import { getStorage, info, setStorage } from '@utils'
 import { r } from '@utils/dev'
@@ -60,7 +61,7 @@ export const FixedTextarea = observer(
     }
 
     ref: {
-      textAreaRef: any
+      textAreaRef: TextInput
     }
 
     selection = {
@@ -68,28 +69,28 @@ export const FixedTextarea = observer(
       end: this.props.value.length
     }
 
-    _focused: boolean = false
+    private _focused: boolean = false
 
     async componentDidMount() {
       try {
-        const showSource: boolean = (await getStorage(`${NAMESPACE}|showSource`)) || false
-
-        let showSourceText: boolean = await getStorage(`${NAMESPACE}|showSourceText`)
-        if (typeof showSourceText !== 'boolean') showSourceText = true
-
-        // 15 就是 bgm38
-        const history: string = (await getStorage(NAMESPACE)) || '15'
-        const bgmHistory = history
-          .split(',')
-          .filter(item => item !== '')
-          .map(item => parseInt(item))
-        const replyHistory: string[] = (await getStorage(`${NAMESPACE}|replyHistory`)) || []
-        const lockHistory: string[] = (await getStorage(`${NAMESPACE}|lockHistory`)) || ''
+        const [
+          showSource = false,
+          showSourceText = true,
+          history = '15', // 15 就是 (bgm38)
+          replyHistory = [],
+          lockHistory = ''
+        ] = await Promise.all([
+          getStorage(`${NAMESPACE}|showSource`),
+          getStorage(`${NAMESPACE}|showSourceText`),
+          getStorage(NAMESPACE),
+          getStorage(`${NAMESPACE}|replyHistory`),
+          getStorage(`${NAMESPACE}|lockHistory`)
+        ])
 
         this.setState({
           showSource,
-          showSourceText,
-          history: bgmHistory,
+          showSourceText: typeof showSourceText === 'boolean' ? showSourceText : true,
+          history: history.split(',').filter(Boolean).map(Number),
           replyHistory,
           lockHistory
         })
@@ -108,8 +109,8 @@ export const FixedTextarea = observer(
     }
 
     /** 保存 Textarea 引用 */
-    forwardRef = (ref: { textAreaRef: any }) => {
-      return (this.ref = ref)
+    forwardRef = (ref: { textAreaRef: TextInput }) => {
+      this.ref = ref
     }
 
     /** Textarea.blur */
@@ -124,6 +125,8 @@ export const FixedTextarea = observer(
 
     /** Textarea.focus */
     refFocus = () => {
+      if (this._focused) return
+
       try {
         if (typeof this.ref?.textAreaRef?.focus === 'function') {
           this.ref.textAreaRef.focus()
@@ -181,8 +184,7 @@ export const FixedTextarea = observer(
         this.setState({
           showKeyboardSpacer: true,
           keyboardHeight: IOS
-            ? // iOS 弹出第三方键盘会慢一拍, 但是可以肯定至少是 336 高度
-              Math.max(336, height)
+            ? Math.max(336, height) // iOS 弹出第三方键盘会慢一拍, 但是可以肯定至少是 336 高度
             : height
         })
       }

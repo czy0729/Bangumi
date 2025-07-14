@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-07-29 04:25:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-10 19:27:07
+ * @Last Modified time: 2025-07-14 18:01:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,9 +11,9 @@ import { useObserver } from 'mobx-react'
 import TextareaItem from '@ant-design/react-native/lib/textarea-item'
 import { _ } from '@stores'
 import { IOS } from '@constants'
-import { SafeAreaBottom, SafeAreaBottomProps } from '../../safe-area-bottom'
 import { Flex } from '../../flex'
 import { Iconfont } from '../../iconfont'
+import { SafeAreaBottom, SafeAreaBottomProps } from '../../safe-area-bottom'
 import { Touchable } from '../../touchable'
 import SourceText from './source-text'
 import { memoStyles } from './styles'
@@ -67,9 +67,15 @@ function Textarea({
               clear
               onFocus={onFocus}
               onChange={onChange}
+              /**
+               * iOS 中直接点击这个布局会改变的 Input 会导致触发两次 focus 从而使键盘弹出收起再弹出
+               * 使用下方占位块触发聚焦事件可以避免, 安卓不存在此问题
+               */
+              editable={IOS ? editing : undefined}
               onSelectionChange={onSelectionChange}
             />
           </Flex.Item>
+          {IOS && !editing && <Touchable style={styles.placeholder} onPress={onFocus} />}
           {editing && (
             <Touchable style={styles.touch} onPress={onSubmit}>
               <Flex style={styles.send} justify='center'>
