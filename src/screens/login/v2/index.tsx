@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-22 21:29:24
+ * @Last Modified time: 2025-07-14 16:57:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -49,6 +49,7 @@ class LoginV2 extends React.Component<NavigationProps> {
   private _formhash = ''
   private _lastCaptcha = ''
   private _cookie: {
+    chii_theme?: string
     chii_auth?: string
   } = {}
   private _code = ''
@@ -61,6 +62,7 @@ class LoginV2 extends React.Component<NavigationProps> {
     hm('login/v2', 'LoginV2')
   }
 
+  /** 恢复本地数据 */
   getLocalSetting = async () => {
     const keys = ['host', 'email', 'password', 'isCommonUA', 'isSyncSetting'] as const
     const values = await Promise.all(keys.map(key => getStorage(`${NAMESPACE}|${key}`)))
@@ -72,133 +74,12 @@ class LoginV2 extends React.Component<NavigationProps> {
     this.setState(state, this.reset)
   }
 
-  /** 游客访问 */
-  onTour = async () => {
-    t('登陆.游客访问')
-
-    try {
-      info('正在从 github 获取游客 cookie...')
-
-      const { accessToken, userCookie } = await get('tourist')
-      userStore.updateAccessToken(accessToken)
-      userStore.updateUserCookie({
-        cookie: userCookie.cookie,
-        userAgent: userCookie.userAgent,
-        v: 0,
-        tourist: 1
-      })
-
-      info(`${i18n.login()}成功, 正在请求个人信息...`, 6)
-      feedback()
-      userStore.fetchUserInfo()
-      userStore.fetchUsersInfo()
-
-      const { navigation } = this.props
-      navigation.popToTop()
-    } catch (error) {
-      console.error(NAMESPACE, 'onTour', error)
-      info(`${i18n.login()}状态过期, 请稍后再试`)
-    }
-  }
-
-  /** 显示登录表单 */
-  onPreviewLogin = () => {
-    this.setState({
-      clicked: true
-    })
-  }
-
-  /** 登录最终失败 */
-  loginFail = async (info: string) => {
-    t('登陆.错误')
-
-    this.setState({
-      loading: false,
-      info,
-      failed: true
-    })
-    this.reset()
-  }
-
-  /** 登录流程 */
-  onLogin = async () => {
-    const { email, password, captcha } = this.state
-    if (!email || !password || !captcha) {
-      info('请填写以上字段')
-      return
-    }
-
-    try {
-      if (this._lastCaptcha !== captcha) {
-        t('登陆.登陆')
-
-        if (typeof this?._codeRef?.inputRef?.blur === 'function') {
-          this._codeRef.inputRef.blur()
-        }
-        setStorage(`${NAMESPACE}|email`, email)
-
-        await this.login()
-        if (!this._cookie.chii_auth) {
-          this.loginFail(`验证码或密码错误，稍会再重试或前往授权${i18n.login()} →`)
-          return
-        }
-
-        // 缓存上次的正确的验证码
-        this._lastCaptcha = captcha
-        await this.oauth()
-        await this.authorize()
-      } else {
-        this.setState({
-          info: '重试 (4/5)'
-        })
-        this._retryCount += 1
-      }
-
-      await this.getAccessToken()
-      setStorage(`${NAMESPACE}|password`, password)
-      this.inStore()
-    } catch (ex) {
-      this._retryCount += 1
-      if (this._retryCount >= AUTH_RETRY_COUNT) {
-        this.loginFail(
-          `[${String(
-            ex
-          )}] ${i18n.login()}失败，请重试或重启APP，或点击前往旧版授权${i18n.login()} →`
-        )
-        return
-      }
-
-      console.error('login/v2/index.js', 'onLogin', ex)
-      this.onLogin()
-    }
-  }
-
-  /** 随机生成一个 UserAgent */
+  /** 获取 userAgent */
   getUA = async () => {
-    const { isCommonUA } = this.state
-    if (isCommonUA) {
-      // 与 ekibun 的 bangumi 一样的 ua
-      const ua = UA_EKIBUN_BANGUMI_APP
-      this._userAgent = ua
-      return ua
-    }
-
-    const UA = await Constants.getWebViewUserAgentAsync()
-    this._userAgent = WEB ? UA : `${UA} ${getTimestamp()}`
-
-    return UA
-  }
-
-  getHeaders = (keys: string[] = []) => {
-    const headers: Record<string, string> = {}
-    if (keys.includes('User-Agent')) headers[WEB ? 'X-User-Agent' : 'User-Agent'] = this._userAgent
-    if (keys.includes('Cookie')) headers[WEB ? 'X-Cookie' : 'Cookie'] = this.cookieString
-    if (keys.includes('Content-Type')) headers['Content-Type'] = 'application/x-www-form-urlencoded'
-    return headers
-  }
-
-  getCookies = (headers = {}) => {
-    this.updateCookie(WEB ? headers?.['x-set-cookie'] : headers?.['set-cookie']?.[0])
+    this._userAgent = this.state.isCommonUA
+      ? UA_EKIBUN_BANGUMI_APP
+      : await Constants.getWebViewUserAgentAsync()
+    return true
   }
 
   /** 获取表单 hash */
@@ -234,12 +115,15 @@ class LoginV2 extends React.Component<NavigationProps> {
     axios.defaults.withCredentials = false
 
     // @ts-expect-error
-    const { request } = await axios({
+    const { request, headers } = await axios({
       method: 'get',
-      url: `${host}/signup/captcha?${getTimestamp()}`,
+      url: `${host}/signup/captcha?${new Date().getTime()}${String(
+        1 + Math.floor(Math.random() * 6)
+      )}`,
       headers: this.getHeaders(['User-Agent', 'Cookie']),
       responseType: 'arraybuffer'
     })
+    this.getCookies(headers)
 
     const base64: string = WEB
       ? btoa(String.fromCharCode.apply(null, new Uint8Array(request.response)))
@@ -311,7 +195,7 @@ class LoginV2 extends React.Component<NavigationProps> {
     return true
   }
 
-  /** 授权获取code */
+  /** 授权获取 code */
   authorize = async () => {
     this.setState({
       info: '授权中...(3/5)'
@@ -375,19 +259,49 @@ class LoginV2 extends React.Component<NavigationProps> {
     return true
   }
 
-  /** 更新 responseHeader 的 set-cookie */
+  /** 获取请求头 */
+  getHeaders = (keys: string[] = []) => {
+    const headers: Record<string, string> = {}
+    if (keys.includes('User-Agent')) headers[WEB ? 'X-User-Agent' : 'User-Agent'] = this._userAgent
+    if (keys.includes('Cookie')) headers[WEB ? 'X-Cookie' : 'Cookie'] = this.cookieString
+    if (keys.includes('Content-Type')) headers['Content-Type'] = 'application/x-www-form-urlencoded'
+    if (keys.includes('Referer')) headers['Referer'] = `${this.state.host}/login`
+    return headers
+  }
+
+  /** 获取 cookie */
+  getCookies = (headers = {}) => {
+    this.updateCookie(WEB ? headers?.['x-set-cookie'] : headers?.['set-cookie']?.[0])
+  }
+
+  /** 更新 set-cookie */
   updateCookie = (setCookie = '') => {
-    const setCookieKeys = [
-      '__cfduid',
-      'chii_sid',
-      'chii_sec_id',
-      'chii_cookietime',
-      'chii_auth'
-    ] as const
-    setCookieKeys.forEach(item => {
-      const reg = new RegExp(`${item}=(.+?);`)
-      const match = setCookie.match(reg)
-      if (match) this._cookie[item] = match[1]
+    if (!setCookie) return
+
+    const cookies = setCookie.split(/,\s*/)
+    cookies.forEach(cookie => {
+      const [keyValue] = cookie.split(';')
+      const [key, value] = keyValue.trim().split('=')
+      if (
+        [
+          'chii_auth',
+          'chii_cookietime',
+          'chii_sec',
+          'chii_sec_id',
+          'chii_sid',
+          'chii_theme'
+        ].includes(key)
+      ) {
+        if (value === 'delete') {
+          delete this._cookie[key]
+        } else {
+          this._cookie[key] = value
+        }
+      }
+    })
+
+    console.log({
+      cookie: this._cookie
     })
   }
 
@@ -424,7 +338,9 @@ class LoginV2 extends React.Component<NavigationProps> {
 
   /** 重设 */
   reset = async () => {
-    this._cookie = {}
+    this._cookie = {
+      chii_theme: 'dark'
+    }
     this.setState({
       base64: ''
     })
@@ -435,14 +351,115 @@ class LoginV2 extends React.Component<NavigationProps> {
     await this.getCaptcha()
   }
 
-  /** 输入框 focus */
+  /** 登录流程 */
+  onLogin = async () => {
+    const { email, password, captcha } = this.state
+    if (!email || !password || !captcha) {
+      info('请填写以上字段')
+      return
+    }
+
+    try {
+      if (this._lastCaptcha !== captcha) {
+        t('登陆.登陆')
+
+        if (typeof this?._codeRef?.inputRef?.blur === 'function') {
+          this._codeRef.inputRef.blur()
+        }
+        setStorage(`${NAMESPACE}|email`, email)
+
+        await this.login()
+        if (!this._cookie.chii_auth) {
+          this.loginFail(`验证码或密码错误，稍会再重试或前往授权${i18n.login()} →`)
+          return
+        }
+
+        // 缓存上次的正确的验证码
+        this._lastCaptcha = captcha
+        await this.oauth()
+        await this.authorize()
+      } else {
+        this.setState({
+          info: '重试 (4/5)'
+        })
+        this._retryCount += 1
+      }
+
+      await this.getAccessToken()
+      setStorage(`${NAMESPACE}|password`, password)
+      this.inStore()
+    } catch (ex) {
+      this._retryCount += 1
+      if (this._retryCount >= AUTH_RETRY_COUNT) {
+        this.loginFail(
+          `[${String(
+            ex
+          )}] ${i18n.login()}失败，请重试或重启APP，或点击前往旧版授权${i18n.login()} →`
+        )
+        return
+      }
+
+      console.error('login/v2/index.js', 'onLogin', ex)
+      this.onLogin()
+    }
+  }
+
+  /** 游客访问 */
+  onTour = async () => {
+    t('登陆.游客访问')
+
+    try {
+      info('正在从 github 获取游客 cookie...')
+
+      const { accessToken, userCookie } = await get('tourist')
+      userStore.updateAccessToken(accessToken)
+      userStore.updateUserCookie({
+        cookie: userCookie.cookie,
+        userAgent: userCookie.userAgent,
+        v: 0,
+        tourist: 1
+      })
+
+      info(`${i18n.login()}成功, 正在请求个人信息...`, 6)
+      feedback()
+      userStore.fetchUserInfo()
+      userStore.fetchUsersInfo()
+
+      const { navigation } = this.props
+      navigation.popToTop()
+    } catch (error) {
+      console.error(NAMESPACE, 'onTour', error)
+      info(`${i18n.login()}状态过期, 请稍后再试`)
+    }
+  }
+
+  /** 显示登录表单 */
+  onPreviewLogin = () => {
+    this.setState({
+      clicked: true
+    })
+  }
+
+  /** 登录最终失败 */
+  loginFail = async (info: string) => {
+    t('登陆.错误')
+
+    this.setState({
+      loading: false,
+      info,
+      failed: true
+    })
+    this.reset()
+  }
+
+  /** 输入框聚焦 */
   onFocus = () => {
     this.setState({
       focus: true
     })
   }
 
-  /** 输入框 blur */
+  /** 输入框失焦 */
   onBlur = () => {
     this.setState({
       focus: false
@@ -451,8 +468,10 @@ class LoginV2 extends React.Component<NavigationProps> {
 
   /** 输入框变化 */
   onChange = (evt: { nativeEvent: any }, type: any) => {
+    let { text } = evt.nativeEvent
+    if (type === 'captcha') text = text.replace(/ /g, '')
     this.setState({
-      [type]: evt.nativeEvent.text,
+      [type]: text,
       info: ''
     })
   }
@@ -501,10 +520,9 @@ class LoginV2 extends React.Component<NavigationProps> {
   }
 
   get cookieString() {
-    return Object.keys(this._cookie)
-      .map(item => `${item}=${this._cookie[item]}`)
+    return Object.entries(this._cookie)
+      .map(([k, v]) => `${k}=${v}`)
       .join('; ')
-      .trim()
   }
 
   renderPreview() {
