@@ -62,7 +62,7 @@ function Top() {
             </Text>
           )}
         </Text>
-        <Flex style={[styles.userWrap, _.mt.md]}>
+        <Flex style={styles.userWrap}>
           {!!$.avatar && (
             <UserStatus userId={$.userId}>
               <Avatar
@@ -90,7 +90,7 @@ function Top() {
           {!!$.html && (
             <RenderHtml
               style={_.mt.md}
-              html={$.html}
+              html={$.html.replace(/(<br\s*\/?>[\s\n]*)+/gi, '<br>').replace(/<br>/g, '\n\n')}
               onLinkPress={href => appNavigate(href, navigation, {}, event)}
             />
           )}

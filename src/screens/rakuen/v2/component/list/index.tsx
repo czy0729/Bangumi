@@ -44,6 +44,7 @@ function List({ index }) {
         progressViewOffset={styles.contentContainerStyle.paddingTop}
         data={rakuen}
         renderItem={renderItem}
+        initialNumToRender={12}
         scrollEventThrottle={16}
         onScroll={$.onScroll}
         onHeaderRefresh={$.onHeaderRefresh}

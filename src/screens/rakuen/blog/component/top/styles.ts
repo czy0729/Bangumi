@@ -18,7 +18,8 @@ export const styles = _.create({
     width: 30
   },
   userWrap: {
-    height: 42
+    height: 42,
+    marginTop: _.md
   },
   html: {
     minHeight: 120
