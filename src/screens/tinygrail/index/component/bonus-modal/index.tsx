@@ -41,6 +41,8 @@ const BonusModal = () => {
     const imageHeight = Math.floor(imageWidth * 1.28)
 
     const total = bonus.reduce((total, item) => total + item.Amount * item.CurrentPrice, 0)
+    const realChange = (total - $.currentPrice) / $.currentPrice
+
     return (
       <Modal
         style={styles.modal}
@@ -108,13 +110,31 @@ const BonusModal = () => {
                 </View>
               ))}
           </Flex>
-          <Text type={_.select('tinygrailText', 'tinygrailPlain')} align='center' bold>
-            总价值
-            <Text type={_.select('tinygrailPlain', 'tinygrailText')} bold>
-              {' '}
-              ₵{formatNumber(total)}{' '}
+          <Flex style={_.mt.sm} justify='center'>
+            <Text type={_.select('tinygrailText', 'tinygrailPlain')} align='center' bold>
+              总价值
+              <Text type={_.select('tinygrailPlain', 'tinygrailText')} bold>
+                {' '}
+                ₵{formatNumber(total)}{' '}
+              </Text>
             </Text>
-          </Text>
+            <Text
+              style={[
+                styles.fluctuation,
+                {
+                  backgroundColor: realChange >= 0 ? _.colorBid : _.colorAsk
+                }
+              ]}
+              type='__plain__'
+              size={11}
+              lineHeight={14}
+              align='center'
+              bold
+            >
+              {realChange >= 0 ? '+' : '-'}
+              {formatNumber(realChange * 100, 0)}%
+            </Text>
+          </Flex>
           <Flex style={_.mt.md} justify='center'>
             <Button
               style={styles.btn}
@@ -122,7 +142,7 @@ const BonusModal = () => {
               size='sm'
               loading={loadingBonus}
               onPress={() => {
-                $.doLottery(navigation, isBonus2)
+                $.doLottery(isBonus2)
               }}
             >
               再刮一次 ({$.nextPrice})

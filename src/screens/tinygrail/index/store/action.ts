@@ -9,6 +9,7 @@ import { systemStore, tinygrailStore } from '@stores'
 import {
   alert,
   confirm,
+  date,
   feedback,
   formatNumber,
   getTimestamp,
@@ -17,6 +18,7 @@ import {
   urlStringify
 } from '@utils'
 import { t } from '@utils/fetch'
+import { collect, update } from '@utils/kv'
 import axios from '@utils/thirdParty/axios'
 import {
   API_TINYGRAIL_LOGOUT,
@@ -26,17 +28,20 @@ import {
   TINYGRAIL_URL_OAUTH_REDIRECT
 } from '@constants'
 import i18n from '@constants/i18n'
-import { Navigation } from '@types'
 import Fetch from './fetch'
 import { ERROR_STR, MAX_ERROR_COUNT } from './ds'
 
 export default class Action extends Fetch {
+  /** 小圣杯授权表单码 */
   private _formhash = ''
 
+  /** 小圣杯服务器异常次数 */
   private _errorCount = 0
 
+  /** 小圣杯授权失败次数 */
   private _doAuthFailCount = 0
 
+  /** 刷新资产数据 */
   refresh = async () => {
     const results = await Promise.all([tinygrailStore.fetchAssets(), this.fetchCharaAssets()])
     this.caculateChange()
@@ -135,8 +140,6 @@ export default class Action extends Fetch {
 
   /** 刮刮乐 */
   doLottery = async (
-    _navigation: Navigation,
-
     /** 是否幻想乡 */
     isBonus2: boolean = false
   ) => {
@@ -170,7 +173,8 @@ export default class Action extends Fetch {
           isBonus2
         })
         this.onShowModal()
-        this.checkCount()
+        await this.checkCount()
+        this.pushLotteryLog()
       } else {
         info(Message)
       }
@@ -284,6 +288,7 @@ export default class Action extends Fetch {
     }
   }
 
+  /** 给作者发送 10000cc */
   doSend = () => {
     confirm(
       '是否给作者发送10000cc?',
@@ -404,12 +409,14 @@ export default class Action extends Fetch {
     })
   }
 
+  /** 显示刮奖弹窗 */
   onShowModal = () => {
-    return this.setState({
+    this.setState({
       visible: true
     })
   }
 
+  /** 收起刮奖弹窗 */
   onCloseModal = () => {
     this.setState({
       visible: false
@@ -422,6 +429,7 @@ export default class Action extends Fetch {
     }, 400)
   }
 
+  /** 检测今天刮刮乐刮了多少次 */
   checkCount = async () => {
     if (!tinygrailStore.cookie) return
 
@@ -433,10 +441,46 @@ export default class Action extends Fetch {
     }
   }
 
+  /** 参加每日刮刮乐排行榜 */
+  pushLotteryLog = async () => {
+    if (!tinygrailStore.cookie) return false
+
+    try {
+      const { bonus } = this.state
+      const { username, nickname, avatar } = this.userInfo
+
+      const now = getTimestamp()
+      const userId = `tinygrail_lottery_${date('ymd', now)}`
+      const detailId = `${userId}_${username}_${date('His', now)}`
+      await update(detailId, {
+        price: this.currentPrice,
+        total: bonus.reduce((total, item) => total + item.Amount * item.CurrentPrice, 0),
+        list: bonus.map(item => [
+          item.Id,
+          item.Cover,
+          item.Name,
+          item.Level,
+          item.CurrentPrice,
+          item.Amount
+        ]),
+        user: {
+          username,
+          nickname,
+          avatar: avatar?.large || ''
+        }
+      })
+      await collect(userId, detailId, true)
+
+      return true
+    } catch (error) {}
+
+    return false
+  }
+
+  /** 显示 / 收起星之力侧窗 */
   onToggleLogs = () => {
-    const { show } = this.state
     this.setState({
-      show: !show
+      show: !this.state.show
     })
   }
 }

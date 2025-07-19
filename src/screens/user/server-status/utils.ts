@@ -10,6 +10,8 @@ import {
   CDN_DISCOVERY_HOME,
   CDN_ONAIR,
   GITHUB_RELEASE_REPOS,
+  HOST_AC,
+  HOST_AC_API,
   HOST_IMAGE_UPLOAD,
   HOST_NETABA,
   SITE_AGEFANS,
@@ -118,11 +120,11 @@ export function getSitesList() {
         loading: false
       },
       {
-        title: 'https://api.bilibili.com/pgc/web/season/section?season_id=1',
+        title: `${HOST_AC_API}/pgc/web/season/section?season_id=1`,
         desc: 'bilibili 番剧预览图',
-        url: 'https://api.bilibili.com/pgc/web/season/section?season_id=1',
+        url: `${HOST_AC_API}/pgc/web/season/section?season_id=1`,
         headers: {
-          Referer: 'https://www.bilibili.com/'
+          Referer: `${HOST_AC}/`
         },
         msg: [],
         loading: false

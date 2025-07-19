@@ -23,9 +23,7 @@ export default class Fetch extends Computed {
           ['asks', tinygrailStore.fetchAsks],
           ['auction', tinygrailStore.fetchAuction]
         ] as const
-      )
-        // .filter(([type]) => refresh || !this.list(type)._loaded)
-        .map(([, fn]) => fn)
+      ).map(([, fn]) => fn)
     )
   }
 }

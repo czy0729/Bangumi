@@ -13,7 +13,13 @@ import { _ } from '@stores'
 import { copy, open } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { FROZEN_FN, IMG_HEIGHT_SM, IMG_WIDTH_SM, MODEL_COLLECTION_STATUS } from '@constants'
+import {
+  FROZEN_FN,
+  HOST_DB_M,
+  IMG_HEIGHT_SM,
+  IMG_WIDTH_SM,
+  MODEL_COLLECTION_STATUS
+} from '@constants'
 import { CollectionStatus, CollectionStatusCn } from '@types'
 import Btn from '../../../bilibili-sync/component/btn'
 import Column from '../../../bilibili-sync/component/column'
@@ -224,19 +230,21 @@ export default memo(
                     <Btn
                       text='详情'
                       onPress={() => {
+                        open(`${HOST_DB_M}/movie/subject/${item.id}`)
+
                         t('豆瓣同步.详情')
-                        open(`https://m.douban.com/movie/subject/${item.id}`)
                       }}
                     />
                     <Btn
                       style={_.ml.sm}
                       text='搜索'
                       onPress={() => {
-                        t('豆瓣同步.搜索')
                         navigation.push('Search', {
                           type: '动画',
                           value: item.title
                         })
+
+                        t('豆瓣同步.搜索')
                       }}
                     />
                     <Btn style={_.ml.sm} text='置底' onPress={() => onBottom(item.id)} />

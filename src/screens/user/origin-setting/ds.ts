@@ -4,6 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-02-12 06:24:04
  */
+import { HOST_AC_SEARCH } from '@constants'
+
 export const COMPONENT = 'OriginSetting'
 
 export const TYPES_DS = [
@@ -214,7 +216,7 @@ export const SITES_ANIME = [
   {
     id: 'anime|bilibili',
     name: 'bilibili番剧',
-    url: 'https://search.bilibili.com/bangumi?keyword=[CN]',
+    url: `${HOST_AC_SEARCH}/bangumi?keyword=[CN]`,
     icon: require('@assets/images/icon/bilibili.png'),
     sort: 0,
     active: 0
@@ -338,7 +340,7 @@ export const SITES_MUSIC = [
   {
     id: 'music|bilibili',
     name: 'bilibili',
-    url: 'https://search.bilibili.com/all?keyword=[JP]&from_source=nav_suggest_new&order=stow&duration=0&tids_1=3',
+    url: `${HOST_AC_SEARCH}/all?keyword=[JP]&from_source=nav_suggest_new&order=stow&duration=0&tids_1=3`,
     icon: require('@assets/images/icon/bili.png'),
     iconSquare: true,
     sort: 0,

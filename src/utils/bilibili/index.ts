@@ -1,10 +1,10 @@
 /*
- * Bilibili 搜索逻辑
  * @Author: czy0729
  * @Date: 2022-08-03 11:20:54
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-03-23 19:53:27
  */
+import { HOST_AC_SEARCH } from '@constants/cdn'
 import { xhrCustom } from '../fetch'
 import { cheerio, htmlMatch } from '../html'
 import { t2s } from '../thirdParty/cn-char'
@@ -12,7 +12,7 @@ import { similar } from '../utils'
 
 /** 搜索页 */
 const HTML_SEARCH = (q: string) => {
-  return `https://search.bilibili.com/all?keyword=${q}`
+  return `${HOST_AC_SEARCH}/all?keyword=${q}`
 }
 
 /** 去除部分干扰匹配的文字 */

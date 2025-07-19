@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-05-04 16:25:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-04 07:03:51
+ * @Last Modified time: 2025-07-17 23:57:30
  */
 import React from 'react'
-import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
 import { _, systemStore } from '@stores'
 import { alert, feedback, info, open } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
-import { VERSION_TINYGRAIL_PLUGIN, WEB } from '@constants'
+import { WEB } from '@constants'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
@@ -20,14 +19,14 @@ function Footer() {
   const navigation = useNavigation()
   return (
     <Flex style={_.mv.sm} justify='center'>
-      <View style={styles.touch}>
+      {/* <View style={styles.touch}>
         <Text type='tinygrailText' size={12}>
           {VERSION_TINYGRAIL_PLUGIN}
         </Text>
       </View>
       <Text style={styles.split} type='tinygrailText'>
         ·
-      </Text>
+      </Text> */}
       <Touchable
         style={styles.touch}
         onPress={() => {
@@ -102,6 +101,24 @@ function Footer() {
       >
         <Text type='tinygrailText' size={12}>
           高级功能
+        </Text>
+      </Touchable>
+      <Text style={styles.split} type='tinygrailText'>
+        ·
+      </Text>
+      <Touchable
+        style={styles.touch}
+        onPress={() => {
+          t('小圣杯.跳转', {
+            to: 'TinygrailLotteryRank',
+            title: '刮刮乐榜单'
+          })
+
+          navigation.push('TinygrailLotteryRank')
+        }}
+      >
+        <Text type='tinygrailText' size={12}>
+          刮刮乐日榜
         </Text>
       </Touchable>
     </Flex>

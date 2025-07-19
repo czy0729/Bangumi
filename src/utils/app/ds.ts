@@ -5,6 +5,7 @@
  * @Last Modified time: 2024-05-04 00:03:15
  */
 import { Dimensions } from 'react-native'
+import { HOST_AC_MEDIA } from '@constants/cdn'
 import { HOST } from '@constants/constants'
 import { Id, SubjectId } from '@types'
 
@@ -103,7 +104,7 @@ export const RATING_MAP = {
 export const BANGUMI_URL_TEMPLATES = {
   acfun: (id: Id) => `https://www.acfun.cn/bangumi/aa${id}`,
   bangumi: (id: Id) => `${HOST}/subject/${id}`,
-  bilibili: (id: Id) => `https://www.bilibili.com/bangumi/media/md${id}/`,
+  bilibili: (id: Id) => `${HOST_AC_MEDIA}/md${id}/`,
   iqiyi: (id: Id) => `https://www.iqiyi.com/${id}.html`,
   letv: (id: Id) => `https://www.le.com/comic/${id}.html`,
   mgtv: (id: Id) => `https://www.mgtv.com/h/${id}.html`,

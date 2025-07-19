@@ -12,7 +12,7 @@ import { H12 } from '@constants'
 import { TopicId } from '@types'
 import Computed from './computed'
 
-const loaded = {}
+const loaded: Record<TopicId, true> = {}
 
 export default class Fetch extends Computed {
   /** 小组帖子列表 (我的回复跟小组是一个性质的) */

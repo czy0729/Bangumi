@@ -43,7 +43,7 @@ function Btns() {
       setTimeout(() => {
         switch (title) {
           case '刮刮乐':
-            $.doLottery(navigation)
+            $.doLottery()
             break
 
           case '每周分红':
@@ -89,7 +89,7 @@ function Btns() {
             break
 
           default:
-            $.doLottery(navigation, true)
+            $.doLottery(true)
             break
         }
       }, 400)

@@ -15,3 +15,16 @@ export type Ctx = {
 export type Params = {
   fromBottomTab?: boolean
 }
+
+export type Bonus = {
+  Amount: number
+  Cover: string
+  CurrentPrice: number
+  FinancePrice: number
+  Id: number
+  Level: number
+  Name: string
+  Rate: number
+  SellAmount: number
+  SellPrice: number
+}[]

@@ -1,40 +1,36 @@
 /*
- * 豆瓣搜索逻辑
  * @Author: czy0729
  * @Date: 2022-06-21 23:43:34
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-10 17:59:01
  */
+import { HOST_AC_REFERER, HOST_DB, HOST_DB_MOVIE } from '@constants/cdn'
 import { xhrCustom } from '../fetch'
 import { cheerio } from '../html'
 import { desc, similar, sleep } from '../utils'
 import { Cat, DoubanId, SearchItem, SubType, TrailerItem, VideoItem } from './types'
 
-const HOST = 'https://www.douban.com'
-
-const HOST_MOVIE = 'https://movie.douban.com'
-
 /** 搜索页 */
 const HTML_SEARCH = (q: string, cat?: Cat) => {
-  let _cat
+  let _cat: number
   if (cat === 'game') {
     _cat = 3114
   } else {
     _cat = 1002
   }
 
-  return `${HOST}/search?cat=${_cat}&q=${q}`
+  return `${HOST_DB}/search?cat=${_cat}&q=${q}`
 }
 
 /** 条目页 */
 const HTML_SUBJECT = (doubanId: DoubanId) => {
-  return `${HOST_MOVIE}/subject/${doubanId}`
+  return `${HOST_DB_MOVIE}/subject/${doubanId}`
 }
 
 /** 预览页 */
 const HTML_PREVIEW = (doubanId: DoubanId, cat?: Cat, subtype: SubType = 'o', start = 0) => {
   if (cat === 'game') {
-    return `https://www.douban.com/game/${doubanId}/photos/?type=1&start=0&sortby=hot`
+    return `${HOST_DB}/game/${doubanId}/photos/?type=1&start=0&sortby=hot`
   }
 
   return `${HTML_SUBJECT(
@@ -44,12 +40,12 @@ const HTML_PREVIEW = (doubanId: DoubanId, cat?: Cat, subtype: SubType = 'o', sta
 
 /** 用户视频页 */
 const HTML_VIDEOS = (doubanId: DoubanId, cat: Cat = 'subject') => {
-  return `${HOST}/${cat}/${doubanId}/videos`
+  return `${HOST_DB}/${cat}/${doubanId}/videos`
 }
 
 /** 视频预告页 */
 const HTML_TRAILER = (doubanId: DoubanId) => {
-  return `${HOST_MOVIE}/subject/${doubanId}/trailer`
+  return `${HOST_DB_MOVIE}/subject/${doubanId}/trailer`
 }
 
 /**
@@ -325,12 +321,12 @@ export async function getVideo(
 
   for (let i = 0; i < _videos.length; i += 1) {
     const { _response } = await xhrCustom({
-      url: `${HOST}${_videos[i].href}`
+      url: `${HOST_DB}${_videos[i].href}`
     })
     await sleep(800)
 
     const src = cheerio(_response)('.video-player-fallback').attr('href') || ''
-    if (src.includes('www.bilibili.com')) _videos[i].src = src
+    if (src.includes(`www.${HOST_AC_REFERER}`)) _videos[i].src = src
   }
 
   return {

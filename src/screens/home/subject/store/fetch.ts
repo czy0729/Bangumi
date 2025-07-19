@@ -31,7 +31,19 @@ import { getPreview, getTrailer, getVideo, matchGame, matchMovie, search } from 
 import { xhrCustom } from '@utils/fetch'
 import { get, update } from '@utils/kv'
 import { decode, get as protoGet } from '@utils/protobuf'
-import { API_ANITABI, CDN_EPS, D1, D7, H1, M5, SITES, WEB } from '@constants'
+import {
+  API_ANITABI,
+  CDN_EPS,
+  D1,
+  D7,
+  H1,
+  HOST_AC,
+  HOST_AC_API,
+  HOST_AC_M,
+  M5,
+  SITES,
+  WEB
+} from '@constants'
 import { UserId } from '@types'
 import { AnitabiData } from '../types'
 import Computed from './computed'
@@ -293,7 +305,7 @@ export default class Fetch extends Computed {
         if (match) {
           const seasonId = match[1]
           const { _response } = await xhrCustom({
-            url: `https://api.bilibili.com/pgc/web/season/section?season_id=${seasonId}`
+            url: `${HOST_AC_API}/pgc/web/season/section?season_id=${seasonId}`
           })
           const { message, result } = JSON.parse(_response)
           if (message === 'success' && result?.main_section?.episodes) {
@@ -307,7 +319,7 @@ export default class Fetch extends Computed {
                 )
               ),
               epsThumbsHeader: {
-                Referer: 'https://www.bilibili.com/'
+                Referer: `${HOST_AC}/`
               }
             })
             this.save()
@@ -464,7 +476,7 @@ export default class Fetch extends Computed {
       this.setState({
         videos,
         epsThumbsHeader: {
-          Referer: 'https://m.bilibili.com'
+          Referer: HOST_AC_M
         }
       })
 

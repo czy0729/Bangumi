@@ -13,7 +13,13 @@ import { _ } from '@stores'
 import { copy, open } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { FROZEN_FN, IMG_HEIGHT_SM, IMG_WIDTH_SM, MODEL_COLLECTION_STATUS } from '@constants'
+import {
+  FROZEN_FN,
+  HOST_AC_MEDIA,
+  IMG_HEIGHT_SM,
+  IMG_WIDTH_SM,
+  MODEL_COLLECTION_STATUS
+} from '@constants'
 import { CollectionStatus, CollectionStatusCn } from '@types'
 import {
   getSelectComment,
@@ -209,19 +215,21 @@ export default memo(
                     <Btn
                       text='详情'
                       onPress={() => {
+                        open(`${HOST_AC_MEDIA}/md${item.id}`)
+
                         t('bili同步.详情')
-                        open(`https://www.bilibili.com/bangumi/media/md${item.id}`)
                       }}
                     />
                     <Btn
                       style={_.ml.sm}
                       text='搜索'
                       onPress={() => {
-                        t('bili同步.搜索')
                         navigation.push('Search', {
                           type: '动画',
                           value: item.title.replace('（僅限港澳台地區）', '')
                         })
+
+                        t('bili同步.搜索')
                       }}
                     />
                     <Btn style={_.ml.sm} text='置底' onPress={() => onBottom(item.id)} />

@@ -6,6 +6,7 @@
  */
 import { Loaded } from '@types'
 import { COMPONENT, STAR_INDEX_WEIGHT } from '../ds'
+import { Bonus } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
@@ -17,7 +18,7 @@ export const EXCLUDE_STATE = {
   loading: false,
   visible: false,
   count: 0,
-  bonus: [],
+  bonus: [] as Bonus,
   isBonus2: false,
   show: false
 }

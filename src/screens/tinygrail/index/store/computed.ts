@@ -42,6 +42,12 @@ export default class Computed extends State {
     return this.assets.assets
   }
 
+  /** 当次刮刮乐的价格 */
+  @computed get currentPrice() {
+    const { count = 0, isBonus2 } = this.state
+    return isBonus2 ? 2000 * 2 ** (count - 1) : 1000
+  }
+
   /** 幻想乡刮刮乐下一次的价格 (每次翻倍) */
   @computed get nextPrice() {
     const { count = 0, isBonus2 } = this.state

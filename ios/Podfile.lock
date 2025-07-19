@@ -3,7 +3,7 @@ PODS:
   - DoubleConversion (1.1.6)
   - EASClient (0.13.3):
     - ExpoModulesCore
-  - EXConstants (17.0.8):
+  - EXConstants (17.1.7):
     - ExpoModulesCore
   - EXJSONUtils (0.14.0)
   - EXManifests (0.15.8):
@@ -1392,7 +1392,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-safe-area-context (4.10.1):
+  - react-native-safe-area-context (5.5.2):
     - React-Core
   - react-native-slider (4.5.2):
     - DoubleConversion
@@ -1831,7 +1831,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNScreens (4.11.1):
+  - RNScreens (4.12.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2201,7 +2201,7 @@ SPEC CHECKSUMS:
   boost: 1dca942403ed9342f98334bf4c3621f011aa7946
   DoubleConversion: f16ae600a246532c4020132d54af21d0ddb2a385
   EASClient: 68ffef26f551980423751c44c870759842b3340f
-  EXConstants: a1f35b9aabbb3c6791f8e67722579b1ffcdd3f18
+  EXConstants: 9d62a46a36eae6d28cb978efcbc68aef354d1704
   EXJSONUtils: 01fc7492b66c234e395dcffdd5f53439c5c29c93
   EXManifests: 77e77c283c4c53a50b9bddebed25abe93f0b48f1
   Expo: 3ddf0d76db6b3eef5d1d9f869676d3b69d95305f
@@ -2262,7 +2262,7 @@ SPEC CHECKSUMS:
   react-native-blur: 3e9c8e8e9f7d17fa1b94e1a0ae9fd816675f5382
   react-native-cameraroll: 88f4e62d9ecd0e1f253abe4f685474f2ea14bfa2
   react-native-pager-view: bc0577047c5901fc96f6134881172072a909af7b
-  react-native-safe-area-context: dcab599c527c2d7de2d76507a523d20a0b83823d
+  react-native-safe-area-context: 63c9a6def15e6f6377e59cea51566148a2774d62
   react-native-slider: 97ce0bd921f40de79cead9754546d5e4e7ba44f8
   react-native-webview: aa21548dd39a4d75549a10c409569bd1cf64c4af
   React-nativeconfig: 93fe8c85a8c40820c57814e30f3e44b94c995a7b
@@ -2303,7 +2303,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: aa9690789023c9be8f06aa90e10ce637ea788f4d
   RNNestedScrollView: b9a2ac8588c89dd671d571b1184a0af007e1bea3
   RNReanimated: 3e6072b3d49d4fc687b8f1ba3022f0fdc0b43969
-  RNScreens: b555f6bedb3b9df290d0ce7be5c240e8a96fb1bf
+  RNScreens: 3c635d7914b8d833326f3df0bf5428093337856b
   RNSVG: 43b64ed39c14ce830d840903774154ca0c1f27ec
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d

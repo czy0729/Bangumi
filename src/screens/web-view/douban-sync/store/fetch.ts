@@ -7,6 +7,7 @@
 import { desc, feedback, getTimestamp, info, sleep } from '@utils'
 import { queue, t, xhrCustom } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
+import { HOST_DB_M } from '@constants'
 import i18n from '@constants/i18n'
 import { loadJSON } from '@assets/json'
 import { SubjectId } from '@types'
@@ -36,9 +37,9 @@ export default class Fetch extends Computed {
       })
 
       const { _response } = await xhrCustom({
-        url: `https://m.douban.com/rexxar/api/v2/user/${this.doubanId}/interests?type=movie&status=${status}&start=${start}&count=${limit}&ck=PylB&for_mobile=1`,
+        url: `${HOST_DB_M}/rexxar/api/v2/user/${this.doubanId}/interests?type=movie&status=${status}&start=${start}&count=${limit}&ck=PylB&for_mobile=1`,
         headers: {
-          Referer: 'https://m.douban.com'
+          Referer: HOST_DB_M
         }
       })
       const { interests = [], total } = JSON.parse(_response) as DoubanCollection

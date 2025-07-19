@@ -12,6 +12,7 @@ import { _, useStore } from '@stores'
 import { info, open, stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { HOST_DB, HOST_DB_M } from '@constants'
 import { Ctx } from '../../types'
 import Btn from '../../../bilibili-sync/component/btn'
 import { COMPONENT } from './ds'
@@ -43,8 +44,9 @@ function Login() {
                 name='md-open-in-new'
                 size={18}
                 onPress={() => {
+                  open(`${HOST_DB_M}/people/${$.doubanId}/`)
+
                   t('豆瓣同步.检查')
-                  open(`https://m.douban.com/people/${$.doubanId}/`)
                 }}
               />
             )}
@@ -58,8 +60,7 @@ function Login() {
         </View>
         <View style={styles.body}>
           <Text style={_.mt.sm} size={13} type='sub'>
-            请务必准确填写您的豆瓣用户空间地址或豆瓣 ID。例如: https://www.douban.com/people/123456
-            或 123456。
+            请务必准确填写您的豆瓣用户空间地址或豆瓣 ID。例如: {HOST_DB}/people/123456 或 123456。
           </Text>
           <Text style={_.mt.sm} size={13} type='sub'>
             网页版: 右上方 → 个人主页 → 复制网页地址。

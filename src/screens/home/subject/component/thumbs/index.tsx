@@ -12,6 +12,7 @@ import { _, systemStore, useStore } from '@stores'
 import { open, stl } from '@utils'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
+import { HOST_AC_REFERER, HOST_DB_REFERER } from '@constants'
 import { ReactNode } from '@types'
 import { TITLE_THUMBS } from '../../ds'
 import { Ctx } from '../../types'
@@ -47,10 +48,10 @@ function Thumbs({ onBlockRef }) {
     }))
 
     let reference = ''
-    if (epsThumbsHeader?.Referer?.includes?.('douban.com')) {
-      reference = 'douban.com'
-    } else if (epsThumbsHeader?.Referer?.includes?.('bilibili.com')) {
-      reference = 'bilibili.com'
+    if (epsThumbsHeader?.Referer?.includes?.(HOST_DB_REFERER)) {
+      reference = HOST_DB_REFERER
+    } else if (epsThumbsHeader?.Referer?.includes?.(HOST_AC_REFERER)) {
+      reference = HOST_AC_REFERER
     }
 
     let title = '预览'
@@ -63,7 +64,7 @@ function Thumbs({ onBlockRef }) {
     let elRight: ReactNode
     if (!showThumbs) {
       elRight = <IconHidden name={title} value='showThumbs' />
-    } else if (reference !== 'douban.com') {
+    } else if (reference !== HOST_DB_REFERER) {
       elRight = null
     } else {
       elRight = <IconPreview data={epsThumbs} headers={epsThumbsHeader} />

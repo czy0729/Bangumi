@@ -4,6 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-09-29 18:38:50
  */
+import { HOST_AC_API } from '@constants'
+
 export const TYPE_CHECK_LOGIN = 'CHECK_LOGIN'
 
 export const TYPE_GET_LIST = 'GET_LIST'
@@ -97,7 +99,7 @@ function injectedUtils() {
 function injectedCheckLogin() {
   return `function checkLogin() {
     xhr({
-      url: 'https://api.bilibili.com/x/web-interface/nav'
+      url: '${HOST_AC_API}/x/web-interface/nav'
     }).then(data => {
       if (data) postMessage('${TYPE_CHECK_LOGIN}', data);
       if (data && data.data && data.data.isLogin) {
@@ -113,7 +115,7 @@ function injectedGetList() {
     let page = 1;
     function getList(mid) {
       xhr({
-        url: 'https://api.bilibili.com/x/space/bangumi/follow/list?type=1&follow_status=0&pn='+page+'&ps='+limit+'&vmid='+String(mid)+'&ts='+ts()
+        url: '${HOST_AC_API}/x/space/bangumi/follow/list?type=1&follow_status=0&pn='+page+'&ps='+limit+'&vmid='+String(mid)+'&ts='+ts()
       }).then(data => {
         if (data && data.data && data.data.list) {
           data.data.list.forEach(item => {
@@ -149,7 +151,7 @@ function injectGetReview() {
       fetchs.push(() => {
         return new Promise(resolve => {
           xhr({
-            url: 'https://api.bilibili.com/pgc/review/user?media_id='+String(mediaId)+'&ts='+ts()
+            url: '${HOST_AC_API}/pgc/review/user?media_id='+String(mediaId)+'&ts='+ts()
           }).then(data => {
             if (data && data.result && data.result.review && data.result.review.short_review) {
               const { short_review } = data.result.review;

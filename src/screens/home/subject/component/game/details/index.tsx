@@ -10,6 +10,7 @@ import { Flex, Iconfont, Text, Touchable } from '@components'
 import { _, otaStore, useStore } from '@stores'
 import { formatPlaytime, open } from '@utils'
 import { ob } from '@utils/decorators'
+import { HOST_AC_SEARCH } from '@constants'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -103,7 +104,7 @@ function Details() {
       <Touchable
         onPress={() =>
           open(
-            `https://search.bilibili.com/all?keyword=${encodeURIComponent($.jp || $.cn)}%20${
+            `${HOST_AC_SEARCH}/all?keyword=${encodeURIComponent($.jp || $.cn)}%20${
               isADV ? 'OP' : 'PV'
             }&order=totalrank&duration=1&tids_1=4`
           )

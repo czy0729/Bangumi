@@ -33,5 +33,12 @@ export const memoStyles = _.memoStyles(() => ({
   text: {
     width: 160,
     color: _.select(_.colorTinygrailPlain, _.__colorPlain__)
+  },
+  fluctuation: {
+    paddingHorizontal: 4,
+    paddingBottom: 1,
+    marginLeft: _.xs,
+    borderRadius: 2,
+    overflow: 'hidden'
   }
 }))
