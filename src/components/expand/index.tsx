@@ -36,7 +36,7 @@ export const Expand = ({
   r(COMPONENT)
 
   // 窗口高度 (网页端适当放大比例, 减少重排)
-  const ratioHeight = _.r(216) * ratio
+  const ratioHeight = _.r(Math.floor(_.window.contentWidth * 0.618)) * ratio
   const aHeight = useRef(new Animated.Value(0))
   const [expand, setExpand] = useState(false)
   const [height, setHeight] = useState(0)

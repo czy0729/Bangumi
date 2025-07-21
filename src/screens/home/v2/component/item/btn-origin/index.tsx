@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:49:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-18 13:34:41
+ * @Last Modified time: 2025-07-21 18:23:02
  */
 import React, { useCallback } from 'react'
 import { Flex, Heatmap, Iconfont } from '@components'
@@ -11,6 +11,8 @@ import { systemStore, useStore } from '@stores'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { MODEL_SUBJECT_TYPE } from '@constants'
+import { SubjectId, SubjectTypeCn } from '@types'
+import { Ctx } from '../../../types'
 import {
   TEXT_ADD_REMINDER,
   TEXT_COLLAPSE_ALL,
@@ -18,9 +20,7 @@ import {
   TEXT_EXPORT_SCHEDULE,
   TEXT_PIN,
   TEXT_UNPIN
-} from '@screens/home/v2/store/ds'
-import { SubjectId, SubjectTypeCn } from '@types'
-import { Ctx } from '../../../types'
+} from '../../../store/ds'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
@@ -28,6 +28,12 @@ function BtnOrigin({ subjectId }: { subjectId: SubjectId }) {
   r(COMPONENT)
 
   const { $ } = useStore<Ctx>()
+  const handleSelect = useCallback(
+    (label: string) => {
+      $.onPopover(label, subjectId)
+    },
+    [$, subjectId]
+  )
 
   return useObserver(() => {
     if (systemStore.setting.homeOrigin === -1) return null
@@ -68,12 +74,8 @@ function BtnOrigin({ subjectId }: { subjectId: SubjectId }) {
 
       return data
     }
-
     const menuData = buildMenuData()
     const hasOrigins = origins.length > 1
-    const handleSelect = useCallback((label: string) => {
-      $.onPopover(label, subjectId)
-    }, [])
 
     return (
       <Popover key={subjectId} style={styles.touch} data={menuData} onSelect={handleSelect}>

@@ -11,6 +11,7 @@ import { memo } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { TabsLabel } from '../../types'
+import IsTop from '../is-top'
 import Time from '../time'
 import Collapsible from './collapsible'
 import Container from './container'
@@ -23,7 +24,6 @@ import OnAir from './onair'
 import Progress from './progress'
 import Title from './title'
 import ToolBar from './tool-bar'
-import Top from './top'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
@@ -109,7 +109,7 @@ const Item = memo(
           )}
         </Flex>
         <Collapsible subjectId={subjectId} isFirst={isFirst} />
-        <Top subjectId={subjectId} />
+        <IsTop subjectId={subjectId} />
       </Container>
     )
   },

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-08 10:55:53
+ * @Last Modified time: 2025-07-21 18:17:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,6 +14,7 @@ import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IMG_WIDTH_SM } from '@constants'
 import { Ctx } from '../../../types'
+import IsTop from '../../is-top'
 import Count from './count'
 import Cover from './cover'
 import Eps from './eps'
@@ -25,9 +26,8 @@ import { memoStyles } from './styles'
 import { Props } from './types'
 
 function Info({ subjectId = 0, subject = {}, epStatus = '', tip = '', time = '' }: Props) {
-  const { $, navigation } = useStore<Ctx>()
+  const { navigation } = useStore<Ctx>()
   const styles = memoStyles()
-  const isTop = $.state.top.indexOf(subjectId) !== -1
   return (
     <Flex style={styles.item} align='start'>
       <View>
@@ -66,7 +66,7 @@ function Info({ subjectId = 0, subject = {}, epStatus = '', tip = '', time = '' 
           </Text>
         )}
       </Flex.Item>
-      {isTop && <View style={styles.dot} />}
+      <IsTop style={_.mr.xs} subjectId={subjectId} />
     </Flex>
   )
 }

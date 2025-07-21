@@ -16,22 +16,6 @@ export const memoStyles = _.memoStyles(() => {
     },
     info: {
       marginLeft: _.device(itemStyles.item.marginLeft, _.md)
-    },
-    dot: {
-      position: 'absolute',
-      top: 6,
-      right: 0,
-      borderWidth: _.r(8),
-      borderTopColor: 'transparent',
-      borderBottomColor: 'transparent',
-      borderRightColor: 'transparent',
-      borderLeftColor: _.colorIcon,
-      transform: [
-        {
-          rotate: '-45deg'
-        }
-      ],
-      opacity: 0.8
     }
   }
 })

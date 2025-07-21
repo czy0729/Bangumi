@@ -9,9 +9,18 @@ import { _ } from '@stores'
 export const memoStyles = _.memoStyles(() => ({
   top: {
     position: 'absolute',
-    top: _.r(4),
-    right: _.r(-2),
-    borderWidth: _.r(8),
+    zIndex: 1,
+    top: 0,
+    right: 0
+  },
+  touch: {
+    width: 32,
+    height: 32,
+    paddingTop: 6,
+    paddingLeft: 17
+  },
+  angle: {
+    borderWidth: 8,
     borderTopColor: 'transparent',
     borderBottomColor: 'transparent',
     borderRightColor: 'transparent',
