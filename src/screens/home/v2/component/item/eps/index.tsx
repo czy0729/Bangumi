@@ -27,7 +27,7 @@ function Eps({ subjectId, isFirst }: { subjectId: SubjectId; isFirst: boolean })
         eps={$.eps(subjectId)}
         userProgress={$.userProgress(subjectId)}
         flip={$.state.flip === subjectId}
-        onFliped={$.afterFlipEps}
+        onFliped={$.afterEpsFlip}
         onSelect={(value, item: any) => $.doEpsSelect(value, item, subjectId, navigation)}
       />
       {isFirst && (

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:23:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-13 03:02:17
+ * @Last Modified time: 2025-07-21 21:39:36
  */
 import { getCoverSrc } from '@components/cover/utils'
 import { collectionStore, userStore } from '@stores'
@@ -337,12 +337,12 @@ export default class Action extends Fetch {
     })
 
     this._flipTimeoutId = setTimeout(() => {
-      this.afterFlipEps()
+      this.afterEpsFlip()
     }, 8000)
   }
 
   /** 章节按钮完成动画后, 需要设置关闭才能做下一次动画 */
-  afterFlipEps = debounce(() => {
+  afterEpsFlip = debounce(() => {
     if (this._flipTimeoutId) {
       clearTimeout(this._flipTimeoutId)
       this._flipTimeoutId = null

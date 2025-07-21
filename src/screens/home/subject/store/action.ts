@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 05:30:48
+ * @Last Modified time: 2025-07-21 21:39:04
  */
 import { toJS } from 'mobx'
 import { StatusBar } from '@components'
@@ -842,11 +842,19 @@ export default class Action extends Fetch {
     }, 400)
   }
 
+  private _flipTimeoutId = null
+
   /** Eps 状态按钮做动画前, 需要先设置开启 */
   prepareEpsFlip = () => {
+    if (this._flipTimeoutId) clearTimeout(this._flipTimeoutId)
+
     this.setState({
       flipEps: true
     })
+
+    this._flipTimeoutId = setTimeout(() => {
+      this.afterEpsFlip()
+    }, 8000)
   }
 
   /** Eps 状态按钮完全动画后, 需要设置关闭才能做下一次动画 */

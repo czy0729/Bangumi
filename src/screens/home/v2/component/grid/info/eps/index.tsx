@@ -30,7 +30,7 @@ function Eps({ subjectId }) {
         eps={eps}
         userProgress={$.userProgress(subjectId)}
         flip={$.state.flip === subjectId}
-        onFliped={$.afterFlipEps}
+        onFliped={$.afterEpsFlip}
         onSelect={(value, item: Ep) => {
           $.doEpsSelect(value, item, subjectId, navigation)
         }}
