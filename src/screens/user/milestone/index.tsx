@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-10-10 11:55:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 06:49:06
+ * @Last Modified time: 2025-07-24 23:15:34
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import './styles'
 import { Component, Page, Track } from '@components'
 import { _, StoreContext } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { NavigationProps } from '@types'
 import Bg from './component/bg'
 import List from './component/list'

@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-12-26 04:29:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 08:18:04
+ * @Last Modified time: 2025-07-24 23:16:23
  */
 import React, { useCallback } from 'react'
 import { Animated, View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Component, Flex, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import { SCROLL_VIEW_RESET_PROPS, USE_NATIVE_DRIVER } from '@constants'
 import { TABS } from '../../ds'
 import { Ctx } from '../../types'

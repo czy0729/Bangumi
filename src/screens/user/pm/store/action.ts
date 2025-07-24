@@ -12,13 +12,12 @@ import Fetch from './fetch'
 
 export default class Action extends Fetch {
   /** 滚动到底 */
-  scrollToBottom = (scrollView: any, animated = false) => {
-    if (scrollView?.scrollToEnd) {
+  scrollToBottom = (animated: boolean = false) => {
+    if (this.scrollViewRef?.scrollToEnd) {
       setTimeout(() => {
         try {
-          scrollView.scrollToEnd({
-            animated,
-            duration: 640
+          this.scrollViewRef.scrollToEnd({
+            animated
           })
         } catch (error) {}
       }, 160)
@@ -26,15 +25,14 @@ export default class Action extends Fetch {
   }
 
   /** 滚动到顶 */
-  scrollToTop = (scrollView: any, animated = false) => {
-    if (scrollView?.scrollTo) {
+  scrollToTop = (animated: boolean = false) => {
+    if (this.scrollViewRef?.scrollTo) {
       setTimeout(() => {
         try {
-          scrollView.scrollTo({
+          this.scrollViewRef.scrollTo({
             x: 0,
             y: 0,
-            animated,
-            duration: 640
+            animated
           })
         } catch (error) {}
       }, 160)

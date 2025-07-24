@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 07:26:22
+ * @Last Modified time: 2025-07-24 21:36:16
  */
 import { action, configure, extendObservable, isObservableArray, toJS } from 'mobx'
 import { LIST_EMPTY } from '@constants/constants'
@@ -377,7 +377,7 @@ export default class Store<
    * @param  {String} key 保存值的键值
    * @return {Object}
    */
-  toJS = (key: string): object => toJS(this.state[key] || this.state)
+  toJS = <State extends object>(key: string): State => toJS(this.state[key] || this.state)
 
   /** 唯一队列请求 */
   private _memoFetched = new Map<Fn, true>()

@@ -6,7 +6,7 @@
  */
 import { LIST_EMPTY, MODEL_SUBJECT_TYPE } from '@constants'
 import { ImagesAvatar, SubjectType } from '@types'
-import { Pm, UserCollection } from './types'
+import { Pm, PmMap, UserCollection } from './types'
 
 export const NAMESPACE = 'User'
 
@@ -121,6 +121,9 @@ export const STATE = {
     0: {}
   },
 
+  /** 同一个用户的短信关联集合 */
+  pmMap: {} as PmMap,
+
   /** 登出地址 */
   // logout: '',
 
@@ -151,6 +154,7 @@ export const LOADED = {
   onlines: false,
   pmDetail: false,
   pmIn: false,
+  pmMap: false,
   pmOut: false,
   setCookie: false,
   userCollection: false,

@@ -76,6 +76,8 @@ export type CollectionsStatusItem = {
   }[]
 }
 
+export type PmType = 'pmIn' | 'pmOut'
+
 export type PmItem = {
   id: Id
   title: string
@@ -116,3 +118,13 @@ export type PmParamsItem = {
   msg_receivers: string
   _loaded?: number
 }
+
+export type PmMapItem = Record<
+  string,
+  {
+    id: Id
+    time: string
+  }
+>
+
+export type PmMap = Record<UserId, PmMapItem>

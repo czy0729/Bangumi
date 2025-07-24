@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-04-21 01:06:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-03 22:30:22
+ * @Last Modified time: 2025-07-24 23:15:52
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Flex, Heatmap, Skeleton } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { memoStyles } from './styles'

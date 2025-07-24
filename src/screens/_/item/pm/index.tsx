@@ -46,7 +46,8 @@ export const ItemPM = ob(
             })
 
             navigation.push('PM', {
-              id
+              id,
+              _userId: userId
             })
 
             if (isNew) {

@@ -12,16 +12,14 @@ export default class ScreenPM extends Action {
 
     if (this.userId) return this.fetchPMParams()
 
-    if (this.pmDetail._loaded) this.scrollToBottom(this.scrollViewRef)
+    if (this.pmDetail._loaded) this.scrollToBottom()
 
     await this.fetchPMDetail()
 
     setTimeout(() => {
-      this.scrollToBottom(this.scrollViewRef)
+      this.scrollToBottom()
     }, 320)
 
     return true
   }
-
-  scrollViewRef: any = null
 }

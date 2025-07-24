@@ -22,6 +22,7 @@ import {
   CollectionsItem,
   CollectionsStatusItem,
   PmDetail,
+  PmMapItem,
   PmParamsItem,
   UserCollection
 } from './types'
@@ -88,6 +89,14 @@ export default class Computed extends State implements StoreConstructor<typeof S
   @computed get pmOut() {
     this.init('pmOut')
     return this.state.pmOut
+  }
+
+  /** 同一个用户的短信关联集合 */
+  pmMap(userId: UserId) {
+    this.init('pmMap')
+    return computed<PmMapItem>(() => {
+      return this.state.pmMap[userId] || null
+    }).get()
   }
 
   /** 个人设置 */

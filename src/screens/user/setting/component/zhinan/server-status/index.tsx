@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-04-25 04:15:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-10 10:10:05
+ * @Last Modified time: 2025-07-24 23:15:57
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Heatmap } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import { TEXTS } from '../ds'
 
 /** 网络探针 */

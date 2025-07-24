@@ -519,6 +519,9 @@ export type RoutePM = Route<
 
     /** 用户昵称 (用于占位显示) */
     userName?: string
+
+    /** 信件交往用户 ID (用于查询关联信件) */
+    _userId?: UserId
   }
 >
 

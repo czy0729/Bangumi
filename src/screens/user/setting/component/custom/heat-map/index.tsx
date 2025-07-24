@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-04-19 18:50:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-19 20:02:14
+ * @Last Modified time: 2025-07-24 23:15:57
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Button, Flex, Heatmap } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'

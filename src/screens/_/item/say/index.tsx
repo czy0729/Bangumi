@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2020-11-11 11:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-10 18:25:10
+ * @Last Modified time: 2025-07-24 02:24:37
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Avatar, Component, Flex, RenderHtml, Text, UserStatus } from '@components'
 import { _ } from '@stores'
-import { appNavigate } from '@utils'
+import { appNavigate, stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { useNavigation } from '@utils/hooks'
-import { EVENT, FROZEN_FN } from '@constants'
+import { EVENT } from '@constants'
 import { InView, Name } from '../../base'
 import { getBgmHtml } from './utils'
-import { COMPONENT } from './ds'
+import { AVATAR_SIZE, COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props as ItemSayProps } from './types'
 
@@ -32,106 +32,92 @@ export const ItemSay = ob(
     id,
     time,
     format = true,
-    onLongPress = FROZEN_FN
+    onLongPress
   }: ItemSayProps) => {
     const navigation = useNavigation()
     const styles = memoStyles()
-    if (position === 'right') {
-      return (
-        <Component id='item-say' data-type='right'>
-          <Flex style={showName ? _.mt.md : _.mt.sm} align='start'>
-            <Flex.Item style={styles.contentRight}>
-              <Flex direction='column' align='end'>
-                {showName && (
-                  <Text style={_.mr.sm} size={11} type='title' bold>
-                    {!!time && (
-                      <Text type='sub' size={11} bold>
-                        {time}
-                        {' · '}
-                      </Text>
-                    )}
-                    {name}
-                  </Text>
-                )}
-                <View style={[styles.text, styles.textActive, _.mt.sm]}>
-                  <RenderHtml
-                    baseFontStyle={styles.baseFontStyleRight}
-                    linkStyle={styles.linkStyleRight}
-                    html={format ? getBgmHtml(text) : text}
-                    onLinkPress={href => appNavigate(href, navigation, {}, event)}
-                  />
-                </View>
-              </Flex>
-            </Flex.Item>
-            <Flex style={styles.avatarWrapRight} justify='center'>
-              <UserStatus userId={id}>
-                <Avatar
-                  navigation={navigation}
-                  src={avatar}
-                  size={34}
-                  userId={id}
-                  name={name}
-                  borderWidth={0}
-                  event={event}
-                />
-              </UserStatus>
-            </Flex>
-          </Flex>
-        </Component>
-      )
-    }
+    const isRight = position === 'right'
+
+    const elAvatar = (
+      <UserStatus userId={id}>
+        <Avatar
+          navigation={navigation}
+          src={avatar}
+          size={AVATAR_SIZE}
+          userId={id}
+          name={name}
+          borderWidth={0}
+          event={event}
+          onLongPress={!isRight ? onLongPress : undefined}
+        />
+      </UserStatus>
+    )
+
+    const elName =
+      showName &&
+      (isRight ? (
+        <Text style={_.mr.sm} size={11} type='title' bold>
+          {!!time && (
+            <Text type='sub' size={11} bold>
+              {time}
+              {' · '}
+            </Text>
+          )}
+          {name}
+        </Text>
+      ) : (
+        <View style={_.ml.sm}>
+          <Name
+            userId={id}
+            showFriend
+            size={11}
+            type='title'
+            bold
+            right={
+              !!time && (
+                <Text type='sub' size={11} bold>
+                  {' · '}
+                  {time}
+                </Text>
+              )
+            }
+          >
+            {name}
+          </Name>
+        </View>
+      ))
+
+    const elText = (
+      <View style={stl(styles.text, isRight && styles.textActive, _.mt.sm)}>
+        <RenderHtml
+          baseFontStyle={styles.baseFontStyle}
+          html={format ? getBgmHtml(text) : text}
+          onLinkPress={href => appNavigate(href, navigation, {}, event)}
+        />
+      </View>
+    )
 
     return (
-      <Component id='item-say' data-type='left'>
+      <Component id='item-say' data-type={position}>
         <Flex style={showName ? _.mt.md : _.mt.sm} align='start'>
-          <Flex style={styles.avatarWrapLeft} justify='center'>
-            <InView y={128 * (index + 1)}>
-              <UserStatus userId={id}>
-                <Avatar
-                  navigation={navigation}
-                  src={avatar}
-                  size={34}
-                  userId={id}
-                  name={name}
-                  borderWidth={0}
-                  event={event}
-                  onLongPress={onLongPress}
-                />
-              </UserStatus>
-            </InView>
-          </Flex>
-          <Flex.Item style={styles.contentLeft}>
-            <Flex direction='column' align='start'>
-              {showName && (
-                <View style={_.ml.sm}>
-                  <Name
-                    userId={id}
-                    showFriend
-                    size={11}
-                    type='title'
-                    bold
-                    right={
-                      !!time && (
-                        <Text type='sub' size={11} bold>
-                          {' · '}
-                          {time}
-                        </Text>
-                      )
-                    }
-                  >
-                    {name}
-                  </Name>
-                </View>
-              )}
-              <View style={[styles.text, _.mt.sm]}>
-                <RenderHtml
-                  baseFontStyle={styles.baseFontStyle}
-                  html={format ? getBgmHtml(text) : text}
-                  onLinkPress={href => appNavigate(href, navigation, {}, event)}
-                />
-              </View>
+          {!isRight && (
+            <Flex style={[styles.avatarWrap, styles.avatarWrapLeft]} justify='center'>
+              <InView y={128 * (index + 1)}>{elAvatar}</InView>
+            </Flex>
+          )}
+
+          <Flex.Item style={[styles.content, isRight ? styles.contentRight : styles.contentLeft]}>
+            <Flex direction='column' align={isRight ? 'end' : 'start'}>
+              {elName}
+              {elText}
             </Flex>
           </Flex.Item>
+
+          {isRight && (
+            <Flex style={[styles.avatarWrap, styles.avatarWrapRight]} justify='center'>
+              {elAvatar}
+            </Flex>
+          )}
         </Flex>
       </Component>
     )
