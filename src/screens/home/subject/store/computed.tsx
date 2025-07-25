@@ -303,14 +303,13 @@ export default class Computed extends State {
   /** 动画和三次元源头 */
   @computed get onlineOrigins() {
     const data: (OriginItem | Sites)[] = []
-    if (this.type === '动画') {
-      if (systemStore?.ota?.X18 && userStore.isLogin) {
-        let flagX18: boolean
-        if (this.nsfw) flagX18 = true
-        if (!flagX18) flagX18 = this.tags.some(item => item.name?.includes?.('里番'))
 
-        // hanime
-        if (flagX18) {
+    if (this.type === '动画') {
+      if (userStore.isLogin) {
+        const flag = this.nsfw || this.tags?.some?.(item => item.name?.includes?.('里番'))
+
+        // nsfw
+        if (flag) {
           getOriginConfig(subjectStore.origin, 'hanime')
             .filter(item => item.active)
             .forEach(item => {
