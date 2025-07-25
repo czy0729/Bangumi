@@ -15,7 +15,7 @@ import { styles } from './styles'
 
 function Example({ store }: { store: Ctx['$'] }) {
   let { $ } = useStore<Ctx>()
-  $ = $ || store
+  $ = $?.state ? $ : store
 
   const { webDAV } = $.state
   let el: ReactNode

@@ -14,7 +14,7 @@ import { styles } from './styles'
 
 function Example({ store }: { store: Ctx['$'] }) {
   let { $ } = useStore<Ctx>()
-  $ = $ || store
+  $ = $?.state ? $ : store
 
   const { id } = $.state
   return (

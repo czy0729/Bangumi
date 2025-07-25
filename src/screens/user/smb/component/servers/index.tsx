@@ -15,7 +15,7 @@ import { COMPONENT } from './ds'
 
 function Servers({ store }: { store: Ctx['$'] }) {
   let { $ } = useStore<Ctx>()
-  $ = $ || store
+  $ = $?.state ? $ : store
 
   const smb = $.current?.smb
   if (!smb) return null

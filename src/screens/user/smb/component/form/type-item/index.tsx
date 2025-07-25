@@ -14,7 +14,7 @@ import { styles } from './styles'
 
 function TypeItem({ store }: { store: Ctx['$'] }) {
   let { $ } = useStore<Ctx>()
-  $ = $ || store
+  $ = $?.state ? $ : store
 
   const { webDAV } = $.state
   const elType = (

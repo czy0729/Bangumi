@@ -25,7 +25,7 @@ function UrlItem({
   store: Ctx['$']
 }>) {
   let { $ } = useStore<Ctx>()
-  $ = $ || store
+  $ = $?.state ? $ : store
 
   const { url } = $.state
   return (

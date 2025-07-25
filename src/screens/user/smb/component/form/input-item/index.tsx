@@ -26,7 +26,7 @@ function InputItem({
   store: Ctx['$']
 }>) {
   let { $ } = useStore<Ctx>()
-  $ = $ || store
+  $ = $?.state ? $ : store
 
   const value = $.state[name]
   return (
