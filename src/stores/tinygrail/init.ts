@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:20:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-19 16:57:15
+ * @Last Modified time: 2025-07-27 05:33:35
  */
 import { LIST_EMPTY } from '@constants'
 import { Id, ListEmpty, Loaded } from '@types'
-import { TinygrailItemsItem } from './types'
+import { TinygrailItemsItem, TinygrailTopWeekItem } from './types'
 
 export const NAMESPACE = 'Tinygrail'
 
@@ -375,7 +375,7 @@ export const STATE = {
   templeLast: LIST_EMPTY,
 
   /** 每周萌王 */
-  topWeek: LIST_EMPTY,
+  topWeek: LIST_EMPTY as ListEmpty<TinygrailTopWeekItem>,
 
   /** 检测用户有多少圣殿 */
   templeTotal: {},

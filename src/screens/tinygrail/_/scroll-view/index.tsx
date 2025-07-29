@@ -8,6 +8,7 @@ import React, { useCallback, useState } from 'react'
 import { RefreshControl } from 'react-native'
 import { ScrollView as ScrollViewComp } from '@components'
 import { _ } from '@stores'
+import { feedback } from '@utils'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
@@ -30,7 +31,10 @@ function ScrollView({ forwardRef, style, contentContainerStyle, onRefresh, child
     try {
       await onRefresh()
     } finally {
-      wait(2800).then(() => setRefreshing(false))
+      wait(2000).then(() => {
+        setRefreshing(false)
+        feedback(true)
+      })
     }
   }, [onRefresh])
 

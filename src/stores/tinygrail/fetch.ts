@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:38:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-05 04:13:46
+ * @Last Modified time: 2025-07-29 16:57:02
  */
 import { toJS } from 'mobx'
 import { getTimestamp, HTMLDecode, info, lastDate, toFixed } from '@utils'
@@ -679,47 +679,51 @@ export default class Fetch extends Computed {
 
   /** 每周萌王 */
   fetchTopWeek = async () => {
-    const result = await this.fetch(API_TINYGRAIL_TOP_WEEK())
+    const STATE_KEY = 'topWeek'
 
-    const data = {
-      ...LIST_EMPTY
+    try {
+      const result = await this.fetch(API_TINYGRAIL_TOP_WEEK())
+      const { State, Value } = result.data
+      if (State === 0) {
+        const { list: lastList } = this.topWeek
+
+        this.setState({
+          [STATE_KEY]: {
+            list: Value.map((item: any, index: number) => {
+              const lastItem = lastList.find(i => i.id === item.CharacterId) || {
+                rank: 0,
+                extra: 0,
+                type: 0
+              }
+
+              const rank = index + 1
+              return {
+                assets: item.Assets,
+                avatar: item.Avatar,
+                extra: item.Extra,
+                extraChange: item.Extra - lastItem.extra,
+                id: item.CharacterId,
+                level: item.CharacterLevel,
+                name: item.CharacterName,
+                price: item.Price,
+                rank,
+                rankChange: lastItem.rank === 0 ? 'new' : lastItem.rank - rank,
+                sacrifices: item.Sacrifices,
+                type: item.Type,
+                typeChange: item.Type - (lastItem.type || 0)
+              }
+            }),
+            pagination: { page: 1, pageTotal: 1 },
+            _loaded: getTimestamp()
+          }
+        })
+        this.save(STATE_KEY)
+      }
+    } catch (error) {
+      this.error('fetchTopWeek', error)
     }
-    if (result.data.State === 0) {
-      const { list: lastList } = this.topWeek
 
-      data._loaded = getTimestamp()
-      data.list = result.data.Value.map((item, index) => {
-        const lastItem = lastList.find(i => i.id === item.CharacterId) || {
-          rank: 0,
-          extra: 0,
-          type: 0
-        }
-
-        const rank = index + 1
-        return {
-          id: item.CharacterId,
-          avatar: item.Avatar,
-          name: item.CharacterName,
-          price: item.Price,
-          sacrifices: item.Sacrifices,
-          assets: item.Assets,
-          extra: item.Extra,
-          extraChange: item.Extra - lastItem.extra,
-          rank,
-          rankChange: lastItem.rank === 0 ? 'new' : lastItem.rank - rank,
-          type: item.Type,
-          typeChange: item.Type - (lastItem.type || 0)
-        }
-      })
-    }
-
-    const key = 'topWeek'
-    this.setState({
-      [key]: data
-    })
-    this.save(key)
-
-    return data
+    return this[STATE_KEY]
   }
 
   /** 检测用户有多少圣殿 */
@@ -1450,12 +1454,12 @@ export default class Fetch extends Computed {
     if (value) return value
 
     try {
-      const result = await this.fetch(API_TINYGRAIL_ISSUE_PRICE(id))
+      const result = await this.fetch(API_TINYGRAIL_ISSUE_PRICE(ITEM_KEY))
       const { State, Value } = result.data
       if (State === 0) {
         this.setState({
           [STATE_KEY]: {
-            [id]: Value?.[0]?.Begin || 0
+            [ITEM_KEY]: Value?.[0]?.Begin || 0
           }
         })
         this.save(STATE_KEY)

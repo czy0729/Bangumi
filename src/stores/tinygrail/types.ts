@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-28 21:44:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-26 01:25:16
+ * @Last Modified time: 2025-07-29 16:56:50
  */
 import { Loaded } from '@types'
 import { INIT_CHARACTERS_ITEM } from './init'
@@ -51,4 +51,20 @@ export type TinygrailItemsItem = {
   line: string
   amount: number
   last: string
+}
+
+export type TinygrailTopWeekItem = {
+  assets: number
+  avatar: string
+  extra: number
+  extraChange: number
+  id: number
+  level: number
+  name: string
+  price: number
+  rank: number
+  rankChange: number | 'new'
+  sacrifices: number
+  type: number
+  typeChange: number
 }
