@@ -7,3 +7,5 @@
 export const COMPONENT = 'TinygrailTopWeek'
 
 export const HM = ['tinygrail/top-week', 'TopWeek'] as const
+
+export const MAX_PREV = 40

@@ -12,4 +12,12 @@ export default class Fetch extends Computed {
   fetchTopWeek = () => {
     return tinygrailStore.fetchTopWeek()
   }
+
+  /** 历史萌王 */
+  fetchTopWeekHistory = () => {
+    const { prev } = this.state
+    if (!prev) return
+
+    return tinygrailStore.fetchTopWeekHistory(prev)
+  }
 }

@@ -6,7 +6,7 @@
  */
 import { LIST_EMPTY } from '@constants'
 import { Id, ListEmpty, Loaded } from '@types'
-import { TinygrailItemsItem, TinygrailTopWeekItem } from './types'
+import { TinygrailItemsItem, TinygrailTopWeekHistoryItem, TinygrailTopWeekItem } from './types'
 
 export const NAMESPACE = 'Tinygrail'
 
@@ -376,6 +376,9 @@ export const STATE = {
 
   /** 每周萌王 */
   topWeek: LIST_EMPTY as ListEmpty<TinygrailTopWeekItem>,
+
+  /** 历史萌王 */
+  topWeekHistory: {} as Record<number, ListEmpty<TinygrailTopWeekHistoryItem>>,
 
   /** 检测用户有多少圣殿 */
   templeTotal: {},

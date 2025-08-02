@@ -9,13 +9,13 @@ import { COMPONENT } from '../ds'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
-export const EXCLUDE_STATE = {}
+export const EXCLUDE_STATE = {
+  /** 上一期 */
+  prev: 0
+}
 
 export const STATE = {
   ...EXCLUDE_STATE,
-
-  /** 上一期 */
-  prev: 0,
 
   /** 页面初始化完成 */
   _loaded: false as Loaded

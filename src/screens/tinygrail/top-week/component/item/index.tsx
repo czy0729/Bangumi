@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2025-07-28 21:43:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-29 17:14:21
+ * @Last Modified time: 2025-07-30 05:13:06
  */
 import React from 'react'
 import { Avatar, Flex, Text, TextType, Touchable } from '@components'
 import { Rate } from '@_'
 import { _, useStore } from '@stores'
+import { TinygrailTopWeekItem } from '@stores/tinygrail/types'
 import { alert, formatNumber, stl, tinygrailOSS, titleCase } from '@utils'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
 import { M } from '@constants'
-import TinygrailLevel from '@tinygrail/_/level'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -24,7 +24,6 @@ function Item({
   extra,
   extraChange,
   id,
-  level,
   name,
   price,
   rank,
@@ -32,7 +31,7 @@ function Item({
   sacrifices,
   type,
   typeChange
-}) {
+}: TinygrailTopWeekItem) {
   r(COMPONENT)
 
   const { navigation } = useStore<Ctx>()
@@ -129,18 +128,21 @@ function Item({
             numberOfLines={2}
             align='center'
           >
-            <TinygrailLevel value={level} lineHeight={textSize} />
             {name}
             {!!rankChange && (
               <Text type={changeColor} size={textSize - 1} lineHeight={textSize} bold>
-                {` ${rankChange > 0 ? '↑' : '↓'}${Math.abs(rankChange)}`}
+                {' '}
+                {rankChange === 'new'
+                  ? 'new'
+                  : `${rankChange > 0 ? '↑' : '↓'}${Math.abs(rankChange)}`}
               </Text>
             )}
           </Text>
           <Text {...subTextProps}>
-            +{extraText}·{type}人
+            +{extraText}
+            {type ? `·${type}人` : ''}
           </Text>
-          {!!extraChange && (
+          {!!extraChange && String(extraChange) !== String(extraText) && typeChange !== type && (
             <Text {...subTextProps} type={extraChangeColor}>
               {' '}
               {extraChange > 0 && '+'}
@@ -154,10 +156,12 @@ function Item({
               )}
             </Text>
           )}
-          <Text {...subTextProps}>
-            {size === 'lg' ? '平均拍价 ' : ''} ₵
-            {formatNumber((extra + price * sacrifices) / assets)}
-          </Text>
+          {!!type && (
+            <Text {...subTextProps}>
+              {size === 'lg' ? '平均拍价 ' : ''} ₵
+              {formatNumber((extra + price * sacrifices) / assets)}
+            </Text>
+          )}
         </Touchable>
 
         <Rate

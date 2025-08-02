@@ -11,6 +11,7 @@ import { useObserver } from '@utils/hooks'
 import TinygrailPage from '@tinygrail/_/page'
 import { NavigationProps } from '@types'
 import List from './component/list'
+import ToolBar from './component/tool-bar'
 import Header from './header'
 import { useTinygrailTopWeekPage } from './hooks'
 
@@ -22,6 +23,7 @@ const TinygrailTopWeek = (props: NavigationProps) => {
     <Component id='screen-tinygrail-top-week'>
       <StoreContext.Provider value={id}>
         <TinygrailPage>
+          <ToolBar />
           <List />
         </TinygrailPage>
         <Header />

@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2022-05-22 14:04:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-05 04:16:16
+ * @Last Modified time: 2025-07-30 05:27:58
  */
 import { Id, UserId } from '@types'
 import { TinygrailMagic, TinygrailType } from './types'
@@ -249,6 +249,10 @@ export const API_TINYGRAIL_MAGIC = (
 
 /** 每周萌王 */
 export const API_TINYGRAIL_TOP_WEEK = () => `${API_HOST_TINYGRAIL}/api/chara/topweek`
+
+/** 历史萌王 */
+export const API_TINYGRAIL_TOP_WEEK_HISTORY = (prev: number = 1) =>
+  `${API_HOST_TINYGRAIL}/api/chara/topweek/history/${prev}`
 
 /** 检测用户有多少圣殿 */
 export const API_TINYGRAIL_USER_TEMPLE_TOTAL = (hash: UserId) =>

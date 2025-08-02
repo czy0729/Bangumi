@@ -39,6 +39,7 @@ import {
   API_TINYGRAIL_TEMPLE_LAST,
   API_TINYGRAIL_TEST,
   API_TINYGRAIL_TOP_WEEK,
+  API_TINYGRAIL_TOP_WEEK_HISTORY,
   API_TINYGRAIL_USER_CHARA,
   API_TINYGRAIL_USER_CHARA_TOTAL,
   API_TINYGRAIL_USER_TEMPLE_TOTAL,
@@ -721,6 +722,66 @@ export default class Fetch extends Computed {
       }
     } catch (error) {
       this.error('fetchTopWeek', error)
+    }
+
+    return this[STATE_KEY]
+  }
+
+  /** 历史萌王 */
+  fetchTopWeekHistory = async (prev: number = 1) => {
+    const STATE_KEY = 'topWeekHistory'
+
+    try {
+      // 因为接口一页实际上返回两周的数据, 故 1, 2 => 1; 3, 4 => 2
+      const page = Math.ceil(prev / 2)
+      const SUB_KEY_1 = page * 2 - 1
+      const SUB_KEY_2 = page * 2
+      if (this[STATE_KEY](SUB_KEY_1) || this[STATE_KEY](SUB_KEY_2)) return true
+
+      const result = await this.fetch(API_TINYGRAIL_TOP_WEEK_HISTORY(page))
+      const { State, Value } = result.data
+      if (State === 0) {
+        const list = mapItems(Value.Items, {
+          assets: 'Assets',
+          avatar: 'Avatar',
+          extra: 'Extra',
+          id: 'CharacterId',
+          level: 'CharacterLevel',
+          name: 'Name',
+          price: 'Price',
+          sacrifices: 'Sacrifices',
+          type: 'Type'
+        })
+
+        this.setState({
+          [STATE_KEY]: {
+            [SUB_KEY_1]: {
+              list: list
+                .slice(0, 12)
+                .reverse()
+                .map((item, index) => ({
+                  ...item,
+                  rank: index + 1
+                })),
+              pagination: { page: 1, pageTotal: 1 },
+              _loaded: getTimestamp()
+            },
+            [SUB_KEY_2]: {
+              list: list
+                .slice(12)
+                .reverse()
+                .map((item, index) => ({
+                  ...item,
+                  rank: index + 1
+                })),
+              pagination: { page: 1, pageTotal: 1 },
+              _loaded: getTimestamp()
+            }
+          }
+        })
+      }
+    } catch (error) {
+      this.error('fetchTopWeekHistory', error)
     }
 
     return this[STATE_KEY]

@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-07-29 16:56:50
  */
-import { Loaded } from '@types'
+import { Loaded, Override } from '@types'
 import { INIT_CHARACTERS_ITEM } from './init'
 
 export type ListKey =
@@ -53,18 +53,24 @@ export type TinygrailItemsItem = {
   last: string
 }
 
-export type TinygrailTopWeekItem = {
+export type TinygrailTopWeekHistoryItem = {
   assets: number
   avatar: string
   extra: number
-  extraChange: number
   id: number
   level: number
   name: string
   price: number
   rank: number
-  rankChange: number | 'new'
   sacrifices: number
   type: number
-  typeChange: number
 }
+
+export type TinygrailTopWeekItem = Override<
+  TinygrailTopWeekHistoryItem,
+  {
+    extraChange?: number
+    rankChange?: number | 'new'
+    typeChange?: number
+  }
+>

@@ -347,6 +347,13 @@ export default class Computed extends State implements StoreConstructor<typeof S
     return this.state.topWeek
   }
 
+  /** 历史萌王 */
+  topWeekHistory(prev: number = 1) {
+    return computed(() => {
+      return this.state.topWeekHistory[prev] || null
+    }).get()
+  }
+
   /** 检测用户有多少圣殿 */
   templeTotal(hash: UserId) {
     return computed<number>(() => {

@@ -13,4 +13,9 @@ export default class Computed extends State {
   @computed get topWeek() {
     return tinygrailStore.topWeek
   }
+
+  /** 历史萌王 */
+  @computed get topWeekHistory() {
+    return tinygrailStore.topWeekHistory(this.state.prev)
+  }
 }
