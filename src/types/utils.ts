@@ -37,7 +37,7 @@ export type GridStyle = {
 export type ReactNode = React.ReactNode
 
 /** setTimeout or setInterval ref */
-export type TimerRef = ReturnType<typeof setTimeout> extends number ? number : NodeJS.Timeout
+export type TimerRef = ReturnType<typeof setTimeout> | null
 
 /** RNColorValue */
 export type ColorValue = RNColorValue

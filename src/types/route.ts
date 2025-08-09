@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-26 18:48:47
+ * @Last Modified time: 2025-08-09 04:58:11
  */
 import { ImageSourcePropType } from 'react-native'
 import {
@@ -396,12 +396,20 @@ export type RouteGroup = Route<
 export type RouteWebBrowser = (
   path: 'WebBrowser',
   params: {
+    /** 链接 */
     url: string
+
+    /** 页面标题 */
     title: string
+
+    /** 顶部补充说明 */
     desc?: string
 
     /** 是否自动插入移动端 meta viewport */
     injectedViewport?: boolean
+
+    /** 是否允许手势, 可用于避免在填写表单时手滑退出页面 (default=true) */
+    gestureEnabled?: boolean
   }
 ) => any
 
