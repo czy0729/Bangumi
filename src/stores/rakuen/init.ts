@@ -73,7 +73,7 @@ export const INIT_NOTIFY = {
 
 export const INIT_SETTING = {
   /** 楼层正文链接显示成信息块 */
-  matchLink: true,
+  matchLink: false,
 
   /** @deprecated 楼层正文内容猜测条目 */
   acSearch: true,

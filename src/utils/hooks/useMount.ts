@@ -7,7 +7,14 @@
 import { useEffect } from 'react'
 import { FROZEN_FN } from '@constants/init'
 
-export default function useMount(fn = FROZEN_FN) {
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  return useEffect(() => fn(), [])
+/**
+ * 自定义 Hook，用于在组件挂载时执行传入的函数。
+ *
+ * @param {() => void} [fn=FROZEN_FN] - 可选的函数，默认为 `FROZEN_FN`，即空函数
+ */
+export default function useMount(fn: () => void = FROZEN_FN) {
+  useEffect(() => {
+    fn()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 }
