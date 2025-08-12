@@ -113,23 +113,27 @@ export default class Fetch extends Computed {
 
   /** 网页获取条目信息 */
   fetchSubjectFromHTML = async (subjectId: SubjectId) => {
-    const html = await fetchHTML({
-      url: HTML_SUBJECT(subjectId)
-    })
-    const last = getInt(subjectId)
-    const key = `subjectFormHTML${last}` as const
-    const data = {
-      ...cheerioSubjectFromHTML(html),
-      _loaded: getTimestamp()
-    }
-    this.setState({
-      [key]: {
-        [subjectId]: data
-      }
-    })
+    const STATE_KEY = `subjectFormHTML${getInt(subjectId)}` as const
+    const ITEM_KEY = subjectId
 
-    this.save(key)
-    return data
+    try {
+      const html = await fetchHTML({
+        url: HTML_SUBJECT(subjectId)
+      })
+      this.setState({
+        [STATE_KEY]: {
+          [ITEM_KEY]: {
+            ...cheerioSubjectFromHTML(html),
+            _loaded: getTimestamp()
+          }
+        }
+      })
+      this.save(STATE_KEY)
+    } catch (error) {
+      this.error('fetchSubjectFromHTML', error)
+    }
+
+    return this[STATE_KEY](ITEM_KEY)
   }
 
   /** 新接口获取条目信息 */
@@ -702,9 +706,9 @@ export default class Fetch extends Computed {
 
       // #682
       let startDate = null
-      let { items } = JSON.parse(_response).categories[0]
+      const { items } = JSON.parse(_response).categories[0]
       let pageUrl = ''
-      let date = this.date(subjectId)
+      const date = this.date(subjectId)
 
       // #691
       if (date) {

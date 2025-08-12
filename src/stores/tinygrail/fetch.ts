@@ -46,9 +46,7 @@ import {
   API_TINYGRAIL_USERS,
   API_TINYGRAIL_VALHALL_CHARA,
   API_TINYGRAIL_VALHALL_LIST,
-  DEV,
   LIST_EMPTY,
-  TEXT_BADGES,
   TINYGRAIL_ASSETS_LIMIT
 } from '@constants'
 import { AnyObject, Id, MonoId, UserId } from '@types'
@@ -60,11 +58,6 @@ import { defaultKey, defaultSort, paginationOnePage } from './ds'
 import { ListKey } from './types'
 
 export default class Fetch extends Computed {
-  /** 开发打印 */
-  error = (...arg: any) => {
-    if (DEV) console.info(TEXT_BADGES.danger, ...arg)
-  }
-
   /** 更新人物头像缓存 */
   updateIconsCache = (data: Record<Id, string>) => {
     const STATE_KEY = 'iconsCache'

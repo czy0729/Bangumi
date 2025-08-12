@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-08 20:36:53
+ * @Last Modified time: 2025-08-12 15:30:46
  */
 import cheerioRN from 'cheerio-without-node-native'
 import { TEXT_BADGES } from '@constants/text'
@@ -294,6 +294,7 @@ export function cData(
     | 'onclick'
 ): string {
   try {
+    if (key.startsWith('data-')) return $el.data(key.split('data-')[1]) || ''
     return $el.attr(key) || ''
   } catch (error) {
     return ''
@@ -332,6 +333,17 @@ export function cEach($el: any, callback: ($ele: any, index?: number) => void) {
       callback(cheerio(ele), index)
     })
   } catch (error) {}
+}
+
+/** cheerio.filter */
+export function cFilter($el: any, match: string) {
+  try {
+    return $el.filter((_index: number, ele: any) => {
+      return cText(cheerio(ele)).includes(match)
+    })
+  } catch (error) {
+    return []
+  }
 }
 
 /** 去除字符串中所有链接 */

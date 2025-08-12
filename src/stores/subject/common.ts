@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-15 18:27:40
+ * @Last Modified time: 2025-08-12 15:31:25
  */
 import {
   cData,
   cEach,
+  cFilter,
   cheerio,
   cHtml,
   cMap,
@@ -115,14 +116,17 @@ export function cheerioSubjectFromHTML(html: string): SubjectFromHTML {
       totalChap: cText($('#watchedeps').parent()).replace('Chap.  / ', ''),
       totalVol: cText($('#watched_vols').parent()).replace('Vol.  / ', '')
     },
-    comic: cMap($('div.subject_section ul.browserCoverSmall li'), $row => {
-      const $a = $row.find('a')
-      return {
-        id: matchSubjectId(cData($a, 'href')),
-        name: cData($a, 'title') || cText($row.find('a.title')),
-        image: getCoverMedium(matchCover(cData($row.find('span'), 'style')))
+    comic: cMap(
+      cFilter($('h2.subtitle'), '单行本').next('ul.browserCoverMedium').find('li'),
+      $row => {
+        const $a = $row.find('a')
+        return {
+          id: matchSubjectId(cData($a, 'href')),
+          name: cData($a, 'title') || cText($row.find('a.title')),
+          image: getCoverMedium(matchCover(cData($row.find('span'), 'style')))
+        }
       }
-    }),
+    ),
     like: cMap($('div.content_inner ul.coversSmall li'), $row => {
       const $a = $row.find('a')
       return {

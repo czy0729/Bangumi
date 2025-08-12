@@ -422,4 +422,9 @@ export default class Store<
   log(...arg: any) {
     if (DEV) console.info(TEXT_BADGES.primary, ...arg)
   }
+
+  /** 开发打印 */
+  error = (...arg: any) => {
+    if (DEV) console.info(TEXT_BADGES.danger, ...arg)
+  }
 }

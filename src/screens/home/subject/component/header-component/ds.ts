@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-16 10:35:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 04:42:11
+ * @Last Modified time: 2025-08-12 15:34:03
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
@@ -39,8 +39,8 @@ export const BottomEls = [
   Character,
   Staff,
   Anitabi,
-  Relations,
   Comic,
+  Relations,
   Catalog,
   Like,
   Blog,

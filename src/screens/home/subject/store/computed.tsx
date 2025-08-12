@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-28 01:02:13
+ * @Last Modified time: 2025-08-12 15:34:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -1330,8 +1330,8 @@ export default class Computed extends State {
     if (this.showCharacter[0]) data.push(TITLE_CHARACTER)
     if (this.showStaff[0]) data.push(TITLE_STAFF)
     if (this.showAnitabi[0]) data.push(`${TITLE_ANITABI} (${this.state.anitabi.pointsLength})`)
-    if (this.showRelations[0]) data.push(`${TITLE_RELATIONS} (${this.relations.length})`)
     if (this.showComic[0]) data.push(`${TITLE_COMIC} (${this.comic.length})`)
+    if (this.showRelations[0]) data.push(`${TITLE_RELATIONS} (${this.relations.length})`)
     if (this.showCalalog[0]) data.push(`${TITLE_CATALOG} (${this.filterCatalog.length})`)
     if (this.showLike[0]) data.push(`${TITLE_LIKE} (${this.like.length})`)
     if (this.showBlog[0]) data.push(`${TITLE_BLOG} (${this.filterBlog.length})`)

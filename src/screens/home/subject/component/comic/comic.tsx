@@ -5,7 +5,7 @@
  * @Last Modified time: 2025-05-08 06:32:30
  */
 import React from 'react'
-import { Heatmap } from '@components'
+import { Heatmap, Text } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { HorizontalList, InView, SectionTitle } from '@_'
 import { _ } from '@stores'
@@ -27,7 +27,12 @@ const Comic = memo(
           right={<IconRelation title='单行本' list={comic} />}
           splitStyles
         >
-          {TITLE_COMIC}
+          {TITLE_COMIC}{' '}
+          {!!comic?.length && (
+            <Text type='sub' size={18} lineHeight={18} bold>
+              {comic.length}
+            </Text>
+          )}
         </SectionTitle>
         <HorizontalList
           style={_.mt.sm}
