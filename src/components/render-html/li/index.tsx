@@ -2,20 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-21 05:30:26
+ * @Last Modified time: 2025-08-13 17:56:02
  */
 import React from 'react'
-import { View, ViewProps } from 'react-native'
+import { View } from 'react-native'
 import { useObserver } from 'mobx-react'
 import { stl } from '@utils'
-import { ReactNode } from '@types'
 import { Divider } from '../../divider'
 import { memoStyles } from './styles'
-
-type Props = ViewProps & {
-  className?: string
-  children?: ReactNode
-}
+import { Props } from './types'
 
 function Li({ style, className, children, ...other }: Props) {
   return useObserver(() => {

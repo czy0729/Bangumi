@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2025-04-25 19:28:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-25 20:29:16
+ * @Last Modified time: 2025-08-12 17:41:16
  */
+import { systemStore } from '@stores'
 import { cheerio } from '@utils'
 
 /**
@@ -11,9 +12,17 @@ import { cheerio } from '@utils'
  *  - https://github.com/czy0729/Bangumi/issues/216
  */
 export const processHtml = (html: string) => {
+  // 为了美观, 移除没必要显示的版本栏文字
+  html = html.replace(/<li class="sub_group">(.+?)<\/li>/g, '<li class="sub_group"></li>')
+
+  if (!systemStore.setting.subjectPromoteAlias) return html
+
   try {
     const $ = cheerio(html)
-    const subContainer = $('li.sub_container')
+    const subContainer = $('li.sub_container').filter((_i: any, el: any) => {
+      return $(el).attr('class') === 'sub_container'
+    })
+
     if (subContainer.length > 0) {
       if (subContainer.find('li span.tip').text().includes('别名')) {
         const aliasItems = subContainer.find('li').get()

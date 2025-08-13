@@ -37,7 +37,7 @@ function InfoWrap({ onBlockRef }) {
           subjectId={$.subjectId}
           showInfo={systemStore.setting.showInfo}
           subjectHtmlExpand={systemStore.setting.subjectHtmlExpand}
-          info={systemStore.setting.subjectPromoteAlias ? processHtml(html) : html}
+          info={processHtml(html)}
           name={cnjp($.cn, $.jp)}
           onSwitchBlock={$.onSwitchBlock}
         />

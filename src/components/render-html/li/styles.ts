@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-17 06:20:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-20 22:00:15
+ * @Last Modified time: 2025-08-13 18:00:31
  */
 import { _ } from '@stores'
 
@@ -13,12 +13,15 @@ export const memoStyles = _.memoStyles(() => ({
     borderBottomWidth: 0
   },
   groupSection: {
-    paddingTop: 4,
-    paddingHorizontal: 8,
-    paddingBottom: 6,
+    paddingTop: 6,
+    paddingRight: 16,
+    paddingLeft: 8,
+    paddingBottom: 8,
     marginTop: _.sm,
     backgroundColor: _.select(_.colorBg, _.colorDarkModeLevel1),
-    borderRadius: _.radiusSm,
+    borderLeftWidth: 5,
+    borderLeftColor: _.colorBorder,
+    borderRadius: 4,
     overflow: 'hidden'
   }
 }))

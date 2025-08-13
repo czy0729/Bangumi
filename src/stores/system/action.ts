@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:18:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-10 17:21:05
+ * @Last Modified time: 2025-08-12 17:09:47
  */
 import { confirm, info, titleCase } from '@utils'
 import { read } from '@utils/db'
@@ -192,13 +192,15 @@ export default class Actions extends Fetch {
   /** 切换 */
   switchSetting = (switchKey: SettingKeys) => {
     const key = 'setting'
+    const value = !this.setting[switchKey]
     this.setState({
       [key]: {
         ...this.setting,
-        [switchKey]: !this.setting[switchKey]
+        [switchKey]: value
       }
     })
     this.save(key)
+    this.log('switchSetting', switchKey, value)
   }
 
   /** 对指定设置直接赋值 (暂用于永久隐藏条目页面板块) */
@@ -211,6 +213,7 @@ export default class Actions extends Fetch {
       }
     })
     this.save(key)
+    this.log('setSetting', switchKey, value)
   }
 
   /** 条目页面重置布局 */
