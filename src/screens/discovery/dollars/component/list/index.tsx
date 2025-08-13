@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 15:30:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 07:36:34
+ * @Last Modified time: 2025-08-13 22:24:05
  */
 import React from 'react'
 import { PaginationList2 } from '@_'
@@ -23,6 +23,7 @@ function List() {
       style={_.container.wind}
       contentContainerStyle={_.container.bottom}
       {...SCROLL_VIEW_RESET_PROPS}
+      skipEnteringExitingAnimations={10}
       scrollEventThrottle={16}
       data={$.dollars.list}
       renderItem={renderItem}

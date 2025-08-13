@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:24:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-28 15:56:05
+ * @Last Modified time: 2025-08-13 22:37:10
  */
 import {
   cData,
@@ -330,19 +330,14 @@ export function cheerioWiki(html: string) {
 export function cheerioDollars(html: string) {
   const $ = cheerio(html)
   return {
-    list:
-      $('#chatList ul li')
-        .map((_index: number, element: any) => {
-          const $row = $(element)
-          return {
-            id: String($row.attr('id')).split('_')?.[1].slice(0, 10),
-            avatar: $row.find('img.avatar').attr('src').split('/m/')?.[1] || '',
-            nickname: $row.find('.icon p').text().trim(),
-            msg: $row.find('.content p').text().trim(),
-            color: $row.find('.content').attr('style').split(':')?.[1] || ''
-          }
-        })
-        .get() || [],
+    list: cMap($('#chatList ul li'), $row => ({
+      id: cData($row, 'id').split('_')?.[1].slice(0, 10),
+      avatar: cData($row.find('img.avatar'), 'src').split('/m/')?.[1] || '',
+      nickname: cText($row.find('.icon p')),
+      msg: cText($row.find('.content p')),
+      color: cData($row.find('.content'), 'style').split(':')?.[1] || ''
+    })),
+    online: cText($('#toolBox')).split(':')?.[1] || '',
     pagination: {
       page: 1,
       pageTotal: 1

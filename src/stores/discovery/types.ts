@@ -213,3 +213,17 @@ export type News = DeepPartial<{
   }[]
   _loaded: number
 }>
+
+/** DOLLARS (聊天室) */
+export type Dollars = Override<
+  ListEmpty<{
+    id: string
+    avatar: string
+    nickname: string
+    msg: string
+    color: string
+  }>,
+  {
+    online: string
+  }
+>

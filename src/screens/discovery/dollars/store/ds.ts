@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-27 15:38:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-03 13:40:56
+ * @Last Modified time: 2025-08-13 22:44:02
  */
 import { _ } from '@stores'
 import { Loaded } from '@types'
@@ -30,6 +30,9 @@ export const EXCLUDE_STATE = {
 
 export const STATE = {
   ...EXCLUDE_STATE,
+
+  /** 是否自动刷新 */
+  autoRefresh: true,
 
   /** 页面初始化完成 */
   _loaded: false as Loaded

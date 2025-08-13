@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-04-04 07:10:14
  */
 import { LIST_EMPTY } from '@constants'
-import { Wiki } from './types'
+import { Dollars, Wiki } from './types'
 
 export const NAMESPACE = 'Discovery'
 
@@ -140,8 +140,8 @@ const STATE = {
     0: INIT_ANITAMA_TIMELINE_ITEM
   },
 
-  /** DOLLARS */
-  dollars: LIST_EMPTY
+  /** DOLLARS (聊天室) */
+  dollars: LIST_EMPTY as Dollars
 }
 
 /**

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-06 12:30:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 07:34:22
+ * @Last Modified time: 2025-08-13 22:53:57
  */
 import { useRef } from 'react'
 import { useInitStore } from '@stores'
@@ -32,7 +32,7 @@ export function useDollarsPage(props: NavigationProps) {
   useMount(() => {
     interval.current = setInterval(() => {
       $.updateDollars()
-    }, 8000)
+    }, 4000)
 
     return () => {
       $.scrollViewRef = null

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:47:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-30 08:02:51
+ * @Last Modified time: 2025-08-13 22:44:40
  */
 import { cheerio, feedback, getTimestamp, HTMLDecode } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -379,21 +379,25 @@ export default class Fetch extends Computed {
 
   /** DOLLARS */
   fetchDollars = async () => {
-    const html = await fetchHTML({
-      url: HTML_DOLLARS()
-    })
+    const STATE_KEY = 'dollars'
 
-    const data = cheerioDollars(html)
-    const key = 'dollars'
-    this.setState({
-      [key]: {
-        ...data,
-        _loaded: getTimestamp()
-      }
-    })
-    this.save(key)
+    try {
+      const html = await fetchHTML({
+        url: HTML_DOLLARS()
+      })
 
-    return this[key]
+      this.setState({
+        [STATE_KEY]: {
+          ...cheerioDollars(html),
+          _loaded: getTimestamp()
+        }
+      })
+      this.save(STATE_KEY)
+    } catch (error) {
+      this.error('fetchDollars', error)
+    }
+
+    return this[STATE_KEY]
   }
 
   /** 轮询更新 DOLLARS */
@@ -410,12 +414,12 @@ export default class Fetch extends Computed {
         this.setState({
           [key]: {
             ...this.state.dollars,
-            list: [...items.reverse(), ...this.state.dollars.list].slice(0, 32),
+            list: [...items.reverse(), ...this.state.dollars.list].slice(0, 80),
             _loaded: getTimestamp()
           }
         })
         this.save(key)
-        feedback()
+        feedback(true)
         return true
       } catch (error) {}
     }

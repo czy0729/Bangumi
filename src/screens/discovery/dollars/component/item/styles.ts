@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 17:24:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-02 18:30:41
+ * @Last Modified time: 2025-08-13 22:28:06
  */
 import { _ } from '@stores'
 
@@ -11,8 +11,8 @@ export const memoStyles = _.memoStyles(() => ({
     paddingVertical: 12
   },
   inView: {
-    minWidth: 52,
-    minHeight: 52
+    minWidth: 48,
+    minHeight: 48
   },
   avatar: {
     width: 80,
@@ -21,6 +21,7 @@ export const memoStyles = _.memoStyles(() => ({
   content: {
     padding: 15,
     paddingTop: 12,
+    paddingRight: 10,
     marginTop: -1,
     borderWidth: 5,
     borderRadius: _.radiusMd,

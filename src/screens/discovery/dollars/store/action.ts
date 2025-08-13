@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2024-12-03 13:48:48
- * @Last Modified by:   czy0729
- * @Last Modified time: 2024-12-03 13:48:48
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2025-08-13 22:51:14
  */
 import { discoveryStore, userStore } from '@stores'
 import { info, updateVisibleBottom } from '@utils'
@@ -84,6 +84,13 @@ export default class Action extends Fetch {
     this.setState({
       show: !show
     })
+  }
+
+  onToggleAutoRefresh = () => {
+    this.setState({
+      autoRefresh: !this.state.autoRefresh
+    })
+    this.save()
   }
 
   onChangeText = (text: string) => {

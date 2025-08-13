@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 17:17:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-03 00:48:23
+ * @Last Modified time: 2025-08-13 22:26:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,7 +28,7 @@ function Item({ index, avatar, nickname, msg, color }) {
           <InView style={styles.inView} y={ITEM_HEIGHT * (index + 1)}>
             <Avatar
               src={`${HOST}/pic/user/l/${avatar}`}
-              size={52}
+              size={48}
               borderWidth={2}
               borderColor={_.select(_.colorBorder, 'rgba(255, 255, 255, 0.88)')}
               radius={_.radiusSm}
@@ -48,7 +48,7 @@ function Item({ index, avatar, nickname, msg, color }) {
             />
           </InView>
         </UserStatus>
-        <Text style={_.mt.sm} size={12} bold align='center'>
+        <Text style={_.mt.sm} size={11} bold align='center'>
           {nickname}
         </Text>
       </Flex>
@@ -61,7 +61,7 @@ function Item({ index, avatar, nickname, msg, color }) {
             }
           ]}
         >
-          <Text type='__plain__' lineHeight={17} bold shadow selectable>
+          <Text type='__plain__' lineHeight={17} numberOfLines={12} bold shadow selectable>
             {HTMLDecode(msg).replace(/<br \/>/g, '')}
           </Text>
         </View>
