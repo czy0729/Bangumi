@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-14 20:16:55
+ * @Last Modified time: 2025-08-14 21:03:29
  */
 import { $, cData, cMap, cText } from '@utils'
 
@@ -52,8 +52,9 @@ export function cheerioPersons(html: string) {
         nameCn: cText($a.find('.tip')),
         cover: cover !== '/img/info_only.png' ? cover.split('?')?.[0] : '',
         replies: cText($row.find('small.orange')),
-        info: cText($row.find('div.prsn_info span.tip')),
-        positions: cMap($row.find('span.badge_job'), $span => cText($span))
+        info: cText($row.find('div.prsn_info').last()),
+        positions: cMap($row.find('span.badge_job'), $span => cText($span)),
+        positionDetails: cMap($row.find('span.badge_job + span.tip'), $span => cText($span))
       }
     }
   )

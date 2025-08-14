@@ -12,5 +12,6 @@ export type Props = {
   replies: string
   info: string
   position: string[]
+  positionDetails: string[]
   onPress: Fn
 }

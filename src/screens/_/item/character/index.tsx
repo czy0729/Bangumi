@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-14 20:18:58
+ * @Last Modified time: 2025-08-14 21:05:04
  */
 import React from 'react'
-import { Component, Cover, Flex, Touchable } from '@components'
+import { Component, Cover, CoverProps, Flex, Touchable } from '@components'
 import { _ } from '@stores'
 import { cnjp } from '@utils'
 import { ob } from '@utils/decorators'
@@ -35,6 +35,7 @@ export const ItemCharacter = ob(
     info,
     actors = [],
     positions = [],
+    positionDetails = [],
     position,
     children
   }: ItemCharacterProps) => {
@@ -43,6 +44,17 @@ export const ItemCharacter = ob(
     const cn = cnjp(nameCn, name).trim()
     const jp = cnjp(name, nameCn).trim()
     const y = ITEM_HEIGHT * (index + 1)
+
+    const coverProps: CoverProps = {
+      src: cover
+    }
+    if (cover && typeof cover === 'string') {
+      coverProps.autoSize = IMG_WIDTH
+    } else {
+      coverProps.width = IMG_WIDTH
+      coverProps.height = IMG_WIDTH
+    }
+
     const handlePress = () => {
       const monoId = (String(id).includes(type) ? id : `${type}/${id}`) as MonoId
       navigation.push('Mono', {
@@ -65,7 +77,7 @@ export const ItemCharacter = ob(
           <InView style={styles.inView} y={y}>
             {!!cover && (
               <Touchable animate scale={0.9} onPress={handlePress}>
-                <Cover src={cover} autoSize={IMG_WIDTH} />
+                <Cover {...coverProps} />
               </Touchable>
             )}
           </InView>
@@ -76,6 +88,7 @@ export const ItemCharacter = ob(
               replies={replies}
               info={info}
               position={positions.length ? positions : [position]}
+              positionDetails={positionDetails}
               onPress={handlePress}
             />
             <Actors navigation={navigation} actors={actors} y={y} event={event} />
