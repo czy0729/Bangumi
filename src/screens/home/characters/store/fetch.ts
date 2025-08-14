@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-24 11:25:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-24 11:26:31
+ * @Last Modified time: 2025-08-14 19:50:31
  */
 import { monoStore } from '@stores'
 import { getTimestamp } from '@utils'
@@ -18,9 +18,7 @@ export default class Fetch extends Computed {
   fetchCharacters = async () => {
     this.fetchThirdParty()
 
-    const data = await monoStore.fetchCharacters({
-      subjectId: this.subjectId
-    })
+    const data = await monoStore.fetchCharacters(this.subjectId)
 
     if (
       data.list.length &&

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-04 21:46:59
+ * @Last Modified time: 2025-08-14 20:16:55
  */
 import { $, cData, cMap, cText } from '@utils'
 
@@ -13,14 +13,18 @@ export function cheerioCharacters(html: string) {
     $row => {
       const $a = $row.find('> div.clearit > h2 > a')
       const cover = cData($row.find('img.avatar'), 'src')
+      const position = cText($row.find('span.badge_job'))
       return {
         id: cData($a, 'href').replace('/character/', ''),
         cover: cover !== '/img/info_only.png' ? String(cover).split('?')[0] : '',
         name: cText($a),
         nameCn: cText($row.find('> div.clearit > h2 > span.tip')).replace('/ ', ''),
         replies: cText($row.find('small.na')).replace(/\(|\)/g, ''),
-        position: cText($row.find('span.badge_job')),
-        info: cText($row.find('div.crt_info span.tip')).replace(/\s+/g, ' '),
+        position,
+        info: cText($row.find('div.crt_info span.tip'))
+          .replace(position, '')
+          .replace(/\s+/g, ' ')
+          .trim(),
         actors: cMap($row.find('.actorBadge'), $a => {
           const cover = cData($a.find('img.avatar'), 'src')
           return {

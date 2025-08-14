@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:16:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-28 00:57:58
+ * @Last Modified time: 2025-08-14 19:51:52
  */
 import { getTimestamp } from '@utils'
 import { fetchHTML } from '@utils/fetch'
@@ -15,27 +15,32 @@ import Computed from './computed'
 
 export default class Fetch extends Computed {
   /** 更多角色 */
-  fetchCharacters = async (args: { subjectId: SubjectId }) => {
-    const { subjectId } = args || {}
-    const html = await fetchHTML({
-      url: HTML_SUBJECT_CHARACTERS(subjectId)
-    })
+  fetchCharacters = async (subjectId: SubjectId) => {
+    const STATE_KEY = 'characters'
+    const ITEM_KEY = subjectId
 
-    const list = cheerioCharacters(html)
-    const key = 'characters'
-    this.setState({
-      [key]: {
-        [subjectId]: {
-          list,
-          pagination: {
-            page: 1,
-            pageTotal: 1
-          },
-          _loaded: getTimestamp()
+    try {
+      const html = await fetchHTML({
+        url: HTML_SUBJECT_CHARACTERS(subjectId)
+      })
+
+      this.setState({
+        [STATE_KEY]: {
+          [ITEM_KEY]: {
+            list: cheerioCharacters(html),
+            pagination: {
+              page: 1,
+              pageTotal: 1
+            },
+            _loaded: getTimestamp()
+          }
         }
-      }
-    })
-    return this[key](subjectId)
+      })
+    } catch (error) {
+      this.error('fetchCharacters', error)
+    }
+
+    return this[STATE_KEY](ITEM_KEY)
   }
 
   /** 更多制作人员 */

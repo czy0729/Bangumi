@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-24 13:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-24 13:16:37
+ * @Last Modified time: 2025-08-14 20:17:51
  */
 import React from 'react'
 import { Cover, Flex, Text, Touchable } from '@components'
@@ -42,7 +42,7 @@ function Actors({ navigation, actors, y, event }: Props) {
           >
             <Flex>
               <InView style={styles.inView} y={y}>
-                <Cover src={item.cover} size={_.r(32)} radius />
+                <Cover src={item.cover} size={styles.inView.minWidth} radius />
               </InView>
               <Flex.Item style={_.ml.sm}>
                 <Text size={12} numberOfLines={1} bold lineHeight={13}>

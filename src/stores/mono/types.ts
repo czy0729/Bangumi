@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-07-01 03:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-24 19:10:07
+ * @Last Modified time: 2025-08-14 19:55:44
  */
 import { Cover, CoverCrt, Id, ListEmpty } from '@types'
 
 export type CharactersItem = {
   id: Id
-  cover: Cover<'g'>
+  cover: Cover<'m'>
   name: string
   nameCn: string
   replies: string

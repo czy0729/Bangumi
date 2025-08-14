@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-25 00:59:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-27 13:01:57
+ * @Last Modified time: 2025-08-14 20:22:28
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -15,24 +15,20 @@ import { Props } from './types'
 function Content({ cn, jp, replies, info, position, onPress }: Props) {
   return (
     <Touchable style={styles.touch} animate onPress={onPress}>
-      <Flex style={_.container.block} align='start'>
-        <Flex.Item style={_.mr.md}>
-          <Text size={15} numberOfLines={2} bold>
-            {cn}
-            {!!jp && jp !== cn && (
-              <Text type='sub' size={11} lineHeight={15} bold>
-                {' '}
-                {jp}
-              </Text>
-            )}
-            {!!replies && (
-              <Text type='main' size={11} lineHeight={15} bold>
-                {'  '}
-                {replies.replace(/\(|\)/g, '')}
-              </Text>
-            )}
+      <Flex wrap='wrap'>
+        <Text size={15} numberOfLines={2} bold>
+          {cn}{' '}
+        </Text>
+        {!!jp && jp !== cn && (
+          <Text type='sub' size={11} lineHeight={15} bold>
+            {jp}{' '}
           </Text>
-        </Flex.Item>
+        )}
+        {!!replies && (
+          <Text type='main' size={11} lineHeight={15} bold>
+            {replies.replace(/\(|\)/g, '')}
+          </Text>
+        )}
       </Flex>
       <Flex style={_.mt.sm} wrap='wrap'>
         {position.map(item => (

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-25 19:14:39
+ * @Last Modified time: 2025-08-14 20:18:58
  */
 import React from 'react'
 import { Component, Cover, Flex, Touchable } from '@components'
@@ -42,7 +42,7 @@ export const ItemCharacter = ob(
     const styles = memoStyles()
     const cn = cnjp(nameCn, name).trim()
     const jp = cnjp(name, nameCn).trim()
-    const y = ITEM_HEIGHT * index
+    const y = ITEM_HEIGHT * (index + 1)
     const handlePress = () => {
       const monoId = (String(id).includes(type) ? id : `${type}/${id}`) as MonoId
       navigation.push('Mono', {
@@ -65,7 +65,7 @@ export const ItemCharacter = ob(
           <InView style={styles.inView} y={y}>
             {!!cover && (
               <Touchable animate scale={0.9} onPress={handlePress}>
-                <Cover src={cover} width={IMG_WIDTH} height={IMG_WIDTH} radius />
+                <Cover src={cover} autoSize={IMG_WIDTH} />
               </Touchable>
             )}
           </InView>
