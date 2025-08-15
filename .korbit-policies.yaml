@@ -1,0 +1,2985 @@
+version: '0.1'
+topics:
+  - name: "React Native Project Setup & Tooling"
+    paths:
+      - 'package.json'
+      - 'tsconfig.json'
+      - '.gitignore'
+      - '.env.example'
+      - '.env.template'
+    policies:
+      - title: "Use a TypeScript Baseline for React Native Applications"
+        description: |
+          Projects must include a `tsconfig.json` file at the root and list `typescript` as a dev dependency.
+        software_version: all
+        reference_link: https://reactnative.dev/docs/typescript
+        severity: medium
+        required_context: multi-file
+        impact: |
+          Using plain JavaScript increases the risk of runtime errors and makes the code harder to refactor. TypeScript is the standard for robust, maintainable codebases.
+        code_examples:
+          # File structure examples
+          - non_compliant: |
+              # The project is missing a tsconfig.json file.
+              # The typescript dependency is also missing from devDependencies.
+              # package.json
+              {
+                "name": "my-app",
+                "devDependencies": {
+                  "jest": "..."
+                }
+              }
+            compliant: |
+              # A tsconfig.json file exists at the project root.
+              # tsconfig.json
+              {
+                "extends": "@tsconfig/react-native/tsconfig.json"
+              }
+
+              # The typescript dependency is present in devDependencies.
+              # package.json
+              {
+                "name": "my-app",
+                "devDependencies": {
+                  "typescript": "^5.1.3"
+                }
+              }
+
+      - title: "Enable Strict Mode in TypeScript Configuration"
+        description: |
+          The `compilerOptions.strict` flag in `tsconfig.json` must be set to `true`.
+        software_version: all
+        reference_link: https://www.typescriptlang.org/tsconfig#strict
+        severity: medium
+        required_context: single-file
+        impact: |
+          A loose TypeScript configuration negates many of the language's benefits, allowing for implicit `any` types and potential `null` or `undefined` errors.
+        code_examples:
+          # JSON examples
+          - non_compliant: |
+              # tsconfig.json
+              {
+                "compilerOptions": {
+                  "strict": false
+                }
+              }
+            compliant: |
+              # tsconfig.json
+              {
+                "compilerOptions": {
+                  "strict": true
+                }
+              }
+
+      - title: "Exclude Environment Variable Files from Version Control"
+        description: |
+          The `.gitignore` file must contain an entry to exclude all `.env` files.
+        software_version: all
+        reference_link: https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+        severity: high
+        required_context: single-file
+        impact: |
+          Committing `.env` files to version control is a major security vulnerability that exposes secrets to anyone with access to the repository.
+        code_examples:
+          # .gitignore example
+          - non_compliant: |
+              # .gitignore
+              node_modules
+              # The line for .env* is missing.
+            compliant: |
+              # .gitignore
+              node_modules
+              .env*
+
+  - name: "React Native Application Architecture & Folder Structure"
+    paths:
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+    policies:
+      - title: "Abstract API Logic into a Dedicated Services Directory"
+        description: |
+          API fetching logic must be abstracted into a dedicated `services` or `api` directory and not be present in UI components.
+        software_version: '0.59.0' # Relies on React Hooks (useState, useEffect)
+        severity: medium
+        required_context: multi-file
+        impact: |
+          Scattering API calls throughout components makes the code hard to test and maintain. Centralizing this logic decouples the UI from the data source.
+        code_examples:
+          # TypeScript examples
+          - non_compliant: |
+              // ProfileScreen.tsx
+              import axios from 'axios';
+              
+              const ProfileScreen = () => {
+                const [user, setUser] = useState(null);
+                useEffect(() => {
+                  axios.get('https://api.example.com/user/123').then(res => setUser(res.data));
+                }, []);
+                return <View />;
+              };
+            compliant: |
+              // src/services/userApi.ts
+              import axios from 'axios';
+              export const fetchUser = (id: string) => {
+                return axios.get(`https://api.example.com/user/${id}`);
+              };
+              
+              // ProfileScreen.tsx
+              import { fetchUser } from '@/services/userApi';
+              const ProfileScreen = () => {
+                const [user, setUser] = useState(null);
+                useEffect(() => {
+                  fetchUser('123').then(res => setUser(res.data));
+                }, []);
+                return <View />;
+              };
+          # JavaScript examples
+          - non_compliant: |
+              // ProfileScreen.js
+              import axios from 'axios';
+              
+              const ProfileScreen = () => {
+                const [user, setUser] = useState(null);
+                useEffect(() => {
+                  axios.get('https://api.example.com/user/123').then(res => setUser(res.data));
+                }, []);
+                return <View />;
+              };
+            compliant: |
+              // src/services/userApi.js
+              import axios from 'axios';
+              export const fetchUser = (id) => {
+                return axios.get(`https://api.example.com/user/${id}`);
+              };
+
+              // ProfileScreen.js
+              import { fetchUser } from '@/services/userApi';
+              const ProfileScreen = () => {
+                const [user, setUser] = useState(null);
+                useEffect(() => {
+                  fetchUser('123').then(res => setUser(res.data));
+                }, []);
+                return <View />;
+              };
+
+      - title: "Centralize Navigation Logic in a Dedicated Directory"
+        description: |
+          Navigation logic and navigators must be centralized in a dedicated `navigation` directory.
+        software_version: all
+        reference_link: https://reactnavigation.org/docs/navigating-without-navigation-prop/#handling-initialization
+        severity: high
+        required_context: multi-file
+        impact: |
+          Defining navigators within screens creates circular dependencies and makes the overall app flow impossible to understand from a single place.
+        code_examples:
+          # TypeScript examples
+          - non_compliant: |
+              // A stack navigator is created inside the main App.tsx file.
+              const Stack = createNativeStackNavigator();
+              const App = () => (
+                <NavigationContainer>
+                  <Stack.Navigator>...</Stack.Navigator>
+                </NavigationContainer>
+              );
+            compliant: |
+              // All navigators are defined in a dedicated folder.
+              // File path: src/navigation/AppNavigator.tsx
+              const Stack = createNativeStackNavigator();
+              export const AppNavigator = () => <Stack.Navigator>...</Stack.Navigator>;
+          # JavaScript examples
+          - non_compliant: |
+              // A stack navigator is created inside the main App.js file.
+              const Stack = createNativeStackNavigator();
+              const App = () => (
+                <NavigationContainer>
+                  <Stack.Navigator>...</Stack.Navigator>
+                </NavigationContainer>
+              );
+            compliant: |
+              // All navigators are defined in a dedicated folder.
+              // File path: src/navigation/AppNavigator.js
+              const Stack = createNativeStackNavigator();
+              export const AppNavigator = () => <Stack.Navigator>...</Stack.Navigator>;
+
+      - title: "Use a Dedicated Configuration File for Environment Variables"
+        description: |
+          Environment-specific variables must be managed in a dedicated configuration file and not checked inline within components.
+        software_version: all
+        severity: medium
+        required_context: single-file
+        impact: |
+          Hardcoding environment checks makes configuration difficult to manage and prone to errors. A central config file provides a single source of truth for different environments.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // Component contains environment-specific logic directly.
+              const UserProfile = () => {
+                const apiUrl = __DEV__
+                  ? 'http://localhost:3000/api'
+                  : 'https://api.production.com/api';
+              };
+            compliant: |
+              // src/config/index.ts
+              const devConfig = { apiUrl: 'http://localhost:3000/api' };
+              const prodConfig = { apiUrl: 'https://api.production.com/api' };
+              export const config = __DEV__ ? devConfig : prodConfig;
+              
+              // Component imports the configuration cleanly.
+              import { config } from '@/config';
+              const { apiUrl } = config;
+
+  - name: "React Native State Management Patterns"
+    paths:
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - 'package.json'
+    policies:
+      - title: "Avoid Using React Context for Frequently Changing State"
+        description: |
+          React's Context API must not be used for state that updates frequently, such as form inputs or search queries.
+        software_version: '0.59.0' # Relies on React Hooks (useState)
+        reference_link: https://react.dev/learn/passing-data-deeply-with-context#before-you-use-context
+        severity: high
+        required_context: single-file
+        impact: |
+          Using Context for frequently updated state causes significant performance issues, as all components consuming the context will re-render on every change.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // Using Context to manage a frequently changing search query.
+              const SearchProvider = ({ children }) => {
+                const [query, setQuery] = useState('');
+                return <SearchContext.Provider value={{ query, setQuery }}>{children}</SearchContext.Provider>;
+              };
+            compliant: |
+              // Using Context correctly for a theme that changes infrequently.
+              const ThemeProvider = ({ children }) => {
+                const [theme, setTheme] = useState('light');
+                return <ThemeContext.Provider value={{ theme, setTheme }}>{children}</ThemeContext.Provider>;
+              };
+
+      - title: "Use a Dedicated Data-Fetching and Caching Library for API Calls"
+        description: |
+          Data fetched from an API must be managed using a dedicated data-fetching and caching library.
+        software_version: all
+        reference_link: https://tanstack.com/query/latest/docs/react/overview
+        severity: medium
+        required_context: multi-file
+        impact: |
+          Manually managing server state is complex and error-prone. Dedicated libraries automatically handle caching, background refetching, and stale-while-revalidate logic.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // Manually handling server state in a Zustand store.
+              const useUserStore = create((set) => ({
+                user: null,
+                isLoading: false,
+                fetchUser: async (id) => { set({ isLoading: true }); /* ... */ },
+              }));
+            compliant: |
+              // Using RTK Query, which handles this automatically.
+              export const userApi = createApi({
+                endpoints: (builder) => ({
+                  getUserById: builder.query({ query: (id) => `users/${id}` }),
+                }),
+              });
+
+      - title: "Select Only the Required State to Avoid Unnecessary Re-Renders"
+        description: |
+          In Redux (or any global state management library), Components must select the smallest piece of state required from a global store.
+        software_version: '0.59.0' # Relies on React Hooks (useSelector)
+        reference_link: https://react-redux.js.org/api/hooks#useselector
+        severity: high
+        required_context: single-file
+        impact: |
+          Subscribing a component to a large object in the store will cause it to re-render every time any property on that object changes. This is a primary source of performance issues.
+        code_examples:
+          # TypeScript examples
+          - non_compliant: |
+              // This component re-renders whenever ANY user property changes (e.g. email).
+              const user = useSelector((state: RootState) => state.auth.user);
+              return <Text>{user.name}</Text>;
+            compliant: |
+              // This component ONLY re-renders when the user's name changes.
+              const userName = useSelector((state: RootState) => state.auth.user.name);
+              return <Text>{userName}</Text>;
+          # JavaScript examples
+          - non_compliant: |
+              // This component re-renders whenever ANY user property changes (e.g. email).
+              const user = useSelector((state) => state.auth.user);
+              return <Text>{user.name}</Text>;
+            compliant: |
+              // This component ONLY re-renders when the user's name changes.
+              const userName = useSelector((state) => state.auth.user.name);
+              return <Text>{userName}</Text>;
+
+      - title: "Keep State Minimal: Exclude Redundant or Computed Data"
+        description: |
+          The global store must not contain data that can be calculated from other existing state.
+        software_version: all
+        severity: medium
+        required_context: multi-file
+        impact: |
+          Storing derived data can lead to state synchronization bugs where the derived value becomes out of sync with its source. It also increases the complexity of the state tree.
+        code_examples:
+          # TypeScript examples
+          - non_compliant: |
+              // The store unnecessarily keeps track of the item count.
+              // cartSlice.ts
+              const initialState = { items: [], itemCount: 0 };
+              const cartSlice = createSlice({ /* reducer must manually update both */ });
+            compliant: |
+              // The store only holds the source of truth.
+              // cartSlice.ts
+              const initialState = { items: [] };
+
+              // The item count is derived with a selector when needed.
+              // selectors.ts
+              export const selectItemCount = (state: RootState) => state.cart.items.length;
+          # JavaScript examples
+          - non_compliant: |
+              // The store unnecessarily keeps track of the item count.
+              // cartSlice.js
+              const initialState = { items: [], itemCount: 0 };
+            compliant: |
+              // The store only holds the source of truth.
+              // cartSlice.js
+              const initialState = { items: [] };
+
+              // The item count is derived with a selector when needed.
+              // selectors.js
+              export const selectItemCount = (state) => state.cart.items.length;
+
+      - title: "Write State Reducers as Pure Functions Without Side Effects"
+        description: |
+          State update logic must be written as pure functions without side effects.
+        software_version: all
+        reference_link: https://redux.js.org/tutorials/fundamentals/part-3-state-actions-reducers#writing-reducers
+        severity: medium
+        required_context: single-file
+        impact: |
+          Impure reducers are unpredictable and extremely difficult to test reliably. Pure functions are deterministic: given the same state and action, they always produce the same new state.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // This reducer is impure due to the Date.now() side effect.
+              const impureReducer = (state, action) => {
+                  return { ...state, createdAt: Date.now() };
+              };
+            compliant: |
+              // This reducer is pure; the timestamp is provided in the action.
+              const pureReducer = (state, action) => {
+                  return { ...state, createdAt: action.payload.timestamp };
+              };
+
+      - title: "Avoid Mutating State Directly — Treat All State as Immutable"
+        description: |
+          State update logic must not mutate state directly.
+        software_version: '0.59.0' # Relies on React Hooks (useState)
+        reference_link: https://react.dev/learn/updating-objects-in-state#treat-state-as-read-only
+        severity: high
+        required_context: single-file
+        impact: |
+          Directly mutating state is the most common cause of bugs in state-managed applications. It leads to unpredictable UI behavior and breaks memoization, causing unnecessary re-renders.
+        code_examples:
+          # TypeScript examples
+          - non_compliant: |
+              // Direct mutation of an array in component state.
+              const handleAddItem = (item: Item) => {
+                const newItems = items; // This is a reference, not a copy!
+                newItems.push(item);
+                setItems(newItems);
+              };
+            compliant: |
+              // Correctly creating a new array.
+              const handleAddItem = (item: Item) => {
+                setItems([...items, item]);
+              };
+          # JavaScript examples
+          - non_compliant: |
+              // Direct mutation of an array in component state.
+              const handleAddItem = (item) => {
+                const newItems = items; // This is a reference, not a copy!
+                newItems.push(item);
+                setItems(newItems);
+              };
+            compliant: |
+              // Correctly creating a new array.
+              const handleAddItem = (item) => {
+                setItems([...items, item]);
+              };
+
+      - title: "Persist Only Essential, Non-Sensitive State Selectively"
+        description: |
+          When using a persistence library, a whitelist (`allowlist`) must be used to explicitly select which parts of the store to persist.
+        software_version: all
+        reference_link: https://github.com/rt2zz/redux-persist#whitelist
+        severity: high
+        required_context: multi-file
+        impact: |
+          Persisting the entire state can leak sensitive data, introduce bugs when the state shape changes, and severely slow down application startup by loading large, unnecessary data.
+        code_examples:
+          # TypeScript examples
+          - non_compliant: |
+              // Persisting the entire Redux store, including transient state like `isLoading`.
+              import { persistStore } from 'redux-persist';
+              persistStore(store);
+            compliant: |
+              // Using a whitelist to persist only the 'auth' and 'settings' slices.
+              import { persistReducer } from 'redux-persist';
+              import AsyncStorage from '@react-native-async-storage/async-storage';
+              
+              const persistConfig = {
+                storage: AsyncStorage,
+                key: 'root',
+                whitelist: ['auth', 'settings'], // or `allowlist`
+              };
+              const persistedReducer = persistReducer(persistConfig, rootReducer);
+          # JavaScript examples
+          - non_compliant: |
+              // Persisting the entire Redux store, including transient state like `isLoading`.
+              import { persistStore } from 'redux-persist';
+              persistStore(store);
+            compliant: |
+              // Using a whitelist to persist only the 'auth' and 'settings' slices.
+              import { persistReducer } from 'redux-persist';
+              import AsyncStorage from '@react-native-async-storage/async-storage';
+
+              const persistConfig = {
+                storage: AsyncStorage,
+                key: 'root',
+                whitelist: ['auth', 'settings'], // or `allowlist`
+              };
+              const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+  - name: "React Native Navigation & Deep-Linking Strategy"
+    paths:
+      # These policies apply to navigation files, native configs, and component source
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - 'app.json'
+      - 'package.json'
+    policies:
+      - title: "Standardize on React Navigation as the Primary Library"
+        description: |
+          The project must not contain more than one primary navigation library in its dependencies.
+        software_version: all
+        reference_link: https://reactnative.dev/docs/navigation
+        severity: high
+        required_context: single-file
+        impact: |
+          Using multiple navigation libraries creates a fragmented user experience, inconsistent back-button behavior, and makes deep linking nearly impossible to manage.
+        code_examples:
+          # JSON examples
+          - non_compliant: |
+              # package.json
+              {
+                "dependencies": {
+                  "@react-navigation/native": "6.1.9",
+                  "react-native-navigation": "7.37.0"
+                }
+              }
+            compliant: |
+              # package.json
+              {
+                "dependencies": {
+                  "@react-navigation/native": "6.1.9",
+                  "@react-navigation/native-stack": "6.9.17"
+                }
+              }
+
+      - title: "Implement Type-Safe Navigation and Screen Parameters"
+        description: |
+          Navigators and screens must be strongly typed using a central type definition for all route names and their parameters.
+        software_version: '0.63.0' # Corresponds to React Navigation v5+ adoption
+        reference_link: https://reactnavigation.org/docs/typescript/
+        severity: high
+        required_context: multi-file
+        impact: |
+          Without type safety, developers can easily misspell route names or pass incorrect data between screens, leading to runtime crashes. A typed navigation system catches these errors at compile time.
+        code_examples:
+          # TypeScript examples
+          - non_compliant: |
+              // Navigating with a magic string and untyped params.
+              navigation.navigate('UserProfile', { userId: 123 });
+            compliant: |
+              // types.ts
+              export type RootStackParamList = {
+                Home: undefined;
+                UserProfile: { userId: string };
+              };
+
+              // The navigation hook is now strongly typed.
+              const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+              navigation.navigate('UserProfile', { userId: '123' });
+
+      - title: "Centralize Deep Linking Configuration in the Root Navigation Container"
+        description: |
+          Deep linking configuration must be centralized in the `linking` prop of the top-level `NavigationContainer`.
+        software_version: '0.63.0' # Corresponds to React Navigation v5+ adoption
+        reference_link: https://reactnavigation.org/docs/deep-linking
+        severity: high
+        required_context: multi-file
+        impact: |
+          An unconfigured or fragmented deep linking strategy prevents the app from being opened via URLs, which is critical for notifications and marketing campaigns.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // NavigationContainer is missing the linking prop.
+              <NavigationContainer>
+                <AppNavigator />
+              </NavigationContainer>
+            compliant: |
+              // Linking is configured centrally with schemes and screen mappings.
+              const linkingConfig = {
+                prefixes: ['myapp://', 'https://app.example.com'],
+                config: { screens: { UserProfile: 'users/:userId' } },
+              };
+              <NavigationContainer linking={linkingConfig}>
+                <AppNavigator />
+              </NavigationContainer>
+
+      - title: "Use Native Stack Navigator for Optimal Performance and UX"
+        description: |
+          The native-backed stack navigator (`@react-navigation/native-stack`) should be used over the JavaScript-based stack navigator (`@react-navigation/stack`).
+        software_version: '0.65.0' # Corresponds to React Navigation v6+ adoption
+        reference_link: https://reactnavigation.org/docs/native-stack-navigator/
+        severity: high
+        required_context: single-file
+        impact: |
+          The native stack navigator uses native platform navigation components, providing significantly better performance, smoother animations, and correct system gestures out of the box.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              import { createStackNavigator } from '@react-navigation/stack';
+              const Stack = createStackNavigator();
+            compliant: |
+              import { createNativeStackNavigator } from '@react-navigation/native-stack';
+              const Stack = createNativeStackNavigator();
+
+      - title: "Standardize Common Screen UI with `screenOptions` for React Native navigator"
+        description: |
+          Common screen UI properties must be defined once using the `screenOptions` prop on the navigator.
+        software_version: all
+        reference_link: https://reactnavigation.org/docs/stack-navigator/#screenoptions
+        severity: medium
+        required_context: single-file
+        impact: |
+          Duplicating options on every screen is repetitive and leads to an inconsistent UI. Centralizing options in `screenOptions` ensures a consistent look and feel.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              <Stack.Navigator>
+                <Stack.Screen name="Home" component={HomeScreen} options={{ headerStyle: { backgroundColor: '#fff' } }} />
+                <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerStyle: { backgroundColor: '#fff' } }} />
+              </Stack.Navigator>
+            compliant: |
+              <Stack.Navigator
+                screenOptions={{
+                  headerStyle: { backgroundColor: '#fff' },
+                }}
+              >
+                <Stack.Screen name="Home" component={HomeScreen} />
+                <Stack.Screen name="Profile" component={ProfileScreen} />
+              </Stack.Navigator>
+
+      - title: "Place Modal Screens in the Root Stack Navigator"
+        description: |
+          Screens that appear modally must be defined in the root-level stack navigator, not inside child navigators.
+        software_version: all
+        reference_link: https://reactnavigation.org/docs/modal/
+        severity: high
+        required_context: multi-file
+        impact: |
+          Placing a modal inside a tab navigator results in a broken user experience where the modal appears with a tab bar at the bottom.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // The Settings modal is incorrectly nested inside the Tab navigator.
+              const TabNavigator = () => (
+                <Tab.Navigator>
+                  <Tab.Screen name="Settings" component={SettingsModal} />
+                </Tab.Navigator>
+              );
+            compliant: |
+              // The Settings modal is correctly placed in the root stack.
+              const RootStackNavigator = () => (
+                <Stack.Navigator>
+                  <Stack.Screen name="Main" component={TabNavigator} />
+                  <Stack.Screen name="Settings" component={SettingsModal} options={{ presentation: 'modal' }} />
+                </Stack.Navigator>
+              );
+
+      - title: "Secure Deep Links by Validating Parameters"
+        description: |
+          Data received from deep link parameters must be treated as untrusted user input and be validated or sanitized before use.
+        software_version: '0.59.0' # Relies on React Hooks (useEffect)
+        reference_link: https://reactnavigation.org/docs/linking/
+        severity: high
+        required_context: multi-file
+        impact: |
+          Failing to validate parameters from a deep link can lead to security vulnerabilities or application crashes if the data is in an unexpected format.
+        code_examples:
+          # TypeScript examples
+          - non_compliant: |
+              // The userId from the route is used directly without validation.
+              const UserProfile = ({ route }: any) => {
+                const { userId } = route.params;
+                useEffect(() => { api.fetchUser(userId); }, [userId]);
+              };
+            compliant: |
+              // The userId is validated before use.
+              const UserProfile = ({ route }: any) => {
+                const { userId } = route.params;
+                useEffect(() => { if (isValidUUID(userId)) { api.fetchUser(userId); } }, [userId]);
+              };
+          # JavaScript examples
+          - non_compliant: |
+              // The userId from the route is used directly without validation.
+              const UserProfile = ({ route }) => {
+                const { userId } = route.params;
+                useEffect(() => { api.fetchUser(userId); }, [userId]);
+              };
+            compliant: |
+              // The userId is validated before use.
+              const UserProfile = ({ route }) => {
+                const { userId } = route.params;
+                useEffect(() => { if (isValidUUID(userId)) { api.fetchUser(userId); } }, [userId]);
+              };
+
+      - title: "Reset Stack After Login/Logout to Prevent Back Navigation"
+        description: |
+          The navigation stack must be reset after a user logs in or logs out.
+        software_version: '0.63.0' # Corresponds to React Navigation v5+ adoption
+        reference_link: https://reactnavigation.org/docs/auth-flow
+        severity: high
+        required_context: single-file
+        impact: |
+          Failing to reset the navigation stack creates a broken user experience. Users can get into invalid states, such as accessing authenticated content after logging out by pressing the back button.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // User logs in and can press 'back' to return to the Login screen.
+              const onLoginSuccess = () => {
+                navigation.navigate('Dashboard');
+              };
+            compliant: |
+              // The navigation state is completely replaced, clearing the auth flow history.
+              const onLoginSuccess = () => {
+                navigation.reset({ index: 0, routes: [{ name: 'Dashboard' }] });
+              };
+
+      - title: "Pass Only Serializable Data as parameters between screens"
+        description: |
+          Only serializable data types (strings, numbers, booleans, plain objects/arrays) must be passed as parameters between screens.
+        software_version: all
+        reference_link: https://reactnavigation.org/docs/troubleshooting#i-get-the-warning-non-serializable-values-were-found-in-the-navigation-state
+        severity: high
+        required_context: single-file
+        impact: |
+          Passing non-serializable data like functions or class instances breaks core navigation features like state persistence and deep linking.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // Passing a non-serializable function as a param. This will fail on reload.
+              navigation.navigate('UserProfile', {
+                onDelete: () => deleteUser(userId),
+              });
+            compliant: |
+              // Passing only a serializable ID. The screen itself contains the delete logic.
+              navigation.navigate('UserProfile', {
+                userId: '123',
+              });
+
+      - title: "Pause Heavy Operations on Unfocused Screens"
+        description: |
+          Heavy operations on a screen must be paused when the screen is not in focus, using the `useIsFocused` hook.
+        software_version: '0.63.0' # Corresponds to React Navigation v5+ adoption
+        reference_link: https://reactnavigation.org/docs/function-after-focusing-screen/
+        severity: medium
+        required_context: single-file
+        impact: |
+          Without this optimization, hidden screens can continue to run expensive tasks in the background, consuming significant CPU and memory resources and increasing battery drain.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // This video continues playing even when the user navigates to another tab.
+              const VideoScreen = () => {
+                return <VideoPlayer source={{}} playing={true} />;
+              };
+            compliant: |
+              import { useIsFocused } from '@react-navigation/native';
+
+              // The video correctly pauses when the screen is not focused.
+              const VideoScreen = () => {
+                const isFocused = useIsFocused();
+                return <VideoPlayer source={{}} playing={isFocused} />;
+              };
+
+  - name: "React Native Styling, Theming & Design Systems"
+    paths:
+      - '**/*.jsx'
+      - '**/*.tsx'
+      - '**/*.jsx'
+      - '**/*.tsx'
+    policies:
+      - title: "Avoid Using Inline Styles for Theming and Layout"
+        description: |
+          Inline styles (`style={{...}}`) must not be used for component layout or theming.
+        software_version: all
+        reference_link: https://reactnative.dev/docs/stylesheet
+        severity: high
+        required_context: single-file
+        impact: |
+          Inline styles are not optimized by React Native, leading to performance degradation. They are not reusable, cannot be themed, and make the component's render logic cluttered.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              import React from 'react';
+              import { View, Text } from 'react-native';
+
+              // Inline styles are used directly, which is not performant or reusable.
+              const UserCard = () => {
+                return (
+                  <View style={{ padding: 10, backgroundColor: '#f0f0f0', borderRadius: 8 }}>
+                    <Text>User Name</Text>
+                  </View>
+                );
+              };
+            compliant: |
+              import React from 'react';
+              import { View, Text, StyleSheet } from 'react-native';
+
+              // Styles are defined once using StyleSheet.create for performance and reusability.
+              const UserCard = () => {
+                return (
+                  <View style={styles.card}>
+                    <Text>User Name</Text>
+                  </View>
+                );
+              };
+              const styles = StyleSheet.create({
+                card: {
+                  padding: 10,
+                  backgroundColor: '#f0f0f0',
+                  borderRadius: 8,
+                },
+              });
+
+      - title: "Use Design Tokens Instead of Hardcoded Style Values"
+        description: |
+          Color, spacing, and font values must be defined as design tokens in a central theme file and not hardcoded in components.
+        software_version: all
+        reference_link: https://uxdesign.cc/design-tokens-cheatsheet-927fc1404099
+        severity: medium
+        required_context: multi-file
+        impact: |
+          Hardcoded values lead to an inconsistent UI and make rebranding or theme changes nearly impossible. A central token file is the single source of truth for the design system.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // Hardcoded values are used directly in the component's styles.
+              const styles = StyleSheet.create({
+                container: { padding: 16, backgroundColor: '#FFFFFF' },
+                title: { fontSize: 24, color: '#111827' }
+              });
+            compliant: |
+              // Values are referenced from a central theme object.
+              import { theme } from '@/theme';
+              const styles = StyleSheet.create({
+                container: { padding: theme.spacing.m, backgroundColor: theme.colors.background },
+                title: { fontSize: theme.typography.h1, color: theme.colors.textPrimary }
+              });
+
+      - title: "Provide Dark Mode Support with Dynamic Theming"
+        description: |
+          The application must support both light and dark color schemes by applying the correct color tokens dynamically.
+        software_version: '0.62.0' # Relies on Appearance API and useColorScheme hook
+        reference_link: https://reactnative.dev/docs/appearance
+        severity: medium
+        required_context: multi-file
+        impact: |
+          Lack of dark mode support is a major UX failure. It can cause eye strain in low-light environments and violates user expectations on modern platforms.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // Colors are hardcoded, ignoring the device's theme.
+              const styles = StyleSheet.create({
+                container: { backgroundColor: '#FFFFFF' },
+                text: { color: '#000000' },
+              });
+            compliant: |
+              // A theme hook provides the correct colors for the current scheme.
+              const ThemedComponent = () => {
+                const { colors } = useTheme();
+                return <View style={{ backgroundColor: colors.background }} />;
+              };
+
+      - title: "Use Flexbox instead of Fixed Dimensions for Responsive Layouts"
+        description: |
+          Flexbox must be used for layout structure; fixed `width` and `height` values in pixels for main containers are not permitted.
+        software_version: all
+        reference_link: https://reactnative.dev/docs/flexbox
+        severity: medium
+        required_context: single-file
+        impact: |
+          Hardcoded pixel layouts look good on one device size but break on others, leading to overflowing content or awkward empty space.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              import React from 'react';
+              import { View, StyleSheet } from 'react-native';
+
+              // This component's layout is fixed and will not adapt to different screen sizes.
+              const FixedScreen = () => {
+                return <View style={styles.container} />;
+              };
+
+              const styles = StyleSheet.create({
+                container: {
+                  width: 375, // Using a fixed width is not responsive.
+                  backgroundColor: 'lightblue',
+                },
+              });
+            compliant: |
+              import React from 'react';
+              import { View, StyleSheet } from 'react-native';
+              
+              // This component's layout uses Flexbox and will fill the available space.
+              const ResponsiveScreen = () => {
+                return <View style={styles.container} />;
+              };
+
+              const styles = StyleSheet.create({
+                container: {
+                  flex: 1, // Using flex: 1 allows the container to be responsive.
+                  backgroundColor: 'lightgreen',
+                },
+              });
+
+      - title: "Define StyleSheets Outside of the Component Render Function for Better Performance"
+        description: |
+          StyleSheet objects created with `StyleSheet.create` must be defined outside the body of a functional component.
+        software_version: all
+        reference_link: https://reactnative.dev/docs/stylesheet#createstyle-object
+        severity: high
+        required_context: single-file
+        impact: |
+          Defining a StyleSheet inside the render function causes it to be re-created on every render, negating its performance benefits and degrading performance.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              const MyComponent = () => {
+                // This style object is re-created on every render.
+                const styles = StyleSheet.create({ container: { flex: 1 } });
+                return <View style={styles.container} />;
+              };
+            compliant: |
+              const MyComponent = () => <View style={styles.container} />;
+              // The StyleSheet object is defined once, outside the component.
+              const styles = StyleSheet.create({ container: { flex: 1 } });
+
+  - name: "React Native Performance Optimization"
+    paths:
+      # These policies apply to all source files and native build configurations
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - 'android/app/build.gradle'
+      - 'ios/Podfile'
+      - 'babel.config.js'
+    policies:
+      - title: "Memoize Components to Prevent Unnecessary Re-Renders"
+        description: |
+          Components used as `renderItem` props in lists must be wrapped in `React.memo`.
+        software_version: '0.59.0' # Relies on React.memo
+        reference_link: https://react.dev/reference/react/memo
+        severity: high
+        required_context: single-file
+        impact: |
+          Without memoization, list items re-render every time their parent component re-renders, even if their own props haven't changed. This is a primary cause of slow and janky UI in lists.
+        code_examples:
+          # TypeScript examples
+          - non_compliant: |
+              const ListItem = ({ item }: { item: any }) => <Text>{item.name}</Text>;
+              const MyList = ({ data }) => <FlatList data={data} renderItem={({item}) => <ListItem item={item} />} />;
+            compliant: |
+              import React from 'react';
+              const ListItem = React.memo(({ item }: { item: any }) => <Text>{item.name}</Text>);
+              const MyList = ({ data }) => <FlatList data={data} renderItem={({item}) => <ListItem item={item} />} />;
+          # JavaScript examples
+          - non_compliant: |
+              const ListItem = ({ item }) => <Text>{item.name}</Text>;
+              const MyList = ({ data }) => <FlatList data={data} renderItem={({item}) => <ListItem item={item} />} />;
+            compliant: |
+              import React from 'react';
+              const ListItem = React.memo(({ item }) => <Text>{item.name}</Text>);
+              const MyList = ({ data }) => <FlatList data={data} renderItem={({item}) => <ListItem item={item} />} />;
+
+      - title: "Leverage Native Driver in Animated API for Smooth Performance"
+        description: |
+          Animations created with React Native's `Animated` API must use the `useNativeDriver: true` flag.
+        software_version: all
+        reference_link: https://reactnative.dev/docs/animations#usenativedriver
+        severity: high
+        required_context: single-file
+        impact: |
+          Using the native driver offloads animation work from the JavaScript thread to the UI thread, ensuring animations remain smooth even if the JS thread is busy.
+        code_examples:
+          # JavaScript examples
+          - non_compliant: |
+              // Animation runs on the JS thread, which can become janky.
+              Animated.timing(fadeAnim, {
+                toValue: 1,
+                duration: 500,
+                useNativeDriver: false,
+              }).start();
+            compliant: |
+              // Animation runs on the native UI thread, ensuring smoothness.
+              Animated.timing(fadeAnim, {
+                toValue: 1,
+                duration: 500,
+                useNativeDriver: true,
+              }).start();
+
+      - title: "Use FlatList or SectionList Instead of ScrollView for Large or Dynamic Lists"
+        description: |
+          Dynamic lists must be rendered using `FlatList` or `SectionList`, not mapped manually inside a `ScrollView`.
+        software_version: all
+        reference_link: https://reactnative.dev/docs/optimizing-flatlist-configuration
+        severity: high
+        required_context: single-file
+        impact: |
+          Mapping inside a `ScrollView` renders every item at once, causing extreme memory usage and poor performance for long lists. `FlatList` uses virtualization to render only visible items.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              <ScrollView>
+                {data.map(item => <MyListItem key={item.id} item={item} />)}
+              </ScrollView>
+            compliant: |
+              <FlatList
+                data={data}
+                renderItem={({ item }) => <MyListItem item={item} />}
+                keyExtractor={item => item.id}
+              />
+
+      - title: "Enable the Hermes JavaScript Engine for Performance Optimization"
+        description: |
+          The Hermes engine must be enabled for all production builds of a React Native application.
+        software_version: '0.70.0' # Hermes became the default engine
+        reference_link: https://reactnative.dev/docs/hermes
+        severity: low
+        required_context: multi-file
+        impact: |
+          Hermes is a JavaScript engine optimized for React Native. It significantly improves app startup time, reduces memory usage, and decreases app size.
+        code_examples:
+          # Gradle example
+          - non_compliant: |
+              // android/app/build.gradle
+              project.ext.react = [
+                enableHermes: false
+              ]
+            compliant: |
+              // android/app/build.gradle
+              project.ext.react = [
+                enableHermes: true
+              ]
+          # Ruby example
+          - non_compliant: |
+              # ios/Podfile
+              use_react_native!(
+                :path => config[:reactNativePath],
+                :hermes_enabled => false
+              )
+            compliant: |
+              # ios/Podfile
+              use_react_native!(
+                :path => config[:reactNativePath],
+                :hermes_enabled => true
+              )
+
+      - title: "Improve FlatList Performance with `getItemLayout` for Fixed-Height Items"
+        description: |
+          The `getItemLayout` prop must be provided to `FlatList` components that render items of a fixed height.
+        software_version: all
+        reference_link: https://reactnative.dev/docs/optimizing-flatlist-configuration#getitemlayout
+        severity: medium
+        required_context: single-file
+        impact: |
+          Providing `getItemLayout` allows `FlatList` to calculate item positions without rendering them, dramatically improving scroll performance and the accuracy of the scrollbar.
+        code_examples:
+          # TypeScript examples
+          - non_compliant: |
+              // FlatList has to render items to know their layout.
+              <FlatList
+                data={data}
+                renderItem={renderItem}
+              />
+            compliant: |
+              // FlatList can calculate layout without rendering, improving performance.
+              const ITEM_HEIGHT = 100;
+              <FlatList
+                data={data}
+                renderItem={renderItem}
+                getItemLayout={(data, index) => (
+                  { length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index }
+                )}
+              />
+          # JavaScript examples
+          - non_compliant: |
+              // FlatList has to render items to know their layout.
+              <FlatList
+                data={data}
+                renderItem={renderItem}
+              />
+            compliant: |
+              // FlatList can calculate layout without rendering, improving performance.
+              const ITEM_HEIGHT = 100;
+              <FlatList
+                data={data}
+                renderItem={renderItem}
+                getItemLayout={(data, index) => (
+                  { length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index }
+                )}
+              />
+
+      - title: "Prevent Unnecessary Renders by Memoizing Functions Passed as Props"
+        description: |
+          Functions passed as props to memoized child components must be wrapped in the `useCallback` hook.
+        software_version: '0.59.0' # Relies on React Hooks (useCallback)
+        reference_link: https://react.dev/reference/react/useCallback
+        severity: medium
+        required_context: single-file
+        impact: |
+          A new function reference is created on every render, causing child components to re-render even if they are memoized. `useCallback` provides a stable function reference.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              const Parent = () => {
+                const handlePress = () => {};
+                return <MemoizedButton onPress={handlePress} />;
+              };
+            compliant: |
+              const Parent = () => {
+                const handlePress = useCallback(() => {}, []);
+                return <MemoizedButton onPress={handlePress} />;
+              };
+
+      - title: "Remove `console` Statements from Production Builds by Configuring Build Tooling"
+        description: |
+          `console` statements must be removed from production builds.
+        software_version: all
+        severity: medium
+        required_context: multi-file
+        impact: |
+          `console` calls are synchronous and can block the JavaScript thread, especially when logging large objects, leading to noticeable performance issues.
+        code_examples:
+          - non_compliant: |
+              // babel.config.js is missing the plugin.
+              module.exports = {
+                presets: ['babel-preset-expo'],
+              };
+            compliant: |
+              // babel.config.js includes the plugin to strip consoles in production.
+              module.exports = function(api) {
+                api.cache(true);
+                const plugins = [];
+                if (process.env.NODE_ENV === 'production') {
+                  plugins.push('transform-remove-console');
+                }
+                return { presets: ['babel-preset-expo'], plugins };
+              };
+
+      - title: "Defer Heavy Computation Until Post-Transition with InteractionManager"
+        description: |
+          Heavy operations that occur after a navigation transition must be deferred using `InteractionManager.runAfterInteractions()`.
+        software_version: all
+        reference_link: https://reactnative.dev/docs/interactionmanager
+        severity: high
+        required_context: single-file
+        impact: |
+          Running heavy computations immediately after navigation can block the JavaScript thread, causing animations to become janky or freeze. `InteractionManager` ensures these tasks run only after interactions are complete.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // This heavy data fetch starts immediately, potentially freezing the transition.
+              useEffect(() => {
+                fetchComplexDashboardData();
+              }, []);
+            compliant: |
+              import { InteractionManager } from 'react-native';
+              // The data fetch is deferred until after the screen transition animation is finished.
+              useEffect(() => {
+                InteractionManager.runAfterInteractions(() => {
+                  fetchComplexDashboardData();
+                });
+              }, []);
+
+      - title: "Avoid Heavy Synchronous Work During App Startup"
+        description: |
+          The application's initial rendering path must not contain heavy synchronous computations or slow I/O operations.
+        software_version: '0.59.0' # Relies on React Hooks (useState, useEffect)
+        severity: high
+        required_context: multi-file
+        impact: |
+          Any slow, synchronous work in the app's startup sequence directly increases the Time To Interactive (TTI), making the app feel slow to launch.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // This synchronous, potentially slow operation blocks the app from rendering.
+              const initialUserSettings = JSON.parse(mmkv.getString('user-settings'));
+              const App = () => <RootNavigator initialSettings={initialUserSettings} />;
+            compliant: |
+              // The app renders a loading state immediately, then hydrates state asynchronously.
+              const App = () => {
+                const [settings, setSettings] = useState(null);
+                useEffect(() => {
+                  const loadSettings = async () => {
+                    const s = await readSettingsFromStorage();
+                    setSettings(s);
+                  };
+                  loadSettings();
+                }, []);
+                if (!settings) return <SplashScreen />;
+                return <RootNavigator initialSettings={settings} />;
+              };
+
+  - name: "React Native Security & Data Protection"
+    paths:
+      # These policies apply to all source files and native build configurations
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - 'android/app/src/main/AndroidManifest.xml'
+      - 'ios/Info.plist'
+      - 'metro.config.js'
+    policies:
+      - title: "Store Sensitive Data in the Secure Keychain, Not AsyncStorage"
+        description: |
+          Sensitive data must be stored in the platform's secure enclave or keychain; `AsyncStorage` must not be used.
+        software_version: all
+        reference_link: https://reactnative.dev/docs/security#storing-sensitive-info
+        severity: mandatory
+        required_context: single-file
+        impact: |
+          Storing sensitive data in `AsyncStorage` is equivalent to saving it in a plain text file. If the device is compromised, this data is easily stolen.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              import AsyncStorage from '@react-native-async-storage/async-storage';
+              await AsyncStorage.setItem('@authToken', token);
+            compliant: |
+              import * as SecureStore from 'expo-secure-store';
+              await SecureStore.setItemAsync('authToken', token);
+
+      - title: "Enforce HTTPS-Only Network Communication"
+        description: |
+          All network requests to external APIs must use the HTTPS protocol.
+        software_version: all
+        reference_link: 
+          - https://reactnative.dev/docs/network
+          - https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Strict-Transport-Security
+        severity: mandatory
+        required_context: single-file
+        impact: |
+          Using HTTP allows attackers on the same network to easily read or modify all data sent between the app and the server (Man-in-the-Middle attack).
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              fetch('http://api.example.com/user/data');
+            compliant: |
+              fetch('https://api.example.com/user/data');
+
+      - title: "Prevent Sensitive Data Exposure in App Snapshots"
+        description: |
+          The application must prevent the operating system from taking a screenshot of its last state for the app switcher.
+        software_version: all
+        reference_link: https://reactnative.dev/docs/security#preventing-screenshots
+        severity: mandatory
+        required_context: single-file
+        impact: |
+          The OS app switcher displays a snapshot of the app's last screen. If this screen contained sensitive information, that data is exposed to anyone with physical access to the phone.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // No specific protection is implemented.
+              const App = () => <RootNavigator />;
+            compliant: |
+              // A library component is used to hide the app content when backgrounded.
+              import PrivacyScreen from 'react-native-privacy-screen';
+              const App = () => (
+                <PrivacyScreen>
+                  <RootNavigator />
+                </PrivacyScreen>
+              );
+
+      - title: "Use Standard Cryptography Libraries Instead of Custom Implementations"
+        description: |
+          All cryptographic operations must be performed using well-vetted, standard libraries.
+        software_version: all
+        severity: high
+        required_context: single-file
+        impact: |
+          Cryptography is extremely difficult to implement correctly. Custom algorithms are almost certain to contain critical flaws that can be exploited by attackers.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // A hand-rolled, insecure "encryption" function.
+              const myEncrypt = (text) => text.split('').reverse().join('');
+            compliant: |
+              import { pbkdf2 } from 'react-native-crypto';
+              // Using a standard, battle-tested cryptographic function.
+              pbkdf2('password', 'salt', 100000, 64, 'sha512', (err, key) => {});
+
+      - title: "Secure WebViews by Limiting Origins to Trusted HTTPS Domains"
+        description: |
+          `WebView` components must only load content from whitelisted HTTPS domains using the `originWhitelist` prop.
+        software_version: all
+        reference_link: 
+          - https://archive.reactnative.dev/docs/0.57/webview
+          - https://owasp.org/www-community/attacks/xss/
+        severity: medium
+        required_context: single-file
+        impact: |
+          An improperly configured `WebView` can be a significant attack vector, allowing for cross-site scripting (XSS) attacks that can steal user session data.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // This WebView can load any URL, including malicious ones.
+              <WebView source={{ uri: someUntrustedUrl }} />
+            compliant: |
+              // This WebView is restricted to only load content from a trusted origin.
+              <WebView
+                source={{ uri: 'https://trusted.partner.com' }}
+                originWhitelist={['https://*.partner.com']}
+              />
+
+      - title: "Sanitize All Data from External Sources for React Native"
+        description: |
+          Data received from external sources must be sanitized or validated before being used for React Native Apps.
+        software_version: all
+        reference_link: https://docs.logrocket.com/reference/react-native-network
+        severity: high
+        required_context: single-file
+        impact: |
+          Failing to sanitize external input is the root cause of many vulnerabilities, including injection attacks and crashes from malformed data.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // The 'url' from a QR code is used directly without validation.
+              const onQRCodeScanned = ({ data }) => {
+                Linking.openURL(data);
+              };
+            compliant: |
+              // The 'url' is validated against a whitelist before being used.
+              const onQRCodeScanned = ({ data }) => {
+                if (isUrlWhitelisted(data)) {
+                  Linking.openURL(data);
+                } else {
+                  Alert.alert('Invalid URL');
+                }
+              };
+
+      - title: "Prevent Logging Personally Identifiable or Sensitive Data for security concerns"
+        description: |
+          Logging functions must not be called with sensitive data, including user objects, tokens, or PII.
+        software_version: all
+        reference_link: https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html
+        severity: mandatory
+        required_context: single-file
+        impact: |
+          Device logs can be accessed by other applications or exfiltrated by malware. Logging sensitive data creates a significant data leak vector.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // Logging the entire user object, which may contain sensitive PII.
+              console.log('User logged in:', userObject);
+            compliant: |
+              // Logging only non-sensitive identifiers for debugging purposes.
+              console.log(`User logged in with ID: ${userObject.id}`);
+
+      - title: "Prohibit Hardcoding Secrets and API Keys in Source Code"
+        description: |
+          Secrets such as API keys or encryption keys must not be hardcoded as variables in source code.
+        software_version: all
+        severity: mandatory
+        required_context: single-file
+        impact: |
+          Anything hardcoded in the JavaScript bundle is easily extractable by anyone who downloads the app. Attackers can decompile the app bundle to find these secrets and attack your backend systems.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // A secret API key is hardcoded, making it easy to find.
+              const GOOGLE_MAPS_API_KEY = 'AIzaSyA...';
+            compliant: |
+              // The key is loaded from environment variables, which are injected at build time.
+              import Config from 'react-native-config';
+              const GOOGLE_MAPS_API_KEY = Config.GOOGLE_MAPS_API_KEY;
+
+  - name: "React Native Offline Support & Data Sync"
+    paths:
+      # These policies apply to all source files where data sync is handled
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+    policies:
+      - title: "Use a Local Database Instead of AsyncStorage for Offline Data"
+        description: |
+          A local database must be used for storing queryable offline data; `AsyncStorage` is forbidden for this purpose.
+        software_version: all
+        severity: medium
+        required_context: multi-file
+        impact: |
+          `AsyncStorage` is a simple key-value store and is extremely inefficient for querying or managing relational data. Using a real database is fundamental for a performant offline-first application.
+        code_examples:
+          # TypeScript examples
+          - non_compliant: |
+              // Trying to store and query a list of posts in AsyncStorage is inefficient.
+              const posts: Post[] = JSON.parse(await AsyncStorage.getItem('posts'));
+            compliant: |
+              // Using a proper database like WatermelonDB for efficient querying.
+              import { Q } from '@nozbe/watermelondb';
+              const userPosts = await database.get('posts').query(Q.where('user_id', '123')).fetch();
+          # JavaScript examples
+          - non_compliant: |
+              // Trying to store and query a list of posts in AsyncStorage is inefficient.
+              const posts = JSON.parse(await AsyncStorage.getItem('posts'));
+            compliant: |
+              // Using a proper database like WatermelonDB for efficient querying.
+              import { Q } from '@nozbe/watermelondb';
+              const userPosts = await database.get('posts').query(Q.where('user_id', '123')).fetch();
+
+      - title: "Conditionally Render UI Based on Offline and Syncing States"
+        description: |
+          The application must use network status to conditionally render UI elements that provide feedback for offline status or pending data.
+        software_version: '0.59.0' # Relies on custom hooks pattern
+        severity: medium
+        required_context: multi-file
+        impact: |
+          If users are not aware they are offline or that their data has not yet been saved, they may lose data or become confused. Clear feedback builds trust.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // A sent message appears in the list with no status indicator, even if offline.
+              const MessageItem = ({ message }) => <Text>{message.text}</Text>;
+            compliant: |
+              // A global banner is conditionally rendered when offline.
+              const App = () => {
+                const { isConnected } = useNetwork();
+                return <>{!isConnected && <OfflineBanner />}{/*...*/}</>;
+              };
+              // A list item conditionally shows its sync status.
+              const MessageItem = ({ message }) => (
+                <View>
+                  <Text>{message.text}</Text>
+                  {message.status === 'pending' && <ClockIcon />}
+                </View>
+              );
+
+      - title: "Cache Critical Images for Reliable Offline App Support"
+        description: |
+          Images required for the offline experience must be cached using a dedicated library.
+        software_version: all
+        reference_link: https://github.com/DylanVann/react-native-fast-image
+        severity: medium
+        required_context: single-file
+        impact: |
+          An app that works offline but shows no images provides a poor experience. Caching assets ensures the UI remains rich and usable without a network connection.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // Default Image component has limited caching control.
+              <Image source={{ uri: user.avatarUrl }} />
+            compliant: |
+              import FastImage from 'react-native-fast-image';
+              // FastImage provides more reliable caching for offline use.
+              <FastImage source={{ uri: user.avatarUrl }} />
+
+  - name: "React Native Native Modules & Platform APIs"
+    paths:
+      # These policies apply to JS/TS wrappers, native code, and build configurations
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - 'android/**/*'
+      - 'ios/**/*'
+    policies:
+      - title: "Use the New Architecture for New Native Modules for better App Performance"
+        description: |
+          New native modules must be implemented using the New Architecture (Turbo Modules, Fabric).
+        software_version: "0.80.2"
+        reference_link: https://reactnative.dev/docs/the-new-architecture/pillars-turbomodules
+        severity: high
+        required_context: multi-file
+        impact: |
+          The legacy bridge is asynchronous and not type-safe. Turbo Modules provide synchronous execution, static type safety through Codegen, and improved performance.
+        code_examples:
+          # Java example
+          - non_compliant: |
+              // This module uses the legacy bridge mechanism via `@ReactMethod`.
+              // MyLegacyModule.java
+              package com.myapp;
+              import com.facebook.react.bridge.ReactMethod;
+              import com.facebook.react.bridge.Promise;
+
+              public class MyLegacyModule extends ReactContextBaseJavaModule {
+                  @ReactMethod
+                  public void doSomething(Promise promise) { /* ... */ }
+              }
+            compliant: |
+              // This is the native implementation for a TurboModule. It's generated
+              // from the JSI spec and does not use legacy annotations.
+              // MyTurboModule.java
+              package com.myapp;
+              import com.facebook.fbreact.specs.NativeMyModuleSpec;
+
+              class MyTurboModule extends NativeMyModuleSpec {
+                  public void doSomething(Promise promise) { /* ... */ }
+              }
+          # TypeScript examples
+          - non_compliant: |
+              // Calling a legacy module is done through the generic NativeModules import.
+              import { NativeModules } from 'react-native';
+              const { MyLegacyModule } = NativeModules;
+              MyLegacyModule.doSomething();
+            compliant: |
+              // The JSI spec defines the type-safe interface for the new TurboModule.
+              // This file is used by Codegen to generate native stubs.
+              // js/NativeMyModule.ts
+              import type { TurboModule } from 'react-native/Libraries/TurboModule/RCTExport';
+              import { TurboModuleRegistry } from 'react-native';
+
+              export interface Spec extends TurboModule {
+                doSomething(): Promise<string>;
+              }
+              export default TurboModuleRegistry.get<Spec>('MyModule');
+
+      - title: "Handle Permissions Gracefully Before Accessing Protected Native APIs"
+        description: |
+          A permissions-checking library must be used to request permission before calling a native API that requires it.
+        software_version: all
+        referece_link: https://github.com/zoontek/react-native-permissions
+        severity: medium
+        required_context: multi-file
+        impact: |
+          Attempting to access a protected API without permission will crash the app. Failing to handle permission denial gracefully results in a dead-end user experience.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // This will crash if permission has not been granted.
+              const launchCamera = () => RNCamera.takePictureAsync();
+            compliant: |
+              import { request, PERMISSIONS, RESULTS } from 'react-native-permissions';
+              const launchCamera = async () => {
+                const result = await request(PERMISSIONS.IOS.CAMERA);
+                if (result === RESULTS.GRANTED) {
+                  RNCamera.takePictureAsync();
+                } else {
+                  Alert.alert('Permission Denied');
+                }
+              };
+
+      - title: "Prevent Memory Leaks by Cleaning Up Listeners on Unmount"
+        description: |
+          All event listeners—including those from native modules, DOM APIs, or third-party libraries—must be removed when the component unmounts.
+        software_version: '0.59.0' # Relies on React Hooks (useEffect)
+        reference_link: https://medium.com/@neelendra1destiny/how-to-prevent-memory-leaks-in-react-ed020b69ae81
+        severity: high
+        required_context: single-file
+        impact: |
+          Neglecting to clean up listeners creates memory leaks. References to the JavaScript context remain active, preventing garbage collection and degrading performance over time. This can eventually lead to app crashes.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              useEffect(() => {
+                const eventEmitter = new NativeEventEmitter(MyModule);
+                eventEmitter.addListener('onStatusChanged', (status) => {});
+                // ❌ Listener is never removed
+              }, []);
+            compliant: |
+              useEffect(() => {
+                const eventEmitter = new NativeEventEmitter(MyModule);
+                const subscription = eventEmitter.addListener('onStatusChanged', (status) => {});
+                // ✅ Listener is removed on unmount
+                return () => subscription.remove();
+              }, []);
+
+      - title: "Provide Explicit Error Codes for Native Module Failures"
+        description: |
+          Native modules must reject Promises with an `Error` object that includes a machine-readable `code`.
+        software_version: all
+        reference_link:
+          - https://reactnative.dev/docs/0.79/legacy/native-modules-android
+          - https://reactnative.dev/docs/0.79/legacy/native-modules-ios
+        severity: low
+        required_context: single-file
+        impact: |
+          Rejecting with only a string makes it impossible for the JavaScript layer to programmatically handle different types of errors. Explicit error codes allow for robust error handling.
+        code_examples:
+          # Java example
+          - non_compliant: |
+              // The Promise is rejected with a simple string.
+              promise.reject("Something went wrong");
+            compliant: |
+              // The Promise is rejected with a coded Error object.
+              promise.reject("E_NO_DEVICE", "Compatible device not found");
+
+      - title: "Check for API Availability Based on OS Version"
+        description: |
+          Code calling a platform-specific API must check the current OS version before the call.
+        software_version: all
+        reference_link: https://reactnative.dev/docs/platform-specific-code#platformos
+        severity: high
+        required_context: single-file
+        impact: |
+          Calling a native API on an older OS version where it doesn't exist will cause an immediate and unavoidable crash.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // This will crash on Android versions below 29 (Android 10).
+              const enableDarkTheme = () => MySettingsModule.setForceDark(true);
+            compliant: |
+              import { Platform } from 'react-native';
+              // This code safely checks the OS version before calling the API.
+              const enableDarkTheme = () => {
+                if (Platform.OS === 'android' && Platform.Version >= 29) {
+                  MySettingsModule.setForceDark(true);
+                }
+              };
+
+  - name: "React Native Testing Strategy"
+    paths:
+      # These policies apply to test files and configurations
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - 'jest.config.js'
+      - 'jest.setup.js'
+      - 'package.json'
+    policies:
+      - title: "Standardize on Jest and React Native Testing Library for Unit Tests"
+        description: |
+          Unit and component tests must be written using Jest and React Native Testing Library (RTL).
+        software_version: all
+        reference_link: https://testing-library.com/docs/react-native-testing-library/intro/
+        severity: high
+        required_context: multi-file
+        impact: |
+          Standardizing on a single set of tools ensures consistency, simplifies CI setup, and allows the team to build shared expertise. RTL promotes better testing practices by testing from a user's perspective.
+        code_examples:
+          # JSON examples
+          - non_compliant: |
+              # package.json
+              { "devDependencies": { "enzyme": "..." } }
+            compliant: |
+              # package.json
+              {
+                "devDependencies": {
+                  "jest": "...",
+                  "@testing-library/react-native": "..."
+                }
+              }
+
+
+      - title: "Test User-Facing Behavior Instead of Implementation Details"
+        description: |
+          Component tests must focus on user-facing behavior and not on a component's internal state or methods.
+        software_version: all
+        reference_link: https://testing-library.com/docs/guiding-principles/
+        severity: high
+        required_context: single-file
+        impact: |
+          Tests that rely on implementation details are brittle; they break during routine refactoring, even if the component's user-facing behavior hasn't changed.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // This test is brittle because it checks internal state.
+              const { instance } = render(<Counter />);
+              instance.handlePress();
+              expect(instance.state.count).toBe(1);
+            compliant: |
+              // This test is robust because it checks the user-visible output.
+              render(<Counter />);
+              const counter = screen.getByText('Count: 0');
+              fireEvent.press(screen.getByRole('button'));
+              expect(counter).toHaveTextContent('Count: 1');
+
+      - title: "Mock All External Dependencies in Unit Tests"
+        description: |
+          Unit and component tests must not make real network requests or call real native modules.
+        software_version: all
+        reference_link: https://testing-library.com/docs/react-testing-library/example-intro/#mock
+        severity: high
+        required_context: multi-file
+        impact: |
+          Real network requests make tests slow, unreliable (flaky), and dependent on external services. Mocking ensures tests are fast, deterministic, and run in isolation.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // This test will make a real API call.
+              it('displays the user name', async () => {
+                render(<UserProfile />);
+                await screen.findByText('John Doe');
+              });
+            compliant: |
+              // The API call is mocked.
+              import { api } from '@/services/api';
+              jest.mock('@/services/api');
+              it('displays the user name', async () => {
+                api.getUser.mockResolvedValue({ name: 'John Doe' });
+                render(<UserProfile />);
+                await screen.findByText('John Doe');
+              });
+
+      - title: "Use `findBy` Queries for Asynchronous UI Updates instead of waitFor"
+        description: |
+          When testing for elements that appear asynchronously, the `findBy...` family of queries from RTL must be used.
+        software_version: all
+        reference_link: https://testing-library.com/docs/queries/about/#findby
+        severity: medium
+        required_context: single-file
+        impact: |
+          `findBy` is a more concise and readable combination of `waitFor` and `getBy`, preventing race conditions and flaky tests by automatically waiting for the element to appear.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              await waitFor(() => {
+                expect(screen.getByText('John Doe')).toBeInTheDocument();
+              });
+            compliant: |
+              await screen.findByText('John Doe');
+
+      - title: "Create a Custom Render Function for Consistent Test Environments"
+        description: |
+          A custom render function must be created to wrap tests with all necessary application-level providers.
+        software_version: all
+        reference_link: https://testing-library.com/docs/react-testing-library/setup/#custom-render
+        severity: medium
+        required_context: multi-file
+        impact: |
+          Without a custom render function, tests become cluttered with repetitive provider setup and risk having inconsistent test environments, where a component might pass a test because a provider was forgotten, even though it would crash in the real app.
+        code_examples:
+          # TypeScript examples
+          - non_compliant: |
+              // Each test for a themed component requires manual, verbose setup.
+              it('renders correctly', () => {
+                render(<ThemeProvider><MyComponent /></ThemeProvider>);
+              });
+            compliant: |
+              // A dedicated utility provides a pre-configured render function.
+              // test-utils.tsx
+              const AllTheProviders = ({ children }) => (
+                <ThemeProvider><NavigationContainer>{children}</NavigationContainer></ThemeProvider>
+              );
+              const customRender = (ui) => render(ui, { wrapper: AllTheProviders });
+              
+              // The test file is now clean and simple.
+              import { render } from './test-utils';
+              render(<MyComponent />);
+          # JavaScript examples
+          - non_compliant: |
+              // Each test for a themed component requires manual, verbose setup.
+              it('renders correctly', () => {
+                render(<ThemeProvider><MyComponent /></ThemeProvider>);
+              });
+            compliant: |
+              // A dedicated utility provides a pre-configured render function.
+              // test-utils.js
+              const AllTheProviders = ({ children }) => (
+                <ThemeProvider><NavigationContainer>{children}</NavigationContainer></ThemeProvider>
+              );
+              const customRender = (ui) => render(ui, { wrapper: AllTheProviders });
+              
+              // The test file is now clean and simple.
+              import { render } from './test-utils';
+              render(<MyComponent />);
+
+  - name: "React Native Continuous Integration & Delivery"
+    paths:
+      # These policies apply to build tool configs and native project files
+      - 'eas.json'
+      - 'app.json'
+      - 'package.json'
+      - 'app.config.js'
+    policies:
+      - title: "Use EAS Build for Building and Submitting Expo Projects"
+        description: |
+          Projects using the Expo framework must include an `eas.json` file for build configuration.
+        software_version: all
+        reference_link: https://docs.expo.dev/build/introduction/
+        severity: medium
+        required_context: multi-file
+        impact: |
+          EAS is the official, integrated toolchain for Expo that handles complex native dependencies, code signing, and store submission. Building manually is unsupported and complex.
+        code_examples:
+          - non_compliant: |
+              # An Expo project's package.json lists `expo` as a dependency,
+              # but the eas.json file is missing from the project root.
+              # package.json
+              {
+                "dependencies": {
+                  "expo": "~50.0.14"
+                }
+              }
+            compliant: |
+              # An eas.json file exists, defining modern build profiles.
+              # eas.json
+              {
+                "build": {
+                  "production": {},
+                  "staging": {
+                    "distribution": "internal"
+                  }
+                }
+              }
+
+
+      - title: "Include OTA Update Configuration in app.json"
+        description: |
+          The `app.json` or `app.config.js` file must contain an `updates` object with a `url` to configure an OTA update service.
+        software_version: all
+        reference_link: https://docs.expo.dev/versions/latest/sdk/updates/
+        severity: medium
+        required_context: single-file
+        impact: |
+          OTA updates are critical for deploying urgent bug fixes rapidly. Relying solely on the app store review process can take days, leaving users with a broken app.
+        code_examples:
+          - non_compliant: |
+              # app.json has no configuration for updates.
+              {
+                "expo": {
+                  "name": "My App",
+                  "slug": "my-app"
+                }
+              }
+            compliant: |
+              # app.json (for Expo Updates)
+              {
+                "expo": {
+                  "name": "My App",
+                  "slug": "my-app",
+                  "updates": {
+                    "url": "https://u.expo.dev/YOUR_PROJECT_ID"
+                  },
+                  "runtimeVersion": {
+                    "policy": "appVersion"
+                  }
+                }
+              }
+
+  - name: "React Native Accessibility & Inclusive Design"
+    paths:
+      # These policies apply to all source files where UI is defined
+      - '**/*.jsx'
+      - '**/*.tsx'
+      - '**/*.jsx'
+      - '**/*.tsx'
+    policies:
+      - title: "Ensure Icon-Only Buttons Have Accessible Labels to Support Screen Readers"
+        description: |
+          Interactive elements without a text child must have an `accessibilityLabel` prop.
+        software_version: all
+        reference_link: https://reactnative.dev/docs/accessibility#accessibilitylabel
+        severity: high
+        required_context: single-file
+        impact: |
+          Without a label, a screen reader has no text to announce for an icon-only button. The user will hear "button" with no context, making the interface unusable.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              <TouchableOpacity onPress={openSettings}>
+                <Icon name="settings" size={24} />
+              </TouchableOpacity>
+            compliant: |
+              <TouchableOpacity onPress={openSettings} accessibilityLabel="Open application settings">
+                <Icon name="settings" size={24} />
+              </TouchableOpacity>
+
+      - title: "Expand Touch Target Size for Small Interactive Elements"
+        description: |
+          Interactive elements that are visually small must use a prop like `hitSlop` to expand their touch area.
+        software_version: all
+        reference_link: https://www.w3.org/WAI/WCAG21/Understanding/target-size.html
+        severity: high
+        required_context: single-file
+        impact: |
+          Small touch targets are a primary source of user frustration and are an accessibility barrier for users with motor impairments.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // The touchable area for this icon is too small (e.g., 20x20).
+              <TouchableOpacity>
+                <Icon name="close" size={20} />
+              </TouchableOpacity>
+            compliant: |
+              // The hitSlop prop expands the touch area without changing the layout.
+              <TouchableOpacity hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}>
+                <Icon name="close" size={20} />
+              </TouchableOpacity>
+
+      - title: "Assign an `accessibilityRole` to All Custom Interactive Elements"
+        description: |
+          Custom components that act as interactive elements must have an `accessibilityRole`.
+        software_version: all
+        reference_link: https://reactnative.dev/docs/accessibility#accessibilityrole
+        severity: high
+        required_context: single-file
+        impact: |
+          If a `Pressable` `View` looks like a button but lacks the `button` role, a screen reader user won't know they can activate it. The role is essential for communicating affordance.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              <Pressable onPress={onPress}>
+                <Text>Submit Form</Text>
+              </Pressable>
+            compliant: |
+              <Pressable onPress={onPress} accessibilityRole="button">
+                <Text>Submit Form</Text>
+              </Pressable>
+
+      - title: "Indicate Component State with `accessibilityState`"
+        description: |
+          The state of interactive components must be communicated to assistive technologies using the `accessibilityState` prop.
+        software_version: all
+        reference_link: https://reactnative.dev/docs/accessibility#accessibilitystate
+        severity: medium
+        required_context: single-file
+        impact: |
+          A user cannot know if a button is disabled or if a toggle is checked without this information, leading to confusion and preventing them from understanding the UI's current state.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // A custom switch component that doesn't announce its state.
+              <Pressable onPress={toggleSwitch}>
+                <View style={isEnabled ? styles.switchOn : styles.switchOff} />
+              </Pressable>
+            compliant: |
+              // The `checked` state is now announced to the screen reader.
+              <Pressable
+                onPress={toggleSwitch}
+                accessibilityRole="switch"
+                accessibilityState={{ checked: isEnabled }}
+              />
+
+      - title: "Allow Font Scaling for Dynamic Type Support"
+        description: |
+          The `allowFontScaling` prop on `Text` components must not be set to `false`.
+        software_version: all
+        reference_link: https://www.w3.org/WAI/WCAI/Understanding/resize-text.html
+        severity: high
+        required_context: single-file
+        impact: |
+          Failing to support Dynamic Type prevents users with low vision from scaling text to a readable size, rendering the application unusable for them.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // This text will NOT scale with the user's system settings, which is an accessibility failure.
+              <Text style={{ fontSize: 16 }} allowFontScaling={false}>
+                This text is a fixed size.
+              </Text>
+            compliant: |
+              // This text correctly scales with the user's system settings because allowFontScaling is true by default.
+              <Text style={{ fontSize: 16 }}>
+                This text is scalable.
+              </Text>
+
+      - title: "Ensure All Screens Have an Accessible Title in the Navigator"
+        description: |
+          Every screen within a navigator must have a `title` defined in its `options`.
+        software_version: all
+        severity: medium
+        required_context: single-file
+        impact: |
+          Omitting a screen title creates a major accessibility issue. Screen reader users will not know what screen they have navigated to, making the application disorienting.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // No title is provided for the screen.
+              <Stack.Screen name="UserProfile" component={UserProfileScreen} />
+            compliant: |
+              // A clear title is set, which will be announced by screen readers.
+              <Stack.Screen
+                name="UserProfile"
+                component={UserProfileScreen}
+                options={{ title: 'User Profile' }}
+              />
+
+      - title: "Use Logical Properties for Right-to-Left (RTL) Language Support"
+        description: |
+          Layout styles must use logical properties (`marginStart`) over physical properties (`marginLeft`).
+        software_version: all
+        severity: high
+        required_context: single-file
+        impact: |
+          Without proper RTL support, the UI will appear broken and be completely unusable for users of right-to-left languages like Arabic and Hebrew.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // This style will not flip correctly for RTL languages.
+              const styles = StyleSheet.create({
+                icon: { marginLeft: 10 },
+              });
+            compliant: |
+              // `marginStart` correctly adapts to the layout direction (LTR or RTL).
+              const styles = StyleSheet.create({
+                icon: { marginStart: 10 },
+              });
+
+      - title: "Flip Directional Icons Based on Layout Direction (LTR/RTL)"
+        description: |
+          Icons that imply directionality must be visually flipped when the application is in an RTL layout.
+        software_version: all
+        severity: medium
+        required_context: single-file
+        impact: |
+          A "back" arrow pointing to the left in an RTL language is confusing and visually incorrect, as the user's navigational direction is right-to-left.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // The chevron icon always points to the right.
+              <Icon name="chevron-right" />
+            compliant: |
+              import { I18nManager } from 'react-native';
+              // The icon is flipped based on the current layout direction.
+              const iconName = I18nManager.isRTL ? "chevron-left" : "chevron-right";
+              <Icon name={iconName} />
+
+      - title: "Avoid Reordering Interactive Elements with Absolute Positioning"
+        description: |
+          Interactive elements within the same container must not be reordered visually using `position: 'absolute'`.
+        software_version: all
+        reference_link: https://reactnative.dev/docs/i18nmanager
+        severity: high
+        required_context: single-file
+        impact: |
+          A user tabbing through the screen expects the focus to move logically. If focus jumps unpredictably, the app becomes disorienting and impossible to navigate without sight.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              import React from 'react';
+              import { View, Button, StyleSheet } from 'react-native';
+
+              // This component uses absolute positioning to reorder an element visually,
+              // breaking the natural focus order. Focus will go from One -> Three -> Two.
+              const IncorrectFocusOrderScreen = () => {
+                return (
+                  <View style={styles.container}>
+                    <Button title="Button One" />
+                    <Button title="Button Three" />
+                    <View style={styles.absoluteContainer}>
+                      <Button title="Button Two" />
+                    </View>
+                  </View>
+                );
+              };
+
+              const styles = StyleSheet.create({
+                container: { flex: 1, padding: 20 },
+                absoluteContainer: { position: 'absolute', top: 70, left: 20, right: 20 },
+              });
+            compliant: |
+              import React from 'react';
+              import { View, Button, StyleSheet } from 'react-native';
+
+              // This component's code order matches its visual order,
+              // ensuring a logical focus sequence (One -> Two -> Three).
+              const CorrectFocusOrderScreen = () => {
+                return (
+                  <View style={styles.container}>
+                    <Button title="Button One" />
+                    <Button title="Button Two" />
+                    <Button title="Button Three" />
+                  </View>
+                );
+              };
+
+              const styles = StyleSheet.create({
+                container: { flex: 1, padding: 20, gap: 10 },
+              });
+
+      - title: "Announce Dynamic Content Changes for Screen Reader Users"
+        description: |
+          Dynamic content changes must be announced to screen reader users using `AccessibilityInfo.announceForAccessibility`.
+        software_version: '0.59.0' # Relies on React Hooks (useState)
+        reference_link: https://reactnative.dev/docs/accessibilityinfo#announceforaccessibility
+        severity: high
+        required_context: single-file
+        impact: |
+          Sighted users can see a toast or error message appear. Without an announcement, a screen reader user has no idea that the UI has changed.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              import React, { useState } from 'react';
+              import { View, Button } from 'react-native';
+
+              // A toast appears visually, but is silent to screen readers.
+              const ToastComponent = () => {
+                const [isVisible, setIsVisible] = useState(false);
+                const showToast = () => setIsVisible(true);
+                return (
+                  <View>
+                    <Button title="Show Toast" onPress={showToast} />
+                    {isVisible && <Toast message="Action complete!" />}
+                  </View>
+                );
+              };
+            compliant: |
+              import React, { useState } from 'react';
+              import { View, Button, AccessibilityInfo } from 'react-native';
+
+              // The message is explicitly announced, making the user aware.
+              const AccessibleToastComponent = () => {
+                const [isVisible, setIsVisible] = useState(false);
+                const showToast = (message: string) => {
+                  setIsVisible(true);
+                  AccessibilityInfo.announceForAccessibility(message);
+                };
+                return (
+                  <View>
+                    <Button title="Show Toast" onPress={() => showToast('Action complete!')} />
+                    {isVisible && <Toast message="Action complete!" />}
+                  </View>
+                );
+              };
+
+      - title: "Group Related Information into a Single Accessible Element"
+        description: |
+          Elements that form a single logical group must be grouped into a single accessible element.
+        software_version: all
+        severity: medium
+        required_context: single-file
+        impact: |
+          Without grouping, a screen reader user has to swipe through each individual text element, which is tedious. Grouping them makes navigation much faster.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // User has to swipe twice to get through this item.
+              <View>
+                <Text>John Doe</Text>
+                <Text>Software Engineer</Text>
+              </View>
+            compliant: |
+              // The whole block is focused at once and read together.
+              <View accessible={true}>
+                <Text>John Doe</Text>
+                <Text>Software Engineer</Text>
+              </View>
+
+      - title: "Use Visible Labels for Form Inputs"
+        description: |
+          All form `TextInput` components must have an associated, visible `Text` label.
+        software_version: all
+        reference_link: https://www.w3.org/WAI/WCAG21/Understanding/labels-or-instructions.html
+        severity: high
+        required_context: multi-file
+        impact: |
+          Without clear labels, users do not know what information to enter into a text field. This is a critical failure of usability and accessibility.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // The placeholder disappears on input, leaving the user with no context.
+              <TextInput placeholder="Your Email" />
+            compliant: |
+              // A permanent, visible label is always present.
+              <View>
+                <Text>Your Email</Text>
+                <TextInput accessibilityLabel="Your Email" />
+              </View>
+
+      - title: "Use Text Components instead of Embedding Text Inside Images"
+        description: |
+          Text must be rendered using a `Text` component, not an `Image` component.
+        software_version: all
+        reference_link: https://www.w3.org/WAI/WCAG21/Understanding/images-of-text.html
+        severity: mandatory
+        required_context: single-file
+        impact: |
+          Text within an image cannot be resized by the user's system settings, cannot be read by a screen reader, and does not reflow on different screen sizes.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // This "Welcome" message is inaccessible.
+              <Image source={require('./welcome-header.png')} />
+            compliant: |
+              // This text is accessible, scalable, and translatable.
+              <Text style={styles.header}>Welcome</Text>
+
+      - title: "Hide Purely Decorative Images from Screen Readers"
+        description: |
+          Images that are purely decorative must be hidden from the accessibility tree.
+        software_version: all
+        reference_link: https://reactnative.dev/docs/image#accessible
+        severity: high
+        required_context: single-file
+        impact: |
+          If decorative images are not hidden, a screen reader user is forced to swipe through meaningless elements (e.g., "image, graphic"), which is noisy and frustrating.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // This decorative divider will be announced by a screen reader, adding noise.
+              <Image source={require('./divider-line.png')} />
+            compliant: |
+              // This image is correctly hidden from the accessibility tree.
+              <Image source={require('./divider-line.png')} accessible={false} />
+
+  - name: "React Native Internationalization & Localization"
+    paths:
+      # These policies apply to all source files and locale files
+      - '**/*.js'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.json'
+    policies:
+      - title: "Manage Display Text Through Internationalization (i18n)"
+        description: |
+          User-facing strings must be managed through an i18n library and not hardcoded in components.
+        software_version: '0.59.0' # Relies on React Hooks (useTranslation)
+        reference_link: https://react.i18next.com/
+        severity: medium
+        required_context: single-file
+        impact: |
+          Without a central i18n library, translating the application is impossible without forking the entire codebase. It leads to an inconsistent user experience and a maintenance nightmare.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // Hardcoded string is impossible to translate.
+              const WelcomeMessage = () => <Text>Welcome to the app!</Text>;
+            compliant: |
+              import { useTranslation } from 'react-i18next';
+              // The string is fetched from a locale file using a key.
+              const WelcomeMessage = () => {
+                const { t } = useTranslation();
+                return <Text>{t('home.welcomeMessage')}</Text>;
+              };
+
+      - title: "Use Library based Interpolation Instead of String Concatenation"
+        description: |
+          Sentences must not be constructed by concatenating translated fragments.
+        software_version: all
+        reference_link: https://www.i18next.com/translation-function/interpolation
+        severity: medium
+        required_context: single-file
+        impact: |
+          Grammar and word order differ drastically between languages. Concatenating strings will result in grammatically incorrect sentences in most languages.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // This breaks in languages where word order differs.
+              <Text>{t('common.youHave')} {count} {t('common.messages')}</Text>
+            compliant: |
+              // The library handles grammar and placement of the dynamic value.
+              // en.json: { "messageCount": "You have {{count}} messages" }
+              <Text>{t('common.messageCount', { count })}</Text>
+
+      - title: "Configure a Fallback Language for Missing Translations"
+        description: |
+          The i18n library must be configured with a default fallback language.
+        software_version: all
+        reference_link: https://www.i18next.com/principles/fallback
+        severity: high
+        required_context: multi-file
+        impact: |
+          Without a fallback, missing translations break the user interface, showing raw keys like `home.welcomeMessage` or nothing at all.
+        code_examples:
+          # JavaScript examples
+          - non_compliant: |
+              // i18n.js is not configured with a fallback.
+              i18n.init({ lng: 'es', resources });
+            compliant: |
+              // The `fallbackLng` ensures English is used if a Spanish key is missing.
+              i18n.init({
+                lng: 'es',
+                resources,
+                fallbackLng: 'en',
+              });
+
+      - title: "Use i18n-aware Pluralization"
+        description: |
+          The i18n library's built-in pluralization must be used for text that changes based on quantity.
+        software_version: all
+        reference_link: https://react.i18next.com/latest/trans-component#plural
+        severity: high
+        required_context: single-file
+        impact: |
+          Many languages have complex pluralization rules beyond just "one" and "other". Manual logic will be incorrect for these languages.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // This simple ternary only works for English.
+              <Text>{count} {count === 1 ? 'message' : 'messages'}</Text>
+            compliant: |
+              // The library handles complex plural rules for all languages.
+              // en.json: { "message_one": "{{count}} message", "message_other": "{{count}} messages" }
+              <Text>{t('message', { count })}</Text>
+
+      - title: "Centralize Translation Files in a `locales` Directory"
+        description: |
+          All translation files must be organized in a single, dedicated `locales` directory.
+        software_version: all
+        severity: medium
+        required_context: multi-file
+        impact: |
+          Scattering translation files across the codebase makes them difficult for translators and developers to manage. A central directory provides a single source of truth.
+        code_examples:
+          # File structure examples
+          - non_compliant: |
+              # Locale files are scattered within feature folders.
+              # src/features/profile/en.json
+              { "title": "Profile" }
+            compliant: |
+              # All locales are centralized and organized by language.
+              # src/locales/en/main.json
+              { "profile": { "title": "Profile" } }
+
+  - name: "React Native Animations & Gesture Handling"
+    paths:
+      # These policies apply to all source files where UI and interactions are defined
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+    policies:
+      - title: "Use Reanimated for Complex or Gesture-Driven Animations"
+        description: |
+          Complex or interactive animations must be implemented using `react-native-reanimated`.
+        software_version: all
+        reference_link: https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/getting-started/
+        severity: medium
+        required_context: single-file
+        impact: |
+          Reanimated v3 runs animations on the UI thread, bypassing the JS thread bottleneck. Using the old `Animated` API for complex interactions leads to jank and dropped frames.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              import React, { useRef } from 'react';
+              import { Animated, View, PanResponder } from 'react-native';
+
+              // This uses the legacy PanResponder for an interactive animation, which runs on the JS thread.
+              // This is a violation because gesture-driven animations should use a UI-thread library.
+              const DraggableBoxLegacy = () => {
+                const pan = useRef(new Animated.ValueXY()).current;
+                const panResponder = PanResponder.create({
+                  onMoveShouldSetPanResponder: () => true,
+                  onPanResponderMove: Animated.event([null, { dx: pan.x, dy: pan.y }], { useNativeDriver: false }),
+                  onPanResponderRelease: () => {
+                    Animated.spring(pan, { toValue: { x: 0, y: 0 }, useNativeDriver: false }).start();
+                  },
+                });
+
+                return (
+                  <Animated.View
+                    {...panResponder.panHandlers}
+                    style={[pan.getLayout(), { width: 100, height: 100, backgroundColor: 'red' }]}
+                  />
+                );
+              };
+            compliant: |
+              import React from 'react';
+              import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+              import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
+              
+              // This correctly uses Gesture Handler and Reanimated, which runs on the UI thread for better performance.
+              const DraggableBoxModern = () => {
+                const translateX = useSharedValue(0);
+                const translateY = useSharedValue(0);
+
+                const pan = Gesture.Pan().onUpdate((event) => {
+                  translateX.value = event.translationX;
+                  translateY.value = event.translationY;
+                }).onEnd(() => {
+                  translateX.value = withSpring(0);
+                  translateY.value = withSpring(0);
+                });
+
+                const animatedStyle = useAnimatedStyle(() => ({
+                  transform: [{ translateX: translateX.value }, { translateY: translateY.value }],
+                }));
+
+                return (
+                  <GestureDetector gesture={pan}>
+                    <Animated.View style={[animatedStyle, { width: 100, height: 100, backgroundColor: 'blue' }]} />
+                  </GestureDetector>
+                );
+              };
+
+      - title: "Use Gesture Handler for All Touch and Gesture Recognition"
+        description: |
+          Gesture handling must be implemented using `react-native-gesture-handler`.
+        software_version: all
+        reference_link: https://docs.swmansion.com/react-native-gesture-handler/docs/
+        severity: medium
+        required_context: single-file
+        impact: |
+          Gesture Handler runs gesture recognition on the native UI thread, making it more reliable and performant than the legacy, JS-based Responder System.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // Using the legacy, JS-based Responder System.
+              <View onStartShouldSetResponder={() => true} onResponderMove={() => {}} />
+            compliant: |
+              import { GestureDetector, Gesture } from 'react-native-gesture-handler';
+              // Using the modern, native-driven Gesture Handler.
+              const pan = Gesture.Pan().onUpdate(() => {});
+              <GestureDetector gesture={pan} />;
+
+      - title: "Isolate Gesture Logic on the UI Thread Using Worklets"
+        description: |
+          Animations must be driven by shared values and animated styles; `useState` must not be used to drive animations.
+        software_version: "0.64.0" # Reanimated v2 (with worklets) adoption
+        reference_link: https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/worklets/
+        severity: mandatory
+        required_context: single-file
+        impact: |
+          Using `useState` to update styles frame-by-frame is a critical performance anti-pattern that causes constant, high-frequency traffic across the bridge, resulting in severe jank.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // This animation runs on the JS thread and will be janky.
+              const [opacity, setOpacity] = useState(0);
+              return <View style={{ opacity }} />;
+            compliant: |
+              import Animated, { useSharedValue, useAnimatedStyle } from 'react-native-reanimated';
+              // This animation runs entirely on the UI thread and is smooth.
+              const opacity = useSharedValue(0);
+              const style = useAnimatedStyle(() => ({ opacity: opacity.value }));
+              return <Animated.View style={style} />;
+
+      - title: "Offload Business Logic from the UI Thread with `runOnJS`"
+        description: |
+          Gesture event handlers running on the UI thread (worklets) must not contain complex business logic.
+        software_version: "0.64.0" # Reanimated v2 (with worklets) adoption
+        severity: high
+        required_context: single-file
+        impact: |
+          Performing heavy calculations on a worklet can block the UI thread, defeating the purpose of Reanimated and causing the gesture to freeze. `runOnJS` is the correct way to call back to the JS thread.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              const pan = Gesture.Pan().onEnd(event => {
+                'worklet';
+                // This is a slow operation that will cause a freeze on the UI thread.
+                const result = someComplexCalculation(event.translationX);
+              });
+            compliant: |
+              const pan = Gesture.Pan().onEnd(event => {
+                'worklet';
+                // The heavy lifting is correctly dispatched back to the JS thread.
+                runOnJS(someComplexCalculation)(event.translationX);
+              });
+
+      - title: "Cancel Long-Running Animations on Component Unmount"
+        description: |
+          Repeating animations must be cancelled when the component unmounts.
+        software_version: '0.59.0' # Relies on React Hooks (useEffect)
+        severity: high
+        required_context: single-file
+        impact: |
+          A running animation on an unmounted component is a memory leak. It continues to consume UI thread resources, which can degrade the performance of the entire application.
+        code_examples:
+          # TypeScript examples
+          - non_compliant: |
+              // The repeating animation continues running even after the component is gone.
+              useEffect(() => {
+                rotation.value = withRepeat(withTiming(360, { duration: 2000 }), -1);
+              }, []);
+            compliant: |
+              useEffect(() => {
+                rotation.value = withRepeat(withTiming(360, { duration: 2000 }), -1);
+                // The animation is correctly cancelled on unmount.
+                return () => cancelAnimation(rotation);
+              }, []);
+          # JavaScript examples
+          - non_compliant: |
+              // The repeating animation continues running even after the component is gone.
+              useEffect(() => {
+                rotation.value = withRepeat(withTiming(360, { duration: 2000 }), -1);
+              }, []);
+            compliant: |
+              useEffect(() => {
+                rotation.value = withRepeat(withTiming(360, { duration: 2000 }), -1);
+                // The animation is correctly cancelled on unmount.
+                return () => cancelAnimation(rotation);
+              }, []);
+
+  - name: "React Native Error Handling & Monitoring"
+    paths:
+      # These policies apply to all source files and configurations
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - 'package.json'
+    policies:
+      - title: "Integrate a Crash Reporting Service for Production Builds"
+        description: |
+          A crash reporting service must be included as a dependency and initialized in the application's root file.
+        software_version: all
+        reference_link: https://docs.sentry.io/platforms/react-native/
+        severity: high
+        required_context: multi-file
+        impact: |
+          Without a crash reporting service, you have zero visibility into fatal crashes that occur on users' devices, making it impossible to find, prioritize, and fix critical bugs.
+        code_examples:
+          # JSON examples
+          - non_compliant: |
+              # package.json
+              {
+                "dependencies": {
+                  "react-native": "..."
+                  // No Sentry or Crashlytics dependency
+                }
+              }
+            compliant: |
+              # package.json
+              {
+                "dependencies": {
+                  "@sentry/react-native": "..."
+                }
+              }
+          # TypeScript examples
+          - non_compliant: |
+              // App.tsx
+              // The application starts without initializing any crash reporter.
+              const App = () => <RootNavigator />;
+            compliant: |
+              // App.tsx
+              import * as Sentry from '@sentry/react-native';
+              Sentry.init({ dsn: 'YOUR_SENTRY_DSN' });
+
+              const App = () => <RootNavigator />;
+
+      - title: "Wrap the React Application in a Global Error Boundary"
+        description: |
+          The root of the application must be wrapped in a React Error Boundary component.
+        software_version: all
+        reference_link: https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary
+        severity: high
+        required_context: single-file
+        impact: |
+          An unhandled render error in any component can crash the entire application. An error boundary prevents this, allowing the user to recover.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // The app has no global error boundary.
+              export default function App() {
+                return <RootNavigator />;
+              }
+            compliant: |
+              // A boundary component captures errors and shows a fallback.
+              class ErrorBoundary extends React.Component {
+                constructor(props) {
+                  super(props);
+                  this.state = { hasError: false };
+                }
+                static getDerivedStateFromError(error) {
+                  return { hasError: true };
+                }
+                componentDidCatch(error, errorInfo) {
+                  console.error("Uncaught error:", error, errorInfo);
+                }
+                render() {
+                  if (this.state.hasError) {
+                    return <Text>Something went wrong.</Text>;
+                  }
+                  return this.props.children;
+                }
+              }
+              
+              // The entire app is wrapped.
+              export default function App() {
+                return <ErrorBoundary><RootNavigator /></ErrorBoundary>;
+              }
+
+      - title: "Handle All Promise Rejections to Prevent Silent Failures"
+        description: |
+          Promises must have an error handler using `.catch()` or a `try...catch` block.
+        software_version: all
+        reference_link: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch
+        severity: high
+        required_context: single-file
+        impact: |
+          An unhandled promise rejection is a common source of silent failures and can crash the application in strict environments.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              import React, { useEffect, useState } from 'react';
+              import { Text } from 'react-native';
+              import * as Sentry from '@sentry/react-native';
+              import { api } from './api';
+
+              const UserProfile = () => {
+                const [user, setUser] = useState(null);
+
+                useEffect(() => {
+                  // If api.fetchUser() rejects, the error is unhandled and may crash the app.
+                  api.fetchUser().then(userData => {
+                    setUser(userData);
+                  });
+                }, []);
+                
+                return <Text>{user?.name}</Text>;
+              };
+            compliant: |
+              import React, { useEffect, useState } from 'react';
+              import { Text } from 'react-native';
+              import * as Sentry from '@sentry/react-native';
+              import { api } from './api';
+
+              const UserProfile = () => {
+                const [user, setUser] = useState(null);
+
+                useEffect(() => {
+                  const fetchData = async () => {
+                    try {
+                      const userData = await api.fetchUser();
+                      setUser(userData);
+                    } catch (error) {
+                      // The error is correctly caught and reported.
+                      Sentry.captureException(error);
+                    }
+                  };
+                  fetchData();
+                }, []);
+                
+                return <Text>{user?.name}</Text>;
+              };
+
+      - title: "Enrich Error Reports with User and Application Context for better resolution"
+        description: |
+          The crash reporting service must be configured with a user identifier after authentication.
+        software_version: all
+        severity: medium
+        required_context: multi-file
+        impact: |
+          A raw stack trace is often not enough to reproduce a bug. Knowing which user experienced the error dramatically speeds up the debugging process.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // Sentry is initialized, but no user context is ever set.
+              Sentry.init({ dsn: '...' });
+              // ... user logs in ...
+              // No call to Sentry.setUser()
+            compliant: |
+              // After a user logs in, their ID is set globally for all future reports.
+              const onLoginSuccess = (user) => {
+                Sentry.setUser({ id: user.id });
+              };
+
+      - title: "Provide Clear and User-Friendly Fallback UI for Errors"
+        description: |
+          The UI must display a user-friendly message when an error occurs, not a raw error object.
+        software_version: all
+        severity: medium
+        required_context: single-file
+        impact: |
+          A message like "Error: Request failed with status code 500" is meaningless to a non-technical user. A good error message reduces user frustration.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              <Text>Error: {error.message}</Text>
+            compliant: |
+              <Text>Something went wrong on our end. Please try again.</Text>
+
+      - title: "Provide a Recovery Mechanism in the Global Error Boundary"
+        description: |
+          The fallback UI for an Error Boundary must provide the user with a recovery action.
+        software_version: all
+        reference_link: https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary
+        severity: medium
+        required_context: single-file
+        impact: |
+          Simply showing an error message without a way to recover traps the user on a useless screen, forcing them to manually kill and restart the app.
+        code_examples:
+          # TypeScript examples
+          - non_compliant: |
+              // This fallback UI is a dead end for the user.
+              const FallbackUI = () => (
+                <View>
+                  <Text>Oops, something went wrong.</Text>
+                </View>
+              );
+            compliant: |
+              import RNRestart from 'react-native-restart';
+              // This fallback UI gives the user a clear action to take.
+              const FallbackUI = () => (
+                <View>
+                  <Text>Oops, something went wrong.</Text>
+                  <Button
+                    title="Reload App"
+                    onPress={() => RNRestart.Restart()}
+                  />
+                </View>
+              );
+          # JavaScript examples
+          - non_compliant: |
+              // This fallback UI is a dead end for the user.
+              const FallbackUI = () => (
+                <View>
+                  <Text>Oops, something went wrong.</Text>
+                </View>
+              );
+            compliant: |
+              import RNRestart from 'react-native-restart';
+              // This fallback UI gives the user a clear action to take.
+              const FallbackUI = () => (
+                <View>
+                  <Text>Oops, something went wrong.</Text>
+                  <Button
+                    title="Reload App"
+                    onPress={() => RNRestart.Restart()}
+                  />
+                </View>
+              );
+
+  - name: "React Native Dependency & Package Management"
+    paths:
+      # These policies apply to package configs and lockfiles
+      - 'package.json'
+      - 'yarn.lock'
+      - 'package-lock.json'
+      - 'pnpm-lock.yaml'
+    policies:
+      - title: "Standardize on a Single Package Manager by Using One Lockfile"
+        description: |
+          The repository must contain only one type of lockfile (`yarn.lock`, `package-lock.json`, or `pnpm-lock.yaml`).
+        software_version: all
+        severity: high
+        required_context: single-file
+        impact: |
+          Using multiple package managers leads to non-deterministic dependency resolution, "works on my machine" bugs, and lockfile conflicts.
+        code_examples:
+          - non_compliant: |
+              # The repository contains lockfiles from multiple package managers.
+              # file-tree:
+              # - package.json
+              # - yarn.lock
+              # - package-lock.json
+            compliant: |
+              # The repository contains only one type of lockfile.
+              # file-tree:
+              # - package.json
+              # - pnpm-lock.yaml
+
+      - title: "Correctly Classify Dependencies as Production or Development"
+        description: |
+          Packages required only for development, testing, or building must be listed in `devDependencies`.
+        software_version: all
+        reference_link: https://docs.npmjs.com/cli/v8/configuring-npm/package-json#devdependencies
+        severity: high
+        required_context: single-file
+        impact: |
+          Placing development tools in the main `dependencies` block can cause them to be unnecessarily bundled into your production application, increasing its size and attack surface.
+        code_examples:
+          # JSON examples
+          - non_compliant: |
+              # package.json
+              {
+                "dependencies": {
+                  "axios": "1.6.0",
+                  "typescript": "5.1.3",
+                  "jest": "29.6.3"
+                }
+              }
+            compliant: |
+              # package.json
+              {
+                "dependencies": {
+                  "axios": "1.6.0"
+                },
+                "devDependencies": {
+                  "typescript": "5.1.3",
+                  "jest": "29.6.3"
+                }
+              }
+
+  - name: "React Native Code Quality & Maintainability"
+    paths:
+      # These policies apply to all source code and config files
+      - '**/*.js'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '.eslintrc.js'
+    policies:
+      - title: "Prohibit the Explicit Use of `any` in TypeScript"
+        description: |
+          The `any` type must not be used explicitly for variables, parameters, or return types in TypeScript code.
+        software_version: all
+        reference_link: https://typescript-eslint.io/rules/no-explicit-any/
+        severity: medium
+        required_context: single-file
+        impact: |
+          Using `any` completely disables TypeScript's type-checking for that variable, defeating the purpose of using TypeScript and introducing a major risk of runtime errors.
+        code_examples:
+          # TypeScript examples
+          - non_compliant: |
+              // This function accepts any type, making it unsafe.
+              function processData(data: any) {
+                console.log(data.name);
+              }
+            compliant: |
+              // The function uses `unknown` and performs type-checking, which is safe.
+              function processData(data: unknown) {
+                if (typeof data === 'object' && data && 'name' in data) {
+                  console.log(data.name);
+                }
+              }
+
+      - title: "Define Explicit Types for API Payloads and Complex Objects"
+        description: |
+          An explicit `interface` or `type` must be defined for all complex objects and API data structures.
+        software_version: all
+        reference_link: https://typescript-eslint.io/rules/explicit-function-return-type/
+        severity: medium
+        required_context: single-file
+        impact: |
+          Inline types are hard to read and cannot be reused. Explicitly typed structures are self-documenting, reusable, and make the codebase significantly easier to maintain.
+        code_examples:
+          # TypeScript examples
+          - non_compliant: |
+              // The shape of the user object is not clearly defined or reusable.
+              const user: { id: string; name: string; } = await api.getUser();
+            compliant: |
+              // A clear, reusable interface documents the data structure.
+              interface User {
+                id: string;
+                name: string;
+              }
+              const user: User = await api.getUser();
+
+      - title: "Remove Dead and Commented Code for Maintainability"
+        description: |
+          Code that is unreachable or commented out must not be present in source files.
+        software_version: all
+        severity: medium
+        required_context: single-file
+        impact: |
+          Commented-out code is technical debt. It clutters the codebase and confuses future developers. Version control (Git) is the correct tool for tracking historical code.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              import React from 'react';
+              import { View, Text } from 'react-native';
+
+              const UserProfile = () => {
+                // This old logic clutters the component and should be removed.
+                // const oldTitle = 'Welcome';
+                // if (user.isLegacy) { ... }
+                return (
+                  <View>
+                    <Text>User Profile</Text>
+                  </View>
+                );
+              };
+            compliant: |
+              import React from 'react';
+              import { View, Text } from 'react-native';
+
+              const UserProfile = () => {
+                // The code is clean. Old logic can be found in git history.
+                return (
+                  <View>
+                    <Text>User Profile</Text>
+                  </View>
+                );
+              };
+
+  - name: "React Native Documentation & Storybook"
+    paths:
+      # These policies apply to all source code, stories, and documentation files
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.stories.tsx'
+      - 'package.json'
+    policies:
+      - title: "Provide a Storybook Story for Components in Shared UI Directories"
+        description: |
+          Every component file within a shared UI directory (e.g., `src/components/ui/`) must have a corresponding `*.stories.tsx` file.
+        software_version: all
+        reference_link: https://storybook.js.org/tutorials/intro-to-storybook/react-native/en/get-started/
+        severity: medium
+        required_context: multi-file
+        impact: |
+          A component without a story is invisible to the rest of the team. It cannot be visually tested, reviewed, or discovered, making it useless as a shared element and likely to be re-implemented.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // A reusable Button component exists in the shared UI directory,
+              // but no corresponding story file is present.
+              // File: src/components/ui/Button.tsx
+              import React from 'react';
+              import { TouchableOpacity, Text } from 'react-native';
+
+              export const Button = ({ label }: { label: string }) => (
+                <TouchableOpacity>
+                  <Text>{label}</Text>
+                </TouchableOpacity>
+              );
+            compliant: |
+              // The Button component is accompanied by its story file in the same directory.
+              // File: src/components/ui/Button.tsx
+              import React from 'react';
+              import { TouchableOpacity, Text } from 'react-native';
+
+              export const Button = ({ label }: { label: string }) => (
+                <TouchableOpacity>
+                  <Text>{label}</Text>
+                </TouchableOpacity>
+              );
+
+              // File: src/components/ui/Button.stories.tsx
+              import type { Meta, StoryObj } from '@storybook/react';
+              import { Button } from './Button';
+
+              const meta: Meta<typeof Button> = {
+                component: Button,
+                title: 'UI/Button',
+                args: { label: 'Hello World' },
+              };
+              export default meta;
+
+              type Story = StoryObj<typeof Button>;
+              export const Primary: Story = {};
+
+  - name: "React Native Analytics & User Insights"
+    paths:
+      # These policies apply to all source code, especially analytics services and UI components
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - 'package.json'
+      - 'docs/analytics-taxonomy.md'
+    policies:
+      - title: "Prohibit Tracking of Personally Identifiable Information (PII) for Analytics Events"
+        description: |
+          Analytics events must never include PII such as full names, email addresses, phone numbers, or precise location data. All tracked data must be anonymous or pseudonymous (e.g., using an internal user ID).
+        software_version: all
+        reference_link: https://gdpr.eu/what-is-personal-data/
+        severity: high
+        required_context: single-file
+        impact: |
+          Tracking PII is a major security and privacy violation that can have severe legal and financial consequences (e.g., under GDPR, CCPA). It fundamentally breaks user trust.
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // This event contains highly sensitive PII.
+              analytics.track('Signup_Success', {
+                email: 'user@example.com',
+                fullName: 'John Doe',
+              });
+            compliant: |
+              // This event uses an anonymous, internal user ID instead of PII.
+              analytics.track('Signup_Success', {
+                signup_method: 'google',
+                user_id: 'a1b2-c3d4-e5f6-g7h8',
+              });
+
+      - title: "Isolate Analytics Environments Using Separate API Keys"
+        description: |
+          The analytics service must be initialized with different API keys for development, staging, and production environments. These keys must be loaded from environment-specific configuration, not hardcoded.
+        software_version: all
+        reference_link: https://github.com/luggit/react-native-config
+        severity: high
+        required_context: single-file
+        impact: |
+          Without separate keys, test data from developers and QA will pollute your production analytics, making user behavior data unreliable and difficult to analyze.
+        code_examples:
+          # TypeScript examples
+          - non_compliant: |
+              import { Amplitude } from '@amplitude/react-native';
+              // A single, hardcoded key is used for all environments.
+              const amplitude = Amplitude.getInstance();
+              amplitude.init('PROD_API_KEY_IS_HARDCODED_HERE');
+            compliant: |
+              import Config from 'react-native-config';
+              import { Amplitude } from '@amplitude/react-native';
+              
+              // The correct key is loaded based on the build environment.
+              const amplitude = Amplitude.getInstance();
+              amplitude.init(Config.AMPLITUDE_API_KEY);
+
+      - title: "Enrich Events with Meaningful Contextual Properties"
+        description: |
+          Events should not just describe an action, but also the context in which it happened. All events must be enriched with relevant properties (e.g., screen name, source, item ID).
+        software_version: all
+        reference_link: https://uxcam.com/blog/event-analytics/
+        severity: medium
+        required_context: single-file
+        impact: |
+          An event like `Button_Click` is useless without properties. Properties are what allow for meaningful segmentation and analysis (e.g., "show me clicks on the 'Add to Cart' button, but only from the 'Product Details' screen").
+        code_examples:
+          # TypeScript / JavaScript examples
+          - non_compliant: |
+              // This event is ambiguous. Which button was tapped? Where?
+              analytics.track('Button_Tapped');
+            compliant: |
+              // This event provides rich context for analysis.
+              analytics.track('Button_Tapped', {
+                screen_name: 'ProductDetail',
+                button_name: 'AddToCart',
+                product_id: '123-abc',
+              });
