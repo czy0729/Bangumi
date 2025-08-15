@@ -2,31 +2,11 @@ version: "0.1"
 topics:
   - name: "Project Setup & Tooling Choices"
     paths:
-      - "package.json"
-      - "**/package.json"
-      - "app.config.{js,ts,json}"
-      - "**/app.config.{js,ts,json}"
-      - "eas.json"
-      - "**/eas.json"
-      - ".expo/**/*"
-      - "metro.config.{js,ts}"
-      - "**/metro.config.{js,ts}"
-      - "tsconfig.json"
-      - "**/tsconfig.json"
-      - ".eslintrc.{js,json}"
-      - "**/.eslintrc.{js,json}"
-      - ".prettierrc"
-      - ".prettierrc.js"
-      - "**/.prettierrc"
-      - "**/.prettierrc.js"
-      - ".env*"
-      - "**/.env*"
-      - ".gitignore"
-      - "**/.gitignore"
-      - '**/*.js'
-      - '**/*.jsx'
-      - '**/*.ts' 
-      - '**/*.tsx'
+      - 'package.json'
+      - 'tsconfig.json'
+      - '.gitignore'
+      - '.env.example'
+      - '.env.template'
     policies:
       - title: Prefer Expo for Rapid Development and Prototyping
         description: |
