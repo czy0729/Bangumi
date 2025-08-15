@@ -23,7 +23,10 @@ topics:
       - "**/.env*"
       - ".gitignore"
       - "**/.gitignore"
-      - "**/*.{js,ts,tsx}"
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts' 
+      - '**/*.tsx'
     policies:
       - title: Prefer Expo for Rapid Development and Prototyping
         description: |
@@ -347,10 +350,10 @@ topics:
 
   - name: "Styling, Theming & Design Systems"
     paths:
-      - "**/theme/**/*.{js,ts,tsx}"
-      - "**/styles/**/*.{js,ts,tsx}"
-      - "**/design/**/*.{js,ts,tsx}"
-      - "**/*.{js,ts,tsx}"
+      - '**/*.jsx'
+      - '**/*.tsx'
+      - '**/*.jsx'
+      - '**/*.tsx'
     policies:
       - title: Use Centralized Theme Object
         description: |
@@ -507,11 +510,17 @@ topics:
 
   - name: "Performance Optimization"
     paths:
-      - "**/components/**/*.{js,ts,tsx}"
-      - "**/src/components/**/*.{js,ts,tsx}"
-      - "**/ui/**/*.{js,ts,tsx}"
-      - "**/src/ui/**/*.{js,ts,tsx}"
-      - "**/*.{js,ts,tsx}"
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - 'android/app/build.gradle'
+      - 'ios/Podfile'
+      - 'babel.config.js'
     policies:
       - title: Use React.memo for Pure Functional Components
         description: |
@@ -618,11 +627,17 @@ topics:
 
   - name: "Security & Data Protection"
     paths:
-      - "**/services/**/*.{js,ts,tsx}"
-      - "**/api/**/*.{js,ts,tsx}"
-      - "**/utils/**/*.{js,ts,tsx}"
-      - "**/helpers/**/*.{js,ts,tsx}"
-      - "**/*.{js,ts,tsx}"
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - 'android/app/src/main/AndroidManifest.xml'
+      - 'ios/Info.plist'
+      - 'metro.config.js'
     policies:
       - title: Never Store Sensitive Data in AsyncStorage
         description: |
@@ -714,10 +729,14 @@ topics:
 
   - name: "Offline Support & Data Sync"
     paths:
-      - "**/store/**/*.{js,ts,tsx}"
-      - "**/hooks/**/*.{js,ts,tsx}"
-      - "**/state/**/*.{js,ts,tsx}"
-      - "**/*.{js,ts,tsx}"
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
     policies:
       - title: Use Redux Offline or React Query for Offline Caching
         description: |
@@ -839,12 +858,12 @@ topics:
 
   - name: "Native Modules & Platform APIs"
     paths:
-      - "**/*.android.{js,ts,tsx}"
-      - "**/*.ios.{js,ts,tsx}"
-      - "ios/**/*.{js,ts,tsx,m,mm,swift}"
-      - "android/**/*.{js,ts,tsx,java,kt}"
-      - "**/native/**/*.{js,ts,tsx}"
-      - "**/*.{js,ts,tsx}"
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - 'android/**/*'
+      - 'ios/**/*'
     policies:
       - title: Access Platform APIs via React Native Modules First
         description: |
@@ -939,12 +958,17 @@ topics:
 
   - name: "Testing Strategy (Unit & E2E)"
     paths:
-      - "**/*.test.{js,ts,tsx}"
-      - "**/*.spec.{js,ts,tsx}"
-      - "**/tests/**/*.{js,ts,tsx}"
-      - "**/e2e/**/*.{js,ts,tsx}"
-      - "**/test/**/*.{js,ts,tsx}"
-      - "**/*.{js,ts,tsx}"
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - 'jest.config.js'
+      - 'jest.setup.js'
+      - 'package.json'
     policies:
       - title: Write Unit Tests for All Pure Functions
         description: |
@@ -1070,14 +1094,10 @@ topics:
 
   - name: "Continuous Integration & Delivery"
     paths:
-      - ".github/workflows/**/*.yml"
-      - ".circleci/config.yml"
-      - ".gitlab-ci.yml"
-      - "azure-pipelines.yml"
-      - "Jenkinsfile"
-      - "appcenter-post-clone.sh"
-      - "**/scripts/**/*.{js,ts,sh}"
-      - "**/ci/**/*.{js,ts,yml,yaml}"
+      - 'eas.json'
+      - 'app.json'
+      - 'package.json'
+      - 'app.config.js'
     policies:
       - title: Set Up CI for Every Push and Pull Request
         description: |
@@ -1202,9 +1222,10 @@ topics:
 
   - name: "Accessibility & Inclusive Design"
     paths:
-      - "**/components/**/*.{js,ts,tsx}"
-      - "**/ui/**/*.{js,ts,tsx}"
-      - "**/*.{js,ts,tsx}"
+      - '**/*.jsx'
+      - '**/*.tsx'
+      - '**/*.jsx'
+      - '**/*.tsx'
     policies:
       - title: Use Accessible Touch Targets
         description: |
@@ -1336,7 +1357,13 @@ topics:
       - "**/locales/**/*.{js,ts,tsx}"
       - "**/translations/**/*.{js,ts,tsx}"
       - "**/lang/**/*.{js,ts,tsx}"
-      - "**/*.{js,ts,tsx}"
+      - '**/*.js'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.json'
     policies:
       - title: Avoid Hardcoded Strings in UI
         description: |
