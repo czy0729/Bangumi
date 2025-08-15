@@ -220,11 +220,14 @@ topics:
 
   - name: "Navigation & Deep-Linking Strategy"
     paths:
-      - "**/navigation/**/*.{js,ts,tsx}"
-      - "**/routes/**/*.{js,ts,tsx}"
-      - "**/*.navigation.{js,ts,tsx}"
-      - "**/*.route.{js,ts,tsx}"
-      - "**/*.{js,ts,tsx}"
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
     policies:
       - title: Use React Navigation as the Standard Navigator
         description: |
