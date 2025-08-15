@@ -1,0 +1,15 @@
+/*
+ * @Author: czy0729
+ * @Date: 2022-08-16 13:17:02
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2024-01-15 02:26:07
+ */
+import { rc } from '@utils/dev'
+import { COMPONENT as PARENT } from '../ds'
+
+export const COMPONENT = rc(PARENT, 'Spinner')
+
+export const HALF_CIRCLE = {
+  // eslint-disable-next-line max-len
+  uri: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAACgCAMAAAC8EZcfAAAAflBMVEUAAACfn5+fn5+NjY2cnJyfn5+WlpagoKCfn5+cnJyfn5+fn5+enp6goKCgoKCgoKCdnZ2YmJigoKCgoKCgoKCgoKCdnZ2fn5+fn5+enp6enp6enp6fn5+goKCenp6bm5uenp6fn5+goKCgoKCfn5+enp6enp6cnJyenp6goKCfuY+xAAAAKXRSTlMA+pYFGb4J7uIs6KpX9NPEMg3dt6+dKIV9UUM+2MxJJB5zbaSOZzYRYEiDsZQAAAN/SURBVHja5dxnrptAGIXhgwGDccG9l7j77H+D8U0UKRngJn8SXinPCo6Amfmmof9B9/FazcvDaFpkQ4slGdxmuX9CCti7X79nQwbc9DO/QQPuFh/pqAHHt9w2NuCxtM0NuDnY4ICDkQ0OOB7Z4IDPjk0O+MpMDtgrbXLAc2RywMncJgcc50YHvPhPFGnnsn30TslEv/PPX+/0et491ZJk9Jtw6+NELVrm/kTWeahd48yNovkmVsu2UXO8TqLWDdjxtHGT2RcBNL7ffCOCR0O+aNUVwSlzrX1PCF8K11owHp+eU9cZDgRRus4I0Xg/rFxn3vrA8cPOdfqiSDLX6AijdI21MFaucRHGGP784hH7+9MF3X6lZOiKFNP/vfVdkU/EsXNFBClfvomnrrgL5M5uIFLu0B5S/zXO4kgfoDRC99DS0aGC1MPUVTGYCv+bpUOpUG7wFqLCgblQtg6NhbJwYCaU7tCBh1AGDpRimbH7QHWjcBkGVSXUVKpXsawdOIol/AQz0kTpwxBdZ0lj+hu+OMAqBKvj3EgwJfwTrJRaL7HE8FJVPQdovWC4bZgL5syeLUkLeiOeBwHPgknhA51K9nyuumq0FEy4sIrZ1Wwa6QhHOn6RBQFhEybJdutHKD8VwYdiZfB6Wjm9keyDgCfBHOgjSTgW7wQTriswTo/9pE8vtzr0gvXCXp6uboJNBRNuMkWCiU0vCHN6P5PSm3GHvvx2d+ApliV8G0fK6B9hn76+dXdgK5alAwvBZPDNRC3o7XjrwEEwheETkxv8UIUe9HM9mrLPNtZsukewsjWJ6I9wYfi29smhHDaczB1aCWXsUATbkEgdGrFWg7fsmxpvqeEHbU+RQ0PWevDKFSNUXxPnrpihGsrGNvuo3gx+6UpfIva1NekOv/j3fZUBPSp3p34jz+R7Q/b1YmngOimox+64zp5TfMWp6ww55wq7B9e6Yl7zc8/+EYSU5OxfaUinwvUKSg3by9yghLznZeEGUZ8R8cvUjVLEMvvz4Gb7NWB1qZv6M+mr9UNK8dyfisr1Llar1v6dKF3vnmrPtkD/nO4tKdm/95PiFTygdMzgAZVc4QGl3R4eUPF5yA4oJX14QGk8j9gBpeUiYgeUktuQHVCavNIIHfAtOR/YAd9Oq5wd8G15v07RAT8kg1v/kIEDfjcZb863RX922BfMgH/TV6AONeQL3DWWAAAAAElFTkSuQmCC'
+} as const

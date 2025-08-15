@@ -1,0 +1,16 @@
+/*
+ * @Author: czy0729
+ * @Date: 2024-09-03 15:32:14
+ * @Last Modified by:   czy0729
+ * @Last Modified time: 2024-09-03 15:32:14
+ */
+component-mask {
+  & > component-touchable-opacity {
+    position: absolute !important;
+    z-index: 3;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+}
