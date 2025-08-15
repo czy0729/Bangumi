@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2025-06-09 14:54:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-18 03:37:46
+ * @Last Modified time: 2025-08-15 20:08:31
  */
 import { userStore } from '@stores'
-import { info, queue } from '@utils'
+import { info } from '@utils'
 import { TEXT_USER_ABORT } from '../ds'
 import Action from './action'
 import { EXCLUDE_STATE, RESET_STATE, STATE } from './ds'
@@ -29,7 +29,7 @@ export default class ScreenPic extends Action {
       return
     }
 
-    return queue([() => this.fetchList(), () => this.fetchSrcs()], 1)
+    return this.getList()
   }
 
   unmount = () => {

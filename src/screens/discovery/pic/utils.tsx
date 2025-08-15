@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-06-08 20:20:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-28 00:31:09
+ * @Last Modified time: 2025-08-15 20:28:06
  */
 import { monoStore } from '@stores'
 import {
@@ -28,13 +28,17 @@ export async function tag(
   q: string,
   page: number = 1,
   onProgress: HandleListProgress = FROZEN_FN,
-  onSrcsProgress: HandleSrcsProgress = FROZEN_FN
+  onSrcsProgress: HandleSrcsProgress = FROZEN_FN,
+  forceRefresh: boolean = false
 ): Promise<ListEmpty<ItemInfo> | false> {
   let key = `pic_tag_${q}`
   if (page > 1) key += `_${page}`
 
-  let data = await get(key)
-  if (data) return data
+  let data: ListEmpty<ItemInfo>
+  if (!forceRefresh) {
+    data = await get(key)
+    if (data) return data
+  }
 
   let html = ''
   try {
@@ -61,7 +65,7 @@ export async function tag(
   })).filter(item => !item.num)
   if (!list.length) return null
 
-  info(`首次索引到 ${list.length} 项，请耐心等待`)
+  if (!forceRefresh) info(`首次索引到 ${list.length} 项，请耐心等待`)
   feedback(true)
 
   const infos: Record<Id, ItemInfo> = await gets(list.map(item => `pic_info_${item.id}`))

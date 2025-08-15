@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:16:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-14 19:51:52
+ * @Last Modified time: 2025-08-15 20:35:03
  */
 import { getTimestamp } from '@utils'
 import { fetchHTML } from '@utils/fetch'
-import { get } from '@utils/kv'
+import { get, gets } from '@utils/kv'
 import hash from '@utils/thirdParty/hash'
 import { HTML_SUBJECT_CHARACTERS, HTML_SUBJECT_PERSONS } from '@constants'
 import { SubjectId } from '@types'
@@ -78,10 +78,36 @@ export default class Fetch extends Computed {
     let value = 0
     try {
       value = Number(await get(`pic_total_${name}`))
-    } catch (error) {}
+    } catch (error) {
+      this.error('fetchPicTotal', error)
+    }
     this.updatePicTotal(name, value)
 
     return this[STATE_KEY](ITEM_KEY)
+  }
+
+  /** 画集数 (批量) */
+  fetchPicTotalBatch = async (names: string[] = []) => {
+    if (!names?.length) return false
+
+    const STATE_KEY = 'picTotal'
+    const filters = names.filter(name => {
+      const ITEM_KEY = hash(name).slice(0, 4)
+      if (!ITEM_KEY || this[STATE_KEY](ITEM_KEY) !== undefined) return false
+      return true
+    })
+    if (!filters.length) return false
+
+    try {
+      const values = await gets(filters.map(name => `pic_total_${name}`))
+      Object.entries(values).forEach(([name, value]) => {
+        if (name && value) this.updatePicTotal(name, value)
+      })
+    } catch (error) {
+      this.error('fetchPicTotalBatch', error)
+    }
+
+    return true
   }
 
   updatePicTotal = (name: string = '', value: number = 0) => {

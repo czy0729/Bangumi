@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-14 02:29:56
+ * @Last Modified time: 2025-08-15 15:14:18
  */
 import { ComponentType } from 'react'
 import { Linking } from 'react-native'
@@ -309,6 +309,9 @@ export function pad(n: string | number): string {
 export function sleep(ms: number = 800): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
+
+/** 等待 */
+export const wait = sleep
 
 /** 将网页版的中国时区时间转换成本地时区时间 */
 export function toLocalTimeStr(chinaTimeStr: string, format: string = 'Y-m-d H:i:s') {

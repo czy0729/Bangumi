@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-06-09 14:52:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-18 03:38:25
+ * @Last Modified time: 2025-08-15 20:16:19
  */
 import { systemStore } from '@stores'
 import { feedback, info, queue, updateVisibleBottom } from '@utils'
@@ -10,6 +10,10 @@ import { TEXT_FETCHING_WAIT, TEXT_USER_LIMIT } from '../ds'
 import Fetch from './fetch'
 
 export default class Action extends Fetch {
+  getList = (forceRefresh: boolean = false) => {
+    return queue([() => this.fetchList(forceRefresh), () => this.fetchSrcs()], 1)
+  }
+
   onPage = (page: number) => {
     feedback(true)
 
@@ -34,7 +38,7 @@ export default class Action extends Fetch {
       })
     }, 80)
 
-    return queue([() => this.fetchList(), () => this.fetchSrcs()], 1)
+    return this.getList()
   }
 
   onFilter = (label: string) => {

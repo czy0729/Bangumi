@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-08 18:25:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-01 17:48:49
+ * @Last Modified time: 2025-08-15 14:58:24
  */
 
 /**
@@ -40,8 +40,8 @@ export * from './mosaic-tile/index.lazy'
 export * from './name/index.lazy'
 export * from './notice/index.lazy'
 export * from './onair-progress/index.lazy'
-export * from './pagination-list/index.lazy'
 export * from './pagination-list-2/index.lazy'
+export * from './pagination-list/index.lazy'
 export * from './popable/index.lazy'
 export * from './prevent-touch-placeholder/index.lazy'
 export * from './progress/index.lazy'
@@ -49,6 +49,7 @@ export * from './rank/index.lazy'
 export * from './rate/index.lazy'
 export * from './safe-area-view/index.lazy'
 export * from './score-tag/index.lazy'
+export * from './scroll-view/index.lazy'
 export * from './section-header/index.lazy'
 export * from './section-title/index.lazy'
 export * from './star-group/index.lazy'

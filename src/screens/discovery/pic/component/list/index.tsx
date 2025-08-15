@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2025-06-09 15:12:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-26 20:51:36
+ * @Last Modified time: 2025-08-15 20:19:34
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { View } from 'react-native'
-import { ScrollView } from '@components'
+import { ScrollView } from '@_'
 import { _, useStore } from '@stores'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
@@ -22,6 +22,10 @@ function List() {
   r(COMPONENT)
 
   const { $ } = useStore<Ctx>()
+
+  const handleRefresh = useCallback(() => {
+    return $.getList(true)
+  }, [$])
 
   return useObserver(() => {
     if (!$.state.show || !$.filterList.length) return null
@@ -55,7 +59,11 @@ function List() {
     const showMoreKeywords = !$.state.fetching && $.list.length <= 6
 
     return (
-      <ScrollView contentContainerStyle={styles.container} onScroll={$.onScroll}>
+      <ScrollView
+        contentContainerStyle={styles.container}
+        onScroll={$.onScroll}
+        onRefresh={handleRefresh}
+      >
         <View style={styles.wrap}>
           <View style={styles.list}>
             {columns.map((column, index) => {

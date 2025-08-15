@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-07 15:02:18
+ * @Last Modified time: 2025-08-15 05:34:02
  */
 import {
   collectionStore,
@@ -706,10 +706,10 @@ export default class Fetch extends Computed {
   fetchPicTotal = async () => {
     if (this._fetchPicTotal) return false
 
-    await queue(
-      [...new Set([...this.subjectKeywords, ...this.crtKeywords])]
-        .filter(Boolean)
-        .map(item => () => monoStore.fetchPicTotal(item))
+    await monoStore.fetchPicTotalBatch(
+      [...new Set([...this.subjectKeywords, ...this.crtKeywords])].filter(
+        (_item, index) => index < 6
+      )
     )
 
     this._fetchPicTotal = true

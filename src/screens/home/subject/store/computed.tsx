@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-12 15:34:39
+ * @Last Modified time: 2025-08-15 05:33:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -1390,7 +1390,9 @@ export default class Computed extends State {
 
   /** 条目图集关键字 */
   @computed get subjectKeywords() {
-    return [...new Set([this.cn, this.jp, keepBasicChars(this.cn)])].filter(Boolean)
+    return [...new Set([this.cn, this.jp, keepBasicChars(this.cn)])]
+      .filter(Boolean)
+      .filter(item => item.length < 12)
   }
 
   /** 角色图集关键字 */
@@ -1403,8 +1405,8 @@ export default class Computed extends State {
       )
       .forEach(item => {
         // @ts-ignore
-        temp.push(item.name, item.nameJP)
+        temp.push(item.name || item.nameJP)
       })
-    return [...new Set(temp)].filter(Boolean)
+    return [...new Set(temp)].filter(Boolean).filter(item => item.length < 12)
   }
 }
