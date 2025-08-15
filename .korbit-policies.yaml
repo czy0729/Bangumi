@@ -1486,9 +1486,14 @@ topics:
 
   - name: "Animations & Gesture Handling"
     paths:
-      - "**/components/**/*.{js,ts,tsx}"
-      - "**/ui/**/*.{js,ts,tsx}"
-      - "**/*.{js,ts,tsx}"
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
     policies:
       - title: Use Reanimated for High-Performance Animations
         description: |
@@ -1578,10 +1583,15 @@ topics:
 
   - name: "Error Handling & Monitoring"
     paths:
-      - "**/services/**/*.{js,ts,tsx}"
-      - "**/utils/**/*.{js,ts,tsx}"
-      - "**/helpers/**/*.{js,ts,tsx}"
-      - "**/*.{js,ts,tsx}"
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - 'package.json'
     policies:
       - title: Always Catch Promises and Async/Await Blocks
         description: |
@@ -1679,14 +1689,10 @@ topics:
 
   - name: "Dependency & Package Management"
     paths:
-      - "package.json"
-      - "**/package.json"
-      - "yarn.lock"
-      - "package-lock.json"
-      - "npm-shrinkwrap.json"
-      - "pnpm-lock.yaml"
-      - "lerna.json"
-      - "workspace.json"
+      - 'package.json'
+      - 'yarn.lock'
+      - 'package-lock.json'
+      - 'pnpm-lock.yaml'
     policies:
       - title: Pin Exact Dependency Versions
         description: |
@@ -1769,18 +1775,13 @@ topics:
 
   - name: "Code Quality & Maintainability"
     paths:
-      - "**/*.{js,ts,tsx}"
-      - ".eslintrc.{js,json}"
-      - "**/.eslintrc.{js,json}"
-      - ".prettierrc"
-      - ".prettierrc.js"
-      - "**/.prettierrc"
-      - "**/.prettierrc.js"
-      - "tsconfig.json"
-      - "**/tsconfig.json"
-      - ".husky/**/*"
-      - "**/scripts/**/*.{js,ts,sh}"
-      - "**/docs/**/*.{md,js,ts}"
+      - '**/*.js'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '.eslintrc.js'
     policies:
       - title: Enforce ESLint with Recommended Rules
         description: |
@@ -1894,12 +1895,16 @@ topics:
 
   - name: "Documentation & Storybook"
     paths:
-      - "**/*.{js,ts,tsx}"
-      - "README.md"
-      - "**/docs/**/*.{md,js,ts}"
-      - "**/stories/**/*.{js,ts,tsx}"
-      - "**/src/stories/**/*.{js,ts,tsx}"
-      - ".storybook/**/*.{js,ts,json}"
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.stories.tsx'
+      - 'package.json'
     policies:
       - title: Use JSDoc or TSDoc for Function and Component Documentation
         description: |
@@ -2010,10 +2015,16 @@ topics:
 
   - name: "Analytics & User Insights"
     paths:
-      - "**/services/**/*.{js,ts,tsx}"
-      - "**/hooks/**/*.{js,ts,tsx}"
-      - "**/analytics/**/*.{js,ts,tsx}"
-      - "**/*.{js,ts,tsx}"
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - 'package.json'
+      - 'docs/analytics-taxonomy.md'
     policies:
       - title: Track Screen Views Using Navigation Events
         description: |
@@ -2117,15 +2128,15 @@ topics:
 
   - name: "Release Management & OTA Updates"
     paths:
-      - "eas.json"
-      - "**/eas.json"
-      - "app.config.{js,ts,json}"
-      - "**/app.config.{js,ts,json}"
-      - "expo.json"
-      - "**/expo.json"
-      - "package.json"
-      - "**/package.json"
-      - "**/scripts/**/*.{js,ts,sh}"
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - 'package.json'
     policies:
       - title: Use EAS for OTA Updates and Managed Builds
         description: |
