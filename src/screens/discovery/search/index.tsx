@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:18:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 06:46:27
+ * @Last Modified time: 2025-08-17 05:50:45
  */
 import React from 'react'
 import { Component, Flex, Page } from '@components'
@@ -22,18 +22,18 @@ import { styles } from './styles'
 
 /** 搜索 */
 const Search = (props: NavigationProps) => {
-  const { id, $ } = useSearchPage(props)
+  const { id, $, iptRef, handleFocus } = useSearchPage(props)
 
   return useObserver(() => (
     <Component id='screen-search'>
       <StoreContext.Provider value={id}>
         <Page loaded={$.state._loaded} loading={$.state.searching}>
           <Flex style={styles.searchBar}>
-            <Category />
+            <Category onFocus={handleFocus} />
             <Flex.Item>
-              <SearchBar />
+              <SearchBar iptRef={iptRef} />
             </Flex.Item>
-            <Legacy />
+            <Legacy onFocus={handleFocus} />
             <BtnSubmit />
           </Flex>
           <Advance />
