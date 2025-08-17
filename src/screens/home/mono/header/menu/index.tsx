@@ -1,28 +1,30 @@
 /*
  * @Author: czy0729
- * @Date: 2025-02-04 07:04:37
+ * @Date: 2025-08-17 16:27:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-17 16:40:53
+ * @Last Modified time: 2025-08-17 16:51:38
  */
 import React, { useCallback, useMemo } from 'react'
 import { HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { open } from '@utils'
+import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
 import { TEXT_MENU_BROWSER, TEXT_MENU_SPLIT_LEFT, TEXT_MENU_SPLIT_RIGHT } from '@constants'
 import { Ctx } from '../../types'
-import { MENU_ACTIONS, MENU_DS } from './ds'
-import { styles } from './styles'
+import { COMPONENT, MENU_ACTIONS, MENU_DS } from './ds'
 
-function MenuComponent({ color }) {
-  const { $, navigation } = useStore<Ctx>()
+function Menu() {
+  r(COMPONENT)
+
+  const { $ } = useStore<Ctx>()
 
   return useObserver(() => {
     const memoData = useMemo(
       () =>
         [
-          `${TEXT_MENU_BROWSER}${TEXT_MENU_SPLIT_LEFT}${$.subjectId}${TEXT_MENU_SPLIT_RIGHT}`,
+          `${TEXT_MENU_BROWSER}${TEXT_MENU_SPLIT_LEFT}${$.id}${TEXT_MENU_SPLIT_RIGHT}`,
           ...MENU_DS
         ] as const,
       []
@@ -30,21 +32,19 @@ function MenuComponent({ color }) {
 
     const handleSelect = useCallback((key: string) => {
       if (key in MENU_ACTIONS) {
-        MENU_ACTIONS[key]($, navigation)
+        MENU_ACTIONS[key]($)
       } else {
         open($.url)
       }
 
-      t('条目.右上角菜单', {
-        subjectId: $.subjectId,
-        key
+      t('人物.右上角菜单', {
+        key,
+        monoId: $.monoId
       })
     }, [])
 
-    return (
-      <HeaderV2Popover style={styles.menu} data={memoData} color={color} onSelect={handleSelect} />
-    )
+    return <HeaderV2Popover data={memoData} onSelect={handleSelect} />
   })
 }
 
-export default MenuComponent
+export default Menu

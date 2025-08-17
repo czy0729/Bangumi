@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-23 10:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-16 19:53:00
+ * @Last Modified time: 2025-08-17 16:20:34
  */
 import { WEB } from '../device'
 
@@ -67,6 +67,18 @@ export const TEXT_MENU_COPY_LINK = '复制链接'
 
 /** 菜单: 复制链接 */
 export const TEXT_MENU_COPY_SHARE = '复制分享'
+
+/** 菜单: 拼图分享 */
+export const TEXT_MENU_POST_SHARE = '拼图分享'
+
+/** 菜单: 客户端网页版本分享 */
+export const TEXT_MENU_WEB_SHARE = '客户端网页版本分享'
+
+/** 菜单: 获取 APP (网页用) */
+export const TEXT_MENU_APP = '获取 APP'
+
+/** 菜单: 对应页面的设置 */
+export const TEXT_MENU_SETTING = '设置'
 
 /** 菜单: 分割 */
 export const TEXT_MENU_SPLIT = '一一一'

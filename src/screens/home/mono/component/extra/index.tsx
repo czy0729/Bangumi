@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-04-21 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-28 00:34:13
+ * @Last Modified time: 2025-08-17 17:41:19
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
-import { _, monoStore, useStore } from '@stores'
+import { _, monoStore, tinygrailStore, useStore } from '@stores'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
@@ -21,21 +21,28 @@ function ExtraWrap() {
   const { $, navigation } = useStore<Ctx>()
 
   return useObserver(() => {
-    const picTotal = monoStore.picTotal($.cn)
+    const isCharacter = $.monoId.includes('character')
+    const showTinygrail = $.tinygrail
+    const level = isCharacter && showTinygrail ? tinygrailStore.characters($.id)?.level : 0
+
+    const showPic = Number($.params._count) >= 8
+    const picTotal = showPic ? monoStore.picTotal($.cn) : 0
+
     return (
       <>
-        {$.monoId.includes('character') && (
+        {isCharacter && (
           <>
-            {$.tinygrail && (
+            {showTinygrail && (
               <Extra
                 navigation={navigation}
                 monoId={$.monoId}
+                level={level}
                 canICO={$.canICO}
                 icoUsers={$.chara.users}
                 doICO={$.doICO}
               />
             )}
-            {Number($.params._count) >= 8 && (
+            {showPic && (
               <Touchable
                 style={styles.pic}
                 onPress={() => {
