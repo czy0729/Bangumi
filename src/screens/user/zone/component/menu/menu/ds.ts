@@ -2,24 +2,103 @@
  * @Author: czy0729
  * @Date: 2024-02-02 23:53:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-03 00:02:15
+ * @Last Modified time: 2025-08-18 00:03:22
  */
-export const TEXT_BROWSER = '浏览器查看'
+import { rakuenStore } from '@stores'
+import { confirm, copy, feedback, HTMLDecode, info } from '@utils'
+import { t } from '@utils/fetch'
+import {
+  HOST,
+  TEXT_MENU_BROWSER,
+  TEXT_MENU_COLLECT,
+  TEXT_MENU_CONNECT,
+  TEXT_MENU_COPY_LINK,
+  TEXT_MENU_COPY_SHARE,
+  TEXT_MENU_DISCONNECT,
+  TEXT_MENU_FRIEND,
+  TEXT_MENU_IGNORE,
+  TEXT_MENU_PM,
+  WEB
+} from '@constants'
+import { Ctx } from '../../../types'
 
-export const TEXT_COPY_LINK = '复制链接'
+export const MENU_DS = [
+  TEXT_MENU_BROWSER,
+  TEXT_MENU_COPY_LINK,
+  TEXT_MENU_COPY_SHARE,
+  !WEB && TEXT_MENU_PM,
+  TEXT_MENU_COLLECT,
+  TEXT_MENU_FRIEND
+].filter(Boolean)
 
-export const TEXT_COPY_SHARE = '复制分享'
+export const MENU_ACTIONS = {
+  [TEXT_MENU_BROWSER](context: Ctx) {
+    const { url } = getData(context)
+    open(url)
+  },
+  [TEXT_MENU_COPY_LINK](context: Ctx) {
+    const { url } = getData(context)
+    copy(url, '已复制链接')
+  },
+  [TEXT_MENU_COPY_SHARE](context: Ctx) {
+    const { url, userName } = getData(context)
+    copy(`【链接】${userName} | Bangumi番组计划\n${url}`, '已复制分享文案')
+  },
+  [TEXT_MENU_PM](context: Ctx) {
+    const { $, navigation } = context
+    const { userName } = getData(context)
+    navigation.push('PM', {
+      userId: $.usersInfo.id,
+      userName
+    })
+  },
+  [TEXT_MENU_COLLECT](context: Ctx) {
+    const { $, navigation } = context
+    $.navigateToUser(navigation)
+  },
+  [TEXT_MENU_FRIEND](context: Ctx) {
+    const { navigation } = context
+    const { userId } = getData(context)
+    navigation.push('Friends', {
+      userId
+    })
+  },
+  [TEXT_MENU_CONNECT](context: Ctx) {
+    const { $ } = context
+    $.doConnect()
+  },
+  [TEXT_MENU_DISCONNECT](context: Ctx) {
+    const { $ } = context
+    confirm('确定解除好友?', () => $.doDisconnect())
+  },
+  [TEXT_MENU_IGNORE](context: Ctx) {
+    const { userId, userName } = getData(context)
+    confirm(`与 ${userName} 绝交（不再看到用户的所有话题、评论、日志、私信、提醒）?`, async () => {
+      if (!rakuenStore.formhash) await rakuenStore.fetchPrivacy()
 
-export const TEXT_PM = '发短信'
+      rakuenStore.doBlockUser(
+        {
+          keyword: String(userId)
+        },
+        async () => {
+          t('空间.绝交')
 
-export const TEXT_COLLECT = 'TA的收藏'
+          info('已添加绝交')
+          feedback()
+          rakuenStore.fetchPrivacy()
+        },
+        () => {
+          info('添加失败, 可能授权信息过期')
+        }
+      )
+    })
+  }
+} as const
 
-export const TEXT_FRIEND = 'TA的好友'
-
-export const TEXT_CONNECT = '加为好友'
-
-export const TEXT_DISCONNECT = '解除好友'
-
-export const TEXT_BLOCK = '屏蔽用户'
-
-export const TEXT_IGNORE = '绝交'
+function getData({ $ }: Ctx) {
+  return {
+    url: `${HOST}/user/${$.usersInfo.username}`,
+    userId: $.usersInfo.username || $.usersInfo.id || $.userId,
+    userName: HTMLDecode($.usersInfo.nickname || $.params._name)
+  }
+}

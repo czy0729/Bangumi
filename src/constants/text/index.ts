@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-23 10:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-17 16:20:34
+ * @Last Modified time: 2025-08-17 23:39:25
  */
 import { WEB } from '../device'
 
@@ -79,6 +79,27 @@ export const TEXT_MENU_APP = '获取 APP'
 
 /** 菜单: 对应页面的设置 */
 export const TEXT_MENU_SETTING = '设置'
+
+/** 菜单: 发短信 */
+export const TEXT_MENU_PM = '发短信'
+
+/** 菜单: TA的收藏 */
+export const TEXT_MENU_COLLECT = 'TA的收藏'
+
+/** 菜单: TA的好友 */
+export const TEXT_MENU_FRIEND = 'TA的好友'
+
+/** 菜单: 加为好友 */
+export const TEXT_MENU_CONNECT = '加为好友'
+
+/** 菜单: 解除好友 */
+export const TEXT_MENU_DISCONNECT = '解除好友'
+
+/** 菜单: 屏蔽用户 */
+export const TEXT_MENU_BLOCK = '屏蔽用户'
+
+/** 菜单: 绝交 */
+export const TEXT_MENU_IGNORE = '绝交'
 
 /** 菜单: 分割 */
 export const TEXT_MENU_SPLIT = '一一一'
