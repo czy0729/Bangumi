@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-21 19:50:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-23 14:13:26
+ * @Last Modified time: 2025-08-19 19:46:19
  */
 import React from 'react'
 import { Platform, StyleSheet, Text, View } from 'react-native'
@@ -98,7 +98,7 @@ class AntmModal extends React.Component<typeof defaultProps> {
                       <Text
                         style={stl(!IOS && overideStyles.font, styles.header)}
                         textBreakStrategy='simple'
-                        numberOfLines={0}
+                        numberOfLines={5}
                       >
                         {title}
                       </Text>

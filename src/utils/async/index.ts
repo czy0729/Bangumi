@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-12-04 11:04:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-13 17:43:33
+ * @Last Modified time: 2025-08-19 20:42:07
  */
 import { RakuenStoreType } from '../../stores/rakuen'
 import { SystemStoreType } from '../../stores/system'
@@ -11,35 +11,41 @@ import { ThemeStoreType } from '../../stores/theme'
 import { UIStoreType } from '../../stores/ui'
 import { UserStoreType } from '../../stores/user'
 
-/** 同步取 UserStore */
+/** [同步] 获取 userStore */
 export function syncUserStore() {
   return require('../../stores/user').default as UserStoreType
 }
 
-/** 同步取 ThemeStore */
+/** [同步] 获取 themeStore */
 export function syncThemeStore() {
   return require('../../stores/theme').default as ThemeStoreType
 }
 
-/** 同步取 SystemStore */
+/** [同步] 获取 systemStore */
 export function syncSystemStore() {
   return require('../../stores/system').default as SystemStoreType
 }
 
-/** 同步取 UIStore */
+/** [同步] 获取 uiStore */
 export function syncUIStore() {
   return require('../../stores/ui').default as UIStoreType
 }
 
-/** 同步取 RakuenStore */
+/** [同步] 获取 rakuenStore */
 export function syncRakuenStore() {
   return require('../../stores/rakuen').default as RakuenStoreType
 }
 
-/** 同步 自动判断是否简体转繁体 */
-export function s2tAsync(str: any = ''): string {
+/** [同步] 自动判断是否简体转繁体 */
+export function syncS2T(str: any = ''): string {
   if (typeof str !== 'string') return str
 
-  const { s2t: _s2t } = syncSystemStore().setting
-  return _s2t ? require('../thirdParty/open-cc').s2t(str) : str
+  return syncSystemStore().setting.s2t ? require('../thirdParty/open-cc').s2t(str) : str
+}
+
+/** [同步] 自动判断是否简体转繁体 */
+export function syncSpacing(str: any = ''): string {
+  if (typeof str !== 'string') return str
+
+  return syncSystemStore().setting.spacing ? require('../thirdParty/pangu-lite').spacing(str) : str
 }

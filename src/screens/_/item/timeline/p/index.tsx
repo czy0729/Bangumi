@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-11 19:17:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-01 11:13:26
+ * @Last Modified time: 2025-08-19 19:52:47
  */
 import React from 'react'
 import { Katakana, Text } from '@components'
@@ -16,7 +16,7 @@ function P({ image, p1Text, p1Url, p2Text, p3Text, p3Url, p4Text, userId, avatar
   if (!hasPosition) return null
 
   return (
-    <Katakana.Provider lineHeight={16}>
+    <Katakana.Provider lineHeight={16} numberOfLines={8}>
       {!!p1Text && (
         <Name
           userId={userId}

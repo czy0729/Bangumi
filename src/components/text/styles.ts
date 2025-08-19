@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-05-01 11:46:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-04 17:48:47
+ * @Last Modified time: 2025-08-19 18:08:58
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
-  /** base style */
+  // ------------------- base style -------------------
   base: {
     includeFontPadding: false,
     textAlignVertical: _.web(undefined, 'center')
@@ -36,11 +36,10 @@ export const memoStyles = _.memoStyles(() => ({
     flexShrink: 1
   },
   noWrap: {
-    // @ts-ignore
     whiteSpace: 'nowrap'
   },
 
-  /** theme color */
+  // ------------------- theme color -------------------
   plain: {
     color: _.colorPlain
   },
@@ -63,7 +62,7 @@ export const memoStyles = _.memoStyles(() => ({
     color: _.colorDanger
   },
 
-  /** font color */
+  // ------------------- font color -------------------
   title: {
     color: _.colorTitle
   },
@@ -83,7 +82,7 @@ export const memoStyles = _.memoStyles(() => ({
     color: _.colorAvatar
   },
 
-  /** tinygrail theme color */
+  // ------------------- tinygrail theme color -------------------
   bid: {
     color: _.colorBid
   },

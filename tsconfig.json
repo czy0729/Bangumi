@@ -38,5 +38,6 @@
       "@/*": ["./*"]
     }
   },
+  "include": ["src", "types"],
   "exclude": ["node_modules", "dist", "android", "src/assets", "web"]
 }

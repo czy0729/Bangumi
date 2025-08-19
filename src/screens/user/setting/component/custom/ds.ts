@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 07:17:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-10 05:19:07
+ * @Last Modified time: 2025-08-19 23:45:28
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
@@ -25,6 +25,11 @@ export const TEXTS = {
   s2t: {
     hd: '繁体',
     information: '已于 24 年 4 月使用 OpenCC 替换原来的暴力转换'
+  },
+  spacing: {
+    title: '自动文字排版',
+    information:
+      '自动为客户端内的中文和半形的英文、数字、符号之间插入空白，排版强迫症福音（因缺乏实际使用数据，可能会遇到无法预料的情况，请谨慎开启）'
   },
   userAge: {
     title: '用户站龄',

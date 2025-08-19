@@ -13,7 +13,7 @@ import { IOS } from '@constants/constants'
 import { WEB } from '@constants/device'
 import { FROZEN_FN } from '@constants/init'
 import { Fn } from '@types'
-import { s2tAsync, syncSystemStore } from '../async'
+import { syncS2T, syncSystemStore } from '../async'
 import { log } from './utils'
 
 /**
@@ -27,7 +27,7 @@ export function loading(text: string = 'Loading...', time: number = 0, delay: nu
   let toastId: number
   let timerId: any = setTimeout(() => {
     timerId = null
-    toastId = Toast.loading(s2tAsync(text), time, () => {
+    toastId = Toast.loading(syncS2T(text), time, () => {
       if (toastId) Portal.remove(toastId)
     })
   }, delay)
@@ -67,16 +67,16 @@ export function confirm(
   confirmText: string = '确定',
   cancelText: string = '取消'
 ) {
-  const alertTitle = s2tAsync(title)
-  const alertContent = s2tAsync(content)
+  const alertTitle = syncS2T(title)
+  const alertContent = syncS2T(content)
   const alertParams = [
     {
-      text: s2tAsync(cancelText),
+      text: syncS2T(cancelText),
       style: 'cancel' as const,
       onPress: onCancelPress
     },
     {
-      text: s2tAsync(confirmText),
+      text: syncS2T(confirmText),
       onPress
     }
   ]
@@ -105,11 +105,11 @@ export function confirm(
 
 /** 提示 */
 export function alert(content: string, title: string = '提示') {
-  const alertTitle = s2tAsync(title)
-  const alertContent = s2tAsync(content)
+  const alertTitle = syncS2T(title)
+  const alertContent = syncS2T(content)
   const alertParams = [
     {
-      text: s2tAsync('确定'),
+      text: syncS2T('确定'),
       onPress: FROZEN_FN
     }
   ]
@@ -139,7 +139,7 @@ export function info(
   onClose: Fn = FROZEN_FN,
   mask: boolean = false
 ) {
-  Toast.info(s2tAsync(content), duration, onClose, mask)
+  Toast.info(syncS2T(content), duration, onClose, mask)
 }
 
 /**

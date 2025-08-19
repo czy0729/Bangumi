@@ -9,7 +9,7 @@ import { Flex, Heatmap, Iconfont, Menu, Popover } from '@components'
 import { _, systemStore } from '@stores'
 import { s2t } from '@utils/thirdParty/open-cc'
 import { hm as utilsHM } from '@utils/fetch'
-import { s2tAsync } from '@utils/async'
+import { syncS2T } from '@utils/async'
 import { IOS } from '@constants/constants'
 import IconBack from './cycles/back'
 import ob from './ob'
@@ -141,7 +141,7 @@ const withHeader =
       }
     )
 
-withHeader.s2t = s2tAsync
+withHeader.s2t = syncS2T
 
 export default withHeader
 

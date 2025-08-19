@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 16:25:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-14 23:13:44
+ * @Last Modified time: 2025-08-19 20:35:38
  */
 import React, { PureComponent } from 'react'
 import { View, Text, Dimensions } from 'react-native'
@@ -33,7 +33,7 @@ import { stl } from '@utils'
 import { IOS } from '@constants'
 import { androidTextFixedStyle } from '@styles'
 import * as HTMLRenderers from './HTMLRenderers'
-import { optimizeCmputeTextStyles } from './utils'
+import { optimizeCmputeTextStyles, formatSpacing } from './utils'
 
 const flexStyle = { flex: 1, alignItems: 'center' }
 
@@ -580,7 +580,7 @@ export default class HTML extends PureComponent {
               textBreakStrategy='simple'
               numberOfLines={0}
             >
-              {data}
+              {formatSpacing(data)}
             </Text>
           ) : (
             false
@@ -612,45 +612,5 @@ export default class HTML extends PureComponent {
 
   render() {
     return <View style={this.props.containerStyle}>{this.state.RNNodes}</View>
-
-    // const { allowFontScaling, customWrapper, remoteLoadingView, remoteErrorView } = this.props
-    // const { RNNodes, loadingRemoteURL, errorLoadingRemoteURL } = this.state
-    // if (!RNNodes && !loadingRemoteURL && !errorLoadingRemoteURL) {
-    //   return null
-    // }
-
-    // if (loadingRemoteURL) {
-    //   return remoteLoadingView ? (
-    //     remoteLoadingView(this.props, this.state)
-    //   ) : (
-    //     <View style={flexStyle}>
-    //       <ActivityIndicator />
-    //     </View>
-    //   )
-    // }
-
-    // if (errorLoadingRemoteURL) {
-    //   return remoteErrorView ? (
-    //     remoteErrorView(this.props, this.state)
-    //   ) : (
-    //     <View style={flexStyle}>
-    //       <Text
-    //         // style={{ fontStyle: 'italic', fontSize: 16 }}
-    //         style={!IOS && androidTextFixedStyle}
-    //         allowFontScaling={allowFontScaling}
-    //         textBreakStrategy='simple'
-    //         numberOfLines={0}
-    //       >
-    //         Could not load {this.props.uri}
-    //       </Text>
-    //     </View>
-    //   )
-    // }
-
-    // return customWrapper ? (
-    //   customWrapper(RNNodes)
-    // ) : (
-    //   <View style={this.props.containerStyle || {}}>{RNNodes}</View>
-    // )
   }
 }

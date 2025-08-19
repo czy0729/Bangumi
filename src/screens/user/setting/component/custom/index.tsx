@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-21 12:10:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-03 21:32:57
+ * @Last Modified time: 2025-08-19 22:08:42
  */
 import React from 'react'
 import { ActionSheet } from '@components'
@@ -17,6 +17,7 @@ import HeatMap from './heat-map'
 import HideScore from './hide-score'
 import OpenInfo from './open-info'
 import S2T from './s2t'
+import Spacing from './spacing'
 import UserAge from './user-age'
 import { COMPONENT, TEXTS } from './ds'
 
@@ -37,6 +38,7 @@ function Custom({ filter }) {
           {shows.cnFirst && <CnFirst filter={filter} />}
           {shows.heatMap && <HeatMap filter={filter} />}
           {shows.s2t && <S2T filter={filter} />}
+          {shows.spacing && <Spacing filter={filter} />}
           {shows.userAge && <UserAge filter={filter} />}
           {shows.hideScore && <HideScore filter={filter} />}
           {shows.filterDefault && <FilterDefault filter={filter} />}

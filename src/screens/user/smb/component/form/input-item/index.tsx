@@ -8,7 +8,7 @@ import React from 'react'
 import { Flex, Input, Text } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
-import { s2tAsync } from '@utils/async'
+import { syncS2T } from '@utils/async'
 import { ob } from '@utils/decorators'
 import { AnyObject } from '@types'
 import { Ctx } from '../../../types'
@@ -39,7 +39,7 @@ function InputItem({
             name='md-info-outline'
             size={14}
             onPress={() => {
-              alert(s2tAsync(information))
+              alert(syncS2T(information))
             }}
           />
         )}

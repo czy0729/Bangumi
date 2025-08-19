@@ -5,9 +5,6 @@
  * @Last Modified time: 2025-02-28 17:12:15
  */
 import { _ } from '@stores'
-import { PAD } from '@constants'
-
-const PAD_INCREASE = PAD === 2 ? 3 : 2
 
 export const memoStyles = _.memoStyles(() => ({
   // base
@@ -82,13 +79,13 @@ export const memoStyles = _.memoStyles(() => ({
 
   // text
   text: {
-    fontSize: 14 + _.fontSizeAdjust + (_.isPad ? PAD_INCREASE : 0)
+    fontSize: 14 + _.fontSizeAdjust + (_.isPad ? _.padIncrease : 0)
   },
   textSm: {
-    fontSize: 12 + _.fontSizeAdjust + (_.isPad ? PAD_INCREASE : 0)
+    fontSize: 12 + _.fontSizeAdjust + (_.isPad ? _.padIncrease : 0)
   },
   textXs: {
-    fontSize: 9 + _.fontSizeAdjust + (_.isPad ? PAD_INCREASE : 0)
+    fontSize: 9 + _.fontSizeAdjust + (_.isPad ? _.padIncrease : 0)
   },
   textPlain: {
     color: _.colorDesc

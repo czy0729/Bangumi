@@ -12,7 +12,7 @@ import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { Ionicons } from './ionicons'
 import { Material } from './material'
-import { COMPONENT, PAD_INCREASE } from './ds'
+import { COMPONENT } from './ds'
 import {
   AppIconsNames,
   IoniconsIconsNames,
@@ -28,7 +28,7 @@ export const Iconfont = observer(
   ({ style, name = '', size = 22, lineHeight, color, ...other }: IconfontProps) => {
     r(COMPONENT)
 
-    const _size = size + _.fontSizeAdjust + _.device(0, PAD_INCREASE)
+    const _size = size + _.fontSizeAdjust + _.device(0, _.padIncrease)
     const _lineHeight = lineHeight + _.fontSizeAdjust
 
     if (name.indexOf('md-') === 0) {

@@ -7,7 +7,7 @@
 import { Alert } from 'react-native'
 import { systemStore, userStore } from '@stores'
 import { feedback, info } from '@utils'
-import { s2tAsync } from '@utils/async'
+import { syncS2T } from '@utils/async'
 import { t } from '@utils/fetch'
 import { FROZEN_FN } from '@constants'
 import { Navigation } from '@types'
@@ -24,14 +24,14 @@ export function handleOnlinePress() {
   const { onlineStatus } = systemStore.setting
   const buttons = [
     {
-      text: s2tAsync('取消'),
+      text: syncS2T('取消'),
       onPress: FROZEN_FN
     }
   ]
 
   if (!onlineStatus) {
     buttons.push({
-      text: s2tAsync('公开'),
+      text: syncS2T('公开'),
       onPress: async () => {
         const result = await userStore.fetchOnlines()
         if (!result) {
@@ -52,7 +52,7 @@ export function handleOnlinePress() {
     })
   } else {
     buttons.push({
-      text: s2tAsync('取消公开'),
+      text: syncS2T('取消公开'),
       onPress: () => {
         systemStore.switchSetting('onlineStatus')
         feedback()
@@ -65,8 +65,8 @@ export function handleOnlinePress() {
   }
 
   Alert.alert(
-    s2tAsync('公开在线状态'),
-    s2tAsync(`此功能仅在 APP 内生效。
+    syncS2T('公开在线状态'),
+    syncS2T(`此功能仅在 APP 内生效。
     \n同意公开后，在所有正在公开状态的用户间，会尽可能地在头像旁边显示在线状态标识
     \n1天内使用过 APP 是绿色标识，3天内是橙色，超过3天没有使用则会消失
     \n请注意，一旦同意后，标识会至少公开3天，尽管同意后又立马取消公开`),

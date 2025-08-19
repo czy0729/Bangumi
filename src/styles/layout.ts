@@ -32,6 +32,9 @@ export const isPad = !!PAD
 /** 平板放大比例 */
 export const ratio = RATIO
 
+/** 平板设备统一放大单位 */
+export const padIncrease = PAD === 2 ? 4 : 2
+
 // -------------------- 统一布局单位 --------------------
 export const {
   window,

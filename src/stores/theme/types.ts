@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-04 14:45:46
  */
-import { StyleSheet } from 'react-native'
+import { StyleSheet, TextStyle } from 'react-native'
 import { ORIENTATION_LANDSCAPE, ORIENTATION_PORTRAIT } from '@constants'
 import { STYLES_DARK, STYLES_LIGHT } from './init'
 
@@ -32,8 +32,8 @@ export type MemoStylesItem = {
 }
 
 export type FontStyle = {
-  fontFamily?: string
-  fontWeight?: string
+  fontFamily?: TextStyle['fontFamily']
+  fontWeight?: TextStyle['fontWeight']
 
   /** 可变字体 woff2 (web only) */
   fontVariationSettings?: string

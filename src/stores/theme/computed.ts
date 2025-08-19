@@ -25,6 +25,9 @@ export default class Computed extends State implements StoreConstructor<typeof S
   /** 平板放大比例 */
   // readonly ratio = _.ratio
 
+  /** 平板设备统一放大单位 */
+  readonly padIncrease = _.padIncrease
+
   /** 小设备 */
   readonly isSmallDevice = _.isSmallDevice
 

@@ -10,7 +10,7 @@ import { Flex, Input, Text } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { alert, open } from '@utils'
-import { s2tAsync } from '@utils/async'
+import { syncS2T } from '@utils/async'
 import { ob } from '@utils/decorators'
 import { FROZEN_FN, WEB } from '@constants'
 import { AnyObject } from '@types'
@@ -38,19 +38,19 @@ function UrlItem({
           size={14}
           onPress={() => {
             if (WEB) {
-              alert(s2tAsync(CONTENT_DIRECTORY), s2tAsync(TITLE))
+              alert(syncS2T(CONTENT_DIRECTORY), syncS2T(TITLE))
               return
             }
 
-            Alert.alert(s2tAsync(TITLE), s2tAsync(CONTENT_SMB), [
+            Alert.alert(syncS2T(TITLE), syncS2T(CONTENT_SMB), [
               {
-                text: s2tAsync('已知问题和详细教程'),
+                text: syncS2T('已知问题和详细教程'),
                 onPress: () => {
                   open('https://www.yuque.com/chenzhenyu-k0epm/znygb4/rrb8zh')
                 }
               },
               {
-                text: s2tAsync('确定'),
+                text: syncS2T('确定'),
                 onPress: FROZEN_FN
               }
             ])

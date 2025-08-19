@@ -12,7 +12,7 @@ import { FROZEN_FN } from '@constants/init'
 import { GROUP_THUMB_MAP } from '@assets/images'
 import { DEV } from '@src/config'
 import { AnyObject, EventType, Navigation, SubjectId } from '@types'
-import { s2tAsync } from '../async'
+import { syncS2T } from '../async'
 import { globalLog, globalWarn, rerender } from '../dev'
 import { t } from '../fetch'
 import { getStorage, setStorage } from '../storage'
@@ -342,7 +342,7 @@ export async function privacy() {
 
   const params = [
     {
-      text: s2tAsync('隐私保护政策'),
+      text: syncS2T('隐私保护政策'),
       onPress: () => {
         open(URL_PRIVACY)
 
@@ -352,7 +352,7 @@ export async function privacy() {
       }
     },
     {
-      text: s2tAsync('不同意并退出'),
+      text: syncS2T('不同意并退出'),
       onPress: () => {
         BackHandler.exitApp()
 
@@ -362,7 +362,7 @@ export async function privacy() {
       }
     },
     {
-      text: s2tAsync('同意'),
+      text: syncS2T('同意'),
       onPress: () => {
         setStorage(PRIVACY_STATE, 1)
       }
@@ -370,8 +370,8 @@ export async function privacy() {
   ]
 
   return Alert.alert(
-    s2tAsync('隐私保护政策'),
-    s2tAsync(`请你务必审慎阅读、充分理解“隐私保护政策”各条款。
+    syncS2T('隐私保护政策'),
+    syncS2T(`请你务必审慎阅读、充分理解“隐私保护政策”各条款。
     \n如你同意，请点击“同意”开始使用服务。如你不同意，很遗憾本应用无法为你提供服务。`),
     params
   )

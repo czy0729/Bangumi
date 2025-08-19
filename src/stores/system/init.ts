@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-10 17:21:20
+ * @Last Modified time: 2025-08-19 22:05:24
  */
 import { MUSUME_PROMPT } from '@utils/kv/ds'
 import {
@@ -147,6 +147,9 @@ export const INIT_SETTING = {
 
   /** 简体转繁体词库 */
   s2tLocal: 'tw' as 'tw' | 'hk',
+
+  /** 文字排版 */
+  spacing: false,
 
   /** 黑暗模式是否纯黑 */
   deepDark: true,

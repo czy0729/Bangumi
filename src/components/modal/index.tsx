@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-05 22:03:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 04:21:17
+ * @Last Modified time: 2025-08-19 19:46:34
  */
 import React, { Suspense, useEffect } from 'react'
 import { useObserver } from 'mobx-react'
@@ -39,7 +39,7 @@ export const Modal = ({
       focus={focus}
       title={
         !!title && (
-          <Text type={type} size={16}>
+          <Text type={type} size={16} numberOfLines={5}>
             {title}
           </Text>
         )
