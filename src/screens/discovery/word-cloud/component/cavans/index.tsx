@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-26 18:30:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 08:18:52
+ * @Last Modified time: 2025-08-21 00:30:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,8 +25,8 @@ function Cavans() {
   if (_loaded && !list.length) {
     return (
       <Flex style={styles.empty} justify='center'>
-        <Text type='__plain__' bold>
-          没有足够的数据
+        <Text style={styles.transparent} type='__plain__' bold>
+          没有足够的数据，或者授权过期
         </Text>
       </Flex>
     )

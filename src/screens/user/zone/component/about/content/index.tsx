@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-07 17:41:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-12 02:00:02
+ * @Last Modified time: 2025-08-21 05:25:32
  */
 import React from 'react'
 import { Loading, RenderHtml } from '@components'
@@ -19,7 +19,7 @@ function Content() {
   return (
     <RenderHtml
       style={_.mt.sm}
-      html={$.content || '(没有填写简介)'}
+      html={($.content || '(没有填写简介)').replace(/^<br>|\r\n/g, '')}
       onLinkPress={href => {
         appNavigate(
           href,

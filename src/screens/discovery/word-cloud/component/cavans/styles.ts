@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-27 15:46:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-02 08:54:03
+ * @Last Modified time: 2025-08-21 00:30:32
  */
 import { _ } from '@stores'
 
@@ -23,5 +23,8 @@ export const memoStyles = _.memoStyles(() => ({
     right: 0,
     left: 0,
     opacity: 0.64
+  },
+  transparent: {
+    opacity: 0.56
   }
 }))

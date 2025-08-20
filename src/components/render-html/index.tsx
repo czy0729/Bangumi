@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-21 05:17:45
+ * @Last Modified time: 2025-08-21 05:25:23
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -25,7 +25,7 @@ import {
   hackFixedHTMLTags,
   hackMatchMediaLink
 } from './utils'
-import { COMPONENT, PAD_FONT_ZISE_INCREASE, PAD_LINE_HEIGHT_INCREASE, REGS } from './ds'
+import { COMPONENT, PAD_FONT_ZISE_INCREASE, REGS } from './ds'
 import { styles } from './styles'
 import { Props as RenderHtmlProps } from './types'
 
@@ -184,7 +184,7 @@ export const RenderHtml = observer(
                 return `<span style="font-family:bgm;font-size:${
                   _baseFontStyle.fontSize || this.defaultBaseFontStyle.fontSize
                 }px;line-height:${
-                  _baseFontStyle.lineHeight || this.defaultBaseFontStyle.lineHeight
+                  _baseFontStyle.lineHeight || this.defaultBaseFontStyle.fontSize
                 }px;user-select:all">${bgmMap[index]}</span>`
               }
               return alt
@@ -217,12 +217,11 @@ export const RenderHtml = observer(
       }
     }
 
-    /** @issue iOS 开发遇到奇怪 bug, 文字太多当 lineHeight 大于15, 不显示? */
     get defaultBaseFontStyle() {
       return {
         fontFamily: _.fontFamily,
         fontSize: 15 + _.fontSizeAdjust + (_.isPad ? PAD_FONT_ZISE_INCREASE : 0),
-        lineHeight: 24 + (_.isPad ? PAD_LINE_HEIGHT_INCREASE : 0),
+        // lineHeight: 24 + (_.isPad ? PAD_LINE_HEIGHT_INCREASE : 0),
         color: _.colorTitle
       }
     }
