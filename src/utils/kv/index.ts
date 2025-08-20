@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-23 01:47:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-05 05:21:42
+ * @Last Modified time: 2025-08-21 00:07:05
  */
 import axios from '@utils/thirdParty/axios'
 import { WEB } from '@constants/device'
@@ -10,9 +10,9 @@ import { TranslateResult } from '@types'
 import { isDevtoolsOpen } from '../dom'
 import hash from '../thirdParty/hash'
 import { getTimestamp } from '../utils'
-import { Result, ResultCollectList, ResultTemp } from './type'
+import { Result, ResultCollectList, ResultPicList, ResultTemp } from './type'
 import { log } from './utils'
-import { HOST, HOST_COMPLETIONS, HOST_LX, UPDATE_CACHE_MAP } from './ds'
+import { HOST, HOST_COMPLETIONS, HOST_LX, HOST_PIC_LIST, UPDATE_CACHE_MAP } from './ds'
 
 /** 获取 */
 export async function get(key: string): Promise<any> {
@@ -376,6 +376,24 @@ export async function completions(prompt: string, roleSystem: string, roleUser: 
   } catch (error) {
     return ''
   }
+}
+
+export async function picList(prefix: string, maxKeys: number = 100): Promise<ResultPicList> {
+  if (isDevtoolsOpen()) return Promise.reject('denied')
+
+  try {
+    // @ts-expect-error
+    const { data } = await axios({
+      method: 'get',
+      url: `${HOST_PIC_LIST}?prefix=${decodeURIComponent(prefix)}&maxKeys=${maxKeys}`
+    })
+
+    if (data?.success && Array.isArray(data?.files) && data.files.length) {
+      return data.files
+    }
+  } catch (error) {}
+
+  return null
 }
 
 function splitAndKeepPunctuation(str: string) {

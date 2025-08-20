@@ -24,6 +24,10 @@ export const HOST_COMPLETIONS = Crypto.get(
   'U2FsdGVkX1+RtqaPzQG9mudeStNXPCRt2mWcKj0d8A/EY/nEJw6g6NFBeVI1TF1YRA3jIFHhaMEhNAU8JG4780beVhdx0i0BR8qsCjJvyNg='
 )
 
+export const HOST_PIC_LIST = Crypto.get(
+  'U2FsdGVkX19nL+8jq0zc5bckkgT4cjT94R+V+aNRq8VavbU/ANY8bhv2GocwhXIM10NZCVELVMHpITkJUdY7XkK9vni6dsxGQ8Lo1qxnSR1/EAMhJAW3Ve+I6fJmdxqN'
+)
+
 /** 唯一性标记, 完全一样的 POST 请求不会发送第二次 */
 export const UPDATE_CACHE_MAP = new Map<string, boolean>()
 
