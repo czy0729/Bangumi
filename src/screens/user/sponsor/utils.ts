@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-07 00:56:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-13 20:04:02
+ * @Last Modified time: 2025-08-21 18:46:32
  */
 import { useCallback, useState } from 'react'
 import dayjs from 'dayjs'
@@ -166,21 +166,28 @@ export async function devGetUsersInfo() {
   const items = Object.keys(advanceJSON)
   await queue(
     items.map((userId, index) => async () => {
-      const data = await usersStore.fetchUsers({
-        userId
-      })
-      console.info(`devGetUsersInfo ${index} / ${items.length}`)
+      try {
+        const data = await usersStore.fetchUsers({
+          userId
+        })
+        console.info(`devGetUsersInfo ${index} / ${items.length}`)
 
-      USERS_MAP[userId] = {
-        n: data.userName
-      }
-      if (data.avatar) {
-        USERS_MAP[userId].a = data.avatar.split('?')[0].split('/000/')[1].replace('.jpg', '')
-      }
-      if (data.userId !== userId) USERS_MAP[userId].i = data.userId
+        USERS_MAP[userId] = {
+          n: data.userName
+        }
+        if (data.avatar) {
+          USERS_MAP[userId].a = data.avatar
+            .split('?')[0]
+            .split(/\/00(0|1)\//)[2]
+            .replace('.jpg', '')
+        }
+        if (data.userId !== userId) USERS_MAP[userId].i = data.userId
+      } catch (error) {}
+
       return true
     })
   )
+  console.log(JSON.stringify(USERS_MAP))
 
   update('sponsor_users_map', USERS_MAP)
 
@@ -193,14 +200,21 @@ export async function devLocalUsersInfo() {
   await usersStore.init('users')
   const USERS_MAP = {}
   Object.keys(advanceJSON).forEach(userId => {
-    const data = usersStore.users(userId)
-    USERS_MAP[userId] = {
-      n: data.userName
+    try {
+      const data = usersStore.users(userId)
+      USERS_MAP[userId] = {
+        n: data.userName
+      }
+      if (data.avatar) {
+        USERS_MAP[userId].a = data.avatar
+          .split('?')[0]
+          .split(/\/00(0|1)\//)[2]
+          .replace('.jpg', '')
+      }
+      if (data.userId !== userId) USERS_MAP[userId].i = data.userId
+    } catch (error) {
+      console.log(usersStore.users(userId).avatar)
     }
-    if (data.avatar) {
-      USERS_MAP[userId].a = data.avatar.split('?')[0].split('/000/')[1].replace('.jpg', '')
-    }
-    if (data.userId !== userId) USERS_MAP[userId].i = data.userId
   })
 
   update('sponsor_users_map', USERS_MAP)

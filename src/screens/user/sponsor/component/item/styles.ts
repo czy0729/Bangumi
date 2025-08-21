@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-07 02:44:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-07 18:47:51
+ * @Last Modified time: 2025-08-21 19:06:32
  */
 import { _ } from '@stores'
 
@@ -20,11 +20,12 @@ export const memoStyles = _.memoStyles(() => ({
     right: 0,
     bottom: 0,
     left: 0,
-    borderWidth: _.hairlineWidth,
+    borderTopWidth: _.hairlineWidth,
+    borderLeftWidth: _.hairlineWidth,
     borderColor: _.select('rgba(0, 0, 0, 0.12)', 'rgba(255, 255, 255, 0.12)')
   },
   content: {
-    width: '88%'
+    width: '92%'
   },
   l1: {
     backgroundColor: _.select('rgb(210, 210, 210)', 'rgb(12, 12, 12)')

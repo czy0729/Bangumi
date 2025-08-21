@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-08 10:38:22
+ * @Last Modified time: 2025-08-21 19:08:14
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable, UserStatus } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
-import { HTMLDecode } from '@utils'
+import { HTMLDecode, stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { IMG_DEFAULT_AVATAR } from '@constants'
 import { ViewStyle } from '@types'
@@ -35,6 +35,18 @@ function Item({ w, h, x, y, data, percent, price, isFilter, onPress, onLongPress
   } else if (price >= 10) {
     backgroundStyle = styles.l1
   }
+
+  const elName = (
+    <Text
+      size={USERS_MAP[data]?.n?.length >= 8 ? 9 : Math.min(13, parseInt(String(10 * ratio)))}
+      numberOfLines={2}
+      bold
+      align='center'
+      selectable={false}
+    >
+      {HTMLDecode(USERS_MAP[data]?.n)}
+    </Text>
+  )
 
   return (
     <View
@@ -70,7 +82,7 @@ function Item({ w, h, x, y, data, percent, price, isFilter, onPress, onLongPress
           {showAvatar && (
             <View
               style={{
-                marginBottom: parseInt(String(5.6 * ratio))
+                marginBottom: Math.floor(5.6 * ratio)
               }}
               pointerEvents='none'
             >
@@ -86,28 +98,34 @@ function Item({ w, h, x, y, data, percent, price, isFilter, onPress, onLongPress
                       : IMG_DEFAULT_AVATAR
                   }
                   size={avatarSize}
-                  radius={Math.floor(avatarSize * 0.28)}
                   borderWidth={0}
                 />
               </UserStatus>
             </View>
           )}
           <Flex style={styles.content} justify='center'>
-            <Text
-              size={
-                USERS_MAP[data]?.n?.length >= 8 ? 10 : Math.min(14, parseInt(String(11 * ratio)))
-              }
-              numberOfLines={2}
-              bold
-              align='center'
-              selectable={false}
-            >
-              {HTMLDecode(USERS_MAP[data]?.n)}
-            </Text>
+            {showAvatar ? (
+              elName
+            ) : (
+              <UserStatus style={backgroundStyle} userId={USERS_MAP[data]?.i || data} mini>
+                <View style={_.mh.sm}>{elName}</View>
+              </UserStatus>
+            )}
           </Flex>
         </Flex>
       </Touchable>
-      <View style={styles.border} pointerEvents='none' />
+      <View
+        style={stl(
+          styles.border,
+          !x && {
+            borderLeftWidth: 0
+          },
+          !y && {
+            borderTopWidth: 0
+          }
+        )}
+        pointerEvents='none'
+      />
     </View>
   )
 }
