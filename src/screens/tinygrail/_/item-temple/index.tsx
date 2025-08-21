@@ -105,7 +105,7 @@ function ItemTemple({
           bold
         >
           {extra}
-          {state ? `\n持股 ${state}` : ''}
+          {state ? `\n持股 ${formatNumber(state, 0)}` : ''}
         </Text>
       )}
       {!!userStarForces && !onItem && (

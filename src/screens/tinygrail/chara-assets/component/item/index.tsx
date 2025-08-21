@@ -42,7 +42,9 @@ function Item({ id, index, item }: Props) {
             monoId: item.id
           })
         }}
-        onItem={() => $.onShowModal(item.id)}
+        onItem={() => {
+          $.onShowModal(item.id)
+        }}
       />
     )
   }

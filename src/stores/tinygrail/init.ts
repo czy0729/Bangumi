@@ -2,11 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:20:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-27 05:33:35
+ * @Last Modified time: 2025-08-21 16:06:42
  */
 import { LIST_EMPTY } from '@constants'
 import { Id, ListEmpty, Loaded } from '@types'
-import { TinygrailItemsItem, TinygrailTopWeekHistoryItem, TinygrailTopWeekItem } from './types'
+import {
+  TinygrailItemsItem,
+  TinygrailStarLogsItem,
+  TinygrailTopWeekHistoryItem,
+  TinygrailTopWeekItem
+} from './types'
 
 export const NAMESPACE = 'Tinygrail'
 
@@ -411,7 +416,7 @@ export const STATE = {
   star: {},
 
   /** 通天塔(α)记录 */
-  starLogs: LIST_EMPTY,
+  starLogs: LIST_EMPTY as ListEmpty<TinygrailStarLogsItem>,
 
   /** 幻想乡 */
   fantasy: LIST_EMPTY,

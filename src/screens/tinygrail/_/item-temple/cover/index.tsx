@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-05 04:16:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-18 22:02:51
+ * @Last Modified time: 2025-08-21 15:21:42
  */
 import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
@@ -12,9 +12,10 @@ import { showImageViewer, stl, tinygrailOSS } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { ColorValue } from '@types'
 import { memoStyles } from './styles'
+import { CoverProps } from './types'
 
-function Cover({ level, cover, coverSize = 150, name, refine, event, onPress }) {
-  const src = tinygrailOSS(cover, coverSize as 150 | 480)
+function Cover({ level, cover, coverSize = 150, name, refine, event, onPress }: CoverProps) {
+  const src = tinygrailOSS(cover, coverSize)
   const imageViewerSrc = tinygrailOSS(cover, 480)
   const imageEvent = useMemo(
     () => ({
@@ -36,13 +37,16 @@ function Cover({ level, cover, coverSize = 150, name, refine, event, onPress }) 
 
   return useObserver(() => {
     const styles = memoStyles()
+
     let colorLevel: ColorValue
-    if (level === 3) {
+    if (level >= 3) {
       colorLevel = '#b169ff'
     } else if (level === 2) {
       colorLevel = '#ffc107'
     } else if (level === 1) {
       colorLevel = '#c0c0c0'
+    } else if (level === 0) {
+      colorLevel = _.colorTinygrailText
     }
 
     const isFromBgm = src.includes('lain.bgm.tv')

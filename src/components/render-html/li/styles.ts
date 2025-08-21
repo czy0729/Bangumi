@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-05-17 06:20:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-13 18:00:31
+ * @Last Modified time: 2025-08-21 17:10:22
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   li: {
     marginTop: 0,
-    marginBottom: 12,
+    marginBottom: 8,
     borderBottomWidth: 0
   },
   groupSection: {

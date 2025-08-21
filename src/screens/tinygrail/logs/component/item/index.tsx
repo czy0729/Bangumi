@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:42:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-02 16:15:04
+ * @Last Modified time: 2025-08-21 17:22:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -33,6 +33,7 @@ function Item({ balance, desc = '', change, time, charaId }: Props) {
 
   let icons: string
   let handlePress: Fn
+
   if (ITEMS.some(item => desc.includes(item))) {
     // 这些类型有 charaId
     icons = $.icons(charaId)

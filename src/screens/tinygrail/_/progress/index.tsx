@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-03 07:03:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-19 17:14:38
+ * @Last Modified time: 2025-08-21 15:32:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,7 +25,7 @@ function Progress({ style, size = 'md', assets, sacrifices, refine = 0, star }: 
     barColor = _.colorDanger
   } else if (assets && sacrifices) {
     percent = Math.max(Math.min(assets / sacrifices, 1), 0.06)
-    if (refine && assets + refine >= sacrifices) {
+    if (assets > sacrifices || (refine >= 10 && assets + refine >= sacrifices)) {
       barColor = _.colorPrimary
     } else if (assets >= sacrifices) {
       barColor = _.colorSuccess

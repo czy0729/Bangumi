@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-28 21:44:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-29 16:56:50
+ * @Last Modified time: 2025-08-21 16:06:19
  */
 import { Loaded, Override } from '@types'
 import { INIT_CHARACTERS_ITEM } from './init'
@@ -74,3 +74,19 @@ export type TinygrailTopWeekItem = Override<
     typeChange?: number
   }
 >
+
+export type TinygrailStarLogsItem = {
+  amount: number
+  fromMonoId: number
+  icon: string
+  id: number
+  monoId: number
+  name: string
+  oldRank: number
+  rank: number
+  stars: number
+  time: string
+  type: number
+  userId: number
+  userName: string
+}

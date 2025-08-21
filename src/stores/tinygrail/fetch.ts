@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:38:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-29 16:57:02
+ * @Last Modified time: 2025-08-21 15:54:39
  */
 import { toJS } from 'mobx'
 import { getTimestamp, HTMLDecode, info, lastDate, toFixed } from '@utils'
@@ -2040,18 +2040,19 @@ export default class Fetch extends Computed {
       const { State, Value } = result.data
       if (State === 0) {
         const next = mapItems(Value.Items, {
+          amount: 'Amount',
+          fromMonoId: 'FromCharacterId',
+          icon: 'Icon',
           id: 'Id',
           monoId: 'CharacterId',
-          fromMonoId: 'FromCharacterId',
           name: 'CharacterName',
-          icon: 'Icon',
-          amount: 'Amount',
           oldRank: 'OldRank',
           rank: 'Rank',
-          userName: 'Nickname',
-          userId: 'UserName',
+          stars: 'Stars',
           time: item => lastDate(getTimestamp(item.LogTime.replace('T', ' '))),
-          type: 'Type'
+          type: 'Type',
+          userId: 'UserName',
+          userName: 'Nickname'
         })
         if (next?.[0]) {
           const current = this[STATE_KEY]
