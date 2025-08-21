@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:15:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 00:40:50
+ * @Last Modified time: 2025-08-22 02:11:09
  */
 import { computed } from 'mobx'
 import { x18 } from '@utils'
@@ -124,6 +124,14 @@ export default class Computed extends State implements StoreConstructor<typeof S
   epFormHTML(epId: EpId) {
     return computed<HTMLText>(() => {
       return this.state.epFormHTML[epId] || ''
+    }).get()
+  }
+
+  /** 章节更新时间 */
+  epStatus(epId: EpId) {
+    this.init('epStatus', true)
+    return computed(() => {
+      return this.state.epStatus[epId] || ''
     }).get()
   }
 

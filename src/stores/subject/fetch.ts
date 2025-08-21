@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:33:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-20 01:49:36
+ * @Last Modified time: 2025-08-22 02:31:26
  */
 import { getTimestamp, HTMLTrim, omit, queue } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -37,6 +37,7 @@ import {
   cheerioRating,
   cheerioSubjectCatalogs,
   cheerioSubjectComments,
+  cheerioSubjectEpsFromHTML,
   cheerioSubjectFromHTML,
   cheerioVIB,
   cheerioWikiCovers,
@@ -129,6 +130,15 @@ export default class Fetch extends Computed {
         }
       })
       this.save(STATE_KEY)
+
+      const epStatus = cheerioSubjectEpsFromHTML(html)
+      if (epStatus) {
+        const STATE_KEY_EP = 'epStatus'
+        this.setState({
+          [STATE_KEY_EP]: epStatus
+        })
+        this.save(STATE_KEY_EP)
+      }
     } catch (error) {
       this.error('fetchSubjectFromHTML', error)
     }

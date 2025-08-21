@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-08-05 22:19:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-26 04:36:52
+ * @Last Modified time: 2025-08-22 02:35:47
  */
 import React from 'react'
 import { Flex, Text } from '@components'
+import { subjectStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { Button } from '../button'
 import { styles } from './styles'
@@ -39,6 +40,7 @@ export const SpButtons = ob(({ props, eps, preNum }) => {
           props={props}
           item={item}
           eps={eps}
+          epStatus={subjectStore.epStatus(item.id)}
           isSp
           num={preNum + index + 2}
         />

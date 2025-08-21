@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:27:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-15 02:05:15
+ * @Last Modified time: 2025-08-22 02:11:16
  */
 import { LIST_EMPTY } from '@constants'
 import { MODEL_RATING_STATUS } from '@constants/model'
 import { Actions, Loaded, Origin, RatingStatus, SubjectType } from '@types'
+import { EpStatus } from './types'
 
 /** 命名空间 */
 export const NAMESPACE = 'Subject'
@@ -236,6 +237,11 @@ const STATE = {
     0: ''
   },
 
+  /** 章节更新时间 */
+  epStatus: {
+    0: ''
+  } as EpStatus,
+
   /** 集数大于 1000 的条目的章节信息 */
   epV2: {
     0: {
@@ -357,11 +363,12 @@ export { STATE }
 
 export const LOADED = {
   actions: false,
+  epStatus: false,
   epV2: false,
   mono: false,
   nsfw: false,
   origin: false,
   rank: false,
-  vib: false,
-  subjectFromOSS: false
+  subjectFromOSS: false,
+  vib: false
 }

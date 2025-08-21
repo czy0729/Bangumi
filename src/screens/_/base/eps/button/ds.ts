@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-04 03:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 16:57:27
+ * @Last Modified time: 2025-08-22 02:13:43
  */
 import { FROZEN_FN } from '@constants'
 import { SubjectId } from '@types'
@@ -13,6 +13,7 @@ export const DEFAULT_PROPS = {
   heatMap: false as boolean,
   item: {} as any,
   eps: [] as any[],
+  epStatus: '' as string,
   isSp: false as boolean,
   num: 0 as number,
   props: {

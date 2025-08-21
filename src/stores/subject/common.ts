@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-12 15:31:25
+ * @Last Modified time: 2025-08-22 02:11:42
  */
 import {
   cData,
@@ -29,6 +29,7 @@ import { Cover, Id, Override, SubjectTypeValue } from '@types'
 import { cheerioComments } from '../rakuen/common'
 import { Likes } from '../rakuen/types'
 import {
+  EpStatus,
   MonoVoices,
   MonoWorks,
   Rating,
@@ -160,6 +161,18 @@ export function cheerioSubjectFromHTML(html: string): SubjectFromHTML {
     lock: cText($('div.tipIntro div.inner h3')),
     formhash: String(cData($('#collectBoxForm'), 'action')).split('?gh=')?.[1] || ''
   }
+}
+
+/** 章节操作时间 */
+export function cheerioSubjectEpsFromHTML(html: string) {
+  const $ = cheerio(htmlMatch(html, '<div id="headerSubject"', '<div id="footer">'))
+
+  const data: EpStatus = {}
+  cEach($('.prg_popup .epBtnCu'), $row => {
+    const id = Number(cData($row, 'id').split('_')?.[1] || 0)
+    if (id) data[id] = cData($row, 'title')
+  })
+  return data
 }
 
 /** 条目留言 */

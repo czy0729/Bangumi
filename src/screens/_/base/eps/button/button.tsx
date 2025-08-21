@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-03 17:28:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-28 00:41:21
+ * @Last Modified time: 2025-08-22 02:17:00
  */
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
@@ -35,6 +35,7 @@ export default memo(
     },
     item = FROZEN_OBJECT,
     eps = FROZEN_ARRAY,
+    epStatus = '',
     isSp = false,
     num = 0
   }) => {
@@ -56,7 +57,7 @@ export default memo(
     const isSide = num % numbersOfLine === 0
     const type = getType(userProgress[item.id], item.status)
 
-    const popoverData = getPopoverData(item, isSp, canPlay, login, advance, userProgress)
+    const popoverData = getPopoverData(item, isSp, canPlay, login, advance, userProgress, epStatus)
     const popoverProps = IOS
       ? {
           overlay: (

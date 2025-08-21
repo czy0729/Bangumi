@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-05-25 17:20:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 04:07:32
+ * @Last Modified time: 2025-08-22 02:22:00
  */
 import dayjs from 'dayjs'
 import { systemStore } from '@stores'
 import { desc, HTMLDecode } from '@utils'
-import { WEB, WSA } from '@constants'
+import { TEXT_MENU_SPLIT_LEFT, TEXT_MENU_SPLIT_RIGHT, WEB, WSA } from '@constants'
 import { DEFAULT_PROPS } from './ds'
 
 const today = dayjs().subtract(1, 'day').format('YYYY-MM-DD 23:59:59')
@@ -18,7 +18,8 @@ export function getPopoverData(
   canPlay: boolean,
   login: boolean,
   advance: boolean,
-  userProgress: { [x: string]: string }
+  userProgress: { [x: string]: string },
+  epStatus: string
 ) {
   const discuss = HTMLDecode(`(+${item.comment}) ${item.name_cn || item.name || '本集讨论'}`)
 
@@ -34,12 +35,16 @@ export function getPopoverData(
 
   const data: string[] = []
   if (login) {
-    if (userProgress[item.id] !== '看过') data.push('看过')
-    if (!isSp) data.push('看到')
-    if (advance) {
-      data.push('想看', '抛弃')
+    const userProgressValue = userProgress[item.id]
+    if (userProgressValue && epStatus) {
+      data.push(`${userProgressValue}${TEXT_MENU_SPLIT_LEFT}${epStatus}${TEXT_MENU_SPLIT_RIGHT}`)
     }
-    if (userProgress[item.id]) data.push('撤销')
+    if (userProgressValue !== '看过') {
+      data.push('看过')
+      if (!isSp) data.push('看到')
+    }
+    if (advance) data.push('想看', '抛弃')
+    if (userProgressValue) data.push('撤销')
   }
 
   if (canAddCalendar) data.push('添加提醒')

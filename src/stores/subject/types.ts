@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-10 14:20:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-04 05:36:03
+ * @Last Modified time: 2025-08-22 02:11:23
  */
 import {
   AnyObject,
@@ -11,6 +11,7 @@ import {
   Cover,
   CoverCrt,
   DeepPartial,
+  EpId,
   HTMLText,
   Id,
   Images,
@@ -619,3 +620,5 @@ export type EpV2 = {
   list: Ep[]
   _loaded: Loaded
 }
+
+export type EpStatus = Record<EpId, string>
