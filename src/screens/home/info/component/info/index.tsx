@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { RenderHtml } from '@components'
-import { useStore } from '@stores'
+import { _, useStore } from '@stores'
 import { appNavigate } from '@utils'
 import { ob } from '@utils/decorators'
 import { processHtml } from '@screens/home/subject/component/info/utils'
@@ -21,6 +21,7 @@ function Info() {
   return (
     <RenderHtml
       style={styles.info}
+      baseFontStyle={_.baseFontStyle.md}
       html={processHtml(html)}
       onLinkPress={href => {
         appNavigate(

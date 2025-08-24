@@ -2,22 +2,34 @@
  * @Author: czy0729
  * @Date: 2023-12-30 14:56:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 20:43:47
+ * @Last Modified time: 2025-08-23 04:37:43
  */
 import { rc } from '@utils/dev'
+import {
+  TEXT_MENU_BLOGS_SELF,
+  TEXT_MENU_CATALOGS_SELF,
+  TEXT_MENU_CHARACTER_SELF,
+  TEXT_MENU_FRIEND,
+  TEXT_MENU_FRIEND_SELF,
+  TEXT_MENU_NETABA,
+  TEXT_MENU_NETABA_SELF,
+  TEXT_MENU_USER_TIMELINE_SELF,
+  TEXT_MENU_WORDCLOUD_SELF,
+  TEXT_MENU_ZONE_SELF
+} from '@constants'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'Menu')
 
 export const DATA_ME = [
-  '我的空间',
-  '我的好友',
-  '我的人物',
-  '我的目录',
-  '我的日志',
-  '我的词云',
-  '我的时间线',
-  '我的netaba.re'
+  TEXT_MENU_ZONE_SELF,
+  TEXT_MENU_FRIEND_SELF,
+  TEXT_MENU_CHARACTER_SELF,
+  TEXT_MENU_CATALOGS_SELF,
+  TEXT_MENU_BLOGS_SELF,
+  TEXT_MENU_WORDCLOUD_SELF,
+  TEXT_MENU_USER_TIMELINE_SELF,
+  TEXT_MENU_NETABA_SELF
 ] as const
 
-export const DATA_OTHER = ['TA的好友', 'TA的netaba.re'] as const
+export const DATA_OTHER = [TEXT_MENU_FRIEND, TEXT_MENU_NETABA] as const

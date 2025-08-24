@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 02:59:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 00:52:31
+ * @Last Modified time: 2025-08-24 10:07:05
  */
 import { computed } from 'mobx'
 import { LIST_EMPTY } from '@constants'
@@ -19,14 +19,7 @@ import {
 import userStore from '../user'
 import { DEFAULT_USERS_SUBJECT_COLLECTION, STATE } from './init'
 import State from './state'
-import {
-  Collection,
-  MosaicTile,
-  UserCollections,
-  UserCollectionsMap,
-  UserCollectionsTags,
-  UsersSubjectCollection
-} from './types'
+import { Collection, MosaicTile, UserCollectionsMap, UsersSubjectCollection } from './types'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   /** 条目收藏信息 */
@@ -37,19 +30,19 @@ export default class Computed extends State implements StoreConstructor<typeof S
     }).get()
   }
 
-  /** 用户收藏概览 (HTML, 全部) */
+  /** 用户收藏概览 */
   userCollections(userId: UserId, subjectType: SubjectType, type: CollectionStatus) {
     this.init('userCollections', true)
-    return computed<UserCollections>(() => {
+    return computed(() => {
       const key = `${userId || userStore.myUserId}|${subjectType}|${type}`
       return this.state.userCollections[key] || LIST_EMPTY
     }).get()
   }
 
-  /** 用户收藏概览的标签 (HTML) */
+  /** 用户收藏概览的标签 */
   userCollectionsTags(userId: UserId, subjectType: SubjectType, type: CollectionStatus) {
     this.init('userCollectionsTags', true)
-    return computed<UserCollectionsTags>(() => {
+    return computed(() => {
       const key = `${userId || userStore.myUserId}|${subjectType}|${type}`
       return this.state.userCollectionsTags[key] || []
     }).get()

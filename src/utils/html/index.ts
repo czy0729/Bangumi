@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-12 15:30:46
+ * @Last Modified time: 2025-08-24 10:10:31
  */
 import cheerioRN from 'cheerio-without-node-native'
 import { TEXT_BADGES } from '@constants/text'
@@ -79,6 +79,7 @@ export function htmlMatch(html: string, start: string, end: string, removeScript
   if (!html || !start || !end) return html || ''
 
   if (removeScript) html = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/g, '')
+
   return html.match(new RegExp(start + '[\\s\\S]+' + end, 'g'))?.[0] || html || ''
 }
 
@@ -343,6 +344,50 @@ export function cFilter($el: any, match: string) {
     })
   } catch (error) {
     return []
+  }
+}
+
+/** cheerio.length > 0 */
+export function cHas($el: any) {
+  try {
+    return $el.length > 0
+  } catch (error) {
+    return false
+  }
+}
+
+/**
+ * cheerio 查找最大页码、当前页码
+ *  - 只适用于 bgm.tv
+ * */
+export function cPagination($: any) {
+  let pageTotal = 1
+  let page = 1
+
+  try {
+    // 先看是否存在 .p_edge
+    const edgeText = cText($('#multipage .p_edge'))
+    if (edgeText) {
+      // 形如 "( 1 / 20 )"
+      const match = edgeText.match(/\/\s*(\d+)/)
+      if (match) pageTotal = parseInt(match[1], 10)
+    } else {
+      // 否则取所有分页数字
+      const pages: number[] = []
+      cEach($('#multipage .p, #multipage .p_cur'), $row => {
+        const num = parseInt(cText($row))
+        if (!isNaN(num)) pages.push(num)
+      })
+      if (pages.length > 0) pageTotal = Math.max(...pages)
+    }
+
+    const current = parseInt(cText($('#multipage .p_cur')))
+    if (!isNaN(current)) page = current
+  } catch (error) {}
+
+  return {
+    pageTotal,
+    page
   }
 }
 

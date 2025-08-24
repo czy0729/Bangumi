@@ -76,8 +76,8 @@ const Info = memo(
               >
                 <RenderHtml
                   style={styles.info}
+                  baseFontStyle={_.baseFontStyle.md}
                   html={html}
-                  // katakana
                   onLinkPress={href => {
                     appNavigate(
                       href,

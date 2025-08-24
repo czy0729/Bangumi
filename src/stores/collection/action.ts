@@ -60,7 +60,7 @@ export default class Action extends Fetch {
 
     // 只本地化自己的收藏概览
     if (userId === userStore.userInfo.username || userId === userStore.myUserId) {
-      this.setUserCollectionsStroage()
+      this.saveUserCollections()
     }
   }
 

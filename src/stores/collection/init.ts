@@ -2,23 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-07-15 10:48:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-20 04:19:48
+ * @Last Modified time: 2025-08-24 10:07:41
  */
-import {
-  MODEL_SUBJECT_TYPE,
-  MODEL_COLLECTION_STATUS,
-  MODEL_COLLECTIONS_ORDERBY,
-  LIST_EMPTY
-} from '@constants'
-import { UsersSubjectCollection } from './types'
+import { MODEL_COLLECTION_STATUS, MODEL_COLLECTIONS_ORDERBY, MODEL_SUBJECT_TYPE } from '@constants'
+import { UserCollections, UserCollectionsTags, UsersSubjectCollection } from './types'
 
 export const NAMESPACE = 'Collection'
 
 export const DEFAULT_SUBJECT_TYPE = MODEL_SUBJECT_TYPE.getLabel('动画') as 'anime'
 
-export const DEFAULT_COLLECTION_STATUS = MODEL_COLLECTION_STATUS.getValue(
-  '在看'
-) as 'do'
+export const DEFAULT_COLLECTION_STATUS = MODEL_COLLECTION_STATUS.getValue('在看') as 'do'
 
 export const DEFAULT_ORDER = MODEL_COLLECTIONS_ORDERBY.getValue('收藏时间') as ''
 
@@ -36,15 +29,11 @@ export const STATE = {
     0: {}
   },
 
-  /** 用户收藏概览 (HTML, 全部) */
-  userCollections: {
-    0: LIST_EMPTY
-  },
+  /** 用户收藏概览 */
+  userCollections: {} as Record<string, UserCollections>,
 
-  /** 用户收藏概览的标签 (HTML) */
-  userCollectionsTags: {
-    0: []
-  },
+  /** 用户收藏概览的标签 */
+  userCollectionsTags: {} as Record<string, UserCollectionsTags>,
 
   /** @deprecated 所有收藏条目状态 */
   userCollectionsMap: {

@@ -2,75 +2,87 @@
  * @Author: czy0729
  * @Date: 2023-12-31 10:25:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 20:44:09
+ * @Last Modified time: 2025-08-23 16:12:14
  */
 import { open } from '@utils'
 import { t } from '@utils/fetch'
-import { HOST_NETABA } from '@constants'
+import {
+  HOST_NETABA,
+  TEXT_MENU_BLOGS_SELF,
+  TEXT_MENU_CATALOGS_SELF,
+  TEXT_MENU_CHARACTER_SELF,
+  TEXT_MENU_FRIEND,
+  TEXT_MENU_FRIEND_SELF,
+  TEXT_MENU_NETABA,
+  TEXT_MENU_NETABA_SELF,
+  TEXT_MENU_USER_TIMELINE_SELF,
+  TEXT_MENU_WORDCLOUD_SELF,
+  TEXT_MENU_ZONE_SELF
+} from '@constants'
 import { Navigation } from '@types'
-import { DATA_ME, DATA_OTHER } from './ds'
+import { MenuLabel } from './types'
 
 export function handleMenuPopoverPress(
   navigation: Navigation,
-  key: (typeof DATA_ME)[number] | (typeof DATA_OTHER)[number],
+  key: MenuLabel,
   { id, userId, username }
 ) {
-  t('我的.右上角菜单', {
-    key
-  })
-
   switch (key) {
-    case '我的空间':
+    case TEXT_MENU_ZONE_SELF:
       navigation.push('Zone', {
         userId
       })
       break
 
-    case '我的好友':
+    case TEXT_MENU_FRIEND_SELF:
       navigation.push('Friends')
       break
 
-    case '我的人物':
+    case TEXT_MENU_CHARACTER_SELF:
       navigation.push('Character')
       break
 
-    case '我的目录':
+    case TEXT_MENU_CATALOGS_SELF:
       navigation.push('Catalogs')
       break
 
-    case '我的日志':
+    case TEXT_MENU_BLOGS_SELF:
       navigation.push('Blogs')
       break
 
-    case '我的词云':
+    case TEXT_MENU_WORDCLOUD_SELF:
       navigation.push('WordCloud', {
         userId: username || userId
       })
       break
 
-    case '我的时间线':
+    case TEXT_MENU_USER_TIMELINE_SELF:
       navigation.push('UserTimeline', {
         userId: username || userId
       })
       break
 
-    case '我的netaba.re':
+    case TEXT_MENU_NETABA_SELF:
       open(`${HOST_NETABA}/user/${id}`)
       break
 
-    case 'TA的好友':
+    case TEXT_MENU_FRIEND:
       navigation.push('Friends', {
         userId: id
       })
       break
 
-    case 'TA的netaba.re':
+    case TEXT_MENU_NETABA:
       open(`${HOST_NETABA}/user/${id}`)
       break
 
     default:
       break
   }
+
+  t('我的.右上角菜单', {
+    key
+  })
 }
 
 export function handleUserTimelinePress(

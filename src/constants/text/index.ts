@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-23 10:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-21 19:08:50
+ * @Last Modified time: 2025-08-23 05:53:22
  */
 import { WEB } from '../device'
 
@@ -145,6 +145,33 @@ export const TEXT_MENU_PAGINATION = '分页器'
 
 /** 菜单: 年份 */
 export const TEXT_MENU_YEARS = '年　份'
+
+/** 菜单: 我的空间 */
+export const TEXT_MENU_ZONE_SELF = '我的空间'
+
+/** 菜单: 我的好友 */
+export const TEXT_MENU_FRIEND_SELF = '我的好友'
+
+/** 菜单: 我的人物 */
+export const TEXT_MENU_CHARACTER_SELF = '我的人物'
+
+/** 菜单: 我的目录 */
+export const TEXT_MENU_CATALOGS_SELF = '我的目录'
+
+/** 菜单: 我的日志 */
+export const TEXT_MENU_BLOGS_SELF = '我的日志'
+
+/** 菜单: 我的词云 */
+export const TEXT_MENU_WORDCLOUD_SELF = '我的词云'
+
+/** 菜单: 我的时间线 */
+export const TEXT_MENU_USER_TIMELINE_SELF = '我的时间线'
+
+/** 菜单: 我的 netaba.re */
+export const TEXT_MENU_NETABA_SELF = '我的netaba.re'
+
+/** 菜单: TA的netaba.re */
+export const TEXT_MENU_NETABA = 'TA的netaba.re'
 
 /** 标记 */
 export const TEXT_BADGES = {

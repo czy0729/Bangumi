@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-05-27 04:40:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-11 06:04:55
+ * @Last Modified time: 2025-08-24 10:07:53
  */
 import {
+  CollectionsOrder,
   CollectionStatus,
   CollectionStatusCn,
   CollectionStatusValue,
@@ -14,6 +15,7 @@ import {
   ListEmpty,
   Loaded,
   SubjectId,
+  SubjectType,
   UrlUser,
   UserId
 } from '@types'
@@ -57,7 +59,7 @@ export type UserCollectionsItem = {
   collected: boolean
 }
 
-/** 用户收藏概览 (HTML, 全部) */
+/** 用户收藏概览 */
 export type UserCollections = ListEmpty<UserCollectionsItem>
 
 /** 所有收藏条目状态 */
@@ -66,7 +68,7 @@ export type UserCollectionsMap = Record<SubjectId, CollectionStatusCn>
 /** 瓷砖进度 */
 export type MosaicTile = Record<string, number>
 
-/** 用户收藏概览的标签 (HTML) */
+/** 用户收藏概览的标签 */
 export type UserCollectionsTags = {
   tag: string
   count: number
@@ -79,4 +81,13 @@ export type UsersSubjectCollection = {
   type: CollectionStatusValue | ''
   update_at: string
   _loaded: Loaded
+}
+
+export type FetchUserCollectionsArgs = {
+  userId?: UserId
+  subjectType?: SubjectType
+  type?: CollectionStatus
+  order?: CollectionsOrder
+  tag?: string
+  auth?: boolean
 }

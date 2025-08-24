@@ -2,19 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-04-24 03:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-17 23:34:59
+ * @Last Modified time: 2025-08-24 10:23:01
  */
-import {
-  findTreeNode,
-  getTimestamp,
-  HTMLDecode,
-  HTMLToTree,
-  HTMLTrim,
-  info,
-  queue,
-  sleep,
-  trim
-} from '@utils'
+import { getTimestamp, info, queue, sleep } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
 import { fetchCollectionSingleV0, request } from '@utils/fetch.v0'
 import { UserCollectionItem } from '@utils/fetch.v0/types'
@@ -29,8 +19,6 @@ import {
   WEB
 } from '@constants'
 import {
-  CollectionsOrder,
-  CollectionStatus,
   CollectionStatusCn,
   SubjectId,
   SubjectType,
@@ -39,13 +27,14 @@ import {
   UserId
 } from '@types'
 import userStore from '../user'
+import { cheerioUserCollections, cheerioUserCollectionsTags } from './common'
 import Computed from './computed'
 import { DEFAULT_COLLECTION_STATUS, DEFAULT_ORDER, DEFAULT_SUBJECT_TYPE, NAMESPACE } from './init'
-import { UserCollections } from './types'
+import { FetchUserCollectionsArgs } from './types'
 
 export default class Fetch extends Computed {
   /** 只本地化自己的收藏概览 */
-  setUserCollectionsStroage = () => {
+  saveUserCollections = () => {
     const { userCollections } = this.state
     const data = {}
     Object.keys(userCollections).forEach(key => {
@@ -60,7 +49,7 @@ export default class Fetch extends Computed {
   }
 
   /** 只本地化自己的收藏概览的看过的标签 */
-  setUserCollectionsTagsStroage = () => {
+  saveUserCollectionsTags = () => {
     const { userCollectionsTags } = this.state
     const data = {}
     Object.keys(userCollectionsTags).forEach(key => {
@@ -86,186 +75,81 @@ export default class Fetch extends Computed {
     )
   }
 
-  /** 用户收藏概览 (HTML, 全部) */
+  /** 用户收藏概览 */
   fetchUserCollections = async (
-    args: {
-      userId?: UserId
-      subjectType?: SubjectType
-      type?: CollectionStatus
-      order?: CollectionsOrder
-      tag?: string
-      auth?: boolean
-    },
-    refreshOrPage?: boolean | number,
-    maxPage?: number
-  ) => {
-    const {
-      userId: _userId,
+    {
+      userId = userStore.myUserId,
       subjectType = DEFAULT_SUBJECT_TYPE,
       type = DEFAULT_COLLECTION_STATUS,
       order = DEFAULT_ORDER,
-      tag = '',
-      auth = true
-    } = args || {}
-    const userId = _userId || userStore.myUserId
-    const { list, pagination } = this.userCollections(userId, subjectType, type)
+      tag = ''
+    }: FetchUserCollectionsArgs = {},
+    refreshOrPage?: boolean | number,
+    maxPage?: number
+  ) => {
+    const STATE_KEY = 'userCollections'
+    const ITEM_KEY = `${userId}|${subjectType}|${type}`
 
-    let page: number
-    let refresh: boolean
-    if (typeof refreshOrPage === 'boolean') {
-      refresh = refreshOrPage
-      page = refresh ? 1 : pagination.page + 1
-    } else {
-      refresh = true
-      page = refreshOrPage
-    }
+    try {
+      const { list, pagination } = this[STATE_KEY](userId, subjectType, type)
 
-    // 没有更多不再请求
-    if (
-      !refresh &&
-      (pagination.page >= pagination.pageTotal || (maxPage && pagination.page >= maxPage))
-    ) {
-      return this.userCollections(userId, subjectType, type)
-    }
-
-    const html = HTMLTrim(
-      await fetchHTML({
-        url: `${auth ? '' : '!'}${HTML_USER_COLLECTIONS(
-          userId,
-          subjectType,
-          type,
-          order,
-          tag,
-          page
-        )}`
-      })
-    )
-    const stateKey = `${userId}|${subjectType}|${type}`
-    let node: any
-
-    // 看过的标签
-    if (page === 1 || typeof refreshOrPage === 'number') {
-      const tags = []
-      const tagsHtml = html.match(/<ul id="userTagList" class="tagList">(.*?)<\/ul>/)
-      if (tagsHtml) {
-        const tree = HTMLToTree(tagsHtml[1])
-        tree.children.forEach(item => {
-          tags.push({
-            tag: item.children[0].text[0],
-            count: parseInt(item.children[0].children[0].text[0])
-          })
-        })
+      let page: number
+      let refresh: boolean
+      if (typeof refreshOrPage === 'boolean') {
+        refresh = refreshOrPage
+        page = refresh ? 1 : pagination.page + 1
+      } else {
+        refresh = true
+        page = refreshOrPage
       }
 
-      const key = 'userCollectionsTags'
+      // 没有更多不再请求
+      if (
+        !refresh &&
+        (pagination.page >= pagination.pageTotal || (maxPage && pagination.page >= maxPage))
+      ) {
+        return this[STATE_KEY](userId, subjectType, type)
+      }
+
+      const html = await fetchHTML({
+        url: HTML_USER_COLLECTIONS(userId, subjectType, type, order, tag, page)
+      })
+      const next = cheerioUserCollections(html)
+
       this.setState({
-        [key]: {
-          [stateKey]: tags
+        [STATE_KEY]: {
+          [ITEM_KEY]: {
+            list: refresh ? next.list : [...list, ...next.list],
+            pagination: {
+              page,
+              pageTotal: Math.max(next.pagination.pageTotal, page)
+            },
+            _loaded: getTimestamp()
+          }
         }
       })
 
-      if (userId === userStore.myUserId) this.setUserCollectionsTagsStroage()
-    }
-
-    // 收藏记录
-    const items = []
-    const itemsHtml = html.match(
-      /<ul id="browserItemList" class="browserFull">(.+?)<\/ul><div id="multipage"/
-    )
-    let { pageTotal = 0 } = pagination
-
-    if (itemsHtml) {
-      // 总页数
-      if (page === 1) {
-        const pageHTML =
-          html.match(/<span class="p_edge">\(&nbsp;\d+&nbsp;\/&nbsp;(\d+)&nbsp;\)<\/span>/) ||
-          html.match(/(\d+)<\/a>([^>]*>&rsaquo)/)
-        pageTotal = pageHTML?.[1] || 1
+      // 只本地化自己的收藏
+      if (WEB || userId === userStore.userInfo.username || userId === userStore.myUserId) {
+        this.saveUserCollections()
       }
 
-      const tree = HTMLToTree(itemsHtml[1])
-      tree.children.forEach(item => {
-        const { children } = item
-
-        // 条目Id
-        node = findTreeNode(children, 'a|href~/subject/')
-        const id = node ? node[0].attrs.href.replace('/subject/', '') : ''
-
-        // 封面
-        node =
-          findTreeNode(children, 'a > span > img') || findTreeNode(children, 'a > noscript > img')
-        let cover = node ? node[0].attrs.src : ''
-        if (cover === '/img/info_only.png') cover = ''
-
-        // 标题
-        node = findTreeNode(children, 'div > h3 > small')
-        const name = node ? node[0].text[0] : ''
-
-        // 中文标题
-        node = findTreeNode(children, 'div > h3 > a')
-        const nameCn = node ? node[0].text[0] : ''
-
-        // 描述
-        node = findTreeNode(children, 'div > p|class=info tip')
-        const tip = node ? trim(node[0].text[0]) : ''
-
-        // 标签
-        node = findTreeNode(children, 'div > p > span|class=tip')
-        let tags = node ? trim(node[0].text[0].replace('标签: ', '')) : ''
-        if (node?.[1]?.text?.[0]) tags = `${trim(node[1].text[0])} ${tags}`
-
-        // 评论
-        node = findTreeNode(children, 'div > div > div > div > div')
-        const comments = node ? node[0].text[0] : ''
-
-        // 评分
-        node = findTreeNode(children, 'div > p > span|class=starstop-s > span')
-        const score = node ? node[0].attrs.class.replace(/starlight stars/g, '') : ''
-
-        // 收藏时间
-        node = findTreeNode(children, 'div > p > span|class=tip_j')
-        const time = node ? node[0].text[0] : ''
-
-        // 是否收藏过 (针对自己看别人的时光机)
-        node = findTreeNode(children, 'div > div|class=collectBlock tip_i')
-        const collected = node ? true : false
-
-        items.push({
-          id,
-          cover,
-          name,
-          nameCn,
-          tip,
-          tags,
-          comments: HTMLDecode(trim(comments)),
-          score,
-          time,
-          collected
+      const tags = cheerioUserCollectionsTags(html)
+      if (tags?.length) {
+        const STATE_KEY_TAGS = 'userCollectionsTags'
+        this.setState({
+          [STATE_KEY_TAGS]: {
+            [ITEM_KEY]: tags
+          }
         })
-      })
-    }
 
-    const key = 'userCollections'
-    const data: UserCollections = {
-      list: refresh ? items : [...list, ...items],
-      pagination: {
-        page,
-        pageTotal: Number(pageTotal)
-      },
-      _loaded: getTimestamp()
-    }
-    this.setState({
-      [key]: {
-        [stateKey]: data
+        if (userId === userStore.myUserId) this.saveUserCollectionsTags()
       }
-    })
-
-    // 只本地化自己的收藏概览
-    if (WEB || userId === userStore.userInfo.username || userId === userStore.myUserId) {
-      this.setUserCollectionsStroage()
+    } catch (error) {
+      this.error('fetchUserCollections', error)
     }
 
-    return data
+    return this[STATE_KEY](userId, subjectType, type)
   }
 
   /** 排队获取自己的所有动画收藏列表记录 (每种最多取 10 页 240 条数据) */

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-04 06:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-25 11:43:04
+ * @Last Modified time: 2025-08-24 09:58:02
  */
 import { collectionStore, usersStore, userStore } from '@stores'
 import { info } from '@utils'
@@ -37,7 +37,7 @@ export default class Fetch extends Computed {
     if (!_loaded) this.fetchUserCollections(true)
   }
 
-  /** 用户收藏概览 (HTML, 全部) */
+  /** 用户收藏概览 */
   fetchUserCollectionsNormal = async (refreshOrPage: boolean | number = false) => {
     const { subjectType, order, tag } = this.state
     const data = await collectionStore.fetchUserCollections(
