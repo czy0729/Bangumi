@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-06-14 11:36:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-21 00:50:53
+ * @Last Modified time: 2025-08-24 11:13:38
  */
-export function getType(value: string) {
+import { Props } from './types'
+
+export function getType(value: Props['value']) {
   switch (value) {
     case '动画':
     case '主角':

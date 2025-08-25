@@ -10,6 +10,7 @@ import { feedback, stl } from '@utils'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { FROZEN_FN, IOS } from '@constants'
+import { EventKeys } from '@constants/events'
 import { Component } from '../component'
 import { Flex } from '../flex'
 import { Heatmap } from '../heatmap'
@@ -29,6 +30,7 @@ export const Pagination = ({
   style,
   inputStyle,
   input,
+  pageTotal,
   heatmaps = {},
   onPrev = FROZEN_FN,
   onNext = FROZEN_FN,
@@ -42,78 +44,93 @@ export const Pagination = ({
 
   return useObserver(() => {
     const styles = memoStyles()
+
+    /** 左右按钮（前后翻页） */
+    const renderButton = (
+      name: 'md-navigate-before' | 'md-navigate-next',
+      onPress: () => void,
+      heatmapId?: EventKeys,
+      disabled?: boolean
+    ) => (
+      <Touchable
+        style={stl(styles.touch, disabled && styles.disabled)}
+        disabled={disabled}
+        onPress={() => {
+          onPress()
+          feedback(true)
+        }}
+      >
+        <Flex style={styles.pagination} justify='center'>
+          <Iconfont name={name} size={22} color={_.colorDesc} />
+        </Flex>
+        {!!heatmapId && <Heatmap id={heatmapId} />}
+      </Touchable>
+    )
+
+    /** 输入框 + iOS 提交按钮 */
+    const renderInput = () => (
+      <Flex>
+        <Input
+          ref={ref => (inputRef.current = ref)}
+          style={stl(styles.input, inputStyle)}
+          value={input}
+          keyboardType='number-pad'
+          placeholder='页'
+          showClear={false}
+          returnKeyType='search'
+          returnKeyLabel='跳转'
+          onChange={e => {
+            setShow(true)
+            onChange(e)
+          }}
+          onSubmitEditing={() => {
+            onSearch()
+            inputRef.current?.onBlur()
+            feedback(true)
+          }}
+          onFocus={() => {
+            setShow(true)
+          }}
+          onBlur={() => {
+            setShow(false)
+          }}
+        />
+        {IOS && show && (
+          <Touchable
+            style={styles.check}
+            onPress={() => {
+              setShow(false)
+              onSearch()
+              inputRef.current?.onBlur()
+              feedback(true)
+            }}
+          >
+            <Iconfont name='md-arrow-forward' size={16} color={_.colorDesc} />
+          </Touchable>
+        )}
+      </Flex>
+    )
+
     return (
       <Component id='component-pagination'>
         <SafeAreaBottom type='paddingBottom'>
           <Flex style={stl(styles.container, style)}>
             <Flex.Item>
-              <Touchable
-                style={styles.touch}
-                disabled={input == '1'}
-                onPress={() => {
-                  onPrev()
-                  feedback(true)
-                }}
-              >
-                <Flex style={styles.pagination} justify='center'>
-                  <Iconfont name='md-navigate-before' size={22} color={_.colorDesc} />
-                </Flex>
-                {!!heatmaps.prev && <Heatmap id={heatmaps.prev} />}
-              </Touchable>
+              {renderButton('md-navigate-before', onPrev, heatmaps.prev, input === '1')}
             </Flex.Item>
+
             <Flex.Item style={_.ml.lg}>
-              <Flex>
-                <Input
-                  ref={ref => (inputRef.current = ref)}
-                  style={stl(styles.input, inputStyle)}
-                  value={input}
-                  keyboardType='number-pad'
-                  placeholder='页'
-                  showClear={false}
-                  returnKeyType='search'
-                  returnKeyLabel='跳转'
-                  onChange={e => {
-                    setShow(true)
-                    onChange(e)
-                  }}
-                  onSubmitEditing={() => {
-                    onSearch()
-                    inputRef.current.onBlur()
-                    feedback(true)
-                  }}
-                  onFocus={() => setShow(true)}
-                  onBlur={() => setShow(false)}
-                />
-                {/** iOS keyboardType='number-pad' 并没有提交按钮, 需要自行实现提交按钮 */}
-                {IOS && show && (
-                  <Touchable
-                    style={styles.check}
-                    onPress={() => {
-                      setShow(false)
-                      onSearch()
-                      inputRef.current.onBlur()
-                      feedback(true)
-                    }}
-                  >
-                    <Iconfont name='md-arrow-forward' size={16} color={_.colorDesc} />
-                  </Touchable>
-                )}
-              </Flex>
+              {renderInput()}
               {!!heatmaps.search && <Heatmap id={heatmaps.search} />}
             </Flex.Item>
+
             <Flex.Item style={_.ml.lg}>
-              <Touchable
-                style={styles.touch}
-                onPress={() => {
-                  onNext()
-                  feedback(true)
-                }}
-              >
-                <Flex style={styles.pagination} justify='center'>
-                  <Iconfont name='md-navigate-next' size={22} color={_.colorDesc} />
-                </Flex>
-                {!!heatmaps.next && <Heatmap id={heatmaps.next} />}
-              </Touchable>
+              {renderButton(
+                'md-navigate-next',
+                onNext,
+                heatmaps.next,
+                pageTotal && String(pageTotal) === input ? true : false
+              )}
             </Flex.Item>
           </Flex>
           <KeyboardSpacer />

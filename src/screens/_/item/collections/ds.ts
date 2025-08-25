@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:20:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-24 06:01:55
+ * @Last Modified time: 2025-08-24 10:50:50
  */
 import { rc } from '@utils/dev'
 import { EVENT, FROZEN_FN, IMG_HEIGHT, IMG_WIDTH } from '@constants'
@@ -45,9 +45,6 @@ export const DEFAULT_PROPS = {
   showLabel: true as Props['showLabel'],
   hideScore: false as Props['hideScore'],
   relatedId: 0 as Props['relatedId'],
-  isDo: false as Props['isDo'],
-  isOnHold: false as Props['isOnHold'],
-  isDropped: false as Props['isDropped'],
   isCollect: false as Props['isCollect'],
   isCatalog: false as Props['isCatalog'],
   isEditable: false as Props['isEditable'],

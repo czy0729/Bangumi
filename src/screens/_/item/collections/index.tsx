@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 03:07:44
+ * @Last Modified time: 2025-08-24 10:50:40
  */
 import React from 'react'
 import { ob } from '@utils/decorators'
@@ -37,9 +37,6 @@ export const ItemCollections = ob(
     showLabel,
     hideScore,
     relatedId,
-    isDo,
-    isOnHold,
-    isDropped,
     isCollect,
     isCatalog,
     isEditable,
@@ -74,9 +71,6 @@ export const ItemCollections = ob(
         showLabel={showLabel}
         hideScore={hideScore}
         relatedId={relatedId}
-        isDo={isDo}
-        isOnHold={isOnHold}
-        isDropped={isDropped}
         isCollect={isCollect}
         isCatalog={isCatalog}
         isEditable={isEditable}

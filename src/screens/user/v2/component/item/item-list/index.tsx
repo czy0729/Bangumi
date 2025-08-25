@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-08 11:55:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-25 12:54:02
+ * @Last Modified time: 2025-08-24 10:51:15
  */
 import React from 'react'
 import { ItemCollections } from '@_'
@@ -34,18 +34,16 @@ function ItemList({ item, index, page }) {
       index={index}
       inViewY={H_HEADER}
       {...item}
-      showLabel={false}
-      hideScore={false}
-      type={typeCn}
-      isDo={type === 'do'}
-      isDropped={type === 'dropped'}
-      isOnHold={type === 'on_hold'}
-      event={EVENT}
-      filter={activeFilter}
-      simpleStars
-      rank={rankText}
       collection={!$.isMe ? collectionStore.collect(item.id) : undefined}
+      filter={activeFilter}
+      hideScore={false}
+      rank={rankText}
+      showLabel={false}
+      showManage={!$.isMe}
+      simpleStars
+      type={typeCn}
       relatedId={timelineStore.relatedId($.username || $.userId, item.id)}
+      event={EVENT}
       onManagePress={$.onManagePress}
     />
   )

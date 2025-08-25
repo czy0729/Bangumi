@@ -2,63 +2,41 @@
  * @Author: czy0729
  * @Date: 2022-08-08 17:35:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-10 16:54:38
+ * @Last Modified time: 2025-08-24 11:15:45
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Text } from '@components'
 import { _, subjectStore } from '@stores'
-import { getTimestamp } from '@utils'
 import { ob } from '@utils/decorators'
 import { Rank, Stars, Tag, Tags } from '../../../base'
 import { memoStyles } from './styles'
 
-function Bottom({
-  id,
-  score,
-  rank,
-  total,
-  simpleStars,
-  time,
-  tags,
-  hideScore,
-  isDo,
-  isOnHold,
-  isDropped,
-  hasComment
-}) {
-  const hasScore = !!score
+function Bottom({ id, score, rank, total, simpleStars, time, tags, hideScore, hasComment }) {
+  const styles = memoStyles()
 
-  let days: number
-  if (isDo || isOnHold || isDropped) {
-    days = Math.ceil((getTimestamp() - getTimestamp(time)) / 86400)
-  }
-
-  const info = []
-  if (isDo) info.push(`${days}天`)
-  if (isOnHold) info.push(`搁置${days}天`)
-  if (isDropped) info.push(`抛弃${days}天`)
-
+  // 数据预处理
+  const info = String(time).slice(2)
   const tag = tags
     .split(' ')
-    .filter((item: string) => !!item && item !== '自己可见')
-    .filter((_item: string, index: number) => index < 4)
+    .filter(item => !!item && item !== '自己可见')
+    .slice(0, 4)
 
-  const styles = memoStyles()
+  const hasScore = !!score
   const showRank = !hideScore && !!rank
   const showScore = !hideScore && hasScore
   const showTotal = !hideScore && !!total
-  const showInfo = !!info.length
+  const showInfo = !!info
   const showVisibility = tags.includes('自己可见')
-  const showR18 = subjectStore.nsfw(id)
-  const showTags = !!tag?.length
+  const showNSFW = subjectStore.nsfw(id)
+  const showTags = tag.length > 0
 
   const hasLeft = showRank || showScore || showTotal || showInfo
-  const hasCenter = showVisibility || showR18
+  const hasCenter = showVisibility || showNSFW
   const hasRight = showTags
+
   if (!hasLeft && !hasCenter && !hasRight) {
-    if (hasComment) return null
-    return <View style={_.mt.md} />
+    return hasComment ? null : <View style={_.mt.md} />
   }
 
   return (
@@ -74,15 +52,12 @@ function Bottom({
             </Text>
           )}
           {showInfo && (
-            <Text
-              style={(showRank || showScore || showTotal) && _.ml.sm}
-              type='sub'
-              size={11}
-              lineHeight={12}
-              numberOfLines={1}
-            >
-              {info}
-            </Text>
+            <>
+              {(showRank || showScore || showTotal) && <View style={styles.split} />}
+              <Text type='sub' size={11} lineHeight={12} numberOfLines={1} bold>
+                {info}
+              </Text>
+            </>
           )}
         </>
       )}
@@ -100,7 +75,7 @@ function Bottom({
               />
             </Tag>
           )}
-          {showR18 && <Tag style={showVisibility && _.ml.sm} value='R18' />}
+          {showNSFW && <Tag style={showVisibility && _.ml.sm} value='NSFW' type='ask' />}
         </>
       )}
 

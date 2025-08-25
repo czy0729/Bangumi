@@ -26,11 +26,12 @@ const List = memo(
     onHeaderRefresh = FROZEN_FN,
     onFooterRefresh = FROZEN_FN
   }) => {
+    const { page: pageCurrent, pageTotal } = data.pagination
     const passProps: Partial<ListViewProps<any>> = {
       contentContainerStyle: list ? styles.list : styles.grid
     }
     if (userPagination) {
-      passProps.ListFooterComponent = <Pagination />
+      passProps.ListFooterComponent = <Pagination pageTotal={pageTotal} />
     } else {
       passProps.onHeaderRefresh = onHeaderRefresh
       passProps.onFooterRefresh = onFooterRefresh
@@ -41,7 +42,6 @@ const List = memo(
       [page]
     )
 
-    const { page: pageCurrent, pageTotal } = data.pagination
     return (
       <ListView
         keyExtractor={keyExtractor}

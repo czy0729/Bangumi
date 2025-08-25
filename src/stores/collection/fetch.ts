@@ -13,6 +13,7 @@ import {
   API_MOSAIC_TILE,
   API_USERS_SUBJECT_COLLECTION,
   COLLECTION_STATUS,
+  H12,
   HTML_USER_COLLECTIONS,
   MODEL_COLLECTION_STATUS,
   MODEL_SUBJECT_TYPE,
@@ -30,7 +31,11 @@ import userStore from '../user'
 import { cheerioUserCollections, cheerioUserCollectionsTags } from './common'
 import Computed from './computed'
 import { DEFAULT_COLLECTION_STATUS, DEFAULT_ORDER, DEFAULT_SUBJECT_TYPE, NAMESPACE } from './init'
-import { FetchUserCollectionsArgs } from './types'
+import {
+  CollectionStatusLastFetchMS,
+  FetchUserCollectionsArgs,
+  UserCollectionStatus
+} from './types'
 
 export default class Fetch extends Computed {
   /** 只本地化自己的收藏概览 */
@@ -273,57 +278,65 @@ export default class Fetch extends Computed {
    *  - [4] 批量请求时, 若条件通过, 条目重请求依然有 12 小时的间隔
    * */
   fetchCollectionStatusQueue = async (subjectIds: SubjectId[] = []) => {
-    const keyCollectionStatus = 'collectionStatus'
-    const keyLastFetchMS = '_collectionStatusLastFetchMS'
-    await this.init(keyCollectionStatus)
-    await this.init(keyLastFetchMS)
+    const STATE_KEY_COLLECTION_STATUS = 'collectionStatus'
+    const STATE_KEY_LAST_FETCH_MS = '_collectionStatusLastFetchMS'
+    const userCollectionStatus: UserCollectionStatus = {}
 
-    if (WEB) {
-      /** @todo 目前在网页端中 userStore.isLogin 一定返回 false */
-      if (!userStore.accessToken.access_token || !subjectIds.length) return {} // [1]
-    } else {
-      if (!userStore.isLogin || !subjectIds.length) return {} // [1]
+    try {
+      // 初始化状态
+      await this.init(STATE_KEY_COLLECTION_STATUS)
+      await this.init(STATE_KEY_LAST_FETCH_MS)
+
+      const isWeb = WEB && !userStore.accessToken.access_token
+      const isMobile = !WEB && !userStore.isLogin
+
+      // 未登录或者 subjectIds 为空, 直接返回
+      if (isWeb || isMobile || !subjectIds.length) return userCollectionStatus // [1]
+
+      const now = getTimestamp()
+      const lastFetchMS: CollectionStatusLastFetchMS = {}
+      const results: UserCollectionItem[] = []
+
+      const fetchs = []
+      subjectIds.forEach(subjectId => {
+        if (
+          subjectIds.length === 1 || // [2]
+          (!['看过', '搁置', '抛弃'].includes(this.collect(subjectId)) && // [3]
+            now - this._collectionStatusLastFetchMS(subjectId) >= H12) // [4]
+        ) {
+          fetchs.push(async () => {
+            const collection = await fetchCollectionSingleV0({
+              subjectId,
+              userId: userStore.myId
+            })
+            if (collection) results.push(collection)
+            lastFetchMS[subjectId] = getTimestamp()
+          })
+        }
+      })
+      await queue(fetchs, 2)
+
+      results.forEach(result => {
+        if (result?.subject_id && result?.type) {
+          userCollectionStatus[result.subject_id] =
+            MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(result.type)
+        }
+      })
+
+      this.setState({
+        [STATE_KEY_COLLECTION_STATUS]: userCollectionStatus,
+        [STATE_KEY_LAST_FETCH_MS]: lastFetchMS
+      })
+      this.save(STATE_KEY_COLLECTION_STATUS)
+      this.save(STATE_KEY_LAST_FETCH_MS)
+    } catch (error) {
+      this.error('fetchCollectionStatusQueue', error)
     }
 
-    const lastFetchMS = {}
-    const results: UserCollectionItem[] = []
-    const fetchs = []
-    const now = getTimestamp()
-    subjectIds.forEach(subjectId => {
-      if (
-        subjectIds.length === 1 || // [2]
-        (!['看过', '搁置', '抛弃'].includes(this.collect(subjectId)) && // [3]
-          now - this._collectionStatusLastFetchMS(subjectId) >= 60 * 60 * 12) // [4]
-      ) {
-        fetchs.push(async () => {
-          const collection = await fetchCollectionSingleV0({
-            subjectId,
-            userId: userStore.myId
-          })
-          if (collection) results.push(collection)
-          lastFetchMS[subjectId] = getTimestamp()
-        })
-      }
-    })
-    await queue(fetchs, 2)
-
-    const data = {}
-    results.forEach(result => {
-      if (result?.subject_id && result?.type) {
-        data[result.subject_id] = MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(result.type)
-      }
-    })
-
-    this.setState({
-      [keyCollectionStatus]: data,
-      [keyLastFetchMS]: lastFetchMS
-    })
-    this.save(keyCollectionStatus)
-    this.save(keyLastFetchMS)
-    return data
+    return userCollectionStatus
   }
 
-  /** 获取对应用户的收藏 */
+  /** v0 api: 获取对应用户的收藏 */
   fetchUsersCollection = async (username: UserId, subjectId: SubjectId) => {
     try {
       const data: any = await request(API_USERS_SUBJECT_COLLECTION(username, subjectId))

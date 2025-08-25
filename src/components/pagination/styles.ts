@@ -27,6 +27,9 @@ export const memoStyles = _.memoStyles(() => ({
     borderRadius: 18,
     overflow: 'hidden'
   },
+  disabled: {
+    opacity: 0.4
+  },
   check: {
     padding: _.sm
   }

@@ -6,11 +6,11 @@
  */
 import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Flex, Heatmap, Iconfont } from '@components'
 import { IconBack, IconHeader, Popover } from '@_'
 import { _, useStore } from '@stores'
 import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import { handleMenuPopoverPress, handleSettingPress, handleUserTimelinePress } from './utils'
 import { COMPONENT, DATA_ME, DATA_OTHER } from './ds'

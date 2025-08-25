@@ -25,7 +25,7 @@ export const memoStyles = _.memoStyles(() => ({
     paddingVertical: 0,
     marginVertical: 0,
     fontSize: 14,
-    lineHeight: 14,
+    lineHeight: _.ios(18, 14),
     textAlign: 'center',
     backgroundColor: _.select('rgba(238, 238, 238, 0.8)', _._colorDarkModeLevel1),
     borderRadius: SIZE,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:19:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 04:14:52
+ * @Last Modified time: 2025-08-24 10:50:01
  */
 import React from 'react'
 import { Component, Flex, Touchable } from '@components'
@@ -47,9 +47,6 @@ const Item = memo(
     numberOfLines = 2,
     hideScore = false,
     relatedId = 0,
-    isDo = false,
-    isOnHold = false,
-    isDropped = false,
     isCatalog = false,
     isEditable = false,
     event = EVENT,
@@ -128,9 +125,6 @@ const Item = memo(
                       time={time}
                       tags={tags}
                       hideScore={hideScore}
-                      isDo={isDo}
-                      isOnHold={isOnHold}
-                      isDropped={isDropped}
                       hasComment={hasComment}
                     />
                   </Flex.Item>

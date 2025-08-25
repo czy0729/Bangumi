@@ -95,7 +95,7 @@ const List = memo(
 
     const passProps: any = {}
     if (userPagination) {
-      passProps.ListFooterComponent = <Pagination />
+      passProps.ListFooterComponent = <Pagination pageTotal={pageTotal} />
     } else {
       passProps.onHeaderRefresh = onHeaderRefresh
       passProps.onFooterRefresh = onFooterRefresh

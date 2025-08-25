@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 16:01:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-26 04:41:43
+ * @Last Modified time: 2025-08-26 01:08:05
  */
 import React from 'react'
 import { ActionSheet } from '@components'
@@ -12,6 +12,7 @@ import { useBoolean, useObserver } from '@utils/hooks'
 import { WEB } from '@constants'
 import { getShows } from '../../utils'
 import UserGridNum from './user-grid-num'
+import UserPagination from './user-pagination'
 import { COMPONENT, TEXTS } from './ds'
 
 /** 时光机 */
@@ -24,11 +25,13 @@ function User({ filter }) {
   return useObserver(() => {
     if (WEB || !shows) return null
 
+    const { hd } = TEXTS.user
     return (
       <>
-        <ItemSetting hd='时光机' arrow highlight filter={filter} onPress={setTrue} />
-        <ActionSheet show={state} title='时光机' onClose={setFalse}>
+        <ItemSetting hd={hd} arrow highlight filter={filter} onPress={setTrue} />
+        <ActionSheet show={state} title={hd} onClose={setFalse}>
           {shows.userGridNum && <UserGridNum filter={filter} />}
+          {shows.userPagination && <UserPagination filter={filter} />}
         </ActionSheet>
       </>
     )

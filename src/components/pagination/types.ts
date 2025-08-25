@@ -4,17 +4,20 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-11-22 06:02:39
  */
-import { ViewStyle, EventKeys, Fn } from '@types'
+import { EventKeys, Fn, ViewStyle } from '@types'
 
 export type Props = {
   /** 样式 */
   style: ViewStyle
 
-  /** Input 样式 */
+  /** 输入框样式 */
   inputStyle?: ViewStyle
 
-  /** Input 页码 */
+  /** 输入框页码 */
   input: string
+
+  /** 最大页码 */
+  pageTotal?: number
 
   /** 事件埋点 */
   heatmaps?: {

@@ -30,8 +30,9 @@ function Comment() {
       <Text
         style={styles.comment}
         size={14}
-        lineHeight={15}
+        lineHeight={16}
         numberOfLines={lines}
+        selectable
         onPress={() => {
           setLines(undefined)
         }}

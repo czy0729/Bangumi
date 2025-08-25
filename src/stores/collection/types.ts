@@ -83,6 +83,13 @@ export type UsersSubjectCollection = {
   _loaded: Loaded
 }
 
+/** 条目的收藏状态 */
+export type UserCollectionStatus = Record<SubjectId, CollectionStatusCn>
+
+/** 条目的收藏状态最后一次请求时间戳 */
+export type CollectionStatusLastFetchMS = Record<SubjectId, number>
+
+/** 用户收藏概览请求参数 */
 export type FetchUserCollectionsArgs = {
   userId?: UserId
   subjectType?: SubjectType

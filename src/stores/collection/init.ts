@@ -5,7 +5,13 @@
  * @Last Modified time: 2025-08-24 10:07:41
  */
 import { MODEL_COLLECTION_STATUS, MODEL_COLLECTIONS_ORDERBY, MODEL_SUBJECT_TYPE } from '@constants'
-import { UserCollections, UserCollectionsTags, UsersSubjectCollection } from './types'
+import {
+  CollectionStatusLastFetchMS,
+  UserCollections,
+  UserCollectionsTags,
+  UserCollectionStatus,
+  UsersSubjectCollection
+} from './types'
 
 export const NAMESPACE = 'Collection'
 
@@ -40,15 +46,11 @@ export const STATE = {
     0: '看过' as const
   },
 
-  /** 条目的收藏状态, 替代 userCollectionsMap */
-  collectionStatus: {
-    0: '看过'
-  },
+  /** 条目的收藏状态 */
+  collectionStatus: {} as UserCollectionStatus,
 
-  /** 条目的收藏状态最后一次请求时间戳, 对应 collectionStatus, 共同维护 */
-  _collectionStatusLastFetchMS: {
-    0: 0
-  },
+  /** 条目的收藏状态最后一次请求时间戳, 对应 collectionStatus 共同维护 */
+  _collectionStatusLastFetchMS: {} as CollectionStatusLastFetchMS,
 
   /** 瓷砖进度 */
   mosaicTile: {},
