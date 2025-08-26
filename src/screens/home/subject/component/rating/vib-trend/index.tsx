@@ -2,81 +2,153 @@
  * @Author: czy0729
  * @Date: 2025-02-14 04:45:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-16 14:02:17
+ * @Last Modified time: 2025-08-27 05:10:17
  */
 import React from 'react'
 import { View } from 'react-native'
 import { ActionSheet, Flex, Text } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { desc, stl } from '@utils'
 import { t } from '@utils/fetch'
-import { useBoolean } from '@utils/hooks'
+import { useBoolean, useObserver } from '@utils/hooks'
+import typeScore from '@assets/json/type_score_distribution.json'
 import { Ctx } from '../../../types'
 import { useVIBTrend } from './hooks'
-import { styles } from './styles'
-
-const title = '评分趋势'
+import { getPercentile } from './utils'
+import { memoStyles } from './styles'
 
 function VibTrend() {
   const { $, navigation } = useStore<Ctx>()
+
   const { state, setTrue, setFalse } = useBoolean(false)
-  const data = useVIBTrend($.subjectId)
-  if (!data.length) return null
 
-  return (
-    <>
-      <IconTouchable
-        style={[_.ml.xxs, _.mr._sm]}
-        name='md-trending-up'
-        size={18}
-        onPress={() => {
-          setTrue()
+  return useObserver(() => {
+    if (!$?.rating?.score) return null
 
-          t('条目.趋势', {
-            subjectId: $.subjectId
-          })
-        }}
-      />
-      <ActionSheet title={title} show={state} onClose={setFalse}>
-        <View style={_.mt.sm}>
-          {data.map(item => {
-            const up = item.value.includes('+')
-            return (
-              <Flex key={`${item.month}|${item.title}`} style={_.mt.xs} justify='center'>
-                <Text style={styles.label} lineHeight={28} noWrap>
-                  {item.month} · {item.title}{' '}
-                </Text>
-                <Flex style={styles.value}>
-                  <View style={up && styles.reverse}>
-                    <Text type={up ? 'bid' : 'ask'} size={28}>
-                      ▾
+    const styles = memoStyles()
+    const data = useVIBTrend($.subjectId)
+
+    const typeScoreData = Object.entries(typeScore[$.subjectType])
+      .filter(([key]) => key !== '0.0' && key !== '10.0')
+      .sort((a, b) => desc(a, b))
+    const max = Math.max(...typeScoreData.map(item => item[1]))
+
+    return (
+      <>
+        <IconTouchable
+          style={styles.trend}
+          name='md-trending-up'
+          size={18}
+          onPress={() => {
+            setTrue()
+
+            t('条目.趋势', {
+              subjectId: $.subjectId
+            })
+          }}
+        />
+        <ActionSheet height={data.length ? 560 : 360} show={state} onClose={setFalse}>
+          <Text type='sub' size={12} bold align='center'>
+            评分分布
+          </Text>
+          <Flex style={styles.typeScore} align='end'>
+            {typeScoreData.map(item => {
+              const height = Math.min(Math.max(Math.floor((item[1] / max) * 100), 2), 100)
+              const isActive = Number($.rating.score) === Number(item[0])
+
+              const vib = Number($.vib.avg).toFixed(1)
+              const isActiveVIB = Number(vib) === Number(item[0])
+
+              return (
+                <Flex.Item key={item[0]}>
+                  {isActiveVIB && (
+                    <Text
+                      style={[
+                        styles.typeScoreText,
+                        {
+                          marginBottom: 16
+                        }
+                      ]}
+                      type='warning'
+                      size={8}
+                      bold
+                      align='center'
+                    >
+                      VIB {vib} ({getPercentile(typeScoreData, Number(vib))})
                     </Text>
-                  </View>
-                  <Text lineHeight={28} bold noWrap>
-                    {'  '}
-                    {item.value.slice(0, 5)}
-                  </Text>
-                </Flex>
+                  )}
+                  {isActive && (
+                    <Text style={styles.typeScoreText} type='primary' size={8} bold align='center'>
+                      {item[0]} ({getPercentile(typeScoreData, Number(item[0]))})
+                    </Text>
+                  )}
+                  <View
+                    style={stl(
+                      styles.typeScoreBar,
+                      (isActive || isActiveVIB) && styles.typeScoreActive,
+                      isActiveVIB && {
+                        backgroundColor: _.colorWarning
+                      },
+                      {
+                        height: `${height}%`
+                      }
+                    )}
+                  />
+                </Flex.Item>
+              )
+            })}
+          </Flex>
+
+          {!!data.length && (
+            <View style={_.mt.lg}>
+              <Flex justify='center'>
+                <Text type='sub' size={12} bold align='center'>
+                  评分趋势
+                </Text>
+                <IconTouchable
+                  style={styles.info}
+                  name='md-info-outline'
+                  size={16}
+                  onPress={() => {
+                    navigation.push('Information', {
+                      title: '评分趋势',
+                      message: [
+                        '数据来源自「评分月刊」，反映该条目数据快照「变动幅度大」的关键节点。'
+                      ]
+                    })
+                  }}
+                />
               </Flex>
-            )
-          })}
-          <View style={styles.info}>
-            <IconTouchable
-              name='md-info-outline'
-              size={16}
-              onPress={() => {
-                navigation.push('Information', {
-                  title,
-                  message: ['数据来源自「评分月刊」，反映该条目数据快照「变动幅度大」的关键节点。']
-                })
-              }}
-            />
-          </View>
-        </View>
-      </ActionSheet>
-    </>
-  )
+              <View style={_.mt.md}>
+                {data.map(item => {
+                  const up = item.value.includes('+')
+                  return (
+                    <Flex key={`${item.month}|${item.title}`} style={_.mt.xs} justify='center'>
+                      <Text style={styles.label} size={12} lineHeight={24} noWrap>
+                        {item.month} · {item.title}{' '}
+                      </Text>
+                      <Flex style={styles.value}>
+                        <View style={up && styles.reverse}>
+                          <Text type={up ? 'bid' : 'ask'} size={24}>
+                            ▾
+                          </Text>
+                        </View>
+                        <Text size={12} lineHeight={24} bold noWrap>
+                          {'  '}
+                          {item.value.slice(0, 5)}
+                        </Text>
+                      </Flex>
+                    </Flex>
+                  )
+                })}
+              </View>
+            </View>
+          )}
+        </ActionSheet>
+      </>
+    )
+  })
 }
 
-export default ob(VibTrend)
+export default VibTrend

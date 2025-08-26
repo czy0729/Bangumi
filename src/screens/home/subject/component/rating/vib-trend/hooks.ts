@@ -1,11 +1,11 @@
-import { useState } from 'react'
-import { postTask } from '@utils'
 /*
  * @Author: czy0729
  * @Date: 2025-02-14 07:10:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-14 08:54:22
+ * @Last Modified time: 2025-08-27 05:26:27
  */
+import { useState } from 'react'
+import { postTask } from '@utils'
 import { useMount } from '@utils/hooks'
 import { Data as VIBData } from '@screens/discovery/vib/types'
 import { SubjectId } from '@types'
@@ -54,7 +54,7 @@ export function useVIBTrend(id: SubjectId) {
           }
         })
       })
-
+      data.reverse()
       MEMO.set(id, data)
       setData(data)
     })

@@ -15,6 +15,7 @@ import { styles } from './styles'
 
 function Desc({ navigation, subject, subjectId, image, comment, replyContent, replyCount, event }) {
   const { id, data = {} } = event
+  const text = comment || replyContent || replyCount
   return (
     <>
       {!!subject && (
@@ -39,13 +40,13 @@ function Desc({ navigation, subject, subjectId, image, comment, replyContent, re
                   return
                 }
 
-                t(id, eventData)
                 navigation.push('Subject', {
                   subjectId,
                   _cn: findSubjectCn(subject, subjectId),
                   _jp: subject,
                   _image: getCoverMedium(!!image.length && image[0])
                 })
+                t(id, eventData)
               }}
             >
               {findSubjectCn(subject, subjectId)}
@@ -53,10 +54,10 @@ function Desc({ navigation, subject, subjectId, image, comment, replyContent, re
           </Katakana.Provider>
         </View>
       )}
-      {!!(comment || replyContent || replyCount) && (
+      {!!text && (
         <View style={_.mt.sm}>
           <Expand moreStyle={styles.more} ratio={0.64}>
-            <Text lineHeight={20}>{comment || replyContent || replyCount}</Text>
+            <Text lineHeight={20}>{text}</Text>
           </Expand>
         </View>
       )}
