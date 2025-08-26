@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-19 22:05:24
+ * @Last Modified time: 2025-08-26 02:03:38
  */
 import { MUSUME_PROMPT } from '@utils/kv/ds'
 import {
@@ -237,6 +237,9 @@ export const INIT_SETTING = {
 
   /** 时光机分页 */
   userPagination: true,
+
+  /** 在自己的时光机页面也显示收藏管理按钮 */
+  userShowManage: false,
 
   /** 用户备注 */
   userRemark: {} as UserRemark,

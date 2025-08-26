@@ -43,44 +43,31 @@ export const ActionSheet = ({
   const y = useRef(new Animated.Value(show ? 1 : 0))
   const [showValue, setShow] = useState(show)
 
+  const animateTo = useCallback((toValue: number, callback?: () => void) => {
+    Animated.timing(y.current, {
+      toValue,
+      duration: 240,
+      useNativeDriver: USE_NATIVE_DRIVER
+    }).start(callback)
+  }, [])
+
   const handleShow = useCallback(() => {
     setShow(true)
-    setTimeout(() => {
-      Animated.timing(y.current, {
-        toValue: 1,
-        duration: 240,
-        useNativeDriver: USE_NATIVE_DRIVER
-      }).start()
-    }, 0)
-  }, [])
+    requestAnimationFrame(() => animateTo(1))
+  }, [animateTo])
+
   const handleClose = useCallback(() => {
-    if (showValue) {
-      onClose()
-      Animated.timing(y.current, {
-        toValue: 0,
-        duration: 240,
-        useNativeDriver: USE_NATIVE_DRIVER
-      }).start()
-      setTimeout(() => {
-        setShow(false)
-      }, 240)
-    }
-  }, [showValue, onClose])
+    if (!showValue) return
+    onClose()
+    animateTo(0, () => setShow(false))
+  }, [animateTo, showValue, onClose])
 
   useEffect(() => {
-    if (show) {
-      handleShow()
-      return
-    }
-
-    if (showValue) {
-      handleClose()
-    }
-  }, [handleClose, handleShow, showValue, show])
+    show ? handleShow() : handleClose()
+  }, [show, handleShow, handleClose])
 
   useBackHandler(() => {
     if (IOS || !showValue) return false
-
     handleClose()
     return true
   })
@@ -90,8 +77,8 @@ export const ActionSheet = ({
 
     const styles = memoStyles()
     const calcHeight = Math.min(
-      height || _.window.height * 0.5,
-      _.window.height * _.web(0.92, 0.88)
+      height || Math.floor(_.window.height * 0.5),
+      Math.floor(_.window.height * _.web(0.92, 0.88))
     )
     let elTitle =
       typeof title === 'string'

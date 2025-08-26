@@ -6,9 +6,9 @@
  */
 import React from 'react'
 import { collectionStore, useStore } from '@stores'
-import { date } from '@utils'
+import { date, getTimestamp } from '@utils'
 import { ob } from '@utils/decorators'
-import { WEB } from '@constants'
+import { M1, WEB } from '@constants'
 import { Ctx } from '../../../types'
 import FlipBtn from './flip-btn'
 import { COMPONENT } from './ds'
@@ -31,8 +31,13 @@ function FlipBtnWrap({ onPress }) {
   }
 
   let last = ''
-  if (lasttouch && ['collect', 'on_hold', 'dropped'].includes(collectionStatus?.type)) {
-    last = date('Y.m.d', lasttouch)
+  if (lasttouch) {
+    if (
+      ['collect', 'on_hold', 'dropped'].includes(collectionStatus?.type) ||
+      getTimestamp() - lasttouch >= M1
+    ) {
+      last = date('Y.m.d', lasttouch)
+    }
   }
 
   return (

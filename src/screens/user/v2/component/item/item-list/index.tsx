@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-08-08 11:55:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-24 10:51:15
+ * @Last Modified time: 2025-08-26 02:39:31
  */
 import React from 'react'
 import { ItemCollections } from '@_'
-import { collectionStore, subjectStore, timelineStore, useStore } from '@stores'
+import { collectionStore, subjectStore, systemStore, timelineStore, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
@@ -39,7 +39,7 @@ function ItemList({ item, index, page }) {
       hideScore={false}
       rank={rankText}
       showLabel={false}
-      showManage={!$.isMe}
+      showManage={systemStore.setting.userShowManage || !$.isMe}
       simpleStars
       type={typeCn}
       relatedId={timelineStore.relatedId($.username || $.userId, item.id)}
