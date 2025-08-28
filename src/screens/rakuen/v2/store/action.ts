@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-16 19:56:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-27 15:04:01
+ * @Last Modified time: 2025-08-28 09:21:15
  */
 import { ScrollToIndex } from '@components'
 import { rakuenStore } from '@stores'
@@ -306,22 +306,6 @@ export default class Action extends Fetch {
     } catch (error) {
       console.error('Rakuen', 'onRefreshThenScrollTop', error)
     }
-  }
-
-  /** 选项卡开始滑动 */
-  onSwipeStart = () => {
-    this.setState({
-      swiping: true
-    })
-  }
-
-  /** 选项卡结束滑动 */
-  onSwipeEnd = () => {
-    setTimeout(() => {
-      this.setState({
-        swiping: false
-      })
-    }, 240)
   }
 
   /** 更新可视范围底部 y */

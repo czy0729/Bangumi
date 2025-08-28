@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-11-15 14:30:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 16:05:11
+ * @Last Modified time: 2025-08-28 09:18:06
  */
 import * as React from 'react'
-import { LayoutChangeEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Animated, LayoutChangeEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { Pager } from 'react-native-tab-view/src/Pager'
 import { SceneView } from 'react-native-tab-view/src/SceneView'
 import { TabBar } from 'react-native-tab-view/src/TabBar'
@@ -20,20 +20,20 @@ import type {
 } from 'react-native-tab-view/src/types'
 
 export type Props<T extends Route> = PagerProps & {
-  onIndexChange: (index: number) => void
   navigationState: NavigationState<T>
-  renderScene: (props: SceneRendererProps & { route: T }) => React.ReactNode
-  renderLazyPlaceholder?: (props: { route: T }) => React.ReactNode
-  renderTabBar?: (
-    props: SceneRendererProps & { navigationState: NavigationState<T> }
-  ) => React.ReactNode
+  style?: StyleProp<ViewStyle>
+  pagerStyle?: StyleProp<ViewStyle>
+  sceneContainerStyle?: StyleProp<ViewStyle>
   tabBarPosition?: 'top' | 'bottom'
   initialLayout?: Partial<Layout>
   lazy?: ((props: { route: T }) => boolean) | boolean
   lazyPreloadDistance?: number
-  sceneContainerStyle?: StyleProp<ViewStyle>
-  pagerStyle?: StyleProp<ViewStyle>
-  style?: StyleProp<ViewStyle>
+  renderLazyPlaceholder?: (props: { route: T }) => React.ReactNode
+  renderScene: (props: SceneRendererProps & { route: T }) => React.ReactNode
+  renderTabBar?: (
+    props: SceneRendererProps & { navigationState: NavigationState<T> }
+  ) => React.ReactNode
+  onIndexChange: (index: number) => void
 
   /** @add */
   renderContentHeaderComponent?: React.ReactNode
@@ -41,24 +41,24 @@ export type Props<T extends Route> = PagerProps & {
 }
 
 export function TabView<T extends Route>({
-  onIndexChange,
-  navigationState,
-  renderScene,
+  style,
+  pagerStyle,
+  sceneContainerStyle,
+  animationEnabled = true,
   initialLayout,
   keyboardDismissMode = 'auto',
   lazy = false,
   lazyPreloadDistance = 0,
-  onSwipeStart,
-  onSwipeEnd,
-  renderLazyPlaceholder = () => null,
-  renderTabBar = props => <TabBar {...props} />,
-  sceneContainerStyle,
-  pagerStyle,
-  style,
+  navigationState,
+  overScrollMode,
   swipeEnabled = true,
   tabBarPosition = 'top',
-  animationEnabled = true,
-  overScrollMode,
+  renderLazyPlaceholder = () => null,
+  renderScene,
+  renderTabBar = props => <TabBar {...props} />,
+  onIndexChange,
+  onSwipeEnd,
+  onSwipeStart,
 
   /** @add */
   renderContentHeaderComponent = null,
@@ -69,6 +69,9 @@ export function TabView<T extends Route>({
     height: 0,
     ...initialLayout
   })
+
+  const [isSwiping, setIsSwiping] = React.useState(false)
+  const overlayOpacity = React.useRef(new Animated.Value(0)).current
 
   const jumpToIndex = (index: number) => {
     if (index !== navigationState.index) {
@@ -88,6 +91,27 @@ export function TabView<T extends Route>({
     })
   }
 
+  const handleSwipeStart = React.useCallback(() => {
+    setIsSwiping(true)
+    Animated.timing(overlayOpacity, {
+      toValue: 1,
+      duration: 120,
+      useNativeDriver: true
+    }).start()
+    onSwipeStart?.()
+  }, [onSwipeStart, overlayOpacity])
+
+  const handleSwipeEnd = React.useCallback(() => {
+    Animated.timing(overlayOpacity, {
+      toValue: 0,
+      duration: 120,
+      useNativeDriver: true
+    }).start(({ finished }) => {
+      if (finished) setIsSwiping(false)
+    })
+    onSwipeEnd?.()
+  }, [onSwipeEnd, overlayOpacity])
+
   return (
     <View style={[styles.pager, style]} onLayout={handleLayout}>
       <Pager
@@ -98,13 +122,11 @@ export function TabView<T extends Route>({
         swipeEnabled={swipeEnabled}
         animationEnabled={animationEnabled}
         overScrollMode={overScrollMode}
-        onSwipeStart={onSwipeStart}
-        onSwipeEnd={onSwipeEnd}
+        onSwipeStart={handleSwipeStart}
+        onSwipeEnd={handleSwipeEnd}
         onIndexChange={jumpToIndex}
       >
         {({ position, render, addEnterListener, jumpTo }) => {
-          // All of the props here must not change between re-renders
-          // This is crucial to optimizing the routes with PureComponent
           const sceneRendererProps = {
             position,
             layout,
@@ -149,6 +171,14 @@ export function TabView<T extends Route>({
                   ...sceneRendererProps,
                   navigationState
                 })}
+
+              {/* 透明遮罩，滑动时拦截点击 */}
+              {isSwiping && (
+                <Animated.View
+                  style={[StyleSheet.absoluteFill, { opacity: overlayOpacity }]}
+                  pointerEvents='auto'
+                />
+              )}
             </>
           )
         }}
@@ -160,7 +190,6 @@ export function TabView<T extends Route>({
 const styles = StyleSheet.create({
   pager: {
     height: '100%',
-    // flex: 1,
     overflow: 'hidden'
   }
 })

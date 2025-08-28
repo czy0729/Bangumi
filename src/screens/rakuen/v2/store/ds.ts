@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-03 05:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-26 21:04:58
+ * @Last Modified time: 2025-08-28 09:21:51
  */
 import { _ } from '@stores'
 import {
@@ -30,7 +30,6 @@ export const RESET_STATE = {
 export const EXCLUDE_STATE = {
   ...RESET_STATE,
   isFocused: true,
-  swiping: false,
   _mounted: WEB
 }
 

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-10-24 20:22:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-02 23:01:05
+ * @Last Modified time: 2025-08-28 06:21:45
  */
 import { tinygrailStore } from '@stores'
 import { alert, confirm, copy, feedback, info, toFixed } from '@utils'
 import { t } from '@utils/fetch'
-import { getCharaLevelLowestPrice } from '@screens/tinygrail/_/utils'
 import { ITEMS_TYPE } from '@tinygrail/_/characters-modal'
+import { getCharaLevelLowestPrice, throttleInfo } from '@tinygrail/_/utils'
 import { ItemUseParams } from '@tinygrail/items/types'
 import { FnParams, Override } from '@types'
 import { PER_BATCH_COUNT } from '../ds'
@@ -217,7 +217,7 @@ export default class Action extends Fetch {
           } catch (error) {
             errorIds.push(id)
           }
-          info(`正在献祭 ${ids.findIndex(item => item === id) + 1} / ${ids.length}`)
+          throttleInfo(`正在献祭 ${ids.findIndex(item => item === id) + 1} / ${ids.length}`)
         }
         feedback()
 
@@ -306,7 +306,7 @@ export default class Action extends Fetch {
           } catch (error) {
             errorIds.push(id)
           }
-          info(`正在挂卖单 ${ids.findIndex(item => item === id) + 1} / ${ids.length}`)
+          throttleInfo(`正在挂卖单 ${ids.findIndex(item => item === id) + 1} / ${ids.length}`)
         }
         feedback()
         this.fetchMyCharaAssets()

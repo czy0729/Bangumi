@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-05 16:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-07 07:18:22
+ * @Last Modified time: 2025-08-28 06:04:57
  */
 import {
   SORT_CCJZ,
@@ -194,7 +194,7 @@ export const SORT_TEMPLE_DS = SORT_DS_CONFIG.filter(item =>
   (item.index as readonly number[]).includes(2)
 ).map(item => item.data)
 
-export const PER_BATCH_COUNT = 50
+export const PER_BATCH_COUNT = 200
 
 export const TEXT_BATCH_SACRIFICE = '批量献祭'
 

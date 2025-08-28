@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-26 21:16:52
+ * @Last Modified time: 2025-08-28 09:21:19
  */
 import React from 'react'
 import { TabView } from '@components'
@@ -29,8 +29,6 @@ function Tab() {
         renderTabBar={renderTabBar}
         renderBackground={<BlurViewTab length={TABS.length} />}
         renderScene={renderScene}
-        onSwipeStart={$.onSwipeStart}
-        onSwipeEnd={$.onSwipeEnd}
         onIndexChange={$.onChange}
       />
       <BlurViewBottomTab />

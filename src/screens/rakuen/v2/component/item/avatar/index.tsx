@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 17:49:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-16 15:27:24
+ * @Last Modified time: 2025-08-28 09:21:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import { Ctx } from '../../../types'
 import { styles } from './styles'
 
 function Avatar({ avatar, userName, userId, priority }) {
-  const { $, navigation } = useStore<Ctx>()
+  const { navigation } = useStore<Ctx>()
   return (
     <View style={styles.avatar}>
       <AvatarComp
@@ -23,8 +23,6 @@ function Avatar({ avatar, userName, userId, priority }) {
         name={userName}
         priority={priority}
         onPress={() => {
-          if ($.state.swiping) return
-
           navigation.push('Zone', {
             userId,
             _id: userId,

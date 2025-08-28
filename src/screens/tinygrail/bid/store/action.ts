@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-01-14 16:40:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-14 16:46:54
+ * @Last Modified time: 2025-08-28 06:09:45
  */
 import { tinygrailStore } from '@stores'
 import { t } from '@utils/fetch'
@@ -118,14 +118,14 @@ export default class Action extends Fetch {
       if (this.currentKey === 'asks') {
         // 取消卖单
         for (const ask of logs.asks) {
-          await tinygrailStore.doCancelAsk({
+          tinygrailStore.doCancelAsk({
             id: ask.id
           })
         }
       } else if (this.currentKey === 'bid') {
         // 取消买单
         for (const bid of logs.bids) {
-          await tinygrailStore.doCancelBid({
+          tinygrailStore.doCancelBid({
             id: bid.id
           })
         }
