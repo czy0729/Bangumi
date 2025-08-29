@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-11 06:57:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-22 05:46:59
+ * @Last Modified time: 2025-08-29 07:00:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,7 +18,7 @@ function Avatar({ charaId, icons, onPress }) {
   if (!icons) return null
 
   return (
-    <View style={_.mr.sm}>
+    <View style={[_.mt.xxs, _.mr.sm]}>
       <AvatarComp
         src={tinygrailOSS(icons)}
         size={32}

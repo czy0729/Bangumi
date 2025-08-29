@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:42:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-21 17:22:10
+ * @Last Modified time: 2025-08-29 06:57:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,6 +10,7 @@ import { Flex, Iconfont, Text, Touchable } from '@components'
 import { _, systemStore, useStore } from '@stores'
 import { formatNumber } from '@utils'
 import { ob } from '@utils/decorators'
+import TinygrailStatus from '@tinygrail/_/status'
 import { tinygrailLastDate } from '@tinygrail/_/utils'
 import { Fn, MonoId } from '@types'
 import { TABS } from '../../ds'
@@ -31,6 +32,7 @@ function Item({ balance, desc = '', change, time, charaId }: Props) {
     if (itemsType && itemsType !== '全部' && !desc.includes(itemsType)) return null
   }
 
+  let id = charaId
   let icons: string
   let handlePress: Fn
 
@@ -44,6 +46,7 @@ function Item({ balance, desc = '', change, time, charaId }: Props) {
     if (match) {
       const charaId = match[0].replace('#', '') as MonoId
       if (charaId) {
+        id = charaId
         icons = $.icons(charaId)
         handlePress = getOnPress(charaId, $.state.go, navigation)
       }
@@ -80,7 +83,10 @@ function Item({ balance, desc = '', change, time, charaId }: Props) {
         </Flex.Item>
         <Change desc={desc} change={change} />
         {!!handlePress && (
-          <Iconfont style={_.mr._sm} name='md-navigate-next' color={_.colorTinygrailText} />
+          <View style={_.mr._sm}>
+            <Iconfont name='md-navigate-next' color={_.colorTinygrailText} />
+            <TinygrailStatus style={styles.status} id={id} />
+          </View>
         )}
       </Flex>
     </Touchable>

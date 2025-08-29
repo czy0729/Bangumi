@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-08 18:52:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-15 07:41:43
+ * @Last Modified time: 2025-08-29 07:03:26
  */
 import { _ } from '@stores'
 
@@ -14,7 +14,7 @@ export const memoStyles = _.memoStyles(() => ({
   item: {
     width: '50%',
     paddingVertical: _.sm,
-    paddingRight: 20
+    paddingRight: 24
   },
   progress: {
     maxWidth: Math.floor(_.window.contentWidth * 0.33),

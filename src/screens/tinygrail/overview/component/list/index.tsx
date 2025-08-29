@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-14 16:34:58
+ * @Last Modified time: 2025-08-29 06:42:00
  */
 import React, { useCallback } from 'react'
 import { Loading } from '@components'
@@ -27,7 +27,7 @@ function List({ id }: Props) {
     const renderItem = useCallback(
       ({ item, index }) => {
         const Component = id === 'refine/temple' ? TinygrailItemRefine : TinygrailItem
-        return <Component index={index} event={EVENT} {...item} sort={sort} showMenu />
+        return <Component index={index} event={EVENT} {...item} sort={sort} showMenu showStatus />
       },
       [sort]
     )

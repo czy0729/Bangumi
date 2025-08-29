@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-23 12:07:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-04 07:03:00
+ * @Last Modified time: 2025-08-29 08:04:52
  */
 import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,6 @@ import { _, useStore } from '@stores'
 import { confirm } from '@utils'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import { APP_ID_SAY_TINYGRAIL } from '@constants'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -20,84 +19,42 @@ import { memoStyles } from './styles'
 function Btns() {
   r(COMPONENT)
 
-  const { $, navigation } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>()
 
   return useObserver(() => {
     const styles = memoStyles()
+
     const price = 2000 * 2 ** ($.state.count || 0)
-    const data = useMemo(
+    const memoMenu = useMemo(
       () => [
-        '刮刮乐',
-        `幻想乡刮刮乐(${price})`,
-        '每周分红',
-        '每日签到',
-        '节日福利',
-        '重新授权',
-        '粘贴板',
-        '小组讨论',
-        '设置'
+        { title: '刮刮乐', action: () => $.doLottery() },
+        { title: `幻想乡刮刮乐(${price})`, action: () => $.doLottery(true) },
+        {
+          title: '每周分红',
+          action: () => confirm('确定领取每周分红? (每周日0点刷新)', $.doGetBonusWeek)
+        },
+        { title: '每日签到', action: () => $.doGetBonusDaily() },
+        { title: '节日福利', action: () => $.doGetBonusHoliday() },
+        { title: '重新授权', action: () => $.doAuth() }
       ],
       [price]
     )
-    const handleSelect = useCallback((title: string) => {
-      setTimeout(() => {
-        switch (title) {
-          case '刮刮乐':
-            $.doLottery()
-            break
+    const memoData = useMemo(() => memoMenu.map(item => item.title), [memoMenu])
 
-          case '每周分红':
-            confirm('确定领取每周分红? (每周日0点刷新)', $.doGetBonusWeek)
-            break
+    const handleSelect = useCallback(
+      (title: string) => {
+        setTimeout(() => {
+          const found = memoMenu.find(item => item.title === title)
+          found?.action()
+        }, 400)
+      },
+      [memoMenu]
+    )
 
-          case '每日签到':
-            $.doGetBonusDaily()
-            break
-
-          case '节日福利':
-            $.doGetBonusHoliday()
-            break
-
-          case '重新授权':
-            $.doAuth()
-            break
-
-          case '粘贴板':
-            navigation.push('TinygrailClipboard')
-            break
-
-          case '人物搜索':
-            navigation.push('TinygrailSearch')
-            break
-
-          case '小组讨论':
-            navigation.push('Group', {
-              groupId: 'tinygrail'
-            })
-            break
-
-          case '意见反馈':
-            navigation.push('Say', {
-              sayId: APP_ID_SAY_TINYGRAIL
-            })
-            break
-
-          case '设置':
-            navigation.push('Setting', {
-              open: 'Tinygrail'
-            })
-            break
-
-          default:
-            $.doLottery(true)
-            break
-        }
-      }, 400)
-    }, [])
     return (
       <>
         {$.state._loaded ? (
-          <Popover style={styles.touch} data={data} onSelect={handleSelect}>
+          <Popover style={styles.touch} data={memoData} onSelect={handleSelect}>
             <Flex style={styles.btn} justify='center'>
               <Iconfont name='md-menu' color={_.colorTinygrailPlain} size={20} />
             </Flex>
