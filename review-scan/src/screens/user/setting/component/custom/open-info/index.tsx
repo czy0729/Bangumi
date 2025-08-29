@@ -1,0 +1,45 @@
+/*
+ * @Author: czy0729
+ * @Date: 2024-04-19 20:00:21
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2024-04-19 20:01:25
+ */
+
+import React from 'react'
+import { Heatmap, SwitchPro } from '@components'
+import { ItemSetting } from '@_'
+import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
+import commonStyles from '../../../styles'
+import { TEXTS } from '../ds'
+import { useAsyncSwitchSetting } from '../../../hooks'
+
+/** 打开外部浏览器前复制网址 */
+function OpenInfo({ filter }) {
+  const { value, handleSwitch } = useAsyncSwitchSetting('openInfo')
+
+  return useObserver(() => (
+    <ItemSetting
+      ft={
+        <SwitchPro
+          style={commonStyles.switch}
+          value={value}
+          onSyncPress={() => {
+            handleSwitch()
+
+            t('设置.切换', {
+              title: '复制网址',
+              checked: !value
+            })
+          }}
+        />
+      }
+      filter={filter}
+      {...TEXTS.openInfo}
+    >
+      <Heatmap id='设置.切换' title='复制网址' />
+    </ItemSetting>
+  ))
+}
+
+export default OpenInfo

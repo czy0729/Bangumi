@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+message Manga {
+  int32 i = 1;
+  float s = 2;
+  int32 r = 3;
+  int32 l = 4;
+  int32 u = 5;
+  repeated int32 b = 6;
+  string e = 7;
+  string p = 8;
+  string d = 9;
+  int32 h = 10;
+  int32 a = 11;
+}
+
+message Payload {
+  repeated Manga payload = 1;
+}
