@@ -7,7 +7,7 @@
 import React from 'react'
 import { TextInput } from 'react-native'
 import { observer } from 'mobx-react'
-import { getStorage, info, setStorage } from '@utils'
+import { feedback, getStorage, info, setStorage } from '@utils'
 import { r } from '@utils/dev'
 import { FROZEN_FN, IOS, WEB } from '@constants'
 import { KeyboardSpacer } from '../keyboard-spacer'
@@ -73,13 +73,7 @@ export const FixedTextarea = observer(
 
     async componentDidMount() {
       try {
-        const [
-          showSource = false,
-          showSourceText = true,
-          history = '15', // 15 就是 (bgm38)
-          replyHistory = [],
-          lockHistory = ''
-        ] = await Promise.all([
+        const [showSource, showSourceText, history, replyHistory, lockHistory] = await Promise.all([
           getStorage(`${NAMESPACE}|showSource`),
           getStorage(`${NAMESPACE}|showSourceText`),
           getStorage(NAMESPACE),
@@ -88,15 +82,13 @@ export const FixedTextarea = observer(
         ])
 
         this.setState({
-          showSource,
+          showSource: typeof showSource === 'boolean' ? showSource : false,
           showSourceText: typeof showSourceText === 'boolean' ? showSourceText : true,
-          history: history.split(',').filter(Boolean).map(Number),
-          replyHistory,
-          lockHistory
+          history: (history || '38').split(',').filter(Boolean).map(Number),
+          replyHistory: replyHistory || [],
+          lockHistory: lockHistory || ''
         })
-      } catch (error) {
-        console.error('fixed-textarea', 'componentDidMount', error)
-      }
+      } catch (error) {}
     }
 
     UNSAFE_componentWillReceiveProps(nextProps: { value: any }) {
@@ -465,7 +457,7 @@ export const FixedTextarea = observer(
     }
 
     /** 锁定某个最近的回复, 不会被替代 */
-    lockHistory = (text: string) => {
+    onLockHistory = (text: string) => {
       if (!text) return false
 
       const { lockHistory } = this.state
@@ -473,6 +465,7 @@ export const FixedTextarea = observer(
       this.setState({
         lockHistory: value
       })
+      feedback(true)
       setStorage(`${NAMESPACE}|lockHistory`, value)
     }
 
@@ -554,6 +547,7 @@ export const FixedTextarea = observer(
             showTextarea={showTextarea}
             onChange={this.onChange}
             onSelectBgm={this.onSelectBgm}
+            onLockHistory={this.onLockHistory}
           />
         </>
       )
