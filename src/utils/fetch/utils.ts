@@ -38,7 +38,12 @@ export async function queue(fetchs: Fn[] = [], num: number = 2) {
   return Promise.all(fetchs.map(fetch => limit(fetch)))
 }
 
-/** [DEV] */
+/** info */
 export function log(method: string, ...others: any[]) {
   if (DEV) console.info(TEXT_BADGES.plain, `[@utils/fetch/${method}]`, ...others)
+}
+
+/** err */
+export function err(method: string, ...others: any[]) {
+  if (DEV) console.info(TEXT_BADGES.danger, `[@utils/fetch/${method}]`, ...others)
 }

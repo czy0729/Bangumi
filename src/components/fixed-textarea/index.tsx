@@ -250,8 +250,8 @@ export const FixedTextarea = observer(
       const { value } = this.state
       const index = this.getSelection()
 
-      // 插入值, 如 (bgm38), bgm 名称跟文件名偏移量是 23
-      const left = `${value.slice(0, index)}(bgm${Number(bgmIndex) + 23})`
+      // 插入值如 (bgm38)
+      const left = `${value.slice(0, index)}(bgm${Number(bgmIndex + 1)})`
       const right = `${value.slice(index)}`
       this.setState({
         value: `${left}${right}`

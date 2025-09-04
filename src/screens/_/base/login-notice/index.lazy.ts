@@ -7,4 +7,3 @@
 import { lazy } from 'react'
 
 export const LoginNotice = lazy(() => import('./index'))
-export { Props as LoginNoticeProps } from './types'

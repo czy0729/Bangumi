@@ -7,7 +7,7 @@
 import React, { useState } from 'react'
 import { View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { Flex, Text, Touchable } from '@components'
+import { Flex, Link, Text } from '@components'
 import { _, systemStore, userStore } from '@stores'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
@@ -17,12 +17,9 @@ import { IconTouchable } from '../../icon/touchable'
 import { BlurView } from '../blur-view'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props as LoginNoticeProps } from './types'
-
-export { LoginNoticeProps }
 
 /** 重新登录轻提示 */
-export const LoginNotice = ({ navigation }: LoginNoticeProps) => {
+export const LoginNotice = () => {
   r(COMPONENT)
 
   const { bottom } = useSafeAreaInsets()
@@ -35,12 +32,13 @@ export const LoginNotice = ({ navigation }: LoginNoticeProps) => {
     const styles = memoStyles()
     const isBlur = IOS || WEB || (ANDROID && systemStore.setting.androidBlur)
     const Component = isBlur ? BlurView : View
-    const passProps: any = {}
-    if (!isBlur) {
-      passProps.style = {
-        backgroundColor: _.colorMainLight
-      }
-    }
+    const passProps = !isBlur
+      ? {
+          style: {
+            backgroundColor: _.colorMainLight
+          }
+        }
+      : undefined
 
     return (
       <View
@@ -54,11 +52,11 @@ export const LoginNotice = ({ navigation }: LoginNoticeProps) => {
         <Component {...passProps}>
           <Flex style={styles.body}>
             <Flex.Item>
-              <Touchable onPress={() => navigation.push('LoginV2')}>
+              <Link style={styles.touch} path='LoginV2'>
                 <Text type='sub' size={12} bold>
-                  检测到授权信息过期，点击{i18n.login()}，或者重新冷启动试试
+                  检测到授权信息过期，点击{i18n.login()}，或者下拉刷新试试
                 </Text>
-              </Touchable>
+              </Link>
             </Flex.Item>
             <IconTouchable
               style={_.ml.sm}

@@ -9,11 +9,11 @@ import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { TextStyle } from '@types'
 import { Bgm } from '../bgm'
-import { bgmMap } from './ds'
+import { BGM_MAP } from './ds'
 import { styles } from './styles'
 import { Props as BgmTextProps } from './types'
 
-export { BgmTextProps, bgmMap }
+export { BgmTextProps, BGM_MAP }
 
 export const BgmText = observer(
   ({ style, index = 0, size = 14, lineHeight, children, ...other }: BgmTextProps) => {

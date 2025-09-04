@@ -4,9 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-04-01 10:13:21
  */
+import { PropsWithChildren } from 'react'
 import { TextStyle } from '@types'
 
-export type Props = {
+export type Props = PropsWithChildren<{
   /** 图标当成文字一样使用 */
   style?: TextStyle
 
@@ -16,11 +17,9 @@ export type Props = {
   /** 大小 */
   size?: number
 
-  /** 是否能被文字选中 */
-  selectable?: boolean
-
   /** 行高 */
   lineHeight?: number
 
-  children?: string
-}
+  /** 是否能被文字选中 */
+  selectable?: boolean
+}>

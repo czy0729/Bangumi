@@ -83,7 +83,7 @@ function Content({
             全部
           </Text>
           <Flex style={styles.bgms} wrap='wrap'>
-            {Array.from(new Array(100)).map((item, index) => (
+            {Array.from(new Array(102)).map((_item, index) => (
               <View key={index + 1} style={styles.bgm}>
                 <Touchable onPress={() => onSelectBgm(index + 1)}>
                   <Flex justify='center'>

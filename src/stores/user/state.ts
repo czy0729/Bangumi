@@ -5,7 +5,7 @@
  * @Last Modified time: 2025-07-24 02:53:40
  */
 import { observable } from 'mobx'
-import { runAfter } from '@utils'
+import { runAfter, titleCase } from '@utils'
 import Store from '@utils/store'
 import { DEV, TEXT_BADGES } from '@constants'
 import { LOADED, NAMESPACE, STATE } from './init'
@@ -44,6 +44,6 @@ export default class State extends Store<typeof STATE> {
 
   /** 开发打印 */
   error = (...arg: any) => {
-    if (DEV) console.info(TEXT_BADGES.danger, this._namespace, ...arg)
+    if (DEV) console.info(TEXT_BADGES.danger, `[${titleCase(this._namespace)}Store]`, ...arg)
   }
 }

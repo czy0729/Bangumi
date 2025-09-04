@@ -2,19 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-03-31 14:30:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 21:40:56
+ * @Last Modified time: 2025-09-04 12:26:47
  */
-import { IOS } from '@constants'
 import { _ } from '@stores'
+import { IOS } from '@constants'
+import { DATA } from './ds'
 import { memoStyles } from './styles'
-
-type Position = 'bottom' | 'left' | 'right' | 'top'
-
-type Style = {
-  top?: number
-  left?: number
-  right?: number
-}
+import { Position, Style } from './types'
 
 /** 大概一行文字的高度 */
 const LINE_HEIGHT = 24
@@ -44,8 +38,7 @@ export function getPosition(
   const height = container.width * rows * 0.25
 
   /** 判断方向 y 轴临界点 */
-  const limit =
-    (recommandPosition || 'bottom') === 'bottom' ? _.window.height * 0.64 : _.md
+  const limit = (recommandPosition || 'bottom') === 'bottom' ? _.window.height * 0.64 : _.md
 
   if (y - height - LINE_HEIGHT * rows >= limit) {
     position = 'top'
@@ -70,4 +63,9 @@ export function getPosition(
     style,
     height
   }
+}
+
+export function getLikesGridEmoji(value: any) {
+  const item = DATA.find(([, second]) => second === Number(value))
+  return item ? item[0] : 38
 }

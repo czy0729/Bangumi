@@ -14,7 +14,7 @@ import { isDevtoolsOpen } from '../dom'
 import fetch from '../thirdParty/fetch-polyfill'
 import { loading } from '../ui'
 import { getTimestamp, sleep, urlStringify } from '../utils'
-import { log, safe, safeCookie } from './utils'
+import { err, log, safe, safeCookie } from './utils'
 import { FETCH_RETRY, FETCH_TIMEOUT, HEADERS_DEFAULT } from './ds'
 import { Body, Config, FetchAPIArgs, FetchHTMLArgs } from './types'
 
@@ -230,7 +230,7 @@ export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
     })
     .catch(error => {
       if (hideCb) hideCb()
-      log('fetchHTML', 'catch error:', url, error)
+      err('fetchHTML', 'catch error:', url, error)
 
       return Promise.reject(error)
     })

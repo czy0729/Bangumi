@@ -33,7 +33,7 @@ function Section2() {
       <Text style={_.mt.sm} {...FONT_BASE}>
         {TEXT_SECTION_INDENT}
         为了能继续发展，部分功能可能会突然消失，懂的都懂，不懂的我也不好多说，这事牵扯太多
-        <BgmText index={15} {...FONT_BASE} />。
+        <BgmText index={40} {...FONT_BASE} />。
       </Text>
     </>
   )

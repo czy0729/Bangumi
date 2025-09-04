@@ -15,7 +15,7 @@ export function img({ key, src, alt, autoSize, show, onImageFallback }) {
   if (src.indexOf('/img/smiles/') === 0) {
     index = Number(src.match(/\/(\d+)\./)?.[1])
   } else if (/^\(bgm\d+\)$/.test(alt)) {
-    index = Number(alt.match(/(\d+)/)?.[1]) - 23
+    index = Number(alt.match(/(\d+)/)?.[1])
   }
   if (index) return <Bgm key={key} index={index} size={18} />
 

@@ -27,5 +27,8 @@ export const memoStyles = _.memoStyles(() => ({
     height: 48,
     paddingRight: _.wind - _.sm - 1,
     paddingLeft: _.wind
+  },
+  touch: {
+    paddingVertical: _.sm
   }
 }))

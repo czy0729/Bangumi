@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-05 15:18:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-17 12:50:50
+ * @Last Modified time: 2025-09-03 05:41:55
  */
 import React from 'react'
 import { Bgm, BgmText, Flex, Touchable } from '@components'
@@ -83,7 +83,7 @@ function Grid({ data, value, topicId, floorId, formhash, likeType }) {
             style={stl(styles.item, String(value) === String(item[1]) && styles.itemActive)}
             justify='center'
           >
-            {WEB || item[0] > 100 ? (
+            {WEB ? (
               <Bgm style={styles.bgm} index={item[0]} size={18} textOnly={false} />
             ) : (
               <BgmText index={item[0]} size={18} />

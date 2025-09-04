@@ -35,7 +35,7 @@ function Extra() {
     <>
       <Track title='首页' hm={$.hm} />
       <ErrorNotice />
-      {!WEB && <LoginNotice navigation={navigation} />}
+      {!WEB && <LoginNotice />}
       {ANDROID && <ListenSharedText onTextReceived={handleTextReceived} />}
     </>
   ))

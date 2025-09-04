@@ -14,7 +14,7 @@ import { TextStyle } from '@types'
 import { Component } from '../component'
 import HTML from '../@/react-native-render-html'
 import { a as originA } from '../@/react-native-render-html/src/HTMLRenderers'
-import { bgmMap } from '../bgm-text'
+import { BGM_MAP } from '../bgm-text'
 import { ErrorBoundary } from '../error-boundary'
 import { translateAll } from '../katakana/utils'
 import Error from './error'
@@ -177,15 +177,15 @@ export const RenderHtml = observer(
             const $img = cheerio(element)
             const alt = $img.attr('alt') || ''
             if (alt) {
-              // bgm 偏移量 24
-              const index = parseInt(alt.replace(REGS.bgm, '')) - 24
-              if (bgmMap[index]) {
+              const index = parseInt(alt.replace(REGS.bgm, ''))
+              const emojis = BGM_MAP[index]
+              if (emojis) {
                 const _baseFontStyle: TextStyle = fixedBaseFontStyle(baseFontStyle)
                 return `<span style="font-family:bgm;font-size:${
                   _baseFontStyle.fontSize || this.defaultBaseFontStyle.fontSize
                 }px;line-height:${
                   _baseFontStyle.lineHeight || this.defaultBaseFontStyle.fontSize
-                }px;user-select:all">${bgmMap[index]}</span>`
+                }px;user-select:all">${emojis}</span>`
               }
               return alt
             }

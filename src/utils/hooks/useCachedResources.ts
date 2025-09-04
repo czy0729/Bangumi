@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-07 15:18:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-09 20:19:38
+ * @Last Modified time: 2025-08-30 23:00:32
  */
 import { useState } from 'react'
 import { loadAsync } from 'expo-font'
@@ -15,7 +15,7 @@ import useMount from './useMount'
 
 async function loadBaseFontsAsync() {
   return loadAsync({
-    bgm: require('@assets/fonts/Bgm.ttf')
+    bgm: require('@assets/fonts/BgmV2.ttf')
   })
 }
 
