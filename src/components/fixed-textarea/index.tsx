@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-14 18:15:39
+ * @Last Modified time: 2025-09-05 09:54:39
  */
 import React from 'react'
 import { TextInput } from 'react-native'
@@ -238,18 +238,19 @@ export const FixedTextarea = observer(
     }
 
     /** 选择 bgm 表情 */
-    onSelectBgm = (bgmIndex: number, updateRecent: boolean = true) => {
+    onSelectBgm = (key: string | number, updateRecent: boolean = true) => {
       const { value } = this.state
+      const id = Number(key)
       const index = this.getSelection()
 
       // 插入值如 (bgm38)
-      const left = `${value.slice(0, index)}(bgm${Number(bgmIndex + 1)})`
+      const left = `${value.slice(0, index)}(bgm${id})`
       const right = `${value.slice(index)}`
       this.setState({
         value: `${left}${right}`
       })
       this.setSelection(left.length)
-      if (updateRecent) this.setRecentUseBgm(bgmIndex)
+      if (updateRecent) this.setRecentUseBgm(id)
     }
 
     /** 遮罩点击 */
@@ -413,13 +414,13 @@ export const FixedTextarea = observer(
     }
 
     /** 本地化最近使用 bgm 表情 */
-    setRecentUseBgm = async (bgmIndex: number) => {
+    setRecentUseBgm = async (id: number) => {
       let history = [...this.state.history]
-      if (history.includes(bgmIndex)) {
-        history = history.filter(item => item !== bgmIndex)
-        history.unshift(bgmIndex)
+      if (history.includes(id)) {
+        history = history.filter(item => item !== id)
+        history.unshift(id)
       } else {
-        history.unshift(bgmIndex)
+        history.unshift(id)
       }
       if (history.length > MAX_BGM_HISTORY_COUNT) {
         history = history.filter((_item, index) => index < MAX_BGM_HISTORY_COUNT)

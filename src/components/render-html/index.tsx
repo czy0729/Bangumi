@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-21 05:25:23
+ * @Last Modified time: 2025-09-05 09:14:56
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -10,11 +10,10 @@ import { _, systemStore } from '@stores'
 import { cheerio, HTMLDecode, open } from '@utils'
 import { r } from '@utils/dev'
 import { FROZEN_FN, WEB } from '@constants'
-import { TextStyle } from '@types'
 import { Component } from '../component'
 import HTML from '../@/react-native-render-html'
 import { a as originA } from '../@/react-native-render-html/src/HTMLRenderers'
-import { BGM_MAP } from '../bgm-text'
+import { BGM_MAP, getBgmMiddleFrame } from '../bgm-text'
 import { ErrorBoundary } from '../error-boundary'
 import { translateAll } from '../katakana/utils'
 import Error from './error'
@@ -180,12 +179,12 @@ export const RenderHtml = observer(
               const index = parseInt(alt.replace(REGS.bgm, ''))
               const emojis = BGM_MAP[index]
               if (emojis) {
-                const _baseFontStyle: TextStyle = fixedBaseFontStyle(baseFontStyle)
+                const { fontSize, lineHeight } = fixedBaseFontStyle(baseFontStyle)
                 return `<span style="font-family:bgm;font-size:${
-                  _baseFontStyle.fontSize || this.defaultBaseFontStyle.fontSize
+                  fontSize || this.defaultBaseFontStyle.fontSize
                 }px;line-height:${
-                  _baseFontStyle.lineHeight || this.defaultBaseFontStyle.fontSize
-                }px;user-select:all">${emojis}</span>`
+                  lineHeight || this.defaultBaseFontStyle.fontSize
+                }px;user-select:all">${getBgmMiddleFrame(emojis)}</span>`
               }
               return alt
             }

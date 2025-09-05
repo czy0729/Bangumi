@@ -9,7 +9,7 @@ import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'BgmText')
 
-export const BGM_MAP = {
+export const BGM_MAP_DSM = {
   1: '\ue001',
   2: '\ue002',
   3: '\ue003',
@@ -32,7 +32,10 @@ export const BGM_MAP = {
   20: '\ue032',
   21: '\ue03d',
   22: '\ue048',
-  23: '\ue053\ue05d',
+  23: '\ue053\ue05d'
+} as const
+
+export const BGM_MAP_CINNAMOR = {
   24: '\ue05e',
   25: '\ue05f',
   26: '\ue060',
@@ -134,7 +137,10 @@ export const BGM_MAP = {
   122: '\ue027',
   123: '\ue028',
   124: '\ue029',
-  125: '\ue02a',
+  125: '\ue02a'
+} as const
+
+export const BGM_MAP_VICKSCARLET = {
   200: '\ue033',
   201: '\ue034',
   202: '\ue035',
@@ -173,7 +179,10 @@ export const BGM_MAP = {
   235: '\ue059',
   236: '\ue05a',
   237: '\ue05b',
-  238: '\ue05c',
+  238: '\ue05c'
+} as const
+
+export const BGM_MAP_WUHANG = {
   500: '\ue079\ue07a\ue07b\ue07c',
   501: '\ue07d\ue07e\ue07f\ue080\ue081\ue082',
   502: '\ue083',
@@ -204,4 +213,11 @@ export const BGM_MAP = {
   527: '\ue0b9',
   528: '\ue0ba',
   529: '\ue0bb'
+} as const
+
+export const BGM_MAP = {
+  ...BGM_MAP_DSM,
+  ...BGM_MAP_CINNAMOR,
+  ...BGM_MAP_VICKSCARLET,
+  ...BGM_MAP_WUHANG
 } as const

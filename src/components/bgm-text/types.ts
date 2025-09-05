@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-19 13:40:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 10:13:21
+ * @Last Modified time: 2025-09-05 09:27:24
  */
 import { PropsWithChildren } from 'react'
 import { TextStyle } from '@types'
@@ -12,7 +12,7 @@ export type Props = PropsWithChildren<{
   style?: TextStyle
 
   /** 表情索引 */
-  index?: number
+  index?: string | number
 
   /** 大小 */
   size?: number

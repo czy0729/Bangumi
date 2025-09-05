@@ -12,7 +12,7 @@ export const memoStyles = _.memoStyles(() => ({
   },
   bgms: {
     paddingVertical: _.sm,
-    paddingHorizontal: _.wind - _._wind - _.device(0, 16)
+    paddingHorizontal: _.wind - _._wind + 1
   },
   bgm: {
     width: _.isLandscape ? '7.14%' : '14.28%',

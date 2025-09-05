@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 19:14:53
+ * @Last Modified time: 2025-09-05 09:14:17
  */
 import { _, rakuenStore, subjectStore, systemStore } from '@stores'
 import { HTMLDecode, sleep } from '@utils'
@@ -10,6 +10,7 @@ import { acSearch, getSubStrings } from '@utils/ac-search'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { s2t } from '@utils/thirdParty/open-cc'
 import { DEV, IOS, TEXT_BADGES } from '@constants'
+import { TextStyle } from '@types'
 import { PAD_FONT_ZISE_INCREASE, PAD_LINE_HEIGHT_INCREASE, REGS } from './ds'
 
 /** 获取最后字体渲染字号大小 */
@@ -25,21 +26,14 @@ export function getIncreaseLineHeight(lineHeight: number) {
 }
 
 /** 获取最后字体渲染基本样式 */
-export function fixedBaseFontStyle(baseFontStyle = {}) {
-  if (!_.isPad) return baseFontStyle
+export function fixedBaseFontStyle(baseFontStyle: TextStyle = {}) {
+  const style = _.flatten(baseFontStyle) || {}
+  if (!_.isPad) return style
 
-  const _baseFontStyle: {
-    fontSize?: number
-    lineHeight?: number
-  } = {
-    ...baseFontStyle
-  }
-  if (_baseFontStyle.fontSize) _baseFontStyle.fontSize += PAD_FONT_ZISE_INCREASE
-  if (_baseFontStyle.lineHeight) {
-    _baseFontStyle.lineHeight += PAD_LINE_HEIGHT_INCREASE
-  }
-
-  return _baseFontStyle
+  const fixedStyle = { ...style }
+  if (fixedStyle.fontSize) fixedStyle.fontSize += PAD_FONT_ZISE_INCREASE
+  if (fixedStyle.lineHeight) fixedStyle.lineHeight += PAD_LINE_HEIGHT_INCREASE
+  return fixedStyle
 }
 
 /** 去除 q 里面的图片 (非常特殊的情况, 无法预测, 安卓 Text 里面不能包含其他元素) */

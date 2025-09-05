@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 05:35:08
+ * @Last Modified time: 2025-09-05 11:08:37
  */
 import { _ } from '@stores'
 import { IOS, WEB } from '@constants'
@@ -67,24 +67,11 @@ export const MENU_MAP: MenuMapType = {
     icon: 'md-search',
     web: false
   },
-  Tinygrail: {
-    key: 'Tinygrail',
-    name: '小圣杯',
-    icon: 'trophy',
-    size: 20,
-    web: false
-  },
   Like: {
     key: 'Like',
     name: '猜你喜欢',
     icon: 'md-looks'
   },
-  // Recommend: {
-  //   key: 'Recommend',
-  //   name: 'AI 推荐',
-  //   icon: 'md-favorite-outline',
-  //   size: 21
-  // },
   BiWeekly: {
     key: 'BiWeekly',
     name: '半月刊',

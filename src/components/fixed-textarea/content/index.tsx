@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-08-01 06:12:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-19 11:57:17
+ * @Last Modified time: 2025-09-05 10:01:13
  */
 import React, { useMemo } from 'react'
 import { ScrollView, View } from 'react-native'
@@ -10,11 +10,12 @@ import { _ } from '@stores'
 import { desc } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { IOS, SCROLL_VIEW_RESET_PROPS, WSA } from '@constants'
-import { Bgm } from '../../bgm'
+import { BgmText } from '../../bgm-text'
 import { Flex } from '../../flex'
 import { Iconfont } from '../../iconfont'
 import { Text } from '../../text'
 import { Touchable } from '../../touchable'
+import { BGM_EMOJIS_DATA } from './ds'
 import { memoStyles } from './styles'
 
 function Content({
@@ -40,7 +41,6 @@ function Content({
       .slice()
       .sort((a, b) => desc(lockHistory === a ? 1 : 0, lockHistory === b ? 1 : 0))
   }, [replyHistory, lockHistory])
-  const allIndexes = useMemo(() => Array.from({ length: 102 }, (_, i) => i + 1), [])
 
   return useObserver(() => {
     const styles = memoStyles()
@@ -63,36 +63,36 @@ function Content({
         </Flex>
       ))
 
-    const renderHistory = () => (
+    const renderEmojis = () => (
       <>
-        <Text style={_.container.wind} size={12} type='sub'>
+        <Text style={_.container.wind} type='sub' size={12}>
           常用
         </Text>
         <Flex style={styles.bgms} wrap='wrap'>
           {(history as string[]).map((item, index) => (
-            <View key={index} style={styles.bgm}>
-              <Touchable onPress={() => onSelectBgm(item, false)}>
-                <Flex justify='center'>
-                  <Bgm index={item} size={22} />
-                </Flex>
-              </Touchable>
-            </View>
+            <Touchable key={index} style={styles.bgm} onPress={() => onSelectBgm(item, false)}>
+              <Flex justify='center'>
+                <BgmText index={item} size={18} />
+              </Flex>
+            </Touchable>
           ))}
         </Flex>
-        <Text style={[_.container.wind, _.mt.sm]} size={12} type='sub'>
-          全部
-        </Text>
-        <Flex style={styles.bgms} wrap='wrap'>
-          {allIndexes.map(index => (
-            <View key={index} style={styles.bgm}>
-              <Touchable onPress={() => onSelectBgm(index)}>
-                <Flex justify='center'>
-                  <Bgm index={index} size={22} />
-                </Flex>
-              </Touchable>
-            </View>
-          ))}
-        </Flex>
+        {BGM_EMOJIS_DATA.map(item => (
+          <View key={item.title} style={_.mt.sm}>
+            <Text style={_.container.wind} type='sub' size={12}>
+              by {item.title}
+            </Text>
+            <Flex style={styles.bgms} wrap='wrap'>
+              {Object.keys(item.data).map(i => (
+                <Touchable key={i} style={styles.bgm} onPress={() => onSelectBgm(i)}>
+                  <Flex justify='center'>
+                    <BgmText index={i} size={18} />
+                  </Flex>
+                </Touchable>
+              ))}
+            </Flex>
+          </View>
+        ))}
       </>
     )
 
@@ -102,7 +102,7 @@ function Content({
         contentContainerStyle={styles.contentContainerStyle}
         {...SCROLL_VIEW_RESET_PROPS}
       >
-        {showReplyHistory ? renderReplyHistory() : renderHistory()}
+        {showReplyHistory ? renderReplyHistory() : renderEmojis()}
       </ScrollView>
     )
   })
