@@ -8,10 +8,10 @@ import { getTimestamp } from '@utils'
 import { fetchHTML } from '@utils/fetch'
 import { HTML_BROSWER, HTML_RANK_V2, HTML_TAG } from '@constants'
 import { BrowserSort, SubjectType, TagOrder } from '@types'
-import { analysiRank, analysisTags, cheerioTags } from './common'
+import { analysisTags, cheerioRank, cheerioTags } from './common'
 import Computed from './computed'
 import { DEFAULT_TYPE } from './init'
-import { Rank, Tag } from './types'
+import { Tag } from './types'
 
 export default class Fetch extends Computed {
   /** 标签条目 */
@@ -74,28 +74,31 @@ export default class Fetch extends Computed {
   /** 排行榜 (与标签相似, 所以共用逻辑) */
   fetchRank = async (args: Parameters<typeof HTML_RANK_V2>[0]) => {
     const { type = DEFAULT_TYPE, filter, airtime, order = 'rank', page = 1 } = args || {}
-    const html = await fetchHTML({
-      url: HTML_RANK_V2(args)
-    })
-    const data: Rank = {
-      list: analysiRank(html),
-      pagination: {
-        page: 1,
-        pageTotal: 1
-      },
-      _loaded: getTimestamp()
+    const STATE_KEY = 'rank'
+    const ITEM_KEY = [type, filter, order, airtime, page].filter(item => !!item).join('|')
+
+    try {
+      const html = await fetchHTML({
+        url: HTML_RANK_V2(args)
+      })
+      this.setState({
+        [STATE_KEY]: {
+          [ITEM_KEY]: {
+            list: cheerioRank(html),
+            pagination: {
+              page: 1,
+              pageTotal: 1
+            },
+            _loaded: getTimestamp()
+          }
+        }
+      })
+      this.save(STATE_KEY)
+    } catch (error) {
+      this.error('fetchRank', error)
     }
 
-    const key = 'rank'
-    const stateKey = [type, filter, order, airtime, page].filter(item => !!item).join('|')
-    this.setState({
-      [key]: {
-        [stateKey]: data
-      }
-    })
-    this.save(key)
-
-    return data
+    return this[STATE_KEY](type, filter, order, airtime, page)
   }
 
   /**
