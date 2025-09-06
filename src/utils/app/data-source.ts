@@ -627,7 +627,7 @@ export function getCoverSmall(
 }
 
 /** 获取高质量 bgm 图片 */
-export function getCoverLarge(src = '', size: 200 | 400 = 400) {
+export function getCoverLarge(src: any = '', size: 200 | 400 = 400) {
   if (
     typeof src !== 'string' ||
     src === '' ||
