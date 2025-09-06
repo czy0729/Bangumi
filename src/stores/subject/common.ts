@@ -78,8 +78,8 @@ export function cheerioSubjectFromHTML(html: string): SubjectFromHTML {
 
   const crtCounts: SubjectFromHTML['crtCounts'] = {}
   cEach($('#browserItemList li'), $row => {
-    const id = cData($row.find('a.avatar'), 'href').replace('/character/', '')
-    const num = cText($row.find('small.rr')).replace(/\(|\)|\+/g, '') || 0
+    const id = cData($row.find('a.title'), 'href').replace('/character/', '')
+    const num = cText($row.find('small.primary')).replace(/\(|\)|\+/g, '') || 0
     if (id && num) crtCounts[id] = Number(num)
   })
 
@@ -93,19 +93,25 @@ export function cheerioSubjectFromHTML(html: string): SubjectFromHTML {
       count: cText($row.find('small')),
       meta: cData($row, 'class').includes('meta')
     })),
-    relations: cMap($('div.content_inner ul.browserCoverMedium li'), $row => {
-      const $title = $row.find('a.title')
-      const id = matchSubjectId(cData($title, 'href')) as Id
-      const type = cText($row.find('span.sub')) as SubjectTypeValue
-      if (type) relationsType = type
-      return {
-        id,
-        image: matchCover(cData($row.find('span.avatarNeue'), 'style')) as Cover<'m'>,
-        title: cText($title),
-        type: relationsType,
-        url: `${HOST}/subject/${id}`
+    relations: cMap(
+      cFilter($('h2.subtitle'), '关联条目')
+        .parent()
+        .next('.content_inner')
+        .find('ul.browserCoverMedium li'),
+      $row => {
+        const $title = $row.find('a.title')
+        const id = matchSubjectId(cData($title, 'href')) as Id
+        const type = cText($row.find('span.sub')) as SubjectTypeValue
+        if (type) relationsType = type
+        return {
+          id,
+          image: matchCover(cData($row.find('.coverNeue'), 'style')) as Cover<'m'>,
+          title: cText($title),
+          type: relationsType,
+          url: `${HOST}/subject/${id}`
+        }
       }
-    }),
+    ),
     friend: {
       score: cText($('div.frdScore span.num')) || '0',
       total: cText($('div.frdScore a.l')).replace(' 人评分', '') || '0'
