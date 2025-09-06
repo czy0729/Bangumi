@@ -8,7 +8,7 @@ import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
 import { Button, Flex, Iconfont, Touchable } from '@components'
 import { Popover } from '@_'
-import { _, useStore } from '@stores'
+import { _, tinygrailStore, useStore } from '@stores'
 import { confirm } from '@utils'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
@@ -27,11 +27,24 @@ function Btns() {
     const price = 2000 * 2 ** ($.state.count || 0)
     const memoMenu = useMemo(
       () => [
-        { title: '刮刮乐', action: () => $.doLottery() },
-        { title: `幻想乡刮刮乐(${price})`, action: () => $.doLottery(true) },
+        {
+          title: '刮刮乐',
+          action: () => {
+            if (tinygrailStore.checkAuth()) $.doLottery()
+          }
+        },
+        {
+          title: `幻想乡刮刮乐(${price})`,
+          action: () => {
+            if (tinygrailStore.checkAuth()) $.doLottery(true)
+          }
+        },
         {
           title: '每周分红',
-          action: () => confirm('确定领取每周分红? (每周日0点刷新)', $.doGetBonusWeek)
+          action: () => {
+            if (tinygrailStore.checkAuth())
+              confirm('确定领取每周分红? (每周日0点刷新)', $.doGetBonusWeek)
+          }
         },
         { title: '每日签到', action: () => $.doGetBonusDaily() },
         { title: '节日福利', action: () => $.doGetBonusHoliday() },

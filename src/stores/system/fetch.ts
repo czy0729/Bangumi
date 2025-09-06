@@ -10,7 +10,7 @@ import { GITHUB_RELEASE_REPOS, IOS, VERSION_GITHUB_RELEASE } from '@constants'
 import advanceJSON from '@assets/json/advance.json'
 import { ResponseGHReleases, ResponseKVAdvance } from '@types'
 import userStore from '../user'
-import Computed from './compouted'
+import Computed from './computed'
 
 export default class Fetch extends Computed {
   /** 检查新版本 */

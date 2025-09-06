@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Image, Text, Touchable } from '@components'
-import { _, useStore } from '@stores'
+import { _, tinygrailStore, useStore } from '@stores'
 import { confirm, info, tinygrailOSS } from '@utils'
 import { useMount, useObserver } from '@utils/hooks'
 import { ITEMS_DESC } from '@tinygrail/_/ds'
@@ -27,20 +27,22 @@ function List({ onOpen }: { onOpen: Fn }) {
       <View style={styles.item}>
         <Touchable
           onPress={() => {
-            if (($.userLogs.sacrifices || 0) < 500) {
-              info('需要已献祭大于500才能使用')
-              return
-            }
+            if (tinygrailStore.checkAuth()) {
+              if (($.userLogs.sacrifices || 0) < 500) {
+                info('需要已献祭大于500才能使用')
+                return
+              }
 
-            confirm(
-              '确定消耗10点固定资产使用混沌魔方?',
-              () => {
-                $.doUse({
-                  title: '混沌魔方'
-                })
-              },
-              '小圣杯助手'
-            )
+              confirm(
+                '确定消耗10点固定资产使用混沌魔方?',
+                () => {
+                  $.doUse({
+                    title: '混沌魔方'
+                  })
+                },
+                '小圣杯助手'
+              )
+            }
           }}
         >
           <Flex style={_.mr.sm} align='start'>
@@ -64,12 +66,14 @@ function List({ onOpen }: { onOpen: Fn }) {
       <View style={styles.item}>
         <Touchable
           onPress={() => {
-            if (($.myTemple.assets || 0) < 100) {
-              info('当前固定资产不够100点')
-              return
-            }
+            if (tinygrailStore.checkAuth()) {
+              if (($.myTemple.assets || 0) < 100) {
+                info('当前固定资产不够100点')
+                return
+              }
 
-            onOpen('虚空道标')
+              onOpen('虚空道标')
+            }
           }}
         >
           <Flex align='start'>
@@ -93,12 +97,14 @@ function List({ onOpen }: { onOpen: Fn }) {
       <View style={styles.item}>
         <Touchable
           onPress={() => {
-            if (($.userLogs.sacrifices || 0) === ($.myTemple.assets || 0)) {
-              info('当前固定资产没有损耗')
-              return
-            }
+            if (tinygrailStore.checkAuth()) {
+              if (($.userLogs.sacrifices || 0) === ($.myTemple.assets || 0)) {
+                info('当前固定资产没有损耗')
+                return
+              }
 
-            onOpen('星光碎片')
+              onOpen('星光碎片')
+            }
           }}
         >
           <Flex style={_.mr.sm} align='start'>
@@ -122,12 +128,14 @@ function List({ onOpen }: { onOpen: Fn }) {
       <View style={styles.item}>
         <Touchable
           onPress={() => {
-            if (($.myTemple.assets || 0) < 100) {
-              info('当前固定资产不够100点')
-              return
-            }
+            if (tinygrailStore.checkAuth()) {
+              if (($.myTemple.assets || 0) < 100) {
+                info('当前固定资产不够100点')
+                return
+              }
 
-            onOpen('闪光结晶')
+              onOpen('闪光结晶')
+            }
           }}
         >
           <Flex align='start'>
@@ -151,12 +159,14 @@ function List({ onOpen }: { onOpen: Fn }) {
       <View style={styles.item}>
         <Touchable
           onPress={() => {
-            if (($.myTemple.assets || 0) < 100) {
-              info('当前固定资产不够100点')
-              return
-            }
+            if (tinygrailStore.checkAuth()) {
+              if (($.myTemple.assets || 0) < 100) {
+                info('当前固定资产不够100点')
+                return
+              }
 
-            onOpen('鲤鱼之眼')
+              onOpen('鲤鱼之眼')
+            }
           }}
         >
           <Flex align='start'>

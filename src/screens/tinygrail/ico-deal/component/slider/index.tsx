@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Button, Flex, Input, Slider as SliderComp, Text } from '@components'
-import { _, useStore } from '@stores'
+import { _, tinygrailStore, useStore } from '@stores'
 import { confirm, debounce, formatNumber } from '@utils'
 import { ob } from '@utils/decorators'
 import { decimal } from '@tinygrail/_/utils'
@@ -40,12 +40,14 @@ function Slider() {
             radius={false}
             loading={loading}
             onPress={() => {
-              if (amount >= 100000) {
-                confirm(`确定注资 ${decimal(amount)}`, $.doSubmit)
-                return
-              }
+              if (tinygrailStore.checkAuth()) {
+                if (amount >= 100000) {
+                  confirm(`确定注资 ${decimal(amount)}`, $.doSubmit)
+                  return
+                }
 
-              $.doSubmit()
+                $.doSubmit()
+              }
             }}
           >
             确定

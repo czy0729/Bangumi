@@ -7,8 +7,7 @@
 import React from 'react'
 import { Flex, Iconfont } from '@components'
 import { IconTouchable, Popover } from '@_'
-import { _, systemStore } from '@stores'
-import { info } from '@utils'
+import { _, tinygrailStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import TinygrailIconGo from '@tinygrail/_/icon-go'
@@ -104,19 +103,13 @@ function Right({ $ }: Ctx) {
           style={styles.icon}
           data={title === 'ICO' ? DATA_ICO : DATA}
           onSelect={key => {
-            if (
-              !systemStore.advance &&
-              (key === TEXT_BATCH_ASKS_AVG || key === TEXT_BATCH_ASKS_DEAL_1)
-            ) {
-              info('此功能会员限定')
-              return
+            if (tinygrailStore.checkAuth()) {
+              $.toggleBatchEdit(key)
+
+              t('我的持仓.右上角菜单', {
+                key
+              })
             }
-
-            $.toggleBatchEdit(key)
-
-            t('我的持仓.右上角菜单', {
-              key
-            })
           }}
         >
           <Iconfont name='md-menu-open' color={_.colorTinygrailPlain} />

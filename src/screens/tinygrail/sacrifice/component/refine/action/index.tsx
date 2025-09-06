@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Button, Flex } from '@components'
-import { useStore } from '@stores'
+import { tinygrailStore, useStore } from '@stores'
 import { confirm, formatNumber } from '@utils'
 import { ob } from '@utils/decorators'
 import { calculateRefineCost } from '@tinygrail/_/utils'
@@ -27,14 +27,16 @@ function Action() {
           radius={false}
           loading={$.state.loadingRefine}
           onPress={() => {
-            if ($.state.loadingRefine) return
+            if (tinygrailStore.checkAuth()) {
+              if ($.state.loadingRefine) return
 
-            if ($.state.confirmRefine) {
-              confirm('确定精炼?', () => $.doRefine(), '小圣杯助手')
-              return
+              if ($.state.confirmRefine) {
+                confirm('确定精炼?', () => $.doRefine(), '小圣杯助手')
+                return
+              }
+
+              $.doRefine()
             }
-
-            $.doRefine()
           }}
         >
           精炼 +{($.myTemple.refine || 0) + 1} (₵

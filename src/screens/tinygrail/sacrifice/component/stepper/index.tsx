@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Input, Touchable } from '@components'
-import { _, useStore } from '@stores'
+import { _, tinygrailStore, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { ViewStyle } from '@types'
 import { Ctx } from '../../types'
@@ -30,7 +30,9 @@ function Stepper({ style }: { style?: ViewStyle }) {
           returnKeyType='done'
           returnKeyLabel='竞拍'
           onChangeText={$.changeAuctionPrice}
-          onSubmitEditing={$.doAuction}
+          onSubmitEditing={() => {
+            if (tinygrailStore.checkAuth()) $.doAuction()
+          }}
         />
       </Flex.Item>
       <Touchable onPress={$.stepMinus}>

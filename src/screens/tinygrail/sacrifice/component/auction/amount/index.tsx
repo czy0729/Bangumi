@@ -8,7 +8,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { Button, Flex, Iconfont, Input, Text } from '@components'
 import { Popover } from '@_'
-import { _, useStore } from '@stores'
+import { _, tinygrailStore, useStore } from '@stores'
 import { formatNumber, lastDate } from '@utils'
 import { useMount, useObserver } from '@utils/hooks'
 import { Ctx } from '../../../types'
@@ -43,7 +43,9 @@ function Amount() {
                 returnKeyType='done'
                 returnKeyLabel='竞拍'
                 onChangeText={$.changeAuctionAmount}
-                onSubmitEditing={$.doAuction}
+                onSubmitEditing={() => {
+                  if (tinygrailStore.checkAuth()) $.doAuction()
+                }}
               />
               <View style={styles.popover}>
                 <Popover data={COUNT_DS} onSelect={$.changeAuctionAmountByMenu}>
@@ -60,7 +62,9 @@ function Amount() {
               type='bid'
               radius={false}
               loading={auctionLoading}
-              onPress={$.doAuction}
+              onPress={() => {
+                if (tinygrailStore.checkAuth()) $.doAuction()
+              }}
             >
               竞拍
             </Button>

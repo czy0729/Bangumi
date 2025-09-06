@@ -43,7 +43,9 @@ import {
 } from '@constants'
 import { TinygrailMagic } from '@constants/api/types'
 import { Id, MonoId, UserId } from '@types'
+import systemStore from '../system'
 import Fetch from './fetch'
+import { TEXT_TINYGRAIL_WARNING } from './ds'
 
 export default class Action extends Fetch {
   updateCookie = (cookie: string) => {
@@ -51,6 +53,15 @@ export default class Action extends Fetch {
       cookie
     })
     this.save('cookie')
+  }
+
+  checkAuth = () => {
+    if (!systemStore.advance) {
+      alert(TEXT_TINYGRAIL_WARNING)
+      return false
+    }
+
+    return true
   }
 
   /** @deprecated */

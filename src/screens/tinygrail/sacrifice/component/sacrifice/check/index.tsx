@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
-import { _, useStore } from '@stores'
+import { _, tinygrailStore, useStore } from '@stores'
 import { confirm, formatNumber, lastDate } from '@utils'
 import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
@@ -18,13 +18,15 @@ function Check() {
     <Flex style={_.mt.sm}>
       <Touchable
         onPress={() => {
-          if ($.state.loading) return
+          if (tinygrailStore.checkAuth()) {
+            if ($.state.loading) return
 
-          confirm(
-            `当前角色测试献祭效率至少需要先献祭 (${$.testAmount}) 股, 确定?`,
-            () => $.doTestSacrifice(),
-            '小圣杯助手'
-          )
+            confirm(
+              `当前角色测试献祭效率至少需要先献祭 (${$.testAmount}) 股, 确定?`,
+              () => $.doTestSacrifice(),
+              '小圣杯助手'
+            )
+          }
         }}
       >
         <Text type='tinygrailText' size={12}>

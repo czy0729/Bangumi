@@ -18,10 +18,6 @@ export default class Computed extends State {
     return userStore.userCookie
   }
 
-  @computed get advance() {
-    return systemStore.advance
-  }
-
   @computed get userInfo() {
     return userStore.userInfo
   }

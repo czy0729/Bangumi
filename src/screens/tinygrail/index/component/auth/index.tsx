@@ -5,9 +5,10 @@
  * @Last Modified time: 2025-05-14 14:26:07
  */
 import React from 'react'
+import { View } from 'react-native'
 import { Avatar, Flex, Text, Touchable } from '@components'
 import { IconBack, IconTouchable } from '@_'
-import { _, useStore } from '@stores'
+import { _, systemStore, useStore } from '@stores'
 import { feedback, tinygrailOSS } from '@utils'
 import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
@@ -35,22 +36,24 @@ function Auth() {
       />
       <Flex.Item>
         <Flex>
-          <Touchable style={styles.touch} onPress={() => navigation.push('Qiafan')}>
+          <View style={styles.touch}>
             <Text type='tinygrailPlain' size={13} bold>
               {nickname}
             </Text>
-            {$.advance ? (
-              <Text size={11} lineHeight={13} type='warning'>
-                高级会员
-              </Text>
-            ) : (
-              !!$.state._loaded && (
-                <Text type='tinygrailText' size={11} lineHeight={13}>
-                  普通会员
+            <Touchable onPress={() => navigation.push('Qiafan')}>
+              {systemStore.advance ? (
+                <Text size={11} lineHeight={13} type='warning'>
+                  高级会员
                 </Text>
-              )
-            )}
-          </Touchable>
+              ) : (
+                !!$.state._loaded && (
+                  <Text type='tinygrailText' size={11} lineHeight={13}>
+                    普通会员
+                  </Text>
+                )
+              )}
+            </Touchable>
+          </View>
           <IconTouchable
             style={_.ml._xs}
             name={_.select('md-brightness-5', 'md-brightness-2')}

@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-05-02 22:48:38
  */
-import React from 'react'
-import { useStore } from '@stores'
+import React, { useCallback } from 'react'
+import { tinygrailStore, useStore } from '@stores'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import CharactersModal from '@tinygrail/_/characters-modal'
@@ -17,12 +17,19 @@ function Modal() {
 
   const { $ } = useStore<Ctx>()
 
+  const handleSubmit = useCallback(
+    (params1: any, params2: any) => {
+      if (tinygrailStore.checkAuth()) $.doUse(params1, params2)
+    },
+    [$]
+  )
+
   return useObserver(() => (
     <CharactersModal
       visible={$.state.visible}
       title={$.state.title}
       onClose={$.onCloseModal}
-      onSubmit={$.doUse}
+      onSubmit={handleSubmit}
     />
   ))
 }

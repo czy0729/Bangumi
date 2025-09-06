@@ -13,8 +13,6 @@ export const memoStyles = _.memoStyles(() => ({
   },
   touch: {
     paddingVertical: _.xs,
-    paddingHorizontal: _.sm,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
+    paddingHorizontal: _.sm
   }
 }))

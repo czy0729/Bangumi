@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
-import { _, useStore } from '@stores'
+import { _, tinygrailStore, useStore } from '@stores'
 import { HTMLDecode } from '@utils'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
@@ -63,7 +63,7 @@ function Used({ name }: Props) {
         <Touchable
           style={_.ml.md}
           onPress={() => {
-            $.doUse(memo, false)
+            if (tinygrailStore.checkAuth()) $.doUse(memo, false)
           }}
         >
           <Flex>

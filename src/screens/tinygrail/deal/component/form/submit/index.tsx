@@ -7,7 +7,7 @@
 import React from 'react'
 import { ActivityIndicator } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
-import { _, useStore } from '@stores'
+import { _, tinygrailStore, useStore } from '@stores'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
@@ -20,7 +20,9 @@ function Submit({ style }) {
   return (
     <Touchable
       style={stl(styles.btn, $.isBid ? styles.btnBid : styles.btnAsk, style)}
-      onPress={$.doSubmit}
+      onPress={() => {
+        if (tinygrailStore.checkAuth()) $.doSubmit()
+      }}
     >
       <Flex justify='center'>
         {loading && <ActivityIndicator style={_.mr.sm} color='white' size='small' />}
