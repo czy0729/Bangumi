@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-21 16:39:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-04 01:12:13
+ * @Last Modified time: 2025-09-06 20:57:18
  */
 import { systemStore, userStore } from '@stores'
 import { info } from '@utils'
@@ -37,6 +37,6 @@ export async function checkAdvance() {
   const [, amount] = String(value).split('|')
   if (Number(amount || 0) >= APP_ADVANCE_CDN) return true
 
-  info(`历史打赏为 ${amount}，不足条件 ${APP_ADVANCE_CDN}`)
+  info(`历史打赏为 ${amount || 0}，不足条件 ${APP_ADVANCE_CDN}`)
   return false
 }

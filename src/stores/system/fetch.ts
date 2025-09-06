@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:15:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-09 18:26:29
+ * @Last Modified time: 2025-09-06 20:56:34
  */
 import { getTimestamp, info } from '@utils'
-import { get } from '@utils/kv'
 import { GITHUB_RELEASE_REPOS, IOS, VERSION_GITHUB_RELEASE } from '@constants'
 import advanceJSON from '@assets/json/advance.json'
-import { ResponseGHReleases, ResponseKVAdvance } from '@types'
+import { ResponseGHReleases } from '@types'
 import userStore from '../user'
 import Computed from './computed'
+import { getData } from './utils'
 
 export default class Fetch extends Computed {
   /** 检查新版本 */
@@ -54,7 +54,7 @@ export default class Fetch extends Computed {
       if (advanceJSON[myId] || advanceJSON[myUserId]) {
         flag = true
       } else {
-        const data: ResponseKVAdvance = (await get('advance')) || {}
+        const data = await getData()
         if (data[myId] || data[myUserId]) flag = true
       }
 
@@ -80,7 +80,11 @@ export default class Fetch extends Computed {
     if (!myId && !myUserId) return false
 
     try {
-      const data: ResponseKVAdvance = (await get('advance')) || {}
+      const data = await getData()
+      console.log({
+        data
+      })
+
       const value = {
         ...advanceJSON,
         ...data,
