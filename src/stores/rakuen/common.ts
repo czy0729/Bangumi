@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-27 21:56:13
+ * @Last Modified time: 2025-09-06 21:52:04
  */
 import {
   cData,
   cheerio,
   cHtml,
+  cMap,
   cText,
   getCoverSmall,
   HTMLDecode,
@@ -24,7 +25,14 @@ import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HTML_RAKUEN } from '@constants'
 import { RakuenScope, RakuenType, RakuenTypeGroup, RakuenTypeMono } from '@types'
 import { INIT_BLOG, INIT_COMMENTS_ITEM, INIT_TOPIC, STATE } from './init'
-import { BlockedUsersItem, CommentsItem, CommentsItemWithSub, Likes, Topic } from './types'
+import {
+  BlockedUsersItem,
+  CommentsItem,
+  CommentsItemWithSub,
+  Likes,
+  NotifyItem,
+  Topic
+} from './types'
 
 export async function fetchRakuen(args: {
   scope: RakuenScope
@@ -187,32 +195,31 @@ export function cheerioGroup(html: string) {
 
 /** 电波提醒列表 */
 export function cheerioNotify(html: string) {
-  return cheerio(htmlMatch(html, '<div class="columns', '<div id="footer">'))('div.tml_item')
-    .map((_index: number, element: any) => {
-      const $tr = cheerio(element)
-      const $name = $tr.find('a.l')
-      const $title = $tr.find('a.nt_link')
-      const title = $title.text()
-      let message: string
-      let message2: string
+  const $ = cheerio(htmlMatch(html, '<div id="comment_list"', '<div id="footer">'))
 
-      if (title) {
-        ;[message, message2] = $tr.find('div.reply_content').text().split(title)
-      } else {
-        message = $tr.find('div.reply_content').text()
-      }
+  return cMap($('div.tml_item'), $row => {
+    const $name = $row.find('a.l')
+    const $title = $row.find('a.nt_link')
+    const title = cText($title)
+    let message: string
+    let message2: string
 
-      return {
-        avatar: matchAvatar($tr.find('span.avatarNeue').attr('style')) || '',
-        userName: $name.text() || '',
-        userId: matchUserId($name.attr('href')) || '',
-        title: title || '',
-        href: $title.attr('href') || '',
-        message: message || '',
-        message2: message2 || ''
-      }
-    })
-    .get()
+    if (title) {
+      ;[message, message2] = cText($row.find('div.reply_content')).split(title)
+    } else {
+      message = cText($row.find('div.reply_content'))
+    }
+
+    return {
+      avatar: matchAvatar(cData($row.find('span.avatarNeue'), 'style')) || '',
+      userName: cText($name),
+      userId: matchUserId(cData($name, 'href')) || '',
+      title,
+      href: cData($title, 'href') || '',
+      message,
+      message2
+    } as NotifyItem
+  })
 }
 
 /** 帖子和留言 */

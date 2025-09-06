@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-02 05:03:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-24 23:15:37
+ * @Last Modified time: 2025-09-06 21:55:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -42,7 +42,6 @@ function Chat() {
               text={item.content}
               id={item.userId}
               time={item.time}
-              format={false}
             />
           )
         })}

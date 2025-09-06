@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:26:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-11 22:43:17
+ * @Last Modified time: 2025-09-06 21:52:07
  */
 import { getTimestamp, HTMLTrim } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -239,50 +239,50 @@ export default class Fetch extends Computed {
     /** 是否分析回复内容 */
     analysis: boolean = false
   ) => {
-    const res = await fetchHTML({
-      url: HTML_NOTIFY(),
-      raw: true
-    })
+    const STATE_KEY = 'notify'
 
-    let setCookie: string
-    if (res?.headers?.map?.['set-cookie']) setCookie = res.headers.map['set-cookie']
+    try {
+      const res = await fetchHTML({
+        url: HTML_NOTIFY(),
+        raw: true
+      })
 
-    const html = HTMLTrim(await res.text())
-    let { unread, clearHref, list } = this.notify
+      let setCookie: string
+      if (res?.headers?.map?.['set-cookie']) setCookie = res.headers.map['set-cookie']
 
-    /** 清除动作 */
-    const clearHTML = html.match(/<a id="notify_ignore_all" href="(.+?)">\[知道了\]<\/a>/)
-    if (clearHTML) clearHref = clearHTML[1]
+      const html = HTMLTrim(await res.text())
+      let { unread, clearHref, list } = this.notify
 
-    /** 未读数 */
-    const countHTML = html.match(/<span id="notify_count">(.+?)<\/span>/)
-    if (countHTML) unread = parseInt(countHTML[1])
+      /** 清除动作 */
+      const clearHTML = html.match(/<a id="notify_ignore_all" href="(.+?)">\[知道了\]<\/a>/)
+      if (clearHTML) clearHref = clearHTML[1]
 
-    /** 回复内容 */
-    if (analysis) {
-      const listHTML = html.match(
-        /<div id="comment_list">(.+?)<\/div><\/div><\/div><div id="footer"/
-      )
-      if (listHTML) list = cheerioNotify(listHTML[1])
-    }
+      /** 未读数 */
+      const countHTML = html.match(/<span id="notify_count">(.+?)<\/span>/)
+      if (countHTML) unread = parseInt(countHTML[1])
 
-    const key = 'notify'
-    this.setState({
-      [key]: {
-        unread,
-        clearHref,
-        list,
+      /** 回复内容 */
+      if (analysis) list = cheerioNotify(html)
 
-        /** @ts-expect-error */
-        _loaded: analysis ? getTimestamp() : this.notify._loaded
+      this.setState({
+        [STATE_KEY]: {
+          unread,
+          clearHref,
+          list,
+
+          /** @ts-expect-error */
+          _loaded: analysis ? getTimestamp() : this.notify._loaded
+        }
+      })
+      this.save(STATE_KEY)
+
+      return {
+        setCookie,
+        html,
+        list
       }
-    })
-    this.save(key)
-
-    return {
-      setCookie,
-      html,
-      list
+    } catch (error) {
+      this.error('fetchNotify', error)
     }
   }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-11 11:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-24 02:24:37
+ * @Last Modified time: 2025-09-06 21:56:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,7 +31,7 @@ export const ItemSay = ob(
     text,
     id,
     time,
-    format = true,
+    format,
     onLongPress
   }: ItemSayProps) => {
     const navigation = useNavigation()

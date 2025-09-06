@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-05-14 07:14:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-31 10:06:57
+ * @Last Modified time: 2025-09-06 22:03:12
  */
 import { _, systemStore, usersStore, userStore } from '@stores'
 import { getCover400, getCoverMedium, getTimestamp } from '@utils'
@@ -81,6 +81,7 @@ export function getAvatar(src: any) {
 }
 
 /** 判断是否使用 CDN */
+/** 判断是否使用 CDN */
 export function getCDNAvatar(
   src: any,
   prefix: 'bgm_poster_100' | 'bgm_poster_200' = 'bgm_poster_100'
@@ -94,8 +95,8 @@ export function getCDNAvatar(
     return src
   }
 
-  let match = src.match(/(\d+)\.jpg\?r=(\d+)/)
-  if (!match) match = src.match(/(\d+)\.jpg/)
+  let match = src.match(/(\d+)(?:_[^.]*)?\.jpg\?r=(\d+)/)
+  if (!match) match = src.match(/(\d+)(?:_[^.]*)?\.jpg/)
   if (!match) return src
 
   const num1 = parseInt(match[1])

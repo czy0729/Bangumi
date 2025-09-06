@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-05 11:08:37
+ * @Last Modified time: 2025-09-06 21:20:57
  */
 import { _ } from '@stores'
 import { IOS, WEB } from '@constants'
@@ -65,6 +65,13 @@ export const MENU_MAP: MenuMapType = {
     key: 'Search',
     name: '搜索',
     icon: 'md-search',
+    web: false
+  },
+  Tinygrail: {
+    key: 'Tinygrail',
+    name: '小圣杯',
+    icon: 'trophy',
+    size: 20,
     web: false
   },
   Like: {
