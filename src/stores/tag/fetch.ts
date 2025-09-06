@@ -8,7 +8,7 @@ import { getTimestamp } from '@utils'
 import { fetchHTML } from '@utils/fetch'
 import { HTML_BROSWER, HTML_RANK_V2, HTML_TAG } from '@constants'
 import { BrowserSort, SubjectType, TagOrder } from '@types'
-import { analysisTags, cheerioRank, cheerioTags } from './common'
+import { cheerioRank, cheerioTags } from './common'
 import Computed from './computed'
 import { DEFAULT_TYPE } from './init'
 import { Tag } from './types'
@@ -81,6 +81,7 @@ export default class Fetch extends Computed {
       const html = await fetchHTML({
         url: HTML_RANK_V2(args)
       })
+
       this.setState({
         [STATE_KEY]: {
           [ITEM_KEY]: {
@@ -115,32 +116,35 @@ export default class Fetch extends Computed {
     refresh?: boolean
   ) => {
     const { type = DEFAULT_TYPE, airtime, sort } = args || {}
-    const { list, pagination } = this.browser(type, airtime, sort)
-    const page = refresh ? 1 : pagination.page + 1
+    const STATE_KEY = 'browser'
+    const ITEM_KEY = [type, airtime, sort].filter(item => !!item).join('|')
+    const LIMIT = 24
 
-    // -------------------- 请求HTML --------------------
-    const raw = await fetchHTML({
-      url: HTML_BROSWER(type, airtime, page, sort)
-    })
-    const { pageTotal, tag } = analysisTags(raw, page, pagination)
+    try {
+      const { list, pagination } = this[STATE_KEY](type, airtime, sort)
+      const page = refresh ? 1 : pagination.page + 1
 
-    const key = 'browser'
-    const stateKey = `${type}|${airtime}|${sort}`
-    const data = {
-      list: refresh ? tag : [...list, ...tag],
-      pagination: {
-        page,
-        pageTotal: Number(pageTotal)
-      },
-      _loaded: getTimestamp()
+      const html = await fetchHTML({
+        url: HTML_BROSWER(type, airtime, page, sort)
+      })
+      const next = cheerioRank(html)
+      this.setState({
+        [STATE_KEY]: {
+          [ITEM_KEY]: {
+            list: refresh ? next : [...list, ...next],
+            pagination: {
+              page,
+              pageTotal: next.length >= LIMIT ? 100 : page
+            },
+            _loaded: getTimestamp()
+          }
+        }
+      })
+      this.save(STATE_KEY)
+    } catch (error) {
+      this.error('fetchBrowser', error)
     }
-    this.setState({
-      [key]: {
-        [stateKey]: data
-      }
-    })
-    this.save(key)
 
-    return data
+    return this[STATE_KEY](type, airtime, sort)
   }
 }
