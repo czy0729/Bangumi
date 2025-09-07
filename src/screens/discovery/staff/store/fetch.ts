@@ -43,9 +43,7 @@ export default class Fetch extends Computed {
     })
     if (result) return true
 
-    const data = await discoveryStore.fetchCatalogDetail({
-      id
-    })
+    const data = await discoveryStore.fetchCatalogDetail(id)
     this.updateCatalogDetail({
       ...data,
       id

@@ -250,26 +250,31 @@ export default class Fetch extends Computed {
   }
 
   /** 目录详情 */
-  fetchCatalogDetail = async (args: { id?: Id }) => {
-    const { id } = args || {}
-    const html = await fetchHTML({
-      url: HTML_CATALOG_DETAIL(id)
-    })
-    const data = cheerioCatalogDetail(html)
+  fetchCatalogDetail = async (id: Id) => {
+    const STATE_KEY = 'catalogDetail'
+    const ITEM_KEY = id
 
-    const last = getInt(id)
-    const key = `catalogDetail${last}` as const
-    this.setState({
-      [key]: {
-        [id]: {
-          ...data,
-          _loaded: getTimestamp()
+    try {
+      const html = await fetchHTML({
+        url: HTML_CATALOG_DETAIL(id)
+      })
+
+      const last = getInt(id)
+      const FINAL_STATE_KEY = `catalogDetail${last}` as const
+      this.setState({
+        [FINAL_STATE_KEY]: {
+          [ITEM_KEY]: {
+            ...cheerioCatalogDetail(html),
+            _loaded: getTimestamp()
+          }
         }
-      }
-    })
-    this.save(key)
+      })
+      this.save(FINAL_STATE_KEY)
+    } catch (error) {
+      this.error('fetchCatalogDetail', error)
+    }
 
-    return data
+    return this[STATE_KEY](ITEM_KEY)
   }
 
   /** 下载预数据 */

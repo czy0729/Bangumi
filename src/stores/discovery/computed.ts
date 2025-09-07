@@ -42,11 +42,11 @@ export default class Computed extends State implements StoreConstructor<typeof S
   /** 目录详情 */
   catalogDetail(id: Id) {
     const last = getInt(id)
-    const key = `catalogDetail${last}` as const
-    this.init(key, true)
-
-    return computed<CatalogDetail>(() => {
-      return this.state?.[key]?.[id] || INIT_CATELOG_DETAIL_ITEM
+    const STATE_KEY = `catalogDetail${last}` as const
+    const ITEM_KEY = id
+    this.init(STATE_KEY, true)
+    return computed(() => {
+      return (this.state?.[STATE_KEY]?.[ITEM_KEY] || INIT_CATELOG_DETAIL_ITEM) as CatalogDetail
     }).get()
   }
 

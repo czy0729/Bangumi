@@ -29,8 +29,6 @@ export default class Fetch extends Computed {
   fetchCatalogDetail = async (id: Id) => {
     if (discoveryStore.catalogDetail(id)._loaded) return true
 
-    return discoveryStore.fetchCatalogDetail({
-      id
-    })
+    return discoveryStore.fetchCatalogDetail(id)
   }
 }

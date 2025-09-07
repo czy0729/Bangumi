@@ -73,11 +73,12 @@ export type CatalogDetailEpItem = {
 /** 目录详情 */
 export type CatalogDetail = {
   title: string
-  avatar: Avatar<'m'>
+  avatar: string
   progress: string
   nickname: string
   userId: UserId
   time: string
+  last: string
   replyCount: number | ''
   collect: null | string
   content: string

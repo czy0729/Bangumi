@@ -93,6 +93,8 @@ export const FolderManageModal = ob(
       sortOrder: ORDER_DS[0].value
     }
 
+    backHandler?: { remove: () => void }
+
     formhash: string
 
     textareaRef: any
@@ -106,7 +108,7 @@ export const FolderManageModal = ob(
       if (this.props.defaultExpand) {
         this.fetchCollectStatusQueue(this.props.defaultExpand)
       }
-      BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid)
+      this.backHandler = BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid)
     }
 
     async UNSAFE_componentWillReceiveProps(nextProps: FolderManageModalProps) {
@@ -135,13 +137,10 @@ export const FolderManageModal = ob(
     }
 
     componentWillUnmount() {
-      try {
-        this.setState({
-          visible: false
-        })
-
-        BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid)
-      } catch (error) {}
+      this.setState({
+        visible: false
+      })
+      this.backHandler?.remove()
     }
 
     /** 读取本地化设置 */
@@ -233,9 +232,7 @@ export const FolderManageModal = ob(
         if (_loaded && getTimestamp() - Number(_loaded) <= 300) return true
       }
 
-      await discoveryStore.fetchCatalogDetail({
-        id
-      })
+      await discoveryStore.fetchCatalogDetail(id)
 
       // 缓存最新 formhash
       const { list } = this.catalogDetail(id)

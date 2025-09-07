@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-11-28 16:05:33
  */
 import React from 'react'
-import { Flex, Text } from '@components'
+import { Text } from '@components'
 import { _, useStore } from '@stores'
 import { simpleTime } from '@utils'
 import { ob } from '@utils/decorators'
@@ -15,12 +15,12 @@ import { COMPONENT } from './ds'
 
 function Desc() {
   const { $, navigation } = useStore<Ctx>()
-  const { avatar, nickname, userId, time } = $.detail
+  const { avatar, nickname, userId, time, last } = $.detail
   if (!(nickname || time)) return null
 
-  const lastUpdate = $.params._lastUpdate || ''
+  const lastUpdate = $.params._lastUpdate || last || ''
   return (
-    <Flex style={_.mt.sm}>
+    <Text style={_.mt.sm} type='sub' size={13} lineHeight={15} bold>
       <Text
         size={13}
         lineHeight={15}
@@ -42,12 +42,10 @@ function Desc() {
       >
         {nickname}
       </Text>
-      <Text type='sub' size={13} lineHeight={15} bold>
-        {nickname ? ` · ` : ''}
-        {simpleTime(String(time).replace(/\n/g, ''))}
-        {!!lastUpdate && ` · 最后更新 ${simpleTime(lastUpdate)}`}
-      </Text>
-    </Flex>
+      {nickname ? ` · ` : ''}
+      {simpleTime(String(time).replace(/\n/g, ''))}
+      {!!lastUpdate && ` · 最后更新 ${simpleTime(lastUpdate)}`}
+    </Text>
   )
 }
 

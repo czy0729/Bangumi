@@ -52,9 +52,7 @@ export default class Fetch extends Computed {
       if (result) return true
     }
 
-    const data = await discoveryStore.fetchCatalogDetail({
-      id
-    })
+    const data = await discoveryStore.fetchCatalogDetail(id)
 
     // 因为新账号是访问不到带有 NSFW 条目的目录的, 没有数据的情况不能缓存快照
     if (data?.list?.length) {

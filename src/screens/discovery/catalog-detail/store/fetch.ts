@@ -7,16 +7,15 @@
 import { collectionStore, discoveryStore, subjectStore } from '@stores'
 import { confirm, opitimize, sleep } from '@utils'
 import { queue } from '@utils/fetch'
+import { M2 } from '@constants'
 import Computed from './computed'
 import { EXCLUDE_STATE } from './ds'
 
 export default class Fetch extends Computed {
   /** 目录详情 */
   fetchCatalogDetail = async (refresh: boolean = false) => {
-    if (refresh || !opitimize(this.catalogDetail, 120)) {
-      await discoveryStore.fetchCatalogDetail({
-        id: this.catalogId
-      })
+    if (refresh || !opitimize(this.catalogDetail, M2)) {
+      await discoveryStore.fetchCatalogDetail(this.catalogId)
     }
 
     this.fetchCollectionStatusQueue()

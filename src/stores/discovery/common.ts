@@ -6,6 +6,7 @@
  */
 import {
   cData,
+  cHas,
   cheerio,
   cHtml,
   cMap,
@@ -76,11 +77,12 @@ export function cheerioCatalog(html: string) {
 
 /** 目录详情 */
 export function cheerioCatalogDetail(html: string): CatalogDetail {
-  const $ = cheerio(htmlMatch(html, '<div id="header">', '<div id="footer">'))
-  const $a = $('div.grp_box > a.l')
-  const [time = '', collect = ''] = cText($('div.grp_box > span.tip_j')).split('/')
+  const $ = cheerio(htmlMatch(html, '<div id="header"', '<div id="footer"'))
+  const $grp = $('.grp_box')
+  const $a = $grp.find('.tip_j a.l').eq(0)
+  const $tips = $grp.find('.tip_j .tip')
 
-  const href = cData($('div.rr > a'), 'href')
+  const href = cData($grp.find('.btnPink'), 'href')
   let joinUrl = ''
   let byeUrl = ''
   if (href.includes('erase_collect')) {
@@ -98,14 +100,15 @@ export function cheerioCatalogDetail(html: string): CatalogDetail {
   }))
 
   return {
-    title: cText($('div#header > h1')),
-    avatar: cData($('img.avatar'), 'src') as Avatar<'m'>,
-    progress: cText($('div.progress small')),
+    title: cText($('#header h1')),
+    avatar: cData($grp.find('img.avatar'), 'src'),
+    progress: cText($('.progress small')),
     nickname: cText($a),
     userId: cData($a, 'href').replace('/user/', ''),
-    time: time.replace('创建于 ', '').trim(),
-    collect: collect.match(/\d+/) && collect.match(/\d+/)[0],
-    content: cHtml($('div.line_detail > span.tip')),
+    time: cText($tips.eq(0)).replace(' ·', ''),
+    last: cText($tips.eq(1)),
+    collect: cText($tips.eq(2)),
+    content: cHtml($grp.find('.line_detail .tip')),
     replyCount: $('.timeline_img li.clearit').length,
     joinUrl,
     byeUrl,
@@ -113,11 +116,6 @@ export function cheerioCatalogDetail(html: string): CatalogDetail {
     /** 条目 */
     list: cMap($('#browserItemList li.item'), $row => {
       const $a = $row.find('h3 a.l')
-
-      // /update/137458?keepThis=false&TB_iframe=true&height=350&amp;width=500
-      const _id = cData($a, 'href').replace('/subject/', '')
-      const _idTemp = _id.split('?')?.[0]?.split('/')
-      const id = _idTemp[_idTemp.length - 1]
 
       const _type = cData($row.find('span.ico_subject_type'), 'class')
       let type: SubjectTypeCn
@@ -133,13 +131,13 @@ export function cheerioCatalogDetail(html: string): CatalogDetail {
 
       const $modify = $row.find('.tb_idx_rlt')
       return {
-        id,
+        id: cData($a, 'href').replace('/subject/', ''),
         image: cData($row.find('img.cover'), 'src') as Cover<'c'>,
-        title: cText($a).replace('修改删除', ''),
+        title: cText($a),
         type,
         info: cText($row.find('p.info')),
-        comment: cText($row.find('div.text_main_even > div.text')),
-        isCollect: !!cText($row.find('p.collectModify')),
+        comment: cText($row.find('.text_main_even > .text')),
+        isCollect: cHas($row.find('p.collectModify')),
 
         // 以下属性自己创建的目录才会存在
         order: cData($modify, 'order') || '0',
