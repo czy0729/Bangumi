@@ -19,6 +19,9 @@ import {
   UrlSubject,
   UserId
 } from '@types'
+import { LOADED } from './init'
+
+export type CacheKey = keyof typeof LOADED
 
 export type Friend = {
   avatar: Cover<'l'>
@@ -154,10 +157,17 @@ export type CatalogsItem = {
   title: string
   userId: UserId
   userName: string
-  avatar: Avatar<'s'>
+  avatar: string
   time: string
+  update: string
   num: string
+  tip: string
 }
 
 /** 用户目录 */
 export type Catalogs = ListEmpty<CatalogsItem>
+
+export type FetchCatalogsArgs = {
+  userId?: UserId
+  isCollect?: boolean
+}

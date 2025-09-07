@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-21 17:22:36
  */
-import { cheerio, htmlMatch, matchAvatar, safeObject, trim } from '@utils'
+import { cData, cheerio, cMap, cText, htmlMatch, matchAvatar, safeObject, trim } from '@utils'
 import { Users } from './types'
 
 /** 好友列表 */
@@ -202,44 +202,21 @@ export function cheerioBlogs(html: string) {
 }
 
 /** 用户目录列表 */
-export function cheerioCatalogs(html: string, isCollect: boolean) {
-  const $ = cheerio(htmlMatch(html, '<div class="mainWrapper">', '<div class="homeBg">'))
-  if (isCollect) {
-    return (
-      $('div#timeline li')
-        .map((_index: number, element: any) => {
-          const $li = cheerio(element)
-          const $catalog = $li.find('h3 a.l')
-          const $user = $li.find('span.tip_j a.l')
-          return safeObject({
-            id: $catalog.attr('href').replace('/index/', ''),
-            title: $catalog.text(),
-            userId: $user.attr('href').replace('/user/', ''),
-            userName: $user.text(),
-            avatar: matchAvatar($li.find('span.avatarSize32').attr('style')),
-            time: $li.find('span.tip').text(),
-            num: ''
-          })
-        })
-        .get() || []
-    )
-  }
-
-  return (
-    $('ul.line_list > li')
-      .map((_index: number, element: any) => {
-        const $li = cheerio(element)
-        const $a = $li.find('a')
-        return safeObject({
-          id: $a.attr('href').replace('/index/', ''),
-          title: $a.text(),
-          userId: '',
-          userName: '',
-          avatar: '',
-          time: $li.find('small.grey').text(),
-          num: $li.find('span.tip_j').text().replace(/\(|\)/g, '')
-        })
-      })
-      .get() || []
-  )
+export function cheerioCatalogs(html: string) {
+  const $ = cheerio(htmlMatch(html, '<div class="mainWrapper', '<div class="homeBg'))
+  return cMap($('#timeline li'), $row => {
+    const $a = $row.find('.clearit a.l')
+    const $user = $row.find('.time a.l')
+    return {
+      id: cData($a, 'href').replace('/index/', ''),
+      title: cText($a),
+      userId: cData($user, 'href').replace('/user/', ''),
+      userName: cText($user),
+      avatar: matchAvatar(cData($row.find('.avatar .avatarNeue'), 'style')),
+      time: cText($row.find('.time .tip_j').eq(0)),
+      update: cText($row.find('.time .tip_j').eq(1)),
+      num: Number(cText($row.find('.num').eq(0)) || 0),
+      tip: cText($row.find('.desc'))
+    }
+  })
 }

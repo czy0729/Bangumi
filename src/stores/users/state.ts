@@ -8,8 +8,7 @@ import { observable } from 'mobx'
 import { runAfter } from '@utils'
 import Store from '@utils/store'
 import { LOADED, NAMESPACE, STATE } from './init'
-
-type CacheKey = keyof typeof LOADED
+import { CacheKey } from './types'
 
 export default class State extends Store<typeof STATE> {
   state = observable(STATE)

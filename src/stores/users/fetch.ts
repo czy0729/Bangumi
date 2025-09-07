@@ -27,7 +27,7 @@ import {
   cheerioUsers
 } from './common'
 import Computed from './computed'
-import { Characters, Friend, Persons, Recents } from './types'
+import { Characters, FetchCatalogsArgs, Friend, Persons, Recents } from './types'
 
 export default class Fetch extends Computed {
   /** 好友列表 */
@@ -243,38 +243,41 @@ export default class Fetch extends Computed {
   }
 
   /** 用户目录 */
-  fetchCatalogs = async (
-    args?: {
-      userId?: UserId
-      isCollect?: boolean
-    },
-    refresh?: boolean
-  ) => {
+  fetchCatalogs = async (args?: FetchCatalogsArgs, refresh?: boolean) => {
     const { userId = userStore.myId, isCollect } = args || {}
-    const key = 'catalogs'
-    const limit = 30
-    const { list, pagination } = this[key](userId, isCollect)
-    const page = refresh ? 1 : pagination.page + 1
 
-    const html = await fetchHTML({
-      url: HTML_USERS_CATALOGS(userId, page, isCollect)
-    })
-    const _list = cheerioCatalogs(html, isCollect)
-    this.setState({
-      [`${key}${isCollect ? 'Collect' : ''}`]: {
-        [userId]: {
-          list: refresh ? _list : [...list, ..._list],
-          pagination: {
-            page,
-            pageTotal: _list.length === limit ? 100 : page
-          },
-          _loaded: getTimestamp()
+    const STATE_KEY = 'catalogs'
+    const ITEM_ARGS = [userId, isCollect] as const
+    const ITEM_KEY = userId
+    const LIMIT = 30
+
+    try {
+      const { list, pagination } = this[STATE_KEY](...ITEM_ARGS)
+      const page = refresh ? 1 : pagination.page + 1
+      const html = await fetchHTML({
+        url: HTML_USERS_CATALOGS(userId, page, isCollect)
+      })
+
+      const FINAL_STATE_KEY = `catalogs${isCollect ? 'Collect' : ''}` as const
+      const next = cheerioCatalogs(html)
+      this.setState({
+        [FINAL_STATE_KEY]: {
+          [ITEM_KEY]: {
+            list: refresh ? next : [...list, ...next],
+            pagination: {
+              page,
+              pageTotal: next.length >= LIMIT ? 100 : page
+            },
+            _loaded: getTimestamp()
+          }
         }
-      }
-    })
-    this.save(key)
+      })
+      this.save(FINAL_STATE_KEY)
+    } catch (error) {
+      this.error('fetchCatalogs', error)
+    }
 
-    return this[key](userId, isCollect)
+    return this[STATE_KEY](...ITEM_ARGS)
   }
 
   /** 查询是否存在用户 */

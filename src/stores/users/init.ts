@@ -5,7 +5,8 @@
  * @Last Modified time: 2025-05-20 01:00:06
  */
 import { LIST_EMPTY } from '@constants'
-import { Recents, Users } from './types'
+import { UserId } from '@types'
+import { Catalogs, Recents, Users } from './types'
 
 export const NAMESPACE = 'Users'
 
@@ -99,16 +100,6 @@ export const INIT_BLOGS = {
   tags: []
 }
 
-export const INIT_CATALOGS = {
-  id: '',
-  title: '',
-  userId: '',
-  userName: '',
-  avatar: '',
-  time: '',
-  num: ''
-}
-
 export const STATE = {
   /** 全局用户头像缓存索引 */
   avatars: {
@@ -154,14 +145,10 @@ export const STATE = {
   },
 
   /** 用户目录 */
-  catalogs: {
-    0: LIST_EMPTY
-  },
+  catalogs: {} as Record<UserId, Catalogs>,
 
   /** 用户收藏的目录 */
-  catalogsCollect: {
-    0: LIST_EMPTY
-  }
+  catalogsCollect: {} as Record<UserId, Catalogs>
 }
 
 export const LOADED = {

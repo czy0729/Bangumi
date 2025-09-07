@@ -106,11 +106,11 @@ export default class Computed
 
   /** 用户目录 */
   catalogs(userId?: UserId, isCollect?: boolean) {
-    const key = `catalogs${isCollect ? 'Collect' : ''}` as const
-    this.init(key, true)
-    return computed<Catalogs>(() => {
-      const _userId = userId || userStore.myId
-      return this.state[key][_userId] || LIST_EMPTY
+    const STATE_KEY = `catalogs${isCollect ? 'Collect' : ''}` as const
+    this.init(STATE_KEY, true)
+    return computed(() => {
+      const ITEM_KEY = userId || userStore.myId
+      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as Catalogs
     }).get()
   }
 

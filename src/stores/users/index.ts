@@ -1,5 +1,4 @@
 /*
- * 用户 (他人视角)
  * @Author: czy0729
  * @Date: 2019-07-24 10:31:45
  * @Last Modified by: czy0729
@@ -7,6 +6,7 @@
  */
 import action from './action'
 
+/** 用户 (他人视角) */
 const usersStore = new action()
 
 export default usersStore

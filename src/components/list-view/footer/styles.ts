@@ -26,7 +26,7 @@ export const styles = _.create({
     ..._.fontSize(14)
   },
   empty: {
-    minHeight: 240
+    minHeight: Math.floor(_.window.height * 0.64)
   },
   noMore: {
     padding: 8,

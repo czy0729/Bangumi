@@ -9,5 +9,5 @@ import { ItemCatalog } from '@_'
 import { EVENT } from './ds'
 
 export function renderItem({ item, index }) {
-  return <ItemCatalog {...item} index={index} name='优莉雅' isUser event={EVENT} />
+  return <ItemCatalog {...item} index={index} name='优莉雅' anime={item.num} event={EVENT} />
 }
