@@ -160,8 +160,12 @@ export type CatalogsItem = {
   avatar: string
   time: string
   update: string
-  num: string
   tip: string
+  anime: number
+  book: number
+  music: number
+  game: number
+  real: number
 }
 
 /** 用户目录 */

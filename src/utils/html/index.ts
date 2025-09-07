@@ -336,6 +336,15 @@ export function cEach($el: any, callback: ($ele: any, index?: number) => void) {
   } catch (error) {}
 }
 
+/** cheerio.find */
+export function cFind($el: any, selector: string, index: number = 0) {
+  try {
+    return $el.find(selector).eq(index)
+  } catch (error) {
+    return $el
+  }
+}
+
 /** cheerio.filter */
 export function cFilter($el: any, match: string) {
   try {

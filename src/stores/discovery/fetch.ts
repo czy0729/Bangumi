@@ -34,6 +34,7 @@ import {
 import Computed from './computed'
 import { DEFAULT_TYPE, INIT_ANITAMA_TIMELINE_ITEM, INIT_NINGMOE_DETAIL_ITEM } from './init'
 import { getInt } from './utils'
+import { FetchCatalogArgs } from './types'
 
 export default class Fetch extends Computed {
   /** 动漫之家资讯 */
@@ -228,25 +229,31 @@ export default class Fetch extends Computed {
   }
 
   /** 目录 */
-  fetchCatalog = async (args: { type?: string; page?: number }) => {
+  fetchCatalog = async (args: FetchCatalogArgs) => {
     const { type = '', page = 1 } = args || {}
-    const html = await fetchHTML({
-      url: HTML_CATALOG(type, page)
-    })
-    const data = cheerioCatalog(html)
+    const STATE_KEY = 'catalog'
+    const ITEM_ARGS = [type, page] as const
+    const ITEM_KEY = ITEM_ARGS.join('|')
 
-    const key = 'catalog'
-    this.setState({
-      [key]: {
-        [`${type}|${page}`]: {
-          list: data,
-          _loaded: getTimestamp()
+    try {
+      const html = await fetchHTML({
+        url: HTML_CATALOG(type, page)
+      })
+
+      this.setState({
+        [STATE_KEY]: {
+          [ITEM_KEY]: {
+            list: cheerioCatalog(html),
+            _loaded: getTimestamp()
+          }
         }
-      }
-    })
-    this.save(key)
+      })
+      this.save(STATE_KEY)
+    } catch (error) {
+      this.error('fetchCatalog', error)
+    }
 
-    return data
+    return this[STATE_KEY](...ITEM_ARGS)
   }
 
   /** 目录详情 */

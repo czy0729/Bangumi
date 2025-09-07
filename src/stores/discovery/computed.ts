@@ -32,10 +32,11 @@ import {
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   /** 目录 */
   catalog(type: '' | 'collect' | 'me' = '', page: number = 1) {
-    this.init('catalog', true)
-    return computed<Catalog>(() => {
-      const key = `${type}|${page}`
-      return this.state.catalog[key] || INIT_CATALOG_ITEM
+    const STATE_KEY = 'catalog'
+    this.init(STATE_KEY, true)
+    return computed(() => {
+      const ITEM_KEY = `${type}|${page}`
+      return (this.state[STATE_KEY][ITEM_KEY] || INIT_CATALOG_ITEM) as Catalog
     }).get()
   }
 

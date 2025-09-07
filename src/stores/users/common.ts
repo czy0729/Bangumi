@@ -4,8 +4,18 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-21 17:22:36
  */
-import { cData, cheerio, cMap, cText, htmlMatch, matchAvatar, safeObject, trim } from '@utils'
-import { Users } from './types'
+import {
+  cData,
+  cFind,
+  cheerio,
+  cMap,
+  cText,
+  htmlMatch,
+  matchAvatar,
+  safeObject,
+  trim
+} from '@utils'
+import { CatalogsItem, Users } from './types'
 
 /** 好友列表 */
 export function cheerioFriends(html: string) {
@@ -202,21 +212,25 @@ export function cheerioBlogs(html: string) {
 }
 
 /** 用户目录列表 */
-export function cheerioCatalogs(html: string) {
+export function cheerioCatalogs(html: string): CatalogsItem[] {
   const $ = cheerio(htmlMatch(html, '<div class="mainWrapper', '<div class="homeBg'))
   return cMap($('#timeline li'), $row => {
-    const $a = $row.find('.clearit a.l')
-    const $user = $row.find('.time a.l')
+    const $a = cFind($row, '.clearit a.l')
+    const $user = cFind($row, '.time a.l')
     return {
       id: cData($a, 'href').replace('/index/', ''),
       title: cText($a),
       userId: cData($user, 'href').replace('/user/', ''),
       userName: cText($user),
-      avatar: matchAvatar(cData($row.find('.avatar .avatarNeue'), 'style')),
-      time: cText($row.find('.time .tip_j').eq(0)),
-      update: cText($row.find('.time .tip_j').eq(1)),
-      num: Number(cText($row.find('.num').eq(0)) || 0),
-      tip: cText($row.find('.desc'))
+      avatar: matchAvatar(cData(cFind($row, '.avatar .avatarNeue'), 'style')),
+      time: cText(cFind($row, '.time .tip_j')),
+      update: cText(cFind($row, '.time .tip_j', 1)),
+      tip: cText(cFind($row, '.desc')),
+      anime: Number(cText(cFind($row, '.subject_type_2 .num')) || 0),
+      book: Number(cText(cFind($row, '.subject_type_1 .num')) || 0),
+      music: Number(cText(cFind($row, '.subject_type_3 .num')) || 0),
+      game: Number(cText(cFind($row, '.subject_type_4 .num')) || 0),
+      real: Number(cText(cFind($row, '.subject_type_6 .num')) || 0)
     }
   })
 }

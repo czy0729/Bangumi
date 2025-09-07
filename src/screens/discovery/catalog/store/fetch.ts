@@ -28,10 +28,11 @@ export default class Fetch extends Computed {
 
       data = this.catalogAdvanceFilter.list
     } else {
-      data = await discoveryStore.fetchCatalog({
+      const { list } = await discoveryStore.fetchCatalog({
         type,
         page
       })
+      data = list
     }
     queue(data.map(item => () => this.fetchCatalogDetail(item.id)))
 

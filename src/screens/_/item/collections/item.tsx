@@ -75,8 +75,14 @@ const Item = memo(
         ...event.data
       })
     }
+
     const elTitle = (
-      <Title name={name} nameCn={nameCn} filter={filter} numberOfLines={comments ? 1 : 2} />
+      <Title
+        name={name}
+        nameCn={nameCn}
+        filter={filter}
+        numberOfLines={name && nameCn && name !== nameCn && comments ? 1 : 2}
+      />
     )
 
     return (

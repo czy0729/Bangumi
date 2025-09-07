@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-04-04 07:10:14
  */
 import { LIST_EMPTY } from '@constants'
-import { Dollars, Wiki } from './types'
+import { Catalog, Dollars, Wiki } from './types'
 
 export const NAMESPACE = 'Discovery'
 
@@ -51,9 +51,7 @@ export const INIT_CHANNEL = {
 
 const STATE = {
   /** 目录 */
-  catalog: {
-    0: INIT_CATALOG_ITEM
-  },
+  catalog: {} as Record<string, Catalog>,
 
   /** 目录详情 (云缓存) */
   catalogDetailFromOSS: {

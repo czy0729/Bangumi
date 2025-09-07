@@ -6,6 +6,7 @@
  */
 import {
   cData,
+  cFind,
   cHas,
   cheerio,
   cHtml,
@@ -13,11 +14,11 @@ import {
   cText,
   HTMLDecode,
   htmlMatch,
-  matchUserId,
+  matchAvatar,
   safeObject
 } from '@utils'
 import { Avatar, Cover, SubjectTypeCn } from '@types'
-import { CatalogDetail } from './types'
+import { CatalogDetail, CatalogsItem } from './types'
 
 /** 标签 */
 export function cheerioTags(html: string) {
@@ -50,39 +51,36 @@ export function cheerioTags(html: string) {
 }
 
 /** 目录 */
-export function cheerioCatalog(html: string) {
+export function cheerioCatalog(html: string): CatalogsItem[] {
   const $ = cheerio(htmlMatch(html, '<div id="columnA"', '<div id="columnB"'))
-  return $('li.tml_item')
-    .map((_index: number, element: any) => {
-      const $li = cheerio(element)
-      const $tip = $li.find('span.tip_i > a.l')
-      const $title = $li.find('h3 > a.l')
-      return safeObject({
-        avatar: $li.find('img.avatar').attr('src'),
-        name: $tip.text().trim(),
-        userId: matchUserId($tip.attr('href')),
-        last: $li.find('span.tip_j').text().trim(),
-        title: $title.text().trim(),
-        id: ($title.attr('href') || '').replace('/index/', ''),
-        info: $li.find('span.info > p').text().trim().replace(/\n/g, ' '),
-        book: $li.find('span.subject_type_1').text().trim(),
-        anime: $li.find('span.subject_type_2').text().trim(),
-        music: $li.find('span.subject_type_3').text().trim(),
-        game: $li.find('span.subject_type_4').text().trim(),
-        real: $li.find('span.subject_type_6').text().trim()
-      })
-    })
-    .get()
+  return cMap($('li.tml_item'), $row => {
+    const $a = cFind($row, '.clearit a.l')
+    const $user = cFind($row, '.time a.l')
+    return {
+      id: cData($a, 'href').replace('/index/', ''),
+      title: cText($a),
+      userId: cData($user, 'href').replace('/user/', ''),
+      name: cText($user),
+      avatar: matchAvatar(cData(cFind($row, '.avatar .avatarNeue'), 'style')),
+      time: cText(cFind($row, '.time .tip_j')),
+      last: cText(cFind($row, '.time .tip_j', 1)),
+      info: cText(cFind($row, '.desc')),
+      anime: Number(cText(cFind($row, '.subject_type_2 .num')) || 0),
+      book: Number(cText(cFind($row, '.subject_type_1 .num')) || 0),
+      music: Number(cText(cFind($row, '.subject_type_3 .num')) || 0),
+      game: Number(cText(cFind($row, '.subject_type_4 .num')) || 0),
+      real: Number(cText(cFind($row, '.subject_type_6 .num')) || 0)
+    }
+  })
 }
 
 /** 目录详情 */
 export function cheerioCatalogDetail(html: string): CatalogDetail {
   const $ = cheerio(htmlMatch(html, '<div id="header"', '<div id="footer"'))
   const $grp = $('.grp_box')
-  const $a = $grp.find('.tip_j a.l').eq(0)
-  const $tips = $grp.find('.tip_j .tip')
+  const $a = cFind($grp, '.tip_j a.l')
 
-  const href = cData($grp.find('.btnPink'), 'href')
+  const href = cData(cFind($grp, '.btnPink'), 'href') || cData(cFind($grp, '.btnBlue'), 'href')
   let joinUrl = ''
   let byeUrl = ''
   if (href.includes('erase_collect')) {
@@ -92,32 +90,32 @@ export function cheerioCatalogDetail(html: string): CatalogDetail {
   }
 
   const mono = cMap($('.browserCrtList > div'), $row => ({
-    id: cData($row.find('a.l'), 'href'),
-    image: cData($row.find('img.avatar'), 'src') as Avatar<'g'>,
-    title: cText($row.find('a.l')),
-    info: cText($row.find('span.tip')),
-    comment: cText($row.find('.text_main_even .text'))
+    id: cData(cFind($row, 'a.l'), 'href'),
+    image: cData(cFind($row, 'img.avatar'), 'src') as Avatar<'g'>,
+    title: cText(cFind($row, 'a.l')),
+    info: cText(cFind($row, 'span.tip')),
+    comment: cText(cFind($row, '.text_main_even .text'))
   }))
 
   return {
     title: cText($('#header h1')),
-    avatar: cData($grp.find('img.avatar'), 'src'),
+    avatar: cData(cFind($grp, 'img.avatar'), 'src'),
     progress: cText($('.progress small')),
     nickname: cText($a),
     userId: cData($a, 'href').replace('/user/', ''),
-    time: cText($tips.eq(0)).replace(' ·', ''),
-    last: cText($tips.eq(1)),
-    collect: cText($tips.eq(2)),
-    content: cHtml($grp.find('.line_detail .tip')),
+    time: cText(cFind($grp, '.tip_j .tip')).replace(' ·', ''),
+    last: cText(cFind($grp, '.tip_j .tip', 1)),
+    collect: cText(cFind($grp, '.tip_j .tip', 2)),
+    content: cHtml(cFind($grp, '.line_detail .tip')),
     replyCount: $('.timeline_img li.clearit').length,
     joinUrl,
     byeUrl,
 
     /** 条目 */
     list: cMap($('#browserItemList li.item'), $row => {
-      const $a = $row.find('h3 a.l')
+      const $a = cFind($row, 'h3 a.l')
 
-      const _type = cData($row.find('span.ico_subject_type'), 'class')
+      const _type = cData(cFind($row, 'span.ico_subject_type'), 'class')
       let type: SubjectTypeCn
       if (_type.includes('subject_type_2')) {
         type = '动画'
@@ -129,20 +127,20 @@ export function cheerioCatalogDetail(html: string): CatalogDetail {
         type = '三次元'
       }
 
-      const $modify = $row.find('.tb_idx_rlt')
+      const $modify = cFind($row, '.tb_idx_rlt')
       return {
         id: cData($a, 'href').replace('/subject/', ''),
-        image: cData($row.find('img.cover'), 'src') as Cover<'c'>,
+        image: cData(cFind($row, 'img.cover'), 'src') as Cover<'c'>,
         title: cText($a),
         type,
-        info: cText($row.find('p.info')),
-        comment: cText($row.find('.text_main_even > .text')),
-        isCollect: cHas($row.find('p.collectModify')),
+        info: cText(cFind($row, 'p.info')),
+        comment: cText(cFind($row, '.text_main_even > .text')),
+        isCollect: cHas(cFind($row, 'p.collectModify')),
 
         // 以下属性自己创建的目录才会存在
         order: cData($modify, 'order') || '0',
         modify: cData($modify, 'id')?.replace('modify_', ''),
-        erase: cData($row.find('.erase_idx_rlt'), 'href')
+        erase: cData(cFind($row, '.erase_idx_rlt'), 'href')
       }
     }),
 
@@ -154,12 +152,12 @@ export function cheerioCatalogDetail(html: string): CatalogDetail {
 
     /** 章节 */
     ep: cMap($('.browserList li.item'), $row => ({
-      id: cData($row.find('a.l'), 'href'),
-      image: cData($row.find('img.avatar'), 'src') as Cover<'g'>,
-      title: cText($row.find('a.l')),
-      info: cText($row.find('span.tip')),
-      subId: cData($row.find('h3 + a'), 'href'),
-      comment: cText($row.find('.text_main_even .text'))
+      id: cData(cFind($row, 'a.l'), 'href'),
+      image: cData(cFind($row, 'img.avatar'), 'src') as Cover<'g'>,
+      title: cText(cFind($row, 'a.l')),
+      info: cText(cFind($row, 'span.tip')),
+      subId: cData(cFind($row, 'h3 + a'), 'href'),
+      comment: cText(cFind($row, '.text_main_even .text'))
     }))
   }
 }

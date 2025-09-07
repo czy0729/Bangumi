@@ -14,7 +14,13 @@ import { Tag } from '../../../base'
 function Title({ title, typeCn, desc, collect, filter }) {
   return (
     <View style={_.container.block}>
-      <Highlight bold numberOfLines={3} value={filter} t2s={false}>
+      <Highlight
+        size={title.length >= 24 ? 12 : 14}
+        bold
+        numberOfLines={3}
+        value={filter}
+        t2s={false}
+      >
         {title}
       </Highlight>
       {!!desc && desc !== title && (

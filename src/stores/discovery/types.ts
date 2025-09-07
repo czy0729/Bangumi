@@ -17,25 +17,28 @@ import {
   SubjectTypeCn,
   UserId
 } from '@types'
+import { LOADED } from './init'
+
+export type CacheKey = keyof typeof LOADED | `catalogDetail${number}`
+
+/** 目录项 */
+export type CatalogsItem = {
+  avatar: string
+  name: string
+  userId: UserId
+  last: String
+  title: string
+  id: Id
+  info: string
+  anime: number
+  book: number
+  music: number
+  game: number
+  real: number
+}
 
 /** 目录 */
-export type Catalog = {
-  list: {
-    avatar: Avatar<'s'>
-    name: string
-    userId: UserId
-    last: String
-    title: string
-    id: Id
-    info: string
-    book: string
-    anime: string
-    music: string
-    game: string
-    real: string
-  }[]
-  _loaded: Loaded
-}
+export type Catalog = ListEmpty<CatalogsItem>
 
 /** 目录详情列表项 */
 export type CatalogDetailItem = {
@@ -228,3 +231,8 @@ export type Dollars = Override<
     online: string
   }
 >
+
+export type FetchCatalogArgs = {
+  type?: '' | 'collect' | 'me'
+  page?: number
+}
