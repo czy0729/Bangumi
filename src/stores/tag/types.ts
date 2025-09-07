@@ -4,11 +4,16 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-07-02 00:44:28
  */
-import { Cover, ListEmpty, Override, SubjectId } from '@types'
+import { HTML_RANK_V2 } from '@constants'
+import { BrowserSort, ListEmpty, Override, SubjectId, SubjectType, TagOrder } from '@types'
+import { LOADED } from './init'
 
+export type CacheKey = keyof typeof LOADED
+
+/** 标签、排行榜、索引公用项 */
 export type TagItem = {
   id: SubjectId
-  cover: Cover<'c'>
+  cover: string
   name: string
   nameCn: string
   tip: string
@@ -32,3 +37,28 @@ export type Rank = ListEmpty<TagItem>
 
 /** 索引 */
 export type Browser = ListEmpty<TagItem>
+
+export type FetchTagArgs = {
+  /** 关键字 */
+  text: string
+
+  /** 类型 */
+  type?: SubjectType
+
+  /** 排序 */
+  order?: TagOrder
+
+  /** 时间 */
+  airtime?: string
+
+  /** 公共标签 */
+  meta?: boolean
+}
+
+export type FetchRankArgs = Parameters<typeof HTML_RANK_V2>[0]
+
+export type FetchBrowserArgs = {
+  type?: SubjectType
+  airtime?: string
+  sort?: BrowserSort
+}

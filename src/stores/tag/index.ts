@@ -1,5 +1,4 @@
 /*
- * 标签
  * @Author: czy0729
  * @Date: 2019-06-08 03:25:36
  * @Last Modified by: czy0729
@@ -7,6 +6,7 @@
  */
 import Fetch from './fetch'
 
+/** 标签相关 */
 const tagStore = new Fetch()
 
 export default tagStore

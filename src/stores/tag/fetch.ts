@@ -7,75 +7,58 @@
 import { getTimestamp } from '@utils'
 import { fetchHTML } from '@utils/fetch'
 import { HTML_BROSWER, HTML_RANK_V2, HTML_TAG } from '@constants'
-import { BrowserSort, SubjectType, TagOrder } from '@types'
 import { cheerioRank, cheerioTags } from './common'
 import Computed from './computed'
 import { DEFAULT_TYPE } from './init'
-import { Tag } from './types'
+import { FetchBrowserArgs, FetchRankArgs, FetchTagArgs } from './types'
 
 export default class Fetch extends Computed {
   /** 标签条目 */
-  fetchTag = async (
-    args: {
-      /** 关键字 */
-      text: string
-
-      /** 类型 */
-      type?: SubjectType
-
-      /** 排序 */
-      order?: TagOrder
-
-      /** 时间 */
-      airtime?: string
-
-      /** 公共标签 */
-      meta?: boolean
-    },
-    refresh?: boolean
-  ) => {
+  fetchTag = async (args: FetchTagArgs, refresh?: boolean) => {
     const { text = '', type = DEFAULT_TYPE, order, airtime = '', meta } = args || {}
     const q = text.replace(/ /g, '+')
-    const { list, pagination } = this.tag(q, type, airtime, order, meta)
-    const page = refresh ? 1 : pagination.page + 1
-    const html = await fetchHTML({
-      url: HTML_TAG(q, type, order, page, airtime, meta)
-    })
 
-    const tags = cheerioTags(html)
-    const data: Tag = {
-      list: refresh ? tags.list : [...list, ...tags.list],
-      meta: tags.meta,
-      pagination: {
-        page,
-        /**
-         * 在拥有更多筛选条件下, 页数不准确, 一页有 24 项,
-         * 需要后续根据一页是否有这个数量数据去修正总页数
-         */
-        pageTotal: tags.list.length >= 24 ? tags.pageTotal || 100 : page
-      },
-      _loaded: getTimestamp()
+    const STATE_KEY = 'tag'
+    const ITEM_ARGS = [q, type, airtime, order, meta] as const
+    const ITEM_KEY = ITEM_ARGS.filter(Boolean).join('|')
+    const LIMIT = 24
+
+    try {
+      const { list, pagination } = this[STATE_KEY](...ITEM_ARGS)
+      const page = refresh ? 1 : pagination.page + 1
+      const html = await fetchHTML({
+        url: HTML_TAG(q, type, order, page, airtime, meta)
+      })
+
+      const next = cheerioTags(html)
+      this.setState({
+        [STATE_KEY]: {
+          [ITEM_KEY]: {
+            list: refresh ? next.list : [...list, ...next.list],
+            meta: next.meta,
+            pagination: {
+              page,
+              pageTotal: next.list.length >= LIMIT ? next.pageTotal || 100 : page
+            },
+            _loaded: getTimestamp()
+          }
+        }
+      })
+      this.save(STATE_KEY)
+    } catch (error) {
+      this.error('fetchTag', error)
     }
 
-    const key = 'tag'
-    let stateKey = `${q}|${type}|${airtime}|${order}`
-    if (meta) stateKey += `|${meta}`
-
-    this.setState({
-      [key]: {
-        [stateKey]: data
-      }
-    })
-    this.save(key)
-
-    return data
+    return this[STATE_KEY](...ITEM_ARGS)
   }
 
-  /** 排行榜 (与标签相似, 所以共用逻辑) */
-  fetchRank = async (args: Parameters<typeof HTML_RANK_V2>[0]) => {
+  /** 排行榜 */
+  fetchRank = async (args: FetchRankArgs) => {
     const { type = DEFAULT_TYPE, filter, airtime, order = 'rank', page = 1 } = args || {}
+
     const STATE_KEY = 'rank'
-    const ITEM_KEY = [type, filter, order, airtime, page].filter(item => !!item).join('|')
+    const ITEM_ARGS = [type, filter, order, airtime, page] as const
+    const ITEM_KEY = ITEM_ARGS.filter(Boolean).join('|')
 
     try {
       const html = await fetchHTML({
@@ -99,34 +82,25 @@ export default class Fetch extends Computed {
       this.error('fetchRank', error)
     }
 
-    return this[STATE_KEY](type, filter, order, airtime, page)
+    return this[STATE_KEY](...ITEM_ARGS)
   }
 
-  /**
-   * 请求索引
-   * @param {*} args
-   * @param {*} refresh
-   */
-  fetchBrowser = async (
-    args: {
-      type?: SubjectType
-      airtime?: string
-      sort?: BrowserSort
-    },
-    refresh?: boolean
-  ) => {
+  /** 索引 */
+  fetchBrowser = async (args: FetchBrowserArgs, refresh?: boolean) => {
     const { type = DEFAULT_TYPE, airtime, sort } = args || {}
+
     const STATE_KEY = 'browser'
-    const ITEM_KEY = [type, airtime, sort].filter(item => !!item).join('|')
+    const ITEM_ARGS = [type, airtime, sort] as const
+    const ITEM_KEY = ITEM_ARGS.filter(Boolean).join('|')
     const LIMIT = 24
 
     try {
-      const { list, pagination } = this[STATE_KEY](type, airtime, sort)
+      const { list, pagination } = this[STATE_KEY](...ITEM_ARGS)
       const page = refresh ? 1 : pagination.page + 1
-
       const html = await fetchHTML({
         url: HTML_BROSWER(type, airtime, page, sort)
       })
+
       const next = cheerioRank(html)
       this.setState({
         [STATE_KEY]: {
@@ -145,6 +119,6 @@ export default class Fetch extends Computed {
       this.error('fetchBrowser', error)
     }
 
-    return this[STATE_KEY](type, airtime, sort)
+    return this[STATE_KEY](...ITEM_ARGS)
   }
 }

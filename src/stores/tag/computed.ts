@@ -21,29 +21,31 @@ export default class Computed extends State implements StoreConstructor<typeof S
     meta?: boolean
   ) {
     this.init('tag', true)
-    return computed<Tag>(() => {
-      let key = `${text.replace(/ /g, '+')}|${type}|${airtime}|${order}`
-      if (meta) key += `|${meta}`
-
-      return this.state.tag[key] || LIST_EMPTY
+    return computed(() => {
+      const q = text.replace(/ /g, '+')
+      const ITEM_ARGS = [q, type, airtime, order, meta] as const
+      const ITEM_KEY = ITEM_ARGS.filter(Boolean).join('|')
+      return (this.state.tag[ITEM_KEY] || LIST_EMPTY) as Tag
     }).get()
   }
 
   /** 排行榜 */
   rank(type: SubjectType, filter: RankFilter, order: TagOrder, airtime: string, page: number) {
     this.init('rank', true)
-    return computed<Rank>(() => {
-      const key = [type, filter, order, airtime, page].filter(item => !!item).join('|')
-      return this.state.rank[key] || LIST_EMPTY
+    return computed(() => {
+      const ITEM_ARGS = [type, filter, order, airtime, page] as const
+      const ITEM_KEY = ITEM_ARGS.filter(Boolean).join('|')
+      return (this.state.rank[ITEM_KEY] || LIST_EMPTY) as Rank
     }).get()
   }
 
   /** 索引 */
   browser(type: SubjectType = DEFAULT_TYPE, airtime: string = '', sort: BrowserSort = '') {
     this.init('browser', true)
-    return computed<Browser>(() => {
-      const key = `${type}|${airtime}|${sort}`
-      return this.state.browser[key] || LIST_EMPTY
+    return computed(() => {
+      const ITEM_ARGS = [type, airtime, sort] as const
+      const ITEM_KEY = ITEM_ARGS.filter(Boolean).join('|')
+      return (this.state.browser[ITEM_KEY] || LIST_EMPTY) as Browser
     }).get()
   }
 }
