@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-06-26 02:54:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-26 05:02:27
+ * @Last Modified time: 2025-09-08 20:48:39
  */
 export const ONAIR_2025S3 = {
   /** 新 吊带袜天使 */
@@ -342,7 +342,7 @@ export const ONAIR_2025S3 = {
   455454: {
     origin: 'Staple Entertainment',
     tag: '恋爱/党争典/扭/胃疼',
-    timeCN: '00',
+    timeCN: '0000',
     type: '漫画改编动画',
     weekDayCN: 6
   },

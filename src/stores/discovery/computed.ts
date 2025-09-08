@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:45:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 00:53:24
+ * @Last Modified time: 2025-09-08 21:36:08
  */
 import { computed } from 'mobx'
 import { LIST_EMPTY } from '@constants'
 import { Id, StoreConstructor, SubjectId, SubjectType } from '@types'
 import {
   INIT_ANITAMA_TIMELINE_ITEM,
-  INIT_BLOG_ITEM,
   INIT_CATALOG_ITEM,
   INIT_CATELOG_DETAIL_ITEM,
   INIT_CHANNEL,
@@ -69,10 +68,13 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 全站日志 */
   blog(type: SubjectType | 'all' | '' = '', page: number = 1) {
-    this.init('blog', true)
-    return computed<Blog>(() => {
-      const key = `${type}|${page}`
-      return this.state.blog[key] || INIT_BLOG_ITEM
+    const STATE_KEY = 'blog'
+    this.init(STATE_KEY, true)
+
+    return computed(() => {
+      const ITEM_ARGS = [type, page]
+      const ITEM_KEY = ITEM_ARGS.join('|')
+      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as Blog
     }).get()
   }
 

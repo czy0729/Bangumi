@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 14:21:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-20 15:52:46
+ * @Last Modified time: 2025-09-08 21:36:42
  */
 import {
   Avatar,
@@ -14,6 +14,7 @@ import {
   Loaded,
   Override,
   SubjectId,
+  SubjectType,
   SubjectTypeCn,
   UserId
 } from '@types'
@@ -118,21 +119,21 @@ export type Tags = ListEmpty<{
   nums: string
 }>
 
+/** 全站日志项 */
+export type BlogItem = {
+  id: Id
+  title: string
+  cover: string
+  time: string
+  replies: string
+  content: string
+  username: string
+  subject: string
+  tags: string
+}
+
 /** 全站日志 */
-export type Blog = DeepPartial<{
-  list: {
-    id: Id
-    title: string
-    cover: CoverPhoto<'g'>
-    time: string
-    replies: string
-    content: string
-    username: string
-    subject: string
-    tags: string
-  }[]
-  _loaded: Loaded
-}>
+export type Blog = ListEmpty<BlogItem>
 
 export type ChannelRankItem = {
   id: SubjectId
@@ -234,5 +235,10 @@ export type Dollars = Override<
 
 export type FetchCatalogArgs = {
   type?: '' | 'collect' | 'me'
+  page?: number
+}
+
+export type FetchBlogArgs = {
+  type?: SubjectType | 'all' | ''
   page?: number
 }

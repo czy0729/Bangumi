@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:47:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-13 22:44:40
+ * @Last Modified time: 2025-09-08 20:57:51
  */
 import { cheerio, feedback, getTimestamp, HTMLDecode } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -34,7 +34,7 @@ import {
 import Computed from './computed'
 import { DEFAULT_TYPE, INIT_ANITAMA_TIMELINE_ITEM, INIT_NINGMOE_DETAIL_ITEM } from './init'
 import { getInt } from './utils'
-import { FetchCatalogArgs } from './types'
+import { FetchBlogArgs, FetchCatalogArgs } from './types'
 
 export default class Fetch extends Computed {
   /** 动漫之家资讯 */
@@ -309,25 +309,32 @@ export default class Fetch extends Computed {
   }
 
   /** 全站日志 */
-  fetchBlog = async (args: { type?: string; page?: number }) => {
+  fetchBlog = async (args: FetchBlogArgs) => {
     const { type = '', page = 1 } = args || {}
-    const html = await fetchHTML({
-      url: HTML_BLOG_LIST(type, page)
-    })
 
-    const list = cheerioBlog(html)
-    const key = 'blog'
-    this.setState({
-      [key]: {
-        [`${type}|${page}`]: {
-          list,
-          _loaded: getTimestamp()
+    const STATE_KEY = 'blog'
+    const ITEM_ARGS = [type, page] as const
+    const ITEM_KEY = ITEM_ARGS.join('|')
+
+    try {
+      const html = await fetchHTML({
+        url: HTML_BLOG_LIST(type, page)
+      })
+
+      this.setState({
+        [STATE_KEY]: {
+          [ITEM_KEY]: {
+            list: cheerioBlog(html),
+            _loaded: getTimestamp()
+          }
         }
-      }
-    })
-    this.save(key)
+      })
+      this.save(STATE_KEY)
+    } catch (error) {
+      this.error('fetchBlog', error)
+    }
 
-    return list
+    return this[STATE_KEY](...ITEM_ARGS)
   }
 
   /** 频道聚合 */

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-07-15 10:55:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-04 07:10:14
+ * @Last Modified time: 2025-09-08 21:37:19
  */
 import { LIST_EMPTY } from '@constants'
-import { Catalog, Dollars, Wiki } from './types'
+import { Blog, Catalog, Dollars, Wiki } from './types'
 
 export const NAMESPACE = 'Discovery'
 
@@ -64,9 +64,7 @@ const STATE = {
   },
 
   /** 全站日志 */
-  blog: {
-    0: INIT_BLOG_ITEM
-  },
+  blog: {} as Record<string, Blog>,
 
   /** 日志查看历史 */
   blogReaded: {

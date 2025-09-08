@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:24:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-13 22:37:10
+ * @Last Modified time: 2025-09-08 21:35:04
  */
 import {
   cData,
@@ -18,6 +18,7 @@ import {
   safeObject
 } from '@utils'
 import { Avatar, Cover, SubjectTypeCn } from '@types'
+import { getBlogItemTime } from './utils'
 import { CatalogDetail, CatalogsItem } from './types'
 
 /** 标签 */
@@ -164,27 +165,35 @@ export function cheerioCatalogDetail(html: string): CatalogDetail {
 
 /** 全站日志 */
 export function cheerioBlog(html: string) {
-  const $ = cheerio(htmlMatch(html, '<div id="columnInSubjectA"', '<div id="columnInSubjectB"'))
-  return (
-    $('div#news_list > div.item')
-      .map((_index: number, element: any) => {
-        const $li = cheerio(element)
-        const $a = $li.find('h2.title a')
-        const times = $li.find('div.time').text().trim().split('/ ')
-        return safeObject({
-          id: $a.attr('href').replace('/blog/', ''),
-          title: $a.text().trim(),
-          cover: $li.find('span.pictureFrameGroup img').attr('src').replace('/g/', '/l/'),
-          time: String(times[times.length - 1]).replace('\n', ''),
-          replies: $li.find('div.content .blue').text().trim().replace(/\(|\)/g, ''),
-          content: `${$li.find('div.content').text().trim().split('...')[0]}...`,
-          username: String($li.find('div.time small.blue a').text().trim()).replace('\n', ''),
-          subject: String($li.find('div.time small.grey a').text().trim()).replace('\n', ''),
-          tags: ''
-        })
-      })
-      .get() || []
-  ).filter((item: { cover: string }) => item.cover !== '//lain.bgm.tv/pic/user/l/icon.jpg')
+  const $ = cheerio(htmlMatch(html, '<div id="columnA', '<div id="columnB'))
+  return cMap($('#entry_list .item'), $row => {
+    const $a = cFind($row, 'h2.title a')
+
+    let username = ''
+    let subject = ''
+    let replies = ''
+    if (cText(cFind($row, '.time a.l', 2))) {
+      username = cText(cFind($row, '.time a.l'))
+      subject = cText(cFind($row, '.time a.l', 1))
+      replies = cText(cFind($row, '.time a.l', 2))
+    } else {
+      username = cText(cFind($row, '.time a.l'))
+      replies = cText(cFind($row, '.time a.l', 1))
+    }
+    if (replies === '0 回复') replies = ''
+
+    return {
+      id: cData($a, 'href').replace('/blog/', ''),
+      title: cText($a),
+      cover: cData(cFind($row, 'a.avatar img'), 'src'),
+      time: getBlogItemTime(cText(cFind($row, '.time'), true)),
+      content: cText(cFind($row, '.content')).replace(/\r\n/g, ' '),
+      username,
+      subject,
+      replies,
+      tags: ''
+    }
+  })
 }
 
 /** 频道聚合 */

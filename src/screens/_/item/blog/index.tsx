@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-22 15:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-16 09:25:32
+ * @Last Modified time: 2025-09-08 21:40:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -62,14 +62,19 @@ export const ItemBlog = ob(
     }
 
     const height = IMG_HEIGHT_SM
-
     return (
       <Component id='item-blog' data-key={id}>
         <View style={stl(styles.container, style, readed && styles.readed)}>
           <Flex style={styles.wrap} align='start'>
             {!!cover && (
               <InView style={styles.inView} y={height * 1.5 * (index + 1)}>
-                <Cover src={cover} width={IMG_WIDTH_SM} height={height} radius type={typeCn} />
+                <Cover
+                  src={cover}
+                  width={IMG_WIDTH_SM}
+                  height={cover.includes('/user/') ? IMG_WIDTH_SM : height}
+                  radius
+                  type={typeCn}
+                />
               </InView>
             )}
             <Flex.Item>
