@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-22 16:38:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 01:14:01
+ * @Last Modified time: 2025-09-08 20:43:31
  */
 import { toJS } from 'mobx'
 import cheerio from 'cheerio-without-node-native'
@@ -17,10 +17,12 @@ import {
   APP_SECRET,
   DEV,
   FROZEN_FN,
+  H6,
   HOST,
   HTML_ACTION_ERASE_COLLECTION,
   HTML_PM_CREATE,
   HTML_USER_SETTING,
+  M1,
   URL_OAUTH_REDIRECT
 } from '@constants'
 import { EpId, EpStatus, SubjectId } from '@types'
@@ -177,10 +179,10 @@ export default class Action extends Fetch {
     const { setCookie = '', html } = data
     if (html.includes('抱歉，当前操作需要您') && !DEV) this.setOutdate()
 
-    const matchLogout = html.match(/.tv\/logout(.+?)">登出<\/a>/)
-    if (Array.isArray(matchLogout) && matchLogout[1]) {
-      const formhash = matchLogout[1].replace('/', '')
-      if (DEV) console.info('[@stores/user/doCheckCookie]', formhash)
+    const matchLogout = html.match(/logout\/([A-Za-z0-9]+)/)
+    if (matchLogout) {
+      const formhash = matchLogout[1]
+      if (DEV) this.log('doCheckCookie', formhash)
 
       this.setState({
         formhash
@@ -389,8 +391,8 @@ export default class Action extends Fetch {
   /** 检查登录状态 */
   checkLogin = () => {
     if (this.isWebLogin) {
-      // 用户信息被动刷新, 间隔 5 分钟
-      if (!APP_PARAMS.lastBoot || getTimestamp() - APP_PARAMS.lastBoot > 60 * 5) {
+      // 用户信息被动刷新
+      if (!APP_PARAMS.lastBoot || getTimestamp() - APP_PARAMS.lastBoot > M1) {
         setTimeout(() => {
           try {
             this.doCheckCookie()
@@ -398,9 +400,9 @@ export default class Action extends Fetch {
         }, 4000)
       }
 
-      // 用户信息被动刷新, 间隔 4 小时
+      // 用户信息被动刷新
       const { _loaded } = this.userInfo
-      if (!_loaded || getTimestamp() - _loaded > 60 * 60 * 4) {
+      if (!_loaded || getTimestamp() - _loaded > H6) {
         this.fetchUserInfo()
         this.fetchUsersInfo()
       }

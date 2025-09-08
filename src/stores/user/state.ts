@@ -43,6 +43,11 @@ export default class State extends Store<typeof STATE> {
   }
 
   /** 开发打印 */
+  log = (...arg: any) => {
+    if (DEV) console.info(TEXT_BADGES.primary, `[${titleCase(this._namespace)}Store]`, ...arg)
+  }
+
+  /** 开发打印 */
   error = (...arg: any) => {
     if (DEV) console.info(TEXT_BADGES.danger, `[${titleCase(this._namespace)}Store]`, ...arg)
   }

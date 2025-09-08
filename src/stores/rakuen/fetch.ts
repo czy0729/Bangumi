@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:26:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-06 21:52:07
+ * @Last Modified time: 2025-09-08 20:39:15
  */
 import { getTimestamp, HTMLTrim } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -53,6 +53,7 @@ import {
 import Computed from './computed'
 import { DEFAULT_SCOPE, DEFAULT_TYPE, INIT_TOPIC } from './init'
 import { getInt } from './utils'
+import { NotifyItem } from './types'
 
 export default class Fetch extends Computed {
   /** 获取超展开聚合列表 */
@@ -240,6 +241,11 @@ export default class Fetch extends Computed {
     analysis: boolean = false
   ) => {
     const STATE_KEY = 'notify'
+    const data = {
+      setCookie: '',
+      html: '',
+      list: [] as NotifyItem[]
+    }
 
     try {
       const res = await fetchHTML({
@@ -247,43 +253,39 @@ export default class Fetch extends Computed {
         raw: true
       })
 
-      let setCookie: string
-      if (res?.headers?.map?.['set-cookie']) setCookie = res.headers.map['set-cookie']
-
-      const html = HTMLTrim(await res.text())
-      let { unread, clearHref, list } = this.notify
+      const { list, _loaded } = this[STATE_KEY]
+      let { unread, clearHref } = this[STATE_KEY]
+      data.setCookie = res?.headers?.map?.['set-cookie'] || ''
+      data.html = HTMLTrim(await res.text()) || ''
+      data.list = list
 
       /** 清除动作 */
-      const clearHTML = html.match(/<a id="notify_ignore_all" href="(.+?)">\[知道了\]<\/a>/)
+      const clearHTML = data.html.match(/<a id="notify_ignore_all" href="(.+?)">\[知道了\]<\/a>/)
       if (clearHTML) clearHref = clearHTML[1]
 
       /** 未读数 */
-      const countHTML = html.match(/<span id="notify_count">(.+?)<\/span>/)
+      const countHTML = data.html.match(/<span id="notify_count">(.+?)<\/span>/)
       if (countHTML) unread = parseInt(countHTML[1])
 
       /** 回复内容 */
-      if (analysis) list = cheerioNotify(html)
+      if (analysis) data.list = cheerioNotify(data.html)
 
       this.setState({
         [STATE_KEY]: {
           unread,
           clearHref,
-          list,
+          list: data.list,
 
           /** @ts-expect-error */
-          _loaded: analysis ? getTimestamp() : this.notify._loaded
+          _loaded: analysis ? getTimestamp() : _loaded
         }
       })
       this.save(STATE_KEY)
-
-      return {
-        setCookie,
-        html,
-        list
-      }
     } catch (error) {
       this.error('fetchNotify', error)
     }
+
+    return data
   }
 
   /** 小组信息 */
