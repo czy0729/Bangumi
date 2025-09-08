@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-06 21:52:04
+ * @Last Modified time: 2025-09-08 22:24:59
  */
 import {
   cData,
+  cFind,
   cheerio,
   cHtml,
   cMap,
@@ -25,6 +26,7 @@ import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HTML_RAKUEN } from '@constants'
 import { RakuenScope, RakuenType, RakuenTypeGroup, RakuenTypeMono } from '@types'
 import { INIT_BLOG, INIT_COMMENTS_ITEM, INIT_TOPIC, STATE } from './init'
+import { getBlogTime } from './utils'
 import {
   BlockedUsersItem,
   CommentsItem,
@@ -349,40 +351,25 @@ export function cheerioBlog(html: string) {
   let blogComments = []
 
   try {
-    const $ = cheerio(htmlMatch(html, '<div id="columnA"', '<div id="footer">'))
-    const titleText = $('#pageHeader > h1').text() || ''
-    let title: string
-    if (titleText.includes(' » ')) {
-      title = String(titleText.split(' » ')[1]).replace('日志', '')
-    } else {
-      title = String(titleText.split(' / ')[1])
-    }
-    const $user = $('#pageHeader a.avatar')
-    const related =
-      $('ul#related_subject_list > li')
-        .map((_index: number, element: any) => {
-          const $row = cheerio(element)
-          const $a = $row.find('> a.avatar')
-          return safeObject({
-            id: String($a.attr('href')).replace('/subject/', ''),
-            name: $a.attr('title'),
-            image: $row.find('img.avatar').attr('src')
-          })
-        })
-        .get() || []
+    const $ = cheerio(htmlMatch(html, '<div id="columnA', '<div id="footer'))
+    const $user = $('#viewEntry .author .title a.l')
 
-    blog = safeObject({
-      avatar: getCoverSmall($('#pageHeader img.avatar').attr('src').split('?')[0]),
+    blog = {
+      avatar: cData($('#viewEntry .author img'), 'src'),
       floor: '#0',
-      formhash: $('input[name=formhash]').attr('value'),
-      message: HTMLTrim($('div#entry_content').html()),
-      time: $('hr + div.re_info').text().replace(' / ', '').replace('del / edit', ''),
-      title,
-      userId: matchUserId($user.attr('href')),
-      userName: $user.text().replace(' ', '').replace('\n\n', ''),
+      formhash: cData(cFind($, 'input[name=formhash]'), 'value'),
+      message: cHtml($('#entry_content')),
+      time: getBlogTime(cText($('.header .time'))),
+      title: cText($('#viewEntry h1.title')),
+      userId: cData($user, 'href').replace('/user/', ''),
+      userName: cText($user),
       userSign: '',
-      related
-    })
+      related: cMap($('.entry-related-subjects .subject-card'), $row => ({
+        id: cData(cFind($row, '.title a'), 'href').replace('/subject/', ''),
+        name: cText(cFind($row, '.info')) || cText(cFind($row, '.title a')),
+        image: cData(cFind($row, 'img'), 'src')
+      }))
+    }
 
     // 回复
     blogComments =

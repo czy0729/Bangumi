@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:51:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 12:28:47
+ * @Last Modified time: 2025-09-08 22:24:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,7 +18,7 @@ import {
 import { getCoverSrc } from '@components/cover/utils'
 import { Avatar, HorizontalList, Name } from '@_'
 import { _, useStore } from '@stores'
-import { appNavigate, simpleTime } from '@utils'
+import { appNavigate } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../types'
@@ -55,13 +55,12 @@ function Top() {
       <View style={styles.container}>
         <Text type='title' size={20} bold>
           {$.title}
-          {!!$.time && (
-            <Text type='sub' size={13} lineHeight={20}>
-              {'  '}
-              {simpleTime($.time)}
-            </Text>
-          )}
         </Text>
+        {!!$.time && (
+          <Text type='sub' size={13} lineHeight={20}>
+            {$.time}
+          </Text>
+        )}
         <Flex style={styles.userWrap}>
           {!!$.avatar && (
             <UserStatus userId={$.userId}>

@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-06-21 05:13:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-21 05:13:36
+ * @Last Modified time: 2025-09-08 21:46:49
  */
 import { rakuenStore } from '@stores'
 import { getTimestamp, omit } from '@utils'
 import { get, update } from '@utils/kv'
+import { D7 } from '@constants'
 import Computed from './computed'
 
 /** 若更新过则不会再主动更新 */
@@ -28,7 +29,7 @@ export default class Fetch extends Computed {
     ) {
       const ts = this.ota?.ts || 0
       const _loaded = getTimestamp()
-      if (_loaded - ts >= 60 * 60 * 24 * 7) this.updateThirdParty()
+      if (_loaded - ts >= D7) this.updateThirdParty()
     }
 
     return blog
