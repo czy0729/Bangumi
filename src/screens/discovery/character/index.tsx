@@ -20,7 +20,7 @@ const Character = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-character'>
       <StoreContext.Provider value={id}>
-        <Page loaded={$.state._loaded} loading={!$.list($.id)._loaded}>
+        <Page loaded={$.state._loaded} loading={$.loading}>
           <Tabs />
         </Page>
         <Header />

@@ -2,23 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:44:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-03 20:44:25
+ * @Last Modified time: 2025-09-09 18:03:23
  */
 import React, { useCallback } from 'react'
 import { ListView } from '@components'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils/app'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import { renderItem, renderItemRecents } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+import { Props } from './types'
 
-function List({ id }) {
-  r(COMPONENT)
+function List({ id }: Props) {
+  const { $ } = useStore<Ctx>(COMPONENT)
 
-  const { $ } = useStore<Ctx>()
   const handleHeaderRefresh = useCallback(() => $.fetchList(id, true), [$, id])
   const handleFooterRefresh = useCallback(() => $.fetchList(id), [$, id])
 

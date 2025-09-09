@@ -136,7 +136,7 @@ export const STATE = {
     0: LIST_EMPTY
   },
 
-  /** 我收藏人物的最近作品 */
+  /** 我收藏的人物近况 */
   recents: LIST_EMPTY as Recents,
 
   /** 用户日志 */

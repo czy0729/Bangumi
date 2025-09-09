@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2022-03-12 22:46:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-03 15:18:22
+ * @Last Modified time: 2025-09-09 18:05:30
  */
 import React from 'react'
+import { useObserver } from 'mobx-react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { open } from '@utils'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { TEXT_MENU_BROWSER } from '@constants'
 import { Ctx } from '../types'
 import { COMPONENT, DATA } from './ds'
 
 function Header() {
-  const { $ } = useStore<Ctx>()
-  return (
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
     <HeaderV2
       title='用户人物'
       hm={$.hm}
@@ -35,7 +36,7 @@ function Header() {
         />
       )}
     />
-  )
+  ))
 }
 
-export default ob(Header, COMPONENT)
+export default Header

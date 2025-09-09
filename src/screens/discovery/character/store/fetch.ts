@@ -5,10 +5,11 @@
  * @Last Modified time: 2024-12-03 15:38:50
  */
 import { usersStore } from '@stores'
+import { Keys } from '../types'
 import Computed from './computed'
 
 export default class Fetch extends Computed {
-  fetchList = (key: string, refresh: boolean = false) => {
+  fetchList = (key: Keys, refresh: boolean = false) => {
     if (key === 'recents') {
       return usersStore.fetchRecents(refresh)
     }

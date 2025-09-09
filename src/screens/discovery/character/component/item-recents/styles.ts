@@ -16,7 +16,7 @@ export const memoStyles = _.memoStyles(() => ({
     width: COVER_WIDTH
   },
   content: {
-    minHeight: COVER_HEIGHT + 6
+    minHeight: COVER_HEIGHT + 4
   },
   border: {
     borderTopColor: _.colorBorder,

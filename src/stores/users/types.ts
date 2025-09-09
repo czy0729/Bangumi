@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-07-02 10:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 18:36:28
+ * @Last Modified time: 2025-09-09 18:01:42
  */
 import {
   Avatar,
   ColorValue,
   Cover,
   CoverCrt,
-  DeepPartial,
   HTMLText,
   Id,
   ListEmpty,
@@ -117,26 +116,27 @@ export type Persons = ListEmpty<
   }>
 >
 
-/** 我收藏人物的最近作品 */
-export type Recents = ListEmpty<
-  DeepPartial<{
+/** 我收藏的人物近况项 */
+export type RecentsItem = {
+  id: MonoId
+  cover: string
+  type: SubjectTypeValue
+  href: UrlSubject
+  name: string
+  nameJP: string
+  info: string
+  star: string
+  starInfo: string
+  actors: {
     id: MonoId
-    cover: Cover<'c'>
-    type: SubjectTypeValue
-    href: UrlSubject
+    avatar: string
     name: string
-    nameJP: string
     info: string
-    star: string
-    starInfo: string
-    actors: {
-      id: Id
-      avatar: CoverCrt<'s'>
-      name: string
-      info: string
-    }[]
-  }>
->
+  }[]
+}
+
+/** 我收藏的人物近况 */
+export type Recents = ListEmpty<RecentsItem>
 
 /** 用户日志 */
 export type Blogs = ListEmpty<

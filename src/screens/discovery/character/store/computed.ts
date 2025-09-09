@@ -24,12 +24,14 @@ export default class Computed extends State {
     return this.tabs?.[this.state.page]?.key || TABS[0].key
   }
 
+  @computed get loading() {
+    return !this.list(this.id)._loaded
+  }
+
   list(key: Keys) {
-    return computed(() => {
-      if (key === 'persons') return usersStore.persons(this.userId)
-      if (key === 'recents') return usersStore.recents
-      return usersStore.characters(this.userId)
-    }).get()
+    if (key === 'persons') return usersStore.persons(this.userId)
+    if (key === 'recents') return usersStore.recents
+    return usersStore.characters(this.userId)
   }
 
   @computed get url() {
@@ -37,6 +39,6 @@ export default class Computed extends State {
   }
 
   @computed get hm() {
-    return [this.url, 'Character']
+    return [this.url, 'Character'] as const
   }
 }

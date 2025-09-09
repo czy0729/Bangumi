@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-11-14 06:16:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 02:18:22
+ * @Last Modified time: 2025-09-09 17:57:33
  */
 import { createContext, useContext } from 'react'
+import { r } from '@utils/dev'
 import { urlStringify } from '@utils/utils'
 import { Navigation, NavigationProps, Override } from '@types'
 import Stores from './global'
@@ -40,8 +41,11 @@ export function useInitStore<T>(props: NavigationProps, Store: any) {
 export const StoreContext = createContext('')
 
 /** 获取页面的状态机 */
-export function useStore<T>() {
+export function useStore<T>(componentUniqueKey?: string) {
+  if (componentUniqueKey) r(componentUniqueKey)
+
   const id = useContext(StoreContext)
+
   return (Stores.get(id) || {
     id: '',
     $: {},

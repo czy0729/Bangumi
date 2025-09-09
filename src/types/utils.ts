@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 05:02:40
+ * @Last Modified time: 2025-09-09 18:41:27
  */
 import React from 'react'
 import {
@@ -143,3 +143,17 @@ export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
 
 /** 允许只读 */
 export type MaybeReadonly<T> = T | ReadonlyResult<T>
+
+/** 列表带索引 renderItem */
+export type RenderItem<T> = {
+  item: T
+  index: number
+}
+
+/** 带索引 */
+export type WithIndex<T> = Override<
+  T,
+  {
+    index: number
+  }
+>

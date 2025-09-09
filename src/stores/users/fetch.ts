@@ -27,7 +27,7 @@ import {
   cheerioUsers
 } from './common'
 import Computed from './computed'
-import { Characters, FetchCatalogsArgs, Friend, Persons, Recents } from './types'
+import { Characters, FetchCatalogsArgs, Friend, Persons } from './types'
 
 export default class Fetch extends Computed {
   /** 好友列表 */
@@ -179,38 +179,33 @@ export default class Fetch extends Computed {
 
   /** 我收藏人物的最近作品 */
   fetchRecents = async (refresh?: boolean) => {
-    const { list, pagination } = this.recents
-    const page = refresh ? 1 : pagination.page + 1
-    const html = await fetchHTML({
-      url: HTML_USERS_MONO_RECENTS(page)
-    })
-    const data = cheerioRecents(html)
+    const STATE_KEY = 'recents'
+    const LIMIT = 20
 
-    let recents: Recents
-    if (refresh) {
-      recents = {
-        list: data.list,
-        pagination: data.pagination,
-        _loaded: getTimestamp()
-      }
-    } else {
-      recents = {
-        list: [...list, ...data.list],
-        pagination: {
-          ...pagination,
-          page: pagination.page + 1
-        },
-        _loaded: getTimestamp()
-      }
+    try {
+      const { list, pagination } = this.recents
+      const page = refresh ? 1 : pagination.page + 1
+      const html = await fetchHTML({
+        url: HTML_USERS_MONO_RECENTS(page)
+      })
+
+      const next = cheerioRecents(html)
+      this.setState({
+        [STATE_KEY]: {
+          list: refresh ? next : [...list, ...next],
+          pagination: {
+            page,
+            pageTotal: next.length >= LIMIT ? 100 : page
+          },
+          _loaded: getTimestamp()
+        }
+      })
+      this.save(STATE_KEY)
+    } catch (error) {
+      this.error('fetchRecents', error)
     }
 
-    const key = 'recents'
-    this.setState({
-      [key]: recents
-    })
-    this.save(key)
-
-    return recents
+    return this[STATE_KEY]
   }
 
   /** 用户日志 */

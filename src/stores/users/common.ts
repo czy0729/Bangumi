@@ -4,18 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-21 17:22:36
  */
-import {
-  cData,
-  cFind,
-  cheerio,
-  cMap,
-  cText,
-  htmlMatch,
-  matchAvatar,
-  safeObject,
-  trim
-} from '@utils'
-import { CatalogsItem, Users } from './types'
+import { cData, cFind, cheerio, cMap, cText, htmlMatch, matchAvatar, safeObject } from '@utils'
+import { CatalogsItem, RecentsItem, Users } from './types'
 
 /** 好友列表 */
 export function cheerioFriends(html: string) {
@@ -139,47 +129,27 @@ export function cheerioCharacters(html: string) {
 
 /** 我收藏人物的最近作品 */
 export function cheerioRecents(html: string) {
-  const $ = cheerio(htmlMatch(html, '<div class="mainWrapper">', '<div id="footer">'))
-  return {
-    pagination: {
-      page: 1,
-      pageTotal: 100
-    },
-    list: $('ul.browserFull > li.item')
-      .map((_index: number, element: any) => {
-        const $li = cheerio(element)
-        const $a = $li.find('h3 > a.l')
-        return safeObject({
-          id: ($li.attr('id') || '').replace('item_', ''),
-          cover: $li.find('img.cover').attr('src'),
-          type: ($li.find('h3 > span.ll').attr('class') || '').replace(
-            /ico_subject_type subject_type_| ll/g,
-            ''
-          ),
-          href: $a.attr('href'),
-          name: $a.text(),
-          nameJP: $li.find('h3 > small.grey').text(),
-          info: trim($li.find('p.info').text()),
-          star: ($li.find('span.starlight').attr('class') || '').replace('starlight stars', ''),
-          starInfo: $li.find('span.tip_j').text(),
-          actors: $li
-            .find('div.actorBadge')
-            .map((_index: number, element: any) => {
-              const $li = cheerio(element)
-              return safeObject({
-                id: ($li.find('a.avatar').attr('href') || '')
-                  .replace('/person', 'person')
-                  .replace('/character', 'character'),
-                avatar: ($li.find('img.avatar').attr('src') || '').split('?')[0],
-                name: $li.find('a.l').text(),
-                info: trim($li.find('small.grey').text())
-              })
-            })
-            .get()
-        })
-      })
-      .get()
-  }
+  const $ = cheerio(htmlMatch(html, '<div id="columnCrtBrowserB', '<div id="footer'))
+  return cMap($('#browserItemList li.item'), $row => {
+    const $a = cFind($row, 'h3 a.l')
+    return {
+      id: cData($row, 'id').replace('item_', ''),
+      cover: cData(cFind($row, 'img.cover'), 'src'),
+      type: cData(cFind($row, 'h3 span.ll'), 'class').match(/subject_type_(\d+)/)?.[1] || '',
+      href: cData($a, 'href'),
+      name: cText($a),
+      nameJP: cText(cFind($row, 'h3 small.grey')),
+      info: cText(cFind($row, 'p.info')),
+      star: cData(cFind($row, 'span.starlight'), 'class').match(/stars(\d+)/)?.[1] || '',
+      starInfo: cText(cFind($row, '.rateInfo .tip_j')),
+      actors: cMap($row.find('.actorBadge'), $row => ({
+        id: cData(cFind($row, 'a.avatar'), 'href').replace(/^\/+/, ''),
+        avatar: cData(cFind($row, 'img'), 'src'),
+        name: cText(cFind($row, 'a.l')),
+        info: cText(cFind($row, 'small.grey'))
+      }))
+    } as RecentsItem
+  })
 }
 
 /** 用户日志列表 */

@@ -89,10 +89,12 @@ export default class Computed
     }).get()
   }
 
-  /** 我收藏人物的最近作品 */
+  /** 我收藏的人物近况 */
   @computed get recents(): Recents {
-    this.init('recents', true)
-    return this.state.recents
+    const STATE_KEY = 'recents'
+    this.init(STATE_KEY, true)
+
+    return this.state[STATE_KEY]
   }
 
   /** 用户日志 */
