@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 22:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-09 18:40:25
+ * @Last Modified time: 2025-09-09 21:48:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -126,7 +126,7 @@ function ItemRecents({
                 {actors.map(item => (
                   <Flex key={item.id} style={stl(actors.length > 1 && styles.actors, _.mt.md)}>
                     <Touchable animate onPress={() => handlePressActor(item.id)}>
-                      <Avatar src={item.avatar} size={32} radius />
+                      <Avatar src={item.avatar} size={32} radius={_.radiusXs} />
                     </Touchable>
                     <Flex.Item style={_.ml.sm}>
                       <Text size={12} numberOfLines={1} bold>

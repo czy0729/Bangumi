@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-07-24 11:11:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-21 17:22:36
+ * @Last Modified time: 2025-09-09 21:50:09
  */
 import { cData, cFind, cheerio, cMap, cText, htmlMatch, matchAvatar, safeObject } from '@utils'
-import { CatalogsItem, RecentsItem, Users } from './types'
+import { CatalogsItem, CharactersItem, RecentsItem, Users } from './types'
 
 /** 好友列表 */
 export function cheerioFriends(html: string) {
@@ -107,24 +107,15 @@ export function cheerioUsers(html: string) {
 
 /** 用户收藏的人物 */
 export function cheerioCharacters(html: string) {
-  const $ = cheerio(htmlMatch(html, '<div class="mainWrapper">', '<div id="footer">'))
-  return {
-    pagination: {
-      page: 1,
-      pageTotal: $('div.page_inner > a.p').length
-    },
-    list: $('ul.coversSmall > li.clearit')
-      .map((_index: number, element: any) => {
-        const $li = cheerio(element)
-        const $a = $li.find('a[title]')
-        return safeObject({
-          id: $a.attr('href'),
-          avatar: $li.find('img').attr('src').split('?')[0],
-          name: $a.attr('title')
-        })
-      })
-      .get()
-  }
+  const $ = cheerio(htmlMatch(html, '<div id="columnA', '<div id="footer'))
+  return cMap($('.coverList li'), $row => {
+    const $a = cFind($row, 'a.title')
+    return {
+      id: cData($a, 'href').replace(/^\/+/, ''),
+      avatar: cData(cFind($row, 'img'), 'src'),
+      name: cText($a)
+    } as CharactersItem
+  })
 }
 
 /** 我收藏人物的最近作品 */

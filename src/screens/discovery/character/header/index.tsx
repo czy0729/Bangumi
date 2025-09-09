@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-03-12 22:46:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-09 18:05:30
+ * @Last Modified time: 2025-09-09 21:57:27
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { open } from '@utils'
 import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import { TEXT_MENU_BROWSER } from '@constants'
 import { Ctx } from '../types'
 import { COMPONENT, DATA } from './ds'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 14:03:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-25 14:05:22
+ * @Last Modified time: 2025-09-09 20:58:22
  */
 import { getTimestamp } from '@utils'
 import { fetchHTML } from '@utils/fetch'
@@ -27,7 +27,7 @@ import {
   cheerioUsers
 } from './common'
 import Computed from './computed'
-import { Characters, FetchCatalogsArgs, Friend, Persons } from './types'
+import { FetchCatalogsArgs, Friend } from './types'
 
 export default class Fetch extends Computed {
   /** 好友列表 */
@@ -100,81 +100,71 @@ export default class Fetch extends Computed {
   }
 
   /** 用户收藏的虚拟角色 */
-  fetchCharacters = async (args?: { userId?: UserId }, refresh?: boolean) => {
-    const { userId = userStore.myId } = args || {}
-    const { list, pagination } = this.characters(userId)
-    const page = refresh ? 1 : pagination.page + 1
-    const html = await fetchHTML({
-      url: HTML_USERS_CHARCTER(userId, page)
-    })
-    const data = cheerioCharacters(html)
+  fetchCharacters = async (userId: UserId = userStore.myId, refresh?: boolean) => {
+    const STATE_KEY = 'characters'
+    const ITEM_KEY = userId
+    const LIMIT = 44
 
-    let characters: Characters
-    if (refresh) {
-      characters = {
-        list: data.list,
-        pagination: data.pagination,
-        _loaded: getTimestamp()
-      }
-    } else {
-      characters = {
-        list: [...list, ...data.list],
-        pagination: {
-          ...pagination,
-          page: pagination.page + 1
-        },
-        _loaded: getTimestamp()
-      }
+    try {
+      const { list, pagination } = this[STATE_KEY](ITEM_KEY)
+      const page = refresh ? 1 : pagination.page + 1
+      const html = await fetchHTML({
+        url: HTML_USERS_CHARCTER(userId, page)
+      })
+
+      const next = cheerioCharacters(html)
+      this.setState({
+        [STATE_KEY]: {
+          [ITEM_KEY]: {
+            list: refresh ? next : [...list, ...next],
+            pagination: {
+              page,
+              pageTotal: next.length >= LIMIT ? 100 : page
+            },
+            _loaded: getTimestamp()
+          }
+        }
+      })
+      this.save(STATE_KEY)
+    } catch (error) {
+      this.error('fetchCharacters', error)
     }
 
-    const key = 'characters'
-    this.setState({
-      [key]: {
-        [userId]: characters
-      }
-    })
-    this.save(key)
-
-    return characters
+    return this[STATE_KEY](ITEM_KEY)
   }
 
   /** 用户收藏的现实人物 */
-  fetchPersons = async (args?: { userId?: UserId }, refresh?: boolean) => {
-    const { userId = userStore.myId } = args || {}
-    const { list, pagination } = this.persons(userId)
-    const page = refresh ? 1 : pagination.page + 1
-    const html = await fetchHTML({
-      url: HTML_USERS_PERSON(userId, page)
-    })
-    const data = cheerioCharacters(html)
+  fetchPersons = async (userId: UserId = userStore.myId, refresh?: boolean) => {
+    const STATE_KEY = 'persons'
+    const ITEM_KEY = userId
+    const LIMIT = 44
 
-    let persons: Persons
-    if (refresh) {
-      persons = {
-        list: data.list,
-        pagination: data.pagination,
-        _loaded: getTimestamp()
-      }
-    } else {
-      persons = {
-        list: [...list, ...data.list],
-        pagination: {
-          ...pagination,
-          page: pagination.page + 1
-        },
-        _loaded: getTimestamp()
-      }
+    try {
+      const { list, pagination } = this[STATE_KEY](ITEM_KEY)
+      const page = refresh ? 1 : pagination.page + 1
+      const html = await fetchHTML({
+        url: HTML_USERS_PERSON(userId, page)
+      })
+
+      const next = cheerioCharacters(html)
+      this.setState({
+        [STATE_KEY]: {
+          [ITEM_KEY]: {
+            list: refresh ? next : [...list, ...next],
+            pagination: {
+              page,
+              pageTotal: next.length >= LIMIT ? 100 : page
+            },
+            _loaded: getTimestamp()
+          }
+        }
+      })
+      this.save(STATE_KEY)
+    } catch (error) {
+      this.error('fetchPersons', error)
     }
 
-    const key = 'persons'
-    this.setState({
-      [key]: {
-        [userId]: persons
-      }
-    })
-    this.save(key)
-
-    return persons
+    return this[STATE_KEY](ITEM_KEY)
   }
 
   /** 我收藏人物的最近作品 */

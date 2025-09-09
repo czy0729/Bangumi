@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-07-02 10:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-09 18:01:42
+ * @Last Modified time: 2025-09-09 21:56:18
  */
 import {
   Avatar,
   ColorValue,
   Cover,
-  CoverCrt,
   HTMLText,
   Id,
   ListEmpty,
@@ -98,23 +97,18 @@ export type UsersInfo = {
   _loaded: Loaded
 }
 
-/** 用户收藏的虚拟角色 */
-export type Characters = ListEmpty<
-  Partial<{
-    avatar: CoverCrt<'g'>
-    id: string
-    name: string
-  }>
->
+/** 用户收藏的角色项 */
+export type CharactersItem = {
+  id: MonoId
+  avatar: string
+  name: string
+}
 
 /** 用户收藏的虚拟角色 */
-export type Persons = ListEmpty<
-  Partial<{
-    avatar: CoverCrt<'g'>
-    id: string
-    name: string
-  }>
->
+export type Characters = ListEmpty<CharactersItem>
+
+/** 用户收藏的现实人物 */
+export type Persons = ListEmpty<CharactersItem>
 
 /** 我收藏的人物近况项 */
 export type RecentsItem = {
@@ -139,17 +133,15 @@ export type RecentsItem = {
 export type Recents = ListEmpty<RecentsItem>
 
 /** 用户日志 */
-export type Blogs = ListEmpty<
-  Partial<{
-    id: Id
-    title: string
-    cover: string
-    time: string
-    replies: string
-    content: string
-    tags: string[]
-  }>
->
+export type Blogs = ListEmpty<{
+  id: Id
+  title: string
+  cover: string
+  time: string
+  replies: string
+  content: string
+  tags: string[]
+}>
 
 /** 用户目录项 */
 export type CatalogsItem = {

@@ -2,19 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:32:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 01:00:06
+ * @Last Modified time: 2025-09-09 21:59:42
  */
 import { LIST_EMPTY } from '@constants'
 import { UserId } from '@types'
-import { Catalogs, Recents, Users } from './types'
+import { Catalogs, Characters, Recents, Users } from './types'
 
 export const NAMESPACE = 'Users'
-
-export const INIT_FRIENDS_ITEM = {
-  avatar: '',
-  userId: '',
-  userName: ''
-}
 
 export const INIT_USERS = {
   userId: '',
@@ -64,42 +58,6 @@ export const INIT_USERS_INFO = {
   _loaded: false
 }
 
-export const INIT_CHARACTERS = {
-  avatar: '',
-  id: '',
-  name: ''
-}
-
-export const INIT_RECENTS_ITEM = {
-  id: '',
-  cover: '',
-  type: '',
-  href: '',
-  name: '',
-  nameJP: '',
-  info: '',
-  star: '',
-  starInfo: '',
-  actors: [] // <INIT_RECENTS_ACTORS_ITEM>
-}
-
-export const INIT_RECENTS_ACTORS_ITEM = {
-  id: '',
-  avatar: '',
-  name: '',
-  info: ''
-}
-
-export const INIT_BLOGS = {
-  id: '',
-  title: '',
-  cover: '',
-  time: '',
-  replies: '',
-  content: '',
-  tags: []
-}
-
 export const STATE = {
   /** 全局用户头像缓存索引 */
   avatars: {
@@ -127,14 +85,10 @@ export const STATE = {
   },
 
   /** 用户收藏的虚拟角色 */
-  characters: {
-    0: LIST_EMPTY
-  },
+  characters: {} as Record<UserId, Characters>,
 
   /** 用户收藏的现实人物 */
-  persons: {
-    0: LIST_EMPTY
-  },
+  persons: {} as Record<UserId, Characters>,
 
   /** 我收藏的人物近况 */
   recents: LIST_EMPTY as Recents,

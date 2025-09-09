@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 13:59:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 00:59:41
+ * @Last Modified time: 2025-09-09 21:13:07
  */
 import { computed } from 'mobx'
 import { HTMLDecode } from '@utils'
@@ -73,19 +73,23 @@ export default class Computed
 
   /** 用户收藏的虚拟角色 */
   characters(userId?: UserId) {
-    this.init('characters', true)
-    return computed<Characters>(() => {
-      const key = userId || userStore.myId
-      return this.state.characters[key] || LIST_EMPTY
+    const STATE_KEY = 'characters'
+    this.init(STATE_KEY, true)
+
+    return computed(() => {
+      const ITEM_KEY = userId || userStore.myId
+      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as Characters
     }).get()
   }
 
   /** 用户收藏的现实人物 */
   persons(userId?: UserId) {
-    this.init('persons', true)
-    return computed<Persons>(() => {
-      const key = userId || userStore.myId
-      return this.state.persons[key] || LIST_EMPTY
+    const STATE_KEY = 'persons'
+    this.init(STATE_KEY, true)
+
+    return computed(() => {
+      const ITEM_KEY = userId || userStore.myId
+      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as Persons
     }).get()
   }
 

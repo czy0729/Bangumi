@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-12-03 15:36:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-03 16:55:54
+ * @Last Modified time: 2025-09-09 21:53:52
  */
 import { computed } from 'mobx'
 import { usersStore, userStore } from '@stores'
@@ -28,17 +28,17 @@ export default class Computed extends State {
     return !this.list(this.id)._loaded
   }
 
-  list(key: Keys) {
-    if (key === 'persons') return usersStore.persons(this.userId)
-    if (key === 'recents') return usersStore.recents
-    return usersStore.characters(this.userId)
-  }
-
   @computed get url() {
     return `${HOST}/user/${this.params?.userName}/mono`
   }
 
   @computed get hm() {
     return [this.url, 'Character'] as const
+  }
+
+  list(key: Keys) {
+    if (key === 'persons') return usersStore.persons(this.userId)
+    if (key === 'recents') return usersStore.recents
+    return usersStore.characters(this.userId)
   }
 }

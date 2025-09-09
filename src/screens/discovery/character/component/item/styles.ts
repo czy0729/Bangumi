@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-28 01:13:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-06 14:31:57
+ * @Last Modified time: 2025-09-09 21:54:11
  */
 import { _ } from '@stores'
 
@@ -15,7 +15,13 @@ export const memoStyles = _.memoStyles(() => {
       marginTop: _.md,
       marginLeft: gridStyles.marginLeft
     },
-    left: {
+    cover: {
+      width: gridStyles.width,
+      height: gridStyles.width,
+      borderRadius: _.radiusSm,
+      overflow: 'hidden'
+    },
+    side: {
       marginLeft: 0
     }
   }

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-01-09 12:32:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-09 18:05:50
+ * @Last Modified time: 2025-09-09 21:57:23
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Heatmap } from '@components'
 import { _ } from '@stores'
+import { useObserver } from '@utils/hooks'
 
 function Heatmaps() {
   return useObserver(() => (
