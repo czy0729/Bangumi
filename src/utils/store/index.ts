@@ -33,45 +33,6 @@ export default class Store<
   }
 
   /**
-   * 同步的增量 setState 方法
-   * @date 20190226
-   * */
-  // setState = action((state: DeepPartial<T>, stateKey: string = 'state') => {
-  //   Object.entries(state).forEach(([key, item]) => {
-  //     const observerTarget = this[stateKey]
-
-  //     // 键值不存在时需手动创建观察
-  //     if (!(key in observerTarget)) {
-  //       extendObservable(observerTarget, {
-  //         [key]: item
-  //       })
-  //       return
-  //     }
-
-  //     if (typeof item !== 'object') {
-  //       observerTarget[key] = item
-  //       return
-  //     }
-
-  //     // 第一层观察对象整个应用的逻辑都是增量修改
-  //     if (!Array.isArray(item)) {
-  //       observerTarget[key] = {
-  //         ...observerTarget[key],
-  //         ...item
-  //       }
-  //       return
-  //     }
-
-  //     if (isObservableArray(observerTarget[key])) {
-  //       observerTarget[key].replace(item)
-  //       return
-  //     }
-
-  //     observerTarget[key] = item
-  //   })
-  // })
-
-  /**
    * 同步的增量 setState 方法（优化版）
    * @date 20250418
    * */

@@ -8,15 +8,16 @@ import React from 'react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { getSPAParams, open } from '@utils'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import { TEXT_MENU_BROWSER, TEXT_MENU_SPA, TEXT_MENU_SPLIT, URL_SPA } from '@constants'
 import { Ctx } from '../types'
 import { COMPONENT, DATA } from './ds'
 
 function Header() {
-  const { $ } = useStore<Ctx>()
-  return (
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
     <HeaderV2
       title='排行榜'
       hm={$.hm}
@@ -43,7 +44,7 @@ function Header() {
         />
       )}
     />
-  )
+  ))
 }
 
-export default ob(Header, COMPONENT)
+export default Header

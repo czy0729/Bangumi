@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-10-18 03:40:15
  */
-import { cData, cHas, cheerio, cMap, cText, HTMLDecode, htmlMatch } from '@utils'
+import { cData, cFind, cHas, cheerio, cMap, cText, HTMLDecode, htmlMatch } from '@utils'
 import { Cover } from '@types'
 import { TagItem } from './types'
 
@@ -56,21 +56,21 @@ export function cheerioTags(html: string): {
 }
 
 /** 排行榜、索引 */
-export function cheerioRank(html: string): TagItem[] {
-  const $ = cheerio(htmlMatch(html, '<ul id="browserItemList"', '<div id="columnSubjectBrowserB"'))
+export function cheerioRank(html: string) {
+  const $ = cheerio(htmlMatch(html, '<ul id="browserItemList', '<div id="columnSubjectBrowserB'))
   return cMap($('#browserItemList li.item'), $row => {
-    const $a = $row.find('h3 a.l')
-    const cover = cData($row.find('img.cover'), 'src')
+    const $a = cFind($row, 'h3 a.l')
+    const cover = cData(cFind($row, 'img.cover'), 'src')
     return {
-      collected: cHas($row.find('.collectModify .thickbox')),
+      collected: cHas(cFind($row, '.collectModify .thickbox')),
       cover: cover === '/img/info_only.png' ? '' : cover,
       id: cData($a, 'href'),
-      name: HTMLDecode(cText($row.find('small.grey'))),
+      name: HTMLDecode(cText(cFind($row, 'small.grey'))),
       nameCn: HTMLDecode(cText($a)),
-      rank: cText($row.find('.rank'), true),
-      score: cText($row.find('.rateInfo .fade')),
-      tip: HTMLDecode(cText($row.find('.info.tip')).replace(/\s+/g, ' ')),
-      total: cText($row.find('.rateInfo .tip_j'))
-    }
+      rank: cText(cFind($row, '.rank'), true),
+      score: cText(cFind($row, '.rateInfo .fade')),
+      tip: HTMLDecode(cText(cFind($row, '.info.tip')).replace(/\s+/g, ' ')),
+      total: cText(cFind($row, '.rateInfo .tip_j'))
+    } as TagItem
   })
 }

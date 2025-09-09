@@ -31,21 +31,25 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 排行榜 */
   rank(type: SubjectType, filter: RankFilter, order: TagOrder, airtime: string, page: number) {
-    this.init('rank', true)
+    const STATE_KEY = 'rank'
+    this.init(STATE_KEY, true)
+
     return computed(() => {
       const ITEM_ARGS = [type, filter, order, airtime, page] as const
       const ITEM_KEY = ITEM_ARGS.filter(Boolean).join('|')
-      return (this.state.rank[ITEM_KEY] || LIST_EMPTY) as Rank
+      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as Rank
     }).get()
   }
 
   /** 索引 */
   browser(type: SubjectType = DEFAULT_TYPE, airtime: string = '', sort: BrowserSort = '') {
+    const STATE_KEY = 'browser'
     this.init('browser', true)
+
     return computed(() => {
       const ITEM_ARGS = [type, airtime, sort] as const
       const ITEM_KEY = ITEM_ARGS.filter(Boolean).join('|')
-      return (this.state.browser[ITEM_KEY] || LIST_EMPTY) as Browser
+      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as Browser
     }).get()
   }
 }

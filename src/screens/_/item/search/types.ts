@@ -21,7 +21,6 @@ export type Props = {
   total?: number | string
   comments?: string
   collection?: string
-  collected?: boolean
   showManage?: boolean
   position?: string[]
   screen?: string

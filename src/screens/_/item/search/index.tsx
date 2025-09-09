@@ -30,7 +30,6 @@ export const ItemSearch = ob(
     total,
     comments,
     collection,
-    collected,
     showManage,
     position,
     screen,
@@ -55,7 +54,6 @@ export const ItemSearch = ob(
           total={total}
           comments={comments}
           collection={collection}
-          collected={collected}
           showManage={showManage}
           position={position}
           screen={screen}
