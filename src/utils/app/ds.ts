@@ -18,7 +18,7 @@ export const HOST_IMAGE = '//lain.bgm.tv'
 export const RANDOM_FACTOR = Number(String(date.getSeconds()).slice(0, 1))
 
 /** 敏感字符串集 */
-export const X18_TITLE = ['乳', '淫', '裏', '黄油'] as const
+export const NSFW_KEYWORDS = ['乳', '淫', '裏', '黄油'] as const
 
 /** 敏感字符串集 (标签) */
 export const X18_DS = [
@@ -86,7 +86,7 @@ export const FIND_SUBJECT_CN_CACHE_MAP = new Map<string, string>()
 
 export const FIND_SUBJECT_JP_CACHE_MAP = new Map<string, string>()
 
-export const X18_CACHE_MAP = new Map<SubjectId, boolean>()
+export const NSFW_CACHE_MAP = new Map<SubjectId, boolean>()
 
 export const RATING_MAP = {
   1: '不忍直视',

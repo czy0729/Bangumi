@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-17 11:48:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-30 20:18:35
+ * @Last Modified time: 2025-09-10 06:44:30
  */
 import { JSONData, JSONPath } from './types'
 
@@ -93,6 +93,10 @@ export async function loadJSON<T extends JSONPath>(
 
       case 'mono':
         data = require('./mono.json')
+        break
+
+      case 'nsfw_id_distribution':
+        data = require('./nsfw_id_distribution.json')
         break
 
       /** ==================== japanese romanization ==================== */

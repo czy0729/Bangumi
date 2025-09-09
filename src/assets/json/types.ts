@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-28 19:23:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-30 22:13:40
+ * @Last Modified time: 2025-09-10 06:43:49
  */
 import { Expand, Id, SubjectId, SubjectType } from '@types'
 
@@ -19,6 +19,7 @@ export type JSONPath =
   | 'katakana'
   | 'group'
   | 'mono'
+  | 'nsfw_id_distribution'
   | 'thirdParty/ja.min'
   | 'thirdParty/ja.addon'
   | 'thirdParty/d.min'
@@ -93,15 +94,19 @@ export type JSONWenku = {
 
 export type JSONData = Expand<
   {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     [K in Substring]: JSONSubString
   } & {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     [K in TypeRank]: JSONTypeRank
   } & {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     [K in TypeRankIds]: JSONTypeRankIds
   } & {
     katakana: JSONKatakana
     group: JSONGroup
     mono: JSONMono
+    nsfw_id_distribution: number[]
     'thirdParty/ja.min': JSONJA
     'thirdParty/ja.addon': JSONJA
     'thirdParty/d.min': JSONDouban

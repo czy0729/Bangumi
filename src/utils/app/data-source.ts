@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:16:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-25 20:19:54
+ * @Last Modified time: 2025-09-10 06:58:55
  */
 import { isObservableArray } from 'mobx'
 import { FROZEN_ARRAY, FROZEN_OBJECT } from '@constants'
@@ -34,12 +34,12 @@ import {
   HEIGHT,
   HOST_IMAGE,
   NO_IMGS,
+  NSFW_CACHE_MAP,
+  NSFW_KEYWORDS,
   RATING_MAP,
   SITE_MAP,
   TYPE_MAP,
-  X18_CACHE_MAP,
-  X18_DS,
-  X18_TITLE
+  X18_DS
 } from './ds'
 
 /** 猜测数据中大概有多少项 */
@@ -168,17 +168,17 @@ export function cnjp(cn: any, jp: any) {
   return HTMLDecode(cnFirst ? cn || jp : jp || cn)
 }
 
-let x18SubjectIds: SubjectId[] = []
+let NSFW_IDS: SubjectId[] = []
 
 /**
  * 是否敏感条目
- * @param {*} subjectId
- * @param {*} title     辅助检测, 有关键字则都认为是 18x
+ * @param subjectId 条目 ID
+ * @param title     辅助检测, 有关键字则认为是 nsfw
  */
-export function x18(subjectId: SubjectId, title?: string) {
-  if (!x18SubjectIds.length) {
-    x18SubjectIds = getJSON('thirdParty/nsfw.min', [], true).map(item => item.i)
-    if (!x18SubjectIds.length) return false
+export function x18(subjectId: SubjectId, title?: string): boolean {
+  if (!NSFW_IDS.length) {
+    NSFW_IDS = getJSON('nsfw_id_distribution', [], true)
+    if (!NSFW_IDS.length) return false
   }
 
   if (!subjectId) return false
@@ -187,24 +187,16 @@ export function x18(subjectId: SubjectId, title?: string) {
     subjectId = Number(subjectId.replace('/subject/', ''))
   }
 
-  if (X18_CACHE_MAP.has(subjectId)) return X18_CACHE_MAP.get(subjectId)
-
-  const flag = x18SubjectIds.includes(subjectId)
-  if (flag) {
-    X18_CACHE_MAP.set(subjectId, true)
-    return true
+  if (NSFW_CACHE_MAP.has(subjectId)) {
+    return NSFW_CACHE_MAP.get(subjectId)!
   }
 
-  if (title) {
-    const flag = X18_TITLE.some(item => title.includes(item))
-    if (flag) {
-      X18_CACHE_MAP.set(subjectId, true)
-      return true
-    }
-  }
+  const result =
+    NSFW_IDS.includes(subjectId) ||
+    (title ? NSFW_KEYWORDS.some(keyword => title.includes(keyword)) : false)
 
-  X18_CACHE_MAP.set(subjectId, false)
-  return false
+  NSFW_CACHE_MAP.set(subjectId, result)
+  return result
 }
 
 /** 猜测是否敏感字符串 */
