@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:14:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-18 13:28:39
+ * @Last Modified time: 2025-09-11 03:51:56
  */
 import { computed } from 'mobx'
 import { _, calendarStore, collectionStore, subjectStore, systemStore, userStore } from '@stores'
@@ -355,10 +355,8 @@ export default class Computed extends State {
             // 第一个不为看过章节按钮的位置
             const index = eps.findIndex(item => userProgress[item.id] !== '看过')
 
-            // 找不到未看集数, 返回最后的数据
-            if (index === -1) {
-              return eps.slice(length - maxLength - 1, length - 1)
-            }
+            // 找不到未看集数, 可以看作为全部看过, 返回最后的数据
+            if (index === -1) return eps.slice(length - maxLength, length)
 
             // 长篇动画从最后看过开始显示
             if (systemStore.setting.homeEpStartAtLastWathed) {
