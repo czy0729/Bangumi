@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-10 14:20:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-22 02:11:23
+ * @Last Modified time: 2025-09-11 04:37:02
  */
 import {
   AnyObject,
@@ -188,7 +188,7 @@ export type SubjectFromHTML = {
   /** 关联系列 */
   relations: {
     id: Id
-    image: Cover<'m'>
+    image: string
     title: string
     type: string
     url: UrlSubject
@@ -221,19 +221,19 @@ export type SubjectFromHTML = {
   comic: {
     id: SubjectId
     name: string
-    image: Cover<'c'>
+    image: string
   }[]
 
   /** 猜你喜欢 */
   like: {
     id: SubjectId
     name: string
-    image: Cover<'m'>
+    image: string
   }[]
 
   /** 谁收藏了 */
   who: {
-    avatar: Avatar<'l'>
+    avatar: string
     name: string
     userId: UserId
     star: string
@@ -242,7 +242,7 @@ export type SubjectFromHTML = {
 
   /** 目录 */
   catalog: {
-    avatar: Avatar<'l'>
+    avatar: string
     name: string
     userId: UserId
     id: Id
@@ -257,6 +257,9 @@ export type SubjectFromHTML = {
 
   /** hash 比如删除等网页操作需要 */
   formhash: string
+
+  /** 收藏此条目的时间 */
+  collectedTime: string
 
   _loaded?: Loaded
 }

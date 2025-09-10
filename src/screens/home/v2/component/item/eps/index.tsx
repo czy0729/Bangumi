@@ -2,23 +2,31 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:11:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-01 12:49:50
+ * @Last Modified time: 2025-09-11 03:46:10
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { View } from 'react-native'
+import { useObserver } from 'mobx-react'
 import { Heatmap } from '@components'
 import { Eps as EpsComp } from '@_'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { window } from '@styles'
-import { SubjectId } from '@types'
-import { Ctx } from '../../../types'
+import { Ctx, EpsItem } from '../../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
+import { Props } from './types'
 
-function Eps({ subjectId, isFirst }: { subjectId: SubjectId; isFirst: boolean }) {
-  const { $, navigation } = useStore<Ctx>()
-  return (
+function Eps({ subjectId, isFirst }: Props) {
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
+
+  const handleSelect = useCallback(
+    (value: string, item: EpsItem) => {
+      $.doEpsSelect(value, item, subjectId, navigation)
+    },
+    [$, navigation, subjectId]
+  )
+
+  return useObserver(() => (
     <View style={styles.eps}>
       <EpsComp
         layoutWidth={window.contentWidth}
@@ -28,7 +36,7 @@ function Eps({ subjectId, isFirst }: { subjectId: SubjectId; isFirst: boolean })
         userProgress={$.userProgress(subjectId)}
         flip={$.state.flip === subjectId}
         onFliped={$.afterEpsFlip}
-        onSelect={(value, item: any) => $.doEpsSelect(value, item, subjectId, navigation)}
+        onSelect={handleSelect}
       />
       {isFirst && (
         <>
@@ -38,7 +46,7 @@ function Eps({ subjectId, isFirst }: { subjectId: SubjectId; isFirst: boolean })
         </>
       )}
     </View>
-  )
+  ))
 }
 
-export default ob(Eps, COMPONENT)
+export default Eps

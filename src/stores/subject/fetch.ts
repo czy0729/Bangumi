@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:33:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-27 16:47:17
+ * @Last Modified time: 2025-09-11 05:01:04
  */
 import { getTimestamp, HTMLTrim, omit, queue } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -122,16 +122,16 @@ export default class Fetch extends Computed {
         url: HTML_SUBJECT(subjectId)
       })
 
-      const STATE_KEY_SPEC = `subjectFormHTML${getInt(subjectId)}` as const
+      const STATE_KEY_FINAL = `subjectFormHTML${getInt(subjectId)}` as const
       this.setState({
-        [STATE_KEY_SPEC]: {
+        [STATE_KEY_FINAL]: {
           [ITEM_KEY]: {
             ...cheerioSubjectFromHTML(html),
             _loaded: getTimestamp()
           }
         }
       })
-      this.save(STATE_KEY_SPEC)
+      this.save(STATE_KEY_FINAL)
 
       const epStatus = cheerioSubjectEpsFromHTML(html)
       if (epStatus) {

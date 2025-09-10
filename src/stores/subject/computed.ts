@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:15:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-22 02:11:09
+ * @Last Modified time: 2025-09-11 04:59:13
  */
 import { computed } from 'mobx'
 import { x18 } from '@utils'
@@ -63,11 +63,12 @@ export default class Computed extends State implements StoreConstructor<typeof S
   /** 条目 (HTML), 合并 subjectFormHTML 0-999 */
   subjectFormHTML(subjectId: SubjectId = 0) {
     const last = getInt(subjectId)
-    const key = `subjectFormHTML${last}` as const
-    this.init(key, true)
+    const STATE_KEY = `subjectFormHTML${last}` as const
+    this.init(STATE_KEY, true)
 
-    return computed<SubjectFromHTML>(() => {
-      return this.state?.[key]?.[subjectId] || INIT_SUBJECT_FROM_HTML_ITEM
+    return computed(() => {
+      const ITEM_KEY = subjectId
+      return (this.state?.[STATE_KEY]?.[ITEM_KEY] || INIT_SUBJECT_FROM_HTML_ITEM) as SubjectFromHTML
     }).get()
   }
 

@@ -2,56 +2,47 @@
  * @Author: czy0729
  * @Date: 2023-03-01 08:26:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 01:34:00
+ * @Last Modified time: 2025-09-11 05:11:28
  */
 import React from 'react'
 import { collectionStore, useStore } from '@stores'
-import { date, getTimestamp } from '@utils'
-import { ob } from '@utils/decorators'
-import { M1, WEB } from '@constants'
+import { useObserver } from '@utils/hooks'
+import { WEB } from '@constants'
 import { Ctx } from '../../../types'
 import FlipBtn from './flip-btn'
 import { COMPONENT } from './ds'
 
 function FlipBtnWrap({ onPress }) {
-  const { $ } = useStore<Ctx>()
-  const {
-    status: collectionStatus = { name: '未收藏', type: null },
-    rating = 0,
-    private: privacy,
-    lasttouch,
-    _loaded
-  } = $.collection
+  const { $ } = useStore<Ctx>(COMPONENT)
 
-  let btnText: string
-  if (WEB) {
-    btnText = collectionStore.collect($.subjectId, $.type) || '未收藏'
-  } else {
-    btnText = _loaded ? collectionStatus.name : $.params._collection || collectionStatus.name
-  }
+  return useObserver(() => {
+    const {
+      status: collectionStatus = { name: '未收藏', type: null },
+      rating = 0,
+      private: privacy,
+      _loaded
+    } = $.collection
+    const { collectedTime = '' } = $.subjectFormHTML
 
-  let last = ''
-  if (lasttouch) {
-    if (
-      ['collect', 'on_hold', 'dropped'].includes(collectionStatus?.type) ||
-      getTimestamp() - lasttouch >= M1
-    ) {
-      last = date('Y.m.d', lasttouch)
-    }
-  }
+    const btnText = WEB
+      ? collectionStore.collect($.subjectId, $.type) || '未收藏'
+      : _loaded
+      ? collectionStatus.name
+      : $.params._collection || collectionStatus.name
 
-  return (
-    <FlipBtn
-      key={String($.state.flipKey)}
-      animate={$.state.flip}
-      btnText={btnText}
-      rating={rating}
-      privacy={privacy}
-      last={last}
-      onAnimated={$.afterFlip}
-      onPress={onPress}
-    />
-  )
+    return (
+      <FlipBtn
+        key={String($.state.flipKey)}
+        animate={$.state.flip}
+        btnText={btnText}
+        rating={rating}
+        privacy={privacy}
+        last={collectedTime}
+        onAnimated={$.afterFlip}
+        onPress={onPress}
+      />
+    )
+  })
 }
 
-export default ob(FlipBtnWrap, COMPONENT)
+export default FlipBtnWrap

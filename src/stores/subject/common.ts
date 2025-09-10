@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-22 02:11:42
+ * @Last Modified time: 2025-09-11 05:18:11
  */
 import {
   cData,
   cEach,
   cFilter,
+  cFind,
   cheerio,
   cHtml,
   cMap,
@@ -25,7 +26,7 @@ import {
   safeObject
 } from '@utils'
 import { HOST } from '@constants'
-import { Cover, Id, Override, SubjectTypeValue } from '@types'
+import { Id, Override, SubjectTypeValue } from '@types'
 import { cheerioComments } from '../rakuen/common'
 import { Likes } from '../rakuen/types'
 import {
@@ -40,8 +41,8 @@ import {
 } from './types'
 
 /** 条目信息 */
-export function cheerioSubjectFromHTML(html: string): SubjectFromHTML {
-  const $ = cheerio(htmlMatch(html, '<div id="headerSubject"', '<div id="footer">'))
+export function cheerioSubjectFromHTML(html: string) {
+  const $ = cheerio(htmlMatch(html, '<div id="headerSubject', '<div id="footer'))
   let relationsType: SubjectTypeValue
 
   const disc: SubjectFromHTML['disc'] = []
@@ -78,8 +79,8 @@ export function cheerioSubjectFromHTML(html: string): SubjectFromHTML {
 
   const crtCounts: SubjectFromHTML['crtCounts'] = {}
   cEach($('#browserItemList li'), $row => {
-    const id = cData($row.find('a.title'), 'href').replace('/character/', '')
-    const num = cText($row.find('small.primary')).replace(/\(|\)|\+/g, '') || 0
+    const id = cData(cFind($row, 'a.title'), 'href').replace('/character/', '')
+    const num = cText(cFind($row, 'small.primary')).replace(/\(|\)|\+/g, '') || 0
     if (id && num) crtCounts[id] = Number(num)
   })
 
@@ -89,8 +90,8 @@ export function cheerioSubjectFromHTML(html: string): SubjectFromHTML {
     totalEps,
     info: rawInfo,
     tags: cMap($('div.subject_tag_section div.inner a.l'), $row => ({
-      name: cText($row.find('span')),
-      count: cText($row.find('small')),
+      name: cText(cFind($row, 'span')),
+      count: cText(cFind($row, 'small')),
       meta: cData($row, 'class').includes('meta')
     })),
     relations: cMap(
@@ -99,16 +100,16 @@ export function cheerioSubjectFromHTML(html: string): SubjectFromHTML {
         .next('.content_inner')
         .find('ul.browserCoverMedium li'),
       $row => {
-        const $title = $row.find('a.title')
+        const $title = cFind($row, 'a.title')
         const id = matchSubjectId(cData($title, 'href')) as Id
-        const type = cText($row.find('span.sub')) as SubjectTypeValue
+        const type = cText(cFind($row, 'span.sub')) as SubjectTypeValue
         if (type) relationsType = type
         return {
           id,
-          image: matchCover(cData($row.find('.coverNeue'), 'style')) as Cover<'m'>,
+          image: matchCover(cData(cFind($row, '.coverNeue'), 'style')),
           title: cText($title),
           type: relationsType,
-          url: `${HOST}/subject/${id}`
+          url: `${HOST}/subject/${id}` as const
         }
       }
     ),
@@ -126,37 +127,37 @@ export function cheerioSubjectFromHTML(html: string): SubjectFromHTML {
     comic: cMap(
       cFilter($('h2.subtitle'), '单行本').next('ul.browserCoverMedium').find('li'),
       $row => {
-        const $a = $row.find('a')
+        const $a = cFind($row, 'a')
         return {
           id: matchSubjectId(cData($a, 'href')),
-          name: cData($a, 'title') || cText($row.find('a.title')),
-          image: getCoverMedium(matchCover(cData($row.find('span'), 'style')))
+          name: cData($a, 'title') || cText(cFind($row, 'a.title')),
+          image: getCoverMedium(matchCover(cData(cFind($row, 'span'), 'style')))
         }
       }
     ),
     like: cMap($('div.content_inner ul.coversSmall li'), $row => {
-      const $a = $row.find('a')
+      const $a = cFind($row, 'a')
       return {
         id: matchSubjectId(cData($a, 'href')),
-        name: cData($a, 'title') || cText($row.find('a.l')),
-        image: matchCover(cData($row.find('span'), 'style')) as Cover<'m'>
+        name: cData($a, 'title') || cText(cFind($row, 'a.l')),
+        image: matchCover(cData(cFind($row, 'span'), 'style'))
       }
     }),
     who: cMap($('#subjectPanelCollect li'), $row => {
-      const $a = $row.find('a.avatar')
+      const $a = cFind($row, '.innerWithAvatar a.avatar')
       return {
-        avatar: matchAvatar(cData($row.find('span.avatarNeue'), 'style')),
+        avatar: matchAvatar(cData(cFind($row, 'span.avatarNeue'), 'style')),
         name: cText($a),
         userId: matchUserId(cData($a, 'href')),
-        star: matchStar(cData($row.find('span.starlight'), 'class')),
-        status: cText($row.find('small.grey')).replace('小时', '时').replace('分钟', '分')
+        star: matchStar(cData(cFind($row, 'span.starlight'), 'class')),
+        status: cText(cFind($row, 'small.grey')).replace('小时', '时').replace('分钟', '分')
       }
     }),
     catalog: cMap($('#subjectPanelIndex li'), $row => {
-      const $user = $row.find('small.grey a.avatar')
-      const $catalog = $row.find('.innerWithAvatar > a.avatar')
+      const $user = cFind($row, 'small.grey a.avatar')
+      const $catalog = cFind($row, '.innerWithAvatar > a.avatar')
       return {
-        avatar: matchAvatar(cData($row.find('span.avatarNeue'), 'style')),
+        avatar: matchAvatar(cData(cFind($row, 'span.avatarNeue'), 'style')),
         name: cText($user),
         userId: cData($user, 'href').replace('/user/', ''),
         id: parseInt(cData($catalog, 'href').replace('/index/', '')),
@@ -165,13 +166,14 @@ export function cheerioSubjectFromHTML(html: string): SubjectFromHTML {
     }),
     crtCounts,
     lock: cText($('div.tipIntro div.inner h3')),
-    formhash: String(cData($('#collectBoxForm'), 'action')).split('?gh=')?.[1] || ''
-  }
+    formhash: String(cData($('#collectBoxForm'), 'action')).split('?gh=')?.[1] || '',
+    collectedTime: cText($('#panelInterestWrapper .SidePanel > p.tip'), true)
+  } as SubjectFromHTML
 }
 
 /** 章节操作时间 */
 export function cheerioSubjectEpsFromHTML(html: string) {
-  const $ = cheerio(htmlMatch(html, '<div id="headerSubject"', '<div id="footer">'))
+  const $ = cheerio(htmlMatch(html, '<div id="headerSubject', '<div id="footer'))
 
   const data: EpStatus = {}
   cEach($('.prg_popup .epBtnCu'), $row => {

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:27:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-22 02:11:16
+ * @Last Modified time: 2025-09-11 04:40:46
  */
 import { LIST_EMPTY } from '@constants'
 import { MODEL_RATING_STATUS } from '@constants/model'
 import { Actions, Loaded, Origin, RatingStatus, SubjectType } from '@types'
-import { EpStatus } from './types'
+import { EpStatus, SubjectFromHTML } from './types'
 
 /** 命名空间 */
 export const NAMESPACE = 'Subject'
@@ -350,7 +350,7 @@ for (let i = 0; i < 1000; i += 1) {
   STATE[`subject${i}`] = {}
 
   /** 条目 (HTML) */
-  STATE[`subjectFormHTML${i}`] = {}
+  STATE[`subjectFormHTML${i}`] = {} as SubjectFromHTML
 
   /** 条目 (new api) */
   STATE[`subjectV2${i}`] = {}
