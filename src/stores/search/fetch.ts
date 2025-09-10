@@ -2,78 +2,60 @@
  * @Author: czy0729
  * @Date: 2023-04-25 15:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-12 05:21:53
+ * @Last Modified time: 2025-09-10 11:49:50
  */
 import { getTimestamp } from '@utils'
 import { fetchHTML } from '@utils/fetch'
 import { search } from '@utils/kv'
 import { HTML_SEARCH } from '@constants'
-import { SearchCat } from '@types'
 import { cheerioSearch, cheerioSearchMono } from './common'
 import Computed from './computed'
 import { DEFAULT_CAT } from './init'
-import { SearchItem } from './types'
+import { FetchSearchArgs } from './types'
 
 export default class Fetch extends Computed {
   /** 搜索 */
-  fetchSearch = async (
-    args: {
-      text: string
-      cat?: SearchCat
-
-      /** legacy = 1 为精准匹配 */
-      legacy?: any
-    },
-    refresh?: boolean
-  ) => {
+  fetchSearch = async (args: FetchSearchArgs, refresh?: boolean) => {
     const { text = '', cat = DEFAULT_CAT } = args || {}
-    let { legacy = '' } = args || {}
-    if (cat === 'mono_all' || cat === 'user') legacy = ''
-
     const _text = text.replace(/ /g, '+')
-    const { list, pagination } = this.search(_text, cat)
-    const page = refresh ? 1 : pagination.page + 1
 
-    const html = await fetchHTML({
-      url: HTML_SEARCH(encodeURIComponent(_text), cat, page, legacy),
+    const STATE_KEY = 'search'
+    const ITEM_ARGS = [_text, cat] as const
+    const ITEM_KEY = ITEM_ARGS.join('|')
 
-      // 搜索不加这个会无条件返回错误
-      cookie: `; chii_searchDateLine=${legacy == 1 ? 0 : getTimestamp()};`
-    })
-    if (html.includes('秒内只能进行一次搜索')) return Promise.reject()
+    try {
+      let { legacy = '' } = args || {}
+      if (cat === 'mono_all' || cat === 'user') legacy = ''
 
-    let search: SearchItem[] = []
-    let pageTotal: number = 1
-    if (cat.includes('subject')) {
-      // 条目
-      const result = cheerioSearch(html)
-      pageTotal = result.pageTotal
-      search = result.list
-    } else if (cat.includes('mono')) {
-      // 人物
-      const result = cheerioSearchMono(html)
-      pageTotal = result.pageTotal
-      search = result.list
+      const { list, pagination } = this[STATE_KEY](...ITEM_ARGS)
+      const page = refresh ? 1 : pagination.page + 1
+      const html = await fetchHTML({
+        url: HTML_SEARCH(encodeURIComponent(_text), cat, page, legacy),
+
+        // 搜索不加这个会无条件返回错误
+        cookie: `; chii_searchDateLine=${legacy == 1 ? 0 : getTimestamp() - 100};`
+      })
+      if (html.includes('秒内只能进行一次搜索')) return Promise.reject()
+
+      const next = cat.includes('mono') ? cheerioSearchMono(html) : cheerioSearch(html)
+      this.setState({
+        [STATE_KEY]: {
+          [ITEM_KEY]: {
+            list: refresh ? next.list : [...list, ...next.list],
+            pagination: {
+              page,
+              pageTotal: next.list.length ? next.pagination.pageTotal : page
+            },
+            _loaded: getTimestamp()
+          }
+        }
+      })
+      this.save(STATE_KEY)
+    } catch (error) {
+      this.error('fetchSearch', error)
     }
 
-    const key = 'search'
-    const stateKey = `${_text}|${cat}`
-    const data = {
-      list: refresh ? search : [...list, ...search],
-      pagination: {
-        page,
-        pageTotal: Number(pageTotal)
-      },
-      _loaded: getTimestamp()
-    }
-    this.setState({
-      [key]: {
-        [stateKey]: data
-      }
-    })
-    this.save(key)
-
-    return data
+    return this[STATE_KEY](...ITEM_ARGS)
   }
 
   /** 搜索帖子 */

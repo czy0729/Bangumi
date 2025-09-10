@@ -2,29 +2,27 @@
  * @Author: czy0729
  * @Date: 2019-12-28 13:37:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-17 05:50:38
+ * @Last Modified time: 2025-09-10 10:29:30
  */
 import React, { useCallback } from 'react'
 import { Button, Heatmap } from '@components'
 import { KeyboardDismiss, Popover } from '@_'
 import { useStore } from '@stores'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import { MODEL_SEARCH_CAT, MODEL_SEARCH_LEGACY, SEARCH_LEGACY } from '@constants'
+import { MODEL_SEARCH_CAT, MODEL_SEARCH_LEGACY } from '@constants'
 import { SearchCatCn } from '@types'
 import { Ctx } from '../../types'
-import { COMPONENT, EXCLUDE_DS } from './ds'
+import { NO_LEGACY_DS } from '../ds'
+import { COMPONENT, DATA } from './ds'
 import { memoStyles } from './styles'
 
-const DATA = SEARCH_LEGACY.map(item => item.label)
-
 function Legacy({ onFocus }) {
-  r(COMPONENT)
+  const { $ } = useStore<Ctx>(COMPONENT)
 
-  const { $ } = useStore<Ctx>()
   const handleSelect = useCallback(
     (label: string) => {
       $.onLegacySelect(label)
+
       setTimeout(() => {
         onFocus()
       }, 0)
@@ -33,7 +31,7 @@ function Legacy({ onFocus }) {
   )
 
   return useObserver(() => {
-    if (EXCLUDE_DS.includes(MODEL_SEARCH_CAT.getLabel<SearchCatCn>($.state.cat))) return null
+    if (NO_LEGACY_DS.includes(MODEL_SEARCH_CAT.getLabel<SearchCatCn>($.state.cat))) return null
 
     const styles = memoStyles()
     return (
