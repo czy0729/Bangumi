@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-11 05:18:11
+ * @Last Modified time: 2025-09-11 05:51:45
  */
 import {
   cData,
@@ -483,7 +483,7 @@ export function cheerioWikiCovers(html: string): Wiki['covers'] {
 
 /** 条目 VIB 数据 */
 export function cheerioVIB(html: string) {
-  const string = htmlMatch(html, '<div id="chartVIB"', '<div id="footer">', false)
+  const string = htmlMatch(html, '<div id="chartVIB', '<div id="footer', false)
   const pattern = /var CHART_SETS = ({.*});/
   const result = string.match(pattern)
 

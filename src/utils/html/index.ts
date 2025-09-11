@@ -336,10 +336,19 @@ export function cEach($el: any, callback: ($ele: any, index?: number) => void) {
   } catch (error) {}
 }
 
-/** cheerio.find */
-export function cFind($el: any, selector: string, index: number = 0) {
+/** cheerio.find.eq */
+export function cFind($el: any, selector: string, index: number | 'last' = 0) {
   try {
-    return $el.find(selector).eq(index)
+    return index === 'last' ? $el.find(selector).last() : $el.find(selector).eq(index)
+  } catch (error) {
+    return $el
+  }
+}
+
+/** cheerio.find */
+export function cList($el: any, selector: string) {
+  try {
+    return $el.find(selector)
   } catch (error) {
     return $el
   }

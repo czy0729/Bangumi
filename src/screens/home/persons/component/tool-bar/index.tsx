@@ -7,29 +7,32 @@
 import React from 'react'
 import { ToolBar as ToolBarComp } from '@components'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
 function ToolBar() {
-  const { $ } = useStore<Ctx>()
-  if (!$.filters.length) return null
+  const { $ } = useStore<Ctx>(COMPONENT)
 
-  let text = $.state.position
-  if (!text) {
-    const item = $.filters[0]
-    text = `${item.title} (${item.value})`
-  }
+  return useObserver(() => {
+    if (!$.filters.length) return null
 
-  return (
-    <ToolBarComp>
-      <ToolBarComp.Popover
-        data={$.filters.map(item => `${item.title} (${item.value})`)}
-        text={text}
-        onSelect={$.onFilterSelect}
-      />
-    </ToolBarComp>
-  )
+    let text = $.state.position
+    if (!text) {
+      const item = $.filters[0]
+      text = `${item.title} (${item.value})`
+    }
+
+    return (
+      <ToolBarComp>
+        <ToolBarComp.Popover
+          data={$.filters.map(item => `${item.title} (${item.value})`)}
+          text={text}
+          onSelect={$.onFilterSelect}
+        />
+      </ToolBarComp>
+    )
+  })
 }
 
-export default ob(ToolBar, COMPONENT)
+export default ToolBar

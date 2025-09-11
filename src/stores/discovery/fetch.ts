@@ -4,24 +4,21 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-08 20:57:51
  */
-import { cheerio, feedback, getTimestamp, HTMLDecode } from '@utils'
+import { cheerio, feedback, getTimestamp } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
 import { get } from '@utils/kv'
 import {
   HOST,
-  HOST_ANITAMA,
   HOST_DMZJ,
-  HOST_NING_MOE,
   HTML_BLOG_LIST,
   HTML_CATALOG,
   HTML_CATALOG_DETAIL,
   HTML_CHANNEL,
   HTML_DOLLARS,
   HTML_TAGS,
-  HTML_WIKI,
-  LIST_EMPTY
+  HTML_WIKI
 } from '@constants'
-import { Id, SubjectId, SubjectType } from '@types'
+import { Id, SubjectType } from '@types'
 import {
   cheerioBlog,
   cheerioCatalog,
@@ -32,7 +29,7 @@ import {
   cheerioWiki
 } from './common'
 import Computed from './computed'
-import { DEFAULT_TYPE, INIT_ANITAMA_TIMELINE_ITEM, INIT_NINGMOE_DETAIL_ITEM } from './init'
+import { DEFAULT_TYPE, INIT_ANITAMA_TIMELINE_ITEM } from './init'
 import { getInt } from './utils'
 import { FetchBlogArgs, FetchCatalogArgs } from './types'
 
@@ -444,182 +441,5 @@ export default class Fetch extends Computed {
     }
 
     return false
-  }
-
-  /** @deprecated 随便看看 */
-  fetchRandom = async (refresh?: boolean) => {
-    const url = `${HOST_NING_MOE}/api/get_random_bangumi`
-
-    try {
-      const { list, pagination } = this.random
-      const data = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8'
-        },
-        body: JSON.stringify({
-          current_list: refresh ? '[]' : `[${list.map(item => item.id).join()}]`
-        })
-      }).then(response => response.json())
-
-      let random
-      if (data.code === 200) {
-        const nextList = data.data.map(({ classification: item }) => ({
-          id: item.id,
-          bgmId: item.bgm_id,
-          cover: item.bangumi_cover,
-          jp: HTMLDecode(item.en_name),
-          cn: HTMLDecode(item.cn_name),
-          desc: item.description,
-          eps: item.eps,
-          airDate: item.air_date
-        }))
-
-        const key = 'random'
-        random = {
-          list: refresh ? nextList : [...list, ...nextList],
-          pagination: {
-            page: pagination.page + 1,
-            pageTotal: 100
-          },
-          _loaded: getTimestamp()
-        }
-        this.setState({
-          [key]: random
-        })
-      }
-
-      return random
-    } catch (error) {
-      return LIST_EMPTY
-    }
-  }
-
-  /** @deprecated 搜索柠萌动漫信息 */
-  fetchNingMoeDetailBySearch = async ({ keyword }: { keyword: string }) => {
-    const url = `${HOST_NING_MOE}/api/search`
-
-    try {
-      const data = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8'
-        },
-        body: JSON.stringify({
-          bangumi_type: '',
-          keyword,
-          limit: 10,
-          page: 1,
-          token: null,
-          type: 'anime'
-        })
-      }).then(response => response.json())
-
-      let ningMoeDetail: any = INIT_NINGMOE_DETAIL_ITEM
-      if (data.code === 200) {
-        if (Array.isArray(data.data)) {
-          const key = 'ningMoeDetail'
-          const { id, bgm_id: bgmId } = data.data[0].classification
-          ningMoeDetail = {
-            id,
-            bgmId
-          }
-          this.setState({
-            [key]: {
-              [bgmId]: ningMoeDetail
-            }
-          })
-        }
-      }
-
-      return ningMoeDetail
-    } catch (error) {
-      return INIT_NINGMOE_DETAIL_ITEM
-    }
-  }
-
-  /** @deprecated 查询柠萌动漫信息 */
-  fetchNingMoeDetail = async ({ id, bgmId }: { id: Id; bgmId: SubjectId }) => {
-    const url = `${HOST_NING_MOE}/api/get_bangumi`
-
-    try {
-      const data = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8'
-        },
-        body: JSON.stringify({
-          bangumi_id: id
-        })
-      }).then(response => response.json())
-
-      let ningMoeDetail: any = INIT_NINGMOE_DETAIL_ITEM
-      if (data.code === 200) {
-        const key = 'ningMoeDetail'
-        ningMoeDetail = {
-          id,
-          bgmId
-        }
-        this.setState({
-          [key]: {
-            [bgmId]: ningMoeDetail
-          }
-        })
-      }
-
-      return ningMoeDetail
-    } catch (error) {
-      return INIT_NINGMOE_DETAIL_ITEM
-    }
-  }
-
-  /** @deprecated 查询真正的云盘地址 */
-  fetchNingMoeRealYunUrl = async ({ url }: { url: string }) => {
-    const _url = `${HOST_NING_MOE}/api/get_real_yun_url`
-
-    try {
-      const data = await fetch(_url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8'
-        },
-        body: JSON.stringify({
-          url
-        })
-      }).then(response => response.json())
-
-      let ningMoeRealYunUrl = ''
-      if (data.code === 200) {
-        ningMoeRealYunUrl = data.data.yun_url
-      }
-
-      return ningMoeRealYunUrl
-    } catch (error) {
-      return ''
-    }
-  }
-
-  /** @deprecated Anitama 文章列表 */
-  fetchAnitamaTimeline = async (page: number = 1) => {
-    const url = `${HOST_ANITAMA}/timeline?pageNo=${page}`
-
-    let animataTimeline: any = INIT_ANITAMA_TIMELINE_ITEM
-    try {
-      const data = await fetch(url).then(response => response.json())
-      if (data.status === 200 && data.success) {
-        const key = 'anitamaTimeline'
-        animataTimeline = {
-          list: data.data.page.list.filter(item => item.entryType === 'article'),
-          _loaded: getTimestamp()
-        }
-        this.setState({
-          [key]: {
-            [page]: animataTimeline
-          }
-        })
-      }
-    } catch (error) {}
-
-    return animataTimeline
   }
 }

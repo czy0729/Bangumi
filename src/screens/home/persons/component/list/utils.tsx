@@ -8,9 +8,10 @@ import React from 'react'
 import { ItemCharacter } from '@_'
 import { PersonsItem } from '@stores/mono/types'
 import { IMG_INFO_ONLY } from '@constants'
+import { RenderItem } from '@types'
 import { EVENT } from './ds'
 
-export function renderItem({ item, index }: { item: PersonsItem; index: number }) {
+export function renderItem({ item, index }: RenderItem<PersonsItem>) {
   return (
     <ItemCharacter
       index={index}

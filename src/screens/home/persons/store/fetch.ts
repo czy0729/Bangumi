@@ -18,9 +18,7 @@ export default class Fetch extends Computed {
   fetchPersons = async () => {
     this.fetchThirdParty()
 
-    const data = await monoStore.fetchPersons({
-      subjectId: this.subjectId
-    })
+    const data = await monoStore.fetchPersons(this.subjectId)
 
     if (
       data.list.length &&

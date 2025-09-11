@@ -4,20 +4,17 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-06-11 20:38:17
  */
-import { LIST_EMPTY } from '@constants'
+import { SubjectId } from '@types'
+import { Characters, Persons } from './types'
 
 export const NAMESPACE = 'Mono'
 
 export const STATE = {
   /** 更多角色 */
-  characters: {
-    0: LIST_EMPTY
-  },
+  characters: {} as Record<SubjectId, Characters>,
 
   /** 更多制作人员 */
-  persons: {
-    0: LIST_EMPTY
-  },
+  persons: {} as Record<SubjectId, Persons>,
 
   /** 图集数 */
   picTotal: {} as Record<string, number>

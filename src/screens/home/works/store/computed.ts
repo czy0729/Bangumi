@@ -95,4 +95,8 @@ export default class Computed extends State {
   @computed get hm() {
     return [this.url, 'Works']
   }
+
+  @computed get loading() {
+    return !this.list._loaded
+  }
 }

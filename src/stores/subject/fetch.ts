@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:33:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-11 05:01:04
+ * @Last Modified time: 2025-09-11 05:51:38
  */
 import { getTimestamp, HTMLTrim, omit, queue } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -695,14 +695,16 @@ export default class Fetch extends Computed {
       const html = await fetchHTML({
         url: HTML_SUBJECT_STATS(subjectId)
       })
-      const data = cheerioVIB(html)
+
       this.updateVIB(subjectId, {
-        ...data,
+        ...cheerioVIB(html),
         _loaded: getTimestamp()
       })
 
       return true
-    } catch (error) {}
+    } catch (error) {
+      this.error('fetchVIB', error)
+    }
 
     return false
   }

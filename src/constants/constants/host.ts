@@ -23,12 +23,6 @@ export const HOST_NETABA = 'https://netaba.re'
 /** jsDelivr */
 export const HOST_CDN = 'https://cdn.jsdelivr.net'
 
-/** @deprecated 柠萌瞬间地址 */
-export const HOST_NING_MOE = 'https://www.ningmoe.com'
-
-/** @deprecated Anitama api 地址 */
-export const HOST_ANITAMA = 'https://app.anitama.net'
-
 /** 动漫之家 */
 export const HOST_DMZJ = 'https://mnews.idmzj.com'
 
@@ -38,10 +32,10 @@ export const HOST_MANGA = 'https://tinygrail.mange.cn/app'
 /** 免费图床 */
 export const HOST_IMAGE_UPLOAD = 'https://p.sda1.dev'
 
-/** [待废弃] 登录 v1.0 oauth 地址 */
+/** @deprecated 登录 v1.0 oauth 地址 */
 export const URL_OAUTH = `${HOST}/oauth/authorize` as const
 
-/** [待废弃] 登录 v1.0 授权跳转地址 */
+/** @deprecated 登录 v1.0 授权跳转地址 */
 export const URL_OAUTH_REDIRECT = `${HOST}/dev/app` as const
 
 /** bgm项目帖子地址 */

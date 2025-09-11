@@ -4,11 +4,15 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-08-14 21:04:39
  */
-import { Cover, CoverCrt, Id, ListEmpty } from '@types'
+import { Id, ListEmpty } from '@types'
+import { LOADED } from './init'
 
+export type CacheKey = keyof typeof LOADED
+
+/** 更多角色项 */
 export type CharactersItem = {
   id: Id
-  cover: Cover<'m'>
+  cover: string
   name: string
   nameCn: string
   replies: string
@@ -16,7 +20,7 @@ export type CharactersItem = {
   info: string
   actors: {
     id: string
-    cover: CoverCrt<'s'>
+    cover: string
     name: string
     nameCn: string
   }[]
@@ -25,19 +29,20 @@ export type CharactersItem = {
 /** 更多角色 */
 export type Characters = ListEmpty<CharactersItem>
 
+/** 更多制作人员项 */
 export type PersonsItem = {
   id: `/person/${Id}`
-  cover: CoverCrt<'g'>
+  cover: string
   name: string
   nameCn: string
   replies: string
   info: string
+  positions: string[]
+  positionDetails: string[]
 
   /** @deprecated */
   position?: string
-  positions: string[]
-  positionDetails: string[]
 }
 
-/** 更多角色 */
+/** 更多制作人员 */
 export type Persons = ListEmpty<PersonsItem>

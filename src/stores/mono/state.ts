@@ -5,16 +5,17 @@
  * @Last Modified time: 2025-06-11 20:46:56
  */
 import { observable } from 'mobx'
-import { runAfter } from '@utils'
+import { runAfter, titleCase } from '@utils'
 import Store from '@utils/store'
+import { DEV, TEXT_BADGES } from '@constants'
 import { LOADED, NAMESPACE, STATE } from './init'
-
-type CacheKey = keyof typeof LOADED
+import { CacheKey } from './types'
 
 export default class State extends Store<typeof STATE> {
-  state = observable(STATE)
-
+  private _namespace = NAMESPACE
   private _loaded = LOADED
+
+  state = observable(STATE)
 
   init = async (key: CacheKey, async?: boolean) => {
     if (!key) return false
@@ -38,5 +39,10 @@ export default class State extends Store<typeof STATE> {
 
   save = (key: CacheKey) => {
     return this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  /** 开发打印 */
+  error = (...arg: any) => {
+    if (DEV) console.info(TEXT_BADGES.danger, `[${titleCase(this._namespace)}Store]`, ...arg)
   }
 }

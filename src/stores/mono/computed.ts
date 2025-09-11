@@ -15,23 +15,32 @@ import { Characters, Persons } from './types'
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   /** 更多角色 */
   characters(subjectId: SubjectId) {
-    return computed<Characters>(() => {
-      return this.state.characters[subjectId] || LIST_EMPTY
+    const STATE_KEY = 'characters'
+
+    return computed(() => {
+      const ITEM_KEY = subjectId
+      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as Characters
     }).get()
   }
 
   /** 更多制作人员 */
   persons(subjectId: SubjectId) {
-    return computed<Persons>(() => {
-      return this.state.persons[subjectId] || LIST_EMPTY
+    const STATE_KEY = 'persons'
+
+    return computed(() => {
+      const ITEM_KEY = subjectId
+      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as Persons
     }).get()
   }
 
   /** 图集数 */
   picTotal(name: string = '') {
-    this.init('picTotal', true)
+    const STATE_KEY = 'picTotal'
+    this.init(STATE_KEY, true)
+
     return computed(() => {
-      return this.state.picTotal[hash(name).slice(0, 4)]
+      const ITEM_KEY = hash(name).slice(0, 4)
+      return this.state[STATE_KEY][ITEM_KEY]
     }).get()
   }
 }

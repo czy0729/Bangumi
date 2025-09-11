@@ -20,7 +20,7 @@ const Works = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-works'>
       <StoreContext.Provider value={id}>
-        <Page loaded={$.state._loaded} loading={!$.list._loaded}>
+        <Page loaded={$.state._loaded} loading={$.loading}>
           <List />
         </Page>
         <Header />

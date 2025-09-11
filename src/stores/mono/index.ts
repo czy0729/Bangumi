@@ -1,5 +1,4 @@
 /*
- * 角色
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
@@ -7,6 +6,7 @@
  */
 import Fetch from './fetch'
 
+/** 角色 */
 const monoStore = new Fetch()
 
 export default monoStore

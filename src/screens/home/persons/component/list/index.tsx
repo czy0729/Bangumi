@@ -8,14 +8,15 @@ import React from 'react'
 import { PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
 
 function List() {
-  const { $ } = useStore<Ctx>()
-  return (
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
     <PaginationList2
       keyExtractor={keyExtractor}
       contentContainerStyle={_.container.bottom}
@@ -24,7 +25,7 @@ function List() {
       renderItem={renderItem}
       onScroll={$.onScroll}
     />
-  )
+  ))
 }
 
-export default ob(List, COMPONENT)
+export default List

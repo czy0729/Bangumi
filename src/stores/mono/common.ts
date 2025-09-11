@@ -4,37 +4,38 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-08-14 21:03:29
  */
-import { $, cData, cMap, cText } from '@utils'
+import { $, cData, cFind, cList, cMap, cText } from '@utils'
+import { CharactersItem, PersonsItem } from './types'
 
 /** 条目更多角色 */
 export function cheerioCharacters(html: string) {
   return cMap(
-    $(html, '<div id="columnInSubjectA"', '<div id="columnInSubjectB"')('div.light_odd'),
+    $(html, '<div id="columnInSubjectA', '<div id="columnInSubjectB')('div.light_odd'),
     $row => {
-      const $a = $row.find('> div.clearit > h2 > a')
-      const cover = cData($row.find('img.avatar'), 'src')
-      const position = cText($row.find('span.badge_job'))
+      const $a = cFind($row, '> div.clearit > h2 > a')
+      const cover = cData(cFind($row, 'img.avatar'), 'src')
+      const position = cText(cFind($row, 'span.badge_job'))
       return {
         id: cData($a, 'href').replace('/character/', ''),
         cover: cover !== '/img/info_only.png' ? String(cover).split('?')[0] : '',
         name: cText($a),
-        nameCn: cText($row.find('> div.clearit > h2 > span.tip')).replace('/ ', ''),
-        replies: cText($row.find('small.na')).replace(/\(|\)/g, ''),
+        nameCn: cText(cFind($row, '> div.clearit > h2 > span.tip')).replace('/ ', ''),
+        replies: cText(cFind($row, 'small.na')).replace(/\(|\)/g, ''),
         position,
-        info: cText($row.find('div.crt_info span.tip'))
+        info: cText(cFind($row, 'div.crt_info span.tip'))
           .replace(position, '')
           .replace(/\s+/g, ' ')
           .trim(),
-        actors: cMap($row.find('.actorBadge'), $a => {
-          const cover = cData($a.find('img.avatar'), 'src')
+        actors: cMap(cList($row, '.actorBadge'), $a => {
+          const cover = cData(cFind($a, 'img.avatar'), 'src')
           return {
-            id: cData($a.find('a.avatar'), 'href').replace('/person/', ''),
+            id: cData(cFind($a, 'a.avatar'), 'href').replace('/person/', ''),
             cover: cover !== '/img/info_only.png' ? String(cover).split('?')?.[0] : '',
-            name: cText($a.find('small.grey')),
-            nameCn: cText($a.find('a.l'))
+            name: cText(cFind($a, 'small.grey')),
+            nameCn: cText(cFind($a, 'a.l'))
           }
         })
-      }
+      } as CharactersItem
     }
   )
 }
@@ -42,20 +43,20 @@ export function cheerioCharacters(html: string) {
 /** 条目更多制作人员 */
 export function cheerioPersons(html: string) {
   return cMap(
-    $(html, '<div id="columnInSubjectA"', '<div id="columnInSubjectB"')('div.light_odd'),
+    $(html, '<div id="columnInSubjectA', '<div id="columnInSubjectB')('div.light_odd'),
     $row => {
-      const $a = $row.find('h2 > a')
-      const cover = cData($row.find('img.avatar'), 'src')
+      const $a = cFind($row, 'h2 > a')
+      const cover = cData(cFind($row, 'img.avatar'), 'src')
       return {
         id: cData($a, 'href').replace('/character/', ''),
         name: cText($a, true),
-        nameCn: cText($a.find('.tip')),
+        nameCn: cText(cFind($a, '.tip')),
         cover: cover !== '/img/info_only.png' ? cover.split('?')?.[0] : '',
-        replies: cText($row.find('small.orange')),
-        info: cText($row.find('div.prsn_info').last()),
-        positions: cMap($row.find('span.badge_job'), $span => cText($span)),
-        positionDetails: cMap($row.find('span.badge_job + span.tip'), $span => cText($span))
-      }
+        replies: cText(cFind($row, 'small.orange')),
+        info: cText(cFind($row, 'div.prsn_info', 'last')),
+        positions: cMap(cList($row, 'span.badge_job'), $span => cText($span)),
+        positionDetails: cMap(cList($row, 'span.badge_job + span.tip'), $span => cText($span))
+      } as PersonsItem
     }
   )
 }

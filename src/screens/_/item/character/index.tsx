@@ -83,6 +83,7 @@ export const ItemCharacter = ob(
           </InView>
           <Flex.Item style={_.ml.wind}>
             <Content
+              type={type}
               cn={cn}
               jp={jp}
               replies={replies}

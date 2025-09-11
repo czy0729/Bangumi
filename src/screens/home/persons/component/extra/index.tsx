@@ -7,11 +7,14 @@
 import React from 'react'
 import { Heatmap } from '@components'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 
 function Extra() {
-  return <Heatmap bottom={_.bottom} id='制作人员' screen='Persons' />
+  r(COMPONENT)
+
+  return useObserver(() => <Heatmap bottom={_.bottom} id='制作人员' screen='Persons' />)
 }
 
-export default ob(Extra, COMPONENT)
+export default Extra

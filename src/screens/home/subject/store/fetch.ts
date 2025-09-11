@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-15 05:34:02
+ * @Last Modified time: 2025-09-11 05:50:56
  */
 import {
   collectionStore,
@@ -278,9 +278,7 @@ export default class Fetch extends Computed {
 
   /** staff 数据 */
   fetchPersons = () => {
-    return monoStore.fetchPersons({
-      subjectId: this.subjectId
-    })
+    return monoStore.fetchPersons(this.subjectId)
   }
 
   /** 获取章节的缩略图 */
@@ -672,8 +670,8 @@ export default class Fetch extends Computed {
       return false
     }
 
+    const snapshotId = `vib_${this.subjectId}`
     try {
-      const snapshotId = `vib_${this.subjectId}`
       const snapshot = await get(snapshotId)
       if (snapshot?._loaded && getTimestamp() - Number(snapshot?._loaded) <= D1) {
         subjectStore.updateVIB(this.subjectId, snapshot)
@@ -684,7 +682,9 @@ export default class Fetch extends Computed {
         }
         return true
       }
+    } catch (error) {}
 
+    try {
       await subjectStore.fetchVIB(this.subjectId)
       if (WEB) return true
 
@@ -693,7 +693,6 @@ export default class Fetch extends Computed {
         await subjectStore.fetchAniDB(this.subjectId, this.jp || this.cn)
       }
       if (this.vib._loaded) update(snapshotId, this.vib)
-
       return true
     } catch (error) {}
 

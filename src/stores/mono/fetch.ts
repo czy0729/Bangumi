@@ -44,27 +44,32 @@ export default class Fetch extends Computed {
   }
 
   /** 更多制作人员 */
-  fetchPersons = async (args: { subjectId: SubjectId }) => {
-    const { subjectId } = args || {}
-    const html = await fetchHTML({
-      url: HTML_SUBJECT_PERSONS(subjectId)
-    })
+  fetchPersons = async (subjectId: SubjectId) => {
+    const STATE_KEY = 'persons'
+    const ITEM_KEY = subjectId
 
-    const list = cheerioPersons(html)
-    const key = 'persons'
-    this.setState({
-      [key]: {
-        [subjectId]: {
-          list,
-          pagination: {
-            page: 1,
-            pageTotal: 1
-          },
-          _loaded: getTimestamp()
+    try {
+      const html = await fetchHTML({
+        url: HTML_SUBJECT_PERSONS(subjectId)
+      })
+
+      this.setState({
+        [STATE_KEY]: {
+          [ITEM_KEY]: {
+            list: cheerioPersons(html),
+            pagination: {
+              page: 1,
+              pageTotal: 1
+            },
+            _loaded: getTimestamp()
+          }
         }
-      }
-    })
-    return this[key](subjectId)
+      })
+    } catch (error) {
+      this.error('fetchPersons', error)
+    }
+
+    return this[STATE_KEY](ITEM_KEY)
   }
 
   /** 画集数 */
