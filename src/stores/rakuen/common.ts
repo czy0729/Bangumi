@@ -29,6 +29,7 @@ import { INIT_BLOG, INIT_COMMENTS_ITEM, INIT_TOPIC, STATE } from './init'
 import { getBlogItemTime, getBlogTime } from './utils'
 import {
   BlockedUsersItem,
+  BoardItem,
   CommentsItem,
   CommentsItemWithSub,
   Likes,
@@ -450,25 +451,19 @@ export function cheerioMine(html: string) {
 
 /** 条目讨论版 */
 export function cheerioBoard(html: string) {
-  return (
-    cheerio(htmlMatch(html, '<div id="columnInSubjectA"', '<div id="columnInSubjectB"'))(
-      '.topic_list tr'
-    )
-      .map((_index: number, element: any) => {
-        const $tr = cheerio(element)
-        const $title = $tr.find('.subject > a')
-        const $user = $tr.find('td').eq(1).find('a')
-        return {
-          href: $title.attr('href'),
-          title: $title.attr('title'),
-          userId: $user.attr('href').replace('/user/', ''),
-          userName: HTMLDecode($user.text().trim()),
-          replies: $tr.find('td').eq(2).text().trim(),
-          time: $tr.find('td').eq(3).text().trim()
-        }
-      })
-      .get() || []
-  )
+  const $ = cheerio(htmlMatch(html, '<div id="columnInSubjectA', '<div id="columnInSubjectB'))
+  return cMap($('.topic_list tr'), $row => {
+    const $title = cFind($row, '.subject > a')
+    const $user = cFind(cFind($row, 'td', 1), 'a')
+    return {
+      href: cData($title, 'href'),
+      title: cData($title, 'title'),
+      userId: cData($user, 'href').replace('/user/', ''),
+      userName: HTMLDecode(cText($user)),
+      replies: cText(cFind($row, 'td', 2)),
+      time: cText(cFind($row, 'td', 3))
+    } as BoardItem
+  })
 }
 
 /** 条目影评 */

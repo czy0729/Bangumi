@@ -13,7 +13,7 @@ import {
   MODEL_RAKUEN_TYPE
 } from '@constants'
 import { Avatar, Loaded, RakuenScope, RakuenType, SubjectId, UserId } from '@types'
-import { BlockedUsersItem, BookmarksItem, PrivacyValue, Reviews } from './types'
+import { BlockedUsersItem, Board, BookmarksItem, PrivacyValue, Reviews } from './types'
 
 export const NAMESPACE = 'Rakuen'
 
@@ -283,10 +283,8 @@ const STATE = {
     0: LIST_EMPTY
   },
 
-  /** 条目帖子列表 */
-  board: {
-    0: LIST_EMPTY
-  },
+  /** 条目帖子 */
+  board: {} as Record<SubjectId, Board>,
 
   /** 条目讨论版 */
   reviews: {} as Record<SubjectId, Reviews>,

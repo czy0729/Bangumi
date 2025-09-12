@@ -187,9 +187,7 @@ export default class ScreenSubject extends Action {
           // 需要从单独的对应子页面里面获取一页信息
           if ((data as ApiSubjectResponse)?.v0) {
             this.log('rakuenStore.fetchBoard')
-            return rakuenStore.fetchBoard({
-              subjectId: this.subjectId
-            })
+            return rakuenStore.fetchBoard(this.subjectId)
           }
         },
         () => {

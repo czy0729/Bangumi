@@ -331,25 +331,29 @@ export default class Fetch extends Computed {
     return data
   }
 
-  /** 条目帖子列表 */
-  fetchBoard = async (args: { subjectId: SubjectId }) => {
-    const { subjectId } = args || {}
-    const key = 'board'
-    const html = await fetchHTML({
-      url: HTML_BOARD(subjectId)
-    })
+  /** 条目帖子 */
+  fetchBoard = async (subjectId: SubjectId) => {
+    const STATE_KEY = 'board'
+    const ITEM_KEY = subjectId
 
-    const data = cheerioBoard(html)
-    this.setState({
-      [key]: {
-        [subjectId]: {
-          list: data || [],
-          _loaded: getTimestamp()
+    try {
+      const html = await fetchHTML({
+        url: HTML_BOARD(subjectId)
+      })
+
+      this.setState({
+        [STATE_KEY]: {
+          [ITEM_KEY]: {
+            list: cheerioBoard(html),
+            _loaded: getTimestamp()
+          }
         }
-      }
-    })
+      })
+    } catch (error) {
+      this.error('fetchBoard', error)
+    }
 
-    return this.board(subjectId)
+    return this[STATE_KEY](ITEM_KEY)
   }
 
   /** 条目影评列表 (日志) */

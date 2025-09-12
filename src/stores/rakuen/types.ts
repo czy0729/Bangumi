@@ -239,15 +239,18 @@ export type UserTopicsFormCDN = ListEmpty<
   }>
 >
 
-/** 条目帖子列表 */
-export type Board = ListEmpty<{
+/** 条目帖子项 */
+export type BoardItem = {
   href: `/subject/topic/${Id}`
   title: string
   userId: UserId
   userName: string
   replies: string
   time: string
-}>
+}
+
+/** 条目帖子 */
+export type Board = ListEmpty<BoardItem>
 
 /** 条目讨论版项 */
 export type ReviewsItem = {

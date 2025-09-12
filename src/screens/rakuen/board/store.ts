@@ -39,9 +39,7 @@ export default class ScreenBoard extends store<typeof STATE> {
   fetchBoard = async () => {
     this.fetchThirdParty()
 
-    const data = await rakuenStore.fetchBoard({
-      subjectId: this.subjectId
-    })
+    const data = await rakuenStore.fetchBoard(this.subjectId)
 
     if (
       data.list.length &&

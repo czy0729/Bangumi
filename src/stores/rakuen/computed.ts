@@ -181,10 +181,13 @@ export default class Computed extends State implements StoreConstructor<typeof S
     }).get()
   }
 
-  /** 条目帖子列表 */
+  /** 条目帖子 */
   board(subjectId: SubjectId) {
+    const STATE_KEY = 'board'
+
     return computed<Board>(() => {
-      return this.state.board[subjectId] || LIST_EMPTY
+      const ITEM_KEY = subjectId
+      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as Board
     }).get()
   }
 
