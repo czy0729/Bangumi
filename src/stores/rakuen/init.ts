@@ -12,8 +12,8 @@ import {
   MODEL_RAKUEN_SCROLL_DIRECTION,
   MODEL_RAKUEN_TYPE
 } from '@constants'
-import { Avatar, Loaded, RakuenScope, RakuenType, UserId } from '@types'
-import { BlockedUsersItem, BookmarksItem, PrivacyValue } from './types'
+import { Avatar, Loaded, RakuenScope, RakuenType, SubjectId, UserId } from '@types'
+import { BlockedUsersItem, BookmarksItem, PrivacyValue, Reviews } from './types'
 
 export const NAMESPACE = 'Rakuen'
 
@@ -289,9 +289,7 @@ const STATE = {
   },
 
   /** 条目讨论版 */
-  reviews: {
-    0: LIST_EMPTY
-  },
+  reviews: {} as Record<SubjectId, Reviews>,
 
   /** 超展开热门 */
   hot: LIST_EMPTY,

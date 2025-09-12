@@ -10,7 +10,7 @@ import { NavigationProps } from '@types'
 import store from './store'
 import { Ctx } from './types'
 
-/** 影评页面逻辑 */
+/** 影评 (同条目中的评论) 页面逻辑 */
 export function useReviewsPage(props: NavigationProps) {
   const context = useInitStore<Ctx['$']>(props, store)
   const { id, $ } = context

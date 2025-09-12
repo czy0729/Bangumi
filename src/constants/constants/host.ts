@@ -8,6 +8,9 @@
 /** 域 */
 export const HOST_NAME = 'bgm.tv'
 
+/** 静态资源域 */
+export const HOST_BGM_STATIC = 'lain.bgm.tv'
+
 /** 域名 */
 export const HOST = `https://${HOST_NAME}` as const
 

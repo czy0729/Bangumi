@@ -19,7 +19,7 @@ import {
 } from '@utils'
 import { Avatar, Cover, SubjectTypeCn } from '@types'
 import { getBlogItemTime } from './utils'
-import { CatalogDetail, CatalogsItem } from './types'
+import { BlogItem, CatalogDetail, CatalogsItem } from './types'
 
 /** 标签 */
 export function cheerioTags(html: string) {
@@ -192,7 +192,7 @@ export function cheerioBlog(html: string) {
       subject,
       replies,
       tags: ''
-    }
+    } as BlogItem
   })
 }
 

@@ -37,7 +37,7 @@ function FlipBtnWrap({ onPress }) {
         btnText={btnText}
         rating={rating}
         privacy={privacy}
-        last={collectedTime}
+        last={String(collectedTime || '').split(' ')[0]}
         onAnimated={$.afterFlip}
         onPress={onPress}
       />

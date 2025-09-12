@@ -13,17 +13,17 @@ import List from './component/list'
 import Header from './header'
 import { useReviewsPage } from './hooks'
 
-/** 影评 */
+/** 影评 (同条目中的评论) */
 const Reviews = (props: NavigationProps) => {
   const { id, $ } = useReviewsPage(props)
 
   return useObserver(() => (
     <Component id='screen-reviews'>
       <StoreContext.Provider value={id}>
-        <Header />
         <Page loaded={$.reviews._loaded}>
           <List />
         </Page>
+        <Header />
       </StoreContext.Provider>
     </Component>
   ))

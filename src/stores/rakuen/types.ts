@@ -249,19 +249,20 @@ export type Board = ListEmpty<{
   time: string
 }>
 
+/** 条目讨论版项 */
+export type ReviewsItem = {
+  id: Id
+  title: string
+  avatar: string
+  userId: UserId
+  userName: string
+  replies: string
+  time: string
+  content: string
+}
+
 /** 条目讨论版 */
-export type Reviews = ListEmpty<
-  DeepPartial<{
-    id: Id
-    title: string
-    avatar: Avatar<'l'>
-    userId: UserId
-    userName: string
-    replies: string
-    time: string
-    content: string
-  }>
->
+export type Reviews = ListEmpty<ReviewsItem>
 
 /** 用户书签 */
 export type BookmarksItem = {

@@ -354,28 +354,35 @@ export default class Fetch extends Computed {
 
   /** 条目影评列表 (日志) */
   fetchReviews = async (subjectId: SubjectId, refresh: boolean = false) => {
-    const { pagination, list } = this.reviews(subjectId)
-    const page = refresh ? 1 : pagination.page + 1
-    const html = await fetchHTML({
-      url: HTML_REVIEWS(subjectId, page)
-    })
+    const STATE_KEY = 'reviews'
+    const ITEM_KEY = subjectId
+    const LIMIT = 10
 
-    const data = cheerioReviews(html)
-    const key = 'reviews'
-    this.setState({
-      [key]: {
-        [subjectId]: {
-          list: refresh ? data : [...list, ...data],
-          pagination: {
-            page,
-            pageTotal: data.length >= 10 ? 100 : page
-          },
-          _loaded: getTimestamp()
+    try {
+      const { pagination, list } = this[STATE_KEY](ITEM_KEY)
+      const page = refresh ? 1 : pagination.page + 1
+      const html = await fetchHTML({
+        url: HTML_REVIEWS(subjectId, page)
+      })
+
+      const next = cheerioReviews(html)
+      this.setState({
+        [STATE_KEY]: {
+          [ITEM_KEY]: {
+            list: refresh ? next : [...list, ...next],
+            pagination: {
+              page,
+              pageTotal: next.length >= LIMIT ? 100 : page
+            },
+            _loaded: getTimestamp()
+          }
         }
-      }
-    })
+      })
+    } catch (error) {
+      this.error('fetchReviews', error)
+    }
 
-    return this.reviews(subjectId)
+    return this[STATE_KEY](subjectId)
   }
 
   /** 我的小组 */

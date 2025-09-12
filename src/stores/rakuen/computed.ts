@@ -190,8 +190,11 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 条目讨论版 */
   reviews(subjectId: SubjectId) {
-    return computed<Reviews>(() => {
-      return this.state.reviews[subjectId] || LIST_EMPTY
+    const STATE_KEY = 'reviews'
+
+    return computed(() => {
+      const ITEM_KEY = subjectId
+      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as Reviews
     }).get()
   }
 

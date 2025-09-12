@@ -8,14 +8,15 @@ import React from 'react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { open } from '@utils'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { TEXT_MENU_BROWSER } from '@constants'
 import { Ctx } from '../types'
 import { COMPONENT, DATA } from './ds'
 
 function Header() {
-  const { $ } = useStore<Ctx>()
-  return (
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
     <HeaderV2
       title={$.params?.name ? `${$.params.name}的影评` : '影评'}
       alias='影评'
@@ -31,7 +32,7 @@ function Header() {
         />
       )}
     />
-  )
+  ))
 }
 
-export default ob(Header, COMPONENT)
+export default Header

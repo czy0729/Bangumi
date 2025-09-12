@@ -26,13 +26,14 @@ import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HTML_RAKUEN } from '@constants'
 import { RakuenScope, RakuenType, RakuenTypeGroup, RakuenTypeMono } from '@types'
 import { INIT_BLOG, INIT_COMMENTS_ITEM, INIT_TOPIC, STATE } from './init'
-import { getBlogTime } from './utils'
+import { getBlogItemTime, getBlogTime } from './utils'
 import {
   BlockedUsersItem,
   CommentsItem,
   CommentsItemWithSub,
   Likes,
   NotifyItem,
+  ReviewsItem,
   Topic
 } from './types'
 
@@ -472,27 +473,25 @@ export function cheerioBoard(html: string) {
 
 /** 条目影评 */
 export function cheerioReviews(html: string) {
-  return (
-    cheerio(htmlMatch(html, '<div id="columnInSubjectA"', '<div id="columnInSubjectB"'))(
-      '#entry_list .item'
-    )
-      .map((_index: number, element: any) => {
-        const $tr = cheerio(element)
-        const $title = $tr.find('.title > a')
-        const $user = $tr.find('.tip_j a')
-        return {
-          id: $title.attr('href').replace('/blog/', ''),
-          title: $title.text().trim(),
-          avatar: $tr.find('img').attr('src').split('?')[0],
-          userId: $user.attr('href').replace('/user/', ''),
-          userName: HTMLDecode($user.text().trim()),
-          replies: $tr.find('.orange').text().trim().replace(/\(|\)/g, ''),
-          time: $tr.find('small.time').text().trim(),
-          content: $tr.find('.content').text().trim()
-        }
-      })
-      .get() || []
-  )
+  const $ = cheerio(htmlMatch(html, '<div id="columnInSubjectA', '<div id="columnInSubjectB'))
+  return cMap($('#entry_list .item'), $row => {
+    const $a = cFind($row, 'h2.title a')
+    const $user = cFind($row, '.time a.l')
+
+    let replies = cText(cFind($row, '.time a.l', 1))
+    if (replies === '0 回复') replies = ''
+
+    return {
+      id: cData($a, 'href').replace('/blog/', ''),
+      title: cText($a),
+      avatar: cData(cFind($row, 'a.avatar img'), 'src'),
+      userId: cData($user, 'href').replace('/user/', ''),
+      userName: cText($user),
+      replies,
+      time: getBlogItemTime(cText(cFind($row, '.time'), true)),
+      content: cText(cFind($row, '.content')).replace(/\r\n/g, ' ')
+    } as ReviewsItem
+  })
 }
 
 /** 超展开热门 */
