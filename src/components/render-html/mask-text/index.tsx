@@ -2,47 +2,41 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:03:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-16 07:43:17
+ * @Last Modified time: 2025-09-12 22:32:59
  */
-import React from 'react'
-import { observer } from 'mobx-react'
-import { ReactNode, TextStyle } from '@types'
+import React, { useCallback, useState } from 'react'
+import { useObserver } from 'mobx-react'
+import { _ } from '@stores'
+import { stl } from '@utils'
 import { Text } from '../../text'
 import { memoStyles } from './styles'
+import { Props } from './types'
 
-class MaskText extends React.Component<{
-  style?: TextStyle
-  children?: ReactNode
-}> {
-  state = {
-    show: false
-  }
+function MaskText({ style, children }: Props) {
+  const [show, setShow] = useState(false)
+  const handlePress = useCallback(() => {
+    setShow(prev => !prev)
+  }, [])
 
-  toggle = () => {
-    const { show } = this.state
-    this.setState({
-      show: !show
-    })
-  }
-
-  render() {
-    const { style, children } = this.props
-    const { show } = this.state
-    const _style = style
-      ? [style, show ? this.styles.blockTextShow : this.styles.blockText]
-      : show
-      ? this.styles.blockTextShow
-      : this.styles.blockText
+  return useObserver(() => {
+    const styles = memoStyles()
+    const flattenStyle = _.flatten(style)
     return (
-      <Text style={_style} onPress={this.toggle}>
+      <Text
+        style={stl(
+          flattenStyle,
+          show ? styles.blockTextShow : styles.blockText,
+          flattenStyle?.fontSize &&
+            !flattenStyle?.lineHeight && {
+              lineHeight: Math.floor(flattenStyle.fontSize * 1.5)
+            }
+        )}
+        onPress={handlePress}
+      >
         {children}
       </Text>
     )
-  }
-
-  get styles() {
-    return memoStyles()
-  }
+  })
 }
 
-export default observer(MaskText)
+export default MaskText
