@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-25 03:23:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 18:11:06
+ * @Last Modified time: 2025-09-13 11:37:03
  */
 import React, { Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { Animated } from 'react-native'
@@ -27,6 +27,7 @@ export { ActionSheetProps }
 
 /** 动作面板 */
 export const ActionSheet = ({
+  forwardRef,
   show = false,
   height = 440,
   title = '',
@@ -135,7 +136,12 @@ export const ActionSheet = ({
               }
             ]}
           >
-            <Scroll height={calcHeight} scrollEnabled={scrollEnabled} onScroll={onScroll}>
+            <Scroll
+              forwardRef={forwardRef}
+              height={calcHeight}
+              scrollEnabled={scrollEnabled}
+              onScroll={onScroll}
+            >
               {elContent}
             </Scroll>
             <Btn onClose={onClose} />

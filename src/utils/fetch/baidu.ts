@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:57:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-16 16:55:06
+ * @Last Modified time: 2025-09-13 11:18:33
  */
 import { WEB } from '@constants/device'
+import { TEXT_BADGES } from '@constants/text'
 import { syncSystemStore } from '../async'
 import Crypto from '../crypto'
 import { get, update } from '../kv'
@@ -34,30 +35,30 @@ const CACHE_CHECK_LENGTH = 12
 /** 百度翻译 */
 export async function baiduTranslate(query: string, to = 'zh') {
   try {
-    const q = query.split('\r\n').join('\n')
+    const q = query.replace(/\r\n/g, '\n')
+    const cacheKey = `fanyi_${hash(q)}`
 
-    // 云缓存, 因每个月免费翻译额度有限, 避免过多调用
-    let cache: { [x: string]: any }
-    const k = `fanyi_${hash(q)}`
-
-    // 因片假名终结者也使用本函数, 所以对长度短的翻译不进行缓存
-    if (q.length >= CACHE_CHECK_LENGTH) cache = await get(k)
-
-    if (cache) {
-      const response = []
-      Object.keys(cache)
-        .sort((a, b) => asc(a, b))
-        .forEach(index => {
-          if (cache[index]?.dst && cache[index]?.src) response.push(cache[index])
-        })
-      if (response.length) {
-        return JSON.stringify({
-          trans_result: response
-        })
+    // 云缓存 (避免额度浪费)，短文本不缓存
+    let cache: Record<string, any> | undefined
+    if (q.length >= CACHE_CHECK_LENGTH) {
+      try {
+        cache = await get(cacheKey)
+      } catch (error) {
+        console.info(TEXT_BADGES.warning, '[@utils/baiduTranslate/kv]', error)
       }
     }
 
-    // 网页版暂时不允许直接调用百度翻译
+    if (cache) {
+      const response = Object.keys(cache)
+        .sort(asc)
+        .map(key => cache[key])
+        .filter(item => item?.src && item?.dst)
+
+      if (response.length) {
+        return JSON.stringify({ trans_result: response })
+      }
+    }
+
     if (WEB) {
       console.info('[@utils/baidu]', 'baiduTranslate denied')
       return ''
@@ -71,15 +72,15 @@ export async function baiduTranslate(query: string, to = 'zh') {
       appkey = baiduKey
     }
 
-    const salt = new Date().getTime()
-    const from = 'auto'
+    const salt = Date.now()
     const sign = md5(`${appid}${q}${salt}${appkey}`)
+
     const { _response } = await xhrCustom({
       url: `https://api.fanyi.baidu.com/api/trans/vip/translate?${urlStringify({
         q,
         appid,
         salt,
-        from,
+        from: 'auto',
         to,
         sign
       })}`
@@ -87,13 +88,12 @@ export async function baiduTranslate(query: string, to = 'zh') {
 
     const { trans_result } = JSON.parse(_response)
     if (Array.isArray(trans_result)) {
-      setTimeout(() => {
-        update(k, trans_result)
-      }, 0)
+      setTimeout(() => update(cacheKey, trans_result), 0)
     }
 
     return _response
   } catch (error) {
+    console.info(TEXT_BADGES.danger, '[@utils/baiduTranslate]', error)
     return ''
   }
 }

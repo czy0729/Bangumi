@@ -2,13 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-10-19 13:15:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 16:39:00
+ * @Last Modified time: 2025-09-13 11:36:46
  */
 import { PropsWithChildren } from 'react'
-import { ScrollViewProps } from 'react-native'
 import { ReactNode } from '@types'
+import { ScrollViewProps } from '../scroll-view'
 
 export type Props = PropsWithChildren<{
+  /** 连接组件内部 ScrollView.scrollTo */
+  forwardRef?: ScrollViewProps['forwardRef']
+
   /** 是否显示 */
   show?: boolean
 
@@ -33,5 +36,6 @@ export type Props = PropsWithChildren<{
   /** 关闭回调函数 */
   onClose?: () => any
 
+  /** ScrollView.onScroll */
   onScroll?: ScrollViewProps['onScroll']
 }>

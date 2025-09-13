@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-11 11:49:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 13:20:29
+ * @Last Modified time: 2025-09-13 11:50:25
  */
 import { useEffect } from 'react'
 import { FROZEN_FN } from '@constants/init'
@@ -14,7 +14,9 @@ import { FROZEN_FN } from '@constants/init'
  */
 export default function useMount(fn: () => void = FROZEN_FN) {
   useEffect(() => {
-    fn()
+    const result = fn()
+    if (typeof result === 'function') return result
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 }

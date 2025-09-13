@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-23 05:21:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-04 01:13:08
+ * @Last Modified time: 2025-09-13 11:53:21
  */
 import React, { useCallback, useRef } from 'react'
 import { View } from 'react-native'
@@ -16,7 +16,7 @@ import { TEXTS } from '../ds'
 import { useAsyncSetSetting } from '../../../hooks'
 
 /** 翻译引擎 */
-function TranslateEngine({ filter }) {
+function TranslateEngine({ filter, onScrollIntoViewIfNeeded }) {
   const { value, handleSet } = useAsyncSetSetting('translateEngine')
 
   const appId = useRef(String(systemStore.setting.baiduAppId || ''))
@@ -83,6 +83,7 @@ function TranslateEngine({ filter }) {
               defaultValue={appId.current}
               placeholder='APP ID'
               showClear
+              onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
               onChangeText={handleChangeAppId}
             />
             <Input
@@ -90,6 +91,7 @@ function TranslateEngine({ filter }) {
               defaultValue={appKey.current}
               placeholder='密钥'
               showClear
+              onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
               onChangeText={handleChangeKey}
             />
           </View>

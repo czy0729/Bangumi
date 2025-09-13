@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-11-04 17:47:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 18:11:42
+ * @Last Modified time: 2025-09-13 11:35:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import { BTN_HEIGHT } from '../ds'
 import { ScrollView } from '../../scroll-view'
 import { memoStyles } from './styles'
 
-export const Scroll = ({ height, scrollEnabled = true, onScroll, children }) => {
+export const Scroll = ({ forwardRef, height, scrollEnabled = true, onScroll, children }) => {
   const { bottom } = useSafeAreaInsets()
 
   return useObserver(() => {
@@ -21,6 +21,7 @@ export const Scroll = ({ height, scrollEnabled = true, onScroll, children }) => 
     if (scrollEnabled) {
       return (
         <ScrollView
+          forwardRef={forwardRef}
           style={[
             styles.scroll,
             {
