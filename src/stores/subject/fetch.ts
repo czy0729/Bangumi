@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:33:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-11 05:51:38
+ * @Last Modified time: 2025-09-14 19:56:14
  */
 import { getTimestamp, HTMLTrim, omit, queue } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -444,39 +444,41 @@ export default class Fetch extends Computed {
   }
 
   /** 人物信息和吐槽箱 */
-  fetchMono = async (args: { monoId: MonoId }) => {
-    const { monoId } = args || {}
-    const html = await fetchHTML({
-      url: HTML_MONO(monoId)
-    })
-    const data = cheerioMono(html)
-    const { mono, monoComments } = data
+  fetchMono = async (monoId: MonoId) => {
+    const STATE_KEY = 'mono'
+    const STATE_KEY_2 = 'monoComments'
+    const ITEM_KEY = monoId
 
-    const monoKey = 'mono'
-    const commentsKey = 'monoComments'
-    const stateKey = monoId
-    const _loaded = getTimestamp()
-    this.setState({
-      [monoKey]: {
-        [stateKey]: {
-          ...mono,
-          _loaded
-        }
-      },
-      [commentsKey]: {
-        [stateKey]: {
-          list: monoComments,
-          pagination: {
-            page: 1,
-            pageTotal: 1
-          },
-          _loaded
-        }
-      }
-    })
-    this.save(monoKey)
+    try {
+      const html = await fetchHTML({
+        url: HTML_MONO(monoId)
+      })
 
-    return data
+      const next = cheerioMono(html)
+      this.setState({
+        [STATE_KEY]: {
+          [ITEM_KEY]: {
+            ...next.mono,
+            _loaded: getTimestamp()
+          }
+        },
+        [STATE_KEY_2]: {
+          [ITEM_KEY]: {
+            list: next.comments,
+            pagination: {
+              page: 1,
+              pageTotal: 1
+            },
+            _loaded: getTimestamp()
+          }
+        }
+      })
+      this.save(STATE_KEY)
+    } catch (error) {
+      this.error('fetchMono', error)
+    }
+
+    return this[STATE_KEY](ITEM_KEY)
   }
 
   /** CDN获取人物信息 */

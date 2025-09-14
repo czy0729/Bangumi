@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-26 16:05:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-13 09:19:09
+ * @Last Modified time: 2025-09-14 19:27:06
  */
 import dayjs from 'dayjs'
 import { rakuenStore, subjectStore, usersStore } from '@stores'
@@ -96,9 +96,7 @@ export default class Fetch extends Computed {
 
   /** 获取角色内容和留言 */
   fetchMono = () => {
-    return subjectStore.fetchMono({
-      monoId: this.monoId
-    })
+    return subjectStore.fetchMono(this.monoId)
   }
 
   /** 获取用户信息 */

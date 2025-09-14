@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-21 18:32:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-26 20:11:18
+ * @Last Modified time: 2025-09-14 19:27:16
  */
 import { monoStore, subjectStore, systemStore, tinygrailStore } from '@stores'
 import { getTimestamp, omit } from '@utils'
@@ -12,9 +12,7 @@ import Computed from './computed'
 export default class Fetch extends Computed {
   /** 人物信息和吐槽箱  */
   fetchMono = async () => {
-    const result = await subjectStore.fetchMono({
-      monoId: this.monoId
-    })
+    const result = await subjectStore.fetchMono(this.monoId)
     this.fetchPicTotal()
     return result
   }

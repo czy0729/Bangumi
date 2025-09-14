@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-18 13:09:54
+ * @Last Modified time: 2025-09-14 18:46:35
  */
 import React from 'react'
 import { Component } from '@components'
@@ -28,8 +28,8 @@ const Home = (props: NavigationProps) => {
         <Page>
           {$.isLogin ? (
             <>
-              <Header />
               <Tab keys={$.tabs.map(item => item.key)} />
+              <Header />
               <Tips />
               <Modal />
             </>

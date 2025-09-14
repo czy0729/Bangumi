@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-19 08:23:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-19 16:56:02
+ * @Last Modified time: 2025-09-14 19:27:49
  */
 import { monoStore, subjectStore, tinygrailStore } from '@stores'
 import { getTimestamp, toFixed } from '@utils'
@@ -187,8 +187,6 @@ export default class Fetch extends Computed {
     if ((this.chara.subjectName && this.chara.subjectId) || this.mono._loaded) return true
 
     this.log('15 人物信息')
-    return subjectStore.fetchMono({
-      monoId: `character/${this.chara?.monoId}`
-    })
+    return subjectStore.fetchMono(`character/${this.chara?.monoId}`)
   }
 }

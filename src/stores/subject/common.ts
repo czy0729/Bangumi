@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-11 05:51:45
+ * @Last Modified time: 2025-09-14 19:59:04
  */
+import { cheerioComments } from '@stores/rakuen/common'
 import {
   cData,
   cEach,
   cFilter,
   cFind,
+  cHas,
   cheerio,
   cHtml,
   cMap,
@@ -27,7 +29,6 @@ import {
 } from '@utils'
 import { HOST } from '@constants'
 import { Id, Override, SubjectTypeValue } from '@types'
-import { cheerioComments } from '../rakuen/common'
 import { Likes } from '../rakuen/types'
 import {
   EpStatus,
@@ -534,21 +535,16 @@ export function cheerioMAL(html: string) {
 
 /** 人物信息和吐槽箱 */
 export function cheerioMono(html: string) {
-  const $ = cheerio(htmlMatch(html, '<div id="headerSubject"', '<div class="crtCommentList">'))
-  const $name = $('h1.nameSingle a')
-  const eraseCollectUrl = cData($('.collect a.break'), 'href')
-  const trimHtml = HTMLTrim(html)
+  const $ = cheerio(htmlMatch(html, '<div id="headerSubject', '<div class="crtCommentList'))
+  const $h1 = $('h1.nameSingle a')
 
   let detail = cText($('#columnCrtB .detail'))
   const sub = cText($('#columnCrtB div.clearit h2.subtitle')).replace(/[\r\n]+/g, ' ')
   if (sub) detail = `${sub}\n\n${detail}`
 
-  /** 出演 */
-  let jobs: ReturnType<typeof mapJobs>[] = []
-  const jobsHtml = trimHtml.match(
-    /<h2 class="subtitle">出演<\/h2><ul class="browserList">(.+?)<\/ul><div class="section_line clear">/
-  )?.[1]
-  if (jobsHtml) jobs = cMap(cheerio(jobsHtml)('li.item'), mapJobs)
+  const collected = cHas($('.collect.action .ico_like'))
+
+  const trimHtml = HTMLTrim(html)
 
   /** 最近演出角色 */
   let voice: ReturnType<typeof mapVoice>[] = []
@@ -566,14 +562,14 @@ export function cheerioMono(html: string) {
 
   return {
     mono: {
-      name: cText($name),
-      nameCn: cData($name, 'title'),
+      name: cText($h1),
+      nameCn: cData($h1, 'title'),
       cover: fixedCover(cData($('.infobox img.cover'), 'src')),
       detail,
       info: cHtml($('#infobox')),
-      collectUrl: eraseCollectUrl ? '' : cData($('.collect a'), 'href'),
-      eraseCollectUrl,
-      jobs,
+      collectUrl: collected ? '' : cData($('.collect.action a.icon'), 'href'),
+      eraseCollectUrl: collected ? cData($('.collect.action a.icon'), 'href') : '',
+      jobs: cMap($('.castTypeFilterList li.item'), mapJobs),
       voice,
       works,
 
@@ -586,7 +582,8 @@ export function cheerioMono(html: string) {
       /** @deprecated */
       workes: []
     },
-    monoComments: cheerioComments(trimHtml).reverse()
+
+    comments: cheerioComments(trimHtml).reverse()
   }
 }
 
@@ -660,7 +657,7 @@ function mapCollabs($row: any) {
   return {
     href: cData($row.find('a.avatar'), 'href'),
     name: cText($row.find('a.l')),
-    cover: fixedCover(matchAvatar(cData($row.find('span.avatarNeue'), 'style'))).replace(
+    cover: fixedCover(matchAvatar(cData($row.find('span.coverNeue'), 'style'))).replace(
       '/crt/m/',
       '/crt/g/'
     ),

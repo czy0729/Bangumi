@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-05 09:14:17
+ * @Last Modified time: 2025-09-14 19:26:56
  */
 import { _, rakuenStore, subjectStore, systemStore } from '@stores'
 import { HTMLDecode, sleep } from '@utils'
@@ -212,9 +212,7 @@ export async function fetchMediaQueue(
         const result = await rakuenStore.fetchTopicSnapshot(item.id)
         onLoaded(result)
       } else if (item.type === 'mono') {
-        await subjectStore.fetchMono({
-          monoId: item.id
-        })
+        await subjectStore.fetchMono(item.id)
       }
 
       await sleep()

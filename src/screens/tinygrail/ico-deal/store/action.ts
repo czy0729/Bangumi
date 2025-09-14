@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-12-31 00:51:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-14 01:44:16
+ * @Last Modified time: 2025-09-14 19:27:38
  */
 import { monoStore, subjectStore, tinygrailStore } from '@stores'
 import { feedback, info, queue } from '@utils'
@@ -19,9 +19,7 @@ export default class Action extends Computed {
   fetchMono = async () => {
     if (this.mono._loaded) return true
 
-    return subjectStore.fetchMono({
-      monoId: `character/${this.chara?.monoId}`
-    })
+    return subjectStore.fetchMono(`character/${this.chara?.monoId}`)
   }
 
   refresh = async () => {
