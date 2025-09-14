@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:24:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 00:55:24
+ * @Last Modified time: 2025-09-14 03:57:34
  */
 import { computed } from 'mobx'
 import { desc } from '@utils'
@@ -41,7 +41,7 @@ import {
   Readed,
   Reviews,
   Topic,
-  UserTopicsFormCDN
+  UserTopicsFromCDN
 } from './types'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
@@ -174,10 +174,13 @@ export default class Computed extends State implements StoreConstructor<typeof S
     }).get()
   }
 
-  /** 用户历史超展开帖子 (CDN) */
-  userTopicsFormCDN(userId: UserId) {
-    return computed<UserTopicsFormCDN>(() => {
-      return this.state.userTopicsFormCDN[userId] || LIST_EMPTY
+  /** 用户历史超展开帖子 */
+  userTopicsFromCDN(userId: UserId) {
+    const STATE_KEY = 'userTopicsFromCDN'
+
+    return computed(() => {
+      const ITEM_KEY = userId
+      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as UserTopicsFromCDN
     }).get()
   }
 

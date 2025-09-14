@@ -68,8 +68,8 @@ export default class Fetch extends Computed {
   }
 
   /** 用户历史帖子 */
-  fetchUserTopicsFormCDN = () => {
-    return rakuenStore.fetchUserTopicsFormCDN(this.usersInfo.username || this.usersInfo.id)
+  fetchUserTopicsFromCDN = () => {
+    return rakuenStore.fetchUserTopicsFromCDN(this.usersInfo.username || this.usersInfo.id)
   }
 
   /** 小圣杯 / 用户资产 */

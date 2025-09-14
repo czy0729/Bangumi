@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-09 18:41:27
+ * @Last Modified time: 2025-09-14 04:31:46
  */
 import React from 'react'
 import {
@@ -148,6 +148,21 @@ export type MaybeReadonly<T> = T | ReadonlyResult<T>
 export type RenderItem<T> = {
   item: T
   index: number
+}
+
+/** 列表节头 renderSectionHeader */
+export type RenderSectionHeader<T> = {
+  section: {
+    title: T
+  }
+}
+
+/** 列表带节 renderSection */
+export type RenderSection<T, K> = {
+  section: {
+    title: T
+  }
+  item: K
 }
 
 /** 带索引 */

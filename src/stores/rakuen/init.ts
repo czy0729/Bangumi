@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-31 12:59:18
+ * @Last Modified time: 2025-09-14 04:00:39
  */
 import {
   LIST_EMPTY,
@@ -13,7 +13,14 @@ import {
   MODEL_RAKUEN_TYPE
 } from '@constants'
 import { Avatar, Loaded, RakuenScope, RakuenType, SubjectId, UserId } from '@types'
-import { BlockedUsersItem, Board, BookmarksItem, PrivacyValue, Reviews } from './types'
+import {
+  BlockedUsersItem,
+  Board,
+  BookmarksItem,
+  PrivacyValue,
+  Reviews,
+  UserTopicsFromCDN
+} from './types'
 
 export const NAMESPACE = 'Rakuen'
 
@@ -278,10 +285,8 @@ const STATE = {
     0: LIST_EMPTY
   },
 
-  /** 用户历史超展开帖子 (CDN) */
-  userTopicsFormCDN: {
-    0: LIST_EMPTY
-  },
+  /** 用户历史超展开帖子 */
+  userTopicsFromCDN: {} as Record<UserId, UserTopicsFromCDN>,
 
   /** 条目帖子 */
   board: {} as Record<SubjectId, Board>,

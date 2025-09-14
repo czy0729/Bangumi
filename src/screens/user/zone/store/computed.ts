@@ -16,11 +16,12 @@ import {
   usersStore,
   userStore
 } from '@stores'
+import { UserTopicsFromCDN } from '@stores/rakuen/types'
 import { getBlurRadius, HTMLDecode } from '@utils'
 import { fixedRemote } from '@utils/user-setting'
 import { IMG_EMPTY_DARK, TEXT_ONLY } from '@constants'
 import { H_HEADER } from '@screens/user/v2/ds'
-import { ImageSource } from '@types'
+import { ImageSource, Override } from '@types'
 import { TABS, TABS_WITH_TINYGRAIL } from '../ds'
 import State from './state'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
@@ -85,8 +86,13 @@ export default class Computed extends State {
   }
 
   /** 用户历史帖子 (网页没有此功能, 数据为自行整理) */
-  @computed get userTopicsFormCDN() {
-    const userTopics = rakuenStore.userTopicsFormCDN(this.usersInfo.username || this.usersInfo.id)
+  @computed get userTopicsFromCDN(): Override<
+    UserTopicsFromCDN,
+    {
+      _filter?: number
+    }
+  > {
+    const userTopics = rakuenStore.userTopicsFromCDN(this.usersInfo.username || this.usersInfo.id)
     if (systemStore.advance) return userTopics
 
     const filterCount = 8

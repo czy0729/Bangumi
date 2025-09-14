@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:20:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 00:55:06
+ * @Last Modified time: 2025-09-14 03:53:03
  */
 import { observable } from 'mobx'
-import { runAfter } from '@utils'
+import { runAfter, titleCase } from '@utils'
 import Store from '@utils/store'
+import { DEV, TEXT_BADGES } from '@constants'
 import { LOADED, NAMESPACE, STATE } from './init'
-
-type CacheKey = keyof typeof LOADED | `comments${number}`
+import { CacheKey } from './types'
 
 export default class State extends Store<typeof STATE> {
-  state = observable(STATE)
-
+  private _namespace = NAMESPACE
   private _loaded = LOADED
+
+  state = observable(STATE)
 
   init = async (key: CacheKey, async?: boolean) => {
     if (!key) return false
@@ -49,5 +50,15 @@ export default class State extends Store<typeof STATE> {
       }
     })
     this.save(key)
+  }
+
+  /** 开发打印 */
+  log = (...arg: any) => {
+    if (DEV) console.info(TEXT_BADGES.primary, `[${titleCase(this._namespace)}Store]`, ...arg)
+  }
+
+  /** 开发打印 */
+  error = (...arg: any) => {
+    if (DEV) console.info(TEXT_BADGES.danger, `[${titleCase(this._namespace)}Store]`, ...arg)
   }
 }

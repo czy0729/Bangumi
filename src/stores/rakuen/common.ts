@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-08 22:24:59
+ * @Last Modified time: 2025-09-14 04:40:26
  */
 import {
   cData,
@@ -21,6 +21,7 @@ import {
   safeObject,
   trim
 } from '@utils'
+import Crypto from '@utils/crypto'
 import { fetchHTML } from '@utils/fetch'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HTML_RAKUEN } from '@constants'
@@ -35,7 +36,8 @@ import {
   Likes,
   NotifyItem,
   ReviewsItem,
-  Topic
+  Topic,
+  UserTopicsFromCDNItem
 } from './types'
 
 export async function fetchRakuen(args: {
@@ -556,4 +558,18 @@ export function cheerioPrivacy(html: string) {
     privacy,
     formhash: $('input[name="formhash"]').val() || ''
   }
+}
+
+/** 用户历史超展开帖子 */
+export function getUserTopicsFromCDN(response: string) {
+  return Crypto.get<any[]>(response).map<UserTopicsFromCDNItem>(item => ({
+    topicId: `group/${item.id}`,
+    title: item.t,
+    group: item.g,
+    date: item.ti.split(' ')[0],
+    time: item.ti.split(' ')[1],
+    avatar: item.av,
+    userId: item.uid,
+    userName: item.un
+  }))
 }

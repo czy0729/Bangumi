@@ -27,7 +27,7 @@ function Tinygrail(props) {
     <Animated.ScrollView
       ref={ref => {
         const index = TABS_WITH_TINYGRAIL.findIndex(item => item.title === '小圣杯')
-        return $.connectRef(ref, index)
+        return $.forwardRef(ref, index)
       }}
       contentContainerStyle={styles.contentContainerStyle}
       {...props}

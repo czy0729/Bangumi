@@ -5,11 +5,11 @@
  * @Last Modified time: 2025-08-18 00:02:44
  */
 import React, { useCallback, useMemo } from 'react'
-import { useObserver } from 'mobx-react'
 import { Flex, Heatmap, Iconfont } from '@components'
 import { Popover } from '@_'
 import { _, useStore } from '@stores'
 import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import { TEXT_MENU_CONNECT, TEXT_MENU_DISCONNECT, TEXT_MENU_IGNORE, WEB } from '@constants'
 import { Ctx } from '../../../types'
 import { MENU_ACTIONS, MENU_DS } from './ds'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-08 18:28:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-16 07:47:37
+ * @Last Modified time: 2025-09-13 21:19:13
  */
 import { toJS } from 'mobx'
 import { systemStore, timelineStore, uiStore, userStore } from '@stores'
@@ -30,7 +30,7 @@ export default class Action extends Fetch {
   private scrollTo = {}
 
   /** 收集 ListView | ScrollView 引用 */
-  connectRef = (ref: any, index: number) => {
+  forwardRef = (ref: any, index: number) => {
     this.scrollToOffset[index] = ref?.scrollToOffset
 
     // android: scrollResponderScrollTo, ios: scrollTo
@@ -107,7 +107,7 @@ export default class Action extends Fetch {
       await this.fetchUsersTimeline(true)
     } else if (title === '超展开') {
       this.checkUserTopicsIsTimeout()
-      await this.fetchUserTopicsFormCDN()
+      await this.fetchUserTopicsFromCDN()
     } else if (title === '小圣杯' && !this.fromTinygrail) {
       await this.fetchCharaAssets()
       await this.fetchTempleTotal()
@@ -120,7 +120,7 @@ export default class Action extends Fetch {
   /** 若干秒后, 若用户帖子为空, 认为该用户没有发过帖子 */
   checkUserTopicsIsTimeout = () => {
     setTimeout(() => {
-      if (this.userTopicsFormCDN.list.length === 0) {
+      if (this.userTopicsFromCDN.list.length === 0) {
         this.setState({
           timeout: true
         })

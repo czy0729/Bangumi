@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-01 04:41:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 12:35:28
+ * @Last Modified time: 2025-09-14 03:56:34
  */
 import {
   Avatar,
@@ -15,7 +15,9 @@ import {
   Override,
   UserId
 } from '@types'
-import { INIT_SETTING } from './init'
+import { INIT_SETTING, LOADED } from './init'
+
+export type CacheKey = keyof typeof LOADED | `comments${number}`
 
 /** 0: 全部, 1: 我的好友, 2: 不接收 */
 export type PrivacyValue = '0' | '1' | '2'
@@ -225,19 +227,20 @@ export type Mine = ListEmpty<
   }>
 >
 
-/** 用户历史超展开帖子 (CDN) */
-export type UserTopicsFormCDN = ListEmpty<
-  DeepPartial<{
-    topicId: `group/${Id}`
-    title: string
-    group: string
-    date: string
-    time: string
-    avatar: string // '000/45/62/456208'
-    userId: UserId
-    userName: string
-  }>
->
+/** 用户历史超展开帖子项 */
+export type UserTopicsFromCDNItem = {
+  topicId: `group/${Id}`
+  title: string
+  group: string
+  date: string
+  time: string
+  avatar: string // '000/45/62/456208'
+  userId: UserId
+  userName: string
+}
+
+/** 用户历史超展开帖子 */
+export type UserTopicsFromCDN = ListEmpty<UserTopicsFromCDNItem>
 
 /** 条目帖子项 */
 export type BoardItem = {

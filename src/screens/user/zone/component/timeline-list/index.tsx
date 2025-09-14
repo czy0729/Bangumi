@@ -25,7 +25,7 @@ function TimelineList(props) {
   const { $, navigation } = useStore<Ctx>()
   const handleRef = useCallback(
     (ref: any) => {
-      $.connectRef(
+      $.forwardRef(
         ref,
         TABS.findIndex(item => item.title === '时间线')
       )

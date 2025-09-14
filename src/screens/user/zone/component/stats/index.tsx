@@ -25,7 +25,7 @@ function Stats(props) {
   const { $, navigation } = useStore<Ctx>()
   const handleRef = useCallback(
     ref => {
-      $.connectRef(
+      $.forwardRef(
         ref,
         TABS.findIndex(item => item.title === '统计')
       )

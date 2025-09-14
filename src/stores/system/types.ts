@@ -2,10 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-01-30 23:04:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-10 12:14:15
+ * @Last Modified time: 2025-09-13 20:59:54
  */
 import { UserId } from '@types'
-import { INIT_SETTING } from './init'
+import { INIT_SETTING, LOADED } from './init'
+
+export type CacheKey = keyof typeof LOADED
 
 /**
  * - true 显示

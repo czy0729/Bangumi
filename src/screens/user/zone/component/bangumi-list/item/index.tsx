@@ -2,20 +2,19 @@
  * @Author: czy0729
  * @Date: 2023-02-13 15:54:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 08:02:02
+ * @Last Modified time: 2025-09-14 04:30:04
  */
 import React from 'react'
 import { Flex, Heatmap } from '@components'
 import { ItemBangumiList } from '@_'
 import { useStore } from '@stores'
-import { CollectionsItem } from '@stores/user/types'
 import { cnjp } from '@utils'
 import { ob } from '@utils/decorators'
-import { CollectionStatusCn } from '@types'
 import { Ctx } from '../../../types'
 import { EVENT } from './ds'
+import { Props } from './types'
 
-function Item({ item, title }: { item: CollectionsItem; title: CollectionStatusCn }) {
+function Item({ item, title }: Props) {
   const { $, navigation } = useStore<Ctx>()
   if (!$.state.expand[title]) return null
 

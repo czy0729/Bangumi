@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-23 06:46:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-30 14:04:10
+ * @Last Modified time: 2025-09-14 04:21:41
  */
 import { Id, UserId } from '@types'
 import { HOST_CDN } from '../constants'
@@ -19,7 +19,10 @@ export const CDN_RAKUEN = (topicId: Id, type: 'topic' | 'comment' = 'topic') => 
 
 /** 某用户的超展开 */
 export const CDN_RAKUEN_USER_TOPICS = (userId: UserId) => {
-  return `${HOST_DOGE}/bangumi-rakuen/user/${String(userId).slice(0, 1)}/${userId}.json` as const
+  return `${HOST_DOGE}/encrypt/bangumi-rakuen/user/${String(userId).slice(
+    0,
+    1
+  )}/${userId}.txt` as const
 }
 
 /** @deprecated */

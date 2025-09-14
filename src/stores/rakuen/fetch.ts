@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:26:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-08 20:39:15
+ * @Last Modified time: 2025-09-14 04:40:57
  */
 import { getTimestamp, HTMLTrim } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -48,7 +48,8 @@ import {
   cheerioReviews,
   cheerioTopic,
   cheerioTopicEdit,
-  fetchRakuen
+  fetchRakuen,
+  getUserTopicsFromCDN
 } from './common'
 import Computed from './computed'
 import { DEFAULT_SCOPE, DEFAULT_TYPE, INIT_TOPIC } from './init'
@@ -459,44 +460,36 @@ export default class Fetch extends Computed {
   /** @deprecated 日志内容 (CDN) */
   fetchBlogFormCDN = FROZEN_FN
 
-  /** CDN 获取用户历史超展开帖子 */
-  fetchUserTopicsFormCDN = async (userId: UserId) => {
+  /** 获取用户历史超展开帖子 */
+  fetchUserTopicsFromCDN = async (userId: UserId) => {
+    const STATE_KEY = 'userTopicsFromCDN'
+    const ITEM_KEY = userId
+
     try {
       const { _response } = await xhrCustom({
         url: CDN_RAKUEN_USER_TOPICS(userId)
       })
 
-      const data = {
-        ...LIST_EMPTY,
-        list: JSON.parse(_response).map(item => ({
-          topicId: `group/${item.id}`,
-          title: item.t,
-          group: item.g,
-          date: item.ti.split(' ')[0],
-          time: item.ti.split(' ')[1],
-          avatar: item.av,
-          userId: item.uid,
-          userName: item.un
-        })),
-        pagination: {
-          page: 1,
-          pageTotal: 1
-        },
-        _loaded: getTimestamp()
-      }
-
-      const key = 'userTopicsFormCDN'
       this.setState({
-        [key]: {
-          [userId]: data
+        [STATE_KEY]: {
+          [ITEM_KEY]: {
+            list: getUserTopicsFromCDN(_response),
+            pagination: {
+              page: 1,
+              pageTotal: 1
+            },
+            _loaded: getTimestamp()
+          }
         }
       })
-      return data
+      return this[STATE_KEY](ITEM_KEY)
     } catch (error) {
-      return {
-        ...LIST_EMPTY,
-        _loaded: getTimestamp()
-      }
+      this.error('fetchUserTopicsFromCDN', error)
+    }
+
+    return {
+      ...LIST_EMPTY,
+      _loaded: getTimestamp()
     }
   }
 

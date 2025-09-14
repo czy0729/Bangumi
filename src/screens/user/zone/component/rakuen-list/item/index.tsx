@@ -7,13 +7,14 @@
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
+import { UserTopicsFromCDNItem } from '@stores/rakuen/types'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function RakuenItem({ topicId, userName, title, group, date, time, userId, children }) {
+function Item({ topicId, userName, title, group, date, time, userId }: UserTopicsFromCDNItem) {
   const navigation = useNavigation()
   const styles = memoStyles()
   return (
@@ -23,12 +24,6 @@ function RakuenItem({ topicId, userName, title, group, date, time, userId, child
           style={styles.item}
           animate
           onPress={() => {
-            t('空间.跳转', {
-              to: 'Topic',
-              from: '超展开',
-              topicId
-            })
-
             navigation.push('Topic', {
               topicId,
               _title: title,
@@ -36,6 +31,12 @@ function RakuenItem({ topicId, userName, title, group, date, time, userId, child
               _time: `${date} ${time}`,
               _userName: userName,
               _userId: userId
+            })
+
+            t('空间.跳转', {
+              to: 'Topic',
+              from: '超展开',
+              topicId
             })
           }}
         >
@@ -49,9 +50,8 @@ function RakuenItem({ topicId, userName, title, group, date, time, userId, child
           </Flex>
         </Touchable>
       </Flex.Item>
-      {children}
     </Flex>
   )
 }
 
-export default ob(RakuenItem, COMPONENT)
+export default ob(Item, COMPONENT)

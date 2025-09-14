@@ -27,7 +27,7 @@ function About(props: Props) {
   const { $ } = useStore<Ctx>()
   const handleRef = useCallback(
     ref => {
-      $.connectRef(
+      $.forwardRef(
         ref,
         TABS.findIndex(item => item.title === '关于')
       )

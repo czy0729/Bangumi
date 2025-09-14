@@ -6,40 +6,28 @@
  */
 import React, { useCallback } from 'react'
 import { Animated } from 'react-native'
-import { Component, Heatmap, ListView, Loading, ScrollView, Text } from '@components'
+import { Component, ListView, Loading, ScrollView, Text } from '@components'
 import { _, useStore } from '@stores'
-import { keyExtractor } from '@utils'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { USE_NATIVE_DRIVER } from '@constants'
 import { TABS } from '../../ds'
 import { Ctx } from '../../types'
-import RakuenItem from './rakuen-item'
-import { handleToQiafan, renderSectionHeader } from './utils'
+import { handleToQiafan, keyExtractor, renderItem, renderSectionHeader } from './utils'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
+import { Props } from './types'
 
-function RakuenList(props) {
-  r(COMPONENT)
+function RakuenList({ ListHeaderComponent, onScroll }: Props) {
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
 
-  const { $, navigation } = useStore<Ctx>()
   const handleRef = useCallback(
     (ref: any) => {
-      $.connectRef(
+      $.forwardRef(
         ref,
         TABS.findIndex(item => item.title === '番剧')
       )
     },
     [$]
-  )
-
-  const renderItem = useCallback(
-    ({ item, index }) => (
-      <RakuenItem navigation={navigation} index={index} {...item}>
-        {!index && <Heatmap id='空间.跳转' to='Topic' alias='帖子' />}
-      </RakuenItem>
-    ),
-    [navigation]
   )
 
   return useObserver(() => {
@@ -55,11 +43,11 @@ function RakuenList(props) {
       ],
       {
         useNativeDriver: USE_NATIVE_DRIVER,
-        listener: props.onScroll
+        listener: onScroll
       }
     )
 
-    if (!$.userTopicsFormCDN._loaded) {
+    if (!$.userTopicsFromCDN._loaded) {
       return (
         <Component id='screen-zone-tab-view' data-type='rakuen-list'>
           <ScrollView
@@ -75,8 +63,7 @@ function RakuenList(props) {
       )
     }
 
-    // @ts-expect-error
-    const { _filter = 0 } = $.userTopicsFormCDN
+    const { _filter = 0 } = $.userTopicsFromCDN
     const ListFooterComponent =
       _filter > 0 ? (
         <>
@@ -99,13 +86,13 @@ function RakuenList(props) {
           keyExtractor={keyExtractor}
           animated
           contentContainerStyle={styles.contentContainerStyle}
-          data={$.userTopicsFormCDN}
           sectionKey='date'
+          data={$.userTopicsFromCDN}
           stickySectionHeadersEnabled={false}
           renderSectionHeader={renderSectionHeader}
           renderItem={renderItem}
+          ListHeaderComponent={ListHeaderComponent}
           ListFooterComponent={ListFooterComponent}
-          {...props}
           onScroll={handleScroll}
         />
       </Component>
