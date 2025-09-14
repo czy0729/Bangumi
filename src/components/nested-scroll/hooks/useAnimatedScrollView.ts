@@ -1,11 +1,11 @@
-import { useRef } from 'react'
-import { Animated } from 'react-native'
 /*
  * @Author: czy0729
  * @Date: 2023-12-27 15:45:31
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-13 16:14:49
  */
+import { useRef } from 'react'
+import { Animated } from 'react-native'
 import { USE_NATIVE_DRIVER } from '@constants'
 
 /**

@@ -6,5 +6,11 @@
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
+import Bg from './bg'
+import Center from './center'
+import Header from './header'
+import Mask from './mask'
 
 export const COMPONENT = rc(PARENT, 'ParallaxImage')
+
+export const Layers = [Bg, Mask, Header, Center] as const
