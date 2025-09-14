@@ -3,8 +3,9 @@
  * @Author: czy0729
  * @Date: 2022-08-06 13:14:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-10 05:26:20
+ * @Last Modified time: 2025-09-14 18:31:06
  */
+import { UA } from '@constants/constants'
 import { WEB } from '@constants/device'
 import { DEV } from '@src/config'
 import Crypto from '../crypto'
@@ -13,7 +14,7 @@ export const HOST =
   WEB && DEV
     ? 'http://192.168.31.150:3001'
     : Crypto.get(
-        'U2FsdGVkX19sKQa+Q0MrgGAoUhowY87a3+FsQyrAcNCiMLDVhjAmyghrdc2h9lO5mEnKOzxNbgEVmyGYnTeLsw=='
+        'U2FsdGVkX19V+0mbLEFkm2kTJQ291ld5j7Y/OatEDhgnUWMHmpQWjoWeFK8vsFrB6x1XuFdUcxxv6p+sjxwOiQ=='
       )
 
 export const HOST_LX = Crypto.get(
@@ -30,6 +31,9 @@ export const HOST_PIC_LIST = Crypto.get(
 
 /** 唯一性标记, 完全一样的 POST 请求不会发送第二次 */
 export const UPDATE_CACHE_MAP = new Map<string, boolean>()
+
+/** 统一请求头 */
+export const HEADERS = { 'User-Agent': UA } as const
 
 /** 网站基本提示词 */
 const SITE_COMMON_PROMPT =
