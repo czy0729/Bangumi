@@ -6,8 +6,10 @@
  */
 import React from 'react'
 import { ItemCatalog } from '@_'
+import { CatalogsItem } from '@stores/discovery/types'
+import { RenderItem } from '@types'
 import { EVENT } from './ds'
 
-export function renderItem({ item, index }) {
-  return <ItemCatalog {...item} index={index} name='优莉雅' anime={item.num} event={EVENT} />
+export function renderItem({ item, index }: RenderItem<CatalogsItem>) {
+  return <ItemCatalog {...item} index={index} name='优莉雅' anime={item.anime} event={EVENT} />
 }

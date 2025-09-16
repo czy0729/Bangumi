@@ -7,13 +7,16 @@
 import React from 'react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { getSPAParams, open } from '@utils'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import { HOST, TEXT_MENU_BROWSER, TEXT_MENU_SPA, URL_SPA } from '@constants'
 import { COMPONENT, DATA, HM } from './ds'
 
 function Header() {
-  return (
+  r(COMPONENT)
+
+  return useObserver(() => (
     <HeaderV2
       title='新番'
       hm={HM}
@@ -34,7 +37,7 @@ function Header() {
         />
       )}
     />
-  )
+  ))
 }
 
-export default ob(Header, COMPONENT)
+export default Header

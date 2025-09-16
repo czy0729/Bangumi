@@ -8,28 +8,31 @@ import React from 'react'
 import { ListView, Loading } from '@components'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 function List() {
-  const { $ } = useStore<Ctx>()
-  if (!$.catalogs._loaded) return <Loading style={_.container.plain} />
+  const { $ } = useStore<Ctx>(COMPONENT)
 
-  return (
-    <ListView
-      keyExtractor={keyExtractor}
-      contentContainerStyle={styles.contentContainerStyle}
-      data={$.catalogs}
-      renderItem={renderItem}
-      scrollEventThrottle={16}
-      onScroll={$.onScroll}
-      onHeaderRefresh={$.onHeaderRefresh}
-      onFooterRefresh={$.fetchCatalogs}
-    />
-  )
+  return useObserver(() => {
+    if (!$.catalogs._loaded) return <Loading style={_.container.plain} />
+
+    return (
+      <ListView
+        keyExtractor={keyExtractor}
+        contentContainerStyle={styles.contentContainerStyle}
+        data={$.catalogs}
+        renderItem={renderItem}
+        scrollEventThrottle={16}
+        onScroll={$.onScroll}
+        onHeaderRefresh={$.onHeaderRefresh}
+        onFooterRefresh={$.fetchCatalogs}
+      />
+    )
+  })
 }
 
-export default ob(List, COMPONENT)
+export default List

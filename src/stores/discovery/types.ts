@@ -24,17 +24,40 @@ export type CacheKey = keyof typeof LOADED | `catalogDetail${number}`
 
 /** 目录项 */
 export type CatalogsItem = {
+  /** 创建者头像 */
   avatar: string
+
+  /** 创建者昵称 */
   name: string
+
+  /** 创建者 ID */
   userId: UserId
-  last: String
+
+  /** 最后更新日期 */
+  last: string
+
+  /** 目录标题 */
   title: string
+
+  /** 目录 ID */
   id: Id
+
+  /** 目录描述 */
   info: string
+
+  /** 目录动画条目数 */
   anime: number
+
+  /** 目录书籍条目数 */
   book: number
+
+  /** 目录音乐条目数 */
   music: number
+
+  /** 目录游戏条目数 */
   game: number
+
+  /** 目录三次元条目数 */
   real: number
 }
 
