@@ -194,18 +194,13 @@ export type Actions = Record<
 >
 
 /** 翻译结果 */
-export type TranslateResult =
-  | {
-      /** 原话 */
-      src: string
+export type TranslateResult = {
+  /** 原话 */
+  src: string
 
-      /** 译话 */
-      dst: string
-    }[]
-  | readonly {
-      src: string
-      dst: string
-    }[]
+  /** 译话 */
+  dst: string
+}[]
 
 /** 锐评项 */
 export type CompletionItem = {

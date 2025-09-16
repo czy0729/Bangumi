@@ -20,7 +20,7 @@ import { COMPONENT_MAIN, DEFAULT_PROPS, EVENT, IMAGE_WIDTH } from './ds'
 const Voice = memo(
   ({ navigation, styles, style, voices = FROZEN_ARRAY }) => {
     return (
-      <InView style={stl(styles.container, style)}>
+      <InView style={stl(styles.container, style)} y={Math.floor(_.window.height * 0.5)}>
         <SectionTitle
           style={styles.section}
           right={
@@ -74,7 +74,7 @@ const Voice = memo(
                     </Flex>
                   </Touchable>
                 </Flex.Item>
-                <Flex.Item style={_.ml.md} flex={1.4}>
+                <Flex.Item style={_.ml.md} flex={1.2}>
                   <Touchable
                     animate
                     onPress={() => {

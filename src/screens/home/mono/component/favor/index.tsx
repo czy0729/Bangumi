@@ -5,18 +5,15 @@
  * @Last Modified time: 2025-06-26 19:50:41
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Heatmap, Iconfont, Touchable } from '@components'
 import { _, useStore } from '@stores'
-import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 function Favor() {
-  r(COMPONENT)
-
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
     if ($.mono.collectUrl) {

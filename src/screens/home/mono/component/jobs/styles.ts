@@ -22,7 +22,15 @@ export const memoStyles = _.memoStyles(() => ({
     paddingTop: 2,
     paddingLeft: _.sm + 4
   },
+  top: {
+    paddingRight: _.lg
+  },
+  bottom: {
+    maxWidth: '80%',
+    marginTop: _.xs
+  },
   tag: {
+    marginTop: -2,
     marginLeft: _.sm
   },
   castCover: {

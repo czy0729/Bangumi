@@ -86,23 +86,23 @@ export type UrlEp = `${Host}/ep/${EpId}`
 /** 静态资源地址 */
 export type UrlStatic = `${Url}/pic`
 
-/** 头像地址 */
+/** @deprecated  头像地址 */
 export type Avatar<S extends 'l' | 'm' | 's' | 'g' = 'l'> =
   | `${UrlStatic}/user/${S}/${string}.jpg?r=${number}`
   | '${UrlStatic}/user/${S}/icon.jpg'
 
-/** 条目封面地址 */
+/** @deprecated 条目封面地址 */
 export type Cover<S extends 'l' | 'c' | 'm' | 's' | 'g' = 'm'> =
   | `${UrlStatic}/cover/${S}/${string}.jpg`
 
-/** 角色封面地址 */
+/** @deprecated  角色封面地址 */
 export type CoverCrt<S extends 'l' | 'm' | 's' | 'g' = 'g'> =
   | `${UrlStatic}/crt/${S}/${string}.jpg?r=${number}`
 
-/** 小组封面地址 */
+/** @deprecated 小组封面地址 */
 export type CoverGroup<S extends 'l' | 's' = 's'> = `${UrlStatic}/icon/${S}/${string}.jpg`
 
-/** 用户上传的图片 */
+/** @deprecated  用户上传的图片 */
 export type CoverPhoto<S extends 'g' = 'g'> = `${UrlStatic}/photo/${S}/${string}.jpg`
 
 /** 图片结构 */

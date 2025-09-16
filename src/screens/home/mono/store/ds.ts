@@ -6,7 +6,7 @@
  */
 import { _ } from '@stores'
 import { Mono, MonoComments } from '@stores/subject/types'
-import { Loaded } from '@types'
+import { Loaded, TranslateResult } from '@types'
 import { COMPONENT } from '../ds'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
@@ -25,9 +25,11 @@ export const EXCLUDE_STATE = {
   /** 展开的子楼层 id */
   expands: [],
 
-  /** 翻译缓存 */
-  translateResult: [],
-  translateResultDetail: [],
+  /** 翻译缓存 (对应 mono.info) */
+  translateResult: [] as TranslateResult,
+
+  /** 翻译缓存 (对应 mono.detail) */
+  translateResultDetail: [] as TranslateResult,
 
   /** 楼层翻译缓存 */
   translateResultFloor: {},

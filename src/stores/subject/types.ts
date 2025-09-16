@@ -5,12 +5,10 @@
  * @Last Modified time: 2025-09-11 04:37:02
  */
 import {
-  AnyObject,
   Avatar,
   Collection,
   Cover,
   CoverCrt,
-  DeepPartial,
   EpId,
   HTMLText,
   Id,
@@ -287,7 +285,7 @@ export type SubjectV2 = {
 }
 
 /** 条目 (CDN) */
-export type SubjectFormCDN = DeepPartial<{
+export type SubjectFormCDN = {
   id: SubjectId
   type: SubjectTypeValue
   name: string
@@ -339,7 +337,7 @@ export type SubjectFormCDN = DeepPartial<{
   }[]
   lock: string
   _loaded: Loaded
-}>
+}
 
 /** 条目信息快照 */
 export type SubjectSnapshot = {
@@ -399,7 +397,7 @@ export type SubjectCommentsItem = Override<
 
 /** 条目回复 */
 export type SubjectComments = Override<
-  ListEmpty<DeepPartial<SubjectCommentsItem>>,
+  ListEmpty<SubjectCommentsItem>,
   {
     /** 是否有不同版本的评论 */
     version: boolean
@@ -408,61 +406,76 @@ export type SubjectComments = Override<
 >
 
 /** 人物 */
-export type Mono = DeepPartial<{
+export type Mono = {
+  /** 日文名 (原名) */
   name: string
+
+  /** 中文名 */
   nameCn: string
-  cover: CoverCrt<'m'>
-  info: HTMLText
+
+  /** 封面 */
+  cover: string
+
+  /** 描述 */
   detail: string
 
-  /** 声优有此值 */
+  /** 人物各项详情属性 */
+  info: HTMLText
+
+  /** 最近演出角色 (声优才有此值) */
   voice: {
-    href: `/character/${Id}`
+    /** /character/{Id} */
+    href: string
     name: string
     nameCn: string
-    cover: Cover<'s'>
-    subjectHref: `/subject/${SubjectId}`
+    cover: string
+
+    /** /subject/{SubjectId} */
+    subjectHref: string
     subjectName: string
     subjectNameCn: string
-    subjectCover: Cover<'g'>
+    subjectCover: string
     staff: string
   }[]
 
-  /** 废弃 */
-  workes: AnyObject[]
-
-  /** 虚拟角色有此值 */
+  /** 出演 (虚拟角色才有此值) */
   jobs: {
-    href: `/subject/${SubjectId}`
+    /** /subject/{SubjectId} */
+    href: string
     name: string
     nameCn: string
-    cover: Cover<'g'>
+    cover: string
     staff: string
     cast: string
+
+    /** /person/{Id} */
     castHref: string
     castTag: string
     castCover: string
     cast2: {
       cast: string
       castCover: string
+
+      /** /person/{Id} */
       castHref: string
       castTag: string
     }
     type: SubjectTypeValue
   }[]
 
-  /** 真实人物或组织有此值 */
+  /** 最近参与 (真实人物、组织才有此值) */
   works: {
-    href: `/subject/${SubjectId}`
+    /** /subject/{SubjectId} */
+    href: string
     name: string
-    cover: Cover<'g'>
+    cover: string
     staff: string
     type: SubjectTypeValue
   }[]
 
-  /** 谁收藏了 */
+  /** 最近谁收藏了 */
   collected: {
-    avatar: Avatar<'l'>
+    avatar: string
     name: string
     userId: UserId
     last: string
@@ -470,19 +483,64 @@ export type Mono = DeepPartial<{
 
   /** 合作 */
   collabs: {
-    href: `/person/${Id}`
+    /** /person/{Id} */
+    href: string
     name: string
-    cover: Cover<'s'>
-    count: number
+    cover: string
+    count: string
   }[]
 
-  collectUrl: `${string}?gh=${string}`
-  eraseCollectUrl: `${string}?gh=${string}`
-  _loaded: Loaded
-}>
+  /** 收藏动作链接 {string}?gh={string} */
+  collectUrl: string
 
-/** 角色回复 */
-export type MonoComments = SubjectComments
+  /** 取消收藏动作链接 {string}?gh={string */
+  eraseCollectUrl: string
+
+  /** 最后数据加载时间 */
+  _loaded?: Loaded
+}
+
+/** 基本回复项 */
+type BaseCommentsItem = {
+  /** 用户头像 */
+  avatar: string
+
+  /** 楼层 */
+  floor: string
+
+  /** 楼层 ID */
+  id: string
+
+  /** 回复正文 */
+  message: string
+
+  /** 回复参数 (需登录) */
+  replySub: string
+
+  /** 回复时间 */
+  time: string
+
+  /** 用户 ID */
+  userId: UserId
+
+  /** 用户昵称 */
+  userName: string
+
+  /** 用户签名 */
+  userSign: string
+}
+
+/** 角色吐槽箱项 */
+export type MonoCommentsItem = Override<
+  BaseCommentsItem,
+  {
+    /** 回复子楼层 */
+    sub: BaseCommentsItem[]
+  }
+>
+
+/** 角色吐槽箱 */
+export type MonoComments = ListEmpty<MonoCommentsItem>
 
 /** 人物作品 */
 export type MonoWorks = Override<
@@ -558,7 +616,7 @@ export type ComputedRating = Override<
 >
 
 /** wiki修订历史 */
-export type Wiki = DeepPartial<{
+export type Wiki = {
   edits: {
     id: number
     time: string
@@ -573,7 +631,7 @@ export type Wiki = DeepPartial<{
     userId: UserId
     userName: string
   }[]
-}>
+}
 
 export type ApiSubjectResponse = {
   id: SubjectId

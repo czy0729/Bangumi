@@ -21,7 +21,7 @@ import { COMPONENT_MAIN, DEFAULT_PROPS, EVENT } from './ds'
 const Works = memo(
   ({ navigation, styles, style, works = FROZEN_ARRAY }) => {
     return (
-      <InView style={stl(styles.container, style)}>
+      <InView style={stl(styles.container, style)} y={Math.floor(_.window.height * 0.5)}>
         <SectionTitle
           style={styles.section}
           right={

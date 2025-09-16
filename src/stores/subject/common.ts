@@ -28,10 +28,12 @@ import {
   safeObject
 } from '@utils'
 import { HOST } from '@constants'
-import { Id, Override, SubjectTypeValue } from '@types'
+import { Id, Override, SubjectTypeValue, UserId } from '@types'
 import { Likes } from '../rakuen/types'
 import {
   EpStatus,
+  Mono,
+  MonoCommentsItem,
   MonoVoices,
   MonoWorks,
   Rating,
@@ -533,69 +535,63 @@ export function cheerioMAL(html: string) {
   }
 }
 
-/** 人物信息和吐槽箱 */
+/** 人物信息 */
 export function cheerioMono(html: string) {
   const $ = cheerio(htmlMatch(html, '<div id="headerSubject', '<div class="crtCommentList'))
-  const $h1 = $('h1.nameSingle a')
-
-  let detail = cText($('#columnCrtB .detail'))
-  const sub = cText($('#columnCrtB div.clearit h2.subtitle')).replace(/[\r\n]+/g, ' ')
-  if (sub) detail = `${sub}\n\n${detail}`
-
-  const collected = cHas($('.collect.action .ico_like'))
-
   const trimHtml = HTMLTrim(html)
 
-  /** 最近演出角色 */
-  let voice: ReturnType<typeof mapVoice>[] = []
+  const $h1 = $('h1.nameSingle a')
+
+  const sub = cText($('#columnCrtB div.clearit h2.subtitle')).replace(/[\r\n]+/g, ' ')
+  const detail = [sub, cText($('#columnCrtB .detail'))].filter(Boolean).join('\n\n')
+
+  const actionUrl = cData($('.collect.action a.icon'), 'href')
+  const collected = cHas($('.collect.action .ico_like'))
+  const collectUrl = collected ? '' : actionUrl
+  const eraseCollectUrl = collected ? actionUrl : ''
+
+  let voice: Mono['voice'] = []
   const voiceHtml = trimHtml.match(
     /<h2 class="subtitle">最近演出角色<\/h2><ul class="browserList">(.+?)<\/ul><a href=/
   )?.[1]
   if (voiceHtml) voice = cMap(cheerio(voiceHtml)('li.item'), mapVoice)
 
-  /** 最近参与 */
-  let works: ReturnType<typeof mapWorks>[] = []
+  let works: Mono['works'] = []
   const worksHtml = trimHtml.match(
     /<h2 class="subtitle">最近参与<\/h2><ul class="browserList">(.+?)<\/ul><a href=/
   )?.[1]
   if (worksHtml) works = cMap(cheerio(worksHtml)('li.item'), mapWorks)
 
   return {
-    mono: {
-      name: cText($h1),
-      nameCn: cData($h1, 'title'),
-      cover: fixedCover(cData($('.infobox img.cover'), 'src')),
-      detail,
-      info: cHtml($('#infobox')),
-      collectUrl: collected ? '' : cData($('.collect.action a.icon'), 'href'),
-      eraseCollectUrl: collected ? cData($('.collect.action a.icon'), 'href') : '',
-      jobs: cMap($('.castTypeFilterList li.item'), mapJobs),
-      voice,
-      works,
+    name: cText($h1),
+    nameCn: cData($h1, 'title'),
+    cover: fixedCover(cData($('.infobox img.cover'), 'src')),
+    detail,
+    info: cHtml($('#infobox')),
+    collectUrl,
+    eraseCollectUrl,
+    jobs: cMap($('.castTypeFilterList li.item'), mapJobs),
+    voice,
+    works,
+    collected: cMap($('#crtPanelCollect .groupsLine li'), mapCollected),
+    collabs: cMap($('ul.coversSmall li'), mapCollabs)
+  } as Mono
+}
 
-      /** 合作 */
-      collabs: cMap($('ul.coversSmall li'), mapCollabs),
-
-      /** 谁收藏了 */
-      collected: cMap($('#crtPanelCollect .groupsLine li'), mapCollected),
-
-      /** @deprecated */
-      workes: []
-    },
-
-    comments: cheerioComments(trimHtml).reverse()
-  }
+/** 人物吐槽箱 */
+export function cheerioMonoComments(html: string) {
+  const trimHtml = HTMLTrim(html)
+  return cheerioComments(trimHtml).reverse() as MonoCommentsItem[]
 }
 
 function mapJobs($row: any) {
-  const $name = $row.find('.innerLeftItem h3 a')
-  const $lis = $row.find('.innerRightList li')
+  const $name = cFind($row, '.innerLeftItem h3 a')
 
-  const $li = $lis.eq(0)
-  const $cast = $li.find('a').eq(0)
+  const $li = cFind($row, '.innerRightList li')
+  const $cast = cFind($li, 'a')
 
-  const $li2 = $lis.eq(1)
-  const $cast2 = $li2.find('a').eq(0)
+  const $li2 = cFind($row, '.innerRightList li', 1)
+  const $cast2 = cFind($li2, 'a')
   const cast2: {
     cast?: string
     castCover?: string
@@ -605,73 +601,73 @@ function mapJobs($row: any) {
   const cast = cData($cast2, 'title')
   if (cast) {
     cast2.cast = cast
-    cast2.castCover = fixedCover(cData($cast2.find('img'), 'src'))
+    cast2.castCover = fixedCover(cData(cFind($cast2, 'img'), 'src'))
     cast2.castHref = cData($cast2, 'href')
-    cast2.castTag = cText($li2.find('small.grey'))
+    cast2.castTag = cText(cFind($li2, 'small.grey'))
   }
 
   return {
-    cover: fixedCover(cData($row.find('.innerLeftItem img'), 'src')),
+    cover: fixedCover(cData(cFind($row, '.innerLeftItem img'), 'src')),
     name: cText($name),
-    nameCn: cText($row.find('.innerLeftItem small.grey')),
-    staff: cText($row.find('.badge_job').eq(0)),
+    nameCn: cText(cFind($row, '.innerLeftItem small.grey')),
+    staff: cText(cFind($row, '.badge_job')),
     href: cData($name, 'href'),
-    type: cData($row.find('.ico_subject_type'), 'class').substring(30, 31),
+    type: cData(cFind($row, '.ico_subject_type'), 'class').substring(30, 31),
     cast: cData($cast, 'title'),
-    castCover: fixedCover(cData($cast.find('img'), 'src')),
+    castCover: fixedCover(cData(cFind($cast, 'img'), 'src')),
     castHref: cData($cast, 'href'),
-    castTag: cText($li.find('small.grey')),
+    castTag: cText(cFind($li, 'small.grey')),
     cast2
   }
 }
 
 function mapVoice($row: any) {
-  const $name = $row.find('.innerLeftItem h3 a')
-  const $subject = $row.find('.innerRightList li').eq(0)
-  const $a = $subject.find('h3 a.l')
+  const $name = cFind($row, '.innerLeftItem h3 a')
+  const $subject = cFind($row, '.innerRightList li')
+  const $a = cFind($subject, 'h3 a.l')
   return {
-    cover: fixedCover(cData($row.find('.innerLeftItem img'), 'src')),
+    cover: fixedCover(cData(cFind($row, '.innerLeftItem img'), 'src')),
     href: cData($name, 'href'),
     name: cText($name),
-    nameCn: cText($row.find('.innerLeftItem .tip')),
-    staff: cText($subject.find('.badge_job')),
-    subjectCover: fixedCover(cData($subject.find('img'), 'src')),
+    nameCn: cText(cFind($row, '.innerLeftItem .tip')),
+    staff: cText(cFind($subject, '.badge_job')),
+    subjectCover: fixedCover(cData(cFind($subject, 'img'), 'src')),
     subjectHref: cData($a, 'href'),
     subjectName: cText($a),
-    subjectNameCn: cText($subject.find('small.grey'))
+    subjectNameCn: cText(cFind($subject, 'small.grey'))
   }
 }
 
 function mapWorks($row: any) {
-  const $name = $row.find('h3 a.l')
+  const $name = cFind($row, 'h3 a.l')
   return {
-    cover: fixedCover(cData($row.find('.innerLeftItem img'), 'src')),
+    cover: fixedCover(cData(cFind($row, '.innerLeftItem img'), 'src')),
     href: cData($name, 'href'),
     name: cText($name),
-    staff: cText($row.find('.badge_job')),
-    type: cData($row.find('.ico_subject_type'), 'class').substring(30, 31)
+    staff: cText(cFind($row, '.badge_job')),
+    type: cData(cFind($row, '.ico_subject_type'), 'class').substring(30, 31) as SubjectTypeValue
   }
 }
 
 function mapCollabs($row: any) {
   return {
-    href: cData($row.find('a.avatar'), 'href'),
-    name: cText($row.find('a.l')),
-    cover: fixedCover(matchAvatar(cData($row.find('span.coverNeue'), 'style'))).replace(
+    href: cData(cFind($row, 'a.avatar'), 'href'),
+    name: cText(cFind($row, 'a.l')),
+    cover: fixedCover(matchAvatar(cData(cFind($row, 'span.coverNeue'), 'style'))).replace(
       '/crt/m/',
       '/crt/g/'
     ),
-    count: cText($row.find('small')).replace(/\(|\)/g, '')
+    count: cText(cFind($row, 'small')).replace(/\(|\)/g, '')
   }
 }
 
 function mapCollected($row: any) {
-  const $a = $row.find('.innerWithAvatar .avatar')
+  const $a = cFind($row, '.innerWithAvatar .avatar')
   return {
-    avatar: fixedCover(matchAvatar(cData($row.find('span.avatarSize32'), 'style'))),
+    avatar: fixedCover(matchAvatar(cData(cFind($row, 'span.avatarSize32'), 'style'))),
     name: cText($a),
-    userId: matchUserId(cData($a, 'href')),
-    last: cText($row.find('small.grey'))
+    userId: matchUserId(cData($a, 'href')) as UserId,
+    last: cText(cFind($row, 'small.grey'))
   }
 }
 

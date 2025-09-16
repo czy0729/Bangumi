@@ -5,18 +5,21 @@
  * @Last Modified time: 2024-11-17 10:05:56
  */
 import React from 'react'
-import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import Works from './works'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function WorksWrap({ style }) {
-  const { $, navigation } = useStore<Ctx>()
-  if (!$.works.length) return null
+function WorksWrap() {
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
 
-  return <Works navigation={navigation} styles={memoStyles()} style={style} works={$.works} />
+  return useObserver(() => {
+    if (!$.works.length) return null
+
+    return <Works navigation={navigation} styles={memoStyles()} style={_.mt.md} works={$.works} />
+  })
 }
 
-export default ob(WorksWrap, COMPONENT)
+export default WorksWrap

@@ -7,7 +7,6 @@
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { _, monoStore, tinygrailStore, useStore } from '@stores'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import Favor from '../favor'
@@ -16,9 +15,7 @@ import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 function ExtraWrap() {
-  r(COMPONENT)
-
-  const { $, navigation } = useStore<Ctx>()
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
     const isCharacter = $.monoId.includes('character')

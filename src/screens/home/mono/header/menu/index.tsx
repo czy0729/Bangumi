@@ -8,7 +8,6 @@ import React, { useCallback, useMemo } from 'react'
 import { HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { open } from '@utils'
-import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
 import { TEXT_MENU_BROWSER, TEXT_MENU_SPLIT_LEFT, TEXT_MENU_SPLIT_RIGHT } from '@constants'
@@ -16,9 +15,7 @@ import { Ctx } from '../../types'
 import { COMPONENT, MENU_ACTIONS, MENU_DS } from './ds'
 
 function Menu() {
-  r(COMPONENT)
-
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
     const memoData = useMemo(

@@ -32,6 +32,7 @@ import timelineStore from '../timeline'
 import {
   cheerioMAL,
   cheerioMono,
+  cheerioMonoComments,
   cheerioMonoVoices,
   cheerioMonoWorks,
   cheerioRating,
@@ -454,17 +455,16 @@ export default class Fetch extends Computed {
         url: HTML_MONO(monoId)
       })
 
-      const next = cheerioMono(html)
       this.setState({
         [STATE_KEY]: {
           [ITEM_KEY]: {
-            ...next.mono,
+            ...cheerioMono(html),
             _loaded: getTimestamp()
           }
         },
         [STATE_KEY_2]: {
           [ITEM_KEY]: {
-            list: next.comments,
+            list: cheerioMonoComments(html),
             pagination: {
               page: 1,
               pageTotal: 1

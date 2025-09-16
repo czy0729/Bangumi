@@ -5,18 +5,21 @@
  * @Last Modified time: 2024-11-17 10:05:50
  */
 import React from 'react'
-import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import Voice from './voice'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function VoiceWrap({ style }) {
-  const { $, navigation } = useStore<Ctx>()
-  if (!$.voices.length) return null
+function VoiceWrap() {
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
 
-  return <Voice styles={memoStyles()} navigation={navigation} style={style} voices={$.voices} />
+  return useObserver(() => {
+    if (!$.voices.length) return null
+
+    return <Voice styles={memoStyles()} navigation={navigation} style={_.mt.md} voices={$.voices} />
+  })
 }
 
-export default ob(VoiceWrap, COMPONENT)
+export default VoiceWrap

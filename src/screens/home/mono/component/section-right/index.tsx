@@ -7,15 +7,16 @@
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 function SectionRight({ event, text, to }) {
-  const { $, navigation } = useStore<Ctx>()
-  return (
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
     <Touchable
       style={styles.touch}
       onPress={() => {
@@ -36,7 +37,7 @@ function SectionRight({ event, text, to }) {
         <Iconfont name='md-navigate-next' />
       </Flex>
     </Touchable>
-  )
+  ))
 }
 
-export default ob(SectionRight, COMPONENT)
+export default SectionRight

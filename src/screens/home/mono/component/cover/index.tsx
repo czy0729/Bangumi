@@ -9,6 +9,7 @@ import { Cover as CoverComp, Flex, Heatmap, Image } from '@components'
 import { _ } from '@stores'
 import { getCoverLarge } from '@utils'
 import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
@@ -30,9 +31,9 @@ function Cover({ thumb, src, monoId }) {
     setLoaded(true)
   }, [setLoaded])
 
-  return (
+  return useObserver(() => (
     <Flex style={styles.cover} justify='center'>
-      {!!thumb && !loaded && <CoverComp src={thumb} size={80} shadow />}
+      {!!thumb && !loaded && <CoverComp src={thumb} size={80} />}
       {!!src && (
         <>
           <Image
@@ -49,7 +50,7 @@ function Cover({ thumb, src, monoId }) {
         </>
       )}
     </Flex>
-  )
+  ))
 }
 
 export default Cover

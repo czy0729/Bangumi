@@ -8,20 +8,21 @@ import React from 'react'
 import { PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import Info from '../info'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
 
 function List({ onScroll }) {
-  const { $ } = useStore<Ctx>()
-  return (
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
     <PaginationList2
-      contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
+      contentContainerStyle={_.container.bottom}
       data={$.list}
-      limit={20}
+      limit={16}
       scrollEventThrottle={16}
       ListHeaderComponent={<Info />}
       progressViewOffset={_.ios(_.statusBarHeight, _.headerHeight)}
@@ -29,7 +30,7 @@ function List({ onScroll }) {
       onScroll={onScroll}
       onHeaderRefresh={$.onHeaderRefresh}
     />
-  )
+  ))
 }
 
-export default ob(List, COMPONENT)
+export default List

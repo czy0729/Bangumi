@@ -22,7 +22,7 @@ const Jobs = memo(
     const { avatarRound } = systemStore.setting
     const radius = avatarRound ? COVER_WIDTH : _.radiusSm
     return (
-      <InView style={styles.inView}>
+      <InView style={styles.inView} y={_.lg}>
         <Expand ratio={2.8}>
           <View style={stl(styles.container, style)}>
             <View>
@@ -71,7 +71,7 @@ const Jobs = memo(
                       {!index && <Heatmap right={-32} id='人物.跳转' to='Subject' alias='条目' />}
                       <Flex.Item style={styles.content}>
                         <Flex align='start'>
-                          <Flex.Item>
+                          <Flex.Item style={styles.top}>
                             <Text size={12} bold numberOfLines={3}>
                               {nameTop}
                             </Text>
@@ -79,7 +79,7 @@ const Jobs = memo(
                           <Tag style={styles.tag} value={item.staff} />
                         </Flex>
                         {!!nameBottom && nameBottom !== nameTop && (
-                          <Text style={_.mt.xs} size={10} type='sub' bold>
+                          <Text style={styles.bottom} size={10} type='sub' bold>
                             {nameBottom}
                           </Text>
                         )}

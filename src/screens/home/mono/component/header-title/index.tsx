@@ -5,20 +5,23 @@
  * @Last Modified time: 2024-03-19 19:40:45
  */
 import React from 'react'
-import { ob } from '@utils/decorators'
+import { useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import HeaderTitle from './header-title'
 import { COMPONENT } from './ds'
 
-function HeaderTitleWrap({ $ }: Ctx) {
-  return (
+function HeaderTitleWrap() {
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
     <HeaderTitle
       cover={$.thumb}
       tinygrail={$.tinygrail}
       nameTop={$.nameTop}
       nameBottom={[$.nameBottom, $.position].filter(item => !!item).join(' · ')}
     />
-  )
+  ))
 }
 
-export default ob(HeaderTitleWrap, COMPONENT)
+export default HeaderTitleWrap

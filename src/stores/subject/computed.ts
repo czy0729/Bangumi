@@ -144,18 +144,24 @@ export default class Computed extends State implements StoreConstructor<typeof S
     }).get()
   }
 
-  /** 章节内容 */
+  /** 人物信息 */
   mono(monoId: MonoId) {
-    this.init('mono', true)
-    return computed<Mono>(() => {
-      return this.state.mono[monoId] || INIT_MONO
+    const STATE_KEY = 'mono'
+    this.init(STATE_KEY, true)
+
+    return computed(() => {
+      const ITEM_KEY = monoId
+      return (this.state[STATE_KEY][ITEM_KEY] || INIT_MONO) as Mono
     }).get()
   }
 
   /** 人物吐槽箱 */
   monoComments(monoId: MonoId) {
-    return computed<MonoComments>(() => {
-      return this.state.monoComments[monoId] || LIST_EMPTY
+    const STATE_KEY = 'monoComments'
+
+    return computed(() => {
+      const ITEM_KEY = monoId
+      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as MonoComments
     }).get()
   }
 
