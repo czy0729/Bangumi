@@ -27,7 +27,7 @@ import {
   HTML_SUBJECT_WIKI_COVER,
   HTML_SUBJECT_WIKI_EDIT
 } from '@constants'
-import { EpId, MonoId, PersonId, RatingStatus, ResponseV0Episodes, SubjectId } from '@types'
+import { EpId, MonoId, RatingStatus, ResponseV0Episodes, SubjectId } from '@types'
 import timelineStore from '../timeline'
 import {
   cheerioMAL,
@@ -53,7 +53,7 @@ import {
   STATE
 } from './init'
 import { getInt, mapV0Episodes } from './utils'
-import { ApiSubjectResponse, FetchMonoVoicesArgs, MonoWorks } from './types'
+import { ApiSubjectResponse, FetchMonoVoicesArgs, FetchMonoWorksArgs } from './types'
 
 export default class Fetch extends Computed {
   /** 条目信息 */
@@ -508,41 +508,38 @@ export default class Fetch extends Computed {
   }
 
   /** 人物作品 */
-  fetchMonoWorks = async (
-    args: {
-      monoId: PersonId
-      position?: string
-      order?: 'date' | 'rank' | 'title'
-    },
-    refresh?: boolean
-  ) => {
+  fetchMonoWorks = async (args: FetchMonoWorksArgs, refresh?: boolean) => {
     const { monoId, position, order } = args || {}
-    const key = 'monoWorks'
-    const limit = 24
-    const { list, pagination } = this[key](monoId)
-    const page = refresh ? 1 : pagination.page + 1
+    const STATE_KEY = 'monoWorks'
+    const ITEM_KEY = monoId
+    const LIMIT = 24
 
-    const html = await fetchHTML({
-      url: HTML_MONO_WORKS(monoId, position, order, page)
-    })
-    const next = cheerioMonoWorks(html)
+    try {
+      const { list, pagination } = this[STATE_KEY](ITEM_KEY)
+      const page = refresh ? 1 : pagination.page + 1
+      const html = await fetchHTML({
+        url: HTML_MONO_WORKS(monoId, position, order, page)
+      })
 
-    const data: MonoWorks = {
-      list: refresh ? next.list : [...list, ...next.list],
-      pagination: {
-        page,
-        pageTotal: next.list.length === limit ? 100 : page
-      },
-      filters: next.filters,
-      _loaded: getTimestamp()
+      const next = cheerioMonoWorks(html)
+      this.setState({
+        [STATE_KEY]: {
+          [monoId]: {
+            list: refresh ? next.list : [...list, ...next.list],
+            pagination: {
+              page,
+              pageTotal: next.list.length >= LIMIT ? 100 : page
+            },
+            filters: next.filters,
+            _loaded: getTimestamp()
+          }
+        }
+      })
+    } catch (error) {
+      this.error('fetchMonoWorks', error)
     }
-    this.setState({
-      [key]: {
-        [monoId]: data
-      }
-    })
 
-    return data
+    return this[STATE_KEY](ITEM_KEY)
   }
 
   /** 人物角色 */

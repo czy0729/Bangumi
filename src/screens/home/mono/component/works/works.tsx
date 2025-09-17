@@ -10,16 +10,16 @@ import { Flex, Heatmap, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover, InView, SectionTitle, Tag } from '@_'
 import { _ } from '@stores'
-import { appNavigate, findSubjectCn, stl } from '@utils'
+import { appNavigate, stl } from '@utils'
 import { memo } from '@utils/decorators'
-import { FROZEN_ARRAY, MODEL_SUBJECT_TYPE } from '@constants'
+import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { COVER_HEIGHT, COVER_WIDTH } from '../../ds'
 import SectionRight from '../section-right'
 import { COMPONENT_MAIN, DEFAULT_PROPS, EVENT } from './ds'
 
 const Works = memo(
-  ({ navigation, styles, style, works = FROZEN_ARRAY }) => {
+  ({ navigation, styles, style, works }) => {
     return (
       <InView style={stl(styles.container, style)} y={Math.floor(_.window.height * 0.5)}>
         <SectionTitle
@@ -65,7 +65,7 @@ const Works = memo(
                     <Flex align='start'>
                       <Flex.Item>
                         <Text style={_.mt.xs} bold size={12}>
-                          {findSubjectCn(item.name)}
+                          {item.name}
                         </Text>
                       </Flex.Item>
                       <Tag style={styles.tag} value={item.staff} />

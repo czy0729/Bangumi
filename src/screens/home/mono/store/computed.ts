@@ -6,6 +6,7 @@
  */
 import { computed } from 'mobx'
 import { subjectStore, systemStore, tinygrailStore } from '@stores'
+import { Mono } from '@stores/subject/types'
 import { cnjp, desc, getMonoCoverSmall, HTMLDecode } from '@utils'
 import { FROZEN_ARRAY, HOST } from '@constants'
 import State from './state'
@@ -125,18 +126,20 @@ export default class Computed extends State {
 
   /** 人物出演 */
   @computed get voices() {
-    return (this.mono._loaded ? this.mono.voice : this.monoFormCDN.voice) || FROZEN_ARRAY
+    return ((this.mono._loaded ? this.mono.voice : this.monoFormCDN.voice) ||
+      FROZEN_ARRAY) as Mono['voice']
   }
 
   /** 人物相关作品 */
   @computed get works() {
-    return (this.mono._loaded ? this.mono.works : this.monoFormCDN.works) || FROZEN_ARRAY
+    return ((this.mono._loaded ? this.mono.works : this.monoFormCDN.works) ||
+      FROZEN_ARRAY) as Mono['works']
   }
 
   /** 人物相关工作 */
   @computed get jobs() {
     return ((this.mono._loaded ? this.mono.jobs : this.monoFormCDN.jobs) || FROZEN_ARRAY)
       .slice()
-      .sort((a, b) => desc(a, b, item => (item.type == 2 ? 99 : Number(item.type))))
+      .sort((a, b) => desc(a, b, item => (item.type == 2 ? 99 : Number(item.type)))) as Mono['jobs']
   }
 }

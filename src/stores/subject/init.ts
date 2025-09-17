@@ -7,7 +7,7 @@
 import { LIST_EMPTY } from '@constants'
 import { MODEL_RATING_STATUS } from '@constants/model'
 import { Actions, Loaded, MonoId, Origin, RatingStatus, SubjectType } from '@types'
-import { EpStatus, Mono, MonoComments, MonoVoices, SubjectFromHTML } from './types'
+import { EpStatus, Mono, MonoComments, MonoVoices, MonoWorks, SubjectFromHTML } from './types'
 
 /** 命名空间 */
 export const NAMESPACE = 'Subject'
@@ -261,13 +261,11 @@ const STATE = {
     0: INIT_MONO
   },
 
-  /** 人物作品 */
-  monoWorks: {
-    0: INIT_MONO_WORKS
-  },
-
   /** 人物角色 */
   monoVoices: {} as Record<MonoId, MonoVoices>,
+
+  /** 人物作品 */
+  monoWorks: {} as Record<MonoId, MonoWorks>,
 
   /** 好友评分列表 */
   rating: {

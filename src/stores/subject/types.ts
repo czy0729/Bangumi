@@ -408,16 +408,16 @@ export type SubjectComments = Override<
 
 /** 人物 */
 export type Mono = {
-  /** 日文名 (原名) */
+  /** 人物日文名 (原名) */
   name: string
 
-  /** 中文名 */
+  /** 人物中文名 */
   nameCn: string
 
-  /** 封面 */
+  /** 人物封面 */
   cover: string
 
-  /** 描述 */
+  /** 人物描述 */
   detail: string
 
   /** 人物各项详情属性 */
@@ -425,79 +425,137 @@ export type Mono = {
 
   /** 最近演出角色 (声优才有此值) */
   voice: {
-    /** /character/{Id} */
+    /** 虚拟角色链接 /character/{Id} */
     href: string
+
+    /** 虚拟角色原名 */
     name: string
+
+    /** 虚拟角色中文名 */
     nameCn: string
+
+    /** 虚拟角色封面 */
     cover: string
 
-    /** /subject/{SubjectId} */
+    /** 条目链接 /subject/{SubjectId} */
     subjectHref: string
+
+    /** 条目原名 */
     subjectName: string
+
+    /** 条目中文名 */
     subjectNameCn: string
+
+    /** 条目封面 */
     subjectCover: string
+
+    /** 条目中的演出 */
     staff: string
   }[]
 
   /** 出演 (虚拟角色才有此值) */
   jobs: {
-    /** /subject/{SubjectId} */
+    /** 虚拟角色链接 /subject/{SubjectId} */
     href: string
+
+    /** 虚拟角色原名 */
     name: string
+
+    /** 虚拟角色中文名 */
     nameCn: string
+
+    /** 虚拟角色封面 */
     cover: string
+
+    /** 虚拟角色类型 */
     staff: string
+
+    /** 声优名 */
     cast: string
 
-    /** /person/{Id} */
+    /** 声优链接 /person/{Id} */
     castHref: string
+
+    /** 声优职位描述 */
     castTag: string
+
+    /** 声优封面 */
     castCover: string
+
+    /** 第二声优 */
     cast2: {
+      /** 第二声优名 */
       cast: string
+
+      /** 第二声优封面 */
       castCover: string
 
-      /** /person/{Id} */
+      /** 第二声优链接 /person/{Id} */
       castHref: string
+
+      /** 第二声优职位描述 */
       castTag: string
     }
+
+    /** 条目类型 */
     type: SubjectTypeValue
   }[]
 
   /** 最近参与 (真实人物、组织才有此值) */
   works: {
-    /** /subject/{SubjectId} */
+    /** 条目链接 /subject/{SubjectId} */
     href: string
+
+    /** 条目原名 */
     name: string
+
+    /** 条目封面 */
     cover: string
+
+    /** 条目职位 */
     staff: string
+
+    /** 条目类型 */
     type: SubjectTypeValue
   }[]
 
   /** 最近谁收藏了 */
   collected: {
+    /** 用户头像 */
     avatar: string
+
+    /** 用户昵称 */
     name: string
+
+    /** 用户 ID */
     userId: UserId
+
+    /** 最后操作时间 */
     last: string
   }[]
 
   /** 合作 */
   collabs: {
-    /** /person/{Id} */
+    /** 真实人物链接 /person/{Id} */
     href: string
+
+    /** 真实人物原名 */
     name: string
+
+    /** 真实人物封面 */
     cover: string
+
+    /** 合作次数 */
     count: string
   }[]
 
-  /** 收藏动作链接 {string}?gh={string} */
+  /** 收藏动作链接 {string}?gh={string} (需登录) */
   collectUrl: string
 
-  /** 取消收藏动作链接 {string}?gh={string */
+  /** 取消收藏动作链接 {string}?gh={string} (需登录) */
   eraseCollectUrl: string
 
-  /** 最后数据加载时间 */
+  /** 数据最后加载时间 */
   _loaded?: Loaded
 }
 
@@ -543,29 +601,6 @@ export type MonoCommentsItem = Override<
 /** 角色吐槽箱 */
 export type MonoComments = ListEmpty<MonoCommentsItem>
 
-/** 人物作品 */
-export type MonoWorks = Override<
-  ListEmpty<
-    Partial<{
-      id: `/subject/${SubjectId}`
-      cover: Cover<'c'>
-      name: string
-      nameCn: string
-      tip: string
-      position: string[]
-      score: string
-      total: string
-      rank: string
-      collected: boolean
-      type: SubjectType
-    }>
-  >,
-  {
-    /** 可筛选项 */
-    filters?: any
-  }
->
-
 /** 人物角色 */
 export type MonoVoicesItem = {
   /** 虚拟角色 ID */
@@ -599,12 +634,20 @@ export type MonoVoicesItem = {
   }[]
 }
 
-/** 人物角色高级筛选项 */
-export type MonoVoicesFiltersItem = {
-  /** 筛选列属性 (类型、角色) */
+/** 人物高级筛选项 */
+export type MonoFiltersItem = {
+  /**
+   * 筛选列属性
+   *  - 类型、角色
+   * */
   title: string
 
-  /** 筛选项 (全部，类型：动画、游戏，角色：主角、配角等) */
+  /**
+   * 筛选项
+   *  - 类型：全部、动画、游戏
+   *  - 角色：全部、主角、配角
+   *  - 职位：全部、艺术家、主题歌演出等
+   * */
   data: {
     /** 筛选项标签 */
     title: string
@@ -619,7 +662,52 @@ export type MonoVoices = Override<
   ListEmpty<MonoVoicesItem>,
   {
     /** 人物角色高级筛选 */
-    filters: MonoVoicesFiltersItem[]
+    filters: MonoFiltersItem[]
+  }
+>
+
+/** 人物作品项 */
+export type MonoWorksItem = {
+  /** 条目 ID */
+  id: `/subject/${SubjectId}`
+
+  /** 条目封面 */
+  cover: string
+
+  /** 条目原名 */
+  name: string
+
+  /** 条目中文名 */
+  nameCn: string
+
+  /** 条目简略描述 */
+  tip: string
+
+  /** 人物职位 */
+  position: string[]
+
+  /** 条目评分 */
+  score: string
+
+  /** 条目打分人数 */
+  total: string
+
+  /** 条目排名 */
+  rank: string
+
+  /** 条目是否收藏 (需登录) */
+  collected: boolean
+
+  /** 条目类型 */
+  type: SubjectType
+}
+
+/** 人物作品 */
+export type MonoWorks = Override<
+  ListEmpty<MonoWorksItem>,
+  {
+    /** 人物作品高级筛选 */
+    filters: MonoFiltersItem[]
   }
 >
 
@@ -714,7 +802,23 @@ export type EpV2 = {
 
 export type EpStatus = Record<EpId, string>
 
+/** 人物角色参数 */
 export type FetchMonoVoicesArgs = {
+  /** 现实人物 ID */
   monoId: PersonId
+
+  /** 职位筛选 */
   position?: string
+}
+
+/** 人物作品参数 */
+export type FetchMonoWorksArgs = {
+  /** 现实人物 ID */
+  monoId: PersonId
+
+  /** 作品职位筛选 */
+  position?: string
+
+  /** 作品排序 */
+  order?: 'date' | 'rank' | 'title'
 }

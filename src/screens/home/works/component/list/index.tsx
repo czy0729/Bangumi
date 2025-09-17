@@ -9,7 +9,7 @@ import { View } from 'react-native'
 import { ListView } from '@components'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import ToolBar from '../tool-bar'
 import { renderGridItem, renderListItem } from './utils'
@@ -17,28 +17,31 @@ import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 function List() {
-  const { $ } = useStore<Ctx>()
-  const { fixed, list } = $.state
-  const numColumns = list ? undefined : _.portrait(3, 5)
-  const elToolBar = <ToolBar />
-  return (
-    <>
-      {fixed && <View style={styles.fixedToolBar}>{elToolBar}</View>}
-      <ListView
-        key={`${_.orientation}${numColumns}`}
-        keyExtractor={keyExtractor}
-        contentContainerStyle={!fixed ? styles.contentContainerStyle : _.container.bottom}
-        data={$.list}
-        numColumns={numColumns}
-        ListHeaderComponent={!fixed && elToolBar}
-        renderItem={list ? renderListItem : renderGridItem}
-        scrollEventThrottle={16}
-        onScroll={$.onScroll}
-        onHeaderRefresh={$.onHeaderRefresh}
-        onFooterRefresh={$.fetchMonoWorks}
-      />
-    </>
-  )
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => {
+    const { fixed, list } = $.state
+    const numColumns = list ? undefined : _.portrait(3, 5)
+    const elToolBar = <ToolBar />
+    return (
+      <>
+        {fixed && <View style={styles.fixedToolBar}>{elToolBar}</View>}
+        <ListView
+          key={`${_.orientation}${numColumns}`}
+          keyExtractor={keyExtractor}
+          contentContainerStyle={!fixed ? styles.contentContainerStyle : _.container.bottom}
+          data={$.list}
+          numColumns={numColumns}
+          ListHeaderComponent={!fixed && elToolBar}
+          renderItem={list ? renderListItem : renderGridItem}
+          scrollEventThrottle={16}
+          onScroll={$.onScroll}
+          onHeaderRefresh={$.onHeaderRefresh}
+          onFooterRefresh={$.fetchMonoWorks}
+        />
+      </>
+    )
+  })
 }
 
-export default ob(List, COMPONENT)
+export default List

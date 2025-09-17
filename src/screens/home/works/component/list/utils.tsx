@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2024-06-02 15:40:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-02 15:51:33
+ * @Last Modified time: 2025-09-17 18:40:16
  */
 import React from 'react'
-import { _ } from '@stores'
-import GridItem from './grid'
-import ListItem from './list'
+import { MonoWorksItem } from '@stores/subject/types'
+import { RenderItem } from '@types'
+import Item from '../item'
+import ItemGrid from '../item-grid'
 
-export function renderListItem({ item, index }) {
-  // {!index && <Heatmap id='作品.跳转' />}
-  return <ListItem item={item} index={index} />
+export function renderListItem({ item, index }: RenderItem<MonoWorksItem>) {
+  return <Item item={item} index={index} />
 }
 
-export function renderGridItem({ item, index }) {
-  return <GridItem item={item} index={index} numColumns={_.portrait(3, 5)} />
+export function renderGridItem({ item, index }: RenderItem<MonoWorksItem>) {
+  return <ItemGrid item={item} index={index} />
 }

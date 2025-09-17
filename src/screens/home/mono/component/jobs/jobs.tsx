@@ -12,13 +12,13 @@ import { SectionTitle, Tag } from '@_'
 import { _, systemStore } from '@stores'
 import { appNavigate, cnjp, getCoverMedium, stl } from '@utils'
 import { memo } from '@utils/decorators'
-import { FROZEN_ARRAY, MODEL_SUBJECT_TYPE } from '@constants'
+import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { COVER_HEIGHT, COVER_WIDTH } from '../../ds'
 import { COMPONENT_MAIN, DEFAULT_PROPS, EVENT } from './ds'
 
 const Jobs = memo(
-  ({ navigation, styles, style, jobs = FROZEN_ARRAY }) => {
+  ({ navigation, styles, style, jobs }) => {
     const radius = systemStore.setting.avatarRound ? COVER_WIDTH : _.radiusSm
 
     const elContent = (

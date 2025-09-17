@@ -29,15 +29,15 @@ import {
   safeObject
 } from '@utils'
 import { HOST } from '@constants'
-import { Id, MonoId, Override, SubjectTypeValue, UserId } from '@types'
+import { Id, MonoId, Override, SubjectId, SubjectTypeValue, UserId } from '@types'
 import { Likes } from '../rakuen/types'
 import {
   EpStatus,
   Mono,
   MonoCommentsItem,
-  MonoVoicesFiltersItem,
+  MonoFiltersItem,
   MonoVoicesItem,
-  MonoWorks,
+  MonoWorksItem,
   Rating,
   SubjectCatalogs,
   SubjectComments,
@@ -254,57 +254,34 @@ const TYPE = {
 } as const
 
 /** 人物作品 */
-export function cheerioMonoWorks(html: string): MonoWorks {
-  const $ = cheerio(htmlMatch(html, '<div id="columnCrtB"', '<div id="footer">'))
+export function cheerioMonoWorks(html: string) {
+  const $ = cheerio(htmlMatch(html, '<div id="columnCrtB', '<div id="footer'))
   return {
-    filters:
-      $('div.subjectFilter > ul.grouped')
-        .map((_index: number, element: any) => {
-          const $li = cheerio(element)
-          return safeObject({
-            title: $li.find('li.title').text().trim(),
-            data:
-              $li
-                .find('a.l')
-                .map((_idx: number, el: any) => {
-                  const $a = cheerio(el)
-                  return safeObject({
-                    title: $a.text().trim(),
-                    value: $a.attr('href').split('/works')[1]
-                  })
-                })
-                .get() || []
-          })
-        })
-        .get() || [],
-    list:
-      $('ul#browserItemList > li.item')
-        .map((_index: number, element: any) => {
-          const $li = cheerio(element)
-          return safeObject({
-            id: $li.find('a.cover').attr('href'),
-            cover: getCoverMedium($li.find('img.cover').attr('src')),
-            name: $li.find('small.grey').text().trim(),
-            nameCn: $li.find('h3 a.l').text().trim(),
-            tip: $li.find('p.tip').text().trim(),
-            position:
-              $li
-                .find('span.badge_job')
-                .map((_idx: number, el: any) => cheerio(el).text().trim())
-                .get() || [],
-            score: $li.find('small.fade').text().trim(),
-            total: $li.find('span.tip_j').text().trim(),
-            rank: $li.find('span.rank').text().trim().replace('Rank ', ''),
-            collected: !!$li.find('p.collectModify').text(),
-            type: TYPE[
-              $li
-                .find('span.ico_subject_type')
-                .attr('class')
-                .replace(/ico_subject_type subject_type_| ll/g, '')
-            ]
-          })
-        })
-        .get() || []
+    list: cMap<MonoWorksItem>($('ul#browserItemList > li.item'), $row => ({
+      id: cData(cFind($row, 'a.cover'), 'href') as `/subject/${SubjectId}`,
+      cover: getCoverMedium(cData(cFind($row, 'img.cover'), 'src')),
+      name: cText(cFind($row, 'small.grey')),
+      nameCn: cText(cFind($row, 'h3 a.l')),
+      tip: cText(cFind($row, 'p.tip')),
+      position: cMap(cList($row, 'span.badge_job'), $row => cText($row)),
+      score: cText(cFind($row, 'small.fade')),
+      total: cText(cFind($row, 'span.tip_j')),
+      rank: cText(cFind($row, 'span.rank')).replace('Rank ', ''),
+      collected: cHas(cFind($row, 'p.collectModify')),
+      type: TYPE[
+        cData(cFind($row, 'span.ico_subject_type'), 'class').replace(
+          /ico_subject_type subject_type_| ll/g,
+          ''
+        )
+      ]
+    })),
+    filters: cMap<MonoFiltersItem>($('div.subjectFilter > ul.grouped'), $row => ({
+      title: cText(cFind($row, 'li.title')),
+      data: cMap<MonoFiltersItem['data'][number]>(cList($row, 'a.l'), $row => ({
+        title: cText($row),
+        value: cData($row, 'href').split('/works')?.[1] || ''
+      }))
+    }))
   }
 }
 
@@ -335,9 +312,9 @@ export function cheerioMonoVoices(html: string) {
         )
       }
     }),
-    filters: cMap<MonoVoicesFiltersItem>($('div.subjectFilter > ul.grouped'), $row => ({
+    filters: cMap<MonoFiltersItem>($('div.subjectFilter > ul.grouped'), $row => ({
       title: cText(cFind($row, 'li.title')),
-      data: cMap<MonoVoicesFiltersItem['data'][number]>(cList($row, 'a.l'), $row => ({
+      data: cMap<MonoFiltersItem['data'][number]>(cList($row, 'a.l'), $row => ({
         title: cText($row),
         value: cData($row, 'href').split('/works/voice')?.[1] || ''
       }))

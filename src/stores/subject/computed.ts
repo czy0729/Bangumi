@@ -172,13 +172,6 @@ export default class Computed extends State implements StoreConstructor<typeof S
     }).get()
   }
 
-  /** 人物作品 */
-  monoWorks(monoId: MonoId) {
-    return computed<MonoWorks>(() => {
-      return this.state.monoWorks[monoId] || INIT_MONO_WORKS
-    }).get()
-  }
-
   /** 人物角色 */
   monoVoices(monoId: MonoId) {
     const STATE_KEY = 'monoVoices'
@@ -186,6 +179,16 @@ export default class Computed extends State implements StoreConstructor<typeof S
     return computed(() => {
       const ITEM_KEY = monoId
       return (this.state[STATE_KEY][ITEM_KEY] || INIT_MONO_WORKS) as MonoVoices
+    }).get()
+  }
+
+  /** 人物作品 */
+  monoWorks(monoId: MonoId) {
+    const STATE_KEY = 'monoWorks'
+
+    return computed(() => {
+      const ITEM_KEY = monoId
+      return (this.state[STATE_KEY][ITEM_KEY] || INIT_MONO_WORKS) as MonoWorks
     }).get()
   }
 

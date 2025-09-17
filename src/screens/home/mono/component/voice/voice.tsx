@@ -12,13 +12,12 @@ import { InView, SectionTitle, Tag } from '@_'
 import { _ } from '@stores'
 import { appNavigate, cnjp, stl } from '@utils'
 import { memo } from '@utils/decorators'
-import { FROZEN_ARRAY } from '@constants'
 import { COVER_HEIGHT, COVER_WIDTH } from '../../ds'
 import SectionRight from '../section-right'
 import { COMPONENT_MAIN, DEFAULT_PROPS, EVENT, IMAGE_WIDTH } from './ds'
 
 const Voice = memo(
-  ({ navigation, styles, style, voices = FROZEN_ARRAY }) => {
+  ({ navigation, styles, style, voices }) => {
     return (
       <InView style={stl(styles.container, style)} y={Math.floor(_.window.height * 0.5)}>
         <SectionTitle

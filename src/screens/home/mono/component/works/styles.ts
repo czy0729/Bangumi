@@ -24,6 +24,6 @@ export const memoStyles = _.memoStyles(() => ({
   },
   tag: {
     marginTop: 3,
-    marginLeft: _.md
+    marginLeft: _.lg
   }
 }))
