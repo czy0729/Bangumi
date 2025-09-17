@@ -4,23 +4,18 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-04-20 12:05:39
  */
-import { EventType, MonoId, Navigation, SubjectId, ViewStyle } from '@types'
+import { PropsWithChildren } from 'react'
+import { MonoVoicesItem } from '@stores/subject/types'
+import { EventType, Navigation, Override, ViewStyle } from '@types'
 
-export type Props = {
-  navigation?: Navigation
-  style?: ViewStyle
-  event?: EventType
-  index?: number
-  id?: MonoId
-  name?: string
-  nameCn?: string
-  cover?: string
-  subject?: {
-    id?: SubjectId
-    name?: string
-    nameCn?: string
-    cover?: string
-    staff?: string
-  }[]
-  children?: any
-}
+export type Props = PropsWithChildren<
+  Override<
+    MonoVoicesItem,
+    {
+      navigation?: Navigation
+      style?: ViewStyle
+      event?: EventType
+      index?: number
+    }
+  >
+>

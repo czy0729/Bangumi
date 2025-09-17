@@ -53,7 +53,7 @@ import {
   STATE
 } from './init'
 import { getInt, mapV0Episodes } from './utils'
-import { ApiSubjectResponse, MonoWorks } from './types'
+import { ApiSubjectResponse, FetchMonoVoicesArgs, MonoWorks } from './types'
 
 export default class Fetch extends Computed {
   /** 条目信息 */
@@ -458,7 +458,7 @@ export default class Fetch extends Computed {
       this.setState({
         [STATE_KEY]: {
           [ITEM_KEY]: {
-            ...cheerioMono(html),
+            ...cheerioMono(html, monoId),
             _loaded: getTimestamp()
           }
         },
@@ -546,29 +546,35 @@ export default class Fetch extends Computed {
   }
 
   /** 人物角色 */
-  fetchMonoVoices = async (args: { monoId: PersonId; position?: string }) => {
-    const { monoId, position } = args || {}
-    const key = 'monoVoices'
-    const html = await fetchHTML({
-      url: HTML_MONO_VOICES(monoId, position)
-    })
+  fetchMonoVoices = async (args: FetchMonoVoicesArgs) => {
+    const { monoId, position = '' } = args || {}
+    const STATE_KEY = 'monoVoices'
+    const ITEM_KEY = monoId
 
-    const { list, filters } = cheerioMonoVoices(html)
-    this.setState({
-      [key]: {
-        [monoId]: {
-          list,
-          pagination: {
-            page: 1,
-            pageTotal: 1
-          },
-          filters,
-          _loaded: getTimestamp()
+    try {
+      const html = await fetchHTML({
+        url: HTML_MONO_VOICES(ITEM_KEY, position)
+      })
+
+      const next = cheerioMonoVoices(html)
+      this.setState({
+        [STATE_KEY]: {
+          [ITEM_KEY]: {
+            list: next.list,
+            pagination: {
+              page: 1,
+              pageTotal: 1
+            },
+            filters: next.filters,
+            _loaded: getTimestamp()
+          }
         }
-      }
-    })
+      })
+    } catch (error) {
+      this.error('fetchMonoVoices', error)
+    }
 
-    return this[key](monoId)
+    return this[STATE_KEY](ITEM_KEY)
   }
 
   /** 所有人评分 */

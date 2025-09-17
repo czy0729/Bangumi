@@ -8,7 +8,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { Cover, Expand, Flex, Heatmap, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { InView, SectionTitle, Tag } from '@_'
+import { SectionTitle, Tag } from '@_'
 import { _, systemStore } from '@stores'
 import { appNavigate, cnjp, getCoverMedium, stl } from '@utils'
 import { memo } from '@utils/decorators'
@@ -19,149 +19,142 @@ import { COMPONENT_MAIN, DEFAULT_PROPS, EVENT } from './ds'
 
 const Jobs = memo(
   ({ navigation, styles, style, jobs = FROZEN_ARRAY }) => {
-    const { avatarRound } = systemStore.setting
-    const radius = avatarRound ? COVER_WIDTH : _.radiusSm
-    return (
-      <InView style={styles.inView} y={_.lg}>
-        <Expand ratio={2.8}>
-          <View style={stl(styles.container, style)}>
-            <View>
-              <SectionTitle
-                left={
-                  <Text style={_.ml.xs} type='sub' lineHeight={20}>
-                    {jobs.length}
-                  </Text>
-                }
+    const radius = systemStore.setting.avatarRound ? COVER_WIDTH : _.radiusSm
+
+    const elContent = (
+      <View style={stl(styles.container, style)}>
+        <View>
+          <SectionTitle right={<Heatmap id='人物.跳转' to='Works' alias='作品' />}>
+            出演
+          </SectionTitle>
+          <Heatmap id='人物.跳转' from='出演' />
+        </View>
+        <View style={_.mt.md}>
+          {jobs.map((item, index) => {
+            const nameTop = cnjp(item.nameCn, item.name)
+            const nameBottom = cnjp(item.name, item.nameCn)
+            const type = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(item.type)
+
+            const isMusic = type === '音乐'
+            const width = isMusic ? Math.floor(COVER_WIDTH * 1.2) : COVER_WIDTH
+            const height = isMusic ? width : COVER_HEIGHT
+
+            return (
+              <Touchable
+                key={item.href}
+                animate
+                onPress={() => {
+                  appNavigate(
+                    item.href,
+                    navigation,
+                    {
+                      _jp: item.name,
+                      _cn: item.nameCn,
+                      _image: getCoverSrc(item.cover, COVER_WIDTH),
+                      _type: type
+                    },
+                    EVENT
+                  )
+                }}
               >
-                出演
-              </SectionTitle>
-              <Heatmap id='人物.跳转' from='出演' />
-            </View>
-            <View style={_.mt.md}>
-              {jobs.map((item, index) => {
-                const nameTop = cnjp(item.nameCn, item.name)
-                const nameBottom = cnjp(item.name, item.nameCn)
-                const type = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(item.type)
-                return (
-                  <Touchable
-                    key={item.href}
-                    animate
-                    onPress={() => {
-                      appNavigate(
-                        item.href,
-                        navigation,
-                        {
-                          _jp: item.name,
-                          _cn: item.nameCn,
-                          _image: getCoverSrc(item.cover, COVER_WIDTH),
-                          _type: type
-                        },
-                        EVENT
-                      )
-                    }}
-                  >
-                    <Flex style={styles.item} align='start'>
-                      <Cover
-                        src={item.cover}
-                        type={type}
-                        size={COVER_WIDTH}
-                        height={COVER_HEIGHT}
-                        radius={_.radiusSm}
-                      />
-                      {!index && <Heatmap right={-32} id='人物.跳转' to='Subject' alias='条目' />}
-                      <Flex.Item style={styles.content}>
-                        <Flex align='start'>
-                          <Flex.Item style={styles.top}>
-                            <Text size={12} bold numberOfLines={3}>
-                              {nameTop}
-                            </Text>
-                          </Flex.Item>
-                          <Tag style={styles.tag} value={item.staff} />
-                        </Flex>
-                        {!!nameBottom && nameBottom !== nameTop && (
-                          <Text style={styles.bottom} size={10} type='sub' bold>
-                            {nameBottom}
-                          </Text>
-                        )}
-                        <Flex style={_.mt.md}>
-                          <Touchable
-                            animate
-                            onPress={() => {
-                              appNavigate(
-                                item.castHref,
-                                navigation,
-                                {
-                                  _name: item.cast,
-                                  _image: getCoverMedium(item.castCover)
-                                },
-                                EVENT
-                              )
-                            }}
-                          >
-                            <Flex>
-                              {!!item.castCover && (
-                                <View style={_.mr.sm}>
-                                  <Cover size={_.r(24)} src={item.castCover} radius={radius} />
-                                </View>
-                              )}
-                              <Text size={11} bold>
-                                {item.cast}
-                                {!!item.castTag && (
-                                  <Text size={8} type='sub' lineHeight={11} bold>
-                                    {' '}
-                                    {item.castTag}
-                                  </Text>
-                                )}
-                              </Text>
-                            </Flex>
-                            {!index && <Heatmap id='人物.跳转' to='Mono' alias='人物' />}
-                          </Touchable>
-                          {!!item?.cast2?.castCover && (
-                            <Touchable
-                              style={styles.castCover}
-                              onPress={() =>
-                                appNavigate(
-                                  item?.cast2?.castHref,
-                                  navigation,
-                                  {
-                                    _name: item?.cast2?.cast,
-                                    _image: getCoverMedium(item?.cast2?.castCover)
-                                  },
-                                  EVENT
-                                )
-                              }
-                            >
-                              <Flex>
-                                <View style={_.mr.xs}>
-                                  <Cover
-                                    size={_.r(24)}
-                                    src={item?.cast2?.castCover}
-                                    radius={radius}
-                                  />
-                                </View>
-                                <Text size={11} bold>
-                                  {item?.cast2?.cast}
-                                  {!!item?.cast2?.castTag && (
-                                    <Text size={8} type='sub' lineHeight={11} bold>
-                                      {' '}
-                                      {item?.cast2?.castTag}
-                                    </Text>
-                                  )}
-                                </Text>
-                              </Flex>
-                            </Touchable>
-                          )}
-                        </Flex>
+                <Flex style={styles.item} align='start'>
+                  <Cover
+                    src={item.cover}
+                    type={type}
+                    size={width}
+                    height={height}
+                    radius={_.radiusSm}
+                  />
+                  {!index && <Heatmap right={-32} id='人物.跳转' to='Subject' alias='条目' />}
+                  <Flex.Item style={styles.content}>
+                    <Flex align='start'>
+                      <Flex.Item style={styles.top}>
+                        <Text size={12} bold numberOfLines={3}>
+                          {nameTop}
+                        </Text>
                       </Flex.Item>
+                      <Tag style={styles.tag} value={item.staff} />
                     </Flex>
-                  </Touchable>
-                )
-              })}
-            </View>
-          </View>
-        </Expand>
-      </InView>
+                    {!!nameBottom && nameBottom !== nameTop && (
+                      <Text style={styles.bottom} size={10} type='sub' bold>
+                        {nameBottom}
+                      </Text>
+                    )}
+                    <Flex style={_.mt.md}>
+                      <Touchable
+                        animate
+                        onPress={() => {
+                          appNavigate(
+                            item.castHref,
+                            navigation,
+                            {
+                              _name: item.cast,
+                              _image: getCoverMedium(item.castCover)
+                            },
+                            EVENT
+                          )
+                        }}
+                      >
+                        <Flex>
+                          {!!item.castCover && (
+                            <View style={_.mr.sm}>
+                              <Cover size={_.r(24)} src={item.castCover} radius={radius} />
+                            </View>
+                          )}
+                          <Text size={11} bold>
+                            {item.cast}
+                            {!!item.castTag && (
+                              <Text size={8} type='sub' lineHeight={11} bold>
+                                {' '}
+                                {item.castTag}
+                              </Text>
+                            )}
+                          </Text>
+                        </Flex>
+                        {!index && <Heatmap id='人物.跳转' to='Mono' alias='人物' />}
+                      </Touchable>
+                      {!!item?.cast2?.castCover && (
+                        <Touchable
+                          style={styles.castCover}
+                          onPress={() =>
+                            appNavigate(
+                              item?.cast2?.castHref,
+                              navigation,
+                              {
+                                _name: item?.cast2?.cast,
+                                _image: getCoverMedium(item?.cast2?.castCover)
+                              },
+                              EVENT
+                            )
+                          }
+                        >
+                          <Flex>
+                            <View style={_.mr.xs}>
+                              <Cover size={_.r(24)} src={item?.cast2?.castCover} radius={radius} />
+                            </View>
+                            <Text size={11} bold>
+                              {item?.cast2?.cast}
+                              {!!item?.cast2?.castTag && (
+                                <Text size={8} type='sub' lineHeight={11} bold>
+                                  {' '}
+                                  {item?.cast2?.castTag}
+                                </Text>
+                              )}
+                            </Text>
+                          </Flex>
+                        </Touchable>
+                      )}
+                    </Flex>
+                  </Flex.Item>
+                </Flex>
+              </Touchable>
+            )
+          })}
+        </View>
+      </View>
     )
+
+    return jobs.length > 5 ? <Expand ratio={2.8}>{elContent}</Expand> : elContent
   },
   DEFAULT_PROPS,
   COMPONENT_MAIN

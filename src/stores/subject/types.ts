@@ -18,6 +18,7 @@ import {
   ListEmpty,
   Loaded,
   Override,
+  PersonId,
   Rating as RatingType,
   RatingStatus,
   SubjectId,
@@ -565,31 +566,60 @@ export type MonoWorks = Override<
   }
 >
 
-/** 人物作品 */
+/** 人物角色 */
+export type MonoVoicesItem = {
+  /** 虚拟角色 ID */
+  id: Id
+
+  /** 虚拟角色原名 */
+  name: string
+
+  /** 虚拟角色中文名 */
+  nameCn: string
+
+  /** 虚拟角色封面 */
+  cover: string
+
+  /** 条目 */
+  subject: {
+    /** 条目 ID */
+    id: SubjectId
+
+    /** 条目原名 */
+    name: string
+
+    /** 条目中文名 */
+    nameCn: string
+
+    /** 条目封面 */
+    cover: string
+
+    /** 角色职位 */
+    staff: string
+  }[]
+}
+
+/** 人物角色高级筛选项 */
+export type MonoVoicesFiltersItem = {
+  /** 筛选列属性 (类型、角色) */
+  title: string
+
+  /** 筛选项 (全部，类型：动画、游戏，角色：主角、配角等) */
+  data: {
+    /** 筛选项标签 */
+    title: string
+
+    /** 筛选项值 */
+    value: string
+  }[]
+}
+
+/** 人物角色 */
 export type MonoVoices = Override<
-  ListEmpty<
-    Partial<{
-      id: Id
-      name: string
-      nameCn: string
-      cover: CoverCrt<'s'>
-      subject: {
-        id: SubjectId
-        name: string
-        nameCn: string
-        cover: Cover<'g'>
-        staff: string
-      }[]
-    }>
-  >,
+  ListEmpty<MonoVoicesItem>,
   {
-    filters?: {
-      title: string
-      data: {
-        title: string
-        value: string
-      }[]
-    }[]
+    /** 人物角色高级筛选 */
+    filters: MonoVoicesFiltersItem[]
   }
 >
 
@@ -683,3 +713,8 @@ export type EpV2 = {
 }
 
 export type EpStatus = Record<EpId, string>
+
+export type FetchMonoVoicesArgs = {
+  monoId: PersonId
+  position?: string
+}

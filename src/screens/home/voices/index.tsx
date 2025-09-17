@@ -22,7 +22,7 @@ const Voices = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-voices'>
       <StoreContext.Provider value={id}>
-        <Page loaded={$.state._loaded} loading={!$.monoVoices._loaded}>
+        <Page loaded={$.state._loaded} loading={$.loading}>
           <View style={_.container.header}>
             <ToolBar />
             <List />

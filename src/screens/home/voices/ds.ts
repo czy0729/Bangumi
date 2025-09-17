@@ -5,3 +5,5 @@
  * @Last Modified time: 2024-09-16 20:53:40
  */
 export const COMPONENT = 'Voices'
+
+export const SNAPSHOT_LIMIT = 24

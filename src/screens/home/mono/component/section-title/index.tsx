@@ -24,19 +24,21 @@ function SectionTitle() {
         style={styles.title}
         right={
           <>
-            <IconWordCloud
-              style={styles.opacity}
-              onPress={() => {
-                navigation.push('WordCloud', {
-                  monoId: $.monoId
-                })
+            {!!$.monoComments.list.length && (
+              <IconWordCloud
+                style={styles.opacity}
+                onPress={() => {
+                  navigation.push('WordCloud', {
+                    monoId: $.monoId
+                  })
 
-                t('人物.跳转', {
-                  to: 'WordCloud',
-                  monoId: $.monoId
-                })
-              }}
-            />
+                  t('人物.跳转', {
+                    to: 'WordCloud',
+                    monoId: $.monoId
+                  })
+                }}
+              />
+            )}
             <Touchable
               style={styles.touch}
               onPress={() => {

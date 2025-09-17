@@ -43,13 +43,13 @@ function Info() {
           <Content />
           <Detail />
           {!!$.cn && (
-            <Flex style={_.mt.lg} justify='end'>
+            <Flex style={styles.more} justify='end'>
               <Touchable style={styles.touch} onPress={$.onMore}>
                 <Flex>
                   <Text style={_.ml.sm} type='sub'>
                     更多资料
                   </Text>
-                  <Iconfont style={_.ml.xs} name='md-open-in-new' color={_.colorSub} size={16} />
+                  <Iconfont style={_.ml.xs} name='md-open-in-new' color={_.colorSub} size={15} />
                 </Flex>
               </Touchable>
             </Flex>

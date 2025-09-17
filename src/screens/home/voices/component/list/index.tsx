@@ -8,27 +8,30 @@ import React from 'react'
 import { PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
 
 function List() {
-  const { $ } = useStore<Ctx>()
-  if (!$.monoVoices._loaded) return null
+  const { $ } = useStore<Ctx>(COMPONENT)
 
-  return (
-    <PaginationList2
-      keyExtractor={keyExtractor}
-      contentContainerStyle={_.container.bottom}
-      data={$.monoVoices.list}
-      limit={5}
-      renderItem={renderItem}
-      scrollEventThrottle={16}
-      onScroll={$.onScroll}
-      onHeaderRefresh={$.onHeaderRefresh}
-    />
-  )
+  return useObserver(() => {
+    if (!$.monoVoices._loaded) return null
+
+    return (
+      <PaginationList2
+        keyExtractor={keyExtractor}
+        contentContainerStyle={_.container.bottom}
+        data={$.monoVoices.list}
+        limit={6}
+        renderItem={renderItem}
+        scrollEventThrottle={16}
+        onScroll={$.onScroll}
+        onHeaderRefresh={$.onHeaderRefresh}
+      />
+    )
+  })
 }
 
-export default ob(List, COMPONENT)
+export default List

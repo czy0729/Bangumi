@@ -29,7 +29,7 @@ export default class Computed extends State {
   @computed get monoVoices(): MonoVoices {
     const monoVoices = subjectStore.monoVoices(this.monoId)
     if (!monoVoices._loaded) {
-      if (!this.ota) return LIST_EMPTY
+      if (!this.ota) return LIST_EMPTY as MonoVoices
 
       return {
         ...this.ota,
@@ -49,5 +49,9 @@ export default class Computed extends State {
 
   @computed get hm() {
     return [this.url, 'Voices']
+  }
+
+  @computed get loading() {
+    return !this.monoVoices._loaded
   }
 }

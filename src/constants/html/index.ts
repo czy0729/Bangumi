@@ -103,8 +103,8 @@ export const HTML_MONO_WORKS = (
  * 人物角色
  *
  * 角色列表
- * 类型: /voice/{anime | book | game | music | real}
- * 角色: /voice/position/{INT}
+ *  - 类型: /voice/{anime | book | game | music | real}
+ *  - 角色: /voice/position/{INT}
  */
 export const HTML_MONO_VOICES = (monoId: PersonId, position: string = '') =>
   `${HOST}/${monoId}/works/voice${position}`

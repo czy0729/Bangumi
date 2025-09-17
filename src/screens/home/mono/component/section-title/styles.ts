@@ -14,7 +14,7 @@ export const memoStyles = _.memoStyles(() => ({
   },
   touch: {
     paddingLeft: _.xs,
-    marginRight: _.web(-_.xs, -_.sm),
+    marginRight: -_.xs,
     borderRadius: _.radiusSm,
     overflow: 'hidden'
   },

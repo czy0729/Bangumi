@@ -9,7 +9,7 @@ import { _ } from '@stores'
 export const styles = _.create({
   contentContainerStyle: {
     paddingTop: _.headerHeight,
-    paddingBottom: _.md
+    paddingBottom: _.bottom
   },
   fixedToolBar: {
     paddingTop: _.headerHeight

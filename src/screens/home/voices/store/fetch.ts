@@ -7,10 +7,12 @@
 import { subjectStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { get, update } from '@utils/kv'
+import { D7 } from '@constants'
+import { SNAPSHOT_LIMIT } from '../ds'
 import Computed from './computed'
 
 /** 若更新过则不会再主动更新 */
-const THIRD_PARTY_UPDATED = []
+const THIRD_PARTY_UPDATED: string[] = []
 
 export default class Fetch extends Computed {
   /** 人物角色 */
@@ -30,7 +32,7 @@ export default class Fetch extends Computed {
     ) {
       const ts = this.ota?.ts || 0
       const _loaded = getTimestamp()
-      if (_loaded - ts >= 60 * 60 * 24 * 7) this.updateThirdParty()
+      if (_loaded - ts >= D7) this.updateThirdParty()
     }
 
     return data
@@ -70,7 +72,7 @@ export default class Fetch extends Computed {
 
     setTimeout(() => {
       update(this.thirdPartyKey, {
-        list: this.monoVoices.list.slice(0, 24)
+        list: this.monoVoices.list.slice(0, SNAPSHOT_LIMIT)
       })
       THIRD_PARTY_UPDATED.push(this.thirdPartyKey)
     }, 0)

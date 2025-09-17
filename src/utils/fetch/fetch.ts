@@ -158,7 +158,7 @@ export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
       LAST_FETCH_HTML[cacheKey] = ts
     } else {
       const distance = ts - LAST_FETCH_HTML[cacheKey]
-      if (distance <= 2000) return Promise.reject(new Error(`[prevent] ${url} ${distance}ms`))
+      if (distance <= 2000) return Promise.reject(new Error(`prevent, ${url}, ${distance}ms`))
 
       LAST_FETCH_HTML[cacheKey] = ts
     }

@@ -13,6 +13,7 @@ import {
   cHas,
   cheerio,
   cHtml,
+  cList,
   cMap,
   cText,
   fixedSubjectInfo,
@@ -28,13 +29,14 @@ import {
   safeObject
 } from '@utils'
 import { HOST } from '@constants'
-import { Id, Override, SubjectTypeValue, UserId } from '@types'
+import { Id, MonoId, Override, SubjectTypeValue, UserId } from '@types'
 import { Likes } from '../rakuen/types'
 import {
   EpStatus,
   Mono,
   MonoCommentsItem,
-  MonoVoices,
+  MonoVoicesFiltersItem,
+  MonoVoicesItem,
   MonoWorks,
   Rating,
   SubjectCatalogs,
@@ -307,57 +309,39 @@ export function cheerioMonoWorks(html: string): MonoWorks {
 }
 
 /** 人物角色 */
-export function cheerioMonoVoices(html: string): MonoVoices {
-  const $ = cheerio(htmlMatch(html, '<div id="columnCrtB"', '<div id="footer">'))
+export function cheerioMonoVoices(html: string) {
+  const $ = cheerio(htmlMatch(html, '<div id="columnCrtB', '<div id="footer'))
   return {
-    filters:
-      $('div.subjectFilter > ul.grouped')
-        .map((_index: number, element: any) => {
-          const $li = cheerio(element)
-          return safeObject({
-            title: $li.find('li.title').text().trim(),
-            data:
-              $li
-                .find('a.l')
-                .map((_idx: number, el: any) => {
-                  const $a = cheerio(el)
-                  return safeObject({
-                    title: $a.text().trim(),
-                    value: $a.attr('href').split('/works/voice')[1]
-                  })
-                })
-                .get() || []
-          })
-        })
-        .get() || [],
-    list:
-      $('ul.browserList > li.item')
-        .map((_index: number, element: any) => {
-          const $li = cheerio(element)
-          const $leftItem = $li.find('div.innerLeftItem')
-          return safeObject({
-            id: $leftItem.find('h3 > a.l').attr('href').replace('/character/', ''),
-            name: $leftItem.find('h3 > a.l').text().trim(),
-            nameCn: $leftItem.find('h3 > p.tip').text().trim(),
-            cover: $leftItem.find('img.avatar').attr('src').split('?')[0],
-            subject:
-              $li
-                .find('ul.innerRightList > li')
-                .map((_idx: number, el: any) => {
-                  const $l = cheerio(el)
-                  const $a = $l.find('h3 > a.l')
-                  return safeObject({
-                    id: $a.attr('href').replace('/subject/', ''),
-                    name: $a.text().trim(),
-                    nameCn: $l.find('div.inner small.grey').text().trim(),
-                    cover: $l.find('img.cover').attr('src'),
-                    staff: $l.find('div.inner span.badge_job').text().trim()
-                  })
-                })
-                .get() || []
-          })
-        })
-        .get() || []
+    list: cMap<MonoVoicesItem>($('ul.browserList > li.item'), $row => {
+      const $left = cFind($row, 'div.innerLeftItem')
+      const $a = cFind($left, 'h3 > a.l')
+      return {
+        id: cData($a, 'href').replace('/character/', ''),
+        name: cText($a),
+        nameCn: cText(cFind($left, 'h3 > p.tip')),
+        cover: cData(cFind($left, 'img.avatar'), 'src').split('?')?.[0] || '',
+        subject: cMap<MonoVoicesItem['subject'][number]>(
+          cList($row, 'ul.innerRightList > li'),
+          $row => {
+            const $a = cFind($row, 'h3 > a.l')
+            return {
+              id: cData($a, 'href').replace('/subject/', ''),
+              name: cText($a),
+              nameCn: cText(cFind($row, 'div.inner small.grey')),
+              cover: cData(cFind($row, 'img.cover'), 'src'),
+              staff: cText(cFind($row, 'div.inner span.badge_job'))
+            }
+          }
+        )
+      }
+    }),
+    filters: cMap<MonoVoicesFiltersItem>($('div.subjectFilter > ul.grouped'), $row => ({
+      title: cText(cFind($row, 'li.title')),
+      data: cMap<MonoVoicesFiltersItem['data'][number]>(cList($row, 'a.l'), $row => ({
+        title: cText($row),
+        value: cData($row, 'href').split('/works/voice')?.[1] || ''
+      }))
+    }))
   }
 }
 
@@ -536,8 +520,10 @@ export function cheerioMAL(html: string) {
 }
 
 /** 人物信息 */
-export function cheerioMono(html: string) {
+export function cheerioMono(html: string, monoId: MonoId) {
   const $ = cheerio(htmlMatch(html, '<div id="headerSubject', '<div class="crtCommentList'))
+
+  const isPerson = monoId.includes('person')
   const trimHtml = HTMLTrim(html)
 
   const $h1 = $('h1.nameSingle a')
@@ -550,17 +536,22 @@ export function cheerioMono(html: string) {
   const collectUrl = collected ? '' : actionUrl
   const eraseCollectUrl = collected ? actionUrl : ''
 
+  let jobs: Mono['jobs'] = []
   let voice: Mono['voice'] = []
-  const voiceHtml = trimHtml.match(
-    /<h2 class="subtitle">最近演出角色<\/h2><ul class="browserList">(.+?)<\/ul><a href=/
-  )?.[1]
-  if (voiceHtml) voice = cMap(cheerio(voiceHtml)('li.item'), mapVoice)
-
   let works: Mono['works'] = []
-  const worksHtml = trimHtml.match(
-    /<h2 class="subtitle">最近参与<\/h2><ul class="browserList">(.+?)<\/ul><a href=/
-  )?.[1]
-  if (worksHtml) works = cMap(cheerio(worksHtml)('li.item'), mapWorks)
+  if (isPerson) {
+    const voiceHtml = trimHtml.match(
+      /<h2 class="subtitle">最近演出角色<\/h2><ul class="browserList(.+?)<\/ul><a href=/
+    )?.[1]
+    if (voiceHtml) voice = cMap(cheerio(voiceHtml)('li.item'), mapVoice)
+
+    const worksHtml = trimHtml.match(
+      /<h2 class="subtitle">最近参与<\/h2><ul class="browserList(.+?)<\/ul><a href=/
+    )?.[1]
+    if (worksHtml) works = cMap(cheerio(worksHtml)('li.item'), mapWorks)
+  } else {
+    jobs = cMap($('.castTypeFilterList li.item'), mapJobs)
+  }
 
   return {
     name: cText($h1),
@@ -570,7 +561,7 @@ export function cheerioMono(html: string) {
     info: cHtml($('#infobox')),
     collectUrl,
     eraseCollectUrl,
-    jobs: cMap($('.castTypeFilterList li.item'), mapJobs),
+    jobs,
     voice,
     works,
     collected: cMap($('#crtPanelCollect .groupsLine li'), mapCollected),
@@ -593,11 +584,16 @@ function mapJobs($row: any) {
   const $li2 = cFind($row, '.innerRightList li', 1)
   const $cast2 = cFind($li2, 'a')
   const cast2: {
-    cast?: string
-    castCover?: string
-    castHref?: string
-    castTag?: string
-  } = {}
+    cast: string
+    castCover: string
+    castHref: string
+    castTag: string
+  } = {
+    cast: '',
+    castCover: '',
+    castHref: '',
+    castTag: ''
+  }
   const cast = cData($cast2, 'title')
   if (cast) {
     cast2.cast = cast
@@ -612,7 +608,7 @@ function mapJobs($row: any) {
     nameCn: cText(cFind($row, '.innerLeftItem small.grey')),
     staff: cText(cFind($row, '.badge_job')),
     href: cData($name, 'href'),
-    type: cData(cFind($row, '.ico_subject_type'), 'class').substring(30, 31),
+    type: cData(cFind($row, '.ico_subject_type'), 'class').substring(30, 31) as SubjectTypeValue,
     cast: cData($cast, 'title'),
     castCover: fixedCover(cData(cFind($cast, 'img'), 'src')),
     castHref: cData($cast, 'href'),

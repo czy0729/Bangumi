@@ -22,5 +22,9 @@ export const memoStyles = _.memoStyles(() => ({
     marginRight: -_.xs,
     borderRadius: _.radiusSm,
     overflow: 'hidden'
+  },
+  more: {
+    marginTop: _.lg,
+    marginRight: -5
   }
 }))

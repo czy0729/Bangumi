@@ -94,6 +94,9 @@ export const RenderHtml = observer(
       classesStyles: {
         group_section: {
           textAlign: 'center'
+        },
+        sub: {
+          color: _.colorSub
         }
       },
       textSelectable: true,

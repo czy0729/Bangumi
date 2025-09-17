@@ -179,10 +179,13 @@ export default class Computed extends State implements StoreConstructor<typeof S
     }).get()
   }
 
-  /** 人物饰演的角色 */
+  /** 人物角色 */
   monoVoices(monoId: MonoId) {
-    return computed<MonoVoices>(() => {
-      return this.state.monoVoices[monoId] || INIT_MONO_WORKS
+    const STATE_KEY = 'monoVoices'
+
+    return computed(() => {
+      const ITEM_KEY = monoId
+      return (this.state[STATE_KEY][ITEM_KEY] || INIT_MONO_WORKS) as MonoVoices
     }).get()
   }
 
