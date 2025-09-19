@@ -104,9 +104,14 @@ export default class Fetch extends Computed {
     if (!filters.length) return false
 
     try {
-      const values = await gets(filters.map(name => `pic_total_${name}`))
+      const prefix = 'pic_total_'
+      const keys = filters.map(name => `${prefix}${name}`)
+      const values = await gets(keys)
       Object.entries(values).forEach(([name, value]) => {
-        if (name && value) this.updatePicTotal(name, value)
+        if (value) {
+          const key = name.split(prefix)?.[1]
+          if (key) this.updatePicTotal(key, value)
+        }
       })
     } catch (error) {
       this.error('fetchPicTotalBatch', error)

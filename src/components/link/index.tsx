@@ -6,17 +6,25 @@
  */
 import React, { useCallback } from 'react'
 import { useNavigation, useObserver } from '@utils/hooks'
+import { Paths } from '@types'
 import { Touchable } from '../touchable'
 import { Props as LinkProps } from './types'
 
 export { LinkProps }
 
 /** 路由 */
-export const Link = ({ style, path, children }: LinkProps) => {
+export const Link = <T extends Paths>({
+  style,
+  path,
+  params,
+  getParams,
+  children
+}: LinkProps<T>) => {
   const navigation = useNavigation()
   const handlePress = useCallback(() => {
-    navigation.push(path)
-  }, [navigation, path])
+    // @ts-expect-error
+    navigation.push(path, typeof getParams === 'function' ? getParams() : params)
+  }, [navigation, params, getParams, path])
 
   return useObserver(() => (
     <Touchable style={style} onPress={handlePress}>

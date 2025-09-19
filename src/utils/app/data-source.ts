@@ -159,8 +159,11 @@ export function findSubjectJp(cn: string = '', subjectId?: SubjectId): string {
 export function opitimize(data: any, s = 60) {
   if (!data?._loaded) return false
 
-  const isPrevent = getTimestamp() - Number(data?._loaded || 0) < s
-  if (isPrevent) console.info(TEXT_BADGES.warning, '[@utils/opitimize]', s)
+  const diff = getTimestamp() - Number(data?._loaded || 0)
+  const isPrevent = diff < s
+  if (isPrevent) {
+    console.info(TEXT_BADGES.warning, '[@utils/opitimize]', diff, s, Object.keys(data).slice(0, 5))
+  }
 
   return isPrevent
 }

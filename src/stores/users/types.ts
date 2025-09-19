@@ -14,7 +14,6 @@ import {
   Loaded,
   MonoId,
   SubjectTypeValue,
-  UrlSubject,
   UserId
 } from '@types'
 import { LOADED } from './init'
@@ -115,7 +114,7 @@ export type RecentsItem = {
   id: MonoId
   cover: string
   type: SubjectTypeValue
-  href: UrlSubject
+  href: string
   name: string
   nameJP: string
   info: string

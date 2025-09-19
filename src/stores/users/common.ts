@@ -5,6 +5,7 @@
  * @Last Modified time: 2025-09-09 21:50:09
  */
 import { cData, cFind, cheerio, cMap, cText, htmlMatch, matchAvatar, safeObject } from '@utils'
+import { MonoId, SubjectTypeValue } from '@types'
 import { CatalogsItem, CharactersItem, RecentsItem, Users } from './types'
 
 /** 好友列表 */
@@ -108,38 +109,39 @@ export function cheerioUsers(html: string) {
 /** 用户收藏的人物 */
 export function cheerioCharacters(html: string) {
   const $ = cheerio(htmlMatch(html, '<div id="columnA', '<div id="footer'))
-  return cMap($('.coverList li'), $row => {
+  return cMap<CharactersItem>($('.coverList li'), $row => {
     const $a = cFind($row, 'a.title')
     return {
-      id: cData($a, 'href').replace(/^\/+/, ''),
+      id: cData($a, 'href').replace(/^\/+/, '') as MonoId,
       avatar: cData(cFind($row, 'img'), 'src'),
       name: cText($a)
-    } as CharactersItem
+    }
   })
 }
 
 /** 我收藏人物的最近作品 */
 export function cheerioRecents(html: string) {
   const $ = cheerio(htmlMatch(html, '<div id="columnCrtBrowserB', '<div id="footer'))
-  return cMap($('#browserItemList li.item'), $row => {
+  return cMap<RecentsItem>($('#browserItemList li.item'), $row => {
     const $a = cFind($row, 'h3 a.l')
     return {
-      id: cData($row, 'id').replace('item_', ''),
+      id: cData($row, 'id').replace('item_', '') as MonoId,
       cover: cData(cFind($row, 'img.cover'), 'src'),
-      type: cData(cFind($row, 'h3 span.ll'), 'class').match(/subject_type_(\d+)/)?.[1] || '',
+      type: (cData(cFind($row, 'h3 span.ll'), 'class').match(/subject_type_(\d+)/)?.[1] ||
+        '') as SubjectTypeValue,
       href: cData($a, 'href'),
       name: cText($a),
       nameJP: cText(cFind($row, 'h3 small.grey')),
       info: cText(cFind($row, 'p.info')),
       star: cData(cFind($row, 'span.starlight'), 'class').match(/stars(\d+)/)?.[1] || '',
       starInfo: cText(cFind($row, '.rateInfo .tip_j')),
-      actors: cMap($row.find('.actorBadge'), $row => ({
-        id: cData(cFind($row, 'a.avatar'), 'href').replace(/^\/+/, ''),
+      actors: cMap<RecentsItem['actors'][number]>($row.find('.actorBadge'), $row => ({
+        id: cData(cFind($row, 'a.avatar'), 'href').replace(/^\/+/, '') as MonoId,
         avatar: cData(cFind($row, 'img'), 'src'),
         name: cText(cFind($row, 'a.l')),
         info: cText(cFind($row, 'small.grey'))
       }))
-    } as RecentsItem
+    }
   })
 }
 

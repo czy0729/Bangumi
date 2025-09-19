@@ -4,10 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-07-10 03:43:04
  */
-import { Crt, Ep, Staff, SubjectComments, SubjectFromHTML } from '@stores/subject/types'
+import { ImageProps } from '@components'
+import { Ep, Staff, SubjectComments, SubjectFromHTML } from '@stores/subject/types'
 import {
   Collection,
-  Cover,
   DeepPartial,
   Expand,
   GetRouteParams,
@@ -31,6 +31,17 @@ export type Ctx = WithNavigation<{
 
 export type Params = GetRouteParams<RouteSubject>
 
+export type Crt = {
+  id: Id
+  image: ImageProps['src']
+  _image: ImageProps['src']
+  name: string
+  nameJP: string
+  desc: string
+  roleName: string
+  actorId: Id
+}
+
 export type SubjectSnapshot = Override<
   Omit<SubjectFromHTML, 'type' | 'watchedEps' | 'friend' | 'who' | 'formhash' | '_loaded'>,
   {
@@ -38,7 +49,7 @@ export type SubjectSnapshot = Override<
     type: SubjectTypeValue
     name: string
     name_cn: string
-    image: Cover<'c'>
+    image: string
     eps: Ep[]
     collection: Collection
     summary: string

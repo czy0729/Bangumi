@@ -5,9 +5,18 @@
  * @Last Modified time: 2025-08-09 16:20:30
  */
 import { PropsWithChildren } from 'react'
-import { Paths, ViewStyle } from '@types'
+import { NavigationPushType, Paths, ViewStyle } from '@types'
 
-export type Props = PropsWithChildren<{
+type ExtractParams<P extends Paths> = NavigationPushType extends (
+  path: P,
+  params?: infer Params
+) => any
+  ? Params
+  : never
+
+export type Props<T extends Paths> = PropsWithChildren<{
   style?: ViewStyle
-  path: Paths
+  path: T
+  params?: ExtractParams<T>
+  getParams?: () => ExtractParams<T>
 }>

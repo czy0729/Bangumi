@@ -42,6 +42,7 @@ import { findGame, GAME_CATE } from '@utils/subject/game'
 import { findManga, MANGA_TAGS } from '@utils/subject/manga'
 import { findWenku, WENKU_TAGS } from '@utils/subject/wenku'
 import {
+  DEV,
   getOTA,
   HOST,
   IMG_DEFAULT,
@@ -50,6 +51,7 @@ import {
   MODEL_SUBJECT_TYPE,
   SITES,
   SITES_DS,
+  TEXT_BADGES,
   URL_DEFAULT_AVATAR,
   WEB
 } from '@constants'
@@ -75,7 +77,7 @@ import {
   TITLE_THUMBS,
   TITLE_TOPIC
 } from '../ds'
-import { SubjectCommentValue } from '../types'
+import { Crt, SubjectCommentValue } from '../types'
 import { getOriginConfig, OriginItem } from '../../../user/origin-setting/utils'
 import State from './state'
 import {
@@ -97,6 +99,11 @@ export default class Computed extends State {
   /** 本地化 */
   save = () => {
     return this.saveStorage(this.namespace, EXCLUDE_STATE)
+  }
+
+  /** 开发调试 */
+  log(...arg: any) {
+    if (DEV) console.info(TEXT_BADGES.primary, `[${this.namespace}]`, ...arg)
   }
 
   /** 条目唯一 ID */
@@ -819,24 +826,21 @@ export default class Computed extends State {
 
   /** 关联人物 */
   @computed get crt() {
-    if (this.subject._loaded && this.subject.rating) {
-      return freeze(
-        (this.subject.crt || []).map(
-          ({ id, images = {}, name, name_cn: nameCn, role_name: roleName, actors = [] }) => ({
+    const source =
+      this.subject._loaded && this.subject.rating
+        ? (this.subject.crt || []).map(({ id, images, name, name_cn, role_name, actors = [] }) => ({
             id,
             image: images?.grid || IMG_INFO_ONLY,
             _image: images?.medium || IMG_INFO_ONLY,
-            name: nameCn || name,
+            name: name_cn || name,
             nameJP: name,
-            desc: actors?.[0]?.name || roleName,
-            roleName,
-            actorId: actors?.[0]?.id
-          })
-        )
-      )
-    }
+            desc: actors[0]?.name || role_name,
+            roleName: role_name,
+            actorId: actors[0]?.id
+          }))
+        : ((this.subjectFromOSS.character || []) as Crt[])
 
-    return freeze(this.subjectFromOSS.character || [])
+    return freeze(source)
   }
 
   /** 制作人员 */

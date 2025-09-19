@@ -5,64 +5,65 @@
  * @Last Modified time: 2025-06-28 01:25:19
  */
 import React from 'react'
-import { Flex, Iconfont, Text, Touchable } from '@components'
+import { Flex, Iconfont, Link, Text } from '@components'
 import { monoStore, useStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import styles from './styles'
 
 function IconPic() {
-  const { $, navigation } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>()
 
-  const picTotals = $.subjectKeywords.map(item => monoStore.picTotal(item) || 0)
-  const maxIndex = findMaxIndex(picTotals)
-  let keyword = ''
-  let max = 0
-  if (maxIndex !== -1) {
-    keyword = $.subjectKeywords[maxIndex]
-    max = picTotals[maxIndex]
-  }
+  return useObserver(() => {
+    const picTotals = $.subjectKeywords.map(item => monoStore.picTotal(item) || 0)
+    let maxIndex = findMaxIndex(picTotals)
+    let keyword = ''
+    let max = 0
 
-  if (!keyword) {
-    const crtPicTotals = $.crtKeywords.map(item => monoStore.picTotal(item) || 0)
-    const maxIndex = findMaxIndex(crtPicTotals)
     if (maxIndex !== -1) {
-      keyword = $.crtKeywords[maxIndex]
-      max = crtPicTotals[maxIndex]
+      keyword = $.subjectKeywords[maxIndex]
+      max = picTotals[maxIndex]
     }
-  }
 
-  if (!keyword) {
-    const { length } = $.status
-    if ($.status?.[length - 1]?.sum >= 3000) keyword = $.cn || $.jp
-  }
+    if (!keyword) {
+      const crtPicTotals = $.crtKeywords.map(item => monoStore.picTotal(item) || 0)
+      maxIndex = findMaxIndex(crtPicTotals)
+      if (maxIndex !== -1) {
+        keyword = $.crtKeywords[maxIndex]
+        max = crtPicTotals[maxIndex]
+      }
+    }
 
-  if (!keyword) return null
+    if (!keyword) {
+      const lastStatus = $.status?.[$.status.length - 1]
+      if (lastStatus?.sum >= 3000) keyword = $.cn || $.jp
+    }
 
-  return (
-    <Touchable
-      style={styles.touch}
-      onPress={() => {
-        navigation.push('Pic', {
+    if (!keyword) return null
+
+    return (
+      <Link
+        style={styles.touch}
+        path='Pic'
+        params={{
           name: keyword,
-          keywords: [$.cn, $.jp]
-        })
-      }}
-    >
-      <Flex>
-        <Text type='sub' size={12}>
-          图集{max ? ` (${max > 99 ? '99+' : max})` : ''}
-        </Text>
-        <Iconfont name='md-navigate-next' />
-      </Flex>
-    </Touchable>
-  )
+          keywords: [$.cn, $.jp, ...$.crt.map(item => item.name || item.nameJP).slice(0, 5)]
+        }}
+      >
+        <Flex>
+          <Text type='sub' size={12}>
+            图集{max ? ` (${max > 99 ? '99+' : max})` : ''}
+          </Text>
+          <Iconfont name='md-navigate-next' />
+        </Flex>
+      </Link>
+    )
+  })
 }
 
-export default ob(IconPic)
+export default IconPic
 
 function findMaxIndex(arr: number[]) {
-  if (arr.length === 0 || arr.every(num => num === 0)) return -1
-
+  if (!arr.length || arr.every(num => num === 0)) return -1
   return arr.indexOf(Math.max(...arr))
 }

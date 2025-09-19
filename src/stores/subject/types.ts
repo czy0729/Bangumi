@@ -417,11 +417,11 @@ export type Mono = {
   /** 人物封面 */
   cover: string
 
-  /** 人物描述 */
-  detail: string
-
   /** 人物各项详情属性 */
   info: HTMLText
+
+  /** 人物描述 */
+  detail: string
 
   /** 最近演出角色 (声优才有此值) */
   voice: {
@@ -785,7 +785,7 @@ export type ApiSubjectResponse = {
 
   /** v0 mark */
   v0?: true
-
+  code?: 200 | 404
   _loaded: Loaded
 }
 
