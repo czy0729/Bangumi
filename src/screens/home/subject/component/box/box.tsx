@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 06:26:40
+ * @Last Modified time: 2025-09-19 23:40:09
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { View } from 'react-native'
-import { Flex, Heatmap, Text, Touchable } from '@components'
+import { Flex, Heatmap, Link, Text } from '@components'
 import { SectionTitle } from '@_'
 import { _ } from '@stores'
 import { appNavigate } from '@utils'
@@ -33,16 +33,21 @@ const Box = memo(
     toRating = FROZEN_FN,
     outdate = false
   }) => {
-    const onPress = isLogin
-      ? showManageModel
-      : () => {
-          if (SHARE_MODE) {
-            appNavigate(url)
-            return
-          }
-          navigation.push('LoginV2')
-        }
     const statusSize = status[status.length - 1]?.text.length >= 6 ? 11 : 12
+
+    const handlePress = useCallback(() => {
+      if (isLogin) {
+        showManageModel()
+        return
+      }
+
+      if (SHARE_MODE) {
+        appNavigate(url)
+        return
+      }
+
+      navigation.push('LoginV2')
+    }, [isLogin, navigation, showManageModel, url])
 
     return (
       <View style={styles.container}>
@@ -61,7 +66,7 @@ const Box = memo(
         </SectionTitle>
         <Flex style={styles.btn}>
           <Flex.Item>
-            <FlipBtn onPress={onPress} />
+            <FlipBtn onPress={handlePress} />
             <Heatmap id='条目.管理收藏' />
             <Heatmap right={56} transparent id='条目.显示收藏管理' />
           </Flex.Item>
@@ -76,7 +81,9 @@ const Box = memo(
                     key={item.status}
                     size={statusSize}
                     type='sub'
-                    onPress={() => toRating(navigation, '收藏', item.status)}
+                    onPress={() => {
+                      toRating(navigation, '收藏', item.status)
+                    }}
                   >
                     {`${index ? ' / ' : ''}${item.text}`}
                   </Text>
@@ -86,16 +93,11 @@ const Box = memo(
             </View>
           )}
           {outdate && (
-            <Touchable
-              style={_.mt.md}
-              onPress={() => {
-                navigation.push('LoginV2')
-              }}
-            >
+            <Link style={_.mt.md} path='LoginV2'>
               <Text size={statusSize} type='sub' bold>
                 检测到授权信息过期，点击重新登录，再进行收藏管理
               </Text>
-            </Touchable>
+            </Link>
           )}
           <Comment />
         </View>

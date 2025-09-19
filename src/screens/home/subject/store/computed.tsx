@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-15 05:33:30
+ * @Last Modified time: 2025-09-20 06:11:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,6 +20,7 @@ import {
   userStore
 } from '@stores'
 import { ON_AIR } from '@stores/calendar/onair'
+import { Subject } from '@stores/subject/types'
 import {
   asc,
   desc,
@@ -828,19 +829,22 @@ export default class Computed extends State {
   @computed get crt() {
     const source =
       this.subject._loaded && this.subject.rating
-        ? (this.subject.crt || []).map(({ id, images, name, name_cn, role_name, actors = [] }) => ({
-            id,
-            image: images?.grid || IMG_INFO_ONLY,
-            _image: images?.medium || IMG_INFO_ONLY,
-            name: name_cn || name,
-            nameJP: name,
-            desc: actors[0]?.name || role_name,
-            roleName: role_name,
-            actorId: actors[0]?.id
-          }))
+        ? (this.subject.crt || []).map(
+            ({ id, images, name, name_cn, role_name, actors = [] }) =>
+              ({
+                id,
+                image: images?.grid || IMG_INFO_ONLY,
+                _image: images?.medium || IMG_INFO_ONLY,
+                name: name_cn || name,
+                nameJP: name,
+                desc: actors[0]?.name || role_name,
+                roleName: role_name,
+                actorId: actors[0]?.id
+              } as Crt)
+          )
         : ((this.subjectFromOSS.character || []) as Crt[])
 
-    return freeze(source)
+    return freeze(source) as Crt[]
   }
 
   /** 制作人员 */
@@ -1119,7 +1123,7 @@ export default class Computed extends State {
       } catch (error) {}
     }
 
-    return freeze(blog)
+    return freeze(blog) as Subject['blog']
   }
 
   /** 过滤后的帖子 */

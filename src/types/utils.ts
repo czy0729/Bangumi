@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-14 04:31:46
+ * @Last Modified time: 2025-09-20 05:13:50
  */
 import React from 'react'
 import {
@@ -35,6 +35,11 @@ export type GridStyle = {
 
 /** React.ReactNode */
 export type ReactNode = React.ReactNode
+
+/** React.ComponentType */
+export type ReactComponent = React.ComponentType<{
+  children?: ReactNode
+}>
 
 /** setTimeout or setInterval ref */
 export type TimerRef = ReturnType<typeof setTimeout> | null
@@ -172,3 +177,8 @@ export type WithIndex<T> = Override<
     index: number
   }
 >
+
+/** 带项 */
+export type WithItem<T> = {
+  item: T
+}

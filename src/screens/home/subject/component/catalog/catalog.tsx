@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2020-10-28 15:10:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 06:28:20
+ * @Last Modified time: 2025-09-20 05:08:21
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { ScrollView, View } from 'react-native'
 import { Heatmap } from '@components'
 import { InView, PreventTouchPlaceholder, SectionTitle } from '@_'
@@ -12,7 +12,7 @@ import { _ } from '@stores'
 import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { useHorizontalLazy } from '@utils/hooks'
-import { FROZEN_ARRAY, FROZEN_FN, SCROLL_VIEW_RESET_PROPS } from '@constants'
+import { FROZEN_FN, SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { TITLE_CATALOG } from '../../ds'
 import IconCatalog from '../icon/catalog'
 import IconHidden from '../icon/hidden'
@@ -20,8 +20,11 @@ import Item from './item'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Catalog = memo(
-  ({ styles, showCatalog = true, catalog = FROZEN_ARRAY, onSwitchBlock = FROZEN_FN }) => {
+  ({ styles, showCatalog = true, catalog, onSwitchBlock = FROZEN_FN }) => {
     const { list, onScroll } = useHorizontalLazy(catalog)
+
+    const handlePress = useCallback(() => onSwitchBlock('showCatalog'), [onSwitchBlock])
+
     return (
       <InView style={stl(styles.container, !showCatalog && _.short)}>
         <SectionTitle
@@ -31,7 +34,7 @@ const Catalog = memo(
           }
           icon={!showCatalog && 'md-navigate-next'}
           splitStyles
-          onPress={() => onSwitchBlock('showCatalog')}
+          onPress={handlePress}
         >
           {TITLE_CATALOG}
         </SectionTitle>
@@ -63,7 +66,7 @@ const Catalog = memo(
     ...props,
 
     /** 目录数据每次请求都不一样, 此数据非重要数据, 使判断只认数组长度, 减少重渲染次数 */
-    catalog: props.catalog.length
+    catalog: props.catalog?.length
   })
 )
 

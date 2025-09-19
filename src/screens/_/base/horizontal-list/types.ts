@@ -2,16 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-06-02 15:34:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 17:47:46
+ * @Last Modified time: 2025-09-20 06:00:57
  */
 import { TextProps } from 'react-native'
-import { Fn, SubjectTypeCn, ViewStyle } from '@types'
+import { SubjectTypeCn, ViewStyle } from '@types'
 
-export type Props = {
+export type WithId = {
+  id?: string | number
+}
+
+export type Props<T extends WithId> = {
   style?: ViewStyle
 
   /** 数据 */
-  data: any[] | readonly any[]
+  data: readonly T[]
 
   /** 数据 id: number */
   counts?: Record<string, number>
@@ -44,8 +48,8 @@ export type Props = {
   scrolled?: boolean
 
   /** item 点击回调 */
-  onPress?: Fn
+  onPress?: (payload: T) => void
 
   /** item 描述点击回调 */
-  onSubPress?: Fn
+  onSubPress?: (payload: T) => void
 }

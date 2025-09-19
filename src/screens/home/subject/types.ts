@@ -1,14 +1,14 @@
+import { View } from 'react-native'
 /*
  * @Author: czy0729
  * @Date: 2022-07-04 15:40:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-10 03:43:04
+ * @Last Modified time: 2025-09-20 06:11:35
  */
 import { ImageProps } from '@components'
 import { Ep, Staff, SubjectComments, SubjectFromHTML } from '@stores/subject/types'
 import {
   Collection,
-  DeepPartial,
   Expand,
   GetRouteParams,
   Id,
@@ -31,9 +31,16 @@ export type Ctx = WithNavigation<{
 
 export type Params = GetRouteParams<RouteSubject>
 
+/** 收集子组件的 ref */
+export type HandleBlockRef = (ref: View, componentName: string) => void
+
 export type Crt = {
   id: Id
+
+  /** 角色封面小图 (g) */
   image: ImageProps['src']
+
+  /** 角色封面中图 (m) */
   _image: ImageProps['src']
   name: string
   nameJP: string
@@ -64,13 +71,11 @@ export type SubjectSnapshot = Override<
 export type SubjectCommentValue = ReadonlyResult<Optional<SubjectComments, 'version'>>
 
 export type EpsData = Expand<
-  DeepPartial<
-    Record<
-      Sites,
-      {
-        [ep: string]: string
-      }
-    >
+  Record<
+    Sites,
+    {
+      [ep: string]: string
+    }
   > & {
     _loaded: Loaded
   }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-06-22 16:48:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 02:10:51
+ * @Last Modified time: 2025-09-19 22:26:33
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -47,10 +47,10 @@ function Item({
             <Avatar navigation={navigation} userId={userId} name={userName} src={avatar} />
           </InView>
           <Flex.Item>
-            <Text size={15} bold>
+            <Text bold>
               {HTMLDecode(title)}
               {replies !== '+0' && (
-                <Text type='main' size={12} lineHeight={15} bold>
+                <Text type='main' size={12} lineHeight={14} bold>
                   {'  '}
                   {replies}
                 </Text>
@@ -62,7 +62,7 @@ function Item({
                 {userName}
               </Name>
             </Text>
-            <Text style={_.mt.sm} size={13} lineHeight={15} numberOfLines={4}>
+            <Text style={styles.content} size={12} lineHeight={14} numberOfLines={4}>
               {content}
             </Text>
           </Flex.Item>

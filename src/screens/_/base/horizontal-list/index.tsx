@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 16:57:36
+ * @Last Modified time: 2025-09-20 06:01:20
  */
 import React, { useCallback, useMemo, useState } from 'react'
 import { Component } from '@components'
@@ -14,12 +14,12 @@ import { PreventTouchPlaceholder } from '../prevent-touch-placeholder'
 import Item from './item'
 import ScrollViewHorizontal from './scroll-view-horizontal'
 import { COMPONENT } from './ds'
-import { Props as HorizontalListProps } from './types'
+import { Props as HorizontalListProps, WithId } from './types'
 
 export { HorizontalListProps }
 
 /** 水平列表 */
-export const HorizontalList = ({
+export const HorizontalList = <T extends WithId>({
   style,
   data = FROZEN_ARRAY,
   counts = FROZEN_OBJECT,
@@ -33,7 +33,7 @@ export const HorizontalList = ({
   scrolled: initialScrolled = false,
   onPress = FROZEN_FN,
   onSubPress
-}: HorizontalListProps) => {
+}: HorizontalListProps<T>) => {
   r(COMPONENT)
 
   const [scrolled, setScrolled] = useState(initialScrolled)

@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2023-01-12 06:39:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 06:17:33
+ * @Last Modified time: 2025-09-19 21:40:38
  */
-import React from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { ScrollView, View } from 'react-native'
-import { Flex, Heatmap, Iconfont, Image, Squircle, Text, Touchable } from '@components'
+import { Flex, Heatmap, Iconfont, Image, Link, Squircle, Text } from '@components'
 import { InView, PreventTouchPlaceholder, SectionTitle } from '@_'
 import { _ } from '@stores'
-import { date, open, showImageViewer, stl } from '@utils'
+import { date, showImageViewer, stl } from '@utils'
 import { memo } from '@utils/decorators'
-import { t } from '@utils/fetch'
 import { useHorizontalLazy } from '@utils/hooks'
 import { FROZEN_FN, SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { TITLE_ANITABI } from '../../ds'
+import { AnitabiData } from '../../types'
 import IconHidden from '../icon/hidden'
 import { COMPONENT_MAIN, DEFAULT_PROPS, THUMB_HEIGHT, THUMB_WIDTH } from './ds'
 
@@ -28,20 +28,28 @@ const Anitabi = memo(
       pointsLength: 0,
       imagesLength: 0,
       litePoints: []
-    },
+    } as AnitabiData,
     onSwitchBlock = FROZEN_FN
   }) => {
     const { city, pointsLength, imagesLength, litePoints } = data
+
     const { list, onScroll } = useHorizontalLazy(
       litePoints,
       Math.floor(_.window.contentWidth / THUMB_WIDTH) + 1
     )
 
-    const thumbs = list
-      .filter(item => item.image)
-      .map(item => ({
-        url: item?.image?.replace('h160', 'h360')
-      }))
+    const memoThumbs = useMemo(
+      () =>
+        list
+          .filter(item => item.image)
+          .map(item => ({
+            url: item?.image?.replace('h160', 'h360')
+          })),
+      [list]
+    )
+
+    const handlePress = useCallback(() => onSwitchBlock('showAnitabi'), [onSwitchBlock])
+
     return (
       <InView style={stl(styles.container, !showAnitabi && _.short)}>
         <SectionTitle
@@ -51,30 +59,28 @@ const Anitabi = memo(
               <IconHidden name={TITLE_ANITABI} value='showAnitabi' />
             ) : (
               showAnitabi !== -1 && (
-                <Touchable
+                <Link
                   style={styles.touch}
-                  onPress={() => {
-                    t('条目.跳转', {
-                      to: 'anitabi.cn',
-                      from: TITLE_ANITABI,
-                      subjectId
-                    })
-
-                    open(`https://anitabi.cn/map?bangumiId=${subjectId}`)
+                  path={`https://anitabi.cn/map?bangumiId=${subjectId}`}
+                  eventId='条目.跳转'
+                  eventData={{
+                    to: 'anitabi.cn',
+                    from: TITLE_ANITABI,
+                    subjectId
                   }}
                 >
                   <Flex>
-                    <Text type='sub'>动画巡礼地图</Text>
+                    <Text type='sub'>巡礼地图</Text>
                     <Iconfont style={_.ml.xs} name='md-open-in-new' size={17} />
                   </Flex>
                   <Heatmap id='条目.跳转' from={TITLE_ANITABI} />
-                </Touchable>
+                </Link>
               )
             )
           }
           icon={!showAnitabi && 'md-navigate-next'}
           splitStyles
-          onPress={() => onSwitchBlock('showAnitabi')}
+          onPress={handlePress}
         >
           {TITLE_ANITABI}
         </SectionTitle>
@@ -82,11 +88,11 @@ const Anitabi = memo(
         {showAnitabi && (
           <>
             <Flex style={_.container.windMtMd}>
-              <Text size={11}>主要取景城市: </Text>
+              <Text size={11}>取景城市: </Text>
               <Text size={11} bold>
                 {city}{' '}
               </Text>
-              <Text size={11} type='sub'>
+              <Text type='sub' size={11}>
                 {' '}
                 ({pointsLength} 个地标 、{imagesLength} 张截图)
               </Text>
@@ -110,7 +116,7 @@ const Anitabi = memo(
                         size={THUMB_WIDTH}
                         height={THUMB_HEIGHT}
                         onPress={() => {
-                          showImageViewer(thumbs, Math.min(index, thumbs.length - 1))
+                          showImageViewer(memoThumbs, Math.min(index, memoThumbs.length - 1))
                         }}
                       />
                     ) : (
@@ -127,17 +133,13 @@ const Anitabi = memo(
                   <Text style={styles.title} size={11} bold numberOfLines={2}>
                     {item.cn || item.name}
                   </Text>
-                  {item.ep || item.s ? (
-                    <Text style={styles.sub} type='sub' size={11} bold numberOfLines={1}>
-                      {item.ep ? `EP${item.ep} ` : ''}
-                      {item.s ? date('i:s', item.s) : ''} · #{index + 1}
-                    </Text>
-                  ) : (
-                    <Text style={styles.sub} type='sub' size={11} bold numberOfLines={1}>
-                      #{index + 1}
-                      {/* 坐标 {item.geo.join('，')} */}
-                    </Text>
-                  )}
+                  <Text style={styles.sub} type='sub' size={11} bold numberOfLines={1}>
+                    {item.ep || item.s
+                      ? `${item.ep ? `EP${item.ep} ` : ''}${item.s ? date('i:s', item.s) : ''} · #${
+                          index + 1
+                        }`
+                      : `#${index + 1}`}
+                  </Text>
                 </View>
               ))}
             </ScrollView>

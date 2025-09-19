@@ -1,0 +1,11 @@
+/*
+ * @Author: czy0729
+ * @Date: 2025-09-19 23:14:40
+ * @Last Modified by:   czy0729
+ * @Last Modified time: 2025-09-19 23:14:40
+ */
+import { HandleBlockRef } from '../../types'
+
+export type Props = {
+  onBlockRef: HandleBlockRef
+}

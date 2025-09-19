@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-10 14:20:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-11 04:37:02
+ * @Last Modified time: 2025-09-20 05:11:32
  */
 import {
   Avatar,
@@ -163,6 +163,15 @@ export type Subject = {
   _loaded: Loaded
 }
 
+/** 条目 (HTML) 目录项 */
+export type SubjectFromHtmlCatalogItem = {
+  avatar: string
+  name: string
+  userId: UserId
+  id: Id
+  title: string
+}
+
 /** 条目 (HTML) */
 export type SubjectFromHTML = {
   /** 标题旁的子标题 */
@@ -240,13 +249,7 @@ export type SubjectFromHTML = {
   }[]
 
   /** 目录 */
-  catalog: {
-    avatar: string
-    name: string
-    userId: UserId
-    id: Id
-    title: string
-  }[]
+  catalog: SubjectFromHtmlCatalogItem[]
 
   /** 职员数 */
   crtCounts: Record<string, number>

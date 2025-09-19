@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 14:20:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-14 10:25:42
+ * @Last Modified time: 2025-09-19 20:54:27
  */
 import { StyleSheet } from 'react-native'
 import { computed } from 'mobx'
@@ -724,8 +724,6 @@ export default class Computed extends State implements StoreConstructor<typeof S
       h100: {
         height: '100%'
       },
-
-      /** @deprecated */
       layout: {
         width: '100%',
         height: 1

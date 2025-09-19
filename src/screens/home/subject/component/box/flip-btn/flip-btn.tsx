@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-01 01:56:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-22 17:04:46
+ * @Last Modified time: 2025-09-20 04:42:21
  */
 import React, { useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
@@ -14,8 +14,9 @@ import { useObserver } from '@utils/hooks'
 import Btns from './btns'
 import { ANIMATED_CONFIG, COMPONENT_MAIN, PERSPECTIVE } from './ds'
 import { memoStyles } from './styles'
+import { FlipBtnProps } from './types'
 
-function FlipBtn({ animate, btnText, rating, privacy, last, onAnimated, onPress }) {
+function FlipBtn({ animate, btnText, rating, privacy, last, onAnimated, onPress }: FlipBtnProps) {
   r(COMPONENT_MAIN)
 
   const height = _.device(44, 50)

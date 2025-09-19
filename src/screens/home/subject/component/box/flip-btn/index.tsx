@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-01 08:26:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-11 05:11:28
+ * @Last Modified time: 2025-09-20 02:18:52
  */
 import React from 'react'
 import { collectionStore, useStore } from '@stores'
@@ -11,8 +11,9 @@ import { WEB } from '@constants'
 import { Ctx } from '../../../types'
 import FlipBtn from './flip-btn'
 import { COMPONENT } from './ds'
+import { Props } from './types'
 
-function FlipBtnWrap({ onPress }) {
+function FlipBtnWrap({ onPress }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {

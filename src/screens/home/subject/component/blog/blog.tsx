@@ -2,31 +2,27 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:36:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 06:23:12
+ * @Last Modified time: 2025-09-19 22:15:53
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Expand, Heatmap } from '@components'
 import { InView, ItemArticle, SectionTitle } from '@_'
 import { _, rakuenStore } from '@stores'
 import { getIsBlockedUser, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { useExpandLazy } from '@utils/hooks'
-import { FROZEN_ARRAY, FROZEN_FN } from '@constants'
+import { FROZEN_FN } from '@constants'
 import { TITLE_BLOG } from '../../ds'
 import IconBlog from '../icon/blog'
 import IconHidden from '../icon/hidden'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Blog = memo(
-  ({
-    navigation,
-    styles,
-    showBlog = true,
-    subjectId = 0,
-    blog = FROZEN_ARRAY,
-    onSwitchBlock = FROZEN_FN
-  }) => {
+  ({ navigation, styles, showBlog = true, subjectId = 0, blog, onSwitchBlock = FROZEN_FN }) => {
     const { list, onExpand } = useExpandLazy(blog)
+
+    const handlePress = useCallback(() => onSwitchBlock('showBlog'), [onSwitchBlock])
+
     return (
       <InView style={stl(styles.container, !showBlog && _.short)}>
         <SectionTitle
@@ -34,7 +30,7 @@ const Blog = memo(
           right={showBlog ? <IconBlog /> : <IconHidden name={TITLE_BLOG} value='showBlog' />}
           icon={!showBlog && 'md-navigate-next'}
           splitStyles
-          onPress={() => onSwitchBlock('showBlog')}
+          onPress={handlePress}
         >
           {TITLE_BLOG}
         </SectionTitle>

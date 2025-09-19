@@ -15,7 +15,7 @@ import { IOS, WEB } from '@constants'
 import { NavigationProps } from '@types'
 import store from './store'
 import { TITLE_HEAD } from './ds'
-import { Ctx } from './types'
+import { Ctx, HandleBlockRef } from './types'
 
 /** 条目页面逻辑 */
 export function useSubjectPage(props: NavigationProps) {
@@ -34,7 +34,7 @@ export function useSubjectPage(props: NavigationProps) {
   }, [])
 
   /** 收集子组件的 ref */
-  const handleBlockRef = useCallback((ref: View, componentName: string) => {
+  const handleBlockRef: HandleBlockRef = useCallback((ref, componentName) => {
     postTask(() => {
       blockRefs.current[componentName] = ref
     }, 1000)
