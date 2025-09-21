@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-22 17:10:39
+ * @Last Modified time: 2025-09-21 19:49:46
  */
 import React, { useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
-import { Cover as CoverComp, Heatmap, Squircle } from '@components'
+import { Cover as CoverComp, CoverProps, Heatmap, Squircle } from '@components'
 import { systemStore } from '@stores'
 import { getCoverLarge, postTask } from '@utils'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import { IMG_DEFAULT, WEB } from '@constants'
+import { IMG_DEFAULT } from '@constants'
 import { EventType } from '@types'
 import { COMPONENT_MAIN } from './ds'
 import { memoStyles } from './styles'
@@ -22,12 +22,8 @@ const MEMO_LOADED = new Map<string, boolean>()
 function Cover({ image, placeholder, width, height, subjectId }: Props) {
   r(COMPONENT_MAIN)
 
-  const [isLoaded, setIsLoaded] = useState(false)
+  const [showPlaceholder, setShowPlaceholder] = useState(true)
 
-  const loaded = useMemo(
-    () => (typeof image === 'string' && MEMO_LOADED.get(image)) || isLoaded,
-    [image, isLoaded]
-  )
   const event = useMemo<EventType>(
     () => ({
       id: '条目.封面图查看',
@@ -39,53 +35,21 @@ function Cover({ image, placeholder, width, height, subjectId }: Props) {
   const handleLoad = useCallback(() => {
     if (typeof image === 'string') MEMO_LOADED.set(image, true)
 
-    postTask(() => setIsLoaded(true), (systemStore.setting.imageFadeIn ? 880 : 80) + 800)
+    const delay = (systemStore.setting.imageFadeIn ? 400 : 100) + 800
+    postTask(() => {
+      setShowPlaceholder(false)
+    }, delay)
   }, [image])
 
   return useObserver(() => {
     const styles = memoStyles()
-
-    const renderPlaceholder = () => {
-      if (!WEB && loaded && image) return null
-
-      return (
-        <CoverComp
-          style={[
-            styles.placeholder,
-            {
-              opacity: loaded ? 0 : 1
-            }
-          ]}
-          src={placeholder || IMG_DEFAULT}
-          size={width}
-          height={height}
-          noDefault
-          radius={false}
-          skeleton={false}
-        />
-      )
-    }
-
-    const renderCover = () => {
-      if (!image) return null
-
-      return (
-        <CoverComp
-          src={image}
-          size={width}
-          height={height}
-          noDefault
-          radius={false}
-          skeleton={false}
-          imageViewer
-          imageViewerSrc={getCoverLarge(image || placeholder)}
-          fadeDuration={0}
-          sync
-          event={event}
-          onLoad={handleLoad}
-        />
-      )
-    }
+    const baseCoverProps: CoverProps = {
+      size: width,
+      height,
+      noDefault: true,
+      radius: false,
+      skeleton: false
+    } as const
 
     return (
       <Squircle
@@ -100,9 +64,24 @@ function Cover({ image, placeholder, width, height, subjectId }: Props) {
             minHeight: height
           }}
         >
-          {WEB && renderPlaceholder()}
-          {renderCover()}
-          {!WEB && renderPlaceholder()}
+          {showPlaceholder && (
+            <CoverComp
+              {...baseCoverProps}
+              style={styles.placeholder}
+              src={placeholder || IMG_DEFAULT}
+            />
+          )}
+          {image && (
+            <CoverComp
+              {...baseCoverProps}
+              src={image}
+              imageViewer
+              imageViewerSrc={getCoverLarge(image || placeholder)}
+              fadeDuration={0}
+              event={event}
+              onLoad={handleLoad}
+            />
+          )}
           <Heatmap id='条目.封面图查看' />
         </View>
       </Squircle>

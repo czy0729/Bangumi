@@ -21,14 +21,12 @@ const Disc = memo(
     navigation,
     styles,
     subjectId = 0,
-    disc = FROZEN_ARRAY,
+    disc,
     discTranslateResult = FROZEN_ARRAY,
     focusOrigin = false
   }) => {
     const [expand, setExpand] = useState(false)
-    const onExpand = useCallback(() => {
-      setExpand(true)
-    }, [setExpand])
+    const handleExpand = useCallback(() => setExpand(true), [])
 
     return (
       <View style={styles.container}>
@@ -43,14 +41,14 @@ const Disc = memo(
         >
           曲目列表
         </SectionTitle>
-        {!!disc.length && (
+
+        {!!(disc || []).length && (
           <View style={_.mt.md}>
-            <Expand onExpand={onExpand}>
+            <Expand onExpand={handleExpand}>
               {disc
-                .filter((item, index) => {
-                  if (expand) return true
-                  return item.disc.length >= 6 ? index < 1 : index < 2
-                })
+                .filter((item, index) =>
+                  expand ? true : item.disc.length >= 6 ? index < 1 : index < 2
+                )
                 .map((item, index) => (
                   <View key={item.title} style={!!index && _.mt.md}>
                     <Text type='sub' size={16} selectable>
@@ -59,13 +57,10 @@ const Disc = memo(
                     <View style={_.mt.sm}>
                       {item.disc.map((i, idx) => {
                         const title = HTMLDecode(i.title).replace(`${idx + 1} `, '')
-                        let translate = ''
-                        try {
-                          if (discTranslateResult.length) {
-                            translate =
-                              discTranslateResult.find(item => item.src === title)?.dst || ''
-                          }
-                        } catch (error) {}
+                        const translate =
+                          discTranslateResult.length > 0
+                            ? discTranslateResult.find(d => d.src === title)?.dst || ''
+                            : ''
 
                         return (
                           <Flex
@@ -76,20 +71,17 @@ const Disc = memo(
                             <Text>{idx + 1}</Text>
                             <Flex.Item style={_.ml.sm}>
                               <Text
-                                onPress={() => {
+                                onPress={() =>
                                   appNavigate(
                                     i.href,
                                     navigation,
                                     {},
                                     {
                                       id: '条目.跳转',
-                                      data: {
-                                        from: '曲目列表',
-                                        subjectId
-                                      }
+                                      data: { from: '曲目列表', subjectId }
                                     }
                                   )
-                                }}
+                                }
                               >
                                 {title}
                               </Text>

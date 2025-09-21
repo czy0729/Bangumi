@@ -37,11 +37,9 @@ const Ep = memo(
     onScrollIntoViewIfNeeded = FROZEN_FN,
     doUpdateSubjectEp = FROZEN_FN
   }) => {
-    const _showEpInput = showEpInput
     const canSubmit = !!status.name && status.name !== '未收藏'
+    const showOnair = showCustomOnair && (onAirCustom.isOnair || isDoing)
 
-    const { isOnair } = onAirCustom
-    const showOnair = showCustomOnair && (isOnair || isDoing)
     return (
       <View style={styles.container}>
         <SectionTitle
@@ -57,15 +55,17 @@ const Ep = memo(
         >
           {TITLE_EP}
         </SectionTitle>
+
         <View style={_.mt.md}>
           <Eps />
           <Heatmap id='条目.章节按钮长按' />
           <Heatmap bottom={35} id='条目.章节菜单操作' />
         </View>
-        {(_showEpInput || showOnair) && (
+
+        {(showEpInput || showOnair) && (
           <Flex style={_.mt.sm}>
             <Flex.Item>
-              {_showEpInput && (
+              {showEpInput && (
                 <Flex>
                   <View style={styles.input}>
                     <Input
@@ -101,6 +101,7 @@ const Ep = memo(
                 </Flex>
               )}
             </Flex.Item>
+
             {showOnair && <OnairCustom />}
             <Heatmap id='条目.输入框更新章节' />
           </Flex>

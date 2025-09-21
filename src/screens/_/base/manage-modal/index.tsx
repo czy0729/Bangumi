@@ -191,7 +191,6 @@ export const ManageModal = ob(
       this.setState({
         status
       })
-      feedback(true)
     }
 
     handleToggleTag = (name: string) => {
@@ -325,7 +324,6 @@ export const ManageModal = ob(
         if (typeof this?.commentRef?.inputRef?.blur === 'function') {
           this.commentRef.inputRef.blur()
         }
-        feedback(true)
       } catch (error) {}
 
       return sleep(240)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-10 14:20:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-20 05:11:32
+ * @Last Modified time: 2025-09-21 00:35:12
  */
 import {
   Avatar,
@@ -172,6 +172,13 @@ export type SubjectFromHtmlCatalogItem = {
   title: string
 }
 
+/** 条目 (HTML) 单行本项 */
+export type SubjectFromHtmlComitItem = {
+  id: SubjectId
+  name: string
+  image: string
+}
+
 /** 条目 (HTML) */
 export type SubjectFromHTML = {
   /** 标题旁的子标题 */
@@ -226,11 +233,7 @@ export type SubjectFromHTML = {
   }
 
   /** 单行本 */
-  comic: {
-    id: SubjectId
-    name: string
-    image: string
-  }[]
+  comic: SubjectFromHtmlComitItem[]
 
   /** 猜你喜欢 */
   like: {

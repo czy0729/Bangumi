@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-03 21:15:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 18:31:36
+ * @Last Modified time: 2025-09-21 19:45:26
  */
 import { ColorValue, ImageProps } from 'react-native'
 import { EventType, Fn, ImageSource, ImageStyle, Override, ViewStyle } from '@types'
@@ -76,9 +76,6 @@ export type Props = Override<
 
     /** 开发模式, 强制不显示图片 */
     textOnly?: boolean
-
-    /** @deprecated 获取本地缓存地址的方法是否同步进行 */
-    sync?: boolean
 
     /** 图片同一时间有复数加载时的优先级 */
     priority?: 'low' | 'normal' | 'high'

@@ -6,15 +6,16 @@
  */
 import React from 'react'
 import { systemStore, useStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../../types'
 import Disc from './disc'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function DiscWrap() {
-  const { $, navigation } = useStore<Ctx>()
-  return (
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
     <Disc
       navigation={navigation}
       styles={memoStyles()}
@@ -23,7 +24,7 @@ function DiscWrap() {
       discTranslateResult={$.state.discTranslateResult.slice()}
       focusOrigin={systemStore.setting.focusOrigin}
     />
-  )
+  ))
 }
 
-export default ob(DiscWrap, COMPONENT)
+export default DiscWrap

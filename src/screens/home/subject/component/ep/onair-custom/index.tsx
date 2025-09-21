@@ -9,30 +9,28 @@ import { View } from 'react-native'
 import { Flex, Text } from '@components'
 import { IconTouchable, Popover } from '@_'
 import { _, useStore } from '@stores'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../../types'
 import { HOUR_DS, MINUTE_DS, WEEK_DAY_DS, WEEK_DAY_MAP } from '../ds'
-import { COMPONENT } from './ds'
+import { COMPONENT, REVERSE_WEEK_DAY_MAP } from './ds'
 import { memoStyles } from './styles'
 
 function OnairCustom() {
-  r(COMPONENT)
-
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
     const styles = memoStyles()
     const { weekDay, h, m, isCustom } = $.onAirCustom
 
     const handleSelectWeekDay = useCallback((title: string) => {
-      const map = {}
-      Object.keys(WEEK_DAY_MAP).forEach(item => (map[WEEK_DAY_MAP[item]] = item))
-      $.onSelectOnAir(Number(map[title] || 0), `${$.onAirCustom.h}${$.onAirCustom.m}`)
+      const wd = REVERSE_WEEK_DAY_MAP[title] ?? 0
+      $.onSelectOnAir(wd, `${$.onAirCustom.h || '00'}${$.onAirCustom.m || '00'}`)
     }, [])
+
     const handleSelectHour = useCallback((title: string) => {
       $.onSelectOnAir($.onAirCustom.weekDay, `${title || '00'}${$.onAirCustom.m || '00'}`)
     }, [])
+
     const handleSelectMinute = useCallback((title: string) => {
       $.onSelectOnAir($.onAirCustom.weekDay, `${$.onAirCustom.h || '00'}${title || '00'}`)
     }, [])
@@ -42,7 +40,7 @@ function OnairCustom() {
         <Popover data={WEEK_DAY_DS} onSelect={handleSelectWeekDay}>
           <Flex style={styles.onair} justify='center'>
             <Text type='sub' size={11} bold>
-              {WEEK_DAY_MAP[weekDay] === undefined ? '周' : WEEK_DAY_MAP[weekDay]}
+              {WEEK_DAY_MAP[weekDay] ?? '周'}
             </Text>
           </Flex>
         </Popover>

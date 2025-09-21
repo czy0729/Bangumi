@@ -7,13 +7,12 @@
 import React, { useCallback } from 'react'
 import { Eps as EpsComp } from '@_'
 import { _, userStore, useStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { useObserver } from '@utils/hooks'
 import { Ctx, EpsItem } from '../../../types'
 import { COMPONENT, LAYOUT_WIDTH } from './ds'
 
 function Eps() {
-  const { $, navigation } = useStore<Ctx>()
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
     const handleSelect = useCallback((value: string, item: EpsItem) => {
@@ -39,4 +38,4 @@ function Eps() {
   })
 }
 
-export default ob(Eps, COMPONENT)
+export default Eps

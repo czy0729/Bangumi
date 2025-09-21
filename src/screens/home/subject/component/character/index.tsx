@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-20 05:29:13
+ * @Last Modified time: 2025-09-21 00:28:00
  */
 import React, { Suspense } from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Component } from '@components'
 import { _, systemStore, useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { TITLE_CHARACTER } from '../../ds'
 import { Ctx } from '../../types'
 import Split from '../split'
 import Character from './character.lazy'
 import { COMPONENT } from './ds'
+import { Props } from './types'
 
-function CharacterWrap({ onBlockRef }) {
+function CharacterWrap({ onBlockRef }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {

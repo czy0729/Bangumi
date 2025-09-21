@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-28 16:21:51
+ * @Last Modified time: 2025-09-21 19:26:23
  */
 import React from 'react'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import Cover from './cover'
 import { COMPONENT } from './ds'
 
 function CoverWrap() {
-  const { $ } = useStore<Ctx>()
-  return (
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
     <Cover
       image={($.nsfw ? $.subject.images?.common : $.cover) || $.cover}
       placeholder={($.nsfw ? $.subject.images?.common : $.coverPlaceholder) || $.coverPlaceholder}
@@ -21,7 +22,7 @@ function CoverWrap() {
       height={$.imageHeight}
       subjectId={$.subjectId}
     />
-  )
+  ))
 }
 
-export default ob(CoverWrap, COMPONENT)
+export default CoverWrap

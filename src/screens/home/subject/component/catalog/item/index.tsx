@@ -5,12 +5,12 @@
  * @Last Modified time: 2025-09-20 05:14:58
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Cover, Flex, Link, Text } from '@components'
 import { fixedAll } from '@components/avatar/utils'
 import { _, useStore } from '@stores'
 import { SubjectFromHtmlCatalogItem } from '@stores/subject/types'
 import { HTMLDecode, x18 } from '@utils'
+import { useObserver } from '@utils/hooks'
 import { WithItem } from '@types'
 import { Ctx } from '../../../types'
 import { memoStyles } from './styles'

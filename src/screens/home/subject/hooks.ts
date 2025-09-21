@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-15 16:13:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 07:01:15
+ * @Last Modified time: 2025-09-21 20:00:27
  */
 import { useCallback, useRef } from 'react'
 import { findNodeHandle, FlatList, View } from 'react-native'
@@ -15,7 +15,7 @@ import { IOS, WEB } from '@constants'
 import { NavigationProps } from '@types'
 import store from './store'
 import { TITLE_HEAD } from './ds'
-import { Ctx, HandleBlockRef } from './types'
+import { Ctx, HandleBlockRef, HandleScrollIntoViewIfNeeded } from './types'
 
 /** 条目页面逻辑 */
 export function useSubjectPage(props: NavigationProps) {
@@ -34,15 +34,15 @@ export function useSubjectPage(props: NavigationProps) {
   }, [])
 
   /** 收集子组件的 ref */
-  const handleBlockRef: HandleBlockRef = useCallback((ref, componentName) => {
+  const handleBlockRef = useCallback<HandleBlockRef>((ref, componentName) => {
     postTask(() => {
       blockRefs.current[componentName] = ref
     }, 1000)
   }, [])
 
   /** 子组件可以调用此方法定位到指定 y 轴坐标 */
-  const handleScrollIntoViewIfNeeded = useCallback(
-    (y: number) => {
+  const handleScrollIntoViewIfNeeded = useCallback<HandleScrollIntoViewIfNeeded>(
+    y => {
       try {
         if (typeof scrollViewRef?.current?.scrollToOffset === 'function') {
           scrollViewRef.current.scrollToOffset({

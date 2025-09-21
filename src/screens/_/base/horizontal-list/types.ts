@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-02 15:34:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-20 06:00:57
+ * @Last Modified time: 2025-09-21 00:29:48
  */
 import { TextProps } from 'react-native'
 import { SubjectTypeCn, ViewStyle } from '@types'
@@ -10,6 +10,8 @@ import { SubjectTypeCn, ViewStyle } from '@types'
 export type WithId = {
   id?: string | number
 }
+
+type TypeCn = SubjectTypeCn | '角色' | ''
 
 export type Props<T extends WithId> = {
   style?: ViewStyle
@@ -33,10 +35,10 @@ export type Props<T extends WithId> = {
   findCn?: boolean
 
   /** 条目类型中文 */
-  typeCn?: SubjectTypeCn | '角色' | ''
+  typeCn?: TypeCn
 
   /** 关联条目类型中文, 若有值则相关描述例如`不同演绎`会沿用此类型值 */
-  relationTypeCn?: SubjectTypeCn | '角色' | ''
+  relationTypeCn?: TypeCn
 
   /** 文本溢出显示方式, 在例如单行本中能显示话数, 而不会被溢出折叠 (iOS only) */
   ellipsizeMode?: TextProps['ellipsizeMode']
@@ -48,7 +50,7 @@ export type Props<T extends WithId> = {
   scrolled?: boolean
 
   /** item 点击回调 */
-  onPress?: (payload: T) => void
+  onPress?: (payload: T, typeCn?: TypeCn) => void
 
   /** item 描述点击回调 */
   onSubPress?: (payload: T) => void

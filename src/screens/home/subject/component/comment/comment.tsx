@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2021-08-14 16:22:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 06:36:14
+ * @Last Modified time: 2025-09-21 19:25:05
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Heatmap, Text } from '@components'
 import { SectionTitle } from '@_'
 import { memo } from '@utils/decorators'
@@ -18,6 +18,8 @@ import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Comment = memo(
   ({ styles, showComment = true, commentLength = 0, onSwitchBlock = FROZEN_FN }) => {
+    const handlePress = useCallback(() => onSwitchBlock('showComment'), [onSwitchBlock])
+
     return (
       <>
         <SectionTitle
@@ -36,7 +38,7 @@ const Comment = memo(
           }
           icon={!showComment && 'md-navigate-next'}
           splitStyles
-          onPress={() => onSwitchBlock('showComment')}
+          onPress={handlePress}
         >
           吐槽
           <Text size={12} type='sub' lineHeight={24}>
