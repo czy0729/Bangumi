@@ -7,13 +7,11 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Button, Component, Flex, Heatmap, Loading, Mesume, Text, WebView } from '@components'
-import { StatusBarPlaceholder } from '@_'
+import { Notice, StatusBarPlaceholder } from '@_'
 import { _, userStore } from '@stores'
-import { urlStringify } from '@utils'
+import { alert, feedback, HTMLTrim, info, urlStringify } from '@utils'
 import { ob } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
-import { HTMLTrim } from '@utils/html'
-import { feedback, info } from '@utils/ui'
 import { APP_ID, HOST, SDK, URL_OAUTH, URL_OAUTH_REDIRECT } from '@constants'
 import i18n from '@constants/i18n'
 import { NavigationProps } from '@types'
@@ -136,6 +134,8 @@ class Login extends React.Component<NavigationProps> {
       this.setState({
         clicked: false
       })
+
+      alert('获取官方授权 token 失败，请联系管理员')
       return
     }
 
@@ -268,6 +268,9 @@ class Login extends React.Component<NavigationProps> {
     return (
       <Component id='screen-login' style={_.container.plain}>
         <StatusBarPlaceholder />
+        <Notice style={_.mt.md} align='center'>
+          这是一个过时的功能，不保证能正常使用
+        </Notice>
         <View style={_.container.flex}>
           {clicked ? this.renderWebView() : this.renderPreview()}
         </View>

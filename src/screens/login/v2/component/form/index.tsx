@@ -277,35 +277,19 @@ class Form extends React.Component<Props> {
 
   renderError() {
     const { navigation, info } = this.props
-    const isError = info.includes('错误')
+    const isError = info.includes('错误') || info.includes('TypeError')
     return (
-      <>
-        <Text
-          style={_.mt.md}
-          size={12}
-          lineHeight={16}
-          type='sub'
-          onPress={() => {
-            if (isError) navigation.push('Login')
-          }}
-        >
-          {info}
-        </Text>
-        {isError && (
-          <Text
-            style={_.mt.md}
-            size={12}
-            lineHeight={16}
-            type='sub'
-            onPress={() => {
-              navigation.push('LoginAssist')
-            }}
-          >
-            请尝试切换另一域名进行重试，或尝试切换 wifi 或移动网络，实在没法{i18n.login()}
-            ，可点击这里前往辅助{i18n.login()}→
-          </Text>
-        )}
-      </>
+      <Text
+        style={_.mt.md}
+        size={12}
+        lineHeight={16}
+        type='sub'
+        onPress={() => {
+          if (isError) navigation.push('Login')
+        }}
+      >
+        {info}
+      </Text>
     )
   }
 

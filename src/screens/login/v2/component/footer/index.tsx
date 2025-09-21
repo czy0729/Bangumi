@@ -73,15 +73,15 @@ function Footer({ navigation }) {
             bold
             type='sub'
             onPress={() => {
-              navigation.push('LoginAssist')
+              navigation.push('Login')
 
               t('登陆.跳转', {
-                to: 'LoginAssist'
+                to: 'Login'
               })
             }}
           >
-            辅助{i18n.login()}
-            <Heatmap id='登陆.跳转' to='LoginAssist' alias='辅助登录' />
+            授权{i18n.login()}
+            <Heatmap id='登陆.跳转' to='Login' alias='授权登录' />
           </Text>
         )}
       </Flex>

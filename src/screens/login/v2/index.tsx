@@ -392,9 +392,7 @@ class LoginV2 extends React.Component<NavigationProps> {
       this._retryCount += 1
       if (this._retryCount >= AUTH_RETRY_COUNT) {
         this.loginFail(
-          `[${String(
-            ex
-          )}] ${i18n.login()}失败，请重试或重启APP，或点击前往旧版授权${i18n.login()} →`
+          `[${String(ex)}] ${i18n.login()}失败，请重试或重启客户端，或前往授权${i18n.login()} →`
         )
         return
       }
