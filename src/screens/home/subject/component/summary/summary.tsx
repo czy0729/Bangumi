@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 07:13:26
+ * @Last Modified time: 2025-09-23 05:34:16
  */
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
 import { Expand, Text } from '@components'
 import { SectionTitle } from '@_'
 import { _, systemStore } from '@stores'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { FROZEN_ARRAY, FROZEN_FN } from '@constants'
+import { FROZEN_FN } from '@constants'
 import { TITLE_SUMMARY } from '../../ds'
 import IconHidden from '../icon/hidden'
 import IconTranslate from '../icon/translate'
@@ -25,12 +25,14 @@ const Summary = memo(
     subjectId = 0,
     showSummary = true,
     subjectHtmlExpand = true,
-    translateResult = FROZEN_ARRAY,
+    translateResult,
     content = '',
     name = '',
     onSwitchBlock = FROZEN_FN
   }) => {
-    const handlePress = useCallback(() => {
+    const handlePress = useCallback(() => onSwitchBlock('showSummary'), [onSwitchBlock])
+
+    const handleExpandPress = useCallback(() => {
       navigation.push('SubjectInfo', {
         subjectId,
         name,
@@ -42,8 +44,12 @@ const Summary = memo(
         type: 'Summary',
         subjectId
       })
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [subjectId])
+    }, [name, navigation, subjectId])
+
+    const results = useMemo(
+      () => (translateResult?.length ? fixedTranslateResult(translateResult, content) : []),
+      [translateResult, content]
+    )
 
     return (
       <View style={showSummary ? styles.container : styles.hide}>
@@ -57,24 +63,19 @@ const Summary = memo(
           }
           icon={!showSummary && 'md-navigate-next'}
           splitStyles
-          onPress={() => onSwitchBlock('showSummary')}
+          onPress={handlePress}
         >
           {TITLE_SUMMARY}
         </SectionTitle>
+
         {showSummary && (
           <View>
-            {translateResult.length ? (
-              <View>
-                {fixedTranslateResult(translateResult, content).map((item, index) => (
+            {results.length ? (
+              <>
+                {results.map((item, index) => (
                   <View key={index} style={_.mt.sm}>
                     {!!item.src && (
-                      <Text
-                        style={[_.mt.md, _.mb.xs]}
-                        type='sub'
-                        size={12}
-                        lineHeight={14}
-                        selectable
-                      >
+                      <Text style={_.mt.md} type='sub' size={12} lineHeight={14} selectable>
                         {item.src.trim()}
                       </Text>
                     )}
@@ -88,10 +89,10 @@ const Summary = memo(
                     by DeepLX
                   </Text>
                 )}
-              </View>
+              </>
             ) : (
               !!content && (
-                <Expand ratio={0.88} onPress={subjectHtmlExpand ? undefined : handlePress}>
+                <Expand ratio={0.88} onPress={subjectHtmlExpand ? undefined : handleExpandPress}>
                   <Text style={_.mt.md} size={15} lineHeight={22} selectable>
                     {content}
                   </Text>
@@ -107,7 +108,7 @@ const Summary = memo(
   COMPONENT_MAIN,
   props => ({
     ...props,
-    translateResult: props.translateResult.length
+    translateResult: props.translateResult?.length
   })
 )
 

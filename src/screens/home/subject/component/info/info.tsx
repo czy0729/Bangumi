@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 06:50:16
+ * @Last Modified time: 2025-09-23 05:20:06
  */
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
 import { Expand, Heatmap, RenderHtml } from '@components'
 import { SectionTitle } from '@_'
@@ -29,10 +29,24 @@ const Info = memo(
     onSwitchBlock = FROZEN_FN
   }) => {
     const [expand, setExpand] = useState(false)
+
+    const html = useMemo(() => {
+      try {
+        const decoded = decodeURIComponent(info)
+        return expand ? decoded : decoded.slice(0, 560)
+      } catch (error) {
+        console.error('home/subject/info.js', 'Info', error)
+        return info
+      }
+    }, [expand, info])
+
+    const handlePress = useCallback(() => onSwitchBlock('showInfo'), [onSwitchBlock])
+
     const handleExpand = useCallback(() => {
       setExpand(true)
     }, [])
-    const handlePress = useCallback(() => {
+
+    const handleExpandPress = useCallback(() => {
       navigation.push('SubjectInfo', {
         subjectId,
         name,
@@ -44,15 +58,25 @@ const Info = memo(
         type: 'Info',
         subjectId
       })
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [name, subjectId])
+    }, [name, navigation, subjectId])
 
-    let html = info
-    try {
-      html = expand ? decodeURIComponent(html) : decodeURIComponent(html).slice(0, 440)
-    } catch (error) {
-      console.error('home/subject/info.js', 'Info', error)
-    }
+    const handleLinkPress = useCallback(
+      (href: string) => {
+        appNavigate(
+          href,
+          navigation,
+          {},
+          {
+            id: '条目.跳转',
+            data: {
+              from: '详情',
+              subjectId
+            }
+          }
+        )
+      },
+      [navigation, subjectId]
+    )
 
     return (
       <View style={showInfo ? styles.container : styles.hide}>
@@ -61,10 +85,11 @@ const Info = memo(
           right={showInfo ? <IconWiki /> : <IconHidden name='详情' value='showInfo' />}
           icon={!showInfo && 'md-navigate-next'}
           splitStyles
-          onPress={() => onSwitchBlock('showInfo')}
+          onPress={handlePress}
         >
           详情
         </SectionTitle>
+
         {showInfo && (
           <View>
             {!!info && (
@@ -72,26 +97,13 @@ const Info = memo(
                 ratio={0.88}
                 checkLayout={false}
                 onExpand={handleExpand}
-                onPress={subjectHtmlExpand ? undefined : handlePress}
+                onPress={subjectHtmlExpand ? undefined : handleExpandPress}
               >
                 <RenderHtml
                   style={styles.info}
                   baseFontStyle={_.baseFontStyle.md}
                   html={html}
-                  onLinkPress={href => {
-                    appNavigate(
-                      href,
-                      navigation,
-                      {},
-                      {
-                        id: '条目.跳转',
-                        data: {
-                          from: '详情',
-                          subjectId
-                        }
-                      }
-                    )
-                  }}
+                  onLinkPress={handleLinkPress}
                 />
               </Expand>
             )}

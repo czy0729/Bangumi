@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:15:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-06 20:56:34
+ * @Last Modified time: 2025-09-23 01:55:06
  */
 import { getTimestamp, info } from '@utils'
 import { GITHUB_RELEASE_REPOS, IOS, VERSION_GITHUB_RELEASE } from '@constants'
@@ -38,12 +38,13 @@ export default class Fetch extends Computed {
         }
       }
     } catch (error) {
-      err('fetchRelease')
+      this.error('fetchRelease', error)
     }
   }
 
   /** 判断是否高级用户 */
   fetchAdvance = async () => {
+    this.log('fetchAdvance')
     if (this.advance) return true
 
     const { myId, myUserId } = userStore
@@ -68,7 +69,7 @@ export default class Fetch extends Computed {
         return true
       }
     } catch (error) {
-      err('fetchAdvance')
+      this.error('fetchAdvance', error)
     }
 
     return false
@@ -99,13 +100,9 @@ export default class Fetch extends Computed {
 
       return value[myId] || value[myUserId]
     } catch (error) {
-      err('fetchAdvanceDetail')
+      this.error('fetchAdvanceDetail', error)
     }
 
     return 0
   }
-}
-
-function err(name: string, desc: string = 'catch error') {
-  console.info('[@stores/system/fetch.ts]', name, desc)
 }

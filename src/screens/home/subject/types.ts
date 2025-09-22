@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-07-04 15:40:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-21 19:59:54
+ * @Last Modified time: 2025-09-23 06:09:12
  */
-import { View } from 'react-native'
+import { FlatList, View } from 'react-native'
 import { ImageProps } from '@components'
 import { Ep, Staff, SubjectComments, SubjectFromHTML } from '@stores/subject/types'
 import {
@@ -31,11 +31,17 @@ export type Ctx = WithNavigation<{
 
 export type Params = GetRouteParams<RouteSubject>
 
+/** 收集长列表的 ref */
+export type HandleForwardRef = (ref: FlatList) => void
+
 /** 收集子组件的 ref */
 export type HandleBlockRef = (ref: View, componentName: string) => void
 
 /** 子组件可以调用此方法定位到指定 y 轴坐标 */
 export type HandleScrollIntoViewIfNeeded = (y: number) => void
+
+/** 滚动到顶 */
+export type HandleScrollToTop = () => void
 
 export type Crt = {
   id: Id

@@ -2,14 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-07-08 07:35:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 04:42:27
+ * @Last Modified time: 2025-09-23 05:43:49
  */
 import React from 'react'
 import { View } from 'react-native'
+import { useObserver } from 'mobx-react'
 import { InView, ItemComment } from '@_'
 import { _, rakuenStore, systemStore, useStore } from '@stores'
+import { SubjectCommentsItem } from '@stores/subject/types'
 import { getIsBlockedUser } from '@utils'
-import { ob } from '@utils/decorators'
+import { WithIndex } from '@types'
 import { Ctx } from '../../types'
 import { COMPONENT, ITEM_HEIGHT, POPOVER_DATA } from './ds'
 import { styles } from './styles'
@@ -26,43 +28,38 @@ function Item({
   action,
   mainId,
   mainName
-}) {
-  const { $, navigation } = useStore<Ctx>()
-  if (getIsBlockedUser(rakuenStore.blockUserIds, userName, userId, `Subject|${$.subjectId}`)) {
-    return null
-  }
+}: WithIndex<SubjectCommentsItem>) {
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
 
-  if (!$.state.scrolled) return <View style={styles.item} />
-
-  const event = {
-    id: '条目.跳转',
-    data: {
-      from: '吐槽',
-      subjectId: $.subjectId
+  return useObserver(() => {
+    if (getIsBlockedUser(rakuenStore.blockUserIds, userName, userId, `Subject|${$.subjectId}`)) {
+      return null
     }
-  } as const
 
-  return (
-    <InView key={userId} y={_.window.height + (index + 1) * ITEM_HEIGHT}>
-      <ItemComment
-        navigation={navigation}
-        event={event}
-        time={time}
-        avatar={avatar}
-        userId={userId}
-        userName={userName}
-        star={systemStore.setting.hideScore ? undefined : star}
-        comment={comment}
-        subjectId={$.subjectId}
-        relatedId={relatedId}
-        action={action}
-        mainId={mainId}
-        mainName={mainName}
-        popoverData={POPOVER_DATA[$.type]}
-        onSelect={$.onTrackUsersCollection}
-      />
-    </InView>
-  )
+    if (!$.state.scrolled) return <View style={styles.item} />
+
+    return (
+      <InView key={userId} y={_.window.height + (index + 1) * ITEM_HEIGHT}>
+        <ItemComment
+          navigation={navigation}
+          event={$.itemEvent}
+          time={time}
+          avatar={avatar}
+          userId={userId}
+          userName={userName}
+          star={systemStore.setting.hideScore ? undefined : star}
+          comment={comment}
+          subjectId={$.subjectId}
+          relatedId={relatedId}
+          action={action}
+          mainId={mainId}
+          mainName={mainName}
+          popoverData={POPOVER_DATA[$.type]}
+          onSelect={$.onTrackUsersCollection}
+        />
+      </InView>
+    )
+  })
 }
 
-export default ob(Item, COMPONENT)
+export default Item

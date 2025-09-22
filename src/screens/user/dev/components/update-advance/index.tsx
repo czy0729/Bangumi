@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-03-01 10:16:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-28 16:02:28
+ * @Last Modified time: 2025-09-23 01:46:37
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Input, SegmentedControl, Text, Touchable } from '@components'
 import { ItemSetting } from '@_'
 import { _ } from '@stores'
+import { getData } from '@stores/system/utils'
 import { info } from '@utils'
 import { useMount, useObserver } from '@utils/hooks'
 import { get, update } from '@utils/kv'
@@ -24,7 +25,7 @@ function UpdateAdvance({ navigation, onScrollTo }: { navigation: Navigation; onS
   const [data, setData] = useState({})
 
   const fetchData = useCallback(async () => {
-    const data = await get('advance')
+    const data = await getData()
     setData(data)
   }, [])
 

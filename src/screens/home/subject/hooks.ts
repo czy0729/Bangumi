@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-15 16:13:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-21 20:00:27
+ * @Last Modified time: 2025-09-23 05:59:11
  */
 import { useCallback, useRef } from 'react'
 import { findNodeHandle, FlatList, View } from 'react-native'
@@ -15,7 +15,13 @@ import { IOS, WEB } from '@constants'
 import { NavigationProps } from '@types'
 import store from './store'
 import { TITLE_HEAD } from './ds'
-import { Ctx, HandleBlockRef, HandleScrollIntoViewIfNeeded } from './types'
+import {
+  Ctx,
+  HandleBlockRef,
+  HandleForwardRef,
+  HandleScrollIntoViewIfNeeded,
+  HandleScrollToTop
+} from './types'
 
 /** 条目页面逻辑 */
 export function useSubjectPage(props: NavigationProps) {
@@ -29,7 +35,7 @@ export function useSubjectPage(props: NavigationProps) {
   const blockRefs = useRef<Record<string, View>>({})
 
   /** 收集长列表的 ref */
-  const handleForwardRef = useCallback((ref: FlatList) => {
+  const handleForwardRef = useCallback<HandleForwardRef>(ref => {
     scrollViewRef.current = ref
   }, [])
 
@@ -113,7 +119,7 @@ export function useSubjectPage(props: NavigationProps) {
   )
 
   /** 滚动到顶 */
-  const handleScrollToTop = useCallback(() => {
+  const handleScrollToTop = useCallback<HandleScrollToTop>(() => {
     feedback()
     scrollViewRef.current.scrollToOffset({
       offset: 0,

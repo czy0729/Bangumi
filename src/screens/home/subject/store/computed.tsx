@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-20 06:11:58
+ * @Last Modified time: 2025-09-23 05:43:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -1416,5 +1416,16 @@ export default class Computed extends State {
         temp.push(item.name || item.nameJP)
       })
     return [...new Set(temp)].filter(Boolean).filter(item => item.length < 12)
+  }
+
+  /** 吐槽项事件 */
+  @computed get itemEvent() {
+    return {
+      id: '条目.跳转',
+      data: {
+        from: '吐槽',
+        subjectId: this.subjectId
+      }
+    } as const
   }
 }

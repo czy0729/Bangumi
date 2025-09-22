@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 04:42:03
+ * @Last Modified time: 2025-09-22 18:26:13
  */
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
@@ -15,10 +15,12 @@ import { Ctx } from '../../types'
 import Bg from '../bg'
 import Head from '../head'
 import Loading from '../loading'
-import { BottomEls, TopEls } from './ds'
+import { BottomEls, COMPONENT, TopEls } from './ds'
+import { Props } from './types'
 
-function HeaderComponent(props) {
-  const { $ } = useStore<Ctx>()
+function HeaderComponent(props: Props) {
+  const { $ } = useStore<Ctx>(COMPONENT)
+
   const elTop = useMemo(
     () => TopEls.map((item, index) => renderWithErrorBoundary(item, index, props)),
     // eslint-disable-next-line react-hooks/exhaustive-deps

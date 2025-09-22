@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-16 11:46:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 06:46:42
+ * @Last Modified time: 2025-09-22 17:59:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -170,7 +170,7 @@ const Head = memo(
                   {rating.score === '' ? '-' : toFixed(rating.score, 1)}{' '}
                 </Text>
                 {rating.score !== '' && <ScoreTag style={_.ml.sm} value={Number(rating.score)} />}
-                {nsfw && <Tag style={_.ml.sm} size={13} value='NSFW' />}
+                {nsfw && <Tag style={_.ml.sm} type='sub' size={12} value='NSFW' />}
               </>
             )}
           </Flex>

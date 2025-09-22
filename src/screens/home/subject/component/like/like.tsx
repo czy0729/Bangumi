@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:00:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 06:51:41
+ * @Last Modified time: 2025-09-23 05:55:00
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Heatmap } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { HorizontalList, InView, SectionTitle } from '@_'
 import { _ } from '@stores'
+import { SubjectFromHtmlLikeItem } from '@stores/subject/types'
 import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { FROZEN_ARRAY, FROZEN_FN } from '@constants'
+import { FROZEN_FN } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { TITLE_LIKE } from '../../ds'
 import IconHidden from '../icon/hidden'
@@ -25,10 +26,30 @@ const Like = memo(
     navigation,
     showLike = true,
     subjectId = 0,
-    like = FROZEN_ARRAY,
+    like,
     typeCn = '' as SubjectTypeCn,
     onSwitchBlock = FROZEN_FN
   }) => {
+    const handleToggle = useCallback(() => onSwitchBlock('showLike'), [onSwitchBlock])
+
+    const handleNavigate = useCallback(
+      ({ id, name, image }: SubjectFromHtmlLikeItem, type: SubjectTypeCn) => {
+        navigation.push('Subject', {
+          subjectId: id,
+          _jp: name,
+          _image: getCoverSrc(image, COVER_WIDTH),
+          _type: type
+        })
+
+        t('条目.跳转', {
+          to: 'Subject',
+          from: TITLE_LIKE,
+          subjectId
+        })
+      },
+      [navigation, subjectId]
+    )
+
     return (
       <InView style={stl(styles.container, !showLike && _.short)}>
         <SectionTitle
@@ -42,10 +63,11 @@ const Like = memo(
           }
           icon={!showLike && 'md-navigate-next'}
           splitStyles
-          onPress={() => onSwitchBlock('showLike')}
+          onPress={handleToggle}
         >
           {TITLE_LIKE}
         </SectionTitle>
+
         {showLike && (
           <>
             <HorizontalList
@@ -55,20 +77,7 @@ const Like = memo(
               height={COVER_HEIGHT}
               typeCn={typeCn}
               initialRenderNums={_.device(Math.floor(_.window.contentWidth / COVER_WIDTH) + 1, 6)}
-              onPress={({ id, name, image }, type) => {
-                navigation.push('Subject', {
-                  subjectId: id,
-                  _jp: name,
-                  _image: getCoverSrc(image, COVER_WIDTH),
-                  _type: type
-                })
-
-                t('条目.跳转', {
-                  to: 'Subject',
-                  from: TITLE_LIKE,
-                  subjectId
-                })
-              }}
+              onPress={handleNavigate}
             />
             <Heatmap id='条目.跳转' from={TITLE_LIKE} />
           </>

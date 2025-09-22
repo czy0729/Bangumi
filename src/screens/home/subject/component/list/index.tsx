@@ -2,21 +2,23 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:41:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 15:08:00
+ * @Last Modified time: 2025-09-23 06:00:14
  */
 import React from 'react'
+import { useObserver } from 'mobx-react'
 import { ListView } from '@components'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import HeaderComponent from '../header-component'
 import { renderItem } from './utils'
 import { COMPONENT, REFRESH_CONTROL_PROPS } from './ds'
+import { Props } from './types'
 
-function List({ forwardRef, onScrollIntoViewIfNeeded, onBlockRef }) {
-  const { $ } = useStore<Ctx>()
-  return (
+function List({ forwardRef, onScrollIntoViewIfNeeded, onBlockRef }: Props) {
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
     <ListView
       ref={forwardRef}
       keyExtractor={keyExtractor}
@@ -38,7 +40,7 @@ function List({ forwardRef, onScrollIntoViewIfNeeded, onBlockRef }) {
       onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={$.fetchSubjectComments}
     />
-  )
+  ))
 }
 
-export default ob(List, COMPONENT)
+export default List
