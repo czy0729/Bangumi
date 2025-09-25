@@ -5,9 +5,9 @@
  * @Last Modified time: 2025-09-23 06:10:03
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Flex, Loading as LoadingComp } from '@components'
 import { useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'

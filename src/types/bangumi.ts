@@ -108,34 +108,34 @@ export type CoverPhoto<S extends 'g' = 'g'> = `${UrlStatic}/photo/${S}/${string}
 /** 图片结构 */
 export type Images = {
   /** w: origin */
-  large: Cover<'l'>
+  large: string
 
   /** w: 150px */
-  common: Cover<'c'>
+  common: string
 
   /** w: 100px */
-  medium: Cover<'m'>
+  medium: string
 
   /** w: 80px */
-  small: Cover<'s'>
+  small: string
 
   /** w: 48px, h: 48px */
-  grid: Cover<'g'>
+  grid: string
 }
 
 /** 用户头像图片结构 */
 export type ImagesAvatar = {
-  large?: Avatar<'l'>
-  medium: Avatar<'m'>
-  small: Avatar<'s'>
+  large?: string
+  medium: string
+  small: string
 }
 
 /** 角色图片结构 */
 export type ImagesCrt = {
-  large: CoverCrt<'l'>
-  medium: CoverCrt<'m'>
-  small: CoverCrt<'s'>
-  grid: CoverCrt<'g'>
+  large: string
+  medium: string
+  small: string
+  grid: string
 }
 
 /** 收藏数 */

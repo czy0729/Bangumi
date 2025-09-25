@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 07:02:02
+ * @Last Modified time: 2025-09-23 17:11:34
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { ScrollView, View } from 'react-native'
 import { Flex, Heatmap, Text, UserStatus } from '@components'
 import { Avatar, InView, PreventTouchPlaceholder, SectionTitle, Stars } from '@_'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import { useHorizontalLazy } from '@utils/hooks'
-import { FROZEN_ARRAY, FROZEN_FN, SCROLL_VIEW_RESET_PROPS } from '@constants'
+import { FROZEN_FN, SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { TITLE_RECENT } from '../../ds'
 import IconHidden from '../icon/hidden'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
@@ -22,11 +22,14 @@ const Recent = memo(
     navigation,
     subjectId = 0,
     showRecent = true,
-    who = FROZEN_ARRAY,
+    who,
     hideScore = false,
     onSwitchBlock = FROZEN_FN
   }) => {
     const { list, onScroll } = useHorizontalLazy(who)
+
+    const handleToggle = useCallback(() => onSwitchBlock('showRecent'), [onSwitchBlock])
+
     return (
       <InView style={showRecent ? styles.container : styles.hide}>
         <SectionTitle
@@ -34,10 +37,11 @@ const Recent = memo(
           right={!showRecent && <IconHidden name={TITLE_RECENT} value='showRecent' />}
           icon={!showRecent && 'md-navigate-next'}
           splitStyles
-          onPress={() => onSwitchBlock('showRecent')}
+          onPress={handleToggle}
         >
           {TITLE_RECENT}
         </SectionTitle>
+
         {showRecent && (
           <>
             <ScrollView

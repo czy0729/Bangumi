@@ -2,22 +2,19 @@
  * @Author: czy0729
  * @Date: 2021-01-17 01:10:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 02:04:56
+ * @Last Modified time: 2025-09-23 06:15:47
  */
 import React from 'react'
 import { Flex, Iconfont, Text } from '@components'
 import { Popover } from '@_'
 import { _, useStore } from '@stores'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import { COMPONENT, SCORES_DS } from './ds'
 import { styles } from './styles'
 
 function RateSegement() {
-  r(COMPONENT)
-
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
     const { filterScores } = $.state

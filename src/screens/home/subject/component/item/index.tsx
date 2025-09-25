@@ -6,11 +6,11 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { InView, ItemComment } from '@_'
 import { _, rakuenStore, systemStore, useStore } from '@stores'
 import { SubjectCommentsItem } from '@stores/subject/types'
 import { getIsBlockedUser } from '@utils'
+import { useObserver } from '@utils/hooks'
 import { WithIndex } from '@types'
 import { Ctx } from '../../types'
 import { COMPONENT, ITEM_HEIGHT, POPOVER_DATA } from './ds'

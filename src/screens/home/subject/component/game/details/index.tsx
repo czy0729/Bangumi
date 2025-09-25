@@ -6,11 +6,11 @@
  */
 import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Flex, Iconfont, Text } from '@components'
 import { Popover } from '@_'
 import { _, otaStore, useStore } from '@stores'
 import { formatPlaytime, open } from '@utils'
+import { useObserver } from '@utils/hooks'
 import { HOST_AC_SEARCH } from '@constants'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'

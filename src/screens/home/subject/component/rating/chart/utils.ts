@@ -4,14 +4,16 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-02-15 01:36:02
  */
-const min = 0.04
+import { ViewStyle } from 'react-native'
+
+const MIN_PERCENT = 0.04
 
 /** 比例柱子高度 */
-export function getHeight(total: string | number, current: number) {
+export function getHeight(total: string | number, current: number): ViewStyle['height'] {
   if (!total || !current) return 0
   let percent = current / Number(total)
-  if (percent > 0 && percent < min) percent = min
-  return `${Math.min(percent * 1.44 || min, 0.66) * 100}%`
+  if (percent > 0 && percent < MIN_PERCENT) percent = MIN_PERCENT
+  return `${Math.min(percent * 1.44 || MIN_PERCENT, 0.66) * 100}%`
 }
 
 /** 计算标准差 */

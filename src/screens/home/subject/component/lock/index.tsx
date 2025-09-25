@@ -5,9 +5,9 @@
  * @Last Modified time: 2025-09-23 06:10:22
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Component, Flex, Mesume, Text } from '@components'
 import { _, useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import { memoStyles } from './styles'
 

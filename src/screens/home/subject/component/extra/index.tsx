@@ -5,10 +5,10 @@
  * @Last Modified time: 2025-02-14 09:28:24
  */
 import React, { useCallback } from 'react'
-import { useObserver } from 'mobx-react'
 import { Heatmap } from '@components'
 import { MesumeChat } from '@_'
 import { useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { Loaded } from '@types'
 import { Ctx } from '../../types'
 import Modal from '../modal'

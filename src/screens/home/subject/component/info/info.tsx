@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-23 05:20:06
+ * @Last Modified time: 2025-09-23 23:29:39
  */
 import React, { useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
@@ -40,7 +40,7 @@ const Info = memo(
       }
     }, [expand, info])
 
-    const handlePress = useCallback(() => onSwitchBlock('showInfo'), [onSwitchBlock])
+    const handleToggle = useCallback(() => onSwitchBlock('showInfo'), [onSwitchBlock])
 
     const handleExpand = useCallback(() => {
       setExpand(true)
@@ -60,7 +60,7 @@ const Info = memo(
       })
     }, [name, navigation, subjectId])
 
-    const handleLinkPress = useCallback(
+    const handleNavigate = useCallback(
       (href: string) => {
         appNavigate(
           href,
@@ -85,7 +85,7 @@ const Info = memo(
           right={showInfo ? <IconWiki /> : <IconHidden name='详情' value='showInfo' />}
           icon={!showInfo && 'md-navigate-next'}
           splitStyles
-          onPress={handlePress}
+          onPress={handleToggle}
         >
           详情
         </SectionTitle>
@@ -103,7 +103,7 @@ const Info = memo(
                   style={styles.info}
                   baseFontStyle={_.baseFontStyle.md}
                   html={html}
-                  onLinkPress={handleLinkPress}
+                  onLinkPress={handleNavigate}
                 />
               </Expand>
             )}

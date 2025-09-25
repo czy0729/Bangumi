@@ -5,9 +5,9 @@
  * @Last Modified time: 2025-09-22 18:27:36
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { useStore } from '@stores'
 import { getCoverMedium } from '@utils'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import HeaderTitle from './header-title'
 import { COMPONENT } from './ds'

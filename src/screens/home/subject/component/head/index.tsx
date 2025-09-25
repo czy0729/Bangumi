@@ -6,9 +6,9 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Component } from '@components'
 import { systemStore, useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { TITLE_HEAD } from '../../ds'
 import { Ctx } from '../../types'
 import Head from './head'

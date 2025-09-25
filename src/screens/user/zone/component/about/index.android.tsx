@@ -8,7 +8,7 @@ import React from 'react'
 import { Animated, View } from 'react-native'
 import { userStore, useStore } from '@stores'
 import { ob } from '@utils/decorators'
-import { DEV, SCROLL_VIEW_RESET_PROPS } from '@constants'
+import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { Ctx } from '../../types'
 import Lock from '../lock'
 import U from '../u'
@@ -30,7 +30,7 @@ function About() {
         <Lock />
         <Service />
         <Content />
-        {!DEV && userStore.isDeveloper && !!$.usersInfo.username && <U />}
+        {userStore.isDeveloper && !!$.usersInfo.username && <U />}
       </View>
     </Animated.ScrollView>
   )

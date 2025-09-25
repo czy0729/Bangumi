@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-12 13:34:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 06:58:54
+ * @Last Modified time: 2025-09-23 06:17:15
  */
 import React, { useState } from 'react'
 import { View } from 'react-native'
@@ -18,6 +18,7 @@ import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 const Rating = memo(
   ({ styles, hideScore = false, showRating = true }) => {
     const [showScore, setShowScore] = useState(!hideScore)
+
     return (
       <View style={showRating ? styles.container : styles.hide}>
         <Flex>
@@ -26,6 +27,7 @@ const Rating = memo(
           </Flex.Item>
           {!showRating && <IconHidden name={TITLE_RATING} value='showRating' />}
         </Flex>
+
         {showRating && (
           <View style={styles.rate}>
             {showScore ? (

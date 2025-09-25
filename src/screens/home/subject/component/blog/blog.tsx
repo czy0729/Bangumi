@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:36:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-19 22:15:53
+ * @Last Modified time: 2025-09-23 23:28:32
  */
 import React, { useCallback } from 'react'
 import { Expand, Heatmap } from '@components'
@@ -21,7 +21,7 @@ const Blog = memo(
   ({ navigation, styles, showBlog = true, subjectId = 0, blog, onSwitchBlock = FROZEN_FN }) => {
     const { list, onExpand } = useExpandLazy(blog)
 
-    const handlePress = useCallback(() => onSwitchBlock('showBlog'), [onSwitchBlock])
+    const handleToggle = useCallback(() => onSwitchBlock('showBlog'), [onSwitchBlock])
 
     return (
       <InView style={stl(styles.container, !showBlog && _.short)}>
@@ -30,7 +30,7 @@ const Blog = memo(
           right={showBlog ? <IconBlog /> : <IconHidden name={TITLE_BLOG} value='showBlog' />}
           icon={!showBlog && 'md-navigate-next'}
           splitStyles
-          onPress={handlePress}
+          onPress={handleToggle}
         >
           {TITLE_BLOG}
         </SectionTitle>

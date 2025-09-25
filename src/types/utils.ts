@@ -182,3 +182,11 @@ export type WithIndex<T> = Override<
 export type WithItem<T> = {
   item: T
 }
+
+/** 带容器样式 */
+export type WithViewStyles<T = any> = Override<
+  T,
+  {
+    style?: ViewStyle
+  }
+>

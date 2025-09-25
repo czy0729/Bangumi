@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-23 05:34:16
+ * @Last Modified time: 2025-09-23 23:38:09
  */
 import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
@@ -30,9 +30,9 @@ const Summary = memo(
     name = '',
     onSwitchBlock = FROZEN_FN
   }) => {
-    const handlePress = useCallback(() => onSwitchBlock('showSummary'), [onSwitchBlock])
+    const handleToggle = useCallback(() => onSwitchBlock('showSummary'), [onSwitchBlock])
 
-    const handleExpandPress = useCallback(() => {
+    const handleNavigate = useCallback(() => {
       navigation.push('SubjectInfo', {
         subjectId,
         name,
@@ -63,7 +63,7 @@ const Summary = memo(
           }
           icon={!showSummary && 'md-navigate-next'}
           splitStyles
-          onPress={handlePress}
+          onPress={handleToggle}
         >
           {TITLE_SUMMARY}
         </SectionTitle>
@@ -92,7 +92,7 @@ const Summary = memo(
               </>
             ) : (
               !!content && (
-                <Expand ratio={0.88} onPress={subjectHtmlExpand ? undefined : handleExpandPress}>
+                <Expand ratio={0.88} onPress={subjectHtmlExpand ? undefined : handleNavigate}>
                   <Text style={_.mt.md} size={15} lineHeight={22} selectable>
                     {content}
                   </Text>

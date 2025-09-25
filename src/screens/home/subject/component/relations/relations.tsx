@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-04-08 10:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 07:10:29
+ * @Last Modified time: 2025-09-23 17:26:56
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Heatmap } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { HorizontalList, InView, SectionTitle } from '@_'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { FROZEN_ARRAY, FROZEN_FN } from '@constants'
+import { FROZEN_FN } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { TITLE_RELATIONS } from '../../ds'
 import IconHidden from '../icon/hidden'
@@ -24,10 +24,30 @@ const Relations = memo(
     navigation,
     showRelations = true,
     subjectId = 0,
-    relations = FROZEN_ARRAY,
+    relations,
     typeCn = '' as SubjectTypeCn,
     onSwitchBlock = FROZEN_FN
   }) => {
+    const handleToggle = useCallback(() => onSwitchBlock('showRelations'), [onSwitchBlock])
+
+    const handleNavigate = useCallback(
+      ({ id, name, image }, type: SubjectTypeCn) => {
+        navigation.push('Subject', {
+          subjectId: id,
+          _jp: name,
+          _image: getCoverSrc(image, COVER_WIDTH),
+          _type: type
+        })
+
+        t('条目.跳转', {
+          to: 'Subject',
+          from: '关联条目',
+          subjectId
+        })
+      },
+      [navigation, subjectId]
+    )
+
     return (
       <InView style={showRelations ? styles.container : styles.hide}>
         <SectionTitle
@@ -41,10 +61,11 @@ const Relations = memo(
           }
           icon={!showRelations && 'md-navigate-next'}
           splitStyles
-          onPress={() => onSwitchBlock('showRelations')}
+          onPress={handleToggle}
         >
           {TITLE_RELATIONS}
         </SectionTitle>
+
         {showRelations && (
           <>
             <HorizontalList
@@ -55,20 +76,7 @@ const Relations = memo(
               findCn
               relationTypeCn={typeCn}
               initialRenderNums={_.device(Math.floor(_.window.contentWidth / COVER_WIDTH) + 1, 6)}
-              onPress={({ id, name, image }, type) => {
-                navigation.push('Subject', {
-                  subjectId: id,
-                  _jp: name,
-                  _image: getCoverSrc(image, COVER_WIDTH),
-                  _type: type
-                })
-
-                t('条目.跳转', {
-                  to: 'Subject',
-                  from: '关联条目',
-                  subjectId
-                })
-              }}
+              onPress={handleNavigate}
             />
             <Heatmap id='条目.跳转' from='关联条目' />
           </>

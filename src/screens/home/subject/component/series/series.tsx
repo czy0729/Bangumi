@@ -2,23 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 07:11:00
+ * @Last Modified time: 2025-09-24 02:08:22
  */
 import React from 'react'
-import { Cover, Flex, Heatmap, Iconfont, Squircle, Text, Touchable } from '@components'
+import { Cover, Flex, Heatmap, Iconfont, Link, Squircle, Text } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { IconTouchable } from '@_'
 import { _, systemStore } from '@stores'
 import { x18 } from '@utils'
 import { memo } from '@utils/decorators'
-import { t } from '@utils/fetch'
 import { WEB } from '@constants'
 import Item from './item'
 import { COMPONENT_MAIN, COVER_HEIGHT, COVER_WIDTH, DEFAULT_PROPS } from './ds'
 
 const Series = memo(
   ({
-    navigation,
     styles,
     showRelation = true,
     size = 14,
@@ -30,12 +28,15 @@ const Series = memo(
     subjectBook,
     subjectSeries
   }) => {
+    // 有前传/续集/动画/不同演绎/书籍，就渲染「关系分支」
     if (subjectPrev || subjectAfter || subjectAnime || subjectDiff || subjectBook) {
-      let i = 0
-      if (subjectPrev) i += 1
-      if (subjectAfter) i += 1
-      if (subjectAnime) i += 1
-      if (subjectDiff) i += 1
+      // 前传 + 续集 + 动画 + 不同演绎数量，用来决定后面是否还能渲染
+      const count =
+        (subjectPrev ? 1 : 0) +
+        (subjectAfter ? 1 : 0) +
+        (subjectAnime ? 1 : 0) +
+        (subjectDiff ? 1 : 0)
+
       return (
         <Flex style={showRelation && styles.relation}>
           <Flex.Item>
@@ -44,9 +45,9 @@ const Series = memo(
                 <Iconfont name='md-subdirectory-arrow-right' size={16} />
                 {!!subjectPrev && <Item data={subjectPrev} from='前传' />}
                 {!!subjectAfter && <Item data={subjectAfter} from='续集' />}
-                {i <= 1 && !!subjectAnime && <Item data={subjectAnime} from='动画' />}
-                {i <= 1 && !!subjectDiff && <Item data={subjectDiff} from='不同演绎' />}
-                {i <= 1 && !!subjectBook && <Item data={subjectBook} from='书籍' />}
+                {count <= 1 && !!subjectAnime && <Item data={subjectAnime} from='动画' />}
+                {count <= 1 && !!subjectDiff && <Item data={subjectDiff} from='不同演绎' />}
+                {count <= 1 && !!subjectBook && <Item data={subjectBook} from='书籍' />}
               </Flex>
             )}
           </Flex.Item>
@@ -60,21 +61,21 @@ const Series = memo(
       )
     }
 
+    // 没有前面几类，兜底显示系列
     return (
-      <Touchable
+      <Link
         style={styles.series}
-        onPress={() => {
-          t('条目.跳转', {
-            to: 'Subject',
-            from: '系列',
-            subjectId
-          })
-
-          navigation.push('Subject', {
-            subjectId: subjectSeries.id,
-            _jp: subjectSeries.title,
-            _image: getCoverSrc(subjectSeries.image, COVER_WIDTH)
-          })
+        path='Subject'
+        params={{
+          subjectId: subjectSeries.id,
+          _jp: subjectSeries.title,
+          _image: getCoverSrc(subjectSeries.image, COVER_WIDTH)
+        }}
+        eventId='条目.跳转'
+        eventData={{
+          to: 'Subject',
+          from: '系列',
+          subjectId
         }}
       >
         <Flex>
@@ -95,7 +96,7 @@ const Series = memo(
           </Text>
         </Flex>
         <Heatmap id='条目.跳转' from='系列' />
-      </Touchable>
+      </Link>
     )
   },
   DEFAULT_PROPS,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-01-12 06:39:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-19 21:40:38
+ * @Last Modified time: 2025-09-23 17:27:49
  */
 import React, { useCallback, useMemo } from 'react'
 import { ScrollView, View } from 'react-native'
@@ -48,7 +48,7 @@ const Anitabi = memo(
       [list]
     )
 
-    const handlePress = useCallback(() => onSwitchBlock('showAnitabi'), [onSwitchBlock])
+    const handleToggle = useCallback(() => onSwitchBlock('showAnitabi'), [onSwitchBlock])
 
     return (
       <InView style={stl(styles.container, !showAnitabi && _.short)}>
@@ -80,7 +80,7 @@ const Anitabi = memo(
           }
           icon={!showAnitabi && 'md-navigate-next'}
           splitStyles
-          onPress={handlePress}
+          onPress={handleToggle}
         >
           {TITLE_ANITABI}
         </SectionTitle>

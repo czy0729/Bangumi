@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-20 06:06:43
+ * @Last Modified time: 2025-09-23 23:29:06
  */
 import React, { useCallback } from 'react'
 import { Heatmap } from '@components'
@@ -30,7 +30,7 @@ const Character = memo(
     subjectName,
     onSwitchBlock = FROZEN_FN
   }) => {
-    const handleSectionPress = useCallback(() => onSwitchBlock('showCharacter'), [onSwitchBlock])
+    const handleToggle = useCallback(() => onSwitchBlock('showCharacter'), [onSwitchBlock])
 
     // 处理角色图片，避免重复逻辑
     const processedCrt = (crt || [])
@@ -48,7 +48,7 @@ const Character = memo(
       })
       .sort((a, b) => desc(getSortValue(a), getSortValue(b)))
 
-    const handleItemPress = useCallback(
+    const handleNavigate = useCallback(
       ({ id, name, nameJP, _image }: Crt) => {
         navigation.push('Mono', {
           monoId: `character/${id}`,
@@ -97,7 +97,7 @@ const Character = memo(
           }
           icon={!showCharacter && 'md-navigate-next'}
           splitStyles
-          onPress={handleSectionPress}
+          onPress={handleToggle}
         >
           {TITLE_CHARACTER}
         </SectionTitle>
@@ -109,7 +109,7 @@ const Character = memo(
               counts={crtCounts}
               typeCn='角色'
               initialRenderNums={_.device(Math.floor(_.window.contentWidth / 56) + 1, 8)}
-              onPress={handleItemPress}
+              onPress={handleNavigate}
               onSubPress={handleSubPress}
             />
             <Heatmap id='条目.跳转' from={TITLE_CHARACTER} />

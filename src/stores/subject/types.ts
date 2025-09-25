@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-10 14:20:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-23 05:53:29
+ * @Last Modified time: 2025-09-23 17:25:45
  */
 import {
   Avatar,
@@ -186,6 +186,15 @@ export type SubjectFromHtmlLikeItem = {
   image: string
 }
 
+/** 条目 (HTML) 关联系列项 */
+export type SubjectFromHtmlRelationsItem = {
+  id: Id
+  image: string
+  title: string
+  type: string
+  url: UrlSubject
+}
+
 /** 条目 (HTML) */
 export type SubjectFromHTML = {
   /** 标题旁的子标题 */
@@ -208,13 +217,7 @@ export type SubjectFromHTML = {
   }[]
 
   /** 关联系列 */
-  relations: {
-    id: Id
-    image: string
-    title: string
-    type: string
-    url: UrlSubject
-  }[]
+  relations: SubjectFromHtmlRelationsItem[]
 
   /** 好友评分 */
   friend: {

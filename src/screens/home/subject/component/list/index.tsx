@@ -5,10 +5,10 @@
  * @Last Modified time: 2025-09-23 06:00:14
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { ListView } from '@components'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import HeaderComponent from '../header-component'
 import { renderItem } from './utils'

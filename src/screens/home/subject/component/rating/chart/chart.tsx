@@ -28,6 +28,7 @@ const Chart = memo(
   }) => {
     const deviation = getDeviation(total, count, score)
     const _count = Object.keys(count).length ? count : DEFAULT_RATES
+
     return (
       <>
         {!!total && (
@@ -35,14 +36,15 @@ const Chart = memo(
             {total} votes
           </Text>
         )}
+
         <Flex style={styles.chart}>
           {Object.keys(_count)
             .reverse()
-            .map((item, index) => {
-              const height = getHeight(total, _count[item])
+            .map((key, index) => {
+              const item = Number(key)
+              const height = getHeight(total, _count[item]) || 0
+              const isActive = rating === item
 
-              // @ts-expect-error
-              const isActive = rating == item
               return (
                 <Flex.Item key={item} style={index > 0 && _.ml.xs}>
                   <Flex style={styles.item} justify='center' align='end'>
@@ -55,7 +57,7 @@ const Chart = memo(
                       style={[
                         styles.count,
                         {
-                          bottom: height as number
+                          bottom: height
                         }
                       ]}
                       size={10}
@@ -78,11 +80,12 @@ const Chart = memo(
               )
             })}
         </Flex>
+
         <Flex style={_.mt.md}>
           <Flex.Item>
             <Touchable style={styles.friend} onPress={() => toRating(navigation, '评分分布')}>
               <Flex>
-                {!!Number(friend.score) ? (
+                {friend.score ? (
                   <Text size={12} type='sub'>
                     好友
                     <Text size={12} type='main'>
@@ -103,6 +106,7 @@ const Chart = memo(
               <Heatmap id='条目.跳转' from='评分分布' />
             </Touchable>
           </Flex.Item>
+
           <Touchable
             style={styles.deviation}
             onPress={() => {
@@ -125,6 +129,7 @@ const Chart = memo(
               </Text>
             </Flex>
           </Touchable>
+
           <VibTrend />
         </Flex>
       </>

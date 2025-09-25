@@ -6,10 +6,10 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Component } from '@components'
 import { _, systemStore, useStore } from '@stores'
 import { cnjp } from '@utils'
+import { useObserver } from '@utils/hooks'
 import { TITLE_SUMMARY } from '../../ds'
 import { Ctx } from '../../types'
 import Split from '../split'

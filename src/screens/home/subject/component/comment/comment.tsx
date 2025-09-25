@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-14 16:22:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-21 19:25:05
+ * @Last Modified time: 2025-09-23 23:29:09
  */
 import React, { useCallback } from 'react'
 import { Heatmap, Text } from '@components'
@@ -18,7 +18,7 @@ import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Comment = memo(
   ({ styles, showComment = true, commentLength = 0, onSwitchBlock = FROZEN_FN }) => {
-    const handlePress = useCallback(() => onSwitchBlock('showComment'), [onSwitchBlock])
+    const handleToggle = useCallback(() => onSwitchBlock('showComment'), [onSwitchBlock])
 
     return (
       <>
@@ -38,7 +38,7 @@ const Comment = memo(
           }
           icon={!showComment && 'md-navigate-next'}
           splitStyles
-          onPress={handlePress}
+          onPress={handleToggle}
         >
           吐槽
           <Text size={12} type='sub' lineHeight={24}>

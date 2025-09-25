@@ -9,47 +9,44 @@ import { View } from 'react-native'
 import { Flex, Text } from '@components'
 import { Popover } from '@_'
 import { useStore } from '@stores'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function VIB() {
-  r(COMPONENT)
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
 
-  const { $, navigation } = useStore<Ctx>()
+  const handleSelect = useCallback(
+    (title: string) => $.onVIBPress(title, navigation),
+    [$, navigation]
+  )
 
   return useObserver(() => {
     const styles = memoStyles()
 
-    const handleSelect = useCallback((title: string) => {
-      $.onVIBPress(title, navigation)
-    }, [])
+    const renderLine = (label: string, value?: number, total?: number) => {
+      if (!value) return null
+      return (
+        <Text type='sub' size={10} lineHeight={11}>
+          {label}: {value.toFixed(1)} {total ? `(${total})` : ''}
+        </Text>
+      )
+    }
 
     return (
       <View style={styles.vib}>
         <Popover data={$.vibData} onSelect={handleSelect}>
           <Flex style={styles.container} direction='column' align='end'>
             {$.vib.avg ? (
-              <Text type='sub' size={10} lineHeight={11}>
-                VIB: {Number($.vib.avg).toFixed(1)} ({$.vib.total})
-              </Text>
+              renderLine('VIB', Number($.vib.avg), $.vib.total)
             ) : (
               <Text type='sub' size={10} lineHeight={11}>
                 VIB: N/A
               </Text>
             )}
-            {!!$.vib.anidb && (
-              <Text type='sub' size={10} lineHeight={11}>
-                AniDB: {Number($.vib.anidb).toFixed(1)} ({$.vib.anidbTotal})
-              </Text>
-            )}
-            {!!$.vib.mal && (
-              <Text type='sub' size={10} lineHeight={11}>
-                MAL: {Number($.vib.mal).toFixed(1)} ({$.vib.malTotal})
-              </Text>
-            )}
+            {renderLine('AniDB', Number($.vib.anidb), $.vib.anidbTotal)}
+            {renderLine('MAL', Number($.vib.mal), $.vib.malTotal)}
           </Flex>
         </Popover>
       </View>

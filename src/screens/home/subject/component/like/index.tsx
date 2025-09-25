@@ -6,9 +6,9 @@
  */
 import React, { Suspense } from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Component } from '@components'
 import { _, systemStore, useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { TITLE_LIKE } from '../../ds'
 import { Ctx } from '../../types'
 import Split from '../split'

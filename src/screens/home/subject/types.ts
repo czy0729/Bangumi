@@ -6,12 +6,13 @@
  */
 import { FlatList, View } from 'react-native'
 import { ImageProps } from '@components'
-import { Ep, Staff, SubjectComments, SubjectFromHTML } from '@stores/subject/types'
+import { Ep, SubjectComments, SubjectFromHTML } from '@stores/subject/types'
 import {
   Collection,
   Expand,
   GetRouteParams,
   Id,
+  ImageSource,
   Loaded,
   Optional,
   Override,
@@ -56,6 +57,15 @@ export type Crt = {
   desc: string
   roleName: string
   actorId: Id
+}
+
+export type Staff = {
+  id: Id
+  image: ImageSource
+  _image: ImageSource
+  name: string
+  nameJP: string
+  desc: string
 }
 
 export type SubjectSnapshot = Override<

@@ -6,27 +6,30 @@
  */
 import React from 'react'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../../types'
 import Chart from './chart'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function ChartWrap() {
-  const { $, navigation } = useStore<Ctx>()
-  const { total, count, score } = $.rating
-  return (
-    <Chart
-      navigation={navigation}
-      styles={memoStyles()}
-      friend={$.subjectFormHTML.friend}
-      rating={$.collection.rating}
-      total={total}
-      count={count}
-      score={score}
-      toRating={$.toRating}
-    />
-  )
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => {
+    const { total, count, score } = $.rating
+    return (
+      <Chart
+        navigation={navigation}
+        styles={memoStyles()}
+        friend={$.subjectFormHTML.friend}
+        rating={$.collection.rating}
+        total={total}
+        count={count}
+        score={score}
+        toRating={$.toRating}
+      />
+    )
+  })
 }
 
-export default ob(ChartWrap, COMPONENT)
+export default ChartWrap

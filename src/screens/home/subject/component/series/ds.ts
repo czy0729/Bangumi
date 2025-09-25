@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-08-26 10:03:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 17:20:09
+ * @Last Modified time: 2025-09-24 02:08:35
  */
 import { _, systemStore } from '@stores'
 import { rc } from '@utils/dev'
-import { Navigation } from '@types'
 import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
 
@@ -22,7 +21,6 @@ export const COVER_WIDTH = _.r(_.device(28, 40))
 export const COVER_HEIGHT = COVER_WIDTH * 1.4
 
 export const DEFAULT_PROPS = {
-  navigation: {} as Navigation,
   styles: {} as ReturnType<typeof memoStyles>,
   showRelation: true as typeof systemStore.setting.showRelation,
   size: 14 as number,

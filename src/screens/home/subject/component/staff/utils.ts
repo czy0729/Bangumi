@@ -6,11 +6,13 @@
  */
 
 /** 由于 NSFW 条目的职员数据是从别的地方拿来拼装的, 出现了重复的情况, 手动排除 */
-export function removeDuplicateItemsById<T extends any[] | readonly any[]>(items: T): T {
-  const seenIds = new Set<number>()
+export function removeDuplicateItemsById<T extends { id: number | string }>(
+  items: T[] | readonly T[]
+): T[] {
+  const seenIds = new Set<number | string>()
   return items.filter(item => {
     if (seenIds.has(item.id)) return false
     seenIds.add(item.id)
     return true
-  }) as T
+  })
 }

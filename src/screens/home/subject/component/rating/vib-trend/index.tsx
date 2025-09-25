@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-02-14 04:45:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-27 05:10:17
+ * @Last Modified time: 2025-09-23 16:07:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,23 +16,65 @@ import typeScore from '@assets/json/type_score_distribution.json'
 import { Ctx } from '../../../types'
 import { useVIBTrend } from './hooks'
 import { getPercentile } from './utils'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function VibTrend() {
-  const { $, navigation } = useStore<Ctx>()
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   const { state, setTrue, setFalse } = useBoolean(false)
 
   return useObserver(() => {
-    if (!$?.rating?.score) return null
+    const { rating, vib, subjectId, subjectType } = $
+    if (!rating?.score) return null
 
     const styles = memoStyles()
-    const data = useVIBTrend($.subjectId)
+    const data = useVIBTrend(subjectId)
 
-    const typeScoreData = Object.entries(typeScore[$.subjectType])
+    const typeScoreData = Object.entries(typeScore[subjectType])
       .filter(([key]) => key !== '0.0' && key !== '10.0')
       .sort((a, b) => desc(a, b))
     const max = Math.max(...typeScoreData.map(item => item[1]))
+
+    const vibValue = Number(vib.avg)
+    const vibLabel = Number.isFinite(vibValue) ? vibValue.toFixed(1) : 'N/A'
+
+    const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max)
+
+    const renderBar = ([score, count]: [string, number]) => {
+      const height = clamp(Math.floor((count / max) * 100), 2, 100)
+      const isActive = Number(rating.score) === Number(score)
+      const isActiveVIB = vibLabel !== 'N/A' && Number(vibLabel) === Number(score)
+
+      return (
+        <Flex.Item key={score}>
+          {isActiveVIB && (
+            <Text
+              style={[styles.typeScoreText, { marginBottom: 16 }]}
+              type='warning'
+              size={8}
+              bold
+              align='center'
+            >
+              VIB {vibLabel} ({getPercentile(typeScoreData, Number(vibLabel))})
+            </Text>
+          )}
+          {isActive && (
+            <Text style={styles.typeScoreText} type='primary' size={8} bold align='center'>
+              {score} ({getPercentile(typeScoreData, Number(score))})
+            </Text>
+          )}
+          <View
+            style={stl(
+              styles.typeScoreBar,
+              (isActive || isActiveVIB) && styles.typeScoreActive,
+              isActiveVIB && { backgroundColor: _.colorWarning },
+              { height: `${height}%` }
+            )}
+          />
+        </Flex.Item>
+      )
+    }
 
     return (
       <>
@@ -42,62 +84,16 @@ function VibTrend() {
           size={18}
           onPress={() => {
             setTrue()
-
-            t('条目.趋势', {
-              subjectId: $.subjectId
-            })
+            t('条目.趋势', { subjectId })
           }}
         />
         <ActionSheet height={data.length ? 560 : 360} show={state} onClose={setFalse}>
           <Text type='sub' size={12} bold align='center'>
             评分分布
           </Text>
+
           <Flex style={styles.typeScore} align='end'>
-            {typeScoreData.map(item => {
-              const height = Math.min(Math.max(Math.floor((item[1] / max) * 100), 2), 100)
-              const isActive = Number($.rating.score) === Number(item[0])
-
-              const vib = Number($.vib.avg).toFixed(1)
-              const isActiveVIB = Number(vib) === Number(item[0])
-
-              return (
-                <Flex.Item key={item[0]}>
-                  {isActiveVIB && (
-                    <Text
-                      style={[
-                        styles.typeScoreText,
-                        {
-                          marginBottom: 16
-                        }
-                      ]}
-                      type='warning'
-                      size={8}
-                      bold
-                      align='center'
-                    >
-                      VIB {vib} ({getPercentile(typeScoreData, Number(vib))})
-                    </Text>
-                  )}
-                  {isActive && (
-                    <Text style={styles.typeScoreText} type='primary' size={8} bold align='center'>
-                      {item[0]} ({getPercentile(typeScoreData, Number(item[0]))})
-                    </Text>
-                  )}
-                  <View
-                    style={stl(
-                      styles.typeScoreBar,
-                      (isActive || isActiveVIB) && styles.typeScoreActive,
-                      isActiveVIB && {
-                        backgroundColor: _.colorWarning
-                      },
-                      {
-                        height: `${height}%`
-                      }
-                    )}
-                  />
-                </Flex.Item>
-              )
-            })}
+            {typeScoreData.map(renderBar)}
           </Flex>
 
           {!!data.length && (

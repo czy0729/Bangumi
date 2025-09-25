@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-28 15:10:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-20 05:08:21
+ * @Last Modified time: 2025-09-23 23:28:35
  */
 import React, { useCallback } from 'react'
 import { ScrollView, View } from 'react-native'
@@ -23,7 +23,7 @@ const Catalog = memo(
   ({ styles, showCatalog = true, catalog, onSwitchBlock = FROZEN_FN }) => {
     const { list, onScroll } = useHorizontalLazy(catalog)
 
-    const handlePress = useCallback(() => onSwitchBlock('showCatalog'), [onSwitchBlock])
+    const handleToggle = useCallback(() => onSwitchBlock('showCatalog'), [onSwitchBlock])
 
     return (
       <InView style={stl(styles.container, !showCatalog && _.short)}>
@@ -34,7 +34,7 @@ const Catalog = memo(
           }
           icon={!showCatalog && 'md-navigate-next'}
           splitStyles
-          onPress={handlePress}
+          onPress={handleToggle}
         >
           {TITLE_CATALOG}
         </SectionTitle>

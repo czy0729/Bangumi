@@ -78,7 +78,7 @@ import {
   TITLE_THUMBS,
   TITLE_TOPIC
 } from '../ds'
-import { Crt, SubjectCommentValue } from '../types'
+import { Crt, Staff, SubjectCommentValue } from '../types'
 import { getOriginConfig, OriginItem } from '../../../user/origin-setting/utils'
 import State from './state'
 import {
@@ -852,29 +852,35 @@ export default class Computed extends State {
     if (this.subject._loaded && this.subject.rating) {
       const { staff } = this.subject
 
-      /** @fixed 敏感条目不再返回数据, 而旧接口 staff 也错乱, 改为使用网页的 staff 数据 */
+      /** NSFW 不再返回数据, 而旧接口 staff 也错乱, 改为使用网页的 staff 数据 */
       if (staff?.[0]?.id == this.subjectId) {
         return freeze(
-          monoStore.persons(this.subjectId).list.map(item => ({
-            id: item.id.replace('/person/', ''),
-            image: item.cover || IMG_INFO_ONLY,
-            _image: item.cover || IMG_INFO_ONLY,
-            name: (item.nameCn || item.name).trim(),
-            nameJP: item.name.trim(),
-            desc: item.position
-          }))
+          monoStore.persons(this.subjectId).list.map(
+            item =>
+              ({
+                id: item.id.replace('/person/', ''),
+                image: item.cover || IMG_INFO_ONLY,
+                _image: item.cover || IMG_INFO_ONLY,
+                name: (item.nameCn || item.name).trim(),
+                nameJP: item.name.trim(),
+                desc: item.position
+              } as Staff)
+          )
         )
       }
 
       return freeze(
-        (staff || []).map(({ id, images = {}, name, name_cn: nameCn, jobs = [] }) => ({
-          id,
-          image: images?.grid || IMG_INFO_ONLY,
-          _image: images?.medium || IMG_INFO_ONLY,
-          name: nameCn || name,
-          nameJP: name,
-          desc: jobs[0]
-        }))
+        (staff || []).map(
+          ({ id, images = {}, name, name_cn: nameCn, jobs = [] }) =>
+            ({
+              id,
+              image: images?.grid || IMG_INFO_ONLY,
+              _image: images?.medium || IMG_INFO_ONLY,
+              name: nameCn || name,
+              nameJP: name,
+              desc: jobs[0]
+            } as Staff)
+        )
       )
     }
 

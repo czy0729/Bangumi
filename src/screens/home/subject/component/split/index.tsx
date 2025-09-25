@@ -10,10 +10,10 @@ import { Divider } from '@components'
 import { systemStore } from '@stores'
 import { stl } from '@utils'
 import { useObserver } from '@utils/hooks'
-import { ViewStyle } from '@types'
+import { WithViewStyles } from '@types'
 import { memoStyles } from './styles'
 
-function Split({ style }: { style?: ViewStyle }) {
+function Split({ style }: WithViewStyles) {
   return useObserver(() => {
     const { subjectSplitStyles } = systemStore.setting
     if (!subjectSplitStyles) return null
