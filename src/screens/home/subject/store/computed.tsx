@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-23 05:43:31
+ * @Last Modified time: 2025-09-28 19:31:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -78,7 +78,7 @@ import {
   TITLE_THUMBS,
   TITLE_TOPIC
 } from '../ds'
-import { Crt, Staff, SubjectCommentValue } from '../types'
+import { Crt, Staff, SubjectCommentValue, TagsItem } from '../types'
 import { getOriginConfig, OriginItem } from '../../../user/origin-setting/utils'
 import State from './state'
 import {
@@ -447,7 +447,7 @@ export default class Computed extends State {
       })
     }
 
-    return freeze(tags)
+    return freeze<TagsItem[]>(tags)
   }
 
   /** 第三方游戏信息 */
@@ -478,8 +478,8 @@ export default class Computed extends State {
     if (!this.gameInfo || this.gameInfo?.isADV) return null
 
     // @ts-expect-error
-    const tags: any[] = this.gameInfo?.ta || []
-    return freeze(tags.map(item => GAME_CATE[item]))
+    const tags = this.gameInfo?.ta || []
+    return freeze<TagsItem[]>(tags.map((item: string | number) => GAME_CATE[item]))
   }
 
   /** 第三方漫画信息 */
@@ -497,7 +497,7 @@ export default class Computed extends State {
     if (!this.mangaInfo) return null
 
     const tags = this.mangaInfo?.b || []
-    return freeze(tags.map(item => MANGA_TAGS[item]))
+    return freeze<TagsItem[]>(tags.map(item => MANGA_TAGS[item]))
   }
 
   /** 第三方文库信息 */
@@ -515,7 +515,7 @@ export default class Computed extends State {
     if (!this.wenkuInfo) return null
 
     const tags = this.wenkuInfo?.j || []
-    return freeze(tags.map(item => WENKU_TAGS[item]))
+    return freeze<TagsItem[]>(tags.map(item => WENKU_TAGS[item]))
   }
 
   /** 漫画或文库是否有源头 */
@@ -702,6 +702,10 @@ export default class Computed extends State {
     if (this.type === '音乐') return this.imageWidth
 
     return this.imageWidth * 1.4
+  }
+
+  @computed get hm() {
+    return [this.url, 'Subject'] as const
   }
 
   // -------------------- cdn fallback --------------------

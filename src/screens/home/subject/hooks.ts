@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-15 16:13:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-23 05:59:11
+ * @Last Modified time: 2025-09-28 19:40:05
  */
 import { useCallback, useRef } from 'react'
 import { findNodeHandle, FlatList, View } from 'react-native'
@@ -20,6 +20,7 @@ import {
   HandleBlockRef,
   HandleForwardRef,
   HandleScrollIntoViewIfNeeded,
+  HandleScrollTo,
   HandleScrollToTop
 } from './types'
 
@@ -62,7 +63,7 @@ export function useSubjectPage(props: NavigationProps) {
   )
 
   /** 子组件可以调用此方法定位到指定子组件块 */
-  const handleScrollTo = useCallback(
+  const handleScrollTo = useCallback<HandleScrollTo>(
     (component: string) => {
       try {
         // 单行本 (10) => 单行本

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-02-04 07:04:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-17 16:40:53
+ * @Last Modified time: 2025-09-29 06:27:19
  */
 import React, { useCallback, useMemo } from 'react'
 import { HeaderV2Popover } from '@components'
@@ -14,8 +14,9 @@ import { TEXT_MENU_BROWSER, TEXT_MENU_SPLIT_LEFT, TEXT_MENU_SPLIT_RIGHT } from '
 import { Ctx } from '../../types'
 import { MENU_ACTIONS, MENU_DS } from './ds'
 import { styles } from './styles'
+import { Props } from './types'
 
-function MenuComponent({ color }) {
+function MenuComponent({ color }: Props) {
   const { $, navigation } = useStore<Ctx>()
 
   return useObserver(() => {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:16:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-11 04:50:17
+ * @Last Modified time: 2025-09-28 19:08:58
  */
 import { isObservableArray } from 'mobx'
 import { FROZEN_ARRAY, FROZEN_OBJECT, TEXT_BADGES } from '@constants'
@@ -814,4 +814,27 @@ export function getAvatarLocal(userId: string) {
   const avatar = `https://lain.bgm.tv/pic/user/l/000/${find.a}.jpg`
   GET_AVATAR_CACHE_MAP.set(userId, avatar)
   return avatar
+}
+
+const __randomizeImgHostCache = new Map<string, string>()
+
+export function randomizeImgHost(url: string): string {
+  if (typeof url !== 'string') return url
+
+  // 命中过去的结果
+  if (__randomizeImgHostCache.has(url)) {
+    return __randomizeImgHostCache.get(url)!
+  }
+
+  // 随机生成新的
+  const result = url.replace(/img(\d)\./, () => {
+    const choices = [1, 2, 9]
+    const random = choices[Math.floor(Math.random() * choices.length)]
+    return `img${random}.`
+  })
+
+  // 缓存
+  __randomizeImgHostCache.set(url, result)
+
+  return result
 }

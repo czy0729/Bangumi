@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-10-31 16:05:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-19 04:38:22
+ * @Last Modified time: 2025-09-26 20:02:16
  */
 import { getJSON, loadJSON } from '@assets/json'
 import { SubjectId, SubjectType } from '@types'
@@ -54,11 +54,11 @@ export function calc(type: SubjectType, key: string, value: number) {
   }
 
   const arr = typerankData[key]
-  if (value <= typerankData[key][0]) return 99
+  if (value <= Number(typerankData[key][0])) return 99
 
   let index = 0
   for (let i = 0; i < arr.length; i += 1) {
-    if (value < arr[i]) break
+    if (value < Number(arr[i])) break
     index += 1
   }
 

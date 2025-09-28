@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 07:28:48
+ * @Last Modified time: 2025-09-26 16:30:54
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { View } from 'react-native'
 import { Flex, Heatmap, Iconfont, ScrollView, Touchable } from '@components'
 import { PreventTouchPlaceholder, SectionTitle } from '@_'
@@ -30,6 +30,8 @@ const Tags = memo(
     focusOrigin = false,
     onSwitchBlock = FROZEN_FN
   }) => {
+    const handleToggle = useCallback(() => onSwitchBlock('showTags'), [onSwitchBlock])
+
     return (
       <View style={stl(_.mt.lg, showTags ? styles.container : _.short, !show && _.mb.md)}>
         <SectionTitle
@@ -46,10 +48,11 @@ const Tags = memo(
           }
           icon={!showTags && 'md-navigate-next'}
           splitStyles
-          onPress={() => onSwitchBlock('showTags')}
+          onPress={handleToggle}
         >
           {TITLE_TAGS}
         </SectionTitle>
+
         {show && (
           <>
             {subjectTagsExpand ? (
@@ -73,6 +76,7 @@ const Tags = memo(
             )}
           </>
         )}
+
         {show && (
           <View style={styles.more}>
             <Touchable onPress={() => systemStore.switchSetting('subjectTagsExpand')}>
@@ -85,6 +89,7 @@ const Tags = memo(
             </Touchable>
           </View>
         )}
+
         <PreventTouchPlaceholder />
       </View>
     )

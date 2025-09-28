@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-04 15:40:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-23 06:09:12
+ * @Last Modified time: 2025-09-28 19:40:08
  */
 import { FlatList, View } from 'react-native'
 import { ImageProps } from '@components'
@@ -40,6 +40,9 @@ export type HandleBlockRef = (ref: View, componentName: string) => void
 
 /** 子组件可以调用此方法定位到指定 y 轴坐标 */
 export type HandleScrollIntoViewIfNeeded = (y: number) => void
+
+/** 子组件可以调用此方法定位到指定子组件块 */
+export type HandleScrollTo = (component: string) => void
 
 /** 滚动到顶 */
 export type HandleScrollToTop = () => void
@@ -137,3 +140,5 @@ export type EpsItem = Partial<{
   desc: any
   type: number
 }>
+
+export type TagsItem = string | { pressable: boolean; value: string }

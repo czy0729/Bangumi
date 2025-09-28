@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-28 00:05:16
+ * @Last Modified time: 2025-09-28 19:02:21
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { Component, Flex, Heatmap, Iconfont, ScrollViewHorizontal, Text } from '@components'
 import { InView, PreventTouchPlaceholder, SectionTitle } from '@_'
 import { _, systemStore, useStore } from '@stores'
-import { open, stl } from '@utils'
+import { open, randomizeImgHost, stl } from '@utils'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { HOST_AC_REFERER, HOST_DB_REFERER } from '@constants'
@@ -30,30 +30,36 @@ function Thumbs({ onBlockRef }) {
 
   const { $ } = useStore<Ctx>()
   const [scrolled, setScrolled] = useState(false)
+
   const handleScroll = useCallback(() => {
     if (!scrolled) setScrolled(true)
-  }, [scrolled, setScrolled])
+  }, [scrolled])
 
   return useObserver(() => {
     if (!$.showThumbs[1]) return null
 
     const { showThumbs } = systemStore.setting
-    const { epsThumbs, epsThumbsHeader, videos } = $.state
+    const { epsThumbs = [], epsThumbsHeader, videos = [] } = $.state
 
-    const thumbs = epsThumbs.map(item => ({
-      url:
-        // 参数: bilibili 为 @, youku 没有, iqiyi 看不懂不作处理
-        String(item.split('@')?.[0]),
+    // 随机化 host
+    const epsThumbsData = epsThumbs.map(item => randomizeImgHost(item))
+
+    // 处理 thumbs 数据
+    const thumbs = epsThumbsData.map(item => ({
+      url: String(item.split('@')?.[0]),
       headers: epsThumbsHeader
     }))
 
+    // 来源
     let reference = ''
-    if (epsThumbsHeader?.Referer?.includes?.(HOST_DB_REFERER)) {
+    const referer = epsThumbsHeader?.Referer
+    if (referer?.includes?.(HOST_DB_REFERER)) {
       reference = HOST_DB_REFERER
-    } else if (epsThumbsHeader?.Referer?.includes?.(HOST_AC_REFERER)) {
+    } else if (referer?.includes?.(HOST_AC_REFERER)) {
       reference = HOST_AC_REFERER
     }
 
+    // 标题
     let title = '预览'
     if ($.type === '音乐') {
       title = 'MV'
@@ -61,13 +67,14 @@ function Thumbs({ onBlockRef }) {
       title = '剧照'
     }
 
+    // 右侧按钮
     let elRight: ReactNode
     if (!showThumbs) {
       elRight = <IconHidden name={title} value='showThumbs' />
-    } else if (reference !== HOST_DB_REFERER) {
-      elRight = null
+    } else if (reference === HOST_DB_REFERER) {
+      elRight = <IconPreview data={epsThumbsData} headers={epsThumbsHeader} />
     } else {
-      elRight = <IconPreview data={epsThumbs} headers={epsThumbsHeader} />
+      elRight = null
     }
 
     return (
@@ -77,6 +84,7 @@ function Thumbs({ onBlockRef }) {
           style={_.container.layout}
           collapsable={false}
         />
+
         <InView style={stl(styles.container, !showThumbs && _.short)}>
           <SectionTitle
             style={_.container.wind}
@@ -87,6 +95,7 @@ function Thumbs({ onBlockRef }) {
           >
             {title}
           </SectionTitle>
+
           {showThumbs && (
             <ScrollViewHorizontal
               style={_.mt.md}
@@ -101,7 +110,8 @@ function Thumbs({ onBlockRef }) {
                   showTitle={$.type && $.type !== '动画'}
                 />
               ))}
-              {epsThumbs
+
+              {epsThumbsData
                 .filter((_item, index) => index <= (scrolled ? 12 : 4))
                 .map((item, index) => (
                   <Preview
@@ -114,22 +124,19 @@ function Thumbs({ onBlockRef }) {
                 ))}
             </ScrollViewHorizontal>
           )}
+
           {showThumbs && !!reference && (
             <Flex style={[_.container.wind, _.mt.sm]}>
               <Flex.Item>
                 <IconPic />
               </Flex.Item>
-              <Text
-                size={10}
-                type='icon'
-                align='right'
-                onPress={() => open(epsThumbsHeader.Referer)}
-              >
+              <Text size={10} type='icon' align='right' onPress={() => open(referer)}>
                 数据来源自 {reference}
               </Text>
               <Iconfont style={_.ml.xs} name='md-open-in-new' size={10} color={_.colorIcon} />
             </Flex>
           )}
+
           <PreventTouchPlaceholder />
           <Heatmap id='条目.预览' />
         </InView>

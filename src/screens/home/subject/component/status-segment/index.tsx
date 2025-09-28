@@ -8,7 +8,6 @@ import React, { useCallback, useMemo } from 'react'
 import { Flex, Iconfont, Text } from '@components'
 import { Popover } from '@_'
 import { _, useStore } from '@stores'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { MODEL_RATING_STATUS } from '@constants'
 import { Ctx } from '../../types'
@@ -16,9 +15,7 @@ import { COMPONENT, STATUS_DS } from './ds'
 import { styles } from './styles'
 
 function StatusSegement() {
-  r(COMPONENT)
-
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
     const { filterStatus } = $.state
