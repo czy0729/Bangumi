@@ -18,11 +18,14 @@ import { IconProps } from './types'
 function IconActions({ style, children }: IconProps) {
   const { $, navigation } = useStore<Ctx>()
 
-  return useObserver(() => {
-    const handleSelect = useCallback((title: string) => {
+  const handleSelect = useCallback(
+    (title: string) => {
       $.onActionsPress(title, navigation)
-    }, [])
+    },
+    [$, navigation]
+  )
 
+  return useObserver(() => {
     return (
       <Popover
         style={stl(!children && styles.action, style)}

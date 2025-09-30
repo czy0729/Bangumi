@@ -9,22 +9,25 @@ import { Heatmap } from '@components'
 import { IconReverse } from '@_'
 import { _, useStore } from '@stores'
 import { stl } from '@utils'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import { styles } from './styles'
 
 function IconComment() {
   const { $ } = useStore<Ctx>()
-  const { _reverse } = $.subjectComments
-  return (
-    <IconReverse
-      style={stl(styles.comment, _reverse && styles.reverse)}
-      color={_reverse ? _.colorMain : _.colorIcon}
-      onPress={$.toggleReverseComments}
-    >
-      <Heatmap id='条目.吐槽箱倒序' />
-    </IconReverse>
-  )
+
+  return useObserver(() => {
+    const { _reverse } = $.subjectComments
+    return (
+      <IconReverse
+        style={stl(styles.comment, _reverse && styles.reverse)}
+        color={_reverse ? _.colorMain : _.colorIcon}
+        onPress={$.toggleReverseComments}
+      >
+        <Heatmap id='条目.吐槽箱倒序' />
+      </IconReverse>
+    )
+  })
 }
 
-export default ob(IconComment)
+export default IconComment

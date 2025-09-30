@@ -5,39 +5,40 @@
  * @Last Modified time: 2024-11-15 02:01:08
  */
 import React from 'react'
-import { Flex, Iconfont, Text, Touchable } from '@components'
+import { Flex, Iconfont, Link, Text } from '@components'
 import { systemStore, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import styles from './styles'
 
 function IconTopic() {
-  const { $, navigation } = useStore<Ctx>()
-  if (!systemStore.setting.showTopic) return null
+  const { $ } = useStore<Ctx>()
 
-  return (
-    <Touchable
-      style={styles.touch}
-      onPress={() => {
-        navigation.push('Board', {
+  return useObserver(() => {
+    if (!systemStore.setting.showTopic) return null
+
+    return (
+      <Link
+        style={styles.touch}
+        path='Board'
+        params={{
           subjectId: $.subjectId,
           name: $.cn
-        })
-
-        t('条目.跳转', {
+        }}
+        eventId='条目.跳转'
+        eventData={{
           to: 'Board',
           from: '帖子',
           subjectId: $.subjectId
-        })
-      }}
-    >
-      <Flex>
-        <Text type='sub'>更多</Text>
-        <Iconfont name='md-navigate-next' />
-      </Flex>
-    </Touchable>
-  )
+        }}
+      >
+        <Flex>
+          <Text type='sub'>更多</Text>
+          <Iconfont name='md-navigate-next' />
+        </Flex>
+      </Link>
+    )
+  })
 }
 
-export default ob(IconTopic)
+export default IconTopic

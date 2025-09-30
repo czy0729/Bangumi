@@ -13,7 +13,6 @@ import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import { FROZEN_FN } from '@constants'
 import { TITLE_EP } from '../../../ds'
-import IconHD from '../../icon/hd'
 import IconManga from '../../icon/manga'
 import IconSearch from '../../icon/search'
 import IconWenku from '../../icon/wenku'
@@ -119,7 +118,6 @@ const BookEp = memo(
               {!focusOrigin && <IconSearch />}
               <IconManga />
               <IconWenku />
-              <IconHD />
             </>
           }
           splitStyles

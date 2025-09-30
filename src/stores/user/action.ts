@@ -60,7 +60,8 @@ export default class Action extends Fetch {
         scope: accessToken.scope,
         user_id: accessToken.user_id,
         refresh_token: accessToken.refresh_token
-      }
+      },
+      outdate: false
     })
     this.save('accessToken')
   }
@@ -94,9 +95,9 @@ export default class Action extends Fetch {
   logTourist = FROZEN_FN
 
   /** 设置授权信息过期提示 */
-  setOutdate = () => {
+  setOutdate = (outdate: boolean = true) => {
     this.setState({
-      outdate: true
+      outdate
     })
   }
 

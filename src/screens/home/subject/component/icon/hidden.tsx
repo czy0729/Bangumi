@@ -8,30 +8,33 @@ import React from 'react'
 import { Heatmap } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { confirm, info } from '@utils/ui'
 import { Ctx } from '../../types'
 import { styles } from './styles'
 
 function IconHidden({ name, value }) {
   const { $ } = useStore<Ctx>()
-  if (!name || !value) return null
 
-  return (
-    <IconTouchable
-      style={styles.hidden}
-      name='md-close'
-      color={_.colorIcon}
-      onPress={() => {
-        confirm(`确定永久隐藏栏目[${name}]?\n隐藏后可到右上角菜单里重置`, () => {
-          $.hiddenBlock(value)
-          info('已隐藏')
-        })
-      }}
-    >
-      <Heatmap id='条目.删除收藏' />
-    </IconTouchable>
-  )
+  return useObserver(() => {
+    if (!name || !value) return null
+
+    return (
+      <IconTouchable
+        style={styles.hidden}
+        name='md-close'
+        color={_.colorIcon}
+        onPress={() => {
+          confirm(`确定永久隐藏栏目[${name}]?\n隐藏后可到右上角菜单里重置`, () => {
+            $.hiddenBlock(value)
+            info('已隐藏')
+          })
+        }}
+      >
+        <Heatmap id='条目.删除收藏' />
+      </IconTouchable>
+    )
+  })
 }
 
-export default ob(IconHidden)
+export default IconHidden

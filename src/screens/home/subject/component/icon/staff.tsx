@@ -5,39 +5,40 @@
  * @Last Modified time: 2024-11-15 01:59:14
  */
 import React from 'react'
-import { Flex, Iconfont, Text, Touchable } from '@components'
+import { Flex, Iconfont, Link, Text } from '@components'
 import { systemStore, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import styles from './styles'
 
 function IconStaff() {
-  const { $, navigation } = useStore<Ctx>()
-  if (!systemStore.setting.showStaff) return null
+  const { $ } = useStore<Ctx>()
 
-  return (
-    <Touchable
-      style={styles.touch}
-      onPress={() => {
-        navigation.push('Persons', {
+  return useObserver(() => {
+    if (!systemStore.setting.showStaff) return null
+
+    return (
+      <Link
+        style={styles.touch}
+        path='Persons'
+        params={{
           subjectId: $.subjectId,
           name: $.cn
-        })
-
-        t('条目.跳转', {
+        }}
+        eventId='条目.跳转'
+        eventData={{
           to: 'Persons',
           from: '制作人员',
           subjectId: $.subjectId
-        })
-      }}
-    >
-      <Flex>
-        <Text type='sub'>更多</Text>
-        <Iconfont name='md-navigate-next' />
-      </Flex>
-    </Touchable>
-  )
+        }}
+      >
+        <Flex>
+          <Text type='sub'>更多</Text>
+          <Iconfont name='md-navigate-next' />
+        </Flex>
+      </Link>
+    )
+  })
 }
 
-export default ob(IconStaff)
+export default IconStaff

@@ -9,7 +9,7 @@ import { Heatmap } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { confirm, info } from '@utils'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { SHARE_MODE } from '@constants'
 import i18n from '@constants/i18n'
 import { Ctx } from '../../types'
@@ -24,32 +24,35 @@ const HIT_SLOP = {
 
 function IconClose() {
   const { $ } = useStore<Ctx>()
-  if (SHARE_MODE) return null
 
-  return (
-    <IconTouchable
-      style={styles.close}
-      name='md-close'
-      color={_.colorIcon}
-      hitSlop={HIT_SLOP}
-      onPress={() => {
-        const { status = { name: '未收藏' } } = $.collection
-        if (status.name === '未收藏') {
-          info('当前未收藏')
-          return
-        }
+  return useObserver(() => {
+    if (SHARE_MODE) return null
 
-        if (!$.subjectFormHTML.formhash) {
-          info(`无法操作, 请检查${i18n.login()}状态`)
-          return
-        }
+    return (
+      <IconTouchable
+        style={styles.close}
+        name='md-close'
+        color={_.colorIcon}
+        hitSlop={HIT_SLOP}
+        onPress={() => {
+          const { status = { name: '未收藏' } } = $.collection
+          if (status.name === '未收藏') {
+            info('当前未收藏')
+            return
+          }
 
-        confirm('确定删除收藏?', () => $.doEraseCollection())
-      }}
-    >
-      <Heatmap id='条目.删除收藏' />
-    </IconTouchable>
-  )
+          if (!$.subjectFormHTML.formhash) {
+            info(`无法操作, 请检查${i18n.login()}状态`)
+            return
+          }
+
+          confirm('确定删除收藏?', () => $.doEraseCollection())
+        }}
+      >
+        <Heatmap id='条目.删除收藏' />
+      </IconTouchable>
+    )
+  })
 }
 
-export default ob(IconClose)
+export default IconClose

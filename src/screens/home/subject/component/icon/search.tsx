@@ -18,26 +18,27 @@ import { IconProps } from './types'
 function IconSearch({ style, children }: IconProps) {
   const { $, navigation } = useStore<Ctx>()
 
-  return useObserver(() => {
-    const handleSelect = useCallback((title: string) => {
+  const handleSelect = useCallback(
+    (title: string) => {
       $.onComicPress(title, navigation)
-    }, [])
+    },
+    [$, navigation]
+  )
 
-    return (
-      <Popover
-        style={stl(!children && styles.touch, style)}
-        data={$.comicData}
-        hitSlop={HIT_SLOP}
-        onSelect={handleSelect}
-      >
-        {children || (
-          <Flex style={styles.searchBtn} justify='center'>
-            <Iconfont name='md-airplay' size={18} />
-          </Flex>
-        )}
-      </Popover>
-    )
-  })
+  return useObserver(() => (
+    <Popover
+      style={stl(!children && styles.touch, style)}
+      data={$.comicData}
+      hitSlop={HIT_SLOP}
+      onSelect={handleSelect}
+    >
+      {children || (
+        <Flex style={styles.searchBtn} justify='center'>
+          <Iconfont name='md-airplay' size={18} />
+        </Flex>
+      )}
+    </Popover>
+  ))
 }
 
 export default IconSearch

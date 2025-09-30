@@ -18,26 +18,27 @@ import { IconProps } from './types'
 function IconSearchDisc({ style, children }: IconProps) {
   const { $, navigation } = useStore<Ctx>()
 
-  return useObserver(() => {
-    const handleSelect = useCallback((title: string) => {
+  const handleSelect = useCallback(
+    (title: string) => {
       $.onDiscPress(title, navigation)
-    }, [])
+    },
+    [$, navigation]
+  )
 
-    return (
-      <Popover
-        style={stl(!children && styles.touch, style)}
-        data={$.discData}
-        hitSlop={HIT_SLOP}
-        onSelect={handleSelect}
-      >
-        {children || (
-          <Flex style={styles.searchDiscBtn} justify='center'>
-            <Iconfont name='md-airplay' size={18} />
-          </Flex>
-        )}
-      </Popover>
-    )
-  })
+  return useObserver(() => (
+    <Popover
+      style={stl(!children && styles.touch, style)}
+      data={$.discData}
+      hitSlop={HIT_SLOP}
+      onSelect={handleSelect}
+    >
+      {children || (
+        <Flex style={styles.searchDiscBtn} justify='center'>
+          <Iconfont name='md-airplay' size={18} />
+        </Flex>
+      )}
+    </Popover>
+  ))
 }
 
 export default IconSearchDisc

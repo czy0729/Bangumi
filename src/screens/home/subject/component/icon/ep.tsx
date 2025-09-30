@@ -8,13 +8,14 @@ import React from 'react'
 import { Heatmap } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 
 function IconEp() {
   const { $, navigation } = useStore<Ctx>()
-  return (
+
+  return useObserver(() => (
     <IconTouchable
       style={{
         marginRight: -1,
@@ -39,7 +40,7 @@ function IconEp() {
     >
       <Heatmap right={13} id='条目.跳转' from='章节' />
     </IconTouchable>
-  )
+  ))
 }
 
-export default ob(IconEp)
+export default IconEp

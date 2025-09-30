@@ -7,7 +7,7 @@
 import React from 'react'
 import { Header } from '@components'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { WEB } from '@constants'
 import { Override } from '@types'
 import { Ctx } from '../../types'
@@ -26,31 +26,33 @@ function IconShare({
     color?: any
   }
 >) {
-  if (WEB) return null
+  return useObserver(() => {
+    if (WEB) return null
 
-  return (
-    <Header.Popover
-      style={_.mr.xs}
-      data={DATA}
-      name='md-ios-share'
-      color={color}
-      size={19}
-      onSelect={key => {
-        switch (key) {
-          case TEXT_POST_SHARE:
-            $.onPostShare(navigation)
-            break
+    return (
+      <Header.Popover
+        style={_.mr.xs}
+        data={DATA}
+        name='md-ios-share'
+        color={color}
+        size={19}
+        onSelect={key => {
+          switch (key) {
+            case TEXT_POST_SHARE:
+              $.onPostShare(navigation)
+              break
 
-          case TEXT_WEB_SHARE:
-            $.onWebShare()
-            break
+            case TEXT_WEB_SHARE:
+              $.onWebShare()
+              break
 
-          default:
-            break
-        }
-      }}
-    />
-  )
+            default:
+              break
+          }
+        }}
+      />
+    )
+  })
 }
 
-export default ob(IconShare)
+export default IconShare

@@ -18,11 +18,14 @@ import { IconProps } from './types'
 function IconGame({ style, children }: IconProps) {
   const { $, navigation } = useStore<Ctx>()
 
-  return useObserver(() => {
-    const handleSelect = useCallback((title: string) => {
+  const handleSelect = useCallback(
+    (title: string) => {
       $.onGamePress(title, navigation)
-    }, [])
+    },
+    [$, navigation]
+  )
 
+  return useObserver(() => {
     if (!$.titleLabel.includes('游戏')) return null
 
     return (

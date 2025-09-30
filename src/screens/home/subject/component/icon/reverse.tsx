@@ -8,13 +8,14 @@ import React from 'react'
 import { Heatmap } from '@components'
 import { IconReverse as IconComp } from '@_'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import { styles } from './styles'
 
 function IconReverse() {
   const { $ } = useStore<Ctx>()
-  return (
+
+  return useObserver(() => (
     <IconComp
       style={styles.iconReverse}
       color={$.state.epsReverse ? _.colorMain : _.colorIcon}
@@ -22,7 +23,7 @@ function IconReverse() {
     >
       <Heatmap right={-5} id='条目.章节倒序' />
     </IconComp>
-  )
+  ))
 }
 
-export default ob(IconReverse)
+export default IconReverse

@@ -19,32 +19,33 @@ import { IconProps } from './types'
 function IconOnline({ style, children }: IconProps) {
   const { $, navigation } = useStore<Ctx>()
 
-  return useObserver(() => {
-    const handleSelect = useCallback((title: string) => {
+  const handleSelect = useCallback(
+    (title: string) => {
       $.onOnlinePress(title, navigation)
-    }, [])
+    },
+    [$, navigation]
+  )
 
-    return (
-      <>
-        <Popover
-          style={stl(!children && styles.touch, style)}
-          data={$.onlineData}
-          hitSlop={HIT_SLOP}
-          onSelect={handleSelect}
-        >
-          {children || (
-            <>
-              <Flex style={styles.btn2} justify='center'>
-                <Iconfont name='md-airplay' size={18} />
-              </Flex>
-              <Heatmap right={55} bottom={-7} id='条目.搜索源' />
-            </>
-          )}
-        </Popover>
-        {!children && !!$.actions.length && <IconActions style={styles.actions} />}
-      </>
-    )
-  })
+  return useObserver(() => (
+    <>
+      <Popover
+        style={stl(!children && styles.touch, style)}
+        data={$.onlineData}
+        hitSlop={HIT_SLOP}
+        onSelect={handleSelect}
+      >
+        {children || (
+          <>
+            <Flex style={styles.btn2} justify='center'>
+              <Iconfont name='md-airplay' size={18} />
+            </Flex>
+            <Heatmap right={55} bottom={-7} id='条目.搜索源' />
+          </>
+        )}
+      </Popover>
+      {!children && !!$.actions.length && <IconActions style={styles.actions} />}
+    </>
+  ))
 }
 
 export default IconOnline

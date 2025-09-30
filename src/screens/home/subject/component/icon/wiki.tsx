@@ -5,39 +5,40 @@
  * @Last Modified time: 2024-11-15 02:02:30
  */
 import React from 'react'
-import { Flex, Iconfont, Text, Touchable } from '@components'
+import { Flex, Iconfont, Link, Text } from '@components'
 import { systemStore, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import styles from './styles'
 
 function IconWiki() {
-  const { $, navigation } = useStore<Ctx>()
-  if (!systemStore.setting.showInfo) return null
+  const { $ } = useStore<Ctx>()
 
-  return (
-    <Touchable
-      style={styles.touch}
-      onPress={() => {
-        navigation.push('SubjectWiki', {
+  return useObserver(() => {
+    if (!systemStore.setting.showInfo) return null
+
+    return (
+      <Link
+        style={styles.touch}
+        path='SubjectWiki'
+        params={{
           subjectId: $.subjectId,
           name: $.cn
-        })
-
-        t('条目.跳转', {
+        }}
+        eventId='条目.跳转'
+        eventData={{
           to: 'SubjectWiki',
           from: '详情',
           subjectId: $.subjectId
-        })
-      }}
-    >
-      <Flex>
-        <Text type='sub'>修订</Text>
-        <Iconfont name='md-navigate-next' />
-      </Flex>
-    </Touchable>
-  )
+        }}
+      >
+        <Flex>
+          <Text type='sub'>修订</Text>
+          <Iconfont name='md-navigate-next' />
+        </Flex>
+      </Link>
+    )
+  })
 }
 
-export default ob(IconWiki)
+export default IconWiki

@@ -5,36 +5,33 @@
  * @Last Modified time: 2024-11-15 01:58:51
  */
 import React from 'react'
-import { Flex, Iconfont, Text, Touchable } from '@components'
+import { Flex, Iconfont, Link, Text } from '@components'
 import { systemStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { t } from '@utils/fetch'
-import { useNavigation } from '@utils/hooks'
+import { useObserver } from '@utils/hooks'
 import { WEB } from '@constants'
 import styles from './styles'
 
 function IconSMB() {
-  const navigation = useNavigation()
-  if (WEB || !systemStore.setting.showSMB) return null
+  return useObserver(() => {
+    if (WEB || !systemStore.setting.showSMB) return null
 
-  return (
-    <Touchable
-      style={styles.touch}
-      onPress={() => {
-        navigation.push('Smb')
-
-        t('条目.跳转', {
+    return (
+      <Link
+        style={styles.touch}
+        path='Smb'
+        eventId='条目.跳转'
+        eventData={{
           to: 'SMB',
           from: '本地'
-        })
-      }}
-    >
-      <Flex>
-        <Text type='sub'>管理</Text>
-        <Iconfont name='md-navigate-next' />
-      </Flex>
-    </Touchable>
-  )
+        }}
+      >
+        <Flex>
+          <Text type='sub'>管理</Text>
+          <Iconfont name='md-navigate-next' />
+        </Flex>
+      </Link>
+    )
+  })
 }
 
-export default ob(IconSMB)
+export default IconSMB

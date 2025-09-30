@@ -7,22 +7,25 @@
 import React from 'react'
 import { Text, Touchable } from '@components'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import { styles } from './styles'
 
 function IconVersion() {
   const { $ } = useStore<Ctx>()
-  if (!$.subjectComments.version) return null
 
-  const { filterVersion } = $.state
-  return (
-    <Touchable style={styles.version} onPress={$.toggleVersion}>
-      <Text type={filterVersion ? 'main' : 'icon'} size={13} bold>
-        {filterVersion ? '当前' : '全部'}版本
-      </Text>
-    </Touchable>
-  )
+  return useObserver(() => {
+    if (!$.subjectComments.version) return null
+
+    const { filterVersion } = $.state
+    return (
+      <Touchable style={styles.version} onPress={$.toggleVersion}>
+        <Text type={filterVersion ? 'main' : 'icon'} size={13} bold>
+          {filterVersion ? '当前' : '全部'}版本
+        </Text>
+      </Touchable>
+    )
+  })
 }
 
-export default ob(IconVersion)
+export default IconVersion
