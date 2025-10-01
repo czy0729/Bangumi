@@ -170,7 +170,7 @@ export default class Fetch extends Computed {
 
   fetchRaw = async () => {
     const { _response } = await xhrCustom({
-      url: 'https://yuc.wiki/202504'
+      url: 'https://yuc.wiki/202510'
     })
     const data = cheerioRaw(_response)
     console.info(data)
