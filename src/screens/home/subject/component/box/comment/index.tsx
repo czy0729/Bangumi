@@ -8,6 +8,7 @@ import React, { useState } from 'react'
 import { Expand, Text } from '@components'
 import { Likes } from '@_'
 import { timelineStore, uiStore, userStore, useStore } from '@stores'
+import { HTMLDecode } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
@@ -19,7 +20,7 @@ function Comment() {
   const [lines, setLines] = useState(3)
 
   return useObserver(() => {
-    const { comment } = $.collection
+    const comment = HTMLDecode($.collection.comment || '')
     if (!comment) return null
 
     const styles = memoStyles()

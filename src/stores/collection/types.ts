@@ -10,7 +10,6 @@ import {
   CollectionStatusCn,
   CollectionStatusValue,
   Cover,
-  DeepPartial,
   ImagesAvatar,
   ListEmpty,
   Loaded,
@@ -21,7 +20,7 @@ import {
 } from '@types'
 
 /** 条目收藏信息 */
-export type Collection = DeepPartial<{
+export type Collection = {
   status: {
     type: CollectionStatus | ''
     name: CollectionStatusCn | '未收藏'
@@ -44,7 +43,7 @@ export type Collection = DeepPartial<{
     usergroup: number
   }
   _loaded: Loaded
-}>
+}
 
 export type UserCollectionsItem = {
   id: SubjectId

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2024-09-09 16:28:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-11 13:25:44
+ * @Last Modified time: 2025-10-01 22:24:43
  */
 import { CollectionStatusValue, SubjectTypeValue } from '@constants/model/types'
 import { Images, SubjectId } from './bangumi'
@@ -29,6 +29,11 @@ export type ResponseGHReleases = {
 }
 
 export type ResponseKVAdvance = Record<string, string>
+
+/** 旧 API 结构 */
+export type ResponseApi<T> = T & {
+  error?: string
+}
 
 /** `${API_HOST}/v0/episodes?subject_id=${subjectId}&type=0&limit=100&offset=1000` */
 export type ResponseV0Episodes = {

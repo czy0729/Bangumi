@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-10 17:37:44
+ * @Last Modified time: 2025-10-01 21:53:39
  */
 import React from 'react'
 import { BackHandler, TextInput } from 'react-native'
@@ -15,6 +15,7 @@ import {
   feedback,
   getStorage,
   getTimestamp,
+  HTMLDecode,
   info,
   navigationReference,
   setStorage,
@@ -119,6 +120,7 @@ export const ManageModal = ob(
           })
 
           const result = await collectionStore.fetchCollection(subjectId)
+          console.log(JSON.stringify(result))
           this._fetched = true
 
           // 提前告知授权信息失效
@@ -143,7 +145,13 @@ export const ManageModal = ob(
             }
           }
 
-          const { rating, tag = [], comment, private: privacy, status: _status = {} } = result
+          const {
+            rating,
+            tag = [],
+            comment,
+            private: privacy,
+            status: _status = { type: undefined }
+          } = result
 
           // 若传递有收藏状态, 而请求后实际又没有, 主动清理全局缓存收藏状态
           if (!Object.keys(_status).length && nextProps.status) {
@@ -314,7 +322,7 @@ export const ManageModal = ob(
 
     handleCommentChange = (text: string) => {
       this.setState({
-        comment: text
+        comment: HTMLDecode(text)
       })
     }
 
@@ -410,7 +418,7 @@ export const ManageModal = ob(
                   </Flex>
                   <CommentInput
                     forwardRef={this.handleForwardRef}
-                    comment={comment}
+                    comment={HTMLDecode(comment)}
                     commentHistory={commentHistory}
                     onFocus={this.handleFocus}
                     onBlur={this.handleBlur}

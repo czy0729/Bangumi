@@ -21,6 +21,7 @@ import {
 } from '@constants'
 import {
   CollectionStatusCn,
+  ResponseApi,
   SubjectId,
   SubjectType,
   SubjectTypeCn,
@@ -32,6 +33,7 @@ import { cheerioUserCollections, cheerioUserCollectionsTags } from './common'
 import Computed from './computed'
 import { DEFAULT_COLLECTION_STATUS, DEFAULT_ORDER, DEFAULT_SUBJECT_TYPE, NAMESPACE } from './init'
 import {
+  Collection,
   CollectionStatusLastFetchMS,
   FetchUserCollectionsArgs,
   UserCollectionStatus
@@ -66,7 +68,7 @@ export default class Fetch extends Computed {
   }
 
   /** 获取指定条目收藏信息 */
-  fetchCollection = (subjectId: SubjectId) => {
+  fetchCollection = (subjectId: SubjectId): Promise<ResponseApi<Collection>> => {
     return this.fetch(
       {
         url: API_COLLECTION(subjectId),
