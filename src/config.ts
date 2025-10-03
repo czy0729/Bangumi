@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-18 00:00:52
+ * @Last Modified time: 2025-10-01 22:24:58
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
@@ -42,10 +42,10 @@ export const HOST_PROXY = 'https://bangumi-app-webproxy-dev.magmablock.top'
 const CONFIGS: Configs = {
   initialRouteName: DEV ? 'HomeTab' : 'HomeTab',
   initialRouteParams: {
-    // subjectId: 422153 // anime: 296870, music: 302514, book: 267358, game: 283730
+    // subjectId: 512612 // anime: 296870, music: 302514, book: 267358, game: 283730
     // topicId: 'group/429213' // group/366561
     // userId: 'magma' // 456208, 419012, 'lilyurey'
-    // monoId: 'character/52876' // character/70323 person/5745
+    // monoId: 'character/109775' // character/70323 person/5745
     // id: 37896791
     // ids: [72649, 59610, 59611, 72648, 72650, 72651, 72652, 74522, 75203, 75207]
     // blogId: 307175 // 294448

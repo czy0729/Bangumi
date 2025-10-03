@@ -4,6 +4,6 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2024-04-17 17:25:18
  */
-import * as FileSystem from 'expo-file-system'
+import * as FileSystem from 'expo-file-system/legacy'
 
 export const BASE_DIR = `${FileSystem.cacheDirectory}expo-image-cache/`

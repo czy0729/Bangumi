@@ -1,12 +1,11 @@
 /*
  * @Author: czy0729
- * @Date: 2024-02-19 11:00:24
+ * @Date: 2025-09-12 18:51:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-09 06:21:47
+ * @Last Modified time: 2025-09-12 18:58:43
  */
-import { FONT_SCALE, MENU_TRANSFORM_ORIGIN_TOLERENCE } from 'react-native-hold-menu/src/constants'
-import styleGuide from 'react-native-hold-menu/src/styleGuide'
-import { MENU_HEIGHT, MENU_WIDTH } from '../constants'
+import styleGuide from '../styleGuide'
+import { FONT_SCALE, MENU_HEIGHT, MENU_TRANSFORM_ORIGIN_TOLERENCE, MENU_WIDTH } from '../constants'
 
 export const MenuItemHeight = () => {
   'worklet'

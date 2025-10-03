@@ -12,7 +12,7 @@ import { useObserver } from '@utils/hooks'
 import { TITLE_LIKE } from '../../ds'
 import { Ctx } from '../../types'
 import Split from '../split'
-import Like from './like.lazy'
+import Like from './like'
 import { COMPONENT } from './ds'
 import { Props } from './types'
 

@@ -12,7 +12,7 @@ import { useObserver } from '@utils/hooks'
 import { TITLE_RECENT } from '../../ds'
 import { Ctx } from '../../types'
 import Split from '../split'
-import Recent from './recent.lazy'
+import Recent from './recent'
 import { COMPONENT } from './ds'
 import { Props } from './types'
 

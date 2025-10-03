@@ -5,7 +5,7 @@
  * @Last Modified time: 2025-05-20 05:11:04
  */
 import React from 'react'
-import { Image as RNImage, ImageErrorEventData, NativeSyntheticEvent } from 'react-native'
+import { Image as RNImage, ImageErrorEvent } from 'react-native'
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { getTimestamp, omit, pick } from '@utils'
@@ -344,7 +344,7 @@ export const Image = observer(
     }
 
     /** 加载失败 */
-    onError = async (evt?: NativeSyntheticEvent<ImageErrorEventData>) => {
+    onError = async (evt?: ImageErrorEvent) => {
       const { src } = this.props
       if (
         typeof src === 'string' &&

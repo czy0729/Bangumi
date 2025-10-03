@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-06 18:03:54
+ * @Last Modified time: 2025-10-03 22:40:49
  */
 import React, { Suspense, useEffect } from 'react'
 import { LogBox } from 'react-native'
@@ -10,8 +10,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { enableScreens } from 'react-native-screens'
 import Provider from '@ant-design/react-native/lib/provider'
-import { DeepLink, DEV } from '@components'
-import { HoldMenuProvider } from '@components/@/react-native-hold-menu'
+import { DeepLink, DEV, HoldMenuProvider } from '@components'
 import { AppCommon } from '@_'
 import { _ } from '@stores'
 import { useCachedResources, useOrientation } from '@utils/hooks'

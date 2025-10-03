@@ -1,20 +1,11 @@
 /*
  * @Author: czy0729
- * @Date: 2024-02-19 10:52:38
+ * @Date: 2025-09-12 18:50:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-09 06:28:13
+ * @Last Modified time: 2025-09-12 19:16:51
  */
 import React, { useState } from 'react'
 import { ScrollView, StyleSheet } from 'react-native'
-import styles from 'react-native-hold-menu/src/components/menu/styles'
-import { MenuItemProps } from 'react-native-hold-menu/src/components/menu/types'
-import {
-  CONTEXT_MENU_STATE,
-  HOLD_ITEM_TRANSFORM_DURATION,
-  SPRING_CONFIGURATION_MENU
-} from 'react-native-hold-menu/src/constants'
-import { useInternal } from 'react-native-hold-menu/src/hooks'
-import { deepEqual } from 'react-native-hold-menu/src/utils/validations'
 import Animated, {
   runOnJS,
   useAnimatedReaction,
@@ -25,10 +16,19 @@ import Animated, {
   withTiming
 } from 'react-native-reanimated'
 import { BlurView } from 'expo-blur'
-import { MENU_WIDTH } from './constants'
-import { leftOrRight } from './menu/calculations'
+import {
+  CONTEXT_MENU_STATE,
+  HOLD_ITEM_TRANSFORM_DURATION,
+  MENU_WIDTH,
+  SPRING_CONFIGURATION_MENU
+} from '../../constants'
+import { useInternal } from '../../hooks'
+import { calculateMenuHeight, menuAnimationAnchor } from '../../utils/calculations'
+import { deepEqual } from '../../utils/validations'
+import { leftOrRight } from './calculations'
 import MenuItems from './MenuItems'
-import { calculateMenuHeight, menuAnimationAnchor } from './utils/calculations'
+import styles from './styles'
+import { MenuItemProps } from './types'
 
 const MenuListComponent = () => {
   const { state, theme, menuProps } = useInternal()

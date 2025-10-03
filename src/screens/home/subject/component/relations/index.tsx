@@ -12,7 +12,7 @@ import { useObserver } from '@utils/hooks'
 import { TITLE_RELATIONS } from '../../ds'
 import { Ctx } from '../../types'
 import Split from '../split'
-import Relations from './relations.lazy'
+import Relations from './relations'
 import { COMPONENT } from './ds'
 import { Props } from './types'
 

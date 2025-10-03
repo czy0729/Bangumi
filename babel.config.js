@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-04-15 04:37:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-19 22:54:10
+ * @Last Modified time: 2025-10-03 17:59:06
  */
 module.exports = function (api) {
   api.cache(true)
 
   const config = {
-    presets: ['babel-preset-expo'],
-    plugins: ['react-native-reanimated/plugin']
+    presets: ['babel-preset-expo']
+    // plugins: ['react-native-reanimated/plugin']
   }
 
   if (process.env.STORYBOOK) {

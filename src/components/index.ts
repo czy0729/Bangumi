@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-09 16:18:47
+ * @Last Modified time: 2025-10-03 22:40:30
  */
-export * from './accordion/index.lazy'
+export * from './accordion'
 export * from './action-sheet'
 export * from './activity'
 export * from './animated'
@@ -34,6 +34,7 @@ export * from './header-placeholder'
 export * from './header-v2'
 export * from './heatmap'
 export * from './highlight'
+export * from './hold-menu'
 export * from './horizontal-list'
 export * from './hover'
 export * from './iconfont'

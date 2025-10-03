@@ -6,7 +6,7 @@
  */
 import { toByteArray } from 'base64-js'
 import { Asset } from 'expo-asset'
-import * as FileSystem from 'expo-file-system'
+import * as FileSystem from 'expo-file-system/legacy'
 import protobuf, { Reader } from 'protobufjs'
 import { cacheMap, checkCache, get, isPromise, lockMap, log } from './utils'
 import { DataAssets, Decode } from './types'

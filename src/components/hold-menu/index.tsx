@@ -9,12 +9,14 @@
  * @Author: czy0729
  * @Date: 2021-12-27 06:57:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-19 10:52:28
+ * @Last Modified time: 2025-10-03 22:41:34
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import Provider from './Provider'
+import { HoldItem, HoldMenuProvider as Provider } from '../@/react-native-hold-menu'
+
+export { HoldItem }
 
 const HoldMenuProvider = observer(({ children }) => {
   return <Provider theme={_.select('light', 'dark')}>{children}</Provider>

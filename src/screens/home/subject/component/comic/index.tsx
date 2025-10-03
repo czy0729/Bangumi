@@ -12,7 +12,7 @@ import { useObserver } from '@utils/hooks'
 import { TITLE_COMIC } from '../../ds'
 import { Ctx } from '../../types'
 import Split from '../split'
-import Comic from './comic.lazy'
+import Comic from './comic'
 import { COMPONENT } from './ds'
 import { Props } from './types'
 

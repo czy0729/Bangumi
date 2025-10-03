@@ -1,19 +1,19 @@
 /*
  * @Author: czy0729
- * @Date: 2024-02-19 10:52:44
+ * @Date: 2025-09-12 18:51:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-11 08:25:45
+ * @Last Modified time: 2025-09-12 19:17:18
  */
 import React, { memo, useEffect, useMemo } from 'react'
-import { MenuInternalProps } from 'react-native-hold-menu/src/components/menu/types'
-import { Action, StateProps } from 'react-native-hold-menu/src/components/provider/reducer'
-import { HoldMenuProviderProps } from 'react-native-hold-menu/src/components/provider/types'
-import { CONTEXT_MENU_STATE } from 'react-native-hold-menu/src/constants'
-import { InternalContext } from 'react-native-hold-menu/src/context/internal'
 import Animated, { useSharedValue } from 'react-native-reanimated'
 import { PortalProvider } from '@gorhom/portal'
-import Backdrop from './Backdrop'
-import Menu from './Menu'
+import { CONTEXT_MENU_STATE } from '../../constants'
+import { InternalContext } from '../../context/internal'
+import { Backdrop } from '../backdrop'
+import Menu from '../menu'
+import { MenuInternalProps } from '../menu/types'
+import { Action, StateProps } from './reducer'
+import { HoldMenuProviderProps } from './types'
 
 export interface Store {
   state: StateProps

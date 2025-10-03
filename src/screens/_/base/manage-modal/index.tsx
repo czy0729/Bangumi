@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-01 21:53:39
+ * @Last Modified time: 2025-10-03 19:15:24
  */
 import React from 'react'
 import { BackHandler, TextInput } from 'react-native'
@@ -418,7 +418,7 @@ export const ManageModal = ob(
                   </Flex>
                   <CommentInput
                     forwardRef={this.handleForwardRef}
-                    comment={HTMLDecode(comment)}
+                    comment={HTMLDecode(comment || '')}
                     commentHistory={commentHistory}
                     onFocus={this.handleFocus}
                     onBlur={this.handleBlur}

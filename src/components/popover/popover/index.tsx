@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-16 10:54:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-12 01:34:36
+ * @Last Modified time: 2025-10-03 22:41:48
  */
 import React, { useEffect, useMemo, useRef } from 'react'
 import { DeviceEventEmitter, View } from 'react-native'
-import { HoldItem } from 'react-native-hold-menu'
 import { _, systemStore } from '@stores'
 import { s2t } from '@utils/thirdParty/open-cc'
 import { FROZEN_FN, IOS } from '@constants'
+import { HoldItem } from '../../hold-menu'
 import { PopoverIOSItems } from './types'
 
 const EVENT_TYPE = 'POPOVER_ONSELECT'

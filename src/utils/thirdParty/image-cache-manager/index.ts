@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-04-17 17:28:29
  */
-import * as FileSystem from 'expo-file-system'
+import * as FileSystem from 'expo-file-system/legacy'
 import { DownloadOptions } from './type'
 import { CacheEntry } from './utils'
 import { BASE_DIR } from './ds'

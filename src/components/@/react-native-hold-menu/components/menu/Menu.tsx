@@ -1,19 +1,19 @@
 /*
  * @Author: czy0729
- * @Date: 2024-02-19 10:53:03
- * @Last Modified by:   czy0729
- * @Last Modified time: 2024-02-19 10:53:03
+ * @Date: 2025-09-12 18:50:41
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2025-09-12 19:00:18
  */
 import React from 'react'
-import styles from 'react-native-hold-menu/src/components/menu/styles'
+import Animated, { useAnimatedStyle, withSpring, withTiming } from 'react-native-reanimated'
 import {
   CONTEXT_MENU_STATE,
   HOLD_ITEM_TRANSFORM_DURATION,
   SPRING_CONFIGURATION
-} from 'react-native-hold-menu/src/constants'
-import { useInternal } from 'react-native-hold-menu/src/hooks'
-import Animated, { useAnimatedStyle, withSpring, withTiming } from 'react-native-reanimated'
+} from '../../constants'
+import { useInternal } from '../../hooks'
 import MenuList from './MenuList'
+import styles from './styles'
 
 const MenuComponent = () => {
   const { state, menuProps } = useInternal()

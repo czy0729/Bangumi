@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-04-17 17:27:41
  */
 import SHA1 from 'crypto-js/sha1'
-import * as FileSystem from 'expo-file-system'
+import * as FileSystem from 'expo-file-system/legacy'
 import uniqueId from 'lodash.uniqueid'
 import { DownloadOptions } from './type'
 import { BASE_DIR } from './ds'

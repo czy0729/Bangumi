@@ -9,7 +9,7 @@ import { systemStore, useStore } from '@stores'
 import { SubjectFromHtmlRelationsItem } from '@stores/subject/types'
 import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
-import Series from './series.lazy'
+import Series from './series'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 

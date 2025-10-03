@@ -1,20 +1,20 @@
 /*
  * @Author: czy0729
- * @Date: 2024-02-19 11:12:27
- * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-19 11:16:04
+ * @Date: 2025-09-12 18:50:26
+ * @Last Modified by:   czy0729
+ * @Last Modified time: 2025-09-12 18:50:26
  */
+import Animated from 'react-native-reanimated'
+import { MENU_WIDTH } from '../../constants'
 import {
   MENU_TEXT_DARK_COLOR,
   MENU_TEXT_DESTRUCTIVE_COLOR_DARK,
   MENU_TEXT_DESTRUCTIVE_COLOR_LIGHT,
   MENU_TEXT_LIGHT_COLOR,
   MENU_TITLE_COLOR
-} from 'react-native-hold-menu/src/components/menu/constants'
-import Animated from 'react-native-reanimated'
-import { MENU_WIDTH } from '../constants'
+} from './constants'
 
-import type { MenuInternalProps } from 'react-native-hold-menu/src/components/menu/types'
+import type { MenuInternalProps } from './types'
 
 export const leftOrRight = (menuProps: Animated.SharedValue<MenuInternalProps>) => {
   'worklet'

@@ -1,26 +1,23 @@
 /*
  * @Author: czy0729
- * @Date: 2024-02-19 10:52:31
+ * @Date: 2025-09-12 18:50:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-19 11:14:07
+ * @Last Modified time: 2025-10-03 21:25:52
  */
 import React, { useCallback } from 'react'
 import { GestureResponderEvent, TouchableOpacity } from 'react-native'
 import { TouchableOpacity as GHTouchableOpacity } from 'react-native-gesture-handler'
-import {
-  BORDER_DARK_COLOR,
-  BORDER_LIGHT_COLOR
-} from 'react-native-hold-menu/src/components/menu/constants'
-import Separator from 'react-native-hold-menu/src/components/menu/Separator'
-import styles from 'react-native-hold-menu/src/components/menu/styles'
-import { MenuItemProps } from 'react-native-hold-menu/src/components/menu/types'
-import { AnimatedIcon } from 'react-native-hold-menu/src/components/provider/Provider'
-import { CONTEXT_MENU_STATE, IS_IOS } from 'react-native-hold-menu/src/constants'
-import { useInternal } from 'react-native-hold-menu/src/hooks'
 import Animated, { useAnimatedStyle } from 'react-native-reanimated'
 import isEqual from 'lodash.isequal'
-import { onPressEventEmit } from './addition'
-import { getColor } from './menu/calculations'
+import { onPressEventEmit } from '../../addition'
+import { CONTEXT_MENU_STATE, IS_IOS } from '../../constants'
+import { useInternal } from '../../hooks'
+// import { AnimatedIcon } from '../provider/Provider'
+import { getColor } from './calculations'
+import { BORDER_DARK_COLOR, BORDER_LIGHT_COLOR } from './constants'
+import Separator from './Separator'
+import styles from './styles'
+import { MenuItemProps } from './types'
 
 const ItemComponent = IS_IOS ? TouchableOpacity : GHTouchableOpacity
 const AnimatedTouchable = Animated.createAnimatedComponent(ItemComponent)
@@ -83,9 +80,9 @@ const MenuItemComponent = ({ item, isLast }: MenuItemComponentProps) => {
         >
           {item.text}
         </Animated.Text>
-        {!item.isTitle && item.icon && (
+        {/* {!item.isTitle && item.icon && (
           <AnimatedIcon name={item.icon} size={18} style={textColor} />
-        )}
+        )} */}
       </AnimatedTouchable>
       {item.withSeparator && <Separator />}
     </>

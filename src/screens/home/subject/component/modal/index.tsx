@@ -9,7 +9,7 @@ import { Component } from '@components'
 import { userStore, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
-import Modal from './modal.lazy'
+import Modal from './modal'
 import { COMPONENT } from './ds'
 
 function ModalWrap() {
