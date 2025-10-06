@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:30:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 07:19:44
+ * @Last Modified time: 2025-10-06 19:32:25
  */
 import { _ } from '@stores'
 import { LIST_EMPTY } from '@constants'
 import { CompletionItem, Loaded, RatingStatus, Sites, TranslateResult } from '@types'
 import { COMPONENT } from '../ds'
-import { AnitabiData, EpsData, SubjectSnapshot } from '../types'
+import { AnitabiData, EpsData, SubjectSnapshot, VideoItem } from '../types'
 
 /** 唯一命名空间 */
 export const NAMESPACE = `Screen${COMPONENT}` as const
@@ -121,7 +121,7 @@ export const STATE = {
   },
 
   /** 视频 */
-  videos: [],
+  videos: [] as VideoItem[],
 
   /** 圣地巡游信息 */
   anitabi: {

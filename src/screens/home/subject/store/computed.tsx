@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-28 19:31:27
+ * @Last Modified time: 2025-10-06 19:27:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -1009,7 +1009,8 @@ export default class Computed extends State {
 
   /** 动画化 */
   @computed get subjectAnime() {
-    if (!(this.titleLabel || '').includes('系列')) return null
+    const title = this.titleLabel || ''
+    if (!title.includes('系列') && !title.includes('音乐')) return null
 
     const find = this.subjectRelations.find(item => item.type === '动画' || item.type === '其他')
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:11:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-15 16:35:56
+ * @Last Modified time: 2025-10-06 19:44:55
  */
 import { computed } from 'mobx'
 import { radiusMd } from '@styles'
@@ -91,6 +91,11 @@ export default class Computed extends State implements StoreConstructor<typeof S
     if (!translateEngine || translateEngine === 'deeplx') return 'baidu'
 
     return translateEngine
+  }
+
+  /** setting.cdnAvatarV2 */
+  @computed get cdnAvatar() {
+    return false
   }
 
   /** 某用户备注 */

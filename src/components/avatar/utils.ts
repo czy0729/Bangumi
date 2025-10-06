@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-05-14 07:14:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-06 22:03:12
+ * @Last Modified time: 2025-10-06 19:45:08
  */
 import { _, systemStore, usersStore, userStore } from '@stores'
 import { getCover400, getCoverMedium, getTimestamp } from '@utils'
@@ -81,14 +81,13 @@ export function getAvatar(src: any) {
 }
 
 /** 判断是否使用 CDN */
-/** 判断是否使用 CDN */
 export function getCDNAvatar(
   src: any,
   prefix: 'bgm_poster_100' | 'bgm_poster_200' = 'bgm_poster_100'
 ) {
   if (
     !systemStore.setting.cdn ||
-    !systemStore.setting.cdnAvatarV2 ||
+    !systemStore.cdnAvatar ||
     typeof src !== 'string' ||
     !src.includes(`${HOST_IMAGE}/pic/user/`)
   ) {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-04 15:40:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-28 19:40:08
+ * @Last Modified time: 2025-10-06 19:32:36
  */
 import { FlatList, View } from 'react-native'
 import { ImageProps } from '@components'
@@ -142,3 +142,11 @@ export type EpsItem = Partial<{
 }>
 
 export type TagsItem = string | { pressable: boolean; value: string }
+
+export type VideoItem = {
+  cover: string
+  href: string
+  src: string
+  result_type: string
+  title: string
+}

@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-28 19:02:21
+ * @Last Modified time: 2025-10-06 19:36:07
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { Component, Flex, Heatmap, Iconfont, ScrollViewHorizontal, Text } from '@components'
 import { InView, PreventTouchPlaceholder, SectionTitle } from '@_'
 import { _, systemStore, useStore } from '@stores'
-import { open, randomizeImgHost, stl } from '@utils'
-import { r } from '@utils/dev'
+import { findSubjectCn, open, randomizeImgHost, stl } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { HOST_AC_REFERER, HOST_DB_REFERER } from '@constants'
 import { ReactNode } from '@types'
@@ -21,14 +20,15 @@ import IconPic from '../icon/pic'
 import IconPreview from '../icon/preview'
 import Split from '../split'
 import Preview from './preview'
+import { prioritizeByKeywords } from './utils'
 import Video from './video'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
+import { Props } from './types'
 
-function Thumbs({ onBlockRef }) {
-  r(COMPONENT)
+function Thumbs({ onBlockRef }: Props) {
+  const { $ } = useStore<Ctx>(COMPONENT)
 
-  const { $ } = useStore<Ctx>()
   const [scrolled, setScrolled] = useState(false)
 
   const handleScroll = useCallback(() => {
@@ -102,7 +102,10 @@ function Thumbs({ onBlockRef }) {
               contentContainerStyle={_.container.wind}
               onScroll={scrolled ? undefined : handleScroll}
             >
-              {videos.map(item => (
+              {prioritizeByKeywords(videos, [
+                $.artist,
+                findSubjectCn($.subjectAnime?.title, $.subjectId)
+              ]).map(item => (
                 <Video
                   key={item.cover || item.src || item.href}
                   item={item}

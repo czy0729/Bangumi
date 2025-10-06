@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 10:32:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-03 22:35:07
+ * @Last Modified time: 2025-10-06 19:43:30
  */
 import React from 'react'
 import { ActionSheet, Text } from '@components'
@@ -12,7 +12,7 @@ import { r } from '@utils/dev'
 import { useBoolean, useObserver } from '@utils/hooks'
 import { IOS, WEB } from '@constants'
 import { getShows } from '../../utils'
-import CDNAvatar from './cdn-avatar'
+// import CDNAvatar from './cdn-avatar'
 import CDNCover from './cdn-cover'
 import CDNTest from './cdn-test'
 import ImageFadeIn from './image-fade-in'
@@ -57,9 +57,9 @@ function CDN({ navigation, filter }) {
           {!WEB && shows.cover && (
             <CDNCover navigation={navigation} filter={filter} setFalse={setFalse} />
           )}
-          {!WEB && shows.cdnAvatarV2 && cdn && <CDNAvatar filter={filter} />}
+          {/* {!WEB && shows.cdnAvatarV2 && cdn && <CDNAvatar filter={filter} />} */}
           {shows.imageSkeleton && <ImageSkeleton filter={filter} />}
-          {shows.imageFadeIn && <ImageFadeIn filter={filter} />}
+          {shows.imageFadeIn && <ImageFadeIn />}
           {!WEB && shows.test && <CDNTest filter={filter} />}
           {IOS && shows.iOSImageCache && <IOSImageCache filter={filter} />}
         </ActionSheet>
