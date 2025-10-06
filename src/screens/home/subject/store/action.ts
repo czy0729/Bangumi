@@ -1393,13 +1393,13 @@ export default class Action extends Fetch {
       subjectId: this.subjectId
     })
 
-    const isDeepLX = systemStore.setting.translateEngine === 'deeplx'
-    const errorInfo = `翻译${isDeepLX ? '超时' : '失败'}, 请重试`
+    const isGemini = systemStore.translateEngine === 'gemini'
+    const errorInfo = `翻译${isGemini ? '超时' : '失败'}, 请重试`
     let hide: () => void
     try {
       hide = loading('请求中...')
 
-      if (isDeepLX) {
+      if (isGemini) {
         const response = await lx(this.summary)
         hide()
 

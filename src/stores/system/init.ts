@@ -416,7 +416,7 @@ export const INIT_SETTING = {
   baiduKey: '',
 
   /** 翻译引擎 */
-  translateEngine: 'baidu' as 'baidu' | 'deeplx',
+  translateEngine: 'baidu' as 'baidu' | 'deeplx' | 'gemini',
 
   /** 看板娘锐评人格 */
   musumePrompt: 'bangumi' as keyof typeof MUSUME_PROMPT,

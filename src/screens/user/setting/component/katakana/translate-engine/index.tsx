@@ -44,7 +44,7 @@ function TranslateEngine({ filter, onScrollIntoViewIfNeeded }) {
     <>
       <ItemSettingBlock style={_.mt.md} filter={filter} {...TEXTS.engine.setting}>
         <ItemSettingBlock.Item
-          active={value === 'baidu'}
+          active={value === 'baidu' || value === 'deeplx'}
           filter={filter}
           onPress={() => {
             if (value === 'baidu') return
@@ -55,21 +55,22 @@ function TranslateEngine({ filter, onScrollIntoViewIfNeeded }) {
         />
         <ItemSettingBlock.Item
           style={_.ml.md}
-          active={value === 'deeplx'}
+          active={value === 'gemini'}
           filter={filter}
           onPress={() => {
-            if (value === 'deeplx') return
+            if (value === 'gemini') return
 
             if (!systemStore.advance) {
               alert('此翻译引擎使用了作者的每日限额，当前仅供打赏用户使用。')
               return
             }
 
-            handleSet('deeplx')
+            handleSet('gemini')
           }}
-          {...TEXTS.engine.deeplx}
+          {...TEXTS.engine.gemini}
         />
       </ItemSettingBlock>
+
       {value === 'baidu' && (
         <ItemSettingBlock
           style={_.mt.md}

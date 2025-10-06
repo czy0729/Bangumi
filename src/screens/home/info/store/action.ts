@@ -1,10 +1,10 @@
-import { systemStore } from '@stores'
 /*
  * @Author: czy0729
  * @Date: 2024-11-08 06:51:35
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-08 06:52:42
  */
+import { systemStore } from '@stores'
 import { info, loading } from '@utils'
 import { baiduTranslate } from '@utils/fetch'
 import { lx } from '@utils/kv'
@@ -15,13 +15,13 @@ export default class Action extends Computed {
   doTranslate = async () => {
     if (this.state.translateResult.length) return
 
-    const isDeepLX = systemStore.setting.translateEngine === 'deeplx'
-    const errorInfo = `翻译${isDeepLX ? '超时' : '失败'}, 请重试`
+    const isGemini = systemStore.translateEngine === 'gemini'
+    const errorInfo = `翻译${isGemini ? '超时' : '失败'}, 请重试`
     let hide: () => void
     try {
       hide = loading('请求中...')
 
-      if (isDeepLX) {
+      if (isGemini) {
         const response = await lx(this.summary)
         hide()
 

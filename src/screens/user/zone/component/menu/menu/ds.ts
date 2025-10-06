@@ -5,7 +5,7 @@
  * @Last Modified time: 2025-08-18 00:03:22
  */
 import { rakuenStore } from '@stores'
-import { confirm, copy, feedback, HTMLDecode, info } from '@utils'
+import { confirm, copy, feedback, HTMLDecode, info, open } from '@utils'
 import { t } from '@utils/fetch'
 import {
   HOST,

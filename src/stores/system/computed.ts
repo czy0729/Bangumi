@@ -82,6 +82,17 @@ export default class Computed extends State implements StoreConstructor<typeof S
     return true
   }
 
+  /**
+   * 翻译引擎
+   *  - v8.25.1 后 DeepLX 因部署长期变动崩溃已废弃
+   * */
+  @computed get translateEngine() {
+    const { translateEngine } = this.setting
+    if (!translateEngine || translateEngine === 'deeplx') return 'baidu'
+
+    return translateEngine
+  }
+
   /** 某用户备注 */
   userRemark(userId: UserId) {
     return computed(() => {

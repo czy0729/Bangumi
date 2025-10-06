@@ -37,9 +37,9 @@ function Content() {
               </Text>
             </View>
           ))}
-          {systemStore.setting.translateEngine === 'deeplx' && (
+          {systemStore.translateEngine === 'gemini' && (
             <Text style={_.mt.sm} type='sub' size={10} bold align='right'>
-              by DeepLX
+              by ✨Gemini
             </Text>
           )}
         </View>

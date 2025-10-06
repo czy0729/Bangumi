@@ -13,8 +13,7 @@ export const TEXTS = {
   engine: {
     setting: {
       title: '翻译引擎',
-      information:
-        'DeepLX 是基于深度学习的自然语言处理工具，选择使用后翻译不再显示原文译文对应；因翻译效率问题，片假名终结者暂不接入此引擎'
+      information: 'v8.25.1 后 DeepLX 因部署长期变动崩溃已废弃'
     },
     baidu: {
       title: '百度翻译',
@@ -27,6 +26,10 @@ export const TEXTS = {
     deeplx: {
       title: 'DeepLX',
       information: 'Powerful DeepL Translation API（实验性）'
+    },
+    gemini: {
+      title: '✨Gemini　',
+      information: 'Google Gemini API（实验性）'
     },
     custom: {
       title: '自定义百度翻译账号',

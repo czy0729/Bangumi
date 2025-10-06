@@ -12,8 +12,8 @@ import { isDevtoolsOpen } from '../dom'
 import hash from '../thirdParty/hash'
 import { getTimestamp } from '../utils'
 import { Result, ResultCollectList, ResultPicList, ResultTemp } from './type'
-import { err, log, splitAndKeepPunctuation } from './utils'
-import { HEADERS, HOST, HOST_COMPLETIONS, HOST_LX, HOST_PIC_LIST, UPDATE_CACHE_MAP } from './ds'
+import { err, log } from './utils'
+import { HEADERS, HOST, HOST_COMPLETIONS, HOST_PIC_LIST, UPDATE_CACHE_MAP } from './ds'
 
 /** 获取 */
 export async function get<T = any>(key: string): Promise<T | null> {
@@ -43,7 +43,16 @@ export async function gets<
   T = any,
   K extends keyof T = keyof T,
   Keys extends readonly string[] = string[]
->(keys: Keys, picker?: K[]): Promise<{ [P in Keys[number]]: T | null } | null> {
+>(
+  keys: Keys,
+  picker?: K[]
+): Promise<
+  | {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      [P in Keys[number]]: T | null
+    }
+  | null
+> {
   if (isDevtoolsOpen()) return Promise.reject('denied')
 
   const query: {
@@ -139,7 +148,7 @@ export async function onlines(): Promise<Result | null> {
     })
 
     const response = Crypto.get<Result>(data)
-    if (response?.code === 200) return data?.data || {}
+    if (response?.code === 200) return response?.data || {}
   } catch (error) {
     err('onlines', error)
   }
@@ -385,31 +394,24 @@ export async function lx(text: string): Promise<false | TranslateResult> {
 
   // 云缓存, 因每个月免费翻译额度有限, 避免过多调用
   const q = text.split('\r\n').join('\n')
-  const k = `fanyi_lx_${hash(q)}`
+  const k = `fanyi_glm_${hash(q)}`
   const cache = await get(k)
   if (Array.isArray(cache?.data) && cache.data.length) return cache.data
 
-  // @ts-expect-error
-  const { data } = await axios({
-    method: 'post',
-    url: HOST_LX,
-    headers: HEADERS,
-    data: {
-      text,
-      source_lang: 'JP',
-      target_lang: 'ZH'
-    }
-  })
+  const responseText = await completions(
+    '你是一位擅长自然语言表达的日语到中文翻译，请让译文自然流畅、符合中文口语习惯，但不要添加解释或注释。',
+    '',
+    text
+  )
+  if (typeof responseText !== 'string' || !responseText.trim().length) return false
 
-  if (!Array.isArray(data?.alternatives)) return false
-
-  const response: string = data.alternatives?.[0] || ''
-  if (!response.length) return false
-
-  const transResult = splitAndKeepPunctuation(response).map(item => ({
-    src: '',
-    dst: item
-  }))
+  const response = responseText.trim()
+  const transResult =
+    // splitAndKeepPunctuation(response)
+    [response].map(item => ({
+      src: '',
+      dst: item
+    }))
   setTimeout(() => {
     update(k, {
       data: transResult

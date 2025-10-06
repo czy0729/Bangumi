@@ -60,9 +60,9 @@ const Content = memo(
                 </View>
               )
             )}
-            {systemStore.setting.translateEngine === 'deeplx' && (
+            {systemStore.translateEngine === 'gemini' && (
               <Text style={[_.mt.sm, _.mr.sm]} type='sub' size={10} bold align='right'>
-                by DeepLX
+                by ✨Gemini
               </Text>
             )}
           </View>

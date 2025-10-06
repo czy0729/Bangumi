@@ -109,8 +109,8 @@ export default class Action extends Fetch {
       monoId: this.monoId
     })
 
-    const isDeepLX = systemStore.setting.translateEngine === 'deeplx'
-    const errorInfo = `翻译${isDeepLX ? '超时' : '失败'}, 请重试`
+    const isGemini = systemStore.translateEngine === 'gemini'
+    const errorInfo = `翻译${isGemini ? '超时' : '失败'}, 请重试`
     let hide: () => void
     try {
       hide = loading()
@@ -118,7 +118,7 @@ export default class Action extends Fetch {
       const text = String(content)
         .replace(/<br \/>/g, '\n')
         .replace(/<\/?[^>]*>/g, '') // 去除HTML tag
-      if (isDeepLX) {
+      if (isGemini) {
         const response = await lx(text)
         hide()
 
@@ -158,14 +158,14 @@ export default class Action extends Fetch {
       floorId
     })
 
-    const isDeepLX = systemStore.setting.translateEngine === 'deeplx'
-    const errorInfo = `翻译${isDeepLX ? '超时' : '失败'}, 请重试`
+    const isGemini = systemStore.translateEngine === 'gemini'
+    const errorInfo = `翻译${isGemini ? '超时' : '失败'}, 请重试`
     let hide: () => void
     try {
       hide = loading()
 
       const text = removeHTMLTag(msg.replace(/<br>/g, '\n'))
-      if (isDeepLX) {
+      if (isGemini) {
         const translateResult = await lx(text)
         hide()
 
