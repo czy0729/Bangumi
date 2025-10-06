@@ -3,13 +3,14 @@
   "compilerOptions": {
     "target": "es2020",
     "module": "es2020",
-    "strict": false,
-    "noImplicitAny": false,
-    "experimentalDecorators": true,
+    "lib": ["es2020"],
+    "types": ["react", "react-native"],
     "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "types": ["react", "react-native"],
+    "strict": false,
     "baseUrl": ".",
     "paths": {
       "@_": ["src/screens/_"],

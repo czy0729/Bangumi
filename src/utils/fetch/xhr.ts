@@ -20,7 +20,7 @@ import { XHRArgs, XHRCustomArgs } from './types'
 /** 带登录信息的 XMLHttpRequest */
 export function xhr(
   args: XHRArgs,
-  success: (responseText?: string, request?: any) => any = FROZEN_FN,
+  success: (responseText?: string, request?: XMLHttpRequest) => any = FROZEN_FN,
   fail: Fn = FROZEN_FN
 ) {
   if (isDevtoolsOpen()) return Promise.reject('denied')
@@ -30,16 +30,17 @@ export function xhr(
   const { cookie: userCookie, userAgent } = userStore.userCookie
   const hide = noConsole ? 0 : loading()
   const request = new XMLHttpRequest()
-  request.onreadystatechange = () => {
-    if (request.readyState !== 4) return
+
+  request.onreadystatechange = function () {
+    if (this.readyState !== 4) return
     if (hide) hide()
-    if (request.status === 200) {
-      success(request.responseText, request)
+    if (this.status === 200) {
+      success(this.responseText, this)
     } else {
-      fail(request)
-      log('xhr', 'fail:', url, request)
+      fail(this)
+      log('xhr', 'fail:', url, this)
     }
-  }
+  }.bind(request)
 
   request.open(method, url)
   request.withCredentials = false
@@ -48,13 +49,12 @@ export function xhr(
   request.setRequestHeader('User-Agent', userAgent)
   request.setRequestHeader('Host', HOST_NAME)
   request.setRequestHeader('accept-encoding', 'gzip, deflate')
+
   request.send(urlStringify(data))
 }
 
 /** 自定义 XHR */
-export function xhrCustom(args: XHRCustomArgs): Promise<{
-  _response: string
-}> {
+export function xhrCustom(args: XHRCustomArgs): Promise<{ _response: string }> {
   if (isDevtoolsOpen()) return Promise.reject('denied')
 
   const {
@@ -72,42 +72,38 @@ export function xhrCustom(args: XHRCustomArgs): Promise<{
 
   return new Promise((resolve, reject) => {
     const request = new XMLHttpRequest()
+
     request.onreadystatechange = function () {
       if (this.readyState === 4) {
         if (this.status === 200 || this.status === 201) {
           if (WEB) {
             return resolve({
               ...this,
-              // @ts-expect-error
               _response: this._response || this.responseText
             })
           }
 
-          // @ts-expect-error
           return resolve(this)
         }
 
-        log(
-          'xhrCustom',
-          'error:',
-          this.status,
-          url,
-          // @ts-expect-error
-          this._response || this.responseText
-        )
+        log('xhrCustom', 'error:', this.status, url, this._response || this.responseText)
+
         if (this.status === 404) reject(new TypeError('404'))
         if (this.status === 500) reject(new TypeError('500'))
       }
-    }
+    }.bind(request)
+
     request.onerror = function () {
       reject(new TypeError('xhrCustom onError'))
-    }
+    }.bind(request)
+
     request.ontimeout = function () {
       reject(new TypeError('xhrCustom onTimeout'))
-    }
+    }.bind(request)
+
     request.onabort = function () {
       reject(new TypeError('xhrCustom onAbort'))
-    }
+    }.bind(request)
 
     request.open(method, _url, true)
     request.withCredentials = withCredentials
