@@ -5,7 +5,7 @@
  * @Last Modified time: 2025-09-23 01:55:06
  */
 import { getTimestamp, info } from '@utils'
-import { GITHUB_RELEASE_REPOS, IOS, VERSION_GITHUB_RELEASE } from '@constants'
+import { D3, GITHUB_RELEASE_REPOS, IOS, VERSION_GITHUB_RELEASE } from '@constants'
 import advanceJSON from '@assets/json/advance.json'
 import { ResponseGHReleases } from '@types'
 import userStore from '../user'
@@ -15,6 +15,8 @@ import { getData } from './utils'
 export default class Fetch extends Computed {
   /** 检查新版本 */
   fetchRelease = async () => {
+    const STATE_KEY = 'release'
+
     try {
       const data: ResponseGHReleases = await fetch(GITHUB_RELEASE_REPOS).then(response =>
         response.json()
@@ -22,16 +24,20 @@ export default class Fetch extends Computed {
       const { name, assets = [] } = data
       const currentVersion = this.state.release.name || VERSION_GITHUB_RELEASE
       if (name !== currentVersion) {
+        const lastLoaded = this.state.release._loaded || 0
+
+        const now = getTimestamp()
         this.setState({
-          release: {
+          [STATE_KEY]: {
             name,
-            downloadUrl: assets?.[0]?.browser_download_url
+            downloadUrl: assets?.[0]?.browser_download_url,
+            _loaded: now
           }
         })
-        this.save('release')
+        this.save(STATE_KEY)
 
         // iOS 不允许提示更新
-        if (!IOS) {
+        if (!IOS && now - lastLoaded >= D3) {
           setTimeout(() => {
             info('有新版本, 可到设置里查看')
           }, 1600)

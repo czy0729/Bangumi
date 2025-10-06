@@ -434,12 +434,6 @@ export const INIT_DEV_EVENT = {
   mini: false
 }
 
-/** 发行版本参数 */
-export const INIT_RELEASE = {
-  name: VERSION_GITHUB_RELEASE,
-  downloadUrl: ''
-}
-
 /** 全屏图片画廊参数 */
 export const INIT_IMAGE_VIEWER = {
   visible: false,
@@ -464,8 +458,12 @@ export const STATE = {
   /** 基本设置 */
   setting: INIT_SETTING,
 
-  /** 发布版本 */
-  release: INIT_RELEASE,
+  /** 发行版本参数 */
+  release: {
+    name: VERSION_GITHUB_RELEASE,
+    downloadUrl: '',
+    _loaded: 0
+  },
 
   /** 是否显示图片预览 */
   imageViewer: INIT_IMAGE_VIEWER,
