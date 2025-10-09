@@ -5,11 +5,11 @@
  * @Last Modified time: 2025-04-23 10:30:50
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { copy } from '@utils'
 import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 

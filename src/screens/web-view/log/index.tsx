@@ -5,9 +5,9 @@
  * @Last Modified time: 2025-02-22 11:12:36
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Component, Page } from '@components'
 import { _, StoreContext } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { NavigationProps } from '@types'
 import Form from './component/form'
 import List from './component/list'

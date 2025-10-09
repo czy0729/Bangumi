@@ -6,11 +6,11 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { confirm, stl } from '@utils'
 import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import FormItem from '../form-item'
 import { COMPONENT } from './ds'

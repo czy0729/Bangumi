@@ -5,12 +5,12 @@
  * @Last Modified time: 2025-03-22 20:11:27
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Flex, Heatmap, Iconfont, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { confirm, open } from '@utils'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import { FROZEN_FN, HOST, URL_PRIVACY, WEB } from '@constants'
 import i18n from '@constants/i18n'
 import { COMPONENT, TEXT_REGISTER } from './ds'

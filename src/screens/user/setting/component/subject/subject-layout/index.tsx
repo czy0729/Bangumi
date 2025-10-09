@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-25 03:51:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-13 18:54:55
+ * @Last Modified time: 2025-10-09 19:24:38
  */
 import React, { useState } from 'react'
 import { View } from 'react-native'
@@ -41,7 +41,9 @@ function SubjectLayout({ filter }) {
               })
             }}
           >
-            <Text size={12}>重置布局</Text>
+            <Text size={13} bold underline>
+              重置布局
+            </Text>
           </Touchable>
         </Flex>
         <View key={String(key)}>
@@ -55,7 +57,14 @@ function SubjectLayout({ filter }) {
                 hd={title}
                 ft={
                   item === 'showEp' || item === 'showComic' ? (
-                    <Text style={commonStyles.segmentedControl} lineHeight={20} bold align='center'>
+                    <Text
+                      style={commonStyles.segmentedControl}
+                      type='sub'
+                      size={13}
+                      lineHeight={20}
+                      bold
+                      align='center'
+                    >
                       此版块不支持隐藏
                     </Text>
                   ) : (

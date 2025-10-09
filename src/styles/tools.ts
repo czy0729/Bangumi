@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-25 03:51:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-09 16:24:42
+ * @Last Modified time: 2025-10-09 19:11:29
  */
 import { StyleSheet } from 'react-native'
 import { IOS } from '@constants/constants'
@@ -112,6 +112,9 @@ export const mt = StyleSheet.create({
   },
   lg: {
     marginTop: lg
+  },
+  xlg: {
+    marginTop: 80
   },
   wind: {
     marginTop: _wind

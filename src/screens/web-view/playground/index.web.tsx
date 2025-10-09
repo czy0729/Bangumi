@@ -5,8 +5,8 @@
  * @Last Modified time: 2023-12-08 07:58:47
  */
 import React, { useEffect } from 'react'
-import { useObserver } from 'mobx-react'
-import { Page, Header, Flex, Component, Text } from '@components'
+import { Component, Flex, Header, Page, Text } from '@components'
+import { useObserver } from '@utils/hooks'
 import { get } from '@utils/protobuf'
 
 const Playground = () => {

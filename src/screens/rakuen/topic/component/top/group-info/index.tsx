@@ -5,11 +5,11 @@
  * @Last Modified time: 2025-04-23 10:23:08
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Cover, Flex, Heatmap, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { appNavigate, findSubjectCn, HTMLDecode, simpleTime } from '@utils'
 import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { HOST, IMG_EMPTY, IMG_EMPTY_DARK } from '@constants'
 import { Ctx } from '../../../types'
 import WordCloud from '../../word-cloud'

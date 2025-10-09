@@ -5,10 +5,10 @@
  * @Last Modified time: 2025-04-13 19:49:40
  */
 import React from 'react'
-import { observer } from 'mobx-react'
 import { Flex, Iconfont, Text } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
+import { observer } from '@utils/hooks'
 import { DATA, HIT_SLOP } from './ds'
 import { styles } from './styles'
 

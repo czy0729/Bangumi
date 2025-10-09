@@ -6,9 +6,8 @@
  */
 import React, { useEffect, useState } from 'react'
 import { ScrollView } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { r } from '@utils/dev'
-import { useDom } from '@utils/hooks'
+import { useDom, useObserver } from '@utils/hooks'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'

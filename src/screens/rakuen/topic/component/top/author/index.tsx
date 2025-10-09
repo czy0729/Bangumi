@@ -5,11 +5,11 @@
  * @Last Modified time: 2025-04-23 10:21:47
  */
 import React, { useCallback, useState } from 'react'
-import { useObserver } from 'mobx-react'
 import { Avatar, Flex, Heatmap, Text, UserStatus } from '@components'
 import { Name, UserAge } from '@_'
 import { _, systemStore, useStore } from '@stores'
 import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'

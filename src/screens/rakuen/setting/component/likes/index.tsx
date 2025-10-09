@@ -5,11 +5,11 @@
  * @Last Modified time: 2024-12-25 15:26:35
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import Block from '@screens/user/setting/component/block'
 import Tip from '@screens/user/setting/component/tip'
 import { styles } from '../styles'

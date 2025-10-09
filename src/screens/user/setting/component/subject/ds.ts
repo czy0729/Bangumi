@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 13:22:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-26 03:52:44
+ * @Last Modified time: 2025-10-09 19:48:35
  */
 import { rc } from '@utils/dev'
 import { MODEL_SETTING_SUBJECT_SPLIT_STYLES, SETTING_SUBJECT_SPLIT_STYLES } from '@constants'
@@ -18,18 +18,18 @@ export const DATA = {
   showSummary: '简介',
   showInfo: '详情',
   showThumbs: '预览图',
-  showGameInfo: '游戏条目信息',
+  showGameInfo: '游戏信息',
   showRating: '评分',
   showCharacter: '角色',
   showStaff: '制作人员',
   showAnitabi: '取景地标',
   showRelations: '关联条目',
   showCatalog: '目录',
-  showRecent: '动态',
   showBlog: '日志',
   showTopic: '帖子',
   showLike: '猜你喜欢',
   showComic: '单行本',
+  showRecent: '动态',
   showComment: '吐槽'
 } as const
 
@@ -54,11 +54,14 @@ export const THUMBS = {
     '0/2022/png/386799/1661210561536-2bd8bc5f-e3b4-4445-89b8-91a099f5b24b.png',
     '0/2022/png/386799/1661210564336-1ef74bcd-a15d-4ed6-bdef-d465ffa5cbe6.png'
   ],
-  showGameInfo: false,
+  showGameInfo: [
+    '0/2025/png/386799/1760010229286-43a1e6a9-d7a5-42d8-bbe8-bd547a95cf89.png',
+    '0/2025/png/386799/1760010232230-178ad915-fce8-4efa-9f5a-20f56c600fc0.png'
+  ],
   showRating: ['0/2022/png/386799/1661210404254-c11d15dd-bbcb-4bdd-a2eb-a5611ca29290.png'],
   showCharacter: ['0/2022/png/386799/1661210775424-81389b5c-888d-4c7c-a51a-a9d5bb1f54cf.png'],
-  showStaff: false,
-  showRelations: false,
+  showStaff: ['0/2025/png/386799/1760010302556-d19bddb0-343e-41ba-9f3d-6b225b435a76.png'],
+  showRelations: ['0/2025/png/386799/1760010280570-b0c2cfea-0a5f-44cd-941d-8435ff1f616e.png'],
   showAnitabi: [
     '0/2023/png/386799/1673548775309-cfad2c26-a0bf-4808-8846-7a4bc1a49ba8.png',
     '0/2023/png/386799/1673565704431-39a95c3f-2911-4eff-bbbe-5f2862da9286.png'
@@ -67,9 +70,9 @@ export const THUMBS = {
     '0/2022/png/386799/1661210861856-595c3ace-d109-4c01-a39e-712515e2a99e.png',
     '0/2022/png/386799/1661211121070-5ab05df8-c5d3-460d-8535-72b1403cfae2.png'
   ],
-  showRecent: false,
+  showRecent: ['0/2025/png/386799/1760010253660-c8c0b7a6-ef41-4973-a6d0-152e3121b3b9.png'],
   showBlog: ['0/2022/png/386799/1661210959469-bfe9246a-fba9-47a4-854e-c7ecb8756e7a.png'],
-  showTopic: false,
+  showTopic: ['0/2025/png/386799/1760010253660-c8c0b7a6-ef41-4973-a6d0-152e3121b3b9.png'],
   showLike: ['0/2022/png/386799/1661211415018-10587b5b-47fc-4cef-b17b-bafa2913b7f9.png'],
   showComic: ['0/2022/png/386799/1661211873095-111ba1c2-19f5-475d-9bc8-e895b0de6d08.png'],
   showComment: ['0/2022/png/386799/1661211511329-99bac0c2-44f1-4945-9db1-0e4af5238040.png']

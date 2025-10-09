@@ -6,9 +6,9 @@
  */
 import React from 'react'
 import { RefreshControl } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Component, Page, ScrollView } from '@components'
 import { _, StoreContext } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { NavigationProps } from '@types'
 import Bg from './component/bg'
 import Cavans from './component/cavans'

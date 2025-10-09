@@ -6,7 +6,6 @@
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import {
   Avatar,
   Component,
@@ -22,7 +21,7 @@ import {
 import { _, collectionStore, userStore } from '@stores'
 import { getTimestamp, info, open } from '@utils'
 import { fetchMeV0 } from '@utils/fetch.v0'
-import { useMount } from '@utils/hooks'
+import { useMount, useObserver } from '@utils/hooks'
 import { styles } from './styles'
 
 /** SPA 网页版更新授权 */

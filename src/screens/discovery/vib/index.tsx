@@ -5,10 +5,10 @@
  * @Last Modified time: 2025-05-06 06:41:58
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Component, Page, ScrollView } from '@components'
 import { InView } from '@_'
 import { _, StoreContext } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { NavigationProps } from '@types'
 import BlockNew from './component/block-new'
 import BlockTrend from './component/block-trend'

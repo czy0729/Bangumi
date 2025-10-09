@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-11-07 11:57:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 09:55:58
+ * @Last Modified time: 2025-10-09 19:02:26
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Component, Page, ScrollView } from '@components'
 import { _, StoreContext } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { NavigationProps } from '@types'
 import Info from './component/info'
 import Summary from './component/summary'

@@ -5,10 +5,10 @@
  * @Last Modified time: 2024-12-25 15:34:16
  */
 import React, { useCallback } from 'react'
-import { useObserver } from 'mobx-react'
 import { Page, ScrollView } from '@components'
 import { _, uiStore } from '@stores'
 import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { Navigation } from '@types'
 import Base from '../base'
 import Blockeds from '../blockeds'

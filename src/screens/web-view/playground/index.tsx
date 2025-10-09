@@ -6,10 +6,10 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { BGM_MAP, BgmText, Component, Flex, HeaderV2, Page, Text } from '@components'
 import { ScrollView } from '@_'
 import { _ } from '@stores'
+import { useObserver } from '@utils/hooks'
 
 const Playground = () => {
   return useObserver(() => (
