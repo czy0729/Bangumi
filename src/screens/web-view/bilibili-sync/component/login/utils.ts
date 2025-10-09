@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-29 18:18:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 18:38:50
+ * @Last Modified time: 2025-10-10 02:33:03
  */
 import { HOST_AC_API } from '@constants'
 
@@ -56,16 +56,20 @@ function injectedUtils() {
             resolve(null)
           }
         }
-      }
+      }.bind(request)
+
       request.onerror = function () {
         resolve(null)
-      }
+      }.bind(request)
+
       request.ontimeout = function () {
         resolve(null)
-      }
+      }.bind(request)
+
       request.onabort = function () {
         resolve(null)
-      }
+      }.bind(request)
+
       request.open(method, url, true)
       request.withCredentials = true
       request.send(null)

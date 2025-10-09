@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:14:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-11 03:51:56
+ * @Last Modified time: 2025-10-10 01:55:10
  */
 import { computed } from 'mobx'
 import { _, calendarStore, collectionStore, subjectStore, systemStore, userStore } from '@stores'
@@ -93,7 +93,7 @@ export default class Computed extends State {
 
   /** 在看的用户收藏 */
   @computed get collection() {
-    if (!userStore.isLimit) userStore.collection
+    if (!userStore.isLimit) return userStore.collection
 
     return {
       ...userStore.collection,

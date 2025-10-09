@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:21:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-14 01:03:42
+ * @Last Modified time: 2025-10-10 02:30:36
  */
 import { HOST, HOST_CDN, HOST_NAME, IOS } from '@constants/constants'
 import { WEB } from '@constants/device'
@@ -130,38 +130,45 @@ export function xhrCustom(args: XHRCustomArgs): Promise<{ _response: string }> {
 /** 请求收到返回数据马上结束 */
 export function ping(url: string, headers = {}): Promise<number> {
   return new Promise(resolve => {
-    const start = new Date().getTime()
+    const start = Date.now()
     const xhr = new XMLHttpRequest()
-    const cb = function (res) {
+
+    const cb = function (res: XMLHttpRequest) {
       // 有数据就马上返回
+      // @ts-expect-error _response 在 RN 下存在
       if (res?._response?.length > 10) {
-        resolve(new Date().getTime() - start)
+        resolve(Date.now() - start)
         return xhr.abort()
       }
 
-      if (
-        res?.readyState === 4 &&
+      const length =
+        // @ts-expect-error responseHeaders 在 RN 下存在
         res?.responseHeaders?.[IOS ? 'Content-Length' : 'content-length']
-      ) {
-        resolve(new Date().getTime() - start)
+      if (res?.readyState === 4 && length) {
+        resolve(Date.now() - start)
         return xhr.abort()
       }
     }
 
     xhr.onreadystatechange = function () {
-      return cb(this)
-    }
+      cb(this)
+    }.bind(xhr)
+
     xhr.onerror = () => resolve(0)
     xhr.ontimeout = () => resolve(0)
 
     xhr.open('GET', url, true)
     xhr.withCredentials = false
-    Object.keys(headers).forEach(key => xhr.setRequestHeader(key, headers[key]))
+
+    Object.keys(headers).forEach(key => {
+      xhr.setRequestHeader(key, headers[key])
+    })
+
     xhr.send()
 
     setTimeout(() => {
       resolve(0)
-      return xhr.abort()
+      xhr.abort()
     }, 3000)
   })
 }

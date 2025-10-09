@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 05:11:04
+ * @Last Modified time: 2025-10-10 02:28:04
  */
 import React from 'react'
 import { Image as RNImage, ImageErrorEvent } from 'react-native'
@@ -361,6 +361,7 @@ export const Image = observer(
             const that = this
             const request = new XMLHttpRequest()
             request.withCredentials = false
+
             request.onreadystatechange = function () {
               if (this.readyState === 4) {
                 if (this.status === 451) {
@@ -375,7 +376,8 @@ export const Image = observer(
                   }, RETRY_DISTANCE)
                 }
               }
-            }
+            }.bind(request)
+
             request.open('get', src, true)
             request.send(null)
           } else {
