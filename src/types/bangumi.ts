@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:10:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-27 05:43:23
+ * @Last Modified time: 2025-10-07 19:47:27
  */
 import {
   DATA_AIRTIME,
@@ -153,7 +153,7 @@ export type Rating = {
 export type HTMLText = string
 
 /** 条目基本结构 */
-export type Subject = Partial<{
+export type Subject = {
   id: SubjectId
   url: UrlSubject
   type: SubjectTypeValue
@@ -166,7 +166,7 @@ export type Subject = Partial<{
   air_weekday: number
   images: Images
   collection: Collection
-}>
+}
 
 /** 动词 */
 type Actions = '看' | '玩' | '听' | '读'

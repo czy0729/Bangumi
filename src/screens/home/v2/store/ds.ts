@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:13:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-13 03:01:36
+ * @Last Modified time: 2025-10-08 00:24:57
  */
 import { _ } from '@stores'
 import { Loaded, Override, Subject, SubjectId } from '@types'
@@ -65,11 +65,13 @@ export const STATE = {
   /** 格子布局当前选中的条目临时存放信息 */
   grid: {
     subject_id: 0 as SubjectId,
-    subject: {} as Override<
-      Subject,
-      {
-        time?: string
-      }
+    subject: {} as Partial<
+      Override<
+        Subject,
+        {
+          time?: string
+        }
+      >
     >,
     ep_status: '' as string | number
   },

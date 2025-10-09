@@ -2,45 +2,40 @@
  * @Author: czy0729
  * @Date: 2024-01-20 06:49:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 02:58:10
+ * @Last Modified time: 2025-10-09 05:48:26
  */
 import React from 'react'
 import { Text } from '@components'
 import { _, systemStore, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { SubjectId, SubjectTypeCn } from '@types'
+import { useObserver } from '@utils/hooks'
 import { WEEK_DAY_MAP } from '../../../ds'
 import { Ctx } from '../../../../types'
 import { COMPONENT } from './ds'
+import { Props } from './types'
 
-function Doing({
-  subjectId,
-  typeCn,
-  doing
-}: {
-  subjectId: SubjectId
-  typeCn: SubjectTypeCn
-  doing: number
-}) {
-  const { $ } = useStore<Ctx>()
-  if (systemStore.setting.homeListCompact) return null
+function Doing({ subjectId, typeCn, doing }: Props) {
+  const { $ } = useStore<Ctx>(COMPONENT)
 
-  const currentDoing = doing || $.subject(subjectId)?.collection?.doing || 0
-  if (!currentDoing) return null
+  return useObserver(() => {
+    if (systemStore.setting.homeListCompact) return null
 
-  const { weekDay, isOnair } = $.onAirCustom(subjectId)
-  const weekDayText = systemStore.setting.homeOnAir
-    ? ''
-    : isOnair
-    ? ` · 周${WEEK_DAY_MAP[weekDay]}`
-    : ''
+    const currentDoing = doing || $.subject(subjectId)?.collection?.doing || 0
+    if (!currentDoing) return null
 
-  return (
-    <Text style={_.mt.xs} type='sub' size={12}>
-      {currentDoing} 人在{typeCn === '书籍' ? '读' : typeCn === '游戏' ? '玩' : '看'}
-      {weekDayText}
-    </Text>
-  )
+    const { weekDay, isOnair } = $.onAirCustom(subjectId)
+    const weekDayText = systemStore.setting.homeOnAir
+      ? ''
+      : isOnair
+      ? ` · 周${WEEK_DAY_MAP[weekDay]}`
+      : ''
+
+    return (
+      <Text style={_.mt.xs} type='sub' size={12}>
+        {currentDoing} 人在{typeCn === '书籍' ? '读' : typeCn === '游戏' ? '玩' : '看'}
+        {weekDayText}
+      </Text>
+    )
+  })
 }
 
-export default ob(Doing, COMPONENT)
+export default Doing

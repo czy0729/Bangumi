@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2021-08-09 08:04:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-30 05:21:55
+ * @Last Modified time: 2025-10-09 05:51:21
  */
 import React from 'react'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import Item from './item'
 import { COMPONENT } from './ds'
 import { Props } from './types'
 
 function ItemWrap({ index = 0, subjectId = 0, subject = {}, title, epStatus = '' }: Props) {
-  const { $ } = useStore<Ctx>()
-  return (
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
     <Item
       index={index}
       title={title}
@@ -27,7 +28,7 @@ function ItemWrap({ index = 0, subjectId = 0, subject = {}, title, epStatus = ''
       time={subject.time}
       epStatus={Math.max(Number(epStatus) || 0, $.epStatus(subjectId))}
     />
-  )
+  ))
 }
 
-export default ob(ItemWrap, COMPONENT)
+export default ItemWrap

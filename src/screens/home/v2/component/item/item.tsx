@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-09 08:04:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 07:35:43
+ * @Last Modified time: 2025-10-09 05:52:01
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -43,6 +43,7 @@ const Item = memo(
     const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
     const isGame = typeCn === '游戏' || title === '游戏'
     const isFirst = index === 0
+
     return (
       <Container subjectId={subjectId}>
         <Flex style={styles.hd}>

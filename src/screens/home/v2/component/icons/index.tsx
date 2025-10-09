@@ -2,21 +2,21 @@
  * @Author: czy0729
  * @Date: 2020-04-21 10:28:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-17 09:26:39
+ * @Last Modified time: 2025-10-08 06:06:48
  */
 import React from 'react'
 import { Flex } from '@components'
 import { IconNotify, IconTabsHeader, IconTinygrail } from '@_'
 import { systemStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { useNavigation } from '@utils/hooks'
+import { useNavigation, useObserver } from '@utils/hooks'
 import { COMPONENT, EVENT } from './ds'
 import { styles } from './styles'
 
 function Icons() {
-  const navigation = useNavigation()
-  return (
+  const navigation = useNavigation(COMPONENT)
+
+  return useObserver(() => (
     <Flex style={styles.icons}>
       <IconNotify style={styles.notify} navigation={navigation} event={EVENT} />
       {systemStore.setting.tinygrail ? (
@@ -35,7 +35,7 @@ function Icons() {
         />
       )}
     </Flex>
-  )
+  ))
 }
 
-export default ob(Icons, COMPONENT)
+export default Icons

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-10-19 20:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-18 13:12:04
+ * @Last Modified time: 2025-10-07 17:05:07
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Loading } from '@components'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import Info from './layout'
 import Linear from './linear'
@@ -20,29 +20,31 @@ import { Props } from './types'
 const RENDERED = {}
 
 function Grid({ title = '全部' }: Props) {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
 
-  if ($.tabsLabel === title) RENDERED[title] = true
-  if ($.tabsLabel !== title && !RENDERED[title]) return null
-  if (!$.collection._loaded) return <Loading />
+  return useObserver(() => {
+    if ($.tabsLabel === title) RENDERED[title] = true
+    if ($.tabsLabel !== title && !RENDERED[title]) return null
+    if (!$.collection._loaded) return <Loading />
 
-  const styles = memoStyles()
-  return (
-    <View
-      style={[
-        styles.container,
-        {
-          paddingTop: $.listPaddingTop
-        }
-      ]}
-    >
-      <Info title={title} />
-      <View>
-        <Linear />
-        <List title={title} />
+    const styles = memoStyles()
+    return (
+      <View
+        style={[
+          styles.container,
+          {
+            paddingTop: $.listPaddingTop
+          }
+        ]}
+      >
+        <Info title={title} />
+        <View>
+          <Linear />
+          <List title={title} />
+        </View>
       </View>
-    </View>
-  )
+    )
+  })
 }
 
-export default ob(Grid, COMPONENT)
+export default Grid

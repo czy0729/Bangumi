@@ -6,10 +6,10 @@
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Heatmap } from '@components'
 import { Eps as EpsComp } from '@_'
 import { useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { window } from '@styles'
 import { Ctx, EpsItem } from '../../../types'
 import { COMPONENT } from './ds'

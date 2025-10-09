@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-17 15:42:21
+ * @Last Modified time: 2025-10-09 05:56:50
  */
 import React from 'react'
 import { TabView } from '@components'
 import { BlurViewTab } from '@_'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import { renderTabBar } from './utils'
 import { COMPONENT_MAIN } from './ds'
 
 function Tab({ renderScene }) {
-  const { $ } = useStore<Ctx>()
-  return (
+  const { $ } = useStore<Ctx>(COMPONENT_MAIN)
+
+  return useObserver(() => (
     <TabView
       key={_.orientation}
       lazy
@@ -26,7 +27,7 @@ function Tab({ renderScene }) {
       renderScene={renderScene}
       onIndexChange={$.onChange}
     />
-  )
+  ))
 }
 
-export default ob(Tab, COMPONENT_MAIN)
+export default Tab

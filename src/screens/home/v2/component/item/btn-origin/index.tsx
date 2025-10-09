@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:49:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-21 18:23:02
+ * @Last Modified time: 2025-10-09 05:20:57
  */
 import React, { useCallback } from 'react'
 import { Flex, Heatmap, Iconfont } from '@components'
 import { Popover } from '@_'
 import { systemStore, useStore } from '@stores'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { MODEL_SUBJECT_TYPE } from '@constants'
-import { SubjectId, SubjectTypeCn } from '@types'
+import { SubjectTypeCn } from '@types'
 import { Ctx } from '../../../types'
 import {
   TEXT_ADD_REMINDER,
@@ -23,11 +22,11 @@ import {
 } from '../../../store/ds'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
+import { Props } from './types'
 
-function BtnOrigin({ subjectId }: { subjectId: SubjectId }) {
-  r(COMPONENT)
+function BtnOrigin({ subjectId }: Props) {
+  const { $ } = useStore<Ctx>(COMPONENT)
 
-  const { $ } = useStore<Ctx>()
   const handleSelect = useCallback(
     (label: string) => {
       $.onPopover(label, subjectId)

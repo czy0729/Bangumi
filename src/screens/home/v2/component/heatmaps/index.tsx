@@ -2,16 +2,19 @@
  * @Author: czy0729
  * @Date: 2020-04-21 10:22:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-06 01:34:24
+ * @Last Modified time: 2025-10-08 06:05:56
  */
 import React from 'react'
 import { Heatmap } from '@components'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 
 function Heatmaps() {
-  return (
+  r(COMPONENT)
+
+  return useObserver(() => (
     <>
       <Heatmap
         right={_.wind + 62}
@@ -32,7 +35,7 @@ function Heatmaps() {
       <Heatmap right={_.wind + 62} bottom={_.bottom + 16} id='首页.格子布局条目选择' transparent />
       <Heatmap bottom={_.bottom} id='首页' screen='Home' />
     </>
-  )
+  ))
 }
 
-export default ob(Heatmaps, COMPONENT)
+export default Heatmaps

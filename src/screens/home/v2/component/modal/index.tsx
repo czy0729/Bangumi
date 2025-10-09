@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-04-21 10:22:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-01 21:50:41
+ * @Last Modified time: 2025-10-09 05:52:55
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { ManageModal } from '@_'
 import { useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
@@ -17,6 +17,7 @@ function Modal() {
   return useObserver(() => {
     const { subjectId } = $.state
     const { name, name_cn: nameCn } = $.subject(subjectId)
+
     return (
       <ManageModal
         visible={$.state.visible}

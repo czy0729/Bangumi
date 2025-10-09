@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-03-12 15:58:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-17 09:13:53
+ * @Last Modified time: 2025-10-07 17:00:18
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Input, Loading, Text } from '@components'
 import { _, useStore } from '@stores'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
@@ -16,20 +15,18 @@ import { memoStyles } from './styles'
 import { Props } from './types'
 
 function Filter({ title, length }: Props) {
-  r(COMPONENT)
+  const { $ } = useStore<Ctx>(COMPONENT)
 
-  const { $ } = useStore<Ctx>()
   const [focus, setFocus] = useState(false)
-  const handleFocus = useCallback(() => {
-    setFocus(true)
-  }, [])
-  const handleBlur = useCallback(() => {
-    setFocus(false)
-  }, [])
+  const handleFocus = useCallback(() => setFocus(true), [])
+  const handleBlur = useCallback(() => setFocus(false), [])
 
   return useObserver(() => {
     const styles = memoStyles()
     const filter = $.filterValue(title)
+    const showPlaceholder = !focus && !filter
+    const { fetching } = $.state.progress
+
     return (
       <View style={styles.filter}>
         <Input
@@ -40,9 +37,10 @@ function Filter({ title, length }: Props) {
           onBlur={handleBlur}
           onChangeText={$.onFilterChange}
         />
-        {!focus && !filter && (
+
+        {showPlaceholder && (
           <Flex style={styles.icon} justify='center' pointerEvents='none'>
-            {$.state.progress.fetching && (
+            {fetching && (
               <View style={styles.loading}>
                 <Loading.Medium color={_.colorSub} size={16} />
               </View>
