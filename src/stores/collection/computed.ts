@@ -19,7 +19,13 @@ import {
 import userStore from '../user'
 import { DEFAULT_USERS_SUBJECT_COLLECTION, STATE } from './init'
 import State from './state'
-import { Collection, MosaicTile, UserCollectionsMap, UsersSubjectCollection } from './types'
+import {
+  Collection,
+  MosaicTile,
+  UserCollections,
+  UserCollectionsMap,
+  UsersSubjectCollection
+} from './types'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   /** 条目收藏信息 */
@@ -32,10 +38,12 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 用户收藏概览 */
   userCollections(userId: UserId, subjectType: SubjectType, type: CollectionStatus) {
-    this.init('userCollections', true)
+    const STATE_KEY = 'userCollections'
+    this.init(STATE_KEY, true)
+
     return computed(() => {
-      const key = `${userId || userStore.myUserId}|${subjectType}|${type}`
-      return this.state.userCollections[key] || LIST_EMPTY
+      const ITEM_KEY = [userId || userStore.myUserId, subjectType, type].join('|')
+      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as UserCollections
     }).get()
   }
 

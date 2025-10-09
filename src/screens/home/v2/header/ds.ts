@@ -12,3 +12,5 @@ export const COMPONENT = rc(PARENT, 'Header')
 export const EVENT = {
   id: '首页.跳转'
 } as const
+
+export const IGNORE_PATHS = ['Open', 'Netabare', 'Link'] as const

@@ -6,41 +6,40 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Touchable } from '@components'
+import { Link } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { systemStore } from '@stores'
-import { t } from '@utils/fetch'
-import { useNavigation, useObserver } from '@utils/hooks'
+import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { IMG_WIDTH } from '@constants'
 import { COMPONENT, TITLE_HIT_SLOPS } from './ds'
 import { styles } from './styles'
 import { Props } from './types'
 
 function ContainerTouchable({ subjectId, typeCn, name, name_cn, image, children }: Props) {
-  const navigation = useNavigation(COMPONENT)
+  r(COMPONENT)
 
   return useObserver(() => (
     <View style={systemStore.setting.homeListCompact ? styles.compact : styles.touch}>
-      <Touchable
+      <Link
+        path='Subject'
+        getParams={() => ({
+          subjectId,
+          _jp: name,
+          _cn: name_cn,
+          _image: getCoverSrc(image, IMG_WIDTH),
+          _type: typeCn
+        })}
+        eventId='首页.跳转'
+        eventData={{
+          to: 'Subject',
+          from: 'list'
+        }}
         withoutFeedback
         hitSlop={TITLE_HIT_SLOPS}
-        onPress={() => {
-          navigation.push('Subject', {
-            subjectId,
-            _jp: name,
-            _cn: name_cn,
-            _image: getCoverSrc(image, IMG_WIDTH),
-            _type: typeCn
-          })
-
-          t('首页.跳转', {
-            to: 'Subject',
-            from: 'list'
-          })
-        }}
       >
         {children}
-      </Touchable>
+      </Link>
     </View>
   ))
 }

@@ -10,9 +10,11 @@ import { IconNotify, IconTabsHeader, LogoHeader } from '@_'
 import { _, systemStore, useStore } from '@stores'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
+import { MenuItemType } from '@screens/discovery/index/types'
+import { Paths } from '@types'
 import { Ctx } from '../types'
 import { MENU_MAP } from '../../../discovery/index/ds'
-import { COMPONENT, EVENT } from './ds'
+import { COMPONENT, EVENT, IGNORE_PATHS } from './ds'
 import { styles } from './styles'
 
 function Header() {
@@ -23,14 +25,14 @@ function Header() {
     const leftItem = MENU_MAP[homeTopLeftCustom]
     const rightItem = MENU_MAP[homeTopRightCustom]
 
-    const handleItemPress = item => {
-      if (!['Open', 'Netabare', 'Link'].includes(item.key)) {
+    const handleItemPress = (item: MenuItemType) => {
+      if (!IGNORE_PATHS.includes(item.key as any)) {
         if (item.key === 'Search') {
           navigation.push('Search', {
             type: $.tabsLabel !== '全部' && $.tabs.length >= 2 ? $.tabsLabel : ''
           })
         } else {
-          navigation.push(item.key)
+          navigation.push(item.key as Paths)
         }
 
         t('首页.跳转', {
@@ -39,7 +41,7 @@ function Header() {
       }
     }
 
-    const renderIcon = (item, isRight = false) => (
+    const renderIcon = (item: MenuItemType, isRight = false) => (
       <IconTabsHeader
         style={isRight ? styles.iconRight : styles.icon}
         name={item.icon}

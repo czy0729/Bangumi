@@ -7,7 +7,6 @@
 import { CollectionStatus, CollectionStatusValue } from '@constants/model/types'
 import {
   CollectionStatusCn,
-  DeepPartial,
   Id,
   Images,
   ListEmpty,
@@ -20,31 +19,33 @@ import {
   UserId
 } from '@types'
 
-export type UserCollection = ListEmpty<
-  DeepPartial<{
+/** 在看的收藏项 (进度页面) */
+export type UserCollectionItem = {
+  name: string
+  subject_id: SubjectId
+  ep_status: number
+  vol_status: number
+  lasttouch: number
+  subject: {
+    id: SubjectId
+    url: UrlSubject
+    type: SubjectTypeValue
     name: string
-    subject_id: SubjectId
-    ep_status: number
-    vol_status: number
-    lasttouch: number
-    subject: {
-      id: SubjectId
-      url: UrlSubject
-      type: SubjectTypeValue
-      name: string
-      name_cn: string
-      summary: string
-      eps: number
-      eps_count: number
-      air_date: string
-      air_weekday: number
-      images: Images
-    }
-    collection: {
-      doing: number
-    }
-  }>
->
+    name_cn: string
+    summary: string
+    eps: number
+    eps_count: number
+    air_date: string
+    air_weekday: number
+    images: Images
+  }
+  collection: {
+    doing: number
+  }
+}
+
+/** 在看的收藏 (进度页面) */
+export type UserCollection = ListEmpty<UserCollectionItem>
 
 export type CollectionsItem = {
   list: {

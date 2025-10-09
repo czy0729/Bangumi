@@ -16,5 +16,5 @@ export type Props = {
     >
   >
   subjectId?: SubjectId
-  epStatus?: number
+  epStatus?: string | number
 }

@@ -6,14 +6,13 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text } from '@components'
+import { Flex, Link, Text } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { _, useStore } from '@stores'
+import { _ } from '@stores'
 import { stl } from '@utils'
-import { t } from '@utils/fetch'
+import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { IMG_WIDTH_SM } from '@constants'
-import { Ctx } from '../../../types'
 import IsTop from '../../is-top'
 import Count from './count'
 import Cover from './cover'
@@ -26,7 +25,7 @@ import { memoStyles } from './styles'
 import { Props } from './types'
 
 function Info({ subjectId = 0, subject = {}, epStatus = '', tip = '', time = '' }: Props) {
-  const { navigation } = useStore<Ctx>(COMPONENT)
+  r(COMPONENT)
 
   return useObserver(() => {
     const styles = memoStyles()
@@ -34,24 +33,23 @@ function Info({ subjectId = 0, subject = {}, epStatus = '', tip = '', time = '' 
     return (
       <Flex style={styles.item} align='start'>
         <View>
-          <Cover
-            subjectId={subjectId}
-            subject={subject}
-            onPress={() => {
-              navigation.push('Subject', {
-                subjectId,
-                _jp: subject.name,
-                _cn: subject.name_cn,
-                _image: getCoverSrc(subject?.images?.medium || '', IMG_WIDTH_SM)
-              })
-
-              t('首页.跳转', {
-                to: 'Subject',
-                from: 'grid',
-                subjectId
-              })
+          <Link
+            path='Subject'
+            getParams={() => ({
+              subjectId,
+              _jp: subject.name,
+              _cn: subject.name_cn,
+              _image: getCoverSrc(subject?.images?.medium || '', IMG_WIDTH_SM)
+            })}
+            eventId='首页.跳转'
+            eventData={{
+              to: 'Subject',
+              from: 'grid',
+              subjectId
             }}
-          />
+          >
+            <Cover subjectId={subjectId} subject={subject} />
+          </Link>
           <Onair subjectId={subjectId} />
         </View>
         <Flex.Item style={styles.info}>

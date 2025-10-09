@@ -16,13 +16,13 @@ export { LinkProps }
 
 /** 路由 */
 export const Link = <T extends Paths>({
-  style,
   path,
   params,
   getParams,
   eventId,
   eventData,
-  children
+  children,
+  ...other
 }: LinkProps<T>) => {
   const navigation = useNavigation()
 
@@ -42,7 +42,7 @@ export const Link = <T extends Paths>({
   }, [path, navigation, getParams, params, handleEvent])
 
   return useObserver(() => (
-    <Touchable style={style} onPress={handlePress}>
+    <Touchable {...other} onPress={handlePress}>
       {children}
     </Touchable>
   ))

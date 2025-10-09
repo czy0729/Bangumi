@@ -9,5 +9,5 @@ import { Fn, Subject, SubjectId } from '@types'
 export type Props = {
   subjectId: SubjectId
   subject: Partial<Subject>
-  onPress: Fn
+  onPress?: Fn
 }

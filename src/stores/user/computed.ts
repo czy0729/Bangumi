@@ -67,10 +67,12 @@ export default class Computed extends State implements StoreConstructor<typeof S
     return this.state.userCollection
   }
 
-  /** 在看收藏 (新 API, 取代 userCollection) */
-  @computed get collection(): UserCollection {
-    this.init('collection')
-    return this.state.collection
+  /** 在看收藏 (进度页面, 新 API, 取代 userCollection) */
+  @computed get collection() {
+    const STATE_KEY = 'collection'
+
+    this.init(STATE_KEY)
+    return this.state[STATE_KEY]
   }
 
   /** 表单提交唯一码 */

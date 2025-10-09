@@ -155,7 +155,7 @@ export type HTMLText = string
 /** 条目基本结构 */
 export type Subject = {
   id: SubjectId
-  url: UrlSubject
+  url: string
   type: SubjectTypeValue
   name: string
   name_cn: string

@@ -20,8 +20,8 @@ export default {
   },
 
   /** 取缓存 */
-  get(key: string | number) {
-    return cacheMap.get(String(key))
+  get<T>(key: string | number) {
+    return cacheMap.get(String(key)) as T
   },
 
   /** 是否存在 */

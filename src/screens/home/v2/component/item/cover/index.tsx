@@ -5,19 +5,19 @@
  * @Last Modified time: 2025-10-09 05:32:05
  */
 import React from 'react'
-import { Cover as CoverComp, getCoverSrc, Touchable } from '@components'
+import { Cover as CoverComp, getCoverSrc, Link } from '@components'
 import { InView } from '@_'
 import { _, systemStore } from '@stores'
 import { x18 } from '@utils'
-import { t } from '@utils/fetch'
-import { useNavigation, useObserver } from '@utils/hooks'
+import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import Heatmaps from './heatmaps'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 import { Props } from './types'
 
 function Cover({ index, subjectId, typeCn, name, name_cn, image }: Props) {
-  const navigation = useNavigation(COMPONENT)
+  r(COMPONENT)
 
   return useObserver(() => {
     const { homeListCompact } = systemStore.setting
@@ -26,21 +26,19 @@ function Cover({ index, subjectId, typeCn, name, name_cn, image }: Props) {
     const height = style.minHeight
 
     return (
-      <Touchable
-        animate
-        onPress={() => {
-          navigation.push('Subject', {
-            subjectId,
-            _jp: name,
-            _cn: name_cn,
-            _image: getCoverSrc(image, width),
-            _type: typeCn
-          })
-
-          t('首页.跳转', {
-            to: 'Subject',
-            from: 'list'
-          })
+      <Link
+        path='Subject'
+        getParams={() => ({
+          subjectId,
+          _jp: name,
+          _cn: name_cn,
+          _image: getCoverSrc(image, width),
+          _type: typeCn
+        })}
+        eventId='首页.跳转'
+        eventData={{
+          to: 'Subject',
+          from: 'list'
         }}
       >
         <InView style={style} y={height * index + _.headerHeight}>
@@ -55,7 +53,7 @@ function Cover({ index, subjectId, typeCn, name, name_cn, image }: Props) {
           />
         </InView>
         {index === 0 && <Heatmaps />}
-      </Touchable>
+      </Link>
     )
   })
 }

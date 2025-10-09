@@ -6,6 +6,7 @@
  */
 import { computed } from 'mobx'
 import { _, calendarStore, collectionStore, subjectStore, systemStore, userStore } from '@stores'
+import { UserCollections } from '@stores/collection/types'
 import { desc, findLastIndex, freeze, getOnAir, getPinYinFilterValue, t2s, x18 } from '@utils'
 import CacheManager from '@utils/cache-manager'
 import {
@@ -31,9 +32,8 @@ import type {
   SubjectType,
   SubjectTypeValue
 } from '@types'
-import type { UserCollection } from '@stores/user/types'
+import type { UserCollection, UserCollectionItem } from '@stores/user/types'
 import type { Ep } from '@stores/subject/types'
-
 export default class Computed extends State {
   /** 置顶的映射 */
   getTopMap() {
@@ -93,18 +93,16 @@ export default class Computed extends State {
 
   /** 在看的用户收藏 */
   @computed get collection() {
-    const { collection } = userStore
-    if (!userStore.isLimit) collection
+    if (!userStore.isLimit) userStore.collection
 
     return {
-      ...collection,
-      list: collection.list.filter(item => !x18(item.subject_id))
+      ...userStore.collection,
+      list: userStore.collection.list.filter(item => !x18(item.subject_id))
     }
   }
 
-  /** 过滤条件文字 */
+  /** 过滤条件文字 (转大写和简体) */
   @computed get filter() {
-    // 转大写和简体
     return t2s(this.state.filter.toUpperCase())
   }
 
@@ -129,12 +127,12 @@ export default class Computed extends State {
 
       // 优先检查缓存
       if (this.state.progress.fetching) {
-        const cachedData = CacheManager.get(key)
+        const cachedData = CacheManager.get<UserCollection>(key)
         if (cachedData) return cachedData
       }
 
       // 游戏特殊处理
-      if (title === '游戏') return CacheManager.set(key, this.games)
+      if (title === '游戏') return CacheManager.set<UserCollections>(key, this.games)
 
       // 基础数据
       const data = { ...this.collection }
@@ -162,6 +160,7 @@ export default class Computed extends State {
       }
 
       if (title === '全部' && systemStore.setting.showGame) {
+        // @ts-expect-error
         data.list = [...this.sortList(data.list), ...this.games.list]
       } else {
         data.list = [...this.sortList(data.list)]
@@ -182,9 +181,9 @@ export default class Computed extends State {
    *  - 未完结新番还有未看
    *  - 默认排序
    */
-  sortList = (list: UserCollection['list']) => {
+  sortList = (list: UserCollectionItem[]) => {
     return computed(() => {
-      if (!list?.length) return freeze([])
+      if (!list?.length) return freeze([]) as UserCollectionItem[]
 
       const topMap = this.getTopMap()
 
@@ -301,6 +300,7 @@ export default class Computed extends State {
       MODEL_COLLECTION_STATUS.getValue<CollectionStatus>('在看')
     )
     const topMap = this.getTopMap()
+
     return freeze({
       ...userCollections,
       list: userCollections.list
@@ -313,7 +313,7 @@ export default class Computed extends State {
           return getPinYinFilterValue(cn, this.filter)
         })
         .sort((a, b) => desc(a, b, item => topMap[item.id] || 0))
-    })
+    }) as UserCollections
   }
 
   /** 用户条目收视进度 */
@@ -360,14 +360,7 @@ export default class Computed extends State {
 
             // 长篇动画从最后看过开始显示
             if (systemStore.setting.homeEpStartAtLastWathed) {
-              let lastIndex: number
-
-              if (typeof eps.findLastIndex === 'function') {
-                lastIndex = eps.findLastIndex((item: Ep) => userProgress[item.id] === '看过')
-              } else {
-                lastIndex = findLastIndex(eps, (item: Ep) => userProgress[item.id] === '看过')
-              }
-
+              const lastIndex = findLastIndex(eps, (item: Ep) => userProgress[item.id] === '看过')
               return eps.slice(Math.max(lastIndex, 0), lastIndex + maxLength)
             }
 

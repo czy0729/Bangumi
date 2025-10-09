@@ -9,11 +9,13 @@ import { PaginationList2 } from '@_'
 import { _, systemStore } from '@stores'
 import { memo } from '@utils/decorators'
 import { FROZEN_FN, IOS, LIST_EMPTY } from '@constants'
+import { RenderItem } from '@types'
 import { TabsLabel } from '../../types'
 import Empty from '../empty'
 import Filter from '../filter'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
+import { ItemType } from './types'
 
 const List = memo(
   ({
@@ -31,8 +33,9 @@ const List = memo(
   }) => {
     const { length } = data.list
     const elEmpty = <Empty title={title} length={length} />
+
     const handleRenderItem = useCallback(
-      ({ item, index }) => {
+      ({ item, index }: RenderItem<ItemType>) => {
         // iOS 因为头顶毛玻璃的问题, 不能懒加载 Tab, 所以在 Item 渲染的时候控制是否渲染
         // 安卓是懒加载, 所以可以一直显示
         if (!showItem) return null
@@ -53,7 +56,7 @@ const List = memo(
         contentContainerStyle={style}
         progressViewOffset={style.paddingTop}
         data={data.list}
-        limit={20}
+        limit={16}
         keyboardDismissMode='on-drag'
         ListHeaderComponent={
           systemStore.setting.homeFilter ? <Filter title={title} length={length} /> : null

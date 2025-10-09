@@ -9,7 +9,6 @@ import {
   CollectionStatus,
   CollectionStatusCn,
   CollectionStatusValue,
-  Cover,
   ImagesAvatar,
   ListEmpty,
   Loaded,
@@ -45,9 +44,10 @@ export type Collection = {
   _loaded: Loaded
 }
 
+/** 用户收藏项 (时光机页面) */
 export type UserCollectionsItem = {
   id: SubjectId
-  cover: Cover<'c'> | '/img/no_icon_subject.png'
+  cover: string | '/img/no_icon_subject.png'
   name: string
   nameCn: string
   tip: string
@@ -58,7 +58,7 @@ export type UserCollectionsItem = {
   collected: boolean
 }
 
-/** 用户收藏概览 */
+/** 用户收藏 (时光机页面) */
 export type UserCollections = ListEmpty<UserCollectionsItem>
 
 /** 所有收藏条目状态 */
