@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-13 15:59:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-09 19:57:17
+ * @Last Modified time: 2025-10-10 17:03:30
  */
 import React from 'react'
 import { Flex, Heatmap, Text, Touchable } from '@components'
@@ -35,7 +35,7 @@ function Footer() {
           <Heatmap id='空间.跳转' to='User' alias='所有收藏' />
         </Touchable>
       </Flex>
-      <Flex style={styles.settings} justify='end'>
+      <Flex style={styles.settings} direction='column' align='end'>
         <Touchable
           style={styles.touch}
           onPress={() => {
@@ -45,9 +45,21 @@ function Footer() {
           }}
         >
           <Text type='sub' size={11} bold>
-            关联设置：自动折叠 [{systemStore.setting.zoneCollapse ? '开' : '关'}]
+            自动折叠 [{systemStore.setting.zoneCollapse ? '开' : '关'}]
           </Text>
-          <Heatmap id='空间.跳转' to='User' alias='所有收藏' />
+        </Touchable>
+
+        <Touchable
+          style={styles.touch}
+          onPress={() => {
+            systemStore.switchSetting('zoneAlignCenter')
+
+            feedback(true)
+          }}
+        >
+          <Text type='sub' size={11} bold>
+            标题居中 [{systemStore.setting.zoneAlignCenter ? '开' : '关'}]
+          </Text>
         </Touchable>
       </Flex>
     </>

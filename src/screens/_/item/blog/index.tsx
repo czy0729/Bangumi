@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-03-22 15:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-08 21:40:09
+ * @Last Modified time: 2025-10-10 17:43:18
  */
-import React from 'react'
+import React, { useMemo } from 'react'
 import { View } from 'react-native'
-import { Component, Cover, Divider, Flex, Text, Touchable } from '@components'
+import { Component, Cover, Divider, Flex, Link, Text } from '@components'
 import { _, discoveryStore } from '@stores'
 import { findSubjectCn, HTMLDecode, stl } from '@utils'
-import { ob } from '@utils/decorators'
-import { t } from '@utils/fetch'
-import { useNavigation } from '@utils/hooks'
+import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { EVENT, IMG_HEIGHT_SM, IMG_WIDTH_SM } from '@constants'
 import { InView } from '../../base/in-view'
 import BtnPopover from './btn-popover'
@@ -21,47 +20,53 @@ import { Props as ItemBlogProps } from './types'
 
 export { ItemBlogProps }
 
-export const ItemBlog = ob(
-  ({
-    style,
-    index = 0,
-    id,
-    cover,
-    title,
-    content,
-    username,
-    subject,
-    typeCn,
-    time,
-    replies,
-    tags = [],
-    event = EVENT
-  }: ItemBlogProps) => {
-    const navigation = useNavigation()
+export const ItemBlog = ({
+  style,
+  index = 0,
+  id,
+  cover,
+  title,
+  content,
+  username,
+  subject,
+  typeCn,
+  time,
+  replies,
+  tags = [],
+  event = EVENT
+}: ItemBlogProps) => {
+  r(COMPONENT)
+
+  const line = useMemo(() => {
+    const arr = []
+    if (username) arr.push(username)
+    if (subject) arr.push(findSubjectCn(subject, id))
+    if (time) arr.push(time)
+    return arr.length ? HTMLDecode(arr.join(' · ')) : ''
+  }, [id, subject, time, username])
+
+  return useObserver(() => {
     const styles = memoStyles()
     const readed = discoveryStore.blogReaded(id)
+    const height = IMG_HEIGHT_SM
 
-    const line = []
-    if (username) line.push(username)
-    if (subject) line.push(findSubjectCn(subject, id))
-    if (time) line.push(time)
-
-    const handlePress = () => {
-      const { id: eventId, data: eventData } = event
-      t(eventId, {
-        to: 'Blog',
-        blogId: id,
-        ...eventData
-      })
-
-      discoveryStore.updateBlogReaded(id)
-      navigation.push('Blog', {
+    const linkProps = {
+      path: 'Blog',
+      getParams: () => ({
         blogId: id,
         _title: title
-      })
-    }
+      }),
+      eventId: event.id,
+      getEventData: () => ({
+        to: 'Blog',
+        blogId: id,
+        ...event.data
+      }),
+      onPress: () => {
+        discoveryStore.updateBlogReaded(id)
+      }
+    } as const
 
-    const height = IMG_HEIGHT_SM
     return (
       <Component id='item-blog' data-key={id}>
         <View style={stl(styles.container, style, readed && styles.readed)}>
@@ -77,10 +82,11 @@ export const ItemBlog = ob(
                 />
               </InView>
             )}
+
             <Flex.Item>
               <Flex align='start'>
                 <Flex.Item>
-                  <Touchable onPress={handlePress}>
+                  <Link {...linkProps}>
                     <Text size={14} numberOfLines={2} bold>
                       {HTMLDecode(title)}
                       {replies !== '+0' && (
@@ -90,20 +96,23 @@ export const ItemBlog = ob(
                         </Text>
                       )}
                     </Text>
-                    {!!line.length && (
+
+                    {!!line && (
                       <Text style={_.mt.xs} type='sub' size={12} bold>
-                        {HTMLDecode(line.join(' · '))}
+                        {line}
                       </Text>
                     )}
-                  </Touchable>
+                  </Link>
                 </Flex.Item>
                 <BtnPopover id={id} title={title} />
               </Flex>
-              <Touchable style={_.mt.sm} onPress={handlePress}>
+
+              <Link style={_.mt.sm} {...linkProps}>
                 <Text size={13} lineHeight={15} numberOfLines={4}>
                   {HTMLDecode(content)}
                 </Text>
-              </Touchable>
+              </Link>
+
               {!!tags.length && (
                 <Flex style={_.mt.md}>
                   <Flex.Item />
@@ -115,11 +124,11 @@ export const ItemBlog = ob(
             </Flex.Item>
           </Flex>
         </View>
+
         <Divider />
       </Component>
     )
-  },
-  COMPONENT
-)
+  })
+}
 
 export default ItemBlog

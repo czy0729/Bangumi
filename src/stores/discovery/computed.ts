@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:45:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-08 21:36:08
+ * @Last Modified time: 2025-10-10 17:57:19
  */
 import { computed } from 'mobx'
 import { LIST_EMPTY } from '@constants'
@@ -80,9 +80,12 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 日志查看历史 */
   blogReaded(blogId: Id) {
-    this.init('blogReaded', true)
+    const STATE_KEY = 'blogReaded'
+    this.init(STATE_KEY, true)
+
     return computed<boolean>(() => {
-      return this.state.blogReaded[blogId] || false
+      const ITEM_KEY = blogId
+      return this.state[STATE_KEY][ITEM_KEY] || false
     }).get()
   }
 

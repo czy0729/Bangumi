@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-23 10:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-23 05:53:22
+ * @Last Modified time: 2025-10-10 16:48:02
  */
 import { WEB } from '../device'
 
@@ -180,5 +180,6 @@ export const TEXT_BADGES = {
   primary: '🔵',
   success: '🟢',
   warning: '🟠',
-  yellow: '🟡'
+  yellow: '🟡',
+  purple: '🟣'
 } as const

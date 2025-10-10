@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-26 02:03:38
+ * @Last Modified time: 2025-10-10 16:52:42
  */
 import { MUSUME_PROMPT } from '@utils/kv/ds'
 import {
@@ -246,6 +246,9 @@ export const INIT_SETTING = {
 
   /** 空间番剧自动折叠 */
   zoneCollapse: false,
+
+  /** 空间番剧标题居中 */
+  zoneAlignCenter: true,
 
   /** 启动页 */
   initialPage: MODEL_SETTING_INITIAL_PAGE.getValue<SettingInitialPage>('进度'),

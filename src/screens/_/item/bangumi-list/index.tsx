@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-05-08 20:12:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 05:14:38
+ * @Last Modified time: 2025-10-10 17:06:07
  */
 import React from 'react'
-import { Component, Cover, Text, Touchable } from '@components'
+import { Component, Cover, Link, Text } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { HTMLDecode, stl, x18 } from '@utils'
-import { ob } from '@utils/decorators'
-import { t } from '@utils/fetch'
+import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { EVENT } from '@constants'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -18,39 +18,50 @@ import { Props as ItemBangumiListProps } from './types'
 
 export { ItemBangumiListProps }
 
-export const ItemBangumiList = ob(
-  ({ navigation, style, subjectId, image, name, event = EVENT }: ItemBangumiListProps) => {
+export const ItemBangumiList = ({
+  style,
+  subjectId,
+  image,
+  name,
+  event = EVENT
+}: ItemBangumiListProps) => {
+  r(COMPONENT)
+
+  return useObserver(() => {
     const styles = memoStyles()
     const { width } = styles.item
+    const text = HTMLDecode(name)
+
     return (
       <Component id='item-bangumi-list' data-key={subjectId} style={stl(styles.item, style)}>
-        <Touchable
-          animate
-          scale={0.9}
-          onPress={() => {
-            const { id, data = {} } = event
-            t(id, {
-              to: 'Subject',
-              subjectId,
-              ...data
-            })
-
-            navigation.push('Subject', {
-              subjectId,
-              _cn: name,
-              _image: getCoverSrc(image, width)
-            })
-          }}
+        <Link
+          path='Subject'
+          getParams={() => ({
+            subjectId,
+            _cn: name,
+            _image: getCoverSrc(image, width)
+          })}
+          eventId={event.id}
+          getEventData={() => ({
+            to: 'Subject',
+            subjectId,
+            ...event?.data
+          })}
         >
           <Cover size={width} src={image} radius cdn={!x18(subjectId)} />
-          <Text style={_.mt.sm} size={11} bold numberOfLines={3}>
-            {HTMLDecode(name)}
+          <Text
+            style={_.mt.sm}
+            size={text.length > 14 ? 10 : 11}
+            bold
+            align={systemStore.setting.zoneAlignCenter ? 'center' : 'left'}
+            numberOfLines={3}
+          >
+            {text}
           </Text>
-        </Touchable>
+        </Link>
       </Component>
     )
-  },
-  COMPONENT
-)
+  })
+}
 
 export default ItemBangumiList

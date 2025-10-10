@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 18:08:26
+ * @Last Modified time: 2025-10-10 17:59:55
  */
 import { xhr } from '@utils/fetch'
 import {
@@ -20,13 +20,15 @@ import Fetch from './fetch'
 export default class Action extends Fetch {
   /** 更新日志查看历史 */
   updateBlogReaded = (blogId: Id) => {
-    const { blogReaded } = this.state
+    const STATE_KEY = 'blogReaded'
+    const ITEM_KEY = blogId
+
     this.setState({
-      blogReaded: {
-        ...blogReaded,
-        [blogId]: true
+      [STATE_KEY]: {
+        [ITEM_KEY]: true
       }
     })
+    this.save(STATE_KEY)
   }
 
   // -------------------- action --------------------

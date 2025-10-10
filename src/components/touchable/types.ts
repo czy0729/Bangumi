@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-28 07:50:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-30 06:35:41
+ * @Last Modified time: 2025-10-10 17:31:05
  */
 import { TouchableWithoutFeedbackProps } from 'react-native'
 import { Override } from '@types'
@@ -42,6 +42,7 @@ export type Props = Override<
     scale?: number
 
     /** 覆写 onPress */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onPress?: (evt: { pageX?: number; pageY?: number }) => any
   }
 >

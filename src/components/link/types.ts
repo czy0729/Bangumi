@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-08-09 16:07:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-19 21:43:30
+ * @Last Modified time: 2025-10-10 17:29:06
  */
 import { EventType, NavigationPushType, Override, Paths } from '@types'
 import { TouchableProps } from '../touchable'
@@ -15,7 +15,7 @@ type ExtractParams<P extends Paths> = NavigationPushType extends (
   : never
 
 export type Props<T extends Paths> = Override<
-  Omit<TouchableProps, 'onPress'>,
+  TouchableProps,
   {
     /** 路由地址, 支持 https 链接 */
     path: T | `https://${string}`
@@ -31,5 +31,8 @@ export type Props<T extends Paths> = Override<
 
     /** 事件参数 */
     eventData?: EventType['data']
+
+    /** 延迟获取事件参数, 有利于减少重渲染 (优先于 eventData) */
+    getEventData?: () => EventType['data']
   }
 >

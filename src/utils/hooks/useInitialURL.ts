@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-11 11:52:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-06 06:38:56
+ * @Last Modified time: 2025-10-10 16:55:04
  */
 import { useState } from 'react'
 import { Linking } from 'react-native'
@@ -17,7 +17,7 @@ export default function useInitialURL() {
     const getUrlAsync = async () => {
       // Get the deep link used to open the app
       const initialUrl = await Linking.getInitialURL()
-      if (initialUrl) console.info(TEXT_BADGES.plain, 'useInitialURL', initialUrl)
+      if (initialUrl) console.info(TEXT_BADGES.plain, '[@utils/hooks/useInitialURL]', initialUrl)
 
       // The setTimeout is just for testing purpose
       setTimeout(() => {
