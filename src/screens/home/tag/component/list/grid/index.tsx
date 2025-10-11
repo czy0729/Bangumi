@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-30 10:49:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 11:25:34
+ * @Last Modified time: 2025-10-11 16:05:08
  */
 import React from 'react'
 import { ItemCollectionsGrid } from '@_'
@@ -13,10 +13,9 @@ import { Ctx } from '../../../types'
 import { EVENT } from './ds'
 
 function Grid({ item, index, numColumns }) {
-  const { $, navigation } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>()
   return (
     <ItemCollectionsGrid
-      navigation={navigation}
       style={(_.isPad || _.isLandscape) && !(index % numColumns) && _.container.left}
       index={index}
       event={EVENT}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-18 04:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 05:02:05
+ * @Last Modified time: 2025-10-11 18:10:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -151,7 +151,6 @@ export default memo(
         >
           {/* 头像 */}
           <UserStatusAvatar
-            navigation={navigation}
             like={like}
             userId={userId}
             userName={userName}

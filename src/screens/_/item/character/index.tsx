@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-14 21:05:04
+ * @Last Modified time: 2025-10-11 05:49:12
  */
-import React from 'react'
-import { Component, Cover, CoverProps, Flex, Touchable } from '@components'
+import React, { useMemo } from 'react'
+import { Component, Cover, CoverProps, Flex, Link } from '@components'
 import { _ } from '@stores'
 import { cnjp } from '@utils'
-import { ob } from '@utils/decorators'
-import { t } from '@utils/fetch'
-import { useNavigation } from '@utils/hooks'
+import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { EVENT } from '@constants'
 import { MonoId } from '@types'
 import { InView } from '../../base'
@@ -22,27 +21,50 @@ import { Props as ItemCharacterProps } from './types'
 
 export { ItemCharacterProps }
 
-export const ItemCharacter = ob(
-  ({
-    event = EVENT,
-    index,
-    type = 'character',
-    id,
-    cover,
-    name,
-    nameCn,
-    replies,
-    info,
-    actors = [],
-    positions = [],
-    positionDetails = [],
-    position,
-    children
-  }: ItemCharacterProps) => {
-    const navigation = useNavigation()
+export const ItemCharacter = ({
+  event = EVENT,
+  index,
+  type = 'character',
+  id,
+  cover,
+  name,
+  nameCn,
+  replies,
+  info,
+  actors = [],
+  positions = [],
+  positionDetails = [],
+  position,
+  children
+}: ItemCharacterProps) => {
+  r(COMPONENT)
+
+  return useObserver(() => {
     const styles = memoStyles()
+
+    const monoId = (String(id).includes(type) ? id : `${type}/${id}`) as MonoId
     const cn = cnjp(nameCn, name).trim()
     const jp = cnjp(name, nameCn).trim()
+    const linkProps = useMemo(
+      () =>
+        ({
+          path: 'Mono',
+          getParams: () => ({
+            monoId,
+            _name: cn,
+            _jp: jp,
+            _image: cover,
+            _count: String(replies || '').replace('+', '')
+          }),
+          eventId: event.id,
+          getEventData: () => ({
+            to: 'Mono',
+            monoId
+          })
+        } as const),
+      [cn, jp, monoId]
+    )
+
     const y = ITEM_HEIGHT * (index + 1)
 
     const coverProps: CoverProps = {
@@ -55,30 +77,14 @@ export const ItemCharacter = ob(
       coverProps.height = IMG_WIDTH
     }
 
-    const handlePress = () => {
-      const monoId = (String(id).includes(type) ? id : `${type}/${id}`) as MonoId
-      navigation.push('Mono', {
-        monoId,
-        _name: cn,
-        _jp: jp,
-        _image: cover,
-        _count: String(replies || '').replace('+', '')
-      })
-
-      t(event.id, {
-        to: 'Mono',
-        monoId
-      })
-    }
-
     return (
       <Component id='item-character' data-key={id} style={styles.container}>
         <Flex style={styles.wrap} align='start'>
           <InView style={styles.inView} y={y}>
             {!!cover && (
-              <Touchable animate scale={0.9} onPress={handlePress}>
+              <Link {...linkProps}>
                 <Cover {...coverProps} />
-              </Touchable>
+              </Link>
             )}
           </InView>
           <Flex.Item style={_.ml.wind}>
@@ -90,16 +96,15 @@ export const ItemCharacter = ob(
               info={info}
               position={positions.length ? positions : [position]}
               positionDetails={positionDetails}
-              onPress={handlePress}
+              linkProps={linkProps}
             />
-            <Actors navigation={navigation} actors={actors} y={y} event={event} />
+            <Actors actors={actors} y={y} event={event} />
           </Flex.Item>
         </Flex>
         {children}
       </Component>
     )
-  },
-  COMPONENT
-)
+  })
+}
 
 export default ItemCharacter

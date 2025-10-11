@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:46:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-20 11:55:47
+ * @Last Modified time: 2025-10-11 17:51:35
  */
-import { CollectionStatusCn, EventType, Fn, Navigation, SubjectId, UserId, ViewStyle } from '@types'
+import { CollectionStatusCn, EventType, Fn, SubjectId, UserId, ViewStyle } from '@types'
 
 export type Props = {
-  navigation?: Navigation
   style?: ViewStyle
   time?: string
   avatar?: string

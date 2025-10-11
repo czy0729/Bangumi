@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2024-08-21 18:35:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-21 18:40:28
+ * @Last Modified time: 2025-10-11 05:15:04
  */
 import React from 'react'
 import { View } from 'react-native'
+import { useObserver } from 'mobx-react'
 import { Flex, Highlight, Text } from '@components'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
 import { Tag } from '../../../base'
 
 function Title({ title, typeCn, desc, collect, filter }) {
-  return (
+  return useObserver(() => (
     <View style={_.container.block}>
       <Highlight
         size={title.length >= 24 ? 12 : 14}
@@ -43,7 +43,7 @@ function Title({ title, typeCn, desc, collect, filter }) {
         )}
       </Flex>
     </View>
-  )
+  ))
 }
 
-export default ob(Title)
+export default Title

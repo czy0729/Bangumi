@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:44:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-05 18:52:18
+ * @Last Modified time: 2025-10-11 17:51:58
  */
 import { rc } from '@utils/dev'
 import { EVENT } from '@constants'
-import { CollectionStatusCn, EventType, Fn, Navigation, SubjectId, UserId, ViewStyle } from '@types'
+import { CollectionStatusCn, EventType, Fn, SubjectId, UserId, ViewStyle } from '@types'
 import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
 
@@ -15,7 +15,6 @@ export const COMPONENT = rc(PARENT, 'ItemComment')
 export const COMPONENT_MAIN = rc(COMPONENT)
 
 export const DEFAULT_PROPS = {
-  navigation: {} as Navigation,
   styles: {} as ReturnType<typeof memoStyles>,
   style: {} as ViewStyle,
   time: '' as string,

@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2025-01-26 13:34:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-26 13:36:15
+ * @Last Modified time: 2025-10-11 16:54:40
  */
 import React from 'react'
 import { View } from 'react-native'
+import { useObserver } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { systemStore } from '@stores'
 import { correctAgo } from '@utils'
-import { ob } from '@utils/decorators'
 import { Name, UserAge } from '../../../base'
 import { formatTime } from '../utils'
 import { styles } from './styles'
+import { Props } from './types'
 
-function Top({ userId, userName, avatar, time, status }) {
-  return (
+function Top({ userId, userName, avatar, time, status }: Props) {
+  return useObserver(() => (
     <Flex>
       <View style={systemStore.setting.userAge && styles.name}>
         <Name
@@ -40,7 +41,7 @@ function Top({ userId, userName, avatar, time, status }) {
         </Flex.Item>
       )}
     </Flex>
-  )
+  ))
 }
 
-export default ob(Top)
+export default Top

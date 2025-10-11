@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 11:08:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 04:17:38
+ * @Last Modified time: 2025-10-11 15:55:31
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
@@ -23,7 +23,6 @@ export const HIT_SLOP = {
 } as const
 
 export const DEFAULT_PROPS = {
-  navigation: {} as Props['navigation'],
   style: {} as Props['style'],
   gridStyles: {} as GridStyle,
   id: 0 as Props['id'],

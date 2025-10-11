@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2025-01-26 13:42:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-26 13:44:41
+ * @Last Modified time: 2025-10-11 16:37:47
  */
 import React from 'react'
-import { Flex, Text } from '@components'
+import { useObserver } from 'mobx-react'
+import { Flex, Link, Text } from '@components'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
 import { Stars } from '../../../base'
+import { Props } from './types'
 
-function Bottom({ navigation, mainId, mainName, star }) {
-  return (
+function Bottom({ mainId, mainName, star }: Props) {
+  return useObserver(() => (
     <Flex style={_.mv.xs}>
       <Stars value={star} />
       {!!mainName && (
@@ -21,26 +22,21 @@ function Bottom({ navigation, mainId, mainName, star }) {
               {' · '}
             </Text>
           )}
-          <Text
-            type='sub'
-            size={11}
-            underline
-            numberOfLines={1}
-            onPress={() => {
-              if (navigation && mainId) {
-                navigation.push('Subject', {
-                  subjectId: mainId,
-                  _jp: mainName
-                })
-              }
-            }}
+          <Link
+            path='Subject'
+            getParams={() => ({
+              subjectId: mainId,
+              _jp: mainName
+            })}
           >
-            {mainName}
-          </Text>
+            <Text type='sub' size={11} numberOfLines={1} underline>
+              {mainName}
+            </Text>
+          </Link>
         </>
       )}
     </Flex>
-  )
+  ))
 }
 
-export default ob(Bottom)
+export default Bottom

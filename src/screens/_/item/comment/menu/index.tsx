@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-01-26 13:38:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-26 13:39:50
+ * @Last Modified time: 2025-10-11 16:43:26
  */
 import React, { useCallback, useRef } from 'react'
 import { View } from 'react-native'
@@ -12,9 +12,11 @@ import { useObserver } from '@utils/hooks'
 import { IOS } from '@constants'
 import { Popover } from '../../../base'
 import { styles } from './styles'
+import { Props } from './types'
 
-function Menu({ data, avatar, userId, userName, comment, relatedId, onSelect }) {
+function Menu({ data, avatar, userId, userName, comment, relatedId, onSelect }: Props) {
   const viewRef = useRef<View>(null)
+
   const handleSelect = useCallback(
     (title: string) => {
       const callback = () => {

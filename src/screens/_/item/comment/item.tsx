@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:43:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 04:26:39
+ * @Last Modified time: 2025-10-11 22:09:44
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -18,7 +18,6 @@ import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const ItemComment = memo(
   ({
-    navigation,
     styles,
     style,
     time = '',
@@ -26,7 +25,7 @@ const ItemComment = memo(
     userId = '',
     userName = '',
     star = '',
-    status = '',
+    status,
     comment = '',
     subjectId = 0,
     relatedId = '',
@@ -41,7 +40,6 @@ const ItemComment = memo(
       <Flex style={stl(styles.item, style)} align='start'>
         <UserStatusAvatar
           style={styles.avatar}
-          navigation={navigation}
           like={like}
           userId={userId}
           userName={userName}
@@ -72,9 +70,7 @@ const ItemComment = memo(
               />
             )}
           </Flex>
-          {!!(star || mainName) && (
-            <Bottom navigation={navigation} mainId={mainId} mainName={mainName} star={star} />
-          )}
+          {!!(star || mainName) && <Bottom mainId={mainId} mainName={mainName} star={star} />}
           {!!comment && (
             <Text style={_.mt.xs} lineHeight={18} selectable={WEB}>
               {HTMLDecode(comment)}

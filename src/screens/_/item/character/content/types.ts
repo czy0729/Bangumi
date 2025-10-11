@@ -2,10 +2,8 @@
  * @Author: czy0729
  * @Date: 2024-08-25 13:02:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-17 17:47:43
+ * @Last Modified time: 2025-10-11 05:45:42
  */
-import { Fn } from '@types'
-
 export type Props = {
   type: 'character' | 'person'
   cn: string
@@ -14,5 +12,5 @@ export type Props = {
   info: string
   position: string[]
   positionDetails: string[]
-  onPress: Fn
+  linkProps: any
 }

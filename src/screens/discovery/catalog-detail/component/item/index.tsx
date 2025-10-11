@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-11 23:14:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 07:22:51
+ * @Last Modified time: 2025-10-11 16:03:00
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -56,7 +56,6 @@ function Item({ index = 0, item }: Props) {
 
   return (
     <ItemCollectionsGrid
-      navigation={navigation}
       event={EVENT}
       id={id}
       num={$.gridNum}

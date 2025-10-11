@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-01-03 05:34:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-16 11:21:15
+ * @Last Modified time: 2025-10-11 16:04:58
  */
 import React from 'react'
 import { Flex, Loading } from '@components'
 import { ItemCollectionsGrid } from '@_'
 import { _, collectionStore, otaStore } from '@stores'
 import { ob } from '@utils/decorators'
-import { useNavigation } from '@utils/hooks'
 import { IMG_DEFAULT, IMG_HEIGHT_LG } from '@constants'
 import { memoStyles } from './styles'
 
@@ -18,7 +17,6 @@ const EVENT = {
 } as const
 
 function ItemGrid({ pickIndex, index, num }) {
-  const navigation = useNavigation()
   const styles = memoStyles()
   const subjectId = otaStore.wenkuSubjectId(pickIndex)
   const { id, wid, image, cn, score, rank, begin, update } = otaStore.wenku(subjectId)
@@ -41,7 +39,6 @@ function ItemGrid({ pickIndex, index, num }) {
 
   return (
     <ItemCollectionsGrid
-      navigation={navigation}
       style={(_.isPad || _.isLandscape) && !(index % num) && styles.left}
       event={EVENT}
       num={num}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-25 17:09:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-25 21:25:18
+ * @Last Modified time: 2025-10-11 16:04:53
  */
 import React from 'react'
 import { Empty, Flex } from '@components'
@@ -17,7 +17,7 @@ import { COMPONENT, EVENT } from './ds'
 import { memoStyles } from './styles'
 
 function Grid() {
-  const { $, navigation } = useStore<Ctx>(COMPONENT)
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
     const styles = memoStyles()
@@ -34,7 +34,6 @@ function Grid() {
             return (
               <ItemCollectionsGrid
                 key={item.id}
-                navigation={navigation}
                 style={!(index % num) && styles.left}
                 num={num}
                 airtime={$.airtime === '' && matchYear(item.tip)}

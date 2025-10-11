@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-01 00:14:32
+ * @Last Modified time: 2025-10-11 05:29:00
  */
 import React from 'react'
-import { Component, Flex, Touchable } from '@components'
+import { Component, Flex, Link } from '@components'
 import { discoveryStore } from '@stores'
 import { getTimestamp, HTMLDecode, lastDate, removeHTMLTag } from '@utils'
-import { ob } from '@utils/decorators'
-import { t } from '@utils/fetch'
-import { useNavigation } from '@utils/hooks'
+import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { EVENT } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { InView } from '../../base'
@@ -23,29 +22,30 @@ import { Props as ItemCatalogProps } from './types'
 
 export { ItemCatalogProps }
 
-export const ItemCatalog = ob(
-  ({
-    event = EVENT,
-    index,
-    id,
-    name,
-    userName,
-    title,
-    info,
-    book,
-    anime,
-    music,
-    game,
-    real,
-    time,
-    last,
-    isUser,
-    hideScore = false,
-    filter,
-    detail,
-    children
-  }: ItemCatalogProps) => {
-    const navigation = useNavigation()
+export const ItemCatalog = ({
+  event = EVENT,
+  index,
+  id,
+  name,
+  userName,
+  title,
+  info,
+  book,
+  anime,
+  music,
+  game,
+  real,
+  time,
+  last,
+  isUser,
+  hideScore = false,
+  filter,
+  detail,
+  children
+}: ItemCatalogProps) => {
+  r(COMPONENT)
+
+  return useObserver(() => {
     if (!isUser && !anime && !book && !game && !real && !music) return null
 
     const styles = memoStyles()
@@ -101,22 +101,20 @@ export const ItemCatalog = ob(
 
     return (
       <Component id='item-catalog' data-key={id}>
-        <Touchable
+        <Link
           style={styles.container}
-          animate
-          onPress={() => {
-            navigation.push('CatalogDetail', {
-              catalogId: id,
-              _lastUpdate: lastUpdate,
-              _hideScore: hideScore
-            })
-
-            t(event.id, {
-              to: 'CatalogDetail',
-              catalogId: id,
-              ...event.data
-            })
-          }}
+          path='CatalogDetail'
+          getParams={() => ({
+            catalogId: id,
+            _lastUpdate: lastUpdate,
+            _hideScore: hideScore
+          })}
+          eventId={event.id}
+          getEventData={() => ({
+            to: 'CatalogDetail',
+            catalogId: id,
+            ...event.data
+          })}
         >
           <Flex style={styles.wrap} align='start'>
             <InView style={styles.inView} y={ITEM_HEIGHT * (index + 1)}>
@@ -141,7 +139,6 @@ export const ItemCatalog = ob(
                   filter={filter}
                 />
                 <Desc
-                  navigation={navigation}
                   userId={userIdValue}
                   avatar={avatarValue}
                   name={nameValue}
@@ -152,11 +149,10 @@ export const ItemCatalog = ob(
             </Flex.Item>
           </Flex>
           {children}
-        </Touchable>
+        </Link>
       </Component>
     )
-  },
-  COMPONENT
-)
+  })
+}
 
 export default ItemCatalog

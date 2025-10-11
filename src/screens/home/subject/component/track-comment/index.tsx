@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-03 15:44:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-28 19:18:44
+ * @Last Modified time: 2025-10-11 18:10:28
  */
 import React from 'react'
 import { Component, Divider } from '@components'
@@ -16,7 +16,7 @@ import { Ctx } from '../../types'
 import { COMPONENT, POPOVER_DATA } from './ds'
 
 function TrackComment() {
-  const { $, navigation } = useStore<Ctx>(COMPONENT)
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
     if (!$.subjectTypeValue) return null
@@ -50,7 +50,6 @@ function TrackComment() {
             return (
               <ItemComment
                 key={item}
-                navigation={navigation}
                 event={event}
                 time={lastDate(getTimestamp(collection.update_at))}
                 avatar={userInfo.avatar}

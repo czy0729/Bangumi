@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-08-09 16:05:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-10 17:31:12
+ * @Last Modified time: 2025-10-11 16:31:19
  */
 import React, { useCallback } from 'react'
 import { open } from '@utils'
@@ -30,26 +30,31 @@ export const Link = <T extends Paths>({
   const navigation = useNavigation()
 
   const handleEvent = useCallback(() => {
-    if (eventId) t(eventId, typeof getEventData === 'function' ? getEventData() : eventData)
+    if (eventId) {
+      t(eventId, typeof getEventData === 'function' ? getEventData() : eventData)
+    }
   }, [eventId, getEventData, eventData])
 
   const handlePress = useCallback(
     (evt: { pageX?: number; pageY?: number }) => {
-      if (DEV) console.info(TEXT_BADGES.purple, `[Link] to`, path)
+      if (DEV) {
+        console.info(TEXT_BADGES.purple, `[Link] to`, path)
+      }
 
-      if (typeof onPress === 'function') onPress(evt)
+      if (typeof onPress === 'function') {
+        onPress(evt)
+      }
 
       if (path.startsWith('https://')) {
         open(path)
-        handleEvent()
-        return
+      } else if (navigation) {
+        navigation.push(
+          // @ts-expect-error
+          path,
+          typeof getParams === 'function' ? getParams() : params
+        )
       }
 
-      navigation.push(
-        // @ts-expect-error
-        path,
-        typeof getParams === 'function' ? getParams() : params
-      )
       handleEvent()
     },
     [path, onPress, navigation, getParams, params, handleEvent]

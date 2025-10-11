@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-08-18 07:29:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 03:08:33
+ * @Last Modified time: 2025-10-11 18:08:55
  */
 import React from 'react'
+import { useObserver } from 'mobx-react'
 import { Component } from '@components'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { CollectionStatusCn } from '@types'
 import Item from './item'
 import { COMPONENT } from './ds'
@@ -15,8 +16,7 @@ import { Props as ItemCommentProps } from './types'
 
 export { ItemCommentProps }
 
-function ItemCommentWrap({
-  navigation,
+export const ItemComment = ({
   style,
   time,
   avatar,
@@ -34,11 +34,12 @@ function ItemCommentWrap({
   popoverData,
   like,
   onSelect
-}: ItemCommentProps) {
-  return (
+}: ItemCommentProps) => {
+  r(COMPONENT)
+
+  return useObserver(() => (
     <Component id='item-comment' data-key={userId}>
       <Item
-        navigation={navigation}
         styles={memoStyles()}
         style={style}
         time={time}
@@ -58,9 +59,7 @@ function ItemCommentWrap({
         onSelect={onSelect}
       />
     </Component>
-  )
+  ))
 }
-
-export const ItemComment = ob(ItemCommentWrap, COMPONENT)
 
 export default ItemComment

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-08 07:35:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-23 05:43:49
+ * @Last Modified time: 2025-10-11 18:10:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -29,7 +29,7 @@ function Item({
   mainId,
   mainName
 }: WithIndex<SubjectCommentsItem>) {
-  const { $, navigation } = useStore<Ctx>(COMPONENT)
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
     if (getIsBlockedUser(rakuenStore.blockUserIds, userName, userId, `Subject|${$.subjectId}`)) {
@@ -41,7 +41,6 @@ function Item({
     return (
       <InView key={userId} y={_.window.height + (index + 1) * ITEM_HEIGHT}>
         <ItemComment
-          navigation={navigation}
           event={$.itemEvent}
           time={time}
           avatar={avatar}

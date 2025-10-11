@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-08 11:59:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-01 16:14:28
+ * @Last Modified time: 2025-10-11 16:05:27
  */
 import React from 'react'
 import { ItemCollectionsGrid } from '@_'
@@ -15,12 +15,11 @@ import { Ctx } from '../../../types'
 import { COMPONENT, EVENT } from './ds'
 
 function ItemGrid({ item, numColumns }) {
-  const { $, navigation } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>()
   const { subjectType, showYear } = $.state
   const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subjectType)
   return (
     <ItemCollectionsGrid
-      navigation={navigation}
       num={numColumns}
       type={typeCn}
       event={EVENT}
