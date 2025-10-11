@@ -1,0 +1,33 @@
+/*
+ * @Author: czy0729
+ * @Date: 2024-09-03 13:25:03
+ * @Last Modified by:   czy0729
+ * @Last Modified time: 2024-09-03 13:25:03
+ */
+screen-topic {
+  &-touch-scroll {
+    position: static !important;
+
+    > div > div {
+      cursor: pointer;
+
+      &:after {
+        content: '';
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: rgba(255, 255, 255, 0.16);
+        border-radius: 4px;
+        opacity: 0;
+        transition: opacity 0.2s;
+        pointer-events: none;
+      }
+      &:hover:after {
+        opacity: 1;
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+message Anime {
+  int32 i = 1;
+  float s = 2;
+  int32 r = 3;
+  int32 l = 4;
+  int32 st = 5;
+  string ty = 6;
+  repeated int32 o = 7;
+  repeated int32 t = 8;
+  string ar = 9;
+  string b = 10;
+}
+
+message Payload {
+  repeated Anime payload = 1;
+}
