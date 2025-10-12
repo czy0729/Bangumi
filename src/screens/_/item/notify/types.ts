@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-06-17 19:05:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 15:37:31
+ * @Last Modified time: 2025-10-12 05:43:37
  */
-import { EventType, Navigation, UserId } from '@types'
+import { EventType, UserId } from '@types'
 
 export type Props = {
-  navigation?: Navigation
   index?: number
   avatar?: string
   userId?: UserId

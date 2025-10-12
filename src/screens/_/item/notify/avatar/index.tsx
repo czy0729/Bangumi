@@ -2,22 +2,25 @@
  * @Author: czy0729
  * @Date: 2024-01-19 17:12:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-19 17:22:21
+ * @Last Modified time: 2025-10-12 06:01:01
  */
 import React from 'react'
 import { Avatar as AvatarComp, UserStatus } from '@components'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { InView } from '../../../base'
 import { COMPONENT, ITEM_HEIGHT } from './ds'
 import { styles } from './styles'
+import { Props } from './types'
 
-function Avatar({ navigation, index, avatar, userId, userName, event }) {
-  return (
+function Avatar({ index, avatar, userId, userName, event }: Props) {
+  r(COMPONENT)
+
+  return useObserver(() => (
     <UserStatus userId={userId}>
-      <InView style={styles.inView} y={ITEM_HEIGHT * index + 1}>
+      <InView style={styles.inView} y={ITEM_HEIGHT * (index + 1)}>
         <AvatarComp
           key={String(avatar)}
-          navigation={navigation}
           userId={userId}
           name={userName}
           src={avatar}
@@ -25,7 +28,7 @@ function Avatar({ navigation, index, avatar, userId, userName, event }) {
         />
       </InView>
     </UserStatus>
-  )
+  ))
 }
 
-export default ob(Avatar, COMPONENT)
+export default Avatar

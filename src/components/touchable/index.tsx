@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 12:54:44
+ * @Last Modified time: 2025-10-12 06:12:53
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -16,7 +16,8 @@ import { defaultHitSlop } from './utils'
 import { COMPONENT } from './ds'
 import { Props as TouchableProps } from './types'
 
-export { TouchableProps }
+export type { TouchableProps }
+export type { TouchablePressEvent } from './types'
 
 /**
  * 触摸反馈整合

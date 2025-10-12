@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2025-08-09 16:05:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-11 16:31:19
+ * @Last Modified time: 2025-10-12 06:09:12
  */
-import React, { useCallback } from 'react'
-import { open } from '@utils'
+import React, { useCallback, useMemo } from 'react'
+import { appNavigate as navigate, open } from '@utils'
 import { t } from '@utils/fetch'
 import { useNavigation, useObserver } from '@utils/hooks'
 import { DEV, TEXT_BADGES } from '@constants'
 import { Paths } from '@types'
-import { Touchable } from '../touchable'
+import { Touchable, TouchablePressEvent } from '../touchable'
 import { Props as LinkProps } from './types'
 
 export { LinkProps }
@@ -18,6 +18,7 @@ export { LinkProps }
 /** 路由 */
 export const Link = <T extends Paths>({
   path,
+  appNavigate,
   params,
   getParams,
   eventId,
@@ -29,35 +30,43 @@ export const Link = <T extends Paths>({
 }: LinkProps<T>) => {
   const navigation = useNavigation()
 
+  const resolvedParams = useMemo(
+    () => (typeof getParams === 'function' ? getParams() : params),
+    [getParams, params]
+  )
+
+  const resolvedEventData = useMemo(
+    () => (typeof getEventData === 'function' ? getEventData() : eventData),
+    [getEventData, eventData]
+  )
+
   const handleEvent = useCallback(() => {
-    if (eventId) {
-      t(eventId, typeof getEventData === 'function' ? getEventData() : eventData)
-    }
-  }, [eventId, getEventData, eventData])
+    if (eventId) t(eventId, resolvedEventData)
+  }, [eventId, resolvedEventData])
 
   const handlePress = useCallback(
-    (evt: { pageX?: number; pageY?: number }) => {
-      if (DEV) {
-        console.info(TEXT_BADGES.purple, `[Link] to`, path)
-      }
+    (evt: TouchablePressEvent) => {
+      onPress?.(evt)
 
-      if (typeof onPress === 'function') {
-        onPress(evt)
-      }
-
-      if (path.startsWith('https://')) {
+      if (appNavigate) {
+        navigate(path, navigation, resolvedParams)
+      } else if (path.startsWith('https://')) {
         open(path)
-      } else if (navigation) {
-        navigation.push(
+      } else {
+        navigation?.push?.(
           // @ts-expect-error
           path,
-          typeof getParams === 'function' ? getParams() : params
+          resolvedParams
         )
       }
 
       handleEvent()
+
+      if (DEV) {
+        console.info(TEXT_BADGES.purple, `[Link] ${appNavigate ? 'appNavigate' : 'to'}`, path)
+      }
     },
-    [path, onPress, navigation, getParams, params, handleEvent]
+    [onPress, appNavigate, path, navigation, resolvedParams, handleEvent]
   )
 
   return useObserver(() => (

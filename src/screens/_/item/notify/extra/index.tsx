@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-19 17:28:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-19 19:30:44
+ * @Last Modified time: 2025-10-12 05:18:14
  */
 import React, { useState } from 'react'
 import { Button, Flex, Text } from '@components'
@@ -14,11 +14,13 @@ import { useMount, useObserver } from '@utils/hooks'
 import { Tag } from '../../../base'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
+import { Props } from './types'
 
-function Extra({ userId, connectUserId, repeat }) {
+function Extra({ userId, connectUserId, repeat }: Props) {
   r(COMPONENT)
 
   const [connect, setConnect] = useState<boolean | string>(false)
+
   useMount(() => {
     if (!connectUserId) return
 

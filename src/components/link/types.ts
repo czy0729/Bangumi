@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-08-09 16:07:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-10 17:29:06
+ * @Last Modified time: 2025-10-12 05:33:32
  */
 import { EventType, NavigationPushType, Override, Paths } from '@types'
 import { TouchableProps } from '../touchable'
@@ -14,12 +14,10 @@ type ExtractParams<P extends Paths> = NavigationPushType extends (
   ? Params
   : never
 
-export type Props<T extends Paths> = Override<
+/** 公共字段 */
+type BaseProps<T extends Paths> = Override<
   TouchableProps,
   {
-    /** 路由地址, 支持 https 链接 */
-    path: T | `https://${string}`
-
     /** 路由参数 */
     params?: ExtractParams<T>
 
@@ -36,3 +34,20 @@ export type Props<T extends Paths> = Override<
     getEventData?: () => EventType['data']
   }
 >
+
+/** Props：严格区分 appNavigate 是否为 true */
+export type Props<T extends Paths> =
+  | (BaseProps<T> & {
+      /** 路由地址, 支持 https 链接 */
+      path: T | `https://${string}`
+
+      /** 是否自动判断 url 以跳转到对应客户端页面 */
+      appNavigate?: false | undefined
+    })
+  | (BaseProps<T> & {
+      /** 路由地址, 支持 https 链接，也可为任意 string */
+      path: T | `https://${string}` | string
+
+      /** 是否自动判断 url 以跳转到对应客户端页面 */
+      appNavigate: true
+    })

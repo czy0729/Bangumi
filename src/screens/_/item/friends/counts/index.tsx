@@ -2,69 +2,41 @@
  * @Author: czy0729
  * @Date: 2022-08-07 07:46:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-07 08:26:56
+ * @Last Modified time: 2025-10-12 04:54:28
  */
 import React from 'react'
-import { Flex, Text, Iconfont } from '@components'
+import { Flex, Iconfont, Text } from '@components'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { styles } from './styles'
+import { Props } from './types'
 
-function Counts({ wish, collect, doing, onHold, dropped }) {
-  return (
-    <Flex style={styles.counts}>
-      {!!wish && (
-        <>
-          <Iconfont style={_.mr.xs} name='md-favorite' size={12} color={_.colorSub} />
-          <Text style={_.mr.sm} size={11} type='sub'>
-            {wish}
-          </Text>
-        </>
-      )}
-      {!!doing && (
-        <>
-          <Iconfont style={_.mr.xs} name='md-visibility' size={14} color={_.colorSub} />
-          <Text style={_.mr.sm} size={11} type='sub'>
-            {doing}
-          </Text>
-        </>
-      )}
-      {!!collect && (
-        <>
-          <Iconfont style={_.mr.xs} name='md-check' size={14} color={_.colorSub} />
-          <Text style={_.mr.sm} size={11} type='sub'>
-            {collect}
-          </Text>
-        </>
-      )}
-      {!!onHold && (
-        <>
-          <Iconfont
-            style={_.mr.xs}
-            name='md-visibility-off'
-            size={13}
-            color={_.colorSub}
-          />
-          <Text style={_.mr.sm} size={11} type='sub'>
-            {onHold}
-          </Text>
-        </>
-      )}
-      {!!dropped && (
-        <>
-          <Iconfont
-            style={_.mr.xs}
-            name='md-delete-outline'
-            size={14}
-            color={_.colorSub}
-          />
-          <Text size={11} type='sub'>
-            {dropped}
-          </Text>
-        </>
-      )}
-    </Flex>
-  )
+function Counts({ wish, doing, collect, onHold, dropped }: Props) {
+  return useObserver(() => {
+    const items = [
+      { value: wish, icon: 'md-favorite', size: 12 },
+      { value: doing, icon: 'md-visibility', size: 14 },
+      { value: collect, icon: 'md-check', size: 14 },
+      { value: onHold, icon: 'md-visibility-off', size: 13 },
+      { value: dropped, icon: 'md-delete-outline', size: 14 }
+    ] as const
+
+    return (
+      <Flex style={styles.counts}>
+        {items.map(
+          ({ value, icon, size }, index) =>
+            !!value && (
+              <Flex key={icon}>
+                <Iconfont style={_.mr.xs} name={icon} size={size} color={_.colorSub} />
+                <Text style={index !== items.length - 1 ? _.mr.sm : undefined} size={11} type='sub'>
+                  {value}
+                </Text>
+              </Flex>
+            )
+        )}
+      </Flex>
+    )
+  })
 }
 
-export default ob(Counts)
+export default Counts

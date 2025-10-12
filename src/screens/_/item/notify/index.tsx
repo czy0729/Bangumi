@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-08-08 09:59:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-17 13:36:09
+ * @Last Modified time: 2025-10-12 06:00:35
  */
 import React from 'react'
-import { Component, Flex, Touchable } from '@components'
-import { appNavigate, getUserIdFromAvatar } from '@utils'
-import { ob } from '@utils/decorators'
+import { Component, Flex, Link } from '@components'
+import { getUserIdFromAvatar } from '@utils'
+import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { EVENT } from '@constants'
 import Avatar from './avatar'
 import Content from './content'
@@ -18,21 +19,22 @@ import { Props as ItemNotifyProps } from './types'
 
 export { ItemNotifyProps }
 
-export const ItemNotify = ob(
-  ({
-    navigation,
-    index,
-    avatar,
-    userId,
-    userName,
-    title,
-    message,
-    message2,
-    href,
-    repeat,
-    event = EVENT,
-    children
-  }: ItemNotifyProps) => {
+export const ItemNotify = ({
+  index,
+  avatar,
+  userId,
+  userName,
+  title,
+  message,
+  message2,
+  href,
+  repeat,
+  event = EVENT,
+  children
+}: ItemNotifyProps) => {
+  r(COMPONENT)
+
+  return useObserver(() => {
     const styles = memoStyles()
 
     let connectUserId = 0
@@ -44,7 +46,6 @@ export const ItemNotify = ob(
       <Flex style={styles.container} align='start'>
         <Avatar
           key={avatar}
-          navigation={navigation}
           index={index}
           avatar={avatar}
           userId={userId}
@@ -75,26 +76,21 @@ export const ItemNotify = ob(
         {connectUserId ? (
           elBody
         ) : (
-          <Touchable
-            animate
-            onPress={() => {
-              appNavigate(
-                href,
-                navigation,
-                {
-                  _title: title
-                },
-                event
-              )
-            }}
+          <Link
+            path={href}
+            appNavigate
+            getParams={() => ({
+              _title: title
+            })}
+            eventId={event.id}
+            eventData={event.data}
           >
             {elBody}
-          </Touchable>
+          </Link>
         )}
       </Component>
     )
-  },
-  COMPONENT
-)
+  })
+}
 
 export default ItemNotify
