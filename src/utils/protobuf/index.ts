@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-12-07 21:42:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-17 16:50:26
+ * @Last Modified time: 2025-10-13 21:44:58
  */
 import { toByteArray } from 'base64-js'
 import { Asset } from 'expo-asset'
-import * as FileSystem from 'expo-file-system/legacy'
 import protobuf, { Reader } from 'protobufjs'
+import { FileSystem } from '../thirdParty/file-system'
 import { cacheMap, checkCache, get, isPromise, lockMap, log } from './utils'
 import { DataAssets, Decode } from './types'
 

@@ -9,7 +9,6 @@ import { useObserver } from 'mobx-react'
 import { _, systemStore, tinygrailStore } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
-import { useNavigation } from '@utils/hooks'
 import { HOST_CDN, IMG_DEFAULT } from '@constants'
 import { Component } from '../component'
 import { Image } from '../image'
@@ -25,6 +24,7 @@ export { AvatarProps }
 
 /** 头像 */
 export const Avatar = ({
+  navigation,
   style,
   userId,
   name,
@@ -46,7 +46,6 @@ export const Avatar = ({
 }: AvatarProps) => {
   r(COMPONENT)
 
-  const navigation = useNavigation()
   const { url } = useAvatar(src, userId)
 
   return useObserver(() => {

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-20 05:13:50
+ * @Last Modified time: 2025-10-13 06:21:20
  */
 import React from 'react'
 import {
@@ -169,24 +169,3 @@ export type RenderSection<T, K> = {
   }
   item: K
 }
-
-/** 带索引 */
-export type WithIndex<T> = Override<
-  T,
-  {
-    index: number
-  }
->
-
-/** 带项 */
-export type WithItem<T> = {
-  item: T
-}
-
-/** 带容器样式 */
-export type WithViewStyles<T = any> = Override<
-  T,
-  {
-    style?: ViewStyle
-  }
->

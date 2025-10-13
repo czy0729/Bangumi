@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-18 04:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-11 18:10:08
+ * @Last Modified time: 2025-10-14 03:04:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -136,9 +136,10 @@ export default memo(
 
     const isJump = !!postId && postId === id
     const showQuoteAvatar = quote && quoteAvatar && !!quoteUser
+
     return (
       <Component id='item-post-sub' data-key={id} style={_.container.block}>
-        {newFloorStyle === '角标' && isNew && <FloorNew mini />}
+        {newFloorStyle === '角标' && isNew && <FloorNew isMini />}
 
         <Flex
           style={stl(styles.item, newFloorStyle === '背景' && isNew && styles.new)}

@@ -1,23 +1,18 @@
 /*
  * @Author: czy0729
- * @Date: 2022-10-13 05:13:08
+ * @Date: 2025-10-14 03:07:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-14 03:16:39
+ * @Last Modified time: 2025-10-14 03:16:59
  */
 import { Override } from '@types'
 import { Props as ComponentProps } from '../types'
 
 export type Props = Override<
-  Required<
-    Pick<
-      ComponentProps,
-      'id' | 'message' | 'userId' | 'userName' | 'avatar' | 'directFloor' | 'event'
-    >
-  >,
+  Pick<ComponentProps, 'userSign'>,
   {
-    url: string
     isAuthor: boolean
     isFriend: boolean
     isLayer?: boolean
+    lineHeight?: number
   }
 >

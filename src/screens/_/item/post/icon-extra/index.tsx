@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-20 12:15:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-16 09:13:21
+ * @Last Modified time: 2025-10-14 02:53:26
  */
 import React, { useCallback, useMemo, useRef } from 'react'
 import { View } from 'react-native'
@@ -22,6 +22,7 @@ import {
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
 import { HTML_BLOG, HTML_TOPIC, IOS } from '@constants'
+import { TopicId } from '@types'
 import { Popover } from '../../../base'
 import {
   ACTION_COPY,
@@ -54,7 +55,8 @@ function IconExtra({
   onShowFixedTextare
 }: Props) {
   const { $ } = useStore<Ctx>()
-  const viewRef = useRef(null)
+
+  const viewRef = useRef<View>(null)
 
   return useObserver(() => {
     const memoData = useMemo(
@@ -128,9 +130,9 @@ function IconExtra({
         case ACTION_COPY_URL:
           if (typeof topicId === 'string') {
             if (topicId.includes('blog')) {
-              copy(HTML_BLOG(topicId.split('/')?.[1], id), '已复制')
+              copy(HTML_BLOG(topicId.split('/')?.[1], String(id)), '已复制')
             } else {
-              copy(HTML_TOPIC(topicId, id), '已复制')
+              copy(HTML_TOPIC(topicId as TopicId, String(id)), '已复制')
             }
 
             t('帖子.复制楼层链接')

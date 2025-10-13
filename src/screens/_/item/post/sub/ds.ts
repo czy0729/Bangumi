@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-10-18 04:21:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-03 10:02:03
+ * @Last Modified time: 2025-10-14 03:15:05
  */
 import { _ } from '@stores'
 import { EVENT, FROZEN_FN } from '@constants'
-import { BlogId, Navigation, RakuenNewFloorStyleCn, TopicId, UserId } from '@types'
+import { BlogId, EventType, Navigation, RakuenNewFloorStyleCn, TopicId, UserId } from '@types'
 import { Props } from '../types'
 import { memoStyles } from './styles'
 
@@ -36,7 +36,7 @@ export const DEFAULT_PROPS = {
   replySub: '' as Props['replySub'],
   time: '' as Props['time'],
   translate: '' as any,
-  uid: '' as string,
+  uid: '' as UserId,
   url: '' as string,
   userId: '' as Props['userId'],
   userName: '' as Props['userName'],
@@ -44,7 +44,7 @@ export const DEFAULT_PROPS = {
   like: false as boolean,
   likeType: '' as string,
   newFloorStyle: '角标' as RakuenNewFloorStyleCn,
-  event: EVENT,
+  event: EVENT as EventType,
   onJumpTo: FROZEN_FN,
   onLikesLongPress: FROZEN_FN,
   onShowFixedTextare: FROZEN_FN

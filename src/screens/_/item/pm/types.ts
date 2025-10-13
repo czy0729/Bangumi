@@ -4,10 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-04-20 15:42:42
  */
-import { EventType, Id, Navigation, UserId } from '@types'
+import { EventType, Id, UserId } from '@types'
 
 export type Props = {
-  navigation?: Navigation
   event?: EventType
   index?: number
   id?: Id

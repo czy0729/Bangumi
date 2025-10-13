@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-23 19:02:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-16 05:27:18
+ * @Last Modified time: 2025-10-14 03:20:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,6 +10,7 @@ import { Flex, Text, Touchable } from '@components'
 import { ob } from '@utils/decorators'
 import Sub from '../sub'
 import { styles } from './styles'
+import { Props } from './types'
 
 function FloorSub({
   extraStyle,
@@ -26,10 +27,9 @@ function FloorSub({
   newFloorStyle,
   event,
   onJumpTo,
-  onLikesLongPress,
   onShowFixedTextare,
   onToggleExpand
-}) {
+}: Props) {
   if (!sub.length) return null
 
   return (
@@ -61,7 +61,6 @@ function FloorSub({
                 newFloorStyle={newFloorStyle}
                 event={event}
                 onJumpTo={onJumpTo}
-                onLikesLongPress={onLikesLongPress}
                 onShowFixedTextare={onShowFixedTextare}
               />
             ))}

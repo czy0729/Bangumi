@@ -2,12 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-06-14 22:58:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-21 22:33:09
+ * @Last Modified time: 2025-10-14 05:16:49
  */
-import { AnyObject, DeepPartial, EventType, Fn, Id, TopicId, UserId, ViewStyle } from '@types'
+import { AnyObject, Fn, Id, TopicId, UserId, ViewStyle, WithEvent } from '@types'
 
-export type Props = {
+export type Props = WithEvent<{
+  /** 懒渲染 y 轴 */
   inViewY?: number
+
+  /** 项索引 */
   index?: number
 
   /** 容器样式 */
@@ -19,7 +22,7 @@ export type Props = {
   /** 头像地址 */
   avatar?: string
 
-  /** 用户 Id */
+  /** 用户 ID */
   userId?: UserId
 
   /** 用户昵称 */
@@ -34,13 +37,13 @@ export type Props = {
   /** 子回复数据 */
   sub?: any[]
 
-  /** 楼层 Id */
+  /** 楼层 ID */
   id?: Id
 
-  /** 作者 Id */
+  /** 作者 ID */
   authorId?: UserId
 
-  /** 楼层 Id, 存在就跳转到对应楼层 */
+  /** 楼层 ID, 存在就跳转到对应楼层 */
   postId?: Id
 
   /** 发帖时间 */
@@ -56,7 +59,7 @@ export type Props = {
   erase?: string
 
   /** 高亮标记楼层 */
-  directFloor?: string
+  directFloor?: boolean
 
   /** 是否允许渲染 (用于优化) */
   rendered?: boolean
@@ -70,13 +73,11 @@ export type Props = {
   /** 传递显示回复弹窗的函数 */
   showFixedTextare?: Fn
 
+  /** 跳转到当前楼层项回调 */
   onJumpTo?: Fn
+}>
 
-  /** 埋点 */
-  event?: EventType
-}
-
-export type Ctx = DeepPartial<{
+export type Ctx = {
   $: {
     params: {
       _url: string
@@ -98,4 +99,4 @@ export type Ctx = DeepPartial<{
     myFriendsMap: Record<UserId, true>
     toggleExpand: Fn
   }
-}>
+}

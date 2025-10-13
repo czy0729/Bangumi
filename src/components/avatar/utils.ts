@@ -5,7 +5,7 @@
  * @Last Modified time: 2025-10-06 19:45:08
  */
 import { _, systemStore, usersStore, userStore } from '@stores'
-import { getCover400, getCoverMedium, getTimestamp } from '@utils'
+import { getCover400, getCoverMedium, getTimestamp, navigationReference } from '@utils'
 import { syncUserStore } from '@utils/async'
 import { t } from '@utils/fetch'
 import axios from '@utils/thirdParty/axios'
@@ -123,42 +123,45 @@ export function getRadius(radius: Props['radius'], round: Props['round'], size: 
 /** 计算点击回调函数 */
 export function getOnPress(
   onPress: Props['onPress'],
-  data: {
+  {
+    navigation,
+    userId,
+    event,
+    src,
+    name,
+    params
+  }: {
     navigation?: Props['navigation']
     userId?: Props['userId']
     event?: Props['event']
     src?: Props['src']
     name?: Props['name']
     params?: Props['params']
-  }
+  } = {}
 ) {
-  const { navigation, userId, event, src, name, params } = data || {}
-  let value: any
+  const navigationRef = navigation || navigationReference()
 
-  if (onPress || (navigation && userId)) {
-    value = () => {
-      if (onPress) {
-        onPress()
-        return
-      }
+  // 若既没有 onPress，也无法跳转，则无需返回函数
+  if (!onPress && !(navigationRef && userId)) return
 
-      const { id, data = {} } = event
-      t(id, {
-        to: 'Zone',
-        userId,
-        ...data
-      })
+  return () => {
+    if (onPress) return onPress()
 
-      navigation.push('Zone', {
-        userId,
-        _id: userId,
-        _image: src as string,
-        _name: name,
-        ...params
-      })
-    }
+    const { id, data = {} } = event || {}
+    t(id, {
+      to: 'Zone',
+      userId,
+      ...data
+    })
+
+    navigationRef?.push?.('Zone', {
+      userId,
+      _id: userId,
+      _image: src as string,
+      _name: name,
+      ...params
+    })
   }
-  return value
 }
 
 /** 强制使用 /l/ */

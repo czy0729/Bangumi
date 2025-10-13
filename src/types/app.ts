@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 07:14:04
+ * @Last Modified time: 2025-10-13 06:22:26
  */
 import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
 import IoniconsIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/Ionicons.json'
@@ -12,7 +12,7 @@ import { SITES } from '@constants'
 import { EventKeys } from '@constants/events'
 import { Id, SubjectId, UserId } from './bangumi'
 import { NavigationPushType, Paths } from './route'
-import { AnyObject, DeepPartial, Expand, Override } from './utils'
+import { AnyObject, DeepPartial, Expand, Override, ViewStyle } from './utils'
 
 /** 图标 (iOS Style) */
 export type IoniconsIconsNames = keyof typeof IoniconsIcons
@@ -208,3 +208,36 @@ export type CompletionItem = {
   userId: UserId
   _loaded: Loaded
 }
+
+/** 携带项 */
+export type WithItem<T> = {
+  /** 数据项 */
+  item?: T
+}
+
+/** 携带索引 */
+export type WithIndex<T> = Override<
+  T,
+  {
+    /** 索引 */
+    index?: number
+  }
+>
+
+/** 携带埋点 */
+export type WithEvent<T> = Override<
+  T,
+  {
+    /** 埋点数据 */
+    event?: EventType
+  }
+>
+
+/** 携带容器样式 */
+export type WithViewStyles<T = any> = Override<
+  T,
+  {
+    /** 容器样式 */
+    style?: ViewStyle
+  }
+>

@@ -6,11 +6,11 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Avatar, Component, Flex, Text, Touchable } from '@components'
+import { Avatar, Component, Flex, Link, Text } from '@components'
 import { _ } from '@stores'
 import { HTMLDecode } from '@utils'
-import { ob } from '@utils/decorators'
-import { t } from '@utils/fetch'
+import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { EVENT, FROZEN_FN } from '@constants'
 import { InView, Name } from '../../base'
 import { COMPONENT, ITEM_HEIGHT } from './ds'
@@ -19,55 +19,49 @@ import { Props as ItemPMProps } from './types'
 
 export { ItemPMProps }
 
-export const ItemPM = ob(
-  ({
-    navigation,
-    event = EVENT,
-    index,
-    id,
-    title,
-    content,
-    avatar,
-    name,
-    userId,
-    time,
-    new: isNew,
-    onRefresh = FROZEN_FN
-  }: ItemPMProps) => {
+export const ItemPM = ({
+  event = EVENT,
+  index,
+  id,
+  title,
+  content,
+  avatar,
+  name,
+  userId,
+  time,
+  new: isNew,
+  onRefresh = FROZEN_FN
+}: ItemPMProps) => {
+  r(COMPONENT)
+
+  return useObserver(() => {
     const styles = memoStyles()
+
     return (
       <Component id='item-pm' data-key={id}>
-        <Touchable
-          animate
+        <Link
+          path='PM'
+          getParams={() => ({
+            id,
+            _userId: userId
+          })}
+          eventId={event.id}
+          getEventData={() => ({
+            to: 'PM',
+            ...event.data
+          })}
           onPress={() => {
-            t(event.id, {
-              to: 'PM',
-              ...event.data
-            })
+            if (!isNew) return
 
-            navigation.push('PM', {
-              id,
-              _userId: userId
-            })
-
-            if (isNew) {
-              setTimeout(() => {
-                onRefresh()
-              }, 4000)
-            }
+            setTimeout(() => {
+              onRefresh()
+            }, 4000)
           }}
         >
           <Flex style={styles.container} align='start'>
             <View style={styles.avatar}>
-              <InView style={styles.inView} y={ITEM_HEIGHT * index + 1}>
-                <Avatar
-                  key={avatar}
-                  navigation={navigation}
-                  userId={userId}
-                  name={name}
-                  src={avatar}
-                  event={event}
-                />
+              <InView style={styles.inView} y={ITEM_HEIGHT * (index + 1)}>
+                <Avatar key={avatar} userId={userId} name={name} src={avatar} event={event} />
               </InView>
             </View>
             <Flex.Item style={styles.item}>
@@ -107,11 +101,10 @@ export const ItemPM = ob(
               </Flex>
             </Flex.Item>
           </Flex>
-        </Touchable>
+        </Link>
       </Component>
     )
-  },
-  COMPONENT
-)
+  })
+}
 
 export default ItemPM

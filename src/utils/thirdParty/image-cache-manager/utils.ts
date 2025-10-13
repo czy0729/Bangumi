@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-04-17 17:24:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-17 17:27:41
+ * @Last Modified time: 2025-10-13 21:45:39
  */
 import SHA1 from 'crypto-js/sha1'
-import * as FileSystem from 'expo-file-system/legacy'
 import uniqueId from 'lodash.uniqueid'
+import { FileSystem } from '../../thirdParty/file-system'
 import { DownloadOptions } from './type'
 import { BASE_DIR } from './ds'
 

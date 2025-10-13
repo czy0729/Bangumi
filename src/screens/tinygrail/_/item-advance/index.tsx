@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 15:21:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-11 21:19:06
+ * @Last Modified time: 2025-10-13 21:34:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,8 +10,9 @@ import { Avatar, Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
 import { tinygrailOSS } from '@utils/app'
+import { observer } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { observer, useNavigation } from '@utils/hooks'
+import { useNavigation } from '@utils/hooks'
 import { EVENT } from '@constants'
 import Rank from '@tinygrail/_/rank'
 import { calculateRate } from '@tinygrail/_/utils'

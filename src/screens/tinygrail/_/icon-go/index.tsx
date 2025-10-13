@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-02-14 03:17:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-13 19:49:40
+ * @Last Modified time: 2025-10-12 23:20:18
  */
 import React from 'react'
 import { Flex, Iconfont, Text } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
-import { observer } from '@utils/hooks'
+import { observer } from '@utils/decorators'
 import { DATA, HIT_SLOP } from './ds'
 import { styles } from './styles'
 

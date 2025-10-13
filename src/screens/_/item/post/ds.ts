@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-06-14 23:11:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 16:58:37
+ * @Last Modified time: 2025-10-14 03:18:57
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
 import { EVENT, FROZEN_FN } from '@constants'
-import { Id, RakuenNewFloorStyleCn, TopicId } from '@types'
+import { BlogId, RakuenNewFloorStyleCn, TopicId } from '@types'
 import { COMPONENT as PARENT } from '../ds'
 import { Props } from './types'
 
@@ -30,7 +30,7 @@ export const DEFAULT_PROPS = {
   index: 0 as number,
   contentStyle: {} as Props['contentStyle'],
   extraStyle: {} as Props['contentStyle'],
-  topicId: '' as TopicId | `blog/${Id}`,
+  topicId: '' as TopicId | BlogId,
   authorId: '' as Props['authorId'],
   avatar: '' as Props['avatar'],
   erase: '' as Props['erase'],

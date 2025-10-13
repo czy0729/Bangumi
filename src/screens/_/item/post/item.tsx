@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 04:28:51
+ * @Last Modified time: 2025-10-14 03:21:13
  */
 import React from 'react'
 import { memo } from '@utils/decorators'
 import { r } from '@utils/dev'
-import { EVENT, FROZEN_ARRAY, FROZEN_FN } from '@constants'
+import { EVENT, FROZEN_FN } from '@constants'
 import Avatar from './avatar'
 import Container from './container'
 import ContainerLayout from './container-layout'
@@ -23,7 +23,7 @@ const Item = memo(
     index = 0,
     contentStyle,
     extraStyle,
-    topicId = '',
+    topicId,
     authorId = '',
     avatar = '',
     erase = '',
@@ -41,7 +41,7 @@ const Item = memo(
     readedTime = '',
     replySub = '',
     expandNums,
-    sub = FROZEN_ARRAY,
+    sub = [],
     time = '',
     translate = '',
     url = '',

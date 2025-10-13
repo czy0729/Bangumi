@@ -2,34 +2,38 @@
  * @Author: czy0729
  * @Date: 2024-01-23 19:53:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-23 19:54:57
+ * @Last Modified time: 2025-10-13 20:48:02
  */
-
 import React from 'react'
+import { LayoutChangeEvent } from 'react-native'
 import { Flex } from '@components'
 import { _ } from '@stores'
 import { stl } from '@utils'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { layoutHeightMap } from '../utils'
 import { memoStyles } from './styles'
+import { Props } from './types'
 
-function ContainerLayout({ id, subLength, isJump, children }) {
-  const styles = memoStyles()
-  return (
-    <Flex
-      style={stl(_.container.block, isJump && styles.itemJump)}
-      align='start'
-      onLayout={
-        subLength
-          ? e => {
-              layoutHeightMap.set(Number(id), e.nativeEvent.layout.height)
-            }
-          : undefined
+function ContainerLayout({ id, subLength, isJump, children }: Props) {
+  return useObserver(() => {
+    const styles = memoStyles()
+
+    const handleLayout = (evt: LayoutChangeEvent) => {
+      if (subLength) {
+        layoutHeightMap.set(Number(id), evt.nativeEvent.layout.height)
       }
-    >
-      {children}
-    </Flex>
-  )
+    }
+
+    return (
+      <Flex
+        style={stl(_.container.block, isJump && styles.itemJump)}
+        align='start'
+        onLayout={handleLayout}
+      >
+        {children}
+      </Flex>
+    )
+  })
 }
 
-export default ob(ContainerLayout)
+export default ContainerLayout

@@ -2,44 +2,43 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-16 09:21:14
+ * @Last Modified time: 2025-10-14 03:17:05
  */
 import React from 'react'
 import { rakuenStore, useStore } from '@stores'
 import { HTMLDecode } from '@utils'
-import { ob } from '@utils/decorators'
-import { useNavigation } from '@utils/hooks'
+import { useNavigation, useObserver } from '@utils/hooks'
 import { isBlockUser } from '../utils'
 import ItemSub from './item'
 import { memoStyles } from './styles'
-import { Ctx } from './types'
+import { Ctx, Props } from './types'
 
-export default ob(
-  ({
-    extraStyle,
-    authorId,
-    avatar,
-    erase,
-    floor,
-    id,
-    matchLink,
-    message,
-    postId,
-    readedTime,
-    replySub,
-    time,
-    uid,
-    url,
-    userId,
-    userName,
-    newFloorStyle,
-    event,
-    onJumpTo,
-    onShowFixedTextare
-  }) => {
-    const navigation = useNavigation()
-    const { $ } = useStore<Ctx>()
+const Sub = ({
+  extraStyle,
+  authorId,
+  avatar,
+  erase,
+  floor,
+  id,
+  matchLink,
+  message,
+  postId,
+  readedTime,
+  replySub,
+  time,
+  uid,
+  url,
+  userId,
+  userName,
+  newFloorStyle,
+  event,
+  onJumpTo,
+  onShowFixedTextare
+}: Props) => {
+  const navigation = useNavigation()
+  const { $ } = useStore<Ctx>()
 
+  return useObserver(() => {
     // 屏蔽脏数据
     if (!userId) return null
 
@@ -89,5 +88,7 @@ export default ob(
         onShowFixedTextare={onShowFixedTextare}
       />
     )
-  }
-)
+  })
+}
+
+export default Sub

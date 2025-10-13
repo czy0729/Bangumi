@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-03-06 11:38:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-17 17:28:29
+ * @Last Modified time: 2025-10-13 21:45:32
  */
-import * as FileSystem from 'expo-file-system/legacy'
+import { FileSystem } from '../../thirdParty/file-system'
 import { DownloadOptions } from './type'
 import { CacheEntry } from './utils'
 import { BASE_DIR } from './ds'
