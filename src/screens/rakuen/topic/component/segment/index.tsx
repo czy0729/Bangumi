@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-01-20 19:55:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-02 07:15:30
+ * @Last Modified time: 2025-10-15 23:31:23
  */
-import React from 'react'
+import React, { useCallback, useMemo } from 'react'
+import { useObserver } from 'mobx-react'
 import { SegmentedControl } from '@components'
 import { _, rakuenStore, userStore, useStore } from '@stores'
 import { feedback, info } from '@utils'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
 import {
   COMPONENT,
   FILTER_ALL,
@@ -21,99 +20,101 @@ import {
   FILTER_POST
 } from './ds'
 import { styles } from './styles'
-import { DATA } from './types'
+
+import type { Data } from './types'
+import type { Ctx } from '../../types'
 
 function Segement() {
-  const { $ } = useStore<Ctx>()
-  const data: DATA = [FILTER_ALL]
-  if ($.state.filterPost) {
-    data.push(FILTER_POST)
-  } else {
-    // 使用变量保存结果, 能避免可能发生的重复计算
-    let count = $.commentFollowCount
-    if (count) data.push(`${FILTER_FOLLOW} ${count}`)
+  const { $ } = useStore<Ctx>(COMPONENT)
 
-    if (userStore.myId) {
-      count = $.commentMeCount
-      if (count) data.push(`${FILTER_ME} ${count}`)
+  return useObserver(() => {
+    const { state, commentFollowCount, commentMeCount, commentFriendsCount, likesFloorIds } = $
+    const { filterPost, filterType } = state
 
-      count = $.commentFriendsCount
-      if (count) data.push(`${FILTER_FRIENDS} ${count}`)
-    }
+    // 构造分段按钮数据
+    const data: Data = useMemo(() => {
+      const list: Data = [FILTER_ALL]
 
-    if (rakuenStore.setting.likes) {
-      count = $.likesFloorIds?.length || 0
-      if (count) data.push(`${FILTER_LIKES} ${count}`)
-    }
-  }
-  if (data.length <= 1) return null
+      if (filterPost) {
+        list.push(FILTER_POST)
+      } else {
+        let count = commentFollowCount
+        if (count) list.push(`${FILTER_FOLLOW} ${count}`)
 
-  let selectedIndex = 0
-  if ($.state.filterPost) {
-    selectedIndex = data.length - 1
-  } else if (data.length > 1) {
-    const text = FILTER_MAP[$.state.filterType] || ''
-    if (text) selectedIndex = data.findIndex(item => item.includes(text))
-  }
-  if (selectedIndex === -1) selectedIndex = 0
+        if (userStore.myId) {
+          count = commentMeCount
+          if (count) list.push(`${FILTER_ME} ${count}`)
 
-  const { length } = data
-  let width: number = 52
-  let size: number = 11
-  if (length >= 5) {
-    width = 44
-    size = 10
-  } else if (length === 4) {
-    width = 48
-  }
-
-  return (
-    <SegmentedControl
-      key={selectedIndex}
-      style={[
-        styles.segmentedControl,
-        {
-          width: length * _.r(width)
+          count = commentFriendsCount
+          if (count) list.push(`${FILTER_FRIENDS} ${count}`)
         }
-      ]}
-      size={size}
-      values={data}
-      selectedIndex={selectedIndex}
-      onValueChange={title => {
-        if ($.state.filterPost) {
+
+        if (rakuenStore.setting.likes) {
+          count = likesFloorIds?.length || 0
+          if (count) list.push(`${FILTER_LIKES} ${count}`)
+        }
+      }
+
+      return list
+    }, [filterPost, commentFollowCount, commentMeCount, commentFriendsCount, likesFloorIds?.length])
+
+    // 当前选中的分段索引
+    const selectedIndex = useMemo(() => {
+      if (filterPost) return data.length - 1
+
+      const text = FILTER_MAP[filterType] || ''
+      if (!text) return 0
+
+      const index = data.findIndex(item => item.includes(text))
+      return index === -1 ? 0 : index
+    }, [filterPost, filterType, data])
+
+    // 动态宽度 & 字体大小
+    const { length } = data
+    const { width, size } = useMemo(() => {
+      if (length >= 5) return { width: 44, size: 10 }
+      if (length === 4) return { width: 48, size: 11 }
+      return { width: 52, size: 11 }
+    }, [length])
+
+    // 点击事件逻辑
+    const handleChange = useCallback(
+      (title: string) => {
+        if (filterPost) {
           info('取消仅显示跳转楼层')
           feedback()
-          setTimeout(() => {
-            $.clearFilterPost()
-          }, 0)
+          setTimeout(() => $.clearFilterPost(), 0)
           return
         }
 
-        const { filterType } = $.state
-        if (title.includes(FILTER_FOLLOW) && filterType !== 'follow') {
-          $.onFilterFollow()
-          return
-        }
-
-        if (title.includes(FILTER_LIKES) && filterType !== 'likes') {
-          $.onFilterLikes()
-          return
-        }
-
-        if (title.includes(FILTER_ME) && filterType !== 'me') {
-          $.onFilterMe()
-          return
-        }
-
-        if (title.includes(FILTER_FRIENDS) && filterType !== 'friends') {
-          $.onFilterFriends()
-          return
-        }
+        if (title.includes(FILTER_FOLLOW) && filterType !== 'follow') return $.onFilterFollow()
+        if (title.includes(FILTER_LIKES) && filterType !== 'likes') return $.onFilterLikes()
+        if (title.includes(FILTER_ME) && filterType !== 'me') return $.onFilterMe()
+        if (title.includes(FILTER_FRIENDS) && filterType !== 'friends') return $.onFilterFriends()
 
         $.onFilterClear()
-      }}
-    />
-  )
+      },
+      [filterPost, filterType]
+    )
+
+    if (data.length <= 1) return null
+
+    return (
+      <SegmentedControl
+        key={selectedIndex}
+        style={[
+          styles.segmentedControl,
+          {
+            width: length * _.r(width)
+          }
+        ]}
+        size={size}
+        values={data}
+        selectedIndex={selectedIndex}
+        onValueChange={handleChange}
+      />
+    )
+  })
 }
 
-export default ob(Segement, COMPONENT)
+export default Segement

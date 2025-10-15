@@ -1,13 +1,11 @@
 /*
  * @Author: czy0729
  * @Date: 2024-08-19 22:39:13
- * @Last Modified by:   czy0729
- * @Last Modified time: 2024-08-19 22:39:13
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2025-10-15 17:48:04
  */
-import { Insets } from 'react-native'
+import type { HandleFloorPress } from '../../types'
 
-export type PassProps = {
-  hitSlop: Insets
-  onPress?: () => any
-  onPressIn?: () => any
+export type Props = {
+  onPress: HandleFloorPress
 }

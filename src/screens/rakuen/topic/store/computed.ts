@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:01:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-23 08:41:08
+ * @Last Modified time: 2025-10-15 23:19:29
  */
 import { computed } from 'mobx'
 import { rakuenStore, subjectStore, systemStore, usersStore, userStore } from '@stores'
@@ -10,9 +10,10 @@ import { asc, freeze, getGroupThumbStatic, HTMLDecode } from '@utils'
 import { HOST_IMAGE } from '@utils/app/ds'
 import CacheManager from '@utils/cache-manager'
 import { CDN_OSS_MAGMA_PIC, CDN_OSS_MAGMA_POSTER, HOST, URL_DEFAULT_AVATAR } from '@constants'
-import { Id, TopicId, UserId } from '@types'
 import State from './state'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
+
+import type { Id, TopicId, UserId } from '@types'
 
 export default class Computed extends State {
   /** 本地化 */

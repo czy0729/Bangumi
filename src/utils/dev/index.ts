@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-14 16:20:37
+ * @Last Modified time: 2025-10-15 23:16:07
  */
 import { WEB } from '@constants'
 import { DEV, LOG_LEVEL, RERENDER_NOT_SHOW, RERENDER_SHOW } from '@src/config'
@@ -153,3 +153,30 @@ export function fill(str: string, len: number = 32, mark: string = ' ') {
   for (let i = _str.length; i < len; i += 1) _str += mark
   return _str
 }
+
+const TEXT_BADGES = {
+  danger: '🔴',
+  plain: '⚪',
+  primary: '🔵',
+  success: '🟢',
+  warning: '🟠',
+  yellow: '🟡',
+  purple: '🟣'
+} as const
+
+export const logger = {
+  log(method: string, ...others: any[]) {
+    // eslint-disable-next-line no-console
+    if (DEV) console.info(TEXT_BADGES.plain, `[${method}]`, ...others)
+  },
+
+  info(method: string, ...others: any[]) {
+    // eslint-disable-next-line no-console
+    if (DEV) console.info(TEXT_BADGES.primary, `[${method}]`, ...others)
+  },
+
+  error(method: string, ...others: any[]) {
+    // eslint-disable-next-line no-console
+    if (DEV) console.info(TEXT_BADGES.danger, `[${method}]`, ...others)
+  }
+} as const

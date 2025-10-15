@@ -2,41 +2,45 @@
  * @Author: czy0729
  * @Date: 2025-02-07 06:15:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-07 06:42:28
+ * @Last Modified time: 2025-10-15 17:49:37
  */
 import React from 'react'
 import { View } from 'react-native'
+import { useObserver } from 'mobx-react'
 import { IconWordCloud } from '@_'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
+import type { Ctx } from '../../types'
+
 function WordCloud() {
-  const { $, navigation } = useStore<Ctx>()
-  if ($.isEp) return null
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
 
-  return (
-    <View
-      style={{
-        opacity: 0.64
-      }}
-    >
-      <IconWordCloud
-        onPress={() => {
-          navigation.push('WordCloud', {
-            topicId: $.topicId
-          })
+  return useObserver(() => {
+    if ($.isEp) return null
 
-          t('帖子.跳转', {
-            to: 'WordCloud',
-            topicId: $.topicId
-          })
+    return (
+      <View
+        style={{
+          opacity: 0.64
         }}
-      />
-    </View>
-  )
+      >
+        <IconWordCloud
+          onPress={() => {
+            navigation.push('WordCloud', {
+              topicId: $.topicId
+            })
+
+            t('帖子.跳转', {
+              to: 'WordCloud',
+              topicId: $.topicId
+            })
+          }}
+        />
+      </View>
+    )
+  })
 }
 
-export default ob(WordCloud, COMPONENT)
+export default WordCloud

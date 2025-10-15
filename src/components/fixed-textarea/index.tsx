@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-05 09:54:39
+ * @Last Modified time: 2025-10-14 21:41:52
  */
 import React from 'react'
 import { TextInput } from 'react-native'
@@ -32,550 +32,556 @@ export { FixedTextareaProps }
 let maxKeyboardHeight = 0
 
 /** 带表情的回复框 */
-export const FixedTextarea = observer(
-  class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
-    static defaultProps: FixedTextareaProps = {
-      marks: [],
-      placeholder: '',
-      simple: false,
-      source: false,
-      value: '',
-      extraComponent: null,
-      onClose: FROZEN_FN,
-      onChange: FROZEN_FN,
-      onSubmit: FROZEN_FN
-    }
+class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
+  static defaultProps: FixedTextareaProps = {
+    marks: [],
+    placeholder: '',
+    simple: false,
+    source: false,
+    value: '',
+    extraComponent: null,
+    onClose: FROZEN_FN,
+    onChange: FROZEN_FN,
+    onSubmit: FROZEN_FN
+  }
 
-    state = {
-      value: this.props.value,
-      showBgm: false,
-      showKeyboardSpacer: false,
-      showReplyHistory: false,
-      showSource: false,
-      showSourceText: true,
-      showTextarea: false,
-      keyboardHeight: 0,
-      history: [],
-      replyHistory: [],
-      lockHistory: ''
-    }
+  state = {
+    value: this.props.value,
+    showBgm: false,
+    showKeyboardSpacer: false,
+    showReplyHistory: false,
+    showSource: false,
+    showSourceText: true,
+    showTextarea: false,
+    keyboardHeight: 0,
+    history: [],
+    replyHistory: [],
+    lockHistory: ''
+  }
 
-    ref: {
-      textAreaRef: TextInput
-    }
+  ref: {
+    textAreaRef: TextInput
+  }
 
-    selection = {
-      start: this.props.value.length,
-      end: this.props.value.length
-    }
+  selection = {
+    start: this.props.value.length,
+    end: this.props.value.length
+  }
 
-    private _focused: boolean = false
+  private _focused: boolean = false
 
-    async componentDidMount() {
-      try {
-        const [showSource, showSourceText, history, replyHistory, lockHistory] = await Promise.all([
-          getStorage(`${NAMESPACE}|showSource`),
-          getStorage(`${NAMESPACE}|showSourceText`),
-          getStorage(NAMESPACE),
-          getStorage(`${NAMESPACE}|replyHistory`),
-          getStorage(`${NAMESPACE}|lockHistory`)
-        ])
-
-        this.setState({
-          showSource: typeof showSource === 'boolean' ? showSource : false,
-          showSourceText: typeof showSourceText === 'boolean' ? showSourceText : true,
-          history: (history || '38').split(',').filter(Boolean).map(Number),
-          replyHistory: replyHistory || [],
-          lockHistory: lockHistory || ''
-        })
-      } catch (error) {}
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps: { value: any }) {
-      const { value } = nextProps
-      if (value !== this.state.value) {
-        this.setState({
-          value
-        })
-      }
-    }
-
-    /** 保存 Textarea 引用 */
-    forwardRef = (ref: { textAreaRef: TextInput }) => {
-      this.ref = ref
-    }
-
-    /** Textarea.blur */
-    refBlur = () => {
-      try {
-        if (typeof this.ref?.textAreaRef?.blur === 'function' && this._focused) {
-          this.ref.textAreaRef.blur()
-          this._focused = false
-        }
-      } catch (error) {}
-    }
-
-    /** Textarea.focus */
-    refFocus = () => {
-      if (this._focused) return
-
-      try {
-        if (typeof this.ref?.textAreaRef?.focus === 'function') {
-          this.ref.textAreaRef.focus()
-          this._focused = true
-        }
-      } catch (error) {}
-    }
-
-    /** 失去焦点回调 */
-    onBlur = () => {
-      const { simple, onClose } = this.props
-      onClose()
+  async componentDidMount() {
+    try {
+      const [showSource, showSourceText, history, replyHistory, lockHistory] = await Promise.all([
+        getStorage(`${NAMESPACE}|showSource`),
+        getStorage(`${NAMESPACE}|showSourceText`),
+        getStorage(NAMESPACE),
+        getStorage(`${NAMESPACE}|replyHistory`),
+        getStorage(`${NAMESPACE}|lockHistory`)
+      ])
 
       this.setState({
-        showTextarea: false,
-        showBgm: false,
-        showReplyHistory: false,
-        showKeyboardSpacer: false
+        showSource: typeof showSource === 'boolean' ? showSource : false,
+        showSourceText: typeof showSourceText === 'boolean' ? showSourceText : true,
+        history: (history || '38').split(',').filter(Boolean).map(Number),
+        replyHistory: replyHistory || [],
+        lockHistory: lockHistory || ''
       })
+    } catch (error) {}
+  }
 
-      setTimeout(() => {
-        this.refBlur()
-        this.setState({
-          showTextarea: false,
-          showBgm: false
-        })
-        if (!simple) this.clear()
-      }, 0)
-    }
-
-    /** 获取焦点回调 */
-    onFocus = () => {
-      this.setState({
-        showTextarea: true,
-        showBgm: false,
-        showReplyHistory: false
-      })
-
-      setTimeout(() => {
-        this.refFocus()
-        // 延迟是为了等待键盘动画结束
-      }, 640)
-    }
-
-    /** 展开 / 收起键盘 */
-    onToggleKeyboard = (isOpen: boolean, keyboardHeight: number) => {
-      if (isOpen) {
-        let height = keyboardHeight - (IOS ? 24 : 0)
-        if (height > maxKeyboardHeight) {
-          maxKeyboardHeight = height
-        } else {
-          height = maxKeyboardHeight
-        }
-
-        this.setState({
-          showKeyboardSpacer: true,
-          keyboardHeight: IOS
-            ? Math.max(336, height) // iOS 弹出第三方键盘会慢一拍, 但是可以肯定至少是 336 高度
-            : height
-        })
-      }
-    }
-
-    /** 文字改变回调 */
-    onChange = (value: string) => {
-      const { onChange } = this.props
-      onChange(value)
-
-      // 安卓设置过光标后, 继续打字光标会闪回到上次设置的地方, 需要重置
-      try {
-        if (!IOS && typeof this.ref?.textAreaRef?.setNativeProps === 'function') {
-          this.ref.textAreaRef.setNativeProps({
-            selection: {}
-          })
-        }
-      } catch (error) {}
-
+  UNSAFE_componentWillReceiveProps(nextProps: { value: any }) {
+    const { value } = nextProps
+    if (value !== this.state.value) {
       this.setState({
         value
       })
     }
+  }
 
-    /** 光标改变回调 */
-    onSelectionChange = (event: { nativeEvent: any }) => {
-      const { nativeEvent } = event
-      this.selection = nativeEvent.selection
-    }
+  /** 保存 Textarea 引用 */
+  forwardRef = (ref: { textAreaRef: TextInput }) => {
+    this.ref = ref
+  }
 
-    /** 模拟 BBCode 输入 */
-    onAddSymbolText = (symbol: string, isText: boolean = false) => {
+  /** Textarea.blur */
+  refBlur = () => {
+    try {
+      if (typeof this.ref?.textAreaRef?.blur === 'function' && this._focused) {
+        this.ref.textAreaRef.blur()
+        this._focused = false
+      }
+    } catch (error) {}
+  }
+
+  /** Textarea.focus */
+  refFocus = () => {
+    if (this._focused) return
+
+    try {
+      if (typeof this.ref?.textAreaRef?.focus === 'function') {
+        this.ref.textAreaRef.focus()
+        this._focused = true
+      }
+    } catch (error) {}
+  }
+
+  /** 失去焦点回调 */
+  onBlur = () => {
+    const { simple, onClose } = this.props
+    onClose()
+
+    this.setState({
+      showTextarea: false,
+      showBgm: false,
+      showReplyHistory: false,
+      showKeyboardSpacer: false
+    })
+
+    setTimeout(() => {
+      this.refBlur()
+      this.setState({
+        showTextarea: false,
+        showBgm: false
+      })
+      if (!simple) this.clear()
+    }, 0)
+  }
+
+  /** 获取焦点回调 */
+  onFocus = () => {
+    this.setState({
+      showTextarea: true,
+      showBgm: false,
+      showReplyHistory: false
+    })
+
+    setTimeout(() => {
       this.refFocus()
+      // 延迟是为了等待键盘动画结束
+    }, 640)
+  }
 
-      try {
-        const { value } = this.state
-        const index = this.getSelection() || 0
+  /** 展开 / 收起键盘 */
+  onToggleKeyboard = (isOpen: boolean, keyboardHeight: number) => {
+    if (isOpen) {
+      let height = keyboardHeight - (IOS ? 24 : 0)
+      if (height > maxKeyboardHeight) {
+        maxKeyboardHeight = height
+      } else {
+        height = maxKeyboardHeight
+      }
 
-        // @todo 暂时没有对选择了一段文字的情况做判断
-        // 插入值, 如[s]光标位置[/s], [url=光标位置]链接描述[/url]
-        let left: string
-        let right: string
-        if (isText) {
-          left = `${value.slice(0, index)}${symbol}`
-          right = `${value.slice(index)}`
-        } else if (symbol === 'url') {
-          left = `${value.slice(0, index)}[url=`
-          right = `]链接描述[/url]${value.slice(index)}`
-        } else {
-          left = `${value.slice(0, index)}[${symbol}]`
-          right = `[/${symbol}]${value.slice(index)}`
-        }
-
-        this.setState({
-          value: `${left}${right}`
-        })
-        this.setSelection(left.length)
-      } catch (error) {}
+      this.setState({
+        showKeyboardSpacer: true,
+        keyboardHeight: IOS
+          ? Math.max(336, height) // iOS 弹出第三方键盘会慢一拍, 但是可以肯定至少是 336 高度
+          : height
+      })
     }
+  }
 
-    /** 选择 bgm 表情 */
-    onSelectBgm = (key: string | number, updateRecent: boolean = true) => {
+  /** 文字改变回调 */
+  onChange = (value: string) => {
+    const { onChange } = this.props
+    onChange(value)
+
+    // 安卓设置过光标后, 继续打字光标会闪回到上次设置的地方, 需要重置
+    try {
+      if (!IOS && typeof this.ref?.textAreaRef?.setNativeProps === 'function') {
+        this.ref.textAreaRef.setNativeProps({
+          selection: {}
+        })
+      }
+    } catch (error) {}
+
+    this.setState({
+      value
+    })
+  }
+
+  /** 光标改变回调 */
+  onSelectionChange = (event: { nativeEvent: any }) => {
+    const { nativeEvent } = event
+    this.selection = nativeEvent.selection
+  }
+
+  /** 模拟 BBCode 输入 */
+  onAddSymbolText = (symbol: string, isText: boolean = false) => {
+    this.refFocus()
+
+    try {
       const { value } = this.state
-      const id = Number(key)
-      const index = this.getSelection()
+      const index = this.getSelection() || 0
 
-      // 插入值如 (bgm38)
-      const left = `${value.slice(0, index)}(bgm${id})`
-      const right = `${value.slice(index)}`
+      // @todo 暂时没有对选择了一段文字的情况做判断
+      // 插入值, 如[s]光标位置[/s], [url=光标位置]链接描述[/url]
+      let left: string
+      let right: string
+      if (isText) {
+        left = `${value.slice(0, index)}${symbol}`
+        right = `${value.slice(index)}`
+      } else if (symbol === 'url') {
+        left = `${value.slice(0, index)}[url=`
+        right = `]链接描述[/url]${value.slice(index)}`
+      } else {
+        left = `${value.slice(0, index)}[${symbol}]`
+        right = `[/${symbol}]${value.slice(index)}`
+      }
+
       this.setState({
         value: `${left}${right}`
       })
       this.setSelection(left.length)
-      if (updateRecent) this.setRecentUseBgm(id)
-    }
+    } catch (error) {}
+  }
 
-    /** 遮罩点击 */
-    onMask = () => {
-      const { simple } = this.props
-      if (!simple) this.checkIsNeedToSaveDraft()
-      setTimeout(() => {
-        this.onBlur()
-      }, 0)
-    }
+  /** 选择 bgm 表情 */
+  onSelectBgm = (key: string | number, updateRecent: boolean = true) => {
+    const { value } = this.state
+    const id = Number(key)
+    const index = this.getSelection()
 
-    /** 提交, 之后保存历史 */
-    onSubmit = () => {
-      const { value } = this.state
-      if (value === '') return
+    // 插入值如 (bgm38)
+    const left = `${value.slice(0, index)}(bgm${id})`
+    const right = `${value.slice(index)}`
+    this.setState({
+      value: `${left}${right}`
+    })
+    this.setSelection(left.length)
+    if (updateRecent) this.setRecentUseBgm(id)
+  }
 
-      const { onSubmit } = this.props
-      onSubmit(this.value)
-      this.setReplyHistory(value)
-      this.clear()
+  /** 遮罩点击 */
+  onMask = () => {
+    const { simple } = this.props
+    if (!simple) this.checkIsNeedToSaveDraft()
+    setTimeout(() => {
       this.onBlur()
-    }
+    }, 0)
+  }
 
-    /** 显示 bgm 表情选择块 */
-    onShowBgm = () => {
-      // 安卓 eject 后, 键盘表现跟 IOS 不一致, 特殊处理
-      if (IOS) {
-        this.setState({
-          showBgm: true,
-          showReplyHistory: false
-        })
+  /** 提交, 之后保存历史 */
+  onSubmit = () => {
+    const { value } = this.state
+    if (value === '') return
 
-        setTimeout(() => {
-          this.refBlur()
-        }, 0)
-        return
-      }
+    const { onSubmit } = this.props
+    onSubmit(this.value)
+    this.setReplyHistory(value)
+    this.clear()
+    this.onBlur()
+  }
 
-      setTimeout(() => {
-        this.refBlur()
-
-        setTimeout(() => {
-          this.setState({
-            showBgm: true,
-            showReplyHistory: false
-          })
-        }, 0)
-      }, 0)
-    }
-
-    /** 隐藏 bgm 表情选择块 */
-    onHideBgm = () => {
+  /** 显示 bgm 表情选择块 */
+  onShowBgm = () => {
+    // 安卓 eject 后, 键盘表现跟 IOS 不一致, 特殊处理
+    if (IOS) {
       this.setState({
-        showBgm: false
-      })
-
-      setTimeout(() => {
-        this.refFocus()
-      }, 0)
-    }
-
-    /** 显示最近回复历史框 */
-    onShowReplyHistory = () => {
-      // 安卓 eject 后, 键盘表现跟 IOS 不一致, 特殊处理
-      if (IOS) {
-        this.setState({
-          showReplyHistory: true,
-          showBgm: true
-        })
-
-        setTimeout(() => {
-          this.refBlur()
-        }, 0)
-        return
-      }
-
-      setTimeout(() => {
-        this.refBlur()
-
-        setTimeout(() => {
-          this.setState({
-            showReplyHistory: true,
-            showBgm: true
-          })
-        }, 0)
-      }, 0)
-    }
-
-    /** 收起最近回复历史框 */
-    onHideReplyHistory = () => {
-      this.setState({
+        showBgm: true,
         showReplyHistory: false
       })
 
       setTimeout(() => {
-        this.refFocus()
+        this.refBlur()
       }, 0)
+      return
     }
 
-    /** 显示 / 隐藏右下角宣传文案 */
-    onToggleSource = () => {
-      const { showSource } = this.state
-      const value = !showSource
-      this.setState({
-        showSource: value
-      })
-      setStorage(`${NAMESPACE}|showSource`, value)
-    }
+    setTimeout(() => {
+      this.refBlur()
 
-    /** 显示 / 隐藏左下角宣传文案实际内容 */
-    onToggleSourceText = () => {
-      const { showSourceText } = this.state
-      const value = !showSourceText
-      this.setState({
-        showSourceText: value
-      })
-      setStorage(`${NAMESPACE}|showSourceText`, value)
-    }
-
-    /** 清空文字 */
-    clear = () => {
-      const { onClose } = this.props
-      onClose()
-
-      this.setState({
-        value: '',
-        showTextarea: false
-      })
-      this.setSelection(0)
-    }
-
-    /** @todo 获取光标位置 */
-    getSelection = () => {
-      // const ref = this.ref.textAreaRef
-      // const selection = ref._lastNativeSelection || null
-      // const { value } = this.state
-      // let index = value.length
-      // if (selection) {
-      //   index = selection.start
-      // }
-      // return index
-      return this.selection.end
-    }
-
-    /** 设定光标位置 */
-    setSelection = (start: number) => {
-      const { textAreaRef } = this.ref
       setTimeout(() => {
-        try {
-          const selection = {
-            start,
-            end: start
-          }
-
-          textAreaRef.setNativeProps({
-            selection
-          })
-          this.selection = selection
-        } catch (error) {}
+        this.setState({
+          showBgm: true,
+          showReplyHistory: false
+        })
       }, 0)
-    }
+    }, 0)
+  }
 
-    /** 本地化最近使用 bgm 表情 */
-    setRecentUseBgm = async (id: number) => {
-      let history = [...this.state.history]
-      if (history.includes(id)) {
-        history = history.filter(item => item !== id)
-        history.unshift(id)
-      } else {
-        history.unshift(id)
-      }
-      if (history.length > MAX_BGM_HISTORY_COUNT) {
-        history = history.filter((_item, index) => index < MAX_BGM_HISTORY_COUNT)
-      }
+  /** 隐藏 bgm 表情选择块 */
+  onHideBgm = () => {
+    this.setState({
+      showBgm: false
+    })
 
+    setTimeout(() => {
+      this.refFocus()
+    }, 0)
+  }
+
+  /** 显示最近回复历史框 */
+  onShowReplyHistory = () => {
+    // 安卓 eject 后, 键盘表现跟 IOS 不一致, 特殊处理
+    if (IOS) {
       this.setState({
-        history
+        showReplyHistory: true,
+        showBgm: true
       })
-      setStorage(NAMESPACE, history.join())
+
+      setTimeout(() => {
+        this.refBlur()
+      }, 0)
+      return
     }
 
-    /** 本地化最近的回复 */
-    setReplyHistory = async (value: string) => {
-      let replyHistory = [...this.state.replyHistory]
-      if (replyHistory.includes(value)) {
-        replyHistory = replyHistory.filter(item => item !== value)
-        replyHistory.unshift(value)
-      } else {
-        replyHistory.unshift(value)
-      }
+    setTimeout(() => {
+      this.refBlur()
 
-      if (replyHistory.length > MAX_HISTORY_COUNT) {
-        replyHistory = replyHistory.filter((_item, index) => index < MAX_HISTORY_COUNT)
-      }
+      setTimeout(() => {
+        this.setState({
+          showReplyHistory: true,
+          showBgm: true
+        })
+      }, 0)
+    }, 0)
+  }
 
-      const { lockHistory } = this.state
-      if (lockHistory && !replyHistory.includes(lockHistory)) {
-        replyHistory.unshift(lockHistory)
-      }
+  /** 收起最近回复历史框 */
+  onHideReplyHistory = () => {
+    this.setState({
+      showReplyHistory: false
+    })
 
-      this.setState({
-        replyHistory
-      })
-      setStorage(`${NAMESPACE}|replyHistory`, replyHistory)
+    setTimeout(() => {
+      this.refFocus()
+    }, 0)
+  }
+
+  /** 显示 / 隐藏右下角宣传文案 */
+  onToggleSource = () => {
+    const { showSource } = this.state
+    const value = !showSource
+    this.setState({
+      showSource: value
+    })
+    setStorage(`${NAMESPACE}|showSource`, value)
+  }
+
+  /** 显示 / 隐藏左下角宣传文案实际内容 */
+  onToggleSourceText = () => {
+    const { showSourceText } = this.state
+    const value = !showSourceText
+    this.setState({
+      showSourceText: value
+    })
+    setStorage(`${NAMESPACE}|showSourceText`, value)
+  }
+
+  /** 清空文字 */
+  clear = () => {
+    const { onClose } = this.props
+    onClose()
+
+    this.setState({
+      value: '',
+      showTextarea: false
+    })
+    this.setSelection(0)
+  }
+
+  /** @todo 获取光标位置 */
+  getSelection = () => {
+    // const ref = this.ref.textAreaRef
+    // const selection = ref._lastNativeSelection || null
+    // const { value } = this.state
+    // let index = value.length
+    // if (selection) {
+    //   index = selection.start
+    // }
+    // return index
+    return this.selection.end
+  }
+
+  /** 设定光标位置 */
+  setSelection = (start: number) => {
+    const { textAreaRef } = this.ref
+    setTimeout(() => {
+      try {
+        const selection = {
+          start,
+          end: start
+        }
+
+        textAreaRef.setNativeProps({
+          selection
+        })
+        this.selection = selection
+      } catch (error) {}
+    }, 0)
+  }
+
+  /** 本地化最近使用 bgm 表情 */
+  setRecentUseBgm = async (id: number) => {
+    let history = [...this.state.history]
+    if (history.includes(id)) {
+      history = history.filter(item => item !== id)
+      history.unshift(id)
+    } else {
+      history.unshift(id)
+    }
+    if (history.length > MAX_BGM_HISTORY_COUNT) {
+      history = history.filter((_item, index) => index < MAX_BGM_HISTORY_COUNT)
     }
 
-    /** 锁定某个最近的回复, 不会被替代 */
-    onLockHistory = (text: string) => {
-      if (!text) return false
+    this.setState({
+      history
+    })
+    setStorage(NAMESPACE, history.join())
+  }
 
-      const { lockHistory } = this.state
-      const value = lockHistory === text ? '' : text
-      this.setState({
-        lockHistory: value
-      })
-      feedback(true)
-      setStorage(`${NAMESPACE}|lockHistory`, value)
+  /** 本地化最近的回复 */
+  setReplyHistory = async (value: string) => {
+    let replyHistory = [...this.state.replyHistory]
+    if (replyHistory.includes(value)) {
+      replyHistory = replyHistory.filter(item => item !== value)
+      replyHistory.unshift(value)
+    } else {
+      replyHistory.unshift(value)
     }
 
-    /** 检查草稿是否未发送, 收起输入框时保存草稿到回复历史中 */
-    checkIsNeedToSaveDraft = () => {
-      const { value } = this.state
-      if (value) {
-        this.setReplyHistory(value)
-        info('草稿已保存到历史回复中')
-      }
+    if (replyHistory.length > MAX_HISTORY_COUNT) {
+      replyHistory = replyHistory.filter((_item, index) => index < MAX_HISTORY_COUNT)
     }
 
-    get value() {
-      const { source } = this.props
-      const { value, showSource } = this.state
-      if (!source || !showSource || value.includes(SOURCE_FLAG)) return value
-      return `${value}${SOURCE_TEXT}`
+    const { lockHistory } = this.state
+    if (lockHistory && !replyHistory.includes(lockHistory)) {
+      replyHistory.unshift(lockHistory)
     }
 
-    get editing() {
-      const { showTextarea, showBgm } = this.state
-      return showTextarea || showBgm
-    }
+    this.setState({
+      replyHistory
+    })
+    setStorage(`${NAMESPACE}|replyHistory`, replyHistory)
+  }
 
-    renderBody() {
-      const { placeholder, simple, source, marks, children, extraComponent } = this.props
-      const {
-        value,
-        showBgm,
-        showReplyHistory,
-        showSource,
-        showSourceText,
-        showTextarea,
-        keyboardHeight,
-        history,
-        replyHistory,
-        lockHistory
-      } = this.state
-      return (
-        <>
-          {children}
-          <ToolBar
-            simple={simple}
-            showBgm={showBgm}
-            showReplyHistory={showReplyHistory}
-            showTextarea={showTextarea}
-            onAddSymbolText={this.onAddSymbolText}
-            onHideBgm={this.onHideBgm}
-            onHideReplyHistory={this.onHideReplyHistory}
-            onShowBgm={this.onShowBgm}
-            onShowReplyHistory={this.onShowReplyHistory}
-          />
-          <Textarea
-            forwardRef={this.forwardRef}
-            simple={simple || !extraComponent}
-            marks={marks}
-            source={source}
-            placeholder={placeholder}
-            value={value}
-            editing={this.editing}
-            showSource={showSource}
-            showSourceText={showSourceText}
-            showTextarea={showTextarea}
-            onAddSymbolText={this.onAddSymbolText}
-            onChange={this.onChange}
-            onFocus={this.onFocus}
-            onSelectionChange={this.onSelectionChange}
-            onSubmit={this.onSubmit}
-            onToggleSource={this.onToggleSource}
-            onToggleSourceText={this.onToggleSourceText}
-          />
-          <Content
-            keyboardHeight={keyboardHeight}
-            history={history}
-            replyHistory={replyHistory}
-            lockHistory={lockHistory}
-            showBgm={showBgm}
-            showReplyHistory={showReplyHistory}
-            showTextarea={showTextarea}
-            onChange={this.onChange}
-            onSelectBgm={this.onSelectBgm}
-            onLockHistory={this.onLockHistory}
-          />
-        </>
-      )
-    }
+  /** 锁定某个最近的回复, 不会被替代 */
+  onLockHistory = (text: string) => {
+    if (!text) return false
 
-    render() {
-      r(COMPONENT)
+    const { lockHistory } = this.state
+    const value = lockHistory === text ? '' : text
+    this.setState({
+      lockHistory: value
+    })
+    feedback(true)
+    setStorage(`${NAMESPACE}|lockHistory`, value)
+  }
 
-      if (WEB) return null
-
-      const { extraComponent } = this.props
-      const { showTextarea, showBgm, showReplyHistory, showKeyboardSpacer } = this.state
-      return (
-        <>
-          <Mask showTextarea={showTextarea} showBgm={showBgm} onMask={this.onMask} />
-          <Container>
-            {this.renderBody()}
-            <KeyboardSpacer
-              animate={!(showBgm || showReplyHistory) && !showKeyboardSpacer}
-              onToggle={this.onToggleKeyboard}
-            />
-          </Container>
-          {!this.editing && extraComponent}
-        </>
-      )
+  /** 检查草稿是否未发送, 收起输入框时保存草稿到回复历史中 */
+  checkIsNeedToSaveDraft = () => {
+    const { value } = this.state
+    if (value) {
+      this.setReplyHistory(value)
+      info('草稿已保存到历史回复中')
     }
   }
-)
+
+  get value() {
+    const { source } = this.props
+    const { value, showSource } = this.state
+    if (!source || !showSource || value.includes(SOURCE_FLAG)) return value
+    return `${value}${SOURCE_TEXT}`
+  }
+
+  get editing() {
+    const { showTextarea, showBgm } = this.state
+    return showTextarea || showBgm
+  }
+
+  renderBody() {
+    const { placeholder, simple, source, marks, children, extraComponent } = this.props
+    const {
+      value,
+      showBgm,
+      showReplyHistory,
+      showSource,
+      showSourceText,
+      showTextarea,
+      keyboardHeight,
+      history,
+      replyHistory,
+      lockHistory
+    } = this.state
+    return (
+      <>
+        {children}
+        <ToolBar
+          simple={simple}
+          showBgm={showBgm}
+          showReplyHistory={showReplyHistory}
+          showTextarea={showTextarea}
+          onAddSymbolText={this.onAddSymbolText}
+          onHideBgm={this.onHideBgm}
+          onHideReplyHistory={this.onHideReplyHistory}
+          onShowBgm={this.onShowBgm}
+          onShowReplyHistory={this.onShowReplyHistory}
+        />
+        <Textarea
+          forwardRef={this.forwardRef}
+          simple={simple || !extraComponent}
+          marks={marks}
+          source={source}
+          placeholder={placeholder}
+          value={value}
+          editing={this.editing}
+          showSource={showSource}
+          showSourceText={showSourceText}
+          showTextarea={showTextarea}
+          onAddSymbolText={this.onAddSymbolText}
+          onChange={this.onChange}
+          onFocus={this.onFocus}
+          onSelectionChange={this.onSelectionChange}
+          onSubmit={this.onSubmit}
+          onToggleSource={this.onToggleSource}
+          onToggleSourceText={this.onToggleSourceText}
+        />
+        <Content
+          keyboardHeight={keyboardHeight}
+          history={history}
+          replyHistory={replyHistory}
+          lockHistory={lockHistory}
+          showBgm={showBgm}
+          showReplyHistory={showReplyHistory}
+          showTextarea={showTextarea}
+          onChange={this.onChange}
+          onSelectBgm={this.onSelectBgm}
+          onLockHistory={this.onLockHistory}
+        />
+      </>
+    )
+  }
+
+  render() {
+    r(COMPONENT)
+
+    if (WEB) return null
+
+    const { extraComponent } = this.props
+    const { showTextarea, showBgm, showReplyHistory, showKeyboardSpacer } = this.state
+    return (
+      <>
+        <Mask showTextarea={showTextarea} showBgm={showBgm} onMask={this.onMask} />
+        <Container>
+          {this.renderBody()}
+          <KeyboardSpacer
+            animate={!(showBgm || showReplyHistory) && !showKeyboardSpacer}
+            onToggle={this.onToggleKeyboard}
+          />
+        </Container>
+        {!this.editing && extraComponent}
+      </>
+    )
+  }
+}
+
+/** 带表情的回复框 */
+const FixedTextarea = observer(FixedTextareaComponent)
+
+export { FixedTextarea }
 
 export default FixedTextarea
+
+/** 提取出类的实例类型 */
+export type FixedTextareaInstance = InstanceType<typeof FixedTextareaComponent>

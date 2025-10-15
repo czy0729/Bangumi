@@ -27,3 +27,10 @@ declare namespace global {
     function assert()
   }
 }
+
+/** 全局 WEB 类型声明 (仅为防止 RN 编译报错) */
+declare const document: {
+  querySelector: (selector: string) => {
+    offsetTop?: number
+  } | null
+}

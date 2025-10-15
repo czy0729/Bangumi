@@ -2,28 +2,27 @@
  * @Author: czy0729
  * @Date: 2025-04-23 08:26:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-23 10:23:08
+ * @Last Modified time: 2025-10-15 17:53:54
  */
 import React from 'react'
 import { Cover, Flex, Heatmap, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { appNavigate, findSubjectCn, HTMLDecode, simpleTime } from '@utils'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { HOST, IMG_EMPTY, IMG_EMPTY_DARK } from '@constants'
-import { Ctx } from '../../../types'
 import WordCloud from '../../word-cloud'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function GroupInfo() {
-  r(COMPONENT)
+import type { Ctx } from '../../../types'
 
-  const { $, navigation } = useStore<Ctx>()
+function GroupInfo() {
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
     const styles = memoStyles()
     const isEp = $.topicId.includes('ep/')
+
     return (
       <Flex style={styles.container}>
         {!!$.group && (

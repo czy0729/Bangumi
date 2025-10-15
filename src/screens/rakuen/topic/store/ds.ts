@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-09-28 17:50:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 07:20:18
+ * @Last Modified time: 2025-10-15 23:20:16
  */
 import { _ } from '@stores'
-import { Comments, Topic } from '@stores/rakuen/types'
-import { CompletionItem, Id, Loaded, TranslateResult } from '@types'
 import { COMPONENT } from '../ds'
-import { FilterType } from '../types'
+
+import type { Comments, Topic } from '@stores/rakuen/types'
+import type { CompletionItem, Id, Loaded, TranslateResult } from '@types'
+import type { FilterType } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 

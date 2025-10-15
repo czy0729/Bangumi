@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-02 06:07:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-02 06:38:32
+ * @Last Modified time: 2025-10-15 17:30:19
  */
 import {
   FILTER_ALL,
@@ -13,7 +13,7 @@ import {
   FILTER_POST
 } from './ds'
 
-export type DATA = (
+export type Data = (
   | typeof FILTER_ALL
   | `${typeof FILTER_FOLLOW} ${number}`
   | `${typeof FILTER_FRIENDS} ${number}`

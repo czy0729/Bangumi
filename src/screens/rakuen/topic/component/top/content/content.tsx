@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-03 20:09:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-03 07:11:47
+ * @Last Modified time: 2025-10-15 17:52:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,6 +31,7 @@ const Content = memo(
     onLinkPress = FROZEN_FN
   }) => {
     const isGroup = topicId.includes('group/')
+
     return (
       <View style={styles.html}>
         {isGroup && !html && (

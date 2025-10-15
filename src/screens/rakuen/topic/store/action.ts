@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:09:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 07:13:53
+ * @Last Modified time: 2025-10-15 23:18:54
  */
 import { toJS } from 'mobx'
 import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
@@ -23,11 +23,12 @@ import { completions, get, lx, update } from '@utils/kv'
 import { MUSUME_EP_PROMPT, MUSUME_PROMPT, MUSUME_TOPIC_PROMPT } from '@utils/kv/ds'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HOST, IOS } from '@constants'
-import { RakuenReplyType } from '@constants/html/types'
 import { getPlainText, removeSlogan } from '@screens/discovery/word-cloud/store/utils'
-import { AnyObject, CompletionItem, Fn, Id, ScrollEvent, TopicType } from '@types'
 import { getTopicMainFloorRawText } from '../utils'
 import Fetch from './fetch'
+
+import type { AnyObject, CompletionItem, Fn, Id, ScrollEvent, TopicType } from '@types'
+import type { RakuenReplyType } from '@constants/html/types'
 
 export default class Action extends Fetch {
   /** 缓存用户头像关系 */

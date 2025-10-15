@@ -2,19 +2,21 @@
  * @Author: czy0729
  * @Date: 2025-02-04 07:13:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-10 00:01:11
+ * @Last Modified time: 2025-10-15 17:27:23
  */
 import React from 'react'
+import { useObserver } from 'mobx-react'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
+import type { Ctx } from '../../types'
+
 function MesumeChat() {
-  const { $ } = useStore<Ctx>()
-  return (
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
     <IconTouchable
       style={styles.mesume}
       size={18}
@@ -22,7 +24,7 @@ function MesumeChat() {
       name='md-chat-bubble-outline'
       onPress={$.doChat}
     />
-  )
+  ))
 }
 
-export default ob(MesumeChat, COMPONENT)
+export default MesumeChat

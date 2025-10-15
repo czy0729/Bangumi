@@ -2,21 +2,23 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-06 21:35:40
+ * @Last Modified time: 2025-10-15 04:46:41
  */
 import React from 'react'
+import { useObserver } from 'mobx-react'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { IMG_DEFAULT_AVATAR } from '@constants'
-import { Ctx } from '../../types'
 import HeaderTitle from './header-title'
 import { COMPONENT } from './ds'
 
-function HeaderTitleWrap({ onScrollToTop }) {
-  const { $, navigation } = useStore<Ctx>()
-  return (
+import type { Ctx } from '../../types'
+import type { Props } from './types'
+
+function HeaderTitleWrap({ onScrollToTop }: Props) {
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
     <HeaderTitle
-      navigation={navigation}
       avatar={$.avatar === IMG_DEFAULT_AVATAR ? $.groupThumb : $.avatar}
       userId={$.userId}
       userName={$.userName}
@@ -24,7 +26,7 @@ function HeaderTitleWrap({ onScrollToTop }) {
       group={$.group}
       onScrollToTop={onScrollToTop}
     />
-  )
+  ))
 }
 
-export default ob(HeaderTitleWrap, COMPONENT)
+export default HeaderTitleWrap

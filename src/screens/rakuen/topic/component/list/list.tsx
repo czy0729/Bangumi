@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-03 22:16:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-19 11:22:10
+ * @Last Modified time: 2025-10-15 17:15:54
  */
 import React, { useCallback } from 'react'
 import { ListView } from '@components'
@@ -17,7 +17,7 @@ import { styles } from './styles'
 
 const List = memo(
   ({
-    forwardRef = FROZEN_FN,
+    forwardRef,
     data = LIST_EMPTY,
     postId = '',
     onScroll = FROZEN_FN,
@@ -48,7 +48,14 @@ const List = memo(
 
     const { list } = data
     if (WEB || list.length <= LIMIT_LIST) {
-      return <ListView {...passProps} ref={forwardRef} data={data} />
+      return (
+        <ListView
+          {...passProps}
+          // @ts-expect-error
+          ref={forwardRef}
+          data={data}
+        />
+      )
     }
 
     return <PaginationList2 {...passProps} forwardRef={forwardRef} data={list} limit={24} />

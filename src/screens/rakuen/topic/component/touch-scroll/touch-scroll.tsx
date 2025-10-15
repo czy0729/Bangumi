@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-04 13:00:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-19 22:39:35
+ * @Last Modified time: 2025-10-15 17:45:42
  */
 import React from 'react'
 import { TouchableWithoutFeedback, View } from 'react-native'
@@ -11,9 +11,9 @@ import { _ } from '@stores'
 import { getTimestamp, stl, titleCase } from '@utils'
 import { memo } from '@utils/decorators'
 import { FROZEN_ARRAY, FROZEN_FN, IOS, MODEL_RAKUEN_SCROLL_DIRECTION } from '@constants'
-import { RakuenScrollDirection } from '@types'
-import { PassProps } from './type'
 import { COMPONENT_MAIN, DEFAULT_PROPS, HIT_SLOP } from './ds'
+
+import type { TouchableWithoutFeedbackProps } from 'react-native'
 
 export const TouchScroll = memo(
   ({
@@ -33,10 +33,10 @@ export const TouchScroll = memo(
       list.length - 1
     ]
     const isVertical =
-      scrollDirection === MODEL_RAKUEN_SCROLL_DIRECTION.getValue<RakuenScrollDirection>('右侧') ||
-      scrollDirection === MODEL_RAKUEN_SCROLL_DIRECTION.getValue<RakuenScrollDirection>('左侧')
+      scrollDirection === MODEL_RAKUEN_SCROLL_DIRECTION.getValue('右侧') ||
+      scrollDirection === MODEL_RAKUEN_SCROLL_DIRECTION.getValue('左侧')
 
-    const passProps: PassProps = {
+    const passProps: TouchableWithoutFeedbackProps = {
       hitSlop: HIT_SLOP
     }
     if (IOS) {
@@ -79,7 +79,7 @@ export const TouchScroll = memo(
           }
 
           const showFloorText = showFloor.includes(index)
-          const passProps: PassProps = {
+          const passProps: TouchableWithoutFeedbackProps = {
             hitSlop: HIT_SLOP
           }
           if (IOS) {

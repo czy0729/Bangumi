@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-09-28 17:24:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 07:42:04
+ * @Last Modified time: 2025-10-15 04:33:03
  */
 import React from 'react'
 import { Flex, Text, Touchable, UserStatus } from '@components'
 import { Avatar, VerticalAlign } from '@_'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
+import { useNavigation } from '@utils/hooks'
 import { FROZEN_FN, IOS } from '@constants'
 import { COMPONENT_MAIN, DEFAULT_PROPS, IMG_WIDTH } from './ds'
 import { styles } from './styles'
 
 const HeaderTitle = memo(
   ({
-    navigation,
     avatar = '',
     userId = '',
     userName = '',
@@ -23,6 +23,8 @@ const HeaderTitle = memo(
     group = '',
     onScrollToTop = FROZEN_FN
   }) => {
+    const navigation = useNavigation()
+
     const texts = [userName || group, group].filter(item => !!item).join(' · ')
     const el = (
       <>

@@ -2,22 +2,21 @@
  * @Author: czy0729
  * @Date: 2025-04-23 09:34:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-23 10:21:47
+ * @Last Modified time: 2025-10-15 17:50:24
  */
 import React, { useCallback, useState } from 'react'
 import { Avatar, Flex, Heatmap, Text, UserStatus } from '@components'
 import { Name, UserAge } from '@_'
 import { _, systemStore, useStore } from '@stores'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Author() {
-  r(COMPONENT)
+import type { Ctx } from '../../../types'
 
-  const { $, navigation } = useStore<Ctx>()
+function Author() {
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
+
   const [lines, setLines] = useState(1)
   const handleSetLines = useCallback(() => setLines(2), [])
 

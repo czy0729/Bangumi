@@ -71,7 +71,7 @@ export type Props = WithEvent<{
   expandNums?: number
 
   /** 传递显示回复弹窗的函数 */
-  showFixedTextare?: Fn
+  showFixedTextarea?: Fn
 
   /** 跳转到当前楼层项回调 */
   onJumpTo?: Fn

@@ -1,14 +1,14 @@
 {
   "arrowParens": "avoid",
   "bracketSpacing": true,
+  "embeddedLanguageFormatting": "auto",
+  "endOfLine": "lf",
+  "htmlWhitespaceSensitivity": "ignore",
   "jsxSingleQuote": true,
   "printWidth": 100,
+  "proseWrap": "preserve",
   "semi": false,
   "singleQuote": true,
   "tabWidth": 2,
-  "trailingComma": "none",
-  "htmlWhitespaceSensitivity": "ignore",
-  "proseWrap": "preserve",
-  "endOfLine": "lf",
-  "embeddedLanguageFormatting": "auto"
+  "trailingComma": "none"
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-26 19:27:15
+ * @Last Modified time: 2025-10-15 16:33:10
  */
 import React from 'react'
 import { FlatList, RefreshControl } from 'react-native'
@@ -16,7 +16,8 @@ import { ErrorBoundary } from '../error-boundary'
 import Footer from './footer'
 import List from './list'
 import { COMPONENT, REFRESH_STATE, SCROLL_CALLBACK } from './ds'
-import {
+
+import type {
   Props as ListViewProps,
   RefreshState,
   RenderListProps,
@@ -28,7 +29,16 @@ import {
   State
 } from './types'
 
-export { ListViewProps, ScrollToEnd, ScrollToIndex, ScrollToItem, ScrollToLocation, ScrollToOffset }
+export type {
+  ListViewProps,
+  ScrollToEnd,
+  ScrollToIndex,
+  ScrollToItem,
+  ScrollToLocation,
+  ScrollToOffset
+}
+
+export type { ListViewInstance } from './types'
 
 /**
  * 客户端通用长列表

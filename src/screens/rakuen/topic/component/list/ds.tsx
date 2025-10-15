@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-01-03 22:15:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-24 03:05:11
+ * @Last Modified time: 2025-10-15 16:18:59
  */
 import { keyExtractor } from '@utils'
 import { rc } from '@utils/dev'
 import { FROZEN_FN, LIST_EMPTY } from '@constants'
-import { Ctx } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
 import Top from '../top'
+
+import type { Ctx, HandleScrollViewRef } from '../../types'
 
 export const COMPONENT = rc(PARENT, 'List')
 
@@ -29,7 +30,7 @@ export const LISTVIEW_PROPS = {
 type $ = Ctx['$']
 
 export const DEFAULT_PROPS = {
-  forwardRef: FROZEN_FN,
+  forwardRef: undefined as HandleScrollViewRef,
   data: LIST_EMPTY as $['comments'],
   postId: '' as $['postId'],
   onScroll: FROZEN_FN,

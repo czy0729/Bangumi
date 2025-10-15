@@ -2,43 +2,48 @@
  * @Author: czy0729
  * @Date: 2023-12-21 15:17:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 07:34:50
+ * @Last Modified time: 2025-10-15 05:05:14
  */
-import React from 'react'
+import React, { useMemo } from 'react'
 import { View } from 'react-native'
+import { useObserver } from 'mobx-react'
 import { ItemPost } from '@_'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT, PRE_RENDER_INDEX } from './ds'
 import { styles } from './styles'
+import { Props } from './types'
 
-function Item({ item, index, onShowFixedTextarea }) {
-  const { $ } = useStore<Ctx>()
+function Item({ item, index, onShowFixedTextarea }: Props) {
+  const { $ } = useStore<Ctx>(COMPONENT)
 
-  if (!$.postId && !$.state.scrolled && index > PRE_RENDER_INDEX - 1) {
-    return <View style={styles.item} />
-  }
+  return useObserver(() => {
+    const { topicId } = $
+    const event = useMemo(
+      () =>
+        ({
+          id: '帖子.跳转',
+          data: { topicId }
+        } as const),
+      [topicId]
+    )
 
-  const EVENT = {
-    id: '帖子.跳转',
-    data: {
-      topicId: $.topicId
-    }
-  } as const
+    const shouldPlaceholder = !$.postId && !$.state.scrolled && index > PRE_RENDER_INDEX - 1
+    if (shouldPlaceholder) return <View style={styles.item} />
 
-  return (
-    <ItemPost
-      inViewY={_.window.height * 0.8}
-      index={index}
-      postId={$.postId}
-      authorId={$.topic.userId}
-      {...item}
-      matchLink
-      event={EVENT}
-      showFixedTextare={onShowFixedTextarea}
-    />
-  )
+    return (
+      <ItemPost
+        {...item}
+        index={index}
+        inViewY={_.window.height * 0.8}
+        postId={$.postId}
+        authorId={$.topic.userId}
+        matchLink
+        event={event}
+        showFixedTextarea={onShowFixedTextarea}
+      />
+    )
+  })
 }
 
-export default ob(Item, COMPONENT)
+export default Item

@@ -2,15 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-05-17 04:49:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-28 13:55:08
+ * @Last Modified time: 2025-10-15 16:33:11
  */
-import { FlatListProps, SectionListScrollParams } from 'react-native'
-import { ListEmpty, Override, ReactNode } from '@types'
+import { FlatList, FlatListProps, SectionListScrollParams } from 'react-native'
+import { ListEmpty, Override, ReactNode, Ref } from '@types'
 import { REFRESH_STATE } from './ds'
 
-export type Props<ItemT> = Override<
+/** 提取出类的实例类型 */
+export type ListViewInstance = InstanceType<typeof FlatList>
+
+export type Props<ItemT = any> = Override<
   FlatListProps<ItemT>,
   {
+    ref?: Ref<ListViewInstance>
+
     /** 是否使用 Animated.ListView 渲染 */
     animated?: boolean
 

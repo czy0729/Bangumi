@@ -2,24 +2,23 @@
  * @Author: czy0729
  * @Date: 2025-04-23 08:54:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-23 10:30:50
+ * @Last Modified time: 2025-10-15 17:55:25
  */
 import React from 'react'
 import { Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { copy } from '@utils'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 
-function Title() {
-  r(COMPONENT)
+import type { Ctx } from '../../../types'
 
-  const { $ } = useStore<Ctx>()
+function Title() {
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
     const { _replies: replies } = $.params
+
     return (
       <>
         <Touchable

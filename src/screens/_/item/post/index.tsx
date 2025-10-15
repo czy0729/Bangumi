@@ -43,7 +43,7 @@ export const ItemPost = ob(
     matchLink,
     expandNums,
     event,
-    showFixedTextare: onShowFixedTextarea,
+    showFixedTextarea: onShowFixedTextarea,
     onJumpTo
   }: ItemPostProps) => {
     const { $ } = useStore<Ctx>()

@@ -2,31 +2,42 @@
  * @Author: czy0729
  * @Date: 2023-12-21 15:06:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 07:36:30
+ * @Last Modified time: 2025-10-15 23:36:56
  */
 import { useCallback, useRef } from 'react'
-import { FlatList } from 'react-native'
 import { layoutHeightMap } from '@_/item/post/utils'
 import { _, rakuenStore, uiStore, useInitStore } from '@stores'
 import { feedback, info } from '@utils'
+import { logger } from '@utils/dev'
 import { scrollToTop } from '@utils/dom'
 import { t } from '@utils/fetch'
 import { useKeyboardAdjustResize, usePageLifecycle } from '@utils/hooks'
 import { WEB } from '@constants'
-import { Id, NavigationProps } from '@types'
 import store from './store'
 import { PRE_OFFSET } from './ds'
-import { Ctx } from './types'
+
+import type { NavigationProps } from '@types'
+import type {
+  Ctx,
+  HandleDirect,
+  HandleFixedTextareaRef,
+  HandleFloorPress,
+  HandleJumpTo,
+  HandleScrollToIndexFailed,
+  HandleScrollToTop,
+  HandleScrollViewRef,
+  HandleShowFixedTextarea
+} from './types'
 
 export function useTopicPage(props: NavigationProps) {
   const context = useInitStore<Ctx['$']>(props, store)
   const { id, $ } = context
 
   /** 长列表引用 */
-  const scrollViewRef = useRef<FlatList>(null)
+  const scrollViewRef: HandleScrollViewRef = useRef(null)
 
   /** 底部回复框引用 */
-  const fixedTextareaRef = useRef(null)
+  const fixedTextareaRef: HandleFixedTextareaRef = useRef(null)
 
   /** 尝试滚动失败次数 */
   const scrollFailCount = useRef(0)
@@ -45,10 +56,7 @@ export function useTopicPage(props: NavigationProps) {
             return
           }
 
-          const offsetTop = document.querySelector(
-            `item-post[data-key="${item.id}"]`
-            // @ts-expect-error
-          )?.offsetTop
+          const offsetTop = document.querySelector(`item-post[data-key="${item.id}"]`)?.offsetTop
           if (offsetTop) scrollToTop(offsetTop - _.headerHeight)
           return
         }
@@ -59,7 +67,7 @@ export function useTopicPage(props: NavigationProps) {
           viewOffset: 0
         })
       } catch (error) {
-        console.error('topic/index.js', 'handleScrollTo', error)
+        logger.error('topic/hooks', 'handleScrollTo', error)
       }
     },
     [$.comments]
@@ -97,10 +105,7 @@ export function useTopicPage(props: NavigationProps) {
         if (animated) info(item?.floor, 0.8)
 
         if (WEB) {
-          const offsetTop = document.querySelector(
-            `item-post[data-key="${item.id}"]`
-            // @ts-expect-error
-          )?.offsetTop
+          const offsetTop = document.querySelector(`item-post[data-key="${item.id}"]`)?.offsetTop
           if (offsetTop) scrollToTop(offsetTop - _.headerHeight)
         } else {
           scrollViewRef.current?.scrollToIndex({
@@ -112,7 +117,7 @@ export function useTopicPage(props: NavigationProps) {
 
         feedback(true)
       } catch (error) {
-        console.error('topic/index.js', 'handleScrollToRetry', error)
+        logger.error('topic/hooks', 'handleScrollToRetry', error)
 
         // 使用了分页 PaginationList 的情况下, 只能先去到最底层
         try {
@@ -126,7 +131,6 @@ export function useTopicPage(props: NavigationProps) {
               viewOffset: 0 + _.headerHeight
             })
           }
-          // eslint-disable-next-line no-catch-shadow
         } catch (error) {}
       }
     },
@@ -134,7 +138,7 @@ export function useTopicPage(props: NavigationProps) {
   )
 
   /** 滚动失败后尝试使用保守的方法再次滚动 */
-  const handleScrollToIndexFailed = useCallback(
+  const handleScrollToIndexFailed = useCallback<HandleScrollToIndexFailed>(
     ({ highestMeasuredFrameIndex, index }) => {
       try {
         handleScrollTo(highestMeasuredFrameIndex)
@@ -145,16 +149,17 @@ export function useTopicPage(props: NavigationProps) {
           handleScrollTo(index)
         }, 100)
       } catch (error) {
-        console.error('topic/index.js', 'handleScrollToIndexFailed', error)
+        logger.error('topic/hooks', 'handleScrollToIndexFailed', error)
       }
     },
     [handleScrollTo]
   )
 
   /** 提醒页面进入跳转到指定提醒楼层 */
-  const handleJumpTo = useCallback(
-    (postId?: Id) => {
-      console.info('handleJumpTo', postId)
+  const handleJumpTo = useCallback<HandleJumpTo>(
+    postId => {
+      logger.info('topic/hooks', 'handleJumpTo', postId)
+
       const value = postId || $.postId
       if (!value) return
 
@@ -167,7 +172,7 @@ export function useTopicPage(props: NavigationProps) {
 
             if (item.id === value) {
               scrollIndex = index
-              console.info('scrollIndex', scrollIndex)
+              logger.info('topic/hooks', 'scrollIndex', scrollIndex)
             } else if (item.sub) {
               item.sub.forEach((i: { id: any }) => {
                 if (i.id === value) {
@@ -175,7 +180,7 @@ export function useTopicPage(props: NavigationProps) {
                   $.onExpand(item.id)
 
                   scrollIndex = index
-                  console.info('scrollIndex sub', scrollIndex)
+                  logger.info('topic/hooks', 'scrollIndex sub', scrollIndex)
                 }
               })
             }
@@ -183,7 +188,7 @@ export function useTopicPage(props: NavigationProps) {
 
           if (scrollIndex !== undefined) handleScrollTo(scrollIndex)
         } catch (error) {
-          console.error('topic/index.js', 'handleJumpTo', error)
+          logger.error('topic/hooks', 'handleJumpTo', error)
         }
       }
     },
@@ -191,7 +196,7 @@ export function useTopicPage(props: NavigationProps) {
   )
 
   /** 楼层进度条点击 */
-  const handleFloorPress = useCallback(
+  const handleFloorPress = useCallback<HandleFloorPress>(
     (index = 0) => {
       try {
         handleScrollToRetry(index)
@@ -201,15 +206,15 @@ export function useTopicPage(props: NavigationProps) {
           $.updateDirection(directIndex)
         }
       } catch (error) {
-        console.error('topic/index.js', 'handleFloorPress', error)
+        logger.error('topic/hooks', 'handleFloorPress', error)
       }
     },
     [$, handleScrollToRetry]
   )
 
   /** 导演模式, 按楼层回复顺序前进或者退后 */
-  const handleDirect = useCallback(
-    (isNext: boolean = true, step: number = 1) => {
+  const handleDirect = useCallback<HandleDirect>(
+    (isNext = true, step = 1) => {
       try {
         const { length } = $.directItems
         if (!$.directItems.length) return
@@ -256,14 +261,14 @@ export function useTopicPage(props: NavigationProps) {
         }
         $.updateDirection(nextDirectIndex, floor)
       } catch (error) {
-        console.error('topic/index.js', 'handleDirect', error)
+        logger.error('topic/hooks', 'handleDirect', error)
       }
     },
     [$, handleScrollToRetry]
   )
 
   /** 滚动到顶 */
-  const handleScrollToTop = useCallback(() => {
+  const handleScrollToTop = useCallback<HandleScrollToTop>(() => {
     feedback()
     scrollViewRef.current?.scrollToOffset({
       animated: true,
@@ -272,11 +277,11 @@ export function useTopicPage(props: NavigationProps) {
   }, [])
 
   /** 显示底部输入框 */
-  const handleShowFixedTextarea = useCallback(() => {
+  const handleShowFixedTextarea = useCallback<HandleShowFixedTextarea>(() => {
     try {
       fixedTextareaRef.current?.onFocus()
     } catch (error) {
-      console.error('topic/index.js', 'handleShowFixedTextarea', error)
+      logger.error('topic/hooks', 'handleShowFixedTextarea', error)
     }
   }, [])
 
@@ -309,7 +314,6 @@ export function useTopicPage(props: NavigationProps) {
     fixedTextareaRef,
     handleDirect,
     handleFloorPress,
-    handleJumpTo,
     handleScrollToIndexFailed,
     handleScrollToTop,
     handleShowFixedTextarea

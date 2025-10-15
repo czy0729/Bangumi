@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 05:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-12 11:45:42
+ * @Last Modified time: 2025-10-15 21:23:58
  */
 module.exports = {
   root: true,
@@ -34,6 +34,7 @@ module.exports = {
 
     /** 允许相同变量名 */
     'no-shadow': 0,
+    'no-console': ['warn'],
     'prefer-const': [
       'error',
       {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-01 04:41:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-14 03:56:34
+ * @Last Modified time: 2025-10-15 05:07:02
  */
 import {
   Avatar,
@@ -115,9 +115,10 @@ export type Topic = {
   _loaded?: Loaded
 }
 
+/** 帖子回复项 (通用、子楼层) */
 export type CommentsItem = {
   /** 用户头像 */
-  avatar: Avatar<'s'>
+  avatar: string
 
   /** 楼层 */
   floor: string
@@ -147,6 +148,7 @@ export type CommentsItem = {
   erase: string
 }
 
+/** 帖子回复项 (主楼层) */
 export type CommentsItemWithSub = Override<
   CommentsItem,
   {

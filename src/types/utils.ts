@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-13 06:21:20
+ * @Last Modified time: 2025-10-15 05:04:12
  */
 import React from 'react'
 import {
@@ -107,6 +107,9 @@ export type IReactComponent<T = any> =
   | React.ComponentClass<T>
   | React.ClassicComponentClass<T>
 
+/** ref */
+export type Ref<T = any> = React.MutableRefObject<T | null>
+
 /** 取 Model 联合类型 */
 export type ModelValueOf<T extends readonly any[], K extends string = 'value'> = T[number][K]
 
@@ -150,10 +153,13 @@ export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
 export type MaybeReadonly<T> = T | ReadonlyResult<T>
 
 /** 列表带索引 renderItem */
-export type RenderItem<T> = {
-  item: T
-  index: number
-}
+export type RenderItem<T, K = {}> = Override<
+  {
+    item: T
+    index: number
+  },
+  K
+>
 
 /** 列表节头 renderSectionHeader */
 export type RenderSectionHeader<T> = {

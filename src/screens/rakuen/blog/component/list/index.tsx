@@ -132,7 +132,7 @@ class Blog extends React.Component<
     }, 100)
   }
 
-  showFixedTextare = () => this.fixedTextarea.onFocus()
+  showFixedTextarea = () => this.fixedTextarea.onFocus()
 
   renderItem = ({ item, index }) => {
     const { $ } = this.props
@@ -148,7 +148,7 @@ class Blog extends React.Component<
         postId={$.postId}
         authorId={$.blog.userId}
         {...item}
-        showFixedTextare={this.showFixedTextare}
+        showFixedTextarea={this.showFixedTextarea}
         event={event}
       />
     )

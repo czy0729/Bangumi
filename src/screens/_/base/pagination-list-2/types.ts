@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /*
  * @Author: czy0729
  * @Date: 2022-06-14 19:50:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-25 07:07:21
+ * @Last Modified time: 2025-10-15 17:14:14
  */
-import { ListViewProps } from '@components'
-import { Fn, Override } from '@types'
+import type { ListViewInstance, ListViewProps } from '@components'
+import type { Fn, Override, Ref } from '@types'
 
 export type Props<ItemT> = Override<
   ListViewProps<ItemT>,
@@ -13,7 +14,7 @@ export type Props<ItemT> = Override<
     data: ItemT[] | readonly ItemT[]
 
     /** 链接 ref */
-    forwardRef?: Fn
+    forwardRef?: Ref<ListViewInstance>
 
     /** @deprecated */
     connectRef?: Fn
