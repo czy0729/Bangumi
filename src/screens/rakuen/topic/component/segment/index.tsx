@@ -5,10 +5,10 @@
  * @Last Modified time: 2025-10-15 23:31:23
  */
 import React, { useCallback, useMemo } from 'react'
-import { useObserver } from 'mobx-react'
 import { SegmentedControl } from '@components'
 import { _, rakuenStore, userStore, useStore } from '@stores'
 import { feedback, info } from '@utils'
+import { useObserver } from '@utils/hooks'
 import {
   COMPONENT,
   FILTER_ALL,

@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-05-01 14:26:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-23 14:51:53
+ * @Last Modified time: 2025-10-16 21:56:13
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { View } from 'react-native'
 import { useObserver } from 'mobx-react'
 import { useFocusEffect } from '@react-navigation/native'
@@ -34,9 +34,13 @@ export const Page = ({
 }: PageProps) => {
   r(COMPONENT)
 
-  useFocusEffect(() => {
-    if (IOS && statusBarEvent) StatusBar.setBarStyle(_.isDark ? 'light-content' : 'dark-content')
-  })
+  useFocusEffect(
+    useCallback(() => {
+      if (IOS && statusBarEvent) {
+        StatusBar.setBarStyle(_.isDark ? 'light-content' : 'dark-content')
+      }
+    }, [statusBarEvent])
+  )
 
   return useObserver(() => {
     const _style = stl(_.container.plain, style)

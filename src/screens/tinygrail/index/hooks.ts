@@ -1,8 +1,9 @@
+import { useCallback } from 'react'
 /*
  * @Author: czy0729
  * @Date: 2024-03-04 19:09:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 05:47:24
+ * @Last Modified time: 2025-10-16 22:13:15
  */
 import { StatusBar } from '@components'
 import { _, useInitStore } from '@stores'
@@ -22,11 +23,13 @@ export function useTinygrailPage(props: NavigationProps) {
     hm('tinygrail', 'Tinygrail')
   })
 
-  useFocusEffect(() => {
-    setTimeout(() => {
-      StatusBar.setBarStyle(_.select('dark-content', 'light-content'))
-    }, 40)
-  })
+  useFocusEffect(
+    useCallback(() => {
+      setTimeout(() => {
+        StatusBar.setBarStyle(_.select('dark-content', 'light-content'))
+      }, 40)
+    }, [])
+  )
 
   return context
 }

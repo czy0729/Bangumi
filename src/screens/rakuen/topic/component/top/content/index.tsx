@@ -5,9 +5,9 @@
  * @Last Modified time: 2025-10-15 17:52:10
  */
 import React, { useCallback } from 'react'
-import { useObserver } from 'mobx-react'
 import { useStore } from '@stores'
 import { appNavigate } from '@utils'
+import { useObserver } from '@utils/hooks'
 import Content from './content'
 import { COMPONENT } from './ds'
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-06-09 16:39:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-09 17:20:32
+ * @Last Modified time: 2025-10-16 00:36:36
  */
 import { _ } from '@stores'
 
@@ -19,7 +19,7 @@ export const memoStyles = _.memoStyles(() => ({
     paddingVertical: 12
   },
   border: {
-    borderTopWidth: _.hairlineWidth,
+    borderTopWidth: 1,
     borderTopColor: _.colorBorder
   },
   likes: {

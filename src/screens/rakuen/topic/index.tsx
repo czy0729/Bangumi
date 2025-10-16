@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-15 21:32:13
+ * @Last Modified time: 2025-10-16 20:10:39
  */
 import React from 'react'
 import './styles'
@@ -27,6 +27,7 @@ const Topic = (props: NavigationProps) => {
     handleDirect,
     handleFloorPress,
     handleScrollToIndexFailed,
+    handleScrollTo,
     handleScrollToTop,
     handleShowFixedTextarea
   } = useTopicPage(props)
@@ -37,6 +38,7 @@ const Topic = (props: NavigationProps) => {
         <Page statusBarEvent={false}>
           <List
             forwardRef={scrollViewRef}
+            onScrollTo={handleScrollTo}
             onShowFixedTextarea={handleShowFixedTextarea}
             onScrollToIndexFailed={handleScrollToIndexFailed}
           />

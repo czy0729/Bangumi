@@ -5,8 +5,8 @@
  * @Last Modified time: 2025-10-15 04:46:41
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { IMG_DEFAULT_AVATAR } from '@constants'
 import HeaderTitle from './header-title'
 import { COMPONENT } from './ds'

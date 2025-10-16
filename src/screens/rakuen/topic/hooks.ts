@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-21 15:06:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-15 23:36:56
+ * @Last Modified time: 2025-10-16 20:20:46
  */
 import { useCallback, useRef } from 'react'
 import { layoutHeightMap } from '@_/item/post/utils'
@@ -23,6 +23,7 @@ import type {
   HandleFixedTextareaRef,
   HandleFloorPress,
   HandleJumpTo,
+  HandleScrollTo,
   HandleScrollToIndexFailed,
   HandleScrollToTop,
   HandleScrollViewRef,
@@ -43,12 +44,12 @@ export function useTopicPage(props: NavigationProps) {
   const scrollFailCount = useRef(0)
 
   /** 滚动到指定楼层 */
-  const handleScrollTo = useCallback(
-    (index = 0) => {
+  const handleScrollTo = useCallback<HandleScrollTo>(
+    (index = 0, showInfo = true, animated = false, viewOffset = 0) => {
       try {
         const { list } = $.comments
         const item = list[index]
-        info(item?.floor, 0.8)
+        if (showInfo) info(item?.floor, 0.8)
 
         if (WEB) {
           if (index === -1) {
@@ -62,9 +63,9 @@ export function useTopicPage(props: NavigationProps) {
         }
 
         scrollViewRef.current?.scrollToIndex({
-          animated: false,
+          animated,
           index,
-          viewOffset: 0
+          viewOffset
         })
       } catch (error) {
         logger.error('topic/hooks', 'handleScrollTo', error)
@@ -315,6 +316,7 @@ export function useTopicPage(props: NavigationProps) {
     handleDirect,
     handleFloorPress,
     handleScrollToIndexFailed,
+    handleScrollTo,
     handleScrollToTop,
     handleShowFixedTextarea
   }

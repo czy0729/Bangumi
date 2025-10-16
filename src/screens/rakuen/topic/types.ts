@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 17:25:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-15 23:36:40
+ * @Last Modified time: 2025-10-16 20:20:54
  */
 import { FixedTextareaInstance, ListViewInstance, ListViewProps } from '@components'
 import { GetRouteParams, Id, Ref, RouteTopic, WithNavigation } from '@types'
@@ -27,6 +27,14 @@ export type HandleFloorPress = (number?: number) => void
 
 /** 导演模式, 按楼层回复顺序前进或者退后 */
 export type HandleDirect = (isNext?: boolean, step?: number) => void
+
+/** 滚动到顶 */
+export type HandleScrollTo = (
+  index?: number,
+  showInfo?: boolean,
+  animated?: boolean,
+  viewOffset?: number
+) => void
 
 /** 滚动到顶 */
 export type HandleScrollToTop = () => void

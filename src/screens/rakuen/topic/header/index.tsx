@@ -5,9 +5,9 @@
  * @Last Modified time: 2025-10-15 21:31:54
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Flex, Header as HeaderComp } from '@components'
 import { useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import HeaderTitle from '../component/header-title'
 import IconFavor from '../component/icon/favor'
 import Menu from '../component/menu'

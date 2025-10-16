@@ -12,8 +12,10 @@ import { keyExtractor } from '@utils'
 import { memo } from '@utils/decorators'
 import { FROZEN_FN, LIMIT_LIST, LIST_EMPTY, WEB } from '@constants'
 import Item from '../item'
-import { COMPONENT_MAIN, DEFAULT_PROPS, LISTVIEW_PROPS } from './ds'
+import { COMPONENT_MAIN, DEFAULT_PROPS, LISTVIEW_PROPS, VIEWABILITY_CONFIG } from './ds'
 import { styles } from './styles'
+
+import type { HandleRenderItem } from './types'
 
 const List = memo(
   ({
@@ -23,9 +25,10 @@ const List = memo(
     onScroll = FROZEN_FN,
     onScrollToIndexFailed = FROZEN_FN,
     onHeaderRefresh = FROZEN_FN,
-    onShowFixedTextarea = FROZEN_FN
+    onShowFixedTextarea = FROZEN_FN,
+    onViewableItemsChanged
   }) => {
-    const renderItem = useCallback(
+    const handleRenderItem = useCallback<HandleRenderItem>(
       ({ item, index }) => (
         <Item item={item} index={index} onShowFixedTextarea={onShowFixedTextarea} />
       ),
@@ -40,7 +43,9 @@ const List = memo(
       lazy: postId ? undefined : 4,
       progressViewOffset: _.ios(_.statusBarHeight, 0),
       removeClippedSubviews: true,
-      renderItem,
+      renderItem: handleRenderItem,
+      viewabilityConfig: VIEWABILITY_CONFIG,
+      onViewableItemsChanged,
       onScroll,
       onScrollToIndexFailed,
       onHeaderRefresh

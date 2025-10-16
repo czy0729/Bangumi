@@ -5,10 +5,10 @@
  * @Last Modified time: 2025-10-15 04:29:18
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Heatmap } from '@components'
 import { MesumeChat } from '@_'
 import { useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 
 import type { Loaded } from '@types'

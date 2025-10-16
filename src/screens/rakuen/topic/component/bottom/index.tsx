@@ -5,10 +5,10 @@
  * @Last Modified time: 2025-10-15 04:29:46
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { FixedTextarea, Flex, SafeAreaBottom, Text } from '@components'
 import { _, userStore, useStore } from '@stores'
 import { appNavigate } from '@utils'
+import { useObserver } from '@utils/hooks'
 import Extra from './extra'
 import { COMPONENT, MARKS } from './ds'
 import { memoStyles } from './styles'

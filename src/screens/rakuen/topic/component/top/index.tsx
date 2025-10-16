@@ -6,9 +6,9 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Divider, Expand, HeaderPlaceholder, Text } from '@components'
 import { _, useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import Author from './author'
 import Content from './content'
 import Ep from './ep'

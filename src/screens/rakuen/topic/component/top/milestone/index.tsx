@@ -7,8 +7,8 @@
 import React from 'react'
 import { View } from 'react-native'
 import { WebView } from 'react-native-webview'
-import { useObserver } from 'mobx-react'
 import { useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 

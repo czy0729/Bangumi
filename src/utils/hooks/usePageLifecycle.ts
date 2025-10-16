@@ -1,8 +1,9 @@
+import { useCallback } from 'react'
 /*
  * @Author: czy0729
  * @Date: 2025-05-19 23:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 07:21:53
+ * @Last Modified time: 2025-10-16 22:14:40
  */
 import { InteractionManager } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
@@ -33,19 +34,21 @@ type Callbacks = {
 
 /** 客户端页面统一生命周期钩子 */
 export default function usePageLifecycle(callbacks: Callbacks, id: string) {
-  useFocusEffect(() => {
-    if (typeof callbacks?.onFocus === 'function') {
-      callbacks.onFocus()
-      log(`[${id}]`, 'onFocus')
-    }
-
-    if (typeof callbacks?.onBlur === 'function') {
-      return () => {
-        callbacks.onBlur()
-        log(`[${id}]`, 'onBlur')
+  useFocusEffect(
+    useCallback(() => {
+      if (typeof callbacks?.onFocus === 'function') {
+        callbacks.onFocus()
+        log(`[${id}]`, 'onFocus')
       }
-    }
-  })
+
+      if (typeof callbacks?.onBlur === 'function') {
+        return () => {
+          callbacks.onBlur()
+          log(`[${id}]`, 'onBlur')
+        }
+      }
+    }, [callbacks, id])
+  )
 
   useMount(() => {
     if (typeof callbacks?.onEnter === 'function') {

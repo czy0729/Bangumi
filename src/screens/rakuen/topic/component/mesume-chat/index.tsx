@@ -5,9 +5,9 @@
  * @Last Modified time: 2025-10-15 17:27:23
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 

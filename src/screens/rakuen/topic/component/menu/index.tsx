@@ -5,11 +5,11 @@
  * @Last Modified time: 2025-10-15 17:27:30
  */
 import React, { useCallback, useMemo } from 'react'
-import { useObserver } from 'mobx-react'
 import { HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { copy, getSPAParams, open } from '@utils'
 import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import { HOST, URL_SPA } from '@constants'
 import { COMPONENT, DATA, TEXT_COPY, TEXT_REPORT, TEXT_SHARE, TEXT_SPA } from './ds'
 import { styles } from './styles'

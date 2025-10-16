@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-08 18:25:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-17 05:35:38
+ * @Last Modified time: 2025-10-16 19:40:20
  */
 
 /**
@@ -21,6 +21,7 @@ export * from './error-notice/index.lazy'
 export * from './filter-switch/index.lazy'
 export * from './filter-text/index.lazy'
 export * from './filter/index.lazy'
+export * from './fixed-btn/index.lazy'
 export * from './folder-manage-modal/index.lazy'
 export * from './folder-smb/index.lazy'
 export * from './horizontal-list/index.lazy'

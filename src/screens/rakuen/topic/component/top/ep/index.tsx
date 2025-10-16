@@ -5,10 +5,10 @@
  * @Last Modified time: 2025-10-15 17:53:09
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { _, subjectStore, useStore } from '@stores'
 import { cnjp, HTMLDecode } from '@utils'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 

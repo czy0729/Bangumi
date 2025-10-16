@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-03 22:15:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-15 16:18:59
+ * @Last Modified time: 2025-10-16 21:34:20
  */
 import { keyExtractor } from '@utils'
 import { rc } from '@utils/dev'
@@ -36,5 +36,11 @@ export const DEFAULT_PROPS = {
   onScroll: FROZEN_FN,
   onScrollToIndexFailed: FROZEN_FN,
   onHeaderRefresh: FROZEN_FN,
-  onShowFixedTextarea: FROZEN_FN
+  onShowFixedTextarea: FROZEN_FN,
+  onViewableItemsChanged: FROZEN_FN
 }
+
+export const VIEWABILITY_CONFIG = {
+  waitForInteraction: true,
+  viewAreaCoveragePercentThreshold: 95
+} as const

@@ -6,10 +6,10 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { IconWordCloud } from '@_'
 import { useStore } from '@stores'
 import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 
 import type { Ctx } from '../../types'

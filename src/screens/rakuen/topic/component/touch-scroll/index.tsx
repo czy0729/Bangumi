@@ -5,9 +5,9 @@
  * @Last Modified time: 2025-10-15 17:48:21
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Component } from '@components'
 import { rakuenStore, userStore, useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { MODEL_RAKUEN_NEW_FLOOR_STYLE, MODEL_RAKUEN_SCROLL_DIRECTION } from '@constants'
 import { TouchScroll } from './touch-scroll'
 import { COMPONENT } from './ds'

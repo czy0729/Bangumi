@@ -6,9 +6,9 @@
  */
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { ItemPost } from '@_'
 import { _, useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import { COMPONENT, PRE_RENDER_INDEX } from './ds'
 import { styles } from './styles'

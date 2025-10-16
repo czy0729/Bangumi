@@ -6,10 +6,10 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Heatmap, Text } from '@components'
 import { IconHeader } from '@_'
 import { _, useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 

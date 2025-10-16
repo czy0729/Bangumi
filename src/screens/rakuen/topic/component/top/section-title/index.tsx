@@ -5,10 +5,10 @@
  * @Last Modified time: 2025-10-15 17:55:16
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Heatmap, Text } from '@components'
 import { IconReverse, SectionTitle as SectionTitleComp } from '@_'
 import { _, useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import Segment from '../../segment'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
