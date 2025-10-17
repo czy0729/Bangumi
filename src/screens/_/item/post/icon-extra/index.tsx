@@ -22,7 +22,6 @@ import {
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
 import { HTML_BLOG, HTML_TOPIC, IOS } from '@constants'
-import { TopicId } from '@types'
 import { Popover } from '../../../base'
 import {
   ACTION_COPY,
@@ -37,7 +36,9 @@ import {
   ACTION_UNTRACK
 } from './ds'
 import { styles } from './styles'
-import { Ctx, Props } from './types'
+
+import type { TopicId } from '@types'
+import type { Ctx, Props } from './types'
 
 function IconExtra({
   style,

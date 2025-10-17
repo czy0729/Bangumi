@@ -10,7 +10,8 @@ import { Flex, Text } from '@components'
 import { simpleTime } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function FloorText({ time, floor, isNew }: Props) {
   return useObserver(() => {

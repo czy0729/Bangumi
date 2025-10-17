@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-13 22:41:42
  */
-import { Override } from '@types'
-import { Props as ComponentProps } from '../types'
+import type { Override } from '@types'
+import type { Props as ComponentProps } from '../types'
 
 export type Props = Required<
   Override<

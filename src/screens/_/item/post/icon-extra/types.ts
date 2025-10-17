@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-14 03:13:41
  */
-import { BlogId, Fn, Override, TopicId, ViewStyle } from '@types'
-import { Props as ComponentProps } from '../types'
+import type { BlogId, Fn, Override, TopicId, ViewStyle } from '@types'
+import type { Props as ComponentProps } from '../types'
 
 export type Props = Override<
   Required<Pick<ComponentProps, 'erase' | 'id' | 'replySub' | 'userId' | 'userName' | 'onJumpTo'>>,

@@ -12,7 +12,8 @@ import { stl } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { layoutHeightMap } from '../utils'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function ContainerLayout({ id, subLength, isJump, children }: Props) {
   return useObserver(() => {

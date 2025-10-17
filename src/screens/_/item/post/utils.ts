@@ -58,7 +58,7 @@ export function isSpecFloor(text: string, subLength: number) {
     text.includes('+1') ||
     text.includes('马克') ||
     text.includes('插眼') ||
-    text === '1' ||
+    // text === '1' ||
     text === 'm'
   )
 }

@@ -8,10 +8,13 @@ import React from 'react'
 import Item from '../item'
 import { ENTERING_EXITING_ANIMATIONS_NUM } from './ds'
 
-export function keyExtractor(item: { href: any }, index: number) {
+import type { RakuenItem } from '@stores/rakuen/types'
+import type { RenderItem } from '@types'
+
+export function keyExtractor(item: RakuenItem, index: number) {
   return `${item.href}|${index < ENTERING_EXITING_ANIMATIONS_NUM}`
 }
 
-export function renderItem({ item, index }) {
-  return <Item index={index} {...item} />
+export function renderItem({ item, index }: RenderItem<RakuenItem>) {
+  return <Item {...item} index={index} />
 }

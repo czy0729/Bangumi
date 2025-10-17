@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-03 05:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-28 09:21:51
+ * @Last Modified time: 2025-10-17 11:54:43
  */
 import { _ } from '@stores'
 import {
@@ -11,8 +11,9 @@ import {
   MODEL_RAKUEN_TYPE_MONO,
   WEB
 } from '@constants'
-import { Loaded, RakuenScope, RakuenTypeGroup, RakuenTypeMono } from '@types'
 import { COMPONENT } from '../ds'
+
+import type { Loaded, RakuenScope, RakuenTypeGroup, RakuenTypeMono } from '@types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-16 19:51:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-16 19:56:07
+ * @Last Modified time: 2025-10-17 11:54:36
  */
 import { computed } from 'mobx'
 import { _, rakuenStore, systemStore, userStore } from '@stores'
@@ -12,7 +12,10 @@ import {
   MODEL_RAKUEN_TYPE_MONO,
   URL_DEFAULT_AVATAR
 } from '@constants'
-import {
+import { TABS } from '../ds'
+import State from './state'
+
+import type {
   RakuenType,
   RakuenTypeGroup,
   RakuenTypeGroupCn,
@@ -20,8 +23,6 @@ import {
   RakuenTypeMonoCn,
   TopicId
 } from '@types'
-import { TABS } from '../ds'
-import State from './state'
 
 export default class Computed extends State {
   /** Tab navigationState */

@@ -12,7 +12,6 @@ import { getIsBlocked, getTimestamp, matchUserIdFromAvatar, removeHTMLTag, stl }
 import { memo } from '@utils/decorators'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { EVENT, FROZEN_ARRAY, FROZEN_FN, FROZEN_OBJECT } from '@constants'
-import { BlogId, TopicId } from '@types'
 import { IMAGES_MAX_WIDTH_SUB, REG_MARK } from '../ds'
 import { Likes, Name, UserAge, UserStatusAvatar } from '../../../base'
 import CollapsedHtml from '../collapsed-html'
@@ -24,6 +23,8 @@ import PlusOne from '../plus-one'
 import UserLabel from '../user-label'
 import { layoutHeightMap } from '../utils'
 import { DEFAULT_PROPS, REG_BGM, REG_PLUS } from './ds'
+
+import type { BlogId, TopicId } from '@types'
 
 export default memo(
   ({

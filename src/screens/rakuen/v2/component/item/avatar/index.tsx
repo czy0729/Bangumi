@@ -2,42 +2,44 @@
  * @Author: czy0729
  * @Date: 2021-01-21 17:49:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-28 09:21:33
+ * @Last Modified time: 2025-10-17 09:28:46
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Avatar as AvatarComp } from '@components'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { t } from '@utils/fetch'
-import { Ctx } from '../../../types'
+import { useObserver } from '@utils/hooks'
 import { styles } from './styles'
 
-function Avatar({ avatar, userName, userId, priority }) {
+import type { Ctx } from '../../../types'
+import type { Props } from './types'
+
+function Avatar({ src, name, userId, priority }: Props) {
   const { navigation } = useStore<Ctx>()
-  return (
+
+  return useObserver(() => (
     <View style={styles.avatar}>
       <AvatarComp
-        src={avatar}
+        navigation={navigation}
+        src={src}
         userId={userId}
-        name={userName}
+        name={name}
         priority={priority}
-        onPress={() => {
-          navigation.push('Zone', {
-            userId,
-            _id: userId,
-            _name: userName,
-            _image: avatar
-          })
-
-          t('超展开.跳转', {
+        params={{
+          _id: userId,
+          _name: name,
+          _image: src
+        }}
+        event={{
+          id: '超展开.跳转',
+          data: {
             to: 'Zone',
             userId
-          })
+          }
         }}
       />
     </View>
-  )
+  ))
 }
 
-export default ob(Avatar)
+export default Avatar

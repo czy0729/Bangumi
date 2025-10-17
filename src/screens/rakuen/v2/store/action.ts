@@ -2,14 +2,18 @@
  * @Author: czy0729
  * @Date: 2024-05-16 19:56:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-28 09:21:15
+ * @Last Modified time: 2025-10-17 23:43:19
  */
-import { ScrollToIndex } from '@components'
 import { rakuenStore } from '@stores'
 import { confirm, feedback, info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
 import { LIMIT_TOPIC_PUSH, MODEL_RAKUEN_TYPE_GROUP, MODEL_RAKUEN_TYPE_MONO } from '@constants'
-import {
+import { PREFETCH_COUNT, TEXT_BLOCK_USER, TEXT_IGNORE_USER } from '../ds'
+import Fetch from './fetch'
+import { INIT_PREFETCH_STATE } from './ds'
+
+import type { ScrollToIndex } from '@components'
+import type {
   MonoId,
   Navigation,
   RakuenTypeGroup,
@@ -18,9 +22,6 @@ import {
   RakuenTypeMonoCn,
   TopicId
 } from '@types'
-import { PREFETCH_COUNT, TEXT_BLOCK_USER, TEXT_IGNORE_USER } from '../ds'
-import Fetch from './fetch'
-import { INIT_PREFETCH_STATE } from './ds'
 
 export default class Action extends Fetch {
   /** 标签页切换 */

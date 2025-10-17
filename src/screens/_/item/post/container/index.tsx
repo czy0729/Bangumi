@@ -9,7 +9,8 @@ import { Component } from '@components'
 import { stl } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function Container({ id, subLength, isNew, children }: Props) {
   return useObserver(() => {

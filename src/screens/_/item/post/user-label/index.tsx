@@ -7,7 +7,8 @@
 import React from 'react'
 import { Text } from '@components'
 import { useObserver } from '@utils/hooks'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function UserLabel({ isAuthor, isFriend, isLayer, userSign, lineHeight = 14 }: Props) {
   return useObserver(() => (

@@ -6,9 +6,10 @@
  */
 import { _ } from '@stores'
 import { EVENT, FROZEN_FN } from '@constants'
-import { BlogId, EventType, Navigation, RakuenNewFloorStyleCn, TopicId, UserId } from '@types'
-import { Props } from '../types'
 import { memoStyles } from './styles'
+
+import type { BlogId, EventType, Navigation, RakuenNewFloorStyleCn, TopicId, UserId } from '@types'
+import type { Props } from '../types'
 
 export const DEFAULT_PROPS = {
   navigation: {} as Navigation,

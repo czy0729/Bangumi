@@ -13,7 +13,8 @@ import { useNavigation, useObserver } from '@utils/hooks'
 import { Name } from '../../../base'
 import UserLabel from '../user-label'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 const AVATAR_WIDTH = 20
 

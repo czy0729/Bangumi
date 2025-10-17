@@ -17,7 +17,8 @@ import FloorText from '../floor-text'
 import IconExtra from '../icon-extra'
 import UserLabel from '../user-label'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function FloorMain({
   contentStyle,

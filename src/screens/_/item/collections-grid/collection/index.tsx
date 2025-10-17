@@ -5,10 +5,10 @@
  * @Last Modified time: 2025-10-11 15:40:23
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Flex, Iconfont, Text, TextType } from '@components'
 import { _ } from '@stores'
 import { titleCase } from '@utils'
+import { useObserver } from '@utils/hooks'
 import { IconfontNames } from '@types'
 import { Props } from './types'
 

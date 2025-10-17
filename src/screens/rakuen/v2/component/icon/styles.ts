@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-11-15 03:19:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 03:23:18
+ * @Last Modified time: 2025-10-17 23:47:26
  */
 import { _ } from '@stores'
 
 export const styles = _.create({
   group: {
     marginBottom: 0,
-    marginLeft: _.xs,
+    marginLeft: 6,
     borderRadius: 40,
     overflow: 'hidden'
   },

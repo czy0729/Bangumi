@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-14 03:06:56
  */
-import { Override, WithViewStyles } from '@types'
-import { Props as ComponentProps } from '../types'
+import type { Override, WithViewStyles } from '@types'
+import type { Props as ComponentProps } from '../types'
 
 export type Props = WithViewStyles<
   Required<

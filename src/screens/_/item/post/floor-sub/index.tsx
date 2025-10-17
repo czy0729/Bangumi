@@ -10,7 +10,8 @@ import { Flex, Text, Touchable } from '@components'
 import { ob } from '@utils/decorators'
 import Sub from '../sub'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function FloorSub({
   extraStyle,

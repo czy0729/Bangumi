@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-07-01 04:41:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-15 05:07:02
+ * @Last Modified time: 2025-10-17 23:52:59
  */
-import {
+import type {
   Avatar,
   CoverGroup,
   DeepPartial,
@@ -15,7 +15,7 @@ import {
   Override,
   UserId
 } from '@types'
-import { INIT_SETTING, LOADED } from './init'
+import type { INIT_SETTING, LOADED } from './init'
 
 export type CacheKey = keyof typeof LOADED | `comments${number}`
 
@@ -29,20 +29,21 @@ export type BlockedUsersItem = {
   href: string
 }
 
-/** 超展开列表 */
-export type Rakuen = ListEmpty<
-  DeepPartial<{
-    group: string
-    groupHref: string
-    avatar: Avatar<'l'>
-    userId: UserId
-    userName: string
-    title: string
-    href: string
-    replies: string
-    time: string
-  }>
->
+/** 超展开项 */
+export type RakuenItem = {
+  group: string
+  groupHref: string
+  avatar: string
+  userId: UserId
+  userName: string
+  title: string
+  href: string
+  replies: string
+  time: string
+}
+
+/** 超展开 */
+export type Rakuen = ListEmpty<RakuenItem>
 
 /** 帖子历史查看信息 */
 export type Readed = {

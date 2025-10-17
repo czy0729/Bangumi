@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-27 15:01:19
+ * @Last Modified time: 2025-10-17 23:38:53
  */
 import React from 'react'
 import { Flex, Touchable, UserStatus } from '@components'
@@ -28,8 +28,8 @@ const Item = memo(
     href = '',
     title = '',
     time = '',
-    topicId = '',
-    replyCount = '',
+    topicId = 'group/0',
+    replyCount = 0,
     isGroup = false,
     onPress = FROZEN_FN
   }) => {
@@ -42,8 +42,8 @@ const Item = memo(
                 <UserStatus userId={userId}>
                   <InView style={styles.inView} index={index} y={ITEM_HEIGHT * index + 1}>
                     <Avatar
-                      avatar={avatar}
-                      userName={userName}
+                      src={avatar}
+                      name={userName}
                       userId={userId}
                       priority={index < 10 ? 'high' : 'normal'}
                     />

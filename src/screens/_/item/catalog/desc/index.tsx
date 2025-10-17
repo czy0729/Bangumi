@@ -6,10 +6,9 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Avatar, Flex, Text, UserStatus } from '@components'
 import { _ } from '@stores'
-import { useNavigation } from '@utils/hooks'
+import { useNavigation, useObserver } from '@utils/hooks'
 import { AVATAR_WIDTH } from '../ds'
 
 function Desc({ userId, avatar, name, date, event }) {

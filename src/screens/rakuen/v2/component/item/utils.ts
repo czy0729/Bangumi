@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-09-03 11:16:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-23 10:38:49
+ * @Last Modified time: 2025-10-17 11:44:18
  */
 import { appNavigate, confirm, open } from '@utils'
 import { t } from '@utils/fetch'
 import { HOST, IMG_DEFAULT_AVATAR, LIMIT_TOPIC_PUSH } from '@constants'
-import { Navigation, TopicId } from '@types'
-import { Ctx } from '../../types'
 import { AD_REPLIES_COUNT } from './ds'
+
+import type { Navigation, TopicId } from '@types'
+import type { Ctx } from '../../types'
 
 /** 处理屏蔽用户 */
 export function getIsBlockedUser(blockUserIds: string[], userName: string, userId: string) {

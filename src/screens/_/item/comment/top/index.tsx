@@ -6,10 +6,10 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { systemStore } from '@stores'
 import { correctAgo } from '@utils'
+import { useObserver } from '@utils/hooks'
 import { Name, UserAge } from '../../../base'
 import { formatTime } from '../utils'
 import { styles } from './styles'

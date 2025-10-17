@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 05:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-15 21:23:58
+ * @Last Modified time: 2025-10-17 23:06:21
  */
 module.exports = {
   root: true,
@@ -28,6 +28,16 @@ module.exports = {
       2,
       {
         ignoreRestSiblings: true
+      }
+    ],
+
+    /** 强制类型使用 import type */
+    '@typescript-eslint/consistent-type-imports': [
+      'warn',
+      {
+        prefer: 'type-imports',
+        disallowTypeAnnotations: false,
+        fixStyle: 'inline-type-imports'
       }
     ],
     'max-len': ['error', 200],

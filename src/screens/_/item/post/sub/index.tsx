@@ -11,7 +11,8 @@ import { useNavigation, useObserver } from '@utils/hooks'
 import { isBlockUser } from '../utils'
 import ItemSub from './item'
 import { memoStyles } from './styles'
-import { Ctx, Props } from './types'
+
+import type { Ctx, Props } from './types'
 
 const Sub = ({
   extraStyle,

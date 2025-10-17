@@ -5,10 +5,10 @@
  * @Last Modified time: 2025-10-11 15:55:35
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { _ } from '@stores'
 import { x18 } from '@utils'
 import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import Item from './item'
 import { COMPONENT } from './ds'
 import { Props as ItemCollectionsGridProps } from './types'

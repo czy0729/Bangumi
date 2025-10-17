@@ -5,9 +5,9 @@
  * @Last Modified time: 2025-10-11 16:37:47
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Flex, Link, Text } from '@components'
 import { _ } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { Stars } from '../../../base'
 import { Props } from './types'
 

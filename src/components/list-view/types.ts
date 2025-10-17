@@ -14,7 +14,10 @@ export type ListViewInstance = InstanceType<typeof FlatList>
 export type Props<ItemT = any> = Override<
   FlatListProps<ItemT>,
   {
-    ref?: Ref<ListViewInstance>
+    ref?:
+      | Ref<ListViewInstance>
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      | ((ref: { scrollToIndex: ScrollToIndex }) => void)
 
     /** 是否使用 Animated.ListView 渲染 */
     animated?: boolean

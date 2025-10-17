@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:23:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-26 18:25:18
+ * @Last Modified time: 2025-10-17 11:51:48
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
@@ -13,14 +13,18 @@ import { correctAgo } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { styles } from './styles'
 
-function Detail({ time, groupCn, userName, userId, avatar }) {
+import type { Props } from './types'
+
+function Detail({ time, groupCn, userName, userId, avatar }: Props) {
   const [name, setName] = useState(userName)
+
   const handleHit = useCallback(
     (removeSpecText: string) => {
       setName(removeSpecText)
     },
     [setName]
   )
+
   const textProps = {
     type: 'sub',
     size: 11,

@@ -2,12 +2,23 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:24:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-14 03:57:34
+ * @Last Modified time: 2025-10-17 23:30:50
  */
 import { computed } from 'mobx'
 import { desc } from '@utils'
 import { LIST_EMPTY } from '@constants'
 import {
+  DEFAULT_SCOPE,
+  DEFAULT_TYPE,
+  INIT_GROUP_INFO,
+  INIT_GROUP_ITEM,
+  INIT_READED_ITEM,
+  INIT_TOPIC
+} from './init'
+import { getInt } from './utils'
+import State from './state'
+
+import type {
   CoverGroup,
   Id,
   RakuenType,
@@ -18,18 +29,8 @@ import {
   TopicId,
   UserId
 } from '@types'
-import {
-  DEFAULT_SCOPE,
-  DEFAULT_TYPE,
-  INIT_GROUP_INFO,
-  INIT_GROUP_ITEM,
-  INIT_READED_ITEM,
-  INIT_TOPIC,
-  STATE
-} from './init'
-import { getInt } from './utils'
-import State from './state'
-import {
+import type { STATE } from './init'
+import type {
   Board,
   Comments,
   Group,
@@ -50,18 +51,23 @@ export default class Computed extends State implements StoreConstructor<typeof S
     scope = DEFAULT_SCOPE,
     type: RakuenType | RakuenTypeMono | RakuenTypeGroup = DEFAULT_TYPE
   ) {
-    this.init('rakuen', true)
-    return computed<Rakuen>(() => {
-      const key = `${scope}|${type}`
-      return this.state.rakuen[key] || LIST_EMPTY
+    const STATE_KEY = 'rakuen'
+    this.init(STATE_KEY, true)
+
+    return computed(() => {
+      const ITEM_KEY = `${scope}|${type}` as const
+      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as Rakuen
     }).get()
   }
 
   /** 帖子历史查看信息 */
   readed(topicId: TopicId) {
-    this.init('readed', true)
-    return computed<Readed>(() => {
-      return this.state.readed[topicId] || INIT_READED_ITEM
+    const STATE_KEY = 'readed'
+    this.init(STATE_KEY, true)
+
+    return computed(() => {
+      const ITEM_KEY = topicId
+      return (this.state[STATE_KEY][ITEM_KEY] || INIT_READED_ITEM) as Readed
     }).get()
   }
 
@@ -83,7 +89,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 帖子回复, 合并 comments 0-99 */
   comments(topicId: TopicId): Comments {
-    if (!topicId) return LIST_EMPTY
+    if (!topicId) return LIST_EMPTY as Comments
 
     const last = getInt(topicId)
     const key = `comments${last}` as const

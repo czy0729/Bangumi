@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-01-04 22:39:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 06:02:59
+ * @Last Modified time: 2025-10-17 11:54:02
  */
 import { useInitStore } from '@stores'
 import { usePageLifecycle } from '@utils/hooks'
 import { EVENT_APP_TAB_PRESS } from '@src/navigations/tab-bar'
-import { NavigationProps } from '@types'
 import store from './store'
-import { Ctx } from './types'
+
+import type { NavigationProps } from '@types'
+import type { Ctx } from './types'
 
 /** 超展开页面逻辑 */
 export function useRakuenPage(props: NavigationProps) {

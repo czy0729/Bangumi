@@ -5,10 +5,10 @@
  * @Last Modified time: 2025-10-11 06:00:00
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Cover, Flex, Link, Text } from '@components'
 import { _ } from '@stores'
 import { cnjp } from '@utils'
+import { useObserver } from '@utils/hooks'
 import { MonoId } from '@types'
 import { InView } from '../../../base'
 import { styles } from './styles'

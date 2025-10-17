@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-09-03 11:13:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 13:07:18
+ * @Last Modified time: 2025-10-17 23:31:28
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
 import { COMPONENT as PARENT } from '../ds'
-import { memoStyles } from './styles'
+
+import type { TopicId, UserId } from '@types'
+import type { memoStyles } from './styles'
 
 export const COMPONENT = rc(PARENT, 'Item')
 
@@ -27,15 +29,15 @@ export const DEFAULT_PROPS = {
   styles: {} as ReturnType<typeof memoStyles>,
   index: 0 as number,
   avatar: '' as string,
-  userId: '' as string,
+  userId: '' as UserId,
   userName: '' as string,
   groupHref: '' as string,
   groupCn: '' as string,
   href: '' as string,
   title: '' as string,
   time: '' as string,
-  topicId: '' as string,
-  replyCount: '' as string | number,
+  topicId: '' as TopicId,
+  replyCount: 0 as number,
   isGroup: false as boolean,
   onPress: FROZEN_FN
 }

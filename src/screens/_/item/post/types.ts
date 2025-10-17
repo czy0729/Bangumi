@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-14 05:16:49
  */
-import { AnyObject, Fn, Id, TopicId, UserId, ViewStyle, WithEvent } from '@types'
+import type { AnyObject, Fn, Id, TopicId, UserId, ViewStyle, WithEvent } from '@types'
 
 export type Props = WithEvent<{
   /** 懒渲染 y 轴 */

@@ -11,7 +11,8 @@ import { stl } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { GROUP_THUMB_MAP } from '@assets/images'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function FloorNew({ isMini }: Props) {
   return useObserver(() => {

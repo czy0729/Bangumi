@@ -10,39 +10,43 @@ import { Flex, Text, Touchable } from '@components'
 import { IconTabsHeader } from '@_'
 import { _, useStore } from '@stores'
 import { confirm } from '@utils'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { useObserver } from '@utils/hooks'
 import { styles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function IconPrefetch() {
   const { $ } = useStore<Ctx>()
-  if ($.state.prefetching) {
-    return (
-      <Touchable
-        onPress={() => {
-          confirm('确定取消预读取?', $.cancelPrefetch)
-        }}
-      >
-        <Flex>
-          <ActivityIndicator size='small' color={_.colorSub} />
-          <Text style={_.ml.sm} type='sub' size={12}>
-            {$.state.prefetchCurrent} / {$.state.prefetchTotal}
-          </Text>
-        </Flex>
-      </Touchable>
-    )
-  }
 
-  return (
-    <IconTabsHeader
-      style={styles.prefetch}
-      size={18}
-      // @ts-expect-error
-      name='download'
-      position='right'
-      onPress={$.prefetchConfirm}
-    />
-  )
+  return useObserver(() => {
+    if ($.state.prefetching) {
+      return (
+        <Touchable
+          onPress={() => {
+            confirm('确定取消预读取?', $.cancelPrefetch)
+          }}
+        >
+          <Flex>
+            <ActivityIndicator size='small' color={_.colorSub} />
+            <Text style={_.ml.sm} type='sub' size={12}>
+              {$.state.prefetchCurrent} / {$.state.prefetchTotal}
+            </Text>
+          </Flex>
+        </Touchable>
+      )
+    }
+
+    return (
+      <IconTabsHeader
+        style={styles.prefetch}
+        size={18}
+        // @ts-expect-error
+        name='download'
+        position='right'
+        onPress={$.prefetchConfirm}
+      />
+    )
+  })
 }
 
-export default ob(IconPrefetch)
+export default IconPrefetch

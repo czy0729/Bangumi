@@ -6,9 +6,9 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Flex, Highlight, Text } from '@components'
 import { _ } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { Tag } from '../../../base'
 
 function Title({ title, typeCn, desc, collect, filter }) {

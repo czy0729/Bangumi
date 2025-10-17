@@ -8,11 +8,12 @@ import React from 'react'
 import { Component, Page } from '@components'
 import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import Extra from './component/extra'
 import Tab from './component/tab'
 import Header from './header'
 import { useRakuenPage } from './hooks'
+
+import type { NavigationProps } from '@types'
 
 /** 超展开 */
 const Rakuen = (props: NavigationProps) => {

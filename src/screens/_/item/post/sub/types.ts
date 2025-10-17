@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-14 03:17:42
  */
-import { AnyObject, Fn, Override, RakuenNewFloorStyleCn, TopicId, UserId } from '@types'
-import { Props as ComponentProps } from '../types'
+import type { AnyObject, Fn, Override, RakuenNewFloorStyleCn, TopicId, UserId } from '@types'
+import type { Props as ComponentProps } from '../types'
 
 export type Props = Required<
   Override<

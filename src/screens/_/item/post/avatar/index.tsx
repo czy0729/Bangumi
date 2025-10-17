@@ -10,7 +10,8 @@ import { useObserver } from '@utils/hooks'
 import { InView, UserStatusAvatar } from '../../../base'
 import { AVATAR_SIZE, ITEM_HEIGHT } from './ds'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function Avatar({ index, inViewY, userId, userName, avatar, event }: Props) {
   return useObserver(() => (

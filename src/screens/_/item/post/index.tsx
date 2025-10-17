@@ -16,7 +16,8 @@ import PlusOne from './plus-one'
 import { isBlockUser, isSpecFloor } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Ctx, Props as ItemPostProps } from './types'
+
+import type { Ctx, Props as ItemPostProps } from './types'
 
 export { ItemPostProps }
 

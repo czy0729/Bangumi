@@ -12,7 +12,8 @@ import { appNavigate, open, stl } from '@utils'
 import { useNavigation, useObserver } from '@utils/hooks'
 import { Name } from '../../../base'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 const AVATAR_WIDTH = 20
 

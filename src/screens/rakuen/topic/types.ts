@@ -5,8 +5,9 @@
  * @Last Modified time: 2025-10-16 20:20:54
  */
 import { FixedTextareaInstance, ListViewInstance, ListViewProps } from '@components'
-import { GetRouteParams, Id, Ref, RouteTopic, WithNavigation } from '@types'
 import Store from './store'
+
+import type { GetRouteParams, Id, Ref, RouteTopic, WithNavigation } from '@types'
 
 export type Ctx = WithNavigation<{
   $: InstanceType<typeof Store>

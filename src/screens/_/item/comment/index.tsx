@@ -5,9 +5,9 @@
  * @Last Modified time: 2025-10-11 18:08:55
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Component } from '@components'
 import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { CollectionStatusCn } from '@types'
 import Item from './item'
 import { COMPONENT } from './ds'

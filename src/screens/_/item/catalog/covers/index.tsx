@@ -6,9 +6,9 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Cover, Flex, Text } from '@components'
 import { x18 } from '@utils'
+import { useObserver } from '@utils/hooks'
 import { CATALOG_WIDTH, WIDTH } from '../ds'
 import { memoStyles } from './styles'
 import { Props } from './types'

@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-08-09 16:24:46
  */
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { Flex, Heatmap, Iconfont, Link } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
@@ -14,16 +14,21 @@ import { useNavigation, useObserver } from '@utils/hooks'
 import { HTML_NEW_TOPIC, WEB } from '@constants'
 import { styles } from './styles'
 
+import type { WithViewStyles } from '@types'
+
 const TEXT_SEARCH = '小组搜索'
 const TEXT_SETTING = '超展开设置'
 const TEXT_POST = '添加新讨论'
 
-const DATA = []
-if (!WEB) DATA.push(TEXT_SEARCH)
-DATA.push(TEXT_SETTING, TEXT_POST)
-
-function IconMore({ style }) {
+function IconMore({ style }: WithViewStyles) {
   const navigation = useNavigation()
+
+  const memoData = useMemo(() => {
+    const list = []
+    if (!WEB) list.push(TEXT_SEARCH)
+    list.push(TEXT_SETTING, TEXT_POST)
+    return list
+  }, [])
 
   const handleSelect = useCallback(
     (key: string) => {
@@ -39,7 +44,7 @@ function IconMore({ style }) {
         case TEXT_POST:
           navigation.push('WebBrowser', {
             url: HTML_NEW_TOPIC(),
-            title: '添加新讨论',
+            title: TEXT_POST,
             desc: '发帖组件复杂并没有重新开发实装。若你看见的不是发帖页面，请先在此页面进行登录。请务必刷新一下验证码再登录。成功后点击右上方刷新页面。',
             injectedViewport: true,
             gestureEnabled: false
@@ -50,9 +55,7 @@ function IconMore({ style }) {
           break
       }
 
-      t('超展开.右上角菜单', {
-        key
-      })
+      t('超展开.右上角菜单', { key })
     },
     [navigation]
   )
@@ -64,10 +67,12 @@ function IconMore({ style }) {
           <Iconfont name='md-inbox' color={_.colorTitle} size={20} />
         </Flex>
       </Link>
-      <Popover style={stl(styles.more, style)} data={DATA} onSelect={handleSelect}>
+
+      <Popover style={stl(styles.more, style)} data={memoData} onSelect={handleSelect}>
         <Flex style={styles.moreIcon} justify='center'>
           <Iconfont name='md-more-horiz' color={_.colorTitle} />
         </Flex>
+
         <Heatmap id='超展开.右上角菜单' />
         <Heatmap right={57} bottom={-32} id='超展开.取消预读取' />
         <Heatmap bottom={-32} id='超展开.预读取' />
