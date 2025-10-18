@@ -6,7 +6,8 @@
  */
 import { _ } from '@stores'
 import { IOS, WEB } from '@constants'
-import { MenuItemType, MenuMapType } from './types'
+
+import type { MenuItemType, MenuMapType } from './types'
 
 export const COMPONENT = 'Discovery'
 

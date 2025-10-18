@@ -14,10 +14,11 @@ import { _ } from '@stores'
 import { getCoverMedium, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { withT } from '@utils/fetch'
-import { SubjectTypeCn } from '@types'
 import { linearColor } from '../../../ds'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 import { AVATAR_SIZE } from './styles'
+
+import type { SubjectTypeCn } from '@types'
 
 const CoverXs = memo(
   ({

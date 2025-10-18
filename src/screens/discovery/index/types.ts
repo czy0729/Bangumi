@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-01-06 18:46:06
  */
-import { IconfontNames, Paths, WithNavigation } from '@types'
-import Store from './store'
+import type { IconfontNames, Paths, WithNavigation } from '@types'
+import type Store from './store'
 
 export type Ctx = WithNavigation<{
   $: InstanceType<typeof Store>

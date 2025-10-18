@@ -6,12 +6,13 @@
  */
 import React from 'react'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { AnyObject, SubjectType } from '@types'
-import { Ctx } from '../../types'
+import { useObserver } from '@utils/hooks'
 import ListItem from './list-item'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+
+import type { AnyObject, SubjectType } from '@types'
+import type { Ctx } from '../../types'
 
 const LIST_CACHE = {}
 
@@ -22,24 +23,27 @@ function ListItemWrap({
 }: AnyObject<{
   type: SubjectType
 }>) {
-  const { $ } = useStore<Ctx>()
-  if ($.state.dragging) return null
+  const { $ } = useStore<Ctx>(COMPONENT)
 
-  const list = LIST_CACHE[type] || $.ramdonHome[type]
-  if (!list?.length) return null
+  return useObserver(() => {
+    if ($.state.dragging) return null
 
-  if (list?.length && !LIST_CACHE[type]) LIST_CACHE[type] = list
+    const list = LIST_CACHE[type] || $.ramdonHome[type]
+    if (!list?.length) return null
 
-  return (
-    <ListItem
-      styles={memoStyles()}
-      style={style}
-      index={index}
-      type={type}
-      list={LIST_CACHE[type]}
-      friendsChannel={$.friendsChannel(type)}
-    />
-  )
+    if (list?.length && !LIST_CACHE[type]) LIST_CACHE[type] = list
+
+    return (
+      <ListItem
+        styles={memoStyles()}
+        style={style}
+        index={index}
+        type={type}
+        list={LIST_CACHE[type]}
+        friendsChannel={$.friendsChannel(type)}
+      />
+    )
+  })
 }
 
-export default ob(ListItemWrap, COMPONENT)
+export default ListItemWrap

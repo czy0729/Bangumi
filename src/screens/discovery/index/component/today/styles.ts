@@ -8,6 +8,7 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => {
   const margin = _.device(_._wind, _.md)
+
   return {
     contentContainerStyle: {
       paddingTop: _.md + 4,

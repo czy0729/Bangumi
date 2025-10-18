@@ -7,18 +7,21 @@
 import React from 'react'
 import { Heatmap, Track } from '@components'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import LinkModal from '../link-modal'
-import { COMPONENT } from './ds'
+import { COMPONENT, HM } from './ds'
 
 function Extra() {
-  return (
+  r(COMPONENT)
+
+  return useObserver(() => (
     <>
       <LinkModal />
-      <Track title='发现' hm={['discovery', 'Discovery']} />
+      <Track title='发现' hm={HM} />
       <Heatmap bottom={_.bottom} id='发现' screen='Discovery' />
     </>
-  )
+  ))
 }
 
-export default ob(Extra, COMPONENT)
+export default Extra

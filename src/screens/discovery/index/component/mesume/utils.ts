@@ -1,11 +1,11 @@
-import { HOST_DOGE } from '@constants'
-
 /*
  * @Author: czy0729
  * @Date: 2024-01-04 14:15:25
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-02 11:28:34
  */
+import { HOST_DOGE } from '@constants'
+
 export function getHtml(live2DVoice: boolean) {
   return `<!DOCTYPE html>
   <html lang="en">

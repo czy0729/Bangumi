@@ -13,10 +13,11 @@ import { feedback, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { FROZEN_FN } from '@constants'
 import { getMenus } from '../../ds'
-import { MenuItemType } from '../../types'
 import Btn from '../btn'
 import Btns from './btns'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
+
+import type { MenuItemType } from '../../types'
 
 const SortMenu = memo(
   ({

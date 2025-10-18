@@ -5,9 +5,10 @@
  * @Last Modified time: 2024-12-02 18:12:14
  */
 import { rc } from '@utils/dev'
-import { Navigation, SubjectId, SubjectTypeCn, UserId } from '@types'
 import { COMPONENT as PARENT } from '../ds'
-import { memoStyles } from './styles'
+
+import type { Navigation, SubjectId, SubjectTypeCn, UserId } from '@types'
+import type { memoStyles } from './styles'
 
 export const COMPONENT = rc(PARENT, 'Xs')
 

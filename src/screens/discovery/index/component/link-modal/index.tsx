@@ -9,16 +9,14 @@ import { View } from 'react-native'
 import { autorun } from 'mobx'
 import { ActionSheet, Flex, Iconfont, Input, Modal, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { COMPONENT, LINKS } from './ds'
 import { memoStyles } from './styles'
 
-const LinkModal = () => {
-  r(COMPONENT)
+import type { Ctx } from '../../types'
 
-  const { $, navigation } = useStore<Ctx>()
+const LinkModal = () => {
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
   const [show, setShow] = useState(false)
   const iptRef = useRef<any>(null)
 

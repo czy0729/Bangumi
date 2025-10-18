@@ -6,16 +6,19 @@
  */
 import { systemStore } from '@stores'
 import { appNavigate, info, matchBgmUrl, updateVisibleBottom } from '@utils'
+import { logger } from '@utils/dev'
 import { t, withT } from '@utils/fetch'
-import { Navigation } from '@types'
 import Fetch from './fetch'
+
+import type { ScrollToIndex } from '@components'
+import type { Navigation } from '@types'
 
 export default class Action extends Fetch {
   /** 刷新到顶函数引用 */
-  scrollToIndex: any
+  scrollToIndex: ScrollToIndex
 
   /** 底部 TabBar 再次点击滚动到顶并刷新数据 */
-  forwardRef = (ref: { scrollToIndex: any }) => {
+  forwardRef = (ref: { scrollToIndex: ScrollToIndex }) => {
     this.scrollToIndex = ref?.scrollToIndex
   }
 
@@ -32,7 +35,7 @@ export default class Action extends Fetch {
           })
         }
       } catch (error) {
-        console.error('Discovery', 'onRefreshThenScrollTop', error)
+        logger.error('Discovery', 'onRefreshThenScrollTop', error)
       }
     },
     '其他.刷新到顶',
@@ -104,7 +107,7 @@ export default class Action extends Fetch {
         })
       }
     } catch (error) {
-      console.error('Discovery', 'toggleDragging', error)
+      logger.error('Discovery', 'toggleDragging', error)
     }
 
     this.setState({

@@ -8,7 +8,6 @@ import React, { useCallback, useState } from 'react'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import { ScrollEvent } from '@types'
 import Award2023 from './award-2023'
 import Award2024 from './award-2024'
 import More from './more'
@@ -16,11 +15,14 @@ import ScrollViewHorizontal from './scroll-view-horizontal'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
+import type { ScrollEvent } from '@types'
+
 function Award() {
   r(COMPONENT)
 
   const [scrolled, setScrolled] = useState(_.isPad)
-  const onScroll = useCallback((evt: ScrollEvent) => {
+
+  const handleScroll = useCallback((evt: ScrollEvent) => {
     const { x } = evt.nativeEvent.contentOffset
     if (x >= 20) setScrolled(true)
   }, [])
@@ -28,13 +30,10 @@ function Award() {
   return useObserver(() => (
     <ScrollViewHorizontal
       contentContainerStyle={styles.container}
-      onScroll={scrolled ? undefined : onScroll}
+      onScroll={scrolled ? undefined : handleScroll}
     >
       <Award2024 />
       <Award2023 />
-      {/* {YEARS_LEFT.map(year => (
-        <Block key={year} year={year} />
-      ))} */}
       {scrolled && <More />}
     </ScrollViewHorizontal>
   ))

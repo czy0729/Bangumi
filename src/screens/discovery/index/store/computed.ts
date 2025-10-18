@@ -8,8 +8,9 @@ import { computed } from 'mobx'
 import { calendarStore, discoveryStore } from '@stores'
 import { ON_AIR } from '@stores/calendar/onair'
 import { appRandom, date, desc, getTimestamp } from '@utils'
-import { SubjectType } from '@types'
 import State from './state'
+
+import type { SubjectType } from '@types'
 
 export default class Computed extends State {
   /** 发现页信息聚合 */

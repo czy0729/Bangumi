@@ -6,27 +6,21 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-// import { WebView } from 'react-native-webview'
 import { Image, Squircle, Touchable } from '@components'
 import { systemStore } from '@stores'
-import { r } from '@utils/dev'
 import { withT } from '@utils/fetch'
 import { useNavigation, useObserver } from '@utils/hooks'
 import { ASSETS_AWARDS, HOST, TEXT_ONLY } from '@constants'
 import { COMPONENT } from './ds'
-// import { getHtml } from './utils'
 import { memoStyles } from './styles'
 
 function Award2021() {
-  r(COMPONENT)
+  const navigation = useNavigation(COMPONENT)
 
-  const navigation = useNavigation()
-
-  // const show = useIsFocused()
   return useObserver(() => {
     const styles = memoStyles()
-    // const { showBlockTrain } = $.state
     const { width, height } = styles.item2021
+
     return (
       <View style={styles.container}>
         <Touchable

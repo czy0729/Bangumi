@@ -8,6 +8,7 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => {
   const size = _.r(50)
+
   return {
     wrap: {
       width: (_.windowSm.width - 2 * _.windSm) * 0.249,

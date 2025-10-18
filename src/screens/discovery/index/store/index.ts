@@ -9,7 +9,9 @@ import { getTimestamp } from '@utils'
 import { queue, withT } from '@utils/fetch'
 import { D, H6, WEB } from '@constants'
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE } from './ds'
+
+import type { STATE } from './ds'
 
 export default class ScreenDiscovery extends Action {
   init = async () => {

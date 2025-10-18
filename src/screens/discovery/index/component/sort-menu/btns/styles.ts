@@ -9,19 +9,12 @@ import { WEB } from '@constants'
 
 export const memoStyles = _.memoStyles(() => ({
   wrap: {
-    position: 'absolute',
+    // 只在 WEB 允许使用 position: fixed
+    position: _.web('fixed' as any, 'absolute'),
     zIndex: 1,
-    right: 0,
-    bottom: _.ios(_.tabBarHeight + _.sm, _.md),
-    left: 0
-  },
-  web: {
-    // @ts-expect-error
-    position: 'fixed',
-    zIndex: 1,
-    right: _.wind,
-    bottom: 92,
-    left: _.wind
+    right: _.web(_.wind, 0),
+    bottom: _.web(92, _.ios(_.tabBarHeight + _.sm, _.md)),
+    left: _.web(0, _.wind)
   },
   btns: {
     paddingHorizontal: _.sm,

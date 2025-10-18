@@ -5,9 +5,10 @@
  * @Last Modified time: 2024-01-04 15:49:34
  */
 import { rc } from '@utils/dev'
-import { Ctx } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
-import { memoStyles } from './styles'
+
+import type { Ctx } from '../../types'
+import type { memoStyles } from './styles'
 
 export const COMPONENT = rc(PARENT, 'Today')
 

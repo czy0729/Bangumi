@@ -8,45 +8,48 @@ import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { SectionTitle as SectionTitleComp } from '@_'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
 import { withT } from '@utils/fetch'
-import { useNavigation } from '@utils/hooks'
+import { useNavigation, useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function SectionTitle({ title, type }) {
-  const navigation = useNavigation()
-  const styles = memoStyles()
-  return (
-    <SectionTitleComp
-      style={styles.section}
-      right={
-        <Touchable
-          style={styles.touch}
-          onPress={withT(
-            () => {
-              navigation.push('Channel', {
-                type
-              })
-            },
-            '发现.跳转',
-            {
-              to: 'Channel',
-              title,
-              from: 'SectionTitle'
-            }
-          )}
-        >
-          <Flex>
-            <Text>　　</Text>
-            <Iconfont name='md-navigate-next' color={_.colorTitle} />
-          </Flex>
-        </Touchable>
-      }
-    >
-      {title}
-    </SectionTitleComp>
-  )
+  const navigation = useNavigation(COMPONENT)
+
+  return useObserver(() => {
+    const styles = memoStyles()
+
+    return (
+      <SectionTitleComp
+        style={styles.section}
+        right={
+          <Touchable
+            style={styles.touch}
+            onPress={withT(
+              () => {
+                navigation.push('Channel', {
+                  type
+                })
+              },
+              '发现.跳转',
+              {
+                to: 'Channel',
+                title,
+                from: 'SectionTitle'
+              }
+            )}
+          >
+            <Flex>
+              <Text>　　</Text>
+              <Iconfont name='md-navigate-next' color={_.colorTitle} />
+            </Flex>
+          </Touchable>
+        }
+      >
+        {title}
+      </SectionTitleComp>
+    )
+  })
 }
 
-export default ob(SectionTitle, COMPONENT)
+export default SectionTitle

@@ -8,95 +8,99 @@ import React from 'react'
 import { Clipboard } from 'react-native'
 import { _, userStore, useStore } from '@stores'
 import { appNavigate, feedback, info, matchBgmUrl } from '@utils'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import { DEV, HOST_NETABA } from '@constants'
 import i18n from '@constants/i18n'
 import { getLastPath } from '@screens/_/base/filter-switch'
-import { Fn } from '@types'
-import { Ctx } from '../../types'
 import Btn from './btn'
 import { COMPONENT } from './ds'
 
+import type { Fn } from '@types'
+import type { Ctx } from '../../types'
+
 function BtnWrap({ item }) {
-  const { $, navigation } = useStore<Ctx>()
-  const { username, id } = userStore.userInfo
-  const userId = username || id
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
 
-  const { dragging } = $.state
-  const { key, login } = item
+  return useObserver(() => {
+    const { username, id } = userStore.userInfo
+    const userId = username || id
 
-  let handlePress: Fn
-  if (!dragging) {
-    handlePress = async () => {
-      if (!DEV && login && !userId) {
-        info(`请先${i18n.login()}`)
-        return
-      }
+    const { dragging } = $.state
+    const { key, login } = item
 
-      if (key === 'Open') {
-        $.toggleDragging()
-        feedback(true)
-        return
-      }
-
-      t('发现.跳转', {
-        to: key,
-        from: 'Btn'
-      })
-
-      if (key === 'Anime') {
-        navigation.push(await getLastPath())
-        return
-      }
-
-      if (key === 'Netabare') {
-        navigation.push('WebBrowser', {
-          url: `${HOST_NETABA}/trending`,
-          title: '评分趋势'
-        })
-        return
-      }
-
-      if (key === 'UserTimeline') {
-        navigation.push(key, {
-          userId
-        })
-        return
-      }
-
-      if (key === 'Link') {
-        const content = await Clipboard.getString()
-        const urls = matchBgmUrl(content, true) || []
-        if (!urls?.[0]) {
-          $.toggleLinkModal()
-          return true
+    let handlePress: Fn
+    if (!dragging) {
+      handlePress = async () => {
+        if (!DEV && login && !userId) {
+          info(`请先${i18n.login()}`)
+          return
         }
 
-        appNavigate(content, navigation)
+        if (key === 'Open') {
+          $.toggleDragging()
+          feedback(true)
+          return
+        }
+
+        t('发现.跳转', {
+          to: key,
+          from: 'Btn'
+        })
+
+        if (key === 'Anime') {
+          navigation.push(await getLastPath())
+          return
+        }
+
+        if (key === 'Netabare') {
+          navigation.push('WebBrowser', {
+            url: `${HOST_NETABA}/trending`,
+            title: '评分趋势'
+          })
+          return
+        }
+
+        if (key === 'UserTimeline') {
+          navigation.push(key, {
+            userId
+          })
+          return
+        }
+
+        if (key === 'Link') {
+          const content = await Clipboard.getString()
+          const urls = matchBgmUrl(content, true) || []
+          if (!urls?.[0]) {
+            $.toggleLinkModal()
+            return true
+          }
+
+          appNavigate(content, navigation)
+          return
+        }
+
+        navigation.push(
+          key,
+          login
+            ? {
+                userName: userId
+              }
+            : {}
+        )
         return
       }
-
-      navigation.push(
-        key,
-        login
-          ? {
-              userName: userId
-            }
-          : {}
-      )
-      return
     }
-  }
 
-  return (
-    <Btn
-      item={item}
-      userId={userId}
-      showIcon={!(dragging && _.isSmallDevice)}
-      onPress={handlePress}
-    />
-  )
+    return (
+      <Btn
+        item={item}
+        userId={userId}
+        showIcon={!(dragging && _.isSmallDevice)}
+        onPress={handlePress}
+      />
+    )
+  })
 }
 
-export default ob(BtnWrap, COMPONENT)
+export default BtnWrap

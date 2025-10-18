@@ -9,7 +9,7 @@ import { View } from 'react-native'
 import { WebView } from 'react-native-webview'
 import { Touchable } from '@components'
 import { systemStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { useIsFocused, useObserver } from '@utils/hooks'
 import { FROZEN_FN, IOS, WEB } from '@constants'
 import { getHtml } from './utils'
@@ -17,6 +17,8 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function Mesume({ dragging }) {
+  r(COMPONENT)
+
   const show = useIsFocused()
 
   return useObserver(() => {
@@ -47,4 +49,4 @@ function Mesume({ dragging }) {
   })
 }
 
-export default ob(Mesume, COMPONENT)
+export default Mesume

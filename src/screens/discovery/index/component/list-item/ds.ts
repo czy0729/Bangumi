@@ -6,10 +6,11 @@
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
-import { SubjectType, ViewStyle } from '@types'
-import { Ctx } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
-import { memoStyles } from './styles'
+
+import type { SubjectType, ViewStyle } from '@types'
+import type { Ctx } from '../../types'
+import type { memoStyles } from './styles'
 
 export const COMPONENT = rc(PARENT, 'ListItem')
 

@@ -8,8 +8,9 @@ import React from 'react'
 import { View } from 'react-native'
 import { Heatmap } from '@components'
 import { MODEL_SUBJECT_TYPE } from '@constants'
-import { SubjectTypeCn } from '@types'
 import ListItem from '../list-item'
+
+import type { SubjectTypeCn } from '@types'
 
 export function keyExtractor(item: { type: any }) {
   return item.type

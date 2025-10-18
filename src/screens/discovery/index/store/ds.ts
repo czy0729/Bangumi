@@ -7,8 +7,9 @@
 import { _ } from '@stores'
 import { getTimestamp } from '@utils'
 import { SUBJECT_TYPE } from '@constants'
-import { Loaded } from '@types'
 import { COMPONENT } from '../ds'
+
+import type { Loaded } from '@types'
 
 export const NAMESPACE = `Screen${COMPONENT}`
 

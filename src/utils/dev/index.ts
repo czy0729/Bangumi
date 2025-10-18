@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /*
  * 开发调试
  * @Author: czy0729
@@ -7,10 +8,11 @@
  */
 import { WEB } from '@constants'
 import { DEV, LOG_LEVEL, RERENDER_NOT_SHOW, RERENDER_SHOW } from '@src/config'
-import { AnyObject, Join } from '@types'
 import { pad } from '../utils'
 import { handleCircular } from './utils'
 import { RERENDER_LOG_COUNT, RERENDER_MEMO } from './ds'
+
+import type { AnyObject, Join } from '@types'
 
 /** @deprecated 调试查看组件 re-render 情况 */
 export function rerender(key: string, ...other: any[]) {
@@ -166,17 +168,14 @@ const TEXT_BADGES = {
 
 export const logger = {
   log(method: string, ...others: any[]) {
-    // eslint-disable-next-line no-console
     if (DEV) console.info(TEXT_BADGES.plain, `[${method}]`, ...others)
   },
 
   info(method: string, ...others: any[]) {
-    // eslint-disable-next-line no-console
     if (DEV) console.info(TEXT_BADGES.primary, `[${method}]`, ...others)
   },
 
   error(method: string, ...others: any[]) {
-    // eslint-disable-next-line no-console
     if (DEV) console.info(TEXT_BADGES.danger, `[${method}]`, ...others)
   }
 } as const

@@ -6,17 +6,21 @@
  */
 import React from 'react'
 import { systemStore, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { useObserver } from '@utils/hooks'
 import Today from './today'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function TodayWrap() {
-  const { $ } = useStore<Ctx>()
-  if (!systemStore.setting.discoveryTodayOnair || !$.todayBangumi.length) return null
+import type { Ctx } from '../../types'
 
-  return <Today styles={memoStyles()} todayBangumi={$.todayBangumi} />
+function TodayWrap() {
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => {
+    if (!systemStore.setting.discoveryTodayOnair || !$.todayBangumi.length) return null
+
+    return <Today styles={memoStyles()} todayBangumi={$.todayBangumi} />
+  })
 }
 
-export default ob(TodayWrap, COMPONENT)
+export default TodayWrap

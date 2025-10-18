@@ -9,6 +9,7 @@ import { _ } from '@stores'
 export const memoStyles = _.memoStyles(() => {
   const width = _.device(128, 164)
   const widthLg = width * 2 + 16
+
   return {
     item: {
       width: widthLg,

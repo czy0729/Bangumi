@@ -8,28 +8,33 @@ import React from 'react'
 import { View } from 'react-native'
 import { _, systemStore, useStore } from '@stores'
 import { stl } from '@utils'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { useObserver } from '@utils/hooks'
 import SortMenu from './sort-menu'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+import type { Ctx } from '../../types'
+
 function SortMenuWrap() {
-  const { $ } = useStore<Ctx>()
-  const styles = memoStyles()
-  return (
-    <View style={stl(styles.container, systemStore.setting.discoveryMenuNum < 5 && _.mt.sm)}>
-      <SortMenu
-        styles={styles}
-        orientation={_.orientation}
-        dragging={$.state.dragging}
-        discoveryMenu={systemStore.setting.discoveryMenu}
-        discoveryMenuNum={systemStore.setting.discoveryMenuNum}
-        onToggle={$.toggleDragging}
-        onSubmit={$.saveDiscoveryMenu}
-      />
-    </View>
-  )
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => {
+    const styles = memoStyles()
+
+    return (
+      <View style={stl(styles.container, systemStore.setting.discoveryMenuNum < 5 && _.mt.sm)}>
+        <SortMenu
+          styles={styles}
+          orientation={_.orientation}
+          dragging={$.state.dragging}
+          discoveryMenu={systemStore.setting.discoveryMenu}
+          discoveryMenuNum={systemStore.setting.discoveryMenuNum}
+          onToggle={$.toggleDragging}
+          onSubmit={$.saveDiscoveryMenu}
+        />
+      </View>
+    )
+  })
 }
 
-export default ob(SortMenuWrap, COMPONENT)
+export default SortMenuWrap

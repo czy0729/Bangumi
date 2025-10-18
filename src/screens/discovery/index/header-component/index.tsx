@@ -10,35 +10,37 @@ import { Flex, Heatmap, Text } from '@components'
 import { StatusBarPlaceholder } from '@_'
 import { discoveryStore, userStore, useStore } from '@stores'
 import { info } from '@utils'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import Award from '../component/award'
 import SortMenu from '../component/sort-menu'
 import Today from '../component/today'
-import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+import type { Ctx } from '../types'
+
 function HeaderComponent() {
-  const { $ } = useStore<Ctx>()
-  const styles = memoStyles()
-  const clientOnlines = Object.keys(userStore.state.onlines).length
-  return (
-    <>
-      <StatusBarPlaceholder />
-      {!$.state.dragging && (
-        <View>
-          <Award />
-          <Heatmap id='发现.跳转' to='Award' />
-        </View>
-      )}
-      <SortMenu />
-      {!$.state.dragging && (
-        <>
-          <Flex style={styles.wrap}>
-            {!!discoveryStore.online && (
-              <>
-                <Text size={12}>online {discoveryStore.online}</Text>
-                {clientOnlines > 10 && (
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => {
+    const styles = memoStyles()
+
+    return (
+      <>
+        <StatusBarPlaceholder />
+        {!$.state.dragging && (
+          <View>
+            <Award />
+            <Heatmap id='发现.跳转' to='Award' />
+          </View>
+        )}
+        <SortMenu />
+        {!$.state.dragging && (
+          <>
+            <Flex style={styles.wrap}>
+              {!!discoveryStore.online && (
+                <>
+                  <Text size={12}>online {discoveryStore.online}</Text>
                   <Text
                     size={12}
                     onPress={() => {
@@ -46,22 +48,22 @@ function HeaderComponent() {
                     }}
                   >
                     {' '}
-                    ({clientOnlines})
+                    ({Object.keys(userStore.state.onlines || {}).length})
                   </Text>
-                )}
-              </>
-            )}
-            <Flex.Item>
-              <Text align='right' size={12} numberOfLines={1}>
-                {$.today || $.home.today}
-              </Text>
-            </Flex.Item>
-          </Flex>
-          <Today />
-        </>
-      )}
-    </>
-  )
+                </>
+              )}
+              <Flex.Item>
+                <Text align='right' size={12} numberOfLines={1}>
+                  {$.today || $.home.today}
+                </Text>
+              </Flex.Item>
+            </Flex>
+            <Today />
+          </>
+        )}
+      </>
+    )
+  })
 }
 
-export default ob(HeaderComponent, COMPONENT)
+export default HeaderComponent

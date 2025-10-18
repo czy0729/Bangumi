@@ -6,24 +6,30 @@
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function ScrollViewHorizontal({ children, ...other }) {
-  const styles = memoStyles()
-  return (
-    <ScrollView
-      contentContainerStyle={styles.contentContainerStyle}
-      scrollEventThrottle={16}
-      {...SCROLL_VIEW_RESET_PROPS}
-      {...other}
-      horizontal
-    >
-      {children}
-    </ScrollView>
-  )
+  r(COMPONENT)
+
+  return useObserver(() => {
+    const styles = memoStyles()
+
+    return (
+      <ScrollView
+        contentContainerStyle={styles.contentContainerStyle}
+        scrollEventThrottle={16}
+        {...SCROLL_VIEW_RESET_PROPS}
+        {...other}
+        horizontal
+      >
+        {children}
+      </ScrollView>
+    )
+  })
 }
 
-export default ob(ScrollViewHorizontal, COMPONENT)
+export default ScrollViewHorizontal

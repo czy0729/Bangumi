@@ -9,7 +9,6 @@ import { View } from 'react-native'
 import { WebView } from 'react-native-webview'
 import { Squircle, Touchable } from '@components'
 import { systemStore } from '@stores'
-import { r } from '@utils/dev'
 import { withT } from '@utils/fetch'
 import { useIsFocused, useNavigation, useObserver } from '@utils/hooks'
 import { HOST, TEXT_ONLY } from '@constants'
@@ -18,15 +17,14 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function Award2022({ width, height }: { width?: number; height?: number }) {
-  r(COMPONENT)
-
-  const navigation = useNavigation()
+  const navigation = useNavigation(COMPONENT)
   const show = useIsFocused()
 
   return useObserver(() => {
     const styles = memoStyles()
     const w = width || styles.item2022.width
     const h = height || styles.item2022.height
+
     return (
       <View
         style={[

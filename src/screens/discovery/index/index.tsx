@@ -8,11 +8,12 @@ import React from 'react'
 import { Component, Page } from '@components'
 import { StoreContext, systemStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import Extra from './component/extra'
 import List from './component/list'
 import Mesume from './component/mesume'
 import { useDiscoveryPage } from './hooks'
+
+import type { NavigationProps } from '@types'
 
 /** 发现 */
 const Discovery = (props: NavigationProps) => {

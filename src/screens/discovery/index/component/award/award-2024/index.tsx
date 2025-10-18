@@ -8,40 +8,23 @@ import React from 'react'
 import { View } from 'react-native'
 import { Image, Squircle, Text, Touchable } from '@components'
 import { systemStore } from '@stores'
-import { r } from '@utils/dev'
 import { useNavigation, useObserver } from '@utils/hooks'
 import { ASSETS_AWARDS, TEXT_ONLY } from '@constants'
 import { COMPONENT, URI } from './ds'
 import { memoStyles } from './styles'
 
 function Award2024() {
-  r(COMPONENT)
-
-  const navigation = useNavigation()
+  const navigation = useNavigation(COMPONENT)
 
   return useObserver(() => {
     const styles = memoStyles()
     const { width, height } = styles.item
+
     return (
       <View style={styles.container}>
         <Touchable
           animate
           onPress={() => {
-            // confirm(
-            //   'Bangumi 首届年度作品精选现已开启。目前仅浏览器支持完整功能，客户端仅能显示静态页面，推荐使用浏览器打开。',
-            //   () => {
-            //     open(URI)
-            //   },
-            //   '提示',
-            //   () => {
-            //     navigation.push('Award', {
-            //       uri: URI
-            //     })
-            //   },
-            //   '浏览器',
-            //   '客户端'
-            // )
-
             navigation.push('Award', {
               uri: URI
             })

@@ -10,6 +10,7 @@ export const memoStyles = _.memoStyles(() => {
   const height = _.device(128, 164)
   const width = height * 2 + 16
   const headerHeight = 30
+
   return {
     container: {
       height,
