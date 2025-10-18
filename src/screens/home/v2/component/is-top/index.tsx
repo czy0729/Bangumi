@@ -10,11 +10,12 @@ import { Touchable } from '@components'
 import { useStore } from '@stores'
 import { confirm, stl } from '@utils'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { TEXT_UNPIN } from '../../store/ds'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
 function IsTop({ style, subjectId }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

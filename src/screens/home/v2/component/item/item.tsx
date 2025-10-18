@@ -9,8 +9,6 @@ import { View } from 'react-native'
 import { Flex, Heatmap } from '@components'
 import { memo } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
-import { SubjectTypeCn } from '@types'
-import { TabsLabel } from '../../types'
 import IsTop from '../is-top'
 import Time from '../time'
 import Collapsible from './collapsible'
@@ -26,6 +24,9 @@ import Title from './title'
 import ToolBar from './tool-bar'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
+
+import type { SubjectTypeCn } from '@types'
+import type { TabsLabel } from '../../types'
 
 const Item = memo(
   ({

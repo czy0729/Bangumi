@@ -8,8 +8,9 @@ import React from 'react'
 import { Text, Touchable } from '@components'
 import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { styles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function IconVersion() {
   const { $ } = useStore<Ctx>()

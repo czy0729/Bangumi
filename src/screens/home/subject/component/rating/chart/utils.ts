@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-02-15 01:36:02
  */
-import { ViewStyle } from 'react-native'
+import type { ViewStyle } from 'react-native'
 
 const MIN_PERCENT = 0.04
 

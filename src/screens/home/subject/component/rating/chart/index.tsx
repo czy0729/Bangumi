@@ -7,10 +7,11 @@
 import React from 'react'
 import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../../types'
 import Chart from './chart'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../../types'
 
 function ChartWrap() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)

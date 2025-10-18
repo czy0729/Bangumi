@@ -4,12 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-02 15:57:39
  */
-import { systemStore } from '@stores'
 import { rc } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
 import { COMPONENT as PARENT } from '../ds'
 
+import type { systemStore } from '@stores'
 import type { Ctx } from '../../types'
+
 type $ = Ctx['$']
 
 export const COMPONENT = rc(PARENT, 'Tags')

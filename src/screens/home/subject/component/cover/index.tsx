@@ -7,9 +7,10 @@
 import React from 'react'
 import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import Cover from './cover'
 import { COMPONENT } from './ds'
+
+import type { Ctx } from '../../types'
 
 function CoverWrap() {
   const { $ } = useStore<Ctx>(COMPONENT)

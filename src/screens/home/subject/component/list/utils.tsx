@@ -5,9 +5,10 @@
  * @Last Modified time: 2025-09-23 05:40:45
  */
 import React from 'react'
-import { SubjectCommentsItem } from '@stores/subject/types'
-import { RenderItem } from '@types'
 import Item from '../item'
+
+import type { SubjectCommentsItem } from '@stores/subject/types'
+import type { RenderItem } from '@types'
 
 export function renderItem({ item, index }: RenderItem<SubjectCommentsItem>) {
   return <Item {...item} index={index} />

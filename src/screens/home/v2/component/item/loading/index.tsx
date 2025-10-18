@@ -8,9 +8,10 @@ import React from 'react'
 import { Loading as LoadingComp } from '@components'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
-import { Props } from './types'
+
+import type { Ctx } from '../../../types'
+import type { Props } from './types'
 
 function Loading({ subjectId }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

@@ -9,10 +9,11 @@ import { View } from 'react-native'
 import { ItemPost } from '@_'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { COMPONENT, PRE_RENDER_INDEX } from './ds'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
 function Item({ item, index, onShowFixedTextarea }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

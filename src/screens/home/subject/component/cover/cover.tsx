@@ -6,16 +6,18 @@
  */
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
-import { Cover as CoverComp, CoverProps, Heatmap, Squircle } from '@components'
+import { Cover as CoverComp, Heatmap, Squircle } from '@components'
 import { systemStore } from '@stores'
 import { getCoverLarge } from '@utils'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { IMG_DEFAULT } from '@constants'
-import { EventType } from '@types'
 import { COMPONENT_MAIN } from './ds'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { CoverProps } from '@components'
+import type { EventType } from '@types'
+import type { Props } from './types'
 
 function Cover({ image, placeholder, width, height, subjectId }: Props) {
   r(COMPONENT_MAIN)

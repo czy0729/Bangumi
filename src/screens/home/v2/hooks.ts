@@ -7,9 +7,10 @@
 import { useInitStore } from '@stores'
 import { usePageLifecycle } from '@utils/hooks'
 import { EVENT_APP_TAB_PRESS } from '@src/navigations/tab-bar'
-import { NavigationProps } from '@types'
 import store from './store'
-import { Ctx } from './types'
+
+import type { NavigationProps } from '@types'
+import type { Ctx } from './types'
 
 /** 进度页面逻辑 */
 export function useHomePage(props: NavigationProps) {

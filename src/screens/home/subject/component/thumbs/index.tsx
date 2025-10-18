@@ -12,9 +12,7 @@ import { _, systemStore, useStore } from '@stores'
 import { findSubjectCn, open, randomizeImgHost, stl } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { HOST_AC_REFERER, HOST_DB_REFERER } from '@constants'
-import { ReactNode } from '@types'
 import { TITLE_THUMBS } from '../../ds'
-import { Ctx } from '../../types'
 import IconHidden from '../icon/hidden'
 import IconPic from '../icon/pic'
 import IconPreview from '../icon/preview'
@@ -24,7 +22,10 @@ import { prioritizeByKeywords } from './utils'
 import Video from './video'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { ReactNode } from '@types'
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
 function Thumbs({ onBlockRef }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

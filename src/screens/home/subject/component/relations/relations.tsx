@@ -12,12 +12,13 @@ import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { FROZEN_FN } from '@constants'
-import { SubjectTypeCn } from '@types'
 import { TITLE_RELATIONS } from '../../ds'
 import IconHidden from '../icon/hidden'
 import IconRelation from '../icon/relation'
 import { COMPONENT_MAIN, COVER_HEIGHT, COVER_WIDTH, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
+
+import type { SubjectTypeCn } from '@types'
 
 const Relations = memo(
   ({

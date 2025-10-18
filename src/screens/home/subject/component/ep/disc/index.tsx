@@ -7,10 +7,11 @@
 import React from 'react'
 import { systemStore, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../../types'
 import Disc from './disc'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../../types'
 
 function DiscWrap() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)

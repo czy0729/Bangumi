@@ -7,7 +7,9 @@
 import { rakuenStore, usersStore } from '@stores'
 import { getTimestamp } from '@utils'
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE, RESET_STATE, STATE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, RESET_STATE } from './ds'
+
+import type { STATE } from './ds'
 
 let loadedFavor = false
 

@@ -9,13 +9,14 @@ import { View } from 'react-native'
 import { Loading } from '@components'
 import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import Info from './layout'
 import Linear from './linear'
 import List from './list'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
 const RENDERED = {}
 

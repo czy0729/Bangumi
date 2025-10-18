@@ -6,9 +6,10 @@
  */
 import React from 'react'
 import { MODEL_SUBJECT_TYPE } from '@constants'
-import { RenderItem, SubjectTypeValue } from '@types'
-import { ItemType } from '../../list/types'
 import Item from '../item'
+
+import type { RenderItem, SubjectTypeValue } from '@types'
+import type { ItemType } from '../../list/types'
 
 export function keyExtractor(item: ItemType) {
   return String('subject_id' in item ? item.subject_id : item.id)

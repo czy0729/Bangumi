@@ -9,9 +9,10 @@ import { SegmentedControl } from '@components'
 import { systemStore, useStore } from '@stores'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../../types'
 import { COMPONENT, DS } from './ds'
 import { styles } from './styles'
+
+import type { Ctx } from '../../../types'
 
 function RecSegement() {
   const { $ } = useStore<Ctx>(COMPONENT)

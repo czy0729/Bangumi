@@ -14,9 +14,10 @@ import { memo } from '@utils/decorators'
 import { useHorizontalLazy } from '@utils/hooks'
 import { FROZEN_FN, SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { TITLE_ANITABI } from '../../ds'
-import { AnitabiData } from '../../types'
 import IconHidden from '../icon/hidden'
 import { COMPONENT_MAIN, DEFAULT_PROPS, THUMB_HEIGHT, THUMB_WIDTH } from './ds'
+
+import type { AnitabiData } from '../../types'
 
 const Anitabi = memo(
   ({

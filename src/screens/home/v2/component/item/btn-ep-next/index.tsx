@@ -9,10 +9,11 @@ import { View } from 'react-native'
 import { Flex, Heatmap, Iconfont, Text, Touchable } from '@components'
 import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { Ctx } from '../../../types'
+import type { Props } from './types'
 
 function BtnEpNext({ subjectId, epStatus, isFirst }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

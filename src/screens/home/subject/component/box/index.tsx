@@ -10,12 +10,13 @@ import { Component } from '@components'
 import { _, systemStore, userStore, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { TITLE_BOX } from '../../ds'
-import { Ctx } from '../../types'
 import Split from '../split'
 import Box from './box'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
 function BoxWrap({ onBlockRef }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)

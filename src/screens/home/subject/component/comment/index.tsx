@@ -11,11 +11,12 @@ import { _, systemStore, useStore } from '@stores'
 import { stl } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { TITLE_COMMENT } from '../../ds'
-import { Ctx } from '../../types'
 import Comment from './comment'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
 function CommentWrap({ onBlockRef }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

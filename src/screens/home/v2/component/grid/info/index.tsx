@@ -22,7 +22,8 @@ import Title from './title'
 import ToolBar from './tool-bar'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function Info({ subjectId = 0, subject = {}, epStatus = '', tip = '', time = '' }: Props) {
   r(COMPONENT)

@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-07 21:16:23
  */
-import { Subject, SubjectId } from '@types'
+import type { Subject, SubjectId } from '@types'
 
 export type Props = {
   subjectId: SubjectId

@@ -9,9 +9,10 @@ import { Text } from '@components'
 import { useStore } from '@stores'
 import { cnjp, HTMLDecode } from '@utils'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../../../types'
 import { COMPONENT } from './ds'
-import { Props } from './types'
+
+import type { Ctx } from '../../../../types'
+import type { Props } from './types'
 
 function Title({ subjectId, subject = {} }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

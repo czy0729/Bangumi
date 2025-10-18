@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-21 20:08:40
  */
-import { HandleScrollIntoViewIfNeeded } from '../../../types'
+import type { HandleScrollIntoViewIfNeeded } from '../../../types'
 
 export type Props = {
   onScrollIntoViewIfNeeded: HandleScrollIntoViewIfNeeded

@@ -10,9 +10,10 @@ import { Flex, Text } from '@components'
 import { Popover } from '@_'
 import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../../types'
 
 function VIB() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)

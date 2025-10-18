@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-05-15 10:01:25
  */
-import { SubjectId, SubjectTypeCn } from '@types'
+import type { SubjectId, SubjectTypeCn } from '@types'
 
 export type Props = {
   index: number

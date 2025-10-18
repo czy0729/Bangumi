@@ -10,11 +10,12 @@ import { Component } from '@components'
 import { _, systemStore, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { TITLE_TAGS } from '../../ds'
-import { Ctx } from '../../types'
 import Split from '../split'
 import Tags from './tags'
 import { COMPONENT } from './ds'
-import { Props } from './types'
+
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
 function TagsWrap({ onBlockRef }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

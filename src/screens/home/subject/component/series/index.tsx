@@ -6,12 +6,13 @@
  */
 import React, { Suspense } from 'react'
 import { systemStore, useStore } from '@stores'
-import { SubjectFromHtmlRelationsItem } from '@stores/subject/types'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import Series from './series'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+
+import type { SubjectFromHtmlRelationsItem } from '@stores/subject/types'
+import type { Ctx } from '../../types'
 
 function SeriewWrap({ size }: { size: number }) {
   const { $ } = useStore<Ctx>(COMPONENT)

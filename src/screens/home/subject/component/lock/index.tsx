@@ -8,8 +8,9 @@ import React from 'react'
 import { Component, Flex, Mesume, Text } from '@components'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function Lock() {
   const { $ } = useStore<Ctx>()

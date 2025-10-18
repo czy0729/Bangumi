@@ -9,12 +9,15 @@ import { View } from 'react-native'
 import { Flex, Loading, Mesume, Text } from '@components'
 import { _, systemStore, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { SubjectId } from '@types'
-import { Ctx } from '../../../types'
 import { memoStyles } from '../styles'
 import Info from '../info'
 import { COMPONENT, PREV_TEXT } from './ds'
-import { Props } from './types'
+
+import type { UserCollectionItem } from '@stores/user/types'
+import type { UserCollectionsItem } from '@stores/collection/types'
+import type { SubjectId } from '@types'
+import type { Ctx } from '../../../types'
+import type { Props } from './types'
 
 function Layout({ title }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
@@ -26,9 +29,9 @@ function Layout({ title }: Props) {
     const { current, grid } = $.state
     const isGame = title === '游戏'
     const { list } = $.currentCollection(title)
-    let find = isGame
+    let find: any = isGame
       ? grid
-      : list.find((item: { subject_id: SubjectId }) => item.subject_id === current)
+      : (list as UserCollectionItem[]).find(item => item.subject_id === current)
     let tip = ''
 
     /**
@@ -36,7 +39,7 @@ function Layout({ title }: Props) {
      * 需要在确定找到项目后, 使用 $.state.grid
      */
     if (title === '全部' && !find && systemStore.setting.showGame) {
-      find = list.find((item: { id: SubjectId }) => item.id == current)
+      find = (list as UserCollectionsItem[]).find((item: { id: SubjectId }) => item.id == current)
       if (find) {
         tip = find?.tip || ''
         find = grid

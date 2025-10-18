@@ -9,10 +9,11 @@ import { Button, Flex, Iconfont, Text } from '@components'
 import { _, systemStore } from '@stores'
 import { getRating, getType } from '@utils'
 import { useObserver } from '@utils/hooks'
-import { ReactNode, ViewStyle } from '@types'
 import { RATE } from '../ds'
 import { styles } from './styles'
-import { BtnsProps } from './types'
+
+import type { ReactNode, ViewStyle } from '@types'
+import type { BtnsProps } from './types'
 
 function Btns({ btnText, rating, privacy, last, onPress }: BtnsProps) {
   return useObserver(() => {

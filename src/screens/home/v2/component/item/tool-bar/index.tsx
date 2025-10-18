@@ -14,7 +14,8 @@ import BtnFavor from '../btn-favor'
 import BtnOrigin from '../btn-origin'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function ToolBar({ subjectId, typeCn, epStatus, name, name_cn, isFirst }: Props) {
   r(COMPONENT)

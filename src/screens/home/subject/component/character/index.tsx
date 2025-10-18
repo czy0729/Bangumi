@@ -10,11 +10,12 @@ import { Component } from '@components'
 import { _, systemStore, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { TITLE_CHARACTER } from '../../ds'
-import { Ctx } from '../../types'
 import Split from '../split'
 import Character from './character'
 import { COMPONENT } from './ds'
-import { Props } from './types'
+
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
 function CharacterWrap({ onBlockRef }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)

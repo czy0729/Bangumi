@@ -8,10 +8,11 @@ import React from 'react'
 import { Flex, Heatmap, Text } from '@components'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../../types'
 import BtnBookNext from '../btn-book-next'
 import { COMPONENT } from './ds'
-import { Props } from './types'
+
+import type { Ctx } from '../../../types'
+import type { Props } from './types'
 
 function CountBook({ subjectId, isFirst }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

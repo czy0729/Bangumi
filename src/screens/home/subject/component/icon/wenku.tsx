@@ -8,8 +8,9 @@ import React from 'react'
 import { Flex, Heatmap, Iconfont, Text, Touchable } from '@components'
 import { _, userStore, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import styles from './styles'
+
+import type { Ctx } from '../../types'
 
 function IconWenku() {
   const { $ } = useStore<Ctx>()

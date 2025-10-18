@@ -4,8 +4,8 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2024-11-14 20:14:49
  */
-import { SubjectId, SubjectTypeCn } from '@types'
-import { TabsLabel } from '../../../types'
+import type { SubjectId, SubjectTypeCn } from '@types'
+import type { TabsLabel } from '../../../types'
 
 export type Props = {
   subjectId: SubjectId

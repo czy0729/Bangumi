@@ -10,12 +10,13 @@ import { IconNotify, IconTabsHeader, LogoHeader } from '@_'
 import { _, systemStore, useStore } from '@stores'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
-import { MenuItemType } from '@screens/discovery/index/types'
-import { Paths } from '@types'
-import { Ctx } from '../types'
 import { MENU_MAP } from '../../../discovery/index/ds'
 import { COMPONENT, EVENT, IGNORE_PATHS } from './ds'
 import { styles } from './styles'
+
+import type { MenuItemType } from '@screens/discovery/index/types'
+import type { Paths } from '@types'
+import type { Ctx } from '../types'
 
 function Header() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)

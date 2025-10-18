@@ -10,10 +10,11 @@ import { Flex, Text } from '@components'
 import { IconTouchable, Popover } from '@_'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../../types'
 import { HOUR_DS, MINUTE_DS, WEEK_DAY_DS, WEEK_DAY_MAP } from '../ds'
 import { COMPONENT, REVERSE_WEEK_DAY_MAP } from './ds'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../../types'
 
 function OnairCustom() {
   const { $ } = useStore<Ctx>(COMPONENT)

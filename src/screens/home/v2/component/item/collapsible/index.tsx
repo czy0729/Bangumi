@@ -9,10 +9,11 @@ import { Collapsible as CollapsibleComp } from '@components'
 import { numbersOfLine } from '@_/base/eps/ds'
 import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../../types'
 import Eps from '../eps'
 import { COMPONENT } from './ds'
-import { Props } from './types'
+
+import type { Ctx } from '../../../types'
+import type { Props } from './types'
 
 function Collapsible({ subjectId, isFirst }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

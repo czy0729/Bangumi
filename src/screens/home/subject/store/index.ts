@@ -5,12 +5,14 @@
  * @Last Modified time: 2025-05-20 07:19:57
  */
 import { collectionStore, rakuenStore, subjectStore, userStore } from '@stores'
-import { ApiSubjectResponse } from '@stores/subject/types'
 import { getTimestamp, postTask } from '@utils'
 import { queue } from '@utils/fetch'
 import { M5, SHARE_MODE, WEB } from '@constants'
 import Action from './action'
-import { EXCLUDE_STATE, RESET_STATE, STATE } from './ds'
+import { EXCLUDE_STATE, RESET_STATE } from './ds'
+
+import type { ApiSubjectResponse } from '@stores/subject/types'
+import type { STATE } from './ds'
 
 /** 条目页面状态机 */
 export default class ScreenSubject extends Action {

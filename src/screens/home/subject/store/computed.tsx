@@ -20,7 +20,6 @@ import {
   userStore
 } from '@stores'
 import { ON_AIR } from '@stores/calendar/onair'
-import { Subject } from '@stores/subject/types'
 import {
   asc,
   desc,
@@ -56,7 +55,6 @@ import {
   URL_DEFAULT_AVATAR,
   WEB
 } from '@constants'
-import { Collection, Id, RatingStatus, Sites, SubjectType, SubjectTypeCn } from '@types'
 import {
   TITLE_ANITABI,
   TITLE_BLOG,
@@ -78,8 +76,7 @@ import {
   TITLE_THUMBS,
   TITLE_TOPIC
 } from '../ds'
-import { Crt, Staff, SubjectCommentValue, TagsItem } from '../types'
-import { getOriginConfig, OriginItem } from '../../../user/origin-setting/utils'
+import { getOriginConfig } from '../../../user/origin-setting/utils'
 import State from './state'
 import {
   EXCLUDE_STATE,
@@ -95,6 +92,11 @@ import {
   TEXT_ORIGINS_MANAGE,
   TEXT_VIB
 } from './ds'
+
+import type { Subject } from '@stores/subject/types'
+import type { Collection, Id, RatingStatus, Sites, SubjectType, SubjectTypeCn } from '@types'
+import type { OriginItem } from '../../../user/origin-setting/utils'
+import type { Crt, Staff, SubjectCommentValue, TagsItem } from '../types'
 
 export default class Computed extends State {
   /** 本地化 */

@@ -44,10 +44,11 @@ import {
   SITES,
   WEB
 } from '@constants'
-import { UserId } from '@types'
-import { AnitabiData } from '../types'
 import Computed from './computed'
 import { NAMESPACE } from './ds'
+
+import type { UserId } from '@types'
+import type { AnitabiData } from '../types'
 
 export default class Fetch extends Computed {
   /**

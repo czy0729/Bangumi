@@ -11,14 +11,15 @@ import { _, subjectStore, systemStore, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { TITLE_DISC, TITLE_EP } from '../../ds'
-import { Ctx } from '../../types'
 import Split from '../split'
 import BookEp from './book-ep'
 import Disc from './disc'
 import Ep from './ep'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
 function EpWrap({ onBlockRef, onScrollIntoViewIfNeeded }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

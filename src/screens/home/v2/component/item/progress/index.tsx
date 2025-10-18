@@ -8,9 +8,10 @@ import React from 'react'
 import { OnairProgress } from '@_'
 import { systemStore, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
-import { Props } from './types'
+
+import type { Ctx } from '../../../types'
+import type { Props } from './types'
 
 function Progress({ subjectId, epStatus }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

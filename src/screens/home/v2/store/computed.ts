@@ -6,7 +6,6 @@
  */
 import { computed } from 'mobx'
 import { _, calendarStore, collectionStore, subjectStore, systemStore, userStore } from '@stores'
-import { UserCollections } from '@stores/collection/types'
 import { desc, findLastIndex, freeze, getOnAir, getPinYinFilterValue, t2s, x18 } from '@utils'
 import CacheManager from '@utils/cache-manager'
 import {
@@ -18,12 +17,15 @@ import {
   PAD,
   WEB
 } from '@constants'
-import { getOriginConfig, OriginItem } from '@src/screens/user/origin-setting/utils'
+import { getOriginConfig } from '@src/screens/user/origin-setting/utils'
 import { H_TABBAR, TABS_ITEM } from '../ds'
 import State from './state'
 import { BANGUMI_INFO, INIT_ITEM, NAMESPACE, PAGE_LIMIT_GRID, PAGE_LIMIT_LIST } from './ds'
 
-import type { Tabs, TabsLabel } from '../types'
+import type { OriginItem } from '@screens/user/origin-setting/utils'
+import type { UserCollections } from '@stores/collection/types'
+import type { UserCollection, UserCollectionItem } from '@stores/user/types'
+import type { Ep } from '@stores/subject/types'
 import type {
   CollectionStatus,
   Id,
@@ -32,8 +34,8 @@ import type {
   SubjectType,
   SubjectTypeValue
 } from '@types'
-import type { UserCollection, UserCollectionItem } from '@stores/user/types'
-import type { Ep } from '@stores/subject/types'
+import type { Tabs, TabsLabel } from '../types'
+
 export default class Computed extends State {
   /** 置顶的映射 */
   getTopMap() {

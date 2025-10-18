@@ -4,14 +4,16 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-02 16:59:45
  */
-import { _, systemStore } from '@stores'
+import { _ } from '@stores'
 import { rc } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
-import { SubjectId } from '@types'
 import { COMPONENT as PARENT } from '../ds'
-import { memoStyles } from './styles'
 
+import type { systemStore } from '@stores'
+import type { SubjectId } from '@types'
 import type { Ctx } from '../../types'
+import type { memoStyles } from './styles'
+
 type $ = Ctx['$']
 
 export const COMPONENT = rc(PARENT, 'Anitabi')

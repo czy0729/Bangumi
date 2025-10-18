@@ -6,7 +6,8 @@
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
-import { memoStyles } from './styles'
+
+import type { memoStyles } from './styles'
 
 export const COMPONENT = rc(PARENT, 'Bg')
 

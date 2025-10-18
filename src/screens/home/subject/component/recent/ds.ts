@@ -4,13 +4,14 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-05-08 07:02:16
  */
-import { systemStore } from '@stores'
 import { rc } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
-import { Navigation } from '@types'
 import { COMPONENT as PARENT } from '../ds'
 
+import type { systemStore } from '@stores'
+import type { Navigation } from '@types'
 import type { Ctx } from '../../types'
+
 type $ = Ctx['$']
 
 export const COMPONENT = rc(PARENT, 'Recent')

@@ -5,10 +5,12 @@
  * @Last Modified time: 2025-05-08 06:58:17
  */
 import React from 'react'
-import { ManageModal, ManageModalProps } from '@_'
+import { ManageModal } from '@_'
 import { memo } from '@utils/decorators'
 import { FROZEN_FN } from '@constants'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
+
+import type { ManageModalProps } from '@_'
 
 const Modal = memo(
   ({

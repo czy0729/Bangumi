@@ -6,10 +6,11 @@
  */
 import { rc } from '@utils/dev'
 import { FROZEN_FN, MODEL_RAKUEN_SCROLL_DIRECTION } from '@constants'
-import { RakuenNewFloorStyleCn, RakuenScrollDirection } from '@types'
-import { Ctx } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
-import { memoStyles } from './styles'
+
+import type { RakuenNewFloorStyleCn, RakuenScrollDirection } from '@types'
+import type { Ctx } from '../../types'
+import type { memoStyles } from './styles'
 
 export const COMPONENT = rc(PARENT, 'TouchScroll')
 

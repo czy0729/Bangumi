@@ -9,10 +9,11 @@ import { Heatmap } from '@components'
 import { MesumeChat } from '@_'
 import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Loaded } from '@types'
-import { Ctx } from '../../types'
 import Modal from '../modal'
 import { COMPONENT } from './ds'
+
+import type { Loaded } from '@types'
+import type { Ctx } from '../../types'
 
 function Extra() {
   const { $ } = useStore<Ctx>(COMPONENT)

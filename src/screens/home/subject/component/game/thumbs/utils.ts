@@ -6,7 +6,8 @@
  */
 import { otaStore } from '@stores'
 import { CDN_ADV, CDN_GAME } from '@constants'
-import { SubjectId } from '@types'
+
+import type { SubjectId } from '@types'
 
 export function getThumbs(subjectId: SubjectId, isADV: boolean, thumb?: boolean) {
   if (isADV) {

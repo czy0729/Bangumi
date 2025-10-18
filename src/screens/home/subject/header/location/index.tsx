@@ -8,9 +8,10 @@ import React from 'react'
 import { HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
 function Location({ color, onScrollTo }: Props) {
   const { $ } = useStore<Ctx>()

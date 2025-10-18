@@ -9,16 +9,17 @@ import { Heatmap, Text } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { HorizontalList, InView, SectionTitle } from '@_'
 import { _ } from '@stores'
-import { SubjectFromHtmlComitItem } from '@stores/subject/types'
 import { truncateMiddle } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
-import { SubjectTypeCn } from '@types'
 import { TITLE_COMIC } from '../../ds'
 import IconRelation from '../icon/relation'
 import { COMPONENT_MAIN, COVER_HEIGHT, COVER_WIDTH, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
+
+import type { SubjectFromHtmlComitItem } from '@stores/subject/types'
+import type { SubjectTypeCn } from '@types'
 
 const Comic = memo(
   ({ navigation, subjectId = 0, comic }) => {

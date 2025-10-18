@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-08 00:22:25
  */
-import { Override, Subject, SubjectId } from '@types'
+import type { Override, Subject, SubjectId } from '@types'
 
 export type Props = {
   subject?: Partial<

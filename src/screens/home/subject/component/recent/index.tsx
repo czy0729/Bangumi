@@ -10,11 +10,12 @@ import { Component } from '@components'
 import { _, systemStore, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { TITLE_RECENT } from '../../ds'
-import { Ctx } from '../../types'
 import Split from '../split'
 import Recent from './recent'
 import { COMPONENT } from './ds'
-import { Props } from './types'
+
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
 function RecentWrap({ onBlockRef }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)

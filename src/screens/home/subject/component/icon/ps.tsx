@@ -8,7 +8,8 @@ import React from 'react'
 import { Flex, Heatmap, Iconfont, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
+
+import type { Ctx } from '../../types'
 
 function IconPS() {
   const { $ } = useStore<Ctx>()

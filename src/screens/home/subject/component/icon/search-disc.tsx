@@ -10,10 +10,11 @@ import { Popover } from '@_'
 import { useStore } from '@stores'
 import { stl } from '@utils'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { HIT_SLOP } from './ds'
 import { styles } from './styles'
-import { IconProps } from './types'
+
+import type { Ctx } from '../../types'
+import type { IconProps } from './types'
 
 function IconSearchDisc({ style, children }: IconProps) {
   const { $, navigation } = useStore<Ctx>()

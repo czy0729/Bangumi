@@ -9,10 +9,11 @@ import { Flex, Text } from '@components'
 import { IconExpand } from '@_'
 import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { Ctx } from '../../../types'
+import type { Props } from './types'
 
 function CountVideo({ subjectId, epStatus }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

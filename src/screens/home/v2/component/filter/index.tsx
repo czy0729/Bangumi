@@ -9,10 +9,11 @@ import { View } from 'react-native'
 import { Flex, Iconfont, Input, Loading, Text } from '@components'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
 function Filter({ title, length }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

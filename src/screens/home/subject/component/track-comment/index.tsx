@@ -11,9 +11,10 @@ import { _, collectionStore, systemStore, usersStore, useStore } from '@stores'
 import { getTimestamp, lastDate, titleCase } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { MODEL_COLLECTION_STATUS } from '@constants'
-import { CollectionStatusCn, UserId } from '@types'
-import { Ctx } from '../../types'
 import { COMPONENT, POPOVER_DATA } from './ds'
+
+import type { CollectionStatusCn, UserId } from '@types'
+import type { Ctx } from '../../types'
 
 function TrackComment() {
   const { $ } = useStore<Ctx>(COMPONENT)

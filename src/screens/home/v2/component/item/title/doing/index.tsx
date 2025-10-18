@@ -9,9 +9,10 @@ import { Text } from '@components'
 import { _, systemStore, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { WEEK_DAY_MAP } from '../../../ds'
-import { Ctx } from '../../../../types'
 import { COMPONENT } from './ds'
-import { Props } from './types'
+
+import type { Ctx } from '../../../../types'
+import type { Props } from './types'
 
 function Doing({ subjectId, typeCn, doing }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

@@ -8,11 +8,12 @@ import React from 'react'
 import { Flex } from '@components'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import Location from '../location'
 import MenuComponent from '../menu-component'
 import MesumeChat from '../mesume-chat'
-import { Props } from './types'
+
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
 function Menu({ onScrollTo }: Props) {
   const { $ } = useStore<Ctx>()

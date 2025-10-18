@@ -4,9 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-04 16:34:36
  */
-import { UserCollectionsItem } from '@stores/collection/types'
-import { UserCollectionItem } from '@stores/user/types'
-import { TabsLabel } from '../../types'
+import type { UserCollectionsItem } from '@stores/collection/types'
+import type { UserCollectionItem } from '@stores/user/types'
+import type { TabsLabel } from '../../types'
 
 export type Props = {
   title: TabsLabel

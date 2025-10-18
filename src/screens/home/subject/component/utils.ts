@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-23 05:24:51
  */
-import { TranslateResult } from '@types'
+import type { TranslateResult } from '@types'
 
 /** 后来发现有翻译数据出现反转的情况, 判断符合情况需要再反转 */
 export function fixedTranslateResult(translateResult: Readonly<TranslateResult>, content: string) {

@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-29 06:27:08
  */
-import { ColorValue } from '@types'
+import type { ColorValue } from '@types'
 
 export type Props = {
   color: ColorValue

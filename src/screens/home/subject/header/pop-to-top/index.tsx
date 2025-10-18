@@ -9,7 +9,8 @@ import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { WEB } from '@constants'
-import { Ctx } from '../../types'
+
+import type { Ctx } from '../../types'
 
 function PopToTop() {
   const { $, navigation } = useStore<Ctx>()

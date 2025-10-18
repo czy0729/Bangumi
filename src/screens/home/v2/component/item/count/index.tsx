@@ -9,12 +9,13 @@ import { View } from 'react-native'
 import { Heatmap, Touchable } from '@components'
 import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../../types'
 import CountBook from '../count-book'
 import CountVideo from '../count-video'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { Ctx } from '../../../types'
+import type { Props } from './types'
 
 function Count({ subjectId, typeCn, epStatus, isFirst }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

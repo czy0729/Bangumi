@@ -6,8 +6,9 @@
  */
 import { rc } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
-import { Ctx } from '../../../types'
 import { COMPONENT as PARENT } from '../ds'
+
+import type { Ctx } from '../../../types'
 
 export const COMPONENT = rc(PARENT, 'Content')
 

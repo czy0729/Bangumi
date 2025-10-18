@@ -9,9 +9,10 @@ import { Flex, Iconfont, Text } from '@components'
 import { Popover } from '@_'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { COMPONENT, SCORES_DS } from './ds'
 import { styles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function RateSegement() {
   const { $ } = useStore<Ctx>(COMPONENT)

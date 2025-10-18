@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-15 01:38:26
  */
-import { CoverProps } from '@components'
-import { SubjectId } from '@types'
+import type { CoverProps } from '@components'
+import type { SubjectId } from '@types'
 
 export type Props = {
   image: string

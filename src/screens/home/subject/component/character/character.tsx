@@ -13,12 +13,13 @@ import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { FROZEN_FN, FROZEN_OBJECT } from '@constants'
 import { TITLE_CHARACTER } from '../../ds'
-import { Crt } from '../../types'
 import IconCharacter from '../icon/character'
 import IconHidden from '../icon/hidden'
 import { getSortValue } from './utils'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
+
+import type { Crt } from '../../types'
 
 const Character = memo(
   ({

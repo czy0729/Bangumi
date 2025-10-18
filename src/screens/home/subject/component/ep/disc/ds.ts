@@ -4,13 +4,14 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-04-15 19:29:21
  */
-import { systemStore } from '@stores'
 import { rc } from '@utils/dev'
-import { Navigation } from '@types'
 import { COMPONENT as PARENT } from '../ds'
-import { memoStyles } from './styles'
 
+import type { systemStore } from '@stores'
+import type { Navigation } from '@types'
 import type { Ctx } from '../../../types'
+import type { memoStyles } from './styles'
+
 type $ = Ctx['$']
 
 export const COMPONENT = rc(PARENT, 'Disc')

@@ -11,10 +11,11 @@ import { _, useStore } from '@stores'
 import { getCover400 } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { IOS, TEXT_ONLY } from '@constants'
-import { Ctx } from '../../types'
 import Bg from './bg'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function BgWrap() {
   const { $ } = useStore<Ctx>(COMPONENT)

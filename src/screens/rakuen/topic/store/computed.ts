@@ -14,6 +14,7 @@ import State from './state'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
 
 import type { Id, TopicId, UserId } from '@types'
+import type { DirectItems } from '../types'
 
 export default class Computed extends State {
   /** 本地化 */
@@ -230,18 +231,13 @@ export default class Computed extends State {
   }
 
   /** 导演排序 */
-  @computed get directItems(): {
-    pid?: number
-    id: number
-    floor: string
-    index: [number, number?]
-    sibling?: number[]
-  }[] {
+  @computed get directItems() {
     return freeze(() => {
       const key = `directItems|${this.topicId}|${this.comments._loaded}`
-      if (CacheManager.get(key)) return CacheManager.get(key)
+      const cache = CacheManager.get<DirectItems>(key)
+      if (cache) return cache
 
-      const data = []
+      const data: DirectItems = []
       this.comments.list.forEach((item, index) => {
         data.push({
           id: Number(item.id),

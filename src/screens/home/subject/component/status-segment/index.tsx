@@ -10,9 +10,10 @@ import { Popover } from '@_'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { MODEL_RATING_STATUS } from '@constants'
-import { Ctx } from '../../types'
 import { COMPONENT, STATUS_DS } from './ds'
 import { styles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function StatusSegement() {
   const { $ } = useStore<Ctx>(COMPONENT)

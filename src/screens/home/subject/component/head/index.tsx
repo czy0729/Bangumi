@@ -10,11 +10,12 @@ import { Component } from '@components'
 import { systemStore, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { TITLE_HEAD } from '../../ds'
-import { Ctx } from '../../types'
 import Head from './head'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
 function HeadWrap({ onBlockRef }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

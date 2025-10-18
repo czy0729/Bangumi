@@ -5,9 +5,10 @@
  * @Last Modified time: 2024-08-30 06:55:25
  */
 import { rc } from '@utils/dev'
-import { Subject, SubjectId } from '@types'
-import { TabsLabel } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
+
+import type { Subject, SubjectId } from '@types'
+import type { TabsLabel } from '../../types'
 
 export const COMPONENT = rc(PARENT, 'Item')
 

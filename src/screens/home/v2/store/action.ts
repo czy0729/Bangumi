@@ -38,9 +38,7 @@ import {
   MODEL_SUBJECT_TYPE,
   SITE_AGEFANS
 } from '@constants'
-import { EpId, EpStatus, Id, Navigation, RatingStatus, SubjectId } from '@types'
-import { EpsItem, TabsLabel } from '../types'
-import { OriginItem, replaceOriginUrl } from '../../../user/origin-setting/utils'
+import { replaceOriginUrl } from '../../../user/origin-setting/utils'
 import Fetch from './fetch'
 import {
   EXCLUDE_STATE,
@@ -53,6 +51,10 @@ import {
   TEXT_PIN,
   TEXT_UNPIN
 } from './ds'
+
+import type { EpId, EpStatus, Id, Navigation, RatingStatus, SubjectId } from '@types'
+import type { OriginItem } from '../../../user/origin-setting/utils'
+import type { EpsItem, TabsLabel } from '../types'
 
 export default class Action extends Fetch {
   /** 标签页切换 */

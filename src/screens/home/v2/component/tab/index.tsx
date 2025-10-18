@@ -13,7 +13,8 @@ import List from '../list'
 import BlurView from './blur-view'
 import Tab from './tab'
 import { COMPONENT } from './ds'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function TabWrap({ keys }: Props) {
   r(COMPONENT)

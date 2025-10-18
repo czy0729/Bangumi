@@ -8,9 +8,10 @@ import React from 'react'
 import { Text } from '@components'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../../types'
 import { calc, exist } from '../utils'
 import { COMPONENT } from './ds'
+
+import type { Ctx } from '../../../types'
 
 function Typerank({ tag }: { tag: string }) {
   const { $ } = useStore<Ctx>(COMPONENT)

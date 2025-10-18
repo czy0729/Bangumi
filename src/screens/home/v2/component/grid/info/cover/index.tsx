@@ -8,10 +8,11 @@ import React from 'react'
 import { Cover as CoverComp } from '@components'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../../../types'
 import { memoStyles as gridItemMemoStyles } from '../../item/styles'
 import { COMPONENT } from './ds'
-import { Props } from './types'
+
+import type { Ctx } from '../../../../types'
+import type { Props } from './types'
 
 function Cover({ subjectId, subject = {}, onPress }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

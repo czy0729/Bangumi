@@ -8,9 +8,10 @@ import React from 'react'
 import { Flex, Loading as LoadingComp } from '@components'
 import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function Loading() {
   const { $ } = useStore<Ctx>(COMPONENT)

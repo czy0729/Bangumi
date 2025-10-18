@@ -5,7 +5,8 @@
  * @Last Modified time: 2025-10-08 00:24:57
  */
 import { _ } from '@stores'
-import { Loaded, Override, Subject, SubjectId } from '@types'
+
+import type { Loaded, Override, Subject, SubjectId } from '@types'
 
 /** 唯一命名空间 */
 export const NAMESPACE = 'ScreenHomeV2'

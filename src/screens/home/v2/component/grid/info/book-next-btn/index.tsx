@@ -8,10 +8,11 @@ import React from 'react'
 import { Flex, Iconfont, Touchable } from '@components'
 import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { Ctx } from '../../../../types'
+import type { Props } from './types'
 
 function BookNextBtn({ subjectId, epStatus, volStatus }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

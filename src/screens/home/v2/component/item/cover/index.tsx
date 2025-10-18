@@ -14,7 +14,8 @@ import { useObserver } from '@utils/hooks'
 import Heatmaps from './heatmaps'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function Cover({ index, subjectId, typeCn, name, name_cn, image }: Props) {
   r(COMPONENT)

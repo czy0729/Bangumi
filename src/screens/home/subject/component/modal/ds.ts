@@ -9,6 +9,7 @@ import { FROZEN_FN } from '@constants'
 import { COMPONENT as PARENT } from '../ds'
 
 import type { Ctx } from '../../types'
+
 type $ = Ctx['$']
 
 export const COMPONENT = rc(PARENT, 'Modal')

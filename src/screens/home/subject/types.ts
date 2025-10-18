@@ -4,10 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-06 19:32:36
  */
-import { FlatList, View } from 'react-native'
-import { ImageProps } from '@components'
-import { Ep, SubjectComments, SubjectFromHTML } from '@stores/subject/types'
-import {
+import type { FlatList, View } from 'react-native'
+import type { ImageProps } from '@components'
+import type { Ep, SubjectComments, SubjectFromHTML } from '@stores/subject/types'
+import type {
   Collection,
   Expand,
   GetRouteParams,
@@ -24,7 +24,7 @@ import {
   SubjectTypeValue,
   WithNavigation
 } from '@types'
-import Store from './store'
+import type Store from './store'
 
 export type Ctx = WithNavigation<{
   $: InstanceType<typeof Store>

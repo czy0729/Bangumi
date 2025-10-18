@@ -12,7 +12,6 @@ import { _, systemStore, useStore } from '@stores'
 import { stl } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { TITLE_GAME } from '../../ds'
-import { Ctx } from '../../types'
 import IconHidden from '../icon/hidden'
 import IconPic from '../icon/pic'
 import IconPS from '../icon/ps'
@@ -20,7 +19,9 @@ import Split from '../split'
 import Details from './details'
 import Thumbs from './thumbs'
 import { COMPONENT } from './ds'
-import { Props } from './types'
+
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
 function Game({ onBlockRef }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

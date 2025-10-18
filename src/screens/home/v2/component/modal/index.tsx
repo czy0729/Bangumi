@@ -8,8 +8,9 @@ import React from 'react'
 import { ManageModal } from '@_'
 import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
+
+import type { Ctx } from '../../types'
 
 function Modal() {
   const { $ } = useStore<Ctx>(COMPONENT)

@@ -5,7 +5,8 @@
  * @Last Modified time: 2025-09-26 20:02:16
  */
 import { getJSON, loadJSON } from '@assets/json'
-import { SubjectId, SubjectType } from '@types'
+
+import type { SubjectId, SubjectType } from '@types'
 
 /** 缓存搜索过的结果 */
 const cacheMap = new Map<string, number>()

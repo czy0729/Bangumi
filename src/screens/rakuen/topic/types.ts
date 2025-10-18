@@ -4,10 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-16 20:20:54
  */
-import { FixedTextareaInstance, ListViewInstance, ListViewProps } from '@components'
-import Store from './store'
-
+import type { FixedTextareaInstance, ListViewInstance, ListViewProps } from '@components'
 import type { GetRouteParams, Id, Ref, RouteTopic, WithNavigation } from '@types'
+import type Store from './store'
 
 export type Ctx = WithNavigation<{
   $: InstanceType<typeof Store>
@@ -16,6 +15,15 @@ export type Ctx = WithNavigation<{
 export type Params = GetRouteParams<RouteTopic>
 
 export type FilterType = '' | 'follow' | 'likes' | 'me' | 'friends'
+
+/** 导演排序列表结构 */
+export type DirectItems = {
+  pid?: number
+  id: number
+  floor: string
+  index: [number, number?]
+  sibling?: number[]
+}[]
 
 /** 长列表引用 */
 export type HandleScrollViewRef = Ref<ListViewInstance>

@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-06 19:37:13
  */
-import { VideoItem } from '../../types'
+import type { VideoItem } from '../../types'
 
 export function prioritizeByKeywords(
   items: VideoItem[],

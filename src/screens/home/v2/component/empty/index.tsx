@@ -9,10 +9,11 @@ import { Button, Flex, Link, Mesume, Text } from '@components'
 import { randomSpeech } from '@components/mesume/utils'
 import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { COMPONENT, FOOTER_EMPTY_TEXT } from './ds'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
 function Empty({ title, length }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

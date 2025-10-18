@@ -6,9 +6,10 @@
  */
 import { _ } from '@stores'
 import { LIST_EMPTY } from '@constants'
-import { CompletionItem, Loaded, RatingStatus, Sites, TranslateResult } from '@types'
 import { COMPONENT } from '../ds'
-import { AnitabiData, EpsData, SubjectSnapshot, VideoItem } from '../types'
+
+import type { CompletionItem, Loaded, RatingStatus, Sites, TranslateResult } from '@types'
+import type { AnitabiData, EpsData, SubjectSnapshot, VideoItem } from '../types'
 
 /** 唯一命名空间 */
 export const NAMESPACE = `Screen${COMPONENT}` as const

@@ -9,8 +9,9 @@ import { Flex, Iconfont, Link, Text } from '@components'
 import { useStore } from '@stores'
 import { cnjp } from '@utils'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import styles from './styles'
+
+import type { Ctx } from '../../types'
 
 function IconRelation({
   title = '关联',

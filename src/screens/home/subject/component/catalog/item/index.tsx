@@ -8,12 +8,13 @@ import React from 'react'
 import { Cover, Flex, Link, Text } from '@components'
 import { fixedAll } from '@components/avatar/utils'
 import { _, useStore } from '@stores'
-import { SubjectFromHtmlCatalogItem } from '@stores/subject/types'
 import { HTMLDecode, x18 } from '@utils'
 import { useObserver } from '@utils/hooks'
-import { WithItem } from '@types'
-import { Ctx } from '../../../types'
 import { memoStyles } from './styles'
+
+import type { SubjectFromHtmlCatalogItem } from '@stores/subject/types'
+import type { WithItem } from '@types'
+import type { Ctx } from '../../../types'
 
 function Item({ item }: WithItem<SubjectFromHtmlCatalogItem>) {
   const { $ } = useStore<Ctx>()

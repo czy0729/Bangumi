@@ -13,12 +13,13 @@ import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { FROZEN_FN } from '@constants'
 import { TITLE_STAFF } from '../../ds'
-import { Staff as StaffType } from '../../types'
 import IconHidden from '../icon/hidden'
 import IconStaff from '../icon/staff'
 import { removeDuplicateItemsById } from './utils'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
+
+import type { Staff as StaffType } from '../../types'
 
 const Staff = memo(
   ({ navigation, showStaff = true, subjectId = 0, staff, onSwitchBlock = FROZEN_FN }) => {

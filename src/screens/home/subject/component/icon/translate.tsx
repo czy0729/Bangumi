@@ -10,7 +10,8 @@ import { IconTouchable } from '@_'
 import { _, systemStore, useStore } from '@stores'
 import { isChineseParagraph } from '@utils'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
+
+import type { Ctx } from '../../types'
 
 function IconTranslate({ content = '' }) {
   const { $ } = useStore<Ctx>()

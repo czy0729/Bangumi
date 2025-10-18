@@ -10,9 +10,10 @@ import { Rank, SectionTitle } from '@_'
 import { systemStore, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { TITLE_RATING } from '../../../ds'
-import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
+
+import type { Ctx } from '../../../types'
 
 function Title({ showScore }: { showScore: boolean }) {
   const { $ } = useStore<Ctx>(COMPONENT)

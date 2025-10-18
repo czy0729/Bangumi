@@ -13,9 +13,10 @@ import {
   MODEL_COLLECTIONS_ORDERBY,
   MODEL_SUBJECT_TYPE
 } from '@constants'
-import { CollectionsOrder, CollectionStatus, SubjectId, SubjectType } from '@types'
 import Computed from './computed'
 import { EXCLUDE_STATE } from './ds'
+
+import type { CollectionsOrder, CollectionStatus, SubjectId, SubjectType } from '@types'
 
 export default class Fetch extends Computed {
   /** 加载 bangumi-data */

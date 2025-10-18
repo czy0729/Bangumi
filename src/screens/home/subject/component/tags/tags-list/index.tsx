@@ -11,14 +11,15 @@ import { stl } from '@utils'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
 import { MODEL_SUBJECT_TYPE } from '@constants'
-import { SubjectType } from '@types'
 import { TITLE_TAGS } from '../../../ds'
-import { Ctx } from '../../../types'
 import Block from '../block'
 import Typerank from '../typerank'
 import { exist, loadTyperankData } from '../utils'
 import { COMPONENT, EXPAND_NUM } from './ds'
 import { memoStyles } from './styles'
+
+import type { SubjectType } from '@types'
+import type { Ctx } from '../../../types'
 
 function TagList({ showTyperank }: { showTyperank: boolean }) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)

@@ -10,8 +10,9 @@ import { IconReverse } from '@_'
 import { _, useStore } from '@stores'
 import { stl } from '@utils'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { styles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function IconComment() {
   const { $ } = useStore<Ctx>()

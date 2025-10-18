@@ -9,8 +9,9 @@ import { Heatmap } from '@components'
 import { IconReverse as IconComp } from '@_'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { styles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function IconReverse() {
   const { $ } = useStore<Ctx>()

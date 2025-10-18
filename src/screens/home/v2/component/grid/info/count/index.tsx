@@ -9,12 +9,13 @@ import { Flex, Text } from '@components'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { MODEL_SUBJECT_TYPE } from '@constants'
-import { SubjectTypeCn } from '@types'
-import { Ctx } from '../../../../types'
 import BookNextBtn from '../book-next-btn'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { SubjectTypeCn } from '@types'
+import type { Ctx } from '../../../../types'
+import type { Props } from './types'
 
 function Count({ subjectId, subject = {}, epStatus, tip }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

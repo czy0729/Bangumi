@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-20 04:42:14
  */
-import { Fn } from '@types'
+import type { Fn } from '@types'
 
 export type Props = {
   onPress: Fn

@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-15 17:30:19
  */
-import {
+import type {
   FILTER_ALL,
   FILTER_FOLLOW,
   FILTER_FRIENDS,

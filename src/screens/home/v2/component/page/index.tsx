@@ -4,14 +4,16 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-09 05:53:08
  */
-import React, { PropsWithChildren } from 'react'
+import React from 'react'
 import { Page as PageComp } from '@components'
 import { _, systemStore, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { IOS, MODEL_SETTING_HOME_LAYOUT } from '@constants'
-import { ViewStyle } from '@types'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
+
+import type { PropsWithChildren } from 'react'
+import type { ViewStyle } from '@types'
+import type { Ctx } from '../../types'
 
 function Page({ children }: PropsWithChildren) {
   const { $ } = useStore<Ctx>(COMPONENT)

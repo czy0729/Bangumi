@@ -9,8 +9,9 @@ import { Image, Link } from '@components'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { GROUP_THUMB_MAP } from '@assets/images'
-import { Ctx } from '../../../types'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../../types'
 
 function WordCloud() {
   const { $ } = useStore<Ctx>()

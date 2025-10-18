@@ -9,7 +9,6 @@ import { Component } from '@components'
 import { Auth } from '@_'
 import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import Extra from './component/extra'
 import Modal from './component/modal'
 import Page from './component/page'
@@ -17,6 +16,8 @@ import Tab from './component/tab'
 import Tips from './component/tips'
 import Header from './header'
 import { useHomePage } from './hooks'
+
+import type { NavigationProps } from '@types'
 
 /** 进度 */
 const Home = (props: NavigationProps) => {

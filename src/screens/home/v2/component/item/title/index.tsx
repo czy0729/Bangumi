@@ -9,10 +9,11 @@ import { Highlight, Katakana } from '@components'
 import { useStore } from '@stores'
 import { cnjp, getPinYinFilterValue, HTMLDecode } from '@utils'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../../types'
 import Doing from './doing'
 import { COMPONENT } from './ds'
-import { Props } from './types'
+
+import type { Ctx } from '../../../types'
+import type { Props } from './types'
 
 function Title({ subjectId, typeCn, title, name, name_cn, doing }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

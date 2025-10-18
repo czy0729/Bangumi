@@ -9,17 +9,18 @@ import { Heatmap } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { HorizontalList, InView, SectionTitle } from '@_'
 import { _ } from '@stores'
-import { SubjectFromHtmlLikeItem } from '@stores/subject/types'
 import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { FROZEN_FN } from '@constants'
-import { SubjectTypeCn } from '@types'
 import { TITLE_LIKE } from '../../ds'
 import IconHidden from '../icon/hidden'
 import IconRelation from '../icon/relation'
 import { COMPONENT_MAIN, COVER_HEIGHT, COVER_WIDTH, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
+
+import type { SubjectFromHtmlLikeItem } from '@stores/subject/types'
+import type { SubjectTypeCn } from '@types'
 
 const Like = memo(
   ({

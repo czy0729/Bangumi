@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-08-17 16:20:44
  */
-import { cnjp, copy } from '@utils'
+import { cnjp, copy, open } from '@utils'
 import {
   TEXT_MENU_APP,
   TEXT_MENU_COPY_LINK,
@@ -15,7 +15,8 @@ import {
   URL_ABOUT,
   WEB
 } from '@constants'
-import { Ctx } from '../../types'
+
+import type { Ctx } from '../../types'
 
 const MENU_DS = [
   TEXT_MENU_COPY_LINK,

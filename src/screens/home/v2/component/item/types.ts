@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-09 05:51:44
  */
-import { Override, Subject, SubjectId } from '@types'
-import { TabsLabel } from '../../types'
+import type { Override, Subject, SubjectId } from '@types'
+import type { TabsLabel } from '../../types'
 
 export type Props = {
   index: number

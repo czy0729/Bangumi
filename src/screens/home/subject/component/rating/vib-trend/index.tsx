@@ -13,11 +13,12 @@ import { desc, stl } from '@utils'
 import { t } from '@utils/fetch'
 import { useBoolean, useObserver } from '@utils/hooks'
 import typeScore from '@assets/json/type_score_distribution.json'
-import { Ctx } from '../../../types'
 import { useVIBTrend } from './hooks'
 import { getPercentile } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../../types'
 
 function VibTrend() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)

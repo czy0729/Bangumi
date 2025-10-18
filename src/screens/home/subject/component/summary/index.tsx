@@ -11,12 +11,13 @@ import { _, systemStore, useStore } from '@stores'
 import { cnjp } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { TITLE_SUMMARY } from '../../ds'
-import { Ctx } from '../../types'
 import Split from '../split'
 import Summary from './summary'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
 function SummaryWrap({ onBlockRef }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)

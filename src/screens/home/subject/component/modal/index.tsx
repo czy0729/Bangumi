@@ -8,9 +8,10 @@ import React, { Suspense } from 'react'
 import { Component } from '@components'
 import { userStore, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import Modal from './modal'
 import { COMPONENT } from './ds'
+
+import type { Ctx } from '../../types'
 
 function ModalWrap() {
   const { $ } = useStore<Ctx>(COMPONENT)

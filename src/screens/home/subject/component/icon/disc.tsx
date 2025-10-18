@@ -9,8 +9,9 @@ import { Heatmap } from '@components'
 import { IconTouchable } from '@_'
 import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { styles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function IconDisc() {
   const { $ } = useStore<Ctx>()

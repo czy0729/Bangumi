@@ -7,9 +7,10 @@
 import { useState } from 'react'
 import { postTask } from '@utils'
 import { useMount } from '@utils/hooks'
-import { Data as VIBData } from '@screens/discovery/vib/types'
-import { SubjectId } from '@types'
-import { TrendData } from './types'
+
+import type { Data as VIBData } from '@screens/discovery/vib/types'
+import type { SubjectId } from '@types'
+import type { TrendData } from './types'
 
 const FILTER = [
   '朴素排名增加最多',

@@ -11,10 +11,11 @@ import { useStore } from '@stores'
 import { stl } from '@utils'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
-import { Ctx, TagsItem } from '../../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Ctx, TagsItem } from '../../../types'
+import type { Props } from './types'
 
 function Block({ path, tags }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)

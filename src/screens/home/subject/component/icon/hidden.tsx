@@ -8,10 +8,11 @@ import React from 'react'
 import { Heatmap } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
+import { confirm, info } from '@utils'
 import { useObserver } from '@utils/hooks'
-import { confirm, info } from '@utils/ui'
-import { Ctx } from '../../types'
 import { styles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function IconHidden({ name, value }) {
   const { $ } = useStore<Ctx>()

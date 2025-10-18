@@ -9,12 +9,13 @@ import { Component, Page } from '@components'
 import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { IOS } from '@constants'
-import { NavigationProps } from '@types'
 import Bg from './component/bg'
 import Extra from './component/extra'
 import List from './component/list'
 import Header from './header'
 import { useSubjectPage } from './hooks'
+
+import type { NavigationProps } from '@types'
 
 /** 条目 */
 const Subject = (props: NavigationProps) => {

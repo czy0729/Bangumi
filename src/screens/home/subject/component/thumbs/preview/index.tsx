@@ -11,11 +11,12 @@ import { showImageViewer, stl } from '@utils'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
 import { WEB } from '@constants'
-import { Ctx } from '../../../types'
 import { IMAGE_HEIGHT } from '../ds'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { Ctx } from '../../../types'
+import type { Props } from './types'
 
 function Preview({ item, index, thumbs, epsThumbsHeader }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

@@ -10,12 +10,13 @@ import { Component } from '@components'
 import { _, systemStore, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { TITLE_BLOG } from '../../ds'
-import { Ctx } from '../../types'
 import Split from '../split'
 import Blog from './blog'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
 function BlogWrap({ onBlockRef }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)

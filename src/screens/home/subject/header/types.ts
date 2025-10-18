@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-28 19:40:28
  */
-import { HandleScrollTo, HandleScrollToTop } from '../types'
+import type { HandleScrollTo, HandleScrollToTop } from '../types'
 
 export type Props = {
   onScrollTo: HandleScrollTo

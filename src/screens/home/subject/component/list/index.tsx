@@ -9,11 +9,12 @@ import { ListView } from '@components'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import HeaderComponent from '../header-component'
 import { renderItem } from './utils'
 import { COMPONENT, REFRESH_CONTROL_PROPS } from './ds'
-import { Props } from './types'
+
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
 function List({ forwardRef, onScrollIntoViewIfNeeded, onBlockRef }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

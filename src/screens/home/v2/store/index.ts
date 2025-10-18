@@ -17,9 +17,11 @@ import {
   VERSION_GITHUB_RELEASE
 } from '@constants'
 import { IOS_IPA } from '@src/config'
-import { Navigation } from '@types'
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE } from './ds'
+
+import type { Navigation } from '@types'
+import type { STATE } from './ds'
 
 /** 是否初始化 */
 let inited: boolean

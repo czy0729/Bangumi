@@ -8,12 +8,13 @@ import React, { useCallback } from 'react'
 import { View } from 'react-native'
 import { Eps as EpsComp } from '@_'
 import { useStore } from '@stores'
-import { Ep } from '@stores/subject/types'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { Ep } from '@stores/subject/types'
+import type { Ctx } from '../../../../types'
+import type { Props } from './types'
 
 function Eps({ subjectId }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)

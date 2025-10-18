@@ -10,9 +10,10 @@ import { Likes } from '@_'
 import { timelineStore, uiStore, userStore, useStore } from '@stores'
 import { HTMLDecode } from '@utils'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../../types'
 
 function Comment() {
   const { $ } = useStore<Ctx>(COMPONENT)

@@ -8,10 +8,11 @@ import React from 'react'
 import { collectionStore, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { WEB } from '@constants'
-import { Ctx } from '../../../types'
 import FlipBtn from './flip-btn'
 import { COMPONENT } from './ds'
-import { Props } from './types'
+
+import type { Ctx } from '../../../types'
+import type { Props } from './types'
 
 function FlipBtnWrap({ onPress }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

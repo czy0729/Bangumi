@@ -4,14 +4,15 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-05-08 06:27:19
  */
-import { systemStore, userStore } from '@stores'
 import { rc } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
-import { Navigation } from '@types'
 import { COMPONENT as PARENT } from '../ds'
-import { memoStyles } from './styles'
 
+import type { systemStore, userStore } from '@stores'
+import type { Navigation } from '@types'
 import type { Ctx } from '../../types'
+import type { memoStyles } from './styles'
+
 type $ = Ctx['$']
 
 export const COMPONENT = rc(PARENT, 'Box')

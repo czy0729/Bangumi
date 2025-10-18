@@ -10,11 +10,12 @@ import { FolderSMB, SectionTitle } from '@_'
 import { smbStore, systemStore, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { IOS, WEB } from '@constants'
-import { Ctx } from '../../types'
 import IconHidden from '../icon/hidden'
 import IconSMB from '../icon/smb'
 import Split from '../split'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function SMB() {
   const { $ } = useStore<Ctx>()

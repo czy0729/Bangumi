@@ -12,9 +12,10 @@ import { _, otaStore, useStore } from '@stores'
 import { formatPlaytime, open } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { HOST_AC_SEARCH } from '@constants'
-import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../../types'
 
 function Details() {
   const { $ } = useStore<Ctx>(COMPONENT)

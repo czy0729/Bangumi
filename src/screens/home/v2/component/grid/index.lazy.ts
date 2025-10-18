@@ -4,7 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-04 16:19:49
  */
-import { ComponentType, lazy } from 'react'
-import { Props } from './types'
+import { lazy } from 'react'
+
+import type { ComponentType } from 'react'
+import type { Props } from './types'
 
 export default lazy<ComponentType<Props>>(() => import('./index'))

@@ -8,8 +8,9 @@ import React from 'react'
 import { Flex, Iconfont, Link, Text } from '@components'
 import { systemStore, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import styles from './styles'
+
+import type { Ctx } from '../../types'
 
 function IconWiki() {
   const { $ } = useStore<Ctx>()

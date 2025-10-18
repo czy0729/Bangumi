@@ -12,10 +12,11 @@ import { showImageViewer } from '@utils'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
-import { Ctx } from '../../../types'
 import { getThumbs } from './utils'
 import { COMPONENT, THUMB_HEIGHT, THUMB_WIDTH } from './ds'
 import { styles } from './styles'
+
+import type { Ctx } from '../../../types'
 
 function Thumbs() {
   const { $ } = useStore<Ctx>(COMPONENT)

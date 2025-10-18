@@ -9,8 +9,9 @@ import { Header } from '@components'
 import { _ } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { WEB } from '@constants'
-import { Override } from '@types'
-import { Ctx } from '../../types'
+
+import type { Override } from '@types'
+import type { Ctx } from '../../types'
 
 const TEXT_POST_SHARE = '海报分享'
 const TEXT_WEB_SHARE = 'APP 网页版分享'

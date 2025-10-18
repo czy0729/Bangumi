@@ -5,17 +5,19 @@
  * @Last Modified time: 2025-09-28 19:40:05
  */
 import { useCallback, useRef } from 'react'
-import { findNodeHandle, FlatList, View } from 'react-native'
+import { findNodeHandle } from 'react-native'
 import { _, useInitStore } from '@stores'
 import { feedback, postTask } from '@utils'
 import { scrollToTop } from '@utils/dom'
 import { t } from '@utils/fetch'
 import { usePageLifecycle } from '@utils/hooks'
 import { IOS, WEB } from '@constants'
-import { NavigationProps } from '@types'
 import store from './store'
 import { TITLE_HEAD } from './ds'
-import {
+
+import type { FlatList, View } from 'react-native'
+import type { NavigationProps } from '@types'
+import type {
   Ctx,
   HandleBlockRef,
   HandleForwardRef,

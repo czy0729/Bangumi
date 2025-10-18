@@ -14,7 +14,8 @@ import { useObserver } from '@utils/hooks'
 import { THUMB_HEIGHT, THUMB_WIDTH } from '../ds'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function Video({ item, epsThumbsHeader, showTitle = true }: Props) {
   r(COMPONENT)

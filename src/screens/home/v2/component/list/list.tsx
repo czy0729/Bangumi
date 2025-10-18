@@ -9,13 +9,14 @@ import { PaginationList2 } from '@_'
 import { _, systemStore } from '@stores'
 import { memo } from '@utils/decorators'
 import { FROZEN_FN, IOS, LIST_EMPTY } from '@constants'
-import { RenderItem } from '@types'
-import { TabsLabel } from '../../types'
 import Empty from '../empty'
 import Filter from '../filter'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
-import { ItemType } from './types'
+
+import type { RenderItem } from '@types'
+import type { TabsLabel } from '../../types'
+import type { ItemType } from './types'
 
 const List = memo(
   ({

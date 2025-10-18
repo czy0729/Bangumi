@@ -10,8 +10,6 @@ import { Button, Flex, Iconfont } from '@components'
 import { _, systemStore, useStore } from '@stores'
 import { stl } from '@utils'
 import { useObserver } from '@utils/hooks'
-import { ReactComponent, ReactNode, SubjectTypeCn } from '@types'
-import { Ctx } from '../../../types'
 import IconActions from '../../icon/actions'
 import IconGame from '../../icon/game'
 import IconOnline from '../../icon/online'
@@ -19,6 +17,9 @@ import IconSearch from '../../icon/search'
 import IconSearchDisc from '../../icon/search-disc'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
+
+import type { ReactComponent, ReactNode, SubjectTypeCn } from '@types'
+import type { Ctx } from '../../../types'
 
 function Extra() {
   const { $ } = useStore<Ctx>(COMPONENT)

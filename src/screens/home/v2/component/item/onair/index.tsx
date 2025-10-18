@@ -8,11 +8,12 @@ import React from 'react'
 import { Text } from '@components'
 import { systemStore, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../../types'
 import { WEEK_DAY_MAP } from '../../ds'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { Ctx } from '../../../types'
+import type { Props } from './types'
 
 function OnAir({ subjectId, typeCn }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

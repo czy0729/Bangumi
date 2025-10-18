@@ -5,15 +5,17 @@
  * @Last Modified time: 2025-10-09 05:52:27
  */
 import React, { useCallback, useMemo } from 'react'
-import { Loading, ScrollToIndex } from '@components'
+import { Loading } from '@components'
 import { _, systemStore, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { MODEL_SETTING_HOME_LAYOUT } from '@constants'
-import { Ctx } from '../../types'
 import Grid from '../grid/index.lazy'
 import List from './list'
 import { COMPONENT } from './ds'
-import { Props } from './types'
+
+import type { ScrollToIndex } from '@components'
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
 function ListWrap({ title = '全部' }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

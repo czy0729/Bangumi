@@ -68,10 +68,8 @@ import {
 } from '@constants'
 import i18n from '@constants/i18n'
 import { getPlainText, removeSlogan } from '@screens/discovery/word-cloud/store/utils'
-import { CompletionItem, EpStatus, Id, Navigation, RatingStatus, ScrollEvent, UserId } from '@types'
 import { TEXT_BLOCK_USER, TEXT_COPY_COMMENT, TEXT_IGNORE_USER, TEXT_LIKES } from '../ds'
-import { EpsItem } from '../types'
-import { OriginItem, replaceOriginUrl } from '../../../user/origin-setting/utils'
+import { replaceOriginUrl } from '../../../user/origin-setting/utils'
 import Fetch from './fetch'
 import {
   NAMESPACE,
@@ -83,6 +81,18 @@ import {
   TEXT_ORIGINS_MANAGE,
   TEXT_VIB
 } from './ds'
+
+import type {
+  CompletionItem,
+  EpStatus,
+  Id,
+  Navigation,
+  RatingStatus,
+  ScrollEvent,
+  UserId
+} from '@types'
+import type { OriginItem } from '../../../user/origin-setting/utils'
+import type { EpsItem } from '../types'
 
 export default class Action extends Fetch {
   private _updateStatusBarTimeoutId = null

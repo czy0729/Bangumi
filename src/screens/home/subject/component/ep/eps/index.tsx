@@ -8,8 +8,9 @@ import React, { useCallback } from 'react'
 import { Eps as EpsComp } from '@_'
 import { _, userStore, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx, EpsItem } from '../../../types'
 import { COMPONENT, LAYOUT_WIDTH } from './ds'
+
+import type { Ctx, EpsItem } from '../../../types'
 
 function Eps() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)

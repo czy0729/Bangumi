@@ -4,7 +4,7 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2025-09-28 16:48:00
  */
-import { HandleBlockRef } from '../../types'
+import type { HandleBlockRef } from '../../types'
 
 export type Props = {
   onBlockRef: HandleBlockRef

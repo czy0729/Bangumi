@@ -10,8 +10,6 @@ import { Popover } from '@_'
 import { systemStore, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { MODEL_SUBJECT_TYPE } from '@constants'
-import { SubjectTypeCn } from '@types'
-import { Ctx } from '../../../types'
 import {
   TEXT_ADD_REMINDER,
   TEXT_COLLAPSE_ALL,
@@ -22,7 +20,10 @@ import {
 } from '../../../store/ds'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { SubjectTypeCn } from '@types'
+import type { Ctx } from '../../../types'
+import type { Props } from './types'
 
 function BtnOrigin({ subjectId }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

@@ -9,11 +9,12 @@ import { Cover as CoverComp, Touchable } from '@components'
 import { systemStore, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { MODEL_SETTING_HOME_GRID_COVER_LAYOUT } from '@constants'
-import { SettingHomeGridCoverLayoutCn } from '@types'
 import { memoStyles } from '../styles'
-import { Ctx } from '../../../../types'
 import { COMPONENT } from './ds'
-import { Props } from './types'
+
+import type { SettingHomeGridCoverLayoutCn } from '@types'
+import type { Ctx } from '../../../../types'
+import type { Props } from './types'
 
 function Cover({ subjectId, subject, epStatus }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

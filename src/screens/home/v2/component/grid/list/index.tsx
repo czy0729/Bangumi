@@ -8,11 +8,12 @@ import React from 'react'
 import { PaginationList2 } from '@_'
 import { _, systemStore, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../../types'
 import { memoStyles } from '../styles'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
-import { Props } from './types'
+
+import type { Ctx } from '../../../types'
+import type { Props } from './types'
 
 function List({ title }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

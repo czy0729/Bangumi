@@ -8,13 +8,14 @@ import React from 'react'
 import { View } from 'react-native'
 import { InView, ItemComment } from '@_'
 import { _, rakuenStore, systemStore, useStore } from '@stores'
-import { SubjectCommentsItem } from '@stores/subject/types'
 import { getIsBlockedUser } from '@utils'
 import { useObserver } from '@utils/hooks'
-import { WithIndex } from '@types'
-import { Ctx } from '../../types'
 import { COMPONENT, ITEM_HEIGHT, POPOVER_DATA } from './ds'
 import { styles } from './styles'
+
+import type { SubjectCommentsItem } from '@stores/subject/types'
+import type { WithIndex } from '@types'
+import type { Ctx } from '../../types'
 
 function Item({
   index,

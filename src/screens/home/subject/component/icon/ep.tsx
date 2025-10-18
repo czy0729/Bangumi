@@ -10,7 +10,8 @@ import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
+
+import type { Ctx } from '../../types'
 
 function IconEp() {
   const { $, navigation } = useStore<Ctx>()

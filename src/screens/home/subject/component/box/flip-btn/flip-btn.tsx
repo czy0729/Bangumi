@@ -14,7 +14,8 @@ import { useObserver } from '@utils/hooks'
 import Btns from './btns'
 import { ANIMATED_CONFIG, COMPONENT_MAIN, PERSPECTIVE } from './ds'
 import { memoStyles } from './styles'
-import { FlipBtnProps } from './types'
+
+import type { FlipBtnProps } from './types'
 
 function FlipBtn({ animate, btnText, rating, privacy, last, onAnimated, onPress }: FlipBtnProps) {
   r(COMPONENT_MAIN)
@@ -29,7 +30,7 @@ function FlipBtn({ animate, btnText, rating, privacy, last, onAnimated, onPress 
         { rotateX: withTiming(activeRef.value ? '90deg' : '0deg', ANIMATED_CONFIG) },
         { translateY: withTiming(-activeRef.value * height, ANIMATED_CONFIG) }
       ]
-    }
+    } as const
   })
   const afterStyle = useAnimatedStyle(() => {
     return {
@@ -39,7 +40,7 @@ function FlipBtn({ animate, btnText, rating, privacy, last, onAnimated, onPress 
         { rotateX: withTiming(activeRef.value ? '0deg' : '90deg', ANIMATED_CONFIG) },
         { translateY: withTiming(-activeRef.value * height, ANIMATED_CONFIG) }
       ]
-    }
+    } as const
   })
 
   const [beforeProps, setBeforeProps] = useState({

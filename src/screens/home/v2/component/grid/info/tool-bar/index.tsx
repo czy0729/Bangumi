@@ -10,13 +10,14 @@ import { _, useStore } from '@stores'
 import { cnjp } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { MODEL_SUBJECT_TYPE } from '@constants'
-import { SubjectTypeCn } from '@types'
-import { Ctx } from '../../../../types'
 import BtnOrigin from '../../../item/btn-origin'
 import BtnNextEp from '../btn-next-ep'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { SubjectTypeCn } from '@types'
+import type { Ctx } from '../../../../types'
+import type { Props } from './types'
 
 function ToolBar({ subjectId, subject = {} }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

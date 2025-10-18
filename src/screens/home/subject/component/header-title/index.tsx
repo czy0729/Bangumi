@@ -8,10 +8,11 @@ import React from 'react'
 import { useStore } from '@stores'
 import { getCoverMedium } from '@utils'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import HeaderTitle from './header-title'
 import { COMPONENT } from './ds'
-import { Props } from './types'
+
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
 function HeaderTitleWrap({ onScrollToTop }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

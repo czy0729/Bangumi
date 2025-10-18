@@ -14,7 +14,8 @@ import { useObserver } from '@utils/hooks'
 import { IMG_WIDTH } from '@constants'
 import { COMPONENT, TITLE_HIT_SLOPS } from './ds'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function ContainerTouchable({ subjectId, typeCn, name, name_cn, image, children }: Props) {
   r(COMPONENT)

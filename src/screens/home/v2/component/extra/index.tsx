@@ -10,8 +10,9 @@ import { ErrorNotice, ListenSharedText, LoginNotice } from '@_'
 import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { ANDROID, WEB } from '@constants'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
+
+import type { Ctx } from '../../types'
 
 function Extra() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)

@@ -10,11 +10,12 @@ import { Component } from '@components'
 import { _, systemStore, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { TITLE_RELATIONS } from '../../ds'
-import { Ctx } from '../../types'
 import Split from '../split'
 import Relations from './relations'
 import { COMPONENT } from './ds'
-import { Props } from './types'
+
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
 function RelationsWrap({ onBlockRef }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)

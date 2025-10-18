@@ -4,11 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-07-10 16:10:46
  */
-import { UserCollectionsItem } from '@stores/collection/types'
-import { UserCollectionItem } from '@stores/user/types'
-import { WithNavigation } from '@types'
-import Store from './store'
-import { TABS_ITEM } from './ds'
+import type { UserCollectionsItem } from '@stores/collection/types'
+import type { UserCollectionItem } from '@stores/user/types'
+import type { WithNavigation } from '@types'
+import type Store from './store'
+import type { TABS_ITEM } from './ds'
 
 export type Ctx = WithNavigation<{
   $: InstanceType<typeof Store>

@@ -9,9 +9,10 @@ import { TabView } from '@components'
 import { BlurViewTab } from '@_'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { renderTabBar } from './utils'
 import { COMPONENT_MAIN } from './ds'
+
+import type { Ctx } from '../../types'
 
 function Tab({ renderScene }) {
   const { $ } = useStore<Ctx>(COMPONENT_MAIN)

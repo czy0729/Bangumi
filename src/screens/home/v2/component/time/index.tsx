@@ -11,7 +11,8 @@ import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function Time({ value }: Props) {
   r(COMPONENT)

@@ -11,10 +11,11 @@ import { Eps as EpsComp } from '@_'
 import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { window } from '@styles'
-import { Ctx, EpsItem } from '../../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { Ctx, EpsItem } from '../../../types'
+import type { Props } from './types'
 
 function Eps({ subjectId, isFirst }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)

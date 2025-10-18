@@ -10,8 +10,9 @@ import { FolderManageModal, IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { SHARE_MODE } from '@constants'
-import { Ctx } from '../../types'
 import { styles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function IconFolder() {
   const { $ } = useStore<Ctx>()

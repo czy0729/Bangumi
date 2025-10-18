@@ -12,8 +12,9 @@ import { confirm, info } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { SHARE_MODE } from '@constants'
 import i18n from '@constants/i18n'
-import { Ctx } from '../../types'
 import { styles } from './styles'
+
+import type { Ctx } from '../../types'
 
 const HIT_SLOP = {
   top: 6,

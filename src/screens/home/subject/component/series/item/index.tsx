@@ -12,9 +12,10 @@ import { x18 } from '@utils'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
 import { IMG_DEFAULT } from '@constants'
-import { Ctx } from '../../../types'
 import { COVER_HEIGHT, COVER_WIDTH } from '../ds'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../../types'
 
 function Item({ from, data }) {
   const { $, navigation } = useStore<Ctx>()

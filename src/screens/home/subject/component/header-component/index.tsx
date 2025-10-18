@@ -11,12 +11,13 @@ import { renderWithErrorBoundary } from '@components/error-boundary/utils'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { IOS } from '@constants'
-import { Ctx } from '../../types'
 import Bg from '../bg'
 import Head from '../head'
 import Loading from '../loading'
 import { BottomEls, COMPONENT, TopEls } from './ds'
-import { Props } from './types'
+
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
 function HeaderComponent(props: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
