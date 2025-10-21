@@ -2,11 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-06-14 15:39:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-27 16:32:35
+ * @Last Modified time: 2025-10-21 21:55:11
  */
-import { RatingStatus, SubjectId } from '@types'
-
-export type Action = '看' | '玩' | '听' | '读'
+import type { CollectionStatus, RatingStatus, SubjectActions, SubjectId } from '@types'
 
 export type Props = {
   visible?: boolean
@@ -14,13 +12,13 @@ export type Props = {
   subjectId?: SubjectId
   title?: string
   desc?: string
-  action?: Action
-  status: '' | RatingStatus
+  action?: SubjectActions
+  status: '' | RatingStatus | CollectionStatus
   onSubmit?: (item: {
     subjectId: SubjectId
     rating: number
     tags: string
-    status: RatingStatus | ''
+    status: '' | RatingStatus | CollectionStatus
     privacy: 0 | 1 | '0' | '1'
     comment: string
   }) => any
@@ -37,6 +35,6 @@ export type State = Partial<{
   showUserTags: boolean
   comment: string
   commentHistory: string[]
-  status: '' | RatingStatus
+  status: '' | RatingStatus | CollectionStatus
   privacy: any
 }>

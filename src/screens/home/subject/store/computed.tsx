@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-06 19:27:43
+ * @Last Modified time: 2025-10-21 22:39:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -36,6 +36,7 @@ import {
   removeHTMLTag,
   x18
 } from '@utils'
+import { logger } from '@utils/dev'
 import { findADV } from '@utils/subject/adv'
 import { ANIME_TAGS, findAnime } from '@utils/subject/anime'
 import { findGame, GAME_CATE } from '@utils/subject/game'
@@ -51,7 +52,6 @@ import {
   MODEL_SUBJECT_TYPE,
   SITES,
   SITES_DS,
-  TEXT_BADGES,
   URL_DEFAULT_AVATAR,
   WEB
 } from '@constants'
@@ -106,7 +106,7 @@ export default class Computed extends State {
 
   /** 开发调试 */
   log(...arg: any) {
-    if (DEV) console.info(TEXT_BADGES.primary, `[${this.namespace}]`, ...arg)
+    if (DEV) logger.info(this.namespace, ...arg)
   }
 
   /** 条目唯一 ID */

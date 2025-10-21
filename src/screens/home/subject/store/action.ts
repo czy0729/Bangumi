@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-21 21:39:04
+ * @Last Modified time: 2025-10-21 22:41:11
  */
 import { toJS } from 'mobx'
 import { StatusBar } from '@components'
@@ -997,6 +997,7 @@ export default class Action extends Fetch {
       }
 
       this.closeManageModal()
+      this.fetchSubjectFromHTML(true)
       webhookCollection(values, this.subject, userStore.userInfo)
 
       t('条目.管理收藏', {

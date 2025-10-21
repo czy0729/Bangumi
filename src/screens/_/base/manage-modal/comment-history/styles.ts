@@ -11,11 +11,9 @@ export const memoStyles = _.memoStyles(() => ({
     opacity: 0.64
   },
   commentHistory: {
+    paddingVertical: 12,
     marginHorizontal: _.wind,
     borderBottomWidth: _.hairlineWidth,
     borderBottomColor: _.select('rgba(0, 0, 0, 0.1)', 'rgba(255, 255, 255, 0.1)')
-  },
-  commentHistoryItem: {
-    paddingVertical: 12
   }
 }))

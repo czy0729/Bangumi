@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-20 00:27:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 16:58:13
+ * @Last Modified time: 2025-10-21 17:19:58
  */
 import React from 'react'
 import Animated from 'react-native-reanimated'
@@ -16,9 +16,10 @@ import { COLLECTION_STATUS, FROZEN_FN } from '@constants'
 import { useStatusBtnGroup } from './hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props as StatusBtnGroupProps } from './types'
 
-export { StatusBtnGroupProps }
+import type { Props as StatusBtnGroupProps } from './types'
+
+export type { StatusBtnGroupProps }
 
 /** 条目状态选择按钮组 */
 export const StatusBtnGroup = ({
@@ -34,17 +35,20 @@ export const StatusBtnGroup = ({
 
   return useObserver(() => {
     const styles = memoStyles()
+
     return (
       <Component id='base-status-btn-group'>
         <Flex style={stl(styles.group, style)} onLayout={handleContainerLayout}>
           <Animated.View style={[styles.block, blockStyle]} />
           {COLLECTION_STATUS.map((item, index) => {
             const text = item.label.replace('看', action)
+
             return (
               <Flex.Item key={item.label}>
                 <Touchable
                   onPress={() => {
                     handleButtonPress(index)
+
                     setTimeout(() => {
                       onSelect(item.value)
                     }, 0)

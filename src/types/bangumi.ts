@@ -3,9 +3,9 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:10:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-07 19:47:27
+ * @Last Modified time: 2025-10-21 16:29:59
  */
-import {
+import type {
   DATA_AIRTIME,
   DATA_ANIME_AREA,
   DATA_ANIME_TAG,
@@ -18,7 +18,7 @@ import {
   DATA_SOURCE,
   DATA_THEME
 } from '@constants/constants'
-import {
+import type {
   RankAnimeFilter,
   RankBookFilter,
   RankBookFilterSub,
@@ -168,11 +168,16 @@ export type Subject = {
   collection: Collection
 }
 
-/** 动词 */
-type Actions = '看' | '玩' | '听' | '读'
+/** 条目文案动词 */
+export type SubjectActions = '看' | '玩' | '听' | '读'
 
 /** 收藏状态动词 */
-export type CollectActions = `${Actions}过` | `在${Actions}` | `想${Actions}` | '搁置' | '抛弃'
+export type CollectActions =
+  | `${SubjectActions}过`
+  | `在${SubjectActions}`
+  | `想${SubjectActions}`
+  | '搁置'
+  | '抛弃'
 
 /** 一级分类 */
 export type RankFilter = RankAnimeFilter | RankBookFilter | RankGameFilter | RankRealFilter

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-03 19:15:24
+ * @Last Modified time: 2025-10-21 22:34:52
  */
 import React from 'react'
-import { BackHandler, TextInput } from 'react-native'
+import { BackHandler } from 'react-native'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { Component, Flex, Modal, Text } from '@components'
 import { _, collectionStore, subjectStore, systemStore, userStore } from '@stores'
@@ -22,9 +22,9 @@ import {
   sleep
 } from '@utils'
 import { ob } from '@utils/decorators'
+import { logger } from '@utils/dev'
 import { FROZEN_FN, H, IOS, MODEL_PRIVATE, MODEL_SUBJECT_TYPE } from '@constants'
 import i18n from '@constants/i18n'
-import { Private, PrivateCn, RatingStatus, SubjectType } from '@types'
 import { StarGroup } from '../star-group'
 import CommentInput from './comment-input'
 import Status from './status'
@@ -33,7 +33,10 @@ import Tags from './tags'
 import TagsInput from './tags-input'
 import { COMPONENT, MAX_HISTORY_COUNT, NAMESPACE_COMMENT, NAMESPACE_PRIVACY } from './ds'
 import { memoStyles } from './styles'
-import { Props as ManageModalProps, State } from './types'
+
+import type { InputInstance } from '@components'
+import type { Private, PrivateCn, RatingStatus, SubjectType } from '@types'
+import type { Props as ManageModalProps, State } from './types'
 
 export { ManageModalProps }
 
@@ -71,13 +74,8 @@ export const ManageModal = ob(
     /** 用于判断收藏请求是否已经发出并返回数据 */
     private _fetched = false
 
-    /** 用于判断用户在数据更新前就已经操作, 不再改变选定的状态 */
-    private _changedStatus = false
-
     /** 输入框引用 */
-    commentRef: {
-      inputRef: TextInput
-    } = null
+    private _commentRef: InputInstance = null
 
     async componentDidMount() {
       try {
@@ -86,8 +84,17 @@ export const ManageModal = ob(
           commentHistory: (await getStorage(NAMESPACE_COMMENT)) || [],
           privacy: (await getStorage(NAMESPACE_PRIVACY)) || MODEL_PRIVATE.getValue<Private>('公开')
         })
+
+        if (this.state.status === '') {
+          const data = collectionStore.collection(this.props.subjectId)
+          if (data?._loaded && data?.status?.type) {
+            this.setState({
+              status: data.status.type
+            })
+          }
+        }
       } catch (error) {
-        console.error('manage-modal', 'componentDidMount', error)
+        logger.error(COMPONENT, 'componentDidMount', error)
       }
 
       if (!IOS) {
@@ -105,23 +112,18 @@ export const ManageModal = ob(
       }
     }
 
-    async UNSAFE_componentWillReceiveProps(nextProps: {
-      visible: any
-      status: any
-      subjectId: any
-    }) {
-      const { visible, status, subjectId } = nextProps
-      if (visible) {
+    async UNSAFE_componentWillReceiveProps(nextProps: ManageModalProps) {
+      if (nextProps.visible) {
         if (!this.props.visible) {
           this.setState({
             loading: false,
             focus: false,
-            status
+            status: nextProps.status
           })
 
-          const result = await collectionStore.fetchCollection(subjectId)
-          console.log(JSON.stringify(result))
+          const result = await collectionStore.fetchCollection(nextProps.subjectId)
           this._fetched = true
+          logger.log(COMPONENT, 'componentWillReceiveProps', JSON.stringify(result))
 
           // 提前告知授权信息失效
           if (result?.error && result.error.includes('token')) {
@@ -150,12 +152,12 @@ export const ManageModal = ob(
             tag = [],
             comment,
             private: privacy,
-            status: _status = { type: undefined }
+            status: newStatus = { type: undefined }
           } = result
 
           // 若传递有收藏状态, 而请求后实际又没有, 主动清理全局缓存收藏状态
-          if (!Object.keys(_status).length && nextProps.status) {
-            collectionStore.removeStatus(subjectId)
+          if (!Object.keys(newStatus).length && nextProps.status) {
+            collectionStore.removeStatus(nextProps.subjectId)
           }
 
           const state: State = {
@@ -163,7 +165,7 @@ export const ManageModal = ob(
             tags: tag.join(' '),
             comment
           }
-          if (!this._changedStatus) state.status = _status.type
+          if (this.state.status === '') state.status = newStatus.type
           if (privacy !== undefined) state.privacy = privacy
           this.setState(state)
 
@@ -195,7 +197,6 @@ export const ManageModal = ob(
     }
 
     handleChangeStatus = (status: RatingStatus) => {
-      this._changedStatus = true
       this.setState({
         status
       })
@@ -261,10 +262,10 @@ export const ManageModal = ob(
 
       // 安卓中收起键盘并不会把聚焦取消, 主动取消以使跨端表现一致
       try {
-        if (typeof this?.commentRef?.inputRef?.blur === 'function') {
-          this.commentRef.inputRef.blur()
+        if (typeof this._commentRef?.inputRef?.blur === 'function') {
+          this._commentRef.inputRef.blur()
         }
-      } catch (error) {}
+      } catch {}
     }
 
     handleSubmit = async () => {
@@ -310,14 +311,14 @@ export const ManageModal = ob(
 
     handleSubmitEditing = () => {
       try {
-        if (typeof this?.commentRef?.inputRef?.focus === 'function') {
-          this.commentRef.inputRef.focus()
+        if (typeof this._commentRef?.inputRef?.focus === 'function') {
+          this._commentRef.inputRef.focus()
         }
-      } catch (error) {}
+      } catch {}
     }
 
-    handleForwardRef = (ref: { inputRef: TextInput }) => {
-      this.commentRef = ref
+    handleForwardRef = (ref: InputInstance) => {
+      this._commentRef = ref
     }
 
     handleCommentChange = (text: string) => {
@@ -329,10 +330,10 @@ export const ManageModal = ob(
     handleShowHistory = () => {
       try {
         this.handleBlur()
-        if (typeof this?.commentRef?.inputRef?.blur === 'function') {
-          this.commentRef.inputRef.blur()
+        if (typeof this._commentRef?.inputRef?.blur === 'function') {
+          this._commentRef.inputRef.blur()
         }
-      } catch (error) {}
+      } catch {}
 
       return sleep(240)
     }
@@ -379,6 +380,7 @@ export const ManageModal = ob(
         status,
         tags
       } = this.state
+
       return (
         <Component id='base-manage-modal'>
           <Modal

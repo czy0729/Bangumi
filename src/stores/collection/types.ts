@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-05-27 04:40:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-24 10:07:53
+ * @Last Modified time: 2025-10-21 21:54:05
  */
-import {
+import type {
   CollectionsOrder,
   CollectionStatus,
   CollectionStatusCn,

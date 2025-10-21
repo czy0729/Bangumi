@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-05-08 21:07:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-08 21:25:49
+ * @Last Modified time: 2025-10-21 16:52:40
  */
 import { useCallback, useEffect, useState } from 'react'
-import { LayoutChangeEvent } from 'react-native'
 import {
   interpolateColor,
   useAnimatedStyle,
@@ -16,7 +15,9 @@ import {
 import { _ } from '@stores'
 import { COLLECTION_STATUS } from '@constants'
 import { SPRING_CONFIG } from './ds'
-import { Props } from './types'
+
+import type { LayoutChangeEvent } from 'react-native'
+import type { Props } from './types'
 
 export function useStatusBtnGroup(value: Props['value']) {
   const { length } = COLLECTION_STATUS
@@ -26,7 +27,7 @@ export function useStatusBtnGroup(value: Props['value']) {
     _.colorPrimary,
     _.colorWait,
     _.select(_.colorBg, 'rgb(96, 96, 96)')
-  ]
+  ] as const
 
   const animate = useSharedValue(false)
   const activeIndex = useSharedValue(
@@ -61,29 +62,38 @@ export function useStatusBtnGroup(value: Props['value']) {
       }
     })
   }
-  const setActiveButton = (index: number) => {
-    buttonColors.forEach((color, i) => {
-      color.value = withTiming(i === index ? 1 : 0, {
-        duration: 80
+  const setActiveButton = useCallback(
+    (index: number) => {
+      buttonColors.forEach((color, i) => {
+        color.value = withTiming(i === index ? 1 : 0, {
+          duration: 80
+        })
       })
-    })
-  }
+    },
+    [buttonColors]
+  )
 
   /** 计算活动块的宽度 */
-  const handleContainerLayout = useCallback((event: LayoutChangeEvent) => {
-    const { width } = event.nativeEvent.layout
-    setButtonWidth(width / length)
-  }, [])
+  const handleContainerLayout = useCallback(
+    (event: LayoutChangeEvent) => {
+      const { width } = event.nativeEvent.layout
+      setButtonWidth(width / length)
+    },
+    [length]
+  )
 
   /** 按钮点击 */
-  const handleButtonPress = useCallback((index: number) => {
-    if (activeIndex.value !== -1) {
-      setTimeout(() => {
-        animate.value = true
-      }, 0)
-    }
-    activeIndex.value = index
-  }, [])
+  const handleButtonPress = useCallback(
+    (index: number) => {
+      if (activeIndex.value !== -1) {
+        setTimeout(() => {
+          animate.value = true
+        }, 0)
+      }
+      activeIndex.value = index
+    },
+    [activeIndex, animate]
+  )
 
   useEffect(() => {
     const index = COLLECTION_STATUS.findIndex(item => item.value === value)
@@ -95,7 +105,7 @@ export function useStatusBtnGroup(value: Props['value']) {
 
     activeIndex.value = index
     setActiveButton(index)
-  }, [value])
+  }, [activeIndex, animate, setActiveButton, value])
 
   return {
     blockStyle,

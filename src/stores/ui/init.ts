@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-03-20 04:47:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 21:32:56
+ * @Last Modified time: 2025-10-21 16:31:16
  */
-import { RatingStatus } from '@types'
+import type { RatingStatus, SubjectActions } from '@types'
 
 export const STATE = {
   /** 存放带监听组件的页面上面, 最近一次点击的 x, y 坐标 */
@@ -54,7 +54,7 @@ export const STATE = {
     title: '',
     desc: '',
     status: '' as '' | RatingStatus,
-    action: '看' as '看' | '玩' | '听' | '读',
+    action: '看' as SubjectActions,
     screen: '',
     disabled: false
   },

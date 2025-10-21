@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-07-30 12:47:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-30 16:22:48
+ * @Last Modified time: 2025-10-21 16:31:01
  */
 import { _ } from '@stores'
 import { MODEL_SEARCH_CAT, MODEL_SEARCH_LEGACY } from '@constants'
-import { Loaded, RatingStatus, SearchCat, SearchLegacy } from '@types'
 import { COMPONENT } from '../ds'
+
+import type { Loaded, RatingStatus, SearchCat, SearchLegacy, SubjectActions } from '@types'
 
 export const NAMESPACE = `Screen${COMPONENT}`
 
@@ -38,7 +39,7 @@ export const EXCLUDE_STATE = {
     title: '',
     desc: '',
     status: '' as '' | RatingStatus,
-    action: '听' as '看' | '玩' | '听' | '读'
+    action: '听' as SubjectActions
   }
 }
 
