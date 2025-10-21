@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-10 17:53:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-17 15:17:44
+ * @Last Modified time: 2025-10-20 15:48:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,18 +24,22 @@ function HeaderComponent() {
 
   return useObserver(() => {
     const styles = memoStyles()
+    const { dragging } = $.state
 
     return (
       <>
         <StatusBarPlaceholder />
-        {!$.state.dragging && (
+
+        {!dragging && (
           <View>
             <Award />
             <Heatmap id='发现.跳转' to='Award' />
           </View>
         )}
+
         <SortMenu />
-        {!$.state.dragging && (
+
+        {!dragging && (
           <>
             <Flex style={styles.wrap}>
               {!!discoveryStore.online && (
@@ -58,6 +62,7 @@ function HeaderComponent() {
                 </Text>
               </Flex.Item>
             </Flex>
+
             <Today />
           </>
         )}

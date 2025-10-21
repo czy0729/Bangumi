@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-14 21:41:52
+ * @Last Modified time: 2025-10-20 13:07:40
  */
 import React from 'react'
-import { TextInput } from 'react-native'
 import { observer } from 'mobx-react'
 import { feedback, getStorage, info, setStorage } from '@utils'
 import { r } from '@utils/dev'
@@ -24,7 +23,9 @@ import {
   SOURCE_FLAG,
   SOURCE_TEXT
 } from './ds'
-import { Props as FixedTextareaProps } from './types'
+
+import type { TextInput } from 'react-native'
+import type { Props as FixedTextareaProps } from './types'
 
 export { FixedTextareaProps }
 

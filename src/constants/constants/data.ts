@@ -4,12 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-05-20 07:07:53
  */
-import { ImageRequireSource } from 'react-native'
 import PropTypes from 'prop-types'
-import { ListEmpty } from '@types'
 import { HOST_DOGE } from '../cdn/ds'
 import { PAD, RATIO, WEB } from '../device'
 import { IOS } from './env'
+
+import type { ImageRequireSource } from 'react-native'
+import type { ListEmpty } from '@types'
 
 /** @deprecated Bangumi 字眼在 APP 内的显示 */
 export const TITLE = IOS ? 'bgm.tv' : 'Bangumi'

@@ -4,10 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-05-30 14:07:29
  */
-import { Id, SubjectId } from '@types'
 import { HOST_CDN } from '../constants'
-import { HOST_CDN_STATIC, VERSION_SUBJECT, VERSION_MONO } from './ds'
-import { getVersion, getFolder } from './utils'
+import { getFolder, getVersion } from './utils'
+import { HOST_CDN_STATIC, VERSION_MONO, VERSION_SUBJECT } from './ds'
+
+import type { Id, SubjectId } from '@types'
 
 /** 条目 CDN 自维护数据 */
 export const CDN_SUBJECT = (subjectId: SubjectId) => {

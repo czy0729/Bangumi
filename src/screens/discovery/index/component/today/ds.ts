@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-10 08:07:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 15:49:34
+ * @Last Modified time: 2025-10-20 15:45:20
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
@@ -16,7 +16,7 @@ export const COMPONENT_MAIN = rc(COMPONENT)
 
 type $ = Ctx['$']
 
-export const DEFAULTP_ROPS = {
+export const DEFAULT_PROPS = {
   styles: {} as ReturnType<typeof memoStyles>,
   todayBangumi: [] as $['todayBangumi']
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 11:05:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 02:59:04
+ * @Last Modified time: 2025-10-20 13:21:35
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
@@ -13,7 +13,9 @@ import { useNavigation, useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function SectionTitle({ title, type }) {
+import type { Props } from './types'
+
+function SectionTitle({ title, type }: Props) {
   const navigation = useNavigation(COMPONENT)
 
   return useObserver(() => {

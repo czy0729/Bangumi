@@ -5,10 +5,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-07-14 16:45:09
  */
-import { SubjectId } from '@types'
 import { HOST_CDN } from '../constants'
 import { getFolder } from './utils'
 import { HOST_CDN_STATIC, HOST_DOGE } from './ds'
+
+import type { SubjectId } from '@types'
 
 export { HOST_DOGE }
 

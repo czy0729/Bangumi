@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-08 00:47:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 14:32:43
+ * @Last Modified time: 2025-10-20 09:54:41
  */
 import React, { useEffect, useState } from 'react'
 import { ScrollView } from 'react-native'
@@ -13,9 +13,11 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import './index.scss'
 
+import type { ScrollViewProps } from '@components'
+
 const cls = 'scroll-view-horizontal'
 
-function ScrollViewHorizontal({ children, ...other }) {
+function ScrollViewHorizontal({ children, ...other }: ScrollViewProps) {
   r(COMPONENT)
 
   const ref = useDom(cls)

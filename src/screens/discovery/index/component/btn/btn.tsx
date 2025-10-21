@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-19 17:56:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-14 10:31:35
+ * @Last Modified time: 2025-10-20 10:07:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,7 +16,9 @@ import { GROUP_THUMB_MAP } from '@assets/images'
 import { COMPONENT_MAIN } from './ds'
 import { memoStyles } from './styles'
 
-const BtnMain = ({ item, userId, showIcon = true, onPress }) => {
+import type { MainProps } from './types'
+
+const BtnMain = ({ item, userId, showIcon = true, onPress }: MainProps) => {
   r(COMPONENT_MAIN)
 
   return useObserver(() => {

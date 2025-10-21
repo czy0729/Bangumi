@@ -6,7 +6,8 @@
  */
 import { syncSystemStore } from '@utils/async'
 import _hash from '@utils/thirdParty/hash'
-import { AnyObject, SubjectId } from '@types'
+
+import type { AnyObject, SubjectId } from '@types'
 
 /** 对图片完整地址进行哈希计算 */
 export const hash = _hash

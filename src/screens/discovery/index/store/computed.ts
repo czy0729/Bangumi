@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-07-17 03:35:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-17 03:36:33
+ * @Last Modified time: 2025-10-20 15:44:44
  */
 import { computed } from 'mobx'
 import { calendarStore, discoveryStore } from '@stores'
@@ -11,6 +11,7 @@ import { appRandom, date, desc, getTimestamp } from '@utils'
 import State from './state'
 
 import type { SubjectType } from '@types'
+import type { CalendarItemWithWeekday } from '../types'
 
 export default class Computed extends State {
   /** 发现页信息聚合 */
@@ -43,7 +44,8 @@ export default class Computed extends State {
   /** 放送数据 */
   @computed get calendar() {
     const { list } = calendarStore.calendar
-    const _list = list.map(item => ({
+
+    const temp = list.map(item => ({
       ...item,
       items: item.items
         .map(i => {
@@ -63,8 +65,8 @@ export default class Computed extends State {
         .sort((a, b) => desc(String(a.timeCN || ''), String(b.timeCN || '')))
     }))
 
-    const calendar = []
-    _list.forEach(item => {
+    const calendar: CalendarItemWithWeekday[] = []
+    temp.forEach(item => {
       item.items.forEach(i => {
         calendar.push({
           ...i,

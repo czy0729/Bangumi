@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:44:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-02 18:11:47
+ * @Last Modified time: 2025-10-20 15:52:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,7 +18,9 @@ import { linearColor } from '../../../ds'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function CoverSm({ title, src, cn, data }) {
+import type { Props } from './types'
+
+function CoverSm({ title, src, cn, data }: Props) {
   const navigation = useNavigation(COMPONENT)
 
   return useObserver(() => {

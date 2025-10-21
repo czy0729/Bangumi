@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-11 11:27:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-02 19:44:18
+ * @Last Modified time: 2025-10-20 13:25:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,7 +17,9 @@ import { WEB } from '@constants'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-const Btns = ({ setMenu, onCancel, onSave }) => {
+import type { Props } from './types'
+
+const Btns = ({ setMenu, onCancel, onSave }: Props) => {
   const navigation = useNavigation(COMPONENT)
 
   return useObserver(() => {

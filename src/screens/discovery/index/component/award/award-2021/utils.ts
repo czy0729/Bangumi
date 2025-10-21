@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-11 04:02:25
  */
-const jquery = 'https://unpkg.com/jquery@3.6.0/dist/jquery.min.js'
+import { URL_PKG_JQUERY } from '@constants'
 
 export function getHtml(width: number, height: number) {
   return `
@@ -103,7 +103,7 @@ export function getHtml(width: number, height: number) {
         </div>
       </div>
     </div>
-    <script src="${jquery}"></script>
+    <script src="${URL_PKG_JQUERY}"></script>
     <script src="https://bgm.tv/js/jquery_blockrain.js?r351"></script>
     <script>
       window.addEventListener('DOMContentLoaded', function () {

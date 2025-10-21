@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-11 10:44:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 14:44:34
+ * @Last Modified time: 2025-10-20 09:47:17
  */
 import React, { useRef } from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,9 @@ import { getHtml } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Award2022({ width, height }: { width?: number; height?: number }) {
+import type { Props } from './types'
+
+function Award2022({ width, height }: Props) {
   const navigation = useNavigation(COMPONENT)
   const styles = memoStyles()
   const ref = useRef(null)

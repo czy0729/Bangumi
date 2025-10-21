@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-05-26 12:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-13 16:17:01
+ * @Last Modified time: 2025-10-20 11:13:08
  */
-import {
-  Cover,
+import type {
   Images,
   Loaded,
   Override,
@@ -16,16 +15,17 @@ import {
   UrlSubject
 } from '@types'
 
+/** 发现页信息聚合项 */
+export type HomeItem = {
+  cover: string
+  title: string
+  subjectId: SubjectId
+  info: string
+}
+
+/** 发现页信息聚合 */
 export type Home = Override<
-  Record<
-    SubjectType,
-    {
-      cover: Cover<'l'>
-      title: string
-      subjectId: SubjectId
-      info: string
-    }[]
-  >,
+  Record<SubjectType, HomeItem[]>,
   {
     today: string
     _loaded: Loaded

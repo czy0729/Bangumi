@@ -69,5 +69,8 @@ export const URL_DEV =
 /** 开发问卷 */
 export const URL_WENJUAN = 'https://wj.qq.com/s2/9645600/92c2/'
 
-/** APP 网页版 */
+/** 客户端网页版 */
 export const URL_SPA = 'https://bangumi-app.5t5.top'
+
+/** jQuery */
+export const URL_PKG_JQUERY = 'https://unpkg.com/jquery@3.6.0/dist/jquery.min.js'

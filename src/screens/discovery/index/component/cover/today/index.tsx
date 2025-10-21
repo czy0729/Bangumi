@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 00:14:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-02 18:12:05
+ * @Last Modified time: 2025-10-20 15:52:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,7 +18,9 @@ import { linearColor } from '../../../ds'
 import { COMPONENT, WEEKDAY_CN } from './ds'
 import { memoStyles } from './styles'
 
-function CoverToday({ data }) {
+import type { Props } from './types'
+
+function CoverToday({ data }: Props) {
   const navigation = useNavigation(COMPONENT)
 
   return useObserver(() => {

@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-06-14 14:21:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-08 21:36:42
+ * @Last Modified time: 2025-10-20 17:27:49
  */
-import {
+import type {
   Avatar,
   Cover,
-  CoverPhoto,
   DeepPartial,
   Id,
   ListEmpty,
@@ -18,7 +17,7 @@ import {
   SubjectTypeCn,
   UserId
 } from '@types'
-import { LOADED } from './init'
+import type { LOADED } from './init'
 
 export type CacheKey = keyof typeof LOADED | `catalogDetail${number}`
 
@@ -158,25 +157,29 @@ export type BlogItem = {
 /** 全站日志 */
 export type Blog = ListEmpty<BlogItem>
 
+/** 频道聚合热度排行项 */
 export type ChannelRankItem = {
   id: SubjectId
   name: string
-  cover: Cover<'c'>
+  cover: string
   follow: string
+}
+
+/** 频道聚合好友相关项 */
+export type ChannelFriendsItem = {
+  id: SubjectId
+  name: string
+  cover: string
+  userId: UserId
+  userName: string
+  action: string
 }
 
 /** 频道聚合 */
 export type Channel = {
   rankTop: ChannelRankItem[]
   rank: ChannelRankItem[]
-  friends: {
-    id: SubjectId
-    name: string
-    cover: Cover<'c'>
-    userId: UserId
-    userName: string
-    action: string
-  }[]
+  friends: ChannelFriendsItem[]
   tags: string[]
   discuss: {
     id: `subject/${SubjectId}`
@@ -191,7 +194,7 @@ export type Channel = {
   blog: {
     id: Id
     title: string
-    cover: CoverPhoto<'g'>
+    cover: string
     time: string
     replies: string
     content: string

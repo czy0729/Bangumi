@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-11 17:29:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-14 20:47:19
+ * @Last Modified time: 2025-10-20 13:10:06
  */
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
@@ -13,12 +13,13 @@ import { useObserver } from '@utils/hooks'
 import { COMPONENT, LINKS } from './ds'
 import { memoStyles } from './styles'
 
+import type { InputInstance } from '@components'
 import type { Ctx } from '../../types'
 
 const LinkModal = () => {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
   const [show, setShow] = useState(false)
-  const iptRef = useRef<any>(null)
+  const iptRef = useRef<InputInstance>(null)
 
   const handleOpen = useCallback(() => {
     setShow(true)

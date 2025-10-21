@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:51:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-14 20:45:13
+ * @Last Modified time: 2025-10-20 15:54:56
  */
 import React from 'react'
 import { _, subjectStore, systemStore } from '@stores'
@@ -12,7 +12,9 @@ import CoverXs from './cover-xs'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function CoverXsWrap({ title, avatar, data }) {
+import type { Props } from './types'
+
+function CoverXsWrap({ title, avatar, data }: Props) {
   const navigation = useNavigation(COMPONENT)
 
   return useObserver(() => {

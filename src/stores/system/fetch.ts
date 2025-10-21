@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:15:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-23 01:55:06
+ * @Last Modified time: 2025-10-20 23:14:20
  */
 import { getTimestamp, info } from '@utils'
 import { D3, GITHUB_RELEASE_REPOS, IOS, VERSION_GITHUB_RELEASE } from '@constants'
 import advanceJSON from '@assets/json/advance.json'
-import { ResponseGHReleases } from '@types'
 import userStore from '../user'
 import Computed from './computed'
 import { getData } from './utils'
+
+import type { ResponseGHReleases } from '@types'
 
 export default class Fetch extends Computed {
   /** 检查新版本 */
@@ -88,10 +89,6 @@ export default class Fetch extends Computed {
 
     try {
       const data = await getData()
-      console.log({
-        data
-      })
-
       const value = {
         ...advanceJSON,
         ...data,

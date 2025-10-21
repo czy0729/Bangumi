@@ -5,9 +5,10 @@
  * @Last Modified time: 2023-03-13 14:08:53
  */
 import dayjs from 'dayjs'
-import { SubjectId } from '@types'
 import { getFolder } from './utils'
-import { HOST_DOGE, HOST_CDN_STATIC } from './ds'
+import { HOST_CDN_STATIC, HOST_DOGE } from './ds'
+
+import type { SubjectId } from '@types'
 
 /** 每日放送 */
 export const CDN_ONAIR = () => {
@@ -17,10 +18,7 @@ export const CDN_ONAIR = () => {
 
 /** 单集数据源 */
 export const CDN_EPS = (subjectId: SubjectId) => {
-  return `${HOST_DOGE}/bangumi-onair/onair/${getFolder(
-    subjectId,
-    1000
-  )}/${subjectId}.json` as const
+  return `${HOST_DOGE}/bangumi-onair/onair/${getFolder(subjectId, 1000)}/${subjectId}.json` as const
 }
 
 /** @deprecated */
@@ -32,10 +30,7 @@ export const _CDN_ONAIR = () =>
 
 /** @deprecated 单集数据源 */
 export const _CDN_EPS = (subjectId: SubjectId) =>
-  `${HOST_ONAIR}/onair/${getFolder(
-    subjectId,
-    1000
-  )}/${subjectId}.json?t=${getTimestamp()}` as const
+  `${HOST_ONAIR}/onair/${getFolder(subjectId, 1000)}/${subjectId}.json?t=${getTimestamp()}` as const
 
 function trim(str = '') {
   return str.replace(/^\s+|\s+$/gm, '')

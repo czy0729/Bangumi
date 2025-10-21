@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-11 15:08:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-22 07:00:43
+ * @Last Modified time: 2025-10-20 10:05:31
  */
 import React from 'react'
 import { Clipboard } from 'react-native'
@@ -18,8 +18,9 @@ import { COMPONENT } from './ds'
 
 import type { Fn } from '@types'
 import type { Ctx } from '../../types'
+import type { Props } from './types'
 
-function BtnWrap({ item }) {
+function BtnWrap({ item }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
@@ -81,7 +82,7 @@ function BtnWrap({ item }) {
         }
 
         navigation.push(
-          key,
+          key as any,
           login
             ? {
                 userName: userId

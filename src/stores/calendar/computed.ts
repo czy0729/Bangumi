@@ -2,21 +2,25 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:02:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 00:51:50
+ * @Last Modified time: 2025-10-20 10:46:21
  */
 import { computed } from 'mobx'
 import { deepClone, getTimestamp, toLocal } from '@utils'
-import { StoreConstructor, SubjectId } from '@types'
-import { INIT_CALENDAR, INIT_ONAIR_ITEM, INIT_USER_ONAIR_ITEM, STATE } from './init'
+import { INIT_CALENDAR, INIT_ONAIR_ITEM, INIT_USER_ONAIR_ITEM } from './init'
 import { ON_AIR } from './onair'
 import State from './state'
-import { OnAirItem, OnAirUser } from './types'
+
+import type { StoreConstructor, SubjectId } from '@types'
+import type { STATE } from './init'
+import type { OnAirItem, OnAirUser } from './types'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   /** 发现页信息聚合 */
   @computed get home() {
-    this.init('home', true)
-    return this.state.home
+    const STATE_KEY = 'home'
+    this.init(STATE_KEY, true)
+
+    return this.state[STATE_KEY]
   }
 
   /** @deprecated 发现页信息聚合 (CDN) */

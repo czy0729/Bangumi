@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-02 11:28:34
  */
-import { HOST_DOGE } from '@constants'
+import { HOST_DOGE, URL_PKG_JQUERY } from '@constants'
 
 export function getHtml(live2DVoice: boolean) {
   return `<!DOCTYPE html>
@@ -61,7 +61,7 @@ export function getHtml(live2DVoice: boolean) {
           </div>
         </div>
       </div>
-      <script src="https://unpkg.com/jquery@3.6.0/dist/jquery.min.js"></script>
+      <script src="${URL_PKG_JQUERY}"></script>
       <script>
         $(document).ready(() => {
           var chiiLib = {

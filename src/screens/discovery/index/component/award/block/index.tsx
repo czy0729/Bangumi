@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-26 07:10:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-14 20:35:12
+ * @Last Modified time: 2025-10-20 09:52:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,9 @@ import { ASSETS_AWARDS, HOST } from '@constants'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Block({ year }) {
+import type { Props } from './types'
+
+function Block({ year }: Props) {
   const navigation = useNavigation(COMPONENT)
 
   return useObserver(() => {
@@ -40,7 +42,7 @@ function Block({ year }) {
         )}
       >
         <Squircle width={width} height={height} radius={systemStore.coverRadius}>
-          <View style={styles[`item${year}`]}>
+          <View style={styles[`item${year}` as const]}>
             <Image
               src={ASSETS_AWARDS[year]}
               size={width - (year === 2019 ? 32 : 0)}

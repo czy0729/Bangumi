@@ -1,4 +1,3 @@
-import { xhrCustom } from '@utils/fetch'
 /*
  * 获取云端最新 avatar hash 和合并本地 fallback hash
  *
@@ -7,6 +6,7 @@ import { xhrCustom } from '@utils/fetch'
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-07-22 04:24:01
  */
+import { xhrCustom } from '@utils/fetch'
 import { getStorage, setStorage } from '@utils/storage'
 import { HOST_CDN } from '../constants'
 import { getOTA, getVersion, hash } from './utils'

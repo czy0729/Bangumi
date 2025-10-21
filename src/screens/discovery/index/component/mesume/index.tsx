@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-02-12 05:42:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 16:59:33
+ * @Last Modified time: 2025-10-20 17:37:06
  */
 import React from 'react'
 import { View } from 'react-native'
 import { WebView } from 'react-native-webview'
 import { Touchable } from '@components'
-import { systemStore } from '@stores'
+import { systemStore, useStore } from '@stores'
 import { r } from '@utils/dev'
 import { useIsFocused, useObserver } from '@utils/hooks'
 import { FROZEN_FN, IOS, WEB } from '@constants'
@@ -16,15 +16,22 @@ import { getHtml } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Mesume({ dragging }) {
+import type { Ctx } from '../../types'
+
+function Mesume() {
   r(COMPONENT)
 
+  const { $ } = useStore<Ctx>(COMPONENT)
   const show = useIsFocused()
 
   return useObserver(() => {
+    if (!systemStore.setting.live2D) return null
+
+    const { dragging } = $.state
     if (WEB || dragging || !show) return null
 
     const styles = memoStyles()
+
     return (
       <>
         {!IOS && (

@@ -2,30 +2,28 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 17:00:50
+ * @Last Modified time: 2025-10-20 13:10:03
  */
 import React from 'react'
-import {
-  Keyboard,
-  NativeSyntheticEvent,
-  TextInput as RNTextInput,
-  TextInputProps,
-  TextInputSubmitEditingEventData,
-  TouchableWithoutFeedback,
-  View
-} from 'react-native'
+import { Keyboard, TouchableWithoutFeedback, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { FROZEN_FN, IOS } from '@constants'
-import { Override } from '@types'
 import { Component } from '../component'
 import Clear from './clear'
 import TextInput from './text-input'
 import { COMPONENT, INPUT_LINE_HEIGHT } from './ds'
 import { memoStyles } from './styles'
-import { Props as InputProps, State } from './types'
+
+import type {
+  TextInput as RNTextInput,
+  TextInputProps,
+  TextInputSubmitEditingEvent
+} from 'react-native'
+import type { Override } from '@types'
+import type { Props as InputProps, State } from './types'
 
 export { InputProps }
 
@@ -144,14 +142,14 @@ export const Input = observer(
       }, 640)
     }
 
-    onChange = (evt: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => {
+    onChange = (evt: TextInputSubmitEditingEvent) => {
       this.setState({
         value: evt.nativeEvent.text
       })
       this.props.onChange(evt)
     }
 
-    onSubmitEditing = (evt: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => {
+    onSubmitEditing = (evt: TextInputSubmitEditingEvent) => {
       const { onSubmitEditing } = this.props
       if (typeof onSubmitEditing === 'function') {
         onSubmitEditing(evt)
@@ -270,3 +268,6 @@ export const Input = observer(
 )
 
 export default Input
+
+/** 提取出类的实例类型 */
+export type InputInstance = InstanceType<typeof Input>

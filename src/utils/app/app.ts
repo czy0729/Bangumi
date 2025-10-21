@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:19:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-07 06:32:26
+ * @Last Modified time: 2025-10-20 12:13:58
  */
 import { Alert, BackHandler } from 'react-native'
 import { ON_AIR } from '@stores/calendar/onair'
@@ -11,7 +11,6 @@ import { WEB } from '@constants/device'
 import { FROZEN_FN } from '@constants/init'
 import { GROUP_THUMB_MAP } from '@assets/images'
 import { DEV } from '@src/config'
-import { AnyObject, EventType, Navigation, SubjectId } from '@types'
 import { syncS2T } from '../async'
 import { globalLog, globalWarn, rerender } from '../dev'
 import { t } from '../fetch'
@@ -19,6 +18,8 @@ import { getStorage, setStorage } from '../storage'
 import { open } from '../utils'
 import { fixedBgmUrl, matchBgmLink } from './data-source'
 import { PRIVACY_STATE, RANDOM_FACTOR } from './ds'
+
+import type { AnyObject, EventType, Navigation, SubjectId } from '@types'
 
 /** 初始化全局方法和控制台重写 */
 export function bootApp() {
@@ -68,16 +69,20 @@ export function getBlurRadius(uri?: string, bg?: string, avatarLarge?: string) {
   return 8
 }
 
-/** app 内使用时间因子作为随机数, 规避 Hermes 引擎 Array.sort 的卡死 bug */
-export function appRandom(arr: any[] = [], key: string = '') {
-  const data = []
+/** 使用时间因子作为随机数, 规避 Hermes 引擎 Array.sort 的卡死 bug */
+export function appRandom<T extends Record<string, any>>(
+  arr: T[] = [],
+  key: keyof T & string = ''
+): T[] {
+  const data: T[] = []
+
   arr.forEach(item => {
     if (item[key]) {
       const str = String(String(item[key]).match(/\d+/g)?.[0] || 0)
       let factor = 5
       try {
         factor = Number(str.slice(str.length - 1, str.length))
-      } catch (error) {}
+      } catch {}
 
       if (RANDOM_FACTOR >= factor) {
         data.unshift(item)
@@ -86,6 +91,7 @@ export function appRandom(arr: any[] = [], key: string = '') {
       }
     }
   })
+
   return data
 }
 

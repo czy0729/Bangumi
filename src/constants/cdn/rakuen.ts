@@ -4,10 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-14 04:21:41
  */
-import { Id, UserId } from '@types'
 import { HOST_CDN } from '../constants'
 import { getFolder, getVersion } from './utils'
 import { HOST_CDN_STATIC, HOST_DOGE, VERSION_RAKUEN } from './ds'
+
+import type { Id, UserId } from '@types'
 
 const HOST_RAKUEN = `${HOST_CDN}/gh/czy0729/Bangumi-Rakuen` as const
 

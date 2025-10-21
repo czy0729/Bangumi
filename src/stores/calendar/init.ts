@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-07-15 10:39:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-13 15:05:33
+ * @Last Modified time: 2025-10-20 10:46:59
  */
 import { LIST_EMPTY } from '@constants'
-import { Calendar, Home, OnAir, OnAirItem, OnAirUser } from './types'
+
+import type { Calendar, Home, OnAir, OnAirItem, OnAirUser } from './types'
 
 export const NAMESPACE = 'Calendar'
 

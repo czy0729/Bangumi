@@ -6,9 +6,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-05-27 08:20:01
  */
-import { SubjectId } from '@types'
 import { HOST_CDN } from '../constants'
 import { getOTA } from './utils'
+
+import type { SubjectId } from '@types'
 
 export const CDN_HD = (subjectId: SubjectId) => {
   const ota = getOTA()

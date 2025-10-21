@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 04:03:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-14 20:47:56
+ * @Last Modified time: 2025-10-20 17:34:24
  */
 import React from 'react'
 import { useStore } from '@stores'
@@ -11,27 +11,21 @@ import ListItem from './list-item'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-import type { AnyObject, SubjectType } from '@types'
 import type { Ctx } from '../../types'
+import type { Props, MainProps } from './types'
 
-const LIST_CACHE = {}
+const MEMO_LIST = new Map<Props['type'], MainProps['list']>()
 
-function ListItemWrap({
-  style,
-  index,
-  type = 'anime'
-}: AnyObject<{
-  type: SubjectType
-}>) {
+function ListItemWrap({ style, index, type = 'anime' }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
     if ($.state.dragging) return null
 
-    const list = LIST_CACHE[type] || $.ramdonHome[type]
+    const list = MEMO_LIST.get(type) || $.ramdonHome[type]
     if (!list?.length) return null
 
-    if (list?.length && !LIST_CACHE[type]) LIST_CACHE[type] = list
+    if (list?.length && !MEMO_LIST.has(type)) MEMO_LIST.set(type, list)
 
     return (
       <ListItem
@@ -39,7 +33,7 @@ function ListItemWrap({
         style={style}
         index={index}
         type={type}
-        list={LIST_CACHE[type]}
+        list={MEMO_LIST.get(type)}
         friendsChannel={$.friendsChannel(type)}
       />
     )

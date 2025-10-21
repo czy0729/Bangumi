@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-09-09 21:53:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 15:41:45
+ * @Last Modified time: 2025-10-20 12:20:21
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
 
+import type { HomeItem } from '@stores/calendar/types'
 import type { SubjectType, ViewStyle } from '@types'
 import type { Ctx } from '../../types'
 import type { memoStyles } from './styles'
@@ -27,6 +28,6 @@ export const DEFAULT_PROPS = {
   style: {} as ViewStyle,
   index: 0 as number,
   type: 'anime' as SubjectType,
-  list: [] as any[],
+  list: [] as HomeItem[],
   friendsChannel: [] as ReturnType<$['friendsChannel']>
 }

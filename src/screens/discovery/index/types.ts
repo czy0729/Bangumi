@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-09-09 20:13:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-06 18:46:06
+ * @Last Modified time: 2025-10-20 15:43:59
  */
-import type { IconfontNames, Paths, WithNavigation } from '@types'
+import type { CalendarItem } from '@stores/calendar/types'
+import type { IconfontNames, Override, Paths, WithNavigation } from '@types'
 import type Store from './store'
 
 export type Ctx = WithNavigation<{
@@ -23,3 +24,10 @@ export type MenuItemType = {
 }
 
 export type MenuMapType = Partial<Record<MenuItemType['key'], MenuItemType>>
+
+export type CalendarItemWithWeekday = Override<
+  CalendarItem,
+  {
+    weekday: number
+  }
+>
