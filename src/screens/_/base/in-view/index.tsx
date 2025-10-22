@@ -10,9 +10,10 @@ import { useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { WEB } from '@constants'
 import InViewComp from './in-view'
-import { Ctx, Props as InViewProps } from './types'
 
-export { InViewProps }
+import type { Ctx, Props as InViewProps } from './types'
+
+export type { InViewProps }
 
 /** 由于 react-native 没有原生的懒渲染, 根据滚动 y 轴控制懒渲染 */
 export const InView = ob(({ index, y, log, flex, children, ...other }: InViewProps) => {
@@ -27,7 +28,7 @@ export const InView = ob(({ index, y, log, flex, children, ...other }: InViewPro
     <InViewComp
       {...other}
       index={index}
-      y={y}
+      y={y === 0 ? 1 : y}
       visibleBottom={$.state.visibleBottom}
       log={log}
       flex={flex}

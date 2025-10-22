@@ -15,9 +15,10 @@ import Content from './content'
 import Extra from './extra'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props as ItemNotifyProps } from './types'
 
-export { ItemNotifyProps }
+import type { Props as ItemNotifyProps } from './types'
+
+export type { ItemNotifyProps }
 
 export const ItemNotify = ({
   index,

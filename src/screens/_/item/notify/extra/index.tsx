@@ -14,7 +14,8 @@ import { useMount, useObserver } from '@utils/hooks'
 import { Tag } from '../../../base'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function Extra({ userId, connectUserId, repeat }: Props) {
   r(COMPONENT)

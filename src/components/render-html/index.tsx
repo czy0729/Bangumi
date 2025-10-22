@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-05 09:14:56
+ * @Last Modified time: 2025-10-22 22:49:44
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { cheerio, HTMLDecode, open } from '@utils'
-import { r } from '@utils/dev'
+import { logger, r } from '@utils/dev'
 import { FROZEN_FN, WEB } from '@constants'
 import { Component } from '../component'
 import HTML from '../@/react-native-render-html'
@@ -26,9 +26,10 @@ import {
 } from './utils'
 import { COMPONENT, PAD_FONT_ZISE_INCREASE, REGS } from './ds'
 import { styles } from './styles'
-import { Props as RenderHtmlProps } from './types'
 
-export { RenderHtmlProps }
+import type { Props as RenderHtmlProps } from './types'
+
+export type { RenderHtmlProps }
 
 /**
  * react-native 中渲染 html
@@ -68,7 +69,7 @@ export const RenderHtml = observer(
       this.setState({
         error: true
       })
-      console.error('@/components/render-html', 'componentDidCatch', error)
+      logger.error(COMPONENT, 'componentDidCatch', error)
     }
 
     /** 生成 render-html 配置 */
@@ -173,8 +174,8 @@ export const RenderHtml = observer(
         const $ = cheerio(html)
         let _html = html
 
-        /** 把 bgm 表情替换成 bgm 字体文字 */
         if (!WEB) {
+          // 把小电视表情替换成客户端自定义的字体文字
           $('img[smileid]').replaceWith((_index: number, element: any) => {
             const $img = cheerio(element)
             const alt = $img.attr('alt') || ''
@@ -193,11 +194,22 @@ export const RenderHtml = observer(
             }
             return $img.html()
           })
+
+          // 暂时处理一下 BMO
+          $('span.bmo').replaceWith((_index: number, element: any) => {
+            const $span = cheerio(element)
+            const code = $span.attr('data-code')
+            if (code) {
+              return `<span class="bmo" data-code="${code}">${code}</span>`
+            }
+
+            return $span.toString()
+          })
         }
 
         _html = $.html()
 
-        /** 片假名后面加上小的英文 */
+        // 片假名后面加上小的英文
         const jps = Object.keys(katakanaResult)
         if (jps.length) {
           jps.forEach(jp => {
@@ -214,7 +226,7 @@ export const RenderHtml = observer(
         _html = hackFixedHTMLTags(_html)
         return matchLink ? hackMatchMediaLink(_html) : _html
       } catch (error) {
-        console.info('RenderHtml', 'formatHTML', error)
+        logger.info(COMPONENT, 'formatHTML', error)
         return HTMLDecode(html)
       }
     }

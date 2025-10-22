@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-02 20:28:57
  */
-import { ViewProps } from 'react-native'
-import { DeepPartial, Override } from '@types'
+import type { ViewProps } from 'react-native'
+import type { DeepPartial, Override } from '@types'
 
 export type Props = Override<
   ViewProps,

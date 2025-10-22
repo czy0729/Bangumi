@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-12 05:12:38
  */
-import { EventType, UserId, WithIndex } from '@types'
+import type { EventType, UserId, WithIndex } from '@types'
 
 export type Props = WithIndex<{
   avatar: string

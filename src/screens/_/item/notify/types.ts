@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-12 05:43:37
  */
-import { EventType, UserId } from '@types'
+import type { EventType, UserId } from '@types'
 
 export type Props = {
   index?: number

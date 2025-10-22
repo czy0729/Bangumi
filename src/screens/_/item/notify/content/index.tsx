@@ -12,7 +12,8 @@ import { useObserver } from '@utils/hooks'
 import { Name } from '../../../base'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function Content({ userId, userName, title, message, message2, href }: Props) {
   r(COMPONENT)

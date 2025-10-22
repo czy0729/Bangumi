@@ -11,14 +11,15 @@ import { useObserver } from '@utils/hooks'
 import { InView } from '../../../base'
 import { COMPONENT, ITEM_HEIGHT } from './ds'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function Avatar({ index, avatar, userId, userName, event }: Props) {
   r(COMPONENT)
 
   return useObserver(() => (
     <UserStatus userId={userId}>
-      <InView style={styles.inView} y={ITEM_HEIGHT * (index + 1)}>
+      <InView style={styles.inView} y={ITEM_HEIGHT * index}>
         <AvatarComp
           key={String(avatar)}
           userId={userId}

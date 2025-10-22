@@ -5,13 +5,15 @@
  * @Last Modified time: 2025-05-20 00:18:15
  */
 import React, { useCallback, useEffect, useState } from 'react'
-import { LayoutChangeEvent, View } from 'react-native'
+import { View } from 'react-native'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
 import { DEV } from '@constants'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
+
+import type { LayoutChangeEvent } from 'react-native'
 
 /** 提前渲染的 y 轴距离 */
 let preDistance = 0
