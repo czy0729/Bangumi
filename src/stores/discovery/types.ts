@@ -5,8 +5,6 @@
  * @Last Modified time: 2025-10-20 17:27:49
  */
 import type {
-  Avatar,
-  Cover,
   DeepPartial,
   Id,
   ListEmpty,
@@ -66,7 +64,7 @@ export type Catalog = ListEmpty<CatalogsItem>
 /** 目录详情列表项 */
 export type CatalogDetailItem = {
   id: SubjectId
-  image: Cover<'c'>
+  image: string
   title: string
   type: SubjectTypeCn
   info: string
@@ -80,7 +78,7 @@ export type CatalogDetailItem = {
 /** 目录详情人物列表项 */
 export type CatalogDetailMonoItem = {
   id: string
-  image: Avatar<'g'>
+  image: string
   title: string
   info: string
   comment: string
@@ -89,7 +87,7 @@ export type CatalogDetailMonoItem = {
 /** 目录详情章节列表项 */
 export type CatalogDetailEpItem = {
   id: string
-  image: Cover<'g'>
+  image: string
   title: string
   info: string
   subId: string

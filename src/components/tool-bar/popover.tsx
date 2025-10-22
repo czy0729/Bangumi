@@ -11,11 +11,12 @@ import { stl } from '@utils'
 import { Flex } from '../flex'
 import { Heatmap } from '../heatmap'
 import { Iconfont } from '../iconfont'
-import { PopoverData } from '../popover'
 import { Popover } from '../popover/comp'
 import { Text } from '../text'
 import { memoStyles } from './styles'
-import { ToolBarPopoverProps } from './types'
+
+import type { PopoverData } from '../popover'
+import type { ToolBarPopoverProps } from './types'
 
 export const ToolBarPopover = observer(
   <Data extends PopoverData>({

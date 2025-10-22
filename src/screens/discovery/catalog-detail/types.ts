@@ -2,12 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-08-26 14:15:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-10 03:58:40
+ * @Last Modified time: 2025-10-22 10:27:56
  */
-import { CatalogDetail } from '@stores/discovery/types'
-import { GetRouteParams, InferArray, Override, RouteCatalogDetail, WithNavigation } from '@types'
-import Store from './store'
-import { COLLECT_DS, LAYOUT_DS, SORT_DS } from './ds'
+import type { CatalogDetailItem } from '@stores/discovery/types'
+import type {
+  GetRouteParams,
+  Override,
+  RouteCatalogDetail,
+  ScrollEvent,
+  WithNavigation
+} from '@types'
+import type Store from './store'
+import type { COLLECT_DS, LAYOUT_DS, SORT_DS } from './ds'
 
 export type Ctx = WithNavigation<{
   $: InstanceType<typeof Store>
@@ -22,7 +28,7 @@ export type Sort = (typeof SORT_DS)[number]['key']
 export type Collect = (typeof COLLECT_DS)[number]['key']
 
 export type ListItem = Override<
-  InferArray<CatalogDetail['list']>,
+  CatalogDetailItem,
   {
     score?: number | string
     rank?: number | string
@@ -31,3 +37,5 @@ export type ListItem = Override<
 >
 
 export type List = ListItem[]
+
+export type HandleScroll = (evt: ScrollEvent) => void

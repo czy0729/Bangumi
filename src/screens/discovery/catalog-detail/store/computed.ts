@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-07-29 19:28:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-08 07:49:05
+ * @Last Modified time: 2025-10-22 10:46:01
  */
 import { computed } from 'mobx'
 import { _, discoveryStore, subjectStore, userStore } from '@stores'
 import { desc, getTimestamp } from '@utils'
 import CacheManager from '@utils/cache-manager'
-import { List, ListItem } from '../types'
 import State from './state'
 import { NAMESPACE } from './ds'
 
+import type { List } from '../types'
+
 export default class Computed extends State {
-  /** 目录 id */
+  /** 目录 ID */
   @computed get catalogId() {
     return this.params.catalogId || ''
   }
@@ -34,14 +35,14 @@ export default class Computed extends State {
   }
 
   /** 目录详情列表 */
-  @computed get list(): List {
+  @computed get list() {
     const key = `${NAMESPACE}|${this.catalogId}`
     if (this.state.progress.fetching) {
-      const data = CacheManager.get(key)
+      const data = CacheManager.get<List>(key)
       if (data) return data
     }
 
-    let list: ListItem[] = []
+    let list: List = []
     if (this.catalogDetail.list.length) {
       list = this.catalogDetail.list
     } else if (this.catalogDetailFromOSS.list.length) {
@@ -99,46 +100,52 @@ export default class Computed extends State {
 
   /** 目录列表拥有的类型 */
   @computed get typeData() {
-    const { list = [], crt = [], prsn = [], ep = [] } = this.catalogDetail
+    const { list, crt, prsn, ep } = this.catalogDetail || {}
+
     const data: string[] = []
-    if (list.length) data.push(`动画  ${list.length}`)
-    if (crt.length) data.push(`角色  ${crt.length}`)
-    if (prsn.length) data.push(`人物  ${prsn.length}`)
-    if (ep.length) data.push(`章节  ${ep.length}`)
+    if (list?.length) data.push(`动画 ${list.length}`)
+    if (crt?.length) data.push(`角色 ${crt.length}`)
+    if (prsn?.length) data.push(`人物 ${prsn.length}`)
+    if (ep?.length) data.push(`章节 ${ep.length}`)
+
     return data
   }
 
   /** 目录列表当前筛选类型 */
   @computed get type() {
-    const { length } = this.catalogDetail.list
-    if (length && this.typeData.length <= 1) return '动画'
+    const DEFAULT_TYPE = '动画'
+    const { list = [] } = this.catalogDetail || {}
+    const { typeData } = this
+    const onlyOneType = typeData.length <= 1
 
-    if (!length && this.state.type === '动画') {
-      return (this.typeData?.[0] || '').split(' ')?.[0] || '动画'
+    // 情况 1: 若只有一种类型，直接用默认
+    if (list.length && onlyOneType) return DEFAULT_TYPE
+
+    // 情况 2: 若动画无内容但当前选中动画 -> 自动切换到第一个类型
+    if (!list.length && this.state.type === DEFAULT_TYPE) {
+      const firstType = typeData?.[0]?.split(' ')?.[0]
+      return firstType || DEFAULT_TYPE
     }
 
-    return this.state.type || '动画'
+    // 情况 3: 否则返回当前选中或默认
+    return this.state.type || DEFAULT_TYPE
   }
 
   /** 当前类型列表 */
   @computed get data() {
     const { reverse } = this.state
-    if (this.type === '角色') {
-      const { crt = [] } = this.catalogDetail
-      return reverse ? crt.slice().reverse() : crt
-    }
+    const { catalogDetail } = this
+    const { type } = this
 
-    if (this.type === '人物') {
-      const { prsn = [] } = this.catalogDetail
-      return reverse ? prsn.slice().reverse() : prsn
+    const map = {
+      角色: () => catalogDetail.crt || [],
+      人物: () => catalogDetail.prsn || [],
+      章节: () => catalogDetail.ep || []
     }
+    const getter = map[type] ?? (() => this.list)
+    const data = getter()
 
-    if (this.type === '章节') {
-      const { ep = [] } = this.catalogDetail
-      return reverse ? ep.slice().reverse() : ep
-    }
-
-    return reverse ? this.list.slice().reverse() : this.list
+    return reverse ? data.slice().reverse() : data
   }
 
   /** 目录是否已收藏 */

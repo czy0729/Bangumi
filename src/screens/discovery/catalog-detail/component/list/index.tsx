@@ -2,44 +2,57 @@
  * @Author: czy0729
  * @Date: 2022-09-06 15:35:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-08 08:26:27
+ * @Last Modified time: 2025-10-22 10:28:41
  */
-import React from 'react'
+import React, { useMemo } from 'react'
 import { PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { TEXT_18X } from '@constants/text'
-import { Ctx } from '../../types'
 import Info from '../info'
 import { renderEpItem, renderItem, renderMonoItem } from './utils'
 import { COMPONENT } from './ds'
 
-function List({ onScroll }) {
-  const { $ } = useStore<Ctx>()
-  const numColumns = $.type !== '动画' ? 1 : $.isList ? undefined : $.gridNum
-  return (
-    <PaginationList2
-      key={`${$.state.layout}${numColumns}`}
-      keyExtractor={keyExtractor}
-      contentContainerStyle={_.container.bottom}
-      numColumns={numColumns}
-      data={$.data}
-      limit={12}
-      ListHeaderComponent={<Info />}
-      renderItem={
-        $.type === '章节'
-          ? renderEpItem
-          : $.type === '角色' || $.type === '人物'
-          ? renderMonoItem
-          : renderItem
-      }
-      footerEmptyDataText={TEXT_18X}
-      scrollEventThrottle={16}
-      onScroll={onScroll}
-      onHeaderRefresh={$.fetchCatalogDetail}
-    />
-  )
+import type { Ctx } from '../../types'
+import type { Props } from './types'
+
+function List({ onScroll }: Props) {
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => {
+    const { type, isList, gridNum } = $
+
+    /** 计算列数：动画类型单独逻辑 */
+    const numColumns = useMemo(() => {
+      if (type !== '动画') return 1
+      return isList ? undefined : gridNum
+    }, [type, isList, gridNum])
+
+    /** 渲染函数根据 type 选择 */
+    const renderFn = useMemo(() => {
+      if (type === '章节') return renderEpItem
+      if (type === '角色' || type === '人物') return renderMonoItem
+      return renderItem
+    }, [type])
+
+    return (
+      <PaginationList2
+        key={`${$.state.layout}-${numColumns}`}
+        keyExtractor={keyExtractor}
+        contentContainerStyle={_.container.bottom}
+        numColumns={numColumns}
+        data={$.data}
+        limit={12}
+        ListHeaderComponent={<Info />}
+        renderItem={renderFn}
+        footerEmptyDataText={TEXT_18X}
+        scrollEventThrottle={16}
+        onScroll={onScroll}
+        onHeaderRefresh={$.fetchCatalogDetail}
+      />
+    )
+  })
 }
 
-export default ob(List, COMPONENT)
+export default List

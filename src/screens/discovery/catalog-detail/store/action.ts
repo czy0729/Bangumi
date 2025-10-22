@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-07-29 19:39:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-07 16:07:47
+ * @Last Modified time: 2025-10-22 01:02:06
  */
 import { discoveryStore, userStore } from '@stores'
 import { confirm, feedback, info, removeHTMLTag, updateVisibleBottom } from '@utils'
@@ -10,10 +10,11 @@ import { fetchHTML, queue, t } from '@utils/fetch'
 import { webhookCatalog } from '@utils/webhooks'
 import { HOST } from '@constants'
 import i18n from '@constants/i18n'
-import { Navigation } from '@types'
 import { COLLECT_DS, LAYOUT_DS, SORT_DS } from '../ds'
 import Fetch from './fetch'
 import { EXCLUDE_STATE } from './ds'
+
+import type { Navigation } from '@types'
 
 export default class Action extends Fetch {
   /** 收藏或取消目录 */

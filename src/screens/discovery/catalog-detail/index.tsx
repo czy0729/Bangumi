@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2020-01-05 21:50:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 07:17:30
+ * @Last Modified time: 2025-10-22 01:24:03
  */
 import React from 'react'
 import { Component, Page } from '@components'
 import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import List from './component/list'
 import Modal from './component/modal'
 import Tips from './component/tips'
 import Header from './header'
 import { useCatalogDetailPage } from './hooks'
+
+import type { NavigationProps } from '@types'
 
 /** 目录详情 */
 const CatalogDetail = (props: NavigationProps) => {

@@ -2,38 +2,45 @@
  * @Author: czy0729
  * @Date: 2025-01-07 15:35:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-07 17:27:10
+ * @Last Modified time: 2025-10-22 01:13:30
  */
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Flex, SegmentedControl } from '@components'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../../types'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Type() {
-  const { $ } = useStore<Ctx>()
-  const data = [...$.typeData]
-  if (data.length <= 1) return null
+import type { Ctx } from '../../../types'
 
-  const styles = memoStyles()
-  return (
-    <Flex style={_.mt.md} justify='center'>
-      <SegmentedControl
-        style={[
-          styles.segment,
-          {
-            width: 64 * data.length
-          }
-        ]}
-        size={11}
-        values={data}
-        selectedIndex={data.findIndex(item => item.startsWith($.type))}
-        onValueChange={$.onType}
-      />
-    </Flex>
-  )
+function Type() {
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => {
+    const styles = memoStyles()
+
+    const { type, typeData } = $
+    const data = typeData.slice()
+    const selectedIndex = useMemo(() => data.findIndex(item => item.startsWith(type)), [data, type])
+    if (data.length <= 1) return null
+
+    return (
+      <Flex style={_.mt.md} justify='center'>
+        <SegmentedControl
+          style={[
+            styles.segment,
+            {
+              width: 64 * data.length
+            }
+          ]}
+          size={11}
+          values={data}
+          selectedIndex={selectedIndex}
+          onValueChange={$.onType}
+        />
+      </Flex>
+    )
+  })
 }
 
-export default ob(Type, COMPONENT)
+export default Type

@@ -17,7 +17,7 @@ function Desc({ userId, avatar, name, date, event }) {
   return useObserver(() => (
     <Flex style={_.mt.md}>
       <View style={_.mr.sm}>
-        <UserStatus userId={userId}>
+        <UserStatus userId={userId} mini>
           <Avatar
             key={avatar}
             navigation={navigation}

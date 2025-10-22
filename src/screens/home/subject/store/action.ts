@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-21 22:41:11
+ * @Last Modified time: 2025-10-21 23:24:50
  */
 import { toJS } from 'mobx'
 import { StatusBar } from '@components'
@@ -42,6 +42,7 @@ import {
   showActionSheet,
   updateVisibleBottom
 } from '@utils'
+import { logger } from '@utils/dev'
 import { baiduTranslate, t } from '@utils/fetch'
 import { completions, download, get, lx, temp, update } from '@utils/kv'
 import { MUSUME_PROMPT, MUSUME_SUBJECT_PROMPT } from '@utils/kv/ds'
@@ -68,11 +69,10 @@ import {
 } from '@constants'
 import i18n from '@constants/i18n'
 import { getPlainText, removeSlogan } from '@screens/discovery/word-cloud/store/utils'
-import { TEXT_BLOCK_USER, TEXT_COPY_COMMENT, TEXT_IGNORE_USER, TEXT_LIKES } from '../ds'
+import { COMPONENT, TEXT_BLOCK_USER, TEXT_COPY_COMMENT, TEXT_IGNORE_USER, TEXT_LIKES } from '../ds'
 import { replaceOriginUrl } from '../../../user/origin-setting/utils'
 import Fetch from './fetch'
 import {
-  NAMESPACE,
   TEXT_ACTIONS_MANAGE,
   TEXT_ANI_DB,
   TEXT_ICS_MANAGE,
@@ -93,7 +93,6 @@ import type {
 } from '@types'
 import type { OriginItem } from '../../../user/origin-setting/utils'
 import type { EpsItem } from '../types'
-
 export default class Action extends Fetch {
   private _updateStatusBarTimeoutId = null
 
@@ -159,7 +158,7 @@ export default class Action extends Fetch {
         subjectId: this.subjectId
       })
     } catch (error) {
-      console.error(NAMESPACE, 'changeText', error)
+      logger.error(COMPONENT, 'changeText', error)
     }
   }
 
@@ -236,7 +235,7 @@ export default class Action extends Fetch {
 
       this.open(url)
     } catch (error) {
-      console.error(NAMESPACE, 'onlinePlaySelected', error)
+      logger.error(COMPONENT, 'onlinePlaySelected', error)
     }
   }
 
@@ -276,7 +275,7 @@ export default class Action extends Fetch {
         subjectType: this.type
       })
     } catch (error) {
-      console.error(NAMESPACE, 'onlineComicSelected', error)
+      logger.error(COMPONENT, 'onlineComicSelected', error)
     }
   }
 
@@ -302,7 +301,7 @@ export default class Action extends Fetch {
         subjectType: this.type
       })
     } catch (error) {
-      console.error(NAMESPACE, 'onlineDiscSelected', error)
+      logger.error(COMPONENT, 'onlineDiscSelected', error)
     }
   }
 
@@ -328,7 +327,7 @@ export default class Action extends Fetch {
         subjectType: this.type
       })
     } catch (error) {
-      console.error(NAMESPACE, 'onlineGameSelected', error)
+      logger.error(COMPONENT, 'onlineGameSelected', error)
     }
   }
 
@@ -1004,7 +1003,7 @@ export default class Action extends Fetch {
         subjectId: this.subjectId
       })
     } catch (error) {
-      console.error(NAMESPACE, 'doUpdateCollection', error)
+      logger.error(COMPONENT, 'doUpdateCollection', error)
     }
 
     this.setState({
@@ -1220,7 +1219,7 @@ export default class Action extends Fetch {
 
       info('收藏了才能管理哦')
     } catch (error) {
-      console.error(NAMESPACE, 'doEpsSelect', error)
+      logger.error(COMPONENT, 'doEpsSelect', error)
     }
   }
 
@@ -1316,7 +1315,7 @@ export default class Action extends Fetch {
         }
       )
     } catch (error) {
-      console.error(NAMESPACE, 'doUpdateEp', error)
+      logger.error(COMPONENT, 'doUpdateEp', error)
     }
   }
 
@@ -1350,7 +1349,7 @@ export default class Action extends Fetch {
         subjectId: this.subjectId
       })
     } catch (error) {
-      console.error(NAMESPACE, 'doEpsLongPress', error)
+      logger.error(COMPONENT, 'doEpsLongPress', error)
     }
   }
 
@@ -1388,7 +1387,7 @@ export default class Action extends Fetch {
         }
       )
     } catch (error) {
-      console.error(NAMESPACE, 'doEraseCollection', error)
+      logger.error(COMPONENT, 'doEraseCollection', error)
     }
 
     this.setState({
