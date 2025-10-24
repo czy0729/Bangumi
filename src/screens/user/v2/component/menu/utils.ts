@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-31 10:25:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-23 16:12:14
+ * @Last Modified time: 2025-10-23 10:37:17
  */
 import { open } from '@utils'
 import { t } from '@utils/fetch'
@@ -19,8 +19,9 @@ import {
   TEXT_MENU_WORDCLOUD_SELF,
   TEXT_MENU_ZONE_SELF
 } from '@constants'
-import { Navigation } from '@types'
-import { MenuLabel } from './types'
+
+import type { Navigation } from '@types'
+import type { MenuLabel } from './types'
 
 export function handleMenuPopoverPress(
   navigation: Navigation,

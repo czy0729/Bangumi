@@ -2,14 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-25 11:42:54
+ * @Last Modified time: 2025-10-22 22:55:55
  */
 import { systemStore, timelineStore, userStore } from '@stores'
 import { queue } from '@utils'
 import { MODEL_COLLECTIONS_ORDERBY } from '@constants'
-import { CollectionsOrderCn } from '@types'
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE } from './ds'
+
+import type { CollectionsOrderCn } from '@types'
+import type { STATE } from './ds'
 
 export default class ScreenUser extends Action {
   init = async () => {

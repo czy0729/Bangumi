@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-06 06:10:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-13 21:00:11
+ * @Last Modified time: 2025-10-23 21:24:44
  */
 import React, { useMemo } from 'react'
 import { ToolBar } from '@components'
@@ -10,9 +10,11 @@ import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { MODEL_COLLECTION_STATUS } from '@constants'
 import { DEFAULT_SUBJECT_TYPE, TABS } from '../../ds'
-import { Ctx } from '../../types'
 
-function Tag({ page }) {
+import type { Ctx } from '../../types'
+import type { TagProps } from './types'
+
+function Tag({ page }: TagProps) {
   const { $ } = useStore<Ctx>()
 
   return useObserver(() => {

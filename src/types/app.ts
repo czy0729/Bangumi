@@ -1,18 +1,18 @@
 /*
- * App 项目特定数据结构
+ * 客户端特定数据结构
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-13 06:22:26
+ * @Last Modified time: 2025-10-23 21:12:32
  */
-import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
-import IoniconsIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/Ionicons.json'
-import MaterialIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/MaterialIcons.json'
-import { SITES } from '@constants'
-import { EventKeys } from '@constants/events'
-import { Id, SubjectId, UserId } from './bangumi'
-import { NavigationPushType, Paths } from './route'
-import { AnyObject, DeepPartial, Expand, Override, ViewStyle } from './utils'
+import type AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
+import type IoniconsIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/Ionicons.json'
+import type MaterialIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/MaterialIcons.json'
+import type { SITES } from '@constants'
+import type { EventKeys } from '@constants/events'
+import type { Id, SubjectId, UserId } from './bangumi'
+import type { NavigationPushType, Paths } from './route'
+import type { AnyObject, DeepPartial, Expand, Override, ViewStyle } from './utils'
 
 /** 图标 (iOS Style) */
 export type IoniconsIconsNames = keyof typeof IoniconsIcons

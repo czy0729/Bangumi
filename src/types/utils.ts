@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-15 05:04:12
+ * @Last Modified time: 2025-10-24 08:39:53
  */
-import React from 'react'
-import {
+import type React from 'react'
+import type {
   ColorValue as RNColorValue,
   ImageProps,
   ImageStyle as RNImageStyle,

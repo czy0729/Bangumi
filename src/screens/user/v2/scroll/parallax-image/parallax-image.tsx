@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 20:44:20
+ * @Last Modified time: 2025-10-23 17:29:33
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -13,11 +13,12 @@ import { getBlurRadius, HTMLDecode, open } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST_NETABA, IOS, TEXT_ONLY } from '@constants'
-import { UserId, ViewStyle } from '@types'
 import HeaderComponent from '../../component/header-component'
 import { H_HEADER } from '../../ds'
 import { COMPONENT_MAIN, DATA_ME, DATA_OTHER, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
+
+import type { UserId, ViewStyle } from '@types'
 
 export default memo(
   ({

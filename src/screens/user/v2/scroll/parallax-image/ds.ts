@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-06-06 05:37:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 20:43:53
+ * @Last Modified time: 2025-10-23 17:29:22
  */
 import { Animated } from 'react-native'
 import { rc } from '@utils/dev'
-import { ImagesAvatar, Navigation, UserId } from '@types'
 import { COMPONENT as PARENT } from '../ds'
-import { memoStyles } from './styles'
+
+import type { ImagesAvatar, Navigation, UserId } from '@types'
+import type { memoStyles } from './styles'
 
 export const COMPONENT = rc(PARENT, 'ParallaxImage')
 

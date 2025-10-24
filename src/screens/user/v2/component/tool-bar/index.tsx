@@ -2,16 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-26 02:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-13 20:55:10
+ * @Last Modified time: 2025-10-23 21:22:38
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
 import { ToolBar as ToolBarComp } from '@components'
 import { systemStore, useStore } from '@stores'
 import { stl } from '@utils'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import Filter from '../filter'
 import More from './more'
 import Pagination from './pagination'
@@ -21,10 +19,12 @@ import Tag from './tag'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function ToolBar({ page, pageCurrent, pageTotal, onRefreshOffset = undefined }) {
-  r(COMPONENT)
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
-  const { $ } = useStore<Ctx>()
+function ToolBar({ page, pageCurrent, pageTotal, onRefreshOffset }: Props) {
+  const { $ } = useStore<Ctx>(COMPONENT)
+
   const handleRefreshOffset = useCallback(() => {
     if (typeof onRefreshOffset === 'function') onRefreshOffset()
     $.onRefreshOffset()
@@ -32,6 +32,7 @@ function ToolBar({ page, pageCurrent, pageTotal, onRefreshOffset = undefined }) 
 
   return useObserver(() => {
     const styles = memoStyles()
+
     return (
       <View style={stl(styles.container, $.state.list && styles.list)}>
         <ToolBarComp>

@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-15 16:33:10
+ * @Last Modified time: 2025-10-23 10:46:39
  */
 import React from 'react'
-import { FlatList, RefreshControl } from 'react-native'
+import { RefreshControl } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { date, omit, pick, simpleTime, sleep } from '@utils'
 import { r } from '@utils/dev'
 import { LIST_EMPTY, TEXT_EMPTY, TEXT_FAIL, TEXT_NO_MORE, TEXT_REFRESHING, WEB } from '@constants'
-import { AnyObject, ListEmpty } from '@types'
 import { ErrorBoundary } from '../error-boundary'
 import Footer from './footer'
 import List from './list'
 import { COMPONENT, REFRESH_STATE, SCROLL_CALLBACK } from './ds'
 
+import type { FlatList } from 'react-native'
+import type { AnyObject, ListEmpty } from '@types'
 import type {
   Props as ListViewProps,
   RefreshState,
@@ -37,7 +38,6 @@ export type {
   ScrollToLocation,
   ScrollToOffset
 }
-
 export type { ListViewInstance } from './types'
 
 /**

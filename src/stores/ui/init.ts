@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-03-20 04:47:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-21 16:31:16
+ * @Last Modified time: 2025-10-24 08:53:34
  */
-import type { RatingStatus, SubjectActions } from '@types'
+import type { RatingStatus, SubjectActions, SubjectId } from '@types'
 
 export const STATE = {
   /** 存放带监听组件的页面上面, 最近一次点击的 x, y 坐标 */
@@ -50,7 +50,7 @@ export const STATE = {
   /** 全局条目管理 Modal */
   manageModal: {
     visible: false,
-    subjectId: 0,
+    subjectId: 0 as SubjectId,
     title: '',
     desc: '',
     status: '' as '' | RatingStatus,

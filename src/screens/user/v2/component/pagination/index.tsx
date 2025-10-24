@@ -2,23 +2,23 @@
  * @Author: czy0729
  * @Date: 2023-05-12 07:30:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-01 12:12:14
+ * @Last Modified time: 2025-10-23 19:45:03
  */
 import React, { useCallback } from 'react'
 import { Pagination as PaginationComp } from '@components'
 import { _, useStore } from '@stores'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
-function Pagination({ pageTotal }) {
-  r(COMPONENT)
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
-  const { $ } = useStore<Ctx>()
+function Pagination({ pageTotal }: Props) {
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
     const { ipt } = $.state
+
     const handleSearch = useCallback(() => {
       $.onPage(ipt)
     }, [ipt])

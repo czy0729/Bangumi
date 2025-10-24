@@ -2,25 +2,23 @@
  * @Author: czy0729
  * @Date: 2023-12-30 14:44:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-23 16:12:31
+ * @Last Modified time: 2025-10-23 10:37:23
  */
 import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
 import { Flex, Heatmap, Iconfont } from '@components'
 import { IconBack, IconHeader, Popover } from '@_'
 import { _, useStore } from '@stores'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { handleMenuPopoverPress, handleSettingPress, handleUserTimelinePress } from './utils'
 import { COMPONENT, DATA_ME, DATA_OTHER } from './ds'
 import { styles } from './styles'
-import { MenuLabel } from './types'
+
+import type { Ctx } from '../../types'
+import type { MenuLabel } from './types'
 
 function Menu() {
-  r(COMPONENT)
-
-  const { $, navigation } = useStore<Ctx>()
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
     const { userId } = $

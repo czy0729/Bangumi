@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 20:58:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 16:54:27
+ * @Last Modified time: 2025-10-24 08:55:39
  */
 import React, { useRef, useState } from 'react'
 import { _ } from '@stores'
@@ -10,7 +10,6 @@ import { feedback, stl } from '@utils'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { FROZEN_FN, IOS } from '@constants'
-import { EventKeys } from '@constants/events'
 import { Component } from '../component'
 import { Flex } from '../flex'
 import { Heatmap } from '../heatmap'
@@ -21,9 +20,11 @@ import { SafeAreaBottom } from '../safe-area-bottom'
 import { Touchable } from '../touchable'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props as PaginationProps } from './types'
 
-export { PaginationProps }
+import type { EventKeys } from '@constants/events'
+import type { Props as PaginationProps } from './types'
+
+export type { PaginationProps }
 
 /** 分页器 */
 export const Pagination = ({

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-19 04:52:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-12 20:55:55
+ * @Last Modified time: 2025-10-23 17:46:58
  */
 import React, { useCallback, useMemo, useRef } from 'react'
 import { Animated } from 'react-native'
@@ -16,7 +16,9 @@ import TabBar from './tab-bar'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Tab({ page, scrollY, onIndexChange, onScroll, onSwipeStart, onRefreshOffset }) {
+import type { Props } from './types'
+
+function Tab({ page, scrollY, onIndexChange, onScroll, onSwipeStart, onRefreshOffset }: Props) {
   r(COMPONENT)
 
   const renderScene = useRef(

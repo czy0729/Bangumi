@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-07-25 19:50:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-11 15:40:23
+ * @Last Modified time: 2025-10-23 19:42:56
  */
 import React from 'react'
-import { Flex, Iconfont, Text, TextType } from '@components'
+import { Flex, Iconfont, Text } from '@components'
 import { _ } from '@stores'
 import { titleCase } from '@utils'
 import { useObserver } from '@utils/hooks'
-import { IconfontNames } from '@types'
-import { Props } from './types'
+
+import type { TextType } from '@components'
+import type { IconfontNames } from '@types'
+import type { Props } from './types'
 
 function Collection({ collection, typeCn, airtime }: Props) {
   return useObserver(() => {

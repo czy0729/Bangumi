@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-19 16:09:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-19 16:18:00
+ * @Last Modified time: 2025-10-23 17:30:55
  */
 import { _ } from '@stores'
 import { H_RADIUS_LINE } from '../../../ds'
@@ -11,6 +11,7 @@ export const memoStyles = _.memoStyles(() => {
   const W_TAB_BAR_LEFT = _.r(72)
   const W_TAB = (_.window.width - W_TAB_BAR_LEFT) / 5
   const W_INDICATOR = _.r(16)
+
   return {
     tabBarWrap: {
       position: 'absolute',

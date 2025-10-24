@@ -2,26 +2,28 @@
  * @Author: czy0729
  * @Date: 2023-12-27 21:49:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 08:31:45
+ * @Last Modified time: 2025-10-24 00:04:41
  */
 import React from 'react'
 import { NestedScrollParallaxHeader } from '@components'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import HeaderComponent from '../component/header-component'
 import Menu from '../component/menu'
-import TabBarLabel from '../component/tab-bar-label'
 import TabBarLeft from '../component/tab-bar-left'
 import { TABS } from '../ds'
-import { Ctx } from '../types'
 import List from './list'
 import TopNavbarComponent from './top-navbar-component'
+import { renderLabel } from './utils'
 import { COMPONENT } from './ds'
+
+import type { Ctx } from '../types'
 
 /** 安卓用 */
 function NestedScroll() {
-  const { $ } = useStore<Ctx>()
-  return (
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
     <>
       <NestedScrollParallaxHeader
         pages={TABS.map(item => item.title)}
@@ -41,11 +43,7 @@ function NestedScroll() {
       </NestedScrollParallaxHeader>
       <Menu />
     </>
-  )
+  ))
 }
 
-export default ob(NestedScroll, COMPONENT)
-
-function renderLabel({ style, title }) {
-  return <TabBarLabel style={style} title={title} />
-}
+export default NestedScroll

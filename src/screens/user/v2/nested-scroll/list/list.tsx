@@ -2,32 +2,38 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-01 19:36:55
+ * @Last Modified time: 2025-10-24 08:40:36
  */
 import React, { useCallback } from 'react'
-import { ListView, ListViewProps } from '@components'
+import { ListView } from '@components'
 import { keyExtractor } from '@utils'
 import { memo } from '@utils/decorators'
-import { FROZEN_FN, LIST_EMPTY } from '@constants'
+import { FROZEN_FN } from '@constants'
 import Item from '../../component/item'
 import Pagination from '../../component/pagination'
 import ToolBar from '../../component/tool-bar'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
+
+import type { ListViewProps } from '@components'
 
 const List = memo(
   ({
     styles,
     list = true,
     page = 0,
-    data = LIST_EMPTY,
+    data,
     numColumns,
     userPagination = false,
-    onScroll = FROZEN_FN,
+    onScroll,
     onHeaderRefresh = FROZEN_FN,
     onFooterRefresh = FROZEN_FN
   }) => {
     const { page: pageCurrent, pageTotal } = data.pagination
-    const passProps: Partial<ListViewProps<any>> = {
+
+    const passProps: Pick<
+      ListViewProps,
+      'contentContainerStyle' | 'ListFooterComponent' | 'onHeaderRefresh' | 'onFooterRefresh'
+    > = {
       contentContainerStyle: list ? styles.list : styles.grid
     }
     if (userPagination) {

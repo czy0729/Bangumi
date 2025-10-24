@@ -2,11 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-04-24 02:59:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-24 10:07:05
+ * @Last Modified time: 2025-10-23 19:37:54
  */
 import { computed } from 'mobx'
 import { LIST_EMPTY } from '@constants'
-import {
+import userStore from '../user'
+import { DEFAULT_USERS_SUBJECT_COLLECTION } from './init'
+import State from './state'
+
+import type {
   CollectActions,
   CollectionStatus,
   CollectionStatusCn,
@@ -16,10 +20,8 @@ import {
   SubjectTypeCn,
   UserId
 } from '@types'
-import userStore from '../user'
-import { DEFAULT_USERS_SUBJECT_COLLECTION, STATE } from './init'
-import State from './state'
-import {
+import type { STATE } from './init'
+import type {
   Collection,
   MosaicTile,
   UserCollections,

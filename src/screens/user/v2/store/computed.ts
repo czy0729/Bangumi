@@ -2,23 +2,25 @@
  * @Author: czy0729
  * @Date: 2023-04-04 06:22:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-07 21:15:55
+ * @Last Modified time: 2025-10-23 21:28:55
  */
 import { computed } from 'mobx'
 import { _, collectionStore, systemStore, usersStore, userStore } from '@stores'
 import { getBlurRadius, getPinYinFilterValue, HTMLDecode, t2s, x18 } from '@utils'
 import { fixedRemote } from '@utils/user-setting'
 import { MODEL_COLLECTION_STATUS, MODEL_COLLECTIONS_ORDERBY, MODEL_SUBJECT_TYPE } from '@constants'
-import {
-  CollectionsOrderCn,
-  CollectionStatus,
-  CollectionStatusCn,
-  SubjectType,
-  SubjectTypeCn
-} from '@types'
 import { H_HEADER, TABS } from '../ds'
 import State from './state'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
+
+import type {
+  CollectionsOrderCn,
+  CollectionStatus,
+  CollectionStatusCn,
+  SubjectActions,
+  SubjectType,
+  SubjectTypeCn
+} from '@types'
 
 export default class Computed extends State {
   save = () => {
@@ -80,7 +82,7 @@ export default class Computed extends State {
   }
 
   /** 条目动作 */
-  @computed get action() {
+  @computed get action(): SubjectActions {
     switch (MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(this.state.subjectType)) {
       case '书籍':
         return '读'
@@ -168,19 +170,26 @@ export default class Computed extends State {
   /** 用户收藏 */
   userCollections(subjectType: SubjectType, type: CollectionStatus) {
     return computed(() => {
-      // eslint-disable-next-line prefer-const
-      let { list, ...other } = collectionStore.userCollections(this.username, subjectType, type)
+      let {
+        list,
+        // eslint-disable-next-line prefer-const
+        ...other
+      } = collectionStore.userCollections(this.username, subjectType, type)
 
-      if (this.isTabActive(subjectType, type, true)) {
-        if (this.filter) {
-          list = list.filter(item => {
-            const cn = (item.nameCn || '').toUpperCase()
-            const jp = (item.name || '').toUpperCase()
-            if (cn.includes(this.filter) || jp.includes(this.filter)) return true
+      // 当前 TAB 激活且存在筛选关键字时，进行过滤
+      if (this.isTabActive(subjectType, type, true) && this.filter) {
+        const keyword = this.filter.toUpperCase()
+        list = list.filter(item => {
+          const cn = (item.nameCn || '').toUpperCase()
+          const jp = (item.name || '').toUpperCase()
 
-            return getPinYinFilterValue(cn, this.filter) || getPinYinFilterValue(jp, this.filter)
-          })
-        }
+          return (
+            cn.includes(keyword) ||
+            jp.includes(keyword) ||
+            getPinYinFilterValue(cn, keyword) ||
+            getPinYinFilterValue(jp, keyword)
+          )
+        })
       }
 
       if (userStore.isLimit) list = list.filter(item => !x18(item.id))
@@ -223,5 +232,9 @@ export default class Computed extends State {
     return computed(() => {
       return this.state.loadedPage.includes(index)
     }).get()
+  }
+
+  @computed get hm() {
+    return [`user/${this.myUserId}?route=user`, 'User'] as const
   }
 }

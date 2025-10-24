@@ -2,14 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-04-04 06:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-24 09:58:02
+ * @Last Modified time: 2025-10-22 23:13:52
  */
 import { collectionStore, usersStore, userStore } from '@stores'
 import { info } from '@utils'
+import { logger } from '@utils/dev'
 import { MODEL_COLLECTION_STATUS } from '@constants'
-import { CollectionStatus, SubjectType } from '@types'
 import { TABS } from '../ds'
 import Computed from './computed'
+import { NAMESPACE } from './ds'
+
+import type { CollectionStatus, SubjectType } from '@types'
 
 /** 用于记录 fetchUserCollectionsByScore 是否执行过 */
 const fetched: Record<string, boolean> = {}
@@ -108,7 +111,7 @@ export default class Fetch extends Computed {
     const { pagination } = collectionStore.userCollections(this.username, subjectType, type)
     if (pagination.page >= pagination.pageTotal) {
       if (isNext) {
-        console.info('fetchUntilTheEnd end')
+        logger.log(NAMESPACE, 'fetchUntilTheEnd end')
         this.setState({
           fetching: false
         })

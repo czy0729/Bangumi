@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-19 18:42:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 15:52:15
+ * @Last Modified time: 2025-10-24 08:44:11
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
@@ -23,5 +23,5 @@ export const DEFAULT_PROPS = {
   scrollToOffset: {} as $['scrollToOffset'],
   fetchCollections: FROZEN_FN as $['fetchCollections'],
   onChange: FROZEN_FN as $['onChange'],
-  onScroll: FROZEN_FN as $['onScroll']
+  onScroll: FROZEN_FN
 }

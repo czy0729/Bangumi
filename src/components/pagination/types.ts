@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-06-03 15:48:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-22 06:02:39
+ * @Last Modified time: 2025-10-24 08:54:48
  */
-import { EventKeys, Fn, ViewStyle } from '@types'
+import type { EventKeys, Fn, ViewStyle } from '@types'
 
 export type Props = {
   /** 样式 */

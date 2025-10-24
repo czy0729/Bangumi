@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2023-04-25 14:48:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 21:37:09
+ * @Last Modified time: 2025-10-24 08:53:52
  */
 import { getTimestamp } from '@utils'
 import { t } from '@utils/fetch'
 import { webhookCollection } from '@utils/webhooks'
 import { LIKE_TYPE_RAKUEN, MODEL_COLLECTION_STATUS } from '@constants'
-import { RatingStatus, SubjectId, TopicId } from '@types'
 import collectionStore from '../collection'
 import rakuenStore from '../rakuen'
 import subjectStore from '../subject'
 import userStore from '../user'
 import Computed from './computed'
-import { SubmitManageModalValues } from './types'
+
+import type { RatingStatus, SubjectActions, SubjectId, TopicId } from '@types'
+import type { SubmitManageModalValues } from './types'
 
 export default class Action extends Computed {
   /** ==================== tapXY ==================== */
@@ -207,7 +208,19 @@ export default class Action extends Computed {
 
   /** 显示全局条目管理 Modal */
   showManageModal = (
-    { subjectId, title, desc = '', status, action = '看' },
+    {
+      subjectId,
+      title,
+      desc = '',
+      status,
+      action = '看'
+    }: {
+      subjectId: SubjectId
+      title: string
+      desc?: string
+      status: RatingStatus
+      action?: SubjectActions
+    },
     screen = '',
     submitCallback?: (values?: SubmitManageModalValues) => any
   ) => {

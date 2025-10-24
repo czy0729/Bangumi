@@ -2,38 +2,33 @@
  * @Author: czy0729
  * @Date: 2023-04-04 06:26:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-30 11:01:48
+ * @Last Modified time: 2025-10-24 08:50:39
  */
 import { _, collectionStore, uiStore } from '@stores'
 import { debounce, feedback, updateVisibleBottom } from '@utils'
+import { logger } from '@utils/dev'
 import { t } from '@utils/fetch'
-import {
-  CollectionsOrder,
-  CollectionsOrderCn,
-  SubjectType,
-  SubjectTypeCn
-} from '@types'
 import { MODEL_COLLECTIONS_ORDERBY, MODEL_SUBJECT_TYPE } from '@constants'
 import { TABS } from '../ds'
 import Fetch from './fetch'
-import { STATE } from './ds'
+import { NAMESPACE } from './ds'
+
+import type { ScrollToIndex, ScrollToOffset } from '@components'
+import type { CollectionsOrder, CollectionsOrderCn, SubjectType, SubjectTypeCn } from '@types'
+import type { STATE } from './ds'
 
 export default class Action extends Fetch {
   /** ScrollView.scrollToIndex */
-  scrollToIndex = {}
+  scrollToIndex: Record<string | number, ScrollToIndex> = {}
 
   /** ScrollView.scrollToOffset */
-  scrollToOffset = {}
+  scrollToOffset: Record<string | number, ScrollToOffset> = {}
 
-  /**
-   * 收集 ListView.scrollToIndex 引用
-   * @param {*} ref
-   * @param {*} index
-   */
+  /** 收集 ListView.scrollToIndex 引用 */
   forwardRef = (
     ref: {
-      scrollToIndex: any
-      scrollToOffset: any
+      scrollToIndex?: ScrollToIndex
+      scrollToOffset?: ScrollToOffset
     },
     index: string | number
   ) => {
@@ -62,7 +57,7 @@ export default class Action extends Fetch {
         this.fetchIsNeedToEnd(true)
       }
     } catch (error) {
-      console.error('User', 'onRefreshThenScrollTop', error)
+      logger.error(NAMESPACE, 'onRefreshThenScrollTop', error)
     }
   }
 

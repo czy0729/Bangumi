@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-08-04 17:12:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 01:30:51
+ * @Last Modified time: 2025-10-22 22:53:58
  */
 import Constants from 'expo-constants'
 import { _ } from '@stores'
 import { COLLECTION_STATUS, MODEL_COLLECTIONS_ORDERBY, MODEL_SUBJECT_TYPE, WEB } from '@constants'
-import { CollectionsOrder, SubjectType } from '@types'
+
+import type { CollectionsOrder, SubjectType } from '@types'
 
 export const COMPONENT = 'User'
 

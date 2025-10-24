@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-19 16:50:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-01 11:47:59
+ * @Last Modified time: 2025-10-23 17:32:36
  */
 import React, { useCallback, useRef } from 'react'
 import { Animated } from 'react-native'
@@ -10,11 +10,12 @@ import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import { useMount } from '@utils/hooks'
 import { FROZEN_FN, FROZEN_OBJECT } from '@constants'
-import { ScrollEvent } from '@types'
 import { H_HEADER } from '../ds'
 import ParallaxImage from './parallax-image'
 import Tab from './tab'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
+
+import type { ScrollEvent } from '@types'
 
 const Scroll = memo(
   ({

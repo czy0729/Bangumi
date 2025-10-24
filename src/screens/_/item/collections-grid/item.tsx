@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 11:10:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-11 15:53:02
+ * @Last Modified time: 2025-10-23 19:43:03
  */
 import React from 'react'
 import { Component, Cover, Flex, Link, Text } from '@components'
@@ -11,10 +11,11 @@ import { _ } from '@stores'
 import { cnjp, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { EVENT } from '@constants'
-import { CollectionStatusCn, SubjectId, SubjectTypeCn } from '@types'
 import { Rank, Stars } from '../../base'
 import Collection from './collection'
 import { COMPONENT_MAIN, DEFAULT_PROPS, HIT_SLOP } from './ds'
+
+import type { CollectionStatusCn, SubjectId, SubjectTypeCn } from '@types'
 
 const Item = memo(
   ({

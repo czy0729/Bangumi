@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-06 10:10:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-31 11:18:30
+ * @Last Modified time: 2025-10-23 21:23:26
  */
 import React, { useCallback, useMemo } from 'react'
 import { ToolBar } from '@components'
@@ -15,10 +15,12 @@ import {
   TEXT_MENU_SPLIT_RIGHT,
   TEXT_MENU_YEARS
 } from '@constants'
-import { Ctx } from '../../types'
 import { styles } from './styles'
 
-function More({ onRefreshOffset }) {
+import type { Ctx } from '../../types'
+import type { MoreProps } from './types'
+
+function More({ onRefreshOffset }: MoreProps) {
   const { $ } = useStore<Ctx>()
 
   return useObserver(() => {

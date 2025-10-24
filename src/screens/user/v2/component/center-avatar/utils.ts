@@ -10,7 +10,8 @@ import { feedback, info } from '@utils'
 import { syncS2T } from '@utils/async'
 import { t } from '@utils/fetch'
 import { FROZEN_FN } from '@constants'
-import { Navigation } from '@types'
+
+import type { Navigation } from '@types'
 
 export function handleAvatarPress(navigation: Navigation) {
   t('我的.跳转', {

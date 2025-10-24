@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-08-31 12:23:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 04:06:59
+ * @Last Modified time: 2025-10-24 08:34:08
  */
-import { Fn } from '@types'
+import type { Fn } from '@types'
 
 /** 不允许修改的空对象, 作为空占位, 配合 mobx 能减少重渲染 */
 export const FROZEN_OBJECT = Object.freeze({} as const)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-13 21:01:02
+ * @Last Modified time: 2025-10-23 19:38:08
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -11,7 +11,7 @@ import { _ } from '@stores'
 import { getKeyString, keyExtractor } from '@utils'
 import { memo } from '@utils/decorators'
 import { useMount } from '@utils/hooks'
-import { FROZEN_FN, LIST_EMPTY, USE_NATIVE_DRIVER } from '@constants'
+import { FROZEN_FN, USE_NATIVE_DRIVER } from '@constants'
 import FixedToolBar from '../../component/fixed-tool-bar'
 import Item from '../../component/item'
 import Pagination from '../../component/pagination'
@@ -26,7 +26,7 @@ const List = memo(
     list = true,
     userPagination = false,
     userGridNum = 4,
-    userCollections = LIST_EMPTY,
+    userCollections,
     onScroll = FROZEN_FN,
     onRefreshOffset = FROZEN_FN,
     onHeaderRefresh = FROZEN_FN,

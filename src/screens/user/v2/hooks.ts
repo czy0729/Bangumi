@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2023-12-27 19:27:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-31 11:05:52
+ * @Last Modified time: 2025-10-22 22:53:52
  */
 import { StatusBar } from '@components'
 import { useInitStore } from '@stores'
 import { usePageLifecycle } from '@utils/hooks'
 import { EVENT_APP_TAB_PRESS } from '@src/navigations/tab-bar'
-import { NavigationProps } from '@types'
 import store from './store'
-import { Ctx } from './types'
+
+import type { NavigationProps } from '@types'
+import type { Ctx } from './types'
 
 /** 时光机页面逻辑 */
 export function useUserPage(props: NavigationProps) {

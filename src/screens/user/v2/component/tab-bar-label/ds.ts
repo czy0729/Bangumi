@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-01-01 11:41:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-01 20:36:14
+ * @Last Modified time: 2025-10-23 21:13:59
  */
-import { ViewStyle } from 'react-native'
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
+
+import type { ViewStyle } from '@types'
 
 export const COMPONENT = rc(PARENT, 'TabBarLabel')
 

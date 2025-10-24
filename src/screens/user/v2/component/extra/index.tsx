@@ -7,19 +7,21 @@
 import React from 'react'
 import { Track } from '@components'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { useObserver } from '@utils/hooks'
 import Heatmaps from '../heatmaps'
 import { COMPONENT } from './ds'
 
+import type { Ctx } from '../../types'
+
 function Extra() {
-  const { $ } = useStore<Ctx>()
-  return (
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
     <>
-      <Track title='时光机' hm={[`user/${$.myUserId}?route=user`, 'User']} />
+      <Track title='时光机' hm={$.hm} />
       <Heatmaps />
     </>
-  )
+  ))
 }
 
-export default ob(Extra, COMPONENT)
+export default Extra
