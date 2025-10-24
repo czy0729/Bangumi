@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 12:07:52
+ * @Last Modified time: 2025-10-24 12:31:45
  */
-import { FlatList } from 'react-native'
 import { timelineStore, userStore } from '@stores'
 import { info } from '@utils'
 import Action from './action'
 import { RESET_STATE } from './ds'
 
-export default class ScreenSay extends Action {
-  scrollViewRef: FlatList = null
+import type { ListViewInstance } from '@components'
 
-  init = async (scrollView?: FlatList) => {
+export default class ScreenSay extends Action {
+  scrollViewRef: ListViewInstance = null
+
+  init = async (scrollView?: ListViewInstance) => {
     if (scrollView) this.scrollViewRef = scrollView
 
     if (this.isNew) {

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-11-22 07:52:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-26 15:32:31
+ * @Last Modified time: 2025-10-24 12:46:04
  */
-import { ReactNode, ViewStyle } from '@types'
-import { TrackProps } from '../track'
+import type { ReactNode, ViewStyle } from '@types'
+import type { TrackProps } from '../track'
 
 export type Props = {
   /** 是否透明 */

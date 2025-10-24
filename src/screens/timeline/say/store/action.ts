@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2024-08-23 10:43:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-10 17:36:48
+ * @Last Modified time: 2025-10-24 12:31:00
  */
-import { FlatList } from 'react-native'
 import { timelineStore, userStore } from '@stores'
 import { feedback, info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
 import { webhookSay } from '@utils/webhooks'
 import { IOS } from '@constants'
 import i18n from '@constants/i18n'
-import { Navigation, UserId } from '@types'
 import Fetch from './fetch'
+
+import type { ListViewInstance } from '@components'
+import type { Navigation, UserId } from '@types'
 
 export default class Action extends Fetch {
   /** 滚动到底 */
-  scrollToBottom = (scrollView: FlatList, animated = false) => {
+  scrollToBottom = (scrollView: ListViewInstance, animated = false) => {
     if (scrollView?.scrollToIndex) {
       setTimeout(() => {
         try {
@@ -31,7 +32,7 @@ export default class Action extends Fetch {
   }
 
   /** 滚动到顶 */
-  scrollToTop = (scrollView: FlatList, animated = false) => {
+  scrollToTop = (scrollView: ListViewInstance, animated = false) => {
     if (scrollView?.scrollToEnd) {
       setTimeout(() => {
         try {
@@ -89,7 +90,7 @@ export default class Action extends Fetch {
   }
 
   /** 提交 */
-  doSubmit = (content: string, scrollView: FlatList, navigation: Navigation) => {
+  doSubmit = (content: string, scrollView: ListViewInstance, navigation: Navigation) => {
     if (this.isNew) {
       if (!this.formhash) {
         info(`获取表单授权码失败, 请检查${i18n.login()}状态`)
@@ -161,7 +162,7 @@ export default class Action extends Fetch {
   }
 
   /** 回复吐槽 */
-  doReply = (content: string, scrollView: FlatList) => {
+  doReply = (content: string, scrollView: ListViewInstance) => {
     const { list = [] } = timelineStore.say(this.id)
     timelineStore.doReply(
       {

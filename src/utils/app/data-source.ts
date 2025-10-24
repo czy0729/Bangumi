@@ -2,26 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:16:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-28 19:08:58
+ * @Last Modified time: 2025-10-24 16:50:17
  */
 import { isObservableArray } from 'mobx'
-import { FROZEN_ARRAY, FROZEN_OBJECT, TEXT_BADGES } from '@constants'
+import { FROZEN_ARRAY, FROZEN_OBJECT } from '@constants'
 import { CDN_OSS_MAGMA_MONO, CDN_OSS_MAGMA_POSTER, CDN_OSS_SUBJECT } from '@constants/cdn'
 import { HOST, HOST_2, HOST_3, IMG_DEFAULT } from '@constants/constants'
 import { getJSON } from '@assets/json'
 import userData from '@assets/json/user.json'
-import {
-  AnyObject,
-  Avatar,
-  Cover,
-  Id,
-  ListEmpty,
-  Paths,
-  ReadonlyResult,
-  ScrollEvent,
-  SubjectId,
-  SubjectTypeCn
-} from '@types'
+import { logger } from '../dev'
 import { HTMLDecode, removeHTMLTag } from '../html'
 import { get } from '../protobuf'
 import { getTimestamp } from '../utils'
@@ -41,6 +30,20 @@ import {
   TYPE_MAP,
   X18_DS
 } from './ds'
+
+import type {
+  AnyObject,
+  Avatar,
+  Cover,
+  Id,
+  ListEmpty,
+  Paths,
+  ReadonlyResult,
+  ScrollEvent,
+  SubjectId,
+  SubjectTypeCn,
+  UserId
+} from '@types'
 
 /** 猜测数据中大概有多少项 */
 export function guessTotalCount(list: ListEmpty, limit: number = 10) {
@@ -162,7 +165,7 @@ export function opitimize(data: any, s = 60) {
   const diff = getTimestamp() - Number(data?._loaded || 0)
   const isPrevent = diff < s
   if (isPrevent) {
-    console.info(TEXT_BADGES.warning, '[@utils/opitimize]', diff, s, Object.keys(data).slice(0, 5))
+    logger.warn('@utils/opitimize', diff, s, Object.keys(data).slice(0, 5))
   }
 
   return isPrevent
@@ -214,25 +217,23 @@ export function x18s(str: string) {
 /** 修复链接 */
 export function fixedBgmUrl(url: string = ''): string {
   try {
-    let _url = url
+    let value = url
 
     // 如果 URL 没有协议头，添加默认的 HOST
-    if (!_url.startsWith('http://') && !_url.startsWith('https://')) {
-      _url = `${HOST}${_url}`
-    }
+    if (value && !/^https?:\/\//i.test(value)) value = `${HOST}${value}`
 
     // 替换协议和 HOST
     const replacements = [
       { from: 'http://', to: 'https://' },
       { from: HOST_2, to: HOST },
       { from: HOST_3, to: HOST }
-    ]
+    ] as const
 
     replacements.forEach(({ from, to }) => {
-      if (_url.includes(from)) _url = _url.replace(from, to)
+      if (value.includes(from)) value = value.replace(from, to)
     })
 
-    return _url
+    return value
   } catch (error) {
     return url
   }
@@ -798,7 +799,7 @@ export function getCommentPlainText(str: string) {
 }
 
 /** 在本地数据中尽量获取用户头像地址, 目的为进行减少 API 请求 */
-export function getAvatarLocal(userId: string) {
+export function getAvatarLocal(userId: UserId) {
   if (!userId) return false
 
   if (GET_AVATAR_CACHE_MAP.has(userId)) return GET_AVATAR_CACHE_MAP.get(userId)

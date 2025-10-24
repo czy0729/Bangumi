@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-05-13 05:32:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-19 09:44:09
+ * @Last Modified time: 2025-10-24 16:16:57
  */
 import React from 'react'
 import { rakuenStore, subjectStore } from '@stores'
 import { getInt } from '@stores/rakuen/utils'
 import { navigationReference, runAfter } from '@utils'
 import { IOS, WEB } from '@constants'
-import { Fn, ReactNode } from '@types'
 import { fetchMediaQueue } from '../utils'
 import ACText from './ac-text'
 import Mono from './mono'
 import Subject from './subject'
 import Topic from './topic'
+
+import type { Fn, ReactNode } from '@types'
 
 /** @todo 待优化, 安卓 Text 中一定要过滤非文字节点 */
 export function filterChildren(childrens: ReactNode[]): ReactNode[] {

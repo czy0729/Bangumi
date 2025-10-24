@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 16:28:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-21 05:51:00
+ * @Last Modified time: 2025-10-24 16:30:43
  */
 import React from 'react'
 import { Platform, Text, TouchableOpacity, View } from 'react-native'
@@ -42,7 +42,7 @@ export function a(htmlAttribs, children, _convertedCSSStyles, passProps) {
         >
           {children || data}
         </Text>
-        {htmlAttribs?.class?.includes('tag') && (
+        {(!!handlePress || htmlAttribs?.class?.includes('tag')) && (
           <Text key={`${key}-padding`} textBreakStrategy='simple' numberOfLines={0}>
             {' '}
           </Text>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-13 05:12:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-19 11:23:30
+ * @Last Modified time: 2025-10-24 16:28:36
  */
 import React, { useEffect, useState } from 'react'
 import { useObserver } from 'mobx-react'
@@ -11,7 +11,8 @@ import { matchBgmLink } from '@utils'
 import { WEB } from '@constants'
 import { Text } from '../../text'
 import { filterChildren, getACSearch, getMono, getSubject, getTopic } from './utils'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function A({ style, attrs = {}, passProps, children, onPress, ...other }: Props) {
   const { href } = attrs

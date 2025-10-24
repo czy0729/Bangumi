@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-08-23 10:42:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 10:43:26
+ * @Last Modified time: 2025-10-24 12:31:29
  */
 import { timelineStore } from '@stores'
 import { MODEL_TIMELINE_TYPE } from '@constants'
-import { TimeLineType } from '@types'
 import Computed from './computed'
+
+import type { TimeLineType } from '@types'
 
 export default class Fetch extends Computed {
   /** 吐槽 */

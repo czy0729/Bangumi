@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-17 04:49:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-23 10:47:04
+ * @Last Modified time: 2025-10-24 15:32:29
  */
 import type { FlatList, FlatListProps, SectionListScrollParams } from 'react-native'
 import type { ListEmpty, Override, ReactNode, Ref } from '@types'
@@ -17,7 +17,7 @@ export type Props<ItemT = any> = Override<
     ref?:
       | Ref<ListViewInstance>
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      | ((ref: { scrollToIndex: ScrollToIndex }) => void)
+      | ((ref?: ListViewInstance) => void)
 
     /** 是否使用 Animated.ListView 渲染 */
     animated?: boolean

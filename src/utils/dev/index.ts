@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-22 22:48:05
+ * @Last Modified time: 2025-10-24 15:23:38
  */
 import { WEB } from '@constants'
 import { DEV, LOG_LEVEL, RERENDER_NOT_SHOW, RERENDER_SHOW } from '@src/config'
@@ -175,6 +175,11 @@ export const logger = {
   /** 🔵 */
   info(method: string, ...others: any[]) {
     if (DEV) console.info(TEXT_BADGES.primary, `[${method}]`, ...others)
+  },
+
+  /** 🟠 */
+  warn(method: string, ...others: any[]) {
+    if (DEV) console.info(TEXT_BADGES.warning, `[${method}]`, ...others)
   },
 
   /** 🔴 */

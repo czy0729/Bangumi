@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-02-24 22:00:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-07 17:18:23
+ * @Last Modified time: 2025-10-24 15:28:09
  */
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Component, ListView } from '@components'
 import { getTimestamp } from '@utils'
 import { r } from '@utils/dev'
 import { WEB } from '@constants'
-import { AnyObject, ListEmpty } from '@types'
 import { COMPONENT } from './ds'
-import { Props as PaginationList2Props } from './types'
 
-export { PaginationList2Props }
+import type { AnyObject, ListEmpty } from '@types'
+import type { Props as PaginationList2Props } from './types'
+
+export type { PaginationList2Props }
 
 /** 支持分页的长列表 */
 export const PaginationList2 = <ItemT extends AnyObject>({

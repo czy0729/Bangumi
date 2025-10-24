@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-09-27 23:40:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-19 08:37:24
+ * @Last Modified time: 2025-10-24 16:27:00
  */
-import { ReactNode, TextStyle } from '@types'
+import type { ReactNode, TextStyle } from '@types'
 
 export type Props = {
   /** a 文字样式 */

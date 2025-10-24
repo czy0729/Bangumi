@@ -2,75 +2,56 @@
  * @Author: czy0729
  * @Date: 2022-03-15 23:56:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 05:45:26
+ * @Last Modified time: 2025-10-24 14:26:00
  */
-import React from 'react'
-import { FlatList, View } from 'react-native'
+import React, { useCallback, useEffect, useRef } from 'react'
+import { View } from 'react-native'
+import { useObserver } from 'mobx-react'
 import { FixedTextarea, Flex, Loading, Page, Text } from '@components'
-import { _, userStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { _, userStore, useStore } from '@stores'
+import { stl } from '@utils'
 import { r } from '@utils/dev'
-import { Ctx } from '../../types'
 import Chat from '../chat'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-class Say extends React.Component<Ctx> {
-  scrollView: FlatList
+import type { ListViewInstance } from '@components'
+import type { Ctx } from '../../types'
 
-  async componentDidMount() {
-    const { $ } = this.props
-    await $.init(this.scrollView)
+function Say() {
+  r(COMPONENT)
 
-    setTimeout(() => {
-      $.scrollToBottom(this.scrollView)
-    }, 480)
-  }
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
 
-  componentWillUnmount() {
-    const { $ } = this.props
-    $.scrollViewRef = null
-  }
+  const scrollViewRef = useRef<ListViewInstance>(null)
 
-  connectRefScrollView = (ref: FlatList) => {
-    if (ref) {
-      const { $ } = this.props
-      $.scrollViewRef = ref
-      this.scrollView = ref
+  const connectRefScrollView = useCallback(
+    (ref: ListViewInstance) => {
+      if (ref) {
+        $.scrollViewRef = ref
+        scrollViewRef.current = ref
+      }
+    },
+    [$]
+  )
+
+  useEffect(() => {
+    const init = async () => {
+      await $.init(scrollViewRef.current)
+      setTimeout(() => {
+        $.scrollToBottom(scrollViewRef.current)
+      }, 480)
     }
-  }
+    init()
 
-  renderTextarea(placeholder: string) {
-    if (!userStore.isWebLogin) return null
+    return () => {
+      $.scrollViewRef = null
+    }
+  }, [$])
 
-    const { $, navigation } = this.props
-    return (
-      <FixedTextarea
-        placeholder={placeholder}
-        simple
-        value={$.state.value}
-        onChange={$.onChange}
-        onClose={$.closeFixedTextarea}
-        onSubmit={value => $.doSubmit(value, this.scrollView, navigation)}
-      />
-    )
-  }
-
-  renderNew() {
-    return (
-      <View style={_.container.flex}>
-        <Chat forwardRef={this.connectRefScrollView} />
-        <Text style={styles.notice} type='sub'>
-          点击底部输入框录入吐槽内容
-        </Text>
-        {this.renderTextarea('新吐槽')}
-      </View>
-    )
-  }
-
-  renderList() {
-    const { $ } = this.props
-    if (!$.say._loaded) {
+  /** 响应式渲染 */
+  return useObserver(() => {
+    if (!$.isNew && !$.say._loaded) {
       return (
         <Flex style={_.container.screen} justify='center'>
           <Loading />
@@ -79,23 +60,28 @@ class Say extends React.Component<Ctx> {
     }
 
     return (
-      <View style={_.container.flex}>
-        <Chat forwardRef={this.connectRefScrollView} />
-        {this.renderTextarea('回复吐槽, 长按头像@某人')}
-      </View>
-    )
-  }
-
-  render() {
-    r(COMPONENT)
-
-    const { $ } = this.props
-    return (
-      <Page style={[_.container.screen, _.container.header]}>
-        {$.isNew ? this.renderNew() : this.renderList()}
+      <Page style={stl(_.container.screen, _.container.header)}>
+        <View style={_.container.flex}>
+          <Chat forwardRef={connectRefScrollView} />
+          {$.isNew && (
+            <Text style={styles.notice} type='sub'>
+              点击底部输入框录入吐槽内容
+            </Text>
+          )}
+          {userStore.isWebLogin && (
+            <FixedTextarea
+              placeholder={$.isNew ? '新吐槽' : '回复吐槽, 长按头像@某人'}
+              simple
+              value={$.state.value}
+              onChange={$.onChange}
+              onClose={$.closeFixedTextarea}
+              onSubmit={newValue => $.doSubmit(newValue, scrollViewRef.current, navigation)}
+            />
+          )}
+        </View>
       </Page>
     )
-  }
+  })
 }
 
-export default ob(Say)
+export default Say

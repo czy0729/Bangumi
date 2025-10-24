@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-08-11 09:18:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-04 00:03:15
+ * @Last Modified time: 2025-10-24 15:22:48
  */
 import { Dimensions } from 'react-native'
 import { HOST_AC_MEDIA } from '@constants/cdn'
 import { HOST } from '@constants/constants'
-import { Id, SubjectId } from '@types'
+
+import type { Id, SubjectId, UserId } from '@types'
 
 const date = new Date()
 
@@ -116,4 +117,4 @@ export const BANGUMI_URL_TEMPLATES = {
   youku: (id: Id) => `https://list.youku.com/show/id_z${id}.html`
 } as const
 
-export const GET_AVATAR_CACHE_MAP = new Map<string, any>()
+export const GET_AVATAR_CACHE_MAP = new Map<UserId, any>()
