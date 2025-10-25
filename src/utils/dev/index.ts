@@ -185,5 +185,10 @@ export const logger = {
   /** 🔴 */
   error(method: string, ...others: any[]) {
     if (DEV) console.info(TEXT_BADGES.danger, `[${method}]`, ...others)
+  },
+
+  /** 🟣 */
+  purple(method: string, ...others: any[]) {
+    if (DEV) console.info(TEXT_BADGES.purple, `[${method}]`, ...others)
   }
 } as const

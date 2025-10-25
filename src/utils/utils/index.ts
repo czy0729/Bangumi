@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-24 16:21:33
+ * @Last Modified time: 2025-10-25 21:47:27
  */
 import { Linking } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -94,21 +94,18 @@ export function stl(...styles: any[]): any | any[] {
 }
 
 /** 节流 */
-export function throttle(callback: (arg?: any) => void, delay: number = 400) {
+export function throttle(callback: (arg?: any) => void, delay = 400) {
   let timeoutID: any
   let lastExec = 0
 
-  function wrapper() {
-    // eslint-disable-next-line consistent-this
-    const self = this
-    const elapsed = Number(new Date()) - lastExec
-    const args = arguments
+  return function (this: any, ...args: any[]) {
+    const context = this
+    const elapsed = Date.now() - lastExec
 
     function exec() {
-      lastExec = Number(new Date())
-      callback.apply(self, args)
+      lastExec = Date.now()
+      callback.apply(context, args)
     }
-
     clearTimeout(timeoutID)
 
     if (elapsed > delay) {
@@ -117,22 +114,18 @@ export function throttle(callback: (arg?: any) => void, delay: number = 400) {
       timeoutID = setTimeout(exec, delay - elapsed)
     }
   }
-
-  return wrapper
 }
 
 /** 防抖 */
-export function debounce(fn: Fn, ms: number = 320): typeof fn {
-  // 创建一个标记用来存放定时器的返回值
-  let timeout = null
+export function debounce(fn: Fn, ms = 320): typeof fn {
+  let timeout: any = null
 
-  return function () {
-    // 每当用户输入的时候把前一个 setTimeout clear 掉
+  return function (this: any, ...args: any[]) {
+    const context = this
     clearTimeout(timeout)
+
     timeout = setTimeout(() => {
-      // 然后又创建一个新的 setTimeout, 这样就能保证输入字符后的
-      // interval 间隔内如果还有字符输入的话就不会执行 fn 函数
-      fn.apply(this, arguments)
+      fn.apply(context, args)
     }, ms)
   }
 }

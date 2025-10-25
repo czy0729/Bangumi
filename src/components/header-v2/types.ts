@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-11-22 07:52:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-24 12:46:04
+ * @Last Modified time: 2025-10-25 15:33:42
  */
 import type { ReactNode, ViewStyle } from '@types'
 import type { TrackProps } from '../track'
@@ -37,6 +37,9 @@ export type Props = {
 
   /** 标题容器样式 */
   headerTitleStyle?: ViewStyle
+
+  /** 标题文字大小 */
+  headerTitleSize?: number
 
   /** 标题对齐 */
   headerTitleAlign?: 'center' | 'left'

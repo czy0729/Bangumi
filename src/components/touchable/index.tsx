@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-12 06:12:53
+ * @Last Modified time: 2025-10-25 12:28:04
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -14,10 +14,11 @@ import TouchableOpacity from './touchable-opacity'
 import TouchableWithoutFeedback from './touchable-without-feedback'
 import { defaultHitSlop } from './utils'
 import { COMPONENT } from './ds'
-import { Props as TouchableProps } from './types'
+
+import type { Props as TouchableProps } from './types'
 
 export type { TouchableProps }
-export type { TouchablePressEvent } from './types'
+export type { TouchablePressEvent, TouchableHandlePress } from './types'
 
 /**
  * 触摸反馈整合

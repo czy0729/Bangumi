@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-10-19 14:02:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-22 05:08:57
+ * @Last Modified time: 2025-10-25 21:15:06
  */
-import { ReactNode, ViewStyle } from '@types'
+import type { ReactNode, ViewStyle } from '@types'
 
 type TitleItemType =
   | string

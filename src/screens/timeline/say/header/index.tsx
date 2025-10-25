@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-03-16 00:00:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-24 12:46:12
+ * @Last Modified time: 2025-10-25 22:30:35
  */
 import React, { useCallback, useMemo } from 'react'
 import { useObserver } from 'mobx-react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
-import { open } from '@utils'
+import { feedback, open } from '@utils'
 import { t } from '@utils/fetch'
 import { TEXT_MENU_BROWSER, WEB } from '@constants'
 import { COMPONENT, DATA } from './ds'
@@ -21,10 +21,12 @@ function Header() {
 
   const handleScrollToTop = useCallback(() => {
     $.scrollToTop($.scrollViewRef, true)
+    feedback(true)
   }, [$])
 
   const handleScrollToBottom = useCallback(() => {
     $.scrollToBottom($.scrollViewRef, true)
+    feedback(true)
   }, [$])
 
   const handleSelect = useCallback(
@@ -82,6 +84,7 @@ function Header() {
         title={title}
         alias='吐槽'
         hm={hm}
+        headerTitleSize={15}
         headerTitleAlign='left'
         headerRight={headerRight}
       />

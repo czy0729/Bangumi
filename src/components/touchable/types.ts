@@ -2,16 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-05-28 07:50:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-12 06:08:01
+ * @Last Modified time: 2025-10-25 12:27:57
  */
-import { TouchableWithoutFeedbackProps } from 'react-native'
-import { Override } from '@types'
+import type { TouchableWithoutFeedbackProps } from 'react-native'
+import type { Override } from '@types'
 
-/** 触摸事件参数 */
+/** 点击事件参数 */
 export type TouchablePressEvent = {
   pageX?: number
   pageY?: number
 }
+
+/** 点击事件 */
+export type TouchableHandlePress = (evt?: TouchablePressEvent) => void
 
 export type Props = Override<
   TouchableWithoutFeedbackProps,
@@ -48,7 +51,6 @@ export type Props = Override<
     scale?: number
 
     /** 覆写 onPress */
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    onPress?: (evt?: TouchablePressEvent) => any
+    onPress?: TouchableHandlePress
   }
 >

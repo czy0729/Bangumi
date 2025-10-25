@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-06 06:57:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-05 21:53:02
+ * @Last Modified time: 2025-10-25 21:14:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,10 +16,12 @@ import { Text } from '../text'
 import { Touchable } from '../touchable'
 import { platformFix, removeDuplicateStrings } from './utils'
 import { COMPONENT } from './ds'
-import { Props as MenuProps } from './types'
 import { memoStyles } from './styles'
 
-export { MenuProps }
+import type { ViewStyle } from '@types'
+import type { Props as MenuProps } from './types'
+
+export type { MenuProps }
 
 /** iOS 风格菜单 */
 export const Menu = observer(
@@ -29,7 +31,7 @@ export const Menu = observer(
     const styles = memoStyles()
     return (
       <Component id='component-menu'>
-        <View style={stl(styles.container, style)}>
+        <View style={stl<ViewStyle>(styles.container, style)}>
           {title.length !== 0 && (
             <View style={styles.title}>
               {title.map((item, index) => {

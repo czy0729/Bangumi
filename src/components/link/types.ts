@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2025-08-09 16:07:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-12 05:33:32
+ * @Last Modified time: 2025-10-25 12:26:26
  */
-import { EventType, NavigationPushType, Override, Paths } from '@types'
-import { TouchableProps } from '../touchable'
+import type { EventType, NavigationPushType, Override, Paths } from '@types'
+import type { TouchableProps } from '../touchable'
 
 type ExtractParams<P extends Paths> = NavigationPushType extends (
   path: P,
