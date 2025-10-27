@@ -7,7 +7,6 @@
  */
 import { computed, observable } from 'mobx'
 import { rakuenStore, systemStore, userStore } from '@stores'
-import { Group } from '@stores/rakuen/types'
 import { feedback, getTimestamp, info } from '@utils'
 import { HOST_IMAGE } from '@utils/app/ds'
 import { fetchHTML, t } from '@utils/fetch'
@@ -15,9 +14,11 @@ import { get, update } from '@utils/kv'
 import store from '@utils/store'
 import { webhookGroup } from '@utils/webhooks'
 import { CDN_OSS_MAGMA_PIC, HOST, LIST_EMPTY } from '@constants'
-import { TopicId } from '@types'
 import { NAMESPACE, STATE } from './ds'
-import { Params } from './types'
+
+import type { Group } from '@stores/rakuen/types'
+import type { TopicId } from '@types'
+import type { Params } from './types'
 
 /** 若更新过则不会再主动更新 */
 const THIRD_PARTY_UPDATED = []
@@ -142,7 +143,7 @@ export default class ScreenGroup extends store<typeof STATE> {
               pageTotal: 10
             }
           }
-        : LIST_EMPTY
+        : (LIST_EMPTY as Group)
     }
 
     return group
@@ -255,6 +256,15 @@ export default class ScreenGroup extends store<typeof STATE> {
   /** 更新帖子历史查看信息 */
   onItemPress = (topicId: TopicId, replies: any) => {
     rakuenStore.updateTopicReaded(topicId, replies)
+  }
+
+  /** 切换时间格式 */
+  onToggleShowLastDate = () => {
+    const value = !this.state.showLastDate
+    this.setState({
+      showLastDate: value
+    })
+    this.save()
   }
 
   // -------------------- action --------------------

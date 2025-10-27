@@ -173,6 +173,24 @@ export const TEXT_MENU_NETABA_SELF = '我的netaba.re'
 /** 菜单: TA的netaba.re */
 export const TEXT_MENU_NETABA = 'TA的netaba.re'
 
+/** 菜单: 小组成员 */
+export const TEXT_MENU_GROUP_MEMBER = '小组成员'
+
+/** 菜单: 加入小组 */
+export const TEXT_MENU_GROUP_JOIN = '加入小组'
+
+/** 菜单: 退出小组 */
+export const TEXT_MENU_GROUP_QUIT = '退出小组'
+
+/** 菜单: 时间格式 */
+export const TEXT_MENU_TIME_FORMAT = '时间格式'
+
+/** 菜单: 时间格式 (最近) */
+export const TEXT_MENU_TIME_FORMAT_LASTDATE = '最近'
+
+/** 菜单: 时间格式 (日期) */
+export const TEXT_MENU_TIME_FORMAT_REGULAR = '日期'
+
 /** 标记 */
 export const TEXT_BADGES = {
   danger: '🔴',

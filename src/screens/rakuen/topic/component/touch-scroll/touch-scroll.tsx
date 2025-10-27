@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-07-04 13:00:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-15 17:45:42
+ * @Last Modified time: 2025-10-27 16:44:12
  */
-import React from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { TouchableWithoutFeedback, View } from 'react-native'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
@@ -26,35 +26,49 @@ export const TouchScroll = memo(
     newFloorStyle = '角标',
     onPress = FROZEN_FN
   }) => {
-    const currentFloor = directFloor ? Number(directFloor.match(/\d+/)?.[0] || 0) : 0
-    const showFloor = [
-      Math.floor(list.length * 0.33333) - 1,
-      Math.floor(list.length * 0.66666) - 1,
-      list.length - 1
-    ]
-    const isVertical =
-      scrollDirection === MODEL_RAKUEN_SCROLL_DIRECTION.getValue('右侧') ||
-      scrollDirection === MODEL_RAKUEN_SCROLL_DIRECTION.getValue('左侧')
+    /** 当前楼层 */
+    const currentFloor = useMemo(
+      () => (directFloor ? Number(directFloor.match(/\d+/)?.[0] || 0) : 0),
+      [directFloor]
+    )
 
-    const passProps: TouchableWithoutFeedbackProps = {
-      hitSlop: HIT_SLOP
-    }
-    if (IOS) {
-      passProps.onPress = () => onPress(-1)
-    } else {
-      passProps.onPressIn = () => onPress(-1)
-    }
+    /** 1/3、2/3、末尾节点 */
+    const showFloor = useMemo(() => {
+      const len = list.length
+      return len < 10
+        ? [Math.floor(len * 0.66666) - 1, len - 1]
+        : [Math.floor(len * 0.33333) - 1, Math.floor(len * 0.66666) - 1, len - 1]
+    }, [list.length])
 
-    return (
-      <Flex
-        style={stl(
+    const isVertical = useMemo(
+      () =>
+        scrollDirection === MODEL_RAKUEN_SCROLL_DIRECTION.getValue('右侧') ||
+        scrollDirection === MODEL_RAKUEN_SCROLL_DIRECTION.getValue('左侧'),
+      [scrollDirection]
+    )
+
+    const containerStyle = useMemo(
+      () =>
+        stl(
           styles[`container${titleCase(scrollDirection)}`],
           !isWebLogin && !isVertical && styles.notLogin
-        )}
-        direction={isVertical ? 'column' : undefined}
-      >
+        ),
+      [styles, scrollDirection, isWebLogin, isVertical]
+    )
+
+    const makePressProps = useCallback(
+      (index: number): TouchableWithoutFeedbackProps => ({
+        hitSlop: HIT_SLOP,
+        [IOS ? 'onPress' : 'onPressIn']: () => onPress(index)
+      }),
+      [onPress]
+    )
+
+    return (
+      <Flex style={containerStyle} direction={isVertical ? 'column' : undefined}>
+        {/* 顶部“1” */}
         <Flex.Item style={styles.itemText} flex={isVertical ? 1 : 3}>
-          <TouchableWithoutFeedback {...passProps}>
+          <TouchableWithoutFeedback {...makePressProps(-1)}>
             <Flex style={isVertical ? styles.itemVertical : styles.itemHorizontal}>
               <Text style={_.container.block} size={8} type='icon' align='center'>
                 1
@@ -62,6 +76,8 @@ export const TouchScroll = memo(
             </Flex>
           </TouchableWithoutFeedback>
         </Flex.Item>
+
+        {/* 楼层列表 */}
         {list.map((item, index) => {
           const isCurrent = currentFloor && `#${currentFloor}` === item.floor
 
@@ -79,14 +95,6 @@ export const TouchScroll = memo(
           }
 
           const showFloorText = showFloor.includes(index)
-          const passProps: TouchableWithoutFeedbackProps = {
-            hitSlop: HIT_SLOP
-          }
-          if (IOS) {
-            passProps.onPress = () => onPress(index)
-          } else {
-            passProps.onPressIn = () => onPress(index)
-          }
 
           return (
             <Flex.Item
@@ -94,7 +102,7 @@ export const TouchScroll = memo(
               style={showFloorText && styles.itemText}
               flex={isVertical ? 1 : showFloorText ? 3 : 1}
             >
-              <TouchableWithoutFeedback {...passProps}>
+              <TouchableWithoutFeedback {...makePressProps(index)}>
                 <Flex
                   style={stl(
                     isVertical ? styles.itemVertical : styles.itemHorizontal,

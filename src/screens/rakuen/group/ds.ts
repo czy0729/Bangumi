@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-12-08 10:53:06
  */
-import { Loaded } from '@types'
+import type { Loaded } from '@types'
 
 export const COMPONENT = 'Group'
 
@@ -15,6 +15,9 @@ export const STATE = {
   show: true,
   ipt: '1',
   history: [],
+
+  /** 时间是否使用最近格式 */
+  showLastDate: true,
 
   /** 云快照 */
   ota: {},

@@ -9,7 +9,6 @@ import { View } from 'react-native'
 import { Component, Page, ScrollView } from '@components'
 import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import Extra from './component/extra'
 import Info from './component/info'
 import List from './component/list'
@@ -17,6 +16,8 @@ import Pagination from './component/pagination'
 import Header from './header'
 import { useGroupPage } from './hooks'
 import { styles } from './styles'
+
+import type { NavigationProps } from '@types'
 
 /** 小组 */
 const Group = (props: NavigationProps) => {

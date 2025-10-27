@@ -11,8 +11,9 @@ import { getSPAParams, open } from '@utils'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
 import { TEXT_MENU_BROWSER, TEXT_MENU_SPA, TEXT_MENU_SPLIT, URL_SPA } from '@constants'
-import { Ctx } from '../types'
 import { COMPONENT, DATA } from './ds'
+
+import type { Ctx } from '../types'
 
 function Header() {
   const { $ } = useStore<Ctx>(COMPONENT)

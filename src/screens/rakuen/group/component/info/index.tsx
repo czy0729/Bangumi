@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:48:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 12:40:17
+ * @Last Modified time: 2025-10-27 16:34:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,15 +17,18 @@ import {
   Text
 } from '@components'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { stl } from '@utils'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
+import type { Ctx } from '../../types'
+
 function Info() {
-  const { $ } = useStore<Ctx>()
-  return (
-    <View style={[styles.container, _.container.inner]}>
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
+    <View style={stl(styles.container, _.container.inner)}>
       <HeaderPlaceholder />
       <Text size={20} bold>
         {$.groupInfo.title || $.params._title}
@@ -35,7 +38,6 @@ function Info() {
           <Image
             src={$.groupThumb}
             size={_.r(80)}
-            shadow
             placeholder={false}
             imageViewer
             event={{
@@ -51,7 +53,7 @@ function Info() {
       {!!$.groupInfo.content && (
         <Expand style={_.mt.lg} ratio={0.64}>
           <RenderHtml
-            html={`${$.groupInfo.content}<p style="text-align:right;color:#999">${$.groupInfo.create}</p><br/>`}
+            html={`${$.groupInfo.content}<p style="font-size:13px;text-align:right;color:#999">${$.groupInfo.create}</p><br/>`}
           />
         </Expand>
       )}
@@ -61,7 +63,7 @@ function Info() {
         </Flex>
       )}
     </View>
-  )
+  ))
 }
 
-export default ob(Info, COMPONENT)
+export default Info

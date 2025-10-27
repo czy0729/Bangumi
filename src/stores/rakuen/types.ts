@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-01 04:41:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-17 23:52:59
+ * @Last Modified time: 2025-10-27 15:55:35
  */
 import type {
   Avatar,
@@ -194,25 +194,28 @@ export type Notify = {
   _loaded?: number
 }
 
+/** 小组帖子列表项 */
+export type GroupItem = {
+  href: string
+  title: string
+  userId: UserId
+  userName: string
+  replies: string
+  time: string
+  tip?: string
+  tipHref?: string
+}
+
 /** 小组帖子列表 */
 export type Group = {
-  list: {
-    href: string
-    title: string
-    userId: UserId
-    userName: string
-    replies: string
-    time: string
-    tip?: string
-    tipHref?: string
-  }[]
+  list: GroupItem[]
   _loaded: number
 }
 
 /** 小组信息 */
 export type GroupInfo = {
   title: string
-  cover: CoverGroup<'l'>
+  cover: string
   content: string
   create: string
   joinUrl: string

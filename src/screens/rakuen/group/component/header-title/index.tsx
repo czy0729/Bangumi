@@ -2,18 +2,21 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 18:11:49
+ * @Last Modified time: 2025-10-27 15:41:10
  */
 import React from 'react'
 import { Flex, Image, Text } from '@components'
-import { _ } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { _, useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT, COVER_WIDTH } from './ds'
 import { styles } from './styles'
 
-function HeaderTitle({ $ }: Ctx) {
-  return (
+import type { Ctx } from '../../types'
+
+function HeaderTitle() {
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
     <Flex style={styles.container}>
       {!!$.groupThumb && <Image size={COVER_WIDTH} src={$.groupThumb} radius={_.radiusSm} />}
       <Flex.Item style={_.ml.sm}>
@@ -22,7 +25,7 @@ function HeaderTitle({ $ }: Ctx) {
         </Text>
       </Flex.Item>
     </Flex>
-  )
+  ))
 }
 
-export default ob(HeaderTitle, COMPONENT)
+export default HeaderTitle

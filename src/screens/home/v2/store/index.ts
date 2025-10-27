@@ -7,6 +7,7 @@
 import * as Device from 'expo-device'
 import { _, systemStore, userStore } from '@stores'
 import { date, feedback, getTimestamp, info, pick, postTask, sortObject } from '@utils'
+import { logger } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { update } from '@utils/kv'
 import { get } from '@utils/protobuf'
@@ -211,7 +212,7 @@ export default class ScreenHomeV2 extends Action {
         this.onHeaderRefresh()
       }
     } catch (error) {
-      console.error('Home', 'onRefreshThenScrollTop', error)
+      logger.error(NAMESPACE, 'onRefreshThenScrollTop', error)
     }
   }
 

@@ -27,6 +27,7 @@ import {
   updateVisibleBottom
 } from '@utils'
 import { calendarEventsRequestPermissions, calendarGetEventsAsync } from '@utils/calendar'
+import { logger } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { download, temp } from '@utils/kv'
 import { webhookCollection, webhookEp } from '@utils/webhooks'
@@ -268,7 +269,7 @@ export default class Action extends Fetch {
 
       if (url) open(url)
     } catch (error) {
-      console.error(NAMESPACE, 'onlinePlaySelected', error)
+      logger.error(NAMESPACE, 'onlinePlaySelected', error)
     }
   }
 
@@ -510,7 +511,7 @@ export default class Action extends Fetch {
         }
       )
     } catch (error) {
-      console.error(NAMESPACE, 'doUpdateEp', error)
+      logger.error(NAMESPACE, 'doUpdateEp', error)
     }
   }
 
@@ -817,7 +818,8 @@ export default class Action extends Fetch {
         userId: this.userId
       })
 
-      open(download(data.downloadKey))
+      const url = await download(data.downloadKey)
+      open(url)
     }
   }
 }

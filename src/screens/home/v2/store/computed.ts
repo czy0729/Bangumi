@@ -8,6 +8,7 @@ import { computed } from 'mobx'
 import { _, calendarStore, collectionStore, subjectStore, systemStore, userStore } from '@stores'
 import { desc, findLastIndex, freeze, getOnAir, getPinYinFilterValue, t2s, x18 } from '@utils'
 import CacheManager from '@utils/cache-manager'
+import { logger } from '@utils/dev'
 import {
   IOS,
   MODEL_COLLECTION_STATUS,
@@ -372,7 +373,7 @@ export default class Computed extends State {
           }
           return eps
         } catch (error) {
-          console.error(NAMESPACE, 'eps', error)
+          logger.error(NAMESPACE, 'eps', error)
         }
 
         return []
@@ -395,7 +396,7 @@ export default class Computed extends State {
 
           return eps[index]
         } catch (error) {
-          console.error(NAMESPACE, 'nextWatchEp', error)
+          logger.error(NAMESPACE, 'nextWatchEp', error)
         }
 
         return {}
@@ -415,7 +416,7 @@ export default class Computed extends State {
       const current = eps.find(item => item.status === 'Air')?.sort || 0
       return flagZero && current ? current + 1 : current
     } catch (error) {
-      console.error(NAMESPACE, 'nextWatchEp', error)
+      logger.error(NAMESPACE, 'nextWatchEp', error)
       return 0
     }
   }
@@ -428,7 +429,7 @@ export default class Computed extends State {
         Math.max(this.subject(subjectId)?.eps_count || 0, eps?.[eps.length - 1]?.sort || 0) || '??'
       )
     } catch (error) {
-      console.error(NAMESPACE, 'totalEps', error)
+      logger.error(NAMESPACE, 'totalEps', error)
       return '??'
     }
   }

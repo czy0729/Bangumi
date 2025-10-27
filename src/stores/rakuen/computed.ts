@@ -7,14 +7,7 @@
 import { computed } from 'mobx'
 import { desc } from '@utils'
 import { LIST_EMPTY } from '@constants'
-import {
-  DEFAULT_SCOPE,
-  DEFAULT_TYPE,
-  INIT_GROUP_INFO,
-  INIT_GROUP_ITEM,
-  INIT_READED_ITEM,
-  INIT_TOPIC
-} from './init'
+import { DEFAULT_SCOPE, DEFAULT_TYPE, INIT_GROUP_INFO, INIT_READED_ITEM, INIT_TOPIC } from './init'
 import { getInt } from './utils'
 import State from './state'
 
@@ -137,9 +130,11 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 小组帖子列表 */
   group(groupId: Id, page: number = 1) {
-    return computed<Group>(() => {
-      const key = `${groupId}|${page}`
-      return this.state.group[key] || INIT_GROUP_ITEM
+    const STATE_KEY = 'group'
+
+    return computed(() => {
+      const ITEM_KEY = `${groupId}|${page}`
+      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as Group
     }).get()
   }
 
