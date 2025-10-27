@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+message Catalog {
+  int32 i = 1;
+  string d = 2;
+  string t = 3;
+  int32 b = 4;
+  int32 a = 5;
+  int32 m = 6;
+  int32 g = 7;
+  int32 r = 8;
+}
+
+message Payload {
+  repeated Catalog payload = 1;
+}

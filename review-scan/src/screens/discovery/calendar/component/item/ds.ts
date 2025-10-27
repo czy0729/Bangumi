@@ -1,0 +1,10 @@
+/*
+ * @Author: czy0729
+ * @Date: 2024-01-09 15:10:45
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2024-01-09 15:38:32
+ */
+import { rc } from '@utils/dev'
+import { COMPONENT as PARENT } from '../ds'
+
+export const COMPONENT = rc(PARENT, 'Item')
