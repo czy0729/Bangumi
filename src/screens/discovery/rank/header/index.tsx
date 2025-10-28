@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-23 15:24:48
  */
-import React from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { getSPAParams, open } from '@utils'
@@ -18,34 +18,37 @@ import type { Ctx } from '../types'
 function Header() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => (
-    <HeaderV2
-      title='排行榜'
-      hm={$.hm}
-      headerRight={() => (
-        <HeaderV2Popover
-          data={[...DATA, TEXT_MENU_SPLIT, ...$.toolBar]}
-          onSelect={title => {
-            if (title === TEXT_MENU_BROWSER) {
-              open($.url)
+  return useObserver(() => {
+    const { toolBar, url } = $
 
-              t('排行榜.右上角菜单', {
-                key: title
-              })
-            } else if (title === TEXT_MENU_SPA) {
-              open(`${URL_SPA}/${getSPAParams('Rank')}`)
+    const memoData = useMemo(() => [...DATA, TEXT_MENU_SPLIT, ...toolBar], [toolBar])
 
-              t('排行榜.右上角菜单', {
-                key: title
-              })
-            } else {
-              $.onToolBar(title)
-            }
-          }}
-        />
-      )}
-    />
-  ))
+    const handleSelect = useCallback(
+      (title: string) => {
+        if (title === TEXT_MENU_SPLIT) return
+
+        const actions = {
+          [TEXT_MENU_BROWSER]: () => open(url),
+          [TEXT_MENU_SPA]: () => open(`${URL_SPA}/${getSPAParams('Rank')}`)
+        } as const
+
+        actions[title]?.() ?? $.onToolBar(title)
+
+        t('排行榜.右上角菜单', {
+          key: title
+        })
+      },
+      [url]
+    )
+
+    return (
+      <HeaderV2
+        title='排行榜'
+        hm={$.hm}
+        headerRight={() => <HeaderV2Popover data={memoData} onSelect={handleSelect} />}
+      />
+    )
+  })
 }
 
 export default Header

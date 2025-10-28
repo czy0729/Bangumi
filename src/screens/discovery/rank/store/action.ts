@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-23 15:24:22
  */
-import { ScrollTo } from '@components'
 import { feedback, info, updateVisibleBottom } from '@utils'
 import { scrollToTop } from '@utils/dom'
 import { t } from '@utils/fetch'
@@ -17,7 +16,11 @@ import {
   TEXT_MENU_TOOLBAR,
   WEB
 } from '@constants'
-import {
+import Fetch from './fetch'
+import { EXCLUDE_STATE } from './ds'
+
+import type { ScrollTo } from '@components'
+import type {
   Airtime,
   Area,
   Classification,
@@ -32,9 +35,7 @@ import {
   Target,
   Theme
 } from '@types'
-import { ToolBarKeys } from '../types'
-import Fetch from './fetch'
-import { EXCLUDE_STATE } from './ds'
+import type { ToolBarKeys } from '../types'
 
 export default class Action extends Fetch {
   /** ScrollView.scrollTo */

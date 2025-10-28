@@ -8,10 +8,11 @@ import React from 'react'
 import { Component, Page } from '@components'
 import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import Layout from './component/layout'
 import Header from './header'
 import { useRankPage } from './hooks'
+
+import type { NavigationProps } from '@types'
 
 /** 排行榜 */
 const Rank = (props: NavigationProps) => {
@@ -20,7 +21,7 @@ const Rank = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-rank'>
       <StoreContext.Provider value={id}>
-        <Page loaded={$.state._loaded} loading={!$.list._loaded}>
+        <Page loaded={$.state._loaded} loading={$.loading}>
           <Layout />
         </Page>
         <Header />

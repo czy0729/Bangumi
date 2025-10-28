@@ -8,8 +8,9 @@ import React from 'react'
 import { Pagination as PaginationComp } from '@components'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { COMPONENT, HEATMAPS } from './ds'
+
+import type { Ctx } from '../../types'
 
 function Pagination() {
   const { $ } = useStore<Ctx>(COMPONENT)

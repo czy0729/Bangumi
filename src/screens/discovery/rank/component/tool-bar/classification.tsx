@@ -5,32 +5,33 @@
  * @Last Modified time: 2024-11-16 09:46:36
  */
 import React from 'react'
+import { useObserver } from 'mobx-react'
 import { ToolBar } from '@components'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { DATA_CLASSIFICATION } from '@constants'
-import { Ctx } from '../../types'
+import { DATA_CLASSIFICATION } from './ds'
 
-const DATA = {
-  游戏: DATA_CLASSIFICATION
-} as const
+import type { Ctx } from '../../types'
 
 /** 分级 */
 function Classification() {
   const { $ } = useStore<Ctx>()
-  const data = DATA[$.typeCn]
-  if (!data) return null
 
-  return (
-    <ToolBar.Popover
-      key={$.typeCn}
-      data={data}
-      text={$.classification || '分级'}
-      type={$.classification === '' ? undefined : 'desc'}
-      onSelect={$.onClassificationSelect}
-      heatmap='排行榜.分级选择'
-    />
-  )
+  return useObserver(() => {
+    const typeCn = $.typeCn as '游戏'
+    const data = DATA_CLASSIFICATION[typeCn]
+    if (!data) return null
+
+    return (
+      <ToolBar.Popover
+        key={typeCn}
+        data={data}
+        text={$.classification || '分级'}
+        type={$.classification === '' ? undefined : 'desc'}
+        onSelect={$.onClassificationSelect}
+        heatmap='排行榜.分级选择'
+      />
+    )
+  })
 }
 
-export default ob(Classification)
+export default Classification

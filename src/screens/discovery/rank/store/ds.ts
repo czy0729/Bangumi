@@ -17,7 +17,9 @@ import {
   MODEL_SUBJECT_TYPE,
   MODEL_TAG_ORDERBY
 } from '@constants'
-import {
+import { COMPONENT } from '../ds'
+
+import type {
   Airtime,
   Area,
   Classification,
@@ -30,7 +32,6 @@ import {
   Target,
   Theme
 } from '@types'
-import { COMPONENT } from '../ds'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
@@ -41,30 +42,6 @@ export const RESET_STATE = {
 
 export const EXCLUDE_STATE = {
   ...RESET_STATE,
-
-  /** 一级分类 */
-  filter: '' as RankFilter,
-
-  /** 二级分类 */
-  filterSub: '' as RankFilterSub,
-
-  /** 来源 */
-  source: DATA_SOURCE[0] as Source,
-
-  /** 类型公共标签 */
-  tag: DATA_ANIME_TAG[0] as Tag,
-
-  /** 地区 */
-  area: DATA_ANIME_AREA[0] as Area,
-
-  /** 受众 */
-  target: DATA_ANIME_TARGET[0] as Target,
-
-  /** 分级 */
-  classification: DATA_CLASSIFICATION[0] as Classification,
-
-  /** 题材 */
-  theme: DATA_THEME[0] as Theme,
 
   /** 是否显示列表, 制造切页效果 */
   show: true,
@@ -113,6 +90,30 @@ export const STATE = {
 
   /** 月 */
   month: DATA_MONTH[0] as Month,
+
+  /** 一级分类 */
+  filter: '' as RankFilter,
+
+  /** 二级分类 */
+  filterSub: '' as RankFilterSub,
+
+  /** 来源 */
+  source: DATA_SOURCE[0] as Source,
+
+  /** 类型公共标签 */
+  tag: DATA_ANIME_TAG[0] as Tag,
+
+  /** 地区 */
+  area: DATA_ANIME_AREA[0] as Area,
+
+  /** 受众 */
+  target: DATA_ANIME_TARGET[0] as Target,
+
+  /** 分级 */
+  classification: DATA_CLASSIFICATION[0] as Classification,
+
+  /** 题材 */
+  theme: DATA_THEME[0] as Theme,
 
   /** 是否列表布局 (工具条) */
   list: true,

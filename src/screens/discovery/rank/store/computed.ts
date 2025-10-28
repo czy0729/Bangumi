@@ -24,9 +24,10 @@ import {
   TEXT_MENU_SPLIT_RIGHT,
   TEXT_MENU_TOOLBAR
 } from '@constants'
-import { SubjectId, SubjectTypeCn } from '@types'
-import { ComputedRank, SnapshotId } from '../types'
 import State from './state'
+
+import type { SubjectId, SubjectTypeCn } from '@types'
+import type { ComputedRank, SnapshotId } from '../types'
 
 export default class Computed extends State {
   /** 类型 */
@@ -200,5 +201,9 @@ export default class Computed extends State {
 
     const find = this.ota.list.find((item: { id: SubjectId }) => item.id === subjectId)
     return find?.cover || ''
+  }
+
+  @computed get loading() {
+    return !this.list._loaded
   }
 }

@@ -6,7 +6,9 @@
  */
 import { SUBJECT_TYPE } from '@constants'
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE, RESET_STATE, STATE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, RESET_STATE } from './ds'
+
+import type { STATE } from './ds'
 
 /** 排行榜页面状态机 */
 export default class ScreenRank extends Action {

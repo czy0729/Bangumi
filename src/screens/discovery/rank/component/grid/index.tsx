@@ -11,10 +11,11 @@ import { _, collectionStore, useStore } from '@stores'
 import { matchYear } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { MODEL_SUBJECT_TYPE } from '@constants'
-import { SubjectTypeCn } from '@types'
-import { Ctx } from '../../types'
 import { COMPONENT, EVENT } from './ds'
 import { memoStyles } from './styles'
+
+import type { SubjectTypeCn } from '@types'
+import type { Ctx } from '../../types'
 
 function Grid() {
   const { $ } = useStore<Ctx>(COMPONENT)
@@ -24,13 +25,15 @@ function Grid() {
     const { list } = $.list
     const { _filter } = $.rank
     const num = _.portrait(3, 5)
+
     return (
       <Flex style={styles.grid} wrap='wrap' align='start'>
         {list.length ? (
-          list.map((item, index: number) => {
+          list.map((item, index) => {
             const id = String(item.id).replace('/subject/', '')
             const collection = collectionStore.collect(id)
             const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>($.state.type)
+
             return (
               <ItemCollectionsGrid
                 key={item.id}

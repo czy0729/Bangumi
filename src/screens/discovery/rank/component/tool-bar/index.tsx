@@ -6,10 +6,9 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { useObserver } from 'mobx-react'
 import { ToolBar as ToolBarComp } from '@components'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
 import Area from './area'
 import Classification from './classification'
 import Expand from './expand'
@@ -25,32 +24,38 @@ import Type from './type'
 import Year from './year'
 import { COMPONENT } from './ds'
 
+import type { Ctx } from '../../types'
+
 function ToolBar() {
-  const { $ } = useStore<Ctx>()
-  const showExpand = $.typeCn !== '音乐'
-  return (
-    <View>
-      <ToolBarComp>
-        <Type />
-        <Sort />
-        <Year />
-        <Month />
-        {showExpand && <Expand />}
-      </ToolBarComp>
-      {showExpand && $.state.expand && (
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => {
+    const showExpand = $.typeCn !== '音乐'
+
+    return (
+      <View>
         <ToolBarComp>
-          <Filter />
-          <FilterSub />
-          <Source />
-          <Tag />
-          <Theme />
-          <Area />
-          <Target />
-          <Classification />
+          <Type />
+          <Sort />
+          <Year />
+          <Month />
+          {showExpand && <Expand />}
         </ToolBarComp>
-      )}
-    </View>
-  )
+        {showExpand && $.state.expand && (
+          <ToolBarComp>
+            <Filter />
+            <FilterSub />
+            <Source />
+            <Tag />
+            <Theme />
+            <Area />
+            <Target />
+            <Classification />
+          </ToolBarComp>
+        )}
+      </View>
+    )
+  })
 }
 
-export default ob(ToolBar, COMPONENT)
+export default ToolBar

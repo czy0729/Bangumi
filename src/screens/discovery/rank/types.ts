@@ -4,9 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-10-19 18:06:18
  */
-import { Rank } from '@stores/tag/types'
-import { GetRouteParams, Override, RouteRank, WithNavigation } from '@types'
-import Store from './store'
+import type { Rank } from '@stores/tag/types'
+import type { GetRouteParams, Override, RouteRank, WithNavigation } from '@types'
+import type Store from './store'
 
 export type Ctx = WithNavigation<{
   $: InstanceType<typeof Store>

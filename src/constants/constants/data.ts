@@ -113,7 +113,7 @@ export const EVENT = {
   data: {}
 } as const
 
-/** 时间 */
+/** 时间 (已支持自动更新到本年) */
 export const DATA_AIRTIME = (() => {
   const currentYear = new Date().getFullYear()
   const years = ['全部']

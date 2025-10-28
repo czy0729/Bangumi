@@ -71,6 +71,8 @@ function Header({ fixed }: Props) {
 
     const handleSelect = useCallback(
       async (title: string) => {
+        if (title === 'TEXT_MENU_SPLIT') return
+
         const actions = {
           [TEXT_MENU_BROWSER]: () => open(url),
           [TEXT_MENU_GROUP_MEMBER]: () => open(`${HOST}/group/${groupId}/members`),

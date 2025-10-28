@@ -8,45 +8,41 @@ import React, { useCallback, useMemo } from 'react'
 import { ToolBar } from '@components'
 import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { MODEL_RANK_BOOK_FILTER_SUB, MODEL_RANK_GAME_FILTER_SUB } from '@constants'
-import { RankFilterSub } from '@types'
-import { Ctx } from '../../types'
+import { DATA_FILTER_SUB, TEXT_FILTER_SUB } from './ds'
 
-const DATA = {
-  书籍: MODEL_RANK_BOOK_FILTER_SUB,
-  游戏: MODEL_RANK_GAME_FILTER_SUB
-} as const
-
-const TEXT = {
-  书籍: '系列',
-  游戏: '平台'
-} as const
+import type { RankFilterSub } from '@types'
+import type { Ctx } from '../../types'
 
 /** 二级分类 */
 function FilterSub() {
   const { $ } = useStore<Ctx>()
 
   return useObserver(() => {
-    const data = DATA[$.typeCn]
-    const menuData = useMemo(() => {
+    const typeCn = $.typeCn as '书籍' | '游戏'
+    const data = DATA_FILTER_SUB[typeCn]
+    if (!data) return null
+
+    const { filterSub } = $.state
+    const text: string = data.getLabel(filterSub)
+
+    const memoData = useMemo(() => {
       if (!data?.data) return []
+
       return data.data.map((item: { label: string }) => item.label)
     }, [data?.data])
+
     const handleSelect = useCallback(
       (title: RankFilterSub) => {
         $.onFilterSubSelect(title, data)
       },
       [data]
     )
-    if (!data) return null
 
-    const { filterSub } = $.state
-    const text: string = data.getLabel(filterSub)
     return (
       <ToolBar.Popover
-        key={$.typeCn}
-        data={menuData}
-        text={text === '全部' ? TEXT[$.typeCn] : text}
+        key={typeCn}
+        data={memoData}
+        text={text === '全部' ? TEXT_FILTER_SUB[typeCn] : text}
         type={filterSub === '' ? undefined : 'desc'}
         onSelect={handleSelect}
         heatmap='排行榜.二级分类选择'

@@ -10,9 +10,10 @@ import { FilterText, ItemSearch } from '@_'
 import { _, collectionStore, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { MODEL_SUBJECT_TYPE } from '@constants'
-import { SubjectTypeCn } from '@types'
-import { Ctx } from '../../types'
 import { COMPONENT, EVENT } from './ds'
+
+import type { SubjectTypeCn } from '@types'
+import type { Ctx } from '../../types'
 
 function List() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
@@ -20,12 +21,14 @@ function List() {
   return useObserver(() => {
     const { list } = $.list
     const { _filter } = $.rank
+
     return (
       <>
         {list.length ? (
           list.map((item, index) => {
             const id = String(item.id).replace('/subject/', '')
             const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>($.state.type)
+
             return (
               <ItemSearch
                 key={item.id}

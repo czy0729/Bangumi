@@ -9,13 +9,14 @@ import { View } from 'react-native'
 import { ScrollView } from '@components'
 import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import Grid from '../grid'
 import List from '../list'
 import Pagination from '../pagination'
 import ToolBar from '../tool-bar'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function Layout() {
   const { $ } = useStore<Ctx>(COMPONENT)
@@ -24,6 +25,7 @@ function Layout() {
     const { fixed, fixedPagination, show, list } = $.state
     const elToolbar = <ToolBar />
     const elPagination = <Pagination />
+
     return (
       <>
         {fixed && <View style={styles.fixedToolBar}>{elToolbar}</View>}

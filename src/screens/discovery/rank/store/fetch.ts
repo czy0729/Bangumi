@@ -8,8 +8,9 @@ import { collectionStore, tagStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { get, update } from '@utils/kv'
 import { D7 } from '@constants'
-import { SnapshotId } from '../types'
 import Computed from './computed'
+
+import type { SnapshotId } from '../types'
 
 /** 若更新过则不会再主动更新 */
 const THIRD_PARTY_UPDATED: SnapshotId[] = []

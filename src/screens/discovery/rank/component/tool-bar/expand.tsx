@@ -8,8 +8,9 @@ import React from 'react'
 import { ToolBar } from '@components'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { ColorValue } from '@types'
-import { Ctx } from '../../types'
+
+import type { ColorValue } from '@types'
+import type { Ctx } from '../../types'
 
 function Expand() {
   const { $ } = useStore<Ctx>()

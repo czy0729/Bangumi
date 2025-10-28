@@ -17,9 +17,10 @@ import { Loading } from '../loading'
 import { StatusBar } from '../status-bar'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props as PageProps } from './types'
 
-export { PageProps }
+import type { Props as PageProps } from './types'
+
+export type { PageProps }
 
 /** 页面容器 */
 export const Page = ({

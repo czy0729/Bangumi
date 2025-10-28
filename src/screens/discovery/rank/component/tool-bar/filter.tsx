@@ -8,46 +8,40 @@ import React, { useCallback, useMemo } from 'react'
 import { ToolBar } from '@components'
 import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import {
-  MODEL_RANK_ANIME_FILTER,
-  MODEL_RANK_BOOK_FILTER,
-  MODEL_RANK_GAME_FILTER,
-  MODEL_RANK_REAL_FILTER
-} from '@constants'
-import { RankFilter } from '@types'
-import { Ctx } from '../../types'
+import { DATA_FILTER } from './ds'
 
-const DATA = {
-  动画: MODEL_RANK_ANIME_FILTER,
-  书籍: MODEL_RANK_BOOK_FILTER,
-  游戏: MODEL_RANK_GAME_FILTER,
-  三次元: MODEL_RANK_REAL_FILTER
-} as const
+import type { RankFilter } from '@types'
+import type { Ctx } from '../../types'
 
 /** 一级分类 */
 function Filter() {
   const { $ } = useStore<Ctx>()
 
   return useObserver(() => {
-    const data = DATA[$.typeCn]
-    const menuData = useMemo(() => {
+    const typeCn = $.typeCn as '动画' | '书籍' | '游戏' | '三次元'
+    const data = DATA_FILTER[typeCn]
+    if (!data) return null
+
+    const { filter } = $.state
+    const text: string = data.getLabel(filter)
+
+    const memoData = useMemo(() => {
       if (!data?.data) return []
+
       return data.data.map((item: { label: string }) => item.label)
     }, [data?.data])
+
     const handleSelect = useCallback(
       (title: RankFilter) => {
         $.onFilterSelect(title, data)
       },
       [data]
     )
-    if (!data) return null
 
-    const { filter } = $.state
-    const text: string = data.getLabel(filter)
     return (
       <ToolBar.Popover
-        key={$.typeCn}
-        data={menuData}
+        key={typeCn}
+        data={memoData}
         text={text === '全部' ? '分类' : text}
         type={filter === '' ? undefined : 'desc'}
         onSelect={handleSelect}
