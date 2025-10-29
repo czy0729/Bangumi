@@ -6,10 +6,12 @@
  */
 import { computed } from 'mobx'
 import { LIST_EMPTY } from '@constants'
-import { BrowserSort, RankFilter, StoreConstructor, SubjectType, TagOrder } from '@types'
-import { DEFAULT_TYPE, STATE } from './init'
+import { DEFAULT_TYPE } from './init'
 import State from './state'
-import { Browser, Rank, Tag } from './types'
+
+import type { BrowserSort, RankFilter, StoreConstructor, SubjectType, TagOrder } from '@types'
+import type { STATE } from './init'
+import type { Browser, Rank, Tag } from './types'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   /** 标签条目 */
@@ -36,6 +38,18 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
     return computed(() => {
       const ITEM_ARGS = [type, filter, order, airtime, page] as const
+      const ITEM_KEY = ITEM_ARGS.filter(Boolean).join('|')
+      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as Rank
+    }).get()
+  }
+
+  /** 排行榜 (不分页) */
+  rankWithoutPagination(type: SubjectType, filter: RankFilter, order: TagOrder, airtime: string) {
+    const STATE_KEY = 'rankWithoutPagination'
+    this.init(STATE_KEY, true)
+
+    return computed(() => {
+      const ITEM_ARGS = [type, filter, order, airtime] as const
       const ITEM_KEY = ITEM_ARGS.filter(Boolean).join('|')
       return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as Rank
     }).get()

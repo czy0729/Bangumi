@@ -5,9 +5,9 @@
  * @Last Modified time: 2024-11-23 14:58:29
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { ToolBar } from '@components'
 import { _, useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 
 import type { Ctx } from '../../types'
 

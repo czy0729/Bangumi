@@ -127,6 +127,9 @@ export const STATE = {
   /** 是否显示收藏条目 (工具条) */
   collected: true,
 
+  /** 是否使用分页模式 */
+  pagination: true,
+
   /** 页面初始化完成 */
   _loaded: false as Loaded
 }

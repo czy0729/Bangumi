@@ -4,9 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-07-02 00:44:28
  */
-import { HTML_RANK_V2 } from '@constants'
-import { BrowserSort, ListEmpty, Override, SubjectId, SubjectType, TagOrder } from '@types'
-import { LOADED } from './init'
+import type { HTML_RANK_V2 } from '@constants'
+import type { BrowserSort, ListEmpty, Override, SubjectId, SubjectType, TagOrder } from '@types'
+import type { LOADED } from './init'
 
 export type CacheKey = keyof typeof LOADED
 

@@ -5,10 +5,10 @@
  * @Last Modified time: 2025-10-24 15:25:03
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Heatmap } from '@components'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 
 function Heatmaps() {

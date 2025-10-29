@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-23 10:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-10 16:48:02
+ * @Last Modified time: 2025-10-30 00:04:20
  */
 import { WEB } from '../device'
 
@@ -118,6 +118,15 @@ export const TEXT_MENU_FIXED = '锁定'
 
 /** 菜单: 工具栏浮动 */
 export const TEXT_MENU_FLOAT = '浮动'
+
+/** 菜单: 加载 */
+export const TEXT_MENU_LIST_LOADED = '加　载'
+
+/** 菜单: 分页加载 */
+export const TEXT_MENU_LIST_PAGINATION = '分页加载'
+
+/** 菜单: 到底加载 */
+export const TEXT_MENU_LIST_FOOTER_REFRESH = '到底加载'
 
 /** 菜单: 布局 */
 export const TEXT_MENU_LAYOUT = '布　局'

@@ -5,9 +5,9 @@
  * @Last Modified time: 2025-10-24 15:27:21
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'

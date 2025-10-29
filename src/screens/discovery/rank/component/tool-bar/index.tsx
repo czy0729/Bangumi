@@ -6,9 +6,9 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { ToolBar as ToolBarComp } from '@components'
 import { useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import Area from './area'
 import Classification from './classification'
 import Expand from './expand'

@@ -10,7 +10,8 @@ import { HTML_BROSWER, HTML_RANK_V2, HTML_TAG } from '@constants'
 import { cheerioRank, cheerioTags } from './common'
 import Computed from './computed'
 import { DEFAULT_TYPE } from './init'
-import { FetchBrowserArgs, FetchRankArgs, FetchTagArgs } from './types'
+
+import type { FetchBrowserArgs, FetchRankArgs, FetchTagArgs } from './types'
 
 export default class Fetch extends Computed {
   /** 标签条目 */
@@ -80,6 +81,46 @@ export default class Fetch extends Computed {
       this.save(STATE_KEY)
     } catch (error) {
       this.error('fetchRank', error)
+    }
+
+    return this[STATE_KEY](...ITEM_ARGS)
+  }
+
+  /** 排行榜 (不分页) */
+  fetchRankWithoutPagination = async (args: FetchRankArgs, refresh?: boolean) => {
+    const { type = DEFAULT_TYPE, filter, airtime, order = 'rank' } = args || {}
+
+    const STATE_KEY = 'rankWithoutPagination'
+    const ITEM_ARGS = [type, filter, order, airtime] as const
+    const ITEM_KEY = ITEM_ARGS.filter(Boolean).join('|')
+    const LIMIT = 24
+
+    try {
+      const { list, pagination } = this[STATE_KEY](...ITEM_ARGS)
+      const page = refresh ? 1 : pagination.page + 1
+      const html = await fetchHTML({
+        url: HTML_RANK_V2({
+          ...args,
+          page
+        })
+      })
+
+      const next = cheerioRank(html)
+      this.setState({
+        [STATE_KEY]: {
+          [ITEM_KEY]: {
+            list: refresh ? next : [...list, ...next],
+            pagination: {
+              page,
+              pageTotal: next.length >= LIMIT ? 100 : page
+            },
+            _loaded: getTimestamp()
+          }
+        }
+      })
+      this.save(STATE_KEY)
+    } catch (error) {
+      this.error('fetchRankWithoutPagination', error)
     }
 
     return this[STATE_KEY](...ITEM_ARGS)

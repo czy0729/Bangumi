@@ -6,11 +6,11 @@
  */
 import React, { useCallback, useEffect, useRef } from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { FixedTextarea, Flex, Loading, Page, Text } from '@components'
 import { _, userStore, useStore } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import Chat from '../chat'
 import { COMPONENT } from './ds'
 import { styles } from './styles'

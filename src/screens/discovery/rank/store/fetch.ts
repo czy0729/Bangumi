@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-24 10:13:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-25 04:18:15
+ * @Last Modified time: 2025-10-29 22:48:39
  */
 import { collectionStore, tagStore } from '@stores'
 import { getTimestamp } from '@utils'
@@ -10,6 +10,7 @@ import { get, update } from '@utils/kv'
 import { D7 } from '@constants'
 import Computed from './computed'
 
+import type { Rank } from '@stores/tag/types'
 import type { SnapshotId } from '../types'
 
 /** 若更新过则不会再主动更新 */
@@ -18,6 +19,11 @@ const THIRD_PARTY_UPDATED: SnapshotId[] = []
 export default class Fetch extends Computed {
   /** 获取排行榜 */
   fetchRank = async () => {
+    if (this.state.pagination) {
+      this.fetchRankWithoutPagination(true)
+      return
+    }
+
     this.fetchThirdParty()
     const data = await tagStore.fetchRank(this.query)
 
@@ -31,7 +37,22 @@ export default class Fetch extends Computed {
       if (_loaded - ts >= D7) this.updateThirdParty()
     }
 
-    // 延迟获取收藏中的条目的具体收藏状态
+    this.fetchCollectionStatusQueue(data)
+
+    return data
+  }
+
+  /** 获取排行榜 (不分页) */
+  fetchRankWithoutPagination = async (refresh: boolean = false) => {
+    const data = await tagStore.fetchRankWithoutPagination(this.query, refresh)
+
+    this.fetchCollectionStatusQueue(data)
+
+    return data
+  }
+
+  /** 延迟获取收藏中的条目的具体收藏状态 */
+  fetchCollectionStatusQueue = (data: Rank) => {
     setTimeout(() => {
       collectionStore.fetchCollectionStatusQueue(
         data.list
@@ -39,8 +60,6 @@ export default class Fetch extends Computed {
           .map(item => String(item.id).replace('/subject/', ''))
       )
     }, 160)
-
-    return data
   }
 
   /** 获取排行榜云快照 */

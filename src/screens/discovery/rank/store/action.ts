@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-24 10:14:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-23 15:24:22
+ * @Last Modified time: 2025-10-30 00:05:00
  */
 import { feedback, info, updateVisibleBottom } from '@utils'
 import { scrollToTop } from '@utils/dom'
@@ -12,6 +12,7 @@ import {
   MODEL_TAG_ORDERBY,
   TEXT_MENU_FAVOR,
   TEXT_MENU_LAYOUT,
+  TEXT_MENU_LIST_LOADED,
   TEXT_MENU_PAGINATION,
   TEXT_MENU_TOOLBAR,
   WEB
@@ -275,7 +276,8 @@ export default class Action extends Fetch {
     })
     this.refresh()
 
-    info(this.toolBar?.[1])
+    const text = this.toolBar.find(item => item.includes(TEXT_MENU_LAYOUT))
+    if (text) info(text)
     feedback(true)
 
     t('排行榜.切换布局', {
@@ -292,13 +294,16 @@ export default class Action extends Fetch {
     this.save()
 
     if (key === 'fixed') {
-      info(this.toolBar?.[0])
+      const text = this.toolBar.find(item => item.includes(TEXT_MENU_TOOLBAR))
+      if (text) info(text)
       feedback(true)
     } else if (key === 'collected') {
-      info(this.toolBar?.[2])
+      const text = this.toolBar.find(item => item.includes(TEXT_MENU_FAVOR))
+      if (text) info(text)
       feedback(true)
     } else if (key === 'fixedPagination') {
-      info(this.toolBar?.[3])
+      const text = this.toolBar.find(item => item.includes(TEXT_MENU_PAGINATION))
+      if (text) info(text)
       feedback(true)
     }
 
@@ -367,11 +372,27 @@ export default class Action extends Fetch {
         [type]: nativeEvent.text
       }
     })
+    this.refresh(true)
+  }
+
+  /** 切换分页模式 */
+  onTogglePagination = () => {
+    const value = !this.state.pagination
+    this.setState({
+      pagination: value
+    })
+
+    const text = this.toolBar.find(item => item.includes(TEXT_MENU_LIST_LOADED))
+    if (text) info(text)
+    feedback(true)
+
+    this.refresh(true)
   }
 
   /** 工具栏设置 */
   onToolBar = (title: string) => {
     if (title.includes(TEXT_MENU_TOOLBAR)) return this.onToggleToolbar('fixed')
+    if (title.includes(TEXT_MENU_LIST_LOADED)) return this.onTogglePagination()
     if (title.includes(TEXT_MENU_LAYOUT)) return this.onToggleList()
     if (title.includes(TEXT_MENU_FAVOR)) return this.onToggleToolbar('collected')
     if (title.includes(TEXT_MENU_PAGINATION)) return this.onToggleToolbar('fixedPagination')

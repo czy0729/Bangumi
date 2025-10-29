@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:13:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-23 14:51:39
+ * @Last Modified time: 2025-10-29 23:22:50
  */
 import React from 'react'
 import { Component, Page } from '@components'
 import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
-import Layout from './component/layout'
+import FlatList from './component/flat-list'
+import Scroll from './component/scroll'
 import Header from './header'
 import { useRankPage } from './hooks'
 
@@ -22,7 +23,7 @@ const Rank = (props: NavigationProps) => {
     <Component id='screen-rank'>
       <StoreContext.Provider value={id}>
         <Page loaded={$.state._loaded} loading={$.loading}>
-          <Layout />
+          {$.state.pagination ? <Scroll /> : <FlatList />}
         </Page>
         <Header />
       </StoreContext.Provider>

@@ -5,11 +5,11 @@
  * @Last Modified time: 2025-10-24 16:33:58
  */
 import React, { useCallback } from 'react'
-import { useObserver } from 'mobx-react'
 import { Text } from '@components'
 import { ItemSay } from '@_'
 import { systemStore, tinygrailStore, usersStore, userStore, useStore } from '@stores'
 import { confirm, getAvatarLocal } from '@utils'
+import { useObserver } from '@utils/hooks'
 import { API_AVATAR } from '@constants'
 import { COMPONENT, EVENT } from './ds'
 

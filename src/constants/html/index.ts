@@ -7,7 +7,10 @@
  * @Last Modified time: 2024-10-12 20:07:40
  */
 import { urlStringify } from '@utils/utils'
-import {
+import { HOST, URL_ZHINAN } from '../constants'
+import { MODEL_TIMELINE_SCOPE } from '../model'
+
+import type {
   Area,
   Classification,
   CollectionsOrder,
@@ -37,9 +40,7 @@ import {
   TopicType,
   UserId
 } from '@types'
-import { HOST, URL_ZHINAN } from '../constants'
-import { MODEL_TIMELINE_SCOPE } from '../model'
-import { RakuenReplyType } from './types'
+import type { RakuenReplyType } from './types'
 
 /** 条目 */
 export const HTML_SUBJECT = (subjectId: SubjectId) => `${HOST}/subject/${subjectId}`

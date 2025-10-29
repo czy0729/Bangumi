@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 11:10:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-23 19:43:03
+ * @Last Modified time: 2025-10-30 00:08:14
  */
 import React from 'react'
 import { Component, Cover, Flex, Link, Text } from '@components'
@@ -42,6 +42,9 @@ const Item = memo(
   }) => {
     const { width } = gridStyles
     const subjectId = String(id).replace('/subject/', '') as SubjectId
+
+    const text = cnjp(nameCn, name)
+    const textSize = text.length >= 36 ? 10 : text.length >= 24 ? 11 : 12
 
     return (
       <Component
@@ -86,8 +89,15 @@ const Item = memo(
             type={typeCn}
             cdn={cdn}
           />
-          <Text style={_.mt.sm} size={12} lineHeight={13} numberOfLines={3} bold align='center'>
-            {cnjp(nameCn, name)}
+          <Text
+            style={_.mt.sm}
+            size={textSize}
+            lineHeight={13}
+            numberOfLines={4}
+            bold
+            align='center'
+          >
+            {text}
           </Text>
           <Collection collection={collection} typeCn={typeCn} airtime={airtime} />
           {!!sub && (

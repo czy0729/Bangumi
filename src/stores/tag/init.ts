@@ -5,8 +5,9 @@
  * @Last Modified time: 2023-03-20 04:40:36
  */
 import { MODEL_SUBJECT_TYPE } from '@constants'
-import { SubjectType } from '@types'
-import { Browser, Rank, Tag } from './types'
+
+import type { SubjectType } from '@types'
+import type { Browser, Rank, Tag } from './types'
 
 export const NAMESPACE = 'Tag'
 
@@ -19,6 +20,9 @@ export const STATE = {
   /** 排行榜 */
   rank: {} as Record<string, Rank>,
 
+  /** 排行榜 (不分页) */
+  rankWithoutPagination: {} as Record<string, Rank>,
+
   /** 索引 */
   browser: {} as Record<string, Browser>
 }
@@ -26,5 +30,6 @@ export const STATE = {
 export const LOADED = {
   tag: false,
   rank: false,
+  rankWithoutPagination: false,
   browser: false
 }

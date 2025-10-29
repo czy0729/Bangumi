@@ -5,9 +5,9 @@
  * @Last Modified time: 2024-11-16 09:50:23
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { ToolBar } from '@components'
 import { _, useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { MODEL_TAG_ORDERBY } from '@constants'
 import { DATA_SORT } from './ds'
 

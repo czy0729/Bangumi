@@ -5,8 +5,9 @@
  * @Last Modified time: 2024-10-18 03:40:15
  */
 import { cData, cFind, cHas, cheerio, cMap, cText, HTMLDecode, htmlMatch } from '@utils'
-import { Cover } from '@types'
-import { TagItem } from './types'
+
+import type { Cover } from '@types'
+import type { TagItem } from './types'
 
 /** 标签 */
 export function cheerioTags(html: string): {

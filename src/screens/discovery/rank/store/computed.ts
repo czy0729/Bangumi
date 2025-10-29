@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-24 10:09:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-23 15:23:38
+ * @Last Modified time: 2025-10-29 23:32:54
  */
 import { computed } from 'mobx'
 import { tagStore, userStore } from '@stores'
@@ -17,6 +17,9 @@ import {
   TEXT_MENU_GRID,
   TEXT_MENU_LAYOUT,
   TEXT_MENU_LIST,
+  TEXT_MENU_LIST_FOOTER_REFRESH,
+  TEXT_MENU_LIST_LOADED,
+  TEXT_MENU_LIST_PAGINATION,
   TEXT_MENU_NOT_SHOW,
   TEXT_MENU_PAGINATION,
   TEXT_MENU_SHOW,
@@ -33,6 +36,11 @@ export default class Computed extends State {
   /** 类型 */
   @computed get typeCn() {
     return MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(this.state.type)
+  }
+
+  /** 是否列表布局 */
+  @computed get isList() {
+    return this.state.list
   }
 
   /** 排行榜云快照 */
@@ -90,8 +98,10 @@ export default class Computed extends State {
 
   /** 排行榜 */
   @computed get rank(): ComputedRank {
-    const { type, filter, sort, currentPage } = this.state
-    const rank = tagStore.rank(
+    const { type, filter, sort, currentPage, pagination } = this.state
+
+    const key = pagination ? 'rank' : 'rankWithoutPagination'
+    const rank = tagStore[key](
       type,
       filter,
       sort,
@@ -179,20 +189,29 @@ export default class Computed extends State {
 
   /** 工具栏菜单 */
   @computed get toolBar() {
-    return [
+    const { pagination } = this.state
+    const data = [
       `${TEXT_MENU_TOOLBAR}${TEXT_MENU_SPLIT_LEFT}${
         this.state.fixed ? TEXT_MENU_FIXED : TEXT_MENU_FLOAT
+      }${TEXT_MENU_SPLIT_RIGHT}`,
+      `${TEXT_MENU_LIST_LOADED}${TEXT_MENU_SPLIT_LEFT}${
+        pagination ? TEXT_MENU_LIST_PAGINATION : TEXT_MENU_LIST_FOOTER_REFRESH
       }${TEXT_MENU_SPLIT_RIGHT}`,
       `${TEXT_MENU_LAYOUT}${TEXT_MENU_SPLIT_LEFT}${
         this.state.list ? TEXT_MENU_LIST : TEXT_MENU_GRID
       }${TEXT_MENU_SPLIT_RIGHT}`,
       `${TEXT_MENU_FAVOR}${TEXT_MENU_SPLIT_LEFT}${
         this.state.collected ? TEXT_MENU_SHOW : TEXT_MENU_NOT_SHOW
-      }${TEXT_MENU_SPLIT_RIGHT}`,
-      `${TEXT_MENU_PAGINATION}${TEXT_MENU_SPLIT_LEFT}${
-        this.state.fixedPagination ? TEXT_MENU_FIXED : TEXT_MENU_FLOAT
       }${TEXT_MENU_SPLIT_RIGHT}`
     ]
+    if (pagination) {
+      data.push(
+        `${TEXT_MENU_PAGINATION}${TEXT_MENU_SPLIT_LEFT}${
+          this.state.fixedPagination ? TEXT_MENU_FIXED : TEXT_MENU_FLOAT
+        }${TEXT_MENU_SPLIT_RIGHT}`
+      )
+    }
+    return data
   }
 
   /** 尝试从云端数据查找封面 */

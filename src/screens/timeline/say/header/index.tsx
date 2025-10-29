@@ -5,12 +5,12 @@
  * @Last Modified time: 2025-10-25 22:30:35
  */
 import React, { useCallback, useMemo } from 'react'
-import { useObserver } from 'mobx-react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { feedback, open } from '@utils'
 import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import { TEXT_MENU_BROWSER, WEB } from '@constants'
 import { COMPONENT, DATA } from './ds'
 

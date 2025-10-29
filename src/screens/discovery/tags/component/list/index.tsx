@@ -9,11 +9,12 @@ import { ListView, Loading } from '@components'
 import { Notice } from '@_'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
 import Filter from '../filter'
 import Item from '../item'
 import { keyExtractor } from './utils'
 import { COMPONENT } from './ds'
+
+import type { Ctx } from '../../types'
 
 function List({ id }) {
   const { $ } = useStore<Ctx>()
