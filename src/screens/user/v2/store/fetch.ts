@@ -40,31 +40,69 @@ export default class Fetch extends Computed {
     if (!_loaded) this.fetchUserCollections(true)
   }
 
+  /** 收藏统一请求入口 */
+  fetchUserCollections = async (refresh: boolean = false) => {
+    if (this.isSortByScore) return this.fetchUserCollectionsByScore()
+
+    return this.fetchUserCollectionsNormal(refresh)
+  }
+
+  /**
+   * 记录上一个用户收藏概览请求
+   *  - 由于用户收藏概览接口在网站流量大的时候, 有可能第二页数据来得比第一页快, 导致第一页数据把第二页覆盖
+   *  - 所以必须把请求改为全局串行
+   * */
+  private _fetchingUserCollections?: Promise<void>
+
   /** 用户收藏概览 */
   fetchUserCollectionsNormal = async (refreshOrPage: boolean | number = false) => {
-    const { subjectType, order, tag } = this.state
-    const data = await collectionStore.fetchUserCollections(
-      {
-        subjectType,
-        type: this.type,
-        order,
-        tag,
-        userId: this.username
-      },
-      refreshOrPage
-    )
-
-    // 别人的空间
-    if (!this.isMe) {
-      // 延迟获取收藏中的条目的具体收藏状态
-      setTimeout(() => {
-        collectionStore.fetchCollectionStatusQueue(
-          data.list.filter(item => item.collected).map(item => item.id)
-        )
-      }, 160)
+    // 如果上一个请求还没结束，先等它结束
+    if (this._fetchingUserCollections) {
+      await this._fetchingUserCollections
     }
 
-    return data
+    // 定义当前请求任务
+    const task = (async () => {
+      const { subjectType, order, tag } = this.state
+      const data = await collectionStore.fetchUserCollections(
+        {
+          subjectType,
+          type: this.type,
+          order,
+          tag,
+          userId: this.username
+        },
+        refreshOrPage
+      )
+
+      // 别人的空间：延迟获取收藏状态
+      if (!this.isMe) {
+        setTimeout(() => {
+          collectionStore.fetchCollectionStatusQueue(
+            data.list.filter(item => item.collected).map(item => item.id)
+          )
+        }, 160)
+      }
+
+      return data
+    })()
+
+    // 记录执行中的 Promise，用于后续等待
+    this._fetchingUserCollections = (async () => {
+      try {
+        await task
+      } catch {
+        // 忽略错误，只用来等待
+      }
+    })()
+
+    try {
+      const result = await task
+      return result
+    } finally {
+      // 当前任务结束后清除标志
+      this._fetchingUserCollections = undefined
+    }
   }
 
   /**
@@ -89,13 +127,6 @@ export default class Fetch extends Computed {
     await collectionStore.sortUserCollectionsByScore(this.username, subjectType, this.type)
 
     return true
-  }
-
-  /** 收藏统一请求入口 */
-  fetchUserCollections = async (refresh: boolean = false) => {
-    if (this.isSortByScore) return this.fetchUserCollectionsByScore()
-
-    return this.fetchUserCollectionsNormal(refresh)
   }
 
   /** 当前 Tab 一直请求到最后, 用于页内搜索 */

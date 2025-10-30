@@ -5,7 +5,8 @@
  * @Last Modified time: 2025-08-24 10:08:18
  */
 import { cData, cHas, cheerio, cMap, cPagination, cText, HTMLDecode, htmlMatch } from '@utils'
-import { UserCollections, UserCollectionsTags } from './types'
+
+import type { UserCollections, UserCollectionsTags } from './types'
 
 /** 用户收藏概览 */
 export function cheerioUserCollections(html: string) {

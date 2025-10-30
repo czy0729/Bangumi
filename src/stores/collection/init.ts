@@ -5,7 +5,8 @@
  * @Last Modified time: 2025-08-24 10:07:41
  */
 import { MODEL_COLLECTION_STATUS, MODEL_COLLECTIONS_ORDERBY, MODEL_SUBJECT_TYPE } from '@constants'
-import {
+
+import type {
   CollectionStatusLastFetchMS,
   UserCollections,
   UserCollectionsTags,

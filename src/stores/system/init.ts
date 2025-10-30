@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-10 16:52:42
  */
-import { MUSUME_PROMPT } from '@utils/kv/ds'
 import {
   IOS,
   MODEL_SETTING_CDN_ORIGIN,
@@ -21,7 +20,9 @@ import {
 } from '@constants'
 import { IOS_IMAGE_CACHE_V2 } from '@src/config'
 import { radiusMd } from '@styles'
-import {
+
+import type { MUSUME_PROMPT } from '@utils/kv/ds'
+import type {
   EventKeys,
   Paths,
   SettingCDNOrigin,
@@ -34,7 +35,7 @@ import {
   SettingTransition,
   SettingUserGridNum
 } from '@types'
-import { HomeRenderTabs, HomeTabs, LayoutValue, LikeRec, TrackIds, UserRemark } from './types'
+import type { HomeRenderTabs, HomeTabs, LayoutValue, LikeRec, TrackIds, UserRemark } from './types'
 
 export const NAMESPACE = 'System'
 

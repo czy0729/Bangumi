@@ -17,17 +17,19 @@ import {
   HTML_ACTION_SUBJECT_SET_WATCHED,
   MODEL_COLLECTION_STATUS
 } from '@constants'
-import {
+import subjectStore from '../subject'
+import userStore from '../user'
+import Fetch from './fetch'
+
+import type {
   CollectionStatus,
+  CollectionStatusCn,
   CollectionStatusValue,
   RatingStatus,
   SubjectId,
   SubjectType,
   UserId
 } from '@types'
-import subjectStore from '../subject'
-import userStore from '../user'
-import Fetch from './fetch'
 
 export default class Action extends Fetch {
   /** 用户收藏按网站评分本地排序后入库 */
@@ -92,13 +94,13 @@ export default class Action extends Fetch {
 
   /** 移除一个条目的收藏状态 */
   removeStatus = (subjectId: SubjectId) => {
-    const key = 'collectionStatus'
+    const STATE_KEY = 'collectionStatus'
     this.setState({
-      [key]: {
-        [subjectId]: ''
+      [STATE_KEY]: {
+        [subjectId]: '' as CollectionStatusCn
       }
     })
-    this.save(key)
+    this.save(STATE_KEY)
     return true
   }
 

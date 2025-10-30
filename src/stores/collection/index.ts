@@ -1,5 +1,4 @@
 /*
- * 收藏
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
@@ -7,6 +6,7 @@
  */
 import Action from './action'
 
+/** 收藏 */
 const collectionStore = new Action()
 
 export default collectionStore

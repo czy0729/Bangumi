@@ -7,7 +7,6 @@
 import { getTimestamp, info, queue, sleep } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
 import { fetchCollectionSingleV0, request } from '@utils/fetch.v0'
-import { UserCollectionItem } from '@utils/fetch.v0/types'
 import {
   API_COLLECTION,
   API_MOSAIC_TILE,
@@ -19,7 +18,13 @@ import {
   MODEL_SUBJECT_TYPE,
   WEB
 } from '@constants'
-import {
+import userStore from '../user'
+import { cheerioUserCollections, cheerioUserCollectionsTags } from './common'
+import Computed from './computed'
+import { DEFAULT_COLLECTION_STATUS, DEFAULT_ORDER, DEFAULT_SUBJECT_TYPE, NAMESPACE } from './init'
+
+import type { UserCollectionItem } from '@utils/fetch.v0/types'
+import type {
   CollectionStatusCn,
   ResponseApi,
   SubjectId,
@@ -28,11 +33,7 @@ import {
   SubjectTypeValue,
   UserId
 } from '@types'
-import userStore from '../user'
-import { cheerioUserCollections, cheerioUserCollectionsTags } from './common'
-import Computed from './computed'
-import { DEFAULT_COLLECTION_STATUS, DEFAULT_ORDER, DEFAULT_SUBJECT_TYPE, NAMESPACE } from './init'
-import {
+import type {
   Collection,
   CollectionStatusLastFetchMS,
   FetchUserCollectionsArgs,
@@ -95,10 +96,12 @@ export default class Fetch extends Computed {
     maxPage?: number
   ) => {
     const STATE_KEY = 'userCollections'
-    const ITEM_KEY = `${userId}|${subjectType}|${type}`
+    const ITEM_ARGS = [userId, subjectType, type] as const
+    const ITEM_KEY = ITEM_ARGS.join('|')
 
     try {
-      const { list, pagination } = this[STATE_KEY](userId, subjectType, type)
+      const data = this[STATE_KEY](...ITEM_ARGS)
+      const { list, pagination } = data
 
       let page: number
       let refresh: boolean
@@ -115,7 +118,7 @@ export default class Fetch extends Computed {
         !refresh &&
         (pagination.page >= pagination.pageTotal || (maxPage && pagination.page >= maxPage))
       ) {
-        return this[STATE_KEY](userId, subjectType, type)
+        return data
       }
 
       const html = await fetchHTML({
@@ -141,22 +144,24 @@ export default class Fetch extends Computed {
         this.saveUserCollections()
       }
 
-      const tags = cheerioUserCollectionsTags(html)
-      if (tags?.length) {
-        const STATE_KEY_TAGS = 'userCollectionsTags'
-        this.setState({
-          [STATE_KEY_TAGS]: {
-            [ITEM_KEY]: tags
-          }
-        })
+      if (refreshOrPage === true || refreshOrPage === 1) {
+        const tags = cheerioUserCollectionsTags(html)
+        if (tags?.length) {
+          const STATE_KEY_TAGS = 'userCollectionsTags'
+          this.setState({
+            [STATE_KEY_TAGS]: {
+              [ITEM_KEY]: tags
+            }
+          })
 
-        if (userId === userStore.myUserId) this.saveUserCollectionsTags()
+          if (userId === userStore.myUserId) this.saveUserCollectionsTags()
+        }
       }
     } catch (error) {
       this.error('fetchUserCollections', error)
     }
 
-    return this[STATE_KEY](userId, subjectType, type)
+    return this[STATE_KEY](...ITEM_ARGS)
   }
 
   /** 排队获取自己的所有动画收藏列表记录 (每种最多取 10 页 240 条数据) */
