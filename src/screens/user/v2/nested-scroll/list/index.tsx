@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-23 21:39:38
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Loading } from '@components'
 import { systemStore, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
@@ -21,8 +21,13 @@ import type { Props } from './types'
 function ListWrap({ title }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
+  const handleHeaderRefresh = useCallback(() => $.fetchIsNeedToEnd(true), [$])
+
   return useObserver(() => {
     const styles = memoStyles()
+    const elLoading = <Loading style={styles.loading} />
+    if (!$.state._loaded) return elLoading
+
     const { userPagination } = systemStore.setting
     const { subjectType, list } = $.state
     const page = TABS.findIndex(item => item.title === title)
@@ -30,7 +35,7 @@ function ListWrap({ title }: Props) {
       subjectType,
       MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(title)
     )
-    if (!$.loadedPage(page) || !data?._loaded) return <Loading style={styles.loading} />
+    if (!$.loadedPage(page) || !data?._loaded) return elLoading
 
     let key = `${subjectType}|${list}`
     if (userPagination) key += data.pagination.page
@@ -45,7 +50,7 @@ function ListWrap({ title }: Props) {
         numColumns={$.numColumns}
         userPagination={userPagination}
         onScroll={$.onScroll}
-        onHeaderRefresh={() => $.fetchIsNeedToEnd(true)}
+        onHeaderRefresh={handleHeaderRefresh}
         onFooterRefresh={$.fetchUserCollections}
       />
     )

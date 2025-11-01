@@ -7,7 +7,7 @@
 import { collectionStore, usersStore, userStore } from '@stores'
 import { info } from '@utils'
 import { logger } from '@utils/dev'
-import { MODEL_COLLECTION_STATUS } from '@constants'
+
 import { TABS } from '../ds'
 import Computed from './computed'
 import { NAMESPACE } from './ds'
@@ -28,16 +28,6 @@ export default class Fetch extends Computed {
     return usersStore.fetchUsers({
       userId: this.userId
     })
-  }
-
-  /** 用户收藏 */
-  fetchCollections = () => {
-    const { subjectType, page } = this.state
-    const { _loaded } = this.userCollections(
-      subjectType,
-      MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(TABS[page].title)
-    )
-    if (!_loaded) this.fetchUserCollections(true)
   }
 
   /** 收藏统一请求入口 */

@@ -8,3 +8,5 @@ import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'HotList')
+
+export const DS = ['收藏数', '最近'] as const

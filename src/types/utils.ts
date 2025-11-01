@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-24 08:39:53
+ * @Last Modified time: 2025-10-31 20:53:05
  */
 import type React from 'react'
 import type {
@@ -156,10 +156,16 @@ export type MaybeReadonly<T> = T | ReadonlyResult<T>
 export type RenderItem<T, K = {}> = Override<
   {
     item: T
-    index: number
+    index?: number
   },
   K
 >
+
+/** 构造 SectionList 的 sections */
+export type Sections<T> = {
+  title: string
+  data: T[]
+}[]
 
 /** 列表节头 renderSectionHeader */
 export type RenderSectionHeader<T> = {

@@ -8,14 +8,16 @@ import React from 'react'
 import { View } from 'react-native'
 import { Pagination, ScrollView } from '@components'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { useObserver } from '@utils/hooks'
 import List from './list'
 import { COMPONENT } from './ds'
 
+import type { Ctx } from '../../types'
+
 function ReplyList() {
-  const { $ } = useStore<Ctx>()
-  return (
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
     <>
       <ScrollView>
         {$.state.show && (
@@ -40,7 +42,7 @@ function ReplyList() {
         onSearch={$.doSearch}
       />
     </>
-  )
+  ))
 }
 
-export default ob(ReplyList, COMPONENT)
+export default ReplyList

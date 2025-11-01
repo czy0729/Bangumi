@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-05-17 04:49:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-24 15:32:29
+ * @Last Modified time: 2025-11-01 18:33:48
  */
 import type { FlatList, FlatListProps, SectionListScrollParams } from 'react-native'
-import type { ListEmpty, Override, ReactNode, Ref } from '@types'
+import type { ListEmpty, Override, ReactNode, Ref, Sections } from '@types'
 import type { REFRESH_STATE } from './ds'
 
 /** 提取出类的实例类型 */
@@ -37,7 +37,7 @@ export type Props<ItemT = any> = Override<
     >
 
     /** 与 data 结构一致, https://www.react-native.cn/docs/sectionlist#section */
-    sections?: any
+    sections?: Sections<ItemT>
 
     /** 自动把 data.list 中对象的这个 key 值转换为对应的 SectionList 的 sections */
     sectionKey?: string

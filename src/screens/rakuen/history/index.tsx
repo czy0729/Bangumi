@@ -8,10 +8,11 @@ import React from 'react'
 import { Component, Page } from '@components'
 import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import Tab from './component/tab'
 import Header from './header'
 import { useRakuenHistoryPage } from './hooks'
+
+import type { NavigationProps } from '@types'
 
 /** 帖子聚合 */
 const RakuenHistory = (props: NavigationProps) => {

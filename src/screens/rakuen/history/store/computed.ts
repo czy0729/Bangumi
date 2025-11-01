@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2024-06-04 15:31:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-01 13:31:13
+ * @Last Modified time: 2025-11-01 18:24:08
  */
 import { computed } from 'mobx'
 import { rakuenStore, systemStore, userStore } from '@stores'
-import { CommentsItemWithSub } from '@stores/rakuen/types'
 import { desc } from '@utils'
-import { Id, TopicId } from '@types'
 import State from './state'
 import { COMMENT_LIMIT, COMMENT_LIMIT_ADVANCE } from './ds'
+
+import type { CommentsItemWithSub, Topic } from '@stores/rakuen/types'
+import type { Id, Sections, TopicId } from '@types'
+import type { TopicItem } from '../types'
 
 export default class Computed extends State {
   /** 需要把 rakuenStore.state.topic 和 rakuenStore.state.cloudTopic key 值合并计算 */
@@ -23,15 +25,16 @@ export default class Computed extends State {
         if (!/^group\/(\d+)$/.test(topicId)) return false
         return true
       })
-      .sort((a, b) => desc(parseInt(a.split('/')?.[1]), parseInt(b.split('/')?.[1])))
+      .sort((a, b) => desc(parseInt(a.split('/')?.[1]), parseInt(b.split('/')?.[1]))) as TopicId[]
   }
 
   /** 本地缓存帖子 */
   @computed get sections() {
-    const sections = []
-    const map = {}
+    const sections: Sections<TopicItem> = []
+    const map: Record<string, number> = {}
+
     this.keys.forEach(item => {
-      const target = rakuenStore.state.topic[item] || rakuenStore.state.cloudTopic[item]
+      const target: Topic = rakuenStore.state.topic[item] || rakuenStore.state.cloudTopic[item]
       if (!target?.title || target?.title === 'undefined') return
 
       const title = (target.time || '').split(' ')[0]
@@ -47,6 +50,7 @@ export default class Computed extends State {
         ...target
       })
     })
+
     return sections
   }
 
@@ -56,7 +60,7 @@ export default class Computed extends State {
   }
 
   /** 收藏键值数组 */
-  @computed get list(): string[] {
+  @computed get list(): TopicId[] {
     const { type } = this.state
     const { favorV2 } = rakuenStore.state
     const list = []

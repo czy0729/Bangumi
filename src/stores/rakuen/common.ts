@@ -25,10 +25,12 @@ import Crypto from '@utils/crypto'
 import { fetchHTML } from '@utils/fetch'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HTML_RAKUEN } from '@constants'
-import { RakuenScope, RakuenType, RakuenTypeGroup, RakuenTypeMono } from '@types'
-import { INIT_BLOG, INIT_COMMENTS_ITEM, INIT_TOPIC, STATE } from './init'
+import { INIT_BLOG, INIT_COMMENTS_ITEM, INIT_TOPIC } from './init'
 import { getBlogItemTime, getBlogTime } from './utils'
-import {
+
+import type { RakuenScope, RakuenType, RakuenTypeGroup, RakuenTypeMono } from '@types'
+import type { STATE } from './init'
+import type {
   BlockedUsersItem,
   BoardItem,
   CommentsItem,

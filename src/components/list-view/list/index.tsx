@@ -9,7 +9,8 @@ import { FlatList, SectionList } from 'react-native'
 import { observer } from 'mobx-react'
 import EnteringExiting from '../entering-exiting'
 import { AnimatedFlatList, AnimatedSectionList } from './ds'
-import { ListProps } from './types'
+
+import type { ListProps } from './types'
 
 function List<ItemT>({
   connectRef,

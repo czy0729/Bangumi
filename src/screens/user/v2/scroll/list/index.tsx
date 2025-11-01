@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-24 01:06:35
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { _, systemStore, useStore } from '@stores'
 import { getKeyString } from '@utils'
 import { useObserver } from '@utils/hooks'
@@ -21,13 +21,18 @@ import type { Props } from './types'
 function ListWrap({ page, title, scrollY, onScroll, onRefreshOffset }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
+  const handleHeaderRefresh = useCallback(() => $.fetchIsNeedToEnd(true), [$])
+
   return useObserver(() => {
+    const elLoading = <Loading />
+    if (!$.state._loaded) return elLoading
+
     const { subjectType, list } = $.state
     const userCollections = $.userCollections(
       subjectType,
       MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(title)
     )
-    if (!userCollections._loaded) return <Loading />
+    if (!userCollections._loaded) return elLoading
 
     const { userPagination, userGridNum } = systemStore.setting
     const num = Number(userGridNum) + (_.isLandscape ? 1 : 0)
@@ -45,7 +50,7 @@ function ListWrap({ page, title, scrollY, onScroll, onRefreshOffset }: Props) {
         userCollections={userCollections}
         onScroll={onScroll}
         onRefreshOffset={onRefreshOffset}
-        onHeaderRefresh={() => $.fetchIsNeedToEnd(true)}
+        onHeaderRefresh={handleHeaderRefresh}
         onFooterRefresh={$.fetchUserCollections}
       />
     )

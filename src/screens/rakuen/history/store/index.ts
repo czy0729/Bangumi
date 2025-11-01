@@ -6,7 +6,9 @@
  */
 import { rakuenStore } from '@stores'
 import Action from './action'
-import { NAMESPACE, STATE } from './ds'
+import { NAMESPACE } from './ds'
+
+import type { STATE } from './ds'
 
 /** 本地帖子页面状态机 */
 export default class ScreenRakuenHistory extends Action {

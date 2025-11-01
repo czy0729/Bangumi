@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-14 04:00:39
+ * @Last Modified time: 2025-10-31 23:45:20
  */
 import {
   LIST_EMPTY,
@@ -12,13 +12,15 @@ import {
   MODEL_RAKUEN_SCROLL_DIRECTION,
   MODEL_RAKUEN_TYPE
 } from '@constants'
-import { Avatar, Loaded, RakuenScope, RakuenType, SubjectId, UserId } from '@types'
-import {
+
+import type { Loaded, RakuenScope, RakuenType, SubjectId, UserId } from '@types'
+import type {
   BlockedUsersItem,
   Board,
   BookmarksItem,
   PrivacyValue,
   Reviews,
+  Topic,
   UserTopicsFromCDN
 } from './types'
 
@@ -38,7 +40,7 @@ export const INIT_READED_ITEM = {
 
 /** 帖子内容 */
 export const INIT_TOPIC = {
-  avatar: '' as Avatar<'s'>,
+  avatar: '',
   floor: '',
   formhash: '',
   likeType: '',
@@ -55,7 +57,7 @@ export const INIT_TOPIC = {
   tip: '',
   close: '',
   delete: false
-}
+} as Topic
 
 export const INIT_COMMENTS_ITEM = {
   avatar: '',

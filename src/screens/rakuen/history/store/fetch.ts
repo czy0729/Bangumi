@@ -7,10 +7,13 @@
 import { rakuenStore } from '@stores'
 import { getInt } from '@stores/rakuen/utils'
 import { getTimestamp, queue } from '@utils'
+import { logger } from '@utils/dev'
 import { collectRank } from '@utils/kv'
 import { H12 } from '@constants'
-import { TopicId } from '@types'
 import Computed from './computed'
+import { NAMESPACE } from './ds'
+
+import type { TopicId } from '@types'
 
 const loaded: Record<TopicId, true> = {}
 
@@ -52,7 +55,7 @@ export default class Fetch extends Computed {
 
       loaded[topicId] = true
       fetchs.push(() => {
-        console.info('fetchTopicQueue', topicId)
+        logger.info(NAMESPACE, 'fetchTopicQueue', topicId)
         return rakuenStore.fetchTopic({
           topicId
         })

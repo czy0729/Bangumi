@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-06-04 15:34:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-01 13:25:55
+ * @Last Modified time: 2025-10-31 20:49:56
  */
 import { info } from '@utils'
 import { gets } from '@utils/kv'
-import { CollectRankSort, Types } from '../types'
 import Fetch from './fetch'
+
+import type { CollectRankSort, Types } from '../types'
+import type { TopicId } from '@types'
 
 export default class Action extends Fetch {
   /** 切换 Tab */
@@ -27,7 +29,7 @@ export default class Action extends Fetch {
   }
 
   /** 加载一页云端帖子数据 */
-  onPage = async (data: string[]) => {
+  onPage = async (data: TopicId[]) => {
     if (!data.length) return true
 
     const keys = []

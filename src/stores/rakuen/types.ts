@@ -63,7 +63,7 @@ export type Topic = {
   id?: Id
 
   /** 作者头像 */
-  avatar: Avatar<'s'>
+  avatar: string
 
   /** 楼层 */
   floor: string

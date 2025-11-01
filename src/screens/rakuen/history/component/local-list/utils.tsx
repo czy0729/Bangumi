@@ -8,14 +8,17 @@ import React from 'react'
 import { SectionHeader } from '@_'
 import Item from './item'
 
-export function keyExtractor(item: { topicId: any }) {
+import type { RenderSection, RenderSectionHeader } from '@types'
+import type { TopicItem } from '../../types'
+
+export function keyExtractor(item: TopicItem) {
   return String(item.topicId)
 }
 
-export function renderSectionHeader({ section: { title } }) {
+export function renderSectionHeader({ section: { title } }: RenderSectionHeader<TopicItem>) {
   return <SectionHeader size={14}>{title}</SectionHeader>
 }
 
-export function renderItem({ item }) {
+export function renderItem({ item }: RenderSection<string, TopicItem>) {
   return <Item {...item} />
 }

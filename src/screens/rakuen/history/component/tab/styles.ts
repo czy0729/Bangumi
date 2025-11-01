@@ -10,6 +10,7 @@ import { TABS } from '../../ds'
 export const memoStyles = _.memoStyles(() => {
   const W_TAB = _.window.width / TABS.length
   const W_INDICATOR = 16
+
   return {
     tabBar: {
       backgroundColor: _.ios(

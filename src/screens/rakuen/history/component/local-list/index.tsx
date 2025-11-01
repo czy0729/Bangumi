@@ -7,23 +7,26 @@
 import React from 'react'
 import { ListView } from '@components'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { useObserver } from '@utils/hooks'
 import { keyExtractor, renderItem, renderSectionHeader } from './utils'
 import { COMPONENT } from './ds'
 
+import type { Ctx } from '../../types'
+
 function LocalList() {
-  const { $ } = useStore<Ctx>()
-  return (
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
     <ListView
       key={$.sections.length}
       keyExtractor={keyExtractor}
       style={_.mt.sm}
       sections={$.sections}
       renderSectionHeader={renderSectionHeader}
+      // @ts-expect-error
       renderItem={renderItem}
     />
-  )
+  ))
 }
 
-export default ob(LocalList, COMPONENT)
+export default LocalList

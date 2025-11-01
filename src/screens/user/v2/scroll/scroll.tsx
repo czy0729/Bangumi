@@ -8,7 +8,6 @@ import React, { useCallback, useRef, useState } from 'react'
 import { Animated } from 'react-native'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
-import { useMount } from '@utils/hooks'
 import { FROZEN_FN, FROZEN_OBJECT } from '@constants'
 import { H_HEADER } from '../ds'
 import ParallaxImage from './parallax-image'
@@ -22,14 +21,9 @@ const Scroll = memo(
     fixedHeight = _.parallaxImageHeight - H_HEADER,
     page = 0,
     scrollToOffset = FROZEN_OBJECT,
-    fetchCollections = FROZEN_FN,
     onChange = FROZEN_FN,
     onScroll = FROZEN_FN
   }) => {
-    useMount(() => {
-      fetchCollections()
-    })
-
     const scrollY = useRef(new Animated.Value(0))
     const y = useRef(0)
     const [fixed, setFixed] = useState(false)

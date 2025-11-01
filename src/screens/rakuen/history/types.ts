@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-09-29 17:32:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-01 13:22:31
+ * @Last Modified time: 2025-11-01 18:22:39
  */
-import { TopicId, WithNavigation } from '@types'
-import Store from './store'
-import { DS } from './ds'
+import type { Topic } from '@stores/rakuen/types'
+import type { Override, TopicId, WithNavigation } from '@types'
+import type Store from './store'
+import type { DS } from './ds'
 
 export type Ctx = WithNavigation<{
   $: InstanceType<typeof Store>
@@ -20,3 +21,10 @@ export type CollectRankItem = {
 }
 
 export type CollectRankSort = '收藏数' | '最近'
+
+export type TopicItem = Override<
+  Topic,
+  {
+    topicId: TopicId
+  }
+>

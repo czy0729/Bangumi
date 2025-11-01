@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-03-15 22:50:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 16:27:51
+ * @Last Modified time: 2025-11-01 18:35:04
  */
 import React from 'react'
 import { HeaderV2, HeaderV2Popover } from '@components'
-import { ob } from '@utils/decorators'
-import { useNavigation } from '@utils/hooks'
+import { useNavigation, useObserver } from '@utils/hooks'
 import { COMPONENT, DATA, HM } from './ds'
 
 function Header() {
-  const navigation = useNavigation()
-  return (
+  const navigation = useNavigation(COMPONENT)
+
+  return useObserver(() => (
     <HeaderV2
       title='帖子聚合'
       alias='本地帖子'
@@ -38,7 +38,7 @@ function Header() {
         />
       )}
     />
-  )
+  ))
 }
 
-export default ob(Header, COMPONENT)
+export default Header

@@ -23,6 +23,6 @@ export const TABS = [
     key: 'local',
     title: '缓存'
   }
-]
+] as const
 
 export const DS = ['小组', '条目', '章节', '人物', '日志'] as const

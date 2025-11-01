@@ -24,7 +24,6 @@ function ScrollWrap() {
         fixedHeight={$.fixedHeight}
         page={page}
         scrollToOffset={$.scrollToOffset}
-        fetchCollections={$.fetchCollections}
         onChange={$.onChange}
         onScroll={$.onScroll}
       />

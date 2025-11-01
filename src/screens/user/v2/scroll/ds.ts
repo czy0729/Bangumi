@@ -21,7 +21,6 @@ export const DEFAULT_PROPS = {
   fixedHeight: (_.parallaxImageHeight - H_HEADER) as $['fixedHeight'],
   page: 0 as $['state']['page'],
   scrollToOffset: {} as $['scrollToOffset'],
-  fetchCollections: FROZEN_FN as $['fetchCollections'],
   onChange: FROZEN_FN as $['onChange'],
   onScroll: FROZEN_FN
 }

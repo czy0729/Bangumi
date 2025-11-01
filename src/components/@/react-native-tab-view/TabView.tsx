@@ -5,19 +5,19 @@
  * @Last Modified time: 2025-08-28 09:18:06
  */
 import * as React from 'react'
-import { Animated, LayoutChangeEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Animated, StyleSheet, View } from 'react-native'
 import { Pager } from 'react-native-tab-view/src/Pager'
 import { SceneView } from 'react-native-tab-view/src/SceneView'
 import { TabBar } from 'react-native-tab-view/src/TabBar'
 import { IOS } from '@constants'
 
-import type {
-  Layout,
-  NavigationState,
-  PagerProps,
-  Route,
-  SceneRendererProps
-} from 'react-native-tab-view/src/types'
+import type { LayoutChangeEvent, StyleProp, ViewStyle } from 'react-native'
+import type { Layout, PagerProps, Route, SceneRendererProps } from 'react-native-tab-view/src/types'
+
+export type NavigationState<T extends Route> = {
+  index: number
+  routes: readonly T[]
+}
 
 export type Props<T extends Route> = PagerProps & {
   navigationState: NavigationState<T>
