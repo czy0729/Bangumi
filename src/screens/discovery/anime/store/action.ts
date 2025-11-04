@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-07-25 06:16:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-16 20:26:13
+ * @Last Modified time: 2025-11-04 19:22:10
  */
-import { otaStore } from '@stores'
+import { collectionStore, otaStore } from '@stores'
 import { updateVisibleBottom } from '@utils'
 import { scrollToTop } from '@utils/dom'
 import { t, withT } from '@utils/fetch'
@@ -120,6 +120,12 @@ export default class Action extends Fetch {
         page
       })
     }
+
+    setTimeout(() => {
+      collectionStore.fetchCollectionStatusQueue(
+        pageData.map(item => otaStore.animeSubjectId(item)).filter(Boolean)
+      )
+    }, 0)
 
     return otaStore.onAnimePage(pageData)
   }

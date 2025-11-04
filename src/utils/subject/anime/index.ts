@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-26 04:22:56
+ * @Last Modified time: 2025-11-03 16:44:11
  */
-import { SubjectId } from '@types'
 import { getTimestamp } from '../../index'
 import { decode, get } from '../../protobuf'
 import { ANIME_OFFICIAL_MAP, ANIME_TAGS_MAP, REG_SEASONS, SORT } from './ds'
-import { Finger, Item, Query, SearchResult, UnzipItem } from './types'
+
+import type { SubjectId } from '@types'
+import type { Finger, Item, Query, SearchResult, UnzipItem } from './types'
 
 export {
   ANIME_AREA,

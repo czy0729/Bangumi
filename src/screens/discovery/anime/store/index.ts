@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-26 13:32:41
+ * @Last Modified time: 2025-11-04 19:12:31
  */
-import { collectionStore } from '@stores'
 import { init } from '@utils/subject/anime'
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE, RESET_STATE, STATE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, RESET_STATE } from './ds'
+
+import type { STATE } from './ds'
 
 let _loaded = false
 
@@ -29,8 +30,6 @@ export default class ScreenAnime extends Action {
 
     const { _tags = [] } = this.params
     if (_tags.length) this.initQuery(typeof _tags === 'string' ? [_tags] : _tags)
-
-    collectionStore.fetchUserCollectionsQueue(false)
 
     this.search()
     setTimeout(() => {

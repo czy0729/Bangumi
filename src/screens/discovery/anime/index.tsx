@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2020-07-15 11:51:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-17 16:16:32
+ * @Last Modified time: 2025-11-04 15:45:32
  */
 import React from 'react'
 import { Component, Page } from '@components'
 import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import List from './component/list'
 import Header from './header'
 import { useAnimePage } from './hooks'
+
+import type { NavigationProps } from '@types'
 
 /** 找番剧 */
 const Anime = (props: NavigationProps) => {

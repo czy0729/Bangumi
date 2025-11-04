@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 10:48:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-24 10:07:41
+ * @Last Modified time: 2025-11-04 18:54:50
  */
 import { MODEL_COLLECTION_STATUS, MODEL_COLLECTIONS_ORDERBY, MODEL_SUBJECT_TYPE } from '@constants'
 
@@ -43,9 +43,7 @@ export const STATE = {
   userCollectionsTags: {} as Record<string, UserCollectionsTags>,
 
   /** @deprecated 所有收藏条目状态 */
-  userCollectionsMap: {
-    0: '看过' as const
-  },
+  userCollectionsMap: {} as UserCollectionStatus,
 
   /** 条目的收藏状态 */
   collectionStatus: {} as UserCollectionStatus,

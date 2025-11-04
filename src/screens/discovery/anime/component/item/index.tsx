@@ -2,21 +2,25 @@
  * @Author: czy0729
  * @Date: 2024-03-16 19:18:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-16 10:25:04
+ * @Last Modified time: 2025-11-04 16:24:21
  */
 import React from 'react'
-import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { useObserver } from 'mobx-react'
+import { useStore } from '@stores'
 import ItemGrid from '../item-grid'
 import ItemList from '../item-list'
 import { COMPONENT } from './ds'
 
-function Item({ item: pickIndex, index }) {
-  const { $ } = useStore<Ctx>()
-  if ($.isList) return <ItemList pickIndex={pickIndex} index={index} />
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
-  return <ItemGrid pickIndex={pickIndex} index={index} num={_.portrait(3, 5)} />
+function Item({ item, index }: Props) {
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => {
+    const Component = $.isList ? ItemList : ItemGrid
+    return <Component pickIndex={item} index={index} />
+  })
 }
 
-export default ob(Item, COMPONENT)
+export default Item

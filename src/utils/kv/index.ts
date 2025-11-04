@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-06-23 01:47:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-14 18:41:53
+ * @Last Modified time: 2025-11-03 16:36:02
  */
-import axios from '@utils/thirdParty/axios'
+import { axios } from '@utils/thirdParty'
 import { WEB } from '@constants/device'
-import { TranslateResult } from '@types'
 import Crypto from '../crypto'
 import { isDevtoolsOpen } from '../dom'
 import hash from '../thirdParty/hash'
 import { getTimestamp } from '../utils'
-import { Result, ResultCollectList, ResultPicList, ResultTemp } from './type'
 import { err, log } from './utils'
 import { HEADERS, HOST, HOST_COMPLETIONS, HOST_PIC_LIST, UPDATE_CACHE_MAP } from './ds'
+
+import type { TranslateResult } from '@types'
+import type { Result, ResultCollectList, ResultPicList, ResultTemp } from './type'
 
 /** 获取 */
 export async function get<T = any>(key: string): Promise<T | null> {
@@ -23,7 +24,6 @@ export async function get<T = any>(key: string): Promise<T | null> {
   if (typeof key !== 'string' || /["//]/.test(key)) return Promise.reject('denied')
 
   try {
-    // @ts-expect-error
     const { data } = await axios({
       method: 'get',
       url: `${HOST}/v1/get/${key}`
@@ -66,7 +66,6 @@ export async function gets<
   if (picker) query.data.picker = picker
 
   try {
-    // @ts-expect-error
     const { data } = await axios({
       method: 'post',
       url: `${HOST}/v1/get`,
@@ -120,7 +119,6 @@ export async function update(
       : { ts: getTimestamp(), ...value }
 
   try {
-    // @ts-expect-error
     const { data } = await axios({
       method: 'post',
       url: `${HOST}/v1/update`,
@@ -141,7 +139,6 @@ export async function onlines(): Promise<Result | null> {
   if (isDevtoolsOpen()) return Promise.reject('denied')
 
   try {
-    // @ts-expect-error
     const { data } = await axios({
       method: 'get',
       url: `${HOST}/v1/online/get`
@@ -161,7 +158,6 @@ export async function report(userID: string | number): Promise<Result | null> {
   if (isDevtoolsOpen()) return Promise.reject('denied')
 
   try {
-    // @ts-expect-error
     const { data } = await axios({
       method: 'post',
       url: `${HOST}/v1/online/report`,
@@ -182,7 +178,6 @@ export async function is(userID: string | number, topicID: string): Promise<Resu
   if (isDevtoolsOpen()) return Promise.reject('denied')
 
   try {
-    // @ts-expect-error
     const { data } = await axios({
       method: 'get',
       url: `${HOST}/v1/collect/user/is?topicID=${topicID}&userID=${userID}`
@@ -205,7 +200,6 @@ export async function collect(
   if (isDevtoolsOpen()) return Promise.reject('denied')
 
   try {
-    // @ts-expect-error
     const { data } = await axios({
       method: 'post',
       url: `${HOST}/v1/collect/user/update`,
@@ -230,7 +224,6 @@ export async function collectList(userID: string | number): Promise<ResultCollec
   if (isDevtoolsOpen()) return Promise.reject('denied')
 
   try {
-    // @ts-expect-error
     const { data } = await axios({
       method: 'get',
       url: `${HOST}/v1/collect/user/list?userID=${userID}`
@@ -253,7 +246,6 @@ export async function temp(
   if (isDevtoolsOpen()) return Promise.reject('denied')
 
   try {
-    // @ts-expect-error
     const { data } = await axios({
       method: 'post',
       url: `${HOST}/v1/temp/upload`,
@@ -285,7 +277,6 @@ export async function search(q: string, withMessage: boolean = false): Promise<R
   if (isDevtoolsOpen()) return Promise.reject('denied')
 
   try {
-    // @ts-expect-error
     const { data } = await axios({
       method: 'post',
       url: `${HOST}/v1/topic/search`,
@@ -312,7 +303,6 @@ export async function extract(q: string) {
   if (isDevtoolsOpen()) return Promise.reject('denied')
 
   try {
-    // @ts-expect-error
     const { data } = await axios({
       method: 'post',
       url: `${HOST}/v1/jieba/extract`,
@@ -342,7 +332,6 @@ export async function collectRank(count: number = 300) {
   if (isDevtoolsOpen()) return Promise.reject('denied')
 
   try {
-    // @ts-expect-error
     const { data } = await axios({
       method: 'post',
       url: `${HOST}/v1/collect/rank`,
@@ -368,7 +357,6 @@ export async function list(count: number = 100) {
   if (isDevtoolsOpen()) return Promise.reject('denied')
 
   try {
-    // @ts-expect-error
     const { data } = await axios({
       method: 'post',
       url: `${HOST}/v1/collect/rank`,
@@ -425,7 +413,6 @@ export async function completions(prompt: string, roleSystem: string, roleUser: 
   if (isDevtoolsOpen()) return Promise.reject('denied')
 
   try {
-    // @ts-expect-error
     const response = await axios({
       method: 'post',
       url: HOST_COMPLETIONS,
@@ -449,8 +436,6 @@ export async function completions(prompt: string, roleSystem: string, roleUser: 
     })
 
     const text = response?.data?.choices?.[0]?.message?.content || ''
-    console.info('completions', text)
-
     return text
   } catch (error) {
     return ''
@@ -461,7 +446,6 @@ export async function picList(prefix: string, maxKeys: number = 100): Promise<Re
   if (isDevtoolsOpen()) return Promise.reject('denied')
 
   try {
-    // @ts-expect-error
     const { data } = await axios({
       method: 'get',
       url: `${HOST_PIC_LIST}?prefix=${decodeURIComponent(prefix)}&maxKeys=${maxKeys}`

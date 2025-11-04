@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-07-25 06:09:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-29 20:28:52
+ * @Last Modified time: 2025-11-04 15:47:09
  */
 import { observable } from 'mobx'
 import Store from '@utils/store'
-import { Params } from '../types'
 import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
+
+import type { Params } from '../types'
 
 export default class State extends Store<typeof STATE> {
   params: Params

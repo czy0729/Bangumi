@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-03-20 04:47:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-24 08:53:34
+ * @Last Modified time: 2025-11-04 16:47:46
  */
-import type { RatingStatus, SubjectActions, SubjectId } from '@types'
+import type { CollectionStatus, Id, RatingStatus, SubjectActions, SubjectId, TopicId } from '@types'
 
 export const STATE = {
   /** 存放带监听组件的页面上面, 最近一次点击的 x, y 坐标 */
@@ -28,11 +28,11 @@ export const STATE = {
     portalKey: 0,
     x: 0,
     y: 0,
-    topicId: '',
-    floorId: '',
+    topicId: '' as TopicId,
+    floorId: '' as Id,
     formhash: '',
     value: '',
-    likeType: '',
+    likeType: '' as string | number,
     offsets: {
       recommandPosition: '',
       x: 0,
@@ -53,7 +53,7 @@ export const STATE = {
     subjectId: 0 as SubjectId,
     title: '',
     desc: '',
-    status: '' as '' | RatingStatus,
+    status: '' as RatingStatus | CollectionStatus | '',
     action: '看' as SubjectActions,
     screen: '',
     disabled: false
@@ -62,9 +62,9 @@ export const STATE = {
   /** 全局翻转动画管理 */
   flip: {
     animate: false,
-    subjectId: 0,
-    topicId: 0,
-    floorId: 0,
+    subjectId: 0 as SubjectId | 0,
+    topicId: 0 as TopicId | 0,
+    floorId: 0 as Id | 0,
     key: 0
   }
 }

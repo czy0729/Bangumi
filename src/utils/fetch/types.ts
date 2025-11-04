@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-06-14 01:04:39
  */
-import { AnyObject } from '@types'
+import type { AnyObject } from '@types'
 
 export type Config = {
   method?: 'GET' | 'POST'

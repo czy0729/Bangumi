@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 13:14:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-14 18:31:06
+ * @Last Modified time: 2025-11-03 15:28:59
  */
 import { UA } from '@constants/constants'
 import { WEB } from '@constants/device'
@@ -13,19 +13,19 @@ import Crypto from '../crypto'
 export const HOST =
   WEB && DEV
     ? 'http://192.168.31.150:3001'
-    : Crypto.get(
+    : Crypto.get<string>(
         'U2FsdGVkX19V+0mbLEFkm2kTJQ291ld5j7Y/OatEDhgnUWMHmpQWjoWeFK8vsFrB6x1XuFdUcxxv6p+sjxwOiQ=='
       )
 
-export const HOST_LX = Crypto.get(
+export const HOST_LX = Crypto.get<string>(
   'U2FsdGVkX19pLR7XLr87YUdwqLAbDOLoIh0+V0P3rl3iUsFt410ARe5W67LGUkY+KvkcBKmPw2Yoi/wrpZoytw=='
 )
 
-export const HOST_COMPLETIONS = Crypto.get(
+export const HOST_COMPLETIONS = Crypto.get<string>(
   'U2FsdGVkX1+RtqaPzQG9mudeStNXPCRt2mWcKj0d8A/EY/nEJw6g6NFBeVI1TF1YRA3jIFHhaMEhNAU8JG4780beVhdx0i0BR8qsCjJvyNg='
 )
 
-export const HOST_PIC_LIST = Crypto.get(
+export const HOST_PIC_LIST = Crypto.get<string>(
   'U2FsdGVkX19nL+8jq0zc5bckkgT4cjT94R+V+aNRq8VavbU/ANY8bhv2GocwhXIM10NZCVELVMHpITkJUdY7XkK9vni6dsxGQ8Lo1qxnSR1/EAMhJAW3Ve+I6fJmdxqN'
 )
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 03:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-24 10:23:01
+ * @Last Modified time: 2025-11-04 19:26:18
  */
 import { getTimestamp, info, queue, sleep } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -12,6 +12,7 @@ import {
   API_MOSAIC_TILE,
   API_USERS_SUBJECT_COLLECTION,
   COLLECTION_STATUS,
+  H,
   H12,
   HTML_USER_COLLECTIONS,
   MODEL_COLLECTION_STATUS,
@@ -26,6 +27,7 @@ import { DEFAULT_COLLECTION_STATUS, DEFAULT_ORDER, DEFAULT_SUBJECT_TYPE, NAMESPA
 import type { UserCollectionItem } from '@utils/fetch.v0/types'
 import type {
   CollectionStatusCn,
+  Fn,
   ResponseApi,
   SubjectId,
   SubjectType,
@@ -164,7 +166,7 @@ export default class Fetch extends Computed {
     return this[STATE_KEY](...ITEM_ARGS)
   }
 
-  /** 排队获取自己的所有动画收藏列表记录 (每种最多取 10 页 240 条数据) */
+  /** @deprecated 排队获取自己的所有动画收藏列表记录 (每种最多取 10 页 240 条数据) */
   fetchUserCollectionsQueue = async (
     refresh?: boolean,
     typeCn: SubjectTypeCn = '动画',
@@ -181,7 +183,7 @@ export default class Fetch extends Computed {
       const now = getTimestamp()
       for (const item of COLLECTION_STATUS) {
         const { _loaded } = this.userCollections(userId, subjectType, item.value)
-        if (refresh || !_loaded || now - Number(_loaded) > 60 * 60 * 4) {
+        if (refresh || !_loaded || now - Number(_loaded) > H) {
           if (showLoading) info(`[${item.value}] 用户收藏`)
           await this.fetchUserCollections(
             {
@@ -195,9 +197,7 @@ export default class Fetch extends Computed {
         }
       }
 
-      const userCollectionsMap = {
-        ...this.state.userCollectionsMap
-      }
+      const data: UserCollectionStatus = {}
       for (const item of COLLECTION_STATUS) {
         const data = this.userCollections(userId, subjectType, item.value)
         const { pagination } = data
@@ -207,30 +207,35 @@ export default class Fetch extends Computed {
         if (page < pageTotal && page < 10) {
           for (let i = page - 1; i < pageTotal; i += 1) {
             if (showLoading) info(`[${item.value}]: 页码${i + 1}`)
-            await this.fetchUserCollections({
-              userId,
-              subjectType,
-              type: item.value
-            })
+            await this.fetchUserCollections(
+              {
+                userId,
+                subjectType,
+                type: item.value
+              },
+              false
+            )
             await sleep()
           }
         }
 
         this.userCollections(userId, subjectType, item.value).list.forEach(i => {
           if (typeCn === '游戏') {
-            userCollectionsMap[i.id] = item.label.replace('看', '玩')
+            data[i.id] = item.label.replace('看', '玩') as CollectionStatusCn
           } else if (typeCn === '音乐') {
-            userCollectionsMap[i.id] = item.label.replace('看', '听')
+            data[i.id] = item.label.replace('看', '听') as CollectionStatusCn
           } else {
-            userCollectionsMap[i.id] = item.label
+            data[i.id] = item.label
           }
         })
       }
 
       this.setState({
-        userCollectionsMap
+        userCollectionsMap: data,
+        collectionStatus: data
       })
-      this.save('userCollectionsMap', userCollectionsMap)
+      this.save('userCollectionsMap')
+      this.save('collectionStatus')
       return true
     } catch (error) {
       return false
@@ -304,7 +309,8 @@ export default class Fetch extends Computed {
       const lastFetchMS: CollectionStatusLastFetchMS = {}
       const results: UserCollectionItem[] = []
 
-      const fetchs = []
+      const fetchs: Fn[] = []
+      const logSubjectIds: SubjectId[] = []
       subjectIds.forEach(subjectId => {
         if (
           subjectIds.length === 1 || // [2]
@@ -319,8 +325,11 @@ export default class Fetch extends Computed {
             if (collection) results.push(collection)
             lastFetchMS[subjectId] = getTimestamp()
           })
+          logSubjectIds.push(subjectId)
         }
       })
+
+      if (logSubjectIds.length) this.log('fetchCollectionStatusQueue', logSubjectIds)
       await queue(fetchs, 2)
 
       results.forEach(result => {

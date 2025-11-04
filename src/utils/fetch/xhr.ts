@@ -3,19 +3,20 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:21:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-10 02:30:36
+ * @Last Modified time: 2025-11-03 15:01:46
  */
 import { HOST, HOST_CDN, HOST_NAME, IOS } from '@constants/constants'
 import { WEB } from '@constants/device'
 import { FROZEN_FN } from '@constants/init'
 import { HOST_PROXY } from '@src/config'
-import { Fn } from '@types'
 import { syncUserStore } from '../async'
 import { isDevtoolsOpen } from '../dom'
 import { loading } from '../ui'
 import { urlStringify } from '../utils'
 import { log } from './utils'
-import { XHRArgs, XHRCustomArgs } from './types'
+
+import type { Fn } from '@types'
+import type { XHRArgs, XHRCustomArgs } from './types'
 
 /** 带登录信息的 XMLHttpRequest */
 export function xhr(

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:47:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 00:54:52
+ * @Last Modified time: 2025-11-04 17:38:10
  */
 import { computed } from 'mobx'
 import { pick as advPick } from '@utils/subject/adv'
@@ -11,12 +11,13 @@ import { pick as gamePick } from '@utils/subject/game'
 import { pick as hentaiPick } from '@utils/subject/hentai'
 import { pick as mangaPick } from '@utils/subject/manga'
 import { pick as nsfwPick } from '@utils/subject/nsfw'
-import { UnzipItem as NSFWItem } from '@utils/subject/nsfw/types'
 import { pick as wenkuPick } from '@utils/subject/wenku'
-import { StoreConstructor, SubjectId } from '@types'
-import { STATE } from './init'
 import State from './state'
-import { ADVItem, AnimeItem, GameItem, HentaiItem, MangaItem, WenkuItem } from './types'
+
+import type { UnzipItem as NSFWItem } from '@utils/subject/nsfw/types'
+import type { StoreConstructor, SubjectId } from '@types'
+import type { STATE } from './init'
+import type { ADVItem, AnimeItem, GameItem, HentaiItem, MangaItem, WenkuItem } from './types'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   animeSubjectId(pickIndex: number): SubjectId {
@@ -27,9 +28,11 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   anime(subjectId: SubjectId) {
-    this.init('anime', true)
-    return computed<AnimeItem>(() => {
-      return this.state.anime[`age_${subjectId}`] || {}
+    const STATE_KEY = 'anime'
+    this.init(STATE_KEY, true)
+
+    return computed(() => {
+      return (this.state[STATE_KEY][`age_${subjectId}`] || {}) as AnimeItem
     }).get()
   }
 

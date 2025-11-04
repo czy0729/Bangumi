@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:36:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-17 23:32:13
+ * @Last Modified time: 2025-11-04 17:19:03
  */
 import { API_HOST, API_V0 } from '@constants/api'
 import { APP_ID, HOST, UA } from '@constants/constants'
@@ -16,7 +16,8 @@ import { loading } from '../ui'
 import { getTimestamp, sleep, urlStringify } from '../utils'
 import { err, log, safe, safeCookie } from './utils'
 import { FETCH_RETRY, FETCH_TIMEOUT, HEADERS_DEFAULT } from './ds'
-import { Body, Config, FetchAPIArgs, FetchHTMLArgs } from './types'
+
+import type { Body, Config, FetchAPIArgs, FetchHTMLArgs } from './types'
 
 const RETRY_CACHE = {}
 
@@ -158,7 +159,7 @@ export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
       LAST_FETCH_HTML[cacheKey] = ts
     } else {
       const distance = ts - LAST_FETCH_HTML[cacheKey]
-      if (distance <= 2000) return Promise.reject(new Error(`prevent, ${url}, ${distance}ms`))
+      if (distance <= 4000) return Promise.reject(new Error(`prevent, ${url}, ${distance}ms`))
 
       LAST_FETCH_HTML[cacheKey] = ts
     }

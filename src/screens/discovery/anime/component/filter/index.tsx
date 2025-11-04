@@ -2,27 +2,26 @@
  * @Author: czy0729
  * @Date: 2024-03-16 16:02:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-16 16:06:35
+ * @Last Modified time: 2025-11-04 16:00:45
  */
 import React from 'react'
+import { useObserver } from 'mobx-react'
 import { Filter as FilterComp } from '@_'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { TEXT_UPDATE_ANIME } from '@constants'
-import { ADVANCE_LIMIT, filterDS } from '../../ds'
-import { COMPONENT } from './ds'
+import { filterDS } from '../../ds'
+import { COMPONENT, TEXT_INFORMATION } from './ds'
 
 function Filter() {
-  return (
+  r(COMPONENT)
+
+  return useObserver(() => (
     <FilterComp
       filterDS={filterDS}
       lastUpdate={TEXT_UPDATE_ANIME.slice(0, 7)}
-      information={`数据最后快照于 ${TEXT_UPDATE_ANIME}，在版本更新前数据不会有任何变化，预计一个季度更新一次。
-      \n本页数据非来源自 bgm.tv，并非所有条目都进行了收录，通常收录的都是有对应源头的数据。
-      \n有比 bgm.tv 更准确的分类、更丰富的筛选、最后更新章节和更多的排序。
-      \n目前本功能对所有用户开放，非高级会员在一个条件下会有最多只显示前 ${ADVANCE_LIMIT} 条数据的限制。
-      \n整理不易，若觉得有用可以通过各种方式给与鼓励支持!`}
+      information={TEXT_INFORMATION}
     />
-  )
+  ))
 }
 
-export default ob(Filter, COMPONENT)
+export default Filter

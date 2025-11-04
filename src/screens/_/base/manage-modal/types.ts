@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 15:39:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-21 21:55:11
+ * @Last Modified time: 2025-11-04 16:48:44
  */
 import type { CollectionStatus, RatingStatus, SubjectActions, SubjectId } from '@types'
 
@@ -13,12 +13,12 @@ export type Props = {
   title?: string
   desc?: string
   action?: SubjectActions
-  status: '' | RatingStatus | CollectionStatus
+  status: RatingStatus | CollectionStatus | ''
   onSubmit?: (item: {
     subjectId: SubjectId
     rating: number
     tags: string
-    status: '' | RatingStatus | CollectionStatus
+    status: RatingStatus | CollectionStatus | ''
     privacy: 0 | 1 | '0' | '1'
     comment: string
   }) => any

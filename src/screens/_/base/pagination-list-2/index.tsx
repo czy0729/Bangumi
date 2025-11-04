@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-24 22:00:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-24 15:28:09
+ * @Last Modified time: 2025-11-04 19:28:33
  */
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Component, ListView } from '@components'
@@ -81,7 +81,7 @@ export const PaginationList2 = <ItemT extends AnyObject>({
     })
 
     if (typeof onPage === 'function') {
-      onPage(list)
+      onPage(list, lastPage.current)
     }
 
     if (typeof onNextPage === 'function') {
@@ -92,6 +92,7 @@ export const PaginationList2 = <ItemT extends AnyObject>({
   return (
     <Component id='base-pagination-list' data-version='2'>
       <ListView
+        // @ts-expect-error
         ref={forwardRef || connectRef}
         data={list}
         {...other}

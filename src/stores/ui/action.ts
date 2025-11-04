@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 14:48:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-24 08:53:52
+ * @Last Modified time: 2025-11-04 16:46:14
  */
 import { getTimestamp } from '@utils'
 import { t } from '@utils/fetch'
@@ -14,7 +14,7 @@ import subjectStore from '../subject'
 import userStore from '../user'
 import Computed from './computed'
 
-import type { RatingStatus, SubjectActions, SubjectId, TopicId } from '@types'
+import type { CollectionStatus, Id, RatingStatus, SubjectActions, SubjectId, TopicId } from '@types'
 import type { SubmitManageModalValues } from './types'
 
 export default class Action extends Computed {
@@ -97,10 +97,10 @@ export default class Action extends Computed {
   /**  显示回复表情选择弹出层 */
   showLikesGrid = (
     /** 同 mainId, 主类型唯一编号 */
-    topicId: string | number,
+    topicId: TopicId,
 
     /** 同 realatedId, 贴贴关联唯一编号 */
-    floorId: string | number,
+    floorId: Id,
 
     /** 授权参数 */
     formhash: string,
@@ -151,7 +151,7 @@ export default class Action extends Computed {
     this.setState({
       likesGrid: {
         visible: false,
-        topicId: '',
+        topicId: '' as TopicId,
         floorId: '',
         formhash: '',
         value: '',
@@ -218,7 +218,7 @@ export default class Action extends Computed {
       subjectId: SubjectId
       title: string
       desc?: string
-      status: RatingStatus
+      status: RatingStatus | CollectionStatus | ''
       action?: SubjectActions
     },
     screen = '',

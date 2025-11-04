@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 19:14:41
+ * @Last Modified time: 2025-11-03 15:01:14
  */
 import pLimit from 'p-limit'
 import { TEXT_BADGES } from '@constants/text'
 import { DEV } from '@src/config'
-import { Fn } from '@types'
+
+import type { Fn } from '@types'
 
 /** 接口某些字段为空返回 null, 影响到 es6 函数初始值的正常使用, 统一处理成空字符串 */
 export function safe(data: { [x: string]: any }) {

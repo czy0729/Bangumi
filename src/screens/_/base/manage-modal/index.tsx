@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-21 22:34:52
+ * @Last Modified time: 2025-11-04 16:48:57
  */
 import React from 'react'
 import { BackHandler } from 'react-native'
@@ -38,7 +38,7 @@ import type { InputInstance } from '@components'
 import type { Private, PrivateCn, RatingStatus, SubjectType } from '@types'
 import type { Props as ManageModalProps, State } from './types'
 
-export { ManageModalProps }
+export type { ManageModalProps }
 
 /** 条目收藏管理弹窗 */
 export const ManageModal = ob(
