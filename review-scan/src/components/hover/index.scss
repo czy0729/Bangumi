@@ -1,0 +1,42 @@
+/*
+ * @Author: czy0729
+ * @Date: 2023-11-24 08:53:10
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-11-29 15:47:17
+ */
+component-hover {
+  position: absolute !important;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  transition: 0.16s opacity 0s ease-in-out;
+
+  &:hover {
+    opacity: 1;
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      bottom: -6px;
+      left: -6px;
+      opacity: 0.88;
+      pointer-events: none;
+    }
+    &[data-type='main']:after {
+      border: 2px solid rgb(254, 138, 149);
+    }
+    &[data-type='primary']:after {
+      border: 2px solid rgb(35, 149, 233);
+    }
+    &[data-type='warning']:after {
+      border: 2px solid rgb(255, 160, 12);
+    }
+    &[data-type='desc']:after {
+      border: 2px solid rgba(255, 255, 255, 0.8);
+    }
+  }
+}

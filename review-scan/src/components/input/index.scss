@@ -1,0 +1,19 @@
+/*
+ * @Author: czy0729
+ * @Date: 2024-09-03 15:35:41
+ * @Last Modified by:   czy0729
+ * @Last Modified time: 2024-09-03 15:35:41
+ */
+component-input {
+  &[data-editable='false'] {
+    input {
+      cursor: not-allowed;
+    }
+  }
+
+  input,
+  textarea {
+    caret-color: rgb(254, 138, 149);
+    caret-width: 2px;
+  }
+}
