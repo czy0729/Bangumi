@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-04 19:10:00
+ * @Last Modified time: 2025-11-08 22:03:02
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Flex, Loading, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover, InView, Manage, Rank, Stars, Tags } from '@_'
 import { _, collectionStore, otaStore, uiStore, useStore } from '@stores'
 import { cnjp, desc, x18 } from '@utils'
 import { withT } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import { IMG_DEFAULT, IMG_HEIGHT_LG, IMG_WIDTH_LG, MODEL_COLLECTION_STATUS } from '@constants'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'

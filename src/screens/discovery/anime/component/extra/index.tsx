@@ -5,10 +5,10 @@
  * @Last Modified time: 2025-11-04 15:56:19
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Flex, Heatmap } from '@components'
 import { IconHeader, IconLayout } from '@_'
 import { _, useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { FROZEN_FN } from '@constants'
 import { COMPONENT } from './ds'
 

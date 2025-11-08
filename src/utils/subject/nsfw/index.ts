@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2024-07-19 21:46:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-17 14:03:47
+ * @Last Modified time: 2025-11-06 06:16:31
  */
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { loadJSON } from '@assets/json'
-import { SubjectId } from '@types'
 import { getTimestamp } from '../../index'
 import { SORT } from '../anime'
 import { NSFW_COLLECTED, NSFW_SORT, NSFW_TYPE, NSFW_YEAR } from './ds'
-import { Finger, Item, Query, SearchResult } from './types'
+
+import type { SubjectId } from '@types'
+import type { Finger, Item, Query, SearchResult } from './types'
 
 export { NSFW_COLLECTED, NSFW_SORT, NSFW_YEAR, NSFW_TYPE }
 

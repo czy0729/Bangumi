@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-23 10:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-03 16:47:17
+ * @Last Modified time: 2025-11-08 21:51:30
  */
 import { WEB } from '../device'
 
@@ -36,18 +36,21 @@ export const TEXT_UPDATE_SPONSOR = '2025-08-20'
 /** 分类排名更新时间 */
 export const TEXT_UPDATE_TYPERANK = '2025-04-02'
 
+/** 找番剧 (NSFW) 静态数据最后更新时间 */
+export const TEXT_UPDATE_NSFW = '2025-11-06'
+
 /** 开发者话语最后更新时间 */
 export const TEXT_UPDATE_QIAFAN = '2024-09'
 
 /** 找条目数目 */
 export const TEXT_TOTAL = {
-  番剧: 4780,
+  番剧: 4844,
   游戏: 2837,
   ADV: 3600,
   漫画: 10622,
   文库: 2740,
   Hentai: 1036,
-  NSFW: 3882
+  NSFW: 5987
 } as const
 
 /** 空格 */

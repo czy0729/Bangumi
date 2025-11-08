@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:47:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-04 17:38:10
+ * @Last Modified time: 2025-11-06 06:20:56
  */
 import { computed } from 'mobx'
 import { pick as advPick } from '@utils/subject/adv'
@@ -114,9 +114,12 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   nsfw(subjectId: SubjectId) {
-    this.init('nsfw', true)
-    return computed<NSFWItem>(() => {
-      return this.state.nsfw[`nsfw_${subjectId}`] || {}
+    const STATE_KEY = 'nsfw'
+    this.init(STATE_KEY, true)
+
+    return computed(() => {
+      const ITEM_KEY = `nsfw_${subjectId}`
+      return (this.state[STATE_KEY][ITEM_KEY] || {}) as NSFWItem
     }).get()
   }
 }

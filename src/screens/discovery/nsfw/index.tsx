@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 11:51:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-04 15:45:22
+ * @Last Modified time: 2025-11-06 01:31:24
  */
 import React from 'react'
 import { Component, Page, Text } from '@components'
@@ -18,7 +18,7 @@ import type { NavigationProps } from '@types'
 
 /** 找番剧 */
 const NSFW = (props: NavigationProps) => {
-  const { id, $, navigation } = useNSFWPage(props)
+  const { id, $ } = useNSFWPage(props)
 
   return useObserver(() => (
     <Component id='screen-nsfw'>
@@ -32,7 +32,7 @@ const NSFW = (props: NavigationProps) => {
               </Text>
             </>
           ) : (
-            <List $={$} navigation={navigation} />
+            <List />
           )}
         </Page>
         <Header title='找条目' alias='NSFW' hm={HM} />

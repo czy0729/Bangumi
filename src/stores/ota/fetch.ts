@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:48:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-23 07:56:56
+ * @Last Modified time: 2025-11-06 06:21:12
  */
 import { pick } from '@utils'
 import { gets } from '@utils/kv'
-import { SubjectId } from '@types'
 import Computed from './computed'
+
+import type { SubjectId } from '@types'
 
 export default class Fetch extends Computed {
   fetchAnime = async (subjectId: SubjectId) => {

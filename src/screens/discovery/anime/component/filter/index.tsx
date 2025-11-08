@@ -5,9 +5,9 @@
  * @Last Modified time: 2025-11-04 16:00:45
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Filter as FilterComp } from '@_'
 import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { TEXT_UPDATE_ANIME } from '@constants'
 import { filterDS } from '../../ds'
 import { COMPONENT, TEXT_INFORMATION } from './ds'

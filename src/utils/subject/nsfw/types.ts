@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-07-19 21:31:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-22 05:14:45
+ * @Last Modified time: 2025-11-06 06:16:26
  */
-import { Loaded } from '@types'
+import type { Loaded } from '@types'
 
 export type Finger = string
 
@@ -40,7 +40,7 @@ export type UnzipItem = {
 }
 
 export type SearchResult = {
-  list: UnzipItem[]
+  list: number[]
   pagination: {
     page: 1
     pageTotal: 1

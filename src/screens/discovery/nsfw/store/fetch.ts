@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-07-20 10:40:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-20 10:42:51
+ * @Last Modified time: 2025-11-06 06:19:10
  */
 import { search } from '@utils/subject/nsfw'
 import Computed from './computed'

@@ -5,11 +5,11 @@
  * @Last Modified time: 2025-11-04 16:22:42
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Flex, Loading } from '@components'
 import { ItemCollectionsGrid } from '@_'
 import { _, collectionStore, otaStore } from '@stores'
 import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { IMG_DEFAULT, IMG_HEIGHT_LG } from '@constants'
 import { COMPONENT, EVENT } from './ds'
 import { memoStyles } from './styles'

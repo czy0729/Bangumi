@@ -5,8 +5,8 @@
  * @Last Modified time: 2025-11-04 16:24:21
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import ItemGrid from '../item-grid'
 import ItemList from '../item-list'
 import { COMPONENT } from './ds'

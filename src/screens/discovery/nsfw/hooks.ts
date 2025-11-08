@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-11-16 11:09:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-16 11:27:28
+ * @Last Modified time: 2025-11-05 00:04:46
  */
 import { useInitStore } from '@stores'
 import { usePageLifecycle } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import store from './store'
-import { Ctx } from './types'
+
+import type { NavigationProps } from '@types'
+import type { Ctx } from './types'
 
 /** 找番剧页面逻辑 */
 export function useNSFWPage(props: NavigationProps) {

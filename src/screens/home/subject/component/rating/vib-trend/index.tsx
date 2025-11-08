@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-02-14 04:45:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-23 16:07:55
+ * @Last Modified time: 2025-11-08 22:09:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -27,7 +27,7 @@ function VibTrend() {
 
   return useObserver(() => {
     const { rating, vib, subjectId, subjectType } = $
-    if (!rating?.score) return null
+    if (!subjectType || !rating?.score) return null
 
     const styles = memoStyles()
     const data = useVIBTrend(subjectId)

@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-07-20 10:43:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-19 11:46:36
+ * @Last Modified time: 2025-11-08 21:53:18
  */
-import { otaStore } from '@stores'
+import { collectionStore, otaStore } from '@stores'
 import { t } from '@utils/fetch'
 import Fetch from './fetch'
 
@@ -72,6 +72,12 @@ export default class Action extends Fetch {
         page
       })
     }
+
+    setTimeout(() => {
+      collectionStore.fetchCollectionStatusQueue(
+        pageData.map(item => otaStore.nsfwSubjectId(item)).filter(Boolean)
+      )
+    }, 0)
 
     return otaStore.onNSFWPage(pageData)
   }
