@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-03-31 14:30:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-04 12:26:47
+ * @Last Modified time: 2025-11-09 03:06:55
  */
 import { _ } from '@stores'
 import { IOS } from '@constants'
 import { DATA } from './ds'
 import { memoStyles } from './styles'
-import { Position, Style } from './types'
+
+import type { Position, Style } from './types'
 
 /** 大概一行文字的高度 */
 const LINE_HEIGHT = 24
