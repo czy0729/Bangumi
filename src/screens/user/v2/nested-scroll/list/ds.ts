@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-30 08:20:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-24 08:43:55
+ * @Last Modified time: 2025-11-09 15:49:51
  */
 import { rc } from '@utils/dev'
 import { FROZEN_FN, LIST_EMPTY } from '@constants'
@@ -19,6 +19,7 @@ type $ = Ctx['$']
 
 export const DEFAULT_PROPS = {
   styles: {} as ReturnType<typeof memoStyles>,
+  forwardRef: FROZEN_FN as $['forwardRef'],
   list: true,
   page: 0,
   data: LIST_EMPTY as ReturnType<$['userCollections']>,

@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2023-04-25 16:29:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-27 19:49:46
+ * @Last Modified time: 2025-11-09 15:24:59
  */
 import { getTimestamp, queue } from '@utils'
 import { fetchHTML } from '@utils/fetch'
-import { DEV, HOST, HTML_SAY, MODEL_TIMELINE_SCOPE } from '@constants'
-import { Id, SubjectId, TimeLineScope, TimeLineType, UserId } from '@types'
+import { HOST, HTML_SAY, MODEL_TIMELINE_SCOPE } from '@constants'
 import systemStore from '../system'
 import userStore from '../user'
 import { cheerioFormHash, cheerioSay, fetchTimeline } from './common'
 import Computed from './computed'
 import { DEFAULT_SCOPE, DEFAULT_TYPE } from './init'
+
+import type { Id, SubjectId, TimeLineScope, TimeLineType, UserId } from '@types'
 
 export default class Fetch extends Computed {
   /** 获取自己视角的时间胶囊 */
@@ -134,16 +135,14 @@ export default class Fetch extends Computed {
     })
     this.save(key)
 
-    if (DEV) {
-      console.info(
-        `this.fetch.fetchUsersCollectionsTimeline`,
-        {
-          userId,
-          page
-        },
-        data
-      )
-    }
+    this.log(
+      'fetchUsersCollectionsTimeline',
+      {
+        userId,
+        page
+      },
+      data
+    )
 
     return data
   }

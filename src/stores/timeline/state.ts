@@ -2,19 +2,22 @@
  * @Author: czy0729
  * @Date: 2023-04-25 16:16:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 00:57:19
+ * @Last Modified time: 2025-11-09 15:20:58
  */
 import { observable } from 'mobx'
-import { runAfter } from '@utils'
+import { runAfter, titleCase } from '@utils'
+import { logger } from '@utils/dev'
 import Store from '@utils/store'
-import { Likes } from '../rakuen/types'
 import { LOADED, NAMESPACE, STATE } from './init'
+
+import type { Likes } from '../rakuen/types'
 
 type CacheKey = keyof typeof LOADED
 
 export default class State extends Store<typeof STATE> {
   state = observable(STATE)
 
+  private _namespace = NAMESPACE
   private _loaded = LOADED
 
   init = async (key: CacheKey, async?: boolean) => {
@@ -62,5 +65,13 @@ export default class State extends Store<typeof STATE> {
       [key]: data
     })
     this.save(key)
+  }
+
+  log = (...arg: any) => {
+    logger.log(`${titleCase(this._namespace)}Store`, ...arg)
+  }
+
+  error = (...arg: any) => {
+    logger.error(`${titleCase(this._namespace)}Store`, ...arg)
   }
 }

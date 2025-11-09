@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-23 21:39:38
+ * @Last Modified time: 2025-11-09 15:45:36
  */
 import React, { useCallback } from 'react'
 import { Loading } from '@components'
@@ -44,6 +44,7 @@ function ListWrap({ title }: Props) {
       <List
         key={key}
         styles={styles}
+        forwardRef={$.forwardRef}
         list={list}
         page={page}
         data={data}

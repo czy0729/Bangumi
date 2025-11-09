@@ -2,15 +2,19 @@
  * @Author: czy0729
  * @Date: 2023-06-10 05:42:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-17 22:48:30
+ * @Last Modified time: 2025-11-09 03:18:09
  */
-import { Loaded } from '@types'
+import type { Loaded } from '@types'
 
 export const COMPONENT = 'Versions'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const TABS = [
+  {
+    title: '8.26.0 - 2025/11/09',
+    key: 'va7ybkofq075gx7w'
+  },
   {
     title: '8.25.0 - 2025/10/01',
     key: 'reiyz4q2uk7kity7'
@@ -34,27 +38,27 @@ export const TABS = [
   {
     title: '8.20.0 - 2025/04/03',
     key: 'csic9v'
-  },
-  {
-    title: '8.19.0 - 2025/03/08',
-    key: 'eo79o18253lecthq'
-  },
-  {
-    title: '8.18.0 - 2025/02/15',
-    key: 'kozcmvlgwezrthkz'
-  },
-  {
-    title: '8.17.0 - 2025/01/12',
-    key: 'wb0727zmhxxv7tiy'
-  },
-  {
-    title: '8.16.0 - 2024/11/05',
-    key: 'fkl5elv7kxbnzri1'
-  },
-  {
-    title: '8.15.0 - 2024/10/25',
-    key: 'bg5m8vdzr7honhev'
   }
+  // {
+  //   title: '8.19.0 - 2025/03/08',
+  //   key: 'eo79o18253lecthq'
+  // },
+  // {
+  //   title: '8.18.0 - 2025/02/15',
+  //   key: 'kozcmvlgwezrthkz'
+  // },
+  // {
+  //   title: '8.17.0 - 2025/01/12',
+  //   key: 'wb0727zmhxxv7tiy'
+  // },
+  // {
+  //   title: '8.16.0 - 2024/11/05',
+  //   key: 'fkl5elv7kxbnzri1'
+  // },
+  // {
+  //   title: '8.15.0 - 2024/10/25',
+  //   key: 'bg5m8vdzr7honhev'
+  // }
   // {
   //   title: '8.14.0 - 2024/09/27',
   //   key: 'ox1ifg0xlx8mf1pq'
