@@ -7,9 +7,10 @@
 import { feedback, info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
 import { MODEL_NEWS } from '@constants'
-import { Id } from '@types'
 import Fetch from './fetch'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
+
+import type { Id } from '@types'
 
 let prevPage: number
 

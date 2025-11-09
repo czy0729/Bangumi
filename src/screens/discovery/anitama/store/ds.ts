@@ -6,8 +6,9 @@
  */
 import { _ } from '@stores'
 import { NEWS } from '@constants'
-import { Id, Loaded } from '@types'
 import { COMPONENT } from '../ds'
+
+import type { Id, Loaded } from '@types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
@@ -36,7 +37,7 @@ export const STATE = {
   history: [] as Id[],
 
   /** 站点 */
-  type: NEWS[2].value,
+  type: NEWS[0].value,
 
   /** 是否使用内置浏览器打开, 否则使用外部 */
   useWebView: false,

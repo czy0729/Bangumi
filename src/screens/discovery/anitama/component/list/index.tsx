@@ -10,77 +10,87 @@ import { Heatmap, Image, ScrollView, Text, Touchable } from '@components'
 import { InView } from '@_'
 import { _, useStore } from '@stores'
 import { open } from '@utils'
-import { ob } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
-import { Ctx } from '../../types'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../types'
 
 const title = '资讯'
 
 function List() {
-  const { $, navigation } = useStore<Ctx>()
-  const styles = memoStyles()
-  const handlePress = item => {
-    const { useWebView } = $.state
-    if (useWebView) {
-      navigation.push('WebBrowser', {
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => {
+    const styles = memoStyles()
+
+    const handlePress = item => {
+      const { useWebView } = $.state
+      if (useWebView) {
+        navigation.push('WebBrowser', {
+          url: item.url,
+          title: item.title
+        })
+      } else {
+        open(item.url)
+      }
+
+      t('Anitama.跳转', {
+        to: 'WebBrowser',
         url: item.url,
-        title: item.title
+        useWebView
       })
-    } else {
-      open(item.url)
+      hm(item.url, title)
     }
 
-    t('Anitama.跳转', {
-      to: 'WebBrowser',
-      url: item.url,
-      useWebView
-    })
-    hm(item.url, title)
-  }
-
-  return (
-    <ScrollView contentContainerStyle={styles.contentContainerStyle} onScroll={$.onScroll}>
-      {$.state.show && (
-        <View style={styles.container}>
-          {$.article.list.map((item, index) => (
-            <Touchable key={item.aid} style={styles.item} animate onPress={() => handlePress(item)}>
-              <Text align='right'>
-                © {[item.author, item.origin].filter(item => !!item).join(' / ')}
-              </Text>
-              <InView style={_.mt.md} y={280 * (index + 1)}>
-                <Image
-                  src={item.cover.url}
-                  headers={item.cover.headers}
-                  width={styles.cover.width}
-                  height={styles.cover.height}
-                  radius
-                  errorToHide
-                />
-              </InView>
-              <View style={styles.info}>
-                <Text size={18} type='title' bold>
-                  {item.title}
+    return (
+      <ScrollView contentContainerStyle={styles.contentContainerStyle} onScroll={$.onScroll}>
+        {$.state.show && (
+          <View style={styles.container}>
+            {$.article.list.map((item, index) => (
+              <Touchable
+                key={item.aid}
+                style={styles.item}
+                animate
+                onPress={() => handlePress(item)}
+              >
+                <Text align='right'>
+                  © {[item.author, item.origin].filter(item => !!item).join(' / ')}
                 </Text>
-                {!!item.subtitle && (
-                  <Text style={_.mt.sm} lineHeight={18} type='sub' bold>
-                    {item.subtitle}
+                <InView style={_.mt.md} y={280 * (index + 1)}>
+                  <Image
+                    src={item.cover.url}
+                    headers={item.cover.headers}
+                    width={styles.cover.width}
+                    height={styles.cover.height}
+                    radius
+                    errorToHide
+                  />
+                </InView>
+                <View style={styles.info}>
+                  <Text size={18} type='title' bold>
+                    {item.title}
                   </Text>
-                )}
-                {!!item.intro && (
-                  <Text style={_.mt.md} type='sub' lineHeight={18}>
-                    {item.intro}
-                  </Text>
-                )}
-              </View>
-              {!index && <Heatmap id='Anitama.跳转' />}
-            </Touchable>
-          ))}
-        </View>
-      )}
-    </ScrollView>
-  )
+                  {!!item.subtitle && (
+                    <Text style={_.mt.sm} lineHeight={18} type='sub' bold>
+                      {item.subtitle}
+                    </Text>
+                  )}
+                  {!!item.intro && (
+                    <Text style={_.mt.md} type='sub' lineHeight={18}>
+                      {item.intro}
+                    </Text>
+                  )}
+                </View>
+                {!index && <Heatmap id='Anitama.跳转' />}
+              </Touchable>
+            ))}
+          </View>
+        )}
+      </ScrollView>
+    )
+  })
 }
 
-export default ob(List, COMPONENT)
+export default List

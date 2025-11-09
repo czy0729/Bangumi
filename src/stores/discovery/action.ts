@@ -14,8 +14,9 @@ import {
   HTML_ACTION_CATALOG_MODIFY_SUBJECT,
   HTML_DOLLARS
 } from '@constants'
-import { Fn, Id, SubjectId } from '@types'
 import Fetch from './fetch'
+
+import type { Fn, Id, SubjectId } from '@types'
 
 export default class Action extends Fetch {
   /** 更新日志查看历史 */

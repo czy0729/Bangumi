@@ -15,7 +15,6 @@ import { toJS } from 'mobx'
 import { desc, getTimestamp } from '@utils'
 import { s2t } from '@utils/thirdParty/open-cc'
 import { SITE_AGEFANS, SITE_MANGABZ, SITE_WK8, SITE_WNACG } from '@constants'
-import { Origin, SubjectId } from '@types'
 import {
   SITES_ANIME,
   SITES_GAME,
@@ -25,7 +24,9 @@ import {
   SITES_REAL,
   SITES_WENKU
 } from './ds'
-import { Keys } from './types'
+
+import type { Origin, SubjectId } from '@types'
+import type { Keys } from './types'
 
 export type OriginItem = {
   uuid?: string

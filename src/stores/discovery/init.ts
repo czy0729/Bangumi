@@ -5,7 +5,8 @@
  * @Last Modified time: 2025-09-08 21:37:19
  */
 import { LIST_EMPTY } from '@constants'
-import { Blog, Catalog, Dollars, Wiki } from './types'
+
+import type { Blog, Catalog, Dollars, Wiki } from './types'
 
 export const NAMESPACE = 'Discovery'
 
@@ -108,18 +109,13 @@ const STATE = {
     }
   } as Wiki,
 
-  /** 动漫之家资讯 */
-  dmzjTimeline: {
-    0: INIT_ANITAMA_TIMELINE_ITEM
-  },
-
   /** 机核资讯 */
   gcoresTimeline: {
     0: INIT_ANITAMA_TIMELINE_ITEM
   },
 
-  /** 和邪社资讯 */
-  hexiesheTimeline: {
+  /** 翼萌资讯 */
+  yimengTimeline: {
     0: INIT_ANITAMA_TIMELINE_ITEM
   },
 

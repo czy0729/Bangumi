@@ -5,8 +5,11 @@
  * @Last Modified time: 2024-11-29 12:34:23
  */
 import { rc } from '@utils/dev'
+import { NEWS, TEXT_MENU_BROWSER } from '@constants'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'Header')
 
 export const HM = ['discovery/anitama', 'Anitama'] as const
+
+export const DATA = [...NEWS.map(item => item.label), TEXT_MENU_BROWSER] as const

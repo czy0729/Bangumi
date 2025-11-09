@@ -9,7 +9,6 @@ import { fetchHTML, xhrCustom } from '@utils/fetch'
 import { get } from '@utils/kv'
 import {
   HOST,
-  HOST_DMZJ,
   HTML_BLOG_LIST,
   HTML_CATALOG,
   HTML_CATALOG_DETAIL,
@@ -18,7 +17,6 @@ import {
   HTML_TAGS,
   HTML_WIKI
 } from '@constants'
-import { Id, SubjectType } from '@types'
 import {
   cheerioBlog,
   cheerioCatalog,
@@ -31,56 +29,11 @@ import {
 import Computed from './computed'
 import { DEFAULT_TYPE, INIT_ANITAMA_TIMELINE_ITEM } from './init'
 import { getInt } from './utils'
-import { FetchBlogArgs, FetchCatalogArgs } from './types'
+
+import type { Id, SubjectType } from '@types'
+import type { FetchBlogArgs, FetchCatalogArgs } from './types'
 
 export default class Fetch extends Computed {
-  /** 动漫之家资讯 */
-  fetchDMZJTimeline = async (page: number = 1) => {
-    const url = HOST_DMZJ
-    let data: any = INIT_ANITAMA_TIMELINE_ITEM
-    try {
-      const { _response } = await xhrCustom({
-        method: 'POST',
-        url,
-        headers: {
-          referer: url,
-          'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        },
-        data: {
-          page: page + 1
-        }
-      })
-
-      const key = 'dmzjTimeline'
-      data = {
-        list: JSON.parse(_response).map(item => ({
-          aid: item.id,
-          url: `${url}/article/${item.id}.html`,
-          author: item.authorName,
-          origin: '动漫之家',
-          cover: {
-            url: `https:${item.rowPicUrl}`,
-            headers: {
-              Referer: url
-            }
-          },
-          title: item.title,
-          intro: item.intro,
-          subtitle: item.c_create_time
-        })),
-        _loaded: getTimestamp()
-      }
-
-      this.setState({
-        [key]: {
-          [page]: data
-        }
-      })
-    } catch (error) {}
-
-    return data
-  }
-
   /** 机核资讯 */
   fetchGCORESTimeline = async (page: number = 1) => {
     let data: any = INIT_ANITAMA_TIMELINE_ITEM
@@ -120,70 +73,59 @@ export default class Fetch extends Computed {
         }
       })
     } catch (error) {
-      console.info(error)
+      this.error('fetchGCORESTimeline', error)
     }
 
     return data
   }
 
-  /** 动漫之家资讯 */
-  fetchHeXieSheTimeline = async (page: number = 1) => {
-    const url = 'https://www.hexieshe.cn/wp-admin/admin-ajax.php?action=zrz_load_more_posts'
+  /** 翼萌资讯 */
+  fetchYiMengTimeline = async (page: number = 1) => {
     let data: any = INIT_ANITAMA_TIMELINE_ITEM
     try {
       const { _response } = await xhrCustom({
-        method: 'POST',
-        url,
+        url: `https://www.yimoe.cc/news/page/${page}`,
         headers: {
-          referer: 'https://www.hexieshe.cn/',
-          'content-type': 'application/x-www-form-urlencoded'
-        },
-        data: {
-          type: 'catL12',
-          paged: page
+          referer: 'https://www.yimoe.cc/'
         }
       })
 
-      const $ = cheerio(JSON.parse(_response).msg)
+      const $ = cheerio(_response)
       data = {
-        list: $('.pos-r.cart-list')
+        list: $('.multi-postlist .post-archive')
           .map((_index: number, element: any) => {
             const $li = cheerio(element)
-            const $a = $li.find('.entry-title a')
+            const $a = $li.find('.post-meta-box a')
+            const url = $a.attr('href')
 
             return {
-              aid: $a.attr('href').match(/\d+/g)?.[0],
-              url: $a.attr('href'),
-              author: $li.find('.users').text().trim(),
-              origin: '和邪社',
+              aid: url.split('article')?.[1],
+              url,
+              author: '',
+              origin: '翼萌动漫',
               cover: {
-                url: $li
-                  .find('.thumb-in')
-                  .attr('style')
-                  .replace(/background-image:url\('|'\)/g, ''),
+                url: $li.find('.fengmian').attr('lay-src'),
                 headers: {
-                  Referer: 'https://www.hexieshe.cn/'
+                  Referer: 'https://www.yimoe.cc/'
                 }
               },
-              title: $a.text().trim().replace(/#038;/g, ''),
-              intro: $li.find('.post-ex').text().trim().replace(/#038;/g, ''),
-              subtitle: `${$li.find('.list-category').text().trim()} · ${
-                $li.find('.timeago').text().trim().split(' ')[0]
-              }`.replace(/#038;/g, '')
+              title: $a.find('h3').text().trim(),
+              intro: '',
+              subtitle: $a.find('.multi-left').text().trim()
             }
           })
           .get(),
         _loaded: getTimestamp()
       }
 
-      const key = 'hexiesheTimeline'
+      const key = 'yimengTimeline'
       this.setState({
         [key]: {
           [page]: data
         }
       })
     } catch (error) {
-      console.info(error)
+      this.error('fetchYiMengTimeline', error)
     }
 
     return data

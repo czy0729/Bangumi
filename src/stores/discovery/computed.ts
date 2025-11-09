@@ -6,18 +6,19 @@
  */
 import { computed } from 'mobx'
 import { LIST_EMPTY } from '@constants'
-import { Id, StoreConstructor, SubjectId, SubjectType } from '@types'
 import {
   INIT_ANITAMA_TIMELINE_ITEM,
   INIT_CATALOG_ITEM,
   INIT_CATELOG_DETAIL_ITEM,
   INIT_CHANNEL,
-  INIT_NINGMOE_DETAIL_ITEM,
-  STATE
+  INIT_NINGMOE_DETAIL_ITEM
 } from './init'
 import { getInt } from './utils'
 import State from './state'
-import {
+
+import type { Id, StoreConstructor, SubjectId, SubjectType } from '@types'
+import type { STATE } from './init'
+import type {
   Blog,
   Catalog,
   CatalogDetail,
@@ -109,13 +110,6 @@ export default class Computed extends State implements StoreConstructor<typeof S
     return this.state.wiki
   }
 
-  /** 动漫之家资讯 */
-  dmzjTimeline(page: number = 1) {
-    return computed<News>(() => {
-      return this.state.dmzjTimeline[page] || INIT_ANITAMA_TIMELINE_ITEM
-    }).get()
-  }
-
   /** 机核资讯 */
   gcoresTimeline(page: number = 1) {
     return computed<News>(() => {
@@ -123,10 +117,10 @@ export default class Computed extends State implements StoreConstructor<typeof S
     }).get()
   }
 
-  /** 机核资讯 */
-  hexiesheTimeline(page: number = 1) {
+  /** 翼萌资讯 */
+  yimengTimeline(page: number = 1) {
     return computed<News>(() => {
-      return this.state.hexiesheTimeline[page] || INIT_ANITAMA_TIMELINE_ITEM
+      return this.state.yimengTimeline[page] || INIT_ANITAMA_TIMELINE_ITEM
     }).get()
   }
 

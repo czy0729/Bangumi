@@ -17,9 +17,10 @@ import {
   matchAvatar,
   safeObject
 } from '@utils'
-import { Avatar, Cover, SubjectTypeCn } from '@types'
 import { getBlogItemTime } from './utils'
-import { BlogItem, CatalogDetail, CatalogsItem } from './types'
+
+import type { Avatar, Cover, SubjectTypeCn } from '@types'
+import type { BlogItem, CatalogDetail, CatalogsItem } from './types'
 
 /** 标签 */
 export function cheerioTags(html: string) {

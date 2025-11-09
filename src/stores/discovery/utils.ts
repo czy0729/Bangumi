@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-08 21:28:25
  */
-import { Id } from '@types'
+import type { Id } from '@types'
 
 export function getInt(id: Id) {
   const str = String(id)

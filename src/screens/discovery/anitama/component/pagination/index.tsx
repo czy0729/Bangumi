@@ -7,13 +7,15 @@
 import React from 'react'
 import { Pagination as PaginationComp } from '@components'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
-import { HEAT_MAPS } from './ds'
+import { useObserver } from '@utils/hooks'
+import { COMPONENT, HEAT_MAPS } from './ds'
+
+import type { Ctx } from '../../types'
 
 function Pagination() {
-  const { $ } = useStore<Ctx>()
-  return (
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
     <PaginationComp
       style={_.mt.xs}
       input={$.state.ipt}
@@ -23,7 +25,7 @@ function Pagination() {
       onChange={$.onChange}
       onSearch={$.doSearch}
     />
-  )
+  ))
 }
 
-export default ob(Pagination)
+export default Pagination

@@ -6,7 +6,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-04-11 01:06:50
  */
-import { HOST_DMZJ, IOS } from '../constants'
+import { IOS } from '../constants'
 import { Model } from './utils'
 
 /** 条目类型 */
@@ -411,16 +411,12 @@ export const MODEL_SEARCH_LEGACY = new Model(SEARCH_LEGACY, 'SEARCH_LEGACY')
 /** 文章站点 */
 export const NEWS = [
   {
-    label: '和邪社',
-    value: 'https://www.hexieshe.cn/category/news'
-  },
-  {
     label: '机核GCORES',
     value: 'https://www.gcores.com/news'
   },
   {
-    label: '动漫之家',
-    value: HOST_DMZJ
+    label: '翼萌动漫',
+    value: 'https://www.yimoe.cc/news'
   }
 ] as const
 

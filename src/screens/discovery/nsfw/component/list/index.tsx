@@ -5,10 +5,10 @@
  * @Last Modified time: 2025-11-06 01:30:56
  */
 import React, { useCallback, useRef } from 'react'
-import { useObserver } from 'mobx-react'
 import { Loading } from '@components'
 import { PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import Filter from '../filter'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'

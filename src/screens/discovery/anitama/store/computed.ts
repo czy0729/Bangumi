@@ -6,7 +6,7 @@
  */
 import { computed } from 'mobx'
 import { discoveryStore } from '@stores'
-import { MODEL_NEWS } from '@constants'
+import { LIST_EMPTY, MODEL_NEWS } from '@constants'
 import State from './state'
 
 export default class Computed extends State {
@@ -18,29 +18,21 @@ export default class Computed extends State {
   /** 资讯 */
   @computed get article() {
     const { page } = this.state
-    switch (this.label) {
-      case '和邪社':
-        return discoveryStore.hexiesheTimeline(page)
 
+    switch (this.label) {
       case '机核GCORES':
         return discoveryStore.gcoresTimeline(page)
 
+      case '翼萌动漫':
+        return discoveryStore.yimengTimeline(page)
+
       default:
-        return discoveryStore.dmzjTimeline(page)
+        return LIST_EMPTY
     }
   }
 
   /** 地址 */
   @computed get url() {
-    switch (this.label) {
-      case '和邪社':
-        return 'https://www.hexieshe.cn'
-
-      case '机核GCORES':
-        return 'https://www.gcores.com/news'
-
-      default:
-        return 'https://m.news.dmzj.com'
-    }
+    return MODEL_NEWS.getValue(this.label)
   }
 }
