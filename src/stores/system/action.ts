@@ -19,7 +19,11 @@ import {
   MODEL_SETTING_TRANSITION,
   MODEL_SETTING_USER_GRID_NUM
 } from '@constants'
-import {
+import UserStore from '../user'
+import Fetch from './fetch'
+import { INIT_IMAGE_VIEWER, INIT_SETTING, INIT_SUBJECT_LAYOUT } from './init'
+
+import type {
   EventKeys,
   SettingCDNOrigin,
   SettingHomeCountView,
@@ -37,10 +41,8 @@ import {
   SubjectType,
   UserId
 } from '@types'
-import UserStore from '../user'
-import Fetch from './fetch'
-import { INIT_DEV_EVENT, INIT_IMAGE_VIEWER, INIT_SETTING, INIT_SUBJECT_LAYOUT } from './init'
-import { HomeRenderTabs, HomeTabsKeys, SettingKeys } from './types'
+import type { INIT_DEV_EVENT } from './init'
+import type { HomeRenderTabs, HomeTabsKeys, SettingKeys } from './types'
 
 export default class Actions extends Fetch {
   /** 还原 CDN */

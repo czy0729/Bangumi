@@ -4,9 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-04 14:45:46
  */
-import { StyleSheet, TextStyle } from 'react-native'
-import { ORIENTATION_LANDSCAPE, ORIENTATION_PORTRAIT } from '@constants'
-import { STYLES_DARK, STYLES_LIGHT } from './init'
+import type { StyleSheet, TextStyle } from 'react-native'
+import type { ORIENTATION_LANDSCAPE, ORIENTATION_PORTRAIT } from '@constants'
+import type { STYLES_DARK, STYLES_LIGHT } from './init'
 
 export type Orientation = typeof ORIENTATION_PORTRAIT | typeof ORIENTATION_LANDSCAPE
 

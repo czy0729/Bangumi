@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-10 11:48:43
  */
-import { Id, ListEmpty, SearchCat, SubjectType } from '@types'
+import type { Id, ListEmpty, SearchCat, SubjectType } from '@types'
 
 export type SearchItem = {
   id: Id

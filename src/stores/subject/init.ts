@@ -6,8 +6,9 @@
  */
 import { LIST_EMPTY } from '@constants'
 import { MODEL_RATING_STATUS } from '@constants/model'
-import { Actions, Loaded, MonoId, Origin, RatingStatus, SubjectType } from '@types'
-import { EpStatus, Mono, MonoComments, MonoVoices, MonoWorks, SubjectFromHTML } from './types'
+
+import type { Actions, Loaded, MonoId, Origin, RatingStatus, SubjectType } from '@types'
+import type { EpStatus, Mono, MonoComments, MonoVoices, MonoWorks, SubjectFromHTML } from './types'
 
 /** 命名空间 */
 export const NAMESPACE = 'Subject'

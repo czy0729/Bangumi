@@ -5,7 +5,8 @@
  * @Last Modified time: 2024-08-25 08:49:32
  */
 import hash from '@utils/thirdParty/hash'
-import { MemoStylesItem } from './types'
+
+import type { MemoStylesItem } from './types'
 
 const memo = new Map<string, string>()
 

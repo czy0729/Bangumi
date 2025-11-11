@@ -5,9 +5,13 @@
  * @Last Modified time: 2023-12-17 11:54:08
  */
 import { observable } from 'mobx'
+import { titleCase } from '@utils'
+import { logger } from '@utils/dev'
 import Store from '@utils/store'
 import _ from '@styles'
-import { LOADED, NAMESPACE, STATE } from './init'
+import { NAMESPACE, STATE } from './init'
+
+import type { LOADED } from './init'
 
 type CacheKey = keyof typeof LOADED
 
@@ -21,11 +25,19 @@ export default class State extends Store<typeof STATE> {
     })
   }
 
-  state = observable(STATE)
+  private _namespace = NAMESPACE
 
-  _loaded = LOADED
+  state = observable(STATE)
 
   save = (key: CacheKey) => {
     return this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  log = (...arg: any) => {
+    logger.log(`${titleCase(this._namespace)}Store`, ...arg)
+  }
+
+  error = (...arg: any) => {
+    logger.error(`${titleCase(this._namespace)}Store`, ...arg)
   }
 }

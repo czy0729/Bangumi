@@ -6,10 +6,12 @@
  */
 import { computed } from 'mobx'
 import { LIST_EMPTY } from '@constants'
-import { SearchCat, StoreConstructor } from '@types'
-import { DEFAULT_CAT, STATE } from './init'
+import { DEFAULT_CAT } from './init'
 import State from './state'
-import { Search } from './types'
+
+import type { SearchCat, StoreConstructor } from '@types'
+import type { STATE } from './init'
+import type { Search } from './types'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   /** 搜索结果 */

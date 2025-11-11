@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-01 22:24:58
+ * @Last Modified time: 2025-11-09 03:05:06
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
-import { Paths } from '@types'
+
+import type { Paths } from '@types'
 
 /** ==================== 开发调试时用配置 ==================== */
 /** @ts-ignore 是否开发模式 */
@@ -42,15 +43,15 @@ export const HOST_PROXY = 'https://bangumi-app-webproxy-dev.magmablock.top'
 const CONFIGS: Configs = {
   initialRouteName: DEV ? 'HomeTab' : 'HomeTab',
   initialRouteParams: {
-    // subjectId: 512612 // anime: 296870, music: 302514, book: 267358, game: 283730
-    // topicId: 'group/429213' // group/366561
+    // subjectId: 506258 // anime: 296870, music: 302514, book: 267358, game: 283730
+    // topicId: 'group/438017' // group/366561
     // userId: 'magma' // 456208, 419012, 'lilyurey'
     // monoId: 'character/109775' // character/70323 person/5745
-    // id: 37896791
+    // id: 55723902
     // ids: [72649, 59610, 59611, 72648, 72650, 72651, 72652, 74522, 75203, 75207]
     // blogId: 307175 // 294448
-    // catalogId: 52349
-    // groupId: 'fillgrids' // fillgrids
+    // catalogId: 34360
+    // groupId: 'boring' // fillgrids
     // jp: 'ようこそ実力至上主義の教室へ',
     // cn: '无职转生 ～在异世界认真地活下去～'
     // userName: 'sukaretto'

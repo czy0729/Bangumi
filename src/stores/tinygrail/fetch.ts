@@ -49,13 +49,14 @@ import {
   LIST_EMPTY,
   TINYGRAIL_ASSETS_LIMIT
 } from '@constants'
-import { AnyObject, Id, MonoId, UserId } from '@types'
 import Computed from './computed'
-import { INIT_ASSETS, INIT_AUCTION_STATUS, INIT_USER_LOGS, NAMESPACE } from './init'
-import { CHARA_ITEM, REFINE_TEMPLE_ITEM } from './mock'
+import { INIT_ASSETS, INIT_AUCTION_STATUS, INIT_USER_LOGS } from './init'
 import { calculateRate, mapItems, throttleInfo, toCharacter } from './utils'
 import { defaultKey, defaultSort, paginationOnePage } from './ds'
-import { ListKey } from './types'
+
+import type { AnyObject, Id, MonoId, UserId } from '@types'
+import type { CHARA_ITEM, REFINE_TEMPLE_ITEM } from './mock'
+import type { ListKey } from './types'
 
 export default class Fetch extends Computed {
   /** 更新人物头像缓存 */
@@ -1622,10 +1623,7 @@ export default class Fetch extends Computed {
         // 循环请求获取第一卖单价
         await queue(
           list.map(item => () => {
-            throttleInfo(
-              // @ts-expect-error
-              `${list.findIndex(i => item.id === i.id) + 1} / ${list.length}`
-            )
+            throttleInfo(`${list.findIndex(i => item.id === i.id) + 1} / ${list.length}`)
             return this.fetchDepth(item.id)
           })
         )
@@ -1658,7 +1656,7 @@ export default class Fetch extends Computed {
         }
         info('分析完毕')
       } catch (error) {
-        console.error(NAMESPACE, 'fetchAdvanceList', error)
+        this.error('fetchAdvanceList', error)
       }
     }
 
@@ -1687,10 +1685,7 @@ export default class Fetch extends Computed {
         // 循环请求获取第一买单价
         await queue(
           list.map(item => () => {
-            throttleInfo(
-              // @ts-expect-error
-              `${list.findIndex(i => item.id === i.id) + 1} / ${list.length}`
-            )
+            throttleInfo(`${list.findIndex(i => item.id === i.id) + 1} / ${list.length}`)
             return this.fetchDepth(item.id)
           })
         )
@@ -1735,7 +1730,7 @@ export default class Fetch extends Computed {
         }
         info('分析完毕')
       } catch (error) {
-        console.error(NAMESPACE, 'fetchAdvanceBidList', error)
+        this.error('fetchAdvanceBidList', error)
       }
     }
 
@@ -1946,10 +1941,7 @@ export default class Fetch extends Computed {
         // 循环请求获取第一卖单价
         await queue(
           list.map(item => () => {
-            throttleInfo(
-              // @ts-expect-error
-              `${list.findIndex(i => item.id === i.id) + 1} / ${list.length}`
-            )
+            throttleInfo(`${list.findIndex(i => item.id === i.id) + 1} / ${list.length}`)
             return this.fetchDepth(item.id)
           })
         )
@@ -1983,7 +1975,7 @@ export default class Fetch extends Computed {
         })
         this.save(key)
       } catch (error) {
-        console.error(NAMESPACE, 'fetchAdvanceState', error)
+        this.error('fetchAdvanceState', error)
       }
     }
 

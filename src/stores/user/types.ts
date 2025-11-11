@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-10-09 01:38:17
  */
-import { CollectionStatus, CollectionStatusValue } from '@constants/model/types'
-import {
+import type { CollectionStatus, CollectionStatusValue } from '@constants/model/types'
+import type {
   CollectionStatusCn,
   Id,
   Images,

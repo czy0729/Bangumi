@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-09-23 12:45:54
  */
-import { Loaded, SubjectId } from '@types'
+import type { Loaded, SubjectId } from '@types'
 
 export type SMB = {
   smb: {

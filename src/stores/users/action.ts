@@ -6,9 +6,10 @@
  */
 import { getTimestamp } from '@utils'
 import { D3 } from '@constants'
-import { UserId } from '@types'
 import userStore from '../user'
 import Fetch from './fetch'
+
+import type { UserId } from '@types'
 
 export default class Actions extends Fetch {
   autoUpdateAvatars = async (

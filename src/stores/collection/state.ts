@@ -13,10 +13,10 @@ import { LOADED, NAMESPACE, STATE } from './init'
 type CacheKey = keyof typeof LOADED
 
 export default class State extends Store<typeof STATE> {
-  state = observable(STATE)
-
   private _namespace = NAMESPACE
   private _loaded = LOADED
+
+  state = observable(STATE)
 
   init = async (key: CacheKey, async?: boolean) => {
     if (!key) return false

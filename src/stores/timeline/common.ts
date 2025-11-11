@@ -16,9 +16,10 @@ import {
 } from '@utils'
 import { fetchHTML } from '@utils/fetch'
 import { HTML_TIMELINE, LIST_EMPTY, MODEL_TIMELINE_SCOPE } from '@constants'
-import { Override, TimeLineScope, TimeLineScopeCn, TimeLineType, UserId } from '@types'
-import { Likes } from '../rakuen/types'
-import { Timeline } from './types'
+
+import type { Override, TimeLineScope, TimeLineScopeCn, TimeLineType, UserId } from '@types'
+import type { Likes } from '../rakuen/types'
+import type { Timeline } from './types'
 
 const NODE_TYPE_RAW_TEXT = 3
 

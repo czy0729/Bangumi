@@ -7,10 +7,11 @@
 import { computed } from 'mobx'
 import hash from '@utils/thirdParty/hash'
 import { LIST_EMPTY } from '@constants'
-import { StoreConstructor, SubjectId } from '@types'
-import { STATE } from './init'
 import State from './state'
-import { Characters, Persons } from './types'
+
+import type { StoreConstructor, SubjectId } from '@types'
+import type { STATE } from './init'
+import type { Characters, Persons } from './types'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   /** 更多角色 */

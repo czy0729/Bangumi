@@ -8,17 +8,6 @@ import { computed } from 'mobx'
 import { x18 } from '@utils'
 import { LIST_EMPTY } from '@constants'
 import {
-  Cover,
-  EpId,
-  HTMLText,
-  MonoId,
-  Origin,
-  RatingStatus,
-  StoreConstructor,
-  SubjectId,
-  SubjectTypeValue
-} from '@types'
-import {
   DEFAULT_RATING_STATUS,
   INIT_MONO,
   INIT_MONO_WORKS,
@@ -31,7 +20,19 @@ import {
 } from './init'
 import { getInt } from './utils'
 import State from './state'
-import {
+
+import type {
+  Cover,
+  EpId,
+  HTMLText,
+  MonoId,
+  Origin,
+  RatingStatus,
+  StoreConstructor,
+  SubjectId,
+  SubjectTypeValue
+} from '@types'
+import type {
   ComputedRating,
   EpV2,
   Mono,

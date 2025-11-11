@@ -15,7 +15,8 @@ import {
   HTMLDecode,
   htmlMatch
 } from '@utils'
-import { SearchItem } from './types'
+
+import type { SearchItem } from './types'
 
 export function cheerioSearch(html: string) {
   const $ = cheerio(htmlMatch(html, '<div id="columnSearchB', '<div id="footer'))

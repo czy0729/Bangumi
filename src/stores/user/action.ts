@@ -25,11 +25,12 @@ import {
   M1,
   URL_OAUTH_REDIRECT
 } from '@constants'
-import { EpId, EpStatus, SubjectId } from '@types'
 import { APP_PARAMS } from '../ds'
 import RakuenStore from '../rakuen'
 import Fetch from './fetch'
 import { INIT_ACCESS_TOKEN, INIT_USER_COOKIE, INIT_USER_INFO } from './init'
+
+import type { EpId, EpStatus, SubjectId } from '@types'
 
 export default class Action extends Fetch {
   /** 登出 */

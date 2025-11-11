@@ -14,7 +14,6 @@ import {
   API_SUBJECT_EP,
   CDN_MONO,
   CDN_SUBJECT,
-  DEV,
   HTML_EP,
   HTML_MONO,
   HTML_MONO_VOICES,
@@ -27,7 +26,6 @@ import {
   HTML_SUBJECT_WIKI_COVER,
   HTML_SUBJECT_WIKI_EDIT
 } from '@constants'
-import { EpId, MonoId, RatingStatus, ResponseV0Episodes, SubjectId } from '@types'
 import timelineStore from '../timeline'
 import {
   cheerioMAL,
@@ -49,11 +47,13 @@ import {
   DEFAULT_RATING_STATUS,
   INIT_MONO,
   INIT_SUBJECT_FROM_CDN_ITEM,
-  INIT_SUBJECT_V2,
-  STATE
+  INIT_SUBJECT_V2
 } from './init'
 import { getInt, mapV0Episodes } from './utils'
-import { ApiSubjectResponse, FetchMonoVoicesArgs, FetchMonoWorksArgs } from './types'
+
+import type { EpId, MonoId, RatingStatus, ResponseV0Episodes, SubjectId } from '@types'
+import type { STATE } from './init'
+import type { ApiSubjectResponse, FetchMonoVoicesArgs, FetchMonoWorksArgs } from './types'
 
 export default class Fetch extends Computed {
   /** 条目信息 */
@@ -266,17 +266,17 @@ export default class Fetch extends Computed {
   fetchSubjectSnapshot = async (subjectId: SubjectId) => {
     let result = false
     if (!result) {
-      if (DEV) console.info('fetchSubjectSnapshot.oss', subjectId)
+      this.log('fetchSubjectSnapshot', 'oss', subjectId)
       result = await this.fetchSubjectFromOSS(subjectId)
     }
 
     if (!result) {
-      if (DEV) console.info('fetchSubjectSnapshot.v2', subjectId)
+      this.log('fetchSubjectSnapshot', 'v2', subjectId)
       result = await this.fetchSubjectV2(subjectId)
     }
 
     if (!result) {
-      if (DEV) console.info('fetchSubjectSnapshot.subject', subjectId)
+      this.log('fetchSubjectSnapshot', 'subject', subjectId)
       const data = await this.fetchSubject(subjectId)
       result = !!(data._loaded && data.name)
     }

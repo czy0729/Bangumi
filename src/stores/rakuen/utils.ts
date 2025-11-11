@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-08 22:19:31
  */
-import { TopicId } from '@types'
+import type { TopicId } from '@types'
 
 export function getInt(topicId: TopicId) {
   const str = String(topicId)

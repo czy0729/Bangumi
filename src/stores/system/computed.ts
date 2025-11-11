@@ -6,9 +6,10 @@
  */
 import { computed } from 'mobx'
 import { radiusMd } from '@styles'
-import { AnyObject, StoreConstructor, UserId } from '@types'
-import { STATE } from './init'
 import State from './state'
+
+import type { AnyObject, StoreConstructor, UserId } from '@types'
+import type { STATE } from './init'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   /** 是否开发环境 */

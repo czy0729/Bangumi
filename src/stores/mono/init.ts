@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-06-11 20:38:17
  */
-import { SubjectId } from '@types'
-import { Characters, Persons } from './types'
+import type { SubjectId } from '@types'
+import type { Characters, Persons } from './types'
 
 export const NAMESPACE = 'Mono'
 

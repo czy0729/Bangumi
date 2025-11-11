@@ -5,7 +5,8 @@
  * @Last Modified time: 2025-08-14 21:03:29
  */
 import { $, cData, cFind, cList, cMap, cText } from '@utils'
-import { CharactersItem, PersonsItem } from './types'
+
+import type { CharactersItem, PersonsItem } from './types'
 
 /** 条目更多角色 */
 export function cheerioCharacters(html: string) {

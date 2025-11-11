@@ -7,7 +7,6 @@
 import { computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import { LIST_EMPTY } from '@constants'
-import { Id, ListEmpty, MonoId, StoreConstructor, UserId } from '@types'
 import {
   INIT_ASSETS,
   INIT_AUCTION_STATUS,
@@ -15,12 +14,14 @@ import {
   INIT_CHARACTERS_ITEM,
   INIT_DEPTH_ITEM,
   INIT_KLINE_ITEM,
-  INIT_USER_LOGS,
-  STATE
+  INIT_USER_LOGS
 } from './init'
 import State from './state'
 import { defaultKey, defaultSort, paginationOnePage } from './ds'
-import { Characters, ListKey, MyTemple } from './types'
+
+import type { Id, ListEmpty, MonoId, StoreConstructor, UserId } from '@types'
+import type { STATE } from './init'
+import type { Characters, ListKey, MyTemple } from './types'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   /** 授权 cookie */

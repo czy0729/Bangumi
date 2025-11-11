@@ -10,7 +10,6 @@ import { get } from '@utils/kv'
 import {
   CDN_RAKUEN,
   CDN_RAKUEN_USER_TOPICS,
-  DEV,
   FROZEN_FN,
   HTML_BLOG,
   HTML_BOARD,
@@ -25,17 +24,6 @@ import {
   HTML_TOPIC_EDIT,
   LIST_EMPTY
 } from '@constants'
-import {
-  Id,
-  RakuenScope,
-  RakuenType,
-  RakuenTypeGroup,
-  RakuenTypeMono,
-  SubjectId,
-  TopicId,
-  TopicType,
-  UserId
-} from '@types'
 import {
   cheerioBlog,
   cheerioBoard,
@@ -54,7 +42,19 @@ import {
 import Computed from './computed'
 import { DEFAULT_SCOPE, DEFAULT_TYPE, INIT_TOPIC } from './init'
 import { getInt } from './utils'
-import { NotifyItem } from './types'
+
+import type {
+  Id,
+  RakuenScope,
+  RakuenType,
+  RakuenTypeGroup,
+  RakuenTypeMono,
+  SubjectId,
+  TopicId,
+  TopicType,
+  UserId
+} from '@types'
+import type { NotifyItem } from './types'
 
 export default class Fetch extends Computed {
   /** 获取超展开聚合列表 */
@@ -221,12 +221,12 @@ export default class Fetch extends Computed {
   fetchTopicSnapshot = async (topicId: TopicId) => {
     let result = false
     if (!result) {
-      if (DEV) console.info('fetchTopicSnapshot.oss', topicId)
+      this.log('fetchTopicSnapshot', 'oss', topicId)
       result = await this.fetchTopicFromOSS(topicId)
     }
 
     if (!result) {
-      if (DEV) console.info('fetchTopicSnapshot.topic', topicId)
+      this.log('fetchTopicSnapshot', 'topic', topicId)
       const data = await this.fetchTopic({
         topicId
       })

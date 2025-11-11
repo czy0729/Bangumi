@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-09 21:56:18
  */
-import {
+import type {
   Avatar,
   ColorValue,
   Cover,
@@ -16,7 +16,7 @@ import {
   SubjectTypeValue,
   UserId
 } from '@types'
-import { LOADED } from './init'
+import type { LOADED } from './init'
 
 export type CacheKey = keyof typeof LOADED
 

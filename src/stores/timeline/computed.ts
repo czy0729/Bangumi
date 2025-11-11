@@ -7,12 +7,14 @@
 import { computed } from 'mobx'
 import { desc } from '@utils'
 import { LIST_EMPTY } from '@constants'
-import { Id, StoreConstructor, SubjectId, TimeLineScope, TimeLineType, UserId } from '@types'
-import { Likes } from '../rakuen/types'
 import userStore from '../user'
-import { DEFAULT_SCOPE, DEFAULT_TYPE, STATE } from './init'
+import { DEFAULT_SCOPE, DEFAULT_TYPE } from './init'
 import State from './state'
-import { Hidden, Say, Timeline } from './types'
+
+import type { Id, StoreConstructor, SubjectId, TimeLineScope, TimeLineType, UserId } from '@types'
+import type { Likes } from '../rakuen/types'
+import type { STATE } from './init'
+import type { Hidden, Say, Timeline } from './types'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   /** 时间胶囊 */

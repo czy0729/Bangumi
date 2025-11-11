@@ -5,11 +5,13 @@
  * @Last Modified time: 2025-05-20 00:49:39
  */
 import { observable } from 'mobx'
-import { runAfter } from '@utils'
+import { runAfter, titleCase } from '@utils'
+import { logger } from '@utils/dev'
 import Store from '@utils/store'
-import { SubjectId } from '@types'
 import { LOADED, NAMESPACE, STATE } from './init'
 import { getInt } from './utils'
+
+import type { SubjectId } from '@types'
 
 type CacheKey =
   | keyof typeof LOADED
@@ -19,9 +21,10 @@ type CacheKey =
   | `subjectComments${number}`
 
 export default class State extends Store<typeof STATE> {
-  state = observable(STATE)
-
+  private _namespace = NAMESPACE
   private _loaded = LOADED
+
+  state = observable(STATE)
 
   init = async (key: CacheKey, async?: boolean) => {
     if (!key) return false
@@ -56,5 +59,13 @@ export default class State extends Store<typeof STATE> {
 
   save = (key: CacheKey, data?: any) => {
     return this.setStorage(key, data, NAMESPACE)
+  }
+
+  log = (...arg: any) => {
+    logger.log(`${titleCase(this._namespace)}Store`, ...arg)
+  }
+
+  error = (...arg: any) => {
+    logger.error(`${titleCase(this._namespace)}Store`, ...arg)
   }
 }

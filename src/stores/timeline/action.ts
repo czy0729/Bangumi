@@ -12,8 +12,9 @@ import {
   HTML_ACTION_TIMELINE_REPLY,
   HTML_ACTION_TIMELINE_SAY
 } from '@constants'
-import { Fn, Id, TimeLineScope, TimeLineType, UserId } from '@types'
 import Fetch from './fetch'
+
+import type { Fn, Id, TimeLineScope, TimeLineType, UserId } from '@types'
 
 export default class Action extends Fetch {
   /** 更新隐藏某人动态的截止时间 */

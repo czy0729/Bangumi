@@ -5,7 +5,8 @@
  * @Last Modified time: 2023-03-12 19:23:11
  */
 import { toCN, toJP } from '@utils'
-import { OnAir } from './types'
+
+import type { OnAir } from './types'
 
 /** 云端 onAir 爬虫数据信息补全 */
 export function fixedOnAir(onAir: OnAir) {

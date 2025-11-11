@@ -9,9 +9,10 @@ import { fetchHTML } from '@utils/fetch'
 import { get, gets } from '@utils/kv'
 import hash from '@utils/thirdParty/hash'
 import { HTML_SUBJECT_CHARACTERS, HTML_SUBJECT_PERSONS } from '@constants'
-import { SubjectId } from '@types'
 import { cheerioCharacters, cheerioPersons } from './common'
 import Computed from './computed'
+
+import type { SubjectId } from '@types'
 
 export default class Fetch extends Computed {
   /** 更多角色 */

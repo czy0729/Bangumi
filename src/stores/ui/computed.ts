@@ -5,9 +5,10 @@
  * @Last Modified time: 2023-10-30 04:59:58
  */
 import { computed } from 'mobx'
-import { StoreConstructor } from '@types'
 import State from './state'
-import { STATE } from './init'
+
+import type { StoreConstructor } from '@types'
+import type { STATE } from './init'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   @computed get tapXY() {

@@ -7,9 +7,10 @@
 import { toJS } from 'mobx'
 import { read } from '@utils/db'
 import { get, update } from '@utils/kv'
-import { SubjectId } from '@types'
 import UserStore from '../user'
 import Fetch from './fetch'
+
+import type { SubjectId } from '@types'
 
 export default class Action extends Fetch {
   /** 更新用户自定义放送时间 */

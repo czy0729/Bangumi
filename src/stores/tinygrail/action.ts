@@ -41,11 +41,12 @@ import {
   API_TINYGRAIL_SEARCH,
   SDK
 } from '@constants'
-import { TinygrailMagic } from '@constants/api/types'
-import { Id, MonoId, UserId } from '@types'
 import systemStore from '../system'
 import Fetch from './fetch'
 import { TEXT_TINYGRAIL_WARNING } from './ds'
+
+import type { TinygrailMagic } from '@constants/api/types'
+import type { Id, MonoId, UserId } from '@types'
 
 export default class Action extends Fetch {
   updateCookie = (cookie: string) => {

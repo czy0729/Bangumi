@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-08-21 16:06:19
  */
-import { Loaded, Override } from '@types'
-import { INIT_CHARACTERS_ITEM } from './init'
+import type { Loaded, Override } from '@types'
+import type { INIT_CHARACTERS_ITEM } from './init'
 
 export type ListKey =
   | 'mvc'

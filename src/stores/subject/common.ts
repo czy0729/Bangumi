@@ -29,9 +29,10 @@ import {
   safeObject
 } from '@utils'
 import { HOST } from '@constants'
-import { Id, MonoId, Override, SubjectId, SubjectTypeValue, UserId } from '@types'
-import { Likes } from '../rakuen/types'
-import {
+
+import type { Id, MonoId, Override, SubjectId, SubjectTypeValue, UserId } from '@types'
+import type { Likes } from '../rakuen/types'
+import type {
   EpStatus,
   Mono,
   MonoCommentsItem,

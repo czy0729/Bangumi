@@ -5,8 +5,9 @@
  * @Last Modified time: 2023-04-19 17:57:34
  */
 import { LIST_EMPTY, MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants'
-import { TimeLineScope, TimeLineType } from '@types'
-import { CollectionsTimeline } from './types'
+
+import type { TimeLineScope, TimeLineType } from '@types'
+import type { CollectionsTimeline } from './types'
 
 export const NAMESPACE = 'Timeline'
 

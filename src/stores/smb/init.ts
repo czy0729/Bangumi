@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-03-20 04:37:09
  */
-import { SMB } from './types'
+import type { SMB } from './types'
 
 export const NAMESPACE = 'SMB'
 

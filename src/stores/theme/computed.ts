@@ -8,11 +8,13 @@ import { StyleSheet } from 'react-native'
 import { computed } from 'mobx'
 import { IOS, ORIENTATION_LANDSCAPE, PAD, WEB, WSA } from '@constants'
 import _, { fontSize } from '@styles'
-import { SelectFn, StoreConstructor } from '@types'
 import systemStore from '../system'
-import { DEFAULT_TINYGRAIL_MODE, STATE } from './init'
+import { DEFAULT_TINYGRAIL_MODE } from './init'
 import State from './state'
-import { Color, FontStyle, Mode, Orientation, TinygrailMode } from './types'
+
+import type { SelectFn, StoreConstructor } from '@types'
+import type { STATE } from './init'
+import type { Color, FontStyle, Mode, Orientation, TinygrailMode } from './types'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   /** 主题选择, 黑暗模式使用第二个值 */

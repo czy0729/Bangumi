@@ -8,12 +8,13 @@ import { Appearance, StyleSheet } from 'react-native'
 import { androidDayNightToggle, feedback, info, runAfter } from '@utils'
 import { IOS, WEB, WSA } from '@constants'
 import _, { IS_IOS_5_6_7_8 } from '@styles'
-import { AnyObject, SelectFn, SettingFontsizeadjust } from '@types'
 import systemStore from '../system'
 import Computed from './computed'
 import { STYLES_DARK, STYLES_LIGHT } from './init'
 import { getMemoStyles, getMemoStylesHash } from './utils'
-import { Mode, Orientation, Styles, TinygrailMode } from './types'
+
+import type { AnyObject, SelectFn, SettingFontsizeadjust } from '@types'
+import type { Mode, Orientation, Styles, TinygrailMode } from './types'
 
 export default class Action extends Computed {
   /** 设备选择, 平板设备使用第二个值 */
@@ -199,7 +200,7 @@ export default class Action extends Computed {
       try {
         androidDayNightToggle(this.isDark)
       } catch (error) {
-        console.error('[ThemeStore] changeNavigationBarColor', error)
+        this.error('changeNavigationBarColor', error)
       }
     })
   }
@@ -212,7 +213,7 @@ export default class Action extends Computed {
       try {
         androidDayNightToggle(this.isDark)
       } catch (error) {
-        console.error('[ThemeStore] changeNavigationBarColorTinygrail', error)
+        this.error('changeNavigationBarColorTinygrail', error)
       }
     })
   }
@@ -226,6 +227,7 @@ export default class Action extends Computed {
     dev: boolean = false
   ) => {
     const item = getMemoStyles()
+
     return () => {
       /**
        * 通过闭包使每一个组件里面的 StyleSheet.create 都被缓存
@@ -254,7 +256,7 @@ export default class Action extends Computed {
           item._styles = StyleSheet.create(computedStyles)
         }
 
-        if (dev) console.info(item)
+        if (dev) this.log('memoStyles', item)
       }
 
       return item._styles as T

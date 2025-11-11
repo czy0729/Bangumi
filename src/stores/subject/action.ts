@@ -8,11 +8,12 @@ import CryptoJS from 'crypto-js'
 import { read } from '@utils/db'
 import { get, update } from '@utils/kv'
 import { APP_ID } from '@constants'
-import { Actions, Origin, SubjectId } from '@types'
 import UserStore from '../user'
 import Fetch from './fetch'
 import { getInt, getSubjectSnapshot } from './utils'
-import { SubjectSnapshot } from './types'
+
+import type { Actions, Origin, SubjectId } from '@types'
+import type { SubjectSnapshot } from './types'
 
 export default class Action extends Fetch {
   /** 获取条目信息快照, 尽可能在其他数据中组装条目信息 */

@@ -5,8 +5,9 @@
  * @Last Modified time: 2024-10-09 01:38:42
  */
 import { LIST_EMPTY, MODEL_SUBJECT_TYPE } from '@constants'
-import { ImagesAvatar, SubjectType } from '@types'
-import { Pm, PmMap, UserCollection } from './types'
+
+import type { ImagesAvatar, SubjectType } from '@types'
+import type { Pm, PmMap, UserCollection } from './types'
 
 export const NAMESPACE = 'User'
 

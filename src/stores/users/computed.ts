@@ -8,11 +8,13 @@ import { computed } from 'mobx'
 import { HTMLDecode } from '@utils'
 import { fixedRemote } from '@utils/user-setting'
 import { LIST_EMPTY } from '@constants'
-import { Avatar, StoreConstructor, UserId } from '@types'
 import userStore from '../user'
-import { INIT_USERS, INIT_USERS_INFO, STATE } from './init'
+import { INIT_USERS, INIT_USERS_INFO } from './init'
 import State from './state'
-import {
+
+import type { Avatar, StoreConstructor, UserId } from '@types'
+import type { STATE } from './init'
+import type {
   Blogs,
   Catalogs,
   Characters,

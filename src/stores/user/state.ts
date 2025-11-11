@@ -6,8 +6,8 @@
  */
 import { observable } from 'mobx'
 import { runAfter, titleCase } from '@utils'
+import { logger } from '@utils/dev'
 import Store from '@utils/store'
-import { DEV, TEXT_BADGES } from '@constants'
 import { LOADED, NAMESPACE, STATE } from './init'
 
 type CacheKey = keyof typeof LOADED
@@ -42,13 +42,11 @@ export default class State extends Store<typeof STATE> {
     return this.setStorage(key, undefined, this._namespace)
   }
 
-  /** 开发打印 */
   log = (...arg: any) => {
-    if (DEV) console.info(TEXT_BADGES.primary, `[${titleCase(this._namespace)}Store]`, ...arg)
+    logger.log(`${titleCase(this._namespace)}Store`, ...arg)
   }
 
-  /** 开发打印 */
   error = (...arg: any) => {
-    if (DEV) console.info(TEXT_BADGES.danger, `[${titleCase(this._namespace)}Store]`, ...arg)
+    logger.error(`${titleCase(this._namespace)}Store`, ...arg)
   }
 }

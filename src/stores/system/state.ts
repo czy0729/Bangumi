@@ -6,10 +6,11 @@
  */
 import { observable } from 'mobx'
 import { titleCase } from '@utils'
+import { logger } from '@utils/dev'
 import Store from '@utils/store'
-import { DEV, TEXT_BADGES } from '@constants'
 import { NAMESPACE, STATE } from './init'
-import { CacheKey } from './types'
+
+import type { CacheKey } from './types'
 
 export default class State extends Store<typeof STATE> {
   private _namespace = NAMESPACE
@@ -20,13 +21,11 @@ export default class State extends Store<typeof STATE> {
     return this.setStorage(key, undefined, NAMESPACE)
   }
 
-  /** 开发打印 */
   log = (...arg: any) => {
-    if (DEV) console.info(TEXT_BADGES.primary, `[${titleCase(this._namespace)}Store]`, ...arg)
+    logger.log(`${titleCase(this._namespace)}Store`, ...arg)
   }
 
-  /** 开发打印 */
   error = (...arg: any) => {
-    if (DEV) console.info(TEXT_BADGES.danger, `[${titleCase(this._namespace)}Store]`, ...arg)
+    logger.error(`${titleCase(this._namespace)}Store`, ...arg)
   }
 }

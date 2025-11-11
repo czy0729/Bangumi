@@ -16,7 +16,6 @@ import {
   HTML_USERS_PERSON,
   HTML_USERS_WIKI
 } from '@constants'
-import { UserId } from '@types'
 import userStore from '../user'
 import {
   cheerioBlogs,
@@ -27,7 +26,9 @@ import {
   cheerioUsers
 } from './common'
 import Computed from './computed'
-import { FetchCatalogsArgs, Friend } from './types'
+
+import type { UserId } from '@types'
+import type { FetchCatalogsArgs, Friend } from './types'
 
 export default class Fetch extends Computed {
   /** 好友列表 */

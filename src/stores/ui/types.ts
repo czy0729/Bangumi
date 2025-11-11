@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-03-10 16:34:23
  */
-import {
+import type {
   // RatingStatus,
   SubjectId
 } from '@types'

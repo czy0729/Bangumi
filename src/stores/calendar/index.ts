@@ -1,5 +1,4 @@
 /*
- * 时间表, 发现页信息聚合
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
@@ -7,6 +6,7 @@
  */
 import Action from './action'
 
+/** 时间表, 发现页信息聚合 */
 const calendarStore = new Action()
 
 export default calendarStore

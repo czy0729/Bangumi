@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-23 17:25:45
  */
-import {
+import type {
   Avatar,
   Collection,
   Cover,

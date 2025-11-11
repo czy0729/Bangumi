@@ -6,7 +6,10 @@
  */
 import { computed } from 'mobx'
 import { APP_USERID_IOS_AUTH, APP_USERID_TOURIST, HOST, LIST_EMPTY, UA, WEB } from '@constants'
-import {
+import { DEFAULT_SCOPE, INIT_USER_INFO } from './init'
+import State from './state'
+
+import type {
   CollectionStatusCn,
   EpId,
   Id,
@@ -16,9 +19,8 @@ import {
   SubjectType,
   UserId
 } from '@types'
-import { DEFAULT_SCOPE, INIT_USER_INFO, STATE } from './init'
-import State from './state'
-import {
+import type { STATE } from './init'
+import type {
   CollectionsItem,
   CollectionsStatusItem,
   PmDetail,

@@ -19,8 +19,10 @@ import {
   HTML_PRIVACY,
   HTML_TOPIC_EDIT
 } from '@constants'
-import { RakuenReplyType } from '@constants/html/types'
-import {
+import Fetch from './fetch'
+
+import type { RakuenReplyType } from '@constants/html/types'
+import type {
   Fn,
   Id,
   RakuenAutoLoadImage,
@@ -31,8 +33,7 @@ import {
   TopicType,
   UserId
 } from '@types'
-import Fetch from './fetch'
-import { SettingKeys } from './types'
+import type { SettingKeys } from './types'
 
 export default class Action extends Fetch {
   /** 清除电波提醒未读 */
@@ -646,7 +647,8 @@ export default class Action extends Fetch {
       return true
     } catch (error) {}
 
-    console.info('rakuenStore downloadSetting error')
+    this.log('downloadSetting', 'downloadSetting error')
+
     return false
   }
 

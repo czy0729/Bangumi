@@ -6,7 +6,8 @@
  */
 import { ORIENTATION_PORTRAIT, WEB } from '@constants'
 import _ from '@styles'
-import { MemoStylesItem } from './types'
+
+import type { MemoStylesItem } from './types'
 
 export type themeWindowType = {
   width: number

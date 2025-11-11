@@ -1,5 +1,4 @@
 /*
- * 小圣杯
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
@@ -7,7 +6,9 @@
  */
 import Action from './action'
 
+/** 小圣杯 */
 const tinygrailStore = new Action()
+
 setTimeout(() => {
   tinygrailStore.init('cookie')
   tinygrailStore.init('hash')

@@ -11,7 +11,8 @@ import { cheerioRaw, cheerioToday } from './common'
 import Computed from './computed'
 import { INIT_HOME, NAMESPACE } from './init'
 import { fixedOnAir } from './utils'
-import { OnAir } from './types'
+
+import type { OnAir } from './types'
 
 export default class Fetch extends Computed {
   /** 发现页信息聚合 */
@@ -173,6 +174,6 @@ export default class Fetch extends Computed {
       url: 'https://yuc.wiki/202510'
     })
     const data = cheerioRaw(_response)
-    console.info(data)
+    this.log('fetchRaw', data)
   }
 }

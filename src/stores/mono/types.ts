@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-08-14 21:04:39
  */
-import { Id, ListEmpty } from '@types'
-import { LOADED } from './init'
+import type { Id, ListEmpty } from '@types'
+import type { LOADED } from './init'
 
 export type CacheKey = keyof typeof LOADED
 

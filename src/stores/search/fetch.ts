@@ -11,7 +11,8 @@ import { HTML_SEARCH } from '@constants'
 import { cheerioSearch, cheerioSearchMono } from './common'
 import Computed from './computed'
 import { DEFAULT_CAT } from './init'
-import { FetchSearchArgs } from './types'
+
+import type { FetchSearchArgs } from './types'
 
 export default class Fetch extends Computed {
   /** 搜索 */

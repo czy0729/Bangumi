@@ -5,8 +5,9 @@
  * @Last Modified time: 2025-09-09 21:50:09
  */
 import { cData, cFind, cheerio, cMap, cText, htmlMatch, matchAvatar, safeObject } from '@utils'
-import { MonoId, SubjectTypeValue } from '@types'
-import { CatalogsItem, CharactersItem, RecentsItem, Users } from './types'
+
+import type { MonoId, SubjectTypeValue } from '@types'
+import type { CatalogsItem, CharactersItem, RecentsItem, Users } from './types'
 
 /** 好友列表 */
 export function cheerioFriends(html: string) {

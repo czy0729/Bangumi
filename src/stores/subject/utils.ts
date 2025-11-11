@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-20 01:46:28
  */
-import { ResponseV0Episodes, SubjectId } from '@types'
-import { SubjectSnapshot } from './types'
+import type { ResponseV0Episodes, SubjectId } from '@types'
+import type { SubjectSnapshot } from './types'
 
 export function getInt(subjectId: SubjectId) {
   const str = String(subjectId)

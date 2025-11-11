@@ -5,7 +5,8 @@
  * @Last Modified time: 2023-05-16 06:28:44
  */
 import { LIST_EMPTY, MODEL_SEARCH_CAT } from '@constants'
-import { SearchCat } from '@types'
+
+import type { SearchCat } from '@types'
 
 export const NAMESPACE = 'Search'
 

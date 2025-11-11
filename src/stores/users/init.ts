@@ -5,8 +5,9 @@
  * @Last Modified time: 2025-09-09 21:59:42
  */
 import { LIST_EMPTY } from '@constants'
-import { UserId } from '@types'
-import { Catalogs, Characters, Recents, Users } from './types'
+
+import type { UserId } from '@types'
+import type { Catalogs, Characters, Recents, Users } from './types'
 
 export const NAMESPACE = 'Users'
 

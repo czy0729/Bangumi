@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-06 19:41:51
  */
-import { UserId } from '@types'
+import type { UserId } from '@types'
 
 /**
  * 01-01, 02-06, 03-13, 04-18, 05-24, 06-29, 07-31, 08-26, 09-30, 11-05
@@ -95,7 +95,7 @@ function calculateAgeFromId(id: number): number {
  * @returns 提取的 ID，如果未找到则返回 undefined
  */
 function extractIdFromAvatar(avatar: string): number | undefined {
-  const temp = avatar.split('.jpg')[0]
+  const temp = avatar.split('.jpg')[0].split('_')[0]
   const match = temp.match(/(\d+)(?=[^\d]*$)/)
   return match ? Number(match[1]) : undefined
 }

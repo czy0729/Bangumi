@@ -9,7 +9,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { confirm } from '@utils'
 import { DEV, WEB } from '@constants'
 import i18n from '@constants/i18n'
-import { Navigation, SubjectId } from '@types'
 import calendarStore from './calendar'
 import collectionStore from './collection'
 import rakuenStore from './rakuen'
@@ -28,6 +27,8 @@ import {
   USER_STORE_KEYS,
   USERS_STORE_KEYS
 } from './ds'
+
+import type { Navigation, SubjectId } from '@types'
 
 let inited = false
 

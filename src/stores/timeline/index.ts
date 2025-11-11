@@ -1,5 +1,4 @@
 /*
- * 时间胶囊
  * @Author: czy0729
  * @Date: 2019-04-12 23:23:50
  * @Last Modified by: czy0729
@@ -7,6 +6,7 @@
  */
 import Action from './action'
 
+/** 时间胶囊 */
 const timelineStore = new Action()
 
 export default timelineStore

@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-23 11:54:17
  */
-import { Avatar, Cover, Id, ListEmpty, Loaded, SubjectId, UrlUser, UserId } from '@types'
+import type { Avatar, Cover, Id, ListEmpty, Loaded, SubjectId, UrlUser, UserId } from '@types'
 
 export type TimelineItem = {
   date: string

@@ -5,8 +5,9 @@
  * @Last Modified time: 2025-08-21 16:06:42
  */
 import { LIST_EMPTY } from '@constants'
-import { Id, ListEmpty, Loaded } from '@types'
-import {
+
+import type { Id, ListEmpty, Loaded } from '@types'
+import type {
   TinygrailItemsItem,
   TinygrailStarLogsItem,
   TinygrailTopWeekHistoryItem,

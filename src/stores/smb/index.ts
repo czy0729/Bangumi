@@ -4,12 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-17 11:53:46
  */
-import { observable, computed } from 'mobx'
+import { computed, observable } from 'mobx'
 import store from '@utils/store'
 import { DEV } from '@constants'
-import { StoreConstructor, SubjectId } from '@types'
 import { LOG_INIT } from '../ds'
 import { LOADED, NAMESPACE, STATE } from './init'
+
+import type { StoreConstructor, SubjectId } from '@types'
 
 type CacheKey = keyof typeof LOADED
 

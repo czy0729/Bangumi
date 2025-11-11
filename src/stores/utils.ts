@@ -7,8 +7,9 @@
 import { createContext, useContext } from 'react'
 import { r } from '@utils/dev'
 import { urlStringify } from '@utils/utils'
-import { Navigation, NavigationProps, Override } from '@types'
 import Stores from './global'
+
+import type { Navigation, NavigationProps, Override } from '@types'
 
 type Context<T> = {
   id: string

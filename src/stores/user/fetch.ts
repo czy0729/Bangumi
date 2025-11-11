@@ -30,14 +30,6 @@ import {
   URL_OAUTH_REDIRECT
 } from '@constants'
 import {
-  CollectionStatusCn,
-  CollectionStatusValue,
-  Id,
-  SubjectId,
-  SubjectType,
-  UserId
-} from '@types'
-import {
   cheerioPM,
   cheerioPMDetail,
   cheerioPMParams,
@@ -46,7 +38,16 @@ import {
 } from './common'
 import Computed from './computed'
 import { DEFAULT_SCOPE, NAMESPACE } from './init'
-import { PmDetail, PmMap, PmType } from './types'
+
+import type {
+  CollectionStatusCn,
+  CollectionStatusValue,
+  Id,
+  SubjectId,
+  SubjectType,
+  UserId
+} from '@types'
+import type { PmDetail, PmMap, PmType } from './types'
 
 export default class Fetch extends Computed {
   /**

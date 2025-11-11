@@ -117,10 +117,10 @@
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@react-native-community/eslint-config": "^3.0.1",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^5.0.0",
+    "@typescript-eslint/eslint-plugin": "6.21.0",
+    "@typescript-eslint/parser": "6.21.0",
     "babel-plugin-module-resolver": "^5.0.2",
-    "eslint": "^7.32.0",
+    "eslint": "8.56.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.26.1",
