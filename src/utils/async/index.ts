@@ -5,11 +5,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-08-19 20:42:07
  */
-import { RakuenStoreType } from '../../stores/rakuen'
-import { SystemStoreType } from '../../stores/system'
-import { ThemeStoreType } from '../../stores/theme'
-import { UIStoreType } from '../../stores/ui'
-import { UserStoreType } from '../../stores/user'
+import type { RakuenStoreType } from '../../stores/rakuen'
+import type { SystemStoreType } from '../../stores/system'
+import type { ThemeStoreType } from '../../stores/theme'
+import type { UIStoreType } from '../../stores/ui'
+import type { UserStoreType } from '../../stores/user'
 
 /** [同步] 获取 userStore */
 export function syncUserStore() {

@@ -20,10 +20,6 @@ function Filter() {
   return useObserver(() => {
     const typeCn = $.typeCn as '动画' | '书籍' | '游戏' | '三次元'
     const data = DATA_FILTER[typeCn]
-    if (!data) return null
-
-    const { filter } = $.state
-    const text: string = data.getLabel(filter)
 
     const memoData = useMemo(() => {
       if (!data?.data) return []
@@ -37,6 +33,11 @@ function Filter() {
       },
       [data]
     )
+
+    if (!data) return null
+
+    const { filter } = $.state
+    const text: string = data.getLabel(filter)
 
     return (
       <ToolBar.Popover

@@ -4,8 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-23 06:27:30
  */
-import { AnyObject } from '@types'
 import { urlStringify } from '../utils'
+
+import type { AnyObject } from '@types'
 
 /**
  * 获取 APP 网页版页面对应 StoryId

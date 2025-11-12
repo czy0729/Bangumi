@@ -6,7 +6,8 @@
  * @Last Modified time: 2024-09-02 13:59:35
  */
 import { FROZEN_FN } from '@constants/init'
-import { Fn } from '@types'
+
+import type { Fn } from '@types'
 
 /** 保存 base64 图片到相册 (安卓) */
 export async function saveBase64ImageToCameraRoll(

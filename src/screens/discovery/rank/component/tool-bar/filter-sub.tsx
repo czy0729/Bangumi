@@ -20,10 +20,6 @@ function FilterSub() {
   return useObserver(() => {
     const typeCn = $.typeCn as '书籍' | '游戏'
     const data = DATA_FILTER_SUB[typeCn]
-    if (!data) return null
-
-    const { filterSub } = $.state
-    const text: string = data.getLabel(filterSub)
 
     const memoData = useMemo(() => {
       if (!data?.data) return []
@@ -37,6 +33,11 @@ function FilterSub() {
       },
       [data]
     )
+
+    if (!data) return null
+
+    const { filterSub } = $.state
+    const text: string = data.getLabel(filterSub)
 
     return (
       <ToolBar.Popover

@@ -9,7 +9,8 @@ import RNFS from 'react-native-fs'
 import RNFetchBlob from 'rn-fetch-blob'
 import CameraRoll from '@react-native-community/cameraroll'
 import { FROZEN_FN } from '@constants/init'
-import { Fn } from '@types'
+
+import type { Fn } from '@types'
 
 // import { NativeModules } from 'react-native'
 // const { HighRefreshRateModule } = NativeModules

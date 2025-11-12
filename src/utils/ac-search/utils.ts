@@ -9,7 +9,8 @@ import { TEXT_ONLY } from '@constants'
 import { loadJSON } from '@assets/json'
 import { arrGroup } from '../utils'
 import { IGNORE_ITEMS, REG_SPEC, TRIE_INIT_DISTANCE } from './ds'
-import { Substrings, TrieInitDone } from './types'
+
+import type { Substrings, TrieInitDone } from './types'
 
 /** 条目中文对应条目 id */
 const subStrings: Substrings = {}

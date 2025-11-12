@@ -19,7 +19,7 @@ const THIRD_PARTY_UPDATED: SnapshotId[] = []
 export default class Fetch extends Computed {
   /** 获取排行榜 */
   fetchRank = async () => {
-    if (this.state.pagination) {
+    if (!this.state.pagination) {
       this.fetchRankWithoutPagination(true)
       return
     }

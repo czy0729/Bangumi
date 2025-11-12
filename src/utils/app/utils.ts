@@ -4,9 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-23 09:28:55
  */
-import { AnyObject } from '@types'
-import { asc } from '../utils'
 import { syncSystemStore } from '../async'
+import { asc } from '../utils'
+
+import type { AnyObject } from '@types'
 
 /** 是否 null */
 export function isNull(value: any) {

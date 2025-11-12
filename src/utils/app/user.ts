@@ -4,9 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-05-08 04:58:17
  */
-import { UserId } from '@types'
 import { syncRakuenStore } from '../async'
 import { postTask } from '../scheduler'
+
+import type { UserId } from '@types'
 
 /** 处理屏蔽用户, 追踪计数 uuid */
 const memoBlockedUser = new Map<string, true>()

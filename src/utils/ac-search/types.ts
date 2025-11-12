@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-23 06:20:09
  */
-import { SubjectId } from '@types'
+import type { SubjectId } from '@types'
 
 export type Substrings = Record<string, SubjectId>
 
