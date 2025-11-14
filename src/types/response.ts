@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2024-09-09 16:28:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-01 22:24:43
+ * @Last Modified time: 2025-11-13 12:18:07
  */
-import { CollectionStatusValue, SubjectTypeValue } from '@constants/model/types'
-import { Images, SubjectId } from './bangumi'
+import type { CollectionStatusValue, SubjectTypeValue } from '@constants/model/types'
+import type { Images, SubjectId } from './bangumi'
 
 /** https://api.github.com/repos/czy0729/Bangumi/releases/latest */
 export type ResponseGHReleases = {

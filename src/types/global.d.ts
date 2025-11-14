@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-25 17:33:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-05 23:52:20
+ * @Last Modified time: 2025-11-13 12:26:17
  */
 declare namespace global {
   /** 是否开发模式 */
@@ -30,7 +30,17 @@ declare namespace global {
 
 /** 全局 WEB 类型声明 (仅为防止 RN 编译报错) */
 declare const document: {
+  documentElement: {
+    clientWidth: number
+    clientHeight: number
+  }
   querySelector: (selector: string) => {
     offsetTop?: number
   } | null
+}
+
+/** 全局 window 类型声明 (仅为防止 RN 编译报错) */
+declare const window: {
+  self: any
+  top: any
 }

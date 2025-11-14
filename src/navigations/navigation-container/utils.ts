@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-02-13 16:50:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-19 23:40:31
+ * @Last Modified time: 2025-11-13 12:20:26
  */
 import { useEffect, useRef } from 'react'
 import { enableScreens } from 'react-native-screens'
 import { devLog } from '@components'
 import { IOS } from '@constants/constants'
 import { DEV, IOS_IPA } from '@src/config'
-import { Navigation } from '@types'
+
+import type { Navigation } from '@types'
 
 /** 路由路径达到长度后开启 enableScreens */
 const enabledLimit = 5

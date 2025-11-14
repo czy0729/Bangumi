@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-09 04:58:11
+ * @Last Modified time: 2025-11-13 12:18:29
  */
-import { ImageSourcePropType } from 'react-native'
-import {
+import type { ImageSourcePropType } from 'react-native'
+import type {
   CollectionsOrder,
   CollectionStatus,
   CollectionStatusCn,
@@ -14,9 +14,9 @@ import {
   SubjectType,
   SubjectTypeCn
 } from '@constants/model/types'
-import * as Screens from '@screens'
-import { Id, MonoId, PersonId, SubjectId, TopicId, UserId } from './bangumi'
-import { AnyObject, Fn } from './utils'
+import type * as Screens from '@screens'
+import type { Id, MonoId, PersonId, SubjectId, TopicId, UserId } from './bangumi'
+import type { AnyObject, Fn } from './utils'
 
 /** 所有页面路径名 */
 export type Paths = keyof typeof Screens

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-05-22 13:09:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-11 01:06:31
+ * @Last Modified time: 2025-11-13 12:27:25
  */
-import { ModelValueOf } from '@types'
-import {
+import type { ModelValueOf } from '@types'
+import type {
   BROWSER_SORT,
   COLLECTION_STATUS,
   COLLECTIONS_ORDERBY,
@@ -47,7 +47,7 @@ import {
   TINYGRAIL_CACULATE_RICH_TYPE,
   TINYGRAIL_CACULATE_TYPE
 } from './index'
-import { Model } from './utils'
+import type { Model } from './utils'
 
 export type DataSource = string[] | readonly string[]
 

@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-05-24 16:25:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-27 05:23:17
+ * @Last Modified time: 2025-11-13 12:19:57
  */
-import { ColorRaw } from './types'
+import type { ColorRaw } from './types'
 
 const regColor = /\d+/g
 

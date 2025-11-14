@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-03 16:47:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-06 17:43:50
+ * @Last Modified time: 2025-11-13 12:20:38
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
@@ -10,7 +10,8 @@ import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { WSA } from '@constants'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 export const EVENT_APP_TAB_PRESS = 'appTabPress'
 

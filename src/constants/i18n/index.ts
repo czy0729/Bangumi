@@ -1,9 +1,10 @@
 /*
  * i18n 初期设计
+ *
  * @Author: czy0729
  * @Date: 2022-04-28 14:23:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-14 15:48:52
+ * @Last Modified time: 2025-11-13 12:27:02
  */
 import { t } from './utils'
 

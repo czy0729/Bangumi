@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-07-15 10:55:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-08 21:37:19
+ * @Last Modified time: 2025-11-14 20:09:45
  */
 import { LIST_EMPTY } from '@constants'
 
-import type { Blog, Catalog, Dollars, Wiki } from './types'
+import type { Blog, Catalog, Dollars, News, Wiki } from './types'
 
 export const NAMESPACE = 'Discovery'
 
@@ -16,10 +16,6 @@ export const INIT_NINGMOE_DETAIL_ITEM = {
   id: '',
   bgmId: '',
   eps: []
-}
-
-export const INIT_ANITAMA_TIMELINE_ITEM = {
-  list: []
 }
 
 export const INIT_CATALOG_ITEM = {
@@ -109,15 +105,9 @@ const STATE = {
     }
   } as Wiki,
 
-  /** 机核资讯 */
-  gcoresTimeline: {
-    0: INIT_ANITAMA_TIMELINE_ITEM
-  },
-
-  /** 翼萌资讯 */
-  yimengTimeline: {
-    0: INIT_ANITAMA_TIMELINE_ITEM
-  },
+  gcTimeline: {} as Record<number, News>,
+  ymTimeline: {} as Record<number, News>,
+  gsTimeline: {} as Record<number, News>,
 
   /** @deprecated 随机看看 */
   random: LIST_EMPTY,
@@ -125,11 +115,6 @@ const STATE = {
   /** @deprecated 柠萌条目信息 */
   ningMoeDetail: {
     0: INIT_NINGMOE_DETAIL_ITEM
-  },
-
-  /** @deprecated Anitama 文章列表 */
-  anitamaTimeline: {
-    0: INIT_ANITAMA_TIMELINE_ITEM
   },
 
   /** DOLLARS (聊天室) */

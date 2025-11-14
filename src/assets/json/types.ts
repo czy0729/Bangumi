@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-08-28 19:23:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-10 06:43:49
+ * @Last Modified time: 2025-11-13 12:29:13
  */
-import { Expand, Id, SubjectId, SubjectType } from '@types'
+import type { Expand, Id, SubjectId, SubjectType } from '@types'
 
 type Substring = `substrings/${'anime' | 'book' | 'game' | 'alias' | 'addon'}`
 

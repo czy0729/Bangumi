@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-09-01 12:19:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-29 13:04:19
+ * @Last Modified time: 2025-11-14 22:27:50
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => {
   const width = _.window.width - _.wind * 2
+
   return {
     container: {
       minHeight: _.window.height

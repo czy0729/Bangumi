@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:45:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-10 17:57:19
+ * @Last Modified time: 2025-11-14 20:16:42
  */
 import { computed } from 'mobx'
 import { LIST_EMPTY } from '@constants'
 import {
-  INIT_ANITAMA_TIMELINE_ITEM,
   INIT_CATALOG_ITEM,
   INIT_CATELOG_DETAIL_ITEM,
   INIT_CHANNEL,
@@ -110,17 +109,27 @@ export default class Computed extends State implements StoreConstructor<typeof S
     return this.state.wiki
   }
 
-  /** 机核资讯 */
-  gcoresTimeline(page: number = 1) {
-    return computed<News>(() => {
-      return this.state.gcoresTimeline[page] || INIT_ANITAMA_TIMELINE_ITEM
+  gcTimeline(page: number = 1) {
+    const STATE_KEY = 'gcTimeline'
+
+    return computed(() => {
+      return (this.state[STATE_KEY][page] || LIST_EMPTY) as News
     }).get()
   }
 
-  /** 翼萌资讯 */
-  yimengTimeline(page: number = 1) {
-    return computed<News>(() => {
-      return this.state.yimengTimeline[page] || INIT_ANITAMA_TIMELINE_ITEM
+  ymTimeline(page: number = 1) {
+    const STATE_KEY = 'ymTimeline'
+
+    return computed(() => {
+      return (this.state[STATE_KEY][page] || LIST_EMPTY) as News
+    }).get()
+  }
+
+  gsTimeline(page: number = 1) {
+    const STATE_KEY = 'gsTimeline'
+
+    return computed(() => {
+      return (this.state[STATE_KEY][page] || LIST_EMPTY) as News
     }).get()
   }
 
@@ -133,13 +142,6 @@ export default class Computed extends State implements StoreConstructor<typeof S
   ningMoeDetail(subjectId: SubjectId) {
     return computed<typeof INIT_NINGMOE_DETAIL_ITEM>(() => {
       return this.state.ningMoeDetail[subjectId] || INIT_NINGMOE_DETAIL_ITEM
-    }).get()
-  }
-
-  /** @deprecated Anitama 文章列表 */
-  anitamaTimeline(page: number = 1) {
-    return computed<News>(() => {
-      return this.state.anitamaTimeline[page] || INIT_ANITAMA_TIMELINE_ITEM
     }).get()
   }
 

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-08-04 15:48:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-06 17:44:20
+ * @Last Modified time: 2025-11-13 12:20:46
  */
-import { IconfontNames, Navigation, Paths } from '@types'
-import { routesConfig } from './config'
+import type { IconfontNames, Navigation, Paths } from '@types'
+import type { routesConfig } from './config'
 
-export type RouteNames = keyof (typeof routesConfig)[]
+export type RouteNames = keyof typeof routesConfig[]
 
 export type State = {
   stale: boolean

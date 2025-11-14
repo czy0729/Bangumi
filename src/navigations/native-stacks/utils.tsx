@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-08-14 04:14:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-03 21:37:54
+ * @Last Modified time: 2025-11-13 12:20:19
  */
 import { useCallback, useEffect, useState } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -11,8 +11,9 @@ import { _, systemStore } from '@stores'
 import { urlStringify } from '@utils'
 import { useMount } from '@utils/hooks'
 import { IOS } from '@constants'
-import { ColorValue } from '@types'
 import { ANIMATIONS, DEFAULT_SCREEN_OPTIONS } from './ds'
+
+import type { ColorValue } from '@types'
 
 /** 自动判断时机隐藏启动屏, 并返回设备是否启用全面屏 */
 export function useAutoHideSplashScreen() {

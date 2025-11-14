@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-09 23:42:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-06 17:44:25
+ * @Last Modified time: 2025-11-13 12:20:51
  */
 import React from 'react'
 import { Flex, SafeAreaBottom } from '@components'
@@ -13,7 +13,8 @@ import { IOS } from '@constants'
 import { routesConfig } from './config'
 import TabBarItem, { EVENT_APP_TAB_PRESS } from './item'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 export { EVENT_APP_TAB_PRESS }
 

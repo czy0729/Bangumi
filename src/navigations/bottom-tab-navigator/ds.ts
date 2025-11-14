@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-03-04 17:17:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-04 18:02:16
+ * @Last Modified time: 2025-11-13 12:20:11
  */
-import { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs'
+import type { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs'
 
 const COMMENT_SCREEN_OPTIONS: BottomTabNavigationOptions = {
   headerShown: false,

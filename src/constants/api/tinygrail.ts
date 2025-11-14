@@ -1,14 +1,14 @@
 /*
  * 小圣杯
- * https://bgm.tv/dev/app/1143
+ *  - https://bgm.tv/dev/app/1143
  *
  * @Author: czy0729
  * @Date: 2022-05-22 14:04:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-30 05:27:58
+ * @Last Modified time: 2025-11-13 12:21:44
  */
-import { Id, UserId } from '@types'
-import { TinygrailMagic, TinygrailType } from './types'
+import type { Id, UserId } from '@types'
+import type { TinygrailMagic, TinygrailType } from './types'
 
 /** 小圣杯 api 域名 */
 export const API_HOST_TINYGRAIL = 'https://tinygrail.com'

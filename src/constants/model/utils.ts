@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-03-14 15:44:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-25 05:21:20
+ * @Last Modified time: 2025-11-13 12:27:49
  */
-import { ModelItem } from './types'
+import type { ModelItem } from './types'
 
 /** 缓存结果 */
 const CACHE_MAP = new Map()

@@ -1,10 +1,11 @@
 /*
- * HTML地址
- *  - 地址开头带叹号的代表不携带cookie进行请求
+ * HTML 地址
+ *  - 地址开头带叹号的代表不携带 cookie 进行请求
+ *
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-12 20:07:40
+ * @Last Modified time: 2025-11-13 12:26:44
  */
 import { urlStringify } from '@utils/utils'
 import { HOST, URL_ZHINAN } from '../constants'

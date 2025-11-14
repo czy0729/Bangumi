@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-08-17 11:48:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-28 21:01:26
+ * @Last Modified time: 2025-11-13 12:29:10
  */
-import { JSONData, JSONPath } from './types'
+import type { JSONData, JSONPath } from './types'
 
 const GITHUB_STORYBOOK_REPO = 'Bangumi-Storybook/storybook-static'
 

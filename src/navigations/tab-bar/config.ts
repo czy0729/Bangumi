@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-03-10 02:30:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-25 03:05:08
+ * @Last Modified time: 2025-11-13 12:20:42
  */
-import { RoutesConfig } from './types'
+import type { RoutesConfig } from './types'
 
 export const routesConfig: RoutesConfig = {
   Tinygrail: {

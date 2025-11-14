@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:47:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-08 20:57:51
+ * @Last Modified time: 2025-11-14 22:14:49
  */
 import { cheerio, feedback, getTimestamp } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -15,7 +15,8 @@ import {
   HTML_CHANNEL,
   HTML_DOLLARS,
   HTML_TAGS,
-  HTML_WIKI
+  HTML_WIKI,
+  NEWS
 } from '@constants'
 import {
   cheerioBlog,
@@ -27,108 +28,164 @@ import {
   cheerioWiki
 } from './common'
 import Computed from './computed'
-import { DEFAULT_TYPE, INIT_ANITAMA_TIMELINE_ITEM } from './init'
+import { DEFAULT_TYPE } from './init'
 import { getInt } from './utils'
 
 import type { Id, SubjectType } from '@types'
 import type { FetchBlogArgs, FetchCatalogArgs } from './types'
 
 export default class Fetch extends Computed {
-  /** 机核资讯 */
-  fetchGCORESTimeline = async (page: number = 1) => {
-    let data: any = INIT_ANITAMA_TIMELINE_ITEM
+  fetchGCTimeline = async (page: number = 1) => {
+    const TARGET = NEWS[0]
+    const STATE_KEY = 'gcTimeline'
+    const ITEM_KEY = page
+
     try {
       const { _response } = await xhrCustom({
-        url: `https://www.gcores.com/gapi/v1/originals?page[limit]=12&page[offset]=${
+        url: `${TARGET.title}/gapi/v1/originals?page[limit]=12&page[offset]=${
           (page - 1) * 12
           // eslint-disable-next-line max-len
         }&sort=-published-at&include=category,user&filter[is-news]=1&filter[list-all]=0&fields[articles]=title,desc,is-published,thumb,app-cover,cover,comments-count,likes-count,bookmarks-count,is-verified,published-at,option-is-official,option-is-focus-showcase,duration,category,user`,
         headers: {
-          referer: 'https://www.gcores.com/news',
+          referer: TARGET.value,
           'content-type': 'application/vnd.api+json'
         }
       })
 
-      const key = 'gcoresTimeline'
-      data = {
-        list: JSON.parse(_response).data.map(({ id, attributes }) => ({
-          aid: id,
-          url: `https://www.gcores.com/articles/${id}`,
-          origin: '机核GCORES',
-          cover: {
-            url: `https://image.gcores.com/${attributes.thumb}?x-oss-process=image/resize,limit_1,m_lfit,w_1600/quality,q_90`,
-            headers: {
-              Referer: 'https://www.gcores.com/'
-            }
-          },
-          title: attributes.title,
-          subtitle: attributes['published-at'].slice(0, 16).replace('T', ' ')
-        })),
-        _loaded: getTimestamp()
-      }
-
       this.setState({
-        [key]: {
-          [page]: data
+        [STATE_KEY]: {
+          [ITEM_KEY]: {
+            list: JSON.parse(_response).data.map(({ id, attributes }) => ({
+              aid: id,
+              url: `${TARGET.title}/articles/${id}`,
+              origin: TARGET.label,
+              cover: {
+                url: `${TARGET.title.replace('www', 'image')}/${
+                  attributes.thumb
+                }?x-oss-process=image/resize,limit_1,m_lfit,w_1600/quality,q_90`,
+                headers: {
+                  Referer: `${TARGET.title}/`
+                }
+              },
+              title: attributes.title,
+              subtitle: attributes['published-at'].slice(0, 16).replace('T', ' ')
+            })),
+            _loaded: getTimestamp()
+          }
         }
       })
     } catch (error) {
-      this.error('fetchGCORESTimeline', error)
+      this.error('fetchGCTimeline', error)
     }
 
-    return data
+    return this[STATE_KEY](ITEM_KEY)
   }
 
-  /** 翼萌资讯 */
-  fetchYiMengTimeline = async (page: number = 1) => {
-    let data: any = INIT_ANITAMA_TIMELINE_ITEM
+  fetchYMTimeline = async (page: number = 1) => {
+    const TARGET = NEWS[1]
+    const STATE_KEY = 'ymTimeline'
+    const ITEM_KEY = page
+
     try {
       const { _response } = await xhrCustom({
-        url: `https://www.yimoe.cc/news/page/${page}`,
+        url: `${TARGET.title}/news/page/${page}`,
         headers: {
-          referer: 'https://www.yimoe.cc/'
+          referer: `${TARGET.title}/`
         }
       })
 
       const $ = cheerio(_response)
-      data = {
-        list: $('.multi-postlist .post-archive')
-          .map((_index: number, element: any) => {
-            const $li = cheerio(element)
-            const $a = $li.find('.post-meta-box a')
-            const url = $a.attr('href')
 
-            return {
-              aid: url.split('article')?.[1],
-              url,
-              author: '',
-              origin: '翼萌动漫',
-              cover: {
-                url: $li.find('.fengmian').attr('lay-src'),
-                headers: {
-                  Referer: 'https://www.yimoe.cc/'
-                }
-              },
-              title: $a.find('h3').text().trim(),
-              intro: '',
-              subtitle: $a.find('.multi-left').text().trim()
-            }
-          })
-          .get(),
-        _loaded: getTimestamp()
-      }
-
-      const key = 'yimengTimeline'
       this.setState({
-        [key]: {
-          [page]: data
+        [STATE_KEY]: {
+          [ITEM_KEY]: {
+            list: $('.multi-postlist .post-archive')
+              .map((_index: number, element: any) => {
+                const $li = cheerio(element)
+                const $a = $li.find('.post-meta-box a')
+                const url = $a.attr('href')
+
+                return {
+                  aid: url.split('article')?.[1],
+                  url,
+                  author: '',
+                  origin: TARGET.label,
+                  cover: {
+                    url: $li.find('.fengmian').attr('lay-src'),
+                    headers: {
+                      Referer: `${TARGET.title}/`
+                    }
+                  },
+                  title: $a.find('h3').text().trim(),
+                  intro: '',
+                  subtitle: $a.find('.multi-left').text().trim()
+                }
+              })
+              .get(),
+            _loaded: getTimestamp()
+          }
         }
       })
     } catch (error) {
-      this.error('fetchYiMengTimeline', error)
+      this.error('fetchYMTimeline', error)
     }
 
-    return data
+    return this[STATE_KEY](ITEM_KEY)
+  }
+
+  fetchGSTimeline = async (page: number = 1) => {
+    const TARGET = NEWS[2]
+    const STATE_KEY = 'gsTimeline'
+    const ITEM_KEY = page
+
+    try {
+      const { _response } = await xhrCustom({
+        url: `${TARGET.title.replace(
+          'acg',
+          'db2'
+        )}/LabelJsonpAjax.aspx?jsondata=${`{"type":"putspecialbody","isCache":true,"cacheTime":60,"specialId":"2319","isSpecialId":"true","page":${page}}`}`,
+        headers: {
+          referer: `${TARGET.title}/`
+        }
+      })
+
+      const $ = cheerio(JSON.parse(_response.slice(1, _response.length - 2)).body)
+
+      this.setState({
+        [STATE_KEY]: {
+          [ITEM_KEY]: {
+            list: $('.ptxt')
+              .map((_index: number, element: any) => {
+                const $li = cheerio(element)
+                const $a = $li.find('.tit a')
+                const url = $a.attr('href')
+
+                return {
+                  aid: url.split('news')?.[1],
+                  url,
+                  author: '',
+                  origin: TARGET.label,
+                  cover: {
+                    url: $li.find('.img img').attr('src'),
+                    headers: {
+                      Referer: `${TARGET.title}/`
+                    }
+                  },
+                  title: $a.text().trim(),
+                  intro: '',
+                  subtitle: $li.find('.tem .time').text().trim()
+                }
+              })
+              .get(),
+            _loaded: getTimestamp()
+          }
+        }
+      })
+    } catch (error) {
+      this.error('fetchGSTimeline', error)
+    }
+
+    return this[STATE_KEY](ITEM_KEY)
   }
 
   /** 标签 */

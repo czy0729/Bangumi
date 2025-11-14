@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-08-17 11:48:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-10 06:44:30
+ * @Last Modified time: 2025-11-13 12:29:06
  */
-import { JSONData, JSONPath } from './types'
+import type { JSONData, JSONPath } from './types'
 
 const memo = new Map<JSONPath, JSONData[JSONPath]>()
 const lock = new Map<JSONPath, true>()
