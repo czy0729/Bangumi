@@ -7,13 +7,17 @@
 import React from 'react'
 import { HeaderV2 } from '@components'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../types'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 
+import type { Ctx } from '../types'
+
 function Header() {
-  const { $ } = useStore<Ctx>()
-  return <HeaderV2 title={$.name ? `${$.name}的预览` : '预览'} alias='预览' hm={$.hm} />
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
+    <HeaderV2 title={$.name ? `${$.name}的预览` : '预览'} alias='预览' hm={$.hm} />
+  ))
 }
 
-export default ob(Header, COMPONENT)
+export default Header

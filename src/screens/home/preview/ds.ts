@@ -4,4 +4,4 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-16 17:31:27
  */
-export const COMPONENT = 'Preview-V2'
+export const COMPONENT = 'Preview'

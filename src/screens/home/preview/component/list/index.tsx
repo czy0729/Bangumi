@@ -9,78 +9,83 @@ import { Image, ScrollView, Text, Touchable } from '@components'
 import { InView } from '@_'
 import { _, useStore } from '@stores'
 import { showImageViewer } from '@utils'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { WEB } from '@constants'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+import type { ImageProps } from '@components'
+import type { Ctx } from '../../types'
+
 function List() {
-  const { $, navigation } = useStore<Ctx>()
-  const styles = memoStyles()
-  const { epsThumbs = [], epsThumbsHeader = {} } = $.state
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
 
-  let images: string[] = $.data.length ? $.data : epsThumbs
-  const headers: {
-    Referer?: string
-  } = $.headers?.Referer ? $.headers : epsThumbsHeader
+  return useObserver(() => {
+    const styles = memoStyles()
+    const { epsThumbs = [], epsThumbsHeader = {} } = $.state
 
-  const passProps: any = {}
-  if (headers?.Referer && headers.Referer.includes('douban')) {
-    if ($.data.length && $.data[0].includes('douban')) images = [...$.data]
-    epsThumbs.forEach(item => {
-      // 存在多域名分布式链接, 使用后缀判断是否重复
-      const ext = item.split(/public/)?.[1]
-      if (ext) {
-        const flag = images.some(item => item.includes(ext))
-        if (!flag) images.push(item)
+    const hasData = $.data.length > 0
+    const headers = $.headers?.Referer ? $.headers : epsThumbsHeader
+    let images: string[] = hasData ? [...$.data] : [...epsThumbs]
+
+    const isDouban = headers?.Referer?.includes('douban')
+    if (isDouban) {
+      if (hasData && $.data[0]?.includes('douban')) {
+        images = [...$.data]
       }
-    })
 
-    passProps.autoSize = styles.item.width
-    passProps.fallback = true
-  } else {
-    passProps.width = styles.item.width
-    passProps.height = styles.item.width * 0.56
-    passProps.fallback = true
-  }
+      // 去重逻辑：用 /public 后缀片段去判重
+      epsThumbs.forEach(item => {
+        const ext = item.split(/public/)?.[1]
+        if (ext && !images.some(target => target.includes(ext))) {
+          images.push(item)
+        }
+      })
+    }
 
-  return (
-    <ScrollView style={_.mt.sm} contentContainerStyle={_.container.page} onScroll={$.onScroll}>
-      {images.map((item, index) => (
-        <InView key={item} style={styles.item} y={200 * (index + 1)}>
+    const passProps: ImageProps = {
+      fallback: true
+    }
+
+    if (isDouban) {
+      passProps.autoSize = styles.item.width
+    } else {
+      passProps.width = styles.item.width
+      passProps.height = styles.item.minHeight
+    }
+
+    const viewerData = images.map(url => ({
+      url: url.split('@')?.[0],
+      headers
+    }))
+
+    return (
+      <ScrollView style={_.mt.sm} contentContainerStyle={_.container.page} onScroll={$.onScroll}>
+        {images.map((item, index) => (
+          <InView key={item} style={styles.item} y={styles.item.minHeight * (index + 1)}>
+            <Touchable withoutFeedback onPress={() => showImageViewer(viewerData, index)}>
+              <Image {...passProps} src={item} headers={headers} errorToHide />
+            </Touchable>
+          </InView>
+        ))}
+
+        {!!(WEB && $.subjectId) && (
           <Touchable
-            withoutFeedback
+            style={_.mt.lg}
             onPress={() => {
-              showImageViewer(
-                images.map(item => ({
-                  url: item.split('@')?.[0],
-                  headers
-                })),
-                index
-              )
+              navigation.push('Subject', {
+                subjectId: $.subjectId
+              })
             }}
           >
-            <Image {...passProps} src={item} headers={headers} errorToHide />
+            <Text align='center' underline>
+              返回条目
+            </Text>
           </Touchable>
-        </InView>
-      ))}
-      {!!(WEB && $.subjectId) && (
-        <Touchable
-          style={_.mt.lg}
-          onPress={() => {
-            navigation.push('Subject', {
-              subjectId: $.subjectId
-            })
-          }}
-        >
-          <Text align='center' underline>
-            返回条目
-          </Text>
-        </Touchable>
-      )}
-    </ScrollView>
-  )
+        )}
+      </ScrollView>
+    )
+  })
 }
 
-export default ob(List, COMPONENT)
+export default List

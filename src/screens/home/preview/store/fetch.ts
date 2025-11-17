@@ -1,10 +1,10 @@
-import { randomizeImgHost } from '@utils'
 /*
  * @Author: czy0729
  * @Date: 2024-09-07 01:42:30
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-28 18:10:38
  */
+import { randomizeImgHost } from '@utils'
 import { getPreview, matchMovie, search } from '@utils/douban'
 import { get } from '@utils/kv'
 import Action from './action'

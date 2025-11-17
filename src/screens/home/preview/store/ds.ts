@@ -5,8 +5,9 @@
  * @Last Modified time: 2024-09-07 01:10:37
  */
 import { _ } from '@stores'
-import { Loaded } from '@types'
 import { COMPONENT } from '../ds'
+
+import type { Loaded } from '@types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
@@ -21,7 +22,14 @@ export const EXCLUDE_STATE = {
 
 export const STATE = {
   ...EXCLUDE_STATE,
-  epsThumbs: [],
-  epsThumbsHeader: {},
+
+  /** 缩略图 */
+  epsThumbs: [] as string[],
+
+  /** 缩略图请求头 */
+  epsThumbsHeader: {} as {
+    Referer?: string
+  },
+
   _loaded: false as Loaded
 }

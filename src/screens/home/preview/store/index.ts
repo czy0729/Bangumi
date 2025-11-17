@@ -6,7 +6,9 @@
  */
 import { WEB } from '@constants'
 import Fetch from './fetch'
-import { EXCLUDE_STATE, RESET_STATE, STATE } from './ds'
+import { RESET_STATE } from './ds'
+
+import type { EXCLUDE_STATE, STATE } from './ds'
 
 export default class ScreenPreview extends Fetch {
   init = async () => {

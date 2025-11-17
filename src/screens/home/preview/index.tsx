@@ -8,10 +8,11 @@ import React from 'react'
 import { Component, Page } from '@components'
 import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import List from './component/list'
 import Header from './header'
 import { usePreviewPage } from './hooks'
+
+import type { NavigationProps } from '@types'
 
 /** 预览 */
 const Preview = (props: NavigationProps) => {

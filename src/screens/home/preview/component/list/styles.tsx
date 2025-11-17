@@ -6,11 +6,16 @@
  */
 import { _ } from '@stores'
 
-export const memoStyles = _.memoStyles(() => ({
-  item: {
-    width: _.window.width - (2 * _.wind - _._wind),
-    minHeight: 120,
-    marginLeft: _.sm,
-    marginBottom: _.md
+export const memoStyles = _.memoStyles(() => {
+  const width = Math.floor(_.window.width - (2 * _.wind - _._wind))
+  const height = Math.floor(width * 0.56)
+
+  return {
+    item: {
+      width,
+      minHeight: height,
+      marginLeft: _.sm,
+      marginBottom: _.md
+    }
   }
-}))
+})
