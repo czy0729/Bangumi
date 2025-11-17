@@ -84,11 +84,6 @@ class GlobalStores {
       for (let i = 0; i < COLLECTION_STORE_KEYS.length; i += 1) {
         await collectionStore.init(COLLECTION_STORE_KEYS[i])
       }
-      if (!DEV) {
-        setTimeout(() => {
-          collectionStore.fetchUserCollectionsQueue()
-        }, 16000)
-      }
 
       /** ==================== rakuenStore ==================== */
       for (let i = 0; i < RAKUEN_STORE_KEYS.length; i += 1) {
