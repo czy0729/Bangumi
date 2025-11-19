@@ -8,9 +8,10 @@ import { useCallback, useEffect } from 'react'
 import { useOnScroll } from '@components/header/utils'
 import { useInitStore } from '@stores'
 import { usePageLifecycle, useViewport } from '@utils/hooks'
-import { NavigationProps, ScrollEvent } from '@types'
 import store from './store'
-import { Ctx } from './types'
+
+import type { NavigationProps, ScrollEvent } from '@types'
+import type { Ctx } from './types'
 
 /** 人物页面逻辑 */
 export function useMonoPage(props: NavigationProps) {

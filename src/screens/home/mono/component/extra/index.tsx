@@ -8,11 +8,12 @@ import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { _, monoStore, tinygrailStore, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import Favor from '../favor'
 import Extra from './extra'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function ExtraWrap() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)

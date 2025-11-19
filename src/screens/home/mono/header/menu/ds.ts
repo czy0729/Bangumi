@@ -7,8 +7,9 @@
 import { cnjp, copy } from '@utils'
 import { rc } from '@utils/dev'
 import { TEXT_MENU_COPY_LINK, TEXT_MENU_COPY_SHARE } from '@constants'
-import { Ctx } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
+
+import type { Ctx } from '../../types'
 
 export const COMPONENT = rc(PARENT, 'Menu')
 

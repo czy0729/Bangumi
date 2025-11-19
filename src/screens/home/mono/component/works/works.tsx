@@ -13,10 +13,11 @@ import { _ } from '@stores'
 import { appNavigate, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
-import { SubjectTypeCn } from '@types'
 import { COVER_HEIGHT, COVER_WIDTH } from '../../ds'
 import SectionRight from '../section-right'
 import { COMPONENT_MAIN, DEFAULT_PROPS, EVENT } from './ds'
+
+import type { SubjectTypeCn } from '@types'
 
 const Works = memo(
   ({ navigation, styles, style, works }) => {

@@ -6,10 +6,11 @@
  */
 import { computed } from 'mobx'
 import { subjectStore, systemStore, tinygrailStore } from '@stores'
-import { Mono } from '@stores/subject/types'
 import { cnjp, desc, getMonoCoverSmall, HTMLDecode } from '@utils'
 import { FROZEN_ARRAY, HOST } from '@constants'
 import State from './state'
+
+import type { Mono } from '@stores/subject/types'
 
 export default class Computed extends State {
   /** 人物 id (包含角色, 工作人员) */

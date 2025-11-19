@@ -10,8 +10,9 @@ import { baiduTranslate, fetchHTML, t } from '@utils/fetch'
 import { lx } from '@utils/kv'
 import { webhookMono } from '@utils/webhooks'
 import { HOST } from '@constants'
-import { Id, Navigation } from '@types'
 import Fetch from './fetch'
+
+import type { Id, Navigation } from '@types'
 
 export default class Action extends Fetch {
   /** 人物更多资料点击 */

@@ -9,10 +9,11 @@ import { PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import Info from '../info'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
+
+import type { Ctx } from '../../types'
 
 function List({ onScroll }) {
   const { $ } = useStore<Ctx>(COMPONENT)

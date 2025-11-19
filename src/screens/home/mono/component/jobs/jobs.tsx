@@ -13,9 +13,10 @@ import { _, systemStore } from '@stores'
 import { appNavigate, cnjp, getCoverMedium, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
-import { SubjectTypeCn } from '@types'
 import { COVER_HEIGHT, COVER_WIDTH } from '../../ds'
 import { COMPONENT_MAIN, DEFAULT_PROPS, EVENT } from './ds'
+
+import type { SubjectTypeCn } from '@types'
 
 const Jobs = memo(
   ({ navigation, styles, style, jobs }) => {

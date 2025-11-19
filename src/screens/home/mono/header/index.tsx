@@ -10,11 +10,12 @@ import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import Extra from '../component/extra'
 import HeaderTitle from '../component/header-title'
-import { Ctx } from '../types'
 import Menu from './menu'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { Ctx } from '../types'
+import type { Props } from './types'
 
 function Header({ fixed }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

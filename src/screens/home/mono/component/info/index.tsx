@@ -9,7 +9,6 @@ import { View } from 'react-native'
 import { Divider, Flex, HeaderPlaceholder, Iconfont, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import Collabs from '../collabs'
 import Collected from '../collected'
 import Content from '../content'
@@ -21,6 +20,8 @@ import Voice from '../voice'
 import Works from '../works'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function Info() {
   const { $ } = useStore<Ctx>(COMPONENT)

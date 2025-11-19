@@ -7,18 +7,20 @@
 import React from 'react'
 import { InView, ItemPost } from '@_'
 import { _ } from '@stores'
-import { MonoCommentsItem } from '@stores/subject/types'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import { RenderItem } from '@types'
 import { COMPONENT, EVENT, ITEM_HEIGHT } from './ds'
 import { memoStyles } from './styles'
+
+import type { MonoCommentsItem } from '@stores/subject/types'
+import type { RenderItem } from '@types'
 
 function Item({ item, index }: RenderItem<MonoCommentsItem>) {
   r(COMPONENT)
 
   return useObserver(() => {
     const styles = memoStyles()
+
     return (
       <InView y={_.window.height + ITEM_HEIGHT * (index + 1)}>
         <ItemPost

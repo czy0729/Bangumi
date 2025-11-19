@@ -5,9 +5,10 @@
  * @Last Modified time: 2024-09-19 22:35:29
  */
 import { _ } from '@stores'
-import { Mono, MonoComments } from '@stores/subject/types'
-import { Loaded, TranslateResult } from '@types'
 import { COMPONENT } from '../ds'
+
+import type { Mono, MonoComments } from '@stores/subject/types'
+import type { Loaded, TranslateResult } from '@types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 

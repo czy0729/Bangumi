@@ -11,9 +11,10 @@ import { HTML, IconTouchable } from '@_'
 import { _, systemStore, useStore } from '@stores'
 import { isChineseParagraph } from '@utils'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function Content() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)

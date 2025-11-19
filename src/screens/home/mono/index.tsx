@@ -8,10 +8,11 @@ import React from 'react'
 import { Component, Heatmap, Page } from '@components'
 import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import List from './component/list'
 import Header from './header'
 import { useMonoPage } from './hooks'
+
+import type { NavigationProps } from '@types'
 
 /** 人物 */
 const Mono = (props: NavigationProps) => {

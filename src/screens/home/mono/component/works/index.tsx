@@ -7,10 +7,11 @@
 import React from 'react'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import Works from './works'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function WorksWrap() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)

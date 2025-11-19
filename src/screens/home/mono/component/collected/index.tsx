@@ -12,9 +12,10 @@ import { _, useStore } from '@stores'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
 import { HOST, SCROLL_VIEW_RESET_PROPS } from '@constants'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function Collected() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)

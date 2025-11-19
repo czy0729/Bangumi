@@ -10,9 +10,10 @@ import { IconWordCloud, SectionTitle as SectionTitleComp } from '@_'
 import { useStore } from '@stores'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function SectionTitle() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)

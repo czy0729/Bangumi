@@ -11,8 +11,9 @@ import { open } from '@utils'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
 import { TEXT_MENU_BROWSER, TEXT_MENU_SPLIT_LEFT, TEXT_MENU_SPLIT_RIGHT } from '@constants'
-import { Ctx } from '../../types'
 import { COMPONENT, MENU_ACTIONS, MENU_DS } from './ds'
+
+import type { Ctx } from '../../types'
 
 function Menu() {
   const { $ } = useStore<Ctx>(COMPONENT)
