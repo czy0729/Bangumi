@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-25 03:51:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-09 19:11:29
+ * @Last Modified time: 2025-11-20 14:14:53
  */
 import { StyleSheet } from 'react-native'
 import { IOS } from '@constants/constants'
@@ -189,6 +189,9 @@ export const mb = StyleSheet.create({
   },
   lg: {
     marginBottom: lg
+  },
+  _xs: {
+    marginBottom: -xs
   }
 } as const)
 

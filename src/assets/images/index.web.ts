@@ -7,6 +7,8 @@
 export const GROUP_THUMB_MAP = {
   wordcloud: './assets/images/wordcloud.png',
   wordcloud_0: './assets/images/wordcloud_0.png',
+  sound: './assets/images/sound.png',
+  sound_0: './assets/images/sound_0.png',
   circle: './assets/images/circle.png',
   '//lain.bgm.tv/pic/icon/s/000/00/00/11.jpg': './assets/images/group/a.jpg',
   '//lain.bgm.tv/pic/icon/s/000/00/00/2.jpg': './assets/images/group/forum.jpg',
@@ -16,4 +18,4 @@ export const GROUP_THUMB_MAP = {
   '//lain.bgm.tv/pic/icon/s/000/00/42/4294.jpg': './assets/images/group/tinygrail.jpg',
   '//lain.bgm.tv/pic/icon/s/000/00/43/4312.jpg': './assets/images/group/kink.jpg',
   '//lain.bgm.tv/pic/icon/s/000/00/44/4456.jpg': './assets/images/group/trash_cans.jpg'
-}
+} as const

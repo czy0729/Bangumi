@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 10:03:33
+ * @Last Modified time: 2025-11-20 14:35:03
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Divider, Flex, HeaderPlaceholder, Iconfont, Text, Touchable } from '@components'
+import { IconSound } from '@_'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import Collabs from '../collabs'
@@ -28,6 +29,13 @@ function Info() {
 
   return useObserver(() => {
     const styles = memoStyles()
+
+    let text = ''
+    try {
+      text = // $.info.match(/<span[^>]*>罗马音<\/span>\s*([^<]+)/)?.[1] ||
+        ($.nameBottom || $.nameTop || '').trim()
+    } catch (error) {}
+
     return (
       <View style={styles.info}>
         <HeaderPlaceholder />
@@ -36,9 +44,12 @@ function Info() {
             <Text size={20} bold>
               {$.nameTop}{' '}
             </Text>
-            <Text type='sub' lineHeight={20} bold>
-              {$.nameBottom}
-            </Text>
+            {!!$.nameBottom && (
+              <Text type='sub' lineHeight={20} bold>
+                {$.nameBottom}
+              </Text>
+            )}
+            <IconSound style={styles.sound} text={text} />
           </Flex>
           <Cover thumb={$.thumb} src={$.cover} monoId={$.monoId} />
           <Content />

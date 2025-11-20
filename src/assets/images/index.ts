@@ -7,6 +7,8 @@
 export const GROUP_THUMB_MAP = {
   wordcloud: require('@assets/images/wordcloud.png'),
   wordcloud_0: require('@assets/images/wordcloud_0.png'),
+  sound: require('@assets/images/sound.png'),
+  sound_0: require('@assets/images/sound_0.png'),
   mesume: require('@assets/images/mesume.png'),
   mesume_0: require('@assets/images/mesume_0.png'),
   mesume_icon: require('@assets/images/mesume_icon.png'),

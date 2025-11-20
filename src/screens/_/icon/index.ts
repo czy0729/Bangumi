@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-08 20:14:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-04 06:41:07
+ * @Last Modified time: 2025-11-20 14:07:05
  */
 export * from './back'
 export * from './bookmarks'
@@ -14,6 +14,7 @@ export * from './mesume'
 export * from './navigate'
 export * from './notify'
 export * from './reverse'
+export * from './sound'
 export * from './tabs-header'
 export * from './tinygrail'
 export * from './touchable'
