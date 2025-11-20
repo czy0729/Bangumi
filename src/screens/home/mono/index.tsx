@@ -16,16 +16,16 @@ import type { NavigationProps } from '@types'
 
 /** 人物 */
 const Mono = (props: NavigationProps) => {
-  const { id, fixed, handleScroll } = useMonoPage(props)
+  const { id } = useMonoPage(props)
 
   return useObserver(() => (
     <Component id='screen-mono'>
       <StoreContext.Provider value={id}>
         <Page statusBarEvent={false}>
-          <List onScroll={handleScroll} />
+          <List />
           <Heatmap id='人物' screen='Mono' />
         </Page>
-        <Header fixed={fixed} />
+        <Header />
       </StoreContext.Provider>
     </Component>
   ))

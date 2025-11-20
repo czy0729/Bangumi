@@ -4,17 +4,34 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-01-10 04:42:22
  */
+import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
 import { systemStore, tinygrailStore, userStore } from '@stores'
-import { feedback, info, loading, open, removeHTMLTag } from '@utils'
+import { feedback, info, loading, open, removeHTMLTag, updateVisibleBottom } from '@utils'
 import { baiduTranslate, fetchHTML, t } from '@utils/fetch'
 import { lx } from '@utils/kv'
 import { webhookMono } from '@utils/webhooks'
 import { HOST } from '@constants'
 import Fetch from './fetch'
 
-import type { Id, Navigation } from '@types'
+import type { Id, Navigation, ScrollEvent } from '@types'
 
 export default class Action extends Fetch {
+  updateVisibleBottom = updateVisibleBottom.bind(this)
+
+  /** 更新可视范围底部 y */
+  onScroll = (e: ScrollEvent) => {
+    this.updateVisibleBottom(e)
+
+    // 计算头部是否需要固定
+    const { y } = e.nativeEvent.contentOffset
+    const { fixed } = this.state
+    if ((fixed && y > HEADER_TRANSITION_HEIGHT) || (!fixed && y <= HEADER_TRANSITION_HEIGHT)) return
+
+    this.setState({
+      fixed: y > HEADER_TRANSITION_HEIGHT
+    })
+  }
+
   /** 人物更多资料点击 */
   onMore = () => {
     t('人物.更多资料', {
@@ -27,6 +44,7 @@ export default class Action extends Fetch {
       )}&mobileaction=toggle_view_mobile`
     )
   }
+
   /** 展开回复子楼层 */
   toggleExpand = (id: Id) => {
     const { expands } = this.state
@@ -35,7 +53,6 @@ export default class Action extends Fetch {
     })
   }
 
-  // -------------------- action --------------------
   /** 收藏人物 */
   doCollect = async () => {
     const { collectUrl } = this.mono

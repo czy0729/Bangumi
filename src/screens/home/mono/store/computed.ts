@@ -28,6 +28,10 @@ export default class Computed extends State {
     return `${HOST}/${this.monoId}`
   }
 
+  @computed get hm() {
+    return [this.url, 'Mono'] as const
+  }
+
   /** 人物信息 */
   @computed get mono() {
     return subjectStore.mono(this.monoId)

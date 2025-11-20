@@ -15,19 +15,18 @@ import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 import type { Ctx } from '../types'
-import type { Props } from './types'
 
-function Header({ fixed }: Props) {
+function Header() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => (
     <HeaderComp
       mode='transition'
       statusBarEventsType='Topic'
-      fixed={fixed}
+      fixed={$.state.fixed}
       title='人物'
       domTitle={$.jp || $.cn}
-      hm={[$.url, 'Mono']}
+      hm={$.hm}
       headerTitle={<HeaderTitle />}
       headerRight={() => (
         <Flex style={styles.headerRight}>

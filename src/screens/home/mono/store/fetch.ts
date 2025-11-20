@@ -7,6 +7,7 @@
 import { monoStore, subjectStore, systemStore, tinygrailStore } from '@stores'
 import { getTimestamp, omit } from '@utils'
 import { get, update } from '@utils/kv'
+import { H6 } from '@constants'
 import Computed from './computed'
 
 export default class Fetch extends Computed {
@@ -14,6 +15,7 @@ export default class Fetch extends Computed {
   fetchMono = async () => {
     const result = await subjectStore.fetchMono(this.monoId)
     this.fetchPicTotal()
+
     return result
   }
 
@@ -66,7 +68,7 @@ export default class Fetch extends Computed {
         })
       }
 
-      if (_loaded - ts >= 60 * 60 * 7) this.updateMonoThirdParty()
+      if (_loaded - ts >= H6) this.updateMonoThirdParty()
     } catch (error) {}
   }
 

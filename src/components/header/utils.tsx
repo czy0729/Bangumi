@@ -12,7 +12,8 @@ import { IOS } from '@constants'
 import { IOS_IPA } from '@src/config'
 import Back from './back'
 import { backgroundColors, colors, styles } from './styles'
-import { UpdateHeaderProps } from './types'
+
+import type { UpdateHeaderProps } from './types'
 
 export const HEADER_TRANSITION_HEIGHT = 32
 

@@ -13,6 +13,9 @@ import type { Loaded, TranslateResult } from '@types'
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const RESET_STATE = {
+  /** 头部是否固定 */
+  fixed: false,
+
   /** 可视范围底部 y */
   visibleBottom: _.window.height as false | number
 }

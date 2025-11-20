@@ -15,7 +15,7 @@ import { COMPONENT } from './ds'
 
 import type { Ctx } from '../../types'
 
-function List({ onScroll }) {
+function List() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => (
@@ -28,7 +28,7 @@ function List({ onScroll }) {
       ListHeaderComponent={<Info />}
       progressViewOffset={_.ios(_.statusBarHeight, _.headerHeight)}
       renderItem={renderItem}
-      onScroll={onScroll}
+      onScroll={$.onScroll}
       onHeaderRefresh={$.onHeaderRefresh}
     />
   ))

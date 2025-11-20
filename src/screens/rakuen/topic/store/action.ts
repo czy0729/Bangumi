@@ -247,7 +247,7 @@ export default class Action extends Fetch {
     }
   }
 
-  /** 设置显示头顶吸附标题组件 */
+  /** 设置显示头部里程碑 */
   updateShowHeaderTitle = (showHeaderTitle: boolean) => {
     this.setState({
       showHeaderTitle

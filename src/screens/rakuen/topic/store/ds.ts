@@ -30,7 +30,7 @@ export const RESET_STATE = {
 export const EXCLUDE_STATE = {
   ...RESET_STATE,
 
-  /** 是否显示头顶吸附标题组件 */
+  /** 是否显示头部里程碑 */
   showHeaderTitle: false,
 
   /** 回复框 placeholder */
