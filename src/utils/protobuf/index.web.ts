@@ -5,8 +5,10 @@
  * @Last Modified time: 2024-01-07 23:25:29
  */
 import protobuf, { Reader } from 'protobufjs'
-import { cacheMap, checkCache, get, isPromise, lockMap, log } from './utils'
-import { Decode } from './types'
+import { logger } from '../dev'
+import { cacheMap, checkCache, get, isPromise, lockMap } from './utils'
+
+import type { Decode } from './types'
 
 export { get }
 
@@ -42,7 +44,7 @@ export const decode: Decode = name => {
             cacheMap.set(name, payload)
             lockMap.set(name, false)
 
-            log('decode', name, payload?.length)
+            logger.log('@utils/protobuf/decode', name, payload?.length)
             resolve(payload)
           })
           .catch(() => {

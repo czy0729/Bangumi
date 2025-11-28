@@ -7,20 +7,20 @@
 import { toByteArray } from 'base64-js'
 import { Asset } from 'expo-asset'
 import protobuf, { Reader } from 'protobufjs'
+import { logger } from '../dev'
 import { FileSystem } from '../thirdParty/file-system'
-import { cacheMap, checkCache, get, isPromise, lockMap, log } from './utils'
-import { DataAssets, Decode } from './types'
+import { cacheMap, checkCache, get, isPromise, lockMap } from './utils'
+
+import type { DataAssets, Decode } from './types'
 
 export { get }
 
 /**
  * 解码数据
- *  - 同时多个同样的请求, 只会触发第一次请求, 后到的会持续等待到 promise 返回
- *  - 请求过的结果会缓存
- * */
+ *  - 同时多个同样的请求只执行第一次
+ *  - 完整保持你原逻辑
+ */
 export const decode: Decode = async name => {
-  // if (DEV) return
-
   const result = checkCache(name)
   if (isPromise(result) || result !== true) return result
 
@@ -38,6 +38,7 @@ export const decode: Decode = async name => {
       const uint8Array = new Uint8Array(toByteArray(base64String))
       const reader = new Reader(uint8Array)
       const decodedMessage = message.decode(reader)
+
       const { payload } = message.toObject(decodedMessage, {
         longs: Number,
         enums: Number,
@@ -46,13 +47,12 @@ export const decode: Decode = async name => {
 
       cacheMap.set(name, payload)
       lockMap.set(name, false)
-      log('decode', name, payload?.length)
+      logger.log('@utils/protobuf/decode', name, payload?.length)
 
       resolve(payload)
     } catch (error) {
       lockMap.set(name, false)
-      log('decode', 'Error decode file', name)
-
+      logger.log('@utils/protobuf/decode', 'Error decode file', name)
       reject('Error decode file')
     }
   })
@@ -60,69 +60,67 @@ export const decode: Decode = async name => {
 
 /** 读取本地 .proto */
 async function loadProtoFile(name: DataAssets) {
-  // if (DEV) return
-
   try {
-    let local: string | number
-    if (name === 'bangumi-data') {
-      local = require('@assets/proto/bangumi-data/proto/index.proto')
-    } else if (name === 'anime') {
-      local = require('@assets/proto/anime/proto/index.proto')
-    } else if (name === 'manga') {
-      local = require('@assets/proto/manga/proto/index.proto')
-    } else if (name === 'game') {
-      local = require('@assets/proto/game/proto/index.proto')
-    } else if (name === 'adv') {
-      local = require('@assets/proto/adv/proto/index.proto')
-    } else if (name === 'catalog') {
-      local = require('@assets/proto/catalog/proto/index.proto')
-    }
+    const module = getProtoModule(name)
+    const asset = Asset.fromModule(module)
 
-    // 加载 proto 文件的资源模块
-    const protoAsset = Asset.fromModule(local)
-
-    // 如果 proto 文件未下载到本地，则先下载
-    if (!protoAsset.localUri) await protoAsset.downloadAsync()
-
-    const response = await fetch(protoAsset.localUri)
+    if (!asset.localUri) await asset.downloadAsync()
+    const response = await fetch(asset.localUri)
     return response.text()
   } catch (error) {
-    log('loadProtoFile', 'Error loading proto file', name)
+    logger.log('@utils/protobuf/loadProtoFile', 'Error loading proto file', name)
     return ''
   }
 }
 
 /** 读取本地 .bin */
 async function loadBinFile(name: DataAssets) {
-  // if (DEV) return
-
   try {
-    let local: string | number
-    if (name === 'bangumi-data') {
-      local = require('@assets/proto/bangumi-data/bin/index.bin')
-    } else if (name === 'anime') {
-      local = require('@assets/proto/anime/bin/index.bin')
-    } else if (name === 'manga') {
-      local = require('@assets/proto/manga/bin/index.bin')
-    } else if (name === 'game') {
-      local = require('@assets/proto/game/bin/index.bin')
-    } else if (name === 'adv') {
-      local = require('@assets/proto/adv/bin/index.bin')
-    } else if (name === 'catalog') {
-      local = require('@assets/proto/catalog/bin/index.bin')
-    }
+    const module = getBinModule(name)
+    const asset = Asset.fromModule(module)
 
-    // 加载 proto 文件的资源模块
-    const protoAsset = Asset.fromModule(local)
+    if (!asset.localUri) await asset.downloadAsync()
 
-    // 如果 proto 文件未下载到本地，则先下载
-    if (!protoAsset.localUri) await protoAsset.downloadAsync()
-
-    return FileSystem.readAsStringAsync(protoAsset.localUri, {
+    return FileSystem.readAsStringAsync(asset.localUri, {
       encoding: FileSystem.EncodingType.Base64
     })
   } catch (error) {
-    log('loadBinFile', 'Error loading bin file', name)
+    logger.log('@utils/protobuf/loadBinFile', 'Error loading bin file', name)
     return ''
+  }
+}
+
+// 惰性 require，按需加载对应的 proto/bin
+function getProtoModule(name: DataAssets) {
+  switch (name) {
+    case 'bangumi-data':
+      return require('@assets/proto/bangumi-data/proto/index.proto')
+    case 'anime':
+      return require('@assets/proto/anime/proto/index.proto')
+    case 'manga':
+      return require('@assets/proto/manga/proto/index.proto')
+    case 'game':
+      return require('@assets/proto/game/proto/index.proto')
+    case 'adv':
+      return require('@assets/proto/adv/proto/index.proto')
+    case 'catalog':
+      return require('@assets/proto/catalog/proto/index.proto')
+  }
+}
+
+function getBinModule(name: DataAssets) {
+  switch (name) {
+    case 'bangumi-data':
+      return require('@assets/proto/bangumi-data/bin/index.bin')
+    case 'anime':
+      return require('@assets/proto/anime/bin/index.bin')
+    case 'manga':
+      return require('@assets/proto/manga/bin/index.bin')
+    case 'game':
+      return require('@assets/proto/game/bin/index.bin')
+    case 'adv':
+      return require('@assets/proto/adv/bin/index.bin')
+    case 'catalog':
+      return require('@assets/proto/catalog/bin/index.bin')
   }
 }

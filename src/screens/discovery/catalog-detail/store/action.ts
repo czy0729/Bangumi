@@ -4,6 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-22 01:02:06
  */
+import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
 import { discoveryStore, userStore } from '@stores'
 import { confirm, feedback, info, removeHTMLTag, updateVisibleBottom } from '@utils'
 import { fetchHTML, queue, t } from '@utils/fetch'
@@ -14,9 +15,25 @@ import { COLLECT_DS, LAYOUT_DS, SORT_DS } from '../ds'
 import Fetch from './fetch'
 import { EXCLUDE_STATE } from './ds'
 
-import type { Navigation } from '@types'
+import type { Navigation, ScrollEvent } from '@types'
 
 export default class Action extends Fetch {
+  updateVisibleBottom = updateVisibleBottom.bind(this)
+
+  /** 更新可视范围底部 y */
+  onScroll = (e: ScrollEvent) => {
+    this.updateVisibleBottom(e)
+
+    // 计算头部是否需要固定
+    const { y } = e.nativeEvent.contentOffset
+    const { fixed } = this.state
+    if ((fixed && y > HEADER_TRANSITION_HEIGHT) || (!fixed && y <= HEADER_TRANSITION_HEIGHT)) return
+
+    this.setState({
+      fixed: y > HEADER_TRANSITION_HEIGHT
+    })
+  }
+
   /** 收藏或取消目录 */
   toggleCollect = () => {
     if (this.catalogDetail.byeUrl) {
@@ -124,9 +141,6 @@ export default class Action extends Fetch {
       type: type.split(' ')?.[0] || '动画'
     })
   }
-
-  /** 更新可视范围底部 y */
-  onScroll = updateVisibleBottom.bind(this)
 
   // -------------------- action --------------------
   /** 收藏目录 */

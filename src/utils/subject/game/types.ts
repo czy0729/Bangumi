@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-09-13 21:26:37
  */
-import { Loaded } from '@types'
+import type { Loaded } from '@types'
 
 export type Finger = string
 

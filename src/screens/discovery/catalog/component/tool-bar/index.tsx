@@ -5,32 +5,37 @@
  * @Last Modified time: 2024-11-17 07:11:41
  */
 import React from 'react'
+import { useObserver } from 'mobx-react'
 import { ToolBar as ToolBarComp } from '@components'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { TYPE_DS } from '../../ds'
-import { Ctx } from '../../types'
 import FilterKey from './filter-key'
 import FilterType from './filter-type'
 import FilterYear from './filter-year'
 import Type from './type'
 import { COMPONENT } from './ds'
 
+import type { Ctx } from '../../types'
+
 function ToolBar() {
-  const { $ } = useStore<Ctx>()
-  const type = TYPE_DS.find(item => item.key === $.state.type)?.['title']
-  return (
-    <ToolBarComp>
-      <Type type={type} />
-      {type === '整合' && (
-        <>
-          <FilterType />
-          <FilterYear />
-          <FilterKey />
-        </>
-      )}
-    </ToolBarComp>
-  )
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => {
+    const type = TYPE_DS.find(item => item.key === $.state.type)?.['title']
+
+    return (
+      <ToolBarComp>
+        <Type type={type} />
+        {type === '整合' && (
+          <>
+            <FilterType />
+            <FilterYear />
+            <FilterKey />
+          </>
+        )}
+      </ToolBarComp>
+    )
+  })
 }
 
-export default ob(ToolBar, COMPONENT)
+export default ToolBar

@@ -5,9 +5,10 @@
  * @Last Modified time: 2024-07-29 14:11:38
  */
 import { _ } from '@stores'
-import { Loaded } from '@types'
 import { COMPONENT, FILTER_KEY_DS, FILTER_TYPE_DS, FILTER_YEAR_DS, TYPE_DS } from '../ds'
-import { FilterKey, FilterType, FilterYear, TypeType } from '../types'
+
+import type { Loaded } from '@types'
+import type { FilterKey, FilterType, FilterYear, TypeType } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 

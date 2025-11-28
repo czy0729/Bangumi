@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-06-16 23:36:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 20:47:27
+ * @Last Modified time: 2025-11-28 17:57:07
  */
-import { CatalogDetail } from '@stores/discovery/types'
-import { EventType, Id, Navigation } from '@types'
+import type { CatalogDetail } from '@stores/discovery/types'
+import type { EventType, Id, Navigation } from '@types'
 
 export type Props = {
   event?: EventType
@@ -17,11 +17,16 @@ export type Props = {
   userName?: string
   title?: string
   info?: string
-  book?: any
-  anime?: any
-  music?: any
-  game?: any
-  real?: any
+  anime?: number
+  book?: number
+  music?: number
+  game?: number
+  real?: number
+  character?: number
+  person?: number
+  topic?: number
+  blog?: number
+  ep?: number
 
   /** 最后更新时间 */
   time?: string

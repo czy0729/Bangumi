@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-07-29 19:28:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-22 10:46:01
+ * @Last Modified time: 2025-11-28 22:28:25
  */
 import { computed } from 'mobx'
 import { _, discoveryStore, subjectStore, userStore } from '@stores'
@@ -160,6 +160,8 @@ export default class Computed extends State {
 
   /** 是否自己创建的目录 */
   @computed get isSelf() {
+    if (!this.catalogDetail._loaded) return false
+
     return userStore.isLogin && !this.catalogDetail.joinUrl && !this.catalogDetail.byeUrl
   }
 

@@ -15,9 +15,8 @@ import { renderEpItem, renderItem, renderMonoItem } from './utils'
 import { COMPONENT } from './ds'
 
 import type { Ctx } from '../../types'
-import type { Props } from './types'
 
-function List({ onScroll }: Props) {
+function List() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
@@ -48,7 +47,7 @@ function List({ onScroll }: Props) {
         renderItem={renderFn}
         footerEmptyDataText={TEXT_18X}
         scrollEventThrottle={16}
-        onScroll={onScroll}
+        onScroll={$.onScroll}
         onHeaderRefresh={$.fetchCatalogDetail}
       />
     )

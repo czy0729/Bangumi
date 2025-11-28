@@ -18,16 +18,16 @@ import type { NavigationProps } from '@types'
 
 /** 目录详情 */
 const CatalogDetail = (props: NavigationProps) => {
-  const { id, fixed, handleScroll } = useCatalogDetailPage(props)
+  const { id } = useCatalogDetailPage(props)
 
   return useObserver(() => (
     <Component id='screen-catalog-detail'>
       <StoreContext.Provider value={id}>
         <Page statusBarEvent={false}>
-          <List onScroll={handleScroll} />
+          <List />
           <Tips />
         </Page>
-        <Header fixed={fixed} />
+        <Header />
         <Modal />
       </StoreContext.Provider>
     </Component>

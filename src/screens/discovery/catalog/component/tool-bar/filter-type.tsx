@@ -4,26 +4,35 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-17 07:09:58
  */
-import React from 'react'
+import React, { useCallback } from 'react'
+import { useObserver } from 'mobx-react'
 import { ToolBar } from '@components'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { FILTER_TYPE_DS } from '../../ds'
-import { Ctx } from '../../types'
+
+import type { Ctx } from '../../types'
 
 function FilterType() {
   const { $ } = useStore<Ctx>()
-  const text = FILTER_TYPE_DS.find(item => item === $.state.filterType)
-  return (
-    <ToolBar.Popover
-      data={FILTER_TYPE_DS}
-      icon='md-filter-list'
-      iconColor={_.colorDesc}
-      text={text === '不限' ? '类型' : text}
-      type='desc'
-      onSelect={(title: string) => $.onFilterChange('filterType', title)}
-    />
-  )
+
+  return useObserver(() => {
+    const text = FILTER_TYPE_DS.find(item => item === $.state.filterType)
+
+    const handleSelect = useCallback((title: string) => {
+      $.onFilterChange('filterType', title)
+    }, [])
+
+    return (
+      <ToolBar.Popover
+        data={FILTER_TYPE_DS}
+        icon='md-filter-list'
+        iconColor={_.colorDesc}
+        text={text === '不限' ? '类型' : text}
+        type='desc'
+        onSelect={handleSelect}
+      />
+    )
+  })
 }
 
-export default ob(FilterType)
+export default FilterType

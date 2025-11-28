@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-07-29 13:51:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-16 20:25:34
+ * @Last Modified time: 2025-11-28 22:19:00
  */
 import { computed } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
@@ -11,7 +11,7 @@ import { get } from '@utils/protobuf'
 import {
   APP_USERID_IOS_AUTH,
   APP_USERID_TOURIST,
-  MODEL_SUBJECT_TYPE,
+  DATA_CATALOG_TYPE_MAP,
   TEXT_MENU_FIXED,
   TEXT_MENU_FLOAT,
   TEXT_MENU_PAGINATION,
@@ -20,39 +20,48 @@ import {
   TEXT_MENU_TOOLBAR,
   WEB
 } from '@constants'
-import { SubjectType, SubjectTypeCn } from '@types'
 import State from './state'
+
+import type { ListEmpty } from '@types'
+import type { CatalogItem, CatalogType } from '../types'
 
 export default class Computed extends State {
   /** 目录 (整合) */
-  @computed get catalogAdvance() {
+  @computed get catalogAdvance(): CatalogItem[] {
     if (!this.state.loadedCatalog) return []
 
     return get('catalog').map(item => {
-      // 计算这个目录大部分是什么类型的条目
-      let _type: SubjectType
-      if (item.r >= Math.max(item.a || 0, item.b || 0, item.m || 0, item.g || 0)) {
-        _type = 'real'
-      } else if (item.g >= Math.max(item.a || 0, item.b || 0, item.m || 0)) {
-        _type = 'game'
-      } else if (item.m >= Math.max(item.a || 0, item.b || 0)) {
-        _type = 'music'
-      } else if (item.b >= (item.a || 0)) {
-        _type = 'book'
-      } else {
-        _type = 'anime'
-      }
-
-      return {
-        id: item.i,
-        title: item.t,
-        last: item.d,
+      const counts = {
         anime: item.a || 0,
         book: item.b || 0,
         music: item.m || 0,
         game: item.g || 0,
         real: item.r || 0,
-        _type
+        character: item.ch || 0,
+        person: item.pe || 0,
+        topic: item.to || 0,
+        blog: item.bl || 0,
+        ep: item.ep || 0
+      } as const
+
+      // 求最大键
+      let maxType: CatalogType = 'anime'
+      let maxValue = counts[maxType]
+
+      for (const key in counts) {
+        const value = counts[key as keyof typeof counts]
+        if (value >= maxValue) {
+          maxType = key as CatalogType
+          maxValue = value
+        }
+      }
+
+      return {
+        id: item.i,
+        title: item.t,
+        last: item.d || item.l,
+        ...counts,
+        _type: maxType
       }
     })
   }
@@ -62,9 +71,7 @@ export default class Computed extends State {
     const { page, filterType, filterYear, filterKey } = this.state
     let list = this.catalogAdvance
     if (filterType && filterType !== '不限') {
-      list = list.filter(
-        item => MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(item._type) === filterType
-      )
+      list = list.filter(item => DATA_CATALOG_TYPE_MAP[item._type] === filterType)
     }
 
     if (filterYear && filterYear !== '不限') {
@@ -99,7 +106,7 @@ export default class Computed extends State {
   }
 
   /** 目录 */
-  @computed get catalog() {
+  @computed get catalog(): ListEmpty<CatalogItem> {
     if (this.state.type === 'advance') return this.catalogAdvanceFilter
 
     const catalog = discoveryStore.catalog(this.state.type, this.state.page)

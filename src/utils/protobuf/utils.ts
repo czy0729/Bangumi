@@ -4,9 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-05-08 19:14:20
  */
-import { TEXT_BADGES } from '@constants/text'
 import { DEV, LOG_LEVEL } from '@src/config'
-import { DataAssets, Get } from './types'
+import { logger } from '../dev'
+
+import type { DataAssets, Get } from './types'
 
 /** 缓存结果 */
 export const cacheMap = new Map<string, any>()
@@ -46,7 +47,9 @@ export function checkCache(name: DataAssets) {
 export const get: Get = (name: DataAssets) => {
   const data = cacheMap.get(name)
   if (DEV && LOG_LEVEL >= 1) {
-    if (!logMap.has(name)) log('get', name, data?.length || 0)
+    if (!logMap.has(name)) {
+      logger.log('@utils/protobuf/get', name, data?.length || 0)
+    }
     logMap.set(name, true)
   }
   return data
@@ -59,9 +62,4 @@ export function isPromise(obj: any) {
     (typeof obj === 'object' || typeof obj === 'function') &&
     typeof obj.then === 'function'
   )
-}
-
-/** [DEV] */
-export function log(method: string, ...others: any[]) {
-  if (DEV) console.info(TEXT_BADGES.plain, `[@utils/protobuf/${method}]`, ...others)
 }

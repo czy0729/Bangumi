@@ -17,9 +17,8 @@ import { COMPONENT, DATA, TEXT_COPY } from './ds'
 import { styles } from './styles'
 
 import type { Ctx } from '../types'
-import type { Props } from './types'
 
-function Header({ fixed }: Props) {
+function Header() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
@@ -28,7 +27,7 @@ function Header({ fixed }: Props) {
     return (
       <HeaderComp
         mode='float'
-        fixed={fixed}
+        fixed={$.state.fixed}
         alias='目录详情'
         hm={$.hm}
         headerTitle={

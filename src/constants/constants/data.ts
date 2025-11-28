@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-02 12:03:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 07:07:53
+ * @Last Modified time: 2025-11-28 22:17:07
  */
 import PropTypes from 'prop-types'
 import { HOST_DOGE } from '../cdn/ds'
@@ -315,6 +315,20 @@ export const DATA_ALPHABET = Array.from({ length: 26 }, (_, i) => String.fromCha
 
 /** 公共标签 */
 export const DATA_META = ['公共标签', '用户标签'] as const
+
+/** 目录类型映射 */
+export const DATA_CATALOG_TYPE_MAP = {
+  anime: '动画',
+  book: '书籍',
+  music: '音乐',
+  game: '游戏',
+  real: '三次元',
+  character: '角色',
+  person: '人物',
+  topic: '小组',
+  blog: '日志',
+  ep: '章节'
+} as const
 
 /** 1 分钟 */
 export const M1 = 60

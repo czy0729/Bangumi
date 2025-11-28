@@ -6,7 +6,9 @@
  */
 import { get } from '@utils/protobuf'
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE, RESET_STATE, STATE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, RESET_STATE } from './ds'
+
+import type { STATE } from './ds'
 
 export default class ScreenCatalog extends Action {
   init = async () => {

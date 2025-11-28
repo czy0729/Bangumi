@@ -7,9 +7,10 @@
 import { feedback, info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
 import { TEXT_MENU_PAGINATION, TEXT_MENU_TOOLBAR } from '@constants'
-import { TypeLabel } from '../types'
 import Fetch from './fetch'
 import { EXCLUDE_STATE } from './ds'
+
+import type { TypeLabel } from '../types'
 
 export default class Action extends Fetch {
   /** 显示列表 */
@@ -96,7 +97,7 @@ export default class Action extends Fetch {
   }
 
   /** 高级筛选 */
-  onFilterChange = (key: string, value: string | number) => {
+  onFilterChange = (key: string, value: string) => {
     this.setState({
       page: 1,
       show: false,

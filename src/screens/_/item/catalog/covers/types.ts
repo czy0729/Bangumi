@@ -11,4 +11,5 @@ export type Props = {
     image: any
   }[]
   total: number
+  typeCn: string
 }

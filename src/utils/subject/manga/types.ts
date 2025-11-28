@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-23 21:54:08
  */
-import { Loaded, SubjectId } from '@types'
+import type { Loaded, SubjectId } from '@types'
 
 export type Finger = string
 

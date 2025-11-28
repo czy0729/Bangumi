@@ -33,6 +33,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   catalog(type: '' | 'collect' | 'me' = '', page: number = 1) {
     const STATE_KEY = 'catalog'
     this.init(STATE_KEY, true)
+
     return computed(() => {
       const ITEM_KEY = `${type}|${page}`
       return (this.state[STATE_KEY][ITEM_KEY] || INIT_CATALOG_ITEM) as Catalog

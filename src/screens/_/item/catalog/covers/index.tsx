@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-19 05:52:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-11 05:14:17
+ * @Last Modified time: 2025-11-28 21:43:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,9 +11,10 @@ import { x18 } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { CATALOG_WIDTH, WIDTH } from '../ds'
 import { memoStyles } from './styles'
-import { Props } from './types'
 
-function Covers({ title = '', list, total = 0 }: Props) {
+import type { Props } from './types'
+
+function Covers({ title = '', list, total = 0, typeCn }: Props) {
   return useObserver(() => {
     const styles = memoStyles()
 
@@ -51,13 +52,18 @@ function Covers({ title = '', list, total = 0 }: Props) {
               cdn={!x18(item.id, title)}
             />
           ))}
-          {!!list.length && (
-            <Flex style={styles.num} justify='center' align='center'>
+          {!list?.length && (
+            <Flex style={styles.num} justify='center'>
               <Text size={13} bold>
-                +{total || list.length}
+                {typeCn}
               </Text>
             </Flex>
           )}
+          <Flex style={styles.num} justify='center' align='center'>
+            <Text size={13} bold>
+              +{total || list?.length}
+            </Text>
+          </Flex>
         </Flex>
       </View>
     )

@@ -5,13 +5,14 @@
  * @Last Modified time: 2024-07-29 14:00:04
  */
 import { discoveryStore } from '@stores'
-import { CatalogDetail } from '@stores/discovery/types'
 import { HTMLDecode, removeHTMLTag } from '@utils'
 import { queue } from '@utils/fetch'
 import { update } from '@utils/kv'
 import { decode } from '@utils/protobuf'
-import { Id, Override } from '@types'
 import Computed from './computed'
+
+import type { CatalogDetail } from '@stores/discovery/types'
+import type { Id, Override } from '@types'
 
 export default class Fetch extends Computed {
   /** 目录 */

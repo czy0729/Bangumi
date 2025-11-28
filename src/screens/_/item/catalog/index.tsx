@@ -2,25 +2,25 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-11 05:29:00
+ * @Last Modified time: 2025-11-28 22:17:59
  */
 import React from 'react'
 import { Component, Flex, Link } from '@components'
 import { discoveryStore } from '@stores'
-import { getTimestamp, HTMLDecode, lastDate, removeHTMLTag } from '@utils'
+import { HTMLDecode, removeHTMLTag } from '@utils'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import { EVENT } from '@constants'
-import { SubjectTypeCn } from '@types'
+import { DATA_CATALOG_TYPE_MAP, EVENT } from '@constants'
 import { InView } from '../../base'
 import Covers from './covers'
 import Desc from './desc'
 import Title from './title'
 import { COMPONENT, ITEM_HEIGHT } from './ds'
 import { memoStyles } from './styles'
-import { Props as ItemCatalogProps } from './types'
 
-export { ItemCatalogProps }
+import type { Props as ItemCatalogProps } from './types'
+
+export type { ItemCatalogProps }
 
 export const ItemCatalog = ({
   event = EVENT,
@@ -30,38 +30,38 @@ export const ItemCatalog = ({
   userName,
   title,
   info,
-  book,
-  anime,
-  music,
-  game,
-  real,
   time,
   last,
   isUser,
   hideScore = false,
   filter,
   detail,
-  children
+  children,
+  ...typeProps
 }: ItemCatalogProps) => {
   r(COMPONENT)
 
   return useObserver(() => {
-    if (!isUser && !anime && !book && !game && !real && !music) return null
+    // 过滤是否全为 0
+    const total = Object.keys(DATA_CATALOG_TYPE_MAP).reduce((sum, key) => {
+      const v = (typeProps as any)[key] || 0
+      return sum + v
+    }, 0)
+    if (!isUser && total === 0) return null
 
     const styles = memoStyles()
-    const max = Math.max(anime || 0, book || 0, music || 0, game || 0, real || 0)
-    let typeCn: SubjectTypeCn
-    if (max === anime) {
-      typeCn = '动画'
-    } else if (max === book) {
-      typeCn = '书籍'
-    } else if (max === game) {
-      typeCn = '游戏'
-    } else if (max === real) {
-      typeCn = '三次元'
-    } else if (max === music) {
-      typeCn = '音乐'
+
+    // 求最大
+    let maxKey: keyof typeof DATA_CATALOG_TYPE_MAP | null = null
+    let maxValue = -Infinity
+    for (const key in DATA_CATALOG_TYPE_MAP) {
+      const v = (typeProps as any)[key] || 0
+      if (v > maxValue) {
+        maxValue = v
+        maxKey = key as keyof typeof DATA_CATALOG_TYPE_MAP
+      }
     }
+    const typeCn = maxKey ? DATA_CATALOG_TYPE_MAP[maxKey] : undefined
 
     const detailValue = detail || discoveryStore.catalogDetail(id)
     const oss = discoveryStore.catalogDetailFromOSS(id)
@@ -74,7 +74,7 @@ export const ItemCatalog = ({
       data = detailValue
     }
 
-    const { list, collect, content, avatar, userId, time: _detailTime } = data
+    const { list, collect, content, avatar, userId, time: detailTime } = data
     const avatarValue = avatar || data?.avatar
     const userIdValue = userId || data?.userId
     const nameValue = HTMLDecode(name || userName || data?.nickname)
@@ -86,19 +86,6 @@ export const ItemCatalog = ({
     )
     if (desc === 'undefined') desc = ''
 
-    let date = ''
-    let lastUpdate = ''
-    try {
-      if (last) {
-        date = `创建于 ${last}`
-      } else if (time && !time.includes('创建于')) {
-        date = `最后更新 ${lastDate(getTimestamp(time))}`
-        lastUpdate = time
-      } else if (_detailTime) {
-        date = `创建于 ${lastDate(getTimestamp(_detailTime.split(' ')?.[0]))?.slice(0, 10)}`
-      }
-    } catch (error) {}
-
     return (
       <Component id='item-catalog' data-key={id}>
         <Link
@@ -106,7 +93,7 @@ export const ItemCatalog = ({
           path='CatalogDetail'
           getParams={() => ({
             catalogId: id,
-            _lastUpdate: lastUpdate,
+            _lastUpdate: last || time || detailTime,
             _hideScore: hideScore
           })}
           eventId={event.id}
@@ -126,7 +113,8 @@ export const ItemCatalog = ({
                     id: item.id,
                     image: item.image
                   }))}
-                total={Math.max(oss?.total || 0, list?.length || 0)}
+                total={Math.max(oss?.total || 0, list?.length || 0, total)}
+                typeCn={typeCn}
               />
             </InView>
             <Flex.Item>
@@ -134,7 +122,7 @@ export const ItemCatalog = ({
                 <Title
                   title={titleValue}
                   typeCn={typeCn}
-                  desc={desc}
+                  desc={desc.replace(/\r/g, '')}
                   collect={collectValue}
                   filter={filter}
                 />
@@ -142,7 +130,7 @@ export const ItemCatalog = ({
                   userId={userIdValue}
                   avatar={avatarValue}
                   name={nameValue}
-                  date={date}
+                  date={last || time || detailTime}
                   event={event}
                 />
               </Flex>

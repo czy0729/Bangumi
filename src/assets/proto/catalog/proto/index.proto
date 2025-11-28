@@ -3,12 +3,18 @@ syntax = "proto3";
 message Catalog {
   int32 i = 1;
   string d = 2;
-  string t = 3;
-  int32 b = 4;
+  string l = 3;
+  string t = 4;
   int32 a = 5;
-  int32 m = 6;
-  int32 g = 7;
-  int32 r = 8;
+  int32 b = 6;
+  int32 m = 7;
+  int32 g = 8;
+  int32 r = 9;
+  int32 ch = 10;
+  int32 pe = 11;
+  int32 to = 12;
+  int32 bl = 13;
+  int32 ep = 14;
 }
 
 message Payload {

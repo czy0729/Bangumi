@@ -5,24 +5,28 @@
  * @Last Modified time: 2024-11-17 07:11:57
  */
 import React from 'react'
+import { useObserver } from 'mobx-react'
 import { ToolBar } from '@components'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { TYPE_DS } from '../../ds'
-import { Ctx } from '../../types'
+
+import type { Ctx } from '../../types'
+
+const DATA = TYPE_DS.map(item => item.title)
 
 function Type({ type }) {
   const { $ } = useStore<Ctx>()
-  return (
+
+  return useObserver(() => (
     <ToolBar.Popover
-      data={TYPE_DS.map(item => item.title)}
+      data={DATA}
       icon='icon-more-grid'
       iconColor={_.colorDesc}
       text={type}
       type='desc'
       onSelect={$.onToggleType}
     />
-  )
+  ))
 }
 
-export default ob(Type)
+export default Type
