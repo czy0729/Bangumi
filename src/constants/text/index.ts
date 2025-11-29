@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-23 10:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-08 21:51:30
+ * @Last Modified time: 2025-11-30 05:28:34
  */
 import { WEB } from '../device'
 
@@ -103,6 +103,9 @@ export const TEXT_MENU_BLOCK = '屏蔽用户'
 
 /** 菜单: 绝交 */
 export const TEXT_MENU_IGNORE = '绝交'
+
+/** 菜单: 报告疑虑 */
+export const TEXT_MENU_REPORT = '报告疑虑'
 
 /** 菜单: 分割 */
 export const TEXT_MENU_SPLIT = '一一一'

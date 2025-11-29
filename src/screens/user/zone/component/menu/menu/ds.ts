@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-02-02 23:53:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-18 00:03:22
+ * @Last Modified time: 2025-11-30 05:34:04
  */
 import { rakuenStore } from '@stores'
 import { confirm, copy, feedback, HTMLDecode, info, open } from '@utils'
@@ -18,9 +18,11 @@ import {
   TEXT_MENU_FRIEND,
   TEXT_MENU_IGNORE,
   TEXT_MENU_PM,
+  TEXT_MENU_REPORT,
   WEB
 } from '@constants'
-import { Ctx } from '../../../types'
+
+import type { Ctx } from '../../../types'
 
 export const MENU_DS = [
   TEXT_MENU_BROWSER,
@@ -92,12 +94,17 @@ export const MENU_ACTIONS = {
         }
       )
     })
+  },
+  [TEXT_MENU_REPORT](context: Ctx) {
+    const { id } = getData(context)
+    open(`${HOST}/report?type=6&id=${id}`)
   }
 } as const
 
 function getData({ $ }: Ctx) {
   return {
     url: `${HOST}/user/${$.usersInfo.username}`,
+    id: $.usersInfo.id || $.userId,
     userId: $.usersInfo.username || $.usersInfo.id || $.userId,
     userName: HTMLDecode($.usersInfo.nickname || $.params._name)
   }

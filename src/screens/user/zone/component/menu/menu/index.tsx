@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-28 09:52:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-18 00:02:44
+ * @Last Modified time: 2025-11-30 05:32:02
  */
 import React, { useCallback, useMemo } from 'react'
 import { Flex, Heatmap, Iconfont } from '@components'
@@ -10,10 +10,17 @@ import { Popover } from '@_'
 import { _, useStore } from '@stores'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
-import { TEXT_MENU_CONNECT, TEXT_MENU_DISCONNECT, TEXT_MENU_IGNORE, WEB } from '@constants'
-import { Ctx } from '../../../types'
+import {
+  TEXT_MENU_CONNECT,
+  TEXT_MENU_DISCONNECT,
+  TEXT_MENU_IGNORE,
+  TEXT_MENU_REPORT,
+  WEB
+} from '@constants'
 import { MENU_ACTIONS, MENU_DS } from './ds'
 import { styles } from './styles'
+
+import type { Ctx } from '../../../types'
 
 function Menu() {
   const context = useStore<Ctx>()
@@ -31,7 +38,7 @@ function Menu() {
         } else if (disconnectUrl) {
           data.push(TEXT_MENU_DISCONNECT)
         }
-        data.push(TEXT_MENU_IGNORE)
+        data.push(TEXT_MENU_IGNORE, TEXT_MENU_REPORT)
       }
       return data
     }, [connectUrl, disconnectUrl])
