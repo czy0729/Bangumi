@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-09-26 16:05:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-14 19:27:06
+ * @Last Modified time: 2025-11-29 18:00:23
  */
 import dayjs from 'dayjs'
 import { rakuenStore, subjectStore, usersStore } from '@stores'
 import { cnjp, feedback, getTimestamp, info } from '@utils'
 import { request } from '@utils/fetch.v0'
 import { API_COLLECTIONS } from '@utils/fetch.v0/ds'
-import { Collection } from '@utils/fetch.v0/types'
 import { get, update } from '@utils/kv'
 import { D, DEV, MODEL_SUBJECT_TYPE } from '@constants'
 import Computed from './computed'
 import { COLLECTION_STATUS } from './ds'
+
+import type { Collection } from '@utils/fetch.v0/types'
 
 export default class Fetch extends Computed {
   /** 分词快照 */
@@ -23,11 +24,13 @@ export default class Fetch extends Computed {
     const now = getTimestamp()
     const { data } = this.state
     if (data._loaded && data.list?.length) {
-      if (now - Number(data._loaded) <= D) return true
+      // if (now - Number(data._loaded) <= D) return true
     }
 
     try {
       const snapshot = await get(this.snapshotId)
+      console.log(JSON.stringify(snapshot))
+
       if (snapshot?.data?._loaded && snapshot?.data?.list?.length) {
         if (now - Number(snapshot.data._loaded) <= D) {
           this.setState({

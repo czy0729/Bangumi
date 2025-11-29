@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-07-07 07:57:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 08:18:18
+ * @Last Modified time: 2025-11-29 17:57:35
  */
 import React from 'react'
 import { RefreshControl } from 'react-native'
 import { Component, Page, ScrollView } from '@components'
 import { _, StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import Bg from './component/bg'
 import Cavans from './component/cavans'
 import Filter from './component/filter'
@@ -17,6 +16,8 @@ import Media from './component/media'
 import SelectedList from './component/selected-list'
 import Header from './header'
 import { useWordCloudPage } from './hooks'
+
+import type { NavigationProps } from '@types'
 
 /** 词云 */
 const WordCloud = (props: NavigationProps) => {

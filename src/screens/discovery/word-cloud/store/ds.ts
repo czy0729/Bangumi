@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-09-26 16:05:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-03 07:05:06
+ * @Last Modified time: 2025-11-29 17:57:01
  */
 import { _ } from '@stores'
 import { MODEL_COLLECTION_STATUS } from '@constants'
-import { CollectionStatusValue, Loaded, SubjectId, SubjectType, UserId } from '@types'
 import { COMPONENT } from '../ds'
-import { CollectionsV0Item, CutList, CutType, SnapshotSubjectsItem } from '../types'
+
+import type { CollectionStatusValue, Loaded, SubjectId, SubjectType, UserId } from '@types'
+import type { CollectionsV0Item, CutList, CutType, SnapshotSubjectsItem } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 

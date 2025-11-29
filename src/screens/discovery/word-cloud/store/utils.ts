@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-09-29 18:22:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 15:30:08
+ * @Last Modified time: 2025-11-29 17:57:14
  */
 import { cnjp, HTMLDecode, removeHTMLTag, t2s } from '@utils'
-import { SubjectId, SubjectType } from '@types'
-import { CollectionsV0Item, CutList, CutType, SnapshotSubjectsItem } from '../types'
 import { FILTER_CV, FILTER_TAGS } from './ds'
+
+import type { SubjectId, SubjectType } from '@types'
+import type { CollectionsV0Item, CutList, CutType, SnapshotSubjectsItem } from '../types'
 
 export function getPlainText(str: string, max?: number) {
   if (!str || typeof str !== 'string') return str

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-27 16:42:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 08:17:07
+ * @Last Modified time: 2025-11-29 17:44:07
  */
 import { useCallback, useState } from 'react'
 import { StatusBar } from '@components'
@@ -10,9 +10,10 @@ import { systemStore, useInitStore } from '@stores'
 import { info } from '@utils'
 import { usePageLifecycle } from '@utils/hooks'
 import { WEB } from '@constants'
-import { NavigationProps } from '@types'
 import store from './store'
-import { Ctx } from './types'
+
+import type { NavigationProps } from '@types'
+import type { Ctx } from './types'
 
 /** 词云页面逻辑 */
 export function useWordCloudPage(props: NavigationProps) {

@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-10 02:28:04
+ * @Last Modified time: 2025-11-29 15:55:34
  */
 import React from 'react'
-import { Image as RNImage, ImageErrorEvent } from 'react-native'
+import { Image as RNImage } from 'react-native'
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { getTimestamp, omit, pick } from '@utils'
-import { r } from '@utils/dev'
+import { logger, r } from '@utils/dev'
 import { EVENT, FROZEN_FN, HOST_CDN_AVATAR, IOS, WEB } from '@constants'
 import { IOS_IPA, TEXT_ONLY } from '@src/config'
-import { AnyObject, Fn } from '@types'
 import { Component } from '../component'
 import { devLog } from '../dev'
 import { getSkeletonColor } from '../skeleton'
@@ -33,7 +32,6 @@ import {
   getLocalCacheStatic,
   getRecoveryBgmCover,
   imageViewerCallback,
-  log,
   setError404,
   setError451,
   setErrorTimeout,
@@ -41,7 +39,10 @@ import {
 } from './utils'
 import { COMPONENT, DEFAULT_HEADERS, MAX_ERROR_COUNT, OSS_MEGMA_PREFIX, RETRY_DISTANCE } from './ds'
 import { memoStyles } from './styles'
-import { Props as ImageProps, State } from './types'
+
+import type { ImageErrorEvent } from 'react-native'
+import type { AnyObject, Fn } from '@types'
+import type { Props as ImageProps, State } from './types'
 
 export { ImageProps }
 
@@ -457,7 +458,8 @@ export const Image = observer(
         () => {
           const { onError } = this.props
           if (typeof onError === 'function') onError()
-          log('commitError', errorInfo, this.props.src)
+
+          logger.log(COMPONENT, 'commitError', errorInfo, this.props.src)
         }
       )
     }

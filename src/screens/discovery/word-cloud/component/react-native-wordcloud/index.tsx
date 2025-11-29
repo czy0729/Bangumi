@@ -2,11 +2,12 @@
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
-import { ViewStyle } from '@types'
 import Space from './space'
 import Text from './text'
 import { spaceTypes } from './util'
 import Word from './word'
+
+import type { ViewStyle } from '@types'
 
 /** https://github.com/jekingohel/react-native-wordcloud */
 class WordCloud extends React.Component<{

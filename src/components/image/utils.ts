@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-28 02:06:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 19:13:10
+ * @Last Modified time: 2025-11-29 15:55:43
  */
 import { _ } from '@stores'
 import { getCover400, getStorage, setStorage, showImageViewer } from '@utils'
@@ -10,7 +10,7 @@ import { HOST_IMAGE } from '@utils/app/ds'
 import { t } from '@utils/fetch'
 import hash from '@utils/thirdParty/hash'
 import ImageCacheManager from '@utils/thirdParty/image-cache-manager'
-import { DEV, HOST_CDN, IOS, TEXT_BADGES, WEB } from '@constants'
+import { HOST_CDN, IOS, WEB } from '@constants'
 import {
   CACHE_KEY_404,
   CACHE_KEY_451,
@@ -18,7 +18,8 @@ import {
   OSS_BGM,
   OSS_BGM_EMOJI_PREFIX
 } from './ds'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 /** 记录 451 (OSS 鉴定为敏感) 的图片 */
 let memo451: Map<string, boolean>
@@ -309,9 +310,4 @@ export async function getLocalCache(src: string, headers?: Record<string, string
 export function getLocalCacheStatic(src: string) {
   const id = hash(src)
   if (memoLocal.has(id)) return memoLocal.get(id)
-}
-
-/** [DEV] */
-export function log(method: string, ...others: any[]) {
-  if (DEV) console.info(TEXT_BADGES.plain, `[@component/image/${method}]`, ...others)
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 14:43:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-03 08:19:29
+ * @Last Modified time: 2025-11-29 17:33:23
  */
 import React, { useEffect, useRef, useState } from 'react'
 import { Image as RNImage } from 'react-native'
@@ -38,7 +38,7 @@ export default function Image({ style, source, autoSize, autoHeight, fadeDuratio
     }
 
     if (ref.current) {
-      const observer = new IntersectionObserver(
+      const observer = new window.IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting) {
             // 进入可视区域

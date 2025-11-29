@@ -2,11 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-09-26 16:06:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 21:01:37
+ * @Last Modified time: 2025-11-29 17:57:08
  */
 import { subjectStore } from '@stores'
 import Action from './action'
-import { EXCLUDE_STATE, RESET_STATE, STATE } from './ds'
+import { EXCLUDE_STATE, RESET_STATE } from './ds'
+
+import type { STATE } from './ds'
 
 export default class ScreenWordCloud extends Action {
   init = async () => {

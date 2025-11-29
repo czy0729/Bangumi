@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-09-26 16:06:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-01 19:07:56
+ * @Last Modified time: 2025-11-29 17:56:51
  */
 import { getTimestamp, info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
 import { extract, gets, update } from '@utils/kv'
 import { D, MODEL_SUBJECT_TYPE } from '@constants'
-import { SubjectId, SubjectTypeCn } from '@types'
 import { MAX_PAGE } from '../ds'
-import { CutType, SnapshotSubjectsItem } from '../types'
 import Fetch from './fetch'
 import { getSubjectCutList } from './utils'
 import { EXCLUDE_STATE, FILTER_WORD } from './ds'
+
+import type { SubjectId, SubjectTypeCn } from '@types'
+import type { CutType, SnapshotSubjectsItem } from '../types'
 
 export default class Action extends Fetch {
   /** 批量获取吐槽 */

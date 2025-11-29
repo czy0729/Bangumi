@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-12 08:32:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-15 11:06:02
+ * @Last Modified time: 2025-11-29 17:29:11
  */
 import React from 'react'
 import Animated, {
@@ -15,9 +15,10 @@ import { useObserver } from 'mobx-react'
 import { systemStore } from '@stores'
 import { stl } from '@utils'
 import { DOGE_CDN_IMG_DEFAULT, IOS } from '@constants'
-import { AnyObject } from '@types'
 import { IMAGE_FADE_DURATION } from '../ds'
 import Image from '../image'
+
+import type { AnyObject } from '@types'
 
 const memo = new Map<string, boolean>()
 memo.set(DOGE_CDN_IMG_DEFAULT, true)
@@ -35,6 +36,7 @@ function Remote({
   ...other
 }) {
   const activeRef = useSharedValue(fadeDuration === 0 ? 1 : 0)
+
   const animatedStyle = useAnimatedStyle(() => ({
     opacity: withTiming(activeRef.value, {
       duration: IMAGE_FADE_DURATION,
@@ -43,19 +45,19 @@ function Remote({
   }))
 
   return useObserver(() => {
-    const source: AnyObject = {
-      headers,
-      uri
-    }
-    if (IOS) source.cache = 'force-cache'
-
-    const passProps = {
+    const passProps: AnyObject = {
       ...other,
       style,
-      source,
+      source: {
+        headers,
+        uri,
+        cache: IOS ? 'force-cache' : 'immutable'
+      },
       fadeDuration: 0,
       onLoadEnd
     }
+    if (!IOS && priority) passProps.source.priority = priority
+
     if (!systemStore.setting.imageFadeIn || memo.has(uri)) return <Image {...passProps} />
 
     return (

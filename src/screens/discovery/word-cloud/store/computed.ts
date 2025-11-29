@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-08-07 22:06:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 19:45:59
+ * @Last Modified time: 2025-11-29 17:56:57
  */
 import { computed } from 'mobx'
 import { rakuenStore, subjectStore, usersStore, userStore } from '@stores'
 import { HTMLDecode } from '@utils'
 import { FROZEN_ARRAY } from '@constants'
-import { CoverCrt, SubjectId } from '@types'
 import { MAX_PAGE, PAGE_LIMIT } from '../ds'
-import { CollectionsV0Item, SelectedCommentItem, SnapshotId, TrendId } from '../types'
 import { getPlainText, removeSlogan, removeSpec } from './utils'
 import State from './state'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
+
+import type { CoverCrt, SubjectId } from '@types'
+import type { CollectionsV0Item, SelectedCommentItem, SnapshotId, TrendId } from '../types'
 
 export default class Computed extends State {
   /** 本地化 */

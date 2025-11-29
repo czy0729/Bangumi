@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-05-03 21:15:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-21 19:45:26
+ * @Last Modified time: 2025-11-29 17:34:54
  */
-import { ColorValue, ImageProps } from 'react-native'
-import { EventType, Fn, ImageSource, ImageStyle, Override, ViewStyle } from '@types'
-import { SkeletonProps } from '../skeleton'
+import type { ColorValue, ImageProps } from 'react-native'
+import type { EventType, Fn, ImageSource, ImageStyle, Override, ViewStyle } from '@types'
+import type { SkeletonProps } from '../skeleton'
 
 export type Props = Override<
   Omit<ImageProps, 'source'>,

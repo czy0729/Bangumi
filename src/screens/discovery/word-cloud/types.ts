@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-09-26 16:17:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-03 07:43:27
+ * @Last Modified time: 2025-11-29 17:44:01
  */
-import {
+import type {
   Cover,
   CoverCrt,
   GetRouteParams,
@@ -15,8 +15,8 @@ import {
   UserId,
   WithNavigation
 } from '@types'
-import Store from './store'
-import { CUT_TYPE } from './ds'
+import type Store from './store'
+import type { CUT_TYPE } from './ds'
 
 export type Ctx = WithNavigation<{
   $: InstanceType<typeof Store>
@@ -26,7 +26,7 @@ export type Params = GetRouteParams<RouteWordCloud>
 
 export type CutList = [string, string][]
 
-export type CutType = (typeof CUT_TYPE)[number]
+export type CutType = typeof CUT_TYPE[number]
 
 export type SnapshotId = `extract_${string}`
 

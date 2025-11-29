@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-25 17:33:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-13 12:26:17
+ * @Last Modified time: 2025-11-29 17:33:18
  */
 declare namespace global {
   /** 是否开发模式 */
@@ -43,4 +43,6 @@ declare const document: {
 declare const window: {
   self: any
   top: any
+  IntersectionObserver: any
+  Image: any
 }
