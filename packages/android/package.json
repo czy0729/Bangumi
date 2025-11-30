@@ -51,6 +51,7 @@
     "expo-linear-gradient": "12.3.0",
     "expo-linking": "5.0.2",
     "expo-screen-orientation": "6.0.3",
+    "expo-speech": "11.7.0",
     "expo-splash-screen": "0.20.1",
     "expo-status-bar": "1.6.0",
     "expo-web-browser": "12.3.2",

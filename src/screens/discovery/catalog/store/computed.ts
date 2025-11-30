@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-07-29 13:51:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-28 22:19:00
+ * @Last Modified time: 2025-11-30 21:59:27
  */
 import { computed } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
@@ -20,6 +20,7 @@ import {
   TEXT_MENU_TOOLBAR,
   WEB
 } from '@constants'
+import { formatDateToNumber } from './utils'
 import State from './state'
 
 import type { ListEmpty } from '@types'
@@ -59,7 +60,7 @@ export default class Computed extends State {
       return {
         id: item.i,
         title: item.t,
-        last: item.d || item.l,
+        last: item.l || item.d,
         ...counts,
         _type: maxType
       }
@@ -75,19 +76,22 @@ export default class Computed extends State {
     }
 
     if (filterYear && filterYear !== '不限') {
-      if (String(filterYear) === '近1年') {
+      if (String(filterYear) === '近1年' || String(filterYear) === '近3年') {
         const ts = getTimestamp()
-        const day = Number(`${String(Number(date('Y', ts)) - 1)}${String(date('md', ts))}`)
+
+        // 计算减去的年数
+        const expand = String(filterYear) === '近1年' ? 1 : 3
+
+        // 拿到当前年月日，并统一补零
+        const year = String(Number(date('Y', ts)) - expand)
+        const month = String(date('m', ts)).padStart(2, '0')
+        const dayNum = String(date('d', ts)).padStart(2, '0')
+
+        // 构造 YYYYMMDD
+        const minDate = Number(`${year}${month}${dayNum}`)
         list = list.filter(item => {
-          const lastDate = String(item.last).replace(/-/g, '')
-          return !isNaN(Number(lastDate)) && Number(lastDate) >= day
-        })
-      } else if (String(filterYear) === '近3年') {
-        const ts = getTimestamp()
-        const day = Number(`${String(Number(date('Y', ts)) - 3)}${String(date('md', ts))}`)
-        list = list.filter(item => {
-          const lastDate = String(item.last).replace(/-/g, '')
-          return !isNaN(Number(lastDate)) && Number(lastDate) >= day
+          const lastDateNum = formatDateToNumber(item.last)
+          return !isNaN(lastDateNum) && lastDateNum >= minDate
         })
       } else {
         list = list.filter(item => String(item.last).includes(String(filterYear)))
