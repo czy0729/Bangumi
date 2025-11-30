@@ -9,7 +9,6 @@ import { Page, ScrollView } from '@components'
 import { _, uiStore } from '@stores'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import { Navigation } from '@types'
 import Base from '../base'
 import Blockeds from '../blockeds'
 import Likes from '../likes'
@@ -19,7 +18,9 @@ import Topic from '../topic'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Scroll({ navigation }: { navigation: Navigation }) {
+import type { WithNavigation } from '@types'
+
+function Scroll({ navigation }: WithNavigation) {
   r(COMPONENT)
 
   const handleScroll = useCallback(() => {

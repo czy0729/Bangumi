@@ -16,7 +16,8 @@ import History from '../history'
 import { handleBlockUser, handleDeleteBlockUser } from './utils'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 /** 用户绝交 */
 function BlockedUsers({ navigation, onNavigate }: Props) {

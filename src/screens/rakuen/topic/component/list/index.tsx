@@ -6,7 +6,7 @@
  */
 import React, { useCallback, useRef, useState } from 'react'
 import { FixedBtn } from '@_'
-import { useStore } from '@stores'
+import { rakuenStore, useStore } from '@stores'
 import { feedback } from '@utils'
 import { useFocusEffect, useObserver } from '@utils/hooks'
 import List from './list'
@@ -27,7 +27,7 @@ function ListWrap({ forwardRef, onScrollTo, onShowFixedTextarea, onScrollToIndex
   /** 可见项变化时的处理逻辑 */
   const handleViewableItemsChanged = useCallback<HandleViewableItemsChanged>(
     ({ viewableItems }) => {
-      if (!viewableItems?.length) return
+      if (!rakuenStore.setting.showFixedToggleFloorBtn || !viewableItems?.length) return
 
       // 取第一个最靠前的 item
       const firstItem = viewableItems[0]

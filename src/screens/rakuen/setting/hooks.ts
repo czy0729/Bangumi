@@ -6,9 +6,10 @@
  */
 import { useCallback, useState } from 'react'
 import { rakuenStore, uiStore, userStore } from '@stores'
-import { Setting } from '@stores/rakuen/types'
 import { usePageLifecycle } from '@utils/hooks'
-import { BooleanKeys, NonBooleanKeys } from '@types'
+
+import type { Setting } from '@stores/rakuen/types'
+import type { BooleanKeys, NonBooleanKeys } from '@types'
 
 /** 超展开设置页面逻辑 */
 export function useRakuenSettingPage() {

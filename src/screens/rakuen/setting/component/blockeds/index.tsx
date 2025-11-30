@@ -17,7 +17,8 @@ import History from '../history'
 import { handleDeleteBlockGroup } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 /** 屏蔽 */
 function Blockeds({ navigation, onNavigate }: Props) {

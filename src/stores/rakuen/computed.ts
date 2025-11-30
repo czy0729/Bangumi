@@ -116,8 +116,10 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 超展开设置 */
   @computed get setting() {
-    this.init('setting', true)
-    return this.state.setting
+    const STATE_KEY = 'setting'
+    this.init(STATE_KEY, true)
+
+    return this.state[STATE_KEY]
   }
 
   /** 是否本地收藏 */

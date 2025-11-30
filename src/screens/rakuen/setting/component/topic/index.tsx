@@ -31,6 +31,8 @@ function Topic() {
   r(COMPONENT)
 
   const { value: quote, handleSwitch: handleSwitchQuote } = useAsyncSwitchSetting('quote')
+  const { value: showFixedToggleFloorBtn, handleSwitch: handleShowFixedToggleFloorBtn } =
+    useAsyncSwitchSetting('showFixedToggleFloorBtn')
   const { value: quoteAvatar, handleSwitch: handleSwitchQuoteAvatar } =
     useAsyncSwitchSetting('quoteAvatar')
   const { value: wide, handleSwitch: handleSwitchWide } = useAsyncSwitchSetting('wide')
@@ -95,6 +97,27 @@ function Topic() {
           sub
         />
       )}
+
+      {/* 是否显示长楼层漂浮收起按钮 */}
+      <ItemSetting
+        hd='长楼层收起按钮'
+        information='当楼层展开后子楼层很多，整体处于屏幕中的时候，在底部显示收起楼层按钮'
+        ft={
+          <SwitchPro
+            style={styles.switch}
+            value={showFixedToggleFloorBtn}
+            onSyncPress={() => {
+              handleShowFixedToggleFloorBtn()
+
+              t('超展开设置.切换', {
+                title: '长楼层收起按钮',
+                checked: !showFixedToggleFloorBtn
+              })
+            }}
+          />
+        }
+        withoutFeedback
+      />
 
       {/* 楼层内容使用加宽版展示 */}
       <ItemSetting

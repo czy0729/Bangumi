@@ -6,28 +6,14 @@
  */
 import React from 'react'
 import { HeaderV2 } from '@components'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT, HM } from './ds'
 
 function Header() {
-  return (
-    <HeaderV2
-      title='超展开设置'
-      hm={HM}
-      // headerRight={() => (
-      //   <HeaderV2Popover
-      //     data={DATA}
-      //     onSelect={title => {
-      //       if (title === TEXT_MENU_BROWSER) open(HTML_PRIVACY())
+  r(COMPONENT)
 
-      //       t('超展开设置.右上角菜单', {
-      //         key: title
-      //       })
-      //     }}
-      //   />
-      // )}
-    />
-  )
+  return useObserver(() => <HeaderV2 title='超展开设置' hm={HM} />)
 }
 
-export default ob(Header, COMPONENT)
+export default Header

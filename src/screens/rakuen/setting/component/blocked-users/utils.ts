@@ -5,11 +5,12 @@
  * @Last Modified time: 2024-02-03 22:07:41
  */
 import { rakuenStore } from '@stores'
-import { BlockedUsersItem } from '@stores/rakuen/types'
 import { confirm, feedback, info } from '@utils'
 import { t } from '@utils/fetch'
 import { HOST } from '@constants'
-import { Fn } from '@types'
+
+import type { BlockedUsersItem } from '@stores/rakuen/types'
+import type { Fn } from '@types'
 
 /** 绝交用户 */
 export function handleBlockUser(keyword: string, success: Fn) {

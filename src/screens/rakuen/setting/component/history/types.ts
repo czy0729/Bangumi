@@ -4,8 +4,8 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2024-12-25 15:23:39
  */
-import { BlockedUsersItem } from '@stores/rakuen/types'
-import { Fn, Navigation, ViewStyle } from '@types'
+import type { BlockedUsersItem } from '@stores/rakuen/types'
+import type { Fn, Navigation, ViewStyle } from '@types'
 
 export type Props = {
   navigation?: Navigation

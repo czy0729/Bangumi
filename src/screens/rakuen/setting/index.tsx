@@ -7,10 +7,11 @@
 import React from 'react'
 import { Component } from '@components'
 import { useObserver } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import Scroll from './component/scroll'
 import Header from './header'
 import { useRakuenSettingPage } from './hooks'
+
+import type { NavigationProps } from '@types'
 
 /** 超展开设置 */
 const RakuenSetting = ({ navigation }: NavigationProps) => {

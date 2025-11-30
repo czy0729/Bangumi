@@ -111,6 +111,9 @@ export const INIT_SETTING = {
   /** 是否交换回复跳转按钮 */
   switchSlider: false,
 
+  /** 是否显示长楼层漂浮收起按钮 */
+  showFixedToggleFloorBtn: false,
+
   /** 是否启用楼层跳转滚动动画 */
   sliderAnimated: true,
 

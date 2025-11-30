@@ -108,7 +108,7 @@ export type NavigationProps<
   T
 >
 
-export type WithNavigation<T> = Override<
+export type WithNavigation<T = {}> = Override<
   {
     navigation?: Navigation
   },
@@ -154,7 +154,7 @@ export type StoreType = any
 export type StoreInstance = any
 
 /** 允许显示的源头 */
-export type Sites = (typeof SITES)[number]
+export type Sites = typeof SITES[number]
 
 /** data._loaded */
 export type Loaded = boolean | number
