@@ -20,6 +20,7 @@ import Error from './error'
 import { a, img, li, q, span, ul } from './renderer'
 import {
   fixedBaseFontStyle,
+  fixedHtml,
   getIncreaseFontSize,
   hackFixedHTMLTags,
   hackMatchMediaLink
@@ -171,7 +172,7 @@ export const RenderHtml = observer(
       const { katakanaResult } = this.state
 
       try {
-        const $ = cheerio(html)
+        const $ = cheerio(fixedHtml(html))
         let _html = html
 
         if (!WEB) {

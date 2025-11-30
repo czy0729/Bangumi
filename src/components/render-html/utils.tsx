@@ -7,11 +7,13 @@
 import { _, rakuenStore, subjectStore, systemStore } from '@stores'
 import { HTMLDecode, sleep } from '@utils'
 import { acSearch, getSubStrings } from '@utils/ac-search'
+import { logger } from '@utils/dev'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { s2t } from '@utils/thirdParty/open-cc'
-import { DEV, IOS, TEXT_BADGES } from '@constants'
-import { TextStyle } from '@types'
-import { PAD_FONT_ZISE_INCREASE, PAD_LINE_HEIGHT_INCREASE, REGS } from './ds'
+import { IOS } from '@constants'
+import { COMPONENT, PAD_FONT_ZISE_INCREASE, PAD_LINE_HEIGHT_INCREASE, REGS } from './ds'
+
+import type { TextStyle } from '@types'
 
 /** 获取最后字体渲染字号大小 */
 export function getIncreaseFontSize(fontSize: number) {
@@ -202,7 +204,7 @@ export async function fetchMediaQueue(
     LOADED_IDS.push(item)
 
     try {
-      log('fetchMediaQueue', IDS, item)
+      logger.log(`${COMPONENT}/utils/fetchMediaQueue`, IDS, item)
 
       loading = true
       if (item.type === 'subject') {
@@ -225,7 +227,9 @@ export async function fetchMediaQueue(
   }
 }
 
-/** [DEV] */
-function log(method: string, ...others: any[]) {
-  if (DEV) console.info(TEXT_BADGES.plain, `[@components/render-html/utils/${method}]`, ...others)
+export function fixedHtml(html = '') {
+  return html.replace(/class="smile"\s+alt="\(bgm\d+\)"/g, m => {
+    // m is like 'class="smile"   alt="(bgm124)"'
+    return m.replace(/\s+alt=/, ' alt=')
+  })
 }
