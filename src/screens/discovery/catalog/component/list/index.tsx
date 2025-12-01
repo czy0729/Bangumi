@@ -6,10 +6,10 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Flex, Mesume, ScrollView, Text } from '@components'
 import { ItemCatalog } from '@_'
 import { useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import Pagination from '../pagination'
 import ToolBar from '../tool-bar'
 import { COMPONENT, EVENT } from './ds'

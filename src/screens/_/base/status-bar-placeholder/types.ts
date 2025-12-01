@@ -4,7 +4,7 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2022-06-14 12:12:04
  */
-import { ViewStyle } from '@types'
+import type { ViewStyle } from '@types'
 
 export type Props = {
   style?: ViewStyle

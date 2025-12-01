@@ -5,9 +5,9 @@
  * @Last Modified time: 2024-11-17 07:11:41
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { ToolBar as ToolBarComp } from '@components'
 import { useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { TYPE_DS } from '../../ds'
 import FilterKey from './filter-key'
 import FilterType from './filter-type'

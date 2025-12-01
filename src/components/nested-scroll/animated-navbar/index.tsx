@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-12-27 15:54:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-30 15:57:57
+ * @Last Modified time: 2025-12-01 21:07:29
  */
 import React from 'react'
 import { Animated } from 'react-native'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 export function AnimatedNavbar({
   statusBarHeight,

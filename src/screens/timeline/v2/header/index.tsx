@@ -9,17 +9,19 @@ import { Heatmap } from '@components'
 import { IconTabsHeader, LogoHeader } from '@_'
 import { userStore, useStore } from '@stores'
 import { info, open } from '@utils'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import { HOST, WEB } from '@constants'
 import i18n from '@constants/i18n'
-import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
+import type { Ctx } from '../types'
+
 function Header() {
-  const { $, navigation } = useStore<Ctx>()
-  return (
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
     <LogoHeader
       navigation={navigation}
       right={
@@ -48,7 +50,7 @@ function Header() {
         </IconTabsHeader>
       }
     />
-  )
+  ))
 }
 
-export default ob(Header, COMPONENT)
+export default Header

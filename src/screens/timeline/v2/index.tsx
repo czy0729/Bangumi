@@ -9,11 +9,12 @@ import { Component, Page } from '@components'
 import { TapListener } from '@_'
 import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import Extra from './component/extra'
 import Tab from './component/tab'
 import Header from './header'
 import { useTimelinePage } from './hooks'
+
+import type { NavigationProps } from '@types'
 
 /** 时间胶囊 */
 const Timeline = (props: NavigationProps) => {

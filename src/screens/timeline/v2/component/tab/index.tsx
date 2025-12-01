@@ -11,12 +11,13 @@ import { BlurViewBottomTab, BlurViewRoot, BlurViewTab } from '@_'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { TABS } from '../../ds'
-import { Ctx } from '../../types'
 import renderScene from './renderScene'
 import TabBar from './tab-bar'
 import TabBarLeft from './tab-bar-left'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function Tab() {
   const { $ } = useStore<Ctx>()

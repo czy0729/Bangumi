@@ -5,9 +5,9 @@
  * @Last Modified time: 2024-11-17 07:09:58
  */
 import React, { useCallback } from 'react'
-import { useObserver } from 'mobx-react'
 import { ToolBar } from '@components'
 import { _, useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { FILTER_TYPE_DS } from '../../ds'
 
 import type { Ctx } from '../../types'

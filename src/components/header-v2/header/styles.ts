@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-11 16:05:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-25 15:43:52
+ * @Last Modified time: 2025-12-01 21:06:52
  */
 import { _ } from '@stores'
 
@@ -13,8 +13,6 @@ export const memoStyles = _.memoStyles(() => ({
     top: 0,
     right: 0,
     left: 0,
-    height: _.headerHeight,
-    paddingTop: _.statusBarHeight,
     paddingHorizontal: 6
   },
   title: {

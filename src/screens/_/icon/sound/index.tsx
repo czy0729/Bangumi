@@ -5,12 +5,12 @@
  * @Last Modified time: 2025-11-20 14:37:23
  */
 import React, { useCallback } from 'react'
-import { useObserver } from 'mobx-react'
 import * as Speech from 'expo-speech'
 import { Image, Touchable } from '@components'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { logger, r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { GROUP_THUMB_MAP } from '@assets/images'
 import { COMPONENT } from './ds'
 import { styles } from './styles'

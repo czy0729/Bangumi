@@ -5,9 +5,9 @@
  * @Last Modified time: 2024-11-17 07:07:26
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Pagination as PaginationComp } from '@components'
 import { _, useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT, HEAT_MAPS } from './ds'
 
 import type { Ctx } from '../../types'

@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-03-23 00:51:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-25 15:44:16
+ * @Last Modified time: 2025-12-01 21:06:52
  */
 import React from 'react'
 import { View } from 'react-native'
 import { useObserver } from 'mobx-react'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
+import { useInsets } from '@utils/hooks'
 import { Flex } from '../../flex'
 import { Text } from '../../text'
 import Back from '../back'
@@ -17,7 +18,6 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { Props } from './types'
-
 function Header({
   style,
   transparent,
@@ -30,11 +30,18 @@ function Header({
 }: Props) {
   r(COMPONENT)
 
+  const { headerHeight, statusBarHeight } = useInsets()
+
   return useObserver(() => {
     const styles = memoStyles()
 
     return (
-      <Flex style={styles.header}>
+      <Flex
+        style={stl(styles.header, {
+          height: headerHeight,
+          paddingTop: statusBarHeight
+        })}
+      >
         <Background style={stl(style, transparent && styles.transparent)} />
         {!transparent && (
           <Flex

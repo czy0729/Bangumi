@@ -2,32 +2,35 @@
  * @Author: czy0729
  * @Date: 2022-03-12 05:01:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 16:12:31
+ * @Last Modified time: 2025-12-01 21:14:40
  */
 import React from 'react'
-import { observer } from 'mobx-react'
-import { _ } from '@stores'
+import { useObserver } from 'mobx-react'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
+import { useInsets } from '@utils/hooks'
 import { Component } from '../../component'
 import { COMPONENT } from './ds'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 /** component-header-placeholder */
 function Placeholder({ style }: Props) {
   r(COMPONENT)
 
-  return (
+  const { headerHeight } = useInsets()
+
+  return useObserver(() => (
     <Component
       id='component-header-placeholder'
       style={stl(
         {
-          height: _.headerHeight
+          height: headerHeight
         },
         style
       )}
     />
-  )
+  ))
 }
 
-export default observer(Placeholder)
+export default Placeholder
