@@ -1531,7 +1531,8 @@ export default class Action extends Fetch {
         userId: this.userId
       })
 
-      open(download(data.downloadKey))
+      const url = await download(data.downloadKey)
+      open(url)
     }
   }
 

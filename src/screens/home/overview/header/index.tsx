@@ -2,18 +2,46 @@
  * @Author: czy0729
  * @Date: 2024-09-18 14:32:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 10:10:46
+ * @Last Modified time: 2025-12-02 23:44:22
  */
 import React from 'react'
-import { HeaderV2 } from '@components'
+import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../types'
-import { COMPONENT, HM } from './ds'
+import { open } from '@utils'
+import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
+import { HOST, TEXT_MENU_BROWSER } from '@constants'
+import { COMPONENT, DATA, HM } from './ds'
+
+import type { Ctx } from '../types'
 
 function Header() {
-  const { $ } = useStore<Ctx>()
-  return <HeaderV2 title={`${$.params.title} (${$.list.length})`} hm={HM} />
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
+    <HeaderV2
+      title={`${$.params.title} (${$.list.length})`}
+      hm={HM}
+      headerRight={() => (
+        <HeaderV2Popover
+          data={DATA}
+          onSelect={title => {
+            if (title === TEXT_MENU_BROWSER) {
+              open(
+                `${HOST}/subject/${$.params.subjectId}/${
+                  $.params.path === '关联' ? 'relations' : 'offprints'
+                }`
+              )
+
+              t('照片墙.右上角菜单', {
+                key: title
+              })
+            }
+          }}
+        />
+      )}
+    />
+  ))
 }
 
-export default ob(Header, COMPONENT)
+export default Header

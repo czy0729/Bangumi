@@ -271,6 +271,9 @@ export type RouteOverview = Route<
     /** 标题 */
     title: string
 
+    /** 页面来源 */
+    path?: string
+
     /**
      * 序列化列表数据
      * {

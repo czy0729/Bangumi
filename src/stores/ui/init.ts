@@ -28,7 +28,7 @@ export const STATE = {
     portalKey: 0,
     x: 0,
     y: 0,
-    topicId: '' as TopicId,
+    topicId: '' as Id,
     floorId: '' as Id,
     formhash: '',
     value: '',

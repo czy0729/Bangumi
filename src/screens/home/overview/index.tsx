@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2024-09-18 14:20:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 10:10:06
+ * @Last Modified time: 2025-12-02 23:42:31
  */
 import React from 'react'
 import { Component, Page } from '@components'
 import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import List from './component/list'
 import Header from './header'
 import { useOverviewPage } from './hooks'
+
+import type { NavigationProps } from '@types'
 
 /** 条目封面一览 */
 const Overview = (props: NavigationProps) => {

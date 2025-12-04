@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-09-18 14:33:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-19 22:32:28
+ * @Last Modified time: 2025-12-02 23:42:58
  */
 import { _ } from '@stores'
-import { Loaded } from '@types'
+
+import type { Loaded } from '@types'
 
 export const RESET_STATE = {
   /** 可视范围底部 y */

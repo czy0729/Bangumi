@@ -29,6 +29,7 @@ function IconRelation({
       params={{
         subjectId: $.subjectId,
         title: `${cnjp($.cn, $.jp)}的${title}`,
+        path: title,
         _list: JSON.stringify(list)
       }}
       eventId='条目.跳转'

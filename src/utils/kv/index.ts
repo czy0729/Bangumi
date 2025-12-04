@@ -413,7 +413,6 @@ export async function completions(prompt: string, roleSystem: string, roleUser: 
   if (isDevtoolsOpen()) return Promise.reject('denied')
 
   try {
-    console.log(HOST_COMPLETIONS)
     const response = await axios({
       method: 'post',
       url: HOST_COMPLETIONS,
@@ -439,7 +438,6 @@ export async function completions(prompt: string, roleSystem: string, roleUser: 
     const text = response?.data?.choices?.[0]?.message?.content || ''
     return text
   } catch (error) {
-    console.log(error)
     return ''
   }
 }

@@ -135,5 +135,6 @@ export default {
   '分类排行.跳转': 'Typerank.to',
 
   照片墙: 'Overview',
-  '照片墙.跳转': 'Overview.to'
+  '照片墙.跳转': 'Overview.to',
+  '照片墙.右上角菜单': 'Overview.topRightMenu'
 }

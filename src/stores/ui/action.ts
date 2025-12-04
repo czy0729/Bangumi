@@ -97,7 +97,7 @@ export default class Action extends Computed {
   /**  显示回复表情选择弹出层 */
   showLikesGrid = (
     /** 同 mainId, 主类型唯一编号 */
-    topicId: TopicId,
+    topicId: Id,
 
     /** 同 realatedId, 贴贴关联唯一编号 */
     floorId: Id,
