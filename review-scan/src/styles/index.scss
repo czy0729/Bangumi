@@ -1,0 +1,42 @@
+/*
+ * @Author: czy0729
+ * @Date: 2023-11-10 02:02:44
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2024-09-08 20:44:07
+ */
+
+// [data-key]::after {
+//   content: attr(data-key);
+//   position: absolute;
+//   top: 0;
+//   right: 6px;
+//   padding: 2px;
+//   font-size: 12px;
+//   color: rgba(255, 255, 255, 0.8);
+//   background-color: rgba(255, 255, 255, 0.1);
+//   border-radius: 3px;
+//   pointer-events: none;
+// }
+
+#root {
+  position: relative;
+  max-width: 512px;
+  margin: auto;
+
+  .p-r {
+    position: relative;
+  }
+
+  .d-b {
+    display: block;
+  }
+}
+
+span {
+  text-underline-offset: 0.28em;
+  font-variation-settings: 'wght' 400, 'BEVL' 100;
+}
+
+a[data-href] {
+  cursor: pointer;
+}

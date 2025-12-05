@@ -1,0 +1,13 @@
+/*
+ * @Author: czy0729
+ * @Date: 2024-09-03 14:49:08
+ * @Last Modified by:   czy0729
+ * @Last Modified time: 2024-09-03 14:49:08
+ */
+base-name {
+  display: inline-flex;
+
+  & > div {
+    display: inline-block !important;
+  }
+}

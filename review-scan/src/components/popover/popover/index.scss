@@ -1,0 +1,29 @@
+/*
+ * @Author: czy0729
+ * @Date: 2023-11-08 19:20:58
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2024-09-03 13:06:54
+ */
+#root {
+  component-popover {
+    transition: filter 0.2s;
+
+    &:hover {
+      filter: brightness(1.12);
+    }
+  }
+
+  component-modal {
+    component-popover {
+      transition: unset !important;
+    }
+  }
+}
+
+component-popover {
+  cursor: pointer;
+
+  component-button {
+    flex: 1;
+  }
+}

@@ -1,0 +1,18 @@
+/*
+ * @Author: czy0729
+ * @Date: 2023-11-24 10:29:20
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-11-24 11:13:13
+ */
+screen-smb {
+  component-header {
+    & > div:first-child {
+      background-color: rgba(0, 0, 0, 0.84) !important;
+    }
+  }
+  component-tool-bar {
+    component-popover > div > div {
+      background-color: rgba(255, 255, 255, 0.16) !important;
+    }
+  }
+}
