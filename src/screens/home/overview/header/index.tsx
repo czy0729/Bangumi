@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-18 14:32:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-02 23:44:22
+ * @Last Modified time: 2025-12-07 04:43:17
  */
 import React from 'react'
 import { HeaderV2, HeaderV2Popover } from '@components'
@@ -20,7 +20,7 @@ function Header() {
 
   return useObserver(() => (
     <HeaderV2
-      title={`${$.params.title} (${$.list.length})`}
+      title={$.params.title}
       hm={HM}
       headerRight={() => (
         <HeaderV2Popover

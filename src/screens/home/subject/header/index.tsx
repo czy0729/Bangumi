@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-29 06:28:41
  */
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { Header as HeaderComp } from '@components'
 import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
@@ -19,6 +19,12 @@ import type { Props } from './types'
 function Header({ onScrollTo, onScrollToTop }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
+  const elHeaderLeft = useMemo(() => <PopToTop />, [])
+  const elHeaderTitle = useMemo(
+    () => <HeaderTitle onScrollToTop={onScrollToTop} />,
+    [onScrollToTop]
+  )
+
   const handleHeaderRight = useCallback(() => <Menu onScrollTo={onScrollTo} />, [onScrollTo])
 
   return useObserver(() => (
@@ -29,8 +35,8 @@ function Header({ onScrollTo, onScrollToTop }: Props) {
       title='条目'
       domTitle={$.jp || $.cn}
       hm={$.hm}
-      headerLeft={<PopToTop />}
-      headerTitle={<HeaderTitle onScrollToTop={onScrollToTop} />}
+      headerLeft={elHeaderLeft}
+      headerTitle={elHeaderTitle}
       headerRight={handleHeaderRight}
     />
   ))

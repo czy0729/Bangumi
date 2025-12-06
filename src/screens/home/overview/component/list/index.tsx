@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-19 20:35:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-02 23:50:00
+ * @Last Modified time: 2025-12-07 04:32:05
  */
 import React from 'react'
 import { ScrollView } from '@components'
@@ -17,8 +17,8 @@ function List() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => (
-    <ScrollView contentContainerStyle={_.container.page} onScroll={$.onScroll}>
-      {$.list.map((item, index) => (
+    <ScrollView contentContainerStyle={_.container.bottom} onScroll={$.onScroll}>
+      {$.filterList.map((item, index) => (
         <Item key={item.id} item={item} index={index} />
       ))}
     </ScrollView>

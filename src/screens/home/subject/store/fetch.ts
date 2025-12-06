@@ -27,6 +27,7 @@ import {
   unzipBangumiData
 } from '@utils'
 import { search as searchMV } from '@utils/bilibili'
+import { logger } from '@utils/dev'
 import { getPreview, getTrailer, getVideo, matchGame, matchMovie, search } from '@utils/douban'
 import { xhrCustom } from '@utils/fetch'
 import { get, update } from '@utils/kv'
@@ -45,7 +46,6 @@ import {
   WEB
 } from '@constants'
 import Computed from './computed'
-import { NAMESPACE } from './ds'
 
 import type { UserId } from '@types'
 import type { AnitabiData } from '../types'
@@ -268,7 +268,7 @@ export default class Fetch extends Computed {
         })
       })
     } catch (error) {
-      console.error(NAMESPACE, 'fetchEpsData', error)
+      logger.error(this.namespace, 'fetchEpsData', error)
     }
 
     this.setState({
@@ -393,9 +393,9 @@ export default class Fetch extends Computed {
         }
       }
 
-      // qq网站没有截屏, 不找
+      // qq 网站没有截屏, 不找
     } catch (error) {
-      console.error('Subject', 'fetchEpsThumbs', error)
+      logger.error(this.namespace, 'fetchEpsThumbs', error)
     }
   }
 
@@ -707,9 +707,9 @@ export default class Fetch extends Computed {
     if (this._fetchPicTotal) return false
 
     await monoStore.fetchPicTotalBatch(
-      [...new Set([...this.subjectKeywords, ...this.crtKeywords])].filter(
-        (_item, index) => index < 6
-      )
+      [...new Set([...this.subjectKeywords, ...this.crtKeywords])]
+        .filter(item => !/[ －]/.test(item))
+        .slice(0, 6)
     )
 
     this._fetchPicTotal = true

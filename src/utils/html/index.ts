@@ -293,6 +293,7 @@ export function cData(
     | 'alt'
     | 'srcset'
     | 'onclick'
+    | `data-${string}`
 ): string {
   try {
     if (key.startsWith('data-')) return $el.data(key.split('data-')[1]) || ''

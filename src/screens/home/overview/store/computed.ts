@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-19 21:07:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-02 23:42:51
+ * @Last Modified time: 2025-12-07 04:29:27
  */
 import { computed } from 'mobx'
 import State from './state'
@@ -16,5 +16,12 @@ export default class Computed extends State {
     } catch (error) {}
 
     return []
+  }
+
+  @computed get filterList(): ListItem[] {
+    const { filter } = this.state
+    if (!filter) return this.list
+
+    return this.list.filter(item => item.desc === filter)
   }
 }

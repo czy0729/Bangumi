@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-23 06:00:14
  */
-import React from 'react'
+import React, { useMemo } from 'react'
 import { ListView } from '@components'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
@@ -19,6 +19,16 @@ import type { Props } from './types'
 function List({ forwardRef, onScrollIntoViewIfNeeded, onBlockRef }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
+  const elHeader = useMemo(
+    () => (
+      <HeaderComponent
+        onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
+        onBlockRef={onBlockRef}
+      />
+    ),
+    [onBlockRef, onScrollIntoViewIfNeeded]
+  )
+
   return useObserver(() => (
     <ListView
       ref={forwardRef}
@@ -29,12 +39,7 @@ function List({ forwardRef, onScrollIntoViewIfNeeded, onBlockRef }: Props) {
       scrollEventThrottle={20}
       initialNumToRender={1}
       refreshControlProps={REFRESH_CONTROL_PROPS}
-      ListHeaderComponent={
-        <HeaderComponent
-          onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
-          onBlockRef={onBlockRef}
-        />
-      }
+      ListHeaderComponent={elHeader}
       renderItem={renderItem}
       footerEmptyDataComponent={$.footerEmptyDataComponent}
       onScroll={$.onScroll}

@@ -113,7 +113,7 @@ export function cheerioSubjectFromHTML(html: string) {
         return {
           id,
           image: matchCover(cData(cFind($row, '.coverNeue'), 'style')),
-          title: cText($title),
+          title: cData(cFind($row, 'a.avatar'), 'title') || cText($title),
           type: relationsType,
           url: `${HOST}/subject/${id}` as const
         }

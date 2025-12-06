@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-18 14:33:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-02 23:42:58
+ * @Last Modified time: 2025-12-05 08:09:57
  */
 import { _ } from '@stores'
 
@@ -14,7 +14,10 @@ export const RESET_STATE = {
 }
 
 export const EXCLUDE_STATE = {
-  ...RESET_STATE
+  ...RESET_STATE,
+
+  /** 关联类型筛选 */
+  filter: ''
 }
 
 export const STATE = {

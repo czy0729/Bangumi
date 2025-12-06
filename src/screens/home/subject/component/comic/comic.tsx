@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-21 00:35:26
  */
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { Heatmap, Text } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { HorizontalList, InView, SectionTitle } from '@_'
@@ -29,6 +29,8 @@ const Comic = memo(
       name: IOS ? item.name : truncateMiddle(item.name, 20)
     }))
 
+    const elRight = useMemo(() => <IconRelation title='单行本' list={comic} />, [comic])
+
     const handlePress = useCallback(
       ({ id, name, image }: SubjectFromHtmlComitItem, type: SubjectTypeCn) => {
         navigation.push('Subject', {
@@ -49,11 +51,7 @@ const Comic = memo(
 
     return (
       <InView style={styles.container}>
-        <SectionTitle
-          style={_.container.wind}
-          right={<IconRelation title='单行本' list={comic} />}
-          splitStyles
-        >
+        <SectionTitle style={_.container.wind} right={elRight} splitStyles>
           {TITLE_COMIC}{' '}
           {!!comic?.length && (
             <Text type='sub' size={18} lineHeight={18} bold>

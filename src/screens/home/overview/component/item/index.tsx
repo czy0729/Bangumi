@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-14 05:00:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-02 23:48:13
+ * @Last Modified time: 2025-12-07 04:39:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -47,7 +47,7 @@ function Item({ item, index }: Props) {
         }}
       >
         <Flex justify='center'>
-          <InView y={(height + styles.item.marginVertical * 2 + descSize + titleSize) * index + 1}>
+          <InView y={(height + styles.item.marginBottom + descSize + titleSize) * index + 1}>
             <Cover src={image} width={width} height={height} />
           </InView>
         </Flex>
