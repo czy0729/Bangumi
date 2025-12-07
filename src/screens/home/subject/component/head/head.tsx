@@ -58,7 +58,8 @@ const Head = memo(
     // 主标题大小
     const hasRelation = !!(subjectPrev || subjectAfter || subjectSeries)
     let size =
-      (cn.length > 32 ? 11 : cn.length > 24 ? 12 : cn.length > 16 ? 12 : 15) + (PAD === 2 ? 4 : 2)
+      (cn.length > 44 ? 10 : cn.length > 32 ? 11 : cn.length > 24 ? 12 : cn.length > 16 ? 12 : 15) +
+      (PAD === 2 ? 4 : 2)
     if (showRelation && hasRelation) size = Math.max(11, size - 2)
     if (isMusic) size -= 1
 

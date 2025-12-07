@@ -15,14 +15,18 @@ import type { Ctx } from '../../types'
 function Tips() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => (
-    <Progress
-      show={$.state.progress.fetching}
-      message={$.state.progress.message}
-      current={$.state.progress.current}
-      total={$.state.progress.total}
-    />
-  ))
+  return useObserver(() => {
+    const { progress } = $.state
+
+    return (
+      <Progress
+        show={progress.fetching}
+        message={progress.message}
+        current={progress.current}
+        total={progress.total}
+      />
+    )
+  })
 }
 
 export default Tips

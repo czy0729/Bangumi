@@ -94,8 +94,8 @@ const Box = memo(
           )}
           {outdate && (
             <Link style={_.mt.md} path='LoginV2'>
-              <Text size={statusSize} type='sub' bold>
-                检测到授权信息过期，点击重新登录，再进行收藏管理
+              <Text type='icon' size={statusSize} bold>
+                检测到授权信息过期，点击重新登录，或返回首页下拉刷新授权
               </Text>
             </Link>
           )}

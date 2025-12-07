@@ -19,12 +19,12 @@ function Extra() {
 
   const handleTextReceived = useCallback(
     (text: string) => {
-      if (navigation) {
-        navigation.push('Search', {
-          value: text,
-          _autoFocus: false
-        })
-      }
+      if (!navigation) return
+
+      navigation.push('Search', {
+        value: text,
+        _autoFocus: false
+      })
     },
     [navigation]
   )

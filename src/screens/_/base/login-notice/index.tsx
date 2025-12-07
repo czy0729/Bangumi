@@ -8,10 +8,10 @@ import React, { useState } from 'react'
 import { View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Flex, Link, Text } from '@components'
-import { _, systemStore, userStore } from '@stores'
+import { _, userStore } from '@stores'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import { ANDROID, IOS, WEB } from '@constants'
+import { IOS, WEB } from '@constants'
 import i18n from '@constants/i18n'
 import { IconTouchable } from '../../icon/touchable'
 import { BlurView } from '../blur-view'
@@ -30,7 +30,8 @@ export const LoginNotice = () => {
     if (userStore.websiteError || !userStore.outdate || !show) return null
 
     const styles = memoStyles()
-    const isBlur = IOS || WEB || (ANDROID && systemStore.setting.androidBlur)
+
+    const isBlur = IOS || WEB
     const Component = isBlur ? BlurView : View
     const passProps = !isBlur
       ? {
@@ -58,6 +59,7 @@ export const LoginNotice = () => {
                 </Text>
               </Link>
             </Flex.Item>
+
             <IconTouchable
               style={_.ml.sm}
               name='md-close'
