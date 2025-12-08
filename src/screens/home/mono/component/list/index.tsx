@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-01-19 11:25:22
  */
-import React from 'react'
+import React, { useMemo } from 'react'
 import { PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
@@ -18,6 +18,8 @@ import type { Ctx } from '../../types'
 function List() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
+  const elInfo = useMemo(() => <Info />, [])
+
   return useObserver(() => (
     <PaginationList2
       keyExtractor={keyExtractor}
@@ -25,7 +27,7 @@ function List() {
       data={$.list}
       limit={16}
       scrollEventThrottle={16}
-      ListHeaderComponent={<Info />}
+      ListHeaderComponent={elInfo}
       progressViewOffset={_.ios(_.statusBarHeight, _.headerHeight)}
       renderItem={renderItem}
       onScroll={$.onScroll}

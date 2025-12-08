@@ -12,12 +12,13 @@ import { keyExtractor } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { USE_NATIVE_DRIVER } from '@constants'
 import { TABS } from '../../ds'
-import { Ctx } from '../../types'
 import Footer from './footer'
 import { renderItem, renderSectionHeader } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
 function BangumiList({ ListHeaderComponent, onScroll }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-11 17:51:35
  */
-import { CollectionStatusCn, EventType, Fn, SubjectId, UserId, ViewStyle } from '@types'
+import type { CollectionStatusCn, EventType, Fn, SubjectId, UserId, ViewStyle } from '@types'
 
 export type Props = {
   style?: ViewStyle

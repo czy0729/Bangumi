@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-09 05:56:50
  */
-import React from 'react'
+import React, { useMemo } from 'react'
 import { TabView } from '@components'
 import { BlurViewTab } from '@_'
 import { _, useStore } from '@stores'
@@ -17,18 +17,24 @@ import type { Ctx } from '../../types'
 function Tab({ renderScene }) {
   const { $ } = useStore<Ctx>(COMPONENT_MAIN)
 
-  return useObserver(() => (
-    <TabView
-      key={_.orientation}
-      lazy
-      lazyPreloadDistance={1}
-      navigationState={$.navigationState}
-      renderTabBar={renderTabBar}
-      renderBackground={<BlurViewTab length={$.tabs.length} />}
-      renderScene={renderScene}
-      onIndexChange={$.onChange}
-    />
-  ))
+  return useObserver(() => {
+    const { length } = $.tabs
+
+    const elBackground = useMemo(() => <BlurViewTab length={length} />, [length])
+
+    return (
+      <TabView
+        key={_.orientation}
+        lazy
+        lazyPreloadDistance={1}
+        navigationState={$.navigationState}
+        renderTabBar={renderTabBar}
+        renderBackground={elBackground}
+        renderScene={renderScene}
+        onIndexChange={$.onChange}
+      />
+    )
+  })
 }
 
 export default Tab

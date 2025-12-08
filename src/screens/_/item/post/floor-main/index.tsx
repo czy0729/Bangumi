@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-13 22:20:35
  */
-import React from 'react'
+import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import { Flex, Text } from '@components'
 import { systemStore } from '@stores'
@@ -47,6 +47,11 @@ function FloorMain({
   onLikesLongPress,
   onShowFixedTextare
 }: Props) {
+  const elRight = useMemo(
+    () => <UserLabel isAuthor={isAuthor} isFriend={isFriend} userSign={userSign} />,
+    [isAuthor, isFriend, userSign]
+  )
+
   return useObserver(() => {
     const styles = memoStyles()
 
@@ -61,7 +66,7 @@ function FloorMain({
                   size={userName.length > 10 ? 12 : 14}
                   lineHeight={14}
                   bold
-                  right={<UserLabel isAuthor={isAuthor} isFriend={isFriend} userSign={userSign} />}
+                  right={elRight}
                 >
                   {userName}
                 </Name>

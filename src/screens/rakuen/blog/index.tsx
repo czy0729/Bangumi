@@ -8,11 +8,12 @@ import React from 'react'
 import { Component, Page } from '@components'
 import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import Extra from './component/extra'
 import List from './component/list'
 import Header from './header'
 import { useBlogPage } from './hooks'
+
+import type { NavigationProps } from '@types'
 
 /** 日志 */
 const Blog = (props: NavigationProps) => {

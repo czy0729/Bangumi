@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-14 20:51:36
  */
-import React from 'react'
+import React, { useMemo } from 'react'
 import { ListView } from '@components'
 import { BlurViewBottomTab, BlurViewRoot } from '@_'
 import { _, systemStore, useStore } from '@stores'
@@ -18,6 +18,8 @@ import type { Ctx } from '../../types'
 function List() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
+  const elHeader = useMemo(() => <HeaderComponent />, [])
+
   return useObserver(() => {
     const { dragging } = $.state
 
@@ -29,7 +31,7 @@ function List() {
           contentContainerStyle={_.container.bottom}
           progressViewOffset={_.ios(_.statusBarHeight, _.headerHeight)}
           data={$.state.home}
-          ListHeaderComponent={<HeaderComponent />}
+          ListHeaderComponent={elHeader}
           showFooter={!dragging && !systemStore.setting.live2D}
           scrollEnabled={!dragging}
           scrollEventThrottle={16}

@@ -2,27 +2,27 @@
  * @Author: czy0729
  * @Date: 2025-01-16 17:19:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-16 17:40:44
+ * @Last Modified time: 2025-12-08 07:00:12
  */
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { Flex, Text } from '@components'
 import { _, useStore } from '@stores'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import TabsComp from '@tinygrail/_/tabs-v2'
 import { TABS } from '../../ds'
-import { Ctx } from '../../types'
-import List from '../list'
 import ToolBar from '../tool-bar'
+import { renderItem } from './utils'
 import { COMPONENT } from './ds'
 
-function Tabs() {
-  r(COMPONENT)
+import type { Ctx } from '../../types'
 
-  const { $ } = useStore<Ctx>()
-  const handleRenderItem = useCallback(item => <List key={item.key} id={item.key} />, [])
-  const handleRenderLabel = useCallback(
-    ({ route, focused }) => {
+function Tabs() {
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  const elToolBar = useMemo(() => <ToolBar />, [])
+
+  return useObserver(() => {
+    const handleRenderLabel = useCallback(({ route, focused }) => {
       const getCount = (route: { key: string }) => {
         switch (route.key) {
           case 'bid':
@@ -50,18 +50,17 @@ function Tabs() {
           )}
         </Flex>
       )
-    },
-    [$]
-  )
+    }, [])
 
-  return useObserver(() => (
-    <TabsComp
-      routes={TABS}
-      renderContentHeaderComponent={<ToolBar />}
-      renderItem={handleRenderItem}
-      renderLabel={handleRenderLabel}
-    />
-  ))
+    return (
+      <TabsComp
+        routes={TABS}
+        renderContentHeaderComponent={elToolBar}
+        renderItem={renderItem}
+        renderLabel={handleRenderLabel}
+      />
+    )
+  })
 }
 
 export default Tabs

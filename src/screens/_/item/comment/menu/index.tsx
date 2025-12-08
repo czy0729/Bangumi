@@ -12,7 +12,8 @@ import { useObserver } from '@utils/hooks'
 import { IOS } from '@constants'
 import { Popover } from '../../../base'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function Menu({ data, avatar, userId, userName, comment, relatedId, onSelect }: Props) {
   const viewRef = useRef<View>(null)

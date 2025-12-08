@@ -8,13 +8,14 @@ import React from 'react'
 import { Component } from '@components'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import { CollectionStatusCn } from '@types'
 import Item from './item'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props as ItemCommentProps } from './types'
 
-export { ItemCommentProps }
+import type { CollectionStatusCn } from '@types'
+import type { Props as ItemCommentProps } from './types'
+
+export type { ItemCommentProps }
 
 export const ItemComment = ({
   style,

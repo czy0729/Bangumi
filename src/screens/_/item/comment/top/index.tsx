@@ -13,14 +13,15 @@ import { useObserver } from '@utils/hooks'
 import { Name, UserAge } from '../../../base'
 import { formatTime } from '../utils'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function Top({ userId, userName, avatar, time, status }: Props) {
   return useObserver(() => (
     <Flex>
       <View style={systemStore.setting.userAge && styles.name}>
         <Name
-          size={14}
+          size={userName.length >= 8 ? 13 : 14}
           bold
           userId={userId}
           showFriend

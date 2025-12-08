@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-11-29 17:55:28
  */
-import React from 'react'
+import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import { PaginationList2 } from '@_'
 import { useStore } from '@stores'
@@ -19,6 +19,8 @@ import type { Ctx } from '../../../types'
 function Subjects() {
   const { $ } = useStore<Ctx>()
 
+  const elPlaceholder = useMemo(() => <View />, [])
+
   return useObserver(() => {
     if (!$.selectedSubjects.length) return null
 
@@ -32,8 +34,8 @@ function Subjects() {
         numColumns={NUM_COLUMNS}
         renderItem={renderItem}
         removeClippedSubviews={false}
-        footerEmptyDataComponent={<View />}
-        footerNoMoreDataComponent={<View />}
+        footerEmptyDataComponent={elPlaceholder}
+        footerNoMoreDataComponent={elPlaceholder}
         onScroll={$.onScroll}
       />
     )

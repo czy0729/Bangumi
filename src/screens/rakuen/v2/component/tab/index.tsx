@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-17 11:38:19
  */
-import React from 'react'
+import React, { useMemo } from 'react'
 import { TabView } from '@components'
 import { BlurViewBottomTab, BlurViewRoot, BlurViewTab } from '@_'
 import { _, useStore } from '@stores'
@@ -19,6 +19,8 @@ import type { Ctx } from '../../types'
 function Tab() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
+  const elBackground = useMemo(() => <BlurViewTab length={TABS.length} />, [])
+
   return useObserver(() => {
     if (!$.state._loaded) return null
 
@@ -30,7 +32,7 @@ function Tab() {
           lazyPreloadDistance={0}
           navigationState={$.navigationState}
           renderTabBar={renderTabBar}
-          renderBackground={<BlurViewTab length={TABS.length} />}
+          renderBackground={elBackground}
           renderScene={renderScene}
           onIndexChange={$.onChange}
         />

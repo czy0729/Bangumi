@@ -19,6 +19,8 @@ import type { Ctx } from '../../types'
 function List() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
+  const elInfo = useMemo(() => <Info />, [])
+
   return useObserver(() => {
     const { type, isList, gridNum } = $
 
@@ -43,7 +45,7 @@ function List() {
         numColumns={numColumns}
         data={$.data}
         limit={12}
-        ListHeaderComponent={<Info />}
+        ListHeaderComponent={elInfo}
         renderItem={renderFn}
         footerEmptyDataText={TEXT_18X}
         scrollEventThrottle={16}

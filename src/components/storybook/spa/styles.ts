@@ -8,6 +8,6 @@ import { _ } from '@stores'
 
 export const styles = _.create({
   placeholder: {
-    height: '100vh'
+    height: '100vh' as any
   }
 })

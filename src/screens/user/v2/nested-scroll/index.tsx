@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-24 00:04:41
  */
-import React from 'react'
+import React, { useMemo } from 'react'
 import { NestedScrollParallaxHeader } from '@components'
 import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
@@ -15,7 +15,7 @@ import { TABS } from '../ds'
 import List from './list'
 import TopNavbarComponent from './top-navbar-component'
 import { renderLabel } from './utils'
-import { COMPONENT } from './ds'
+import { COMPONENT, PAGES } from './ds'
 
 import type { Ctx } from '../types'
 
@@ -23,17 +23,21 @@ import type { Ctx } from '../types'
 function NestedScroll() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
+  const elHeader = useMemo(() => <HeaderComponent />, [])
+  const elTopNavbar = useMemo(() => <TopNavbarComponent />, [])
+  const elTabBarLeft = useMemo(() => <TabBarLeft />, [])
+
   return useObserver(() => (
     <>
       <NestedScrollParallaxHeader
-        pages={TABS.map(item => item.title)}
+        pages={PAGES}
         initialPage={$.state.page}
         imageSource={$.imageSource}
         blurRadius={$.blurRadius}
         tabBarLocalKey='UserV2|NestedScroll'
-        HeaderComponent={<HeaderComponent />}
-        TopNavbarComponent={<TopNavbarComponent />}
-        TabBarLeft={<TabBarLeft />}
+        HeaderComponent={elHeader}
+        TopNavbarComponent={elTopNavbar}
+        TabBarLeft={elTabBarLeft}
         renderLabel={renderLabel}
         onIndexChange={$.onChange}
       >

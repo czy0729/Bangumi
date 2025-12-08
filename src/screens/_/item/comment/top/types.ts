@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-11 16:54:31
  */
-import { CollectionStatusCn, UserId } from '@types'
+import type { CollectionStatusCn, UserId } from '@types'
 
 export type Props = {
   userId: UserId

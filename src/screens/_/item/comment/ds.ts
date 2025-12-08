@@ -6,9 +6,10 @@
  */
 import { rc } from '@utils/dev'
 import { EVENT } from '@constants'
-import { CollectionStatusCn, EventType, Fn, SubjectId, UserId, ViewStyle } from '@types'
 import { COMPONENT as PARENT } from '../ds'
-import { memoStyles } from './styles'
+
+import type { CollectionStatusCn, EventType, Fn, SubjectId, UserId, ViewStyle } from '@types'
+import type { memoStyles } from './styles'
 
 export const COMPONENT = rc(PARENT, 'ItemComment')
 

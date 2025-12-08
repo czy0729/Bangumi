@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-11-04 17:37:11
  */
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Loading } from '@components'
 import { PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
@@ -18,11 +18,13 @@ import type { Ctx } from '../../types'
 function List() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
+  const elFilter = useMemo(() => <Filter />, [])
+
   return useObserver(() => {
     if (!$.state._loaded && !$.state.data._loaded) {
       return (
         <>
-          <Filter />
+          {elFilter}
           <Loading />
         </>
       )
@@ -39,7 +41,7 @@ function List() {
         numColumns={numColumns}
         data={$.list}
         limit={9}
-        ListHeaderComponent={<Filter />}
+        ListHeaderComponent={elFilter}
         renderItem={renderItem}
         scrollEventThrottle={16}
         onScroll={$.onScroll}

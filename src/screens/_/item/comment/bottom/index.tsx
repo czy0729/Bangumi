@@ -9,7 +9,8 @@ import { Flex, Link, Text } from '@components'
 import { _ } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { Stars } from '../../../base'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function Bottom({ mainId, mainName, star }: Props) {
   return useObserver(() => (

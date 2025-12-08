@@ -10,12 +10,13 @@ import { ListView, Loading } from '@components'
 import { useStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
 import Footer from './footer'
 import Item from './item'
 import SectionHeader from './section-header'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function BangumiList() {
   const { $ } = useStore<Ctx>()

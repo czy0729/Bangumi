@@ -13,11 +13,12 @@ import { info, keyExtractor, runAfter } from '@utils'
 import { ob } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
-import { Fn, Override } from '@types'
-import { Ctx } from '../../types'
 import Top from '../top'
 import TouchScroll from '../touch-scroll'
 import { COMPONENT } from './ds'
+
+import type { Fn, Override } from '@types'
+import type { Ctx } from '../../types'
 
 class Blog extends React.Component<
   Override<

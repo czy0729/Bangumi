@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-17 11:53:37
  */
-import React from 'react'
+import React, { useMemo } from 'react'
 import { LogoHeader } from '@_'
 import { _ } from '@stores'
 import { useNavigation, useObserver } from '@utils/hooks'
@@ -15,9 +15,10 @@ import { COMPONENT } from './ds'
 function Header() {
   const navigation = useNavigation(COMPONENT)
 
-  return useObserver(() => (
-    <LogoHeader navigation={navigation} left={<IconGroup />} right={<IconMore style={_.ml.sm} />} />
-  ))
+  const elLeft = useMemo(() => <IconGroup />, [])
+  const elRight = useMemo(() => <IconMore style={_.ml.sm} />, [])
+
+  return useObserver(() => <LogoHeader navigation={navigation} left={elLeft} right={elRight} />)
 }
 
 export default Header

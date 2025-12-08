@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-15 21:31:54
  */
-import React from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { Flex, Header as HeaderComp } from '@components'
 import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
@@ -20,6 +20,22 @@ import type { Ctx } from '../types'
 function Header({ onScrollToTop }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
+  const elHeaderTitle = useMemo(
+    () => <HeaderTitle onScrollToTop={onScrollToTop} />,
+    [onScrollToTop]
+  )
+
+  const handleHeaderRight = useCallback(
+    () => (
+      <Flex>
+        <MesumeChat />
+        <IconFavor />
+        <Menu />
+      </Flex>
+    ),
+    []
+  )
+
   return useObserver(() => (
     <HeaderComp
       mode='transition'
@@ -28,14 +44,8 @@ function Header({ onScrollToTop }: Props) {
       title={$.topic.title}
       alias='帖子'
       hm={$.hm}
-      headerTitle={<HeaderTitle onScrollToTop={onScrollToTop} />}
-      headerRight={() => (
-        <Flex>
-          <MesumeChat />
-          <IconFavor />
-          <Menu />
-        </Flex>
-      )}
+      headerTitle={elHeaderTitle}
+      headerRight={handleHeaderRight}
     />
   ))
 }

@@ -5,6 +5,8 @@
  * @Last Modified time: 2023-12-31 13:16:52
  */
 import { rc } from '@utils/dev'
-import { COMPONENT as PARENT } from '../ds'
+import { COMPONENT as PARENT, TABS } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'NestedScroll')
+
+export const PAGES = TABS.map(item => item.title)

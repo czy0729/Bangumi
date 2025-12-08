@@ -35,6 +35,8 @@ import type { Props } from './types'
 function Header({ fixed }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
+  const elHeaderTitle = useMemo(() => <HeaderTitle />, [])
+
   return useObserver(() => {
     const { groupId, url } = $
     const { showLastDate } = $.state
@@ -94,6 +96,22 @@ function Header({ fixed }: Props) {
       [groupId, url]
     )
 
+    const handleHeaderRight = useCallback(
+      () => (
+        <Flex style={styles.headerRight}>
+          <IconTouchable
+            style={_.mr.sm}
+            name='md-edit'
+            size={18}
+            color={_.colorTitle}
+            onPress={handleEditPress}
+          />
+          <HeaderV2Popover data={memoData} onSelect={handleSelect} />
+        </Flex>
+      ),
+      [handleEditPress, handleSelect, memoData]
+    )
+
     return (
       <HeaderComp
         mode='transition'
@@ -102,19 +120,8 @@ function Header({ fixed }: Props) {
         title={title}
         alias='小组'
         hm={$.hm}
-        headerTitle={<HeaderTitle />}
-        headerRight={() => (
-          <Flex style={styles.headerRight}>
-            <IconTouchable
-              style={_.mr.sm}
-              name='md-edit'
-              size={18}
-              color={_.colorTitle}
-              onPress={handleEditPress}
-            />
-            <HeaderV2Popover data={memoData} onSelect={handleSelect} />
-          </Flex>
-        )}
+        headerTitle={elHeaderTitle}
+        headerRight={handleHeaderRight}
       />
     )
   })

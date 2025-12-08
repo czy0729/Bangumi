@@ -2,27 +2,30 @@
  * @Author: czy0729
  * @Date: 2022-03-01 11:45:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-28 16:01:58
+ * @Last Modified time: 2025-12-08 07:09:23
  */
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Switch, Text, Touchable } from '@components'
 import { IconTouchable, ItemSetting } from '@_'
 import { _, systemStore, userStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import { memoStyles } from './styles'
+
+import type { NavigationProps } from '@types'
 
 function Base({ navigation }: NavigationProps) {
   return useObserver(() => {
     const styles = memoStyles()
     const { dev, devEvent } = systemStore.state
+
+    const elFt = useMemo(
+      () => <Switch style={styles.switch} checked={dev} onChange={systemStore.toggleDev} />,
+      [dev, styles.switch]
+    )
+
     return (
       <>
-        <ItemSetting
-          hd='Dev Mode'
-          ft={<Switch style={styles.switch} checked={dev} onChange={systemStore.toggleDev} />}
-          withoutFeedback
-        />
+        <ItemSetting hd='Dev Mode' ft={elFt} withoutFeedback />
         {userStore.isDeveloper && (
           <ItemSetting
             style={_.mt._sm}

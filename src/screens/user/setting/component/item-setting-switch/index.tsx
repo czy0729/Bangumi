@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-04-12 17:28:00
  */
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
@@ -12,7 +12,8 @@ import { useObserver } from '@utils/hooks'
 import commonStyles from '../../styles'
 import { useAsyncSwitchSetting } from '../../hooks'
 import { getYuqueThumbs } from '../../utils'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function ItemSettingSwitch({
   setting,
@@ -25,6 +26,7 @@ function ItemSettingSwitch({
   return useObserver(() => {
     const { value, handleSwitch } = useAsyncSwitchSetting(setting)
     const current = reverse ? !value : value
+
     const handleSyncPress = useCallback(() => {
       handleSwitch()
 
@@ -34,11 +36,16 @@ function ItemSettingSwitch({
       })
     }, [current, handleSwitch])
 
+    const elFt = useMemo(
+      () => <SwitchPro style={commonStyles.switch} value={current} onSyncPress={handleSyncPress} />,
+      [current, handleSyncPress]
+    )
+
     return (
       <ItemSetting
         hd={hd}
         information={information}
-        ft={<SwitchPro style={commonStyles.switch} value={current} onSyncPress={handleSyncPress} />}
+        ft={elFt}
         filter={filter}
         thumb={thumb ? getYuqueThumbs(thumb) : undefined}
       >

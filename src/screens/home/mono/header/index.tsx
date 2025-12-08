@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-16 16:37:44
  */
-import React from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { Flex, Header as HeaderComp } from '@components'
 import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
@@ -19,6 +19,18 @@ import type { Ctx } from '../types'
 function Header() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
+  const elHeaderTitle = useMemo(() => <HeaderTitle />, [])
+
+  const handleHeaderRight = useCallback(
+    () => (
+      <Flex style={styles.headerRight}>
+        <Extra />
+        <Menu />
+      </Flex>
+    ),
+    []
+  )
+
   return useObserver(() => (
     <HeaderComp
       mode='transition'
@@ -27,13 +39,8 @@ function Header() {
       title='人物'
       domTitle={$.jp || $.cn}
       hm={$.hm}
-      headerTitle={<HeaderTitle />}
-      headerRight={() => (
-        <Flex style={styles.headerRight}>
-          <Extra />
-          <Menu />
-        </Flex>
-      )}
+      headerTitle={elHeaderTitle}
+      headerRight={handleHeaderRight}
     />
   ))
 }
