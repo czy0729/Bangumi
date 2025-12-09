@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 13:22:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-09 19:48:35
+ * @Last Modified time: 2025-12-09 20:42:29
  */
 import { rc } from '@utils/dev'
 import { MODEL_SETTING_SUBJECT_SPLIT_STYLES, SETTING_SUBJECT_SPLIT_STYLES } from '@constants'
@@ -126,10 +126,12 @@ export const TEXTS = {
     hd: '发布日期显示到月份'
   },
   htmlExpand: {
-    hd: '简介、详情使用新页面展开'
+    hd: '简介、详情使用新页面展开',
+    information: '开启后可以避免同屏展示过多的内容'
   },
   promoteAlias: {
-    hd: '详情中，把别名提前展示'
+    hd: '详情中，把别名提前展示',
+    information: '官方默认把别名藏到后方，开启后可以快速看见条目的所有名字'
   },
   showCount: {
     hd: '其他用户收藏数量',
@@ -148,5 +150,9 @@ export const TEXTS = {
     search: Object.keys(DATA)
       .map(key => DATA[key])
       .join()
+  },
+  commentSplit: {
+    hd: '吐槽项自动换行',
+    information: '官方吐槽展示本身不支持换行，而很多用户使用斜杠分割，开启后自动对斜杠进行换行'
   }
 } as const

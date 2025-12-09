@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2025-04-11 19:46:27
- * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-11 19:48:54
+ * @Date: 2025-12-09 20:10:53
+ * @Last Modified by:   czy0729
+ * @Last Modified time: 2025-12-09 20:10:53
  */
 export const THUMB = [
   '0/2025/png/386799/1744364449789-8a53fe4d-a4be-4a9b-bf50-16f0f472a84e.png',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:43:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-11 22:09:44
+ * @Last Modified time: 2025-12-09 20:37:34
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -14,7 +14,7 @@ import { Likes, UserStatusAvatar } from '../../base'
 import Bottom from './bottom'
 import Menu from './menu'
 import Top from './top'
-import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
+import { COMPONENT_MAIN, DEFAULT_PROPS, REG_SPLIT } from './ds'
 
 const ItemComment = memo(
   ({
@@ -34,8 +34,12 @@ const ItemComment = memo(
     event = EVENT,
     popoverData,
     like = false,
+    subjectCommentSplit = false,
     onSelect
   }) => {
+    let text = HTMLDecode(comment.replace(/\r\n/g, ''))
+    if (subjectCommentSplit) text = text.replace(REG_SPLIT, '//\n')
+
     return (
       <Flex style={stl(styles.item, style)} align='start'>
         <UserStatusAvatar
@@ -46,6 +50,7 @@ const ItemComment = memo(
           avatar={avatar}
           event={event}
         />
+
         <Flex.Item style={styles.content}>
           <Flex>
             <Flex.Item>
@@ -70,12 +75,15 @@ const ItemComment = memo(
               />
             )}
           </Flex>
+
           {!!(star || mainName) && <Bottom mainId={mainId} mainName={mainName} star={star} />}
-          {!!comment && (
+
+          {!!text && (
             <Text style={_.mt.xs} lineHeight={18} selectable={WEB}>
-              {HTMLDecode(comment)}
+              {text}
             </Text>
           )}
+
           <Likes
             topicId={subjectId}
             id={relatedId}

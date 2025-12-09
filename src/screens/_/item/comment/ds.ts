@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:44:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-11 17:51:58
+ * @Last Modified time: 2025-12-09 20:19:52
  */
 import { rc } from '@utils/dev'
 import { EVENT } from '@constants'
@@ -32,6 +32,7 @@ export const DEFAULT_PROPS = {
   event: EVENT as EventType,
   popoverData: undefined as string[] | readonly string[],
   like: false,
+  subjectCommentSplit: false,
   onSelect: undefined as Fn
 }
 

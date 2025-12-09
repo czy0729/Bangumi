@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-08-18 07:29:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-11 18:08:55
+ * @Last Modified time: 2025-12-09 20:19:35
  */
 import React from 'react'
 import { Component } from '@components'
+import { systemStore } from '@stores'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import Item from './item'
@@ -14,7 +15,6 @@ import { memoStyles } from './styles'
 
 import type { CollectionStatusCn } from '@types'
 import type { Props as ItemCommentProps } from './types'
-
 export type { ItemCommentProps }
 
 export const ItemComment = ({
@@ -57,6 +57,7 @@ export const ItemComment = ({
         event={event}
         popoverData={popoverData}
         like={like}
+        subjectCommentSplit={systemStore.setting.subjectCommentSplit}
         onSelect={onSelect}
       />
     </Component>

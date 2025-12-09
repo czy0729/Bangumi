@@ -19,6 +19,7 @@ function IconComment() {
 
   return useObserver(() => {
     const { _reverse } = $.subjectComments
+
     return (
       <IconReverse
         style={stl(styles.comment, _reverse && styles.reverse)}
