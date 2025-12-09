@@ -24,6 +24,7 @@ function CommentWrap({ onBlockRef }: Props) {
   return useObserver(() => {
     const { showComment } = systemStore.setting
     const hidden = showComment === -1
+
     return (
       <Suspense fallback={null}>
         <Component id='screen-subject-comment'>

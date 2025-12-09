@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-23 17:26:56
  */
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { Heatmap } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { HorizontalList, InView, SectionTitle } from '@_'
@@ -29,6 +29,16 @@ const Relations = memo(
     typeCn = '' as SubjectTypeCn,
     onSwitchBlock = FROZEN_FN
   }) => {
+    const elRight = useMemo(
+      () =>
+        showRelations ? (
+          <IconRelation title='关联' list={relations} />
+        ) : (
+          <IconHidden name={TITLE_RELATIONS} value='showRelations' />
+        ),
+      [relations, showRelations]
+    )
+
     const handleToggle = useCallback(() => onSwitchBlock('showRelations'), [onSwitchBlock])
 
     const handleNavigate = useCallback(
@@ -53,13 +63,7 @@ const Relations = memo(
       <InView style={showRelations ? styles.container : styles.hide}>
         <SectionTitle
           style={_.container.wind}
-          right={
-            showRelations ? (
-              <IconRelation title='关联' list={relations} />
-            ) : (
-              <IconHidden name={TITLE_RELATIONS} value='showRelations' />
-            )
-          }
+          right={elRight}
           icon={!showRelations && 'md-navigate-next'}
           splitStyles
           onPress={handleToggle}

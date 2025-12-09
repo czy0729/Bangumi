@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-23 05:55:00
  */
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { Heatmap } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { HorizontalList, InView, SectionTitle } from '@_'
@@ -31,6 +31,16 @@ const Like = memo(
     typeCn = '' as SubjectTypeCn,
     onSwitchBlock = FROZEN_FN
   }) => {
+    const elRight = useMemo(
+      () =>
+        showLike ? (
+          <IconRelation title='猜你喜欢' list={like} />
+        ) : (
+          <IconHidden name={TITLE_LIKE} value='showLike' />
+        ),
+      [like, showLike]
+    )
+
     const handleToggle = useCallback(() => onSwitchBlock('showLike'), [onSwitchBlock])
 
     const handleNavigate = useCallback(
@@ -55,13 +65,7 @@ const Like = memo(
       <InView style={stl(styles.container, !showLike && _.short)}>
         <SectionTitle
           style={_.container.wind}
-          right={
-            showLike ? (
-              <IconRelation title='猜你喜欢' list={like} />
-            ) : (
-              <IconHidden name={TITLE_LIKE} value='showLike' />
-            )
-          }
+          right={elRight}
           icon={!showLike && 'md-navigate-next'}
           splitStyles
           onPress={handleToggle}

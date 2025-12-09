@@ -34,3 +34,5 @@ export const DEFAULT_PROPS = {
   like: false,
   onSelect: undefined as Fn
 }
+
+export const REG_SPLIT = /(?!\/(?:[A-Za-z0-9]{1,2}\/)+)(?:\s*\/\s*)+/g

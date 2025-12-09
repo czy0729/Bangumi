@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-23 23:29:09
  */
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { Heatmap, Text } from '@components'
 import { SectionTitle } from '@_'
 import { memo } from '@utils/decorators'
@@ -18,24 +18,28 @@ import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Comment = memo(
   ({ styles, showComment = true, commentLength = 0, onSwitchBlock = FROZEN_FN }) => {
+    const elRight = useMemo(
+      () =>
+        showComment ? (
+          <>
+            <IconVersion />
+            <IconStatus />
+            <IconRate />
+            <IconComment />
+          </>
+        ) : (
+          <IconHidden name='吐槽' value='showComment' />
+        ),
+      [showComment]
+    )
+
     const handleToggle = useCallback(() => onSwitchBlock('showComment'), [onSwitchBlock])
 
     return (
       <>
         <SectionTitle
           style={showComment ? styles.container : styles.hide}
-          right={
-            showComment ? (
-              <>
-                <IconVersion />
-                <IconStatus />
-                <IconRate />
-                <IconComment />
-              </>
-            ) : (
-              <IconHidden name='吐槽' value='showComment' />
-            )
-          }
+          right={elRight}
           icon={!showComment && 'md-navigate-next'}
           splitStyles
           onPress={handleToggle}
@@ -46,6 +50,7 @@ const Comment = memo(
             {commentLength}+
           </Text>
         </SectionTitle>
+
         <Heatmap bottom={32} id='条目.跳转' from='吐槽' />
       </>
     )

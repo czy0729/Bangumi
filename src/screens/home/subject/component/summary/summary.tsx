@@ -30,6 +30,21 @@ const Summary = memo(
     name = '',
     onSwitchBlock = FROZEN_FN
   }) => {
+    const results = useMemo(
+      () => (translateResult?.length ? fixedTranslateResult(translateResult, content) : []),
+      [translateResult, content]
+    )
+
+    const elRight = useMemo(
+      () =>
+        showSummary ? (
+          <IconTranslate content={content} />
+        ) : (
+          <IconHidden name={TITLE_SUMMARY} value='showSummary' />
+        ),
+      [content, showSummary]
+    )
+
     const handleToggle = useCallback(() => onSwitchBlock('showSummary'), [onSwitchBlock])
 
     const handleNavigate = useCallback(() => {
@@ -46,21 +61,10 @@ const Summary = memo(
       })
     }, [name, navigation, subjectId])
 
-    const results = useMemo(
-      () => (translateResult?.length ? fixedTranslateResult(translateResult, content) : []),
-      [translateResult, content]
-    )
-
     return (
       <View style={showSummary ? styles.container : styles.hide}>
         <SectionTitle
-          right={
-            showSummary ? (
-              <IconTranslate content={content} />
-            ) : (
-              <IconHidden name={TITLE_SUMMARY} value='showSummary' />
-            )
-          }
+          right={elRight}
           icon={!showSummary && 'md-navigate-next'}
           splitStyles
           onPress={handleToggle}

@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-23 23:29:06
  */
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { Heatmap } from '@components'
 import { HorizontalList, InView, SectionTitle } from '@_'
 import { _ } from '@stores'
@@ -31,8 +31,6 @@ const Character = memo(
     subjectName,
     onSwitchBlock = FROZEN_FN
   }) => {
-    const handleToggle = useCallback(() => onSwitchBlock('showCharacter'), [onSwitchBlock])
-
     // 处理角色图片，避免重复逻辑
     const processedCrt = (crt || [])
       .map(item => {
@@ -48,6 +46,18 @@ const Character = memo(
         }
       })
       .sort((a, b) => desc(getSortValue(a), getSortValue(b)))
+
+    const elRight = useMemo(
+      () =>
+        showCharacter ? (
+          <IconCharacter />
+        ) : (
+          <IconHidden name={TITLE_CHARACTER} value='showCharacter' />
+        ),
+      [showCharacter]
+    )
+
+    const handleToggle = useCallback(() => onSwitchBlock('showCharacter'), [onSwitchBlock])
 
     const handleNavigate = useCallback(
       ({ id, name, nameJP, _image }: Crt) => {
@@ -89,19 +99,14 @@ const Character = memo(
       <InView style={stl(styles.container, !showCharacter && _.short)}>
         <SectionTitle
           style={_.container.wind}
-          right={
-            showCharacter ? (
-              <IconCharacter />
-            ) : (
-              <IconHidden name={TITLE_CHARACTER} value='showCharacter' />
-            )
-          }
+          right={elRight}
           icon={!showCharacter && 'md-navigate-next'}
           splitStyles
           onPress={handleToggle}
         >
           {TITLE_CHARACTER}
         </SectionTitle>
+
         {showCharacter && (
           <>
             <HorizontalList

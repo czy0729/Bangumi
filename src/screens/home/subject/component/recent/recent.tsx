@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-23 17:11:34
  */
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { ScrollView, View } from 'react-native'
 import { Flex, Heatmap, Text, UserStatus } from '@components'
 import { Avatar, InView, PreventTouchPlaceholder, SectionTitle, Stars } from '@_'
@@ -28,13 +28,18 @@ const Recent = memo(
   }) => {
     const { list, onScroll } = useHorizontalLazy(who)
 
+    const elRight = useMemo(
+      () => !showRecent && <IconHidden name={TITLE_RECENT} value='showRecent' />,
+      [showRecent]
+    )
+
     const handleToggle = useCallback(() => onSwitchBlock('showRecent'), [onSwitchBlock])
 
     return (
       <InView style={showRecent ? styles.container : styles.hide}>
         <SectionTitle
           style={_.container.wind}
-          right={!showRecent && <IconHidden name={TITLE_RECENT} value='showRecent' />}
+          right={elRight}
           icon={!showRecent && 'md-navigate-next'}
           splitStyles
           onPress={handleToggle}
@@ -86,6 +91,7 @@ const Recent = memo(
             <Heatmap id='条目.跳转' from='用户动态' />
           </>
         )}
+
         <PreventTouchPlaceholder />
       </InView>
     )

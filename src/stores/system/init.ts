@@ -355,6 +355,9 @@ export const INIT_SETTING = {
   subjectSplitStyles:
     MODEL_SETTING_SUBJECT_SPLIT_STYLES.getValue<SettingSubjectSplitStyles>('不显示'),
 
+  /** 条目对吐槽中的斜杠进行换行 */
+  subjectCommentSplit: false,
+
   /** 突出显示源头按钮 */
   focusOrigin: WEB,
 

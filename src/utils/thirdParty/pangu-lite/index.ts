@@ -162,7 +162,11 @@ function replacerM(text: string) {
 }
 
 function customReplacer(text: string): string {
-  let newText = text
+  // 先保护所有双斜杠，避免被拆开为空格
+  const PLACEHOLDER = '__DOUBLE_SLASH__'
+  const protectedText = text.replace(/\/\//g, PLACEHOLDER)
+
+  let newText = protectedText
 
   // 1. 只在左右不对称时补空格，且 / 不能在开头或结尾
   newText = newText
@@ -174,7 +178,8 @@ function customReplacer(text: string): string {
   // 2. 这里可以继续放其它你的替换规则，比如标点、空格、全角半角等
   //    newText = newText.replace(...)
 
-  return newText
+  // 还原 //，保持原样
+  return newText.replace(new RegExp(PLACEHOLDER, 'g'), '//')
 }
 
 // ------------------- 缓存 LRU -------------------

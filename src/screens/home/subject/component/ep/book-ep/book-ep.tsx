@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-05-08 06:42:14
  */
-import React from 'react'
+import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import Progress from '@ant-design/react-native/lib/progress'
 import { Button, Flex, Heatmap, Input, Text } from '@components'
@@ -40,6 +40,17 @@ const BookEp = memo(
     if (textVol === '??' && comicLength) textVol = `?${comicLength}`
 
     const canSubmit = !!status.name && status.name !== '未收藏'
+
+    const elRight = useMemo(
+      () => (
+        <>
+          {!focusOrigin && <IconSearch />}
+          <IconManga />
+          <IconWenku />
+        </>
+      ),
+      [focusOrigin]
+    )
 
     /** 抽象一个渲染块，复用 Chap / Vol */
     const renderInputBlock = ({
@@ -112,16 +123,7 @@ const BookEp = memo(
 
     return (
       <View style={styles.container}>
-        <SectionTitle
-          right={
-            <>
-              {!focusOrigin && <IconSearch />}
-              <IconManga />
-              <IconWenku />
-            </>
-          }
-          splitStyles
-        >
+        <SectionTitle right={elRight} splitStyles>
           {TITLE_EP}
         </SectionTitle>
 

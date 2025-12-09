@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-05-08 06:40:14
  */
-import React from 'react'
+import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import { Button, Flex, Heatmap, Input, Text } from '@components'
 import { SectionTitle } from '@_'
@@ -40,19 +40,21 @@ const Ep = memo(
     const canSubmit = !!status.name && status.name !== '未收藏'
     const showOnair = showCustomOnair && (onAirCustom.isOnair || isDoing)
 
+    const elRight = useMemo(
+      () => (
+        <>
+          <IconEpFilter />
+          {!focusOrigin && <IconOnline />}
+          <IconEp />
+          <IconReverse />
+        </>
+      ),
+      [focusOrigin]
+    )
+
     return (
       <View style={styles.container}>
-        <SectionTitle
-          right={
-            <>
-              <IconEpFilter />
-              {!focusOrigin && <IconOnline />}
-              <IconEp />
-              <IconReverse />
-            </>
-          }
-          splitStyles
-        >
+        <SectionTitle right={elRight} splitStyles>
           {TITLE_EP}
         </SectionTitle>
 
@@ -103,6 +105,7 @@ const Ep = memo(
             </Flex.Item>
 
             {showOnair && <OnairCustom />}
+
             <Heatmap id='条目.输入框更新章节' />
           </Flex>
         )}

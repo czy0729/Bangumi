@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-23 23:28:32
  */
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { Expand, Heatmap } from '@components'
 import { InView, ItemArticle, SectionTitle } from '@_'
 import { _, rakuenStore } from '@stores'
@@ -21,19 +21,25 @@ const Blog = memo(
   ({ navigation, styles, showBlog = true, subjectId = 0, blog, onSwitchBlock = FROZEN_FN }) => {
     const { list, onExpand } = useExpandLazy(blog)
 
+    const elRight = useMemo(
+      () => (showBlog ? <IconBlog /> : <IconHidden name={TITLE_BLOG} value='showBlog' />),
+      [showBlog]
+    )
+
     const handleToggle = useCallback(() => onSwitchBlock('showBlog'), [onSwitchBlock])
 
     return (
       <InView style={stl(styles.container, !showBlog && _.short)}>
         <SectionTitle
           style={styles.sectionTitle}
-          right={showBlog ? <IconBlog /> : <IconHidden name={TITLE_BLOG} value='showBlog' />}
+          right={elRight}
           icon={!showBlog && 'md-navigate-next'}
           splitStyles
           onPress={handleToggle}
         >
           {TITLE_BLOG}
         </SectionTitle>
+
         {showBlog && (
           <>
             <Expand key={String(blog?.length)} style={_.mt.sm} onExpand={onExpand}>

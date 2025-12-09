@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-23 23:28:35
  */
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { ScrollView, View } from 'react-native'
 import { Heatmap } from '@components'
 import { InView, PreventTouchPlaceholder, SectionTitle } from '@_'
@@ -23,21 +23,26 @@ const Catalog = memo(
   ({ styles, showCatalog = true, catalog, onSwitchBlock = FROZEN_FN }) => {
     const { list, onScroll } = useHorizontalLazy(catalog)
 
+    const elRight = useMemo(
+      () =>
+        showCatalog ? <IconCatalog /> : <IconHidden name={TITLE_CATALOG} value='showCatalog' />,
+      [showCatalog]
+    )
+
     const handleToggle = useCallback(() => onSwitchBlock('showCatalog'), [onSwitchBlock])
 
     return (
       <InView style={stl(styles.container, !showCatalog && _.short)}>
         <SectionTitle
           style={_.container.wind}
-          right={
-            showCatalog ? <IconCatalog /> : <IconHidden name={TITLE_CATALOG} value='showCatalog' />
-          }
+          right={elRight}
           icon={!showCatalog && 'md-navigate-next'}
           splitStyles
           onPress={handleToggle}
         >
           {TITLE_CATALOG}
         </SectionTitle>
+
         {showCatalog && (
           <>
             <View style={styles.scrollView}>
@@ -56,6 +61,7 @@ const Catalog = memo(
             </View>
           </>
         )}
+
         <PreventTouchPlaceholder />
       </InView>
     )

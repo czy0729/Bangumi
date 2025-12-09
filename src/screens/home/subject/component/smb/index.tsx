@@ -30,6 +30,7 @@ function SMB() {
     if (showSMB === -1) return null
 
     const styles = memoStyles()
+
     return (
       <Component id='screen-subject-smb' style={styles.container}>
         <SectionTitle

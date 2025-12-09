@@ -30,6 +30,7 @@ function Game({ onBlockRef }: Props) {
     if (!$.showGame[1]) return null
 
     const { showGameInfo } = systemStore.setting
+
     return (
       <Component id='screen-subject-game'>
         <View
@@ -37,6 +38,7 @@ function Game({ onBlockRef }: Props) {
           style={_.container.layout}
           collapsable={false}
         />
+
         <InView style={stl(_.mt.lg, !showGameInfo && _.short)}>
           <Expand>
             <SectionTitle
@@ -54,14 +56,17 @@ function Game({ onBlockRef }: Props) {
             >
               {TITLE_GAME}
             </SectionTitle>
+
             {showGameInfo && (
               <>
                 <Thumbs />
                 <Details />
               </>
             )}
+
             <PreventTouchPlaceholder />
           </Expand>
+
           <View
             style={[
               _.container.wind,
@@ -74,6 +79,7 @@ function Game({ onBlockRef }: Props) {
             <IconPic />
           </View>
         </InView>
+
         <Split />
       </Component>
     )

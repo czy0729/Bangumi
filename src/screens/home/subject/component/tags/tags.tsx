@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-26 16:30:54
  */
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
 import { Flex, Heatmap, Iconfont, ScrollView, Touchable } from '@components'
 import { PreventTouchPlaceholder, SectionTitle } from '@_'
@@ -30,22 +30,26 @@ const Tags = memo(
     focusOrigin = false,
     onSwitchBlock = FROZEN_FN
   }) => {
+    const elRight = useMemo(
+      () =>
+        showTags ? (
+          <>
+            {!focusOrigin && <IconGame />}
+            {!!rank && <RecSegement />}
+          </>
+        ) : (
+          <IconHidden name={TITLE_TAGS} value='showTags' />
+        ),
+      [focusOrigin, rank, showTags]
+    )
+
     const handleToggle = useCallback(() => onSwitchBlock('showTags'), [onSwitchBlock])
 
     return (
       <View style={stl(_.mt.lg, showTags ? styles.container : _.short, !show && _.mb.md)}>
         <SectionTitle
           style={_.container.wind}
-          right={
-            showTags ? (
-              <>
-                {!focusOrigin && <IconGame />}
-                {!!rank && <RecSegement />}
-              </>
-            ) : (
-              <IconHidden name={TITLE_TAGS} value='showTags' />
-            )
-          }
+          right={elRight}
           icon={!showTags && 'md-navigate-next'}
           splitStyles
           onPress={handleToggle}

@@ -49,36 +49,40 @@ const Anitabi = memo(
       [list]
     )
 
+    const elRight = useMemo(
+      () =>
+        showAnitabi === false ? (
+          <IconHidden name={TITLE_ANITABI} value='showAnitabi' />
+        ) : (
+          showAnitabi !== -1 && (
+            <Link
+              style={styles.touch}
+              path={`https://anitabi.cn/map?bangumiId=${subjectId}`}
+              eventId='条目.跳转'
+              eventData={{
+                to: 'anitabi.cn',
+                from: TITLE_ANITABI,
+                subjectId
+              }}
+            >
+              <Flex>
+                <Text type='sub'>巡礼地图</Text>
+                <Iconfont style={_.ml.xs} name='md-open-in-new' size={17} />
+              </Flex>
+              <Heatmap id='条目.跳转' from={TITLE_ANITABI} />
+            </Link>
+          )
+        ),
+      [showAnitabi, styles.touch, subjectId]
+    )
+
     const handleToggle = useCallback(() => onSwitchBlock('showAnitabi'), [onSwitchBlock])
 
     return (
       <InView style={stl(styles.container, !showAnitabi && _.short)}>
         <SectionTitle
           style={_.container.wind}
-          right={
-            showAnitabi === false ? (
-              <IconHidden name={TITLE_ANITABI} value='showAnitabi' />
-            ) : (
-              showAnitabi !== -1 && (
-                <Link
-                  style={styles.touch}
-                  path={`https://anitabi.cn/map?bangumiId=${subjectId}`}
-                  eventId='条目.跳转'
-                  eventData={{
-                    to: 'anitabi.cn',
-                    from: TITLE_ANITABI,
-                    subjectId
-                  }}
-                >
-                  <Flex>
-                    <Text type='sub'>巡礼地图</Text>
-                    <Iconfont style={_.ml.xs} name='md-open-in-new' size={17} />
-                  </Flex>
-                  <Heatmap id='条目.跳转' from={TITLE_ANITABI} />
-                </Link>
-              )
-            )
-          }
+          right={elRight}
           icon={!showAnitabi && 'md-navigate-next'}
           splitStyles
           onPress={handleToggle}

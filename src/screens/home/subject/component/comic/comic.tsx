@@ -59,6 +59,7 @@ const Comic = memo(
             </Text>
           )}
         </SectionTitle>
+
         <HorizontalList
           style={_.mt.sm}
           data={processedComic}
@@ -69,6 +70,7 @@ const Comic = memo(
           typeCn='书籍'
           onPress={handlePress}
         />
+
         <Heatmap id='条目.跳转' from={TITLE_COMIC} />
       </InView>
     )

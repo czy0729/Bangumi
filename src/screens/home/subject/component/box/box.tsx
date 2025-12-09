@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-19 23:40:09
  */
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
 import { Flex, Heatmap, Link, Text } from '@components'
 import { SectionTitle } from '@_'
@@ -35,6 +35,17 @@ const Box = memo(
   }) => {
     const statusSize = status[status.length - 1]?.text.length >= 6 ? 11 : 12
 
+    const elRight = useMemo(
+      () => (
+        <>
+          <IconWordCloud />
+          <IconFolder />
+          <IconClose />
+        </>
+      ),
+      []
+    )
+
     const handlePress = useCallback(() => {
       if (isLogin) {
         showManageModel()
@@ -51,19 +62,10 @@ const Box = memo(
 
     return (
       <View style={styles.container}>
-        <SectionTitle
-          style={styles.sectionTitle}
-          right={
-            <>
-              <IconWordCloud />
-              <IconFolder />
-              <IconClose />
-            </>
-          }
-          splitStyles
-        >
+        <SectionTitle style={styles.sectionTitle} right={elRight} splitStyles>
           {TITLE_BOX}
         </SectionTitle>
+
         <Flex style={styles.btn}>
           <Flex.Item>
             <FlipBtn onPress={handlePress} />
@@ -72,6 +74,7 @@ const Box = memo(
           </Flex.Item>
           <Extra />
         </Flex>
+
         <View style={styles.bottom}>
           {showCount && !!status.length && (
             <View style={_.mt.md}>
@@ -92,6 +95,7 @@ const Box = memo(
               <Heatmap id='条目.跳转' from='收藏' />
             </View>
           )}
+
           {outdate && (
             <Link style={_.mt.md} path='LoginV2'>
               <Text type='icon' size={statusSize} bold>
@@ -99,6 +103,7 @@ const Box = memo(
               </Text>
             </Link>
           )}
+
           <Comment />
         </View>
       </View>

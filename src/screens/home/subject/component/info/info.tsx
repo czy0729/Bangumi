@@ -35,10 +35,14 @@ const Info = memo(
         const decoded = decodeURIComponent(info)
         return expand ? decoded : decoded.slice(0, 560)
       } catch (error) {
-        console.error('home/subject/info.js', 'Info', error)
         return info
       }
     }, [expand, info])
+
+    const elRight = useMemo(
+      () => (showInfo ? <IconWiki /> : <IconHidden name='详情' value='showInfo' />),
+      [showInfo]
+    )
 
     const handleToggle = useCallback(() => onSwitchBlock('showInfo'), [onSwitchBlock])
 
@@ -82,7 +86,7 @@ const Info = memo(
       <View style={showInfo ? styles.container : styles.hide}>
         <SectionTitle
           style={_.container.wind}
-          right={showInfo ? <IconWiki /> : <IconHidden name='详情' value='showInfo' />}
+          right={elRight}
           icon={!showInfo && 'md-navigate-next'}
           splitStyles
           onPress={handleToggle}
@@ -107,6 +111,7 @@ const Info = memo(
                 />
               </Expand>
             )}
+
             <Heatmap id='条目.跳转' from='详情' />
           </View>
         )}

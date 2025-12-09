@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-05-08 06:44:45
  */
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
 import { Expand, Flex, Heatmap, Text } from '@components'
 import { SectionTitle } from '@_'
@@ -28,17 +28,20 @@ const Disc = memo(
     const [expand, setExpand] = useState(false)
     const handleExpand = useCallback(() => setExpand(true), [])
 
+    const { length } = discTranslateResult
+    const elRight = useMemo(
+      () => (
+        <>
+          {!focusOrigin && <IconSearchDisc />}
+          {!length && <IconDisc />}
+        </>
+      ),
+      [focusOrigin, length]
+    )
+
     return (
       <View style={styles.container}>
-        <SectionTitle
-          right={
-            <>
-              {!focusOrigin && <IconSearchDisc />}
-              {!discTranslateResult.length && <IconDisc />}
-            </>
-          }
-          splitStyles
-        >
+        <SectionTitle right={elRight} splitStyles>
           曲目列表
         </SectionTitle>
 
@@ -58,7 +61,7 @@ const Disc = memo(
                       {item.disc.map((i, idx) => {
                         const title = HTMLDecode(i.title).replace(`${idx + 1} `, '')
                         const translate =
-                          discTranslateResult.length > 0
+                          length > 0
                             ? discTranslateResult.find(d => d.src === title)?.dst || ''
                             : ''
 
@@ -98,6 +101,7 @@ const Disc = memo(
                   </View>
                 ))}
             </Expand>
+
             <Heatmap id='条目.跳转' from='曲目列表' />
           </View>
         )}

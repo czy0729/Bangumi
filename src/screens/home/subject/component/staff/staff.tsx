@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-05-08 07:11:30
  */
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { Heatmap } from '@components'
 import { HorizontalList, InView, SectionTitle } from '@_'
 import { _ } from '@stores'
@@ -23,6 +23,11 @@ import type { Staff as StaffType } from '../../types'
 
 const Staff = memo(
   ({ navigation, showStaff = true, subjectId = 0, staff, onSwitchBlock = FROZEN_FN }) => {
+    const elRight = useMemo(
+      () => (showStaff ? <IconStaff /> : <IconHidden name={TITLE_STAFF} value='showStaff' />),
+      [showStaff]
+    )
+
     const handleToggle = useCallback(() => onSwitchBlock('showStaff'), [onSwitchBlock])
 
     const handleNavigate = useCallback(
@@ -47,7 +52,7 @@ const Staff = memo(
       <InView style={stl(styles.container, !showStaff && _.short)}>
         <SectionTitle
           style={_.container.wind}
-          right={showStaff ? <IconStaff /> : <IconHidden name={TITLE_STAFF} value='showStaff' />}
+          right={elRight}
           icon={!showStaff && 'md-navigate-next'}
           splitStyles
           onPress={handleToggle}

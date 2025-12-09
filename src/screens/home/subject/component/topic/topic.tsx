@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-28 19:12:24
  */
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { Expand, Heatmap } from '@components'
 import { InView, ItemArticle, SectionTitle } from '@_'
 import { _, rakuenStore } from '@stores'
@@ -19,15 +19,20 @@ import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Topic = memo(
   ({ navigation, styles, showTopic = true, subjectId = 0, topic, onSwitchBlock = FROZEN_FN }) => {
-    const handleToggle = useCallback(() => onSwitchBlock('showTopic'), [onSwitchBlock])
-
     const { list, onExpand } = useExpandLazy(topic, 6)
+
+    const elRight = useMemo(
+      () => (showTopic ? <IconTopic /> : <IconHidden name={TITLE_TOPIC} value='showTopic' />),
+      [showTopic]
+    )
+
+    const handleToggle = useCallback(() => onSwitchBlock('showTopic'), [onSwitchBlock])
 
     return (
       <InView style={stl(styles.container, !showTopic && _.short)}>
         <SectionTitle
           style={_.container.wind}
-          right={showTopic ? <IconTopic /> : <IconHidden name={TITLE_TOPIC} value='showTopic' />}
+          right={elRight}
           icon={!showTopic && 'md-navigate-next'}
           splitStyles
           onPress={handleToggle}
