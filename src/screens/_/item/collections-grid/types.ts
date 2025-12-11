@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-06-17 11:24:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-11 16:00:32
+ * @Last Modified time: 2025-12-11 02:12:45
  */
-import { CoverProps } from '@components'
-import { EventType, Id, SubjectTypeCn, ViewStyle } from '@types'
+import type { CoverProps } from '@components'
+import type { EventType, Id, SubjectTypeCn, ViewStyle } from '@types'
 
 export type Props = {
   style?: ViewStyle
@@ -20,6 +20,8 @@ export type Props = {
   rank?: string | number
   typeCn?: SubjectTypeCn
   collection?: string
+
+  /** @deprecated */
   userCollection?: string
   airtime?: string
   aid?: string | number

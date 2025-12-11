@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:19:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-24 10:50:01
+ * @Last Modified time: 2025-12-12 00:15:55
  */
 import React from 'react'
 import { Component, Flex, Touchable } from '@components'
@@ -53,6 +53,7 @@ const Item = memo(
     filter = '',
     showManage = false,
     touchPosition = 'outer',
+    active = false,
     onEdit = FROZEN_FN
   }) => {
     const subjectId = String(id).replace('/subject/', '')
@@ -87,7 +88,7 @@ const Item = memo(
 
     return (
       <Component id='item-collections' data-key={id}>
-        <Container onPress={isOuterTouch ? handleNavigate : undefined}>
+        <Container active={active} onPress={isOuterTouch ? handleNavigate : undefined}>
           <Flex style={styles.wrap} align='start'>
             <Cover
               index={index}

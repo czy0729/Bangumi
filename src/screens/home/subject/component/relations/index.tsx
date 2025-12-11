@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-08 10:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-23 17:12:53
+ * @Last Modified time: 2025-12-11 04:52:53
  */
 import React, { Suspense } from 'react'
 import { View } from 'react-native'
 import { Component } from '@components'
 import { _, systemStore, useStore } from '@stores'
+import { cnjp } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { TITLE_RELATIONS } from '../../ds'
 import Split from '../split'
@@ -16,7 +17,6 @@ import { COMPONENT } from './ds'
 
 import type { Ctx } from '../../types'
 import type { Props } from './types'
-
 function RelationsWrap({ onBlockRef }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
@@ -37,6 +37,7 @@ function RelationsWrap({ onBlockRef }: Props) {
             subjectId={$.subjectId}
             relations={$.relations}
             typeCn={$.type}
+            name={cnjp($.cn, $.jp)}
             onSwitchBlock={$.onSwitchBlock}
           />
           <Split

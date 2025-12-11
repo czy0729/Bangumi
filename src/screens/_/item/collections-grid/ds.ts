@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-06-17 11:08:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-11 15:55:31
+ * @Last Modified time: 2025-12-11 02:15:54
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
 import { EVENT } from '@constants'
-import { GridStyle } from '@types'
 import { COMPONENT as PARENT } from '../ds'
-import { Props } from './types'
+
+import type { GridStyle } from '@types'
+import type { Props } from './types'
 
 export const COMPONENT = rc(PARENT, 'ItemCollectionsGrid')
 

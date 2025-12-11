@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-17 01:04:37
+ * @Last Modified time: 2025-12-10 22:42:47
  */
 import { lazy } from 'react'
 
@@ -13,6 +13,7 @@ export const LoginV2 = lazy(() => import('./login/v2'))
 export const LoginToken = lazy(() => import('./login/token'))
 
 // Discovery
+export { default as Discovery } from './discovery/index/index'
 export const ADV = lazy(() => import('./discovery/adv'))
 export const Anime = lazy(() => import('./discovery/anime'))
 export const Anitama = lazy(() => import('./discovery/anitama'))
@@ -24,7 +25,6 @@ export const Catalog = lazy(() => import('./discovery/catalog'))
 export const CatalogDetail = lazy(() => import('./discovery/catalog-detail'))
 export const Channel = lazy(() => import('./discovery/channel'))
 export const Character = lazy(() => import('./discovery/character'))
-export { default as Discovery } from './discovery/index/index'
 export const DiscoveryBlog = lazy(() => import('./discovery/blog'))
 export const Dollars = lazy(() => import('./discovery/dollars'))
 export const Game = lazy(() => import('./discovery/game'))
@@ -46,13 +46,13 @@ export const WordCloud = lazy(() => import('./discovery/word-cloud'))
 export const Yearbook = lazy(() => import('./discovery/yearbook'))
 
 // Timeline
-export const Say = lazy(() => import('./timeline/say'))
 export { default as Timeline } from './timeline/v2'
+export const Say = lazy(() => import('./timeline/say'))
 
 // Home
+export { default as Home } from './home/v2'
 export const Characters = lazy(() => import('./home/characters'))
 export const Episodes = lazy(() => import('./home/episodes'))
-export { default as Home } from './home/v2'
 export const Mono = lazy(() => import('./home/mono'))
 export const Overview = lazy(() => import('./home/overview'))
 export const Persons = lazy(() => import('./home/persons'))
@@ -61,6 +61,7 @@ export const Rating = lazy(() => import('./home/rating'))
 export const Subject = lazy(() => import('./home/subject'))
 export const SubjectCatalogs = lazy(() => import('./home/catalogs'))
 export const SubjectInfo = lazy(() => import('./home/info'))
+export const SubjectLink = lazy(() => import('./home/link'))
 export const SubjectWiki = lazy(() => import('./home/wiki'))
 export const Tag = lazy(() => import('./home/tag'))
 export const Typerank = lazy(() => import('./home/typerank'))
@@ -68,12 +69,12 @@ export const Voices = lazy(() => import('./home/voices'))
 export const Works = lazy(() => import('./home/works'))
 
 // Rakuen
+export { default as Rakuen } from './rakuen/v2'
 export const Blog = lazy(() => import('./rakuen/blog'))
 export const Board = lazy(() => import('./rakuen/board'))
 export const Group = lazy(() => import('./rakuen/group'))
 export const Mine = lazy(() => import('./rakuen/mine'))
 export const Notify = lazy(() => import('./rakuen/notify'))
-export { default as Rakuen } from './rakuen/v2'
 export const RakuenHistory = lazy(() => import('./rakuen/history'))
 export const RakuenSearch = lazy(() => import('./rakuen/search'))
 export const RakuenSetting = lazy(() => import('./rakuen/setting'))
@@ -82,6 +83,7 @@ export const Topic = lazy(() => import('./rakuen/topic'))
 export const UGCAgree = lazy(() => import('./rakuen/ugc-agree'))
 
 // User
+export { default as User } from './user/v2'
 export const Actions = lazy(() => import('./user/actions'))
 export const Backup = lazy(() => import('./user/backup'))
 export const Blogs = lazy(() => import('./user/blogs'))
@@ -96,7 +98,6 @@ export const ServerStatus = lazy(() => import('./user/server-status'))
 export const Setting = lazy(() => import('./user/setting'))
 export const Smb = lazy(() => import('./user/smb'))
 export const Sponsor = lazy(() => import('./user/sponsor'))
-export { default as User } from './user/v2'
 export const UserSetting = lazy(() => import('./user/user-setting'))
 export const UserTimeline = lazy(() => import('./user/timeline'))
 export const Zone = lazy(() => import('./user/zone'))

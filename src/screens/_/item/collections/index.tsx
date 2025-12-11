@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-24 10:50:40
+ * @Last Modified time: 2025-12-12 00:15:36
  */
 import React from 'react'
 import { ob } from '@utils/decorators'
@@ -44,6 +44,7 @@ export const ItemCollections = ob(
     filter,
     showManage,
     touchPosition,
+    active,
     onEdit
   }: ItemCollectionsProps) => {
     return (
@@ -78,6 +79,7 @@ export const ItemCollections = ob(
         filter={filter}
         showManage={showManage}
         touchPosition={touchPosition}
+        active={active}
         onEdit={onEdit}
       />
     )

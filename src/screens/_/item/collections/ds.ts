@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:20:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-24 10:50:50
+ * @Last Modified time: 2025-12-12 00:16:26
  */
 import { rc } from '@utils/dev'
 import { EVENT, FROZEN_FN, IMG_HEIGHT, IMG_WIDTH } from '@constants'
-import { Navigation } from '@types'
 import { COMPONENT as PARENT } from '../ds'
-import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Navigation } from '@types'
+import type { memoStyles } from './styles'
+import type { Props } from './types'
 
 export const COMPONENT = rc(PARENT, 'ItemCollections')
 
@@ -52,5 +53,6 @@ export const DEFAULT_PROPS = {
   filter: '' as Props['filter'],
   showManage: false as Props['showManage'],
   touchPosition: 'outer' as Props['touchPosition'],
+  active: false as boolean,
   onEdit: FROZEN_FN as Props['onEdit']
 } as const

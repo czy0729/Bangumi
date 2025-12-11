@@ -28,5 +28,6 @@ export const DEFAULT_PROPS = {
   subjectId: 0 as $['subjectId'],
   relations: [] as $['relations'],
   typeCn: '' as $['type'],
+  name: '',
   onSwitchBlock: FROZEN_FN as $['onSwitchBlock']
 }
