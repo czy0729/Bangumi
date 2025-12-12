@@ -7,6 +7,9 @@
 import React from 'react'
 import Item from '../item'
 
-export function renderItem({ item, index }) {
+import type { SubjectCatalogsItem } from '@stores/subject/types'
+import type { RenderItem } from '@types'
+
+export function renderItem({ item, index }: RenderItem<SubjectCatalogsItem>) {
   return <Item item={item} index={index} />
 }

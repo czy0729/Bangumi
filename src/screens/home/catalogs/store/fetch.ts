@@ -5,14 +5,15 @@
  * @Last Modified time: 2024-12-04 20:13:38
  */
 import { discoveryStore, subjectStore } from '@stores'
-import { CatalogDetail } from '@stores/discovery/types'
 import { getTimestamp, HTMLDecode, removeHTMLTag } from '@utils'
 import { queue } from '@utils/fetch'
 import { get, update } from '@utils/kv'
 import { D7 } from '@constants'
-import { Id, Override } from '@types'
-import { SnapshotId } from '../types'
 import Computed from './computed'
+
+import type { CatalogDetail } from '@stores/discovery/types'
+import type { Id, Override } from '@types'
+import type { SnapshotId } from '../types'
 
 /** 若更新过则不会再主动更新 */
 const THIRD_PARTY_UPDATED: SnapshotId[] = []
@@ -22,12 +23,7 @@ export default class Fetch extends Computed {
   fetchSubjectCatalogs = async (refresh: boolean = false) => {
     if (refresh) this.fetchThirdParty()
 
-    const data = await subjectStore.fetchSubjectCatalogs(
-      {
-        subjectId: this.subjectId
-      },
-      refresh
-    )
+    const data = await subjectStore.fetchSubjectCatalogs(this.subjectId, refresh)
 
     if (
       data.list.length &&

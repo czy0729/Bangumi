@@ -7,9 +7,11 @@
 import { computed } from 'mobx'
 import { discoveryStore, subjectStore } from '@stores'
 import { HTML_SUBJECT_CATALOGS, LIST_EMPTY } from '@constants'
-import { Id } from '@types'
-import { SnapshotId } from '../types'
 import State from './state'
+
+import type { SubjectCatalogs } from '@stores/subject/types'
+import type { Id } from '@types'
+import type { SnapshotId } from '../types'
 
 export default class Computed extends State {
   @computed get subjectId() {
@@ -27,15 +29,17 @@ export default class Computed extends State {
   /** 包含条目的目录 */
   @computed get list() {
     if (!this.subjectCatalogs._loaded) {
-      return this.ota
-        ? {
-            ...this.ota,
-            pagination: {
-              page: 1,
-              pageTotal: 10
+      return (
+        this.ota
+          ? {
+              ...this.ota,
+              pagination: {
+                page: 1,
+                pageTotal: 10
+              }
             }
-          }
-        : LIST_EMPTY
+          : LIST_EMPTY
+      ) as SubjectCatalogs
     }
 
     return this.subjectCatalogs

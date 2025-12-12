@@ -368,17 +368,19 @@ export type SubjectSnapshot = {
   _loaded: number
 }
 
+/** 包含条目的目录项 */
+export type SubjectCatalogsItem = {
+  id: Id
+  title: string
+  userId: UserId
+  userName: string
+  avatar: string
+  time: string
+  last: string
+}
+
 /** 包含条目的目录 */
-export type SubjectCatalogs = ListEmpty<
-  Partial<{
-    id: Id
-    title: string
-    userId: UserId
-    userName: string
-    avatar: Avatar<'s'>
-    time: string
-  }>
->
+export type SubjectCatalogs = ListEmpty<SubjectCatalogsItem>
 
 /** 公共回复参数 */
 type SubjectCommentsAttrs = {

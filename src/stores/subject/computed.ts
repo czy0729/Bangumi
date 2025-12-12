@@ -106,8 +106,11 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 包含条目的目录 */
   subjectCatalogs(subjectId: SubjectId) {
-    return computed<SubjectCatalogs>(() => {
-      return this.state.subjectCatalogs[subjectId] || LIST_EMPTY
+    const STATE_KEY = 'subjectCatalogs'
+
+    return computed(() => {
+      const ITEM_KEY = subjectId
+      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as SubjectCatalogs
     }).get()
   }
 

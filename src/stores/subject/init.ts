@@ -7,8 +7,16 @@
 import { LIST_EMPTY } from '@constants'
 import { MODEL_RATING_STATUS } from '@constants/model'
 
-import type { Actions, Loaded, MonoId, Origin, RatingStatus, SubjectType } from '@types'
-import type { EpStatus, Mono, MonoComments, MonoVoices, MonoWorks, SubjectFromHTML } from './types'
+import type { Actions, Loaded, MonoId, Origin, RatingStatus, SubjectId, SubjectType } from '@types'
+import type {
+  EpStatus,
+  Mono,
+  MonoComments,
+  MonoVoices,
+  MonoWorks,
+  SubjectCatalogs,
+  SubjectFromHTML
+} from './types'
 
 /** 命名空间 */
 export const NAMESPACE = 'Subject'
@@ -229,9 +237,7 @@ const STATE = {
   },
 
   /** 包含条目的目录 */
-  subjectCatalogs: {
-    0: LIST_EMPTY
-  },
+  subjectCatalogs: {} as Record<SubjectId, SubjectCatalogs>,
 
   /** 章节内容 */
   epFormHTML: {

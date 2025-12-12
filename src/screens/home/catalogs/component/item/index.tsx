@@ -6,20 +6,28 @@
  */
 import React from 'react'
 import { ItemCatalog } from '@_'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT, EVENT } from './ds'
 
-function Item({ item, index }) {
-  return (
+import type { SubjectCatalogsItem } from '@stores/subject/types'
+import type { RenderItem } from '@types'
+
+function Item({ item, index }: RenderItem<SubjectCatalogsItem>) {
+  r(COMPONENT)
+
+  return useObserver(() => (
     <ItemCatalog
-      event={EVENT}
       index={index}
       isUser
       id={item.id}
       name={item.userName}
       title={item.title}
+      time={item.time}
+      last={item.last}
+      event={EVENT}
     />
-  )
+  ))
 }
 
-export default ob(Item, COMPONENT)
+export default Item

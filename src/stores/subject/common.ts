@@ -41,6 +41,7 @@ import type {
   MonoWorksItem,
   Rating,
   SubjectCatalogs,
+  SubjectCatalogsItem,
   SubjectComments,
   SubjectFromHTML,
   Wiki
@@ -382,25 +383,21 @@ export function cheerioRating(html: string): Rating {
 
 /** 包含条目的目录 */
 export function cheerioSubjectCatalogs(html: string): SubjectCatalogs {
-  const $ = cheerio(htmlMatch(html, '<div id="columnInSubjectA"', '<div id="columnInSubjectB"'))
+  const $ = cheerio(htmlMatch(html, '<div id="columnInSubjectA', '<div id="columnInSubjectB'))
+
   return {
-    list:
-      $('li.tml_item')
-        .map((_index: number, element: any) => {
-          const $li = cheerio(element)
-          const $title = $li.find('h3 a.l')
-          const $user = $li.find('span.tip_j a.l')
-          const avatar = matchAvatar($li.find('span.avatarNeue').attr('style'))
-          return safeObject({
-            id: parseInt($title.attr('href').replace('/index/', '')),
-            title: $title.text().trim(),
-            userId: $user.attr('href').replace('/user/', ''),
-            userName: $user.text().trim(),
-            avatar,
-            time: $li.find('span.tip').text().trim()
-          })
-        })
-        .get() || []
+    list: cMap($('li.tml_item'), $row => {
+      const $user = cFind($row, 'a.avatar')
+      return {
+        id: cData(cFind($row, 'a.l'), 'href').replace('/index/', ''),
+        title: cText(cFind($row, 'h3')),
+        userId: cData($user, 'href').replace('/user/', ''),
+        userName: cText($user),
+        avatar: matchAvatar(cData(cFind($row, 'span.avatarNeue'), 'style')),
+        time: cText(cFind($row, '.time .tip_j')),
+        last: cText(cFind($row, '.time .tip_j', 1))
+      } as SubjectCatalogsItem
+    })
   }
 }
 

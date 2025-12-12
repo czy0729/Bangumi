@@ -334,36 +334,36 @@ export default class Fetch extends Computed {
   }
 
   /** 包含条目的目录 */
-  fetchSubjectCatalogs = async (
-    args: {
-      subjectId: SubjectId
-    },
-    refresh?: boolean
-  ) => {
-    const { subjectId } = args || {}
-    const key = 'subjectCatalogs'
-    const limit = 15
-    const { list, pagination } = this[key](subjectId)
-    const page = refresh ? 1 : pagination.page + 1
+  fetchSubjectCatalogs = async (subjectId: SubjectId, refresh?: boolean) => {
+    const STATE_KEY = 'subjectCatalogs'
+    const ITEM_KEY = subjectId
+    const LIMIT = 15
 
-    const html = await fetchHTML({
-      url: HTML_SUBJECT_CATALOGS(subjectId, page)
-    })
-    const next = cheerioSubjectCatalogs(html)
+    try {
+      const { list, pagination } = this[STATE_KEY](ITEM_KEY)
+      const page = refresh ? 1 : pagination.page + 1
+      const html = await fetchHTML({
+        url: HTML_SUBJECT_CATALOGS(subjectId, page)
+      })
 
-    this.setState({
-      [key]: {
-        [subjectId]: {
-          list: refresh ? next.list : [...list, ...next.list],
-          pagination: {
-            page,
-            pageTotal: next.list.length === limit ? 100 : page
-          },
-          _loaded: getTimestamp()
+      const next = cheerioSubjectCatalogs(html)
+      this.setState({
+        [STATE_KEY]: {
+          [ITEM_KEY]: {
+            list: refresh ? next.list : [...list, ...next.list],
+            pagination: {
+              page,
+              pageTotal: next.list.length >= LIMIT ? 100 : page
+            },
+            _loaded: getTimestamp()
+          }
         }
-      }
-    })
-    return this[key](subjectId)
+      })
+    } catch (error) {
+      this.error('fetchSubjectCatalogs', error)
+    }
+
+    return this[STATE_KEY](subjectId)
   }
 
   /** 网页获取留言 */
@@ -524,7 +524,7 @@ export default class Fetch extends Computed {
       const next = cheerioMonoWorks(html)
       this.setState({
         [STATE_KEY]: {
-          [monoId]: {
+          [ITEM_KEY]: {
             list: refresh ? next.list : [...list, ...next.list],
             pagination: {
               page,

@@ -8,24 +8,26 @@ import React from 'react'
 import { ListView } from '@components'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { useObserver } from '@utils/hooks'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
 
+import type { Ctx } from '../../types'
+
 function List() {
-  const { $ } = useStore<Ctx>()
-  return (
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
     <ListView
       keyExtractor={keyExtractor}
-      contentContainerStyle={[_.container.header, _.container.bottom]}
+      contentContainerStyle={_.container.page}
       data={$.list}
       renderItem={renderItem}
       onScroll={$.onScroll}
       onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={$.fetchSubjectCatalogs}
     />
-  )
+  ))
 }
 
-export default ob(List, COMPONENT)
+export default List
