@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-04 16:48:57
+ * @Last Modified time: 2025-12-13 05:33:57
  */
 import React from 'react'
 import { BackHandler } from 'react-native'
@@ -284,7 +284,7 @@ export const ManageModal = ob(
         tags,
         status,
         privacy,
-        comment: comment || ''
+        comment: HTMLDecode(comment || '')
       })
     }
 
