@@ -2,23 +2,47 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-24 02:08:32
+ * @Last Modified time: 2025-12-15 16:56:14
  */
 import React, { Suspense } from 'react'
+import { Flex } from '@components'
+import { IconRelation } from '@_'
 import { systemStore, useStore } from '@stores'
+import { cnjp } from '@utils'
 import { useObserver } from '@utils/hooks'
 import Series from './series'
 import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
+import { memoStyles, styles } from './styles'
 
 import type { SubjectFromHtmlRelationsItem } from '@stores/subject/types'
 import type { Ctx } from '../../types'
 
 function SeriewWrap({ size }: { size: number }) {
-  const { $ } = useStore<Ctx>(COMPONENT)
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
-    if (!$.hasSeries) return null
+    const { showRelation } = systemStore.setting
+    if (showRelation === -1) return null
+
+    const elLink = (
+      <IconRelation
+        style={styles.icon}
+        onPress={() => {
+          navigation.push('SubjectLink', {
+            subjectId: $.subjectId,
+            name: cnjp($.cn, $.jp)
+          })
+        }}
+      />
+    )
+    if (!$.hasSeries) {
+      return (
+        <Flex>
+          <Flex.Item />
+          {elLink}
+        </Flex>
+      )
+    }
 
     /**
      * 实际显示顺序为: 前传 > 续集 > 动画化 > 不同演绎 > 原作书籍
@@ -63,18 +87,23 @@ function SeriewWrap({ size }: { size: number }) {
 
     return (
       <Suspense fallback={null}>
-        <Series
-          styles={memoStyles()}
-          showRelation={systemStore.setting.showRelation}
-          size={size}
-          subjectId={$.subjectId}
-          subjectPrev={subjectPrev}
-          subjectAfter={subjectAfter}
-          subjectAnime={subjectAnime}
-          subjectDiff={subjectDiff}
-          subjectBook={subjectBook}
-          subjectSeries={subjectSeries}
-        />
+        <Flex>
+          <Flex.Item>
+            <Series
+              styles={memoStyles()}
+              showRelation={showRelation}
+              size={size}
+              subjectId={$.subjectId}
+              subjectPrev={subjectPrev}
+              subjectAfter={subjectAfter}
+              subjectAnime={subjectAnime}
+              subjectDiff={subjectDiff}
+              subjectBook={subjectBook}
+              subjectSeries={subjectSeries}
+            />
+          </Flex.Item>
+          {elLink}
+        </Flex>
       </Suspense>
     )
   })

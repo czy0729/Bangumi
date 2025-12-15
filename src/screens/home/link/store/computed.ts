@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-12-10 22:40:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-11 01:52:10
+ * @Last Modified time: 2025-12-13 18:01:31
  */
 import { computed } from 'mobx'
 import State from './state'
@@ -16,7 +16,7 @@ export default class Computed extends State {
 
   /** 条目唯一 ID */
   @computed get subjectId() {
-    return this.params.subjectId
+    return Number(this.params.subjectId) || 0
   }
 
   /** 本地化数据键名 */

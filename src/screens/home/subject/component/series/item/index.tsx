@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-11-24 19:20:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 02:06:37
+ * @Last Modified time: 2025-12-15 21:00:58
  */
 import React from 'react'
 import { Cover, Flex, Heatmap, Squircle, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { _, useStore } from '@stores'
+import { useStore } from '@stores'
 import { x18 } from '@utils'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
@@ -44,7 +44,7 @@ function Item({ from, data }) {
         }}
       >
         <Flex>
-          <Squircle width={COVER_WIDTH} height={COVER_HEIGHT} radius={4}>
+          <Squircle width={COVER_WIDTH} height={COVER_HEIGHT} radius={3}>
             <Cover
               src={data.image || IMG_DEFAULT}
               size={COVER_WIDTH}
@@ -55,7 +55,7 @@ function Item({ from, data }) {
               noDefault
             />
           </Squircle>
-          <Text style={_.ml.sm} size={11}>
+          <Text style={styles.text} size={10}>
             {data.type || from}
           </Text>
         </Flex>

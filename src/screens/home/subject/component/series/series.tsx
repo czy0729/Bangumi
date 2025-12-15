@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-24 02:08:22
+ * @Last Modified time: 2025-12-15 15:20:23
  */
 import React from 'react'
 import { Cover, Flex, Heatmap, Iconfont, Link, Squircle, Text } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { IconTouchable } from '@_'
-import { _, systemStore } from '@stores'
+import { _ } from '@stores'
 import { x18 } from '@utils'
 import { memo } from '@utils/decorators'
 import { WEB } from '@constants'
@@ -51,12 +50,12 @@ const Series = memo(
               </Flex>
             )}
           </Flex.Item>
-          <IconTouchable
+          {/* <IconTouchable
             style={styles.icon}
             name={showRelation ? 'md-keyboard-arrow-up' : 'md-navigate-next'}
             size={24}
             onPress={() => systemStore.switchSetting('showRelation')}
-          />
+          /> */}
         </Flex>
       )
     }

@@ -2,14 +2,21 @@
  * @Author: czy0729
  * @Date: 2024-08-19 07:02:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-27 22:06:53
+ * @Last Modified time: 2025-12-15 05:59:54
  */
 export const GROUP_THUMB_MAP = {
-  wordcloud: './assets/images/wordcloud.png',
-  wordcloud_0: './assets/images/wordcloud_0.png',
+  burakku_sakura_icon: './assets/images/burakku_sakura.png',
+  circle: './assets/images/circle.png',
+  mesume: './assets/images/mesume.png',
+  mesume_0: './assets/images/mesume_0.png',
+  mesume_icon: './assets/images/mesume_icon.png',
+  miku_icon: './assets/images/miku.png',
+  relation: './assets/images/relation.png',
+  relation_0: './assets/images/relation_0.png',
   sound: './assets/images/sound.png',
   sound_0: './assets/images/sound_0.png',
-  circle: './assets/images/circle.png',
+  wordcloud: './assets/images/wordcloud.png',
+  wordcloud_0: './assets/images/wordcloud_0.png',
   '//lain.bgm.tv/pic/icon/s/000/00/00/11.jpg': './assets/images/group/a.jpg',
   '//lain.bgm.tv/pic/icon/s/000/00/00/2.jpg': './assets/images/group/forum.jpg',
   '//lain.bgm.tv/pic/icon/s/000/00/03/364.jpg': './assets/images/group/boring.jpg',
