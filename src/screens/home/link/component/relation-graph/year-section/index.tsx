@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-12-14 18:51:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-15 19:11:34
+ * @Last Modified time: 2025-12-16 20:10:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,7 +18,7 @@ import type { Props } from './types'
 function YearSection({ year, index, nodes, layoutsRef }: Props) {
   return useObserver(() => {
     const yearLayouts = nodes
-      .map(n => layoutsRef.current.get(Number(n.id)))
+      .map(n => layoutsRef.current!.get(Number(n.id)))
       .filter(Boolean) as NodeLayout[]
     if (!yearLayouts.length) return null
 
@@ -36,7 +36,7 @@ function YearSection({ year, index, nodes, layoutsRef }: Props) {
           height: height + Math.floor(NODE_OFFSET / 2) + 2
         })}
       >
-        <View style={stl(styles.section, !(index % 2) && styles.active)} />
+        {<View style={stl(styles.section, !(index % 2) && styles.active)} />}
 
         {year !== '未知' && (
           <View style={styles.row}>

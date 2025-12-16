@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-10-10 11:54:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-17 22:51:59
+ * @Last Modified time: 2025-12-16 03:33:07
  */
 import { COLLECTION_STATUS, COLLECTIONS_ORDERBY, SUBJECT_TYPE } from '@constants'
-import { CollectionsOrder, CollectionStatus, Loaded, SubjectType } from '@types'
 import { COMPONENT } from '../ds'
-import { SubTitle } from '../types'
+
+import type { CollectionsOrder, CollectionStatus, Loaded, SubjectType } from '@types'
+import type { SubTitle } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-11 04:51:13
+ * @Last Modified time: 2025-12-16 21:57:21
  */
 import type { ImageSourcePropType } from 'react-native'
 import type {
@@ -32,7 +32,11 @@ type Route<Path extends Paths, Params = undefined> = (
 ) => any
 
 /** 获取页面路由参数 */
-export type GetRouteParams<R extends (path: string, params: object) => any> = Parameters<R>[1]
+export type GetRouteParams<R> = R extends (path: any, params?: infer P) => any
+  ? P extends undefined
+    ? {}
+    : P
+  : {}
 
 /** 路由和参数约束 */
 export type NavigationPushType = RouteActions &
@@ -592,11 +596,14 @@ export type RouteSubjectInfo = Route<
 export type RouteSubjectLink = Route<
   'SubjectLink',
   {
+    /** 关系节点 ID */
+    nodeId: number
+
     /** 条目 ID */
-    subjectId: SubjectId
+    _subjectId?: SubjectId
 
     /** 条目名 */
-    name?: string
+    _name?: string
   }
 >
 

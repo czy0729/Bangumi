@@ -7,10 +7,15 @@
     "types": ["react", "react-native"],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "noImplicitAny": false,
+    "isolatedModules": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "strict": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    // "strictNullChecks": true,
+    "verbatimModuleSyntax": true,
     "baseUrl": ".",
     "paths": {
       "@_": ["src/screens/_"],
@@ -40,5 +45,14 @@
     }
   },
   "include": ["src", "types"],
-  "exclude": ["node_modules", "dist", "android", "src/assets", "web"]
+  "exclude": [
+    "android",
+    "dist",
+    "ios",
+    "metro-cache",
+    "node_modules",
+    "packages",
+    "src/assets",
+    "web"
+  ]
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 06:49:05
+ * @Last Modified time: 2025-12-16 23:51:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -61,7 +61,7 @@ const HeaderTitle = memo(
           src={common}
           size={type === '音乐' ? IMAGE_HEIGHT : IMAGE_WIDTH}
           height={IMAGE_HEIGHT}
-          radius={_.radiusXs}
+          radius={4}
           cdn={!x18(subjectId)}
           fadeDuration={0}
         />

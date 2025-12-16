@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-12 15:31:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-17 23:36:31
+ * @Last Modified time: 2025-12-16 03:31:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,10 +13,11 @@ import { info, open } from '@utils'
 import { ob } from '@utils/decorators'
 import { WEB } from '@constants'
 import { LIMIT, NUM_COLUMNS, NUMBER_OF_LINES, SUB_TITLE } from '../../ds'
-import { Ctx } from '../../types'
 import Input from '../input'
 import { COMPONENT, SEGMENTED_WIDTH } from './ds'
 import { styles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function Options() {
   const { $, navigation } = useStore<Ctx>()

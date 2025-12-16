@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:15:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-11 04:59:13
+ * @Last Modified time: 2025-12-16 00:00:57
  */
 import { computed } from 'mobx'
 import { x18 } from '@utils'
@@ -361,6 +361,13 @@ export default class Computed extends State implements StoreConstructor<typeof S
         this.subjectFromOSS(subjectId)?.air_date ||
         ''
       )
+    }).get()
+  }
+
+  /** 尽量获取到条目章节数 */
+  eps(subjectId: SubjectId) {
+    return computed<'' | number>(() => {
+      return this.subjectV2(subjectId)?.eps || this.subjectV2(subjectId)?.vol || ''
     }).get()
   }
 }

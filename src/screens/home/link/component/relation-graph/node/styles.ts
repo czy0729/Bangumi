@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-12-15 05:14:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-15 19:35:29
+ * @Last Modified time: 2025-12-16 20:06:53
  */
 import { _ } from '@stores'
 import { NODE_OFFSET, NODE_WIDTH, SCREEN_WIDTH, YEAR_TEXT_GAP } from '../ds'
@@ -19,24 +19,24 @@ export const memoStyles = _.memoStyles(() => ({
     minHeight: 64,
     padding: 8,
     marginTop: NODE_OFFSET,
-    backgroundColor: '#1e1e1e',
-    borderWidth: 1,
-    borderColor: 'transparent',
+    backgroundColor: _.select(_.colorBg, '#1e1e1e'),
+    borderWidth: _.select(1.5, 1),
+    borderColor: 'rgba(0, 0, 0, 0.06)',
     borderRadius: 10,
     overflow: 'hidden'
   },
   focus: {
-    backgroundColor: '#182533',
-    borderColor: '#4da3ff'
+    backgroundColor: _.select(_.colorPrimaryLight, '#182533'),
+    borderColor: _.select(_.colorPrimary, '#4da3ff')
   },
   connected: {
-    borderColor: 'rgba(255, 255, 255, 0.24)'
+    borderColor: _.select('rgba(0, 0, 0, 0.32)', 'rgba(255, 255, 255, 0.24)')
   },
   pressed: {
-    opacity: 0.85
+    opacity: 0.84
   },
   active: {
-    backgroundColor: '#332200',
+    backgroundColor: _.select(_.colorWarningLight, '#332200'),
     borderColor: _.colorWarning
   },
   collect: {
@@ -55,7 +55,7 @@ export const memoStyles = _.memoStyles(() => ({
     ]
   },
   override: {
-    color: '#333',
+    color: _.select('#bbb', '#333'),
     fontFamily: '',
     fontStyle: 'italic',
     fontWeight: 'bold',

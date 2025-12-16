@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-12-15 20:25:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-15 20:57:26
+ * @Last Modified time: 2025-12-17 01:16:32
  */
 import React, { useEffect, useRef, useState } from 'react'
 import { ScrollView, View } from 'react-native'
@@ -18,6 +18,7 @@ import {
   EXPAND_STEP,
   FOCUS_WINDOW_RADIUS,
   HEAD_KEEP_COUNT,
+  NODES_FOR_SPLIT,
   SCREEN_HEIGHT,
   START_FROM_RIGHT,
   TAIL_KEEP_COUNT
@@ -25,11 +26,14 @@ import {
 import { styles } from './styles'
 
 import type { NodeLayout, RelationEdge, RelationGraphProps } from './types'
+import type { NodeItem } from '../../types'
 
 export default function RelationGraph({
   data,
   focusId: initialFocusId,
-  maxRelations = 10
+  maxRelations = 10,
+  hideRelates = [],
+  onScroll
 }: RelationGraphProps) {
   r(COMPONENT)
 
@@ -64,13 +68,19 @@ export default function RelationGraph({
   })
 
   const total = sortedNodes.length
-  const headCount = Math.min(HEAD_KEEP_COUNT, total)
-  const tailCount = Math.min(TAIL_KEEP_COUNT, Math.max(0, total - headCount))
-  const headNodes = sortedNodes.slice(0, headCount)
-  const tailNodes = tailCount > 0 ? sortedNodes.slice(total - tailCount) : []
-  const middleNodes = sortedNodes.slice(headCount, total - tailCount)
+  let headNodes: NodeItem[] = []
+  let tailNodes: NodeItem[] = []
+  let middleNodes = sortedNodes
+  if (total > NODES_FOR_SPLIT) {
+    const headCount = Math.min(HEAD_KEEP_COUNT, total)
+    const tailCount = Math.min(TAIL_KEEP_COUNT, Math.max(0, total - headCount))
+    headNodes = sortedNodes.slice(0, headCount)
+    tailNodes = tailCount > 0 ? sortedNodes.slice(total - tailCount) : []
+    middleNodes = sortedNodes.slice(headCount, total - tailCount)
+  }
 
-  if (!windowRef.current) {
+  // 只有当需要分割（即 total > NODES_FOR_SPLIT）时才初始化窗口
+  if (!windowRef.current && total > NODES_FOR_SPLIT) {
     let focusIndex = middleNodes.findIndex(n => Number(n.id) === Number(focusId))
     if (focusIndex === -1) focusIndex = 0
 
@@ -90,11 +100,22 @@ export default function RelationGraph({
     windowRef.current = { start, end }
   }
 
-  const { start, end } = windowRef.current
-  const renderMiddleNodes = middleNodes.slice(start, end)
+  // 根据是否分割来决定渲染哪些中间节点
+  let renderMiddleNodes: NodeItem[] = []
+  let omittedTopCount = 0
+  let omittedBottomCount = 0
 
-  const omittedTopCount = start
-  const omittedBottomCount = middleNodes.length - end
+  if (total > NODES_FOR_SPLIT && windowRef.current) {
+    const { start, end } = windowRef.current
+    renderMiddleNodes = middleNodes.slice(start, end)
+    omittedTopCount = start
+    omittedBottomCount = middleNodes.length - end
+  } else {
+    // 不分割时，显示所有中间节点（即全部节点）
+    renderMiddleNodes = middleNodes // 这里 middleNodes = sortedNodes
+    omittedTopCount = 0
+    omittedBottomCount = 0
+  }
 
   const handleExpandTop = () => {
     if (!windowRef.current) return
@@ -117,7 +138,15 @@ export default function RelationGraph({
   })
   const years = Object.keys(nodesByYear).sort((a, b) => Number(a) - Number(b))
 
-  const focusRelations = relate.filter(r => r.src === focusId).slice(0, maxRelations)
+  let focusRelations: RelationEdge[] = []
+  if (focusId) {
+    focusRelations = relate.filter(r => r.src === focusId)
+    if (hideRelates.length > 0) {
+      focusRelations = focusRelations.filter(r => !hideRelates.includes(r.relate))
+    }
+    focusRelations = focusRelations.slice(0, maxRelations)
+  }
+
   const leftRelations = focusRelations.filter((_, i) =>
     START_FROM_RIGHT ? i % 2 === 1 : i % 2 === 0
   )
@@ -154,6 +183,7 @@ export default function RelationGraph({
     <ScrollView
       ref={scrollViewRef}
       contentContainerStyle={styles.container}
+      onScroll={onScroll}
       {...SCROLL_VIEW_RESET_PROPS}
     >
       <View style={styles.stage}>

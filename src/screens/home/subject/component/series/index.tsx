@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-15 16:56:14
+ * @Last Modified time: 2025-12-16 21:47:29
  */
 import React, { Suspense } from 'react'
 import { Flex } from '@components'
@@ -18,22 +18,14 @@ import type { SubjectFromHtmlRelationsItem } from '@stores/subject/types'
 import type { Ctx } from '../../types'
 
 function SeriewWrap({ size }: { size: number }) {
-  const { $, navigation } = useStore<Ctx>(COMPONENT)
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
     const { showRelation } = systemStore.setting
     if (showRelation === -1) return null
 
     const elLink = (
-      <IconRelation
-        style={styles.icon}
-        onPress={() => {
-          navigation.push('SubjectLink', {
-            subjectId: $.subjectId,
-            name: cnjp($.cn, $.jp)
-          })
-        }}
-      />
+      <IconRelation style={styles.icon} subjectId={$.subjectId} name={cnjp($.cn, $.jp)} />
     )
     if (!$.hasSeries) {
       return (

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-12-14 18:52:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-15 19:32:00
+ * @Last Modified time: 2025-12-16 20:06:15
  */
 import { _ } from '@stores'
 import { YEAR_TEXT_GAP } from '../ds'
@@ -25,7 +25,7 @@ export const memoStyles = _.memoStyles(() => ({
     height: '100%'
   },
   active: {
-    backgroundColor: _.select(_.colorBg, 'rgba(255, 255, 255, 0.08)')
+    backgroundColor: _.select('rgba(0, 0, 0, 0.04)', 'rgba(255, 255, 255, 0.08)')
   },
   row: {
     flexDirection: 'column',
@@ -36,7 +36,7 @@ export const memoStyles = _.memoStyles(() => ({
   text: {
     paddingVertical: 2,
     paddingHorizontal: YEAR_TEXT_GAP,
-    color: '#333',
+    color: _.select('#bbb', '#333'),
     fontFamily: 'Avenir',
     fontStyle: 'italic',
     fontWeight: 'bold',

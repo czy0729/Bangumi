@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-10 14:20:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-23 17:25:45
+ * @Last Modified time: 2025-12-15 23:59:13
  */
 import type {
   Avatar,
@@ -279,7 +279,7 @@ export type SubjectFromHTML = {
 export type SubjectV2 = {
   id: SubjectId
   date: string
-  image: Cover<'m'>
+  image: string
   jp: string
   cn: string
   tags: {

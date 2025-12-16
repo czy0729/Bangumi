@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-23 21:12:32
+ * @Last Modified time: 2025-12-16 19:46:17
  */
 import type AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
 import type IoniconsIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/Ionicons.json'
@@ -110,13 +110,13 @@ export type NavigationProps<
 
 export type WithNavigation<T = {}> = Override<
   {
-    navigation?: Navigation
+    navigation: Navigation
   },
   T
 >
 
 /** 埋点名称 */
-export { EventKeys }
+export type { EventKeys }
 
 /** 埋点对象 */
 export type EventType = {
@@ -154,7 +154,7 @@ export type StoreType = any
 export type StoreInstance = any
 
 /** 允许显示的源头 */
-export type Sites = typeof SITES[number]
+export type Sites = (typeof SITES)[number]
 
 /** data._loaded */
 export type Loaded = boolean | number

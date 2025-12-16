@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-12-10 22:49:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-15 18:10:00
+ * @Last Modified time: 2025-12-16 21:58:47
  */
 import { collectionStore, subjectStore } from '@stores'
 import { getTimestamp, queue } from '@utils'
@@ -12,29 +12,33 @@ import Computed from './computed'
 
 import type { RelateMap } from '../types'
 
-const mapMemoryCache = new Map<number, RelateMap>()
+const cacheMap = new Map<number, RelateMap>()
 
 export default class Fetch extends Computed {
   fetchNode = async () => {
     if (this.state.map?._loaded && this.state.map?.node?.length) return true
 
     try {
-      const nodeRes = await xhrCustom({
-        url: `${HOST_DOGE}/bangumi-link/node/${Math.floor(Number(this.subjectId) / 1000)}/${
-          this.subjectId
-        }`
-      })
+      let nodeId = this.nodeId
 
-      const nodeId = Number(nodeRes._response)
+      if (!nodeId) {
+        const nodeRes = await xhrCustom({
+          url: `${HOST_DOGE}/bangumi-link/node/${Math.floor(Number(this.subjectId) / 1000)}/${
+            this.subjectId
+          }`
+        })
+        nodeId = Number(nodeRes._response)
+      }
+
       if (nodeId) {
-        let map = mapMemoryCache.get(nodeId)
+        let map = cacheMap.get(nodeId)
         if (!map) {
           const mapRes = await xhrCustom({
             url: `${HOST_DOGE}/bangumi-link/map/${Math.floor(nodeId / 1000)}/${nodeId}.json`
           })
 
           map = JSON.parse(mapRes._response) as RelateMap
-          mapMemoryCache.set(nodeId, map)
+          cacheMap.set(nodeId, map)
         }
 
         this.setState({

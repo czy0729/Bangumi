@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-23 00:51:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-01 21:06:52
+ * @Last Modified time: 2025-12-17 00:19:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,6 +18,7 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { Props } from './types'
+
 function Header({
   style,
   transparent,
@@ -48,7 +49,12 @@ function Header({
             style={stl(styles.title, headerTitleStyle)}
             justify={headerTitleAlign === 'left' ? 'start' : 'center'}
           >
-            <Text style={styles.titleText} size={headerTitleSize} numberOfLines={1}>
+            <Text
+              style={styles.titleText}
+              size={headerTitleSize}
+              numberOfLines={1}
+              ellipsizeMode='middle'
+            >
               {title}
             </Text>
             {!!headerTitleAppend && <View style={styles.titleAppend}>{headerTitleAppend}</View>}

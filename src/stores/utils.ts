@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-11-14 06:16:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-09 17:57:33
+ * @Last Modified time: 2025-12-16 22:05:29
  */
 import { createContext, useContext } from 'react'
 import { r } from '@utils/dev'
@@ -33,6 +33,9 @@ export function useInitStore<T>(props: NavigationProps, Store: any) {
     // @ts-ignore
     context.$.params = route.params || {}
     Stores.add(id, context)
+  } else {
+    // @ts-ignore
+    context.$.params = route.params || {}
   }
 
   return context
@@ -42,21 +45,23 @@ export function useInitStore<T>(props: NavigationProps, Store: any) {
 export const StoreContext = createContext('')
 
 /** 获取页面的状态机 */
-export function useStore<T>(componentUniqueKey?: string) {
+export function useStore<T>(componentUniqueKey?: string): Override<
+  T,
+  {
+    id: string
+  }
+> {
   if (componentUniqueKey) r(componentUniqueKey)
 
   const id = useContext(StoreContext)
 
-  return (Stores.get(id) || {
-    id: '',
-    $: {},
-    navigation: {}
-  }) as Override<
-    T,
-    {
-      id: string
+  return (
+    Stores.get(id) || {
+      id: '',
+      $: {},
+      navigation: {}
     }
-  >
+  )
 }
 
 /** 根据路由参数构造唯一状态机标识 */
