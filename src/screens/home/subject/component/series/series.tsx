@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-15 15:20:23
+ * @Last Modified time: 2025-12-17 06:41:03
  */
 import React from 'react'
 import { Cover, Flex, Heatmap, Iconfont, Link, Squircle, Text } from '@components'
@@ -50,12 +50,6 @@ const Series = memo(
               </Flex>
             )}
           </Flex.Item>
-          {/* <IconTouchable
-            style={styles.icon}
-            name={showRelation ? 'md-keyboard-arrow-up' : 'md-navigate-next'}
-            size={24}
-            onPress={() => systemStore.switchSetting('showRelation')}
-          /> */}
         </Flex>
       )
     }
@@ -90,9 +84,11 @@ const Series = memo(
               noDefault
             />
           </Squircle>
-          <Text style={_.ml.sm} size={WEB ? 12 : size} bold>
-            {subjectSeries.title}
-          </Text>
+          <Flex.Item style={_.ml.sm}>
+            <Text size={WEB ? 12 : size} bold>
+              {subjectSeries.title}
+            </Text>
+          </Flex.Item>
         </Flex>
         <Heatmap id='条目.跳转' from='系列' />
       </Link>

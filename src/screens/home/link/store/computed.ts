@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-12-10 22:40:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-17 00:46:33
+ * @Last Modified time: 2025-12-17 22:18:21
  */
 import { computed } from 'mobx'
 import State from './state'
@@ -26,18 +26,43 @@ export default class Computed extends State {
 
   /** 本地化数据键名 */
   @computed get namespace() {
-    return `${NAMESPACE}|${this.nodeId || this.subjectId}`
+    return [NAMESPACE, this.nodeId || this.subjectId, this.params.extra ? 'extra' : '']
+      .filter(Boolean)
+      .join('|')
+  }
+
+  /** 关联数据 */
+  @computed get map() {
+    const { extra, type } = this.params
+    const { map } = this.state
+    if (!extra) return map
+
+    const { node, relate } = map
+
+    // 1. 先根据类型和平台过滤节点
+    const finalNode = node.filter(item => Number(item.type) === Number(type))
+
+    // 2. 过滤关联（基于原始关联，但两端节点都在过滤后节点中）
+    const validNodeIds = new Set(finalNode.map(n => n.id))
+    const filteredRelate = relate.filter(r => validNodeIds.has(r.src) && validNodeIds.has(r.dst))
+
+    return {
+      ...map,
+      node: finalNode,
+      relate: filteredRelate
+    }
   }
 
   /** 过滤后的数据 */
   @computed get filterMap() {
-    const { map, hideTypes, hidePlatforms, hideRelates } = this.state
-    const { node, relate } = map
+    const { hideTypes, hidePlatforms, hideRelates } = this.state
 
     // 没有任何过滤
     if (!hideTypes.length && !hidePlatforms.length && !hideRelates.length) {
-      return map
+      return this.map
     }
+
+    const { node, relate } = this.map
 
     // 1. 先根据类型和平台过滤节点
     const filteredNodeByType = node.filter(
@@ -73,7 +98,7 @@ export default class Computed extends State {
     }
 
     return {
-      ...map,
+      ...this.map,
       node: finalNode,
       relate: filteredRelate
     }

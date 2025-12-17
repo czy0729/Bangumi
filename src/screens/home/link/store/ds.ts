@@ -1,14 +1,15 @@
-import { _ } from '@stores'
 /*
  * @Author: czy0729
  * @Date: 2025-12-10 22:39:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-16 22:45:05
+ * @Last Modified time: 2025-12-17 23:23:04
  */
+import { _ } from '@stores'
 import { COMPONENT } from '../ds'
 
 import type { Loaded } from '@types'
 import type { RelateMap } from '../types'
+
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const EXCLUDE_STATE = {

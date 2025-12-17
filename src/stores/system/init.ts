@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-17 00:12:18
+ * @Last Modified time: 2025-12-17 23:04:04
  */
 import {
   IOS,
@@ -357,6 +357,15 @@ export const INIT_SETTING = {
 
   /** 条目对吐槽中的斜杠进行换行 */
   subjectCommentSplit: false,
+
+  /** 条目关联页面项显示封面 **/
+  subjectLinkCover: true,
+
+  /** 条目关联页面项显示评分 **/
+  subjectLinkRating: true,
+
+  /** 条目关联页面项显示收藏状态 **/
+  subjectLinkCollected: false,
 
   /** 条目关联页面是否不使用客户端推荐字体 (true: 默认不使用, 使用系统字体) */
   subjectLinkCustomFontFamily: true,

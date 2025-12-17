@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-16 21:57:21
+ * @Last Modified time: 2025-12-17 20:34:52
  */
 import type { ImageSourcePropType } from 'react-native'
 import type {
@@ -12,7 +12,8 @@ import type {
   RatingStatus,
   SearchCatCn,
   SubjectType,
-  SubjectTypeCn
+  SubjectTypeCn,
+  SubjectTypeValue
 } from '@constants/model/types'
 import type * as Screens from '@screens'
 import type { Id, MonoId, PersonId, SubjectId, TopicId, UserId } from './bangumi'
@@ -598,6 +599,12 @@ export type RouteSubjectLink = Route<
   {
     /** 关系节点 ID */
     nodeId: number
+
+    /** 是否来源自额外数据 */
+    extra: boolean
+
+    /** 来源条目类型 */
+    type: SubjectTypeValue
 
     /** 条目 ID */
     _subjectId?: SubjectId

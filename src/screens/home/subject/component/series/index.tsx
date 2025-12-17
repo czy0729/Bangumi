@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-16 21:47:29
+ * @Last Modified time: 2025-12-17 20:33:37
  */
 import React, { Suspense } from 'react'
 import { Flex } from '@components'
@@ -25,7 +25,12 @@ function SeriewWrap({ size }: { size: number }) {
     if (showRelation === -1) return null
 
     const elLink = (
-      <IconRelation style={styles.icon} subjectId={$.subjectId} name={cnjp($.cn, $.jp)} />
+      <IconRelation
+        style={styles.icon}
+        subjectId={$.subjectId}
+        type={$.subjectType}
+        name={cnjp($.cn, $.jp)}
+      />
     )
     if (!$.hasSeries) {
       return (

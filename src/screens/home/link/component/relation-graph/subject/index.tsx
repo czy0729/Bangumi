@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-12-13 21:06:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-17 02:40:06
+ * @Last Modified time: 2025-12-17 23:13:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { Cover, Text } from '@components'
 import { InView } from '@_'
 import { _, subjectStore, systemStore } from '@stores'
 import { useObserver } from '@utils/hooks'
+import { MODEL_SUBJECT_TYPE } from '@constants'
 import {
   LINEAR_COLORS,
   LINEAR_COLORS_ACTIVE,
@@ -27,7 +28,7 @@ import type { Props } from './types'
 function Subject({ item, y, isFocus, isActive }: Props) {
   return useObserver(() => {
     const styles = memoStyles()
-    const { subjectLinkCustomFontFamily } = systemStore.setting
+    const { subjectLinkCover, subjectLinkRating, subjectLinkCustomFontFamily } = systemStore.setting
 
     const src = subjectStore.cover(item.id)
     const rank = subjectStore.ratingRank(item.id)
@@ -43,7 +44,7 @@ function Subject({ item, y, isFocus, isActive }: Props) {
         extraParts.push(`${eps}话`)
       }
 
-      if (rank || score) {
+      if (subjectLinkRating && (rank || score)) {
         const ratingPart: string[] = []
         if (rank) ratingPart.push(`#${rank}`)
         if (score) ratingPart.push(`(${Number(score).toFixed(1)})`)
@@ -58,9 +59,12 @@ function Subject({ item, y, isFocus, isActive }: Props) {
     const title = item.nameCN || item.name
     const titleSize = title.length >= 40 ? 12 : 13
 
+    let platform = item.platform || MODEL_SUBJECT_TYPE.getTitle(item.type) || ''
+    if (platform === 'TV') platform = ''
+
     return (
       <>
-        {!!src && (
+        {subjectLinkCover && !!src && (
           <View style={styles.cover}>
             {!!y && (
               <InView y={y}>
@@ -72,6 +76,7 @@ function Subject({ item, y, isFocus, isActive }: Props) {
                   noDefault
                   fallback={false}
                   skeleton={false}
+                  cdn={!item.nsfw}
                 />
               </InView>
             )}
@@ -98,7 +103,7 @@ function Subject({ item, y, isFocus, isActive }: Props) {
           align='center'
         >
           {item.nameCN || item.name}
-          {!!item.platform && item.platform !== 'TV' && (
+          {!!platform && (
             <Text
               style={styles.sub}
               overrideStyle={subjectLinkCustomFontFamily && styles.override}
@@ -107,7 +112,7 @@ function Subject({ item, y, isFocus, isActive }: Props) {
               lineHeight={titleSize}
             >
               {' '}
-              {item.platform}
+              {platform}
             </Text>
           )}
         </Text>

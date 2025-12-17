@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-12-10 22:31:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-17 00:45:57
+ * @Last Modified time: 2025-12-17 22:37:10
  */
 import React from 'react'
 import { Component, Empty, Page } from '@components'
@@ -20,15 +20,15 @@ const SubjectLink = (props: NavigationProps) => {
   const { id, $ } = useSubjectLinkPage(props)
 
   return useObserver(() => {
-    const { error, map, hideRelates, _loaded } = $.state
+    const { error, hideRelates, _loaded } = $.state
 
     return (
       <Component id='screen-subject-link'>
         <StoreContext.Provider value={id}>
-          <Page style={_.container.header} loaded={_loaded && map._loaded}>
+          <Page style={_.container.header} loaded={_loaded && $.map._loaded}>
             {error ? (
               <Empty text='当前没有足够的关联数据' />
-            ) : !!map.node.length && !$.filterMap.node.length ? (
+            ) : !!$.map.node.length && !$.filterMap.node.length ? (
               <Empty text='请注意，没有符合当前筛选条件的结果' />
             ) : (
               <RelationGraph
