@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-09 16:33:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-16 14:02:03
+ * @Last Modified time: 2025-12-18 21:46:26
  */
 import { _ } from '@stores'
 
@@ -19,9 +19,9 @@ export const memoStyles = _.memoStyles(() => ({
     width: LABEL_WIDTH
   },
   input: {
-    marginLeft: _.sm,
     width: INPUT_WIDTH,
-    height: _.device(34, 48)
+    height: _.device(34, 48),
+    marginLeft: _.sm
   },
   inputRaw: {
     height: _.r(34),
@@ -49,7 +49,6 @@ export const memoStyles = _.memoStyles(() => ({
   btnText: _.device(_.fontSize13, _.fontSize18),
   progressWrap: {
     width: INPUT_WIDTH,
-    marginLeft: LABEL_WIDTH + _.sm,
     marginBottom: 4
   },
   progress: {

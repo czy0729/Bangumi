@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-21 22:39:51
+ * @Last Modified time: 2025-12-18 19:11:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -32,7 +32,6 @@ import {
   isArray,
   keepBasicChars,
   matchCoverUrl,
-  pad,
   removeHTMLTag,
   x18
 } from '@utils'
@@ -77,6 +76,14 @@ import {
   TITLE_TOPIC
 } from '../ds'
 import { getOriginConfig } from '../../../user/origin-setting/utils'
+import {
+  extractYear,
+  extractYearMonth,
+  normalizeYearMonth,
+  pickInfoValue,
+  PRIMARY_KEYS,
+  SECONDARY_KEYS
+} from './utils'
 import State from './state'
 import {
   EXCLUDE_STATE,
@@ -603,83 +610,42 @@ export default class Computed extends State {
 
   /** 上映时间 (用于标识未上映) */
   @computed get release() {
-    return (
-      this.info.match(/<li><span>(发售日|放送开始|上映年度|上映时间): <\/span>(.+?)<\/li>/)?.[2] ||
-      ''
-    )
+    return pickInfoValue(this.info, '发售日|放送开始|上映年度|上映时间|上映日')
   }
 
   /** 发布时间 (年) */
   @computed get year() {
     // 漫画的详情通常包含发售日、连载开始，以连载开始为最优
-    const year =
-      (this.info.match(/<li><span>(连载开始|开始): <\/span>(.+?)<\/li>/)?.[2] || '').match(
-        /(\d{4})/
-      )?.[0] || ''
-    if (year) return year
+    const primary = extractYear(pickInfoValue(this.info, PRIMARY_KEYS))
+    if (primary) return primary
 
-    return (
-      (
-        this.info.match(
-          /<li><span>(发售日|发售日期|放送开始|上映年度|上映时间|发行日期): <\/span>(.+?)<\/li>/
-        )?.[2] || ''
-      ).match(/(\d{4})/)?.[0] || ''
-    )
+    return extractYear(pickInfoValue(this.info, SECONDARY_KEYS))
   }
 
   /** 发布时间 (年-月) */
   @computed get yearAndMount() {
     try {
-      const pattern: RegExp = /(\d{4}[-年]\d{1,2})/
-
-      // 漫画的详情通常包含发售日、连载开始，以连载开始为最优
-      const temp =
-        (this.info.match(/<li><span>(连载开始|开始): <\/span>(.+?)<\/li>/)?.[2] || '').match(
-          pattern
-        )?.[0] ||
-        (
-          this.info.match(
-            /<li><span>(发售日|发售日期|放送开始|上映年度|上映时间|发行日期): <\/span>(.+?)<\/li>/
-          )?.[2] || ''
-        ).match(pattern)?.[0] ||
-        ''
+      const primary = extractYearMonth(pickInfoValue(this.info, PRIMARY_KEYS))
+      const temp = primary || extractYearMonth(pickInfoValue(this.info, SECONDARY_KEYS))
       if (!temp) return this.year
-
-      return temp
-        .replace('年', '-')
-        .split('-')
-        .map(item => pad(Number(item)))
-        .join('-')
-    } catch (error) {
+      return normalizeYearMonth(temp)
+    } catch {
       return this.year
     }
   }
 
   /** 结束时间 (年) */
   @computed get end() {
-    const year =
-      (this.info.match(/<li><span>(连载结束|结束): <\/span>(.+?)<\/li>/)?.[2] || '').match(
-        /(\d{4})/
-      )?.[0] || ''
-    return year
+    return extractYear(pickInfoValue(this.info, '连载结束|结束'))
   }
 
   /** 结束时间 (年-月) */
   @computed get yearAndMountEnd() {
     try {
-      const pattern: RegExp = /(\d{4}[-年]\d{1,2})/
-      const temp =
-        (this.info.match(/<li><span>(连载结束|结束): <\/span>(.+?)<\/li>/)?.[2] || '').match(
-          pattern
-        )?.[0] || ''
+      const temp = extractYearMonth(pickInfoValue(this.info, '连载结束|结束'))
       if (!temp) return this.end
-
-      return temp
-        .replace('年', '-')
-        .split('-')
-        .map(item => pad(Number(item)))
-        .join('-')
-    } catch (error) {
+      return normalizeYearMonth(temp)
+    } catch {
       return this.end
     }
   }

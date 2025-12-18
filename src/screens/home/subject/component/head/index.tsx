@@ -21,7 +21,7 @@ function HeadWrap({ onBlockRef }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
-    // 书籍显示连载时间段
+    // 书籍需要显示连载时间段
     const { subjectShowAirdayMonth } = systemStore.setting
     let year = subjectShowAirdayMonth ? $.yearAndMount : $.year
     if (year && $.subjectTypeValue === 'book') {

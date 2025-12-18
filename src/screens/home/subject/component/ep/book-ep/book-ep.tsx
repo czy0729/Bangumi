@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-09 16:36:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 06:42:14
+ * @Last Modified time: 2025-12-18 21:53:59
  */
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
@@ -58,12 +58,14 @@ const BookEp = memo(
       value,
       placeholder,
       total,
+      totalNumber,
       type
     }: {
       label: string
       value: string | number
       placeholder: string | number
       total?: string | number
+      totalNumber?: string | number
       type: 'chap' | 'vol'
     }) => (
       <>
@@ -92,6 +94,19 @@ const BookEp = memo(
               onSubmitEditing={canSubmit ? doUpdateBookEp : undefined}
               onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
             />
+            {!!totalNumber && Number(totalNumber) !== 0 && (
+              <Flex style={styles.progressWrap}>
+                <Progress
+                  style={styles.progress}
+                  barStyle={styles.bar}
+                  percent={
+                    parseInt(String(value)) > 0
+                      ? Math.max(4, (parseInt(String(value)) / parseInt(String(totalNumber))) * 100)
+                      : 0
+                  }
+                />
+              </Flex>
+            )}
             {!!total && Number(total) !== 0 && (
               <Text style={styles.total} type='sub'>
                 / {total}
@@ -109,15 +124,6 @@ const BookEp = memo(
             </Button>
           )}
         </Flex>
-        {!!total && Number(total) !== 0 && (
-          <Flex style={styles.progressWrap}>
-            <Progress
-              style={styles.progress}
-              barStyle={styles.bar}
-              percent={(parseInt(String(value)) / parseInt(String(total))) * 100}
-            />
-          </Flex>
-        )}
       </>
     )
 
@@ -134,6 +140,7 @@ const BookEp = memo(
               value: chap,
               placeholder: book.chap || '0',
               total: totalChap,
+              totalNumber: totalChap,
               type: 'chap'
             })}
 
@@ -143,20 +150,11 @@ const BookEp = memo(
                 value: vol,
                 placeholder: book.vol || '0',
                 total: textVol,
+                totalNumber: book.totalVol,
                 type: 'vol'
               })}
               <Heatmap id='条目.更新书籍下一个章节' />
             </Flex>
-
-            {!!book.totalVol && (
-              <Flex style={styles.progressWrap}>
-                <Progress
-                  style={styles.progress}
-                  barStyle={styles.bar}
-                  percent={(parseInt(String(vol)) / parseInt(book.totalVol)) * 100}
-                />
-              </Flex>
-            )}
           </Flex.Item>
 
           {canSubmit ? (

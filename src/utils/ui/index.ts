@@ -12,9 +12,10 @@ import { Toast } from '@components/toast'
 import { IOS } from '@constants/constants'
 import { WEB } from '@constants/device'
 import { FROZEN_FN } from '@constants/init'
-import { Fn } from '@types'
 import { syncS2T, syncSystemStore } from '../async'
 import { log } from './utils'
+
+import type { Fn } from '@types'
 
 /**
  * Loading 指示器

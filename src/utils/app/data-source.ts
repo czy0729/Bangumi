@@ -839,3 +839,44 @@ export function randomizeImgHost(url: string): string {
 
   return result
 }
+
+/**
+ * 计算字符串的“视觉长度”
+ *  - 中文算 1
+ *  - 数字 / 英文 / 常见半角符号算 0.5
+ */
+export function getVisualLength(str: string) {
+  let len = 0
+
+  for (const char of str) {
+    // ASCII 范围（英文、数字、常见符号）
+    if (/[\x00-\x7F]/.test(char)) {
+      len += 0.5
+    } else {
+      len += 1
+    }
+  }
+
+  return len
+}
+
+/**
+ * 根据“视觉长度”截断文字
+ *  - 中文算 1
+ *  - 数字 / 英文 / 常见半角符号算 0.5
+ */
+export function sliceByVisualLength(str: string, maxLen: number, ellipsis = '') {
+  let len = 0
+  let result = ''
+
+  for (const char of str) {
+    const charLen = /[\x00-\x7F]/.test(char) ? 0.5 : 1
+
+    if (len + charLen > maxLen) break
+
+    len += charLen
+    result += char
+  }
+
+  return result.length < str.length ? result + ellipsis : result
+}

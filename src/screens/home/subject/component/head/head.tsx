@@ -9,7 +9,7 @@ import { View } from 'react-native'
 import { Flex, Heatmap, Katakana, Text } from '@components'
 import { ScoreTag, Tag } from '@_'
 import { _ } from '@stores'
-import { cnjp, copy, getTimestamp, toFixed } from '@utils'
+import { cnjp, copy, getTimestamp, getVisualLength, sliceByVisualLength, toFixed } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { PAD } from '@constants'
@@ -34,6 +34,7 @@ const Head = memo(
     titleLabel = '',
     hideScore = false,
     rating = {},
+    duration = '',
     nsfw = false,
     hasSeries = false,
     isMusic = false
@@ -42,23 +43,28 @@ const Head = memo(
     const bottom = cnjp(cn, jp)
 
     // 是否未上映
-    let showRelease: boolean = false
-    const y = release.includes('年')
-    const m = release.includes('月')
-    const d = release.includes('日')
-    if (y && m && d) {
-      const str = `${release.replace(/年|月|日/g, '/')}`
-      const ts = getTimestamp(str?.slice(0, str.length - 1))
-      const now = getTimestamp()
-      showRelease = ts > now
-    } else if ((y && m && !d) || (y && !m && !d)) {
+    let showRelease = false
+    const hasYear = release.includes('年')
+    const hasMonth = release.includes('月')
+    const hasDay = release.includes('日')
+
+    // 年月日齐全
+    if (hasYear && hasMonth && hasDay) {
+      const dateStr = release.replace(/年|月|日/g, '/')
+      const ts = getTimestamp(dateStr.slice(0, -1))
+      showRelease = ts > getTimestamp()
+
+      // 只有年 / 年月：一定未上映
+    } else if (hasYear && !hasDay) {
       showRelease = true
     }
 
     // 主标题大小
     const hasRelation = !!(subjectPrev || subjectAfter || subjectSeries)
+    const cnLen = getVisualLength(cn)
+
     let size =
-      (cn.length > 44 ? 10 : cn.length > 32 ? 11 : cn.length > 24 ? 12 : cn.length > 16 ? 12 : 15) +
+      (cnLen > 44 ? 10 : cnLen > 32 ? 11 : cnLen > 24 ? 12 : cnLen > 16 ? 12 : 15) +
       (PAD === 2 ? 4 : 2)
     if (showRelation && hasRelation) size = Math.max(11, size - 2)
     if (isMusic) size -= 1
@@ -68,20 +74,23 @@ const Head = memo(
     const tops: string[] = []
     let topsString = ''
     let topSize = 12
-    if (top !== bottom) {
-      tops.push(`${String(top).slice(0, maxLen)}${String(top).length >= maxLen ? '...' : ''}`)
-    }
 
+    if (top !== bottom) {
+      tops.push(sliceByVisualLength(String(top), maxLen, '...'))
+    }
     if (titleLabel) tops.push(titleLabel)
     topsString = tops.join(' · ')
 
-    if (topsString.length >= 32) {
+    const topsLen = getVisualLength(topsString)
+    if (topsLen >= 32) {
       topSize = 10
-    } else if (topsString.length >= 22) {
+    } else if (topsLen >= 22) {
       topSize = 11
     }
 
-    const left = imageWidth + _.wind + _.device(12, 20)
+    // 距离左侧容器的边距
+    const leftOffset = imageWidth + _.wind + _.device(12, 20)
+
     return (
       <View style={styles.container}>
         {showRelease && (
@@ -89,7 +98,7 @@ const Head = memo(
             style={[
               styles.release,
               {
-                left
+                left: leftOffset
               }
             ]}
             type='__plain__'
@@ -104,7 +113,7 @@ const Head = memo(
             styles.content,
             {
               minHeight: imageHeight - _.r(20),
-              paddingLeft: left
+              paddingLeft: leftOffset
             }
           ]}
         >
@@ -167,13 +176,14 @@ const Head = memo(
           <Flex style={_.mt.xs}>
             {!hideScore && (
               <>
-                <Text type='main' size={_.device(20, 24)}>
+                <Text style={_.mr.sm} type='main' size={_.device(20, 24)}>
                   {rating.score === '' ? '-' : toFixed(rating.score, 1)}{' '}
                 </Text>
-                {rating.score !== '' && <ScoreTag style={_.ml.sm} value={Number(rating.score)} />}
-                {nsfw && <Tag style={_.ml.sm} type='sub' size={12} value='NSFW' />}
+                {rating.score !== '' && <ScoreTag style={_.mr.sm} value={Number(rating.score)} />}
               </>
             )}
+            {!!duration && <Tag style={styles.duration} type='sub' size={12} value={duration} />}
+            {nsfw && <Tag type='sub' size={12} value='NSFW' />}
           </Flex>
         </View>
         <Cover />
