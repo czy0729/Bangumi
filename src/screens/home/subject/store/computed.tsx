@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-18 19:11:46
+ * @Last Modified time: 2025-12-19 00:02:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -42,7 +42,6 @@ import { findGame, GAME_CATE } from '@utils/subject/game'
 import { findManga, MANGA_TAGS } from '@utils/subject/manga'
 import { findWenku, WENKU_TAGS } from '@utils/subject/wenku'
 import {
-  DEV,
   getOTA,
   HOST,
   IMG_DEFAULT,
@@ -113,7 +112,12 @@ export default class Computed extends State {
 
   /** 开发调试 */
   log(...arg: any) {
-    if (DEV) logger.info(this.namespace, ...arg)
+    logger.info(this.namespace, ...arg)
+  }
+
+  /** 开发调试 */
+  warn(...arg: any) {
+    logger.warn(this.namespace, ...arg)
   }
 
   /** 条目唯一 ID */

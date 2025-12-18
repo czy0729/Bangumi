@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-24 15:23:38
+ * @Last Modified time: 2025-12-19 00:33:36
  */
 import { WEB } from '@constants'
 import { DEV, LOG_LEVEL, RERENDER_NOT_SHOW, RERENDER_SHOW } from '@src/config'
@@ -166,29 +166,31 @@ const TEXT_BADGES = {
   purple: '🟣'
 } as const
 
+const PAD_LENGTH = 28
+
 export const logger = {
   /** ⚪ */
   log(method: string, ...others: any[]) {
-    if (DEV) console.info(TEXT_BADGES.plain, `[${method}]`, ...others)
+    if (DEV) console.info(TEXT_BADGES.plain, `[${method}]`.padEnd(PAD_LENGTH), ...others)
   },
 
   /** 🔵 */
   info(method: string, ...others: any[]) {
-    if (DEV) console.info(TEXT_BADGES.primary, `[${method}]`, ...others)
+    if (DEV) console.info(TEXT_BADGES.primary, `[${method}]`.padEnd(PAD_LENGTH), ...others)
   },
 
   /** 🟠 */
   warn(method: string, ...others: any[]) {
-    if (DEV) console.info(TEXT_BADGES.warning, `[${method}]`, ...others)
+    if (DEV) console.info(TEXT_BADGES.warning, `[${method}]`.padEnd(PAD_LENGTH), ...others)
   },
 
   /** 🔴 */
   error(method: string, ...others: any[]) {
-    if (DEV) console.info(TEXT_BADGES.danger, `[${method}]`, ...others)
+    if (DEV) console.info(TEXT_BADGES.danger, `[${method}]`.padEnd(PAD_LENGTH), ...others)
   },
 
   /** 🟣 */
   purple(method: string, ...others: any[]) {
-    if (DEV) console.info(TEXT_BADGES.purple, `[${method}]`, ...others)
+    if (DEV) console.info(TEXT_BADGES.purple, `[${method}]`.padEnd(PAD_LENGTH), ...others)
   }
 } as const

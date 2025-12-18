@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-11 05:50:56
+ * @Last Modified time: 2025-12-18 23:16:43
  */
 import {
   collectionStore,
@@ -130,7 +130,11 @@ export default class Fetch extends Computed {
     } catch (error) {}
   }
 
-  /** 装载第三方数据 */
+  /**
+   * 装载第三方数据
+   *  - bangumi-data
+   *  - 章节缩略图
+   * */
   fetchThirdParty = async (data: { name: string }) => {
     await decode('bangumi-data')
 
@@ -155,9 +159,7 @@ export default class Fetch extends Computed {
 
     // 先检测云端数据
     const needUpdate = await this.getThirdParty()
-    if (!needUpdate) return
-
-    if (WEB) return
+    if (!needUpdate || WEB) return
 
     if (item) {
       postTask(() => {
@@ -165,7 +167,7 @@ export default class Fetch extends Computed {
       }, 0)
     }
 
-    // 若没有匹配到, 在豆瓣查找
+    // 若没有匹配到, 在 donban 查找
     if ((!item && this.type === '动画') || this.type === '三次元') {
       this.fetchMovieFromDouban(this.cn, this.jp)
     } else if (this.type === '游戏') {
@@ -585,7 +587,7 @@ export default class Fetch extends Computed {
   }
 
   /** 装载找条目快照数据 */
-  fetchOTA = () => {
+  fetchSnapshot = () => {
     if (this.type === '动画') {
       if (this.animeInfo?.i) otaStore.fetchAnime(this.animeInfo.i)
       return

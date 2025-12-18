@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-02 12:03:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-28 22:17:07
+ * @Last Modified time: 2025-12-18 23:01:16
  */
 import PropTypes from 'prop-types'
 import { HOST_DOGE } from '../cdn/ds'
@@ -338,6 +338,9 @@ export const M2 = M1 * 2
 
 /** 5 分钟 */
 export const M5 = M1 * 5
+
+/** 15 分钟 */
+export const M15 = M1 * 15
 
 /** 1 小时 */
 export const H1 = 60 * 60
