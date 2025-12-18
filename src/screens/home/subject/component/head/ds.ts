@@ -33,6 +33,7 @@ export const DEFAULT_PROPS = {
   titleLabel: '' as $['titleLabel'],
   hideScore: false as typeof systemStore.setting.hideScore,
   rating: {} as $['rating'],
+  duration: '' as $['duration'],
   nsfw: false as $['nsfw'],
   hasSeries: false as $['hasSeries'],
   isMusic: false as boolean

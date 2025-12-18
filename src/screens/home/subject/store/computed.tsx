@@ -1441,4 +1441,39 @@ export default class Computed extends State {
       }
     } as const
   }
+
+  /** 剧场版、电影时长 */
+  @computed get duration() {
+    if (this.titleLabel !== '剧场版' && this.titleLabel !== 'MOVIE' && this.titleLabel !== '电影') {
+      return ''
+    }
+
+    const { eps } = this.subject
+    if (eps?.length) {
+      const maxSeconds = Math.max(
+        0,
+        ...eps.map(item => {
+          if (typeof item?.duration !== 'string') return 0
+
+          const parts = item.duration.split(':').map(Number)
+          if (parts.length !== 3 || parts.some(n => !Number.isFinite(n))) return 0
+
+          const [h, m, s] = parts
+          return h * 3600 + m * 60 + s
+        })
+      )
+
+      const minutes = Math.ceil(maxSeconds / 60)
+      if (minutes > 26) return `${minutes} min`
+    }
+
+    if (this.rawInfo) {
+      const match = this.rawInfo.match(/片长[\s\S]*?(\d+)\s*(分钟|分)/)
+      const minutes = match ? Number(match[1]) : 0
+
+      if (minutes > 26) return `${minutes} min`
+    }
+
+    return ''
+  }
 }

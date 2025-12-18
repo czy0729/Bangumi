@@ -27,5 +27,14 @@ export const memoStyles = _.memoStyles(() => ({
   },
   katakana: {
     marginTop: -4
+  },
+  duration: {
+    paddingVertical: 2,
+    paddingHorizontal: 4,
+    marginRight: _.sm,
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
+    borderColor: _.select(_.colorBg, _._colorDarkModeLevel1),
+    borderRadius: _.radiusXs,
+    overflow: 'hidden'
   }
 }))

@@ -5,15 +5,17 @@
  * @Last Modified time: 2024-08-02 02:49:33
  */
 import React from 'react'
-import { Component, Flex, Text, TextType } from '@components'
+import { Component, Flex, Text } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { getType } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props as TagProps } from './types'
 
-export { TagProps }
+import type { TextType } from '@components'
+import type { Props as TagProps } from './types'
+
+export type { TagProps }
 
 /** 标签 */
 export const Tag = ob(({ style, type, value, size = 10, align = 'center', children }: TagProps) => {

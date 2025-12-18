@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-04-04 08:10:36
  */
-import { TextType } from '@components'
-import { ViewStyle } from '@types'
+import type { TextType } from '@components'
+import type { ViewStyle } from '@types'
 
 export type Props = {
   /** 容器样式 */

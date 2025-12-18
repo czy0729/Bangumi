@@ -50,6 +50,7 @@ function HeadWrap({ onBlockRef }: Props) {
             titleLabel={$.titleLabel}
             hideScore={systemStore.setting.hideScore}
             rating={$.rating}
+            duration={$.duration}
             nsfw={$.nsfw}
             hasSeries={$.hasSeries}
             isMusic={$.type === '音乐'}
