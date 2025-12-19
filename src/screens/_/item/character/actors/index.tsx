@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2024-08-24 13:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-11 06:00:00
+ * @Last Modified time: 2025-12-19 17:06:06
  */
 import React from 'react'
 import { Cover, Flex, Link, Text } from '@components'
 import { _ } from '@stores'
 import { cnjp } from '@utils'
 import { useObserver } from '@utils/hooks'
-import { MonoId } from '@types'
 import { InView } from '../../../base'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { MonoId } from '@types'
+import type { Props } from './types'
 
 function Actors({ actors, y, event }: Props) {
   return useObserver(() => (
@@ -23,6 +24,7 @@ function Actors({ actors, y, event }: Props) {
         ) as MonoId
         const cn = cnjp(item.nameCn, item.name)
         const jp = cnjp(item.name, item.nameCn)
+
         return (
           <Link
             key={item.id}

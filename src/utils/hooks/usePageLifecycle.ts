@@ -1,16 +1,16 @@
-import { useCallback } from 'react'
 /*
  * @Author: czy0729
  * @Date: 2025-05-19 23:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-16 22:14:40
+ * @Last Modified time: 2025-12-19 21:29:07
  */
+import { useCallback } from 'react'
 import { InteractionManager } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
-import { TEXT_BADGES } from '@constants/text'
-import { DEV } from '@src/config'
-import { Fn } from '@types'
+import { logger } from '@utils/dev'
 import useMount from './useMount'
+
+import type { Fn } from '@types'
 
 type Callbacks = {
   /** 进入页面 */
@@ -38,13 +38,13 @@ export default function usePageLifecycle(callbacks: Callbacks, id: string) {
     useCallback(() => {
       if (typeof callbacks?.onFocus === 'function') {
         callbacks.onFocus()
-        log(`[${id}]`, 'onFocus')
+        logger.success(id, 'onFocus')
       }
 
       if (typeof callbacks?.onBlur === 'function') {
         return () => {
           callbacks.onBlur()
-          log(`[${id}]`, 'onBlur')
+          logger.success(id, 'onBlur')
         }
       }
     }, [callbacks, id])
@@ -53,13 +53,13 @@ export default function usePageLifecycle(callbacks: Callbacks, id: string) {
   useMount(() => {
     if (typeof callbacks?.onEnter === 'function') {
       callbacks.onEnter()
-      log(`[${id}]`, 'onEnter')
+      logger.success(id, 'onEnter')
     }
 
     if (typeof callbacks?.onEnterComplete === 'function') {
       InteractionManager.runAfterInteractions(() => {
         setTimeout(() => {
-          log(`[${id}]`, 'onEnterComplete')
+          logger.success(id, 'onEnterComplete')
           callbacks.onEnterComplete()
         }, 240)
       })
@@ -67,22 +67,18 @@ export default function usePageLifecycle(callbacks: Callbacks, id: string) {
 
     return () => {
       if (typeof callbacks?.onLeave === 'function') {
-        log(`[${id}]`, 'onLeave')
+        logger.success(id, 'onLeave')
         callbacks.onLeave()
       }
 
       if (typeof callbacks?.onLeaveComplete === 'function') {
         InteractionManager.runAfterInteractions(() => {
           setTimeout(() => {
-            log(`[${id}]`, 'onLeaveComplete')
+            logger.success(id, 'onLeaveComplete')
             callbacks.onLeaveComplete()
           }, 240)
         })
       }
     }
   })
-}
-
-function log(...arg: any) {
-  if (DEV) console.info(TEXT_BADGES.success, ...arg)
 }

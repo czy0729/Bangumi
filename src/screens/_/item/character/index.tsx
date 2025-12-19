@@ -2,24 +2,25 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-11 05:49:12
+ * @Last Modified time: 2025-12-19 23:14:37
  */
 import React, { useMemo } from 'react'
-import { Component, Cover, CoverProps, Flex, Link } from '@components'
+import { Component, Cover, Flex, Iconfont, Link } from '@components'
 import { _ } from '@stores'
 import { cnjp } from '@utils'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { EVENT } from '@constants'
-import { MonoId } from '@types'
 import { InView } from '../../base'
 import Actors from './actors'
 import Content from './content'
 import { COMPONENT, IMG_WIDTH, ITEM_HEIGHT } from './ds'
 import { memoStyles } from './styles'
-import { Props as ItemCharacterProps } from './types'
 
-export { ItemCharacterProps }
+import type { CoverProps } from '@components'
+import type { MonoId } from '@types'
+import type { Props as ItemCharacterProps } from './types'
+export type { ItemCharacterProps }
 
 export const ItemCharacter = ({
   event = EVENT,
@@ -100,6 +101,20 @@ export const ItemCharacter = ({
             />
             <Actors actors={actors} y={y} event={event} />
           </Flex.Item>
+          {type === 'person' && (
+            <Link
+              style={styles.navigate}
+              path='Works'
+              getParams={() => ({
+                monoId,
+                name: cnjp(cn, jp)
+              })}
+            >
+              <Flex style={styles.icon}>
+                <Iconfont name='md-navigate-next' />
+              </Flex>
+            </Link>
+          )}
         </Flex>
         {children}
       </Component>

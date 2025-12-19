@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2023-03-10 14:02:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-18 02:42:21
+ * @Last Modified time: 2025-12-19 21:21:42
  */
 import { observable, runInAction } from 'mobx'
 import axios from '@utils/thirdParty/axios'
-import { getTimestamp, runAfter } from '../utils'
-import { removeHTMLTag } from '../html'
 import { getMonoCoverSmall, getSubjectCoverCommon } from '../app'
 import { syncSystemStore } from '../async'
-import { WebHooksTypes, SubjectType as WebHooksSubjectType } from './types'
+import { removeHTMLTag } from '../html'
+import { getTimestamp, runAfter } from '../utils'
+
+import type { WebHooksTypes, SubjectType as WebHooksSubjectType } from './types'
 
 export const logs = observable<{
   label: string

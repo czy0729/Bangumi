@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-03 15:01:14
+ * @Last Modified time: 2025-12-19 21:33:11
  */
 import pLimit from 'p-limit'
-import { TEXT_BADGES } from '@constants/text'
-import { DEV } from '@src/config'
+import { logger } from '../dev'
 
 import type { Fn } from '@types'
 
@@ -41,10 +40,10 @@ export async function queue(fetchs: Fn[] = [], num: number = 2) {
 
 /** info */
 export function log(method: string, ...others: any[]) {
-  if (DEV) console.info(TEXT_BADGES.plain, `[@utils/fetch/${method}]`, ...others)
+  logger.log(`@utils/fetch/${method}`, ...others)
 }
 
 /** err */
 export function err(method: string, ...others: any[]) {
-  if (DEV) console.info(TEXT_BADGES.danger, `[@utils/fetch/${method}]`, ...others)
+  logger.error(`@utils/fetch/${method}`, ...others)
 }

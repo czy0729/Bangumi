@@ -2,18 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-04-13 00:32:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-17 12:46:40
+ * @Last Modified time: 2025-12-19 21:22:52
  */
 import { HOST, IOS, VERSION_GITHUB_RELEASE } from '@constants/constants'
 import { WEB } from '@constants/device'
-import events, { EventKeys } from '@constants/events'
+import events from '@constants/events'
 import { DEV, IOS_IPA } from '@src/config'
 import { syncSystemStore as _s, syncThemeStore as _, syncUserStore as _u } from '../async'
 import { isDevtoolsOpen } from '../dom'
 import { runAfter, urlStringify } from '../utils'
-import { EventData, HMQuery } from './type'
 import { getReferer, log, umami, umamiEvent, xhr } from './utils'
 import { SI_UV, WEBSITE_UV } from './ds'
+
+import type { EventKeys } from '@constants/events'
+import type { EventData, HMQuery } from './type'
 
 /** 上次路由完整参数 */
 let lastQuery = ''

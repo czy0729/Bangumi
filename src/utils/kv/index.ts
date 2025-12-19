@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-06-23 01:47:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-03 16:36:02
+ * @Last Modified time: 2025-12-19 21:26:13
  */
-import { axios } from '@utils/thirdParty'
 import { WEB } from '@constants/device'
 import Crypto from '../crypto'
 import { isDevtoolsOpen } from '../dom'
+import { axios } from '../thirdParty'
 import hash from '../thirdParty/hash'
 import { getTimestamp } from '../utils'
 import { err, log } from './utils'
@@ -75,11 +75,11 @@ export async function gets<
 
     const response = Crypto.get<Result<Record<Keys[number], T | null>>>(data)
     if (response?.code === 200) {
-      log('gets', keys)
+      log('gets', keys.join(', '))
       return response.data
     }
   } catch (error) {
-    err('gets', error, keys)
+    err('gets', error, keys.join(', '))
   }
 
   return null

@@ -2,19 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-09-29 20:01:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 05:44:21
+ * @Last Modified time: 2025-12-19 21:24:36
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
+import { logger } from '@utils/dev'
 import { HOST, VERSION_CODE } from '@constants/constants'
 import { WEB } from '@constants/device'
-// import events from '@constants/events'
-import { TEXT_BADGES } from '@constants/text'
-import { DEV, GITHUB_ACTION, IOS_IPA } from '@src/config'
-import { AnyObject, EventKeys } from '@types'
+import { GITHUB_ACTION, IOS_IPA } from '@src/config'
 import { syncUserStore as _u } from '../async'
 import { getTimestamp, interceptor, randomn, urlStringify } from '../utils'
-import { EventData } from './type'
 import {
   API_UMAMI,
   API_XHR,
@@ -27,6 +24,9 @@ import {
   WEBSITE_FATAL_ERROR,
   WEBSITE_TINGRAIL
 } from './ds'
+
+import type { AnyObject, EventKeys } from '@types'
+import type { EventData } from './type'
 
 export function xhr(si: string, u: string) {
   const url = `${API_XHR}?${urlStringify({
@@ -181,7 +181,6 @@ function eventToUrl(
   return `/${name}`
 }
 
-/** [DEV] */
 export function log(method: string, ...others: any[]) {
-  if (DEV) console.info(TEXT_BADGES.yellow, `[@utils/track/${method}]`, ...others.filter(Boolean))
+  logger.yellow(`@utils/track/${method}`, ...others.filter(Boolean))
 }

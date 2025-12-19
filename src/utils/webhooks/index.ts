@@ -2,22 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-02-26 02:03:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-27 17:27:41
+ * @Last Modified time: 2025-12-19 21:21:31
  */
 import { MODEL_COLLECTION_STATUS } from '@constants'
-import { getTimestamp } from '../utils'
 import { syncSystemStore } from '../async'
 import { t } from '../track'
-import {
-  getCatalog,
-  getGroup,
-  getMono,
-  getSubject,
-  getUserInfo,
-  webhook,
-  logs
-} from './utils'
-import { CollectionType as WebHooksCollectionType } from './types'
+import { getTimestamp } from '../utils'
+import { getCatalog, getGroup, getMono, getSubject, getUserInfo, logs, webhook } from './utils'
+
+import type { CollectionType as WebHooksCollectionType } from './types'
 
 export { logs }
 

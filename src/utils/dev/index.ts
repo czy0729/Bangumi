@@ -4,9 +4,9 @@
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-19 00:33:36
+ * @Last Modified time: 2025-12-19 21:26:31
  */
-import { WEB } from '@constants'
+import { WEB } from '@constants/device'
 import { DEV, LOG_LEVEL, RERENDER_NOT_SHOW, RERENDER_SHOW } from '@src/config'
 import { pad } from '../utils'
 import { handleCircular } from './utils'
@@ -166,7 +166,7 @@ const TEXT_BADGES = {
   purple: '🟣'
 } as const
 
-const PAD_LENGTH = 28
+const PAD_LENGTH = 32
 
 export const logger = {
   /** ⚪ */
@@ -179,6 +179,11 @@ export const logger = {
     if (DEV) console.info(TEXT_BADGES.primary, `[${method}]`.padEnd(PAD_LENGTH), ...others)
   },
 
+  /** 🟢 */
+  success(method: string, ...others: any[]) {
+    if (DEV) console.info(TEXT_BADGES.success, `[${method}]`.padEnd(PAD_LENGTH), ...others)
+  },
+
   /** 🟠 */
   warn(method: string, ...others: any[]) {
     if (DEV) console.info(TEXT_BADGES.warning, `[${method}]`.padEnd(PAD_LENGTH), ...others)
@@ -187,6 +192,11 @@ export const logger = {
   /** 🔴 */
   error(method: string, ...others: any[]) {
     if (DEV) console.info(TEXT_BADGES.danger, `[${method}]`.padEnd(PAD_LENGTH), ...others)
+  },
+
+  /** 🟡 */
+  yellow(method: string, ...others: any[]) {
+    if (DEV) console.info(TEXT_BADGES.yellow, `[${method}]`.padEnd(PAD_LENGTH), ...others)
   },
 
   /** 🟣 */

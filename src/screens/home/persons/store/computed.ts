@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2024-08-27 04:39:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-04 21:44:46
+ * @Last Modified time: 2025-12-19 17:42:43
  */
 import { computed } from 'mobx'
 import { monoStore } from '@stores'
-import { Persons } from '@stores/mono/types'
 import { asc } from '@utils'
 import { HTML_SUBJECT_PERSONS, LIST_EMPTY } from '@constants'
 import { LABEL_ALL, SORT_POSITIONS } from '../ds'
 import State from './state'
+
+import type { Persons } from '@stores/mono/types'
+import type { SnapshotId } from '../types'
 
 export default class Computed extends State {
   @computed get subjectId() {
@@ -18,10 +20,10 @@ export default class Computed extends State {
   }
 
   /** 更多制作人员 */
-  @computed get persons(): Persons {
+  @computed get persons() {
     const persons = monoStore.persons(this.subjectId)
     if (!persons._loaded) {
-      if (!this.ota) return LIST_EMPTY
+      if (!this.ota) return LIST_EMPTY as Persons
 
       return {
         ...this.ota,
@@ -77,12 +79,22 @@ export default class Computed extends State {
   @computed get list() {
     const { position } = this.state
     const { list } = this.persons
-    if (!position) return list
 
-    const value = position.split(' (')?.[0] || ''
-    if (value === LABEL_ALL) return list
+    let result = list
 
-    return list.filter(item => item.positions.includes(value))
+    if (position) {
+      const value = position.split(' (')?.[0] || ''
+      if (value !== LABEL_ALL) {
+        result = list.filter(item => item.positions.includes(value))
+      }
+    }
+
+    // 任何时候：动画制作排最前，其余保持原顺序
+    return result.slice().sort((a, b) => {
+      const aIsAnime = a.positions.includes('动画制作')
+      const bIsAnime = b.positions.includes('动画制作')
+      return Number(bIsAnime) - Number(aIsAnime)
+    })
   }
 
   @computed get url() {
@@ -94,7 +106,7 @@ export default class Computed extends State {
     return this.state.ota[this.thirdPartyKey]
   }
 
-  @computed get thirdPartyKey() {
+  @computed get thirdPartyKey(): SnapshotId {
     return `persons_${this.subjectId}`
   }
 

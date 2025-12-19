@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-08-24 13:13:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-11 05:33:07
+ * @Last Modified time: 2025-12-19 17:06:06
  */
-import { EventType } from '@types'
-import { Actors } from '../types'
+import type { EventType } from '@types'
+import type { Actors } from '../types'
 
 export type Props = {
   actors: Actors
