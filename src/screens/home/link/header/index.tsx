@@ -13,6 +13,7 @@ import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 
 import type { Ctx } from '../types'
+
 function Header() {
   const { $ } = useStore<Ctx>(COMPONENT)
 

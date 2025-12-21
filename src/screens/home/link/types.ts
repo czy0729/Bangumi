@@ -40,3 +40,5 @@ export type RelateMap = {
   }[]
   _loaded?: Loaded
 }
+
+export type TrendId = `trend_${string}`

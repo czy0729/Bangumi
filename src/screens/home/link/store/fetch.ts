@@ -7,7 +7,8 @@
 import { collectionStore, subjectStore, systemStore } from '@stores'
 import { getTimestamp, queue } from '@utils'
 import { xhrCustom } from '@utils/fetch'
-import { HOST_DOGE } from '@constants'
+import { get, update } from '@utils/kv'
+import { DEV, HOST_DOGE } from '@constants'
 import Computed from './computed'
 
 import type { NodeItem, RelateMap } from '../types'
@@ -74,7 +75,12 @@ export default class Fetch extends Computed {
       node.map(item => {
         if (subjectStore.cover(item.id)) return () => true
 
-        return () => subjectStore.fetchSubjectV2(item.id)
+        return () => {
+          if (!this.state.focused) return true
+
+          this.log('fetchSubjects', item.id)
+          return subjectStore.fetchSubjectV2(item.id)
+        }
       })
     )
 
@@ -96,10 +102,44 @@ export default class Fetch extends Computed {
   fetchCollection = async () => {
     if (!systemStore.setting.subjectLinkCollected) return true
 
-    const { node } = this.state.map
-    if (!node?.length) return true
+    const { map } = this.state
+    if (!map.node?.length || !this.state.focused) return true
 
-    return collectionStore.fetchCollectionStatusQueue(node.map(item => item.id))
+    return collectionStore.fetchCollectionStatusQueue(
+      map.node.map(item => item.id),
+      () => this.state.focused
+    )
+  }
+
+  /** 获取趋势 */
+  fetchTrend = async () => {
+    if (!this.nodeId) return false
+
+    try {
+      const trend = await get(this.trendId)
+      if (typeof trend?.value === 'number') {
+        this.setState({
+          trend: Number(trend.value + 1) || 1
+        })
+      } else {
+        this.setState({
+          trend: 1
+        })
+      }
+
+      if (DEV) return
+
+      update(
+        this.trendId,
+        {
+          value: Number(this.state.trend || 1)
+        },
+        true,
+        true
+      )
+    } catch (error) {}
+
+    return false
   }
 }
 

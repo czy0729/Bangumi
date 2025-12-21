@@ -7,10 +7,10 @@
 import React from 'react'
 import { View } from 'react-native'
 import { useObserver } from 'mobx-react'
-import { ActionSheet, Divider, Flex, SwitchPro, Text, Touchable } from '@components'
+import { ActionSheet, Divider, Flex, Iconfont, SwitchPro, Text, Touchable } from '@components'
 import { IconTouchable, ItemSetting, Notice } from '@_'
 import { _, systemStore, useStore } from '@stores'
-import { stl } from '@utils'
+import { info, stl } from '@utils'
 import { MODEL_SUBJECT_TYPE, WEB } from '@constants'
 import { memoStyles } from './styles'
 
@@ -22,7 +22,7 @@ function Options() {
   return useObserver(() => {
     const styles = memoStyles()
 
-    const { hideTypes, hidePlatforms, hideRelates } = $.state
+    const { hideTypes, hidePlatforms, hideRelates, trend } = $.state
 
     // types
     const typeCountMap = new Map<string, number>()
@@ -102,7 +102,7 @@ function Options() {
             <IconTouchable
               name={_.isDark ? 'moon' : 'sunny'}
               color={_.colorIcon}
-              size={18}
+              size={17}
               onPress={() => {
                 setTimeout(() => {
                   _.toggleMode()
@@ -110,6 +110,22 @@ function Options() {
               }}
             />
           </View>
+        )}
+
+        {!!trend && (
+          <Touchable
+            style={styles.trend}
+            onPress={() => {
+              info(`${trend} 人次访问`)
+            }}
+          >
+            <Flex>
+              <Iconfont name='md-whatshot' size={18} color={_.colorIcon} />
+              <Text style={_.ml.xs} type='icon' bold>
+                {trend}
+              </Text>
+            </Flex>
+          </Touchable>
         )}
 
         <Notice style={_.mt.md}>

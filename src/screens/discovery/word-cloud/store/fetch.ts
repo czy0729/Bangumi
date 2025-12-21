@@ -24,12 +24,11 @@ export default class Fetch extends Computed {
     const now = getTimestamp()
     const { data } = this.state
     if (data._loaded && data.list?.length) {
-      // if (now - Number(data._loaded) <= D) return true
+      if (now - Number(data._loaded) <= D) return true
     }
 
     try {
       const snapshot = await get(this.snapshotId)
-      console.log(JSON.stringify(snapshot))
 
       if (snapshot?.data?._loaded && snapshot?.data?.list?.length) {
         if (now - Number(snapshot.data._loaded) <= D) {

@@ -185,6 +185,6 @@ export default class ScreenSubject extends Action {
           clearInterval(timer)
           resolve()
         }
-      }, 500)
+      }, 800)
     })
 }

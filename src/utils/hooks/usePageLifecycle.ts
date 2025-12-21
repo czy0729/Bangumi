@@ -59,23 +59,23 @@ export default function usePageLifecycle(callbacks: Callbacks, id: string) {
     if (typeof callbacks?.onEnterComplete === 'function') {
       InteractionManager.runAfterInteractions(() => {
         setTimeout(() => {
-          logger.success(id, 'onEnterComplete')
           callbacks.onEnterComplete()
+          logger.success(id, 'onEnterComplete')
         }, 240)
       })
     }
 
     return () => {
       if (typeof callbacks?.onLeave === 'function') {
-        logger.success(id, 'onLeave')
         callbacks.onLeave()
+        logger.success(id, 'onLeave')
       }
 
       if (typeof callbacks?.onLeaveComplete === 'function') {
         InteractionManager.runAfterInteractions(() => {
           setTimeout(() => {
-            logger.success(id, 'onLeaveComplete')
             callbacks.onLeaveComplete()
+            logger.success(id, 'onLeaveComplete')
           }, 240)
         })
       }

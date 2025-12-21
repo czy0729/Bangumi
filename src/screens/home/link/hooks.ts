@@ -20,6 +20,9 @@ export function useSubjectLinkPage(props: NavigationProps) {
     {
       onEnterComplete() {
         $.init()
+      },
+      onLeaveComplete() {
+        $.unmount()
       }
     },
     id

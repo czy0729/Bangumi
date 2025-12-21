@@ -5,13 +5,21 @@
  * @Last Modified time: 2025-12-17 22:18:21
  */
 import { computed } from 'mobx'
+import { logger } from '@utils/dev'
 import State from './state'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
+
+import type { TrendId } from '../types'
 
 export default class Computed extends State {
   /** 本地化 */
   save = () => {
     return this.saveStorage(this.namespace, EXCLUDE_STATE)
+  }
+
+  /** 开发调试 */
+  log(...arg: any) {
+    logger.info(this.namespace, ...arg)
   }
 
   /** 关系节点 ID */
@@ -118,5 +126,10 @@ export default class Computed extends State {
 
   @computed get hm() {
     return [`subject-link/${this.subjectId}`, 'SubjectLink'] as const
+  }
+
+  /** 趋势 ID */
+  @computed get trendId(): TrendId {
+    return `trend_${String(this.namespace).replace(/\|/g, '_')}`
   }
 }

@@ -32,6 +32,12 @@ export const memoStyles = _.memoStyles(() => ({
     top: -10,
     left: _._wind - 6
   },
+  trend: {
+    position: 'absolute',
+    zIndex: 1,
+    top: -4,
+    right: _._wind + 2
+  },
   switch: {
     marginRight: -4,
     transform: [

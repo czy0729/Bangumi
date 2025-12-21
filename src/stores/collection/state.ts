@@ -46,6 +46,10 @@ export default class State extends Store<typeof STATE> {
     logger.log(`${titleCase(this._namespace)}Store`, ...arg)
   }
 
+  warn = (...arg: any) => {
+    logger.warn(`${titleCase(this._namespace)}Store`, ...arg)
+  }
+
   error = (...arg: any) => {
     logger.error(`${titleCase(this._namespace)}Store`, ...arg)
   }

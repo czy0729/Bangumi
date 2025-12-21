@@ -288,8 +288,14 @@ export default class Fetch extends Computed {
    *  - [2] subjectIds 长度 = 1 时, 都会请求
    *  - [3] subjectIds 长度 > 1 时, 当前有记录为 [看过 | 搁置 | 抛弃] 时不重新请求
    *  - [4] 批量请求时, 若条件通过, 条目重请求依然有 12 小时的间隔
+   *  - [5] 允许提前终止
    * */
-  fetchCollectionStatusQueue = async (subjectIds: SubjectId[] = []) => {
+  fetchCollectionStatusQueue = async (
+    subjectIds: SubjectId[] = [],
+
+    /** 可用于提前终止批量请求 */
+    shouldContinue: () => boolean = () => true
+  ) => {
     const STATE_KEY_COLLECTION_STATUS = 'collectionStatus'
     const STATE_KEY_LAST_FETCH_MS = '_collectionStatusLastFetchMS'
     const userCollectionStatus: UserCollectionStatus = {}
@@ -302,8 +308,10 @@ export default class Fetch extends Computed {
       const isWeb = WEB && !userStore.accessToken.access_token
       const isMobile = !WEB && !userStore.isLogin
 
-      // 未登录或者 subjectIds 为空, 直接返回
-      if (isWeb || isMobile || !subjectIds.length) return userCollectionStatus // [1]
+      // [1] 未登录或者 subjectIds 为空, 直接返回
+      if (isWeb || isMobile || !subjectIds.length) {
+        return userCollectionStatus
+      }
 
       const now = getTimestamp()
       const lastFetchMS: CollectionStatusLastFetchMS = {}
@@ -311,13 +319,36 @@ export default class Fetch extends Computed {
 
       const fetchs: Fn[] = []
       const logSubjectIds: SubjectId[] = []
+      let logged = false
+
       subjectIds.forEach(subjectId => {
+        // [5]
+        if (!shouldContinue()) {
+          if (!logged) {
+            this.warn('fetchCollectionStatusQueue', 'cancel')
+            logged = true
+          }
+          return
+        }
+
         if (
-          subjectIds.length === 1 || // [2]
-          (!['看过', '搁置', '抛弃'].includes(this.collect(subjectId)) && // [3]
-            now - this._collectionStatusLastFetchMS(subjectId) >= H12) // [4]
+          // [2]
+          subjectIds.length === 1 ||
+          // [3]
+          (!['看过', '搁置', '抛弃'].includes(this.collect(subjectId)) &&
+            // [4]
+            now - this._collectionStatusLastFetchMS(subjectId) >= H12)
         ) {
           fetchs.push(async () => {
+            // [5]
+            if (!shouldContinue()) {
+              if (!logged) {
+                this.warn('fetchCollectionStatusQueue', 'cancel')
+                logged = true
+              }
+              return
+            }
+
             const collection = await fetchCollectionSingleV0({
               subjectId,
               userId: userStore.myId
