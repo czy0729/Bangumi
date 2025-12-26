@@ -9,15 +9,17 @@ import { HeaderV2 } from '@components'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import IconGo from '../icon-go'
-import { Props } from './types'
 
-function Header({ title, hm, go, headerRight }: Props) {
+import type { Props } from './types'
+
+function Header({ title, alias, hm, go, headerRight }: Props) {
   const { $ } = useStore<any>()
 
   return useObserver(() => (
     <HeaderV2
       backgroundStyle={_.container.tinygrail}
       title={title}
+      alias={alias}
       hm={hm}
       headerRight={headerRight || (go ? () => <IconGo $={$} /> : undefined)}
     />

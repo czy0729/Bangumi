@@ -31,7 +31,7 @@ function List() {
     }
 
     return (
-      <ScrollView>
+      <ScrollView contentContainerStyle={styles.list}>
         {list.map(item => (
           <Item key={item.href} {...item} />
         ))}

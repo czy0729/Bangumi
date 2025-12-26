@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-01-02 16:52:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 07:06:47
+ * @Last Modified time: 2025-12-22 19:09:53
  */
 import React from 'react'
-import { Component, Page } from '@components'
+import { Component, Empty, HeaderPlaceholder, Page } from '@components'
 import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import List from './component/list'
@@ -22,7 +22,8 @@ const Catalog = (props: NavigationProps) => {
     <Component id='screen-catalog'>
       <StoreContext.Provider value={id}>
         <Page loaded={$.state._loaded} loading={!$.catalog._loaded}>
-          <List />
+          <HeaderPlaceholder />
+          {$.isLimit ? <Empty text='此功能仅对正常注册用户开放' /> : <List />}
         </Page>
         <Header />
       </StoreContext.Provider>

@@ -5,31 +5,35 @@
  * @Last Modified time: 2025-04-04 07:34:24
  */
 import React from 'react'
-import { Component, HeaderV2, Page } from '@components'
-import { _, StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
+import { Component } from '@components'
+import { StoreContext } from '@stores'
+import { useInsets, useObserver } from '@utils/hooks'
+import TinygrailHeader from '@tinygrail/_/header'
 import IconGo from '@tinygrail/_/icon-go'
-import Tabs from '@tinygrail/_/tabs-v2'
-import ToolBar from '@tinygrail/_/tool-bar'
+import TinygrailPage from '@tinygrail/_/page'
+import TinygrailTabs from '@tinygrail/_/tabs-v2'
+import TinygrailToolBar from '@tinygrail/_/tool-bar'
 import { SORT_DS } from '@tinygrail/overview/ds'
-import { NavigationProps } from '@types'
 import { useTinygrailNewPage } from './hooks'
 import List from './list'
 import { HM, TABS } from './ds'
 
+import type { NavigationProps } from '@types'
+
 /** 新番榜单 */
 const TinygrailNew = (props: NavigationProps) => {
   const { id, $ } = useTinygrailNewPage(props)
+  const { headerStyle } = useInsets()
 
   return useObserver(() => (
     <Component id='screen-tinygrail-new'>
       <StoreContext.Provider value={id}>
-        <Page style={_.container.tinygrail} loaded={$.state._loaded}>
-          <Tabs
-            style={_.container.header}
+        <TinygrailPage header={false}>
+          <TinygrailTabs
+            style={headerStyle}
             routes={TABS}
             renderContentHeaderComponent={
-              <ToolBar
+              <TinygrailToolBar
                 data={SORT_DS}
                 level={$.state.level}
                 levelMap={$.levelMap}
@@ -41,13 +45,8 @@ const TinygrailNew = (props: NavigationProps) => {
             }
             renderItem={item => <List key={item.key} id={item.key} />}
           />
-        </Page>
-        <HeaderV2
-          backgroundStyle={_.container.tinygrail}
-          title='新番榜单'
-          hm={HM}
-          headerRight={() => <IconGo $={$} />}
-        />
+        </TinygrailPage>
+        <TinygrailHeader title='新番榜单' hm={HM} headerRight={() => <IconGo $={$} />} />
       </StoreContext.Provider>
     </Component>
   ))

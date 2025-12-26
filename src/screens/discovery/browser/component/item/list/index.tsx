@@ -7,13 +7,15 @@
 import React from 'react'
 import { ItemSearch } from '@_'
 import { _, collectionStore, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../../types'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT, EVENT } from './ds'
 
+import type { Ctx } from '../../../types'
+
 function List({ item, index, id, typeCn }) {
-  const { navigation } = useStore<Ctx>()
-  return (
+  const { navigation } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
     <ItemSearch
       style={_.container.item}
       navigation={navigation}
@@ -23,7 +25,7 @@ function List({ item, index, id, typeCn }) {
       typeCn={typeCn}
       collection={collectionStore.collect(id)}
     />
-  )
+  ))
 }
 
-export default ob(List, COMPONENT)
+export default List

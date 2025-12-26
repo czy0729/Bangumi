@@ -2,26 +2,25 @@
  * @Author: czy0729
  * @Date: 2025-06-10 17:43:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-28 00:32:26
+ * @Last Modified time: 2025-12-22 20:34:22
  */
 import React from 'react'
 import { Divider, Flex, Text, Touchable } from '@components'
 import { _, monoStore, useStore } from '@stores'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import Pagination from '../pagination'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Empty({ showPagination = true }) {
-  r(COMPONENT)
+import type { Ctx } from '../../types'
 
-  const { $, navigation } = useStore<Ctx>()
+function Empty({ showPagination = true }) {
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
     const styles = memoStyles()
     const noResult = !$.list.length
+
     return (
       <>
         <Flex style={noResult && styles.container} direction='column' justify='center'>

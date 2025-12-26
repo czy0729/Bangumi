@@ -9,8 +9,9 @@ import { HeaderV2 } from '@components'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import Label from '../component/label'
-import { Ctx } from '../types'
 import { COMPONENT, HM } from './ds'
+
+import type { Ctx } from '../types'
 
 function Header() {
   const { $ } = useStore<Ctx>()

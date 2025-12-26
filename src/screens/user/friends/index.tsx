@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:19:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 06:42:09
+ * @Last Modified time: 2025-12-26 21:41:38
  */
 import React from 'react'
-import { Component, Heatmap, Page } from '@components'
+import { Component, HeaderPlaceholder, Heatmap, Page } from '@components'
 import { _, StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import Filter from './component/filter'
 import List from './component/list'
 import Header from './header'
 import { useFriendsPage } from './hooks'
+
+import type { NavigationProps } from '@types'
 
 /** 好友 */
 const Friends = (props: NavigationProps) => {
@@ -21,7 +22,8 @@ const Friends = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-friends'>
       <StoreContext.Provider value={id}>
-        <Page style={_.container.header}>
+        <Page>
+          <HeaderPlaceholder />
           <Filter />
           <List />
         </Page>

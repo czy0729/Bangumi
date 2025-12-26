@@ -7,6 +7,7 @@
 import React from 'react'
 import { Flex, Text } from '@components'
 import { _, timelineStore } from '@stores'
+import { removeHTMLTag } from '@utils'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { Name } from '../../../base'
@@ -25,7 +26,7 @@ function Content({ userId, userName, title, message, message2, href }: Props) {
     const notifyId = String(href).split('/status/')?.[1]
     if (notifyId) {
       const say = timelineStore.say(notifyId)
-      if (say.list.length) sayTitle = say.list[0]?.text
+      if (say.list.length) sayTitle = removeHTMLTag(say.list[0]?.text)
     }
 
     return (

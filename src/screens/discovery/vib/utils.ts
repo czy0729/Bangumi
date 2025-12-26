@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-05-03 22:44:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-02 09:51:35
+ * @Last Modified time: 2025-12-23 01:52:40
  */
 import { decode } from '@utils/protobuf'
 import axios from '@utils/thirdParty/axios'
-import { Fn } from '@types'
 import { URL_SOURCE } from './ds'
+
+import type { Fn } from '@types'
 
 /** 新增表 */
 export function getNewSubjects(data: string) {

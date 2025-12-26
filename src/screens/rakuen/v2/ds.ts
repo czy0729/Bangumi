@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-09-03 05:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-16 20:03:45
+ * @Last Modified time: 2025-12-24 19:38:31
  */
-import { _ } from '@stores'
 import { IOS, PAD, RAKUEN_TYPE } from '@constants'
+import { STATUS_BAR_HEIGHT } from '@styles'
 
 export const COMPONENT = 'Rakuen'
 
-export const H_TABBAR = 48 + (IOS && PAD ? _.statusBarHeight : 0)
+export const H_TABBAR = 48 + (IOS && PAD ? STATUS_BAR_HEIGHT : 0)
 
 export const TABS = RAKUEN_TYPE.map(item => ({
   title: item.label,

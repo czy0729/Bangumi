@@ -7,22 +7,28 @@
 import React from 'react'
 import { ItemCollectionsGrid } from '@_'
 import { _, collectionStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT, EVENT } from './ds'
 
 function Grid({ item, index, id, typeCn }) {
-  const numColumns = _.portrait(3, 5)
-  return (
-    <ItemCollectionsGrid
-      style={(_.isPad || _.isLandscape) && !(index % numColumns) && _.container.left}
-      num={numColumns}
-      collection={collectionStore.collect(id)}
-      event={EVENT}
-      {...item}
-      isCollect={item.collected}
-      isRectangle={typeCn === '音乐'}
-    />
-  )
+  r(COMPONENT)
+
+  return useObserver(() => {
+    const numColumns = _.portrait(3, 5)
+
+    return (
+      <ItemCollectionsGrid
+        style={(_.isPad || _.isLandscape) && !(index % numColumns) && _.container.left}
+        num={numColumns}
+        collection={collectionStore.collect(id)}
+        event={EVENT}
+        {...item}
+        isCollect={item.collected}
+        isRectangle={typeCn === '音乐'}
+      />
+    )
+  })
 }
 
-export default ob(Grid, COMPONENT)
+export default Grid

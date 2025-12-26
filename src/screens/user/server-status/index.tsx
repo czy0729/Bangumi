@@ -2,11 +2,21 @@
  * @Author: czy0729
  * @Date: 2020-10-13 17:10:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-11 21:01:30
+ * @Last Modified time: 2025-12-24 19:08:07
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Activity, Button, Component, Flex, HeaderV2, Heatmap, ScrollView, Text } from '@components'
+import {
+  Activity,
+  Button,
+  Component,
+  Flex,
+  HeaderPlaceholder,
+  HeaderV2,
+  Heatmap,
+  ScrollView,
+  Text
+} from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { ping, t } from '@utils/fetch'
@@ -114,6 +124,7 @@ class ServerStatus extends React.Component {
     const { list } = this.state
     return (
       <Component id='screen-server-status'>
+        <HeaderPlaceholder />
         <ScrollView
           style={_.container.plain}
           contentContainerStyle={this.styles.contentContainerStyle}

@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2025-12-01 18:14:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-01 18:49:23
+ * @Last Modified time: 2025-12-25 05:58:21
  */
+import { useMemo } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { IOS, PAD, WEB, WSA } from '@constants'
 import { IS_IOS_5_6_7_8 } from '@styles/layout'
@@ -14,6 +15,7 @@ const MAX_HEADER_HEIGHT = WEB ? 48 : 80
 function useInsets() {
   const edgeInsets = useSafeAreaInsets()
 
+  /** 状态栏高度 */
   const statusBarHeight = edgeInsets.top
 
   /** 头部高度 (顶部 Tab) */
@@ -33,11 +35,28 @@ function useInsets() {
       : appBarHeight + statusBarHeight) + (IOS ? (IS_IOS_5_6_7_8 ? 28 : 0) : 0)
   )
 
+  /** 整个头部高度占位样式 */
+  const headerStyle = useMemo(
+    () => ({
+      paddingTop: headerHeight
+    }),
+    [headerHeight]
+  )
+
   return {
     ...edgeInsets,
+
+    /** 状态栏高度 */
     statusBarHeight,
+
+    /** 头部高度 (顶部 Tab) */
     appBarHeight,
-    headerHeight
+
+    /** 整个头部高度 (状态栏高度 + 头部高度) */
+    headerHeight,
+
+    /** 整个头部高度占位样式 */
+    headerStyle
   }
 }
 

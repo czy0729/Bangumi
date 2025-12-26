@@ -6,8 +6,9 @@
  */
 import { _ } from '@stores'
 import { MODEL_SUBJECT_TYPE } from '@constants'
-import { BrowserSort, Loaded, SubjectType } from '@types'
 import { COMPONENT } from '../ds'
+
+import type { BrowserSort, Loaded, SubjectType } from '@types'
 
 export const NAMESPACE = `Screen${COMPONENT}`
 

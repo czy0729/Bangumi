@@ -7,12 +7,16 @@
 import React from 'react'
 import { ToolBar } from '@components'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { useObserver } from '@utils/hooks'
+
+import type { Ctx } from '../../types'
 
 function Next() {
   const { $ } = useStore<Ctx>()
-  return <ToolBar.Icon icon='md-arrow-forward' iconColor={_.colorDesc} onSelect={$.onAirdateNext} />
+
+  return useObserver(() => (
+    <ToolBar.Icon icon='md-arrow-forward' iconColor={_.colorDesc} onSelect={$.onAirdateNext} />
+  ))
 }
 
-export default ob(Next)
+export default Next

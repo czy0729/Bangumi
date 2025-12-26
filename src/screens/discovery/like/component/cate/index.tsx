@@ -2,34 +2,36 @@
  * @Author: czy0729
  * @Date: 2021-03-16 20:58:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-30 05:30:49
+ * @Last Modified time: 2025-12-22 20:30:49
  */
 import React from 'react'
-import { View } from 'react-native'
 import { SegmentedControl } from '@components'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { SUBJECT_TYPE } from '@constants'
-import { Ctx } from '../../types'
-import { COMPONENT } from './ds'
+import { COMPONENT, DATA } from './ds'
 import { memoStyles } from './styles'
 
+import type { Ctx } from '../../types'
+
 function Cate() {
-  const { $ } = useStore<Ctx>()
-  const styles = memoStyles()
-  const { type } = $.state
-  return (
-    <View style={styles.container}>
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => {
+    const styles = memoStyles()
+    const { type } = $.state
+
+    return (
       <SegmentedControl
         key={type}
         style={styles.segment}
         size={11}
-        values={SUBJECT_TYPE.map(item => item.title)}
+        values={DATA}
         selectedIndex={SUBJECT_TYPE.findIndex(item => item.label === type)}
         onValueChange={$.onChange}
       />
-    </View>
-  )
+    )
+  })
 }
 
-export default ob(Cate, COMPONENT)
+export default Cate

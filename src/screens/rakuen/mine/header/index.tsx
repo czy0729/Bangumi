@@ -5,16 +5,44 @@
  * @Last Modified time: 2024-11-17 16:38:52
  */
 import React from 'react'
-import { HeaderV2 } from '@components'
+import { useObserver } from 'mobx-react'
+import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { open } from '@utils'
+import { t } from '@utils/fetch'
+import { HTML_GROUP_MINE, TEXT_MENU_BROWSER } from '@constants'
 import Extra from '../component/extra'
-import { Ctx } from '../types'
-import { COMPONENT, HM } from './ds'
+import { COMPONENT, DATA, HM } from './ds'
+
+import type { Ctx } from '../types'
 
 function Header() {
-  const { $ } = useStore<Ctx>()
-  return <HeaderV2 title='小组' hm={HM} headerRight={() => <Extra $={$} />} />
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
+    <HeaderV2
+      title='小组'
+      headerTitleAlign='left'
+      hm={HM}
+      headerRight={() => (
+        <>
+          <Extra $={$} />
+          <HeaderV2Popover
+            data={DATA}
+            onSelect={title => {
+              if (title === TEXT_MENU_BROWSER) {
+                open(HTML_GROUP_MINE())
+
+                t('我的小组.右上角菜单', {
+                  key: title
+                })
+              }
+            }}
+          />
+        </>
+      )}
+    />
+  ))
 }
 
-export default ob(Header, COMPONENT)
+export default Header

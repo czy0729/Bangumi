@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2025-02-18 05:08:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-22 11:12:36
+ * @Last Modified time: 2025-12-26 22:41:21
  */
 import React from 'react'
-import { Component, Page } from '@components'
-import { _, StoreContext } from '@stores'
+import { Component, HeaderPlaceholder, Page } from '@components'
+import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import Form from './component/form'
 import List from './component/list'
 import Summary from './component/summary'
 import Header from './header'
 import { useLogPage } from './hooks'
+
+import type { NavigationProps } from '@types'
 
 /** 错误上报分析 */
 const Log = (props: NavigationProps) => {
@@ -22,7 +23,8 @@ const Log = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-log'>
       <StoreContext.Provider value={id}>
-        <Page style={_.container.header}>
+        <Page>
+          <HeaderPlaceholder />
           <List />
         </Page>
         <Form />

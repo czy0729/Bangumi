@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-05-02 15:54:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 09:46:49
+ * @Last Modified time: 2025-12-27 06:25:21
  */
 import React from 'react'
-import { Component, Page } from '@components'
+import { Component, HeaderPlaceholder, Page } from '@components'
 import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import Extra from './component/extra'
@@ -23,6 +23,7 @@ const Catalogs = (props: NavigationProps) => {
     <Component id='screen-subject-catalogs'>
       <StoreContext.Provider value={id}>
         <Page loaded={$.list._loaded}>
+          <HeaderPlaceholder />
           <List />
         </Page>
         <Header />

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-09-28 16:51:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 18:49:24
+ * @Last Modified time: 2025-12-23 01:56:41
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   container: {
     padding: _.sm,
-    marginTop: _.headerHeight + _.xs,
+    marginTop: _.xs,
     marginBottom: _.sm,
     backgroundColor: _.ios('transparent', 'rgba(0, 0, 0, 0.32)'),
     borderWidth: _.hairlineWidth,

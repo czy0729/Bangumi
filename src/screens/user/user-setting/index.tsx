@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:53:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-12 05:06:10
+ * @Last Modified time: 2025-12-26 22:15:25
  */
 import React from 'react'
-import { Component } from '@components'
+import { Component, HeaderPlaceholder } from '@components'
 import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import Header from './header'
 import { useUserSettingPage } from './hooks'
 import Scroll from './scroll'
+
+import type { NavigationProps } from '@types'
 
 /** 个人设置 */
 const UserSetting = (props: NavigationProps) => {
@@ -20,6 +21,7 @@ const UserSetting = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-user-setting'>
       <StoreContext.Provider value={id}>
+        <HeaderPlaceholder />
         <Scroll $={$} />
         <Header />
       </StoreContext.Provider>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 13:59:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-09 21:13:07
+ * @Last Modified time: 2025-12-23 01:37:45
  */
 import { computed } from 'mobx'
 import { HTMLDecode } from '@utils'
@@ -116,6 +116,7 @@ export default class Computed
   catalogs(userId?: UserId, isCollect?: boolean) {
     const STATE_KEY = `catalogs${isCollect ? 'Collect' : ''}` as const
     this.init(STATE_KEY, true)
+
     return computed(() => {
       const ITEM_KEY = userId || userStore.myId
       return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as Catalogs

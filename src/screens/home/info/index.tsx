@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-11-07 11:57:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-10 22:41:34
+ * @Last Modified time: 2025-12-25 05:18:12
  */
 import React from 'react'
-import { Component, Page, ScrollView } from '@components'
-import { _, StoreContext } from '@stores'
+import { Component, HeaderPlaceholder, Page, ScrollView } from '@components'
+import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import Info from './component/info'
 import Summary from './component/summary'
@@ -23,7 +23,8 @@ const SubjectInfo = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-subject-info'>
       <StoreContext.Provider value={id}>
-        <Page style={_.container.header} loaded={$.state._loaded}>
+        <Page loaded={$.state._loaded}>
+          <HeaderPlaceholder />
           <Type />
           <ScrollView>{$.state.type === '简介' ? <Summary /> : <Info />}</ScrollView>
         </Page>

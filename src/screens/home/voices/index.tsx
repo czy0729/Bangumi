@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2020-04-28 00:24:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 11:37:48
+ * @Last Modified time: 2025-12-25 05:23:43
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Component, Page } from '@components'
-import { _, StoreContext } from '@stores'
+import { Component, HeaderPlaceholder, Page } from '@components'
+import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import List from './component/list'
 import ToolBar from './component/tool-bar'
 import Header from './header'
 import { useVoicesPage } from './hooks'
+
+import type { NavigationProps } from '@types'
 
 /** 人物的角色 */
 const Voices = (props: NavigationProps) => {
@@ -23,10 +23,9 @@ const Voices = (props: NavigationProps) => {
     <Component id='screen-voices'>
       <StoreContext.Provider value={id}>
         <Page loaded={$.state._loaded} loading={$.loading}>
-          <View style={_.container.header}>
-            <ToolBar />
-            <List />
-          </View>
+          <HeaderPlaceholder />
+          <ToolBar />
+          <List />
         </Page>
         <Header />
       </StoreContext.Provider>

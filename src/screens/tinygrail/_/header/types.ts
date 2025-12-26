@@ -4,11 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-05-02 05:57:15
  */
-import { HeaderV2Props } from '@components'
+import type { HeaderV2Props } from '@components'
 
 export type Props = {
   title: string
   hm: HeaderV2Props['hm']
+  alias?: HeaderV2Props['alias']
   go?: boolean
   headerRight?: HeaderV2Props['headerRight']
 }

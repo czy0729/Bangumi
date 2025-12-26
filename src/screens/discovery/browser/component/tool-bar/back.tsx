@@ -7,12 +7,16 @@
 import React from 'react'
 import { ToolBar } from '@components'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { useObserver } from '@utils/hooks'
+
+import type { Ctx } from '../../types'
 
 function Back() {
   const { $ } = useStore<Ctx>()
-  return <ToolBar.Icon icon='md-arrow-back' iconColor={_.colorDesc} onSelect={$.onAirdatePrev} />
+
+  return useObserver(() => (
+    <ToolBar.Icon icon='md-arrow-back' iconColor={_.colorDesc} onSelect={$.onAirdatePrev} />
+  ))
 }
 
-export default ob(Back)
+export default Back

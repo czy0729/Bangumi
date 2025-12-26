@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-10-17 11:43:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-16 06:53:02
+ * @Last Modified time: 2025-12-24 19:12:46
  */
 import { _ } from '@stores'
+import { HEADER_HEIGHT } from '@styles'
 
 export const memoStyles = _.memoStyles(() => ({
   mask: {
@@ -18,7 +19,7 @@ export const memoStyles = _.memoStyles(() => ({
   fixed: {
     position: 'absolute',
     zIndex: 2,
-    top: _.headerHeight + 8,
+    top: HEADER_HEIGHT + 8,
     right: _.wind,
     width: _.window.contentWidth,
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2),

@@ -2,17 +2,19 @@
  * @Author: czy0729
  * @Date: 2020-11-30 15:39:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-04 07:30:48
+ * @Last Modified time: 2025-12-27 06:33:31
  */
 import React from 'react'
-import { Component, Page } from '@components'
-import { _, StoreContext } from '@stores'
+import { Component } from '@components'
+import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { NavigationProps } from '@types'
+import TinygrailPage from '@tinygrail/_/page'
 import Btn from './component/btn'
 import List from './component/list'
 import Header from './header'
 import { useTinygrailClipboardPage } from './hooks'
+
+import type { NavigationProps } from '@types'
 
 /** 粘贴板 */
 const TinygrailClipboard = (props: NavigationProps) => {
@@ -21,10 +23,10 @@ const TinygrailClipboard = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-tinygrail-clipboard'>
       <StoreContext.Provider value={id}>
-        <Page style={_.container.tinygrail}>
+        <TinygrailPage>
           <List />
           <Btn />
-        </Page>
+        </TinygrailPage>
         <Header />
       </StoreContext.Provider>
     </Component>

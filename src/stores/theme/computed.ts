@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 14:20:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-19 20:54:27
+ * @Last Modified time: 2025-12-24 23:04:47
  */
 import { StyleSheet } from 'react-native'
 import { computed } from 'mobx'
@@ -65,22 +65,22 @@ export default class Computed extends State implements StoreConstructor<typeof S
   readonly _wind = _._wind
 
   /** -------------------- 组件高度 -------------------- */
-  /** 状态栏高度 */
+  /** @deprecated 状态栏高度 */
   readonly statusBarHeight = _.statusBarHeight
 
   /** 底部 bottomTab 高度 */
   readonly tabBarHeight = _.tabBarHeight
 
-  /** 带标签栏的头部高度 */
+  /** @deprecated 带标签栏的头部高度 */
   readonly tabsHeaderHeight = _.tabsHeaderHeight
 
   /** @deprecated */
   readonly header = _.header
 
-  /** @tofixed 头部高度 (顶部 Tab) */
+  /** @deprecated 头部高度 (顶部 Tab) */
   readonly appBarHeight = _.appBarHeight
 
-  /** @tofixed 整个头部高度 (状态栏高度 + 头部高度) */
+  /** @deprecated 整个头部高度 (状态栏高度 + 头部高度) */
   readonly headerHeight = _.headerHeight
 
   /** 标签页的标签栏高度 */
@@ -591,7 +591,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   /** 容器 (工具类) */
   @computed get container() {
     return StyleSheet.create({
-      /** 带头部间隔布局 */
+      /** @deprecated 带头部间隔布局 */
       header: {
         paddingTop: _.headerHeight
       },
@@ -601,7 +601,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
         paddingBottom: _.bottom
       },
 
-      /** 带头部和底部间隔布局 */
+      /** @deprecated 带头部和底部间隔布局 */
       page: {
         paddingTop: _.headerHeight,
         paddingBottom: _.bottom

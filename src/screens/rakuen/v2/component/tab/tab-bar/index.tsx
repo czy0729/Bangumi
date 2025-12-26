@@ -7,7 +7,7 @@
 import React from 'react'
 import { TabBar as TabViewTabBar } from '@components'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
+import { useInsets, useObserver } from '@utils/hooks'
 import { renderLabel } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -15,13 +15,20 @@ import { memoStyles } from './styles'
 function TabBar(props) {
   r(COMPONENT)
 
+  const { headerHeight } = useInsets()
+
   return useObserver(() => {
     const styles = memoStyles()
 
     return (
       <TabViewTabBar
         {...props}
-        style={styles.tabBar}
+        style={[
+          styles.tabBar,
+          {
+            top: headerHeight
+          }
+        ]}
         tabStyle={styles.tab}
         labelStyle={styles.label}
         indicatorStyle={styles.indicator}

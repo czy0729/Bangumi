@@ -5,13 +5,15 @@
  * @Last Modified time: 2024-11-16 12:16:18
  */
 import React from 'react'
-import { Component, Page } from '@components'
+import { Component, HeaderPlaceholder, Page } from '@components'
 import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import List from './component/list'
+import Type from './component/type'
 import Header from './header'
 import { useBiWeeklyPage } from './hooks'
+
+import type { NavigationProps } from '@types'
 
 /** Bangumi 半月刊 */
 const BiWeekly = (props: NavigationProps) => {
@@ -21,6 +23,8 @@ const BiWeekly = (props: NavigationProps) => {
     <Component id='screen-bi-weekly'>
       <StoreContext.Provider value={id}>
         <Page loaded={loaded}>
+          <HeaderPlaceholder />
+          <Type />
           <List data={data} />
         </Page>
         <Header />

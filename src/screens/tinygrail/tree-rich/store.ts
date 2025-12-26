@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-27 20:42:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-20 09:46:57
+ * @Last Modified time: 2025-12-24 19:07:26
  */
 import { computed, observable } from 'mobx'
 import { _, tinygrailStore } from '@stores'
@@ -11,20 +11,22 @@ import { t } from '@utils/fetch'
 import store from '@utils/store'
 import treemap from '@utils/thirdParty/treemap'
 import { MODEL_TINYGRAIL_CACULATE_RICH_TYPE } from '@constants'
-import { TinygrailCaculateRichType, TinygrailCaculateRichTypeCn } from '@types'
+import { HEADER_HEIGHT } from '@styles'
 import { H_TOOL_BAR, KEY, NAMESPACE, STATE } from './ds'
+
+import type { TinygrailCaculateRichType, TinygrailCaculateRichTypeCn } from '@types'
 
 export default class ScreenTinygrailTreeRich extends store<typeof STATE> {
   state = observable(STATE)
 
   init = async () => {
-    const state = (await this.getStorage(NAMESPACE)) || {}
     this.setState({
-      ...state,
+      ...((await this.getStorage(NAMESPACE)) || {}),
       loading: false,
       data: [],
       total: 0,
-      filterItems: []
+      filterItems: [],
+      _loaded: true
     })
 
     if (!this.rich._loaded) {
@@ -232,7 +234,7 @@ function treemapSquarify(nodes) {
           x: 0,
           y: 0,
           width: _.window.width,
-          height: _.window.height - _.headerHeight - H_TOOL_BAR
+          height: _.window.height - HEADER_HEIGHT - H_TOOL_BAR
         },
         nodes
       },

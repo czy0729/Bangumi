@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2024-08-21 17:12:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-21 17:13:05
+ * @Last Modified time: 2025-12-23 01:32:49
  */
 import { discoveryStore, usersStore } from '@stores'
-import { CatalogDetail } from '@stores/discovery/types'
 import { HTMLDecode, removeHTMLTag } from '@utils'
 import { queue } from '@utils/fetch'
 import { update } from '@utils/kv'
-import { Id, Override } from '@types'
 import Computed from './computed'
+
+import type { CatalogDetail } from '@stores/discovery/types'
+import type { Id, Override } from '@types'
 
 export default class Fetch extends Computed {
   /** 用户目录 */

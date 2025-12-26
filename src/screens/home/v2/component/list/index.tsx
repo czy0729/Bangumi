@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-09 05:52:27
+ * @Last Modified time: 2025-12-23 02:36:30
  */
 import React, { useCallback, useMemo } from 'react'
 import { Loading } from '@components'
 import { _, systemStore, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
-import { MODEL_SETTING_HOME_LAYOUT } from '@constants'
+import { useInsets, useObserver } from '@utils/hooks'
+import { IOS, MODEL_SETTING_HOME_LAYOUT, PAD } from '@constants'
+import { H_TABBAR } from '../../ds'
 import Grid from '../grid/index.lazy'
 import List from './list'
 import { COMPONENT } from './ds'
@@ -20,13 +21,20 @@ import type { Props } from './types'
 function ListWrap({ title = '全部' }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
+  const { headerHeight, statusBarHeight } = useInsets()
+
+  const basePadding = headerHeight + ($.tabs.length <= 1 ? _.sm : H_TABBAR)
+  const iosPadAdjustment = IOS && PAD ? statusBarHeight : 0
+  const paddingTop = basePadding + iosPadAdjustment
+
   const style = useMemo(
     () => ({
-      paddingTop: $.listPaddingTop,
+      paddingTop,
       paddingBottom: _.bottom
     }),
-    [$.listPaddingTop]
+    [paddingTop]
   )
+
   const handleForwardRef = useCallback(
     (ref: { scrollToIndex: ScrollToIndex }) => $.forwardRef(ref, title),
     [$, title]

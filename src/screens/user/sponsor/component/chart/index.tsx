@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-08 10:38:16
+ * @Last Modified time: 2025-12-26 22:00:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,12 +12,13 @@ import { _, systemStore } from '@stores'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import { USERS_MAP } from '../../ds'
 import { useTreemapSquarify } from '../../utils'
 import Item from '../item'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+
+import type { NavigationProps } from '@types'
 
 function Chart({ navigation }: NavigationProps) {
   r(COMPONENT)
@@ -25,8 +26,9 @@ function Chart({ navigation }: NavigationProps) {
   const styles = memoStyles()
   const { data, filterLength, filterCount, handleFilter, handleBatchFilter, handleResetFilter } =
     useTreemapSquarify()
+
   return useObserver(() => (
-    <View style={_.container.header}>
+    <>
       <Flex style={styles.filter} direction='column' justify='center'>
         <Flex>
           {filterLength ? (
@@ -112,7 +114,7 @@ function Chart({ navigation }: NavigationProps) {
           />
         ))}
       </View>
-    </View>
+    </>
   ))
 }
 

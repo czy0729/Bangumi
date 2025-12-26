@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-23 01:47:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-19 21:26:13
+ * @Last Modified time: 2025-12-22 20:28:49
  */
 import { WEB } from '@constants/device'
 import Crypto from '../crypto'
@@ -75,11 +75,11 @@ export async function gets<
 
     const response = Crypto.get<Result<Record<Keys[number], T | null>>>(data)
     if (response?.code === 200) {
-      log('gets', keys.join(', '))
+      log('gets', keys.slice(0, 8), keys.length)
       return response.data
     }
   } catch (error) {
-    err('gets', error, keys.join(', '))
+    err('gets', error, keys.slice(0, 8), keys.length)
   }
 
   return null

@@ -5,9 +5,9 @@
  * @Last Modified time: 2025-12-13 05:49:17
  */
 import React, { useMemo } from 'react'
-import { useObserver } from 'mobx-react'
 import { ScrollView } from '@components'
 import { _, useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import Item from './item'
 import { COMPONENT } from './ds'
 

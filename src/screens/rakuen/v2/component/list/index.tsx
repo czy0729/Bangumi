@@ -2,23 +2,32 @@
  * @Author: czy0729
  * @Date: 2019-04-27 19:30:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-17 15:48:08
+ * @Last Modified time: 2025-12-23 06:10:23
  */
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { ListView, Loading } from '@components'
 import { Login } from '@_'
-import { userStore, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
+import { _, userStore, useStore } from '@stores'
+import { useInsets, useObserver } from '@utils/hooks'
 import i18n from '@constants/i18n'
+import { H_TABBAR } from '../../ds'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT, ENTERING_EXITING_ANIMATIONS_NUM } from './ds'
-import { styles } from './styles'
 
 import type { Ctx } from '../../types'
 import type { HandleRef, Props } from './types'
 
 function List({ index }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
+
+  const { headerHeight } = useInsets()
+  const contentContainerStyle = useMemo(
+    () => ({
+      paddingTop: headerHeight + H_TABBAR,
+      paddingBottom: _.bottom
+    }),
+    [headerHeight]
+  )
 
   const handleRef = useCallback<HandleRef>(
     ref => {
@@ -42,8 +51,8 @@ function List({ index }: Props) {
         ref={handleRef}
         skipEnteringExitingAnimations={ENTERING_EXITING_ANIMATIONS_NUM}
         keyExtractor={keyExtractor}
-        contentContainerStyle={styles.contentContainerStyle}
-        progressViewOffset={styles.contentContainerStyle.paddingTop}
+        contentContainerStyle={contentContainerStyle}
+        progressViewOffset={contentContainerStyle.paddingTop}
         data={rakuen}
         renderItem={renderItem}
         initialNumToRender={16}

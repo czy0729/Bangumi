@@ -5,11 +5,10 @@
  * @Last Modified time: 2025-12-17 21:39:54
  */
 import React, { useCallback } from 'react'
-import { useObserver } from 'mobx-react'
 import { Image, Touchable } from '@components'
 import { _ } from '@stores'
 import { info, stl } from '@utils'
-import { useNavigation } from '@utils/hooks'
+import { useNavigation, useObserver } from '@utils/hooks'
 import { GROUP_THUMB_MAP } from '@assets/images'
 import { getNodeId } from './utils'
 import { styles } from './styles'

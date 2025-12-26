@@ -7,9 +7,10 @@
 import React from 'react'
 import { SegmentedControl } from '@components'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
 import { COMPONENT, TYPE_DS } from './ds'
 import { styles } from './styles'
+
+import type { Ctx } from '../../types'
 
 let type: string
 

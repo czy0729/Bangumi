@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-07-31 18:28:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-06 00:33:36
+ * @Last Modified time: 2025-12-23 03:00:00
  */
 import { _ } from '@stores'
 import { MODEL_MONO_WORKS_ORDERBY } from '@constants'
-import { Loaded } from '@types'
 import { COMPONENT } from '../ds'
+
+import type { Loaded } from '@types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 

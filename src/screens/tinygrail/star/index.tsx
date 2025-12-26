@@ -5,14 +5,16 @@
  * @Last Modified time: 2024-11-19 18:33:29
  */
 import React from 'react'
-import { Component, Page } from '@components'
-import { _, StoreContext } from '@stores'
+import { Component } from '@components'
+import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { NavigationProps } from '@types'
+import TinygrailPage from '@tinygrail/_/page'
 import List from './component/list'
 import ToolBar from './component/tool-bar'
 import Header from './header'
 import { useTinygrailStarPage } from './hooks'
+
+import type { NavigationProps } from '@types'
 
 /** 通天塔 */
 const TinygrailStar = (props: NavigationProps) => {
@@ -21,10 +23,10 @@ const TinygrailStar = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-tinygrail-star'>
       <StoreContext.Provider value={id}>
-        <Page style={[_.container.tinygrail, _.container.header]}>
+        <TinygrailPage>
           <ToolBar />
           <List />
-        </Page>
+        </TinygrailPage>
         <Header />
       </StoreContext.Provider>
     </Component>

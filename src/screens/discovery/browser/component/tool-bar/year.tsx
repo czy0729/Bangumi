@@ -7,22 +7,27 @@
 import React from 'react'
 import { ToolBar } from '@components'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { DATA_BROWSER_AIRTIME } from '@constants'
-import { Ctx } from '../../types'
+
+import type { Ctx } from '../../types'
 
 function Year() {
   const { $ } = useStore<Ctx>()
-  const { airtime } = $.state
-  return (
-    <ToolBar.Popover
-      data={DATA_BROWSER_AIRTIME}
-      text={airtime || '年'}
-      type='desc'
-      heatmap='索引.年选择'
-      onSelect={$.onAirdateSelect}
-    />
-  )
+
+  return useObserver(() => {
+    const { airtime } = $.state
+
+    return (
+      <ToolBar.Popover
+        data={DATA_BROWSER_AIRTIME}
+        text={airtime || '年'}
+        type='desc'
+        heatmap='索引.年选择'
+        onSelect={$.onAirdateSelect}
+      />
+    )
+  })
 }
 
-export default ob(Year)
+export default Year

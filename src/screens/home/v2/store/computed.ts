@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:14:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-10 01:55:10
+ * @Last Modified time: 2025-12-23 02:35:36
  */
 import { computed } from 'mobx'
 import { _, calendarStore, collectionStore, subjectStore, systemStore, userStore } from '@stores'
@@ -15,11 +15,10 @@ import {
   MODEL_SETTING_HOME_LAYOUT,
   MODEL_SETTING_HOME_SORTING,
   MODEL_SUBJECT_TYPE,
-  PAD,
   WEB
 } from '@constants'
 import { getOriginConfig } from '@src/screens/user/origin-setting/utils'
-import { H_TABBAR, TABS_ITEM } from '../ds'
+import { TABS_ITEM } from '../ds'
 import State from './state'
 import { BANGUMI_INFO, INIT_ITEM, NAMESPACE, PAGE_LIMIT_GRID, PAGE_LIMIT_LIST } from './ds'
 
@@ -60,13 +59,6 @@ export default class Computed extends State {
       index: Math.min(Math.max(0, this.state.page), tabs.length - 1),
       routes: tabs
     })
-  }
-
-  /** 列表上内距 */
-  @computed get listPaddingTop() {
-    const basePadding = _.headerHeight + (this.tabs.length <= 1 ? _.sm : H_TABBAR)
-    const iosPadAdjustment = IOS && PAD ? _.statusBarHeight : 0
-    return basePadding + iosPadAdjustment
   }
 
   /** 自己用户 ID */

@@ -10,7 +10,8 @@ import { getTimestamp, info } from '@utils'
 import store from '@utils/store'
 import { DEV } from '@constants'
 import { levelList } from '@tinygrail/_/utils'
-import { EXCLUDE_STATE } from './ds'
+
+import type { EXCLUDE_STATE } from './ds'
 
 export default class ScreenTinygrailAdvanceState extends store<typeof EXCLUDE_STATE> {
   state = observable({
@@ -19,6 +20,10 @@ export default class ScreenTinygrailAdvanceState extends store<typeof EXCLUDE_ST
   })
 
   init = () => {
+    this.setState({
+      _loaded: true
+    })
+
     const { _loaded } = this.advanceState
     if (!_loaded) this.fetchAdvanceState()
   }

@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-05-06 17:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 13:24:01
+ * @Last Modified time: 2025-12-24 22:59:17
  */
 import { _ } from '@stores'
+import { APP_BAR_HEIGHT } from '@styles'
 
 export const styles = _.create({
   container: {
@@ -48,7 +49,7 @@ export const styles = _.create({
   indicator: {
     position: 'absolute',
     zIndex: 10,
-    top: _.appBarHeight + 14,
+    top: APP_BAR_HEIGHT + 14,
     right: 0,
     left: 0
   }

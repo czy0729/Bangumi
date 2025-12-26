@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2024-06-03 11:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-30 16:45:06
+ * @Last Modified time: 2025-12-23 01:22:35
  */
 import { systemStore, usersStore } from '@stores'
 import { debounce, info, loading, t2s, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
 import { MODEL_SEARCH_CAT, MODEL_SEARCH_LEGACY } from '@constants'
-import { Navigation, SearchCat, SearchLegacy } from '@types'
 import Fetch from './fetch'
-import { EXCLUDE_STATE } from './ds'
+
+import type { Navigation, SearchCat, SearchLegacy } from '@types'
+import type { EXCLUDE_STATE } from './ds'
 
 export default class Action extends Fetch {
   /** 处理初始参数 */

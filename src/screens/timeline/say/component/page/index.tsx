@@ -6,9 +6,8 @@
  */
 import React, { useCallback, useEffect, useRef } from 'react'
 import { View } from 'react-native'
-import { FixedTextarea, Flex, Loading, Page, Text } from '@components'
+import { FixedTextarea, Flex, HeaderPlaceholder, Loading, Page, Text } from '@components'
 import { _, userStore, useStore } from '@stores'
-import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import Chat from '../chat'
@@ -60,7 +59,8 @@ function Say() {
     }
 
     return (
-      <Page style={stl(_.container.screen, _.container.header)}>
+      <Page style={_.container.screen}>
+        <HeaderPlaceholder />
         <View style={_.container.flex}>
           <Chat forwardRef={connectRefScrollView} />
           {$.isNew && (

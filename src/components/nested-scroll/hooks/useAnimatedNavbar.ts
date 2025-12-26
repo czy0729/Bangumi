@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-12-27 15:44:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-27 15:45:21
+ * @Last Modified time: 2025-12-24 19:36:25
  */
 import type { Animated } from 'react-native'
-import { _ } from '@stores'
+import { STATUS_BAR_HEIGHT } from '@styles'
 
 /**
  * @fork https://github.com/kanelloc/react-native-animated-header-scroll-view/blob/main/src/hooks/useAnimateNavbar.ts
@@ -15,7 +15,7 @@ export const useAnimatedNavbar = (
   imageHeight: number,
   headerHeight: number
 ) => {
-  const HEADER_HEIGHT_DIFFERENCE = imageHeight - headerHeight - _.statusBarHeight
+  const HEADER_HEIGHT_DIFFERENCE = imageHeight - headerHeight - STATUS_BAR_HEIGHT
   const headerOpacity = scroll.interpolate({
     inputRange: [0, HEADER_HEIGHT_DIFFERENCE * 0.75, HEADER_HEIGHT_DIFFERENCE],
     outputRange: [0, 0, 1],

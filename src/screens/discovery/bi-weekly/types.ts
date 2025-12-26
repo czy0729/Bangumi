@@ -4,9 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-05-06 06:50:45
  */
-import { TopicId, WithNavigation } from '@types'
-import Store from './store'
-import { TYPE_DS } from './ds'
+import type { TopicId, WithNavigation } from '@types'
+import type Store from './store'
+import type { TYPE_DS } from './ds'
 
 export type Ctx = WithNavigation<{
   $: InstanceType<typeof Store>

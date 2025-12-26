@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-18 06:37:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-14 16:03:08
+ * @Last Modified time: 2025-12-26 22:40:39
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
+import { useInsets, useObserver } from '@utils/hooks'
 import i18n from '@constants/i18n'
 import Btn from '../btn'
 import { injectedJavaScript, TYPE_CHECK_LOGIN, TYPE_GET_LIST, TYPE_GET_REVIEW } from './utils'
@@ -23,6 +23,8 @@ let length: number
 
 function Login({ hide, onToggleHide, setData, setReviews }) {
   r(COMPONENT)
+
+  const { headerHeight } = useInsets()
 
   const [key, setKey] = useState(0)
   const [message, setMessage] = useState('检查状态中...')
@@ -63,10 +65,19 @@ function Login({ hide, onToggleHide, setData, setReviews }) {
 
   return useObserver(() => {
     const styles = memoStyles()
+
     return (
       <>
         {!hide && <View style={styles.mask} />}
-        <View style={stl(styles.fixed, hide && styles.hide)}>
+        <View
+          style={stl(
+            styles.fixed,
+            {
+              top: headerHeight + _.xs
+            },
+            hide && styles.hide
+          )}
+        >
           <View style={styles.container}>
             <WebView
               key={key}

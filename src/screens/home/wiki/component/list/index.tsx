@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 20:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-07 15:56:38
+ * @Last Modified time: 2025-12-27 06:30:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,8 +12,9 @@ import { _ } from '@stores'
 import { getCoverLarge, showImageViewer, simpleTime, stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { r } from '@utils/dev'
-import { Ctx } from '../../types'
 import { COMPONENT, COVER_HEIGHT, COVER_WIDTH } from './ds'
+
+import type { Ctx } from '../../types'
 
 class List extends React.Component<Ctx> {
   renderCovers() {
@@ -130,7 +131,7 @@ class List extends React.Component<Ctx> {
     r(COMPONENT)
 
     return (
-      <ScrollView contentContainerStyle={_.container.page}>
+      <ScrollView contentContainerStyle={_.container.bottom}>
         {this.renderCovers()}
         {this.renderEdits()}
       </ScrollView>

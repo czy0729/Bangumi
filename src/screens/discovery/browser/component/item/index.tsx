@@ -8,15 +8,17 @@ import React from 'react'
 import { useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
-import { SubjectTypeCn } from '@types'
-import { Ctx } from '../../types'
 import GridItem from './grid'
 import ListItem from './list'
 import { COMPONENT } from './ds'
 
+import type { SubjectTypeCn } from '@types'
+import type { Ctx } from '../../types'
+
 function Item({ item, index }) {
   const { $ } = useStore<Ctx>()
   const Component = $.isList ? ListItem : GridItem
+
   return (
     <Component
       item={item}

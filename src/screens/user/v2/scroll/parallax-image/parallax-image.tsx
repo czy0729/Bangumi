@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-23 17:29:33
+ * @Last Modified time: 2025-12-24 20:05:02
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -12,7 +12,9 @@ import { _ } from '@stores'
 import { getBlurRadius, HTMLDecode, open } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { useInsets } from '@utils/hooks'
 import { HOST_NETABA, IOS, TEXT_ONLY } from '@constants'
+import { IS_IOS_5_6_7_8 } from '@styles'
 import HeaderComponent from '../../component/header-component'
 import { H_HEADER } from '../../ds'
 import { COMPONENT_MAIN, DATA_ME, DATA_OTHER, DEFAULT_PROPS } from './ds'
@@ -39,6 +41,25 @@ export default memo(
     userId = '',
     username = ''
   }) => {
+    const { statusBarHeight } = useInsets()
+
+    const header = useMemo(
+      () =>
+        ({
+          left: {
+            position: 'absolute',
+            top: IOS ? statusBarHeight + (IS_IOS_5_6_7_8 ? 12 : 8) : statusBarHeight + 12,
+            left: 4
+          },
+          right: {
+            position: 'absolute',
+            top: IOS ? statusBarHeight + (IS_IOS_5_6_7_8 ? 12 : 8) : statusBarHeight + 12,
+            right: 8
+          }
+        } as const),
+      [statusBarHeight]
+    )
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const parallaxStyle: {
       transform: any[]
@@ -239,14 +260,23 @@ export default memo(
     const Content = useMemo(() => {
       const isMe = !!id && myUserId === id
       const data = isMe ? DATA_ME : DATA_OTHER
+
       return (
         <>
           {!!paramsUserId && (
-            <View style={styles.back}>
+            <View style={[header.left, styles.back]}>
               <IconBack navigation={navigation} color={_.__colorPlain__} />
             </View>
           )}
-          <View style={paramsUserId ? styles.more : isMe ? styles.menu : styles.more}>
+          <View
+            style={
+              paramsUserId
+                ? [header.right, styles.more]
+                : isMe
+                ? [header.left, styles.menu]
+                : [header.right, styles.more]
+            }
+          >
             <Popover style={styles.touch} data={data} onSelect={onSelect}>
               <Flex style={styles.icon} justify='center'>
                 <Iconfont name='md-menu' color={_.__colorPlain__} />
@@ -254,7 +284,7 @@ export default memo(
               <Heatmap right={-40} id='我的.右上角菜单' />
             </Popover>
           </View>
-          <View style={styles.timeline}>
+          <View style={[header.right, styles.timeline]}>
             <IconHeader
               name='md-image-aspect-ratio'
               color={_.__colorPlain__}
@@ -277,7 +307,7 @@ export default memo(
             />
           </View>
           {!paramsUserId && (
-            <View style={styles.setting}>
+            <View style={[header.right, styles.setting]}>
               <IconHeader
                 name='setting'
                 color={_.__colorPlain__}
@@ -294,7 +324,7 @@ export default memo(
           )}
         </>
       )
-    }, [id, myUserId, navigation, nickname, onSelect, paramsUserId, username])
+    }, [header, id, myUserId, navigation, nickname, onSelect, paramsUserId, username])
 
     return (
       <>

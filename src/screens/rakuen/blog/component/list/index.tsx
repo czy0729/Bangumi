@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 21:18:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 12:28:04
+ * @Last Modified time: 2025-12-23 05:20:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,8 +11,9 @@ import { ItemPost } from '@_'
 import { _ } from '@stores'
 import { info, keyExtractor, runAfter } from '@utils'
 import { ob } from '@utils/decorators'
-import { r } from '@utils/dev'
+import { logger, r } from '@utils/dev'
 import { t } from '@utils/fetch'
+import { HEADER_HEIGHT } from '@styles'
 import Top from '../top'
 import TouchScroll from '../touch-scroll'
 import { COMPONENT } from './ds'
@@ -73,7 +74,7 @@ class Blog extends React.Component<
           this.scrollTo(scrollIndex)
         }
       } catch (error) {
-        console.error('blog/index.js', 'jump', error)
+        logger.error('blog/index.js', 'jump', error)
       }
     }
   }
@@ -90,7 +91,7 @@ class Blog extends React.Component<
         viewOffset: 0
       })
     } catch (error) {
-      console.error('blog/index.js', 'scrollTo', error)
+      logger.error('blog/index.js', 'scrollTo', error)
     }
   }
 
@@ -105,7 +106,7 @@ class Blog extends React.Component<
       info('#0', 0.8)
       this.listView.scrollToOffset({
         animated: true,
-        offset: 0 - _.headerHeight
+        offset: 0 - HEADER_HEIGHT
       })
       return
     }
@@ -117,10 +118,10 @@ class Blog extends React.Component<
       this.listView.scrollToIndex({
         animated: true,
         index,
-        viewOffset: 0 + _.headerHeight
+        viewOffset: 0 + HEADER_HEIGHT
       })
     } catch (error) {
-      console.error('blog/index.js', 'scrollToThenFeedback', error)
+      logger.error('blog/index.js', 'scrollToThenFeedback', error)
     }
   }
 

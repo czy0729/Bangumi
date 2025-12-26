@@ -2,10 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:20:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-03 13:52:02
+ * @Last Modified time: 2025-12-23 01:22:43
  */
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE, RESET_STATE, STATE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, RESET_STATE } from './ds'
+
+import type { STATE } from './ds'
 
 /** 搜索页面状态机 */
 export default class ScreenSearch extends Action {

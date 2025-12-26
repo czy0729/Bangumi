@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-08-10 04:26:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-01 23:37:33
+ * @Last Modified time: 2025-12-27 06:50:46
  */
 import React from 'react'
 import { View } from 'react-native'
 import { HardwareTextureBlurView } from '@components'
 import { _, systemStore } from '@stores'
 import { stl } from '@utils'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
+import { useInsets, useObserver } from '@utils/hooks'
 import { IOS } from '@constants'
-import { COMPONENT } from './ds'
+import { COMPONENT, H_TABBAR } from './ds'
 import { memoStyles } from './styles'
 
 /**
@@ -19,35 +20,60 @@ import { memoStyles } from './styles'
  *  - iOS 因渲染原因, 会渲染一个等同于 Tabs 长度的毛玻璃做占位
  *  - 安卓是正常布局
  */
-export const BlurViewTab = ob(({ length = 0 }) => {
-  const styles = memoStyles()
-  const { androidBlur, blurBottomTabs } = systemStore.setting
-  if (!IOS && !(androidBlur && blurBottomTabs)) {
+export function BlurViewTab({ length = 0 }) {
+  r(COMPONENT)
+
+  const { headerHeight, statusBarHeight } = useInsets()
+
+  return useObserver(() => {
+    const styles = memoStyles()
+    const { androidBlur, blurBottomTabs } = systemStore.setting
+
+    if (!IOS && !(androidBlur && blurBottomTabs)) {
+      return (
+        <View
+          style={stl(
+            styles.android,
+            {
+              height: headerHeight + H_TABBAR
+            },
+            styles.view,
+            length <= 1 && {
+              height: headerHeight + _.sm + _.ios(-statusBarHeight || 0, 0)
+            }
+          )}
+          removeClippedSubviews
+          pointerEvents='none'
+        />
+      )
+    }
+
     return (
-      <View
-        style={stl(styles.android, styles.view, length <= 1 && styles.noTab)}
-        removeClippedSubviews
-        pointerEvents='none'
+      <HardwareTextureBlurView
+        style={stl(
+          _.ios(
+            [
+              styles.ios,
+              {
+                top: _.device(-statusBarHeight || 0, 0),
+                left: -_.window.width * length,
+                height: headerHeight + H_TABBAR + (statusBarHeight || 0)
+              }
+            ],
+            [
+              styles.android,
+              {
+                height: headerHeight + H_TABBAR
+              }
+            ]
+          ),
+          length <= 1 && {
+            height: headerHeight + _.sm + _.ios(-statusBarHeight || 0, 0)
+          }
+        )}
       />
     )
-  }
-
-  return (
-    <HardwareTextureBlurView
-      style={stl(
-        _.ios(
-          [
-            styles.ios,
-            {
-              left: -_.window.width * length
-            }
-          ],
-          styles.android
-        ),
-        length <= 1 && styles.noTab
-      )}
-    />
-  )
-}, COMPONENT)
+  })
+}
 
 export default BlurViewTab

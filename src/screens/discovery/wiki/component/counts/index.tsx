@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-16 21:00:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 08:15:11
+ * @Last Modified time: 2025-12-25 05:16:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,9 +11,10 @@ import { PreventTouchPlaceholder } from '@_'
 import { _, systemStore, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { LABEL_DS } from '../../ds'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function Counts() {
   const { $ } = useStore<Ctx>()

@@ -5,9 +5,9 @@
  * @Last Modified time: 2025-12-15 19:02:06
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { ItemCollections } from '@_'
 import { collectionStore, subjectStore, useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { COMPONENT } from './ds'
 

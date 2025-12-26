@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 20:57:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-07 15:16:51
+ * @Last Modified time: 2025-12-23 03:00:14
  */
 import React from 'react'
 import { HeaderV2, HeaderV2Popover } from '@components'
@@ -11,8 +11,9 @@ import { open } from '@utils'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
 import { TEXT_MENU_SPLIT } from '@constants'
-import { Ctx } from '../types'
 import { COMPONENT, DATA } from './ds'
+
+import type { Ctx } from '../types'
 
 function Header() {
   const { $ } = useStore<Ctx>(COMPONENT)

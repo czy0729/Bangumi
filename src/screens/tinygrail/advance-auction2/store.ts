@@ -10,7 +10,8 @@ import { getTimestamp, info } from '@utils'
 import store from '@utils/store'
 import { DEV } from '@constants'
 import { levelList, SORT_GF, sortList } from '@tinygrail/_/utils'
-import { EXCLUDE_STATE } from './ds'
+
+import type { EXCLUDE_STATE } from './ds'
 
 export const SORT_DS = [SORT_GF] as const
 
@@ -24,11 +25,13 @@ export default class ScreenTinygrailAdvanceAuction2 extends store<typeof EXCLUDE
   })
 
   init = async () => {
+    this.setState({
+      _loaded: true
+    })
+
     const { _loaded } = this.advanceAuctionList
     tinygrailStore.fetchAuction()
-
     if (!_loaded) this.fetchAdvanceAuctionList(false)
-
     this.fetchCharaAll()
   }
 

@@ -2,11 +2,21 @@
  * @Author: czy0729
  * @Date: 2023-03-10 18:42:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-12 06:36:11
+ * @Last Modified time: 2025-12-24 19:14:03
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Component, Expand, Flex, Input, Page, ScrollView, SwitchPro, Text } from '@components'
+import {
+  Component,
+  Expand,
+  Flex,
+  HeaderPlaceholder,
+  Input,
+  Page,
+  ScrollView,
+  SwitchPro,
+  Text
+} from '@components'
 import { _, systemStore } from '@stores'
 import { date } from '@utils'
 import { useObserver } from '@utils/hooks'
@@ -19,9 +29,11 @@ const Webhook = () => {
   return useObserver(() => {
     const styles = memoStyles()
     const { webhook, webhookUrl } = systemStore.setting
+
     return (
       <Component id='screen-webhook'>
-        <Page style={styles.container}>
+        <Page style={_.container.wind}>
+          <HeaderPlaceholder style={_.mt.sm} />
           <Flex>
             <Flex.Item>
               <Text size={15} bold>

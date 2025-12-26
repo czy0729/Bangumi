@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 01:43:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-05 15:40:13
+ * @Last Modified time: 2025-12-27 06:28:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,9 +14,10 @@ import { cnjp, desc, HTMLDecode, showImageViewer, stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { WEB } from '@constants'
-import { Ctx } from '../../types'
 import { COMPONENT, IMAGE_HEIGHT, IMAGE_WIDTH } from './ds'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function List() {
   const { $, navigation } = useStore<Ctx>()
@@ -30,7 +31,7 @@ function List() {
   const { filterEps = 0, epsThumbsHeader = {} } = $.params
 
   return (
-    <ScrollView contentContainerStyle={_.container.page} onScroll={$.onScroll}>
+    <ScrollView contentContainerStyle={_.container.bottom} onScroll={$.onScroll}>
       {eps.map((item, index) => (
         <Touchable
           key={item.id}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-07 00:56:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-21 18:46:32
+ * @Last Modified time: 2025-12-24 19:09:07
  */
 import { useCallback, useState } from 'react'
 import dayjs from 'dayjs'
@@ -12,8 +12,10 @@ import { update } from '@utils/kv'
 import treemap from '@utils/thirdParty/treemap'
 import { DEV, IOS } from '@constants'
 import advanceJSON from '@assets/json/advance.json'
-import { AnyObject, UserId } from '@types'
+import { HEADER_HEIGHT } from '@styles'
 import { FILTER_RATE, LIST } from './ds'
+
+import type { AnyObject, UserId } from '@types'
 
 export function timeDiff() {
   const start = dayjs('2019-03-30')
@@ -125,7 +127,7 @@ export function useTreemapSquarify() {
           x: 0,
           y: 0,
           width: _.window.width,
-          height: _.window.height - _.headerHeight - 64 - (IOS ? 28 : 0)
+          height: _.window.height - HEADER_HEIGHT - 64 - (IOS ? 28 : 0)
         },
         nodes
       },

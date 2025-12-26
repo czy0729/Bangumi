@@ -110,7 +110,7 @@ export type NavigationProps<
 
 export type WithNavigation<T = {}> = Override<
   {
-    navigation: Navigation
+    navigation?: Navigation
   },
   T
 >

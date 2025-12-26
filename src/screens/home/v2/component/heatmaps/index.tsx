@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-04-21 10:22:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-08 06:05:56
+ * @Last Modified time: 2025-12-24 19:42:35
  */
 import React from 'react'
 import { Heatmap } from '@components'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
+import { TABS_HEADER_HEIGHT } from '@styles'
 import { COMPONENT } from './ds'
 
 function Heatmaps() {
@@ -18,13 +19,13 @@ function Heatmaps() {
     <>
       <Heatmap
         right={_.wind + 62}
-        bottom={_.window.height - _.tabsHeaderHeight - 12}
+        bottom={_.window.height - TABS_HEADER_HEIGHT - 12}
         id='首页.标签页切换'
         transparent
       />
       <Heatmap
         right={_.wind}
-        bottom={_.window.height - _.tabsHeaderHeight - 12}
+        bottom={_.window.height - TABS_HEADER_HEIGHT - 12}
         id='首页.标签页点击'
         transparent
       />

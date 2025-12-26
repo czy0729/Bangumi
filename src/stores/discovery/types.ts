@@ -223,25 +223,28 @@ export type Wiki = DeepPartial<{
   last: Record<'all' | 'anime' | 'book' | 'music' | 'game' | 'real', WikiItem[]>
 }>
 
-/** 资讯 */
-export type News = DeepPartial<{
-  list: {
-    aid: Id
+/** 资讯项 */
+export type NewsItem = {
+  aid: Id
+  url: string
+  author: string
+  origin: string
+  cover: {
     url: string
-    author: string
-    origin: string
-    cover: {
-      url: string
-      headers: {
-        Referer: string
-      }
+    headers: {
+      Referer: string
     }
-    title: string
-    intro: string
-    subtitle: string
-  }[]
-  _loaded: number
-}>
+  }
+  title: string
+  intro: string
+  subtitle: string
+}
+
+/** 资讯 */
+export type News = {
+  list: NewsItem[]
+  _loaded: Loaded
+}
 
 /** DOLLARS (聊天室) */
 export type Dollars = Override<

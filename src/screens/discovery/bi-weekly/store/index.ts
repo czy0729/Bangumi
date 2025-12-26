@@ -5,7 +5,9 @@
  * @Last Modified time: 2024-11-30 04:25:14
  */
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE, RESET_STATE, STATE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, RESET_STATE } from './ds'
+
+import type { STATE } from './ds'
 
 export default class ScreenBiWeekly extends Action {
   init = async () => {

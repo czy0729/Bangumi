@@ -5,14 +5,14 @@
  * @Last Modified time: 2025-05-15 07:20:45
  */
 import React, { useCallback, useRef, useState } from 'react'
-import { ScrollView, View } from 'react-native'
-import { Component, Page } from '@components'
-import { _ } from '@stores'
+import { Component, HeaderPlaceholder, Page } from '@components'
 import { feedback, scrollToView } from '@utils'
 import { useObserver } from '@utils/hooks'
 import Menu from './component/menu'
 import Scroll from './component/scroll'
 import Header from './header'
+
+import type { ScrollView, View } from 'react-native'
 
 /** 小圣杯游戏指南 */
 const TinygrailWiki = () => {
@@ -35,7 +35,8 @@ const TinygrailWiki = () => {
 
   return useObserver(() => (
     <Component id='screen-tinygrail-wiki'>
-      <Page style={_.container.header}>
+      <Page>
+        <HeaderPlaceholder />
         <Scroll forwardRef={handleForwardRef} forwardItemRef={handleForwardItemRef} />
         <Menu show={show} onToggle={setShow} onScrollTo={handleScrollTo} />
       </Page>

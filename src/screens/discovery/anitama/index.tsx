@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:34:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-29 12:33:45
+ * @Last Modified time: 2025-12-23 06:11:39
  */
 import React from 'react'
-import { Component, Page } from '@components'
+import { Component, HeaderPlaceholder, Page } from '@components'
 import { _, StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import List from './component/list'
@@ -24,8 +24,10 @@ const Anitama = (props: NavigationProps) => {
       <StoreContext.Provider value={id}>
         <Page
           style={_.select(_.container.bg, _.container.plain)}
-          loaded={$.state._loaded && $.state.show}
+          loaded={$.state._loaded}
+          loading={!$.state.show}
         >
+          <HeaderPlaceholder />
           <List />
           <Pagination />
         </Page>

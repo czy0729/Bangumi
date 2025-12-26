@@ -7,26 +7,31 @@
 import React from 'react'
 import { SegmentedControl } from '@components'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { TYPE_DS } from '../../ds'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+import type { Ctx } from '../../types'
+
 function Type() {
-  const { $ } = useStore<Ctx>()
-  const styles = memoStyles()
-  const { type } = $.state
-  return (
-    <SegmentedControl
-      key={type}
-      style={styles.segment}
-      size={11}
-      values={TYPE_DS}
-      selectedIndex={type === TYPE_DS[0] ? 0 : 1}
-      onValueChange={$.onType}
-    />
-  )
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => {
+    const styles = memoStyles()
+    const { type } = $.state
+
+    return (
+      <SegmentedControl
+        key={type}
+        style={styles.segment}
+        size={11}
+        values={TYPE_DS}
+        selectedIndex={type === TYPE_DS[0] ? 0 : 1}
+        onValueChange={$.onType}
+      />
+    )
+  })
 }
 
-export default ob(Type, COMPONENT)
+export default Type

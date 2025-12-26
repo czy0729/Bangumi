@@ -5,25 +5,28 @@
  * @Last Modified time: 2024-12-16 21:32:28
  */
 import React from 'react'
-import { HeaderV2, Page } from '@components'
 import { IconHeader } from '@_'
 import { _ } from '@stores'
 import { alert } from '@utils'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
-import { NavigationProps } from '@types'
+import TinygrailHeader from '@tinygrail/_/header'
+import TinygrailPage from '@tinygrail/_/page'
 import Menus from './menus'
 import { HM } from './ds'
+
+import type { NavigationProps } from '@types'
+
+// const { headerStyle } = useInsets()
 
 /** 高级功能 */
 const TinygrailAdvance = ({ navigation }: NavigationProps) => {
   return useObserver(() => (
     <>
-      <Page style={[_.container.tinygrail, _.container.header]}>
+      <TinygrailPage>
         <Menus navigation={navigation} />
-      </Page>
-      <HeaderV2
-        backgroundStyle={_.container.tinygrail}
+      </TinygrailPage>
+      <TinygrailHeader
         title='高级功能'
         hm={HM}
         headerRight={() => (

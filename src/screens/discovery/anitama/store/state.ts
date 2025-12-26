@@ -11,6 +11,8 @@ import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 export default class State extends Store<typeof STATE> {
   state = observable(STATE)
 
+  prevPage: number = null
+
   save = () => {
     return this.saveStorage(NAMESPACE, EXCLUDE_STATE)
   }

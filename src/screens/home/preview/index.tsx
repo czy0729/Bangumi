@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-10-21 12:29:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 11:16:01
+ * @Last Modified time: 2025-12-27 06:29:19
  */
 import React from 'react'
-import { Component, Page } from '@components'
+import { Component, HeaderPlaceholder, Page } from '@components'
 import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import List from './component/list'
@@ -22,6 +22,7 @@ const Preview = (props: NavigationProps) => {
     <Component id='screen-preview'>
       <StoreContext.Provider value={id}>
         <Page loaded={$.state._loaded}>
+          <HeaderPlaceholder />
           <List />
         </Page>
         <Header />

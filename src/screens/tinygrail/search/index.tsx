@@ -5,16 +5,19 @@
  * @Last Modified time: 2025-04-04 07:49:17
  */
 import React from 'react'
-import { Component, Flex, Page } from '@components'
+import { Component, Flex } from '@components'
 import { _, StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { NavigationProps } from '@types'
+import TinygrailHeader from '@tinygrail/_/header'
+import TinygrailPage from '@tinygrail/_/page'
 import History from './component/history'
 import Result from './component/result'
 import SearchBar from './component/search-bar'
-import Header from './header'
 import { useTinygrailSearchPage } from './hooks'
+import { HM } from './ds'
 import { memoStyles } from './styles'
+
+import type { NavigationProps } from '@types'
 
 /** 人物直达 */
 const TinygrailSearch = (props: NavigationProps) => {
@@ -25,13 +28,13 @@ const TinygrailSearch = (props: NavigationProps) => {
     return (
       <Component id='screen-tinygrail-search'>
         <StoreContext.Provider value={id}>
-          <Page style={[_.container.tinygrail, _.container.header]}>
+          <TinygrailPage>
             <Flex style={styles.searchBar}>
               <SearchBar />
             </Flex>
             {$.state.list.length ? <Result style={_.mt.sm} /> : <History style={_.mt.sm} />}
-          </Page>
-          <Header />
+          </TinygrailPage>
+          <TinygrailHeader title='人物直达' hm={HM} />
         </StoreContext.Provider>
       </Component>
     )

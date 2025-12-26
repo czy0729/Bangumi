@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-03-29 03:53:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-28 20:43:03
+ * @Last Modified time: 2025-12-21 22:51:07
  */
 import { _ } from '@stores'
 
 export const styles = _.create({
   toolBar: {
-    paddingTop: _.headerHeight + _.sm,
     paddingBottom: 20
   },
   item: {

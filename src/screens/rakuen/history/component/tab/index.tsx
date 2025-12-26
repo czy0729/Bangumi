@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-03-15 17:19:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-03 18:13:59
+ * @Last Modified time: 2025-12-25 05:58:45
  */
 import React, { useCallback, useMemo } from 'react'
 import { Flex, TabBar, TabView, Text } from '@components'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
+import { useInsets, useObserver } from '@utils/hooks'
 import { TABS } from '../../ds'
 import renderScene from './renderScene'
 import { COMPONENT } from './ds'
@@ -17,6 +17,8 @@ import type { Ctx } from '../../types'
 
 function Tab() {
   const { $ } = useStore<Ctx>(COMPONENT)
+
+  const { headerStyle } = useInsets()
 
   return useObserver(() => {
     const styles = memoStyles()
@@ -71,7 +73,7 @@ function Tab() {
     return (
       <TabView
         key={_.orientation}
-        style={_.container.header}
+        style={headerStyle}
         lazyPreloadDistance={0}
         navigationState={navigationState}
         renderTabBar={handleRenderTabBar}

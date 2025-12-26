@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:26:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-25 20:57:06
+ * @Last Modified time: 2025-12-23 05:22:58
  */
 import * as Device from 'expo-device'
 import { _, systemStore, userStore } from '@stores'
@@ -18,6 +18,7 @@ import {
   VERSION_GITHUB_RELEASE
 } from '@constants'
 import { IOS_IPA } from '@src/config'
+import { HEADER_HEIGHT, STATUS_BAR_HEIGHT } from '@styles'
 import Action from './action'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
 
@@ -134,8 +135,8 @@ export default class ScreenHomeV2 extends Action {
         t: date('Y-m-d H:i:s', getTimestamp()),
         ipa: IOS_IPA,
         l: {
-          statusBar: _.statusBarHeight,
-          header: _.headerHeight,
+          statusBar: STATUS_BAR_HEIGHT,
+          header: HEADER_HEIGHT,
           tarBar: _.tabBarHeight,
           isDark: _.isDark,
           deepDark: _.deepDark,

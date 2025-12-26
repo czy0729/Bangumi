@@ -7,10 +7,11 @@
 import { useState } from 'react'
 import { useInitStore } from '@stores'
 import { usePageLifecycle } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import store from './store'
 import { getData } from './utils'
-import { Ctx, Data } from './types'
+
+import type { NavigationProps } from '@types'
+import type { Ctx, Data } from './types'
 
 let fetched = false
 let memo = null

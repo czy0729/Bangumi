@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-03-16 01:46:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 07:11:16
+ * @Last Modified time: 2025-12-26 21:56:24
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
-import { FixedTextarea, Input, Loading, Page, Text } from '@components'
+import { FixedTextarea, HeaderPlaceholder, Input, Loading, Page, Text } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
-import { Ctx } from '../../types'
 import Chat from '../chat'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../types'
 
 class PM extends React.Component<Ctx> {
   scrollView: any
@@ -62,8 +63,10 @@ class PM extends React.Component<Ctx> {
   render() {
     const { $ } = this.props
     const { value } = $.state
+
     return (
-      <Page style={[_.container.header, _.container.screen]}>
+      <Page style={_.container.screen}>
+        <HeaderPlaceholder />
         {$.pmParams._loaded || $.pmDetail._loaded ? (
           <ScrollView
             ref={this.connectRefScrollView}

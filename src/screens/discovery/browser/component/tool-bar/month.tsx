@@ -7,22 +7,27 @@
 import React from 'react'
 import { ToolBar } from '@components'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { DATA_BROWSER_MONTH } from '@constants'
-import { Ctx } from '../../types'
+import { useObserver } from '@utils/hooks'
+import { DATA_MONTH } from './ds'
+
+import type { Ctx } from '../../types'
 
 function Month() {
   const { $ } = useStore<Ctx>()
-  const { month } = $.state
-  return (
-    <ToolBar.Popover
-      data={['全部', ...DATA_BROWSER_MONTH]}
-      text={`${month}月` || '月'}
-      type='desc'
-      heatmap='索引.月选择'
-      onSelect={$.onMonthSelect}
-    />
-  )
+
+  return useObserver(() => {
+    const { month } = $.state
+
+    return (
+      <ToolBar.Popover
+        data={DATA_MONTH}
+        text={`${month}月` || '月'}
+        type='desc'
+        heatmap='索引.月选择'
+        onSelect={$.onMonthSelect}
+      />
+    )
+  })
 }
 
-export default ob(Month)
+export default Month

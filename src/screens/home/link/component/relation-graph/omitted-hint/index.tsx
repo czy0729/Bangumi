@@ -6,8 +6,8 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Text, Touchable } from '@components'
+import { useObserver } from '@utils/hooks'
 import { styles } from './styles'
 
 import type { Props } from './types'

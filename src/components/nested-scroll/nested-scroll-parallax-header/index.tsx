@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-27 15:25:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-01 21:07:55
+ * @Last Modified time: 2025-12-24 19:36:44
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -10,6 +10,7 @@ import PagerView from 'react-native-pager-view'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
 import { NestedScrollView, NestedScrollViewHeader } from '@sdcx/nested-scroll'
+import { HEADER_HEIGHT, STATUS_BAR_HEIGHT, TABS_HEADER_HEIGHT } from '@styles'
 import { AnimatedNavbar } from '../animated-navbar'
 import { useAnimatedNavbar } from '../hooks/useAnimatedNavbar'
 import { useAnimateScrollView } from '../hooks/useAnimatedScrollView'
@@ -21,7 +22,6 @@ import { styles } from './styles'
 
 import type { NestedScrollEvent } from '@sdcx/nested-scroll'
 import type { Props as NestedScrollParallaxHeaderProps } from './types'
-
 export type { NestedScrollParallaxHeaderProps }
 
 const AnimatedPagerView = Animated.createAnimatedComponent<typeof PagerView>(PagerView)
@@ -32,7 +32,7 @@ export function NestedScrollParallaxHeader({
   imageHeight = _.parallaxImageHeight,
   imageSource,
   blurRadius,
-  stickyHeight = _.tabsHeaderHeight,
+  stickyHeight = TABS_HEADER_HEIGHT,
   spacing,
   tabStyle,
   tabBarLocalKey,
@@ -66,7 +66,7 @@ export function NestedScrollParallaxHeader({
   const [headerOpacity, overflowHeaderOpacity] = useAnimatedNavbar(
     scroll,
     imageHeight,
-    _.headerHeight
+    HEADER_HEIGHT
   )
 
   const onScroll = useCallback(
@@ -87,8 +87,8 @@ export function NestedScrollParallaxHeader({
   const elNavbar = useMemo(
     () => (
       <AnimatedNavbar
-        statusBarHeight={_.statusBarHeight}
-        headerHeight={_.headerHeight}
+        statusBarHeight={STATUS_BAR_HEIGHT}
+        headerHeight={HEADER_HEIGHT}
         headerOpacity={headerOpacity}
         overflowHeaderOpacity={overflowHeaderOpacity}
         OverflowHeaderComponent={OverflowHeaderComponent}
@@ -101,7 +101,7 @@ export function NestedScrollParallaxHeader({
   const elParallaxHeader = useMemo(
     () => (
       <ParallaxHeader
-        topBarHeight={_.headerHeight}
+        topBarHeight={HEADER_HEIGHT}
         imageHeight={imageHeight}
         imageSource={imageSource}
         blurRadius={blurRadius}

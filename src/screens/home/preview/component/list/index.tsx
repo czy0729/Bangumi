@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 01:43:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 05:16:21
+ * @Last Modified time: 2025-12-27 06:29:09
  */
 import React from 'react'
 import { Image, ScrollView, Text, Touchable } from '@components'
@@ -60,7 +60,7 @@ function List() {
     }))
 
     return (
-      <ScrollView style={_.mt.sm} contentContainerStyle={_.container.page} onScroll={$.onScroll}>
+      <ScrollView style={_.mt.sm} contentContainerStyle={_.container.bottom} onScroll={$.onScroll}>
         {images.map((item, index) => (
           <InView key={item} style={styles.item} y={styles.item.minHeight * (index + 1)}>
             <Touchable withoutFeedback onPress={() => showImageViewer(viewerData, index)}>

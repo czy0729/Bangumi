@@ -22,8 +22,9 @@ import {
   TEXT_MENU_SPLIT_RIGHT,
   TEXT_MENU_TOOLBAR
 } from '@constants'
-import { SubjectId, SubjectType } from '@types'
 import State from './state'
+
+import type { SubjectId, SubjectType } from '@types'
 
 export default class Computed extends State {
   /** 日期 */

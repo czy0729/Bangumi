@@ -5,10 +5,10 @@
  * @Last Modified time: 2025-12-17 02:19:13
  */
 import React, { useCallback, useEffect, useState } from 'react'
-import { useObserver } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { Notice } from '@_'
 import { _ } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { findRelationPath } from './utils'
 import { memoStyles } from './styles'
 

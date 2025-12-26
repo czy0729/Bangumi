@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-07-15 11:51:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-06 01:31:24
+ * @Last Modified time: 2025-12-27 06:21:07
  */
 import React from 'react'
-import { Component, Page, Text } from '@components'
+import { Component, HeaderPlaceholder, Page, Text } from '@components'
 import { FilterSwitch } from '@_'
 import { _, StoreContext, userStore } from '@stores'
 import { useObserver } from '@utils/hooks'
@@ -24,6 +24,7 @@ const NSFW = (props: NavigationProps) => {
     <Component id='screen-nsfw'>
       <StoreContext.Provider value={id}>
         <Page loaded={$.state._loaded}>
+          <HeaderPlaceholder />
           {userStore.isLimit ? (
             <>
               <FilterSwitch name='NSFW' />

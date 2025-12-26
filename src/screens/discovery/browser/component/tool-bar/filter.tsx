@@ -7,26 +7,32 @@
 import React from 'react'
 import { ToolBar } from '@components'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { MODEL_SUBJECT_TYPE, SUBJECT_TYPE } from '@constants'
-import { SubjectTypeCn } from '@types'
-import { Ctx } from '../../types'
+import { useObserver } from '@utils/hooks'
+import { MODEL_SUBJECT_TYPE } from '@constants'
+import { DATA_FILTER } from './ds'
+
+import type { SubjectTypeCn } from '@types'
+import type { Ctx } from '../../types'
 
 function Filter() {
   const { $ } = useStore<Ctx>()
-  const { type } = $.state
-  const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
-  return (
-    <ToolBar.Popover
-      data={SUBJECT_TYPE.map(item => item.title)}
-      icon='md-filter-list'
-      iconColor={_.colorDesc}
-      text={typeCn}
-      type='desc'
-      heatmap='索引.类型选择'
-      onSelect={$.onTypeSelect}
-    />
-  )
+
+  return useObserver(() => {
+    const { type } = $.state
+    const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
+
+    return (
+      <ToolBar.Popover
+        data={DATA_FILTER}
+        icon='md-filter-list'
+        iconColor={_.colorDesc}
+        text={typeCn}
+        type='desc'
+        heatmap='索引.类型选择'
+        onSelect={$.onTypeSelect}
+      />
+    )
+  })
 }
 
-export default ob(Filter)
+export default Filter

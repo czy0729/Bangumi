@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2024-05-16 13:09:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-02 10:22:29
+ * @Last Modified time: 2025-12-23 01:52:51
  */
 import { useCallback, useRef, useState } from 'react'
 import { uiStore, useInitStore } from '@stores'
 import { usePageLifecycle } from '@utils/hooks'
-import { NavigationProps, ScrollEvent } from '@types'
 import store from './store'
 import { getData, initBangumiData } from './utils'
-import { Ctx, Data } from './types'
+
+import type { NavigationProps, ScrollEvent } from '@types'
+import type { Ctx, Data } from './types'
 
 let fetched = false
 let memo = null

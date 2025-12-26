@@ -7,7 +7,9 @@
 import { rakuenStore } from '@stores'
 import { loadGroupData } from '../utils'
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE } from './ds'
+
+import type { STATE } from './ds'
 
 /** 小组页面状态机 */
 export default class ScreenMine extends Action {

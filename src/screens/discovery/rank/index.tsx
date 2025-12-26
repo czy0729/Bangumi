@@ -5,7 +5,7 @@
  * @Last Modified time: 2025-10-29 23:22:50
  */
 import React from 'react'
-import { Component, Page } from '@components'
+import { Component, HeaderPlaceholder, Page } from '@components'
 import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import FlatList from './component/flat-list'
@@ -23,6 +23,7 @@ const Rank = (props: NavigationProps) => {
     <Component id='screen-rank'>
       <StoreContext.Provider value={id}>
         <Page loaded={$.state._loaded} loading={$.loading}>
+          <HeaderPlaceholder />
           {$.state.pagination ? <Scroll /> : <FlatList />}
         </Page>
         <Header />

@@ -5,15 +5,18 @@
  * @Last Modified time: 2024-12-17 05:22:03
  */
 import React from 'react'
-import { Component, HeaderV2, Page } from '@components'
+import { Component } from '@components'
 import { IconHeader } from '@_'
 import { _, StoreContext } from '@stores'
 import { alert } from '@utils'
 import { t } from '@utils/fetch'
-import { NavigationProps } from '@types'
+import TinygrailHeader from '@tinygrail/_/header'
+import TinygrailPage from '@tinygrail/_/page'
 import { useTinygrailAdvanceSacrificePage } from './hooks'
 import List from './list'
 import { HM } from './ds'
+
+import type { NavigationProps } from '@types'
 
 /** 献祭推荐 */
 const TinygrailAdvanceSacrifice = (props: NavigationProps) => {
@@ -22,11 +25,10 @@ const TinygrailAdvanceSacrifice = (props: NavigationProps) => {
   return (
     <Component id='screen-tinygrail-advance-sacrifice'>
       <StoreContext.Provider value={id}>
-        <Page style={[_.container.tinygrail, _.container.header]}>
+        <TinygrailPage>
           <List />
-        </Page>
-        <HeaderV2
-          backgroundStyle={_.container.tinygrail}
+        </TinygrailPage>
+        <TinygrailHeader
           title='献祭推荐'
           hm={HM}
           headerRight={() => (

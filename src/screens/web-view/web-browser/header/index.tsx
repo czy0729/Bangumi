@@ -18,6 +18,9 @@ function Header({ title, url, onRefresh }) {
 
   return useObserver(() => (
     <HeaderV2
+      headerTitleStyle={{
+        paddingRight: 40
+      }}
       title={title || '浏览器'}
       hm={HM}
       headerRight={() => (

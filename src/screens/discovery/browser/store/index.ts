@@ -5,7 +5,9 @@
  * @Last Modified time: 2024-05-25 08:21:24
  */
 import Action from './action'
-import { DATE, EXCLUDE_STATE, NAMESPACE, RESET_STATE, STATE } from './ds'
+import { DATE, EXCLUDE_STATE, NAMESPACE, RESET_STATE } from './ds'
+
+import type { STATE } from './ds'
 
 export default class ScreenBrowser extends Action {
   init = async () => {

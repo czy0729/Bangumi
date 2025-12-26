@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2024-11-08 06:06:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-09 19:01:18
+ * @Last Modified time: 2025-12-25 05:18:27
  */
 import React, { useCallback } from 'react'
 import { SegmentedControl } from '@components'
 import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { COMPONENT, DATA } from './ds'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function Type() {
   const { $ } = useStore<Ctx>(COMPONENT)

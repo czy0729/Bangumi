@@ -2,22 +2,23 @@
  * @Author: czy0729
  * @Date: 2025-06-09 15:12:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-15 20:19:34
+ * @Last Modified time: 2025-12-22 20:43:13
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
+import { HeaderPlaceholder } from '@components'
 import { ScrollView } from '@_'
 import { _, useStore } from '@stores'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { ITEM_MARGIN, NUM_COLUMNS } from '../../ds'
-import { Ctx, List as ListType } from '../../types'
 import Empty from '../empty'
 import Item from '../item'
 import Pagination from '../pagination'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
+import type { Ctx, List as ListType } from '../../types'
 function List() {
   r(COMPONENT)
 
@@ -65,6 +66,7 @@ function List() {
         onRefresh={handleRefresh}
       >
         <View style={styles.wrap}>
+          <HeaderPlaceholder />
           <View style={styles.list}>
             {columns.map((column, index) => {
               let y = 0

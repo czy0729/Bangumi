@@ -5,9 +5,8 @@
  * @Last Modified time: 2025-12-08 07:08:26
  */
 import React, { useMemo } from 'react'
-import { _ } from '@stores'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
+import { useInsets, useObserver } from '@utils/hooks'
 import TinygrailTabs from '@tinygrail/_/tabs-v2'
 import { TABS } from '../../ds'
 import ToolBar from '../tool-bar'
@@ -17,11 +16,13 @@ import { COMPONENT } from './ds'
 function Tabs() {
   r(COMPONENT)
 
+  const { headerStyle } = useInsets()
+
   const elToolBar = useMemo(() => <ToolBar />, [])
 
   return useObserver(() => (
     <TinygrailTabs
-      style={_.container.header}
+      style={headerStyle}
       routes={TABS}
       renderContentHeaderComponent={elToolBar}
       renderItem={renderItem}

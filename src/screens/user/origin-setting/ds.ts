@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-19 07:09:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-12 06:24:04
+ * @Last Modified time: 2025-12-26 21:56:05
  */
 import { HOST_AC_SEARCH } from '@constants'
 
@@ -76,11 +76,12 @@ export const TYPES_DS = [
 
 export const SITES_ANIME = [
   {
-    id: 'anime|anich',
-    name: 'Anich',
-    url: 'https://anich.emmmm.eu.org/bangumi/search/[CN]',
+    id: 'anime|cycanime',
+    name: '次元城动画',
+    url: 'https://www.cycani.org/search.html?wd=[CN]',
+    icon: require('@assets/images/icon/cycanime.png'),
     sort: 0,
-    active: 0
+    active: 1
   },
   {
     id: 'anime|libvio',
@@ -108,14 +109,6 @@ export const SITES_ANIME = [
     active: 0
   },
   {
-    id: 'anime|cycanime',
-    name: '次元城动画',
-    url: 'https://www.cycanime.com/search.html?wd=[CN]',
-    icon: require('@assets/images/icon/cycanime.png'),
-    sort: 0,
-    active: 0
-  },
-  {
     id: 'anime|mgnacg',
     name: '橘子动漫',
     url: 'https://www.mgnacg.com/search/-------------/?wd=[CN]',
@@ -132,18 +125,18 @@ export const SITES_ANIME = [
     sort: 0,
     active: 0
   },
-  {
-    id: 'anime|anfuns',
-    name: 'AnFuns动漫',
-    url: 'https://www.anfuns.cc/search.html?wd=[CN]&submit=',
-    icon: require('@assets/images/icon/anfuns.png'),
-    sort: 0,
-    active: 0
-  },
+  // {
+  //   id: 'anime|anfuns',
+  //   name: 'AnFuns动漫',
+  //   url: 'https://www.anfuns.cc/search.html?wd=[CN]&submit=',
+  //   icon: require('@assets/images/icon/anfuns.png'),
+  //   sort: 0,
+  //   active: 0
+  // },
   {
     id: 'anime|girigirilove',
     name: 'girigiri爱动漫',
-    url: 'https://anime.girigirilove.com/search/-------------/?wd=[CN]',
+    url: 'https://bgm.girigirilove.com/search/-------------/?wd=[CN]',
     icon: require('@assets/images/icon/girigirilove.png'),
     sort: 0,
     active: 0
@@ -156,14 +149,14 @@ export const SITES_ANIME = [
     sort: 0,
     active: 0
   },
-  {
-    id: 'anime|catwdm',
-    name: '喵物次元',
-    url: 'https://www.catwdm.com/catsearch.html?wd=[CN]',
-    icon: require('@assets/images/icon/catwdm.png'),
-    sort: 0,
-    active: 0
-  },
+  // {
+  //   id: 'anime|catwdm',
+  //   name: '喵物次元',
+  //   url: 'https://www.catwdm.com/catsearch.html?wd=[CN]',
+  //   icon: require('@assets/images/icon/catwdm.png'),
+  //   sort: 0,
+  //   active: 0
+  // },
   {
     id: 'anime|mutedm',
     name: 'MuteFun动漫',

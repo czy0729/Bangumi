@@ -5,15 +5,18 @@
  * @Last Modified time: 2024-12-17 15:52:18
  */
 import React from 'react'
-import { Component, HeaderV2, Loading, Page, Text } from '@components'
+import { Component, Loading, Text } from '@components'
 import { IconHeader } from '@_'
 import { _, StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { NavigationProps } from '@types'
+import TinygrailHeader from '@tinygrail/_/header'
+import TinygrailPage from '@tinygrail/_/page'
 import Chart from './chart'
 import { useTinygrailTreeRichPage } from './hooks'
 import ToolBar from './tool-bar'
 import { HM } from './ds'
+
+import type { NavigationProps } from '@types'
 
 /** 前百首富 */
 const TinygrailTreeRich = (props: NavigationProps) => {
@@ -22,16 +25,15 @@ const TinygrailTreeRich = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-tinygrail-tree-rich'>
       <StoreContext.Provider value={id}>
-        <Page style={[_.container.tinygrail, _.container.header]}>
+        <TinygrailPage>
           <ToolBar />
           {$.state.loading ? (
             <Loading style={_.container.tinygrail} color={_.colorTinygrailText} />
           ) : (
             <Chart data={$.state.data} onPress={handleShowMenu} onLongPress={$.onToggleItem} />
           )}
-        </Page>
-        <HeaderV2
-          backgroundStyle={_.container.tinygrail}
+        </TinygrailPage>
+        <TinygrailHeader
           title='前百首富'
           hm={HM}
           headerRight={() =>

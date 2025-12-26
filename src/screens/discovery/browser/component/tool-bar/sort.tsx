@@ -7,24 +7,30 @@
 import React from 'react'
 import { ToolBar } from '@components'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { MODEL_BROWSER_SORT } from '@constants'
-import { Ctx } from '../../types'
+import { DATA_SORT } from './ds'
+
+import type { Ctx } from '../../types'
 
 function Sort() {
   const { $ } = useStore<Ctx>()
-  const { sort } = $.state
-  return (
-    <ToolBar.Popover
-      data={MODEL_BROWSER_SORT.data.map(item => item.label)}
-      icon='md-sort'
-      iconColor={_.colorDesc}
-      text={MODEL_BROWSER_SORT.getLabel(sort)}
-      type='desc'
-      // heatmap='索引.排序选择'
-      onSelect={$.onOrderSelect}
-    />
-  )
+
+  return useObserver(() => {
+    const { sort } = $.state
+
+    return (
+      <ToolBar.Popover
+        data={DATA_SORT}
+        icon='md-sort'
+        iconColor={_.colorDesc}
+        text={MODEL_BROWSER_SORT.getLabel(sort)}
+        type='desc'
+        // heatmap='索引.排序选择'
+        onSelect={$.onOrderSelect}
+      />
+    )
+  })
 }
 
-export default ob(Sort)
+export default Sort

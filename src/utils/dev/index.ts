@@ -1,14 +1,12 @@
-/* eslint-disable no-console */
 /*
  * 开发调试
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-19 21:26:31
+ * @Last Modified time: 2025-12-23 00:38:11
  */
 import { WEB } from '@constants/device'
 import { DEV, LOG_LEVEL, RERENDER_NOT_SHOW, RERENDER_SHOW } from '@src/config'
-import { pad } from '../utils'
 import { handleCircular } from './utils'
 import { RERENDER_LOG_COUNT, RERENDER_MEMO } from './ds'
 
@@ -45,7 +43,7 @@ export function rerender(key: string, ...other: any[]) {
     _count += ' '
   }
 
-  console.info(now(), '[render]', _key, _count, ...other)
+  logger.log(now(), 'render', _key, _count, ...other)
 }
 
 /** 组装调试组件名 */
@@ -81,8 +79,13 @@ export function r(key: string, ...other: any[]) {
   for (let len = _count.length; len <= 15; len += 1) _count += ' '
 
   setTimeout(() => {
-    console.info('[render]', _key, RERENDER_MEMO.data[key] < 10 ? ` ${_count}` : _count, ...other)
+    logger.log('render', _key, RERENDER_MEMO.data[key] < 10 ? ` ${_count}` : _count, ...other)
   }, 0)
+}
+
+/** 补零 */
+function pad(n: string | number): string {
+  return +n < 10 ? `0${n}` : `${n}`
 }
 
 /** 当前时间戳字符串 */
@@ -108,7 +111,7 @@ export function ll(item: AnyObject, key: string | number, limit: number = 12) {
     _collectLogKeys[key] = true
     _collectLogItems.push(item)
     if (_collectLogItems.length === limit) {
-      console.info('\n', JSON.stringify(_collectLogItems))
+      logger.log('\n', JSON.stringify(_collectLogItems))
     }
   }
 }
@@ -124,19 +127,17 @@ export function ll(item: AnyObject, key: string | number, limit: number = 12) {
 export function log(type: any = '', key: any = '', value: any = '', ...other) {
   if (LOG_LEVEL === 0) return
 
-  const res: any[] = [now(), type]
+  const res: any[] = [type]
   if (key !== undefined) res.push('\n', key)
   if (value !== undefined) res.push('\n', value)
   if (other && other.length) res.push('\n', other)
 
-  console.info(...res)
+  logger.log(now(), ...res)
 }
 
 /** 全局 log, 能打印循环引用 */
 export function globalLog(value: any, space: string | number) {
-  if (!DEV) return
-
-  console.info(JSON.stringify(value, handleCircular(), space))
+  logger.log(JSON.stringify(value, handleCircular(), space))
 }
 
 /** 全局警告 */
@@ -171,36 +172,43 @@ const PAD_LENGTH = 32
 export const logger = {
   /** ⚪ */
   log(method: string, ...others: any[]) {
+    // eslint-disable-next-line no-console
     if (DEV) console.info(TEXT_BADGES.plain, `[${method}]`.padEnd(PAD_LENGTH), ...others)
   },
 
   /** 🔵 */
   info(method: string, ...others: any[]) {
+    // eslint-disable-next-line no-console
     if (DEV) console.info(TEXT_BADGES.primary, `[${method}]`.padEnd(PAD_LENGTH), ...others)
   },
 
   /** 🟢 */
   success(method: string, ...others: any[]) {
+    // eslint-disable-next-line no-console
     if (DEV) console.info(TEXT_BADGES.success, `[${method}]`.padEnd(PAD_LENGTH), ...others)
   },
 
   /** 🟠 */
   warn(method: string, ...others: any[]) {
+    // eslint-disable-next-line no-console
     if (DEV) console.info(TEXT_BADGES.warning, `[${method}]`.padEnd(PAD_LENGTH), ...others)
   },
 
   /** 🔴 */
   error(method: string, ...others: any[]) {
+    // eslint-disable-next-line no-console
     if (DEV) console.info(TEXT_BADGES.danger, `[${method}]`.padEnd(PAD_LENGTH), ...others)
   },
 
   /** 🟡 */
   yellow(method: string, ...others: any[]) {
+    // eslint-disable-next-line no-console
     if (DEV) console.info(TEXT_BADGES.yellow, `[${method}]`.padEnd(PAD_LENGTH), ...others)
   },
 
   /** 🟣 */
   purple(method: string, ...others: any[]) {
+    // eslint-disable-next-line no-console
     if (DEV) console.info(TEXT_BADGES.purple, `[${method}]`.padEnd(PAD_LENGTH), ...others)
   }
 } as const

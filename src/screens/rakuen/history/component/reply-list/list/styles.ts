@@ -9,5 +9,8 @@ import { _ } from '@stores'
 export const styles = _.create({
   empty: {
     minHeight: 240
+  },
+  list: {
+    paddingBottom: _.md
   }
 })

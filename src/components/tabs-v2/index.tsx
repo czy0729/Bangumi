@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-09-24 16:31:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 16:56:06
+ * @Last Modified time: 2025-12-25 05:14:12
  */
 import React, { useMemo } from 'react'
 import { SceneMap } from 'react-native-tab-view'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
-import { TextStyle, ViewStyle } from '@types'
 import { Component } from '../component'
 import { TabBar } from '../@/react-native-tab-view/TabBar'
 import { TabView } from '../@/react-native-tab-view/TabView'
@@ -17,12 +16,15 @@ import { Flex } from '../flex'
 import { Text } from '../text'
 import { ANDROID_RIPPLE, COMPONENT } from './ds'
 import { memoStyles, W_INDICATOR } from './styles'
-import { Props as TabsV2Props } from './types'
 
-export { TabsV2Props, TabView, TabBar, SceneMap }
+import type { TextStyle, ViewStyle } from '@types'
+import type { Props as TabsV2Props, Route } from './types'
+
+export { TabView, TabBar, SceneMap }
+export type { TabsV2Props }
 
 /** 通用选项卡 */
-export const TabsV2 = ({
+export const TabsV2 = <T extends Route>({
   routes = [],
   tabBarLength,
   page = 0,
@@ -35,7 +37,7 @@ export const TabsV2 = ({
   renderLabel,
   onChange = FROZEN_FN,
   ...other
-}: TabsV2Props) => {
+}: TabsV2Props<T>) => {
   r(COMPONENT)
 
   const styles = memoStyles()
@@ -107,7 +109,6 @@ export const TabsV2 = ({
         lazyPreloadDistance={0}
         navigationState={{
           index: page,
-          // @ts-expect-error
           routes
         }}
         renderTabBar={props => (

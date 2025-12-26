@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-11-01 08:51:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 11:36:18
+ * @Last Modified time: 2025-12-27 06:29:32
  */
 import React from 'react'
 import { Empty } from '@components'
 import { PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
+
+import type { Ctx } from '../../types'
 
 function List() {
   const { $ } = useStore<Ctx>()
@@ -21,7 +22,7 @@ function List() {
   return (
     <PaginationList2
       keyExtractor={keyExtractor}
-      contentContainerStyle={_.container.page}
+      contentContainerStyle={_.container.bottom}
       data={ids}
       limit={12}
       renderItem={renderItem}

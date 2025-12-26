@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-06 01:12:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-07 15:21:36
+ * @Last Modified time: 2025-12-23 02:59:48
  */
 import { feedback, info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
@@ -12,8 +12,9 @@ import {
   TEXT_MENU_LAYOUT,
   TEXT_MENU_TOOLBAR
 } from '@constants'
-import { ToolBarKeys } from '../types'
 import Fetch from './fetch'
+
+import type { ToolBarKeys } from '../types'
 
 export default class Action extends Fetch {
   /** 排序选择 */

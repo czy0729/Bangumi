@@ -5,17 +5,18 @@
  * @Last Modified time: 2024-11-30 16:33:30
  */
 import React from 'react'
-import { Component, Empty, Page } from '@components'
+import { Component, Empty, HeaderPlaceholder, Page } from '@components'
 import { TapListener } from '@_'
 import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import i18n from '@constants/i18n'
-import { NavigationProps } from '@types'
 import Cate from './component/cate'
 import List from './component/list'
 import Tips from './component/tips'
 import Header from './header'
 import { useLikePage } from './hooks'
+
+import type { NavigationProps } from '@types'
 
 /** 猜你喜欢 */
 const Like = (props: NavigationProps) => {
@@ -26,6 +27,7 @@ const Like = (props: NavigationProps) => {
       <StoreContext.Provider value={id}>
         <TapListener>
           <Page loaded={$.state._loaded} loading={$.state.fetching}>
+            <HeaderPlaceholder />
             {$.userId ? (
               <>
                 <Cate />

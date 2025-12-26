@@ -5,23 +5,25 @@
  * @Last Modified time: 2024-11-17 08:15:33
  */
 import React from 'react'
+import { useObserver } from 'mobx-react'
 import { ScrollView } from '@components'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
 import Item from '../item'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
+import type { Ctx } from '../../types'
+
 function List() {
-  const { $ } = useStore<Ctx>()
-  return (
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
     <ScrollView contentContainerStyle={styles.contentContainerStyle}>
       {$.list.map((item: any, index: number) => (
         <Item key={index} {...item} />
       ))}
     </ScrollView>
-  )
+  ))
 }
 
-export default ob(List, COMPONENT)
+export default List

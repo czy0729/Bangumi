@@ -8,7 +8,8 @@ import React from 'react'
 import { ItemNotify as ItemNotifyComp } from '@_'
 import { ob } from '@utils/decorators'
 import { COMPONENT, EVENT } from './ds'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function ItemNotify({ item, index }: Props) {
   return (

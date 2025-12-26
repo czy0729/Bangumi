@@ -5,14 +5,15 @@
  * @Last Modified time: 2025-03-07 15:14:58
  */
 import React from 'react'
-import { Component, Page } from '@components'
-import { _, StoreContext } from '@stores'
+import { Component, HeaderPlaceholder, Page } from '@components'
+import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import List from './component/list'
 import Textarea from './component/textarea'
 import Header from './header'
 import { useTinygrailTransactionPage } from './hooks'
+
+import type { NavigationProps } from '@types'
 
 /** 圣杯广场 */
 const TinygrailTransaction = (props: NavigationProps) => {
@@ -21,7 +22,8 @@ const TinygrailTransaction = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-tinygrail-transaction'>
       <StoreContext.Provider value={id}>
-        <Page style={_.container.header} loaded={$.state._loaded}>
+        <Page loaded={$.state._loaded}>
+          <HeaderPlaceholder />
           <Textarea />
           <List />
         </Page>

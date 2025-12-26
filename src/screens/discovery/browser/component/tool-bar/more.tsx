@@ -7,12 +7,14 @@
 import React from 'react'
 import { ToolBar } from '@components'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { useObserver } from '@utils/hooks'
+
+import type { Ctx } from '../../types'
 
 function More() {
   const { $ } = useStore<Ctx>()
-  return (
+
+  return useObserver(() => (
     <ToolBar.Popover
       data={$.toolBar}
       icon='md-more-vert'
@@ -22,7 +24,7 @@ function More() {
       transparent
       onSelect={$.onToolBar}
     />
-  )
+  ))
 }
 
-export default ob(More)
+export default More

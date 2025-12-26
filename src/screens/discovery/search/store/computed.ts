@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-06-03 11:42:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-30 22:30:11
+ * @Last Modified time: 2025-12-23 01:22:38
  */
 import { computed } from 'mobx'
 import { searchStore, subjectStore, userStore } from '@stores'
 import { x18 } from '@utils'
 import { HTML_SEARCH, MODEL_SEARCH_CAT } from '@constants'
-import { SearchCatCn, SubjectId } from '@types'
 import State from './state'
+
+import type { SearchCatCn, SubjectId } from '@types'
 
 export default class Computed extends State {
   /** 搜索结果 */

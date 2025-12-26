@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-18 11:52:16
+ * @Last Modified time: 2025-12-24 19:08:47
  */
 import React from 'react'
-import { Component, HeaderV2, Input, Page, ScrollView } from '@components'
+import { Component, HeaderPlaceholder, HeaderV2, Input, Page, ScrollView } from '@components'
 import { _ } from '@stores'
 import { useObserver } from '@utils/hooks'
 import i18n from '@constants/i18n'
-import { NavigationProps } from '@types'
 import Block from './component/block'
 import Blocks from './component/blocks'
 import CDN from './component/cdn'
@@ -40,6 +39,8 @@ import { useSettingPage } from './hooks'
 import { HM } from './ds'
 import { styles } from './styles'
 
+import type { NavigationProps } from '@types'
+
 /** 设置 */
 const Setting = (props: NavigationProps) => {
   const { filter, setFilter, open, forwardRef, onBlockRef } = useSettingPage(props)
@@ -48,6 +49,7 @@ const Setting = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-setting'>
       <Page style={_.select(_.container.bg, _.container.plain)}>
+        <HeaderPlaceholder />
         <ScrollView forwardRef={forwardRef} contentContainerStyle={styles.container}>
           <Block>
             <Input

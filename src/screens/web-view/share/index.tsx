@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-07-09 23:30:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-12 06:41:50
+ * @Last Modified time: 2025-12-26 22:44:06
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Component, HeaderV2 } from '@components'
+import { Component, HeaderPlaceholder, HeaderV2 } from '@components'
 import WebView from '@components/@/web-view'
 import { IconTouchable, SafeAreaView } from '@_'
 import { _ } from '@stores'
@@ -120,17 +120,16 @@ class WebViewShare extends React.Component<{
     const { route } = this.props
     const { captured, dark } = this.state
     const backgroundColor = dark ? '#000' : '#fff'
+
     return (
       <Component id='screen-webview-share'>
         <SafeAreaView
-          style={[
-            _.container.header,
-            {
-              flex: 1,
-              backgroundColor: '#000'
-            }
-          ]}
+          style={{
+            flex: 1,
+            backgroundColor: '#000'
+          }}
         >
+          <HeaderPlaceholder />
           <WebView
             key={String(dark)}
             originWhitelist={['*']}

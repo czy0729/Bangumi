@@ -5,17 +5,20 @@
  * @Last Modified time: 2024-12-16 21:39:31
  */
 import React from 'react'
-import { Component, HeaderV2, Page } from '@components'
+import { Component } from '@components'
 import { IconHeader } from '@_'
 import { _, StoreContext } from '@stores'
 import { alert } from '@utils'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
-import ToolBar from '@tinygrail/_/tool-bar'
-import { NavigationProps } from '@types'
+import TinygrailHeader from '@tinygrail/_/header'
+import TinygrailPage from '@tinygrail/_/page'
+import TinygrailToolBar from '@tinygrail/_/tool-bar'
 import { useTinygrailAdvanceBidPage } from './hooks'
 import List from './list'
 import { HM } from './ds'
+
+import type { NavigationProps } from '@types'
 
 /** 卖出推荐 */
 const TinygrailAdvanceBid = (props: NavigationProps) => {
@@ -24,17 +27,16 @@ const TinygrailAdvanceBid = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-tinygrail-advance-bid'>
       <StoreContext.Provider value={id}>
-        <Page style={[_.container.tinygrail, _.container.header]}>
-          <ToolBar
+        <TinygrailPage>
+          <TinygrailToolBar
             style={_.mt._sm}
             level={$.state.level}
             levelMap={$.levelMap}
             onLevelSelect={$.onLevelSelect}
           />
           <List />
-        </Page>
-        <HeaderV2
-          backgroundStyle={_.container.tinygrail}
+        </TinygrailPage>
+        <TinygrailHeader
           title='卖出推荐'
           hm={HM}
           headerRight={() => (

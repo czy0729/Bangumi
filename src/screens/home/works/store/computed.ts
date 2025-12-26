@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-06 00:36:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-07 15:10:13
+ * @Last Modified time: 2025-12-23 02:59:53
  */
 import { computed } from 'mobx'
 import { subjectStore } from '@stores'
@@ -21,8 +21,9 @@ import {
   TEXT_MENU_SPLIT_RIGHT,
   TEXT_MENU_TOOLBAR
 } from '@constants'
-import { SubjectId } from '@types'
 import State from './state'
+
+import type { SubjectId } from '@types'
 
 export default class Computed extends State {
   /** 人物 Id */

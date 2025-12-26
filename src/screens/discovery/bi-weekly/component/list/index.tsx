@@ -2,26 +2,27 @@
  * @Author: czy0729
  * @Date: 2024-05-14 04:57:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-30 05:06:50
+ * @Last Modified time: 2025-12-21 21:19:08
  */
 import React from 'react'
-import { View } from 'react-native'
 import { ScrollView } from '@components'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx, Data } from '../../types'
+import { useObserver } from '@utils/hooks'
 import Item from '../item'
-import Type from '../type'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function List({ data }: { data: Data }) {
-  const { $ } = useStore<Ctx>()
-  const styles = memoStyles()
-  const { type } = $.state
-  return (
-    <View style={styles.container}>
-      <Type />
+import type { Ctx } from '../../types'
+import type { Props } from './types'
+
+function List({ data }: Props) {
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => {
+    const styles = memoStyles()
+    const { type } = $.state
+
+    return (
       <ScrollView
         key={type}
         style={_.mt.md}
@@ -37,8 +38,8 @@ function List({ data }: { data: Data }) {
             <Item key={item.topicId} item={item} index={index} />
           ))}
       </ScrollView>
-    </View>
-  )
+    )
+  })
 }
 
-export default ob(List, COMPONENT)
+export default List

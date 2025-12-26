@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-04 16:23:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 03:58:55
+ * @Last Modified time: 2025-12-24 19:36:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,9 +17,10 @@ import { Touchable } from '../touchable'
 import { scrollToTopCallback } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props as ScrollToToProps } from './types'
 
-export { ScrollToToProps, scrollToTopCallback }
+import type { Props as ScrollToToProps } from './types'
+
+export type { ScrollToToProps, scrollToTopCallback }
 
 /** [Android] 仿 iOS 点击头部列表滚动到顶 */
 const ScrollToTop = observer(

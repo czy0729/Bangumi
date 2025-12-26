@@ -5,16 +5,19 @@
  * @Last Modified time: 2024-12-17 15:59:32
  */
 import React from 'react'
-import { Component, HeaderV2, Page } from '@components'
-import { _, StoreContext } from '@stores'
+import { Component } from '@components'
+import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
-import IconGo from '@tinygrail/_/icon-go'
-import ToolBar from '@tinygrail/_/tool-bar'
+import TinygrailHeader from '@tinygrail/_/header'
+import TinygrailIconGo from '@tinygrail/_/icon-go'
+import TinygrailPage from '@tinygrail/_/page'
+import TinygrailToolBar from '@tinygrail/_/tool-bar'
 import { SORT_DS } from '@tinygrail/overview/ds'
-import { NavigationProps } from '@types'
 import { useTinygrailValhallPage } from './hooks'
 import List from './list'
 import { HM } from './ds'
+
+import type { NavigationProps } from '@types'
 
 /** 英灵殿 */
 const TinygrailValhall = (props: NavigationProps) => {
@@ -23,8 +26,8 @@ const TinygrailValhall = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-tinygrail-valhall'>
       <StoreContext.Provider value={id}>
-        <Page style={[_.container.tinygrail, _.container.header]}>
-          <ToolBar
+        <TinygrailPage>
+          <TinygrailToolBar
             data={SORT_DS}
             level={$.state.level}
             levelMap={$.levelMap}
@@ -34,13 +37,8 @@ const TinygrailValhall = (props: NavigationProps) => {
             onSortPress={$.onSortPress}
           />
           <List />
-        </Page>
-        <HeaderV2
-          backgroundStyle={_.container.tinygrail}
-          title='英灵殿'
-          hm={HM}
-          headerRight={() => <IconGo $={$} />}
-        />
+        </TinygrailPage>
+        <TinygrailHeader title='英灵殿' hm={HM} headerRight={() => <TinygrailIconGo $={$} />} />
       </StoreContext.Provider>
     </Component>
   ))

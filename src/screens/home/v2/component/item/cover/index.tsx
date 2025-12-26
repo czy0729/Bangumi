@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-01-21 11:36:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-09 05:32:05
+ * @Last Modified time: 2025-12-23 05:22:08
  */
 import React from 'react'
 import { Cover as CoverComp, getCoverSrc, Link } from '@components'
 import { InView } from '@_'
-import { _, systemStore } from '@stores'
+import { systemStore } from '@stores'
 import { x18 } from '@utils'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
+import { HEADER_HEIGHT } from '@styles'
 import Heatmaps from './heatmaps'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
@@ -42,7 +43,7 @@ function Cover({ index, subjectId, typeCn, name, name_cn, image }: Props) {
           from: 'list'
         }}
       >
-        <InView style={style} y={height * index + _.headerHeight}>
+        <InView style={style} y={height * index + HEADER_HEIGHT}>
           <CoverComp
             src={image}
             size={width}

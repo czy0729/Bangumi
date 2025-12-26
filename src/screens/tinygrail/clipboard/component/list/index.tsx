@@ -2,22 +2,23 @@
  * @Author: czy0729
  * @Date: 2020-10-29 20:49:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-04 07:23:22
+ * @Last Modified time: 2025-12-27 06:33:21
  */
 import React from 'react'
 import { ListView } from '@components'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
+
+import type { Ctx } from '../../types'
 
 function List() {
   const { $ } = useStore<Ctx>()
   return (
     <ListView
-      contentContainerStyle={_.container.page}
+      contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
       refreshControlProps={{
         color: _.colorTinygrailText

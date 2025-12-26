@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-21 16:35:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-13 18:55:56
+ * @Last Modified time: 2025-12-24 19:08:35
  */
 import { _ } from '@stores'
 
@@ -35,7 +35,7 @@ export default _.create({
 
 export const styles = _.create({
   container: {
-    paddingTop: _.headerHeight + _.sm,
+    paddingTop: _.sm,
     paddingBottom: _.md
   },
   input: {

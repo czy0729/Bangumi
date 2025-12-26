@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:30:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-11 23:19:02
+ * @Last Modified time: 2025-12-26 22:04:36
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Component, ListView, Page } from '@components'
+import { Component, HeaderPlaceholder, ListView, Page } from '@components'
 import { MosaicTile } from '@_'
-import { _, StoreContext } from '@stores'
+import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import List from './component/list'
 import Header from './header'
 import { useUserTimelinePage } from './hooks'
+
+import type { NavigationProps } from '@types'
 
 /** 用户的时间线 */
 const UserTimeline = (props: NavigationProps) => {
@@ -23,8 +24,8 @@ const UserTimeline = (props: NavigationProps) => {
     <Component id='screen-user-timeline'>
       <StoreContext.Provider value={id}>
         <Page>
+          <HeaderPlaceholder />
           <ListView
-            contentContainerStyle={_.container.header}
             data={$.timeline}
             ListHeaderComponent={
               <>

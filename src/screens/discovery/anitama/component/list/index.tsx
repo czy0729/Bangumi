@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-01-10 11:19:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-29 13:11:59
+ * @Last Modified time: 2025-12-23 06:11:22
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { View } from 'react-native'
 import { Heatmap, Image, ScrollView, Text, Touchable } from '@components'
 import { InView } from '@_'
@@ -15,6 +15,7 @@ import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+import type { NewsItem } from '@stores/discovery/types'
 import type { Ctx } from '../../types'
 
 const title = '资讯'
@@ -24,28 +25,31 @@ function List() {
 
   return useObserver(() => {
     const styles = memoStyles()
+    const { useWebView } = $.state
 
-    const handlePress = item => {
-      const { useWebView } = $.state
-      if (useWebView) {
-        navigation.push('WebBrowser', {
+    const handlePress = useCallback(
+      (item: NewsItem) => {
+        if (useWebView) {
+          navigation.push('WebBrowser', {
+            url: item.url,
+            title: item.title
+          })
+        } else {
+          open(item.url)
+        }
+
+        t('Anitama.跳转', {
+          to: 'WebBrowser',
           url: item.url,
-          title: item.title
+          useWebView
         })
-      } else {
-        open(item.url)
-      }
-
-      t('Anitama.跳转', {
-        to: 'WebBrowser',
-        url: item.url,
-        useWebView
-      })
-      hm(item.url, title)
-    }
+        hm(item.url, title)
+      },
+      [useWebView]
+    )
 
     return (
-      <ScrollView contentContainerStyle={styles.contentContainerStyle} onScroll={$.onScroll}>
+      <ScrollView onScroll={$.onScroll}>
         {$.state.show && (
           <View style={styles.container}>
             {$.article.list.map((item, index) => (

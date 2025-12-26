@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-20 22:23:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-20 09:10:04
+ * @Last Modified time: 2025-12-24 19:07:19
  */
 import { computed, observable, toJS } from 'mobx'
 import { _, tinygrailStore } from '@stores'
@@ -11,9 +11,11 @@ import { t } from '@utils/fetch'
 import store from '@utils/store'
 import treemap from '@utils/thirdParty/treemap'
 import { MODEL_TINYGRAIL_ASSETS_TYPE, MODEL_TINYGRAIL_CACULATE_TYPE } from '@constants'
+import { HEADER_HEIGHT } from '@styles'
 import { VALHALL_PRICE } from '@tinygrail/_/ds'
 import { H_TOOL_BAR, NAMESPACE, STATE, TINYGRAIL_VALHALL_ID } from './ds'
-import { Params } from './types'
+
+import type { Params } from './types'
 
 export default class ScreenTinygrailTree extends store<typeof STATE> {
   params: Params
@@ -21,13 +23,13 @@ export default class ScreenTinygrailTree extends store<typeof STATE> {
   state = observable(STATE)
 
   init = async () => {
-    const state = (await this.getStorage(NAMESPACE)) || {}
     this.setState({
-      ...state,
+      ...((await this.getStorage(NAMESPACE)) || {}),
       loading: false,
       data: [],
       total: 0,
-      filterItems: []
+      filterItems: [],
+      _loaded: true
     })
 
     if (this.charaAssets.length) {
@@ -379,7 +381,7 @@ function treemapSquarify(
           x: 0,
           y: 0,
           width: _.window.width,
-          height: _.window.height - _.headerHeight - H_TOOL_BAR
+          height: _.window.height - HEADER_HEIGHT - H_TOOL_BAR
         },
         nodes
       },

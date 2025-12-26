@@ -5,9 +5,10 @@
  * @Last Modified time: 2024-11-30 05:07:23
  */
 import { updateVisibleBottom } from '@utils'
-import { Type } from '../types'
 import State from './state'
 import { EXCLUDE_STATE } from './ds'
+
+import type { Type } from '../types'
 
 export default class Action extends State {
   /** 切换文章类型 */

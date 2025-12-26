@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-10 17:21:26
+ * @Last Modified time: 2025-12-23 00:25:42
  */
 import { Alert, Clipboard, findNodeHandle, NativeModules, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'

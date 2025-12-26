@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2023-12-21 15:06:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-16 20:20:46
+ * @Last Modified time: 2025-12-23 06:03:48
  */
 import { useCallback, useRef } from 'react'
 import { layoutHeightMap } from '@_/item/post/utils'
-import { _, rakuenStore, uiStore, useInitStore } from '@stores'
+import { rakuenStore, uiStore, useInitStore } from '@stores'
 import { feedback, info } from '@utils'
 import { logger } from '@utils/dev'
 import { scrollToTop } from '@utils/dom'
 import { t } from '@utils/fetch'
 import { useKeyboardAdjustResize, usePageLifecycle } from '@utils/hooks'
 import { WEB } from '@constants'
+import { HEADER_HEIGHT } from '@styles'
 import store from './store'
 import { PRE_OFFSET } from './ds'
 
@@ -58,7 +59,7 @@ export function useTopicPage(props: NavigationProps) {
           }
 
           const offsetTop = document.querySelector(`item-post[data-key="${item.id}"]`)?.offsetTop
-          if (offsetTop) scrollToTop(offsetTop - _.headerHeight)
+          if (offsetTop) scrollToTop(offsetTop - HEADER_HEIGHT)
           return
         }
 
@@ -92,7 +93,7 @@ export function useTopicPage(props: NavigationProps) {
           } else {
             scrollViewRef.current?.scrollToOffset({
               animated: sliderAnimated ? true : animated,
-              offset: 0 - _.headerHeight
+              offset: 0 - HEADER_HEIGHT
             })
           }
 
@@ -107,12 +108,12 @@ export function useTopicPage(props: NavigationProps) {
 
         if (WEB) {
           const offsetTop = document.querySelector(`item-post[data-key="${item.id}"]`)?.offsetTop
-          if (offsetTop) scrollToTop(offsetTop - _.headerHeight)
+          if (offsetTop) scrollToTop(offsetTop - HEADER_HEIGHT)
         } else {
           scrollViewRef.current?.scrollToIndex({
             animated: sliderAnimated ? true : animated,
             index,
-            viewOffset: 0 + _.headerHeight + offset
+            viewOffset: 0 + HEADER_HEIGHT + offset
           })
         }
 
@@ -129,7 +130,7 @@ export function useTopicPage(props: NavigationProps) {
             scrollViewRef.current?.scrollToIndex({
               animated,
               index: Number(maximum),
-              viewOffset: 0 + _.headerHeight
+              viewOffset: 0 + HEADER_HEIGHT
             })
           }
         } catch (error) {}
@@ -273,7 +274,7 @@ export function useTopicPage(props: NavigationProps) {
     feedback()
     scrollViewRef.current?.scrollToOffset({
       animated: true,
-      offset: 0 - _.headerHeight
+      offset: 0 - HEADER_HEIGHT
     })
   }, [])
 

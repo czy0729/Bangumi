@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-05-24 10:28:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 07:51:10
+ * @Last Modified time: 2025-12-23 00:41:38
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Button, Component, Flex, Page } from '@components'
+import { Button, Component, Flex, HeaderPlaceholder, Page } from '@components'
 import { IconTouchable } from '@_'
 import { _, StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { WEB } from '@constants'
-import { NavigationProps } from '@types'
 import Category from './component/category'
 import List from './component/list'
 import SearchBar from './component/search-bar'
@@ -19,16 +18,20 @@ import Header from './header'
 import { useRecommendPage } from './hooks'
 import { memoStyles } from './styles'
 
+import type { NavigationProps } from '@types'
+
 /** AI 推荐 */
 const Recommend = (props: NavigationProps) => {
   const { id, $, navigation } = useRecommendPage(props)
 
   return useObserver(() => {
     const styles = memoStyles()
+
     return (
       <Component id='screen-recommend'>
         <StoreContext.Provider value={id}>
           <Page>
+            <HeaderPlaceholder />
             <Flex style={styles.searchBar}>
               <Category />
               <Flex.Item>

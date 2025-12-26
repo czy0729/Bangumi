@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-25 17:33:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-29 17:33:18
+ * @Last Modified time: 2025-12-23 00:28:34
  */
 declare namespace global {
   /** 是否开发模式 */
@@ -41,8 +41,21 @@ declare const document: {
 
 /** 全局 window 类型声明 (仅为防止 RN 编译报错) */
 declare const window: {
-  self: any
-  top: any
-  IntersectionObserver: any
-  Image: any
+  /** window 自身 */
+  self: typeof window
+
+  /** 顶层 window */
+  top: typeof window
+
+  /** 弹窗 */
+  alert: (message?: any) => void
+
+  /** 确认弹窗 */
+  confirm: (message?: any) => boolean
+
+  /** 交叉观察器 */
+  IntersectionObserver: new (callback: (...args: any[]) => void, options?: any) => any
+
+  /** 图片构造器 */
+  Image: new (...args: any[]) => any
 }

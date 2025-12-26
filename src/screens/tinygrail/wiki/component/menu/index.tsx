@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2025-05-13 14:39:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-15 07:24:29
+ * @Last Modified time: 2025-12-24 19:40:18
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Divider, Drawer, ScrollView, Text, Touchable } from '@components'
+import { _ } from '@stores'
 import { open, stl } from '@utils'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
+import { useInsets, useObserver } from '@utils/hooks'
 import { DATA } from '../../ds'
 import { startsWithNumberDot, startsWithNumberDotNumber, startsWithURL } from '../../utils'
 import { COMPONENT } from './ds'
@@ -18,8 +19,11 @@ import { memoStyles } from './styles'
 function Menu({ show, onToggle, onScrollTo }) {
   r(COMPONENT)
 
+  const { statusBarHeight } = useInsets()
+
   return useObserver(() => {
     const styles = memoStyles()
+
     return (
       <Drawer
         style={styles.drawer}
@@ -28,7 +32,14 @@ function Menu({ show, onToggle, onScrollTo }) {
           onToggle(false)
         }}
       >
-        <ScrollView contentContainerStyle={styles.contentContainerStyle}>
+        <ScrollView
+          contentContainerStyle={[
+            styles.contentContainerStyle,
+            {
+              paddingTop: statusBarHeight + _.sm
+            }
+          ]}
+        >
           {DATA.map((item, index) => {
             return (
               <View key={item.title}>

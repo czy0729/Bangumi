@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-10 11:54:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-17 23:44:26
+ * @Last Modified time: 2025-12-24 19:25:15
  */
 import { computed } from 'mobx'
 import { collectionStore, usersStore, userStore } from '@stores'
@@ -65,5 +65,9 @@ export default class Computed extends State {
       ...omit(this.state, ['show', '_loaded']),
       userId: this.userId
     })}`
+  }
+
+  @computed get hm() {
+    return [`milestone/${this.userId}`, 'Milestone'] as const
   }
 }

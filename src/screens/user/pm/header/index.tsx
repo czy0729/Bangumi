@@ -2,26 +2,24 @@
  * @Author: czy0729
  * @Date: 2022-08-19 11:16:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-24 23:15:43
+ * @Last Modified time: 2025-12-26 21:57:53
  */
 import React from 'react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { open } from '@utils'
-import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { TEXT_MENU_BROWSER } from '@constants'
 import RelatedPM from '../component/related-pm'
-import { Ctx } from '../types'
 import ScrollNavButtons from './scroll-nav-buttons'
 import { COMPONENT, DATA, HM } from './ds'
 
-function Header() {
-  r(COMPONENT)
+import type { Ctx } from '../types'
 
-  const { $ } = useStore<Ctx>()
+function Header() {
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
     const { list } = $.pmDetail
@@ -40,6 +38,9 @@ function Header() {
     return (
       <HeaderV2
         title={headerTitle}
+        headerTitleStyle={{
+          paddingRight: 64
+        }}
         hm={HM}
         headerTitleAlign='left'
         headerRight={() => (

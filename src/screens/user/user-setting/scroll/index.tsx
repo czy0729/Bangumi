@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:53:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-12 05:29:51
+ * @Last Modified time: 2025-12-26 22:14:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,9 +20,10 @@ import Form from '../component/form'
 import Preview from '../component/preview'
 import Refresh from '../component/refresh'
 import Segmented from '../component/segmented'
-import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../types'
 
 class Scroll extends React.Component<Ctx> {
   state = {
@@ -105,7 +106,7 @@ class Scroll extends React.Component<Ctx> {
     )
 
     return (
-      <View style={[_.container.header, _.container.plain]}>
+      <View style={_.container.plain}>
         <View style={this.styles.preview}>{!expand && elPreview}</View>
         <ScrollView
           forwardRef={this.onForwardRef}

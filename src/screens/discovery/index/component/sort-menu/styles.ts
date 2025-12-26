@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-09-10 07:35:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 20:17:58
+ * @Last Modified time: 2025-12-24 19:33:06
  */
 import { _ } from '@stores'
+import { STATUS_BAR_HEIGHT } from '@styles'
 
 export const memoStyles = _.memoStyles(() => ({
   container: {
@@ -12,7 +13,7 @@ export const memoStyles = _.memoStyles(() => ({
     minHeight: 100
   },
   dragging: {
-    minHeight: _.window.height - _.web(_.tabBarHeight, _.statusBarHeight)
+    minHeight: _.window.height - _.web(_.tabBarHeight, STATUS_BAR_HEIGHT)
   },
   transparent: {
     opacity: _.select(0.6, 0.4)

@@ -7,15 +7,15 @@
 import React from 'react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { open } from '@utils'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { useNavigation } from '@utils/hooks'
+import { useNavigation, useObserver } from '@utils/hooks'
 import { HOST, TEXT_MENU_BROWSER } from '@constants'
 import { COMPONENT, DATA, HM } from './ds'
 
 function Header() {
-  const navigation = useNavigation()
-  return (
+  const navigation = useNavigation(COMPONENT)
+
+  return useObserver(() => (
     <HeaderV2
       title='Bangumi 半月刊'
       hm={HM}
@@ -40,7 +40,7 @@ function Header() {
         />
       )}
     />
-  )
+  ))
 }
 
-export default ob(Header, COMPONENT)
+export default Header

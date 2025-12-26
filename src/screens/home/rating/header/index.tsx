@@ -5,20 +5,22 @@
  * @Last Modified time: 2025-03-03 18:18:59
  */
 import React from 'react'
+import { useObserver } from 'mobx-react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { open } from '@utils'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { TEXT_MENU_BROWSER } from '@constants'
 import Filter from '../component/filter'
-import { Ctx } from '../types'
 import { COMPONENT, DATA } from './ds'
 import { styles } from './styles'
 
+import type { Ctx } from '../types'
+
 function Header() {
-  const { $ } = useStore<Ctx>()
-  return (
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
     <HeaderV2
       title={$.params?.name || '用户评分'}
       headerTitleAlign='left'
@@ -43,7 +45,7 @@ function Header() {
         </>
       )}
     />
-  )
+  ))
 }
 
-export default ob(Header, COMPONENT)
+export default Header

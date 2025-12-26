@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-10-19 20:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-07 17:05:07
+ * @Last Modified time: 2025-12-23 02:35:15
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Loading } from '@components'
-import { useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
+import { _, useStore } from '@stores'
+import { useInsets, useObserver } from '@utils/hooks'
+import { IOS, PAD } from '@constants'
+import { H_TABBAR } from '../../ds'
 import Info from './layout'
 import Linear from './linear'
 import List from './list'
@@ -23,18 +25,24 @@ const RENDERED = {}
 function Grid({ title = '全部' }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
+  const { headerHeight, statusBarHeight } = useInsets()
+
   return useObserver(() => {
     if ($.tabsLabel === title) RENDERED[title] = true
     if ($.tabsLabel !== title && !RENDERED[title]) return null
     if (!$.collection._loaded) return <Loading />
 
     const styles = memoStyles()
+    const basePadding = headerHeight + ($.tabs.length <= 1 ? _.sm : H_TABBAR)
+    const iosPadAdjustment = IOS && PAD ? statusBarHeight : 0
+    const paddingTop = basePadding + iosPadAdjustment
+
     return (
       <View
         style={[
           styles.container,
           {
-            paddingTop: $.listPaddingTop
+            paddingTop
           }
         ]}
       >

@@ -5,18 +5,21 @@
  * @Last Modified time: 2024-12-17 05:02:07
  */
 import React from 'react'
-import { Component, HeaderV2, Page } from '@components'
+import { Component } from '@components'
 import { IconHeader } from '@_'
 import { _, StoreContext } from '@stores'
 import { alert } from '@utils'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
-import ToolBar from '@tinygrail/_/tool-bar'
-import { NavigationProps } from '@types'
+import TinygrailHeader from '@tinygrail/_/header'
+import TinygrailPage from '@tinygrail/_/page'
+import TinygrailToolBar from '@tinygrail/_/tool-bar'
 import { useTinygrailAdvanceAuctionPage } from './hooks'
 import List from './list'
 import { SORT_DS } from './store'
 import { HM } from './ds'
+
+import type { NavigationProps } from '@types'
 
 /** 拍卖推荐 */
 const TinygrailAdvanceAuction = (props: NavigationProps) => {
@@ -25,8 +28,8 @@ const TinygrailAdvanceAuction = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-tinygrail-advance-auction'>
       <StoreContext.Provider value={id}>
-        <Page style={[_.container.tinygrail, _.container.header]}>
-          <ToolBar
+        <TinygrailPage>
+          <TinygrailToolBar
             level={$.state.level}
             levelMap={$.levelMap}
             data={SORT_DS}
@@ -36,9 +39,8 @@ const TinygrailAdvanceAuction = (props: NavigationProps) => {
             onSortPress={$.onSortPress}
           />
           <List />
-        </Page>
-        <HeaderV2
-          backgroundStyle={_.container.tinygrail}
+        </TinygrailPage>
+        <TinygrailHeader
           title='拍卖推荐'
           hm={HM}
           headerRight={() => (

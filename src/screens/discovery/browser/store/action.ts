@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-25 21:04:13
  */
-import { ScrollToOffset } from '@components'
 import { feedback, info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
 import {
@@ -16,6 +15,8 @@ import {
 } from '@constants'
 import Fetch from './fetch'
 import { EXCLUDE_STATE } from './ds'
+
+import type { ScrollToOffset } from '@components'
 
 export default class Action extends Fetch {
   scrollToOffset: ScrollToOffset

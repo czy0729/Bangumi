@@ -2,31 +2,43 @@
  * @Author: czy0729
  * @Date: 2024-01-07 20:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-19 05:34:14
+ * @Last Modified time: 2025-12-24 22:56:37
  */
-import React from 'react'
+import React, { useMemo } from 'react'
+import { useObserver } from 'mobx-react'
 import { Flex } from '@components'
-import { _ } from '@stores'
-import { ob } from '@utils/decorators'
+import { useInsets } from '@utils/hooks'
+import { IOS } from '@constants'
+import { IS_IOS_5_6_7_8 } from '@styles'
 import Back from './back'
 import MenuComp from './menu'
 import MesumeChat from './mesume-chat'
-// import Milestone from './milestone'
-// import WordCloud from './word-cloud'
 import { styles } from './styles'
 
 function Menu() {
-  return (
+  const { statusBarHeight } = useInsets()
+
+  const header = useMemo(
+    () =>
+      ({
+        right: {
+          position: 'absolute',
+          top: IOS ? statusBarHeight + (IS_IOS_5_6_7_8 ? 12 : 8) : statusBarHeight + 12,
+          right: 8
+        }
+      } as const),
+    [statusBarHeight]
+  )
+
+  return useObserver(() => (
     <>
       <Back />
-      <Flex style={[_.header.right, styles.right]}>
+      <Flex style={[header.right, styles.right]}>
         <MesumeChat />
-        {/* <WordCloud /> */}
-        {/* <Milestone /> */}
         <MenuComp />
       </Flex>
     </>
-  )
+  ))
 }
 
-export default ob(Menu)
+export default Menu

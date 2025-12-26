@@ -9,18 +9,16 @@ import { Flex, Text, Touchable } from '@components'
 import { Popover } from '@_'
 import { _, systemStore, useStore } from '@stores'
 import { alert, feedback, info, open } from '@utils'
-import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
 import { APP_ID_SAY_TINYGRAIL, WEB } from '@constants'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Footer() {
-  r(COMPONENT)
+import type { Ctx } from '../../types'
 
-  const { navigation } = useStore<Ctx>()
+function Footer() {
+  const { navigation } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
     const memoMenu = useMemo(() => {
@@ -30,7 +28,6 @@ function Footer() {
       }
 
       return [
-        { title: 'QQ群', action: () => alert('1038257138') },
         { title: '高级功能', action: () => jump('TinygrailAdvance', {}, '高级功能') },
         { title: '小组讨论', action: () => jump('Group', { groupId: 'tinygrail' }, '小组讨论') },
         { title: '粘贴板', action: () => jump('TinygrailClipboard', {}, '粘贴板') },
@@ -38,6 +35,7 @@ function Footer() {
           title: '意见反馈',
           action: () => jump('Say', { sayId: APP_ID_SAY_TINYGRAIL }, '意见反馈')
         },
+        { title: 'QQ群', action: () => alert('1038257138') },
         { title: '设置', action: () => jump('Setting', { open: 'Tinygrail' }, '设置') }
       ]
     }, [])

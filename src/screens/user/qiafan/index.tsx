@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-10-05 16:48:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-05 16:42:45
+ * @Last Modified time: 2025-12-27 06:37:04
  */
 import React from 'react'
-import { Component, Divider, HeaderV2, ScrollView } from '@components'
+import { Component, Divider, HeaderPlaceholder, HeaderV2, ScrollView } from '@components'
 import { _, userStore } from '@stores'
 import { ob } from '@utils/decorators'
 import Section1 from './component/section-1'
@@ -18,9 +18,10 @@ import { HM } from './ds'
 function Qiafan() {
   return (
     <Component id='screen-qiafan'>
+      <HeaderPlaceholder />
       <ScrollView
         style={_.container.plain}
-        contentContainerStyle={[_.container.page, _.container.wind]}
+        contentContainerStyle={[_.container.bottom, _.container.wind]}
       >
         <Section1 />
         {!userStore.isLimit && (

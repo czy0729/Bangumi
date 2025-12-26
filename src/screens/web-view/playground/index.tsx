@@ -2,11 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-07-07 07:57:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-02 20:17:53
+ * @Last Modified time: 2025-12-27 06:37:20
  */
 import React from 'react'
 import { View } from 'react-native'
-import { BGM_MAP, BgmText, Component, Flex, HeaderV2, Page, Text } from '@components'
+import {
+  BGM_MAP,
+  BgmText,
+  Component,
+  Flex,
+  HeaderPlaceholder,
+  HeaderV2,
+  Page,
+  Text
+} from '@components'
 import { ScrollView } from '@_'
 import { _ } from '@stores'
 import { useObserver } from '@utils/hooks'
@@ -15,7 +24,8 @@ const Playground = () => {
   return useObserver(() => (
     <Component id='screen-playground'>
       <Page>
-        <ScrollView contentContainerStyle={[_.container.page, _.container.wind]}>
+        <HeaderPlaceholder />
+        <ScrollView contentContainerStyle={[_.container.bottom, _.container.wind]}>
           <Flex justify='between' wrap='wrap'>
             {Object.entries(BGM_MAP).map(([key]) => (
               <View key={key} style={[_.mr.sm, _.mb.xs]}>

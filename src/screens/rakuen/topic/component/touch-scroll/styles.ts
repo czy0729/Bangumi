@@ -2,36 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-07-04 12:56:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-16 17:07:16
+ * @Last Modified time: 2025-12-23 05:45:47
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
-  containerRight: {
-    position: 'absolute',
-    top: _.headerHeight,
-    right: 0,
-    bottom: _.ios(64, 46),
-    width: 16,
-    backgroundColor: _.colorPlain
-  },
-  containerLeft: {
-    position: 'absolute',
-    top: _.headerHeight,
-    left: 0,
-    bottom: _.ios(64, 46),
-    width: 16,
-    backgroundColor: _.colorPlain
-  },
-  containerBottom: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 40,
-    width: '100%',
-    height: 24,
-    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
-  },
   notLogin: {
     bottom: 0,
     height: 32,

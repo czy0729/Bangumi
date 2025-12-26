@@ -6,11 +6,11 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { ActionSheet, Divider, Flex, Iconfont, SwitchPro, Text, Touchable } from '@components'
 import { IconTouchable, ItemSetting, Notice } from '@_'
 import { _, systemStore, useStore } from '@stores'
 import { info, stl } from '@utils'
+import { useObserver } from '@utils/hooks'
 import { MODEL_SUBJECT_TYPE, WEB } from '@constants'
 import { memoStyles } from './styles'
 

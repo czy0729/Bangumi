@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-09-29 17:39:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-16 07:21:11
+ * @Last Modified time: 2025-12-23 06:00:59
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   searchBar: {
-    paddingTop: _.headerHeight + _.sm,
+    paddingTop: _.sm,
     paddingHorizontal: _.wind,
     paddingBottom: _.md
   },

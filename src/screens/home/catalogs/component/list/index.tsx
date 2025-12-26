@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-01 09:20:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-04 20:17:41
+ * @Last Modified time: 2025-12-27 06:25:08
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -20,7 +20,7 @@ function List() {
   return useObserver(() => (
     <ListView
       keyExtractor={keyExtractor}
-      contentContainerStyle={_.container.page}
+      contentContainerStyle={_.container.bottom}
       data={$.list}
       renderItem={renderItem}
       onScroll={$.onScroll}

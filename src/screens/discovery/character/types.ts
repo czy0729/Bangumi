@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-09-27 23:52:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-03 16:55:38
+ * @Last Modified time: 2025-12-25 05:05:06
  */
-import { GetRouteParams, RouteCharacter, WithNavigation } from '@types'
-import Store from './store'
-import { TABS_SELF } from './ds'
+import type { GetRouteParams, RouteCharacter, WithNavigation } from '@types'
+import type Store from './store'
+import type { TABS_SELF } from './ds'
 
 export type Ctx = WithNavigation<{
   $: InstanceType<typeof Store>

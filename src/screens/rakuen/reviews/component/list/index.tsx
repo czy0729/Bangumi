@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2021-07-15 17:28:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 02:11:54
+ * @Last Modified time: 2025-12-27 06:31:57
  */
 import React from 'react'
 import { Flex, ListView, Mesume, Text } from '@components'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function List() {
   const { $ } = useStore<Ctx>(COMPONENT)
@@ -32,7 +33,7 @@ function List() {
     return (
       <ListView
         keyExtractor={keyExtractor}
-        contentContainerStyle={_.container.page}
+        contentContainerStyle={_.container.bottom}
         data={$.reviews}
         renderItem={renderItem}
         onScroll={$.onScroll}

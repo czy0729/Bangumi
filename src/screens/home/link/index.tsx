@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2025-12-10 22:31:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-17 22:37:10
+ * @Last Modified time: 2025-12-25 05:19:10
  */
 import React from 'react'
-import { Component, Empty, Page } from '@components'
-import { _, StoreContext } from '@stores'
+import { Component, Empty, HeaderPlaceholder, Page } from '@components'
+import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import Options from './component/options'
 import RelationGraph from './component/relation-graph'
@@ -25,7 +25,8 @@ const SubjectLink = (props: NavigationProps) => {
     return (
       <Component id='screen-subject-link'>
         <StoreContext.Provider value={id}>
-          <Page style={_.container.header} loaded={_loaded && $.map._loaded}>
+          <Page loaded={_loaded && $.map._loaded}>
+            <HeaderPlaceholder />
             {error ? (
               <Empty text='当前没有足够的关联数据' />
             ) : !!$.map.node.length && !$.filterMap.node.length ? (

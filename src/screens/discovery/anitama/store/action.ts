@@ -8,35 +8,11 @@ import { feedback, info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
 import { MODEL_NEWS } from '@constants'
 import Fetch from './fetch'
-import { EXCLUDE_STATE, NAMESPACE } from './ds'
+import { EXCLUDE_STATE } from './ds'
 
 import type { Id } from '@types'
 
-let prevPage: number
-
 export default class Action extends Fetch {
-  init = async () => {
-    this.setState({
-      ...(await this.getStorage(NAMESPACE)),
-      ...EXCLUDE_STATE,
-      show: true,
-      _loaded: true
-    })
-
-    // 首次启动使用页码 1, 再次进入页面使用之前的页码
-    if (!prevPage) {
-      prevPage = this.state.page
-    } else {
-      this.setState({
-        page: Number(prevPage),
-        ipt: String(prevPage)
-      })
-    }
-
-    this.fetchList()
-    return true
-  }
-
   /** 隐藏后延迟显示列表 (用于重置滚动位置) */
   resetScrollView = () => {
     this.setState({
@@ -63,7 +39,7 @@ export default class Action extends Fetch {
       page: value,
       ipt: String(value)
     })
-    prevPage = value
+    this.prevPage = value
     this.fetchList()
     this.resetScrollView()
 
@@ -80,7 +56,7 @@ export default class Action extends Fetch {
       page: value,
       ipt: String(value)
     })
-    prevPage = value
+    this.prevPage = value
     this.fetchList()
     this.resetScrollView()
 
@@ -157,7 +133,7 @@ export default class Action extends Fetch {
       page: value,
       ipt: String(value)
     })
-    prevPage = value
+    this.prevPage = value
     this.fetchList()
     this.resetScrollView()
 

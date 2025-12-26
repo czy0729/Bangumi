@@ -2,23 +2,22 @@
  * @Author: czy0729
  * @Date: 2022-08-19 05:07:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 04:14:09
+ * @Last Modified time: 2025-12-25 05:13:41
  */
-import { ColorValue, ViewStyle } from '@types'
+import type { ColorValue, WithViewStyles } from '@types'
 
-type Route = {
+export type Route = {
   key?: string
   title?: string
 }
 
-type Label = {
-  route?: Route
+type Label<T extends Route> = {
+  route?: T
   focused?: boolean
 }
 
-export type Props = {
-  style?: ViewStyle
-  routes: Route[] | Readonly<Route[]>
+export type Props<T extends Route> = WithViewStyles<{
+  routes: readonly T[]
   tabBarLength?: number
   page?: number
   lazy?: boolean
@@ -27,7 +26,7 @@ export type Props = {
   borderBottomColor?: ColorValue
   underlineColor?: ColorValue
   renderContentHeaderComponent?: any
-  renderItem: (item: Route, index?: number) => any
-  renderLabel?: (item: Label) => any
+  renderItem: (item: T, index?: number) => any
+  renderLabel?: (item: Label<T>) => any
   onChange?: (arg0: any) => any
-}
+}>

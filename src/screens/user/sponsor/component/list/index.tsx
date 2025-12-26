@@ -2,24 +2,26 @@
  * @Author: czy0729
  * @Date: 2023-01-07 17:27:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-21 18:48:13
+ * @Last Modified time: 2025-12-26 22:00:46
  */
 import React from 'react'
+import { useObserver } from 'mobx-react'
 import { Notice, PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { TEXT_UPDATE_SPONSOR } from '@constants'
 import { LIST } from '../../ds'
-import { Ctx } from '../../types'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
 
+import type { Ctx } from '../../types'
+
 function List() {
-  const { $ } = useStore<Ctx>()
-  return (
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
     <PaginationList2
       keyExtractor={keyExtractor}
-      contentContainerStyle={_.container.page}
+      contentContainerStyle={_.container.bottom}
       data={LIST}
       numColumns={2}
       limit={40}
@@ -31,7 +33,7 @@ function List() {
       renderItem={renderItem}
       onScroll={$.onScroll}
     />
-  )
+  ))
 }
 
-export default ob(List, COMPONENT)
+export default List

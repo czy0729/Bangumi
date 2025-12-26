@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-09-28 16:32:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-29 17:54:06
+ * @Last Modified time: 2025-12-23 01:58:33
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Touchable } from '@components'
+import { HeaderPlaceholder, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { WEB } from '@constants'
@@ -18,6 +18,7 @@ import { COMPONENT } from './ds'
 
 import type { ReactNode } from '@types'
 import type { Ctx } from '../../types'
+
 function Media() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
@@ -72,7 +73,12 @@ function Media() {
       )
     }
 
-    return <View style={_.container.wind}>{el}</View>
+    return (
+      <>
+        <HeaderPlaceholder />
+        <View style={_.container.wind}>{el}</View>
+      </>
+    )
   })
 }
 

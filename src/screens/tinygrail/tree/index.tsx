@@ -5,15 +5,18 @@
  * @Last Modified time: 2024-12-17 15:51:05
  */
 import React from 'react'
-import { Component, HeaderV2, Loading, Page, Text } from '@components'
+import { Component, Loading, Text } from '@components'
 import { IconHeader } from '@_'
 import { _, StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { NavigationProps } from '@types'
+import TinygrailHeader from '@tinygrail/_/header'
+import TinygrailPage from '@tinygrail/_/page'
 import Chart from './chart'
 import { useTinygrailTreePage } from './hooks'
 import ToolBar from './tool-bar'
 import { HM } from './ds'
+
+import type { NavigationProps } from '@types'
 
 /** 资产分析 */
 const TinygrailTree = (props: NavigationProps) => {
@@ -23,7 +26,7 @@ const TinygrailTree = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-tinygrail-tree'>
       <StoreContext.Provider value={id}>
-        <Page style={[_.container.tinygrail, _.container.header]}>
+        <TinygrailPage>
           <ToolBar />
           {$.state.loading ? (
             <Loading style={_.container.tinygrail} color={_.colorTinygrailText} />
@@ -36,9 +39,8 @@ const TinygrailTree = (props: NavigationProps) => {
               onLongPress={$.onToggleItem}
             />
           )}
-        </Page>
-        <HeaderV2
-          backgroundStyle={_.container.tinygrail}
+        </TinygrailPage>
+        <TinygrailHeader
           title={$.params?.name || '资产分析'}
           alias='资产分析'
           hm={HM}

@@ -21,7 +21,8 @@ import TimelineList from '../timeline-list'
 import Tinygrail from '../tinygrail'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 class Tab extends React.Component<Props> {
   onIndexChange = (index: number) => {
@@ -78,6 +79,7 @@ class Tab extends React.Component<Props> {
   renderTabBar = props => {
     const { $ } = this.props
     const width = _.window.width / $.tabs.length
+
     return (
       <Animated.View style={[this.styles.tabBarWrap, this.transform]}>
         <TabBar

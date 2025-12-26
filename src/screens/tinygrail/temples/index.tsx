@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-12-23 13:55:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-19 04:38:21
+ * @Last Modified time: 2025-12-24 19:05:57
  */
 import React from 'react'
-import { Component, HeaderV2, ListView, Page } from '@components'
+import { Component, HeaderPlaceholder, HeaderV2, ListView, Page } from '@components'
 import { _, StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import ItemTemple from '@tinygrail/_/item-temple'
 import { refreshControlProps } from '@tinygrail/styles'
-import { NavigationProps } from '@types'
 import { useTinygrailTemplesPage } from './hooks'
 import { EVENT, HM } from './ds'
 import { memoStyles } from './styles'
+
+import type { NavigationProps } from '@types'
 
 /** 最新圣殿 */
 const TinygrailTemples = (props: NavigationProps) => {
@@ -21,6 +22,7 @@ const TinygrailTemples = (props: NavigationProps) => {
 
   return useObserver(() => {
     const styles = memoStyles()
+
     return (
       <Component id='screen-tinygrail-temples'>
         <StoreContext.Provider value={id}>
@@ -29,6 +31,7 @@ const TinygrailTemples = (props: NavigationProps) => {
             loaded={$.templeLast._loaded}
             loadingColor={_.colorTinygrailText}
           >
+            <HeaderPlaceholder />
             <ListView
               keyExtractor={keyExtractor}
               contentContainerStyle={styles.contentContainerStyle}

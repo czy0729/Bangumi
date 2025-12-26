@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:21:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-17 16:20:43
+ * @Last Modified time: 2025-12-27 06:10:46
  */
 import React from 'react'
 import { Loading } from '@components'
@@ -12,11 +12,12 @@ import { ob } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { TEXT_UPDATE_GAME } from '@constants'
 import { ADVANCE_LIMIT, filterDS } from '../../ds'
-import { Ctx } from '../../types'
 import Item from '../item'
 import ItemGrid from '../item-grid'
 import { keyExtractor } from './utils'
 import { COMPONENT } from './ds'
+
+import type { Ctx } from '../../types'
 
 class List extends React.Component<Ctx> {
   connectRef = (ref: { scrollToOffset: any }) => {
@@ -74,7 +75,7 @@ class List extends React.Component<Ctx> {
         key={`${layout}${numColumns}`}
         keyExtractor={keyExtractor}
         connectRef={this.connectRef}
-        contentContainerStyle={_.container.page}
+        contentContainerStyle={_.container.bottom}
         numColumns={numColumns}
         data={$.list}
         limit={9}

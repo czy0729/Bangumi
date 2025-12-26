@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-09-18 14:20:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-05 07:54:23
+ * @Last Modified time: 2025-12-23 02:20:30
  */
 import React from 'react'
-import { Component, Page } from '@components'
+import { Component, HeaderPlaceholder, Page } from '@components'
 import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import List from './component/list'
@@ -23,6 +23,7 @@ const Overview = (props: NavigationProps) => {
     <Component id='screen-overview'>
       <StoreContext.Provider value={id}>
         <Page>
+          <HeaderPlaceholder />
           <ToolBar />
           <List />
         </Page>

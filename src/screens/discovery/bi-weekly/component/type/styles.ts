@@ -10,6 +10,7 @@ export const memoStyles = _.memoStyles(() => ({
   segment: {
     width: _.window.width - _.wind * 2,
     height: 30,
+    marginTop: _.sm,
     marginLeft: _.wind
   }
 }))

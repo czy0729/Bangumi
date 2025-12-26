@@ -10,11 +10,11 @@ export const memoStyles = _.memoStyles(() => {
   const W_TAB_BAR_LEFT = 0
   const W_TAB = _.window.width / 5
   const W_INDICATOR = _.r(16)
+
   return {
     tabBar: {
       position: 'absolute',
       zIndex: 2,
-      top: _.headerHeight,
       right: 0,
       left: 0,
       paddingLeft: W_TAB_BAR_LEFT,

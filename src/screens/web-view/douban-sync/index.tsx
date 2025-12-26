@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-10-16 16:48:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-12 05:43:57
+ * @Last Modified time: 2025-12-26 22:34:47
  */
 import React from 'react'
-import { Component, Page } from '@components'
+import { Component, HeaderPlaceholder, Page } from '@components'
 import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import List from './component/list'
 import Login from './component/login'
 import Tips from './component/tips'
 import Header from './header'
 import { useDoubanSyncPage } from './hooks'
+
+import type { NavigationProps } from '@types'
 
 /** 豆瓣同步 */
 const DoubanSync = (props: NavigationProps) => {
@@ -23,6 +24,7 @@ const DoubanSync = (props: NavigationProps) => {
     <Component id='screen-douban-sync'>
       <StoreContext.Provider value={id}>
         <Page loaded={$.state._loaded}>
+          <HeaderPlaceholder />
           <Login />
           <List />
           <Tips />

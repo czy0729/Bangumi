@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-12-15 16:13:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-28 19:40:05
+ * @Last Modified time: 2025-12-23 05:21:53
  */
 import { useCallback, useRef } from 'react'
 import { findNodeHandle } from 'react-native'
-import { _, useInitStore } from '@stores'
+import { useInitStore } from '@stores'
 import { feedback, postTask } from '@utils'
 import { scrollToTop } from '@utils/dom'
 import { t } from '@utils/fetch'
 import { usePageLifecycle } from '@utils/hooks'
 import { IOS, WEB } from '@constants'
+import { HEADER_HEIGHT } from '@styles'
 import store from './store'
 import { TITLE_HEAD } from './ds'
 
@@ -84,7 +85,7 @@ export function useSubjectPage(props: NavigationProps) {
               (_x: number, _y: number, _w: number, h: number) => {
                 blockRefs.current[name].measure((_x: number, y: number) => {
                   scrollViewRef.current.scrollToOffset({
-                    offset: y + h - _.headerHeight,
+                    offset: y + h - HEADER_HEIGHT,
                     animated: true
                   })
                   callback()
@@ -109,7 +110,7 @@ export function useSubjectPage(props: NavigationProps) {
             findNodeHandle(scrollViewRef.current),
             (_x: number, y: number) => {
               scrollViewRef.current.scrollToOffset({
-                offset: y - _.headerHeight,
+                offset: y - HEADER_HEIGHT,
                 animated: true
               })
               callback()

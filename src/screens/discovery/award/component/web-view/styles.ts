@@ -8,7 +8,6 @@ import { _ } from '@stores'
 
 export const styles = _.create({
   webView: {
-    paddingTop: _.statusBarHeight,
     backgroundColor: 'rgb(0, 0, 0)'
   }
 })
