@@ -6,9 +6,14 @@
  */
 import { _ } from '@stores'
 
-export const styles = _.create({
+export const memoStyles = _.memoStyles(() => ({
   container: {
     minHeight: 96
+  },
+  tags: {
+    minHeight: 64,
+    paddingHorizontal: _.wind,
+    marginTop: 22
   },
   more: {
     paddingVertical: _.md,
@@ -16,5 +21,9 @@ export const styles = _.create({
     marginTop: -_.sm,
     borderRadius: _.radiusSm,
     overflow: 'hidden'
+  },
+  split: {
+    marginTop: 0,
+    marginBottom: 24
   }
-})
+}))

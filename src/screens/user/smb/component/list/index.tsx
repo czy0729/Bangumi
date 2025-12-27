@@ -6,9 +6,9 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { ScrollView } from '@components'
 import { useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import Filter from '../filter'
 import Pagination from '../pagination'
 import Top from '../top'

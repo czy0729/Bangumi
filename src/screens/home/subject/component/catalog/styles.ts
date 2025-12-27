@@ -12,12 +12,11 @@ export const memoStyles = _.memoStyles(() => ({
     marginTop: _.lg
   },
   contentContainerStyle: {
-    paddingTop: _.sm,
+    paddingTop: 18,
     paddingHorizontal: _.wind,
     paddingBottom: _.md + 4
   },
-  scrollView: {
-    marginTop: _.md,
+  scroll: {
     marginBottom: -_.md
   }
 }))

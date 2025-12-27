@@ -92,7 +92,7 @@ const Anitabi = memo(
 
         {showAnitabi && (
           <>
-            <Flex style={_.container.windMtMd}>
+            <Flex style={styles.desc}>
               <Text size={11}>取景城市: </Text>
               <Text size={11} bold>
                 {city}{' '}

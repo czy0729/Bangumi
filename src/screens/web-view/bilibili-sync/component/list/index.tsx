@@ -5,9 +5,9 @@
  * @Last Modified time: 2025-12-26 22:31:40
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Notice, PaginationList2 as PaginationList } from '@_'
 import { _, useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import ToolBar from '../tool-bar'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'

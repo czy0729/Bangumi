@@ -65,23 +65,8 @@ export default class Computed extends State implements StoreConstructor<typeof S
   readonly _wind = _._wind
 
   /** -------------------- 组件高度 -------------------- */
-  /** @deprecated 状态栏高度 */
-  readonly statusBarHeight = _.statusBarHeight
-
-  /** 底部 bottomTab 高度 */
+  /** 底部 BottomTab 高度 */
   readonly tabBarHeight = _.tabBarHeight
-
-  /** @deprecated 带标签栏的头部高度 */
-  readonly tabsHeaderHeight = _.tabsHeaderHeight
-
-  /** @deprecated */
-  readonly header = _.header
-
-  /** @deprecated 头部高度 (顶部 Tab) */
-  readonly appBarHeight = _.appBarHeight
-
-  /** @deprecated 整个头部高度 (状态栏高度 + 头部高度) */
-  readonly headerHeight = _.headerHeight
 
   /** 标签页的标签栏高度 */
   readonly tabsHeight = _.tabsHeight
@@ -591,19 +576,8 @@ export default class Computed extends State implements StoreConstructor<typeof S
   /** 容器 (工具类) */
   @computed get container() {
     return StyleSheet.create({
-      /** @deprecated 带头部间隔布局 */
-      header: {
-        paddingTop: _.headerHeight
-      },
-
       /** 带底部间隔布局 */
       bottom: {
-        paddingBottom: _.bottom
-      },
-
-      /** @deprecated 带头部和底部间隔布局 */
-      page: {
-        paddingTop: _.headerHeight,
         paddingBottom: _.bottom
       },
 
@@ -684,23 +658,6 @@ export default class Computed extends State implements StoreConstructor<typeof S
         paddingHorizontal: this.wind
       },
 
-      /** @deprecated */
-      windMtSm: {
-        paddingHorizontal: this.wind,
-        marginTop: _.md
-      },
-
-      /** @deprecated */
-      windMtMd: {
-        paddingHorizontal: this.wind,
-        marginTop: _.md
-      },
-
-      /** @deprecated */
-      sm: {
-        padding: _.sm
-      },
-
       /** 点击容器布局 */
       touch: {
         borderRadius: _.radiusSm,
@@ -717,15 +674,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
         width: '100%'
       },
 
-      /** @deprecated 请使用 block 代替 */
-      w100: {
-        width: '100%'
-      },
-
-      /** @deprecated */
-      h100: {
-        height: '100%'
-      },
+      /** 块布局 */
       layout: {
         width: '100%',
         height: 1
@@ -873,7 +822,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
     return this.fontSize(32)
   }
 
-  /** <RenderHTML> baseFontStyle 通用封装 */
+  /** RenderHTML baseFontStyle 通用封装 */
   @computed get baseFontStyle() {
     return computed(() => ({
       xs: {
@@ -889,10 +838,5 @@ export default class Computed extends State implements StoreConstructor<typeof S
         lineHeight: 22
       }
     })).get()
-  }
-
-  /** @deprecated 是否扁平模式 */
-  @computed get flat() {
-    return true
   }
 }

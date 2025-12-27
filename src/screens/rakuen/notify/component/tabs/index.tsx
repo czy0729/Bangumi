@@ -5,10 +5,9 @@
  * @Last Modified time: 2024-01-18 05:56:02
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { TabsV2 } from '@components'
 import { _, useStore } from '@stores'
-import { useInsets } from '@utils/hooks'
+import { useInsets, useObserver } from '@utils/hooks'
 import { TABS } from '../../ds'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'

@@ -10,5 +10,8 @@ export const styles = _.create({
   container: {
     minHeight: 210,
     marginTop: _.lg
+  },
+  scroll: {
+    marginTop: 16
   }
 })

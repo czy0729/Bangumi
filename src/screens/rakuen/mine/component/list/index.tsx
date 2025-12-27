@@ -5,9 +5,9 @@
  * @Last Modified time: 2024-11-17 16:38:33
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Flex, ScrollView } from '@components'
 import { _, useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import Item from '../item'
 import { COMPONENT } from './ds'
 

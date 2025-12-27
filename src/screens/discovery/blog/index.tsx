@@ -5,7 +5,7 @@
  * @Last Modified time: 2025-12-24 23:02:25
  */
 import React from 'react'
-import { Component, HeaderPlaceholder, Page } from '@components'
+import { Component, Page } from '@components'
 import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import Heatmaps from './component/heatmaps'
@@ -23,7 +23,6 @@ const DiscoveryBlog = (props: NavigationProps) => {
     <Component id='screen-discovery-blog'>
       <StoreContext.Provider value={id}>
         <Page loaded={$.state._loaded}>
-          <HeaderPlaceholder />
           <Tabs />
           <Heatmaps />
         </Page>

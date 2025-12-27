@@ -99,7 +99,7 @@ function Thumbs({ onBlockRef }: Props) {
 
           {showThumbs && (
             <ScrollViewHorizontal
-              style={_.mt.md}
+              style={styles.scroll}
               contentContainerStyle={_.container.wind}
               onScroll={scrolled ? undefined : handleScroll}
             >
@@ -134,10 +134,22 @@ function Thumbs({ onBlockRef }: Props) {
               <Flex.Item>
                 <IconPic />
               </Flex.Item>
-              <Text size={10} type='icon' align='right' onPress={() => open(referer)}>
+              <Text
+                type='icon'
+                size={10}
+                lineHeight={12}
+                align='right'
+                onPress={() => open(referer)}
+              >
                 数据来源自 {reference}
               </Text>
-              <Iconfont style={_.ml.xs} name='md-open-in-new' size={10} color={_.colorIcon} />
+              <Iconfont
+                style={_.ml.xs}
+                name='md-open-in-new'
+                size={10}
+                lineHeight={12}
+                color={_.colorIcon}
+              />
             </Flex>
           )}
 

@@ -5,10 +5,10 @@
  * @Last Modified time: 2025-12-24 19:12:11
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Component, HeaderPlaceholder, HeaderV2, Page, ScrollView, Text } from '@components'
 import { _ } from '@stores'
 import { appNavigate } from '@utils'
+import { useObserver } from '@utils/hooks'
 import Images from './images'
 import { HM } from './ds'
 

@@ -13,6 +13,7 @@ import { TITLE_TAGS } from '../../ds'
 import Split from '../split'
 import Tags from './tags'
 import { COMPONENT } from './ds'
+import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
 import type { Props } from './types'
@@ -23,6 +24,7 @@ function TagsWrap({ onBlockRef }: Props) {
   return useObserver(() => {
     if (!$.showTags[1]) return null
 
+    const styles = memoStyles()
     return (
       <Component id='screen-subject-tags'>
         <View
@@ -31,6 +33,7 @@ function TagsWrap({ onBlockRef }: Props) {
           collapsable={false}
         />
         <Tags
+          styles={styles}
           show={systemStore.setting.showTags && !!$.tags.length}
           showTags={systemStore.setting.showTags}
           showTyperank={!!$.rank && systemStore.setting.subjectTagsRec}
@@ -39,12 +42,7 @@ function TagsWrap({ onBlockRef }: Props) {
           focusOrigin={systemStore.setting.focusOrigin}
           onSwitchBlock={$.onSwitchBlock}
         />
-        <Split
-          style={{
-            marginTop: 0,
-            marginBottom: 24
-          }}
-        />
+        <Split style={styles.split} />
       </Component>
     )
   })

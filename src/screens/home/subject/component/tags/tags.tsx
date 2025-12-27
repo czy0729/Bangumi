@@ -18,10 +18,10 @@ import IconHidden from '../icon/hidden'
 import RecSegement from './rec-segment'
 import TagsList from './tags-list'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
-import { styles } from './styles'
 
 const Tags = memo(
   ({
+    styles,
     show = true,
     showTags = true,
     showTyperank = false,
@@ -60,14 +60,7 @@ const Tags = memo(
         {show && (
           <>
             {subjectTagsExpand ? (
-              <View
-                style={[
-                  _.container.windMtSm,
-                  {
-                    minHeight: 64
-                  }
-                ]}
-              >
+              <View style={styles.tags}>
                 <Flex wrap='wrap' align='start'>
                   <TagsList showTyperank={showTyperank} />
                 </Flex>

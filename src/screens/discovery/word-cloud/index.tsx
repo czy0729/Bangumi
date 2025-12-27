@@ -33,7 +33,9 @@ const WordCloud = (props: NavigationProps) => {
             <>
               <Filter />
               <ScrollView
-                style={_.container.h100}
+                style={{
+                  height: '100%'
+                }}
                 refreshControl={
                   <RefreshControl
                     refreshing={refreshing}

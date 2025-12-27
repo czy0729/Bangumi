@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-09-09 17:34:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-25 05:03:50
+ * @Last Modified time: 2025-12-28 05:53:18
  */
 import React from 'react'
-import { Component, HeaderPlaceholder, Page } from '@components'
+import { Component, Page } from '@components'
 import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import Tabs from './component/tabs'
@@ -22,7 +22,6 @@ const Character = (props: NavigationProps) => {
     <Component id='screen-character'>
       <StoreContext.Provider value={id}>
         <Page loaded={$.state._loaded} loading={$.loading}>
-          <HeaderPlaceholder />
           <Tabs />
         </Page>
         <Header />

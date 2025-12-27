@@ -5,7 +5,7 @@
  * @Last Modified time: 2025-09-23 23:28:35
  */
 import React, { useCallback, useMemo } from 'react'
-import { ScrollView, View } from 'react-native'
+import { ScrollView } from 'react-native'
 import { Heatmap } from '@components'
 import { InView, PreventTouchPlaceholder, SectionTitle } from '@_'
 import { _ } from '@stores'
@@ -44,22 +44,19 @@ const Catalog = memo(
         </SectionTitle>
 
         {showCatalog && (
-          <>
-            <View style={styles.scrollView}>
-              <ScrollView
-                contentContainerStyle={styles.contentContainerStyle}
-                horizontal
-                {...SCROLL_VIEW_RESET_PROPS}
-                scrollEventThrottle={16}
-                onScroll={onScroll}
-              >
-                {list.map(item => (
-                  <Item key={item.id} item={item} />
-                ))}
-              </ScrollView>
-              <Heatmap id='条目.跳转' from='条目' />
-            </View>
-          </>
+          <ScrollView
+            style={styles.scroll}
+            contentContainerStyle={styles.contentContainerStyle}
+            horizontal
+            {...SCROLL_VIEW_RESET_PROPS}
+            scrollEventThrottle={16}
+            onScroll={onScroll}
+          >
+            {list.map(item => (
+              <Item key={item.id} item={item} />
+            ))}
+            <Heatmap id='条目.跳转' from='条目' />
+          </ScrollView>
         )}
 
         <PreventTouchPlaceholder />

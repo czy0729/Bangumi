@@ -96,8 +96,12 @@ const Summary = memo(
               </>
             ) : (
               !!content && (
-                <Expand ratio={0.88} onPress={subjectHtmlExpand ? undefined : handleNavigate}>
-                  <Text style={_.mt.md} size={15} lineHeight={22} selectable>
+                <Expand
+                  style={_.mt.sm}
+                  ratio={0.88}
+                  onPress={subjectHtmlExpand ? undefined : handleNavigate}
+                >
+                  <Text size={15} lineHeight={22} selectable>
                     {content}
                   </Text>
                 </Expand>

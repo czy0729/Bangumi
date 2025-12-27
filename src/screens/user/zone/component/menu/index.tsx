@@ -5,9 +5,8 @@
  * @Last Modified time: 2025-12-24 22:56:37
  */
 import React, { useMemo } from 'react'
-import { useObserver } from 'mobx-react'
 import { Flex } from '@components'
-import { useInsets } from '@utils/hooks'
+import { useInsets, useObserver } from '@utils/hooks'
 import { IOS } from '@constants'
 import { IS_IOS_5_6_7_8 } from '@styles'
 import Back from './back'

@@ -5,9 +5,9 @@
  * @Last Modified time: 2025-12-26 22:00:46
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Notice, PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { TEXT_UPDATE_SPONSOR } from '@constants'
 import { LIST } from '../../ds'
 import { keyExtractor, renderItem } from './utils'

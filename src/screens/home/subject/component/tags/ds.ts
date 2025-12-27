@@ -10,6 +10,7 @@ import { COMPONENT as PARENT } from '../ds'
 
 import type { systemStore } from '@stores'
 import type { Ctx } from '../../types'
+import type { memoStyles } from './styles'
 
 type $ = Ctx['$']
 
@@ -18,6 +19,7 @@ export const COMPONENT = rc(PARENT, 'Tags')
 export const COMPONENT_MAIN = rc(COMPONENT)
 
 export const DEFAULT_PROPS = {
+  styles: {} as ReturnType<typeof memoStyles>,
   show: true as boolean,
   showTags: true as typeof systemStore.setting.showTags,
   showTyperank: false as typeof systemStore.setting.subjectTagsRec,

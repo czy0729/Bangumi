@@ -43,7 +43,7 @@ function Item({
   const { id: eventId, data: eventData } = event
   const isAuction = !firstBids && !firstAsks
   const isBids = !!firstBids
-  const isTop = index === 0
+
   return (
     <Flex style={styles.container} align='start'>
       <View style={_.mt.md}>
@@ -66,7 +66,7 @@ function Item({
           }}
         />
       </View>
-      <Flex.Item style={!isTop && !_.flat && styles.border}>
+      <Flex.Item>
         <Touchable
           style={styles.item}
           onPress={() => {

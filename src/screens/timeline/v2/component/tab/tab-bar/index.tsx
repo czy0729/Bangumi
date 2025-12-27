@@ -5,10 +5,9 @@
  * @Last Modified time: 2025-12-24 19:04:54
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { TabBar as TabViewTabBar } from '@components'
 import { r } from '@utils/dev'
-import { useInsets } from '@utils/hooks'
+import { useInsets, useObserver } from '@utils/hooks'
 import { renderLabel } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'

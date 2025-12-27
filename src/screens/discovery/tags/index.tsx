@@ -5,7 +5,7 @@
  * @Last Modified time: 2025-12-25 05:15:00
  */
 import React from 'react'
-import { Component, HeaderPlaceholder, Page } from '@components'
+import { Component, Page } from '@components'
 import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import Extra from './component/extra'
@@ -23,7 +23,6 @@ const Tags = (props: NavigationProps) => {
     <Component id='screen-tags'>
       <StoreContext.Provider value={id}>
         <Page loaded={$.state._loaded}>
-          <HeaderPlaceholder />
           <Tabs />
         </Page>
         <Extra />

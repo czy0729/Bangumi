@@ -12,6 +12,10 @@ export const memoStyles = _.memoStyles(() => ({
     minHeight: 200,
     marginTop: _.lg
   },
+  desc: {
+    paddingHorizontal: _.wind,
+    marginTop: _.md
+  },
   image: {
     height: THUMB_HEIGHT
   },

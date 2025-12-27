@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2025-01-16 17:19:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-08 07:00:12
+ * @Last Modified time: 2025-12-28 06:07:40
  */
 import React, { useCallback, useMemo } from 'react'
 import { Flex, Text } from '@components'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import TabsComp from '@tinygrail/_/tabs-v2'
+import TinygrailTabs from '@tinygrail/_/tabs-v2'
 import { TABS } from '../../ds'
 import ToolBar from '../tool-bar'
 import { renderItem } from './utils'
@@ -53,7 +53,7 @@ function Tabs() {
     }, [])
 
     return (
-      <TabsComp
+      <TinygrailTabs
         routes={TABS}
         renderContentHeaderComponent={elToolBar}
         renderItem={renderItem}

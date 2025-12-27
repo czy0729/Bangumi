@@ -5,9 +5,9 @@
  * @Last Modified time: 2024-11-17 16:38:44
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { getJSON } from '@assets/json'
 import Filter from '../filter'
 import { renderItem } from './utils'

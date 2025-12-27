@@ -8,22 +8,24 @@ import React from 'react'
 import { View } from 'react-native'
 import { Avatar, Flex, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
-import { stl, tinygrailOSS } from '@utils'
+import { tinygrailOSS } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function Result({ style }) {
   const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const { list } = $.state
+
   return (
     <View style={style}>
       {list.map((item, index) => (
         <View key={index} style={styles.item}>
-          <Flex style={stl(styles.wrap, index !== 0 && !_.flat && styles.border)}>
+          <Flex style={styles.wrap}>
             {!!item.icon && (
               <View style={_.mr.sm}>
                 <Avatar
