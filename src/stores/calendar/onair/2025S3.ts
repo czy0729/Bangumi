@@ -598,4 +598,4 @@ export const ONAIR_2025S3 = {
     type: '玩具衍生动画',
     weekDayCN: 6
   }
-}
+} as const

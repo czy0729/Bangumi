@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-03-24 07:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-30 06:04:42
+ * @Last Modified time: 2025-12-29 05:10:44
  */
 export const ONAIR_2025S2 = {
   /** 机动战士高达GQuuuuuuX */
@@ -581,4 +581,4 @@ export const ONAIR_2025S2 = {
     type: '漫画改编动画',
     weekDayCN: 1
   }
-}
+} as const

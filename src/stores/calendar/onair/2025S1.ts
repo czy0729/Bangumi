@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-12-13 05:28:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-03 10:48:31
+ * @Last Modified time: 2025-12-29 05:10:47
  */
 export const ONAIR_2025S1 = {
   /** BanG Dream! Ave Mujica */
@@ -489,4 +489,4 @@ export const ONAIR_2025S1 = {
     type: '都市传说衍生画剧动画',
     weekDayCN: 1
   }
-}
+} as const

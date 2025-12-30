@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2025-09-30 16:50:20
- * @Last Modified by:   czy0729
- * @Last Modified time: 2025-09-30 16:50:20
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2025-12-29 05:10:39
  */
 export const ONAIR_2025S4 = {
   /** 永恒余晖 */
@@ -553,4 +553,4 @@ export const ONAIR_2025S4 = {
     type: '漫画改编动画',
     weekDayCN: 6
   }
-}
+} as const
