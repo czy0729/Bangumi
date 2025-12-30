@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-19 00:41:33
+ * @Last Modified time: 2025-12-30 21:13:47
  */
 import { _, collectionStore, rakuenStore, subjectStore, userStore } from '@stores'
 import { getTimestamp } from '@utils'
@@ -172,9 +172,9 @@ export default class ScreenSubject extends Action {
       if (!this.state.focused) return resolve()
       if (this.onScrollY >= _.window.height / 2) return resolve()
 
-      const timer = setInterval(() => {
-        this.warn('waitUntilScrolled', '...', this.onScrollY)
+      this.warn('waitUntilScrolled', '...')
 
+      const timer = setInterval(() => {
         if (!this.state.focused) {
           clearInterval(timer)
           resolve()
