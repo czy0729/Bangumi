@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-19 00:02:08
+ * @Last Modified time: 2025-12-31 20:39:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -1004,6 +1004,17 @@ export default class Computed extends State {
 
     find = this.subjectRelations.find(item => item.type === '主线故事')
     if (find) return freeze(find)
+
+    if (this.type === '书籍' && this.comic?.length) {
+      const item = this.comic[0]
+      return {
+        id: item.id,
+        image: item.image,
+        title: item.name,
+        type: '单行本',
+        url: `${HOST}/subject/${item.id}`
+      } as const
+    }
 
     find = this.subjectRelations.find(item => item.type === '外传')
     if (find) return freeze(find)

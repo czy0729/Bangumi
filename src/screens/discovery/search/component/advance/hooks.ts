@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-09 04:22:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-31 06:18:56
+ * @Last Modified time: 2025-12-31 19:54:51
  */
 import { useEffect, useRef, useState } from 'react'
 import { asc, desc, t2s } from '@utils'
@@ -11,18 +11,11 @@ import { loadJSON } from '@assets/json'
 
 import type { JSONMono } from '@assets/json/types'
 import type { SearchCat, SubjectId } from '@types'
-
-type SubjectTitle = string
-
-type SubItem = {
-  id: SubjectId
-  norm: string
-}
-
-type SubStrings = Record<SubjectTitle, SubItem>
+import type { SubjectTitle, SubStrings } from './types'
 
 const MEMO = new Map<string, SubjectTitle[]>()
 const MEMO_MONO = new Map<string, JSONMono>()
+
 const MAX_LEN = 10
 
 let anime: SubStrings = {}
@@ -180,7 +173,7 @@ async function ensureLoaded(cat: SearchCat) {
   await decode('bangumi-data')
 
   const map: Record<string, SubjectId> = {}
-  get('bangumi-data').forEach((item: { j: string; c?: string; id: SubjectId }) => {
+  get('bangumi-data').forEach(item => {
     map[item.c || item.j] = item.id
   })
 

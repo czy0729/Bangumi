@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-01-09 04:17:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-30 22:26:34
+ * @Last Modified time: 2025-12-31 19:55:02
  */
 import { rc } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
-import { Navigation } from '@types'
 import { COMPONENT as PARENT } from '../ds'
 import { STATE } from '../../store/ds'
-import { memoStyles } from './styles'
+
+import type { Navigation } from '@types'
+import type { memoStyles } from './styles'
 
 export const COMPONENT = rc(PARENT, 'Advance')
 
