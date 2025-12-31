@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-09 10:55:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 06:08:22
+ * @Last Modified time: 2025-12-30 21:07:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,6 +18,7 @@ const Advance = memo(
   ({ navigation, styles, cat = 'subject_2', value = '', onSubmit = FROZEN_FN }) => {
     const { result, substrings } = useResult(cat, value)
     const isSubjectId = /\d+/.test(value)
+
     return (
       <View>
         {isSubjectId && (
@@ -42,6 +43,7 @@ const Advance = memo(
         )}
         {!!value &&
           result
+            .slice()
             .sort((a, b) => desc(substrings.current[a], substrings.current[b]))
             .map(item => (
               <Flex key={item} style={styles.item}>

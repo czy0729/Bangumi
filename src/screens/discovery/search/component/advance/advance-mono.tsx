@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-30 22:21:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 06:06:47
+ * @Last Modified time: 2025-12-30 18:11:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,6 +18,7 @@ const AdvanceMono = memo(
   ({ navigation, styles, value = '', onSubmit = FROZEN_FN }) => {
     const result = useMonoResult(value)
     const isMonoId = /\d+/.test(value)
+
     return (
       <View>
         {isMonoId && (

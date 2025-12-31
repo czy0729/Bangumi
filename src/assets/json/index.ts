@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-17 11:48:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-13 12:29:06
+ * @Last Modified time: 2025-12-31 06:07:18
  */
 import type { JSONData, JSONPath } from './types'
 
@@ -30,6 +30,10 @@ export async function loadJSON<T extends JSONPath>(
 
       case 'substrings/game':
         data = require('./substrings/game.json')
+        break
+
+      case 'substrings/real':
+        data = require('./substrings/real.json')
         break
 
       case 'substrings/alias':

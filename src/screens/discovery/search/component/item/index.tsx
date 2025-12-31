@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-07-27 05:24:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-10 10:39:31
+ * @Last Modified time: 2025-12-31 02:53:21
  */
 import React from 'react'
 import { ItemSearch } from '@_'
 import { _, collectionStore, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { MODEL_SUBJECT_TYPE } from '@constants'
-import { SubjectTypeCn } from '@types'
-import { Ctx } from '../../types'
 import { COMPONENT, EVENT } from './ds'
-import { Props } from './types'
+
+import type { SubjectTypeCn } from '@types'
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
 function Item({ index, ...item }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)

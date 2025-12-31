@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-16 01:22:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-10 10:30:17
+ * @Last Modified time: 2025-12-31 02:54:36
  */
 import React, { useCallback } from 'react'
 import { Input } from '@components'
@@ -10,11 +10,12 @@ import { useStore } from '@stores'
 import { stl } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { MODEL_SEARCH_CAT } from '@constants'
-import { SearchCatCn } from '@types'
-import { Ctx } from '../../types'
 import { NO_LEGACY_DS } from '../ds'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+
+import type { SearchCatCn } from '@types'
+import type { Ctx } from '../../types'
 
 function SearchBar({ iptRef }) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
@@ -26,6 +27,7 @@ function SearchBar({ iptRef }) {
   return useObserver(() => {
     const styles = memoStyles()
     const label = MODEL_SEARCH_CAT.getLabel<SearchCatCn>($.state.cat)
+
     return (
       <Input
         ref={iptRef}

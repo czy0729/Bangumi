@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-01-10 11:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-10 10:39:25
+ * @Last Modified time: 2025-12-31 02:50:54
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Button, Heatmap } from '@components'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function BtnSubmit() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)

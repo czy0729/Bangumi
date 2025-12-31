@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-08-28 19:23:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-13 12:29:13
+ * @Last Modified time: 2025-12-31 06:07:42
  */
 import type { Expand, Id, SubjectId, SubjectType } from '@types'
 
-type Substring = `substrings/${'anime' | 'book' | 'game' | 'alias' | 'addon'}`
+type Substring = `substrings/${'anime' | 'book' | 'game' | 'real' | 'alias' | 'addon'}`
 
 type TypeRank = `typerank/${SubjectType}`
 
