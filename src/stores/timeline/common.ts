@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-07-15 11:11:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 13:25:08
+ * @Last Modified time: 2026-01-01 14:41:58
  */
 import {
   cData,
   cheerio,
+  cHtml,
   cText,
   getTimestamp,
   htmlMatch,
   matchAvatar,
-  safeObject,
-  trim
+  safeObject
 } from '@utils'
 import { fetchHTML } from '@utils/fetch'
 import { HTML_TIMELINE, LIST_EMPTY, MODEL_TIMELINE_SCOPE } from '@constants'
@@ -236,10 +236,11 @@ export function cheerioSay(html: string) {
     id,
     avatar,
     name: cText($('div.statusHeader h3 > a')),
-    text: trim($('div.statusContent > p.text').html()),
+    text: cHtml($('div.statusContent > p.text')) || cHtml($('.sub_info .comment')),
     date: cText($('p.date.tip_j')),
     formhash: $('input[name=formhash]').attr('value')
   })
+
   const sub = $('ul.subReply > li.reply_item')
     .map((_index: number, element: any) => {
       const $tr = cheerio(element)
@@ -252,7 +253,7 @@ export function cheerioSay(html: string) {
         avatar: id === subId ? avatar : '',
         name: cText($tr.find('a.cmt_reply + a.l')),
         text: tr,
-        uid: cData($a, 'id').replace('reply_', '')
+        uid: (cData($a, 'id') || '').replace('reply_', '')
       })
     })
     .get()

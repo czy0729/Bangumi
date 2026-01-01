@@ -2,20 +2,11 @@
  * @Author: czy0729
  * @Date: 2025-12-31 21:05:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-31 21:53:33
+ * @Last Modified time: 2026-01-01 14:43:50
  */
 import React from 'react'
-import {
-  Component,
-  Flex,
-  HeaderPlaceholder,
-  Iconfont,
-  Page,
-  ScrollView,
-  Text,
-  Touchable
-} from '@components'
-import { Notice } from '@_'
+import { View } from 'react-native'
+import { Component, Flex, HeaderPlaceholder, Page, ScrollView, Text, Touchable } from '@components'
 import { _, userStore } from '@stores'
 import { appNavigate, open } from '@utils'
 import { useObserver } from '@utils/hooks'
@@ -34,43 +25,54 @@ const DiscoveryUsers = ({ navigation }: NavigationProps) => {
       <Component id='screen-discovery-users'>
         <Page>
           <HeaderPlaceholder />
-          <Notice>不定期收录一些班友开发的项目（非官方）</Notice>
+
           <ScrollView contentContainerStyle={styles.container}>
-            {DATA.map(item => (
-              <Flex key={item.title} style={styles.item}>
-                <Flex.Item style={_.mr.lg}>
+            {DATA.map(item => {
+              const isInner = 'path' in item
+              const isPost = item.topic.includes('/group/topic/')
+
+              return (
+                <Flex key={item.title} style={styles.item}>
+                  <Flex.Item>
+                    <Touchable
+                      onPress={() => {
+                        if (isInner) {
+                          navigation.push(item.path)
+                        } else {
+                          open(item.url.replace('[USER_ID]', String(userStore.myId || '')))
+                        }
+                      }}
+                    >
+                      <View style={styles.main}>
+                        <Text size={16} bold>
+                          {item.title}
+                        </Text>
+                        <Text style={_.mt.sm} type='sub' size={12}>
+                          {item.name}@{item.userId}
+                        </Text>
+                      </View>
+                    </Touchable>
+                  </Flex.Item>
+
                   <Touchable
                     onPress={() => {
-                      if ('path' in item) {
-                        navigation.push(item.path)
-                      } else {
-                        open(item.url.replace('[USER_ID]', String(userStore.myId || '')))
-                      }
+                      appNavigate(item.topic, navigation)
                     }}
                   >
-                    <Flex>
-                      <Text size={15} bold underline>
-                        {item.title}
-                      </Text>
-                      {'url' in item && (
-                        <Iconfont style={_.ml.sm} name='md-open-in-new' size={18} />
-                      )}
+                    <Flex style={styles.sub}>
+                      <Text type={_.select('sub', 'icon')}>{isPost ? '讨论' : '小组'}</Text>
                     </Flex>
                   </Touchable>
-                </Flex.Item>
-                <Touchable
-                  onPress={() => {
-                    appNavigate(item.topic, navigation)
-                  }}
-                >
-                  <Text type='sub' size={13}>
-                    {item.topic.includes('/group/topic/') ? '帖子' : '小组'}
-                  </Text>
-                </Touchable>
-              </Flex>
-            ))}
+                </Flex>
+              )
+            })}
+
+            <Text style={_.mt.lg} type='icon' size={12} align='center'>
+              不定期收录一些班友开发的社区项目（非官方）
+            </Text>
           </ScrollView>
         </Page>
+
         <Header />
       </Component>
     )

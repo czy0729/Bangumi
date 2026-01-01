@@ -1,9 +1,9 @@
 {
   "expo": {
     "description": "A React Native App for https://bgm.tv, tinygrail plugin 250710",
-    "version": "8.28.2",
+    "version": "8.29.0",
     "android": {
-      "versionCode": 828200,
+      "versionCode": 829000,
       "package": "com.czy0729.bangumi",
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/foreground.png",

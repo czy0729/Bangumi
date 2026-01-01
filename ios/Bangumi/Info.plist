@@ -19,7 +19,7 @@
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
-	<string>8.27.0</string>
+	<string>8.29.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -42,6 +42,8 @@
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
+    <key>NSAllowsArbitraryLoadsInWebContent</key>
+    <true/>
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>

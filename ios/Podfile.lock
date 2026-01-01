@@ -8,7 +8,7 @@ PODS:
   - EXJSONUtils (0.14.0)
   - EXManifests (0.15.8):
     - ExpoModulesCore
-  - Expo (52.0.47):
+  - Expo (52.0.48):
     - ExpoModulesCore
   - ExpoAsset (11.0.5):
     - ExpoModulesCore
@@ -2256,7 +2256,7 @@ SPEC CHECKSUMS:
   EXConstants: 9d62a46a36eae6d28cb978efcbc68aef354d1704
   EXJSONUtils: 01fc7492b66c234e395dcffdd5f53439c5c29c93
   EXManifests: 77e77c283c4c53a50b9bddebed25abe93f0b48f1
-  Expo: 3ddf0d76db6b3eef5d1d9f869676d3b69d95305f
+  Expo: df08d6ba6d04d146d4941ef58864db6bf6a04d7e
   ExpoAsset: 0687fe05f5d051c4a34dd1f9440bd00858413cfe
   ExpoBlur: 567af66164e3043a9a30069594aed1ddf0a88d97
   ExpoCalendar: 2494a630f176436783a8941efd3c38a9c657ae65
