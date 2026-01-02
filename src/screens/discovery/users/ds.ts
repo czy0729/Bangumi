@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-12-31 21:06:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-01 14:12:57
+ * @Last Modified time: 2026-01-02 17:18:08
  */
 export const COMPONENT = 'DiscoveryUsers'
 
@@ -29,11 +29,11 @@ export const DATA = [
     userId: 'tongluoxia'
   },
   {
-    title: 'VIB 数据月刊',
-    path: 'VIB',
-    topic: 'https://bgm.tv/group/qpz',
-    name: 'Jirehlov',
-    userId: 'jirehlov'
+    title: '巡礼地图',
+    url: 'https://www.anitabi.cn/map',
+    topic: 'https://bgm.tv/group/topic/376643',
+    name: '卜卜口',
+    userId: 'itorr'
   },
   {
     title: 'Netabare',
@@ -42,11 +42,26 @@ export const DATA = [
     name: '若卡',
     userId: 'ruocaled'
   },
+
+  {
+    title: 'VIB 数据月刊',
+    path: 'VIB',
+    topic: 'https://bgm.tv/group/qpz',
+    name: 'Jirehlov',
+    userId: 'jirehlov'
+  },
   {
     title: 'Bangumi 半月刊',
     path: 'BiWeekly',
     topic: 'https://bgm.tv/group/biweekly',
-    name: 'biweekly',
-    userId: ''
+    name: '他说nil没法调用IsNil',
+    userId: 'neutrinoliu'
+  },
+  {
+    title: 'BMO:bmoji 合成大表情',
+    url: 'https://bgm.tv/js/lib/bmo/gen_bmo.html',
+    topic: 'https://bgm.tv/group/bmoji',
+    name: '五行行行行行啊',
+    userId: '572805'
   }
 ] as const

@@ -59,41 +59,6 @@ iOS 和安卓都做了兼容，并最大限度保持一致
 - [本地文件夹条目管理](https://www.yuque.com/chenzhenyu-k0epm/znygb4/cq5vqctm7iohgldl?singleDoc)（支持文件夹罗马音刮削）
 - [小圣杯](https://bgm.tv/dev/app/1143)（角色交易空气游戏，客户端独立设计 UI 和交互）
 
-# 版本
-
-## 8.28.0 - 2025/12/17
-
-### 新增
-
-- [x] [关系图] 新增条目关系图一览页面（也支持其他类型如游戏，也能一览书籍单行本）
-
-### 优化
-
-- [x] [条目] 条目设置支持吐槽项自动换行（条目设置里面开启，默认不启用）
-- [x] [条目] 关联板块右侧的更多，支持关联条目的类型筛选
-- [x] 优化提示重新授权的文案（现在提示掉登录其实早就不需要重新登录，通常在进度页下拉刷新就好）
-
-### 修复
-
-- [x] 修复评论保存后出现 HTML 实体名称 (fixed #295)
-- [x] [条目目录] 修复功能不可用
-
-[当前版本图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/eomi40om5ge4xsz0?singleDoc)
-
-[所有更新 CHANGELOG](https://github.com/czy0729/Bangumi/blob/master/web/CHANGELOG.MD)
-
-# 在线
-
-基于 [@storybook/react-native 6.5](https://github.com/storybookjs/react-native) 生成的 iframe.html，尽量少入侵原项目的基础上，补全了一个完整的单页面流程（当然这样是不考虑性能问题的，不可能与正常开发的，例如使用 Next.js 的相提并论）。
-
-关键代码实现：[navigate](https://github.com/czy0729/Bangumi/blob/5904f862203b8f805e24fdae5e1592431deae934/src/components/storybook/utils.ts#L23) | [window popstate](https://github.com/czy0729/Bangumi/blob/5904f862203b8f805e24fdae5e1592431deae934/.storybook/preview.js#L22)
-
-因现在 expo 在网页上面已经很成熟，若以后有空再考虑使用同一套方案补全网页端。
-
-[SPA 应用预览](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-discovery--discovery&viewMode=story)（网页收藏管理条目相关功能不定期开发中，已支持基本的信息展示，移动端最佳）
-
-[Storybook 组件面板预览](https://czy0729.github.io/Bangumi-Storybook/storybook-static)
-
 # 预览
 
 以下为 2025 年 6 月份，一些 UI 相对不重复的页面截屏。图片无法正常加载也可以前往 [语雀](https://www.yuque.com/chenzhenyu-k0epm/znygb4/xcvi52hi66me2kwn?singleDoc) 查看。
@@ -110,6 +75,38 @@ iOS 和安卓都做了兼容，并最大限度保持一致
 ![100](https://github.com/user-attachments/assets/fa74ea9c-ced4-4979-8d30-0e9cfc45956e)
 ![110](https://github.com/czy0729/Bangumi/assets/13514316/027d8499-51a8-4f89-b81e-652fc8210e6f)
 ![120](https://github.com/czy0729/Bangumi/assets/13514316/9e0bfb5d-c5e7-48cb-988d-5a79f5f3cf14)
+
+# 版本
+
+## 8.29.0 - 2026/01/01
+
+### 优化
+
+- [x] [每日放送] 更新 2026S1 元数据
+- [x] [搜索] 优化了本地预搜索的结果，并且支持热门条目的别名
+- [x] [时间胶囊] 兼容收藏的回复吐槽
+- [x] [关系图] 离开页面需要取消余下的批量请求
+- [x] [发现] 合并一些低频菜单
+
+### 修复
+
+- [x] [IPA] 修复 iOS 26 后头部距离计算错误的问题（待验证）
+
+[当前版本图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/oimmqimp0g0m7t3k?singleDoc)
+
+[所有更新 CHANGELOG](https://github.com/czy0729/Bangumi/blob/master/web/CHANGELOG.MD)
+
+# 在线
+
+基于 [@storybook/react-native 6.5](https://github.com/storybookjs/react-native) 生成的 iframe.html，尽量少入侵原项目的基础上，补全了一个完整的单页面流程（当然这样是不考虑性能问题的，不可能与正常开发的，例如使用 Next.js 的相提并论）。
+
+关键代码实现：[navigate](https://github.com/czy0729/Bangumi/blob/5904f862203b8f805e24fdae5e1592431deae934/src/components/storybook/utils.ts#L23) | [window popstate](https://github.com/czy0729/Bangumi/blob/5904f862203b8f805e24fdae5e1592431deae934/.storybook/preview.js#L22)
+
+因现在 expo 在网页上面已经很成熟，若以后有空再考虑使用同一套方案补全网页端。
+
+[SPA 应用预览](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-discovery--discovery&viewMode=story)（网页收藏管理条目相关功能不定期开发中，已支持基本的信息展示，移动端最佳）
+
+[Storybook 组件面板预览](https://czy0729.github.io/Bangumi-Storybook/storybook-static)
 
 # 开发心得
 
