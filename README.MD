@@ -6,7 +6,6 @@
   <img alt="stars" src="https://img.shields.io/github/stars/czy0729/Bangumi" />
   <img alt="forks" src="https://img.shields.io/github/forks/czy0729/Bangumi" />
   <img alt="issues" src="https://img.shields.io/github/issues/czy0729/Bangumi" />
-  <img alt="codacy" src="https://img.shields.io/codacy/grade/473bdb1186484703b4069148730a3c12" />
   <img alt="downloads" src="https://img.shields.io/github/downloads/czy0729/Bangumi/total" />
 </p>
 
@@ -63,12 +62,12 @@ iOS 和安卓都做了兼容，并最大限度保持一致
 
 以下为 2025 年 6 月份，一些 UI 相对不重复的页面截屏。图片无法正常加载也可以前往 [语雀](https://www.yuque.com/chenzhenyu-k0epm/znygb4/xcvi52hi66me2kwn?singleDoc) 查看。
 
-![00](https://github.com/user-attachments/assets/54391db0-8490-4a43-b270-210040e46458)
+![00](https://github.com/user-attachments/assets/5caae283-c172-4853-92cd-a96e8db9d4c5)
 ![10](https://github.com/user-attachments/assets/d38ac8b5-255e-4137-9a4d-584ec8e7fb85)
 ![20](https://github.com/user-attachments/assets/086a26c8-170f-43ad-9471-ff935edec5a1)
-![30](https://github.com/user-attachments/assets/30b9e5f2-99f1-4744-9b92-7b58e9675cdb)
-![40](https://github.com/user-attachments/assets/78d42532-e1c6-44d9-80cb-ddf0f8e328d4)
-![60](https://github.com/czy0729/Bangumi/assets/13514316/eb3e6f5c-b43f-4c61-a03f-830c3082d718)
+![30](https://github.com/user-attachments/assets/dda7d530-f133-4a98-8560-d0bfa678ef89)
+![40](https://github.com/user-attachments/assets/000e06e5-0fc9-4ec8-b21d-b1eb9d200750)
+![60](https://github.com/user-attachments/assets/7fddd964-61b5-44c3-bb02-8759d40dae13)
 ![70](https://github.com/czy0729/Bangumi/assets/13514316/a753a8a7-701e-46cb-95e6-ea172ff1137b)
 ![80](https://github.com/czy0729/Bangumi/assets/13514316/8e05e8fe-15bc-4801-9834-575d9ad59a2d)
 ![90](https://github.com/user-attachments/assets/442c4cdc-1772-49d7-85e3-6f126fbef438)
