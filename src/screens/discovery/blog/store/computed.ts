@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-08-09 03:15:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-09 04:37:31
+ * @Last Modified time: 2026-01-02 20:57:08
  */
 import { computed } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
 import { x18s } from '@utils'
 import { TABS } from '../ds'
-import { BlogType } from '../types'
 import State from './state'
+
+import type { BlogType } from '../types'
 
 export default class Computed extends State {
   get type() {

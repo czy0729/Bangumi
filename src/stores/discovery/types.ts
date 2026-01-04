@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 14:21:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-20 17:27:49
+ * @Last Modified time: 2026-01-03 06:21:00
  */
 import type {
   DeepPartial,
@@ -148,7 +148,9 @@ export type BlogItem = {
   replies: string
   content: string
   username: string
-  subject: string
+  userId: UserId
+  subject?: string
+  subjectId?: SubjectId
   tags: string
 }
 

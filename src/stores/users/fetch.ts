@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 14:03:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-09 20:58:22
+ * @Last Modified time: 2026-01-04 07:28:17
  */
 import { getTimestamp } from '@utils'
 import { fetchHTML } from '@utils/fetch'
@@ -200,32 +200,37 @@ export default class Fetch extends Computed {
   }
 
   /** 用户日志 */
-  fetchBlogs = async (args?: { userId?: UserId }, refresh?: boolean) => {
-    const { userId = userStore.myId } = args || {}
-    const key = 'blogs'
-    const limit = 10
-    const { list, pagination } = this[key](userId)
-    const page = refresh ? 1 : pagination.page + 1
+  fetchBlogs = async (userId: UserId = userStore.myId, refresh?: boolean) => {
+    const STATE_KEY = 'blogs'
+    const ITEM_KEY = userId
+    const LIMIT = 10
 
-    const html = await fetchHTML({
-      url: HTML_USERS_BLOGS(userId, page)
-    })
-    const _list = cheerioBlogs(html)
-    this.setState({
-      [key]: {
-        [userId]: {
-          list: refresh ? _list : [...list, ..._list],
-          pagination: {
-            page,
-            pageTotal: _list.length === limit ? 100 : page
-          },
-          _loaded: getTimestamp()
+    try {
+      const { list, pagination } = this[STATE_KEY](ITEM_KEY)
+      const page = refresh ? 1 : pagination.page + 1
+      const html = await fetchHTML({
+        url: HTML_USERS_BLOGS(userId, page)
+      })
+
+      const next = cheerioBlogs(html)
+      this.setState({
+        [STATE_KEY]: {
+          [ITEM_KEY]: {
+            list: refresh ? next : [...list, ...next],
+            pagination: {
+              page,
+              pageTotal: next.length >= LIMIT ? 100 : page
+            },
+            _loaded: getTimestamp()
+          }
         }
-      }
-    })
-    this.save(key)
+      })
+      this.save(STATE_KEY)
+    } catch (error) {
+      this.error('fetchBlogs', error)
+    }
 
-    return this[key](userId)
+    return this[STATE_KEY](userId)
   }
 
   /** 用户目录 */

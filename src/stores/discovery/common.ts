@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:24:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-08 21:35:04
+ * @Last Modified time: 2026-01-03 06:48:09
  */
 import {
   cData,
@@ -169,16 +169,19 @@ export function cheerioBlog(html: string) {
   const $ = cheerio(htmlMatch(html, '<div id="columnA', '<div id="columnB'))
   return cMap($('#entry_list .item'), $row => {
     const $a = cFind($row, 'h2.title a')
+    const $user = cFind($row, '.time a.l')
 
-    let username = ''
+    const username = cText($user)
+    const userId = (cData($user, 'href') || '').replace('/user/', '')
     let subject = ''
+    let subjectId = ''
     let replies = ''
     if (cText(cFind($row, '.time a.l', 2))) {
-      username = cText(cFind($row, '.time a.l'))
-      subject = cText(cFind($row, '.time a.l', 1))
+      const $subject = cFind($row, '.time a.l', 1)
+      subject = cText($subject)
+      subjectId = (cData($subject, 'href') || '').replace('/subject/', '')
       replies = cText(cFind($row, '.time a.l', 2))
     } else {
-      username = cText(cFind($row, '.time a.l'))
       replies = cText(cFind($row, '.time a.l', 1))
     }
     if (replies === '0 回复') replies = ''
@@ -190,7 +193,9 @@ export function cheerioBlog(html: string) {
       time: getBlogItemTime(cText(cFind($row, '.time'), true)),
       content: cText(cFind($row, '.content')).replace(/\r\n/g, ' '),
       username,
+      userId,
       subject,
+      subjectId,
       replies,
       tags: ''
     } as BlogItem

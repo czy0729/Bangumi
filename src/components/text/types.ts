@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-06-13 10:52:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-19 20:46:52
+ * @Last Modified time: 2026-01-03 06:44:39
  */
-import { MutableRefObject } from 'react'
-import { Text as RNText, TextProps } from 'react-native'
-import { Override, TextStyle } from '@types'
+import type { MutableRefObject } from 'react'
+import type { Text as RNText, TextProps } from 'react-native'
+import type { Override, TextStyle } from '@types'
 
 export type TextType =
   | 'plain'

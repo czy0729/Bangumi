@@ -2,17 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-01-06 07:42:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-24 19:42:18
+ * @Last Modified time: 2026-01-02 20:59:19
  */
 import React from 'react'
 import { Heatmap } from '@components'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { TABS_HEADER_HEIGHT } from '@styles'
 import { COMPONENT } from './ds'
 
 function Heatmaps() {
-  return (
+  r(COMPONENT)
+
+  return useObserver(() => (
     <>
       <Heatmap
         right={_.wind + 62}
@@ -27,7 +30,7 @@ function Heatmaps() {
         transparent
       />
     </>
-  )
+  ))
 }
 
-export default ob(Heatmaps, COMPONENT)
+export default Heatmaps

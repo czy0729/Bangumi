@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-07-24 11:11:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-09 21:50:09
+ * @Last Modified time: 2026-01-04 07:51:47
  */
 import { cData, cFind, cheerio, cMap, cText, htmlMatch, matchAvatar, safeObject } from '@utils'
+import { getBlogItemTime } from '../discovery/utils'
 
 import type { MonoId, SubjectTypeValue } from '@types'
-import type { CatalogsItem, CharactersItem, RecentsItem, Users } from './types'
-
+import type { BlogsItem, CatalogsItem, CharactersItem, RecentsItem, Users } from './types'
 /** 好友列表 */
 export function cheerioFriends(html: string) {
   return cheerio(htmlMatch(html, '<div id="columnUserSingle"', '<div id="footer">'))('li.user')
@@ -123,7 +123,7 @@ export function cheerioCharacters(html: string) {
 /** 我收藏人物的最近作品 */
 export function cheerioRecents(html: string) {
   const $ = cheerio(htmlMatch(html, '<div id="columnCrtBrowserB', '<div id="footer'))
-  return cMap<RecentsItem>($('#browserItemList li.item'), $row => {
+  return cMap($('#browserItemList li.item'), $row => {
     const $a = cFind($row, 'h3 a.l')
     return {
       id: cData($row, 'id').replace('item_', '') as MonoId,
@@ -136,43 +136,49 @@ export function cheerioRecents(html: string) {
       info: cText(cFind($row, 'p.info')),
       star: cData(cFind($row, 'span.starlight'), 'class').match(/stars(\d+)/)?.[1] || '',
       starInfo: cText(cFind($row, '.rateInfo .tip_j')),
-      actors: cMap<RecentsItem['actors'][number]>($row.find('.actorBadge'), $row => ({
+      actors: cMap($row.find('.actorBadge'), $row => ({
         id: cData(cFind($row, 'a.avatar'), 'href').replace(/^\/+/, '') as MonoId,
         avatar: cData(cFind($row, 'img'), 'src'),
         name: cText(cFind($row, 'a.l')),
         info: cText(cFind($row, 'small.grey'))
       }))
-    }
+    } as RecentsItem
   })
 }
 
 /** 用户日志列表 */
 export function cheerioBlogs(html: string) {
-  const $ = cheerio(
-    htmlMatch(html, '<div id="columnA" class="column">', '<div id="columnB" class="column">')
-  )
-  return (
-    $('div#entry_list > div.item')
-      .map((_index: number, element: any) => {
-        const $li = cheerio(element)
-        const $a = $li.find('h2.title a')
-        return safeObject({
-          id: $a.attr('href').replace('/blog/', ''),
-          title: $a.text(),
-          cover: $li.find('span.pictureFrameGroup img').attr('src'),
-          time: $li.find('div.time .time').text(),
-          replies: $li.find('div.time .orange').text().replace(/\(|\)/g, ''),
-          content: $li.find('div.content').text().replace(' (more)', '').replace(/^\n/, ''),
-          tags: $li
-            .find('div.tags')
-            .text()
-            .replace('Tags: ', '')
-            .split(' ')
-            .filter(item => !!item)
-        })
-      })
-      .get() || []
-  )
+  const $ = cheerio(htmlMatch(html, '<div id="columnA"', '<div id="columnB"'))
+  return cMap($('#entry_list .item'), $row => {
+    const $a = cFind($row, 'h2.title a')
+
+    let subject = ''
+    let subjectId = ''
+    let replies = ''
+    if (cText(cFind($row, '.time a.l', 1))) {
+      const $subject = cFind($row, '.time a.l')
+      subject = cText($subject)
+      subjectId = (cData($subject, 'href') || '').replace('/subject/', '')
+      replies = cText(cFind($row, '.time a.l', 1))
+    } else {
+      replies = cText(cFind($row, '.time a.l'))
+    }
+    if (replies === '0 回复') replies = ''
+
+    return {
+      id: cData($a, 'href').replace('/blog/', ''),
+      title: cText($a),
+      cover: cData(cFind($row, 'a.avatar img'), 'src'),
+      time: getBlogItemTime(cText(cFind($row, '.time'), true)),
+      subject,
+      subjectId,
+      replies,
+      content: cText(cFind($row, '.content')).replace(/\r\n/g, ' '),
+      tags: cText(cFind($row, '.tags'))
+        .split(' ')
+        .filter(item => !!item)
+    } as BlogsItem
+  })
 }
 
 /** 用户目录列表 */

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:32:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-09 21:59:42
+ * @Last Modified time: 2026-01-04 07:47:57
  */
 import { LIST_EMPTY } from '@constants'
 
 import type { UserId } from '@types'
-import type { Catalogs, Characters, Recents, Users } from './types'
+import type { Blogs, Catalogs, Characters, Recents, Users } from './types'
 
 export const NAMESPACE = 'Users'
 
@@ -95,9 +95,7 @@ export const STATE = {
   recents: LIST_EMPTY as Recents,
 
   /** 用户日志 */
-  blogs: {
-    0: LIST_EMPTY
-  },
+  blogs: {} as Record<UserId, Blogs>,
 
   /** 用户目录 */
   catalogs: {} as Record<UserId, Catalogs>,

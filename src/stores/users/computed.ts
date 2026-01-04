@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 13:59:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-23 01:37:45
+ * @Last Modified time: 2026-01-04 07:47:18
  */
 import { computed } from 'mobx'
 import { HTMLDecode } from '@utils'
@@ -105,10 +105,12 @@ export default class Computed
 
   /** 用户日志 */
   blogs(userId?: UserId) {
-    this.init('blogs', true)
-    return computed<Blogs>(() => {
-      const key = userId || userStore.myId
-      return this.state.blogs[key] || LIST_EMPTY
+    const STATE_KEY = 'blogs'
+    this.init(STATE_KEY, true)
+
+    return computed(() => {
+      const ITEM_KEY = userId || userStore.myId
+      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as Blogs
     }).get()
   }
 

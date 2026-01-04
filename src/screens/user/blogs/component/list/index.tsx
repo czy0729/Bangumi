@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-07 18:05:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-27 06:35:32
+ * @Last Modified time: 2026-01-04 06:23:47
  */
 import React, { useCallback } from 'react'
 import { ListView } from '@components'
@@ -16,7 +16,8 @@ import type { Ctx } from '../../types'
 
 function List() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
-  const renderItem = useCallback(
+
+  const handleRenderItem = useCallback(
     ({ item, index }) => <ItemBlog navigation={navigation} event={EVENT} index={index} {...item} />,
     [navigation]
   )
@@ -26,7 +27,7 @@ function List() {
       keyExtractor={keyExtractor}
       contentContainerStyle={_.container.bottom}
       data={$.blogs}
-      renderItem={renderItem}
+      renderItem={handleRenderItem}
       onHeaderRefresh={$.refresh}
       onFooterRefresh={$.fetchBlogs}
     />

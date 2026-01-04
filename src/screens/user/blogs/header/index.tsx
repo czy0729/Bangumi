@@ -2,44 +2,45 @@
  * @Author: czy0729
  * @Date: 2022-03-16 00:34:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 06:36:29
+ * @Last Modified time: 2026-01-04 06:23:10
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { IconBookmarks } from '@_'
 import { useStore } from '@stores'
 import { open } from '@utils'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import { TEXT_MENU_BROWSER } from '@constants'
-import { Ctx } from '../types'
 import { COMPONENT, DATA } from './ds'
 
-function Header() {
-  const { $, navigation } = useStore<Ctx>()
-  return (
-    <HeaderV2
-      title='用户日志'
-      hm={$.hm}
-      headerRight={() => (
-        <>
-          <IconBookmarks navigation={navigation} />
-          <HeaderV2Popover
-            data={DATA}
-            onSelect={title => {
-              if (title === TEXT_MENU_BROWSER) {
-                open($.url)
+import type { Ctx } from '../types'
 
-                t('用户日志.右上角菜单', {
-                  key: title
-                })
-              }
-            }}
-          />
-        </>
-      )}
-    />
+function Header() {
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
+
+  const handleHeaderRight = useCallback(
+    () => (
+      <>
+        <IconBookmarks navigation={navigation} />
+        <HeaderV2Popover
+          data={DATA}
+          onSelect={title => {
+            if (title === TEXT_MENU_BROWSER) {
+              open($.url)
+
+              t('用户日志.右上角菜单', {
+                key: title
+              })
+            }
+          }}
+        />
+      </>
+    ),
+    [$, navigation]
   )
+
+  return useObserver(() => <HeaderV2 title='用户日志' hm={$.hm} headerRight={handleHeaderRight} />)
 }
 
-export default ob(Header, COMPONENT)
+export default Header

@@ -2,28 +2,39 @@
  * @Author: czy0729
  * @Date: 2022-03-11 21:51:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-04 01:31:32
+ * @Last Modified time: 2026-01-03 06:10:38
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { HeaderV2, HeaderV2Popover } from '@components'
+import { IconHeader } from '@_'
+import { _ } from '@stores'
 import { getSPAParams, open } from '@utils'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
-import { TEXT_MENU_BROWSER, TEXT_MENU_SPA, URL_SPA } from '@constants'
+import { useNavigation, useObserver } from '@utils/hooks'
+import { HOST, TEXT_MENU_BROWSER, TEXT_MENU_SPA, URL_SPA } from '@constants'
 import { COMPONENT, DATA, HM } from './ds'
 
 function Header() {
-  return (
-    <HeaderV2
-      title='日志'
-      alias='全站日志'
-      hm={HM}
-      headerRight={() => (
+  r(COMPONENT)
+
+  const navigation = useNavigation()
+
+  const handleHeaderRight = useCallback(
+    () => (
+      <>
+        <IconHeader
+          name='md-person-outline'
+          color={_.colorDesc}
+          onPress={() => {
+            navigation.push('Blogs')
+          }}
+        />
         <HeaderV2Popover
           data={DATA}
           onSelect={title => {
             if (title === TEXT_MENU_BROWSER) {
-              open('https://bgm.tv/blog')
+              open(`${HOST}/blog`)
             } else if (title === TEXT_MENU_SPA) {
               open(`${URL_SPA}/${getSPAParams('DiscoveryBlog')}`)
             }
@@ -33,9 +44,14 @@ function Header() {
             })
           }}
         />
-      )}
-    />
+      </>
+    ),
+    [navigation]
   )
+
+  return useObserver(() => (
+    <HeaderV2 title='日志' alias='全站日志' hm={HM} headerRight={handleHeaderRight} />
+  ))
 }
 
-export default ob(Header, COMPONENT)
+export default Header

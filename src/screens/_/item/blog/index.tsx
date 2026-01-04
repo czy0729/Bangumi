@@ -2,23 +2,24 @@
  * @Author: czy0729
  * @Date: 2020-03-22 15:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-10 17:43:18
+ * @Last Modified time: 2026-01-04 07:58:28
  */
-import React, { useMemo } from 'react'
+import React from 'react'
 import { View } from 'react-native'
-import { Component, Cover, Divider, Flex, Link, Text } from '@components'
+import { Component, Cover, Flex, Link, Text } from '@components'
 import { _, discoveryStore } from '@stores'
-import { findSubjectCn, HTMLDecode, stl } from '@utils'
+import { HTMLDecode, stl } from '@utils'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import { EVENT, IMG_HEIGHT_SM, IMG_WIDTH_SM } from '@constants'
+import { EVENT } from '@constants'
+import { Tag } from '../../base'
 import { InView } from '../../base/in-view'
 import BtnPopover from './btn-popover'
-import { COMPONENT } from './ds'
+import { COMPONENT, IMG_HEIGHT, IMG_WIDTH, ITEM_HEIGHT } from './ds'
 import { memoStyles } from './styles'
-import { Props as ItemBlogProps } from './types'
 
-export { ItemBlogProps }
+import type { Props as ItemBlogProps } from './types'
+export type { ItemBlogProps }
 
 export const ItemBlog = ({
   style,
@@ -28,7 +29,9 @@ export const ItemBlog = ({
   title,
   content,
   username,
+  userId,
   subject,
+  subjectId,
   typeCn,
   time,
   replies,
@@ -37,18 +40,8 @@ export const ItemBlog = ({
 }: ItemBlogProps) => {
   r(COMPONENT)
 
-  const line = useMemo(() => {
-    const arr = []
-    if (username) arr.push(username)
-    if (subject) arr.push(findSubjectCn(subject, id))
-    if (time) arr.push(time)
-    return arr.length ? HTMLDecode(arr.join(' · ')) : ''
-  }, [id, subject, time, username])
-
   return useObserver(() => {
     const styles = memoStyles()
-    const readed = discoveryStore.blogReaded(id)
-    const height = IMG_HEIGHT_SM
 
     const linkProps = {
       path: 'Blog',
@@ -67,19 +60,33 @@ export const ItemBlog = ({
       }
     } as const
 
+    const subTextProps = {
+      type: 'sub',
+      size: 11,
+      lineHeight: 13,
+      numberOfLines: 1
+    } as const
+
     return (
       <Component id='item-blog' data-key={id}>
-        <View style={stl(styles.container, style, readed && styles.readed)}>
-          <Flex style={styles.wrap} align='start'>
+        <View style={stl(styles.item, style)}>
+          <Flex
+            style={stl(styles.main, discoveryStore.blogReaded(id) && styles.readed)}
+            align='start'
+          >
             {!!cover && (
-              <InView style={styles.inView} y={height * 1.5 * (index + 1)}>
-                <Cover
-                  src={cover}
-                  width={IMG_WIDTH_SM}
-                  height={cover.includes('/user/') ? IMG_WIDTH_SM : height}
-                  radius
-                  type={typeCn}
-                />
+              <InView style={styles.inView} y={ITEM_HEIGHT * (index + 1)}>
+                <Link {...linkProps}>
+                  <Cover
+                    src={cover}
+                    width={IMG_WIDTH}
+                    height={
+                      cover.includes('/user/') || cover.includes('/photo/') ? IMG_WIDTH : IMG_HEIGHT
+                    }
+                    radius={_.radiusXs}
+                    type={typeCn}
+                  />
+                </Link>
               </InView>
             )}
 
@@ -87,45 +94,72 @@ export const ItemBlog = ({
               <Flex align='start'>
                 <Flex.Item>
                   <Link {...linkProps}>
-                    <Text size={14} numberOfLines={2} bold>
+                    <Text lineHeight={15} numberOfLines={2} bold>
                       {HTMLDecode(title)}
-                      {replies !== '+0' && (
-                        <Text size={12} type='main' lineHeight={14} bold>
+                      {!!replies && (
+                        <Text type='main' size={11} lineHeight={15} bold>
                           {'  '}
                           {replies}
                         </Text>
                       )}
                     </Text>
-
-                    {!!line && (
-                      <Text style={_.mt.xs} type='sub' size={12} bold>
-                        {line}
-                      </Text>
-                    )}
                   </Link>
                 </Flex.Item>
                 <BtnPopover id={id} title={title} />
               </Flex>
 
-              <Link style={_.mt.sm} {...linkProps}>
-                <Text size={13} lineHeight={15} numberOfLines={4}>
+              <Link {...linkProps}>
+                <Text style={styles.content} size={13} lineHeight={15} numberOfLines={4}>
                   {HTMLDecode(content)}
                 </Text>
               </Link>
 
-              {!!tags.length && (
-                <Flex style={_.mt.md}>
-                  <Flex.Item />
-                  <Text style={stl(styles.tags, readed && styles.tagsBorder)} size={13}>
-                    tags: {typeof tags === 'string' ? tags : tags.join(' ')}
-                  </Text>
+              {!!(username || subject || time) && (
+                <Flex style={styles.sub}>
+                  {!!username && (
+                    <>
+                      <Link
+                        path='Zone'
+                        params={{
+                          userId
+                        }}
+                      >
+                        <Text {...subTextProps}>{username}</Text>
+                      </Link>
+                      <Text {...subTextProps}> · </Text>
+                    </>
+                  )}
+                  {!!subject && (
+                    <>
+                      <Link
+                        style={{
+                          flexShrink: 1
+                        }}
+                        path='Subject'
+                        params={{
+                          subjectId
+                        }}
+                      >
+                        <Text {...subTextProps} ellipsizeMode='middle'>
+                          {subject}
+                        </Text>
+                      </Link>
+                      <Text {...subTextProps}> · </Text>
+                    </>
+                  )}
+                  <Text {...subTextProps}>{time.slice(2)}</Text>
+
+                  {!!tags.length &&
+                    (typeof tags === 'string' ? (
+                      <Tag style={_.ml.sm} type='plain' value={tags} />
+                    ) : (
+                      tags.map(item => <Tag key={item} style={_.ml.sm} type='plain' value={item} />)
+                    ))}
                 </Flex>
               )}
             </Flex.Item>
           </Flex>
         </View>
-
-        <Divider />
       </Component>
     )
   })

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-02 10:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-09 21:56:18
+ * @Last Modified time: 2026-01-04 07:46:27
  */
 import type {
   Avatar,
@@ -13,6 +13,7 @@ import type {
   ListEmpty,
   Loaded,
   MonoId,
+  SubjectId,
   SubjectTypeValue,
   UserId
 } from '@types'
@@ -131,16 +132,21 @@ export type RecentsItem = {
 /** 我收藏的人物近况 */
 export type Recents = ListEmpty<RecentsItem>
 
-/** 用户日志 */
-export type Blogs = ListEmpty<{
+/** 用户日志项 */
+export type BlogsItem = {
   id: Id
   title: string
   cover: string
   time: string
+  subject?: string
+  subjectId?: SubjectId
   replies: string
   content: string
   tags: string[]
-}>
+}
+
+/** 用户日志 */
+export type Blogs = ListEmpty<BlogsItem>
 
 /** 用户目录项 */
 export type CatalogsItem = {

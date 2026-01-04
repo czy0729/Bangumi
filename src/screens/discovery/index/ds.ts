@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-31 21:54:35
+ * @Last Modified time: 2026-01-02 20:51:03
  */
 import { _ } from '@stores'
 import { IOS, WEB } from '@constants'
@@ -80,18 +80,6 @@ export const MENU_MAP: MenuMapType = {
     name: '猜你喜欢',
     icon: 'md-looks'
   },
-  // BiWeekly: {
-  //   key: 'BiWeekly',
-  //   name: '半月刊',
-  //   text: '半',
-  //   size: 18
-  // },
-  // VIB: {
-  //   key: 'VIB',
-  //   name: '评分月刊',
-  //   text: 'VIB',
-  //   size: 14
-  // },
   Dollars: {
     key: 'Dollars',
     name: 'Dollars',
@@ -109,6 +97,7 @@ export const MENU_MAP: MenuMapType = {
     key: 'Yearbook',
     name: '年鉴',
     text: '年',
+    size: 18,
     web: false
   },
   UserTimeline: {
@@ -117,12 +106,6 @@ export const MENU_MAP: MenuMapType = {
     icon: 'md-timeline',
     login: true
   },
-  // Netabare: {
-  //   key: 'Netabare',
-  //   name: 'netaba.re',
-  //   text: 'N',
-  //   size: 18
-  // },
   Anitama: {
     key: 'Anitama',
     name: '资讯',
@@ -154,6 +137,7 @@ export const MENU_MAP: MenuMapType = {
     key: 'Backup',
     name: '本地备份',
     text: '备',
+    size: 18,
     web: false
   },
   DiscoveryUsers: {

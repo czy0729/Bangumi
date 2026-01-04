@@ -6,8 +6,8 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
