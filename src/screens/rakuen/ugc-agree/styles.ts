@@ -7,6 +7,13 @@
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
+  scroll: {
+    flex: 1,
+    paddingTop: _.md,
+    paddingHorizontal: _.wind,
+    paddingBottom: _.bottom,
+    backgroundColor: _.colorBg
+  },
   baseFontStyle: {
     fontSize: 13 + _.fontSizeAdjust,
     lineHeight: 22,

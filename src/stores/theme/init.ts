@@ -7,7 +7,7 @@
 import { ORIENTATION_PORTRAIT, WEB } from '@constants'
 import _ from '@styles'
 
-import type { MemoStylesItem } from './types'
+import type { MemoStylesItem, Mode, Orientation, TinygrailMode } from './types'
 
 export type themeWindowType = {
   width: number
@@ -95,8 +95,8 @@ export function getMemoStylesId(): MemoStylesItem {
 }
 
 const STATE = {
-  mode: DEFAULT_MODE,
-  orientation: ORIENTATION_PORTRAIT,
+  mode: DEFAULT_MODE as Mode,
+  orientation: ORIENTATION_PORTRAIT as Orientation,
   window: _.window,
   wind: _.wind,
   _wind: _._wind,
@@ -106,7 +106,7 @@ const STATE = {
   landscapeWindSm: _.landscapeWindSm,
   fontSizeAdjust: 0,
   ...STYLES_LIGHT,
-  tinygrailMode: DEFAULT_TINYGRAIL_MODE,
+  tinygrailMode: DEFAULT_TINYGRAIL_MODE as TinygrailMode,
   tinygrailThemeMode: DEFAULT_TINYGRAIL_THEME_MODE,
   wsaLayoutChanged: 0
 }

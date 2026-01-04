@@ -10,9 +10,10 @@ import { _, systemStore } from '@stores'
 import { appNavigate } from '@utils/app'
 import { ob, withHeader } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { NavigationProps } from '@types'
 import { HTML } from './ds'
 import { memoStyles } from './styles'
+
+import type { NavigationProps } from '@types'
 
 const title = '社区指导原则'
 
@@ -50,12 +51,9 @@ class UGCAgree extends React.Component<NavigationProps> {
 
   render() {
     const { navigation } = this.props
+
     return (
-      <ScrollView
-        style={[_.container.screen, _.container.outer]}
-        contentContainerStyle={_.container.bottom}
-        scrollToTop
-      >
+      <ScrollView style={this.styles.scroll} contentContainerStyle={_.container.bottom} scrollToTop>
         <RenderHtml
           html={HTML}
           baseFontStyle={this.styles.baseFontStyle}

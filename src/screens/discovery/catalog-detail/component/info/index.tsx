@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-06 16:07:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-22 01:14:13
+ * @Last Modified time: 2026-01-04 17:23:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -30,7 +30,7 @@ function Info() {
     return (
       <View style={styles.container}>
         <Header.Placeholder />
-        <View style={_.container.inner}>
+        <View style={styles.info}>
           <Text size={20} bold>
             {$.detail.title}
           </Text>

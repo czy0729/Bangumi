@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 14:20:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-24 23:04:47
+ * @Last Modified time: 2026-01-04 17:29:05
  */
 import { StyleSheet } from 'react-native'
 import { computed } from 'mobx'
@@ -14,7 +14,7 @@ import State from './state'
 
 import type { SelectFn, StoreConstructor } from '@types'
 import type { STATE } from './init'
-import type { Color, FontStyle, Mode, Orientation, TinygrailMode } from './types'
+import type { Color, FontStyle } from './types'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   /** 主题选择, 黑暗模式使用第二个值 */
@@ -218,7 +218,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 当前设备方向 */
   @computed get orientation() {
-    return this.state.orientation as Orientation
+    return this.state.orientation
   }
 
   /** 水平窗口布局常用值 */
@@ -243,12 +243,12 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 主题模式 */
   @computed get mode() {
-    return this.state.mode as Mode
+    return this.state.mode
   }
 
   /** 主题模式 (小圣杯) */
   @computed get tinygrailMode() {
-    return this.state.tinygrailMode as TinygrailMode
+    return this.state.tinygrailMode
   }
 
   /** 主题颜色 (小圣杯) */
@@ -575,7 +575,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 容器 (工具类) */
   @computed get container() {
-    return StyleSheet.create({
+    return this.create({
       /** 带底部间隔布局 */
       bottom: {
         paddingBottom: _.bottom
@@ -638,19 +638,6 @@ export default class Computed extends State implements StoreConstructor<typeof S
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center'
-      },
-
-      /** @deprecated */
-      outer: {
-        paddingHorizontal: this.wind,
-        paddingTop: _.space,
-        paddingBottom: _.bottom
-      },
-
-      /** @deprecated */
-      inner: {
-        paddingVertical: _.space,
-        paddingHorizontal: this.wind
       },
 
       /** 带两翼间隔布局 */

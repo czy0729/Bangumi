@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:48:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-27 16:34:17
+ * @Last Modified time: 2026-01-04 17:26:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,7 +17,6 @@ import {
   Text
 } from '@components'
 import { _, useStore } from '@stores'
-import { stl } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
@@ -28,7 +27,7 @@ function Info() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => (
-    <View style={stl(styles.container, _.container.inner)}>
+    <View style={styles.container}>
       <HeaderPlaceholder />
       <Text size={20} bold>
         {$.groupInfo.title || $.params._title}
