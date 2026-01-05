@@ -2,21 +2,23 @@
  * @Author: czy0729
  * @Date: 2024-07-01 07:23:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-09 23:47:56
+ * @Last Modified time: 2026-01-05 05:47:06
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Text } from '@components'
 import { IconHeader } from '@_'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
+import type { Ctx } from '../../types'
+
 function Favor() {
-  const { $ } = useStore<Ctx>()
-  return (
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
     <View style={$.favorCount ? styles.withCollect : _.mr.xs}>
       <IconHeader
         name={$.isFavor ? 'md-star' : 'md-star-outline'}
@@ -29,7 +31,7 @@ function Favor() {
         </Text>
       )}
     </View>
-  )
+  ))
 }
 
-export default ob(Favor, COMPONENT)
+export default Favor

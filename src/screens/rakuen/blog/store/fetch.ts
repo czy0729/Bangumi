@@ -18,9 +18,7 @@ export default class Fetch extends Computed {
   fetchBlog = async () => {
     this.fetchThirdParty()
 
-    const { blog } = await rakuenStore.fetchBlog({
-      blogId: this.blogId
-    })
+    const { blog } = await rakuenStore.fetchBlog(this.blogId)
 
     if (
       blog.title &&

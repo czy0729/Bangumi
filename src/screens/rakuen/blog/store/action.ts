@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-06-21 05:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-16 09:09:19
+ * @Last Modified time: 2026-01-04 20:20:26
  */
 import { toJS } from 'mobx'
 import { rakuenStore, systemStore } from '@stores'
@@ -13,9 +13,10 @@ import { MUSUME_BLOG_PROMPT, MUSUME_PROMPT } from '@utils/kv/ds'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HOST, IOS } from '@constants'
 import { getTopicMainFloorRawText } from '@screens/rakuen/topic/utils'
-import { CompletionItem, Fn, Id, TopicId } from '@types'
 import Fetch from './fetch'
 import { EXCLUDE_STATE } from './ds'
+
+import type { CompletionItem, Fn, Id, TopicId } from '@types'
 
 export default class Action extends Fetch {
   /** 本地化 */
@@ -190,7 +191,6 @@ export default class Action extends Fetch {
     })
 
     const { formhash } = this.blog
-
     rakuenStore.doReplyBlog(
       {
         blogId: this.blogId.match(/\d+/g)[0] as TopicId,

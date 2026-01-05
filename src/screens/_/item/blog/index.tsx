@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-22 15:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-04 07:58:28
+ * @Last Modified time: 2026-01-04 20:14:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -67,22 +67,22 @@ export const ItemBlog = ({
       numberOfLines: 1
     } as const
 
+    const hasCover = !!cover
+    const hasSub = !!(username || subject || time)
+    const isReaded = discoveryStore.blogReaded(id)
+    const isUserCover = hasCover && (cover.includes('/user/') || cover.includes('/photo/'))
+
     return (
       <Component id='item-blog' data-key={id}>
         <View style={stl(styles.item, style)}>
-          <Flex
-            style={stl(styles.main, discoveryStore.blogReaded(id) && styles.readed)}
-            align='start'
-          >
-            {!!cover && (
+          <Flex style={stl(styles.main, isReaded && styles.readed)} align='start'>
+            {hasCover && (
               <InView style={styles.inView} y={ITEM_HEIGHT * (index + 1)}>
                 <Link {...linkProps}>
                   <Cover
                     src={cover}
                     width={IMG_WIDTH}
-                    height={
-                      cover.includes('/user/') || cover.includes('/photo/') ? IMG_WIDTH : IMG_HEIGHT
-                    }
+                    height={isUserCover ? IMG_WIDTH : IMG_HEIGHT}
                     radius={_.radiusXs}
                     type={typeCn}
                   />
@@ -114,7 +114,7 @@ export const ItemBlog = ({
                 </Text>
               </Link>
 
-              {!!(username || subject || time) && (
+              {hasSub && (
                 <Flex style={styles.sub}>
                   {!!username && (
                     <>

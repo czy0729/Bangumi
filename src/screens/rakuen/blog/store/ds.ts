@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-12-17 06:54:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-16 08:59:47
+ * @Last Modified time: 2026-01-04 20:20:32
  */
-import { CompletionItem, Id, Loaded } from '@types'
 import { COMPONENT } from '../ds'
+
+import type { CompletionItem, Id, Loaded } from '@types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 

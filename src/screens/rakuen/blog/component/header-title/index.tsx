@@ -2,20 +2,22 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-09 23:47:35
+ * @Last Modified time: 2026-01-05 05:48:42
  */
 import React from 'react'
 import { Flex, Text } from '@components'
 import { Avatar } from '@_'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT, IMG_WIDTH } from './ds'
 import { styles } from './styles'
 
+import type { Ctx } from '../../types'
+
 function HeaderTitle() {
-  const { $, navigation } = useStore<Ctx>()
-  return (
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
     <Flex style={styles.container}>
       {!!$.avatar && (
         <Avatar
@@ -37,7 +39,7 @@ function HeaderTitle() {
         )}
       </Flex.Item>
     </Flex>
-  )
+  ))
 }
 
-export default ob(HeaderTitle, COMPONENT)
+export default HeaderTitle

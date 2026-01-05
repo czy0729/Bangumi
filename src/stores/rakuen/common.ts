@@ -340,9 +340,7 @@ export function cheerioTopic(html: string) {
     try {
       likes = JSON.parse(html.match(/data_likes_list\s*=\s*(\{.*?\});/)?.[1])
     } catch (error) {}
-  } catch (ex) {
-    console.log(ex)
-  }
+  } catch (ex) {}
 
   return {
     topic,
@@ -363,7 +361,7 @@ export function cheerioBlog(html: string) {
     blog = {
       avatar: cData($('#viewEntry .author img'), 'src'),
       floor: '#0',
-      formhash: cData(cFind($, 'input[name=formhash]'), 'value'),
+      formhash: cData($('input[name=formhash]'), 'value'),
       message: cHtml($('#entry_content')),
       time: getBlogTime(cText($('.header .time'))),
       title: cText($('#viewEntry h1.title')),

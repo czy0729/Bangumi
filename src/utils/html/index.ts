@@ -337,7 +337,10 @@ export function cEach($el: any, callback: ($ele: any, index?: number) => void) {
   } catch (error) {}
 }
 
-/** cheerio.find.eq */
+/**
+ * cheerio.find.eq
+ *  - 切勿使用 cFind($, ...)
+ * */
 export function cFind($el: any, selector: string, index: number | 'last' = 0) {
   try {
     return index === 'last' ? $el.find(selector).last() : $el.find(selector).eq(index)

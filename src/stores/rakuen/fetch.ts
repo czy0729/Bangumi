@@ -414,46 +414,45 @@ export default class Fetch extends Computed {
   }
 
   /** 获取日志内容和留言 */
-  fetchBlog = async (args: { blogId: Id }) => {
-    const { blogId } = args || {}
-    const html = await fetchHTML({
-      url: HTML_BLOG(blogId)
-    })
-    const { blog, blogComments } = cheerioBlog(html)
-    const _loaded = getTimestamp()
+  fetchBlog = async (blogId: Id) => {
+    const STATE_KEY = 'blog'
+    const STATE_KEY_COMMENTS = 'blogComments'
+    const ITEM_KEY = blogId
 
-    // 缓存帖子内容
-    const stateKey = blogId
-    const blogKey = 'blog'
-    this.setState({
-      [blogKey]: {
-        [stateKey]: {
-          ...blog,
-          _loaded
-        }
-      }
-    })
-    this.save(blogKey)
+    try {
+      const html = await fetchHTML({
+        url: HTML_BLOG(blogId)
+      })
+      const { blog, blogComments } = cheerioBlog(html)
+      const _loaded = getTimestamp()
 
-    // 缓存帖子回复
-    const commentsKey = 'blogComments'
-    this.setState({
-      [commentsKey]: {
-        [stateKey]: {
-          list: blogComments,
-          pagination: {
-            page: 1,
-            pageTotal: 1
-          },
-          _list: [],
-          _loaded
+      this.setState({
+        [STATE_KEY]: {
+          [ITEM_KEY]: {
+            ...blog,
+            _loaded
+          }
+        },
+        [STATE_KEY_COMMENTS]: {
+          [ITEM_KEY]: {
+            list: blogComments,
+            pagination: {
+              page: 1,
+              pageTotal: 1
+            },
+            _list: [],
+            _loaded
+          }
         }
-      }
-    })
+      })
+      this.save(STATE_KEY)
+    } catch (error) {
+      this.error('fetchBlog', error)
+    }
 
     return {
-      blog,
-      blogComments
+      blog: this[STATE_KEY](ITEM_KEY),
+      blogComments: this[STATE_KEY_COMMENTS](ITEM_KEY)
     }
   }
 
