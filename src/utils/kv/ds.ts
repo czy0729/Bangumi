@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 13:14:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-03 15:28:59
+ * @Last Modified time: 2026-01-07 05:24:38
  */
 import { UA } from '@constants/constants'
 import { WEB } from '@constants/device'
@@ -27,6 +27,14 @@ export const HOST_COMPLETIONS = Crypto.get<string>(
 
 export const HOST_PIC_LIST = Crypto.get<string>(
   'U2FsdGVkX19nL+8jq0zc5bckkgT4cjT94R+V+aNRq8VavbU/ANY8bhv2GocwhXIM10NZCVELVMHpITkJUdY7XkK9vni6dsxGQ8Lo1qxnSR1/EAMhJAW3Ve+I6fJmdxqN'
+)
+
+export const HOST_C2 = Crypto.get<string>(
+  'U2FsdGVkX1+45ZOzOs2kt9Z+/GkoqXPvMLHFBIpgMOfVrWx68C1BoiVJ86mvTnZdH4Nbgjg6uZBe4k9iyth69w=='
+)
+
+export const HOST_C2_CONFIG = Crypto.get<string>(
+  'U2FsdGVkX1/F1iKuNM/knEoDVrbXS0v4bRtX+zIlkOUhydQ0ce+Vq/rgDMpPoGWYDLyvJD5s7t1ZHnwfZ+1rxcVNf/LlVsPq0FQkyjcyXAkPL90tImgeEeq4O1ytd9/5F4hvBDPX+6SDyOdW2Kt4agWpe8l0pMTRrE7Ezpkzk4JPcy/CCPJfLK+4kxhJxt9g6wXKyN4amC0fYlsboasO+n3t2FJgSlgjYzDBCZO7jC8D4cwwxwcT6wXNULZyrEHd'
 )
 
 /** 唯一性标记, 完全一样的 POST 请求不会发送第二次 */

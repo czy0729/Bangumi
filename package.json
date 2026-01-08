@@ -48,7 +48,7 @@
     "csvjson-csv2json": "^5.0.6",
     "dayjs": "1.10.8",
     "deepmerge": "4.2.2",
-    "expo": "54.0.12",
+    "expo": "54.0.22",
     "expo-asset": "~12.0.9",
     "expo-blur": "~15.0.7",
     "expo-calendar": "~15.0.7",

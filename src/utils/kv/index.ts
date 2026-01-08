@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-06-23 01:47:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-22 20:28:49
+ * @Last Modified time: 2026-01-07 05:24:41
  */
+import Constants from 'expo-constants'
 import { WEB } from '@constants/device'
 import Crypto from '../crypto'
 import { isDevtoolsOpen } from '../dom'
@@ -11,10 +12,20 @@ import { axios } from '../thirdParty'
 import hash from '../thirdParty/hash'
 import { getTimestamp } from '../utils'
 import { err, log } from './utils'
-import { HEADERS, HOST, HOST_COMPLETIONS, HOST_PIC_LIST, UPDATE_CACHE_MAP } from './ds'
+import {
+  HEADERS,
+  HOST,
+  HOST_C2,
+  HOST_C2_CONFIG,
+  HOST_COMPLETIONS,
+  HOST_PIC_LIST,
+  UPDATE_CACHE_MAP
+} from './ds'
 
 import type { TranslateResult } from '@types'
 import type { Result, ResultCollectList, ResultPicList, ResultTemp } from './type'
+
+let userAgent = ''
 
 /** 获取 */
 export async function get<T = any>(key: string): Promise<T | null> {
@@ -377,7 +388,7 @@ export async function list(count: number = 100) {
   return null
 }
 
-export async function lx(text: string): Promise<false | TranslateResult> {
+export async function lx(text: string, advance?: boolean): Promise<false | TranslateResult> {
   if (isDevtoolsOpen()) return Promise.reject('denied')
 
   // 云缓存, 因每个月免费翻译额度有限, 避免过多调用
@@ -389,7 +400,8 @@ export async function lx(text: string): Promise<false | TranslateResult> {
   const responseText = await completions(
     '你是一位擅长自然语言表达的日语到中文翻译，请让译文自然流畅、符合中文口语习惯，但不要添加解释或注释。',
     '',
-    text
+    text,
+    advance
   )
   if (typeof responseText !== 'string' || !responseText.trim().length) return false
 
@@ -409,10 +421,20 @@ export async function lx(text: string): Promise<false | TranslateResult> {
   return transResult
 }
 
-export async function completions(prompt: string, roleSystem: string, roleUser: string) {
+export async function completions(
+  prompt: string,
+  roleSystem: string,
+  roleUser: string,
+  advance?: boolean
+) {
   if (isDevtoolsOpen()) return Promise.reject('denied')
 
   try {
+    if (advance) {
+      const version = await get('completions_v')
+      if (version === '2') return c2(prompt, roleSystem, roleUser)
+    }
+
     const response = await axios({
       method: 'post',
       url: HOST_COMPLETIONS,
@@ -432,6 +454,41 @@ export async function completions(prompt: string, roleSystem: string, roleUser: 
           }
         ],
         temperature: 1.2
+      }
+    })
+
+    const text = response?.data?.choices?.[0]?.message?.content || ''
+    return text
+  } catch (error) {
+    return ''
+  }
+}
+
+async function c2(prompt: string, roleSystem: string, roleUser: string) {
+  if (!userAgent) userAgent = await Constants.getWebViewUserAgentAsync()
+
+  try {
+    const response = await axios({
+      method: 'post',
+      url: HOST_C2,
+      headers: {
+        ...JSON.parse(HOST_C2_CONFIG),
+        'User-Agent': userAgent
+      },
+      data: {
+        messages: [
+          {
+            role: 'system',
+            content: `${prompt}${roleSystem}`
+          },
+          {
+            role: 'user',
+            content: roleUser
+          }
+        ],
+        temperature: 1.2,
+        model: 'gemini-2.0-flash-exp',
+        stream: false
       }
     })
 

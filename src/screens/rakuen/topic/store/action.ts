@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:09:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-15 23:18:54
+ * @Last Modified time: 2026-01-07 05:18:23
  */
 import { toJS } from 'mobx'
 import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
@@ -544,7 +544,7 @@ export default class Action extends Fetch {
 
       const text = getTopicMainFloorRawText(this.title, this.html)
       if (isGemini) {
-        const response = await lx(text)
+        const response = await lx(text, systemStore.advance)
         hide()
 
         if (response) {
@@ -591,7 +591,7 @@ export default class Action extends Fetch {
 
       const text = removeHTMLTag(msg.replace(/<br>/g, '\n'), false)
       if (isGemini) {
-        const translateResult = await lx(text)
+        const translateResult = await lx(text, systemStore.advance)
         hide()
 
         if (translateResult) {
@@ -687,7 +687,7 @@ export default class Action extends Fetch {
     this.setState({
       chatLoading: true
     })
-    const value = await completions(prompt, roleSystem, roleUser)
+    const value = await completions(prompt, roleSystem, roleUser, systemStore.advance)
     this.setState({
       chatLoading: false
     })

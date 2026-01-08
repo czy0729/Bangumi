@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-06-21 05:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-04 20:20:26
+ * @Last Modified time: 2026-01-07 05:16:10
  */
 import { toJS } from 'mobx'
 import { rakuenStore, systemStore } from '@stores'
@@ -365,7 +365,7 @@ export default class Action extends Fetch {
     this.setState({
       chatLoading: true
     })
-    const value = await completions(prompt, roleSystem, roleUser)
+    const value = await completions(prompt, roleSystem, roleUser, systemStore.advance)
     this.setState({
       chatLoading: false
     })

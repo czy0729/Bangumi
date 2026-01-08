@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-21 23:24:50
+ * @Last Modified time: 2026-01-07 05:18:18
  */
 import { toJS } from 'mobx'
 import { StatusBar } from '@components'
@@ -93,6 +93,7 @@ import type {
 } from '@types'
 import type { OriginItem } from '../../../user/origin-setting/utils'
 import type { EpsItem } from '../types'
+
 export default class Action extends Fetch {
   private _updateStatusBarTimeoutId = null
 
@@ -1410,7 +1411,7 @@ export default class Action extends Fetch {
       hide = loading('请求中...')
 
       if (isGemini) {
-        const response = await lx(this.summary)
+        const response = await lx(this.summary, systemStore.advance)
         hide()
 
         if (response) {
@@ -1599,7 +1600,8 @@ export default class Action extends Fetch {
     const value = await completions(
       `${MUSUME_PROMPT[musumePrompt]}${MUSUME_SUBJECT_PROMPT}`,
       roleSystem,
-      roleUser
+      roleUser,
+      systemStore.advance
     )
     this.setState({
       chatLoading: false

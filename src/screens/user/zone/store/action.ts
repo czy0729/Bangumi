@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-08 18:28:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-13 21:19:13
+ * @Last Modified time: 2026-01-07 05:16:21
  */
 import { toJS } from 'mobx'
 import { systemStore, timelineStore, uiStore, userStore } from '@stores'
@@ -12,7 +12,9 @@ import { completions, get, update } from '@utils/kv'
 import { MUSUME_PROMPT, MUSUME_ZONE_PROMPT } from '@utils/kv/ds'
 import { webhookFriend } from '@utils/webhooks'
 import { HOST, MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants'
-import {
+import Fetch from './fetch'
+
+import type {
   CompletionItem,
   Navigation,
   ScrollEvent,
@@ -20,7 +22,6 @@ import {
   TimeLineType,
   TimeLineTypeCn
 } from '@types'
-import Fetch from './fetch'
 
 export default class Action extends Fetch {
   private y = 0
@@ -435,7 +436,8 @@ export default class Action extends Fetch {
     const value = await completions(
       `${MUSUME_PROMPT[musumePrompt]}${MUSUME_ZONE_PROMPT}`,
       roleSystem,
-      roleUser
+      roleUser,
+      systemStore.advance
     )
     this.setState({
       chatLoading: false

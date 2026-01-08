@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-21 18:33:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-10 04:42:22
+ * @Last Modified time: 2026-01-07 05:18:05
  */
 import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
 import { systemStore, tinygrailStore, userStore } from '@stores'
@@ -137,7 +137,7 @@ export default class Action extends Fetch {
         .replace(/<br \/>/g, '\n')
         .replace(/<\/?[^>]*>/g, '') // 去除HTML tag
       if (isGemini) {
-        const response = await lx(text)
+        const response = await lx(text, systemStore.advance)
         hide()
 
         if (response) {
@@ -184,7 +184,7 @@ export default class Action extends Fetch {
 
       const text = removeHTMLTag(msg.replace(/<br>/g, '\n'))
       if (isGemini) {
-        const translateResult = await lx(text)
+        const translateResult = await lx(text, systemStore.advance)
         hide()
 
         if (translateResult) {

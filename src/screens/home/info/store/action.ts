@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-11-08 06:51:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-08 06:52:42
+ * @Last Modified time: 2026-01-07 05:17:58
  */
 import { systemStore } from '@stores'
 import { info, loading } from '@utils'
@@ -22,7 +22,7 @@ export default class Action extends Computed {
       hide = loading('请求中...')
 
       if (isGemini) {
-        const response = await lx(this.summary)
+        const response = await lx(this.summary, systemStore.advance)
         hide()
 
         if (response) {
