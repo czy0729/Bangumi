@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:23:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-21 21:39:36
+ * @Last Modified time: 2026-01-09 17:42:02
  */
 import { getCoverSrc } from '@components/cover/utils'
 import { collectionStore, userStore } from '@stores'
@@ -37,7 +37,8 @@ import {
   MODEL_COLLECTION_STATUS,
   MODEL_EP_STATUS,
   MODEL_SUBJECT_TYPE,
-  SITE_AGEFANS
+  SITE_AGEFANS,
+  TEXT_MENU_TOPIC
 } from '@constants'
 import { replaceOriginUrl } from '../../../user/origin-setting/utils'
 import Fetch from './fetch'
@@ -53,9 +54,10 @@ import {
   TEXT_UNPIN
 } from './ds'
 
+import type { Ep } from '@stores/subject/types'
 import type { EpId, EpStatus, Id, Navigation, RatingStatus, SubjectId } from '@types'
 import type { OriginItem } from '../../../user/origin-setting/utils'
-import type { EpsItem, TabsLabel } from '../types'
+import type { TabsLabel } from '../types'
 
 export default class Action extends Fetch {
   /** 标签页切换 */
@@ -487,7 +489,7 @@ export default class Action extends Fetch {
   }
 
   /** 章节更新统一入口 */
-  doUpdateEp = async (value: string | number, item: EpsItem, subjectId: SubjectId) => {
+  doUpdateEp = async (value: string | number, item: Ep, subjectId: SubjectId) => {
     try {
       this.prepareEpsFlip(subjectId)
 
@@ -516,7 +518,7 @@ export default class Action extends Fetch {
   }
 
   /** 更新收视进度 */
-  doUpdateEpStatus = async (value: string | number, item: EpsItem, subjectId: SubjectId) => {
+  doUpdateEpStatus = async (value: string | number, item: Ep, subjectId: SubjectId) => {
     const status = MODEL_EP_STATUS.getValue<EpStatus>(value)
     t('首页.章节菜单操作', {
       title: '更新收视进度',
@@ -544,7 +546,7 @@ export default class Action extends Fetch {
   }
 
   /** 批量更新收视进度 */
-  doUpdateSubjectWatched = async (item: EpsItem, subjectId: SubjectId) => {
+  doUpdateSubjectWatched = async (item: Ep, subjectId: SubjectId) => {
     t('首页.章节菜单操作', {
       title: '批量更新收视进度',
       subjectId
@@ -605,9 +607,9 @@ export default class Action extends Fetch {
   }
 
   /** 本集讨论 */
-  toEp = (item: EpsItem, subjectId: SubjectId, navigation: Navigation) => {
+  toEp = (item: Ep, subjectId: SubjectId, navigation: Navigation) => {
     t('首页.章节菜单操作', {
-      title: '本集讨论',
+      title: TEXT_MENU_TOPIC,
       subjectId
     })
 
@@ -632,12 +634,7 @@ export default class Action extends Fetch {
   }
 
   /** 章节菜单操作 */
-  doEpsSelect = async (
-    value: string,
-    item: EpsItem,
-    subjectId: SubjectId,
-    navigation: Navigation
-  ) => {
+  doEpsSelect = async (value: string, item: Ep, subjectId: SubjectId, navigation: Navigation) => {
     const status = MODEL_EP_STATUS.getValue<EpStatus>(value)
     if (status) {
       this.doUpdateEpStatus(value, item, subjectId)
@@ -657,7 +654,7 @@ export default class Action extends Fetch {
     }
 
     // iOS 是本集讨论, 安卓是 (+N)...
-    if (value.includes('本集讨论') || value.includes('(+')) {
+    if (value.includes(TEXT_MENU_TOPIC) || value.includes('(+')) {
       this.toEp(item, subjectId, navigation)
       return
     }
@@ -702,7 +699,7 @@ export default class Action extends Fetch {
   }
 
   /** 添加日历 */
-  doSaveCalenderEvent = (item: EpsItem, subjectId: SubjectId) => {
+  doSaveCalenderEvent = (item: Ep, subjectId: SubjectId) => {
     const subject = this.subject(subjectId)
     saveCalenderEvent(item, cnjp(subject.name_cn, subject.name), this.onAirCustom(subjectId))
 

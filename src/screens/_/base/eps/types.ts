@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-06-13 08:07:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 22:11:30
+ * @Last Modified time: 2026-01-09 17:43:38
  */
-import { Fn, SubjectId, ViewStyle } from '@types'
+import type { Ep } from '@stores/subject/types'
+import type { Fn, SubjectId, ViewStyle } from '@types'
 
 export type Props = {
   style?: ViewStyle
@@ -16,7 +17,7 @@ export type Props = {
   canPlay?: boolean
 
   /** 章节数据 */
-  eps?: any[] | readonly any[]
+  eps?: readonly Ep[]
 
   /** 外部是否网格模式 */
   grid?: boolean
@@ -55,7 +56,7 @@ export type Props = {
   onFliped?: Fn
 
   /** 选择回调 */
-  onSelect?: (value?: string, item?: object, subjectId?: SubjectId) => void
+  onSelect?: (value?: string, item?: Ep, subjectId?: SubjectId) => void
 
   /** @deprecated 长按回调 */
   // onLongPress?: (item?: object, subjectId?: SubjectId) => void

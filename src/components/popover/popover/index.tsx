@@ -2,18 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-03-16 10:54:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-03 22:41:48
+ * @Last Modified time: 2026-01-09 19:51:18
  */
 import React, { useEffect, useMemo, useRef } from 'react'
 import { DeviceEventEmitter, View } from 'react-native'
-import { _, systemStore } from '@stores'
+import { systemStore } from '@stores'
 import { s2t } from '@utils/thirdParty/open-cc'
 import { FROZEN_FN, IOS } from '@constants'
 import { HoldItem } from '../../hold-menu'
-import { PopoverIOSItems } from './types'
+
+import type { PopoverIOSItems } from './types'
 
 const EVENT_TYPE = 'POPOVER_ONSELECT'
-let id = 0
+
+let uniqueId = 0
 
 function Popover({ activateOn, children, ...other }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -21,7 +23,7 @@ function Popover({ activateOn, children, ...other }) {
   const title = other.title || other.overlay?.props?.title || ''
   const onSelect = other.onSelect || other.overlay?.props?.onSelect || FROZEN_FN
 
-  const eventId = useRef((id += 1))
+  const eventId = useRef((uniqueId += 1))
   const eventType = `${EVENT_TYPE}|${eventId.current}`
 
   const items = useMemo<PopoverIOSItems>(() => {
@@ -71,8 +73,6 @@ function Popover({ activateOn, children, ...other }) {
     <View style={other.style}>
       <HoldItem
         key={items.map(item => item.text).join()}
-        // @ts-expect-error
-        styles={styles.holdItem}
         items={items}
         activateOn={activateOn || 'tap'}
         disableMove={items.length >= 10}
@@ -86,10 +86,3 @@ function Popover({ activateOn, children, ...other }) {
 }
 
 export default Popover
-
-const styles = _.create({
-  holdItem: {
-    position: 'relative',
-    maxWidth: '50%'
-  }
-})

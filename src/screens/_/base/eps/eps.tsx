@@ -2,19 +2,21 @@
  * @Author: czy0729
  * @Date: 2022-08-31 14:21:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 19:49:54
+ * @Last Modified time: 2026-01-09 17:44:46
  */
 import React, { useCallback, useMemo, useState } from 'react'
-import { LayoutChangeEvent, View } from 'react-native'
+import { View } from 'react-native'
 import { _ } from '@stores'
 import { arrGroup, asc, runAfter } from '@utils'
 import { memo } from '@utils/decorators'
 import { FROZEN_ARRAY, FROZEN_FN, FROZEN_OBJECT, MODEL_EP_TYPE, WSA } from '@constants'
-import { EpTypeCn } from '@types'
 import { Carousel } from './carousel'
 import { NormalButtons } from './normal-buttons'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
-import { Props } from './types'
+
+import type { LayoutChangeEvent } from 'react-native'
+import type { EpTypeCn } from '@types'
+import type { Props } from './types'
 
 export default memo(
   ({

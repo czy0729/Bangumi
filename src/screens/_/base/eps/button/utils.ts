@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-05-25 17:20:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-22 02:22:00
+ * @Last Modified time: 2026-01-09 17:35:12
  */
 import dayjs from 'dayjs'
 import { systemStore } from '@stores'
 import { desc, HTMLDecode } from '@utils'
-import { TEXT_MENU_SPLIT_LEFT, TEXT_MENU_SPLIT_RIGHT, WEB, WSA } from '@constants'
-import { DEFAULT_PROPS } from './ds'
+import { TEXT_MENU_SPLIT_LEFT, TEXT_MENU_SPLIT_RIGHT, TEXT_MENU_TOPIC, WEB, WSA } from '@constants'
 
-const today = dayjs().subtract(1, 'day').format('YYYY-MM-DD 23:59:59')
+import type { DEFAULT_PROPS } from './ds'
+
+const TODAY = dayjs().subtract(1, 'day').format('YYYY-MM-DD 23:59:59')
 
 export function getPopoverData(
   item: { comment: any; name_cn: any; name: any; id: string | number; airdate: string },
@@ -21,13 +22,15 @@ export function getPopoverData(
   userProgress: { [x: string]: string },
   epStatus: string
 ) {
-  const discuss = HTMLDecode(`(+${item.comment}) ${item.name_cn || item.name || '本集讨论'}`)
+  const discuss = HTMLDecode(
+    `(+${item.comment || 0}) ${item.name_cn || item.name || TEXT_MENU_TOPIC}`
+  )
 
   // 计算放送时间是否在今天以后
   let canAddCalendar = !WEB && !WSA && !userProgress[item.id] && !isSp
   try {
     if (canAddCalendar && item?.airdate) {
-      canAddCalendar = desc(String(item.airdate), today) !== -1
+      canAddCalendar = desc(String(item.airdate), TODAY) !== -1
     }
   } catch (error) {
     canAddCalendar = false

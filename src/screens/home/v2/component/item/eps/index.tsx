@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:11:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-11 03:46:10
+ * @Last Modified time: 2026-01-09 17:41:25
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -14,14 +14,15 @@ import { window } from '@styles'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-import type { Ctx, EpsItem } from '../../../types'
+import type { Ep } from '@stores/subject/types'
+import type { Ctx } from '../../../types'
 import type { Props } from './types'
 
 function Eps({ subjectId, isFirst }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   const handleSelect = useCallback(
-    (value: string, item: EpsItem) => {
+    (value: string, item: Ep) => {
       $.doEpsSelect(value, item, subjectId, navigation)
     },
     [$, navigation, subjectId]

@@ -5,11 +5,12 @@
  * @Last Modified time: 2025-09-13 11:43:47
  */
 import React, { useCallback, useRef } from 'react'
-import { ActionSheet, Heatmap, ScrollTo } from '@components'
+import { ActionSheet, Heatmap } from '@components'
 import { ItemSetting } from '@_'
 import { systemStore } from '@stores'
 import { r } from '@utils/dev'
 import { useBoolean, useObserver } from '@utils/hooks'
+import { IOS } from '@constants'
 import { getShows } from '../../utils'
 import CnFirst from '../custom/cn-first'
 import AppKatakana from './app-katakana'
@@ -17,6 +18,8 @@ import OriginSetting from './origin-setting'
 import TranslateEngine from './translate-engine'
 import Webhook from './webhook'
 import { COMPONENT, TEXTS } from './ds'
+
+import type { ScrollTo } from '@components'
 
 /** 其他 (之前是翻译, 已合并大部分功能于此项) */
 function Katakana({ navigation, filter }) {
@@ -51,7 +54,7 @@ function Katakana({ navigation, filter }) {
           forwardRef={handleForwardRef}
           show={state}
           title='其他'
-          height={filter ? 440 : 760}
+          height={IOS || filter ? 480 : 760}
           onClose={setFalse}
         >
           {shows.origin && (
@@ -63,7 +66,7 @@ function Katakana({ navigation, filter }) {
               onScrollIntoViewIfNeeded={handleScrollIntoViewIfNeeded}
             />
           )}
-          {shows.katakana && <AppKatakana filter={filter} />}
+          {!IOS && shows.katakana && <AppKatakana filter={filter} />}
           {shows.cnFirst && systemStore.setting.katakana && <CnFirst filter={filter} sub />}
           {shows.webhook && <Webhook navigation={navigation} filter={filter} setFalse={setFalse} />}
         </ActionSheet>

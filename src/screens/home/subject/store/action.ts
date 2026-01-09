@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-07 05:18:18
+ * @Last Modified time: 2026-01-09 17:36:51
  */
 import { toJS } from 'mobx'
 import { StatusBar } from '@components'
@@ -64,6 +64,7 @@ import {
   SITE_MANHUADB,
   SITE_WK8,
   SITES,
+  TEXT_MENU_TOPIC,
   URL_SPA,
   WEB
 } from '@constants'
@@ -187,7 +188,9 @@ export default class Action extends Fetch {
 
       // 匹配用户自定义源头
       if (!url) {
-        const find = this.onlineOrigins.find((item: OriginItem) => item.name === key) as OriginItem
+        const find = this.onlineOrigins
+          .filter(item => typeof item === 'object')
+          .find((item: OriginItem) => item.name === key)
         if (find) {
           if (key === '萌番组' && find.id) {
             copy(this.cn || this.jp)
@@ -1037,7 +1040,7 @@ export default class Action extends Fetch {
     )
 
     t('条目.章节菜单操作', {
-      title: '本集讨论',
+      title: TEXT_MENU_TOPIC,
       subjectId: this.subjectId
     })
   }
@@ -1179,7 +1182,7 @@ export default class Action extends Fetch {
   doEpsSelect = async (value: string, item: EpsItem, navigation?: Navigation) => {
     try {
       // iOS 是本集讨论, 安卓是 (+N)...
-      if (value.includes('本集讨论') || value.includes('(+')) {
+      if (value.includes(TEXT_MENU_TOPIC) || value.includes('(+')) {
         this.toEp(item, navigation)
         return
       }

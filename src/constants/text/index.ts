@@ -206,6 +206,9 @@ export const TEXT_MENU_TIME_FORMAT_LASTDATE = '最近'
 /** 菜单: 时间格式 (日期) */
 export const TEXT_MENU_TIME_FORMAT_REGULAR = '日期'
 
+/** 菜单: 本集讨论 */
+export const TEXT_MENU_TOPIC = '本集讨论'
+
 /** 标记 */
 export const TEXT_BADGES = {
   danger: '🔴',
