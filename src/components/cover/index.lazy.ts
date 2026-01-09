@@ -7,5 +7,6 @@
 import { lazy } from 'react'
 
 export const Cover = lazy(() => import('./index'))
-export { Props as CoverProps } from './types'
 export { getCoverSrc } from './utils'
+
+export type { Props as CoverProps } from './types'

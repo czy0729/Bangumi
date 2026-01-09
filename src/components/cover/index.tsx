@@ -19,9 +19,12 @@ import Game from './game'
 import TextOnly from './text-only'
 import { getCoverSrc, getImageViewerSrc } from './utils'
 import { COMPONENT } from './ds'
-import { Props as CoverProps } from './types'
 
-export { CoverProps, getCoverSrc }
+import type { Props as CoverProps } from './types'
+
+export { getCoverSrc }
+
+export type { CoverProps }
 
 /** 封面 */
 export const Cover = observer(

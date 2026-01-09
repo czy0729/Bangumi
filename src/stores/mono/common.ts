@@ -21,7 +21,7 @@ export function cheerioCharacters(html: string) {
         cover: cover !== '/img/info_only.png' ? String(cover).split('?')[0] : '',
         name: cText($a),
         nameCn: cText(cFind($row, '> div.clearit > h2 > span.tip')).replace('/ ', ''),
-        replies: cText(cFind($row, 'small.na')).replace(/\(|\)/g, ''),
+        replies: cText(cFind($row, '.rr small')).replace(/\(|\)/g, ''),
         position,
         info: cText(cFind($row, 'div.crt_info span.tip'))
           .replace(position, '')
@@ -33,7 +33,8 @@ export function cheerioCharacters(html: string) {
             id: cData(cFind($a, 'a.avatar'), 'href').replace('/person/', ''),
             cover: cover !== '/img/info_only.png' ? String(cover).split('?')?.[0] : '',
             name: cText(cFind($a, 'small.grey')),
-            nameCn: cText(cFind($a, 'a.l'))
+            nameCn: cText(cFind($a, 'a.l')),
+            job: cText(cFind($a, '.tip_j'))
           }
         })
       } as CharactersItem

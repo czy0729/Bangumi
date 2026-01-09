@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 00:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-19 23:11:20
+ * @Last Modified time: 2026-01-09 09:06:07
  */
 import { _ } from '@stores'
 import { IMG_WIDTH } from './ds'
@@ -18,15 +18,7 @@ export const memoStyles = _.memoStyles(() => ({
   },
   inView: {
     width: IMG_WIDTH,
-    maxHeight: IMG_WIDTH,
+    maxHeight: Math.floor(IMG_WIDTH * 1.68),
     overflow: 'hidden'
-  },
-  navigate: {
-    marginTop: -8,
-    marginRight: -10,
-    marginLeft: _.md
-  },
-  icon: {
-    padding: 8
   }
 }))

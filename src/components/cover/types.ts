@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-10-30 23:11:01
  */
-import { ImageSource, ImageStyle, Override, SubjectTypeCn, ViewStyle } from '@types'
-import { ImageProps } from '../image'
+import type { ImageSource, ImageStyle, Override, SubjectTypeCn, ViewStyle } from '@types'
+import type { ImageProps } from '../image'
 
 export type Props = Override<
   ImageProps,

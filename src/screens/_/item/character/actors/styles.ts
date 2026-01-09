@@ -2,19 +2,21 @@
  * @Author: czy0729
  * @Date: 2024-08-24 13:09:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-14 20:17:34
+ * @Last Modified time: 2026-01-09 09:11:28
  */
 import { _ } from '@stores'
 
 export const styles = _.create({
   touch: {
     minWidth: '50%',
-    marginTop: _.sm,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
+    paddingRight: 8,
+    marginTop: 14
+  },
+  touchLg: {
+    minWidth: '56%'
   },
   inView: {
-    minWidth: 36,
-    minHeight: 36
+    minWidth: 28,
+    minHeight: 28
   }
 })

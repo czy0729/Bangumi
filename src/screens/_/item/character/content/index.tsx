@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-25 00:59:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-19 23:06:22
+ * @Last Modified time: 2026-01-09 07:45:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,6 +14,7 @@ import { Tag } from '../../../base'
 import { styles } from './styles'
 
 import type { Props } from './types'
+
 function Content({
   type,
   cn,
@@ -59,7 +60,7 @@ function Content({
                     ? 'main'
                     : HIGHLIGHT_POSITION.includes(item)
                     ? 'primary'
-                    : 'sub'
+                    : 'plain'
                 }
                 value={item}
               />

@@ -23,6 +23,7 @@ export type CharactersItem = {
     cover: string
     name: string
     nameCn: string
+    job: string
   }[]
 }
 

@@ -11,6 +11,10 @@ export type Result<T = any> = Record<any, any> & {
   message?: string
 }
 
+export type ResultData<T = any> = T & {
+  ts?: number
+}
+
 export type ResultTemp = {
   data: {
     downloadKey: string

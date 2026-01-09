@@ -6,7 +6,8 @@
  */
 import { getCover400, matchCoverUrl } from '@utils'
 import { IMG_DEFAULT, WEB } from '@constants'
-import { CoverPrefix, CoverSize, Props } from './types'
+
+import type { CoverPrefix, CoverSize, Props } from './types'
 
 /** 修正封面图地址 */
 export function getCoverSrc(src: Props['src'], width: number, cdn?: boolean, noDefault?: boolean) {
