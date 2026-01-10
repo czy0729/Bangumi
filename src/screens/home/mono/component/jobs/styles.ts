@@ -27,11 +27,7 @@ export const memoStyles = _.memoStyles(() => ({
   },
   bottom: {
     maxWidth: '80%',
-    marginTop: _.xs
-  },
-  tag: {
-    marginTop: -2,
-    marginLeft: _.sm
+    marginLeft: _.xs
   },
   castCover: {
     marginRight: _.xs,

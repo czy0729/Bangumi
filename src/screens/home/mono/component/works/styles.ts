@@ -20,10 +20,7 @@ export const memoStyles = _.memoStyles(() => ({
     paddingRight: _.wind
   },
   content: {
+    maxWidth: '64%',
     marginLeft: _.sm + 4
-  },
-  tag: {
-    marginTop: 3,
-    marginLeft: _.lg
   }
 }))

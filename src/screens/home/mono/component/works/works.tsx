@@ -34,9 +34,11 @@ const Works = memo(
         >
           最近参与
         </SectionTitle>
+
         <View style={_.mt.md}>
           {works.map(item => {
             const type = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(item.type)
+
             return (
               <Touchable
                 key={item.href}
@@ -63,13 +65,11 @@ const Works = memo(
                     type={type}
                   />
                   <Flex.Item style={styles.content}>
-                    <Flex align='start'>
-                      <Flex.Item>
-                        <Text style={_.mt.xs} bold size={12}>
-                          {item.name}
-                        </Text>
-                      </Flex.Item>
-                      <Tag style={styles.tag} value={item.staff} />
+                    <Text style={_.mt.xs} size={12} bold>
+                      {item.name}
+                    </Text>
+                    <Flex style={_.mt.sm}>
+                      <Tag value={item.staff} />
                     </Flex>
                   </Flex.Item>
                 </Flex>

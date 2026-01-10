@@ -6,7 +6,7 @@
  */
 import type { ViewStyle } from 'react-native'
 
-const MIN_PERCENT = 0.04
+const MIN_PERCENT = 0.032
 
 /** 比例柱子高度 */
 export function getHeight(total: string | number, current: number): ViewStyle['height'] {

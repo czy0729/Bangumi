@@ -10,9 +10,9 @@ import { Cover, Expand, Flex, Heatmap, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { SectionTitle, Tag } from '@_'
 import { _, systemStore } from '@stores'
-import { appNavigate, cnjp, getCoverMedium, stl } from '@utils'
+import { appNavigate, cnjp, getCoverMedium, getMonoCoverSmall, stl } from '@utils'
 import { memo } from '@utils/decorators'
-import { MODEL_SUBJECT_TYPE } from '@constants'
+import { IMG_INFO_ONLY, MODEL_SUBJECT_TYPE } from '@constants'
 import { COVER_HEIGHT, COVER_WIDTH } from '../../ds'
 import { COMPONENT_MAIN, DEFAULT_PROPS, EVENT } from './ds'
 
@@ -20,7 +20,7 @@ import type { SubjectTypeCn } from '@types'
 
 const Jobs = memo(
   ({ navigation, styles, style, jobs }) => {
-    const radius = systemStore.setting.avatarRound ? COVER_WIDTH : _.radiusSm
+    const radius = systemStore.setting.avatarRound ? COVER_WIDTH : _.radiusXs
 
     const elContent = (
       <View style={stl(styles.container, style)}>
@@ -30,6 +30,7 @@ const Jobs = memo(
           </SectionTitle>
           <Heatmap id='人物.跳转' from='出演' />
         </View>
+
         <View style={_.mt.md}>
           {jobs.map((item, index) => {
             const nameTop = cnjp(item.nameCn, item.name)
@@ -68,19 +69,17 @@ const Jobs = memo(
                   />
                   {!index && <Heatmap right={-32} id='人物.跳转' to='Subject' alias='条目' />}
                   <Flex.Item style={styles.content}>
-                    <Flex align='start'>
-                      <Flex.Item style={styles.top}>
-                        <Text size={12} bold numberOfLines={3}>
-                          {nameTop}
+                    <Text size={12} bold numberOfLines={3}>
+                      {nameTop}
+                    </Text>
+                    <Flex style={_.mt.sm}>
+                      <Tag value={item.staff} />
+                      {!!nameBottom && nameBottom !== nameTop && (
+                        <Text style={styles.bottom} size={10} type='sub' bold>
+                          {nameBottom}
                         </Text>
-                      </Flex.Item>
-                      <Tag style={styles.tag} value={item.staff} />
+                      )}
                     </Flex>
-                    {!!nameBottom && nameBottom !== nameTop && (
-                      <Text style={styles.bottom} size={10} type='sub' bold>
-                        {nameBottom}
-                      </Text>
-                    )}
                     <Flex style={_.mt.md}>
                       <Touchable
                         animate
@@ -99,7 +98,11 @@ const Jobs = memo(
                         <Flex>
                           {!!item.castCover && (
                             <View style={_.mr.sm}>
-                              <Cover size={_.r(24)} src={item.castCover} radius={radius} />
+                              <Cover
+                                size={_.r(24)}
+                                src={getMonoCoverSmall(item.castCover) || IMG_INFO_ONLY}
+                                radius={radius}
+                              />
                             </View>
                           )}
                           <Text size={11} bold>
@@ -131,7 +134,11 @@ const Jobs = memo(
                         >
                           <Flex>
                             <View style={_.mr.xs}>
-                              <Cover size={_.r(24)} src={item?.cast2?.castCover} radius={radius} />
+                              <Cover
+                                size={_.r(24)}
+                                src={getMonoCoverSmall(item?.cast2?.castCover) || IMG_INFO_ONLY}
+                                radius={radius}
+                              />
                             </View>
                             <Text size={11} bold>
                               {item?.cast2?.cast}

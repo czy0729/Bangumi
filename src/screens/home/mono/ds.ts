@@ -10,4 +10,4 @@ export const COMPONENT = 'Mono'
 
 export const COVER_WIDTH = _.r(64)
 
-export const COVER_HEIGHT = COVER_WIDTH * 1.28
+export const COVER_HEIGHT = Math.floor(COVER_WIDTH * 1.28)

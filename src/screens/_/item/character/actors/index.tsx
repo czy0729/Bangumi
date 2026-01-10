@@ -7,9 +7,9 @@
 import React, { useCallback, useMemo } from 'react'
 import { Cover, Flex, Link, Text } from '@components'
 import { _ } from '@stores'
-import { cnjp, stl } from '@utils'
+import { cnjp, getMonoCoverSmall, stl } from '@utils'
 import { useNavigation, useObserver } from '@utils/hooks'
-import { HOST } from '@constants'
+import { HOST, IMG_INFO_ONLY } from '@constants'
 import {
   CHARACTERS_ACTORS_DATA,
   TEXT_COLLABS,
@@ -100,7 +100,11 @@ function Actors({ actors, y, event }: Props) {
               })}
             >
               <InView style={styles.inView} y={y}>
-                <Cover src={item.cover} size={styles.inView.minWidth} radius={_.radiusXs} />
+                <Cover
+                  src={getMonoCoverSmall(item.cover) || IMG_INFO_ONLY}
+                  size={styles.inView.minWidth}
+                  radius={_.radiusXs}
+                />
               </InView>
             </Link>
 

@@ -10,8 +10,9 @@ import { Cover, Flex, Heatmap, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { InView, SectionTitle, Tag } from '@_'
 import { _ } from '@stores'
-import { appNavigate, cnjp, stl } from '@utils'
+import { appNavigate, cnjp, getMonoCoverSmall, stl } from '@utils'
 import { memo } from '@utils/decorators'
+import { IMG_INFO_ONLY } from '@constants'
 import { COVER_HEIGHT, COVER_WIDTH } from '../../ds'
 import SectionRight from '../section-right'
 import { COMPONENT_MAIN, DEFAULT_PROPS, EVENT, IMAGE_WIDTH } from './ds'
@@ -31,12 +32,14 @@ const Voice = memo(
         >
           最近演出角色
         </SectionTitle>
+
         <View style={_.mt.md}>
           {voices.map(item => {
             const nameTop = cnjp(item.nameCn, item.name)
             const nameBottom = cnjp(item.name, item.nameCn)
             const subjectTop = cnjp(item.subjectNameCn, item.subjectName)
             const subjectBottom = cnjp(item.subjectName, item.subjectNameCn)
+
             return (
               <Flex key={item.href} style={styles.item} align='start'>
                 <Flex.Item>
@@ -56,7 +59,11 @@ const Voice = memo(
                     }}
                   >
                     <Flex align='start'>
-                      <Cover src={item.cover} size={IMAGE_WIDTH} radius />
+                      <Cover
+                        src={getMonoCoverSmall(item.cover) || IMG_INFO_ONLY}
+                        size={IMAGE_WIDTH}
+                        radius
+                      />
                       <Flex.Item style={_.ml.sm}>
                         <Text style={_.mt.xxs} size={12} bold>
                           {nameTop}
@@ -66,9 +73,6 @@ const Voice = memo(
                             {nameBottom}
                           </Text>
                         )}
-                        <Flex style={_.mt.xs}>
-                          <Tag value={item.staff} />
-                        </Flex>
                       </Flex.Item>
                     </Flex>
                   </Touchable>
@@ -90,6 +94,9 @@ const Voice = memo(
                             {subjectBottom}
                           </Text>
                         )}
+                        <Flex style={_.mt.sm}>
+                          <Tag value={item.staff} />
+                        </Flex>
                       </Flex.Item>
                       {!!item.subjectCover && (
                         <View style={_.ml.sm}>

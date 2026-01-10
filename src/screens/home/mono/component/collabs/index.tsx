@@ -9,10 +9,10 @@ import { ScrollView, View } from 'react-native'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { Avatar, InView, PreventTouchPlaceholder, SectionTitle } from '@_'
 import { _, useStore } from '@stores'
-import { appNavigate } from '@utils'
+import { appNavigate, getMonoCoverSmall } from '@utils'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
-import { HOST, SCROLL_VIEW_RESET_PROPS } from '@constants'
+import { HOST, IMG_INFO_ONLY, SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
@@ -58,6 +58,7 @@ function Collabs() {
         >
           合作
         </SectionTitle>
+
         <ScrollView
           style={_.mt.md}
           contentContainerStyle={_.container.wind}
@@ -81,7 +82,7 @@ function Collabs() {
               }}
             >
               <Flex>
-                <Avatar name={item.name} src={item.cover} />
+                <Avatar src={getMonoCoverSmall(item.cover) || IMG_INFO_ONLY} name={item.name} />
                 <View style={_.ml.sm}>
                   <Flex>
                     <Text size={13} bold>

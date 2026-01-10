@@ -57,6 +57,7 @@ function Collected() {
         >
           谁收藏了
         </SectionTitle>
+
         <ScrollView
           style={_.mt.md}
           contentContainerStyle={_.container.wind}
