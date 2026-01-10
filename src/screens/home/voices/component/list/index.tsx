@@ -9,9 +9,10 @@ import { PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
+
+import type { Ctx } from '../../types'
 
 function List() {
   const { $ } = useStore<Ctx>(COMPONENT)

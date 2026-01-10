@@ -615,7 +615,28 @@ export type MonoCommentsItem = Override<
 /** 角色吐槽箱 */
 export type MonoComments = ListEmpty<MonoCommentsItem>
 
-/** 人物角色 */
+/** 人物角色条目项 */
+export type MonoVoicesSubjectItem = {
+  /** 条目 ID */
+  id: SubjectId
+
+  /** 条目原名 */
+  name: string
+
+  /** 条目中文名 */
+  nameCn: string
+
+  /** 条目封面 */
+  cover: string
+
+  /** 角色职位 */
+  staff: string
+
+  /** 角色职位补充 */
+  tip: string
+}
+
+/** 人物角色项 */
 export type MonoVoicesItem = {
   /** 虚拟角色 ID */
   id: Id
@@ -630,22 +651,7 @@ export type MonoVoicesItem = {
   cover: string
 
   /** 条目 */
-  subject: {
-    /** 条目 ID */
-    id: SubjectId
-
-    /** 条目原名 */
-    name: string
-
-    /** 条目中文名 */
-    nameCn: string
-
-    /** 条目封面 */
-    cover: string
-
-    /** 角色职位 */
-    staff: string
-  }[]
+  subject: MonoVoicesSubjectItem[]
 }
 
 /** 人物高级筛选项 */

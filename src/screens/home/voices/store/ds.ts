@@ -5,8 +5,12 @@
  * @Last Modified time: 2024-09-16 20:48:51
  */
 import { _ } from '@stores'
-import { Loaded } from '@types'
 import { COMPONENT } from '../ds'
+
+import type { MonoVoices } from '@stores/subject/types'
+import type { ResultData } from '@utils/kv/type'
+import type { Loaded } from '@types'
+import type { SnapshotId } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
@@ -22,7 +26,7 @@ export const EXCLUDE_STATE = {
   position: '',
 
   /** 云快照 */
-  ota: {}
+  ota: {} as Record<SnapshotId, ResultData<MonoVoices>>
 }
 
 export const STATE = {

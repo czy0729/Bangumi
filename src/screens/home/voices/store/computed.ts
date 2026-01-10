@@ -6,9 +6,11 @@
  */
 import { computed } from 'mobx'
 import { subjectStore } from '@stores'
-import { MonoVoices } from '@stores/subject/types'
 import { HTML_MONO_VOICES, LIST_EMPTY } from '@constants'
 import State from './state'
+
+import type { MonoVoices } from '@stores/subject/types'
+import type { SnapshotId } from '../types'
 
 export default class Computed extends State {
   @computed get monoId() {
@@ -22,11 +24,11 @@ export default class Computed extends State {
 
   @computed get thirdPartyKey() {
     const query = [this.monoId, this.state.position].join('_')
-    return `voices_${query}`.replace('/', '_')
+    return `voices_${query}`.replace('/', '_') as SnapshotId
   }
 
   /** 人物饰演的角色 */
-  @computed get monoVoices(): MonoVoices {
+  @computed get monoVoices() {
     const monoVoices = subjectStore.monoVoices(this.monoId)
     if (!monoVoices._loaded) {
       if (!this.ota) return LIST_EMPTY as MonoVoices
@@ -48,7 +50,7 @@ export default class Computed extends State {
   }
 
   @computed get hm() {
-    return [this.url, 'Voices']
+    return [this.url, 'Voices'] as const
   }
 
   @computed get loading() {

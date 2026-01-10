@@ -11,8 +11,10 @@ import { D7 } from '@constants'
 import { SNAPSHOT_LIMIT } from '../ds'
 import Computed from './computed'
 
+import type { SnapshotId } from '../types'
+
 /** 若更新过则不会再主动更新 */
-const THIRD_PARTY_UPDATED: string[] = []
+const THIRD_PARTY_UPDATED = new Map<SnapshotId, true>()
 
 export default class Fetch extends Computed {
   /** 人物角色 */
@@ -68,13 +70,13 @@ export default class Fetch extends Computed {
 
   /** 上传预数据 */
   updateThirdParty = async () => {
-    if (THIRD_PARTY_UPDATED.includes(this.thirdPartyKey)) return
+    if (THIRD_PARTY_UPDATED.has(this.thirdPartyKey)) return
 
     setTimeout(() => {
       update(this.thirdPartyKey, {
         list: this.monoVoices.list.slice(0, SNAPSHOT_LIMIT)
       })
-      THIRD_PARTY_UPDATED.push(this.thirdPartyKey)
+      THIRD_PARTY_UPDATED.set(this.thirdPartyKey, true)
     }, 0)
   }
 }

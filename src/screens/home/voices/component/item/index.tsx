@@ -7,21 +7,22 @@
 import React from 'react'
 import { ItemVoice } from '@_'
 import { _ } from '@stores'
-import { MonoVoicesItem } from '@stores/subject/types'
 import { useNavigation, useObserver } from '@utils/hooks'
-import { RenderItem } from '@types'
 import { COMPONENT, EVENT } from './ds'
+
+import type { MonoVoicesItem } from '@stores/subject/types'
+import type { RenderItem } from '@types'
 
 function Item({ item, index }: RenderItem<MonoVoicesItem>) {
   const navigation = useNavigation(COMPONENT)
 
   return useObserver(() => (
     <ItemVoice
+      {...item}
       navigation={navigation}
       style={_.container.item}
       event={EVENT}
       index={index}
-      {...item}
     />
   ))
 }

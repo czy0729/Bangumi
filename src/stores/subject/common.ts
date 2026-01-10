@@ -38,6 +38,7 @@ import type {
   MonoCommentsItem,
   MonoFiltersItem,
   MonoVoicesItem,
+  MonoVoicesSubjectItem,
   MonoWorksItem,
   Rating,
   SubjectCatalogs,
@@ -294,24 +295,23 @@ export function cheerioMonoVoices(html: string) {
     list: cMap<MonoVoicesItem>($('ul.browserList > li.item'), $row => {
       const $left = cFind($row, 'div.innerLeftItem')
       const $a = cFind($left, 'h3 > a.l')
+      const cover = cData(cFind($left, 'img.avatar'), 'src').split('?')?.[0] || ''
       return {
         id: cData($a, 'href').replace('/character/', ''),
         name: cText($a),
         nameCn: cText(cFind($left, 'h3 > p.tip')),
-        cover: cData(cFind($left, 'img.avatar'), 'src').split('?')?.[0] || '',
-        subject: cMap<MonoVoicesItem['subject'][number]>(
-          cList($row, 'ul.innerRightList > li'),
-          $row => {
-            const $a = cFind($row, 'h3 > a.l')
-            return {
-              id: cData($a, 'href').replace('/subject/', ''),
-              name: cText($a),
-              nameCn: cText(cFind($row, 'div.inner small.grey')),
-              cover: cData(cFind($row, 'img.cover'), 'src'),
-              staff: cText(cFind($row, 'div.inner span.badge_job'))
-            }
+        cover: cover === '/img/info_only_m.png' ? '' : cover,
+        subject: cMap<MonoVoicesSubjectItem>(cList($row, 'ul.innerRightList > li'), $row => {
+          const $a = cFind($row, 'h3 > a.l')
+          return {
+            id: cData($a, 'href').replace('/subject/', ''),
+            name: cText($a),
+            nameCn: cText(cFind($row, 'div.inner small.grey')),
+            cover: cData(cFind($row, 'img.cover'), 'src'),
+            staff: cText(cFind($row, 'div.inner span.badge_job')),
+            tip: cText(cFind($row, 'div.inner span.badge_job_tip'))
           }
-        )
+        })
       }
     }),
     filters: cMap<MonoFiltersItem>($('div.subjectFilter > ul.grouped'), $row => ({

@@ -8,17 +8,18 @@ import React from 'react'
 import { Component, Cover, Expand, Flex, Image, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { _ } from '@stores'
-import { cnjp, x18 } from '@utils'
+import { cnjp, getMonoCoverSmall, x18 } from '@utils'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { useExpandLazy, useObserver } from '@utils/hooks'
-import { EVENT, IMG_HEIGHT_SM, IMG_WIDTH_SM } from '@constants'
+import { EVENT, IMG_HEIGHT_SM, IMG_INFO_ONLY, IMG_WIDTH_SM } from '@constants'
 import { InView, Tag } from '../../base'
 import { AVATAR_SIZE, COMPONENT, ITEM_HEIGHT } from './ds'
 import { memoStyles } from './styles'
-import { Props as ItemVoiceProps } from './types'
 
-export { ItemVoiceProps }
+import type { Props as ItemVoiceProps } from './types'
+
+export type { ItemVoiceProps }
 
 export const ItemVoice = ({
   style,
@@ -41,37 +42,42 @@ export const ItemVoice = ({
     const cn = cnjp(nameCn, name)
     const jp = cnjp(name, nameCn)
     const y = ITEM_HEIGHT * (index + 1)
-    const content = (
+
+    const elContent = (
       <>
         <Flex style={styles.wrap} align='start'>
           <Flex.Item flex={1.8}>
             <Touchable
               animate
               onPress={() => {
-                t(event.id, {
-                  ...event.data,
-                  to: 'Mono',
-                  monoId: id
-                })
-
                 navigation.push('Mono', {
                   monoId: `character/${id}`,
                   _name: nameCn,
                   _jp: name,
                   _image: cover
                 })
+
+                t(event.id, {
+                  ...event.data,
+                  to: 'Mono',
+                  monoId: id
+                })
               }}
             >
               <Flex align='start'>
                 <InView style={styles.inViewAvatar} y={y}>
-                  <Image size={AVATAR_SIZE} src={cover} radius={_.radiusSm} />
+                  <Image
+                    size={AVATAR_SIZE}
+                    src={getMonoCoverSmall(cover) || IMG_INFO_ONLY}
+                    radius={_.radiusSm}
+                  />
                 </InView>
                 <Flex.Item style={_.ml.sm}>
-                  <Text size={12} bold>
+                  <Text style={_.mt.xxs} size={12} bold>
                     {cn}
                   </Text>
                   {!!jp && jp !== cn && (
-                    <Text style={_.mt.xs} size={11} type='sub' lineHeight={12} bold>
+                    <Text style={_.mt.xs} type='sub' size={10} lineHeight={11} bold>
                       {jp}
                     </Text>
                   )}
@@ -83,6 +89,7 @@ export const ItemVoice = ({
             {list.map((item, idx) => {
               const cn = cnjp(item.nameCn, item.name)
               const jp = cnjp(item.name, item.nameCn)
+
               return (
                 <Touchable
                   key={item.id}
@@ -105,14 +112,15 @@ export const ItemVoice = ({
                 >
                   <Flex align='start'>
                     <Flex.Item style={_.mr.md}>
-                      <Text size={12} bold>
+                      <Text style={_.mt.xxs} size={12} bold>
                         {cn}
                       </Text>
-                      <Text style={_.mt.xs} size={11} type='sub' lineHeight={12} bold>
+                      <Text style={_.mt.xs} type='sub' size={10} lineHeight={11} bold>
                         {jp}
                       </Text>
                       <Flex style={_.mt.sm}>
                         <Tag value={item.staff} />
+                        {!!item.tip && <Tag style={_.ml.sm} type='plain' value={item.tip} />}
                       </Flex>
                     </Flex.Item>
                     <InView style={styles.inViewCover} y={y}>
@@ -138,7 +146,7 @@ export const ItemVoice = ({
       return (
         <Component id='item-voice' data-key={id} data-type='expand'>
           <Expand style={style} ratio={1.8} onExpand={onExpand}>
-            {content}
+            {elContent}
           </Expand>
         </Component>
       )
@@ -146,7 +154,7 @@ export const ItemVoice = ({
 
     return (
       <Component id='item-voice' data-key={id} style={style}>
-        {content}
+        {elContent}
       </Component>
     )
   })

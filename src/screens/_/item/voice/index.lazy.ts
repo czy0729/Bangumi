@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const ItemVoice = lazy(() => import('./index'))
-export { Props as ItemVoiceProps } from './types'
+export type { Props as ItemVoiceProps } from './types'

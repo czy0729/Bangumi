@@ -4,9 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-04-20 12:05:39
  */
-import { PropsWithChildren } from 'react'
-import { MonoVoicesItem } from '@stores/subject/types'
-import { EventType, Navigation, Override, ViewStyle } from '@types'
+import type { PropsWithChildren } from 'react'
+import type { MonoVoicesItem } from '@stores/subject/types'
+import type { EventType, Navigation, Override, ViewStyle } from '@types'
 
 export type Props = PropsWithChildren<
   Override<

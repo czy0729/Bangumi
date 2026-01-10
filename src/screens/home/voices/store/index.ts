@@ -5,7 +5,9 @@
  * @Last Modified time: 2024-09-16 20:53:12
  */
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE, RESET_STATE, STATE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, RESET_STATE } from './ds'
+
+import type { STATE } from './ds'
 
 export default class ScreenVoices extends Action {
   init = async () => {

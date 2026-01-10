@@ -8,8 +8,9 @@ import React from 'react'
 import { Heatmap, ToolBar as ToolBarComp } from '@components'
 import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
+
+import type { Ctx } from '../../types'
 
 function ToolBar() {
   const { $ } = useStore<Ctx>(COMPONENT)
@@ -17,6 +18,7 @@ function ToolBar() {
   return useObserver(() => {
     const { position } = $.state
     const { filters = [] } = $.monoVoices
+
     return (
       <ToolBarComp>
         {filters.map(item => {
@@ -24,6 +26,7 @@ function ToolBar() {
           const find = item.data.find(i => i.value === position) || {
             title: '全部'
           }
+
           return (
             <ToolBarComp.Popover
               key={item.title}
