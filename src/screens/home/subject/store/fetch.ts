@@ -91,17 +91,17 @@ export default class Fetch extends Computed {
       }
 
       const { ts, ...subject } = data
-      const _loaded = getTimestamp()
+      const now = getTimestamp()
       if (typeof subject === 'object' && !Array.isArray(subject)) {
         this.setState({
           subject: {
             ...subject,
-            _loaded
+            _loaded: now
           }
         })
       }
 
-      if (_loaded - ts >= D7) this.updateSubjectThirdParty()
+      if (now - ts >= D7) this.updateSubjectThirdParty()
     } catch (error) {}
   }
 
@@ -119,14 +119,14 @@ export default class Fetch extends Computed {
       }
 
       const { ts, ...comments } = data
-      const _loaded = getTimestamp()
+      const now = getTimestamp()
       if (typeof comments === 'object') {
         this.setState({
           comments
         })
       }
 
-      if (_loaded - ts >= D1) this.updateCommentsThirdParty()
+      if (now - ts >= D1) this.updateCommentsThirdParty()
     } catch (error) {}
   }
 
@@ -279,7 +279,7 @@ export default class Fetch extends Computed {
     this.save()
   }
 
-  /** staff 数据 */
+  /** 制作人员数据 */
   fetchPersons = () => {
     return monoStore.fetchPersons(this.subjectId)
   }
@@ -702,19 +702,22 @@ export default class Fetch extends Computed {
     return false
   }
 
-  private _fetchPicTotal = false
-
   /** 获取图集关键字信息 */
   fetchPicTotal = async () => {
-    if (this._fetchPicTotal) return false
+    const { lastFetchPicTotalTS } = this.state
+    const now = getTimestamp()
+    if (lastFetchPicTotalTS && now - Number(lastFetchPicTotalTS || 0) <= D7) return false
 
     await monoStore.fetchPicTotalBatch(
       [...new Set([...this.subjectKeywords, ...this.crtKeywords])]
         .filter(item => !/[ －]/.test(item))
         .slice(0, 6)
     )
+    this.setState({
+      lastFetchPicTotalTS: now
+    })
+    this.save()
 
-    this._fetchPicTotal = true
     return true
   }
 }

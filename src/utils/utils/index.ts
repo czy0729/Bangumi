@@ -549,23 +549,34 @@ export function cleanQ(str: any) {
 const similarCache = new Map<string, number>()
 
 /**
- * 字符串相似度
- * @param {*} s 字符串1
- * @param {*} t 字符串2
- * @param {*} f 保留多少位小数
+ * 字符串相似度（Levenshtein）
+ * @param s 字符串1
+ * @param t 字符串2
+ * @param f 保留多少位小数
+ * @param ignoreSpace 是否忽略空格比较，默认 true
  */
-export function similar(s: string, t: string, f?: number) {
+export function similar(s: string, t: string, f?: number, ignoreSpace: boolean = true) {
   if (!s || !t) return 0
-  const n = s.length,
-    m = t.length,
-    l = Math.max(n, m)
-  if (n === 0 || m === 0) return l
 
-  const key = `${s}|${t}|${f}`
-  if (similarCache.has(key)) return similarCache.get(key)
+  // 归一化：是否去空格
+  if (ignoreSpace) {
+    s = s.replace(/\s+/g, '')
+    t = t.replace(/\s+/g, '')
+  }
 
-  const d = Array.from({ length: n + 1 }, (_, i) => [i])
+  const n = s.length
+  const m = t.length
+  const l = Math.max(n, m)
+
+  if (n === 0 || m === 0) return 0
+
+  const key = `${s}|${t}|${f}|${ignoreSpace}`
+  const cached = similarCache.get(key)
+  if (cached !== undefined) return cached
+
+  const d: number[][] = Array.from({ length: n + 1 }, (_, i) => [i])
   d[0] = Array.from({ length: m + 1 }, (_, i) => i)
+
   for (let i = 1; i <= n; i++) {
     const si = s[i - 1]
     for (let j = 1; j <= m; j++) {
@@ -574,9 +585,10 @@ export function similar(s: string, t: string, f?: number) {
       d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + cost)
     }
   }
-  const res = 1 - d[n][m] / l
 
-  const value = parseFloat(res.toFixed(f))
+  const res = 1 - d[n][m] / l
+  const value = f !== undefined ? parseFloat(res.toFixed(f)) : res
+
   similarCache.set(key, value)
   return value
 }

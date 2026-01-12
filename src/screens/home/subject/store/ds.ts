@@ -142,6 +142,9 @@ export const STATE = {
     _loaded: false as Loaded
   },
 
+  /** 上一次获取图集关键字信息时间戳 */
+  lastFetchPicTotalTS: false as Loaded,
+
   /** 页面初始化完成 */
   _loaded: false as Loaded
 }

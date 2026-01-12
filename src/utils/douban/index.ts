@@ -8,7 +8,8 @@ import { HOST_AC_REFERER, HOST_DB, HOST_DB_MOVIE } from '@constants/cdn'
 import { xhrCustom } from '../fetch'
 import { cheerio } from '../html'
 import { desc, similar, sleep } from '../utils'
-import { Cat, DoubanId, SearchItem, SubType, TrailerItem, VideoItem } from './types'
+
+import type { Cat, DoubanId, SearchItem, SubType, TrailerItem, VideoItem } from './types'
 
 /** 搜索页 */
 const HTML_SEARCH = (q: string, cat?: Cat) => {
@@ -69,7 +70,7 @@ export async function search(q: string, cat?: Cat): Promise<SearchItem[]> {
           return {
             id: $a.attr('onclick').match(/sid: (\d+)/)?.[1],
             title: removeSpecial($a.text().trim()),
-            name: cast.match(/原名:(.*?)\//)?.[1] || '',
+            name: cast.match(/原名:(.*?)\s\/\s/)?.[1] || '',
             desc: removeSpecial($row.find('p').text().trim()),
             year: cast.match(/(\d{4})$/)?.[1] || ''
           }
@@ -90,6 +91,7 @@ export async function search(q: string, cat?: Cat): Promise<SearchItem[]> {
  */
 export function matchMovie(q: string, result: SearchItem[], jp?: string, year?: string): DoubanId {
   const SIMILAR_RATE = 0.7
+  const SIMILAR_RATE_MAX = 0.86
   const _q = removeSpecial(q)
   let doubanId: DoubanId = false
 
@@ -125,6 +127,14 @@ export function matchMovie(q: string, result: SearchItem[], jp?: string, year?: 
       const _jp = item.desc.split(' / ')[0].replace('原名:', '')
       if (similar(_jp, jp || q) < 0.7) return
     }
+
+    doubanId = item.id
+  })
+
+  // 进一步放宽 (不比较年份)
+  result.forEach(item => {
+    if (doubanId) return
+    if (similar(item.name, _q) < SIMILAR_RATE_MAX) return
 
     doubanId = item.id
   })
@@ -338,6 +348,6 @@ export async function getVideo(
 /** 简单去除特殊干扰分析的字符 */
 function removeSpecial(str: any) {
   return String(str)
-    .replace(/ |(&amp;)|-|：|《|》|（|）|“|”|，|。|之/g, '')
+    .replace(/(&amp;)|-|：|《|》|（|）|“|”|，|。|之/g, '')
     .toLocaleLowerCase()
 }
