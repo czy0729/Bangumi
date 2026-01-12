@@ -8,7 +8,9 @@ import { userStore } from '@stores'
 import { info } from '@utils'
 import { TEXT_USER_ABORT } from '../ds'
 import Action from './action'
-import { EXCLUDE_STATE, RESET_STATE, STATE } from './ds'
+import { EXCLUDE_STATE, RESET_STATE } from './ds'
+
+import type { STATE } from './ds'
 
 /** 图集页面状态机 */
 export default class ScreenPic extends Action {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-06-18 03:19:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-18 03:23:09
+ * @Last Modified time: 2026-01-11 05:43:18
  */
 import React, { useCallback, useRef } from 'react'
 import { findNodeHandle, Image, UIManager, View } from 'react-native'
@@ -15,20 +15,23 @@ import { getURI } from '../../../utils'
 import { memoStyles } from './styles'
 
 function Main({ width, height, data, image, onPress, onSelect }) {
+  const viewRef = useRef<View>(null)
+
+  const handleLongPress = useCallback(() => {
+    // @ts-expect-error
+    UIManager.showPopupMenu(
+      findNodeHandle(viewRef.current),
+      systemStore.setting.s2t
+        ? data.map((item: string) => (typeof item === 'string' ? s2t(item) : item))
+        : data,
+      FROZEN_FN,
+      (_event: any, index: number) => onSelect(data[index])
+    )
+  }, [data, onSelect])
+
   return useObserver(() => {
     const styles = memoStyles()
-    const viewRef = useRef<View>(null)
-    const handleLongPress = useCallback(() => {
-      // @ts-expect-error
-      UIManager.showPopupMenu(
-        findNodeHandle(viewRef.current),
-        systemStore.setting.s2t
-          ? data.map((item: string) => (typeof item === 'string' ? s2t(item) : item))
-          : data,
-        FROZEN_FN,
-        (_event: any, index: number) => onSelect(data[index])
-      )
-    }, [])
+
     return (
       <View>
         <View ref={viewRef} style={styles.overflowView} pointerEvents='none' />

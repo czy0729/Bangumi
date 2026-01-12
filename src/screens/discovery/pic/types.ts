@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-06-10 06:28:42
  */
-import { GetRouteParams, Id, RoutePic, WithNavigation } from '@types'
-import Store from './store'
+import type { GetRouteParams, Id, RoutePic, WithNavigation } from '@types'
+import type Store from './store'
 
 export type Ctx = WithNavigation<{
   $: InstanceType<typeof Store>

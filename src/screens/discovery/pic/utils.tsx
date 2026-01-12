@@ -2,27 +2,17 @@
  * @Author: czy0729
  * @Date: 2025-06-08 20:20:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-15 20:28:06
+ * @Last Modified time: 2026-01-11 06:36:20
  */
 import { monoStore } from '@stores'
-import {
-  cData,
-  cheerio,
-  cMap,
-  cText,
-  feedback,
-  getTimestamp,
-  htmlMatch,
-  info,
-  queue,
-  sleep
-} from '@utils'
+import { cData, cheerio, cMap, feedback, getTimestamp, htmlMatch, info, queue, sleep } from '@utils'
 import { xhrCustom } from '@utils/fetch'
 import { get, gets, update } from '@utils/kv'
 import { FROZEN_FN } from '@constants'
-import { Id, ListEmpty } from '@types'
-import { DECODE, HOST, HOST_INFO, HOST_URL, PROGRESS_LIMIT } from './ds'
-import { HandleListProgress, HandleSrcsProgress, ItemInfo, List, Srcs } from './types'
+import { DECODE, HOST, HOST_INFO, HOST_URL, LIST_LIMIT, MAX_PAGE, PROGRESS_LIMIT } from './ds'
+
+import type { Id, ListEmpty } from '@types'
+import type { HandleListProgress, HandleSrcsProgress, ItemInfo, List, Srcs } from './types'
 
 export async function tag(
   q: string,
@@ -36,14 +26,14 @@ export async function tag(
 
   let data: ListEmpty<ItemInfo>
   if (!forceRefresh) {
-    data = await get(key)
+    data = await get(encodeKey(key))
     if (data) return data
   }
 
   let html = ''
   try {
-    let url = `${HOST}/tag/${q}`
-    if (page > 1) url += `/page/${page}`
+    let url = `${HOST}/search/${encodeURIComponent(q)}`
+    if (page > 1) url += `/?pos=${page}`
     html = (
       await xhrCustom({
         url
@@ -54,34 +44,35 @@ export async function tag(
   }
 
   const $ = cheerio(htmlMatch(html, DECODE.START, DECODE.END))
-  const list = cMap($('article > .post'), $row => ({
-    href: cData($row.find('> a'), 'href').split(HOST)?.[1] || '',
-    id: cData($row.find('img'), 'srcset').split('/small/')?.[1]?.split('.jpg')?.[0] || '',
-    title: cText($row.find('h2')),
-    cate: cText($row.find(DECODE.CATE)),
-    num: cText($row.find(DECODE.NUM)),
+  const list = cMap($('.grid-container .grid-item'), $row => ({
+    href: cData($row.find('> a'), 'href').match(/\/([^/]+)\.html$/)?.[1] || '',
+    id: cData($row.find('img'), 'src').match(/\/small\/(\d+)\.jpg-\d+$/)?.[1] || '',
+    title: '',
+    cate: '',
+    num: '',
     tags: '',
     aspectRatio: 0
-  })).filter(item => !item.num)
-  if (!list.length) return null
+  })).filter(item => !!(item.href && item.id))
+  const uniqueList = Array.from(new Map(list.map(item => [item.id, item])).values())
+  if (!uniqueList.length) return null
 
-  if (!forceRefresh) info(`首次索引到 ${list.length} 项，请耐心等待`)
+  if (!forceRefresh) info(`首次索引到 ${uniqueList.length} 项，请耐心等待`)
   feedback(true)
 
-  const infos: Record<Id, ItemInfo> = await gets(list.map(item => `pic_info_${item.id}`))
-  const fetchs = list.map((item, index) => {
+  const infos: Record<Id, ItemInfo> = await gets(uniqueList.map(item => `pic_info_${item.id}`))
+  const fetchs = uniqueList.map((item, index) => {
     return async () => {
       try {
         const key = `pic_info_${item.id}`
         if (infos[key]) {
-          list[index] = infos[key]
+          uniqueList[index] = infos[key]
           await src([item.id], onSrcsProgress)
           return
         }
 
         await sleep(800)
         const { _response } = await xhrCustom({
-          url: HOST_INFO(item.id)
+          url: HOST_INFO(item.href)
         })
         const aspectRatio = _response.match(/(\d+)\s*[x×]\s*(\d+)/i)
         if (aspectRatio)
@@ -90,12 +81,12 @@ export async function tag(
         if (tags) item.tags = tags[1]
 
         if (
-          (list.length > 2 && index === 2) ||
-          (index && index !== list.length - 1 && index % PROGRESS_LIMIT === 0)
+          (uniqueList.length > 2 && index === 2) ||
+          (index && index !== uniqueList.length - 1 && index % PROGRESS_LIMIT === 0)
         ) {
-          onProgress(list)
+          onProgress(uniqueList)
         }
-        await update(key, item)
+        await update(encodeKey(key), item)
         await src([item.id], onSrcsProgress)
 
         return src
@@ -104,19 +95,26 @@ export async function tag(
   })
   await queue(fetchs, 1)
 
-  const total = Number(cText($(DECODE.PAGE_TOTAL)).match(/\d+篇/g)?.[0]?.replace('篇', '') || '1')
-  update(`pic_total_${q}`, String(total))
-  monoStore.updatePicTotal(q, total)
+  const realLimit = 30
+  const total =
+    uniqueList.length <= LIST_LIMIT ? (page - 1) * realLimit + uniqueList.length : page * realLimit
+
+  const qText = encodeKey(q)
+  const currentTotal = Number((await monoStore.fetchPicTotal(qText)) || 0)
+  if ((total && !currentTotal) || (total && currentTotal && total > currentTotal)) {
+    update(`pic_total_${qText}`, String(total))
+    monoStore.updatePicTotal(q, total)
+  }
 
   data = {
-    list,
+    list: uniqueList,
     pagination: {
       page,
-      pageTotal: Math.ceil(total / 40)
+      pageTotal: uniqueList.length <= LIST_LIMIT ? page : MAX_PAGE
     },
     _loaded: getTimestamp()
   }
-  update(key, data)
+  update(encodeKey(key), data)
 
   return data
 }
@@ -138,7 +136,7 @@ export async function src(ids: Id[], onProgress: HandleSrcsProgress = FROZEN_FN)
         data[key] = src
 
         onProgress(data)
-        await update(key, src)
+        await update(encodeKey(key), src)
 
         return src
       } catch (error) {}
@@ -183,4 +181,8 @@ export function getURI(
     | 'large' = 'orj360'
 ) {
   return `${DECODE.URI}/${prefix}/${image}` as const
+}
+
+export function encodeKey(key: string) {
+  return key.replace(/\//g, '_')
 }

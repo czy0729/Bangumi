@@ -6,9 +6,10 @@
  */
 import { computed } from 'mobx'
 import { keepBasicChars } from '@utils'
-import { Id } from '@types'
 import State from './state'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
+
+import type { Id } from '@types'
 
 export default class Computed extends State {
   save = () => {
@@ -17,7 +18,7 @@ export default class Computed extends State {
 
   /** 搜索关键字 */
   @computed get keyword() {
-    return (String(this.params.name || '')?.split('/')?.[0] || '').trim()
+    return String(this.params.name || '').trim()
   }
 
   /** 页面唯一命名空间 */
@@ -81,6 +82,12 @@ export default class Computed extends State {
     data.forEach(item => {
       data.push(keepBasicChars(item))
     })
+
+    if (this.list.length) {
+      const tags = this.list[0].tags.split(',')
+      if (tags.length >= 1) data.push(tags[0])
+      if (tags.length >= 2) data.push(tags[1])
+    }
 
     return [...new Set(data.filter(item => !!item && item != 'undefined'))]
   }

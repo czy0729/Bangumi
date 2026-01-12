@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-06-10 17:43:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-22 20:34:22
+ * @Last Modified time: 2026-01-11 05:41:17
  */
 import React from 'react'
 import { Divider, Flex, Text, Touchable } from '@components'
@@ -13,8 +13,9 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
+import type { Props } from './types'
 
-function Empty({ showPagination = true }) {
+function Empty({ showPagination = true }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
@@ -37,14 +38,47 @@ function Empty({ showPagination = true }) {
               </Text>
               {$.keywords
                 .filter(item => {
-                  if (!item || item.length > 16 || item.includes('/')) return false
-
+                  if (!item || item.length > 20) return false
                   return !/^第.*(季|期)$/.test(item)
                 })
-                .filter((_, index) => index < 8)
-                .map(item => {
+                .map((item, index) => {
                   const picTotal = monoStore.picTotal(item)
+
+                  return {
+                    item,
+                    index,
+                    picTotal
+                  }
+                })
+                .sort((a, b) => {
+                  const aTotal = a.picTotal
+                  const bTotal = b.picTotal
+
+                  // 都有图
+                  if (aTotal > 0 && bTotal > 0) {
+                    return bTotal - aTotal
+                  }
+
+                  // 一个有图，一个没有
+                  if (aTotal > 0) return -1
+                  if (bTotal > 0) return 1
+
+                  // 都是 undefined（未知）
+                  if (aTotal === undefined && bTotal === undefined) {
+                    return a.index - b.index
+                  }
+
+                  // 一个未知，一个为 0：未知在前
+                  if (aTotal === undefined && bTotal === 0) return -1
+                  if (aTotal === 0 && bTotal === undefined) return 1
+
+                  // 都是 0，保持原顺序
+                  return a.index - b.index
+                })
+                .slice(0, 10)
+                .map(({ item, picTotal }) => {
                   const textType = picTotal === 0 ? 'icon' : 'desc'
+
                   return (
                     <Touchable
                       key={item}

@@ -4,19 +4,19 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-06-26 21:01:47
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { HeaderV2, Loading } from '@components'
 import { _, useStore } from '@stores'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import Menu from '../component/menu'
-import { Ctx } from '../types'
 import { COMPONENT, HM } from './ds'
 
-function Header() {
-  r(COMPONENT)
+import type { Ctx } from '../types'
 
-  const { $ } = useStore<Ctx>()
+function Header() {
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  const handleHeaderRight = useCallback(() => <Menu />, [])
 
   return useObserver(() => (
     <HeaderV2
@@ -35,7 +35,7 @@ function Header() {
           />
         )
       }
-      headerRight={() => <Menu />}
+      headerRight={handleHeaderRight}
       hm={HM}
     />
   ))

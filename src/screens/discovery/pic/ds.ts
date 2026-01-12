@@ -5,7 +5,8 @@
  * @Last Modified time: 2025-06-18 03:38:18
  */
 import Crypto from '@utils/crypto'
-import { Id } from '@types'
+
+import type { Id } from '@types'
 
 export const COMPONENT = 'Pic'
 
@@ -38,6 +39,10 @@ export const HOST_INFO = (id: Id) => `${HOST}/${id}.html`
 export const HOST_URL = (id: Id) => `${DECODE.GO}/${id}.jpg`
 
 export const PROGRESS_LIMIT = 4
+
+export const MAX_PAGE = 6
+
+export const LIST_LIMIT = 20
 
 export const TEXT_USER_ABORT = '实验性功能暂只支持登录用户使用'
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-31 20:39:47
+ * @Last Modified time: 2026-01-12 00:32:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -1390,26 +1390,39 @@ export default class Computed extends State {
     return data
   }
 
+  /** 别名 */
+  @computed get alias() {
+    try {
+      return Array.from(this.rawInfo.matchAll(/<span[^>]*>别名:\s*<\/span>\s*([^<]+)/g), m =>
+        m[1].trim()
+      )
+    } catch (error) {
+      return []
+    }
+  }
+
   /** 条目图集关键字 */
   @computed get subjectKeywords() {
-    return [...new Set([this.cn, this.jp, keepBasicChars(this.cn)])]
+    const clean = (s?: string) => (s ? s.replace(/(?:第.*?(?:季|期)|(前|后)篇)$/g, '').trim() : '')
+    const base = [this.cn, this.jp, clean(this.cn), ...this.alias, keepBasicChars(this.cn)]
+    return [...new Set(base)]
       .filter(Boolean)
-      .filter(item => item.length < 12)
+      .filter(item => item.length < 24)
+      .slice(0, 8)
   }
 
   /** 角色图集关键字 */
   @computed get crtKeywords() {
-    const temp: string[] = []
+    const base: string[] = []
     this.crt
-      .filter(
-        // @ts-ignore
-        item => item.roleName === '主角'
-      )
+      .filter(item => item.roleName === '主角')
       .forEach(item => {
-        // @ts-ignore
-        temp.push(item.name || item.nameJP)
+        base.push(item.name || item.nameJP)
       })
-    return [...new Set(temp)].filter(Boolean).filter(item => item.length < 12)
+    return [...new Set(base)]
+      .filter(Boolean)
+      .filter(item => item.length < 12)
+      .slice(0, 4)
   }
 
   /** 吐槽项事件 */

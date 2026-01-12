@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-29 15:55:34
+ * @Last Modified time: 2026-01-12 00:39:26
  */
 import React from 'react'
 import { Image as RNImage } from 'react-native'
@@ -44,7 +44,7 @@ import type { ImageErrorEvent } from 'react-native'
 import type { AnyObject, Fn } from '@types'
 import type { Props as ImageProps, State } from './types'
 
-export { ImageProps }
+export type { ImageProps }
 
 /**
  * 图片

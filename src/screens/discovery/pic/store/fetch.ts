@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2025-06-09 14:51:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-15 20:31:49
+ * @Last Modified time: 2026-01-11 06:29:16
  */
 import { monoStore } from '@stores'
 import { getTimestamp, info } from '@utils'
 import { get, update } from '@utils/kv'
 import { D7 } from '@constants'
-import { Id } from '@types'
 import { TEXT_FETCHING_ABORT, TEXT_FETCHING_WAIT } from '../ds'
-import { List, Srcs } from '../types'
-import { processImages, src, tag } from '../utils'
+import { encodeKey, processImages, src, tag } from '../utils'
 import Computed from './computed'
+
+import type { Id } from '@types'
+import type { List, Srcs } from '../types'
 
 /** 此功能必须完成一次完整的请求流程, 才允许进行下一次流程 */
 let globalFetching = false
@@ -41,7 +42,7 @@ export default class Fetch extends Computed {
     const { page } = this.state
     const key = `pic_error_${this.keyword}`
     if (!forceRefresh) {
-      const check = await get(key)
+      const check = await get(encodeKey(key))
       if (check?.ts && Number(check.ts) && getTimestamp() - Number(check.ts) <= D7) {
         this.setState({
           empty: true
@@ -72,7 +73,7 @@ export default class Fetch extends Computed {
       })
 
       if (page === 1) {
-        update(key, {
+        update(encodeKey(key), {
           ts: getTimestamp()
         })
         monoStore.updatePicTotal(this.keyword, 0)

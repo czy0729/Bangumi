@@ -16,7 +16,7 @@ function IconPic() {
   const { $ } = useStore<Ctx>()
 
   return useObserver(() => {
-    const picTotals = $.subjectKeywords.map(item => monoStore.picTotal(item) || 0)
+    const picTotals = $.subjectKeywords.map(item => Number(monoStore.picTotal(item) || 0))
     let maxIndex = findMaxIndex(picTotals)
     let keyword = ''
     let max = 0
@@ -27,7 +27,7 @@ function IconPic() {
     }
 
     if (!keyword) {
-      const crtPicTotals = $.crtKeywords.map(item => monoStore.picTotal(item) || 0)
+      const crtPicTotals = $.crtKeywords.map(item => Number(monoStore.picTotal(item) || 0))
       maxIndex = findMaxIndex(crtPicTotals)
       if (maxIndex !== -1) {
         keyword = $.crtKeywords[maxIndex]
@@ -46,10 +46,10 @@ function IconPic() {
       <Link
         style={styles.touch}
         path='Pic'
-        params={{
+        getParams={() => ({
           name: keyword,
-          keywords: [$.cn, $.jp, ...$.crt.map(item => item.name || item.nameJP).slice(0, 5)]
-        }}
+          keywords: [...$.subjectKeywords, ...$.crtKeywords]
+        })}
       >
         <Flex>
           <Text type='sub' size={12}>

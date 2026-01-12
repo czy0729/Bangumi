@@ -5,9 +5,10 @@
  * @Last Modified time: 2025-06-18 03:33:05
  */
 import { _ } from '@stores'
-import { Loaded } from '@types'
 import { COMPONENT } from '../ds'
-import { List, Srcs } from '../types'
+
+import type { Loaded } from '@types'
+import type { List, Srcs } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 

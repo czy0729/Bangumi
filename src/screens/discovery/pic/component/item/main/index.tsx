@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-06-18 02:28:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-26 15:51:45
+ * @Last Modified time: 2026-01-11 05:43:32
  */
 import React, { useMemo } from 'react'
 import { Image } from 'react-native'
@@ -15,6 +15,7 @@ import { memoStyles } from './styles'
 function Main({ width, height, data, image, onPress, onSelect }) {
   return useObserver(() => {
     const styles = memoStyles()
+
     const elImage = useMemo(
       () => (
         <Touchable style={styles.image} withoutFeedback onPress={onPress}>
@@ -28,7 +29,7 @@ function Main({ width, height, data, image, onPress, onSelect }) {
           />
         </Touchable>
       ),
-      [styles.image]
+      [styles]
     )
 
     return (

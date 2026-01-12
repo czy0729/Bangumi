@@ -2,28 +2,26 @@
  * @Author: czy0729
  * @Date: 2025-06-09 20:03:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-18 21:56:15
+ * @Last Modified time: 2026-01-11 05:44:00
  */
 import React, { useCallback, useMemo } from 'react'
 import { Text } from '@components'
 import { systemStore, tinygrailStore, useStore } from '@stores'
 import { confirm, info, open, showImageViewer } from '@utils'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import { ReactNode } from '@types'
 import { TEXT_FETCHING_INTERCEPT } from '../../ds'
-import { Ctx } from '../../types'
 import { getURI } from '../../utils'
 import Container from './container'
 import Main from './main'
 import { COMPONENT } from './ds'
 
+import type { ReactNode } from '@types'
+import type { Ctx } from '../../types'
+
 let hasTrial = false
 
 function Item({ width, height, y, id, tags = '' }) {
-  r(COMPONENT)
-
-  const { $, navigation } = useStore<Ctx>()
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
     const image = $.image(id)

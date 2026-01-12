@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-06-18 02:12:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-18 02:34:50
+ * @Last Modified time: 2026-01-11 05:41:31
  */
 import React from 'react'
 import { Flex } from '@components'
@@ -13,6 +13,7 @@ import { memoStyles } from './styles'
 function Container({ width, height, y, children }) {
   return useObserver(() => {
     const styles = memoStyles()
+
     return (
       <Flex
         style={[

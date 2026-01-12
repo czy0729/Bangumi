@@ -78,8 +78,8 @@ export default class Fetch extends Computed {
     if (!name) return false
 
     const STATE_KEY = 'picTotal'
-    const ITEM_KEY = hash(name).slice(0, 4)
-    if (!ITEM_KEY || this[STATE_KEY](ITEM_KEY) !== undefined) return
+    const currentTotal = this[STATE_KEY](name)
+    if (currentTotal !== undefined) return currentTotal
 
     let value = 0
     try {
@@ -89,7 +89,7 @@ export default class Fetch extends Computed {
     }
     this.updatePicTotal(name, value)
 
-    return this[STATE_KEY](ITEM_KEY)
+    return this[STATE_KEY](name)
   }
 
   /** 画集数 (批量) */
@@ -98,8 +98,7 @@ export default class Fetch extends Computed {
 
     const STATE_KEY = 'picTotal'
     const filters = names.filter(name => {
-      const ITEM_KEY = hash(name).slice(0, 4)
-      if (!ITEM_KEY || this[STATE_KEY](ITEM_KEY) !== undefined) return false
+      if (!name || this[STATE_KEY](name) !== undefined) return false
       return true
     })
     if (!filters.length) return false

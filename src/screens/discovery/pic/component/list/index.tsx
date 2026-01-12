@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2025-06-09 15:12:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-22 20:43:13
+ * @Last Modified time: 2026-01-11 05:44:27
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
 import { HeaderPlaceholder } from '@components'
 import { ScrollView } from '@_'
 import { _, useStore } from '@stores'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { ITEM_MARGIN, NUM_COLUMNS } from '../../ds'
 import Empty from '../empty'
@@ -19,10 +18,9 @@ import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 import type { Ctx, List as ListType } from '../../types'
-function List() {
-  r(COMPONENT)
 
-  const { $ } = useStore<Ctx>()
+function List() {
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   const handleRefresh = useCallback(() => {
     return $.getList(true)
