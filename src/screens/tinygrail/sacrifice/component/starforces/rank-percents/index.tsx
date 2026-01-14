@@ -2,21 +2,23 @@
  * @Author: czy0729
  * @Date: 2024-03-07 17:40:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 16:19:45
+ * @Last Modified time: 2026-01-14 08:16:41
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import Rank from '@tinygrail/_/rank'
 import { calculateRatio, decimal } from '@tinygrail/_/utils'
-import { Ctx } from '../../../types'
 import { styles } from './styles'
+
+import type { Ctx } from '../../../types'
 
 function RankPercents() {
   const { $ } = useStore<Ctx>()
-  return (
+
+  return useObserver(() => (
     <View style={styles.rankPercents}>
       {$.rankPercents.map((item, index: number) => {
         const last = index === $.rankPercents.length - 1
@@ -51,7 +53,7 @@ function RankPercents() {
         )
       })}
     </View>
-  )
+  ))
 }
 
-export default ob(RankPercents)
+export default RankPercents

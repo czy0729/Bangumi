@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:11:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-19 16:48:10
+ * @Last Modified time: 2026-01-14 08:36:07
  */
 import { tinygrailStore } from '@stores'
 import { getStorage, getTimestamp } from '@utils'
@@ -12,6 +12,7 @@ import { EXCLUDE_STATE, INIT_LAST_AUCTION, INIT_LAST_SACRIFICE, NAMESPACE } from
 export default class ScreenTinygrailSacrifice extends Action {
   init = async () => {
     await tinygrailStore.init('test')
+
     this.setState({
       ...((await this.getStorage(NAMESPACE)) || {}),
       ...EXCLUDE_STATE,

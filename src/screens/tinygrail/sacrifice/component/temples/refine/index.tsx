@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-13 05:48:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-13 06:22:34
+ * @Last Modified time: 2026-01-14 08:20:04
  */
 import React, { useState } from 'react'
 import { View } from 'react-native'
@@ -15,8 +15,10 @@ import { memoStyles } from './styles'
 
 function Refine({ rate, rank, stars, level }) {
   const [refine, setRefine] = useState(1)
+
   return useObserver(() => {
     const styles = memoStyles()
+
     return (
       <>
         <Text type='tinygrailText' size={11}>

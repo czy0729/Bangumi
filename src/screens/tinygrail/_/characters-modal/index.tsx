@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-04 18:10:02
+ * @Last Modified time: 2026-01-14 08:56:54
  */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Flex, Text } from '@components'
@@ -10,7 +10,6 @@ import { _, tinygrailStore } from '@stores'
 import { getTimestamp, info, queue, trim } from '@utils'
 import { useBackHandler, useMount, useObserver } from '@utils/hooks'
 import { FROZEN_FN, LIST_EMPTY, M2 } from '@constants'
-import { ListEmpty, Loaded } from '@types'
 import Bottom from './bottom'
 import Content from './content'
 import Information from './information'
@@ -18,7 +17,9 @@ import LeftList from './left-list'
 import Modal from './modal'
 import RightList from './right-list'
 import { assets, charge, getLocal, lv, refine, rk, setLocal } from './utils'
-import { PickItem, Props } from './types'
+
+import type { ListEmpty, Loaded } from '@types'
+import type { PickItem, Props } from './types'
 
 export { ITEMS_TYPE, ITEMS_USED, ITEMS_NOTIFY } from './ds'
 

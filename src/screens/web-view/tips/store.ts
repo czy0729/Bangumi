@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-06-23 14:19:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-08 19:36:27
+ * @Last Modified time: 2026-01-14 09:21:58
  */
 import { observable } from 'mobx'
 import store from '@utils/store'
 import { NAMESPACE, STATE, TABS } from './ds'
-import { Params } from './types'
+
+import type { Params } from './types'
 
 export default class ScreenTips extends store<typeof STATE> {
   state = observable(STATE)

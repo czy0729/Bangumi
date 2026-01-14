@@ -4,9 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-06-11 20:47:41
  */
-import { Loaded } from '@types'
 import { AUCTIONS_SORT_DS, COMPONENT, TEMPLES_SORT_DS, USERS_SORT_DS } from '../ds'
-import { AuctionsSort, TemplesSort, UsersSort } from '../types'
+
+import type { Loaded } from '@types'
+import type { AuctionsSort, TemplesSort, UsersSort } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}`
 

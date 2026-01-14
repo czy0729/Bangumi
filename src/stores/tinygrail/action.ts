@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:40:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-18 22:17:11
+ * @Last Modified time: 2026-01-14 08:35:43
  */
 import { toJS } from 'mobx'
 import {
@@ -255,6 +255,16 @@ export default class Action extends Fetch {
         '资产信息'
       )
     } catch (error) {}
+  }
+
+  /** 设置为谁设置塔图数据 */
+  setLastPic = (monoId: MonoId, name: string) => {
+    this.setState({
+      pic: {
+        monoId,
+        name
+      }
+    })
   }
 
   // -------------------- action --------------------

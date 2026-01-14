@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-08 17:58:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-14 15:34:37
+ * @Last Modified time: 2026-01-14 08:21:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,12 +12,14 @@ import { formatNumber, getTimestamp, lastDate, toFixed } from '@utils'
 import { useMount, useObserver } from '@utils/hooks'
 import TinygrailAvatar from '@tinygrail/_/avatar'
 import TinygrailRank from '@tinygrail/_/rank'
-import { Ctx } from '../../../types'
 import { EVENT } from '../ds'
 import { memoStyles } from './styles'
 
+import type { Ctx } from '../../../types'
+
 function List() {
   const { $, navigation } = useStore<Ctx>()
+
   useMount(() => {
     $.fetchQueueUnique([$.fetchUsers, $.fetchCharaPool])
   })

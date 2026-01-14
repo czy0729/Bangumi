@@ -4,27 +4,25 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-06-19 18:30:05
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Flex, HeaderV2, Iconfont, Text, Touchable } from '@components'
 import { _, monoStore, useStore } from '@stores'
 import { open } from '@utils'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../types'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
+import type { Ctx } from '../types'
+
 function Header() {
-  const { $, navigation } = useStore<Ctx>()
-  const picTotal = monoStore.picTotal($.name)
-  return (
-    <HeaderV2
-      backgroundStyle={_.container.tinygrail}
-      headerTitleStyle={styles.headerTitle}
-      title={$.name ? $.name : '资产重组'}
-      headerTitleAlign='left'
-      hm={[`tinygrail/sacrifice/${$.monoId}`, 'TinygrailSacrifice']}
-      headerRight={() => (
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => {
+    const picTotal = monoStore.picTotal($.name)
+
+    const handleHeaderRight = useCallback(
+      () => (
         <>
           <Touchable
             style={[
@@ -35,11 +33,6 @@ function Header() {
             ]}
             onPress={() => {
               const { form, monoId } = $.params
-              t('资产重组.跳转', {
-                to: 'TinygrailDeal',
-                monoId: $.monoId
-              })
-
               if (form === 'deal') {
                 navigation.goBack()
                 return
@@ -49,19 +42,20 @@ function Header() {
                 monoId,
                 form: 'sacrifice'
               })
+
+              t('资产重组.跳转', {
+                to: 'TinygrailDeal',
+                monoId: $.monoId
+              })
             }}
           >
             <Iconfont name='md-attach-money' color={_.colorTinygrailPlain} />
           </Touchable>
+
           <Touchable
             style={styles.touch}
             onPress={() => {
               const { form, monoId } = $.params
-              t('资产重组.跳转', {
-                to: 'TinygrailTrade',
-                monoId: $.monoId
-              })
-
               if (form === 'trade') {
                 navigation.goBack()
                 return
@@ -71,19 +65,25 @@ function Header() {
                 monoId,
                 form: 'sacrifice'
               })
+
+              t('资产重组.跳转', {
+                to: 'TinygrailTrade',
+                monoId: $.monoId
+              })
             }}
           >
             <Iconfont name='md-waterfall-chart' size={20} color={_.colorTinygrailPlain} />
           </Touchable>
+
           <Touchable
             style={styles.touch}
             onPress={() => {
-              const { monoId } = $.params
-              open(`https://fuyuake.top/xsb/chara/${monoId?.replace('character/', '')}`)
+              open(`https://fuyuake.top/xsb/chara/${$.monoId}`)
             }}
           >
             <Iconfont name='icon-link' size={19} color={_.colorTinygrailPlain} />
           </Touchable>
+
           <Touchable
             style={styles.touch}
             onPress={() => {
@@ -104,9 +104,21 @@ function Header() {
             </Flex>
           </Touchable>
         </>
-      )}
-    />
-  )
+      ),
+      [picTotal]
+    )
+
+    return (
+      <HeaderV2
+        backgroundStyle={_.container.tinygrail}
+        headerTitleStyle={styles.headerTitle}
+        title={$.name ? $.name : '资产重组'}
+        headerTitleAlign='left'
+        hm={$.hm}
+        headerRight={handleHeaderRight}
+      />
+    )
+  })
 }
 
-export default ob(Header, COMPONENT)
+export default Header

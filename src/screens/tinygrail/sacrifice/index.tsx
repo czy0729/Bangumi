@@ -23,6 +23,7 @@ import Header from './header'
 import { useTinygrailSacrificePage } from './hooks'
 
 import type { NavigationProps } from '@types'
+
 /** 资产重组 */
 const TinygrailSacrifice = (props: NavigationProps) => {
   const { id, $ } = useTinygrailSacrificePage(props)

@@ -10,11 +10,13 @@ import { Flex, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { decimal, formatNumber, info } from '@utils'
 import { useMount, useObserver } from '@utils/hooks'
-import { Ctx } from '../../../types'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../../types'
 
 function List({ list, amount, avg, median, current }) {
   const { $ } = useStore<Ctx>()
+
   useMount(() => {
     $.fetchQueueUnique([$.fetchAuctionList, $.fetchTopWeek])
   })

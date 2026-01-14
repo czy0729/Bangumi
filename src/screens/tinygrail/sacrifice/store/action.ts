@@ -17,9 +17,10 @@ import {
 } from '@utils'
 import { t } from '@utils/fetch'
 import { ITEMS_TYPE } from '@tinygrail/_/characters-modal'
-import { AnyObject } from '@types'
-import { AuctionsSort, TemplesSort, UsersSort } from '../types'
 import Fetch from './fetch'
+
+import type { AnyObject } from '@types'
+import type { AuctionsSort, TemplesSort, UsersSort } from '../types'
 
 export default class Action extends Fetch {
   refresh = () => {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-08 05:25:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 16:24:39
+ * @Last Modified time: 2026-01-14 07:03:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,13 +11,15 @@ import { _, tinygrailStore, useStore } from '@stores'
 import { confirm, info, tinygrailOSS } from '@utils'
 import { useMount, useObserver } from '@utils/hooks'
 import { ITEMS_DESC } from '@tinygrail/_/ds'
-import { Fn } from '@types'
-import { Ctx } from '../../../types'
 import { OSS } from '../ds'
 import { styles } from './styles'
 
-function List({ onOpen }: { onOpen: Fn }) {
+import type { Ctx } from '../../../types'
+import type { Props } from './types'
+
+function List({ onOpen }: Props) {
   const { $ } = useStore<Ctx>()
+
   useMount(() => {
     $.fetchQueueUnique([$.fetchUserLogs, $.fetchMyTemple])
   })

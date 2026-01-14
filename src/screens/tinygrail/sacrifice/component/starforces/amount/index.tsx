@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-07 18:24:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 16:24:49
+ * @Last Modified time: 2026-01-14 08:15:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,11 +10,13 @@ import { Button, Flex, Input, Text } from '@components'
 import { _, tinygrailStore, useStore } from '@stores'
 import { confirm, formatNumber } from '@utils'
 import { useMount, useObserver } from '@utils/hooks'
-import { Ctx } from '../../../types'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../../types'
 
 function Amount() {
   const { $ } = useStore<Ctx>()
+
   useMount(() => {
     $.fetchQueueUnique([$.fetchMyTemple, $.fetchStarForcesRankValues])
   })
@@ -22,6 +24,7 @@ function Amount() {
   return useObserver(() => {
     const styles = memoStyles()
     const { loading, starForcesValue } = $.state
+
     return (
       <Flex style={_.mt.sm}>
         <Flex.Item>

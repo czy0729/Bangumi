@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-06-23 14:19:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-01 15:07:34
+ * @Last Modified time: 2026-01-14 09:21:16
  */
-import { Loaded } from '@types'
+import type { Loaded } from '@types'
 
 export const COMPONENT = 'Tips'
 
@@ -30,10 +30,6 @@ export const TABS = [
   {
     title: '网页版本',
     key: 'uozzzg8i16z0s609'
-  },
-  {
-    title: '看板娘 Live2D',
-    key: 'acauisbz0gn28vpg'
   },
   {
     title: '屏蔽用户',

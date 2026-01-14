@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-08 15:57:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-29 04:55:52
+ * @Last Modified time: 2026-01-14 08:19:41
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -10,12 +10,14 @@ import { useStore } from '@stores'
 import { formatNumber, getTimestamp, lastDate } from '@utils'
 import { useMount, useObserver } from '@utils/hooks'
 import ItemTemple from '@tinygrail/_/item-temple'
-import { Ctx } from '../../../types'
 import { EVENT } from '../ds'
 import { memoStyles } from './styles'
 
+import type { Ctx } from '../../../types'
+
 function List() {
   const { $ } = useStore<Ctx>()
+
   useMount(() => {
     $.fetchQueueUnique([$.fetchUsers])
   })

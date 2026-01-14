@@ -2,14 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:10:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-19 15:46:00
+ * @Last Modified time: 2026-01-14 08:42:22
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useStore } from '@stores'
-import { r } from '@utils/dev'
+import { tinygrailStore, useStore } from '@stores'
 import { useMount, useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import Cover from './cover'
 import Detail from './detail'
 import Expand from './expand'
@@ -19,10 +17,11 @@ import Title from './title'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Info() {
-  r(COMPONENT)
+import type { Ctx } from '../../types'
 
-  const { $ } = useStore<Ctx>()
+function Info() {
+  const { $ } = useStore<Ctx>(COMPONENT)
+
   useMount(() => {
     $.fetchQueueUnique([
       $.fetchCharacters,
@@ -31,10 +30,13 @@ function Info() {
       $.fetchPicTotal,
       $.fetchMono
     ])
+
+    if ($.monoId && $.name) tinygrailStore.setLastPic($.monoId, $.name)
   })
 
   return useObserver(() => {
     const styles = memoStyles()
+
     return (
       <View style={styles.container}>
         <Cover />

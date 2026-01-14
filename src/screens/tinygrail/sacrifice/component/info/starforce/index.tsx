@@ -2,19 +2,21 @@
  * @Author: czy0729
  * @Date: 2024-03-07 06:19:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-19 16:48:22
+ * @Last Modified time: 2026-01-14 08:30:37
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { appNavigate, formatNumber, HTMLDecode, info } from '@utils'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import Stars from '@tinygrail/_/stars'
-import { Ctx } from '../../../types'
+
+import type { Ctx } from '../../../types'
 
 function Starforce() {
   const { $, navigation } = useStore<Ctx>()
-  return (
+
+  return useObserver(() => (
     <Flex style={_.mt.xs} justify='center' wrap='wrap'>
       <Touchable
         onPress={() => {
@@ -74,7 +76,7 @@ function Starforce() {
         </>
       )}
     </Flex>
-  )
+  ))
 }
 
-export default ob(Starforce)
+export default Starforce

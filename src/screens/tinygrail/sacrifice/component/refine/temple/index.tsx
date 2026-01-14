@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-11 06:08:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 16:24:43
+ * @Last Modified time: 2026-01-14 08:13:13
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -12,10 +12,12 @@ import { useMount, useObserver } from '@utils/hooks'
 import ItemTemple from '@tinygrail/_/item-temple'
 import Rank from '@tinygrail/_/rank'
 import { calculateRate, calculateTempleRate, decimal } from '@tinygrail/_/utils'
-import { Ctx } from '../../../types'
+
+import type { Ctx } from '../../../types'
 
 function Temple() {
   const { $ } = useStore<Ctx>()
+
   useMount(() => {
     $.fetchQueueUnique([$.fetchTest, $.fetchMyTemple])
   })
@@ -36,6 +38,7 @@ function Temple() {
     const totalTempleRateNext = templeRateNext * assets
     const templeRateFail = calculateTempleRate($.rate, $.rank, $.stars, $.level, 0)
     const totalTempleRateFail = templeRateFail * assets
+
     return (
       <Flex>
         {!!cover && (

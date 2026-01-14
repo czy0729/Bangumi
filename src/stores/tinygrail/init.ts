@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:20:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-21 16:06:42
+ * @Last Modified time: 2026-01-14 08:35:17
  */
 import { LIST_EMPTY } from '@constants'
 
-import type { Id, ListEmpty, Loaded } from '@types'
+import type { Id, ListEmpty, Loaded, MonoId } from '@types'
 import type {
   TinygrailItemsItem,
   TinygrailStarLogsItem,
@@ -430,6 +430,12 @@ export const STATE = {
     Temples: 0,
     Total: 0,
     _loaded: 0 as Loaded
+  },
+
+  /** 为谁设置塔图 */
+  pic: {
+    monoId: '' as MonoId,
+    name: ''
   },
 
   /** @deprecated */

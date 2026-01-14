@@ -10,64 +10,69 @@ import { Flex, Iconfont, Text } from '@components'
 import { Popover } from '@_'
 import { _, useStore } from '@stores'
 import { formatNumber, toFixed } from '@utils'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { AUCTIONS_SORT_DS } from '../../../ds'
-import { Ctx } from '../../../types'
 import { styles } from './styles'
+
+import type { Ctx } from '../../../types'
 
 function LastWeek({ total, count, amount, avg, median, current }) {
   const { $ } = useStore<Ctx>()
-  const { auctionsSort } = $.state
-  const textProps = {
-    type: 'tinygrailPlain',
-    size: current ? 11 : 12,
-    lineHeight: 15
-  } as const
-  return (
-    <View style={styles.lastWeek}>
-      {total ? (
-        <Flex style={_.mt._sm} align='start'>
-          <Flex.Item style={_.mr.sm}>
-            <Text {...textProps}>
-              上周公示：共 {total || '-'} 人拍卖，成功 {count || '-'} 人 /{' '}
-              {amount ? formatNumber(amount, 0) : '-'} 股，均价{' '}
-              <Text {...textProps} underline>
-                ₵{toFixed(avg, 2)}
-              </Text>
-              ，中位价{' '}
-              <Text {...textProps} underline>
-                ₵{toFixed(median, 2)}
-              </Text>
-              {current ? `，本周均价 ` : ''}
-              {current ? (
+
+  return useObserver(() => {
+    const { auctionsSort } = $.state
+    const textProps = {
+      type: 'tinygrailPlain',
+      size: current ? 11 : 12,
+      lineHeight: 15
+    } as const
+
+    return (
+      <View style={styles.lastWeek}>
+        {total ? (
+          <Flex style={_.mt._sm} align='start'>
+            <Flex.Item style={_.mr.sm}>
+              <Text {...textProps}>
+                上周公示：共 {total || '-'} 人拍卖，成功 {count || '-'} 人 /{' '}
+                {amount ? formatNumber(amount, 0) : '-'} 股，均价{' '}
                 <Text {...textProps} underline>
-                  ₵{toFixed(current, 2)}
+                  ₵{toFixed(avg, 2)}
                 </Text>
-              ) : (
-                ''
-              )}
+                ，中位价{' '}
+                <Text {...textProps} underline>
+                  ₵{toFixed(median, 2)}
+                </Text>
+                {current ? `，本周均价 ` : ''}
+                {current ? (
+                  <Text {...textProps} underline>
+                    ₵{toFixed(current, 2)}
+                  </Text>
+                ) : (
+                  ''
+                )}
+              </Text>
+            </Flex.Item>
+            <Popover data={AUCTIONS_SORT_DS} onSelect={$.selectAuctionsSort}>
+              <Flex style={styles.touch}>
+                <Iconfont name='md-sort' size={19} color={_.colorTinygrailText} />
+                {auctionsSort !== '默认' && (
+                  <Text style={_.ml.xs} type='tinygrailText' size={11} bold>
+                    {auctionsSort}
+                  </Text>
+                )}
+              </Flex>
+            </Popover>
+          </Flex>
+        ) : (
+          <Flex direction='column'>
+            <Text style={_.mb.sm} type='tinygrailPlain' size={12}>
+              上周没有拍卖纪录
             </Text>
-          </Flex.Item>
-          <Popover data={AUCTIONS_SORT_DS} onSelect={$.selectAuctionsSort}>
-            <Flex style={styles.touch}>
-              <Iconfont name='md-sort' size={19} color={_.colorTinygrailText} />
-              {auctionsSort !== '默认' && (
-                <Text style={_.ml.xs} type='tinygrailText' size={11} bold>
-                  {auctionsSort}
-                </Text>
-              )}
-            </Flex>
-          </Popover>
-        </Flex>
-      ) : (
-        <Flex direction='column'>
-          <Text style={_.mb.sm} type='tinygrailPlain' size={12}>
-            上周没有拍卖纪录
-          </Text>
-        </Flex>
-      )}
-    </View>
-  )
+          </Flex>
+        )}
+      </View>
+    )
+  })
 }
 
-export default ob(LastWeek)
+export default LastWeek

@@ -11,13 +11,15 @@ import { Popover } from '@_'
 import { _, tinygrailStore, useStore } from '@stores'
 import { formatNumber, lastDate } from '@utils'
 import { useMount, useObserver } from '@utils/hooks'
-import { Ctx } from '../../../types'
 import { COUNT_DS } from '../ds'
 import Stepper from '../../stepper'
 import { memoStyles } from './styles'
 
+import type { Ctx } from '../../../types'
+
 function Amount() {
   const { $ } = useStore<Ctx>()
+
   useMount(() => {
     $.fetchQueueUnique([$.fetchAssets, $.fetchValhallChara, $.fetchAuctionStatus])
   })
@@ -25,6 +27,7 @@ function Amount() {
   return useObserver(() => {
     const styles = memoStyles()
     const { auctionLoading, auctionAmount, lastAuction } = $.state
+
     return (
       <>
         <Flex style={_.mt.xs}>

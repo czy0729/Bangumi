@@ -9,9 +9,11 @@ import { subjectStore, systemStore, tinygrailStore } from '@stores'
 import { asc, formatNumber, toFixed } from '@utils'
 import { getXsbRelationOTA, HOST } from '@constants'
 import { calculateRate, decimal } from '@tinygrail/_/utils'
-import { MonoId } from '@types'
 import State from './state'
 import { NAMESPACE } from './ds'
+
+import type { TinygrailTopWeekItem } from '@stores/tinygrail/types'
+import type { MonoId } from '@types'
 
 export default class Computed extends State {
   /** 角色数字 ID */
@@ -229,7 +231,8 @@ export default class Computed extends State {
 
   /** 本周萌王 */
   @computed get topWeek() {
-    return tinygrailStore.topWeek.list.find(item => item.id === this.id) || {}
+    return (tinygrailStore.topWeek.list.find(item => item.id === this.id) ||
+      {}) as TinygrailTopWeekItem
   }
 
   @computed get mono() {
@@ -268,5 +271,9 @@ export default class Computed extends State {
       name: cast,
       href: castHref
     }
+  }
+
+  @computed get hm() {
+    return [`tinygrail/sacrifice/${this.monoId}`, 'TinygrailSacrifice'] as const
   }
 }

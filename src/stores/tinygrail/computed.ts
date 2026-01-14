@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:35:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 00:58:00
+ * @Last Modified time: 2026-01-14 08:34:05
  */
 import { computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -436,6 +436,11 @@ export default class Computed extends State implements StoreConstructor<typeof S
   @computed get test() {
     this.init('test', true)
     return this.state.test
+  }
+
+  /** 为谁设置塔图 */
+  @computed get pic() {
+    return this.state.pic
   }
 
   /**

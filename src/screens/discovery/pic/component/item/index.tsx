@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-06-09 20:03:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-11 05:44:00
+ * @Last Modified time: 2026-01-14 08:49:39
  */
 import React, { useCallback, useMemo } from 'react'
 import { Text } from '@components'
@@ -30,6 +30,10 @@ function Item({ width, height, y, id, tags = '' }) {
       return [
         '打开原图',
         $.params.monoId ? '设为塔图' : false,
+        !$.params.monoId &&
+          tinygrailStore.pic.name &&
+          tinygrailStore.pic.monoId &&
+          `设为〔${tinygrailStore.pic.name}〕的塔图`,
         ...tags.split(',').map(item => `# ${item}`)
       ].filter(Boolean) as string[]
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -54,7 +58,7 @@ function Item({ width, height, y, id, tags = '' }) {
           return
         }
 
-        if (title === '设为塔图') {
+        if (title.startsWith('设为')) {
           if (!systemStore.advance) {
             if (hasTrial) {
               info('普通用户组已无剩余试用次数')
@@ -66,7 +70,7 @@ function Item({ width, height, y, id, tags = '' }) {
               async () => {
                 const result = await tinygrailStore.doChangeCover(
                   getURI(image, 'mw1024'),
-                  $.params.monoId
+                  $.params.monoId || tinygrailStore.pic.monoId
                 )
                 if (result) hasTrial = true
               },
@@ -77,7 +81,10 @@ function Item({ width, height, y, id, tags = '' }) {
             return
           }
 
-          tinygrailStore.doChangeCover(getURI(image, 'mw1024'), $.params.monoId)
+          tinygrailStore.doChangeCover(
+            getURI(image, 'mw1024'),
+            $.params.monoId || tinygrailStore.pic.monoId
+          )
           return
         }
 

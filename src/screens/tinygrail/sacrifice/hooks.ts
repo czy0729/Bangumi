@@ -6,9 +6,10 @@
  */
 import { useInitStore } from '@stores'
 import { useMount, useRunAfter } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import store from './store'
-import { Ctx } from './types'
+
+import type { NavigationProps } from '@types'
+import type { Ctx } from './types'
 
 /** 资产重组页面逻辑 */
 export function useTinygrailSacrificePage(props: NavigationProps) {
