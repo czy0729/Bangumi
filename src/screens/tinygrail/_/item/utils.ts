@@ -5,7 +5,8 @@
  * @Last Modified time: 2024-05-19 11:14:22
  */
 import { t } from '@utils/fetch'
-import { AnyObject, EventKeys, MonoId, Navigation, Paths } from '@types'
+
+import type { AnyObject, EventKeys, MonoId, Navigation, Paths } from '@types'
 
 /** 路由跳转复写 */
 export function getOnPress(

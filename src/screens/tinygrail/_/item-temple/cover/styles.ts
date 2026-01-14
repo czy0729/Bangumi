@@ -11,6 +11,7 @@ export const memoStyles = _.memoStyles(() => {
   const imageHeight = Math.floor(width * 1.28)
   const imageResizeWidth = Math.floor(width * 1.2)
   const imageResizeHeight = Math.floor(imageHeight * 1.2)
+
   return {
     wrap: {
       width,

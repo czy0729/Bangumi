@@ -18,7 +18,8 @@ import Detail from './detail'
 import Title from './title'
 import { getOnPress } from './utils'
 import { memoStyles } from './styles'
-import { Ctx } from './types'
+
+import type { Ctx } from './types'
 
 function Item(props) {
   const { $, navigation } = useStore<Ctx>()

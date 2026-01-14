@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-06-19 04:41:48
  */
-import { EventType, Fn, Id, UserId, ViewStyle } from '@types'
+import type { EventType, Fn, Id, UserId, ViewStyle } from '@types'
 
 export type Props = {
   style?: ViewStyle

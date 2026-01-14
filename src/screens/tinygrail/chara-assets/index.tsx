@@ -8,11 +8,12 @@ import React from 'react'
 import { Component, Page } from '@components'
 import { _, StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import Modal from './component/modal'
 import Tabs from './component/tabs'
 import Header from './header'
 import { useTinygrailCharaAssetsPage } from './hooks'
+
+import type { NavigationProps } from '@types'
 
 /** 我的持仓 */
 const TinygrailCharaAssets = (props: NavigationProps) => {

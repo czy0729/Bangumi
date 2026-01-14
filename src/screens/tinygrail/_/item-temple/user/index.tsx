@@ -6,14 +6,15 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { useObserver } from 'mobx-react'
 import { Flex } from '@components'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
+
 import TinygrailAvatar from '@tinygrail/_/avatar'
 import { styles } from './styles'
 
 function User({ navigation, userId, avatar, nickname, lastActive, event }) {
-  return (
+  return useObserver(() => (
     <View style={_.mt.sm}>
       {!!avatar && (
         <Flex style={styles.fixed} justify='center'>
@@ -30,7 +31,7 @@ function User({ navigation, userId, avatar, nickname, lastActive, event }) {
         </Flex>
       )}
     </View>
-  )
+  ))
 }
 
-export default ob(User)
+export default User

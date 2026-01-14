@@ -6,16 +6,14 @@
  */
 import React from 'react'
 import { useStore } from '@stores'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import TinygrailCharactersModal from '@tinygrail/_/characters-modal'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
-function Modal() {
-  r(COMPONENT)
+import type { Ctx } from '../../types'
 
-  const { $ } = useStore<Ctx>()
+function Modal() {
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => (
     <TinygrailCharactersModal

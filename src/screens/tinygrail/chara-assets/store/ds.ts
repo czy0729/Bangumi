@@ -4,9 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-04-06 17:25:40
  */
-import { Loaded } from '@types'
 import { COMPONENT } from '../ds'
-import { BatchAction, Direction } from '../types'
+
+import type { Loaded } from '@types'
+import type { BatchAction, Direction } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}`
 

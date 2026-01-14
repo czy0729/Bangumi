@@ -10,5 +10,8 @@ export const styles = _.create({
   detail: {
     paddingRight: _._wind,
     marginTop: 5
+  },
+  text: {
+    letterSpacing: -0.2
   }
 })

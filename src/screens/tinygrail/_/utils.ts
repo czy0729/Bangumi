@@ -18,7 +18,8 @@ import {
   toFixed
 } from '@utils'
 import { IOS } from '@constants'
-import { ColorValue, ListArray } from '@types'
+
+import type { ColorValue, ListArray } from '@types'
 
 export { decimal }
 
@@ -263,6 +264,12 @@ export const SORT_WZD = {
   value: 'wzd'
 } as const
 
+/** 圣殿恢复时间 */
+export const SORT_HFSJ = {
+  label: '恢复时间',
+  value: 'hfsj'
+} as const
+
 export const SORT_CCJZ = {
   label: '持仓价值',
   value: 'ccjz'
@@ -366,6 +373,29 @@ export function sortList<T>(sort: string, direction: '' | 'up' | 'down', list: L
       })
   }
 
+  if (sort === SORT_HFSJ.value) {
+    return sortedList.sort((a: any, b: any) => {
+      const ar = a.refine || 0
+      const br = b.refine || 0
+
+      const aJoin = ar >= 10
+      const bJoin = br >= 10
+
+      // 都不参与
+      if (!aJoin && !bJoin) return 0
+
+      // 不参与的永远在后
+      if (!aJoin) return 1
+      if (!bJoin) return -1
+
+      const aDays = Math.max(0, Math.ceil(((a.sacrifices || 0) - (a.assets || 0)) / ar))
+      const bDays = Math.max(0, Math.ceil(((b.sacrifices || 0) - (b.assets || 0)) / br))
+
+      // 天数少的靠前（0 天自然在最前）
+      return (aDays - bDays) * base
+    })
+  }
+
   const numericSort = (a: any, b: any, key: string) => ((b[key] || 0) - (a[key] || 0)) * base
   if (sort === SORT_CGS.value) {
     return sortedList
@@ -401,7 +431,7 @@ export function sortList<T>(sort: string, direction: '' | 'up' | 'down', list: L
       ((b.rate || 0) / (b.current || 10) - (a.rate || 0) / (a.current || 10)) * base,
     [SORT_HYD.value]: (a, b) => desc(String(b.lastOrder || ''), String(a.lastOrder || '')) * base,
     [SORT_MWCS.value]: (a, b) => numericSort(a, b, 'crown'),
-    [SORT_PM.value]: (a, b) => ((a.rank || 0) - (b.rank || 0)) * base,
+    [SORT_PM.value]: (a, b) => ((a.rank || 99999) - (b.rank || 99999)) * base,
     [SORT_SC.value]: (a, b) =>
       (tinygrailStore.collected(b.id || 0) - tinygrailStore.collected(a.id || 0)) * base,
     [SORT_SCJ.value]: (a, b) => numericSort(a, b, 'marketValue'),
@@ -497,6 +527,12 @@ export function getCharaItemSortText(props: any, showAll: boolean = false) {
     [SORT_SSD.value]: () =>
       `${SORT_SSD.label} ${formatNumber((sacrifices || 0) - (assets || 0), 0)}`,
     [SORT_WZD.value]: () => `${SORT_WZD.label} ${toFixed((assets / (sacrifices || 1)) * 100, 1)}%`,
+    [SORT_HFSJ.value]: () =>
+      refine >= 10
+        ? sacrifices - assets <= 0
+          ? '已满'
+          : `${Math.max(1, Math.ceil((sacrifices - assets) / refine))} 天`
+        : '',
     [SORT_ZHXZL.value]: () =>
       `星之力 ${formatNumber(starForces, 0)} (${formatNumber(userStarForces, 0)})`
   }

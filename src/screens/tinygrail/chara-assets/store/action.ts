@@ -9,11 +9,12 @@ import { alert, confirm, copy, feedback, info, toFixed } from '@utils'
 import { t } from '@utils/fetch'
 import { ITEMS_TYPE } from '@tinygrail/_/characters-modal'
 import { getCharaLevelLowestPrice, throttleInfo } from '@tinygrail/_/utils'
-import { ItemUseParams } from '@tinygrail/items/types'
-import { FnParams, Override } from '@types'
 import { PER_BATCH_COUNT } from '../ds'
-import { BatchAction, Direction } from '../types'
 import Fetch from './fetch'
+
+import type { ItemUseParams } from '@tinygrail/items/types'
+import type { FnParams, Override } from '@types'
+import type { BatchAction, Direction } from '../types'
 
 export default class Action extends Fetch {
   /** 标签页切换 */
@@ -337,9 +338,7 @@ export default class Action extends Fetch {
         if (item) {
           items.push(item)
         }
-      } catch (error) {
-        console.error(error)
-      }
+      } catch (error) {}
     }
 
     copy(

@@ -6,18 +6,16 @@
  */
 import React from 'react'
 import { useStore } from '@stores'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import TinygrailToolBar from '@tinygrail/_/tool-bar'
 import { SORT_CHARA_DS, SORT_DS, SORT_TEMPLE_DS } from '../../ds'
-import { Ctx } from '../../types'
 import BatchBtn from '../batch-btn'
 import { COMPONENT } from './ds'
 
-function ToolBar() {
-  r(COMPONENT)
+import type { Ctx } from '../../types'
 
-  const { $ } = useStore<Ctx>()
+function ToolBar() {
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
     const { page, direction } = $.state

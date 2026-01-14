@@ -8,6 +8,7 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => {
   const { width, marginLeft } = _.grid(3)
+
   return {
     item: {
       width,

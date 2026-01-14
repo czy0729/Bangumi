@@ -4,9 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-08-29 06:13:51
  */
-import { GetRouteParams, RouteTinygrailCharaAssets, WithNavigation } from '@types'
-import Store from './store'
-import { DATA, TABS } from './ds'
+import type { GetRouteParams, RouteTinygrailCharaAssets, WithNavigation } from '@types'
+import type Store from './store'
+import type { DATA, TABS } from './ds'
 
 export type Ctx = WithNavigation<{
   $: InstanceType<typeof Store>

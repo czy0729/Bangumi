@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-20 12:04:37
  */
-import { Navigation } from '@types'
+import type { Navigation } from '@types'
 
 export type Ctx = {
   $: any

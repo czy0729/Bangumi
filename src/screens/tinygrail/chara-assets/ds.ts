@@ -12,6 +12,7 @@ import {
   SORT_FHL,
   SORT_GDZC,
   SORT_GX,
+  SORT_HFSJ,
   SORT_HJGX,
   SORT_JLDJ,
   SORT_MWCS,
@@ -181,6 +182,12 @@ const SORT_DS_CONFIG = [
   {
     data: SORT_WZD,
     index: [0, 2]
+  },
+
+  /** 恢复时间 */
+  {
+    data: SORT_HFSJ,
+    index: [2]
   }
 ] as const
 

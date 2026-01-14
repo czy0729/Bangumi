@@ -8,20 +8,18 @@ import React, { useCallback } from 'react'
 import { PaginationList2 } from '@_'
 import { _, tinygrailStore, useStore } from '@stores'
 import { queue } from '@utils'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { TINYGRAIL_LIST_PROPS } from '@tinygrail/_/ds'
-import { Ctx } from '../../types'
 import Item from '../item'
 import { keyExtractor } from './utils'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
 function List({ id }: Props) {
-  r(COMPONENT)
-
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
     const dataSources = {

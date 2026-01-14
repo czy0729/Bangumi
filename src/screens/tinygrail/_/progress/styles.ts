@@ -29,12 +29,15 @@ export const memoStyles = _.memoStyles(() => ({
     height: 8,
     borderRadius: 3
   },
-  text: {
+  textWrap: {
     position: 'absolute',
     zIndex: 2,
     top: 0.5,
     right: 0,
     bottom: 0,
     left: 0
+  },
+  text: {
+    letterSpacing: -0.2
   }
 }))

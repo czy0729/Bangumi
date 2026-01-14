@@ -10,9 +10,10 @@ import { Flex, Image, Text } from '@components'
 import { _ } from '@stores'
 import { showImageViewer, stl, tinygrailOSS } from '@utils'
 import { useObserver } from '@utils/hooks'
-import { ColorValue } from '@types'
 import { memoStyles } from './styles'
-import { CoverProps } from './types'
+
+import type { ColorValue } from '@types'
+import type { CoverProps } from './types'
 
 function Cover({ level, cover, coverSize = 150, name, refine, event, onPress }: CoverProps) {
   const src = tinygrailOSS(cover, coverSize)

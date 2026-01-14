@@ -8,9 +8,10 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   rank: {
-    paddingHorizontal: _.xs,
+    paddingHorizontal: 3,
     marginTop: -1,
     marginRight: 4,
+    letterSpacing: -0.5,
     color: _.__colorPlain__,
     borderRadius: 2,
     overflow: 'hidden'

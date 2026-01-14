@@ -9,8 +9,9 @@ import { tinygrailStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { LIST_EMPTY } from '@constants'
 import { levelList, sortList } from '@tinygrail/_/utils'
-import { Id } from '@types'
 import State from './state'
+
+import type { Id } from '@types'
 
 export default class Computed extends State {
   /** 用户 ID */
