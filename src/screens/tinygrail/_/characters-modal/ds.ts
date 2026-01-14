@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-02 11:00:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-01 16:55:03
+ * @Last Modified time: 2026-01-14 10:05:24
  */
 export const NAMESPACE = 'TinygrailCompCharactersModal'
 
@@ -44,7 +44,7 @@ export const ITEMS_NOTIFY = {
     title: '虚空道标',
     message: [
       '效果：指定抢某角色10-100股（可命中固定资产，导致增发）',
-      '消耗：100固定资产 + 1道标（每日限3次）',
+      '消耗：100固定资产 + 1道标（每日限5次）',
       '规则：',
       '　●　目标等级≤你的塔等级+2',
       '　●　若对方固定资产≥道标股数，优先扣固定资产（扣完才扣活股）',

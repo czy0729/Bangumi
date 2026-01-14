@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2020-07-01 17:20:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-25 22:22:22
+ * @Last Modified time: 2026-01-14 10:08:59
  */
 import React, { useCallback } from 'react'
 import { Avatar, Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { stl, tinygrailOSS } from '@utils'
 import { useObserver } from '@utils/hooks'
-import Level from '../../level'
-import Progress from '../../progress'
-import Rank from '../../rank'
+import TinygrailLevel from '../../level'
+import TinygrailProgress from '../../progress'
+import TinygrailRank from '../../rank'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 const Item = React.memo(
   ({
@@ -37,6 +38,7 @@ const Item = React.memo(
 
     return useObserver(() => {
       const styles = memoStyles()
+
       return (
         <Touchable onPress={handlePress}>
           <Flex style={stl(styles.item, !disabled && styles[type])}>
@@ -55,10 +57,10 @@ const Item = React.memo(
             )}
             <Flex.Item style={_.ml.xs}>
               <Flex>
-                {rank <= 500 && <Rank style={styles.rank} size={8} value={rank} />}
+                {rank <= 500 && <TinygrailRank style={styles.rank} size={8} value={rank} />}
                 <Flex.Item>
                   <Text type='tinygrailPlain' size={9} bold numberOfLines={1}>
-                    <Level value={level} size={9} lineHeight={9} />
+                    <TinygrailLevel value={level} size={9} lineHeight={9} />
                     {name}
                   </Text>
                 </Flex.Item>
@@ -66,7 +68,12 @@ const Item = React.memo(
               {assets && sacrifices ? (
                 <Flex style={_.mt.xs}>
                   <Flex.Item>
-                    <Progress size='xs' assets={assets} sacrifices={sacrifices} refine={refine} />
+                    <TinygrailProgress
+                      size='xs'
+                      assets={assets}
+                      sacrifices={sacrifices}
+                      refine={refine}
+                    />
                   </Flex.Item>
                   {!!refine && (
                     <Text style={_.ml.xs} type='tinygrailText' size={9} bold>

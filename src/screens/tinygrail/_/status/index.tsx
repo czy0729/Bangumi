@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-06-25 22:06:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-25 22:43:26
+ * @Last Modified time: 2026-01-14 10:15:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,8 @@ import { Flex } from '@components'
 import { tinygrailStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function Status({ style, id }: Props) {
   return useObserver(() => {

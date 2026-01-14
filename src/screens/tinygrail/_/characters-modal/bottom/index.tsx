@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-05-02 18:38:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-03 16:28:14
+ * @Last Modified time: 2026-01-14 10:29:53
  */
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
@@ -72,6 +72,7 @@ function Bottom({
           <Flex.Item>
             {leftSelected ? (
               <Item
+                id={leftSelected.id}
                 src={cover(leftSelected)}
                 name={leftSelected.name}
                 level={lv(leftSelected)}

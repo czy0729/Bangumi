@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-03 23:46:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-25 22:13:41
+ * @Last Modified time: 2026-01-14 10:12:25
  */
 import React from 'react'
 import { Flex } from '@components'
@@ -15,7 +15,8 @@ import TinygrailPopover from '../../popover'
 import TinygrailStatus from '../../status'
 import TinygrailStockPreview from '../../stock-preview'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function Control(props: Props) {
   return useObserver(() => {
