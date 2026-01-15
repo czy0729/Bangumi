@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-09 17:36:51
+ * @Last Modified time: 2026-01-15 14:28:28
  */
 import { toJS } from 'mobx'
 import { StatusBar } from '@components'
@@ -64,13 +64,15 @@ import {
   SITE_MANHUADB,
   SITE_WK8,
   SITES,
+  TEXT_MENU_BLOCK,
+  TEXT_MENU_IGNORE,
   TEXT_MENU_TOPIC,
   URL_SPA,
   WEB
 } from '@constants'
 import i18n from '@constants/i18n'
 import { getPlainText, removeSlogan } from '@screens/discovery/word-cloud/store/utils'
-import { COMPONENT, TEXT_BLOCK_USER, TEXT_COPY_COMMENT, TEXT_IGNORE_USER, TEXT_LIKES } from '../ds'
+import { COMPONENT, TEXT_COPY_COMMENT, TEXT_LIKES } from '../ds'
 import { replaceOriginUrl } from '../../../user/origin-setting/utils'
 import Fetch from './fetch'
 import {
@@ -706,12 +708,12 @@ export default class Action extends Fetch {
       return
     }
 
-    if (title === TEXT_BLOCK_USER) {
+    if (title === TEXT_MENU_BLOCK) {
       this.addBlockUser(userData)
       return
     }
 
-    if (title === TEXT_IGNORE_USER) {
+    if (title === TEXT_MENU_IGNORE) {
       this.doBlockUser(userData)
       return
     }

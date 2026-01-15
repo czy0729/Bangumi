@@ -2,13 +2,20 @@
  * @Author: czy0729
  * @Date: 2024-05-16 19:56:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-17 23:43:19
+ * @Last Modified time: 2026-01-15 14:29:03
  */
 import { rakuenStore } from '@stores'
 import { confirm, feedback, info, updateVisibleBottom } from '@utils'
+import { logger } from '@utils/dev'
 import { t } from '@utils/fetch'
-import { LIMIT_TOPIC_PUSH, MODEL_RAKUEN_TYPE_GROUP, MODEL_RAKUEN_TYPE_MONO } from '@constants'
-import { PREFETCH_COUNT, TEXT_BLOCK_USER, TEXT_IGNORE_USER } from '../ds'
+import {
+  LIMIT_TOPIC_PUSH,
+  MODEL_RAKUEN_TYPE_GROUP,
+  MODEL_RAKUEN_TYPE_MONO,
+  TEXT_MENU_BLOCK,
+  TEXT_MENU_IGNORE
+} from '@constants'
+import { PREFETCH_COUNT } from '../ds'
 import Fetch from './fetch'
 import { INIT_PREFETCH_STATE } from './ds'
 
@@ -144,7 +151,7 @@ export default class Action extends Fetch {
         })
         break
 
-      case TEXT_BLOCK_USER:
+      case TEXT_MENU_BLOCK:
         confirm(
           `屏蔽来自 ${values?.userName}@${values?.userId} 的包括条目评论、时间胶囊、超展开相关信息，确定?`,
           () => {
@@ -159,7 +166,7 @@ export default class Action extends Fetch {
         )
         break
 
-      case TEXT_IGNORE_USER:
+      case TEXT_MENU_IGNORE:
         confirm(
           `与 ${values.userName} 绝交（不再看到用户的所有话题、评论、日志、私信、提醒）?`,
           async () => {
@@ -305,7 +312,7 @@ export default class Action extends Fetch {
         feedback()
       }
     } catch (error) {
-      console.error('Rakuen', 'onRefreshThenScrollTop', error)
+      logger.error('Rakuen', 'onRefreshThenScrollTop', error)
     }
   }
 

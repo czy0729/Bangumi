@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-01-25 14:25:06
  */
-import { TextStyle, UserId } from '@types'
+import type { TextStyle, UserId } from '@types'
 
 export type Props = {
   style?: TextStyle

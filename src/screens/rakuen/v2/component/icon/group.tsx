@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:56:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 03:20:18
+ * @Last Modified time: 2026-01-15 14:29:55
  */
 import React, { useCallback } from 'react'
 import { Heatmap } from '@components'
@@ -15,6 +15,7 @@ import { styles } from './styles'
 
 function IconGroup() {
   const navigation = useNavigation()
+
   const handlePress = useCallback(() => {
     navigation.push('Mine')
 

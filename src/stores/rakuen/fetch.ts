@@ -494,25 +494,29 @@ export default class Fetch extends Computed {
 
   /** 超展开热门数据 */
   fetchRakuenHot = async () => {
-    const html = await fetchHTML({
-      url: HTML_RAKUEN_HOT()
-    })
-    const list = cheerioHot(html)
+    const STATE_KEY = 'hot'
 
-    const key = 'hot'
-    this.setState({
-      [key]: {
-        list,
-        pagination: {
-          page: 1,
-          pageTotal: 1
-        },
-        _loaded: getTimestamp()
-      }
-    })
-    this.save(key)
+    try {
+      const html = await fetchHTML({
+        url: HTML_RAKUEN_HOT()
+      })
 
-    return this[key]
+      this.setState({
+        [STATE_KEY]: {
+          list: cheerioHot(html),
+          pagination: {
+            page: 1,
+            pageTotal: 1
+          },
+          _loaded: getTimestamp()
+        }
+      })
+      this.save(STATE_KEY)
+    } catch (error) {
+      this.error('fetchRakuenHot', error)
+    }
+
+    return this[STATE_KEY]
   }
 
   /** 获取回复楼层的 BBCODE */

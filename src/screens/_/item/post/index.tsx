@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-14 03:09:43
+ * @Last Modified time: 2026-01-15 14:24:49
  */
 import React from 'react'
 import { Component } from '@components'
@@ -19,7 +19,7 @@ import { memoStyles } from './styles'
 
 import type { Ctx, Props as ItemPostProps } from './types'
 
-export { ItemPostProps }
+export type { ItemPostProps }
 
 export const ItemPost = ob(
   ({

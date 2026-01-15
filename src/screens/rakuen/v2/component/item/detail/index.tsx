@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:23:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-17 11:51:48
+ * @Last Modified time: 2026-01-15 20:46:01
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { Name, UserAge, VerticalAlign } from '@_'
 import { _, systemStore } from '@stores'
 import { correctAgo } from '@utils'
 import { useObserver } from '@utils/hooks'
+import { BASE_TEXT_PROPS } from './ds'
 import { styles } from './styles'
 
 import type { Props } from './types'
@@ -25,26 +26,19 @@ function Detail({ time, groupCn, userName, userId, avatar }: Props) {
     [setName]
   )
 
-  const textProps = {
-    type: 'sub',
-    size: 11,
-    lineHeight: 13,
-    numberOfLines: 1
-  } as const
-
   return useObserver(() => (
     <Flex style={_.mt.xs}>
       <View style={systemStore.setting.userAge && styles.name}>
-        <VerticalAlign {...textProps} text={userName} onHit={handleHit}>
-          <Text {...textProps}>
+        <VerticalAlign {...BASE_TEXT_PROPS} text={userName} onHit={handleHit}>
+          <Text {...BASE_TEXT_PROPS}>
             {time ? correctAgo(time) : ''}
             {groupCn && time ? ' / ' : ''}
           </Text>
-          <Text {...textProps}>{groupCn}</Text>
+          <Text {...BASE_TEXT_PROPS}>{groupCn}</Text>
           {!!name && (
             <>
-              <Text {...textProps}> / </Text>
-              <Name {...textProps} userId={userId} showFriend disabled>
+              <Text {...BASE_TEXT_PROPS}> / </Text>
+              <Name {...BASE_TEXT_PROPS} userId={userId} showFriend disabled>
                 {name}
               </Name>
             </>

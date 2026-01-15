@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:31:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-17 23:41:28
+ * @Last Modified time: 2026-01-15 14:28:48
  */
 import React, { useCallback, useMemo } from 'react'
 import { Flex, Iconfont } from '@components'
 import { Popover } from '@_'
 import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { TEXT_IGNORE_USER } from '../../../ds'
+import { TEXT_MENU_IGNORE } from '@constants'
 import { styles } from './styles'
 
 import type { Ctx } from '../../../types'
@@ -28,7 +28,7 @@ function BtnPopover({ groupCn, groupHref, href, topicId, userId, userName, isGro
 
   const memoData = useMemo(() => {
     const data = [`进入${type}`, `屏蔽${type}`]
-    if (isGroup || isSubject) data.push(TEXT_IGNORE_USER)
+    if (isGroup || isSubject) data.push(TEXT_MENU_IGNORE)
     return data
   }, [isGroup, isSubject, type])
 

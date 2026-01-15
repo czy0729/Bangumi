@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-16 06:26:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-01 22:37:57
+ * @Last Modified time: 2026-01-15 14:28:14
  */
 export const COMPONENT = 'Subject'
 
@@ -51,7 +51,3 @@ export const TITLE_COMMENT = '吐槽'
 export const TEXT_LIKES = '贴贴'
 
 export const TEXT_COPY_COMMENT = '复制吐槽'
-
-export const TEXT_BLOCK_USER = '屏蔽用户'
-
-export const TEXT_IGNORE_USER = '绝交'

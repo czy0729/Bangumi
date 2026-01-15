@@ -19,6 +19,7 @@ import type {
   Board,
   BookmarksItem,
   PrivacyValue,
+  Rakuen,
   Reviews,
   Topic,
   UserTopicsFromCDN
@@ -300,7 +301,7 @@ const STATE = {
   reviews: {} as Record<SubjectId, Reviews>,
 
   /** 超展开热门 */
-  hot: LIST_EMPTY,
+  hot: LIST_EMPTY as Rakuen,
 
   /** 屏蔽用户的屏蔽次数追踪 */
   blockedUsersTrack: {

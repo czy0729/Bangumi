@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-17 23:38:53
+ * @Last Modified time: 2026-01-15 14:42:18
  */
 import React from 'react'
 import { Flex, Touchable, UserStatus } from '@components'
 import { InView } from '@_'
+import { getCoverMedium, getMonoCoverSmall } from '@utils'
 import { memo } from '@utils/decorators'
-import { FROZEN_FN } from '@constants'
+import { FROZEN_FN, IMG_INFO_ONLY } from '@constants'
 import Avatar from './avatar'
 import BtnPopover from './btn-popover'
 import Content from './content'
@@ -33,6 +34,17 @@ const Item = memo(
     isGroup = false,
     onPress = FROZEN_FN
   }) => {
+    let src = avatar || IMG_INFO_ONLY
+    if (src && typeof src === 'string') {
+      if (src === '/img/info_only.png') {
+        src = IMG_INFO_ONLY
+      } else if (src.includes('cover')) {
+        src = getCoverMedium(src)
+      } else if (src.includes('crt') || src.includes('prsn')) {
+        src = getMonoCoverSmall(src)
+      }
+    }
+
     return (
       <Readed topicId={topicId}>
         <Flex align='start'>
@@ -42,7 +54,7 @@ const Item = memo(
                 <UserStatus userId={userId}>
                   <InView style={styles.inView} index={index} y={ITEM_HEIGHT * index + 1}>
                     <Avatar
-                      src={avatar}
+                      src={src}
                       name={userName}
                       userId={userId}
                       priority={index < 10 ? 'high' : 'normal'}

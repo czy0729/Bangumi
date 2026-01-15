@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:58:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 03:23:31
+ * @Last Modified time: 2026-01-15 14:30:20
  */
 import React, { useCallback } from 'react'
 import { Heatmap } from '@components'
@@ -13,6 +13,7 @@ import { styles } from './styles'
 
 function IconSearch() {
   const navigation = useNavigation()
+
   const handlePress = useCallback(() => {
     navigation.push('RakuenSearch')
 

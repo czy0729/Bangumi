@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-03 05:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-24 19:38:31
+ * @Last Modified time: 2026-01-15 14:28:36
  */
 import { IOS, PAD, RAKUEN_TYPE } from '@constants'
 import { STATUS_BAR_HEIGHT } from '@styles'
@@ -18,7 +18,3 @@ export const TABS = RAKUEN_TYPE.map(item => ({
 
 /** 每次预读取未读帖子数量 */
 export const PREFETCH_COUNT = 20
-
-export const TEXT_BLOCK_USER = '屏蔽用户'
-
-export const TEXT_IGNORE_USER = '绝交'

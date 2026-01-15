@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-11-26 04:08:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-03 16:17:15
+ * @Last Modified time: 2026-01-15 14:24:57
  */
 import { rakuenStore } from '@stores'
-import { UserId } from '@types'
+
+import type { UserId } from '@types'
 
 /** 记录每个楼层的高度 */
 export const layoutHeightMap = new Map<number, number>()

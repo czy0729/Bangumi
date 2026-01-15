@@ -208,9 +208,11 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   /** 超展开热门 */
-  @computed get hot(): Rakuen {
-    this.init('hot', true)
-    return this.state.hot || LIST_EMPTY
+  @computed get hot() {
+    const STATE_KEY = 'hot'
+    this.init(STATE_KEY, true)
+
+    return (this.state[STATE_KEY] || LIST_EMPTY) as Rakuen
   }
 
   /** @deprecated 日志内容 (CDN) */

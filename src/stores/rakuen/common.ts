@@ -37,6 +37,7 @@ import type {
   CommentsItemWithSub,
   Likes,
   NotifyItem,
+  RakuenItem,
   ReviewsItem,
   Topic,
   UserTopicsFromCDNItem
@@ -493,27 +494,24 @@ export function cheerioReviews(html: string) {
 
 /** 超展开热门 */
 export function cheerioHot(html: string) {
-  return (
-    cheerio(html)('.sideTpcList li')
-      .map((_index: number, element: any) => {
-        const $tr = cheerio(element)
-        const $avatar = $tr.find('img')
-        const $title = $tr.find('a.l')
-        const $topic = $tr.find('a.tip')
-        const $subject = $tr.find('p > small.grey > a')
-        return {
-          title: HTMLDecode($title.text().trim()),
-          avatar: $avatar.attr('src') || '',
-          userName: HTMLDecode($avatar.attr('title') || ''),
-          href: $title.attr('href') || '',
-          replies: $tr.find('.inner > small.grey').text().trim(),
-          group: HTMLDecode($topic.text().trim() || $subject.text().trim()),
-          groupHref: $topic.attr('href') || $subject.attr('href') || '',
-          time: ''
-        }
-      })
-      .get() || []
-  ).filter((item: { group: any }) => !!item.group)
+  const $ = cheerio(htmlMatch(html, '<div class="sideInner', '<ul class="timeline'))
+
+  return cMap($('.sideTpcList li'), $row => {
+    const $title = cFind($row, 'a.l')
+    const $user = cFind($row, '.avatarNeue')
+    const $group = cFind($row, 'a.tip')
+
+    return {
+      title: HTMLDecode(cText($title)),
+      avatar: matchAvatar(cData($user, 'style')),
+      userName: HTMLDecode(cData($user, 'title')),
+      href: cData($title, 'href'),
+      replies: cText(cFind($row, 'small.grey')),
+      group: cText($group),
+      groupHref: cData($group, 'href'),
+      time: ''
+    } as RakuenItem
+  }).filter(item => !!item.group)
 }
 
 /** 帖子楼层编辑, 返回字符串代表能正常回复, 返回 true 代表已被回复不允许修改 */

@@ -4,8 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-03-31 02:51:48
  */
-import { Avatar, UserId } from '@types'
 import { pad } from '../utils'
+
+import type { Avatar, UserId } from '@types'
 
 /** 缓存结果 */
 const cacheMap = new Map<string, any>()
@@ -32,7 +33,10 @@ function match(
   }
 }
 
-/** 匹配头像地址 */
+/**
+ * 匹配头像地址
+ *  - style="background-image:url('//lain.bgm.tv/pic/user/l/000/00/00/000000.jpg?r=0')"
+ * */
 export function matchAvatar(str: string = ''): Avatar {
   return (
     match(

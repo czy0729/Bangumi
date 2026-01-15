@@ -51,15 +51,17 @@ const MEMO = new Map<UserId, string | number | null>()
  * @param avatar - 头像地址（头像最后有原始 ID，可以用来判断）
  * @returns 年龄
  */
-export function getAge(id: UserId, avatar?: string): string | number | null {
+export function getAge(userId: UserId, avatar?: string): string | number | null {
+  const id = `${userId}|${avatar}`
+
   // 检查缓存
   if (MEMO.has(id)) return MEMO.get(id)
 
   let age: string | number = 0
 
   // 尝试从 ID 获取年龄
-  const intId = Number(id)
-  if (!isNaN(intId)) age = calculateAgeFromId(intId)
+  const intId = Number(userId)
+  if (Number.isInteger(intId) && intId > 0) age = calculateAgeFromId(intId)
 
   // 如果 ID 无效，尝试从头像地址获取年龄
   if (age === 0 && avatar && typeof avatar === 'string') {
@@ -96,6 +98,8 @@ function calculateAgeFromId(id: number): number {
  * @returns 提取的 ID，如果未找到则返回 undefined
  */
 function extractIdFromAvatar(avatar: string): number | undefined {
+  if (!avatar || typeof avatar !== 'string' || !avatar.includes('/pic/user/')) return
+
   const temp = avatar.split('.jpg')[0].split('_')[0]
   const match = temp.match(/(\d+)(?=[^\d]*$)/)
   return match ? Number(match[1]) : undefined
