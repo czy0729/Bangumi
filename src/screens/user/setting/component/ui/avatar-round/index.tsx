@@ -16,12 +16,15 @@ import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
 
+import type { WithFilterProps } from '../../../types'
+
 /** 头像圆角 */
-function AvatarRound({ filter }) {
+function AvatarRound({ filter }: WithFilterProps) {
   const { value, handleSwitch } = useAsyncSwitchSetting('avatarRound')
 
   return useObserver(() => {
     const avatar = userStore.usersInfo()?.avatar?.large || IMG_DEFAULT_AVATAR
+
     return (
       <ItemSettingBlock
         style={_.mt.sm}
@@ -51,6 +54,7 @@ function AvatarRound({ filter }) {
             <Avatar size={28} src={avatar} round />
           </View>
         </ItemSettingBlock.Item>
+
         <ItemSettingBlock.Item
           style={_.ml.md}
           active={!value}
@@ -71,6 +75,7 @@ function AvatarRound({ filter }) {
             <Avatar size={28} src={avatar} radius={_.radiusXs} />
           </View>
         </ItemSettingBlock.Item>
+
         <Heatmap id='设置.切换' title='圆形头像' />
       </ItemSettingBlock>
     )

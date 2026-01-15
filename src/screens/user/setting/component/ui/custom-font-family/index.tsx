@@ -16,8 +16,10 @@ import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
 import { styles } from './styles'
 
+import type { WithFilterProps } from '../../../types'
+
 /** 使用字体 */
-function CustomFontFamily({ filter }) {
+function CustomFontFamily({ filter }: WithFilterProps) {
   const { value, handleSwitch } = useAsyncSwitchSetting('customFontFamily')
 
   return useObserver(() => (
@@ -54,6 +56,7 @@ function CustomFontFamily({ filter }) {
           Abc ばんぐみ 123
         </Text>
       </ItemSettingBlock.Item>
+
       <ItemSettingBlock.Item
         style={_.ml.md}
         title='关闭'
@@ -78,6 +81,7 @@ function CustomFontFamily({ filter }) {
           Abc ばんぐみ 123
         </Text>
       </ItemSettingBlock.Item>
+
       <Heatmap id='设置.切换' title='字体' />
     </ItemSettingBlock>
   ))

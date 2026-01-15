@@ -5,9 +5,9 @@
  * @Last Modified time: 2025-06-25 22:16:16
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { _, useStore } from '@stores'
 import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import TinygrailItemTemple from '@tinygrail/_/item-temple'
 import { getCharaItemSortText } from '@tinygrail/_/utils'
 import ItemEdit from '../item-edit'

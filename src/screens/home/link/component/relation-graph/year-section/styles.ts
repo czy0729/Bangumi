@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-12-14 18:52:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-16 20:06:15
+ * @Last Modified time: 2026-01-15 12:41:37
  */
 import { _ } from '@stores'
 import { YEAR_TEXT_GAP } from '../ds'
@@ -40,6 +40,6 @@ export const memoStyles = _.memoStyles(() => ({
     fontFamily: 'Avenir',
     fontStyle: 'italic',
     fontWeight: 'bold',
-    letterSpacing: -1
+    letterSpacing: -1 + _.letterSpacing
   }
 }))

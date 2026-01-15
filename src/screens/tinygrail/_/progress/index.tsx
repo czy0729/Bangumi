@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-03-03 07:03:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-21 15:32:23
+ * @Last Modified time: 2026-01-15 12:57:46
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { formatNumber, stl } from '@utils'
 import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 

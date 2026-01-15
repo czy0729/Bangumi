@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-01 11:46:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-02 21:54:30
+ * @Last Modified time: 2026-01-15 11:49:18
  */
 import React from 'react'
 import { Text as RNText } from 'react-native'
@@ -11,13 +11,14 @@ import PropTypes from 'prop-types'
 import { systemStore } from '@stores'
 import { r } from '@utils/dev'
 import { WEB } from '@constants'
-import { formatS2T, formatSpacing, getTextStyle } from './utils'
+import { formatS2T, formatSpacing, getTextStyle, setComponentsDefaultProps } from './utils'
 import { COMPONENT } from './ds'
 
-import type { setComponentsDefaultProps } from './utils'
+export { setComponentsDefaultProps }
+
 import type { Context, Props as TextProps, TextType } from './types'
 
-export type { setComponentsDefaultProps, getTextStyle, TextType, TextProps }
+export type { getTextStyle, TextType, TextProps }
 
 /** 统一封装文字 */
 function TextComp(

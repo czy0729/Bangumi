@@ -5,9 +5,9 @@
  * @Last Modified time: 2024-10-24 20:27:15
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Flex, Iconfont, Touchable } from '@components'
 import { _, useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 

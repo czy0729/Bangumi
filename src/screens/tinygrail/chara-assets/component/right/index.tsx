@@ -5,12 +5,12 @@
  * @Last Modified time: 2025-07-02 16:24:17
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Flex, Iconfont } from '@components'
 import { IconTouchable, Popover } from '@_'
 import { _, tinygrailStore } from '@stores'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import TinygrailIconGo from '@tinygrail/_/icon-go'
 import {
   DATA,

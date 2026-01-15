@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-01 12:03:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-19 20:47:06
+ * @Last Modified time: 2026-01-15 12:30:27
  */
 import { Text, TextInput } from 'react-native'
 import { _ } from '@stores'
@@ -11,7 +11,8 @@ import { s2t } from '@utils/thirdParty/open-cc'
 import { spacing } from '@utils/thirdParty/pangu-lite'
 import { IOS, WEB } from '@constants'
 import { memoStyles } from './styles'
-import { Props as TextProps } from './types'
+
+import type { Props as TextProps } from './types'
 
 /** 强制给内部组件注入默认参数 */
 export function setComponentsDefaultProps() {
@@ -98,6 +99,11 @@ export function getTextStyle({
   if (shadow) textStyle.push(styles.shadow)
   if (shrink) textStyle.push(styles.shrink)
   if (noWrap) textStyle.push(styles.noWrap)
+  if (_.letterSpacing !== 0) {
+    textStyle.push({
+      letterSpacing: Number(_.letterSpacing)
+    })
+  }
   if (style) textStyle.push(style)
 
   /**

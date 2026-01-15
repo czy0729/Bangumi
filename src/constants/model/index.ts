@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-14 22:25:56
+ * @Last Modified time: 2026-01-15 11:22:36
  */
 import Crypto from '@utils/crypto'
 import { IOS } from '../constants'
@@ -558,7 +558,7 @@ export const SETTING_INITIAL_PAGE = [
 export const MODEL_SETTING_INITIAL_PAGE = new Model(SETTING_INITIAL_PAGE, 'SETTING_INITIAL_PAGE')
 
 /** [设置] 字号 */
-export const SETTING_FONTSIZEADJUST = [
+export const SETTING_FONTSIZE_ADJUST = [
   {
     label: '-2',
     value: '-2'
@@ -585,10 +585,34 @@ export const SETTING_FONTSIZEADJUST = [
   }
 ] as const
 
+/** [设置] 字间距 */
+export const SETTING_LETTER_SPACING = [
+  {
+    label: '-1',
+    value: '-1'
+  },
+  {
+    label: '-0.5',
+    value: '-0.5'
+  },
+  {
+    label: '标准',
+    value: '0'
+  },
+  {
+    label: '+0.5',
+    value: '+0.5'
+  },
+  {
+    label: '+1',
+    value: '+1'
+  }
+] as const
+
 /** [设置] 字号 */
-export const MODEL_SETTING_FONTSIZEADJUST = new Model(
-  SETTING_FONTSIZEADJUST,
-  'SETTING_FONTSIZEADJUST'
+export const MODEL_SETTING_FONTSIZE_ADJUST = new Model(
+  SETTING_FONTSIZE_ADJUST,
+  'SETTING_FONTSIZE_ADJUST'
 )
 
 /** [设置] 用户空间网格个数 */

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-20 20:09:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-03 22:06:46
+ * @Last Modified time: 2026-01-15 12:59:42
  */
 import React from 'react'
 import { Heatmap, Text } from '@components'
@@ -16,8 +16,10 @@ import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
 import { styles } from './styles'
 
+import type { WithFilterProps } from '../../../types'
+
 /** 看板娘吐槽 */
-function Speech({ filter }) {
+function Speech({ filter }: WithFilterProps) {
   const { value, handleSwitch } = useAsyncSwitchSetting('speech')
 
   return useObserver(() => (

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2025-01-25 11:04:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-26 14:50:22
+ * @Last Modified time: 2026-01-15 12:54:51
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   userAge: {
-    minWidth: 40,
+    minWidth: 40 + 2 * _.letterSpacing,
     marginRight: 8,
     marginLeft: 5
   },
@@ -16,7 +16,7 @@ export const memoStyles = _.memoStyles(() => ({
     paddingTop: 1,
     paddingHorizontal: 5,
     color: _.colorSub,
-    letterSpacing: 1,
+    letterSpacing: 1 + _.letterSpacing,
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2),
     borderRadius: 4,
     overflow: 'hidden'

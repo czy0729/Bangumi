@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-21 17:17:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-25 17:44:10
+ * @Last Modified time: 2026-01-15 13:00:57
  */
 import React from 'react'
 import { ActionSheet } from '@components'
@@ -15,14 +15,17 @@ import AvatarRound from './avatar-round'
 import CoverThings from './cover-things'
 import CustomFontFamily from './custom-font-family'
 import FontSize from './font-size'
+import LetterSpacing from './letter-spacing'
 import Speech from './speech'
 import Squircle from './squircle'
 import Transition from './transition'
 import Vibration from './vibration'
 import { COMPONENT, TEXTS } from './ds'
 
+import type { WithFilterProps } from '../../types'
+
 /** 画面 */
-function UI({ filter }) {
+function UI({ filter }: WithFilterProps) {
   r(COMPONENT)
 
   const { state, setTrue, setFalse } = useBoolean(false)
@@ -38,9 +41,10 @@ function UI({ filter }) {
           {shows.font && <CustomFontFamily filter={filter} />}
           {shows.coverThings && <CoverThings filter={filter} />}
           {shows.avatarRound && <AvatarRound filter={filter} />}
+          {shows.fontSize && <FontSize filter={filter} />}
+          {shows.letterSpacing && <LetterSpacing filter={filter} />}
           {shows.squircle && <Squircle filter={filter} />}
           {shows.speech && <Speech filter={filter} />}
-          {shows.fontSize && <FontSize filter={filter} />}
           {!WEB && shows.transition && <Transition filter={filter} />}
           {!WEB && shows.vibration && <Vibration filter={filter} />}
         </ActionSheet>

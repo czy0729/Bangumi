@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-06-10 14:18:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-20 15:54:02
+ * @Last Modified time: 2026-01-15 12:39:55
  */
-import { Fn, TextStyle, ViewStyle } from '@types'
+import type { TextProps } from '@components'
+import type { Fn, WithViewStyles } from '@types'
 
-export type Props = {
-  style?: ViewStyle
-
-  textStyle?: TextStyle
+export type Props = WithViewStyles<{
+  /** 强制覆盖样式 */
+  textStyle?: TextProps['overrideStyle']
 
   /** 评分 */
   value: string | number
@@ -19,4 +19,4 @@ export type Props = {
 
   /** 文字点击 */
   onPress?: Fn
-}
+}>

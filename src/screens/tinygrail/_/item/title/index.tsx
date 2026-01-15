@@ -5,10 +5,10 @@
  * @Last Modified time: 2025-08-29 07:06:12
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { HTMLDecode } from '@utils'
+import { useObserver } from '@utils/hooks'
 import Level from '../../level'
 import Rank from '../../rank'
 import { styles } from './styles'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-10 14:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-30 05:19:54
+ * @Last Modified time: 2026-01-15 12:41:01
  */
 import { _ } from '@stores'
 
@@ -20,6 +20,6 @@ export const styles = _.create({
     fontWeight: '900',
     fontSize: 32,
     lineHeight: 40,
-    letterSpacing: -2
+    letterSpacing: -2 + _.letterSpacing
   }
 })

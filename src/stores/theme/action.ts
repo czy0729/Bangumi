@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 14:27:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-18 22:04:25
+ * @Last Modified time: 2026-01-15 11:36:08
  */
 import { Appearance, StyleSheet } from 'react-native'
 import { androidDayNightToggle, feedback, info, runAfter } from '@utils'
@@ -13,7 +13,7 @@ import Computed from './computed'
 import { STYLES_DARK, STYLES_LIGHT } from './init'
 import { getMemoStyles, getMemoStylesHash } from './utils'
 
-import type { AnyObject, SelectFn, SettingFontsizeadjust } from '@types'
+import type { AnyObject, SelectFn, SettingFontsizeAdjust, SettingLetterSpacing } from '@types'
 import type { Mode, Orientation, Styles, TinygrailMode } from './types'
 
 export default class Action extends Computed {
@@ -184,12 +184,23 @@ export default class Action extends Computed {
   }
 
   /** 改变整体字号 */
-  changeFontSizeAdjust = (fontSizeAdjust: SettingFontsizeadjust = '0') => {
-    const key = 'fontSizeAdjust'
+  changeFontSizeAdjust = (value: SettingFontsizeAdjust = '0') => {
+    const STATE_KEY = 'fontSizeAdjust'
+
     this.setState({
-      [key]: Number(fontSizeAdjust)
+      [STATE_KEY]: Number(value)
     })
-    this.save(key)
+    this.save(STATE_KEY)
+  }
+
+  /** 改变整体字间距 */
+  changeLetterSpacing = (value: SettingLetterSpacing = '0') => {
+    const STATE_KEY = 'letterSpacing'
+
+    this.setState({
+      [STATE_KEY]: Number(value)
+    })
+    this.save(STATE_KEY)
   }
 
   /** 安卓改变底部菜单颜色 */

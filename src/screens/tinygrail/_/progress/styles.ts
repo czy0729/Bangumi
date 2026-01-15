@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-03 07:04:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-22 00:25:58
+ * @Last Modified time: 2026-01-15 12:41:43
  */
 import { _ } from '@stores'
 
@@ -38,6 +38,6 @@ export const memoStyles = _.memoStyles(() => ({
     left: 0
   },
   text: {
-    letterSpacing: -0.2
+    letterSpacing: -0.2 + _.letterSpacing
   }
 }))

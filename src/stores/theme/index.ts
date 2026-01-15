@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-25 01:55:44
+ * @Last Modified time: 2026-01-15 12:51:28
  */
 import { Appearance } from 'react-native'
 import { WEB } from '@constants'
@@ -27,7 +27,8 @@ class ThemeStore extends Action {
         NAMESPACE,
         DEFAULT_TINYGRAIL_MODE
       ),
-      fontSizeAdjust: await this.getStorage('fontSizeAdjust', NAMESPACE, 0)
+      fontSizeAdjust: await this.getStorage('fontSizeAdjust', NAMESPACE, 0),
+      letterSpacing: await this.getStorage('letterSpacing', NAMESPACE, 0)
     })
 
     return true

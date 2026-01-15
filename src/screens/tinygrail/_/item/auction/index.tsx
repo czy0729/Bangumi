@@ -6,10 +6,10 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Text } from '@components'
 import { _ } from '@stores'
 import { formatNumber } from '@utils'
+import { useObserver } from '@utils/hooks'
 
 import type { TextType } from '@components'
 import type { AnyObject } from '@types'

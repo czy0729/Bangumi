@@ -5,9 +5,9 @@
  * @Last Modified time: 2024-12-16 21:24:25
  */
 import React, { useCallback } from 'react'
-import { useObserver } from 'mobx-react'
 import { HeaderV2 } from '@components'
 import { _, useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import Right from '../component/right'
 import { COMPONENT, HM } from './ds'
 

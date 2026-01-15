@@ -16,12 +16,15 @@ import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
 import { memoStyles } from './styles'
 
+import type { WithFilterProps } from '../../../types'
+
 /** 封面拟物 */
-function CoverThings({ filter }) {
+function CoverThings({ filter }: WithFilterProps) {
   const { value, handleSwitch } = useAsyncSwitchSetting('coverThings')
 
   return useObserver(() => {
     const styles = memoStyles()
+
     return (
       <ItemSettingBlock
         style={_.mt.sm}
@@ -50,7 +53,14 @@ function CoverThings({ filter }) {
         >
           <Flex style={_.mt.sm}>
             <View>
-              <Cover type='书籍' useType size={width} height={height} src={URL_BOOK} radius />
+              <Cover
+                type='书籍'
+                useType
+                size={width}
+                height={height}
+                src={URL_BOOK}
+                radius={_.radiusXs}
+              />
             </View>
             <View style={_.ml.sm}>
               <Cover
@@ -62,7 +72,7 @@ function CoverThings({ filter }) {
                 size={width}
                 height={height}
                 src={URL_GAME}
-                radius
+                radius={_.radiusXs}
               />
             </View>
             <View style={_.ml.sm}>
@@ -73,11 +83,12 @@ function CoverThings({ filter }) {
                 size={Math.floor(width * 1.2)}
                 height={Math.floor(width * 1.2)}
                 src={URL_MUSIC}
-                radius
+                radius={_.radiusXs}
               />
             </View>
           </Flex>
         </ItemSettingBlock.Item>
+
         <ItemSettingBlock.Item
           style={_.ml.md}
           itemStyle={styles.item}
@@ -97,16 +108,17 @@ function CoverThings({ filter }) {
         >
           <Flex style={_.mt.sm}>
             <View>
-              <Cover size={width} height={height} src={URL_BOOK} radius />
+              <Cover size={width} height={height} src={URL_BOOK} radius={_.radiusXs} />
             </View>
             <View style={_.ml.sm}>
-              <Cover size={width} height={height} src={URL_GAME} radius />
+              <Cover size={width} height={height} src={URL_GAME} radius={_.radiusXs} />
             </View>
             <View style={_.ml.sm}>
-              <Cover size={width} height={height} src={URL_MUSIC} radius />
+              <Cover size={width} height={height} src={URL_MUSIC} radius={_.radiusXs} />
             </View>
           </Flex>
         </ItemSettingBlock.Item>
+
         <Heatmap id='设置.切换' title='封面拟物' />
       </ItemSettingBlock>
     )

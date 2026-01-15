@@ -5,9 +5,9 @@
  * @Last Modified time: 2024-04-02 12:02:18
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { _, useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { TINYGRAIL_ASSETS_LIMIT } from '@constants'
 import { COMPONENT } from './ds'
 

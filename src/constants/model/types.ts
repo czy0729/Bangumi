@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-05-22 13:09:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-13 12:27:25
+ * @Last Modified time: 2026-01-15 11:23:11
  */
 import type { ModelValueOf } from '@types'
 import type {
   BROWSER_SORT,
-  COLLECTION_STATUS,
   COLLECTIONS_ORDERBY,
+  COLLECTION_STATUS,
   EP_STATUS,
   EP_TYPE,
   MONO_WORKS_ORDERBY,
@@ -31,12 +31,13 @@ import type {
   SEARCH_CAT,
   SEARCH_LEGACY,
   SETTING_CDN_ORIGIN,
-  SETTING_FONTSIZEADJUST,
+  SETTING_FONTSIZE_ADJUST,
   SETTING_HOME_COUNT_VIEW,
   SETTING_HOME_GRID_COVER_LAYOUT,
   SETTING_HOME_LAYOUT,
   SETTING_HOME_SORTING,
   SETTING_INITIAL_PAGE,
+  SETTING_LETTER_SPACING,
   SETTING_SUBJECT_SPLIT_STYLES,
   SETTING_TRANSITION,
   SETTING_USER_GRID_NUM,
@@ -117,7 +118,8 @@ export type SearchCat = ModelValueOf<typeof SEARCH_CAT>
 export type SearchCatCn = ModelValueOf<typeof SEARCH_CAT, 'label'>
 
 export type SearchLegacy = ModelValueOf<typeof SEARCH_LEGACY>
-export type SettingFontsizeadjust = ModelValueOf<typeof SETTING_FONTSIZEADJUST>
+export type SettingFontsizeAdjust = ModelValueOf<typeof SETTING_FONTSIZE_ADJUST>
+export type SettingLetterSpacing = ModelValueOf<typeof SETTING_LETTER_SPACING>
 
 export type SettingHomeLayout = ModelValueOf<typeof SETTING_HOME_LAYOUT>
 export type SettingHomeLayoutCn = ModelValueOf<typeof SETTING_HOME_LAYOUT, 'label'>

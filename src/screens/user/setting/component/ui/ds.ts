@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-07-18 07:07:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-10 05:21:12
+ * @Last Modified time: 2026-01-15 11:37:48
  */
 import { rc } from '@utils/dev'
 import {
   IMG_HEIGHT_SM,
   IMG_WIDTH_SM,
   MODEL_SETTING_TRANSITION,
-  SETTING_FONTSIZEADJUST,
+  SETTING_FONTSIZE_ADJUST,
+  SETTING_LETTER_SPACING,
   SETTING_TRANSITION
 } from '@constants'
 import { COMPONENT as PARENT } from '../ds'
@@ -67,7 +68,11 @@ export const TEXTS = {
   },
   fontSize: {
     title: '字号',
-    search: SETTING_FONTSIZEADJUST.map(item => item.label).join()
+    search: SETTING_FONTSIZE_ADJUST.map(item => item.label).join()
+  },
+  letterSpacing: {
+    title: '字间距',
+    search: SETTING_LETTER_SPACING.map(item => item.label).join()
   },
   ripple: {
     hd: '点击水纹效果',

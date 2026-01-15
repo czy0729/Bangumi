@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-20 20:04:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-04 01:33:47
+ * @Last Modified time: 2026-01-15 13:00:01
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -14,8 +14,10 @@ import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
 
+import type { WithFilterProps } from '../../../types'
+
 /** 圆角过渡 */
-function Squircle({ filter }) {
+function Squircle({ filter }: WithFilterProps) {
   const { value, handleSwitch } = useAsyncSwitchSetting('squircle')
 
   return useObserver(() => (

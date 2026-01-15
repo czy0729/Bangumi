@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-13 16:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-25 01:56:14
+ * @Last Modified time: 2026-01-15 11:34:33
  */
 import { ORIENTATION_PORTRAIT, WEB } from '@constants'
 import _ from '@styles'
@@ -105,6 +105,7 @@ const STATE = {
   landscapeWindowSm: _.landscapeWindowSm,
   landscapeWindSm: _.landscapeWindSm,
   fontSizeAdjust: 0,
+  letterSpacing: 0,
   ...STYLES_LIGHT,
   tinygrailMode: DEFAULT_TINYGRAIL_MODE as TinygrailMode,
   tinygrailThemeMode: DEFAULT_TINYGRAIL_THEME_MODE,
@@ -128,5 +129,6 @@ export const LOADED = {
   mode: false,
   tinygrailMode: false,
   tinygrailThemeMode: false,
-  fontSizeAdjust: false
+  fontSizeAdjust: false,
+  letterSpacing: false
 }

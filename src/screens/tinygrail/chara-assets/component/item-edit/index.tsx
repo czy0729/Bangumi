@@ -6,9 +6,9 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Flex, Iconfont, Touchable } from '@components'
 import { _, useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import TinygrailItem from '@tinygrail/_/item'
 import { COMPONENT } from './ds'
 import { styles } from './styles'

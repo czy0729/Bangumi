@@ -5,9 +5,9 @@
  * @Last Modified time: 2025-04-08 19:16:57
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Loading } from '@components'
 import { _, useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import List from '../list'
 import { COMPONENT } from './ds'
 

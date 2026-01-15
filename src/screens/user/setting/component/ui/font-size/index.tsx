@@ -5,16 +5,18 @@
  * @Last Modified time: 2025-04-13 19:11:22
  */
 import React, { useCallback, useRef } from 'react'
-import { Heatmap, ScrollTo, ScrollView, Text } from '@components'
+import { Heatmap, ScrollView, Text } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { useMount, useObserver } from '@utils/hooks'
-import { SETTING_FONTSIZEADJUST } from '@constants'
-import { WithFilterProps } from '../../../types'
+import { SETTING_FONTSIZE_ADJUST } from '@constants'
 import { TEXTS } from '../ds'
 import { getYuqueThumbs } from '../../../utils'
 import { styles } from './styles'
+
+import type { ScrollTo } from '@components'
+import type { WithFilterProps } from '../../../types'
 
 /** 字号 */
 function FontSize({ filter }: WithFilterProps) {
@@ -27,7 +29,7 @@ function FontSize({ filter }: WithFilterProps) {
     setTimeout(() => {
       if (_.fontSizeAdjust && typeof scrollToRef.current === 'function') {
         scrollToRef.current({
-          x: SETTING_FONTSIZEADJUST.findIndex(item => _.fontSizeAdjust == Number(item.value)) * 48,
+          x: SETTING_FONTSIZE_ADJUST.findIndex(item => _.fontSizeAdjust == Number(item.value)) * 48,
           y: 0,
           animated: false
         })
@@ -49,7 +51,7 @@ function FontSize({ filter }: WithFilterProps) {
       {...TEXTS.fontSize}
     >
       <ScrollView forwardRef={handleForwardRef} contentContainerStyle={styles.scroll} horizontal>
-        {SETTING_FONTSIZEADJUST.map((item, index) => (
+        {SETTING_FONTSIZE_ADJUST.map((item, index) => (
           <ItemSettingBlock.Item
             key={item.label}
             style={!!index && styles.margin}
@@ -72,6 +74,7 @@ function FontSize({ filter }: WithFilterProps) {
           </ItemSettingBlock.Item>
         ))}
       </ScrollView>
+
       <Heatmap id='设置.切换' title='字号' />
     </ItemSettingBlock>
   ))

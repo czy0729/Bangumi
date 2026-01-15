@@ -5,7 +5,6 @@
  * @Last Modified time: 2025-04-07 04:57:19
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { tinygrailStore } from '@stores'
 import {
@@ -17,6 +16,7 @@ import {
   tinygrailFixedTime,
   toFixed
 } from '@utils'
+import { useObserver } from '@utils/hooks'
 import Stars from '@tinygrail/_/stars'
 import {
   calculateRate,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 14:20:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-04 17:29:05
+ * @Last Modified time: 2026-01-15 11:35:14
  */
 import { StyleSheet } from 'react-native'
 import { computed } from 'mobx'
@@ -385,6 +385,11 @@ export default class Computed extends State implements StoreConstructor<typeof S
   /** 设置里动态调整的文字单位 */
   @computed get fontSizeAdjust() {
     return Number(this.state.fontSizeAdjust)
+  }
+
+  /** 设置里动态调整的文字间距 */
+  @computed get letterSpacing() {
+    return Number(this.state.letterSpacing)
   }
 
   /** -------------------- computed -------------------- */

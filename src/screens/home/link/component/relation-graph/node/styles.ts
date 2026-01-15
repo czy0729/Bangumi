@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-12-15 05:14:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-16 20:06:53
+ * @Last Modified time: 2026-01-15 12:41:32
  */
 import { _ } from '@stores'
 import { NODE_OFFSET, NODE_WIDTH, SCREEN_WIDTH, YEAR_TEXT_GAP } from '../ds'
@@ -59,6 +59,6 @@ export const memoStyles = _.memoStyles(() => ({
     fontFamily: '',
     fontStyle: 'italic',
     fontWeight: 'bold',
-    letterSpacing: -1
+    letterSpacing: -1 + _.letterSpacing
   }
 }))

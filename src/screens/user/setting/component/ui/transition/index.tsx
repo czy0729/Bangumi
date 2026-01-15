@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-20 20:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-03 22:07:41
+ * @Last Modified time: 2026-01-15 13:00:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,8 +15,10 @@ import { MODEL_SETTING_TRANSITION } from '@constants'
 import { TEXTS } from '../ds'
 import { memoStyles } from './styles'
 
+import type { WithFilterProps } from '../../../types'
+
 /** 切页动画 */
-function Transition({ filter }) {
+function Transition({ filter }: WithFilterProps) {
   const { value, handleSet } = useAsyncSetSetting('transition')
 
   return useObserver(() => {
