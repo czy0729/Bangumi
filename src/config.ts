@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-09 03:05:06
+ * @Last Modified time: 2026-01-15 20:52:17
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
@@ -43,13 +43,13 @@ export const HOST_PROXY = 'https://bangumi-app-webproxy-dev.magmablock.top'
 const CONFIGS: Configs = {
   initialRouteName: DEV ? 'HomeTab' : 'HomeTab',
   initialRouteParams: {
-    // subjectId: 506258 // anime: 296870, music: 302514, book: 267358, game: 283730
+    // subjectId: 467461 // anime: 296870, music: 302514, book: 267358, game: 283730
     // topicId: 'group/438017' // group/366561
-    // userId: 'magma' // 456208, 419012, 'lilyurey'
+    // userId: 950407 // 456208, 419012, 'lilyurey'
     // monoId: 'character/109775' // character/70323 person/5745
     // id: 55723902
     // ids: [72649, 59610, 59611, 72648, 72650, 72651, 72652, 74522, 75203, 75207]
-    // blogId: 307175 // 294448
+    // blogId: 295515 // 294448
     // catalogId: 34360
     // groupId: 'boring' // fillgrids
     // jp: 'ようこそ実力至上主義の教室へ',
@@ -58,7 +58,8 @@ const CONFIGS: Configs = {
     // from: 'tinygrail',
     // form: 'lottery', // lottery
     // message: '彩票刮刮乐共获得： #20391「双叶杏」64股 #70900「神原骏河」36股',
-    // name: '成神之日'
+    // name: '绫香·沙条',
+    // keywords: ['アヤカ・サジョウ', 'Fate/strange Fake']
     // tag: '水树奈奈'
     // type: 'anime' // 'anime'
     // uri: 'https://bgm.tv/award/2019',

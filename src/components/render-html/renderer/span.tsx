@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-08-14 07:18:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-21 05:52:35
+ * @Last Modified time: 2026-01-16 23:12:31
  */
 import React from 'react'
-import { TextStyle } from '@types'
+import { logger } from '@utils/dev'
 import { SPAN_MARK } from '../ds'
 import { BgmText } from '../../bgm-text'
 import HiddenText from '../hidden-text'
@@ -13,6 +13,8 @@ import LineThroughtText from '../line-throught-text'
 import MaskText from '../mask-text'
 import TagText from '../tag-text'
 import { fixedBaseFontStyle } from '../utils'
+
+import type { TextStyle } from '@types'
 
 export function span({
   key,
@@ -124,7 +126,7 @@ export function span({
       )
     }
   } catch (error) {
-    console.info('RenderHtml', 'generateConfig', error)
+    logger.info('RenderHtml', 'generateConfig', error)
   }
 
   return children

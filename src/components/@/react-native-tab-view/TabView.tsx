@@ -2,22 +2,25 @@
  * @Author: czy0729
  * @Date: 2024-11-15 14:30:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-28 09:18:06
+ * @Last Modified time: 2026-01-16 21:39:59
  */
-import * as React from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { Animated, StyleSheet, View } from 'react-native'
 import { Pager } from 'react-native-tab-view/src/Pager'
 import { SceneView } from 'react-native-tab-view/src/SceneView'
 import { TabBar } from 'react-native-tab-view/src/TabBar'
-import { IOS } from '@constants'
+import { stl } from '@utils/utils'
+import { IOS } from '@constants/constants'
 
+import type { ReactNode } from 'react'
 import type { LayoutChangeEvent, StyleProp, ViewStyle } from 'react-native'
-import type { Layout, PagerProps, Route, SceneRendererProps } from 'react-native-tab-view/src/types'
-
-export type NavigationState<T extends Route> = {
-  index: number
-  routes: readonly T[]
-}
+import type {
+  Layout,
+  NavigationState,
+  PagerProps,
+  Route,
+  SceneRendererProps
+} from 'react-native-tab-view/src/types'
 
 export type Props<T extends Route> = PagerProps & {
   navigationState: NavigationState<T>
@@ -28,16 +31,14 @@ export type Props<T extends Route> = PagerProps & {
   initialLayout?: Partial<Layout>
   lazy?: ((props: { route: T }) => boolean) | boolean
   lazyPreloadDistance?: number
-  renderLazyPlaceholder?: (props: { route: T }) => React.ReactNode
-  renderScene: (props: SceneRendererProps & { route: T }) => React.ReactNode
-  renderTabBar?: (
-    props: SceneRendererProps & { navigationState: NavigationState<T> }
-  ) => React.ReactNode
+  renderLazyPlaceholder?: (props: { route: T }) => ReactNode
+  renderScene: (props: SceneRendererProps & { route: T }) => ReactNode
+  renderTabBar?: (props: SceneRendererProps & { navigationState: NavigationState<T> }) => ReactNode
   onIndexChange: (index: number) => void
 
   /** @add */
-  renderContentHeaderComponent?: React.ReactNode
-  renderBackground?: React.ReactNode
+  renderContentHeaderComponent?: ReactNode
+  renderBackground?: ReactNode
 }
 
 export function TabView<T extends Route>({
@@ -64,34 +65,28 @@ export function TabView<T extends Route>({
   renderContentHeaderComponent = null,
   renderBackground = null
 }: Props<T>) {
-  const [layout, setLayout] = React.useState({
+  const overlayOpacity = useRef(new Animated.Value(0)).current
+
+  const [layout, setLayout] = useState<Layout>(() => ({
     width: 0,
     height: 0,
     ...initialLayout
-  })
+  }))
+  const [isSwiping, setIsSwiping] = useState(false)
 
-  const [isSwiping, setIsSwiping] = React.useState(false)
-  const overlayOpacity = React.useRef(new Animated.Value(0)).current
+  const handleIndexChange = useCallback(
+    (index: number) => {
+      if (index !== navigationState.index) onIndexChange(index)
+    },
+    [navigationState.index, onIndexChange]
+  )
 
-  const jumpToIndex = (index: number) => {
-    if (index !== navigationState.index) {
-      onIndexChange(index)
-    }
-  }
+  const handleLayout = useCallback((e: LayoutChangeEvent) => {
+    const { width, height } = e.nativeEvent.layout
+    setLayout(prev => (prev.width === width && prev.height === height ? prev : { width, height }))
+  }, [])
 
-  const handleLayout = (e: LayoutChangeEvent) => {
-    const { height, width } = e.nativeEvent.layout
-
-    setLayout(prevLayout => {
-      if (prevLayout.width === width && prevLayout.height === height) {
-        return prevLayout
-      }
-
-      return { height, width }
-    })
-  }
-
-  const handleSwipeStart = React.useCallback(() => {
+  const handleSwipeStart = useCallback(() => {
     setIsSwiping(true)
     Animated.timing(overlayOpacity, {
       toValue: 1,
@@ -101,19 +96,21 @@ export function TabView<T extends Route>({
     onSwipeStart?.()
   }, [onSwipeStart, overlayOpacity])
 
-  const handleSwipeEnd = React.useCallback(() => {
+  const handleSwipeEnd = useCallback(() => {
     Animated.timing(overlayOpacity, {
       toValue: 0,
       duration: 120,
       useNativeDriver: true
-    }).start(({ finished }) => {
-      if (finished) setIsSwiping(false)
-    })
-    onSwipeEnd?.()
+    }).start()
+
+    setTimeout(() => {
+      setIsSwiping(false)
+      onSwipeEnd?.()
+    }, 120)
   }, [onSwipeEnd, overlayOpacity])
 
   return (
-    <View style={[styles.pager, style]} onLayout={handleLayout}>
+    <View style={stl(styles.pager, style)} onLayout={handleLayout}>
       <Pager
         style={pagerStyle}
         layout={layout}
@@ -124,7 +121,7 @@ export function TabView<T extends Route>({
         overScrollMode={overScrollMode}
         onSwipeStart={handleSwipeStart}
         onSwipeEnd={handleSwipeEnd}
-        onIndexChange={jumpToIndex}
+        onIndexChange={handleIndexChange}
       >
         {({ position, render, addEnterListener, jumpTo }) => {
           const sceneRendererProps = {
@@ -177,6 +174,9 @@ export function TabView<T extends Route>({
                 <Animated.View
                   style={[StyleSheet.absoluteFill, { opacity: overlayOpacity }]}
                   pointerEvents='auto'
+                  onTouchStart={e => e.stopPropagation()}
+                  onTouchMove={e => e.stopPropagation()}
+                  onTouchEnd={e => e.stopPropagation()}
                 />
               )}
             </>

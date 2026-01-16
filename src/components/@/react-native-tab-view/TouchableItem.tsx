@@ -1,5 +1,13 @@
+/*
+ * @Author: czy0729
+ * @Date: 2026-01-16 16:19:28
+ * @Last Modified by:   czy0729
+ * @Last Modified time: 2026-01-16 16:19:28
+ */
 import * as React from 'react'
-import { TouchableOpacity, StyleProp, ViewStyle, ViewProps } from 'react-native'
+import { TouchableOpacity } from 'react-native'
+
+import type { StyleProp, ViewStyle, ViewProps } from 'react-native'
 
 type Props = ViewProps & {
   onPress: () => void
@@ -18,8 +26,7 @@ export default class TouchableItem extends React.Component<Props> {
   }
 
   render() {
-    const { style, pressOpacity, pressColor, borderless, children, ...rest } =
-      this.props
+    const { style, pressOpacity, pressColor, borderless, children, ...rest } = this.props
 
     return (
       <TouchableOpacity {...rest} style={style} activeOpacity={0.8}>

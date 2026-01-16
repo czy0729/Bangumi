@@ -2,15 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-09-03 11:16:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-17 11:44:18
+ * @Last Modified time: 2026-01-16 22:00:34
  */
-import { appNavigate, confirm, open } from '@utils'
-import { t } from '@utils/fetch'
-import { HOST, IMG_DEFAULT_AVATAR, LIMIT_TOPIC_PUSH } from '@constants'
+import { IMG_DEFAULT_AVATAR } from '@constants'
 import { AD_REPLIES_COUNT } from './ds'
 
-import type { Navigation, TopicId } from '@types'
-import type { Ctx } from '../../types'
+import type { TopicId } from '@types'
 
 /** 处理屏蔽用户 */
 export function getIsBlockedUser(blockUserIds: string[], userName: string, userId: string) {
@@ -50,55 +47,4 @@ export function getReplyCount(replies: string = '') {
 /** 是否小组 */
 export function getIsGroup(topicId: string = '') {
   return topicId?.includes('group/')
-}
-
-export function handlePress(
-  navigation: Navigation,
-  onItemPress: Ctx['$']['onItemPress'],
-  { avatar, group, href, replyCount, time, title, topicId, userId, userName }
-) {
-  const go = () => {
-    appNavigate(
-      href,
-      navigation,
-      {
-        _title: title,
-        _replies: `+${replyCount}`,
-        _group: group,
-        _time: time,
-        _avatar: avatar,
-        _userName: userName,
-        _userId: userId
-      },
-      {
-        id: '超展开.跳转'
-      }
-    )
-
-    setTimeout(() => {
-      // 记录帖子查看历史详情
-      onItemPress(topicId, replyCount)
-    }, 400)
-  }
-
-  if (replyCount > LIMIT_TOPIC_PUSH) {
-    confirm(
-      '帖子内容基于网页分析, 帖子回复数过大可能会导致闪退, 仍使用 App 打开?',
-      () => go(),
-      undefined,
-      () => {
-        const url = `${HOST}${href}`
-        t('超展开.跳转', {
-          to: 'WebBrowser',
-          url
-        })
-        setTimeout(() => {
-          open(url)
-        }, 800)
-      }
-    )
-    return
-  }
-
-  go()
 }

@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-08-14 16:25:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-19 20:35:38
+ * @Last Modified time: 2026-01-16 23:24:40
  */
 import React, { PureComponent } from 'react'
-import { View, Text, Dimensions } from 'react-native'
+import { View, Text, Dimensions, StyleSheet } from 'react-native'
 import {
   cssStringToRNStyle,
   _getElementClassStyles,
@@ -31,6 +31,7 @@ import {
 import htmlparser2 from 'htmlparser2'
 import { stl } from '@utils'
 import { IOS } from '@constants'
+import { _ } from '@stores'
 import { androidTextFixedStyle } from '@styles'
 import * as HTMLRenderers from './HTMLRenderers'
 import { optimizeCmputeTextStyles, formatSpacing } from './utils'
@@ -559,10 +560,11 @@ export default class HTML extends PureComponent {
           }
 
           const classStyles = _getElementClassStyles(attribs, classesStyles)
-          const textElement = data ? (
-            <Text
-              allowFontScaling={allowFontScaling}
-              style={stl(
+
+          let textElement: false | JSX.Element = false
+          if (data) {
+            let styles = StyleSheet.flatten(
+              stl(
                 !IOS && androidTextFixedStyle,
                 optimizeCmputeTextStyles(
                   computeTextStyles(element, {
@@ -576,15 +578,23 @@ export default class HTML extends PureComponent {
                     allowedStyles
                   })
                 )
-              )}
-              textBreakStrategy='simple'
-              numberOfLines={0}
-            >
-              {formatSpacing(data)}
-            </Text>
-          ) : (
-            false
-          )
+              )
+            )
+            if (styles?.fontWeight === 'bold') {
+              styles = StyleSheet.flatten([styles, _.fontBoldStyle])
+            }
+
+            textElement = (
+              <Text
+                allowFontScaling={allowFontScaling}
+                style={styles}
+                textBreakStrategy='simple'
+                numberOfLines={0}
+              >
+                {formatSpacing(data)}
+              </Text>
+            )
+          }
 
           const style = [
             !tagsStyles || !tagsStyles[tagName]

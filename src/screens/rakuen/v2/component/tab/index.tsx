@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-17 11:38:19
+ * @Last Modified time: 2026-01-16 22:52:52
  */
 import React, { useMemo } from 'react'
 import { TabView } from '@components'
@@ -34,6 +34,8 @@ function Tab() {
           renderTabBar={renderTabBar}
           renderBackground={elBackground}
           renderScene={renderScene}
+          onSwipeStart={$.onSwipeStart}
+          onSwipeEnd={$.onSwipeEnd}
           onIndexChange={$.onChange}
         />
         <BlurViewBottomTab />

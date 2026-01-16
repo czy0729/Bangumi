@@ -1,12 +1,20 @@
+/*
+ * @Author: czy0729
+ * @Date: 2026-01-16 16:04:38
+ * @Last Modified by:   czy0729
+ * @Last Modified time: 2026-01-16 16:04:38
+ */
 import * as React from 'react'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
-import {
+import { StyleSheet, View } from 'react-native'
+import { stl } from '@utils'
+
+import type { StyleProp, ViewStyle } from 'react-native'
+import type {
   EventEmitterProps,
   NavigationState,
   Route,
   SceneRendererProps
 } from 'react-native-tab-view/src/types'
-import { stl } from '@utils'
 
 type Props<T extends Route> = SceneRendererProps &
   EventEmitterProps & {

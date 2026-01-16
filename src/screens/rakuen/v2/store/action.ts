@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-16 19:56:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-15 14:29:03
+ * @Last Modified time: 2026-01-16 23:02:45
  */
 import { rakuenStore } from '@stores'
 import { confirm, feedback, info, updateVisibleBottom } from '@utils'
@@ -314,6 +314,22 @@ export default class Action extends Fetch {
     } catch (error) {
       logger.error('Rakuen', 'onRefreshThenScrollTop', error)
     }
+  }
+
+  /** TabBar 切换开始 */
+  onSwipeStart = () => {
+    this.setState({
+      swiping: true
+    })
+  }
+
+  /** TabBar 切换结束 */
+  onSwipeEnd = () => {
+    setTimeout(() => {
+      this.setState({
+        swiping: false
+      })
+    }, 120)
   }
 
   /** 更新可视范围底部 y */

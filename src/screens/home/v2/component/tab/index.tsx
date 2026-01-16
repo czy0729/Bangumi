@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-10-06 16:42:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-04 17:34:53
+ * @Last Modified time: 2026-01-16 16:24:08
  */
 import React, { useMemo } from 'react'
-import { SceneMap } from 'react-native-tab-view'
+import { SceneMap } from '@components'
 import { BlurViewTab } from '@_'
 import { r } from '@utils/dev'
 import { TABS_ITEM } from '../../ds'

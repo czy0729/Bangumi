@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-22 22:49:44
+ * @Last Modified time: 2026-01-16 23:09:55
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -236,7 +236,6 @@ export const RenderHtml = observer(
       return {
         fontFamily: _.fontFamily,
         fontSize: 15 + _.fontSizeAdjust + (_.isPad ? PAD_FONT_ZISE_INCREASE : 0),
-        // lineHeight: 24 + (_.isPad ? PAD_LINE_HEIGHT_INCREASE : 0),
         color: _.colorTitle
       }
     }

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-09-03 10:48:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 03:28:02
+ * @Last Modified time: 2026-01-16 16:23:22
  */
 import React from 'react'
-import { SceneMap } from 'react-native-tab-view'
+import { SceneMap } from '@components'
 import { TABS } from '../../ds'
 import List from '../list'
 
