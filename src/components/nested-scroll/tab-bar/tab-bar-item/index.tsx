@@ -9,14 +9,16 @@ import { Pressable } from 'react-native'
 import { stl } from '@utils'
 import { Text } from '../../../text'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
+import type { ViewStyle } from '@types'
 
 export function TabBarItem({ title, style, labelStyle, renderLabel, onPress, onLayout }: Props) {
   return (
     <Pressable style={stl(styles.tab, style)} onPress={onPress} onLayout={onLayout}>
       {typeof renderLabel === 'function' ? (
         renderLabel({
-          style: labelStyle || {},
+          style: (labelStyle || {}) as ViewStyle,
           title
         })
       ) : (

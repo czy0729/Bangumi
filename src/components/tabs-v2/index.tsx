@@ -75,12 +75,12 @@ export const TabsV2 = <T extends Route>({
         lazyPreloadDistance={0}
         navigationState={{
           index: page,
-          // @ts-expect-error
           routes
         }}
         renderScene={renderScene}
         onIndexChange={onChange}
         renderTabBar={props => (
+          // @ts-expect-error
           <TabBar
             {...props}
             style={stl(

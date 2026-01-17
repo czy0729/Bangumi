@@ -35,36 +35,36 @@ function ItemWrap({
   const topicId = getTopicId(href)
   const replyCount = getReplyCount(replies)
 
+  const handleCallback = useCallback(() => {
+    if ($.state.swiping) return
+
+    appNavigate(
+      href,
+      navigation,
+      {
+        _title: title,
+        _replies: `+${replyCount}`,
+        _group: group,
+        _time: time,
+        _avatar: avatar,
+        _userName: userName,
+        _userId: userId
+      },
+      {
+        id: '超展开.跳转'
+      }
+    )
+
+    setTimeout(() => {
+      rakuenStore.updateTopicReaded(topicId, replyCount)
+    }, 400)
+  }, [$, avatar, group, href, navigation, replyCount, time, title, topicId, userId, userName])
+
   const handlePress = useCallback(() => {
-    const cb = () => {
-      if ($.state.swiping) return
-
-      appNavigate(
-        href,
-        navigation,
-        {
-          _title: title,
-          _replies: `+${replyCount}`,
-          _group: group,
-          _time: time,
-          _avatar: avatar,
-          _userName: userName,
-          _userId: userId
-        },
-        {
-          id: '超展开.跳转'
-        }
-      )
-
-      setTimeout(() => {
-        rakuenStore.updateTopicReaded(topicId, replyCount)
-      }, 400)
-    }
-
     if (replyCount > LIMIT_TOPIC_PUSH) {
       confirm(
         '帖子内容基于网页分析, 帖子回复数过大可能会导致闪退, 仍使用客户端打开?',
-        () => cb(),
+        () => handleCallback(),
         undefined,
         () => {
           const url = `${HOST}${href}`
@@ -81,8 +81,8 @@ function ItemWrap({
       return
     }
 
-    cb()
-  }, [$, avatar, group, href, navigation, replyCount, time, title, topicId, userId, userName])
+    handleCallback()
+  }, [handleCallback, href, replyCount])
 
   return useObserver(() => {
     if (index >= LIMIT_HEAVY && !$.state._mounted) return null

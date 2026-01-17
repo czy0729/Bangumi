@@ -11,7 +11,7 @@ import { _, useStore } from '@stores'
 import { useInsets, useObserver } from '@utils/hooks'
 import { IOS, PAD } from '@constants'
 import { H_TABBAR } from '../../ds'
-import Info from './layout'
+import Layout from './layout'
 import Linear from './linear'
 import List from './list'
 import { COMPONENT } from './ds'
@@ -46,7 +46,7 @@ function Grid({ title = '全部' }: Props) {
           }
         ]}
       >
-        <Info title={title} />
+        <Layout title={title} />
         <View>
           <Linear />
           <List title={title} />

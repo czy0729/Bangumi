@@ -32,6 +32,9 @@ type BaseProps<T extends Paths> = Override<
 
     /** 延迟获取事件参数, 有利于减少重渲染 (优先于 eventData) */
     getEventData?: () => EventType['data']
+
+    /** 是否禁止点击 */
+    disabled?: boolean
   }
 >
 

@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-27 15:50:25
  */
-import { PropsWithChildren } from 'react'
-import { Animated, ImageStyle, StyleProp } from 'react-native'
+import type { PropsWithChildren } from 'react'
+import type { Animated, ImageStyle, StyleProp } from 'react-native'
 
 export type Props = PropsWithChildren<{
   imageHeight: number

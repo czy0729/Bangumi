@@ -8,7 +8,8 @@ import React from 'react'
 import { Animated, ImageBackground, useWindowDimensions, View } from 'react-native'
 import { NestedScrollViewHeader } from '@sdcx/nested-scroll'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 const NestedScrollViewHeaderAnimated = Animated.createAnimatedComponent(NestedScrollViewHeader)
 const AnimatedImageBackground = Animated.createAnimatedComponent(ImageBackground)

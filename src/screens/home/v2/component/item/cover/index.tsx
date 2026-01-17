@@ -18,7 +18,7 @@ import { styles } from './styles'
 
 import type { Props } from './types'
 
-function Cover({ index, subjectId, typeCn, name, name_cn, image }: Props) {
+function Cover({ index, subjectId, typeCn, name, name_cn, image, disabled }: Props) {
   r(COMPONENT)
 
   return useObserver(() => {
@@ -42,6 +42,7 @@ function Cover({ index, subjectId, typeCn, name, name_cn, image }: Props) {
           to: 'Subject',
           from: 'list'
         }}
+        disabled={disabled}
       >
         <InView style={style} y={height * index + HEADER_HEIGHT}>
           <CoverComp

@@ -28,6 +28,7 @@ function ItemWrap({ index = 0, subjectId = 0, subject = {}, title, epStatus = ''
       doing={subject.collection?.doing}
       time={subject.time}
       epStatus={Math.max(Number(epStatus) || 0, $.epStatus(subjectId))}
+      disabled={$.state.swiping}
     />
   ))
 }

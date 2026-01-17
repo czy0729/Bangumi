@@ -9,11 +9,13 @@ import { Animated } from 'react-native'
 import { useObserver } from 'mobx-react'
 import { stl } from '@utils'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 export function TabBarIndicator({ style, scrollX }: Props) {
   return useObserver(() => {
     const styles = memoStyles()
+
     return (
       <Animated.View
         style={stl(styles.indicator, style, {

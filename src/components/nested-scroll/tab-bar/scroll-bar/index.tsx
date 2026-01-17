@@ -5,10 +5,12 @@
  * @Last Modified time: 2023-12-30 09:47:40
  */
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { LayoutChangeEvent, ScrollView } from 'react-native'
+import { ScrollView } from 'react-native'
 import { stl } from '@utils'
 import { styles } from './styles'
-import { Layout, ScrollBarProps } from './types'
+
+import type { LayoutChangeEvent } from 'react-native'
+import type { Layout, ScrollBarProps } from './types'
 
 export function ScrollBar({ style, page, children, ...props }: ScrollBarProps) {
   const [tabLayouts, setTabLayouts] = useState<Layout[]>([])
@@ -29,8 +31,7 @@ export function ScrollBar({ style, page, children, ...props }: ScrollBarProps) {
   const scrollRef = useRef<ScrollView>(null)
 
   useEffect(() => {
-    if (tabLayouts.length - 1 < page || contentWidth === 0 || scrollBarWidth === 0)
-      return
+    if (tabLayouts.length - 1 < page || contentWidth === 0 || scrollBarWidth === 0) return
 
     // 获得选中的 Tab 布局数据
     const tabLayout = tabLayouts[page]

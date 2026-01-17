@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-29 19:57:20
  */
-import { ScrollViewProps } from 'react-native'
+import type { ScrollViewProps } from 'react-native'
 
 export interface ScrollBarProps extends ScrollViewProps {
   page: number

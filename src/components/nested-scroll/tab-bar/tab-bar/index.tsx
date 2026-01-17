@@ -5,15 +5,17 @@
  * @Last Modified time: 2024-01-01 20:24:36
  */
 import React, { useCallback, useMemo, useRef, useState } from 'react'
-import { Animated, View, LayoutChangeEvent } from 'react-native'
+import { Animated, View } from 'react-native'
 import { stl } from '@utils'
-import { TabBarItem } from '../tab-bar-item'
 import { TabBarIndicator } from '../tab-bar-indicator'
+import { TabBarItem } from '../tab-bar-item'
 import { getIndicatorWidth, getLocalLayout, setLocalLayout } from './utils'
 import { styles } from './styles'
-import { Layout, Props as TabBarProps } from './types'
 
-export { TabBarProps }
+import type { LayoutChangeEvent } from 'react-native'
+import type { Layout, Props as TabBarProps } from './types'
+
+export type { TabBarProps }
 
 export function TabBar({
   style,

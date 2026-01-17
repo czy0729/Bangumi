@@ -92,7 +92,7 @@ const CoverXs = memo(
                 src={avatar}
                 userId={userId}
                 name={userName}
-                radius={avatarRound ? AVATAR_SIZE : true}
+                radius={avatarRound ? AVATAR_SIZE : _.radiusXs}
               />
             </UserStatus>
           </View>

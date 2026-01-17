@@ -14,16 +14,15 @@ import { IOS } from '@constants/constants'
 
 import type { ReactNode } from 'react'
 import type { LayoutChangeEvent, StyleProp, ViewStyle } from 'react-native'
-import type {
-  Layout,
-  NavigationState,
-  PagerProps,
-  Route,
-  SceneRendererProps
-} from 'react-native-tab-view/src/types'
+import type { Layout, PagerProps, Route, SceneRendererProps } from 'react-native-tab-view/src/types'
+
+type OverrideNavigationState<T extends Route> = {
+  index: number
+  routes: readonly T[]
+}
 
 export type Props<T extends Route> = PagerProps & {
-  navigationState: NavigationState<T>
+  navigationState: OverrideNavigationState<T>
   style?: StyleProp<ViewStyle>
   pagerStyle?: StyleProp<ViewStyle>
   sceneContainerStyle?: StyleProp<ViewStyle>
@@ -33,7 +32,9 @@ export type Props<T extends Route> = PagerProps & {
   lazyPreloadDistance?: number
   renderLazyPlaceholder?: (props: { route: T }) => ReactNode
   renderScene: (props: SceneRendererProps & { route: T }) => ReactNode
-  renderTabBar?: (props: SceneRendererProps & { navigationState: NavigationState<T> }) => ReactNode
+  renderTabBar?: (
+    props: SceneRendererProps & { navigationState: OverrideNavigationState<T> }
+  ) => ReactNode
   onIndexChange: (index: number) => void
 
   /** @add */
@@ -56,6 +57,7 @@ export function TabView<T extends Route>({
   tabBarPosition = 'top',
   renderLazyPlaceholder = () => null,
   renderScene,
+  // @ts-expect-error
   renderTabBar = props => <TabBar {...props} />,
   onIndexChange,
   onSwipeEnd,
@@ -114,6 +116,7 @@ export function TabView<T extends Route>({
       <Pager
         style={pagerStyle}
         layout={layout}
+        // @ts-expect-error
         navigationState={navigationState}
         keyboardDismissMode={keyboardDismissMode}
         swipeEnabled={swipeEnabled}
@@ -148,6 +151,7 @@ export function TabView<T extends Route>({
                     index={i}
                     lazy={typeof lazy === 'function' ? lazy({ route }) : lazy}
                     lazyPreloadDistance={lazyPreloadDistance}
+                    // @ts-expect-error
                     navigationState={navigationState}
                     addEnterListener={addEnterListener}
                   >

@@ -17,7 +17,15 @@ import { styles } from './styles'
 
 import type { Props } from './types'
 
-function ContainerTouchable({ subjectId, typeCn, name, name_cn, image, children }: Props) {
+function ContainerTouchable({
+  subjectId,
+  typeCn,
+  name,
+  name_cn,
+  image,
+  disabled,
+  children
+}: Props) {
   r(COMPONENT)
 
   return useObserver(() => (
@@ -38,6 +46,7 @@ function ContainerTouchable({ subjectId, typeCn, name, name_cn, image, children 
         }}
         withoutFeedback
         hitSlop={TITLE_HIT_SLOPS}
+        disabled={disabled}
       >
         {children}
       </Link>

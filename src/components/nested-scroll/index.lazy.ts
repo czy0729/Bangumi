@@ -8,4 +8,4 @@ import { lazy } from 'react'
 
 export const LazyLoadView = lazy(() => import('./lazy-load-view'))
 export const NestedScrollParallaxHeader = lazy(() => import('./nested-scroll-parallax-header'))
-export { Props as NestedScrollParallaxHeaderProps } from './nested-scroll-parallax-header/types'
+export type { Props as NestedScrollParallaxHeaderProps } from './nested-scroll-parallax-header/types'

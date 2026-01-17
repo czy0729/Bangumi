@@ -39,7 +39,8 @@ const Item = memo(
     name_cn = '',
     time = '',
     doing = 0,
-    epStatus = ''
+    epStatus = '',
+    disabled
   }) => {
     const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
     const isGame = typeCn === '游戏' || title === '游戏'
@@ -55,6 +56,7 @@ const Item = memo(
             name={name}
             name_cn={name_cn}
             image={image}
+            disabled={disabled}
           />
           <Flex.Item style={styles.content}>
             <ContainerTouchable
@@ -63,6 +65,7 @@ const Item = memo(
               name={name}
               name_cn={name_cn}
               image={image}
+              disabled={disabled}
             >
               <Flex align='start'>
                 <Flex.Item>

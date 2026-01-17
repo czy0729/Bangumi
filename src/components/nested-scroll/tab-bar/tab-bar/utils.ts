@@ -6,9 +6,10 @@
  */
 import { _ } from '@stores'
 import { getStorage, setStorage } from '@utils'
-import { ViewStyle } from '@types'
 import { styles } from './styles'
-import { Layout } from './types'
+
+import type { ViewStyle } from '@types'
+import type { Layout } from './types'
 
 export function getIndicatorWidth(indicatorStyle: ViewStyle) {
   const { width } = _.flatten([styles.indicator, indicatorStyle])

@@ -57,6 +57,7 @@ function Layout({ title }: Props) {
             epStatus={find.ep_status}
             tip={tip}
             time={isGame ? find.subject?.time : ''}
+            disabled={$.state.swiping}
           />
         ) : (
           <Flex style={styles.noSelect} justify='center' direction='column'>

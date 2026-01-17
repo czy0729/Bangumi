@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-27 17:19:11
  */
-import { Animated, StyleProp, ViewStyle } from 'react-native'
+import type { Animated, StyleProp, ViewStyle } from 'react-native'
 
 export interface Props {
   style?: StyleProp<ViewStyle>

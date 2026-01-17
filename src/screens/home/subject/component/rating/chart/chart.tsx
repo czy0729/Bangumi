@@ -19,7 +19,7 @@ const Chart = memo(
   ({
     navigation,
     styles,
-    friend = {},
+    friend,
     rating = 0,
     total = 0,
     count = FROZEN_OBJECT,
@@ -27,22 +27,22 @@ const Chart = memo(
     toRating = FROZEN_FN
   }) => {
     const deviation = getDeviation(total, count, score)
-    const _count = Object.keys(count).length ? count : DEFAULT_RATES
+    const countMap = Object.keys(count).length ? count : DEFAULT_RATES
 
     return (
       <>
         {!!total && (
-          <Text style={styles.total} size={12} type='sub'>
+          <Text style={styles.total} type='sub' size={12}>
             {total} votes
           </Text>
         )}
 
         <Flex style={styles.chart}>
-          {Object.keys(_count)
+          {Object.keys(countMap)
             .reverse()
             .map((key, index) => {
               const item = Number(key)
-              const height = getHeight(total, _count[item]) || 0
+              const height = getHeight(total, countMap[item]) || 0
               const isActive = rating === item
 
               return (
@@ -60,18 +60,18 @@ const Chart = memo(
                           bottom: height
                         }
                       ]}
-                      size={10}
                       type={isActive ? 'warning' : 'sub'}
+                      size={10}
                       align='center'
                       bold
                     >
-                      {_count[item]}{' '}
+                      {countMap[item]}{' '}
                     </Text>
                   </Flex>
                   <Text
                     style={_.mt.sm}
-                    size={12}
                     type={isActive ? 'warning' : 'title'}
+                    size={12}
                     align='center'
                   >
                     {item}
@@ -85,19 +85,19 @@ const Chart = memo(
           <Flex.Item>
             <Touchable style={styles.friend} onPress={() => toRating(navigation, '评分分布')}>
               <Flex>
-                {friend.score ? (
-                  <Text size={12} type='sub'>
+                {Number(friend?.score || 0) ? (
+                  <Text type='sub' size={12}>
                     好友
-                    <Text size={12} type='main'>
+                    <Text type='main' size={12}>
                       {' '}
-                      {friend.score}{' '}
+                      {friend?.score || 0}{' '}
                     </Text>
-                    <Text size={12} lineHeight={12} type='sub'>
-                      ({friend.total})
+                    <Text type='sub' size={12} lineHeight={12}>
+                      ({friend?.total || 0})
                     </Text>
                   </Text>
                 ) : (
-                  <Text size={12} lineHeight={12} type='sub'>
+                  <Text type='sub' size={12} lineHeight={12}>
                     用户评分
                   </Text>
                 )}
@@ -117,14 +117,14 @@ const Chart = memo(
             }}
           >
             <Flex>
-              <Text size={12} type='sub'>
+              <Text type='sub' size={12}>
                 标准差
               </Text>
-              <Text size={12} type='main'>
+              <Text type='main' size={12}>
                 {' '}
                 {toFixed(deviation, 2)}{' '}
               </Text>
-              <Text size={12} lineHeight={12} type='sub'>
+              <Text type='sub' size={12} lineHeight={12}>
                 {getDispute(deviation)}{' '}
               </Text>
             </Flex>

@@ -17,17 +17,28 @@ export const INIT_ITEM = {
   doing: false
 }
 
-/** 不参与本地化的 state */
-export const EXCLUDE_STATE = {
-  /** Modal 可见性 */
-  visible: false,
-
+export const RESET_STATE = {
   /** 可视范围底部 y */
   visibleBottom: _.window.height,
+
+  /** Tabs 是否切换中 */
+  swiping: false
+}
+
+/** 不参与本地化的 state */
+export const EXCLUDE_STATE = {
+  ...RESET_STATE,
+
+  /** 收藏模态框是否可见 */
+  visible: false,
+
+  /** 收藏模态框 */
   modal: {
     title: '',
     desc: ''
   },
+
+  /** 用于列队刷新收藏状态 */
   progress: {
     fetching: false,
     fetchingSubjectId1: 0 as SubjectId,
@@ -36,18 +47,30 @@ export const EXCLUDE_STATE = {
     current: 0,
     total: 0
   },
+
+  /** 收藏标题筛选 */
   filter: '',
+
+  /** 当前应该筛选的 Tabs 页码 */
   filterPage: -1,
+
+  /** 是否聚焦 */
   isFocused: true,
+
+  /** 已经初始化的 Tabs 页码 */
   renderedTabsIndex: [] as number[],
+
+  /** 是否允许章节按钮翻页动画 */
   flip: 0 as SubjectId,
 
-  /** 是否加载 bangumi-data */
+  /** 是否加载已 bangumi-data */
   loadedBangumiData: false
 }
 
 /** state */
 export const STATE = {
+  ...EXCLUDE_STATE,
+
   /** Modal 当前使用的条目 Id */
   subjectId: 0 as SubjectId,
 
@@ -80,7 +103,6 @@ export const STATE = {
   /** 初始化次数 */
   boot: 0,
 
-  ...EXCLUDE_STATE,
   _loaded: false as Loaded
 }
 

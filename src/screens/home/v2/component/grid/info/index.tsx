@@ -25,7 +25,14 @@ import { memoStyles } from './styles'
 
 import type { Props } from './types'
 
-function Info({ subjectId = 0, subject = {}, epStatus = '', tip = '', time = '' }: Props) {
+function Info({
+  subjectId = 0,
+  subject = {},
+  epStatus = '',
+  tip = '',
+  time = '',
+  disabled
+}: Props) {
   r(COMPONENT)
 
   return useObserver(() => {
@@ -48,6 +55,7 @@ function Info({ subjectId = 0, subject = {}, epStatus = '', tip = '', time = '' 
               from: 'grid',
               subjectId
             }}
+            disabled={disabled}
           >
             <Cover subjectId={subjectId} subject={subject} />
           </Link>

@@ -27,6 +27,7 @@ export const Link = <T extends Paths>({
   eventId,
   eventData,
   getEventData,
+  disabled,
   onPress,
   children,
   ...other
@@ -49,6 +50,8 @@ export const Link = <T extends Paths>({
 
   const handlePress = useCallback(
     (evt: TouchablePressEvent) => {
+      if (disabled) return
+
       onPress?.(evt)
 
       if (appNavigate) {
@@ -67,7 +70,7 @@ export const Link = <T extends Paths>({
 
       logger.purple(COMPONENT, appNavigate ? 'appNavigate' : 'to', path)
     },
-    [onPress, appNavigate, path, navigation, resolvedParams, handleEvent]
+    [disabled, onPress, appNavigate, path, handleEvent, navigation, resolvedParams]
   )
 
   return useObserver(() => (

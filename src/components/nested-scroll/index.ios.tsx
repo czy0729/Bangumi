@@ -8,4 +8,5 @@ const LazyLoadView = () => null
 const NestedScrollParallaxHeader = () => null
 type NestedScrollParallaxHeaderProps = {}
 
-export { LazyLoadView, NestedScrollParallaxHeader, NestedScrollParallaxHeaderProps }
+export { LazyLoadView, NestedScrollParallaxHeader }
+export type { NestedScrollParallaxHeaderProps }

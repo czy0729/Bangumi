@@ -9,8 +9,10 @@ import { View } from 'react-native'
 import { useObserver } from 'mobx-react'
 import { Flex } from '../../flex'
 import { ScrollBar } from './scroll-bar'
-import { TabBar as TabBarComp, TabBarProps } from './tab-bar'
+import { TabBar as TabBarComp } from './tab-bar'
 import { memoStyles } from './styles'
+
+import type { TabBarProps } from './tab-bar'
 
 export function TabBar({ page, TabBarLeft, ...other }: TabBarProps) {
   return useObserver(() => {

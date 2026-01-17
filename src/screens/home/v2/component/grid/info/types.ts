@@ -12,4 +12,5 @@ export type Props = {
   epStatus?: string | number
   tip?: string
   time?: string
+  disabled: boolean
 }

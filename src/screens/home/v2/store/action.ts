@@ -358,6 +358,22 @@ export default class Action extends Fetch {
     })
   })
 
+  /** TabBar 切换开始 */
+  onSwipeStart = () => {
+    this.setState({
+      swiping: true
+    })
+  }
+
+  /** TabBar 切换结束 */
+  onSwipeEnd = () => {
+    setTimeout(() => {
+      this.setState({
+        swiping: false
+      })
+    }, 120)
+  }
+
   /** 更新可视范围底部 y */
   onScroll = updateVisibleBottom.bind(this)
 

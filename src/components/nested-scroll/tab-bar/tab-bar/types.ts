@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-30 09:59:41
  */
-import { Animated } from 'react-native'
-import { TextStyle, ViewStyle } from '@types'
+import type { Animated } from 'react-native'
+import type { TextStyle, ViewStyle } from '@types'
 
 export interface Layout {
   x: number
