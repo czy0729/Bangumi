@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-02 12:03:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-17 22:24:57
+ * @Last Modified time: 2026-01-18 20:40:05
  */
 import PropTypes from 'prop-types'
 import { HOST_DOGE } from '../cdn/ds'
@@ -456,7 +456,7 @@ export const MENU_MAP: MenuMap = {
     key: 'Dollars',
     name: 'Dollars',
     text: 'D',
-    size: 20,
+    size: 21,
     login: true
   },
   DiscoveryBlog: {
@@ -518,8 +518,6 @@ export const MENU_MAP: MenuMap = {
   WordCloud: {
     key: 'WordCloud',
     name: '我的词云',
-    text: '词',
-    size: 18,
     login: true
   },
   UserTimeline: {
@@ -530,52 +528,43 @@ export const MENU_MAP: MenuMap = {
   },
   Wiki: {
     key: 'Wiki',
-    name: '维基人',
-    text: 'wiki',
-    size: 14
+    name: '维基人'
   },
 
   /* ==================== 默认隐藏菜单项 (第 5 行) ==================== */
   Yearbook: {
     key: 'Yearbook',
     name: '年鉴',
-    text: '年',
-    size: 18,
     web: false
   },
   BilibiliSync: {
     key: 'BilibiliSync',
     name: 'bilibili 同步',
-    text: 'B',
-    size: 20,
     web: false
   },
   DoubanSync: {
     key: 'DoubanSync',
     name: '豆瓣同步',
-    text: '豆',
-    size: 18,
     web: false
   },
   Backup: {
     key: 'Backup',
     name: '本地备份',
-    text: '备',
-    size: 18,
+    icon: 'md-inbox',
+    size: 22,
+    login: true,
     web: false
   },
   Smb: {
     key: 'Smb',
-    name: '本地管理',
-    icon: 'md-inbox',
-    size: 22
+    name: '本地管理'
   },
 
   /* ==================== 默认隐藏菜单项 (第 6 行) ==================== */
   Character: {
     key: 'Character',
     name: '我的人物',
-    icon: 'md-folder-shared',
+    icon: ['md-folder', 'md-favorite'],
     login: true
   },
   Catalogs: {
@@ -588,6 +577,12 @@ export const MENU_MAP: MenuMap = {
     key: 'Blogs',
     name: '我的日志',
     icon: ['md-folder', 'md-edit'],
+    login: true
+  },
+  Friends: {
+    key: 'Friends',
+    name: '我的好友',
+    icon: 'md-folder-shared',
     login: true
   },
   Link: {

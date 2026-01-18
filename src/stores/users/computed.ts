@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 13:59:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-04 07:47:18
+ * @Last Modified time: 2026-01-18 19:48:26
  */
 import { computed } from 'mobx'
 import { HTMLDecode } from '@utils'
@@ -20,7 +20,6 @@ import type {
   Characters,
   Friends,
   FriendsMap,
-  MyFriendsMap,
   Persons,
   Recents,
   Users,
@@ -42,17 +41,21 @@ export default class Computed
 
   /** 好友列表 */
   friends(userId?: UserId) {
-    this.init('friends', true)
-    return computed<Friends>(() => {
-      const key = userId || userStore.myId
-      return this.state.friends[key] || LIST_EMPTY
+    const STATE_KEY = 'friends'
+    this.init(STATE_KEY, true)
+
+    return computed(() => {
+      const ITEM_KEY = userId || userStore.myId
+      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as Friends
     }).get()
   }
 
   /** 我的好友 userId 哈希映射 */
-  @computed get myFriendsMap(): MyFriendsMap {
-    this.init('myFriendsMap', true)
-    return this.state.myFriendsMap
+  @computed get myFriendsMap() {
+    const STATE_KEY = 'myFriendsMap'
+    this.init(STATE_KEY, true)
+
+    return this.state[STATE_KEY]
   }
 
   /** 用户信息 */

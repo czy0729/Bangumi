@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-22 05:49:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-18 15:52:24
+ * @Last Modified time: 2026-01-18 20:56:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,13 +14,13 @@ import { memoStyles } from './styles'
 
 import type { Props } from './types'
 
-function Btn({ item, active = false, onPress }: Props) {
+function Btn({ style, item, active = false, onPress }: Props) {
   return useObserver(() => {
     const styles = memoStyles()
     if (!item) return <View style={styles.btn} />
 
     return (
-      <Touchable style={stl(styles.btn, active && styles.btnActive)} onPress={onPress}>
+      <Touchable style={stl(styles.btn, active && styles.btnActive, style)} onPress={onPress}>
         <Flex style={styles.btn} direction='column' justify='center'>
           <View style={styles.icon}>
             <IconMenu

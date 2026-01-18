@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-09-28 21:16:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-18 16:41:29
+ * @Last Modified time: 2026-01-18 19:15:06
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Image, Touchable } from '@components'
 import { _ } from '@stores'
 import { stl } from '@utils'
+import { useObserver } from '@utils/hooks'
 import { GROUP_THUMB_MAP } from '@assets/images'
 import { styles } from './styles'
 

@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-07-02 10:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-04 07:46:27
+ * @Last Modified time: 2026-01-18 19:42:07
  */
 import type {
   Avatar,
   ColorValue,
-  Cover,
   HTMLText,
   Id,
   ListEmpty,
@@ -21,10 +20,18 @@ import type { LOADED } from './init'
 
 export type CacheKey = keyof typeof LOADED
 
+/** 好友项 */
 export type Friend = {
-  avatar: Cover<'l'>
+  /** 头像 */
+  avatar: string
+
+  /** 用户 ID (改过后的) */
   userId: UserId
+
+  /** 昵称 */
   userName: string
+
+  /** 历史昵称 (自行对比保存) */
   lastUserName?: string
 }
 

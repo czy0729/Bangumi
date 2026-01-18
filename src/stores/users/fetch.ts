@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 14:03:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-04 07:28:17
+ * @Last Modified time: 2026-01-18 19:48:41
  */
 import { getTimestamp } from '@utils'
 import { fetchHTML } from '@utils/fetch'
@@ -28,52 +28,56 @@ import {
 import Computed from './computed'
 
 import type { UserId } from '@types'
-import type { FetchCatalogsArgs, Friend } from './types'
+import type { FetchCatalogsArgs } from './types'
 
 export default class Fetch extends Computed {
   /** 好友列表 */
-  fetchFriends = async (args?: { userId?: UserId }) => {
-    const { userId = userStore.myId } = args || {}
-    const html = await fetchHTML({
-      url: `!${HTML_FRIENDS(userId)}`
-    })
-    const friends = cheerioFriends(html)
+  fetchFriends = async (userId: UserId = userStore.myId) => {
+    const STATE_KEY = 'friends'
+    const STATE_KEY_2 = 'myFriendsMap'
+    const ITEM_KEY = userId
 
-    // - 20201124 缓存好友上一次历史名字
-    friends.forEach((item: Friend) => {
-      const lastItem = this.friendsMap[item.userId]
-      const lastUserName = lastItem?.lastUserName
-      if (lastUserName && lastUserName === item.userName) return
-
-      item.lastUserName = lastItem?.userName || item.userName
-    })
-
-    const key = 'friends'
-    this.setState({
-      [key]: {
-        [userId]: {
-          list: friends || [],
-          _loaded: getTimestamp()
-        }
-      }
-    })
-    this.save(key)
-
-    // 自己要生成 userId 哈希映射
-    if (userId === userStore.myId) {
-      const myFriendsMap = {
-        _loaded: getTimestamp()
-      }
-      friends.forEach((item: Friend) => (myFriendsMap[item.userId] = true))
-
-      const key = 'myFriendsMap'
-      this.setState({
-        [key]: myFriendsMap
+    try {
+      const html = await fetchHTML({
+        url: `!${HTML_FRIENDS(userId)}`
       })
-      this.save(key)
-    }
 
-    return friends
+      const now = getTimestamp()
+      const list = cheerioFriends(html)
+
+      // 缓存好友上一次历史名字
+      // friends.forEach((item: Friend) => {
+      //   const lastItem = this.friendsMap[item.userId]
+      //   const lastUserName = lastItem?.lastUserName
+      //   if (lastUserName && lastUserName === item.userName) return
+      //   item.lastUserName = lastItem?.userName || item.userName
+      // })
+
+      this.setState({
+        [STATE_KEY]: {
+          [ITEM_KEY]: {
+            list,
+            _loaded: now
+          }
+        }
+      })
+      this.save(STATE_KEY)
+
+      // 自己要生成 userId 哈希映射
+      if (userId === userStore.myId) {
+        const map = {
+          _loaded: now
+        }
+        list.forEach(item => (map[item.userId] = true))
+
+        this.setState({
+          [STATE_KEY_2]: map
+        })
+        this.save(STATE_KEY_2)
+      }
+    } catch (error) {}
+
+    return this[STATE_KEY](ITEM_KEY)
   }
 
   /** 用户信息 (他人视角) */

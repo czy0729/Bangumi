@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-11 11:27:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-20 13:25:16
+ * @Last Modified time: 2026-01-18 20:49:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,6 @@ import { Flex, Text, Touchable } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { INIT_DISCOVERY_MENU } from '@stores/system/init'
-import { confirm } from '@utils'
 import { withT } from '@utils/fetch'
 import { useNavigation, useObserver } from '@utils/hooks'
 import { WEB } from '@constants'
@@ -51,9 +50,7 @@ const Btns = ({ setMenu, onCancel, onSave }: Props) => {
             name='md-refresh'
             color={_.colorDesc}
             onPress={() => {
-              confirm('是否恢复默认菜单布局', () => {
-                setMenu(INIT_DISCOVERY_MENU)
-              })
+              setMenu(INIT_DISCOVERY_MENU)
             }}
           />
           {!WEB && (

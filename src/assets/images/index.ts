@@ -2,11 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-08-19 07:02:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-18 16:31:30
+ * @Last Modified time: 2026-01-18 20:26:34
  */
 export const GROUP_THUMB_MAP = {
   bilibili: require('@assets/images/bilibili.png'),
   bilibili_0: require('@assets/images/bilibili_0.png'),
+  book: require('@assets/images/book.png'),
+  book_0: require('@assets/images/book_0.png'),
   burakku_sakura_icon: require('@assets/images/burakku_sakura.png'),
   circle: require('@assets/images/circle.png'),
   dou: require('@assets/images/dou.png'),
@@ -17,8 +19,12 @@ export const GROUP_THUMB_MAP = {
   miku_icon: require('@assets/images/miku.png'),
   relation: require('@assets/images/relation.png'),
   relation_0: require('@assets/images/relation_0.png'),
+  samba: require('@assets/images/samba.png'),
+  samba_0: require('@assets/images/samba_0.png'),
   sound: require('@assets/images/sound.png'),
   sound_0: require('@assets/images/sound_0.png'),
+  wiki: require('@assets/images/wiki.png'),
+  wiki_0: require('@assets/images/wiki_0.png'),
   wordcloud: require('@assets/images/wordcloud.png'),
   wordcloud_0: require('@assets/images/wordcloud_0.png'),
   '//lain.bgm.tv/pic/icon/s/000/00/00/11.jpg': require('@assets/images/group/a.jpg'),

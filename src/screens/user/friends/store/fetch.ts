@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-13 05:00:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 05:01:46
+ * @Last Modified time: 2026-01-18 19:23:27
  */
 import { usersStore } from '@stores'
 import { getTimestamp } from '@utils'
@@ -12,9 +12,7 @@ import Computed from './computed'
 export default class Fetch extends Computed {
   /** 好友列表 */
   fetchFriends = () => {
-    return usersStore.fetchFriends({
-      userId: this.userId
-    })
+    return usersStore.fetchFriends(this.userId)
   }
 
   /** @deprecated 批量获取所有好友信息 */

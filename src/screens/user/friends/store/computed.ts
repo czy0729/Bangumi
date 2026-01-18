@@ -2,23 +2,24 @@
  * @Author: czy0729
  * @Date: 2024-09-13 04:54:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 05:02:24
+ * @Last Modified time: 2026-01-18 19:07:17
  */
 import { computed } from 'mobx'
 import { _, usersStore, userStore } from '@stores'
-import { Friend } from '@stores/users/types'
 import { desc, getPinYinFilterValue } from '@utils'
 import CacheManager from '@utils/cache-manager'
 import { HTML_FRIENDS } from '@constants'
-import { UserId } from '@types'
 import { sortByRecent } from '../utils'
 import State from './state'
 import { NAMESPACE } from './ds'
 
+import type { Friend } from '@stores/users/types'
+import type { UserId } from '@types'
+
 export default class Computed extends State {
   /** 查询的用户 ID */
   @computed get userId() {
-    return this.params.userId
+    return this.params.userId || userStore.myId
   }
 
   /** 用户信息 */

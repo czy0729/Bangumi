@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:32:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-04 07:47:57
+ * @Last Modified time: 2026-01-18 19:47:56
  */
 import { LIST_EMPTY } from '@constants'
 
 import type { UserId } from '@types'
-import type { Blogs, Catalogs, Characters, Recents, Users } from './types'
+import type { Blogs, Catalogs, Characters, Friends, MyFriendsMap, Recents, Users } from './types'
 
 export const NAMESPACE = 'Users'
 
@@ -66,14 +66,12 @@ export const STATE = {
   },
 
   /** 好友列表 */
-  friends: {
-    0: LIST_EMPTY
-  },
+  friends: {} as Record<UserId, Friends>,
 
   /** 我的好友 userId 哈希映射 */
   myFriendsMap: {
     _loaded: 0
-  },
+  } as MyFriendsMap,
 
   /** 用户信息 */
   users: {

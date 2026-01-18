@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-17 20:34:52
+ * @Last Modified time: 2026-01-18 18:58:49
  */
 import type { ImageSourcePropType } from 'react-native'
 import type {
@@ -521,7 +521,7 @@ export type RouteFriends = Route<
   'Friends',
   {
     /** 用户 ID */
-    userId: UserId
+    userId?: UserId
   }
 >
 

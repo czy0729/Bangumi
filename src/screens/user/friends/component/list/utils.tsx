@@ -2,15 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-08-07 03:53:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-12 02:42:03
+ * @Last Modified time: 2026-01-18 19:53:29
  */
 import React from 'react'
 import ItemGrid from '../item-grid'
 
-export function renderItem({ item, index }) {
-  return <ItemGrid index={index} item={item} />
+import type { Friend } from '@stores/users/types'
+import type { RenderItem } from '@types'
+
+export function renderItem({ item, index }: RenderItem<Friend>) {
+  return <ItemGrid item={item} index={index} />
 }
 
-export function keyExtractor(item: { userId: any }) {
+export function keyExtractor(item: Friend) {
   return String(item.userId)
 }

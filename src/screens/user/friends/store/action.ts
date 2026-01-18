@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-09-13 05:03:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 05:05:51
+ * @Last Modified time: 2026-01-18 18:59:53
  */
 import { debounce, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
-import { Sort } from '../types'
 import Fetch from './fetch'
+
+import type { Sort } from '../types'
 
 export default class Action extends Fetch {
   /** 排序 */

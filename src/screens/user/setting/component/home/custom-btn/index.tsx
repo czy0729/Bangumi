@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-22 04:40:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-18 15:56:06
+ * @Last Modified time: 2026-01-18 20:57:26
  */
 import React, { useCallback, useState } from 'react'
 import { ActionSheet, Flex, Text } from '@components'
@@ -69,7 +69,7 @@ function CustomBtn() {
           />
         </Flex>
 
-        <ActionSheet show={state} height={540} onClose={handleCloseActionSheet}>
+        <ActionSheet show={state} height={580} onClose={handleCloseActionSheet}>
           <Text style={[_.mt.sm, _.mb.xs]} bold align='center'>
             选择一个功能作为入口
           </Text>
@@ -81,9 +81,11 @@ function CustomBtn() {
             />
             {CUSTOM_BTN_KEYS.map(key => {
               const item = MENU_MAP[key]
+
               return (
                 <Btn
                   key={item.key}
+                  style={_.mb.xs}
                   item={item}
                   active={current.key === key}
                   onPress={() => handleSelectBtn(item.key)}
