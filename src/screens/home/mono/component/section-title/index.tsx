@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont, Text, Touchable } from '@components'
-import { IconWordCloud, SectionTitle as SectionTitleComp } from '@_'
+import { IconAssets, SectionTitle as SectionTitleComp } from '@_'
 import { useStore } from '@stores'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
@@ -20,13 +20,14 @@ function SectionTitle() {
 
   return useObserver(() => {
     const styles = memoStyles()
+
     return (
       <SectionTitleComp
         style={styles.title}
         right={
           <>
             {!!$.monoComments.list.length && (
-              <IconWordCloud
+              <IconAssets
                 style={styles.opacity}
                 onPress={() => {
                   navigation.push('WordCloud', {

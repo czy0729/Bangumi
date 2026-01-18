@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { IconWordCloud } from '@_'
+import { IconAssets } from '@_'
 import { useStore } from '@stores'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
@@ -26,7 +26,7 @@ function WordCloud() {
           opacity: 0.64
         }}
       >
-        <IconWordCloud
+        <IconAssets
           onPress={() => {
             navigation.push('WordCloud', {
               topicId: $.topicId

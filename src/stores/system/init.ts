@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-17 23:04:04
+ * @Last Modified time: 2026-01-18 17:16:20
  */
 import {
   IOS,
+  MENU_MAP,
   MODEL_SETTING_CDN_ORIGIN,
   MODEL_SETTING_HOME_COUNT_VIEW,
   MODEL_SETTING_HOME_GRID_COVER_LAYOUT,
@@ -107,39 +108,7 @@ export const INIT_SUBJECT_LAYOUT = {
 } as const
 
 /** 发现页自定义菜单 */
-export const INIT_DISCOVERY_MENU = [
-  'Rank',
-  'Anime',
-  'Catalog',
-  'Calendar',
-  'DiscoveryBlog',
-  'Tags',
-  'Staff',
-  'Like',
-  'BiWeekly',
-  'VIB',
-  'Dollars',
-  'Anitama',
-
-  // 分割符
-  'Open',
-  'Browser',
-  'Search',
-  'Tinygrail',
-  'Recommend',
-  'Wiki',
-  'Yearbook',
-  'UserTimeline',
-  'Netabare',
-  'Smb',
-  'BilibiliSync',
-  'DoubanSync',
-  'Series',
-  'Backup',
-  'Character',
-  'Catalogs',
-  'Link'
-] as const
+export const INIT_DISCOVERY_MENU = Object.keys(MENU_MAP)
 
 /** 默认设置 */
 export const INIT_SETTING = {

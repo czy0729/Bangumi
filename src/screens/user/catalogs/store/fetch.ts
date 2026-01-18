@@ -6,13 +6,14 @@
  */
 import { discoveryStore, usersStore } from '@stores'
 import { queue } from '@utils/fetch'
-import { Id } from '@types'
-import { TabsLabel } from '../types'
 import Computed from './computed'
+
+import type { Id } from '@types'
+import type { TabsKey } from '../types'
 
 export default class Fetch extends Computed {
   /** 用户目录 */
-  fetchCatalogs = async (key: TabsLabel, refresh: boolean = false) => {
+  fetchCatalogs = async (key: TabsKey, refresh: boolean = false) => {
     const data = await usersStore.fetchCatalogs(
       {
         userId: this.userId,

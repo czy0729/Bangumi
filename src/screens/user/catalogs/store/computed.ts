@@ -7,10 +7,11 @@
 import { computed } from 'mobx'
 import { discoveryStore, usersStore, userStore } from '@stores'
 import { HTML_USERS_CATALOGS } from '@constants'
-import { Id } from '@types'
 import { TABS } from '../ds'
-import { TabsLabel } from '../types'
 import State from './state'
+
+import type { Id } from '@types'
+import type { TabsKey } from '../types'
 
 export default class Computed extends State {
   @computed get userId() {
@@ -25,7 +26,7 @@ export default class Computed extends State {
     return TABS[this.state.page]?.key
   }
 
-  catalogs(key: TabsLabel) {
+  catalogs(key: TabsKey) {
     return usersStore.catalogs(this.userId, key === 'collect')
   }
 

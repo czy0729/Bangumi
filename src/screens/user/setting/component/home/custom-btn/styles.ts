@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 09:43:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-24 13:10:12
+ * @Last Modified time: 2026-01-18 15:58:11
  */
 import { _ } from '@stores'
 
@@ -16,7 +16,7 @@ export const memoStyles = _.memoStyles(() => ({
   },
   btn: {
     width: 64,
-    height: 56,
+    height: 58,
     borderWidth: 1,
     borderColor: 'transparent',
     borderRadius: _.radiusMd,
@@ -26,6 +26,7 @@ export const memoStyles = _.memoStyles(() => ({
     borderColor: _.colorSuccess
   },
   icon: {
-    height: 26
+    height: 40,
+    marginTop: -15
   }
 }))

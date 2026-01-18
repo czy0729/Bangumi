@@ -2,11 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-08-19 07:02:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-15 05:59:54
+ * @Last Modified time: 2026-01-18 16:31:58
  */
 export const GROUP_THUMB_MAP = {
+  bilibili: './assets/images/bilibili.png',
+  bilibili_0: './assets/images/bilibili_0.png',
   burakku_sakura_icon: './assets/images/burakku_sakura.png',
   circle: './assets/images/circle.png',
+  dou: './assets/images/dou.png',
+  dou_0: './assets/images/dou_0.png',
   mesume: './assets/images/mesume.png',
   mesume_0: './assets/images/mesume_0.png',
   mesume_icon: './assets/images/mesume_icon.png',

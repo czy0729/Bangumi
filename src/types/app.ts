@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-17 20:34:53
+ * @Last Modified time: 2026-01-17 20:45:08
  */
 import type AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
 import type IoniconsIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/Ionicons.json'
@@ -241,3 +241,33 @@ export type WithViewStyles<T = any> = Override<
     style?: ViewStyle
   }
 >
+
+/** 发现页菜单项 */
+export type MenuItem = {
+  /** 目前允许设置的按钮 ID */
+  key: Paths | 'Open' | 'Netabare' | 'Split' | 'Link' | 'Cancel' | 'Save'
+
+  /** 按钮名称 */
+  name: string
+
+  /** 按钮上渲染的文字 */
+  text?: string
+
+  /** 按钮图标 (数组为两个图标特定的样式布置) */
+  icon?: IconfontNames | [IconfontNames, IconfontNames]
+
+  /** 按钮图标或文字的大小 */
+  size?: number
+
+  /** 是否在 WEB 上显示 (默认 true) */
+  web?: boolean
+
+  /** 是否在 iOS 上显示 (默认 true) */
+  ios?: boolean
+
+  /** 跳转页面是否需要登录 */
+  login?: boolean
+}
+
+/** 发现页菜单映射 */
+export type MenuMap = Partial<Record<MenuItem['key'], MenuItem>>

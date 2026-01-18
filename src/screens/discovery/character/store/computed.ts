@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-12-03 15:36:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-09 21:53:52
+ * @Last Modified time: 2026-01-18 18:45:41
  */
 import { computed } from 'mobx'
 import { usersStore, userStore } from '@stores'
 import { HOST } from '@constants'
 import { TABS, TABS_SELF } from '../ds'
-import { Keys } from '../types'
 import State from './state'
+
+import type { Keys } from '../types'
 
 export default class Computed extends State {
   @computed get userId() {

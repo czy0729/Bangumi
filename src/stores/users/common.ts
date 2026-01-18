@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-07-24 11:11:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-04 07:51:47
+ * @Last Modified time: 2026-01-17 09:17:05
  */
 import { cData, cFind, cheerio, cMap, cText, htmlMatch, matchAvatar, safeObject } from '@utils'
 import { getBlogItemTime } from '../discovery/utils'
 
 import type { MonoId, SubjectTypeValue } from '@types'
 import type { BlogsItem, CatalogsItem, CharactersItem, RecentsItem, Users } from './types'
+
 /** 好友列表 */
 export function cheerioFriends(html: string) {
   return cheerio(htmlMatch(html, '<div id="columnUserSingle"', '<div id="footer">'))('li.user')

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-22 19:44:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-26 21:40:53
+ * @Last Modified time: 2026-01-17 09:13:23
  */
 import React from 'react'
 import { TabsV2 } from '@components'
@@ -16,6 +16,7 @@ import type { Ctx } from '../../types'
 
 function Tabs() {
   const { $ } = useStore<Ctx>(COMPONENT)
+
   const { headerStyle } = useInsets()
 
   return useObserver(() => (

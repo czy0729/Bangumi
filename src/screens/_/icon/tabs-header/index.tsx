@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 20:13:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-18 16:21:14
+ * @Last Modified time: 2026-01-18 16:34:00
  */
 import React from 'react'
 import { Component, Iconfont, Image, Text, Touchable } from '@components'
@@ -13,9 +13,10 @@ import { IOS } from '@constants'
 import { GROUP_THUMB_MAP } from '@assets/images'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props as IconTabsHeaderProps } from './types'
 
-export { IconTabsHeaderProps }
+import type { Props as IconTabsHeaderProps } from './types'
+
+export type { IconTabsHeaderProps }
 
 export const IconTabsHeader = ob(
   ({

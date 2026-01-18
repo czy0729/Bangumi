@@ -2,202 +2,19 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-02 20:51:03
+ * @Last Modified time: 2026-01-17 22:25:03
  */
 import { _ } from '@stores'
-import { IOS, WEB } from '@constants'
+import { IOS, MENU_MAP, MENU_MAP_STORYBOOK, WEB } from '@constants'
 
-import type { MenuItemType, MenuMapType } from './types'
+import type { MenuItem } from '@types'
 
 export const COMPONENT = 'Discovery'
 
 export const INITIAL_RENDER_NUMS_XS = _.device(Math.floor(_.window.contentWidth / 80) + 1, 0)
 
-export const MENU_MAP: MenuMapType = {
-  Rank: {
-    key: 'Rank',
-    name: '排行榜',
-    icon: 'md-equalizer'
-  },
-  Anime: {
-    key: 'Anime',
-    name: '找条目',
-    icon: 'md-live-tv',
-    size: 21
-  },
-  Browser: {
-    key: 'Browser',
-    name: '索引',
-    icon: 'md-data-usage'
-  },
-  Catalog: {
-    key: 'Catalog',
-    name: '目录',
-    icon: 'md-folder-open'
-  },
-  Calendar: {
-    key: 'Calendar',
-    name: '每日放送',
-    icon: 'md-calendar-today',
-    size: 20
-  },
-  DiscoveryBlog: {
-    key: 'DiscoveryBlog',
-    name: '日志',
-    icon: 'md-edit',
-    size: 21
-  },
-  Tags: {
-    key: 'Tags',
-    name: '标签',
-    icon: 'md-bookmark-outline'
-  },
-  Open: {
-    key: 'Open',
-    name: '自定义',
-    icon: 'md-more-horiz'
-  },
-  Staff: {
-    key: 'Staff',
-    name: '新番',
-    icon: 'md-local-play'
-  },
-  Search: {
-    key: 'Search',
-    name: '搜索',
-    icon: 'md-search',
-    web: false
-  },
-  Tinygrail: {
-    key: 'Tinygrail',
-    name: '小圣杯',
-    icon: 'trophy',
-    size: 20,
-    web: false
-  },
-  Like: {
-    key: 'Like',
-    name: '猜你喜欢',
-    icon: 'md-looks'
-  },
-  Dollars: {
-    key: 'Dollars',
-    name: 'Dollars',
-    text: 'D',
-    size: 20,
-    login: true
-  },
-  Wiki: {
-    key: 'Wiki',
-    name: '维基人',
-    text: 'wiki',
-    size: 14
-  },
-  Yearbook: {
-    key: 'Yearbook',
-    name: '年鉴',
-    text: '年',
-    size: 18,
-    web: false
-  },
-  UserTimeline: {
-    key: 'UserTimeline',
-    name: '时间线',
-    icon: 'md-timeline',
-    login: true
-  },
-  Anitama: {
-    key: 'Anitama',
-    name: '资讯',
-    icon: 'md-text-format',
-    size: 26,
-    web: false
-  },
-  Smb: {
-    key: 'Smb',
-    name: '本地管理',
-    icon: 'md-inbox',
-    size: 22
-  },
-  DoubanSync: {
-    key: 'DoubanSync',
-    name: '豆瓣同步',
-    text: '豆',
-    size: 18,
-    web: false
-  },
-  BilibiliSync: {
-    key: 'BilibiliSync',
-    name: 'bilibili 同步',
-    text: 'B',
-    size: 20,
-    web: false
-  },
-  Backup: {
-    key: 'Backup',
-    name: '本地备份',
-    text: '备',
-    size: 18,
-    web: false
-  },
-  DiscoveryUsers: {
-    key: 'DiscoveryUsers',
-    name: '社区项目',
-    icon: 'md-whatshot'
-  },
-  Series: {
-    key: 'Series',
-    name: '关联系列',
-    icon: 'md-workspaces-outline',
-    login: true
-  },
-  Milestone: {
-    key: 'Milestone',
-    name: '照片墙',
-    icon: 'md-image-aspect-ratio'
-  },
-  WordCloud: {
-    key: 'WordCloud',
-    name: '我的词云',
-    text: '词',
-    size: 18,
-    login: true
-  },
-  Character: {
-    key: 'Character',
-    name: '我的人物',
-    icon: 'md-folder-shared',
-    login: true
-  },
-  Catalogs: {
-    key: 'Catalogs',
-    name: '我的目录',
-    icon: 'md-folder-special',
-    login: true
-  },
-  Link: {
-    key: 'Link',
-    name: '剪贴板',
-    icon: 'md-link',
-    web: false
-  }
-} as const
-
-export const MENU_MAP_STORYBOOK: MenuMapType = {
-  Setting: {
-    key: 'Setting',
-    name: '设置',
-    icon: 'setting'
-  }
-  // LoginToken: {
-  //   key: 'LoginToken',
-  //   name: '授权',
-  //   icon: 'md-face'
-  // }
-}
-
 /** 根据设置自定义菜单构造菜单数据 */
-export function getMenus(discoveryMenu: MenuItemType['key'][] = []) {
+export function getMenus(discoveryMenu: MenuItem['key'][] = []) {
   if (!discoveryMenu.length) return []
 
   let menuMap = { ...MENU_MAP }
@@ -208,7 +25,7 @@ export function getMenus(discoveryMenu: MenuItemType['key'][] = []) {
     }
   }
 
-  let menus: MenuItemType[] = []
+  let menus: MenuItem[] = []
 
   // 若 discoveryMenu 的 key 不存在在 defaultMenu 里, 需要过滤
   discoveryMenu.forEach(key => {

@@ -4,10 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-09 03:04:58
  */
-import { Expand, Fn, Navigation, ReactNode, TextStyle } from '@types'
-import { TrackProps } from '../track'
-import { Props as PlaceholderProps } from './placeholder/types'
-import { Props as PopoverProps } from './popover/types'
+import type { Expand, Fn, Navigation, ReactNode, TextStyle } from '@types'
+import type { TrackProps } from '../track'
+import type { Props as PlaceholderProps } from './placeholder/types'
+import type { Props as PopoverProps } from './popover/types'
 
 export type Props = {
   /** 模式 */
@@ -16,13 +16,13 @@ export type Props = {
   /** 是否锁定, 模式不为空时有效 */
   fixed?: boolean
 
-  /** onScroll 垂直y坐标, 模式不为空时有效 */
+  /** onScroll 垂直 y 坐标, 模式不为空时有效 */
   // y?: number
 
   /** 标题 */
   title?: string
 
-  /** [WEB] 若有此值, 页面标题以此优先 */
+  /** 若有此值, 页面标题以此优先 (WEB only) */
   domTitle?: string
 
   /** 统计参数: [url 地址, 对应页面 key] */

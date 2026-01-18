@@ -2,43 +2,42 @@
  * @Author: czy0729
  * @Date: 2022-11-22 05:49:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-11 04:39:57
+ * @Last Modified time: 2026-01-18 15:52:24
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Iconfont, Text, Touchable } from '@components'
-import { _ } from '@stores'
+import { Flex, Text, Touchable } from '@components'
+import { IconMenu } from '@_'
 import { stl } from '@utils'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { memoStyles } from './styles'
 
-function Btn({ item, active = false, onPress }: any) {
-  const styles = memoStyles()
-  if (!item) return <View style={styles.btn} />
+import type { Props } from './types'
 
-  return (
-    <Touchable style={stl(styles.btn, active && styles.btnActive)} onPress={onPress}>
-      <Flex style={styles.btn} direction='column' justify='center'>
-        <Flex style={styles.icon} justify='center'>
-          {item.text ? (
-            <Text style={_.mb.xs} size={Math.floor((item.size || 24) * 0.9)} bold>
-              {item.text}
-            </Text>
-          ) : (
-            <Iconfont
-              style={_.mb.xs}
-              name={item.icon}
-              color={_.colorDesc}
-              size={Math.floor((item.size || 24) * 0.9)}
+function Btn({ item, active = false, onPress }: Props) {
+  return useObserver(() => {
+    const styles = memoStyles()
+    if (!item) return <View style={styles.btn} />
+
+    return (
+      <Touchable style={stl(styles.btn, active && styles.btnActive)} onPress={onPress}>
+        <Flex style={styles.btn} direction='column' justify='center'>
+          <View style={styles.icon}>
+            <IconMenu
+              id={item.key}
+              icon={item.icon}
+              text={item.text}
+              size={item.size}
+              wrap={false}
             />
-          )}
+          </View>
+          <Text size={10} bold>
+            {item.name}
+          </Text>
         </Flex>
-        <Text size={10} bold>
-          {item.name}
-        </Text>
-      </Flex>
-    </Touchable>
-  )
+      </Touchable>
+    )
+  })
 }
 
-export default ob(Btn)
+export default Btn

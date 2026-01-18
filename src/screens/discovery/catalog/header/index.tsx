@@ -6,7 +6,8 @@
  */
 import React, { useCallback, useMemo } from 'react'
 import { HeaderV2, HeaderV2Popover } from '@components'
-import { useStore } from '@stores'
+import { IconHeader } from '@_'
+import { _, useStore } from '@stores'
 import { getSPAParams, open } from '@utils'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
@@ -14,9 +15,8 @@ import { HOST, TEXT_MENU_BROWSER, TEXT_MENU_SPA, TEXT_MENU_SPLIT, URL_SPA } from
 import { COMPONENT, DATA, HM } from './ds'
 
 import type { Ctx } from '../types'
-
 function Header() {
-  const { $ } = useStore<Ctx>(COMPONENT)
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
     const { toolBar } = $
@@ -37,13 +37,23 @@ function Header() {
       }
     }, [])
 
-    return (
-      <HeaderV2
-        title='目录'
-        hm={HM}
-        headerRight={() => <HeaderV2Popover data={memoData} onSelect={handleSelect} />}
-      />
+    const handleHeaderRight = useCallback(
+      () => (
+        <>
+          <IconHeader
+            name='md-person-outline'
+            color={_.colorDesc}
+            onPress={() => {
+              navigation.push('Catalogs')
+            }}
+          />
+          <HeaderV2Popover data={memoData} onSelect={handleSelect} />
+        </>
+      ),
+      [handleSelect, memoData]
     )
+
+    return <HeaderV2 title='目录' hm={HM} headerRight={handleHeaderRight} />
   })
 }
 

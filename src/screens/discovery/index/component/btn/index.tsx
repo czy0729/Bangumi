@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2021-06-11 15:08:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-20 10:05:31
+ * @Last Modified time: 2026-01-18 18:53:02
  */
 import React from 'react'
 import { Clipboard } from 'react-native'
+import { getLastPath } from '@_'
 import { _, userStore, useStore } from '@stores'
 import { appNavigate, feedback, info, matchBgmUrl } from '@utils'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
 import { DEV, HOST_NETABA } from '@constants'
 import i18n from '@constants/i18n'
-import { getLastPath } from '@screens/_/base/filter-switch'
 import Btn from './btn'
 import { COMPONENT } from './ds'
 
@@ -81,14 +81,7 @@ function BtnWrap({ item }: Props) {
           return
         }
 
-        navigation.push(
-          key as any,
-          login
-            ? {
-                userName: userId
-              }
-            : {}
-        )
+        navigation.push(key as any)
         return
       }
     }

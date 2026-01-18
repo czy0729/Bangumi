@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-10 07:56:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 06:04:51
+ * @Last Modified time: 2026-01-17 21:29:48
  */
 import React, { useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
@@ -17,7 +17,7 @@ import Btn from '../btn'
 import Btns from './btns'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
-import type { MenuItemType } from '../../types'
+import type { MenuItem } from '@types'
 
 const SortMenu = memo(
   ({
@@ -34,7 +34,7 @@ const SortMenu = memo(
     const openIndex = memoMenus.findIndex(item => item.key === 'Open')
 
     const handleRenderItem = useCallback(
-      (item: MenuItemType, index?: number, scale: boolean = true) => (
+      (item: MenuItem, index?: number, scale: boolean = true) => (
         <View
           key={item.key}
           style={stl(
@@ -48,7 +48,7 @@ const SortMenu = memo(
       [openIndex, styles.item, styles.transparent]
     )
 
-    const handleDragRelease = useCallback((data: MenuItemType[]) => {
+    const handleDragRelease = useCallback((data: MenuItem[]) => {
       const menu = []
       data.forEach(item => {
         if (item.key === 'Save') return
@@ -80,7 +80,7 @@ const SortMenu = memo(
       [dragging, handleCancel, handleSave]
     )
 
-    let data: MenuItemType[]
+    let data: MenuItem[]
     if (dragging) {
       data = [
         ...memoMenus.slice(0, openIndex),

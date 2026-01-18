@@ -2,24 +2,26 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:44:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 06:38:43
+ * @Last Modified time: 2026-01-17 09:17:18
  */
 import React, { useCallback } from 'react'
 import { ListView, Loading } from '@components'
 import { ItemCatalog } from '@_'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import { Ctx, TabsLabel } from '../../types'
 import { COMPONENT } from './ds'
 
-function List({ id }: { id: TabsLabel }) {
-  r(COMPONENT)
+import type { CatalogsItem } from '@stores/users/types'
+import type { RenderItem } from '@types'
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
-  const { $ } = useStore<Ctx>()
-  const renderItem = useCallback(
-    ({ item, index }) => (
+function List({ id }: Props) {
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  const handleRenderItem = useCallback(
+    ({ item, index }: RenderItem<CatalogsItem>) => (
       <ItemCatalog
         {...item}
         index={index}
@@ -32,7 +34,7 @@ function List({ id }: { id: TabsLabel }) {
         }}
       />
     ),
-    [$.userId]
+    [$]
   )
   const handleHeaderRefresh = useCallback(() => $.fetchCatalogs(id, true), [$, id])
   const handleFooterRefresh = useCallback(() => $.fetchCatalogs(id), [$, id])
@@ -47,7 +49,7 @@ function List({ id }: { id: TabsLabel }) {
         style={_.container.plain}
         contentContainerStyle={_.container.bottom}
         data={catalogs}
-        renderItem={renderItem}
+        renderItem={handleRenderItem}
         onScroll={$.onScroll}
         onHeaderRefresh={handleHeaderRefresh}
         onFooterRefresh={handleFooterRefresh}

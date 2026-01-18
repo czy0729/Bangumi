@@ -5,7 +5,9 @@
  * @Last Modified time: 2024-05-07 21:44:07
  */
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE, RESET_STATE, STATE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, RESET_STATE } from './ds'
+
+import type { STATE } from './ds'
 
 /** 用户目录页面状态机 */
 export default class ScreenCatelogs extends Action {

@@ -2,11 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-08-19 07:02:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-15 05:58:49
+ * @Last Modified time: 2026-01-18 16:31:30
  */
 export const GROUP_THUMB_MAP = {
+  bilibili: require('@assets/images/bilibili.png'),
+  bilibili_0: require('@assets/images/bilibili_0.png'),
   burakku_sakura_icon: require('@assets/images/burakku_sakura.png'),
   circle: require('@assets/images/circle.png'),
+  dou: require('@assets/images/dou.png'),
+  dou_0: require('@assets/images/dou_0.png'),
   mesume: require('@assets/images/mesume.png'),
   mesume_0: require('@assets/images/mesume_0.png'),
   mesume_icon: require('@assets/images/mesume_icon.png'),
