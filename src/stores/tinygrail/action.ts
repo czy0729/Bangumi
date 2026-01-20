@@ -45,7 +45,7 @@ import systemStore from '../system'
 import Fetch from './fetch'
 import { TEXT_TINYGRAIL_WARNING } from './ds'
 
-import type { TinygrailMagic } from '@constants/api/types'
+import type { ApiTinygrailMagic } from '@constants/api/types'
 import type { Id, MonoId, UserId } from '@types'
 
 export default class Action extends Fetch {
@@ -380,7 +380,7 @@ export default class Action extends Fetch {
     isTemple
   }: {
     monoId?: Id
-    type?: TinygrailMagic
+    type?: ApiTinygrailMagic
     toMonoId?: Id
     amount?: number
     isTemple?: boolean

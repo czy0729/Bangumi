@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-07-23 00:20:09
  */
-import {
+import type {
   Collection as BaseCollection,
   CollectionStatusValue,
   DeepPartial,

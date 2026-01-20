@@ -11,7 +11,8 @@ import { WEB } from '@constants'
 import { APP_ID, UA } from '@constants/constants'
 import { syncUserStore } from '../async'
 import { isDevtoolsOpen } from '../dom'
-import { Config } from './types'
+
+import type { Config } from './types'
 
 export async function request<T>(
   url: string,

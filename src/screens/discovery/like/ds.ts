@@ -6,8 +6,6 @@
  */
 export const COMPONENT = 'Like'
 
-export const HOST_API_V0 = 'https://api.bgm.tv/v0'
-
 export const MAX_COLLECT_PAGE = 8
 
 export const LIMIT = 100

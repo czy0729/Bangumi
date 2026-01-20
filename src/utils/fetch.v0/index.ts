@@ -7,13 +7,15 @@
  */
 import dayjs from 'dayjs'
 import { getTimestamp } from '@utils'
-import { Subject as BaseSubject, SubjectId, UserId } from '@types'
+import { API_V0 } from '@constants/api'
 import { syncSystemStore } from '../async'
 import { request } from './utils'
-import { API_COLLECTION, API_COLLECTIONS, API_EPS_COLLECTION, API_ME, HOST_API_V0 } from './ds'
-import { Collection, CollectionItem, UserCollection, UserCollectionItem } from './types'
+import { API_COLLECTION, API_COLLECTIONS, API_EPS_COLLECTION, API_ME } from './ds'
 
-export { HOST_API_V0, request }
+import type { Subject as BaseSubject, SubjectId, UserId } from '@types'
+import type { Collection, CollectionItem, UserCollection, UserCollectionItem } from './types'
+
+export { request }
 
 /**
  * 获取条目信息, 测试中的新 API 接口
@@ -21,8 +23,8 @@ export { HOST_API_V0, request }
  * */
 export async function fetchSubjectV0(config: { url: string }) {
   const subjectId = Number(config.url.split('/subject/')[1])
-  const subject = await request<any>(`${HOST_API_V0}/subjects/${subjectId}`)
-  const eps = await request<any>(`${HOST_API_V0}/episodes?subject_id=${subjectId}`)
+  const subject = await request<any>(`${API_V0}/subjects/${subjectId}`)
+  const eps = await request<any>(`${API_V0}/episodes?subject_id=${subjectId}`)
   const data = {
     id: subjectId,
     url: `https://bgm.tv/subject/${subjectId}`,
@@ -56,8 +58,8 @@ export async function fetchSubjectV0(config: { url: string }) {
   }
 
   try {
-    const crt = await request<any[]>(`${HOST_API_V0}/subjects/${subjectId}/characters`)
-    const staff = await request<any[]>(`${HOST_API_V0}/subjects/${subjectId}/persons`)
+    const crt = await request<any[]>(`${API_V0}/subjects/${subjectId}/characters`)
+    const staff = await request<any[]>(`${API_V0}/subjects/${subjectId}/persons`)
     data.crt = (crt || []).map(item => ({
       ...item,
       id: item.id,
@@ -176,7 +178,7 @@ export async function fetchCollectionV0(args: { userId: UserId }): Promise<UserC
       //       })
       //     } else {
       //       const subject = await request<Subject>(
-      //         `${HOST_API_V0}/subjects/${item.subject_id}`
+      //         `${API_V0}/subjects/${item.subject_id}`
       //       )
       //       devLog(`fetchv0 | fetch subject: ${item.subject_id}`)
 

@@ -4,9 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-11-29 00:42:30
  */
-import { CollectionStatusValue, SubjectId, SubjectTypeValue, UserId } from '@types'
+import { API_V0 } from '@constants/api'
 
-export const HOST_API_V0 = 'https://api.bgm.tv/v0'
+import type { CollectionStatusValue, SubjectId, SubjectTypeValue, UserId } from '@types'
 
 /** 用户收藏 */
 export const API_COLLECTIONS = (
@@ -16,17 +16,17 @@ export const API_COLLECTIONS = (
   limit: number = 100,
   type: CollectionStatusValue = '3'
 ) =>
-  `${HOST_API_V0}/users/${userId}/collections?subject_type=${subjectType}&type=${type}&limit=${limit}&offset=${
+  `${API_V0}/users/${userId}/collections?subject_type=${subjectType}&type=${type}&limit=${limit}&offset=${
     (page - 1) * limit
   }` as const
 
 /** 用户条目收藏状态 */
 export const API_COLLECTION = (userId: UserId, subjectId: SubjectId) =>
-  `${HOST_API_V0}/users/${userId}/collections/${subjectId}` as const
+  `${API_V0}/users/${userId}/collections/${subjectId}` as const
 
 /** 登录用户信息 */
-export const API_ME = () => `${HOST_API_V0}/me` as const
+export const API_ME = () => `${API_V0}/me` as const
 
 /** 登录用户条目章节收藏状态 */
 export const API_EPS_COLLECTION = (subjectId: SubjectId) =>
-  `${HOST_API_V0}/users/-/collections/${subjectId}/episodes` as const
+  `${API_V0}/users/-/collections/${subjectId}/episodes` as const

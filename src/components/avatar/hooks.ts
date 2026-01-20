@@ -5,12 +5,13 @@
  * @Last Modified time: 2024-05-16 17:57:03
  */
 import { useState } from 'react'
-import { ImageSourcePropType } from 'react-native'
 import CacheManager from '@utils/cache-manager'
-import { HOST_API_V0 } from '@utils/fetch.v0'
 import { useMount } from '@utils/hooks'
+import { API_V0 } from '@constants'
 import { head } from './utils'
-import { Props } from './types'
+
+import type { ImageSourcePropType } from 'react-native'
+import type { Props } from './types'
 
 /**
  * 部分头像地址使用了官方用户头像 API，而 API 是直接跳转后返回图片。
@@ -21,7 +22,7 @@ export function useAvatar(src: Props['src'], userId: Props['userId']) {
   const key = `avatar|${userId}`
 
   let initUrl: string | ImageSourcePropType
-  if (typeof src === 'string' && src.includes(HOST_API_V0)) {
+  if (typeof src === 'string' && src.includes(API_V0)) {
     initUrl = CacheManager.get(key) || src
   } else {
     initUrl = src
@@ -29,7 +30,7 @@ export function useAvatar(src: Props['src'], userId: Props['userId']) {
   if (typeof src === 'string' && src.indexOf('//') === 0) initUrl = `https:${initUrl}`
 
   const [url, setUrl] = useState(initUrl)
-  const isFromApi = typeof url === 'string' && url.includes(HOST_API_V0)
+  const isFromApi = typeof url === 'string' && url.includes(API_V0)
 
   useMount(() => {
     if (!isFromApi) return

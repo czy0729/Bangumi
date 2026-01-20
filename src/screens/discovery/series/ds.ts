@@ -14,8 +14,6 @@ export const DATA_FILTER = RANK_ANIME_FILTER.map(item => item.label)
 
 export const DATA_STATUS = ['全部', '有关联系列', '未收藏', '看过', '在看', '未看完'] as const
 
-export const HOST_API_V0 = 'https://api.bgm.tv/v0'
-
 export const RELATIONS = [
   '前传',
   '续集',

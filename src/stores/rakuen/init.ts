@@ -146,7 +146,7 @@ export const INIT_SETTING = {
   autoLoadImage: false,
 
   /** 自动加载楼层中的图片 */
-  autoLoadImageV2: MODEL_RAKUEN_AUTO_LOAD_IMAGE.getValue('不加载'),
+  autoLoadImageV2: MODEL_RAKUEN_AUTO_LOAD_IMAGE.getValue('0.2m'),
 
   /** 帖子楼层滚动导航条方向 */
   scrollDirection: MODEL_RAKUEN_SCROLL_DIRECTION.getValue('右侧'),

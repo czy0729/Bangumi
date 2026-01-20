@@ -9,11 +9,13 @@ import { systemStore } from '@stores'
 import { asc, cnjp, desc, getTimestamp, info } from '@utils'
 import { queue } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
+import { API_V0 } from '@constants'
 import i18n from '@constants/i18n'
-import { SubjectId } from '@types'
-import { DISTANCE, HOST_API_V0, LIMIT, RELATIONS, SUBJECT_TYPE } from '../ds'
+import { DISTANCE, LIMIT, RELATIONS, SUBJECT_TYPE } from '../ds'
 import Computed from './computed'
 import { EXCLUDE_STATE } from './ds'
+
+import type { SubjectId } from '@types'
 
 const loaded = {}
 
@@ -88,7 +90,7 @@ export default class Fetch extends Computed {
 
     // 看过
     let data = await request<any>(
-      `${HOST_API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE}&type=2&limit=${LIMIT}`
+      `${API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE}&type=2&limit=${LIMIT}`
     )
     if (Array.isArray(data?.data)) {
       _data.push(...data?.data)
@@ -99,7 +101,7 @@ export default class Fetch extends Computed {
         if (data?.total > 100) {
           for (let i = 2; i <= Math.min(Math.ceil(data.total / LIMIT), 5); i += 1) {
             data = await request(
-              `${HOST_API_V0}/users/${
+              `${API_V0}/users/${
                 this.userId
               }/collections?subject_type=${SUBJECT_TYPE}&type=2&offset=${
                 (i - 1) * LIMIT
@@ -117,7 +119,7 @@ export default class Fetch extends Computed {
 
     // 在看最多请求1页
     data = await request<any>(
-      `${HOST_API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE}&type=3&limit=${LIMIT}`
+      `${API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE}&type=3&limit=${LIMIT}`
     )
     if (Array.isArray(data?.data)) _data.push(...data?.data)
 
@@ -148,19 +150,19 @@ export default class Fetch extends Computed {
 
     // 想看
     let data = await request<any>(
-      `${HOST_API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE}&type=1&limit=${LIMIT}`
+      `${API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE}&type=1&limit=${LIMIT}`
     )
     if (Array.isArray(data?.data)) _data.push(...data?.data)
 
     // 搁置
     data = await request<any>(
-      `${HOST_API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE}&type=4&limit=${LIMIT}`
+      `${API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE}&type=4&limit=${LIMIT}`
     )
     if (Array.isArray(data?.data)) _data.push(...data?.data)
 
     // 抛弃
     data = await request<any>(
-      `${HOST_API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE}&type=5&limit=${LIMIT}`
+      `${API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE}&type=5&limit=${LIMIT}`
     )
     if (Array.isArray(data?.data)) _data.push(...data?.data)
 
@@ -188,7 +190,7 @@ export default class Fetch extends Computed {
 
     this.subjectIds.forEach(subjectId => {
       fetchs.push(async () => {
-        const data = await request(`${HOST_API_V0}/subjects/${subjectId}/subjects`)
+        const data = await request(`${API_V0}/subjects/${subjectId}/subjects`)
 
         if (!Array.isArray(data)) {
           relations[subjectId] = []
@@ -235,7 +237,7 @@ export default class Fetch extends Computed {
         if (relations[sub]) return
 
         fetchs.push(async () => {
-          const data = await request(`${HOST_API_V0}/subjects/${sub.id}/subjects`)
+          const data = await request(`${API_V0}/subjects/${sub.id}/subjects`)
 
           if (!Array.isArray(data)) {
             relations[sub] = []
@@ -300,7 +302,7 @@ export default class Fetch extends Computed {
 
       loaded[subjectId] = true
       fetchs.push(async () => {
-        const data = await request<any>(`${HOST_API_V0}/subjects/${subjectId}`)
+        const data = await request<any>(`${API_V0}/subjects/${subjectId}`)
         if (!data?.id) return false
 
         this.setState({
