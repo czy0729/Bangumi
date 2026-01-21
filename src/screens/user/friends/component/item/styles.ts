@@ -8,20 +8,17 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => {
   const num = _.portrait(5, 8)
-  const gridStyles = _.grid(num)
+  const { width, marginLeft } = _.grid(num)
 
   return {
     item: {
-      width: gridStyles.width,
-      marginTop: _.md,
-      marginLeft: gridStyles.marginLeft
-    },
-    left: {
-      marginLeft: 0
+      width,
+      marginBottom: _.md,
+      marginLeft: marginLeft + 1
     },
     inView: {
-      minWidth: gridStyles.width,
-      minHeight: gridStyles.width
+      minWidth: width,
+      minHeight: width
     }
   }
 })

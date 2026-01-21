@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-12 22:46:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-18 18:54:29
+ * @Last Modified time: 2026-01-21 11:30:47
  */
 import React, { useCallback } from 'react'
 import { HeaderV2, HeaderV2Popover } from '@components'
@@ -38,7 +38,7 @@ function Header() {
 
   return useObserver(() => (
     <HeaderV2
-      title={$.params.userName ? '用户人物' : '我的人物'}
+      title={$.params.userName ? 'TA的人物' : '我的人物'}
       alias='用户人物'
       hm={$.hm}
       headerRight={handleHeaderRight}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 16:25:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 00:57:33
+ * @Last Modified time: 2026-01-20 08:24:28
  */
 import { computed } from 'mobx'
 import { desc } from '@utils'
@@ -68,6 +68,14 @@ export default class Computed extends State implements StoreConstructor<typeof S
   @computed get hidden(): Hidden {
     this.init('hidden', true)
     return this.state.hidden
+  }
+
+  /** 用户最后活跃时间 */
+  @computed get active() {
+    const STATE_KEY = 'active'
+    this.init(STATE_KEY, true)
+
+    return this.state[STATE_KEY]
   }
 
   /** ==================== computed ==================== */

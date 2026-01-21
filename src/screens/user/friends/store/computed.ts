@@ -2,19 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-09-13 04:54:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-18 19:07:17
+ * @Last Modified time: 2026-01-21 11:18:42
  */
 import { computed } from 'mobx'
 import { _, usersStore, userStore } from '@stores'
-import { desc, getPinYinFilterValue } from '@utils'
-import CacheManager from '@utils/cache-manager'
 import { HTML_FRIENDS } from '@constants'
-import { sortByRecent } from '../utils'
 import State from './state'
-import { NAMESPACE } from './ds'
 
-import type { Friend } from '@stores/users/types'
 import type { UserId } from '@types'
+import type { ListItem } from '../types'
 
 export default class Computed extends State {
   /** 查询的用户 ID */
@@ -32,37 +28,80 @@ export default class Computed extends State {
     return usersStore.friends(this.userId)
   }
 
-  /** 筛选列表 */
-  @computed get list(): Friend[] {
-    const key = `${NAMESPACE}|list|${this.userId}`
-    if (this.state.fetching) {
-      const data = CacheManager.get(key)
-      if (data) return CacheManager.get(key)
+  /** 筛选 + 分组 + header 后的列表 */
+  @computed get list(): ListItem[] {
+    const { list } = this.friends
+    const filter = this.state.filter.toUpperCase()
+    const group = this.state.friendGroup
+
+    // 搜索过滤
+    let filtered = list
+    if (filter.length) {
+      filtered = list.filter(
+        item =>
+          item.userName.toUpperCase().includes(filter) ||
+          String(item.userId).toUpperCase().includes(filter)
+      )
     }
 
-    const filter = this.state.filter.toUpperCase()
-    let { list } = this.friends
-    if (filter.length) {
-      list = list.filter(item => {
-        const { userName } = item
-        if (userName.includes(filter)) return true
+    // 用 Map 提速
+    const map = new Map(filtered.map(item => [item.userId, item]))
+    const result: ListItem[] = []
+    const used = new Set<UserId>()
 
-        return getPinYinFilterValue(userName, filter)
+    const pushHeader = (title: string) => {
+      result.push({ type: 'header', key: title, title })
+    }
+
+    const pushByIds = (ids?: UserId[], showItem: boolean = true) => {
+      if (!ids?.length) return
+      ids.forEach(id => {
+        if (used.has(id)) return
+        const item = map.get(id)
+        if (!item) return
+        if (showItem) result.push({ type: 'friend', key: String(id), item })
+        used.add(id)
       })
     }
 
-    const { sort } = this.state
-    if (sort === 'percent') {
-      list = list.slice().sort((a, b) => desc(a, b, item => this.users(item.userId)?.percent))
+    if (!group) {
+      // 没有分组，直接按过滤列表返回
+      filtered.forEach(item => result.push({ type: 'friend', key: String(item.userId), item }))
+      return result
     }
 
-    if (sort === 'recent') {
-      list = list
-        .slice()
-        .sort((a, b) => sortByRecent(this.users(a.userId).recent, this.users(b.userId).recent))
+    // 遍历 friendGroup 的中文 key 顺序
+    const groupOrder = [
+      '一小时内',
+      '一天内',
+      '三天内',
+      '一周内',
+      '一月内',
+      '半年内',
+      '一年内',
+      '超过一年'
+    ] as const
+
+    groupOrder.forEach(title => {
+      const ids = group[title]
+      if (ids?.length) {
+        pushHeader(title)
+        pushByIds(ids, !!filter || this.state.friendGroupShows[title])
+      }
+    })
+
+    // 未知组：没有被任何分组覆盖的好友
+    const unknown: UserId[] = []
+    map.forEach((_, id) => {
+      if (!used.has(id)) unknown.push(id)
+    })
+
+    if (unknown.length) {
+      pushHeader('未知')
+      pushByIds(unknown, !!filter || this.state.friendGroupShows['未知'])
     }
 
-    return CacheManager.set(key, list)
+    return result
   }
 
   /** 一行多少个 */

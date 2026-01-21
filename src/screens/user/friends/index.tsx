@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:19:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-26 21:41:38
+ * @Last Modified time: 2026-01-21 10:11:44
  */
 import React from 'react'
 import { Component, HeaderPlaceholder, Heatmap, Page } from '@components'
@@ -17,12 +17,12 @@ import type { NavigationProps } from '@types'
 
 /** 好友 */
 const Friends = (props: NavigationProps) => {
-  const { id } = useFriendsPage(props)
+  const { $, id } = useFriendsPage(props)
 
   return useObserver(() => (
     <Component id='screen-friends'>
       <StoreContext.Provider value={id}>
-        <Page>
+        <Page loaded={$.state._loaded}>
           <HeaderPlaceholder />
           <Filter />
           <List />

@@ -10,9 +10,10 @@ import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props as SectionHeaderProps } from './types'
 
-export { SectionHeaderProps }
+import type { Props as SectionHeaderProps } from './types'
+
+export type { SectionHeaderProps }
 
 /** 块(章节) 头 */
 export const SectionHeader = ob(

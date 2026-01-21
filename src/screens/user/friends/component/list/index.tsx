@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-10 14:30:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-18 19:50:25
+ * @Last Modified time: 2026-01-21 11:26:55
  */
 import React from 'react'
 import { PaginationList2 } from '@_'
@@ -25,10 +25,10 @@ function List() {
         keyExtractor={keyExtractor}
         contentContainerStyle={styles.contentContainerStyle}
         data={$.list}
-        numColumns={$.numColumns}
-        limit={$.numColumns * 7}
+        limit={100}
         renderItem={renderItem}
-        onHeaderRefresh={$.fetchFriends}
+        keyboardDismissMode='on-drag'
+        onHeaderRefresh={$.refresh}
         onScroll={$.onScroll}
       />
     )

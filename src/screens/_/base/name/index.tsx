@@ -15,9 +15,10 @@ import { VerticalAlign } from '../vertical-align'
 import VerticalAlignWithRemoveSpec from './vertical-align-with-remove-spec'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props as NameProps } from './types'
 
-export { NameProps }
+import type { Props as NameProps } from './types'
+
+export type { NameProps }
 
 /** 自动添加好友和打标签 */
 export const Name = ({

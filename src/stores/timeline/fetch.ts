@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-04-25 16:29:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-09 15:24:59
+ * @Last Modified time: 2026-01-21 11:36:36
  */
 import { getTimestamp, queue } from '@utils'
 import { fetchHTML } from '@utils/fetch'
+import { fetchUserActive } from '@utils/fetch.p1'
 import { HOST, HTML_SAY, MODEL_TIMELINE_SCOPE } from '@constants'
 import systemStore from '../system'
 import userStore from '../user'
@@ -233,5 +234,31 @@ export default class Fetch extends Computed {
       }
     }
     return queue(fetchs, 1)
+  }
+
+  /** 批量获取用户最后活跃时间 */
+  fetchUsersActiveQueue = async (userIds: UserId[], onProgress?: (percent: string) => void) => {
+    const STATE_KEY = 'active'
+    const data: Record<UserId, number> = {}
+
+    try {
+      const fetchs = userIds.map((userId, index) => async () => {
+        data[userId] = await fetchUserActive(userId)
+
+        if (typeof onProgress === 'function') {
+          onProgress(`${Math.floor(((index + 1) / (userIds.length || 1)) * 100)}%`)
+        }
+      })
+      await queue(fetchs, 2)
+
+      this.setState({
+        [STATE_KEY]: data
+      })
+      this.save(STATE_KEY)
+    } catch (error) {
+      this.error('fetchUsersActiveQueue')
+    }
+
+    return data
   }
 }

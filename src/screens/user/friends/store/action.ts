@@ -2,36 +2,32 @@
  * @Author: czy0729
  * @Date: 2024-09-13 05:03:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-18 18:59:53
+ * @Last Modified time: 2026-01-21 11:16:52
  */
-import { debounce, updateVisibleBottom } from '@utils'
-import { t } from '@utils/fetch'
+import { debounce, feedback, updateVisibleBottom } from '@utils'
 import Fetch from './fetch'
 
-import type { Sort } from '../types'
-
 export default class Action extends Fetch {
-  /** 排序 */
-  onSort = (title: string) => {
-    let sort: Sort = ''
-    if (title === '同步率') sort = 'percent'
-    if (title === '最近') sort = 'recent'
-    this.setState({
-      sort
-    })
-    this.save()
-
-    t('好友.排序', {
-      title
-    })
-  }
-
   /** 过滤 */
   onFilterChange = debounce((filter: string) => {
     this.setState({
       filter: filter.trim()
     })
   })
+
+  /** 切换显示分组 */
+  toggleFriendGroup = (title: string) => {
+    const { friendGroupShows } = this.state
+    if (!(title in friendGroupShows)) return
+
+    feedback(true)
+    this.setState({
+      friendGroupShows: {
+        [title]: !friendGroupShows[title]
+      }
+    })
+    this.save()
+  }
 
   /** 更新可视范围底部 y */
   onScroll = updateVisibleBottom.bind(this)

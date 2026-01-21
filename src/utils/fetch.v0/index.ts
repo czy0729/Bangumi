@@ -1,9 +1,11 @@
 /*
- * @Doc: https://bangumi.github.io/api
+ * API v0 接口
+ *  - https://bangumi.github.io/api
+ *
  * @Author: czy0729
  * @Date: 2022-01-30 22:14:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-09 20:33:17
+ * @Last Modified time: 2026-01-20 08:04:12
  */
 import dayjs from 'dayjs'
 import { getTimestamp } from '@utils'

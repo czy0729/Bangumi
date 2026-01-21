@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-07-15 11:07:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 17:57:34
+ * @Last Modified time: 2026-01-20 08:22:55
  */
 import { LIST_EMPTY, MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants'
 
-import type { TimeLineScope, TimeLineType } from '@types'
+import type { TimeLineScope, TimeLineType, UserId } from '@types'
 import type { CollectionsTimeline } from './types'
 
 export const NAMESPACE = 'Timeline'
@@ -50,13 +50,17 @@ export const STATE = {
   /** 吐槽表单授权码 */
   formhash: '',
 
-  /** 隐藏TA */
-  hidden: {}
+  /** 隐藏 TA */
+  hidden: {},
+
+  /** 用户最后活跃时间 */
+  active: {} as Record<UserId, number>
 }
 
 export const LOADED = {
   collectionsTimeline: false,
   hidden: false,
   likes: false,
-  say: false
+  say: false,
+  active: false
 }

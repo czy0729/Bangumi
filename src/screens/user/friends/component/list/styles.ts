@@ -8,8 +8,8 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   contentContainerStyle: {
-    paddingTop: _.sm,
-    paddingHorizontal: _.wind,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     paddingBottom: _.bottom
   }
 }))

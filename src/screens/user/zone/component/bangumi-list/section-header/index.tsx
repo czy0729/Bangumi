@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-13 15:47:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 08:02:23
+ * @Last Modified time: 2026-01-21 09:26:00
  */
 import React from 'react'
 import { Heatmap, Iconfont, Text, Touchable } from '@components'
@@ -10,8 +10,9 @@ import { SectionHeader as SectionHeaderComp } from '@_'
 import { _, useStore } from '@stores'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../../../types'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../../types'
 
 function SectionHeader({ title, count }) {
   const { $ } = useStore<Ctx>()

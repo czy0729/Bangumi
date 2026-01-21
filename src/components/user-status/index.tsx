@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { observer } from 'mobx-react'
+import { useObserver } from 'mobx-react'
 import { systemStore, userStore } from '@stores'
 import { getTimestamp, stl } from '@utils'
 import { r } from '@utils/dev'
@@ -16,15 +16,18 @@ import { Flex } from '../flex'
 import { getUserStatus } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props as UserStatusProps } from './types'
 
-export { UserStatusProps, getUserStatus }
+import type { Props as UserStatusProps } from './types'
+
+export { getUserStatus }
+
+export type { UserStatusProps }
 
 /** 给用户头像包裹，显示用户最近的在线状态 */
-export const UserStatus = observer(
-  ({ style, last, userId, mini = false, children }: UserStatusProps) => {
-    r(COMPONENT)
+export function UserStatus({ style, last, userId, mini = false, children }: UserStatusProps) {
+  r(COMPONENT)
 
+  return useObserver(() => {
     const lastTS = last || (systemStore.setting.onlineStatus ? userStore.onlines(userId) : 0)
     if (!lastTS) return children
 
@@ -33,6 +36,7 @@ export const UserStatus = observer(
     if (distance > D7) return children
 
     const styles = memoStyles()
+
     return (
       <Component id='component-user-status'>
         <View>
@@ -53,7 +57,7 @@ export const UserStatus = observer(
         </View>
       </Component>
     )
-  }
-)
+  })
+}
 
 export default UserStatus
