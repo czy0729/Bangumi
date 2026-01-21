@@ -1,0 +1,18 @@
+/*
+ * @Author: czy0729
+ * @Date: 2024-09-05 21:40:29
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2024-09-05 21:47:03
+ */
+component-storybook-spa[data-mobile='false'] {
+  component-menu {
+    component-touchable-opacity {
+      background-color: rgba(255, 255, 255, 0) !important;
+      transition: background-color 0.16s !important;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.08) !important;
+      }
+    }
+  }
+}

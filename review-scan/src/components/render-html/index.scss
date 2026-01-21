@@ -1,0 +1,21 @@
+/*
+ * @Author: czy0729
+ * @Date: 2024-09-03 15:18:20
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2024-09-04 15:37:25
+ */
+component-render-html {
+  display: block;
+  word-break: break-all;
+  will-change: transform;
+  transform: translate3d(0, 0, -1px);
+
+  & > div {
+    display: inline-block !important;
+    max-width: 100%;
+
+    > div[dir='auto'] {
+      display: inline;
+    }
+  }
+}
