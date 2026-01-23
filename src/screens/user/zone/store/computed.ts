@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-08 12:49:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-16 07:45:52
+ * @Last Modified time: 2026-01-22 06:31:43
  */
 import { computed } from 'mobx'
 import { fixedHD, getCDNAvatar } from '@components/avatar/utils'
@@ -16,15 +16,16 @@ import {
   usersStore,
   userStore
 } from '@stores'
-import { UserTopicsFromCDN } from '@stores/rakuen/types'
 import { getBlurRadius, HTMLDecode } from '@utils'
 import { fixedRemote } from '@utils/user-setting'
 import { IMG_EMPTY_DARK, TEXT_ONLY } from '@constants'
 import { H_HEADER } from '@screens/user/v2/ds'
-import { ImageSource, Override } from '@types'
 import { TABS, TABS_WITH_TINYGRAIL } from '../ds'
 import State from './state'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
+
+import type { UserTopicsFromCDN } from '@stores/rakuen/types'
+import type { ImageSource, Override } from '@types'
 
 export default class Computed extends State {
   /** 本地化 */

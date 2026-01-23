@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-07-09 23:30:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-26 22:44:06
+ * @Last Modified time: 2026-01-23 05:31:32
  */
 import React from 'react'
 import { View } from 'react-native'
+import { WebView } from 'react-native-webview'
 import { Component, HeaderPlaceholder, HeaderV2 } from '@components'
-import WebView from '@components/@/web-view'
 import { IconTouchable, SafeAreaView } from '@_'
 import { _ } from '@stores'
 import { feedback, getStorage, info, loading, setStorage } from '@utils'

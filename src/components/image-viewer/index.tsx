@@ -2,26 +2,27 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-21 17:43:17
+ * @Last Modified time: 2026-01-23 02:05:14
  */
 import React, { useCallback, useMemo } from 'react'
 import { Modal, View } from 'react-native'
 import { useObserver } from 'mobx-react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
+import { RNImageViewer } from '@components/@'
 import { open, showActionSheet, stl } from '@utils'
 import { r } from '@utils/dev'
 import { FROZEN_FN, HOST_DOGE, IOS } from '@constants'
 import { Component } from '../component'
-import RNImageViewer from '../@/react-native-image-zoom-viewer/image-viewer.component'
 import { Iconfont } from '../iconfont'
 import { Image } from '../image'
 import { Text } from '../text'
 import { Touchable } from '../touchable'
 import { ACTION_SHEET_DS, COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props as ImageViewerProps } from './types'
 
-export { ImageViewerProps }
+import type { Props as ImageViewerProps } from './types'
+
+export type { ImageViewerProps }
 
 /**
  * 图片相册查看器

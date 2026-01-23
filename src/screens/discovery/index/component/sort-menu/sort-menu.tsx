@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-09-10 07:56:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-17 21:29:48
+ * @Last Modified time: 2026-01-23 02:05:30
  */
 import React, { useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
 import { Flex, Text } from '@components'
-import { DraggableGrid } from '@components/@/react-native-draggable-grid/draggable-grid'
+import { RNDraggableGrid } from '@components/@'
 import { _ } from '@stores'
 import { feedback, stl } from '@utils'
 import { memo } from '@utils/decorators'
@@ -111,7 +111,7 @@ const SortMenu = memo(
                 按住拖拽排序，拖动到分割线左侧显示，右侧隐藏
               </Text>
             )}
-            <DraggableGrid
+            <RNDraggableGrid
               key={`${orientation}|${discoveryMenuNum}`}
               data={data}
               numColumns={discoveryMenuNum}

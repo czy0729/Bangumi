@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-02-20 16:37:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-14 07:52:07
+ * @Last Modified time: 2026-01-22 06:31:24
  */
 import React, { useState } from 'react'
 import { View } from 'react-native'
@@ -15,9 +15,10 @@ import { useMount, useObserver } from '@utils/hooks'
 import { get } from '@utils/kv'
 import { WEB } from '@constants'
 import events from '@constants/events'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../types'
 
 const flipped = Object.fromEntries(Object.entries(events).map(([key, value]) => [value, key]))
 

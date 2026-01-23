@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2024-01-16 18:26:04
- * @Last Modified by:   czy0729
- * @Last Modified time: 2024-01-16 18:26:04
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-01-24 06:46:02
  */
 import * as React from 'react'
 import { LayoutChangeEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
@@ -16,8 +16,8 @@ import {
   Route,
   SceneRendererProps
 } from 'react-native-tab-view/src/types'
-import { stl } from '@utils'
-import { IOS } from '@constants'
+import { stl } from '@utils/utils'
+import { IOS } from '@constants/constants'
 import SceneView from './SceneView'
 
 type NavigationState<T extends Route> = {

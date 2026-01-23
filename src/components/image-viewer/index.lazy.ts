@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const ImageViewer = lazy(() => import('./index'))
-export { Props as ImageViewerProps } from './types'
+export type { Props as ImageViewerProps } from './types'

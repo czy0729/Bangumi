@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-16 23:09:55
+ * @Last Modified time: 2026-01-23 05:47:11
  */
 import React from 'react'
 import { observer } from 'mobx-react'
+import { rendererA, RNRenderHTML } from '@components/@'
 import { _, systemStore } from '@stores'
 import { cheerio, HTMLDecode, open } from '@utils'
 import { logger, r } from '@utils/dev'
 import { FROZEN_FN, WEB } from '@constants'
 import { Component } from '../component'
-import HTML from '../@/react-native-render-html'
-import { a as originA } from '../@/react-native-render-html/src/HTMLRenderers'
 import { BGM_MAP, getBgmMiddleFrame } from '../bgm-text'
 import { ErrorBoundary } from '../error-boundary'
 import { translateAll } from '../katakana/utils'
@@ -153,7 +152,7 @@ export const RenderHtml = observer(
                 onPress: this.onLinkPress,
                 children
               })
-          : originA
+          : rendererA
       }
     })
 
@@ -260,7 +259,7 @@ export const RenderHtml = observer(
       return (
         <ErrorBoundary style={style}>
           <Component id='component-render-html' style={style}>
-            <HTML
+            <RNRenderHTML
               containerStyle={styles.container}
               html={this.formatHTML()}
               onLinkPress={this.onLinkPress}

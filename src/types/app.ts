@@ -3,11 +3,9 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-17 20:45:08
+ * @Last Modified time: 2026-01-23 05:29:48
  */
-import type AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
-import type IoniconsIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/Ionicons.json'
-import type MaterialIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/MaterialIcons.json'
+import type { AppIcons, IoniconsIcons, MaterialIcons } from '@components/@'
 import type { SITES } from '@constants'
 import type { EventKeys } from '@constants/events'
 import type { Id, SubjectId, UserId } from './bangumi'

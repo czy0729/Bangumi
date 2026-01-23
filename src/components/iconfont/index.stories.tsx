@@ -2,14 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-04-05 15:50:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 12:57:56
+ * @Last Modified time: 2026-01-23 05:53:25
  */
 import React from 'react'
-import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
-import IoniconsIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/Ionicons.json'
-import MaterialIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/MaterialIcons.json'
-import { StorybookGrid, StorybookPage } from '@components/storybook'
+import { AppIcons, IoniconsIcons, MaterialIcons } from '@components/@'
 import { Flex } from '@components/flex'
+import { StorybookGrid, StorybookPage } from '@components/storybook'
 import { Text } from '@components/text'
 import { _ } from '@stores'
 import { Iconfont } from './index'

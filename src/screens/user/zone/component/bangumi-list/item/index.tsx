@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-13 15:54:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-10 18:33:59
+ * @Last Modified time: 2026-01-22 06:31:53
  */
 import React from 'react'
 import { Flex, Heatmap } from '@components'
@@ -10,9 +10,10 @@ import { ItemBangumiList } from '@_'
 import { useStore } from '@stores'
 import { cnjp } from '@utils'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../../types'
 import { EVENT } from './ds'
-import { Props } from './types'
+
+import type { Ctx } from '../../../types'
+import type { Props } from './types'
 
 function Item({ item, title }: Props) {
   const { $ } = useStore<Ctx>()

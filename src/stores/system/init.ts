@@ -25,6 +25,7 @@ import { radiusMd } from '@styles'
 import type { MUSUME_PROMPT } from '@utils/kv/ds'
 import type {
   EventKeys,
+  MenuItem,
   Paths,
   SettingCDNOrigin,
   SettingHomeCountView,
@@ -282,7 +283,7 @@ export const INIT_SETTING = {
   homeTopRightCustom: 'Search' as Paths,
 
   /** 发现页自定义菜单 */
-  discoveryMenu: [...INIT_DISCOVERY_MENU],
+  discoveryMenu: [...INIT_DISCOVERY_MENU] as MenuItem['key'][],
 
   /** 发现页今日放送 */
   discoveryTodayOnair: true,

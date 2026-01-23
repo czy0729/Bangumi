@@ -1,17 +1,21 @@
-import * as React from 'react'
-import { useState, useEffect } from 'react'
-import {
-  PanResponder,
-  Animated,
-  StyleSheet,
+/*
+ * @Author: czy0729
+ * @Date: 2026-01-23 01:57:44
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-01-23 02:03:46
+ */
+import React, { useEffect, useState } from 'react'
+import { Animated, PanResponder, StyleSheet } from 'react-native'
+import { differenceBy, findIndex, findKey } from 'react-native-draggable-grid/src/utils'
+import { stl } from '@utils/utils'
+import { Block } from './block'
+
+import type {
   StyleProp,
   GestureResponderEvent,
   PanResponderGestureState,
   ViewStyle
 } from 'react-native'
-import { findKey, findIndex, differenceBy } from 'react-native-draggable-grid/src/utils'
-import { stl } from '@utils'
-import { Block } from './block'
 
 export interface IOnLayoutEvent {
   nativeEvent: { layout: { x: number; y: number; width: number; height: number } }
@@ -122,10 +126,7 @@ export const DraggableGrid = function <DataType extends IBaseItemType>(
   // function onBlockPress(itemIndex: number) {
   //   props.onItemPress && props.onItemPress(items[itemIndex].itemData)
   // }
-  function onStartDrag(
-    _: GestureResponderEvent,
-    gestureState: PanResponderGestureState
-  ) {
+  function onStartDrag(_: GestureResponderEvent, gestureState: PanResponderGestureState) {
     const activeItem = getActiveItem()
     if (!activeItem) return false
     props.onDragStart && props.onDragStart(activeItem.itemData)
@@ -146,19 +147,13 @@ export const DraggableGrid = function <DataType extends IBaseItemType>(
       y: moveY
     })
   }
-  function onHandMove(
-    _: GestureResponderEvent,
-    gestureState: PanResponderGestureState
-  ) {
+  function onHandMove(_: GestureResponderEvent, gestureState: PanResponderGestureState) {
     const activeItem = getActiveItem()
     if (!activeItem) return false
     const { moveX, moveY } = gestureState
     props.onDragging && props.onDragging(gestureState)
 
-    const xChokeAmount = Math.max(
-      0,
-      activeBlockOffset.x + moveX - (gridLayout.width - blockWidth)
-    )
+    const xChokeAmount = Math.max(0, activeBlockOffset.x + moveX - (gridLayout.width - blockWidth))
     const xMinChokeAmount = Math.min(0, activeBlockOffset.x + moveX)
 
     const dragPosition = {
@@ -166,10 +161,7 @@ export const DraggableGrid = function <DataType extends IBaseItemType>(
       y: moveY
     }
     const originPosition = blockPositions[orderMap[activeItem.key].order]
-    const dragPositionToActivePositionDistance = getDistance(
-      dragPosition,
-      originPosition
-    )
+    const dragPositionToActivePositionDistance = getDistance(dragPosition, originPosition)
     activeItem.currentPosition.setValue(dragPosition)
 
     let closetItemIndex = activeItemIndex as number
@@ -207,10 +199,7 @@ export const DraggableGrid = function <DataType extends IBaseItemType>(
     moveBlockToBlockOrderPosition(activeItem.key)
     setActiveItemIndex(undefined)
   }
-  function resetBlockPositionByOrder(
-    activeItemOrder: number,
-    insertedPositionOrder: number
-  ) {
+  function resetBlockPositionByOrder(activeItemOrder: number, insertedPositionOrder: number) {
     let disabledReSortedItemCount = 0
     if (activeItemOrder > insertedPositionOrder) {
       for (let i = activeItemOrder - 1; i >= insertedPositionOrder; i--) {
@@ -280,27 +269,26 @@ export const DraggableGrid = function <DataType extends IBaseItemType>(
     }
   }
   function getBlockStyle(itemIndex: number) {
-    return [
+    return stl(
       {
         justifyContent: 'center',
         alignItems: 'center'
       },
       hadInitBlockSize && {
-        width: blockWidth,
-        height: blockHeight,
         position: 'absolute',
         top: items[itemIndex].currentPosition.getLayout().top,
-        left: items[itemIndex].currentPosition.getLayout().left
+        left: items[itemIndex].currentPosition.getLayout().left,
+        width: blockWidth,
+        height: blockHeight
       }
-    ]
+    )
   }
   function getDragStartAnimation(itemIndex: number) {
     if (activeItemIndex != itemIndex) {
       return
     }
 
-    const dragStartAnimation =
-      props.dragStartAnimation || getDefaultDragStartAnimation()
+    const dragStartAnimation = props.dragStartAnimation || getDefaultDragStartAnimation()
     return {
       zIndex: 3,
       ...dragStartAnimation
@@ -385,13 +373,13 @@ export const DraggableGrid = function <DataType extends IBaseItemType>(
   const itemList = items.map((item, itemIndex) => {
     return (
       <Block
-        // onPress={onBlockPress.bind(null, itemIndex)}
-        onLongPress={setActiveBlock.bind(null, itemIndex, item.itemData)}
-        panHandlers={panResponder.panHandlers}
+        key={item.key}
         style={getBlockStyle(itemIndex)}
+        panHandlers={panResponder.panHandlers}
         dragStartAnimationStyle={getDragStartAnimation(itemIndex)}
         delayLongPress={props.delayLongPress || 300}
-        key={item.key}
+        // onPress={onBlockPress.bind(null, itemIndex)}
+        onLongPress={setActiveBlock.bind(null, itemIndex, item.itemData)}
       >
         {props.renderItem(item.itemData, orderMap[item.key].order)}
       </Block>
@@ -409,6 +397,8 @@ export const DraggableGrid = function <DataType extends IBaseItemType>(
     </Animated.View>
   )
 }
+
+export default DraggableGrid
 
 const styles = StyleSheet.create({
   draggableGrid: {

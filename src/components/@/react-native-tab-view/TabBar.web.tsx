@@ -21,8 +21,8 @@ import {
   Scene,
   SceneRendererProps
 } from 'react-native-tab-view/src/types'
-import { stl } from '@utils'
-import { SCROLL_VIEW_RESET_PROPS } from '@constants'
+import { stl } from '@utils/utils'
+import { SCROLL_VIEW_RESET_PROPS } from '@constants/data'
 import TabBarItem from './TabBarItem'
 
 export type Props<T extends Route> = SceneRendererProps & {

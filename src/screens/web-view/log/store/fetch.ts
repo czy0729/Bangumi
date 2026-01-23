@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2025-02-19 07:51:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-23 04:36:08
+ * @Last Modified time: 2026-01-22 06:31:01
  */
 import { usersStore } from '@stores'
 import { getTimestamp, omit } from '@utils'
 import { gets, update } from '@utils/kv'
 import axios from '@utils/thirdParty/axios'
-import { UserId } from '@types'
 import Computed from './computed'
+
+import type { UserId } from '@types'
 
 export default class Fetch extends Computed {
   getData = async () => {

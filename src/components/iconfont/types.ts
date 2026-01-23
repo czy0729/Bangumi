@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-05-03 19:27:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 16:24:26
+ * @Last Modified time: 2026-01-23 05:56:22
  */
-import {
+import type {
   AppIconsNames,
   ColorValue,
   IconfontNames,
@@ -14,7 +14,7 @@ import {
   TextStyle
 } from '@types'
 
-export { AppIconsNames, IoniconsIconsNames, MaterialIconsNames, IconfontNames }
+export type { AppIconsNames, IoniconsIconsNames, MaterialIconsNames, IconfontNames }
 
 export type Props = {
   /** 图标当成文字一样使用 */

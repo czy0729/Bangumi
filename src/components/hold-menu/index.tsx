@@ -9,12 +9,12 @@
  * @Author: czy0729
  * @Date: 2021-12-27 06:57:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-03 22:41:34
+ * @Last Modified time: 2026-01-23 05:52:05
  */
 import React from 'react'
 import { observer } from 'mobx-react'
+import { HoldItem, HoldMenuProvider as Provider } from '@components/@'
 import { _ } from '@stores'
-import { HoldItem, HoldMenuProvider as Provider } from '../@/react-native-hold-menu'
 
 export { HoldItem }
 

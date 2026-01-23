@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-23 00:25:42
+ * @Last Modified time: 2026-01-24 06:49:13
  */
 import { Alert, Clipboard, findNodeHandle, NativeModules, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'
 import Portal from '@ant-design/react-native/lib/portal'
-import ActionSheet from '@components/@/ant-design/action-sheet'
+import { AntmActionSheet } from '@components/@/ant-design/action-sheet'
 import { Toast } from '@components/toast'
 import { IOS } from '@constants/constants'
 import { WEB } from '@constants/device'
@@ -153,7 +153,7 @@ export function showActionSheet(
   // @ts-expect-error
   { title, message, cancelButtonIndex, destructiveButtonIndex } = {}
 ) {
-  ActionSheet.showActionSheetWithOptions(
+  AntmActionSheet.showActionSheetWithOptions(
     {
       title,
       message,

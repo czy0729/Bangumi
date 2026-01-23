@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-21 19:50:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-19 19:46:19
+ * @Last Modified time: 2026-01-24 06:42:06
  */
 import React from 'react'
 import { Platform, StyleSheet, Text, View } from 'react-native'
@@ -14,12 +14,12 @@ import prompt from '@ant-design/react-native/lib/modal/prompt'
 import modalStyles from '@ant-design/react-native/lib/modal/style/index'
 import { WithTheme } from '@ant-design/react-native/lib/style'
 import { syncThemeStore } from '@utils/async'
-import { stl } from '@utils/utils'
 import { window } from '@styles'
 import { Flex } from '../../../flex'
 import { Iconfont } from '../../../iconfont'
 import { Touchable } from '../../../touchable'
 import { BlurView } from './blur-view'
+import { stl } from './utils'
 import { Wrap } from './wrap'
 import { styles as overideStyles } from './styles'
 
@@ -49,7 +49,7 @@ const defaultProps = {
   children: null
 }
 
-class AntmModal extends React.Component<typeof defaultProps> {
+export class AntmModal extends React.Component<typeof defaultProps> {
   static defaultProps = defaultProps
   static alert = alert
   static operation = operation

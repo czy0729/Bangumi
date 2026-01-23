@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-22 09:33:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-12 05:27:36
+ * @Last Modified time: 2026-01-22 06:34:01
  */
 import React from 'react'
 import { Flex, Image, Text, Touchable } from '@components'
@@ -12,10 +12,11 @@ import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { fixedRemote } from '@utils/user-setting'
 import { IOS } from '@constants'
-import { Ctx } from '../../types'
 import { getHeaders } from '../utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function Bgs({ avatar, more, onViewOrigin, onMore }) {
   const { $ } = useStore<Ctx>()

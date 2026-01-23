@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /*
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-25 12:28:04
+ * @Last Modified time: 2026-01-24 07:15:16
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -28,10 +27,18 @@ export const Touchable = observer(
   ({
     style,
     withoutFeedback = false,
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     highlight = false,
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     delay = true,
     hitSlop = defaultHitSlop,
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     delayPressIn = 0,
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     delayPressOut = 0,
     useRN = false,
     ripple,

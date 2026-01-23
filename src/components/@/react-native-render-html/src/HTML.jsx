@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 16:25:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-16 23:24:40
+ * @Last Modified time: 2026-01-24 06:44:44
  */
 import React, { PureComponent } from 'react'
 import { View, Text, Dimensions, StyleSheet } from 'react-native'
@@ -29,8 +29,8 @@ import {
   generateDefaultTextStyles
 } from 'react-native-render-html/src/HTMLDefaultStyles'
 import htmlparser2 from 'htmlparser2'
-import { stl } from '@utils'
-import { IOS } from '@constants'
+import { stl } from '@utils/utils'
+import { IOS } from '@constants/constants'
 import { _ } from '@stores'
 import { androidTextFixedStyle } from '@styles'
 import * as HTMLRenderers from './HTMLRenderers'

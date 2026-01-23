@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-05-07 14:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 14:14:19
+ * @Last Modified time: 2026-01-23 05:55:52
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import Icons from '@components/@/vector-icons/AntDesign'
+import { Icons } from '@components/@'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { Ionicons } from './ionicons'
 import { Material } from './material'
 import { COMPONENT } from './ds'
-import {
+
+import type {
   AppIconsNames,
   IoniconsIconsNames,
   MaterialIconsNames,
@@ -21,7 +22,7 @@ import {
 } from './types'
 
 // 请勿导出
-// export { IconfontProps }
+// export type { IconfontProps }
 
 /** Iconfont 自定义项目图标 */
 export const Iconfont = observer(

@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2023-08-10 19:45:16
- * @Last Modified by:   czy0729
- * @Last Modified time: 2023-08-10 19:45:16
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-01-24 06:37:54
  */
 import React from 'react'
 import { ActionSheetIOS, Platform, Share } from 'react-native'
@@ -11,7 +11,7 @@ import ActionSheetAndroidContainer from './AndroidContainer'
 
 let instance
 
-export default {
+export const AntmActionSheet = {
   showActionSheetWithOptions(config, callback) {
     if (Platform.OS === 'ios') {
       ActionSheetIOS.showActionSheetWithOptions(config, callback)
@@ -78,3 +78,5 @@ export default {
     }
   }
 }
+
+export default AntmActionSheet

@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-09-24 16:31:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-16 17:15:36
+ * @Last Modified time: 2026-01-23 05:35:48
  */
 import React, { useCallback, useMemo } from 'react'
+import { SceneMap, TabBar, TabView } from '@components/@'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
 import { Component } from '../component'
-import { SceneMap, TabBar, TabView } from '../@/react-native-tab-view'
 import { Flex } from '../flex'
 import { Text } from '../text'
 import { ANDROID_RIPPLE, COMPONENT } from './ds'

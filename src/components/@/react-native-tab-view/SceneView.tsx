@@ -1,12 +1,12 @@
 /*
  * @Author: czy0729
  * @Date: 2026-01-16 16:04:38
- * @Last Modified by:   czy0729
- * @Last Modified time: 2026-01-16 16:04:38
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-01-24 06:44:22
  */
 import * as React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { stl } from '@utils'
+import { stl } from '@utils/utils'
 
 import type { StyleProp, ViewStyle } from 'react-native'
 import type {

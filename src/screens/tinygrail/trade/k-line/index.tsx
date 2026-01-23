@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-01 13:51:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-04 19:34:57
+ * @Last Modified time: 2026-01-23 05:31:51
  */
 import React from 'react'
 import { View } from 'react-native'
+import { WebView } from 'react-native-webview'
 import { Loading, Text } from '@components'
-import WebView from '@components/@/web-view'
 import { _, tinygrailStore } from '@stores'
 import { info } from '@utils'
 import { ob } from '@utils/decorators'
@@ -15,7 +15,8 @@ import { HOST_CDN } from '@constants'
 import html from './html'
 import { getKData } from './utils'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 let renderCount = 0
 

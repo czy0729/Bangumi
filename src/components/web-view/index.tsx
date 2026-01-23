@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-04-13 10:38:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 16:56:17
+ * @Last Modified time: 2026-01-23 05:32:26
  */
 import React from 'react'
-import RNWebView from '@components/@/web-view'
+import { WebView as RNWebView } from 'react-native-webview'
 import { r } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
 import { KeyboardSpacer } from '../keyboard-spacer'

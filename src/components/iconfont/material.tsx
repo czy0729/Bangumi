@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2021-03-18 11:01:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 16:25:33
+ * @Last Modified time: 2026-01-23 05:59:28
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import ExpoIcon from '@components/@/vector-icons/MaterialIcons'
+import { Material as Icons } from '@components/@'
 import { _ } from '@stores'
 import { stl } from '@utils'
-import { PropsMaterial } from './types'
+
+import type { PropsMaterial } from './types'
 
 export const Material = observer(
   ({ style, name, size = 22, lineHeight, color, ...other }: PropsMaterial) => (
-    <ExpoIcon
+    <Icons
       style={stl(
         {
           height: size,

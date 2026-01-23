@@ -1,42 +1,36 @@
-/** @format */
+/*
+ * @Author: czy0729
+ * @Date: 2026-01-22 22:22:00
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-01-23 01:58:31
+ */
+import React from 'react'
+import { Animated, TouchableWithoutFeedback } from 'react-native'
+import { stl } from '@utils/utils'
 
-import * as React from 'react'
-import {
-  Animated,
-  StyleProp,
-  TouchableWithoutFeedback,
-  StyleSheet,
-  GestureResponderHandlers
-} from 'react-native'
-import { FunctionComponent } from 'react'
-import { stl } from '@utils'
+import type { BlockProps } from './types'
 
-interface BlockProps {
-  style?: StyleProp<any>
-  dragStartAnimationStyle: StyleProp<any>
-  onPress?: () => void
-  onLongPress: () => void
-  panHandlers: GestureResponderHandlers
-  delayLongPress: number
-}
-
-export const Block: FunctionComponent<BlockProps> = ({
+export const Block = ({
   style,
   dragStartAnimationStyle,
-  // onPress,
   onLongPress,
   children,
   panHandlers,
   delayLongPress
-}) => {
+}: BlockProps) => {
   return (
     <Animated.View
-      style={stl(styles.blockContainer, style, dragStartAnimationStyle)}
+      style={stl(
+        {
+          alignItems: 'center'
+        },
+        style,
+        dragStartAnimationStyle
+      )}
       {...panHandlers}
     >
       <Animated.View>
         <TouchableWithoutFeedback
-          // onPress={onPress}
           delayLongPress={delayLongPress}
           delayPressIn={0}
           onPressIn={onLongPress}
@@ -47,9 +41,3 @@ export const Block: FunctionComponent<BlockProps> = ({
     </Animated.View>
   )
 }
-
-const styles = StyleSheet.create({
-  blockContainer: {
-    alignItems: 'center'
-  }
-})

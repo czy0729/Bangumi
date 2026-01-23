@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-08-14 16:28:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-24 16:30:43
+ * @Last Modified time: 2026-01-24 06:44:49
  */
 import React from 'react'
 import { Platform, Text, TouchableOpacity, View } from 'react-native'
 import HTMLImage from 'react-native-render-html/src/HTMLImage'
 import { _constructStyles, _getElementClassStyles } from 'react-native-render-html/src/HTMLStyles'
-import WebView from '@components/@/web-view'
-import { stl } from '@utils'
-import { IOS } from '@constants'
+import { WebView } from 'react-native-webview'
+import { stl } from '@utils/utils'
+import { IOS } from '@constants/constants'
 import { androidTextFixedStyle } from '@styles'
 
 export function a(htmlAttribs, children, _convertedCSSStyles, passProps) {

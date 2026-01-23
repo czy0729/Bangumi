@@ -3,7 +3,7 @@ import { LayoutChangeEvent, StyleProp, StyleSheet, TextStyle, View, ViewStyle } 
 import Animated from 'react-native-reanimated'
 import memoize from 'react-native-tab-view/src/memoize'
 import { NavigationState, Route, Scene } from 'react-native-tab-view/src/types'
-import { stl } from '@utils'
+import { stl } from '@utils/utils'
 import TouchableItem from './TouchableItem'
 
 // @ts-expect-error

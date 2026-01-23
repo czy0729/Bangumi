@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-04 11:10:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-06 21:51:09
+ * @Last Modified time: 2026-01-23 06:09:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,9 +13,10 @@ import { stl } from '@utils/utils'
 import { IOS } from '@constants/constants'
 import { WEB } from '@constants/device'
 import { BLURVIEW_TINT_DARK, BLURVIEW_TINT_LIGHT } from '../../../ds'
-import { Props as BlurViewProps } from './types'
 
-export { BlurViewProps }
+import type { Props as BlurViewProps } from './types'
+
+export type { BlurViewProps }
 
 export const BlurView = observer(({ style, intensity = 100, children }: BlurViewProps) => {
   const _ = syncThemeStore()

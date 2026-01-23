@@ -2,19 +2,22 @@
  * @Author: czy0729
  * @Date: 2022-11-05 22:03:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-19 19:46:34
+ * @Last Modified time: 2026-01-24 07:16:14
  */
 import React, { Suspense, useEffect } from 'react'
 import { useObserver } from 'mobx-react'
+import { AntmModal } from '@components/@/ant-design/modal'
 import { feedback } from '@utils'
 import { r } from '@utils/dev'
-import AntdModal from '../@/ant-design/modal'
 import { Text } from '../text'
 import { ModalFixed } from './fixed'
 import { COMPONENT } from './ds'
-import { Props as ModalProps } from './types'
 
-export { ModalProps, ModalFixed }
+import type { Props as ModalProps } from './types'
+
+export { ModalFixed }
+
+export type { ModalProps }
 
 /** 通用模态框 */
 export const Modal = ({
@@ -33,7 +36,7 @@ export const Modal = ({
   }, [visible])
 
   return useObserver(() => (
-    <AntdModal
+    <AntmModal
       style={style}
       visible={visible}
       focus={focus}
@@ -50,7 +53,7 @@ export const Modal = ({
       onClose={onClose}
     >
       <Suspense>{children}</Suspense>
-    </AntdModal>
+    </AntmModal>
   ))
 }
 
