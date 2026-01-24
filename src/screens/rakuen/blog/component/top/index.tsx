@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:51:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-05 05:55:14
+ * @Last Modified time: 2026-01-25 06:42:40
  */
-import React from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
 import {
   Divider,
@@ -21,7 +21,9 @@ import { _, useStore } from '@stores'
 import { appNavigate } from '@utils'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
+import { IMG_HEIGHT_SM, IMG_WIDTH_SM } from '@constants'
 import SectionTitle from '../section-title'
+import { getHtmlTextLength } from './utils'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
@@ -31,14 +33,38 @@ function Top() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
-    const { related = [], _loaded } = $.blog
-    const event = {
-      id: '日志.跳转',
-      data: {
-        from: '#0',
-        blogId: $.blogId
-      }
-    } as const
+    const { blogId } = $
+    const { related, _loaded } = $.blog
+
+    const memoEvent = useMemo(
+      () =>
+        ({
+          id: '日志.跳转',
+          data: {
+            from: '#0',
+            blogId
+          }
+        } as const),
+      [blogId]
+    )
+
+    const handleLinkPress = useCallback(
+      (href: string) => appNavigate(href, navigation, {}, memoEvent),
+      [memoEvent]
+    )
+    const handlePress = useCallback(({ id, name, image }) => {
+      navigation.push('Subject', {
+        subjectId: id,
+        _jp: name,
+        _image: getCoverSrc(image, IMG_WIDTH_SM)
+      })
+
+      t('日志.跳转', {
+        to: 'Subject',
+        from: '关联条目',
+        subjectId: id
+      })
+    }, [])
 
     if (!_loaded) {
       return (
@@ -51,7 +77,6 @@ function Top() {
       )
     }
 
-    const width = 80
     return (
       <>
         <HeaderPlaceholder />
@@ -60,16 +85,23 @@ function Top() {
             {$.title}
           </Text>
           {!!$.time && (
-            <Text type='sub' size={13} lineHeight={20}>
-              {$.time}
-            </Text>
+            <Flex>
+              <Text type='sub' size={13} lineHeight={20}>
+                {$.time}
+              </Text>
+              <Text type='sub' size={13} lineHeight={20}>
+                {' '}
+                · 约 {getHtmlTextLength($.html)}字
+              </Text>
+            </Flex>
           )}
+
           <Flex style={styles.userWrap}>
             {!!$.avatar && (
               <UserStatus userId={$.userId}>
                 <Avatar
                   navigation={navigation}
-                  event={event}
+                  event={memoEvent}
                   size={40}
                   src={$.avatar}
                   userId={$.userId}
@@ -88,43 +120,38 @@ function Top() {
               </Flex.Item>
             )}
           </Flex>
+
           <View style={styles.html}>
             {!!$.html && (
               <RenderHtml
                 style={_.mt.md}
-                html={$.html.replace(/(<br\s*\/?>[\s\n]*)+/gi, '<br>').replace(/<br>/g, '\n\n')}
-                onLinkPress={href => appNavigate(href, navigation, {}, event)}
+                html={
+                  $.html
+                  // .replace(/(<br\s*\/?>[\s\n]*)+/gi, '<br>').replace(/<br>/g, '\n\n')
+                }
+                onLinkPress={handleLinkPress}
               />
             )}
           </View>
         </View>
+
         <Divider />
-        {!!related.length && (
+
+        {!!related?.length && (
           <>
             <Text style={styles.title} type='title' size={20} bold>
               关联条目
             </Text>
             <HorizontalList
               data={related}
-              width={width}
-              height={106}
+              width={IMG_WIDTH_SM}
+              height={IMG_HEIGHT_SM}
               findCn
-              onPress={({ id, name, image }) => {
-                t('日志.跳转', {
-                  to: 'Subject',
-                  from: '关联条目',
-                  subjectId: id
-                })
-
-                navigation.push('Subject', {
-                  subjectId: id,
-                  _jp: name,
-                  _image: getCoverSrc(image, width)
-                })
-              }}
+              onPress={handlePress}
             />
           </>
         )}
+
         <SectionTitle />
       </>
     )

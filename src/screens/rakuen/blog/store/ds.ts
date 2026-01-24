@@ -2,11 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-12-17 06:54:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-04 20:20:32
+ * @Last Modified time: 2026-01-25 07:16:56
  */
 import { COMPONENT } from '../ds'
 
+import type { Blog } from '@stores/rakuen/types'
 import type { CompletionItem, Id, Loaded } from '@types'
+import type { SnapshotId } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
@@ -27,7 +29,7 @@ export const EXCLUDE_STATE = {
   message: '',
 
   /** 云快照 */
-  ota: {},
+  ota: {} as Record<SnapshotId, Blog>,
 
   /** 是否显示锐评框 */
   chatModalVisible: false,

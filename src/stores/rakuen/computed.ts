@@ -24,6 +24,7 @@ import type {
 } from '@types'
 import type { STATE } from './init'
 import type {
+  Blog,
   Board,
   Comments,
   Group,
@@ -164,9 +165,12 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 日志内容 */
   blog(blogId: Id) {
-    this.init('blog', true)
-    return computed<Topic>(() => {
-      return this.state.blog[blogId] || INIT_TOPIC
+    const STATE_KEY = 'blog'
+    this.init(STATE_KEY, true)
+
+    return computed(() => {
+      const ITEM_KEY = blogId
+      return (this.state[STATE_KEY][ITEM_KEY] || INIT_TOPIC) as Blog
     }).get()
   }
 

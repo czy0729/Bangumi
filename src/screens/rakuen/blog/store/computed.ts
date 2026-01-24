@@ -11,6 +11,9 @@ import { HOST } from '@constants'
 import State from './state'
 import { NAMESPACE } from './ds'
 
+import type { Blog } from '@stores/rakuen/types'
+import type { SnapshotId } from '../types'
+
 export default class Computed extends State {
   /** 日志 Id */
   @computed get blogId() {
@@ -44,7 +47,7 @@ export default class Computed extends State {
   /** 日志内容 */
   @computed get blog() {
     const blog = rakuenStore.blog(this.blogId)
-    if (!blog._loaded) return this.ota || {}
+    if (!blog._loaded) return this.ota || ({} as Blog)
 
     return blog
   }
@@ -80,12 +83,11 @@ export default class Computed extends State {
 
   /** 云快照 */
   @computed get ota() {
-    const { ota } = this.state
-    return ota[this.thirdPartyKey]
+    return this.state.ota[this.thirdPartyKey]
   }
 
   @computed get thirdPartyKey() {
-    return `blog_${this.blogId}`
+    return `blog_${this.blogId}` as SnapshotId
   }
 
   // -------------------- cdn fallback --------------------

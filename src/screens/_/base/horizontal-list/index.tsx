@@ -14,9 +14,10 @@ import { PreventTouchPlaceholder } from '../prevent-touch-placeholder'
 import Item from './item'
 import ScrollViewHorizontal from './scroll-view-horizontal'
 import { COMPONENT } from './ds'
-import { Props as HorizontalListProps, WithId } from './types'
 
-export { HorizontalListProps }
+import type { Props as HorizontalListProps, WithId } from './types'
+
+export type { HorizontalListProps }
 
 /** 水平列表 */
 export const HorizontalList = <T extends WithId>({

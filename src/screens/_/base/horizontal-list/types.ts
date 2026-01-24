@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-21 00:29:48
  */
-import { TextProps } from 'react-native'
-import { SubjectTypeCn, ViewStyle } from '@types'
+import type { TextProps } from 'react-native'
+import type { SubjectTypeCn, ViewStyle } from '@types'
 
 export type WithId = {
   id?: string | number

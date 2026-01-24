@@ -12,3 +12,5 @@ export type Ctx = WithNavigation<{
 }>
 
 export type Params = GetRouteParams<RouteBlog>
+
+export type SnapshotId = `blog_${string}`

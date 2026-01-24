@@ -13,6 +13,7 @@ import type {
   ListEmpty,
   Loaded,
   Override,
+  SubjectId,
   UserId
 } from '@types'
 import type { INIT_SETTING, LOADED } from './init'
@@ -115,6 +116,18 @@ export type Topic = {
 
   _loaded?: Loaded
 }
+
+/** 日志内容 */
+export type Blog = Override<
+  Topic,
+  {
+    related?: {
+      id: SubjectId
+      name: string
+      image: string
+    }[]
+  }
+>
 
 /** 帖子回复项 (通用、子楼层) */
 export type CommentsItem = {

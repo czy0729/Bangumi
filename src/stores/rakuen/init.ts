@@ -13,9 +13,10 @@ import {
   MODEL_RAKUEN_TYPE
 } from '@constants'
 
-import type { Loaded, RakuenScope, RakuenType, SubjectId, UserId } from '@types'
+import type { Id, Loaded, RakuenScope, RakuenType, SubjectId, UserId } from '@types'
 import type {
   BlockedUsersItem,
+  Blog,
   Board,
   BookmarksItem,
   PrivacyValue,
@@ -282,9 +283,7 @@ const STATE = {
   mine: LIST_EMPTY,
 
   /** 日志内容 */
-  blog: {
-    0: INIT_TOPIC
-  },
+  blog: {} as Record<Id, Blog>,
 
   /** 日志回复 */
   blogComments: {
