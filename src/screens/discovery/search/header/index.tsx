@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-23 01:23:58
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { open } from '@utils'
@@ -19,29 +19,28 @@ import type { Ctx } from '../types'
 function Header() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => (
-    <HeaderV2
-      title='搜索'
-      hm={$.hm}
-      headerRight={() => (
-        <>
-          <T2S $={$} navigation={navigation} />
-          <HeaderV2Popover
-            data={DATA}
-            onSelect={title => {
-              if (title === TEXT_MENU_BROWSER) {
-                open($.url)
+  const handleHeaderRight = useCallback(
+    () => (
+      <>
+        <T2S $={$} navigation={navigation} />
+        <HeaderV2Popover
+          data={DATA}
+          onSelect={title => {
+            if (title === TEXT_MENU_BROWSER) {
+              open($.url)
 
-                t('搜索.右上角菜单', {
-                  key: title
-                })
-              }
-            }}
-          />
-        </>
-      )}
-    />
-  ))
+              t('搜索.右上角菜单', {
+                key: title
+              })
+            }
+          }}
+        />
+      </>
+    ),
+    [$, navigation]
+  )
+
+  return useObserver(() => <HeaderV2 title='搜索' hm={$.hm} headerRight={handleHeaderRight} />)
 }
 
 export default Header

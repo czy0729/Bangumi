@@ -13,21 +13,25 @@ import Fetch from './fetch'
 import type { Navigation, SearchCat, SearchLegacy } from '@types'
 import type { EXCLUDE_STATE } from './ds'
 
+/** 用户是否自行切换过搜索类型 */
+let touched = false
+
 export default class Action extends Fetch {
   /** 处理初始参数 */
   initState = () => {
     setTimeout(() => {
-      const { _type, _value, type, value } = this.params
-      if (type || _type) {
+      const type = this.params.type || this.params._type
+      if (!touched && type) {
         this.setState({
-          cat: MODEL_SEARCH_CAT.getValue<SearchCat>(type || _type)
+          cat: MODEL_SEARCH_CAT.getValue<SearchCat>(type)
         })
       }
 
-      if (value || _value) {
+      const value = this.params.value || this.params._value
+      if (value) {
         this.setState({
-          _value: String(value || _value),
-          value: String(value || _value)
+          value: String(value),
+          _value: String(value)
         })
         this.save()
         this.doSearch()
@@ -44,6 +48,7 @@ export default class Action extends Fetch {
         cat: nextCat
       })
       this.save()
+      touched = true
 
       if (this.state.value) this.doSearch()
 
