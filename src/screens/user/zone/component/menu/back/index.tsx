@@ -8,6 +8,7 @@ import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import { IconBack } from '@_'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { useInsets, useNavigation, useObserver } from '@utils/hooks'
 import { IOS } from '@constants'
 import { IS_IOS_5_6_7_8 } from '@styles'
@@ -17,7 +18,7 @@ function Back() {
   const navigation = useNavigation()
   const { statusBarHeight } = useInsets()
 
-  const header = useMemo(
+  const memoHeaderStyle = useMemo(
     () =>
       ({
         left: {
@@ -30,7 +31,7 @@ function Back() {
   )
 
   return useObserver(() => (
-    <View style={[header.left, styles.back]}>
+    <View style={stl(memoHeaderStyle.left, styles.back)}>
       <IconBack navigation={navigation} color={_.__colorPlain__} />
     </View>
   ))

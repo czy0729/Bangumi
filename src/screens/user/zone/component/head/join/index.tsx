@@ -7,17 +7,19 @@
 import React from 'react'
 import { Text } from '@components'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../../types'
+import { useObserver } from '@utils/hooks'
 
-function Join({ style }) {
+import type { WithViewStyles } from '@types'
+import type { Ctx } from '../../../types'
+
+function Join({ style }: WithViewStyles) {
   const { $ } = useStore<Ctx>()
-  const { join } = $.users
-  return (
+
+  return useObserver(() => (
     <Text style={style} type={_.select('plain', 'title')} size={11} bold shadow noWrap>
-      {join || '- 加入'}
+      {$.users.join || '- 加入'}
     </Text>
-  )
+  ))
 }
 
-export default ob(Join)
+export default Join

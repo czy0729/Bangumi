@@ -6,6 +6,7 @@
  */
 import React, { useMemo } from 'react'
 import { Flex } from '@components'
+import { stl } from '@utils'
 import { useInsets, useObserver } from '@utils/hooks'
 import { IOS } from '@constants'
 import { IS_IOS_5_6_7_8 } from '@styles'
@@ -17,7 +18,7 @@ import { styles } from './styles'
 function Menu() {
   const { statusBarHeight } = useInsets()
 
-  const header = useMemo(
+  const memoHeaderStyle = useMemo(
     () =>
       ({
         right: {
@@ -32,7 +33,7 @@ function Menu() {
   return useObserver(() => (
     <>
       <Back />
-      <Flex style={[header.right, styles.right]}>
+      <Flex style={stl(memoHeaderStyle.right, styles.right)}>
         <MesumeChat />
         <MenuComp />
       </Flex>

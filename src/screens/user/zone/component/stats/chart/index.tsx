@@ -8,57 +8,65 @@ import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text } from '@components'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../../types'
+import { useObserver } from '@utils/hooks'
 import { getHeight } from './utils'
 import { memoStyles } from './styles'
 
+import type { UserStats } from '@stores/users/types'
+import type { Ctx } from '../../../types'
+
 function Chart() {
   const { $ } = useStore<Ctx>()
-  const styles = memoStyles()
-  const userStats = ($.users?.userStats || {}) as any
-  const count = userStats?.chart
-  const max = Math.max(...Object.keys(count || {}).map(item => Number(count?.[item] || 0)))
-  return (
-    <Flex style={styles.chart}>
-      {Object.keys(count || {})
-        .reverse()
-        .map((item, index) => {
-          const height = getHeight(max, count?.[item])
-          return (
-            <Flex.Item key={item} style={index > 0 && _.ml.xs}>
-              <Flex style={styles.item} justify='center' align='end'>
-                <View
-                  style={[
-                    styles.itemFill,
-                    {
-                      height
-                    }
-                  ]}
-                />
-                <Text
-                  style={[
-                    styles.count,
-                    {
-                      bottom: height
-                    }
-                  ]}
-                  size={11}
-                  type='sub'
-                  align='center'
-                  bold
-                >
-                  {count?.[item]}{' '}
+
+  return useObserver(() => {
+    const styles = memoStyles()
+
+    const userStats = ($.users?.userStats || {}) as UserStats
+    const count = userStats?.chart
+    const max = Math.max(...Object.keys(count || {}).map(item => Number(count?.[item] || 0)))
+
+    return (
+      <Flex style={styles.chart}>
+        {Object.keys(count || {})
+          .reverse()
+          .map((item, index) => {
+            const height = getHeight(max, count?.[item])
+
+            return (
+              <Flex.Item key={item} style={index > 0 && _.ml.xs}>
+                <Flex style={styles.item} justify='center' align='end'>
+                  <View
+                    style={[
+                      styles.itemFill,
+                      {
+                        height
+                      }
+                    ]}
+                  />
+                  <Text
+                    style={[
+                      styles.count,
+                      {
+                        bottom: height
+                      }
+                    ]}
+                    type='sub'
+                    size={11}
+                    align='center'
+                    bold
+                  >
+                    {count?.[item]}{' '}
+                  </Text>
+                </Flex>
+                <Text style={_.mt.sm} type='title' size={12} bold align='center'>
+                  {item}
                 </Text>
-              </Flex>
-              <Text style={_.mt.sm} size={12} bold type='title' align='center'>
-                {item}
-              </Text>
-            </Flex.Item>
-          )
-        })}
-    </Flex>
-  )
+              </Flex.Item>
+            )
+          })}
+      </Flex>
+    )
+  })
 }
 
-export default ob(Chart)
+export default Chart

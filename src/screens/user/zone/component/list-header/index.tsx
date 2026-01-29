@@ -7,18 +7,21 @@
 import React from 'react'
 import { View } from 'react-native'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { H_TABBAR } from '../../store'
 import { COMPONENT } from './ds'
 
 function ListHeader() {
-  return (
+  r(COMPONENT)
+
+  return useObserver(() => (
     <View
       style={{
         height: _.parallaxImageHeight + H_TABBAR - 16
       }}
     />
-  )
+  ))
 }
 
-export default ob(ListHeader, COMPONENT)
+export default ListHeader

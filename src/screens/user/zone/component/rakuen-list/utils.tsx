@@ -6,10 +6,11 @@
  */
 import React from 'react'
 import { SectionHeader } from '@_'
-import { UserTopicsFromCDNItem } from '@stores/rakuen/types'
 import { t } from '@utils/fetch'
-import { Navigation, RenderItem, RenderSectionHeader } from '@types'
 import Item from './item'
+
+import type { UserTopicsFromCDNItem } from '@stores/rakuen/types'
+import type { Navigation, RenderItem, RenderSectionHeader } from '@types'
 
 export function keyExtractor(item: UserTopicsFromCDNItem) {
   return item.topicId

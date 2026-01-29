@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-01-03 06:40:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 08:29:40
+ * @Last Modified time: 2026-01-29 12:56:29
  */
 import React, { useState } from 'react'
 import { View } from 'react-native'
@@ -11,14 +11,16 @@ import { _, userStore, useStore } from '@stores'
 import { date, omit, pick } from '@utils'
 import { useMount, useObserver } from '@utils/hooks'
 import { get } from '@utils/kv'
-import { AnyObject } from '@types'
-import { Ctx } from '../../types'
 import { formatString } from './utils'
 import { KEYS } from './ds'
+
+import type { AnyObject } from '@types'
+import type { Ctx } from '../../types'
 
 function U() {
   const { $ } = useStore<Ctx>()
   const [value, setValue] = useState<AnyObject>({})
+
   useMount(() => {
     const fn = async () => {
       const data: any = await get(`u_${$.usersInfo.username}`)

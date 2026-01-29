@@ -9,17 +9,15 @@ import { View } from 'react-native'
 import { Divider, Flex, Text } from '@components'
 import { _, useStore } from '@stores'
 import { info, open, stl } from '@utils'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Item } from './types'
+
+import type { Ctx } from '../../../types'
+import type { Item } from './types'
 
 function Service() {
-  r(COMPONENT)
-
-  const { $, navigation } = useStore<Ctx>()
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
     const baseItems: Item[] = [

@@ -13,10 +13,11 @@ import { ob } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { picList } from '@utils/kv'
 import { HOST_CDN_AVATAR, MODEL_TIMELINE_TYPE, SCROLL_VIEW_RESET_PROPS } from '@constants'
-import { TimeLineType } from '@types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { TimeLineType } from '@types'
+import type { Props } from './types'
 
 class UsedModal extends React.Component<Props> {
   static defaultProps = {
@@ -148,13 +149,13 @@ class UsedModal extends React.Component<Props> {
                     {item.date}
                   </Text>
                   <Flex.Item style={_.ml.sm}>
-                    <Text size={12}>
+                    <Text size={12} lineHeight={13}>
                       从{' '}
-                      <Text type='sub' size={12} bold underline>
+                      <Text type='sub' size={12} lineHeight={13} bold underline>
                         {prev.trim()}
                       </Text>{' '}
                       改名为{' '}
-                      <Text type='sub' size={12} bold underline>
+                      <Text type='sub' size={12} lineHeight={13} bold underline>
                         {after.trim()}
                       </Text>
                     </Text>

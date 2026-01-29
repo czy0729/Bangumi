@@ -7,51 +7,55 @@
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { UserTopicsFromCDNItem } from '@stores/rakuen/types'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { useNavigation } from '@utils/hooks'
+import { useNavigation, useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Item({ topicId, userName, title, group, date, time, userId }: UserTopicsFromCDNItem) {
-  const navigation = useNavigation()
-  const styles = memoStyles()
-  return (
-    <Flex style={styles.container} align='start'>
-      <Flex.Item>
-        <Touchable
-          style={styles.item}
-          animate
-          onPress={() => {
-            navigation.push('Topic', {
-              topicId,
-              _title: title,
-              _group: group,
-              _time: `${date} ${time}`,
-              _userName: userName,
-              _userId: userId
-            })
+import type { UserTopicsFromCDNItem } from '@stores/rakuen/types'
 
-            t('空间.跳转', {
-              to: 'Topic',
-              from: '超展开',
-              topicId
-            })
-          }}
-        >
-          <Flex align='start'>
-            <Flex.Item>
-              <Text size={16}>{title}</Text>
-              <Text style={_.mt.sm} type='sub' size={12}>
-                {time} / {group}
-              </Text>
-            </Flex.Item>
-          </Flex>
-        </Touchable>
-      </Flex.Item>
-    </Flex>
-  )
+function Item({ topicId, userName, title, group, date, time, userId }: UserTopicsFromCDNItem) {
+  const navigation = useNavigation(COMPONENT)
+
+  return useObserver(() => {
+    const styles = memoStyles()
+
+    return (
+      <Flex style={styles.container} align='start'>
+        <Flex.Item>
+          <Touchable
+            style={styles.item}
+            animate
+            onPress={() => {
+              navigation.push('Topic', {
+                topicId,
+                _title: title,
+                _group: group,
+                _time: `${date} ${time}`,
+                _userName: userName,
+                _userId: userId
+              })
+
+              t('空间.跳转', {
+                to: 'Topic',
+                from: '超展开',
+                topicId
+              })
+            }}
+          >
+            <Flex align='start'>
+              <Flex.Item>
+                <Text size={16}>{title}</Text>
+                <Text style={_.mt.sm} type='sub' size={12}>
+                  {time} / {group}
+                </Text>
+              </Flex.Item>
+            </Flex>
+          </Touchable>
+        </Flex.Item>
+      </Flex>
+    )
+  })
 }
 
-export default ob(Item, COMPONENT)
+export default Item

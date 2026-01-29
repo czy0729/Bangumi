@@ -7,11 +7,14 @@
 import React from 'react'
 import { Heatmap } from '@components'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 
 function Heatmaps() {
-  return (
+  r(COMPONENT)
+
+  return useObserver(() => (
     <>
       <Heatmap
         right={_.wind + 62}
@@ -22,7 +25,7 @@ function Heatmaps() {
       <Heatmap right={_.wind} bottom={_.window.height / 1.6} id='空间.标签页点击' transparent />
       <Heatmap bottom={_.bottom} id='空间' screen='Zone' />
     </>
-  )
+  ))
 }
 
-export default ob(Heatmaps, COMPONENT)
+export default Heatmaps

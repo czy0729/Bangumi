@@ -15,7 +15,6 @@ import TagText from '../tag-text'
 import { fixedBaseFontStyle } from '../utils'
 
 import type { TextStyle } from '@types'
-
 export function span({
   key,
   style,
@@ -64,7 +63,6 @@ export function span({
 
       return (
         <MaskText
-          key={key}
           style={{
             ...defaultBaseFontStyle,
             ...baseFontStyle

@@ -8,10 +8,11 @@ import React from 'react'
 import { ListView, Loading, Text } from '@components'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { handleToQiafan, keyExtractor, renderItem, renderSectionHeader } from './utils'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function RakuenList() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)

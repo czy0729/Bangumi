@@ -7,13 +7,15 @@
 import React from 'react'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../../types'
+import { useObserver } from '@utils/hooks'
 import { styles } from './styles'
+
+import type { Ctx } from '../../../types'
 
 function MesumeChat() {
   const { $ } = useStore<Ctx>()
-  return (
+
+  return useObserver(() => (
     <IconTouchable
       style={styles.mesume}
       size={19}
@@ -21,7 +23,7 @@ function MesumeChat() {
       name='md-chat-bubble-outline'
       onPress={$.doChat}
     />
-  )
+  ))
 }
 
-export default ob(MesumeChat)
+export default MesumeChat

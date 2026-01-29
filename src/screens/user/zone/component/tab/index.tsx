@@ -4,12 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-14 03:50:18
  */
-import React from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { Animated } from 'react-native'
 import { Flex, SceneMap, TabBar, TabView } from '@components'
-import { _ } from '@stores'
-import { ob } from '@utils/decorators'
-import { r } from '@utils/dev'
+import { _, useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { H_HEADER } from '../../store'
 import About from '../about'
 import BangumiList from '../bangumi-list'
@@ -22,111 +21,131 @@ import Tinygrail from '../tinygrail'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-import type { Props } from './types'
+import type { ScrollEvent } from '@types'
+import type { Ctx } from '../../types'
 
-class Tab extends React.Component<Props> {
-  onIndexChange = (index: number) => {
-    const { $, onIndexChange } = this.props
-    onIndexChange(index)
-    $.onTabChange(index)
-  }
+function Tab() {
+  const { $ } = useStore<Ctx>(COMPONENT)
 
-  renderScene = SceneMap({
-    bangumi: () => <BangumiList ListHeaderComponent={ListHeader} onScroll={this.props.onScroll} />,
-    stats: () => <Stats ListHeaderComponent={ListHeader} onScroll={this.props.onScroll} />,
-    timeline: () => (
-      <TimelineList ListHeaderComponent={ListHeader} onScroll={this.props.onScroll} />
-    ),
-    rakuen: () => <RakuenList ListHeaderComponent={ListHeader} onScroll={this.props.onScroll} />,
-    about: () => <About ListHeaderComponent={ListHeader} onScroll={this.props.onScroll} />,
-    tinygrail: () => <Tinygrail ListHeaderComponent={ListHeader} onScroll={this.props.onScroll} />
-  })
-
-  get navigationState() {
-    const { $ } = this.props
-    const { page } = $.state
-    return {
-      index: page,
-      routes: $.tabs
-    }
-  }
-
-  get transform() {
-    const { $ } = this.props
-    return {
-      transform: [
-        {
-          translateY: $.scrollY.interpolate({
-            inputRange: [
-              -_.parallaxImageHeight,
-              0,
-              _.parallaxImageHeight - H_HEADER,
-              _.parallaxImageHeight
-            ],
-            outputRange: [_.parallaxImageHeight * 2, _.parallaxImageHeight, H_HEADER, H_HEADER]
-          })
-        }
-      ]
-    }
-  }
-
-  renderLabel = ({ route }) => (
-    <Flex style={this.styles.labelText} justify='center'>
-      <TabBarLabel title={route.title} />
-    </Flex>
+  const handleScroll = useCallback(
+    (e: ScrollEvent) => {
+      $.onScroll(e)
+    },
+    [$]
   )
 
-  renderTabBar = props => {
-    const { $ } = this.props
-    const width = _.window.width / $.tabs.length
+  const renderScene = useMemo(
+    () =>
+      SceneMap({
+        bangumi: () => <BangumiList ListHeaderComponent={ListHeader} onScroll={handleScroll} />,
+        stats: () => <Stats ListHeaderComponent={ListHeader} onScroll={handleScroll} />,
+        timeline: () => <TimelineList ListHeaderComponent={ListHeader} onScroll={handleScroll} />,
+        rakuen: () => <RakuenList ListHeaderComponent={ListHeader} onScroll={handleScroll} />,
+        about: () => <About ListHeaderComponent={ListHeader} onScroll={handleScroll} />,
+        tinygrail: () => <Tinygrail ListHeaderComponent={ListHeader} onScroll={handleScroll} />
+      }),
+    [handleScroll]
+  )
 
-    return (
-      <Animated.View style={[this.styles.tabBarWrap, this.transform]}>
-        <TabBar
-          {...props}
-          style={this.styles.tabBar}
-          tabStyle={[
-            this.styles.tab,
-            {
-              width
-            }
-          ]}
-          labelStyle={this.styles.label}
-          indicatorStyle={[
-            this.styles.indicator,
-            {
-              marginLeft: (width - this.styles.indicator.width) / 2
-            }
-          ]}
-          pressOpacity={1}
-          pressColor='transparent'
-          scrollEnabled
-          renderLabel={this.renderLabel}
-        />
-      </Animated.View>
+  const handleSwipeStart = useCallback(() => {
+    $.updatePageOffset()
+  }, [$])
+  const handleIndexChange = useCallback(
+    (index: number) => {
+      $.onTabChange(index)
+      setTimeout(() => {
+        $.updatePageOffset([0])
+      }, 0)
+    },
+    [$]
+  )
+
+  return useObserver(() => {
+    const styles = memoStyles()
+
+    const { tabs, scrollY } = $
+    const { page } = $.state
+
+    const navigationState = useMemo(
+      () => ({
+        index: page,
+        routes: tabs
+      }),
+      [page, tabs]
     )
-  }
+    const transform = useMemo(
+      () => ({
+        transform: [
+          {
+            translateY: scrollY.interpolate({
+              inputRange: [
+                -_.parallaxImageHeight,
+                0,
+                _.parallaxImageHeight - H_HEADER,
+                _.parallaxImageHeight
+              ],
+              outputRange: [_.parallaxImageHeight * 2, _.parallaxImageHeight, H_HEADER, H_HEADER]
+            })
+          }
+        ]
+      }),
+      [scrollY]
+    )
 
-  render() {
-    r(COMPONENT)
+    const handleRenderLabel = useCallback(
+      ({ route }) => (
+        <Flex style={styles.labelText} justify='center'>
+          <TabBarLabel title={route.title} />
+        </Flex>
+      ),
+      [styles]
+    )
+    const handleRenderTabBar = useCallback(
+      props => {
+        const width = _.window.width / $.tabs.length
+
+        return (
+          <Animated.View style={[styles.tabBarWrap, transform]}>
+            <TabBar
+              {...props}
+              style={styles.tabBar}
+              tabStyle={[
+                styles.tab,
+                {
+                  width
+                }
+              ]}
+              labelStyle={styles.label}
+              indicatorStyle={[
+                styles.indicator,
+                {
+                  marginLeft: (width - styles.indicator.width) / 2
+                }
+              ]}
+              pressOpacity={1}
+              pressColor='transparent'
+              scrollEnabled
+              renderLabel={handleRenderLabel}
+            />
+          </Animated.View>
+        )
+      },
+      [styles, transform, handleRenderLabel]
+    )
 
     return (
       <TabView
         key={_.orientation}
         lazy
         lazyPreloadDistance={0}
-        navigationState={this.navigationState}
-        renderTabBar={this.renderTabBar}
-        renderScene={this.renderScene}
-        onSwipeStart={this.props.onSwipeStart}
-        onIndexChange={this.onIndexChange}
+        navigationState={navigationState}
+        renderTabBar={handleRenderTabBar}
+        renderScene={renderScene}
+        onSwipeStart={handleSwipeStart}
+        onIndexChange={handleIndexChange}
       />
     )
-  }
-
-  get styles() {
-    return memoStyles()
-  }
+  })
 }
 
-export default ob(Tab)
+export default Tab

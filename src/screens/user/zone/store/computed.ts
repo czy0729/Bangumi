@@ -228,4 +228,8 @@ export default class Computed extends State {
   @computed get currentChatValues() {
     return this.state.chat[systemStore.setting.musumePrompt] || []
   }
+
+  @computed get hm() {
+    return [`user/${this.params.userId}?route=zone`, 'Zone'] as const
+  }
 }

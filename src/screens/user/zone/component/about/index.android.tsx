@@ -7,9 +7,8 @@
 import React from 'react'
 import { Animated, View } from 'react-native'
 import { userStore, useStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
-import { Ctx } from '../../types'
 import Lock from '../lock'
 import U from '../u'
 import Content from './content'
@@ -17,23 +16,29 @@ import Service from './service'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+import type { Ctx } from '../../types'
+
 function About() {
-  const { $ } = useStore<Ctx>()
-  const styles = memoStyles()
-  return (
-    <Animated.ScrollView
-      nestedScrollEnabled
-      contentContainerStyle={styles.nestScroll}
-      {...SCROLL_VIEW_RESET_PROPS}
-    >
-      <View style={styles.page}>
-        <Lock />
-        <Service />
-        <Content />
-        {userStore.isDeveloper && !!$.usersInfo.username && <U />}
-      </View>
-    </Animated.ScrollView>
-  )
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => {
+    const styles = memoStyles()
+
+    return (
+      <Animated.ScrollView
+        nestedScrollEnabled
+        contentContainerStyle={styles.nestScroll}
+        {...SCROLL_VIEW_RESET_PROPS}
+      >
+        <View style={styles.page}>
+          <Lock />
+          <Service />
+          <Content />
+          {userStore.isDeveloper && !!$.usersInfo.username && <U />}
+        </View>
+      </Animated.ScrollView>
+    )
+  })
 }
 
-export default ob(About, COMPONENT)
+export default About

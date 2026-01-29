@@ -7,25 +7,30 @@
 import React from 'react'
 import { Flex, Mesume, Text } from '@components'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Lock() {
-  const { $ } = useStore<Ctx>()
-  const { ban } = $.users
-  if (!ban) return null
+import type { Ctx } from '../../types'
 
-  const styles = memoStyles()
-  return (
-    <Flex style={styles.container}>
-      <Mesume index={2} size={60} />
-      <Flex.Item>
-        <Text bold>{ban}</Text>
-      </Flex.Item>
-    </Flex>
-  )
+function Lock() {
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => {
+    const { ban } = $.users
+    if (!ban) return null
+
+    const styles = memoStyles()
+
+    return (
+      <Flex style={styles.container}>
+        <Mesume index={2} size={60} />
+        <Flex.Item>
+          <Text bold>{ban}</Text>
+        </Flex.Item>
+      </Flex>
+    )
+  })
 }
 
-export default ob(Lock, COMPONENT)
+export default Lock

@@ -14,6 +14,7 @@ import { webhookFriend } from '@utils/webhooks'
 import { HOST, MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants'
 import Fetch from './fetch'
 
+import type { ScrollTo, ScrollToOffset } from '@components'
 import type {
   CompletionItem,
   Navigation,
@@ -26,16 +27,22 @@ import type {
 export default class Action extends Fetch {
   private y = 0
 
-  private scrollToOffset = {}
+  private scrollToOffset: Record<number, ScrollToOffset> = {}
 
-  private scrollTo = {}
+  private scrollTo: Record<number, ScrollTo> = {}
 
   /** 收集 ListView | ScrollView 引用 */
   forwardRef = (ref: any, index: number) => {
-    this.scrollToOffset[index] = ref?.scrollToOffset
+    if (typeof ref?.scrollToOffset === 'function') {
+      this.scrollToOffset[index] = ref.scrollToOffset
+    }
 
     // android: scrollResponderScrollTo, ios: scrollTo
-    this.scrollTo[index] = ref?.scrollResponderScrollTo || ref?.scrollTo
+    if (typeof ref?.scrollResponderScrollTo === 'function') {
+      this.scrollTo[index] = ref.scrollResponderScrollTo
+    } else if (typeof ref?.scrollTo === 'function') {
+      this.scrollTo[index] = ref.scrollTo
+    }
   }
 
   /** 使用合适的方法滚动到指定位置 */

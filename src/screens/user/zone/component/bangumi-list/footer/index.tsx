@@ -4,37 +4,38 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-10 17:03:30
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Flex, Heatmap, Text, Touchable } from '@components'
 import { _, systemStore, useStore } from '@stores'
 import { feedback } from '@utils'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../../types'
 import { styles } from './styles'
+
+import type { Ctx } from '../../../types'
 
 function Footer() {
   const { $, navigation } = useStore<Ctx>()
 
+  const handlePress = useCallback(() => {
+    $.navigateToUser(navigation)
+
+    t('空间.跳转', {
+      to: 'User'
+    })
+  }, [$, navigation])
+
   return useObserver(() => (
     <>
       <Flex style={_.mt.lg} justify='center'>
-        <Touchable
-          style={styles.touch}
-          onPress={() => {
-            t('空间.跳转', {
-              to: 'User'
-            })
-
-            $.navigateToUser(navigation)
-          }}
-        >
+        <Touchable style={styles.touch} onPress={handlePress}>
           <Text type='sub' bold>
             查看TA的所有收藏
           </Text>
           <Heatmap id='空间.跳转' to='User' alias='所有收藏' />
         </Touchable>
       </Flex>
+
       <Flex style={styles.settings} direction='column' align='end'>
         <Touchable
           style={styles.touch}

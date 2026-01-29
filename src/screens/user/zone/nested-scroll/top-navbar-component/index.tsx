@@ -2,21 +2,23 @@
  * @Author: czy0729
  * @Date: 2023-12-30 15:07:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 08:21:29
+ * @Last Modified time: 2026-01-29 13:05:28
  */
 import React from 'react'
 import { Avatar, Flex } from '@components'
 import { VerticalAlign } from '@_'
 import { _, useStore } from '@stores'
 import { HTMLDecode } from '@utils'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { useObserver } from '@utils/hooks'
 import { AVATAR_SIZE, COMPONENT } from './ds'
 import { styles } from './styles'
 
+import type { Ctx } from '../../types'
+
 function TopNavbarComponent() {
-  const { $ } = useStore<Ctx>()
-  return (
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
     <Flex style={styles.topNavbar}>
       <Avatar
         key={String($.src)}
@@ -38,7 +40,7 @@ function TopNavbarComponent() {
         {HTMLDecode($.usersInfo.nickname)}
       </VerticalAlign>
     </Flex>
-  )
+  ))
 }
 
-export default ob(TopNavbarComponent, COMPONENT)
+export default TopNavbarComponent

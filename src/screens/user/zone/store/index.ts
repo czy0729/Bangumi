@@ -9,7 +9,9 @@ import { WEB } from '@constants'
 import { H_HEADER, H_RADIUS_LINE, H_TABBAR } from '@screens/user/v2/ds'
 import Action from './action'
 import { updateTrackUserInfo } from './utils'
-import { EXCLUDE_STATE, STATE } from './ds'
+import { EXCLUDE_STATE } from './ds'
+
+import type { STATE } from './ds'
 
 export { H_RADIUS_LINE, H_HEADER, H_TABBAR }
 

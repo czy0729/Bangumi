@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-14 03:49:50
  */
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { Animated } from 'react-native'
 import { Component, ListView, Loading } from '@components'
 import { useStore } from '@stores'
@@ -22,6 +22,8 @@ import type { Props } from './types'
 
 function BangumiList({ ListHeaderComponent, onScroll }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
+
+  const elFooter = useMemo(() => <Footer />, [])
 
   const handleRef = useCallback(
     (ref: any) => {
@@ -47,9 +49,10 @@ function BangumiList({ ListHeaderComponent, onScroll }: Props) {
           sections={$.sections}
           showFooter={false}
           renderSectionHeader={renderSectionHeader}
+          // @ts-ignore
           renderItem={renderItem}
           ListHeaderComponent={ListHeaderComponent}
-          ListFooterComponent={<Footer />}
+          ListFooterComponent={elFooter}
           onScroll={Animated.event(
             [
               {

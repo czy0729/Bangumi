@@ -8,7 +8,7 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   loading: {
-    marginTop: _.window.height / 3
+    marginTop: Math.floor(_.window.height / 3)
   },
   contentContainerStyle: {
     paddingHorizontal: _.wind - _._wind,

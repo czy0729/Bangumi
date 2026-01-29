@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-12 22:28:28
  */
-import { PropsWithChildren } from 'react'
-import { TextStyle } from '@types'
+import type { PropsWithChildren } from 'react'
+import type { TextStyle } from '@types'
 
 export type Props = PropsWithChildren<{
   style?: TextStyle

@@ -2,12 +2,8 @@
  * @Author: czy0729
  * @Date: 2024-01-07 17:33:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-07 17:34:15
+ * @Last Modified time: 2026-01-29 13:15:53
  */
-import { Fn } from '@types'
+import type { ListViewProps } from '@components'
 
-export type Props = {
-  ListHeaderComponent?: any
-  scrollEventThrottle?: number
-  onScroll?: Fn
-}
+export type Props = Pick<ListViewProps, 'ListHeaderComponent' | 'onScroll'>

@@ -7,17 +7,23 @@
 import React from 'react'
 import { Text } from '@components'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../../types'
+import { useObserver } from '@utils/hooks'
 
-function Sync({ style }) {
+import type { WithViewStyles } from '@types'
+import type { Ctx } from '../../../types'
+
+function Sync({ style }: WithViewStyles) {
   const { $ } = useStore<Ctx>()
-  const { percent, hobby } = $.users
-  return (
-    <Text style={style} type={_.select('plain', 'title')} size={11} bold shadow noWrap>
-      同步率 {isNaN(percent) ? '-' : percent}% ({hobby})
-    </Text>
-  )
+
+  return useObserver(() => {
+    const { percent, hobby } = $.users
+
+    return (
+      <Text style={style} type={_.select('plain', 'title')} size={11} bold shadow noWrap>
+        同步率 {isNaN(percent) ? '-' : percent}% ({hobby})
+      </Text>
+    )
+  })
 }
 
-export default ob(Sync)
+export default Sync

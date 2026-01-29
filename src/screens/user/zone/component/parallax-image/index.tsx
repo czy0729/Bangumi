@@ -8,18 +8,20 @@ import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { H_HEADER } from '../../store'
 import Menu from '../menu'
 import { COMPONENT, Layers } from './ds'
 import { styles } from './styles'
+
+import type { ViewStyle } from '@types'
+import type { Ctx } from '../../types'
 
 function ParallaxImage() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
     const { scrollY } = $
-    const parallaxStyle = useMemo(() => {
+    const memoParallaxStyle = useMemo(() => {
       const h = _.parallaxImageHeight
       return {
         transform: [
@@ -40,14 +42,14 @@ function ParallaxImage() {
             })
           }
         ]
-      }
+      } as ViewStyle
     }, [scrollY])
 
     return (
       <>
         <View style={styles.parallax} pointerEvents='box-none'>
           {Layers.map((Component, index) => (
-            <Component key={index} style={parallaxStyle} />
+            <Component key={index} style={memoParallaxStyle} />
           ))}
         </View>
         <Menu />

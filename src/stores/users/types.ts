@@ -53,6 +53,28 @@ export type NetworkServiceItem = {
   href: string
 }
 
+/** 用户缩略统计 */
+export type UserStats = {
+  avg: string
+  chart: {
+    '1': string
+    '10': string
+    '2': string
+    '3': string
+    '4': string
+    '5': string
+    '6': string
+    '7': string
+    '8': string
+    '9': string
+  }
+  collect: string
+  percent: string
+  scored: string
+  std: string
+  total: string
+}
+
 /** 用户信息 */
 export type Users = {
   userId: UserId
@@ -72,26 +94,7 @@ export type Users = {
   disconnectUrl: string
   formhash: string
   ban?: string
-  userStats: {
-    avg: string
-    chart: {
-      '1': string
-      '10': string
-      '2': string
-      '3': string
-      '4': string
-      '5': string
-      '6': string
-      '7': string
-      '8': string
-      '9': string
-    }
-    collect: string
-    percent: string
-    scored: string
-    std: string
-    total: string
-  }
+  userStats: UserStats
   networkService: NetworkServiceItem[]
   _loaded?: Loaded
 }

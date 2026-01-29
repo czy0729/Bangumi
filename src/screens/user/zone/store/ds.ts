@@ -6,8 +6,9 @@
  */
 import { INIT_USERS } from '@stores/users/init'
 import { TIMELINE_TYPE } from '@constants'
-import { CompletionItem, Loaded, TimeLineType } from '@types'
 import { COMPONENT } from '../ds'
+
+import type { CompletionItem, Loaded, TimeLineType } from '@types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 

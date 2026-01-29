@@ -9,22 +9,28 @@ import { Animated } from 'react-native'
 import { Component } from '@components'
 import { useStore } from '@stores'
 import { getBlurRadius, stl } from '@utils'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../../types'
+import { useObserver } from '@utils/hooks'
 import { memoStyles } from './styles'
 
-function Bg({ style }) {
+import type { WithViewStyles } from '@types'
+import type { Ctx } from '../../../types'
+
+function Bg({ style }: WithViewStyles) {
   const { $ } = useStore<Ctx>()
-  const styles = memoStyles()
-  return (
-    <Component id='screen-zone-parallax-image-bg'>
-      <Animated.Image
-        style={stl(styles.parallaxImage, style)}
-        source={$.imageSource}
-        blurRadius={getBlurRadius($.imageSource.uri, $.bg, $.usersInfo.avatar?.large)}
-      />
-    </Component>
-  )
+
+  return useObserver(() => {
+    const styles = memoStyles()
+
+    return (
+      <Component id='screen-zone-parallax-image-bg'>
+        <Animated.Image
+          style={stl(styles.parallaxImage, style)}
+          source={$.imageSource}
+          blurRadius={getBlurRadius($.imageSource.uri, $.bg, $.usersInfo.avatar?.large)}
+        />
+      </Component>
+    )
+  })
 }
 
-export default ob(Bg)
+export default Bg

@@ -20,8 +20,8 @@ export const memoStyles = _.memoStyles(() => ({
   itemFill: {
     position: 'absolute',
     left: '50%',
-    width: 16,
-    marginLeft: -8,
+    width: 12,
+    marginLeft: -6,
     backgroundColor: _.select(_.colorWait, _._colorSub),
     borderRadius: _.radiusXs
   },

@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-06-27 07:02:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-27 07:27:28
+ * @Last Modified time: 2026-01-29 12:56:23
  */
-import { AnyObject } from '@types'
+import type { AnyObject } from '@types'
 
 export function formatString(data: AnyObject = {}) {
   const { e } = data

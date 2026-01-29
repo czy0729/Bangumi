@@ -582,6 +582,8 @@ export default class HTML extends PureComponent {
             )
             if (styles?.fontWeight === 'bold') {
               styles = StyleSheet.flatten([styles, _.fontBoldStyle])
+            } else {
+              styles = StyleSheet.flatten([styles, _.fontStyle])
             }
 
             textElement = (

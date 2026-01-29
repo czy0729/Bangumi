@@ -8,23 +8,27 @@ import React from 'react'
 import { Flex, Iconfont, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { info } from '@utils'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../../types'
+import { useObserver } from '@utils/hooks'
 import { styles } from './styles'
+
+import type { Ctx } from '../../../types'
 
 function Member() {
   const { $ } = useStore<Ctx>()
-  if (!$.isAdvance) return null
 
-  return (
-    <Touchable
-      onPress={() => info(`TA 也是高级会员${$.advanceDetail ? ` ${$.advanceDetail}` : ''}`)}
-    >
-      <Flex style={styles.icon} justify='center'>
-        <Iconfont name='md-attach-money' color={_.__colorPlain__} />
-      </Flex>
-    </Touchable>
-  )
+  return useObserver(() => {
+    if (!$.isAdvance) return null
+
+    return (
+      <Touchable
+        onPress={() => info(`TA 也是高级会员${$.advanceDetail ? ` ${$.advanceDetail}` : ''}`)}
+      >
+        <Flex style={styles.icon} justify='center'>
+          <Iconfont name='md-attach-money' color={_.__colorPlain__} />
+        </Flex>
+      </Touchable>
+    )
+  })
 }
 
-export default ob(Member)
+export default Member

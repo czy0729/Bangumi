@@ -11,11 +11,12 @@ import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { USE_NATIVE_DRIVER } from '@constants'
 import { TABS } from '../../ds'
-import { Ctx } from '../../types'
 import { handleToQiafan, keyExtractor, renderItem, renderSectionHeader } from './utils'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
 function RakuenList({ ListHeaderComponent, onScroll }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)

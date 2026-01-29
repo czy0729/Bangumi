@@ -10,11 +10,12 @@ import { Component } from '@components'
 import { _, StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { ANDROID } from '@constants'
-import { NavigationProps } from '@types'
 import Extra from './component/extra'
 import { useZonePage } from './hooks'
 import NestedScroll from './nested-scroll'
 import Scroll from './scroll'
+
+import type { NavigationProps } from '@types'
 
 /** 用户空间 */
 const Zone = (props: NavigationProps) => {
@@ -25,7 +26,7 @@ const Zone = (props: NavigationProps) => {
       <StoreContext.Provider value={id}>
         {!!$.state._loaded && (
           <>
-            {ANDROID ? <NestedScroll /> : <Scroll $={$} />}
+            {ANDROID ? <NestedScroll /> : <Scroll />}
             <Extra />
           </>
         )}

@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-08-19 05:29:51
  */
-import { NetworkServiceItem } from '@stores/users/types'
-import { Override } from '@types'
+import type { NetworkServiceItem } from '@stores/users/types'
+import type { Override } from '@types'
 
 export type Item = Override<
   NetworkServiceItem,

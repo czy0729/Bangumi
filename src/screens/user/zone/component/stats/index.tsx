@@ -8,23 +8,23 @@ import React, { useCallback } from 'react'
 import { Animated, View } from 'react-native'
 import { Component, Flex, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
-import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
 import { SCROLL_VIEW_RESET_PROPS, USE_NATIVE_DRIVER } from '@constants'
 import { TABS } from '../../ds'
-import { Ctx } from '../../types'
 import Chart from './chart'
 import Counts from './counts'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Stats(props) {
-  r(COMPONENT)
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
-  const { $, navigation } = useStore<Ctx>()
+function Stats(props: Props) {
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
+
   const handleRef = useCallback(
-    ref => {
+    (ref: any) => {
       $.forwardRef(
         ref,
         TABS.findIndex(item => item.title === '统计')
@@ -32,9 +32,22 @@ function Stats(props) {
     },
     [$]
   )
+  const handlePress = useCallback(() => {
+    const userId = $.username || $.userId
+    navigation.push('UserTimeline', {
+      userId,
+      userName: $.nickname
+    })
+
+    t('空间.跳转', {
+      userId,
+      to: 'UserTimeline'
+    })
+  }, [$, navigation])
 
   return useObserver(() => {
     const styles = memoStyles()
+
     return (
       <Component id='screen-zone-tab-view' data-type='stats'>
         <Animated.ScrollView
@@ -62,21 +75,7 @@ function Stats(props) {
             <Counts />
             <Chart />
             <Flex style={_.mt.lg} justify='center'>
-              <Touchable
-                style={styles.touch}
-                onPress={() => {
-                  const userId = $.username || $.userId
-                  t('空间.跳转', {
-                    userId,
-                    to: 'UserTimeline'
-                  })
-
-                  navigation.push('UserTimeline', {
-                    userId,
-                    userName: $.nickname
-                  })
-                }}
-              >
+              <Touchable style={styles.touch} onPress={handlePress}>
                 <Text type='sub' bold>
                   查看TA的时间线热力图
                 </Text>

@@ -10,10 +10,12 @@ import { _ } from '@stores'
 import { stl } from '@utils'
 import { Text } from '../../text'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function MaskText({ style, children }: Props) {
   const [show, setShow] = useState(false)
+
   const handlePress = useCallback(() => {
     setShow(prev => !prev)
   }, [])
@@ -21,6 +23,7 @@ function MaskText({ style, children }: Props) {
   return useObserver(() => {
     const styles = memoStyles()
     const flattenStyle = _.flatten(style)
+
     return (
       <Text
         style={stl(

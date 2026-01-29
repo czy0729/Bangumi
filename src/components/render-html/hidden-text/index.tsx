@@ -6,8 +6,10 @@
  */
 import React from 'react'
 import { stl } from '@utils'
-import { Text, TextProps } from '../../text'
+import { Text } from '../../text'
 import { styles } from './styles'
+
+import type { TextProps } from '../../text'
 
 function HiddenText({ style, children, ...other }: TextProps) {
   return (

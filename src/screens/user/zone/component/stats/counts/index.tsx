@@ -8,82 +8,74 @@ import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text } from '@components'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../../types'
+import { formatNumber, stl } from '@utils'
+import { useObserver } from '@utils/hooks'
 import { memoStyles } from './styles'
+
+import type { UserStats } from '@stores/users/types'
+import type { Ctx } from '../../../types'
 
 function Counts() {
   const { $ } = useStore<Ctx>()
-  const styles = memoStyles()
-  const userStats = ($.users?.userStats || {}) as any
-  return (
-    <>
-      <Flex>
-        <Flex.Item>
-          <View style={[styles.block, styles.blockMain]}>
-            <Text type='__plain__' size={20} bold>
-              {userStats?.total}
-            </Text>
-            <Text type='__plain__' size={12} bold>
-              收藏
-            </Text>
-          </View>
-        </Flex.Item>
-        <Flex.Item>
-          <View style={[styles.block, styles.blockSuccess]}>
-            <Text type='__plain__' size={20} bold>
-              {userStats?.collect}
-            </Text>
-            <Text type='__plain__' size={12} bold>
-              完成
-            </Text>
-          </View>
-        </Flex.Item>
-        <Flex.Item>
-          <View style={[styles.block, styles.blockPrimary]}>
-            <Text type='__plain__' size={20} bold>
-              {userStats?.percent}
-            </Text>
-            <Text type='__plain__' size={12} bold>
-              完成率
-            </Text>
-          </View>
-        </Flex.Item>
+
+  return useObserver(() => {
+    const styles = memoStyles()
+
+    const userStats = ($.users?.userStats || {}) as UserStats
+    const rows = [
+      [
+        {
+          value: formatNumber(userStats.total || 0, 0),
+          label: '收藏',
+          style: styles.blockMain
+        },
+        {
+          value: formatNumber(userStats.collect || 0, 0),
+          label: '完成',
+          style: styles.blockSuccess
+        },
+        {
+          value: userStats.percent,
+          label: '完成率',
+          style: styles.blockPrimary
+        }
+      ],
+      [
+        {
+          value: userStats.avg,
+          label: '平均分',
+          style: styles.blockWarning
+        },
+        {
+          value: userStats.std,
+          label: '标准差',
+          style: styles.blockPurple
+        },
+        {
+          value: formatNumber(userStats.scored || 0, 0),
+          label: '评分数',
+          style: styles.blockSky
+        }
+      ]
+    ] as const
+
+    return rows.map((row, rowIndex) => (
+      <Flex key={rowIndex}>
+        {row.map(({ value, label, style }, index: number) => (
+          <Flex.Item key={index}>
+            <View style={stl(styles.block, style)}>
+              <Text type='__plain__' size={18} bold>
+                {value}
+              </Text>
+              <Text type='__plain__' size={12} bold>
+                {label}
+              </Text>
+            </View>
+          </Flex.Item>
+        ))}
       </Flex>
-      <Flex>
-        <Flex.Item>
-          <View style={[styles.block, styles.blockWarning]}>
-            <Text type='__plain__' size={20} bold>
-              {userStats?.avg}
-            </Text>
-            <Text type='__plain__' size={12} bold>
-              平均分
-            </Text>
-          </View>
-        </Flex.Item>
-        <Flex.Item>
-          <View style={[styles.block, styles.blockPurple]}>
-            <Text type='__plain__' size={20} bold>
-              {userStats?.std}
-            </Text>
-            <Text type='__plain__' size={12} bold>
-              标准差
-            </Text>
-          </View>
-        </Flex.Item>
-        <Flex.Item>
-          <View style={[styles.block, styles.blockSky]}>
-            <Text type='__plain__' size={20} bold>
-              {userStats?.scored}
-            </Text>
-            <Text type='__plain__' size={12} bold>
-              评分数
-            </Text>
-          </View>
-        </Flex.Item>
-      </Flex>
-    </>
-  )
+    ))
+  })
 }
 
-export default ob(Counts)
+export default Counts

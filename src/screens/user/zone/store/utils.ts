@@ -5,10 +5,11 @@
  * @Last Modified time: 2024-04-30 01:54:30
  */
 import { systemStore, usersStore } from '@stores'
-import { INIT_USER_INFO } from '@stores/user/init'
 import { titleCase } from '@utils'
 import { SUBJECT_TYPE } from '@constants'
-import { UserId } from '@types'
+
+import type { INIT_USER_INFO } from '@stores/user/init'
+import type { UserId } from '@types'
 
 /** 判断是否需要更新条目里特别关注用户的信息 */
 export function updateTrackUserInfo(userInfo: typeof INIT_USER_INFO) {
