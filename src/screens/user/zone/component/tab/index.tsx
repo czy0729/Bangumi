@@ -41,8 +41,8 @@ function Tab() {
         stats: () => <Stats ListHeaderComponent={ListHeader} onScroll={handleScroll} />,
         timeline: () => <TimelineList ListHeaderComponent={ListHeader} onScroll={handleScroll} />,
         rakuen: () => <RakuenList ListHeaderComponent={ListHeader} onScroll={handleScroll} />,
-        about: () => <About ListHeaderComponent={ListHeader} onScroll={handleScroll} />,
-        tinygrail: () => <Tinygrail ListHeaderComponent={ListHeader} onScroll={handleScroll} />
+        about: () => <About onScroll={handleScroll} />,
+        tinygrail: () => <Tinygrail onScroll={handleScroll} />
       }),
     [handleScroll]
   )
@@ -63,7 +63,7 @@ function Tab() {
   return useObserver(() => {
     const styles = memoStyles()
 
-    const { tabs, scrollY } = $
+    const { tabs } = $
     const { page } = $.state
 
     const navigationState = useMemo(
@@ -77,7 +77,7 @@ function Tab() {
       () => ({
         transform: [
           {
-            translateY: scrollY.interpolate({
+            translateY: $.scrollY.interpolate({
               inputRange: [
                 -_.parallaxImageHeight,
                 0,
@@ -89,7 +89,7 @@ function Tab() {
           }
         ]
       }),
-      [scrollY]
+      []
     )
 
     const handleRenderLabel = useCallback(

@@ -14,9 +14,12 @@ export const styles = _.create({
     overflow: 'hidden'
   },
   settings: {
-    paddingRight: 12,
-    marginTop: 120,
-    marginBottom: -64,
-    opacity: 0.5
+    position: 'absolute',
+    zIndex: 1,
+    top: -2,
+    right: _.wind - 7
+  },
+  icon: {
+    padding: 8
   }
 })

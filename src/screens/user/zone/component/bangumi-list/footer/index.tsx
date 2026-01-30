@@ -4,16 +4,18 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-10 17:03:30
  */
-import React, { useCallback } from 'react'
-import { Flex, Heatmap, Text, Touchable } from '@components'
+import React, { useCallback, useMemo } from 'react'
+import { View } from 'react-native'
+import { Flex, Heatmap, Iconfont, Text, Touchable } from '@components'
+import { Popover } from '@_'
 import { _, systemStore, useStore } from '@stores'
 import { feedback } from '@utils'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
+import { TEXT_MENU_SPLIT_LEFT, TEXT_MENU_SPLIT_RIGHT } from '@constants'
 import { styles } from './styles'
 
 import type { Ctx } from '../../../types'
-
 function Footer() {
   const { $, navigation } = useStore<Ctx>()
 
@@ -25,8 +27,29 @@ function Footer() {
     })
   }, [$, navigation])
 
-  return useObserver(() => (
-    <>
+  return useObserver(() => {
+    const { zoneCollapse, zoneAlignCenter } = systemStore.setting
+
+    const memoData = useMemo(
+      () =>
+        [
+          `自动折叠${TEXT_MENU_SPLIT_LEFT}${zoneCollapse ? '开' : '关'}${TEXT_MENU_SPLIT_RIGHT}`,
+          `标题居中${TEXT_MENU_SPLIT_LEFT}${zoneAlignCenter ? '开' : '关'}${TEXT_MENU_SPLIT_RIGHT}`
+        ] as const,
+      [zoneAlignCenter, zoneCollapse]
+    )
+
+    const handleSelect = useCallback((title: string) => {
+      if (title.includes('自动折叠')) {
+        systemStore.switchSetting('zoneCollapse')
+        feedback(true)
+      } else if (title.includes('标题居中')) {
+        systemStore.switchSetting('zoneAlignCenter')
+        feedback(true)
+      }
+    }, [])
+
+    return (
       <Flex style={_.mt.lg} justify='center'>
         <Touchable style={styles.touch} onPress={handlePress}>
           <Text type='sub' bold>
@@ -34,37 +57,17 @@ function Footer() {
           </Text>
           <Heatmap id='空间.跳转' to='User' alias='所有收藏' />
         </Touchable>
+
+        <View style={styles.settings}>
+          <Popover data={memoData} onSelect={handleSelect}>
+            <Flex style={styles.icon}>
+              <Iconfont name='icon-setting' size={16} />
+            </Flex>
+          </Popover>
+        </View>
       </Flex>
-
-      <Flex style={styles.settings} direction='column' align='end'>
-        <Touchable
-          style={styles.touch}
-          onPress={() => {
-            systemStore.switchSetting('zoneCollapse')
-
-            feedback(true)
-          }}
-        >
-          <Text type='sub' size={11} bold>
-            自动折叠 [{systemStore.setting.zoneCollapse ? '开' : '关'}]
-          </Text>
-        </Touchable>
-
-        <Touchable
-          style={styles.touch}
-          onPress={() => {
-            systemStore.switchSetting('zoneAlignCenter')
-
-            feedback(true)
-          }}
-        >
-          <Text type='sub' size={11} bold>
-            标题居中 [{systemStore.setting.zoneAlignCenter ? '开' : '关'}]
-          </Text>
-        </Touchable>
-      </Flex>
-    </>
-  ))
+    )
+  })
 }
 
 export default Footer

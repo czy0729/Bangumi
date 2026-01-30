@@ -10,6 +10,7 @@ import { t } from '@utils/fetch'
 import {
   HOST,
   TEXT_MENU_BROWSER,
+  TEXT_MENU_CHARACTER,
   TEXT_MENU_COLLECT,
   TEXT_MENU_CONNECT,
   TEXT_MENU_COPY_LINK,
@@ -30,7 +31,8 @@ export const MENU_DS = [
   TEXT_MENU_COPY_SHARE,
   !WEB && TEXT_MENU_PM,
   TEXT_MENU_COLLECT,
-  TEXT_MENU_FRIEND
+  TEXT_MENU_FRIEND,
+  TEXT_MENU_CHARACTER
 ].filter(Boolean)
 
 export const MENU_ACTIONS = {
@@ -63,6 +65,13 @@ export const MENU_ACTIONS = {
     const { userId } = getData(context)
     navigation.push('Friends', {
       userId
+    })
+  },
+  [TEXT_MENU_CHARACTER](context: Ctx) {
+    const { navigation } = context
+    const { userId } = getData(context)
+    navigation.push('Character', {
+      userName: userId
     })
   },
   [TEXT_MENU_CONNECT](context: Ctx) {

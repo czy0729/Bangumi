@@ -4,12 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-18 08:14:55
  */
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { Animated } from 'react-native'
 import { Component, ListView, Loading, ScrollView, Text } from '@components'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { USE_NATIVE_DRIVER } from '@constants'
+import { ANDROID, USE_NATIVE_DRIVER } from '@constants'
 import { TABS } from '../../ds'
 import { handleToQiafan, keyExtractor, renderItem, renderSectionHeader } from './utils'
 import { COMPONENT } from './ds'
@@ -21,18 +21,11 @@ import type { Props } from './types'
 function RakuenList({ ListHeaderComponent, onScroll }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
-  const handleRef = useCallback(
-    (ref: any) => {
-      $.forwardRef(
-        ref,
-        TABS.findIndex(item => item.title === '番剧')
-      )
-    },
-    [$]
-  )
+  /** iOS 才需要 scroll 同步 */
+  const handleScrollEvent = useMemo(() => {
+    if (ANDROID) return undefined
 
-  return useObserver(() => {
-    const handleScroll = Animated.event(
+    return Animated.event(
       [
         {
           nativeEvent: {
@@ -47,14 +40,40 @@ function RakuenList({ ListHeaderComponent, onScroll }: Props) {
         listener: onScroll
       }
     )
+  }, [$, onScroll])
 
-    if (!$.userTopicsFromCDN._loaded) {
+  /** iOS 才需要 ref 转发 */
+  const handleRef = useCallback(
+    (ref: any) => {
+      if (ANDROID) return
+
+      $.forwardRef(
+        ref,
+        TABS.findIndex(item => item.title === '番剧')
+      )
+    },
+    [$]
+  )
+
+  return useObserver(() => {
+    const { _loaded, _filter = 0 } = $.userTopicsFromCDN
+
+    /** loading 状态 */
+    if (!_loaded) {
+      if (ANDROID) {
+        return (
+          <Loading style={styles.nestScrollLoading}>
+            {$.state.timeout && <Text style={_.mt.md}>查询超时，TA可能没有发过帖子</Text>}
+          </Loading>
+        )
+      }
+
       return (
         <Component id='screen-zone-tab-view' data-type='rakuen-list'>
           <ScrollView
             contentContainerStyle={styles.contentContainerStyle}
             animated
-            onScroll={handleScroll}
+            onScroll={handleScrollEvent}
           >
             <Loading style={styles.loading}>
               {$.state.timeout && <Text style={_.mt.md}>查询超时，TA可能没有发过帖子</Text>}
@@ -64,7 +83,7 @@ function RakuenList({ ListHeaderComponent, onScroll }: Props) {
       )
     }
 
-    const { _filter = 0 } = $.userTopicsFromCDN
+    /** footer（会员提示） */
     const ListFooterComponent =
       _filter > 0 ? (
         <>
@@ -84,17 +103,18 @@ function RakuenList({ ListHeaderComponent, onScroll }: Props) {
       <Component id='screen-zone-tab-view' data-type='rakuen-list'>
         <ListView
           ref={handleRef}
+          nestedScrollEnabled={ANDROID}
           keyExtractor={keyExtractor}
-          animated
-          contentContainerStyle={styles.contentContainerStyle}
+          animated={!ANDROID}
+          contentContainerStyle={ANDROID ? styles.nestScroll : styles.contentContainerStyle}
           sectionKey='date'
           data={$.userTopicsFromCDN}
           stickySectionHeadersEnabled={false}
           renderSectionHeader={renderSectionHeader}
           renderItem={renderItem}
-          ListHeaderComponent={ListHeaderComponent}
+          ListHeaderComponent={!ANDROID ? ListHeaderComponent : undefined}
           ListFooterComponent={ListFooterComponent}
-          onScroll={handleScroll}
+          onScroll={handleScrollEvent}
         />
       </Component>
     )

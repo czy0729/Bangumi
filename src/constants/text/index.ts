@@ -92,6 +92,9 @@ export const TEXT_MENU_COLLECT = 'TA的收藏'
 /** 菜单: TA的好友 */
 export const TEXT_MENU_FRIEND = 'TA的好友'
 
+/** 菜单: TA的人物 */
+export const TEXT_MENU_CHARACTER = 'TA的人物'
+
 /** 菜单: 加为好友 */
 export const TEXT_MENU_CONNECT = '加为好友'
 

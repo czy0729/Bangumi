@@ -4,13 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-07-24 23:16:23
  */
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
 import { Component, Flex, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
-import { SCROLL_VIEW_RESET_PROPS, USE_NATIVE_DRIVER } from '@constants'
+import { ANDROID, SCROLL_VIEW_RESET_PROPS, USE_NATIVE_DRIVER } from '@constants'
 import { TABS } from '../../ds'
 import Chart from './chart'
 import Counts from './counts'
@@ -23,8 +23,32 @@ import type { Props } from './types'
 function Stats(props: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
+  /** iOS 才需要 scroll 同步 */
+  const handleScrollEvent = useMemo(() => {
+    if (ANDROID) return undefined
+
+    return Animated.event(
+      [
+        {
+          nativeEvent: {
+            contentOffset: {
+              y: $.scrollY
+            }
+          }
+        }
+      ],
+      {
+        useNativeDriver: USE_NATIVE_DRIVER,
+        listener: props.onScroll
+      }
+    )
+  }, [$, props.onScroll])
+
+  /** iOS 才需要 ref 转发 */
   const handleRef = useCallback(
     (ref: any) => {
+      if (ANDROID) return
+
       $.forwardRef(
         ref,
         TABS.findIndex(item => item.title === '统计')
@@ -32,6 +56,7 @@ function Stats(props: Props) {
     },
     [$]
   )
+
   const handlePress = useCallback(() => {
     const userId = $.username || $.userId
     navigation.push('UserTimeline', {
@@ -52,24 +77,11 @@ function Stats(props: Props) {
       <Component id='screen-zone-tab-view' data-type='stats'>
         <Animated.ScrollView
           ref={handleRef}
-          contentContainerStyle={styles.contentContainerStyle}
+          nestedScrollEnabled={ANDROID}
+          contentContainerStyle={ANDROID ? styles.nestScroll : styles.contentContainerStyle}
           {...props}
           {...SCROLL_VIEW_RESET_PROPS}
-          onScroll={Animated.event(
-            [
-              {
-                nativeEvent: {
-                  contentOffset: {
-                    y: $.scrollY
-                  }
-                }
-              }
-            ],
-            {
-              useNativeDriver: USE_NATIVE_DRIVER,
-              listener: props.onScroll
-            }
-          )}
+          onScroll={handleScrollEvent}
         >
           <View style={styles.page}>
             <Counts />

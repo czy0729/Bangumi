@@ -20,6 +20,6 @@ export const memoStyles = _.memoStyles(() => ({
     paddingBottom: _.bottom
   },
   nestScrollLoading: {
-    marginTop: 160
+    marginTop: Math.floor(_.parallaxImageHeight / 2)
   }
 }))

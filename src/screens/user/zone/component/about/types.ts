@@ -6,4 +6,4 @@
  */
 import type { ListViewProps } from '@components'
 
-export type Props = Pick<ListViewProps, 'ListHeaderComponent' | 'onScroll'>
+export type Props = Pick<ListViewProps, 'onScroll'>
