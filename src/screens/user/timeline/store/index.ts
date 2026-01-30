@@ -14,9 +14,7 @@ export default class ScreenUserTimeline extends Fetch {
 
       setTimeout(async () => {
         if (!this.users._loaded) {
-          usersStore.fetchUsers({
-            userId: this.userId
-          })
+          usersStore.fetchUsers(this.userId)
         }
 
         await this.fetchTimeline(true)

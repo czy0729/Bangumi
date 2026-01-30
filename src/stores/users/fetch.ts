@@ -81,27 +81,29 @@ export default class Fetch extends Computed {
   }
 
   /** 用户信息 (他人视角) */
-  fetchUsers = async (args?: { userId?: UserId }) => {
-    const { userId = userStore.myId } = args || {}
-    const html = await fetchHTML({
-      url: HTML_USERS(userId)
-    })
+  fetchUsers = async (userId: UserId = userStore.myId) => {
+    const STATE_KEY = 'users'
+    const ITEM_KEY = userId
 
-    const users = cheerioUsers(html)
-    const data = {
-      ...users,
-      _loaded: getTimestamp()
+    try {
+      const html = await fetchHTML({
+        url: HTML_USERS(userId)
+      })
+
+      this.setState({
+        [STATE_KEY]: {
+          [ITEM_KEY]: {
+            ...cheerioUsers(html),
+            _loaded: getTimestamp()
+          }
+        }
+      })
+      this.save(STATE_KEY)
+    } catch (error) {
+      this.error('fetchUsers', error)
     }
 
-    const key = 'users'
-    this.setState({
-      [key]: {
-        [userId]: data
-      }
-    })
-    this.save(key)
-
-    return data
+    return this[STATE_KEY](ITEM_KEY)
   }
 
   /** 用户收藏的虚拟角色 */

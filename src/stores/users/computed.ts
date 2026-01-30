@@ -60,10 +60,12 @@ export default class Computed
 
   /** 用户信息 */
   users(userId?: UserId) {
-    this.init('users', true)
-    return computed<Users>(() => {
-      const key = userId || userStore.myId
-      return this.state.users[key] || INIT_USERS
+    const STATE_KEY = 'users'
+    this.init(STATE_KEY, true)
+
+    return computed(() => {
+      const ITEM_KEY = userId || userStore.myId
+      return (this.state[STATE_KEY][ITEM_KEY] || INIT_USERS) as Users
     }).get()
   }
 

@@ -44,9 +44,7 @@ export default class Fetch extends Computed {
 
   /** 用户信息 (他人视角) */
   fetchUsers = () => {
-    return usersStore.fetchUsers({
-      userId: this.userId
-    })
+    return usersStore.fetchUsers(this.userId)
   }
 
   /** 用户番剧信息 */

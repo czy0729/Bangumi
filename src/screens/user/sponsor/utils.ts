@@ -169,9 +169,7 @@ export async function devGetUsersInfo() {
   await queue(
     items.map((userId, index) => async () => {
       try {
-        const data = await usersStore.fetchUsers({
-          userId
-        })
+        const data = await usersStore.fetchUsers(userId)
         console.info(`devGetUsersInfo ${index} / ${items.length}`)
 
         USERS_MAP[userId] = {

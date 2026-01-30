@@ -31,14 +31,7 @@ function UsersAdvance() {
       uids.sort((a, b) => sortByRecent(usersStore.users(a).recent, usersStore.users(b).recent))
     )
 
-    await queue(
-      uids.map(
-        userId => () =>
-          usersStore.fetchUsers({
-            userId
-          })
-      )
-    )
+    await queue(uids.map(userId => () => usersStore.fetchUsers(userId)))
     info('update users done')
 
     setList(

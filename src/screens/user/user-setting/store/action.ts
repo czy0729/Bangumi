@@ -96,9 +96,7 @@ export default class Action extends Fetch {
         this.fetchUserSetting()
 
         // 更新时光机的头像和背景
-        usersStore.fetchUsers({
-          userId: this.myUserId
-        })
+        usersStore.fetchUsers(this.myUserId)
 
         this.setState({
           bg: _bg

@@ -9,9 +9,7 @@ import Computed from './computed'
 
 export default class Fetch extends Computed {
   fetchUsers = () => {
-    return usersStore.fetchUsers({
-      userId: this.userId
-    })
+    return usersStore.fetchUsers(this.userId)
   }
 
   fetchUserCollections = (refresh: boolean = false) => {

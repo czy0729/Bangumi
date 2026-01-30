@@ -126,9 +126,7 @@ export default class Fetch extends Computed {
   }
 
   fetchUsersThenPush = async (userId: UserId) => {
-    await usersStore.fetchUsers({
-      userId
-    })
+    await usersStore.fetchUsers(userId)
     const users = usersStore.users(userId)
     if (!users._loaded) return false
 

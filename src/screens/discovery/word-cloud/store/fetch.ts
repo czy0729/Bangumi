@@ -103,9 +103,7 @@ export default class Fetch extends Computed {
 
   /** 获取用户信息 */
   fetchUser = () => {
-    return usersStore.fetchUsers({
-      userId: this.userId
-    })
+    return usersStore.fetchUsers(this.userId)
   }
 
   /** 获取用户收藏 */

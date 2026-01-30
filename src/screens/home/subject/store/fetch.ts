@@ -212,9 +212,7 @@ export default class Fetch extends Computed {
       const userId = userIds[i]
       const users = usersStore.usersInfo(userId)
       if (!users._loaded) {
-        const data = await usersStore.fetchUsers({
-          userId
-        })
+        const data = await usersStore.fetchUsers(userId)
         if (data.userId) {
           usersStore.updateUsersInfo({
             avatar: data.avatar,

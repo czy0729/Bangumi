@@ -7,7 +7,6 @@
 import { collectionStore, usersStore, userStore } from '@stores'
 import { info } from '@utils'
 import { logger } from '@utils/dev'
-
 import { TABS } from '../ds'
 import Computed from './computed'
 import { NAMESPACE } from './ds'
@@ -25,9 +24,7 @@ export default class Fetch extends Computed {
 
   /** 用户信息 (他人视角) */
   fetchUsers = () => {
-    return usersStore.fetchUsers({
-      userId: this.userId
-    })
+    return usersStore.fetchUsers(this.userId)
   }
 
   /** 收藏统一请求入口 */

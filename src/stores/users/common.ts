@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-01-18 19:43:17
  */
-import { cData, cFind, cheerio, cMap, cText, htmlMatch, matchAvatar, safeObject } from '@utils'
+import { cData, cFind, cheerio, cHtml, cMap, cText, htmlMatch, matchAvatar } from '@utils'
 import { getBlogItemTime } from '../discovery/utils'
 
 import type { MonoId, SubjectTypeValue } from '@types'
@@ -27,85 +27,92 @@ export function cheerioFriends(html: string) {
 
 /** 用户 */
 export function cheerioUsers(html: string) {
-  const $ = cheerio(htmlMatch(html, '<div id="headerProfile"', '<div id="footer">'))
-  const userId = (
-    $('.inner small.grey')
-      .text()
-      .match(/@([a-zA-Z0-9]+)/g)?.[0] || ''
-  ).replace('@', '')
+  const $ = cheerio(htmlMatch(html, '<div id="headerSearchWrapper', '<div id="footer'))
 
-  const hobby = $('small.hot').text().match(/\d+/g)
-  const matchDisconnect = $('a.chiiBtn[onclick]').attr('onclick')
+  /** ==================== 基础信息 ==================== */
+  const userId = cText(cFind($('.inner'), 'small.grey')).match(/@([a-zA-Z0-9]+)/)?.[1] || ''
+  const avatar = matchAvatar(cData(cFind($('.headerAvatar'), '.avatarNeue'), 'style'))
+  const hobby = cText($('small.hot')).match(/\d+/)?.[0] || '0'
+
+  /** ==================== 好友 ==================== */
   let disconnectUrl = ''
   let formhash = ''
-  if (matchDisconnect) {
-    const [idPath, , , hash] = matchDisconnect.split("'")
-    if (idPath) {
-      const id = idPath.split('(')[1].replace(', ', '')
-      disconnectUrl = `/disconnect/${id}?gh=${hash}`
+  const onclick = cData($('a.chiiBtn[onclick]'), 'onclick')
+  if (onclick) {
+    const [idPath, , , hash] = onclick.split("'")
+    if (idPath && hash) {
+      const id = idPath.split('(')[1]?.replace(', ', '')
+      if (id) disconnectUrl = `/disconnect/${id}?gh=${hash}`
+      formhash = hash
     }
-    if (hash) formhash = hash
   }
 
-  const $gridItems = $('.gridStats .item')
-  const $chartItems = $('.horizontalChart li .count')
-  let avatar: string = matchAvatar($('.headerAvatar .avatarNeue').attr('style'))
-  if (avatar.includes('icon.jpg')) avatar = ''
+  /** ==================== 统计 ==================== */
+  const countsText = cText(cFind($('#anime'), '.horizontalOptions'))
+  const getCount = (reg: RegExp) => Number(countsText.match(reg)?.[1] || 0)
 
-  const counts = $('#anime .horizontalOptions').text().trim()
-  return safeObject<Users>({
+  const gridNums = cMap($('.gridStats .item'), $row => cText(cFind($row, '.num')))
+  const chartNums = cMap($('.horizontalChart li'), $row =>
+    cText(cFind($row, '.count')).replace(/[()]/g, '')
+  )
+
+  /** ==================== 徽章 ==================== */
+  const networkService = cMap($('.network_service li'), $row => {
+    const $label = cFind($row, '.service')
+    const $a = cFind($row, 'a.l')
+
+    return {
+      label: cText($label),
+      value: cText(cFind($row, '.tip')) || cText($a),
+      color: cData($label, 'style').split(':')?.[1]?.replace(';', '').trim() || '',
+      href: cData($a, 'href')
+    }
+  }).filter(item => item.label !== 'Bangumi')
+
+  return {
     userId,
-    userName: $('.nameSingle .name a').text().trim(),
-    avatar,
-    sign: $('.bio').html() || '',
-    join: $('span.tip').first().text().trim(),
-    hobby: hobby?.[0] || '0',
-    percent: parseFloat($('span.percent_text').text().trim().replace('%', '')),
-    recent: $('.timeline small.time').first().text().trim(),
-    doing: Number(counts.match(/(\d+)部在看/)?.[1] || 0),
-    collect: Number(counts.match(/(\d+)部看过/)?.[1] || 0),
-    wish: Number(counts.match(/(\d+)部想看/)?.[1] || 0),
-    onHold: Number(counts.match(/(\d+)部搁置/)?.[1] || 0),
-    dropped: Number(counts.match(/(\d+)部抛弃/)?.[1] || 0),
-    connectUrl: $('#connectFrd').attr('href') || '',
+    userName: cText(cFind($('.nameSingle .name'), 'a')),
+    avatar: avatar.includes('icon.jpg') ? '' : avatar,
+    sign: cHtml($('.bio')),
+    join: cText($('span.tip').eq(0)),
+    hobby,
+    percent: parseFloat(cText($('span.percent_text')).replace('%', '')) || 0,
+    recent: cText(cFind($('.timeline'), 'small.time')),
+
+    doing: getCount(/(\d+)部在看/),
+    collect: getCount(/(\d+)部看过/),
+    wish: getCount(/(\d+)部想看/),
+    onHold: getCount(/(\d+)部搁置/),
+    dropped: getCount(/(\d+)部抛弃/),
+
+    connectUrl: cData($('#connectFrd'), 'href'),
     disconnectUrl,
     formhash,
-    ban: $('.tipIntro .tip').text().trim(),
+    ban: cText(cFind($('.tipIntro'), '.tip')).replace(/\s*\n\s*/g, ''),
+
     userStats: {
-      total: $gridItems.eq(0).find('.num').text().trim(),
-      collect: $gridItems.eq(1).find('.num').text().trim(),
-      percent: $gridItems.eq(2).find('.num').text().trim(),
-      avg: $gridItems.eq(3).find('.num').text().trim(),
-      std: $gridItems.eq(4).find('.num').text().trim(),
-      scored: $gridItems.eq(5).find('.num').text().trim(),
+      total: gridNums[0] || '',
+      collect: gridNums[1] || '',
+      percent: gridNums[2] || '',
+      avg: gridNums[3] || '',
+      std: gridNums[4] || '',
+      scored: gridNums[5] || '',
       chart: {
-        10: $chartItems.eq(0).text().trim().replace(/\(|\)/g, ''),
-        9: $chartItems.eq(1).text().trim().replace(/\(|\)/g, ''),
-        8: $chartItems.eq(2).text().trim().replace(/\(|\)/g, ''),
-        7: $chartItems.eq(3).text().trim().replace(/\(|\)/g, ''),
-        6: $chartItems.eq(4).text().trim().replace(/\(|\)/g, ''),
-        5: $chartItems.eq(5).text().trim().replace(/\(|\)/g, ''),
-        4: $chartItems.eq(6).text().trim().replace(/\(|\)/g, ''),
-        3: $chartItems.eq(7).text().trim().replace(/\(|\)/g, ''),
-        2: $chartItems.eq(8).text().trim().replace(/\(|\)/g, ''),
-        1: $chartItems.eq(9).text().trim().replace(/\(|\)/g, '')
+        10: chartNums[0] || '',
+        9: chartNums[1] || '',
+        8: chartNums[2] || '',
+        7: chartNums[3] || '',
+        6: chartNums[4] || '',
+        5: chartNums[5] || '',
+        4: chartNums[6] || '',
+        3: chartNums[7] || '',
+        2: chartNums[8] || '',
+        1: chartNums[9] || ''
       }
     },
-    networkService: $('.network_service li')
-      .map((_index: number, element: any) => {
-        const $li = cheerio(element)
-        const $label = $li.find('.service')
-        const $a = $li.find('a.l')
-        return safeObject({
-          label: $label.text().trim(),
-          value: $li.find('.tip').text().trim() || $a.text().trim(),
-          color: (($label.attr('style') || '').split(':')?.[1] || '').replace(';', '').trim(),
-          href: $a.attr('href') || ''
-        })
-      })
-      .get()
-      .filter((item: { label: string }) => item.label !== 'Bangumi')
-  })
+
+    networkService
+  } as Users
 }
 
 /** 用户收藏的人物 */
