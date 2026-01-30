@@ -5,10 +5,11 @@
  * @Last Modified time: 2025-09-09 21:56:39
  */
 import React from 'react'
-import { CharactersItem, RecentsItem } from '@stores/users/types'
-import { RenderItem } from '@types'
 import Item from '../item'
 import ItemRecents from '../item-recents'
+
+import type { CharactersItem, RecentsItem } from '@stores/users/types'
+import type { RenderItem } from '@types'
 
 export function renderItem({ item, index }: RenderItem<CharactersItem>) {
   return <Item {...item} index={index} />

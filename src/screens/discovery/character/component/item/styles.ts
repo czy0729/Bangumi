@@ -9,6 +9,7 @@ import { _ } from '@stores'
 export const memoStyles = _.memoStyles(() => {
   const num = _.portrait(5, 8)
   const gridStyles = _.grid(num)
+
   return {
     item: {
       width: gridStyles.width,

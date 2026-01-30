@@ -113,9 +113,10 @@ export function cheerioCharacters(html: string) {
   const $ = cheerio(htmlMatch(html, '<div id="columnA', '<div id="footer'))
   return cMap<CharactersItem>($('.coverList li'), $row => {
     const $a = cFind($row, 'a.title')
+    const avatar = cData(cFind($row, 'img'), 'src')
     return {
       id: cData($a, 'href').replace(/^\/+/, '') as MonoId,
-      avatar: cData(cFind($row, 'img'), 'src'),
+      avatar: avatar === '/img/info_only.png' ? '' : avatar,
       name: cText($a)
     }
   })

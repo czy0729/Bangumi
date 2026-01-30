@@ -11,15 +11,28 @@ import { _ } from '@stores'
 import { HTMLDecode, stl } from '@utils'
 import { t } from '@utils/fetch'
 import { useNavigation, useObserver } from '@utils/hooks'
+import { IMG_INFO_ONLY } from '@constants'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { ImageProps } from '@components'
+import type { Props } from './types'
 
 function Item({ index, id, avatar, name }: Props) {
   const navigation = useNavigation(COMPONENT)
 
   return useObserver(() => {
     const styles = memoStyles()
+
+    const imageProps: ImageProps = {
+      src: avatar || IMG_INFO_ONLY
+    }
+    if (avatar) {
+      imageProps.autoSize = styles.item.width
+    } else {
+      imageProps.size = styles.item.width
+    }
+
     return (
       <View style={stl(styles.item, index % _.portrait(5, 8) === 0 && styles.side)}>
         <Touchable
@@ -37,7 +50,7 @@ function Item({ index, id, avatar, name }: Props) {
           }}
         >
           <View style={styles.cover}>
-            <Image src={avatar} autoSize={styles.item.width} />
+            <Image {...imageProps} />
           </View>
           <Katakana.Provider style={_.mt.sm} size={11} numberOfLines={2} align='center'>
             <Katakana size={11} numberOfLines={2} align='center' bold>

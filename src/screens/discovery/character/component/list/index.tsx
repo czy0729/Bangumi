@@ -9,11 +9,13 @@ import { ListView } from '@components'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils/app'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { renderItem, renderItemRecents } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Characters, Recents } from '@stores/users/types'
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
 function List({ id }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
@@ -26,18 +28,24 @@ function List({ id }: Props) {
     if (!list._loaded) return null
 
     const styles = memoStyles()
-    const isRecents = id === 'recents'
-    const numColumns = isRecents ? undefined : _.portrait(5, 8)
+    const commonProps = {
+      keyExtractor,
+      contentContainerStyle: styles.contentContainerStyle,
+      onScroll: $.onScroll,
+      onHeaderRefresh: handleHeaderRefresh,
+      onFooterRefresh: handleFooterRefresh
+    } as const
+
+    if (id === 'recents') {
+      return <ListView {...commonProps} data={list as Recents} renderItem={renderItemRecents} />
+    }
+
     return (
       <ListView
-        keyExtractor={keyExtractor}
-        contentContainerStyle={styles.contentContainerStyle}
-        numColumns={numColumns}
-        data={list}
-        renderItem={isRecents ? renderItemRecents : renderItem}
-        onScroll={$.onScroll}
-        onHeaderRefresh={handleHeaderRefresh}
-        onFooterRefresh={handleFooterRefresh}
+        {...commonProps}
+        numColumns={_.portrait(5, 8)}
+        data={list as Characters}
+        renderItem={renderItem}
       />
     )
   })

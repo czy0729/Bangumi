@@ -4,7 +4,7 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2025-09-09 21:55:49
  */
-import { CharactersItem } from '@stores/users/types'
-import { WithIndex } from '@types'
+import type { CharactersItem } from '@stores/users/types'
+import type { WithIndex } from '@types'
 
 export type Props = WithIndex<CharactersItem>

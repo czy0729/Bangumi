@@ -14,10 +14,11 @@ import { cnjp, HTMLDecode, stl, x18 } from '@utils'
 import { t } from '@utils/fetch'
 import { useNavigation, useObserver } from '@utils/hooks'
 import { IMG_SUBJECT_ONLY, MODEL_SUBJECT_TYPE } from '@constants'
-import { MonoId, SubjectTypeCn } from '@types'
 import { COMPONENT, COVER_HEIGHT, COVER_WIDTH } from './ds'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { MonoId, SubjectTypeCn } from '@types'
+import type { Props } from './types'
 
 function ItemRecents({
   index,
