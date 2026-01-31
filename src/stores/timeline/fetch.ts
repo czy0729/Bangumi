@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-04-25 16:29:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-21 11:36:36
+ * @Last Modified time: 2026-01-31 16:48:14
  */
 import { getTimestamp, queue } from '@utils'
 import { fetchHTML } from '@utils/fetch'
 import { fetchUserActive } from '@utils/fetch.p1'
-import { HOST, HTML_SAY, MODEL_TIMELINE_SCOPE } from '@constants'
+import { H1, HOST, HTML_SAY, MODEL_TIMELINE_SCOPE } from '@constants'
 import systemStore from '../system'
 import userStore from '../user'
 import { cheerioFormHash, cheerioSay, fetchTimeline } from './common'
@@ -27,28 +27,34 @@ export default class Fetch extends Computed {
     refresh?: boolean
   ) => {
     const { scope = DEFAULT_SCOPE, type = DEFAULT_TYPE, userId } = args || {}
-    const data = this.timeline(scope, type)
-    const { likes, ...next } = await fetchTimeline(
-      {
-        scope,
-        type,
-        userId: userId || userStore.myId || userStore.myUserId
-      },
-      refresh,
-      data,
-      userStore.userInfo
-    )
-    this.updateLikes(likes)
+    const STATE_KEY = 'timeline'
+    const ITEM_ARGS = [scope, type] as const
+    const ITEM_KEY = ITEM_ARGS.join('|')
 
-    const key = 'timeline'
-    const stateKey = `${scope}|${type}`
-    this.setState({
-      [key]: {
-        [stateKey]: next
-      }
-    })
+    try {
+      const data = this[STATE_KEY](...ITEM_ARGS)
+      const { likes, ...next } = await fetchTimeline(
+        {
+          scope,
+          type,
+          userId: userId || userStore.myId || userStore.myUserId
+        },
+        refresh,
+        data,
+        userStore.userInfo
+      )
+      this.updateLikes(likes)
 
-    return next
+      this.setState({
+        [STATE_KEY]: {
+          [ITEM_KEY]: next
+        }
+      })
+    } catch (error) {
+      this.error('fetchTimeline', error)
+    }
+
+    return this[STATE_KEY](...ITEM_ARGS)
   }
 
   /** 获取他人视角的时间胶囊 */
@@ -239,11 +245,18 @@ export default class Fetch extends Computed {
   /** 批量获取用户最后活跃时间 */
   fetchUsersActiveQueue = async (userIds: UserId[], onProgress?: (percent: string) => void) => {
     const STATE_KEY = 'active'
-    const data: Record<UserId, number> = {}
+    await this.init(STATE_KEY)
+
+    const updates: Record<UserId, number> = {}
+    const prevActive = this[STATE_KEY]
+    const now = getTimestamp()
 
     try {
       const fetchs = userIds.map((userId, index) => async () => {
-        data[userId] = await fetchUserActive(userId)
+        const prev = prevActive[userId] || 0
+        if (prev && now - prev <= H1) return
+
+        updates[userId] = await fetchUserActive(userId)
 
         if (typeof onProgress === 'function') {
           onProgress(`${Math.floor(((index + 1) / (userIds.length || 1)) * 100)}%`)
@@ -252,13 +265,13 @@ export default class Fetch extends Computed {
       await queue(fetchs, 2)
 
       this.setState({
-        [STATE_KEY]: data
+        [STATE_KEY]: updates
       })
       this.save(STATE_KEY)
     } catch (error) {
-      this.error('fetchUsersActiveQueue')
+      this.error('fetchUsersActiveQueue', error)
     }
 
-    return data
+    return updates
   }
 }

@@ -8,10 +8,11 @@ import { computed } from 'mobx'
 import { systemStore, timelineStore, userStore } from '@stores'
 import { x18 } from '@utils'
 import { IOS, URL_DEFAULT_AVATAR } from '@constants'
-import { TimeLineScope, TimeLineType } from '@types'
 import { TABS } from '../ds'
-import { TabLabel } from '../types'
 import State from './state'
+
+import type { TimeLineScope, TimeLineType } from '@types'
+import type { TabLabel } from '../types'
 
 export default class Computed extends State {
   /** Tab navigationState */
@@ -19,7 +20,7 @@ export default class Computed extends State {
     return {
       index: this.state.page,
       routes: TABS
-    }
+    } as const
   }
 
   /**

@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-06-17 20:50:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-16 20:28:23
+ * @Last Modified time: 2026-01-31 15:20:08
  */
-import { EventType, Navigation, SubjectId, UserId, ViewStyle } from '@types'
+import type { EventType, Navigation, SubjectId, UserId, ViewStyle } from '@types'
 
 export type Props = {
   navigation?: Navigation

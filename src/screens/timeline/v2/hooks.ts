@@ -6,10 +6,11 @@
  */
 import { uiStore, useInitStore } from '@stores'
 import { usePageLifecycle } from '@utils/hooks'
-import { EVENT_APP_TAB_PRESS } from '@src/navigations/tab-bar'
-import { NavigationProps } from '@types'
 import store from './store'
-import { Ctx } from './types'
+import { REFRESH_EVENT_ID } from './ds'
+
+import type { NavigationProps } from '@types'
+import type { Ctx } from './types'
 
 /** 时间胶囊页面逻辑 */
 export function useTimelinePage(props: NavigationProps) {
@@ -21,7 +22,7 @@ export function useTimelinePage(props: NavigationProps) {
       onEnter() {
         $.init()
 
-        navigation.addListener(`${EVENT_APP_TAB_PRESS}|Timeline`, () => {
+        navigation.addListener(REFRESH_EVENT_ID, () => {
           $.onRefreshThenScrollTop()
         })
       },

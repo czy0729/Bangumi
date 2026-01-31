@@ -7,12 +7,15 @@
 import React from 'react'
 import { Heatmap } from '@components'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { TABS_HEADER_HEIGHT } from '@styles'
 import { COMPONENT } from './ds'
 
 function Heatmaps() {
-  return (
+  r(COMPONENT)
+
+  return useObserver(() => (
     <>
       <Heatmap
         right={_.wind + 62}
@@ -28,7 +31,7 @@ function Heatmaps() {
       />
       <Heatmap bottom={_.bottom} id='时间胶囊' screen='Timeline' />
     </>
-  )
+  ))
 }
 
-export default ob(Heatmaps, COMPONENT)
+export default Heatmaps

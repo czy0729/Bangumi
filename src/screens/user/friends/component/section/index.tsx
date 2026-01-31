@@ -5,10 +5,10 @@
  * @Last Modified time: 2026-01-21 11:14:01
  */
 import React, { useCallback } from 'react'
-import { useObserver } from 'mobx-react'
 import { Iconfont, Text, Touchable } from '@components'
 import { SectionHeader } from '@_'
 import { useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 

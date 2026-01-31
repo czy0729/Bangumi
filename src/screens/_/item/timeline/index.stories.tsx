@@ -1,13 +1,15 @@
 /*
  * @Author: czy0729
  * @Date: 2023-04-05 05:40:55
- * @Last Modified by:   czy0729
- * @Last Modified time: 2023-04-05 05:40:55
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-01-31 15:20:16
  */
 import React from 'react'
-import { StorybookPage, StorybookList, Flex } from '@components'
-import { ItemTimeline as Component, ItemTimelineProps as Props } from './index'
+import { Flex, StorybookList, StorybookPage } from '@components'
+import { ItemTimeline as Component } from './index'
 import { list } from './index.mock'
+
+import type { ItemTimelineProps as Props } from './index'
 
 export default {
   title: 'item/ItemTimeline',

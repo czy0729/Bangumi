@@ -2,16 +2,19 @@
  * @Author: czy0729
  * @Date: 2021-01-21 20:21:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 16:54:49
+ * @Last Modified time: 2026-01-31 14:37:23
  */
 import React from 'react'
 import { Heatmap } from '@components'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 
 function ItemHeatmaps() {
-  return (
+  r(COMPONENT)
+
+  return useObserver(() => (
     <>
       <Heatmap right={2} bottom={64} id='时间胶囊.删除时间线' transparent />
       <Heatmap
@@ -35,7 +38,7 @@ function ItemHeatmaps() {
       <Heatmap right={135} bottom={59} id='时间胶囊.跳转' to='Group' alias='小组' transparent />
       <Heatmap right={64} bottom={59} id='时间胶囊.跳转' to='Topic' alias='帖子' transparent />
     </>
-  )
+  ))
 }
 
-export default ob(ItemHeatmaps, COMPONENT)
+export default ItemHeatmaps

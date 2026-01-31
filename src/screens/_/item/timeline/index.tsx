@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 03:14:17
+ * @Last Modified time: 2026-01-31 15:12:29
  */
 import React from 'react'
 import { Component } from '@components'
@@ -13,9 +13,10 @@ import { HOST } from '@constants'
 import Item from './item'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props as ItemTimelineProps } from './types'
 
-export { ItemTimelineProps }
+import type { Props as ItemTimelineProps } from './types'
+
+export type { ItemTimelineProps }
 
 export const ItemTimeline = ob(
   ({

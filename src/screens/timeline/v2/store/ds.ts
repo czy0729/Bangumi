@@ -6,8 +6,9 @@
  */
 import { _ } from '@stores'
 import { MODEL_TIMELINE_SCOPE } from '@constants'
-import { Loaded, TimeLineScope } from '@types'
 import { COMPONENT } from '../ds'
+
+import type { Loaded, TimeLineScope } from '@types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
@@ -29,8 +30,8 @@ export const STATE = {
   /** Tabs 当前页数 */
   page: 0,
 
-  /** 已经渲染的 Tab index */
-  renderedTabsIndex: [],
+  /** 已经渲染的 Tab */
+  renderedTabsIndex: [] as number[],
 
   /** 页面初始化完成 */
   _loaded: false as Loaded

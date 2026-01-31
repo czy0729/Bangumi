@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 05:12:42
+ * @Last Modified time: 2026-01-31 15:35:39
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,6 @@ import { _, uiStore, userStore } from '@stores'
 import { appNavigate, confirm, stl, x18 } from '@utils'
 import { memo } from '@utils/decorators'
 import { EVENT, FROZEN_ARRAY, FROZEN_FN, IMG_HEIGHT_SM, IMG_WIDTH_SM, SHARE_MODE } from '@constants'
-import { SubjectTypeCn } from '@types'
 import { InView, Likes, Popover, Stars } from '../../base'
 import Avatar from './avatar'
 import Desc from './desc'
@@ -26,6 +25,8 @@ import {
   ITEM_HEIGHT,
   LIKES_OFFSETS
 } from './ds'
+
+import type { SubjectTypeCn } from '@types'
 
 const Item = memo(
   ({
@@ -112,6 +113,7 @@ const Item = memo(
     }
 
     const y = ITEM_HEIGHT * (index + 2)
+
     return (
       <Flex style={style} align='start'>
         {full ? (
@@ -185,12 +187,13 @@ const Item = memo(
                     </Text>
                   </>
                 )}
-                <Text style={_.mr.sm} type='sub' size={12} numberOfLines={1}>
+                <Text type='sub' size={12} numberOfLines={1}>
                   {time}
                 </Text>
-                <Stars value={star} />
+                <Stars style={_.ml.sm} value={star} />
               </Flex>
             </Flex.Item>
+
             <Flex align='start'>
               {image.length === 1 && (
                 <InView key={index} y={y}>

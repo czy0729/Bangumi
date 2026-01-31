@@ -5,7 +5,9 @@
  * @Last Modified time: 2024-05-27 10:58:28
  */
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE } from './ds'
+
+import type { STATE } from './ds'
 
 export default class ScreenTimeline extends Action {
   init = async () => {

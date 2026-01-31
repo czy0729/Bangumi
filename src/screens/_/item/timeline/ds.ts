@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-06-17 20:17:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 16:59:06
+ * @Last Modified time: 2026-01-31 15:19:41
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
 import { EVENT, FROZEN_FN } from '@constants'
-import { UserId } from '@types'
 import { COMPONENT as PARENT } from '../ds'
-import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { UserId } from '@types'
+import type { memoStyles } from './styles'
+import type { Props } from './types'
 
 export const COMPONENT = rc(PARENT, 'ItemTimeline')
 
@@ -22,7 +23,7 @@ export const AVATAR_WIDTH = 40
 
 export const AVATAR_COVER_WIDTH = _.r(40)
 
-export const HIDDEN_DS = ['1天不看TA', '3天不看TA', '7天不看TA', '重置']
+export const HIDDEN_DS = ['1天不看TA', '3天不看TA', '7天不看TA', '重置'] as const
 
 export const DEFAULT_PROPS = {
   navigation: {} as Props['navigation'],

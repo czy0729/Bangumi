@@ -6,17 +6,20 @@
  */
 import React from 'react'
 import { Track } from '@components'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import Heatmaps from '../heatmaps'
-import { COMPONENT } from './ds'
+import { COMPONENT, HM } from './ds'
 
 function Extra() {
-  return (
+  r(COMPONENT)
+
+  return useObserver(() => (
     <>
-      <Track title='时间胶囊' hm={['timeline', 'Timeline']} />
+      <Track title='时间胶囊' hm={HM} />
       <Heatmaps />
     </>
-  )
+  ))
 }
 
-export default ob(Extra, COMPONENT)
+export default Extra

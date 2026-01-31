@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-24 18:56:17
+ * @Last Modified time: 2026-01-31 14:39:57
  */
 import React, { useCallback, useMemo } from 'react'
 import { ListView, Loading } from '@components'
@@ -16,9 +16,10 @@ import { keyExtractor } from './utils'
 import { COMPONENT, ENTERING_EXITING_ANIMATIONS_NUM } from './ds'
 
 import type { ScrollToIndex } from '@components'
-import type { ScrollEvent } from '@types'
+import type { RenderItem, ScrollEvent } from '@types'
 import type { Ctx } from '../../types'
 import type { Props } from './types'
+import type { TimelineItem } from '@stores/timeline/types'
 
 function List({ title }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
@@ -49,7 +50,7 @@ function List({ title }: Props) {
     [$]
   )
   const handleRenderItem = useCallback(
-    ({ item, index }) => <Item title={title} item={item} index={index} />,
+    ({ item, index }: RenderItem<TimelineItem>) => <Item title={title} item={item} index={index} />,
     [title]
   )
 

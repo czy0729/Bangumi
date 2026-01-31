@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const ItemTimeline = lazy(() => import('./index'))
-export { Props as ItemTimelineProps } from './types'
+export type { Props as ItemTimelineProps } from './types'

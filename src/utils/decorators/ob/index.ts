@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-01-16 17:45:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-05 16:35:56
+ * @Last Modified time: 2026-01-31 14:53:36
  */
 import { observer } from 'mobx-react'
 import { DEV } from '@src/config'
-import { IReactComponent } from '@types'
 import { withDev } from '../utils'
 
+import type { IReactComponent } from '@types'
+
 /**
- * Observer
+ * @deprecated Observer
  * @param Component 组件
  * @param param2 defaultProps | devRerenderKey 默认 props 或者调试组件名
  * @param param3 devRerenderKey 调试组件名

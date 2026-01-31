@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 16:37:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 10:48:46
+ * @Last Modified time: 2026-01-31 16:45:58
  */
 import { getTimestamp } from '@utils'
 import { xhr } from '@utils/fetch'
@@ -13,9 +13,9 @@ import {
   HTML_ACTION_TIMELINE_SAY
 } from '@constants'
 import Fetch from './fetch'
+import { parseRelativeTimeToTs } from './utils'
 
 import type { Fn, Id, TimeLineScope, TimeLineType, UserId } from '@types'
-
 export default class Action extends Fetch {
   /** 更新隐藏某人动态的截止时间 */
   updateHidden = (hash?: UserId, day: number = 1) => {
@@ -65,6 +65,45 @@ export default class Action extends Fetch {
         }
       }
     })
+  }
+
+  /** 从最新的时间线数据更新好友的最近活跃时间 */
+  syncActiveFromTimeline = async (scope: TimeLineScope, type: TimeLineType) => {
+    const STATE_KEY = 'active'
+    await this.init(STATE_KEY)
+
+    const { list } = this.timeline(scope, type)
+    const updates: Record<UserId, number> = {}
+    const prevActive = this[STATE_KEY]
+
+    try {
+      list.forEach(item => {
+        const userUrl = item?.p1?.url
+        if (!userUrl) return
+
+        const userId = userUrl.split('/').pop()
+        if (!userId) return
+
+        const newTs = parseRelativeTimeToTs(item.time)
+        if (!newTs) return
+
+        const prev = prevActive[userId] || 0
+
+        // 没有旧值，或者新时间更近
+        if (!prev || newTs > prev) updates[userId] = newTs
+      })
+
+      if (Object.keys(updates)?.length) {
+        this.setState({
+          [STATE_KEY]: updates
+        })
+        this.save(STATE_KEY)
+      }
+    } catch (error) {
+      this.error('syncActiveFromTimeline', error)
+    }
+
+    return updates
   }
 
   // -------------------- action --------------------

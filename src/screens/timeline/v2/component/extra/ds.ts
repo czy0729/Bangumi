@@ -8,3 +8,5 @@ import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'Extra')
+
+export const HM = ['timeline', 'Timeline'] as const
