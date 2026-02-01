@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 16:37:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-31 16:45:58
+ * @Last Modified time: 2026-02-01 00:56:04
  */
 import { getTimestamp } from '@utils'
 import { xhr } from '@utils/fetch'
@@ -104,6 +104,15 @@ export default class Action extends Fetch {
     }
 
     return updates
+  }
+
+  updateActive = async (updates: Record<UserId, number>) => {
+    const STATE_KEY = 'active'
+    await this.init(STATE_KEY)
+
+    this.setState({
+      [STATE_KEY]: updates
+    })
   }
 
   // -------------------- action --------------------

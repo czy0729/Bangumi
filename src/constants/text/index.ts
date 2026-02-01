@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-23 10:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-30 18:03:06
+ * @Last Modified time: 2026-02-01 10:29:32
  */
 import { WEB } from '../device'
 
@@ -31,7 +31,7 @@ export const TEXT_UPDATE_GAME = '2024-07-14'
 export const TEXT_UPDATE_MANGA = '2024-09-23'
 
 /** 赞助者最后更新时间 */
-export const TEXT_UPDATE_SPONSOR = '2025-08-20'
+export const TEXT_UPDATE_SPONSOR = '2026-02-01'
 
 /** 分类排名更新时间 */
 export const TEXT_UPDATE_TYPERANK = '2025-04-02'

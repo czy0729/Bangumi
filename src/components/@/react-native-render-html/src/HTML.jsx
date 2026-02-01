@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 16:25:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-24 06:44:44
+ * @Last Modified time: 2026-02-01 00:51:34
  */
 import React, { PureComponent } from 'react'
 import { View, Text, Dimensions, StyleSheet } from 'react-native'
@@ -582,8 +582,6 @@ export default class HTML extends PureComponent {
             )
             if (styles?.fontWeight === 'bold') {
               styles = StyleSheet.flatten([styles, _.fontBoldStyle])
-            } else {
-              styles = StyleSheet.flatten([styles, _.fontStyle])
             }
 
             textElement = (

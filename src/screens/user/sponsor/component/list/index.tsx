@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-01-07 17:27:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-26 22:00:46
+ * @Last Modified time: 2026-02-01 10:27:31
  */
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Notice, PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
@@ -18,6 +18,15 @@ import type { Ctx } from '../../types'
 function List() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
+  const elListHeaderComponent = useMemo(
+    () => (
+      <Notice>
+        截止至 {TEXT_UPDATE_SPONSOR} 共 {LIST.length} 人投食了，感谢你们的支持！
+      </Notice>
+    ),
+    []
+  )
+
   return useObserver(() => (
     <PaginationList2
       keyExtractor={keyExtractor}
@@ -25,11 +34,7 @@ function List() {
       data={LIST}
       numColumns={2}
       limit={40}
-      ListHeaderComponent={
-        <Notice>
-          截止至 {TEXT_UPDATE_SPONSOR} 共 {LIST.length} 人投食了，感谢你们的支持！
-        </Notice>
-      }
+      ListHeaderComponent={elListHeaderComponent}
       renderItem={renderItem}
       onScroll={$.onScroll}
     />

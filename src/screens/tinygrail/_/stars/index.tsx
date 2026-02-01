@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-07 20:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-29 04:49:11
+ * @Last Modified time: 2026-02-01 00:39:17
  */
 import React from 'react'
 import { Iconfont } from '@components'
@@ -10,7 +10,7 @@ import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 
 function Stars({ value = 0, size = 11 }) {
-  if (!value) return null
+  if (!value || value <= 0) return null
 
   const passProps = {
     style: {
@@ -22,6 +22,7 @@ function Stars({ value = 0, size = 11 }) {
   const sun = Math.floor(value / 25)
   const moon = Math.floor((value - sun * 25) / 5)
   const star = value - sun * 25 - moon * 5
+
   return (
     <>
       {!!sun &&

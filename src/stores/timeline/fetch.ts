@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 16:29:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-31 16:48:14
+ * @Last Modified time: 2026-02-01 10:00:13
  */
 import { getTimestamp, queue } from '@utils'
 import { fetchHTML } from '@utils/fetch'
@@ -243,7 +243,10 @@ export default class Fetch extends Computed {
   }
 
   /** 批量获取用户最后活跃时间 */
-  fetchUsersActiveQueue = async (userIds: UserId[], onProgress?: (percent: string) => void) => {
+  fetchUsersActiveQueue = async (
+    userIds: UserId[],
+    onProgress?: (percent: string, updates?: Record<UserId, number>) => void
+  ) => {
     const STATE_KEY = 'active'
     await this.init(STATE_KEY)
 
@@ -259,7 +262,7 @@ export default class Fetch extends Computed {
         updates[userId] = await fetchUserActive(userId)
 
         if (typeof onProgress === 'function') {
-          onProgress(`${Math.floor(((index + 1) / (userIds.length || 1)) * 100)}%`)
+          onProgress(`${Math.floor(((index + 1) / (userIds.length || 1)) * 100)}%`, updates)
         }
       })
       await queue(fetchs, 2)

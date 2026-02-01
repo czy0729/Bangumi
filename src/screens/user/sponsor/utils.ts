@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-09-07 00:56:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-24 19:09:07
+ * @Last Modified time: 2026-02-01 10:14:50
  */
 import { useCallback, useState } from 'react'
 import dayjs from 'dayjs'
 import { _, usersStore } from '@stores'
 import { queue, toFixed } from '@utils'
+import { logger } from '@utils/dev'
 import { update } from '@utils/kv'
 import treemap from '@utils/thirdParty/treemap'
 import { DEV, IOS } from '@constants'
@@ -170,7 +171,7 @@ export async function devGetUsersInfo() {
     items.map((userId, index) => async () => {
       try {
         const data = await usersStore.fetchUsers(userId)
-        console.info(`devGetUsersInfo ${index} / ${items.length}`)
+        logger.info(`devGetUsersInfo ${index} / ${items.length}`)
 
         USERS_MAP[userId] = {
           n: data.userName
@@ -187,11 +188,11 @@ export async function devGetUsersInfo() {
       return true
     })
   )
-  console.log(JSON.stringify(USERS_MAP))
+  logger.info(JSON.stringify(USERS_MAP))
 
   update('sponsor_users_map', USERS_MAP)
 
-  console.info('devGetUsersInfo done')
+  logger.info('devGetUsersInfo done')
 }
 
 export async function devLocalUsersInfo() {
@@ -213,11 +214,11 @@ export async function devLocalUsersInfo() {
       }
       if (data.userId !== userId) USERS_MAP[userId].i = data.userId
     } catch (error) {
-      console.log(usersStore.users(userId).avatar)
+      logger.error(usersStore.users(userId).avatar)
     }
   })
 
   update('sponsor_users_map', USERS_MAP)
 
-  console.info('done')
+  logger.info('done')
 }

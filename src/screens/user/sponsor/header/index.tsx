@@ -2,26 +2,26 @@
  * @Author: czy0729
  * @Date: 2022-09-07 15:16:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-08 10:41:37
+ * @Last Modified time: 2026-02-01 10:20:53
  */
-import React from 'react'
+import React, { useCallback } from 'react'
+import { useObserver } from 'mobx-react'
 import { HeaderV2 } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../types'
 import { timeDiff } from '../utils'
 import { COMPONENT, HM } from './ds'
 
+import type { Ctx } from '../types'
+
 function Header() {
-  const { $, navigation } = useStore<Ctx>()
-  const { list } = $.state
-  return (
-    <HeaderV2
-      title='赞助者'
-      hm={HM}
-      headerRight={() => (
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => {
+    const { list } = $.state
+    const handleHeaderRight = useCallback(
+      () => (
         <>
           <IconTouchable
             style={_.mr.sm}
@@ -51,9 +51,12 @@ function Header() {
             }}
           />
         </>
-      )}
-    />
-  )
+      ),
+      [list]
+    )
+
+    return <HeaderV2 title='赞助者' hm={HM} headerRight={handleHeaderRight} />
+  })
 }
 
-export default ob(Header, COMPONENT)
+export default Header
