@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 16:25:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-20 08:24:28
+ * @Last Modified time: 2026-02-02 07:14:42
  */
 import { computed } from 'mobx'
 import { desc } from '@utils'
@@ -19,9 +19,11 @@ import type { Hidden, Say, Timeline } from './types'
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   /** 时间胶囊 */
   timeline(scope: TimeLineScope = DEFAULT_SCOPE, type: TimeLineType = DEFAULT_TYPE) {
-    return computed<Timeline>(() => {
-      const key = `${scope}|${type}`
-      return this.state.timeline[key] || LIST_EMPTY
+    const STATE_KEY = 'timeline'
+
+    return computed(() => {
+      const ITEM_KEY = `${scope}|${type}` as const
+      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as Timeline
     }).get()
   }
 

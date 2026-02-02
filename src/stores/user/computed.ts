@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-22 16:24:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-10 01:54:26
+ * @Last Modified time: 2026-02-02 13:29:34
  */
 import { computed } from 'mobx'
 import { APP_USERID_IOS_AUTH, APP_USERID_TOURIST, HOST, LIST_EMPTY, UA, WEB } from '@constants'
@@ -213,7 +213,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
     return this.userInfo.id || this.accessToken.user_id
   }
 
-  /** 自己用户 Id (改过后的) */
+  /** 自己用户 ID (改过后的) */
   @computed get myId() {
     return this.userInfo.username || this.userInfo.id || this.accessToken.user_id
   }

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 13:14:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-07 05:24:38
+ * @Last Modified time: 2026-02-02 13:25:55
  */
 import { UA } from '@constants/constants'
 import { WEB } from '@constants/device'
@@ -35,6 +35,10 @@ export const HOST_C2 = Crypto.get<string>(
 
 export const HOST_C2_CONFIG = Crypto.get<string>(
   'U2FsdGVkX1/F1iKuNM/knEoDVrbXS0v4bRtX+zIlkOUhydQ0ce+Vq/rgDMpPoGWYDLyvJD5s7t1ZHnwfZ+1rxcVNf/LlVsPq0FQkyjcyXAkPL90tImgeEeq4O1ytd9/5F4hvBDPX+6SDyOdW2Kt4agWpe8l0pMTRrE7Ezpkzk4JPcy/CCPJfLK+4kxhJxt9g6wXKyN4amC0fYlsboasO+n3t2FJgSlgjYzDBCZO7jC8D4cwwxwcT6wXNULZyrEHd'
+)
+
+export const HOST_HM = Crypto.get<string>(
+  'U2FsdGVkX1+asNWQt7K0i6LxZhv5NatP0c1eETXeQ+rT/GnP8lXYoUxcXtiNHbw4oyAQrHI4IZC/E1jcpODKQQ=='
 )
 
 /** 唯一性标记, 完全一样的 POST 请求不会发送第二次 */

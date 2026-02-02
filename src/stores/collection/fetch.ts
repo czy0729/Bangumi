@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-04-24 03:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-04 19:26:18
+ * @Last Modified time: 2026-02-02 13:55:30
  */
 import { getTimestamp, info, queue, sleep } from '@utils'
-import { fetchHTML, xhrCustom } from '@utils/fetch'
+import { fetchHTML } from '@utils/fetch'
 import { fetchCollectionSingleV0, request } from '@utils/fetch.v0'
+import { heatmap } from '@utils/kv'
 import {
   API_COLLECTION,
-  API_MOSAIC_TILE,
   API_USERS_SUBJECT_COLLECTION,
   COLLECTION_STATUS,
   H,
@@ -39,9 +39,9 @@ import type {
   Collection,
   CollectionStatusLastFetchMS,
   FetchUserCollectionsArgs,
+  MosaicTile,
   UserCollectionStatus
 } from './types'
-
 export default class Fetch extends Computed {
   /** 只本地化自己的收藏概览 */
   saveUserCollections = () => {
@@ -243,43 +243,28 @@ export default class Fetch extends Computed {
   }
 
   /** 瓷砖进度数据 */
-  fetchMosaicTile = async (args: { userId?: UserId }) => {
-    const { userId } = args || {}
-    const key = 'mosaicTile'
-    const _username = userId || userStore.myId
-    if (
-      this.mosaicTile._loaded &&
-      getTimestamp() - this.mosaicTile._loaded <= 60 &&
-      _username === this.mosaicTile._username
-    ) {
-      return this[key]
-    }
+  fetchMosaicTile = async (userId: UserId = userStore.myId) => {
+    const STATE_KEY = 'mosaicTile'
+    const username = userId || userStore.myId
 
     try {
-      await xhrCustom({
-        url: API_MOSAIC_TILE(_username).replace('/timelines/progress.json', '')
-      })
-      await sleep(2400)
+      const result = await heatmap(username)
+      if (result) {
+        const data: MosaicTile = {}
+        result.forEach(item => {
+          data[item.date] = item.count
+        })
 
-      const { _response } = await xhrCustom({
-        url: `${API_MOSAIC_TILE(_username)}?begin=2019-07-01&end=2020-12-31&state=${getTimestamp()}`
-      })
-
-      const data = JSON.parse(_response)
-      if (!Object.keys(data || {}).length) {
-        info('时间瓷砖数据生成中，请稍等一下再试')
-        return false
+        this.setState({
+          [STATE_KEY]: data
+        })
+        this.save(STATE_KEY)
       }
-
-      data._username = _username
-      data._loaded = getTimestamp()
-
-      this.clearState(key, data)
-      this.save(key)
     } catch (error) {
-      info('时间瓷砖数据生成中，请稍等一下再试')
+      this.error('fetchMosaicTile', error)
     }
-    return this[key]
+
+    return this[STATE_KEY]
   }
 
   /**

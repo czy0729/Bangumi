@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 02:59:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-23 19:37:54
+ * @Last Modified time: 2026-02-02 13:53:30
  */
 import { computed } from 'mobx'
 import { LIST_EMPTY } from '@constants'
@@ -23,7 +23,6 @@ import type {
 import type { STATE } from './init'
 import type {
   Collection,
-  MosaicTile,
   UserCollections,
   UserCollectionsMap,
   UsersSubjectCollection
@@ -65,9 +64,11 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   /** 瓷砖进度 */
-  @computed get mosaicTile(): MosaicTile {
-    this.init('mosaicTile', true)
-    return this.state.mosaicTile
+  @computed get mosaicTile() {
+    const STATE_KEY = 'mosaicTile'
+    this.init(STATE_KEY, true)
+
+    return this.state[STATE_KEY]
   }
 
   /**

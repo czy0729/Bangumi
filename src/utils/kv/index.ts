@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-23 01:47:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-07 05:24:41
+ * @Last Modified time: 2026-02-02 13:38:46
  */
 import Constants from 'expo-constants'
 import { WEB } from '@constants/device'
@@ -18,12 +18,13 @@ import {
   HOST_C2,
   HOST_C2_CONFIG,
   HOST_COMPLETIONS,
+  HOST_HM,
   HOST_PIC_LIST,
   UPDATE_CACHE_MAP
 } from './ds'
 
-import type { TranslateResult } from '@types'
-import type { Result, ResultCollectList, ResultPicList, ResultTemp } from './type'
+import type { TranslateResult, UserId } from '@types'
+import type { Result, ResultCollectList, ResultHeatmap, ResultPicList, ResultTemp } from './type'
 
 let userAgent = ''
 
@@ -514,4 +515,22 @@ export async function picList(prefix: string, maxKeys: number = 100): Promise<Re
   } catch (error) {}
 
   return null
+}
+
+export async function heatmap(username: UserId): Promise<false | ResultHeatmap> {
+  if (!userAgent) userAgent = await Constants.getWebViewUserAgentAsync()
+
+  try {
+    const response = await axios({
+      method: 'get',
+      url: `${HOST_HM}/${username}`,
+      headers: {
+        'User-Agent': userAgent
+      }
+    })
+
+    return response?.data
+  } catch (error) {
+    return false
+  }
 }

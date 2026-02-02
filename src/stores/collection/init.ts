@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-07-15 10:48:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-04 18:54:50
+ * @Last Modified time: 2026-02-02 13:53:51
  */
 import { MODEL_COLLECTION_STATUS, MODEL_COLLECTIONS_ORDERBY, MODEL_SUBJECT_TYPE } from '@constants'
 
 import type {
   CollectionStatusLastFetchMS,
+  MosaicTile,
   UserCollections,
   UserCollectionsTags,
   UserCollectionStatus,
@@ -52,7 +53,7 @@ export const STATE = {
   _collectionStatusLastFetchMS: {} as CollectionStatusLastFetchMS,
 
   /** 瓷砖进度 */
-  mosaicTile: {},
+  mosaicTile: {} as MosaicTile,
 
   /** 特定用户特定条目的收藏信息 */
   usersSubjectCollection: {

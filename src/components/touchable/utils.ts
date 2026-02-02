@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-12-29 17:25:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-31 07:18:13
+ * @Last Modified time: 2026-02-02 15:00:16
  */
-import { StyleSheet, StyleProp, TextStyle, ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { _ } from '@stores'
 import { IOS } from '@constants'
-import { Fn } from '@types'
+
+import type { StyleProp, TextStyle, ViewStyle } from 'react-native'
+import type { Fn } from '@types'
 
 export const defaultHitSlop = {
   top: _.device(3, 4),

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-08-20 16:00:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-20 16:01:14
+ * @Last Modified time: 2026-02-02 15:53:54
  */
 import { _ } from '@stores'
-import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
+import { IMG_HEIGHT, IMG_WIDTH } from '@constants'
 
 export const WIDTH = _.r(IMG_WIDTH / 1.1)
 
@@ -37,14 +37,12 @@ export const memoStyles = _.memoStyles(() => ({
   },
   subject: {
     width: '100%',
-    marginRight: _.sm,
     marginBottom: _.md
   },
   subjectHalf: {
     width: '100%',
     maxWidth: (_.window.contentWidth - 2 * _.sm) / 2,
-    paddingRight: _.sm,
-    marginBottom: _.md
+    paddingRight: _.sm
   },
   comment: {
     paddingVertical: _.sm,

@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-03-01 00:45:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-11 19:17:45
+ * @Last Modified time: 2026-02-02 13:56:11
  */
-import { Loaded, Override, UserId } from '@types'
+import type { MosaicTile } from '@stores/collection/types'
+import type { Loaded, Override, UserId } from '@types'
 
 export type MosaicTileType = Override<
-  Record<string, number>,
+  MosaicTile,
   {
     _name?: UserId
     _loaded?: Loaded

@@ -34,3 +34,8 @@ export type ResultPicList = {
   lastModified: string
   size: number
 }[]
+
+export type ResultHeatmap = {
+  date: string
+  count: number
+}[]

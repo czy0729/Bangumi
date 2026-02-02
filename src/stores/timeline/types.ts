@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-07-02 01:16:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 11:54:17
+ * @Last Modified time: 2026-02-02 07:15:05
  */
-import type { Avatar, Cover, Id, ListEmpty, Loaded, SubjectId, UrlUser, UserId } from '@types'
+import type { Id, ListEmpty, Loaded, SubjectId, UrlUser, UserId } from '@types'
 
+/** 时间胶囊项 */
 export type TimelineItem = {
   date: string
   id: string
   avatar: {
-    src: Avatar<'l'>
+    src: string
     url: UrlUser
   }
   p1: {
@@ -42,7 +43,7 @@ export type TimelineItem = {
     mainId: number
     relatedId: number
   }
-  image: Cover[]
+  image: string[]
   clearHref: string
 }
 
