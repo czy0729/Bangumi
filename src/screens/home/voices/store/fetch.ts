@@ -4,14 +4,16 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-16 20:51:45
  */
-import { subjectStore } from '@stores'
+import { collectionStore, subjectStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { get, update } from '@utils/kv'
 import { D7 } from '@constants'
 import { SNAPSHOT_LIMIT } from '../ds'
 import Computed from './computed'
 
+import type { MonoVoicesItem } from '@stores/subject/types'
 import type { SnapshotId } from '../types'
+import type { SubjectId } from '@types'
 
 /** 若更新过则不会再主动更新 */
 const THIRD_PARTY_UPDATED = new Map<SnapshotId, true>()
@@ -66,6 +68,18 @@ export default class Fetch extends Computed {
         }
       })
     }
+  }
+
+  /** 加载下一页回调 */
+  onPage = (nextPageData: MonoVoicesItem[]) => {
+    const subjectIds: SubjectId[] = []
+    nextPageData.forEach(item => {
+      item.subject.forEach(i => {
+        subjectIds.push(i.id)
+      })
+    })
+
+    return collectionStore.fetchCollectionStatusQueue(subjectIds)
   }
 
   /** 上传预数据 */

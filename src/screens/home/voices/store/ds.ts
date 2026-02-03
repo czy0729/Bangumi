@@ -10,7 +10,7 @@ import { COMPONENT } from '../ds'
 import type { MonoVoices } from '@stores/subject/types'
 import type { ResultData } from '@utils/kv/type'
 import type { Loaded } from '@types'
-import type { SnapshotId } from '../types'
+import type { SnapshotId, Status } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
@@ -24,6 +24,9 @@ export const EXCLUDE_STATE = {
 
   /** 默认全部 */
   position: '',
+
+  /** 收藏状态 */
+  status: '全部' as Status,
 
   /** 云快照 */
   ota: {} as Record<SnapshotId, ResultData<MonoVoices>>

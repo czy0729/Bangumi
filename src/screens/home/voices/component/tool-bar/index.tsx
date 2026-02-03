@@ -6,8 +6,9 @@
  */
 import React from 'react'
 import { Heatmap, ToolBar as ToolBarComp } from '@components'
-import { useStore } from '@stores'
+import { userStore, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
+import { DATA_STATUS } from '../../ds'
 import { COMPONENT } from './ds'
 
 import type { Ctx } from '../../types'
@@ -16,7 +17,7 @@ function ToolBar() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
-    const { position } = $.state
+    const { position, status } = $.state
     const { filters = [] } = $.monoVoices
 
     return (
@@ -37,6 +38,16 @@ function ToolBar() {
             />
           )
         })}
+
+        {userStore.isWebLogin && (
+          <ToolBarComp.Popover
+            data={DATA_STATUS}
+            text={status === '全部' ? '状态' : status}
+            type={status !== '全部' ? 'desc' : 'sub'}
+            onSelect={$.onStatus}
+          />
+        )}
+
         <Heatmap id='角色.职位选择' />
       </ToolBarComp>
     )

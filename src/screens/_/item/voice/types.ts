@@ -16,6 +16,9 @@ export type Props = PropsWithChildren<
       style?: ViewStyle
       event?: EventType
       index?: number
+
+      /** 角色的相关参与条目是否根据用户收藏状态过滤 */
+      collected?: '全部' | '已收藏' | '系列有收藏' | '未收藏'
     }
   >
 >

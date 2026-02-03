@@ -30,6 +30,7 @@ function List() {
         scrollEventThrottle={16}
         onScroll={$.onScroll}
         onHeaderRefresh={$.onHeaderRefresh}
+        onPage={$.onPage}
       />
     )
   })

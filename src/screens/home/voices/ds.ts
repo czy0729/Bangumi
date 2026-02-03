@@ -7,3 +7,5 @@
 export const COMPONENT = 'Voices'
 
 export const SNAPSHOT_LIMIT = 24
+
+export const DATA_STATUS = ['全部', '已收藏', '系列有收藏', '未收藏'] as const

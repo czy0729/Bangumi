@@ -24,6 +24,7 @@ import {
 import State from './state'
 
 import type { SubjectId } from '@types'
+import type { SnapshotId } from '../types'
 
 export default class Computed extends State {
   /** 人物 Id */
@@ -75,7 +76,7 @@ export default class Computed extends State {
 
   @computed get thirdPartyKey() {
     const query = [this.monoId, this.state.order, this.state.position].join('_')
-    return `works_${query}`.replace('/', '_')
+    return `works_${query}`.replace('/', '_') as SnapshotId
   }
 
   /** 工具栏菜单 */

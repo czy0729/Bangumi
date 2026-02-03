@@ -8,6 +8,8 @@ import { updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
 import Fetch from './fetch'
 
+import type { Status } from '../types'
+
 export default class Action extends Fetch {
   /** 职位选择 */
   onFilterSelect = async (
@@ -27,6 +29,13 @@ export default class Action extends Fetch {
 
     t('角色.职位选择', {
       label: label.split(' ')?.[0]
+    })
+  }
+
+  /** 状态选择 */
+  onStatus = async (label: Status) => {
+    this.setState({
+      status: label
     })
   }
 

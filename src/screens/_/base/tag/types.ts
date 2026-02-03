@@ -4,10 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-04-04 08:10:36
  */
+import type { PropsWithChildren } from 'react'
 import type { TextType } from '@components'
 import type { ViewStyle } from '@types'
 
-export type Props = {
+export type Props = PropsWithChildren<{
   /** 容器样式 */
   style?: ViewStyle
 
@@ -22,6 +23,4 @@ export type Props = {
 
   /** 文字对齐 */
   align?: 'left' | 'center' | 'right'
-
-  children?: any
-}
+}>

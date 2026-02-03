@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-08-24 11:13:38
  */
-import { Props } from './types'
+import type { Props } from './types'
 
 export function getType(value: Props['value']) {
   switch (value) {

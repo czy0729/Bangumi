@@ -14,3 +14,5 @@ export type Ctx = WithNavigation<{
 export type Params = GetRouteParams<RouteWorks>
 
 export type ToolBarKeys = 'list' | 'fixed' | 'collected'
+
+export type SnapshotId = `characters_${string}`
