@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-05-30 10:42:10
  */
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { View } from 'react-native'
 import Animated, {
   Easing,
@@ -16,6 +16,7 @@ import { Button } from '@components'
 import { _ } from '@stores'
 import { feedback, urlStringify } from '@utils'
 import { useObserver } from '@utils/hooks'
+import { IOS } from '@constants'
 
 const perspective = 2400
 const config = {
@@ -28,70 +29,39 @@ function FlipBtn({ style, styleText, type, text, onAnimated }) {
   const animate = true
   const { height = _.device(32, 44) } = style
   const activeRef = useSharedValue(0)
-  const beforeStyle = useAnimatedStyle(() => {
-    return {
-      opacity: withTiming(activeRef.value ? 0 : 1, config),
-      transform: [
-        { perspective },
-        { rotateX: withTiming(activeRef.value ? '90deg' : '0deg', config) },
-        { translateY: withTiming(-activeRef.value * height, config) }
-      ]
-    } as const
-  })
-  const afterStyle = useAnimatedStyle(() => {
-    return {
-      opacity: withTiming(activeRef.value ? 1 : 0, config),
-      transform: [
-        { perspective },
-        { rotateX: withTiming(activeRef.value ? '0deg' : '90deg', config) },
-        { translateY: withTiming(-activeRef.value * height, config) }
-      ]
-    } as const
-  })
-
-  const [beforeProps, setBeforeProps] = useState({
-    style,
-    styleText,
-    type,
-    text
-  })
-  const [afterProps, setAfterProps] = useState({
-    style,
-    styleText,
-    type,
-    text
-  })
-
-  useEffect(() => {
-    if (!animate) {
-      setBeforeProps({
-        style,
-        styleText,
-        type,
-        text
-      })
-    }
-  }, [animate, style, styleText, type, text])
-
   const animatedRef = useRef(false)
-  useEffect(() => {
-    if (!animate || animatedRef.current || activeRef.value) return
 
-    const state = {
+  // 初始化 props
+  const defaultProps = useMemo(
+    () => ({
       style,
       styleText,
       type,
       text
-    }
-    if (urlStringify(state) !== urlStringify(beforeProps)) {
+    }),
+    [style, styleText, text, type]
+  )
+  const [beforeProps, setBeforeProps] = useState(defaultProps)
+  const [afterProps, setAfterProps] = useState(defaultProps)
+
+  /** 同步 beforeProps */
+  useEffect(() => {
+    if (!animate) setBeforeProps(defaultProps)
+  }, [animate, style, styleText, type, text, defaultProps])
+
+  /** 动画触发 */
+  useEffect(() => {
+    if (!animate || animatedRef.current || activeRef.value) return
+
+    if (urlStringify(defaultProps) !== urlStringify(beforeProps)) {
       animatedRef.current = true
-      setAfterProps(state)
+      setAfterProps(defaultProps)
+
       setTimeout(() => {
-        // 因为很可能有多个按钮同时做动画, feedback 需要控制同一时间最多只触发一次
+        // 控制 feedback 只触发一次
         if (!feedbacked) {
           feedback()
           feedbacked = true
-
           setTimeout(() => {
             feedbacked = false
           }, config.duration)
@@ -104,46 +74,64 @@ function FlipBtn({ style, styleText, type, text, onAnimated }) {
         }, config.duration)
       }, 240)
     }
-  }, [activeRef, beforeProps, animate, style, styleText, type, text, onAnimated])
+  }, [animate, beforeProps, defaultProps, activeRef, onAnimated])
+
+  const createAnimatedStyle = (isBefore: boolean) =>
+    useAnimatedStyle(() => {
+      const rotate = IOS
+        ? '0deg'
+        : isBefore
+        ? activeRef.value
+          ? '90deg'
+          : '0deg'
+        : activeRef.value
+        ? '0deg'
+        : '90deg'
+
+      return {
+        opacity: withTiming(isBefore ? 1 - activeRef.value : activeRef.value, config),
+        transform: [
+          { perspective },
+          { rotateX: withTiming(rotate, config) },
+          { translateY: withTiming(-activeRef.value * height, config) }
+        ]
+      } as const
+    })
+
+  const beforeStyleAnimated = createAnimatedStyle(true)
+  const afterStyleAnimated = createAnimatedStyle(false)
 
   return useObserver(() => {
     const space = 8
-    const styles = {
-      container: {
-        height: height * 2 + space,
-        paddingTop: space,
-        backfaceVisibility: 'hidden'
-      },
-      animated: {
-        marginTop: -height
-      },
-      placeholder: {
-        height
-      }
-    } as const
+    const containerStyle = {
+      height: height * 2 + space,
+      paddingTop: space
+    }
+    const animatedViewStyle = { marginTop: -height }
+    const placeholderStyle = { height }
+
     const { text: beforeText, ...beforeRest } = beforeProps
     const { text: afterText, ...afterRest } = afterProps
+
     return (
       <>
-        <View style={styles.container}>
-          <Animated.View style={[styles.animated, beforeStyle]}>
-            <View style={styles.placeholder} />
+        <View style={containerStyle}>
+          <Animated.View style={[animatedViewStyle, beforeStyleAnimated]}>
+            <View style={placeholderStyle} />
             <Button size='sm' {...beforeRest} animate={false}>
               {beforeText}
             </Button>
           </Animated.View>
-          <Animated.View style={[styles.animated, afterStyle]}>
-            <View style={styles.placeholder} />
+
+          <Animated.View style={[animatedViewStyle, afterStyleAnimated]}>
+            <View style={placeholderStyle} />
             <Button size='sm' {...afterRest} animate={false}>
               {afterText}
             </Button>
           </Animated.View>
         </View>
-        <View
-          style={{
-            marginTop: -height
-          }}
-        />
+
+        <View style={{ marginTop: -height }} />
       </>
     )
   })
