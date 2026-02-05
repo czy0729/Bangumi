@@ -6,7 +6,9 @@
  */
 import { MODEL_COLLECTION_STATUS, MODEL_COLLECTIONS_ORDERBY, MODEL_SUBJECT_TYPE } from '@constants'
 
+import type { SubjectId } from '@types'
 import type {
+  Collection,
   CollectionStatusLastFetchMS,
   MosaicTile,
   UserCollections,
@@ -33,9 +35,7 @@ export const DEFAULT_USERS_SUBJECT_COLLECTION = {
 
 export const STATE = {
   /** 条目收藏信息 */
-  collection: {
-    0: {}
-  },
+  collection: {} as Record<SubjectId, Collection>,
 
   /** 用户收藏概览 */
   userCollections: {} as Record<string, UserCollections>,

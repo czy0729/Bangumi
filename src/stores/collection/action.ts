@@ -92,15 +92,33 @@ export default class Action extends Fetch {
     return true
   }
 
-  /** 移除一个条目的收藏状态 */
+  /** 移除一个条目收藏信息 */
+  removeCollection = (subjectId: SubjectId) => {
+    const STATE_KEY = 'collection'
+    const ITEM_KEY = subjectId
+
+    try {
+      delete this.state[STATE_KEY][ITEM_KEY]
+      this.save(STATE_KEY)
+    } catch (error) {
+      this.error('removeCollection', error)
+    }
+
+    return true
+  }
+
+  /** 移除一个条目收藏状态 */
   removeStatus = (subjectId: SubjectId) => {
     const STATE_KEY = 'collectionStatus'
+    const ITEM_KEY = subjectId
+
     this.setState({
       [STATE_KEY]: {
-        [subjectId]: '' as CollectionStatusCn
+        [ITEM_KEY]: '' as CollectionStatusCn
       }
     })
     this.save(STATE_KEY)
+
     return true
   }
 
@@ -118,6 +136,7 @@ export default class Action extends Fetch {
     noConsole?: boolean
   }) => {
     const { subjectId, status, tags, comment, rating, privacy, noConsole = false } = args || {}
+
     return new Promise(async resolve => {
       const data = await fetch({
         url: API_COLLECTION_ACTION(subjectId),

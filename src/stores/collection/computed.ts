@@ -31,9 +31,12 @@ import type {
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   /** 条目收藏信息 */
   collection(subjectId: SubjectId) {
-    this.init('collection', true)
-    return computed<Collection>(() => {
-      return this.state.collection[subjectId] || {}
+    const STATE_KEY = 'collection'
+    this.init(STATE_KEY, true)
+
+    return computed(() => {
+      const ITEM_KEY = subjectId
+      return (this.state[STATE_KEY][ITEM_KEY] || {}) as Collection
     }).get()
   }
 

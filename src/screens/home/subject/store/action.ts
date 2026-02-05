@@ -1365,7 +1365,6 @@ export default class Action extends Fetch {
     if (!formhash) return
 
     try {
-      this.prepareFlip()
       this.setState({
         disabled: true
       })
@@ -1375,11 +1374,13 @@ export default class Action extends Fetch {
           subjectId: this.subjectId,
           formhash
         },
-        // 因为删除后是 302, 使用 fail 去触发
         FROZEN_FN,
+        // 因为删除后是 302, 使用 fail 去触发
         () => {
           postTask(() => {
+            collectionStore.removeCollection(this.subjectId)
             collectionStore.removeStatus(this.subjectId)
+
             this.fetchCollection()
             collectionStore.fetchCollectionStatusQueue([this.subjectId])
 
