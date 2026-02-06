@@ -2,25 +2,24 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-22 05:06:53
+ * @Last Modified time: 2026-02-07 07:42:05
  */
 import React, { useMemo } from 'react'
 import { Flex, Text, Touchable } from '@components'
 import { PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
-import { r } from '@utils/dev'
+import { feedback } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { TINYGRAIL_LIST_PROPS } from '@tinygrail/styles'
-import { Ctx } from '../../types'
 import ItemsFilter from '../items-filter'
 import { createFilteredData, renderItem } from './utils'
 import { COMPONENT } from './ds'
-import { Props } from './types'
+
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
 function List({ title = '全部' }: Props) {
-  r(COMPONENT)
-
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
     const elNoMore = useMemo(
@@ -30,8 +29,9 @@ function List({ title = '全部' }: Props) {
             style={{
               padding: 8
             }}
-            onPress={() => {
-              $.fetchBalance(false)
+            onPress={async () => {
+              await $.fetchBalance(false)
+              feedback(true)
             }}
           >
             <Text type='tinygrailText'>点击加载更多</Text>

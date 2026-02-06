@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-11-09 05:51:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-09 05:56:08
+ * @Last Modified time: 2026-02-06 14:56:22
  */
-import { MonoId } from '@types'
+import type { MonoId } from '@types'
 
 export type Props = {
   balance: number

@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2025-04-20 16:18:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-26 21:26:57
+ * @Last Modified time: 2026-02-06 14:54:39
  */
-import { Loaded } from '@types'
 import { COMPONENT, ITEMS_DS } from '../ds'
-import { ItemsType } from '../types'
+
+import type { Loaded } from '@types'
+import type { ItemsType } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 

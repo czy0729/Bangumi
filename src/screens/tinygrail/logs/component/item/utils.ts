@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-03-10 16:53:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-02 16:13:23
+ * @Last Modified time: 2026-02-06 14:56:26
  */
 import { t } from '@utils/fetch'
-import { AnyObject, MonoId, Navigation, Paths } from '@types'
+
+import type { AnyObject, MonoId, Navigation, Paths } from '@types'
 
 export function getOnPress(charaId: MonoId, go: string, navigation: Navigation) {
   return () => {

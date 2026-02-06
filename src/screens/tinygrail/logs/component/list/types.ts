@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2025-04-20 18:04:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-20 18:05:16
+ * @Last Modified time: 2026-02-06 15:05:38
  */
-import { TabsTitle } from '../../types'
+import type { TabsTitle } from '../../types'
 
 export type Props = {
   title: TabsTitle
