@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-19 07:11:51
+ * @Last Modified time: 2026-02-06 08:44:13
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { checkLocalError, getRecoveryBgmCover } from '@components/image/utils'
 import { systemStore } from '@stores'
 import { r } from '@utils/dev'
+import { HOST_BGM_STATIC } from '@constants'
 import { Component } from '../component'
 import { Image } from '../image'
 import { Squircle } from '../squircle'
@@ -46,6 +47,9 @@ export const Cover = observer(
     ...other
   }: CoverProps) => {
     r(COMPONENT)
+
+    // 修正部分不规范维基数据
+    if (src === `${HOST_BGM_STATIC}/r/200/pic/cover/l/`) src = ''
 
     const { width, radius } = other
     const coverWidth = width || size

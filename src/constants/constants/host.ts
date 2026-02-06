@@ -2,14 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-09-02 11:57:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-14 10:47:35
+ * @Last Modified time: 2026-02-06 08:43:43
  */
 
 /** 域 */
 export const HOST_NAME = 'bgm.tv'
-
-/** 静态资源域 */
-export const HOST_BGM_STATIC = 'lain.bgm.tv'
 
 /** 域名 */
 export const HOST = `https://${HOST_NAME}` as const
@@ -19,6 +16,9 @@ export const HOST_2 = 'https://bangumi.tv'
 
 /** 备用域名3 */
 export const HOST_3 = 'https://chii.in'
+
+/** 静态资源域 */
+export const HOST_BGM_STATIC = 'https://lain.bgm.tv'
 
 /** Track trending anime with real-time analytics from Bangumi */
 export const HOST_NETABA = 'https://netaba.re'
