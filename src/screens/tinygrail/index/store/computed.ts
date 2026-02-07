@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-12-29 11:12:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-29 11:13:49
+ * @Last Modified time: 2026-02-07 07:56:57
  */
 import { computed } from 'mobx'
 import { systemStore, tinygrailStore, userStore } from '@stores'
-import { ListKey } from '@stores/tinygrail/types'
 import State from './state'
+
+import type { ListKey } from '@stores/tinygrail/types'
 
 export default class Computed extends State {
   @computed get short() {

@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-03-04 18:20:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-14 14:53:37
+ * @Last Modified time: 2026-02-07 08:00:27
  */
 import React from 'react'
 import { Text } from '@components'
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
-import { MenuItems } from './types'
+
+import type { MenuItems } from './types'
 
 export const COMPONENT = rc(PARENT, 'Menus')
 

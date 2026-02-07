@@ -1,14 +1,15 @@
 /*
  * @Author: czy0729
  * @Date: 2025-07-17 13:09:32
- * @Last Modified by:   czy0729
- * @Last Modified time: 2025-07-17 13:09:32
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-02-07 09:07:13
  */
 import { useInitStore } from '@stores'
 import { usePageLifecycle } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import store from './store'
-import { Ctx } from './types'
+
+import type { NavigationProps } from '@types'
+import type { Ctx } from './types'
 
 /** 刮刮乐日榜页面逻辑 */
 export function useTinygrailLotteryRankPage(props: NavigationProps) {

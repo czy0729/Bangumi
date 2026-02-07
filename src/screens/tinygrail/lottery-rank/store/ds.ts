@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2025-07-17 13:11:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-17 18:03:30
+ * @Last Modified time: 2026-02-07 10:19:40
  */
-import { Loaded, UserId } from '@types'
 import { COMPONENT } from '../ds'
-import { Detail, Sort } from '../types'
+
+import type { Loaded } from '@types'
+import type { Detail, Sort, UserStatus } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
@@ -24,7 +25,7 @@ export const STATE = {
   detail: {} as Record<string, Detail>,
 
   /** 公开用户 */
-  userStatus: {} as Record<UserId, boolean>,
+  userStatus: {} as UserStatus,
 
   /** 列表排序 */
   sort: '' as Sort,

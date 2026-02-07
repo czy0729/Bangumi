@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:38:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-21 15:54:39
+ * @Last Modified time: 2026-02-07 13:15:54
  */
 import { toJS } from 'mobx'
 import { getTimestamp, HTMLDecode, info, lastDate, toFixed } from '@utils'
@@ -822,6 +822,7 @@ export default class Fetch extends Computed {
     let data = {
       ...INIT_USER_LOGS
     }
+
     if (result.data.State === 0) {
       data = {
         id: result.data.Value.Id,
@@ -832,6 +833,7 @@ export default class Fetch extends Computed {
           characterId: item.CharacterId,
           amount: item.Amount,
           price: item.Price,
+          type: item.Type,
           time: item.TradeTime
         })),
         asks: result.data.Value.Asks.map(item => ({
@@ -847,6 +849,7 @@ export default class Fetch extends Computed {
           characterId: item.CharacterId,
           amount: item.Amount,
           price: item.Price,
+          type: item.Type,
           time: item.TradeTime
         })),
         bids: result.data.Value.Bids.map(item => ({

@@ -2,29 +2,28 @@
  * @Author: czy0729
  * @Date: 2025-07-17 17:05:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-17 18:31:26
+ * @Last Modified time: 2026-02-07 09:11:12
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import TinygrailSegmentedControl from '@tinygrail/_/segmented-control'
-import { Ctx } from '../../types'
 import { getDay } from '../../utils'
 import { COMPONENT, VALUES } from './ds'
 import { memoStyles } from './styles'
 
-function ToolBar() {
-  r(COMPONENT)
+import type { Ctx } from '../../types'
 
-  const { $ } = useStore<Ctx>()
+function ToolBar() {
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
     const styles = memoStyles()
     const { prev, sort, _loaded } = $.state
+
     return (
       <Flex style={styles.toolBar} justify='around'>
         <View style={styles.side} />

@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2025-07-17 13:11:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-17 23:59:00
+ * @Last Modified time: 2026-02-07 09:07:19
  */
 import { computed } from 'mobx'
 import { userStore } from '@stores'
 import { desc } from '@utils'
 import { FROZEN_ARRAY } from '@constants'
-import { UserId } from '@types'
 import { getDay, getPercent, getTotal } from '../utils'
 import State from './state'
+
+import type { UserId } from '@types'
 
 export default class Computed extends State {
   @computed get userInfo() {

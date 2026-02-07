@@ -2,25 +2,23 @@
  * @Author: czy0729
  * @Date: 2025-07-17 14:00:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-18 06:19:19
+ * @Last Modified time: 2026-02-07 09:10:47
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Image, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { decimal, desc, formatNumber, tinygrailOSS } from '@utils'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import TinygrailAvatar from '@tinygrail/_/avatar'
 import TinygrailLevel from '@tinygrail/_/level'
-import { Ctx } from '../../types'
 import { COMPONENT, COVER_HEIGHT, COVER_WIDTH } from './ds'
 import { memoStyles } from './styles'
 
-function Item({ item }) {
-  r(COMPONENT)
+import type { Ctx } from '../../types'
 
-  const { $, navigation } = useStore<Ctx>()
+function Item({ item }) {
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
     const styles = memoStyles()

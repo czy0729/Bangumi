@@ -1,17 +1,18 @@
-import { useCallback } from 'react'
 /*
  * @Author: czy0729
  * @Date: 2024-03-04 19:09:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-16 22:13:15
+ * @Last Modified time: 2026-02-07 07:56:44
  */
+import { useCallback } from 'react'
 import { StatusBar } from '@components'
 import { _, useInitStore } from '@stores'
 import { hm } from '@utils/fetch'
 import { useFocusEffect, useRunAfter } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import store from './store'
-import { Ctx } from './types'
+
+import type { NavigationProps } from '@types'
+import type { Ctx } from './types'
 
 /** 小圣杯页面逻辑 */
 export function useTinygrailPage(props: NavigationProps) {
@@ -20,6 +21,7 @@ export function useTinygrailPage(props: NavigationProps) {
 
   useRunAfter(() => {
     $.init()
+
     hm('tinygrail', 'Tinygrail')
   })
 

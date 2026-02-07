@@ -24,6 +24,7 @@ export const memoStyles = _.memoStyles(() => ({
     paddingLeft: _.sm
   },
   expand: {
-    paddingVertical: _.sm
+    paddingVertical: _.sm,
+    marginTop: _.sm
   }
 }))

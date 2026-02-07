@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-03-04 18:32:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-04 18:36:06
+ * @Last Modified time: 2026-02-07 07:59:44
  */
-import { IconfontNames, Paths, ReactNode, ViewStyle } from '@types'
+import type { IconfontNames, Paths, ReactNode, ViewStyle } from '@types'
 
 export type Props = {
   style?: ViewStyle

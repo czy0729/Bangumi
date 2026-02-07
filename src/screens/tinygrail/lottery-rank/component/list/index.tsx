@@ -2,21 +2,19 @@
  * @Author: czy0729
  * @Date: 2025-07-17 13:16:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-18 00:22:58
+ * @Last Modified time: 2026-02-07 09:11:02
  */
 import React from 'react'
 import { PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
 
-function List() {
-  r(COMPONENT)
+import type { Ctx } from '../../types'
 
-  const { $ } = useStore<Ctx>()
+function List() {
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => (
     <PaginationList2

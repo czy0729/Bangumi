@@ -2,29 +2,28 @@
  * @Author: czy0729
  * @Date: 2025-07-18 06:16:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-18 06:18:07
+ * @Last Modified time: 2026-02-07 09:10:24
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { confirm } from '@utils'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import TinygrailHeader from '@tinygrail/_/header'
-import { Ctx } from '../types'
 import { COMPONENT, HM } from './ds'
 
+import type { Ctx } from '../types'
+
 function Header() {
-  r(COMPONENT)
+  const { $ } = useStore<Ctx>(COMPONENT)
 
-  const { $ } = useStore<Ctx>()
+  return useObserver(() => {
+    const { userInfo } = $
+    const status = $.userStatus(userInfo?.username) ? '公开' : '匿名'
 
-  return useObserver(() => (
-    <TinygrailHeader
-      title='刮刮乐日榜'
-      hm={HM}
-      headerRight={() =>
-        !!$.userInfo?.username && (
+    const handleHeaderRight = useCallback(
+      () =>
+        !!userInfo?.username && (
           <Touchable
             style={_.mr.md}
             onPress={() => {
@@ -32,13 +31,15 @@ function Header() {
             }}
           >
             <Text type='tinygrailText' size={13} bold>
-              {$.userStatus($.userInfo.username) ? '公开' : '匿名'}中
+              {status}中
             </Text>
           </Touchable>
-        )
-      }
-    />
-  ))
+        ),
+      [status, userInfo?.username]
+    )
+
+    return <TinygrailHeader title='刮刮乐日榜' hm={HM} headerRight={handleHeaderRight} />
+  })
 }
 
 export default Header

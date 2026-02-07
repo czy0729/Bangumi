@@ -2,23 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-11-17 01:37:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-29 06:01:09
+ * @Last Modified time: 2026-02-07 07:57:25
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { formatChange, formatValue } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Assets() {
-  r(COMPONENT)
+import type { Ctx } from '../../types'
 
-  const { $ } = useStore<Ctx>()
+function Assets() {
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
     const styles = memoStyles()

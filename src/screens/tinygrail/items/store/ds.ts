@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-03-16 16:14:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-26 02:41:59
+ * @Last Modified time: 2026-02-07 07:47:16
  */
-import { Loaded, Override } from '@types'
 import { COMPONENT } from '../ds'
-import { ItemsType, ItemUseParams } from '../types'
+
+import type { Loaded, Override } from '@types'
+import type { ItemsType, ItemUseParams } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 

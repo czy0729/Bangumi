@@ -2,20 +2,18 @@
  * @Author: czy0729
  * @Date: 2024-12-26 01:31:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-02 22:48:38
+ * @Last Modified time: 2026-02-07 07:54:16
  */
 import React, { useCallback } from 'react'
 import { tinygrailStore, useStore } from '@stores'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import CharactersModal from '@tinygrail/_/characters-modal'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
-function Modal() {
-  r(COMPONENT)
+import type { Ctx } from '../../types'
 
-  const { $ } = useStore<Ctx>()
+function Modal() {
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   const handleSubmit = useCallback(
     (params1: any, params2: any) => {

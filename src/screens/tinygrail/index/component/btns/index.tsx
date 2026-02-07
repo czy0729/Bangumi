@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-23 12:07:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-29 08:04:52
+ * @Last Modified time: 2026-02-07 07:59:26
  */
 import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
@@ -10,16 +10,14 @@ import { Button, Flex, Iconfont, Touchable } from '@components'
 import { Popover } from '@_'
 import { _, tinygrailStore, useStore } from '@stores'
 import { confirm } from '@utils'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Btns() {
-  r(COMPONENT)
+import type { Ctx } from '../../types'
 
-  const { $ } = useStore<Ctx>()
+function Btns() {
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
     const styles = memoStyles()

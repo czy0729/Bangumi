@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2024-12-26 01:08:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-27 07:41:18
+ * @Last Modified time: 2026-02-07 11:08:57
  */
 import { tinygrailStore } from '@stores'
 import { alert, feedback, info, toFixed } from '@utils'
 import { t } from '@utils/fetch'
 import { ITEMS_TYPE } from '@tinygrail/_/characters-modal'
-import { FnParams, Override } from '@types'
-import { ItemsType, ItemUseParams } from '../types'
 import Fetch from './fetch'
 
+import type { FnParams, Override } from '@types'
+import type { ItemsType, ItemUseParams } from '../types'
 export default class Action extends Fetch {
   /** 打开道具模态框 */
   onShowModal = (title: string) => {
@@ -108,6 +108,7 @@ export default class Action extends Fetch {
               )}，价值${toFixed(Value.Amount * Value.CurrentPrice, 2)}`,
           '小圣杯助手'
         )
+        // if (title === '混沌魔方') this.pushLotteryLog(Value, leftItem)
 
         tinygrailStore.fetchUserLogs(monoId)
         if (title === '星光碎片') {
@@ -126,4 +127,31 @@ export default class Action extends Fetch {
       return false
     }
   }
+
+  // pushLotteryLog = async (item, leftItem) => {
+  //   if (!tinygrailStore.cookie) return false
+
+  //   try {
+  //     const { username, nickname, avatar } = this.userInfo
+
+  //     const now = getTimestamp()
+  //     const userId = `tinygrail_lottery_${date('ymd', now)}`
+  //     const detailId = `${userId}_${username}_${date('His', now)}`
+  //     await update(detailId, {
+  //       price: item.currentPrice,
+  //       total: item.Amount * item.CurrentPrice,
+  //       list: [[item.Id, item.Cover, item.Name, item.Level, item.CurrentPrice, item.Amount]],
+  //       user: {
+  //         username,
+  //         nickname,
+  //         avatar: avatar?.large || ''
+  //       }
+  //     })
+  //     await collect(userId, detailId, true)
+
+  //     return true
+  //   } catch (error) {}
+
+  //   return false
+  // }
 }

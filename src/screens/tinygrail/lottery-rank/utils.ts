@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2025-07-17 15:46:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-17 15:47:58
+ * @Last Modified time: 2026-02-07 09:07:02
  */
 import dayjs from 'dayjs'
-import { Detail } from './types'
+
+import type { Detail } from './types'
 
 export function getDay(prev: number = 0) {
   return dayjs().subtract(prev, 'day').format('YYMMDD')

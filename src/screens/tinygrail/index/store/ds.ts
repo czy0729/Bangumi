@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-12-17 03:40:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-20 16:20:28
+ * @Last Modified time: 2026-02-07 07:57:02
  */
-import { Loaded } from '@types'
 import { COMPONENT, STAR_INDEX_WEIGHT } from '../ds'
-import { Bonus } from '../types'
+
+import type { Loaded } from '@types'
+import type { Bonus } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 

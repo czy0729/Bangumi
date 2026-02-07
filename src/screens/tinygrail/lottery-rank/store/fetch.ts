@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2025-07-17 13:11:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-18 00:23:19
+ * @Last Modified time: 2026-02-07 10:23:06
  */
 import { collectList, get, gets } from '@utils/kv'
-import { Detail } from '../types'
 import Computed from './computed'
+
+import type { Detail, UserStatus } from '../types'
 
 export default class Fetch extends Computed {
   refresh = async () => {
@@ -16,7 +17,7 @@ export default class Fetch extends Computed {
 
   getUserStatus = async () => {
     try {
-      const data = await get('tinygrail_lottery_user_status')
+      const data = await get<UserStatus>('tinygrail_lottery_user_status')
       if (data) {
         this.setState({
           userStatus: data

@@ -2,114 +2,147 @@
  * @Author: czy0729
  * @Date: 2019-09-12 19:58:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-13 19:41:11
+ * @Last Modified time: 2026-02-07 21:41:09
  */
 import React from 'react'
 import { View } from 'react-native'
+import { useObserver } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { formatNumber, getTimestamp, info, lastDate } from '@utils'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../types'
 
 const LIMIT = 10
 
 function Records() {
-  const { $ } = useStore<Ctx>()
-  const styles = memoStyles()
-  const { expand } = $.state
-  const { bidHistory, askHistory } = $.userLogs
-  const needShowExpand = bidHistory.length > LIMIT || askHistory.length > LIMIT
-  return (
-    <View style={styles.container}>
-      <Flex align='start'>
-        <Flex.Item>
-          <Text style={_.mb.sm} type='bid' size={16}>
-            买入记录
-          </Text>
-          {bidHistory.length === 0 && <Text type='tinygrailText'>-</Text>}
-          {bidHistory
-            .filter((_item, index) => (expand ? true : index < LIMIT))
-            .map((item, index) => (
-              <Touchable
-                key={index}
-                style={styles.item}
-                onPress={() => {
-                  t('交易.显示时间', {
-                    monoId: $.monoId
-                  })
+  const { $ } = useStore<Ctx>(COMPONENT)
 
-                  info(`成交时间: ${String(item.time).replace('T', ' ')}`)
-                }}
-              >
-                <Flex>
-                  <Flex.Item>
-                    <Text size={12} type='tinygrailPlain'>
-                      {formatNumber(item.price)} /{' '}
-                      <Text type='tinygrailText' size={12}>
-                        {formatNumber(item.amount, 0)}
-                      </Text>
-                    </Text>
-                  </Flex.Item>
-                  <Text type={item.price ? 'tinygrailPlain' : 'tinygrailText'} size={12}>
-                    {item.price
-                      ? `-${formatNumber(item.price * item.amount, 2, $.short)}`
-                      : lastDate(getTimestamp(String(item.time).replace('T', ' ')))}
-                  </Text>
-                </Flex>
-              </Touchable>
-            ))}
-        </Flex.Item>
-        <Flex.Item style={_.ml.md}>
-          <Text style={_.mb.sm} type='ask' size={16}>
-            卖出记录
-          </Text>
-          {askHistory.length === 0 && <Text type='tinygrailText'>-</Text>}
-          {askHistory
-            .filter((_item, index) => (expand ? true : index < LIMIT))
-            .map((item, index) => (
-              <Touchable
-                key={index}
-                style={styles.item}
-                onPress={() => {
-                  t('交易.显示时间', {
-                    monoId: $.monoId
-                  })
+  return useObserver(() => {
+    const styles = memoStyles()
 
-                  info(`成交时间: ${String(item.time).replace('T', ' ')}`)
-                }}
-              >
-                <Flex>
-                  <Flex.Item>
-                    <Text type='tinygrailPlain' size={12}>
-                      {formatNumber(item.price)} /{' '}
-                      <Text type='tinygrailText' size={12}>
-                        {formatNumber(item.amount, 0)}
-                      </Text>
+    const { expand } = $.state
+    const { bidHistory, askHistory } = $.userLogs
+    const needShowExpand = bidHistory.length > LIMIT || askHistory.length > LIMIT
+
+    const sliceList = list => list.filter((_item, index) => expand || index < LIMIT)
+
+    const getText = (
+      item,
+      {
+        typeMap,
+        sign
+      }: {
+        typeMap: Record<number, string>
+        sign: '+' | '-'
+      }
+    ) => {
+      const total = item.price * item.amount
+
+      if (typeMap[item.type]) return typeMap[item.type]
+      if (item.price) return `${sign}${formatNumber(total, 2, $.short)}`
+      return lastDate(getTimestamp(String(item.time).replace('T', ' ')))
+    }
+
+    const renderList = (
+      list,
+      {
+        title,
+        titleType,
+        typeMap,
+        sign
+      }: {
+        title: string
+        titleType: any
+        typeMap: Record<number, string>
+        sign: '+' | '-'
+      }
+    ) => (
+      <Flex.Item>
+        <Text style={_.mb.sm} type={titleType} size={16}>
+          {title}
+        </Text>
+
+        {list.length === 0 && <Text type='tinygrailText'>-</Text>}
+
+        {sliceList(list).map((item, index) => {
+          const total = item.price * item.amount
+          const text = getText(item, { typeMap, sign })
+
+          return (
+            <Touchable
+              key={index}
+              style={styles.item}
+              onPress={() => {
+                let text = String(item.time).replace('T', ' ')
+                if (total) text += ` (${sign}${formatNumber(total, 2, $.short)})`
+                info(text)
+
+                t('交易.显示时间', {
+                  monoId: $.monoId
+                })
+              }}
+            >
+              <Flex>
+                <Flex.Item>
+                  <Text type='tinygrailPlain' size={12}>
+                    {formatNumber(item.price)} /{' '}
+                    <Text type='tinygrailText' size={12}>
+                      {formatNumber(item.amount, 0)}
                     </Text>
-                  </Flex.Item>
-                  <Text type={item.price ? 'tinygrailPlain' : 'tinygrailText'} size={12}>
-                    {item.price
-                      ? `+${formatNumber(item.price * item.amount, 2, $.short)}`
-                      : lastDate(getTimestamp(String(item.time).replace('T', ' ')))}
                   </Text>
-                </Flex>
-              </Touchable>
-            ))}
-        </Flex.Item>
-      </Flex>
-      {needShowExpand && (
-        <Touchable style={[styles.expand, _.mt.sm]} onPress={$.toggleExpand}>
-          <Text type='warning' align='center'>
-            {expand ? '收起' : '展开'}
-          </Text>
-        </Touchable>
-      )}
-    </View>
-  )
+                </Flex.Item>
+                <Text type='tinygrailText' size={12}>
+                  {text}
+                </Text>
+              </Flex>
+            </Touchable>
+          )
+        })}
+      </Flex.Item>
+    )
+
+    return (
+      <View style={styles.container}>
+        <Flex align='start'>
+          {renderList(bidHistory, {
+            title: '买入记录',
+            titleType: 'bid',
+            sign: '-',
+            typeMap: {
+              5: '刮刮乐',
+              4: '竞拍',
+              3: '道标'
+            }
+          })}
+
+          <View style={_.ml.md} />
+
+          {renderList(askHistory, {
+            title: '卖出记录',
+            titleType: 'ask',
+            sign: '+',
+            typeMap: {
+              5: '刮刮乐',
+              3: '道标',
+              2: '献祭'
+            }
+          })}
+        </Flex>
+
+        {needShowExpand && (
+          <Touchable style={styles.expand} onPress={$.toggleExpand}>
+            <Text type='warning' align='center'>
+              {expand ? '收起' : '展开'}
+            </Text>
+          </Touchable>
+        )}
+      </View>
+    )
+  })
 }
 
-export default ob(Records, COMPONENT)
+export default Records

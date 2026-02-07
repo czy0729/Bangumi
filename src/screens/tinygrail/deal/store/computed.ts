@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-12-28 05:27:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-28 05:29:52
+ * @Last Modified time: 2026-02-07 11:10:54
  */
 import { computed } from 'mobx'
 import { systemStore, tinygrailStore } from '@stores'
 import { getXsbRelationOTA } from '@constants'
-import { MonoId } from '@types'
 import State from './state'
+
+import type { MonoId } from '@types'
 
 export default class Computed extends State {
   /** 小圣杯缩短资金数字显示 */

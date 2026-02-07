@@ -2,25 +2,23 @@
  * @Author: czy0729
  * @Date: 2024-12-26 01:13:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-19 04:35:04
+ * @Last Modified time: 2026-02-07 07:54:31
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { _, tinygrailStore, useStore } from '@stores'
 import { HTMLDecode } from '@utils'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { ITEMS_TYPE } from '@tinygrail/_/characters-modal'
 import Icon from '@tinygrail/_/icon'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
 function Used({ name }: Props) {
-  r(COMPONENT)
-
-  const { $, navigation } = useStore<Ctx>()
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
     const memo = $.state.memoItemUsed[ITEMS_TYPE[name]]

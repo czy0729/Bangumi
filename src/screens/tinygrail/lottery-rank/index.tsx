@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2025-07-17 13:09:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-18 06:18:30
+ * @Last Modified time: 2026-02-07 09:06:56
  */
 import React from 'react'
 import { Component } from '@components'
 import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import TinygrailPage from '@tinygrail/_/page'
-import { NavigationProps } from '@types'
 import List from './component/list'
 import ToolBar from './component/tool-bar'
 import Header from './header'
 import { useTinygrailLotteryRankPage } from './hooks'
+
+import type { NavigationProps } from '@types'
 
 /** 刮刮乐日榜 */
 const TinygrailLotteryRank = (props: NavigationProps) => {

@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-11-08 19:58:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 20:36:05
+ * @Last Modified time: 2026-02-07 11:10:39
  */
 import { factory } from '@utils'
-import { MonoId, Navigation } from '@types'
 import Store from './store'
+
+import type { MonoId, Navigation } from '@types'
 
 const f = factory(Store)
 

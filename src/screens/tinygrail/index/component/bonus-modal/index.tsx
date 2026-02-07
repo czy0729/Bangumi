@@ -2,23 +2,21 @@
  * @Author: czy0729
  * @Date: 2020-07-30 18:10:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 06:20:35
+ * @Last Modified time: 2026-02-07 07:58:10
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
 import { Button, Flex, Image, Modal, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { desc, formatNumber, stl, tinygrailOSS, toFixed } from '@utils'
-import { r } from '@utils/dev'
 import { useBackHandler, useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-const BonusModal = () => {
-  r(COMPONENT)
+import type { Ctx } from '../../types'
 
-  const { $, navigation } = useStore<Ctx>()
+const BonusModal = () => {
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
     const styles = memoStyles()
