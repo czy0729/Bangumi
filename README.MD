@@ -77,21 +77,7 @@ iOS 和安卓都做了兼容，并最大限度保持一致
 
 # 版本
 
-## 8.29.0 - 2026/01/01
-
-### 优化
-
-- [x] [每日放送] 更新 2026S1 元数据
-- [x] [搜索] 优化了本地预搜索的结果，并且支持热门条目的别名
-- [x] [时间胶囊] 兼容收藏的回复吐槽
-- [x] [关系图] 离开页面需要取消余下的批量请求
-- [x] [发现] 合并一些低频菜单
-
-### 修复
-
-- [x] [IPA] 修复 iOS 26 后头部距离计算错误的问题（待验证）
-
-[当前版本图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/oimmqimp0g0m7t3k?singleDoc)
+[当前版本图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/zincwt4r8ffmrfgn?singleDoc)
 
 [所有更新 CHANGELOG](https://github.com/czy0729/Bangumi/blob/master/web/CHANGELOG.MD)
 
