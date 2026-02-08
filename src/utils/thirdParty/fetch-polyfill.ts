@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-08-03 08:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:06:50
+ * @Last Modified time: 2026-02-08 09:43:21
  */
 var self = this || global
 
@@ -14,7 +14,7 @@ var support = {
   blob:
     'FileReader' in self &&
     'Blob' in self &&
-    (function() {
+    (function () {
       try {
         new Blob()
         return true
@@ -29,7 +29,7 @@ var support = {
 // Polyfill from https://github.com/github/fetch/blob/v1.1.1/fetch.js#L364-L375
 function parseHeaders(rawHeaders) {
   var headers = new Headers()
-  rawHeaders.split(/\r?\n/).forEach(function(line) {
+  rawHeaders.split(/\r?\n/).forEach(function (line) {
     var parts = line.split(':')
     var key = parts.shift().trim()
     if (key) {
@@ -43,7 +43,7 @@ function parseHeaders(rawHeaders) {
 
 // Polyfill from https://github.com/github/fetch/blob/v1.1.1/fetch.js#L424-L464
 export default function fetchPolyfill(input, init) {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     var request = new Request(input, init)
     var xhr = new XMLHttpRequest()
 
@@ -53,7 +53,7 @@ export default function fetchPolyfill(input, init) {
     }
     /* @endpatch */
 
-    xhr.onload = function() {
+    xhr.onload = function () {
       var options = {
         status: xhr.status,
         statusText: xhr.statusText,
@@ -61,19 +61,23 @@ export default function fetchPolyfill(input, init) {
       }
 
       // @ts-expect-error
-      options.url =
-        'responseURL' in xhr
-          ? xhr.responseURL
-          : options.headers.get('X-Request-URL')
-      var body = 'response' in xhr ? xhr.response : xhr.responseText
+      options.url = 'responseURL' in xhr ? xhr.responseURL : options.headers.get('X-Request-URL')
+
+      var body
+      if (xhr.responseType === 'blob') {
+        body = xhr.response
+      } else {
+        body = xhr.responseText
+      }
+
       resolve(new Response(body, options))
     }
 
-    xhr.onerror = function() {
+    xhr.onerror = function () {
       reject(new TypeError('Network request onerror'))
     }
 
-    xhr.ontimeout = function() {
+    xhr.ontimeout = function () {
       reject(new TypeError('Network request ontimeout'))
     }
 
@@ -81,11 +85,13 @@ export default function fetchPolyfill(input, init) {
 
     xhr.withCredentials = request.credentials === 'include'
 
-    if ('responseType' in xhr && support.blob) {
+    if (init && init.responseType === 'blob' && support.blob) {
       xhr.responseType = 'blob'
+    } else {
+      xhr.responseType = 'text'
     }
 
-    request.headers.forEach(function(value, name) {
+    request.headers.forEach(function (value, name) {
       xhr.setRequestHeader(name, value)
     })
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-08 22:23:47
+ * @Last Modified time: 2026-02-08 09:53:01
  */
 import cheerioRN from 'cheerio-without-node-native'
 import { TEXT_BADGES } from '@constants/text'
@@ -306,7 +306,7 @@ export function cData(
 /** HTMLTrim(cheerio.html(key)) */
 export function cHtml($el: any): string {
   try {
-    return HTMLTrim($el.html() || '')
+    return HTMLTrim($el.html() || '').replace(/\u0000/g, '')
   } catch (error) {
     return ''
   }
