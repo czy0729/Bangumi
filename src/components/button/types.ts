@@ -4,12 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-11-18 15:39:22
  */
-import { ViewStyle, TextStyle, Fn } from '@types'
+import type { TextStyle, Fn, WithViewStyles } from '@types'
 
-export type Props = {
-  /** 按钮重置样式 */
-  style?: ViewStyle
-
+export type Props = WithViewStyles<{
   /** 文字重置样式 */
   styleText?: TextStyle
 
@@ -64,4 +61,4 @@ export type Props = {
 
   /** 文字 */
   children?: any
-}
+}>

@@ -8,9 +8,10 @@
  */
 import React, { Component } from 'react'
 import { Animated, Easing } from 'react-native'
-import { CollapsibleProps } from 'react-native-collapsible'
 
-const ANIMATED_EASING_PREFIXES = ['easeInOut', 'easeOut', 'easeIn']
+import type { CollapsibleProps } from 'react-native-collapsible'
+
+const ANIMATED_EASING_PREFIXES = ['easeInOut', 'easeOut', 'easeIn'] as const
 
 export default class Collapsible extends Component<CollapsibleProps, any> {
   static defaultProps = {

@@ -7,5 +7,7 @@
 import { lazy } from 'react'
 
 export const BgmText = lazy(() => import('./index'))
-export { Props as BgmTextProps } from './types'
+
 export { BGM_MAP } from './ds'
+
+export type { Props as BgmTextProps } from './types'

@@ -7,5 +7,7 @@
 import { lazy } from 'react'
 
 export const BlurView = lazy(() => import('./index'))
-export { Props as BlurViewProps } from './types'
+
 export { BLURVIEW_TINT_LIGHT, BLURVIEW_TINT_DARK } from './ds'
+
+export type { Props as BlurViewProps } from './types'

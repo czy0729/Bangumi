@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const Activity = lazy(() => import('./index'))
-export { Props as ActivityProps } from './types'
+export type { Props as ActivityProps } from './types'

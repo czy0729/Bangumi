@@ -4,9 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-13 11:36:46
  */
-import { PropsWithChildren } from 'react'
-import { ReactNode } from '@types'
-import { ScrollViewProps } from '../scroll-view'
+import type { PropsWithChildren } from 'react'
+import type { ReactNode } from '@types'
+import type { ScrollViewProps } from '../scroll-view'
 
 export type Props = PropsWithChildren<{
   /** 连接组件内部 ScrollView.scrollTo */

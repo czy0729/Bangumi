@@ -16,6 +16,7 @@ import { memoStyles } from './styles'
 function Btn({ onClose }) {
   return useObserver(() => {
     const styles = memoStyles()
+
     return (
       <Touchable style={styles.close} onPress={onClose}>
         <SafeAreaBottom

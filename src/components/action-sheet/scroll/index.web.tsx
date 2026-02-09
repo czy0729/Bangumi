@@ -15,6 +15,7 @@ import { memoStyles } from './styles'
 export const Scroll = ({ height, scrollEnabled = true, children }) => {
   return useObserver(() => {
     const styles = memoStyles()
+
     if (scrollEnabled) {
       return (
         <ScrollView

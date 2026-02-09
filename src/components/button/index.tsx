@@ -6,11 +6,10 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { observer } from 'mobx-react'
+import { useObserver } from 'mobx-react'
 import { _ } from '@stores'
 import { stl, titleCase } from '@utils'
 import { r } from '@utils/dev'
-import { TextStyle, ViewStyle } from '@types'
 import { Component } from '../component'
 import { Activity } from '../activity'
 import { Flex } from '../flex'
@@ -18,37 +17,39 @@ import { Text } from '../text'
 import { Touchable } from '../touchable'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props as ButtonProps } from './types'
 
-export { ButtonProps }
+import type { TextStyle, ViewStyle } from '@types'
+import type { Props as ButtonProps } from './types'
+
+export type { ButtonProps }
 
 /** 自定义按钮 */
-export const Button = observer(
-  ({
-    style,
-    styleText,
-    type = 'plain',
-    size = 'md',
-    shadow = false,
-    radius = true,
-    loading = false,
-    bold = false,
-    animate = true,
-    noWrap = true,
-    children,
-    extra,
-    onPress,
-    onLongPress,
-    'data-title': dataTitle,
-    ...other
-  }: ButtonProps) => {
-    r(COMPONENT)
+export function Button({
+  style,
+  styleText,
+  type = 'plain',
+  size = 'md',
+  shadow = false,
+  radius = true,
+  loading = false,
+  bold = false,
+  animate = true,
+  noWrap = true,
+  children,
+  extra,
+  onPress,
+  onLongPress,
+  'data-title': dataTitle,
+  ...other
+}: ButtonProps) {
+  r(COMPONENT)
 
+  return useObserver(() => {
     const styles = memoStyles()
+
     const wrapStyle: ViewStyle[] = [styles.button]
     const textStyle: TextStyle[] = [styles.text]
     let textBold = false
-
     if (shadow && !_.isDark && (type === 'plain' || type === 'ghostPlain')) {
       wrapStyle.push(styles.shadow)
     }
@@ -86,7 +87,7 @@ export const Button = observer(
       wrapStyle.push(style)
     }
 
-    const content = (
+    const elContent = (
       <Flex justify='center'>
         {loading ? (
           <View style={styles.loading}>
@@ -121,10 +122,11 @@ export const Button = observer(
         id: 'component-button' as const
       }
       if (dataTitle) passProps['data-title'] = dataTitle
+
       return (
         <Component {...passProps}>
           <Touchable animate={animate} onPress={onPress} onLongPress={onLongPress} {...other}>
-            <View style={wrapStyle}>{content}</View>
+            <View style={wrapStyle}>{elContent}</View>
           </Touchable>
         </Component>
       )
@@ -133,11 +135,11 @@ export const Button = observer(
     return (
       <Component id='component-button'>
         <View style={wrapStyle} {...other}>
-          {content}
+          {elContent}
         </View>
       </Component>
     )
-  }
-)
+  })
+}
 
 export default Button

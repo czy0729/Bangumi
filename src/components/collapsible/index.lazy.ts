@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const Collapsible = lazy(() => import('./index'))
-export { Props as CollapsibleProps } from './types'
+export type { Props as CollapsibleProps } from './types'

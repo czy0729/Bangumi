@@ -4,11 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-06 21:56:04
  */
-import { Expand, ViewStyle } from '@types'
+import type { WithViewStyles } from '@types'
 
-export type Props = Expand<{
-  style?: ViewStyle
-
+export type Props = WithViewStyles<{
   /** 图片地址 */
   src?: string
 

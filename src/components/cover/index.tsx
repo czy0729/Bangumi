@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-06 08:44:13
+ * @Last Modified time: 2026-02-10 07:26:52
  */
 import React from 'react'
-import { observer } from 'mobx-react'
+import { useObserver } from 'mobx-react'
 import { checkLocalError, getRecoveryBgmCover } from '@components/image/utils'
 import { systemStore } from '@stores'
 import { r } from '@utils/dev'
@@ -28,26 +28,26 @@ export { getCoverSrc }
 export type { CoverProps }
 
 /** 封面 */
-export const Cover = observer(
-  ({
-    style,
-    containerStyle,
-    bodyStyle,
-    angleStyle,
-    src,
-    imageViewerSrc,
-    size,
-    height,
-    noDefault,
-    type,
-    useType = false,
-    cdn,
-    textOnly,
-    fallback,
-    ...other
-  }: CoverProps) => {
-    r(COMPONENT)
+export function Cover({
+  style,
+  containerStyle,
+  bodyStyle,
+  angleStyle,
+  src,
+  imageViewerSrc,
+  size,
+  height,
+  noDefault,
+  type,
+  useType = false,
+  cdn,
+  textOnly,
+  fallback,
+  ...other
+}: CoverProps) {
+  r(COMPONENT)
 
+  return useObserver(() => {
     // 修正部分不规范维基数据
     if (src === `${HOST_BGM_STATIC}/r/200/pic/cover/l/`) src = ''
 
@@ -134,7 +134,7 @@ export const Cover = observer(
         <Image {...passProps} style={style} />
       </Component>
     )
-  }
-)
+  })
+}
 
 export default Cover

@@ -6,7 +6,9 @@
  */
 import React from 'react'
 import { StorybookPage } from '@components/storybook'
-import { Activity as Component, ActivityProps as Props } from './index'
+import { Activity as Component } from './index'
+
+import type { ActivityProps as Props } from './index'
 
 export default {
   title: 'components/Activity',

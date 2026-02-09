@@ -10,10 +10,10 @@ import { r } from '@utils/dev'
 import { Component } from '../component'
 import { Image } from '../image'
 import { COMPONENT } from './ds'
-import { Props as BgmProps } from './types'
 import './index.scss'
 
-export { BgmProps }
+import type { Props as BgmProps } from './types'
+export type { BgmProps }
 
 /** bgm.tv 表情 */
 export const Bgm = observer(({ index = 1, size = 20, ...other }: BgmProps) => {

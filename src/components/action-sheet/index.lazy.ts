@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const ActionSheet = lazy(() => import('./index'))
-export { Props as ActionSheetProps } from './types'
+export type { Props as ActionSheetProps } from './types'

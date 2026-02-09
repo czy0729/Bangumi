@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const Bgm = lazy(() => import('./index'))
-export { Props as BgmProps } from './types'
+export type { Props as BgmProps } from './types'

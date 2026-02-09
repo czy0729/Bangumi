@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-10-19 13:45:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-13 21:18:32
+ * @Last Modified time: 2026-02-10 07:33:52
  */
 import { appNavigate, navigationReference } from '@utils'
 
 const NAVIGATION_RETRY_DELAY = 2000
+
 const MAX_RETRIES = 3
 
 export function navigate(url: string) {

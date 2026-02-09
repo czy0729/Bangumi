@@ -4,13 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-17 12:34:21
  */
-import { AnyObject, ColorValue, EventType, Fn, Navigation, ViewStyle } from '@types'
-import { ImageProps } from '../image'
+import type { AnyObject, ColorValue, EventType, Fn, Navigation, WithViewStyles } from '@types'
+import type { ImageProps } from '../image'
 
-export type Props = {
-  /** 图片容器样式 */
-  style?: ViewStyle
-
+export type Props = WithViewStyles<{
   /** 路由 */
   navigation?: Navigation
 
@@ -64,4 +61,4 @@ export type Props = {
 
   /** 长按回调 */
   onLongPress?: Fn
-}
+}>

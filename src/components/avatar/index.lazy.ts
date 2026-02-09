@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const Avatar = lazy(() => import('./index'))
-export { Props as AvatarProps } from './types'
+export type { Props as AvatarProps } from './types'

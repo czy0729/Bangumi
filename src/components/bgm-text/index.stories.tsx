@@ -5,10 +5,10 @@
  * @Last Modified time: 2023-04-06 12:08:34
  */
 import React from 'react'
-import { _ } from '@stores'
-import { StorybookGrid, StorybookPage } from '@components/storybook'
 import { Flex } from '@components/flex'
+import { StorybookGrid, StorybookPage } from '@components/storybook'
 import { Text } from '@components/text'
+import { _ } from '@stores'
 import { BgmText as Component } from './index'
 
 export default {
@@ -21,7 +21,7 @@ export const BgmText = () => (
     <StorybookGrid space justify='between'>
       {Array(102)
         .fill('')
-        .map((item, index) => (
+        .map((_item, index) => (
           <Flex key={index + 1} style={styles.item} direction='column' justify='center'>
             <Component index={index + 1} size={18} />
             <Text style={_.mt.xs} size={12} align='center'>

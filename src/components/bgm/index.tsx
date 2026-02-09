@@ -5,29 +5,32 @@
  * @Last Modified time: 2024-08-02 21:37:38
  */
 import React from 'react'
-import { observer } from 'mobx-react'
+import { useObserver } from 'mobx-react'
 import { r } from '@utils/dev'
-import { Source } from '@types'
 import { Image } from '../image'
 import { COMPONENT } from './ds'
-import { Props as BgmProps } from './types'
 
-export { BgmProps }
+import type { Source } from '@types'
+import type { Props as BgmProps } from './types'
 
-/** bgm.tv 表情 */
-export const Bgm = observer(({ index = 1, size = 20, ...other }: BgmProps) => {
+export type { BgmProps }
+
+/** BGM 表情 */
+export function Bgm({ index = 1, size = 20, ...other }: BgmProps) {
   r(COMPONENT)
 
-  if (!bgm) init()
+  return useObserver(() => {
+    if (!bgm) init()
 
-  return <Image src={bgm[index]} resizeMode='contain' size={size} placeholder={false} {...other} />
-})
+    return (
+      <Image src={bgm[index]} resizeMode='contain' size={size} placeholder={false} {...other} />
+    )
+  })
+}
 
 export default Bgm
 
-let bgm: {
-  [x: string]: Source
-}
+let bgm: Record<number, Source>
 
 function init() {
   bgm = {

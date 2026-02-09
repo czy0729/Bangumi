@@ -21,9 +21,10 @@ import Btn from './btn'
 import Scroll from './scroll'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props as ActionSheetProps } from './types'
 
-export { ActionSheetProps }
+import type { Props as ActionSheetProps } from './types'
+
+export type { ActionSheetProps }
 
 /** 动作面板 */
 export const ActionSheet = ({

@@ -7,13 +7,16 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import { TextStyle } from '@types'
 import { Bgm } from '../bgm'
 import { BGM_MAP } from './ds'
 import { styles } from './styles'
-import { Props as BgmTextProps } from './types'
 
-export { BgmTextProps, BGM_MAP }
+import type { TextStyle } from '@types'
+import type { Props as BgmTextProps } from './types'
+
+export { BGM_MAP }
+
+export type { BgmTextProps }
 
 export const BgmText = observer(
   ({ style, index = 0, size = 14, lineHeight, children, ...other }: BgmTextProps) => {

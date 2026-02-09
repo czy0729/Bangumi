@@ -17,8 +17,9 @@ import {
   URL_DEFAULT_AVATAR,
   URL_DEFAULT_MONO
 } from '@constants'
-import { Fn } from '@types'
-import { Props } from './types'
+
+import type { Fn } from '@types'
+import type { Props } from './types'
 
 /** 判断是否自己的头像, 一周才变化一次 */
 const TS = Math.floor(getTimestamp() / 604800)

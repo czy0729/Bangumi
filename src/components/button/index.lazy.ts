@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const Button = lazy(() => import('./index'))
-export { Props as ButtonProps } from './types'
+export type { Props as ButtonProps } from './types'

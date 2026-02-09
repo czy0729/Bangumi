@@ -18,6 +18,7 @@ export const Scroll = ({ forwardRef, height, scrollEnabled = true, onScroll, chi
 
   return useObserver(() => {
     const styles = memoStyles()
+
     if (scrollEnabled) {
       return (
         <ScrollView

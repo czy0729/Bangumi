@@ -12,14 +12,17 @@ import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { BGM_MAP, COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props as BgmTextProps } from './types'
 
-export { BgmTextProps, BGM_MAP }
+import type { Props as BgmTextProps } from './types'
+
+export { BGM_MAP }
 export { BGM_MAP_DSM, BGM_MAP_CINNAMOR, BGM_MAP_VICKSCARLET, BGM_MAP_WUHANG } from './ds'
 export { getBgmMiddleFrame } from './utils'
 
+export type { BgmTextProps }
+
 /** BGM 表情已通过本地工具转换成一种字体，此组件为封装调用字体 */
-export const BgmText = ({
+export function BgmText({
   style,
   index = 0,
   size = 14,
@@ -27,7 +30,7 @@ export const BgmText = ({
   lineHeight,
   children,
   ...other
-}: BgmTextProps) => {
+}: BgmTextProps) {
   r(COMPONENT)
 
   // 只在 children 为 string 时使用它，否则用 BGM_MAP[index]

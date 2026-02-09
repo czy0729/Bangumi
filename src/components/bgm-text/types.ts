@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-05 09:27:24
  */
-import { PropsWithChildren } from 'react'
-import { TextStyle } from '@types'
+import type { PropsWithChildren } from 'react'
+import type { TextStyle } from '@types'
 
 export type Props = PropsWithChildren<{
   /** 图标当成文字一样使用 */

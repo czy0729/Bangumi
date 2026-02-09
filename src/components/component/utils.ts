@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-11-09 08:31:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-10 04:38:55
+ * @Last Modified time: 2026-02-10 07:11:54
  */
 import { StyleSheet } from 'react-native'
-import { ViewStyle } from '@types'
 import { Text } from '../text'
-import { Props } from './types'
+
+import type { ViewStyle } from '@types'
+import type { Props } from './types'
 
 const PROPERTY_MAPPINGS = [
   { original: 'paddingVertical', properties: ['paddingTop', 'paddingBottom'] },

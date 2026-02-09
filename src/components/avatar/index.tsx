@@ -18,9 +18,10 @@ import { useAvatar } from './hooks'
 import { fixedAll, fixedHD, fixedSize, getAvatar, getOnPress, getRadius } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props as AvatarProps } from './types'
 
-export { AvatarProps }
+import type { Props as AvatarProps } from './types'
+
+export type { AvatarProps }
 
 /** 头像 */
 export const Avatar = ({

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-05-13 14:39:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-13 14:45:13
+ * @Last Modified time: 2026-02-10 07:40:40
  */
 import React, { Suspense, useEffect, useRef } from 'react'
 import { Animated } from 'react-native'
@@ -15,11 +15,12 @@ import { Portal } from '../portal'
 import { Touchable } from '../touchable'
 import { COMPONENT, DRAWER_WITDH } from './ds'
 import { memoStyles } from './styles'
-import { Props as DrawerProps } from './types'
 
-export { DrawerProps }
+import type { Props as DrawerProps } from './types'
 
-export const Drawer = ({ style, show, onToggle, children }: DrawerProps) => {
+export type { DrawerProps }
+
+export function Drawer({ style, show, onToggle, children }: DrawerProps) {
   r(COMPONENT)
 
   const x = useRef(new Animated.Value(0))
@@ -34,6 +35,7 @@ export const Drawer = ({ style, show, onToggle, children }: DrawerProps) => {
 
   return useObserver(() => {
     const styles = memoStyles()
+
     return (
       <Portal>
         <Suspense>

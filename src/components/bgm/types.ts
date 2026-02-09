@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-08-01 06:21:42
  */
-import { Override } from '@types'
-import { ImageProps } from '../image'
+import type { Override } from '@types'
+import type { ImageProps } from '../image'
 
 export type Props = Override<
   Omit<ImageProps, 'children'>,
