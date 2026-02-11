@@ -8,7 +8,6 @@ import React from 'react'
 import { useObserver } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
-import { r } from '@utils/dev'
 import { useNavigation } from '@utils/hooks'
 import { Flex } from '../../flex'
 import { Iconfont } from '../../iconfont'
@@ -19,9 +18,7 @@ import { styles } from './styles'
 import type { Props } from './type'
 
 function Back({ style, color, onPress }: Props) {
-  r(COMPONENT)
-
-  const navigation = useNavigation()
+  const navigation = useNavigation(COMPONENT)
 
   return useObserver(() => (
     <Touchable style={stl(styles.touch, style)} onPress={onPress || navigation?.goBack}>

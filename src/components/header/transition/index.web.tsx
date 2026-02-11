@@ -13,7 +13,8 @@ import { StorybookState } from '../../storybook'
 import { Text } from '../../text'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function Transition({ fixed, title, headerTitle }: Props) {
   r(COMPONENT)
@@ -37,6 +38,7 @@ function Transition({ fixed, title, headerTitle }: Props) {
 
   return useObserver(() => {
     const styles = memoStyles()
+
     return (
       <Animated.View style={[styles.view, wrapStyles]} pointerEvents={fixed ? 'auto' : 'none'}>
         <Animated.View style={[styles.body, title && styles.bodyTitle, bodyStyles]}>

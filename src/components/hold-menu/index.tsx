@@ -12,14 +12,14 @@
  * @Last Modified time: 2026-01-23 05:52:05
  */
 import React from 'react'
-import { observer } from 'mobx-react'
+import { useObserver } from 'mobx-react'
 import { HoldItem, HoldMenuProvider as Provider } from '@components/@'
 import { _ } from '@stores'
 
 export { HoldItem }
 
-const HoldMenuProvider = observer(({ children }) => {
-  return <Provider theme={_.select('light', 'dark')}>{children}</Provider>
-})
+function HoldMenuProvider({ children }) {
+  return useObserver(() => <Provider theme={_.select('light', 'dark')}>{children}</Provider>)
+}
 
 export { HoldMenuProvider }

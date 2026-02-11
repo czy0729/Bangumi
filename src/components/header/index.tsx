@@ -14,7 +14,8 @@ import Placeholder from './placeholder'
 import Popover from './popover'
 import { updateHeader } from './utils'
 import { COMPONENT } from './ds'
-import { IHeader } from './types'
+
+import type { IHeader } from './types'
 
 /**
  * 适配 react-navigation@6
@@ -38,6 +39,7 @@ const Header: IHeader = ({
   r(COMPONENT)
 
   const navigation = useNavigation()
+
   useEffect(() => {
     updateHeader({
       navigation,
@@ -76,6 +78,7 @@ const Header: IHeader = ({
       headerRight,
       onBackPress
     }
+
     return (
       <>
         {mode ? (

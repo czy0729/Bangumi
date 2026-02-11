@@ -12,9 +12,10 @@ import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { Component } from '../component'
 import { COMPONENT, CONFIG, PERSPECTIVE } from './ds'
-import { Props as FlipProps } from './types'
 
-export { FlipProps }
+import type { Props as FlipProps } from './types'
+
+export type { FlipProps }
 
 let feedbacked = false
 
@@ -24,26 +25,28 @@ export const Flip = ({ style, height, onAnimated, children, ...other }: FlipProp
 
   const animate = true
   const activeRef = useSharedValue(0)
-  const beforeStyle = useAnimatedStyle(() => {
-    return {
-      opacity: withTiming(activeRef.value ? 0 : 1, CONFIG),
-      transform: [
-        { perspective: PERSPECTIVE },
-        { rotateX: withTiming(activeRef.value ? '90deg' : '0deg', CONFIG) },
-        { translateY: withTiming(-activeRef.value * height, CONFIG) }
-      ]
-    }
-  })
-  const afterStyle = useAnimatedStyle(() => {
-    return {
-      opacity: withTiming(activeRef.value ? 1 : 0, CONFIG),
-      transform: [
-        { perspective: PERSPECTIVE },
-        { rotateX: withTiming(activeRef.value ? '0deg' : '90deg', CONFIG) },
-        { translateY: withTiming(-activeRef.value * height, CONFIG) }
-      ]
-    }
-  })
+  const beforeStyle = useAnimatedStyle(
+    () =>
+      ({
+        opacity: withTiming(activeRef.value ? 0 : 1, CONFIG),
+        transform: [
+          { perspective: PERSPECTIVE },
+          { rotateX: withTiming(activeRef.value ? '90deg' : '0deg', CONFIG) },
+          { translateY: withTiming(-activeRef.value * height, CONFIG) }
+        ]
+      } as const)
+  )
+  const afterStyle = useAnimatedStyle(
+    () =>
+      ({
+        opacity: withTiming(activeRef.value ? 1 : 0, CONFIG),
+        transform: [
+          { perspective: PERSPECTIVE },
+          { rotateX: withTiming(activeRef.value ? '0deg' : '90deg', CONFIG) },
+          { translateY: withTiming(-activeRef.value * height, CONFIG) }
+        ]
+      } as const)
+  )
 
   const [beforeProps, setBeforeProps] = useState({
     ...other
@@ -105,6 +108,7 @@ export const Flip = ({ style, height, onAnimated, children, ...other }: FlipProp
         height
       }
     }
+
     return (
       <Component id='component-flip' style={style}>
         <View style={styles.container}>

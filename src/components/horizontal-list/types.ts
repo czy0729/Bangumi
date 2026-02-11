@@ -4,10 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-07-24 20:55:12
  */
-import { Fn, ViewStyle } from '@types'
+import type { Fn, ViewStyle, WithViewStyles } from '@types'
 
-export type Props = {
-  style?: ViewStyle
+export type Props = WithViewStyles<{
   contentContainerStyle?: ViewStyle
   data: any[]
 
@@ -18,4 +17,4 @@ export type Props = {
 
   /** 水平滑动到侧 */
   onEndReachedOnce?: Fn
-}
+}>

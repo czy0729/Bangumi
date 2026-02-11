@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const Image = lazy(() => import('./index'))
-export { Props as ImageProps } from './types'
+export type { Props as ImageProps } from './types'

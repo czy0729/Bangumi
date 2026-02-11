@@ -4,9 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-14 21:40:32
  */
-import { ReactNode } from '@types'
+import type { PropsWithChildren } from 'react'
 
-export type Props = {
+export type Props = PropsWithChildren<{
   /** 输入框值 */
   value?: string
 
@@ -24,8 +24,6 @@ export type Props = {
 
   extraComponent?: any
 
-  children?: ReactNode
-
   /** 关闭回调 */
   onClose?: (arg0?: any) => any
 
@@ -34,4 +32,4 @@ export type Props = {
 
   /** 提交回调 */
   onSubmit?: (value: string) => any
-}
+}>

@@ -4,10 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-11-29 15:25:45
  */
-import { ViewStyle } from '@types'
+import type { WithViewStyles } from '@types'
 
-export type Props = {
-  style?: ViewStyle
+export type Props = WithViewStyles<{
   type?: '' | 'main' | 'warning' | 'primary' | 'desc'
   children: any
-}
+}>

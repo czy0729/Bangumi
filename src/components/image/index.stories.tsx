@@ -6,7 +6,9 @@
  */
 import React from 'react'
 import { StorybookPage } from '@components/storybook'
-import { Image as Component, ImageProps as Props } from './index'
+import { Image as Component } from './index'
+
+import type { ImageProps as Props } from './index'
 
 export default {
   title: 'components/Image',

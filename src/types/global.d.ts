@@ -47,6 +47,11 @@ declare const window: {
   /** 顶层 window */
   top: typeof window
 
+  /** 文档当前位置 */
+  location: {
+    search: string
+  }
+
   /** 弹窗 */
   alert: (message?: any) => void
 

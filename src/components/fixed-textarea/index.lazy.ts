@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const FixedTextarea = lazy(() => import('./index'))
-export { Props as FixedTextareaProps } from './types'
+export type { Props as FixedTextareaProps } from './types'

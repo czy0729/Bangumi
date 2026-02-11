@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-10-19 13:57:01
  */
-import { EventKeys } from '@constants/events'
-import { EventType } from '@types'
+import type { EventKeys } from '@constants/events'
+import type { EventType } from '@types'
 
 export type Props = {
   [key: string]: string | number | boolean

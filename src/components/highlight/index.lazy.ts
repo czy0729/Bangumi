@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const Highlight = lazy(() => import('./index'))
-export { Props as HighlightProps } from './types'
+export type { Props as HighlightProps } from './types'

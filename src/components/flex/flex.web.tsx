@@ -5,9 +5,11 @@
  * @Last Modified time: 2024-11-12 10:33:28
  */
 import React from 'react'
-import { View, ViewStyle } from 'react-native'
+import { View } from 'react-native'
 import { stl } from '@utils'
-import { Props as FlexProps } from './types'
+
+import type { ViewStyle } from 'react-native'
+import type { Props as FlexProps } from './types'
 
 /** Flex 布局 */
 export default class Flex extends React.Component<FlexProps, any> {

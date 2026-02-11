@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-11-29 16:50:08
  */
-import { Expand, Fn, Navigation, ReactNode } from '@types'
-import { Props as HeaderProps } from '../types'
+import type { Expand, Fn, Navigation, ReactNode } from '@types'
+import type { Props as HeaderProps } from '../types'
 
 export type Props = Expand<
   {

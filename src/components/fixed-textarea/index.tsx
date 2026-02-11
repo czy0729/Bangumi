@@ -27,7 +27,7 @@ import {
 import type { TextInput } from 'react-native'
 import type { Props as FixedTextareaProps } from './types'
 
-export { FixedTextareaProps }
+export type { FixedTextareaProps }
 
 /** 内置键盘切换中、英文高度会变化, 因为各种原因，后续就一直用最大的那个值作为高度 */
 let maxKeyboardHeight = 0

@@ -4,12 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-08 06:45:58
  */
-import { ColorValue, Fn, ReactNode, ViewStyle } from '@types'
+import type { ColorValue, Fn, ReactNode, ViewStyle, WithViewStyles } from '@types'
 
-export type Props = {
-  /** 容器样式 */
-  style?: ViewStyle
-
+export type Props = WithViewStyles<{
   /** 展开箭头容器样式 */
   moreStyle?: ViewStyle
 
@@ -32,4 +29,4 @@ export type Props = {
   onPress?: Fn
 
   children: ReactNode
-}
+}>

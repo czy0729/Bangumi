@@ -8,13 +8,16 @@ import React from 'react'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
-import { ScrollEvent } from '@types'
 import { Component } from '../component'
 import ScrollViewHorizontal from './scroll-view-horizontal'
 import { COMPONENT } from './ds'
-import { Props as HorizontalListProps } from './types'
 
-export { ScrollViewHorizontal, HorizontalListProps }
+import type { ScrollEvent } from '@types'
+import type { Props as HorizontalListProps } from './types'
+
+export { ScrollViewHorizontal }
+
+export type { HorizontalListProps }
 
 /** 通用水平移动列表 */
 export const HorizontalList = observer(

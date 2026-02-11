@@ -5,29 +5,34 @@
  * @Last Modified time: 2023-04-12 09:30:45
  */
 import React from 'react'
-import { observer } from 'mobx-react'
+import { useObserver } from 'mobx-react'
 import Image from '../image'
 
+import type { ImageSourcePropType } from 'react-native'
+
 function Local({ style, headers, overrideHeaders, src, onError, onLoadEnd, ...other }) {
-  let source
-  if (headers && typeof src === 'object') {
-    source = {
-      ...src,
-      headers: overrideHeaders
+  return useObserver(() => {
+    let source: ImageSourcePropType
+    if (headers && typeof src === 'object') {
+      source = {
+        ...src,
+        headers: overrideHeaders
+      }
+    } else {
+      source = src
     }
-  } else {
-    source = src
-  }
-  return (
-    <Image
-      {...other}
-      style={style}
-      source={source}
-      fadeDuration={0}
-      onError={onError}
-      onLoadEnd={onLoadEnd}
-    />
-  )
+
+    return (
+      <Image
+        {...other}
+        style={style}
+        source={source}
+        fadeDuration={0}
+        onError={onError}
+        onLoadEnd={onLoadEnd}
+      />
+    )
+  })
 }
 
-export default observer(Local)
+export default Local

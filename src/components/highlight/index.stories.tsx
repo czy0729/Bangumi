@@ -5,10 +5,12 @@
  * @Last Modified time: 2023-04-11 12:57:19
  */
 import React from 'react'
-import { StorybookPage } from '@components/storybook'
 import { Flex } from '@components/flex'
+import { StorybookPage } from '@components/storybook'
 import { _ } from '@stores'
-import { Highlight as Component, HighlightProps as Props } from './index'
+import { Highlight as Component } from './index'
+
+import type { HighlightProps as Props } from './index'
 
 export default {
   title: 'components/Highlight',

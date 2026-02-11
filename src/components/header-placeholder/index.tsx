@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { observer } from 'mobx-react'
+import { useObserver } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
@@ -18,24 +18,26 @@ import type { Props as HeaderPlaceholderProps } from './types'
 export type { HeaderPlaceholderProps }
 
 /** 客户端通用顶部高度占位 */
-export const HeaderPlaceholder = observer(({ style, tabs = false }: HeaderPlaceholderProps) => {
+export function HeaderPlaceholder({ style, tabs = false }: HeaderPlaceholderProps) {
   r(COMPONENT)
 
   const { headerHeight } = useInsets()
 
-  let height = headerHeight
-  if (tabs) height += _.tabsHeight
+  return useObserver(() => {
+    let height = headerHeight
+    if (tabs) height += _.tabsHeight
 
-  return (
-    <View
-      style={stl(
-        {
-          height
-        },
-        style
-      )}
-    />
-  )
-})
+    return (
+      <View
+        style={stl(
+          {
+            height
+          },
+          style
+        )}
+      />
+    )
+  })
+}
 
 export default HeaderPlaceholder

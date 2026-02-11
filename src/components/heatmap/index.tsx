@@ -6,16 +6,16 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { observer } from 'mobx-react'
+import { useObserver } from 'mobx-react'
 import { systemStore } from '@stores'
 import { formatNumber, toFixed } from '@utils'
 import { Text } from '../text'
 import { Control } from './control'
 import { PageText } from './page-text'
 import { memoStyles } from './styles'
-import { Props as HeatmapProps } from './types'
 
-export { HeatmapProps }
+import type { Props as HeatmapProps } from './types'
+export type { HeatmapProps }
 
 const heatmapEventData = {}
 const heatmapData = {
@@ -24,23 +24,23 @@ const heatmapData = {
 const totalWithoutView = (heatmapData?.total || 0) - heatmapData['其他.查看']
 
 /** [DEV] 事件热力区域可视化 */
-const Heatmap = observer(
-  ({
-    right = 1,
-    bottom = 1,
-    transparent,
-    id = '',
-    screen,
-    mini,
+function Heatmap({
+  right = 1,
+  bottom = 1,
+  transparent,
+  id = '',
+  screen,
+  mini,
 
-    // @todo data里面通常都是title, to, alias, 后来避免rerender每次生成新Object, 把这些key都拆开单独传
-    data = {},
-    title,
-    to,
-    alias,
-    from,
-    type
-  }: HeatmapProps) => {
+  // @todo data里面通常都是title, to, alias, 后来避免rerender每次生成新Object, 把这些key都拆开单独传
+  data = {},
+  title,
+  to,
+  alias,
+  from,
+  type
+}: HeatmapProps) {
+  return useObserver(() => {
     const { enabled, grid, text, sum, mini: devEventMini } = systemStore.devEvent
     if (!enabled || (!grid && !text && !sum && !devEventMini)) return null
 
@@ -136,10 +136,9 @@ const Heatmap = observer(
         )}
       </>
     )
-  }
-)
+  })
+}
 
-// @ts-expect-error
 Heatmap.Control = Control
 
 export { Heatmap }

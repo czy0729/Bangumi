@@ -24,13 +24,14 @@ export type { EmptyProps }
 export const Empty = ({ text, children }: EmptyProps) => {
   r(COMPONENT)
 
-  const random = useRef(randomSpeech())
+  const randomRef = useRef(randomSpeech())
+
   return useObserver(() => (
     <Component id='component-empty'>
       <Flex style={styles.empty} direction='column' justify='center'>
         <Mesume size={80} />
         <Text style={_.mt.sm} type='sub' align='center'>
-          {text || random.current}
+          {text || randomRef.current}
         </Text>
         {children}
       </Flex>

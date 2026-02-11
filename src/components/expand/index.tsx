@@ -5,7 +5,7 @@
  * @Last Modified time: 2025-02-16 11:51:10
  */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Animated, LayoutChangeEvent, View } from 'react-native'
+import { Animated, View } from 'react-native'
 import { useObserver } from 'mobx-react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { _ } from '@stores'
@@ -17,9 +17,11 @@ import { Iconfont } from '../iconfont'
 import { Touchable } from '../touchable'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props as ExpandProps } from './types'
 
-export { ExpandProps }
+import type { LayoutChangeEvent } from 'react-native'
+import type { Props as ExpandProps } from './types'
+
+export type { ExpandProps }
 
 /** 收缩与展开框 */
 export const Expand = ({
@@ -40,6 +42,7 @@ export const Expand = ({
   const aHeight = useRef(new Animated.Value(0))
   const [expand, setExpand] = useState(false)
   const [height, setHeight] = useState(0)
+
   const animatedStyles = useMemo(
     () => [
       styles.container,

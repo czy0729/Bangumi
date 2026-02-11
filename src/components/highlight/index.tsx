@@ -5,31 +5,31 @@
  * @Last Modified time: 2024-01-14 16:19:31
  */
 import React from 'react'
-import { observer } from 'mobx-react'
+import { useObserver } from 'mobx-react'
 import { _ } from '@stores'
 import { t2s as t2sUtils } from '@utils'
 import { r } from '@utils/dev'
 import { Text } from '../text'
 import { COMPONENT } from './ds'
-import { Props as HighlightProps } from './types'
 
-export { HighlightProps }
+import type { Props as HighlightProps } from './types'
+export type { HighlightProps }
 
 /** 文字高亮 */
-export const Highlight = observer(
-  ({
-    style,
-    value = '',
-    type,
-    size,
-    lineHeight,
-    bold,
-    t2s = true,
-    children,
-    ...other
-  }: HighlightProps) => {
-    r(COMPONENT)
+export function Highlight({
+  style,
+  value = '',
+  type,
+  size,
+  lineHeight,
+  bold,
+  t2s = true,
+  children,
+  ...other
+}: HighlightProps) {
+  r(COMPONENT)
 
+  return useObserver(() => {
     const props = {
       size,
       lineHeight,
@@ -77,7 +77,7 @@ export const Highlight = observer(
         )}
       </Text>
     )
-  }
-)
+  })
+}
 
 export default Highlight

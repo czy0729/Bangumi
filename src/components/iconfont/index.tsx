@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-01-23 05:55:52
  */
 import React from 'react'
-import { observer } from 'mobx-react'
+import { useObserver } from 'mobx-react'
 import { Icons } from '@components/@'
 import { _ } from '@stores'
 import { stl } from '@utils'
@@ -25,10 +25,17 @@ import type {
 // export type { IconfontProps }
 
 /** Iconfont 自定义项目图标 */
-export const Iconfont = observer(
-  ({ style, name = '', size = 22, lineHeight, color, ...other }: IconfontProps) => {
-    r(COMPONENT)
+export function Iconfont({
+  style,
+  name = '',
+  size = 22,
+  lineHeight,
+  color,
+  ...other
+}: IconfontProps) {
+  r(COMPONENT)
 
+  return useObserver(() => {
     const _size = size + _.fontSizeAdjust + _.device(0, _.padIncrease)
     const _lineHeight = lineHeight + _.fontSizeAdjust
 
@@ -73,7 +80,7 @@ export const Iconfont = observer(
         {...other}
       />
     )
-  }
-)
+  })
+}
 
 export default Iconfont

@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const HorizontalList = lazy(() => import('./index'))
-export { Props as HorizontalListProps } from './types'
+export type { Props as HorizontalListProps } from './types'

@@ -8,12 +8,13 @@ import React from 'react'
 import { r } from '@utils/dev'
 import { Component } from '../component'
 import { COMPONENT } from './ds'
-import { Props as HoverProps } from './types'
 import './index.scss'
 
-export { HoverProps }
+import type { Props as HoverProps } from './types'
 
-export const Hover = ({ style, type, children }: HoverProps) => {
+export type { HoverProps }
+
+export function Hover({ style, type, children }: HoverProps) {
   r(COMPONENT)
 
   return (

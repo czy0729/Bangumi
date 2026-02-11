@@ -5,12 +5,14 @@
  * @Last Modified time: 2024-09-08 19:11:52
  */
 import React from 'react'
-import { AnyObject } from '@types'
 import ErrorBoundary from './index'
+
+import type { AnyObject } from '@types'
 
 /** 捕捉错误异常组件包裹组件 */
 export function renderWithErrorBoundary(data: any, index?: number, props: AnyObject = {}) {
   const Component = data
+
   return (
     <ErrorBoundary key={String(data?.type?.displayName || index || 0)}>
       <Component {...props} />

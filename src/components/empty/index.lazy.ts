@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const Empty = lazy(() => import('./index'))
-export { Props as EmptyProps } from './types'
+export type { Props as EmptyProps } from './types'

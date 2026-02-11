@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const Flip = lazy(() => import('./index'))
-export { Props as FlipProps } from './types'
+export type { Props as FlipProps } from './types'

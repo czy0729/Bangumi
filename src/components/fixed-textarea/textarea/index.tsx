@@ -13,10 +13,12 @@ import { _ } from '@stores'
 import { IOS } from '@constants'
 import { Flex } from '../../flex'
 import { Iconfont } from '../../iconfont'
-import { SafeAreaBottom, SafeAreaBottomProps } from '../../safe-area-bottom'
+import { SafeAreaBottom } from '../../safe-area-bottom'
 import { Touchable } from '../../touchable'
 import SourceText from './source-text'
 import { memoStyles } from './styles'
+
+import type { SafeAreaBottomProps } from '../../safe-area-bottom'
 
 function Textarea({
   forwardRef,
@@ -41,6 +43,7 @@ function Textarea({
 
   return useObserver(() => {
     const styles = memoStyles()
+
     const Component = _.ios(View, SafeAreaBottom)
     const passProps: SafeAreaBottomProps = {
       style: styles.container

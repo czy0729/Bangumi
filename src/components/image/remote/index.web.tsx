@@ -5,19 +5,24 @@
  * @Last Modified time: 2024-04-13 13:57:24
  */
 import React from 'react'
-import { observer } from 'mobx-react'
+import { useObserver } from 'mobx-react'
 import { IOS } from '@constants'
-import { AnyObject } from '@types'
 import Image from '../image'
 
-function Remote({ style, headers, uri, onError, onLoadEnd, ...other }) {
-  const source: AnyObject = {
-    headers,
-    uri
-  }
-  if (IOS) source.cache = 'force-cache'
+import type { AnyObject } from '@types'
 
-  return <Image {...other} style={style} source={source} onError={onError} onLoadEnd={onLoadEnd} />
+function Remote({ style, headers, uri, onError, onLoadEnd, ...other }) {
+  return useObserver(() => {
+    const source: AnyObject = {
+      headers,
+      uri
+    }
+    if (IOS) source.cache = 'force-cache'
+
+    return (
+      <Image {...other} style={style} source={source} onError={onError} onLoadEnd={onLoadEnd} />
+    )
+  })
 }
 
-export default observer(Remote)
+export default Remote

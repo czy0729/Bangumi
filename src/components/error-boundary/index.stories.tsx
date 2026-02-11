@@ -6,7 +6,9 @@
  */
 import React from 'react'
 import { StorybookPage } from '@components/storybook'
-import { ErrorBoundary as Component, ErrorBoundaryProps as Props } from './index'
+import { ErrorBoundary as Component } from './index'
+
+import type { ErrorBoundaryProps as Props } from './index'
 
 export default {
   title: 'components/ErrorBoundary',

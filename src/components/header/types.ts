@@ -4,9 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-09 03:04:58
  */
-import type { Expand, Fn, Navigation, ReactNode, TextStyle } from '@types'
+import type { Expand, Fn, Navigation, ReactNode, TextStyle, WithViewStyles } from '@types'
 import type { TrackProps } from '../track'
-import type { Props as PlaceholderProps } from './placeholder/types'
 import type { Props as PopoverProps } from './popover/types'
 
 export type Props = {
@@ -62,7 +61,7 @@ export type Props = {
 export interface IHeader {
   (props: Props): JSX.Element
   Popover?: <ItemT extends string[] | readonly string[]>(props: PopoverProps<ItemT>) => JSX.Element
-  Placeholder?: (props: PlaceholderProps) => JSX.Element
+  Placeholder?: (props: WithViewStyles) => JSX.Element
 }
 
 export type UpdateHeaderProps = Expand<

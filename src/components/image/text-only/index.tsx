@@ -5,19 +5,21 @@
  * @Last Modified time: 2024-01-18 07:23:48
  */
 import React from 'react'
-import { observer } from 'mobx-react'
+import { useObserver } from 'mobx-react'
 import { Flex } from '../../flex'
 import { Text } from '../../text'
 import { styles } from './styles'
 
-function TextOnly({ style }) {
-  return (
+import type { WithViewStyles } from '@types'
+
+function TextOnly({ style }: WithViewStyles) {
+  return useObserver(() => (
     <Flex style={style} justify='center'>
       <Text style={styles.textOnly} type='sub' size={10} bold align='center'>
         {/* text-only */}
       </Text>
     </Flex>
-  )
+  ))
 }
 
-export default observer(TextOnly)
+export default TextOnly

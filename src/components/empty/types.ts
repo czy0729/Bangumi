@@ -4,7 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-11-29 13:35:32
  */
-export type Props = {
+import type { PropsWithChildren } from 'react'
+
+export type Props = PropsWithChildren<{
   text?: string
-  children?: any
-}
+}>

@@ -4,12 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-04 21:36:08
  */
-import { Props as HoverProps } from './types'
+import type { Props as HoverProps } from './types'
 
-export { HoverProps }
+export type { HoverProps }
 
 /** [WEB] 悬停出现 */
-export const Hover = ({ children }: HoverProps) => {
+export function Hover({ children }: HoverProps) {
   return children
 }
 

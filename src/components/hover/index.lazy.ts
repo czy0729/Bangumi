@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const Hover = lazy(() => import('./index'))
-export { Props as HoverProps } from './types'
+export type { Props as HoverProps } from './types'

@@ -10,8 +10,9 @@ import { useObserver } from 'mobx-react'
 import { useDom } from '@utils/hooks'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { memoStyles } from './styles'
-import { Props } from './types'
 import './index.scss'
+
+import type { Props } from './types'
 
 const cls = 'scroll-view-horizontal'
 
@@ -20,6 +21,7 @@ function ScrollViewHorizontal({ children, ...other }: Props) {
   const [isDown, setIsDown] = useState(false)
   const [startX, setStartX] = useState(0)
   const [scrollLeft, setScrollLeft] = useState(0)
+
   useEffect(() => {
     const container = ref.current
     const activeCls = `${cls}--grabbing`
@@ -69,6 +71,7 @@ function ScrollViewHorizontal({ children, ...other }: Props) {
 
   return useObserver(() => {
     const styles = memoStyles()
+
     return (
       <ScrollView
         ref={ref}

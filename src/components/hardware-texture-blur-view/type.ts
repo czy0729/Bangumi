@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-09-04 04:49:15
  */
-import { ReactNode, ViewStyle } from '@types'
+import type { ReactNode, ViewStyle } from '@types'
 
 export type HardwareTextureRootBlurViewProps = {
   style?: ViewStyle

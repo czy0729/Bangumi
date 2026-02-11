@@ -5,9 +5,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-02-17 12:51:45
  */
-import React, { ReactNode } from 'react'
-import { StyleProp, TouchableWithoutFeedback, View, ViewStyle } from 'react-native'
+import React from 'react'
+import { TouchableWithoutFeedback, View } from 'react-native'
 import { WEB } from '@constants'
+
+import type { StyleProp, ViewStyle } from 'react-native'
+import type { ReactNode } from '@types'
 
 interface FlexItemPropsType {
   disabled?: boolean

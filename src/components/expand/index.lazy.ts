@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const Expand = lazy(() => import('./index'))
-export { Props as ExpandProps } from './types'
+export type { Props as ExpandProps } from './types'

@@ -6,10 +6,13 @@
  */
 import Flex from './flex'
 import FlexItem from './flex-item'
-import { Props as FlexProps } from './types'
+
+import type { Props as FlexProps } from './types'
 
 Flex.Item = FlexItem
 
-export { Flex, FlexProps }
+export { Flex }
+
+export type { FlexProps }
 
 export default Flex

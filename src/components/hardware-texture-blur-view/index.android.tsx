@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+// @ts-ignore
 import { BlurRootView, BlurView } from 'react-native-realtimeblurview'
 import Animated from 'react-native-reanimated'
 import { _ } from '@stores'

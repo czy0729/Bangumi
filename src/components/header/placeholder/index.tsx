@@ -12,10 +12,10 @@ import { useInsets } from '@utils/hooks'
 import { Component } from '../../component'
 import { COMPONENT } from './ds'
 
-import type { Props } from './types'
+import type { WithViewStyles } from '@types'
 
 /** component-header-placeholder */
-function Placeholder({ style }: Props) {
+function Placeholder({ style }: WithViewStyles) {
   r(COMPONENT)
 
   const { headerHeight } = useInsets()

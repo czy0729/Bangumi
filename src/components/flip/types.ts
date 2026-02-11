@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-03-28 05:39:05
  */
-import { Fn } from '@types'
+import type { Fn } from '@types'
 
 export type Props = {
   height: number

@@ -26,6 +26,7 @@ export function PageText({ page, screen }) {
   )
 
   const avg = 100 / (length || 1)
+
   return (
     <>
       {!!countTo && (

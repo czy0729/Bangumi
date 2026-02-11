@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const HeaderPlaceholder = lazy(() => import('./index'))
-export { Props as HeaderPlaceholderProps } from './types'
+export type { Props as HeaderPlaceholderProps } from './types'

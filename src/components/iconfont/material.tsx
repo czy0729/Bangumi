@@ -5,15 +5,15 @@
  * @Last Modified time: 2026-01-23 05:59:28
  */
 import React from 'react'
-import { observer } from 'mobx-react'
+import { useObserver } from 'mobx-react'
 import { Material as Icons } from '@components/@'
 import { _ } from '@stores'
 import { stl } from '@utils'
 
 import type { PropsMaterial } from './types'
 
-export const Material = observer(
-  ({ style, name, size = 22, lineHeight, color, ...other }: PropsMaterial) => (
+export function Material({ style, name, size = 22, lineHeight, color, ...other }: PropsMaterial) {
+  return useObserver(() => (
     <Icons
       style={stl(
         {
@@ -27,5 +27,5 @@ export const Material = observer(
       color={color || _.colorIcon}
       {...other}
     />
-  )
-)
+  ))
+}
