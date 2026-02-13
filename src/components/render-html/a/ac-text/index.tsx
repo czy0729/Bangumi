@@ -5,14 +5,16 @@
  * @Last Modified time: 2025-01-19 11:00:09
  */
 import React, { useCallback } from 'react'
-import { GestureResponderEvent } from 'react-native'
+import { useObserver } from 'mobx-react'
 import { _ } from '@stores'
 import { feedback, stl } from '@utils'
 import { syncRakuenStore, syncUIStore } from '@utils/async'
 import { t } from '@utils/fetch'
 import { HOST, WEB } from '@constants'
 import { Text } from '../../../text'
-import { Props } from './types'
+
+import type { GestureResponderEvent } from 'react-native'
+import type { Props } from './types'
 
 function ACText({ navigation, style, subjectId, text, onPress }: Props) {
   const handlePress = useCallback(
@@ -54,11 +56,11 @@ function ACText({ navigation, style, subjectId, text, onPress }: Props) {
     [navigation, onPress, subjectId, text]
   )
 
-  return (
+  return useObserver(() => (
     <Text style={stl(WEB && _.mr.xxs, style)} underline onPress={handlePress}>
       {text}
     </Text>
-  )
+  ))
 }
 
 export default ACText

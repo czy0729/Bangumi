@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-04-27 15:25:22
  */
-import { TextInputProps } from 'react-native'
-import { Override, ColorValue, ViewStyle, TextStyle } from '@types'
+import type { TextInputProps } from 'react-native'
+import type { Override, ColorValue, ViewStyle, TextStyle } from '@types'
 
 export type Props = Override<
   TextInputProps,

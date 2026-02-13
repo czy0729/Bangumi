@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-05-03 07:59:11
  */
-import { State } from './types'
+import type { State } from './types'
 
 export function getKatakanaAlign(item: State['matches'][number], rootWidth: number) {
   return (

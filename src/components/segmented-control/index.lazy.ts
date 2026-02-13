@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const SegmentedControl = lazy(() => import('./index'))
-export { Props as SegmentedControlProps } from './types'
+export type { Props as SegmentedControlProps } from './types'

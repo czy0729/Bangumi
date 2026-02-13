@@ -6,42 +6,48 @@
  */
 import React from 'react'
 import { Text } from 'react-native'
-import { observer } from 'mobx-react'
+import { useObserver } from 'mobx-react'
 import { syncThemeStore } from '@utils/async'
-import { Props } from './types'
 
-export default observer(({ style, showClose, children }: Props) => {
-  const _ = syncThemeStore()
-  return (
-    <>
-      <Text
-        style={[
-          _.fontStyle,
-          style,
-          {
-            color: _.colorDesc
-          }
-        ]}
-        textBreakStrategy='simple'
-        numberOfLines={0}
-      >
-        {children}
-      </Text>
-      {showClose && (
+import type { Props } from './types'
+
+function Desc({ style, showClose, children }: Props) {
+  return useObserver(() => {
+    const _ = syncThemeStore()
+
+    return (
+      <>
         <Text
           style={[
             _.fontStyle,
+            style,
             {
-              fontSize: 18,
-              color: _.colorIcon
+              color: _.colorDesc
             }
           ]}
           textBreakStrategy='simple'
           numberOfLines={0}
         >
-          {'  '}×
+          {children}
         </Text>
-      )}
-    </>
-  )
-})
+        {showClose && (
+          <Text
+            style={[
+              _.fontStyle,
+              {
+                fontSize: 18,
+                color: _.colorIcon
+              }
+            ]}
+            textBreakStrategy='simple'
+            numberOfLines={0}
+          >
+            {'  '}×
+          </Text>
+        )}
+      </>
+    )
+  })
+}
+
+export default Desc

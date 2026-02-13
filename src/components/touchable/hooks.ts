@@ -5,11 +5,13 @@
  * @Last Modified time: 2024-01-09 22:51:12
  */
 import { useCallback, useState } from 'react'
-import { GestureResponderEvent } from 'react-native'
-import { Fn } from '@types'
+
+import type { GestureResponderEvent } from 'react-native'
+import type { Fn } from '@types'
 
 export function useCallOnceInInterval(onPress: Fn) {
   const [disabled, setDisabled] = useState(false)
+
   const handlePress = useCallback(
     (event: GestureResponderEvent) => {
       setDisabled(true)

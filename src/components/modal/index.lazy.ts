@@ -7,5 +7,6 @@
 import { lazy } from 'react'
 
 export const Modal = lazy(() => import('./index'))
-export { Props as ModalProps } from './types'
+export type { Props as ModalProps } from './types'
+
 export { ModalFixed } from './fixed'

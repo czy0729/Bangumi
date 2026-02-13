@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const Menu = lazy(() => import('./index'))
-export { Props as MenuProps } from './types'
+export type { Props as MenuProps } from './types'

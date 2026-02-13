@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-10-19 14:13:07
  */
-import { StatusBarStyle } from 'react-native'
-import { ColorValue } from '@types'
+import type { StatusBarStyle } from 'react-native'
+import type { ColorValue } from '@types'
 
 export type Props = {
   tinygrail?: boolean

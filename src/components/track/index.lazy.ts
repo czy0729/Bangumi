@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const Track = lazy(() => import('./index'))
-export { Props as TrackProps } from './types'
+export type { Props as TrackProps } from './types'

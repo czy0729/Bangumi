@@ -8,19 +8,20 @@ import React from 'react'
 import { FROZEN_FN, IOS } from '@constants'
 import { Menu } from '../menu'
 import { Popover as PopoverComp } from './index'
-import { PopoverData, Props } from './types'
 
-export const Popover = <Data extends PopoverData>({
+import type { PopoverData, Props } from './types'
+
+export function Popover<Data extends PopoverData>({
   data,
   onSelect = FROZEN_FN,
   children,
   ...other
-}: Props<Data>) => {
+}: Props<Data>) {
   const popoverProps = IOS
     ? {
         overlay: (
           <Menu
-            data={data || []}
+            data={data || ([] as any)}
             onSelect={(title, index, evt) => {
               setTimeout(() => {
                 onSelect(title, index, evt)
@@ -31,7 +32,7 @@ export const Popover = <Data extends PopoverData>({
       }
     : {
         ...other,
-        data: data || [],
+        data: data || ([] as any),
         onSelect
       }
 

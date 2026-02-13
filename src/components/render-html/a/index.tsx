@@ -19,6 +19,7 @@ function A({ style, attrs = {}, passProps, children, onPress, ...other }: Props)
   const { route, params = {}, app } = matchBgmLink(href) || {}
 
   const [el, setEl] = useState<JSX.Element>(null)
+
   useEffect(() => {
     const onLinkPress = () => onPress(null, href)
     const args = {

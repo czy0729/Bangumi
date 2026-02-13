@@ -4,12 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-24 08:54:48
  */
-import type { EventKeys, Fn, ViewStyle } from '@types'
+import type { EventKeys, Fn, ViewStyle, WithViewStyles } from '@types'
 
-export type Props = {
-  /** 样式 */
-  style: ViewStyle
-
+export type Props = WithViewStyles<{
   /** 输入框样式 */
   inputStyle?: ViewStyle
 
@@ -37,4 +34,4 @@ export type Props = {
 
   /** 输入框键盘提交回调 */
   onSearch?: Fn
-}
+}>

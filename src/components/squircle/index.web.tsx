@@ -5,18 +5,20 @@
  * @Last Modified time: 2024-08-03 04:01:27
  */
 import React from 'react'
+// @ts-ignore
 import { Squircle as SquircleComp } from 'react-ios-corners'
-import { observer } from 'mobx-react'
+import { useObserver } from 'mobx-react'
 import { systemStore } from '@stores'
 import { r } from '@utils/dev'
 import { Component } from '../component'
 import Radius from './radius'
 import { getRadius, getRoundness } from './utils'
 import { COMPONENT } from './ds'
-import { Props as SquircleProps } from './types'
 import './index.scss'
 
-export { SquircleProps }
+import type { Props as SquircleProps } from './types'
+
+export type { SquircleProps }
 
 /**
  * 仿 iOS 平滑圆角的实现
@@ -24,10 +26,10 @@ export { SquircleProps }
  *  - android 使用 masked-view 配合 svg 做遮罩效果
  *  - web 使用 react-ios-corners 实现
  * */
-export const Squircle = observer(
-  ({ style, width = 0, height = 0, radius, children }: SquircleProps) => {
-    r(COMPONENT)
+export function Squircle({ style, width = 0, height = 0, radius, children }: SquircleProps) {
+  r(COMPONENT)
 
+  return useObserver(() => {
     if (!radius) {
       return (
         <Component style={style} id='component-squircle'>
@@ -46,6 +48,7 @@ export const Squircle = observer(
 
     const size = Math.min(width || height, height || width)
     const squircleRadius = getRadius(size, radius)
+
     return (
       <Component
         id='component-squircle'
@@ -58,7 +61,7 @@ export const Squircle = observer(
         </SquircleComp>
       </Component>
     )
-  }
-)
+  })
+}
 
 export default Squircle

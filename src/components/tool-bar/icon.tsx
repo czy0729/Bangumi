@@ -6,16 +6,18 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { observer } from 'mobx-react'
+import { useObserver } from 'mobx-react'
 import { Flex } from '../flex'
 import { Iconfont } from '../iconfont'
 import { Touchable } from '../touchable'
 import { memoStyles } from './styles'
-import { ToolBarIconProps } from './types'
 
-export const ToolBarIcon = observer(
-  ({ icon, iconStyle, iconColor, onSelect }: ToolBarIconProps) => {
+import type { ToolBarIconProps } from './types'
+
+export function ToolBarIcon({ icon, iconStyle, iconColor, onSelect }: ToolBarIconProps) {
+  return useObserver(() => {
     const styles = memoStyles()
+
     return (
       <Touchable style={styles.iconTouch} onPress={onSelect}>
         <Flex style={styles.iconItem} justify='center'>
@@ -27,5 +29,5 @@ export const ToolBarIcon = observer(
         </Flex>
       </Touchable>
     )
-  }
-)
+  })
+}

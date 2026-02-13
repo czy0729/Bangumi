@@ -11,10 +11,11 @@ import { Text } from '../../text'
 import { styles } from './styles'
 
 function RandomText({ type = undefined, text = '' }) {
-  const random = useRef(randomSpeech())
+  const randomRef = useRef(randomSpeech())
+
   return useObserver(() => (
     <Text style={styles.textMt} type={type} align='center' size={13} lineHeight={17}>
-      {text ? `已过滤${text}个敏感条目` : random.current}
+      {text ? `已过滤${text}个敏感条目` : randomRef.current}
     </Text>
   ))
 }

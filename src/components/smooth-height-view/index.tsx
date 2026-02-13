@@ -13,7 +13,7 @@ import Animated, {
   withTiming
 } from 'react-native-reanimated'
 
-export const SmoothHeightView = ({ minHeight, children }) => {
+export function SmoothHeightView({ minHeight, children }) {
   const height = useSharedValue(minHeight)
   const [contentHeight, setContentHeight] = useState(minHeight)
 

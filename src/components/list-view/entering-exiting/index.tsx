@@ -5,9 +5,10 @@
  * @Last Modified time: 2025-03-25 20:29:31
  */
 import React, { forwardRef, useCallback } from 'react'
-import { FlatList, ListRenderItemInfo } from 'react-native'
 import Animated, { FadeInDown } from 'react-native-reanimated'
-import { Props } from './types'
+
+import type { FlatList, ListRenderItemInfo } from 'react-native'
+import type { Props } from './types'
 
 function EnteringExiting<ItemT>(
   { skipEnteringExitingAnimations = 10, renderItem, ...other }: Props<ItemT>,

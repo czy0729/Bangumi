@@ -6,7 +6,9 @@
  */
 import React from 'react'
 import { StorybookPage } from '@components/storybook'
-import { Pagination as Component, PaginationProps as Props } from './index'
+import { Pagination as Component } from './index'
+
+import type { PaginationProps as Props } from './index'
 
 export default {
   title: 'components/Pagination',

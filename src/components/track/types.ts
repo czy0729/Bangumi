@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-23 13:43:43
  */
-import { MaybeReadonly } from '@types'
+import type { MaybeReadonly } from '@types'
 
 export type Props = {
   /** 页面标题 */

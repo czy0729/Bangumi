@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const Skeleton = lazy(() => import('./index'))
-export { Props as SkeletonProps } from './types'
+export type { Props as SkeletonProps } from './types'

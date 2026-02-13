@@ -7,9 +7,10 @@
 import React from 'react'
 import { View } from 'react-native'
 import { StorybookPage } from '@components/storybook'
-import { TextProps as Props } from '@components/text'
 import { _ } from '@stores'
 import { Katakana as Component } from './index'
+
+import type { TextProps as Props } from '@components/text'
 
 export default {
   title: 'components/Katakana',

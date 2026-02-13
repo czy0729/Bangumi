@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const Slider = lazy(() => import('./index'))
-export { Props as SliderProps } from './types'
+export type { Props as SliderProps } from './types'

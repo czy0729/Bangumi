@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const Progress = lazy(() => import('./index'))
-export { Props as ProgressProps } from './types'
+export type { Props as ProgressProps } from './types'

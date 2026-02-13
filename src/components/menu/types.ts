@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-25 21:15:06
  */
-import type { ReactNode, ViewStyle } from '@types'
+import type { ReactNode, WithViewStyles } from '@types'
 
 type TitleItemType =
   | string
@@ -21,8 +21,7 @@ type DataItemType =
       title?: string
     }
 
-export type Props = {
-  style?: ViewStyle
+export type Props = WithViewStyles<{
   title?: TitleItemType[]
   desc?: string
   data?: DataItemType[] | readonly DataItemType[]
@@ -34,4 +33,4 @@ export type Props = {
       pageY?: number
     }
   ) => any
-}
+}>

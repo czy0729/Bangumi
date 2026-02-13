@@ -11,6 +11,7 @@ import { Flex } from '../../flex'
 
 function Radius({ style, width, height, radius, children }) {
   let borderRadius: number
+
   if (radius === true || !radius) {
     const size = Math.max(width, height)
     if (size >= 80) {

@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-01-09 17:59:31
  */
 import React from 'react'
-import { observer } from 'mobx-react'
+import { useObserver } from 'mobx-react'
 import { r } from '@utils/dev'
 import PopoverIOS from './popover'
 import { COMPONENT } from './ds'
@@ -24,14 +24,14 @@ function PopoverComp<Data extends PopoverData>({
 }: PopoverProps<Data>) {
   r(COMPONENT)
 
-  return (
+  return useObserver(() => (
     <PopoverIOS {...other} data={data} activateOn={activateOn} onSelect={onSelect}>
       {children}
     </PopoverIOS>
-  )
+  ))
 }
 
 /** 点击位置弹出层 */
-export const Popover = observer(PopoverComp)
+export const Popover = PopoverComp
 
 export default Popover

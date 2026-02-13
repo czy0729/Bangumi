@@ -11,9 +11,10 @@ import { r } from '@utils/dev'
 import { IOS } from '@constants'
 import { COMPONENT, DEFAULT_ANIMATION } from './ds'
 import { styles } from './styles'
-import { Props as KeyboardSpacerProps } from './types'
 
-export { KeyboardSpacerProps }
+import type { Props as KeyboardSpacerProps } from './types'
+
+export type { KeyboardSpacerProps }
 
 // 注意如果要在 Android 上使用此动画，则需要在代码中启用
 if (UIManager.setLayoutAnimationEnabledExperimental) {

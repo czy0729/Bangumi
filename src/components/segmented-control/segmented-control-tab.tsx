@@ -5,9 +5,11 @@
  * @Last Modified time: 2022-08-11 14:01:12
  */
 import React from 'react'
-import { View, TouchableOpacity } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import { _ } from '@stores'
-import { Text, TextType } from '../text'
+import { Text } from '../text'
+
+import type { TextType } from '../text'
 
 type Props = {
   /** Tab 文字 */
@@ -36,27 +38,29 @@ const hitSlop = {
   left: _.device(2, 4)
 }
 
-export const SegmentedControlTab = ({
+export function SegmentedControlTab({
   value,
   type = 'title',
   size = 14,
   enabled,
   selected,
   onSelect
-}: Props) => (
-  <TouchableOpacity
-    style={styles.container}
-    disabled={!enabled}
-    hitSlop={hitSlop}
-    onPress={onSelect}
-  >
-    <View style={styles.default}>
-      <Text type={type} size={size} bold={selected}>
-        {value}
-      </Text>
-    </View>
-  </TouchableOpacity>
-)
+}: Props) {
+  return (
+    <TouchableOpacity
+      style={styles.container}
+      disabled={!enabled}
+      hitSlop={hitSlop}
+      onPress={onSelect}
+    >
+      <View style={styles.default}>
+        <Text type={type} size={size} bold={selected}>
+          {value}
+        </Text>
+      </View>
+    </TouchableOpacity>
+  )
+}
 
 const styles = _.create({
   container: {

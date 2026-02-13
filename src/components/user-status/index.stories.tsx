@@ -7,7 +7,9 @@
 import React from 'react'
 import { StorybookPage } from '@components/storybook'
 import { Avatar } from '@_'
-import { UserStatus as Component, UserStatusProps as Props } from './index'
+import { UserStatus as Component } from './index'
+
+import type { UserStatusProps as Props } from './index'
 
 export default {
   title: 'components/UserStatus',

@@ -1,12 +1,12 @@
-import React, { useCallback, useRef } from 'react'
-import { Animated, Easing } from 'react-native'
-import GenericTouchable, { TOUCHABLE_STATE } from 'react-native-gesture-handler/src/components/touchables/GenericTouchable'
 /*
  * @Author: czy0729
  * @Date: 2023-02-28 16:46:44
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-13 16:14:27
  */
+import React, { useCallback, useRef } from 'react'
+import { Animated, Easing } from 'react-native'
+import GenericTouchable, { TOUCHABLE_STATE } from 'react-native-gesture-handler/src/components/touchables/GenericTouchable'
 import { USE_NATIVE_DRIVER } from '@constants'
 
 const duration = 96

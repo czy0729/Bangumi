@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { createShimmerPlaceholder } from 'react-native-shimmer-placeholder'
-import { observer } from 'mobx-react'
+import { useObserver } from 'mobx-react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
@@ -15,17 +15,26 @@ import { WEB } from '@constants'
 import { getSkeletonColor } from './utils'
 import { COMPONENT, SHIMMER_COLORS, SHIMMER_COLORS_DARK, SHIMMER_COLORS_TINYGRAIL_DARK } from './ds'
 import { styles } from './styles'
-import { Props as SkeletonProps } from './types'
 
-export { SkeletonProps, getSkeletonColor }
+import type { Props as SkeletonProps } from './types'
+
+export { getSkeletonColor }
+
+export type { SkeletonProps }
 
 const ShimmerPlaceholder = createShimmerPlaceholder(LinearGradient)
 
 /** 骨架屏渐变动画 */
-export const Skeleton = observer(
-  ({ shimmerColors, type = 'app', width, height, duration = 1600 }: SkeletonProps) => {
-    r(COMPONENT)
+export function Skeleton({
+  shimmerColors,
+  type = 'app',
+  width,
+  height,
+  duration = 1600
+}: SkeletonProps) {
+  r(COMPONENT)
 
+  return useObserver(() => {
     if (
       WEB ||
       typeof width !== 'number' ||
@@ -54,7 +63,7 @@ export const Skeleton = observer(
         />
       </View>
     )
-  }
-)
+  })
+}
 
 export default Skeleton

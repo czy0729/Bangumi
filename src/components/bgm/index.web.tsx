@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-09-03 13:09:13
  */
 import React from 'react'
-import { observer } from 'mobx-react'
+import { useObserver } from 'mobx-react'
 import { r } from '@utils/dev'
 import { Component } from '../component'
 import { Image } from '../image'
@@ -13,20 +13,23 @@ import { COMPONENT } from './ds'
 import './index.scss'
 
 import type { Props as BgmProps } from './types'
+
 export type { BgmProps }
 
 /** bgm.tv 表情 */
-export const Bgm = observer(({ index = 1, size = 20, ...other }: BgmProps) => {
+export function Bgm({ index = 1, size = 20, ...other }: BgmProps) {
   r(COMPONENT)
 
-  if (!bgm) init()
+  return useObserver(() => {
+    if (!bgm) init()
 
-  return (
-    <Component id='component-bgm'>
-      <Image src={bgm[index]} resizeMode='contain' size={size} placeholder={false} {...other} />
-    </Component>
-  )
-})
+    return (
+      <Component id='component-bgm'>
+        <Image src={bgm[index]} resizeMode='contain' size={size} placeholder={false} {...other} />
+      </Component>
+    )
+  })
+}
 
 export default Bgm
 

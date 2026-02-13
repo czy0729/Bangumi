@@ -13,9 +13,10 @@ import { Component } from '../component'
 import Radius from './radius'
 import { getMaskPath, getRadius } from './utils'
 import { COMPONENT } from './ds'
-import { Props as SquircleProps } from './types'
 
-export { SquircleProps }
+import type { Props as SquircleProps } from './types'
+
+export type { SquircleProps }
 
 /**
  * 仿 iOS 平滑圆角的实现
@@ -24,7 +25,7 @@ export { SquircleProps }
  *  - android 使用 masked-view 配合 svg 做遮罩效果
  *  - web 使用 react-ios-corners 实现
  * */
-export const Squircle = ({ style, width = 0, height = 0, radius, children }: SquircleProps) => {
+export function Squircle({ style, width = 0, height = 0, radius, children }: SquircleProps) {
   r(COMPONENT)
 
   if (!radius || (!width && !height)) {
@@ -48,6 +49,7 @@ export const Squircle = ({ style, width = 0, height = 0, radius, children }: Squ
     height: height || width,
     radius: getRadius(width, radius)
   })
+
   return (
     <Component style={style} id='component-squircle'>
       <MaskedView

@@ -9,13 +9,14 @@ import { useObserver } from 'mobx-react'
 import { NavigationContainer as NavigationNativeContainer } from '@react-navigation/native'
 import { navigationReference } from '@utils'
 import { r } from '@utils/dev'
-import { Navigation } from '@types'
 import { Component } from '../component'
 import { COMPONENT_CONTAINER } from './ds'
-import { Props } from './types'
+
+import type { Navigation } from '@types'
+import type { Props } from './types'
 
 /** navigation context */
-export const NavigationContainer = ({ children }: Props) => {
+export function NavigationContainer({ children }: Props) {
   r(COMPONENT_CONTAINER)
 
   const navigationRef = useRef<Navigation>(null)

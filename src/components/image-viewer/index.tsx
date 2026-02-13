@@ -28,7 +28,7 @@ export type { ImageViewerProps }
  * 图片相册查看器
  * @doc https://github.com/ascoders/react-native-image-viewer
  */
-export const ImageViewer = ({
+export function ImageViewer({
   visible = false,
   index = 0,
   imageUrls = [],
@@ -36,7 +36,7 @@ export const ImageViewer = ({
   useRN = false,
   onCancel = FROZEN_FN,
   ...other
-}: ImageViewerProps) => {
+}: ImageViewerProps) {
   r(COMPONENT)
 
   // 组件 RNImageViewer 在 iOS Expo 环境下代码已过时, 导致初始 index 非 0 时布局错乱 (待处理)

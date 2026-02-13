@@ -7,7 +7,8 @@
 import { systemStore, userStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { D, D3 } from '@constants'
-import { UserId } from '@types'
+
+import type { UserId } from '@types'
 
 /** 获取用户当前在线状态 */
 export function getUserStatus(userId: UserId) {

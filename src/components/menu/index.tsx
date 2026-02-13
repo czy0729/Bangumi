@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { observer } from 'mobx-react'
+import { useObserver } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
@@ -18,20 +18,19 @@ import { platformFix, removeDuplicateStrings } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-import type { ViewStyle } from '@types'
 import type { Props as MenuProps } from './types'
-
 export type { MenuProps }
 
 /** iOS 风格菜单 */
-export const Menu = observer(
-  ({ style, title = [], desc = '', data = [], onSelect = FROZEN_FN }: MenuProps) => {
-    r(COMPONENT)
+export function Menu({ style, title = [], desc = '', data = [], onSelect = FROZEN_FN }: MenuProps) {
+  r(COMPONENT)
 
+  return useObserver(() => {
     const styles = memoStyles()
+
     return (
       <Component id='component-menu'>
-        <View style={stl<ViewStyle>(styles.container, style)}>
+        <View style={stl(styles.container, style)}>
           {title.length !== 0 && (
             <View style={styles.title}>
               {title.map((item, index) => {
@@ -93,7 +92,7 @@ export const Menu = observer(
         </View>
       </Component>
     )
-  }
-)
+  })
+}
 
 export default Menu

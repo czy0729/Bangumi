@@ -6,13 +6,13 @@
  */
 import React from 'react'
 import { Animated, Easing, PanResponder } from 'react-native'
-import { observer } from 'mobx-react'
+import { useObserver } from 'mobx-react'
+import './styles'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { Component } from '../component'
 import { COMPONENT } from './ds'
-import './styles'
 
 const SCALE = 6 / 5
 
@@ -283,28 +283,26 @@ const styles = _.create({
   }
 })
 
-export const SwitchPro = observer(
-  ({
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    circleColorActive = undefined,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    circleColorInactive = undefined,
-    backgroundActive = undefined,
-    backgroundInactive = undefined,
-    ...other
-  }) => {
-    r(COMPONENT)
+export function SwitchPro({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  circleColorActive = undefined,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  circleColorInactive = undefined,
+  backgroundActive = undefined,
+  backgroundInactive = undefined,
+  ...other
+}) {
+  r(COMPONENT)
 
-    return (
-      <Component id='component-switch-pro'>
-        <SwitchProComp
-          backgroundActive={backgroundActive || _.colorSuccess}
-          backgroundInactive={backgroundInactive || _.select(_.colorBg, _._colorDarkModeLevel2)}
-          {...other}
-        />
-      </Component>
-    )
-  }
-)
+  return useObserver(() => (
+    <Component id='component-switch-pro'>
+      <SwitchProComp
+        backgroundActive={backgroundActive || _.colorSuccess}
+        backgroundInactive={backgroundInactive || _.select(_.colorBg, _._colorDarkModeLevel2)}
+        {...other}
+      />
+    </Component>
+  ))
+}
 
 export default SwitchPro

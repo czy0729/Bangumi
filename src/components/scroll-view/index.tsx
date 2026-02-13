@@ -10,12 +10,13 @@ import { r } from '@utils/dev'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { ScrollToTop } from '../scroll-to-top'
 import { COMPONENT } from './ds'
-import { Props as ScrollViewProps, ScrollTo } from './types'
 
-export { ScrollViewProps, ScrollTo }
+import type { Props as ScrollViewProps, ScrollTo } from './types'
+
+export type { ScrollViewProps, ScrollTo }
 
 /** 通用 ScrollView */
-export const ScrollView = ({
+export function ScrollView({
   style,
   contentContainerStyle,
   horizontal,
@@ -32,7 +33,7 @@ export const ScrollView = ({
   onScroll,
   children,
   ...other
-}: ScrollViewProps) => {
+}: ScrollViewProps) {
   r(COMPONENT)
 
   const scrollViewEl = useRef(null)
@@ -45,6 +46,7 @@ export const ScrollView = ({
   }
 
   const Component: any = animated ? Animated.ScrollView : RNScrollView
+
   return (
     <>
       <Component

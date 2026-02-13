@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-08-19 12:44:22
  */
 import React from 'react'
-import { observer } from 'mobx-react'
+import { useObserver } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
@@ -13,24 +13,26 @@ import { Component } from '../component'
 import { ErrorBoundary } from '../error-boundary'
 import { Loading } from '../loading'
 import { COMPONENT } from './ds'
-import { Props as PageProps } from './types'
 import './index.scss'
 
-export { PageProps }
+import type { Props as PageProps } from './types'
 
-export const Page = observer(
-  ({
-    style,
-    loaded,
-    loadingColor,
-    backgroundColor,
-    statusBarEvent,
-    children,
-    ...other
-  }: PageProps) => {
-    r(COMPONENT)
+export type { PageProps }
 
+export function Page({
+  style,
+  loaded,
+  loadingColor,
+  backgroundColor,
+  statusBarEvent,
+  children,
+  ...other
+}: PageProps) {
+  r(COMPONENT)
+
+  return useObserver(() => {
     const _style = stl(_.container.plain, style)
+
     return (
       <ErrorBoundary style={_style}>
         <Component id='component-page' style={_.flatten(_style)} {...other}>
@@ -42,7 +44,7 @@ export const Page = observer(
         </Component>
       </ErrorBoundary>
     )
-  }
-)
+  })
+}
 
 export default Page

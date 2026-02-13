@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-01-23 05:35:48
  */
 import React, { useCallback, useMemo } from 'react'
+import { useObserver } from 'mobx-react'
 import { SceneMap, TabBar, TabView } from '@components/@'
 import { _ } from '@stores'
 import { stl } from '@utils'
@@ -23,7 +24,7 @@ export { TabView, TabBar, SceneMap }
 export type { TabsV2Props }
 
 /** 通用选项卡 */
-export const TabsV2 = <T extends Route>({
+export function TabsV2<T extends Route>({
   routes = [],
   tabBarLength,
   page = 0,
@@ -36,10 +37,8 @@ export const TabsV2 = <T extends Route>({
   renderLabel,
   onChange = FROZEN_FN,
   ...other
-}: TabsV2Props<T>) => {
+}: TabsV2Props<T>) {
   r(COMPONENT)
-
-  const styles = memoStyles()
 
   const renderScene = useMemo(() => {
     const map: Record<string, () => JSX.Element> = {}
@@ -50,62 +49,66 @@ export const TabsV2 = <T extends Route>({
     })
 
     return SceneMap(map)
-  }, [routes, renderItem])
+  }, [renderItem, routes])
 
   const tabWidth = useMemo(() => {
     const length = tabBarLength ?? routes.length
     return length >= 10 ? _.window.width / 3.6 : _.window.width / length
-  }, [tabBarLength, routes.length])
+  }, [routes.length, tabBarLength])
 
-  const handleRenderLabel = useCallback(
-    ({ route, focused }: { route: Route; focused: boolean }) => (
-      <Flex style={styles.labelText} justify='center'>
-        <Text style={textColor && { color: textColor }} type='title' size={13} bold={focused}>
-          {route.title}
-        </Text>
-      </Flex>
-    ),
-    [styles.labelText, textColor]
-  )
+  return useObserver(() => {
+    const styles = memoStyles()
 
-  return (
-    <Component id='component-tabs'>
-      <TabView
-        lazy={lazy}
-        lazyPreloadDistance={0}
-        navigationState={{
-          index: page,
-          routes
-        }}
-        renderScene={renderScene}
-        onIndexChange={onChange}
-        renderTabBar={props => (
-          // @ts-expect-error
-          <TabBar
-            {...props}
-            style={stl(
-              styles.tabBar,
-              backgroundColor && { backgroundColor },
-              borderBottomColor && { borderBottomColor }
-            )}
-            tabStyle={stl(styles.tab, { width: tabWidth })}
-            labelStyle={styles.label}
-            indicatorStyle={stl(
-              styles.indicator,
-              { marginLeft: (tabWidth - W_INDICATOR) / 2 },
-              underlineColor && { backgroundColor: underlineColor }
-            )}
-            pressOpacity={1}
-            pressColor='transparent'
-            scrollEnabled
-            android_ripple={ANDROID_RIPPLE}
-            renderLabel={renderLabel ?? handleRenderLabel}
-          />
-        )}
-        {...other}
-      />
-    </Component>
-  )
+    const handleRenderLabel = useCallback(
+      ({ route, focused }: { route: Route; focused: boolean }) => (
+        <Flex style={styles.labelText} justify='center'>
+          <Text style={textColor && { color: textColor }} type='title' size={13} bold={focused}>
+            {route.title}
+          </Text>
+        </Flex>
+      ),
+      [styles]
+    )
+
+    return (
+      <Component id='component-tabs'>
+        <TabView
+          lazy={lazy}
+          lazyPreloadDistance={0}
+          navigationState={{
+            index: page,
+            routes
+          }}
+          renderScene={renderScene}
+          onIndexChange={onChange}
+          renderTabBar={props => (
+            // @ts-expect-error
+            <TabBar
+              {...props}
+              style={stl(
+                styles.tabBar,
+                backgroundColor && { backgroundColor },
+                borderBottomColor && { borderBottomColor }
+              )}
+              tabStyle={stl(styles.tab, { width: tabWidth })}
+              labelStyle={styles.label}
+              indicatorStyle={stl(
+                styles.indicator,
+                { marginLeft: (tabWidth - W_INDICATOR) / 2 },
+                underlineColor && { backgroundColor: underlineColor }
+              )}
+              pressOpacity={1}
+              pressColor='transparent'
+              scrollEnabled
+              android_ripple={ANDROID_RIPPLE}
+              renderLabel={renderLabel ?? handleRenderLabel}
+            />
+          )}
+          {...other}
+        />
+      </Component>
+    )
+  })
 }
 
 export default TabsV2

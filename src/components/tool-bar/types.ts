@@ -4,17 +4,17 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-17 07:11:05
  */
-import { EventKeys } from '@constants/events'
-import { ColorValue, Override, ReactNode, TextStyle, ViewStyle } from '@types'
-import { Props as FlexProps } from '../flex/types'
-import { IconfontNames } from '../iconfont/types'
-import { PopoverData } from '../popover'
-import { TextType } from '../text'
-import { Props as TouchableProps } from '../touchable/types'
+import type { EventKeys } from '@constants/events'
+import type { ColorValue, Override, ReactNode, ViewStyle } from '@types'
+import type { Props as FlexProps } from '../flex/types'
+import type { IconfontNames } from '../iconfont/types'
+import type { PopoverData } from '../popover'
+import type { TextType } from '../text'
+import type { Props as TouchableProps } from '../touchable/types'
 
 export type ToolBarIconProps = {
   icon: IconfontNames
-  iconStyle?: TextStyle
+  iconStyle?: ViewStyle
   iconColor?: ColorValue
   onSelect: (event?: any) => any
 }

@@ -7,5 +7,6 @@
 import { lazy } from 'react'
 
 export const UserStatus = lazy(() => import('./index'))
-export { Props as UserStatusProps } from './types'
+export type { Props as UserStatusProps } from './types'
+
 export { getUserStatus } from './utils'

@@ -4,14 +4,14 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-08-07 15:53:51
  */
-import { ViewProps } from 'react-native'
-import { ReactNode, ViewStyle } from '@types'
+import type { PropsWithChildren } from 'react'
+import type { ViewProps } from 'react-native'
+import type { WithViewStyles } from '@types'
 
-export type Props = ViewProps & {
-  style?: ViewStyle
-
-  /** 复写的对应样式 */
-  type?: 'bottom' | 'paddingBottom' | 'height'
-
-  children?: ReactNode
-}
+export type Props = ViewProps &
+  PropsWithChildren<
+    WithViewStyles<{
+      /** 复写的对应样式 */
+      type?: 'bottom' | 'paddingBottom' | 'height'
+    }>
+  >

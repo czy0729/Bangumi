@@ -19,7 +19,7 @@ import type { Props as LinkProps } from './types'
 export type { LinkProps }
 
 /** 路由 */
-export const Link = <T extends Paths>({
+export function Link<T extends Paths>({
   path,
   appNavigate,
   params,
@@ -31,7 +31,7 @@ export const Link = <T extends Paths>({
   onPress,
   children,
   ...other
-}: LinkProps<T>) => {
+}: LinkProps<T>) {
   const navigation = useNavigation(COMPONENT)
 
   const resolvedParams = useMemo(

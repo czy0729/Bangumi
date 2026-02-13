@@ -10,14 +10,15 @@ import { useEffect } from 'react'
 import { r } from '@utils/dev'
 import { useNavigation } from '@utils/hooks'
 import { COMPONENT_EVENTS } from './ds'
-import { NavigationEventsProps } from './types'
 
-export const NavigationEvents = ({
+import type { NavigationEventsProps } from './types'
+
+export function NavigationEvents({
   onWillFocus,
   onDidFocus,
   onWillBlur,
   onDidBlur
-}: NavigationEventsProps) => {
+}: NavigationEventsProps) {
   r(COMPONENT_EVENTS)
 
   const navigation = useNavigation()

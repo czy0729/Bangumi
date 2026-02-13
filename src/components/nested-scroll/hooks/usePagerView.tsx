@@ -1,11 +1,11 @@
-import { useCallback, useMemo, useRef, useState } from 'react'
-import { Animated, Platform } from 'react-native'
 /*
  * @Author: czy0729
  * @Date: 2023-12-27 15:42:54
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-13 16:14:43
  */
+import { useCallback, useMemo, useRef, useState } from 'react'
+import { Animated, Platform } from 'react-native'
 import { USE_NATIVE_DRIVER } from '@constants'
 
 import type {

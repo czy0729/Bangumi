@@ -14,11 +14,12 @@ import { Button } from '../button'
 import { Touchable } from '../touchable'
 import { memoStyles } from './styles'
 
-export const Popover = ({ style, data = [], onSelect = FROZEN_FN, children }) => {
+export function Popover({ style, data = [], onSelect = FROZEN_FN, children }) {
   const { state, setTrue, setFalse } = useBoolean(false)
 
   return useObserver(() => {
     const styles = memoStyles()
+
     return (
       <>
         <Touchable style={style} onPress={setTrue}>

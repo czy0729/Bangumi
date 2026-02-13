@@ -6,11 +6,7 @@
  */
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming
-} from 'react-native-reanimated'
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { useObserver } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
@@ -19,11 +15,12 @@ import { Flex } from '../../flex'
 import { Mask } from '../../mask'
 import { ScrollView } from '../../scroll-view'
 import { Text } from '../../text'
-import { Props } from '../types'
 import { styles } from './styles'
 
+import type { Props } from '../types'
+
 /** 不使用 Protal 的模态框 */
-export const ModalFixed = ({
+export function ModalFixed({
   style,
   visible,
   title,
@@ -31,8 +28,9 @@ export const ModalFixed = ({
   animated,
   onClose,
   children
-}: Props) => {
+}: Props) {
   const activeRef = useSharedValue(visible ? 1 : 0)
+
   const animatedStyle = useAnimatedStyle(() => {
     return {
       opacity: withTiming(activeRef.value, {
@@ -40,6 +38,7 @@ export const ModalFixed = ({
       })
     }
   })
+
   useEffect(() => {
     if (!animated) return
 

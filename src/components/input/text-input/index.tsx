@@ -6,26 +6,30 @@
  */
 import React from 'react'
 import { TextInput as RNTextInput } from 'react-native'
-import { observer } from 'mobx-react'
+import { useObserver } from 'mobx-react'
 import { systemStore } from '@stores'
 import { stl } from '@utils'
 import { s2t } from '@utils/thirdParty/open-cc'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function TextInput({ style, forwardRef, multiline, placeholder, selection, ...other }: Props) {
-  const styles = memoStyles()
-  return (
-    <RNTextInput
-      ref={forwardRef}
-      style={stl(multiline ? styles.inputMulti : styles.input, style)}
-      multiline={multiline}
-      {...other}
-      placeholder={systemStore.setting.s2t ? s2t(placeholder) : placeholder}
-      textAlignVertical={multiline ? 'top' : 'center'}
-      selection={selection?.start === 0 && selection?.end === 0 ? undefined : selection}
-    />
-  )
+  return useObserver(() => {
+    const styles = memoStyles()
+
+    return (
+      <RNTextInput
+        ref={forwardRef}
+        style={stl(multiline ? styles.inputMulti : styles.input, style)}
+        multiline={multiline}
+        {...other}
+        placeholder={systemStore.setting.s2t ? s2t(placeholder) : placeholder}
+        textAlignVertical={multiline ? 'top' : 'center'}
+        selection={selection?.start === 0 && selection?.end === 0 ? undefined : selection}
+      />
+    )
+  })
 }
 
-export default observer(TextInput)
+export default TextInput

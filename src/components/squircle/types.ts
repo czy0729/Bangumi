@@ -4,11 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-11 17:05:45
  */
-import { ViewStyle } from '@types'
+import type { WithViewStyles } from '@types'
 
-export type Props = {
-  style?: ViewStyle
-
+export type Props = WithViewStyles<{
   /** 容器宽度 */
   width: number
 
@@ -20,7 +18,7 @@ export type Props = {
 
   /** 子组件 */
   children?: any
-}
+}>
 
 export type getMaskPathInput = {
   width: number

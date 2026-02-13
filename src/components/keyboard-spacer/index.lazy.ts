@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const KeyboardSpacer = lazy(() => import('./index'))
-export { Props as KeyboardSpacerProps } from './types'
+export type { Props as KeyboardSpacerProps } from './types'

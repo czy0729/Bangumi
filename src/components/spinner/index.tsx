@@ -20,15 +20,17 @@ import { r } from '@utils/dev'
 import { Flex } from '../flex'
 import { COMPONENT, HALF_CIRCLE } from './ds'
 import { memoStyles } from './styles'
-import { Props as SpinnerProps } from './types'
 
-export { SpinnerProps }
+import type { Props as SpinnerProps } from './types'
+
+export type { SpinnerProps }
 
 /** Loading 指示器 (新) */
-export const Spinner = ({ style, backgroundColor = 'transparent' }: SpinnerProps) => {
+export function Spinner({ style, backgroundColor = 'transparent' }: SpinnerProps) {
   r(COMPONENT)
 
   const rotation = useSharedValue(0)
+
   const startAnimation = useCallback(() => {
     rotation.value = 0
     rotation.value = withRepeat(
@@ -46,21 +48,26 @@ export const Spinner = ({ style, backgroundColor = 'transparent' }: SpinnerProps
 
   useEffect(() => {
     startAnimation()
+
     return () => {
       cancelAnimation(rotation)
     }
   }, [rotation, startAnimation])
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [
-      {
-        rotate: `${rotation.value * 360}deg`
-      }
-    ]
-  }))
+  const animatedStyle = useAnimatedStyle(
+    () =>
+      ({
+        transform: [
+          {
+            rotate: `${rotation.value * 360}deg`
+          }
+        ]
+      } as const)
+  )
 
   return useObserver(() => {
     const styles = memoStyles()
+
     return (
       <Flex style={style} justify='center'>
         {backgroundColor == 'transparent' ? (

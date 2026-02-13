@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-01-19 09:44:49
  */
-import { Fn } from '@types'
+import type { Fn } from '@types'
 
 export type Props = {
   text?: string

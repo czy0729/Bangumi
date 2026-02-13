@@ -4,12 +4,9 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2022-07-30 15:52:14
  */
-import { TextStyle, ViewStyle } from '@types'
+import type { TextStyle, WithViewStyles } from '@types'
 
-export type Props = {
-  /** 容器样式 */
-  style?: ViewStyle
-
+export type Props = WithViewStyles<{
   /** 基本字体样式 */
   baseFontStyle?: TextStyle
 
@@ -36,4 +33,4 @@ export type Props = {
 
   /** 框架不支持图片的时候, 点击图片后回调 */
   onImageFallback?: (src?: string) => any
-}
+}>

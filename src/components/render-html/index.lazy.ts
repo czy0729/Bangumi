@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const RenderHtml = lazy(() => import('./index'))
-export { Props as RenderHtmlProps } from './types'
+export type { Props as RenderHtmlProps } from './types'

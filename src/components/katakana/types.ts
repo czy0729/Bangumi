@@ -4,8 +4,8 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2024-05-02 22:54:50
  */
-import { Fn } from '@types'
-import { TextProps } from '../text'
+import type { Fn } from '@types'
+import type { TextProps } from '../text'
 
 export type Props = TextProps
 

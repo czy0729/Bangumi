@@ -4,12 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-10-19 14:20:58
  */
-import { UserId, ViewStyle } from '@types'
+import type { PropsWithChildren } from 'react'
+import type { UserId, WithViewStyles } from '@types'
 
-export type Props = {
-  style?: ViewStyle
-  last?: number
-  userId?: UserId
-  mini?: boolean
-  children?: any
-}
+export type Props = PropsWithChildren<
+  WithViewStyles<{
+    last?: number
+    userId?: UserId
+    mini?: boolean
+  }>
+>

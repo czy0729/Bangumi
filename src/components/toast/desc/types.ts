@@ -4,10 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-07-09 08:34:43
  */
-import { ViewStyle } from '@types'
+import type { TextStyle } from '@types'
 
 export type Props = {
-  style?: ViewStyle
+  style?: TextStyle
   showClose?: boolean
   children?: any
 }

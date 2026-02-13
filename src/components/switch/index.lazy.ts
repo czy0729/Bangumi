@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const Switch = lazy(() => import('./index'))
-export { Props as SwitchProps } from './types'
+export type { Props as SwitchProps } from './types'

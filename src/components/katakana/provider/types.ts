@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-05-18 20:11:00
  */
-import { Override, TextStyle } from '@types'
-import { TextProps } from '../../text'
+import type { Override, TextStyle } from '@types'
+import type { TextProps } from '../../text'
 
 export type Props = Override<
   TextProps,

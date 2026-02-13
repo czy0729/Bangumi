@@ -4,8 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-24 19:36:25
  */
-import type { Animated } from 'react-native'
 import { STATUS_BAR_HEIGHT } from '@styles'
+
+import type { Animated } from 'react-native'
 
 /**
  * @fork https://github.com/kanelloc/react-native-animated-header-scroll-view/blob/main/src/hooks/useAnimateNavbar.ts

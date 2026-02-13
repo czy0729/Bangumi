@@ -9,15 +9,16 @@ import { _ } from '@stores'
 import { r } from '@utils/dev'
 import { hm as utilsHM } from '@utils/fetch'
 import { useDomTitle, useRunAfter } from '@utils/hooks'
-import { EventKeys } from '@constants/events'
 import { Heatmap } from '../heatmap'
 import { COMPONENT } from './ds'
-import { Props as TrackProps } from './types'
 
-export { TrackProps }
+import type { EventKeys } from '@constants/events'
+import type { Props as TrackProps } from './types'
+
+export type { TrackProps }
 
 /** 移动统计, 页面埋点可视化 */
-export const Track = ({ title, domTitle, hm, alias }: TrackProps) => {
+export function Track({ title, domTitle, hm, alias }: TrackProps) {
   r(COMPONENT)
 
   useRunAfter(() => {

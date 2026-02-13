@@ -20,7 +20,7 @@ export { ModalFixed }
 export type { ModalProps }
 
 /** 通用模态框 */
-export const Modal = ({
+export function Modal({
   style,
   visible,
   title,
@@ -28,7 +28,7 @@ export const Modal = ({
   focus,
   onClose,
   children
-}: ModalProps) => {
+}: ModalProps) {
   r(COMPONENT)
 
   useEffect(() => {

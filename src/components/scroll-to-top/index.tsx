@@ -20,7 +20,9 @@ import { memoStyles } from './styles'
 
 import type { Props as ScrollToToProps } from './types'
 
-export type { ScrollToToProps, scrollToTopCallback }
+export { scrollToTopCallback }
+
+export type { ScrollToToProps }
 
 /** [Android] 仿 iOS 点击头部列表滚动到顶 */
 const ScrollToTop = observer(

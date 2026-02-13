@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-08-02 21:38:15
  */
 import React from 'react'
-import { observer } from 'mobx-react'
+import { useObserver } from 'mobx-react'
 import { _ } from '@stores'
 import { Bgm } from '../bgm'
 import { BGM_MAP } from './ds'
@@ -18,8 +18,15 @@ export { BGM_MAP }
 
 export type { BgmTextProps }
 
-export const BgmText = observer(
-  ({ style, index = 0, size = 14, lineHeight, children, ...other }: BgmTextProps) => {
+export function BgmText({
+  style,
+  index = 0,
+  size = 14,
+  lineHeight,
+  children,
+  ...other
+}: BgmTextProps) {
+  return useObserver(() => {
     const _style: TextStyle[] = [styles.text]
     if (size) _style.push(styles[size])
     if (lineHeight !== undefined) {
@@ -35,7 +42,7 @@ export const BgmText = observer(
         {children}
       </>
     )
-  }
-)
+  })
+}
 
 export default BgmText

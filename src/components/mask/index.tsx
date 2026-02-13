@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import { Animated } from 'react-native'
+import { useObserver } from 'mobx-react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { _ } from '@stores'
 import { stl } from '@utils'
@@ -14,15 +15,16 @@ import { Component } from '../component'
 import { Touchable } from '../touchable'
 import { COMPONENT, DARK_THEME, LIGHT_THEME } from './ds'
 import { styles } from './styles'
-import { MaskProps } from './types'
 
-export { MaskProps }
+import type { MaskProps } from './types'
+
+export type { MaskProps }
 
 /** 兼容不同客户端的全屏遮罩 */
-export const Mask = ({ style, linear, onPress }: MaskProps) => {
+export function Mask({ style, linear, onPress }: MaskProps) {
   r(COMPONENT)
 
-  return (
+  return useObserver(() => (
     <Component id='component-mask'>
       {linear ? (
         <LinearGradient
@@ -35,7 +37,7 @@ export const Mask = ({ style, linear, onPress }: MaskProps) => {
       )}
       <Touchable style={styles.press} useRN ripple={false} onPress={onPress} />
     </Component>
-  )
+  ))
 }
 
 export default Mask

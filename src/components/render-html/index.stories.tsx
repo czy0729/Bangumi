@@ -6,8 +6,10 @@
  * @Last Modified time: 2023-04-07 07:09:07
  */
 import React from 'react'
-import { StorybookPage, StorybookList } from '@components/storybook'
-import { RenderHtml as Component, RenderHtmlProps as Props } from './index'
+import { StorybookList, StorybookPage } from '@components/storybook'
+import { RenderHtml as Component } from './index'
+
+import type { RenderHtmlProps as Props } from './index'
 
 export default {
   title: 'components/RenderHtml',

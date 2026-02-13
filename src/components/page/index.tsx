@@ -23,7 +23,7 @@ import type { Props as PageProps } from './types'
 export type { PageProps }
 
 /** 页面容器 */
-export const Page = ({
+export function Page({
   style,
   loaded,
   loadingColor,
@@ -32,7 +32,7 @@ export const Page = ({
   children,
   statusBarEvent = true,
   ...other
-}: PageProps) => {
+}: PageProps) {
   r(COMPONENT)
 
   useFocusEffect(

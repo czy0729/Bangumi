@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const Mesume = lazy(() => import('./index'))
-export { Props as MesumeProps } from './types'
+export type { Props as MesumeProps } from './types'

@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const Squircle = lazy(() => import('./index'))
-export { Props as SquircleProps } from './types'
+export type { Props as SquircleProps } from './types'

@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const Spinner = lazy(() => import('./index'))
-export { Props as SpinnerProps } from './types'
+export type { Props as SpinnerProps } from './types'

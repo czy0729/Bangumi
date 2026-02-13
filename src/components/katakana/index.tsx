@@ -9,12 +9,14 @@ import PropTypes from 'prop-types'
 import { systemStore } from '@stores'
 import { r } from '@utils/dev'
 import { Text } from '../text'
-import { KatakanaProvider, KatakanaProviderProps } from './provider'
+import { KatakanaProvider } from './provider'
 import { getCache, matchKatakanas, translate } from './utils'
 import { COMPONENT } from './ds'
-import { Context, Props as KatakanaProps } from './types'
 
-export { KatakanaProviderProps, KatakanaProps }
+import type { KatakanaProviderProps } from './provider'
+import type { Context, Props as KatakanaProps } from './types'
+
+export type { KatakanaProviderProps, KatakanaProps }
 
 let inited: boolean
 ;(async () => {

@@ -4,10 +4,10 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2025-08-13 17:55:42
  */
-import { ViewProps } from 'react-native'
-import { ReactNode } from '@types'
+import type { PropsWithChildren } from 'react'
+import type { ViewProps } from 'react-native'
 
-export type Props = ViewProps & {
-  className?: string
-  children?: ReactNode
-}
+export type Props = ViewProps &
+  PropsWithChildren<{
+    className?: string
+  }>

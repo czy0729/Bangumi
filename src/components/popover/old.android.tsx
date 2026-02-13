@@ -5,9 +5,9 @@
  * @Last Modified time: 2023-12-01 21:33:25
  */
 import React from 'react'
-import { observer } from 'mobx-react'
+import { useObserver } from 'mobx-react'
 import PopoverAndroid from './popover'
 
-export const Popover = observer(props => {
-  return <PopoverAndroid {...props} />
-})
+export function Popover(props) {
+  return useObserver(() => <PopoverAndroid {...props} />)
+}

@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const SafeAreaBottom = lazy(() => import('./index'))
-export { Props as SafeAreaBottomProps } from './types'
+export type { Props as SafeAreaBottomProps } from './types'

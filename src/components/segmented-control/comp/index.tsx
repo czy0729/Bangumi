@@ -8,10 +8,11 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Animated, Easing, View } from 'react-native'
 import { stl } from '@utils'
 import { USE_NATIVE_DRIVER } from '@constants'
-import { DataSource } from '@types'
-import { Props } from '../types'
 import { SegmentedControlTab } from '../segmented-control-tab'
 import { styles } from './styles'
+
+import type { DataSource } from '@types'
+import type { Props } from '../types'
 
 function SegmentedControlComp<T extends DataSource>({
   style,

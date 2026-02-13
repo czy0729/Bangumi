@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const Touchable = lazy(() => import('./index'))
-export { Props as TouchableProps } from './types'
+export type { Props as TouchableProps } from './types'

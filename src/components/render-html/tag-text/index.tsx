@@ -5,14 +5,17 @@
  * @Last Modified time: 2025-03-21 05:53:11
  */
 import React from 'react'
-import { Text, TextProps } from '../../text'
+import { useObserver } from 'mobx-react'
+import { Text } from '../../text'
+
+import type { TextProps } from '../../text'
 
 function TagText({ style, children, ...other }: TextProps) {
-  return (
+  return useObserver(() => (
     <Text style={style} {...other}>
       {children}{' '}
     </Text>
-  )
+  ))
 }
 
 export default TagText

@@ -14,7 +14,7 @@ import { styles } from './styles'
 
 import type { Fn } from '@types'
 
-const Popover = ({
+function Popover({
   data = [],
   style,
   hitSlop,
@@ -22,7 +22,7 @@ const Popover = ({
   onSelect = FROZEN_FN,
   onLongPress = FROZEN_FN,
   children
-}) => {
+}) {
   const anchorRef = useRef<View>(null)
 
   const handlePopover = useCallback(

@@ -6,40 +6,39 @@
  */
 import React from 'react'
 import { Switch as RNSwitch } from 'react-native'
-import { observer } from 'mobx-react'
+import { useObserver } from 'mobx-react'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
 import { COMPONENT } from './ds'
-import { Props as SwitchProps } from './types'
 
-export { SwitchProps }
+import type { Props as SwitchProps } from './types'
+
+export type { SwitchProps }
 
 /** 开关 */
-export const Switch = observer(
-  ({
-    style,
-    checked = false,
-    disabled = false,
-    color = _.colorBorder,
-    onChange = FROZEN_FN
-  }: SwitchProps) => {
-    r(COMPONENT)
+export function Switch({
+  style,
+  checked = false,
+  disabled = false,
+  color = _.colorBorder,
+  onChange = FROZEN_FN
+}: SwitchProps) {
+  r(COMPONENT)
 
-    return (
-      <RNSwitch
-        style={style}
-        value={checked}
-        disabled={disabled}
-        // trackColor={{
-        //   false: color,
-        //   true: color
-        // }}
-        ios_backgroundColor={color}
-        onValueChange={onChange}
-      />
-    )
-  }
-)
+  return useObserver(() => (
+    <RNSwitch
+      style={style}
+      value={checked}
+      disabled={disabled}
+      // trackColor={{
+      //   false: color,
+      //   true: color
+      // }}
+      ios_backgroundColor={color}
+      onValueChange={onChange}
+    />
+  ))
+}
 
 export default Switch

@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { ActivityIndicator } from 'react-native'
-import { observer } from 'mobx-react'
+import { useObserver } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
@@ -15,68 +15,73 @@ import { Component } from '../component'
 import { Spinner } from '../spinner'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { ActivityIndicatorProps, ILoading } from './types'
 
-export { ILoading, ActivityIndicatorProps }
+import type { ActivityIndicatorProps, ILoading } from './types'
+
+export type { ILoading, ActivityIndicatorProps }
 
 const USED_SPINNER = !IOS || DEV
 
 /** Loading (原始) */
-const Raw = observer(({ spinnerStyle, color, size = 'small' }: ActivityIndicatorProps) => {
+function Raw({ spinnerStyle, color, size = 'small' }: ActivityIndicatorProps) {
   r(COMPONENT)
 
-  if (USED_SPINNER) {
-    return <ActivityIndicator color={_.colorIcon} size='large' />
-  }
+  return useObserver(() => {
+    if (USED_SPINNER) {
+      return <ActivityIndicator color={_.colorIcon} size='large' />
+    }
 
-  // 因有无暂时法解决的平台 bug, 不使用此组件
-  return USED_SPINNER ? (
-    <Spinner style={stl(styles.spinner, spinnerStyle)} />
-  ) : (
+    // 因有无暂时法解决的平台 bug, 不使用此组件
+    return USED_SPINNER ? (
+      <Spinner style={stl(styles.spinner, spinnerStyle)} />
+    ) : (
+      <ActivityIndicator color={color || _.select(_.colorSub, _.colorDesc)} size={size} />
+    )
+  })
+}
+
+/** Loading (中) */
+function Normal({ color, size = 'small' }: ActivityIndicatorProps) {
+  r(COMPONENT)
+
+  return useObserver(() => (
     <ActivityIndicator color={color || _.select(_.colorSub, _.colorDesc)} size={size} />
-  )
-})
+  ))
+}
 
 /** Loading (中) */
-const Normal = observer(({ color, size = 'small' }: ActivityIndicatorProps) => {
+function Medium({ style, color, size = 'small' }: ActivityIndicatorProps) {
   r(COMPONENT)
 
-  return <ActivityIndicator color={color || _.select(_.colorSub, _.colorDesc)} size={size} />
-})
-
-/** Loading (中) */
-const Medium = observer(({ style, color, size = 'small' }: ActivityIndicatorProps) => {
-  r(COMPONENT)
-
-  return (
+  return useObserver(() => (
     <Component id='component-loading' style={stl(styles.medium, style)}>
       <ActivityIndicator color={color || _.select(_.colorSub, _.colorDesc)} size={size} />
     </Component>
-  )
-})
+  ))
+}
 
 /** Loading (小) */
-const Mini = observer(({ style, color, size = 'small' }: ActivityIndicatorProps) => {
+function Mini({ style, color, size = 'small' }: ActivityIndicatorProps) {
   r(COMPONENT)
 
-  return (
+  return useObserver(() => (
     <Component id='component-loading' style={stl(styles.mini, style)}>
       <ActivityIndicator color={color || _.select(_.colorSub, _.colorDesc)} size={size} />
     </Component>
-  )
-})
+  ))
+}
 
 /** Loading */
-const Loading: ILoading = observer(({ style, spinnerStyle, color, size = 'small', children }) => {
+const Loading: ILoading = ({ style, spinnerStyle, color, size = 'small', children }) => {
   r(COMPONENT)
 
-  return (
+  return useObserver(() => (
     <Component id='component-loading' style={stl(_.container.column, styles.loading, style)}>
       <Raw spinnerStyle={spinnerStyle} color={color} size={size} />
       {children}
     </Component>
-  )
-})
+  ))
+}
 
 Loading.Raw = Raw
 

@@ -6,8 +6,10 @@
  */
 import React from 'react'
 import { StorybookPage } from '@components/storybook'
-import { DataSource } from '@types'
-import { SegmentedControl as Component, SegmentedControlProps as Props } from './index'
+import { SegmentedControl as Component } from './index'
+
+import type { DataSource } from '@types'
+import type { SegmentedControlProps as Props } from './index'
 
 export default {
   title: 'components/SegmentedControl',

@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-11-27 15:54:04
  */
 import React from 'react'
-import { observer } from 'mobx-react'
+import { useObserver } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { Flex } from '../flex'
@@ -18,21 +18,22 @@ import { memoStyles } from './styles'
 import type { PopoverData } from '../popover'
 import type { ToolBarPopoverProps } from './types'
 
-export const ToolBarPopover = observer(
-  <Data extends PopoverData>({
-    style,
-    itemStyle,
-    data,
-    icon,
-    iconColor,
-    iconSize = 18,
-    type = 'sub',
-    text,
-    heatmap,
-    transparent,
-    onSelect
-  }: ToolBarPopoverProps<Data>) => {
+export function ToolBarPopover<Data extends PopoverData>({
+  style,
+  itemStyle,
+  data,
+  icon,
+  iconColor,
+  iconSize = 18,
+  type = 'sub',
+  text,
+  heatmap,
+  transparent,
+  onSelect
+}: ToolBarPopoverProps<Data>) {
+  return useObserver(() => {
     const styles = memoStyles()
+
     return (
       <Popover style={stl(styles.touch, style)} data={data} onSelect={onSelect}>
         <Flex style={stl(styles.item, transparent && styles.opacity, itemStyle)} justify='center'>
@@ -46,5 +47,5 @@ export const ToolBarPopover = observer(
         {!!heatmap && <Heatmap id={heatmap} />}
       </Popover>
     )
-  }
-)
+  })
+}

@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const StatusBarEvents = lazy(() => import('./index'))
-export { Props as StatusBarEventsProps } from './types'
+export type { Props as StatusBarEventsProps } from './types'

@@ -8,9 +8,10 @@ import { getStorage, setStorage } from '@utils'
 import { baiduTranslate } from '@utils/fetch'
 import { FROZEN_FN } from '@constants'
 import { loadJSON } from '@assets/json'
-import { JSONKatakana } from '@assets/json/types'
-import { Fn } from '@types'
 import { CACHE_KEY } from './ds'
+
+import type { JSONKatakana } from '@assets/json/types'
+import type { Fn } from '@types'
 
 let memo: JSONKatakana = {
   スクールアイドル: 'Idol school',

@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-01-19 08:40:14
  */
-import { Fn, TopicId } from '@types'
+import type { Fn, TopicId } from '@types'
 
 export type Props = {
   topicId?: TopicId

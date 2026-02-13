@@ -4,9 +4,7 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2022-11-13 05:28:51
  */
-import { ViewStyle } from '@types'
+import type { PropsWithChildren } from 'react'
+import type { WithViewStyles } from '@types'
 
-export type Props = {
-  style?: ViewStyle
-  children?: any
-}
+export type Props = PropsWithChildren<WithViewStyles<{}>>

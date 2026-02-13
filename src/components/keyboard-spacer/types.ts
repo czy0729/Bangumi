@@ -4,11 +4,10 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2022-08-31 19:54:13
  */
-import { ViewStyle } from '@types'
+import type { WithViewStyles } from '@types'
 
-export type Props = {
-  style?: ViewStyle
+export type Props = WithViewStyles<{
   topSpacing?: number
   animate?: boolean
   onToggle?: (toggle?: boolean, keyboardSpace?: number) => any
-}
+}>

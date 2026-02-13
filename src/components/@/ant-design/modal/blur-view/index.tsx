@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { observer } from 'mobx-react'
+import { useObserver } from 'mobx-react'
 import { BlurView as ExpoBlurView } from 'expo-blur'
 import { syncSystemStore, syncThemeStore } from '@utils/async'
 import { stl } from '@utils/utils'
@@ -18,36 +18,39 @@ import type { Props as BlurViewProps } from './types'
 
 export type { BlurViewProps }
 
-export const BlurView = observer(({ style, intensity = 100, children }: BlurViewProps) => {
-  const _ = syncThemeStore()
-  const styles = _.create({
-    blurView: {
-      paddingTop: 20,
-      backgroundColor: _.select('rgba(255, 255, 255, 0.4)', 'rgba(255, 255, 255, 0.08)'),
-      borderRadius: _.radiusMd,
-      borderWidth: 0,
-      overflow: 'hidden'
-    },
-    view: {
-      paddingTop: 20,
-      backgroundColor: _.select(_.colorBg, _.deep(_._colorDarkModeLevel1, _._colorPlain)),
-      borderRadius: _.radiusMd,
-      borderWidth: 0,
-      overflow: 'hidden'
-    }
-  })
-  const systemStore = syncSystemStore()
-  if (IOS || WEB || (!IOS && systemStore.setting.androidBlur && systemStore.setting.blurModal)) {
-    return (
-      <ExpoBlurView
-        style={stl(styles.blurView, style)}
-        tint={_.select(BLURVIEW_TINT_LIGHT, BLURVIEW_TINT_DARK)}
-        intensity={intensity}
-      >
-        {children}
-      </ExpoBlurView>
-    )
-  }
+export function BlurView({ style, intensity = 100, children }: BlurViewProps) {
+  return useObserver(() => {
+    const _ = syncThemeStore()
+    const styles = _.create({
+      blurView: {
+        paddingTop: 20,
+        backgroundColor: _.select('rgba(255, 255, 255, 0.4)', 'rgba(255, 255, 255, 0.08)'),
+        borderRadius: _.radiusMd,
+        borderWidth: 0,
+        overflow: 'hidden'
+      },
+      view: {
+        paddingTop: 20,
+        backgroundColor: _.select(_.colorBg, _.deep(_._colorDarkModeLevel1, _._colorPlain)),
+        borderRadius: _.radiusMd,
+        borderWidth: 0,
+        overflow: 'hidden'
+      }
+    })
 
-  return <View style={stl(style, styles.view)}>{children}</View>
-})
+    const systemStore = syncSystemStore()
+    if (IOS || WEB || (!IOS && systemStore.setting.androidBlur && systemStore.setting.blurModal)) {
+      return (
+        <ExpoBlurView
+          style={stl(styles.blurView, style)}
+          tint={_.select(BLURVIEW_TINT_LIGHT, BLURVIEW_TINT_DARK)}
+          intensity={intensity}
+        >
+          {children}
+        </ExpoBlurView>
+      )
+    }
+
+    return <View style={stl(style, styles.view)}>{children}</View>
+  })
+}

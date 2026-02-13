@@ -11,12 +11,13 @@ import { r } from '@utils/dev'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { StorybookScroll } from '../storybook'
 import { COMPONENT } from './ds'
-import { Props as ScrollViewProps } from './types'
 
-export { ScrollViewProps }
+import type { Props as ScrollViewProps } from './types'
+
+export type { ScrollViewProps }
 
 /** 通用 ScrollView */
-export const ScrollView = ({
+export function ScrollView({
   style,
   contentContainerStyle,
   horizontal,
@@ -31,7 +32,7 @@ export const ScrollView = ({
   onScroll,
   children,
   ...other
-}: ScrollViewProps) => {
+}: ScrollViewProps) {
   r(COMPONENT)
 
   // Storybook 中通常最外层就有一层 ScrollView, 所以里面不应再套一层

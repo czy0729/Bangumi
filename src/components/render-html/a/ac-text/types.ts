@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-01-19 08:01:01
  */
-import { Fn, Navigation, SubjectId, TextStyle } from '@types'
+import type { Fn, Navigation, SubjectId, TextStyle } from '@types'
 
 export type Props = {
   navigation?: Navigation

@@ -9,10 +9,11 @@ import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { rakuenStore } from '@stores'
 import { IOS } from '@constants'
-import { ReactNode } from '@types'
 import { Flex } from '../../flex'
 import { Text } from '../../text'
 import { memoStyles } from './styles'
+
+import type { ReactNode } from '@types'
 
 class QuoteText extends React.Component<{
   children?: ReactNode | ReactNode[] | string | string[]

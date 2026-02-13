@@ -19,29 +19,32 @@ import { Flex } from '../flex'
 import { Text } from '../text'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props as ProgressProps } from './types'
 
-export { ProgressProps }
+import type { Props as ProgressProps } from './types'
+
+export type { ProgressProps }
 
 /** 进度条 */
-export const Progress = ({
+export function Progress({
   width = 200,
   show = false,
   message = '请求中',
   current = 0,
   total = 1
-}: ProgressProps) => {
+}: ProgressProps) {
   r(COMPONENT)
 
   const w = useSharedValue(current / (total || 1))
-  const barStyle = useAnimatedStyle(() => {
-    return {
-      width: withTiming(Number(w.value * width), {
-        duration: 80,
-        easing: Easing.linear
-      })
-    }
-  })
+  const barStyle = useAnimatedStyle(
+    () =>
+      ({
+        width: withTiming(Number(w.value * width), {
+          duration: 80,
+          easing: Easing.linear
+        })
+      } as const)
+  )
+
   useEffect(() => {
     w.value = current / (total || 1)
   }, [w, current, total])
@@ -50,6 +53,7 @@ export const Progress = ({
     if (!show || !total) return null
 
     const styles = memoStyles()
+
     return (
       <Component id='component-progress'>
         <Flex

@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-03-07 07:09:23
  */
-import { SliderProps } from '@react-native-community/slider'
+import type { SliderProps } from '@react-native-community/slider'
 
 export type Props = SliderProps & {
   /** SliderProps.value */

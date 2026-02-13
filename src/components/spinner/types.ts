@@ -4,9 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-10-19 14:11:23
  */
-import { ColorValue, ViewStyle } from '@types'
+import type { ColorValue, WithViewStyles } from '@types'
 
-export type Props = {
-  style?: ViewStyle
+export type Props = WithViewStyles<{
   backgroundColor?: ColorValue
-}
+}>

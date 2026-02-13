@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-15 18:33:25
  */
-import { AnyObject, Fn, ListEmpty, Override } from '@types'
-import { Props as ListViewProps } from '../types'
+import type { AnyObject, Fn, ListEmpty, Override } from '@types'
+import type { Props as ListViewProps } from '../types'
 
 export type ListProps<ItemT> = Override<
   ListViewProps<ItemT>,

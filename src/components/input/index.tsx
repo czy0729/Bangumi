@@ -25,7 +25,7 @@ import type {
 import type { Override } from '@types'
 import type { Props as InputProps, State } from './types'
 
-export { InputProps }
+export type { InputProps }
 
 /**
  * 通用输入框

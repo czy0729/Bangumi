@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-05-24 10:39:02
  */
-import { ScrollView, ScrollViewProps } from 'react-native'
-import { Expand, ReactNode } from '@types'
+import type { ScrollView, ScrollViewProps } from 'react-native'
+import type { Expand, ReactNode } from '@types'
 
 export type ScrollTo = (params: { x?: number; y?: number; animated?: boolean }) => void
 

@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const Link = lazy(() => import('./index'))
-export { Props as LinkProps } from './types'
+export type { Props as LinkProps } from './types'

@@ -11,20 +11,22 @@ import { useObserver } from 'mobx-react'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { COMPONENT } from './ds'
-import { Props as SafeAreaBottomProps } from './types'
 
-export { SafeAreaBottomProps }
+import type { Props as SafeAreaBottomProps } from './types'
+
+export type { SafeAreaBottomProps }
 
 /** 只针对底部设置的安全区域 */
-export const SafeAreaBottom = ({
+export function SafeAreaBottom({
   style,
   type = 'bottom',
   children,
   ...other
-}: SafeAreaBottomProps) => {
+}: SafeAreaBottomProps) {
   r(COMPONENT)
 
   const { bottom } = useSafeAreaInsets()
+
   return useObserver(() => (
     <View
       style={stl(style, {

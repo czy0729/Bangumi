@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /*
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
@@ -5,7 +6,7 @@
  * @Last Modified time: 2026-01-24 07:15:16
  */
 import React from 'react'
-import { observer } from 'mobx-react'
+import { useObserver } from 'mobx-react'
 import { r } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
 import { useCallOnceInInterval } from './hooks'
@@ -17,41 +18,35 @@ import { COMPONENT } from './ds'
 import type { Props as TouchableProps } from './types'
 
 export type { TouchableProps }
+
 export type { TouchablePressEvent, TouchableHandlePress } from './types'
 
 /**
  * 触摸反馈整合
  *  - 因封装前并未有官方的 Pressable，没必要前不会考虑重新整合
  */
-export const Touchable = observer(
-  ({
-    style,
-    withoutFeedback = false,
+export function Touchable({
+  style,
+  withoutFeedback = false,
+  highlight = false,
+  delay = true,
+  hitSlop = defaultHitSlop,
+  delayPressIn = 0,
+  delayPressOut = 0,
+  useRN = false,
+  ripple,
+  animate,
+  scale,
+  disabled,
+  onPress = FROZEN_FN,
+  children,
+  ...other
+}: TouchableProps) {
+  r(COMPONENT)
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    highlight = false,
+  const { handleDisabled, handlePress } = useCallOnceInInterval(onPress)
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    delay = true,
-    hitSlop = defaultHitSlop,
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    delayPressIn = 0,
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    delayPressOut = 0,
-    useRN = false,
-    ripple,
-    animate,
-    scale,
-    disabled,
-    onPress = FROZEN_FN,
-    children,
-    ...other
-  }: TouchableProps) => {
-    r(COMPONENT)
-
-    const { handleDisabled, handlePress } = useCallOnceInInterval(onPress)
+  return useObserver(() => {
     const passProps = {
       style,
       hitSlop,
@@ -68,7 +63,7 @@ export const Touchable = observer(
     if (withoutFeedback) return <TouchableWithoutFeedback {...passProps} />
 
     return <TouchableOpacity {...passProps} />
-  }
-)
+  })
+}
 
 export default Touchable

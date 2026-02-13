@@ -6,7 +6,9 @@
  */
 import React from 'react'
 import { StorybookPage } from '@components/storybook'
-import { Progress as Component, ProgressProps as Props } from './index'
+import { Progress as Component } from './index'
+
+import type { ProgressProps as Props } from './index'
 
 export default {
   title: 'components/Progress',

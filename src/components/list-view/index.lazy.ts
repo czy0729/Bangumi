@@ -7,7 +7,7 @@
 import { lazy } from 'react'
 
 export const ListView = lazy(() => import('./index'))
-export {
+export type {
   Props as ListViewProps,
   ScrollToEnd,
   ScrollToIndex,

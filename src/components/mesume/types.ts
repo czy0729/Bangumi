@@ -4,7 +4,7 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2022-10-19 14:03:47
  */
-import { ImageStyle } from '@types'
+import type { ImageStyle } from '@types'
 
 export type Props = {
   style?: ImageStyle

@@ -12,8 +12,9 @@ import { syncThemeStore } from '@utils/async'
 import { USE_NATIVE_DRIVER } from '@constants/constants'
 import BlurView from '../blur-view'
 import Desc from '../desc'
-import { ToastProps } from './type'
 import { styles as overrideStyles } from './styles'
+
+import type { ToastProps } from './type'
 
 export default class Container extends React.Component<ToastProps, any> {
   static defaultProps = {

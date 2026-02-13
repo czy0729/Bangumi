@@ -6,6 +6,7 @@
  */
 import React, { useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
+// @ts-ignore
 import Dropdown from 'rc-dropdown'
 import 'rc-dropdown/assets/index.css'
 import { Component } from '../../component'

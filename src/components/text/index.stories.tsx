@@ -5,10 +5,12 @@
  * @Last Modified time: 2023-04-11 12:57:51
  */
 import React from 'react'
-import { StorybookPage } from '@components/storybook'
 import { Flex } from '@components/flex'
+import { StorybookPage } from '@components/storybook'
 import { _ } from '@stores'
-import { Text as Component, TextProps as Props } from './index'
+import { Text as Component } from './index'
+
+import type { TextProps as Props } from './index'
 
 export default {
   title: 'components/Text',

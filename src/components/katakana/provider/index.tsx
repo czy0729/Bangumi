@@ -5,22 +5,24 @@
  * @Last Modified time: 2024-05-21 20:52:18
  */
 import React from 'react'
-import { LayoutChangeEvent, View } from 'react-native'
+import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import PropTypes from 'prop-types'
 import { systemStore } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { IOS } from '@constants'
-import { TextStyle } from '@types'
 import { COMPONENT_PROVIDER } from '../ds'
 import { Flex } from '../../flex'
 import { Text } from '../../text'
 import { getKatakanaAlign } from './utils'
 import { styles } from './styles'
-import { Mathces, Props as KatakanaProviderProps, State } from './types'
 
-export { KatakanaProviderProps }
+import type { LayoutChangeEvent } from 'react-native'
+import type { TextStyle } from '@types'
+import type { Mathces, Props as KatakanaProviderProps, State } from './types'
+
+export type { KatakanaProviderProps }
 
 /**
  * 片假名终结者包裹容器

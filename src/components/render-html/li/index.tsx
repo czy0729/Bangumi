@@ -10,11 +10,13 @@ import { useObserver } from 'mobx-react'
 import { stl } from '@utils'
 import { Divider } from '../../divider'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function Li({ style, className, children, ...other }: Props) {
   return useObserver(() => {
     const styles = memoStyles()
+
     const el = (
       <View
         style={stl(style, styles.li, className?.includes('group_section') && styles.groupSection)}

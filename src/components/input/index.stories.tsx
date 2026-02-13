@@ -6,7 +6,9 @@
  */
 import React from 'react'
 import { StorybookPage } from '@components/storybook'
-import { Input as Component, InputProps as Props } from './index'
+import { Input as Component } from './index'
+
+import type { InputProps as Props } from './index'
 
 export default {
   title: 'components/Input',

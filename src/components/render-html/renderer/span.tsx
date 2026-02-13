@@ -15,6 +15,7 @@ import TagText from '../tag-text'
 import { fixedBaseFontStyle } from '../utils'
 
 import type { TextStyle } from '@types'
+
 export function span({
   key,
   style,

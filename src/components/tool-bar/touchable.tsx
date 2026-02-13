@@ -5,16 +5,18 @@
  * @Last Modified time: 2023-04-11 12:58:29
  */
 import React from 'react'
-import { observer } from 'mobx-react'
+import { useObserver } from 'mobx-react'
 import { Flex } from '../flex'
-import { Touchable } from '../touchable'
 import { Heatmap } from '../heatmap'
+import { Touchable } from '../touchable'
 import { memoStyles } from './styles'
-import { ToolBarTouchableProps } from './types'
 
-export const ToolBarTouchable = observer(
-  ({ heatmap, onSelect, children }: ToolBarTouchableProps) => {
+import type { ToolBarTouchableProps } from './types'
+
+export function ToolBarTouchable({ heatmap, onSelect, children }: ToolBarTouchableProps) {
+  return useObserver(() => {
     const styles = memoStyles()
+
     return (
       <Touchable style={styles.touch} onPress={onSelect}>
         <Flex style={styles.item} justify='center'>
@@ -23,5 +25,5 @@ export const ToolBarTouchable = observer(
         {!!heatmap && <Heatmap id={heatmap} />}
       </Touchable>
     )
-  }
-)
+  })
+}

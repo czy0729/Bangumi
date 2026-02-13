@@ -27,7 +27,7 @@ import type { Props as PaginationProps } from './types'
 export type { PaginationProps }
 
 /** 分页器 */
-export const Pagination = ({
+export function Pagination({
   style,
   inputStyle,
   input,
@@ -37,7 +37,7 @@ export const Pagination = ({
   onNext = FROZEN_FN,
   onChange = FROZEN_FN,
   onSearch = FROZEN_FN
-}: PaginationProps) => {
+}: PaginationProps) {
   r(COMPONENT)
 
   const [show, setShow] = useState(false)

@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const Page = lazy(() => import('./index'))
-export { Props as PageProps } from './types'
+export type { Props as PageProps } from './types'

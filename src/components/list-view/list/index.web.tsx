@@ -4,14 +4,16 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-23 11:19:46
  */
-import React, { ReactNode, useCallback, useMemo, useRef } from 'react'
+import React, { useCallback, useMemo, useRef } from 'react'
 import { View } from 'react-native'
 import { _ } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { Flex } from '../../flex'
 import { StorybookScroll } from '../../storybook'
 import { styles } from './styles'
-import { ListPropsWeb } from './types'
+
+import type { ReactNode } from '@types'
+import type { ListPropsWeb } from './types'
 
 function List({
   contentContainerStyle,

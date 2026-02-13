@@ -7,7 +7,9 @@
 import React from 'react'
 import { View } from 'react-native'
 import { StorybookPage } from '@components/storybook'
-import { Skeleton as Component, SkeletonProps as Props } from './index'
+import { Skeleton as Component } from './index'
+
+import type { SkeletonProps as Props } from './index'
 
 export default {
   title: 'components/Skeleton',
@@ -17,7 +19,6 @@ export default {
 export const Skeleton = (args: Props) => (
   <StorybookPage>
     <View
-      // eslint-disable-next-line react-native/no-inline-styles
       style={{
         width: 240,
         height: 136

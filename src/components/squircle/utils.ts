@@ -7,7 +7,8 @@
  */
 import { _ } from '@stores'
 import { WEB } from '@constants'
-import { getMaskPathInput } from './types'
+
+import type { getMaskPathInput } from './types'
 
 const cacheMap = new Map<string, any>()
 

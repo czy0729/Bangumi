@@ -9,7 +9,7 @@ import { COMPONENT } from './ds'
 
 /** [DEV] 未开发占位用 */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const Todo = (props: any) => {
+export const Todo = (_props: any) => {
   r(COMPONENT)
 
   return null

@@ -4,9 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-05-17 11:30:06
  */
-import { ListRenderItem } from 'react-native'
-import { FlatListPropsWithLayout } from 'react-native-reanimated'
-import { Override } from '@types'
+import type { ListRenderItem } from 'react-native'
+import type { FlatListPropsWithLayout } from 'react-native-reanimated'
+import type { Override } from '@types'
 
 export type Props<ItemT> = Override<
   FlatListPropsWithLayout<ItemT>,

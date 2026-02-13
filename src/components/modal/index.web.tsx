@@ -15,13 +15,14 @@ import { ScrollView } from '../scroll-view'
 import { Text } from '../text'
 import { COMPONENT } from './ds'
 import { styles } from './styles.web'
-import { Props as ModalProps } from './types'
 import './index.scss'
 
-export { ModalProps }
+import type { Props as ModalProps } from './types'
+
+export type { ModalProps }
 
 /** 通用模态框 */
-export const Modal = ({
+export function Modal({
   style,
   visible,
   title,
@@ -29,10 +30,11 @@ export const Modal = ({
   animated,
   onClose,
   children
-}: ModalProps) => {
+}: ModalProps) {
   r(COMPONENT)
 
   const activeRef = useSharedValue(visible ? 1 : 0)
+
   const animatedStyle = useAnimatedStyle(() => {
     return {
       opacity: withTiming(activeRef.value, {
@@ -40,6 +42,7 @@ export const Modal = ({
       })
     }
   })
+
   useEffect(() => {
     if (!animated) return
 

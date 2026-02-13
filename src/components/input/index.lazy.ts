@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const Input = lazy(() => import('./index'))
-export { Props as InputProps } from './types'
+export type { Props as InputProps } from './types'

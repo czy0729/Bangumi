@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const Pagination = lazy(() => import('./index'))
-export { Props as PaginationProps } from './types'
+export type { Props as PaginationProps } from './types'

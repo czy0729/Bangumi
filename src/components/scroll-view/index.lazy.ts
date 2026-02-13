@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const ScrollView = lazy(() => import('./index'))
-export { Props as ScrollViewProps, ScrollTo } from './types'
+export type { Props as ScrollViewProps, ScrollTo } from './types'
