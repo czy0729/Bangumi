@@ -29,7 +29,7 @@ import type { Props as ItemVoiceProps } from './types'
 
 export type { ItemVoiceProps }
 
-export const ItemVoice = ({
+export function ItemVoice({
   style,
   navigation,
   event = EVENT,
@@ -41,7 +41,7 @@ export const ItemVoice = ({
   subject = [],
   collected = '全部',
   children
-}: ItemVoiceProps) => {
+}: ItemVoiceProps) {
   r(COMPONENT)
 
   const { list, onExpand } = useExpandLazy(subject, 4)
@@ -53,33 +53,37 @@ export const ItemVoice = ({
     const jp = cnjp(name, nameCn)
     const y = (collected !== '全部' ? ITEM_HEIGHT_WITH_COLLECTED : ITEM_HEIGHT) * (index + 1)
 
-    // 系列级判断：是否存在任意收藏
-    const hasCollectedInSeries =
-      collected === '系列有收藏' ? list.some(item => collectionStore.collect(item.id)) : true
+    // 角色级判断：是否存在任意收藏
+    const hasCollectedInSeries = list.some(item => collectionStore.collect(item.id))
+
+    // 当为 已收藏 或 系列有收藏 时
+    // 如果这个角色没有任何收藏作品，整个角色不显示
+    if ((collected === '已收藏' || collected === '系列有收藏') && !hasCollectedInSeries) {
+      return null
+    }
+
+    let visibleIndex = 0
 
     // 右侧系列条目
     const elSubjects = (
       <Flex.Item style={_.ml.md} flex={3.4}>
-        {list.map((item, idx) => {
-          // 系列级短路
-          if (collected === '系列有收藏' && !hasCollectedInSeries) {
-            return null
-          }
-
+        {list.map(item => {
           const collect = collectionStore.collect(item.id)
 
-          // item 级过滤
-          if ((collected === '已收藏' && !collect) || (collected === '未收藏' && collect)) {
-            return null
-          }
+          // 已收藏：只显示收藏作品
+          if (collected === '已收藏' && !collect) return null
 
+          // 未收藏：只显示未收藏作品
+          if (collected === '未收藏' && collect) return null
+
+          const currentIndex = visibleIndex++
           const cn = cnjp(item.nameCn, item.name)
           const jp = cnjp(item.name, item.nameCn)
 
           return (
             <Touchable
               key={item.id}
-              style={idx !== 0 && _.mt.md}
+              style={currentIndex !== 0 && _.mt.md}
               animate
               onPress={() => {
                 navigation.push('Subject', {
@@ -134,7 +138,6 @@ export const ItemVoice = ({
     const elContent = (
       <>
         <Flex style={styles.wrap} align='start'>
-          {/* 左侧角色信息 */}
           <Flex.Item flex={1.8}>
             <Touchable
               animate
@@ -175,7 +178,6 @@ export const ItemVoice = ({
             </Touchable>
           </Flex.Item>
 
-          {/* 右侧系列 */}
           {elSubjects}
         </Flex>
 

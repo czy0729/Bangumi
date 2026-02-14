@@ -24,7 +24,7 @@ import type { Props as ExpandProps } from './types'
 export type { ExpandProps }
 
 /** 收缩与展开框 */
-export const Expand = ({
+export function Expand({
   style,
   moreStyle,
   iconColor,
@@ -34,14 +34,21 @@ export const Expand = ({
   onExpand,
   onPress,
   children
-}: ExpandProps) => {
+}: ExpandProps) {
   r(COMPONENT)
 
-  // 窗口高度 (网页端适当放大比例, 减少重排)
-  const ratioHeight = _.r(Math.floor(_.window.contentWidth * 0.618)) * ratio
+  /** 固定首次 ratioHeight，避免窗口变化导致重新计算 */
+  const initialRatioHeight = useRef(_.r(Math.floor(_.window.contentWidth * 0.618)) * ratio).current
+
   const aHeight = useRef(new Animated.Value(0))
   const [expand, setExpand] = useState(false)
   const [height, setHeight] = useState(0)
+
+  /** 防止重复自动展开 */
+  const didAutoExpand = useRef(false)
+
+  /** 只允许第一次有效 layout 参与自动判断 */
+  const didMeasure = useRef(false)
 
   const animatedStyles = useMemo(
     () => [
@@ -50,10 +57,11 @@ export const Expand = ({
         height: height
           ? aHeight.current.interpolate({
               inputRange: [0, 1],
-
-              // 1 个比例的最大高度
               outputRange: [
-                Math.max(1, Math.min(ratioHeight, checkLayout ? height : ratioHeight)),
+                Math.max(
+                  1,
+                  Math.min(initialRatioHeight, checkLayout ? height : initialRatioHeight)
+                ),
                 Math.max(1, height)
               ]
             })
@@ -61,10 +69,12 @@ export const Expand = ({
       },
       style
     ],
-    [checkLayout, height, ratioHeight, style]
+    [checkLayout, height, initialRatioHeight, style]
   )
 
   const handleExpand = useCallback(() => {
+    if (expand) return
+
     if (typeof onExpand === 'function') {
       onExpand()
 
@@ -75,17 +85,31 @@ export const Expand = ({
     } else {
       setExpand(true)
     }
-  }, [onExpand])
+  }, [expand, onExpand])
+
   const handleLayout = useCallback(
     (event: LayoutChangeEvent) => {
-      const { height } = event.nativeEvent.layout
+      const layoutHeight = event.nativeEvent.layout.height
+
       runAfter(() => {
-        setHeight(height)
-        if (checkLayout && height && height <= ratioHeight) handleExpand()
+        if (!layoutHeight) return
+
+        setHeight(layoutHeight)
+
+        // 只在第一次测量时判断自动展开
+        if (checkLayout && !didMeasure.current && !didAutoExpand.current) {
+          didMeasure.current = true
+
+          if (layoutHeight <= initialRatioHeight) {
+            didAutoExpand.current = true
+            handleExpand()
+          }
+        }
       }, true)
     },
-    [checkLayout, ratioHeight, handleExpand]
+    [checkLayout, handleExpand, initialRatioHeight]
   )
+
   const handlePress = useCallback(() => {
     feedback(true)
 
@@ -100,7 +124,7 @@ export const Expand = ({
     if (!expand) return
 
     Animated.timing(aHeight.current, {
-      toValue: expand ? 1 : 0,
+      toValue: 1,
       duration: 160,
       useNativeDriver: false
     }).start()
@@ -113,6 +137,7 @@ export const Expand = ({
         <View style={styles.layout} onLayout={handleLayout}>
           {children}
         </View>
+
         {!expand && (
           <>
             {linearGradient && (
@@ -126,6 +151,7 @@ export const Expand = ({
                 ]}
               />
             )}
+
             <View style={stl(styles.more, moreStyle)}>
               <Touchable onPress={handlePress}>
                 <Flex justify='center'>
