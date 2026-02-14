@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-01-27 15:33:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-13 15:08:15
+ * @Last Modified time: 2026-02-14 18:25:37
  */
 import React, { useEffect, useRef, useState } from 'react'
 import { Animated, StyleSheet, View } from 'react-native'
@@ -143,8 +143,8 @@ function Award2025() {
                       id='dot'
                       patternUnits='userSpaceOnUse'
                       patternContentUnits='userSpaceOnUse'
-                      width='12'
-                      height='12'
+                      width='16'
+                      height='16'
                     >
                       <Circle cx='6' cy='6' r='1' fill='rgba(240,145,153,0.2)' />
                     </Pattern>

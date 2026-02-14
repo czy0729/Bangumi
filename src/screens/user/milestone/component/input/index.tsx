@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-15 04:24:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-15 04:39:21
+ * @Last Modified time: 2026-02-14 18:21:14
  */
 import React, { useCallback, useState } from 'react'
 import { Flex, Input as InputComp } from '@components'
@@ -10,12 +10,14 @@ import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { info } from '@utils'
 import { useObserver } from '@utils/hooks'
-import { Navigation } from '@types'
 
-function Input({ navigation }: { navigation: Navigation }) {
+import type { WithNavigation } from '@types'
+
+function Input({ navigation }: WithNavigation) {
   const [username, setUsername] = useState('')
+
   const handleChange = useCallback(
-    text => {
+    (text: string) => {
       setUsername(text.trim())
     },
     [setUsername]
@@ -29,12 +31,16 @@ function Input({ navigation }: { navigation: Navigation }) {
     navigation.replace('Milestone', {
       userId: username
     })
-  }, [username])
+  }, [navigation, username])
 
   return useObserver(() => (
     <Flex style={[_.container.wind, _.mt.sm]}>
       <Flex.Item>
         <InputComp
+          style={{
+            height: 40,
+            paddingVertical: 0
+          }}
           value={username}
           placeholder='可输入用户 ID 直达'
           onChangeText={handleChange}
