@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-22 16:38:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-08 20:43:31
+ * @Last Modified time: 2026-02-14 17:59:28
  */
 import { toJS } from 'mobx'
 import cheerio from 'cheerio-without-node-native'
@@ -220,6 +220,7 @@ export default class Action extends Fetch {
     fail?: () => any
   ) => {
     const { subjectId, formhash } = config || {}
+
     return xhr(
       {
         url: HTML_ACTION_ERASE_COLLECTION(subjectId, formhash)

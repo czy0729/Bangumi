@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-15 14:28:28
+ * @Last Modified time: 2026-02-14 18:11:52
  */
 import { toJS } from 'mobx'
 import { StatusBar } from '@components'
@@ -51,7 +51,6 @@ import { s2t } from '@utils/thirdParty/open-cc'
 import { webhookCollection, webhookEp } from '@utils/webhooks'
 import {
   CDN_OSS_SUBJECT,
-  FROZEN_FN,
   HOST,
   HOST_CDN,
   HOST_NETABA,
@@ -1369,29 +1368,28 @@ export default class Action extends Fetch {
         disabled: true
       })
 
-      await userStore.doEraseCollection(
-        {
-          subjectId: this.subjectId,
-          formhash
-        },
-        FROZEN_FN,
-        // 因为删除后是 302, 使用 fail 去触发
-        () => {
-          postTask(() => {
+      const callback = () => {
+        setTimeout(async () => {
+          const data = await collectionStore.fetchCollectionStatusQueue([this.subjectId])
+          if (!data?.[this.subjectId]) {
             collectionStore.removeCollection(this.subjectId)
             collectionStore.removeStatus(this.subjectId)
-
-            this.fetchCollection()
-            collectionStore.fetchCollectionStatusQueue([this.subjectId])
-
-            // 不是在看的话要删掉对应条目信息
             userStore.removeCollection(this.subjectId)
 
             t('条目.删除收藏', {
               subjectId: this.subjectId
             })
-          }, 40)
-        }
+          }
+        }, 2000)
+      }
+
+      await userStore.doEraseCollection(
+        {
+          subjectId: this.subjectId,
+          formhash
+        },
+        callback,
+        callback
       )
     } catch (error) {
       logger.error(COMPONENT, 'doEraseCollection', error)

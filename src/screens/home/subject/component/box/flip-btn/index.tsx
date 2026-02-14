@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-01 08:26:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-20 02:18:52
+ * @Last Modified time: 2026-02-14 18:14:50
  */
 import React from 'react'
 import { collectionStore, useStore } from '@stores'
@@ -39,7 +39,7 @@ function FlipBtnWrap({ onPress }: Props) {
         btnText={btnText}
         rating={rating}
         privacy={privacy}
-        last={String(collectedTime || '').split(' ')[0]}
+        last={btnText === '未收藏' ? '' : String(collectedTime || '').split(' ')[0]}
         onAnimated={$.afterFlip}
         onPress={onPress}
       />
