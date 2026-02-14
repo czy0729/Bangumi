@@ -6,8 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Image, Squircle, Text, Touchable } from '@components'
-import { systemStore } from '@stores'
+import { Image, Text, Touchable } from '@components'
 import { useNavigation, useObserver } from '@utils/hooks'
 import { ASSETS_AWARDS, TEXT_ONLY } from '@constants'
 import { COMPONENT, URI } from './ds'
@@ -18,7 +17,6 @@ function Award2024() {
 
   return useObserver(() => {
     const styles = memoStyles()
-    const { width, height } = styles.item
 
     return (
       <View style={styles.container}>
@@ -30,18 +28,16 @@ function Award2024() {
             })
           }}
         >
-          <Squircle width={width} height={height} radius={systemStore.coverRadius}>
-            <View style={styles.item}>
-              {!TEXT_ONLY && (
-                <Image
-                  src={ASSETS_AWARDS[2024]}
-                  size={styles.body.width}
-                  height={styles.body.height}
-                  placeholder={false}
-                />
-              )}
-            </View>
-          </Squircle>
+          <View style={styles.item}>
+            {!TEXT_ONLY && (
+              <Image
+                src={ASSETS_AWARDS[2024]}
+                size={styles.body.width}
+                height={styles.body.height}
+                placeholder={false}
+              />
+            )}
+          </View>
         </Touchable>
         <View style={styles.fixed}>
           <Touchable

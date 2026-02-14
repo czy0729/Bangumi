@@ -36,6 +36,7 @@ declare const document: {
   }
   querySelector: (selector: string) => {
     offsetTop?: number
+    addEventListener?: Fn
   } | null
 }
 

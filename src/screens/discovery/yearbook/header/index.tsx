@@ -2,15 +2,18 @@
  * @Author: czy0729
  * @Date: 2024-04-03 22:00:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 08:20:48
+ * @Last Modified time: 2026-02-13 15:36:16
  */
 import React from 'react'
+import { useObserver } from 'mobx-react'
 import { HeaderV2 } from '@components'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { COMPONENT, HM } from './ds'
 
 function Header() {
-  return <HeaderV2 title='Bangumi年鉴' hm={HM} />
+  r(COMPONENT)
+
+  return useObserver(() => <HeaderV2 title='Bangumi年鉴' hm={HM} />)
 }
 
-export default ob(Header, COMPONENT)
+export default Header

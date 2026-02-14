@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-08-20 15:05:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-12 04:18:29
+ * @Last Modified time: 2026-02-13 12:30:32
  */
 import { HTMLTrim } from '@utils'
-import { SDK } from '@constants'
+import { HOST } from '@constants'
+import resetStyle from './reset-style'
 
 /** 访问静态 html 年鉴注入代码 */
-export const injectedStaticJavaScript = HTMLTrim(`(function(){
+const injectedStaticJavaScript = HTMLTrim(`(function(){
   setTimeout(() => {
     /* webview 的 postMessage 不是马上生效的 */
     var __timeoutId = null;
     var __isBridgeOk = false;
 
     function waitForBridge() {
-      if (!__isBridgeOk && !window${SDK >= 36 ? '.ReactNativeWebView' : ''}.postMessage) {
+      if (!__isBridgeOk && !window.ReactNativeWebView.postMessage) {
         __timeoutId = setTimeout(waitForBridge, 400);
       } else {
         clearTimeout(__timeoutId);
@@ -38,7 +39,7 @@ export const injectedStaticJavaScript = HTMLTrim(`(function(){
                   nextInnerHTML = aNodes[i].nextElementSibling.innerHTML
                 } catch (ex) {}
 
-                window${SDK >= 36 ? '.ReactNativeWebView' : ''}.postMessage(JSON.stringify({
+                window.ReactNativeWebView.postMessage(JSON.stringify({
                   type: "onclick",
                   data: {
                     href: href,
@@ -56,3 +57,44 @@ export const injectedStaticJavaScript = HTMLTrim(`(function(){
     waitForBridge();
   }, 1000)
 }());`)
+
+/** 从 uri 提取年份 */
+export function getAwardYear(uri: string) {
+  const uris = uri.replace('/winner', '').split('/')
+  return uris[uris.length - 1]
+}
+
+/** 构建请求地址 */
+export function getAwardUrl(uri: string, year: string) {
+  let url = `${HOST}/award/${year}`
+  if (uri.includes('/winner')) url += '/winner'
+  return url
+}
+
+/** 处理原始 html */
+export function transformAwardHTML(rawHtml: string, year: string) {
+  let html = rawHtml
+
+  html = html.replace(/>\s+</g, '><')
+
+  if (year !== '2022' && year !== '2023' && year !== '2025') {
+    html = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+  }
+
+  html = html
+    .replace(/href="javascript:void\(0\)"/g, '')
+    .replace(/<div id="headerNeue2">(.+?)<div id="awardWrapper"/g, '<div id="awardWrapper"')
+    .replace(/<div class="shareBtn">(.+?)<\/div>/, '')
+    .replace(/<div id="dock">(.+?)<div id="robot"/g, '<div id="robot"')
+    .replace(
+      /<div id="main" class="png_bg"><div id="footer">(.+?)<\/div><div class="homeBg">/g,
+      '</div><div class="homeBg">'
+    )
+    .replace(/\/r\/400\/pic/g, '/r/200/pic')
+
+  html = `${html}
+    <style>${resetStyle[year]}</style>
+    <script>${injectedStaticJavaScript}</script>`
+
+  return html.replace(/\/r\/400\/pic/g, '/r/200/pic')
+}

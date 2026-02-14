@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-02-12 02:11:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-12 04:28:17
+ * @Last Modified time: 2026-02-13 14:51:58
  */
 import { _ } from '@stores'
 
@@ -17,7 +17,7 @@ export const styles = _.create({
     backgroundColor: '#000'
   },
   extra: {
-    maginTop: _.md,
+    marginTop: _.xs,
     opacity: 0.6
   }
 })

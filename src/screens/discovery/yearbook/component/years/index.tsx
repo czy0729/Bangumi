@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-04-04 02:01:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-05 02:23:31
+ * @Last Modified time: 2026-02-13 15:37:27
  */
 import React from 'react'
 import { Flex, Squircle, Text, Touchable } from '@components'
 import { _, systemStore } from '@stores'
 import { stl } from '@utils'
-import { r } from '@utils/dev'
 import { withT } from '@utils/fetch'
 import { useNavigation, useObserver } from '@utils/hooks'
 import { HOST } from '@constants'
@@ -17,11 +16,11 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function Years() {
-  r(COMPONENT)
+  const navigation = useNavigation(COMPONENT)
 
-  const navigation = useNavigation()
   return useObserver(() => {
     const styles = memoStyles()
+
     return (
       <Flex wrap='wrap'>
         {YEARS.map((item, index) => (

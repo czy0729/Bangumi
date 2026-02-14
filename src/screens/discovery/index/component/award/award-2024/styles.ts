@@ -40,7 +40,7 @@ export const memoStyles = _.memoStyles(() => {
       marginLeft: 16,
       color: 'rgba(255, 255, 255, 0.4)',
       backgroundColor: 'rgba(255, 255, 255, 0.08)',
-      borderRadius: _.radiusSm
+      borderRadius: _.radiusXs
     }
   }
 })

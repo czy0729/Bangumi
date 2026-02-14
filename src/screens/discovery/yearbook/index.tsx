@@ -5,12 +5,9 @@
  * @Last Modified time: 2025-12-23 02:02:44
  */
 import React from 'react'
-import { View } from 'react-native'
 import { Component, HeaderPlaceholder, Page, ScrollView } from '@components'
-import { _ } from '@stores'
 import { useObserver } from '@utils/hooks'
 import Award2022 from '../index/component/award/award-2022'
-import Award2023 from '../index/component/award/award-2023'
 import Blocks from './component/blocks'
 import Years from './component/years'
 import Header from './header'
@@ -26,10 +23,7 @@ const Yearbook = () => {
         <Page>
           <HeaderPlaceholder />
           <ScrollView contentContainerStyle={styles.container} scrollToTop>
-            <Award2023 width={styles.item2021.width} height={styles.item2021.height} />
-            <View style={_.mt.md}>
-              <Award2022 width={styles.item2021.width} height={styles.item2021.height} />
-            </View>
+            <Award2022 width={styles.item2021.width} height={styles.item2021.height} />
             <Blocks />
             <Years />
           </ScrollView>
