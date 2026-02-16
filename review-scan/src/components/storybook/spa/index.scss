@@ -1,0 +1,32 @@
+/*
+ * @Author: czy0729
+ * @Date: 2023-11-08 23:05:05
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2024-09-05 21:40:06
+ */
+$header-height: 56px;
+$container-vertical-margin: 32px;
+
+component-storybook-spa {
+  // 手机端
+  &[data-mobile='true'] {
+    component-header[data-mode='normal'] + component-page {
+      max-height: calc(100vh - #{$header-height}) !important;
+    }
+    component-header[data-mode='float'] + component-page {
+      min-height: 100vh !important;
+      max-height: 100vh !important;
+    }
+  }
+
+  // PC 端
+  &[data-mobile='false'] {
+    component-header[data-mode='normal'] + component-page {
+      max-height: calc(100vh - #{$header-height} - #{$container-vertical-margin}) !important;
+    }
+    component-header[data-mode='float'] + component-page {
+      min-height: calc(100vh - #{$container-vertical-margin}) !important;
+      max-height: calc(100vh - #{$container-vertical-margin}) !important;
+    }
+  }
+}

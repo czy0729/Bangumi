@@ -1,0 +1,2194 @@
+version: "0.1"
+topics:
+  - name: "Project Setup & Tooling Choices"
+    paths:
+      - 'package.json'
+      - 'tsconfig.json'
+      - '.gitignore'
+      - '.env.example'
+      - '.env.template'
+    policies:
+      - title: Prefer Expo for Rapid Development and Prototyping
+        description: |
+          Use Expo for MVPs, small teams, or apps that don't require deep native module customization. It simplifies setup, improves DX, and reduces time to market.
+        impact: |
+          Using Bare workflow unnecessarily increases build complexity and slows down iteration cycles, particularly in small projects or early stages.
+        severity: High
+        required_context: Multi-File
+        software_version:
+          - "0.73.0"
+        reference_link:
+          - https://docs.expo.dev/workflow/overview/
+          - https://stackoverflow.com/questions/61723372/what-is-the-difference-between-react-native-cli-and-expo-with-bare-workflow
+          - https://medium.com/@mehro_z/choosing-between-managed-and-bare-workflow-in-expo-a-comprehensive-difference-7086305f1480
+        code_examples:
+          - non_compliant: |
+              // No reference to Expo in dependencies
+              {
+                "dependencies": {
+                  "react-native": "0.73.0"
+                }
+              }
+            compliant: |
+              // Using Expo for easier setup and faster dev cycle
+              {
+                "dependencies": {
+                  "expo": "~50.0.0",
+                  "react-native": "0.73.0"
+                }
+              }
+
+      - title: Use Bare Workflow Only When Native Customization is Required
+        description: |
+          Only use the Bare React Native workflow when your app requires custom native modules, third-party SDKs, or deep device-level APIs not supported by Expo.
+        impact: |
+          Bare workflow introduces native build complexity and longer CI pipelines if used unnecessarily. 
+          It also increases the maintenance burden, especially for small teams.
+        severity: Mandatory
+        required_context: Multi-File
+        software_version:
+          - "0.73.0"
+        reference_link:
+          - https://reactnative.dev/docs/environment-setup
+          - https://docs.expo.dev/workflow/customizing/
+        code_examples:
+          - non_compliant: |
+              // No native customization, still using Bare workflow
+              // App initialized with react-native CLI but only uses fetch & AsyncStorage
+            compliant: |
+              // Bare workflow used because native camera integration is required
+              // Using react-native-camera and custom native modules in ios/ & android/
+
+      - title: Prefer Metro Bundler over Vite for React Native
+        description: |
+          Use Metro bundler by default, as it's the official bundler optimized for React Native and Hermes. 
+          Metro provides better compatibility and support for platform-specific code.
+        impact: |
+          Using unsupported bundlers like Vite may break core build processes, debugging tools, and native module resolution.
+        severity: High
+        required_context: Multi-File
+        software_version:
+          - "0.73.0"
+        reference_link:
+          - https://reactnative.dev/docs/metro
+        code_examples:
+          - non_compliant: |
+              // Trying to replace Metro with unsupported tooling
+              // vite.config.js used in place of Metro
+            compliant: |
+              // Keep Metro for bundling
+              module.exports = {
+                transformer: {
+                  getTransformOptions: async () => ({
+                    transform: {
+                      experimentalImportSupport: false,
+                      inlineRequires: true,
+                    },
+                  }),
+                },
+              };
+
+      - title: Enforce TypeScript as the Default Language
+        description: |
+          Use TypeScript for all application code to enable static type checking and reduce runtime errors. 
+          Helps with better IDE support, refactoring, and maintainability.
+        impact: |
+          Relying solely on JavaScript increases the risk of runtime errors and weakens type safety, especially in large codebases.
+        severity: Mandatory
+        required_context: Multi-File
+        software_version:
+          - "0.73.0"
+        reference_link:
+          - https://reactnative.dev/docs/typescript
+        code_examples:
+          - non_compliant: |
+              // No tsconfig.json present, only JavaScript used
+              function greet(name) {
+                return "Hello " + name;
+              }
+            compliant: |
+              // TypeScript enabled with strict mode
+              {
+                "compilerOptions": {
+                  "strict": true,
+                  "target": "esnext",
+                  "module": "commonjs",
+                  "jsx": "react-native"
+                }
+              }
+
+      - title: Use .tsx Extension for All React Native Components
+        description: |
+          Components written in TypeScript that include JSX should always use `.tsx` extension to ensure proper syntax highlighting and compilation.
+        impact: |
+          Incorrect file extensions break syntax highlighting, code navigation, and type inference in IDEs and build systems.
+        severity: High
+        required_context: Single-File
+        software_version:
+          - "0.73.0"
+        reference_link:
+          - https://www.typescriptlang.org/docs/handbook/jsx.html
+        code_examples:
+          - non_compliant: |
+              // HomeScreen.ts
+              const Home = () => <View />;
+            compliant: |
+              // HomeScreen.tsx
+              const Home = () => <View />;
+
+      - title: Use Consistent ESLint + Prettier Setup at Project Root
+        description: |
+          Ensure ESLint and Prettier are both configured at the root level with a consistent ruleset, integrated into the developer workflow via scripts or IDE extensions.
+        impact: |
+          Inconsistent formatting and lack of lint rules lead to messy PRs, bugs, and poor code readability.
+        severity: Mandatory
+        required_context: Multi-File
+        software_version:
+          - "0.73.0"
+        reference_link:
+          - https://eslint.org/docs/latest/
+          - https://prettier.io/docs/en/configuration.html
+        code_examples:
+          - non_compliant: |
+              // No ESLint config present
+              // Developers using different formatting styles
+            compliant: |
+              module.exports = {
+                extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
+                rules: {
+                  '@typescript-eslint/no-unused-vars': 'warn'
+                }
+              };
+
+      - title: Use `.env` Files for Environment Variables
+        description: |
+          Store API keys, secrets, and config in `.env` files and load them using libraries like `react-native-dotenv` to avoid hardcoding.
+        impact: |
+          Hardcoding secrets and endpoints makes the app harder to configure and less secure, especially across environments.
+        severity: High
+        required_context: Multi-File
+        software_version:
+          - "0.73.0"
+        reference_link:
+          - https://github.com/goatandsheep/react-native-dotenv
+        code_examples:
+          - non_compliant: |
+              const API_KEY = 'hardcoded-api-key';
+            compliant: |
+              import { API_KEY } from '@env';
+              console.log(API_KEY);
+
+      - title: Avoid Committing Platform Build Artifacts
+        description: |
+          Add `/android/build/`, `/ios/Pods/`, and other generated folders to `.gitignore` to keep the repository clean and reduce merge conflicts.
+        impact: |
+          Committing generated artifacts pollutes version history, increases repo size, and causes unnecessary merge issues.
+        severity: Mandatory
+        required_context: Multi-File
+        software_version:
+          - "0.73.0"
+        reference_link:
+          - https://reactnative.dev/docs/environment-setup
+        code_examples:
+          - non_compliant: |
+              // .gitignore missing build paths
+            compliant: |
+              # iOS
+              ios/Pods/
+              ios/build/
+
+              # Android
+              android/.gradle/
+              android/app/build/
+
+  - name: "Navigation & Deep-Linking Strategy"
+    paths:
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+    policies:
+      - title: Use React Navigation as the Standard Navigator
+        description: |
+          React Navigation is the most actively maintained and widely adopted navigation library in React Native. Use it as the standard navigator unless there is a specific performance or native integration requirement.
+        impact: |
+          Reduces fragmentation in navigation handling, improves community support, and ensures future maintainability.
+        severity: Mandatory
+        required_context: Multi-File
+        software_version:
+          - 6.0
+          - 6.1
+        reference_link:
+          - https://reactnavigation.org/docs/getting-started
+        code_examples:
+          - non_compliant: |
+              # JS (using custom or outdated navigator)
+              import Navigator from './CustomNavigator';
+              <Navigator />
+            compliant: |
+              # JS (using React Navigation)
+              import { NavigationContainer } from '@react-navigation/native';
+              import { createStackNavigator } from '@react-navigation/stack';
+
+              const Stack = createStackNavigator();
+              <NavigationContainer>
+                <Stack.Navigator>
+                  <Stack.Screen name="Home" component={HomeScreen} />
+                </Stack.Navigator>
+              </NavigationContainer>
+
+      - title: Implement Deep Linking with React Navigation
+        description: |
+          Enable and configure deep linking support for both Android and iOS to handle incoming URLs.
+        impact: |
+          Enables seamless integration with push notifications, external links, and browser-based redirection.
+        severity: High
+        required_context: Multi-File
+        software_version:
+          - 6.1
+        reference_link:
+          - https://reactnavigation.org/docs/deep-linking
+        code_examples:
+          - non_compliant: |
+              # JS (deep linking not configured)
+              <NavigationContainer>{/* No linking config */}</NavigationContainer>
+            compliant: |
+              # JS (deep linking properly configured)
+              const linking = {
+                prefixes: ['myapp://', 'https://myapp.com'],
+                config: {
+                  screens: {
+                    Home: 'home',
+                    Profile: 'user/:id',
+                  },
+                },
+              };
+
+              <NavigationContainer linking={linking}>
+                <Stack.Navigator>
+                  <Stack.Screen name="Home" component={HomeScreen} />
+                </Stack.Navigator>
+              </NavigationContainer>
+
+      - title: Use Meaningful Screen Names in Navigation
+        description: |
+          Define screens using meaningful and descriptive route names to improve code readability and maintainability.
+        impact: |
+          Poorly named routes make it harder to debug navigation issues and onboard new developers.
+        severity: Medium
+        required_context: Single-File
+        software_version:
+          - 6.0
+          - 6.1
+        reference_link:
+          - https://reactnavigation.org/docs/nesting-navigators
+        code_examples:
+          - non_compliant: |
+              # JS
+              <Stack.Screen name="H" component={HomeScreen} />
+            compliant: |
+              # JS
+              <Stack.Screen name="Home" component={HomeScreen} />
+
+      - title: Avoid Inline Navigation Definitions
+        description: |
+          Separate navigation structure into dedicated files instead of defining it inline within screen components.
+        impact: |
+          Inline navigation makes it difficult to manage larger apps with nested stacks and tabs.
+        severity: High
+        required_context: Multi-File
+        software_version:
+          - 6.0
+        reference_link:
+          - https://reactnavigation.org/docs/hello-react-navigation
+        code_examples:
+          - non_compliant: |
+              # JS
+              const HomeScreen = ({ navigation }) => {
+                return (
+                  <Button onPress={() => navigation.navigate('Details')} />
+                );
+              };
+            compliant: |
+              # JS
+              // navigation/StackNavigator.js
+              <Stack.Navigator>
+                <Stack.Screen name="Home" component={HomeScreen} />
+                <Stack.Screen name="Details" component={DetailsScreen} />
+              </Stack.Navigator>
+
+              // screens/HomeScreen.js
+              const HomeScreen = ({ navigation }) => {
+                return (
+                  <Button onPress={() => navigation.navigate('Details')} />
+                );
+              };
+
+  - name: "Styling, Theming & Design Systems"
+    paths:
+      - '**/*.jsx'
+      - '**/*.tsx'
+      - '**/*.jsx'
+      - '**/*.tsx'
+    policies:
+      - title: Use Centralized Theme Object
+        description: |
+          Use a centralized theme object to define colors, typography, and spacing for consistent styling across the app.
+        impact: |
+          Promotes consistent design, simplifies updates, and enables theming support such as light/dark modes.
+        severity: Mandatory
+        required_context: Multi-File
+        software_version:
+          - all
+        reference_link:
+          - https://reactnative.dev/docs/stylesheet
+          - https://callstack.github.io/react-native-paper/theming.html
+        code_examples:
+          - non_compliant: |
+              // JS — Hardcoded styles
+              const styles = StyleSheet.create({
+                button: {
+                  backgroundColor: '#3498db',
+                  padding: 10,
+                },
+              });
+            compliant: |
+              // JS — Centralized theme usage
+              // theme/colors.js
+              export const colors = {
+                primary: '#2149DB',
+                background: '#F5F5F5',
+              };
+
+              // styles.js
+              import { colors } from './theme/colors';
+
+              const styles = StyleSheet.create({
+                button: {
+                  backgroundColor: colors.primary,
+                  padding: 10,
+                },
+              });
+
+      - title: Avoid Inline Styles in Component JSX
+        description: |
+          Avoid defining styles directly in JSX. Use StyleSheet.create or external style objects to keep code clean and maintainable.
+        impact: |
+          Inline styles reduce readability and reuse, making components harder to maintain.
+        severity: High
+        required_context: Single-File
+        software_version:
+          - all
+        reference_link:
+          - https://reactnative.dev/docs/stylesheet#using-inline-styles
+        code_examples:
+          - non_compliant: |
+              // JS
+              <View style={{ backgroundColor: 'blue', padding: 10 }} />
+            compliant: |
+              // JS
+              const styles = StyleSheet.create({
+                container: {
+                  backgroundColor: 'blue',
+                  padding: 10,
+                },
+              });
+
+              <View style={styles.container} />
+
+      - title: Use Design Tokens for Spacing and Typography
+        description: |
+          Define spacing, font sizes, and font families as design tokens to ensure consistency across the app.
+        impact: |
+          Helps enforce consistent layout and typography across screens and components.
+        severity: Medium
+        required_context: Multi-File
+        software_version:
+          - all
+        reference_link:
+          - https://www.smashingmagazine.com/category/ux/
+        code_examples:
+          - non_compliant: |
+              // JS
+              const styles = StyleSheet.create({
+                text: {
+                  fontSize: 18,
+                  marginTop: 12,
+                },
+              });
+            compliant: |
+              // JS
+              // theme/spacing.js
+              export const spacing = {
+                sm: 8,
+                md: 16,
+                lg: 24,
+              };
+
+              // theme/typography.js
+              export const typography = {
+                fontSizeMd: 16,
+                fontFamilyBase: 'System',
+              };
+
+              // usage
+              import { spacing } from './theme/spacing';
+              import { typography } from './theme/typography';
+
+              const styles = StyleSheet.create({
+                text: {
+                  fontSize: typography.fontSizeMd,
+                  marginTop: spacing.md,
+                },
+              });
+
+      - title: Support Light and Dark Theme Modes
+        description: |
+          Use a theming system that adapts to light and dark modes using React Native's Appearance API or theming libraries.
+        impact: |
+          Improves user experience by respecting system preferences for theme mode.
+        severity: High
+        required_context: Multi-File
+        software_version:
+          - all
+        reference_link:
+          - https://reactnative.dev/docs/appearance
+          - https://reactnavigation.org/docs/themes/
+        code_examples:
+          - non_compliant: |
+              // JS
+              const styles = StyleSheet.create({
+                container: {
+                  backgroundColor: '#fff',
+                },
+              });
+            compliant: |
+              // JS
+              import { useColorScheme } from 'react-native';
+
+              const colors = {
+                light: {
+                  background: '#fff',
+                },
+                dark: {
+                  background: '#000',
+                },
+              };
+
+              const scheme = useColorScheme();
+              const themeColors = scheme === 'dark' ? colors.dark : colors.light;
+
+              const styles = StyleSheet.create({
+                container: {
+                  backgroundColor: themeColors.background,
+                },
+              });
+
+  - name: "Performance Optimization"
+    paths:
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - 'android/app/build.gradle'
+      - 'ios/Podfile'
+      - 'babel.config.js'
+    policies:
+      - title: Use React.memo for Pure Functional Components
+        description: |
+          Wrap functional components that render the same output given the same props with React.memo to prevent unnecessary re-renders.
+        impact: |
+          Reduces unnecessary re-rendering and improves UI performance, especially in large lists or deeply nested components.
+        severity: High
+        required_context: Multi-File
+        software_version:
+          - all
+        reference_link:
+          - https://react.dev/reference/react/memo
+        code_examples:
+          - non_compliant: |
+              // JS
+              const MyButton = ({ onPress, title }) => {
+                return <Button onPress={onPress} title={title} />;
+              };
+            compliant: |
+              // JS
+              import React from 'react';
+
+              const MyButton = React.memo(({ onPress, title }) => {
+                return <Button onPress={onPress} title={title} />;
+              });
+
+      - title: Use FlatList Instead of ScrollView for Long Lists
+        description: |
+          Use FlatList for rendering large or dynamic datasets instead of ScrollView to optimize memory usage and rendering.
+        impact: |
+          FlatList renders only visible items and reduces memory usage and UI lag for long lists.
+        severity: Mandatory
+        required_context: Single-File
+        software_version:
+          - all
+        reference_link:
+          - https://reactnative.dev/docs/flatlist
+        code_examples:
+          - non_compliant: |
+              // JS
+              <ScrollView>
+                {data.map((item) => (
+                  <Text>{item.title}</Text>
+                ))}
+              </ScrollView>
+            compliant: |
+              // JS
+              <FlatList
+                data={data}
+                renderItem={({ item }) => <Text>{item.title}</Text>}
+                keyExtractor={(item) => item.id}
+              />
+
+      - title: Avoid Creating Functions Inside Render
+        description: |
+          Avoid defining functions like arrow callbacks inside render methods. Instead, define them outside to prevent re-creation on every render.
+        impact: |
+          Helps avoid unnecessary re-renders and prevents performance bottlenecks.
+        severity: High
+        required_context: Single-File
+        software_version:
+          - all
+        reference_link:
+          - https://reactnative.dev/docs/performance
+        code_examples:
+          - non_compliant: |
+              // JS
+              const MyComponent = ({ onClick }) => {
+                return <Button onPress={() => onClick()} />;
+              };
+            compliant: |
+              // JS
+              const MyComponent = ({ onClick }) => {
+                const handlePress = React.useCallback(() => onClick(), [onClick]);
+                return <Button onPress={handlePress} />;
+              };
+
+      - title: Avoid Anonymous Inline Functions in FlatList RenderItem
+        description: |
+          Avoid using anonymous functions in `renderItem` to prevent unnecessary re-renders and performance issues.
+        impact: |
+          Keeps FlatList performant by preventing new function instances on every render.
+        severity: Medium
+        required_context: Multi-File
+        software_version:
+          - all
+        reference_link:
+          - https://reactnative.dev/docs/optimizing-flatlist-configuration
+        code_examples:
+          - non_compliant: |
+              // JS
+              <FlatList
+                data={items}
+                renderItem={({ item }) => <ItemComponent item={item} />}
+              />
+            compliant: |
+              // JS
+              const renderItem = ({ item }) => <ItemComponent item={item} />;
+
+              <FlatList
+                data={items}
+                renderItem={renderItem}
+              />
+
+  - name: "Security & Data Protection"
+    paths:
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - 'android/app/src/main/AndroidManifest.xml'
+      - 'ios/Info.plist'
+      - 'metro.config.js'
+    policies:
+      - title: Never Store Sensitive Data in AsyncStorage
+        description: |
+          Do not store sensitive information such as tokens, passwords, or personal user data in AsyncStorage as it is not encrypted and can be accessed easily on rooted or jailbroken devices.
+        impact: |
+          Prevents data leakage and protects user privacy by ensuring sensitive data is stored securely.
+        severity: Mandatory
+        required_context: Single-File
+        software_version:
+          - all
+        reference_link:
+          - https://react-native-async-storage.github.io/async-storage/docs/usage
+          - https://owasp.org/www-project-mobile-security/
+        code_examples:
+          - non_compliant: |
+              // JS
+              await AsyncStorage.setItem('token', userToken);
+            compliant: |
+              // JS
+              import * as Keychain from 'react-native-keychain';
+
+              await Keychain.setGenericPassword('user', userToken);
+
+      - title: Avoid Hardcoding Secrets in Codebase
+        description: |
+          Never commit API keys, access tokens, or other secrets directly in the codebase. Use environment variables or a secure vault instead.
+        impact: |
+          Reduces the risk of secret exposure and unauthorized access in case the codebase is leaked or reverse-engineered.
+        severity: High
+        required_context: Single-File
+        software_version:
+          - all
+        reference_link:
+          - https://12factor.net/config
+          - https://docs.expo.dev/guides/environment-variables/
+          - https://github.com/goatandsheep/react-native-dotenv
+        code_examples:
+          - non_compliant: |
+              // JS
+              const API_KEY = 'sk_test_abc123';
+            compliant: |
+              // JS
+              import { API_KEY } from '@env';
+
+              fetch(`https://api.example.com?key=${API_KEY}`);
+
+      - title: Use HTTPS for All API Requests
+        description: |
+          Ensure all API requests are made over HTTPS to prevent interception of data in transit.
+        impact: |
+          Protects data integrity and confidentiality by preventing man-in-the-middle attacks.
+        severity: Mandatory
+        required_context: Single-File
+        software_version:
+          - all
+        reference_link:
+          - https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview
+        code_examples:
+          - non_compliant: |
+              // JS
+              fetch('http://api.example.com/data');
+            compliant: |
+              // JS
+              fetch('https://api.example.com/data');
+
+      - title: Use Secure Random Generators for Tokens
+        description: |
+          When generating tokens or nonces, use secure cryptographic libraries rather than Math.random().
+        impact: |
+          Prevents predictable token generation and enhances application security.
+        severity: High
+        required_context: Single-File
+        software_version:
+          - all
+        reference_link:
+          - https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues
+          - https://nodejs.org/api/crypto.html
+        code_examples:
+          - non_compliant: |
+              // JS
+              const token = Math.random().toString(36).substring(2);
+            compliant: |
+              // JS (React Native)
+              import 'react-native-get-random-values';
+              import { v4 as uuidv4 } from 'uuid';
+
+              const token = uuidv4();
+
+
+  - name: "Offline Support & Data Sync"
+    paths:
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+    policies:
+      - title: Use Redux Offline or React Query for Offline Caching
+        description: |
+          Use established libraries like `redux-offline` or `react-query` with persistence plugins to handle caching and syncing when the device goes offline.
+        impact: |
+          Ensures a smoother user experience in low or no connectivity environments and prevents data loss.
+        severity: High
+        required_context: Multi-File
+        software_version:
+          - all
+        reference_link:
+          - https://redux-offline.github.io/redux-offline/docs/basics/getting-started/
+          - https://tanstack.com/query/latest/docs/framework/react/react-native
+        code_examples:
+          - non_compliant: |
+              // JS
+              const [data, setData] = useState(null);
+              useEffect(() => {
+                fetch("https://api.example.com/data")
+                  .then((res) => res.json())
+                  .then(setData);
+              }, []);
+            compliant: |
+              // JS (React Query + persistQueryClient)
+              import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+              import { persistQueryClient } from '@tanstack/react-query-persist-client';
+              import { createAsyncStoragePersistor } from '@tanstack/react-query-persist-client-async-storage';
+
+              const queryClient = new QueryClient();
+              const persistor = createAsyncStoragePersistor({ storage: AsyncStorage });
+              persistQueryClient({ queryClient, persistor });
+
+              <QueryClientProvider client={queryClient}>
+                <App />
+              </QueryClientProvider>
+
+      - title: Queue Mutations When Offline and Retry When Reconnected
+        description: |
+          Ensure any create/update/delete actions are queued when offline and automatically retried when back online.
+        impact: |
+          Prevents loss of user input and ensures data consistency across client and server.
+        severity: High
+        required_context: Multi-File
+        software_version:
+          - all
+        reference_link:
+          - https://redux-offline.github.io/redux-offline/docs/api/config/
+          - https://tanstack.com/query/latest/docs/framework/react/guides/mutations
+        code_examples:
+          - non_compliant: |
+              // JS
+              dispatch({ type: 'ADD_TODO', payload: todo });
+            compliant: |
+              // JS (Redux Offline example)
+              dispatch({
+                type: 'ADD_TODO',
+                payload: todo,
+                meta: {
+                  offline: {
+                    effect: {
+                      url: '/todos',
+                      method: 'POST',
+                      json: todo
+                    },
+                    commit: { type: 'ADD_TODO_COMMIT', meta: { todo } },
+                    rollback: { type: 'ADD_TODO_ROLLBACK', meta: { todo } }
+                  }
+                }
+              });
+
+      - title: Detect Network Status Using NetInfo
+        description: |
+          Use the `@react-native-community/netinfo` library to detect online/offline state instead of relying on workarounds.
+        impact: |
+          Ensures accurate handling of sync operations based on reliable network state detection.
+        severity: Medium
+        required_context: Single-File
+        software_version:
+          - 11.4.1
+        reference_link:
+          - https://github.com/react-native-netinfo/react-native-netinfo
+        code_examples:
+          - non_compliant: |
+              // JS
+              const isOnline = navigator.onLine; // Unreliable in RN
+            compliant: |
+              // JS
+              import NetInfo from '@react-native-community/netinfo';
+
+              NetInfo.fetch().then(state => {
+                console.log("Connection type", state.type);
+                console.log("Is connected?", state.isConnected);
+              });
+
+      - title: Use Conflict Resolution Strategies for Sync
+        description: |
+          Implement basic conflict resolution logic (e.g. last-write-wins or versioned updates) when syncing data with server.
+        impact: |
+          Prevents overwriting newer data with stale updates and improves user trust in the app's reliability.
+        severity: Medium
+        required_context: Multi-File
+        software_version:
+          - all
+        reference_link:
+          - https://redux-offline.github.io/redux-offline/docs/basics/getting-started
+        code_examples:
+          - non_compliant: |
+              // JS
+              // Sends update without checking timestamp/version
+              fetch('/user/123', { method: 'PUT', body: JSON.stringify(profile) });
+            compliant: |
+              // JS
+              if (localVersion > serverVersion) {
+                await fetch('/user/123', {
+                  method: 'PUT',
+                  body: JSON.stringify({ ...profile, version: localVersion }),
+                });
+              }
+
+  - name: "Native Modules & Platform APIs"
+    paths:
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - 'android/**/*'
+      - 'ios/**/*'
+    policies:
+      - title: Access Platform APIs via React Native Modules First
+        description: |
+          Use React Native's built-in modules (e.g., Camera, Geolocation, Clipboard) before implementing native code.
+        impact: |
+          Reduces development time, ensures cross-platform compatibility, and minimizes native maintenance.
+        severity: High
+        required_context: Single-File
+        software_version:
+          - all
+        reference_link:
+          - https://reactnative.dev/docs/native-platform
+          - https://reactnative.dev/docs/permissionsandroid
+        code_examples:
+          - non_compliant: |
+              // Java (Android)
+              LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+              Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            compliant: |
+              // JS
+              import Geolocation from '@react-native-community/geolocation';
+              Geolocation.getCurrentPosition(info => console.log(info));
+
+      - title: Use Turbo Modules for High-Performance Native Code
+        description: |
+          Use Turbo Modules when writing custom native modules for better performance and memory management.
+        impact: |
+          Allows lazy loading of native code and improves app startup and performance.
+        severity: Medium
+        required_context: Multi-File
+        software_version:
+          - all
+        reference_link:
+          - https://reactnative.dev/docs/architecture-overview
+        code_examples:
+          - non_compliant: |
+              // Java (Legacy Native Module)
+              @ReactMethod
+              public void doSomething(Promise promise) {
+                  // Implementation
+              }
+            compliant: |
+              // Java (Turbo Module)
+              @ReactModule(name = MyTurboModule.NAME)
+              public class MyTurboModule extends TurboReactPackage {
+                  // Turbo module implementation
+              }
+
+      - title: Avoid Hardcoding Native Permissions Logic
+        description: |
+          Avoid implementing permission prompts directly in Android or iOS code. Use `react-native-permissions` for cross-platform support.
+        impact: |
+          Ensures consistent permission request handling and simplifies testing and updates.
+        severity: Medium
+        required_context: Multi-File
+        software_version:
+          - all
+        reference_link:
+          - https://github.com/zoontek/react-native-permissions
+        code_examples:
+          - non_compliant: |
+              // Java (Android)
+              if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                  ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CAMERA}, 100);
+              }
+            compliant: |
+              // JS
+              import { request, PERMISSIONS } from 'react-native-permissions';
+
+              const result = await request(PERMISSIONS.ANDROID.CAMERA);
+
+      - title: Use Platform-Specific Files for Native Differences
+        description: |
+          Use `*.ios.js`, `*.android.js`, or `Platform.select()` to separate native implementations when necessary.
+        impact: |
+          Maintains clean code separation and avoids runtime platform checks scattered across code.
+        severity: Medium
+        required_context: Single-File
+        software_version:
+          - all
+        reference_link:
+          - https://reactnative.dev/docs/platform-specific-code
+        code_examples:
+          - non_compliant: |
+              // JS
+              const filePath = Platform.OS === 'ios' ? '/ios/path' : '/android/path';
+            compliant: |
+              // JS (using platform-specific files)
+              // fileReader.ios.js and fileReader.android.js each implement `readFile`
+              import { readFile } from './fileReader';
+              readFile();
+
+  - name: "Testing Strategy (Unit & E2E)"
+    paths:
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - 'jest.config.js'
+      - 'jest.setup.js'
+      - 'package.json'
+    policies:
+      - title: Write Unit Tests for All Pure Functions
+        description: |
+          All pure functions (those with no side effects) should have corresponding unit tests covering typical, edge, and invalid cases.
+        impact: |
+          Improves code reliability, prevents regressions, and enables safe refactoring.
+        severity: High
+        required_context: Single-File
+        software_version:
+          - all
+        reference_link:
+          - https://jestjs.io/docs/getting-started
+        code_examples:
+          - non_compliant: |
+              // utils/math.ts
+              export function add(a: number, b: number): number {
+                return a + b;
+              }
+
+              // No tests for add()
+            compliant: |
+              // utils/math.test.ts
+              import { add } from './math';
+
+              test('adds two numbers', () => {
+                expect(add(2, 3)).toBe(5);
+              });
+
+      - title: Use Jest for Unit Testing with Mocks for Dependencies
+        description: |
+          Use Jest as the primary unit testing framework and mock side-effectful dependencies like network or storage.
+        impact: |
+          Keeps unit tests isolated and reliable regardless of backend or environment conditions.
+        severity: Medium
+        required_context: Multi-File
+        software_version:
+          - all
+        reference_link:
+          - https://jestjs.io/docs/mock-functions
+          - https://reactnative.dev/docs/testing-overview
+        code_examples:
+          - non_compliant: |
+              // Directly calling API in test
+              import { fetchUser } from './api';
+
+              test('gets user', async () => {
+                const user = await fetchUser();
+                expect(user.name).toBeDefined();
+              });
+            compliant: |
+              // Mocking API with Jest
+              import { fetchUser } from './api';
+
+              jest.mock('./api', () => ({
+                fetchUser: jest.fn().mockResolvedValue({ name: 'John' }),
+              }));
+
+              test('gets mocked user', async () => {
+                const user = await fetchUser();
+                expect(user.name).toBe('John');
+              });
+
+      - title: Write E2E Tests Using Detox or Playwright for Core Flows
+        description: |
+          Add E2E tests using Detox (for React Native) or Playwright/Appium for validating core user flows like login, navigation, and submission.
+        impact: |
+          Catches regression issues and ensures core functionality works on real devices/emulators.
+        severity: High
+        required_context: Multi-File
+        software_version:
+          - all
+        reference_link:
+          - https://wix.github.io/Detox/docs/introduction/getting-started
+        code_examples:
+          - non_compliant: |
+              // No E2E tests for login flow
+            compliant: |
+              // e2e/login.test.js (Detox)
+              describe('Login Flow', () => {
+                beforeAll(async () => {
+                  await device.launchApp();
+                });
+
+                it('should log in successfully', async () => {
+                  await element(by.id('emailInput')).typeText('test@example.com');
+                  await element(by.id('passwordInput')).typeText('password');
+                  await element(by.id('loginButton')).tap();
+                  await expect(element(by.id('homeScreen'))).toBeVisible();
+                });
+              });
+
+      - title: Run Tests on CI with Coverage Thresholds
+        description: |
+          Ensure all unit and E2E tests run automatically on CI with configured minimum coverage thresholds.
+        impact: |
+          Maintains consistent code quality and detects breaking changes early.
+        severity: Medium
+        required_context: Other
+        software_version:
+          - all
+        reference_link:
+          - https://jestjs.io/docs/configuration#coveragethreshold-object
+        code_examples:
+          - non_compliant: |
+              // jest.config.js
+              module.exports = {
+                preset: 'react-native',
+              };
+            compliant: |
+              // jest.config.js
+              module.exports = {
+                preset: 'react-native',
+                collectCoverage: true,
+                coverageThreshold: {
+                  global: {
+                    branches: 80,
+                    functions: 80,
+                    lines: 80,
+                    statements: 80,
+                  },
+                },
+              };
+
+  - name: "Continuous Integration & Delivery"
+    paths:
+      - 'eas.json'
+      - 'app.json'
+      - 'package.json'
+      - 'app.config.js'
+    policies:
+      - title: Set Up CI for Every Push and Pull Request
+        description: |
+          Ensure Continuous Integration is triggered on every push and pull request to automatically run tests and checks.
+        impact: |
+          Ensures all changes are validated early, reduces integration issues, and encourages smaller, safer commits.
+        severity: High
+        required_context: Multi-File
+        software_version:
+          - all
+        reference_link:
+          - https://docs.github.com/en/actions
+          - https://reactnative.dev/docs/testing-overview
+        code_examples:
+          - non_compliant: |
+              # .github/workflows/ci.yml
+              # Only runs on push
+              on:
+                push:
+                  branches: [main]
+            compliant: |
+              # .github/workflows/ci.yml
+              on:
+                push:
+                  branches: [main]
+                pull_request:
+                  branches: [main]
+
+              jobs:
+                test:
+                  runs-on: ubuntu-latest
+                  steps:
+                    - uses: actions/checkout@v3
+                    - run: yarn install
+                    - run: yarn test
+
+      - title: Use App Distribution Tools for Beta Releases
+        description: |
+          Integrate with services like App Center, Firebase App Distribution, or TestFlight to automatically deploy beta builds to testers.
+        impact: |
+          Enables faster feedback loops and user acceptance testing before production release.
+        severity: Medium
+        required_context: Multi-File
+        software_version:
+          - all
+        reference_link:
+          - https://docs.microsoft.com/en-us/appcenter/distribution/
+          - https://firebase.google.com/docs/app-distribution
+        code_examples:
+          - non_compliant: |
+              # No post-build upload for testers
+            compliant: |
+              # appcenter-post-clone.sh
+              echo "Uploading to App Center"
+              appcenter distribute release \
+                --app "orgname/myapp" \
+                --group "Testers" \
+                --file ./android/app/build/outputs/apk/release/app-release.apk
+
+      - title: Use Environment-Specific Configurations in CI
+        description: |
+          Use `.env` files or CI secrets to inject environment-specific values (e.g. API keys, endpoints) during build and test.
+        impact: |
+          Prevents sensitive data leaks and makes deployments predictable and reproducible.
+        severity: High
+        required_context: Multi-File
+        software_version:
+          - all
+        reference_link:
+          - https://docs.expo.dev/guides/environment-variables/
+          - https://docs.github.com/en/actions/security-guides/encrypted-secrets
+        code_examples:
+          - non_compliant: |
+              // api.js
+              export const API_URL = "https://prod.api.com"; // Hardcoded
+            compliant: |
+              // .env
+              API_URL=https://prod.api.com
+
+              // api.js
+              export const API_URL = process.env.API_URL;
+
+              # .github/workflows/ci.yml
+              env:
+                API_URL: ${{ secrets.API_URL }}
+
+      - title: Automate Versioning and Release Notes in CI
+        description: |
+          Use tools like semantic-release, changesets, or manually scripted workflows to bump versions and publish changelogs automatically on release.
+        impact: |
+          Reduces manual release effort, ensures traceability, and improves visibility for stakeholders.
+        severity: Medium
+        required_context: Multi-File
+        software_version:
+          - all
+        reference_link:
+          - https://semantic-release.gitbook.io/semantic-release/
+          - https://github.com/changesets/changesets
+        code_examples:
+          - non_compliant: |
+              // Manual versioning in package.json
+              {
+                "version": "1.0.0"
+              }
+            compliant: |
+              # .github/workflows/release.yml
+              name: Release
+              on:
+                push:
+                  branches:
+                    - main
+              jobs:
+                release:
+                  runs-on: ubuntu-latest
+                  steps:
+                    - uses: actions/checkout@v3
+                    - uses: actions/setup-node@v3
+                      with:
+                        node-version: '18'
+                    - run: npm install
+                    - run: npx semantic-release
+
+  - name: "Accessibility & Inclusive Design"
+    paths:
+      - '**/*.jsx'
+      - '**/*.tsx'
+      - '**/*.jsx'
+      - '**/*.tsx'
+    policies:
+      - title: Use Accessible Touch Targets
+        description: |
+          Ensure that all interactive elements have a minimum touch target size of 44x44dp to improve usability for users with limited motor skills.
+        impact: |
+          Makes the app more usable and compliant with accessibility standards (like WCAG).
+        severity: High
+        required_context: Single-File
+        software_version:
+          - all
+        reference_link:
+          - https://reactnative.dev/docs/accessibility#important-for-accessibility
+          - https://www.w3.org/WAI/WCAG21/Understanding/target-size.html
+        code_examples:
+          - non_compliant: |
+              <TouchableOpacity onPress={handlePress}>
+                <Text>Tap</Text>
+              </TouchableOpacity>
+            compliant: |
+              <TouchableOpacity onPress={handlePress} style={{ padding: 12 }}>
+                <Text style={{ fontSize: 16 }}>Tap</Text>
+              </TouchableOpacity>
+
+      - title: Provide Accessibility Labels for Interactive Elements
+        description: |
+          Always provide descriptive accessibility labels for buttons, icons, and other actionable components to assist screen reader users.
+        impact: |
+          Improves experience for visually impaired users by announcing the purpose of the UI element.
+        severity: Mandatory
+        required_context: Single-File
+        software_version:
+          - all
+        reference_link:
+          - https://reactnative.dev/docs/accessibility
+          - https://developer.apple.com/design/human-interface-guidelines/accessibility
+        code_examples:
+          - non_compliant: |
+              <TouchableOpacity onPress={handleDelete}>
+                <Icon name="trash" />
+              </TouchableOpacity>
+            compliant: |
+              <TouchableOpacity
+                onPress={handleDelete}
+                accessibilityLabel="Delete item"
+                accessibilityRole="button"
+              >
+                <Icon name="trash" />
+              </TouchableOpacity>
+
+      - title: Use Semantic Roles for Interactive Elements
+        description: |
+          Assign appropriate `accessibilityRole` values such as "button", "link", or "header" to improve navigation context for screen readers.
+        impact: |
+          Helps assistive technologies provide better context and instructions to users.
+        severity: Medium
+        required_context: Single-File
+        software_version:
+          - all
+        reference_link:
+          - https://reactnative.dev/docs/accessibility#accessibilityrole-ios-android
+        code_examples:
+          - non_compliant: |
+              <TouchableOpacity onPress={navigateToNext}>
+                <Text>Next</Text>
+              </TouchableOpacity>
+            compliant: |
+              <TouchableOpacity
+                onPress={navigateToNext}
+                accessibilityRole="button"
+              >
+                <Text>Next</Text>
+              </TouchableOpacity>
+
+      - title: Ensure Color Contrast Meets WCAG Standards
+        description: |
+          Use sufficient foreground and background color contrast to ensure text is readable for users with vision impairments.
+        impact: |
+          Improves readability and complies with WCAG AA accessibility guidelines.
+        severity: High
+        required_context: Single-File
+        software_version:
+          - all
+        reference_link:
+          - https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html
+          - https://reactnative.dev/docs/accessibility
+        code_examples:
+          - non_compliant: |
+              <Text style={{ color: "#999999", backgroundColor: "#ffffff" }}>
+                Low Contrast Text
+              </Text>
+            compliant: |
+              <Text style={{ color: "#000000", backgroundColor: "#ffffff" }}>
+                High Contrast Text
+              </Text>
+
+      - title: Disable Animations for Reduce Motion Preference
+        description: |
+          Respect the user's OS-level reduced motion settings to avoid causing discomfort due to animations or transitions.
+        impact: |
+          Supports users with vestibular disorders and respects their preferences.
+        severity: Medium
+        required_context: Single-File
+        software_version:
+          - all
+        reference_link:
+          - https://reactnative.dev/docs/usewindowdimensions#reducedmotion
+          - https://developer.apple.com/design/human-interface-guidelines/motion#Reduce-Motion
+        code_examples:
+          - non_compliant: |
+              Animated.timing(opacity, {
+                toValue: 1,
+                duration: 500,
+                useNativeDriver: true,
+              }).start()
+            compliant: |
+              const { reduceMotionEnabled } = useAccessibilityInfo()
+
+              if (!reduceMotionEnabled) {
+                Animated.timing(opacity, {
+                  toValue: 1,
+                  duration: 500,
+                  useNativeDriver: true,
+                }).start()
+              }
+
+  - name: "Internationalization & Localization"
+    paths:
+      - "**/i18n/**/*.{js,ts,tsx}"
+      - "**/locales/**/*.{js,ts,tsx}"
+      - "**/translations/**/*.{js,ts,tsx}"
+      - "**/lang/**/*.{js,ts,tsx}"
+      - '**/*.js'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.json'
+    policies:
+      - title: Avoid Hardcoded Strings in UI
+        description: |
+          All user-facing text should be extracted to a localization system to support translation and internationalization.
+        impact: |
+          Enables global reach, easy content updates, and consistency across the app.
+        severity: High
+        required_context: Single-File
+        software_version:
+          - all
+        reference_link:
+          - https://reactnative-translation-guide.netlify.app/
+          - https://github.com/i18next/react-i18next
+        code_examples:
+          - non_compliant: |
+              <Text>Welcome</Text>
+            compliant: |
+              import { useTranslation } from 'react-i18next'
+
+              const { t } = useTranslation()
+
+              <Text>{t('welcome')}</Text>
+
+      - title: Use Dynamic Locale Switching
+        description: |
+          Implement locale switching at runtime so users can choose their preferred language without restarting the app.
+        impact: |
+          Improves UX by giving users real-time control over the app's language.
+        severity: Medium
+        required_context: Multi-File
+        software_version:
+          - all
+        reference_link:
+          - https://react.i18next.com/latest/usetranslation-hook
+        code_examples:
+          - non_compliant: |
+              // Language is hardcoded and can't be changed at runtime
+              i18n.changeLanguage('en')
+            compliant: |
+              import { I18nManager } from 'react-native'
+              import i18n from './i18n'
+
+              const changeLanguage = async (lang) => {
+                await i18n.changeLanguage(lang)
+                I18nManager.forceRTL(lang === 'ar')
+              }
+
+      - title: Fallback to Default Locale
+        description: |
+          Always provide a fallback language (e.g., English) in case the desired locale is missing translations.
+        impact: |
+          Prevents blank text and broken UI in partially translated apps.
+        severity: High
+        required_context: Single-File
+        software_version:
+          - all
+        reference_link:
+          - https://www.i18next.com/principles/fallback
+        code_examples:
+          - non_compliant: |
+              i18n.init({
+                resources,
+                lng: 'fr',
+              })
+            compliant: |
+              i18n.init({
+                resources,
+                lng: 'fr',
+                fallbackLng: 'en',
+              })
+
+      - title: Localize Dates, Numbers, and Currencies
+        description: |
+          Use locale-aware libraries to format dates, numbers, and currencies according to user region.
+        impact: |
+          Increases clarity and professionalism for global users.
+        severity: Medium
+        required_context: Single-File
+        software_version:
+          - all
+        reference_link:
+          - https://formatjs.io/docs/react-intl/
+          - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl
+        code_examples:
+          - non_compliant: |
+              const price = 1999.99
+              <Text>${price}</Text>
+            compliant: |
+              const price = 1999.99
+              const formattedPrice = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+              }).format(price)
+
+              <Text>{formattedPrice}</Text>
+
+      - title: Mirror Layout for RTL Languages
+        description: |
+          Ensure proper layout mirroring and text direction when rendering RTL (Right-to-Left) languages.
+        impact: |
+          Makes the app usable and intuitive for Arabic, Hebrew, and other RTL language users.
+        severity: Medium
+        required_context: Multi-File
+        software_version:
+          - all
+        reference_link:
+          - https://reactnative.dev/docs/i18nmanager
+        code_examples:
+          - non_compliant: |
+              <View style={{ flexDirection: 'row' }}>
+                <Text>Next</Text>
+              </View>
+            compliant: |
+              import { I18nManager } from 'react-native'
+
+              <View style={{ flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row' }}>
+                <Text>Next</Text>
+              </View>
+
+
+  - name: "Animations & Gesture Handling"
+    paths:
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+    policies:
+      - title: Use Reanimated for High-Performance Animations
+        description: |
+          Prefer using `react-native-reanimated` over the built-in Animated API for complex or performant animations, especially those tied to gestures.
+        impact: |
+          Provides smoother animations with better frame rates, enabling native thread execution.
+        severity: High
+        required_context: Multi-File
+        software_version:
+          - 2.0
+          - 3.7
+        reference_link:
+          - https://docs.swmansion.com/react-native-reanimated/
+        code_examples:
+          - non_compliant: |
+              import { Animated } from 'react-native'
+
+              const fadeAnim = new Animated.Value(0)
+              Animated.timing(fadeAnim, {
+                toValue: 1,
+                duration: 300,
+                useNativeDriver: true,
+              }).start()
+            compliant: |
+              import Animated, { useSharedValue, withTiming, useAnimatedStyle } from 'react-native-reanimated'
+
+              const opacity = useSharedValue(0)
+              const animatedStyle = useAnimatedStyle(() => ({
+                opacity: opacity.value,
+              }))
+
+              // Trigger animation
+              opacity.value = withTiming(1, { duration: 300 })
+
+      - title: Use react-native-gesture-handler for Complex Interactions
+        description: |
+          For swipes, pans, pinches, and taps, use `react-native-gesture-handler` instead of the default `Touchable` components.
+        impact: |
+          Provides smoother and more customizable gesture handling across platforms.
+        severity: High
+        required_context: Multi-File
+        software_version:
+          - 2.0
+          - 3.12
+        reference_link:
+          - https://docs.swmansion.com/react-native-gesture-handler/docs/
+        code_examples:
+          - non_compliant: |
+              <TouchableOpacity onPress={handlePress}>
+                <Text>Click me</Text>
+              </TouchableOpacity>
+            compliant: |
+              import { TapGestureHandler } from 'react-native-gesture-handler'
+
+              <TapGestureHandler onGestureEvent={handleGesture}>
+                <Animated.View>
+                  <Text>Click me</Text>
+                </Animated.View>
+              </TapGestureHandler>
+
+      - title: Avoid Animating State-Driven Layout Changes in JS Thread
+        description: |
+          Do not use `setState` or `useState` to trigger layout animations—prefer layout transitions using native Reanimated Layout API.
+        impact: |
+          Reduces jank and lag caused by bridging layout changes from JS to native.
+        severity: Medium
+        required_context: Single-File
+        software_version:
+          - 3.0
+          - 3.7
+        reference_link:
+          - https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/your-first-animation
+        code_examples:
+          - non_compliant: |
+              const [height, setHeight] = useState(100)
+
+              const expand = () => setHeight(200)
+            compliant: |
+              import Animated, { Layout, useSharedValue } from 'react-native-reanimated'
+
+              const animatedStyle = {
+                layout: Layout.spring(),
+                height: 200,
+              }
+
+              <Animated.View style={animatedStyle} />
+
+  - name: "Error Handling & Monitoring"
+    paths:
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - 'package.json'
+    policies:
+      - title: Always Catch Promises and Async/Await Blocks
+        description: |
+          Catch all rejected promises and `async/await` errors using try/catch to avoid unhandled promise rejections.
+        impact: |
+          Prevents app crashes, improves error traceability, and enhances user feedback mechanisms.
+        severity: High
+        required_context: Single-File
+        software_version:
+          - all
+        reference_link:
+          - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch
+        code_examples:
+          - non_compliant: |
+              async function fetchData() {
+                const response = await fetch("https://api.example.com/data")
+                const json = await response.json()
+              }
+            compliant: |
+              async function fetchData() {
+                try {
+                  const response = await fetch("https://api.example.com/data")
+                  const json = await response.json()
+                } catch (error) {
+                  console.error("Fetch failed", error)
+                }
+              }
+
+      - title: Integrate Monitoring Tools Like Sentry
+        description: |
+          Integrate tools like Sentry or Bugsnag to capture runtime errors and monitor crashes in production.
+        impact: |
+          Provides visibility into app failures and user issues in production environments.
+        severity: Mandatory
+        required_context: Multi-File
+        software_version:
+          - all
+        reference_link:
+          - https://docs.sentry.io/platforms/react-native/
+        code_examples:
+          - non_compliant: |
+              // No monitoring integration
+              console.log("An error occurred")
+            compliant: |
+              import * as Sentry from "@sentry/react-native"
+
+              Sentry.init({
+                dsn: "https://examplePublicKey@o0.ingest.sentry.io/0",
+              })
+
+              try {
+                riskyOperation()
+              } catch (error) {
+                Sentry.captureException(error)
+              }
+
+      - title: Provide User-Friendly Error Messages
+        description: |
+          Avoid exposing raw error messages or stack traces to users; instead show user-friendly messages.
+        impact: |
+          Improves UX and maintains professionalism while preserving internal debugging ability.
+        severity: Medium
+        required_context: Single-File
+        software_version:
+          - all
+        reference_link:
+          - https://www.nngroup.com/articles/error-message-guidelines/
+          - https://www.nngroup.com/articles/error-messages-scoring-rubric/
+        code_examples:
+          - non_compliant: |
+              Alert.alert("Error", error.toString())
+            compliant: |
+              Alert.alert("Oops!", "Something went wrong. Please try again later.")
+
+      - title: Use Global Error Boundaries for React Component Failures
+        description: |
+          Use `ErrorBoundary` components at the root level to catch and handle rendering errors gracefully.
+        impact: |
+          Prevents entire app crashes from a single component failure and allows fallback UI.
+        severity: High
+        required_context: Multi-File
+        software_version:
+          - all
+        reference_link:
+          - https://react.dev/reference/react/Component#catching-rendering-errors-with-error-boundaries
+        code_examples:
+          - non_compliant: |
+              <App />
+            compliant: |
+              import ErrorBoundary from "./components/ErrorBoundary"
+
+              <ErrorBoundary>
+                <App />
+              </ErrorBoundary>
+
+  - name: "Dependency & Package Management"
+    paths:
+      - 'package.json'
+      - 'yarn.lock'
+      - 'package-lock.json'
+      - 'pnpm-lock.yaml'
+    policies:
+      - title: Pin Exact Dependency Versions
+        description: |
+          Always specify exact versions (no ^ or ~) in `package.json` to ensure reproducible builds and avoid unexpected breaking changes.
+        impact: |
+          Helps maintain consistent builds across environments and CI pipelines.
+        severity: High
+        required_context: Single-File
+        software_version:
+          - all
+        reference_link:
+          - https://classic.yarnpkg.com/en/docs/dependency-versions/
+        code_examples:
+          - non_compliant: |
+              "dependencies": {
+                "axios": "^1.3.0"
+              }
+            compliant: |
+              "dependencies": {
+                "axios": "1.3.0"
+              }
+
+      - title: Use a Lockfile to Ensure Dependency Integrity
+        description: |
+          Commit the appropriate lockfile (`yarn.lock`, `package-lock.json`, or `pnpm-lock.yaml`) to source control to ensure consistent installs.
+        impact: |
+          Prevents version drift and guarantees deterministic dependency resolution.
+        severity: Mandatory
+        required_context: Multi-File
+        software_version:
+          - all
+        reference_link:
+          - https://docs.npmjs.com/cli/v8/configuring-npm/package-lock-json
+          - https://classic.yarnpkg.com/en/docs/yarn-lock/
+        code_examples:
+          - non_compliant: |
+              # No lockfile committed
+            compliant: |
+              # yarn.lock is committed and updated alongside package.json
+
+      - title: Audit Dependencies for Vulnerabilities
+        description: |
+          Regularly run `npm audit` or `yarn audit` to detect and fix security issues in dependencies.
+        impact: |
+          Protects the app from known vulnerabilities and minimizes security risks.
+        severity: High
+        required_context: Single-File
+        software_version:
+          - all
+        reference_link:
+          - https://docs.npmjs.com/cli/v8/commands/npm-audit
+          - https://classic.yarnpkg.com/en/docs/cli/audit/
+        code_examples:
+          - non_compliant: |
+              # No security checks on dependencies
+            compliant: |
+              # Run security audit before pushing changes
+              npm audit fix
+
+      - title: Remove Unused Dependencies
+        description: |
+          Periodically review and remove unused packages from `package.json` to keep the project lean and secure.
+        impact: |
+          Reduces bundle size, speeds up installs, and lowers the surface area for vulnerabilities.
+        severity: Medium
+        required_context: Single-File
+        software_version:
+          - all
+        reference_link:
+          - https://www.npmjs.com/package/dependency-cruiser
+          - https://github.com/depcheck/depcheck
+        code_examples:
+          - non_compliant: |
+              "dependencies": {
+                "lodash": "^4.17.21" // not used anywhere
+              }
+            compliant: |
+              # Remove unused dependency
+              npm uninstall lodash
+
+  - name: "Code Quality & Maintainability"
+    paths:
+      - '**/*.js'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '.eslintrc.js'
+    policies:
+      - title: Enforce ESLint with Recommended Rules
+        description: |
+          Use ESLint with a base ruleset such as `eslint:recommended` or `@react-native-community/eslint-config` to catch common bugs and enforce consistent code quality.
+        impact: |
+          Improves maintainability and reduces bugs through consistent linting.
+        severity: Mandatory
+        required_context: Multi-File
+        software_version:
+          - all
+        reference_link:
+          - https://eslint.org/docs/latest/use/configure/
+          - https://github.com/facebook/react-native/tree/main/packages/eslint-config-react-native-community
+        code_examples:
+          - non_compliant: |
+              // No ESLint configured
+            compliant: |
+              // .eslintrc.js
+              module.exports = {
+                extends: ['@react-native-community'],
+              };
+
+      - title: Use Prettier for Consistent Code Formatting
+        description: |
+          Integrate Prettier with your workflow to automatically format code and enforce consistency.
+        impact: |
+          Reduces formatting-related code review noise and enhances readability.
+        severity: Medium
+        required_context: Multi-File
+        software_version:
+          - all
+        reference_link:
+          - https://prettier.io/docs/en/install.html
+        code_examples:
+          - non_compliant: |
+              // Inconsistent spacing and quotes
+              const foo =  "bar"
+            compliant: |
+              // Prettier formatting applied
+              const foo = 'bar';
+
+      - title: Enforce Strict TypeScript Configuration
+        description: |
+          Enable strict type-checking options in `tsconfig.json` to catch type-related issues at compile time.
+        impact: |
+          Improves code safety and developer confidence by catching bugs early.
+        severity: High
+        required_context: Single-File
+        software_version:
+          - all
+        reference_link:
+          - https://www.typescriptlang.org/tsconfig#strict
+        code_examples:
+          - non_compliant: |
+              // tsconfig.json
+              {
+                "compilerOptions": {
+                  "strict": false
+                }
+              }
+            compliant: |
+              // tsconfig.json
+              {
+                "compilerOptions": {
+                  "strict": true
+                }
+              }
+
+      - title: Use Husky to Enforce Pre-Commit Hooks
+        description: |
+          Set up Husky to prevent bad code from being committed by running formatters, linters, or tests before commits.
+        impact: |
+          Enforces team standards automatically and improves CI hygiene.
+        severity: High
+        required_context: Multi-File
+        software_version:
+          - all
+        reference_link:
+          - https://typicode.github.io/husky
+        code_examples:
+          - non_compliant: |
+              // No pre-commit hooks
+            compliant: |
+              // .husky/pre-commit
+              #!/bin/sh
+              . "$(dirname "$0")/_/husky.sh"
+
+              yarn lint && yarn test
+
+      - title: Use ADRs (Architecture Decision Records)
+        description: |
+          Document major architectural decisions using ADRs to create a living history of important design choices.
+        impact: |
+          Makes decision-making transparent and helps new team members understand historical context.
+        severity: Medium
+        required_context: Other
+        software_version:
+          - all
+        reference_link:
+          - https://github.com/npryce/adr-tools
+          - https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions
+        code_examples:
+          - non_compliant: |
+              # No record of why key architecture decisions were made
+            compliant: |
+              # docs/adr/0001-use-react-query.md
+              # Title: Use React Query for Server State
+              # Date: 2025-06-10
+              # Status: Accepted
+              # Context: Server-side data is complex and cacheable...
+
+  - name: "Documentation & Storybook"
+    paths:
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.stories.tsx'
+      - 'package.json'
+    policies:
+      - title: Use JSDoc or TSDoc for Function and Component Documentation
+        description: |
+          Document all exported functions and components using JSDoc (for JS) or TSDoc (for TypeScript).
+        impact: |
+          Improves readability, onboarding speed, and assists IDE auto-complete with helpful hints.
+        severity: Medium
+        required_context: Single-File
+        software_version:
+          - all
+        reference_link:
+          - https://jsdoc.app/
+          - https://tsdoc.org/
+        code_examples:
+          - non_compliant: |
+              // No documentation provided
+              function calculateTotal(a, b) {
+                return a + b;
+              }
+            compliant: |
+              /**
+               * Adds two numbers.
+               * @param {number} a
+               * @param {number} b
+               * @returns {number}
+               */
+              function calculateTotal(a, b) {
+                return a + b;
+              }
+
+      - title: Maintain a Living README.md for Each Package or Module
+        description: |
+          Each major module or package should have a README file that outlines purpose, usage, dependencies, and example code.
+        impact: |
+          Facilitates team onboarding, documentation discoverability, and knowledge sharing.
+        severity: Medium
+        required_context: Multi-File
+        software_version:
+          - all
+        reference_link:
+          - https://www.makeareadme.com/
+        code_examples:
+          - non_compliant: |
+              # No README.md present in the folder
+            compliant: |
+              # utils/README.md
+              ## Utils Module
+              Provides general utility functions such as formatting and validation.
+
+              ### Usage
+              ```ts
+              import { formatDate } from './date-utils';
+              ```
+
+      - title: Use Storybook for UI Component Isolation and Testing
+        description: |
+          Set up and maintain Storybook to visualize, test, and document UI components in isolation.
+        impact: |
+          Helps frontend teams collaborate, design iteratively, and test components in isolation from the app.
+        severity: High
+        required_context: Multi-File
+        software_version:
+          - all
+        reference_link:
+          - https://storybook.js.org/docs/react/get-started/introduction
+        code_examples:
+          - non_compliant: |
+              // No stories defined for the component
+            compliant: |
+              // Button.stories.tsx
+              import React from 'react';
+              import { Button } from './Button';
+
+              export default {
+                title: 'Common/Button',
+                component: Button,
+              };
+
+              export const Primary = () => <Button label="Click Me" />;
+
+      - title: Document API Contracts with Swagger or OpenAPI
+        description: |
+          When developing APIs or interfacing with backend systems, document API contracts using Swagger/OpenAPI.
+        impact: |
+          Ensures frontend and backend teams stay aligned and prevents miscommunication of request/response structures.
+        severity: High
+        required_context: Other
+        software_version:
+          - all
+        reference_link:
+          - https://swagger.io/specification/
+          - https://editor.swagger.io/
+        code_examples:
+          - non_compliant: |
+              // No clear API schema defined
+            compliant: |
+              openapi: 3.0.0
+              info:
+                title: My API
+                version: 1.0.0
+              paths:
+                /users:
+                  get:
+                    summary: Get user list
+                    responses:
+                      '200':
+                        description: OK
+
+  - name: "Analytics & User Insights"
+    paths:
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - 'package.json'
+      - 'docs/analytics-taxonomy.md'
+    policies:
+      - title: Track Screen Views Using Navigation Events
+        description: |
+          Screen views should be tracked by listening to navigation lifecycle events, such as `onStateChange` or `useFocusEffect`, to ensure accurate analytics across navigation changes.
+        impact: |
+          Helps measure feature adoption and user engagement across different app screens.
+        severity: high
+        required_context: Multi-File
+        software_version:
+          - all
+        reference_link:
+          - https://reactnavigation.org/docs/screen-tracking/
+          - https://firebase.google.com/docs/analytics/screenviews
+        code_examples:
+          - non_compliant: |
+              // App.tsx
+              analytics.logEvent("screen_opened");
+            compliant: |
+              // App.tsx
+              import analytics from '@react-native-firebase/analytics';
+              import { NavigationContainer } from '@react-navigation/native';
+
+              const App = () => (
+                <NavigationContainer
+                  onStateChange={async () => {
+                    const currentRouteName = navigationRef.getCurrentRoute().name;
+                    await analytics().logScreenView({
+                      screen_name: currentRouteName,
+                      screen_class: currentRouteName,
+                    });
+                  }}
+                >
+                  {/* Your navigation structure */}
+                </NavigationContainer>
+              );
+
+      - title: Avoid Sending Personally Identifiable Information (PII) to Analytics
+        description: |
+          Never send sensitive or identifiable user data such as email, name, or phone number to analytics platforms. Use anonymized identifiers instead.
+        impact: |
+          Sending PII violates user privacy laws like GDPR and CCPA, and can lead to legal penalties.
+        severity: mandatory
+        required_context: Multi-File
+        software_version:
+          - all
+        reference_link:
+          - https://firebase.google.com/support/privacy
+          - https://developers.google.com/analytics/devguides/collection/analyticsjs/user-id
+        code_examples:
+          - non_compliant: |
+              analytics().logEvent("signup", {
+                name: "John Doe",
+                email: "john@example.com",
+              });
+            compliant: |
+              analytics().logEvent("signup", {
+                user_id: "user_9482",
+                signup_method: "email",
+              });
+
+      - title: Use Unique User Identifiers After Authentication
+        description: |
+          Assign a unique user ID to associate app events with a known user after they log in, enabling better segmentation and insights.
+        impact: |
+          Ties user behavior to authenticated accounts, improving user journey analysis.
+        severity: high
+        required_context: Multi-File
+        software_version:
+          - all
+        reference_link:
+          - https://developers.google.com/analytics/devguides/collection/ga4/user-id
+        code_examples:
+          - non_compliant: |
+              // No user ID is set
+              analytics().logEvent('purchase_completed');
+            compliant: |
+              // After login
+              analytics().setUserId('user_12345');
+              analytics().logEvent('purchase_completed');
+
+      - title: Use Custom Events for Key User Actions
+        description: |
+          Define and log meaningful custom events that reflect core user interactions such as purchases, sharing, or completing onboarding.
+        impact: |
+          Helps stakeholders track what matters most and improves product decision-making.
+        severity: medium
+        required_context: Multi-File
+        software_version:
+          - all
+        reference_link:
+          - https://rnfirebase.io/analytics/usage#logevents
+        code_examples:
+          - non_compliant: |
+              // Using only default events
+              analytics().logEvent('event');
+            compliant: |
+              analytics().logEvent('onboarding_completed', {
+                duration: 38,
+                steps_completed: 4,
+              });
+
+  - name: "Release Management & OTA Updates"
+    paths:
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - 'package.json'
+    policies:
+      - title: Use EAS for OTA Updates and Managed Builds
+        description: |
+          Leverage Expo Application Services (EAS) for over-the-air (OTA) updates and managed builds to streamline release management and reduce app store delays.
+        impact: |
+          Without EAS, shipping quick fixes or testing updates becomes slow and tightly coupled with app store review processes.
+        severity: mandatory
+        required_context: Multi-File
+        software_version:
+          - all
+        reference_link:
+          - https://docs.expo.dev/eas-update/introduction/
+        code_examples:
+          - non_compliant: |
+              // No eas.json file, relying on manual builds
+          - compliant: |
+              // eas.json configured with update settings
+              {
+                "build": {
+                  "production": {
+                    "developmentClient": false,
+                    "distribution": "store"
+                  }
+                },
+                "cli": {
+                  "version": ">= 2.0.0"
+                }
+              }
+
+      - title: Pin SDK Version for OTA Compatibility
+        description: |
+          Always specify a fixed Expo SDK version to ensure consistent behavior and avoid unexpected breakages with OTA updates.
+        impact: |
+          Omitting or using floating versions can cause OTA updates to break if the runtime doesn't match the expected SDK version.
+        severity: high
+        required_context: Multi-File
+        software_version:
+          - all
+        reference_link:
+          - https://docs.expo.dev/versions/latest/sdk/overview/
+        code_examples:
+          - non_compliant: |
+              // SDK version not pinned
+              {
+                "expo": {
+                  "sdkVersion": "latest"
+                }
+              }
+          - compliant: |
+              // SDK version pinned
+              {
+                "expo": {
+                  "sdkVersion": "50.0.0"
+                }
+              }
+
+      - title: Use Release Channels or Update Groups Strategically
+        description: |
+          Use EAS update groups or release channels to segment OTA deployments for different user groups, environments, or testing stages.
+        impact: |
+          Without release segmentation, all users receive updates at once, increasing the risk of bugs reaching production.
+        severity: medium
+        required_context: Multi-File
+        software_version:
+          - all
+        reference_link:
+          - https://docs.expo.dev/eas-update/how-it-works/
+        code_examples:
+          - non_compliant: |
+              // All OTA updates go to default channel
+              eas update --branch=main
+          - compliant: |
+              // Using release channels for better control
+              eas update --branch=production
+              eas update --branch=beta
