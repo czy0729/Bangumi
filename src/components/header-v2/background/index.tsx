@@ -12,7 +12,6 @@ import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { COMPONENT } from './ds'
-import { styles } from './styles'
 
 import type { WithViewStyles } from '@types'
 
@@ -23,9 +22,9 @@ function Background({ style }: WithViewStyles) {
 
   return useObserver(() =>
     BLUR ? (
-      <BlurView style={stl(styles.bg, style)} tint='dark' intensity={80} />
+      <BlurView style={stl(_.absoluteFill, style)} tint='dark' intensity={80} />
     ) : (
-      <View style={stl(styles.bg, _.container.plain, style)} />
+      <View style={stl(_.absoluteFill, _.container.plain, style)} />
     )
   )
 }

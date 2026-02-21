@@ -9,11 +9,11 @@ import { Flex, Input as InputComp } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { info } from '@utils'
-import { useObserver } from '@utils/hooks'
+import { useNavigation, useObserver } from '@utils/hooks'
+import { COMPONENT } from './ds'
 
-import type { WithNavigation } from '@types'
-
-function Input({ navigation }: WithNavigation) {
+function Input() {
+  const navigation = useNavigation(COMPONENT)
   const [username, setUsername] = useState('')
 
   const handleChange = useCallback(

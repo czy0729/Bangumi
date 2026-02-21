@@ -17,11 +17,15 @@ import { getAwardUrl, getAwardYear, transformAwardHTML } from './utils'
 import { NAMESPACE } from './ds'
 import { styles } from './styles'
 
-import type { Props } from './types'
+import type { NavigationProps } from '@types'
 
 const HTML_CACHE: Record<string, string> = {}
 
-function Award(props: Props) {
+function Award(
+  props: NavigationProps<{
+    uri: string
+  }>
+) {
   const { navigation, route } = props
 
   const [loading, setLoading] = useState(true)

@@ -11,10 +11,10 @@ const KEEP = ['id', 'viewMode', 'userId']
 export function cleanQuery() {
   if (typeof window === 'undefined' || !WEB) return
 
-  let url = new window.URL(window.location.href)
-  let params = new window.URLSearchParams(url.search)
-  let newParams = new window.URLSearchParams()
-  for (let [key, value] of params) {
+  const url = new window.URL(window.location.href)
+  const params = new window.URLSearchParams(url.search)
+  const newParams = new window.URLSearchParams()
+  for (const [key, value] of params) {
     if (KEEP.includes(key)) newParams.append(key, value)
   }
   url.search = newParams.toString()

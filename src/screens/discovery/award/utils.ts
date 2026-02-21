@@ -9,7 +9,7 @@ import { HOST } from '@constants'
 import resetStyle from './reset-style'
 
 /** 访问静态 html 年鉴注入代码 */
-const injectedStaticJavaScript = HTMLTrim(`(function(){
+export const injectedStaticJavaScript = HTMLTrim(`(function(){
   setTimeout(() => {
     /* webview 的 postMessage 不是马上生效的 */
     var __timeoutId = null;

@@ -90,16 +90,15 @@ export type Navigation = {
 
 /**  带 navigation 定义的 props */
 export type NavigationProps<
-  T = AnyObject<{
+  T = {
     routeName?: string
-  }>
+  }
 > = Override<
   {
     navigation: Navigation
     route?: {
       key: string
       name: string
-
       params: T
     }
   },

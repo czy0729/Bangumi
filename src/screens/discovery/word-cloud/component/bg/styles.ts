@@ -8,11 +8,7 @@ import { _ } from '@stores'
 
 export const styles = _.create({
   bg: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    height: _.web('100vh', '100%')
+    ..._.absoluteFill,
+    height: _.web('100vh', '100%') as any
   }
 })

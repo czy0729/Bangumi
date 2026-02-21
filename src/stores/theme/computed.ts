@@ -143,7 +143,13 @@ export default class Computed extends State implements StoreConstructor<typeof S
   readonly short = _.short
 
   /** -------------------- 缩短引用 -------------------- */
-  readonly absoluteFill = StyleSheet.absoluteFill
+  readonly absoluteFill = {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0
+  } as const
   readonly create = StyleSheet.create
   readonly flatten = StyleSheet.flatten
   readonly hairlineWidth = StyleSheet.hairlineWidth

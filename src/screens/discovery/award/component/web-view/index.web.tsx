@@ -41,6 +41,7 @@ function WebView({ source }) {
     .replace(/href="\//g, `href="${HOST}/`)
     .replace(/src="\/img\/no_icon_subject.png"/g, `src="${IMG_DEFAULT}"`)
     .replace(/<a href="/g, `<a class="${`${cls}__link`}" data-href="`)
+
   return (
     <ScrollView>
       <div className={cls} dangerouslySetInnerHTML={{ __html }} />

@@ -20,11 +20,7 @@ export const defaultHitSlop = {
 
 export const styles = _.create({
   touchable: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
+    ..._.absoluteFill,
     zIndex: 1
   }
 })

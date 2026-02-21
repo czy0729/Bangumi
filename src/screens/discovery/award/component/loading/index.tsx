@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-02-12 02:08:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-13 14:51:47
+ * @Last Modified time: 2026-02-15 12:44:31
  */
 import React from 'react'
 import { Loading as LoadingComp, Text } from '@components'
@@ -12,7 +12,9 @@ import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Loading({ redirectCount, onOpen }) {
+import type { Props } from './types'
+
+function Loading({ redirectCount, onOpen }: Props) {
   r(COMPONENT)
 
   return useObserver(() => (

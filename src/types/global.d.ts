@@ -51,6 +51,12 @@ declare const window: {
   /** 文档当前位置 */
   location: {
     search: string
+    href: string
+  }
+
+  /** history 对象 */
+  history: {
+    replaceState(data: any, title: string, url?: string | null): void
   }
 
   /** 弹窗 */
@@ -64,4 +70,18 @@ declare const window: {
 
   /** 图片构造器 */
   Image: new (...args: any[]) => any
+
+  /** URL 构造函数 */
+  URL: new (url: string, base?: string) => {
+    href: string
+    search: string
+    toString(): string
+  }
+
+  /** URLSearchParams 构造函数 */
+  URLSearchParams: new (init?: string | string[][] | Record<string, string> | URLSearchParams) => {
+    append(key: string, value: string): void
+    toString(): string
+    [Symbol.iterator](): IterableIterator<[string, string]>
+  }
 }

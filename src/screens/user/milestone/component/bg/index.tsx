@@ -7,24 +7,27 @@
 import React from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
-import { styles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function Bg() {
-  const { $ } = useStore<Ctx>()
-  if (!$.state.bg) return null
+  const { $ } = useStore<Ctx>(COMPONENT)
 
-  return (
-    <LinearGradient
-      style={styles.bg}
-      colors={_.select(
-        ['rgb(255, 255, 255)', _.colorMainLight],
-        ['rgb(0, 0, 0)', _.colorDarkModeLevel2]
-      )}
-    />
-  )
+  return useObserver(() => {
+    if (!$.state.bg) return null
+
+    return (
+      <LinearGradient
+        style={_.absoluteFill}
+        colors={_.select(
+          ['rgb(255, 255, 255)', _.colorMainLight],
+          ['rgb(0, 0, 0)', _.colorDarkModeLevel2]
+        )}
+      />
+    )
+  })
 }
 
-export default ob(Bg, COMPONENT)
+export default Bg

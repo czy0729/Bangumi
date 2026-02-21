@@ -8,20 +8,12 @@ import { _ } from '@stores'
 
 export const styles = _.create({
   image: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
+    ..._.absoluteFill,
     width: 'auto',
     height: 'auto'
   },
   mask: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
+    ..._.absoluteFill,
     backgroundColor: 'rgba(0, 0, 0, 0.32)'
   }
 })

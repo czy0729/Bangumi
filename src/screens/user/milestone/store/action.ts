@@ -5,10 +5,11 @@
  * @Last Modified time: 2024-10-14 09:15:22
  */
 import { MODEL_COLLECTION_STATUS, MODEL_SUBJECT_TYPE } from '@constants'
-import { CollectionsOrder, CollectionStatusCn, SubjectTypeCn } from '@types'
-import { ORDER_DS } from '../ds'
 import Fetch from './fetch'
-import { STATE } from './ds'
+
+import type { CollectionsOrder, CollectionStatusCn, SubjectTypeCn } from '@types'
+import type { ORDER_DS } from '../ds'
+import type { STATE } from './ds'
 
 export default class Action extends Fetch {
   fetchCollections = (refresh: boolean = false) => {
