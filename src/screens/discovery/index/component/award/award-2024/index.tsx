@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2025-01-27 15:33:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-08 22:02:11
+ * @Last Modified time: 2026-03-03 23:08:51
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Image, Text, Touchable } from '@components'
+import { open } from '@utils'
 import { useNavigation, useObserver } from '@utils/hooks'
-import { ASSETS_AWARDS, TEXT_ONLY } from '@constants'
+import { ASSETS_AWARDS, HOST, TEXT_ONLY } from '@constants'
 import { COMPONENT, URI } from './ds'
 import { memoStyles } from './styles'
 
@@ -39,15 +40,14 @@ function Award2024() {
             )}
           </View>
         </Touchable>
+
         <View style={styles.fixed}>
           <Touchable
             onPress={() => {
-              navigation.push('Award', {
-                uri: 'https://bgm.tv/award/2024/winner'
-              })
+              open(`${HOST}/award/2024/winner`)
             }}
           >
-            <Text style={styles.tba} type='__plain__' size={12} bold>
+            <Text style={styles.tba} type='__plain__' size={11} bold>
               TBA
             </Text>
           </Touchable>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-02-13 15:08:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-13 15:09:49
+ * @Last Modified time: 2026-03-03 23:08:40
  */
 import { _ } from '@stores'
 
@@ -45,7 +45,7 @@ export const memoStyles = _.memoStyles(() => {
     },
     titlebar: {
       justifyContent: 'center',
-      height: 30,
+      height: 35,
       paddingHorizontal: 10,
       borderBottomWidth: 1,
       borderBottomColor: '#743c45'
@@ -111,6 +111,23 @@ export const memoStyles = _.memoStyles(() => {
       shadowColor: '#f09199',
       shadowOpacity: 0.7,
       shadowRadius: 6
+    },
+    fixed: {
+      position: 'absolute',
+      zIndex: 1,
+      top: 0,
+      right: 0
+    },
+    tba: {
+      paddingVertical: 4,
+      paddingHorizontal: 10,
+      marginTop: 8,
+      marginRight: 8,
+      marginBottom: 16,
+      marginLeft: 16,
+      color: 'rgba(255, 255, 255, 0.4)',
+      backgroundColor: 'rgba(255, 255, 255, 0.08)',
+      borderRadius: _.radiusXs
     }
   }
 })

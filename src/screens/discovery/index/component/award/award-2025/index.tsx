@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-01-27 15:33:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-14 18:25:37
+ * @Last Modified time: 2026-03-03 23:08:35
  */
 import React, { useEffect, useRef, useState } from 'react'
 import { Animated, StyleSheet, View } from 'react-native'
@@ -10,7 +10,9 @@ import Svg, { Circle, Defs, Pattern, Rect } from 'react-native-svg'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Flex, Text, Touchable } from '@components'
 import { userStore } from '@stores'
+import { open } from '@utils'
 import { useFocusEffect, useNavigation, useObserver } from '@utils/hooks'
+import { HOST } from '@constants'
 import { COMPONENT, URI } from './ds'
 import { memoStyles } from './styles'
 
@@ -179,6 +181,18 @@ function Award2025() {
             />
           </View>
         </Touchable>
+
+        <View style={styles.fixed}>
+          <Touchable
+            onPress={() => {
+              open(`${HOST}/award/2025/winner`)
+            }}
+          >
+            <Text style={styles.tba} type='__plain__' size={11} bold>
+              TBA
+            </Text>
+          </Touchable>
+        </View>
       </View>
     )
   })
