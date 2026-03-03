@@ -14,6 +14,7 @@ import { get } from '@utils/kv'
 /** 检测云端是否有上传过源头数据 */
 export function useCloud() {
   const [text, setText] = useState('')
+
   useMount(() => {
     setTimeout(async () => {
       try {

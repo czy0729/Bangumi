@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-11-23 09:53:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-14 07:38:21
+ * @Last Modified time: 2026-02-28 20:21:08
  */
-import { GetRouteParams, Id, RouteActions, WithNavigation } from '@types'
-import Store from './store'
+import type { GetRouteParams, Id, RouteActions, WithNavigation } from '@types'
+import type Store from './store'
 
 export type Ctx = WithNavigation<{
   $: InstanceType<typeof Store>

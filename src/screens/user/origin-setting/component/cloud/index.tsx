@@ -18,13 +18,14 @@ import { useCloud } from './hooks'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-const Cloud = ({ isLogin, active, onToggle, onDownloaded }) => {
+function Cloud({ isLogin, active, onToggle, onDownloaded }) {
   r(COMPONENT)
 
   const text = useCloud()
 
   return useObserver(() => {
     const { focusOrigin, showLegalSource } = systemStore.setting
+
     return (
       <>
         {/* 同步设置 */}

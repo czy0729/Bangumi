@@ -8,7 +8,9 @@ import { toJS } from 'mobx'
 import { subjectStore } from '@stores'
 import { getTimestamp } from '@utils'
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
+import { NAMESPACE } from './ds'
+
+import type { EXCLUDE_STATE, STATE } from './ds'
 
 export default class ScreenOriginSetting extends Action {
   init = async () => {

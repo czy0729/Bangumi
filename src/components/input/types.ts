@@ -40,8 +40,8 @@ export type Props = Override<
     /** 文字改变回调 */
     onChangeText?: (text: string) => any
 
-    /** TextInput focus 时, 当键盘遮住时的回调 */
-    onScrollIntoViewIfNeeded?: (y: number) => any
+    /** TextInput focus 时, 当键盘遮住时的回调 (deltaY 代表键盘与输入框遮盖的滚动差) */
+    onScrollIntoViewIfNeeded?: (deltaY: number) => any
   }
 >
 

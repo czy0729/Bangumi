@@ -26,6 +26,7 @@ export const memoStyles = _.memoStyles(() => ({
   },
   input: {
     height: 44,
-    paddingVertical: 0
+    paddingVertical: 0,
+    marginTop: _.sm
   }
 }))

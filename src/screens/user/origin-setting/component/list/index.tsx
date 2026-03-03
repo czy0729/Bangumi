@@ -8,21 +8,24 @@ import React from 'react'
 import { View } from 'react-native'
 import { Divider, Flex } from '@components'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import { TYPES_DS } from '../../ds'
-import { Ctx } from '../../types'
 import Create from '../create'
 import Item from '../item'
 import Title from '../title'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function List() {
-  const { $ } = useStore<Ctx>()
-  return (
+import type { Ctx } from '../../types'
+
+function List({ onScrollIntoViewIfNeeded }) {
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
     <>
       {TYPES_DS.map((item, index) => {
         const data = $.data[item.type]
+
         return (
           <View key={item.type}>
             {!!index && <Divider />}
@@ -31,15 +34,24 @@ function List() {
               {data
                 .filter(i => ($.state.active ? true : i.active))
                 .map(i => (
-                  <Item key={`${i.id}|${i.uuid}`} {...i} type={item.type} />
+                  <Item
+                    key={`${i.id}|${i.uuid}`}
+                    {...i}
+                    type={item.type}
+                    onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
+                  />
                 ))}
             </Flex>
-            <Create type={item.type} name={item.name} />
+            <Create
+              type={item.type}
+              name={item.name}
+              onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
+            />
           </View>
         )
       })}
     </>
-  )
+  ))
 }
 
-export default ob(List, COMPONENT)
+export default List

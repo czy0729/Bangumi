@@ -98,10 +98,10 @@ export function getOriginConfig(
   const mergeConfig = getBaseOriginConfig()
 
   // 合并用户自定义和客户端自维护数据
-  Object.keys(mergeConfig).forEach((type: Keys) => {
+  Object.keys(mergeConfig).forEach(type => {
     if (typeof pickType !== 'undefined' && pickType !== type) return
 
-    const self = mergeConfig[type]
+    const self = mergeConfig[type as Keys]
 
     // 先合并用户对自维护数据的自定义
     self.forEach(item => {
@@ -122,7 +122,6 @@ export function getOriginConfig(
 
     // 排序
     mergeConfig[type] = self.slice().sort((a, b) => desc(a.sort, b.sort))
-    // .sort((a, b) => desc(a.active, b.active))
   })
 
   if (typeof pickType !== 'undefined' && pickType) return mergeConfig[pickType]
@@ -149,7 +148,7 @@ export function replaceOriginUrl(
 export function getYuqueThumbs(src: string[] | readonly string[] | false) {
   if (!src) return false
 
-  return src.map(item => ({
+  return src.map((item: string) => ({
     url: `https://cdn.nlark.com/yuque/${item}`
   }))
 }

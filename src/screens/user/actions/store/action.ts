@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-09-14 07:45:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-14 07:48:43
+ * @Last Modified time: 2026-02-28 20:22:33
  */
 import { toJS } from 'mobx'
 import { subjectStore } from '@stores'
 import { getTimestamp, info, open } from '@utils'
 import { t } from '@utils/fetch'
-import { Item } from '../types'
 import Computed from './computed'
+
+import type { Item } from '../types'
 
 export default class Action extends Computed {
   /** 输入框变化 */

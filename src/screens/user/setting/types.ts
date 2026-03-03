@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-04-12 07:11:27
  */
-import { Setting } from '@stores/system/types'
-import { BooleanKeys, NonBooleanKeys } from '@types'
+import type { Setting } from '@stores/system/types'
+import type { BooleanKeys, NonBooleanKeys } from '@types'
 
 export type SwitchSettingKeys = BooleanKeys<Setting>
 

@@ -6,11 +6,12 @@
  */
 import { useCallback, useRef, useState } from 'react'
 import { systemStore } from '@stores'
-import { Setting } from '@stores/system/types'
 import { feedback, scrollToView } from '@utils'
 import { useMount, useRunAfter } from '@utils/hooks'
-import { NavigationProps } from '@types'
-import { SetSettingKeys, SwitchSettingKeys } from './types'
+
+import type { Setting } from '@stores/system/types'
+import type { NavigationProps } from '@types'
+import type { SetSettingKeys, SwitchSettingKeys } from './types'
 
 /** 设置页面逻辑 */
 export function useSettingPage({ route }: NavigationProps) {

@@ -20,7 +20,8 @@ import type { NavigationProps } from '@types'
 
 /** 自定义源头 */
 const OriginSetting = (props: NavigationProps) => {
-  const { id, $ } = useOriginSettingPage(props)
+  const { id, $, handleForwardRef, handleScrollIntoViewIfNeeded, handleOnScroll } =
+    useOriginSettingPage(props)
 
   return useObserver(() => {
     const styles = memoStyles()
@@ -30,7 +31,11 @@ const OriginSetting = (props: NavigationProps) => {
         <StoreContext.Provider value={id}>
           <Page loaded={$.state._loaded}>
             <HeaderPlaceholder />
-            <ScrollView contentContainerStyle={_.container.bottom}>
+            <ScrollView
+              forwardRef={handleForwardRef}
+              contentContainerStyle={_.container.bottom}
+              onScroll={handleOnScroll}
+            >
               <Notice style={styles.hd}>客户端内仅提供辅助跳转，均不提供直接播放等功能</Notice>
               <View style={styles.scrollView}>
                 <Cloud
@@ -39,7 +44,7 @@ const OriginSetting = (props: NavigationProps) => {
                   onToggle={$.onToggle}
                   onDownloaded={$.init}
                 />
-                <List />
+                <List onScrollIntoViewIfNeeded={handleScrollIntoViewIfNeeded} />
               </View>
               <Text style={styles.ft} type='icon' size={11} align='center'>
                 - 预设数据均来源自互联网 -

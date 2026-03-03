@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2022-05-22 14:04:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-13 12:21:44
+ * @Last Modified time: 2026-02-27 23:49:36
  */
 import type { Id, UserId } from '@types'
 import type { ApiTinygrailMagic, ApiTinygrailType } from './types'
@@ -18,7 +18,7 @@ import type { ApiTinygrailMagic, ApiTinygrailType } from './types'
 export const API_HOST_TINYGRAIL = 'https://tinygrail.com'
 
 /** 通用分页限制 */
-export const TINYGRAIL_LIMIT = 200
+export const TINYGRAIL_LIMIT = 400
 export const TINYGRAIL_ASSETS_LIMIT = 1000
 
 /** K 线起始时间（当天 00:00 +08:00） */

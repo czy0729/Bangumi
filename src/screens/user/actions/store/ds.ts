@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-12-17 11:15:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-14 07:39:43
+ * @Last Modified time: 2026-02-28 20:22:41
  */
-import { Loaded } from '@types'
-import { Item } from '../types'
+import type { Loaded } from '@types'
+import type { Item } from '../types'
 
 export const COMPONENT = 'Actions'
 
