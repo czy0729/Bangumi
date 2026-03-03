@@ -9,7 +9,7 @@
  * @Author: czy0729
  * @Date: 2022-03-22 17:49:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 03:52:15
+ * @Last Modified time: 2026-03-03 18:21:07
  */
 import { toJS } from 'mobx'
 import { desc, getTimestamp } from '@utils'
@@ -129,20 +129,38 @@ export function getOriginConfig(
   return mergeConfig
 }
 
+/** 替换源头地址参数 */
 export function replaceOriginUrl(
   url?: string,
   item: {
     CN?: string
     JP?: string
     ID?: SubjectId
+    ARTIST?: string
+    ALBUM?: string
+    YEAR?: string
+    RELATED_ANIME?: string
   } = {}
 ) {
-  return url
-    .replace(/\[CN\]/g, encodeURIComponent(item.CN))
-    .replace(/\[JP\]/g, encodeURIComponent(item.JP))
-    .replace(/\[CN_S2T\]/g, encodeURIComponent(s2t(item.CN)))
-    .replace(/\[TIME\]/g, String(getTimestamp()))
-    .replace(/\[ID\]/g, String(item.ID))
+  try {
+    if (!url) return ''
+
+    const replacements: Record<string, string> = {
+      CN: item.CN || '',
+      JP: item.JP || '',
+      CN_S2T: item.CN ? s2t(item.CN) : '',
+      TIME: String(getTimestamp() || ''),
+      ID: String(item.ID || ''),
+      ARTIST: String(item.ARTIST || ''),
+      ALBUM: String(item.ALBUM || ''),
+      YEAR: String(item.YEAR || ''),
+      RELATED_ANIME: String(item.RELATED_ANIME || '')
+    } as const
+
+    return url.replace(/\[([A-Z_]+)\]/g, (_, key) => encodeURIComponent(replacements[key] ?? ''))
+  } catch {
+    return ''
+  }
 }
 
 export function getYuqueThumbs(src: string[] | readonly string[] | false) {

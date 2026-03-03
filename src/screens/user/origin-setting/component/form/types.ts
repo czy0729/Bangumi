@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-03-03 11:39:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-03 11:42:42
+ * @Last Modified time: 2026-03-03 16:36:01
  */
 import type { InputProps } from '@components'
 import type { WithViewStyles } from '@types'
@@ -13,3 +13,9 @@ export type Props = WithViewStyles<{
   isBase?: boolean
   onScrollIntoViewIfNeeded: InputProps['onScrollIntoViewIfNeeded']
 }>
+
+export type Params = {
+  key: string
+  label: string
+  insert?: boolean
+}[]

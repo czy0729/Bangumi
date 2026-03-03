@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-14 18:11:52
+ * @Last Modified time: 2026-03-03 18:20:16
  */
 import { toJS } from 'mobx'
 import { StatusBar } from '@components'
@@ -204,7 +204,11 @@ export default class Action extends Fetch {
           url = replaceOriginUrl(find.url, {
             CN: this.cn || this.jp,
             JP: this.jp || this.cn,
-            ID: this.subjectId
+            ID: this.subjectId || 0,
+            ARTIST: this.originArtist || '',
+            ALBUM: this.jp || '',
+            RELATED_ANIME: this?.subjectAnime?.title || '',
+            YEAR: this.year || ''
           })
         }
       }
@@ -269,7 +273,11 @@ export default class Action extends Fetch {
         url = replaceOriginUrl(find.url, {
           CN: this.cn || this.jp,
           JP: this.jp || this.cn,
-          ID: this.subjectId
+          ID: this.subjectId,
+          ARTIST: this.originArtist || '',
+          ALBUM: this.jp || '',
+          RELATED_ANIME: this?.subjectAnime?.title || '',
+          YEAR: this.year || ''
         })
       }
       this.open(url)
@@ -295,7 +303,11 @@ export default class Action extends Fetch {
         url = replaceOriginUrl(find.url, {
           CN: this.cn || this.jp,
           JP: this.jp || this.cn,
-          ID: this.subjectId
+          ID: this.subjectId,
+          ARTIST: this.originArtist || '',
+          ALBUM: this.jp || '',
+          RELATED_ANIME: this?.subjectAnime?.title || '',
+          YEAR: this.year || ''
         })
       }
       this.open(url)
@@ -321,7 +333,11 @@ export default class Action extends Fetch {
         url = replaceOriginUrl(find.url, {
           CN: this.cn || this.jp,
           JP: this.jp || this.cn,
-          ID: this.subjectId
+          ID: this.subjectId,
+          ARTIST: this.originArtist || '',
+          ALBUM: this.jp || '',
+          RELATED_ANIME: this?.subjectAnime?.title || '',
+          YEAR: this.year || ''
         })
       }
       this.open(url)

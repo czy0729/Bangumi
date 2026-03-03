@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-17 06:41:03
+ * @Last Modified time: 2026-03-03 18:42:24
  */
 import React from 'react'
 import { Cover, Flex, Heatmap, Iconfont, Link, Squircle, Text } from '@components'
@@ -13,6 +13,8 @@ import { memo } from '@utils/decorators'
 import { WEB } from '@constants'
 import Item from './item'
 import { COMPONENT_MAIN, COVER_HEIGHT, COVER_WIDTH, DEFAULT_PROPS } from './ds'
+
+import type { ReactNode } from '@types'
 
 const Series = memo(
   ({
@@ -27,14 +29,24 @@ const Series = memo(
     subjectBook,
     subjectSeries
   }) => {
-    // 有前传/续集/动画/不同演绎/书籍，就渲染「关系分支」
+    // 有前传/续集/动画/不同演绎/书籍，就渲染「关系分支」，最多显示 2 个
     if (subjectPrev || subjectAfter || subjectAnime || subjectDiff || subjectBook) {
-      // 前传 + 续集 + 动画 + 不同演绎数量，用来决定后面是否还能渲染
-      const count =
-        (subjectPrev ? 1 : 0) +
-        (subjectAfter ? 1 : 0) +
-        (subjectAnime ? 1 : 0) +
-        (subjectDiff ? 1 : 0)
+      let displayed = 0
+      const maxDisplay = 2
+      const items: ReactNode[] = []
+      const pushItem = (data: any, label: string) => {
+        if (data && displayed < maxDisplay) {
+          items.push(<Item key={label} data={data} from={label} />)
+          displayed += 1
+        }
+      }
+
+      // 按优先顺序渲染
+      pushItem(subjectPrev, '前传')
+      pushItem(subjectAfter, '续集')
+      pushItem(subjectAnime, '动画')
+      pushItem(subjectDiff, '不同演绎')
+      pushItem(subjectBook, '书籍')
 
       return (
         <Flex style={showRelation && styles.relation}>
@@ -42,11 +54,7 @@ const Series = memo(
             {showRelation && (
               <Flex>
                 <Iconfont name='md-subdirectory-arrow-right' size={16} />
-                {!!subjectPrev && <Item data={subjectPrev} from='前传' />}
-                {!!subjectAfter && <Item data={subjectAfter} from='续集' />}
-                {count <= 1 && !!subjectAnime && <Item data={subjectAnime} from='动画' />}
-                {count <= 1 && !!subjectDiff && <Item data={subjectDiff} from='不同演绎' />}
-                {count <= 1 && !!subjectBook && <Item data={subjectBook} from='书籍' />}
+                {items}
               </Flex>
             )}
           </Flex.Item>

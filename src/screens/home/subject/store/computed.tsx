@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-12 00:32:49
+ * @Last Modified time: 2026-03-03 18:34:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -42,7 +42,6 @@ import { findGame, GAME_CATE } from '@utils/subject/game'
 import { findManga, MANGA_TAGS } from '@utils/subject/manga'
 import { findWenku, WENKU_TAGS } from '@utils/subject/wenku'
 import {
-  getOTA,
   HOST,
   IMG_DEFAULT,
   IMG_INFO_ONLY,
@@ -984,7 +983,9 @@ export default class Computed extends State {
     const title = this.titleLabel || ''
     if (!title.includes('系列') && !title.includes('音乐')) return null
 
-    const find = this.subjectRelations.find(item => item.type === '动画' || item.type === '其他')
+    const find =
+      this.subjectRelations.find(item => item.type === '动画') ||
+      this.subjectRelations.find(item => item.type === '其他')
 
     // 部分条目维护不够好, 动画化条目标签为其他, 若日文名字相等都认为是动画化
     if (find?.type === '动画' || (find?.type === '其他' && this.jp.includes(find?.title))) {
@@ -1032,20 +1033,6 @@ export default class Computed extends State {
       this.subjectDiff ||
       this.subjectBook
     )
-  }
-
-  /** @deprecated 高清资源 */
-  @computed get hd() {
-    const { HD = [] } = getOTA()
-    if (HD.includes(Number(this.subjectId))) return this.subjectId
-
-    // 若为单行本则还需要找到系列, 用系列id查询
-    if (this.subjectSeries) {
-      const { id } = this.subjectSeries
-      if (HD.includes(Number(id))) return id
-    }
-
-    return false
   }
 
   /** 计算本条目存在在多少个自己创建的目录里面 */
@@ -1466,6 +1453,19 @@ export default class Computed extends State {
       const minutes = match ? Number(match[1]) : 0
 
       if (minutes > 26) return `${minutes} min`
+    }
+
+    return ''
+  }
+
+  /** 原作（按优先级返回） */
+  @computed get originArtist() {
+    if (!this.staff.length) return ''
+
+    const priority = ['作者', '原作', '艺术家', '开发'] as const
+    for (const desc of priority) {
+      const find = this.staff.find(item => item.desc === desc)
+      if (find) return find.nameJP || find.name || ''
     }
 
     return ''

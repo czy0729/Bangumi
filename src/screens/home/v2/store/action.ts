@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:23:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-09 17:42:02
+ * @Last Modified time: 2026-03-03 19:01:23
  */
 import { getCoverSrc } from '@components/cover/utils'
 import { collectionStore, userStore } from '@stores'
@@ -214,7 +214,7 @@ export default class Action extends Fetch {
 
   /** 在线源头选择 */
   onlinePlaySelected = (label: string, subjectId: SubjectId) => {
-    const { name_cn, name, type } = this.subject(subjectId)
+    const { name_cn, name, type, air_date } = this.subject(subjectId)
 
     t('首页.搜索源', {
       type: label,
@@ -242,7 +242,8 @@ export default class Action extends Fetch {
           url = replaceOriginUrl(find.url, {
             CN: HTMLDecode(name_cn || name),
             JP: HTMLDecode(name || name_cn),
-            ID: subjectId
+            ID: subjectId,
+            YEAR: String(air_date || '').match(/(\d{4})/)?.[0] || ''
           })
         }
       }
