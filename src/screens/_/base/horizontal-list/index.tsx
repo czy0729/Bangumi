@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-20 06:01:20
+ * @Last Modified time: 2026-03-04 01:14:33
  */
 import React, { useCallback, useMemo, useState } from 'react'
 import { Component } from '@components'
@@ -16,7 +16,6 @@ import ScrollViewHorizontal from './scroll-view-horizontal'
 import { COMPONENT } from './ds'
 
 import type { Props as HorizontalListProps, WithId } from './types'
-
 export type { HorizontalListProps }
 
 /** 水平列表 */

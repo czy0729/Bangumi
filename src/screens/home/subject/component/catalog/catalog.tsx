@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-28 15:10:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-23 23:28:35
+ * @Last Modified time: 2026-03-04 01:00:41
  */
 import React, { useCallback, useMemo } from 'react'
 import { ScrollView } from 'react-native'
@@ -58,7 +58,6 @@ const Catalog = memo(
             <Heatmap id='条目.跳转' from='条目' />
           </ScrollView>
         )}
-
         <PreventTouchPlaceholder />
       </InView>
     )

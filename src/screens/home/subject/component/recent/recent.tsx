@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-23 17:11:34
+ * @Last Modified time: 2026-03-04 01:01:42
  */
 import React, { useCallback, useMemo } from 'react'
 import { ScrollView, View } from 'react-native'
@@ -88,10 +88,10 @@ const Recent = memo(
                 </Flex>
               ))}
             </ScrollView>
+
             <Heatmap id='条目.跳转' from='用户动态' />
           </>
         )}
-
         <PreventTouchPlaceholder />
       </InView>
     )

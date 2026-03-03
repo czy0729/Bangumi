@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-28 22:17:59
+ * @Last Modified time: 2026-03-04 01:10:15
  */
 import React from 'react'
 import { Component, Flex, Link } from '@components'
@@ -11,7 +11,7 @@ import { HTMLDecode, removeHTMLTag } from '@utils'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { DATA_CATALOG_TYPE_MAP, EVENT } from '@constants'
-import { InView } from '../../base'
+import { InView, PreventTouchPlaceholder } from '../../base'
 import Covers from './covers'
 import Desc from './desc'
 import Title from './title'
@@ -138,6 +138,8 @@ export const ItemCatalog = ({
           </Flex>
           {children}
         </Link>
+
+        <PreventTouchPlaceholder />
       </Component>
     )
   })

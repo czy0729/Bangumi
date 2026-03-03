@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-06-15 10:47:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 05:03:13
+ * @Last Modified time: 2026-03-04 01:07:50
  */
 import React from 'react'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import { EVENT, FROZEN_ARRAY, IMG_HEIGHT_LG, IMG_WIDTH_LG } from '@constants'
-import { Rank, Stars } from '../../base'
+import { PreventTouchPlaceholder, Rank, Stars } from '../../base'
 import Container from './container'
 import Content from './content'
 import Cover from './cover'
@@ -57,56 +57,59 @@ const Item = memo(
     const hasPositions = !!position.length
 
     return (
-      <Container
-        navigation={navigation}
-        style={style}
-        id={id}
-        name={name}
-        nameCn={nameCn}
-        cover={cover}
-        width={width}
-        collection={collection}
-        typeCn={typeCn}
-        event={event}
-      >
-        <Flex style={styles.wrap} align='start'>
-          <Cover
-            index={index}
-            width={width}
-            height={height}
-            cover={cover}
-            subjectId={subjectId}
-            typeCn={typeCn}
-            isMono={isMono}
-          />
-          <Content tip={tip} comments={comments} position={hasPositions} isMusic={isMusic}>
-            <Flex style={styles.title} align='start'>
-              <Flex.Item>
-                <Title name={name} nameCn={nameCn} comments={comments} highlight={highlight} />
-              </Flex.Item>
-              {showManage && !isMono && (
-                <Manage
-                  subjectId={subjectId}
-                  collection={collection}
-                  typeCn={typeCn}
-                  name={name}
-                  nameCn={nameCn}
-                  screen={screen}
-                />
-              )}
-            </Flex>
-            {!!tip && <Tip tip={tip} isMusic={isMusic} />}
-            {hasPositions && <Postions position={position} />}
-            <Flex style={_.mt.md}>
-              <Rank value={rank} />
-              <Stars value={score} />
-              <Text style={_.ml.xxs} type='sub' size={11}>
-                {total}
-              </Text>
-            </Flex>
-          </Content>
-        </Flex>
-      </Container>
+      <>
+        <Container
+          navigation={navigation}
+          style={style}
+          id={id}
+          name={name}
+          nameCn={nameCn}
+          cover={cover}
+          width={width}
+          collection={collection}
+          typeCn={typeCn}
+          event={event}
+        >
+          <Flex style={styles.wrap} align='start'>
+            <Cover
+              index={index}
+              width={width}
+              height={height}
+              cover={cover}
+              subjectId={subjectId}
+              typeCn={typeCn}
+              isMono={isMono}
+            />
+            <Content tip={tip} comments={comments} position={hasPositions} isMusic={isMusic}>
+              <Flex style={styles.title} align='start'>
+                <Flex.Item>
+                  <Title name={name} nameCn={nameCn} comments={comments} highlight={highlight} />
+                </Flex.Item>
+                {showManage && !isMono && (
+                  <Manage
+                    subjectId={subjectId}
+                    collection={collection}
+                    typeCn={typeCn}
+                    name={name}
+                    nameCn={nameCn}
+                    screen={screen}
+                  />
+                )}
+              </Flex>
+              {!!tip && <Tip tip={tip} isMusic={isMusic} />}
+              {hasPositions && <Postions position={position} />}
+              <Flex style={_.mt.md}>
+                <Rank value={rank} />
+                <Stars value={score} />
+                <Text style={_.ml.xxs} type='sub' size={11}>
+                  {total}
+                </Text>
+              </Flex>
+            </Content>
+          </Flex>
+        </Container>
+        <PreventTouchPlaceholder />
+      </>
     )
   },
   DEFAULT_PROPS,

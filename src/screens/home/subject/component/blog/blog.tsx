@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:36:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-23 23:28:32
+ * @Last Modified time: 2026-03-04 00:59:56
  */
 import React, { useCallback, useMemo } from 'react'
 import { Expand, Heatmap } from '@components'
-import { InView, ItemArticle, SectionTitle } from '@_'
+import { InView, ItemArticle, PreventTouchPlaceholder, SectionTitle } from '@_'
 import { _, rakuenStore } from '@stores'
 import { getIsBlockedUser, stl } from '@utils'
 import { memo } from '@utils/decorators'
@@ -80,6 +80,7 @@ const Blog = memo(
             <Heatmap id='条目.跳转' from='评论' />
           </>
         )}
+        <PreventTouchPlaceholder />
       </InView>
     )
   },

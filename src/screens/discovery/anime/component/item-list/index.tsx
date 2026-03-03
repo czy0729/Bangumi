@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-08 22:03:02
+ * @Last Modified time: 2026-03-04 01:08:56
  */
 import React from 'react'
 import { Flex, Loading, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { Cover, InView, Manage, Rank, Stars, Tags } from '@_'
+import { Cover, InView, Manage, PreventTouchPlaceholder, Rank, Stars, Tags } from '@_'
 import { _, collectionStore, otaStore, uiStore, useStore } from '@stores'
 import { cnjp, desc, x18 } from '@utils'
 import { withT } from '@utils/fetch'
@@ -99,45 +99,54 @@ function ItemList({ index, pickIndex }: Props) {
     }
 
     return (
-      <Touchable style={styles.container} animate onPress={handlePress}>
-        <Flex style={styles.wrap} align='start'>
-          <InView style={styles.inView} y={_.window.height * 0.4 + IMG_HEIGHT_LG * index}>
-            <Cover src={cover} width={IMG_WIDTH_LG} height={IMG_HEIGHT_LG} radius cdn={!x18(id)} />
-          </InView>
+      <>
+        <Touchable style={styles.container} animate onPress={handlePress}>
+          <Flex style={styles.wrap} align='start'>
+            <InView style={styles.inView} y={_.window.height * 0.4 + IMG_HEIGHT_LG * index}>
+              <Cover
+                src={cover}
+                width={IMG_WIDTH_LG}
+                height={IMG_HEIGHT_LG}
+                radius
+                cdn={!x18(id)}
+              />
+            </InView>
 
-          <Flex.Item style={_.ml.wind}>
-            <Flex style={styles.content} direction='column' justify='between' align='start'>
-              <Flex align='start'>
-                <Flex.Item>
-                  <Text size={titleSize} bold numberOfLines={2}>
-                    {title}
-                  </Text>
-                </Flex.Item>
-                <Manage subjectId={id} collection={collection} onPress={handleManage} />
-              </Flex>
-
-              <Text style={styles.tip} size={11} lineHeight={14}>
-                {tipStr}
-              </Text>
-
-              <Flex>
-                <Flex>
-                  <Rank value={rank} />
-                  <Stars style={_.mr.xs} value={score} simple />
-                  {!!total && (
-                    <Text style={_.mr.sm} type='sub' size={11} bold>
-                      ({total})
+            <Flex.Item style={_.ml.wind}>
+              <Flex style={styles.content} direction='column' justify='between' align='start'>
+                <Flex align='start'>
+                  <Flex.Item>
+                    <Text size={titleSize} bold numberOfLines={2}>
+                      {title}
                     </Text>
-                  )}
+                  </Flex.Item>
+                  <Manage subjectId={id} collection={collection} onPress={handleManage} />
                 </Flex>
-                <Flex.Item>
-                  <Tags value={cates} active={tags} />
-                </Flex.Item>
+
+                <Text style={styles.tip} size={11} lineHeight={14}>
+                  {tipStr}
+                </Text>
+
+                <Flex>
+                  <Flex>
+                    <Rank value={rank} />
+                    <Stars style={_.mr.xs} value={score} simple />
+                    {!!total && (
+                      <Text style={_.mr.sm} type='sub' size={11} bold>
+                        ({total})
+                      </Text>
+                    )}
+                  </Flex>
+                  <Flex.Item>
+                    <Tags value={cates} active={tags} />
+                  </Flex.Item>
+                </Flex>
               </Flex>
-            </Flex>
-          </Flex.Item>
-        </Flex>
-      </Touchable>
+            </Flex.Item>
+          </Flex>
+        </Touchable>
+        <PreventTouchPlaceholder />
+      </>
     )
   })
 }

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-15 14:42:18
+ * @Last Modified time: 2026-03-04 01:06:13
  */
 import React from 'react'
 import { Flex, Touchable, UserStatus } from '@components'
-import { InView } from '@_'
+import { InView, PreventTouchPlaceholder } from '@_'
 import { getCoverMedium, getMonoCoverSmall } from '@utils'
 import { memo } from '@utils/decorators'
 import { FROZEN_FN, IMG_INFO_ONLY } from '@constants'
@@ -90,6 +90,7 @@ const Item = memo(
           />
         </Flex>
         <IconFavor topicId={topicId} />
+        <PreventTouchPlaceholder />
       </Readed>
     )
   },

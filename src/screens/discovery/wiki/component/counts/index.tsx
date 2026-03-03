@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-03-16 21:00:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-25 05:16:19
+ * @Last Modified time: 2026-03-04 00:38:07
  */
 import React from 'react'
 import { View } from 'react-native'
 import { ScrollView, Text } from '@components'
-import { PreventTouchPlaceholder } from '@_'
 import { _, systemStore, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { LABEL_DS } from '../../ds'
@@ -20,9 +19,9 @@ function Counts() {
   const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const { counts, lastCounts = [] } = $.wiki
+
   return (
     <View>
-      <PreventTouchPlaceholder />
       <ScrollView
         contentContainerStyle={styles.contentContainerStyle}
         horizontal

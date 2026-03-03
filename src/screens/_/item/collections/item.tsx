@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:19:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-12 00:15:55
+ * @Last Modified time: 2026-03-04 01:15:02
  */
 import React from 'react'
 import { Component, Flex, Touchable } from '@components'
@@ -11,6 +11,7 @@ import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { EVENT, FROZEN_FN, IMG_WIDTH } from '@constants'
+import { PreventTouchPlaceholder } from '../../base'
 import { IconTouchable } from '../../icon'
 import Bottom from './bottom'
 import Comments from './comments'
@@ -150,6 +151,8 @@ const Item = memo(
             </Flex.Item>
           </Flex>
         </Container>
+
+        <PreventTouchPlaceholder />
       </Component>
     )
   },

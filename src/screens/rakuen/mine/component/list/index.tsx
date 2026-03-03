@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-25 12:30:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 16:38:33
+ * @Last Modified time: 2026-03-04 00:01:17
  */
 import React from 'react'
 import { Flex, ScrollView } from '@components'
@@ -18,7 +18,7 @@ const List = () => {
 
   return useObserver(() => (
     <ScrollView contentContainerStyle={_.container.bottom}>
-      <Flex wrap='wrap'>
+      <Flex style={_.mt.xs} wrap='wrap'>
         {$.mine.list.map(item => (
           <Item key={item.id} {...item} />
         ))}

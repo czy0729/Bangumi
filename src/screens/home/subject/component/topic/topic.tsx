@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-26 05:09:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-28 19:12:24
+ * @Last Modified time: 2026-03-04 01:00:13
  */
 import React, { useCallback, useMemo } from 'react'
 import { Expand, Heatmap } from '@components'
-import { InView, ItemArticle, SectionTitle } from '@_'
+import { InView, ItemArticle, PreventTouchPlaceholder, SectionTitle } from '@_'
 import { _, rakuenStore } from '@stores'
 import { getIsBlockedUser, stl } from '@utils'
 import { memo } from '@utils/decorators'
@@ -79,6 +79,7 @@ const Topic = memo(
             <Heatmap id='条目.跳转' from='讨论版' />
           </>
         )}
+        <PreventTouchPlaceholder />
       </InView>
     )
   },
