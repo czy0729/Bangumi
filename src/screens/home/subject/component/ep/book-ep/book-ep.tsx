@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-09 16:36:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-18 21:53:59
+ * @Last Modified time: 2026-03-05 14:23:35
  */
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
@@ -84,12 +84,7 @@ const BookEp = memo(
               returnKeyType='done'
               returnKeyLabel='更新'
               onChangeText={
-                canSubmit
-                  ? text => {
-                      const newText = text.replace(/[^\d]+/, '')
-                      onChangeText(type, newText)
-                    }
-                  : undefined
+                canSubmit ? text => onChangeText(type, text.replace(/[^\d]+/, '')) : undefined
               }
               onSubmitEditing={canSubmit ? doUpdateBookEp : undefined}
               onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}

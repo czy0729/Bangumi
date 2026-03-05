@@ -32,7 +32,7 @@ export const IconSound = ({ style, text }: IconSoundProps) => {
       logger.log('IconSound', 'Speech.speak', {
         text
       })
-    } catch (error) {}
+    } catch {}
   }, [text])
 
   return useObserver(() => {

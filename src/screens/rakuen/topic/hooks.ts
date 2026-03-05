@@ -133,7 +133,7 @@ export function useTopicPage(props: NavigationProps) {
               viewOffset: 0 + HEADER_HEIGHT
             })
           }
-        } catch (error) {}
+        } catch {}
       }
     },
     [$]

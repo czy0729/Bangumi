@@ -338,7 +338,7 @@ export default class Action extends Fetch {
         if (item) {
           items.push(item)
         }
-      } catch (error) {}
+      } catch {}
     }
 
     copy(

@@ -102,7 +102,7 @@ export default class Fetch extends Computed {
       }
 
       if (now - ts >= D7) this.updateSubjectThirdParty()
-    } catch (error) {}
+    } catch {}
   }
 
   /** 装载云端条目留言缓存数据 */
@@ -127,7 +127,7 @@ export default class Fetch extends Computed {
       }
 
       if (now - ts >= D1) this.updateCommentsThirdParty()
-    } catch (error) {}
+    } catch {}
   }
 
   /**
@@ -622,7 +622,7 @@ export default class Fetch extends Computed {
         })
         return true
       }
-    } catch (error) {}
+    } catch {}
 
     const fetchId = `fetchAnitabi|${this.subjectId}`
     let anitabi: Partial<AnitabiData> = {
@@ -683,7 +683,7 @@ export default class Fetch extends Computed {
         }
         return true
       }
-    } catch (error) {}
+    } catch {}
 
     try {
       await subjectStore.fetchVIB(this.subjectId)
@@ -695,7 +695,7 @@ export default class Fetch extends Computed {
       }
       if (this.vib._loaded) update(snapshotId, this.vib)
       return true
-    } catch (error) {}
+    } catch {}
 
     return false
   }

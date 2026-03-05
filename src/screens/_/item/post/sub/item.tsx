@@ -148,7 +148,7 @@ export default memo(
           onLayout={e => {
             try {
               layoutHeightMap.set(Number(id), Math.max(1, e.nativeEvent.layout.height))
-            } catch (error) {}
+            } catch {}
           }}
         >
           {/* 头像 */}

@@ -26,7 +26,7 @@ function Version({ filter }) {
     hasNewVersion =
       name !== VERSION_GITHUB_RELEASE &&
       Number(VERSION_GITHUB_RELEASE.replace(/\./g, '')) < Number(name.replace(/\./g, ''))
-  } catch (error) {}
+  } catch {}
 
   return (
     <ItemSetting

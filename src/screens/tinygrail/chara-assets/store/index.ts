@@ -76,7 +76,7 @@ export default class ScreenTinygrailCharaAssets extends Action {
         )}`,
         '小圣杯助手'
       )
-    } catch (error) {}
+    } catch {}
 
     return state
   }

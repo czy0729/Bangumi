@@ -24,7 +24,7 @@ export function useSearchPage(props: NavigationProps) {
       if (typeof iptRef.current?.inputRef?.focus === 'function') {
         iptRef.current.inputRef.focus()
       }
-    } catch (error) {}
+    } catch {}
   }, [])
 
   usePageLifecycle(

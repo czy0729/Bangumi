@@ -50,7 +50,7 @@ export default class ScreenDiscovery extends Action {
               if (list.length && !list.every(item => item.items.length === 0)) {
                 return true
               }
-            } catch (error) {}
+            } catch {}
           }
 
           return calendarStore.fetchCalendar()

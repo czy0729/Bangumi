@@ -90,7 +90,7 @@ export async function tag(
         await src([item.id], onSrcsProgress)
 
         return src
-      } catch (error) {}
+      } catch {}
     }
   })
   await queue(fetchs, 1)
@@ -139,7 +139,7 @@ export async function src(ids: Id[], onProgress: HandleSrcsProgress = FROZEN_FN)
         await update(encodeKey(key), src)
 
         return src
-      } catch (error) {}
+      } catch {}
     }
   })
   await queue(fetchs, 1)

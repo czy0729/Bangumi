@@ -143,7 +143,7 @@ export function useTreemapSquarify() {
           h: parseFloat(toFixed(h, 3))
         })
     )
-  } catch (error) {}
+  } catch {}
 
   return {
     data,
@@ -183,7 +183,7 @@ export async function devGetUsersInfo() {
             .replace('.jpg', '')
         }
         if (data.userId !== userId) USERS_MAP[userId].i = data.userId
-      } catch (error) {}
+      } catch {}
 
       return true
     })

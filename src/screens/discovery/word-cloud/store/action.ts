@@ -53,7 +53,7 @@ export default class Action extends Fetch {
         })
         await this.fetchSubjectComments()
       }
-    } catch (error) {}
+    } catch {}
     this.setState({
       fetching: 0
     })

@@ -88,7 +88,7 @@ function History({
                 if (find) blockCount = rakuenStore.blockedTrack(find)
               }
             }
-          } catch (error) {}
+          } catch {}
 
           return (
             <View key={text} style={styles.item}>

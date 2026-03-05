@@ -115,14 +115,14 @@ export default class Fetch extends Computed {
           delete data[key].staff
 
           data[key]._loaded = getTimestamp()
-        } catch (error) {}
+        } catch {}
       })
 
       this.setState({
         subjects: data
       })
       this.save()
-    } catch (error) {}
+    } catch {}
   }
 
   /** 查询 AI 推荐结果 */

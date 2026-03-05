@@ -62,7 +62,7 @@ function Item({ pickIndex }) {
       .filter(item => !!item)
       .join(' / ')
     bottom = [ep, author].filter(item => !!item).join(' / ')
-  } catch (error) {}
+  } catch {}
 
   const { tags = [] } = $.state.query
   const catesValue = String(cates)

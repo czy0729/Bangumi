@@ -24,7 +24,7 @@ export default class Action extends Fetch {
   forwardInputRef = (ref: any) => {
     try {
       this.inputRef = ref.inputRef
-    } catch (error) {}
+    } catch {}
   }
 
   /** 滚动到顶 */
@@ -43,7 +43,7 @@ export default class Action extends Fetch {
               visibleBottom: EXCLUDE_STATE.visibleBottom
             })
           }, 400)
-        } catch (error) {}
+        } catch {}
       }, 160)
     }
   }
@@ -114,7 +114,7 @@ export default class Action extends Fetch {
           monoAvatar = item.icon
           monoName = item.name
         }
-      } catch (error) {}
+      } catch {}
     }
 
     await collect('tinygrail', id, false)

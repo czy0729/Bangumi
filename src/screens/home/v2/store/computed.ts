@@ -264,7 +264,7 @@ export default class Computed extends State {
             .sort((a, b) => desc(a, b, item => weightMap[item.subject_id]))
             .sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
         )
-      } catch (error) {}
+      } catch {}
 
       return freeze(
         list

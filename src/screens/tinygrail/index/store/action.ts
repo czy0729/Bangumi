@@ -472,7 +472,7 @@ export default class Action extends Fetch {
       await collect(userId, detailId, true)
 
       return true
-    } catch (error) {}
+    } catch {}
 
     return false
   }

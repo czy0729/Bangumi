@@ -184,7 +184,7 @@ export default class Fetch extends Computed {
           if (data?.total_episodes || data?.eps) {
             totalEps[subjectId] = data?.total_episodes || data?.eps || 0
           }
-        } catch (error) {}
+        } catch {}
 
         return true
       })

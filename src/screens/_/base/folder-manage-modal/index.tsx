@@ -552,7 +552,7 @@ export const FolderManageModal = ob(
             if (typeof this?.textareaRef?.textAreaRef?.focus === 'function') {
               this.textareaRef.textAreaRef.focus()
             }
-          } catch (error) {}
+          } catch {}
         }, 160)
         return
       }

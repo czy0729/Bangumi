@@ -201,7 +201,7 @@ export default class Action extends Fetch {
         let res: { status?: string } = {}
         try {
           res = JSON.parse(responseText)
-        } catch (error) {}
+        } catch {}
 
         if (IOS && res.status !== 'ok') {
           this.recoveryContent(content)
@@ -267,7 +267,7 @@ export default class Action extends Fetch {
         let res: { status?: string } = {}
         try {
           res = JSON.parse(responseText)
-        } catch (error) {}
+        } catch {}
 
         if (IOS && res.status !== 'ok') {
           this.recoveryContent(content)

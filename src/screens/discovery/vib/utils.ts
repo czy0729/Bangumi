@@ -29,7 +29,7 @@ export function getNewSubjects(data: string) {
         value2
       }
     })
-  } catch (error) {}
+  } catch {}
 
   return []
 }
@@ -51,7 +51,7 @@ export function getTrendSubjects(data: string) {
         value
       }
     })
-  } catch (error) {}
+  } catch {}
 
   return []
 }
@@ -71,7 +71,7 @@ export async function getData() {
     if (Array.isArray(data)) return data
 
     return []
-  } catch (error) {}
+  } catch {}
 
   return []
 }

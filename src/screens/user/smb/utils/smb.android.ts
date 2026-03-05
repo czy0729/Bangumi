@@ -175,7 +175,7 @@ function smbDisconnect() {
   if (smbClient) {
     try {
       smbClient.disconnect(() => console.info('Disconnect'))
-    } catch (error) {}
+    } catch {}
     smbClient = null
   }
 }

@@ -30,7 +30,7 @@ export function useCloud() {
           path: `setting/${id}.json`
         })
         setText(`${((content?.length || 0) / 1000).toFixed(1)} kb`)
-      } catch (error) {}
+      } catch {}
     }, 2400)
   })
 

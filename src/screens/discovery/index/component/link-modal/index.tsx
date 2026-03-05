@@ -28,7 +28,7 @@ const LinkModal = () => {
       if (typeof iptRef.current?.inputRef?.blur === 'function') {
         iptRef.current.inputRef.blur()
       }
-    } catch (error) {}
+    } catch {}
   }, [])
   const handleClose = useCallback(() => {
     setShow(false)
@@ -38,7 +38,7 @@ const LinkModal = () => {
         if (typeof iptRef.current?.inputRef?.focus === 'function') {
           iptRef.current.inputRef.focus()
         }
-      } catch (error) {}
+      } catch {}
     }, 480)
   }, [])
   const handleSelect = useCallback(
@@ -64,7 +64,7 @@ const LinkModal = () => {
               if (typeof iptRef.current?.inputRef?.focus === 'function') {
                 iptRef.current.inputRef.focus()
               }
-            } catch (error) {}
+            } catch {}
           }, 240)
         }
       })

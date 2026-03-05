@@ -19,7 +19,7 @@ export default class Action extends Fetch {
           this.scrollViewRef.scrollToEnd({
             animated
           })
-        } catch (error) {}
+        } catch {}
       }, 160)
     }
   }
@@ -34,7 +34,7 @@ export default class Action extends Fetch {
             y: 0,
             animated
           })
-        } catch (error) {}
+        } catch {}
       }, 160)
     }
   }

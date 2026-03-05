@@ -99,7 +99,7 @@ export default class Computed extends State {
             if (key && value) {
               data[key.toLocaleLowerCase()] = value
             }
-          } catch (error) {}
+          } catch {}
         })
       return data
     } catch (error) {

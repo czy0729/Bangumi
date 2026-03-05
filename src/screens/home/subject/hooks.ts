@@ -60,7 +60,7 @@ export function useSubjectPage(props: NavigationProps) {
             offset: y + $.onScrollY
           })
         }
-      } catch (error) {}
+      } catch {}
     },
     [$]
   )
@@ -117,7 +117,7 @@ export function useSubjectPage(props: NavigationProps) {
             }
           )
         }
-      } catch (error) {}
+      } catch {}
     },
     [$.subjectId]
   )

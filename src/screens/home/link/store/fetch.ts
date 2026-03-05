@@ -137,7 +137,7 @@ export default class Fetch extends Computed {
         true,
         true
       )
-    } catch (error) {}
+    } catch {}
 
     return false
   }

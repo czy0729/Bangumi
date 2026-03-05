@@ -209,7 +209,7 @@ export default class Fetch extends Computed {
             })
           }
         }
-      } catch (error) {}
+      } catch {}
 
       if (like?.length) {
         like.forEach(subject => {

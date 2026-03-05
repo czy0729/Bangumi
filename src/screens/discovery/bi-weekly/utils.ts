@@ -17,7 +17,7 @@ export async function getData() {
     if (Array.isArray(data)) return data
 
     return []
-  } catch (error) {}
+  } catch {}
 
   return []
 }

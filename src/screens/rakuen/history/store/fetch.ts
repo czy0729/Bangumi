@@ -75,6 +75,6 @@ export default class Fetch extends Computed {
         })
         this.save()
       }
-    } catch (error) {}
+    } catch {}
   }
 }

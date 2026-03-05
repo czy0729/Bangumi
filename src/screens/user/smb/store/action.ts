@@ -715,7 +715,7 @@ export default class Action extends Fetch {
             info('已覆盖')
             return
           }
-        } catch (error) {}
+        } catch {}
 
         alert('下载失败，可能没有数据或者数据格式出错')
       }

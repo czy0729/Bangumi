@@ -29,7 +29,7 @@ export default class Fetch extends Computed {
           _lastQueue: getTimestamp()
         })
         this.save()
-      } catch (error) {}
+      } catch {}
     }, 2000)
   }
 

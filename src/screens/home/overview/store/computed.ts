@@ -13,7 +13,7 @@ export default class Computed extends State {
   @computed get list(): ListItem[] {
     try {
       return JSON.parse(this.params._list)
-    } catch (error) {}
+    } catch {}
 
     return []
   }

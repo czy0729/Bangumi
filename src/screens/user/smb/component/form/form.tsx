@@ -37,7 +37,7 @@ export default memo(({ store, styles, visible = false, name = '', onClose = FROZ
           if (typeof nameRef?.current?.focus === 'function') {
             nameRef.current.focus()
           }
-        } catch (error) {}
+        } catch {}
       }
     }, 400)
   }, [visible, name])
@@ -57,7 +57,7 @@ export default memo(({ store, styles, visible = false, name = '', onClose = FROZ
           onSubmitEditing={() => {
             try {
               if (typeof ipRef?.current?.focus === 'function') ipRef.current.focus()
-            } catch (error) {}
+            } catch {}
           }}
         />
         {!WEB && (
@@ -70,7 +70,7 @@ export default memo(({ store, styles, visible = false, name = '', onClose = FROZ
             onSubmitEditing={() => {
               try {
                 if (typeof portRef?.current?.focus === 'function') portRef.current.focus()
-              } catch (error) {}
+              } catch {}
             }}
           />
         )}
@@ -84,7 +84,7 @@ export default memo(({ store, styles, visible = false, name = '', onClose = FROZ
             onSubmitEditing={() => {
               try {
                 if (typeof usernameRef?.current?.focus === 'function') usernameRef.current.focus()
-              } catch (error) {}
+              } catch {}
             }}
           />
         )}
@@ -98,7 +98,7 @@ export default memo(({ store, styles, visible = false, name = '', onClose = FROZ
             onSubmitEditing={() => {
               try {
                 if (typeof passwordRef?.current?.focus === 'function') passwordRef.current.focus()
-              } catch (error) {}
+              } catch {}
             }}
           />
         )}
@@ -113,7 +113,7 @@ export default memo(({ store, styles, visible = false, name = '', onClose = FROZ
               try {
                 if (typeof sharedFolderRef?.current?.focus === 'function')
                   sharedFolderRef.current.focus()
-              } catch (error) {}
+              } catch {}
             }}
           />
         )}
@@ -135,7 +135,7 @@ export default memo(({ store, styles, visible = false, name = '', onClose = FROZ
           onSubmitEditing={() => {
             try {
               if (typeof pathRef?.current?.focus === 'function') pathRef.current.focus()
-            } catch (error) {}
+            } catch {}
           }}
         />
         {!WEB && (
@@ -148,7 +148,7 @@ export default memo(({ store, styles, visible = false, name = '', onClose = FROZ
             onSubmitEditing={() => {
               try {
                 if (typeof workGroupRef?.current?.focus === 'function') workGroupRef.current.focus()
-              } catch (error) {}
+              } catch {}
             }}
           />
         )}
@@ -162,7 +162,7 @@ export default memo(({ store, styles, visible = false, name = '', onClose = FROZ
             onSubmitEditing={() => {
               try {
                 if (typeof urlRef?.current?.focus === 'function') urlRef.current.focus()
-              } catch (error) {}
+              } catch {}
             }}
           />
         )}

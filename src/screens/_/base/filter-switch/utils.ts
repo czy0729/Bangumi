@@ -28,9 +28,9 @@ export function scrollToX(scrollView: ScrollView, data: readonly any[], value: a
               },
               1
             )
-          } catch (error) {}
+          } catch {}
         }, 80)
       }
     }
-  } catch (error) {}
+  } catch {}
 }

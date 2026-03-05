@@ -1101,7 +1101,7 @@ export default class Computed extends State {
             }
           }))
         }
-      } catch (error) {}
+      } catch {}
     }
 
     return freeze(blog) as Subject['blog']
@@ -1144,7 +1144,7 @@ export default class Computed extends State {
             }
           }))
         }
-      } catch (error) {}
+      } catch {}
     }
 
     return freeze(topic)

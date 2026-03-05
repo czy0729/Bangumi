@@ -83,7 +83,7 @@ export default class Fetch extends Computed {
           auctionPrice: toFixed(price + 0.01, 2)
         })
       }
-    } catch (error) {}
+    } catch {}
 
     return true
   }
@@ -149,7 +149,7 @@ export default class Fetch extends Computed {
         const { Value } = JSON.parse(_response)
         rankStarForces[i * 20] = Value[0].StarForces
       }
-    } catch (error) {}
+    } catch {}
 
     this.setState({
       rankStarForces

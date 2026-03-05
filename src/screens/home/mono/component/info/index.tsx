@@ -34,7 +34,7 @@ function Info() {
     try {
       text = // $.info.match(/<span[^>]*>罗马音<\/span>\s*([^<]+)/)?.[1] ||
         ($.nameBottom || $.nameTop || '').trim()
-    } catch (error) {}
+    } catch {}
 
     return (
       <View style={styles.info}>

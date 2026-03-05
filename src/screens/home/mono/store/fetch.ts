@@ -69,7 +69,7 @@ export default class Fetch extends Computed {
       }
 
       if (_loaded - ts >= H6) this.updateMonoThirdParty()
-    } catch (error) {}
+    } catch {}
   }
 
   fetchPicTotal = () => {

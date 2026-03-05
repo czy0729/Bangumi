@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-23 13:44:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-03 16:51:58
+ * @Last Modified time: 2026-03-05 14:19:15
  */
 import React, { useCallback, useRef, useState } from 'react'
 import { View } from 'react-native'
@@ -89,7 +89,7 @@ function Form({ style, name, url, isBase = false, onScrollIntoViewIfNeeded }: Pr
     const editable = !isBase
     const textProps: TextProps = {
       size: 10,
-      lineHeight: 16,
+      lineHeight: 11,
       bold: true
     } as const
 
@@ -102,9 +102,9 @@ function Form({ style, name, url, isBase = false, onScrollIntoViewIfNeeded }: Pr
       ) : null
 
     const renderParams = (list: typeof PARAMS) => (
-      <Flex style={{ marginRight: -24 }} wrap='wrap'>
+      <Flex style={styles.params} wrap='wrap'>
         {list.map(({ key, label, insert }) => (
-          <Touchable key={key} onPress={() => handleInsert(key, insert)}>
+          <Touchable key={key} style={_.mb.sm} onPress={() => handleInsert(key, insert)}>
             <Text style={_.mr.sm} type='sub' {...textProps}>
               <Text type={insert ? 'sub' : 'warning'} {...textProps} underline={insert}>
                 {insert ? key : `[${key}]`}

@@ -504,7 +504,7 @@ function CharactersModal({
         if (state?.rightFilter !== undefined) setRightFilter(state.rightFilter)
         if (state?.rightSelected !== undefined) setRightSelected(state.rightSelected)
         if (state?.rightText !== undefined) setRightText(state.rightText)
-      } catch (error) {}
+      } catch {}
     }
     callback()
   })

@@ -28,7 +28,7 @@ function Header() {
     try {
       title = list?.[0]?.content?.match(/<strong>(.*?)<\/strong>/)?.[1]
       if (title) title = decoder(title)
-    } catch (error) {}
+    } catch {}
 
     const showLength = list.length >= 8
     let headerTitle = '短信'

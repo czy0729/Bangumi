@@ -394,7 +394,7 @@ export default class Action extends Fetch {
       if (JSON.parse(responseText)?.status === 'ok') {
         timelineStore.removeUsersTimeline(clearHref, this.userId)
       }
-    } catch (error) {}
+    } catch {}
 
     return true
   }

@@ -37,7 +37,7 @@ export const ListenClipboard = class ListenClipboardComponent extends React.Comp
 
     try {
       this.appStateListener.remove()
-    } catch (error) {}
+    } catch {}
   }
 
   onAppStateChange = (nextAppState: AppStateStatus) => {

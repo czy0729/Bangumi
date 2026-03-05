@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-19 07:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-12 19:39:07
+ * @Last Modified time: 2026-03-05 14:19:12
  */
 import { _ } from '@stores'
 
@@ -17,6 +17,9 @@ export const memoStyles = _.memoStyles(() => ({
     borderWidth: 1,
     borderRadius: _.radiusMd,
     overflow: 'hidden'
+  },
+  params: {
+    marginRight: -24
   },
   close: {
     position: 'absolute',

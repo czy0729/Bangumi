@@ -39,6 +39,6 @@ export function scrollToX(
           }, 80)
         }
       }
-    } catch (error) {}
+    } catch {}
   }, 160)
 }

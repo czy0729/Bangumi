@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-04-06 12:30:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-13 22:53:57
+ * @Last Modified time: 2026-03-05 14:25:04
  */
 import { useRef } from 'react'
 import { useInitStore } from '@stores'
 import { useMount, usePageLifecycle } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import store from './store'
-import { Ctx } from './types'
+
+import type { NavigationProps } from '@types'
+import type { Ctx } from './types'
 
 /** Dollars 页面逻辑 */
 export function useDollarsPage(props: NavigationProps) {

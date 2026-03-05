@@ -26,7 +26,7 @@ export default class Action extends Fetch {
             index: 0,
             viewOffset: 200
           })
-        } catch (error) {}
+        } catch {}
       }, 160)
     }
   }
@@ -39,7 +39,7 @@ export default class Action extends Fetch {
           scrollView.scrollToEnd({
             animated
           })
-        } catch (error) {}
+        } catch {}
       }, 160)
     }
   }
@@ -124,7 +124,7 @@ export default class Action extends Fetch {
 
         try {
           res = JSON.parse(responseText)
-        } catch (error) {}
+        } catch {}
 
         if (IOS && res.status !== 'ok') {
           this.recoveryContent(content)
@@ -177,7 +177,7 @@ export default class Action extends Fetch {
 
         try {
           res = JSON.parse(responseText)
-        } catch (error) {}
+        } catch {}
 
         if (IOS && res.status !== 'ok') {
           this.recoveryContent(content)

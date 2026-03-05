@@ -187,7 +187,7 @@ export default class Computed extends State {
             action: item.floor
           }))
       }
-    } catch (error) {}
+    } catch {}
 
     return FROZEN_ARRAY
   }
@@ -198,7 +198,7 @@ export default class Computed extends State {
       if (this.state.fetchingCollections) return FROZEN_ARRAY
 
       return this.state.collections[`${this.userId}|${this.state.subjectType}`] || FROZEN_ARRAY
-    } catch (error) {}
+    } catch {}
 
     return FROZEN_ARRAY
   }
@@ -207,7 +207,7 @@ export default class Computed extends State {
   @computed get subjectIds(): readonly SubjectId[] {
     try {
       return this.collections.map(item => item.id)
-    } catch (error) {}
+    } catch {}
 
     return FROZEN_ARRAY
   }
@@ -219,7 +219,7 @@ export default class Computed extends State {
       return year
         ? this.collections.filter(item => item.time?.indexOf(year) === 0).map(item => item.id)
         : this.subjectIds
-    } catch (error) {}
+    } catch {}
 
     return FROZEN_ARRAY
   }
@@ -267,7 +267,7 @@ export default class Computed extends State {
           })
           .sort((a, b) => b.time.localeCompare(a.time))
       }
-    } catch (error) {}
+    } catch {}
 
     return FROZEN_ARRAY
   }
@@ -307,7 +307,7 @@ export default class Computed extends State {
           }
         }
       }
-    } catch (error) {}
+    } catch {}
 
     return null
   }
@@ -332,7 +332,7 @@ export default class Computed extends State {
       return Object.entries(data)
         .sort((a, b) => b[0].localeCompare(a[0]))
         .map(([key, value]) => `${key} (${value})`)
-    } catch (error) {}
+    } catch {}
 
     return FROZEN_ARRAY
   }
@@ -370,7 +370,7 @@ export default class Computed extends State {
       return Object.entries(data)
         .sort((a, b) => b[1] - a[1])
         .map(([key, value]) => `${key} (${value})`)
-    } catch (error) {}
+    } catch {}
 
     return FROZEN_ARRAY
   }

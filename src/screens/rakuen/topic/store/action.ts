@@ -442,7 +442,7 @@ export default class Action extends Fetch {
         let res: AnyObject = {}
         try {
           res = JSON.parse(responseText)
-        } catch (error) {}
+        } catch {}
 
         if (IOS && res.status !== 'ok') {
           this.recoveryContent(content)

@@ -69,7 +69,7 @@ const Scroll = memo(
               scrollToOffset[offsets](config)
             }
           }
-        } catch (error) {}
+        } catch {}
       },
       [fixed, fixedHeight, page, scrollToOffset]
     )

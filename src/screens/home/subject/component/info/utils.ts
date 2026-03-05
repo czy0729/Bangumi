@@ -40,7 +40,7 @@ export const processHtml = (html: string) => {
       }
     }
     return $.html()
-  } catch (error) {}
+  } catch {}
 
   return html
 }

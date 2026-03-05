@@ -48,7 +48,7 @@ class Form extends React.Component<Props> {
         if (typeof this?._codeRef?.inputRef?.focus === 'function') {
           this._codeRef.inputRef.focus()
         }
-      } catch (error) {}
+      } catch {}
     }
   }
 
@@ -97,7 +97,7 @@ class Form extends React.Component<Props> {
       if (typeof this?._passwordRef?.inputRef?.focus === 'function') {
         this._passwordRef.inputRef.focus()
       }
-    } catch (error) {}
+    } catch {}
   }
 
   onSubmitEditingPassword = () => {
@@ -105,7 +105,7 @@ class Form extends React.Component<Props> {
       if (typeof this?._codeRef?.inputRef?.focus === 'function') {
         this._codeRef.inputRef.focus()
       }
-    } catch (error) {}
+    } catch {}
   }
 
   renderForm() {

@@ -192,7 +192,7 @@ function caculateTotal(list: any[], label: string | boolean) {
     list.forEach(item => {
       total += caculateValue(item, label)
     })
-  } catch (error) {}
+  } catch {}
   return total
 }
 
@@ -219,7 +219,7 @@ function caculateValue(
       default:
         break
     }
-  } catch (error) {}
+  } catch {}
   return value
 }
 
@@ -257,6 +257,6 @@ function treemapSquarify(nodes) {
           h: parseFloat(toFixed(h, 3))
         })
     )
-  } catch (error) {}
+  } catch {}
   return data
 }

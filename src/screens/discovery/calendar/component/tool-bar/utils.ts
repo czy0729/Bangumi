@@ -91,7 +91,7 @@ export function getData(
     cacheMap.set(length, result)
 
     return result
-  } catch (error) {}
+  } catch {}
 
   return {
     adapts: [],

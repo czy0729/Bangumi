@@ -41,7 +41,7 @@ export default class Fetch extends Computed {
           return this.state.data.list.length >= 20
         }
       }
-    } catch (error) {}
+    } catch {}
 
     return false
   }
@@ -72,7 +72,7 @@ export default class Fetch extends Computed {
         true,
         true
       )
-    } catch (error) {}
+    } catch {}
 
     return false
   }

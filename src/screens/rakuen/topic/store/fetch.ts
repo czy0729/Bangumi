@@ -66,7 +66,7 @@ export default class Fetch extends Computed {
       }
 
       if (_loaded - ts >= H * 4) this.updateTopicThirdParty()
-    } catch (error) {}
+    } catch {}
   }
 
   /** 上传帖子预数据 */
@@ -96,7 +96,7 @@ export default class Fetch extends Computed {
               }))
           }
         })
-      } catch (error) {}
+      } catch {}
     }, 10000)
   }
 }

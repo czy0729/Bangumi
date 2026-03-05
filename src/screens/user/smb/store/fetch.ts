@@ -138,14 +138,14 @@ export default class Fetch extends Computed {
           }
 
           data[key]._loaded = getTimestamp()
-        } catch (error) {}
+        } catch {}
       })
 
       this.setState({
         subjects: data
       })
       this.save()
-    } catch (error) {}
+    } catch {}
 
     this.setState({
       loading: false

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-12-03 13:48:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-13 22:51:14
+ * @Last Modified time: 2026-03-05 14:26:56
  */
 import { discoveryStore, userStore } from '@stores'
 import { info, updateVisibleBottom } from '@utils'
@@ -22,7 +22,7 @@ export default class Action extends Fetch {
   forwardInputRef = (ref: any) => {
     try {
       this.inputRef = ref.inputRef
-    } catch (error) {}
+    } catch {}
   }
 
   /** 滚动到顶 */
@@ -41,7 +41,7 @@ export default class Action extends Fetch {
               visibleBottom: EXCLUDE_STATE.visibleBottom
             })
           }, 400)
-        } catch (error) {}
+        } catch {}
       }, 160)
     }
   }
@@ -55,7 +55,7 @@ export default class Action extends Fetch {
             animated,
             duration: 640
           })
-        } catch (error) {}
+        } catch {}
       }, 160)
     }
   }
@@ -76,7 +76,7 @@ export default class Action extends Fetch {
       setTimeout(() => {
         try {
           this.inputRef.focus()
-        } catch (error) {}
+        } catch {}
       }, 0)
       return
     }

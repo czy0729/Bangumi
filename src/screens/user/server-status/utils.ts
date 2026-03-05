@@ -38,7 +38,7 @@ export function getSitesList() {
         }
       })
     })
-  } catch (error) {}
+  } catch {}
 
   return [
     ...[

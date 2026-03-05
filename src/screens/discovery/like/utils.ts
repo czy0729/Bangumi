@@ -282,7 +282,7 @@ export async function getTyperankRelates(
         subjectIds.push(...ids)
       }
     })
-  } catch (error) {}
+  } catch {}
 
   return [relates, [...new Set(subjectIds)]] as const
 }

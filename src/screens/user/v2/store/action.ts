@@ -205,7 +205,7 @@ export default class Action extends Fetch {
 
       const { subjectType, page } = this.state
       if (filter.length) this.fetchUntilTheEnd(subjectType, TABS[page].key)
-    } catch (error) {}
+    } catch {}
   }, 1200)
 
   /** 同步更新 filterInputText, 异步更新 filter */
@@ -269,7 +269,7 @@ export default class Action extends Fetch {
         offset: _.parallaxImageHeight - 100,
         animated: true
       })
-    } catch (error) {}
+    } catch {}
     this.fetchUserCollectionsNormal(value)
   }
 

@@ -36,7 +36,7 @@ export default class Computed extends State {
     try {
       const { _images } = this.params
       if (_images) return JSON.parse(_images)
-    } catch (error) {}
+    } catch {}
 
     return []
   }
@@ -48,7 +48,7 @@ export default class Computed extends State {
     try {
       const { _headers } = this.params
       if (_headers) return JSON.parse(_headers)
-    } catch (error) {}
+    } catch {}
 
     return {}
   }

@@ -90,7 +90,7 @@ export default class Action extends Fetch {
 
         return
       }
-    } catch (error) {}
+    } catch {}
 
     info('应用失败')
   }

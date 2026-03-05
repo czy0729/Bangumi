@@ -117,7 +117,7 @@ export function transformData(
               map.get(folderName).ids.push(id)
             }
           }
-        } catch (error) {}
+        } catch {}
       }
 
       map.get(folderName).list.push({

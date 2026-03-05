@@ -39,7 +39,7 @@ export default class Fetch extends Computed {
       }
 
       if (_loaded - ts >= D7) this.updateThirdParty()
-    } catch (error) {}
+    } catch {}
   }
 
   /** 用户信息 (他人视角) */

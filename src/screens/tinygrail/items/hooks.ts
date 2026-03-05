@@ -24,7 +24,7 @@ export function useTinygrailItemsPage(props: NavigationProps) {
     return () => {
       try {
         $.onCloseModal()
-      } catch (error) {}
+      } catch {}
     }
   })
 
