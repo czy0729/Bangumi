@@ -6,10 +6,10 @@
  */
 import React from 'react'
 import { ActivityIndicator } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { _, tinygrailStore, useStore } from '@stores'
 import { stl } from '@utils'
+import { useObserver } from '@utils/hooks'
 import { memoStyles } from './styles'
 
 import type { Ctx } from '../../../types'

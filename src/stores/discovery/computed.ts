@@ -148,7 +148,9 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** DOLLARS */
   @computed get dollars() {
-    this.init('dollars', true)
-    return this.state.dollars
+    const STATE_KEY = 'dollars'
+    this.init(STATE_KEY, true)
+
+    return this.state[STATE_KEY]
   }
 }

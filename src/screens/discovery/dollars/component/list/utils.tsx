@@ -7,6 +7,9 @@
 import React from 'react'
 import Item from '../item'
 
-export function renderItem({ item, index }) {
-  return <Item key={item.id} index={index} {...item} />
+import type { DollarsItem } from '@stores/discovery/types'
+import type { RenderItem } from '@types'
+
+export function renderItem({ item, index }: RenderItem<DollarsItem>) {
+  return <Item index={index} {...item} />
 }

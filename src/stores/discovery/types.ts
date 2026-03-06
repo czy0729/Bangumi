@@ -248,15 +248,18 @@ export type News = {
   _loaded: Loaded
 }
 
+/** DOLLARS 项 (聊天室) */
+export type DollarsItem = {
+  id: string
+  avatar: string
+  nickname: string
+  msg: string
+  color: string
+}
+
 /** DOLLARS (聊天室) */
 export type Dollars = Override<
-  ListEmpty<{
-    id: string
-    avatar: string
-    nickname: string
-    msg: string
-    color: string
-  }>,
+  ListEmpty<DollarsItem>,
   {
     online: string
   }

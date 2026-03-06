@@ -6,12 +6,12 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Avatar, Flex, Text } from '@components'
 import { IconBack, IconTouchable, StatusBarPlaceholder } from '@_'
 import { _, useStore } from '@stores'
 import { tinygrailOSS, toFixed } from '@utils'
 import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import Rank from '@tinygrail/_/rank'
 import { calculateRate } from '@tinygrail/_/utils'
 import { COMPONENT } from './ds'

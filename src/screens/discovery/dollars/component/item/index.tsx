@@ -2,34 +2,38 @@
  * @Author: czy0729
  * @Date: 2023-04-26 17:17:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-14 18:23:51
+ * @Last Modified time: 2026-03-05 14:27:29
  */
 import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
 import { Flex, Text, UserStatus } from '@components'
 import { Avatar, InView, Popover } from '@_'
 import { _, useStore } from '@stores'
-import { appNavigate, HTMLDecode } from '@utils'
-import { r } from '@utils/dev'
+import { appNavigate, date, HTMLDecode } from '@utils'
+import { extractIdFromAvatar } from '@utils/app/ages'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
 import { HOST } from '@constants'
-import { Ctx } from '../../types'
 import { extractLinks } from './utils'
 import { COMPONENT, ITEM_HEIGHT } from './ds'
 import { memoStyles } from './styles'
 
-function Item({ index, avatar, nickname, msg, color }) {
-  r(COMPONENT)
+import type { DollarsItem } from '@stores/discovery/types'
+import type { WithIndex } from '@types'
+import type { Ctx } from '../../types'
 
-  const { $, navigation } = useStore<Ctx>()
-  const userId = String(avatar).match(/\/(\d+)\.jpg/)?.[1]
+function Item({ index, id, avatar, nickname, msg, color }: WithIndex<DollarsItem>) {
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
+
+  const src = `${HOST}/pic/user/l/${avatar}` as const
+  const userId = extractIdFromAvatar(src)
   const content = HTMLDecode(msg).replace(/<br \/>/g, '')
   const links = extractLinks(content)
 
   const handlePress = useCallback(() => {
     $.onToggleShow(nickname)
   }, [$, nickname])
+
   const handleLongPress = useCallback(() => {
     if (!userId) return
 
@@ -39,13 +43,14 @@ function Item({ index, avatar, nickname, msg, color }) {
 
     t('Dollars.跳转', {
       to: 'Zone',
-      userId
+      userId,
+      _name: nickname,
+      _image: src
     })
-  }, [navigation, userId])
+  }, [navigation, nickname, src, userId])
 
   return useObserver(() => {
     const styles = memoStyles()
-    const userId = String(avatar).match(/\/(\d+)\.jpg/)?.[1]
 
     const elContent = useMemo(
       () => (
@@ -60,11 +65,17 @@ function Item({ index, avatar, nickname, msg, color }) {
           <Text type='__plain__' lineHeight={17} numberOfLines={12} bold shadow selectable>
             {content}
           </Text>
+          <Text style={styles.time} type='__plain__' size={12} bold shadow>
+            {date('H:i', id.slice(0, 10))}
+            {'  '}
+          </Text>
         </View>
       ),
-      [styles.content]
+      [styles]
     )
+
     const memoData = useMemo(() => links.map(item => item.text), [])
+
     const handleSelect = useCallback((_label: string, index: number) => {
       const url = links[index]?.url
       if (url) appNavigate(url, navigation)
@@ -75,18 +86,20 @@ function Item({ index, avatar, nickname, msg, color }) {
         <Flex style={styles.avatar} direction='column'>
           <UserStatus userId={userId}>
             <InView style={styles.inView} y={ITEM_HEIGHT * (index + 1)}>
-              <Avatar
-                src={`${HOST}/pic/user/l/${avatar}`}
-                size={48}
-                borderWidth={2}
-                borderColor={_.select(_.colorBorder, 'rgba(255, 255, 255, 0.88)')}
-                radius={_.radiusSm}
-                onPress={handlePress}
-                onLongPress={handleLongPress}
-              />
+              <UserStatus userId={userId}>
+                <Avatar
+                  src={src}
+                  size={48}
+                  borderWidth={2}
+                  borderColor={_.select(_.colorBorder, 'rgba(255, 255, 255, 0.88)')}
+                  radius={_.radiusSm}
+                  onPress={handlePress}
+                  onLongPress={handleLongPress}
+                />
+              </UserStatus>
             </InView>
           </UserStatus>
-          <Text style={_.mt.sm} size={11} bold align='center'>
+          <Text style={_.mt.sm} size={nickname.length >= 8 ? 10 : 11} bold align='center'>
             {nickname}
           </Text>
         </Flex>

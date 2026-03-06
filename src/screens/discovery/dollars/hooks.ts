@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-06 12:30:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-05 14:25:04
+ * @Last Modified time: 2026-03-05 14:43:00
  */
 import { useRef } from 'react'
 import { useInitStore } from '@stores'
@@ -36,7 +36,7 @@ export function useDollarsPage(props: NavigationProps) {
     }, 4000)
 
     return () => {
-      $.scrollViewRef = null
+      $.listRef = null
       $.inputRef = null
       clearInterval(interval.current)
     }

@@ -21,7 +21,7 @@ import type { Props as NameProps } from './types'
 export type { NameProps }
 
 /** 自动添加好友和打标签 */
-export const Name = ({
+function Name({
   style,
   size,
   lineHeight,
@@ -33,17 +33,18 @@ export const Name = ({
   disabled,
   children,
   ...other
-}: NameProps) => {
+}: NameProps) {
   r(COMPONENT)
 
   const [lines, setLines] = useState(numberOfLines)
   const setLines2 = useCallback(() => setLines(numberOfLines + 1), [numberOfLines])
-  const textLineHeight = lineHeight || size
 
   return useObserver(() => {
     let userRemark: string
     if (userId) userRemark = systemStore.userRemark(userId)
+
     const text = userRemark || children
+    const textLineHeight = lineHeight || size
 
     const showLabel = showFriend && !!usersStore.myFriendsMap[userId]
     const showRight = showLabel || right

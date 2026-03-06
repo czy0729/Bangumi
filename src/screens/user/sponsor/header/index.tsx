@@ -5,11 +5,11 @@
  * @Last Modified time: 2026-02-01 10:20:53
  */
 import React, { useCallback } from 'react'
-import { useObserver } from 'mobx-react'
 import { HeaderV2 } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import { timeDiff } from '../utils'
 import { COMPONENT, HM } from './ds'
 

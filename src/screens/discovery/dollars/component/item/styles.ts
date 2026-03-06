@@ -19,12 +19,20 @@ export const memoStyles = _.memoStyles(() => ({
     paddingRight: 12
   },
   content: {
-    padding: 15,
     paddingTop: 12,
     paddingRight: 10,
+    paddingBottom: 20,
+    paddingLeft: 15,
     marginTop: -1,
     borderWidth: 5,
     borderRadius: _.radiusMd,
     borderColor: _.select('rgba(255, 255, 255, 0.5)', 'rgba(255, 255, 255, 0.88)')
+  },
+  time: {
+    position: 'absolute',
+    zIndex: 1,
+    right: _.xs,
+    bottom: _.sm,
+    opacity: 0.64
   }
 }))

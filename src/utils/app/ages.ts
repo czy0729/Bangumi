@@ -97,8 +97,8 @@ function calculateAgeFromId(id: number): number {
  * @param avatar - 头像地址
  * @returns 提取的 ID，如果未找到则返回 undefined
  */
-function extractIdFromAvatar(avatar: string): number | undefined {
-  if (!avatar || typeof avatar !== 'string' || !avatar.includes('/pic/user/')) return
+export function extractIdFromAvatar(avatar: string): number | undefined {
+  if (!avatar || typeof avatar !== 'string' || !avatar.includes('pic/user')) return
 
   const temp = avatar.split('.jpg')[0].split('_')[0]
   const match = temp.match(/(\d+)(?=[^\d]*$)/)

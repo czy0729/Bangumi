@@ -5,7 +5,9 @@
  * @Last Modified time: 2025-08-13 22:51:56
  */
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE, RESET_STATE, STATE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, RESET_STATE } from './ds'
+
+import type { STATE } from './ds'
 
 /** 搜索页面状态机 */
 export default class ScreenDollars extends Action {

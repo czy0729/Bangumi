@@ -6,9 +6,9 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import Btns from './btns'
 import Slider from './slider'
 import Stepper from './stepper'

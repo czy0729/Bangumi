@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-12-03 13:48:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-05 14:26:56
+ * @Last Modified time: 2026-03-05 14:58:40
  */
 import { discoveryStore, userStore } from '@stores'
 import { info, updateVisibleBottom } from '@utils'
@@ -10,16 +10,20 @@ import { t } from '@utils/fetch'
 import Fetch from './fetch'
 import { EXCLUDE_STATE } from './ds'
 
+import type { ListViewInstance, InputInstance } from '@components'
+
 export default class Action extends Fetch {
-  scrollViewRef = null
+  listRef: ListViewInstance = null
 
-  inputRef = null
+  inputRef: InputInstance['inputRef'] = null
 
-  forwardRef = (ref: any) => {
-    this.scrollViewRef = ref
+  forwardRef = (ref: ListViewInstance) => {
+    try {
+      this.listRef = ref
+    } catch {}
   }
 
-  forwardInputRef = (ref: any) => {
+  forwardInputRef = (ref: InputInstance) => {
     try {
       this.inputRef = ref.inputRef
     } catch {}
@@ -27,10 +31,10 @@ export default class Action extends Fetch {
 
   /** 滚动到顶 */
   scrollToTop = () => {
-    if (this.scrollViewRef?.scrollToIndex) {
+    if (this.listRef?.scrollToIndex) {
       setTimeout(() => {
         try {
-          this.scrollViewRef.scrollToIndex({
+          this.listRef.scrollToIndex({
             animated: true,
             index: 0,
             viewOffset: 0
@@ -48,12 +52,11 @@ export default class Action extends Fetch {
 
   /** 滚动到底 */
   scrollToBottom = (animated = false) => {
-    if (this.scrollViewRef?.scrollToEnd) {
+    if (this.listRef?.scrollToEnd) {
       setTimeout(() => {
         try {
-          this.scrollViewRef.scrollToEnd({
-            animated,
-            duration: 640
+          this.listRef.scrollToEnd({
+            animated
           })
         } catch {}
       }, 160)
@@ -73,6 +76,7 @@ export default class Action extends Fetch {
         show: true,
         text: text.includes(mark) ? text : `@${nickname} ${text}`
       })
+
       setTimeout(() => {
         try {
           this.inputRef.focus()

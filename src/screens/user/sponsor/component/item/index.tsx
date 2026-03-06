@@ -6,12 +6,12 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Flex, Text, Touchable, UserStatus } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
 import { HTMLDecode, stl } from '@utils'
 import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { IMG_DEFAULT_AVATAR } from '@constants'
 import { USERS_MAP } from '../../ds'
 import { COMPONENT } from './ds'

@@ -2,21 +2,14 @@
  * @Author: czy0729
  * @Date: 2025-08-14 17:19:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-14 18:24:22
+ * @Last Modified time: 2026-03-05 14:29:14
  */
 import { HOST } from '@constants'
 
-type LinkData = {
-  url: string
-  text: string
-}
+import type { LinkData, ResultData } from './types'
 
 export function extractLinks(str: string): LinkData[] {
-  const results: {
-    index: number
-    data: LinkData
-    type: 'user' | 'url' | 'img'
-  }[] = []
+  const results: ResultData[] = []
   let imgCount = 0
   let urlCount = 0
 
@@ -75,11 +68,34 @@ export function extractLinks(str: string): LinkData[] {
     .map(item => {
       if (item.type === 'img') {
         imgCount++
-        item.data.text = `[IMG] ${imgCount}`
+        item.data.text = `[IMG] ${getImageNameFromUrl(item.data.url) || imgCount}`
       } else if (item.type === 'url') {
         urlCount++
         item.data.text = `[URL] ${urlCount}`
       }
       return item.data
     })
+}
+
+function getImageNameFromUrl(url: string) {
+  try {
+    // 处理相对路径或协议相对 URL
+    const fullUrl = url.startsWith('//') ? 'https:' + url : url
+    const urlObj = new URL(fullUrl)
+
+    // 获取路径的最后一部分
+    const pathname = urlObj.pathname
+    const fileName = pathname.split('/').pop()
+
+    // 如果文件名不为空，返回它
+    if (fileName && fileName !== '') {
+      return fileName
+    }
+
+    return null
+  } catch {
+    // 如果 URL 解析失败，尝试用正则提取
+    const matches = url.match(/\/([^/?#]+)(?:[?#]|$)/)
+    return matches ? matches[1] : null
+  }
 }

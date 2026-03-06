@@ -6,10 +6,10 @@
  */
 import React from 'react'
 import { RefreshControl, ScrollView, View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Flex } from '@components'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { refreshControlProps } from '@tinygrail/styles'
 import Depth from '../depth'

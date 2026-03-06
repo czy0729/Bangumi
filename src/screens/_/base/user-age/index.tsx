@@ -19,7 +19,7 @@ import type { Props as UserAgeProps } from './types'
 export type { UserAgeProps }
 
 /** 用户站龄 */
-export const UserAge = ({ style, value, avatar }: UserAgeProps) => {
+export function UserAge({ style, value, avatar }: UserAgeProps) {
   r(COMPONENT)
 
   const age = getAge(value, avatar)

@@ -29,11 +29,11 @@ export function UserStatus({ style, last, userId, mini = false, children }: User
 
   return useObserver(() => {
     const lastTS = last || (systemStore.setting.onlineStatus ? userStore.onlines(userId) : 0)
-    if (!lastTS) return children
+    if (!lastTS) return <>{children}</>
 
     const now = getTimestamp()
     const distance = now - lastTS
-    if (distance > D7) return children
+    if (distance > D7) return <>{children}</>
 
     const styles = memoStyles()
 

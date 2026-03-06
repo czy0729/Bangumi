@@ -20,7 +20,7 @@ import {
 import { getBlogItemTime } from './utils'
 
 import type { Avatar, Cover, SubjectTypeCn } from '@types'
-import type { BlogItem, CatalogDetail, CatalogsItem } from './types'
+import type { BlogItem, CatalogDetail, CatalogsItem, DollarsItem } from './types'
 
 /** 标签 */
 export function cheerioTags(html: string) {
@@ -341,7 +341,7 @@ export function cheerioWiki(html: string) {
 export function cheerioDollars(html: string) {
   const $ = cheerio(html)
   return {
-    list: cMap($('#chatList ul li'), $row => ({
+    list: cMap<DollarsItem>($('#chatList ul li'), $row => ({
       id: cData($row, 'id').split('_')?.[1].slice(0, 10),
       avatar: cData($row.find('img.avatar'), 'src').split('/m/')?.[1] || '',
       nickname: cText($row.find('.icon p')),

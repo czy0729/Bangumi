@@ -5,9 +5,9 @@
  * @Last Modified time: 2026-02-13 15:36:16
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { HeaderV2 } from '@components'
 import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT, HM } from './ds'
 
 function Header() {

@@ -6,10 +6,10 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { formatNumber, toFixed } from '@utils'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
