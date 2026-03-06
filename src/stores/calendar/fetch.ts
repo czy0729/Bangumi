@@ -140,7 +140,7 @@ export default class Fetch extends Computed {
           url: CDN_ONAIR()
         })
         onAir = JSON.parse(_response)
-      } catch (error) {}
+      } catch {}
 
       const data = {
         _loaded: getTimestamp()
@@ -166,7 +166,7 @@ export default class Fetch extends Computed {
       this.clearState(key, fixedOnAir(data))
       this.save(key)
       this._fetchOnAir = true
-    } catch (error) {}
+    } catch {}
   }
 
   fetchRaw = async () => {

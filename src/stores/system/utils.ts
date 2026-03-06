@@ -15,7 +15,7 @@ export async function getData() {
       url: `${HOST_DOGE}/advance.json`
     })
     if (data && typeof data === 'object') return data
-  } catch (error) {}
+  } catch {}
 
   return {}
 }

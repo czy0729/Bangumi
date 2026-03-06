@@ -50,7 +50,7 @@ export function TabBar({
             try {
               setOutputRange(data.range)
               onTabsLayout?.(data.layouts)
-            } catch (error) {}
+            } catch {}
           }
         }
         return

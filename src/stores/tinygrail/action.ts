@@ -254,7 +254,7 @@ export default class Action extends Fetch {
           .join('\n'),
         '资产信息'
       )
-    } catch (error) {}
+    } catch {}
   }
 
   /** 设置为谁设置塔图数据 */

@@ -29,7 +29,7 @@ export async function loadJSON<T extends JSONPath>(
     memo.set(name, data)
 
     return data
-  } catch (error) {}
+  } catch {}
 
   return defaultValue
 }

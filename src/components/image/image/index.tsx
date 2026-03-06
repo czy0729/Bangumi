@@ -13,7 +13,7 @@ export async function clearCache() {
   try {
     await ImageCacheManager.clearCache()
     return true
-  } catch (error) {}
+  } catch {}
 
   return false
 }

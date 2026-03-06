@@ -399,7 +399,7 @@ export default class Action extends Fetch {
         setTimeout(() => {
           try {
             this.doCheckCookie()
-          } catch (error) {}
+          } catch {}
         }, 4000)
       }
 

@@ -88,7 +88,7 @@ class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
         replyHistory: replyHistory || [],
         lockHistory: lockHistory || ''
       })
-    } catch (error) {}
+    } catch {}
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: { value: any }) {
@@ -112,7 +112,7 @@ class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
         this.ref.textAreaRef.blur()
         this._focused = false
       }
-    } catch (error) {}
+    } catch {}
   }
 
   /** Textarea.focus */
@@ -124,7 +124,7 @@ class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
         this.ref.textAreaRef.focus()
         this._focused = true
       }
-    } catch (error) {}
+    } catch {}
   }
 
   /** 失去焦点回调 */
@@ -194,7 +194,7 @@ class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
           selection: {}
         })
       }
-    } catch (error) {}
+    } catch {}
 
     this.setState({
       value
@@ -234,7 +234,7 @@ class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
         value: `${left}${right}`
       })
       this.setSelection(left.length)
-    } catch (error) {}
+    } catch {}
   }
 
   /** 选择 bgm 表情 */
@@ -409,7 +409,7 @@ class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
           selection
         })
         this.selection = selection
-      } catch (error) {}
+      } catch {}
     }, 0)
   }
 

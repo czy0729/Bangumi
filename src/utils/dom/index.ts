@@ -85,7 +85,7 @@ export function scrollToTop(y: number = 0, animated: boolean = true) {
         y,
         animated
       })
-    } catch (error) {}
+    } catch {}
   }, 0)
 }
 

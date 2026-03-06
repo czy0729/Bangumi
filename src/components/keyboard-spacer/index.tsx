@@ -50,7 +50,7 @@ export const KeyboardSpacer = class KeyboardSpacerComponent extends Component<Ke
   componentWillUnmount() {
     try {
       this._listeners.forEach(listener => listener.remove())
-    } catch (error) {}
+    } catch {}
   }
 
   updateKeyboardSpace = event => {

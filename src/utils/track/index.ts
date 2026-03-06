@@ -49,7 +49,7 @@ export function hm(url?: string, screen?: string, title?: string) {
       currentQuery = queryStr
       currentUrl = u
       currentTitle = title
-    } catch (error) {}
+    } catch {}
   })
 }
 
@@ -62,7 +62,7 @@ export function ua() {
       const u = _u()
       xhr(SI_UV, `${u.url}?v=${VERSION_GITHUB_RELEASE}`)
       umami(u.url, u.userInfo.nickname, WEBSITE_UV, getReferer())
-    } catch (error) {}
+    } catch {}
   })
 }
 
@@ -90,7 +90,7 @@ export function t(desc: EventKeys, eventData?: EventData) {
         )
         log('t', desc, eventData)
       }
-    } catch (error) {}
+    } catch {}
   })
 }
 
@@ -140,5 +140,5 @@ export function err(desc: string) {
       currentUrl,
       currentTitle
     )
-  } catch (error) {}
+  } catch {}
 }

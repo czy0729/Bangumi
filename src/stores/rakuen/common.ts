@@ -340,7 +340,7 @@ export function cheerioTopic(html: string) {
 
     try {
       likes = JSON.parse(html.match(/data_likes_list\s*=\s*(\{.*?\});/)?.[1])
-    } catch (error) {}
+    } catch {}
   } catch (ex) {}
 
   return {

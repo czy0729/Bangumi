@@ -40,7 +40,7 @@ function List({
     try {
       pending.current = true
       if (pagination?.page < pagination?.pageTotal) await onFooterRefresh()
-    } catch (error) {}
+    } catch {}
 
     pending.current = false
   }, [pagination, onFooterRefresh])

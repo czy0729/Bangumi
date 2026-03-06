@@ -85,7 +85,7 @@ export default class Container extends React.Component<ToastProps, any> {
         this.anim.stop()
         this.anim = null
       }
-    } catch (error) {}
+    } catch {}
   }
 
   render() {

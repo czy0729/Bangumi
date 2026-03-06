@@ -161,7 +161,7 @@ export const Image = observer(
     componentWillUnmount() {
       try {
         if (this._timeoutId) clearTimeout(this._timeoutId)
-      } catch (error) {}
+      } catch {}
     }
 
     /** 若图片已明确知道在本地有缓存, 忽略大部分预置规则, 直接取出渲染 */

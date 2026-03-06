@@ -210,7 +210,7 @@ export function cheerioSubjectComments(html: string): Override<
   let likes: Likes = {}
   try {
     likes = JSON.parse(html.match(/data_likes_list\s*=\s*(\{.*?\});/)?.[1])
-  } catch (error) {}
+  } catch {}
 
   return {
     pagination: {
@@ -474,7 +474,7 @@ export function cheerioVIB(html: string) {
         total: sumVib,
         avg: Number(averageVib.toFixed(2))
       }
-    } catch (error) {}
+    } catch {}
   }
 
   return {

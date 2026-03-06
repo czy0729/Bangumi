@@ -54,7 +54,7 @@ function Popover({ activateOn, children, ...other }) {
         let index = -1
         try {
           index = items.filter(item => !item.isTitle).findIndex(item => item.text === value)
-        } catch (error) {}
+        } catch {}
 
         setTimeout(() => {
           onSelect(data[index], index, {

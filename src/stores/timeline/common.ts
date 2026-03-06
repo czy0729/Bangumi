@@ -207,14 +207,14 @@ export async function fetchTimeline(
             image,
             clearHref: $row.find('.tml_del').attr('href') || ''
           })
-        } catch (error) {}
+        } catch {}
       })
   })
 
   let likes: Likes = {}
   try {
     likes = JSON.parse(html.match(/data_likes_list\s*=\s*(\{.*?\});/)?.[1])
-  } catch (error) {}
+  } catch {}
 
   return {
     list: page === 1 ? list : [...oldData.list, ...list],

@@ -122,7 +122,7 @@ export default class Action extends Computed {
         if (likesList.length) {
           value = likesList.find(item => item.selected === true)?.value || ''
         }
-      } catch (error) {}
+      } catch {}
 
       this.setState({
         likesGrid: {
@@ -277,7 +277,7 @@ export default class Action extends Computed {
       if (typeof this._manageModalSubmitCallback === 'function') {
         await this._manageModalSubmitCallback(values)
       }
-    } catch (error) {}
+    } catch {}
   }
 
   /** 提交全局条目管理 Modal */

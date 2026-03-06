@@ -216,7 +216,7 @@ export default class Fetch extends Computed {
         this.save(commentsKey)
         return true
       }
-    } catch (error) {}
+    } catch {}
 
     return false
   }

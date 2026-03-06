@@ -75,7 +75,7 @@ export default class Fetch extends Computed {
         })
         this.save(STATE_KEY_2)
       }
-    } catch (error) {}
+    } catch {}
 
     return this[STATE_KEY](ITEM_KEY)
   }

@@ -197,7 +197,7 @@ export default class Action extends Fetch {
 
             if (typeof callback === 'function') callback()
           }
-        } catch (error) {}
+        } catch {}
       },
       () => {
         if (typeof callback === 'function') callback()
@@ -218,7 +218,7 @@ export default class Action extends Fetch {
         responseText => {
           try {
             if (JSON.parse(responseText)?.status === 'ok') return resolve(true)
-          } catch (error) {}
+          } catch {}
 
           resolve(false)
         },

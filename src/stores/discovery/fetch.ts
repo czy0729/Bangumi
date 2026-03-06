@@ -436,7 +436,7 @@ export default class Fetch extends Computed {
         this.save(key)
         feedback(true)
         return true
-      } catch (error) {}
+      } catch {}
     }
 
     return false

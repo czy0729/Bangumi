@@ -138,7 +138,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
             if (value) amount += value
           }
         }
-      } catch (error) {}
+      } catch {}
 
       return amount
     }).get()

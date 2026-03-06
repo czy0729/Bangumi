@@ -334,7 +334,7 @@ export function cEach($el: any, callback: ($ele: any, index?: number) => void) {
     $el.each((index: number, ele: any) => {
       callback(cheerio(ele), index)
     })
-  } catch (error) {}
+  } catch {}
 }
 
 /**
@@ -405,7 +405,7 @@ export function cPagination($: any) {
 
     const current = parseInt(cText($('#multipage .p_cur')))
     if (!isNaN(current)) page = current
-  } catch (error) {}
+  } catch {}
 
   return {
     pageTotal,

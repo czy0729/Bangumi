@@ -13,8 +13,8 @@ import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { Component } from '../../component'
 import { StorybookState } from '../state'
 import { COMPONENT } from './ds'
-import { Props as StorybookScrollProps } from './types'
 import { styles } from './styles'
+import { Props as StorybookScrollProps } from './types'
 
 /** [WEB] 单页面滑动容器 */
 export const StorybookScroll = ({
@@ -49,7 +49,7 @@ export const StorybookScroll = ({
             setFetching(false)
           }
         }
-      } catch (error) {}
+      } catch {}
     },
     [fetching, onFooterRefresh, onScroll]
   )
@@ -92,7 +92,7 @@ export const StorybookScroll = ({
           }, 80)
         }
       }
-    } catch (error) {}
+    } catch {}
   })
 
   return (

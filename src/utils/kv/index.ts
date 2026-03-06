@@ -512,7 +512,7 @@ export async function picList(prefix: string, maxKeys: number = 100): Promise<Re
     if (data?.success && Array.isArray(data?.files) && data.files.length) {
       return data.files
     }
-  } catch (error) {}
+  } catch {}
 
   return null
 }

@@ -174,7 +174,7 @@ export default class Action extends Fetch {
             this.save(key)
             if (typeof callback === 'function') callback()
           }
-        } catch (error) {}
+        } catch {}
       },
       () => {
         if (typeof callback === 'function') callback()
@@ -608,7 +608,7 @@ export default class Action extends Fetch {
         this.save(key)
         return true
       }
-    } catch (error) {}
+    } catch {}
 
     // 旧逻辑, 暂时保留
     try {
@@ -645,7 +645,7 @@ export default class Action extends Fetch {
       })
       this.save(key)
       return true
-    } catch (error) {}
+    } catch {}
 
     this.log('downloadSetting', 'downloadSetting error')
 

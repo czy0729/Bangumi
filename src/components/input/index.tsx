@@ -85,7 +85,7 @@ export const Input = observer(
       try {
         if (this.keyboardDidShowListener) this.keyboardDidShowListener.remove()
         if (this.keyboardDidHideListener) this.keyboardDidHideListener.remove()
-      } catch (error) {}
+      } catch {}
     }
 
     UNSAFE_componentWillReceiveProps({ value }) {
@@ -105,7 +105,7 @@ export const Input = observer(
             this.inputRef.focus()
           }
         }, 0)
-      } catch (error) {}
+      } catch {}
     }
 
     onBlur = () => {
@@ -119,7 +119,7 @@ export const Input = observer(
             this.inputRef.blur()
           }
         }, 0)
-      } catch (error) {}
+      } catch {}
     }
 
     onFocus = (evt: any) => {
@@ -138,7 +138,7 @@ export const Input = observer(
               )
             }
           })
-        } catch (error) {}
+        } catch {}
       }, 640)
     }
 

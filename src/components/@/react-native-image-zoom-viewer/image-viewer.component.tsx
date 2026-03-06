@@ -72,7 +72,7 @@ export default class ImageViewer extends React.Component<Props, State> {
               duration: 200,
               useNativeDriver: false
             }).start()
-          } catch (error) {}
+          } catch {}
         }
       )
     }
@@ -116,7 +116,7 @@ export default class ImageViewer extends React.Component<Props, State> {
             duration: 200,
             useNativeDriver: false
           }).start()
-        } catch (error) {}
+        } catch {}
       }
     )
   }
@@ -187,7 +187,7 @@ export default class ImageViewer extends React.Component<Props, State> {
       if (this.props.enablePreload && imageLoaded === false) {
         try {
           Image.prefetch(image.url)
-        } catch (error) {}
+        } catch {}
       }
       imageStatus.width = image.width
       imageStatus.height = image.height
@@ -202,7 +202,7 @@ export default class ImageViewer extends React.Component<Props, State> {
         imageStatus.height = height
         imageStatus.status = 'success'
         saveImageSize()
-      } catch (error) {}
+      } catch {}
     }
 
     const failCallback = () => {
@@ -222,7 +222,7 @@ export default class ImageViewer extends React.Component<Props, State> {
     if (typeof Image.getSizeWithHeaders !== 'function') {
       try {
         Image.getSize(image.url, successCallback, failCallback)
-      } catch (error) {}
+      } catch {}
       return
     }
 
@@ -234,7 +234,7 @@ export default class ImageViewer extends React.Component<Props, State> {
         successCallback,
         failCallback
       )
-    } catch (error) {}
+    } catch {}
   }
 
   /**

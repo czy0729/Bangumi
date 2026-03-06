@@ -18,7 +18,7 @@ export function getBlogItemTime(str: string) {
       .map(item => item.trim())
       .filter(Boolean)
     if (temps.length) return temps[temps.length - 1]
-  } catch (error) {}
+  } catch {}
   return ''
 }
 

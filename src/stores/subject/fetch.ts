@@ -234,7 +234,7 @@ export default class Fetch extends Computed {
         this.save(key)
         return true
       }
-    } catch (error) {}
+    } catch {}
 
     return false
   }
@@ -661,7 +661,7 @@ export default class Fetch extends Computed {
               }
             }
             if (data?.nsfw) nsfw[subjectId] = true
-          } catch (error) {}
+          } catch {}
 
           return true
         })
@@ -681,7 +681,7 @@ export default class Fetch extends Computed {
     return true
   }
 
-  updateVIB = (subjectId: SubjectId, data: Partial<(typeof STATE.vib)[0]>) => {
+  updateVIB = (subjectId: SubjectId, data: Partial<typeof STATE.vib[0]>) => {
     const key = 'vib'
     this.setState({
       [key]: {
@@ -768,7 +768,7 @@ export default class Fetch extends Computed {
         })
         return true
       }
-    } catch (error) {}
+    } catch {}
 
     return false
   }
@@ -825,7 +825,7 @@ export default class Fetch extends Computed {
           }
         }
       }
-    } catch (error) {}
+    } catch {}
 
     return false
   }

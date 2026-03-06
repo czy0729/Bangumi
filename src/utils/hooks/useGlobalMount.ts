@@ -62,7 +62,7 @@ export default function useGlobalMount() {
 
           setStorage(CACHE_KEY, now)
         }
-      } catch (error) {}
+      } catch {}
     }, 12000)
   })
 }

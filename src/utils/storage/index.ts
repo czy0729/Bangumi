@@ -39,7 +39,7 @@ export async function setStorage(key: string, data: any) {
 
   try {
     setItem(key, _data)
-  } catch (error) {}
+  } catch {}
 }
 
 /** 数据较大的键, 合并没必要的多次写入 */
@@ -51,7 +51,7 @@ setStorageInterval = setInterval(() => {
     setItems.push(async () => {
       try {
         await setItem(key, value)
-      } catch (error) {}
+      } catch {}
       CACHE_MAP.delete(key)
 
       if (DEV_LOG) {

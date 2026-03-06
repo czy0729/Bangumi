@@ -23,7 +23,7 @@ export default function useOrientation() {
   useEffect(() => {
     try {
       if (!PAD) lockAsync(OrientationLock.PORTRAIT)
-    } catch (error) {}
+    } catch {}
 
     const handleOrientationChange = (currentOrientation: OrientationChangeEvent) => {
       const orientationValue = currentOrientation.orientationInfo.orientation

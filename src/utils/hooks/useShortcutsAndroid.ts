@@ -46,7 +46,7 @@ export default function useShortcutsAndroid() {
 
       try {
         Shortcuts.setShortcuts(shortcutsItems.reverse())
-      } catch (error) {}
+      } catch {}
     }, 8000)
   }, [])
 
@@ -82,7 +82,7 @@ export default function useShortcutsAndroid() {
     ;(async function () {
       try {
         listener(await Shortcuts.getInitialShortcut())
-      } catch (error) {}
+      } catch {}
 
       ShortcutsEmitter.addListener('onShortcutItemPressed', listener)
     })()

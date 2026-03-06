@@ -53,7 +53,7 @@ export default class SceneView<T extends Route> extends React.Component<Props<T>
       // If lazy mode is enabled, listen to when we enter screens
       try {
         this.props.addListener('enter', this.handleEnter)
-      } catch (error) {}
+      } catch {}
     } else if (this.state.loading) {
       // If lazy mode is not enabled, render the scene with a delay if not loaded already
       // This improves the initial startup time as the scene is no longer blocking
@@ -67,11 +67,11 @@ export default class SceneView<T extends Route> extends React.Component<Props<T>
       if (this.props.lazy && this.state.loading) {
         try {
           this.props.addListener('enter', this.handleEnter)
-        } catch (error) {}
+        } catch {}
       } else {
         try {
           this.props.removeListener('enter', this.handleEnter)
-        } catch (error) {}
+        } catch {}
       }
     }
   }
@@ -79,7 +79,7 @@ export default class SceneView<T extends Route> extends React.Component<Props<T>
   componentWillUnmount() {
     try {
       this.props.removeListener('enter', this.handleEnter)
-    } catch (error) {}
+    } catch {}
   }
 
   private handleEnter = (value: number) => {
