@@ -57,7 +57,7 @@ function ToolBar({
             {renderBtn('图片', 'img')}
           </>
         )}
-        {renderBtn('图床', 'imgchr')}
+        {renderBtn('图床')}
         {/* 空占位 */}
         {simple && (
           <>

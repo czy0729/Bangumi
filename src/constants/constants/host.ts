@@ -35,6 +35,9 @@ export const HOST_MANGA = 'https://tinygrail.mange.cn/app'
 /** 免费图床 */
 export const HOST_IMAGE_UPLOAD = 'https://p.sda1.dev'
 
+/** 免费图床 by wataame */
+export const HOST_IMAGE_UPLOAD_RYMK = 'https://lsky.ry.mk'
+
 /** @deprecated 登录 v1.0 oauth 地址 */
 export const URL_OAUTH = `${HOST}/oauth/authorize` as const
 

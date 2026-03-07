@@ -39,4 +39,4 @@ export const BBCODE_CONFIG: Record<string, BBCodeConfig> = {
     insert: '[mask]$TEXT$[/mask]',
     offset: 6
   }
-}
+} as const

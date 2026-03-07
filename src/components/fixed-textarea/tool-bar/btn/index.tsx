@@ -8,7 +8,7 @@ import React from 'react'
 import { useObserver } from 'mobx-react'
 import { _ } from '@stores'
 import { date, getTimestamp, open, stl } from '@utils'
-import { HOST_IMAGE_UPLOAD } from '@constants'
+import { HOST_IMAGE_UPLOAD_RYMK } from '@constants'
 import { Flex } from '../../../flex'
 import { Iconfont } from '../../../iconfont'
 import { Text } from '../../../text'
@@ -29,19 +29,21 @@ function Btn({
 }) {
   return useObserver(() => {
     const textSize = _.window.width < 375 ? 10 : 11
+
+    // BGM
     if (text === 'BGM') {
+      const active = showBgm && !showReplyHistory
+
       return (
-        <Touchable style={[styles.btn, _.ml.xs]} onPress={showBgm ? onHideBgm : onShowBgm}>
+        <Touchable style={[styles.btn, _.ml.xs]} onPress={active ? onHideBgm : onShowBgm}>
           <Flex style={styles.icon} justify='center'>
-            <Iconfont
-              name='icon-more-grid'
-              color={showBgm && !showReplyHistory ? _.colorMain : _.colorSub}
-            />
+            <Iconfont name='icon-more-grid' color={active ? _.colorMain : _.colorSub} />
           </Flex>
         </Touchable>
       )
     }
 
+    // 历史
     if (text === '历史') {
       return (
         <Touchable
@@ -59,6 +61,7 @@ function Btn({
       )
     }
 
+    // 时间
     if (text === '时间') {
       return (
         <Touchable
@@ -74,13 +77,13 @@ function Btn({
       )
     }
 
-    const isOpenInNew = text === '图床'
     const iconName = BTN_ICONS[text]
+
     return (
       <Touchable
         style={stl(styles.btn, BTN_TEXT.includes(iconName) && styles.text)}
         onPress={() => {
-          isOpenInNew ? open(HOST_IMAGE_UPLOAD) : onAddSymbolText(symbol)
+          text === '图床' ? open(HOST_IMAGE_UPLOAD_RYMK) : onAddSymbolText(symbol)
         }}
       >
         {iconName ? (
