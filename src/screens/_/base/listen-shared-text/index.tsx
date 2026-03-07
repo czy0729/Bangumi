@@ -6,14 +6,15 @@
  */
 import React, { useEffect, useState } from 'react'
 import { DeviceEventEmitter, NativeModules } from 'react-native'
-import { Props as ListenSharedTextProps } from './types'
 
-export { ListenSharedTextProps }
+import type { Props as ListenSharedTextProps } from './types'
+
+export type { ListenSharedTextProps }
 
 const { TextShareModule } = NativeModules
 
 /** 处理从安卓分享的文本组件 */
-export const ListenSharedText = ({ children, onTextReceived, render }: ListenSharedTextProps) => {
+export function ListenSharedText({ children, onTextReceived, render }: ListenSharedTextProps) {
   const [sharedText, setSharedText] = useState<string | null>(null)
 
   // 通知原生端组件已挂载

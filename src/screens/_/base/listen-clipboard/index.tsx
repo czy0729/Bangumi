@@ -5,12 +5,14 @@
  * @Last Modified time: 2025-04-13 21:19:02
  */
 import React from 'react'
-import { AppState, AppStateStatus, Clipboard, NativeEventSubscription } from 'react-native'
+import { AppState, Clipboard } from 'react-native'
 import { Component } from '@components'
 import { appNavigate, confirm, matchBgmUrl, navigationReference } from '@utils'
 import { r } from '@utils/dev'
 import { IOS, WEB } from '@constants'
 import { COMPONENT } from './ds'
+
+import type { AppStateStatus, NativeEventSubscription } from 'react-native'
 
 let lastUrl = ''
 

@@ -45,7 +45,6 @@ export const AppCommon = () => {
           onClose={uiStore.closeManageModal}
         />
         {!WEB && <ListenClipboard />}
-        {/* @ts-expect-error */}
         <Heatmap.Control />
       </Component>
     </Suspense>

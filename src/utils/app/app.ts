@@ -12,7 +12,7 @@ import { FROZEN_FN } from '@constants/init'
 import { GROUP_THUMB_MAP } from '@assets/images'
 import { DEV } from '@src/config'
 import { syncS2T } from '../async'
-import { globalLog, globalWarn, rerender } from '../dev'
+import { globalLog, globalWarn, logger, rerender } from '../dev'
 import { t } from '../fetch'
 import { getStorage, setStorage } from '../storage'
 import { open } from '../utils'
@@ -189,7 +189,7 @@ export function appNavigate(
     )
     return true
   } catch (error) {
-    console.error('utils/app', 'appNavigate')
+    logger.error('utils/app', 'appNavigate')
     return false
   }
 }

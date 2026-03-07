@@ -8,6 +8,7 @@ import React, { useCallback } from 'react'
 import { Track } from '@components'
 import { ErrorNotice, ListenSharedText, LoginNotice } from '@_'
 import { useStore } from '@stores'
+import { appNavigate } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { ANDROID, WEB } from '@constants'
 import { COMPONENT } from './ds'
@@ -21,8 +22,14 @@ function Extra() {
     (text: string) => {
       if (!navigation) return
 
+      const trimmedText = typeof text === 'string' ? text.trim() : ''
+      if (trimmedText && /^https?:\/\//.test(trimmedText)) {
+        appNavigate(trimmedText, navigation)
+        return
+      }
+
       navigation.push('Search', {
-        value: text,
+        value: trimmedText,
         _autoFocus: false
       })
     },

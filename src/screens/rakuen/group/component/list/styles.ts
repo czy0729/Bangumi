@@ -15,8 +15,8 @@ export const memoStyles = _.memoStyles(() => ({
     paddingRight: _.wind
   },
   border: {
-    borderTopColor: _.colorBorder,
-    borderTopWidth: _.hairlineWidth
+    borderTopColor: _.colorBg,
+    borderTopWidth: 1
   },
   readed: {
     backgroundColor: _.colorBg

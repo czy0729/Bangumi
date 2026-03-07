@@ -65,7 +65,7 @@ function List({ style }: WithViewStyles) {
           return (
             <Touchable
               key={href}
-              style={stl(styles.item, isReaded && styles.readed)}
+              style={stl(styles.item, !!index && styles.border, isReaded && styles.readed)}
               animate
               onPress={() => {
                 if (Number(replies) > LIMIT_TOPIC_PUSH) {
