@@ -15,7 +15,7 @@ export const memoStyles = _.memoStyles(() => ({
     overflow: 'hidden'
   },
   btn: {
-    width: 64,
+    width: 60,
     height: 58,
     borderWidth: 1,
     borderColor: 'transparent',
@@ -28,5 +28,14 @@ export const memoStyles = _.memoStyles(() => ({
   icon: {
     height: 40,
     marginTop: -15
+  },
+  split: {
+    width: 2,
+    height: 12,
+    marginHorizontal: 6,
+    backgroundColor: _.select(_.colorIcon, '#777'),
+    borderRadius: _.radiusSm,
+    overflow: 'hidden',
+    opacity: 0.64
   }
 }))

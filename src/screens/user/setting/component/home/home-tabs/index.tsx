@@ -8,13 +8,14 @@ import React from 'react'
 import { View } from 'react-native'
 import { Flex, Highlight, Text } from '@components'
 import { _ } from '@stores'
-import { HomeTabs as HomeTabsType } from '@stores/system/types'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
 import { useAsyncSetSetting, useAsyncSwitchSetting } from '../../../hooks'
 import Item from './item'
 import { ITEMS, TEXTS } from './ds'
 import { memoStyles } from './styles'
+
+import type { HomeTabs as HomeTabsType } from '@stores/system/types'
 
 /** 首页进度 Tabs 范围 */
 function HomeTabs({ filter }) {

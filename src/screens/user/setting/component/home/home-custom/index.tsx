@@ -11,13 +11,13 @@ import { useObserver } from '@utils/hooks'
 import { TEXTS } from '../ds'
 import CustomBtn from '../custom-btn'
 
-/** 右上角功能入口 */
+/** 两侧功能入口 */
 function HomeCustom({ filter }) {
   const elFt = useMemo(() => <CustomBtn />, [])
 
   return useObserver(() => (
     <ItemSetting ft={elFt} filter={filter} {...TEXTS.homeCustom}>
-      <Heatmap id='设置.切换' title='右上角功能入口' />
+      <Heatmap id='设置.切换' title='两侧功能入口' />
     </ItemSetting>
   ))
 }

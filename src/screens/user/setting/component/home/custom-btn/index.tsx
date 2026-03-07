@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-01-18 20:57:26
  */
 import React, { useCallback, useState } from 'react'
+import { View } from 'react-native'
 import { ActionSheet, Flex, Text } from '@components'
 import { _, systemStore } from '@stores'
 import { t } from '@utils/fetch'
@@ -15,16 +16,17 @@ import { CUSTOM_BTN_DEFAULT, CUSTOM_BTN_KEYS } from './ds'
 import { memoStyles } from './styles'
 
 import type { MenuItem } from '@types'
+import type { SettingKeys } from './types'
 
 function CustomBtn() {
   const [current, setCurrent] = useState({
     key: '',
-    setting: '' as 'homeTopLeftCustom' | 'homeTopRightCustom'
+    setting: '' as SettingKeys
   })
   const { state, setTrue, setFalse } = useBoolean(false)
 
   const handlePress = useCallback(
-    (setting: 'homeTopLeftCustom' | 'homeTopRightCustom', key: string) => {
+    (setting: SettingKeys, key: string) => {
       setCurrent({
         key,
         setting
@@ -38,7 +40,7 @@ function CustomBtn() {
     setFalse()
     if (current.key !== '') {
       t('设置.切换', {
-        title: '右上角功能入口',
+        title: '两侧功能入口',
         value: `${current.setting}|${current.key}`
       })
     }
@@ -54,11 +56,16 @@ function CustomBtn() {
 
   return useObserver(() => {
     const styles = memoStyles()
-    const { homeTopLeftCustom, homeTopRightCustom } = systemStore.setting
+    const { homeTopLeftCustom, homeTopRightCustom, homeTopExtraCustom } = systemStore.setting
 
     return (
       <>
         <Flex style={styles.btns}>
+          <Btn
+            item={(MENU_MAP[homeTopExtraCustom] || CUSTOM_BTN_DEFAULT) as MenuItem}
+            onPress={() => handlePress('homeTopExtraCustom', homeTopExtraCustom || '')}
+          />
+          <View style={styles.split} />
           <Btn
             item={(MENU_MAP[homeTopLeftCustom] || CUSTOM_BTN_DEFAULT) as MenuItem}
             onPress={() => handlePress('homeTopLeftCustom', homeTopLeftCustom || '')}
@@ -69,7 +76,7 @@ function CustomBtn() {
           />
         </Flex>
 
-        <ActionSheet show={state} height={580} onClose={handleCloseActionSheet}>
+        <ActionSheet show={state} height={552} onClose={handleCloseActionSheet}>
           <Text style={[_.mt.sm, _.mb.xs]} bold align='center'>
             选择一个功能作为入口
           </Text>

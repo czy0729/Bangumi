@@ -22,7 +22,8 @@ function Header() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
-    const { homeTopLeftCustom, homeTopRightCustom } = systemStore.setting
+    const { homeTopExtraCustom, homeTopLeftCustom, homeTopRightCustom } = systemStore.setting
+    const extraItem = MENU_MAP[homeTopExtraCustom]
     const leftItem = MENU_MAP[homeTopLeftCustom]
     const rightItem = MENU_MAP[homeTopRightCustom]
 
@@ -61,10 +62,13 @@ function Header() {
       <LogoHeader
         navigation={navigation}
         left={
-          <IconNotify style={stl(styles.icon, styles.left)} navigation={navigation} event={EVENT}>
-            <Heatmap right={-39} id='首页.跳转' to='Notify' alias='电波提醒' />
-            <Heatmap right={-92} id='其他.切换主题' transparent />
-          </IconNotify>
+          <>
+            <IconNotify style={stl(styles.icon, styles.left)} navigation={navigation} event={EVENT}>
+              <Heatmap right={-39} id='首页.跳转' to='Notify' alias='电波提醒' />
+              <Heatmap right={-92} id='其他.切换主题' transparent />
+            </IconNotify>
+            {extraItem && renderIcon(extraItem)}
+          </>
         }
         right={
           <Flex style={_.mr.xs}>

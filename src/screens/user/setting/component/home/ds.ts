@@ -62,7 +62,7 @@ export const TEXTS = {
     search: HOME_COUNT_VIEW
   },
   homeCustom: {
-    hd: '右上角功能入口'
+    hd: '两侧功能入口'
   },
   homeICS: {
     hd: '放送提醒菜单增加导出 ICS',

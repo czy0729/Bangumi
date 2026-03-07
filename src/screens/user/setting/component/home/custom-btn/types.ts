@@ -11,3 +11,5 @@ export type Props = WithViewStyles<{
   active?: boolean
   onPress?: Fn
 }>
+
+export type SettingKeys = 'homeTopLeftCustom' | 'homeTopRightCustom' | 'homeTopExtraCustom'

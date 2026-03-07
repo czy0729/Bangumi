@@ -14,9 +14,10 @@ import { EVENT } from '@constants'
 import { IconTabsHeader } from '../tabs-header'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props as IconNotifyProps } from './types'
 
-export { IconNotifyProps }
+import type { Props as IconNotifyProps } from './types'
+
+export type { IconNotifyProps }
 
 let isSetTimeout = false
 

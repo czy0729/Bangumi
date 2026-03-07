@@ -282,6 +282,9 @@ export const INIT_SETTING = {
   /** 首页右上角自定义功能 (右) */
   homeTopRightCustom: 'Search' as Paths,
 
+  /** 首页左上角自定义功能 (提醒按钮右侧 / 额外) */
+  homeTopExtraCustom: '' as Paths,
+
   /** 发现页自定义菜单 */
   discoveryMenu: [...INIT_DISCOVERY_MENU] as MenuItem['key'][],
 
