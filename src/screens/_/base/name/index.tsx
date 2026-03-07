@@ -21,7 +21,7 @@ import type { Props as NameProps } from './types'
 export type { NameProps }
 
 /** 自动添加好友和打标签 */
-function Name({
+export function Name({
   style,
   size,
   lineHeight,

@@ -73,7 +73,7 @@ function ToggleImage(props: Props) {
 
   const autoSize = useMemo(() => {
     if (typeof propAutoSize === 'number' && propAutoSize) {
-      return propAutoSize - 1
+      return Math.floor(propAutoSize - 10)
     }
     return undefined
   }, [propAutoSize])

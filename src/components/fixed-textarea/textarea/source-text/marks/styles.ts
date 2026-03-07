@@ -9,7 +9,7 @@ import { _ } from '@stores'
 export const styles = _.create({
   mark: {
     paddingVertical: 8,
-    paddingHorizontal: 4,
+    paddingHorizontal: 3,
     marginRight: _.md,
     borderRadius: _.radiusSm,
     overflow: 'hidden',

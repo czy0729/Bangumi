@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-07-29 04:25:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-14 18:01:40
+ * @Last Modified time: 2026-03-07 05:22:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,6 +10,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useObserver } from 'mobx-react'
 import TextareaItem from '@ant-design/react-native/lib/textarea-item'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { IOS } from '@constants'
 import { Flex } from '../../flex'
 import { Iconfont } from '../../iconfont'
@@ -19,7 +20,6 @@ import SourceText from './source-text'
 import { memoStyles } from './styles'
 
 import type { SafeAreaBottomProps } from '../../safe-area-bottom'
-
 function Textarea({
   forwardRef,
   simple,
@@ -27,6 +27,7 @@ function Textarea({
   source,
   placeholder,
   value,
+  selection,
   editing,
   showSource,
   showSourceText,
@@ -61,8 +62,9 @@ function Textarea({
           <Flex.Item style={editing ? styles.body : styles.fixed}>
             <TextareaItem
               ref={forwardRef}
-              style={styles.textarea}
+              style={stl(styles.textarea, !editing && styles.hiddenText)}
               value={value}
+              selection={selection}
               placeholder={simple || editing ? placeholder || '我要吐槽' : ''}
               placeholderTextColor={_.colorDisabled}
               rows={8}

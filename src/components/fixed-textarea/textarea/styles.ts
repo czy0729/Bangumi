@@ -43,6 +43,10 @@ export const memoStyles = _.memoStyles(() => ({
     lineHeight: 22,
     backgroundColor: 'transparent'
   },
+  hiddenText: {
+    color: 'transparent',
+    textShadowColor: 'transparent'
+  },
   touch: {
     marginTop: _.ios(7, 4),
     marginLeft: _.sm,

@@ -37,21 +37,23 @@ function SourceText({
       <Flex style={styles.source}>
         <Flex.Item>
           <Flex>
-            {showSource && showSourceText && (
-              <Text style={styles.opacity} size={11} type='sub'>
-                [来自Bangumi for {IOS ? 'iOS' : 'android'}]
-              </Text>
-            )}
             {showSource && (
               <Touchable
                 style={stl(styles.opacity, styles.btn, _.mr.md, !showSourceText && _.ml._xs)}
                 onPress={onToggleSourceText}
               >
-                <Iconfont
-                  name={showSourceText ? 'md-navigate-before' : 'md-navigate-next'}
-                  color={_.colorSub}
-                  size={18}
-                />
+                <Flex>
+                  {showSourceText && (
+                    <Text size={11} type='sub'>
+                      [来自Bangumi for {IOS ? 'iOS' : 'android'}]
+                    </Text>
+                  )}
+                  <Iconfont
+                    name={showSourceText ? 'md-navigate-before' : 'md-navigate-next'}
+                    color={_.colorSub}
+                    size={18}
+                  />
+                </Flex>
               </Touchable>
             )}
             <Marks

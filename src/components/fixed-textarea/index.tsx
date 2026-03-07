@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-20 13:07:40
+ * @Last Modified time: 2026-03-07 05:35:42
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import { feedback, getStorage, info, setStorage } from '@utils'
+import { feedback, getStorage, setStorage } from '@utils'
 import { r } from '@utils/dev'
 import { FROZEN_FN, IOS, WEB } from '@constants'
 import { KeyboardSpacer } from '../keyboard-spacer'
+import { BBCODE_CONFIG, insertBBCode } from './bbcode'
 import Container from './container'
 import Content from './content'
 import Mask from './mask'
@@ -48,6 +49,10 @@ class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
 
   state = {
     value: this.props.value,
+    selection: {
+      start: this.props.value.length,
+      end: this.props.value.length
+    },
     showBgm: false,
     showKeyboardSpacer: false,
     showReplyHistory: false,
@@ -62,11 +67,6 @@ class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
 
   ref: {
     textAreaRef: TextInput
-  }
-
-  selection = {
-    start: this.props.value.length,
-    end: this.props.value.length
   }
 
   private _focused: boolean = false
@@ -100,6 +100,11 @@ class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
     }
   }
 
+  componentWillUnmount() {
+    const { simple } = this.props
+    if (!simple) this.checkIsNeedToSaveDraft()
+  }
+
   /** 保存 Textarea 引用 */
   forwardRef = (ref: { textAreaRef: TextInput }) => {
     this.ref = ref
@@ -130,22 +135,17 @@ class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
   /** 失去焦点回调 */
   onBlur = () => {
     const { simple, onClose } = this.props
-    onClose()
+    if (!simple) this.checkIsNeedToSaveDraft()
 
+    onClose()
     this.setState({
       showTextarea: false,
       showBgm: false,
       showReplyHistory: false,
       showKeyboardSpacer: false
     })
-
     setTimeout(() => {
       this.refBlur()
-      this.setState({
-        showTextarea: false,
-        showBgm: false
-      })
-      if (!simple) this.clear()
     }, 0)
   }
 
@@ -202,46 +202,50 @@ class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
   }
 
   /** 光标改变回调 */
-  onSelectionChange = (event: { nativeEvent: any }) => {
-    const { nativeEvent } = event
-    this.selection = nativeEvent.selection
+  onSelectionChange = (event: any) => {
+    const selection = event.nativeEvent.selection
+    this.setState({
+      selection
+    })
   }
 
   /** 模拟 BBCode 输入 */
   onAddSymbolText = (symbol: string, isText: boolean = false) => {
     this.refFocus()
 
-    try {
-      const { value } = this.state
-      const index = this.getSelection() || 0
+    const { value, selection } = this.state
+    const { start, end } = selection
 
-      // @todo 暂时没有对选择了一段文字的情况做判断
-      // 插入值, 如[s]光标位置[/s], [url=光标位置]链接描述[/url]
-      let left: string
-      let right: string
-      if (isText) {
-        left = `${value.slice(0, index)}${symbol}`
-        right = `${value.slice(index)}`
-      } else if (symbol === 'url') {
-        left = `${value.slice(0, index)}[url=`
-        right = `]链接描述[/url]${value.slice(index)}`
-      } else {
-        left = `${value.slice(0, index)}[${symbol}]`
-        right = `[/${symbol}]${value.slice(index)}`
-      }
+    // 纯文本
+    if (isText) {
+      const before = value.slice(0, start)
+      const after = value.slice(end)
+      const nextValue = before + symbol + after
+      const cursor = start + symbol.length
 
       this.setState({
-        value: `${left}${right}`
+        value: nextValue
       })
-      this.setSelection(left.length)
-    } catch {}
+      this.setSelection(cursor)
+      return
+    }
+
+    // BBCode
+    const config = BBCODE_CONFIG[symbol]
+    if (!config) return
+
+    const result = insertBBCode(value, selection, config.insert)
+    this.setState({
+      value: result.value
+    })
+    this.setSelection(result.cursor)
   }
 
   /** 选择 bgm 表情 */
   onSelectBgm = (key: string | number, updateRecent: boolean = true) => {
-    const { value } = this.state
+    const { value, selection } = this.state
     const id = Number(key)
-    const index = this.getSelection()
+    const index = selection.end
 
     // 插入值如 (bgm38)
     const left = `${value.slice(0, index)}(bgm${id})`
@@ -382,35 +386,21 @@ class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
     this.setSelection(0)
   }
 
-  /** @todo 获取光标位置 */
-  getSelection = () => {
-    // const ref = this.ref.textAreaRef
-    // const selection = ref._lastNativeSelection || null
-    // const { value } = this.state
-    // let index = value.length
-    // if (selection) {
-    //   index = selection.start
-    // }
-    // return index
-    return this.selection.end
-  }
-
   /** 设定光标位置 */
   setSelection = (start: number) => {
     const { textAreaRef } = this.ref
-    setTimeout(() => {
-      try {
-        const selection = {
-          start,
-          end: start
-        }
+    const selection = { start, end: start }
+    this.setState({
+      selection
+    })
 
-        textAreaRef.setNativeProps({
+    requestAnimationFrame(() => {
+      try {
+        textAreaRef?.setNativeProps?.({
           selection
         })
-        this.selection = selection
       } catch {}
-    }, 0)
+    })
   }
 
   /** 本地化最近使用 bgm 表情 */
@@ -473,10 +463,7 @@ class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
   /** 检查草稿是否未发送, 收起输入框时保存草稿到回复历史中 */
   checkIsNeedToSaveDraft = () => {
     const { value } = this.state
-    if (value) {
-      this.setReplyHistory(value)
-      info('草稿已保存到历史回复中')
-    }
+    if (value) this.setReplyHistory(value)
   }
 
   get value() {
@@ -495,6 +482,7 @@ class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
     const { placeholder, simple, source, marks, children, extraComponent } = this.props
     const {
       value,
+      selection,
       showBgm,
       showReplyHistory,
       showSource,
@@ -526,6 +514,7 @@ class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
           source={source}
           placeholder={placeholder}
           value={value}
+          selection={selection}
           editing={this.editing}
           showSource={showSource}
           showSourceText={showSourceText}
