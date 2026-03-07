@@ -7,6 +7,7 @@
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => {
+  const width = Math.max(100, _.windowSm.contentWidth * _.device(0.26, 0.298))
   const margin = _.device(_._wind, _.md)
 
   return {
@@ -14,7 +15,8 @@ export const memoStyles = _.memoStyles(() => {
       paddingTop: _.md + 4,
       paddingRight: _.windSm - _._wind,
       paddingBottom: _.sm,
-      paddingLeft: _.windSm
+      paddingLeft: _.windSm,
+      minHeight: Math.floor(width * 1.38)
     },
     split: {
       marginRight: margin - _.sm,

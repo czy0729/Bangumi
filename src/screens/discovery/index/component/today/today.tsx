@@ -49,6 +49,8 @@ const Today = memo(
       [styles]
     )
 
+    if (!todayBangumi.length) return <View style={styles.contentContainerStyle} />
+
     return (
       <HorizontalList
         contentContainerStyle={styles.contentContainerStyle}

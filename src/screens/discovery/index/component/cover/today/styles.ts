@@ -9,13 +9,14 @@ import { _ } from '@stores'
 export const memoStyles = _.memoStyles(() => {
   const width = Math.max(100, _.windowSm.contentWidth * _.device(0.26, 0.298))
   const margin = _.device(_._wind, _.md)
+
   return {
     item: {
       marginRight: margin
     },
     cover: {
       width,
-      height: width * 1.38
+      height: Math.floor(width * 1.38)
     },
     linear: {
       position: 'absolute',

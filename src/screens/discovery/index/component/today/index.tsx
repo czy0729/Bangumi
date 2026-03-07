@@ -17,7 +17,7 @@ function TodayWrap() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
-    if (!systemStore.setting.discoveryTodayOnair || !$.todayBangumi.length) return null
+    if (!systemStore.setting.discoveryTodayOnair) return null
 
     return <Today styles={memoStyles()} todayBangumi={$.todayBangumi} />
   })
