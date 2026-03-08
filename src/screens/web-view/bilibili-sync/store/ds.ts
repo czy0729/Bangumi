@@ -4,9 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-14 15:41:39
  */
-import { Loaded } from '@types'
 import { COMPONENT } from '../ds'
-import { BilibiliItem, Reviews } from '../types'
+
+import type { Loaded } from '@types'
+import type { BilibiliItem, Reviews } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}`
 

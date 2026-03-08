@@ -4,10 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-14 16:05:07
  */
-import { Fn, ViewStyle } from '@types'
+import type { Fn, ViewStyle, WithViewStyles } from '@types'
 
-export type Props = {
-  style?: ViewStyle
+export type Props = WithViewStyles<{
   btnStyle?: ViewStyle
   text?: string
   type?: string
@@ -15,4 +14,4 @@ export type Props = {
   disabled?: boolean
   loading?: boolean
   onPress?: Fn
-}
+}>

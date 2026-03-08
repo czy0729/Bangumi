@@ -6,11 +6,11 @@
  */
 import { rc } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
-import { InferArray, Navigation } from '@types'
 import { COMPONENT as PARENT } from '../ds'
-import { memoStyles } from './styles'
 
+import type { InferArray, Navigation } from '@types'
 import type { Ctx } from '../../types'
+import type { memoStyles } from './styles'
 
 export const COMPONENT = rc(PARENT, 'Item')
 

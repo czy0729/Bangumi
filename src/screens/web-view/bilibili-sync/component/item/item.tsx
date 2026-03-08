@@ -8,7 +8,7 @@ import React, { useState } from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Loading, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { Cover } from '@_'
+import { Cover, Tag } from '@_'
 import { _ } from '@stores'
 import { copy, open } from '@utils'
 import { memo } from '@utils/decorators'
@@ -20,7 +20,6 @@ import {
   IMG_WIDTH_SM,
   MODEL_COLLECTION_STATUS
 } from '@constants'
-import { CollectionStatus, CollectionStatusCn } from '@types'
 import {
   getSelectComment,
   getSelectEp,
@@ -35,6 +34,8 @@ import Column from '../column'
 import ColumnBgm from '../column-bgm'
 import ColumnSelect from '../column-select'
 import { BILIBILI_STATUS, DEFAULT_PROPS, HIT_SLOP } from './ds'
+
+import type { CollectionStatus, CollectionStatusCn } from '@types'
 
 export default memo(
   ({
@@ -51,45 +52,58 @@ export default memo(
     const { subjectId } = item
     const isSubject = !!subjectId
     const isLoaded = !!collection?.loaded
-    const progress = item.progress.replace('看到', '').replace('第', '').split(' ')?.[0] || ''
 
-    // hooks
+    const progress = item.progress?.replace(/看到|第/g, '').split(' ')?.[0] || ''
+
     const [loading, setLoading] = useState(false)
+
     const [selectStatus, setSelectStatus] = useSelectStatus(item.status, collection?.status)
     const [selectEp, setSelectEp] = useSelectEp(progress, collection?.ep_status)
     const [selectScore, setSelectScore] = useSelectScore(review?.score, collection?.rating)
     const [selectComment, setSelectComment] = useSelectComment(review?.content, collection?.comment)
 
-    // 隐藏进度一致
     const bili = {
       status: BILIBILI_STATUS[item.status] || '',
       ep: progress || '',
       score: review?.score || '',
       comment: review?.content || ''
     }
+
     const bgm = {
       status: MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(collection?.status) || '',
       ep: collection?.ep_status && `${collection.ep_status}话`,
       score: collection?.rating || '',
       comment: collection?.comment || ''
     }
-    if (
-      hideSame &&
+
+    const isAllSame =
       bili.status == bgm.status &&
       bili.ep == bgm.ep &&
       bili.score == bgm.score &&
       bili.comment == bgm.comment
-    ) {
-      return null
-    }
 
-    // 若提交确认用的值
+    if (hideSame && isAllSame) return null
+
+    const epSelect = getSelectEp(progress, collection?.ep_status)
+    const scoreSelect = getSelectScore(review?.score, collection?.rating)
+    const commentSelect = getSelectComment(review?.content, collection?.comment)
+
     const next = {
       status: BILIBILI_STATUS[item.status],
-      ep: getSelectEp(progress, collection?.ep_status).value as string | number,
-      score: getSelectScore(review?.score, collection?.rating).value,
-      comment: getSelectComment(review?.content, collection?.comment).value
+      ep: epSelect.value as string | number,
+      score: scoreSelect.value,
+      comment: commentSelect.value
     }
+
+    const hasSelect = selectStatus || selectEp || selectScore || selectComment
+
+    const tagProps =
+      isLoaded && isAllSame
+        ? ({ type: 'plain', value: '完全相同' } as const)
+        : hasSelect
+        ? ({ type: 'bid', value: '有差异' } as const)
+        : ({ type: 'plain', value: '无需同步' } as const)
+
     const onPress = () => {
       if (!isSubject) return
 
@@ -106,14 +120,26 @@ export default memo(
           src={item.cover}
           width={IMG_WIDTH_SM}
           height={IMG_HEIGHT_SM}
-          radius
+          radius={_.radiusSm}
           onPress={onPress}
         />
+
         <Flex.Item>
           <Flex style={styles.body} direction='column' align='start'>
-            <Text bold numberOfLines={2} onPress={onPress}>
-              {item.title}
-            </Text>
+            <Flex align='start'>
+              <Flex.Item>
+                <Text
+                  size={item.title.length >= 10 ? 13 : 14}
+                  bold
+                  numberOfLines={2}
+                  onPress={onPress}
+                >
+                  {item.title}
+                </Text>
+              </Flex.Item>
+              <Tag style={styles.tag} {...tagProps} />
+            </Flex>
+
             <Flex style={_.mt.md} align='start'>
               {/* side */}
               <View>
@@ -157,6 +183,7 @@ export default memo(
                     )
                   }
                 />
+
                 {isSubject ? (
                   isLoaded ? (
                     <>
@@ -179,6 +206,7 @@ export default memo(
               {isSubject && (
                 <View style={styles.selectors}>
                   <Column text=' ' type='sub' />
+
                   {isLoaded && (
                     <>
                       <ColumnSelect
@@ -216,10 +244,10 @@ export default memo(
                       text='详情'
                       onPress={() => {
                         open(`${HOST_AC_MEDIA}/md${item.id}`)
-
                         t('bili同步.详情')
                       }}
                     />
+
                     <Btn
                       style={_.ml.sm}
                       text='搜索'
@@ -232,16 +260,16 @@ export default memo(
                         t('bili同步.搜索')
                       }}
                     />
+
                     <Btn style={_.ml.sm} text='置底' onPress={() => onBottom(item.id)} />
                   </Flex>
                 </Flex.Item>
+
                 {isSubject && (
                   <Btn
                     style={_.ml.md}
                     type='success'
-                    disabled={
-                      !isLoaded || !(selectStatus || selectEp || selectScore || selectComment)
-                    }
+                    disabled={!isLoaded || !hasSelect}
                     loading={loading}
                     onPress={async () => {
                       const flag: {
@@ -257,6 +285,7 @@ export default memo(
                         comment?: any
                         ep?: any
                       } = {}
+
                       if (selectStatus) {
                         if (next.status === '想看') {
                           flag.status = true
@@ -269,7 +298,6 @@ export default memo(
                           collectionData.status = 'do'
                         }
                       } else if (bgm.status) {
-                        // 即使不更新状态也需要提交当前的状态，不然会变成想看
                         flag.status = true
                         collectionData.status = MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(
                           bgm.status
@@ -280,6 +308,7 @@ export default memo(
                         flag.score = true
                         collectionData.rating = next.score
                       }
+
                       if (selectComment) {
                         flag.comment = true
                         collectionData.comment = next.comment
@@ -288,6 +317,7 @@ export default memo(
                       const epData: {
                         ep?: any
                       } = {}
+
                       if (selectEp) {
                         flag.ep = true
                         epData.ep = next.ep

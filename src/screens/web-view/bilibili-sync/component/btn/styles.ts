@@ -8,7 +8,7 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   touch: {
-    width: 56,
+    width: 52,
     borderRadius: _.r(28),
     overflow: 'hidden'
   },

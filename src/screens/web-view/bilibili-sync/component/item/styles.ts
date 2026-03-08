@@ -26,5 +26,10 @@ export const memoStyles = _.memoStyles(() => ({
   },
   loading: {
     marginTop: 13
+  },
+  tag: {
+    marginTop: 1,
+    marginRight: _._wind,
+    marginLeft: _.sm
   }
 }))

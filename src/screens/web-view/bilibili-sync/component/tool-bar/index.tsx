@@ -7,13 +7,15 @@
 import React from 'react'
 import { Flex, Iconfont, Text, ToolBar as ToolBarComp } from '@components'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 
+import type { Ctx } from '../../types'
+
 function ToolBar() {
-  const { $ } = useStore<Ctx>()
-  return (
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
     <ToolBarComp>
       <ToolBarComp.Touchable onSelect={() => $.onToggle('hideNotMatched')}>
         <Text size={11} bold>
@@ -47,7 +49,7 @@ function ToolBar() {
         </Text>
       </ToolBarComp.Touchable>
     </ToolBarComp>
-  )
+  ))
 }
 
-export default ob(ToolBar, COMPONENT)
+export default ToolBar

@@ -7,10 +7,10 @@
 import React from 'react'
 import { Flex, Loading, Text, Touchable } from '@components'
 import { stl } from '@utils'
-import { ob } from '@utils/decorators'
-import { COMPONENT } from './ds'
+import { useObserver } from '@utils/hooks'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function Btn({
   style,
@@ -22,21 +22,27 @@ function Btn({
   loading,
   onPress
 }: Props) {
-  const styles = memoStyles()
-  const isSuccess = type === 'success' && !disabled
-  return (
-    <Touchable style={stl(styles.touch, style)} onPress={disabled || loading ? undefined : onPress}>
-      <Flex style={stl(styles.btn, isSuccess && styles.btnSuccess, btnStyle)} justify='center'>
-        {loading ? (
-          <Loading.Mini />
-        ) : (
-          <Text bold size={size} type={isSuccess ? '__plain__' : undefined}>
-            {text}
-          </Text>
-        )}
-      </Flex>
-    </Touchable>
-  )
+  return useObserver(() => {
+    const styles = memoStyles()
+    const isSuccess = type === 'success' && !disabled
+
+    return (
+      <Touchable
+        style={stl(styles.touch, style)}
+        onPress={disabled || loading ? undefined : onPress}
+      >
+        <Flex style={stl(styles.btn, isSuccess && styles.btnSuccess, btnStyle)} justify='center'>
+          {loading ? (
+            <Loading.Mini />
+          ) : (
+            <Text bold size={size} type={isSuccess ? '__plain__' : undefined}>
+              {text}
+            </Text>
+          )}
+        </Flex>
+      </Touchable>
+    )
+  })
 }
 
-export default ob(Btn, COMPONENT)
+export default Btn

@@ -25,12 +25,13 @@ function Login({ hide, onToggleHide, setData, setReviews }) {
   r(COMPONENT)
 
   const { headerHeight } = useInsets()
-
   const [key, setKey] = useState(0)
   const [message, setMessage] = useState('检查状态中...')
-  const onMessage = useCallback(
-    event => {
+
+  const handleMessage = useCallback(
+    (event: { nativeEvent: { data: string } }) => {
       const { type, data } = JSON.parse(event.nativeEvent.data)
+
       switch (type) {
         case TYPE_CHECK_LOGIN:
           setMessage(
@@ -57,7 +58,8 @@ function Login({ hide, onToggleHide, setData, setReviews }) {
     },
     [setData, setReviews]
   )
-  const onRefresh = useCallback(() => {
+
+  const handleRefresh = useCallback(() => {
     setMessage('检查状态中...')
     setKey(key + 1)
     t('bili同步.获取数据')
@@ -89,7 +91,7 @@ function Login({ hide, onToggleHide, setData, setReviews }) {
               androidLayerType='software'
               javaScriptEnabled
               injectedJavaScript={injectedJavaScript()}
-              onMessage={onMessage}
+              onMessage={handleMessage}
             />
           </View>
           <View style={styles.body}>
@@ -113,7 +115,7 @@ function Login({ hide, onToggleHide, setData, setReviews }) {
                 btnStyle={styles.btnStyle}
                 text='重新获取数据'
                 size={13}
-                onPress={onRefresh}
+                onPress={handleRefresh}
               />
               <Btn
                 style={[styles.btn, _.ml.lg]}

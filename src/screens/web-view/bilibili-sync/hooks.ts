@@ -6,9 +6,10 @@
  */
 import { useInitStore } from '@stores'
 import { usePageLifecycle } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import store from './store'
-import { Ctx } from './types'
+
+import type { NavigationProps } from '@types'
+import type { Ctx } from './types'
 
 /** bilibili 同步页面逻辑 */
 export function useBilibiliSyncPage(props: NavigationProps) {

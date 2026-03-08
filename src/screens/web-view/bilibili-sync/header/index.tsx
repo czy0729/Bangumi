@@ -4,24 +4,25 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-12-12 05:36:35
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { HeaderV2 } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import i18n from '@constants/i18n'
-import { Ctx } from '../types'
-import { HM } from './ds'
+import { COMPONENT, HM } from './ds'
+
+import type { Ctx } from '../types'
 
 function Header() {
-  const { $, navigation } = useStore<Ctx>()
-  const { hide } = $.state
-  return (
-    <HeaderV2
-      title='bilibili 同步'
-      hm={HM}
-      headerRight={() => (
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => {
+    const { hide } = $.state
+
+    const handleHeaderRight = useCallback(
+      () => (
         <>
           <IconTouchable
             style={_.mr.xs}
@@ -49,9 +50,12 @@ function Header() {
             }}
           />
         </>
-      )}
-    />
-  )
+      ),
+      [hide]
+    )
+
+    return <HeaderV2 title='bilibili 同步' hm={HM} headerRight={handleHeaderRight} />
+  })
 }
 
-export default ob(Header)
+export default Header

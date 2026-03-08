@@ -6,7 +6,9 @@
  */
 import { get } from '@utils/protobuf'
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
+import { NAMESPACE } from './ds'
+
+import type { EXCLUDE_STATE, STATE } from './ds'
 
 export default class ScreenBilibiliSync extends Action {
   init = async () => {

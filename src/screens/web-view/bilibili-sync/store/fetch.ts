@@ -9,9 +9,10 @@ import { queue } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
 import { decode } from '@utils/protobuf'
 import i18n from '@constants/i18n'
-import { SubjectId } from '@types'
 import { HOST_API, LOADED } from '../ds'
 import Computed from './computed'
+
+import type { SubjectId } from '@types'
 
 export default class Fetch extends Computed {
   /** 加载 bangumi-data */

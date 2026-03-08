@@ -9,16 +9,21 @@ import { t } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
 import { get } from '@utils/protobuf'
 import { t2s } from '@utils/thirdParty/cn-char'
-import { Id, SubjectId } from '@types'
 import { HOST_API, MEDIA_SUBJECT } from '../ds'
-import { BilibiliItem, Reviews } from '../types'
 import Fetch from './fetch'
+
+import type { Id, SubjectId } from '@types'
+import type { BilibiliItem, Reviews } from '../types'
 
 export default class Action extends Fetch {
   onToggleHide = () => {
     this.setState({
       hide: !this.state.hide
     })
+  }
+
+  onHeaderRefresh = () => {
+    return this.fetchCollections(this.data.map(item => item.subjectId).slice(0, 80))
   }
 
   onPage = (page: BilibiliItem[]) => {

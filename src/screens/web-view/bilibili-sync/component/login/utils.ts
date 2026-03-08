@@ -15,7 +15,7 @@ export const TYPE_GET_REVIEW = 'GET_REVIEW'
 export function injectedJavaScript() {
   return `(function() {
     setTimeout(() => {
-      /* webview的postMessage不是马上生效的 */
+      /* webview 的 postMessage 不是马上生效的 */
       let __timeoutId = null;
       let __isBridgeOk = false;
 

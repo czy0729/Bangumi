@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-09-29 19:34:53
  */
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { MODEL_COLLECTION_STATUS } from '@constants'
 
 export function getSelectStatus(bili, bgm) {
@@ -16,7 +16,7 @@ export function getSelectStatus(bili, bgm) {
     _bgm = 3
   }
 
-  let select
+  let select: boolean
   if (_bgm >= 3) {
     select = false
   } else {

@@ -7,32 +7,37 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Touchable } from '@components'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { COLOR_SUCCESS, COMPONENT, HIT_SLOP } from './ds'
 import { styles } from './styles'
 
 function ColumnSelect({ select, disabled, onPress }) {
-  if (disabled) {
-    return (
-      <View style={styles.columnSelect}>
-        {/* <Flex style={styles.radio} justify='center'>
+  r(COMPONENT)
+
+  return useObserver(() => {
+    if (disabled) {
+      return (
+        <View style={styles.columnSelect}>
+          {/* <Flex style={styles.radio} justify='center'>
           <Iconfont name='md-do-not-disturb-alt' size={16} />
         </Flex> */}
-      </View>
-    )
-  }
+        </View>
+      )
+    }
 
-  return (
-    <Touchable style={styles.columnSelect} hitSlop={HIT_SLOP} onPress={() => onPress(!select)}>
-      <Flex style={styles.radio} justify='center'>
-        <Iconfont
-          name={select ? 'md-check-circle' : 'md-radio-button-off'}
-          color={select ? COLOR_SUCCESS : undefined}
-          size={16}
-        />
-      </Flex>
-    </Touchable>
-  )
+    return (
+      <Touchable style={styles.columnSelect} hitSlop={HIT_SLOP} onPress={() => onPress(!select)}>
+        <Flex style={styles.radio} justify='center'>
+          <Iconfont
+            name={select ? 'md-check-circle' : 'md-radio-button-off'}
+            color={select ? COLOR_SUCCESS : undefined}
+            size={16}
+          />
+        </Flex>
+      </Touchable>
+    )
+  })
 }
 
-export default ob(ColumnSelect, COMPONENT)
+export default ColumnSelect

@@ -25,9 +25,15 @@ function List() {
         data={$.data}
         limit={12}
         ListHeaderComponent={
-          $.data.length ? <Notice>共查找到 {$.data.length} 项结果</Notice> : null
+          $.data.length ? (
+            <Notice>
+              共查找到 {$.data.length} 项 bilibili 追番结果，若 bgm
+              收藏状态与实际不符，请检查授权状态
+            </Notice>
+          ) : null
         }
         renderItem={renderItem}
+        onHeaderRefresh={$.onHeaderRefresh}
         onPage={$.onPage}
       />
     </>

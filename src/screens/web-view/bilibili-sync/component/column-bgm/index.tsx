@@ -7,13 +7,16 @@
 import React from 'react'
 import { Text } from '@components'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 
 function ColumnBgm({ select, text, next }) {
-  return (
-    <Text style={_.mt.md} type={!text ? 'sub' : select ? 'sub' : 'desc'} size={11} bold>
-      {text || '__'}
+  r(COMPONENT)
+
+  return useObserver(() => (
+    <Text style={_.mt.md} type={!text ? 'icon' : select ? 'icon' : 'desc'} size={11} bold>
+      {text || (select ? '(空)' : '')}
       {select && (
         <Text size={11} bold type='desc'>
           {' '}
@@ -21,8 +24,7 @@ function ColumnBgm({ select, text, next }) {
         </Text>
       )}
     </Text>
-  )
+  ))
 }
 
-export default ob(ColumnBgm, COMPONENT)
-
+export default ColumnBgm

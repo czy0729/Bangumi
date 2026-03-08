@@ -6,19 +6,23 @@
  */
 import React from 'react'
 import { Flex, Text } from '@components'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function Column({ style, type, text, right, onPress }: Props) {
-  return (
+  r(COMPONENT)
+
+  return useObserver(() => (
     <Flex style={style}>
       <Text size={11} type={!text || text === '/' ? 'sub' : type} onPress={onPress}>
-        {text || '__'}
+        {text || ''}
       </Text>
       {right}
     </Flex>
-  )
+  ))
 }
 
-export default ob(Column, COMPONENT)
+export default Column

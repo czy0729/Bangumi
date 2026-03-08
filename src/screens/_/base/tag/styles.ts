@@ -52,6 +52,10 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
     borderColor: _.select(_.colorAsk, _._colorDarkModeLevel1)
   },
+  bid: {
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
+    borderColor: _.select(_.colorBid, _._colorDarkModeLevel1)
+  },
   mainActive: {
     backgroundColor: _.colorMain,
     borderColor: _.colorMain

@@ -6,34 +6,41 @@
  */
 import React from 'react'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { useObserver } from '@utils/hooks'
 import Item from './item'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-export default ob(({ item }) => {
-  const { $, navigation } = useStore<Ctx>()
-  const { subjectId } = item
+import type { RenderItem } from '@types'
+import type { BilibiliItem, Ctx } from '../../types'
 
-  // 隐藏未匹配
-  if ($.state.hideNotMatched && !subjectId) return null
+function ItemWrap({ item }: RenderItem<BilibiliItem>) {
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
 
-  // 隐藏已看过
-  const collection = $.collection(subjectId)
-  if ($.state.hideWatched && collection?.status === 'collect') return null
+  return useObserver(() => {
+    const { subjectId } = item
 
-  return (
-    <Item
-      navigation={navigation}
-      styles={memoStyles()}
-      item={item}
-      review={$.review(item.id)}
-      collection={collection}
-      hideSame={$.state.hideSame}
-      onRefreshCollection={$.onRefreshCollection}
-      onBottom={$.onBottom}
-      onSubmit={$.onSubmit}
-    />
-  )
-}, COMPONENT)
+    // 隐藏未匹配
+    if ($.state.hideNotMatched && !subjectId) return null
+
+    // 隐藏已看过
+    const collection = $.collection(subjectId)
+    if ($.state.hideWatched && collection?.status === 'collect') return null
+
+    return (
+      <Item
+        navigation={navigation}
+        styles={memoStyles()}
+        item={item}
+        review={$.review(item.id)}
+        collection={collection}
+        hideSame={$.state.hideSame}
+        onRefreshCollection={$.onRefreshCollection}
+        onBottom={$.onBottom}
+        onSubmit={$.onSubmit}
+      />
+    )
+  })
+}
+
+export default ItemWrap
