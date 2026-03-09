@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:56:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-12 15:59:19
+ * @Last Modified time: 2026-03-09 22:26:07
  */
-import { TextType, TouchableProps } from '@components'
-import { Fn, IconfontNames, Override, ReactNode, TextStyle, ViewStyle } from '@types'
+import type { TextType, TouchableProps } from '@components'
+import type { Fn, IconfontNames, Override, ReactNode, TextStyle, ViewStyle } from '@types'
 
 export type Props = Override<
   TouchableProps,

@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-08-10 17:53:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-20 15:48:43
+ * @Last Modified time: 2026-03-10 06:58:10
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Heatmap, Text } from '@components'
+import { Flex, Heatmap, Text, Touchable } from '@components'
 import { StatusBarPlaceholder } from '@_'
 import { discoveryStore, userStore, useStore } from '@stores'
-import { info } from '@utils'
+import { feedback, info } from '@utils'
 import { useObserver } from '@utils/hooks'
 import Award from '../component/award'
+import Live2DMenu from '../component/live-2d-menu'
 import SortMenu from '../component/sort-menu'
 import Today from '../component/today'
 import { COMPONENT } from './ds'
@@ -44,23 +45,30 @@ function HeaderComponent() {
             <Flex style={styles.wrap}>
               {!!discoveryStore.online && (
                 <>
-                  <Text size={12}>online {discoveryStore.online}</Text>
-                  <Text
-                    size={12}
+                  <Text style={styles.compact} size={12}>
+                    online {discoveryStore.online}
+                  </Text>
+                  <Touchable
+                    style={styles.badge}
                     onPress={() => {
-                      info('已设置公开标识的在线人数')
+                      info('客户端最近公开的在线人数')
+                      feedback(true)
                     }}
                   >
-                    {' '}
-                    ({Object.keys(userStore.state.onlines || {}).length})
-                  </Text>
+                    <Text type='sub' size={11} bold>
+                      {Object.keys(userStore.state.onlines || {}).length}
+                    </Text>
+                  </Touchable>
                 </>
               )}
+
               <Flex.Item>
-                <Text align='right' size={12} numberOfLines={1}>
+                <Text style={styles.compact} align='right' size={12} numberOfLines={1}>
                   {$.today || $.home.today}
                 </Text>
               </Flex.Item>
+
+              <Live2DMenu />
             </Flex>
 
             <Today />

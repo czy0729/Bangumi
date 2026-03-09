@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-13 16:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-15 11:34:33
+ * @Last Modified time: 2026-03-09 23:31:11
  */
 import { ORIENTATION_PORTRAIT, WEB } from '@constants'
 import _ from '@styles'
@@ -34,6 +34,7 @@ export const STYLES_LIGHT = {
   colorDarkModeLevel1Hex: _._colorDarkModeLevel1Hex,
   colorDarkModeLevel1Raw: _._colorDarkModeLevel1Raw,
   colorDarkModeLevel2: _._colorDarkModeLevel2,
+  colorDarkModeLevel2Raw: _._colorDarkModeLevel2Raw,
   colorDesc: _.colorDesc,
   colorDisabled: _.colorDisabled,
   colorHighLight: _.colorHighLight,
@@ -63,6 +64,7 @@ export const STYLES_DARK = {
   colorDarkModeLevel1Hex: _._colorDarkModeLevel1Hex,
   colorDarkModeLevel1Raw: _._colorDarkModeLevel1Raw,
   colorDarkModeLevel2: _._colorDarkModeLevel2,
+  colorDarkModeLevel2Raw: _._colorDarkModeLevel2Raw,
   colorDesc: _._colorDesc,
   colorDisabled: _._colorDisabled,
   colorHighLight: _._colorHighLight,

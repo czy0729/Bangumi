@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-31 08:31:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-08 06:45:58
+ * @Last Modified time: 2026-03-09 23:26:51
  */
 import type { ColorValue, Fn, ReactNode, ViewStyle, WithViewStyles } from '@types'
 
@@ -18,6 +18,9 @@ export type Props = WithViewStyles<{
 
   /** 是否显示渐变 */
   linearGradient?: boolean
+
+  /** 渐变颜色 */
+  linearGradientColor?: [string, string, string]
 
   /** 是否检测首屏渲染时内部组件高度, 若高度小于收缩容器高度, 直接调用展开回调 */
   checkLayout?: boolean

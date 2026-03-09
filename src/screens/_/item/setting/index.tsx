@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 02:02:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-10 10:19:54
+ * @Last Modified time: 2026-03-09 22:26:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,9 +13,10 @@ import { ob } from '@utils/decorators'
 import { WEB } from '@constants'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props as ItemSettingProps } from './types'
 
-export { ItemSettingProps }
+import type { Props as ItemSettingProps } from './types'
+
+export type { ItemSettingProps }
 
 export const ItemSetting = ob(
   ({

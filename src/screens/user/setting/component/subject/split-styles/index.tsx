@@ -2,21 +2,23 @@
  * @Author: czy0729
  * @Date: 2025-04-10 23:31:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-13 19:04:15
+ * @Last Modified time: 2026-03-09 22:37:51
  */
 import React, { useCallback, useRef } from 'react'
 import { View } from 'react-native'
-import { Flex, Heatmap, ScrollTo, ScrollView, Text } from '@components'
+import { Flex, Heatmap, ScrollView, Text } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { useAsyncSetSetting, useMount, useObserver } from '@utils/hooks'
 import { MODEL_SETTING_SUBJECT_SPLIT_STYLES, SETTING_SUBJECT_SPLIT_STYLES } from '@constants'
-import { SettingSubjectSplitStyles } from '@types'
-import { WithFilterProps } from '../../../types'
 import { TEXTS } from '../ds'
 import { ITEM_WIDTH } from './ds'
 import { memoStyles } from './styles'
+
+import type { ScrollTo } from '@components'
+import type { SettingSubjectSplitStyles } from '@types'
+import type { WithFilterProps } from '../../../types'
 
 /** 条目版块分割线样式 */
 function SplitStyles({ filter }: WithFilterProps) {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-24 16:25:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-13 12:19:57
+ * @Last Modified time: 2026-03-09 23:30:33
  */
 import type { ColorRaw } from './types'
 
@@ -178,6 +178,10 @@ export const _colorIcon = 'rgba(255, 255, 255, 0.38)'
 
 export const _colorDarkModeLevel1Raw = _colorDarkModeLevel1.match(regColor) as ColorRaw<
   typeof _colorDarkModeLevel1
+>
+
+export const _colorDarkModeLevel2Raw = _colorDarkModeLevel2.match(regColor) as ColorRaw<
+  typeof _colorDarkModeLevel2
 >
 
 export const _colorPlainRaw = _colorPlain.match(regColor) as ColorRaw<typeof _colorPlain>

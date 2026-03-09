@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-06-17 20:11:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-12 16:27:12
+ * @Last Modified time: 2026-03-09 23:19:51
  */
-import { TextType } from '@components'
-import { ColorValue, IconfontNames, TextStyle, ViewStyle } from '@types'
+import type { TextType } from '@components'
+import type { ColorValue, IconfontNames, TextStyle, ViewStyle } from '@types'
 
 export type ItemSettingBlockItemProps = {
   style?: ViewStyle
@@ -16,6 +16,7 @@ export type ItemSettingBlockItemProps = {
   iconStyle?: TextStyle
   iconColor?: ColorValue
   title?: string
+  titleSize?: number
   information?: string
   informationType?: TextType
   filter?: string
@@ -34,6 +35,7 @@ export type ItemSettingBlockProps = {
 
   /** 是否二级关联设置 */
   sub?: boolean
+  subStyle?: ViewStyle
   thumb?:
     | false
     | {

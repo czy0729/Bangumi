@@ -1,10 +1,9 @@
 /*
  * 字典
- *
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-15 11:22:36
+ * @Last Modified time: 2026-03-10 00:08:16
  */
 import Crypto from '@utils/crypto'
 import { IOS } from '../constants'
@@ -732,6 +731,29 @@ export const SETTING_CDN_ORIGIN = [
 
 /** [设置] CDN 源头 */
 export const MODEL_SETTING_CDN_ORIGIN = new Model(SETTING_CDN_ORIGIN, 'SETTING_CDN_ORIGIN')
+
+/** [设置] Live2D Model */
+export const SETTING_LIVE2D_MODEL = [
+  {
+    label: '全自动 Bangumi 娘',
+    value: 'auto_riff'
+  },
+  {
+    label: 'Bangumi 娘 Riff',
+    value: 'musume_riff'
+  },
+  {
+    label: '布莱克·樱 Riff',
+    value: 'black_riff'
+  },
+  {
+    label: 'Bangumi 娘',
+    value: 'musume_classic'
+  }
+] as const
+
+/** [设置] Live2D Model */
+export const MODEL_SETTING_LIVE2D_MODEL = new Model(SETTING_LIVE2D_MODEL, 'SETTING_LIVE2D_MODEL')
 
 /** [设置] 楼层导航条方向 */
 export const RAKUEN_SCROLL_DIRECTION = [

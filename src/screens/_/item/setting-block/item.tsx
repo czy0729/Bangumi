@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 20:09:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 16:58:58
+ * @Last Modified time: 2026-03-09 22:34:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,8 @@ import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { FROZEN_FN } from '@constants'
 import { memoStyles } from './styles'
-import { ItemSettingBlockItemProps } from './types'
+
+import type { ItemSettingBlockItemProps } from './types'
 
 const ItemSettingBlockItem = ob(
   ({
@@ -24,6 +25,7 @@ const ItemSettingBlockItem = ob(
     iconStyle,
     iconColor,
     title,
+    titleSize = 15,
     information,
     informationType = 'sub',
     filter,
@@ -51,7 +53,7 @@ const ItemSettingBlockItem = ob(
                   size={20}
                 />
               )}
-              <Highlight size={15} align='center' value={filter}>
+              <Highlight size={titleSize} align='center' value={filter}>
                 {title}
               </Highlight>
               {!!information && (

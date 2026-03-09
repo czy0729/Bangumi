@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-02-04 06:36:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-04 06:39:01
+ * @Last Modified time: 2026-03-10 01:30:09
  */
 import React from 'react'
 import { Image, Touchable } from '@components'
@@ -11,9 +11,10 @@ import { ob } from '@utils/decorators'
 import { GROUP_THUMB_MAP } from '@assets/images'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props as IconMesumeProps } from './types'
 
-export { IconMesumeProps }
+import type { Props as IconMesumeProps } from './types'
+
+export type { IconMesumeProps }
 
 export const IconMesume = ob(
   ({ onPress }: IconMesumeProps) => (

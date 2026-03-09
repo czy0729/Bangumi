@@ -2,10 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-07-20 12:26:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-20 14:49:07
+ * @Last Modified time: 2026-03-10 00:35:55
  */
 import { useCallback, useEffect, useState } from 'react'
-import { AppState, AppStateStatus } from 'react-native'
+import { AppState } from 'react-native'
+
+import type { AppStateStatus } from 'react-native'
 
 /**
  * 自定义 Hook，用于获取当前应用状态（如：后台、前台等）。

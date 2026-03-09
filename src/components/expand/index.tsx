@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-16 11:51:10
+ * @Last Modified time: 2026-03-09 23:25:16
  */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, View } from 'react-native'
@@ -30,6 +30,7 @@ export function Expand({
   iconColor,
   ratio = 1,
   linearGradient = true,
+  linearGradientColor = _.colorPlainRaw,
   checkLayout = true,
   onExpand,
   onPress,
@@ -144,10 +145,10 @@ export function Expand({
               <LinearGradient
                 style={styles.linear}
                 colors={[
-                  `rgba(${_.colorPlainRaw.join()}, 0)`,
-                  `rgba(${_.colorPlainRaw.join()}, 0.32)`,
-                  `rgba(${_.colorPlainRaw.join()}, 0.8)`,
-                  `rgba(${_.colorPlainRaw.join()}, 1)`
+                  `rgba(${linearGradientColor.join()}, 0)`,
+                  `rgba(${linearGradientColor.join()}, 0.32)`,
+                  `rgba(${linearGradientColor.join()}, 0.8)`,
+                  `rgba(${linearGradientColor.join()}, 1)`
                 ]}
               />
             )}

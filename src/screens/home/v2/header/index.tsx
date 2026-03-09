@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-06-02 22:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-18 16:48:33
+ * @Last Modified time: 2026-03-10 00:02:43
  */
 import React from 'react'
+import { View } from 'react-native'
 import { Flex, Heatmap, Touchable } from '@components'
 import { IconMenu, IconNotify, LogoHeader } from '@_'
 import { _, systemStore, useStore } from '@stores'
@@ -17,7 +18,6 @@ import { styles } from './styles'
 
 import type { MenuItem, Paths } from '@types'
 import type { Ctx } from '../types'
-
 function Header() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
@@ -63,10 +63,16 @@ function Header() {
         navigation={navigation}
         left={
           <>
-            <IconNotify style={stl(styles.icon, styles.left)} navigation={navigation} event={EVENT}>
-              <Heatmap right={-39} id='首页.跳转' to='Notify' alias='电波提醒' />
-              <Heatmap right={-92} id='其他.切换主题' transparent />
-            </IconNotify>
+            <View>
+              <IconNotify
+                style={stl(styles.icon, styles.left)}
+                navigation={navigation}
+                event={EVENT}
+              >
+                <Heatmap right={-39} id='首页.跳转' to='Notify' alias='电波提醒' />
+                <Heatmap right={-92} id='其他.切换主题' transparent />
+              </IconNotify>
+            </View>
             {extraItem && renderIcon(extraItem)}
           </>
         }

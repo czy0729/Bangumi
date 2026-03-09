@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 06:36:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-16 10:16:07
+ * @Last Modified time: 2026-03-09 23:19:34
  */
 import React from 'react'
 import { Component, Flex, Highlight, Iconfont, Touchable } from '@components'
@@ -13,9 +13,10 @@ import { WEB } from '@constants'
 import Item from './item'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { IItemSettingBlock, ItemSettingBlockItemProps, ItemSettingBlockProps } from './types'
 
-export { IItemSettingBlock, ItemSettingBlockProps, ItemSettingBlockItemProps }
+import type { IItemSettingBlock, ItemSettingBlockItemProps, ItemSettingBlockProps } from './types'
+
+export type { IItemSettingBlock, ItemSettingBlockProps, ItemSettingBlockItemProps }
 
 const ItemSettingBlock: IItemSettingBlock = ob(
   ({
@@ -27,6 +28,7 @@ const ItemSettingBlock: IItemSettingBlock = ob(
     size = WEB ? 14 : 15,
     filter,
     sub,
+    subStyle,
     thumb,
     url,
     align,
@@ -35,11 +37,12 @@ const ItemSettingBlock: IItemSettingBlock = ob(
     if (!show) return null
 
     const styles = memoStyles()
+
     return (
       <Component
         id='item-setting-block'
         data-key={title}
-        style={stl(styles.container, style, sub && styles.sub)}
+        style={stl(styles.container, style, sub && styles.sub, sub && subStyle)}
       >
         {!!title && (
           <Flex>

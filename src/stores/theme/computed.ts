@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 14:20:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-15 11:35:14
+ * @Last Modified time: 2026-03-09 23:30:45
  */
 import { StyleSheet } from 'react-native'
 import { computed } from 'mobx'
@@ -382,6 +382,10 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   @computed get colorDarkModeLevel2(): Color<'colorDarkModeLevel2'> {
     return this.state.colorDarkModeLevel2
+  }
+
+  @computed get colorDarkModeLevel2Raw(): Color<'colorDarkModeLevel2Raw'> {
+    return this.state.colorDarkModeLevel2Raw
   }
 
   @computed get colorPlainHex(): Color<'colorPlainHex'> {

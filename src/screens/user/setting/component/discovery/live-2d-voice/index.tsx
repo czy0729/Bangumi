@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-23 22:33:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-23 22:51:28
+ * @Last Modified time: 2026-03-10 01:13:45
  */
 import React from 'react'
 import { Heatmap, SwitchPro } from '@components'
@@ -27,7 +27,7 @@ function Live2DVoice({ filter }) {
             handleSwitch()
 
             t('设置.切换', {
-              title: '看板娘 Live2D 声音',
+              title: 'Live2D 声音',
               checked: !value
             })
           }}
@@ -37,7 +37,7 @@ function Live2DVoice({ filter }) {
       sub
       {...TEXTS.live2DVoice}
     >
-      <Heatmap id='设置.切换' title='看板娘 Live2D 声音' />
+      <Heatmap id='设置.切换' title='Live2D 声音' />
     </ItemSetting>
   ))
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-18 17:16:20
+ * @Last Modified time: 2026-03-10 01:17:34
  */
 import {
   IOS,
@@ -33,6 +33,8 @@ import type {
   SettingHomeLayout,
   SettingHomeSorting,
   SettingInitialPage,
+  SettingLive2DModel,
+  SettingLive2DScale,
   SettingSubjectSplitStyles,
   SettingTransition,
   SettingUserGridNum
@@ -299,6 +301,12 @@ export const INIT_SETTING = {
 
   /** 发现页看板娘 live-2d 点击发声 */
   live2DVoice: false,
+
+  /** 发现页看板娘 live-2d 模型 */
+  live2DModel: 'auto_riff' as SettingLive2DModel,
+
+  /** 发现页看板娘 live-2d 渲染大小 */
+  live2dScale: '中' as SettingLive2DScale,
 
   /** 是否不使用字体 */
   customFontFamily: false,

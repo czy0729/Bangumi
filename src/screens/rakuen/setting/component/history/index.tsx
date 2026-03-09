@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:28:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-25 15:25:01
+ * @Last Modified time: 2026-03-09 23:33:24
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Iconfont, Text, Touchable } from '@components'
+import { Expand, Flex, Iconfont, Text, Touchable } from '@components'
 import { Avatar } from '@_'
 import { _, rakuenStore } from '@stores'
 import { stl } from '@utils'
@@ -50,73 +50,75 @@ function History({
 
     return (
       <View style={stl(styles.container, style)}>
-        {data.map((item: string | BlockedUsersItem) => {
-          let userId: UserId = ''
-          let text = ''
-          if (typeof item === 'object') {
-            userId = item.userId
-            text = `${item.userName}@${userId}`
-          } else {
-            text = item
-          }
+        <Expand ratio={1.6} linearGradientColor={_.select(_.colorPlainRaw, _.colorBgRaw)}>
+          {data.map((item: string | BlockedUsersItem) => {
+            let userId: UserId = ''
+            let text = ''
+            if (typeof item === 'object') {
+              userId = item.userId
+              text = `${item.userName}@${userId}`
+            } else {
+              text = item
+            }
 
-          const onPress = () => {
-            if (!navigation) return
+            const onPress = () => {
+              if (!navigation) return
 
-            if (typeof onNavigate === 'function') {
-              onNavigate('Zone', {
+              if (typeof onNavigate === 'function') {
+                onNavigate('Zone', {
+                  userId
+                })
+                return
+              }
+
+              navigation.push('Zone', {
                 userId
               })
-              return
             }
 
-            navigation.push('Zone', {
-              userId
-            })
-          }
-
-          let blockCount = 0
-          try {
-            if (userId) {
-              blockCount = rakuenStore.blockedUsersTrack(userId)
-            } else if (typeof item === 'string') {
-              blockCount = rakuenStore.blockedTrack(item)
-              if (!blockCount) {
-                const find = Object.keys(rakuenStore.state.blockedTrack).find(key =>
-                  key.includes(item)
-                )
-                if (find) blockCount = rakuenStore.blockedTrack(find)
+            let blockCount = 0
+            try {
+              if (userId) {
+                blockCount = rakuenStore.blockedUsersTrack(userId)
+              } else if (typeof item === 'string') {
+                blockCount = rakuenStore.blockedTrack(item)
+                if (!blockCount) {
+                  const find = Object.keys(rakuenStore.state.blockedTrack).find(key =>
+                    key.includes(item)
+                  )
+                  if (find) blockCount = rakuenStore.blockedTrack(find)
+                }
               }
-            }
-          } catch {}
+            } catch {}
 
-          return (
-            <View key={text} style={styles.item}>
-              <Flex style={styles.content}>
-                {showAvatar && !!userId && (
-                  <View style={_.mr.sm}>
-                    <Avatar src={API_AVATAR(userId)} size={28} onPress={onPress} />
-                  </View>
-                )}
-                <Flex.Item>
-                  <Text size={blockCount ? 13 : 14} bold onPress={onPress}>
-                    {text}
-                  </Text>
-                  {!!blockCount && (
-                    <Text style={_.mt.xxs} size={10} type='sub' bold>
-                      已屏蔽 {blockCount} 次
-                    </Text>
+            return (
+              <View key={text} style={styles.item}>
+                <Flex style={styles.content}>
+                  {showAvatar && !!userId && (
+                    <View style={_.mr.sm}>
+                      <Avatar src={API_AVATAR(userId)} size={28} onPress={onPress} />
+                    </View>
                   )}
-                </Flex.Item>
-                <Touchable style={[styles.touch, _.ml.md]} onPress={() => onDelete(item)}>
-                  <Flex style={styles.icon} justify='center'>
-                    <Iconfont name='md-close' size={20} />
-                  </Flex>
-                </Touchable>
-              </Flex>
-            </View>
-          )
-        })}
+                  <Flex.Item>
+                    <Text size={blockCount ? 13 : 14} bold onPress={onPress}>
+                      {text}
+                    </Text>
+                    {!!blockCount && (
+                      <Text style={_.mt.xxs} size={10} type='sub' bold>
+                        已屏蔽 {blockCount} 次
+                      </Text>
+                    )}
+                  </Flex.Item>
+                  <Touchable style={[styles.touch, _.ml.md]} onPress={() => onDelete(item)}>
+                    <Flex style={styles.icon} justify='center'>
+                      <Iconfont name='md-close' size={20} />
+                    </Flex>
+                  </Touchable>
+                </Flex>
+              </View>
+            )
+          })}
+        </Expand>
       </View>
     )
   })
