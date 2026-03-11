@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-24 08:29:09
+ * @Last Modified time: 2026-03-12 05:28:16
  */
 import React from 'react'
-import { _, useStore } from '@stores'
+import { _, systemStore, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import ParallaxImage from './parallax-image'
 import { COMPONENT } from './ds'
@@ -38,6 +38,7 @@ function ParallaxImageWrap({ scrollY, fixed }: Props) {
         textType={_.select('plain', 'title')}
         userId={$.userId}
         username={username}
+        userSensor={systemStore.setting.userSensor}
       />
     )
   })

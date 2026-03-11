@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-19 16:50:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-23 17:32:32
+ * @Last Modified time: 2026-03-10 22:37:43
  */
 import React, { useCallback, useRef, useState } from 'react'
 import { Animated } from 'react-native'
@@ -12,7 +12,7 @@ import { FROZEN_FN, FROZEN_OBJECT } from '@constants'
 import { H_HEADER } from '../ds'
 import ParallaxImage from './parallax-image'
 import Tab from './tab'
-import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
+import { COMPONENT_MAIN, DEFAULT_PROPS, FIXED_OFFSET } from './ds'
 
 import type { ScrollEvent } from '@types'
 
@@ -26,25 +26,30 @@ const Scroll = memo(
   }) => {
     const scrollY = useRef(new Animated.Value(0))
     const y = useRef(0)
+
+    const fixedRef = useRef(false)
     const [fixed, setFixed] = useState(false)
 
-    const onScrollCallback = useCallback(
+    const handleScrollCallback = useCallback(
       (e: ScrollEvent) => {
         onScroll(e)
+        y.current = e.nativeEvent.contentOffset.y
 
-        const { y: evtY } = e.nativeEvent.contentOffset
-        y.current = evtY
-
-        if (fixed && evtY < fixedHeight - 20) {
+        if (fixedRef.current && y.current < fixedHeight - FIXED_OFFSET) {
+          fixedRef.current = false
           setFixed(false)
-        } else if (!fixed && evtY >= fixedHeight - 20) {
+          return
+        }
+
+        if (!fixedRef.current && y.current >= fixedHeight - FIXED_OFFSET) {
+          fixedRef.current = true
           setFixed(true)
         }
       },
-      [fixed, fixedHeight, onScroll, setFixed]
+      [fixedHeight, onScroll]
     )
 
-    const updatePageOffset = useCallback(
+    const handleUpdatePageOffset = useCallback(
       (offsets: number | number[]) => {
         if (!offsets) return
 
@@ -74,27 +79,27 @@ const Scroll = memo(
       [fixed, fixedHeight, page, scrollToOffset]
     )
 
-    const onSwipeStart = useCallback(() => {
-      updatePageOffset([-1, 1])
-    }, [updatePageOffset])
+    const handleSwipeStart = useCallback(() => {
+      handleUpdatePageOffset([-1, 1])
+    }, [handleUpdatePageOffset])
 
-    const onIndexChange = useCallback(
+    const handleIndexChange = useCallback(
       (index: number) => {
         onChange(index)
         setTimeout(() => {
-          updatePageOffset([0])
+          handleUpdatePageOffset([0])
         }, 0)
       },
-      [onChange, updatePageOffset]
+      [onChange, handleUpdatePageOffset]
     )
 
-    const onRefreshOffset = useCallback(
+    const handleRefreshOffset = useCallback(
       (offsets: number | number[] = [0]) => {
         setTimeout(() => {
-          updatePageOffset(offsets)
+          handleUpdatePageOffset(offsets)
         }, 0)
       },
-      [updatePageOffset]
+      [handleUpdatePageOffset]
     )
 
     return (
@@ -102,10 +107,10 @@ const Scroll = memo(
         <Tab
           page={page}
           scrollY={scrollY.current}
-          onScroll={onScrollCallback}
-          onSwipeStart={onSwipeStart}
-          onIndexChange={onIndexChange}
-          onRefreshOffset={onRefreshOffset}
+          onScroll={handleScrollCallback}
+          onSwipeStart={handleSwipeStart}
+          onIndexChange={handleIndexChange}
+          onRefreshOffset={handleRefreshOffset}
         />
         <ParallaxImage scrollY={scrollY.current} fixed={fixed} />
       </>

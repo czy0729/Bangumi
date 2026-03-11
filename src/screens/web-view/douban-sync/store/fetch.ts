@@ -10,11 +10,12 @@ import { request } from '@utils/fetch.v0'
 import { HOST_DB_M } from '@constants'
 import i18n from '@constants/i18n'
 import { loadJSON } from '@assets/json'
-import { SubjectId } from '@types'
 import { HOST_API, LOADED, LOADED_TOTAL_EPS } from '../ds'
-import { DoubanCollection, DoubanStatus } from '../types'
 import Computed from './computed'
 import { EXCLUDE_STATE } from './ds'
+
+import type { SubjectId } from '@types'
+import type { DoubanCollection, DoubanStatus } from '../types'
 
 export default class Fetch extends Computed {
   fetchDouban = async (

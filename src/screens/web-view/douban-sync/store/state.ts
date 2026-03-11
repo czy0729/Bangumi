@@ -6,8 +6,9 @@
  */
 import { observable } from 'mobx'
 import Store from '@utils/store'
-import { StateData } from '../types'
 import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
+
+import type { StateData } from '../types'
 
 export default class State extends Store<typeof STATE> {
   state = observable(STATE)

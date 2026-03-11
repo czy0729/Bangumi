@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-10 01:17:34
+ * @Last Modified time: 2026-03-12 05:27:40
  */
 import {
   IOS,
@@ -211,8 +211,11 @@ export const INIT_SETTING = {
   /** 时光机分页 */
   userPagination: true,
 
-  /** 在自己的时光机页面也显示收藏管理按钮 */
+  /** 时光机页面也显示收藏管理按钮 */
   userShowManage: false,
+
+  /** 时光机视差背景 */
+  userSensor: true,
 
   /** 用户备注 */
   userRemark: {} as UserRemark,

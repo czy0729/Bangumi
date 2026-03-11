@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-13 20:33:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 04:20:19
+ * @Last Modified time: 2026-03-12 04:57:51
  */
 import React from 'react'
 import { Component, Flex, Iconfont, Touchable } from '@components'
@@ -10,9 +10,10 @@ import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props as IconReverseProps } from './types'
 
-export { IconReverseProps }
+import type { Props as IconReverseProps } from './types'
+
+export type { IconReverseProps }
 
 export const IconReverse = ob(
   ({ style, iconStyle, color, size, children, onPress }: IconReverseProps) => (

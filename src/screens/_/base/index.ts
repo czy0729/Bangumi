@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-08 18:25:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-16 19:40:25
+ * @Last Modified time: 2026-03-10 07:34:56
  */
 export * from './app-common'
 export * from './auth'
@@ -51,6 +51,7 @@ export * from './score-tag'
 export * from './scroll-view'
 export * from './section-header'
 export * from './section-title'
+export * from './sensor-parallax-card'
 export * from './star-group'
 export * from './stars'
 export * from './status-bar-placeholder'

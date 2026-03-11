@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-19 18:42:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-24 08:44:11
+ * @Last Modified time: 2026-03-10 22:36:40
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
@@ -14,6 +14,8 @@ import type { Ctx } from '../types'
 export const COMPONENT = rc(PARENT, 'Scroll')
 
 export const COMPONENT_MAIN = rc(COMPONENT)
+
+export const FIXED_OFFSET = 20
 
 type $ = Ctx['$']
 

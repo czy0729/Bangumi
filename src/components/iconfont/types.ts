@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-03 19:27:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-23 05:56:22
+ * @Last Modified time: 2026-03-12 05:54:22
  */
 import type {
   AppIconsNames,
@@ -31,6 +31,9 @@ export type Props = {
 
   /** 颜色 */
   color?: ColorValue
+
+  /** 阴影 */
+  shadow?: boolean
 }
 
 export type PropsIonicons = Override<

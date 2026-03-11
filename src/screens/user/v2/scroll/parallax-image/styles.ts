@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-06 05:26:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-18 16:19:15
+ * @Last Modified time: 2026-03-12 06:02:04
  */
 import { _ } from '@stores'
 import { IS_IOS_5_6_7_8 } from '@styles'
@@ -13,6 +13,7 @@ export const memoStyles = _.memoStyles(() => {
     _.colorPlain,
     _.deepDark ? _._colorPlain : _._colorDarkModeLevel1
   )
+
   return {
     parallaxLine: {
       position: 'absolute',
@@ -28,7 +29,8 @@ export const memoStyles = _.memoStyles(() => {
     parallaxImage: {
       marginTop: -8,
       height: _.parallaxImageHeight + 8,
-      backgroundColor
+      backgroundColor,
+      overflow: 'hidden'
     },
     head: {
       marginTop: _.device((_.parallaxImageHeight - 120) / 2, 80)
@@ -49,10 +51,15 @@ export const styles = _.create({
     top: 0,
     right: 0,
     bottom: -2,
-    left: 0
+    left: 0,
+    overflow: 'hidden'
   },
   parallaxMask: {
     backgroundColor: 'rgba(0, 0, 0, 0.24)'
+  },
+  parallaxImage: {
+    width: '100%',
+    height: '100%'
   },
   title: {
     position: 'absolute',
@@ -91,6 +98,12 @@ export const styles = _.create({
     zIndex: 1,
     marginTop: _.ios(IS_IOS_5_6_7_8 ? -6 : -6, -4),
     opacity: 0.88
+  },
+  sensor: {
+    zIndex: 1,
+    marginTop: _.parallaxImageHeight - 102 + _.ios(IS_IOS_5_6_7_8 ? -6 : -6, -4),
+    marginRight: 3,
+    opacity: 0.72
   },
   touch: {
     borderRadius: 20,

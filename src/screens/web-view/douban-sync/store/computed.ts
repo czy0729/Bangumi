@@ -7,8 +7,9 @@
 import { computed } from 'mobx'
 import { userStore } from '@stores'
 import { asc, desc } from '@utils'
-import { SubjectId } from '@types'
 import State from './state'
+
+import type { SubjectId } from '@types'
 
 export default class Computed extends State {
   @computed get doubanId() {

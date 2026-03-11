@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-24 20:05:02
+ * @Last Modified time: 2026-03-12 05:56:51
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
 import { Flex, Heatmap, Iconfont, Text } from '@components'
-import { Avatar, IconBack, IconHeader, Popover } from '@_'
-import { _ } from '@stores'
-import { getBlurRadius, HTMLDecode, open } from '@utils'
+import { Avatar, IconBack, IconHeader, IconSensor, Popover, SensorParallaxCard } from '@_'
+import { _, systemStore } from '@stores'
+import { feedback, getBlurRadius, HTMLDecode, open } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { useInsets } from '@utils/hooks'
@@ -20,7 +20,7 @@ import { H_HEADER } from '../../ds'
 import { COMPONENT_MAIN, DATA_ME, DATA_OTHER, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
-import type { UserId, ViewStyle } from '@types'
+import type { UserId } from '@types'
 
 export default memo(
   ({
@@ -39,70 +39,65 @@ export default memo(
     src = '',
     textType = 'plain',
     userId = '',
-    username = ''
+    username = '',
+    userSensor = true
   }) => {
     const { statusBarHeight } = useInsets()
 
-    const header = useMemo(
-      () =>
-        ({
-          left: {
-            position: 'absolute',
-            top: IOS ? statusBarHeight + (IS_IOS_5_6_7_8 ? 12 : 8) : statusBarHeight + 12,
-            left: 4
-          },
-          right: {
-            position: 'absolute',
-            top: IOS ? statusBarHeight + (IS_IOS_5_6_7_8 ? 12 : 8) : statusBarHeight + 12,
-            right: 8
-          }
-        } as const),
-      [statusBarHeight]
-    )
+    const headerStyle = useMemo(() => {
+      const top = IOS ? statusBarHeight + (IS_IOS_5_6_7_8 ? 12 : 8) : statusBarHeight + 12
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const parallaxStyle: {
-      transform: any[]
-    } = {
-      transform: [
-        {
-          translateY: scrollY.interpolate({
-            inputRange: [
-              -parallaxImageHeight,
-              0,
-              parallaxImageHeight - H_HEADER,
-              parallaxImageHeight
-            ],
-            outputRange: [
-              parallaxImageHeight / 2,
-              0,
-              -(parallaxImageHeight - H_HEADER),
-              -(parallaxImageHeight - H_HEADER)
-            ]
-          })
+      return {
+        left: {
+          position: 'absolute',
+          top,
+          left: 4
+        },
+        right: {
+          position: 'absolute',
+          top,
+          right: 8
         }
-      ]
-    }
+      } as const
+    }, [statusBarHeight])
 
-    // 安卓没有弹簧效果不需要形变
-    if (IOS) {
-      parallaxStyle.transform.push({
-        scale: scrollY.interpolate({
-          inputRange: [-parallaxImageHeight, 0, parallaxImageHeight],
+    const parallaxStyle = useMemo(() => {
+      return {
+        transform: [
+          {
+            translateY: scrollY.interpolate({
+              inputRange: [
+                -parallaxImageHeight,
+                0,
+                parallaxImageHeight - H_HEADER,
+                parallaxImageHeight
+              ],
+              outputRange: [
+                parallaxImageHeight / 2,
+                0,
+                -(parallaxImageHeight - H_HEADER),
+                -(parallaxImageHeight - H_HEADER)
+              ]
+            })
+          },
+          {
+            // 安卓没有弹簧效果不需要形变
+            scale: IOS
+              ? scrollY.interpolate({
+                  inputRange: [-parallaxImageHeight, 0, parallaxImageHeight],
 
-          // -h: 2, 0: 1, h: 1 当 scrollY 在 -h 到 0 时, scale 按照 2-1 的动画运动
-          // 当 scrollY 在 0-h 时, scale 不变. 可以输入任意数量对应的值, 但必须是递增或者相等
-          outputRange: [2, 1, 1]
-        })
-      })
-    }
+                  // -h: 2, 0: 1, h: 1 当 scrollY 在 -h 到 0 时, scale 按照 2-1 的动画运动
+                  // 当 scrollY 在 0-h 时, scale 不变. 可以输入任意数量对应的值, 但必须是递增或者相等
+                  outputRange: [2, 1, 1]
+                })
+              : 1
+          }
+        ]
+      } as const
+    }, [parallaxImageHeight, scrollY])
 
-    const onSelect = useCallback(
-      key => {
-        t('我的.右上角菜单', {
-          key
-        })
-
+    const handleSelect = useCallback(
+      (key: string) => {
         switch (key) {
           case '我的空间':
             navigation.push('Zone', {
@@ -155,32 +150,59 @@ export default memo(
           default:
             break
         }
+
+        t('我的.右上角菜单', {
+          key
+        })
       },
       [navigation, userId, username, id]
     )
 
-    const AnimatedView = useMemo(() => {
+    const elImage = useMemo(() => {
       let uri = bg || bgAvatar || avatar.large
       if (typeof uri === 'string') uri = uri.replace('http://', 'https://')
 
       return (
+        <Animated.Image
+          style={styles.parallaxImage}
+          source={{ uri }}
+          blurRadius={getBlurRadius(uri, bg, avatar?.large)}
+        />
+      )
+    }, [avatar.large, bg, bgAvatar])
+
+    const elHeader = useMemo(
+      () => (
+        <View style={themeStyles.head}>
+          <HeaderComponent />
+        </View>
+      ),
+      [themeStyles]
+    )
+
+    const elBg = useMemo(
+      () => (
         <>
           {TEXT_ONLY ? (
-            <Animated.View style={[themeStyles.parallaxImage, parallaxStyle]} />
-          ) : (
-            <Animated.Image
+            <Animated.View
               style={[themeStyles.parallaxImage, parallaxStyle]}
-              source={{
-                uri
-              }}
-              blurRadius={getBlurRadius(uri, bg, avatar?.large)}
+              pointerEvents='none'
             />
+          ) : (
+            <Animated.View style={[themeStyles.parallaxImage, parallaxStyle]} pointerEvents='none'>
+              {userSensor ? (
+                <SensorParallaxCard enabled={!fixed}>{elImage}</SensorParallaxCard>
+              ) : (
+                elImage
+              )}
+            </Animated.View>
           )}
+
           <Animated.View
             style={[
               styles.parallaxWrap,
               styles.parallaxMask,
-              parallaxStyle as ViewStyle,
+              parallaxStyle,
               {
                 opacity: scrollY.interpolate({
                   inputRange: [
@@ -193,11 +215,13 @@ export default memo(
                 })
               }
             ]}
+            pointerEvents='none'
           />
+
           <Animated.View
             style={[
               styles.parallaxMask,
-              parallaxStyle as ViewStyle,
+              parallaxStyle,
               {
                 opacity: scrollY.interpolate({
                   inputRange: [
@@ -210,6 +234,7 @@ export default memo(
                 })
               }
             ]}
+            pointerEvents='none'
           >
             <Flex style={styles.title} justify='center'>
               <Avatar
@@ -224,7 +249,8 @@ export default memo(
               </Text>
             </Flex>
           </Animated.View>
-          <Animated.View style={[styles.parallaxWrap, parallaxStyle as ViewStyle]}>
+
+          <Animated.View style={[styles.parallaxWrap, parallaxStyle]}>
             <Animated.View
               style={{
                 opacity: scrollY.interpolate({
@@ -238,62 +264,82 @@ export default memo(
                 })
               }}
             >
-              <HeaderComponent style={themeStyles.head} />
+              {userSensor ? (
+                <SensorParallaxCard sensitivity={0.3} enabled={!fixed} enableRotate={false} reverse>
+                  {elHeader}
+                </SensorParallaxCard>
+              ) : (
+                elHeader
+              )}
+
+              <View style={[headerStyle.right, styles.sensor]}>
+                <IconSensor
+                  enabled={userSensor}
+                  onPress={() => {
+                    systemStore.switchSetting('userSensor')
+                    feedback(true)
+                  }}
+                />
+              </View>
             </Animated.View>
+
             <View style={themeStyles.parallaxLine} />
           </Animated.View>
         </>
-      )
-    }, [
-      avatar.large,
-      bg,
-      bgAvatar,
-      nickname,
-      parallaxImageHeight,
-      parallaxStyle,
-      scrollY,
-      src,
-      textType,
-      themeStyles
-    ])
+      ),
+      [
+        avatar.large,
+        elHeader,
+        elImage,
+        fixed,
+        headerStyle,
+        nickname,
+        parallaxImageHeight,
+        parallaxStyle,
+        scrollY,
+        src,
+        textType,
+        themeStyles,
+        userSensor
+      ]
+    )
 
-    const Content = useMemo(() => {
+    const elContent = useMemo(() => {
       const isMe = !!id && myUserId === id
       const data = isMe ? DATA_ME : DATA_OTHER
 
       return (
         <>
           {!!paramsUserId && (
-            <View style={[header.left, styles.back]}>
+            <View style={[headerStyle.left, styles.back]}>
               <IconBack navigation={navigation} color={_.__colorPlain__} />
             </View>
           )}
+
           <View
             style={
               paramsUserId
-                ? [header.right, styles.more]
+                ? [headerStyle.right, styles.more]
                 : isMe
-                ? [header.left, styles.menu]
-                : [header.right, styles.more]
+                ? [headerStyle.left, styles.menu]
+                : [headerStyle.right, styles.more]
             }
           >
-            <Popover style={styles.touch} data={data} onSelect={onSelect}>
+            <Popover style={styles.touch} data={data} onSelect={handleSelect}>
               <Flex style={styles.icon} justify='center'>
-                <Iconfont name='md-menu' color={_.__colorPlain__} />
+                <Iconfont name='md-menu' color={_.__colorPlain__} shadow />
               </Flex>
               <Heatmap right={-40} id='我的.右上角菜单' />
             </Popover>
           </View>
-          <View style={[header.right, styles.timeline]}>
+
+          <View style={[headerStyle.right, styles.timeline]}>
             <IconHeader
               name='md-image-aspect-ratio'
               color={_.__colorPlain__}
               size={21}
+              shadow
               onPress={() => {
-                t('我的.跳转', {
-                  to: 'Milestone'
-                })
-
                 const data: {
                   userId: UserId
                   userName?: string
@@ -303,20 +349,26 @@ export default memo(
                 if (paramsUserId) data.userName = nickname
 
                 navigation.push('Milestone', data)
+
+                t('我的.跳转', {
+                  to: 'Milestone'
+                })
               }}
             />
           </View>
+
           {!paramsUserId && (
-            <View style={[header.right, styles.setting]}>
+            <View style={[headerStyle.right, styles.setting]}>
               <IconHeader
                 name='setting'
                 color={_.__colorPlain__}
+                shadow
                 onPress={() => {
+                  navigation.push('Setting')
+
                   t('我的.跳转', {
                     to: 'Setting'
                   })
-
-                  navigation.push('Setting')
                 }}
               />
               <Heatmap id='我的.跳转' to='Setting' alias='设置' />
@@ -324,14 +376,14 @@ export default memo(
           )}
         </>
       )
-    }, [header, id, myUserId, navigation, nickname, onSelect, paramsUserId, username])
+    }, [id, myUserId, paramsUserId, headerStyle, navigation, handleSelect, username, nickname])
 
     return (
       <>
-        <View style={styles.parallax} pointerEvents={fixed ? 'none' : undefined}>
-          {AnimatedView}
+        <View style={styles.parallax} pointerEvents={fixed ? 'none' : 'auto'}>
+          {elBg}
         </View>
-        {Content}
+        {elContent}
       </>
     )
   },

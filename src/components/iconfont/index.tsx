@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 14:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-23 05:55:52
+ * @Last Modified time: 2026-03-12 05:55:58
  */
 import React from 'react'
 import { useObserver } from 'mobx-react'
@@ -13,6 +13,7 @@ import { r } from '@utils/dev'
 import { Ionicons } from './ionicons'
 import { Material } from './material'
 import { COMPONENT } from './ds'
+import { styles } from './styles'
 
 import type {
   AppIconsNames,
@@ -20,7 +21,6 @@ import type {
   MaterialIconsNames,
   Props as IconfontProps
 } from './types'
-
 // 请勿导出
 // export type { IconfontProps }
 
@@ -31,21 +31,22 @@ export function Iconfont({
   size = 22,
   lineHeight,
   color,
+  shadow,
   ...other
 }: IconfontProps) {
   r(COMPONENT)
 
   return useObserver(() => {
-    const _size = size + _.fontSizeAdjust + _.device(0, _.padIncrease)
-    const _lineHeight = lineHeight + _.fontSizeAdjust
+    const sizeValue = size + _.fontSizeAdjust + _.device(0, _.padIncrease)
+    const lineHeightValue = lineHeight + _.fontSizeAdjust
 
     if (name.indexOf('md-') === 0) {
       return (
         <Material
-          style={style}
+          style={stl(shadow && styles.shadow, style)}
           name={name.replace('md-', '') as MaterialIconsNames}
-          size={_size}
-          lineHeight={_lineHeight}
+          size={sizeValue}
+          lineHeight={lineHeightValue}
           color={color}
           {...other}
         />
@@ -55,10 +56,10 @@ export function Iconfont({
     if (name.indexOf('ios-') === 0) {
       return (
         <Ionicons
-          style={style}
+          style={stl(shadow && styles.shadow, style)}
           name={name as IoniconsIconsNames}
-          size={_size}
-          lineHeight={_lineHeight}
+          size={sizeValue}
+          lineHeight={lineHeightValue}
           color={color}
           {...other}
         />
@@ -69,13 +70,14 @@ export function Iconfont({
       <Icons
         style={stl(
           {
-            height: _size,
-            lineHeight: lineHeight ? _lineHeight : _size
+            height: sizeValue,
+            lineHeight: lineHeight ? lineHeightValue : sizeValue
           },
+          shadow && styles.shadow,
           style
         )}
         name={(name.includes('icon') ? name : `icon-${name}`) as AppIconsNames}
-        size={_size}
+        size={sizeValue}
         color={color || _.colorIcon}
         {...other}
       />

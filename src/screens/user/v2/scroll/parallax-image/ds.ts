@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-06 05:37:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-23 17:29:22
+ * @Last Modified time: 2026-03-12 05:28:34
  */
 import { Animated } from 'react-native'
 import { rc } from '@utils/dev'
@@ -44,5 +44,6 @@ export const DEFAULT_PROPS = {
   src: '' as string,
   textType: 'plain' as 'plain' | 'title',
   userId: '' as UserId,
-  username: '' as string
+  username: '' as string,
+  userSensor: true as boolean
 } as const

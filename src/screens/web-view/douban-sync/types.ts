@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-10-17 13:40:48
  */
-import { Id, Loaded, SubjectId, WithNavigation } from '@types'
-import Store from './store'
+import type { Id, Loaded, SubjectId, WithNavigation } from '@types'
+import type Store from './store'
 
 export type Ctx = WithNavigation<{
   $: InstanceType<typeof Store>

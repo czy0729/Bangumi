@@ -7,10 +7,11 @@
 import { feedback } from '@utils'
 import { t } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
-import { Id, SubjectId } from '@types'
 import { HOST_API } from '../ds'
-import { DoubanItem } from '../types'
 import Fetch from './fetch'
+
+import type { Id, SubjectId } from '@types'
+import type { DoubanItem } from '../types'
 
 export default class Action extends Fetch {
   onChange = (doubanId: string) => {
