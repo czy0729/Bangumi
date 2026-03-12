@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-28 09:52:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-30 05:32:02
+ * @Last Modified time: 2026-03-12 10:00:31
  */
 import React, { useCallback, useMemo } from 'react'
 import { Flex, Heatmap, Iconfont } from '@components'
@@ -58,7 +58,7 @@ function Menu() {
     return (
       <Popover key={userId} data={memoData} onSelect={handleSelect}>
         <Flex style={styles.icon} justify='center'>
-          <Iconfont name='md-more-vert' color={_.__colorPlain__} />
+          <Iconfont name='md-more-vert' color={_.__colorPlain__} shadow />
         </Flex>
         <Heatmap id='空间.右上角菜单' />
         <Heatmap right={62} id='空间.添加好友' transparent />

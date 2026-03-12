@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-28 08:38:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-03 10:25:53
+ * @Last Modified time: 2026-03-12 10:00:10
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -52,7 +52,7 @@ function Name() {
         <Flex style={styles.icons}>
           {isRename && (
             <Touchable style={styles.icon} onPress={$.toggleOriginUid}>
-              <Iconfont name='md-compare-arrows' size={17} color={_.__colorPlain__} />
+              <Iconfont name='md-compare-arrows' size={17} color={_.__colorPlain__} shadow />
             </Touchable>
           )}
         </Flex>

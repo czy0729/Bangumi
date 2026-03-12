@@ -1,32 +1,35 @@
 /*
- * 毛玻璃
- *
  * @Author: czy0729
  * @Date: 2019-11-30 15:23:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 02:51:15
+ * @Last Modified time: 2026-03-12 07:12:30
  */
 import React from 'react'
 import { View } from 'react-native'
 import { BlurView as RNBlurView } from '@react-native-community/blur'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
-import { styles } from './styles'
-import { Props as BlurViewProps } from './types'
+import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
+import { COMPONENT } from './ds'
 
-export { BlurViewProps }
+import type { Props as BlurViewProps } from './types'
 
-export const BlurView = ob(({ style, children }: BlurViewProps) => {
-  return (
+export type { BlurViewProps }
+
+/** 毛玻璃 */
+export function BlurView({ style, children }: BlurViewProps) {
+  r(COMPONENT)
+
+  return useObserver(() => (
     <View style={style}>
       <RNBlurView
-        style={styles.absolute}
+        style={_.absoluteFill}
         blurAmount={_.select(20, 32)}
         overlayColor={_.select('rgba(255, 255, 255, 0.5)', 'rgba(0, 0, 0, 0.24)')}
       />
       {children}
     </View>
-  )
-})
+  ))
+}
 
 export default BlurView

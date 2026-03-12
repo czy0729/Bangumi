@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:19:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-04 01:15:02
+ * @Last Modified time: 2026-03-12 06:16:04
  */
 import React from 'react'
 import { Component, Flex, Touchable } from '@components'
@@ -59,8 +59,8 @@ const Item = memo(
   }) => {
     const subjectId = String(id).replace('/subject/', '')
     const hasComment = !!comments && comments !== 'undefined'
-
     const isOuterTouch = touchPosition === 'outer'
+
     const handleNavigate = () => {
       navigation.push('Subject', {
         subjectId: id,

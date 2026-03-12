@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 01:24:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 03:19:44
+ * @Last Modified time: 2026-03-12 10:01:28
  */
 import React from 'react'
 import { Component, Flex, Iconfont, Text, Touchable } from '@components'
@@ -11,9 +11,10 @@ import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props as IconTouchableProps } from './types'
 
-export { IconTouchableProps }
+import type { Props as IconTouchableProps } from './types'
+
+export type { IconTouchableProps }
 
 export const IconTouchable = ob(
   ({
@@ -21,6 +22,7 @@ export const IconTouchable = ob(
     name,
     size,
     color,
+    shadow,
     count = 0,
     withoutFeedback,
     hitSlop,
@@ -38,7 +40,7 @@ export const IconTouchable = ob(
             onPress={onPress}
           >
             <Flex align='end'>
-              <Iconfont name={name} size={size} color={color} />
+              <Iconfont name={name} size={size} color={color} shadow={shadow} />
               <Text style={_.ml.xs} type='sub' size={10}>
                 {count}
               </Text>
@@ -58,7 +60,7 @@ export const IconTouchable = ob(
           hitSlop={hitSlop}
           onPress={onPress}
         >
-          <Iconfont name={name} size={size} color={color} />
+          <Iconfont name={name} size={size} color={color} shadow={shadow} />
           {children}
         </Touchable>
       </Component>

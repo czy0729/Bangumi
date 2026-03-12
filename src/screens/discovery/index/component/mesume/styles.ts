@@ -2,22 +2,16 @@
  * @Author: czy0729
  * @Date: 2023-02-12 05:57:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-09 09:33:22
+ * @Last Modified time: 2026-03-12 22:38:57
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
-  catch: {
-    position: 'absolute',
-    zIndex: 1,
-    right: 0,
-    bottom: _.tabBarHeight + _.xs
-  },
   stage: {
     position: 'absolute',
     zIndex: 10,
-    right: -20,
-    bottom: _.tabBarHeight + _.xs,
+    right: _.ios(-20, -10),
+    bottom: _.tabBarHeight + _.ios(_.xs, _.md),
     backgroundColor: 'transparent'
   },
   webview: {

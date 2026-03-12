@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-13 15:59:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-10 17:03:30
+ * @Last Modified time: 2026-03-12 09:59:57
  */
 import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
@@ -61,7 +61,7 @@ function Footer() {
         <View style={styles.settings}>
           <Popover data={memoData} onSelect={handleSelect}>
             <Flex style={styles.icon}>
-              <Iconfont name='icon-setting' size={16} />
+              <Iconfont name='icon-setting' size={16} shadow />
             </Flex>
           </Popover>
         </View>

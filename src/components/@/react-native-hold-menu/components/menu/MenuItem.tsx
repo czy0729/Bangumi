@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2025-09-12 18:50:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-03 21:25:52
+ * @Last Modified time: 2026-03-12 06:24:50
  */
 import React, { useCallback } from 'react'
-import { GestureResponderEvent, TouchableOpacity } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 import { TouchableOpacity as GHTouchableOpacity } from 'react-native-gesture-handler'
 import Animated, { useAnimatedStyle } from 'react-native-reanimated'
 import isEqual from 'lodash.isequal'
@@ -17,7 +17,9 @@ import { getColor } from './calculations'
 import { BORDER_DARK_COLOR, BORDER_LIGHT_COLOR } from './constants'
 import Separator from './Separator'
 import styles from './styles'
-import { MenuItemProps } from './types'
+
+import type { GestureResponderEvent } from 'react-native'
+import type { MenuItemProps } from './types'
 
 const ItemComponent = IS_IOS ? TouchableOpacity : GHTouchableOpacity
 const AnimatedTouchable = Animated.createAnimatedComponent(ItemComponent)
@@ -77,6 +79,7 @@ const MenuItemComponent = ({ item, isLast }: MenuItemComponentProps) => {
         <Animated.Text
           style={[item.isTitle ? styles.menuItemTitleText : styles.menuItemText, textColor]}
           numberOfLines={item.isTitle ? undefined : 1}
+          ellipsizeMode='middle'
         >
           {item.text}
         </Animated.Text>

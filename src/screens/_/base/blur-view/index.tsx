@@ -2,21 +2,25 @@
  * @Author: czy0729
  * @Date: 2019-11-30 15:23:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-10 05:40:09
+ * @Last Modified time: 2026-03-12 07:10:32
  */
 import React from 'react'
 import { BlurView as ExpoBlurView } from 'expo-blur'
 import { BLURVIEW_TINT_DARK, BLURVIEW_TINT_LIGHT, Component } from '@components'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
-import { Props as BlurViewProps } from './types'
 
-export { BlurViewProps }
+import type { Props as BlurViewProps } from './types'
+
+export type { BlurViewProps }
 
 /** 毛玻璃 */
-export const BlurView = ob(({ style, intensity = 100, children, ...other }: BlurViewProps) => {
-  return (
+export function BlurView({ style, intensity = 100, children, ...other }: BlurViewProps) {
+  r(COMPONENT)
+
+  return useObserver(() => (
     <Component id='base-blur-view'>
       <ExpoBlurView
         style={style}
@@ -27,7 +31,7 @@ export const BlurView = ob(({ style, intensity = 100, children, ...other }: Blur
         {children}
       </ExpoBlurView>
     </Component>
-  )
-}, COMPONENT)
+  ))
+}
 
 export default BlurView

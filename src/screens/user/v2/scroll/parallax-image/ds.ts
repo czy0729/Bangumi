@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-06 05:37:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-12 05:28:34
+ * @Last Modified time: 2026-03-12 20:58:54
  */
 import { Animated } from 'react-native'
 import { rc } from '@utils/dev'
@@ -33,8 +33,6 @@ export const DEFAULT_PROPS = {
   themeStyles: {} as ReturnType<typeof memoStyles>,
   parallaxImageHeight: 0 as number,
   avatar: {} as ImagesAvatar,
-  bg: '' as string,
-  bgAvatar: '' as string,
   fixed: false as boolean,
   id: '' as UserId,
   myUserId: '' as UserId,

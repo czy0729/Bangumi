@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-28 09:50:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-24 22:57:26
+ * @Last Modified time: 2026-03-12 10:02:03
  */
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
@@ -32,7 +32,7 @@ function Back() {
 
   return useObserver(() => (
     <View style={stl(memoHeaderStyle.left, styles.back)}>
-      <IconBack navigation={navigation} color={_.__colorPlain__} />
+      <IconBack navigation={navigation} color={_.__colorPlain__} shadow />
     </View>
   ))
 }

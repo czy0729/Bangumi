@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-08-10 04:05:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-01 23:38:01
+ * @Last Modified time: 2026-03-12 07:20:43
  */
 import { r } from '@utils/dev'
 import { COMPONENT } from './ds'
@@ -17,7 +17,7 @@ import { COMPONENT } from './ds'
  * - 这个 react-native-realtimeblurview 库有一个小问题, 就是底部 Tab 高度不够, 会导致他不够模糊,
  *   而距离底部 1pt, 这个问题又好了, 所以给底部增加 1pt 防止这个问题;
  */
-export const BlurViewBottomTab = () => {
+export function BlurViewBottomTab() {
   r(COMPONENT)
 
   return null

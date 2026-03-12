@@ -5,11 +5,11 @@
  * @Last Modified time: 2026-03-12 05:56:44
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import { Component, Iconfont, Touchable } from '@components'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 

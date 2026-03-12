@@ -1,12 +1,12 @@
 /*
  * @Author: czy0729
  * @Date: 2025-09-12 18:50:16
- * @Last Modified by:   czy0729
- * @Last Modified time: 2025-09-12 18:50:16
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-03-12 06:22:48
  */
-import { ViewStyle } from 'react-native'
-import { TransformOriginAnchorPosition } from '../../utils/calculations'
-import { MenuItemProps } from '../menu/types'
+import type { ViewStyle } from 'react-native'
+import type { TransformOriginAnchorPosition } from '../../utils/calculations'
+import type { MenuItemProps } from '../menu/types'
 
 export type HoldItemProps = {
   /**

@@ -2,10 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-04-04 18:25:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-04 20:05:38
+ * @Last Modified time: 2026-03-12 07:07:18
  */
 import React from 'react'
-import { Avatar as Component, AvatarProps as Props } from './index'
+import { Avatar as Component } from './index'
+
+import type { AvatarProps as Props } from './index'
 
 export default {
   title: 'base/Avatar',

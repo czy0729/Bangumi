@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-12 05:27:40
+ * @Last Modified time: 2026-03-12 21:16:26
  */
 import {
   IOS,
@@ -225,6 +225,9 @@ export const INIT_SETTING = {
 
   /** 空间番剧标题居中 */
   zoneAlignCenter: true,
+
+  /** 空间视差背景 */
+  zoneSensor: true,
 
   /** 启动页 */
   initialPage: MODEL_SETTING_INITIAL_PAGE.getValue<SettingInitialPage>('进度'),

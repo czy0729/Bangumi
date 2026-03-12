@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-04-05 12:31:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 14:11:19
+ * @Last Modified time: 2026-03-12 07:10:50
  */
 import React from 'react'
 import { _ } from '@stores'
 import { Cover } from '../cover'
-import { BlurView as Component, BlurViewProps as Props } from './index'
+import { BlurView as Component } from './index'
+
+import type { BlurViewProps as Props } from './index'
 
 export default {
   title: 'base/BlurView',

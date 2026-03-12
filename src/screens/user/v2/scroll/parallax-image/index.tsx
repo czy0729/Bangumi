@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-12 05:28:16
+ * @Last Modified time: 2026-03-12 20:58:49
  */
 import React from 'react'
 import { _, systemStore, useStore } from '@stores'
@@ -26,8 +26,6 @@ function ParallaxImageWrap({ scrollY, fixed }: Props) {
         themeStyles={memoStyles()}
         parallaxImageHeight={_.parallaxImageHeight}
         avatar={avatar}
-        bg={$.bg}
-        bgAvatar={$.avatar}
         fixed={fixed}
         id={id}
         myUserId={$.myUserId}

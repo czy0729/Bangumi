@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-03-10 07:47:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-12 05:40:37
+ * @Last Modified time: 2026-03-12 09:57:25
  */
 import React, { useEffect } from 'react'
 import Animated, {
@@ -17,9 +17,9 @@ import Animated, {
 } from 'react-native-reanimated'
 import { stl } from '@utils'
 import { useAppState, useIsFocused } from '@utils/hooks'
+import { styles } from './styles'
 
 import type { Props as SensorParallaxCardProps } from './types'
-
 export type { SensorParallaxCardProps }
 
 /** 重力视差容器 */
@@ -34,7 +34,10 @@ export function SensorParallaxCard({
   const isFoucs = useIsFocused()
   const isActive = useAppState()
 
-  const sensor = useAnimatedSensor(SensorType.GYROSCOPE, { interval: 800 })
+  const sensor = useAnimatedSensor(SensorType.GYROSCOPE, {
+    interval: 'auto',
+    adjustToInterfaceOrientation: true
+  })
   const translateX = useSharedValue(0)
   const translateY = useSharedValue(0)
   const rotateX = useSharedValue(0)
@@ -97,5 +100,12 @@ export function SensorParallaxCard({
     } as const
   })
 
-  return <Animated.View style={stl(animatedStyle, style)}>{children}</Animated.View>
+  return (
+    <Animated.View
+      style={stl(enableRotate && styles.scale, animatedStyle, style)}
+      renderToHardwareTextureAndroid
+    >
+      {children}
+    </Animated.View>
+  )
 }

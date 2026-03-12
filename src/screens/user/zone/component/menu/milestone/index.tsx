@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-14 06:26:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-13 03:21:33
+ * @Last Modified time: 2026-03-12 10:00:46
  */
 import React, { useCallback } from 'react'
 import { Flex, Iconfont, Touchable } from '@components'
@@ -32,7 +32,7 @@ function Milestone() {
   return useObserver(() => (
     <Touchable onPress={handlePress}>
       <Flex style={styles.icon} justify='center'>
-        <Iconfont name='md-image-aspect-ratio' size={20} color={_.__colorPlain__} />
+        <Iconfont name='md-image-aspect-ratio' size={20} color={_.__colorPlain__} shadow />
       </Flex>
     </Touchable>
   ))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-28 09:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 08:04:50
+ * @Last Modified time: 2026-03-12 10:00:26
  */
 import React from 'react'
 import { Flex, Iconfont, Touchable } from '@components'
@@ -24,7 +24,7 @@ function Member() {
         onPress={() => info(`TA 也是高级会员${$.advanceDetail ? ` ${$.advanceDetail}` : ''}`)}
       >
         <Flex style={styles.icon} justify='center'>
-          <Iconfont name='md-attach-money' color={_.__colorPlain__} />
+          <Iconfont name='md-attach-money' color={_.__colorPlain__} shadow />
         </Flex>
       </Touchable>
     )

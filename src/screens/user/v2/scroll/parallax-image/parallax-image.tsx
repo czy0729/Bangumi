@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-12 05:56:51
+ * @Last Modified time: 2026-03-12 20:58:43
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
 import { Flex, Heatmap, Iconfont, Text } from '@components'
 import { Avatar, IconBack, IconHeader, IconSensor, Popover, SensorParallaxCard } from '@_'
 import { _, systemStore } from '@stores'
-import { feedback, getBlurRadius, HTMLDecode, open } from '@utils'
+import { feedback, HTMLDecode, open } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { useInsets } from '@utils/hooks'
-import { HOST_NETABA, IOS, TEXT_ONLY } from '@constants'
+import { HOST_NETABA, IOS } from '@constants'
 import { IS_IOS_5_6_7_8 } from '@styles'
 import HeaderComponent from '../../component/header-component'
 import { H_HEADER } from '../../ds'
+import Bg from './bg'
 import { COMPONENT_MAIN, DATA_ME, DATA_OTHER, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
@@ -28,8 +29,6 @@ export default memo(
     themeStyles,
     parallaxImageHeight = 0,
     avatar = {},
-    bg = '',
-    bgAvatar = '',
     fixed = false,
     id = '',
     myUserId = '',
@@ -158,19 +157,6 @@ export default memo(
       [navigation, userId, username, id]
     )
 
-    const elImage = useMemo(() => {
-      let uri = bg || bgAvatar || avatar.large
-      if (typeof uri === 'string') uri = uri.replace('http://', 'https://')
-
-      return (
-        <Animated.Image
-          style={styles.parallaxImage}
-          source={{ uri }}
-          blurRadius={getBlurRadius(uri, bg, avatar?.large)}
-        />
-      )
-    }, [avatar.large, bg, bgAvatar])
-
     const elHeader = useMemo(
       () => (
         <View style={themeStyles.head}>
@@ -183,20 +169,7 @@ export default memo(
     const elBg = useMemo(
       () => (
         <>
-          {TEXT_ONLY ? (
-            <Animated.View
-              style={[themeStyles.parallaxImage, parallaxStyle]}
-              pointerEvents='none'
-            />
-          ) : (
-            <Animated.View style={[themeStyles.parallaxImage, parallaxStyle]} pointerEvents='none'>
-              {userSensor ? (
-                <SensorParallaxCard enabled={!fixed}>{elImage}</SensorParallaxCard>
-              ) : (
-                elImage
-              )}
-            </Animated.View>
-          )}
+          <Bg style={parallaxStyle} fixed={fixed} />
 
           <Animated.View
             style={[
@@ -290,7 +263,6 @@ export default memo(
       [
         avatar.large,
         elHeader,
-        elImage,
         fixed,
         headerStyle,
         nickname,

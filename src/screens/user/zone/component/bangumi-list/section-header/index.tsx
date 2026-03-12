@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-13 15:47:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-21 09:26:00
+ * @Last Modified time: 2026-03-12 10:00:05
  */
 import React, { useCallback, useMemo } from 'react'
 import { Heatmap, Iconfont, Text, Touchable } from '@components'
@@ -30,6 +30,7 @@ function SectionHeader({ title, count }) {
         <Iconfont
           style={styles.arrow}
           name={expand ? 'md-keyboard-arrow-down' : 'md-keyboard-arrow-up'}
+          shadow
         />
       ),
       [expand, styles]

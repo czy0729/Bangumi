@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-06-28 09:45:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-28 09:46:11
+ * @Last Modified time: 2026-03-12 21:11:13
  */
 import { _ } from '@stores'
+import { IS_IOS_5_6_7_8 } from '@styles'
 import { H_RADIUS_LINE } from '../../../store'
 
 export const memoStyles = _.memoStyles(() => ({
@@ -28,5 +29,11 @@ export const memoStyles = _.memoStyles(() => ({
   },
   head: {
     marginTop: (_.parallaxImageHeight - 120) / 2
+  },
+  sensor: {
+    zIndex: 1,
+    marginTop: _.parallaxImageHeight - 102 + _.ios(IS_IOS_5_6_7_8 ? -6 : -6, -4),
+    marginRight: 3,
+    opacity: 0.88
   }
 }))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-08-10 04:16:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-01 23:37:02
+ * @Last Modified time: 2026-03-12 07:22:15
  */
 import React from 'react'
 import { HardwareTextureRootBlurView } from '@components'
@@ -11,12 +11,14 @@ import { r } from '@utils/dev'
 import { IOS } from '@constants'
 import { COMPONENT } from './ds'
 
+import type { PropsWithChildren } from 'react'
+
 /**
  * iOS 是不需要这套逻辑的, 会直接渲染成 View
  *
  * 安卓端会把子层级下的所有 BlurView 渲染到根本的 RootContainer
  */
-export const BlurViewRoot = ({ children }) => {
+export function BlurViewRoot({ children }: PropsWithChildren<{}>) {
   r(COMPONENT)
 
   if (IOS || !(systemStore.setting.androidBlur && systemStore.setting.blurBottomTabs)) {

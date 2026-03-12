@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-14 15:51:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-20 16:50:35
+ * @Last Modified time: 2026-03-12 07:05:56
  */
 import React, { Suspense } from 'react'
 import { toJS } from 'mobx'
@@ -19,7 +19,7 @@ import { Popable } from '../popable'
 import { COMPONENT } from './ds'
 
 /** 全局公用逻辑 */
-export const AppCommon = () => {
+export function AppCommon() {
   r(COMPONENT)
 
   // 客户端启动稳定后统一做的操作

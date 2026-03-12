@@ -2,11 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 22:56:14
+ * @Last Modified time: 2026-03-12 07:19:38
  */
-import { Avatar, AvatarProps } from '@components'
+import { Avatar } from '@components'
 
-/** 已迁移到 components */
-export { Avatar, AvatarProps }
+import type { AvatarProps } from '@components'
+
+/** 通用头像，已迁移到 components */
+export { Avatar } from '@components'
+
+export type { AvatarProps }
 
 export default Avatar
