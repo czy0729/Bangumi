@@ -1,0 +1,14 @@
+/*
+ * @Author: czy0729
+ * @Date: 2023-11-08 20:34:18
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-11-08 20:45:51
+ */
+component-storybook-scroll-to-top {
+  transition: all 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.16);
+  }
+}

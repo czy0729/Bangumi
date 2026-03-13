@@ -1,0 +1,21 @@
+/*
+ * @Author: czy0729
+ * @Date: 2023-11-08 19:17:01
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-11-25 13:25:08
+ */
+#root {
+  component-touchable-opacity {
+    transition: filter 0.2s;
+
+    &:hover {
+      filter: brightness(1.12);
+    }
+  }
+
+  component-modal {
+    component-touchable-opacity {
+      transition: unset !important;
+    }
+  }
+}
