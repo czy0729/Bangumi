@@ -2,101 +2,70 @@
  * @Author: czy0729
  * @Date: 2024-01-22 09:15:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-13 20:25:28
+ * @Last Modified time: 2026-03-16 06:53:19
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Flex, Input, Text, Touchable } from '@components'
 import { IconTouchable, Notice } from '@_'
 import { _, useStore } from '@stores'
 import { confirm, open, stl } from '@utils'
-import { ob } from '@utils/decorators'
-import { HOST_IMAGE_UPLOAD } from '@constants'
-import { Ctx } from '../../types'
-import { COMPONENT } from './ds'
+import { useObserver } from '@utils/hooks'
+import { HOST_IMAGE_UPLOAD_RYMK, IOS } from '@constants'
+import { COMPONENT, FIELDS } from './ds'
 import { styles } from './styles'
 
-function Form({ expand, onExpand }) {
-  const { $ } = useStore<Ctx>()
-  return (
+import type { Ctx } from '../../types'
+
+function Form({ expand, onExpand, onScrollIntoViewIfNeeded }) {
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  const handleShowTip = useCallback(
+    (message: string) => () => {
+      confirm(
+        message,
+        () => {
+          open(HOST_IMAGE_UPLOAD_RYMK)
+        },
+        '提示'
+      )
+    },
+    []
+  )
+  const handleChangeText = useCallback(
+    (key: string) => (text: string) => {
+      $.onChangeText(key, text)
+    },
+    [$]
+  )
+
+  return useObserver(() => (
     <>
-      {expand && (
-        <>
-          <Flex style={_.mt.md}>
-            <Text>昵称</Text>
+      {expand &&
+        FIELDS.map((item, index) => (
+          <Flex key={item.key} style={[_.mt.md, index === FIELDS.length - 1 && _.mb.md]}>
+            <Text>{item.label}</Text>
             <Flex.Item style={_.ml.md}>
               <Input
-                style={styles.input}
-                defaultValue={$.state.nickname}
-                placeholder='请填入昵称'
+                style={styles.inputContainer}
+                inputStyle={IOS && styles.input}
+                defaultValue={$.state[item.key]}
+                placeholder={item.placeholder}
                 autoCapitalize='none'
                 showClear
-                onChangeText={text => $.onChangeText('nickname', text)}
+                onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
+                onChangeText={handleChangeText(item.key)}
               />
             </Flex.Item>
-          </Flex>
-          <Flex style={_.mt.md}>
-            <Text>签名</Text>
-            <Flex.Item style={_.ml.md}>
-              <Input
-                style={styles.input}
-                defaultValue={$.state.sign_input}
-                placeholder='请填入签名'
-                autoCapitalize='none'
-                showClear
-                onChangeText={text => $.onChangeText('sign_input', text)}
+            {'tip' in item && (
+              <IconTouchable
+                style={_.ml.xs}
+                name='md-info-outline'
+                onPress={handleShowTip(item.tip)}
               />
-            </Flex.Item>
+            )}
           </Flex>
-          <Flex style={_.mt.md}>
-            <Text>头像</Text>
-            <Flex.Item style={_.ml.md}>
-              <Input
-                style={styles.input}
-                defaultValue={$.state.avatar}
-                placeholder='请填入网络地址'
-                autoCapitalize='none'
-                showClear
-                onChangeText={text => $.onChangeText('avatar', text)}
-              />
-            </Flex.Item>
-            <IconTouchable
-              style={_.ml.xs}
-              name='md-info-outline'
-              onPress={() =>
-                confirm(
-                  '此头像非网页版头像，仅在APP内时光机和个人空间中显示。需要输入图片网络地址，是否前往免费图床？',
-                  () => open(HOST_IMAGE_UPLOAD),
-                  '提示'
-                )
-              }
-            />
-          </Flex>
-          <Flex style={[_.mt.md, _.mb.md]}>
-            <Text>背景</Text>
-            <Flex.Item style={_.ml.md}>
-              <Input
-                style={styles.input}
-                defaultValue={$.state.bg}
-                placeholder='请填入网络地址'
-                autoCapitalize='none'
-                showClear
-                onChangeText={text => $.onChangeText('bg', text)}
-              />
-            </Flex.Item>
-            <IconTouchable
-              style={_.ml.xs}
-              name='md-info-outline'
-              onPress={() =>
-                confirm(
-                  '网页版没有背景概念，仅在APP内时光机和个人空间中显示。需要输入图片网络地址，是否前往免费图床？',
-                  () => open(HOST_IMAGE_UPLOAD),
-                  '提示'
-                )
-              }
-            />
-          </Flex>
-        </>
-      )}
+        ))}
+
       <Touchable style={stl(styles.more, expand && _.mb.md)} onPress={onExpand}>
         <Flex justify='center'>
           <Text style={[_.mt.sm, _.mb.sm]} size={13} type='sub' bold>
@@ -104,6 +73,7 @@ function Form({ expand, onExpand }) {
           </Text>
         </Flex>
       </Touchable>
+
       {!expand && (
         <Notice style={styles.notice}>
           <Text size={12} lineHeight={13} bold>
@@ -112,7 +82,7 @@ function Form({ expand, onExpand }) {
         </Notice>
       )}
     </>
-  )
+  ))
 }
 
-export default ob(Form, COMPONENT)
+export default Form

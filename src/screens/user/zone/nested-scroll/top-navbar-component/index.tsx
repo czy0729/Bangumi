@@ -8,7 +8,6 @@ import React from 'react'
 import { Avatar, Flex } from '@components'
 import { VerticalAlign } from '@_'
 import { _, useStore } from '@stores'
-import { HTMLDecode } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { AVATAR_SIZE, COMPONENT } from './ds'
 import { styles } from './styles'
@@ -37,7 +36,7 @@ function TopNavbarComponent() {
         shadow
         numberOfLines={1}
       >
-        {HTMLDecode($.usersInfo.nickname)}
+        {$.nickname}
       </VerticalAlign>
     </Flex>
   ))

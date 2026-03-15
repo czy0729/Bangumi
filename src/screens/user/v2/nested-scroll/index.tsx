@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-27 21:49:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-24 00:04:41
+ * @Last Modified time: 2026-03-15 18:00:40
  */
 import React, { useCallback, useMemo } from 'react'
 import { NestedScrollParallaxHeader } from '@components'
@@ -11,12 +11,14 @@ import { useObserver } from '@utils/hooks'
 import BackgroundImage from '../component/background-image'
 import HeaderComponent from '../component/header-component'
 import Menu from '../component/menu'
+import Sensor from '../component/sensor'
 import TabBarLeft from '../component/tab-bar-left'
 import { TABS } from '../ds'
 import List from './list'
 import TopNavbarComponent from './top-navbar-component'
 import { renderLabel } from './utils'
 import { COMPONENT, PAGES } from './ds'
+import { styles } from './styles'
 
 import type { Ctx } from '../types'
 
@@ -24,7 +26,15 @@ import type { Ctx } from '../types'
 function NestedScroll() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  const elHeader = useMemo(() => <HeaderComponent />, [])
+  const elHeader = useMemo(
+    () => (
+      <>
+        <HeaderComponent />
+        <Sensor style={styles.sensor} />
+      </>
+    ),
+    []
+  )
   const elTopNavbar = useMemo(() => <TopNavbarComponent />, [])
   const elTabBarLeft = useMemo(() => <TabBarLeft />, [])
   const handleBackground = useCallback((fixed: boolean) => <BackgroundImage fixed={fixed} />, [])

@@ -10,7 +10,6 @@ import { Flex } from '@components'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import Sensor from '../sensor'
 import Avatar from './avatar'
 import Blogs from './blogs'
 import Catalogs from './catalogs'
@@ -31,21 +30,18 @@ function Head({ style }: WithViewStyles) {
     const styles = memoStyles()
 
     return (
-      <>
-        <Flex style={stl(styles.head, style)} direction='column'>
-          <View>
-            <Avatar />
-            <Join style={styles.l1} />
-            <Sync style={styles.l2} />
-            <Recent style={styles.l3} />
-            <Blogs style={styles.r1} />
-            <Catalogs style={styles.r2} />
-            <Remark style={styles.r3} />
-          </View>
-          <Name />
-        </Flex>
-        <Sensor style={styles.sensor} />
-      </>
+      <Flex style={stl(styles.head, style)} direction='column'>
+        <View>
+          <Avatar />
+          <Join style={styles.l1} />
+          <Sync style={styles.l2} />
+          <Recent style={styles.l3} />
+          <Blogs style={styles.r1} />
+          <Catalogs style={styles.r2} />
+          <Remark style={styles.r3} />
+        </View>
+        <Name />
+      </Flex>
     )
   })
 }

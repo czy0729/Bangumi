@@ -2,19 +2,18 @@
  * @Author: czy0729
  * @Date: 2024-01-21 07:52:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-12 05:06:27
+ * @Last Modified time: 2026-03-16 07:13:11
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { HeaderV2 } from '@components'
-import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import Check from '../component/check'
-import { Ctx } from '../types'
-import { COMPONENT, HM } from './ds'
+import { HM } from './ds'
 
 function Header() {
-  const { $ } = useStore<Ctx>()
-  return <HeaderV2 title='个人设置' hm={HM} headerRight={() => <Check $={$} />} />
+  const handleHeaderRight = useCallback(() => <Check />, [])
+
+  return useObserver(() => <HeaderV2 title='个人设置' hm={HM} headerRight={handleHeaderRight} />)
 }
 
-export default ob(Header, COMPONENT)
+export default Header

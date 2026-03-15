@@ -7,22 +7,23 @@
 import React from 'react'
 import { Flex, Heatmap } from '@components'
 import { IconHeader } from '@_'
-import { _ } from '@stores'
-import { r } from '@utils/dev'
-import { Ctx } from '../../types'
+import { _, useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 
-function Check({ $ }: Ctx) {
-  r(COMPONENT)
+import type { Ctx } from '../../types'
 
-  return (
+function Check() {
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  return useObserver(() => (
     <Flex>
       <IconHeader style={_.mr.sm} name='md-remove-circle-outline' onPress={() => $.onInit(true)} />
       <IconHeader style={_.mr.xs} name='md-check' onPress={$.onSave}>
         <Heatmap id='个人设置.保存' />
       </IconHeader>
     </Flex>
-  )
+  ))
 }
 
 export default Check

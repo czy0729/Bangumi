@@ -7,9 +7,9 @@
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
 import { Flex, Heatmap, Iconfont, Text } from '@components'
-import { Avatar, IconBack, IconHeader, IconSensor, Popover, SensorParallaxCard } from '@_'
-import { _, systemStore } from '@stores'
-import { feedback, HTMLDecode, open, stl } from '@utils'
+import { Avatar, IconBack, IconHeader, Popover, SensorParallaxCard } from '@_'
+import { _ } from '@stores'
+import { HTMLDecode, open, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { useInsets } from '@utils/hooks'
@@ -17,12 +17,12 @@ import { HOST_NETABA, IOS } from '@constants'
 import { IS_IOS_5_6_7_8 } from '@styles'
 import BackgroundImage from '../../component/background-image'
 import HeaderComponent from '../../component/header-component'
+import Sensor from '../../component/sensor'
 import { H_HEADER } from '../../ds'
 import { COMPONENT_MAIN, DATA_ME, DATA_OTHER, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
 import type { UserId } from '@types'
-
 export default memo(
   ({
     navigation,
@@ -158,9 +158,9 @@ export default memo(
 
     const elHeader = useMemo(
       () => (
-        <View style={themeStyles.head}>
+        <Flex style={themeStyles.head} justify='center'>
           <HeaderComponent />
-        </View>
+        </Flex>
       ),
       [themeStyles]
     )
@@ -236,16 +236,7 @@ export default memo(
               ) : (
                 elHeader
               )}
-
-              <View style={stl(headerStyle.right, styles.sensor)}>
-                <IconSensor
-                  enabled={userSensor}
-                  onPress={() => {
-                    systemStore.switchSetting('userSensor')
-                    feedback(true)
-                  }}
-                />
-              </View>
+              <Sensor style={stl(headerStyle.right, styles.sensor)} />
             </Animated.View>
 
             <View style={themeStyles.parallaxLine} />

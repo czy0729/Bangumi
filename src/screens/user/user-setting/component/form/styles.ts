@@ -2,17 +2,21 @@
  * @Author: czy0729
  * @Date: 2024-01-22 09:19:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-13 20:21:28
+ * @Last Modified time: 2026-03-16 06:46:36
  */
 import { _ } from '@stores'
 
 export const styles = _.create({
-  input: {
+  inputContainer: {
     height: 40,
     paddingVertical: 0,
-    paddingRight: 40,
-    borderRadius: _.radiusMd,
+    paddingRight: 20,
+    borderRadius: _.radiusSm,
     overflow: 'hidden'
+  },
+  input: {
+    height: 'auto',
+    paddingVertical: 11
   },
   more: {
     borderRadius: _.radiusSm,

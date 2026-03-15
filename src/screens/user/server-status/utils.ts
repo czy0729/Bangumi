@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-20 10:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-24 19:08:06
+ * @Last Modified time: 2026-03-16 06:38:17
  */
 import { subjectStore } from '@stores'
 import {
@@ -12,7 +12,7 @@ import {
   GITHUB_RELEASE_REPOS,
   HOST_AC,
   HOST_AC_API,
-  HOST_IMAGE_UPLOAD,
+  HOST_IMAGE_UPLOAD_RYMK,
   HOST_NETABA,
   SITE_AGEFANS,
   URL_OAUTH
@@ -147,9 +147,9 @@ export function getSitesList() {
         loading: false
       },
       {
-        title: HOST_IMAGE_UPLOAD,
+        title: HOST_IMAGE_UPLOAD_RYMK,
         desc: '免费图床',
-        url: HOST_IMAGE_UPLOAD,
+        url: HOST_IMAGE_UPLOAD_RYMK,
         msg: [],
         loading: false
       }

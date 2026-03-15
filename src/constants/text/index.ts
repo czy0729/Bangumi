@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-23 10:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-01 10:29:32
+ * @Last Modified time: 2026-03-16 06:51:21
  */
 import { WEB } from '../device'
 
@@ -121,6 +121,10 @@ export const TEXT_MENU_SPLIT_LEFT = '〔'
 
 /** 菜单: 右分割 */
 export const TEXT_MENU_SPLIT_RIGHT = '〕'
+
+export function withSplit(text: string) {
+  return `${TEXT_MENU_SPLIT_LEFT}${text}${TEXT_MENU_SPLIT_RIGHT}`
+}
 
 /** 菜单: 工具栏 */
 export const TEXT_MENU_TOOLBAR = '工具栏'

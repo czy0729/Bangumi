@@ -14,6 +14,8 @@ export const styles = _.create({
     position: 'absolute',
     backgroundColor: '#ffffff',
     borderRadius: 4,
-    ..._.shadow
+    ..._.shadow,
+    shadowOpacity: 0.32,
+    elevation: 8
   }
 })

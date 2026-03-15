@@ -6,10 +6,10 @@
  */
 import React from 'react'
 import { Animated } from 'react-native'
-import { useObserver } from 'mobx-react'
 import { Component } from '@components'
 import { SensorParallaxCard } from '@_'
 import { _, systemStore, useStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 
 import type { Ctx } from '../../types'

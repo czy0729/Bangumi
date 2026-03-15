@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-19 12:14:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-25 20:23:14
+ * @Last Modified time: 2026-03-16 07:28:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,6 +10,8 @@ import { useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { WEB } from '@constants'
 import InViewComp from './in-view'
+
+export { computeInViewY } from './utils'
 
 import type { Ctx, Props as InViewProps } from './types'
 

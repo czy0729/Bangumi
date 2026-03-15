@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-06 05:26:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-12 21:00:52
+ * @Last Modified time: 2026-03-15 17:55:55
  */
 import { _ } from '@stores'
 import { IS_IOS_5_6_7_8 } from '@styles'
@@ -27,7 +27,9 @@ export const memoStyles = _.memoStyles(() => {
       overflow: 'hidden'
     },
     head: {
-      marginTop: _.device((_.parallaxImageHeight - 120) / 2, 80)
+      height: '100%',
+      paddingTop: H_RADIUS_LINE,
+      overflow: 'hidden'
     }
   }
 })
@@ -99,7 +101,7 @@ export const styles = _.create({
     zIndex: 1,
     marginTop: _.parallaxImageHeight - 102 + _.ios(IS_IOS_5_6_7_8 ? -6 : -6, -4),
     marginRight: 3,
-    opacity: 0.72
+    opacity: 0.8
   },
   touch: {
     borderRadius: 20,

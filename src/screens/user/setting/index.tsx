@@ -44,8 +44,8 @@ import type { NavigationProps } from '@types'
 /** 设置 */
 const Setting = (props: NavigationProps) => {
   const { filter, setFilter, open, forwardRef, onBlockRef } = useSettingPage(props)
-
   const { navigation } = props
+
   return useObserver(() => (
     <Component id='screen-setting'>
       <Page style={_.select(_.container.bg, _.container.plain)}>

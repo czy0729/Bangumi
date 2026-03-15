@@ -2,18 +2,17 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:53:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-26 22:14:28
+ * @Last Modified time: 2026-03-16 06:32:32
  */
-import React from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
 import { ScrollView } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { open } from '@utils'
-import { ob } from '@utils/decorators'
-import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import { fixedRemote } from '@utils/user-setting'
-import { FROZEN_FN, IOS } from '@constants'
+import { IOS } from '@constants'
 import Avatars from '../component/avatars'
 import Bgs from '../component/bgs'
 import Form from '../component/form'
@@ -25,116 +24,84 @@ import { memoStyles } from './styles'
 
 import type { Ctx } from '../types'
 
-class Scroll extends React.Component<Ctx> {
-  state = {
-    expand: false,
-    more: false
-  }
+function Scroll({ forwardRef, onScroll, onScrollIntoViewIfNeeded, onRefresh }) {
+  const { $ } = useStore<Ctx>(COMPONENT)
 
-  scrollTo: any = FROZEN_FN
+  const [expand, setExpand] = useState(false)
+  const [more, setMore] = useState(false)
 
-  onViewOrigin = (item: string, index: number) => {
+  const handleViewOrigin = useCallback((item: string, index: number) => {
+    open(item.replace('small', 'origin'))
+
     t('个人设置.查看原图', {
       index
     })
-    open(item.replace('small', 'origin'))
-  }
+  }, [])
+  const handleExpand = useCallback(() => {
+    setExpand(!expand)
+  }, [expand])
+  const handleMore = useCallback(() => {
+    setMore(true)
+  }, [])
 
-  onExpand = () => {
-    this.setState({
-      expand: !this.state.expand
-    })
-  }
+  return useObserver(() => {
+    const styles = memoStyles()
+    const { avatar: stateAvatar, bg: stateBg, selectedIndex } = $.state
+    const userLargeAvatar = $.usersInfo.avatar?.large
 
-  onMore = () => {
-    this.setState({
-      more: true
-    })
-  }
+    const previewAvatarSrc = useMemo(() => {
+      if (!stateAvatar) return userLargeAvatar
+      return fixedRemote(stateAvatar, true) || userLargeAvatar
+    }, [stateAvatar, userLargeAvatar])
 
-  onRefresh = async () => {
-    if (IOS) {
-      this.scrollTo({
-        x: 0,
-        y: 0,
-        animated: true
-      })
-    }
+    const previewBgSrc = useMemo(() => {
+      if (!stateBg) return previewAvatarSrc
+      return fixedRemote(stateBg) || fixedRemote(stateAvatar, true) || userLargeAvatar
+    }, [stateBg, stateAvatar, previewAvatarSrc, userLargeAvatar])
 
-    const { $ } = this.props
-    $.onRefresh()
-  }
+    const blurRadius = useMemo(() => {
+      if (stateBg) return 0
+      return IOS ? (stateBg === '' && stateAvatar ? 48 : 10) : 8
+    }, [stateBg, stateAvatar])
 
-  onForwardRef = scrollTo => {
-    this.scrollTo = scrollTo
-  }
-
-  get avatar() {
-    const { $ } = this.props
-    return $.usersInfo.avatar?.large
-  }
-
-  get previewAvatarSrc() {
-    const { $ } = this.props
-    if (!$.state.avatar) return $.usersInfo.avatar?.large
-
-    return fixedRemote($.state.avatar, true) || $.usersInfo.avatar?.large
-  }
-
-  get previewBgSrc() {
-    const { $ } = this.props
-    if (!$.state.bg) return this.previewAvatarSrc
-
-    return fixedRemote($.state.bg) || fixedRemote($.state.avatar, true) || $.usersInfo.avatar?.large
-  }
-
-  get blurRadius() {
-    const { $ } = this.props
-    if ($.state.bg) return 0
-
-    return IOS ? ($.state.bg === '' && $.state.avatar ? 48 : 10) : 8
-  }
-
-  render() {
-    r(COMPONENT)
-
-    const { $ } = this.props
-    const { selectedIndex } = $.state
-    const { expand } = this.state
     const elPreview = (
-      <Preview bg={this.previewBgSrc} avatar={this.previewAvatarSrc} blurRadius={this.blurRadius} />
+      <Preview bg={previewBgSrc} avatar={previewAvatarSrc} blurRadius={blurRadius} />
     )
 
     return (
       <View style={_.container.plain}>
-        <View style={this.styles.preview}>{!expand && elPreview}</View>
+        <View style={styles.preview}>{!expand && elPreview}</View>
+
         <ScrollView
-          forwardRef={this.onForwardRef}
-          contentContainerStyle={this.styles.contentContainerStyle}
+          forwardRef={forwardRef}
+          contentContainerStyle={styles.contentContainerStyle}
           keyboardDismissMode='on-drag'
-          onScroll={$.onScroll}
+          onScroll={onScroll}
         >
           {expand && elPreview}
-          <Form expand={this.state.expand} onExpand={this.onExpand} />
+
+          <Form
+            expand={expand}
+            onExpand={handleExpand}
+            onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
+          />
+
           <Segmented />
           {selectedIndex === 0 && (
             <Bgs
-              avatar={this.previewAvatarSrc}
-              more={this.state.more}
-              onViewOrigin={this.onViewOrigin}
-              onMore={this.onMore}
+              avatar={previewAvatarSrc}
+              more={more}
+              onViewOrigin={handleViewOrigin}
+              onMore={handleMore}
             />
           )}
-          {selectedIndex === 1 && <Avatars avatar={this.avatar} />}
+          {selectedIndex === 1 && <Avatars avatar={userLargeAvatar} />}
         </ScrollView>
-        <Refresh onRefresh={this.onRefresh} />
+
+        <Refresh onRefresh={onRefresh} />
       </View>
     )
-  }
-
-  get styles() {
-    return memoStyles()
-  }
+  })
 }
 
-export default ob(Scroll)
+export default Scroll

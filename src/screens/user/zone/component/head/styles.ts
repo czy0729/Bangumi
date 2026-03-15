@@ -40,12 +40,5 @@ export const memoStyles = _.memoStyles(() => ({
   l3: lStyle(88, 100),
   r1: rStyle(16, 100),
   r2: rStyle(52, 116),
-  r3: rStyle(88, 100),
-  sensor: {
-    position: 'absolute',
-    zIndex: 1,
-    bottom: _.lg,
-    right: 10,
-    opacity: 0.8
-  }
+  r3: rStyle(88, 100)
 }))

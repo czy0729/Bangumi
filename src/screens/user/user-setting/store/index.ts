@@ -6,7 +6,9 @@
  */
 import { getTimestamp } from '@utils'
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE, RESET_STATE, STATE } from './ds'
+import { NAMESPACE, RESET_STATE } from './ds'
+
+import type { EXCLUDE_STATE, STATE } from './ds'
 
 export default class ScreenUserSetting extends Action {
   init = async () => {

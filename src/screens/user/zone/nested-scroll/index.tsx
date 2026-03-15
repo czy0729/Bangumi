@@ -13,6 +13,7 @@ import BackgroundImage from '../component/background-image'
 import BangumiList from '../component/bangumi-list'
 import Menu from '../component/menu'
 import RakuenList from '../component/rakuen-list'
+import Sensor from '../component/sensor'
 import Stats from '../component/stats'
 import TimelineList from '../component/timeline-list'
 import HeaderComponent from './header-component'
@@ -22,17 +23,24 @@ import { COMPONENT, PAGES } from './ds'
 import { memoStyles } from './styles'
 
 import type { Ctx } from '../types'
-
 /** 安卓用 */
 function NestedScroll() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  const elHeader = useMemo(() => <HeaderComponent />, [])
   const elTopNavbar = useMemo(() => <TopNavbarComponent />, [])
   const handleBackground = useCallback((fixed: boolean) => <BackgroundImage fixed={fixed} />, [])
 
   return useObserver(() => {
     const styles = memoStyles()
+    const elHeader = useMemo(
+      () => (
+        <>
+          <HeaderComponent />
+          <Sensor style={styles.sensor} />
+        </>
+      ),
+      [styles]
+    )
 
     return (
       <>

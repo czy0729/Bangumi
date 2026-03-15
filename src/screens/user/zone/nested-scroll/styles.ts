@@ -10,5 +10,12 @@ export const memoStyles = _.memoStyles(() => ({
   tab: {
     flex: 1,
     width: Math.floor(_.window.contentWidth / 5)
+  },
+  sensor: {
+    position: 'absolute',
+    zIndex: 1,
+    bottom: _.lg,
+    right: 10,
+    opacity: 0.8
   }
 }))

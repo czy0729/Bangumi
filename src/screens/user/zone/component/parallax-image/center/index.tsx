@@ -60,7 +60,6 @@ function Center({ style }: WithViewStyles) {
           <Head style={styles.head} />
           <Sensor style={[memoHeaderStyle.right, styles.sensor]} />
         </Animated.View>
-
         <View style={styles.parallaxLine} />
       </Animated.View>
     )
