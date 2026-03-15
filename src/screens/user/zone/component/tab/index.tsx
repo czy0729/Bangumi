@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-14 03:50:18
+ * @Last Modified time: 2026-03-14 16:43:06
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated } from 'react-native'
 import { Flex, SceneMap, TabBar, TabView } from '@components'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { H_HEADER } from '../../store'
+import { H_HEADER } from '../../ds'
 import About from '../about'
 import BangumiList from '../bangumi-list'
 import ListHeader from '../list-header'

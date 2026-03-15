@@ -2,22 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-12 20:58:43
+ * @Last Modified time: 2026-03-15 16:28:58
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
 import { Flex, Heatmap, Iconfont, Text } from '@components'
 import { Avatar, IconBack, IconHeader, IconSensor, Popover, SensorParallaxCard } from '@_'
 import { _, systemStore } from '@stores'
-import { feedback, HTMLDecode, open } from '@utils'
+import { feedback, HTMLDecode, open, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { useInsets } from '@utils/hooks'
 import { HOST_NETABA, IOS } from '@constants'
 import { IS_IOS_5_6_7_8 } from '@styles'
+import BackgroundImage from '../../component/background-image'
 import HeaderComponent from '../../component/header-component'
 import { H_HEADER } from '../../ds'
-import Bg from './bg'
 import { COMPONENT_MAIN, DATA_ME, DATA_OTHER, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
@@ -36,7 +36,6 @@ export default memo(
     paramsUserId = '',
     scrollY = new Animated.Value(0),
     src = '',
-    textType = 'plain',
     userId = '',
     username = '',
     userSensor = true
@@ -169,44 +168,37 @@ export default memo(
     const elBg = useMemo(
       () => (
         <>
-          <Bg style={parallaxStyle} fixed={fixed} />
+          <Animated.View style={stl(styles.parallaxBg, parallaxStyle)} pointerEvents='none'>
+            <BackgroundImage fixed={fixed} />
+          </Animated.View>
 
           <Animated.View
-            style={[
-              styles.parallaxWrap,
-              styles.parallaxMask,
-              parallaxStyle,
-              {
-                opacity: scrollY.interpolate({
-                  inputRange: [
-                    -parallaxImageHeight,
-                    0,
-                    parallaxImageHeight - H_HEADER,
-                    parallaxImageHeight
-                  ],
-                  outputRange: _.select([0, 0.4, 1, 1], [0.4, 0.8, 1, 1])
-                })
-              }
-            ]}
+            style={stl(styles.parallaxWrap, styles.parallaxMask, parallaxStyle, {
+              opacity: scrollY.interpolate({
+                inputRange: [
+                  -parallaxImageHeight,
+                  0,
+                  parallaxImageHeight - H_HEADER,
+                  parallaxImageHeight
+                ],
+                outputRange: _.select([0, 0.4, 1, 1], [0.4, 0.8, 1, 1])
+              })
+            })}
             pointerEvents='none'
           />
 
           <Animated.View
-            style={[
-              styles.parallaxMask,
-              parallaxStyle,
-              {
-                opacity: scrollY.interpolate({
-                  inputRange: [
-                    -parallaxImageHeight,
-                    0,
-                    parallaxImageHeight - H_HEADER,
-                    parallaxImageHeight
-                  ],
-                  outputRange: [0, 0, 1, 1]
-                })
-              }
-            ]}
+            style={stl(styles.parallaxMask, parallaxStyle, {
+              opacity: scrollY.interpolate({
+                inputRange: [
+                  -parallaxImageHeight,
+                  0,
+                  parallaxImageHeight - H_HEADER,
+                  parallaxImageHeight
+                ],
+                outputRange: [0, 0, 1, 1]
+              })
+            })}
             pointerEvents='none'
           >
             <Flex style={styles.title} justify='center'>
@@ -217,13 +209,13 @@ export default memo(
                 borderWidth={0}
                 fallbackSrc={avatar.large}
               />
-              <Text style={_.ml.sm} type={textType} align='center' bold shadow numberOfLines={1}>
+              <Text style={_.ml.sm} type='__plain__' align='center' bold shadow numberOfLines={1}>
                 {HTMLDecode(nickname)}
               </Text>
             </Flex>
           </Animated.View>
 
-          <Animated.View style={[styles.parallaxWrap, parallaxStyle]}>
+          <Animated.View style={stl(styles.parallaxWrap, parallaxStyle)}>
             <Animated.View
               style={{
                 opacity: scrollY.interpolate({
@@ -245,7 +237,7 @@ export default memo(
                 elHeader
               )}
 
-              <View style={[headerStyle.right, styles.sensor]}>
+              <View style={stl(headerStyle.right, styles.sensor)}>
                 <IconSensor
                   enabled={userSensor}
                   onPress={() => {
@@ -270,7 +262,6 @@ export default memo(
         parallaxStyle,
         scrollY,
         src,
-        textType,
         themeStyles,
         userSensor
       ]
@@ -283,8 +274,8 @@ export default memo(
       return (
         <>
           {!!paramsUserId && (
-            <View style={[headerStyle.left, styles.back]}>
-              <IconBack navigation={navigation} color={_.__colorPlain__} />
+            <View style={stl(headerStyle.left, styles.back)}>
+              <IconBack navigation={navigation} color={_.__colorPlain__} shadow />
             </View>
           )}
 
@@ -305,7 +296,7 @@ export default memo(
             </Popover>
           </View>
 
-          <View style={[headerStyle.right, styles.timeline]}>
+          <View style={stl(headerStyle.right, styles.timeline)}>
             <IconHeader
               name='md-image-aspect-ratio'
               color={_.__colorPlain__}
@@ -330,7 +321,7 @@ export default memo(
           </View>
 
           {!paramsUserId && (
-            <View style={[headerStyle.right, styles.setting]}>
+            <View style={stl(headerStyle.right, styles.setting)}>
               <IconHeader
                 name='setting'
                 color={_.__colorPlain__}

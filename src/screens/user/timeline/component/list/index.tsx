@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-21 13:45:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-02 15:55:19
+ * @Last Modified time: 2026-03-15 07:09:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -58,7 +58,7 @@ function List() {
                     <Text size={18} lineHeight={24} type='title' bold>
                       {parseInt(item.title.slice(5, 7))}月
                     </Text>
-                    <Flex>
+                    <Flex style={_.mt.xs}>
                       {!!item.actions['看过'] && (
                         <Text style={_.mr.sm} size={13} lineHeight={20} type='sub'>
                           看过{' '}
@@ -113,7 +113,7 @@ function List() {
                       <View key={item.title}>
                         <View>
                           <View style={styles.line} />
-                          <Text lineHeight={28} bold>
+                          <Text style={_.mv.md} size={16} bold>
                             {label}
                           </Text>
                         </View>

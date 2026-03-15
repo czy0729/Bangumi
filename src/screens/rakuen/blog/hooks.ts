@@ -6,7 +6,7 @@
  */
 import { useOnScroll } from '@components/header/utils'
 import { useInitStore } from '@stores'
-import { useKeyboardAdjustResize, usePageLifecycle } from '@utils/hooks'
+import { usePageLifecycle } from '@utils/hooks'
 import store from './store'
 
 import type { NavigationProps } from '@types'
@@ -18,7 +18,6 @@ export function useBlogPage(props: NavigationProps) {
   const { id, $ } = context
 
   const { fixed, onScroll } = useOnScroll()
-  useKeyboardAdjustResize()
   usePageLifecycle(
     {
       onEnterComplete() {

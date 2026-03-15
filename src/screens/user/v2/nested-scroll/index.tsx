@@ -4,10 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-24 00:04:41
  */
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { NestedScrollParallaxHeader } from '@components'
 import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
+import BackgroundImage from '../component/background-image'
 import HeaderComponent from '../component/header-component'
 import Menu from '../component/menu'
 import TabBarLeft from '../component/tab-bar-left'
@@ -26,17 +27,17 @@ function NestedScroll() {
   const elHeader = useMemo(() => <HeaderComponent />, [])
   const elTopNavbar = useMemo(() => <TopNavbarComponent />, [])
   const elTabBarLeft = useMemo(() => <TabBarLeft />, [])
+  const handleBackground = useCallback((fixed: boolean) => <BackgroundImage fixed={fixed} />, [])
 
   return useObserver(() => (
     <>
       <NestedScrollParallaxHeader
         pages={PAGES}
         initialPage={$.state.page}
-        imageSource={$.imageSource}
-        blurRadius={$.blurRadius}
         tabBarLocalKey='UserV2|NestedScroll'
         HeaderComponent={elHeader}
         TopNavbarComponent={elTopNavbar}
+        BackgroundComponent={handleBackground}
         TabBarLeft={elTabBarLeft}
         renderLabel={renderLabel}
         onIndexChange={$.onChange}

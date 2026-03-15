@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-06-23 22:20:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-29
+ * @Last Modified time: 2026-03-15 06:36:28
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
 import { Component } from '@components'
-import { userStore, useStore } from '@stores'
+import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { ANDROID, SCROLL_VIEW_RESET_PROPS, USE_NATIVE_DRIVER } from '@constants'
 import { TABS } from '../../ds'
 import Lock from '../lock'
-import U from '../u'
 import Content from './content'
 import Service from './service'
 import { COMPONENT } from './ds'
@@ -74,7 +73,6 @@ function About({ onScroll }: Props) {
             <Lock />
             <Service />
             <Content />
-            {userStore.isDeveloper && !!$.usersInfo.username && <U />}
           </View>
         </Animated.ScrollView>
       </Component>

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 08:13:52
+ * @Last Modified time: 2026-03-14 16:39:52
  */
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { H_HEADER } from '../../store'
+import { H_HEADER } from '../../ds'
 import Menu from '../menu'
 import { COMPONENT, Layers } from './ds'
 import { styles } from './styles'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-10 17:53:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-10 06:58:10
+ * @Last Modified time: 2026-03-14 04:21:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -26,6 +26,7 @@ function HeaderComponent() {
   return useObserver(() => {
     const styles = memoStyles()
     const { dragging } = $.state
+    const length = Object.keys(userStore.state.onlines || {}).length
 
     return (
       <>
@@ -48,17 +49,19 @@ function HeaderComponent() {
                   <Text style={styles.compact} size={12}>
                     online {discoveryStore.online}
                   </Text>
-                  <Touchable
-                    style={styles.badge}
-                    onPress={() => {
-                      info('客户端最近公开的在线人数')
-                      feedback(true)
-                    }}
-                  >
-                    <Text type='sub' size={11} bold>
-                      {Object.keys(userStore.state.onlines || {}).length}
-                    </Text>
-                  </Touchable>
+                  {!!length && (
+                    <Touchable
+                      style={styles.badge}
+                      onPress={() => {
+                        info('客户端最近公开的在线人数')
+                        feedback(true)
+                      }}
+                    >
+                      <Text type='sub' size={11} bold>
+                        {length}
+                      </Text>
+                    </Touchable>
+                  )}
                 </>
               )}
 

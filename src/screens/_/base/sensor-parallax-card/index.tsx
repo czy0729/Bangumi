@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-03-10 07:47:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-12 09:57:25
+ * @Last Modified time: 2026-03-15 06:42:36
  */
 import React, { useEffect } from 'react'
 import Animated, {
@@ -10,16 +10,16 @@ import Animated, {
   Easing,
   SensorType,
   useAnimatedReaction,
-  useAnimatedSensor,
   useAnimatedStyle,
   useSharedValue,
   withTiming
 } from 'react-native-reanimated'
 import { stl } from '@utils'
-import { useAppState, useIsFocused } from '@utils/hooks'
+import { useAnimatedSensor, useAppState, useIsFocused } from '@utils/hooks'
 import { styles } from './styles'
 
 import type { Props as SensorParallaxCardProps } from './types'
+
 export type { SensorParallaxCardProps }
 
 /** 重力视差容器 */

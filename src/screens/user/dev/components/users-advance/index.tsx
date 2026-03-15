@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-01 12:00:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-12 05:01:08
+ * @Last Modified time: 2026-03-15 06:26:26
  */
 import React, { useCallback, useState } from 'react'
 import { ScrollView, Text, Touchable } from '@components'
@@ -19,7 +19,7 @@ function UsersAdvance() {
   const [show, setShow] = useState(false)
   const [list, setList] = useState([])
 
-  const onSubmit = useCallback(async () => {
+  const handleSubmit = useCallback(async () => {
     setShow(true)
 
     const { content } = await read({
@@ -47,7 +47,7 @@ function UsersAdvance() {
         <ItemSetting
           hd='Users Advance'
           ft={
-            <Touchable onPress={onSubmit}>
+            <Touchable onPress={handleSubmit}>
               <Text>查看</Text>
             </Touchable>
           }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-27 17:30:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-07 20:53:06
+ * @Last Modified time: 2026-03-14 17:43:45
  */
 import type { PropsWithChildren } from 'react'
 import type { ImageSourcePropType } from 'react-native'
@@ -12,7 +12,7 @@ export type Props = PropsWithChildren<{
   pages: string[]
   initialPage?: number
   imageHeight?: number
-  imageSource: ImageSourcePropType
+  imageSource?: ImageSourcePropType
   blurRadius?: number
   stickyHeight?: number
   spacing?: number
@@ -24,6 +24,7 @@ export type Props = PropsWithChildren<{
   OverflowHeaderComponent?: JSX.Element
   TopNavbarComponent?: JSX.Element
   TabBarLeft?: JSX.Element
+  BackgroundComponent?: (fixed?: boolean) => JSX.Element
   renderLabel?: (item: { style: ViewStyle; title: string }) => JSX.Element
   onIndexChange?: (position: number) => any
 }>

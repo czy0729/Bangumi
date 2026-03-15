@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-06-29 06:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-06 19:23:30
+ * @Last Modified time: 2026-03-15 16:27:46
  */
 import { _ } from '@stores'
+import { H_RADIUS_LINE } from '../../ds'
 
 const lStyle = (top: number, right: number): object => ({
   position: 'absolute',
@@ -32,12 +33,19 @@ const rStyle = (top: number, left: number): object => ({
 
 export const memoStyles = _.memoStyles(() => ({
   head: {
-    paddingTop: 12
+    paddingTop: H_RADIUS_LINE / 2
   },
   l1: lStyle(16, 100),
   l2: lStyle(52, 116),
   l3: lStyle(88, 100),
   r1: rStyle(16, 100),
   r2: rStyle(52, 116),
-  r3: rStyle(88, 100)
+  r3: rStyle(88, 100),
+  sensor: {
+    position: 'absolute',
+    zIndex: 1,
+    bottom: _.lg,
+    right: 10,
+    opacity: 0.8
+  }
 }))

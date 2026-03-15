@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-01 10:16:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-23 01:46:37
+ * @Last Modified time: 2026-03-15 06:19:32
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
@@ -13,9 +13,10 @@ import { getData } from '@stores/system/utils'
 import { info } from '@utils'
 import { useMount, useObserver } from '@utils/hooks'
 import { get, update } from '@utils/kv'
-import { Fn, Navigation } from '@types'
 import { PAYTYPE_DS } from './ds'
 import { memoStyles } from './styles'
+
+import type { Fn, Navigation } from '@types'
 
 function UpdateAdvance({ navigation, onScrollTo }: { navigation: Navigation; onScrollTo?: Fn }) {
   const [show, setShow] = useState(true)
@@ -61,6 +62,7 @@ function UpdateAdvance({ navigation, onScrollTo }: { navigation: Navigation; onS
 
   return useObserver(() => {
     const styles = memoStyles()
+
     return (
       <>
         <ItemSetting

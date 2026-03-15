@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-12 20:58:49
+ * @Last Modified time: 2026-03-15 06:49:40
  */
 import React from 'react'
 import { _, systemStore, useStore } from '@stores'
@@ -33,7 +33,6 @@ function ParallaxImageWrap({ scrollY, fixed }: Props) {
         paramsUserId={$.params.userId}
         scrollY={scrollY}
         src={$.avatar || avatar.large}
-        textType={_.select('plain', 'title')}
         userId={$.userId}
         username={username}
         userSensor={systemStore.setting.userSensor}

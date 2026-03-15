@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-06-28 08:53:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 08:03:20
+ * @Last Modified time: 2026-03-15 06:51:01
  */
 import React from 'react'
 import { Text } from '@components'
-import { _, useStore } from '@stores'
+import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 
 import type { WithViewStyles } from '@types'
@@ -16,7 +16,7 @@ function Join({ style }: WithViewStyles) {
   const { $ } = useStore<Ctx>()
 
   return useObserver(() => (
-    <Text style={style} type={_.select('plain', 'title')} size={11} bold shadow noWrap>
+    <Text style={style} type='__plain__' size={11} bold shadow noWrap>
       {$.users.join || '- 加入'}
     </Text>
   ))

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-06-28 09:45:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-12 21:11:13
+ * @Last Modified time: 2026-03-15 16:27:47
  */
 import { _ } from '@stores'
 import { IS_IOS_5_6_7_8 } from '@styles'
-import { H_RADIUS_LINE } from '../../../store'
+import { H_RADIUS_LINE } from '../../../ds'
 
 export const memoStyles = _.memoStyles(() => ({
   parallaxWrap: {
@@ -34,6 +34,6 @@ export const memoStyles = _.memoStyles(() => ({
     zIndex: 1,
     marginTop: _.parallaxImageHeight - 102 + _.ios(IS_IOS_5_6_7_8 ? -6 : -6, -4),
     marginRight: 3,
-    opacity: 0.88
+    opacity: 0.8
   }
 }))

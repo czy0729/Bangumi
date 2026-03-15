@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-30 14:44:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-24 19:58:29
+ * @Last Modified time: 2026-03-15 16:28:47
  */
 import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
@@ -64,7 +64,7 @@ function Menu() {
       <>
         {!!paramsUserId && (
           <View style={[header.left, styles.back]}>
-            <IconBack navigation={navigation} color={_.__colorPlain__} />
+            <IconBack navigation={navigation} color={_.__colorPlain__} shadow />
           </View>
         )}
         <View
@@ -78,7 +78,7 @@ function Menu() {
         >
           <Popover style={styles.touch} data={memoData} onSelect={handleSelect}>
             <Flex style={styles.icon} justify='center'>
-              <Iconfont name='md-menu' color={_.__colorPlain__} />
+              <Iconfont name='md-menu' color={_.__colorPlain__} shadow />
             </Flex>
             <Heatmap right={-40} id='我的.右上角菜单' />
           </Popover>
@@ -88,6 +88,7 @@ function Menu() {
             name='md-image-aspect-ratio'
             color={_.__colorPlain__}
             size={21}
+            shadow
             onPress={() => {
               handleUserTimelinePress(navigation, {
                 id,
@@ -102,6 +103,7 @@ function Menu() {
           <View style={[header.right, styles.setting]}>
             <IconHeader
               name='setting'
+              shadow
               color={_.__colorPlain__}
               onPress={() => {
                 handleSettingPress(navigation)

@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2025-02-28 14:33:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-28 14:36:39
+ * @Last Modified time: 2026-03-15 06:26:42
  */
 import { useCallback, useRef } from 'react'
-import { ScrollTo } from '@components'
+
+import type { ScrollTo } from '@components'
 
 /** 开发调试工具页面逻辑 */
 export function useDEVPage() {

@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-10-13 04:46:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-13 04:55:57
+ * @Last Modified time: 2026-03-15 06:22:20
  */
-import React, { useState, useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
-import { Touchable, Flex, Text, Input, Iconfont, devLog } from '@components'
+import { devLog, Flex, Iconfont, Input, Text, Touchable } from '@components'
 import { ItemSetting } from '@_'
 import { _ } from '@stores'
-import { update } from '@utils/kv'
 import { useObserver } from '@utils/hooks'
+import { update } from '@utils/kv'
 import { memoStyles } from './styles'
 
 function UpdateKey() {
@@ -18,7 +18,7 @@ function UpdateKey() {
   const [key, setKey] = useState('')
   const [val, setVal] = useState('')
 
-  const onKeyChange = useCallback(
+  const handleKeyChange = useCallback(
     evt => {
       const { nativeEvent } = evt
       const { text } = nativeEvent
@@ -27,7 +27,7 @@ function UpdateKey() {
     [setKey]
   )
 
-  const onValChange = useCallback(
+  const handleValChange = useCallback(
     evt => {
       const { nativeEvent } = evt
       const { text } = nativeEvent
@@ -36,13 +36,14 @@ function UpdateKey() {
     [setVal]
   )
 
-  const onSubmit = useCallback(async () => {
+  const handleSubmit = useCallback(async () => {
     const result = await update(key, JSON.parse(val), false)
     devLog(result)
   }, [key, val])
 
   return useObserver(() => {
     const styles = memoStyles()
+
     return (
       <>
         <ItemSetting
@@ -62,7 +63,7 @@ function UpdateKey() {
                   style={styles.input}
                   value={key}
                   placeholder='key'
-                  onChange={onKeyChange}
+                  onChange={handleKeyChange}
                 />
               </Flex.Item>
               <Flex.Item style={_.ml.md}>
@@ -70,10 +71,10 @@ function UpdateKey() {
                   style={styles.input}
                   value={val}
                   placeholder='val'
-                  onChange={onValChange}
+                  onChange={handleValChange}
                 />
               </Flex.Item>
-              <Touchable style={_.ml.lg} onPress={onSubmit}>
+              <Touchable style={_.ml.lg} onPress={handleSubmit}>
                 <Iconfont name='md-check' />
               </Touchable>
             </Flex>

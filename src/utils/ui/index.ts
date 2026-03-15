@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-24 06:49:13
+ * @Last Modified time: 2026-03-14 03:02:20
  */
 import { Alert, Clipboard, findNodeHandle, NativeModules, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'
@@ -184,18 +184,6 @@ export function showImageViewer(
 /** 隐藏 ImageViewer */
 export function closeImageViewer() {
   syncSystemStore().closeImageViewer()
-}
-
-/**
- * @deprecated 调整键盘模式
- * https://github.com/zubricky/react-native-android-keyboard-adjust
- */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function androidKeyboardAdjust(_fn: 'setAdjustPan' | 'setAdjustResize') {
-  return
-  // if (IOS || WEB) return
-  // const AndroidKeyboardAdjust = require('react-native-android-keyboard-adjust')
-  // AndroidKeyboardAdjust[fn]()
 }
 
 /** 安卓原生切换白天黑夜标志, 用于动态改变原生弹窗主题颜色 */

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-06-28 08:58:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 08:03:44
+ * @Last Modified time: 2026-03-15 06:51:37
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
 import { Heatmap, Text, Touchable } from '@components'
-import { _, useStore } from '@stores'
+import { useStore } from '@stores'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
 
@@ -34,7 +34,7 @@ function Recent({ style }: WithViewStyles) {
     return (
       <View style={style}>
         <Touchable animate scale={0.9} onPress={handlePress}>
-          <Text type={_.select('plain', 'title')} size={11} bold shadow noWrap>
+          <Text type='__plain__' size={11} bold shadow noWrap>
             {activeText}
           </Text>
         </Touchable>

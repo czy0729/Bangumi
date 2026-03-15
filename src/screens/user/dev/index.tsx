@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-13 11:23:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-27 06:36:18
+ * @Last Modified time: 2026-03-15 05:59:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,9 +20,10 @@ import { HM } from './ds'
 import { memoStyles } from './styles'
 
 import type { NavigationProps } from '@types'
+import type { Params } from './types'
 
 /** 开发调试工具 */
-const DEV = ({ navigation }: NavigationProps) => {
+const DEV = ({ navigation, route }: NavigationProps<Params>) => {
   const { handleForwardRef, handleScrollTo } = useDEVPage()
 
   return useObserver(() => {
@@ -47,7 +48,7 @@ const DEV = ({ navigation }: NavigationProps) => {
               </>
             )}
           </View>
-          <Detail />
+          <Detail userId={route?.params?.userId} />
         </ScrollView>
         <HeaderV2 title='开发菜单' hm={HM} />
       </Component>

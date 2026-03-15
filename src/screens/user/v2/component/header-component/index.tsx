@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2023-12-30 07:06:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-23 17:50:25
+ * @Last Modified time: 2026-03-15 16:32:21
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
-import { VerticalAlign } from '@_'
-import { _, useStore } from '@stores'
+import { SensorParallaxCard, VerticalAlign } from '@_'
+import { _, systemStore, useStore } from '@stores'
 import { copy, HTMLDecode } from '@utils'
 import { useObserver } from '@utils/hooks'
 import CenterAvatar from '../center-avatar'
+import Sensor from '../sensor'
 import { COMPONENT } from './ds'
+import { styles } from './styles'
 
-import type { WithViewStyles } from '@types'
 import type { Ctx } from '../../types'
 
-function HeaderComponent({ style }: WithViewStyles) {
+function HeaderComponent() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
@@ -24,8 +25,8 @@ function HeaderComponent({ style }: WithViewStyles) {
     const name = HTMLDecode(nickname)
     const uid = username || id
 
-    return (
-      <Flex style={style} direction='column' justify='center'>
+    const elContent = (
+      <Flex direction='column' justify='center'>
         <CenterAvatar />
         <Flex style={_.mt.md}>
           <Touchable
@@ -48,6 +49,19 @@ function HeaderComponent({ style }: WithViewStyles) {
           </Touchable>
         </Flex>
       </Flex>
+    )
+
+    return (
+      <>
+        {systemStore.setting.userSensor ? (
+          <SensorParallaxCard sensitivity={0.3} enableRotate={false} reverse>
+            {elContent}
+          </SensorParallaxCard>
+        ) : (
+          elContent
+        )}
+        <Sensor style={styles.sensor} />
+      </>
     )
   })
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-28 08:38:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-12 10:00:10
+ * @Last Modified time: 2026-03-15 06:51:31
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -27,7 +27,6 @@ function Name() {
     const userId = id || $.params._id
     const currentUid = $.state.originUid ? userId : username || userId
     const isRename = !!username && username != userId
-    const type = _.select('plain', 'title')
 
     const handleUidLongPress = useCallback(() => {
       copy(currentUid)
@@ -37,13 +36,13 @@ function Name() {
       <View style={_.mt.md}>
         <Flex>
           <Touchable onLongPress={handleLongPress}>
-            <VerticalAlign text={$.nickname} type={type} lineHeight={14} bold shadow>
+            <VerticalAlign text={$.nickname} type='__plain__' lineHeight={14} bold shadow>
               {$.nickname}
             </VerticalAlign>
           </Touchable>
           {!!(username || userId) && (
             <Touchable style={_.ml.xs} onLongPress={handleUidLongPress}>
-              <Text type={type} bold shadow>
+              <Text type='__plain__' bold shadow>
                 @{currentUid}
               </Text>
             </Touchable>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-08-10 04:16:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-12 07:22:15
+ * @Last Modified time: 2026-03-14 04:12:29
  */
 import React from 'react'
 import { HardwareTextureRootBlurView } from '@components'
@@ -22,7 +22,7 @@ export function BlurViewRoot({ children }: PropsWithChildren<{}>) {
   r(COMPONENT)
 
   if (IOS || !(systemStore.setting.androidBlur && systemStore.setting.blurBottomTabs)) {
-    return children
+    return <>{children}</>
   }
 
   return (

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-06 05:37:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-12 20:58:54
+ * @Last Modified time: 2026-03-15 06:49:46
  */
 import { Animated } from 'react-native'
 import { rc } from '@utils/dev'
@@ -40,7 +40,6 @@ export const DEFAULT_PROPS = {
   paramsUserId: '' as UserId,
   scrollY: new Animated.Value(0),
   src: '' as string,
-  textType: 'plain' as 'plain' | 'title',
   userId: '' as UserId,
   username: '' as string,
   userSensor: true as boolean

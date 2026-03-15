@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-17 04:49:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-01 18:33:48
+ * @Last Modified time: 2026-03-13 21:28:46
  */
 import type { FlatList, FlatListProps, SectionListScrollParams } from 'react-native'
 import type { ListEmpty, Override, ReactNode, Ref, Sections } from '@types'
@@ -87,9 +87,6 @@ export type Props<ItemT = any> = Override<
     /** @deprecated 自动在顶部补充一区域, 点击列表返回到顶 (Android) */
     scrollToTop?: boolean
 
-    /** @deprecated 当有值, 初始化时当数组长度超过此长度, 会先渲染这个条数的数据, 再正常渲染 */
-    lazy?: number
-
     /** 此属性对于 iOS 需要有默认值, 否则会出现首次渲染滚动条位置不正确的问题 (iOS) */
     scrollIndicatorInsets?: {
       top?: number
@@ -113,16 +110,12 @@ export type RefreshState = (typeof REFRESH_STATE)[keyof typeof REFRESH_STATE]
 
 export type State = {
   refreshState: RefreshState
-
-  /** @deprecated STORYBOOK */
-  rendered: boolean
 }
 
 export type RenderListProps<ItemT> = Omit<
   Props<ItemT>,
   | 'style'
   | 'data'
-  | 'lazy'
   | 'optimize'
   | 'progressViewOffset'
   | 'refreshControlProps'

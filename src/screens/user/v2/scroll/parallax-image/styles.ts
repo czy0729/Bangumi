@@ -48,6 +48,12 @@ export const styles = _.create({
     left: 0,
     overflow: 'hidden'
   },
+  parallaxBg: {
+    height: _.parallaxImageHeight + 8,
+    marginTop: -8,
+    backgroundColor: _.select(_.colorPlain, _.deepDark ? _._colorPlain : _._colorDarkModeLevel1),
+    overflow: 'hidden'
+  },
   parallaxMask: {
     backgroundColor: 'rgba(0, 0, 0, 0.24)'
   },

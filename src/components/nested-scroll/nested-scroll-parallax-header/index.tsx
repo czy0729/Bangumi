@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-27 15:25:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-24 19:36:44
+ * @Last Modified time: 2026-03-14 17:44:17
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -12,6 +12,7 @@ import { r } from '@utils/dev'
 import { NestedScrollView, NestedScrollViewHeader } from '@sdcx/nested-scroll'
 import { HEADER_HEIGHT, STATUS_BAR_HEIGHT, TABS_HEADER_HEIGHT } from '@styles'
 import { AnimatedNavbar } from '../animated-navbar'
+import { Background } from '../background'
 import { useAnimatedNavbar } from '../hooks/useAnimatedNavbar'
 import { useAnimateScrollView } from '../hooks/useAnimatedScrollView'
 import { usePagerView } from '../hooks/usePagerView'
@@ -22,6 +23,7 @@ import { styles } from './styles'
 
 import type { NestedScrollEvent } from '@sdcx/nested-scroll'
 import type { Props as NestedScrollParallaxHeaderProps } from './types'
+
 export type { NestedScrollParallaxHeaderProps }
 
 const AnimatedPagerView = Animated.createAnimatedComponent<typeof PagerView>(PagerView)
@@ -40,13 +42,18 @@ export function NestedScrollParallaxHeader({
   OverflowHeaderComponent,
   TopNavbarComponent,
   TabBarLeft,
+  BackgroundComponent,
   renderLabel,
   onIndexChange,
   children
 }: NestedScrollParallaxHeaderProps) {
   r(COMPONENT)
 
-  const [scroll, , scale, translateYDown, translateYUp] = useAnimateScrollView(imageHeight, true)
+  const [scroll, , scale, translateYDown, translateYUp, fixed] = useAnimateScrollView(
+    imageHeight,
+    stickyHeight,
+    true
+  )
 
   const {
     pagerRef,
@@ -69,7 +76,7 @@ export function NestedScrollParallaxHeader({
     HEADER_HEIGHT
   )
 
-  const onScroll = useCallback(
+  const handleScroll = useCallback(
     (event: NestedScrollEvent) => {
       Animated.event([
         {
@@ -102,7 +109,7 @@ export function NestedScrollParallaxHeader({
     () => (
       <ParallaxHeader
         topBarHeight={HEADER_HEIGHT}
-        imageHeight={imageHeight}
+        height={imageHeight}
         imageSource={imageSource}
         blurRadius={blurRadius}
         scale={scale}
@@ -176,11 +183,24 @@ export function NestedScrollParallaxHeader({
     [children, onPageScroll, onPageScrollStateChanged, onPageSelected, page, pagerRef]
   )
 
+  const elBackground = useMemo(
+    () =>
+      BackgroundComponent ? (
+        <Background height={imageHeight} scroll={scroll}>
+          {typeof BackgroundComponent === 'function'
+            ? BackgroundComponent(fixed)
+            : BackgroundComponent}
+        </Background>
+      ) : null,
+    [BackgroundComponent, imageHeight, fixed, scroll]
+  )
+
   return (
     <View style={styles.fill}>
+      {elBackground}
       {elNavbar}
       <NestedScrollView bounces>
-        <NestedScrollViewHeader stickyHeight={stickyHeight} onScroll={onScroll}>
+        <NestedScrollViewHeader stickyHeight={stickyHeight} onScroll={handleScroll}>
           {elParallaxHeader}
           {elTabBar}
         </NestedScrollViewHeader>

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-12-27 15:50:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-30 07:43:24
+ * @Last Modified time: 2026-03-14 16:30:11
  */
 import { _ } from '@stores'
 
 export const styles = _.create({
-  imgContainer: {
+  container: {
     alignItems: 'center',
     overflow: 'hidden'
   },
@@ -19,5 +19,10 @@ export const styles = _.create({
   mask: {
     ..._.absoluteFill,
     backgroundColor: 'rgba(0, 0, 0, 0.32)'
+  },
+  overflow: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    ..._.absoluteFill
   }
 })

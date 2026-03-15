@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-10-22 09:21:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-12-26 04:35:13
+ * @Last Modified time: 2026-03-14 16:44:20
  */
 import { _ } from '@stores'
-import { H_RADIUS_LINE } from '../../store'
+import { H_RADIUS_LINE } from '../../ds'
 
 const commonStyle = {
   tabBarWrap: {

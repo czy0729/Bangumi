@@ -2,18 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-04-08 18:35:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 01:30:29
+ * @Last Modified time: 2026-03-14 16:42:52
  */
 import { queue } from '@utils'
 import { WEB } from '@constants'
-import { H_HEADER, H_RADIUS_LINE, H_TABBAR } from '@screens/user/v2/ds'
 import Action from './action'
 import { updateTrackUserInfo } from './utils'
 import { EXCLUDE_STATE } from './ds'
 
 import type { STATE } from './ds'
-
-export { H_RADIUS_LINE, H_HEADER, H_TABBAR }
 
 /** 用户空间页面状态机 */
 export default class ScreenZone extends Action {

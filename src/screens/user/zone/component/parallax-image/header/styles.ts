@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-06-28 09:38:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-28 09:39:47
+ * @Last Modified time: 2026-03-14 16:44:17
  */
 import { _ } from '@stores'
-import { H_RADIUS_LINE } from '../../../store'
+import { H_RADIUS_LINE } from '../../../ds'
 
 export const styles = _.create({
   parallaxWrap: {

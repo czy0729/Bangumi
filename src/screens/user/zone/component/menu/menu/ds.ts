@@ -15,6 +15,7 @@ import {
   TEXT_MENU_CONNECT,
   TEXT_MENU_COPY_LINK,
   TEXT_MENU_COPY_SHARE,
+  TEXT_MENU_DEV,
   TEXT_MENU_DISCONNECT,
   TEXT_MENU_FRIEND,
   TEXT_MENU_IGNORE,
@@ -107,6 +108,13 @@ export const MENU_ACTIONS = {
   [TEXT_MENU_REPORT](context: Ctx) {
     const { id } = getData(context)
     open(`${HOST}/report?type=6&id=${id}`)
+  },
+  [TEXT_MENU_DEV](context: Ctx) {
+    const { navigation } = context
+    const { userId } = getData(context)
+    navigation.push('DEV', {
+      userId
+    })
   }
 } as const
 

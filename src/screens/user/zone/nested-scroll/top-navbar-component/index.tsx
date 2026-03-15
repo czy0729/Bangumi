@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-30 15:07:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-29 13:05:28
+ * @Last Modified time: 2026-03-15 06:51:55
  */
 import React from 'react'
 import { Avatar, Flex } from '@components'
@@ -31,7 +31,7 @@ function TopNavbarComponent() {
       <VerticalAlign
         style={_.ml.sm}
         text={$.usersInfo.nickname}
-        type={_.select('plain', 'title')}
+        type='__plain__'
         align='center'
         bold
         shadow

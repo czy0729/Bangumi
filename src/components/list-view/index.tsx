@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-23 02:09:38
+ * @Last Modified time: 2026-03-13 22:26:36
  */
 import React from 'react'
 import { RefreshControl } from 'react-native'
@@ -14,7 +14,14 @@ import { LIST_EMPTY, TEXT_EMPTY, TEXT_FAIL, TEXT_NO_MORE, TEXT_REFRESHING, WEB }
 import { ErrorBoundary } from '../error-boundary'
 import Footer from './footer'
 import List from './list'
-import { COMPONENT, REFRESH_STATE, SCROLL_CALLBACK } from './ds'
+import {
+  COMPONENT,
+  DEFAULT_MAX_TO_RENDER_PER_BATCH,
+  DEFAULT_UPDATE_CELLS_BATCHING_PERIOD,
+  DEFAULT_WINDOW_SIZE,
+  REFRESH_STATE,
+  SCROLL_CALLBACK
+} from './ds'
 
 import type { FlatList } from 'react-native'
 import type { AnyObject, ListEmpty } from '@types'
@@ -62,28 +69,17 @@ export const ListView = observer(
       showMesume: true,
       optimize: true,
       scrollToTop: false,
-      lazy: 0,
       scrollIndicatorInsets: {
         right: 1
       }
     }
 
     state: State = {
-      refreshState: REFRESH_STATE.Idle,
-      rendered: true
+      refreshState: REFRESH_STATE.Idle
     }
 
     componentDidMount() {
       this.updateRefreshState(this.props.data)
-      if (this.props.lazy) {
-        setTimeout(() => {
-          if (!this.state.rendered) {
-            this.setState({
-              rendered: true
-            })
-          }
-        }, 800)
-      }
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
@@ -179,9 +175,7 @@ export const ListView = observer(
     }
 
     onHeaderRefresh = async () => {
-      const { lazy, onHeaderRefresh } = this.props
-      if (lazy && !this.state.rendered) return undefined
-
+      const { onHeaderRefresh } = this.props
       if (onHeaderRefresh) {
         this.setState({
           refreshState: REFRESH_STATE.HeaderRefreshing
@@ -203,9 +197,7 @@ export const ListView = observer(
     }
 
     onFooterRefresh = async () => {
-      const { lazy, onFooterRefresh } = this.props
-      if (lazy && !this.state.rendered) return undefined
-
+      const { onFooterRefresh } = this.props
       if (typeof onFooterRefresh === 'function') {
         this.setState({
           refreshState: REFRESH_STATE.FooterRefreshing
@@ -264,10 +256,10 @@ export const ListView = observer(
         onEndReachedThreshold: 0.3,
 
         /** 常用优化参数 */
-        maxToRenderPerBatch: optimize ? 40 : undefined,
-        updateCellsBatchingPeriod: optimize ? 40 : undefined,
+        maxToRenderPerBatch: optimize ? DEFAULT_MAX_TO_RENDER_PER_BATCH : undefined,
+        updateCellsBatchingPeriod: optimize ? DEFAULT_UPDATE_CELLS_BATCHING_PERIOD : undefined,
         initialNumToRender: this.props.initialNumToRender || 10,
-        windowSize: optimize ? 21 : undefined,
+        windowSize: optimize ? DEFAULT_WINDOW_SIZE : undefined,
 
         /** 强制不显示滚动条 */
         showsHorizontalScrollIndicator: false,
@@ -276,10 +268,10 @@ export const ListView = observer(
     }
 
     get sections() {
-      const { data, sectionKey, sections, lazy } = this.props
+      const { data, sectionKey, sections } = this.props
       let computedSections = []
       if (sections) {
-        computedSections = lazy && !this.state.rendered ? sections.slice(0, lazy) : sections.slice()
+        computedSections = sections.slice()
       } else {
         const sectionsMap = {}
         data.list.forEach(item => {
@@ -299,10 +291,7 @@ export const ListView = observer(
     }
 
     get data() {
-      const { data, lazy } = this.props
-      if (lazy && !this.state.rendered) return data.list.slice(0, lazy)
-
-      return data.list
+      return this.props.data.list
     }
 
     /** 不要试图去单独封装这个组件, 不明原因会导致整个列表都不显示 */
@@ -332,7 +321,6 @@ export const ListView = observer(
       const props: RenderListProps<ItemT> = omit(this.props, [
         'style',
         'data',
-        'lazy',
         'optimize',
         'progressViewOffset',
         'refreshControlProps',
@@ -360,8 +348,6 @@ export const ListView = observer(
     }
 
     renderFooter() {
-      if (this.props.lazy && !this.state.rendered) return null
-
       const { data = LIST_EMPTY, ...other } = pick(this.props, [
         'data',
         'footerEmptyDataComponent',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-25 17:33:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-23 00:28:34
+ * @Last Modified time: 2026-03-14 03:12:33
  */
 declare namespace global {
   /** 是否开发模式 */
@@ -52,6 +52,7 @@ declare const window: {
   location: {
     search: string
     href: string
+    pathname: string
   }
 
   /** history 对象 */

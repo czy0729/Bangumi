@@ -11,7 +11,7 @@ import { feedback, info } from '@utils'
 import { logger } from '@utils/dev'
 import { scrollToTop } from '@utils/dom'
 import { t } from '@utils/fetch'
-import { useKeyboardAdjustResize, usePageLifecycle } from '@utils/hooks'
+import { usePageLifecycle } from '@utils/hooks'
 import { WEB } from '@constants'
 import { HEADER_HEIGHT } from '@styles'
 import store from './store'
@@ -308,7 +308,6 @@ export function useTopicPage(props: NavigationProps) {
     },
     id
   )
-  useKeyboardAdjustResize()
 
   return {
     ...context,

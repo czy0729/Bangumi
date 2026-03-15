@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-12-27 15:48:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-27 15:50:25
+ * @Last Modified time: 2026-03-14 15:38:25
  */
 import type { PropsWithChildren } from 'react'
 import type { Animated, ImageStyle, StyleProp } from 'react-native'
 
 export type Props = PropsWithChildren<{
-  imageHeight: number
+  height: number
   topBarHeight: number
   onScroll?: (event: any) => void
   translateYUp: Animated.AnimatedInterpolation<number> | 0

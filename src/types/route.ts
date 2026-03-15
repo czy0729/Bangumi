@@ -52,6 +52,7 @@ export type NavigationPushType = RouteActions &
   RouteChannel &
   RouteCharacter &
   RouteCharacters &
+  RouteDEV &
   RouteDiscoveryBlog &
   RouteEpisodes &
   RouteFriends &
@@ -300,6 +301,13 @@ export type RoutePersons = Route<
 
     /** 条目名, 用于标题 */
     name?: string
+  }
+>
+
+export type RouteDEV = Route<
+  'DEV',
+  {
+    userId?: UserId
   }
 >
 

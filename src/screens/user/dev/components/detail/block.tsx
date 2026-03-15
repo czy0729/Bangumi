@@ -2,26 +2,27 @@
  * @Author: czy0729
  * @Date: 2022-08-19 02:18:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 02:20:38
+ * @Last Modified time: 2026-03-15 06:16:03
  */
 import React, { useState } from 'react'
-import { Touchable, Flex, Text } from '@components'
+import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { memoStyles } from './styles'
 
-function Block({
-  title,
-  value = [],
-  children
-}: {
+type Props = {
   title?: string
   value: string | any[]
+  defaultOpen?: boolean
   children?: any
-}) {
-  const [open, setOpen] = useState(false)
+}
+
+function Block({ title, value = [], defaultOpen = false, children }: Props) {
+  const [open, setOpen] = useState(defaultOpen)
+
   return useObserver(() => {
     const styles = memoStyles()
+
     return (
       <Flex style={[styles.code, _.mt.md]}>
         <Flex.Item>
@@ -29,6 +30,7 @@ function Block({
             {!!title && (
               <Text size={12} lineHeight={16} type='sub'>
                 {title}
+                {open ? '\n' : ''}
               </Text>
             )}
             {open && (

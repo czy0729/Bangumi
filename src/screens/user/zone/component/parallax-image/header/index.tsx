@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-28 09:35:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 08:14:18
+ * @Last Modified time: 2026-03-15 06:51:50
  */
 import React, { useMemo } from 'react'
 import { Animated } from 'react-native'
@@ -11,7 +11,7 @@ import { Avatar } from '@_'
 import { _, useStore } from '@stores'
 import { HTMLDecode, stl } from '@utils'
 import { useObserver } from '@utils/hooks'
-import { H_HEADER } from '../../../store'
+import { H_HEADER } from '../../../ds'
 import { styles } from './styles'
 
 import type { WithViewStyles } from '@types'
@@ -49,14 +49,7 @@ function Header({ style }: WithViewStyles) {
             borderWidth={0}
             fallbackSrc={avatar?.large}
           />
-          <Text
-            style={_.ml.sm}
-            type={_.select('plain', 'title')}
-            align='center'
-            bold
-            shadow
-            numberOfLines={1}
-          >
+          <Text style={_.ml.sm} type='__plain__' align='center' bold shadow numberOfLines={1}>
             {HTMLDecode(nickname || $.params._name)}
           </Text>
         </Flex>

@@ -5,10 +5,11 @@
  * @Last Modified time: 2024-11-18 07:05:02
  */
 import { useInitStore } from '@stores'
-import { useKeyboardAdjustResize, usePageLifecycle } from '@utils/hooks'
-import { NavigationProps } from '@types'
+import { usePageLifecycle } from '@utils/hooks'
 import store from './store'
-import { Ctx } from './types'
+
+import type { NavigationProps } from '@types'
+import type { Ctx } from './types'
 
 /** 短信页面逻辑 */
 export function usePMPage(props: NavigationProps) {
@@ -23,7 +24,6 @@ export function usePMPage(props: NavigationProps) {
     },
     id
   )
-  useKeyboardAdjustResize()
 
   return context
 }

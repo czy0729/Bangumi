@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-13 15:59:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-12 09:59:57
+ * @Last Modified time: 2026-03-14 16:00:37
  */
 import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
@@ -16,6 +16,7 @@ import { TEXT_MENU_SPLIT_LEFT, TEXT_MENU_SPLIT_RIGHT } from '@constants'
 import { styles } from './styles'
 
 import type { Ctx } from '../../../types'
+
 function Footer() {
   const { $, navigation } = useStore<Ctx>()
 

@@ -7,11 +7,12 @@
 import React, { useCallback, useMemo } from 'react'
 import { Flex, Heatmap, Iconfont } from '@components'
 import { Popover } from '@_'
-import { _, useStore } from '@stores'
+import { _, userStore, useStore } from '@stores'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
 import {
   TEXT_MENU_CONNECT,
+  TEXT_MENU_DEV,
   TEXT_MENU_DISCONNECT,
   TEXT_MENU_IGNORE,
   TEXT_MENU_REPORT,
@@ -39,6 +40,7 @@ function Menu() {
           data.push(TEXT_MENU_DISCONNECT)
         }
         data.push(TEXT_MENU_IGNORE, TEXT_MENU_REPORT)
+        if (userStore.isDeveloper) data.push(TEXT_MENU_DEV)
       }
       return data
     }, [connectUrl, disconnectUrl])

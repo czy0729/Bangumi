@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-12 21:16:26
+ * @Last Modified time: 2026-03-15 06:44:29
  */
 import {
   IOS,
@@ -215,7 +215,7 @@ export const INIT_SETTING = {
   userShowManage: false,
 
   /** 时光机视差背景 */
-  userSensor: true,
+  userSensor: false,
 
   /** 用户备注 */
   userRemark: {} as UserRemark,
@@ -227,7 +227,7 @@ export const INIT_SETTING = {
   zoneAlignCenter: true,
 
   /** 空间视差背景 */
-  zoneSensor: true,
+  zoneSensor: false,
 
   /** 启动页 */
   initialPage: MODEL_SETTING_INITIAL_PAGE.getValue<SettingInitialPage>('进度'),

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-27 12:19:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-09 19:13:45
+ * @Last Modified time: 2026-03-15 06:26:14
  */
 import React, { useCallback, useEffect, useState } from 'react'
 import { Image as RNImage } from 'react-native'
@@ -26,7 +26,7 @@ function UpdateTourist() {
   }>({})
   const [captcha, setCaptcha] = useState('')
 
-  const onChange = useCallback(
+  const handleChange = useCallback(
     evt => {
       const { nativeEvent } = evt
       const { text } = nativeEvent
@@ -34,13 +34,13 @@ function UpdateTourist() {
     },
     [setCaptcha]
   )
-  const onGetCofig = useCallback(async () => {
+  const handleGetCofig = useCallback(async () => {
     if (!show) return
 
     setConfig(await getConfig())
     setCaptcha('')
   }, [show])
-  const onLogin = useCallback(async () => {
+  const handleLogin = useCallback(async () => {
     try {
       info('do login')
 
@@ -55,11 +55,12 @@ function UpdateTourist() {
   }, [config, captcha])
 
   useEffect(() => {
-    onGetCofig()
-  }, [onGetCofig])
+    handleGetCofig()
+  }, [handleGetCofig])
 
   return useObserver(() => {
     const styles = memoStyles()
+
     return (
       <>
         <ItemSetting
@@ -78,10 +79,10 @@ function UpdateTourist() {
                 style={styles.input}
                 value={captcha}
                 placeholder='验证码'
-                onChange={onChange}
+                onChange={handleChange}
               />
             </Flex.Item>
-            <Touchable style={styles.captchaTouch} onPress={onGetCofig}>
+            <Touchable style={styles.captchaTouch} onPress={handleGetCofig}>
               <Flex style={styles.captchaContainer} justify='center'>
                 {config.base64 ? (
                   <RNImage
@@ -95,7 +96,7 @@ function UpdateTourist() {
                 )}
               </Flex>
             </Touchable>
-            <Touchable style={_.ml.lg} onPress={onLogin}>
+            <Touchable style={_.ml.lg} onPress={handleLogin}>
               <Iconfont name='md-check' />
             </Touchable>
           </Flex>

@@ -5,7 +5,7 @@
  * @Last Modified time: 2025-10-24 12:30:33
  */
 import { useInitStore } from '@stores'
-import { useKeyboardAdjustResize, usePageLifecycle } from '@utils/hooks'
+import { usePageLifecycle } from '@utils/hooks'
 import store from './store'
 
 import type { NavigationProps } from '@types'
@@ -24,7 +24,6 @@ export function useSayPage(props: NavigationProps) {
     },
     id
   )
-  useKeyboardAdjustResize()
 
   return context
 }

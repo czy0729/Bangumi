@@ -110,6 +110,9 @@ export const TEXT_MENU_IGNORE = '绝交'
 /** 菜单: 报告疑虑 */
 export const TEXT_MENU_REPORT = '报告疑虑'
 
+/** 菜单: 开发调试 */
+export const TEXT_MENU_DEV = '开发调试'
+
 /** 菜单: 分割 */
 export const TEXT_MENU_SPLIT = '一一一'
 
