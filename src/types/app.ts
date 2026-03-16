@@ -88,7 +88,7 @@ export type Navigation = {
   isFocused?: () => boolean
 }
 
-/**  带 navigation 定义的 props */
+/** 带 navigation 定义的 props */
 export type NavigationProps<
   T = {
     routeName?: string

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-07-10 10:54:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-10 14:42:49
+ * @Last Modified time: 2026-03-16 23:26:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,6 +24,7 @@ function HomeTabs({ filter }) {
 
   return useObserver(() => {
     const styles = memoStyles()
+
     return (
       <View style={styles.blocks}>
         <Highlight type='title' size={16} bold value={filter}>

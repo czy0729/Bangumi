@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-12-12 22:09:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-04 07:51:21
+ * @Last Modified time: 2026-03-16 20:34:07
  */
 import React from 'react'
-import { Animated } from 'react-native'
+import Animated from 'react-native-reanimated'
 import { useObserver } from 'mobx-react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { _ } from '@stores'
@@ -35,6 +35,7 @@ export function Mask({ style, linear, onPress }: MaskProps) {
       ) : (
         <Animated.View style={stl(styles.mask, style)} pointerEvents='none' />
       )}
+
       <Touchable style={styles.press} useRN ripple={false} onPress={onPress} />
     </Component>
   ))

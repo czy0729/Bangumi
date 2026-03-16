@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-19 16:42:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-11 19:59:10
+ * @Last Modified time: 2026-03-16 23:15:56
  */
 import { useCallback, useRef, useState } from 'react'
 import { systemStore } from '@stores'
@@ -11,10 +11,10 @@ import { useMount, useRunAfter } from '@utils/hooks'
 
 import type { Setting } from '@stores/system/types'
 import type { NavigationProps } from '@types'
-import type { SetSettingKeys, SwitchSettingKeys } from './types'
+import type { Params, SetSettingKeys, SwitchSettingKeys } from './types'
 
 /** 设置页面逻辑 */
-export function useSettingPage({ route }: NavigationProps) {
+export function useSettingPage({ route }: NavigationProps<Params>) {
   /** 设置筛选 */
   const [filter, setFilter] = useState('')
 

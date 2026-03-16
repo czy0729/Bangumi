@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-11-04 17:47:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 18:11:42
+ * @Last Modified time: 2026-03-16 20:49:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { BTN_HEIGHT } from '../ds'
 import { ScrollView } from '../../scroll-view'
 import { memoStyles } from './styles'
 
-export const Scroll = ({ height, scrollEnabled = true, children }) => {
+function Scroll({ height, scrollEnabled = true, children }) {
   return useObserver(() => {
     const styles = memoStyles()
 

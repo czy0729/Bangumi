@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-24 19:08:47
+ * @Last Modified time: 2026-03-16 23:16:07
  */
 import React from 'react'
 import { Component, HeaderPlaceholder, HeaderV2, Input, Page, ScrollView } from '@components'
@@ -40,9 +40,10 @@ import { HM } from './ds'
 import { styles } from './styles'
 
 import type { NavigationProps } from '@types'
+import type { Params } from './types'
 
 /** 设置 */
-const Setting = (props: NavigationProps) => {
+const Setting = (props: NavigationProps<Params>) => {
   const { filter, setFilter, open, forwardRef, onBlockRef } = useSettingPage(props)
   const { navigation } = props
 

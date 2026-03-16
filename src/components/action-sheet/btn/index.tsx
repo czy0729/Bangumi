@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-11-04 17:57:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 18:09:30
+ * @Last Modified time: 2026-03-16 23:50:13
  */
 import React from 'react'
 import { useObserver } from 'mobx-react'
@@ -13,7 +13,9 @@ import { Text } from '../../text'
 import { Touchable } from '../../touchable'
 import { memoStyles } from './styles'
 
-function Btn({ onClose }) {
+import type { Props } from '../types'
+
+function Btn({ onClose }: Pick<Props, 'onClose'>) {
   return useObserver(() => {
     const styles = memoStyles()
 

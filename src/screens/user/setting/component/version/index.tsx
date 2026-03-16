@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 16:25:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-26 04:42:34
+ * @Last Modified time: 2026-03-16 20:32:14
  */
 import React from 'react'
 import { Text } from '@components'
@@ -39,8 +39,7 @@ function Version({ filter }) {
       ft={
         hasNewVersion ? (
           <Text type='success' size={15}>
-            {TEXTS.version.ft}
-            {name}
+            {`${TEXTS.version.ft}${name}`}
             <Text type='sub' size={15}>
               {' '}
               / {VERSION_GITHUB_RELEASE}
@@ -54,9 +53,9 @@ function Version({ filter }) {
       }
       filter={filter}
       onPress={() => {
-        t('设置.跳转')
-
         open(URL_RELEASE)
+
+        t('设置.跳转')
       }}
     />
   )
