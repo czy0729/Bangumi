@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-11-17 05:01:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 07:23:27
+ * @Last Modified time: 2026-03-17 05:42:37
  */
 import React from 'react'
 import { Flex, SegmentedControl, Text, Touchable } from '@components'
 import { useStore } from '@stores'
+import { alert } from '@utils'
 import { ob } from '@utils/decorators'
 import { IOS } from '@constants'
-import { Ctx } from '../../../types'
 import { styles } from './styles'
+
+import type { Ctx } from '../../../types'
 
 function TypeItem({ store }: { store: Ctx['$'] }) {
   let { $ } = useStore<Ctx>()

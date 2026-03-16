@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-11 14:50:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-10 07:16:47
+ * @Last Modified time: 2026-03-17 00:11:47
  */
 import React, { useEffect, useState } from 'react'
 import { useObserver } from 'mobx-react'
@@ -12,6 +12,7 @@ import { Text } from '../text'
 import { COMPONENT } from './ds'
 
 import type { Props as CountDownProps } from './types'
+
 export type { CountDownProps }
 
 /** 倒数 */
@@ -39,10 +40,7 @@ export function CountDown({ end, ...other }: CountDownProps) {
 
     return (
       <Text {...other}>
-        {!!d && `${d}天`}
-        {!!h && `${h}时`}
-        {!!m && `${m}分`}
-        {!!s && `${s}秒`}
+        {[d && `${d}天`, h && `${h}时`, m && `${m}分`, s && `${s}秒`].filter(Boolean).join('')}
       </Text>
     )
   })

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-16 04:41:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 21:37:38
+ * @Last Modified time: 2026-03-17 00:04:34
  */
 import React from 'react'
 import { useObserver } from 'mobx-react'
@@ -15,7 +15,7 @@ import type { Props as BgmProps } from './types'
 
 export type { BgmProps }
 
-/** BGM 表情 */
+/** BGM 表情 (渲染为图片) */
 export function Bgm({ index = 1, size = 20, ...other }: BgmProps) {
   r(COMPONENT)
 

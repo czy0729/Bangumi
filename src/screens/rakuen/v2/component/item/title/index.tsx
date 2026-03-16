@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2021-01-21 17:40:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-17 15:48:00
+ * @Last Modified time: 2026-03-17 01:57:34
  */
 import React from 'react'
 import { Text } from '@components'
 import { useStore } from '@stores'
+import { getVisualLength } from '@utils'
 import { useObserver } from '@utils/hooks'
-import { OLD_GROUP_ID } from './ds'
+import { BASE_TEXT_PROPS, OLD_GROUP_ID } from './ds'
 
 import type { Ctx } from '../../../types'
 import type { Props } from './types'
-
 function Title({ topicId, title, replyCount, isGroup }: Props) {
   const { $ } = useStore<Ctx>()
 
@@ -34,23 +34,25 @@ function Title({ topicId, title, replyCount, isGroup }: Props) {
       if (id < OLD_GROUP_ID) isOldTopic = true
     }
 
+    const visualLength = getVisualLength(title)
+
     return (
-      <Text lineHeight={14} bold>
+      <Text {...BASE_TEXT_PROPS} size={visualLength >= 48 ? 12 : visualLength >= 36 ? 13 : 14} bold>
         {title}
         {!!replyCount && (
-          <Text type={isReaded ? 'sub' : 'main'} size={11} lineHeight={14} bold>
+          <Text type={isReaded ? 'sub' : 'main'} {...BASE_TEXT_PROPS} bold>
             {' '}
             {replyText}
           </Text>
         )}
         {!!replyAdd && (
-          <Text type='main' size={11} lineHeight={14} bold>
+          <Text type='main' {...BASE_TEXT_PROPS} bold>
             {' '}
             {replyAdd}
           </Text>
         )}
         {isOldTopic && (
-          <Text size={11} lineHeight={14} type='sub'>
+          <Text {...BASE_TEXT_PROPS} type='sub'>
             {' '}
             旧帖
           </Text>

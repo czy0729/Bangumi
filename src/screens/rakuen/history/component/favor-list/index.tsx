@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-27 15:32:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-31 20:49:59
+ * @Last Modified time: 2026-03-17 02:17:11
  */
 import React from 'react'
 import { SegmentedControl } from '@components'
@@ -26,7 +26,6 @@ function FavorList() {
     return (
       <>
         <SegmentedControl
-          key={type}
           style={styles.segment}
           size={11}
           values={DS}

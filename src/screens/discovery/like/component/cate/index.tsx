@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-16 20:58:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-22 20:30:49
+ * @Last Modified time: 2026-03-17 05:20:14
  */
 import React from 'react'
 import { SegmentedControl } from '@components'
@@ -19,15 +19,13 @@ function Cate() {
 
   return useObserver(() => {
     const styles = memoStyles()
-    const { type } = $.state
 
     return (
       <SegmentedControl
-        key={type}
         style={styles.segment}
         size={11}
         values={DATA}
-        selectedIndex={SUBJECT_TYPE.findIndex(item => item.label === type)}
+        selectedIndex={SUBJECT_TYPE.findIndex(item => item.label === $.state.type)}
         onValueChange={$.onChange}
       />
     )

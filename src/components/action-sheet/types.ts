@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-19 13:15:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-13 11:36:46
+ * @Last Modified time: 2026-03-16 23:55:47
  */
 import type { PropsWithChildren } from 'react'
 import type { ReactNode } from '@types'
@@ -31,10 +31,10 @@ export type Props = PropsWithChildren<{
   usePortal?: boolean
 
   /** 标题点击回调函数 */
-  onTitlePress?: () => any
+  onTitlePress?: () => void
 
   /** 关闭回调函数 */
-  onClose?: () => any
+  onClose?: () => void
 
   /** ScrollView.onScroll */
   onScroll?: ScrollViewProps['onScroll']

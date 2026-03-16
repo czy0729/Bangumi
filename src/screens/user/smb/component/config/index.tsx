@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-22 13:03:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 07:17:27
+ * @Last Modified time: 2026-03-17 05:43:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,6 @@ import { _, useStore } from '@stores'
 import { open } from '@utils'
 import { ob } from '@utils/decorators'
 import { HTML_SINGLE_DOC, WEB } from '@constants'
-import { Ctx } from '../../types'
 import {
   ACTION_DDPLAY,
   ACTION_MPV,
@@ -23,10 +22,13 @@ import {
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+import type { Ctx } from '../../types'
+
 function Config() {
   const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const { configVisible, configs } = $.state
+
   return (
     <Modal style={styles.modal} visible={configVisible} title='通用配置' onClose={$.onCloseConfig}>
       <View style={styles.body}>

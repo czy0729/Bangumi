@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-11-08 06:06:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-30 04:26:09
+ * @Last Modified time: 2026-03-17 05:09:30
  */
 import React from 'react'
 import { SegmentedControl } from '@components'
@@ -19,15 +19,13 @@ function Type() {
 
   return useObserver(() => {
     const styles = memoStyles()
-    const { type } = $.state
 
     return (
       <SegmentedControl
-        key={type}
         style={styles.segment}
         size={11}
         values={TYPE_DS}
-        selectedIndex={type === TYPE_DS[0] ? 0 : 1}
+        selectedIndex={$.state.type === TYPE_DS[0] ? 0 : 1}
         onValueChange={$.onType}
       />
     )

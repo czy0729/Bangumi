@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-11-01 08:32:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-31 20:51:12
+ * @Last Modified time: 2026-03-17 02:20:05
  */
 import React, { useCallback } from 'react'
 import { SegmentedControl } from '@components'
@@ -30,7 +30,6 @@ function HotList() {
     return (
       <>
         <SegmentedControl
-          key={collectRankSort}
           style={styles.segment}
           size={11}
           values={DS}

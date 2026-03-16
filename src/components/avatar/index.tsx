@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-12 04:57:32
+ * @Last Modified time: 2026-03-16 23:56:39
  */
 import React from 'react'
 import { useObserver } from 'mobx-react'
@@ -24,7 +24,7 @@ import type { Props as AvatarProps } from './types'
 export type { AvatarProps }
 
 /** 头像 */
-export const Avatar = ({
+export function Avatar({
   navigation,
   style,
   userId,
@@ -44,13 +44,14 @@ export const Avatar = ({
   params = {},
   onPress,
   onLongPress
-}: AvatarProps) => {
+}: AvatarProps) {
   r(COMPONENT)
 
   const { url } = useAvatar(src, userId)
 
   return useObserver(() => {
     const styles = memoStyles()
+
     const avatarSize = _.r(size)
     const avatarSrc = fixedAll(getAvatar(url) || IMG_DEFAULT, avatarSize)
     const avatarRadius = getRadius(radius, round, avatarSize)

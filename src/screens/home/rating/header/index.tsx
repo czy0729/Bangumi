@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-03-15 17:39:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-03 18:18:59
+ * @Last Modified time: 2026-03-17 05:39:07
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { open } from '@utils'
@@ -20,6 +20,27 @@ import type { Ctx } from '../types'
 function Header() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
+  const handleHeaderRight = useCallback(
+    () => (
+      <>
+        <Filter $={$} />
+        <HeaderV2Popover
+          data={DATA}
+          onSelect={title => {
+            if (title === TEXT_MENU_BROWSER) {
+              open($.url)
+
+              t('用户评分.右上角菜单', {
+                key: title
+              })
+            }
+          }}
+        />
+      </>
+    ),
+    [$]
+  )
+
   return useObserver(() => (
     <HeaderV2
       title={$.params?.name || '用户评分'}
@@ -27,23 +48,7 @@ function Header() {
       headerTitleStyle={styles.headerTitleStyle}
       alias='用户评分'
       hm={$.hm}
-      headerRight={() => (
-        <>
-          <Filter $={$} />
-          <HeaderV2Popover
-            data={DATA}
-            onSelect={title => {
-              if (title === TEXT_MENU_BROWSER) {
-                open($.url)
-
-                t('用户评分.右上角菜单', {
-                  key: title
-                })
-              }
-            }}
-          />
-        </>
-      )}
+      headerRight={handleHeaderRight}
     />
   ))
 }

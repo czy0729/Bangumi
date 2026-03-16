@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:56:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-09 22:26:07
+ * @Last Modified time: 2026-03-17 02:36:11
  */
 import type { TextType, TouchableProps } from '@components'
 import type { Fn, IconfontNames, Override, ReactNode, TextStyle, ViewStyle } from '@types'
@@ -28,7 +28,7 @@ export type Props = Override<
     sub?: boolean
     thumb?:
       | false
-      | {
+      | readonly {
           url: string
           _url?: string
           headers?: object

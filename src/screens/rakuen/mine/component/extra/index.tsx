@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-24 18:55:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-08 01:29:09
+ * @Last Modified time: 2026-03-17 02:20:49
  */
 import React from 'react'
 import { SegmentedControl } from '@components'
@@ -21,7 +21,6 @@ function Extra({ $ }: Ctx) {
   const currentType = $?.state.type === undefined ? type : $?.state.type
   return (
     <SegmentedControl
-      key={currentType}
       style={styles.segment}
       size={11}
       values={TYPE_DS}

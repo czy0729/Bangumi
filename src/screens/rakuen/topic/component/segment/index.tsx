@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-20 19:55:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-15 23:31:23
+ * @Last Modified time: 2026-03-17 02:23:38
  */
 import React, { useCallback, useMemo } from 'react'
 import { SegmentedControl } from '@components'
@@ -31,7 +31,6 @@ function Segement() {
     const { state, commentFollowCount, commentMeCount, commentFriendsCount, likesFloorIds } = $
     const { filterPost, filterType } = state
 
-    // 构造分段按钮数据
     const data: Data = useMemo(() => {
       const list: Data = [FILTER_ALL]
 
@@ -58,7 +57,6 @@ function Segement() {
       return list
     }, [filterPost, commentFollowCount, commentMeCount, commentFriendsCount, likesFloorIds?.length])
 
-    // 当前选中的分段索引
     const selectedIndex = useMemo(() => {
       if (filterPost) return data.length - 1
 
@@ -69,15 +67,25 @@ function Segement() {
       return index === -1 ? 0 : index
     }, [filterPost, filterType, data])
 
-    // 动态宽度 & 字体大小
     const { length } = data
+
+    // 动态宽度 & 字体大小
     const { width, size } = useMemo(() => {
       if (length >= 5) return { width: 44, size: 10 }
       if (length === 4) return { width: 48, size: 11 }
       return { width: 52, size: 11 }
     }, [length])
 
-    // 点击事件逻辑
+    const segmentedControlStyle = useMemo(
+      () => [
+        styles.segmentedControl,
+        {
+          width: length * _.r(width)
+        }
+      ],
+      [length, width]
+    )
+
     const handleChange = useCallback(
       (title: string) => {
         if (filterPost) {
@@ -101,13 +109,7 @@ function Segement() {
 
     return (
       <SegmentedControl
-        key={selectedIndex}
-        style={[
-          styles.segmentedControl,
-          {
-            width: length * _.r(width)
-          }
-        ]}
+        style={segmentedControlStyle}
         size={size}
         values={data}
         selectedIndex={selectedIndex}

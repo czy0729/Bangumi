@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-10 07:26:52
+ * @Last Modified time: 2026-03-17 00:18:09
  */
 import React from 'react'
 import { useObserver } from 'mobx-react'
@@ -21,9 +21,9 @@ import TextOnly from './text-only'
 import { getCoverSrc, getImageViewerSrc } from './utils'
 import { COMPONENT } from './ds'
 
-import type { Props as CoverProps } from './types'
-
 export { getCoverSrc }
+
+import type { Props as CoverProps } from './types'
 
 export type { CoverProps }
 

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:38:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 04:48:54
+ * @Last Modified time: 2026-03-17 00:08:11
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -19,9 +19,9 @@ import { Image } from '../image'
 import { BLURVIEW_TINT_DARK, BLURVIEW_TINT_LIGHT, COMPONENT } from './ds'
 import { styles } from './styles'
 
-import type { Props as BlurViewProps } from './types'
-
 export { BLURVIEW_TINT_LIGHT, BLURVIEW_TINT_DARK }
+
+import type { Props as BlurViewProps } from './types'
 
 export type { BlurViewProps }
 

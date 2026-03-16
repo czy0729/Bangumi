@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-05-14 07:14:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-06 19:45:08
+ * @Last Modified time: 2026-03-17 00:02:24
  */
 import { _, systemStore, usersStore, userStore } from '@stores'
 import { getCover400, getCoverMedium, getTimestamp, navigationReference } from '@utils'
@@ -28,7 +28,7 @@ const TS = Math.floor(getTimestamp() / 604800)
 const HOST_IMAGE = '//lain.bgm.tv'
 
 /** 大质量头像 */
-export const USER_LARGE = `${HOST_IMAGE}/pic/user/l/`
+const USER_LARGE = `${HOST_IMAGE}/pic/user/l/`
 
 /**
  * 判断是否自己的头像, 若是不走 CDN, 保证最新

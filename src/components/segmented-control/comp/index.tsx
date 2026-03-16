@@ -2,12 +2,17 @@
  * @Author: czy0729
  * @Date: 2020-06-24 16:50:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-06 20:15:14
+ * @Last Modified time: 2026-03-17 05:33:11
  */
-import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { Animated, Easing, View } from 'react-native'
+import React, { useCallback, useEffect, useState } from 'react'
+import { View } from 'react-native'
+import Animated, {
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming
+} from 'react-native-reanimated'
 import { stl } from '@utils'
-import { USE_NATIVE_DRIVER } from '@constants'
 import { SegmentedControlTab } from '../segmented-control-tab'
 import { styles } from './styles'
 
@@ -23,16 +28,13 @@ function SegmentedControlComp<T extends DataSource>({
   backgroundColor,
   onChange,
   onValueChange,
-
-  // @add
   styleExtra,
   type,
   size
 }: Props<T>) {
-  // 组件内缓存一层, 使 UI 能尽快响应
-  const [_selectedIndex, _setSelectedIndex] = useState(selectedIndex)
+  const [currentSelectedIndex, setCurrentSelectedIndex] = useState(selectedIndex)
   const [segmentWidth, setSegmentWidth] = useState(0)
-  const animation = useRef(new Animated.Value(0)).current
+  const animation = useSharedValue(0)
 
   const handleLayout = useCallback(
     ({
@@ -42,25 +44,24 @@ function SegmentedControlComp<T extends DataSource>({
     }) => {
       const newSegmentWidth = values.length ? width / values.length : 0
       if (newSegmentWidth !== segmentWidth) {
-        animation.setValue(newSegmentWidth * (_selectedIndex || 0))
+        animation.value = newSegmentWidth * (currentSelectedIndex || 0)
         setSegmentWidth(newSegmentWidth)
       }
     },
-    [_selectedIndex, animation, segmentWidth, values.length]
+    [currentSelectedIndex, animation, segmentWidth, values.length]
   )
 
   const handleChange = useCallback(
     (index: number) => {
       if (selectedIndex === index) return
 
-      // mocks iOS's nativeEvent
       const event = {
         nativeEvent: {
           value: values[index],
           selectedSegmentIndex: index
         }
       }
-      _setSelectedIndex(index)
+      setCurrentSelectedIndex(index)
       setTimeout(() => {
         onChange && onChange(event)
         onValueChange && onValueChange(values[index])
@@ -70,37 +71,33 @@ function SegmentedControlComp<T extends DataSource>({
   )
 
   useEffect(() => {
-    if (animation && segmentWidth) {
-      Animated.timing(animation, {
-        toValue: segmentWidth * (_selectedIndex || 0),
+    if (segmentWidth) {
+      animation.value = withTiming(segmentWidth * (currentSelectedIndex || 0), {
         duration: 300,
-        easing: Easing.out(Easing.quad),
-        useNativeDriver: USE_NATIVE_DRIVER
-      }).start()
+        easing: Easing.out(Easing.quad)
+      })
     }
-  }, [animation, segmentWidth, _selectedIndex])
+  }, [segmentWidth, currentSelectedIndex, animation])
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [
+      {
+        translateX: animation.value
+      }
+    ]
+  }))
 
   return (
     <View
-      style={stl(
-        styles.default,
-        style,
-        styleExtra,
-        backgroundColor && { backgroundColor }
-        // !enabled && styles.disabled
-      )}
+      style={stl(styles.default, style, styleExtra, backgroundColor && { backgroundColor })}
       onLayout={handleLayout}
     >
-      {_selectedIndex != null && segmentWidth ? (
+      {currentSelectedIndex != null && segmentWidth ? (
         <Animated.View
           style={stl(
             styles.slider,
+            animatedStyle,
             {
-              transform: [
-                {
-                  translateX: animation
-                }
-              ],
               width: segmentWidth - 2,
               backgroundColor: tintColor || 'white'
             },
@@ -108,20 +105,20 @@ function SegmentedControlComp<T extends DataSource>({
           )}
         />
       ) : null}
-      {values &&
-        values.map((value: string, index: number) => (
-          <SegmentedControlTab
-            key={index}
-            value={value}
-            type={type}
-            size={size}
-            enabled={enabled}
-            selected={_selectedIndex === index}
-            onSelect={() => {
-              handleChange(index)
-            }}
-          />
-        ))}
+
+      {values?.map?.((value: string, index: number) => (
+        <SegmentedControlTab
+          key={index}
+          value={value}
+          type={type}
+          size={size}
+          enabled={enabled}
+          selected={currentSelectedIndex === index}
+          onSelect={() => {
+            handleChange(index)
+          }}
+        />
+      ))}
     </View>
   )
 }

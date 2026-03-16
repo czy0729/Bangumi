@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-28 22:28:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-03 18:19:26
+ * @Last Modified time: 2026-03-17 05:39:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,23 +17,18 @@ import type { Ctx } from '../../types'
 function Filter({ $ }: Ctx) {
   r(COMPONENT)
 
-  return useObserver(() => {
-    const { isFriend } = $.state
-
-    return (
-      <View>
-        <SegmentedControl
-          key={String(isFriend)}
-          style={styles.segment}
-          size={11}
-          values={DATA}
-          selectedIndex={isFriend ? 1 : 0}
-          onValueChange={$.onToggleFilter}
-        />
-        <Heatmap id='用户评分.切换类型' />
-      </View>
-    )
-  })
+  return useObserver(() => (
+    <View>
+      <SegmentedControl
+        style={styles.segment}
+        size={11}
+        values={DATA}
+        selectedIndex={$.state.isFriend ? 1 : 0}
+        onValueChange={$.onToggleFilter}
+      />
+      <Heatmap id='用户评分.切换类型' />
+    </View>
+  ))
 }
 
 export default Filter

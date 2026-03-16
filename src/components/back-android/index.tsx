@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 17:08:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 21:37:06
+ * @Last Modified time: 2026-03-17 00:02:42
  */
 import { BackHandler } from 'react-native'
 import { info, navigationReference } from '@utils'
@@ -14,7 +14,7 @@ import { COMPONENT } from './ds'
 let lastBackPressed: number
 
 /** 安卓退后拦截器 */
-export const BackAndroid = () => {
+export function BackAndroid() {
   r(COMPONENT)
 
   useMount(() => {
