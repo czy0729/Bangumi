@@ -5,9 +5,10 @@
  * @Last Modified time: 2025-10-15 17:53:54
  */
 import React from 'react'
+import { View } from 'react-native'
 import { Cover, Flex, Heatmap, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
-import { appNavigate, findSubjectCn, HTMLDecode, simpleTime } from '@utils'
+import { appNavigate, findSubjectCn, getVisualLength, HTMLDecode, simpleTime } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { HOST, IMG_EMPTY, IMG_EMPTY_DARK } from '@constants'
 import WordCloud from '../../word-cloud'
@@ -22,11 +23,13 @@ function GroupInfo() {
   return useObserver(() => {
     const styles = memoStyles()
     const isEp = $.topicId.includes('ep/')
+    const group = HTMLDecode(findSubjectCn($.group))
+    const visualLength = getVisualLength(group)
 
     return (
       <Flex style={styles.container}>
-        {!!$.group && (
-          <Flex style={styles.label}>
+        {!!group && (
+          <View style={styles.label}>
             <Touchable
               animate
               onPress={() => {
@@ -54,13 +57,19 @@ function GroupInfo() {
                   fallback={isEp}
                   fallbackSrc={isEp ? String($.groupThumb).replace('/r/100x100', '') : undefined}
                 />
-                <Text style={styles.text} size={13} numberOfLines={1}>
-                  {HTMLDecode(findSubjectCn($.group))}
+                <Text
+                  style={_.ml.sm}
+                  size={visualLength >= 16 ? 11 : visualLength >= 12 ? 12 : 13}
+                  numberOfLines={1}
+                  shrink
+                >
+                  {group}
                 </Text>
               </Flex>
             </Touchable>
-          </Flex>
+          </View>
         )}
+
         <Flex.Item>
           {!!$.time && (
             <Text type='sub' size={13}>
@@ -68,6 +77,7 @@ function GroupInfo() {
             </Text>
           )}
         </Flex.Item>
+
         <WordCloud />
         <Heatmap right={74} id='帖子.跳转' to='Group' alias='小组' />
         <Heatmap id='帖子.跳转' to='Subject' alias='条目' transparent />

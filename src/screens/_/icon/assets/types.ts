@@ -8,5 +8,6 @@ import type { Fn, WithViewStyles } from '@types'
 
 export type Props = WithViewStyles<{
   icon?: 'wordcloud' | 'bilibili' | 'dou' | 'wiki' | 'samba' | 'book'
+  size?: number
   onPress: Fn
 }>

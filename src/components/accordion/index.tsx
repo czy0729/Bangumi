@@ -1,12 +1,11 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /*
  * @Author: czy0729
  * @Date: 2021-09-26 13:37:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-05 06:22:43
+ * @Last Modified time: 2026-03-16 19:16:38
  */
-import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { LayoutChangeEvent, View } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
+import { View } from 'react-native'
 import Animated, {
   runOnJS,
   useAnimatedStyle,
@@ -15,86 +14,60 @@ import Animated, {
   withTiming
 } from 'react-native-reanimated'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { r } from '@utils/dev'
-import { COMPONENT, MIN_HEIGHT } from './ds'
-import { Props as AccordionProps } from './types'
+import { ANIMATED_CONFIG, COMPONENT, MIN_HEIGHT } from './ds'
 
-export { AccordionProps }
+import type { LayoutChangeEvent } from 'react-native'
+import type { Props as AccordionProps } from './types'
 
-/** 手风琴 */
-export const Accordion = ({ style, expand = false, lazy = true, children }: AccordionProps) => {
+export type { AccordionProps }
+
+export function Accordion({ style, expand = false, lazy = true, children }: AccordionProps) {
   r(COMPONENT)
 
   const [show, setShow] = useState(lazy ? expand : true)
-  const expanded = useRef(expand)
-  const contentHeight = useSharedValue(0) // 存储 children 的实际高度
-  const translateY = useSharedValue(0) // 用于 translateY 动画
+  const contentHeight = useSharedValue(0)
+  const translateY = useSharedValue(expand ? 0 : 1000)
+  const heightRef = useRef(0)
 
-  // 动态样式
-  const animatedStyles = useAnimatedStyle(() => ({
-    transform: [{ translateY: translateY.value }],
-    overflow: 'hidden'
-  }))
-
-  // 监听 children 高度变化
-  const handleLayout = useCallback(
-    (evt: LayoutChangeEvent) => {
-      const newHeight = Math.max(evt.nativeEvent.layout.height, MIN_HEIGHT)
-      if (contentHeight.value === newHeight) return // 如果高度没有变化，直接返回
-
-      // 更新内容高度
-      contentHeight.value = newHeight
-
-      // 如果当前是展开状态，同步更新 translateY
-      if (expand) {
-        translateY.value = withSpring(0, {
-          damping: 20, // 阻尼，控制回弹力度
-          stiffness: 200 // 刚度，控制动画速度
-        })
-      }
-    },
-    [expand]
+  const animatedStyles = useAnimatedStyle(
+    () => ({
+      transform: [{ translateY: translateY.value }],
+      overflow: 'hidden'
+    }),
+    []
   )
 
-  // 展开/收起控制
+  const handleLayout = (evt: LayoutChangeEvent) => {
+    const newHeight = Math.max(evt.nativeEvent.layout.height, MIN_HEIGHT)
+    if (Math.abs(heightRef.current - newHeight) < 1) return // 忽略微小抖动
+
+    heightRef.current = newHeight
+    contentHeight.value = newHeight
+  }
+
   useEffect(() => {
     if (expand) {
       setShow(true)
-      expanded.current = true
-      // 展开时，translateY 使用弹簧动画过渡到 0
-      translateY.value = withSpring(0, {
-        damping: 20, // 阻尼，控制回弹力度
-        stiffness: 200 // 刚度，控制动画速度
+      requestAnimationFrame(() => {
+        translateY.value = withSpring(0, ANIMATED_CONFIG)
       })
     } else {
-      // 收起时，translateY 使用普通动画过渡到 contentHeight.value
-      translateY.value = withTiming(contentHeight.value + _.bottom, { duration: 160 }, finished => {
-        if (finished) {
-          runOnJS(setShow)(false)
-        }
+      translateY.value = withTiming(heightRef.current + _.bottom, { duration: 280 }, finished => {
+        if (finished && lazy) runOnJS(setShow)(false)
       })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [expand])
 
-  // 如果 children 高度变化，重新触发动画
-  useEffect(() => {
-    if (expand) {
-      translateY.value = withSpring(0, {
-        damping: 20,
-        stiffness: 200
-      })
-    }
-  }, [contentHeight.value]) // 监听 contentHeight 的变化
-
-  if (!expanded.current && lazy && !show) return null
+  if (lazy && !show) return null
 
   return (
-    <Animated.View style={[animatedStyles, style]} pointerEvents='box-none'>
+    <Animated.View style={stl(animatedStyles, style)} pointerEvents='box-none'>
       <View pointerEvents='box-none' onLayout={handleLayout}>
         {children}
       </View>
     </Animated.View>
   )
 }
-
-export default Accordion

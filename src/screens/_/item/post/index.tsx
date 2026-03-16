@@ -5,10 +5,10 @@
  * @Last Modified time: 2026-01-15 14:24:49
  */
 import React from 'react'
+import { useObserver } from 'mobx-react'
 import { Component } from '@components'
 import { rakuenStore, uiStore, useStore } from '@stores'
 import { getIsBlocked, getTimestamp, HTMLDecode } from '@utils'
-import { ob } from '@utils/decorators'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HOST, MODEL_RAKUEN_NEW_FLOOR_STYLE } from '@constants'
 import Item from './item'
@@ -21,34 +21,34 @@ import type { Ctx, Props as ItemPostProps } from './types'
 
 export type { ItemPostProps }
 
-export const ItemPost = ob(
-  ({
-    inViewY,
-    index,
-    contentStyle,
-    extraStyle,
-    avatar,
-    userId,
-    userName,
-    replySub,
-    message,
-    sub,
-    id,
-    authorId,
-    postId,
-    time,
-    floor,
-    userSign,
-    erase,
-    rendered,
-    matchLink,
-    expandNums,
-    event,
-    showFixedTextarea: onShowFixedTextarea,
-    onJumpTo
-  }: ItemPostProps) => {
-    const { $ } = useStore<Ctx>()
+export function ItemPost({
+  inViewY,
+  index,
+  contentStyle,
+  extraStyle,
+  avatar,
+  userId,
+  userName,
+  replySub,
+  message,
+  sub,
+  id,
+  authorId,
+  postId,
+  time,
+  floor,
+  userSign,
+  erase,
+  rendered,
+  matchLink,
+  expandNums,
+  event,
+  showFixedTextarea: onShowFixedTextarea,
+  onJumpTo
+}: ItemPostProps) {
+  const { $ } = useStore<Ctx>(COMPONENT)
 
+  return useObserver(() => {
     // 屏蔽脏数据
     if (!userId) return null
 
@@ -84,10 +84,10 @@ export const ItemPost = ob(
 
     // 展开子楼层
     const { expands, translateResultFloor } = $?.state || {}
-    const _expands = Number(expandNums || rakuenStore.setting.subExpand)
+    const expandValue = Number(expandNums || rakuenStore.setting.subExpand)
     let isExpand: boolean
-    if (_expands !== undefined) {
-      isExpand = sub.length <= _expands || (sub.length > _expands && expands?.includes(id))
+    if (expandValue !== undefined) {
+      isExpand = sub.length <= expandValue || (sub.length > expandValue && expands?.includes(id))
     } else {
       isExpand = true
     }
@@ -129,7 +129,7 @@ export const ItemPost = ob(
         postId={postId}
         readedTime={readedTime}
         replySub={replySub}
-        expandNums={_expands}
+        expandNums={expandValue}
         sub={sub}
         time={time}
         translate={translateResultFloor?.[id]}
@@ -147,8 +147,7 @@ export const ItemPost = ob(
         onToggleExpand={$?.toggleExpand}
       />
     )
-  },
-  COMPONENT
-)
+  })
+}
 
 export default ItemPost

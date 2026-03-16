@@ -49,13 +49,14 @@ const HeaderTitle = memo(
     return (
       <Flex style={styles.container}>
         {!!avatar && (
-          <UserStatus userId={userId}>
+          <UserStatus userId={userId} mini>
             <Avatar
               navigation={navigation}
               size={IMG_WIDTH}
               src={avatar}
               userId={userId}
               name={userName}
+              radius={_.radiusXs}
             />
           </UserStatus>
         )}

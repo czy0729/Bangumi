@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-30 03:43:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-11 10:44:13
+ * @Last Modified time: 2026-03-16 19:29:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -57,7 +57,7 @@ function Footer({
         return (
           footerEmptyDataComponent || (
             <Flex style={styles.empty} direction='column' justify='center'>
-              {showMesume && <Mesume size={80} />}
+              {showMesume && <Mesume size={64} />}
               <Text
                 style={styles.textMt}
                 type={footerTextType}
@@ -95,7 +95,7 @@ function Footer({
           footerNoMoreDataComponent ||
           (showMesume ? (
             <Flex style={styles.noMore} justify='center' direction='column'>
-              <Mesume size={80} />
+              <Mesume size={64} />
               {systemStore.setting.speech && <RandomText type={footerTextType} text={filterText} />}
             </Flex>
           ) : null)

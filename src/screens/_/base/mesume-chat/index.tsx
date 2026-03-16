@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-02-02 17:26:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-16 13:41:10
+ * @Last Modified time: 2026-03-16 18:45:15
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
@@ -15,9 +15,10 @@ import { useObserver } from '@utils/hooks'
 import { GROUP_THUMB_MAP } from '@assets/images'
 import { MUSUME_CONFIG, MUSUME_DATA } from './ds'
 import { memoStyles } from './styles'
-import { Props as MesumeChatProps } from './types'
 
-export { MesumeChatProps }
+import type { Props as MesumeChatProps } from './types'
+
+export type { MesumeChatProps }
 
 /** Bangumi 娘锐评框 */
 export const MesumeChat = ({
@@ -33,6 +34,7 @@ export const MesumeChat = ({
 }: MesumeChatProps) => {
   const [lastRefreshTime, setLastRefreshTime] = useState<number | null>(null)
   const [showPannel, setShowPannel] = useState(false)
+
   const handleRefresh = useCallback(() => {
     if (!systemStore.advance) {
       const now = Date.now()

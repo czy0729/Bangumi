@@ -16,12 +16,12 @@ import type { Props as IconAssetsProps } from './types'
 
 export type { IconAssetsProps }
 
-export function IconAssets({ style, icon = 'wordcloud', onPress }: IconAssetsProps) {
+export function IconAssets({ style, icon = 'wordcloud', size = 19, onPress }: IconAssetsProps) {
   return useObserver(() => (
     <Touchable style={stl(styles.touch, style)} onPress={onPress}>
       <Image
         src={GROUP_THUMB_MAP[_.select(`${icon}_0`, icon)]}
-        size={19}
+        size={size}
         resizeMode='contain'
         placeholder={false}
         skeleton={false}
