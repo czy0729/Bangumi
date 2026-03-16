@@ -1,15 +1,16 @@
 /*
  * @Author: czy0729
  * @Date: 2025-09-12 18:50:59
- * @Last Modified by:   czy0729
- * @Last Modified time: 2025-09-12 18:50:59
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-03-17 06:20:12
  */
+import { BLURVIEW_TINT_DARK, BLURVIEW_TINT_LIGHT } from '../../../ds'
 import { CONTEXT_MENU_STATE } from '../../constants'
 
 export type StateProps = {
   active: number
   activeItem: string | null
-  theme: 'light' | 'dark'
+  theme: 'light' | 'extraLight' | 'dark'
 }
 
 export enum ActionType {
@@ -40,7 +41,7 @@ export const reducer = (state: StateProps, action: Action): StateProps => {
     case ActionType.Theme:
       return {
         ...state,
-        theme: state.theme === 'dark' ? 'light' : 'dark'
+        theme: state.theme === BLURVIEW_TINT_DARK ? BLURVIEW_TINT_LIGHT : BLURVIEW_TINT_DARK
       }
     default:
       return state
@@ -50,5 +51,5 @@ export const reducer = (state: StateProps, action: Action): StateProps => {
 export const initialState: StateProps = {
   active: 0,
   activeItem: null,
-  theme: 'light'
+  theme: BLURVIEW_TINT_LIGHT
 }

@@ -2,18 +2,20 @@
  * @Author: czy0729
  * @Date: 2025-09-12 18:51:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-12 19:17:18
+ * @Last Modified time: 2026-03-17 06:17:22
  */
 import React, { memo, useEffect, useMemo } from 'react'
 import Animated, { useSharedValue } from 'react-native-reanimated'
 import { PortalProvider } from '@gorhom/portal'
+import { BLURVIEW_TINT_LIGHT } from '../../../ds'
 import { CONTEXT_MENU_STATE } from '../../constants'
 import { InternalContext } from '../../context/internal'
 import { Backdrop } from '../backdrop'
 import Menu from '../menu'
-import { MenuInternalProps } from '../menu/types'
-import { Action, StateProps } from './reducer'
-import { HoldMenuProviderProps } from './types'
+
+import type { MenuInternalProps } from '../menu/types'
+import type { Action, StateProps } from './reducer'
+import type { HoldMenuProviderProps } from './types'
 
 export interface Store {
   state: StateProps
@@ -31,7 +33,9 @@ const ProviderComponent = ({
   if (iconComponent) AnimatedIcon = Animated.createAnimatedComponent(iconComponent)
 
   const state = useSharedValue<CONTEXT_MENU_STATE>(CONTEXT_MENU_STATE.UNDETERMINED)
-  const theme = useSharedValue<'light' | 'dark'>(selectedTheme || 'light')
+  const theme = useSharedValue<'light' | 'extraLight' | 'dark'>(
+    selectedTheme || BLURVIEW_TINT_LIGHT
+  )
   const menuProps = useSharedValue<MenuInternalProps>({
     itemHeight: 0,
     itemWidth: 0,
@@ -45,7 +49,7 @@ const ProviderComponent = ({
   })
 
   useEffect(() => {
-    theme.value = selectedTheme || 'light'
+    theme.value = selectedTheme || BLURVIEW_TINT_LIGHT
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedTheme])
 

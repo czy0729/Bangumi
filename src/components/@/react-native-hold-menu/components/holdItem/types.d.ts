@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-09-12 18:50:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-12 06:22:48
+ * @Last Modified time: 2026-03-17 06:16:03
  */
 import type { ViewStyle } from 'react-native'
 import type { TransformOriginAnchorPosition } from '../../utils/calculations'
@@ -76,7 +76,7 @@ export type HoldItemProps = {
    * @examples
    * theme="light"
    */
-  theme?: 'light' | 'dark'
+  theme?: 'light' | 'extraLight' | 'dark'
 
   /**
    * Set true if you want to open menu from bottom

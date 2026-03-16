@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 19:46:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-01 18:51:31
+ * @Last Modified time: 2026-03-17 06:33:47
  */
 import React from 'react'
 import { Component, Flex } from '@components'
@@ -13,12 +13,13 @@ import { useInsets, useObserver } from '@utils/hooks'
 import { Logo } from '../logo'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props as LogoHeaderProps } from './types'
 
-export { LogoHeaderProps }
+import type { Props as LogoHeaderProps } from './types'
+
+export type { LogoHeaderProps }
 
 /** 带 Logo 的头部 */
-export const LogoHeader = ({ navigation, left, right, path }: LogoHeaderProps) => {
+export function LogoHeader({ navigation, left, right, path }: LogoHeaderProps) {
   r(COMPONENT)
 
   const { headerHeight, statusBarHeight } = useInsets()

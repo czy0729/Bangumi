@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-01-21 15:55:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-09 05:47:22
+ * @Last Modified time: 2026-03-17 06:46:14
  */
 import React from 'react'
 import { Highlight, Katakana } from '@components'
-import { useStore } from '@stores'
-import { cnjp, getPinYinFilterValue, HTMLDecode } from '@utils'
+import { systemStore, useStore } from '@stores'
+import { cnjp, getPinYinFilterValue, getVisualLength, HTMLDecode } from '@utils'
 import { useObserver } from '@utils/hooks'
 import Doing from './doing'
 import { COMPONENT } from './ds'
@@ -26,19 +26,22 @@ function Title({ subjectId, typeCn, title, name, name_cn, doing }: Props) {
     let filterValue = ''
     if ($.isFilter(title)) filterValue = getPinYinFilterValue(text, $.filter)
 
-    const size = text.length > 28 ? 12 : text.length > 18 ? 13 : 15
+    const visualLength = getVisualLength(text)
+    const textProps = {
+      size: visualLength > 28 ? 12 : visualLength > 18 ? 13 : 15,
+      numberOfLines: systemStore.setting.homeListCompact ? 2 : 3,
+      bold: true
+    } as const
 
     return (
       <>
         {filterValue ? (
-          <Highlight size={size} numberOfLines={2} bold value={filterValue}>
+          <Highlight {...textProps} value={filterValue}>
             {text}
           </Highlight>
         ) : (
-          <Katakana.Provider size={size} numberOfLines={2} bold>
-            <Katakana size={size} numberOfLines={2} bold>
-              {text}
-            </Katakana>
+          <Katakana.Provider {...textProps}>
+            <Katakana {...textProps}>{text}</Katakana>
           </Katakana.Provider>
         )}
         <Doing subjectId={subjectId} typeCn={typeCn} doing={doing} />

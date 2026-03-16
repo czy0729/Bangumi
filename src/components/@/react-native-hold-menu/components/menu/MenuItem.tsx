@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2025-09-12 18:50:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-12 06:24:50
+ * @Last Modified time: 2026-03-17 06:19:48
  */
 import React, { useCallback } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { TouchableOpacity as GHTouchableOpacity } from 'react-native-gesture-handler'
 import Animated, { useAnimatedStyle } from 'react-native-reanimated'
 import isEqual from 'lodash.isequal'
+import { BLURVIEW_TINT_DARK } from '../../../ds'
 import { onPressEventEmit } from '../../addition'
 import { CONTEXT_MENU_STATE, IS_IOS } from '../../constants'
 import { useInternal } from '../../hooks'
@@ -37,7 +38,8 @@ const MenuItemComponent = ({ item, isLast }: MenuItemComponentProps) => {
   } = useInternal()
 
   const borderStyles = useAnimatedStyle(() => {
-    const borderBottomColor = theme.value === 'dark' ? BORDER_DARK_COLOR : BORDER_LIGHT_COLOR
+    const borderBottomColor =
+      theme.value === BLURVIEW_TINT_DARK ? BORDER_DARK_COLOR : BORDER_LIGHT_COLOR
 
     return {
       borderBottomColor,

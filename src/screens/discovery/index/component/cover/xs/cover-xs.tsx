@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-10 06:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 05:33:46
+ * @Last Modified time: 2026-03-17 06:01:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -72,9 +72,9 @@ const CoverXs = memo(
             />
             <Text
               style={styles.desc}
+              type='__plain__'
               size={7}
               lineHeight={_.r(7)}
-              type={_.select('plain', 'title')}
               numberOfLines={2}
               bold
               pointerEvents='none'

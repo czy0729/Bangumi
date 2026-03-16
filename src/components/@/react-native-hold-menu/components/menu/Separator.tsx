@@ -1,12 +1,13 @@
 /*
  * @Author: czy0729
  * @Date: 2025-09-12 18:50:54
- * @Last Modified by:   czy0729
- * @Last Modified time: 2025-09-12 18:50:54
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-03-17 06:20:00
  */
 import React, { memo } from 'react'
 import { StyleSheet } from 'react-native'
 import Animated, { useAnimatedStyle } from 'react-native-reanimated'
+import { BLURVIEW_TINT_DARK } from '../../../ds'
 import { useInternal } from '../../hooks'
 import { BORDER_DARK_COLOR, BORDER_LIGHT_COLOR } from './constants'
 
@@ -15,7 +16,7 @@ const Separator = () => {
 
   const separatorStyles = useAnimatedStyle(() => {
     return {
-      backgroundColor: theme.value === 'dark' ? BORDER_DARK_COLOR : BORDER_LIGHT_COLOR
+      backgroundColor: theme.value === BLURVIEW_TINT_DARK ? BORDER_DARK_COLOR : BORDER_LIGHT_COLOR
     }
   }, [theme])
 

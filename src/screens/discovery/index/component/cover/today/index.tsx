@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 00:14:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-10 02:18:52
+ * @Last Modified time: 2026-03-17 06:00:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -53,8 +53,8 @@ function CoverToday({ data }: Props) {
           <LinearGradient style={styles.linear} colors={linearColor} pointerEvents='none' />
           <View style={styles.info} pointerEvents='none'>
             <Text
+              type='__plain__'
               size={_.device(10, 13)}
-              type={_.select('plain', 'title')}
               numberOfLines={1}
               bold
               pointerEvents='none'
@@ -65,17 +65,12 @@ function CoverToday({ data }: Props) {
               <Katakana.Provider
                 itemStyle={styles.itemStyle}
                 itemSecondStyle={styles.itemSecondStyle}
+                type='__plain__'
                 size={_.device(10, 12)}
-                type={_.select('plain', 'title')}
                 numberOfLines={2}
                 bold
               >
-                <Katakana
-                  size={_.device(10, 12)}
-                  type={_.select('plain', 'title')}
-                  numberOfLines={2}
-                  bold
-                >
+                <Katakana type='__plain__' size={_.device(10, 12)} numberOfLines={2} bold>
                   {HTMLDecode(cnjp(data.name_cn, data.name))}
                 </Katakana>
               </Katakana.Provider>

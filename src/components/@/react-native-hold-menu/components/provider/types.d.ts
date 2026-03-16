@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2025-09-12 18:51:02
- * @Last Modified by:   czy0729
- * @Last Modified time: 2025-09-12 18:51:02
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-03-17 06:18:23
  */
 export interface HoldMenuProviderProps {
   /**
@@ -12,7 +12,7 @@ export interface HoldMenuProviderProps {
    * @examples
    * theme="light"
    */
-  theme?: 'dark' | 'light'
+  theme?: 'light' | 'extraLight' | 'dark'
   iconComponent?: any
   children: React.ReactElement | React.ReactElement[]
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-20 15:51:57
+ * @Last Modified time: 2026-03-17 06:00:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -73,12 +73,12 @@ function CoverLg({ title, src, cn, data }: Props) {
               <Katakana.Provider
                 itemStyle={styles.itemStyle}
                 itemSecondStyle={styles.itemSecondStyle}
-                type={_.select('plain', 'title')}
+                type='__plain__'
                 size={22}
                 bold
                 numberOfLines={2}
               >
-                <Katakana size={22} type={_.select('plain', 'title')} bold numberOfLines={2}>
+                <Katakana size={22} type='__plain__' bold numberOfLines={2}>
                   {HTMLDecode(cnjp(subjectCN, subjectJP))}
                 </Katakana>
               </Katakana.Provider>

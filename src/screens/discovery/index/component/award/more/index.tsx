@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-26 07:20:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-14 20:37:46
+ * @Last Modified time: 2026-03-17 05:59:46
  */
 import React from 'react'
 import { Flex, Squircle, Text, Touchable } from '@components'
@@ -18,7 +18,6 @@ function More() {
   return useObserver(() => {
     const styles = memoStyles()
     const { width, height } = styles.more
-    const type = _.select('plain', 'title')
 
     return (
       <Touchable
@@ -37,10 +36,10 @@ function More() {
       >
         <Squircle width={width} height={height} radius={systemStore.coverRadius}>
           <Flex style={styles.more} justify='center' direction='column'>
-            <Text size={18} type={type} bold>
+            <Text type='__plain__' size={18} bold>
               更多
             </Text>
-            <Text size={18} type={type} bold>
+            <Text type='__plain__' size={18} bold>
               年鉴
             </Text>
           </Flex>

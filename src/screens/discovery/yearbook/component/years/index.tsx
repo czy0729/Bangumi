@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-04 02:01:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-13 15:37:27
+ * @Last Modified time: 2026-03-17 06:01:17
  */
 import React from 'react'
 import { Flex, Squircle, Text, Touchable } from '@components'
@@ -47,7 +47,7 @@ function Years() {
               radius={systemStore.coverRadius}
             >
               <Flex style={styles.itemBody} justify='center' direction='column'>
-                <Text size={18} type={_.select('plain', 'title')} bold>
+                <Text type='__plain__' size={18} bold>
                   {item}
                 </Text>
               </Flex>

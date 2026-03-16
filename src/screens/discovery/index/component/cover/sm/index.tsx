@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:44:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-20 15:52:24
+ * @Last Modified time: 2026-03-17 06:00:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -63,19 +63,19 @@ function CoverSm({ title, src, cn, data }: Props) {
             pointerEvents='none'
           />
           <View style={styles.desc} pointerEvents='none'>
-            <Text size={10} type={_.select('plain', 'title')} numberOfLines={1} bold>
+            <Text type='__plain__' size={10} numberOfLines={1} bold>
               {data.info}
             </Text>
             <View style={_.mt.xs}>
               <Katakana.Provider
                 itemStyle={styles.itemStyle}
                 itemSecondStyle={styles.itemSecondStyle}
-                type={_.select('plain', 'title')}
+                type='__plain__'
                 size={11}
                 numberOfLines={2}
                 bold
               >
-                <Katakana type={_.select('plain', 'title')} size={11} bold numberOfLines={2}>
+                <Katakana type='__plain__' size={11} bold numberOfLines={2}>
                   {HTMLDecode(cnjp(subjectCN, subjectJP))}
                 </Katakana>
               </Katakana.Provider>

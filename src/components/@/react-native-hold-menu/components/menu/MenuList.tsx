@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-09-12 18:50:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-12 19:16:51
+ * @Last Modified time: 2026-03-17 06:32:41
  */
 import React, { useState } from 'react'
 import { ScrollView, StyleSheet } from 'react-native'
@@ -28,7 +28,8 @@ import { deepEqual } from '../../utils/validations'
 import { leftOrRight } from './calculations'
 import MenuItems from './MenuItems'
 import styles from './styles'
-import { MenuItemProps } from './types'
+
+import type { MenuItemProps } from './types'
 
 const MenuListComponent = () => {
   const { state, theme, menuProps } = useInternal()
@@ -77,7 +78,7 @@ const MenuListComponent = () => {
         { translateX: translate.endingTransformations.translateX },
         { translateY: translate.endingTransformations.translateY }
       ]
-    }
+    } as const
   })
 
   const setter = (items: MenuItemProps[]) => {
@@ -109,6 +110,7 @@ const MenuListComponent = () => {
 
   const AnimatedView = Animated.createAnimatedComponent(BlurView)
   const elMenuItems = <MenuItems items={itemList} />
+
   return (
     <Animated.View
       style={[
@@ -119,7 +121,16 @@ const MenuListComponent = () => {
         }
       ]}
     >
-      <AnimatedView style={StyleSheet.absoluteFillObject} intensity={80} tint={themeValue}>
+      <AnimatedView
+        style={[
+          StyleSheet.absoluteFillObject,
+          themeValue !== 'dark' && {
+            backgroundColor: 'rgba(255, 255, 255, 0.56)'
+          }
+        ]}
+        intensity={80}
+        tint={themeValue}
+      >
         {itemList.length > 6 ? (
           <ScrollView
             contentContainerStyle={additionStyles.contentContainerStyle}
