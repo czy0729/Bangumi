@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-16 22:03:37
+ * @Last Modified time: 2026-03-17 20:15:14
  */
 import { action, configure, extendObservable, isObservableArray, toJS } from 'mobx'
+import isEqual from 'lodash.isequal'
 import { LIST_EMPTY } from '@constants/constants'
 import { TEXT_BADGES } from '@constants/text'
 import { DEV } from '@src/config'
+import { logger } from '../dev'
 import fetch, { queue } from '../fetch'
 import { fetchSubjectV0 } from '../fetch.v0'
 import { setStorage } from '../storage'
@@ -380,13 +382,27 @@ export default class Store<
     }
   }
 
+  /** 忽略更新时间 _loaded 对比两个状态值 */
+  isEqual = (prevState: AnyObject, nextState: AnyObject): boolean => {
+    return isEqual(
+      {
+        ...prevState,
+        _loaded: 0
+      },
+      {
+        ...nextState,
+        _loaded: 0
+      }
+    )
+  }
+
   /** 开发调试 */
   log(...arg: any) {
-    if (DEV) console.info(TEXT_BADGES.primary, ...arg)
+    if (DEV) logger.info(TEXT_BADGES.primary, ...arg)
   }
 
   /** 开发打印 */
   error = (...arg: any) => {
-    if (DEV) console.info(TEXT_BADGES.danger, ...arg)
+    if (DEV) logger.info(TEXT_BADGES.danger, ...arg)
   }
 }

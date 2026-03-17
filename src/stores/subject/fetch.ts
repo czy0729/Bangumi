@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:33:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-14 19:56:14
+ * @Last Modified time: 2026-03-17 20:16:37
  */
 import { getTimestamp, HTMLTrim, omit, queue } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -53,7 +53,7 @@ import { getInt, mapV0Episodes } from './utils'
 
 import type { EpId, MonoId, RatingStatus, ResponseV0Episodes, SubjectId } from '@types'
 import type { STATE } from './init'
-import type { ApiSubjectResponse, FetchMonoVoicesArgs, FetchMonoWorksArgs } from './types'
+import type { ApiSubjectResponse, FetchMonoVoicesArgs, FetchMonoWorksArgs, Subject } from './types'
 
 export default class Fetch extends Computed {
   /** 条目信息 */
@@ -61,56 +61,57 @@ export default class Fetch extends Computed {
     subjectId: SubjectId,
     responseGroup: 'small' | 'medium' | 'large' = 'large'
   ): Promise<ApiSubjectResponse> => {
-    const data = await this.fetch({
+    const last = getInt(subjectId)
+    const STATE_KEY = `subject${last}` as const
+    const ITEM_KEY = subjectId
+
+    const response = await this.fetch({
       url: API_SUBJECT(subjectId),
       data: {
         responseGroup
       },
       info: '条目信息'
     })
-    const last = getInt(subjectId)
-    const key = `subject${last}` as const
 
-    // eps 只有在 large 的时候才是数组数据, 才能进行保存
+    let data: Subject
     if (responseGroup === 'large') {
-      this.setState({
-        [key]: {
-          [subjectId]: {
-            ...this.subject(subjectId),
-            ...data,
-
-            // 章节数据可能会很巨大, 减少储存用不上的数据
-            eps: (data?.eps || []).map((item: any) => {
-              if (item.name_cn) item.name = ''
-              return {
-                ...item,
-                // duration: '',
-                desc: ''
-              }
-            }),
-            _responseGroup: 'large',
-            _loaded: getTimestamp()
-          }
-        }
-      })
-    } else {
-      const _data = {
+      // eps 只有在 large 的时候才是数组数据, 才能进行保存
+      data = {
         ...this.subject(subjectId),
-        ...omit(data, ['eps']),
+        ...response,
+
+        // 章节数据可能会很巨大, 减少储存用不上的数据
+        eps: (response?.eps || []).map((item: any) => {
+          if (item.name_cn) item.name = ''
+          return {
+            ...item,
+            desc: ''
+          }
+        }),
+        _responseGroup: 'large',
+        _loaded: getTimestamp()
+      }
+    } else {
+      data = {
+        ...this.subject(subjectId),
+        ...omit(response, ['eps']),
         _responseGroup: responseGroup,
         _loaded: getTimestamp()
       }
-      if (_data.eps && typeof _data.eps !== 'object') _data.eps = []
-
-      this.setState({
-        [key]: {
-          [subjectId]: _data
-        }
-      })
+      if (data.eps && typeof data.eps !== 'object') data.eps = []
     }
 
-    this.save(key)
-    return data
+    await this.init(STATE_KEY)
+    if (!this.isEqual(data, this.subject(subjectId))) {
+      this.setState({
+        [STATE_KEY]: {
+          [ITEM_KEY]: data
+        }
+      })
+      this.save(STATE_KEY)
+    }
+
+    return response
   }
 
   /** 网页获取条目信息 */
@@ -681,7 +682,7 @@ export default class Fetch extends Computed {
     return true
   }
 
-  updateVIB = (subjectId: SubjectId, data: Partial<typeof STATE.vib[0]>) => {
+  updateVIB = (subjectId: SubjectId, data: Partial<(typeof STATE.vib)[0]>) => {
     const key = 'vib'
     this.setState({
       [key]: {

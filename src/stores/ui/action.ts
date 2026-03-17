@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 14:48:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-04 16:46:14
+ * @Last Modified time: 2026-03-17 19:45:05
  */
 import { getTimestamp } from '@utils'
 import { t } from '@utils/fetch'
@@ -33,7 +33,7 @@ export default class Action extends Computed {
   /** 显示条目缩略信息弹出层 */
   showPopableSubject = ({ subjectId }) => {
     const { id, _loaded } = subjectStore.subject(subjectId)
-    if (!_loaded || !id) subjectStore.fetchSubject(subjectId)
+    if (!id || !_loaded) subjectStore.fetchSubject(subjectId)
 
     if (this.popableSubject.visible) {
       this.closePopableSubject()
@@ -74,14 +74,6 @@ export default class Action extends Computed {
         visible: false
       }
     })
-
-    setTimeout(() => {
-      this.setState({
-        popableSubject: {
-          subjectId: 0
-        }
-      })
-    }, 160)
   }
 
   /** 因为弹出层使用了 Portal, 所以主动刷新 key 可以使弹出层永远在最顶层 */

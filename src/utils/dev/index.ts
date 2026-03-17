@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-23 00:38:11
+ * @Last Modified time: 2026-03-17 19:31:08
  */
 import { WEB } from '@constants/device'
 import { DEV, LOG_LEVEL, RERENDER_NOT_SHOW, RERENDER_SHOW } from '@src/config'
@@ -79,7 +79,7 @@ export function r(key: string, ...other: any[]) {
   for (let len = _count.length; len <= 15; len += 1) _count += ' '
 
   setTimeout(() => {
-    logger.log('render', _key, RERENDER_MEMO.data[key] < 10 ? ` ${_count}` : _count, ...other)
+    logger.purple('re-render', _key, RERENDER_MEMO.data[key] < 10 ? ` ${_count}` : _count, ...other)
   }, 0)
 }
 

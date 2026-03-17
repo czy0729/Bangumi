@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:27:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-11 04:40:46
+ * @Last Modified time: 2026-03-17 19:59:19
  */
 import { LIST_EMPTY } from '@constants'
 import { MODEL_RATING_STATUS } from '@constants/model'
@@ -14,6 +14,7 @@ import type {
   MonoComments,
   MonoVoices,
   MonoWorks,
+  Subject,
   SubjectCatalogs,
   SubjectFromHTML
 } from './types'
@@ -346,7 +347,7 @@ const STATE = {
  */
 for (let i = 0; i < 1000; i += 1) {
   /** 条目 */
-  STATE[`subject${i}`] = {}
+  STATE[`subject${i}`] = {} as Subject
 
   /** 条目 (HTML) */
   STATE[`subjectFormHTML${i}`] = {} as SubjectFromHTML

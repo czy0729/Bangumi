@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:15:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 00:49:39
+ * @Last Modified time: 2026-03-17 20:13:45
  */
 import { observable } from 'mobx'
 import { runAfter, titleCase } from '@utils'
@@ -26,12 +26,11 @@ export default class State extends Store<typeof STATE> {
 
   state = observable(STATE)
 
-  init = async (key: CacheKey, async?: boolean) => {
+  init = async (key: CacheKey, isAsync: boolean = false) => {
     if (!key) return false
-
     if (this._loaded[key]) return true
 
-    if (!async) {
+    if (!isAsync) {
       this._loaded[key] = true
       return this.readStorage([key], NAMESPACE)
     }
