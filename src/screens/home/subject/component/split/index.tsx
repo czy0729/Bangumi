@@ -2,32 +2,30 @@
  * @Author: czy0729
  * @Date: 2025-04-10 06:18:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-15 19:33:20
+ * @Last Modified time: 2026-03-17 23:34:59
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Divider } from '@components'
 import { systemStore } from '@stores'
 import { stl } from '@utils'
-import { useObserver } from '@utils/hooks'
 import { memoStyles } from './styles'
 
 import type { WithViewStyles } from '@types'
 
 function Split({ style }: WithViewStyles) {
-  return useObserver(() => {
-    const { subjectSplitStyles } = systemStore.setting
-    if (!subjectSplitStyles) return null
+  const { subjectSplitStyles } = systemStore.setting
+  if (!subjectSplitStyles) return null
 
-    const styles = memoStyles()
-    if (subjectSplitStyles === 'line-1') {
-      return <View style={stl(styles.split, styles.splitStyle1, style)} />
-    }
+  const styles = memoStyles()
+  if (subjectSplitStyles === 'line-1') {
+    return <View style={stl(styles.split, styles.splitStyle1, style)} />
+  }
 
-    if (subjectSplitStyles === 'line-2') return <Divider style={stl(styles.split, style)} />
+  if (subjectSplitStyles === 'line-2') return <Divider style={stl(styles.split, style)} />
 
-    return null
-  })
+  return null
 }
 
-export default Split
+export default observer(Split)

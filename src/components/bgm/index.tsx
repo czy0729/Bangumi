@@ -2,31 +2,26 @@
  * @Author: czy0729
  * @Date: 2019-06-16 04:41:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 00:04:34
+ * @Last Modified time: 2026-03-18 04:12:53
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { r } from '@utils/dev'
 import { Image } from '../image'
 import { COMPONENT } from './ds'
 
 import type { Source } from '@types'
 import type { Props as BgmProps } from './types'
-
 export type { BgmProps }
 
 /** BGM 表情 (渲染为图片) */
-export function Bgm({ index = 1, size = 20, ...other }: BgmProps) {
+export const Bgm = observer(({ index = 1, size = 20, ...other }: BgmProps) => {
   r(COMPONENT)
 
-  return useObserver(() => {
-    if (!bgm) init()
+  if (!bgm) init()
 
-    return (
-      <Image src={bgm[index]} resizeMode='contain' size={size} placeholder={false} {...other} />
-    )
-  })
-}
+  return <Image src={bgm[index]} resizeMode='contain' size={size} placeholder={false} {...other} />
+})
 
 export default Bgm
 

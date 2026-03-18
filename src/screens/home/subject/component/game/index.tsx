@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:28:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-22 17:19:29
+ * @Last Modified time: 2026-03-17 23:15:34
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Component, Expand } from '@components'
 import { InView, PreventTouchPlaceholder, SectionTitle } from '@_'
 import { _, systemStore, useStore } from '@stores'
 import { stl } from '@utils'
-import { useObserver } from '@utils/hooks'
 import { TITLE_GAME } from '../../ds'
 import IconHidden from '../icon/hidden'
 import IconPic from '../icon/pic'
@@ -26,64 +26,62 @@ import type { Props } from './types'
 function Game({ onBlockRef }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    if (!$.showGame[1]) return null
+  if (!$.showGame[1]) return null
 
-    const { showGameInfo } = systemStore.setting
+  const { showGameInfo } = systemStore.setting
 
-    return (
-      <Component id='screen-subject-game'>
-        <View
-          ref={ref => onBlockRef(ref, TITLE_GAME)}
-          style={_.container.layout}
-          collapsable={false}
-        />
+  return (
+    <Component id='screen-subject-game'>
+      <View
+        ref={ref => onBlockRef(ref, TITLE_GAME)}
+        style={_.container.layout}
+        collapsable={false}
+      />
 
-        <InView style={stl(_.mt.lg, !showGameInfo && _.short)}>
-          <Expand>
-            <SectionTitle
-              style={_.container.wind}
-              right={
-                !showGameInfo ? (
-                  <IconHidden name={TITLE_GAME} value='showGameInfo' />
-                ) : (
-                  !$.gameInfo?.isADV && <IconPS />
-                )
-              }
-              icon={!showGameInfo && 'md-navigate-next'}
-              splitStyles
-              onPress={() => $.onSwitchBlock('showGameInfo')}
-            >
-              {TITLE_GAME}
-            </SectionTitle>
-
-            {showGameInfo && (
-              <>
-                <Thumbs />
-                <Details />
-              </>
-            )}
-
-            <PreventTouchPlaceholder />
-          </Expand>
-
-          <View
-            style={[
-              _.container.wind,
-              {
-                marginTop: 4,
-                marginLeft: -2
-              }
-            ]}
+      <InView style={stl(_.mt.lg, !showGameInfo && _.short)}>
+        <Expand>
+          <SectionTitle
+            style={_.container.wind}
+            right={
+              !showGameInfo ? (
+                <IconHidden name={TITLE_GAME} value='showGameInfo' />
+              ) : (
+                !$.gameInfo?.isADV && <IconPS />
+              )
+            }
+            icon={!showGameInfo && 'md-navigate-next'}
+            splitStyles
+            onPress={() => $.onSwitchBlock('showGameInfo')}
           >
-            <IconPic />
-          </View>
-        </InView>
+            {TITLE_GAME}
+          </SectionTitle>
 
-        <Split />
-      </Component>
-    )
-  })
+          {showGameInfo && (
+            <>
+              <Thumbs />
+              <Details />
+            </>
+          )}
+
+          <PreventTouchPlaceholder />
+        </Expand>
+
+        <View
+          style={[
+            _.container.wind,
+            {
+              marginTop: 4,
+              marginLeft: -2
+            }
+          ]}
+        >
+          <IconPic />
+        </View>
+      </InView>
+
+      <Split />
+    </Component>
+  )
 }
 
-export default Game
+export default observer(Game)

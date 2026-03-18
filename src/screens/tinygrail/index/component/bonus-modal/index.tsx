@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-30 18:10:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-07 07:58:10
+ * @Last Modified time: 2026-03-18 03:40:21
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -27,6 +27,7 @@ const BonusModal = () => {
         $.onCloseModal()
         return true
       }
+
       return false
     }, [visible])
     useBackHandler(handleBackAndroid)

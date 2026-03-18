@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-03-01 01:56:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-20 04:42:21
+ * @Last Modified time: 2026-03-17 23:39:16
  */
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { View } from 'react-native'
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
+import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { feedback, postTask, urlStringify } from '@utils'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import { IOS } from '@constants'
 import Btns from './btns'
 import { ANIMATED_CONFIG, COMPONENT_MAIN, PERSPECTIVE } from './ds'
@@ -94,23 +94,21 @@ function FlipBtn({ animate, btnText, rating, privacy, last, onAnimated, onPress 
   const beforeStyle = createAnimatedStyle(true)
   const afterStyle = createAnimatedStyle(false)
 
-  return useObserver(() => {
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    return (
-      <View style={styles.container}>
-        <Animated.View style={[styles.animated, beforeStyle]} pointerEvents='box-none'>
-          <View style={styles.placeholder} pointerEvents='none' />
-          <Btns {...beforeProps} onPress={onPress} />
-        </Animated.View>
+  return (
+    <View style={styles.container}>
+      <Animated.View style={[styles.animated, beforeStyle]} pointerEvents='box-none'>
+        <View style={styles.placeholder} pointerEvents='none' />
+        <Btns {...beforeProps} onPress={onPress} />
+      </Animated.View>
 
-        <Animated.View style={[styles.animated, afterStyle]} pointerEvents='none'>
-          <View style={styles.placeholder} />
-          <Btns {...afterProps} onPress={onPress} />
-        </Animated.View>
-      </View>
-    )
-  })
+      <Animated.View style={[styles.animated, afterStyle]} pointerEvents='none'>
+        <View style={styles.placeholder} />
+        <Btns {...afterProps} onPress={onPress} />
+      </Animated.View>
+    </View>
+  )
 }
 
-export default FlipBtn
+export default observer(FlipBtn)

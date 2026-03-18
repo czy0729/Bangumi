@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-06-08 22:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-21 20:08:29
+ * @Last Modified time: 2026-03-17 23:04:43
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { systemStore, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import BookEp from './book-ep'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -17,7 +17,7 @@ import type { Props } from './types'
 function BookEpWrap({ onScrollIntoViewIfNeeded }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <BookEp
       styles={memoStyles()}
       chap={$.state.chap || '0'}
@@ -31,7 +31,7 @@ function BookEpWrap({ onScrollIntoViewIfNeeded }: Props) {
       doUpdateBookEp={$.doUpdateBookEp}
       doUpdateNext={$.doUpdateNext}
     />
-  ))
+  )
 }
 
-export default BookEpWrap
+export default observer(BookEpWrap)

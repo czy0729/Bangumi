@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-02-10 06:55:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-10 07:09:51
+ * @Last Modified time: 2026-03-18 04:32:47
  */
 import React, { useEffect, useState } from 'react'
 import { r } from '@utils/dev'
@@ -14,7 +14,7 @@ type InnerProps = Props & {
   CollapsibleImpl: React.ComponentType<any>
 }
 
-export function CollapsibleBase({ collapsed, children, CollapsibleImpl }: InnerProps) {
+function CollapsibleBase({ collapsed, children, CollapsibleImpl }: InnerProps) {
   r(COMPONENT)
 
   const [renderChildrenCollapsed, setRenderChildrenCollapsed] = useState(collapsed ? false : true)
@@ -31,3 +31,5 @@ export function CollapsibleBase({ collapsed, children, CollapsibleImpl }: InnerP
     </CollapsibleImpl>
   )
 }
+
+export default CollapsibleBase

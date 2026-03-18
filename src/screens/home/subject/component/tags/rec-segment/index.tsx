@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-10-31 16:22:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 05:45:09
+ * @Last Modified time: 2026-03-17 23:30:20
  */
 import React, { useCallback } from 'react'
+import { observer } from 'mobx-react'
 import { SegmentedControl } from '@components'
 import { systemStore, useStore } from '@stores'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT, DS } from './ds'
 import { styles } from './styles'
 
@@ -25,7 +25,7 @@ function RecSegement() {
     })
   }, [$])
 
-  return useObserver(() => (
+  return (
     <SegmentedControl
       style={styles.segment}
       size={11}
@@ -33,7 +33,7 @@ function RecSegement() {
       selectedIndex={systemStore.setting.subjectTagsRec ? 1 : 0}
       onValueChange={handleValueChange}
     />
-  ))
+  )
 }
 
-export default RecSegement
+export default observer(RecSegement)

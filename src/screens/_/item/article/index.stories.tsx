@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-04-05 01:44:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 04:07:13
+ * @Last Modified time: 2026-03-17 23:55:19
  */
 import React from 'react'
-import { StorybookPage, StorybookList, Flex } from '@components'
-import { ItemArticle as Component, ItemArticleProps as Props } from './index'
+import { Flex, StorybookList, StorybookPage } from '@components'
+import { ItemArticle as Component } from './index'
 import { list } from './index.mock'
+
+import type { ItemArticleProps as Props } from './index'
 
 export default {
   title: 'item/ItemArticle',

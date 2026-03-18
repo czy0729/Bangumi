@@ -5,10 +5,10 @@
  * @Last Modified time: 2023-08-08 22:28:19
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { NavigationEvents } from '@components'
-import { observer } from '@utils/decorators'
-import { IOS } from '@constants'
 import { tinygrailStore } from '@stores'
+import { IOS } from '@constants'
 
 function WebViewEvents() {
   if (!IOS) return null

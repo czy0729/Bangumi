@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-12-28 15:16:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-23 06:10:22
+ * @Last Modified time: 2026-03-17 23:32:30
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, Flex, Mesume, Text } from '@components'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
@@ -15,26 +15,25 @@ import type { Ctx } from '../../types'
 function Lock() {
   const { $ } = useStore<Ctx>()
 
-  return useObserver(() => {
-    if (!$.lock) return null
+  if (!$.lock) return null
 
-    const styles = memoStyles()
-    return (
-      <Component id='screen-subject-lock'>
-        <Flex style={styles.container}>
-          <Mesume index={2} size={72} />
-          <Flex.Item>
-            <Text type='main' size={16} bold>
-              条目已锁定
-            </Text>
-            <Text style={_.mt.sm} type='sub'>
-              不符合收录原则，条目及相关收藏、讨论、关联等内容将会随时被移除
-            </Text>
-          </Flex.Item>
-        </Flex>
-      </Component>
-    )
-  })
+  const styles = memoStyles()
+
+  return (
+    <Component id='screen-subject-lock'>
+      <Flex style={styles.container}>
+        <Mesume index={2} size={72} />
+        <Flex.Item>
+          <Text type='main' size={16} bold>
+            条目已锁定
+          </Text>
+          <Text style={_.mt.sm} type='sub'>
+            不符合收录原则，条目及相关收藏、讨论、关联等内容将会随时被移除
+          </Text>
+        </Flex.Item>
+      </Flex>
+    </Component>
+  )
 }
 
-export default Lock
+export default observer(Lock)

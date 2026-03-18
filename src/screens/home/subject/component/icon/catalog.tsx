@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-01-16 19:42:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 01:43:59
+ * @Last Modified time: 2026-03-17 23:18:33
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Heatmap, Iconfont, Link, Text } from '@components'
 import { useStore } from '@stores'
 import { cnjp } from '@utils'
-import { useObserver } from '@utils/hooks'
 import styles from './styles'
 
 import type { Ctx } from '../../types'
@@ -16,7 +16,7 @@ import type { Ctx } from '../../types'
 function IconCatalog() {
   const { $ } = useStore<Ctx>()
 
-  return useObserver(() => (
+  return (
     <Link
       style={styles.touch}
       path='SubjectCatalogs'
@@ -37,7 +37,7 @@ function IconCatalog() {
       </Flex>
       <Heatmap id='条目.跳转' from='目录' />
     </Link>
-  ))
+  )
 }
 
-export default IconCatalog
+export default observer(IconCatalog)

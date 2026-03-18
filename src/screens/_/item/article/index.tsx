@@ -2,23 +2,25 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 03:00:19
+ * @Last Modified time: 2026-03-17 23:54:23
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Avatar, Component, Flex, Text, Touchable, UserStatus } from '@components'
 import { _ } from '@stores'
 import { appNavigate, date, HTMLDecode } from '@utils'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { EVENT } from '@constants'
 import { Name } from '../../base'
 import { COMPONENT, Y } from './ds'
 import { memoStyles } from './styles'
-import { Props as ItemArticleProps } from './types'
 
-export { ItemArticleProps }
+import type { Props as ItemArticleProps } from './types'
 
-export const ItemArticle = ob(
+export type { ItemArticleProps }
+
+export const ItemArticle = observer(
   ({
     navigation,
     style,
@@ -32,9 +34,13 @@ export const ItemArticle = ob(
     url,
     event = EVENT
   }: ItemArticleProps) => {
+    r(COMPONENT)
+
     const styles = memoStyles()
+
     let time = date('y-m-d', timestamp)
     if (time.indexOf(`${Y}-`) !== -1) time = time.replace(`${Y}-`, '')
+
     return (
       <Component id='item-article' data-key={url}>
         <Touchable style={style} animate onPress={() => appNavigate(url, navigation, {}, event)}>
@@ -73,8 +79,7 @@ export const ItemArticle = ob(
         </Touchable>
       </Component>
     )
-  },
-  COMPONENT
+  }
 )
 
 export default ItemArticle

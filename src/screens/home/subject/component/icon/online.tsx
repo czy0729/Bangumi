@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-01-17 00:56:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-15 20:52:43
+ * @Last Modified time: 2026-03-17 23:25:22
  */
 import React, { useCallback } from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Heatmap, Iconfont } from '@components'
 import { Popover } from '@_'
 import { useStore } from '@stores'
 import { stl } from '@utils'
-import { useObserver } from '@utils/hooks'
 import IconActions from './actions'
 import { HIT_SLOP } from './ds'
 import { styles } from './styles'
@@ -27,7 +27,7 @@ function IconOnline({ style, children }: IconProps) {
     [$, navigation]
   )
 
-  return useObserver(() => (
+  return (
     <>
       <Popover
         style={stl(!children && styles.touch, style)}
@@ -46,7 +46,7 @@ function IconOnline({ style, children }: IconProps) {
       </Popover>
       {!children && !!$.actions.length && <IconActions style={styles.actions} />}
     </>
-  ))
+  )
 }
 
-export default IconOnline
+export default observer(IconOnline)

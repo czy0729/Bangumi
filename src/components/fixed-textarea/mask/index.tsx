@@ -2,28 +2,26 @@
  * @Author: czy0729
  * @Date: 2023-07-30 18:30:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-01 06:09:29
+ * @Last Modified time: 2026-03-18 05:01:44
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { Touchable } from '../../touchable'
 import { memoStyles } from './styles'
 
 function Mask({ showTextarea, showBgm, onMask }) {
-  return useObserver(() => {
-    if (!(showTextarea || showBgm)) return null
+  if (!(showTextarea || showBgm)) return null
 
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    return (
-      <View style={styles.container}>
-        <Touchable withoutFeedback onPress={onMask}>
-          <View style={styles.mask} />
-        </Touchable>
-      </View>
-    )
-  })
+  return (
+    <View style={styles.container}>
+      <Touchable withoutFeedback onPress={onMask}>
+        <View style={styles.mask} />
+      </Touchable>
+    </View>
+  )
 }
 
-export default Mask
+export default observer(Mask)

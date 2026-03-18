@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-01-17 00:59:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 01:56:29
+ * @Last Modified time: 2026-03-17 23:26:25
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { IconReverse as IconComp } from '@_'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { styles } from './styles'
 
 import type { Ctx } from '../../types'
@@ -16,7 +16,7 @@ import type { Ctx } from '../../types'
 function IconReverse() {
   const { $ } = useStore<Ctx>()
 
-  return useObserver(() => (
+  return (
     <IconComp
       style={styles.iconReverse}
       color={$.state.epsReverse ? _.colorMain : _.colorIcon}
@@ -24,7 +24,7 @@ function IconReverse() {
     >
       <Heatmap right={-5} id='条目.章节倒序' />
     </IconComp>
-  ))
+  )
 }
 
-export default IconReverse
+export default observer(IconReverse)

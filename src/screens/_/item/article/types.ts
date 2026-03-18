@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-06-16 23:29:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-10 04:33:51
+ * @Last Modified time: 2026-03-17 23:55:08
  */
-import { EventType, Navigation, UserId, ViewStyle } from '@types'
+import type { EventType, UserId, WithNavigation, WithViewStyles } from '@types'
 
-export type Props = {
-  navigation?: Navigation
-  style?: ViewStyle
-  event?: EventType
-  avatar?: string
-  title?: string
-  summary?: string
-  nickname?: string
-  userId?: UserId
-  timestamp?: string | number
-  replies?: string | number
-  url?: string
-}
+export type Props = WithNavigation<
+  WithViewStyles<{
+    event?: EventType
+    avatar?: string
+    title?: string
+    summary?: string
+    nickname?: string
+    userId?: UserId
+    timestamp?: string | number
+    replies?: string | number
+    url?: string
+  }>
+>

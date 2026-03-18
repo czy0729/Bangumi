@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-06-08 23:46:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 00:04:18
+ * @Last Modified time: 2026-03-18 04:13:41
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { r } from '@utils/dev'
 import { Component } from '../component'
 import { Image } from '../image'
@@ -13,23 +13,20 @@ import { COMPONENT } from './ds'
 import './index.scss'
 
 import type { Props as BgmProps } from './types'
-
 export type { BgmProps }
 
 /** BGM 表情 */
-export function Bgm({ index = 1, size = 20, ...other }: BgmProps) {
+export const Bgm = observer(({ index = 1, size = 20, ...other }: BgmProps) => {
   r(COMPONENT)
 
-  return useObserver(() => {
-    if (!bgm) init()
+  if (!bgm) init()
 
-    return (
-      <Component id='component-bgm'>
-        <Image src={bgm[index]} resizeMode='contain' size={size} placeholder={false} {...other} />
-      </Component>
-    )
-  })
-}
+  return (
+    <Component id='component-bgm'>
+      <Image src={bgm[index]} resizeMode='contain' size={size} placeholder={false} {...other} />
+    </Component>
+  )
+})
 
 export default Bgm
 

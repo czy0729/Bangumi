@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-11-04 17:47:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-16 23:50:48
+ * @Last Modified time: 2026-03-18 03:46:57
  */
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { feedback } from '@utils'
 import { BTN_HEIGHT, DRAG_THRESHOLD } from '../ds'
@@ -79,49 +79,47 @@ function Scroll({
     hintOpacity.value = withTiming(dragHint ? 1 : 0, { duration: 160 })
   }, [dragHint, hintOpacity])
 
-  return useObserver(() => {
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    if (scrollEnabled) {
-      return (
-        <>
-          <Animated.View style={[styles.dragHint, animatedHintStyle]}>
-            <Text type='icon' size={12} align='center'>
-              {dragHint}
-            </Text>
-          </Animated.View>
-          <ScrollView
-            forwardRef={forwardRef}
-            style={[
-              styles.scroll,
-              {
-                height
-              }
-            ]}
-            contentContainerStyle={_.container.bottom}
-            onScrollBeginDrag={handleScrollBeginDrag}
-            onScroll={handleScroll}
-            onScrollEndDrag={handleScrollEndDrag}
-          >
-            {children}
-          </ScrollView>
-        </>
-      )
-    }
-
+  if (scrollEnabled) {
     return (
-      <View
-        style={[
-          styles.view,
-          {
-            height: height - (bottom || 0) - BTN_HEIGHT
-          }
-        ]}
-      >
-        {children}
-      </View>
+      <>
+        <Animated.View style={[styles.dragHint, animatedHintStyle]}>
+          <Text type='icon' size={12} align='center'>
+            {dragHint}
+          </Text>
+        </Animated.View>
+        <ScrollView
+          forwardRef={forwardRef}
+          style={[
+            styles.scroll,
+            {
+              height
+            }
+          ]}
+          contentContainerStyle={_.container.bottom}
+          onScrollBeginDrag={handleScrollBeginDrag}
+          onScroll={handleScroll}
+          onScrollEndDrag={handleScrollEndDrag}
+        >
+          {children}
+        </ScrollView>
+      </>
     )
-  })
+  }
+
+  return (
+    <View
+      style={[
+        styles.view,
+        {
+          height: height - (bottom || 0) - BTN_HEIGHT
+        }
+      ]}
+    >
+      {children}
+    </View>
+  )
 }
 
-export default Scroll
+export default observer(Scroll)

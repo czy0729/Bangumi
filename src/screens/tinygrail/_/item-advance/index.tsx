@@ -6,11 +6,11 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Avatar, Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
 import { tinygrailOSS } from '@utils/app'
-import { observer } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
 import { EVENT } from '@constants'

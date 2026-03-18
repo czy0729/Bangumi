@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-08-01 19:19:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-17 12:51:41
+ * @Last Modified time: 2026-03-18 04:52:15
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { BlurView } from 'expo-blur'
 import { _ } from '@stores'
 import { IOS, WEB } from '@constants'
@@ -16,27 +16,25 @@ import { memoStyles } from './styles'
 import type { PropsWithChildren } from 'react'
 
 function Container({ children }: PropsWithChildren) {
-  return useObserver(() => {
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    if (IOS || WEB) {
-      return (
-        <BlurView
-          style={styles.container}
-          tint={_.select(BLURVIEW_TINT_LIGHT, BLURVIEW_TINT_DARK)}
-          intensity={100}
-        >
-          {children}
-        </BlurView>
-      )
-    }
-
+  if (IOS || WEB) {
     return (
-      <SafeAreaBottom style={[styles.container, styles.plain]} type='paddingBottom'>
+      <BlurView
+        style={styles.container}
+        tint={_.select(BLURVIEW_TINT_LIGHT, BLURVIEW_TINT_DARK)}
+        intensity={100}
+      >
         {children}
-      </SafeAreaBottom>
+      </BlurView>
     )
-  })
+  }
+
+  return (
+    <SafeAreaBottom style={[styles.container, styles.plain]} type='paddingBottom'>
+      {children}
+    </SafeAreaBottom>
+  )
 }
 
-export default Container
+export default observer(Container)

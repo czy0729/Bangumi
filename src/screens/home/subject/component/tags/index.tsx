@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-26 20:05:18
+ * @Last Modified time: 2026-03-17 23:35:55
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Component } from '@components'
 import { _, systemStore, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { TITLE_TAGS } from '../../ds'
 import Split from '../split'
 import Tags from './tags'
@@ -21,31 +21,30 @@ import type { Props } from './types'
 function TagsWrap({ onBlockRef }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    if (!$.showTags[1]) return null
+  if (!$.showTags[1]) return null
 
-    const styles = memoStyles()
-    return (
-      <Component id='screen-subject-tags'>
-        <View
-          ref={ref => onBlockRef(ref, TITLE_TAGS)}
-          style={_.container.layout}
-          collapsable={false}
-        />
-        <Tags
-          styles={styles}
-          show={systemStore.setting.showTags && !!$.tags.length}
-          showTags={systemStore.setting.showTags}
-          showTyperank={!!$.rank && systemStore.setting.subjectTagsRec}
-          subjectTagsExpand={systemStore.setting.subjectTagsExpand}
-          rank={$.rank}
-          focusOrigin={systemStore.setting.focusOrigin}
-          onSwitchBlock={$.onSwitchBlock}
-        />
-        <Split style={styles.split} />
-      </Component>
-    )
-  })
+  const styles = memoStyles()
+
+  return (
+    <Component id='screen-subject-tags'>
+      <View
+        ref={ref => onBlockRef(ref, TITLE_TAGS)}
+        style={_.container.layout}
+        collapsable={false}
+      />
+      <Tags
+        styles={styles}
+        show={systemStore.setting.showTags && !!$.tags.length}
+        showTags={systemStore.setting.showTags}
+        showTyperank={!!$.rank && systemStore.setting.subjectTagsRec}
+        subjectTagsExpand={systemStore.setting.subjectTagsExpand}
+        rank={$.rank}
+        focusOrigin={systemStore.setting.focusOrigin}
+        onSwitchBlock={$.onSwitchBlock}
+      />
+      <Split style={styles.split} />
+    </Component>
+  )
 }
 
-export default TagsWrap
+export default observer(TagsWrap)

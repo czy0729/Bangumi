@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-04 10:10:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-01 16:33:30
+ * @Last Modified time: 2026-03-18 04:50:38
  */
 import React from 'react'
 import { _ } from '@stores'
@@ -11,10 +11,12 @@ import { APP_ID_SAY_DEVELOP } from '@constants'
 import { Flex } from '../flex'
 import { Text } from '../text'
 import { styles } from './styles'
-import { Props as ErrorBoundaryProps, State } from './types'
+
+import type { Props as ErrorBoundaryProps, State } from './types'
+export type { ErrorBoundaryProps }
 
 /** 捕捉错误异常 */
-class ErrorBoundary extends React.Component<ErrorBoundaryProps, State> {
+export class ErrorBoundary extends React.Component<ErrorBoundaryProps, State> {
   state: State = {
     error: this.props.error || null
   }
@@ -71,7 +73,5 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, State> {
     return this.props.children
   }
 }
-
-export { ErrorBoundary, ErrorBoundaryProps }
 
 export default ErrorBoundary

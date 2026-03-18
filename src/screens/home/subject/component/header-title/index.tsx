@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-22 18:27:36
+ * @Last Modified time: 2026-03-17 23:17:15
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { useStore } from '@stores'
 import { getCoverMedium } from '@utils'
-import { useObserver } from '@utils/hooks'
 import HeaderTitle from './header-title'
 import { COMPONENT } from './ds'
 
@@ -17,7 +17,7 @@ import type { Props } from './types'
 function HeaderTitleWrap({ onScrollToTop }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <HeaderTitle
       subjectId={$.subjectId}
       common={getCoverMedium($.subject.images?.common || $.coverPlaceholder || $.cover)}
@@ -29,7 +29,7 @@ function HeaderTitleWrap({ onScrollToTop }: Props) {
       titleLabel={$.titleLabel}
       onScrollToTop={onScrollToTop}
     />
-  ))
+  )
 }
 
-export default HeaderTitleWrap
+export default observer(HeaderTitleWrap)

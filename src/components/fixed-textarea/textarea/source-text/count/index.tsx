@@ -2,23 +2,21 @@
  * @Author: czy0729
  * @Date: 2023-08-01 04:39:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-01 05:38:38
+ * @Last Modified time: 2026-03-18 05:02:17
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { Text } from '../../../../text'
 
 function Count({ value = '' }) {
-  return useObserver(() => {
-    if (!value.length) return null
+  if (!value.length) return null
 
-    return (
-      <Text style={_.mr.sm} type='sub' size={11} align='center'>
-        {value.length}
-      </Text>
-    )
-  })
+  return (
+    <Text style={_.mr.sm} type='sub' size={11} align='center'>
+      {value.length}
+    </Text>
+  )
 }
 
-export default Count
+export default observer(Count)

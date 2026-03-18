@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 02:55:08
+ * @Last Modified time: 2026-03-17 22:59:34
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, Page } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { IOS } from '@constants'
 import Bg from './component/bg'
 import Extra from './component/extra'
@@ -18,7 +18,7 @@ import { useSubjectPage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** 条目 */
-const Subject = (props: NavigationProps) => {
+function Subject(props: NavigationProps) {
   const {
     id,
     handleForwardRef,
@@ -28,7 +28,7 @@ const Subject = (props: NavigationProps) => {
     handleScrollToTop
   } = useSubjectPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-subject'>
       <StoreContext.Provider value={id}>
         <Page statusBarEvent={false}>
@@ -43,7 +43,7 @@ const Subject = (props: NavigationProps) => {
         <Extra />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default Subject
+export default observer(Subject)

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-08-14 16:22:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-21 19:24:10
+ * @Last Modified time: 2026-03-17 23:03:28
  */
 import React, { Suspense } from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Component } from '@components'
 import { _, systemStore, useStore } from '@stores'
 import { stl } from '@utils'
-import { useObserver } from '@utils/hooks'
 import { TITLE_COMMENT } from '../../ds'
 import Comment from './comment'
 import { COMPONENT } from './ds'
@@ -21,30 +21,28 @@ import type { Props } from './types'
 function CommentWrap({ onBlockRef }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    const { showComment } = systemStore.setting
-    const hidden = showComment === -1
+  const { showComment } = systemStore.setting
+  const hidden = showComment === -1
 
-    return (
-      <Suspense fallback={null}>
-        <Component id='screen-subject-comment'>
-          <View
-            ref={ref => onBlockRef(ref, TITLE_COMMENT)}
-            style={stl(_.container.layout, hidden && _.mt.lg)}
-            collapsable={false}
+  return (
+    <Suspense fallback={null}>
+      <Component id='screen-subject-comment'>
+        <View
+          ref={ref => onBlockRef(ref, TITLE_COMMENT)}
+          style={stl(_.container.layout, hidden && _.mt.lg)}
+          collapsable={false}
+        />
+        {!hidden && (
+          <Comment
+            styles={memoStyles()}
+            showComment={showComment}
+            commentLength={$.commentLength}
+            onSwitchBlock={$.onSwitchBlock}
           />
-          {!hidden && (
-            <Comment
-              styles={memoStyles()}
-              showComment={showComment}
-              commentLength={$.commentLength}
-              onSwitchBlock={$.onSwitchBlock}
-            />
-          )}
-        </Component>
-      </Suspense>
-    )
-  })
+        )}
+      </Component>
+    </Suspense>
+  )
 }
 
-export default CommentWrap
+export default observer(CommentWrap)

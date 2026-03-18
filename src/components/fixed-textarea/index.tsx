@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-07 05:35:42
+ * @Last Modified time: 2026-03-18 05:03:47
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -27,7 +27,6 @@ import {
 
 import type { TextInput } from 'react-native'
 import type { Props as FixedTextareaProps } from './types'
-
 export type { FixedTextareaProps }
 
 /** 内置键盘切换中、英文高度会变化, 因为各种原因，后续就一直用最大的那个值作为高度 */

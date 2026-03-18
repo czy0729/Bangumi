@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-22 18:26:13
+ * @Last Modified time: 2026-03-17 23:16:47
  */
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Component, ErrorBoundary } from '@components'
 import { renderWithErrorBoundary } from '@components/error-boundary/utils'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { IOS } from '@constants'
 import Bg from '../bg'
 import Head from '../head'
@@ -33,7 +33,7 @@ function HeaderComponent(props: Props) {
     []
   )
 
-  return useObserver(() => (
+  return (
     <Component key={_.orientation} id='screen-subject-header-component'>
       {!IOS && (
         <ErrorBoundary>
@@ -47,7 +47,7 @@ function HeaderComponent(props: Props) {
         <Loading />
       </View>
     </Component>
-  ))
+  )
 }
 
-export default HeaderComponent
+export default observer(HeaderComponent)

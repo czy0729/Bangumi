@@ -2,17 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-04-11 12:53:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 03:31:50
+ * @Last Modified time: 2026-03-18 05:30:21
  */
 import Flex from './flex'
-import FlexItem from './flex-item'
-
-import type { Props as FlexProps } from './types'
-
-Flex.Item = FlexItem
 
 export { Flex }
 
-export type { FlexProps }
+import type { Props as FlexProps, ItemProps as FlexItemProps } from './types'
+export type { FlexProps, FlexItemProps }
 
 export default Flex

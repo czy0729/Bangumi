@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-07-09 23:45:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-22 17:06:50
+ * @Last Modified time: 2026-03-17 23:27:01
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Header } from '@components'
 import { _ } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { WEB } from '@constants'
 
 import type { Override } from '@types'
@@ -27,7 +27,6 @@ function IconShare({
     color?: any
   }
 >) {
-  return useObserver(() => {
     if (WEB) return null
 
     return (
@@ -53,7 +52,7 @@ function IconShare({
         }}
       />
     )
-  })
+  }
 }
 
-export default IconShare
+export default observer(IconShare)

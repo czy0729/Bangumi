@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2025-01-26 13:38:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-11 16:43:26
+ * @Last Modified time: 2026-03-17 23:57:56
  */
 import React, { useCallback, useRef } from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Iconfont } from '@components'
 import { _, uiStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { IOS } from '@constants'
 import { Popover } from '../../../base'
 import { styles } from './styles'
@@ -48,7 +48,7 @@ function Menu({ data, avatar, userId, userName, comment, relatedId, onSelect }: 
     [avatar, comment, onSelect, relatedId, userId, userName]
   )
 
-  return useObserver(() => (
+  return (
     <Popover style={styles.touch} data={data} onSelect={handleSelect}>
       <View ref={viewRef} collapsable={false}>
         <Flex style={styles.icon} justify='center'>
@@ -56,7 +56,7 @@ function Menu({ data, avatar, userId, userName, comment, relatedId, onSelect }: 
         </Flex>
       </View>
     </Popover>
-  ))
+  )
 }
 
-export default Menu
+export default observer(Menu)

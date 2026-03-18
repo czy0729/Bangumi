@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2023-06-01 01:49:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-12 10:33:28
+ * @Last Modified time: 2026-03-18 05:18:10
  */
 import React from 'react'
 import { View } from 'react-native'
 import { stl } from '@utils'
+import FlexItem from './flex-item'
 
 import type { ViewStyle } from 'react-native'
 import type { Props as FlexProps } from './types'
 
 /** Flex 布局 */
-export default class Flex extends React.Component<FlexProps, any> {
+class Flex extends React.Component<FlexProps, any> {
   static Item: any
 
   static defaultProps = {
@@ -65,3 +66,7 @@ export default class Flex extends React.Component<FlexProps, any> {
     )
   }
 }
+
+Flex.Item = FlexItem
+
+export default Flex

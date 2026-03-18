@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-16 23:56:39
+ * @Last Modified time: 2026-03-18 03:49:55
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { _, systemStore, tinygrailStore } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
@@ -20,36 +20,35 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { Props as AvatarProps } from './types'
-
 export type { AvatarProps }
 
 /** 头像 */
-export function Avatar({
-  navigation,
-  style,
-  userId,
-  name,
-  src,
-  size = 40,
-  placeholder,
-  round,
-  radius = true,
-  borderWidth,
-  borderColor = _.colorBorder,
-  fallbackSrc,
-  priority,
-  skeleton,
-  skeletonType,
-  event = {},
-  params = {},
-  onPress,
-  onLongPress
-}: AvatarProps) {
-  r(COMPONENT)
+export const Avatar = observer(
+  ({
+    navigation,
+    style,
+    userId,
+    name,
+    src,
+    size = 40,
+    placeholder,
+    round,
+    radius = true,
+    borderWidth,
+    borderColor = _.colorBorder,
+    fallbackSrc,
+    priority,
+    skeleton,
+    skeletonType,
+    event = {},
+    params = {},
+    onPress,
+    onLongPress
+  }: AvatarProps) => {
+    r(COMPONENT)
 
-  const { url } = useAvatar(src, userId)
+    const { url } = useAvatar(src, userId)
 
-  return useObserver(() => {
     const styles = memoStyles()
 
     const avatarSize = _.r(size)
@@ -115,7 +114,7 @@ export function Avatar({
     }
 
     return <Component id='component-avatar'>{el}</Component>
-  })
-}
+  }
+)
 
 export default Avatar

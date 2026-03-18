@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-20 01:29:36
+ * @Last Modified time: 2026-03-18 04:26:01
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl, titleCase } from '@utils'
 import { r } from '@utils/dev'
@@ -20,31 +20,30 @@ import { memoStyles } from './styles'
 
 import type { TextStyle, ViewStyle } from '@types'
 import type { Props as ButtonProps } from './types'
-
 export type { ButtonProps }
 
 /** 自定义按钮 */
-export function Button({
-  style,
-  styleText,
-  type = 'plain',
-  size = 'md',
-  shadow = false,
-  radius = true,
-  loading = false,
-  bold = false,
-  animate = true,
-  noWrap = true,
-  children,
-  extra,
-  onPress,
-  onLongPress,
-  'data-title': dataTitle,
-  ...other
-}: ButtonProps) {
-  r(COMPONENT)
+export const Button = observer(
+  ({
+    style,
+    styleText,
+    type = 'plain',
+    size = 'md',
+    shadow = false,
+    radius = true,
+    loading = false,
+    bold = false,
+    animate = true,
+    noWrap = true,
+    children,
+    extra,
+    onPress,
+    onLongPress,
+    'data-title': dataTitle,
+    ...other
+  }: ButtonProps) => {
+    r(COMPONENT)
 
-  return useObserver(() => {
     const styles = memoStyles()
 
     const wrapStyle: ViewStyle[] = [styles.button]
@@ -139,7 +138,7 @@ export function Button({
         </View>
       </Component>
     )
-  })
-}
+  }
+)
 
 export default Button

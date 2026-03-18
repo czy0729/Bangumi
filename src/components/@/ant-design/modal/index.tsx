@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-21 19:50:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-24 06:42:06
+ * @Last Modified time: 2026-03-18 03:37:16
  */
 import React from 'react'
 import { Platform, StyleSheet, Text, View } from 'react-native'
@@ -18,10 +18,12 @@ import { window } from '@styles'
 import { Flex } from '../../../flex'
 import { Iconfont } from '../../../iconfont'
 import { Touchable } from '../../../touchable'
-import { BlurView } from './blur-view'
+import BlurView from './blur-view'
 import { stl } from './utils'
-import { Wrap } from './wrap'
+import Wrap from './wrap'
 import { styles as overideStyles } from './styles'
+
+const _ = syncThemeStore()
 
 const maxHeight = StyleSheet.create({
   maxHeight: {
@@ -74,8 +76,8 @@ export class AntmModal extends React.Component<typeof defaultProps> {
       focus,
       children
     } = this.props
-    const _ = syncThemeStore()
     const IOS = Platform.OS === 'ios'
+
     return (
       <WithTheme styles={styles} themeStyles={modalStyles}>
         {styles => (

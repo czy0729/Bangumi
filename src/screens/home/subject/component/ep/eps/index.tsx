@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-08-07 07:13:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-09 17:39:00
+ * @Last Modified time: 2026-03-17 23:11:30
  */
 import React, { useCallback } from 'react'
+import { observer } from 'mobx-react'
 import { Eps as EpsComp } from '@_'
 import { _, userStore, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT, LAYOUT_WIDTH } from './ds'
 
 import type { Ctx, EpsItem } from '../../../types'
@@ -22,7 +22,7 @@ function Eps() {
     [$, navigation]
   )
 
-  return useObserver(() => (
+  return (
     <EpsComp
       layoutWidth={LAYOUT_WIDTH}
       marginRight={_.isLandscape ? 0 : _._wind}
@@ -37,7 +37,7 @@ function Eps() {
       onFliped={$.afterEpsFlip}
       onSelect={handleSelect}
     />
-  ))
+  )
 }
 
-export default Eps
+export default observer(Eps)

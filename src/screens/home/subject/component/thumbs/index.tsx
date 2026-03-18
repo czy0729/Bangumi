@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-06 19:36:07
+ * @Last Modified time: 2026-03-17 23:37:13
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Component, Flex, Heatmap, Iconfont, ScrollViewHorizontal, Text } from '@components'
 import { InView, PreventTouchPlaceholder, SectionTitle } from '@_'
 import { _, systemStore, useStore } from '@stores'
 import { findSubjectCn, open, randomizeImgHost, stl } from '@utils'
-import { useObserver } from '@utils/hooks'
 import { HOST_AC_REFERER, HOST_DB_REFERER } from '@constants'
 import { TITLE_THUMBS } from '../../ds'
 import IconHidden from '../icon/hidden'
@@ -36,130 +36,122 @@ function Thumbs({ onBlockRef }: Props) {
     if (!scrolled) setScrolled(true)
   }, [scrolled])
 
-  return useObserver(() => {
-    if (!$.showThumbs[1]) return null
+  if (!$.showThumbs[1]) return null
 
-    const { showThumbs } = systemStore.setting
-    const { epsThumbs = [], epsThumbsHeader, videos = [] } = $.state
+  const { showThumbs } = systemStore.setting
+  const { epsThumbs = [], epsThumbsHeader, videos = [] } = $.state
 
-    // 随机化 host
-    const epsThumbsData = epsThumbs.map(item => randomizeImgHost(item))
+  // 随机化 host
+  const epsThumbsData = epsThumbs.map(item => randomizeImgHost(item))
 
-    // 处理 thumbs 数据
-    const thumbs = epsThumbsData.map(item => ({
-      url: String(item.split('@')?.[0]),
-      headers: epsThumbsHeader
-    }))
+  // 处理 thumbs 数据
+  const thumbs = epsThumbsData.map(item => ({
+    url: String(item.split('@')?.[0]),
+    headers: epsThumbsHeader
+  }))
 
-    // 来源
-    let reference = ''
-    const referer = epsThumbsHeader?.Referer
-    if (referer?.includes?.(HOST_DB_REFERER)) {
-      reference = HOST_DB_REFERER
-    } else if (referer?.includes?.(HOST_AC_REFERER)) {
-      reference = HOST_AC_REFERER
-    }
+  // 来源
+  let reference = ''
+  const referer = epsThumbsHeader?.Referer
+  if (referer?.includes?.(HOST_DB_REFERER)) {
+    reference = HOST_DB_REFERER
+  } else if (referer?.includes?.(HOST_AC_REFERER)) {
+    reference = HOST_AC_REFERER
+  }
 
-    // 标题
-    let title = '预览'
-    if ($.type === '音乐') {
-      title = 'MV'
-    } else if ($.type === '三次元') {
-      title = '剧照'
-    }
+  // 标题
+  let title = '预览'
+  if ($.type === '音乐') {
+    title = 'MV'
+  } else if ($.type === '三次元') {
+    title = '剧照'
+  }
 
-    // 右侧按钮
-    let elRight: ReactNode
-    if (!showThumbs) {
-      elRight = <IconHidden name={title} value='showThumbs' />
-    } else if (reference === HOST_DB_REFERER) {
-      elRight = <IconPreview data={epsThumbsData} headers={epsThumbsHeader} />
-    } else {
-      elRight = null
-    }
+  // 右侧按钮
+  let elRight: ReactNode
+  if (!showThumbs) {
+    elRight = <IconHidden name={title} value='showThumbs' />
+  } else if (reference === HOST_DB_REFERER) {
+    elRight = <IconPreview data={epsThumbsData} headers={epsThumbsHeader} />
+  } else {
+    elRight = null
+  }
 
-    return (
-      <Component id='screen-subject-thumbs'>
-        <View
-          ref={ref => onBlockRef(ref, TITLE_THUMBS)}
-          style={_.container.layout}
-          collapsable={false}
-        />
+  return (
+    <Component id='screen-subject-thumbs'>
+      <View
+        ref={ref => onBlockRef(ref, TITLE_THUMBS)}
+        style={_.container.layout}
+        collapsable={false}
+      />
 
-        <InView style={stl(styles.container, !showThumbs && _.short)}>
-          <SectionTitle
-            style={_.container.wind}
-            right={elRight}
-            icon={!showThumbs && 'md-navigate-next'}
-            splitStyles
-            onPress={() => $.onSwitchBlock('showThumbs')}
+      <InView style={stl(styles.container, !showThumbs && _.short)}>
+        <SectionTitle
+          style={_.container.wind}
+          right={elRight}
+          icon={!showThumbs && 'md-navigate-next'}
+          splitStyles
+          onPress={() => $.onSwitchBlock('showThumbs')}
+        >
+          {title}
+        </SectionTitle>
+
+        {showThumbs && (
+          <ScrollViewHorizontal
+            style={styles.scroll}
+            contentContainerStyle={_.container.wind}
+            onScroll={scrolled ? undefined : handleScroll}
           >
-            {title}
-          </SectionTitle>
+            {prioritizeByKeywords(videos, [
+              $.artist,
+              findSubjectCn($.subjectAnime?.title, $.subjectId)
+            ]).map(item => (
+              <Video
+                key={item.cover || item.src || item.href}
+                item={item}
+                epsThumbsHeader={epsThumbsHeader}
+                showTitle={$.type && $.type !== '动画'}
+              />
+            ))}
 
-          {showThumbs && (
-            <ScrollViewHorizontal
-              style={styles.scroll}
-              contentContainerStyle={_.container.wind}
-              onScroll={scrolled ? undefined : handleScroll}
-            >
-              {prioritizeByKeywords(videos, [
-                $.artist,
-                findSubjectCn($.subjectAnime?.title, $.subjectId)
-              ]).map(item => (
-                <Video
-                  key={item.cover || item.src || item.href}
+            {epsThumbsData
+              .filter((_item, index) => index <= (scrolled ? 12 : 4))
+              .map((item, index) => (
+                <Preview
+                  key={item}
                   item={item}
+                  index={index}
+                  thumbs={thumbs}
                   epsThumbsHeader={epsThumbsHeader}
-                  showTitle={$.type && $.type !== '动画'}
                 />
               ))}
+          </ScrollViewHorizontal>
+        )}
 
-              {epsThumbsData
-                .filter((_item, index) => index <= (scrolled ? 12 : 4))
-                .map((item, index) => (
-                  <Preview
-                    key={item}
-                    item={item}
-                    index={index}
-                    thumbs={thumbs}
-                    epsThumbsHeader={epsThumbsHeader}
-                  />
-                ))}
-            </ScrollViewHorizontal>
-          )}
+        {showThumbs && !!reference && (
+          <Flex style={[_.container.wind, _.mt.sm]}>
+            <Flex.Item>
+              <IconPic />
+            </Flex.Item>
+            <Text type='icon' size={10} lineHeight={12} align='right' onPress={() => open(referer)}>
+              数据来源自 {reference}
+            </Text>
+            <Iconfont
+              style={_.ml.xs}
+              name='md-open-in-new'
+              size={10}
+              lineHeight={12}
+              color={_.colorIcon}
+            />
+          </Flex>
+        )}
 
-          {showThumbs && !!reference && (
-            <Flex style={[_.container.wind, _.mt.sm]}>
-              <Flex.Item>
-                <IconPic />
-              </Flex.Item>
-              <Text
-                type='icon'
-                size={10}
-                lineHeight={12}
-                align='right'
-                onPress={() => open(referer)}
-              >
-                数据来源自 {reference}
-              </Text>
-              <Iconfont
-                style={_.ml.xs}
-                name='md-open-in-new'
-                size={10}
-                lineHeight={12}
-                color={_.colorIcon}
-              />
-            </Flex>
-          )}
-
-          <PreventTouchPlaceholder />
-          <Heatmap id='条目.预览' />
-        </InView>
-        <Split />
-      </Component>
-    )
-  })
+        <PreventTouchPlaceholder />
+        <Heatmap id='条目.预览' />
+      </InView>
+      <Split />
+    </Component>
+  )
 }
 
-export default Thumbs
+export default observer(Thumbs)

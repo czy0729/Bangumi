@@ -2,35 +2,28 @@
  * @Author: czy0729
  * @Date: 2019-04-10 15:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-13 21:39:23
+ * @Last Modified time: 2026-03-17 23:50:51
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Component, Flex, Iconfont, Text, Touchable } from '@components'
 import { _, systemStore } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
-import { ReactNode } from '@types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props as SectionTitleProps } from './types'
 
-export { SectionTitleProps }
+import type { ReactNode } from '@types'
+import type { Props as SectionTitleProps } from './types'
 
-/** 块(章节) 标题 */
-export const SectionTitle = ({
-  style,
-  icon = '',
-  left,
-  right,
-  splitStyles,
-  children,
-  onPress
-}: SectionTitleProps) => {
-  r(COMPONENT)
+export type { SectionTitleProps }
 
-  return useObserver(() => {
+/** 块 (章节) 标题 */
+export const SectionTitle = observer(
+  ({ style, icon = '', left, right, splitStyles, children, onPress }: SectionTitleProps) => {
+    r(COMPONENT)
+
     const styles = memoStyles()
 
     let splitStylesTitle: ReactNode = null
@@ -76,7 +69,7 @@ export const SectionTitle = ({
         </Flex>
       </Component>
     )
-  })
-}
+  }
+)
 
 export default SectionTitle

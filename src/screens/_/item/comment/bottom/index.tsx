@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2025-01-26 13:42:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-11 16:37:47
+ * @Last Modified time: 2026-03-17 23:58:20
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Link, Text } from '@components'
 import { _ } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { Stars } from '../../../base'
 
 import type { Props } from './types'
 
 function Bottom({ mainId, mainName, star }: Props) {
-  return useObserver(() => (
+  return (
     <Flex style={_.mv.xs}>
       <Stars value={star} />
       {!!mainName && (
@@ -37,7 +37,7 @@ function Bottom({ mainId, mainName, star }: Props) {
         </>
       )}
     </Flex>
-  ))
+  )
 }
 
-export default Bottom
+export default observer(Bottom)

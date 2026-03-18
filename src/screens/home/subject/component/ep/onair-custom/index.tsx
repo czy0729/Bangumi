@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2025-04-15 18:20:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-15 19:33:25
+ * @Last Modified time: 2026-03-17 23:12:00
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { IconTouchable, Popover } from '@_'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { HOUR_DS, MINUTE_DS, WEEK_DAY_DS, WEEK_DAY_MAP } from '../ds'
 import { COMPONENT, REVERSE_WEEK_DAY_MAP } from './ds'
 import { memoStyles } from './styles'
@@ -19,59 +19,61 @@ import type { Ctx } from '../../../types'
 function OnairCustom() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    const styles = memoStyles()
-    const { weekDay, h, m, isCustom } = $.onAirCustom
+  const styles = memoStyles()
+  const { weekDay, h, m, isCustom } = $.onAirCustom
 
-    const handleSelectWeekDay = useCallback((title: string) => {
+  const handleSelectWeekDay = useCallback(
+    (title: string) => {
       const wd = REVERSE_WEEK_DAY_MAP[title] ?? 0
       $.onSelectOnAir(wd, `${$.onAirCustom.h || '00'}${$.onAirCustom.m || '00'}`)
-    }, [])
+    },
+    [$]
+  )
 
-    const handleSelectHour = useCallback((title: string) => {
+  const handleSelectHour = useCallback(
+    (title: string) => {
       $.onSelectOnAir($.onAirCustom.weekDay, `${title || '00'}${$.onAirCustom.m || '00'}`)
-    }, [])
+    },
+    [$]
+  )
 
-    const handleSelectMinute = useCallback((title: string) => {
+  const handleSelectMinute = useCallback(
+    (title: string) => {
       $.onSelectOnAir($.onAirCustom.weekDay, `${$.onAirCustom.h || '00'}${title || '00'}`)
-    }, [])
+    },
+    [$]
+  )
 
-    return (
-      <Flex>
-        <Popover data={WEEK_DAY_DS} onSelect={handleSelectWeekDay}>
-          <Flex style={styles.onair} justify='center'>
-            <Text type='sub' size={11} bold>
-              {WEEK_DAY_MAP[weekDay] ?? '周'}
-            </Text>
-          </Flex>
-        </Popover>
-        <Popover style={_.ml.sm} data={HOUR_DS} onSelect={handleSelectHour}>
-          <Flex style={styles.onair} justify='center'>
-            <Text type='sub' size={11} bold>
-              {h || '时'}
-            </Text>
-          </Flex>
-        </Popover>
-        <Popover style={_.ml.sm} data={MINUTE_DS} onSelect={handleSelectMinute}>
-          <Flex style={styles.onair} justify='center'>
-            <Text type='sub' size={11} bold>
-              {m || '分'}
-            </Text>
-          </Flex>
-        </Popover>
-        {isCustom && (
-          <View style={styles.reset}>
-            <IconTouchable
-              style={_.mr._xs}
-              name='md-refresh'
-              size={20}
-              onPress={$.resetOnAirUser}
-            />
-          </View>
-        )}
-      </Flex>
-    )
-  })
+  return (
+    <Flex>
+      <Popover data={WEEK_DAY_DS} onSelect={handleSelectWeekDay}>
+        <Flex style={styles.onair} justify='center'>
+          <Text type='sub' size={11} bold>
+            {WEEK_DAY_MAP[weekDay] ?? '周'}
+          </Text>
+        </Flex>
+      </Popover>
+      <Popover style={_.ml.sm} data={HOUR_DS} onSelect={handleSelectHour}>
+        <Flex style={styles.onair} justify='center'>
+          <Text type='sub' size={11} bold>
+            {h || '时'}
+          </Text>
+        </Flex>
+      </Popover>
+      <Popover style={_.ml.sm} data={MINUTE_DS} onSelect={handleSelectMinute}>
+        <Flex style={styles.onair} justify='center'>
+          <Text type='sub' size={11} bold>
+            {m || '分'}
+          </Text>
+        </Flex>
+      </Popover>
+      {isCustom && (
+        <View style={styles.reset}>
+          <IconTouchable style={_.mr._xs} name='md-refresh' size={20} onPress={$.resetOnAirUser} />
+        </View>
+      )}
+    </Flex>
+  )
 }
 
-export default OnairCustom
+export default observer(OnairCustom)

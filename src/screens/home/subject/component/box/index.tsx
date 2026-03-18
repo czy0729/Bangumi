@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-19 23:14:49
+ * @Last Modified time: 2026-03-17 22:58:02
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Component } from '@components'
 import { _, systemStore, userStore, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { TITLE_BOX } from '../../ds'
 import Split from '../split'
 import Box from './box'
@@ -21,7 +21,7 @@ import type { Props } from './types'
 function BoxWrap({ onBlockRef }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-subject-box'>
       <View
         ref={ref => onBlockRef(ref, TITLE_BOX)}
@@ -41,7 +41,7 @@ function BoxWrap({ onBlockRef }: Props) {
       />
       <Split />
     </Component>
-  ))
+  )
 }
 
-export default BoxWrap
+export default observer(BoxWrap)

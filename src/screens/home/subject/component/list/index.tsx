@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:41:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-23 06:00:14
+ * @Last Modified time: 2026-03-17 23:30:07
  */
 import React, { useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { ListView } from '@components'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { useObserver } from '@utils/hooks'
 import HeaderComponent from '../header-component'
 import { renderItem } from './utils'
 import { COMPONENT, REFRESH_CONTROL_PROPS } from './ds'
@@ -29,7 +29,7 @@ function List({ forwardRef, onScrollIntoViewIfNeeded, onBlockRef }: Props) {
     [onBlockRef, onScrollIntoViewIfNeeded]
   )
 
-  return useObserver(() => (
+  return (
     <ListView
       ref={forwardRef}
       keyExtractor={keyExtractor}
@@ -46,7 +46,7 @@ function List({ forwardRef, onScrollIntoViewIfNeeded, onBlockRef }: Props) {
       onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={$.fetchSubjectComments}
     />
-  ))
+  )
 }
 
-export default List
+export default observer(List)

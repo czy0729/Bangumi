@@ -1,58 +1,32 @@
 /*
- * @Doc: https://github.com/ant-design/ant-design-mobile-rn/blob/3.1.3/components/flex/FlexItem.tsx
  * @Author: czy0729
  * @Date: 2023-04-11 12:49:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-17 12:51:45
+ * @Last Modified time: 2026-03-18 05:30:52
  */
-import React from 'react'
-import { TouchableWithoutFeedback, View } from 'react-native'
+import React, { useMemo } from 'react'
+import { View } from 'react-native'
+import { stl } from '@utils'
 import { WEB } from '@constants'
 
-import type { StyleProp, ViewStyle } from 'react-native'
-import type { ReactNode } from '@types'
+import type { ViewStyle } from '@types'
+import type { ItemProps as FlexItemProps } from './types'
 
-interface FlexItemPropsType {
-  disabled?: boolean
-  children?: ReactNode
-}
-
-export interface FlexItemProps extends FlexItemPropsType {
-  flex?: number
-  onPress?: () => void
-  onLongPress?: () => void
-  onPressIn?: () => void
-  onPressOut?: () => void
-  style?: StyleProp<ViewStyle>
-}
-
-export default class FlexItem extends React.Component<FlexItemProps, any> {
-  static defaultProps = {
-    flex: 1
-  }
-
-  render() {
-    const { style, children, flex, ...restProps } = this.props
-    const flexItemStyle: ViewStyle = {
-      flex: flex || 1
+function FlexItem({ flex = 1, style, children, ...restProps }: FlexItemProps) {
+  const flexItemStyle = useMemo((): ViewStyle => {
+    const s: ViewStyle = { flex }
+    if (WEB) {
+      // @ts-ignore: WEB 环境下的特殊兼容
+      s.width = '100%'
     }
-    if (WEB) flexItemStyle.width = '100%'
+    return s
+  }, [flex])
 
-    // support other touchablewithoutfeedback props
-    // TODO  support TouchableHighlight
-    const inner = (
-      <View style={[flexItemStyle, style]} {...restProps}>
-        {children}
-      </View>
-    )
-
-    const shouldWrapInTouchableComponent =
-      restProps.onPress || restProps.onLongPress || restProps.onPressIn || restProps.onPressOut
-
-    if (shouldWrapInTouchableComponent) {
-      return <TouchableWithoutFeedback {...restProps}>{inner}</TouchableWithoutFeedback>
-    } else {
-      return inner
-    }
-  }
+  return (
+    <View style={stl(flexItemStyle, style)} {...restProps}>
+      {children}
+    </View>
+  )
 }
+
+export default React.memo(FlexItem)

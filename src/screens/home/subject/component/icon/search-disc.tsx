@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-08-31 18:58:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-16 01:28:57
+ * @Last Modified time: 2026-03-17 23:26:38
  */
 import React, { useCallback } from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Iconfont } from '@components'
 import { Popover } from '@_'
 import { useStore } from '@stores'
 import { stl } from '@utils'
-import { useObserver } from '@utils/hooks'
 import { HIT_SLOP } from './ds'
 import { styles } from './styles'
 
@@ -26,7 +26,7 @@ function IconSearchDisc({ style, children }: IconProps) {
     [$, navigation]
   )
 
-  return useObserver(() => (
+  return (
     <Popover
       style={stl(!children && styles.touch, style)}
       data={$.discData}
@@ -39,7 +39,7 @@ function IconSearchDisc({ style, children }: IconProps) {
         </Flex>
       )}
     </Popover>
-  ))
+  )
 }
 
-export default IconSearchDisc
+export default observer(IconSearchDisc)

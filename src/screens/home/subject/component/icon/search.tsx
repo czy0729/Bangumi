@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-01-16 17:22:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 01:58:16
+ * @Last Modified time: 2026-03-17 23:26:50
  */
 import React, { useCallback } from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Iconfont } from '@components'
 import { Popover } from '@_'
 import { useStore } from '@stores'
 import { stl } from '@utils'
-import { useObserver } from '@utils/hooks'
 import { HIT_SLOP } from './ds'
 import { styles } from './styles'
 
@@ -26,7 +26,7 @@ function IconSearch({ style, children }: IconProps) {
     [$, navigation]
   )
 
-  return useObserver(() => (
+  return (
     <Popover
       style={stl(!children && styles.touch, style)}
       data={$.comicData}
@@ -39,7 +39,7 @@ function IconSearch({ style, children }: IconProps) {
         </Flex>
       )}
     </Popover>
-  ))
+  )
 }
 
-export default IconSearch
+export default observer(IconSearch)

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-21 00:28:00
+ * @Last Modified time: 2026-03-17 23:02:59
  */
 import React, { Suspense } from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Component } from '@components'
 import { _, systemStore, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { TITLE_CHARACTER } from '../../ds'
 import Split from '../split'
 import Character from './character'
@@ -20,35 +20,33 @@ import type { Props } from './types'
 function CharacterWrap({ onBlockRef }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    if (!$.showCharacter[1]) return null
+  if (!$.showCharacter[1]) return null
 
-    return (
-      <Suspense fallback={null}>
-        <Component id='screen-subject-character'>
-          <View
-            ref={ref => onBlockRef(ref, TITLE_CHARACTER)}
-            style={_.container.layout}
-            collapsable={false}
-          />
-          <Character
-            navigation={navigation}
-            showCharacter={systemStore.setting.showCharacter}
-            subjectId={$.subjectId}
-            crt={$.crt}
-            crtCounts={$.subjectFormHTML.crtCounts}
-            subjectName={$.cn}
-            onSwitchBlock={$.onSwitchBlock}
-          />
-          <Split
-            style={{
-              marginTop: 28
-            }}
-          />
-        </Component>
-      </Suspense>
-    )
-  })
+  return (
+    <Suspense fallback={null}>
+      <Component id='screen-subject-character'>
+        <View
+          ref={ref => onBlockRef(ref, TITLE_CHARACTER)}
+          style={_.container.layout}
+          collapsable={false}
+        />
+        <Character
+          navigation={navigation}
+          showCharacter={systemStore.setting.showCharacter}
+          subjectId={$.subjectId}
+          crt={$.crt}
+          crtCounts={$.subjectFormHTML.crtCounts}
+          subjectName={$.cn}
+          onSwitchBlock={$.onSwitchBlock}
+        />
+        <Split
+          style={{
+            marginTop: 28
+          }}
+        />
+      </Component>
+    </Suspense>
+  )
 }
 
-export default CharacterWrap
+export default observer(CharacterWrap)

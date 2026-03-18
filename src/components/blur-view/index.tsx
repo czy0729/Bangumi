@@ -4,11 +4,11 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:38:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 00:08:11
+ * @Last Modified time: 2026-03-18 04:21:17
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { BlurView as ExpoBlurView } from 'expo-blur'
 import { _ } from '@stores'
 import { matchCoverUrl, stl } from '@utils'
@@ -22,26 +22,25 @@ import { styles } from './styles'
 export { BLURVIEW_TINT_LIGHT, BLURVIEW_TINT_DARK }
 
 import type { Props as BlurViewProps } from './types'
-
 export type { BlurViewProps }
 
 /**
  * 图片毛玻璃化，非毛玻璃容器
  * @doc https://docs.expo.io/versions/latest/sdk/blur-view
  * */
-export function BlurView({
-  style,
-  src,
-  tint = BLURVIEW_TINT_LIGHT,
-  intensity = 100,
-  blurRadius = 16,
-  height,
-  cdn = true,
-  children
-}: BlurViewProps) {
-  r(COMPONENT)
+export const BlurView = observer(
+  ({
+    style,
+    src,
+    tint = BLURVIEW_TINT_LIGHT,
+    intensity = 100,
+    blurRadius = 16,
+    height,
+    cdn = true,
+    children
+  }: BlurViewProps) => {
+    r(COMPONENT)
 
-  return useObserver(() => {
     if (!src) return null
 
     const imageSrc = cdn ? matchCoverUrl(src) : src
@@ -91,7 +90,7 @@ export function BlurView({
         {children}
       </Component>
     )
-  })
-}
+  }
+)
 
 export default BlurView

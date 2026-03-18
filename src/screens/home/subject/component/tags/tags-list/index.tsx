@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-08-04 04:45:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-26 19:53:51
+ * @Last Modified time: 2026-03-17 23:36:58
  */
 import React, { useCallback, useEffect, useState } from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { stl } from '@utils'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { TITLE_TAGS } from '../../../ds'
 import Block from '../block'
@@ -33,9 +33,7 @@ function TagList({ showTyperank }: { showTyperank: boolean }) {
     (name: string, isTyperank: boolean) => {
       const isExist = isTyperank && exist(subjectTypeLabel, name)
       const to = isExist ? 'Typerank' : 'Tag'
-
-      // @ts-expect-error
-      navigation.push(to, {
+      navigation.push(to as any, {
         type: subjectTypeLabel,
         tag: name,
         ...(isExist ? { subjectId: $.subjectId } : {})
@@ -66,58 +64,57 @@ function TagList({ showTyperank }: { showTyperank: boolean }) {
     }
   }, [showTyperank, $.subjectTypeValue])
 
-  return useObserver(() => {
-    const styles = memoStyles()
-    const tags = expand ? $.tags : $.tags.slice(0, EXPAND_NUM)
+  const styles = memoStyles()
+  const tags = expand ? $.tags : $.tags.slice(0, EXPAND_NUM)
 
-    return (
-      <>
-        {tags.map(({ name, count, meta }) => {
-          const isSelected = $.collection?.tag?.includes?.(name)
-          return (
-            <Touchable
-              key={name}
-              animate
-              scale={0.9}
-              onPress={() => handleNavigate(name, showTyperank)}
-            >
-              <Flex style={stl(styles.item, isSelected && styles.selected, meta && styles.meta)}>
-                <Text type={_.select('desc', isSelected ? 'main' : 'desc')} size={13} bold>
-                  {name}
+  return (
+    <>
+      {tags.map(({ name, count, meta }) => {
+        const isSelected = $.collection?.tag?.includes?.(name)
+
+        return (
+          <Touchable
+            key={name}
+            animate
+            scale={0.9}
+            onPress={() => handleNavigate(name, showTyperank)}
+          >
+            <Flex style={stl(styles.item, isSelected && styles.selected, meta && styles.meta)}>
+              <Text type={_.select('desc', isSelected ? 'main' : 'desc')} size={13} bold>
+                {name}
+              </Text>
+              {showTyperank ? (
+                loaded && <Typerank tag={name} />
+              ) : (
+                <Text
+                  type={_.select('sub', isSelected ? 'main' : 'sub')}
+                  size={12}
+                  lineHeight={13}
+                  bold
+                >
+                  {' '}
+                  {count}
                 </Text>
-                {showTyperank ? (
-                  loaded && <Typerank tag={name} />
-                ) : (
-                  <Text
-                    type={_.select('sub', isSelected ? 'main' : 'sub')}
-                    size={12}
-                    lineHeight={13}
-                    bold
-                  >
-                    {' '}
-                    {count}
-                  </Text>
-                )}
-              </Flex>
-            </Touchable>
-          )
-        })}
-
-        {!expand && $.tags.length > EXPAND_NUM && (
-          <Touchable animate scale={0.9} onPress={() => setExpand(true)}>
-            <Flex style={styles.item}>
-              <Iconfont name='md-more-horiz' size={16} color={_.colorSub} />
+              )}
             </Flex>
           </Touchable>
-        )}
+        )
+      })}
 
-        <Block path='Anime' tags={$.animeTags} />
-        <Block path='Game' tags={$.gameTags} />
-        <Block path='Manga' tags={$.mangaTags} />
-        <Block path='Wenku' tags={$.wenkuTags} />
-      </>
-    )
-  })
+      {!expand && $.tags.length > EXPAND_NUM && (
+        <Touchable animate scale={0.9} onPress={() => setExpand(true)}>
+          <Flex style={styles.item}>
+            <Iconfont name='md-more-horiz' size={16} color={_.colorSub} />
+          </Flex>
+        </Touchable>
+      )}
+
+      <Block path='Anime' tags={$.animeTags} />
+      <Block path='Game' tags={$.gameTags} />
+      <Block path='Manga' tags={$.mangaTags} />
+      <Block path='Wenku' tags={$.wenkuTags} />
+    </>
+  )
 }
 
-export default TagList
+export default observer(TagList)

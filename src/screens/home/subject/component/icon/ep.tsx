@@ -2,21 +2,21 @@
  * @Author: czy0729
  * @Date: 2021-01-17 00:58:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-05 04:25:22
+ * @Last Modified time: 2026-03-17 23:20:30
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 
 import type { Ctx } from '../../types'
 
 function IconEp() {
   const { $, navigation } = useStore<Ctx>()
 
-  return useObserver(() => (
+  return (
     <IconTouchable
       style={{
         marginRight: -1,
@@ -41,7 +41,7 @@ function IconEp() {
     >
       <Heatmap right={13} id='条目.跳转' from='章节' />
     </IconTouchable>
-  ))
+  )
 }
 
-export default IconEp
+export default observer(IconEp)

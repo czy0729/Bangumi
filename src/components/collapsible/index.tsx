@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-06-25 17:18:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-10 07:09:45
+ * @Last Modified time: 2026-03-18 04:33:13
  */
 import RNCollapsible from 'react-native-collapsible'
-import { CollapsibleBase } from './collapsible-base'
+import CollapsibleBase from './collapsible-base'
 
 import type { Props as CollapsibleProps } from './types'
-
 export type { CollapsibleProps }
 
 /**
