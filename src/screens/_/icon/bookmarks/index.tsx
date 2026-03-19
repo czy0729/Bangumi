@@ -2,18 +2,22 @@
  * @Author: czy0729
  * @Date: 2024-07-15 14:56:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-15 15:05:04
+ * @Last Modified time: 2026-03-19 21:50:28
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Header } from '@components'
 import { _, rakuenStore } from '@stores'
 import { appNavigate } from '@utils'
-import { ob } from '@utils/decorators'
-import { Props as IconBookmarksProps } from './types'
+import { r } from '@utils/dev'
+import { COMPONENT } from './ds'
 
-export { IconBookmarksProps }
+import type { Props as IconBookmarksProps } from './types'
+export type { IconBookmarksProps }
 
-export const IconBookmarks = ob(({ navigation }: IconBookmarksProps) => {
+export const IconBookmarks = observer(({ navigation }: IconBookmarksProps) => {
+  r(COMPONENT)
+
   const data: string[] = rakuenStore.bookmarks.map(item => item.title)
   if (!data.length) data.push('(空书签)')
 

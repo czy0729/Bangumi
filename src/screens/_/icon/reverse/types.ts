@@ -1,16 +1,17 @@
 /*
  * @Author: czy0729
  * @Date: 2022-10-18 16:30:20
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-10-18 16:30:20
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-03-20 01:25:12
  */
-import { ColorValue, Fn, TextStyle, ViewStyle } from '@types'
+import type { PropsWithChildren } from 'react'
+import type { ColorValue, Fn, TextStyle, WithViewStyles } from '@types'
 
-export type Props = {
-  style?: ViewStyle
-  iconStyle?: TextStyle
-  color?: ColorValue
-  size?: number
-  children?: any
-  onPress?: Fn
-}
+export type Props = PropsWithChildren<
+  WithViewStyles<{
+    iconStyle?: TextStyle
+    color?: ColorValue
+    size?: number
+    onPress?: Fn
+  }>
+>

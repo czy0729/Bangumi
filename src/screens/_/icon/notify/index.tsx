@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:19:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-10 00:02:56
+ * @Last Modified time: 2026-03-20 01:21:10
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Component } from '@components'
 import { rakuenStore, userStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
 import { IconTabsHeader } from '../tabs-header'
@@ -16,12 +17,11 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { Props as IconNotifyProps } from './types'
-
 export type { IconNotifyProps }
 
 let isSetTimeout = false
 
-export const IconNotify = ob(
+export const IconNotify = observer(
   class IconNotifyComponent extends React.Component<IconNotifyProps> {
     static defaultProps = {
       event: EVENT
@@ -41,9 +41,12 @@ export const IconNotify = ob(
     }
 
     render() {
+      r(COMPONENT)
+
       const { style, navigation, event, children } = this.props
       const hasNewNotify = !!rakuenStore.notify.unread
       const { hasNewPM } = userStore
+
       return (
         <Component id='item-notify'>
           {(hasNewNotify || hasNewPM) && <View style={this.styles.dot} pointerEvents='none' />}
@@ -74,8 +77,7 @@ export const IconNotify = ob(
     get styles() {
       return memoStyles()
     }
-  },
-  COMPONENT
+  }
 )
 
 export default IconNotify

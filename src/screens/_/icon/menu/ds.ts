@@ -2,8 +2,13 @@
  * @Author: czy0729
  * @Date: 2026-01-18 17:07:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-18 20:45:32
+ * @Last Modified time: 2026-03-19 21:53:35
  */
+import { rc } from '@utils/dev'
+import { COMPONENT as PARENT } from '../ds'
+
+export const COMPONENT = rc(PARENT, 'IconMenu')
+
 export const IMAGE_CONFIG = {
   BilibiliSync: { key: 'bilibili', size: 20, altKey: 'bilibili_0' },
   DoubanSync: { key: 'dou', size: 19, altKey: 'dou_0' },

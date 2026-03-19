@@ -2,23 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-05-19 20:13:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-18 16:34:00
+ * @Last Modified time: 2026-03-20 04:37:09
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, Iconfont, Image, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { stl } from '@utils'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { IOS } from '@constants'
 import { GROUP_THUMB_MAP } from '@assets/images'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 import type { Props as IconTabsHeaderProps } from './types'
-
 export type { IconTabsHeaderProps }
 
-export const IconTabsHeader = ob(
+export const IconTabsHeader = observer(
   ({
     style,
     name,
@@ -29,6 +29,8 @@ export const IconTabsHeader = ob(
     children,
     onPress
   }: IconTabsHeaderProps) => {
+    r(COMPONENT)
+
     const top = text ? (
       text === '词' ? (
         <Image
@@ -72,8 +74,7 @@ export const IconTabsHeader = ob(
         </Touchable>
       </Component>
     )
-  },
-  COMPONENT
+  }
 )
 
 export default IconTabsHeader

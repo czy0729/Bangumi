@@ -3,24 +3,26 @@
  * @Author: czy0729
  * @Date: 2019-09-07 15:58:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 04:21:00
+ * @Last Modified time: 2026-03-20 04:38:09
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { _, systemStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
 import { IconTabsHeader } from '../tabs-header'
 import { COMPONENT } from './ds'
-import { Props as IconTinygrailProps } from './types'
 
-export { IconTinygrailProps }
+import type { Props as IconTinygrailProps } from './types'
+export type { IconTinygrailProps }
 
-export const IconTinygrail = ob(
+export const IconTinygrail = observer(
   ({ style, navigation, color, event = EVENT }: IconTinygrailProps) => {
-    const { tinygrail } = systemStore.setting
-    if (tinygrail) {
+    r(COMPONENT)
+
+    if (systemStore.setting.tinygrail) {
       return (
         <IconTabsHeader
           style={style}
@@ -57,8 +59,7 @@ export const IconTinygrail = ob(
         }}
       />
     )
-  },
-  COMPONENT
+  }
 )
 
 export default IconTinygrail

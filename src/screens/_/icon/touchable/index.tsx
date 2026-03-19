@@ -2,21 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-07-28 01:24:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-12 10:01:28
+ * @Last Modified time: 2026-03-20 04:38:47
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, Flex, Iconfont, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { stl } from '@utils'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 import type { Props as IconTouchableProps } from './types'
-
 export type { IconTouchableProps }
 
-export const IconTouchable = ob(
+export const IconTouchable = observer(
   ({
     style,
     name,
@@ -29,6 +29,8 @@ export const IconTouchable = ob(
     children,
     onPress
   }: IconTouchableProps) => {
+    r(COMPONENT)
+
     if (count) {
       return (
         <Component id='icon-touchable' data-type='count'>
@@ -65,8 +67,7 @@ export const IconTouchable = ob(
         </Touchable>
       </Component>
     )
-  },
-  COMPONENT
+  }
 )
 
 export default IconTouchable

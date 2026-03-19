@@ -2,32 +2,37 @@
  * @Author: czy0729
  * @Date: 2024-09-28 21:16:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-18 19:15:06
+ * @Last Modified time: 2026-03-19 20:35:49
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Image, Touchable } from '@components'
 import { _ } from '@stores'
 import { stl } from '@utils'
-import { useObserver } from '@utils/hooks'
+import { r } from '@utils/dev'
 import { GROUP_THUMB_MAP } from '@assets/images'
+import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 import type { Props as IconAssetsProps } from './types'
-
 export type { IconAssetsProps }
 
-export function IconAssets({ style, icon = 'wordcloud', size = 19, onPress }: IconAssetsProps) {
-  return useObserver(() => (
-    <Touchable style={stl(styles.touch, style)} onPress={onPress}>
-      <Image
-        src={GROUP_THUMB_MAP[_.select(`${icon}_0`, icon)]}
-        size={size}
-        resizeMode='contain'
-        placeholder={false}
-        skeleton={false}
-      />
-    </Touchable>
-  ))
-}
+export const IconAssets = observer(
+  ({ style, icon = 'wordcloud', size = 19, onPress }: IconAssetsProps) => {
+    r(COMPONENT)
+
+    return (
+      <Touchable style={stl(styles.touch, style)} onPress={onPress}>
+        <Image
+          src={GROUP_THUMB_MAP[_.select(`${icon}_0`, icon)]}
+          size={size}
+          resizeMode='contain'
+          placeholder={false}
+          skeleton={false}
+        />
+      </Touchable>
+    )
+  }
+)
 
 export default IconAssets

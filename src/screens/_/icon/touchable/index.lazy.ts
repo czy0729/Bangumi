@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-08-02 20:53:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 20:56:01
+ * @Last Modified time: 2026-03-20 04:38:17
  */
 import { lazy } from 'react'
 
 export const IconTouchable = lazy(() => import('./index'))
-export { Props as IconTouchableProps } from './types'
+export type { Props as IconTouchableProps } from './types'
