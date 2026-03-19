@@ -5,8 +5,9 @@
  * @Last Modified time: 2024-08-28 21:15:21
  */
 import React, { useEffect } from 'react'
+import { observer } from 'mobx-react'
 import { r } from '@utils/dev'
-import { useNavigation, useObserver } from '@utils/hooks'
+import { useNavigation } from '@utils/hooks'
 import { WEB } from '@constants'
 import { Track } from '../track'
 import HeaderComponent from './header-component'
@@ -15,33 +16,47 @@ import Popover from './popover'
 import { updateHeader } from './utils'
 import { COMPONENT } from './ds'
 
-import type { IHeader } from './types'
+import type { Props as HeaderProps, HeaderComponentType } from './types'
+export type { HeaderProps }
 
 /**
- * 适配 react-navigation@6
+ * 自定义适配 react-navigation@6
  *  - 完全替代 @utils/decorators/withHeader.js
  */
-const Header: IHeader = ({
-  mode,
-  fixed = false,
-  title,
-  domTitle,
-  hm,
-  alias,
-  headerLeft = null,
-  headerRight = null,
-  headerTitle = null,
-  headerTitleAlign = 'center',
-  headerTitleStyle,
-  statusBarEventsType,
-  onBackPress
-}) => {
-  r(COMPONENT)
+const Header = observer(
+  ({
+    mode,
+    fixed = false,
+    title,
+    domTitle,
+    hm,
+    alias,
+    headerLeft = null,
+    headerRight = null,
+    headerTitle = null,
+    headerTitleAlign = 'center',
+    headerTitleStyle,
+    statusBarEventsType,
+    onBackPress
+  }: HeaderProps) => {
+    r(COMPONENT)
 
-  const navigation = useNavigation()
+    const navigation = useNavigation()
 
-  useEffect(() => {
-    updateHeader({
+    useEffect(() => {
+      updateHeader({
+        navigation,
+        mode,
+        fixed,
+        title,
+        headerLeft,
+        headerRight,
+        headerTitleAlign,
+        headerTitleStyle,
+        statusBarEventsType,
+        onBackPress
+      })
+    }, [
       navigation,
       mode,
       fixed,
@@ -52,21 +67,8 @@ const Header: IHeader = ({
       headerTitleStyle,
       statusBarEventsType,
       onBackPress
-    })
-  }, [
-    navigation,
-    mode,
-    fixed,
-    title,
-    headerLeft,
-    headerRight,
-    headerTitleAlign,
-    headerTitleStyle,
-    statusBarEventsType,
-    onBackPress
-  ])
+    ])
 
-  return useObserver(() => {
     const passProps = {
       navigation,
       fixed,
@@ -92,11 +94,11 @@ const Header: IHeader = ({
         <Track title={title} domTitle={domTitle} hm={hm} alias={alias} />
       </>
     )
-  })
-}
+  }
+) as unknown as HeaderComponentType
 
 Header.Popover = Popover
-
 Header.Placeholder = Placeholder
 
 export { Header }
+export default Header

@@ -2,52 +2,50 @@
  * @Author: czy0729
  * @Date: 2022-11-13 05:13:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 06:24:55
+ * @Last Modified time: 2026-03-19 14:51:15
  */
 import React from 'react'
 import { Text } from 'react-native'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { syncThemeStore } from '@utils/async'
 
 import type { Props } from './types'
 
 function Desc({ style, showClose, children }: Props) {
-  return useObserver(() => {
-    const _ = syncThemeStore()
+  const _ = syncThemeStore()
 
-    return (
-      <>
+  return (
+    <>
+      <Text
+        style={[
+          _.fontStyle,
+          style,
+          {
+            color: _.colorDesc
+          }
+        ]}
+        textBreakStrategy='simple'
+        numberOfLines={0}
+      >
+        {children}
+      </Text>
+      {showClose && (
         <Text
           style={[
             _.fontStyle,
-            style,
             {
-              color: _.colorDesc
+              fontSize: 18,
+              color: _.colorIcon
             }
           ]}
           textBreakStrategy='simple'
           numberOfLines={0}
         >
-          {children}
+          {'  '}×
         </Text>
-        {showClose && (
-          <Text
-            style={[
-              _.fontStyle,
-              {
-                fontSize: 18,
-                color: _.colorIcon
-              }
-            ]}
-            textBreakStrategy='simple'
-            numberOfLines={0}
-          >
-            {'  '}×
-          </Text>
-        )}
-      </>
-    )
-  })
+      )}
+    </>
+  )
 }
 
-export default Desc
+export default observer(Desc)

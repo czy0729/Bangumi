@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-03-07 18:02:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-06 17:42:50
+ * @Last Modified time: 2026-03-19 01:57:53
  */
 import React, { useRef } from 'react'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { NavigationContainer as NavigationNativeContainer } from '@react-navigation/native'
 import { navigationReference } from '@utils'
 import { r } from '@utils/dev'
@@ -16,12 +16,12 @@ import type { Navigation } from '@types'
 import type { Props } from './types'
 
 /** navigation context */
-export function NavigationContainer({ children }: Props) {
+export const NavigationContainer = observer(({ children }: Props) => {
   r(COMPONENT_CONTAINER)
 
   const navigationRef = useRef<Navigation>(null)
 
-  return useObserver(() => (
+  return (
     <Component id='component-navigation'>
       <NavigationNativeContainer
         // @ts-expect-error
@@ -35,5 +35,5 @@ export function NavigationContainer({ children }: Props) {
         {children}
       </NavigationNativeContainer>
     </Component>
-  ))
-}
+  )
+})

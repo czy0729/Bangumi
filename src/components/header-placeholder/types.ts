@@ -7,6 +7,6 @@
 import type { WithViewStyles } from '@types'
 
 export type Props = WithViewStyles<{
-  /** 是否有tabs */
+  /** 是否有 tabs */
   tabs?: boolean
 }>

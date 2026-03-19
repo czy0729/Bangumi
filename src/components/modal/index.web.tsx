@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-11-06 06:27:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 02:03:24
+ * @Last Modified time: 2026-03-19 01:56:44
  */
 import React, { useEffect } from 'react'
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
@@ -18,40 +18,29 @@ import { styles } from './styles.web'
 import './index.scss'
 
 import type { Props as ModalProps } from './types'
-
 export type { ModalProps }
 
 /** 通用模态框 */
-export function Modal({
-  style,
-  visible,
-  title,
-  type = 'title',
-  animated,
-  onClose,
-  children
-}: ModalProps) {
-  r(COMPONENT)
+export const Modal = observer(
+  ({ style, visible, title, type = 'title', animated, onClose, children }: ModalProps) => {
+    r(COMPONENT)
 
-  const activeRef = useSharedValue(visible ? 1 : 0)
+    const activeRef = useSharedValue(visible ? 1 : 0)
 
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
+    const animatedStyle = useAnimatedStyle(() => ({
       opacity: withTiming(activeRef.value, {
         duration: 80
       })
-    }
-  })
+    }))
 
-  useEffect(() => {
-    if (!animated) return
+    useEffect(() => {
+      if (!animated) return
 
-    setTimeout(() => {
-      activeRef.value = visible ? 1 : 0
-    }, 0)
-  }, [activeRef, animated, visible])
+      setTimeout(() => {
+        activeRef.value = visible ? 1 : 0
+      }, 0)
+    }, [activeRef, animated, visible])
 
-  return useObserver(() => {
     if (!visible) return null
 
     return (
@@ -71,7 +60,7 @@ export function Modal({
         </Animated.View>
       </Component>
     )
-  })
-}
+  }
+)
 
 export const ModalFixed = Modal

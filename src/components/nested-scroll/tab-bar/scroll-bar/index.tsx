@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2023-12-27 16:35:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-30 09:47:40
+ * @Last Modified time: 2026-03-19 02:05:29
  */
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { ScrollView } from 'react-native'
+import { observer } from 'mobx-react'
 import { stl } from '@utils'
 import { styles } from './styles'
 
 import type { LayoutChangeEvent } from 'react-native'
 import type { Layout, ScrollBarProps } from './types'
 
-export function ScrollBar({ style, page, children, ...props }: ScrollBarProps) {
+function ScrollBar({ style, page, children, ...props }: ScrollBarProps) {
   const [tabLayouts, setTabLayouts] = useState<Layout[]>([])
   const onTabsLayout = useCallback((layouts: Layout[]) => {
     setTabLayouts(layouts)
@@ -63,3 +64,5 @@ export function ScrollBar({ style, page, children, ...props }: ScrollBarProps) {
     </ScrollView>
   )
 }
+
+export default observer(ScrollBar)

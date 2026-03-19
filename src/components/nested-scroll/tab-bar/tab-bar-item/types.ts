@@ -1,11 +1,11 @@
 /*
  * @Author: czy0729
  * @Date: 2023-12-27 17:23:03
- * @Last Modified by:   czy0729
- * @Last Modified time: 2023-12-27 17:23:03
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-03-19 02:02:13
  */
-import { ViewProps } from 'react-native'
-import { TextStyle, ViewStyle } from '@types'
+import type { ViewProps } from 'react-native'
+import type { TextStyle, ViewStyle } from '@types'
 
 export interface Props {
   title: string

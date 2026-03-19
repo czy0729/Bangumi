@@ -6,16 +6,16 @@
  */
 import React from 'react'
 import { Switch } from 'react-native'
+import { observer } from 'mobx-react'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { Component } from '../component'
 import { COMPONENT } from './ds'
 
 import type { Props as SwitchProProps } from './types'
-
 export type { SwitchProProps }
 
-export function SwitchPro({ style, value, onSyncPress, onAsyncPress }: SwitchProProps) {
+export const SwitchPro = observer(({ style, value, onSyncPress, onAsyncPress }: SwitchProProps) => {
   r(COMPONENT)
 
   return (
@@ -33,6 +33,6 @@ export function SwitchPro({ style, value, onSyncPress, onAsyncPress }: SwitchPro
       />
     </Component>
   )
-}
+})
 
 export default SwitchPro

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-06 21:11:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-21 20:52:18
+ * @Last Modified time: 2026-03-19 01:37:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,7 +21,6 @@ import { styles } from './styles'
 import type { LayoutChangeEvent } from 'react-native'
 import type { TextStyle } from '@types'
 import type { Mathces, Props as KatakanaProviderProps, State } from './types'
-
 export type { KatakanaProviderProps }
 
 /**

@@ -5,7 +5,7 @@
  * @Last Modified time: 2025-10-25 21:27:30
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
@@ -33,41 +33,39 @@ function Popover<Data extends PopoverData>({
 }: Props<Data>) {
   r(COMPONENT)
 
-  return useObserver(() => {
-    const commonProps = {
-      style: stl(styles.touch, style),
-      placement: 'bottom',
-      ...other
-    } as const
+  const commonProps = {
+    style: stl(styles.touch, style),
+    placement: 'bottom',
+    ...other
+  } as const
 
-    const overlayProps = IOS
-      ? ({
-          overlay: (
-            <Menu
-              style={menuStyle}
-              data={data}
-              onSelect={(title: Data[number]) => {
-                setTimeout(() => onSelect(title), 0)
-              }}
-            />
-          )
-        } as const)
-      : ({
-          data,
-          onSelect
-        } as const)
+  const overlayProps = IOS
+    ? ({
+        overlay: (
+          <Menu
+            style={menuStyle}
+            data={data}
+            onSelect={(title: Data[number]) => {
+              setTimeout(() => onSelect(title), 0)
+            }}
+          />
+        )
+      } as const)
+    : ({
+        data,
+        onSelect
+      } as const)
 
-    return (
-      <PopoverComp {...commonProps} {...overlayProps}>
-        {name ? (
-          <Flex style={styles.icon} justify='center'>
-            <Iconfont size={size} name={name} color={color || _.colorTitle} />
-          </Flex>
-        ) : null}
-        {children}
-      </PopoverComp>
-    )
-  })
+  return (
+    <PopoverComp {...commonProps} {...overlayProps}>
+      {name ? (
+        <Flex style={styles.icon} justify='center'>
+          <Iconfont size={size} name={name} color={color || _.colorTitle} />
+        </Flex>
+      ) : null}
+      {children}
+    </PopoverComp>
+  )
 }
 
-export default Popover
+export default observer(Popover)

@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-12-27 17:22:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-01 20:22:40
+ * @Last Modified time: 2026-03-19 02:05:55
  */
 import React from 'react'
 import { Pressable } from 'react-native'
+import { observer } from 'mobx-react'
 import { stl } from '@utils'
 import { Text } from '../../../text'
 import { styles } from './styles'
@@ -13,7 +14,7 @@ import { styles } from './styles'
 import type { Props } from './types'
 import type { ViewStyle } from '@types'
 
-export function TabBarItem({ title, style, labelStyle, renderLabel, onPress, onLayout }: Props) {
+function TabBarItem({ title, style, labelStyle, renderLabel, onPress, onLayout }: Props) {
   return (
     <Pressable style={stl(styles.tab, style)} onPress={onPress} onLayout={onLayout}>
       {typeof renderLabel === 'function' ? (
@@ -29,3 +30,5 @@ export function TabBarItem({ title, style, labelStyle, renderLabel, onPress, onL
     </Pressable>
   )
 }
+
+export default observer(TabBarItem)

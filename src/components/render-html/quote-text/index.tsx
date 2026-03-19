@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:05:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-16 13:44:32
+ * @Last Modified time: 2026-03-18 19:14:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,10 +21,6 @@ class QuoteText extends React.Component<{
   state = {
     show: rakuenStore.setting.quote || false,
     toggle: false
-  }
-
-  componentDidCatch() {
-    console.info('@/components/render-html', 'componentDidCatch')
   }
 
   show = () =>
@@ -52,7 +48,7 @@ class QuoteText extends React.Component<{
     const { show, toggle } = this.state
     if (!show) {
       return (
-        <Text style={this.styles.quoteTextPlaceholder} onPress={this.show}>
+        <Text style={this.styles.placeholder} onPress={this.show}>
           「...」
         </Text>
       )

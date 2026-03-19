@@ -2,22 +2,22 @@
  * @Author: czy0729
  * @Date: 2023-12-27 17:08:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-01 20:24:36
+ * @Last Modified time: 2026-03-19 02:05:41
  */
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { Animated, View } from 'react-native'
+import { observer } from 'mobx-react'
 import { stl } from '@utils'
-import { TabBarIndicator } from '../tab-bar-indicator'
-import { TabBarItem } from '../tab-bar-item'
+import TabBarIndicator from '../tab-bar-indicator'
+import TabBarItem from '../tab-bar-item'
 import { getIndicatorWidth, getLocalLayout, setLocalLayout } from './utils'
 import { styles } from './styles'
 
 import type { LayoutChangeEvent } from 'react-native'
 import type { Layout, Props as TabBarProps } from './types'
-
 export type { TabBarProps }
 
-export function TabBar({
+function TabBar({
   style,
   tabStyle,
   labelStyle,
@@ -112,3 +112,5 @@ export function TabBar({
     </View>
   )
 }
+
+export default observer(TabBar)

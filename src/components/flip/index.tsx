@@ -7,20 +7,19 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
+import { observer } from 'mobx-react'
 import { feedback, urlStringify } from '@utils'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import { Component } from '../component'
 import { COMPONENT, CONFIG, PERSPECTIVE } from './ds'
 
 import type { Props as FlipProps } from './types'
-
 export type { FlipProps }
 
 let feedbacked = false
 
 /** 翻转动画 */
-export const Flip = ({ style, height, onAnimated, children, ...other }: FlipProps) => {
+export const Flip = observer(({ style, height, onAnimated, children, ...other }: FlipProps) => {
   r(COMPONENT)
 
   const animate = true
@@ -93,42 +92,40 @@ export const Flip = ({ style, height, onAnimated, children, ...other }: FlipProp
     }
   }, [activeRef, beforeProps, animate, onAnimated, other])
 
-  return useObserver(() => {
-    const space = 8
-    const styles = {
-      container: {
-        height: height * 2 + space,
-        paddingVertical: space / 2,
-        marginTop: -space / 2
-      },
-      animated: {
-        marginTop: -height
-      },
-      placeholder: {
-        height
-      }
+  const space = 8
+  const styles = {
+    container: {
+      height: height * 2 + space,
+      paddingVertical: space / 2,
+      marginTop: -space / 2
+    },
+    animated: {
+      marginTop: -height
+    },
+    placeholder: {
+      height
     }
+  }
 
-    return (
-      <Component id='component-flip' style={style}>
-        <View style={styles.container}>
-          <Animated.View style={[styles.animated, beforeStyle]}>
-            <View style={styles.placeholder} />
-            {React.cloneElement(children, beforeProps)}
-          </Animated.View>
-          <Animated.View style={[styles.animated, afterStyle]}>
-            <View style={styles.placeholder} />
-            {React.cloneElement(children, afterProps)}
-          </Animated.View>
-        </View>
-        <View
-          style={{
-            marginTop: -height
-          }}
-        />
-      </Component>
-    )
-  })
-}
+  return (
+    <Component id='component-flip' style={style}>
+      <View style={styles.container}>
+        <Animated.View style={[styles.animated, beforeStyle]}>
+          <View style={styles.placeholder} />
+          {React.cloneElement(children, beforeProps)}
+        </Animated.View>
+        <Animated.View style={[styles.animated, afterStyle]}>
+          <View style={styles.placeholder} />
+          {React.cloneElement(children, afterProps)}
+        </Animated.View>
+      </View>
+      <View
+        style={{
+          marginTop: -height
+        }}
+      />
+    </Component>
+  )
+})
 
 export default Flip

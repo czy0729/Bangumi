@@ -4,16 +4,16 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-09-04 04:49:15
  */
-import type { ReactNode, ViewStyle } from '@types'
+import type { WithViewStyles } from '@types'
+import type { PropsWithChildren } from 'react'
 
-export type HardwareTextureRootBlurViewProps = {
-  style?: ViewStyle
-  name?: string
-  children: ReactNode
-}
+export type HardwareTextureRootBlurViewProps = PropsWithChildren<
+  WithViewStyles<{
+    name?: string
+  }>
+>
 
-export type HardwareTextureBlurViewProps = {
-  style?: ViewStyle
+export type HardwareTextureBlurViewProps = WithViewStyles<{
   containerStyle?: any
   name?: string
-}
+}>

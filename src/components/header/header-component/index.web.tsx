@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-09-03 12:56:46
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { r } from '@utils/dev'
 import { Component } from '../../component'
 import { colors } from '../styles'
@@ -32,30 +32,28 @@ function HeaderComponent({
 }: Props) {
   r(COMPONENT)
 
-  return useObserver(() => {
-    const styles = memoStyles()
-    const color = colors[statusBarEventsType] ? colors[statusBarEventsType](fixed) : undefined
+  const styles = memoStyles()
+  const color = colors[statusBarEventsType] ? colors[statusBarEventsType](fixed) : undefined
 
-    return (
-      <Component
-        id='component-header'
-        data-mode={mode || 'normal'}
-        style={{
-          ...styles.header,
-          display: 'flex',
-          alignItems: 'center'
-        }}
-      >
-        <Transition fixed={fixed} title={title} headerTitle={headerTitle} />
-        <Component id='component-header-back'>
-          <Back navigation={navigation} color={color} onPress={onBackPress} />
-        </Component>
-        {headerLeft}
-        <Flex.Item />
-        {!!headerRight && <Component id='component-header-right'>{headerRight()}</Component>}
+  return (
+    <Component
+      id='component-header'
+      data-mode={mode || 'normal'}
+      style={{
+        ...styles.header,
+        display: 'flex',
+        alignItems: 'center'
+      }}
+    >
+      <Transition fixed={fixed} title={title} headerTitle={headerTitle} />
+      <Component id='component-header-back'>
+        <Back navigation={navigation} color={color} onPress={onBackPress} />
       </Component>
-    )
-  })
+      {headerLeft}
+      <Flex.Item />
+      {!!headerRight && <Component id='component-header-right'>{headerRight()}</Component>}
+    </Component>
+  )
 }
 
-export default HeaderComponent
+export default observer(HeaderComponent)

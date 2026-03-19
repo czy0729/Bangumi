@@ -7,3 +7,4 @@
 import { SwitchPro } from '../switch-pro'
 
 export const Switch = SwitchPro
+export default Switch

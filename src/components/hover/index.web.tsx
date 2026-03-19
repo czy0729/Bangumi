@@ -11,10 +11,10 @@ import { COMPONENT } from './ds'
 import './index.scss'
 
 import type { Props as HoverProps } from './types'
-
 export type { HoverProps }
 
-export function Hover({ style, type, children }: HoverProps) {
+/** 悬停出现 (WEB) */
+export const Hover = ({ style, type, children }: HoverProps) => {
   r(COMPONENT)
 
   return (

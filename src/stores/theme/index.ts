@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-15 12:51:28
+ * @Last Modified time: 2026-03-19 14:47:48
  */
 import { Appearance } from 'react-native'
-import { WEB } from '@constants'
+import { WEB } from '@constants/device'
 import Action from './action'
 import { DEFAULT_MODE, DEFAULT_TINYGRAIL_MODE, NAMESPACE } from './init'
 

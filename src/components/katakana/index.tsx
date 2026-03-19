@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-16 13:53:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 03:40:23
+ * @Last Modified time: 2026-03-19 01:37:44
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -15,7 +15,6 @@ import { COMPONENT } from './ds'
 
 import type { KatakanaProviderProps } from './provider'
 import type { Context, Props as KatakanaProps } from './types'
-
 export type { KatakanaProviderProps, KatakanaProps }
 
 let inited: boolean
@@ -113,5 +112,4 @@ const Katakana = class KatakanaComponent extends React.Component<KatakanaProps> 
 Katakana.Provider = KatakanaProvider
 
 export { Katakana }
-
 export default Katakana

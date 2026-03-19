@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-31 15:21:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 01:28:10
+ * @Last Modified time: 2026-03-19 03:07:43
  */
 import type { Props } from './types'
 
@@ -15,9 +15,7 @@ export function scrollToTopCallback({ scrollTo, scrollToIndex, scrollToLocation 
         y: 0,
         animated: true
       })
-    } catch (error) {
-      console.error('ScrollToTop', 'scrollTo', error)
-    }
+    } catch {}
     return
   }
 
@@ -28,9 +26,7 @@ export function scrollToTopCallback({ scrollTo, scrollToIndex, scrollToLocation 
         index: 0,
         viewOffset: 8000
       })
-    } catch (error) {
-      console.error('ScrollToTop', 'scrollToIndex', String(error))
-
+    } catch {
       try {
         scrollToLocation({
           animated: true,
@@ -39,9 +35,7 @@ export function scrollToTopCallback({ scrollTo, scrollToIndex, scrollToLocation 
           viewOffset: 800,
           viewPosition: 0
         })
-      } catch (ex) {
-        console.error('ScrollToTop', 'scrollToLocation', String(ex))
-      }
+      } catch {}
     }
   }
 }

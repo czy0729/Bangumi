@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-28 18:30:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-28 21:10:13
+ * @Last Modified time: 2026-03-19 14:51:51
  */
 import React from 'react'
 import { ActivityIndicator, Animated, TouchableOpacity, View } from 'react-native'
@@ -89,12 +89,13 @@ export default class Container extends React.Component<ToastProps, any> {
   }
 
   render() {
+    const _ = syncThemeStore()
     const { type = '', content, mask, onAnimationEnd } = this.props
     const { showClose } = this.state
+
     return (
       <WithTheme styles={this.props.styles} themeStyles={ToastStyles}>
         {styles => {
-          const _ = syncThemeStore()
           let iconDom: React.ReactElement<any> | null = null
           if (type === 'loading') {
             iconDom = (

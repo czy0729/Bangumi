@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-12-27 15:48:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-14 16:30:03
+ * @Last Modified time: 2026-03-19 02:05:12
  */
 import React from 'react'
 import { Animated, ImageBackground, useWindowDimensions, View } from 'react-native'
+import { observer } from 'mobx-react'
 import { NestedScrollViewHeader } from '@sdcx/nested-scroll'
 import { styles } from './styles'
 
@@ -15,7 +16,7 @@ import type { Props } from './types'
 const NestedScrollViewHeaderAnimated = Animated.createAnimatedComponent(NestedScrollViewHeader)
 const AnimatedImageBackground = Animated.createAnimatedComponent(ImageBackground)
 
-export function ParallaxHeader({
+function ParallaxHeader({
   height,
   topBarHeight,
   translateYUp,
@@ -94,3 +95,5 @@ export function ParallaxHeader({
     </NestedScrollViewHeaderAnimated>
   )
 }
+
+export default observer(ParallaxHeader)

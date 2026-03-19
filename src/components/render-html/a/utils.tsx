@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-05-13 05:32:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-24 16:16:57
+ * @Last Modified time: 2026-03-19 03:02:17
  */
 import React from 'react'
 import { rakuenStore, subjectStore } from '@stores'
 import { getInt } from '@stores/rakuen/utils'
 import { navigationReference, runAfter } from '@utils'
+import { logger } from '@utils/dev'
 import { IOS, WEB } from '@constants'
 import { fetchMediaQueue } from '../utils'
 import ACText from './ac-text'
@@ -54,7 +55,7 @@ export function getRawChildrenText(passProps: any) {
 
     return ''
   } catch (error) {
-    console.error('getRawChildrenText error', error)
+    logger.error('getRawChildrenText error', error)
     return ''
   }
 }
@@ -117,7 +118,7 @@ export async function getSubject({ passProps, params, href, onLinkPress }, rende
       />
     )
   } catch (error) {
-    console.error('render-html', 'a', 'utils', 'getSubject', error)
+    logger.error('render-html', 'a', 'utils', 'getSubject', error)
   }
 }
 
@@ -152,7 +153,7 @@ export async function getTopic({ passProps, params, onLinkPress }, render?: Fn) 
 
     return <Topic topicId={topicId} text={text} onLinkPress={onLinkPress} />
   } catch (error) {
-    console.error('render-html', 'a', 'utils', 'getTopic', error)
+    logger.error('render-html', 'a', 'utils', 'getTopic', error)
   }
 }
 

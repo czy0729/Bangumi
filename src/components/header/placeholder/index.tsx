@@ -5,7 +5,7 @@
  * @Last Modified time: 2025-12-01 21:14:40
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { useInsets } from '@utils/hooks'
@@ -20,7 +20,7 @@ function Placeholder({ style }: WithViewStyles) {
 
   const { headerHeight } = useInsets()
 
-  return useObserver(() => (
+  return (
     <Component
       id='component-header-placeholder'
       style={stl(
@@ -30,7 +30,7 @@ function Placeholder({ style }: WithViewStyles) {
         style
       )}
     />
-  ))
+  )
 }
 
-export default Placeholder
+export default observer(Placeholder)

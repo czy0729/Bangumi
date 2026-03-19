@@ -12,3 +12,4 @@ StatusBar.setHidden = () => {}
 StatusBar.setTranslucent = () => {}
 
 export { StatusBar }
+export default StatusBar

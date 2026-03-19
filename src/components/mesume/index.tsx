@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-06-01 19:28:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-23 23:03:00
+ * @Last Modified time: 2026-03-19 01:53:48
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { r } from '@utils/dev'
 import { ASSETS_MUSUMES } from '@constants'
 import { Component } from '../component'
@@ -13,30 +13,27 @@ import { Image } from '../image'
 import { COMPONENT } from './ds'
 
 import type { Props as MesumeProps } from './types'
-
 export type { MesumeProps }
 
 /** Bangumi 看板娘 */
-export function Mesume({ style, size = 96, index }: MesumeProps) {
+export const Mesume = observer(({ style, size = 96, index }: MesumeProps) => {
   r(COMPONENT)
 
-  return useObserver(() => {
-    // 不设置 index 就随机获取 1-7 之间的随机数
-    const currentIndex = index || Math.floor(Math.random() * 7) + 1
+  // 不设置 index 就随机获取 1-7 之间的随机数
+  const currentIndex = index || Math.floor(Math.random() * 7) + 1
 
-    return (
-      <Component id='component-mesume'>
-        <Image
-          style={style}
-          src={ASSETS_MUSUMES[currentIndex]}
-          resizeMode='contain'
-          size={size}
-          placeholder={false}
-          fadeDuration={0}
-        />
-      </Component>
-    )
-  })
-}
+  return (
+    <Component id='component-mesume'>
+      <Image
+        style={style}
+        src={ASSETS_MUSUMES[currentIndex]}
+        resizeMode='contain'
+        size={size}
+        placeholder={false}
+        fadeDuration={0}
+      />
+    </Component>
+  )
+})
 
 export default Mesume

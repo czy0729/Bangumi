@@ -15,7 +15,6 @@ import { BLURVIEW_TINT_DARK, BLURVIEW_TINT_LIGHT } from '../blur-view'
 import { COMPONENT, COMPONENT_ROOT } from './ds'
 
 import type { HardwareTextureBlurViewProps, HardwareTextureRootBlurViewProps } from './type'
-
 export type { HardwareTextureBlurViewProps, HardwareTextureRootBlurViewProps }
 
 /** 对各个平台高斯模糊层的一个写法、用途、性能的取舍的统合组件 */

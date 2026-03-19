@@ -12,11 +12,10 @@ import { Component } from '../component'
 import ScrollViewHorizontal from './scroll-view-horizontal'
 import { COMPONENT } from './ds'
 
-import type { ScrollEvent } from '@types'
-import type { Props as HorizontalListProps } from './types'
-
 export { ScrollViewHorizontal }
 
+import type { ScrollEvent } from '@types'
+import type { Props as HorizontalListProps } from './types'
 export type { HorizontalListProps }
 
 /** 通用水平移动列表 */
@@ -73,6 +72,7 @@ export const HorizontalList = observer(
       r(COMPONENT)
 
       const { style, contentContainerStyle, renderItem, renderNums } = this.props
+
       return (
         <Component id='component-horizontal-list'>
           <ScrollViewHorizontal

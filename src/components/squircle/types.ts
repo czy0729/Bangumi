@@ -5,20 +5,20 @@
  * @Last Modified time: 2023-12-11 17:05:45
  */
 import type { WithViewStyles } from '@types'
+import type { PropsWithChildren } from 'react'
 
-export type Props = WithViewStyles<{
-  /** 容器宽度 */
-  width: number
+export type Props = PropsWithChildren<
+  WithViewStyles<{
+    /** 容器宽度 */
+    width: number
 
-  /** 容器高度 */
-  height: number
+    /** 容器高度 */
+    height: number
 
-  /** 圆角大小, 会根据容器宽度, 自动计算适合比例的大小 */
-  radius: number | boolean
-
-  /** 子组件 */
-  children?: any
-}>
+    /** 圆角大小, 会根据容器宽度, 自动计算适合比例的大小 */
+    radius: number | boolean
+  }>
+>
 
 export type getMaskPathInput = {
   width: number

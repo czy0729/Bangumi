@@ -6,6 +6,7 @@
  */
 import type { EventKeys } from '@constants/events'
 import type { EventType } from '@types'
+import type Control from './control'
 
 export type Props = {
   [key: string]: string | number | boolean
@@ -16,4 +17,9 @@ export type Props = {
   transparent?: boolean
   data?: EventType
   mini?: boolean
+}
+
+export type HeatmapComponentType = {
+  (props: Props): JSX.Element
+  Control: typeof Control
 }

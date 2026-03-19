@@ -4,9 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-09 03:04:58
  */
-import type { Expand, Fn, Navigation, ReactNode, TextStyle, WithViewStyles } from '@types'
+import type Placeholder from './placeholder'
+import type Popover from './popover'
+import type { Expand, Fn, ReactNode, TextStyle, WithNavigation } from '@types'
 import type { TrackProps } from '../track'
-import type { Props as PopoverProps } from './popover/types'
 
 export type Props = {
   /** 模式 */
@@ -14,9 +15,6 @@ export type Props = {
 
   /** 是否锁定, 模式不为空时有效 */
   fixed?: boolean
-
-  /** onScroll 垂直 y 坐标, 模式不为空时有效 */
-  // y?: number
 
   /** 标题 */
   title?: string
@@ -58,26 +56,26 @@ export type Props = {
   onBackPress?: Fn
 }
 
-export interface IHeader {
+export type HeaderComponentType = {
   (props: Props): JSX.Element
-  Popover?: <ItemT extends string[] | readonly string[]>(props: PopoverProps<ItemT>) => JSX.Element
-  Placeholder?: (props: WithViewStyles) => JSX.Element
+  Placeholder: typeof Placeholder
+  Popover: typeof Popover
 }
 
 export type UpdateHeaderProps = Expand<
-  {
-    navigation: Navigation
-  } & Pick<
-    Props,
-    | 'title'
-    | 'headerTitleAlign'
-    | 'headerTitleStyle'
-    | 'headerRight'
-    | 'mode'
-    | 'fixed'
-    | 'statusBarEventsType'
-  > & {
-      headerLeft?: any
+  WithNavigation<
+    Pick<
+      Props,
+      | 'title'
+      | 'headerTitleAlign'
+      | 'headerTitleStyle'
+      | 'headerLeft'
+      | 'headerRight'
+      | 'mode'
+      | 'fixed'
+      | 'statusBarEventsType'
+    > & {
       onBackPress?: Fn
     }
+  >
 >

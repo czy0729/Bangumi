@@ -8,9 +8,9 @@ import type { Props as HoverProps } from './types'
 
 export type { HoverProps }
 
-/** [WEB] 悬停出现 */
-export function Hover({ children }: HoverProps) {
-  return children
+/** 悬停出现 (WEB) */
+export const Hover = ({ children }: HoverProps) => {
+  return <>{children}</>
 }
 
 export default Hover

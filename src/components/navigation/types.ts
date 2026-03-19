@@ -2,13 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-07-25 15:09:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-25 15:10:43
+ * @Last Modified time: 2026-03-19 01:57:33
  */
-import type { ReactNode } from '@types'
+import type { PropsWithChildren } from 'react'
 
-export type Props = {
-  children: ReactNode
-}
+export type Props = PropsWithChildren<{}>
 
 export type NavigationEventsProps = {
   /** 聚焦前，在 react-navigation@5 后，与 onDidFocus 合并，同时只使用一个即可 */

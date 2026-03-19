@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-06 06:57:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-25 21:14:25
+ * @Last Modified time: 2026-03-19 01:51:40
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
@@ -22,10 +22,10 @@ import type { Props as MenuProps } from './types'
 export type { MenuProps }
 
 /** iOS 风格菜单 */
-export function Menu({ style, title = [], desc = '', data = [], onSelect = FROZEN_FN }: MenuProps) {
-  r(COMPONENT)
+export const Menu = observer(
+  ({ style, title = [], desc = '', data = [], onSelect = FROZEN_FN }: MenuProps) => {
+    r(COMPONENT)
 
-  return useObserver(() => {
     const styles = memoStyles()
 
     return (
@@ -92,7 +92,7 @@ export function Menu({ style, title = [], desc = '', data = [], onSelect = FROZE
         </View>
       </Component>
     )
-  })
-}
+  }
+)
 
 export default Menu

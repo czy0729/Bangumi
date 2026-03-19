@@ -2,11 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-04-23 14:27:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-15 11:36:08
+ * @Last Modified time: 2026-03-19 14:49:36
  */
 import { Appearance, StyleSheet } from 'react-native'
-import { androidDayNightToggle, feedback, info, runAfter } from '@utils'
-import { IOS, WEB, WSA } from '@constants'
+import { androidDayNightToggle, feedback, info } from '@utils/ui'
+import { runAfter } from '@utils/utils'
+import { IOS } from '@constants/constants'
+import { WEB, WSA } from '@constants/device'
 import _, { IS_IOS_5_6_7_8 } from '@styles'
 import systemStore from '../system'
 import Computed from './computed'

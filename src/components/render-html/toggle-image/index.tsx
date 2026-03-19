@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-25 07:43:42
+ * @Last Modified time: 2026-03-19 03:05:44
  */
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { _, rakuenStore } from '@stores'
 import { fixedRemoteImageUrl, getStorage, open, setStorage, stl } from '@utils'
@@ -154,77 +154,75 @@ function ToggleImage(props: Props) {
     }
   }, [propSrc, hydrated, touched])
 
-  return useObserver(() => {
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    if (!isIcon && !show) {
-      return (
-        <Touchable
-          style={stl(styles.image, styles.isLoad)}
-          onPress={handleToggleShow}
-          onLongPress={handleLongPress}
-        >
-          <Flex style={styles.placeholder} direction='column' justify='center'>
-            <Text size={11} type='sub' bold>
-              {info}
-            </Text>
-            {isRemote && (
-              <Text
-                style={styles.src}
-                size={9}
-                lineHeight={10}
-                type='sub'
-                align='center'
-                numberOfLines={2}
-              >
-                {fixedRemoteImageUrl(src)}
-              </Text>
-            )}
-          </Flex>
-        </Touchable>
-      )
-    }
-
+  if (!isIcon && !show) {
     return (
-      <View
-        style={stl(styles.image, {
-          maxWidth: autoSize
-        })}
+      <Touchable
+        style={stl(styles.image, styles.isLoad)}
+        onPress={handleToggleShow}
+        onLongPress={handleLongPress}
       >
-        <Flex style={stl(!loaded && styles.isLoad)}>
-          <Flex style={styles.loading} justify='center'>
-            <ActivityIndicator size='small' color={_.colorIcon} />
-          </Flex>
-
-          {show && (
-            <View style={styles.remote}>
-              <Image
-                {...props}
-                autoSize={autoSize}
-                radius={_.radiusXs}
-                withoutFeedback
-                imageViewer={typeof src === 'string'}
-                imageViewerSrc={typeof src === 'string' ? fixedRemoteImageUrl(src) : undefined}
-                onLoadEnd={handleLoadEnd}
-                onError={handleLoadEnd}
-                onLongPress={handleLongPress}
-              />
-            </View>
+        <Flex style={styles.placeholder} direction='column' justify='center'>
+          <Text size={11} type='sub' bold>
+            {info}
+          </Text>
+          {isRemote && (
+            <Text
+              style={styles.src}
+              size={9}
+              lineHeight={10}
+              type='sub'
+              align='center'
+              numberOfLines={2}
+            >
+              {fixedRemoteImageUrl(src)}
+            </Text>
           )}
-
-          <View style={styles.close}>
-            <Touchable style={styles.closeTouch} onPress={handleToggleShow}>
-              <Flex style={styles.closeIcon} justify='center'>
-                <Iconfont size={16} name='md-close' color={_.colorIcon} />
-              </Flex>
-            </Touchable>
-          </View>
         </Flex>
-      </View>
+      </Touchable>
     )
-  })
+  }
+
+  return (
+    <View
+      style={stl(styles.image, {
+        maxWidth: autoSize
+      })}
+    >
+      <Flex style={stl(!loaded && styles.isLoad)}>
+        <Flex style={styles.loading} justify='center'>
+          <ActivityIndicator size='small' color={_.colorIcon} />
+        </Flex>
+
+        {show && (
+          <View style={styles.remote}>
+            <Image
+              {...props}
+              autoSize={autoSize}
+              radius={_.radiusXs}
+              withoutFeedback
+              imageViewer={typeof src === 'string'}
+              imageViewerSrc={typeof src === 'string' ? fixedRemoteImageUrl(src) : undefined}
+              onLoadEnd={handleLoadEnd}
+              onError={handleLoadEnd}
+              onLongPress={handleLongPress}
+            />
+          </View>
+        )}
+
+        <View style={styles.close}>
+          <Touchable style={styles.closeTouch} onPress={handleToggleShow}>
+            <Flex style={styles.closeIcon} justify='center'>
+              <Iconfont size={16} name='md-close' color={_.colorIcon} />
+            </Flex>
+          </Touchable>
+        </View>
+      </Flex>
+    </View>
+  )
 }
 
 ToggleImage.displayName = 'ToggleImage'
 
-export default ToggleImage
+export default observer(ToggleImage)

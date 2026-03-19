@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { BlurView } from 'expo-blur'
 import { _ } from '@stores'
 import { stl } from '@utils'
@@ -20,13 +20,11 @@ const BLUR = false
 function Background({ style }: WithViewStyles) {
   r(COMPONENT)
 
-  return useObserver(() =>
-    BLUR ? (
-      <BlurView style={stl(_.absoluteFill, style)} tint='dark' intensity={80} />
-    ) : (
-      <View style={stl(_.absoluteFill, _.container.plain, style)} />
-    )
+  return BLUR ? (
+    <BlurView style={stl(_.absoluteFill, style)} tint='dark' intensity={80} />
+  ) : (
+    <View style={stl(_.absoluteFill, _.container.plain, style)} />
   )
 }
 
-export default Background
+export default observer(Background)

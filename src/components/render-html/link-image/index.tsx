@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-08-22 15:23:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-17 11:04:17
+ * @Last Modified time: 2026-03-19 03:03:41
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { open, stl } from '@utils'
 import Flex from '../../flex'
@@ -15,36 +15,34 @@ import { Touchable } from '../../touchable'
 import { memoStyles } from './styles'
 
 function LinkImage({ style, src }) {
-  return useObserver(() => {
-    if (typeof src !== 'string') return null
+  if (typeof src !== 'string') return null
 
-    const styles = memoStyles()
-    const ext = src.includes('.jpg')
-      ? 'JPG'
-      : src.includes('.png')
-      ? 'PNG'
-      : src.includes('.gif')
-      ? 'GIF'
-      : 'IMG'
+  const styles = memoStyles()
+  const ext = src.includes('.jpg')
+    ? 'JPG'
+    : src.includes('.png')
+    ? 'PNG'
+    : src.includes('.gif')
+    ? 'GIF'
+    : 'IMG'
 
-    return (
-      <Touchable
-        style={stl(style, styles.img)}
-        onPress={() => {
-          open(src)
-        }}
-      >
-        <Flex style={styles.content}>
-          <Flex.Item>
-            <Text type='sub' size={12} numberOfLines={1}>
-              [{ext}] {src}
-            </Text>
-          </Flex.Item>
-          <Iconfont style={_.ml.xs} name='md-open-in-new' size={16} />
-        </Flex>
-      </Touchable>
-    )
-  })
+  return (
+    <Touchable
+      style={stl(style, styles.img)}
+      onPress={() => {
+        open(src)
+      }}
+    >
+      <Flex style={styles.content}>
+        <Flex.Item>
+          <Text type='sub' size={12} numberOfLines={1}>
+            [{ext}] {src}
+          </Text>
+        </Flex.Item>
+        <Iconfont style={_.ml.xs} name='md-open-in-new' size={16} />
+      </Flex>
+    </Touchable>
+  )
 }
 
-export default LinkImage
+export default observer(LinkImage)

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-12-12 22:09:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-16 20:34:07
+ * @Last Modified time: 2026-03-19 01:50:55
  */
 import React from 'react'
 import Animated from 'react-native-reanimated'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { _ } from '@stores'
 import { stl } from '@utils'
@@ -17,14 +17,13 @@ import { COMPONENT, DARK_THEME, LIGHT_THEME } from './ds'
 import { styles } from './styles'
 
 import type { MaskProps } from './types'
-
 export type { MaskProps }
 
 /** 兼容不同客户端的全屏遮罩 */
-export function Mask({ style, linear, onPress }: MaskProps) {
+export const Mask = observer(({ style, linear, onPress }: MaskProps) => {
   r(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <Component id='component-mask'>
       {linear ? (
         <LinearGradient
@@ -38,7 +37,7 @@ export function Mask({ style, linear, onPress }: MaskProps) {
 
       <Touchable style={styles.press} useRN ripple={false} onPress={onPress} />
     </Component>
-  ))
-}
+  )
+})
 
 export default Mask

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-08-13 05:16:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-19 11:00:09
+ * @Last Modified time: 2026-03-19 02:59:33
  */
 import React, { useCallback } from 'react'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { feedback, stl } from '@utils'
 import { syncRakuenStore, syncUIStore } from '@utils/async'
@@ -56,11 +56,11 @@ function ACText({ navigation, style, subjectId, text, onPress }: Props) {
     [navigation, onPress, subjectId, text]
   )
 
-  return useObserver(() => (
+  return (
     <Text style={stl(WEB && _.mr.xxs, style)} underline onPress={handlePress}>
       {text}
     </Text>
-  ))
+  )
 }
 
-export default ACText
+export default observer(ACText)

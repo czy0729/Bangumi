@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-11-30 04:24:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 11:19:46
+ * @Last Modified time: 2026-03-19 01:45:51
  */
 import React, { useCallback, useMemo, useRef } from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { Flex } from '../../flex'
 import { StorybookScroll } from '../../storybook'
 import { styles } from './styles'
@@ -55,76 +55,74 @@ function List({
     [ListHeaderComponent]
   )
 
-  return useObserver(() => {
-    let content: ReactNode
-    if (sections) {
-      content = sections.map((section: any, index: number) => (
-        <View key={`section-${index}`} style={_.container.block}>
-          {renderSectionHeader({ section })}
-          {(section.data || [])
-            .map((item: any) => {
-              const element = renderItem({
-                item,
-                section
+  let content: ReactNode
+  if (sections) {
+    content = sections.map((section: any, index: number) => (
+      <View key={`section-${index}`} style={_.container.block}>
+        {renderSectionHeader({ section })}
+        {(section.data || [])
+          .map((item: any) => {
+            const element = renderItem({
+              item,
+              section
+            })
+
+            if (element) {
+              const key =
+                typeof keyExtractor === 'function'
+                  ? `section-item-${keyExtractor(item, index)}`
+                  : `section-item-${index}`
+
+              return React.cloneElement(element, {
+                key
               })
-
-              if (element) {
-                const key =
-                  typeof keyExtractor === 'function'
-                    ? `section-item-${keyExtractor(item, index)}`
-                    : `section-item-${index}`
-
-                return React.cloneElement(element, {
-                  key
-                })
-              }
-              return null
-            })
-            .filter((item: any) => !!item)}
-        </View>
-      ))
-    } else {
-      content = data
-        .map((item: any, index: number) => {
-          const element = renderItem({
-            item,
-            index
+            }
+            return null
           })
-          if (element) {
-            const key =
-              typeof keyExtractor === 'function'
-                ? `list-item-${keyExtractor(item, index)}`
-                : `list-item-${index}`
-
-            return React.cloneElement(element, {
-              key
-            })
-          }
-          return null
+          .filter((item: any) => !!item)}
+      </View>
+    ))
+  } else {
+    content = data
+      .map((item: any, index: number) => {
+        const element = renderItem({
+          item,
+          index
         })
-        .filter(item => !!item)
-    }
+        if (element) {
+          const key =
+            typeof keyExtractor === 'function'
+              ? `list-item-${keyExtractor(item, index)}`
+              : `list-item-${index}`
 
-    return (
-      <StorybookScroll
-        style={contentContainerStyle}
-        scrollEnabled={scrollEnabled}
-        inverted={inverted}
-        onScroll={onScroll}
-        onFooterRefresh={handleFooterRefresh}
-      >
-        {elListHeader}
-        {numColumns > 1 ? (
-          <Flex style={styles.columnsContainer} wrap='wrap'>
-            {content}
-          </Flex>
-        ) : (
-          content
-        )}
-        {showFooter !== false && renderFooter}
-      </StorybookScroll>
-    )
-  })
+          return React.cloneElement(element, {
+            key
+          })
+        }
+        return null
+      })
+      .filter(item => !!item)
+  }
+
+  return (
+    <StorybookScroll
+      style={contentContainerStyle}
+      scrollEnabled={scrollEnabled}
+      inverted={inverted}
+      onScroll={onScroll}
+      onFooterRefresh={handleFooterRefresh}
+    >
+      {elListHeader}
+      {numColumns > 1 ? (
+        <Flex style={styles.columnsContainer} wrap='wrap'>
+          {content}
+        </Flex>
+      ) : (
+        content
+      )}
+      {showFooter !== false && renderFooter}
+    </StorybookScroll>
+  )
 }
 
-export default List
+export default observer(List)

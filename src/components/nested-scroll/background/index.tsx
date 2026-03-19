@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2026-03-14 05:54:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-14 17:34:34
+ * @Last Modified time: 2026-03-19 02:04:03
  */
 import React from 'react'
 import { Animated } from 'react-native'
+import { observer } from 'mobx-react'
 import { styles } from './styles'
 
 import type { Props } from './types'
 
-export function Background({ height, scroll, children }: Props) {
+function Background({ height, scroll, children }: Props) {
   return (
     <Animated.View
       style={[
@@ -33,3 +34,5 @@ export function Background({ height, scroll, children }: Props) {
     </Animated.View>
   )
 }
+
+export default observer(Background)

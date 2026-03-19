@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-13 00:04:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 03:41:54
+ * @Last Modified time: 2026-03-19 01:38:18
  */
 import React, { Component } from 'react'
 import { Dimensions, Keyboard, LayoutAnimation, UIManager, View } from 'react-native'
@@ -13,7 +13,6 @@ import { COMPONENT, DEFAULT_ANIMATION } from './ds'
 import { styles } from './styles'
 
 import type { Props as KeyboardSpacerProps } from './types'
-
 export type { KeyboardSpacerProps }
 
 // 注意如果要在 Android 上使用此动画，则需要在代码中启用

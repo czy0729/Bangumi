@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-05-05 19:38:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-27 15:54:04
+ * @Last Modified time: 2026-03-19 14:28:39
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { Flex } from '../flex'
@@ -18,7 +18,7 @@ import { memoStyles } from './styles'
 import type { PopoverData } from '../popover'
 import type { ToolBarPopoverProps } from './types'
 
-export function ToolBarPopover<Data extends PopoverData>({
+function ToolBarPopover<Data extends PopoverData>({
   style,
   itemStyle,
   data,
@@ -31,21 +31,21 @@ export function ToolBarPopover<Data extends PopoverData>({
   transparent,
   onSelect
 }: ToolBarPopoverProps<Data>) {
-  return useObserver(() => {
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    return (
-      <Popover style={stl(styles.touch, style)} data={data} onSelect={onSelect}>
-        <Flex style={stl(styles.item, transparent && styles.opacity, itemStyle)} justify='center'>
-          {!!icon && <Iconfont name={icon} size={iconSize} color={iconColor} />}
-          {!!text && (
-            <Text style={stl(icon && _.ml.xs)} type={type} size={12} bold noWrap selectable={false}>
-              {text}
-            </Text>
-          )}
-        </Flex>
-        {!!heatmap && <Heatmap id={heatmap} />}
-      </Popover>
-    )
-  })
+  return (
+    <Popover style={stl(styles.touch, style)} data={data} onSelect={onSelect}>
+      <Flex style={stl(styles.item, transparent && styles.opacity, itemStyle)} justify='center'>
+        {!!icon && <Iconfont name={icon} size={iconSize} color={iconColor} />}
+        {!!text && (
+          <Text style={stl(icon && _.ml.xs)} type={type} size={12} bold noWrap selectable={false}>
+            {text}
+          </Text>
+        )}
+      </Flex>
+      {!!heatmap && <Heatmap id={heatmap} />}
+    </Popover>
+  )
 }
+
+export default observer(ToolBarPopover)

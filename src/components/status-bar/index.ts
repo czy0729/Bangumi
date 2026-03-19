@@ -10,3 +10,5 @@ export {
   /** 状态栏 */
   StatusBar
 }
+
+export default StatusBar

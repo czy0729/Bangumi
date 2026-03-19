@@ -6,8 +6,8 @@
  */
 import React from 'react'
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated'
+import { observer } from 'mobx-react'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import { ScrollView } from '../../scroll-view'
 import { Text } from '../../text'
 import { COMPONENT } from './ds'
@@ -41,27 +41,21 @@ function Transition({ fixed, title, headerTitle }: Props) {
     [fixed]
   )
 
-  return useObserver(() => {
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    return (
-      <Animated.View style={[styles.view, wrapStyles]}>
-        <Animated.View style={[styles.body, title && styles.bodyTitle, bodyStyles]}>
-          {headerTitle || (
-            <ScrollView
-              style={styles.scrollView}
-              contentContainerStyle={styles.container}
-              horizontal
-            >
-              <Text style={styles.text} size={15} numberOfLines={1}>
-                {title}
-              </Text>
-            </ScrollView>
-          )}
-        </Animated.View>
+  return (
+    <Animated.View style={[styles.view, wrapStyles]}>
+      <Animated.View style={[styles.body, title && styles.bodyTitle, bodyStyles]}>
+        {headerTitle || (
+          <ScrollView style={styles.scrollView} contentContainerStyle={styles.container} horizontal>
+            <Text style={styles.text} size={15} numberOfLines={1}>
+              {title}
+            </Text>
+          </ScrollView>
+        )}
       </Animated.View>
-    )
-  })
+    </Animated.View>
+  )
 }
 
-export default Transition
+export default observer(Transition)

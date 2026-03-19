@@ -4,9 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-11-29 15:25:45
  */
+import type { PropsWithChildren } from 'react'
 import type { WithViewStyles } from '@types'
 
-export type Props = WithViewStyles<{
-  type?: '' | 'main' | 'warning' | 'primary' | 'desc'
-  children: any
-}>
+export type Props = PropsWithChildren<
+  WithViewStyles<{
+    type?: '' | 'main' | 'warning' | 'primary' | 'desc'
+  }>
+>

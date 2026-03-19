@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-05-13 05:12:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-24 16:28:36
+ * @Last Modified time: 2026-03-19 03:01:48
  */
 import React, { useEffect, useState } from 'react'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { rakuenStore } from '@stores'
 import { matchBgmLink } from '@utils'
 import { WEB } from '@constants'
@@ -56,33 +56,31 @@ function A({ style, attrs = {}, passProps, children, onPress, ...other }: Props)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  return useObserver(() => {
-    if (el) return el
+  if (el) return el
 
-    const childrens = React.Children.toArray(children)
-    if (
-      childrens?.length === 1 &&
-      // @ts-expect-error
-      childrens?.[0]?.type?.displayName === 'ToggleImage'
-    ) {
-      return childrens[0]
-    }
+  const childrens = React.Children.toArray(children)
+  if (
+    childrens?.length === 1 &&
+    // @ts-expect-error
+    childrens?.[0]?.type?.displayName === 'ToggleImage'
+  ) {
+    return childrens[0]
+  }
 
-    return (
-      <Text
-        style={style}
-        underline={!WEB}
-        {...other}
-        onPress={() => {
-          setTimeout(() => {
-            onPress(null, href)
-          }, 80)
-        }}
-      >
-        {filterChildren(childrens)}
-      </Text>
-    )
-  })
+  return (
+    <Text
+      style={style}
+      underline={!WEB}
+      {...other}
+      onPress={() => {
+        setTimeout(() => {
+          onPress(null, href)
+        }, 80)
+      }}
+    >
+      {filterChildren(childrens)}
+    </Text>
+  )
 }
 
-export default A
+export default observer(A)

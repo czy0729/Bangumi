@@ -2,22 +2,20 @@
  * @Author: czy0729
  * @Date: 2023-02-28 16:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-07 17:51:06
+ * @Last Modified time: 2026-03-19 14:38:22
  */
-import React, { useRef, useCallback } from 'react'
+import React, { useCallback, useRef } from 'react'
 import { View } from 'react-native'
-import GenericTouchable, {
-  TOUCHABLE_STATE
-} from 'react-native-gesture-handler/src/components/touchables/GenericTouchable'
+import GenericTouchable, { TOUCHABLE_STATE } from 'react-native-gesture-handler/src/components/touchables/GenericTouchable'
 import Animated, {
-  useSharedValue,
+  Easing,
   useAnimatedStyle,
-  withTiming,
-  Easing
+  useSharedValue,
+  withTiming
 } from 'react-native-reanimated'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { stl } from '@utils'
-import { separateStyles } from './utils'
+import { separateStyles } from '../utils'
 
 const duration = 96
 
@@ -138,23 +136,22 @@ function TouchableAnimated({
     }, duration + 16)
   }, [onAnimateStart, onAnimateEnd, onPress])
 
-  return useObserver(() => {
-    const _styles = separateStyles(style)
-    return (
-      <Animated.View style={stl(_styles.containerStyle, containerStyle)}>
-        <GenericTouchable
-          style={_styles.style}
-          {...other}
-          delayPressIn={64}
-          onStateChange={onStateChange}
-          onPressOut={onStateChange}
-          onPress={_onPress}
-        >
-          <View>{children}</View>
-        </GenericTouchable>
-      </Animated.View>
-    )
-  })
+  const _styles = separateStyles(style)
+
+  return (
+    <Animated.View style={stl(_styles.containerStyle, containerStyle)}>
+      <GenericTouchable
+        style={_styles.style}
+        {...other}
+        delayPressIn={64}
+        onStateChange={onStateChange}
+        onPressOut={onStateChange}
+        onPress={_onPress}
+      >
+        <View>{children}</View>
+      </GenericTouchable>
+    </Animated.View>
+  )
 }
 
-export default TouchableAnimated
+export default observer(TouchableAnimated)

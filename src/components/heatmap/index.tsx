@@ -6,15 +6,15 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { systemStore } from '@stores'
 import { formatNumber, toFixed } from '@utils'
 import { Text } from '../text'
-import { Control } from './control'
-import { PageText } from './page-text'
+import Control from './control'
+import PageText from './page-text'
 import { memoStyles } from './styles'
 
-import type { Props as HeatmapProps } from './types'
+import type { HeatmapComponentType, Props as HeatmapProps } from './types'
 export type { HeatmapProps }
 
 const heatmapEventData = {}
@@ -23,24 +23,24 @@ const heatmapData = {
 }
 const totalWithoutView = (heatmapData?.total || 0) - heatmapData['其他.查看']
 
-/** [DEV] 事件热力区域可视化 */
-function Heatmap({
-  right = 1,
-  bottom = 1,
-  transparent,
-  id = '',
-  screen,
-  mini,
+/** 事件热力区域可视化 (DEV) */
+const Heatmap = observer(
+  ({
+    right = 1,
+    bottom = 1,
+    transparent,
+    id = '',
+    screen,
+    mini,
 
-  // @todo data里面通常都是title, to, alias, 后来避免rerender每次生成新Object, 把这些key都拆开单独传
-  data = {},
-  title,
-  to,
-  alias,
-  from,
-  type
-}: HeatmapProps) {
-  return useObserver(() => {
+    // @todo data 里面通常都是 title, to, alias, 后来避免 rerender 每次生成新 Object, 把这些 key 都拆开单独传
+    data = {},
+    title,
+    to,
+    alias,
+    from,
+    type
+  }: HeatmapProps) => {
     const { enabled, grid, text, sum, mini: devEventMini } = systemStore.devEvent
     if (!enabled || (!grid && !text && !sum && !devEventMini)) return null
 
@@ -105,6 +105,7 @@ function Heatmap({
     const eventCount = formatNumber(count / 30, count >= 30 || count === 0 ? 0 : 1)
     const eventAppPercent = count !== 0 ? ` / ${percent}%` : ''
     const eventPagePercent = percentTo && percentTo !== percent ? ` (${percentTo}%)` : ''
+
     return (
       <>
         {!!grid && !isPage && !transparent && (
@@ -136,11 +137,10 @@ function Heatmap({
         )}
       </>
     )
-  })
-}
+  }
+) as unknown as HeatmapComponentType
 
 Heatmap.Control = Control
 
 export { Heatmap }
-
 export default Heatmap

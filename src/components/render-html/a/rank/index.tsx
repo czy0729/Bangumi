@@ -2,26 +2,26 @@
  * @Author: czy0729
  * @Date: 2023-02-15 05:54:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-19 08:07:00
+ * @Last Modified time: 2026-03-19 03:00:38
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { systemStore } from '@stores'
 import { Text } from '../../../text'
 import { memoStyles } from './styles'
 
-function Rank({ value }: { value: string | number }) {
-  return useObserver(() => {
-    if (systemStore.setting.hideScore || !value) return null
+import type { Props } from './types'
 
-    const styles = memoStyles()
+function Rank({ value }: Props) {
+  if (systemStore.setting.hideScore || !value) return null
 
-    return (
-      <Text style={styles.rank} size={9} lineHeight={10} bold align='center'>
-        {value}
-      </Text>
-    )
-  })
+  const styles = memoStyles()
+
+  return (
+    <Text style={styles.rank} size={9} lineHeight={10} bold align='center'>
+      {value}
+    </Text>
+  )
 }
 
-export default Rank
+export default observer(Rank)

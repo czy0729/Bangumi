@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-06 13:01:20
+ * @Last Modified time: 2026-03-19 14:46:25
  */
 import { err, hm, t, ua, withT } from '../track'
 import { baiduTranslate } from './baidu'
@@ -12,28 +12,19 @@ import { queue, safe } from './utils'
 import { ping, xhr, xhrCustom } from './xhr'
 
 export {
-  // track
-  hm,
-  ua,
+  baiduTranslate,
   err,
-  t,
-  withT,
-
-  // fetch
   fetchAPI,
   fetchHTML,
-
-  // xhr
-  xhr,
-  xhrCustom,
+  hm,
   ping,
-
-  // baidu
-  baiduTranslate,
-
-  // utils
   queue,
-  safe
+  safe,
+  t,
+  ua,
+  withT,
+  xhr,
+  xhrCustom
 }
 
 export default fetchAPI

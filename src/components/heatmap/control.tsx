@@ -6,81 +6,81 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { Text } from '../text'
 import { memoStyles } from './styles'
 
-export function Control() {
-  return useObserver(() => {
-    const { enabled, grid, text, sum, mini } = systemStore.devEvent
-    if (!enabled) return null
+function Control() {
+  const { enabled, grid, text, sum, mini } = systemStore.devEvent
+  if (!enabled) return null
 
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    return (
-      <View style={styles.control} pointerEvents='none'>
-        <Text
-          style={styles.controlItem}
-          type={grid ? 'warning' : '__plain__'}
-          size={10}
-          bold
-          align='center'
-          onPress={() => systemStore.toggleDevEvent('grid')}
-        >
-          Grid
-        </Text>
-        <Text
-          style={styles.controlItem}
-          type={text ? 'warning' : '__plain__'}
-          size={10}
-          bold
-          align='right'
-          onPress={() => systemStore.toggleDevEvent('text')}
-        >
-          Text
-        </Text>
-        <Text
-          style={styles.controlItem}
-          type={sum ? 'warning' : '__plain__'}
-          size={10}
-          bold
-          align='right'
-          onPress={() => systemStore.toggleDevEvent('sum')}
-        >
-          Sum
-        </Text>
-        <Text
-          style={styles.controlItem}
-          type={mini ? 'warning' : '__plain__'}
-          size={10}
-          bold
-          align='right'
-          onPress={() => systemStore.toggleDevEvent('mini')}
-        >
-          Mini
-        </Text>
-        <Text
-          style={styles.controlItem}
-          type={_.select('__plain__', 'warning')}
-          size={10}
-          bold
-          align='center'
-          onPress={() => _.toggleMode()}
-        >
-          Dark
-        </Text>
-        <Text
-          style={styles.controlItem}
-          type={systemStore.dev ? 'warning' : '__plain__'}
-          size={10}
-          bold
-          align='center'
-          onPress={systemStore.toggleDev}
-        >
-          Dev
-        </Text>
-      </View>
-    )
-  })
+  return (
+    <View style={styles.control} pointerEvents='none'>
+      <Text
+        style={styles.controlItem}
+        type={grid ? 'warning' : '__plain__'}
+        size={10}
+        bold
+        align='center'
+        onPress={() => systemStore.toggleDevEvent('grid')}
+      >
+        Grid
+      </Text>
+      <Text
+        style={styles.controlItem}
+        type={text ? 'warning' : '__plain__'}
+        size={10}
+        bold
+        align='right'
+        onPress={() => systemStore.toggleDevEvent('text')}
+      >
+        Text
+      </Text>
+      <Text
+        style={styles.controlItem}
+        type={sum ? 'warning' : '__plain__'}
+        size={10}
+        bold
+        align='right'
+        onPress={() => systemStore.toggleDevEvent('sum')}
+      >
+        Sum
+      </Text>
+      <Text
+        style={styles.controlItem}
+        type={mini ? 'warning' : '__plain__'}
+        size={10}
+        bold
+        align='right'
+        onPress={() => systemStore.toggleDevEvent('mini')}
+      >
+        Mini
+      </Text>
+      <Text
+        style={styles.controlItem}
+        type={_.select('__plain__', 'warning')}
+        size={10}
+        bold
+        align='center'
+        onPress={() => _.toggleMode()}
+      >
+        Dark
+      </Text>
+      <Text
+        style={styles.controlItem}
+        type={systemStore.dev ? 'warning' : '__plain__'}
+        size={10}
+        bold
+        align='center'
+        onPress={systemStore.toggleDev}
+      >
+        Dev
+      </Text>
+    </View>
+  )
 }
+
+export default observer(Control)

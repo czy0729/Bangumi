@@ -4,12 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-03-28 05:39:05
  */
-import type { Fn } from '@types'
-
 export type Props = {
   height: number
-  onAnimated?: Fn
-  children: any
+  onAnimated?: () => void
+  children: JSX.Element
 } & {
   [key: string]: any
 }

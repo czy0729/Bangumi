@@ -2,11 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-04-07 06:57:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-07 07:00:18
+ * @Last Modified time: 2026-03-19 01:52:17
  */
 import React from 'react'
 import { StorybookPage } from '@components/storybook'
-import { Menu as Component, MenuProps as Props } from './index'
+import { Menu as Component } from './index'
+
+import type { MenuProps as Props } from './index'
 
 export default {
   title: 'components/Menu',

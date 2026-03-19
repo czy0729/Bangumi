@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-11-09 03:15:16
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { useNavigation } from '@utils/hooks'
@@ -20,13 +20,13 @@ import type { Props } from './type'
 function Back({ style, color, onPress }: Props) {
   const navigation = useNavigation(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <Touchable style={stl(styles.touch, style)} onPress={onPress || navigation?.goBack}>
       <Flex style={styles.icon} justify='center'>
         <Iconfont name='md-arrow-back' color={color || _.colorTitle} />
       </Flex>
     </Touchable>
-  ))
+  )
 }
 
-export default Back
+export default observer(Back)

@@ -5,10 +5,10 @@
  * @Last Modified time: 2023-02-28 16:43:56
  */
 import React from 'react'
-import { View, TouchableHighlight as RNTouchableHighlight } from 'react-native'
+import { TouchableHighlight as RNTouchableHighlight, View } from 'react-native'
 import { TouchableHighlight as GHTouchableHighlight } from 'react-native-gesture-handler'
 import { _ } from '@stores'
-import { styles } from './utils'
+import { styles } from '../utils'
 
 function TouchableHighlight({ style, useRN, children, ...other }) {
   if (useRN) {

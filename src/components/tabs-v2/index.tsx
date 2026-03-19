@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-01-23 05:35:48
  */
 import React, { useCallback, useMemo } from 'react'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { SceneMap, TabBar, TabView } from '@components/@'
 import { _ } from '@stores'
 import { stl } from '@utils'
@@ -17,46 +17,45 @@ import { Text } from '../text'
 import { ANDROID_RIPPLE, COMPONENT } from './ds'
 import { memoStyles, W_INDICATOR } from './styles'
 
-import type { Props as TabsV2Props, Route } from './types'
-
 export { TabView, TabBar, SceneMap }
 
+import type { Props as TabsV2Props, Route } from './types'
 export type { TabsV2Props }
 
 /** 通用选项卡 */
-export function TabsV2<T extends Route>({
-  routes = [],
-  tabBarLength,
-  page = 0,
-  lazy = true,
-  textColor,
-  backgroundColor,
-  borderBottomColor,
-  underlineColor,
-  renderItem,
-  renderLabel,
-  onChange = FROZEN_FN,
-  ...other
-}: TabsV2Props<T>) {
-  r(COMPONENT)
+export const TabsV2 = observer(
+  <T extends Route>({
+    routes = [],
+    tabBarLength,
+    page = 0,
+    lazy = true,
+    textColor,
+    backgroundColor,
+    borderBottomColor,
+    underlineColor,
+    renderItem,
+    renderLabel,
+    onChange = FROZEN_FN,
+    ...other
+  }: TabsV2Props<T>) => {
+    r(COMPONENT)
 
-  const renderScene = useMemo(() => {
-    const map: Record<string, () => JSX.Element> = {}
-    routes.forEach((route, index) => {
-      if (route.key) {
-        map[route.key] = () => renderItem(route, index)
-      }
-    })
+    const renderScene = useMemo(() => {
+      const map: Record<string, () => JSX.Element> = {}
+      routes.forEach((route, index) => {
+        if (route.key) {
+          map[route.key] = () => renderItem(route, index)
+        }
+      })
 
-    return SceneMap(map)
-  }, [renderItem, routes])
+      return SceneMap(map)
+    }, [renderItem, routes])
 
-  const tabWidth = useMemo(() => {
-    const length = tabBarLength ?? routes.length
-    return length >= 10 ? _.window.width / 3.6 : _.window.width / length
-  }, [routes.length, tabBarLength])
+    const tabWidth = useMemo(() => {
+      const length = tabBarLength ?? routes.length
+      return length >= 10 ? _.window.width / 3.6 : _.window.width / length
+    }, [routes.length, tabBarLength])
 
-  return useObserver(() => {
     const styles = memoStyles()
 
     const handleRenderLabel = useCallback(
@@ -67,7 +66,7 @@ export function TabsV2<T extends Route>({
           </Text>
         </Flex>
       ),
-      [styles]
+      [styles, textColor]
     )
 
     return (
@@ -108,7 +107,7 @@ export function TabsV2<T extends Route>({
         />
       </Component>
     )
-  })
-}
+  }
+)
 
 export default TabsV2

@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2023-04-12 08:18:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-12 10:51:40
+ * @Last Modified time: 2026-03-18 19:05:45
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 
 import type { WithViewStyles } from '@types'
 
 function Placeholder({ style }: WithViewStyles) {
-  return useObserver(() => <View style={style} />)
+  return <View style={style} />
 }
 
-export default Placeholder
+export default observer(Placeholder)

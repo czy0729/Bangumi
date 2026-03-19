@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-05-01 14:26:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-16 21:56:13
+ * @Last Modified time: 2026-03-19 02:22:13
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { useFocusEffect } from '@react-navigation/native'
 import { _ } from '@stores'
 import { stl } from '@utils'
@@ -19,32 +19,32 @@ import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 import type { Props as PageProps } from './types'
-
 export type { PageProps }
 
 /** 页面容器 */
-export function Page({
-  style,
-  loaded,
-  loadingColor,
-  backgroundColor,
-  loading,
-  children,
-  statusBarEvent = true,
-  ...other
-}: PageProps) {
-  r(COMPONENT)
+export const Page = observer(
+  ({
+    style,
+    loaded,
+    loadingColor,
+    backgroundColor,
+    loading,
+    children,
+    statusBarEvent = true,
+    ...other
+  }: PageProps) => {
+    r(COMPONENT)
 
-  useFocusEffect(
-    useCallback(() => {
-      if (IOS && statusBarEvent) {
-        StatusBar.setBarStyle(_.isDark ? 'light-content' : 'dark-content')
-      }
-    }, [statusBarEvent])
-  )
+    useFocusEffect(
+      useCallback(() => {
+        if (IOS && statusBarEvent) {
+          StatusBar.setBarStyle(_.isDark ? 'light-content' : 'dark-content')
+        }
+      }, [statusBarEvent])
+    )
 
-  return useObserver(() => {
     const _style = stl(_.container.plain, style)
+
     if (loaded || loaded === undefined) {
       return (
         <ErrorBoundary style={_style}>
@@ -61,7 +61,7 @@ export function Page({
     }
 
     return <Loading style={_style} color={loadingColor} backgroundColor={backgroundColor} />
-  })
-}
+  }
+)
 
 export default Page

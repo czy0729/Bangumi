@@ -4,14 +4,14 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-09 03:15:27
  */
-import type { ColorValue, Fn, Navigation, WithViewStyles } from '@types'
+import type { ColorValue, Fn, WithNavigation, WithViewStyles } from '@types'
 
-export type Props = WithViewStyles<{
-  navigation: Navigation
+export type Props = WithNavigation<
+  WithViewStyles<{
+    /** 箭头颜色 */
+    color?: ColorValue
 
-  /** 箭头颜色 */
-  color?: ColorValue
-
-  /** 点击回调 */
-  onPress?: Fn
-}>
+    /** 点击回调 */
+    onPress?: Fn
+  }>
+>

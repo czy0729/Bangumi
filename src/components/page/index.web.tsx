@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-05-31 17:16:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-19 12:44:22
+ * @Last Modified time: 2026-03-19 02:22:45
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
@@ -16,21 +16,20 @@ import { COMPONENT } from './ds'
 import './index.scss'
 
 import type { Props as PageProps } from './types'
-
 export type { PageProps }
 
-export function Page({
-  style,
-  loaded,
-  loadingColor,
-  backgroundColor,
-  statusBarEvent,
-  children,
-  ...other
-}: PageProps) {
-  r(COMPONENT)
+export const Page = observer(
+  ({
+    style,
+    loaded,
+    loadingColor,
+    backgroundColor,
+    statusBarEvent,
+    children,
+    ...other
+  }: PageProps) => {
+    r(COMPONENT)
 
-  return useObserver(() => {
     const _style = stl(_.container.plain, style)
 
     return (
@@ -44,7 +43,7 @@ export function Page({
         </Component>
       </ErrorBoundary>
     )
-  })
-}
+  }
+)
 
 export default Page

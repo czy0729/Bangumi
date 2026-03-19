@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-11-30 04:24:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-17 11:29:05
+ * @Last Modified time: 2026-03-19 01:45:11
  */
 import React from 'react'
 import { FlatList, SectionList } from 'react-native'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import EnteringExiting from '../entering-exiting'
 import { AnimatedFlatList, AnimatedSectionList } from './ds'
 
@@ -21,31 +21,29 @@ function List<ItemT>({
   data,
   ...other
 }: ListProps<ItemT>) {
-  return useObserver(() => {
-    const passProps: any = {
-      ref: connectRef,
-      removeClippedSubviews: true,
-      ...other,
-      overScrollMode: 'always',
-      alwaysBounceHorizontal: false,
-      alwaysBounceVertical: false,
-      legacyImplementation: false
-    }
-    let Component: any
+  const passProps: any = {
+    ref: connectRef,
+    removeClippedSubviews: true,
+    ...other,
+    overScrollMode: 'always',
+    alwaysBounceHorizontal: false,
+    alwaysBounceVertical: false,
+    legacyImplementation: false
+  }
+  let Component: any
 
-    if (skipEnteringExitingAnimations) {
-      passProps.data = data
-      Component = EnteringExiting
-    } else if (sections) {
-      passProps.sections = sections
-      Component = animated ? AnimatedSectionList : SectionList
-    } else {
-      passProps.data = data
-      Component = animated ? AnimatedFlatList : FlatList
-    }
+  if (skipEnteringExitingAnimations) {
+    passProps.data = data
+    Component = EnteringExiting
+  } else if (sections) {
+    passProps.sections = sections
+    Component = animated ? AnimatedSectionList : SectionList
+  } else {
+    passProps.data = data
+    Component = animated ? AnimatedFlatList : FlatList
+  }
 
-    return <Component {...passProps} />
-  })
+  return <Component {...passProps} />
 }
 
-export default List
+export default observer(List)

@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2025-04-21 23:01:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-21 23:48:21
+ * @Last Modified time: 2026-03-18 22:40:29
  */
 import React from 'react'
-import { SegmentedControl, SegmentedControlProps } from '@components'
+import { SegmentedControl } from '@components'
 import { _ } from '@stores'
-import { DataSource } from '@types'
+
+import type { SegmentedControlProps } from '@components'
+import type { DataSource } from '@types'
 
 function TinygrailSegmentedControl<T extends DataSource>(props: SegmentedControlProps<T>) {
   return (

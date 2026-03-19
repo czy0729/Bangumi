@@ -5,7 +5,7 @@
  * @Last Modified time: 2025-02-17 12:51:56
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
 import { IOS, WEB } from '@constants'
@@ -15,24 +15,23 @@ import { COMPONENT } from './ds'
 
 import type { StatusBarStyle } from 'react-native'
 import type { PassProps, Props as StatusBarEventsProps } from './types'
-
 export type { StatusBarEventsProps }
 
 /**
  * @deprecated tabbar 前面几个页面不会二次渲染, 需要使用 NavigationEvents 的订阅来改变 StatusBar 的颜色
  * @doc https://reactnavigation.org/docs/en/navigation-events.html
  * */
-export function StatusBarEvents({
-  tinygrail = false,
-  backgroundColor = '#ffffff',
-  barStyle = 'dark-content',
-  translucent = false,
-  animated = IOS,
-  action = 'onDidFocus'
-}: StatusBarEventsProps) {
-  r(COMPONENT)
+export const StatusBarEvents = observer(
+  ({
+    tinygrail = false,
+    backgroundColor = '#ffffff',
+    barStyle = 'dark-content',
+    translucent = false,
+    animated = IOS,
+    action = 'onDidFocus'
+  }: StatusBarEventsProps) => {
+    r(COMPONENT)
 
-  return useObserver(() => {
     if (WEB) return null
 
     let _barStyle: StatusBarStyle
@@ -66,7 +65,7 @@ export function StatusBarEvents({
         <NavigationEvents {...props} />
       </>
     )
-  })
-}
+  }
+)
 
 export default StatusBarEvents

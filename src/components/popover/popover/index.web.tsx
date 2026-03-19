@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-05-26 08:53:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-05 17:00:42
+ * @Last Modified time: 2026-03-19 02:55:04
  */
 import React, { useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
@@ -27,6 +27,7 @@ function Popover({ children, ...other }) {
 
   const overlayElement = useMemo(() => {
     const menuTitle = title ? [title] : []
+
     return (
       <Menu
         title={menuTitle.length ? menuTitle : undefined}

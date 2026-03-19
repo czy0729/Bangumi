@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import Svg, { ClipPath, Defs, Path } from 'react-native-svg'
+import { observer } from 'mobx-react'
 import MaskedView from '@react-native-masked-view/masked-view'
 import { systemStore } from '@stores'
 import { r } from '@utils/dev'
@@ -15,7 +16,6 @@ import { getMaskPath, getRadius } from './utils'
 import { COMPONENT } from './ds'
 
 import type { Props as SquircleProps } from './types'
-
 export type { SquircleProps }
 
 /**
@@ -25,49 +25,51 @@ export type { SquircleProps }
  *  - android 使用 masked-view 配合 svg 做遮罩效果
  *  - web 使用 react-ios-corners 实现
  * */
-export function Squircle({ style, width = 0, height = 0, radius, children }: SquircleProps) {
-  r(COMPONENT)
+export const Squircle = observer(
+  ({ style, width = 0, height = 0, radius, children }: SquircleProps) => {
+    r(COMPONENT)
 
-  if (!radius || (!width && !height)) {
+    if (!radius || (!width && !height)) {
+      return (
+        <Component style={style} id='component-squircle'>
+          {children}
+        </Component>
+      )
+    }
+
+    if (!systemStore.setting.squircle) {
+      return (
+        <Radius style={style} width={width} height={height} radius={radius}>
+          {children}
+        </Radius>
+      )
+    }
+
+    const maskPath = getMaskPath({
+      width: width || height,
+      height: height || width,
+      radius: getRadius(width, radius)
+    })
+
     return (
       <Component style={style} id='component-squircle'>
-        {children}
+        <MaskedView
+          maskElement={
+            <Svg width='100%' height='100%'>
+              <Defs>
+                <ClipPath id='mask'>
+                  <Path d={maskPath} />
+                </ClipPath>
+              </Defs>
+              <Path fill='black' d={maskPath} clipPath='url(#mask)' />
+            </Svg>
+          }
+        >
+          {children}
+        </MaskedView>
       </Component>
     )
   }
-
-  if (!systemStore.setting.squircle) {
-    return (
-      <Radius style={style} width={width} height={height} radius={radius}>
-        {children}
-      </Radius>
-    )
-  }
-
-  const maskPath = getMaskPath({
-    width: width || height,
-    height: height || width,
-    radius: getRadius(width, radius)
-  })
-
-  return (
-    <Component style={style} id='component-squircle'>
-      <MaskedView
-        maskElement={
-          <Svg width='100%' height='100%'>
-            <Defs>
-              <ClipPath id='mask'>
-                <Path d={maskPath} />
-              </ClipPath>
-            </Defs>
-            <Path fill='black' d={maskPath} clipPath='url(#mask)' />
-          </Svg>
-        }
-      >
-        {children}
-      </MaskedView>
-    </Component>
-  )
-}
+)
 
 export default Squircle

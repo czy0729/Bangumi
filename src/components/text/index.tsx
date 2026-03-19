@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-05-01 11:46:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-15 23:15:31
+ * @Last Modified time: 2026-03-19 02:07:59
  */
 import React from 'react'
 import { Text as RNText } from 'react-native'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import PropTypes from 'prop-types'
 import { systemStore } from '@stores'
 import { r } from '@utils/dev'
@@ -17,7 +17,6 @@ import { COMPONENT } from './ds'
 export { getTextStyle, setComponentsDefaultProps }
 
 import type { Context, Props as TextProps, TextType } from './types'
-
 export type { TextType, TextProps }
 
 /** 统一封装文字 */
@@ -46,46 +45,45 @@ function TextComp(
 ) {
   r(COMPONENT)
 
-  return useObserver(() => {
-    let content = children
-    if (s2t && systemStore.setting.s2t) content = formatS2T(content)
-    if (spacing && systemStore.setting.spacing) content = formatSpacing(content)
+  let content = children
+  if (s2t && systemStore.setting.s2t) content = formatS2T(content)
+  if (spacing && systemStore.setting.spacing) content = formatSpacing(content)
 
-    return (
-      <RNText
-        ref={forwardRef}
-        style={getTextStyle({
-          style,
-          overrideStyle,
-          type,
-          size,
-          lineHeight,
-          lineHeightIncrease: contextLineHeightIncrease || lineHeightIncrease,
-          align,
-          bold,
-          underline,
-          shadow,
-          shrink,
-          noWrap
-        })}
-        allowFontScaling={false}
-        selectable={selectable}
-        numberOfLines={0}
-        {...other}
-        suppressHighlighting
-        lineBreakStrategyIOS='push-out'
-        textBreakStrategy='simple'
-        android_hyphenationFrequency='none'
-        dataDetectorType='none'
-      >
-        {content}
-      </RNText>
-    )
-  })
+  return (
+    <RNText
+      ref={forwardRef}
+      style={getTextStyle({
+        style,
+        overrideStyle,
+        type,
+        size,
+        lineHeight,
+        lineHeightIncrease: contextLineHeightIncrease || lineHeightIncrease,
+        align,
+        bold,
+        underline,
+        shadow,
+        shrink,
+        noWrap
+      })}
+      allowFontScaling={false}
+      selectable={selectable}
+      numberOfLines={0}
+      {...other}
+      suppressHighlighting
+      lineBreakStrategyIOS='push-out'
+      textBreakStrategy='simple'
+      android_hyphenationFrequency='none'
+      dataDetectorType='none'
+    >
+      {content}
+    </RNText>
+  )
 }
 
 TextComp.contextTypes = {
   lineHeightIncrease: PropTypes.number
 }
 
-export const Text = TextComp
+export const Text = observer(TextComp)
+export default Text

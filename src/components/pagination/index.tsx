@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-07-13 20:58:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-24 08:55:39
+ * @Last Modified time: 2026-03-19 02:54:13
  */
 import React, { useRef, useState } from 'react'
+import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { feedback, stl } from '@utils'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import { FROZEN_FN, IOS } from '@constants'
 import { Component } from '../component'
 import { Flex } from '../flex'
@@ -23,27 +23,26 @@ import { memoStyles } from './styles'
 
 import type { EventKeys } from '@constants/events'
 import type { Props as PaginationProps } from './types'
-
 export type { PaginationProps }
 
 /** 分页器 */
-export function Pagination({
-  style,
-  inputStyle,
-  input,
-  pageTotal,
-  heatmaps = {},
-  onPrev = FROZEN_FN,
-  onNext = FROZEN_FN,
-  onChange = FROZEN_FN,
-  onSearch = FROZEN_FN
-}: PaginationProps) {
-  r(COMPONENT)
+export const Pagination = observer(
+  ({
+    style,
+    inputStyle,
+    input,
+    pageTotal,
+    heatmaps = {},
+    onPrev = FROZEN_FN,
+    onNext = FROZEN_FN,
+    onChange = FROZEN_FN,
+    onSearch = FROZEN_FN
+  }: PaginationProps) => {
+    r(COMPONENT)
 
-  const [show, setShow] = useState(false)
-  const inputRef = useRef(null)
+    const [show, setShow] = useState(false)
+    const inputRef = useRef(null)
 
-  return useObserver(() => {
     const styles = memoStyles()
 
     /** 左右按钮（前后翻页） */
@@ -138,7 +137,7 @@ export function Pagination({
         </SafeAreaBottom>
       </Component>
     )
-  })
-}
+  }
+)
 
 export default Pagination

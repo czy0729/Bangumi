@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-03-17 04:09:04
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import './styles'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
@@ -14,13 +14,12 @@ import Comp from './comp'
 import { COMPONENT } from './ds'
 
 import type { Props as SwitchProProps } from './types'
-
 export type { SwitchProProps }
 
-export function SwitchPro(props: SwitchProProps) {
+export const SwitchPro = observer((props: SwitchProProps) => {
   r(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <Component id='component-switch-pro'>
       <Comp
         {...props}
@@ -28,7 +27,7 @@ export function SwitchPro(props: SwitchProProps) {
         backgroundInactive={props.backgroundInactive || _.select(_.colorBg, _._colorDarkModeLevel2)}
       />
     </Component>
-  ))
-}
+  )
+})
 
 export default SwitchPro

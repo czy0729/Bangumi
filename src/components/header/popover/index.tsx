@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-09-02 16:52:51
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
@@ -32,7 +32,7 @@ function Popover<ItemT extends string[] | readonly string[]>({
 }: Props<ItemT>) {
   r(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <PopoverComp
       style={stl(styles.touch, style)}
       placement='bottom'
@@ -63,7 +63,7 @@ function Popover<ItemT extends string[] | readonly string[]>({
       )}
       {children}
     </PopoverComp>
-  ))
+  )
 }
 
-export default Popover
+export default observer(Popover)

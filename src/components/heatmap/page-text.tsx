@@ -15,7 +15,7 @@ const heatmapData = {
 }
 const heatmapEventData = {}
 
-export function PageText({ page, screen }) {
+function PageText({ page, screen }) {
   // 额外
   const countTo = heatmapData[`${page}.跳转`] || 0
   const countView = heatmapEventData['其他.查看.screen'][screen] || 0
@@ -64,3 +64,5 @@ export function PageText({ page, screen }) {
     </>
   )
 }
+
+export default PageText

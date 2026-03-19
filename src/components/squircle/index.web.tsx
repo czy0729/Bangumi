@@ -7,7 +7,7 @@
 import React from 'react'
 // @ts-ignore
 import { Squircle as SquircleComp } from 'react-ios-corners'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { systemStore } from '@stores'
 import { r } from '@utils/dev'
 import { Component } from '../component'
@@ -17,7 +17,6 @@ import { COMPONENT } from './ds'
 import './index.scss'
 
 import type { Props as SquircleProps } from './types'
-
 export type { SquircleProps }
 
 /**
@@ -26,10 +25,10 @@ export type { SquircleProps }
  *  - android 使用 masked-view 配合 svg 做遮罩效果
  *  - web 使用 react-ios-corners 实现
  * */
-export function Squircle({ style, width = 0, height = 0, radius, children }: SquircleProps) {
-  r(COMPONENT)
+export const Squircle = observer(
+  ({ style, width = 0, height = 0, radius, children }: SquircleProps) => {
+    r(COMPONENT)
 
-  return useObserver(() => {
     if (!radius) {
       return (
         <Component style={style} id='component-squircle'>
@@ -61,7 +60,7 @@ export function Squircle({ style, width = 0, height = 0, radius, children }: Squ
         </SquircleComp>
       </Component>
     )
-  })
-}
+  }
+)
 
 export default Squircle

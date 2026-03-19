@@ -18,12 +18,10 @@ export function SmoothHeightView({ minHeight, children }) {
   const [contentHeight, setContentHeight] = useState(minHeight)
 
   // 动态高度样式
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      height: height.value,
-      overflow: 'hidden'
-    }
-  })
+  const animatedStyle = useAnimatedStyle(() => ({
+    height: height.value,
+    overflow: 'hidden'
+  }))
 
   // 当内容高度变化时，触发动画
   useEffect(() => {
@@ -53,3 +51,5 @@ export function SmoothHeightView({ minHeight, children }) {
     </Animated.View>
   )
 }
+
+export default SmoothHeightView

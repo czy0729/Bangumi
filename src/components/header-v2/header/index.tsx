@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { useInsets } from '@utils/hooks'
@@ -33,39 +33,37 @@ function Header({
 
   const { headerHeight, statusBarHeight } = useInsets()
 
-  return useObserver(() => {
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    return (
-      <Flex
-        style={stl(styles.header, {
-          height: headerHeight,
-          paddingTop: statusBarHeight
-        })}
-      >
-        <Background style={stl(style, transparent && styles.transparent)} />
-        {!transparent && (
-          <Flex
-            style={stl(styles.title, headerTitleStyle)}
-            justify={headerTitleAlign === 'left' ? 'start' : 'center'}
+  return (
+    <Flex
+      style={stl(styles.header, {
+        height: headerHeight,
+        paddingTop: statusBarHeight
+      })}
+    >
+      <Background style={stl(style, transparent && styles.transparent)} />
+      {!transparent && (
+        <Flex
+          style={stl(styles.title, headerTitleStyle)}
+          justify={headerTitleAlign === 'left' ? 'start' : 'center'}
+        >
+          <Text
+            style={styles.titleText}
+            size={headerTitleSize}
+            numberOfLines={1}
+            ellipsizeMode='middle'
           >
-            <Text
-              style={styles.titleText}
-              size={headerTitleSize}
-              numberOfLines={1}
-              ellipsizeMode='middle'
-            >
-              {title}
-            </Text>
-            {!!headerTitleAppend && <View style={styles.titleAppend}>{headerTitleAppend}</View>}
-          </Flex>
-        )}
-        <Back />
-        <Flex.Item />
-        {!!headerRight && headerRight()}
-      </Flex>
-    )
-  })
+            {title}
+          </Text>
+          {!!headerTitleAppend && <View style={styles.titleAppend}>{headerTitleAppend}</View>}
+        </Flex>
+      )}
+      <Back />
+      <Flex.Item />
+      {!!headerRight && headerRight()}
+    </Flex>
+  )
 }
 
-export default Header
+export default observer(Header)

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-10-29 15:04:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 04:06:17
+ * @Last Modified time: 2026-03-19 14:42:08
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { systemStore, userStore } from '@stores'
 import { getTimestamp, stl } from '@utils'
 import { r } from '@utils/dev'
@@ -17,17 +17,16 @@ import { getUserStatus } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-import type { Props as UserStatusProps } from './types'
-
 export { getUserStatus }
 
+import type { Props as UserStatusProps } from './types'
 export type { UserStatusProps }
 
 /** 给用户头像包裹，显示用户最近的在线状态 */
-export function UserStatus({ style, last, userId, mini = false, children }: UserStatusProps) {
-  r(COMPONENT)
+export const UserStatus = observer(
+  ({ style, last, userId, mini = false, children }: UserStatusProps) => {
+    r(COMPONENT)
 
-  return useObserver(() => {
     const lastTS = last || (systemStore.setting.onlineStatus ? userStore.onlines(userId) : 0)
     if (!lastTS) return <>{children}</>
 
@@ -57,7 +56,7 @@ export function UserStatus({ style, last, userId, mini = false, children }: User
         </View>
       </Component>
     )
-  })
-}
+  }
+)
 
 export default UserStatus

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-04 16:23:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-24 19:36:59
+ * @Last Modified time: 2026-03-19 03:08:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -99,9 +99,7 @@ ScrollToTop.scrollToTop = (
         index: 0,
         viewOffset: _.window.height * 2
       })
-    } catch (error) {
-      console.warn('ScrollToTop', 'scrollToTop', error)
-    }
+    } catch (error) {}
   }
 }
 

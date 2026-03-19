@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-03-14 20:46:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 01:24:46
+ * @Last Modified time: 2026-03-19 14:41:28
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
 import { hm as utilsHM } from '@utils/fetch'
@@ -14,17 +15,15 @@ import { COMPONENT } from './ds'
 
 import type { EventKeys } from '@constants/events'
 import type { Props as TrackProps } from './types'
-
 export type { TrackProps }
 
 /** 移动统计, 页面埋点可视化 */
-export function Track({ title, domTitle, hm, alias }: TrackProps) {
+export const Track = observer(({ title, domTitle, hm, alias }: TrackProps) => {
   r(COMPONENT)
 
   useRunAfter(() => {
     if (Array.isArray(hm)) utilsHM(...hm, domTitle || title)
   }, COMPONENT)
-
   useDomTitle(domTitle || title)
 
   return (
@@ -34,6 +33,6 @@ export function Track({ title, domTitle, hm, alias }: TrackProps) {
       )}
     </>
   )
-}
+})
 
 export default Track

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-17 16:58:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 03:56:10
+ * @Last Modified time: 2026-03-19 02:59:02
  */
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import Animated, {
   useSharedValue,
   withTiming
 } from 'react-native-reanimated'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { r } from '@utils/dev'
 import { Component } from '../component'
 import { Flex } from '../flex'
@@ -21,35 +21,28 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { Props as ProgressProps } from './types'
-
 export type { ProgressProps }
 
 /** 进度条 */
-export function Progress({
-  width = 200,
-  show = false,
-  message = '请求中',
-  current = 0,
-  total = 1
-}: ProgressProps) {
-  r(COMPONENT)
+export const Progress = observer(
+  ({ width = 200, show = false, message = '请求中', current = 0, total = 1 }: ProgressProps) => {
+    r(COMPONENT)
 
-  const w = useSharedValue(current / (total || 1))
-  const barStyle = useAnimatedStyle(
-    () =>
-      ({
-        width: withTiming(Number(w.value * width), {
-          duration: 80,
-          easing: Easing.linear
-        })
-      } as const)
-  )
+    const w = useSharedValue(current / (total || 1))
+    const barStyle = useAnimatedStyle(
+      () =>
+        ({
+          width: withTiming(Number(w.value * width), {
+            duration: 80,
+            easing: Easing.linear
+          })
+        } as const)
+    )
 
-  useEffect(() => {
-    w.value = current / (total || 1)
-  }, [w, current, total])
+    useEffect(() => {
+      w.value = current / (total || 1)
+    }, [w, current, total])
 
-  return useObserver(() => {
     if (!show || !total) return null
 
     const styles = memoStyles()
@@ -77,7 +70,7 @@ export function Progress({
         </Flex>
       </Component>
     )
-  })
-}
+  }
+)
 
 export default Progress
