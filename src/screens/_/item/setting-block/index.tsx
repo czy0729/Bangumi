@@ -2,23 +2,23 @@
  * @Author: czy0729
  * @Date: 2022-01-19 06:36:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-09 23:19:34
+ * @Last Modified time: 2026-03-20 06:28:00
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, Flex, Highlight, Iconfont, Touchable } from '@components'
 import { _ } from '@stores'
 import { navigationReference, open, showImageViewer, stl } from '@utils'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { WEB } from '@constants'
 import Item from './item'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { IItemSettingBlock, ItemSettingBlockItemProps, ItemSettingBlockProps } from './types'
-
 export type { IItemSettingBlock, ItemSettingBlockProps, ItemSettingBlockItemProps }
 
-const ItemSettingBlock: IItemSettingBlock = ob(
+const ItemSettingBlock: IItemSettingBlock = observer(
   ({
     style,
     show = true,
@@ -34,6 +34,8 @@ const ItemSettingBlock: IItemSettingBlock = ob(
     align,
     children
   }) => {
+    r(COMPONENT)
+
     if (!show) return null
 
     const styles = memoStyles()
@@ -99,12 +101,10 @@ const ItemSettingBlock: IItemSettingBlock = ob(
         </Flex>
       </Component>
     )
-  },
-  COMPONENT
+  }
 )
 
 ItemSettingBlock.Item = Item
 
 export { ItemSettingBlock }
-
 export default ItemSettingBlock

@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-04-05 05:38:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 05:38:42
+ * @Last Modified time: 2026-03-20 06:28:25
  */
 import React from 'react'
-import { StorybookPage, StorybookList, Flex } from '@components'
-import { ItemSettingBlock as Component, ItemSettingBlockProps as Props } from './index'
+import { Flex, StorybookList, StorybookPage } from '@components'
+import { ItemSettingBlock as Component } from './index'
 import { list } from './index.mock'
+
+import type { ItemSettingBlockProps as Props } from './index'
 
 export default {
   title: 'item/ItemSettingBlock',

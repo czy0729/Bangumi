@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-01-23 18:18:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-13 06:11:50
+ * @Last Modified time: 2026-03-20 05:29:46
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { rakuenStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { InView, UserStatusAvatar } from '../../../base'
 import { AVATAR_SIZE, ITEM_HEIGHT } from './ds'
 import { styles } from './styles'
@@ -14,7 +14,7 @@ import { styles } from './styles'
 import type { Props } from './types'
 
 function Avatar({ index, inViewY, userId, userName, avatar, event }: Props) {
-  return useObserver(() => (
+  return (
     <InView style={styles.inView} y={ITEM_HEIGHT * (index + 1) + inViewY}>
       <UserStatusAvatar
         like={rakuenStore.commentTracked(userId)}
@@ -25,7 +25,7 @@ function Avatar({ index, inViewY, userId, userName, avatar, event }: Props) {
         event={event}
       />
     </InView>
-  ))
+  )
 }
 
-export default Avatar
+export default observer(Avatar)

@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-06-14 23:11:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-14 03:18:57
+ * @Last Modified time: 2026-03-20 05:40:55
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
 import { EVENT, FROZEN_FN } from '@constants'
-import { BlogId, RakuenNewFloorStyleCn, TopicId } from '@types'
 import { COMPONENT as PARENT } from '../ds'
-import { Props } from './types'
+
+import type { BlogId, RakuenNewFloorStyleCn, TopicId } from '@types'
+import type { Props } from './types'
 
 export const COMPONENT = rc(PARENT, 'ItemPost')
 

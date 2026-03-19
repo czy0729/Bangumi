@@ -2,25 +2,25 @@
  * @Author: czy0729
  * @Date: 2020-11-11 11:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-24 16:21:43
+ * @Last Modified time: 2026-03-20 05:43:36
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Avatar, Component, Flex, RenderHtml, Text, UserStatus } from '@components'
 import { _ } from '@stores'
 import { appNavigate, stl } from '@utils'
-import { ob } from '@utils/decorators'
 import { useNavigation } from '@utils/hooks'
 import { EVENT } from '@constants'
 import { InView, Name } from '../../base'
 import { getBgmHtml } from './utils'
 import { AVATAR_SIZE, COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props as ItemSayProps } from './types'
 
-export { ItemSayProps }
+import type { Props as ItemSayProps } from './types'
+export type { ItemSayProps }
 
-export const ItemSay = ob(
+export const ItemSay = observer(
   ({
     index,
     event = EVENT,
@@ -34,7 +34,7 @@ export const ItemSay = ob(
     format,
     onLongPress
   }: ItemSayProps) => {
-    const navigation = useNavigation()
+    const navigation = useNavigation(COMPONENT)
     const styles = memoStyles()
     const isRight = position === 'right'
 
@@ -121,8 +121,7 @@ export const ItemSay = ob(
         </Flex>
       </Component>
     )
-  },
-  COMPONENT
+  }
 )
 
 export default ItemSay

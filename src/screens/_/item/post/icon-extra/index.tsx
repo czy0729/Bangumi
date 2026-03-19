@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-01-20 12:15:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-14 02:53:26
+ * @Last Modified time: 2026-03-20 05:37:12
  */
 import React, { useCallback, useMemo, useRef } from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Iconfont } from '@components'
 import { _, rakuenStore, uiStore, userStore, useStore } from '@stores'
 import {
@@ -20,7 +21,6 @@ import {
   stl
 } from '@utils'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import { HTML_BLOG, HTML_TOPIC, IOS } from '@constants'
 import { Popover } from '../../../base'
 import {
@@ -59,41 +59,41 @@ function IconExtra({
 
   const viewRef = useRef<View>(null)
 
-  return useObserver(() => {
-    const memoData = useMemo(
-      () =>
-        [
-          // 编辑
-          erase && $?.doDeleteReply && ACTION_EDIT,
+  const memoData = useMemo(
+    () =>
+      [
+        // 编辑
+        erase && $?.doDeleteReply && ACTION_EDIT,
 
-          // 贴贴
-          rakuenStore.setting.likes && likeType && ACTION_LIKES,
+        // 贴贴
+        rakuenStore.setting.likes && likeType && ACTION_LIKES,
 
-          // 回复
-          replySub && !userStore.isLimit && $?.showFixedTextarea && ACTION_REPLY,
+        // 回复
+        replySub && !userStore.isLimit && $?.showFixedTextarea && ACTION_REPLY,
 
-          // 复制
-          ACTION_COPY,
-          ACTION_COPY_URL,
+        // 复制
+        ACTION_COPY,
+        ACTION_COPY_URL,
 
-          // 关注
-          rakuenStore.commentTracked(userId) ? ACTION_UNTRACK : ACTION_TRACK,
+        // 关注
+        rakuenStore.commentTracked(userId) ? ACTION_UNTRACK : ACTION_TRACK,
 
-          // 翻译
-          $?.doTranslateFloor &&
-            !isChineseParagraph(removeURLs(removeHTMLTag(msg)), 0.5) &&
-            ACTION_TRANSLATE,
+        // 翻译
+        $?.doTranslateFloor &&
+          !isChineseParagraph(removeURLs(removeHTMLTag(msg)), 0.5) &&
+          ACTION_TRANSLATE,
 
-          // 屏蔽
-          !erase && userStore.isWebLogin && ACTION_IGNORE,
+        // 屏蔽
+        !erase && userStore.isWebLogin && ACTION_IGNORE,
 
-          // 删除
-          erase && $?.doDeleteReply && ACTION_DELETE
-        ].filter(item => !!item),
-      []
-    )
+        // 删除
+        erase && $?.doDeleteReply && ACTION_DELETE
+      ].filter(item => !!item),
+    [$, erase, likeType, msg, replySub, userId]
+  )
 
-    const handleSelect = useCallback((title: string) => {
+  const handleSelect = useCallback(
+    (title: string) => {
       switch (title) {
         case ACTION_LIKES:
           viewRef.current.measure(
@@ -196,18 +196,33 @@ function IconExtra({
         default:
           break
       }
-    }, [])
+    },
+    [
+      $,
+      erase,
+      formhash,
+      id,
+      likeType,
+      message,
+      msg,
+      onJumpTo,
+      onShowFixedTextare,
+      replySub,
+      topicId,
+      userId,
+      userName
+    ]
+  )
 
-    return (
-      <Popover style={stl(styles.touch, style)} data={memoData} onSelect={handleSelect}>
-        <View ref={viewRef} collapsable={false}>
-          <Flex style={styles.icon} justify='center'>
-            <Iconfont style={_.ml.md} name='md-more-vert' size={18} />
-          </Flex>
-        </View>
-      </Popover>
-    )
-  })
+  return (
+    <Popover style={stl(styles.touch, style)} data={memoData} onSelect={handleSelect}>
+      <View ref={viewRef} collapsable={false}>
+        <Flex style={styles.icon} justify='center'>
+          <Iconfont style={_.ml.md} name='md-more-vert' size={18} />
+        </Flex>
+      </View>
+    </Popover>
+  )
 }
 
-export default IconExtra
+export default observer(IconExtra)

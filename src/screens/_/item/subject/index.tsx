@@ -2,25 +2,30 @@
  * @Author: czy0729
  * @Date: 2023-11-03 03:30:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 03:13:55
+ * @Last Modified time: 2026-03-20 06:30:00
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, Flex, Text, Touchable } from '@components'
 import { _, collectionStore, subjectStore } from '@stores'
 import { stl } from '@utils'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { MODEL_SUBJECT_TYPE } from '@constants'
-import { SubjectTypeCn } from '@types'
 import { ItemSearch } from '../search'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-export const ItemSubject = ob(
+import type { SubjectTypeCn } from '@types'
+
+export const ItemSubject = observer(
   ({ navigation, event, index, subjectId, type, subject, oss, active }) => {
+    r(COMPONENT)
+
     const styles = memoStyles()
 
     const name = subject.jp || oss.name || subjectStore.jp(subjectId)
     const nameCn = subject.cn || oss.name_cn || subjectStore.cn(subjectId)
+
     if (!(name || nameCn)) {
       return (
         <Touchable
@@ -78,8 +83,7 @@ export const ItemSubject = ob(
         />
       </Component>
     )
-  },
-  COMPONENT
+  }
 )
 
 export default ItemSubject

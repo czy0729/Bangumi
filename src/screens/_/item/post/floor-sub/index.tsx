@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-01-23 19:02:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-14 03:20:49
+ * @Last Modified time: 2026-03-20 05:35:47
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
-import { ob } from '@utils/decorators'
 import Sub from '../sub'
 import { styles } from './styles'
 
@@ -66,6 +66,7 @@ function FloorSub({
               />
             ))}
         </Flex>
+
         {sub.length > expandNums && (
           <Touchable
             onPress={() => {
@@ -88,4 +89,4 @@ function FloorSub({
   )
 }
 
-export default ob(FloorSub)
+export default observer(FloorSub)

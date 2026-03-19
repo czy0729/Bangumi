@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-06-17 20:09:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-09 22:34:04
+ * @Last Modified time: 2026-03-20 06:28:42
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Highlight, Iconfont, Touchable } from '@components'
 import { _ } from '@stores'
 import { stl } from '@utils'
-import { ob } from '@utils/decorators'
 import { FROZEN_FN } from '@constants'
 import { memoStyles } from './styles'
 
 import type { ItemSettingBlockItemProps } from './types'
 
-const ItemSettingBlockItem = ob(
+const ItemSettingBlockItem = observer(
   ({
     style,
     itemStyle,
@@ -35,6 +35,7 @@ const ItemSettingBlockItem = ob(
     if (!show) return null
 
     const styles = memoStyles()
+
     return (
       <Flex.Item style={style}>
         <Touchable animate onPress={onPress}>

@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2025-01-24 05:45:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-24 05:48:33
+ * @Last Modified time: 2026-03-20 05:18:30
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Text } from '@components'
-import { ob } from '@utils/decorators'
 import { memoStyles } from './styles'
 
 function Comments({ value }) {
   const styles = memoStyles()
+
   return (
     <Text
       style={styles.comments}
@@ -22,4 +23,4 @@ function Comments({ value }) {
   )
 }
 
-export default ob(Comments)
+export default observer(Comments)

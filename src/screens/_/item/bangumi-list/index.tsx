@@ -2,33 +2,28 @@
  * @Author: czy0729
  * @Date: 2019-05-08 20:12:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-10 17:06:07
+ * @Last Modified time: 2026-03-20 04:41:04
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, Cover, Link, Text } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { _, systemStore } from '@stores'
 import { HTMLDecode, stl, x18 } from '@utils'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import { EVENT } from '@constants'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props as ItemBangumiListProps } from './types'
 
-export { ItemBangumiListProps }
+import type { Props as ItemBangumiListProps } from './types'
+export type { ItemBangumiListProps }
 
-export const ItemBangumiList = ({
-  style,
-  subjectId,
-  image,
-  name,
-  event = EVENT
-}: ItemBangumiListProps) => {
-  r(COMPONENT)
+export const ItemBangumiList = observer(
+  ({ style, subjectId, image, name, event = EVENT }: ItemBangumiListProps) => {
+    r(COMPONENT)
 
-  return useObserver(() => {
     const styles = memoStyles()
+
     const { width } = styles.item
     const text = HTMLDecode(name)
 
@@ -61,7 +56,7 @@ export const ItemBangumiList = ({
         </Link>
       </Component>
     )
-  })
-}
+  }
+)
 
 export default ItemBangumiList

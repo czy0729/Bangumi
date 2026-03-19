@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-04-05 00:01:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 04:53:21
+ * @Last Modified time: 2026-03-20 05:24:02
  */
 import React from 'react'
-import { StorybookPage, StorybookGrid } from '@components'
-import {
-  ItemCollectionsGrid as Component,
-  ItemCollectionsGridProps as Props
-} from './index'
+import { StorybookGrid, StorybookPage } from '@components'
+import { ItemCollectionsGrid as Component } from './index'
 import { list } from './index.mock'
+
+import type { ItemCollectionsGridProps as Props } from './index'
 
 export default {
   title: 'item/ItemCollectionsGrid',

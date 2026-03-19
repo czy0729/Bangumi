@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-06-17 13:08:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-12 04:56:38
+ * @Last Modified time: 2026-03-20 05:25:48
  */
-import { EventType, UserId } from '@types'
+import type { PropsWithChildren } from 'react'
+import type { EventType, UserId } from '@types'
 
-export type Props = {
+export type Props = PropsWithChildren<{
   avatar?: string
   userId?: UserId
   userName?: string
@@ -20,5 +21,4 @@ export type Props = {
   onHold?: number | string
   filter?: string
   event?: EventType
-  children?: any
-}
+}>

@@ -2,28 +2,28 @@
  * @Author: czy0729
  * @Date: 2022-06-15 10:51:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-25 05:51:02
+ * @Last Modified time: 2026-03-20 05:46:57
  */
-import { EventType, Id, Navigation, SubjectTypeCn, ViewStyle } from '@types'
+import type { EventType, Id, SubjectTypeCn, WithNavigation, WithViewStyles } from '@types'
 
-export type Props = {
-  navigation?: Navigation
-  style?: ViewStyle
-  index?: number
-  id?: Id
-  name?: string
-  nameCn?: string
-  cover?: string
-  typeCn?: SubjectTypeCn
-  tip?: string
-  rank?: number | string
-  score?: number | string
-  total?: number | string
-  comments?: string
-  collection?: string
-  showManage?: boolean
-  position?: string[]
-  screen?: string
-  highlight?: string
-  event?: EventType
-}
+export type Props = WithNavigation<
+  WithViewStyles<{
+    index?: number
+    id?: Id
+    name?: string
+    nameCn?: string
+    cover?: string
+    typeCn?: SubjectTypeCn
+    tip?: string
+    rank?: number | string
+    score?: number | string
+    total?: number | string
+    comments?: string
+    collection?: string
+    showManage?: boolean
+    position?: string[]
+    screen?: string
+    highlight?: string
+    event?: EventType
+  }>
+>

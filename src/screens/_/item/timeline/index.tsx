@@ -2,23 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-31 15:12:29
+ * @Last Modified time: 2026-03-20 06:31:49
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Component } from '@components'
 import { timelineStore } from '@stores'
 import { getTimestamp, matchUserId } from '@utils'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { HOST } from '@constants'
 import Item from './item'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { Props as ItemTimelineProps } from './types'
-
 export type { ItemTimelineProps }
 
-export const ItemTimeline = ob(
+export const ItemTimeline = observer(
   ({
     navigation,
     style,
@@ -42,6 +42,8 @@ export const ItemTimeline = ob(
     onDelete,
     onHidden
   }: ItemTimelineProps) => {
+    r(COMPONENT)
+
     const userId = matchUserId(String(avatar?.url || p1?.url).replace(HOST, ''))
     if (userId in timelineStore.hidden) {
       if (getTimestamp() < timelineStore.hidden[userId]) return null
@@ -76,8 +78,7 @@ export const ItemTimeline = ob(
         />
       </Component>
     )
-  },
-  COMPONENT
+  }
 )
 
 export default ItemTimeline

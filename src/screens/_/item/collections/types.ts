@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:22:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-12 00:15:25
+ * @Last Modified time: 2026-03-20 05:21:45
  */
-import type { EventType, Id, Navigation, SubjectId, SubjectTypeCn } from '@types'
+import type { EventType, Id, SubjectId, SubjectTypeCn, WithNavigation } from '@types'
 
-export type Props = {
-  navigation?: Navigation
+export type Props = WithNavigation<{
   index?: number
   inViewY?: number
   id?: SubjectId
@@ -39,4 +38,4 @@ export type Props = {
   touchPosition?: 'outer' | 'inner'
   active?: boolean
   onEdit?: (modify?: string) => any
-}
+}>

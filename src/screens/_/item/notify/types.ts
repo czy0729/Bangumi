@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-06-17 19:05:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-12 05:43:37
+ * @Last Modified time: 2026-03-20 05:28:18
  */
+import type { PropsWithChildren } from 'react'
 import type { EventType, UserId } from '@types'
 
-export type Props = {
+export type Props = PropsWithChildren<{
   index?: number
   avatar?: string
   userId?: UserId
@@ -17,5 +18,4 @@ export type Props = {
   href?: string
   repeat?: number
   event?: EventType
-  children?: any
-}
+}>

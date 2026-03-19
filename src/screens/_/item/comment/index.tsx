@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-18 07:29:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:56:16
+ * @Last Modified time: 2026-03-20 05:24:50
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -15,7 +15,6 @@ import { memoStyles } from './styles'
 
 import type { CollectionStatusCn } from '@types'
 import type { Props as ItemCommentProps } from './types'
-
 export type { ItemCommentProps }
 
 export const ItemComment = observer(

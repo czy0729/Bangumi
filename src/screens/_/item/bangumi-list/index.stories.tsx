@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-04-05 04:12:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 04:15:30
+ * @Last Modified time: 2026-03-20 04:41:08
  */
 import React from 'react'
-import { StorybookPage, StorybookGrid } from '@components'
-import { ItemBangumiList as Component, ItemBangumiListProps as Props } from './index'
+import { StorybookGrid, StorybookPage } from '@components'
+import { ItemBangumiList as Component } from './index'
 import { list } from './index.mock'
+
+import type { ItemBangumiListProps as Props } from './index'
 
 export default {
   title: 'item/ItemBangumiList',

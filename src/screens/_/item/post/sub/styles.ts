@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-18 04:20:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-25 15:07:15
+ * @Last Modified time: 2026-03-20 05:39:07
  */
 import { _ } from '@stores'
 import { AVATAR_WIDTH } from './ds'
@@ -10,6 +10,7 @@ import { AVATAR_WIDTH } from './ds'
 export const memoStyles = _.memoStyles(() => {
   const marginLeft = _.sm
   const marginLeftWide = -(AVATAR_WIDTH + marginLeft + 4)
+
   return {
     item: {
       width: '100%',

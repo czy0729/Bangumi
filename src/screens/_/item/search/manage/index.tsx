@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2025-01-25 22:44:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-25 22:45:42
+ * @Last Modified time: 2026-03-20 05:44:57
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { uiStore } from '@stores'
 import { cnjp, getAction } from '@utils'
-import { ob } from '@utils/decorators'
 import { MODEL_COLLECTION_STATUS } from '@constants'
-import { CollectionStatus } from '@types'
 import { Manage as ManageComp } from '../../../base'
 import { styles } from './styles'
+
+import type { CollectionStatus } from '@types'
 
 function Manage({ subjectId, collection, typeCn, name, nameCn, screen }) {
   return (
@@ -38,4 +39,4 @@ function Manage({ subjectId, collection, typeCn, name, nameCn, screen }) {
   )
 }
 
-export default ob(Manage)
+export default observer(Manage)

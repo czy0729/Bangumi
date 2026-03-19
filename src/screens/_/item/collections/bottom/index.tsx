@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-08-08 17:35:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-24 11:15:45
+ * @Last Modified time: 2026-03-20 05:17:13
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Iconfont, Text } from '@components'
 import { _, subjectStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { Rank, Stars, Tag, Tags } from '../../../base'
 import { memoStyles } from './styles'
 
@@ -90,4 +90,4 @@ function Bottom({ id, score, rank, total, simpleStars, time, tags, hideScore, ha
   )
 }
 
-export default ob(Bottom)
+export default observer(Bottom)

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2025-01-24 05:30:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-24 06:29:16
+ * @Last Modified time: 2026-03-20 05:19:44
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Cover as CoverComp } from '@components'
 import { x18 } from '@utils'
-import { ob } from '@utils/decorators'
 import { InView } from '../../../base'
 import { styles } from './styles'
 
@@ -28,4 +28,4 @@ function Cover({ index, subjectId, cover, y, type, onPress }) {
   )
 }
 
-export default ob(Cover)
+export default observer(Cover)

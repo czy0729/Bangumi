@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-06-16 23:36:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-28 17:57:07
+ * @Last Modified time: 2026-03-20 05:13:33
  */
 import type { CatalogDetail } from '@stores/discovery/types'
 import type { EventType, Id, Navigation } from '@types'
+import type { PropsWithChildren } from 'react'
 
-export type Props = {
+export type Props = PropsWithChildren<{
   event?: EventType
   index?: number
   id?: Id
@@ -38,11 +39,10 @@ export type Props = {
   /** 是否自己创建的目录 */
   isUser?: boolean
   hideScore?: boolean
-  children?: any
 
   /** 目录详情信息 */
   detail?: CatalogDetail
-}
+}>
 
 export type Context = {
   navigation?: Navigation

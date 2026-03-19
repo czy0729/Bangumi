@@ -2,43 +2,43 @@
  * @Author: czy0729
  * @Date: 2019-07-24 13:59:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-12 05:03:11
+ * @Last Modified time: 2026-03-20 05:26:28
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import Progress from '@ant-design/react-native/lib/progress'
 import { Avatar, Component, Flex, Link, Text, UserStatus } from '@components'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import { EVENT } from '@constants'
 import Counts from './counts'
 import Name from './name'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props as ItemFriendsProps } from './types'
 
-export { ItemFriendsProps }
+import type { Props as ItemFriendsProps } from './types'
+export type { ItemFriendsProps }
 
-export const ItemFriends = ({
-  avatar,
-  userId,
-  userName,
-  hobby,
-  percent,
-  recent,
-  doing,
-  collect,
-  wish,
-  onHold,
-  dropped,
-  filter,
-  event = EVENT,
-  children
-}: ItemFriendsProps) => {
-  r(COMPONENT)
+export const ItemFriends = observer(
+  ({
+    avatar,
+    userId,
+    userName,
+    hobby,
+    percent,
+    recent,
+    doing,
+    collect,
+    wish,
+    onHold,
+    dropped,
+    filter,
+    event = EVENT,
+    children
+  }: ItemFriendsProps) => {
+    r(COMPONENT)
 
-  return useObserver(() => {
     const styles = memoStyles()
     const wrapWidth = _.window.contentWidth - 144
 
@@ -96,7 +96,7 @@ export const ItemFriends = ({
         </Link>
       </Component>
     )
-  })
-}
+  }
+)
 
 export default ItemFriends

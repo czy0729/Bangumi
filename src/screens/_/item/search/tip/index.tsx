@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2025-01-25 23:11:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-25 23:12:19
+ * @Last Modified time: 2026-03-20 05:46:04
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { _ } from '@stores'
 import { HTMLDecode } from '@utils'
-import { ob } from '@utils/decorators'
 
 function Tip({ tip, isMusic }) {
   return (
@@ -18,4 +18,4 @@ function Tip({ tip, isMusic }) {
   )
 }
 
-export default ob(Tip)
+export default observer(Tip)

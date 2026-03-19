@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-03-22 15:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-04 20:14:47
+ * @Last Modified time: 2026-03-20 04:41:57
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Component, Cover, Flex, Link, Text } from '@components'
 import { _, discoveryStore } from '@stores'
 import { HTMLDecode, stl } from '@utils'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import { EVENT } from '@constants'
 import { Tag } from '../../base'
 import { InView } from '../../base/in-view'
@@ -21,26 +21,26 @@ import { memoStyles } from './styles'
 import type { Props as ItemBlogProps } from './types'
 export type { ItemBlogProps }
 
-export const ItemBlog = ({
-  style,
-  index = 0,
-  id,
-  cover,
-  title,
-  content,
-  username,
-  userId,
-  subject,
-  subjectId,
-  typeCn,
-  time,
-  replies,
-  tags = [],
-  event = EVENT
-}: ItemBlogProps) => {
-  r(COMPONENT)
+export const ItemBlog = observer(
+  ({
+    style,
+    index = 0,
+    id,
+    cover,
+    title,
+    content,
+    username,
+    userId,
+    subject,
+    subjectId,
+    typeCn,
+    time,
+    replies,
+    tags = [],
+    event = EVENT
+  }: ItemBlogProps) => {
+    r(COMPONENT)
 
-  return useObserver(() => {
     const styles = memoStyles()
 
     const linkProps = {
@@ -162,7 +162,7 @@ export const ItemBlog = ({
         </View>
       </Component>
     )
-  })
-}
+  }
+)
 
 export default ItemBlog

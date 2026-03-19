@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-15 14:24:49
+ * @Last Modified time: 2026-03-20 05:42:46
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { Component } from '@components'
 import { rakuenStore, uiStore, useStore } from '@stores'
 import { getIsBlocked, getTimestamp, HTMLDecode } from '@utils'
@@ -18,37 +18,36 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { Ctx, Props as ItemPostProps } from './types'
-
 export type { ItemPostProps }
 
-export function ItemPost({
-  inViewY,
-  index,
-  contentStyle,
-  extraStyle,
-  avatar,
-  userId,
-  userName,
-  replySub,
-  message,
-  sub,
-  id,
-  authorId,
-  postId,
-  time,
-  floor,
-  userSign,
-  erase,
-  rendered,
-  matchLink,
-  expandNums,
-  event,
-  showFixedTextarea: onShowFixedTextarea,
-  onJumpTo
-}: ItemPostProps) {
-  const { $ } = useStore<Ctx>(COMPONENT)
+export const ItemPost = observer(
+  ({
+    inViewY,
+    index,
+    contentStyle,
+    extraStyle,
+    avatar,
+    userId,
+    userName,
+    replySub,
+    message,
+    sub,
+    id,
+    authorId,
+    postId,
+    time,
+    floor,
+    userSign,
+    erase,
+    rendered,
+    matchLink,
+    expandNums,
+    event,
+    showFixedTextarea: onShowFixedTextarea,
+    onJumpTo
+  }: ItemPostProps) => {
+    const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
     // 屏蔽脏数据
     if (!userId) return null
 
@@ -147,7 +146,7 @@ export function ItemPost({
         onToggleExpand={$?.toggleExpand}
       />
     )
-  })
-}
+  }
+)
 
 export default ItemPost

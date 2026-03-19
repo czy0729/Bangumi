@@ -2,23 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-05-24 02:02:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-09 22:26:17
+ * @Last Modified time: 2026-03-20 05:58:58
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Component, Flex, Highlight, Iconfont, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { navigationReference, showImageViewer, stl } from '@utils'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { WEB } from '@constants'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { Props as ItemSettingProps } from './types'
-
 export type { ItemSettingProps }
 
-export const ItemSetting = ob(
+export const ItemSetting = observer(
   ({
     style,
     contentStyle,
@@ -40,9 +40,12 @@ export const ItemSetting = ob(
     onPress,
     ...other
   }: ItemSettingProps) => {
+    r(COMPONENT)
+
     if (!show) return null
 
     const styles = memoStyles()
+
     const content = (
       <View style={stl(styles.item, contentStyle, sub && styles.sub)}>
         <Flex>
@@ -111,8 +114,7 @@ export const ItemSetting = ob(
         {content}
       </Component>
     )
-  },
-  COMPONENT
+  }
 )
 
 export default ItemSetting

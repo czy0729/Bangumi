@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2020-04-28 12:02:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 05:15:00
+ * @Last Modified time: 2026-03-20 06:33:00
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Component, Cover, Expand, Flex, Image, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { _, collectionStore } from '@stores'
 import { cnjp, getMonoCoverSmall, x18 } from '@utils'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
-import { useExpandLazy, useObserver } from '@utils/hooks'
+import { useExpandLazy } from '@utils/hooks'
 import { EVENT, IMG_INFO_ONLY } from '@constants'
 import { InView, Tag } from '../../base'
 import {
@@ -26,27 +27,26 @@ import {
 import { memoStyles } from './styles'
 
 import type { Props as ItemVoiceProps } from './types'
-
 export type { ItemVoiceProps }
 
-export function ItemVoice({
-  style,
-  navigation,
-  event = EVENT,
-  index,
-  id,
-  name,
-  nameCn,
-  cover,
-  subject = [],
-  collected = '全部',
-  children
-}: ItemVoiceProps) {
-  r(COMPONENT)
+export const ItemVoice = observer(
+  ({
+    style,
+    navigation,
+    event = EVENT,
+    index,
+    id,
+    name,
+    nameCn,
+    cover,
+    subject = [],
+    collected = '全部',
+    children
+  }: ItemVoiceProps) => {
+    r(COMPONENT)
 
-  const { list, onExpand } = useExpandLazy(subject, 4)
+    const { list, onExpand } = useExpandLazy(subject, 4)
 
-  return useObserver(() => {
     const styles = memoStyles()
 
     const cn = cnjp(nameCn, name)
@@ -200,7 +200,7 @@ export function ItemVoice({
         {elContent}
       </Component>
     )
-  })
-}
+  }
+)
 
 export default ItemVoice

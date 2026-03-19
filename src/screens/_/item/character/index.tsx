@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-09 08:59:50
+ * @Last Modified time: 2026-03-20 05:16:43
  */
 import React, { useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { Component, Cover, Flex, Link } from '@components'
 import { _ } from '@stores'
 import { cnjp } from '@utils'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import { EVENT } from '@constants'
 import { InView } from '../../base'
 import Actors from './actors'
@@ -21,33 +21,33 @@ import { memoStyles } from './styles'
 import type { CoverProps } from '@components'
 import type { MonoId } from '@types'
 import type { Props as ItemCharacterProps } from './types'
-
 export type { ItemCharacterProps }
 
-export const ItemCharacter = ({
-  event = EVENT,
-  index,
-  type = 'character',
-  id,
-  cover,
-  name,
-  nameCn,
-  replies,
-  info,
-  actors = [],
-  positions = [],
-  positionDetails = [],
-  position,
-  children
-}: ItemCharacterProps) => {
-  r(COMPONENT)
+export const ItemCharacter = observer(
+  ({
+    event = EVENT,
+    index,
+    type = 'character',
+    id,
+    cover,
+    name,
+    nameCn,
+    replies,
+    info,
+    actors = [],
+    positions = [],
+    positionDetails = [],
+    position,
+    children
+  }: ItemCharacterProps) => {
+    r(COMPONENT)
 
-  return useObserver(() => {
     const styles = memoStyles()
 
     const monoId = (String(id).includes(type) ? id : `${type}/${id}`) as MonoId
     const cn = cnjp(nameCn, name).trim()
     const jp = cnjp(name, nameCn).trim()
+
     const linkProps = useMemo(
       () =>
         ({
@@ -65,7 +65,7 @@ export const ItemCharacter = ({
             monoId
           })
         } as const),
-      [cn, jp, monoId]
+      [cn, cover, event, jp, monoId, replies]
     )
 
     const y = ITEM_HEIGHT * (index + 1)
@@ -111,7 +111,7 @@ export const ItemCharacter = ({
         {children}
       </Component>
     )
-  })
-}
+  }
+)
 
 export default ItemCharacter

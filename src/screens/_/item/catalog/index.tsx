@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-04 01:10:15
+ * @Last Modified time: 2026-03-20 05:12:58
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, Flex, Link } from '@components'
 import { discoveryStore } from '@stores'
 import { HTMLDecode, removeHTMLTag } from '@utils'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import { DATA_CATALOG_TYPE_MAP, EVENT } from '@constants'
 import { InView, PreventTouchPlaceholder } from '../../base'
 import Covers from './covers'
@@ -19,29 +19,28 @@ import { COMPONENT, ITEM_HEIGHT } from './ds'
 import { memoStyles } from './styles'
 
 import type { Props as ItemCatalogProps } from './types'
-
 export type { ItemCatalogProps }
 
-export const ItemCatalog = ({
-  event = EVENT,
-  index,
-  id,
-  name,
-  userName,
-  title,
-  info,
-  time,
-  last,
-  isUser,
-  hideScore = false,
-  filter,
-  detail,
-  children,
-  ...typeProps
-}: ItemCatalogProps) => {
-  r(COMPONENT)
+export const ItemCatalog = observer(
+  ({
+    event = EVENT,
+    index,
+    id,
+    name,
+    userName,
+    title,
+    info,
+    time,
+    last,
+    isUser,
+    hideScore = false,
+    filter,
+    detail,
+    children,
+    ...typeProps
+  }: ItemCatalogProps) => {
+    r(COMPONENT)
 
-  return useObserver(() => {
     // 过滤是否全为 0
     const total = Object.keys(DATA_CATALOG_TYPE_MAP).reduce((sum, key) => {
       const v = (typeProps as any)[key] || 0
@@ -142,7 +141,7 @@ export const ItemCatalog = ({
         <PreventTouchPlaceholder />
       </Component>
     )
-  })
-}
+  }
+)
 
 export default ItemCatalog

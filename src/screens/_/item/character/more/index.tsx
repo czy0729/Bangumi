@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2026-01-09 08:01:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-09 09:18:23
+ * @Last Modified time: 2026-03-20 05:15:46
  */
 import React, { useCallback, useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Iconfont } from '@components'
-import { useNavigation, useObserver } from '@utils/hooks'
+import { useNavigation } from '@utils/hooks'
 import { HOST } from '@constants'
 import { PERSONS_ACTORS_DATA, TEXT_COLLABS, TEXT_COLLECTIONS, TEXT_TOPIC, TEXT_WORKS } from '../ds'
 import { Popover } from '../../../base'
@@ -69,11 +70,11 @@ function More({ monoId, name }: Props) {
     [memoAction, monoId, navigation]
   )
 
-  return useObserver(() => (
+  return (
     <Popover style={styles.navigate} data={memoData} onSelect={handleSelect}>
       {elContent}
     </Popover>
-  ))
+  )
 }
 
-export default More
+export default observer(More)

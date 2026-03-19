@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-08-08 09:59:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-12 06:00:35
+ * @Last Modified time: 2026-03-20 05:28:33
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, Flex, Link } from '@components'
 import { getUserIdFromAvatar } from '@utils'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import { EVENT } from '@constants'
 import Avatar from './avatar'
 import Content from './content'
@@ -17,25 +17,24 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { Props as ItemNotifyProps } from './types'
-
 export type { ItemNotifyProps }
 
-export const ItemNotify = ({
-  index,
-  avatar,
-  userId,
-  userName,
-  title,
-  message,
-  message2,
-  href,
-  repeat,
-  event = EVENT,
-  children
-}: ItemNotifyProps) => {
-  r(COMPONENT)
+export const ItemNotify = observer(
+  ({
+    index,
+    avatar,
+    userId,
+    userName,
+    title,
+    message,
+    message2,
+    href,
+    repeat,
+    event = EVENT,
+    children
+  }: ItemNotifyProps) => {
+    r(COMPONENT)
 
-  return useObserver(() => {
     const styles = memoStyles()
 
     let connectUserId = 0
@@ -91,7 +90,7 @@ export const ItemNotify = ({
         )}
       </Component>
     )
-  })
-}
+  }
+)
 
 export default ItemNotify

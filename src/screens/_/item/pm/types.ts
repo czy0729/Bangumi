@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-06-17 19:59:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 15:42:42
+ * @Last Modified time: 2026-03-20 05:28:58
  */
-import { EventType, Id, UserId } from '@types'
+import type { EventType, Id, UserId } from '@types'
 
 export type Props = {
   event?: EventType

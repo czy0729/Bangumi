@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-03-24 08:40:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-24 08:47:59
+ * @Last Modified time: 2026-03-20 05:20:03
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { uiStore, userStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { Likes as LikesComp } from '../../../base'
 
 function Likes({ relatedId, subjectId }) {
@@ -23,4 +23,4 @@ function Likes({ relatedId, subjectId }) {
   )
 }
 
-export default ob(Likes)
+export default observer(Likes)

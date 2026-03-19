@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:54:23
+ * @Last Modified time: 2026-03-20 04:40:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,7 +17,6 @@ import { COMPONENT, Y } from './ds'
 import { memoStyles } from './styles'
 
 import type { Props as ItemArticleProps } from './types'
-
 export type { ItemArticleProps }
 
 export const ItemArticle = observer(

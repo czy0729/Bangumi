@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-14 03:02:20
+ * @Last Modified time: 2026-03-20 06:03:24
  */
 import { Alert, Clipboard, findNodeHandle, NativeModules, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'
@@ -167,7 +167,7 @@ export function showActionSheet(
 
 /** 显示 ImageViewer */
 export function showImageViewer(
-  imageUrls: {
+  imageUrls: readonly {
     url?: any
     _url?: any
     headers?: object

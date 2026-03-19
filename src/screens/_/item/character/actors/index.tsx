@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-08-24 13:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-09 09:18:37
+ * @Last Modified time: 2026-03-20 05:14:32
  */
 import React, { useCallback, useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { Cover, Flex, Link, Text } from '@components'
 import { _ } from '@stores'
 import { cnjp, getMonoCoverSmall, stl } from '@utils'
-import { useNavigation, useObserver } from '@utils/hooks'
+import { useNavigation } from '@utils/hooks'
 import { HOST, IMG_INFO_ONLY } from '@constants'
 import {
   CHARACTERS_ACTORS_DATA,
@@ -27,7 +28,7 @@ import type { Props } from './types'
 function Actors({ actors, y, event }: Props) {
   const navigation = useNavigation()
 
-  return useObserver(() => (
+  return (
     <Flex style={_.mt.sm} wrap='wrap'>
       {actors.map(item => {
         const monoId = (String(item.id).includes('person') ? item.id : `person/${item.id}`).replace(
@@ -117,7 +118,7 @@ function Actors({ actors, y, event }: Props) {
         )
       })}
     </Flex>
-  ))
+  )
 }
 
-export default Actors
+export default observer(Actors)

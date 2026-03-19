@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2024-08-21 18:41:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-11 05:09:04
+ * @Last Modified time: 2026-03-20 05:07:48
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Avatar, Flex, Text, UserStatus } from '@components'
 import { _ } from '@stores'
-import { useNavigation, useObserver } from '@utils/hooks'
+import { useNavigation } from '@utils/hooks'
 import { AVATAR_WIDTH } from '../ds'
 
 function Desc({ userId, avatar, name, date, event }) {
   const navigation = useNavigation()
 
-  return useObserver(() => (
+  return (
     <Flex style={_.mt.md}>
       <View style={_.mr.sm}>
         <UserStatus userId={userId} mini>
@@ -42,7 +43,7 @@ function Desc({ userId, avatar, name, date, event }) {
         )}
       </Flex.Item>
     </Flex>
-  ))
+  )
 }
 
-export default Desc
+export default observer(Desc)

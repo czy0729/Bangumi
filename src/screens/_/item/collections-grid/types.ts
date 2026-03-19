@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-06-17 11:24:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-11 02:12:45
+ * @Last Modified time: 2026-03-20 05:23:22
  */
 import type { CoverProps } from '@components'
-import type { EventType, Id, SubjectTypeCn, ViewStyle } from '@types'
+import type { EventType, Id, SubjectTypeCn, WithViewStyles } from '@types'
 
-export type Props = {
-  style?: ViewStyle
+export type Props = WithViewStyles<{
   num?: number
   id?: Id
   name?: string
@@ -30,4 +29,4 @@ export type Props = {
   isRectangle?: boolean
   hideScore?: boolean
   event?: EventType
-}
+}>

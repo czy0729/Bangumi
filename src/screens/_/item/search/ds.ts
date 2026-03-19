@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-06-15 10:48:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 05:03:14
+ * @Last Modified time: 2026-03-20 05:46:31
  */
 import { rc } from '@utils/dev'
 import { EVENT } from '@constants'
-import { Navigation } from '@types'
 import { COMPONENT as PARENT } from '../ds'
-import { memoStyles } from './styles'
-import { Props as $ } from './types'
+
+import type { Navigation } from '@types'
+import type { memoStyles } from './styles'
+import type { Props as $ } from './types'
 
 export const COMPONENT = rc(PARENT, 'ItemSearch')
 

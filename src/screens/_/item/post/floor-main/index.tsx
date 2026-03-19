@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-01-23 18:48:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-13 22:20:35
+ * @Last Modified time: 2026-03-20 05:34:15
  */
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { systemStore } from '@stores'
 import { stl } from '@utils'
-import { useObserver } from '@utils/hooks'
 import { IMAGES_MAX_WIDTH } from '../ds'
 import { Likes, Name, UserAge } from '../../../base'
 import CollapsedHtml from '../collapsed-html'
@@ -52,74 +52,72 @@ function FloorMain({
     [isAuthor, isFriend, userSign]
   )
 
-  return useObserver(() => {
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    return (
-      <Flex.Item style={stl(styles.content, contentStyle)}>
-        <Flex align='start'>
-          <Flex.Item>
-            <Flex>
-              <View style={systemStore.setting.userAge && styles.name}>
-                <Name
-                  userId={userId}
-                  size={userName.length > 10 ? 12 : 14}
-                  lineHeight={14}
-                  bold
-                  right={elRight}
-                >
-                  {userName}
-                </Name>
-              </View>
-              {systemStore.setting.userAge && (
-                <Flex.Item>
-                  <UserAge style={styles.userAge} value={userId} avatar={avatar} />
-                </Flex.Item>
-              )}
-            </Flex>
-          </Flex.Item>
-          <IconExtra
-            style={extraStyle}
-            topicId={topicId}
-            id={id}
-            formhash={formhash}
-            likeType={likeType}
-            msg={msg}
-            replySub={replySub}
-            erase={erase}
-            userId={userId}
-            userName={userName}
-            onJumpTo={onJumpTo}
-            onShowFixedTextare={onShowFixedTextare}
-          />
-        </Flex>
-        <FloorText time={time} floor={floor} isNew={isNew} />
-        <View style={styles.html}>
-          <CollapsedHtml
-            id={id}
-            msg={msg}
-            url={url}
-            imagesMaxWidth={IMAGES_MAX_WIDTH}
-            matchLink={matchLink}
-            event={event}
-          />
-          <Likes
-            style={styles.likes}
-            topicId={topicId}
-            id={id}
-            formhash={formhash}
-            likeType={likeType}
-            onLongPress={onLikesLongPress}
-          />
-        </View>
-        {!!translate && (
-          <Text style={styles.translate} size={11} lineHeight={13}>
-            {translate.trim()}
-          </Text>
-        )}
-      </Flex.Item>
-    )
-  })
+  return (
+    <Flex.Item style={stl(styles.content, contentStyle)}>
+      <Flex align='start'>
+        <Flex.Item>
+          <Flex>
+            <View style={systemStore.setting.userAge && styles.name}>
+              <Name
+                userId={userId}
+                size={userName.length > 10 ? 12 : 14}
+                lineHeight={14}
+                bold
+                right={elRight}
+              >
+                {userName}
+              </Name>
+            </View>
+            {systemStore.setting.userAge && (
+              <Flex.Item>
+                <UserAge style={styles.userAge} value={userId} avatar={avatar} />
+              </Flex.Item>
+            )}
+          </Flex>
+        </Flex.Item>
+        <IconExtra
+          style={extraStyle}
+          topicId={topicId}
+          id={id}
+          formhash={formhash}
+          likeType={likeType}
+          msg={msg}
+          replySub={replySub}
+          erase={erase}
+          userId={userId}
+          userName={userName}
+          onJumpTo={onJumpTo}
+          onShowFixedTextare={onShowFixedTextare}
+        />
+      </Flex>
+      <FloorText time={time} floor={floor} isNew={isNew} />
+      <View style={styles.html}>
+        <CollapsedHtml
+          id={id}
+          msg={msg}
+          url={url}
+          imagesMaxWidth={IMAGES_MAX_WIDTH}
+          matchLink={matchLink}
+          event={event}
+        />
+        <Likes
+          style={styles.likes}
+          topicId={topicId}
+          id={id}
+          formhash={formhash}
+          likeType={likeType}
+          onLongPress={onLikesLongPress}
+        />
+      </View>
+      {!!translate && (
+        <Text style={styles.translate} size={11} lineHeight={13}>
+          {translate.trim()}
+        </Text>
+      )}
+    </Flex.Item>
+  )
 }
 
-export default FloorMain
+export default observer(FloorMain)

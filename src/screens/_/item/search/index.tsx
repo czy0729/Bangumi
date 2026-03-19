@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 03:11:39
+ * @Last Modified time: 2026-03-20 05:47:11
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Component } from '@components'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import Item from './item'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props as ItemSearchProps } from './types'
 
-export { ItemSearchProps }
+import type { Props as ItemSearchProps } from './types'
+export type { ItemSearchProps }
 
-export const ItemSearch = ob(
+export const ItemSearch = observer(
   ({
     navigation,
     style,
@@ -36,6 +37,8 @@ export const ItemSearch = ob(
     highlight,
     event
   }: ItemSearchProps) => {
+    r(COMPONENT)
+
     return (
       <Component id='item-search' data-key={id}>
         <Item
@@ -62,8 +65,7 @@ export const ItemSearch = ob(
         />
       </Component>
     )
-  },
-  COMPONENT
+  }
 )
 
 export default ItemSearch
