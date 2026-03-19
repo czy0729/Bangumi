@@ -2,53 +2,52 @@
  * @Author: czy0729
  * @Date: 2025-02-02 17:26:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-16 18:45:15
+ * @Last Modified time: 2026-03-19 17:42:58
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Accordion, Avatar, Flex, Loading, Mask, Text, Touchable } from '@components'
 import { IconTouchable } from '@_/icon'
 import { _, systemStore } from '@stores'
 import { copy, feedback, info, lastDate } from '@utils'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import { GROUP_THUMB_MAP } from '@assets/images'
 import { MUSUME_CONFIG, MUSUME_DATA } from './ds'
 import { memoStyles } from './styles'
 
 import type { Props as MesumeChatProps } from './types'
-
 export type { MesumeChatProps }
 
 /** Bangumi 娘锐评框 */
-export const MesumeChat = ({
-  show,
-  value,
-  time,
-  placeholder = '思考中...',
-  loading,
-  onBefore,
-  onNext,
-  onRefresh,
-  onClose
-}: MesumeChatProps) => {
-  const [lastRefreshTime, setLastRefreshTime] = useState<number | null>(null)
-  const [showPannel, setShowPannel] = useState(false)
+export const MesumeChat = observer(
+  ({
+    show,
+    value,
+    time,
+    placeholder = '思考中...',
+    loading,
+    onBefore,
+    onNext,
+    onRefresh,
+    onClose
+  }: MesumeChatProps) => {
+    const [lastRefreshTime, setLastRefreshTime] = useState<number | null>(null)
+    const [showPannel, setShowPannel] = useState(false)
 
-  const handleRefresh = useCallback(() => {
-    if (!systemStore.advance) {
-      const now = Date.now()
-      if (lastRefreshTime && now - lastRefreshTime < 30000) {
-        info('普通用户有 30 秒刷新间隔')
-        return
+    const handleRefresh = useCallback(() => {
+      if (!systemStore.advance) {
+        const now = Date.now()
+        if (lastRefreshTime && now - lastRefreshTime < 30000) {
+          info('普通用户有 30 秒刷新间隔')
+          return
+        }
+
+        setLastRefreshTime(now)
       }
+      onRefresh?.()
+    }, [lastRefreshTime, onRefresh])
 
-      setLastRefreshTime(now)
-    }
-    onRefresh?.()
-  }, [lastRefreshTime, onRefresh])
-
-  return useObserver(() => {
     const styles = memoStyles()
     const { musumePrompt } = systemStore.setting
 
@@ -188,5 +187,7 @@ export const MesumeChat = ({
         </View>
       </>
     )
-  })
-}
+  }
+)
+
+export default MesumeChat

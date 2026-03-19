@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-09-02 17:49:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-16 06:21:42
+ * @Last Modified time: 2026-03-19 17:00:44
  */
-import { SubjectTypeCn } from '@types'
+import type { SubjectTypeCn } from '@types'
 
 const memo = new Map<string, SubjectTypeCn>()
 

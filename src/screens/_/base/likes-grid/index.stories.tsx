@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-04-05 12:31:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 15:46:06
+ * @Last Modified time: 2026-03-19 17:06:49
  */
 import React from 'react'
 import { View } from 'react-native'
 import { _ } from '@stores'
 import Component from './grid'
-import { DATA } from './grid/ds'
 import { props } from './index.mock'
+import { DATA } from './ds'
 
 export default {
   title: 'base/LikesGrid',

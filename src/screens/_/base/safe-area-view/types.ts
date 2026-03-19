@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-06-14 11:44:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-14 11:48:00
+ * @Last Modified time: 2026-03-19 20:21:28
  */
-import { ViewStyle } from '@types'
+import type { PropsWithChildren } from 'react'
+import type { WithViewStyles } from '@types'
 
 type Direction = 'top' | 'bottom' | 'left' | 'right' | 'vertical' | 'horizontal'
 type ForceInset = 'always' | 'never'
 
-export type Props = {
-  style?: ViewStyle
-  forceInset?: {
-    [K in Direction]?: ForceInset
-  }
-  children?: any
-}
+export type Props = PropsWithChildren<
+  WithViewStyles<{
+    forceInset?: {
+      [K in Direction]?: ForceInset
+    }
+  }>
+>

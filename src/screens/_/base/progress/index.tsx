@@ -2,21 +2,24 @@
  * @Author: czy0729
  * @Date: 2024-04-03 08:43:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 00:22:22
+ * @Last Modified time: 2026-03-19 20:19:41
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
-import { ob } from '@utils/decorators'
-import { ColorValue } from '@types'
+import { r } from '@utils/dev'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props as ProgressProps } from './types'
 
-export { ProgressProps }
+import type { ColorValue } from '@types'
+import type { Props as ProgressProps } from './types'
+export type { ProgressProps }
 
-export const Progress = ob(({ style, current, total, children }: ProgressProps) => {
+export const Progress = observer(({ style, current, total, children }: ProgressProps) => {
+  r(COMPONENT)
+
   const styles = memoStyles()
 
   let barColor: ColorValue = _.colorSuccess
@@ -45,6 +48,6 @@ export const Progress = ob(({ style, current, total, children }: ProgressProps) 
       />
     </View>
   )
-}, COMPONENT)
+})
 
 export default Progress

@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2024-06-13 22:34:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-14 17:36:38
+ * @Last Modified time: 2026-03-19 20:34:02
  */
 import React, { useCallback, useEffect, useState } from 'react'
-import { NativeSyntheticEvent, TextLayoutEventData } from 'react-native'
 import { Text } from '@components'
 import { stl } from '@utils'
 import { calcStyles, removeSpecCharacters } from './utils'
-import { Props as VerticalAlignProps } from './types'
 
-export { VerticalAlignProps }
+import type { NativeSyntheticEvent, TextLayoutEventData } from 'react-native'
+import type { Props as VerticalAlignProps } from './types'
+export type { VerticalAlignProps }
 
 const memo = new Map<string, boolean>()
 

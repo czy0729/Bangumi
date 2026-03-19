@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-03-14 17:59:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-12 07:19:25
+ * @Last Modified time: 2026-03-19 15:30:18
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Button, Component, Flex, Iconfont, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { feedback, open } from '@utils'
-import { useNavigation, useObserver } from '@utils/hooks'
+import { useNavigation } from '@utils/hooks'
 import { URL_ZHINAN, WEB } from '@constants'
 import i18n from '@constants/i18n'
 import { IconTouchable } from '../../icon/touchable'
@@ -17,10 +18,10 @@ import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 /** 未登录 */
-export function Auth() {
+export const Auth = observer(() => {
   const navigation = useNavigation(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <Component id='base-auth' style={_.container.plain}>
       <StatusBarPlaceholder />
 
@@ -80,7 +81,7 @@ export function Auth() {
         </Button>
       </Flex>
     </Component>
-  ))
-}
+  )
+})
 
 export default Auth

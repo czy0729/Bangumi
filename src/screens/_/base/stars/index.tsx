@@ -2,24 +2,25 @@
  * @Author: czy0729
  * @Date: 2019-04-10 15:17:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-06 16:12:48
+ * @Last Modified time: 2026-03-19 20:27:50
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Component, Flex, Iconfont, Text } from '@components'
 import { _, systemStore } from '@stores'
 import { stl } from '@utils'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { WEB } from '@constants'
 import { fontSize } from '@styles'
 import { COMPONENT, NUMS } from './ds'
 import { styles } from './styles'
-import { Props as StarsProps } from './types'
 
-export { StarsProps }
+import type { Props as StarsProps } from './types'
+export type { StarsProps }
 
 /** 评分 */
-export const Stars = ob(
+export const Stars = observer(
   ({
     style,
     textStyle,
@@ -31,11 +32,14 @@ export const Stars = ob(
     extraText,
     hideScore
   }: StarsProps) => {
+    r(COMPONENT)
+
     if (hideScore || !value) return null
     if (hideScore === undefined && systemStore.setting.hideScore) return null
 
     const transform = WEB && size < 12
     const webStyle = transform && fontSize(size, size, true)
+
     if (simple) {
       return (
         <Component id='base-stars' data-simple={simple}>
@@ -108,8 +112,7 @@ export const Stars = ob(
         </Flex>
       </Component>
     )
-  },
-  COMPONENT
+  }
 )
 
 export default Stars

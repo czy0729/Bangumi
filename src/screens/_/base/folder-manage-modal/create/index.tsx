@@ -2,20 +2,22 @@
  * @Author: czy0729
  * @Date: 2023-03-07 16:47:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-20 11:37:30
+ * @Last Modified time: 2026-03-19 16:49:41
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import TextareaItem from '@ant-design/react-native/lib/textarea-item'
 import { Input, Text } from '@components'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
 import { IconTouchable } from '../../../icon'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function Create({ title, desc, onChange, onCreate, onSubmitCatalog }: Props) {
   const styles = memoStyles()
+
   return (
     <View style={styles.create}>
       <Text bold>新建目录</Text>
@@ -51,4 +53,4 @@ function Create({ title, desc, onChange, onCreate, onSubmitCatalog }: Props) {
   )
 }
 
-export default ob(Create)
+export default observer(Create)

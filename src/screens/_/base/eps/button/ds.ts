@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-09-04 03:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-22 02:13:43
+ * @Last Modified time: 2026-03-19 15:37:06
  */
 import { FROZEN_FN } from '@constants'
-import { SubjectId } from '@types'
-import { memoStyles } from './styles'
+
+import type { SubjectId } from '@types'
+import type { memoStyles } from './styles'
 
 export const DEFAULT_PROPS = {
   styles: {} as ReturnType<typeof memoStyles>,

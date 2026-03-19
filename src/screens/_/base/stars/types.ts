@@ -2,15 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-06-13 12:34:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-06 16:12:35
+ * @Last Modified time: 2026-03-19 20:27:34
  */
-import { TextType } from '@components'
-import { ColorValue, TextStyle, ViewStyle } from '@types'
+import type { TextType } from '@components'
+import type { ColorValue, TextStyle, WithViewStyles } from '@types'
 
-export type Props = {
-  /** 容器样式 */
-  style?: ViewStyle
-
+export type Props = WithViewStyles<{
   /** 文字样式 */
   textStyle?: TextStyle
 
@@ -34,4 +31,4 @@ export type Props = {
 
   /** 隐藏评分 */
   hideScore?: boolean
-}
+}>

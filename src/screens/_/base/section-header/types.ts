@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-06-14 15:14:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-14 15:18:34
+ * @Last Modified time: 2026-03-19 20:24:23
  */
-import { TextType } from '@components'
-import { ViewStyle, ReactNode } from '@types'
+import type { PropsWithChildren } from 'react'
+import type { TextType } from '@components'
+import type { ReactNode, WithViewStyles } from '@types'
 
-export type Props = {
-  style?: ViewStyle
-  type?: TextType
-  size?: number
-  right?: ReactNode
-  children?: any
-}
+export type Props = PropsWithChildren<
+  WithViewStyles<{
+    type?: TextType
+    size?: number
+    right?: ReactNode
+  }>
+>

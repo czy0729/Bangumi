@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-13 05:33:57
+ * @Last Modified time: 2026-03-19 17:42:09
  */
 import React from 'react'
 import { BackHandler } from 'react-native'
+import { observer } from 'mobx-react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { Component, Flex, Modal, Text } from '@components'
 import { _, collectionStore, subjectStore, systemStore, userStore } from '@stores'
@@ -21,8 +22,7 @@ import {
   setStorage,
   sleep
 } from '@utils'
-import { ob } from '@utils/decorators'
-import { logger } from '@utils/dev'
+import { logger, r } from '@utils/dev'
 import { FROZEN_FN, H, IOS, MODEL_PRIVATE, MODEL_SUBJECT_TYPE } from '@constants'
 import i18n from '@constants/i18n'
 import { StarGroup } from '../star-group'
@@ -35,13 +35,12 @@ import { COMPONENT, MAX_HISTORY_COUNT, NAMESPACE_COMMENT, NAMESPACE_PRIVACY } fr
 import { memoStyles } from './styles'
 
 import type { InputInstance } from '@components'
-import type { Private, PrivateCn, RatingStatus, SubjectType } from '@types'
+import type { CollectionStatus, Private, PrivateCn, RatingStatus, SubjectType } from '@types'
 import type { Props as ManageModalProps, State } from './types'
-
 export type { ManageModalProps }
 
 /** 条目收藏管理弹窗 */
-export const ManageModal = ob(
+export const ManageModal = observer(
   class ManageModalComponent extends React.Component<ManageModalProps, State> {
     static defaultProps: ManageModalProps = {
       visible: false,
@@ -196,7 +195,7 @@ export const ManageModal = ob(
       })
     }
 
-    handleChangeStatus = (status: RatingStatus) => {
+    handleChangeStatus = (status: RatingStatus | CollectionStatus) => {
       this.setState({
         status
       })
@@ -366,6 +365,8 @@ export const ManageModal = ob(
     }
 
     render() {
+      r(COMPONENT)
+
       const { action, desc, disabled, subjectId, title, visible, onClose } = this.props
       const {
         comment,
@@ -445,8 +446,7 @@ export const ManageModal = ob(
     get styles() {
       return memoStyles()
     }
-  },
-  COMPONENT
+  }
 )
 
 export default ManageModal

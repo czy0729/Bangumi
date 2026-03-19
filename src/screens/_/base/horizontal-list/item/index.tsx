@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-07-03 06:53:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 18:00:50
+ * @Last Modified time: 2026-03-19 17:00:57
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Cover, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { stl } from '@utils'
-import { ob } from '@utils/decorators'
 import Desc from './desc'
 import Title from './title'
 import { getTypeCn } from './utils'
@@ -31,6 +31,7 @@ function Item({
   const typeCnValue = getTypeCn(item.name, item.desc, typeCn, relationTypeCn)
   const isMusic = typeCnValue === '音乐'
   const w = _.r(isMusic ? width * 1.16 : width)
+
   return (
     <View
       style={stl(
@@ -75,4 +76,4 @@ function Item({
   )
 }
 
-export default ob(Item)
+export default observer(Item)

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-05-07 04:18:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-17 12:50:42
+ * @Last Modified time: 2026-03-19 17:00:34
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { _ } from '@stores'
 import { findSubjectCn, HTMLDecode } from '@utils'
-import { ob } from '@utils/decorators'
 import { WEB } from '@constants'
 
 function Title({ id, name, findCn, typeCn, ellipsizeMode }) {
@@ -29,4 +29,4 @@ function Title({ id, name, findCn, typeCn, ellipsizeMode }) {
   )
 }
 
-export default ob(Title)
+export default observer(Title)

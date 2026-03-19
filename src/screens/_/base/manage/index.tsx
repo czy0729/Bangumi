@@ -2,26 +2,28 @@
  * @Author: czy0729
  * @Date: 2022-07-22 17:54:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-23 15:27:55
+ * @Last Modified time: 2026-03-19 17:35:31
  */
 import React from 'react'
-import { Component, Flex, TextType, Touchable } from '@components'
+import { observer } from 'mobx-react'
+import { Component, Flex, Touchable } from '@components'
 import { _ } from '@stores'
 import { open, stl } from '@utils'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { HOST, WEB } from '@constants'
-import { IconfontNames } from '@types'
 import { IconTouchable } from '../../icon/touchable'
 import Content from './content'
 import Flip from './flip'
 import { COMPONENT, HIT_SLOP } from './ds'
 import { styles } from './styles'
-import { Props as ManageProps } from './types'
 
-export { ManageProps }
+import type { TextType } from '@components'
+import type { IconfontNames } from '@types'
+import type { Props as ManageProps } from './types'
+export type { ManageProps }
 
 /** 打开全局条目管理框的按钮 */
-export const Manage = ob(
+export const Manage = observer(
   ({
     style,
     subjectId,
@@ -31,6 +33,8 @@ export const Manage = ob(
     showRedirect,
     onPress
   }: ManageProps) => {
+    r(COMPONENT)
+
     if (WEB) {
       if (!subjectId) return null
 
@@ -87,6 +91,7 @@ export const Manage = ob(
       collection: action,
       horizontal
     }
+
     return (
       <Component id='base-manage'>
         <Flex style={styles.manage} justify='end' align='start'>
@@ -111,8 +116,7 @@ export const Manage = ob(
         </Flex>
       </Component>
     )
-  },
-  COMPONENT
+  }
 )
 
 export default Manage

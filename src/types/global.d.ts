@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-25 17:33:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-14 03:12:33
+ * @Last Modified time: 2026-03-19 20:32:20
  */
 declare namespace global {
   /** 是否开发模式 */
@@ -38,6 +38,8 @@ declare const document: {
     offsetTop?: number
     addEventListener?: Fn
   } | null
+  addEventListener?: Fn
+  removeEventListener?: Fn
 }
 
 /** 全局 window 类型声明 (仅为防止 RN 编译报错) */
@@ -82,6 +84,7 @@ declare const window: {
   /** URLSearchParams 构造函数 */
   URLSearchParams: new (init?: string | string[][] | Record<string, string> | URLSearchParams) => {
     append(key: string, value: string): void
+    get(key: string): string
     toString(): string
     [Symbol.iterator](): IterableIterator<[string, string]>
   }

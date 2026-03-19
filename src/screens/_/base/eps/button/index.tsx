@@ -2,14 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-08-10 00:59:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-31 19:24:56
+ * @Last Modified time: 2026-03-19 15:38:33
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { systemStore } from '@stores'
-import { ob } from '@utils/decorators'
-import ButtonComp from './button'
+import Button from './button'
 import { memoStyles } from './styles'
 
-export const Button = ob(props => (
-  <ButtonComp styles={memoStyles()} heatMap={systemStore.setting.heatMap} {...props} />
-))
+function ButtonWrap(props) {
+  return <Button styles={memoStyles()} heatMap={systemStore.setting.heatMap} {...props} />
+}
+
+export default observer(ButtonWrap)

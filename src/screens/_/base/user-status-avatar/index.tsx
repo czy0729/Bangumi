@@ -2,32 +2,25 @@
  * @Author: czy0729
  * @Date: 2024-10-01 17:26:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-11 17:00:19
+ * @Last Modified time: 2026-03-19 20:33:21
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Avatar, Iconfont, UserStatus } from '@components'
 import { _ } from '@stores'
-import { useNavigation, useObserver } from '@utils/hooks'
+import { useNavigation } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props as UserStatusAvatarProps } from './types'
 
-export { UserStatusAvatarProps }
+import type { Props as UserStatusAvatarProps } from './types'
+export type { UserStatusAvatarProps }
 
 /** 用户状态头像, 支持显示特别关注 */
-export const UserStatusAvatar = ({
-  style,
-  like,
-  userId,
-  userName,
-  avatar,
-  size,
-  event
-}: UserStatusAvatarProps) => {
-  const navigation = useNavigation(COMPONENT)
+export const UserStatusAvatar = observer(
+  ({ style, like, userId, userName, avatar, size, event }: UserStatusAvatarProps) => {
+    const navigation = useNavigation(COMPONENT)
 
-  return useObserver(() => {
     const styles = memoStyles()
     if (like) {
       return (
@@ -59,7 +52,7 @@ export const UserStatusAvatar = ({
         </UserStatus>
       </View>
     )
-  })
-}
+  }
+)
 
 export default UserStatusAvatar

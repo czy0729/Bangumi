@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-08-10 04:16:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-14 04:12:29
+ * @Last Modified time: 2026-03-19 15:36:13
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { HardwareTextureRootBlurView } from '@components'
 import { _, systemStore } from '@stores'
 import { r } from '@utils/dev'
@@ -18,7 +19,7 @@ import type { PropsWithChildren } from 'react'
  *
  * 安卓端会把子层级下的所有 BlurView 渲染到根本的 RootContainer
  */
-export function BlurViewRoot({ children }: PropsWithChildren<{}>) {
+export const BlurViewRoot = observer(({ children }: PropsWithChildren<{}>) => {
   r(COMPONENT)
 
   if (IOS || !(systemStore.setting.androidBlur && systemStore.setting.blurBottomTabs)) {
@@ -28,6 +29,6 @@ export function BlurViewRoot({ children }: PropsWithChildren<{}>) {
   return (
     <HardwareTextureRootBlurView style={_.container.flex}>{children}</HardwareTextureRootBlurView>
   )
-}
+})
 
 export default BlurViewRoot

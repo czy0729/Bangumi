@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:12:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 06:41:18
+ * @Last Modified time: 2026-03-19 17:09:53
  */
 import React, { useCallback } from 'react'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { Component, Flex, Iconfont, StatusBar, Touchable } from '@components'
 import { _, systemStore } from '@stores'
 import { info } from '@utils'
@@ -16,14 +16,13 @@ import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 import type { Props as LogoProps } from './types'
-
 export type { LogoProps }
 
 /** 切换主题中 */
 let pendding = false
 
 /** BGM Logo */
-export function Logo({ navigation, forceUpdate, path = 'Setting' }: LogoProps) {
+export const Logo = observer(({ navigation, forceUpdate, path = 'Setting' }: LogoProps) => {
   r(COMPONENT)
 
   const handlePress = useCallback(() => {
@@ -67,7 +66,7 @@ export function Logo({ navigation, forceUpdate, path = 'Setting' }: LogoProps) {
     if (navigation) navigation.push(path)
   }, [navigation, path])
 
-  return useObserver(() => (
+  return (
     <Component id='base-logo'>
       <Touchable style={styles.radius} onPress={handlePress} onLongPress={handleLongPress}>
         <Flex style={styles.logo} justify='center'>
@@ -80,7 +79,7 @@ export function Logo({ navigation, forceUpdate, path = 'Setting' }: LogoProps) {
         </Flex>
       </Touchable>
     </Component>
-  ))
-}
+  )
+})
 
 export default Logo

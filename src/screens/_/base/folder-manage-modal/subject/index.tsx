@@ -2,23 +2,24 @@
  * @Author: czy0729
  * @Date: 2025-03-19 22:20:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-20 16:02:21
+ * @Last Modified time: 2026-03-19 16:50:07
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import TextareaItem from '@ant-design/react-native/lib/textarea-item'
 import { Cover, Flex, Iconfont, Input, Text } from '@components'
 import { _, collectionStore, uiStore } from '@stores'
 import { getAction, HTMLDecode } from '@utils'
-import { ob } from '@utils/decorators'
 import { MODEL_COLLECTION_STATUS } from '@constants'
-import { CollectionStatus } from '@types'
 import { CONTROL_DS, HEIGHT, WIDTH } from '../ds'
 import { IconTouchable } from '../../../icon'
 import { Manage } from '../../manage'
 import { Popover } from '../../popover'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { CollectionStatus } from '@types'
+import type { Props } from './types'
 
 function Subject({
   forwardRef,
@@ -38,6 +39,7 @@ function Subject({
   onSubmit
 }: Props) {
   const styles = memoStyles()
+
   const isEditing = !!edit && edit == item.id
   let data: readonly string[]
   if (length <= 1) {
@@ -165,4 +167,4 @@ function Subject({
   )
 }
 
-export default ob(Subject)
+export default observer(Subject)

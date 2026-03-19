@@ -2,28 +2,28 @@
  * @Author: czy0729
  * @Date: 2020-07-15 16:37:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 14:55:37
+ * @Last Modified time: 2026-03-19 16:11:58
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Component, Flex, Heatmap, Iconfont, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { info, isArray, stl } from '@utils'
-import { ob } from '@utils/decorators'
 import { useNavigation } from '@utils/hooks'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import i18n from '@constants/i18n'
-import { EventKeys } from '@types'
 import { FilterSwitch } from '../filter-switch'
 import { scrollToX } from './utils'
 import { COMPONENT, HIT_SLOP } from './ds'
 import { memoStyles } from './styles'
-import { Ctx, Props as FilterProps } from './types'
 
-export { FilterProps }
+import type { EventKeys } from '@types'
+import type { Ctx, Props as FilterProps } from './types'
+export type { FilterProps }
 
 /** 筛选组 */
-export const Filter = ob(
+export const Filter = observer(
   ({
     filterDS = [],
     title = '频道',
@@ -33,16 +33,19 @@ export const Filter = ob(
     information = '',
     renderRight
   }: FilterProps) => {
-    const { $ } = useStore<Ctx>()
+    const { $ } = useStore<Ctx>(COMPONENT)
     const navigation = useNavigation()
+
     const styles = memoStyles()
     const { query, layout, expand } = $?.state || {}
     const { length } = $?.list || []
     const total = $?.total || length
     const eventId = `${type}.选择` as EventKeys
+
     return (
       <Component id='base-filter' style={layout === 'grid' ? styles.grid : styles.list}>
         <FilterSwitch title={title} name={name} />
+
         {filterDS
           .filter(item => {
             let value = query[item.type]
@@ -55,6 +58,7 @@ export const Filter = ob(
             const state = query[item.type]
             const multiple = item.multiple
             const multiSelect = item.multiSelect
+
             return (
               <Flex key={item.title} style={styles.row} align={multiple ? 'start' : 'center'}>
                 <View>
@@ -198,6 +202,7 @@ export const Filter = ob(
               </Flex>
             )
           })}
+
         <Flex style={_.mt.sm} justify='center'>
           <Touchable
             style={styles.more}
@@ -210,6 +215,7 @@ export const Filter = ob(
             </Text>
           </Touchable>
         </Flex>
+
         <Flex style={styles.ft}>
           <Flex.Item>
             <Text size={11} type='sub' bold>
@@ -239,8 +245,7 @@ export const Filter = ob(
         </Flex>
       </Component>
     )
-  },
-  COMPONENT
+  }
 )
 
 export default Filter

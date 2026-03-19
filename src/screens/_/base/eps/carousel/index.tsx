@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2021-08-05 16:43:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-20 07:41:47
+ * @Last Modified time: 2026-03-19 15:39:34
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import AntCarousel from '@ant-design/react-native/lib/carousel'
-import { ob } from '@utils/decorators'
 import { NormalButtons } from '../normal-buttons'
 import { memoStyles, paginationStyles } from './styles'
 
-export const Carousel = ob(({ props, epsGroup = [] }) => {
+function Carousel({ props, epsGroup = [] }) {
   const styles = memoStyles()
+
   return (
     <AntCarousel
       style={styles.carousel}
@@ -22,8 +23,8 @@ export const Carousel = ob(({ props, epsGroup = [] }) => {
       infinite={false}
     >
       {epsGroup
-        // 渲染过多会卡顿, 暂时只取前 4 页
-        .filter((item, index) => index < 4)
+        // 渲染过多会卡顿
+        .filter((_item, index) => index < 5)
         .map((eps, index) => (
           <View key={index}>
             <NormalButtons props={props} eps={eps} />
@@ -31,4 +32,6 @@ export const Carousel = ob(({ props, epsGroup = [] }) => {
         ))}
     </AntCarousel>
   )
-})
+}
+
+export default observer(Carousel)

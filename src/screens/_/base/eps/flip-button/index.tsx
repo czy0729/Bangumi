@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-02 20:50:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-30 10:42:10
+ * @Last Modified time: 2026-03-19 15:40:47
  */
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { View } from 'react-native'
@@ -12,10 +12,10 @@ import Animated, {
   useSharedValue,
   withTiming
 } from 'react-native-reanimated'
+import { observer } from 'mobx-react'
 import { Button } from '@components'
 import { _ } from '@stores'
 import { feedback, urlStringify } from '@utils'
-import { useObserver } from '@utils/hooks'
 import { IOS } from '@constants'
 
 const perspective = 2400
@@ -101,40 +101,38 @@ function FlipBtn({ style, styleText, type, text, onAnimated }) {
   const beforeStyleAnimated = createAnimatedStyle(true)
   const afterStyleAnimated = createAnimatedStyle(false)
 
-  return useObserver(() => {
-    const space = 8
-    const containerStyle = {
-      height: height * 2 + space,
-      paddingTop: space
-    }
-    const animatedViewStyle = { marginTop: -height }
-    const placeholderStyle = { height }
+  const space = 8
+  const containerStyle = {
+    height: height * 2 + space,
+    paddingTop: space
+  }
+  const animatedViewStyle = { marginTop: -height }
+  const placeholderStyle = { height }
 
-    const { text: beforeText, ...beforeRest } = beforeProps
-    const { text: afterText, ...afterRest } = afterProps
+  const { text: beforeText, ...beforeRest } = beforeProps
+  const { text: afterText, ...afterRest } = afterProps
 
-    return (
-      <>
-        <View style={containerStyle}>
-          <Animated.View style={[animatedViewStyle, beforeStyleAnimated]}>
-            <View style={placeholderStyle} />
-            <Button size='sm' {...beforeRest} animate={false}>
-              {beforeText}
-            </Button>
-          </Animated.View>
+  return (
+    <>
+      <View style={containerStyle}>
+        <Animated.View style={[animatedViewStyle, beforeStyleAnimated]}>
+          <View style={placeholderStyle} />
+          <Button size='sm' {...beforeRest} animate={false}>
+            {beforeText}
+          </Button>
+        </Animated.View>
 
-          <Animated.View style={[animatedViewStyle, afterStyleAnimated]}>
-            <View style={placeholderStyle} />
-            <Button size='sm' {...afterRest} animate={false}>
-              {afterText}
-            </Button>
-          </Animated.View>
-        </View>
+        <Animated.View style={[animatedViewStyle, afterStyleAnimated]}>
+          <View style={placeholderStyle} />
+          <Button size='sm' {...afterRest} animate={false}>
+            {afterText}
+          </Button>
+        </Animated.View>
+      </View>
 
-        <View style={{ marginTop: -height }} />
-      </>
-    )
-  })
+      <View style={{ marginTop: -height }} />
+    </>
+  )
 }
 
-export default FlipBtn
+export default observer(FlipBtn)

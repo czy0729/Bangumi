@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 15:39:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-04 16:48:44
+ * @Last Modified time: 2026-03-19 17:41:30
  */
 import type { CollectionStatus, RatingStatus, SubjectActions, SubjectId } from '@types'
 

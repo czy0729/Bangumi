@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-03-20 15:04:16
  */
-import { HandleSortType, SortOrder, SortType } from '../types'
+import type { HandleSortType, SortOrder, SortType } from '../types'
 
 export type Props = {
   sortType: SortType

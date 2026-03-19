@@ -2,42 +2,43 @@
  * @Author: czy0729
  * @Date: 2023-03-31 05:22:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 18:18:49
+ * @Last Modified time: 2026-03-19 17:05:23
  */
 import React from 'react'
 import { toJS } from 'mobx'
+import { observer } from 'mobx-react'
 import { Component, Flex, Iconfont, ScrollView, Touchable } from '@components'
 import { rakuenStore, timelineStore, uiStore } from '@stores'
 import { feedback } from '@utils'
 import { r } from '@utils/dev'
-import { useBoolean, useObserver } from '@utils/hooks'
+import { useBoolean } from '@utils/hooks'
 import { IOS, LIKE_TYPE_TIMELINE } from '@constants'
 import Btn from './btn'
 import Flip from './flip'
 import { COMPONENT, HIT_SLOP, LIMIT } from './ds'
 import { memoStyles } from './styles'
-import { Props as LikesProps } from './types'
 
-export { LikesProps }
+import type { Props as LikesProps } from './types'
+export type { LikesProps }
 
 /** 贴贴显示列表 */
-export const Likes = ({
-  style,
-  show = false,
-  topicId,
-  id,
-  formhash,
-  likeType,
-  offsets,
-  storybook,
-  onPress,
-  onLongPress
-}: LikesProps) => {
-  r(COMPONENT)
+export const Likes = observer(
+  ({
+    style,
+    show = false,
+    topicId,
+    id,
+    formhash,
+    likeType,
+    offsets,
+    storybook,
+    onPress,
+    onLongPress
+  }: LikesProps) => {
+    r(COMPONENT)
 
-  const { state, setTrue } = useBoolean(show)
+    const { state, setTrue } = useBoolean(show)
 
-  return useObserver(() => {
     if (!rakuenStore.setting.likes) return null
 
     const isTimeline = likeType == LIKE_TYPE_TIMELINE
@@ -106,7 +107,7 @@ export const Likes = ({
         </ScrollView>
       </Component>
     )
-  })
-}
+  }
+)
 
 export default Likes

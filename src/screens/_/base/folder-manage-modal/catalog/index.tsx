@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2023-03-07 16:06:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-20 16:04:58
+ * @Last Modified time: 2026-03-19 16:49:04
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import TextareaItem from '@ant-design/react-native/lib/textarea-item'
 import { Flex, Iconfont, Input, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { HTMLDecode } from '@utils'
-import { ob } from '@utils/decorators'
 import { CONTROL_DS } from '../ds'
 import { IconTouchable } from '../../../icon'
 import { Popover } from '../../popover'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function Catalog({
   id,
@@ -35,6 +36,7 @@ function Catalog({
   const styles = memoStyles()
   const isIn = detail?.list?.some(i => i.id == id)
   const date = item.time?.split(' ')[0]?.replace('创建于:', '') || ''
+
   return (
     <Flex style={styles.catalog}>
       <Flex.Item>
@@ -131,4 +133,4 @@ function Catalog({
   )
 }
 
-export default ob(Catalog)
+export default observer(Catalog)

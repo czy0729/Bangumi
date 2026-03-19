@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-03-20 00:27:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-21 17:19:58
+ * @Last Modified time: 2026-03-19 20:29:12
  */
 import React from 'react'
 import Animated from 'react-native-reanimated'
+import { observer } from 'mobx-react'
 import { Component, Flex, getTextStyle, Touchable } from '@components'
 import { _, systemStore } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import { s2t } from '@utils/thirdParty/open-cc'
 import { COLLECTION_STATUS, FROZEN_FN } from '@constants'
 import { useStatusBtnGroup } from './hooks'
@@ -18,22 +18,16 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { Props as StatusBtnGroupProps } from './types'
-
 export type { StatusBtnGroupProps }
 
 /** 条目状态选择按钮组 */
-export const StatusBtnGroup = ({
-  style,
-  value = '',
-  action = '看',
-  onSelect = FROZEN_FN
-}: StatusBtnGroupProps) => {
-  r(COMPONENT)
+export const StatusBtnGroup = observer(
+  ({ style, value = '', action = '看', onSelect = FROZEN_FN }: StatusBtnGroupProps) => {
+    r(COMPONENT)
 
-  const { blockStyle, getButtonStyle, handleContainerLayout, handleButtonPress } =
-    useStatusBtnGroup(value)
+    const { blockStyle, getButtonStyle, handleContainerLayout, handleButtonPress } =
+      useStatusBtnGroup(value)
 
-  return useObserver(() => {
     const styles = memoStyles()
 
     return (
@@ -74,7 +68,7 @@ export const StatusBtnGroup = ({
         </Flex>
       </Component>
     )
-  })
-}
+  }
+)
 
 export default StatusBtnGroup

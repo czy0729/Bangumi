@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-03-26 05:32:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-11 03:30:56
+ * @Last Modified time: 2026-03-19 17:34:32
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Iconfont, Text } from '@components'
 import { _ } from '@stores'
 import { titleCase } from '@utils'
-import { ob } from '@utils/decorators'
 import { styles } from './styles'
 
 function Content({ icon, size, type, collection, horizontal }) {
@@ -40,4 +40,4 @@ function Content({ icon, size, type, collection, horizontal }) {
   )
 }
 
-export default ob(Content)
+export default observer(Content)

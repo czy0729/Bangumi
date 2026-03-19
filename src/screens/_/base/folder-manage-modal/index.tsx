@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-20 16:14:27
+ * @Last Modified time: 2026-03-19 16:51:54
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Collapsible, Component, Divider, Empty, Modal } from '@components'
 import { _, collectionStore, discoveryStore, usersStore, userStore } from '@stores'
-import { CatalogsItem } from '@stores/users/types'
 import {
   asc,
   confirm,
@@ -20,12 +20,10 @@ import {
   info,
   setStorage
 } from '@utils'
-import { ob } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { queue, t } from '@utils/fetch'
 import { FROZEN_FN, SCROLL_VIEW_RESET_PROPS } from '@constants'
 import i18n from '@constants/i18n'
-import { AnyObject, Id } from '@types'
 import { IconTouchable } from '../../icon/touchable'
 import Catalog from './catalog'
 import Create from './create'
@@ -41,7 +39,10 @@ import {
   STORAGE_KEY_SORT
 } from './ds'
 import { memoStyles } from './styles'
-import {
+
+import type { CatalogsItem } from '@stores/users/types'
+import type { AnyObject, Id } from '@types'
+import type {
   CatalogDetail,
   CatalogDetailItem,
   HandleChange,
@@ -62,13 +63,12 @@ import {
   SortType,
   State
 } from './types'
-
-export { FolderManageModalProps }
+export type { FolderManageModalProps }
 
 let loaded = false
 
 /** 目录管理弹窗 */
-export const FolderManageModal = ob(
+export const FolderManageModal = observer(
   class FolderManageModalComponent extends React.Component<FolderManageModalProps, State> {
     static defaultProps: FolderManageModalProps = {
       id: 0,

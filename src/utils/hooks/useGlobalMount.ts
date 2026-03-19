@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-24 21:42:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-06 18:13:22
+ * @Last Modified time: 2026-03-19 15:16:50
  */
 import { rakuenStore, systemStore } from '@stores'
 import { D } from '@constants/constants'
@@ -14,6 +14,7 @@ import useMount from './useMount'
 
 const CACHE_KEY = 'utils|hooks|useGlobalMountV2'
 
+/** 客户端启动稳定后统一做的操作 */
 export default function useGlobalMount() {
   useMount(() => {
     if (DEV) return

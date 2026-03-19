@@ -2,14 +2,16 @@
  * @Author: czy0729
  * @Date: 2025-03-17 12:11:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-19 06:27:46
+ * @Last Modified time: 2026-03-19 16:50:57
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { SORT_DS } from '../ds'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function ToolBar({ sortType, sortOrder, onSortType }: Props) {
   return (
@@ -17,6 +19,7 @@ function ToolBar({ sortType, sortOrder, onSortType }: Props) {
       <Iconfont style={_.mr.sm} name='md-sort' size={16} color={_.colorDesc} />
       {SORT_DS.map(item => {
         const isActive = item.value === sortType
+
         return (
           <Touchable
             key={item.value}
@@ -52,4 +55,4 @@ function ToolBar({ sortType, sortOrder, onSortType }: Props) {
   )
 }
 
-export default ToolBar
+export default observer(ToolBar)

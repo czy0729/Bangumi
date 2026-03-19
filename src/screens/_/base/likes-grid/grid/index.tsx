@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-04-05 15:18:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-03 05:41:55
+ * @Last Modified time: 2026-03-19 17:06:08
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Bgm, BgmText, Flex, Touchable } from '@components'
 import { rakuenStore, timelineStore, uiStore } from '@stores'
 import { stl } from '@utils'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { LIKE_TYPE_RAKUEN, LIKE_TYPE_TIMELINE, WEB } from '@constants'
 import { HIT_SLOP } from './ds'
@@ -16,6 +16,7 @@ import { styles } from './styles'
 
 function Grid({ data, value, topicId, floorId, formhash, likeType }) {
   const isTimeline = likeType == LIKE_TYPE_TIMELINE
+
   return (
     <Flex wrap='wrap'>
       {data.map(item => (
@@ -95,4 +96,4 @@ function Grid({ data, value, topicId, floorId, formhash, likeType }) {
   )
 }
 
-export default ob(Grid)
+export default observer(Grid)

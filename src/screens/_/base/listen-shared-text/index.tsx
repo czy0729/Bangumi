@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2025-06-20 16:16:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-21 00:45:33
+ * @Last Modified time: 2026-03-19 17:07:59
  */
 import React, { useEffect, useState } from 'react'
 import { DeviceEventEmitter, NativeModules } from 'react-native'
 
 import type { Props as ListenSharedTextProps } from './types'
-
 export type { ListenSharedTextProps }
 
 const { TextShareModule } = NativeModules
@@ -59,3 +58,5 @@ export function ListenSharedText({ children, onTextReceived, render }: ListenSha
   if (children) return <>{children(renderProps)}</>
   return null
 }
+
+export default ListenSharedText

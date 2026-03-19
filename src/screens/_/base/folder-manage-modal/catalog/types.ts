@@ -1,10 +1,10 @@
 /*
  * @Author: czy0729
  * @Date: 2025-03-20 14:36:47
- * @Last Modified by:   czy0729
- * @Last Modified time: 2025-03-20 14:36:47
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-03-19 16:48:51
  */
-import {
+import type {
   CatalogDetail,
   CatalogsItem,
   HandleChange,

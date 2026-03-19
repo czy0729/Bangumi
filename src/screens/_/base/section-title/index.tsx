@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-10 15:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:50:51
+ * @Last Modified time: 2026-03-19 20:25:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,7 +16,6 @@ import { memoStyles } from './styles'
 
 import type { ReactNode } from '@types'
 import type { Props as SectionTitleProps } from './types'
-
 export type { SectionTitleProps }
 
 /** 块 (章节) 标题 */

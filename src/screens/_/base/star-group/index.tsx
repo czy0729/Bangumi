@@ -2,22 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-03-18 13:33:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 16:58:06
+ * @Last Modified time: 2026-03-19 20:26:58
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, Flex, Iconfont, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { getRating, stl } from '@utils'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props as StarGroupProps } from './types'
 
-export { StarGroupProps }
+import type { Props as StarGroupProps } from './types'
+export type { StarGroupProps }
 
 /** 评分按钮组 */
-export const StarGroup = ob(
+export const StarGroup = observer(
   class StarGroupComponent extends React.Component<StarGroupProps> {
     static defaultProps = {
       value: 0,
@@ -81,8 +82,11 @@ export const StarGroup = ob(
     }
 
     render() {
+      r(COMPONENT)
+
       const { style } = this.props
       const { value, text } = this.state
+
       return (
         <Component id='base-star-group'>
           <Flex style={stl(styles.desc, style)}>
@@ -132,8 +136,7 @@ export const StarGroup = ob(
         </Component>
       )
     }
-  },
-  COMPONENT
+  }
 )
 
 export default StarGroup

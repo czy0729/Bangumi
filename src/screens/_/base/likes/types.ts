@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-04-05 14:59:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-13 18:13:05
+ * @Last Modified time: 2026-03-19 17:05:18
  */
-import { rakuenStore } from '@stores'
-import { Fn, Id, ViewStyle } from '@types'
+import type { rakuenStore } from '@stores'
+import type { Fn, Id, ViewStyle } from '@types'
 
 type LikesList = ReturnType<typeof rakuenStore.likesList>
 

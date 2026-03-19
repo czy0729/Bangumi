@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-06-14 20:53:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-25 11:38:34
+ * @Last Modified time: 2026-03-19 17:47:20
  */
 import React, { useCallback, useState } from 'react'
+import { observer } from 'mobx-react'
 import { Text } from '@components'
-import { useObserver } from '@utils/hooks'
 import { memoStyles } from '../styles'
 import { VerticalAlign } from '../../vertical-align'
 
@@ -30,7 +30,7 @@ function VerticalAlignWithRemoveSpec({
     [setName]
   )
 
-  return useObserver(() => (
+  return (
     <VerticalAlign
       {...other}
       text={text}
@@ -55,7 +55,7 @@ function VerticalAlignWithRemoveSpec({
       )}
       {right}
     </VerticalAlign>
-  ))
+  )
 }
 
-export default VerticalAlignWithRemoveSpec
+export default observer(VerticalAlignWithRemoveSpec)

@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2023-03-07 16:20:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-20 15:20:07
+ * @Last Modified time: 2026-03-19 16:50:31
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils'
-import { ob } from '@utils/decorators'
 import { PaginationList2 } from '../../pagination-list-2'
 import { renderItem } from './utils'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function Subjects({
   forwardRef,
@@ -31,6 +32,7 @@ function Subjects({
   onSubmit
 }: Props) {
   const styles = memoStyles()
+
   const { list } = detail
   const { length } = list
   const handleRenderItem = useCallback(
@@ -92,4 +94,4 @@ function Subjects({
   )
 }
 
-export default ob(Subjects)
+export default observer(Subjects)

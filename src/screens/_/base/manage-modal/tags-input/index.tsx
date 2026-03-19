@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2024-07-28 04:53:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-21 16:28:10
+ * @Last Modified time: 2026-03-19 17:41:20
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Input } from '@components'
-import { useObserver } from '@utils/hooks'
 import { styles } from './styles'
 
 import type { Props } from './types'
 
 function TagsInput({ tags, onChangeText, onSubmitEditing }: Props) {
-  return useObserver(() => (
+  return (
     <Input
       style={styles.input}
       defaultValue={tags}
@@ -21,7 +21,7 @@ function TagsInput({ tags, onChangeText, onSubmitEditing }: Props) {
       onChangeText={onChangeText}
       onSubmitEditing={onSubmitEditing}
     />
-  ))
+  )
 }
 
-export default TagsInput
+export default observer(TagsInput)

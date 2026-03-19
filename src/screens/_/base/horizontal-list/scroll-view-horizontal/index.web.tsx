@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-11-08 00:47:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-24 20:13:29
+ * @Last Modified time: 2026-03-19 17:01:35
  */
 import React, { useEffect, useState } from 'react'
 import { ScrollView } from 'react-native'
-import { useDom, useObserver } from '@utils/hooks'
+import { observer } from 'mobx-react'
+import { useDom } from '@utils/hooks'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { memoStyles } from './styles'
 import './index.scss'
@@ -18,6 +19,7 @@ function ScrollViewHorizontal({ children, ...other }) {
   const [isDown, setIsDown] = useState(false)
   const [startX, setStartX] = useState(0)
   const [scrollLeft, setScrollLeft] = useState(0)
+
   useEffect(() => {
     const container = ref.current
     const activeCls = `${cls}--grabbing`
@@ -65,21 +67,20 @@ function ScrollViewHorizontal({ children, ...other }) {
     }
   }, [isDown, startX, scrollLeft, ref])
 
-  return useObserver(() => {
-    const styles = memoStyles()
-    return (
-      <ScrollView
-        ref={ref}
-        contentContainerStyle={styles.contentContainerStyle}
-        scrollEventThrottle={16}
-        {...SCROLL_VIEW_RESET_PROPS}
-        {...other}
-        horizontal
-      >
-        {children}
-      </ScrollView>
-    )
-  })
+  const styles = memoStyles()
+
+  return (
+    <ScrollView
+      ref={ref}
+      contentContainerStyle={styles.contentContainerStyle}
+      scrollEventThrottle={16}
+      {...SCROLL_VIEW_RESET_PROPS}
+      {...other}
+      horizontal
+    >
+      {children}
+    </ScrollView>
+  )
 }
 
-export default ScrollViewHorizontal
+export default observer(ScrollViewHorizontal)

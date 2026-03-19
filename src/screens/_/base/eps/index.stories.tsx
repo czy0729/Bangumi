@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-04-05 12:31:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 14:30:17
+ * @Last Modified time: 2026-03-19 15:43:15
  */
 import React from 'react'
-import { StorybookPage, Flex } from '@components'
+import { Flex, StorybookPage } from '@components'
 import { _ } from '@stores'
-import { Eps as Component, EpsProps as Props } from './index'
+import { Eps as Component } from './index'
 import { props } from './index.mock'
+
+import type { EpsProps as Props } from './index'
 
 export default {
   title: 'base/Eps',

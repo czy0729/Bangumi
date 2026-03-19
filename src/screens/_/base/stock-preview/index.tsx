@@ -2,24 +2,25 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 02:49:12
+ * @Last Modified time: 2026-03-19 20:30:05
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { _, tinygrailStore } from '@stores'
 import { caculateICO, stl, toFixed } from '@utils'
-import { ob } from '@utils/decorators'
-import { ViewStyle } from '@types'
+import { r } from '@utils/dev'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props as StockPreviewProps } from './types'
 
-export { StockPreviewProps }
+import type { ViewStyle } from '@types'
+import type { Props as StockPreviewProps } from './types'
+export type { StockPreviewProps }
 
 const colorDarkText = 'rgb(99, 117, 144)'
 
-export const StockPreview = ob(
+export const StockPreview = observer(
   class StockPreview extends React.Component<StockPreviewProps> {
     static defaultProps = {
       style: undefined,
@@ -84,7 +85,7 @@ export const StockPreview = ob(
               style={[
                 this.styles.icoProcess,
                 {
-                  width: `${percent}%`,
+                  width: `${percent}%` as any,
                   backgroundColor
                 }
               ]}
@@ -100,6 +101,8 @@ export const StockPreview = ob(
     }
 
     render() {
+      r(COMPONENT)
+
       const { style, current, fluctuation, change, bids, asks, users, _loaded } = this.props
       if (!_loaded) {
         return null
@@ -271,8 +274,7 @@ export const StockPreview = ob(
     get styles() {
       return memoStyles()
     }
-  },
-  COMPONENT
+  }
 )
 
 export default StockPreview

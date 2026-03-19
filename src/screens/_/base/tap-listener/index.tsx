@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-13 09:58:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-19 11:28:50
+ * @Last Modified time: 2026-03-19 20:31:33
  */
 import React, { useCallback, useMemo } from 'react'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
@@ -21,6 +21,7 @@ export const TapListener = ({ children }) => {
   const handleSet = useCallback((x: number, y: number) => {
     uiStore.setXY(x, y)
   }, [])
+
   const tap = useMemo(
     () =>
       Gesture.Tap()

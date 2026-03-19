@@ -2,14 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-06-13 08:07:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-09 17:43:38
+ * @Last Modified time: 2026-03-19 15:42:17
  */
 import type { Ep } from '@stores/subject/types'
-import type { Fn, SubjectId, ViewStyle } from '@types'
+import type { Fn, SubjectId, WithViewStyles } from '@types'
 
-export type Props = {
-  style?: ViewStyle
-
+export type Props = WithViewStyles<{
   /** 详情页模式, 显示 SP 和更多的操作按钮 */
   advance?: boolean
 
@@ -60,4 +58,4 @@ export type Props = {
 
   /** @deprecated 长按回调 */
   // onLongPress?: (item?: object, subjectId?: SubjectId) => void
-}
+}>

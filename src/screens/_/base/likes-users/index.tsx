@@ -2,22 +2,25 @@
  * @Author: czy0729
  * @Date: 2023-10-30 04:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 14:55:53
+ * @Last Modified time: 2026-03-19 17:07:35
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { ActionSheet, Avatar, BgmText, Component, Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { desc, navigationReference } from '@utils'
 import CacheManager from '@utils/cache-manager'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { Name } from '../name'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 /** 全局展开该贴贴用户列表 */
-export const LikesUsers = ob(
-  ({ show, list, emoji, onClose }) => (
+export const LikesUsers = observer(({ show, list, emoji, onClose }) => {
+  r(COMPONENT)
+
+  return (
     <Component id='base-likes-users'>
       <ActionSheet
         show={show}
@@ -87,8 +90,7 @@ export const LikesUsers = ob(
         </View>
       </ActionSheet>
     </Component>
-  ),
-  COMPONENT
-)
+  )
+})
 
 export default LikesUsers

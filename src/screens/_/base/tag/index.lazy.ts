@@ -7,4 +7,4 @@
 import { lazy } from 'react'
 
 export const Tag = lazy(() => import('./index'))
-export { Props as TagProps } from './types'
+export type { Props as TagProps } from './types'

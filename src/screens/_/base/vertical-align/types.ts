@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-06-14 00:36:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-14 17:40:09
+ * @Last Modified time: 2026-03-19 20:33:50
  */
-import { TextProps } from '@components'
-import { Override } from '@types'
+import type { TextProps } from '@components'
+import type { Override } from '@types'
 
 export type Props = Override<
   TextProps,

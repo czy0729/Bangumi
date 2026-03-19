@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-06-14 19:50:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 19:39:46
+ * @Last Modified time: 2026-03-19 17:51:12
  */
-import { ListViewProps } from '@components'
-import { Fn, Override } from '@types'
+import type { ListViewProps } from '@components'
+import type { Fn, Override } from '@types'
 
 export type Props<ItemT> = Override<
   ListViewProps<ItemT>,

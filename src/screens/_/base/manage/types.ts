@@ -2,13 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-07-26 05:06:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-11 03:26:03
+ * @Last Modified time: 2026-03-19 17:34:53
  */
-import { Fn, SubjectId, SubjectTypeCn, ViewStyle } from '@types'
+import type { Fn, SubjectId, SubjectTypeCn, WithViewStyles } from '@types'
 
-export type Props = {
-  style?: ViewStyle
-
+export type Props = WithViewStyles<{
   subjectId?: SubjectId
 
   /** 条目收藏状态 */
@@ -25,4 +23,4 @@ export type Props = {
 
   /** 点击 */
   onPress: Fn
-}
+}>

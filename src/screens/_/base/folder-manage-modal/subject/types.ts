@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2025-03-20 15:03:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-20 15:19:56
+ * @Last Modified time: 2026-03-19 16:50:01
  */
-import {
+import type {
   CatalogDetailItem,
   CatalogsItem,
   HandleChange,

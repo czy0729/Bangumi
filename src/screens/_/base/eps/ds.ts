@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2021-08-10 00:36:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 04:04:04
+ * @Last Modified time: 2026-03-19 15:42:02
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
 import { isMobile } from '@utils/dom'
 import { FROZEN_FN, WEB } from '@constants'
-import { SubjectId, ViewStyle } from '@types'
 import { COMPONENT as PARENT } from '../ds'
+
+import type { SubjectId, ViewStyle } from '@types'
 
 export const COMPONENT = rc(PARENT, 'Eps')
 

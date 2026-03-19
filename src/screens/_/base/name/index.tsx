@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-11-26 10:16:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 14:56:10
+ * @Last Modified time: 2026-03-19 17:48:45
  */
 import React, { useCallback, useState } from 'react'
+import { observer } from 'mobx-react'
 import { Component, Text } from '@components'
 import { systemStore, usersStore } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import { IOS } from '@constants'
 import { VerticalAlign } from '../vertical-align'
 import VerticalAlignWithRemoveSpec from './vertical-align-with-remove-spec'
@@ -17,29 +17,28 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { Props as NameProps } from './types'
-
 export type { NameProps }
 
 /** 自动添加好友和打标签 */
-export function Name({
-  style,
-  size,
-  lineHeight,
-  bold,
-  numberOfLines = 1,
-  userId,
-  showFriend = false,
-  right,
-  disabled,
-  children,
-  ...other
-}: NameProps) {
-  r(COMPONENT)
+export const Name = observer(
+  ({
+    style,
+    size,
+    lineHeight,
+    bold,
+    numberOfLines = 1,
+    userId,
+    showFriend = false,
+    right,
+    disabled,
+    children,
+    ...other
+  }: NameProps) => {
+    r(COMPONENT)
 
-  const [lines, setLines] = useState(numberOfLines)
-  const setLines2 = useCallback(() => setLines(numberOfLines + 1), [numberOfLines])
+    const [lines, setLines] = useState(numberOfLines)
+    const setLines2 = useCallback(() => setLines(numberOfLines + 1), [numberOfLines])
 
-  return useObserver(() => {
     let userRemark: string
     if (userId) userRemark = systemStore.userRemark(userId)
 
@@ -119,7 +118,7 @@ export function Name({
         </Text>
       </Component>
     )
-  })
-}
+  }
+)
 
 export default Name

@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2022-04-07 02:20:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-16 09:26:43
+ * @Last Modified time: 2026-03-19 16:53:29
  */
 import React, { useState } from 'react'
 import { Linking, View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Component, Flex, Iconfont, Image, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { alert, copy, desc } from '@utils'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { ASSETS_ICONS } from '@constants'
 import { getUrl } from './utils'
 import { COMPONENT, SORT_ORDER } from './ds'
 import { memoStyles } from './styles'
-import { Props as FolderSMBProps } from './types'
 
-export { FolderSMBProps }
+import type { Props as FolderSMBProps } from './types'
+export type { FolderSMBProps }
 
 function FolderSMBComp({ styles, smb, folder }: FolderSMBProps) {
   const [showFolder, setShowFolder] = useState(false)
@@ -24,6 +25,7 @@ function FolderSMBComp({ styles, smb, folder }: FolderSMBProps) {
   path.push(smb.port ? `${smb.ip}:${smb.port}` : smb.ip, smb.sharedFolder)
   if (folder.path) path.push(folder.path)
   path.push(folder.name)
+
   return (
     <Component id='base-folder-smb' style={[styles.folder, styles.folderList]}>
       <Touchable
@@ -97,7 +99,7 @@ function FolderSMBComp({ styles, smb, folder }: FolderSMBProps) {
 }
 
 /** SMB 管理弹窗 */
-export const FolderSMB = ob(
+export const FolderSMB = observer(
   ({
     smb = {
       uuid: '',
@@ -126,11 +128,12 @@ export const FolderSMB = ob(
       tags: []
     }
   }: FolderSMBProps) => {
+    r(COMPONENT)
+
     if (!smb?.uuid || !folder?.name || !folder?.list?.length) return null
 
     return <FolderSMBComp styles={memoStyles()} smb={smb} folder={folder} />
-  },
-  COMPONENT
+  }
 )
 
 export default FolderSMB

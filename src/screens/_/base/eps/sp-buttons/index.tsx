@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-08-05 22:19:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-22 02:35:47
+ * @Last Modified time: 2026-03-19 15:41:57
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { subjectStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Button } from '../button'
+import Button from '../button'
 import { styles } from './styles'
 
-export const SpButtons = ob(({ props, eps, preNum }) => {
+function SpButtons({ props, eps, preNum }) {
   if (!eps.length) return null
 
   const { width, margin, numbersOfLine } = props
@@ -47,4 +47,6 @@ export const SpButtons = ob(({ props, eps, preNum }) => {
       ))}
     </>
   )
-})
+}
+
+export default observer(SpButtons)

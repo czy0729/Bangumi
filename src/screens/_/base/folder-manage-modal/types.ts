@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-06-14 13:46:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-20 15:12:23
+ * @Last Modified time: 2026-03-19 16:51:39
  */
-import { CatalogDetail, CatalogDetailItem } from '@stores/discovery/types'
-import { CatalogsItem } from '@stores/users/types'
-import { Id, SubjectId } from '@types'
-import { ORDER_DS, SORT_DS } from './ds'
+import type { CatalogDetail, CatalogDetailItem } from '@stores/discovery/types'
+import type { CatalogsItem } from '@stores/users/types'
+import type { Id, SubjectId } from '@types'
+import type { ORDER_DS, SORT_DS } from './ds'
 
-export { CatalogDetail, CatalogDetailItem, CatalogsItem }
+export type { CatalogDetail, CatalogDetailItem, CatalogsItem }
 
 export type SortType = (typeof SORT_DS)[number]['value']
 

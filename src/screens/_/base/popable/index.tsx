@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-13 04:56:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 20:26:29
+ * @Last Modified time: 2026-03-19 17:52:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,16 +23,9 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { Props as PopableProps } from './types'
-
 export type { PopableProps }
 
-export const Popable = observer(function Popable({
-  subjectId,
-  visible,
-  portalKey,
-  x,
-  y
-}: PopableProps) {
+export const Popable = observer(({ subjectId, visible, portalKey, x, y }: PopableProps) => {
   r(COMPONENT)
 
   const styles = memoStyles()

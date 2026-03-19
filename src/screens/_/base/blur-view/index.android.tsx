@@ -2,25 +2,24 @@
  * @Author: czy0729
  * @Date: 2019-11-30 15:23:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-12 07:12:30
+ * @Last Modified time: 2026-03-19 15:34:47
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { BlurView as RNBlurView } from '@react-native-community/blur'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 
 import type { Props as BlurViewProps } from './types'
-
 export type { BlurViewProps }
 
 /** 毛玻璃 */
-export function BlurView({ style, children }: BlurViewProps) {
+export const BlurView = observer(({ style, children }: BlurViewProps) => {
   r(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <View style={style}>
       <RNBlurView
         style={_.absoluteFill}
@@ -29,7 +28,7 @@ export function BlurView({ style, children }: BlurViewProps) {
       />
       {children}
     </View>
-  ))
-}
+  )
+})
 
 export default BlurView

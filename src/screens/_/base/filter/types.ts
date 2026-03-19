@@ -1,11 +1,11 @@
 /*
  * @Author: czy0729
  * @Date: 2024-07-20 12:14:05
- * @Last Modified by:   czy0729
- * @Last Modified time: 2024-07-20 12:14:05
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-03-19 16:10:57
  */
-import { AnyObject, DeepPartial, Fn, ReactNode } from '@types'
-import { FilterSwitchName } from '../filter-switch/types'
+import type { AnyObject, DeepPartial, Fn, ReactNode } from '@types'
+import type { FilterSwitchName } from '../filter-switch/types'
 
 type FilterItem = {
   title: string

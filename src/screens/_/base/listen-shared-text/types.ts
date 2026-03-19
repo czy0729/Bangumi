@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2025-06-20 16:40:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-20 16:42:46
+ * @Last Modified time: 2026-03-19 17:07:56
  */
-import { ReactNode } from '@types'
+import type { ReactNode } from '@types'
 
 export type Props = {
   onTextReceived?: (text: string) => void

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-19 12:28:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:48:37
+ * @Last Modified time: 2026-03-19 17:03:53
  */
 import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
@@ -64,7 +64,6 @@ export default ({ index = 0, y = 0, log, flex, visibleBottom, children, ...other
   const Component = flex ? Flex : View
 
   return (
-    // @ts-expect-error
     <Component {...other} collapsable={false} onLayout={y ? undefined : handleLayout}>
       {show ? children : null}
       {log && (

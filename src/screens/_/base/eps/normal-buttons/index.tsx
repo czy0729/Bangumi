@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2021-08-05 16:47:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-22 02:12:45
+ * @Last Modified time: 2026-03-19 15:41:23
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex } from '@components'
 import { subjectStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { MODEL_EP_TYPE } from '@constants'
-import { Button } from '../button'
+import Button from '../button'
 import { SpButtons } from '../sp-buttons'
 
-export const NormalButtons = ob(({ props, eps }) => {
+function NormalButtons({ props, eps }) {
   const itemsNormal = []
   const itemsSp = []
   eps.forEach(item => {
@@ -39,4 +39,6 @@ export const NormalButtons = ob(({ props, eps }) => {
       <SpButtons props={props} eps={itemsSp} preNum={itemsNormal.length} />
     </Flex>
   )
-})
+}
+
+export default observer(NormalButtons)

@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-08-01 23:46:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-16 05:45:35
+ * @Last Modified time: 2026-03-19 17:02:47
  */
-import { ExpandProps, RenderHtmlProps } from '@components'
-import { EventType, Id, Navigation } from '@types'
+import type { ExpandProps, RenderHtmlProps } from '@components'
+import type { EventType, Id, WithNavigation } from '@types'
 
-export type Props = {
-  navigation?: Navigation
+export type Props = WithNavigation<{
   style?: RenderHtmlProps['style']
   ratio?: ExpandProps['ratio']
   msg: string
@@ -18,4 +17,4 @@ export type Props = {
   id?: Id
   url?: string
   event?: EventType
-}
+}>

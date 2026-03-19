@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-05-07 04:50:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-07 06:01:53
+ * @Last Modified time: 2026-03-19 16:53:57
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Katakana, Touchable } from '@components'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
 import { styles } from './styles'
 
 function Desc({ item, typeCn, onPress }) {
   if (!item.desc) return null
 
   const desc = String(item.desc || '')
+
   return (
     <Touchable
       style={_.mt.xs}
@@ -38,4 +39,4 @@ function Desc({ item, typeCn, onPress }) {
   )
 }
 
-export default ob(Desc)
+export default observer(Desc)

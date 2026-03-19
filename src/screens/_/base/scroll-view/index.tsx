@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-08-15 14:52:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-15 20:32:55
+ * @Last Modified time: 2026-03-19 20:23:44
  */
 import React, { useCallback, useState } from 'react'
 import { RefreshControl } from 'react-native'
@@ -10,11 +10,10 @@ import { ScrollView as ScrollViewComp } from '@components'
 import { _ } from '@stores'
 import { feedback } from '@utils'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
-import { Props as ScrollViewProps } from './types'
 
-export { ScrollViewProps }
+import type { Props as ScrollViewProps } from './types'
+export type { ScrollViewProps }
 
 /** 支持下拉刷新的 ScrollView */
 export const ScrollView = ({
@@ -45,7 +44,7 @@ export const ScrollView = ({
     }
   }, [onRefresh])
 
-  return useObserver(() => (
+  return (
     <ScrollViewComp
       forwardRef={forwardRef}
       style={style}
@@ -69,7 +68,7 @@ export const ScrollView = ({
     >
       {children}
     </ScrollViewComp>
-  ))
+  )
 }
 
 export default ScrollView
