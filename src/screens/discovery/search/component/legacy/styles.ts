@@ -13,7 +13,7 @@ export const memoStyles = _.memoStyles(() => ({
     overflow: 'hidden'
   },
   btn: {
-    width: _.r(68),
+    width: _.r(64),
     height: 40,
     paddingRight: _.r(4),
     borderWidth: _.select(_.hairlineWidth, 0),
@@ -25,6 +25,6 @@ export const memoStyles = _.memoStyles(() => ({
     borderBottomRightRadius: 40
   },
   text: {
-    width: _.r(68)
+    width: _.r(64)
   }
 }))

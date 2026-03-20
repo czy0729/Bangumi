@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-03-12 23:21:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-23 01:23:58
+ * @Last Modified time: 2026-03-20 18:28:06
  */
 import React, { useCallback } from 'react'
+import { observer } from 'mobx-react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { open } from '@utils'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import { TEXT_MENU_BROWSER } from '@constants'
 import T2S from '../component/t2s'
 import { COMPONENT, DATA } from './ds'
@@ -40,7 +40,7 @@ function Header() {
     [$, navigation]
   )
 
-  return useObserver(() => <HeaderV2 title='搜索' hm={$.hm} headerRight={handleHeaderRight} />)
+  return <HeaderV2 title='搜索' hm={$.hm} headerRight={handleHeaderRight} />
 }
 
-export default Header
+export default observer(Header)

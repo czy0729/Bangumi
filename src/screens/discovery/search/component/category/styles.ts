@@ -13,7 +13,7 @@ export const styles = _.create({
     overflow: 'hidden'
   },
   btn: {
-    width: _.r(68),
+    width: _.r(64),
     height: 40,
     paddingLeft: _.r(4),
     borderTopRightRadius: 0,
@@ -22,6 +22,6 @@ export const styles = _.create({
     borderBottomLeftRadius: 40
   },
   text: {
-    width: _.r(68)
+    width: _.r(64)
   }
 })

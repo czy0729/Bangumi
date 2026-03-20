@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-07-27 05:24:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-31 02:53:21
+ * @Last Modified time: 2026-03-20 17:56:28
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { ItemSearch } from '@_'
 import { _, collectionStore, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { COMPONENT, EVENT } from './ds'
 
@@ -18,7 +18,7 @@ import type { Props } from './types'
 function Item({ index, ...item }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <ItemSearch
       style={_.container.item}
       navigation={navigation}
@@ -29,7 +29,7 @@ function Item({ index, ...item }: Props) {
       collection={collectionStore.collect(String(item.id).replace('/subject/', ''))}
       highlight={$.state.value}
     />
-  ))
+  )
 }
 
-export default Item
+export default observer(Item)

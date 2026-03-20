@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-07-23 13:59:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 05:46:20
+ * @Last Modified time: 2026-03-20 19:43:37
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Highlight, Katakana, Text } from '@components'
-import { cnjp } from '@utils'
+import { cnjp, getVisualLength } from '@utils'
 import { styles } from './styles'
 
 function Title({ name, nameCn, comments, highlight }) {
@@ -20,9 +20,10 @@ function Title({ name, nameCn, comments, highlight }) {
 
   const getSize = (len: number, steps: [number, number][]) =>
     steps.find(([limit]) => len >= limit)?.[1] ?? steps[steps.length - 1][1]
-  const size = getSize((top || bottom).length, [
-    [28, 12],
-    [20, 13],
+
+  const size = getSize(getVisualLength(top || bottom), [
+    [20, 12],
+    [14, 13],
     [12, 14],
     [0, 15]
   ])

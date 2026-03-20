@@ -4,9 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-30 18:11:30
  */
-import React from 'react'
+import React, { useCallback } from 'react'
+import { observer } from 'mobx-react'
 import { useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import Advance from './advance'
 import AdvanceMono from './advance-mono'
 import { COMPONENT } from './ds'
@@ -17,26 +17,26 @@ import type { Ctx } from '../../types'
 function AdvanceWrap() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    if (!$.showAdvance) return null
+  const handleSubmit = useCallback(
+    (text: string) => {
+      $.onAdvance(text, navigation)
+    },
+    [$, navigation]
+  )
 
-    const styles = memoStyles()
-    const { cat, value } = $.state
-    const onSubmit = (text: string) => $.onAdvance(text, navigation)
+  if (!$.showAdvance) return null
 
-    const commonProps = {
-      navigation,
-      styles,
-      value,
-      onSubmit
-    }
+  const styles = memoStyles()
 
-    return cat === 'mono_all' ? (
-      <AdvanceMono {...commonProps} />
-    ) : (
-      <Advance {...commonProps} cat={cat} />
-    )
-  })
+  const { cat, value } = $.state
+  const passProps = {
+    navigation,
+    styles,
+    value,
+    onSubmit: handleSubmit
+  } as const
+
+  return cat === 'mono_all' ? <AdvanceMono {...passProps} /> : <Advance {...passProps} cat={cat} />
 }
 
-export default AdvanceWrap
+export default observer(AdvanceWrap)

@@ -5,10 +5,10 @@
  * @Last Modified time: 2025-12-31 02:51:09
  */
 import React, { useCallback } from 'react'
+import { observer } from 'mobx-react'
 import { Button, Heatmap } from '@components'
 import { KeyboardDismiss, Popover } from '@_'
 import { useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { MODEL_SEARCH_CAT } from '@constants'
 import { COMPONENT, DATA } from './ds'
 import { styles } from './styles'
@@ -31,7 +31,7 @@ function Category({ onFocus }: Props) {
     [$, onFocus]
   )
 
-  return useObserver(() => (
+  return (
     <Popover style={styles.touch} data={DATA} onSelect={handleSelect}>
       <KeyboardDismiss>
         <Button style={styles.btn} styleText={styles.text} type='ghostMain' size='sm'>
@@ -40,7 +40,7 @@ function Category({ onFocus }: Props) {
       </KeyboardDismiss>
       <Heatmap id='搜索.切换类型' />
     </Popover>
-  ))
+  )
 }
 
-export default Category
+export default observer(Category)

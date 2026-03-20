@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-06-15 10:47:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-04 01:07:50
+ * @Last Modified time: 2026-03-20 19:21:08
  */
 import React from 'react'
-import { Flex, Text } from '@components'
-import { _ } from '@stores'
+import { Flex } from '@components'
 import { memo } from '@utils/decorators'
 import { EVENT, FROZEN_ARRAY, IMG_HEIGHT_LG, IMG_WIDTH_LG } from '@constants'
-import { PreventTouchPlaceholder, Rank, Stars } from '../../base'
+import { PreventTouchPlaceholder } from '../../base'
 import Container from './container'
 import Content from './content'
 import Cover from './cover'
 import Manage from './manage'
 import Postions from './positions'
+import Rating from './rating'
 import Tip from './tip'
 import Title from './title'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
@@ -80,11 +80,13 @@ const Item = memo(
               typeCn={typeCn}
               isMono={isMono}
             />
+
             <Content tip={tip} comments={comments} position={hasPositions} isMusic={isMusic}>
               <Flex style={styles.title} align='start'>
                 <Flex.Item>
                   <Title name={name} nameCn={nameCn} comments={comments} highlight={highlight} />
                 </Flex.Item>
+
                 {showManage && !isMono && (
                   <Manage
                     subjectId={subjectId}
@@ -96,18 +98,14 @@ const Item = memo(
                   />
                 )}
               </Flex>
+
               {!!tip && <Tip tip={tip} isMusic={isMusic} />}
               {hasPositions && <Postions position={position} />}
-              <Flex style={_.mt.md}>
-                <Rank value={rank} />
-                <Stars value={score} />
-                <Text style={_.ml.xxs} type='sub' size={11}>
-                  {total}
-                </Text>
-              </Flex>
+              <Rating rank={rank} score={score} total={total} />
             </Content>
           </Flex>
         </Container>
+
         <PreventTouchPlaceholder />
       </>
     )

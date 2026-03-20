@@ -19,6 +19,7 @@ export function useSearchPage(props: NavigationProps) {
   const { id, $ } = context
 
   const iptRef = useRef<InputInstance>(null)
+
   const handleFocus = useCallback(() => {
     try {
       if (typeof iptRef.current?.inputRef?.focus === 'function') {

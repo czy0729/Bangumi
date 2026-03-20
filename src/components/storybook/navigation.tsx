@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-04-09 08:55:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-03 16:02:05
+ * @Last Modified time: 2026-03-20 18:31:16
  */
 import { getSPAId } from '@utils'
 import { SHARE_MODE, WEB } from '@constants'
-import { AnyObject, Fn } from '@types'
 import { getCurrentStoryId, navigate, parseUrlParams } from './utils'
 import { BOTTOM_TAB_DS } from './ds'
+
+import type { AnyObject, Fn } from '@types'
 
 const BOTTOM_TAB_IDS = BOTTOM_TAB_DS.map(item => ({
   id: item.id,
@@ -112,6 +113,8 @@ const DEMO_PARAMS = {
 
 export function getStorybookRoute(routeName: string) {
   return {
+    key: routeName,
+    name: routeName,
     params: {
       ...(SHARE_MODE ? {} : DEMO_PARAMS),
 
@@ -124,6 +127,7 @@ export function getStorybookRoute(routeName: string) {
 
 export function getStorybookArgs(routeName: string) {
   const route = getStorybookRoute(routeName)
+
   return {
     navigation: StorybookNavigation,
     route

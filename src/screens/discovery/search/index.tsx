@@ -5,9 +5,9 @@
  * @Last Modified time: 2025-12-23 01:25:12
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, Flex, HeaderPlaceholder, Page } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import Advance from './component/advance'
 import BtnSubmit from './component/btn-submit'
 import Category from './component/category'
@@ -22,10 +22,10 @@ import { styles } from './styles'
 import type { NavigationProps } from '@types'
 
 /** 搜索 */
-const Search = (props: NavigationProps) => {
+function Search(props: NavigationProps) {
   const { id, $, iptRef, handleFocus } = useSearchPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-search'>
       <StoreContext.Provider value={id}>
         <Page loaded={$.state._loaded} loading={$.state.searching}>
@@ -45,7 +45,7 @@ const Search = (props: NavigationProps) => {
         <Header />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default Search
+export default observer(Search)

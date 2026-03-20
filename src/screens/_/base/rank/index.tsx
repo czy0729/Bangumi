@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-06 04:57:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 20:20:21
+ * @Last Modified time: 2026-03-20 19:40:00
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -26,6 +26,7 @@ export const Rank = observer(({ style, size = 10, value }: RankProps) => {
 
   const styles = memoStyles()
   const lineHeight = size + 1
+
   return (
     <Component id='base-rank'>
       <Text

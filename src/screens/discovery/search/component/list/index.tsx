@@ -2,38 +2,37 @@
  * @Author: czy0729
  * @Date: 2019-05-15 15:35:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-31 02:54:22
+ * @Last Modified time: 2026-03-20 17:55:08
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { ListView } from '@components'
-import { _, useStore } from '@stores'
+import { useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { useObserver } from '@utils/hooks'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
+import { styles } from './styles'
 
 import type { Ctx } from '../../types'
 
 function List() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    if (!$.search._loaded) return null
+  if (!$.search._loaded) return null
 
-    return (
-      <ListView
-        keyExtractor={keyExtractor}
-        contentContainerStyle={_.container.bottom}
-        data={$.search}
-        keyboardDismissMode='on-drag'
-        renderItem={renderItem}
-        scrollEventThrottle={16}
-        onScroll={$.onScroll}
-        onHeaderRefresh={$.onHeaderRefresh}
-        onFooterRefresh={$.doSearch}
-      />
-    )
-  })
+  return (
+    <ListView
+      keyExtractor={keyExtractor}
+      contentContainerStyle={styles.contentContainerStyle}
+      data={$.search}
+      keyboardDismissMode='on-drag'
+      renderItem={renderItem}
+      scrollEventThrottle={16}
+      onScroll={$.onScroll}
+      onHeaderRefresh={$.onHeaderRefresh}
+      onFooterRefresh={$.doSearch}
+    />
+  )
 }
 
-export default List
+export default observer(List)

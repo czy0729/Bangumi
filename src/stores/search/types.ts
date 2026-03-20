@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-01 18:53:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-10 11:48:43
+ * @Last Modified time: 2026-03-20 17:56:00
  */
 import type { Id, ListEmpty, SearchCat, SubjectType } from '@types'
 
@@ -21,7 +21,7 @@ export type SearchItem = {
 }
 
 /** 搜索 */
-export type Search = ListEmpty<Partial<SearchItem>>
+export type Search = ListEmpty<SearchItem>
 
 export type FetchSearchArgs = {
   text: string

@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-19 17:04:35
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { Keyboard, TouchableWithoutFeedback } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
@@ -12,8 +12,10 @@ import { r } from '@utils/dev'
 import { IOS } from '@constants'
 import { COMPONENT } from './ds'
 
-/** 触摸后隐藏键盘 */
-export const KeyboardDismiss = observer(({ children }) => {
+import type { PropsWithChildren } from 'react'
+
+/** 触摸后马上收起键盘 (iOS only) */
+export const KeyboardDismiss = observer(({ children }: PropsWithChildren<{}>) => {
   r(COMPONENT)
 
   const handlePressIn = useCallback(() => {

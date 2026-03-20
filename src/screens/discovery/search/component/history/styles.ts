@@ -12,6 +12,7 @@ export const memoStyles = _.memoStyles(() => ({
   },
   close: {
     padding: _.sm,
+    marginRight: -6,
     marginLeft: _.md,
     borderRadius: 20,
     overflow: 'hidden'

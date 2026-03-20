@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-02 22:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 07:01:19
+ * @Last Modified time: 2026-03-20 17:58:15
  */
 import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
@@ -56,7 +56,7 @@ function Header() {
           id={item.key}
           icon={item.icon}
           text={item.text}
-          size={(item.size || 23) - 1}
+          size={item.size || 24}
           wrap={false}
         />
       </Touchable>

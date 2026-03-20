@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-09 10:55:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-30 21:07:43
+ * @Last Modified time: 2026-03-20 19:56:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -52,7 +52,8 @@ const Advance = memo(
                     onPress={() => {
                       const subjectId = substrings.current[item]
                       navigation.push('Subject', {
-                        subjectId
+                        subjectId,
+                        _cn: item
                       })
 
                       t('搜索.模糊查询跳转', {
