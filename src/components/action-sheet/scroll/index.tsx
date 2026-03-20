@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-11-04 17:47:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-18 03:46:57
+ * @Last Modified time: 2026-03-20 06:49:14
  */
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { feedback } from '@utils'
+import { IOS } from '@constants'
 import { BTN_HEIGHT, DRAG_THRESHOLD } from '../ds'
 import { ScrollView } from '../../scroll-view'
 import { Text } from '../../text'
@@ -98,9 +99,9 @@ function Scroll({
             }
           ]}
           contentContainerStyle={_.container.bottom}
-          onScrollBeginDrag={handleScrollBeginDrag}
-          onScroll={handleScroll}
-          onScrollEndDrag={handleScrollEndDrag}
+          onScrollBeginDrag={IOS ? handleScrollBeginDrag : undefined}
+          onScroll={IOS ? handleScroll : onScroll}
+          onScrollEndDrag={IOS ? handleScrollEndDrag : undefined}
         >
           {children}
         </ScrollView>

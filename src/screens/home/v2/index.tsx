@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-24 23:01:09
+ * @Last Modified time: 2026-03-20 06:54:21
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Component } from '@components'
 import { Auth } from '@_'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import Extra from './component/extra'
 import Modal from './component/modal'
 import Page from './component/page'
@@ -20,10 +20,10 @@ import { useHomePage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** 进度 */
-const Home = (props: NavigationProps) => {
+function Home(props: NavigationProps) {
   const { id, $ } = useHomePage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-home'>
       <StoreContext.Provider value={id}>
         <Page>
@@ -41,7 +41,7 @@ const Home = (props: NavigationProps) => {
         <Extra />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default Home
+export default observer(Home)

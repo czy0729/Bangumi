@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-11-20 09:33:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-07 21:22:53
+ * @Last Modified time: 2026-03-20 07:23:20
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Eps as EpsComp } from '@_'
 import { useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
@@ -26,7 +26,7 @@ function Eps({ subjectId }: Props) {
     [$, navigation, subjectId]
   )
 
-  return useObserver(() => (
+  return (
     <View style={styles.eps}>
       <EpsComp
         grid
@@ -41,7 +41,7 @@ function Eps({ subjectId }: Props) {
         onSelect={handleSelect}
       />
     </View>
-  ))
+  )
 }
 
-export default Eps
+export default observer(Eps)

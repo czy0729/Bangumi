@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-08-05 16:43:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 15:39:34
+ * @Last Modified time: 2026-03-20 06:36:11
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import AntCarousel from '@ant-design/react-native/lib/carousel'
-import { NormalButtons } from '../normal-buttons'
+import NormalButtons from '../normal-buttons'
 import { memoStyles, paginationStyles } from './styles'
 
 function Carousel({ props, epsGroup = [] }) {

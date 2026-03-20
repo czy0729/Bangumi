@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-11-20 11:15:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-08 00:30:41
+ * @Last Modified time: 2026-03-20 07:28:56
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Loading, Mesume, Text } from '@components'
 import { _, systemStore, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { memoStyles } from '../styles'
 import Info from '../info'
 import { COMPONENT, PREV_TEXT } from './ds'
@@ -22,54 +22,53 @@ import type { Props } from './types'
 function Layout({ title }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    if (!$.collection._loaded) return <Loading />
+  if (!$.collection._loaded) return <Loading />
 
-    const styles = memoStyles()
-    const { current, grid } = $.state
-    const isGame = title === '游戏'
-    const { list } = $.currentCollection(title)
-    let find: any = isGame
-      ? grid
-      : (list as UserCollectionItem[]).find(item => item.subject_id === current)
-    let tip = ''
+  const styles = memoStyles()
 
-    /**
-     * 如果设置开启了全部里显示游戏, 因为两种数据结构不一样,
-     * 需要在确定找到项目后, 使用 $.state.grid
-     */
-    if (title === '全部' && !find && systemStore.setting.showGame) {
-      find = (list as UserCollectionsItem[]).find((item: { id: SubjectId }) => item.id == current)
-      if (find) {
-        tip = find?.tip || ''
-        find = grid
-      }
-    } else if (isGame) {
-      tip = $.games.list.find(item => item.id == current)?.tip || ''
+  const { current, grid } = $.state
+  const isGame = title === '游戏'
+  const { list } = $.currentCollection(title)
+  let find: any = isGame
+    ? grid
+    : (list as UserCollectionItem[]).find(item => item.subject_id === current)
+  let tip = ''
+
+  /**
+   * 如果设置开启了全部里显示游戏, 因为两种数据结构不一样,
+   * 需要在确定找到项目后, 使用 $.state.grid
+   */
+  if (title === '全部' && !find && systemStore.setting.showGame) {
+    find = (list as UserCollectionsItem[]).find((item: { id: SubjectId }) => item.id == current)
+    if (find) {
+      tip = find?.tip || ''
+      find = grid
     }
+  } else if (isGame) {
+    tip = $.games.list.find(item => item.id == current)?.tip || ''
+  }
 
-    return (
-      <View style={isGame ? styles.gameInfo : styles.info}>
-        {find ? (
-          <Info
-            subjectId={find.subject_id}
-            subject={find.subject}
-            epStatus={find.ep_status}
-            tip={tip}
-            time={isGame ? find.subject?.time : ''}
-            disabled={$.state.swiping}
-          />
-        ) : (
-          <Flex style={styles.noSelect} justify='center' direction='column'>
-            <Mesume size={80} />
-            <Text style={_.mt.sm} type='sub' align='center'>
-              请先点击下方{PREV_TEXT[title]}
-            </Text>
-          </Flex>
-        )}
-      </View>
-    )
-  })
+  return (
+    <View style={isGame ? styles.gameInfo : styles.info}>
+      {find ? (
+        <Info
+          subjectId={find.subject_id}
+          subject={find.subject}
+          epStatus={find.ep_status}
+          tip={tip}
+          time={isGame ? find.subject?.time : ''}
+          disabled={$.state.swiping}
+        />
+      ) : (
+        <Flex style={styles.noSelect} justify='center' direction='column'>
+          <Mesume size={80} />
+          <Text style={_.mt.sm} type='sub' align='center'>
+            请先点击下方{PREV_TEXT[title]}
+          </Text>
+        </Flex>
+      )}
+    </View>
+  )
 }
 
-export default Layout
+export default observer(Layout)

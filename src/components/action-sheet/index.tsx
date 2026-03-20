@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-25 03:23:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-18 03:46:02
+ * @Last Modified time: 2026-03-20 06:46:23
  */
 import React, { Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
@@ -66,9 +66,11 @@ export const ActionSheet = observer(
     }, [])
 
     const handleShow = useCallback(() => {
+      if (showValue) return
+
       setShow(true)
       requestAnimationFrame(() => animateTo(1))
-    }, [animateTo])
+    }, [animateTo, showValue])
 
     const handleClose = useCallback(() => {
       if (!showValue || closingRef.current) return
@@ -84,8 +86,13 @@ export const ActionSheet = observer(
     }, [animateTo, onClose, showValue])
 
     useEffect(() => {
-      if (show) handleShow()
-    }, [show, handleShow])
+      if (show) {
+        handleShow()
+        return
+      }
+
+      handleClose()
+    }, [show, handleShow, handleClose])
 
     useBackHandler(() => {
       if (!showValue) return false

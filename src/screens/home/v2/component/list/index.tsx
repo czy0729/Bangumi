@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-23 02:36:30
+ * @Last Modified time: 2026-03-20 07:39:06
  */
 import React, { useCallback, useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { Loading } from '@components'
 import { _, systemStore, useStore } from '@stores'
-import { useInsets, useObserver } from '@utils/hooks'
+import { useInsets } from '@utils/hooks'
 import { IOS, MODEL_SETTING_HOME_LAYOUT, PAD } from '@constants'
 import { H_TABBAR } from '../../ds'
 import Grid from '../grid/index.lazy'
@@ -40,29 +41,27 @@ function ListWrap({ title = '全部' }: Props) {
     [$, title]
   )
 
-  return useObserver(() => {
-    if (systemStore.setting.homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue('网格')) {
-      return <Grid title={title} />
-    }
+  if (systemStore.setting.homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue('网格')) {
+    return <Grid title={title} />
+  }
 
-    if (!$.collection._loaded) return <Loading />
+  if (!$.collection._loaded) return <Loading />
 
-    const showItem = $.showItem(title)
-    if (!showItem) return null
+  const showItem = $.showItem(title)
+  if (!showItem) return null
 
-    return (
-      <List
-        forwardRef={handleForwardRef}
-        style={style}
-        data={$.currentCollection(title)}
-        title={title}
-        showItem={showItem}
-        onScroll={$.onScroll}
-        onHeaderRefresh={$.onHeaderRefresh}
-        onFooterRefresh={title === '游戏' ? $.onFooterRefresh : undefined}
-      />
-    )
-  })
+  return (
+    <List
+      forwardRef={handleForwardRef}
+      style={style}
+      data={$.currentCollection(title)}
+      title={title}
+      showItem={showItem}
+      onScroll={$.onScroll}
+      onHeaderRefresh={$.onHeaderRefresh}
+      onFooterRefresh={title === '游戏' ? $.onFooterRefresh : undefined}
+    />
+  )
 }
 
-export default ListWrap
+export default observer(ListWrap)

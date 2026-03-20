@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-01-06 01:27:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-07 16:55:33
+ * @Last Modified time: 2026-03-20 07:13:56
  */
 import React, { useCallback } from 'react'
+import { observer } from 'mobx-react'
 import { Track } from '@components'
 import { ErrorNotice, ListenSharedText, LoginNotice } from '@_'
 import { useStore } from '@stores'
 import { appNavigate } from '@utils'
-import { useObserver } from '@utils/hooks'
 import { ANDROID, WEB } from '@constants'
 import { COMPONENT } from './ds'
 
@@ -36,14 +36,14 @@ function Extra() {
     [navigation]
   )
 
-  return useObserver(() => (
+  return (
     <>
       <Track title='首页' hm={$.hm} />
       <ErrorNotice />
       {!WEB && <LoginNotice />}
       {ANDROID && <ListenSharedText onTextReceived={handleTextReceived} />}
     </>
-  ))
+  )
 }
 
-export default Extra
+export default observer(Extra)

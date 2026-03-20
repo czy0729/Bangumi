@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-08-09 08:04:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-09 05:51:21
+ * @Last Modified time: 2026-03-20 07:31:25
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import Item from './item'
 import { COMPONENT } from './ds'
 
@@ -16,7 +16,7 @@ import type { Props } from './types'
 function ItemWrap({ index = 0, subjectId = 0, subject = {}, title, epStatus = '' }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <Item
       index={index}
       title={title}
@@ -30,7 +30,7 @@ function ItemWrap({ index = 0, subjectId = 0, subject = {}, title, epStatus = ''
       epStatus={Math.max(Number(epStatus) || 0, $.epStatus(subjectId))}
       disabled={$.state.swiping}
     />
-  ))
+  )
 }
 
-export default ItemWrap
+export default observer(ItemWrap)

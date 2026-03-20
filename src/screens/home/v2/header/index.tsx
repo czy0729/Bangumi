@@ -2,36 +2,37 @@
  * @Author: czy0729
  * @Date: 2020-06-02 22:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-10 00:02:43
+ * @Last Modified time: 2026-03-20 07:01:19
  */
-import React from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Heatmap, Touchable } from '@components'
 import { IconMenu, IconNotify, LogoHeader } from '@_'
 import { _, systemStore, useStore } from '@stores'
 import { stl } from '@utils'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import { MENU_MAP } from '@constants'
 import { COMPONENT, EVENT, IGNORE_PATHS } from './ds'
 import { styles } from './styles'
 
 import type { MenuItem, Paths } from '@types'
 import type { Ctx } from '../types'
+
 function Header() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    const { homeTopExtraCustom, homeTopLeftCustom, homeTopRightCustom } = systemStore.setting
-    const extraItem = MENU_MAP[homeTopExtraCustom]
-    const leftItem = MENU_MAP[homeTopLeftCustom]
-    const rightItem = MENU_MAP[homeTopRightCustom]
+  const { homeTopExtraCustom, homeTopLeftCustom, homeTopRightCustom } = systemStore.setting
+  const extraItem = MENU_MAP[homeTopExtraCustom]
+  const leftItem = MENU_MAP[homeTopLeftCustom]
+  const rightItem = MENU_MAP[homeTopRightCustom]
 
-    const handleItemPress = (item: MenuItem) => {
+  const handleItemPress = useCallback(
+    (item: MenuItem) => {
       if (!IGNORE_PATHS.includes(item.key as any)) {
         if (item.key === 'Search') {
           navigation.push('Search', {
-            type: $.tabsLabel !== '全部' && $.tabs.length >= 2 ? $.tabsLabel : ''
+            type: $.searchType
           })
         } else {
           navigation.push(item.key as Paths)
@@ -41,9 +42,12 @@ function Header() {
           to: item.key
         })
       }
-    }
+    },
+    [$, navigation]
+  )
 
-    const renderIcon = (item: MenuItem, isRight = false) => (
+  const handleRenderIcon = useCallback(
+    (item: MenuItem, isRight = false) => (
       <Touchable
         style={stl(styles.icon, !isRight && styles.rightLeft)}
         onPress={() => handleItemPress(item)}
@@ -56,35 +60,36 @@ function Header() {
           wrap={false}
         />
       </Touchable>
-    )
+    ),
+    [handleItemPress]
+  )
 
-    return (
-      <LogoHeader
-        navigation={navigation}
-        left={
-          <>
-            <View>
-              <IconNotify
-                style={stl(styles.icon, styles.left)}
-                navigation={navigation}
-                event={EVENT}
-              >
-                <Heatmap right={-39} id='首页.跳转' to='Notify' alias='电波提醒' />
-                <Heatmap right={-92} id='其他.切换主题' transparent />
-              </IconNotify>
-            </View>
-            {extraItem && renderIcon(extraItem)}
-          </>
-        }
-        right={
-          <Flex style={_.mr.xs}>
-            {leftItem && renderIcon(leftItem)}
-            {rightItem && renderIcon(rightItem, true)}
-          </Flex>
-        }
-      />
-    )
-  })
+  const elLeft = useMemo(
+    () => (
+      <>
+        <View>
+          <IconNotify style={stl(styles.icon, styles.left)} navigation={navigation} event={EVENT}>
+            <Heatmap right={-39} id='首页.跳转' to='Notify' alias='电波提醒' />
+            <Heatmap right={-92} id='其他.切换主题' transparent />
+          </IconNotify>
+        </View>
+        {extraItem && handleRenderIcon(extraItem)}
+      </>
+    ),
+    [extraItem, handleRenderIcon, navigation]
+  )
+
+  const elRight = useMemo(
+    () => (
+      <Flex style={_.mr.xs}>
+        {leftItem && handleRenderIcon(leftItem)}
+        {rightItem && handleRenderIcon(rightItem, true)}
+      </Flex>
+    ),
+    [handleRenderIcon, leftItem, rightItem]
+  )
+
+  return <LogoHeader navigation={navigation} left={elLeft} right={elRight} />
 }
 
-export default Header
+export default observer(Header)

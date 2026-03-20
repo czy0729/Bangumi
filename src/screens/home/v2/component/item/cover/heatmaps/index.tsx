@@ -2,24 +2,24 @@
  * @Author: czy0729
  * @Date: 2024-01-20 06:09:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-09 05:33:37
+ * @Last Modified time: 2026-03-20 07:36:59
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 
 function Heatmaps() {
   r(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <>
       <Heatmap bottom={68} id='首页.全部展开' transparent />
       <Heatmap bottom={34} id='首页.全部关闭' transparent />
       <Heatmap id='首页.跳转' to='Subject' alias='条目' />
     </>
-  ))
+  )
 }
 
-export default Heatmaps
+export default observer(Heatmaps)

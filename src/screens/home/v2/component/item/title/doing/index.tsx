@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-01-20 06:49:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-09 05:48:26
+ * @Last Modified time: 2026-03-20 07:38:40
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { _, systemStore, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { WEEK_DAY_MAP } from '../../../ds'
 import { COMPONENT } from './ds'
 
@@ -17,26 +17,24 @@ import type { Props } from './types'
 function Doing({ subjectId, typeCn, doing }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    if (systemStore.setting.homeListCompact) return null
+  if (systemStore.setting.homeListCompact) return null
 
-    const currentDoing = doing || $.subject(subjectId)?.collection?.doing || 0
-    if (!currentDoing) return null
+  const currentDoing = doing || $.subject(subjectId)?.collection?.doing || 0
+  if (!currentDoing) return null
 
-    const { weekDay, isOnair } = $.onAirCustom(subjectId)
-    const weekDayText = systemStore.setting.homeOnAir
-      ? ''
-      : isOnair
-      ? ` · 周${WEEK_DAY_MAP[weekDay]}`
-      : ''
+  const { weekDay, isOnair } = $.onAirCustom(subjectId)
+  const weekDayText = systemStore.setting.homeOnAir
+    ? ''
+    : isOnair
+    ? ` · 周${WEEK_DAY_MAP[weekDay]}`
+    : ''
 
-    return (
-      <Text style={_.mt.xs} type='sub' size={12}>
-        {currentDoing} 人在{typeCn === '书籍' ? '读' : typeCn === '游戏' ? '玩' : '看'}
-        {weekDayText}
-      </Text>
-    )
-  })
+  return (
+    <Text style={_.mt.xs} type='sub' size={12}>
+      {currentDoing} 人在{typeCn === '书籍' ? '读' : typeCn === '游戏' ? '玩' : '看'}
+      {weekDayText}
+    </Text>
+  )
 }
 
-export default Doing
+export default observer(Doing)

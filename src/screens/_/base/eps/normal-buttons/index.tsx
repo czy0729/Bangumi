@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-05 16:47:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 15:41:23
+ * @Last Modified time: 2026-03-20 06:36:21
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -10,7 +10,7 @@ import { Flex } from '@components'
 import { subjectStore } from '@stores'
 import { MODEL_EP_TYPE } from '@constants'
 import Button from '../button'
-import { SpButtons } from '../sp-buttons'
+import SpButtons from '../sp-buttons'
 
 function NormalButtons({ props, eps }) {
   const itemsNormal = []

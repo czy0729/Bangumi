@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-11-20 09:07:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-07 21:13:55
+ * @Last Modified time: 2026-03-20 07:20:07
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Iconfont, Touchable } from '@components'
 import { useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
@@ -17,7 +17,7 @@ import type { Props } from './types'
 function BookNextBtn({ subjectId, epStatus, volStatus }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <Touchable
       style={styles.touchable}
       onPress={() => {
@@ -28,7 +28,7 @@ function BookNextBtn({ subjectId, epStatus, volStatus }: Props) {
         <Iconfont style={styles.icon} name='md-check-circle-outline' size={18} />
       </Flex>
     </Touchable>
-  ))
+  )
 }
 
-export default BookNextBtn
+export default observer(BookNextBtn)

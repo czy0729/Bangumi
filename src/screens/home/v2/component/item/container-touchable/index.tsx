@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-01-20 08:46:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-09 05:27:29
+ * @Last Modified time: 2026-03-20 07:34:45
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Link } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { systemStore } from '@stores'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import { IMG_WIDTH } from '@constants'
 import { COMPONENT, TITLE_HIT_SLOPS } from './ds'
 import { styles } from './styles'
@@ -28,7 +28,7 @@ function ContainerTouchable({
 }: Props) {
   r(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <View style={systemStore.setting.homeListCompact ? styles.compact : styles.touch}>
       <Link
         path='Subject'
@@ -51,7 +51,7 @@ function ContainerTouchable({
         {children}
       </Link>
     </View>
-  ))
+  )
 }
 
-export default ContainerTouchable
+export default observer(ContainerTouchable)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:14:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-23 02:35:36
+ * @Last Modified time: 2026-03-20 07:01:09
  */
 import { computed } from 'mobx'
 import { _, calendarStore, collectionStore, subjectStore, systemStore, userStore } from '@stores'
@@ -74,6 +74,11 @@ export default class Computed extends State {
   /** 当前 Tabs 类型 */
   @computed get tabsLabel() {
     return this.tabs[this.state.page]?.title
+  }
+
+  /** 跳转到搜索页面后默认选择类型 */
+  @computed get searchType() {
+    return this.tabsLabel !== '全部' && this.tabs.length >= 2 ? this.tabsLabel : ''
   }
 
   /** Item 状态 */

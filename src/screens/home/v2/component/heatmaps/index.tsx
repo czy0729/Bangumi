@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-04-21 10:22:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-24 19:42:35
+ * @Last Modified time: 2026-03-20 07:30:16
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import { TABS_HEADER_HEIGHT } from '@styles'
 import { COMPONENT } from './ds'
 
 function Heatmaps() {
   r(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <>
       <Heatmap
         right={_.wind + 62}
@@ -36,7 +36,7 @@ function Heatmaps() {
       <Heatmap right={_.wind + 62} bottom={_.bottom + 16} id='首页.格子布局条目选择' transparent />
       <Heatmap bottom={_.bottom} id='首页' screen='Home' />
     </>
-  ))
+  )
 }
 
-export default Heatmaps
+export default observer(Heatmaps)

@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-06-19 19:22:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-30 06:02:01
+ * @Last Modified time: 2026-03-20 07:19:25
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => {
   const height = _.isMobileLanscape ? 132 : 244
+
   return {
     container: {
       flex: 1,

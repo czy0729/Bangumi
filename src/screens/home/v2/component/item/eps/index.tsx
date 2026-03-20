@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:11:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-09 17:41:25
+ * @Last Modified time: 2026-03-20 07:37:11
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { Eps as EpsComp } from '@_'
 import { useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { window } from '@styles'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
@@ -28,7 +28,7 @@ function Eps({ subjectId, isFirst }: Props) {
     [$, navigation, subjectId]
   )
 
-  return useObserver(() => (
+  return (
     <View style={styles.eps}>
       <EpsComp
         layoutWidth={window.contentWidth}
@@ -48,7 +48,7 @@ function Eps({ subjectId, isFirst }: Props) {
         </>
       )}
     </View>
-  ))
+  )
 }
 
-export default Eps
+export default observer(Eps)
