@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:31:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-15 14:28:48
+ * @Last Modified time: 2026-03-22 02:58:13
  */
 import React, { useCallback, useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Iconfont } from '@components'
 import { Popover } from '@_'
 import { useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { TEXT_MENU_IGNORE } from '@constants'
 import { styles } from './styles'
 
@@ -20,17 +20,17 @@ function BtnPopover({ groupCn, groupHref, href, topicId, userId, userName, isGro
 
   const isSubject = useMemo(() => topicId.includes('subject/'), [topicId])
 
-  const type = useMemo(() => {
+  const memoType = useMemo(() => {
     if (isGroup) return '小组'
     if (isSubject || topicId.includes('ep/')) return '条目'
     return '人物'
   }, [isGroup, isSubject, topicId])
 
   const memoData = useMemo(() => {
-    const data = [`进入${type}`, `屏蔽${type}`]
+    const data = [`进入${memoType}`, `屏蔽${memoType}`]
     if (isGroup || isSubject) data.push(TEXT_MENU_IGNORE)
     return data
-  }, [isGroup, isSubject, type])
+  }, [isGroup, isSubject, memoType])
 
   const handleSelect = useCallback(
     (title: string) => {
@@ -50,13 +50,13 @@ function BtnPopover({ groupCn, groupHref, href, topicId, userId, userName, isGro
     [$, navigation, topicId, href, groupCn, groupHref, userId, userName]
   )
 
-  return useObserver(() => (
+  return (
     <Popover style={styles.touch} data={memoData} onSelect={handleSelect}>
       <Flex style={styles.icon} justify='center'>
         <Iconfont name='md-more-vert' size={18} />
       </Flex>
     </Popover>
-  ))
+  )
 }
 
-export default BtnPopover
+export default observer(BtnPopover)

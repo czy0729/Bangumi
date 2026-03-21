@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-16 22:52:52
+ * @Last Modified time: 2026-03-22 03:00:00
  */
 import React, { useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { TabView } from '@components'
 import { BlurViewBottomTab, BlurViewRoot, BlurViewTab } from '@_'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { TABS } from '../../ds'
 import renderScene from './renderScene'
 import { renderTabBar } from './utils'
@@ -21,27 +21,25 @@ function Tab() {
 
   const elBackground = useMemo(() => <BlurViewTab length={TABS.length} />, [])
 
-  return useObserver(() => {
-    if (!$.state._loaded) return null
+  if (!$.state._loaded) return null
 
-    return (
-      <BlurViewRoot>
-        <TabView
-          key={_.orientation}
-          lazy
-          lazyPreloadDistance={0}
-          navigationState={$.navigationState}
-          renderTabBar={renderTabBar}
-          renderBackground={elBackground}
-          renderScene={renderScene}
-          onSwipeStart={$.onSwipeStart}
-          onSwipeEnd={$.onSwipeEnd}
-          onIndexChange={$.onChange}
-        />
-        <BlurViewBottomTab />
-      </BlurViewRoot>
-    )
-  })
+  return (
+    <BlurViewRoot>
+      <TabView
+        key={_.orientation}
+        lazy
+        lazyPreloadDistance={0}
+        navigationState={$.navigationState}
+        renderTabBar={renderTabBar}
+        renderBackground={elBackground}
+        renderScene={renderScene}
+        onSwipeStart={$.onSwipeStart}
+        onSwipeEnd={$.onSwipeEnd}
+        onIndexChange={$.onChange}
+      />
+      <BlurViewBottomTab />
+    </BlurViewRoot>
+  )
 }
 
-export default Tab
+export default observer(Tab)

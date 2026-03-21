@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-04-27 19:30:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-23 06:10:23
+ * @Last Modified time: 2026-03-22 02:59:39
  */
 import React, { useCallback, useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { ListView, Loading } from '@components'
 import { Login } from '@_'
 import { _, userStore, useStore } from '@stores'
-import { useInsets, useObserver } from '@utils/hooks'
+import { useInsets } from '@utils/hooks'
 import i18n from '@constants/i18n'
 import { H_TABBAR } from '../../ds'
 import { keyExtractor, renderItem } from './utils'
@@ -21,6 +22,7 @@ function List({ index }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const { headerHeight } = useInsets()
+
   const contentContainerStyle = useMemo(
     () => ({
       paddingTop: headerHeight + H_TABBAR,
@@ -36,32 +38,30 @@ function List({ index }: Props) {
     [$, index]
   )
 
-  return useObserver(() => {
-    const type = $.type(index)
-    if (type === 'hot' && !userStore.isWebLogin) {
-      return <Login text={`热门帖子需${i18n.login()}才能显示`} btnText={`去${i18n.login()}`} />
-    }
+  const type = $.type(index)
+  if (type === 'hot' && !userStore.isWebLogin) {
+    return <Login text={`热门帖子需${i18n.login()}才能显示`} btnText={`去${i18n.login()}`} />
+  }
 
-    const rakuen = $.rakuen(type)
-    if (!rakuen._loaded) return <Loading />
+  const rakuen = $.rakuen(type)
+  if (!rakuen._loaded) return <Loading />
 
-    return (
-      <ListView
-        key={type}
-        ref={handleRef}
-        skipEnteringExitingAnimations={ENTERING_EXITING_ANIMATIONS_NUM}
-        keyExtractor={keyExtractor}
-        contentContainerStyle={contentContainerStyle}
-        progressViewOffset={contentContainerStyle.paddingTop}
-        data={rakuen}
-        renderItem={renderItem}
-        initialNumToRender={16}
-        scrollEventThrottle={16}
-        onScroll={$.onScroll}
-        onHeaderRefresh={$.onHeaderRefresh}
-      />
-    )
-  })
+  return (
+    <ListView
+      key={type}
+      ref={handleRef}
+      skipEnteringExitingAnimations={ENTERING_EXITING_ANIMATIONS_NUM}
+      keyExtractor={keyExtractor}
+      contentContainerStyle={contentContainerStyle}
+      progressViewOffset={contentContainerStyle.paddingTop}
+      data={rakuen}
+      renderItem={renderItem}
+      initialNumToRender={16}
+      scrollEventThrottle={16}
+      onScroll={$.onScroll}
+      onHeaderRefresh={$.onHeaderRefresh}
+    />
+  )
 }
 
-export default List
+export default observer(List)

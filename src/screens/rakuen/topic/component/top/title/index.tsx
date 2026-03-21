@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2025-04-23 08:54:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-15 17:55:25
+ * @Last Modified time: 2026-03-22 05:52:42
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { copy } from '@utils'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 
 import type { Ctx } from '../../../types'
@@ -16,40 +16,38 @@ import type { Ctx } from '../../../types'
 function Title() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    const { _replies: replies } = $.params
+  const { _replies: replies } = $.params
 
-    return (
-      <>
+  return (
+    <>
+      <Touchable
+        onLongPress={() => {
+          copy($.title, '已复制标题')
+        }}
+      >
+        <Text type='title' size={20} bold>
+          {$.title}
+          {!!replies && (
+            <Text type='main' size={12} lineHeight={26} bold>
+              {`  ${replies.includes('+') ? '' : '+'}${replies.trim()}`}
+            </Text>
+          )}
+        </Text>
+      </Touchable>
+      {!!$.subTitle && (
         <Touchable
+          style={_.mv.md}
           onLongPress={() => {
-            copy($.title, '已复制标题')
+            copy($.subTitle, '已复制副标题')
           }}
         >
-          <Text type='title' size={20} bold>
-            {$.title}
-            {!!replies && (
-              <Text type='main' size={12} lineHeight={26} bold>
-                {`  ${replies.includes('+') ? '' : '+'}${replies.trim()}`}
-              </Text>
-            )}
+          <Text type='sub' size={14} bold>
+            {$.subTitle}
           </Text>
         </Touchable>
-        {!!$.subTitle && (
-          <Touchable
-            style={_.mv.md}
-            onLongPress={() => {
-              copy($.subTitle, '已复制副标题')
-            }}
-          >
-            <Text type='sub' size={14} bold>
-              {$.subTitle}
-            </Text>
-          </Touchable>
-        )}
-      </>
-    )
-  })
+      )}
+    </>
+  )
 }
 
-export default Title
+export default observer(Title)

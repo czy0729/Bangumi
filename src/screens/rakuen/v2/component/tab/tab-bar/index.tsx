@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-03-15 17:58:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-17 11:39:36
+ * @Last Modified time: 2026-03-22 03:00:31
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { TabBar as TabViewTabBar } from '@components'
 import { r } from '@utils/dev'
-import { useInsets, useObserver } from '@utils/hooks'
+import { useInsets } from '@utils/hooks'
 import { renderLabel } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -17,28 +18,26 @@ function TabBar(props) {
 
   const { headerHeight } = useInsets()
 
-  return useObserver(() => {
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    return (
-      <TabViewTabBar
-        {...props}
-        style={[
-          styles.tabBar,
-          {
-            top: headerHeight
-          }
-        ]}
-        tabStyle={styles.tab}
-        labelStyle={styles.label}
-        indicatorStyle={styles.indicator}
-        pressOpacity={1}
-        pressColor='transparent'
-        scrollEnabled
-        renderLabel={renderLabel}
-      />
-    )
-  })
+  return (
+    <TabViewTabBar
+      {...props}
+      style={[
+        styles.tabBar,
+        {
+          top: headerHeight
+        }
+      ]}
+      tabStyle={styles.tab}
+      labelStyle={styles.label}
+      indicatorStyle={styles.indicator}
+      pressOpacity={1}
+      pressColor='transparent'
+      scrollEnabled
+      renderLabel={renderLabel}
+    />
+  )
 }
 
-export default TabBar
+export default observer(TabBar)

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-16 22:57:10
+ * @Last Modified time: 2026-03-22 02:56:52
  */
 import React, { useCallback } from 'react'
+import { observer } from 'mobx-react'
 import { rakuenStore, useStore } from '@stores'
 import { appNavigate, confirm, findSubjectCn, getIsBlocked, getIsBlockedUser, open } from '@utils'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import { HOST, LIMIT_TOPIC_PUSH } from '@constants'
 import Item from './item'
 import { getIsAd, getIsGroup, getReplyCount, getTopicId, getUserId } from './utils'
@@ -84,41 +84,38 @@ function ItemWrap({
     handleCallback()
   }, [handleCallback, href, replyCount])
 
-  return useObserver(() => {
-    if (index >= LIMIT_HEAVY && !$.state._mounted) return null
+  if (index >= LIMIT_HEAVY && !$.state._mounted) return null
 
-    const groupCn = findSubjectCn(group)
-    const itemUserId = userId || getUserId(avatar)
-    const replyCount = getReplyCount(replies)
-    const uuid = `Rakuen|${topicId}|${index}`
-    if (
-      getIsBlocked(rakuenStore.setting.blockKeywords, title, uuid) ||
-      getIsBlocked(rakuenStore.setting.blockGroups, groupCn, uuid) ||
-      getIsBlockedUser(rakuenStore.blockUserIds, userName, itemUserId, uuid) ||
-      getIsAd(rakuenStore.setting.isBlockDefaultUser, avatar, replyCount)
-    ) {
-      return null
-    }
+  const groupCn = findSubjectCn(group)
+  const itemUserId = userId || getUserId(avatar)
+  const uuid = `Rakuen|${topicId}|${index}`
+  if (
+    getIsBlocked(rakuenStore.setting.blockKeywords, title, uuid) ||
+    getIsBlocked(rakuenStore.setting.blockGroups, groupCn, uuid) ||
+    getIsBlockedUser(rakuenStore.blockUserIds, userName, itemUserId, uuid) ||
+    getIsAd(rakuenStore.setting.isBlockDefaultUser, avatar, replyCount)
+  ) {
+    return null
+  }
 
-    return (
-      <Item
-        styles={memoStyles()}
-        index={index}
-        avatar={avatar}
-        userId={itemUserId}
-        userName={userName}
-        groupHref={groupHref}
-        groupCn={groupCn}
-        href={href}
-        title={title}
-        time={time}
-        topicId={topicId}
-        replyCount={replyCount}
-        isGroup={getIsGroup(topicId)}
-        onPress={handlePress}
-      />
-    )
-  })
+  return (
+    <Item
+      styles={memoStyles()}
+      index={index}
+      avatar={avatar}
+      userId={itemUserId}
+      userName={userName}
+      groupHref={groupHref}
+      groupCn={groupCn}
+      href={href}
+      title={title}
+      time={time}
+      topicId={topicId}
+      replyCount={replyCount}
+      isGroup={getIsGroup(topicId)}
+      onPress={handlePress}
+    />
+  )
 }
 
-export default ItemWrap
+export default observer(ItemWrap)

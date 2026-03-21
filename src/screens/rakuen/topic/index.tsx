@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-16 20:10:39
+ * @Last Modified time: 2026-03-22 05:28:30
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import './styles'
 import { Component, Page } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import Bottom from './component/bottom'
 import Extra from './component/extra'
 import List from './component/list'
@@ -19,7 +19,7 @@ import { useTopicPage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** 帖子 */
-const Topic = (props: NavigationProps) => {
+function Topic(props: NavigationProps) {
   const {
     id,
     scrollViewRef,
@@ -32,7 +32,7 @@ const Topic = (props: NavigationProps) => {
     handleShowFixedTextarea
   } = useTopicPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-topic'>
       <StoreContext.Provider value={id}>
         <Page statusBarEvent={false}>
@@ -49,7 +49,7 @@ const Topic = (props: NavigationProps) => {
         <Extra />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default Topic
+export default observer(Topic)

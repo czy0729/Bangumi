@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-03-29 14:23:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-09 16:24:46
+ * @Last Modified time: 2026-03-22 02:55:09
  */
 import React, { useCallback, useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Heatmap, Iconfont, Link } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { t } from '@utils/fetch'
-import { useNavigation, useObserver } from '@utils/hooks'
+import { useNavigation } from '@utils/hooks'
 import { HTML_NEW_TOPIC, WEB } from '@constants'
 import { styles } from './styles'
 
@@ -27,6 +28,7 @@ function IconMore({ style }: WithViewStyles) {
     const list = []
     if (!WEB) list.push(TEXT_SEARCH)
     list.push(TEXT_SETTING, TEXT_POST)
+
     return list
   }, [])
 
@@ -60,7 +62,7 @@ function IconMore({ style }: WithViewStyles) {
     [navigation]
   )
 
-  return useObserver(() => (
+  return (
     <Flex style={_.mr.xs}>
       <Link style={_.mr._xxs} path='RakuenHistory'>
         <Flex style={styles.moreIcon} justify='center'>
@@ -78,7 +80,7 @@ function IconMore({ style }: WithViewStyles) {
         <Heatmap bottom={-32} id='超展开.预读取' />
       </Popover>
     </Flex>
-  ))
+  )
 }
 
-export default IconMore
+export default observer(IconMore)

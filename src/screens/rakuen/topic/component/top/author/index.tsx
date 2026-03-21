@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2025-04-23 09:34:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-15 17:50:24
+ * @Last Modified time: 2026-03-22 05:46:19
  */
 import React, { useCallback, useState } from 'react'
+import { observer } from 'mobx-react'
 import { Avatar, Flex, Heatmap, Text, UserStatus } from '@components'
 import { Name, UserAge } from '@_'
 import { _, systemStore, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
@@ -18,9 +18,10 @@ function Author() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   const [lines, setLines] = useState(1)
+
   const handleSetLines = useCallback(() => setLines(2), [])
 
-  return useObserver(() => (
+  return (
     <Flex style={styles.author}>
       {!!$.avatar && (
         <UserStatus userId={$.userId}>
@@ -51,7 +52,7 @@ function Author() {
       )}
       <Heatmap id='帖子.跳转' to='Zone' alias='空间' />
     </Flex>
-  ))
+  )
 }
 
-export default Author
+export default observer(Author)

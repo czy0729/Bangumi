@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:23:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-28 00:38:17
+ * @Last Modified time: 2026-03-22 02:58:42
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { Name, UserAge, VerticalAlign } from '@_'
 import { _, systemStore } from '@stores'
 import { correctAgo } from '@utils'
-import { useObserver } from '@utils/hooks'
 import { BASE_TEXT_PROPS } from './ds'
 import { styles } from './styles'
 
@@ -26,7 +26,7 @@ function Detail({ time, groupCn, userName, userId, avatar }: Props) {
     [setName]
   )
 
-  return useObserver(() => (
+  return (
     <Flex style={_.mt.xs}>
       <View style={systemStore.setting.userAge && styles.name}>
         <VerticalAlign {...BASE_TEXT_PROPS} text={userName} onHit={handleHit}>
@@ -51,7 +51,7 @@ function Detail({ time, groupCn, userName, userId, avatar }: Props) {
         </Flex.Item>
       )}
     </Flex>
-  ))
+  )
 }
 
-export default Detail
+export default observer(Detail)

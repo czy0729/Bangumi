@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-12-16 01:24:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-24 19:42:40
+ * @Last Modified time: 2026-03-22 02:54:21
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import { TABS_HEADER_HEIGHT } from '@styles'
 import { COMPONENT } from './ds'
 
 function Heatmaps() {
   r(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <>
       <Heatmap
         right={_.wind + 62}
@@ -31,7 +31,7 @@ function Heatmaps() {
       />
       <Heatmap bottom={_.bottom} id='超展开' screen='Rakuen' />
     </>
-  ))
+  )
 }
 
-export default Heatmaps
+export default observer(Heatmaps)

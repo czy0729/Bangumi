@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-11-26 03:14:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-16 21:55:02
+ * @Last Modified time: 2026-03-22 05:43:29
  */
 import React, { useCallback, useRef, useState } from 'react'
+import { observer } from 'mobx-react'
 import { FixedBtn } from '@_'
 import { rakuenStore, useStore } from '@stores'
 import { feedback } from '@utils'
-import { useFocusEffect, useObserver } from '@utils/hooks'
+import { useFocusEffect } from '@utils/hooks'
 import List from './list'
 import { COMPONENT } from './ds'
 
@@ -64,26 +65,24 @@ function ListWrap({ forwardRef, onScrollTo, onShowFixedTextarea, onScrollToIndex
     }, [])
   )
 
-  return useObserver(() => {
-    const { expands } = $.state
-    const isExpanded = expands.includes(viewableItem)
+  const { expands } = $.state
+  const isExpanded = expands.includes(viewableItem)
 
-    return (
-      <>
-        <List
-          forwardRef={forwardRef}
-          data={$.comments}
-          postId={$.postId}
-          onViewableItemsChanged={handleViewableItemsChanged}
-          onScroll={$.onScroll}
-          onScrollToIndexFailed={onScrollToIndexFailed}
-          onHeaderRefresh={$.fetchTopic}
-          onShowFixedTextarea={onShowFixedTextarea}
-        />
-        {isExpanded && <FixedBtn onPress={handleToggle}>收起楼层</FixedBtn>}
-      </>
-    )
-  })
+  return (
+    <>
+      <List
+        forwardRef={forwardRef}
+        data={$.comments}
+        postId={$.postId}
+        onViewableItemsChanged={handleViewableItemsChanged}
+        onScroll={$.onScroll}
+        onScrollToIndexFailed={onScrollToIndexFailed}
+        onHeaderRefresh={$.fetchTopic}
+        onShowFixedTextarea={onShowFixedTextarea}
+      />
+      {isExpanded && <FixedBtn onPress={handleToggle}>收起楼层</FixedBtn>}
+    </>
+  )
 }
 
-export default ListWrap
+export default observer(ListWrap)

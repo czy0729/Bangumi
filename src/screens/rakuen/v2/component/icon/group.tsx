@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:56:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-15 14:29:55
+ * @Last Modified time: 2026-03-22 02:54:36
  */
 import React, { useCallback } from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { IconTabsHeader } from '@_'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { t } from '@utils/fetch'
-import { useNavigation, useObserver } from '@utils/hooks'
+import { useNavigation } from '@utils/hooks'
 import { styles } from './styles'
 
 function IconGroup() {
@@ -24,7 +25,7 @@ function IconGroup() {
     })
   }, [navigation])
 
-  return useObserver(() => (
+  return (
     <IconTabsHeader
       style={stl(styles.group, _.isPad && styles.groupPad)}
       name='md-filter-none'
@@ -33,7 +34,7 @@ function IconGroup() {
     >
       <Heatmap right={-40} id='超展开.跳转' to='Mine' alias='我的小组' />
     </IconTabsHeader>
-  ))
+  )
 }
 
-export default IconGroup
+export default observer(IconGroup)
