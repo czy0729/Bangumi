@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-09-09 21:41:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-09 07:40:36
+ * @Last Modified time: 2026-03-22 02:42:31
  */
 import React, { useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { ListView } from '@components'
 import { BlurViewBottomTab, BlurViewRoot } from '@_'
 import { _, systemStore, useStore } from '@stores'
-import { useInsets, useObserver } from '@utils/hooks'
-import HeaderComponent from '../../header-component'
+import { useInsets } from '@utils/hooks'
+import Dashboard from '../dashboard'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
 
@@ -20,31 +21,29 @@ function List() {
 
   const { headerHeight, statusBarHeight } = useInsets()
 
-  const elHeader = useMemo(() => <HeaderComponent />, [])
+  const elHeader = useMemo(() => <Dashboard />, [])
 
-  return useObserver(() => {
-    const { dragging } = $.state
+  const { dragging } = $.state
 
-    return (
-      <BlurViewRoot>
-        <ListView
-          ref={$.forwardRef}
-          keyExtractor={keyExtractor}
-          contentContainerStyle={_.container.bottom}
-          progressViewOffset={_.ios(statusBarHeight, headerHeight)}
-          data={$.state.home}
-          ListHeaderComponent={elHeader}
-          showFooter={!dragging && !systemStore.setting.live2D}
-          scrollEnabled={!dragging}
-          scrollEventThrottle={16}
-          renderItem={renderItem}
-          onScroll={$.onScroll}
-          onHeaderRefresh={dragging ? undefined : $.onHeaderRefresh}
-        />
-        <BlurViewBottomTab />
-      </BlurViewRoot>
-    )
-  })
+  return (
+    <BlurViewRoot>
+      <ListView
+        ref={$.forwardRef}
+        keyExtractor={keyExtractor}
+        contentContainerStyle={_.container.bottom}
+        progressViewOffset={_.ios(statusBarHeight, headerHeight)}
+        data={$.state.home}
+        ListHeaderComponent={elHeader}
+        showFooter={!dragging && !systemStore.setting.live2D}
+        scrollEnabled={!dragging}
+        scrollEventThrottle={16}
+        renderItem={renderItem}
+        onScroll={$.onScroll}
+        onHeaderRefresh={dragging ? undefined : $.onHeaderRefresh}
+      />
+      <BlurViewBottomTab />
+    </BlurViewRoot>
+  )
 }
 
-export default List
+export default observer(List)

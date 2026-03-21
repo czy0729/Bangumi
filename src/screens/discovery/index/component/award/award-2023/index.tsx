@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-02-11 03:50:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-20 09:48:19
+ * @Last Modified time: 2026-03-21 20:32:25
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { useNavigation, useObserver } from '@utils/hooks'
+import { useNavigation } from '@utils/hooks'
 import { HOST } from '@constants'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -18,65 +19,63 @@ import type { Props } from './types'
 function Award2023({ width, height }: Props) {
   const navigation = useNavigation(COMPONENT)
 
-  return useObserver(() => {
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    return (
-      <View
-        style={[
-          styles.container,
-          {
-            height: height || styles.container.height,
-            marginRight: height ? 0 : styles.container.marginRight
-          }
-        ]}
+  return (
+    <View
+      style={[
+        styles.container,
+        {
+          height: height || styles.container.height,
+          marginRight: height ? 0 : styles.container.marginRight
+        }
+      ]}
+    >
+      <Touchable
+        animate
+        onPress={() => {
+          navigation.push('Award', {
+            uri: `${HOST}/award/2023`
+          })
+        }}
       >
-        <Touchable
-          animate
-          onPress={() => {
-            navigation.push('Award', {
-              uri: `${HOST}/award/2023`
-            })
-          }}
+        <View
+          style={[
+            styles.body,
+            {
+              width: width || styles.body.width,
+              height: height || styles.body.height
+            }
+          ]}
+          pointerEvents='none'
         >
-          <View
-            style={[
-              styles.body,
-              {
-                width: width || styles.body.width,
-                height: height || styles.body.height
-              }
-            ]}
-            pointerEvents='none'
-          >
-            <View style={styles.header}>
-              {!_.isDark && <View style={styles.line} />}
-              <View style={styles.line} />
-              <View style={styles.line} />
-              <View style={styles.line} />
-              <View style={styles.line} />
-              <View style={styles.close}>
-                <View style={styles.closeMain} />
-              </View>
-              <Flex style={styles.title} justify='center'>
-                <Text type='title' size={12} bold>
-                  BGM.TV
-                </Text>
-              </Flex>
+          <View style={styles.header}>
+            {!_.isDark && <View style={styles.line} />}
+            <View style={styles.line} />
+            <View style={styles.line} />
+            <View style={styles.line} />
+            <View style={styles.line} />
+            <View style={styles.close}>
+              <View style={styles.closeMain} />
             </View>
-            <Flex style={styles.content} direction='column' justify='center'>
-              <Text type='title' size={21} bold>
-                bOS 23
-              </Text>
-              <Text style={_.mt.xs} size={13} type='title' bold>
-                YEAR IN REVIEW 2023
+            <Flex style={styles.title} justify='center'>
+              <Text type='title' size={12} bold>
+                BGM.TV
               </Text>
             </Flex>
           </View>
-        </Touchable>
-      </View>
-    )
-  })
+          <Flex style={styles.content} direction='column' justify='center'>
+            <Text type='title' size={21} bold>
+              bOS 23
+            </Text>
+            <Text style={_.mt.xs} size={13} type='title' bold>
+              YEAR IN REVIEW 2023
+            </Text>
+          </Flex>
+        </View>
+      </Touchable>
+    </View>
+  )
 }
 
-export default Award2023
+export default observer(Award2023)

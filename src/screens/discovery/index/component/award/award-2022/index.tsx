@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2023-01-22 06:05:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-20 09:46:52
+ * @Last Modified time: 2026-03-21 20:32:15
  */
 import React from 'react'
 import { View } from 'react-native'
 import { WebView } from 'react-native-webview'
+import { observer } from 'mobx-react'
 import { Squircle, Touchable } from '@components'
 import { systemStore } from '@stores'
 import { withT } from '@utils/fetch'
-import { useIsFocused, useNavigation, useObserver } from '@utils/hooks'
+import { useIsFocused, useNavigation } from '@utils/hooks'
 import { HOST, TEXT_ONLY } from '@constants'
 import { getHtml } from './utils'
 import { COMPONENT } from './ds'
@@ -20,84 +21,83 @@ import type { Props } from './types'
 
 function Award2022({ width, height }: Props) {
   const navigation = useNavigation(COMPONENT)
+
   const show = useIsFocused()
 
-  return useObserver(() => {
-    const styles = memoStyles()
-    const w = width || styles.item2022.width
-    const h = height || styles.item2022.height
+  const styles = memoStyles()
+  const w = width || styles.item2022.width
+  const h = height || styles.item2022.height
 
-    return (
-      <View
+  return (
+    <View
+      style={[
+        styles.container,
+        {
+          height: height || styles.container.height,
+          marginRight: height ? 0 : styles.container.marginRight
+        }
+      ]}
+    >
+      <Touchable
         style={[
-          styles.container,
+          styles.item2022,
           {
-            height: height || styles.container.height,
-            marginRight: height ? 0 : styles.container.marginRight
+            width: w,
+            height: h
           }
         ]}
+        animate
+        onPress={withT(
+          () => {
+            navigation.push('Award', {
+              uri: `${HOST}/award/2022`
+            })
+          },
+          '发现.跳转',
+          {
+            to: 'Award',
+            year: 2022,
+            from: 'Award2022'
+          }
+        )}
       >
-        <Touchable
-          style={[
-            styles.item2022,
-            {
-              width: w,
-              height: h
-            }
-          ]}
-          animate
-          onPress={withT(
-            () => {
-              navigation.push('Award', {
-                uri: `${HOST}/award/2022`
-              })
-            },
-            '发现.跳转',
-            {
-              to: 'Award',
-              year: 2022,
-              from: 'Award2022'
-            }
+        <Squircle width={w} height={h} radius={systemStore.coverRadius}>
+          {!TEXT_ONLY && (
+            <View
+              style={[
+                styles.body,
+                {
+                  width: width || styles.body.width,
+                  height: height || styles.body.height
+                }
+              ]}
+              pointerEvents='none'
+            >
+              {show && (
+                <WebView
+                  style={[
+                    styles.body,
+                    {
+                      width: width || styles.body.width,
+                      height: height || styles.body.height
+                    }
+                  ]}
+                  source={{
+                    html: getHtml(width || styles.body.width, height || styles.body.height)
+                  }}
+                  scrollEnabled={false}
+                  showsVerticalScrollIndicator={false}
+                  showsHorizontalScrollIndicator={false}
+                  androidHardwareAccelerationDisabled
+                  androidLayerType='software'
+                />
+              )}
+            </View>
           )}
-        >
-          <Squircle width={w} height={h} radius={systemStore.coverRadius}>
-            {!TEXT_ONLY && (
-              <View
-                style={[
-                  styles.body,
-                  {
-                    width: width || styles.body.width,
-                    height: height || styles.body.height
-                  }
-                ]}
-                pointerEvents='none'
-              >
-                {show && (
-                  <WebView
-                    style={[
-                      styles.body,
-                      {
-                        width: width || styles.body.width,
-                        height: height || styles.body.height
-                      }
-                    ]}
-                    source={{
-                      html: getHtml(width || styles.body.width, height || styles.body.height)
-                    }}
-                    scrollEnabled={false}
-                    showsVerticalScrollIndicator={false}
-                    showsHorizontalScrollIndicator={false}
-                    androidHardwareAccelerationDisabled
-                    androidLayerType='software'
-                  />
-                )}
-              </View>
-            )}
-          </Squircle>
-        </Touchable>
-      </View>
-    )
-  })
+        </Squircle>
+      </Touchable>
+    </View>
+  )
 }
 
-export default Award2022
+export default observer(Award2022)

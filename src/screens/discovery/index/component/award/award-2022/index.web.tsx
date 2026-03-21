@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-04-11 10:44:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-20 09:47:17
+ * @Last Modified time: 2026-03-21 20:42:42
  */
 import React, { useRef } from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Squircle, Touchable } from '@components'
 import { systemStore } from '@stores'
 import { withT } from '@utils/fetch'
@@ -21,6 +22,7 @@ function Award2022({ width, height }: Props) {
   const navigation = useNavigation(COMPONENT)
   const styles = memoStyles()
   const ref = useRef(null)
+
   useMount(() => {
     ref.current.innerHTML = getHtml(width || styles.body.width, height || styles.body.height)
   })
@@ -69,4 +71,4 @@ function Award2022({ width, height }: Props) {
   )
 }
 
-export default Award2022
+export default observer(Award2022)

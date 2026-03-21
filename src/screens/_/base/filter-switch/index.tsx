@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-26 05:09:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 16:21:20
+ * @Last Modified time: 2026-03-21 20:42:10
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -12,13 +12,14 @@ import { _ } from '@stores'
 import { setStorage, stl } from '@utils'
 import { useNavigation } from '@utils/hooks'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
-import { scrollToX } from './utils'
+import { getLastPath, scrollToX } from './utils'
 import { COMPONENT, FILTER_SWITCH_DS, FLITER_SWITCH_LAST_PATH_KEY, PATH_MAP, TOTAL } from './ds'
 import { memoStyles } from './styles'
 
-import type { getLastPath } from './utils'
+export { getLastPath }
+
 import type { Props as FilterSwitchProps } from './types'
-export type { FilterSwitchProps, getLastPath }
+export type { FilterSwitchProps }
 
 /** 番剧, 游戏, 漫画, 文库, ADV, Hentai 页面直接切换筛选 */
 export const FilterSwitch = observer(

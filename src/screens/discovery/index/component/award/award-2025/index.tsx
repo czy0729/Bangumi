@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2025-01-27 15:33:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-03 23:08:35
+ * @Last Modified time: 2026-03-21 20:33:27
  */
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Animated, StyleSheet, View } from 'react-native'
 import Svg, { Circle, Defs, Pattern, Rect } from 'react-native-svg'
+import { observer } from 'mobx-react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Flex, Text, Touchable } from '@components'
 import { userStore } from '@stores'
 import { open } from '@utils'
-import { useFocusEffect, useNavigation, useObserver } from '@utils/hooks'
+import { useFocusEffect, useNavigation } from '@utils/hooks'
 import { HOST } from '@constants'
 import { COMPONENT, URI } from './ds'
 import { memoStyles } from './styles'
@@ -24,7 +25,7 @@ const messages = [
   'rank anime',
   'stats user',
   'rm -rf /'
-]
+] as const
 
 function Award2025() {
   const navigation = useNavigation(COMPONENT)
@@ -90,7 +91,7 @@ function Award2025() {
   }
 
   useFocusEffect(
-    React.useCallback(() => {
+    useCallback(() => {
       // 页面聚焦时启动动画
       nextText()
       tick()
@@ -110,92 +111,85 @@ function Award2025() {
     }, [])
   )
 
-  return useObserver(() => {
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    return (
-      <View style={styles.container}>
+  return (
+    <View style={styles.container}>
+      <Touchable
+        animate
+        onPress={() => {
+          navigation.push('Award', { uri: URI })
+        }}
+      >
+        <View style={styles.item}>
+          <LinearGradient style={styles.background} colors={['#14131a', '#0f1318', '#0b1115']} />
+          <View style={styles.innerBorder} />
+
+          <Flex.Item>
+            <LinearGradient
+              style={styles.titlebar}
+              colors={['rgba(84,36,49,0.92)', 'rgba(61,27,36,0.75)']}
+            >
+              <Text overrideStyle={styles.title}>^_ // Bangumi 2025</Text>
+            </LinearGradient>
+
+            <View style={styles.console}>
+              <LinearGradient
+                style={styles.consoleBackground}
+                colors={['rgba(8,18,13,0.3)', 'rgba(5,12,9,0.42)']}
+              />
+
+              <Svg style={styles.consoleBackground} pointerEvents='none'>
+                <Defs>
+                  <Pattern
+                    id='dot'
+                    patternUnits='userSpaceOnUse'
+                    patternContentUnits='userSpaceOnUse'
+                    width='16'
+                    height='16'
+                  >
+                    <Circle cx='6' cy='6' r='1' fill='rgba(240,145,153,0.2)' />
+                  </Pattern>
+                </Defs>
+                <Rect width='100%' height='100%' fill='url(#dot)' />
+              </Svg>
+
+              <Text overrideStyle={[styles.line, styles.muted]}>
+                $ boot award_2025 --mode console
+              </Text>
+              <Text overrideStyle={[styles.line, styles.success]}>SYSTEM READY.</Text>
+              <Flex style={styles.commandRow}>
+                <Text overrideStyle={styles.prompt} shrink numberOfLines={1} ellipsizeMode='middle'>
+                  {userStore.myId || 'guest'}@bgm2025
+                </Text>
+                <Text overrideStyle={styles.prompt}>:~$</Text>
+                <Text overrideStyle={styles.command}>{displayText}</Text>
+                <Animated.View style={[styles.cursor, { opacity: cursorOpacity }]} />
+              </Flex>
+            </View>
+          </Flex.Item>
+
+          <LinearGradient
+            style={StyleSheet.absoluteFill}
+            pointerEvents='none'
+            colors={['rgba(255,255,255,0.03)', 'rgba(0,0,0,0.08)']}
+          />
+        </View>
+      </Touchable>
+
+      <View style={styles.fixed}>
         <Touchable
-          animate
           onPress={() => {
-            navigation.push('Award', { uri: URI })
+            open(`${HOST}/award/2025/winner`)
           }}
         >
-          <View style={styles.item}>
-            <LinearGradient style={styles.background} colors={['#14131a', '#0f1318', '#0b1115']} />
-            <View style={styles.innerBorder} />
-
-            <Flex.Item>
-              <LinearGradient
-                style={styles.titlebar}
-                colors={['rgba(84,36,49,0.92)', 'rgba(61,27,36,0.75)']}
-              >
-                <Text overrideStyle={styles.title}>^_ // Bangumi 2025</Text>
-              </LinearGradient>
-
-              <View style={styles.console}>
-                <LinearGradient
-                  style={styles.consoleBackground}
-                  colors={['rgba(8,18,13,0.3)', 'rgba(5,12,9,0.42)']}
-                />
-
-                <Svg style={styles.consoleBackground} pointerEvents='none'>
-                  <Defs>
-                    <Pattern
-                      id='dot'
-                      patternUnits='userSpaceOnUse'
-                      patternContentUnits='userSpaceOnUse'
-                      width='16'
-                      height='16'
-                    >
-                      <Circle cx='6' cy='6' r='1' fill='rgba(240,145,153,0.2)' />
-                    </Pattern>
-                  </Defs>
-                  <Rect width='100%' height='100%' fill='url(#dot)' />
-                </Svg>
-
-                <Text overrideStyle={[styles.line, styles.muted]}>
-                  $ boot award_2025 --mode console
-                </Text>
-                <Text overrideStyle={[styles.line, styles.success]}>SYSTEM READY.</Text>
-                <Flex style={styles.commandRow}>
-                  <Text
-                    overrideStyle={styles.prompt}
-                    shrink
-                    numberOfLines={1}
-                    ellipsizeMode='middle'
-                  >
-                    {userStore.myId || 'guest'}@bgm2025
-                  </Text>
-                  <Text overrideStyle={styles.prompt}>:~$</Text>
-                  <Text overrideStyle={styles.command}>{displayText}</Text>
-                  <Animated.View style={[styles.cursor, { opacity: cursorOpacity }]} />
-                </Flex>
-              </View>
-            </Flex.Item>
-
-            <LinearGradient
-              style={StyleSheet.absoluteFill}
-              pointerEvents='none'
-              colors={['rgba(255,255,255,0.03)', 'rgba(0,0,0,0.08)']}
-            />
-          </View>
+          <Text style={styles.tba} type='__plain__' size={11} bold>
+            TBA
+          </Text>
         </Touchable>
-
-        <View style={styles.fixed}>
-          <Touchable
-            onPress={() => {
-              open(`${HOST}/award/2025/winner`)
-            }}
-          >
-            <Text style={styles.tba} type='__plain__' size={11} bold>
-              TBA
-            </Text>
-          </Touchable>
-        </View>
       </View>
-    )
-  })
+    </View>
+  )
 }
 
-export default Award2025
+export default observer(Award2025)

@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-02-12 05:42:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-12 22:51:18
+ * @Last Modified time: 2026-03-21 21:21:47
  */
 import React from 'react'
 import { View } from 'react-native'
 import { WebView } from 'react-native-webview'
+import { observer } from 'mobx-react'
 import { systemStore, useStore } from '@stores'
 import { stl } from '@utils'
-import { useAppState, useIsFocused, useObserver } from '@utils/hooks'
+import { useAppState, useIsFocused } from '@utils/hooks'
 import { WEB } from '@constants'
 import { getHtml } from './utils'
 import { COMPONENT, STAGE_HEIGHT, STAGE_WIDTH } from './ds'
@@ -24,40 +25,38 @@ function Mesume({ forwardRef, loaded, onMessage }: Props) {
   const show = useIsFocused()
   const appState = useAppState()
 
-  return useObserver(() => {
-    const { live2D, live2DModel, live2dScale } = systemStore.setting
-    if (!live2D || WEB || $.state.dragging || !show || !appState) return null
+  const { live2D, live2DModel, live2dScale } = systemStore.setting
+  if (!live2D || WEB || $.state.dragging || !show || !appState) return null
 
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    const scale = live2dScale === '大' ? 1 : live2dScale === '中' ? 0.76 : 0.5
-    const width = Math.floor(STAGE_WIDTH * scale)
-    const height = Math.floor(STAGE_HEIGHT * scale)
+  const scale = live2dScale === '大' ? 1 : live2dScale === '中' ? 0.76 : 0.5
+  const width = Math.floor(STAGE_WIDTH * scale)
+  const height = Math.floor(STAGE_HEIGHT * scale)
 
-    return (
-      <View
-        style={stl(styles.stage, {
-          width,
-          height
-        })}
-        pointerEvents={loaded ? 'auto' : 'none'}
-      >
-        <WebView
-          key={`${live2DModel}|${live2dScale}`}
-          ref={forwardRef}
-          style={styles.webview}
-          source={{
-            html: getHtml(scale, width, height)
-          }}
-          scrollEnabled={false}
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-          androidHardwareAccelerationDisabled
-          onMessage={onMessage}
-        />
-      </View>
-    )
-  })
+  return (
+    <View
+      style={stl(styles.stage, {
+        width,
+        height
+      })}
+      pointerEvents={loaded ? 'auto' : 'none'}
+    >
+      <WebView
+        key={`${live2DModel}|${live2dScale}`}
+        ref={forwardRef}
+        style={styles.webview}
+        source={{
+          html: getHtml(scale, width, height)
+        }}
+        scrollEnabled={false}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+        androidHardwareAccelerationDisabled
+        onMessage={onMessage}
+      />
+    </View>
+  )
 }
 
-export default Mesume
+export default observer(Mesume)

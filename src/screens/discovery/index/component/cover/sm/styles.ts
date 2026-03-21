@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-09-09 22:34:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-07 06:01:34
+ * @Last Modified time: 2026-03-21 21:18:05
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => {
   const width = _.windowSm.contentWidth * _.device(0.34, 0.42)
+
   return {
     item: {
       marginRight: _._wind + 2
