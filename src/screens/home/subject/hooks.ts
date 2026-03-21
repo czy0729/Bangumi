@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-15 16:13:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-23 05:21:53
+ * @Last Modified time: 2026-03-21 04:40:26
  */
 import { useCallback, useRef } from 'react'
 import { findNodeHandle } from 'react-native'
@@ -16,8 +16,9 @@ import { HEADER_HEIGHT } from '@styles'
 import store from './store'
 import { TITLE_HEAD } from './ds'
 
-import type { FlatList, View } from 'react-native'
+import type { View } from 'react-native'
 import type { NavigationProps } from '@types'
+import type { ListViewInstance } from '@components'
 import type {
   Ctx,
   HandleBlockRef,
@@ -33,7 +34,7 @@ export function useSubjectPage(props: NavigationProps) {
   const { id, $ } = context
 
   /** ListView.ref */
-  const scrollViewRef = useRef<FlatList>(null)
+  const scrollViewRef = useRef<ListViewInstance>(null)
 
   /** 子组件的 ref */
   const blockRefs = useRef<Record<string, View>>({})

@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-08-09 19:36:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-09 19:37:15
+ * @Last Modified time: 2026-03-21 03:21:28
  */
-import { SubjectId, TextStyle } from '@types'
+import type { SubjectId, TextStyle } from '@types'
 
 export type Props = {
   style?: TextStyle

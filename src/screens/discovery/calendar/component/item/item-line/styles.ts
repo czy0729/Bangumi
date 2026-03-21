@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-07-25 22:05:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-29 10:54:53
+ * @Last Modified time: 2026-03-21 16:31:37
  */
 import { _ } from '@stores'
-import { COVER_HEIGHT, COVER_WIDTH } from './ds'
+import { COVER_HEIGHT, COVER_WIDTH } from '../../../ds'
 
 export const memoStyles = _.memoStyles(() => ({
   item: {
@@ -39,6 +39,6 @@ export const memoStyles = _.memoStyles(() => ({
   },
   desc: {
     marginTop: -6,
-    marginRight: -40
+    marginRight: -20
   }
 }))

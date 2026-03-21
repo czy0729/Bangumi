@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-03-30 07:18:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-30 07:19:51
+ * @Last Modified time: 2026-03-21 03:41:36
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { Stars } from '@_'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
 
 function Rating({ hideScore, time, score }) {
   const showScore = !hideScore && !!score
@@ -22,7 +22,7 @@ function Rating({ hideScore, time, score }) {
     <Flex style={_.mt.xs}>
       {showScore && <Stars value={score} simple />}
       {!!middle && (
-        <Text size={11} type='sub' bold noWrap>
+        <Text type='sub' size={11} bold noWrap>
           {showScore && score ? ' · ' : ''}
           {middle}
         </Text>
@@ -31,4 +31,4 @@ function Rating({ hideScore, time, score }) {
   )
 }
 
-export default ob(Rating)
+export default observer(Rating)

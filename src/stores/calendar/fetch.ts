@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:05:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-29 05:07:39
+ * @Last Modified time: 2026-03-20 20:14:42
  */
 import { findTreeNode, getTimestamp, HTMLToTree, HTMLTrim } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -171,7 +171,7 @@ export default class Fetch extends Computed {
 
   fetchRaw = async () => {
     const { _response } = await xhrCustom({
-      url: 'https://yuc.wiki/202601'
+      url: 'https://yuc.wiki/202604'
     })
     const data = cheerioRaw(_response)
     this.log('fetchRaw', data)

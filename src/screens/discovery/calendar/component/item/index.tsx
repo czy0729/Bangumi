@@ -2,27 +2,29 @@
  * @Author: czy0729
  * @Date: 2023-03-13 02:53:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-29 10:58:25
+ * @Last Modified time: 2026-03-21 06:54:26
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex } from '@components'
 import { _, useStore } from '@stores'
 import { cnjp, date, getTimestamp } from '@utils'
-import { ob } from '@utils/decorators'
 import { PREV_DAY_HOUR } from '../../ds'
-import { Ctx, SectionListCalendarItem } from '../../types'
-import { getTime } from '../../utils'
+import { getItemTime, getTime } from '../../utils'
 import ItemGrid from './item-grid'
 import ItemLine from './item-line'
 import Line from './line'
-import { getItemTime } from './utils'
+import { COMPONENT } from './ds'
+
+import type { Ctx, SectionListCalendarItem } from '../../types'
 
 let day = new Date().getDay()
 if (day === 0) day = 7
 
 function Item({ item, section }) {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
+
   const items = item.items as SectionListCalendarItem[]
   const current = parseInt(date('Hi', getTimestamp()))
   let renderLine = false
@@ -33,10 +35,6 @@ function Item({ item, section }) {
         const prevItem = items?.[index - 1]
         let prevTime = ''
         if (prevItem) prevTime = getTime(prevItem, prevItem.id)
-
-        // @depercated 放送到多少集, 自增 1
-        // let { air } = item
-        // if (item.air_weekday !== day && air !== 0) air = Number(air) + 1
 
         const time = getItemTime(item, index, items)
         const passProps = {
@@ -53,7 +51,7 @@ function Item({ item, section }) {
           prevTime,
           section: section.index,
           index: item.index
-        }
+        } as const
 
         if ($.isList) {
           const showPrevDay = new Date().getHours() < PREV_DAY_HOUR
@@ -89,4 +87,4 @@ function Item({ item, section }) {
   )
 }
 
-export default ob(Item)
+export default observer(Item)

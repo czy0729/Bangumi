@@ -2,32 +2,30 @@
  * @Author: czy0729
  * @Date: 2024-03-29 11:25:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-28 21:00:00
+ * @Last Modified time: 2026-03-21 04:00:57
  */
 import React, { useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { ToolBar } from '@components'
 import { _, useStore } from '@stores'
-import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { getData } from './utils'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Onair({ list, adapt, tag, origin }) {
-  r(COMPONENT)
+import type { Ctx } from '../../types'
 
-  const { $ } = useStore<Ctx>()
-  const { adapts, tags, origins } = getData(list, {
-    adapt,
-    tag,
-    origin
-  })
+function Onair({ list, adapt, tag, origin }) {
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  const { adapts, tags, origins } = getData(
+    list
+    // { adapt, tag, origin }
+  )
   const adaptsDS = useMemo(() => ['全部', ...adapts], [adapts])
   const tagsDS = useMemo(() => ['全部', ...tags], [tags])
   const originDS = useMemo(() => ['全部', ...origins], [origins])
 
-  return useObserver(() => (
+  return (
     <>
       {!!adapts?.length && (
         <ToolBar.Popover
@@ -60,7 +58,7 @@ function Onair({ list, adapt, tag, origin }) {
         <ToolBar.Icon icon='md-close' iconColor={_.colorDesc} onSelect={$.onClear} />
       )}
     </>
-  ))
+  )
 }
 
-export default Onair
+export default observer(Onair)

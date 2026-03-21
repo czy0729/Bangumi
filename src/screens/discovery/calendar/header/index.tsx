@@ -2,27 +2,31 @@
  * @Author: czy0729
  * @Date: 2022-03-11 01:55:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-28 20:55:44
+ * @Last Modified time: 2026-03-21 16:03:03
  */
-import React from 'react'
+import React, { useCallback, useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { getSPAParams, open } from '@utils'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST, TEXT_MENU_BROWSER, TEXT_MENU_SPA, TEXT_MENU_SPLIT, URL_SPA } from '@constants'
-import { Ctx } from '../types'
+import IconNavigate from './icon-navigate'
 import { COMPONENT, DATA, HM, TEXT_INFOR } from './ds'
 
-function Header() {
-  const { $, navigation } = useStore<Ctx>()
-  return (
-    <HeaderV2
-      title='每日放送'
-      hm={HM}
-      headerRight={() => (
+import type { Ctx } from '../types'
+
+function Header({ onScrollToOffset }) {
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
+
+  const memoData = useMemo(() => [...DATA, TEXT_MENU_SPLIT, ...$.toolBar], [$.toolBar])
+
+  const handleHeaderRight = useCallback(
+    () => (
+      <>
+        <IconNavigate $={$} onScrollToOffset={onScrollToOffset} />
         <HeaderV2Popover
-          data={[...DATA, TEXT_MENU_SPLIT, ...$.toolBar]}
+          data={memoData}
           onSelect={title => {
             if (title === TEXT_MENU_BROWSER) {
               open(`${HOST}/calendar`)
@@ -30,14 +34,20 @@ function Header() {
               t('每日放送.右上角菜单', {
                 key: title
               })
-            } else if (title === TEXT_MENU_SPA) {
+              return
+            }
+
+            if (title === TEXT_MENU_SPA) {
               const url = `${URL_SPA}/${getSPAParams('Calendar')}`
               open(url)
 
               t('每日放送.右上角菜单', {
                 key: title
               })
-            } else if (title === TEXT_INFOR) {
+              return
+            }
+
+            if (title === TEXT_INFOR) {
               navigation.push('Information', {
                 title: '每日放送数据',
                 message: [
@@ -51,14 +61,18 @@ function Header() {
               t('每日放送.右上角菜单', {
                 key: title
               })
-            } else {
-              $.onToolBar(title)
+              return
             }
+
+            $.onToolBar(title)
           }}
         />
-      )}
-    />
+      </>
+    ),
+    [$, memoData, navigation, onScrollToOffset]
   )
+
+  return <HeaderV2 title='每日放送' hm={HM} headerRight={handleHeaderRight} />
 }
 
-export default ob(Header, COMPONENT)
+export default observer(Header)

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-03-29 04:26:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-28 21:03:05
+ * @Last Modified time: 2026-03-21 03:44:17
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { stl } from '@utils'
-import { ob } from '@utils/decorators'
 import { styles } from './styles'
 
 function Time({ time, prevTime, expand }) {
@@ -21,4 +21,4 @@ function Time({ time, prevTime, expand }) {
   )
 }
 
-export default ob(Time)
+export default observer(Time)

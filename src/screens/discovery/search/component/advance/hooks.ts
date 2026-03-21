@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-01-09 04:22:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-31 19:54:51
+ * @Last Modified time: 2026-03-21 01:17:01
  */
 import { useEffect, useRef, useState } from 'react'
+import { ONAIR_2026S2 } from '@stores/calendar/onair/2026S2'
 import { asc, desc, t2s } from '@utils'
 import { decode, get } from '@utils/protobuf'
 import { loadJSON } from '@assets/json'
@@ -175,6 +176,10 @@ async function ensureLoaded(cat: SearchCat) {
   const map: Record<string, SubjectId> = {}
   get('bangumi-data').forEach(item => {
     map[item.c || item.j] = item.id
+  })
+
+  Object.entries(ONAIR_2026S2).forEach(([id, item]) => {
+    if (item.title) map[item.title] = Number(id)
   })
 
   const animeRaw = {

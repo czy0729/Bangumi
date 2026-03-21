@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-25 23:12:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 05:28:29
+ * @Last Modified time: 2026-03-21 03:46:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,13 +12,14 @@ import { _, uiStore } from '@stores'
 import { HTMLDecode } from '@utils'
 import { memo } from '@utils/decorators'
 import { FROZEN_OBJECT, MODEL_COLLECTION_STATUS } from '@constants'
-import { CollectionStatus } from '@types'
 import Desc from '../../desc'
 import Cover from './cover'
 import Rating from './rating'
 import Time from './time'
 import Title from './title'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
+
+import type { CollectionStatus } from '@types'
 
 const ItemLine = memo(
   ({

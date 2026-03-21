@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-29 10:02:07
+ * @Last Modified time: 2026-03-21 03:42:58
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { collectionStore, systemStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { useNavigation } from '@utils/hooks'
 import Item from './item'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function ItemGridWrap({ subjectId, name, images, score, time }) {
-  const navigation = useNavigation()
+  const navigation = useNavigation(COMPONENT)
+
   return (
     <Item
       navigation={navigation}
@@ -29,4 +30,4 @@ function ItemGridWrap({ subjectId, name, images, score, time }) {
   )
 }
 
-export default ob(ItemGridWrap, COMPONENT)
+export default observer(ItemGridWrap)

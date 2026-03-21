@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-03-29 11:28:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-30 06:46:47
+ * @Last Modified time: 2026-03-21 03:59:12
  */
-import { Calendar } from '@stores/calendar/types'
 import { desc, getOnAirItem } from '@utils'
+
+import type { Calendar } from '@stores/calendar/types'
 
 const cacheMap = new Map<
   number,
@@ -18,12 +19,12 @@ const cacheMap = new Map<
 
 /** 构建筛选数据 */
 export function getData(
-  data: Calendar['list'],
-  filter?: {
-    adapt: string
-    tag: string
-    origin: string
-  }
+  data: Calendar['list']
+  // filter?: {
+  //   adapt: string
+  //   tag: string
+  //   origin: string
+  // }
 ) {
   const { length } = JSON.stringify(data)
   if (cacheMap.has(length)) return cacheMap.get(length)

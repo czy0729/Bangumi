@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-07-26 04:31:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-20 17:57:06
+ * @Last Modified time: 2026-03-20 20:10:45
  */
 import { _ } from '@stores'
-import { Loaded } from '@types'
 import { COMPONENT, LAYOUT_DS, TYPE_DS } from '../ds'
+
+import type { Loaded } from '@types'
 
 export const NAMESPACE = `Screen${COMPONENT}`
 

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-07-04 15:40:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-06 19:32:36
+ * @Last Modified time: 2026-03-21 05:07:52
  */
-import type { FlatList, View } from 'react-native'
-import type { ImageProps } from '@components'
+import type { View } from 'react-native'
+import type { ImageProps, ListViewInstance } from '@components'
 import type { Ep, SubjectComments, SubjectFromHTML } from '@stores/subject/types'
 import type {
   Collection,
@@ -33,7 +33,7 @@ export type Ctx = WithNavigation<{
 export type Params = GetRouteParams<RouteSubject>
 
 /** 收集长列表的 ref */
-export type HandleForwardRef = (ref: FlatList) => void
+export type HandleForwardRef = (ref: ListViewInstance) => void
 
 /** 收集子组件的 ref */
 export type HandleBlockRef = (ref: View, componentName: string) => void

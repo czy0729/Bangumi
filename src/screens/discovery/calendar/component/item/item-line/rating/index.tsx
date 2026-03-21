@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2024-03-29 10:30:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-30 06:20:18
+ * @Last Modified time: 2026-03-21 03:44:05
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { Rank, Stars } from '@_'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
 
 function Rating({ hideScore, rank, score, total }) {
   const showScore = !hideScore && !!score
+
   return (
     <Flex>
       {showScore && (
@@ -29,4 +30,4 @@ function Rating({ hideScore, rank, score, total }) {
   )
 }
 
-export default ob(Rating)
+export default observer(Rating)

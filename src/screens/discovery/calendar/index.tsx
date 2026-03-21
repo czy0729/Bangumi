@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-21 22:53:53
+ * @Last Modified time: 2026-03-21 15:53:05
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page } from '@components'
 import { _, StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import List from './component/list'
 import ToolBar from './component/tool-bar'
 import Header from './header'
@@ -16,21 +16,21 @@ import { useCalendarPage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** 每日放送 */
-const Calendar = (props: NavigationProps) => {
-  const { id, $ } = useCalendarPage(props)
+function Calendar(props: NavigationProps) {
+  const { id, $, handleForwardRef, handleScrollToOffset } = useCalendarPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-calendar'>
       <StoreContext.Provider value={id}>
         <Page loaded={$.state._loaded} loading={!$.calendar._loaded}>
           <HeaderPlaceholder style={_.mt.xs} />
           <ToolBar />
-          <List />
+          <List forwardRef={handleForwardRef} />
         </Page>
-        <Header />
+        <Header onScrollToOffset={handleScrollToOffset} />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default Calendar
+export default observer(Calendar)

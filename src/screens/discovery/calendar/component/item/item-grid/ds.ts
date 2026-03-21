@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-09-01 14:07:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-09 15:34:00
+ * @Last Modified time: 2026-03-21 03:42:34
  */
-import { _, systemStore } from '@stores'
+import { _ } from '@stores'
 import { rc } from '@utils/dev'
-import { Navigation, SubjectId } from '@types'
 import { COMPONENT as PARENT } from '../ds'
-import { memoStyles } from './styles'
+
+import type { systemStore } from '@stores'
+import type { Navigation, SubjectId } from '@types'
+import type { memoStyles } from './styles'
 
 export const COMPONENT = rc(PARENT, 'ItemGrid')
 

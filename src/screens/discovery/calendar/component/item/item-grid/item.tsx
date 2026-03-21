@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 05:15:41
+ * @Last Modified time: 2026-03-21 03:43:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -30,6 +30,7 @@ const ItemGrid = memo(
     time = '2359'
   }) => {
     const { width, height } = styles.cover
+
     return (
       <View style={styles.item}>
         <Touchable

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-03-29 04:34:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-29 10:54:18
+ * @Last Modified time: 2026-03-21 03:43:56
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Cover as CoverComp, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { InView } from '@_'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
 import { styles } from './styles'
@@ -17,6 +17,7 @@ import { styles } from './styles'
 function Cover({ index, subjectId, image, name }) {
   const navigation = useNavigation()
   const { minWidth: width, minHeight: height } = styles.inView
+
   return (
     <InView style={styles.inView} y={(height + _.md) * (index + 1)}>
       <Touchable
@@ -39,4 +40,4 @@ function Cover({ index, subjectId, image, name }) {
   )
 }
 
-export default ob(Cover)
+export default observer(Cover)

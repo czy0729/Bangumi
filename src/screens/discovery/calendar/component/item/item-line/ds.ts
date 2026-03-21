@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-07-25 22:05:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-29 10:52:52
+ * @Last Modified time: 2026-03-21 16:30:10
  */
 import { rc } from '@utils/dev'
-import { IMG_HEIGHT, IMG_WIDTH } from '@constants'
-import { SubjectId } from '@types'
 import { COMPONENT as PARENT } from '../ds'
-import { memoStyles } from './styles'
 
+import type { SubjectId } from '@types'
 import type { Ctx } from '../../../types'
+import type { memoStyles } from './styles'
 
 export const COMPONENT = rc(PARENT, 'ItemList')
 
@@ -35,7 +34,3 @@ export const DEFAULT_PROPS = {
   total: 0 as number,
   sites: {} as ReturnType<$['sites']>
 }
-
-export const COVER_WIDTH = Math.floor(IMG_WIDTH * 1.1)
-
-export const COVER_HEIGHT = Math.floor(IMG_HEIGHT * 1.1)
