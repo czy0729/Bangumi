@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-10-14 06:26:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-24 17:36:54
+ * @Last Modified time: 2026-03-22 06:48:29
  */
 import React, { useCallback } from 'react'
+import { observer } from 'mobx-react'
 import { Image, Touchable } from '@components'
 import { useStore } from '@stores'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import { GROUP_THUMB_MAP } from '@assets/images'
 import { memoStyles } from './styles'
 
@@ -30,21 +30,19 @@ function WordCloud() {
     })
   }, [$, navigation])
 
-  return useObserver(() => {
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    return (
-      <Touchable style={styles.touch} onPress={handlePress}>
-        <Image
-          src={GROUP_THUMB_MAP.wordcloud}
-          size={19}
-          resizeMode='contain'
-          placeholder={false}
-          skeleton={false}
-        />
-      </Touchable>
-    )
-  })
+  return (
+    <Touchable style={styles.touch} onPress={handlePress}>
+      <Image
+        src={GROUP_THUMB_MAP.wordcloud}
+        size={19}
+        resizeMode='contain'
+        placeholder={false}
+        skeleton={false}
+      />
+    </Touchable>
+  )
 }
 
-export default WordCloud
+export default observer(WordCloud)

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-06-28 09:52:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-12 10:00:31
+ * @Last Modified time: 2026-03-22 06:42:39
  */
 import React, { useCallback, useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Heatmap, Iconfont } from '@components'
 import { Popover } from '@_'
 import { _, userStore, useStore } from '@stores'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import {
   TEXT_MENU_CONNECT,
   TEXT_MENU_DEV,
@@ -27,48 +27,46 @@ function Menu() {
   const context = useStore<Ctx>()
   const { $ } = context
 
-  return useObserver(() => {
-    const { connectUrl, disconnectUrl } = $.users
-    const userId = $.usersInfo.id || $.usersInfo.username
+  const { connectUrl, disconnectUrl } = $.users
+  const userId = $.usersInfo.id || $.usersInfo.username
 
-    const memoData = useMemo(() => {
-      const data = [...MENU_DS]
-      if (!WEB) {
-        if (connectUrl) {
-          data.push(TEXT_MENU_CONNECT)
-        } else if (disconnectUrl) {
-          data.push(TEXT_MENU_DISCONNECT)
-        }
-        data.push(TEXT_MENU_IGNORE, TEXT_MENU_REPORT)
-        if (userStore.isDeveloper) data.push(TEXT_MENU_DEV)
+  const memoData = useMemo(() => {
+    const data = [...MENU_DS]
+    if (!WEB) {
+      if (connectUrl) {
+        data.push(TEXT_MENU_CONNECT)
+      } else if (disconnectUrl) {
+        data.push(TEXT_MENU_DISCONNECT)
       }
-      return data
-    }, [connectUrl, disconnectUrl])
+      data.push(TEXT_MENU_IGNORE, TEXT_MENU_REPORT)
+      if (userStore.isDeveloper) data.push(TEXT_MENU_DEV)
+    }
+    return data
+  }, [connectUrl, disconnectUrl])
 
-    const handleSelect = useCallback(
-      (key: string) => {
-        if (key in MENU_ACTIONS) MENU_ACTIONS[key](context)
+  const handleSelect = useCallback(
+    (key: string) => {
+      if (key in MENU_ACTIONS) MENU_ACTIONS[key](context)
 
-        t('空间.右上角菜单', {
-          key,
-          userId
-        })
-      },
-      [userId]
-    )
+      t('空间.右上角菜单', {
+        key,
+        userId
+      })
+    },
+    [context, userId]
+  )
 
-    return (
-      <Popover key={userId} data={memoData} onSelect={handleSelect}>
-        <Flex style={styles.icon} justify='center'>
-          <Iconfont name='md-more-vert' color={_.__colorPlain__} shadow />
-        </Flex>
-        <Heatmap id='空间.右上角菜单' />
-        <Heatmap right={62} id='空间.添加好友' transparent />
-        <Heatmap right={113} id='空间.解除好友' transparent />
-        <Heatmap right={170} id='空间.跳转' to='WebBrowser' alias='浏览器' transparent />
-      </Popover>
-    )
-  })
+  return (
+    <Popover key={userId} data={memoData} onSelect={handleSelect}>
+      <Flex style={styles.icon} justify='center'>
+        <Iconfont name='md-more-vert' color={_.__colorPlain__} shadow />
+      </Flex>
+      <Heatmap id='空间.右上角菜单' />
+      <Heatmap right={62} id='空间.添加好友' transparent />
+      <Heatmap right={113} id='空间.解除好友' transparent />
+      <Heatmap right={170} id='空间.跳转' to='WebBrowser' alias='浏览器' transparent />
+    </Popover>
+  )
 }
 
-export default Menu
+export default observer(Menu)

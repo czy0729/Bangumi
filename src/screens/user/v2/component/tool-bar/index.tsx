@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-26 02:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-23 21:22:38
+ * @Last Modified time: 2026-03-22 06:07:23
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { ToolBar as ToolBarComp } from '@components'
 import { systemStore, useStore } from '@stores'
 import { stl } from '@utils'
-import { useObserver } from '@utils/hooks'
 import Filter from '../filter'
 import More from './more'
 import Pagination from './pagination'
@@ -27,27 +27,26 @@ function ToolBar({ page, pageCurrent, pageTotal, onRefreshOffset }: Props) {
 
   const handleRefreshOffset = useCallback(() => {
     if (typeof onRefreshOffset === 'function') onRefreshOffset()
+
     $.onRefreshOffset()
   }, [$, onRefreshOffset])
 
-  return useObserver(() => {
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    return (
-      <View style={stl(styles.container, $.state.list && styles.list)}>
-        <ToolBarComp>
-          <Sort />
-          <Tag page={page} />
-          {systemStore.setting.userPagination && (
-            <Pagination pageCurrent={pageCurrent} pageTotal={pageTotal} />
-          )}
-          <Search />
-          <More onRefreshOffset={handleRefreshOffset} />
-        </ToolBarComp>
-        <Filter page={page} />
-      </View>
-    )
-  })
+  return (
+    <View style={stl(styles.container, $.state.list && styles.list)}>
+      <ToolBarComp>
+        <Sort />
+        <Tag page={page} />
+        {systemStore.setting.userPagination && (
+          <Pagination pageCurrent={pageCurrent} pageTotal={pageTotal} />
+        )}
+        <Search />
+        <More onRefreshOffset={handleRefreshOffset} />
+      </ToolBarComp>
+      <Filter page={page} />
+    </View>
+  )
 }
 
-export default ToolBar
+export default observer(ToolBar)

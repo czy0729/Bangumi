@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-12-27 21:49:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-15 18:00:40
+ * @Last Modified time: 2026-03-22 06:14:25
  */
 import React, { useCallback, useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { NestedScrollParallaxHeader } from '@components'
 import { useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import BackgroundImage from '../component/background-image'
 import HeaderComponent from '../component/header-component'
 import Menu from '../component/menu'
@@ -37,9 +37,10 @@ function NestedScroll() {
   )
   const elTopNavbar = useMemo(() => <TopNavbarComponent />, [])
   const elTabBarLeft = useMemo(() => <TabBarLeft />, [])
+
   const handleBackground = useCallback((fixed: boolean) => <BackgroundImage fixed={fixed} />, [])
 
-  return useObserver(() => (
+  return (
     <>
       <NestedScrollParallaxHeader
         pages={PAGES}
@@ -58,7 +59,7 @@ function NestedScroll() {
       </NestedScrollParallaxHeader>
       <Menu />
     </>
-  ))
+  )
 }
 
-export default NestedScroll
+export default observer(NestedScroll)

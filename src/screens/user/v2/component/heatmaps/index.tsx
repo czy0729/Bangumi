@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-12-16 22:53:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-23 10:32:20
+ * @Last Modified time: 2026-03-22 06:02:51
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { _ } from '@stores'
-import { useObserver } from '@utils/hooks'
 
 function Heatmaps() {
-  return useObserver(() => <Heatmap bottom={_.bottom} id='我的' screen='User' />)
+  return <Heatmap bottom={_.bottom} id='我的' screen='User' />
 }
 
-export default Heatmaps
+export default observer(Heatmaps)

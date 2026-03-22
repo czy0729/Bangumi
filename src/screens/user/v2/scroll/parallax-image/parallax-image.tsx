@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-15 16:28:58
+ * @Last Modified time: 2026-03-22 06:29:26
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -23,6 +23,7 @@ import { COMPONENT_MAIN, DATA_ME, DATA_OTHER, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
 import type { UserId } from '@types'
+
 export default memo(
   ({
     navigation,
@@ -168,7 +169,7 @@ export default memo(
     const elBg = useMemo(
       () => (
         <>
-          <Animated.View style={stl(styles.parallaxBg, parallaxStyle)} pointerEvents='none'>
+          <Animated.View style={stl(themeStyles.parallaxBg, parallaxStyle)} pointerEvents='none'>
             <BackgroundImage fixed={fixed} />
           </Animated.View>
 

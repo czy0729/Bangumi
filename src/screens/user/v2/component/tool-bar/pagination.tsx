@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-05-13 04:45:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-23 21:24:19
+ * @Last Modified time: 2026-03-22 06:13:07
  */
 import React, { useCallback, useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { ToolBar } from '@components'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { generateArray } from './utils'
 
 import type { Ctx } from '../../types'
@@ -17,6 +17,7 @@ function Pagination({ pageCurrent, pageTotal }: PaginationProps) {
   const { $ } = useStore<Ctx>()
 
   const memoData = useMemo(() => generateArray(pageTotal), [pageTotal])
+
   const handleSelect = useCallback(
     (title: (typeof memoData)[number]) => {
       $.onPage(title)
@@ -24,7 +25,7 @@ function Pagination({ pageCurrent, pageTotal }: PaginationProps) {
     [$]
   )
 
-  return useObserver(() => (
+  return (
     <ToolBar.Popover
       data={memoData}
       icon='md-notes'
@@ -33,7 +34,7 @@ function Pagination({ pageCurrent, pageTotal }: PaginationProps) {
       type='desc'
       onSelect={handleSelect}
     />
-  ))
+  )
 }
 
-export default Pagination
+export default observer(Pagination)

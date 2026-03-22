@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-01-06 23:31:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-29 12:33:53
+ * @Last Modified time: 2026-03-22 06:57:19
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { ItemTimeline } from '@_'
 import { useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { EVENT } from '../ds'
 import { COMPONENT } from './ds'
 
@@ -18,7 +18,7 @@ import type { Ctx } from '../../../types'
 function Item({ item, index }: RenderItem<TimelineItem>) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <ItemTimeline
       navigation={navigation}
       index={index}
@@ -27,7 +27,7 @@ function Item({ item, index }: RenderItem<TimelineItem>) {
       full
       onDelete={$.doDelete}
     />
-  ))
+  )
 }
 
-export default Item
+export default observer(Item)

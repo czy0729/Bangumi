@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-06-28 08:58:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-15 06:51:37
+ * @Last Modified time: 2026-03-22 06:40:39
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Heatmap, Text, Touchable } from '@components'
 import { useStore } from '@stores'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 
 import type { WithViewStyles } from '@types'
 import type { Ctx } from '../../../types'
@@ -25,23 +25,21 @@ function Recent({ style }: WithViewStyles) {
     })
   }, [$])
 
-  return useObserver(() => {
-    let activeText = '历史'
-    if ($.usersTimeline.list.length && $.usersTimeline.list?.[0]?.time) {
-      activeText = `${String($.usersTimeline.list[0]?.time.split(' ·')?.[0]).replace('·', '')}活跃`
-    }
+  let activeText = '历史'
+  if ($.usersTimeline.list.length && $.usersTimeline.list?.[0]?.time) {
+    activeText = `${String($.usersTimeline.list[0]?.time.split(' ·')?.[0]).replace('·', '')}活跃`
+  }
 
-    return (
-      <View style={style}>
-        <Touchable animate scale={0.9} onPress={handlePress}>
-          <Text type='__plain__' size={11} bold shadow noWrap>
-            {activeText}
-          </Text>
-        </Touchable>
-        <Heatmap id='空间.历史' />
-      </View>
-    )
-  })
+  return (
+    <View style={style}>
+      <Touchable animate scale={0.9} onPress={handlePress}>
+        <Text type='__plain__' size={11} bold shadow noWrap>
+          {activeText}
+        </Text>
+      </Touchable>
+      <Heatmap id='空间.历史' />
+    </View>
+  )
 }
 
-export default Recent
+export default observer(Recent)

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-14 16:43:06
+ * @Last Modified time: 2026-03-22 06:56:34
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, SceneMap, TabBar, TabView } from '@components'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { H_HEADER } from '../../ds'
 import About from '../about'
 import BangumiList from '../bangumi-list'
@@ -60,92 +60,90 @@ function Tab() {
     [$]
   )
 
-  return useObserver(() => {
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    const { tabs } = $
-    const { page } = $.state
+  const { tabs } = $
+  const { page } = $.state
 
-    const navigationState = useMemo(
-      () => ({
-        index: page,
-        routes: tabs
-      }),
-      [page, tabs]
-    )
-    const transform = useMemo(
-      () => ({
-        transform: [
-          {
-            translateY: $.scrollY.interpolate({
-              inputRange: [
-                -_.parallaxImageHeight,
-                0,
-                _.parallaxImageHeight - H_HEADER,
-                _.parallaxImageHeight
-              ],
-              outputRange: [_.parallaxImageHeight * 2, _.parallaxImageHeight, H_HEADER, H_HEADER]
-            })
-          }
-        ]
-      }),
-      []
-    )
+  const navigationState = useMemo(
+    () => ({
+      index: page,
+      routes: tabs
+    }),
+    [page, tabs]
+  )
+  const transform = useMemo(
+    () => ({
+      transform: [
+        {
+          translateY: $.scrollY.interpolate({
+            inputRange: [
+              -_.parallaxImageHeight,
+              0,
+              _.parallaxImageHeight - H_HEADER,
+              _.parallaxImageHeight
+            ],
+            outputRange: [_.parallaxImageHeight * 2, _.parallaxImageHeight, H_HEADER, H_HEADER]
+          })
+        }
+      ]
+    }),
+    [$]
+  )
 
-    const handleRenderLabel = useCallback(
-      ({ route }) => (
-        <Flex style={styles.labelText} justify='center'>
-          <TabBarLabel title={route.title} />
-        </Flex>
-      ),
-      [styles]
-    )
-    const handleRenderTabBar = useCallback(
-      props => {
-        const width = _.window.width / $.tabs.length
+  const handleRenderLabel = useCallback(
+    ({ route }) => (
+      <Flex style={styles.labelText} justify='center'>
+        <TabBarLabel title={route.title} />
+      </Flex>
+    ),
+    [styles]
+  )
+  const handleRenderTabBar = useCallback(
+    props => {
+      const width = _.window.width / $.tabs.length
 
-        return (
-          <Animated.View style={[styles.tabBarWrap, transform]}>
-            <TabBar
-              {...props}
-              style={styles.tabBar}
-              tabStyle={[
-                styles.tab,
-                {
-                  width
-                }
-              ]}
-              labelStyle={styles.label}
-              indicatorStyle={[
-                styles.indicator,
-                {
-                  marginLeft: (width - styles.indicator.width) / 2
-                }
-              ]}
-              pressOpacity={1}
-              pressColor='transparent'
-              scrollEnabled
-              renderLabel={handleRenderLabel}
-            />
-          </Animated.View>
-        )
-      },
-      [styles, transform, handleRenderLabel]
-    )
+      return (
+        <Animated.View style={[styles.tabBarWrap, transform]}>
+          <TabBar
+            {...props}
+            style={styles.tabBar}
+            tabStyle={[
+              styles.tab,
+              {
+                width
+              }
+            ]}
+            labelStyle={styles.label}
+            indicatorStyle={[
+              styles.indicator,
+              {
+                marginLeft: (width - styles.indicator.width) / 2
+              }
+            ]}
+            pressOpacity={1}
+            pressColor='transparent'
+            scrollEnabled
+            renderLabel={handleRenderLabel}
+          />
+        </Animated.View>
+      )
+    },
+    [$, styles, transform, handleRenderLabel]
+  )
 
-    return (
-      <TabView
-        key={_.orientation}
-        lazy
-        lazyPreloadDistance={0}
-        navigationState={navigationState}
-        renderTabBar={handleRenderTabBar}
-        renderScene={renderScene}
-        onSwipeStart={handleSwipeStart}
-        onIndexChange={handleIndexChange}
-      />
-    )
-  })
+  return (
+    <TabView
+      key={_.orientation}
+      lazy
+      lazyPreloadDistance={0}
+      navigationState={navigationState}
+      renderTabBar={handleRenderTabBar}
+      renderScene={renderScene}
+      onSwipeStart={handleSwipeStart}
+      onIndexChange={handleIndexChange}
+    />
+  )
 }
 
-export default Tab
+export default observer(Tab)

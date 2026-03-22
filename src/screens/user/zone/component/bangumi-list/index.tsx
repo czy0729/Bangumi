@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-14 03:49:50
+ * @Last Modified time: 2026-03-22 06:36:14
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Component, ListView, Loading } from '@components'
 import { useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { useObserver } from '@utils/hooks'
 import { ANDROID, USE_NATIVE_DRIVER } from '@constants'
 import { TABS } from '../../ds'
 import Footer from './footer'
@@ -59,41 +59,39 @@ function BangumiList({ ListHeaderComponent, onScroll }: Props) {
     [$]
   )
 
-  return useObserver(() => {
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    if (!$.userCollections._loaded) {
-      if (ANDROID) {
-        return (
-          <View style={styles.nestScrollLoading}>
-            <Loading.Raw />
-          </View>
-        )
-      }
-
-      return <Loading style={styles.loading} />
+  if (!$.userCollections._loaded) {
+    if (ANDROID) {
+      return (
+        <View style={styles.nestScrollLoading}>
+          <Loading.Raw />
+        </View>
+      )
     }
 
-    return (
-      <Component id='screen-zone-tab-view' data-type='bangumi-list'>
-        <ListView
-          ref={handleRef}
-          nestedScrollEnabled={ANDROID}
-          keyExtractor={keyExtractor}
-          contentContainerStyle={ANDROID ? styles.nestScroll : styles.contentContainerStyle}
-          animated={!ANDROID}
-          sections={$.sections}
-          showFooter={false}
-          renderSectionHeader={renderSectionHeader}
-          // @ts-ignore
-          renderItem={renderItem}
-          ListHeaderComponent={!ANDROID ? ListHeaderComponent : undefined}
-          ListFooterComponent={elFooter}
-          onScroll={handleScrollEvent}
-        />
-      </Component>
-    )
-  })
+    return <Loading style={styles.loading} />
+  }
+
+  return (
+    <Component id='screen-zone-tab-view' data-type='bangumi-list'>
+      <ListView
+        ref={handleRef}
+        nestedScrollEnabled={ANDROID}
+        keyExtractor={keyExtractor}
+        contentContainerStyle={ANDROID ? styles.nestScroll : styles.contentContainerStyle}
+        animated={!ANDROID}
+        sections={$.sections}
+        showFooter={false}
+        renderSectionHeader={renderSectionHeader}
+        // @ts-ignore
+        renderItem={renderItem}
+        ListHeaderComponent={!ANDROID ? ListHeaderComponent : undefined}
+        ListFooterComponent={elFooter}
+        onScroll={handleScrollEvent}
+      />
+    </Component>
+  )
 }
 
-export default BangumiList
+export default observer(BangumiList)

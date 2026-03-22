@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-06-28 08:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-15 06:51:46
+ * @Last Modified time: 2026-03-22 06:41:08
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 
 import type { WithViewStyles } from '@types'
 import type { Ctx } from '../../../types'
@@ -15,15 +15,13 @@ import type { Ctx } from '../../../types'
 function Sync({ style }: WithViewStyles) {
   const { $ } = useStore<Ctx>()
 
-  return useObserver(() => {
-    const { percent, hobby } = $.users
+  const { percent, hobby } = $.users
 
-    return (
-      <Text style={style} type='__plain__' size={11} bold shadow noWrap>
-        同步率 {isNaN(percent) ? '-' : percent}% ({hobby})
-      </Text>
-    )
-  })
+  return (
+    <Text style={style} type='__plain__' size={11} bold shadow noWrap>
+      同步率 {isNaN(percent) ? '-' : percent}% ({hobby})
+    </Text>
+  )
 }
 
-export default Sync
+export default observer(Sync)

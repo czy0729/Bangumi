@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-01-07 20:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-24 22:56:37
+ * @Last Modified time: 2026-03-22 06:41:50
  */
 import React, { useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { Flex } from '@components'
 import { stl } from '@utils'
-import { useInsets, useObserver } from '@utils/hooks'
+import { useInsets } from '@utils/hooks'
 import { IOS } from '@constants'
 import { IS_IOS_5_6_7_8 } from '@styles'
 import Back from './back'
@@ -30,7 +31,7 @@ function Menu() {
     [statusBarHeight]
   )
 
-  return useObserver(() => (
+  return (
     <>
       <Back />
       <Flex style={stl(memoHeaderStyle.right, styles.right)}>
@@ -38,7 +39,7 @@ function Menu() {
         <MenuComp />
       </Flex>
     </>
-  ))
+  )
 }
 
-export default Menu
+export default observer(Menu)

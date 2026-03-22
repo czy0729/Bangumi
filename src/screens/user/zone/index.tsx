@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 08:22:34
+ * @Last Modified time: 2026-03-22 06:32:50
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import './styles'
 import { Component } from '@components'
 import { _, StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { ANDROID } from '@constants'
 import Extra from './component/extra'
 import { useZonePage } from './hooks'
@@ -18,10 +18,10 @@ import Scroll from './scroll'
 import type { NavigationProps } from '@types'
 
 /** 用户空间 */
-const Zone = (props: NavigationProps) => {
+function Zone(props: NavigationProps) {
   const { id, $ } = useZonePage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-zone' style={_.container.plain}>
       <StoreContext.Provider value={id}>
         {!!$.state._loaded && (
@@ -32,7 +32,7 @@ const Zone = (props: NavigationProps) => {
         )}
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default Zone
+export default observer(Zone)

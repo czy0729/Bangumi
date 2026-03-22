@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-12-27 21:49:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-14 17:45:10
+ * @Last Modified time: 2026-03-22 06:58:25
  */
 import React, { useCallback, useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { NestedScrollParallaxHeader } from '@components'
 import { useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import About from '../component/about'
 import BackgroundImage from '../component/background-image'
 import BangumiList from '../component/bangumi-list'
@@ -23,48 +23,48 @@ import { COMPONENT, PAGES } from './ds'
 import { memoStyles } from './styles'
 
 import type { Ctx } from '../types'
+
 /** 安卓用 */
 function NestedScroll() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const elTopNavbar = useMemo(() => <TopNavbarComponent />, [])
+
   const handleBackground = useCallback((fixed: boolean) => <BackgroundImage fixed={fixed} />, [])
 
-  return useObserver(() => {
-    const styles = memoStyles()
-    const elHeader = useMemo(
-      () => (
-        <>
-          <HeaderComponent />
-          <Sensor style={styles.sensor} />
-        </>
-      ),
-      [styles]
-    )
-
-    return (
+  const styles = memoStyles()
+  const elHeader = useMemo(
+    () => (
       <>
-        <NestedScrollParallaxHeader
-          tabStyle={styles.tab}
-          pages={PAGES}
-          initialPage={$.state.page}
-          tabBarLocalKey='Zone|NestedScroll'
-          HeaderComponent={elHeader}
-          TopNavbarComponent={elTopNavbar}
-          BackgroundComponent={handleBackground}
-          renderLabel={renderLabel}
-          onIndexChange={$.onTabChange}
-        >
-          <About />
-          <BangumiList />
-          <Stats />
-          <TimelineList />
-          <RakuenList />
-        </NestedScrollParallaxHeader>
-        <Menu />
+        <HeaderComponent />
+        <Sensor style={styles.sensor} />
       </>
-    )
-  })
+    ),
+    [styles]
+  )
+
+  return (
+    <>
+      <NestedScrollParallaxHeader
+        tabStyle={styles.tab}
+        pages={PAGES}
+        initialPage={$.state.page}
+        tabBarLocalKey='Zone|NestedScroll'
+        HeaderComponent={elHeader}
+        TopNavbarComponent={elTopNavbar}
+        BackgroundComponent={handleBackground}
+        renderLabel={renderLabel}
+        onIndexChange={$.onTabChange}
+      >
+        <About />
+        <BangumiList />
+        <Stats />
+        <TimelineList />
+        <RakuenList />
+      </NestedScrollParallaxHeader>
+      <Menu />
+    </>
+  )
 }
 
-export default NestedScroll
+export default observer(NestedScroll)

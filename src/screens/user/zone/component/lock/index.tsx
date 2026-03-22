@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-12-28 15:16:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 08:04:07
+ * @Last Modified time: 2026-03-22 06:41:39
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Mesume, Text } from '@components'
 import { useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
@@ -16,21 +16,19 @@ import type { Ctx } from '../../types'
 function Lock() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    const { ban } = $.users
-    if (!ban) return null
+  const { ban } = $.users
+  if (!ban) return null
 
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    return (
-      <Flex style={styles.container}>
-        <Mesume index={2} size={60} />
-        <Flex.Item>
-          <Text bold>{ban}</Text>
-        </Flex.Item>
-      </Flex>
-    )
-  })
+  return (
+    <Flex style={styles.container}>
+      <Mesume index={2} size={60} />
+      <Flex.Item>
+        <Text bold>{ban}</Text>
+      </Flex.Item>
+    </Flex>
+  )
 }
 
-export default Lock
+export default observer(Lock)

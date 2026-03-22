@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-12-30 14:44:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-15 16:28:47
+ * @Last Modified time: 2026-03-22 06:05:25
  */
 import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Heatmap, Iconfont } from '@components'
 import { IconBack, IconHeader, Popover } from '@_'
 import { _, useStore } from '@stores'
-import { useInsets, useObserver } from '@utils/hooks'
+import { useInsets } from '@utils/hooks'
 import { IOS } from '@constants'
 import { IS_IOS_5_6_7_8 } from '@styles'
 import { handleMenuPopoverPress, handleSettingPress, handleUserTimelinePress } from './utils'
@@ -41,80 +42,78 @@ function Menu() {
     [statusBarHeight]
   )
 
-  return useObserver(() => {
-    const { userId } = $
-    const { userId: paramsUserId } = $.params
-    const { id, username, nickname } = $.usersInfo
-    const self = !!id && $.myUserId === id
+  const { userId } = $
+  const { userId: paramsUserId } = $.params
+  const { id, username, nickname } = $.usersInfo
+  const self = !!id && $.myUserId === id
 
-    const memoData = useMemo(() => (self ? DATA_ME : DATA_OTHER), [self])
+  const memoData = useMemo(() => (self ? DATA_ME : DATA_OTHER), [self])
 
-    const handleSelect = useCallback(
-      (key: MenuLabel) => {
-        handleMenuPopoverPress(navigation, key, {
-          id,
-          userId,
-          username
-        })
-      },
-      [id, userId, username]
-    )
+  const handleSelect = useCallback(
+    (key: MenuLabel) => {
+      handleMenuPopoverPress(navigation, key, {
+        id,
+        userId,
+        username
+      })
+    },
+    [id, navigation, userId, username]
+  )
 
-    return (
-      <>
-        {!!paramsUserId && (
-          <View style={[header.left, styles.back]}>
-            <IconBack navigation={navigation} color={_.__colorPlain__} shadow />
-          </View>
-        )}
-        <View
-          style={
-            paramsUserId
-              ? [header.right, styles.more]
-              : self
-              ? [header.left, styles.menu]
-              : [header.right, styles.more]
-          }
-        >
-          <Popover style={styles.touch} data={memoData} onSelect={handleSelect}>
-            <Flex style={styles.icon} justify='center'>
-              <Iconfont name='md-menu' color={_.__colorPlain__} shadow />
-            </Flex>
-            <Heatmap right={-40} id='我的.右上角菜单' />
-          </Popover>
+  return (
+    <>
+      {!!paramsUserId && (
+        <View style={[header.left, styles.back]}>
+          <IconBack navigation={navigation} color={_.__colorPlain__} shadow />
         </View>
-        <View style={[header.right, styles.timeline]}>
+      )}
+      <View
+        style={
+          paramsUserId
+            ? [header.right, styles.more]
+            : self
+            ? [header.left, styles.menu]
+            : [header.right, styles.more]
+        }
+      >
+        <Popover style={styles.touch} data={memoData} onSelect={handleSelect}>
+          <Flex style={styles.icon} justify='center'>
+            <Iconfont name='md-menu' color={_.__colorPlain__} shadow />
+          </Flex>
+          <Heatmap right={-40} id='我的.右上角菜单' />
+        </Popover>
+      </View>
+      <View style={[header.right, styles.timeline]}>
+        <IconHeader
+          name='md-image-aspect-ratio'
+          color={_.__colorPlain__}
+          size={21}
+          shadow
+          onPress={() => {
+            handleUserTimelinePress(navigation, {
+              id,
+              nickname,
+              paramsUserId,
+              username
+            })
+          }}
+        />
+      </View>
+      {!paramsUserId && (
+        <View style={[header.right, styles.setting]}>
           <IconHeader
-            name='md-image-aspect-ratio'
-            color={_.__colorPlain__}
-            size={21}
+            name='setting'
             shadow
+            color={_.__colorPlain__}
             onPress={() => {
-              handleUserTimelinePress(navigation, {
-                id,
-                nickname,
-                paramsUserId,
-                username
-              })
+              handleSettingPress(navigation)
             }}
           />
+          <Heatmap id='我的.跳转' to='Setting' alias='设置' />
         </View>
-        {!paramsUserId && (
-          <View style={[header.right, styles.setting]}>
-            <IconHeader
-              name='setting'
-              shadow
-              color={_.__colorPlain__}
-              onPress={() => {
-                handleSettingPress(navigation)
-              }}
-            />
-            <Heatmap id='我的.跳转' to='Setting' alias='设置' />
-          </View>
-        )}
-      </>
-    )
-  })
+      )}
+    </>
+  )
 }
 
-export default Menu
+export default observer(Menu)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-06 05:26:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-15 17:55:55
+ * @Last Modified time: 2026-03-22 06:29:02
  */
 import { _ } from '@stores'
 import { IS_IOS_5_6_7_8 } from '@styles'
@@ -15,6 +15,17 @@ export const memoStyles = _.memoStyles(() => {
   )
 
   return {
+    head: {
+      height: '100%',
+      paddingTop: H_RADIUS_LINE,
+      overflow: 'hidden'
+    },
+    parallaxBg: {
+      height: _.parallaxImageHeight + 8,
+      marginTop: -8,
+      backgroundColor,
+      overflow: 'hidden'
+    },
     parallaxLine: {
       position: 'absolute',
       right: 0,
@@ -24,11 +35,6 @@ export const memoStyles = _.memoStyles(() => {
       backgroundColor,
       borderTopLeftRadius: H_RADIUS_LINE,
       borderTopRightRadius: H_RADIUS_LINE,
-      overflow: 'hidden'
-    },
-    head: {
-      height: '100%',
-      paddingTop: H_RADIUS_LINE,
       overflow: 'hidden'
     }
   }
@@ -50,12 +56,7 @@ export const styles = _.create({
     left: 0,
     overflow: 'hidden'
   },
-  parallaxBg: {
-    height: _.parallaxImageHeight + 8,
-    marginTop: -8,
-    backgroundColor: _.select(_.colorPlain, _.deepDark ? _._colorPlain : _._colorDarkModeLevel1),
-    overflow: 'hidden'
-  },
+
   parallaxMask: {
     backgroundColor: 'rgba(0, 0, 0, 0.24)'
   },

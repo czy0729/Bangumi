@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-06-23 22:20:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-15 06:36:28
+ * @Last Modified time: 2026-03-22 06:35:08
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Component } from '@components'
 import { useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { ANDROID, SCROLL_VIEW_RESET_PROPS, USE_NATIVE_DRIVER } from '@constants'
 import { TABS } from '../../ds'
 import Lock from '../lock'
@@ -57,27 +57,25 @@ function About({ onScroll }: Props) {
     [$]
   )
 
-  return useObserver(() => {
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    return (
-      <Component id='screen-zone-tab-view' data-type='about'>
-        <Animated.ScrollView
-          ref={handleRef}
-          nestedScrollEnabled={ANDROID}
-          contentContainerStyle={ANDROID ? styles.nestScroll : styles.contentContainerStyle}
-          {...SCROLL_VIEW_RESET_PROPS}
-          onScroll={handleScrollEvent}
-        >
-          <View style={styles.page}>
-            <Lock />
-            <Service />
-            <Content />
-          </View>
-        </Animated.ScrollView>
-      </Component>
-    )
-  })
+  return (
+    <Component id='screen-zone-tab-view' data-type='about'>
+      <Animated.ScrollView
+        ref={handleRef}
+        nestedScrollEnabled={ANDROID}
+        contentContainerStyle={ANDROID ? styles.nestScroll : styles.contentContainerStyle}
+        {...SCROLL_VIEW_RESET_PROPS}
+        onScroll={handleScrollEvent}
+      >
+        <View style={styles.page}>
+          <Lock />
+          <Service />
+          <Content />
+        </View>
+      </Animated.ScrollView>
+    </Component>
+  )
 }
 
-export default About
+export default observer(About)

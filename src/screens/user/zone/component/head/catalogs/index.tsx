@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-06-28 09:07:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-15 06:50:47
+ * @Last Modified time: 2026-03-22 06:39:35
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Heatmap, Text, Touchable } from '@components'
 import { useStore } from '@stores'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 
 import type { WithViewStyles } from '@types'
 import type { Ctx } from '../../../types'
@@ -28,7 +28,7 @@ function Catalogs({ style }: WithViewStyles) {
     })
   }, [$, navigation])
 
-  return useObserver(() => (
+  return (
     <View style={style}>
       <Touchable animate scale={0.8} onPress={handlePress}>
         <Text type='__plain__' size={11} bold shadow noWrap>
@@ -37,7 +37,7 @@ function Catalogs({ style }: WithViewStyles) {
       </Touchable>
       <Heatmap right={-76} bottom={-8} id='空间.跳转' to='Catalogs' alias='目录' />
     </View>
-  ))
+  )
 }
 
-export default Catalogs
+export default observer(Catalogs)
