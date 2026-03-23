@@ -5,17 +5,17 @@
  * @Last Modified time: 2025-12-24 19:42:45
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import { TABS_HEADER_HEIGHT } from '@styles'
 import { COMPONENT } from './ds'
 
 function Heatmaps() {
   r(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <>
       <Heatmap
         right={_.wind + 62}
@@ -31,7 +31,7 @@ function Heatmaps() {
       />
       <Heatmap bottom={_.bottom} id='时间胶囊' screen='Timeline' />
     </>
-  ))
+  )
 }
 
-export default Heatmaps
+export default observer(Heatmaps)

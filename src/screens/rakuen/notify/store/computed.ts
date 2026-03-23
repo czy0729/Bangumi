@@ -6,8 +6,9 @@
  */
 import { computed } from 'mobx'
 import { rakuenStore, userStore } from '@stores'
-import { MergeNotifyItem } from '../types'
 import State from './state'
+
+import type { MergeNotifyItem } from '../types'
 
 export default class Computed extends State {
   /** 电波提醒 */

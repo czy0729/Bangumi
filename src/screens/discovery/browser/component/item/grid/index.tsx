@@ -5,30 +5,28 @@
  * @Last Modified time: 2025-10-11 16:02:22
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { ItemCollectionsGrid } from '@_'
 import { _, collectionStore } from '@stores'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT, EVENT } from './ds'
 
 function Grid({ item, index, id, typeCn }) {
   r(COMPONENT)
 
-  return useObserver(() => {
-    const numColumns = _.portrait(3, 5)
+  const numColumns = _.portrait(3, 5)
 
-    return (
-      <ItemCollectionsGrid
-        style={(_.isPad || _.isLandscape) && !(index % numColumns) && _.container.left}
-        num={numColumns}
-        collection={collectionStore.collect(id)}
-        event={EVENT}
-        {...item}
-        isCollect={item.collected}
-        isRectangle={typeCn === '音乐'}
-      />
-    )
-  })
+  return (
+    <ItemCollectionsGrid
+      style={(_.isPad || _.isLandscape) && !(index % numColumns) && _.container.left}
+      num={numColumns}
+      collection={collectionStore.collect(id)}
+      event={EVENT}
+      {...item}
+      isCollect={item.collected}
+      isRectangle={typeCn === '音乐'}
+    />
+  )
 }
 
-export default Grid
+export default observer(Grid)

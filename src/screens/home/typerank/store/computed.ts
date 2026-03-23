@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-08-18 04:07:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-18 04:35:58
+ * @Last Modified time: 2026-03-23 19:05:14
  */
 import { computed } from 'mobx'
 import { subjectStore } from '@stores'
-import { SubjectId } from '@types'
 import State from './state'
+
+import type { SubjectId } from '@types'
 
 export default class Computed extends State {
   @computed get tag() {

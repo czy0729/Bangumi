@@ -5,9 +5,10 @@
  * @Last Modified time: 2024-01-18 05:56:02
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { TabsV2 } from '@components'
 import { _, useStore } from '@stores'
-import { useInsets, useObserver } from '@utils/hooks'
+import { useInsets } from '@utils/hooks'
 import { TABS } from '../../ds'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
@@ -16,9 +17,10 @@ import type { Ctx } from '../../types'
 
 function Tabs() {
   const { $ } = useStore<Ctx>(COMPONENT)
+
   const { headerStyle } = useInsets()
 
-  return useObserver(() => (
+  return (
     <TabsV2
       key={_.orientation}
       style={headerStyle}
@@ -28,7 +30,7 @@ function Tabs() {
       renderItem={renderItem}
       onChange={$.onTabsChange}
     />
-  ))
+  )
 }
 
-export default Tabs
+export default observer(Tabs)

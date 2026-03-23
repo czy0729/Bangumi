@@ -5,8 +5,8 @@
  * @Last Modified time: 2025-11-04 16:24:21
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import ItemGrid from '../item-grid'
 import ItemList from '../item-list'
 import { COMPONENT } from './ds'
@@ -17,10 +17,8 @@ import type { Props } from './types'
 function Item({ item, index }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    const Component = $.isList ? ItemList : ItemGrid
-    return <Component pickIndex={item} index={index} />
-  })
+  const Component = $.isList ? ItemList : ItemGrid
+  return <Component pickIndex={item} index={index} />
 }
 
-export default Item
+export default observer(Item)

@@ -5,16 +5,16 @@
  * @Last Modified time: 2026-01-31 14:37:23
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 
 function ItemHeatmaps() {
   r(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <>
       <Heatmap right={2} bottom={64} id='时间胶囊.删除时间线' transparent />
       <Heatmap
@@ -38,7 +38,7 @@ function ItemHeatmaps() {
       <Heatmap right={135} bottom={59} id='时间胶囊.跳转' to='Group' alias='小组' transparent />
       <Heatmap right={64} bottom={59} id='时间胶囊.跳转' to='Topic' alias='帖子' transparent />
     </>
-  ))
+  )
 }
 
-export default ItemHeatmaps
+export default observer(ItemHeatmaps)

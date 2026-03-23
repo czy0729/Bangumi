@@ -2,17 +2,19 @@
  * @Author: czy0729
  * @Date: 2023-11-05 03:54:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 11:36:08
+ * @Last Modified time: 2026-03-23 18:49:42
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { ItemSubject } from '@_'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
-import { EVENT } from './ds'
+import { COMPONENT, EVENT } from './ds'
+
+import type { Ctx } from '../../types'
 
 function Item({ subjectId, index }) {
-  const { $, navigation } = useStore<Ctx>()
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
+
   return (
     <ItemSubject
       navigation={navigation}
@@ -27,4 +29,4 @@ function Item({ subjectId, index }) {
   )
 }
 
-export default ob(Item)
+export default observer(Item)

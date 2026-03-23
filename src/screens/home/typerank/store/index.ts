@@ -2,11 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-11-01 08:42:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-18 04:35:14
+ * @Last Modified time: 2026-03-23 19:06:07
  */
 import { getIds, loadTyperankData } from '../utils'
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE, RESET_STATE, STATE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, RESET_STATE } from './ds'
+
+import type { STATE } from './ds'
 
 /** 分类排行页面状态机 */
 export default class ScreenTyperank extends Action {

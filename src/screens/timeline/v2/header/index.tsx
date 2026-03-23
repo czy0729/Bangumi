@@ -5,12 +5,12 @@
  * @Last Modified time: 2026-01-31 15:08:11
  */
 import React, { useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { IconTabsHeader, LogoHeader } from '@_'
 import { userStore, useStore } from '@stores'
 import { info, open } from '@utils'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import { HOST, WEB } from '@constants'
 import i18n from '@constants/i18n'
 import { COMPONENT } from './ds'
@@ -50,7 +50,7 @@ function Header() {
     [$, navigation]
   )
 
-  return useObserver(() => <LogoHeader navigation={navigation} right={elRight} />)
+  return <LogoHeader navigation={navigation} right={elRight} />
 }
 
-export default Header
+export default observer(Header)

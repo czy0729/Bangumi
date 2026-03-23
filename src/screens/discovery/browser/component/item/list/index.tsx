@@ -5,9 +5,9 @@
  * @Last Modified time: 2024-11-25 21:22:43
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { ItemSearch } from '@_'
 import { _, collectionStore, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT, EVENT } from './ds'
 
 import type { Ctx } from '../../../types'
@@ -15,7 +15,7 @@ import type { Ctx } from '../../../types'
 function List({ item, index, id, typeCn }) {
   const { navigation } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <ItemSearch
       style={_.container.item}
       navigation={navigation}
@@ -25,7 +25,7 @@ function List({ item, index, id, typeCn }) {
       typeCn={typeCn}
       collection={collectionStore.collect(id)}
     />
-  ))
+  )
 }
 
-export default List
+export default observer(List)

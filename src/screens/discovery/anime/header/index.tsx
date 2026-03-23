@@ -5,9 +5,9 @@
  * @Last Modified time: 2025-11-04 15:56:56
  */
 import React, { useCallback } from 'react'
+import { observer } from 'mobx-react'
 import { HeaderV2 } from '@components'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import Extra from '../component/extra'
 import { COMPONENT, HM } from './ds'
 
@@ -18,9 +18,7 @@ function Header({ title = '找番剧', alias = 'Anime', hm }: Props) {
 
   const handleHeaderRight = useCallback(() => <Extra title={alias} />, [alias])
 
-  return useObserver(() => (
-    <HeaderV2 title={title} alias={alias} hm={hm || HM} headerRight={handleHeaderRight} />
-  ))
+  return <HeaderV2 title={title} alias={alias} hm={hm || HM} headerRight={handleHeaderRight} />
 }
 
-export default Header
+export default observer(Header)

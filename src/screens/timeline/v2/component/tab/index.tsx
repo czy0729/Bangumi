@@ -6,10 +6,11 @@
  */
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { TabView } from '@components'
 import { BlurViewBottomTab, BlurViewRoot, BlurViewTab } from '@_'
 import { _, useStore } from '@stores'
-import { useInsets, useObserver } from '@utils/hooks'
+import { useInsets } from '@utils/hooks'
 import { TABS } from '../../ds'
 import renderScene from './renderScene'
 import TabBarLeft from './tab-bar-left'
@@ -21,11 +22,12 @@ import type { Ctx } from '../../types'
 
 function Tab() {
   const { $ } = useStore<Ctx>(COMPONENT)
+
   const { headerHeight } = useInsets()
 
   const elBackground = useMemo(() => <BlurViewTab length={TABS.length} />, [])
 
-  return useObserver(() => (
+  return (
     <BlurViewRoot>
       <TabView
         key={_.orientation}
@@ -49,7 +51,7 @@ function Tab() {
       </View>
       <BlurViewBottomTab />
     </BlurViewRoot>
-  ))
+  )
 }
 
-export default Tab
+export default observer(Tab)

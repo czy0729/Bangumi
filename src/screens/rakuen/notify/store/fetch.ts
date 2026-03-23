@@ -5,8 +5,9 @@
  * @Last Modified time: 2025-03-03 19:18:18
  */
 import { rakuenStore, usersStore, userStore } from '@stores'
-import { PMKeys } from '../types'
 import Computed from './computed'
+
+import type { PMKeys } from '../types'
 
 export default class Fetch extends Computed {
   /** 电波提醒 */

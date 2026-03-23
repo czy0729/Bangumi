@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-08-18 04:08:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-27 20:27:50
+ * @Last Modified time: 2026-03-23 19:05:50
  */
 import { collectionStore } from '@stores'
 import { fixedSubjectInfo, getTimestamp, pick } from '@utils'
+import { logger } from '@utils/dev'
 import { gets } from '@utils/kv'
-import { SubjectId } from '@types'
 import Computed from './computed'
+
+import type { SubjectId } from '@types'
 
 export default class Fetch extends Computed {
   /** 这个接口太慢了, 而且不太依赖, 暂时屏蔽 */
@@ -37,7 +39,7 @@ export default class Fetch extends Computed {
     if (!fetchIds.length) return true
 
     try {
-      console.info('fetchSubjectsFromOSS', fetchIds)
+      logger.info('fetchSubjectsFromOSS', fetchIds)
 
       const picker = [
         'name',

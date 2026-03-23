@@ -5,7 +5,8 @@
  * @Last Modified time: 2024-10-08 16:45:51
  */
 import { _ } from '@stores'
-import { Loaded } from '@types'
+
+import type { Loaded } from '@types'
 
 export const RESET_STATE = {
   /** 可视范围底部 y */

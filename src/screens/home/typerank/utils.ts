@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-11-01 09:51:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-18 04:20:10
+ * @Last Modified time: 2026-03-23 19:06:23
  */
 import { getJSON, loadJSON } from '@assets/json'
-import { SubjectId, SubjectType } from '@types'
+
+import type { SubjectId, SubjectType } from '@types'
 
 export async function loadTyperankData(type: SubjectType) {
   return await loadJSON(`typerank/${type}-ids`)

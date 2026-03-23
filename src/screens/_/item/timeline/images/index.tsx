@@ -44,7 +44,7 @@ function Images({ type, image, p3Text, p3Url, onNavigate }) {
             src={item}
             size={isAvatar ? AVATAR_COVER_WIDTH : IMG_WIDTH_SM}
             height={isAvatar ? AVATAR_COVER_WIDTH : IMG_HEIGHT_SM}
-            radius
+            radius={_.radiusSm}
             type={type}
           />
         </Touchable>

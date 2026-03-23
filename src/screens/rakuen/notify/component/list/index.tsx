@@ -5,24 +5,27 @@
  * @Last Modified time: 2025-03-17 11:35:13
  */
 import React from 'react'
-import { ListView, ListViewProps } from '@components'
+import { observer } from 'mobx-react'
+import { ListView } from '@components'
 import { useStore } from '@stores'
-import { NotifyItem } from '@stores/rakuen/types'
-import { PmItem } from '@stores/user/types'
-import { ob } from '@utils/decorators'
-import { Ctx, TabsKey } from '../../types'
 import { keyExtractor, renderNotifyItem, renderPmInItem, renderPmOutItem } from './utils'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
+import type { ListViewProps } from '@components'
+import type { NotifyItem } from '@stores/rakuen/types'
+import type { PmItem } from '@stores/user/types'
+import type { Ctx, TabsKey } from '../../types'
+
 function List({ id }: { id: TabsKey }) {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
+
   const passProps: Partial<ListViewProps<NotifyItem | PmItem>> = {
     keyExtractor,
     contentContainerStyle: styles.contentContainerStyle,
     scrollEventThrottle: 16,
     onScroll: $.onScroll
-  }
+  } as const
 
   switch (id) {
     case 'notify':
@@ -53,4 +56,4 @@ function List({ id }: { id: TabsKey }) {
   return <ListView {...passProps} />
 }
 
-export default ob(List, COMPONENT)
+export default observer(List)

@@ -5,9 +5,9 @@
  * @Last Modified time: 2024-11-17 06:56:53
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import List from './component/list'
 import Header from './header'
 import { useBrowserPage } from './hooks'
@@ -15,10 +15,10 @@ import { useBrowserPage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** 索引 */
-const Browser = (props: NavigationProps) => {
+function Browser(props: NavigationProps) {
   const { id, $ } = useBrowserPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-browser'>
       <StoreContext.Provider value={id}>
         <Page loaded={$.state._loaded} loading={!$.list._loaded}>
@@ -28,7 +28,7 @@ const Browser = (props: NavigationProps) => {
         <Header />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default Browser
+export default observer(Browser)

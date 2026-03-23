@@ -5,9 +5,9 @@
  * @Last Modified time: 2024-11-17 06:58:30
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { ToolBar as ToolBarComp } from '@components'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import Back from './back'
 import Filter from './filter'
 import Month from './month'
@@ -20,7 +20,7 @@ import type { Ctx } from '../../types'
 function ToolBar() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <ToolBarComp style={!$.isList && _.mb.xs}>
       <Filter />
       <Back />
@@ -28,7 +28,7 @@ function ToolBar() {
       <Month />
       <Next />
     </ToolBarComp>
-  ))
+  )
 }
 
-export default ToolBar
+export default observer(ToolBar)

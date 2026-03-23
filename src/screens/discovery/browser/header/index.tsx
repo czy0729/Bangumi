@@ -4,12 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-17 06:59:24
  */
-import React from 'react'
+import React, { useCallback, useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { getSPAParams, open } from '@utils'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import { TEXT_MENU_BROWSER, TEXT_MENU_SPA, TEXT_MENU_SPLIT, URL_SPA } from '@constants'
 import { COMPONENT, DATA } from './ds'
 
@@ -18,34 +18,39 @@ import type { Ctx } from '../types'
 function Header() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => (
-    <HeaderV2
-      title='索引'
-      hm={$.hm}
-      headerRight={() => (
-        <HeaderV2Popover
-          data={[...DATA, TEXT_MENU_SPLIT, ...$.toolBar]}
-          onSelect={title => {
-            if (title === TEXT_MENU_BROWSER) {
-              open($.url)
+  const memoData = useMemo(() => [...DATA, TEXT_MENU_SPLIT, ...$.toolBar], [$.toolBar])
 
-              t('索引.右上角菜单', {
-                key: title
-              })
-            } else if (title === TEXT_MENU_SPA) {
-              open(`${URL_SPA}/${getSPAParams('Browser')}`)
+  const handleHeaderRight = useCallback(
+    () => (
+      <HeaderV2Popover
+        data={memoData}
+        onSelect={title => {
+          if (title === TEXT_MENU_BROWSER) {
+            open($.url)
 
-              t('索引.右上角菜单', {
-                key: title
-              })
-            } else {
-              $.onToolBar(title)
-            }
-          }}
-        />
-      )}
-    />
-  ))
+            t('索引.右上角菜单', {
+              key: title
+            })
+            return
+          }
+
+          if (title === TEXT_MENU_SPA) {
+            open(`${URL_SPA}/${getSPAParams('Browser')}`)
+
+            t('索引.右上角菜单', {
+              key: title
+            })
+            return
+          }
+
+          $.onToolBar(title)
+        }}
+      />
+    ),
+    [$, memoData]
+  )
+
+  return <HeaderV2 title='索引' hm={$.hm} headerRight={handleHeaderRight} />
 }
 
-export default Header
+export default observer(Header)

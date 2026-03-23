@@ -5,10 +5,10 @@
  * @Last Modified time: 2025-12-27 06:13:20
  */
 import React, { useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { Loading } from '@components'
 import { PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import Filter from '../filter'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
@@ -20,35 +20,33 @@ function List() {
 
   const elFilter = useMemo(() => <Filter />, [])
 
-  return useObserver(() => {
-    if (!$.state._loaded && !$.state.data._loaded) {
-      return (
-        <>
-          {elFilter}
-          <Loading />
-        </>
-      )
-    }
-
-    const numColumns = $.isList ? undefined : _.portrait(3, 5)
-
+  if (!$.state._loaded && !$.state.data._loaded) {
     return (
-      <PaginationList2
-        key={`${$.state.layout}${numColumns}`}
-        keyExtractor={keyExtractor}
-        forwardRef={$.forwardRef}
-        contentContainerStyle={_.container.bottom}
-        numColumns={numColumns}
-        data={$.list}
-        limit={9}
-        ListHeaderComponent={elFilter}
-        renderItem={renderItem}
-        scrollEventThrottle={16}
-        onScroll={$.onScroll}
-        onPage={$.onPage}
-      />
+      <>
+        {elFilter}
+        <Loading />
+      </>
     )
-  })
+  }
+
+  const numColumns = $.isList ? undefined : _.portrait(3, 5)
+
+  return (
+    <PaginationList2
+      key={`${$.state.layout}${numColumns}`}
+      keyExtractor={keyExtractor}
+      forwardRef={$.forwardRef}
+      contentContainerStyle={_.container.bottom}
+      numColumns={numColumns}
+      data={$.list}
+      limit={9}
+      ListHeaderComponent={elFilter}
+      renderItem={renderItem}
+      scrollEventThrottle={16}
+      onScroll={$.onScroll}
+      onPage={$.onPage}
+    />
+  )
 }
 
-export default List
+export default observer(List)

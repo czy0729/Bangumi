@@ -80,10 +80,7 @@ const Item = memo(
     const { text: p2Text } = p2
     const { text: p3Text, url: p3Url } = p3
     const { text: p4Text } = p4
-
     const _image = !!image.length && image[0]
-    const rightCoverIsAvatar = !String(!!p3Url.length && p3Url[0]).includes('subject')
-    const showImages = image.length >= 3
 
     const handleNavigate = useCallback(
       (url: string, passParams?: object) => {
@@ -111,6 +108,10 @@ const Item = memo(
     } else if (p2Text?.includes('玩') || p4Text?.includes('游戏')) {
       type = '游戏'
     }
+
+    const rightCoverIsAvatar = !String(!!p3Url.length && p3Url[0]).includes('subject')
+    const rightCoverIsMusic = !rightCoverIsAvatar && type === '音乐'
+    const showImages = image.length >= 3
 
     const y = ITEM_HEIGHT * (index + 2)
 
@@ -211,9 +212,15 @@ const Item = memo(
                   >
                     <Cover
                       src={_image}
-                      size={rightCoverIsAvatar ? AVATAR_COVER_WIDTH : IMG_WIDTH_SM}
+                      size={
+                        rightCoverIsAvatar
+                          ? AVATAR_COVER_WIDTH
+                          : rightCoverIsMusic
+                          ? IMG_WIDTH_SM * 1.12
+                          : IMG_WIDTH_SM
+                      }
                       height={rightCoverIsAvatar ? AVATAR_COVER_WIDTH : IMG_HEIGHT_SM}
-                      radius
+                      radius={_.radiusSm}
                       type={type}
                       cdn={!x18(subjectId)}
                     />
