@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-08-19 07:16:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 06:59:40
+ * @Last Modified time: 2026-03-23 19:46:22
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Divider, Flex } from '@components'
 import { useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { TYPES_DS } from '../../ds'
 import Create from '../create'
 import Item from '../item'
@@ -21,7 +21,7 @@ import type { Ctx } from '../../types'
 function List({ onScrollIntoViewIfNeeded }) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <>
       {TYPES_DS.map((item, index) => {
         const data = $.data[item.type]
@@ -51,7 +51,7 @@ function List({ onScrollIntoViewIfNeeded }) {
         )
       })}
     </>
-  ))
+  )
 }
 
-export default List
+export default observer(List)

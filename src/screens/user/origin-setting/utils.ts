@@ -9,7 +9,7 @@
  * @Author: czy0729
  * @Date: 2022-03-22 17:49:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-03 18:21:07
+ * @Last Modified time: 2026-03-23 20:40:13
  */
 import { toJS } from 'mobx'
 import { desc, getTimestamp } from '@utils'
@@ -140,6 +140,9 @@ export function replaceOriginUrl(
     ALBUM?: string
     YEAR?: string
     RELATED_ANIME?: string
+    CN_DECODE?: string
+    JP_DECODE?: string
+    ARTIST_DECODE?: string
   } = {}
 ) {
   try {
@@ -154,10 +157,21 @@ export function replaceOriginUrl(
       ARTIST: String(item.ARTIST || ''),
       ALBUM: String(item.ALBUM || ''),
       YEAR: String(item.YEAR || ''),
-      RELATED_ANIME: String(item.RELATED_ANIME || '')
+      RELATED_ANIME: String(item.RELATED_ANIME || ''),
+
+      // decode
+      CN_DECODE: item.CN || '',
+      JP_DECODE: item.JP || '',
+      ARTIST_DECODE: String(item.ARTIST || ''),
+      ALBUM_DECODE: String(item.ALBUM || '')
     } as const
 
-    return url.replace(/\[([A-Z_]+)\]/g, (_, key) => encodeURIComponent(replacements[key] ?? ''))
+    return url.replace(/\[([A-Z_]+)\]/g, (_, key) => {
+      const val = replacements[key] ?? ''
+
+      // 如果 key 以 _DECODE 结尾，直接返回原值，否则执行编码
+      return key.endsWith('_DECODE') ? val : encodeURIComponent(val)
+    })
   } catch {
     return ''
   }

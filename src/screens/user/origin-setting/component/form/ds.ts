@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-12 15:26:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-03 16:45:50
+ * @Last Modified time: 2026-03-23 20:41:49
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
@@ -28,5 +28,9 @@ export const PARAMS: Params = [
   { key: 'ARTIST', label: '作者名' },
   { key: 'ALBUM', label: '专辑名' },
   { key: 'YEAR', label: '年份' },
-  { key: 'RELATED_ANIME', label: '关联动画' }
+  { key: 'RELATED_ANIME', label: '关联动画' },
+  { key: 'CN_DECODE', label: '中文 (不转码)' },
+  { key: 'JP_DECODE', label: '日文 (不转码)' },
+  { key: 'ARTIST_DECODE', label: '作者 (不转码)' },
+  { key: 'ALBUM_DECODE', label: '专辑 (不转码)' }
 ] as const

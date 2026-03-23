@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-19 07:09:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-26 21:56:05
+ * @Last Modified time: 2026-03-23 20:28:21
  */
 import { HOST_AC_SEARCH } from '@constants'
 
@@ -76,6 +76,14 @@ export const TYPES_DS = [
 
 export const SITES_ANIME = [
   {
+    id: 'anime|bilibili_client',
+    name: '哔哩哔哩',
+    url: 'bilibili://search?keyword=[CN_DECODE]',
+    icon: require('@assets/images/icon/bilibili.png'),
+    sort: 0,
+    active: 1
+  },
+  {
     id: 'anime|cycanime',
     name: '次元城动画',
     url: 'https://www.cycani.org/search.html?wd=[CN]',
@@ -97,6 +105,13 @@ export const SITES_ANIME = [
     name: 'Animeko',
     url: 'ani://subjects/[ID]',
     icon: require('@assets/images/icon/animeko.png'),
+    sort: 0,
+    active: 0
+  },
+  {
+    id: 'anime|taobao',
+    name: '淘宝',
+    url: 'taobao://s.taobao.com/search?q=[CN_DECODE]',
     sort: 0,
     active: 0
   },
@@ -208,7 +223,7 @@ export const SITES_ANIME = [
   },
   {
     id: 'anime|bilibili',
-    name: 'bilibili番剧',
+    name: '哔哩哔哩番剧',
     url: `${HOST_AC_SEARCH}/bangumi?keyword=[CN]`,
     icon: require('@assets/images/icon/bilibili.png'),
     sort: 0,
@@ -306,6 +321,13 @@ export const SITES_WENKU = [
     id: 'wenku|cijoc',
     name: 'CIJOC',
     url: `https://cijoc.com/search/?s=[JP]`,
+    sort: 0,
+    active: 1
+  },
+  {
+    id: 'wenku|legado',
+    name: 'Legado阅读',
+    url: 'legado://search?keyword=[CN_DECODE]',
     sort: 0,
     active: 1
   }
