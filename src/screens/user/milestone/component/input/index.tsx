@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-10-15 04:24:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-14 18:21:14
+ * @Last Modified time: 2026-03-23 20:53:56
  */
 import React, { useCallback, useState } from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Input as InputComp } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { info } from '@utils'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 
 import type { Ctx } from '../../types'
@@ -35,7 +35,7 @@ function Input() {
     })
   }, [navigation, username])
 
-  return useObserver(() => (
+  return (
     <Flex style={[_.container.wind, _.mt.sm]}>
       <Flex.Item>
         <InputComp
@@ -51,7 +51,7 @@ function Input() {
       </Flex.Item>
       <IconTouchable style={_.ml.md} name='md-arrow-forward' onPress={handleNavigate} />
     </Flex>
-  ))
+  )
 }
 
-export default Input
+export default observer(Input)

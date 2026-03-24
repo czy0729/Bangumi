@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-10-10 11:55:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-24 19:27:29
+ * @Last Modified time: 2026-03-23 20:50:27
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import './styles'
 import { Component, Page, Track } from '@components'
 import { _, StoreContext } from '@stores'
-import { useInsets, useObserver } from '@utils/hooks'
+import { useInsets } from '@utils/hooks'
 import Bg from './component/bg'
 import List from './component/list'
 import Options from './component/options'
@@ -18,12 +19,12 @@ import { useMilestonePage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** 照片墙 */
-const Milestone = (props: NavigationProps) => {
+function Milestone(props: NavigationProps) {
   const { id, $ } = useMilestonePage(props)
 
   const { statusBarHeight } = useInsets()
 
-  return useObserver(() => (
+  return (
     <Component id='screen-milestone'>
       <StoreContext.Provider value={id}>
         <View
@@ -40,7 +41,7 @@ const Milestone = (props: NavigationProps) => {
         <Track title='照片墙' hm={$.hm} />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default Milestone
+export default observer(Milestone)

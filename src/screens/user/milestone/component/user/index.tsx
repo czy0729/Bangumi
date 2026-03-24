@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-10-10 12:41:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 06:50:30
+ * @Last Modified time: 2026-03-24 20:47:34
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Avatar, Flex, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
-import { open } from '@utils'
-import { useObserver } from '@utils/hooks'
+import { open, stl } from '@utils'
 import Filter from '../filter'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -18,12 +18,14 @@ import type { Ctx } from '../../types'
 function User() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    const styles = memoStyles()
-    const { userId, userName } = $.users
+  const styles = memoStyles()
 
-    return (
-      <Flex style={styles.user}>
+  const { userInfo } = $.state
+  const { userId, userName } = $.users
+
+  return (
+    <Flex style={stl(styles.user, !userInfo && styles.userSm)}>
+      {userInfo && (
         <Flex.Item>
           {!!$.users.avatar && (
             <Flex>
@@ -52,10 +54,10 @@ function User() {
             </Flex>
           )}
         </Flex.Item>
-        <Filter />
-      </Flex>
-    )
-  })
+      )}
+      <Filter />
+    </Flex>
+  )
 }
 
-export default User
+export default observer(User)

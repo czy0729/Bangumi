@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-27 04:40:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-21 21:54:05
+ * @Last Modified time: 2026-03-24 06:36:13
  */
 import type {
   CollectionsOrder,
@@ -96,4 +96,5 @@ export type FetchUserCollectionsArgs = {
   order?: CollectionsOrder
   tag?: string
   auth?: boolean
+  forMilestone?: boolean
 }

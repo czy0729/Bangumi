@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-10 11:54:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-16 03:33:07
+ * @Last Modified time: 2026-03-24 20:51:58
  */
 import { COLLECTION_STATUS, COLLECTIONS_ORDERBY, SUBJECT_TYPE } from '@constants'
 import { COMPONENT } from '../ds'
@@ -13,7 +13,8 @@ import type { SubTitle } from '../types'
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const EXCLUDE_STATE = {
-  show: false
+  show: false,
+  fetching: false
 }
 
 export const STATE = {
@@ -24,14 +25,18 @@ export const STATE = {
   type: COLLECTION_STATUS[1].value as CollectionStatus,
   order: COLLECTIONS_ORDERBY[0].value as CollectionsOrder,
   tag: '',
+  score: '全部',
 
   /** options */
+  fixedHeader: true,
+  userInfo: false,
   bg: true,
-  numColumns: 5,
+  numColumns: 4,
   radius: false,
   autoHeight: false,
   cnFirst: true,
   numberOfLines: 2,
+  titleAutoSize: false,
   subTitle: '序号' as SubTitle,
   extraTitle: '无' as SubTitle,
   starsFull: false,

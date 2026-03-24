@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-12 15:42:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-12 20:42:14
+ * @Last Modified time: 2026-03-24 21:05:17
  */
 import { _ } from '@stores'
 
@@ -16,7 +16,8 @@ export const styles = _.create({
     ]
   },
   segmentedControl: {
-    height: 32
+    height: 32,
+    marginVertical: _.xs
   },
   theme: {
     position: 'absolute',

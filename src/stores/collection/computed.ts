@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 02:59:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-02 13:53:30
+ * @Last Modified time: 2026-03-24 06:42:44
  */
 import { computed } from 'mobx'
 import { LIST_EMPTY } from '@constants'
@@ -25,6 +25,7 @@ import type {
   Collection,
   UserCollections,
   UserCollectionsMap,
+  UserCollectionsTags,
   UsersSubjectCollection
 } from './types'
 
@@ -51,12 +52,40 @@ export default class Computed extends State implements StoreConstructor<typeof S
     }).get()
   }
 
+  /** 用户收藏概览 (照片墙专用) */
+  userCollectionsForMilestone(userId: UserId, subjectType: SubjectType, type: CollectionStatus) {
+    const STATE_KEY = 'userCollectionsForMilestone'
+    this.init(STATE_KEY, true)
+
+    return computed(() => {
+      const ITEM_KEY = [userId || userStore.myUserId, subjectType, type].join('|')
+      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as UserCollections
+    }).get()
+  }
+
   /** 用户收藏概览的标签 */
   userCollectionsTags(userId: UserId, subjectType: SubjectType, type: CollectionStatus) {
-    this.init('userCollectionsTags', true)
+    const STATE_KEY = 'userCollectionsTags'
+    this.init(STATE_KEY, true)
+
     return computed(() => {
-      const key = `${userId || userStore.myUserId}|${subjectType}|${type}`
-      return this.state.userCollectionsTags[key] || []
+      const ITEM_KEY = [userId || userStore.myUserId, subjectType, type].join('|')
+      return (this.state[STATE_KEY][ITEM_KEY] || []) as UserCollectionsTags
+    }).get()
+  }
+
+  /** 用户收藏概览的标签 */
+  userCollectionsTagsForMilestone(
+    userId: UserId,
+    subjectType: SubjectType,
+    type: CollectionStatus
+  ) {
+    const STATE_KEY = 'userCollectionsTagsForMilestone'
+    this.init(STATE_KEY, true)
+
+    return computed(() => {
+      const ITEM_KEY = [userId || userStore.myUserId, subjectType, type].join('|')
+      return (this.state[STATE_KEY][ITEM_KEY] || []) as UserCollectionsTags
     }).get()
   }
 

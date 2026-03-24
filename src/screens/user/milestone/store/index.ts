@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-10 11:54:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-17 23:00:50
+ * @Last Modified time: 2026-03-24 06:49:29
  */
 import { COLLECTION_STATUS, COLLECTIONS_ORDERBY, SUBJECT_TYPE } from '@constants'
 import { LIMIT, NUM_COLUMNS, NUMBER_OF_LINES, SUB_TITLE } from '../ds'
@@ -29,10 +29,13 @@ export default class ScreenWordCloud extends Action {
   validateParams = () => {
     const data: Partial<typeof STATE> = {}
     const {
+      /** filters */
       subjectType,
       type,
       order,
       tag,
+
+      /** options */
       numColumns,
       radius,
       autoHeight,

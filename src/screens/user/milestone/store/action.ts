@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-10 11:54:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-14 09:15:22
+ * @Last Modified time: 2026-03-24 07:08:31
  */
 import { MODEL_COLLECTION_STATUS, MODEL_SUBJECT_TYPE } from '@constants'
 import Fetch from './fetch'
@@ -57,6 +57,13 @@ export default class Action extends Fetch {
       tag
     })
     this.fetchCollections(true)
+    this.save()
+  }
+
+  selectScore = (title: string = '全部') => {
+    this.setState({
+      score: title || '全部'
+    })
     this.save()
   }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-10 11:54:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-24 19:25:15
+ * @Last Modified time: 2026-03-24 07:14:22
  */
 import { computed } from 'mobx'
 import { collectionStore, usersStore, userStore } from '@stores'
@@ -24,19 +24,46 @@ export default class Computed extends State {
   }
 
   @computed get collections() {
-    return collectionStore.userCollections(this.userId, this.state.subjectType, this.state.type)
+    return collectionStore.userCollectionsForMilestone(
+      this.userId,
+      this.state.subjectType,
+      this.state.type
+    )
   }
 
   @computed get userCollectionsTags() {
-    return collectionStore.userCollectionsTags(this.userId, this.state.subjectType, this.state.type)
+    return collectionStore.userCollectionsTagsForMilestone(
+      this.userId,
+      this.state.subjectType,
+      this.state.type
+    )
   }
 
   @computed get data() {
-    const { limit, nsfw } = this.state
-    if (!limit && nsfw) return this.collections
-
+    const { limit, nsfw, score } = this.state
     let { list } = this.collections
-    if (!nsfw) list = list.filter(item => item.cover && !item.cover.includes('no_icon_subject'))
+
+    if (!nsfw) {
+      list = list.filter(item => item.cover && !item.cover.includes('no_icon_subject'))
+    }
+
+    if (score && score !== '全部') {
+      list = list.filter(item => {
+        const itemScore = item.score ? Number(item.score) : 0
+
+        if (score === '未评分') {
+          return !item.score || item.score === '0' || item.score === ''
+        }
+
+        if (score.includes('-')) {
+          const [min, max] = score.split('-').map(Number)
+          return itemScore >= min && itemScore <= max
+        }
+
+        return itemScore === Number(score)
+      })
+    }
+
     if (!limit) {
       return {
         ...this.collections,

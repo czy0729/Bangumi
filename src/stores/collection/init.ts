@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 10:48:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-02 13:53:51
+ * @Last Modified time: 2026-03-24 06:42:20
  */
 import { MODEL_COLLECTION_STATUS, MODEL_COLLECTIONS_ORDERBY, MODEL_SUBJECT_TYPE } from '@constants'
 
@@ -40,8 +40,14 @@ export const STATE = {
   /** 用户收藏概览 */
   userCollections: {} as Record<string, UserCollections>,
 
+  /** 用户收藏概览 (照片墙专用) */
+  userCollectionsForMilestone: {} as Record<string, UserCollections>,
+
   /** 用户收藏概览的标签 */
   userCollectionsTags: {} as Record<string, UserCollectionsTags>,
+
+  /** 用户收藏概览的标签 (照片墙专用) */
+  userCollectionsTagsForMilestone: {} as Record<string, UserCollectionsTags>,
 
   /** @deprecated 所有收藏条目状态 */
   userCollectionsMap: {} as UserCollectionStatus,
@@ -67,7 +73,9 @@ export const LOADED = {
   collectionStatus: false,
   mosaicTile: false,
   userCollections: false,
+  userCollectionsForMilestone: false,
   userCollectionsMap: false,
   userCollectionsTags: false,
+  userCollectionsTagsForMilestone: false,
   usersSubjectCollection: false
 }

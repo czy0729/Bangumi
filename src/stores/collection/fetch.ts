@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 03:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-02 13:55:30
+ * @Last Modified time: 2026-03-24 06:44:06
  */
 import { getTimestamp, info, queue, sleep } from '@utils'
 import { fetchHTML } from '@utils/fetch'
@@ -42,32 +42,40 @@ import type {
   MosaicTile,
   UserCollectionStatus
 } from './types'
+
 export default class Fetch extends Computed {
   /** 只本地化自己的收藏概览 */
-  saveUserCollections = () => {
-    const { userCollections } = this.state
-    const data = {}
-    Object.keys(userCollections).forEach(key => {
+  saveUserCollections = (forMilestone: boolean = false) => {
+    const STATE_KEY = forMilestone ? 'userCollectionsForMilestone' : 'userCollections'
+    const data = this.state[STATE_KEY]
+    const temp = {}
+
+    Object.keys(data).forEach(key => {
       if (
-        key.includes(`${userStore.userInfo.username}|`) ||
-        key.includes(`${userStore.myUserId}|`)
+        key.startsWith(`${userStore.userInfo.username}|`) ||
+        key.startsWith(`${userStore.myUserId}|`)
       ) {
-        data[key] = userCollections[key]
+        temp[key] = data[key]
       }
     })
-    this.save('userCollections', data)
+    this.save(STATE_KEY, temp)
   }
 
   /** 只本地化自己的收藏概览的看过的标签 */
-  saveUserCollectionsTags = () => {
-    const { userCollectionsTags } = this.state
-    const data = {}
-    Object.keys(userCollectionsTags).forEach(key => {
-      if (key.includes(`${userStore.myUserId}|`)) {
-        data[key] = userCollectionsTags[key]
+  saveUserCollectionsTags = (forMilestone: boolean = false) => {
+    const STATE_KEY = forMilestone ? 'userCollectionsTagsForMilestone' : 'userCollectionsTags'
+    const data = this.state[STATE_KEY]
+    const temp = {}
+
+    Object.keys(data).forEach(key => {
+      if (
+        key.startsWith(`${userStore.userInfo.username}|`) ||
+        key.startsWith(`${userStore.myUserId}|`)
+      ) {
+        temp[key] = data[key]
       }
     })
-    this.save('userCollectionsTags', data)
+    this.save(STATE_KEY, temp)
   }
 
   /** 获取指定条目收藏信息 */
@@ -92,12 +100,13 @@ export default class Fetch extends Computed {
       subjectType = DEFAULT_SUBJECT_TYPE,
       type = DEFAULT_COLLECTION_STATUS,
       order = DEFAULT_ORDER,
-      tag = ''
+      tag = '',
+      forMilestone = false
     }: FetchUserCollectionsArgs = {},
     refreshOrPage?: boolean | number,
     maxPage?: number
   ) => {
-    const STATE_KEY = 'userCollections'
+    const STATE_KEY = forMilestone ? 'userCollectionsForMilestone' : 'userCollections'
     const ITEM_ARGS = [userId, subjectType, type] as const
     const ITEM_KEY = ITEM_ARGS.join('|')
 
@@ -143,20 +152,21 @@ export default class Fetch extends Computed {
 
       // 只本地化自己的收藏
       if (WEB || userId === userStore.userInfo.username || userId === userStore.myUserId) {
-        this.saveUserCollections()
+        this.saveUserCollections(forMilestone)
       }
 
       if (refreshOrPage === true || refreshOrPage === 1) {
         const tags = cheerioUserCollectionsTags(html)
         if (tags?.length) {
-          const STATE_KEY_TAGS = 'userCollectionsTags'
+          const STATE_KEY_TAGS = forMilestone
+            ? 'userCollectionsTagsForMilestone'
+            : 'userCollectionsTags'
           this.setState({
             [STATE_KEY_TAGS]: {
               [ITEM_KEY]: tags
             }
           })
-
-          if (userId === userStore.myUserId) this.saveUserCollectionsTags()
+          if (userId === userStore.myUserId) this.saveUserCollectionsTags(forMilestone)
         }
       }
     } catch (error) {
