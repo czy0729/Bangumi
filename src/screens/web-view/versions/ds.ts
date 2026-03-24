@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-10 05:42:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-01 14:48:39
+ * @Last Modified time: 2026-03-24 22:14:25
  */
 import type { Loaded } from '@types'
 
@@ -11,6 +11,10 @@ export const COMPONENT = 'Versions'
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const TABS = [
+  {
+    title: '8.31.0 - 2026/03/24',
+    key: 'io3d30axxa48smvn'
+  },
   {
     title: '8.30.0 - 2026/02/14',
     key: 'zincwt4r8ffmrfgn'
@@ -46,15 +50,15 @@ export const TABS = [
   {
     title: '8.22.0 - 2025/06/28',
     key: 'rwza9yn5fgncaok5'
-  },
-  {
-    title: '8.21.0 - 2025/05/06',
-    key: 'brhkrc51tg4s6x0e'
-  },
-  {
-    title: '8.20.0 - 2025/04/03',
-    key: 'csic9v'
   }
+  // {
+  //   title: '8.21.0 - 2025/05/06',
+  //   key: 'brhkrc51tg4s6x0e'
+  // },
+  // {
+  //   title: '8.20.0 - 2025/04/03',
+  //   key: 'csic9v'
+  // }
   // {
   //   title: '8.19.0 - 2025/03/08',
   //   key: 'eo79o18253lecthq'
