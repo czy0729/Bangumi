@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-13 04:48:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-10 07:04:38
+ * @Last Modified time: 2026-03-25 14:43:27
  */
 import { rc } from '@utils/dev'
 import { HOST, MODEL_SETTING_LIVE2D_MODEL, SETTING_LIVE2D_MODEL } from '@constants'
@@ -17,7 +17,7 @@ export const TEXTS = {
   discoveryTodayOnair: {
     hd: '今日放送'
   },
-  live2D: {
+  live2DV2: {
     hd: '看板娘 Live2D'
   },
   live2DModel: {

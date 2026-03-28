@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2022-05-03 22:44:48
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-05-03 22:44:48
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-03-28 21:43:44
  */
 import { _ } from '@stores'
 
@@ -11,6 +11,12 @@ export const styles = _.create({
     fontFamily: 'bgm',
     fontWeight: 'normal',
     opacity: 1
+  },
+  textMusume: {
+    fontFamily: 'bgm2'
+  },
+  textBlake: {
+    fontFamily: 'bgm3'
   },
   10: _.fontSize(10),
   11: _.fontSize(11),
@@ -23,5 +29,11 @@ export const styles = _.create({
   20: _.fontSize(20),
   22: _.fontSize(22),
   24: _.fontSize(24),
-  26: _.fontSize(26)
+  26: _.fontSize(26),
+  28: _.fontSize(28),
+  32: _.fontSize(32),
+  36: _.fontSize(36),
+  40: _.fontSize(40),
+  48: _.fontSize(48),
+  64: _.fontSize(64)
 })

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-23 22:33:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-10 01:13:52
+ * @Last Modified time: 2026-03-25 14:43:37
  */
 import React from 'react'
 import { Heatmap, SwitchPro } from '@components'
@@ -15,7 +15,7 @@ import { styles } from './styles'
 
 /** 看板娘 Live2D */
 function Live2D({ filter }) {
-  const { value, handleSwitch } = useAsyncSwitchSetting('live2D')
+  const { value, handleSwitch } = useAsyncSwitchSetting('live2DV2')
 
   return useObserver(() => (
     <ItemSetting
@@ -34,7 +34,7 @@ function Live2D({ filter }) {
         />
       }
       filter={filter}
-      {...TEXTS.live2D}
+      {...TEXTS.live2DV2}
     >
       <Heatmap id='设置.切换' title='Live2D' />
     </ItemSetting>

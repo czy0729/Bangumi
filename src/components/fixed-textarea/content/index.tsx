@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-08-01 06:12:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-18 04:52:43
+ * @Last Modified time: 2026-03-25 14:46:05
  */
 import React, { useMemo } from 'react'
 import { ScrollView, View } from 'react-native'
@@ -30,10 +30,6 @@ function Content({
   onSelectBgm,
   onLockHistory
 }) {
-  // 安卓 eject 后, 键盘表现跟 IOS 不一致, 特殊处理
-  if (!IOS && !showBgm) return null
-  if (!showTextarea || (!WSA && !keyboardHeight)) return null
-
   const sortedReplyHistory = useMemo(() => {
     if (!replyHistory) return []
 
@@ -41,6 +37,10 @@ function Content({
       .slice()
       .sort((a, b) => desc(lockHistory === a ? 1 : 0, lockHistory === b ? 1 : 0))
   }, [replyHistory, lockHistory])
+
+  // 安卓 eject 后, 键盘表现跟 IOS 不一致, 特殊处理
+  if (!IOS && !showBgm) return null
+  if (!showTextarea || (!WSA && !keyboardHeight)) return null
 
   const styles = memoStyles()
 

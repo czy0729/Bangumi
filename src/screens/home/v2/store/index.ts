@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:26:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-23 05:22:58
+ * @Last Modified time: 2026-03-25 14:43:11
  */
 import * as Device from 'expo-device'
 import { _, systemStore, userStore } from '@stores'
@@ -167,7 +167,7 @@ export default class ScreenHomeV2 extends Action {
           'homeTopRightCustom',
           'initialPage',
           'katakana',
-          'live2D',
+          'live2DV2',
           'onlineStatus',
           's2t',
           'showGame',

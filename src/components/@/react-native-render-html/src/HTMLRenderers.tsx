@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 16:28:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-24 06:44:49
+ * @Last Modified time: 2026-03-29 00:40:33
  */
 import React from 'react'
 import { Platform, Text, TouchableOpacity, View } from 'react-native'
@@ -209,12 +209,12 @@ export function pre(_htlmAttribs, children, _convertedCSSStyles, passProps) {
 export function br(_htlmAttribs, _children, _convertedCSSStyles, passProps) {
   return (
     <Text
+      key={passProps.key}
       allowFontScaling={passProps.allowFontScaling}
       style={stl(!IOS && androidTextFixedStyle, {
         height: 1.2 * passProps.emSize,
         flex: 1
       })}
-      key={passProps.key}
       textBreakStrategy='simple'
       numberOfLines={0}
     >
@@ -231,9 +231,9 @@ export function textwrapper(
 ) {
   return (
     <Text
+      key={key}
       selectable={selectable}
       allowFontScaling={allowFontScaling}
-      key={key}
       style={stl(!IOS && androidTextFixedStyle, convertedCSSStyles)}
       textBreakStrategy='simple'
       numberOfLines={0}

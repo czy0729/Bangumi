@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-13 04:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-10 01:23:49
+ * @Last Modified time: 2026-03-25 14:43:32
  */
 import React from 'react'
 import { ActionSheet } from '@components'
@@ -35,14 +35,14 @@ function Discovery({ filter, open = false }) {
         <ItemSetting hd='发现' arrow highlight filter={filter} onPress={setTrue} />
         <ActionSheet show={state} title='发现' height={680} onClose={setFalse}>
           {shows.discoveryMenuNum && <DiscoveryMenuNum filter={filter} />}
-          {!WEB && shows.live2D && <Live2D filter={filter} />}
-          {!WEB && shows.live2DModel && systemStore.setting.live2D && (
+          {!WEB && shows.live2DV2 && <Live2D filter={filter} />}
+          {!WEB && shows.live2DModel && systemStore.setting.live2DV2 && (
             <Live2DModel filter={filter} />
           )}
-          {!WEB && shows.live2dScale && systemStore.setting.live2D && (
+          {!WEB && shows.live2dScale && systemStore.setting.live2DV2 && (
             <Live2DScale filter={filter} />
           )}
-          {!WEB && shows.live2DVoice && systemStore.setting.live2D && (
+          {!WEB && shows.live2DVoice && systemStore.setting.live2DV2 && (
             <Live2DVoice filter={filter} />
           )}
           {shows.discoveryTodayOnair && <DiscoveryTodayOnair filter={filter} />}

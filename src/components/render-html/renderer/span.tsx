@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2024-08-14 07:18:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-16 23:12:31
+ * @Last Modified time: 2026-03-29 05:32:35
  */
 import React from 'react'
 import { logger } from '@utils/dev'
 import { SPAN_MARK } from '../ds'
 import { BgmText } from '../../bgm-text'
+import EmojiText from '../emoji-text'
 import HiddenText from '../hidden-text'
 import LineThroughtText from '../line-throught-text'
 import MaskText from '../mask-text'
 import TagText from '../tag-text'
-import { fixedBaseFontStyle } from '../utils'
+import { fixedBaseFontStyle, formatStyles } from '../utils'
 
 import type { TextStyle } from '@types'
 
@@ -123,6 +124,16 @@ export function span({
           {text}
         </TagText>
       )
+    }
+
+    // 表情包
+    if (style.includes(SPAN_MARK.emoji)) {
+      const target = rawChildren?.[0]
+      const text = target?.data || ''
+      if (text) {
+        const { fontSize } = formatStyles(style)
+        return <EmojiText index={Number(text)} size={Math.max(15, fontSize || 48)} animated />
+      }
     }
   } catch (error) {
     logger.info('RenderHtml', 'generateConfig', error)

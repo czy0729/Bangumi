@@ -15,7 +15,8 @@ export const SPAN_MARK = {
   mask: 'background-color:#555;',
   bold: 'font-weight:bold;',
   lineThrough: 'line-through;',
-  hidden: 'visibility:hidden;'
+  hidden: 'visibility:hidden;',
+  emoji: 'font-family:bgm'
 } as const
 
 /** 平板设备字体固定放大字号 */

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-07-29 04:25:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-18 05:03:07
+ * @Last Modified time: 2026-03-25 14:48:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -62,7 +62,7 @@ function Textarea({
         <Flex.Item style={editing ? styles.body : styles.fixed}>
           <TextareaItem
             ref={forwardRef}
-            style={stl(styles.textarea, !editing && styles.hiddenText)}
+            style={stl(styles.textarea, !simple && !editing && styles.hiddenText)}
             value={value}
             selection={selection}
             placeholder={simple || editing ? placeholder || '我要吐槽' : ''}

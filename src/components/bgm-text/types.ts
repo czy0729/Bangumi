@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-19 13:40:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 00:07:17
+ * @Last Modified time: 2026-03-28 21:58:23
  */
 import type { PropsWithChildren } from 'react'
 import type { TextProps } from '../text'
@@ -22,4 +22,7 @@ export type Props = PropsWithChildren<{
 
   /** 是否能被文字选中 */
   selectable?: TextProps['selectable']
+
+  /** 是否允许动画 */
+  animated?: boolean
 }>

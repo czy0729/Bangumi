@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-13 19:46:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-18 04:15:38
+ * @Last Modified time: 2026-03-28 22:01:09
  */
 import React, { useEffect, useMemo, useState } from 'react'
 import { Text } from 'react-native'
@@ -10,12 +10,14 @@ import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
+import { subscribeClock } from './clock'
+import { getBgmFrames, getBgmMiddleFrame } from './utils'
 import { BGM_MAP, COMPONENT } from './ds'
 import { styles } from './styles'
 
 export { BGM_MAP }
 export { BGM_MAP_DSM, BGM_MAP_CINNAMOR, BGM_MAP_VICKSCARLET, BGM_MAP_WUHANG } from './ds'
-export { getBgmMiddleFrame } from './utils'
+export { getBgmMiddleFrame, getBgmFontFamily } from './utils'
 
 import type { Props as BgmTextProps } from './types'
 export type { BgmTextProps }
@@ -28,49 +30,53 @@ export const BgmText = observer(
     size = 14,
     selectable = false,
     lineHeight,
+    animated = false,
     children,
     ...other
-  }: BgmTextProps) => {
+  }: BgmTextProps & { animated?: boolean }) => {
     r(COMPONENT)
 
-    // 只在 children 为 string 时使用它，否则用 BGM_MAP[index]
+    // 获取基础字符串 (raw)
     const raw = useMemo(() => {
       if (typeof children === 'string') return children
-
       const fallback = BGM_MAP[Number(index)] ?? ''
       return typeof fallback === 'string' ? fallback : ''
     }, [children, index])
 
-    // 把连续的私有区字符拆成帧；不是私有区就当作单帧字符串
+    // 动画帧数组 (仅在需要动画时生成，节省内存)
     const frames = useMemo(() => {
-      const matches = raw.match(/[\ue000-\uf8ff]/g)
-      return matches && matches.length > 0 ? matches : [raw]
-    }, [raw])
+      if (!animated || !raw) return []
+      return getBgmFrames(raw)
+    }, [raw, animated])
 
-    const [frameIndex, setFrameIndex] = useState(0)
-
-    // 源发生变化时回到第一帧（不会创建定时器）
+    // 全局心跳订阅
+    const [tick, setTick] = useState(0)
     useEffect(() => {
-      setFrameIndex(0)
-    }, [raw])
+      if (!animated || frames.length <= 1) return
+      return subscribeClock(globalClock => setTick(globalClock))
+    }, [animated, frames.length])
 
-    // 只有多帧时才启动轮播；单帧情况下这里直接 return，不产生任何定时器
-    useEffect(() => {
-      if (frames.length <= 1) return
+    // 内容计算
+    const content = useMemo(() => {
+      // 修正判断：只有当 children 确实是 React 元素(非空且非字符串)时才返回它
+      if (children != null && typeof children !== 'string') return children
 
-      const id = setInterval(() => {
-        setFrameIndex(i => (i + 1) % frames.length)
-      }, 200)
-      return () => clearInterval(id)
-    }, [frames])
+      // 静态模式：取中间帧，没有则兜底 raw
+      if (!animated) return getBgmMiddleFrame(raw) || raw
 
-    // 如果 children 不是字符串（例如传了 React 节点），就保持原样；否则显示当前帧
-    const content = typeof children === 'string' || children == null ? frames[frameIndex] : children
+      // 动画模式：
+      if (frames.length <= 1) return raw
+
+      const frameIndex = tick % frames.length
+      return frames[frameIndex] || raw
+    }, [children, animated, raw, frames, tick])
 
     return (
       <Text
         style={stl(
           styles.text,
+          Number(index) >= 645 && styles.textMusume,
+          Number(index) >= 724 && styles.textBlake,
           size && styles[size],
           lineHeight !== undefined && {
             lineHeight: Math.floor(
@@ -88,5 +94,3 @@ export const BgmText = observer(
     )
   }
 )
-
-export default BgmText

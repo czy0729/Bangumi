@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-07 15:18:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-30 23:00:32
+ * @Last Modified time: 2026-03-28 21:42:26
  */
 import { useState } from 'react'
 import { loadAsync } from 'expo-font'
@@ -13,22 +13,30 @@ import Stores from '@stores'
 import { bootApp } from '../app'
 import useMount from './useMount'
 
-async function loadBaseFontsAsync() {
-  return loadAsync({
-    bgm: require('@assets/fonts/BgmV2.ttf')
+async function loadBaseFonts() {
+  await loadAsync({
+    bgm: require('@assets/fonts/BgmV3_1.ttf')
   })
+  await loadAsync({
+    bgm2: require('@assets/fonts/BgmV3_2.ttf'),
+    bgm3: require('@assets/fonts/BgmV3_3.ttf')
+  })
+
+  return true
 }
 
-let loadAppFontsAsyncLoaded: boolean
+let loadAppFontsLoaded: boolean
 
-export function loadAppFontsAsync() {
-  if (loadAppFontsAsyncLoaded) return true
+export async function loadAppFonts() {
+  if (loadAppFontsLoaded) return true
 
-  loadAppFontsAsyncLoaded = true
-  return loadAsync({
+  loadAppFontsLoaded = true
+  await loadAsync({
     rhrm: require('@assets/fonts/ResourceHanRoundedCN-Medium.ttf'),
     rhrb: require('@assets/fonts/ResourceHanRoundedCN-Bold.ttf')
   })
+
+  return true
 }
 
 type LoadingResult = 0 | 1 | 2 | 3 | 99
@@ -49,18 +57,20 @@ export default function useCachedResources() {
         setState(1)
 
         // 加载 bgm 表情特殊字体
-        await loadBaseFontsAsync()
+        requestAnimationFrame(() => {
+          loadBaseFonts()
+        })
         setState(2)
 
         // 加载字体
         if (typeof settings === 'object' && !settings.customFontFamily) {
-          await loadAppFontsAsync()
+          await loadAppFonts()
         }
         setState(3)
 
-        setTimeout(() => {
+        requestAnimationFrame(() => {
           setComponentsDefaultProps()
-        }, 0)
+        })
       } catch (e) {
         devLog(String(e))
         setState(99)

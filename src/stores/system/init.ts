@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-15 06:44:29
+ * @Last Modified time: 2026-03-25 14:42:28
  */
 import {
   IOS,
@@ -302,8 +302,11 @@ export const INIT_SETTING = {
   /** 发现菜单一列个数 */
   discoveryMenuNum: 5,
 
+  /** @deprecated 发现页看板娘 live-2d */
+  live2D: false,
+
   /** 发现页看板娘 live-2d */
-  live2D: true,
+  live2DV2: false,
 
   /** 发现页看板娘 live-2d 点击发声 */
   live2DVoice: false,

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 16:25:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-01 00:51:34
+ * @Last Modified time: 2026-03-29 01:07:32
  */
 import React, { PureComponent } from 'react'
 import { View, Text, Dimensions, StyleSheet } from 'react-native'
@@ -34,7 +34,7 @@ import { IOS } from '@constants/constants'
 import { _ } from '@stores'
 import { androidTextFixedStyle } from '@styles'
 import * as HTMLRenderers from './HTMLRenderers'
-import { optimizeCmputeTextStyles, formatSpacing } from './utils'
+import { optimizeComputeTextStyles, formatSpacing } from './utils'
 
 const flexStyle = { flex: 1, alignItems: 'center' }
 
@@ -566,7 +566,7 @@ export default class HTML extends PureComponent {
             let styles = StyleSheet.flatten(
               stl(
                 !IOS && androidTextFixedStyle,
-                optimizeCmputeTextStyles(
+                optimizeComputeTextStyles(
                   computeTextStyles(element, {
                     defaultTextStyles: this.defaultTextStyles,
                     tagsStyles,

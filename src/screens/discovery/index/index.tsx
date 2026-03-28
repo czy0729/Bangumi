@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-21 20:30:02
+ * @Last Modified time: 2026-03-25 16:36:32
  */
 import React from 'react'
-import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component, Page } from '@components'
 import { StoreContext } from '@stores'
@@ -24,9 +23,7 @@ function Discovery(props: NavigationProps) {
     <Component id='screen-discovery'>
       <StoreContext.Provider value={id}>
         <Page>
-          <View onTouchMove={handleTouchMove}>
-            <List />
-          </View>
+          <List onTouchMove={handleTouchMove} />
           <Mesume forwardRef={handleForwardRef} loaded={loaded} onMessage={handleMessage} />
         </Page>
         <Extra />

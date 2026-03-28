@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-12 05:42:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-21 21:21:47
+ * @Last Modified time: 2026-03-25 14:43:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,8 +25,8 @@ function Mesume({ forwardRef, loaded, onMessage }: Props) {
   const show = useIsFocused()
   const appState = useAppState()
 
-  const { live2D, live2DModel, live2dScale } = systemStore.setting
-  if (!live2D || WEB || $.state.dragging || !show || !appState) return null
+  const { live2DV2, live2DModel, live2dScale } = systemStore.setting
+  if (!live2DV2 || WEB || $.state.dragging || !show || !appState) return null
 
   const styles = memoStyles()
 

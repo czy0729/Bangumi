@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-04-20 11:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-21 05:21:36
+ * @Last Modified time: 2026-03-29 00:46:24
  */
-import { TextProps } from 'react-native'
 import { syncSpacing } from '@utils/async'
-import { AnyObject } from '@types'
+
+import type { TextProps } from 'react-native'
+import type { AnyObject } from '@types'
 
 /** 避免字号和行号一样导致显示挤压 */
-export function optimizeCmputeTextStyles(styles: AnyObject) {
+export function optimizeComputeTextStyles(styles: AnyObject) {
   if (styles?.fontSize && styles?.lineHeight && styles.fontSize >= styles.lineHeight) {
     styles.lineHeight = Math.floor(styles.fontSize * 1.5)
   }
