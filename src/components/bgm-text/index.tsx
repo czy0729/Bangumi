@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-13 19:46:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-28 22:01:09
+ * @Last Modified time: 2026-03-29 22:33:20
  */
 import React, { useEffect, useMemo, useState } from 'react'
 import { Text } from 'react-native'
@@ -77,7 +77,7 @@ export const BgmText = observer(
           styles.text,
           Number(index) >= 645 && styles.textMusume,
           Number(index) >= 724 && styles.textBlake,
-          size && styles[size],
+          size && _[`fontSize${Math.floor(size)}`],
           lineHeight !== undefined && {
             lineHeight: Math.floor(
               lineHeight <= 2 ? lineHeight * size : lineHeight * _.lineHeightRatio
