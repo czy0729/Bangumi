@@ -6,6 +6,7 @@
  */
 import { StyleSheet } from 'react-native'
 import { _ } from '@stores'
+import { postTask } from '@utils'
 import { IOS } from '@constants'
 
 import type { StyleProp, TextStyle, ViewStyle } from 'react-native'
@@ -16,7 +17,7 @@ export const defaultHitSlop = {
   right: _.device(2, 4),
   bottom: _.device(3, 4),
   left: _.device(2, 4)
-}
+} as const
 
 export const styles = _.create({
   touchable: {
@@ -48,7 +49,9 @@ export function callOnceInInterval(
       functionTobeCalled()
     })
   } else {
-    setTimeout(() => functionTobeCalled(), 0)
+    postTask(() => {
+      functionTobeCalled()
+    }, 0)
   }
 
   return true

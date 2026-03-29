@@ -10,13 +10,13 @@ import events from '@constants/events'
 import { DEV, IOS_IPA } from '@src/config'
 import { syncSystemStore as _s, syncThemeStore as _, syncUserStore as _u } from '../async'
 import { isDevtoolsOpen } from '../dom'
-import { runAfter, urlStringify } from '../utils'
+import { postTask } from '../scheduler'
+import { urlStringify } from '../utils'
 import { getReferer, log, umami, umamiEvent, xhr } from './utils'
 import { SI_UV, WEBSITE_UV } from './ds'
 
 import type { EventKeys } from '@constants/events'
 import type { EventData, HMQuery } from './type'
-
 /** 上次路由完整参数 */
 let lastQuery = ''
 
@@ -32,7 +32,7 @@ let currentTitle = ''
 /** PV */
 export function hm(url?: string, screen?: string, title?: string) {
   // 保证这种低优先级的操作在 UI 响应之后再执行
-  runAfter(() => {
+  postTask(() => {
     try {
       const query: HMQuery = { v: VERSION_GITHUB_RELEASE }
       if (IOS && IOS_IPA) query.ipa = 1
@@ -57,7 +57,7 @@ export function hm(url?: string, screen?: string, title?: string) {
 export function ua() {
   if (WEB || isDevtoolsOpen()) return
 
-  runAfter(() => {
+  postTask(() => {
     try {
       const u = _u()
       xhr(SI_UV, `${u.url}?v=${VERSION_GITHUB_RELEASE}`)
@@ -70,7 +70,7 @@ export function ua() {
 export function t(desc: EventKeys, eventData?: EventData) {
   if (!desc || typeof desc !== 'string' || isDevtoolsOpen()) return
 
-  runAfter(() => {
+  postTask(() => {
     try {
       const eventId = events[desc]
       if (eventId) {

@@ -9,7 +9,7 @@ import { Animated, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { _ } from '@stores'
-import { feedback, runAfter, stl } from '@utils'
+import { feedback, postTask, stl } from '@utils'
 import { r } from '@utils/dev'
 import { Component } from '../component'
 import { Flex } from '../flex'
@@ -94,7 +94,7 @@ export const Expand = observer(
       (event: LayoutChangeEvent) => {
         const layoutHeight = event.nativeEvent.layout.height
 
-        runAfter(() => {
+        postTask(() => {
           if (!layoutHeight) return
 
           setHeight(layoutHeight)
@@ -108,7 +108,7 @@ export const Expand = observer(
               handleExpand()
             }
           }
-        }, true)
+        }, 0)
       },
       [checkLayout, handleExpand, initialRatioHeight]
     )

@@ -10,6 +10,7 @@ import * as SplashScreen from 'expo-splash-screen'
 import { devLog } from '@components/dev'
 import { setComponentsDefaultProps } from '@components/text/utils'
 import Stores from '@stores'
+import { postTask } from '@utils'
 import { bootApp } from '../app'
 import useMount from './useMount'
 
@@ -57,7 +58,7 @@ export default function useCachedResources() {
         setState(1)
 
         // 加载 bgm 表情特殊字体
-        requestAnimationFrame(() => {
+        postTask(() => {
           loadBaseFonts()
         })
         setState(2)
@@ -68,7 +69,7 @@ export default function useCachedResources() {
         }
         setState(3)
 
-        requestAnimationFrame(() => {
+        postTask(() => {
           setComponentsDefaultProps()
         })
       } catch (e) {

@@ -9,7 +9,7 @@ import { View } from 'react-native'
 import { FixedTextarea, ListView } from '@components'
 import { ItemPost } from '@_'
 import { _ } from '@stores'
-import { info, keyExtractor, runAfter } from '@utils'
+import { info, keyExtractor, postTask } from '@utils'
 import { ob } from '@utils/decorators'
 import { logger, r } from '@utils/dev'
 import { t } from '@utils/fetch'
@@ -36,7 +36,7 @@ class Blog extends React.Component<
   scrollFailCount = 0
 
   componentDidMount() {
-    runAfter(async () => {
+    postTask(async () => {
       const { $ } = this.props
       await $.init()
 

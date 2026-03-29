@@ -4,37 +4,46 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-29 00:34:37
  */
+import { AppState } from 'react-native'
+import { IOS } from '@constants'
+
 type Listener = (clock: number) => void
 
 let clock = 0
-let timer: ReturnType<typeof setInterval> | null = null
+let lastTime = 0
 const listeners = new Set<Listener>()
+let rafId: number | null = null
 
-/** 触发一次心跳 */
-function tick() {
-  clock += 1
-  listeners.forEach(fn => fn(clock))
+function loop(currentTime: number) {
+  // 控制频率：120ms 触发一次
+  if (currentTime - lastTime >= (IOS ? 120 : 160)) {
+    lastTime = currentTime
+
+    // 只有在前台时才更新
+    if (AppState.currentState === 'active') {
+      clock += 1
+      listeners.forEach(fn => fn(clock))
+    }
+  }
+
+  // 只有还有订阅者时才继续循环
+  if (listeners.size > 0) {
+    rafId = requestAnimationFrame(loop)
+  } else {
+    rafId = null
+  }
 }
 
-/**
- * 订阅全局心跳
- * @returns 取消订阅的函数
- */
 export function subscribeClock(fn: Listener) {
   listeners.add(fn)
 
-  // 状态激活：第一个订阅者加入时启动定时器
-  if (listeners.size === 1 && !timer) {
-    timer = setInterval(tick, 120)
+  if (listeners.size === 1 && rafId === null) {
+    lastTime = performance.now()
+    rafId = requestAnimationFrame(loop)
   }
 
   return () => {
     listeners.delete(fn)
-
-    // 状态休眠：没有任何订阅者时清理定时器，节省资源
-    if (listeners.size === 0 && timer) {
-      clearInterval(timer)
-      timer = null
-    }
+    // 自动清理逻辑已经在 loop 结尾处理
   }
 }

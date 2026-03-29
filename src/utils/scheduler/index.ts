@@ -4,6 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-01-25 08:23:47
  */
+import { WEB } from '@constants/device'
 
 /**
  * 执行一个任务，根据优先级和延迟调度
@@ -13,7 +14,7 @@
  */
 export function postTask(
   callback: () => void,
-  delay: number = 1000,
+  delay: number = WEB ? 1000 : 160,
 
   /**
    * 优先级
@@ -24,12 +25,10 @@ export function postTask(
   priority: 'user-blocking' | 'user-visible' | 'background' = 'background'
 ): void {
   // 检查浏览器是否支持 scheduler.postTask
-  // @ts-ignore
   if (typeof window?.scheduler?.postTask === 'function') {
     // 调整 background 任务的最小延迟为 160ms
     const adjustedDelay = priority === 'background' ? Math.max(160, delay) : delay
 
-    // @ts-ignore
     window.scheduler.postTask(callback, {
       delay: adjustedDelay,
       priority

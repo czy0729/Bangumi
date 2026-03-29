@@ -104,6 +104,8 @@ export function throttle(callback: (arg?: any) => void, delay = 400) {
 
     function exec() {
       lastExec = Date.now()
+
+      // @ts-expect-error
       callback.apply(context, args)
     }
     clearTimeout(timeoutID)

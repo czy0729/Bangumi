@@ -5,7 +5,7 @@
  * @Last Modified time: 2025-05-20 00:54:41
  */
 import { observable } from 'mobx'
-import { runAfter } from '@utils'
+import { postTask } from '@utils'
 import Store from '@utils/store'
 import { LOADED, NAMESPACE, STATE } from './init'
 
@@ -26,12 +26,12 @@ export default class State extends Store<typeof STATE> {
       return this.readStorage([key], NAMESPACE)
     }
 
-    runAfter(() => {
+    postTask(() => {
       if (this._loaded[key]) return
 
       this._loaded[key] = true
       this.readStorage([key], NAMESPACE)
-    }, true)
+    }, 0)
 
     return this._loaded[key]
   }

@@ -7,7 +7,7 @@
 import React from 'react'
 import { rakuenStore, subjectStore } from '@stores'
 import { getInt } from '@stores/rakuen/utils'
-import { navigationReference, runAfter } from '@utils'
+import { navigationReference, postTask } from '@utils'
 import { logger } from '@utils/dev'
 import { IOS, WEB } from '@constants'
 import { fetchMediaQueue } from '../utils'
@@ -164,8 +164,8 @@ export async function getMono({ passProps, params, onLinkPress }) {
     const { monoId } = params
     const { cover, name, nameCn, _loaded } = subjectStore.mono(monoId)
     if (!_loaded) {
-      setTimeout(() => {
-        runAfter(() => fetchMediaQueue('mono', monoId))
+      postTask(() => {
+        fetchMediaQueue('mono', monoId)
       }, 2000)
     } else {
       if (cover) {

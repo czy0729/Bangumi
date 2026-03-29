@@ -94,3 +94,5 @@ export const BgmText = observer(
     )
   }
 )
+
+export default BgmText

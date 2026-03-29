@@ -13,6 +13,7 @@ import Provider from '@ant-design/react-native/lib/provider'
 import { BackAndroid, DeepLink, DEV } from '@components'
 import { AppCommon } from '@_'
 import { _ } from '@stores'
+import { postTask } from '@utils'
 // import { enableHighRefreshRate, isHighRefreshRateSupported } from '@utils/android'
 import {
   useCachedResources,
@@ -47,7 +48,7 @@ export default function App() {
   const { window } = useDimensions()
   useEffect(() => {
     if (WSA) {
-      requestAnimationFrame(() => {
+      postTask(() => {
         _.updateLayout()
       })
     }

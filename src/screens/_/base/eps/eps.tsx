@@ -7,7 +7,7 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
 import { _ } from '@stores'
-import { arrGroup, asc, runAfter } from '@utils'
+import { arrGroup, asc, postTask } from '@utils'
 import { memo } from '@utils/decorators'
 import { FROZEN_ARRAY, FROZEN_FN, FROZEN_OBJECT, MODEL_EP_TYPE, WSA } from '@constants'
 import Carousel from './carousel'
@@ -116,9 +116,9 @@ export default memo(
         if (layoutWidth) return
 
         const { width } = event.nativeEvent.layout
-        runAfter(() => {
+        postTask(() => {
           setWidth(width - marginRight)
-        }, true)
+        }, 0)
       },
 
       // eslint-disable-next-line react-hooks/exhaustive-deps

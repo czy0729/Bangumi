@@ -68,6 +68,18 @@ declare const window: {
   /** 确认弹窗 */
   confirm: (message?: any) => boolean
 
+  /** 调度器 */
+  scheduler: {
+    postTask: (
+      callback: () => void,
+      options?: {
+        delay?: number
+        priority?: 'user-blocking' | 'user-visible' | 'background'
+        signal?: AbortSignal
+      }
+    ) => Promise<any>
+  }
+
   /** 交叉观察器 */
   IntersectionObserver: new (callback: (...args: any[]) => void, options?: any) => any
 
