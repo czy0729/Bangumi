@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-17 06:35:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-18 19:14:43
+ * @Last Modified time: 2026-03-29 22:57:22
  */
 import { _ } from '@stores'
 
@@ -27,6 +27,10 @@ export const memoStyles = _.memoStyles(() => ({
   placeholder: {
     paddingBottom: 2,
     color: _.colorSub,
-    textAlign: 'center'
+    textAlign: 'center',
+    opacity: 0.92
+  },
+  text: {
+    opacity: 0.92
   }
 }))

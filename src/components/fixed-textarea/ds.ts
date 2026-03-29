@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-06 20:34:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 15:49:06
+ * @Last Modified time: 2026-03-30 07:03:14
  */
 import { rc } from '@utils/dev'
 import { IOS } from '@constants'
@@ -23,3 +23,5 @@ export const SOURCE_FLAG = '来自Bangumi for'
 export const SOURCE_TEXT = `\n[color=grey][size=10][${SOURCE_FLAG} ${
   IOS ? 'iOS' : 'android'
 }] [url=https://bgm.tv/group/topic/350677][color=grey]获取[/color][/url][/size][/color]`
+
+export const BGM_EMOJIS_GROUP_DATA = ['TV', 'Bangumi 娘', 'Blake 娘'] as const

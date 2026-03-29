@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2022-09-29 17:27:53
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-09-29 17:27:53
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-03-29 22:26:33
  */
 import { _ } from '@stores'
 
@@ -15,7 +15,7 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.colorBg
   },
   input: {
-    ..._.fontSize(16),
+    ..._.fontSize16,
     fontWeight: '800',
     textAlign: 'center',
     backgroundColor: _.select(_.colorBorder, _.colorPlain),

@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2025-05-02 19:59:28
- * @Last Modified by:   czy0729
- * @Last Modified time: 2025-05-02 19:59:28
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-03-29 22:26:52
  */
 import { _ } from '@stores'
 
@@ -21,6 +21,6 @@ export const memoStyles = _.memoStyles(() => ({
     borderRadius: 0
   },
   text: {
-    ..._.fontSize(11)
+    ..._.fontSize11
   }
 }))

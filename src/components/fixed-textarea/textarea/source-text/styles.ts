@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2023-07-30 18:24:03
- * @Last Modified by:   czy0729
- * @Last Modified time: 2023-07-30 18:24:03
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-03-30 01:27:21
  */
 import { _ } from '@stores'
 
@@ -11,7 +11,7 @@ export const memoStyles = _.memoStyles(() => ({
     position: 'absolute',
     zIndex: 2,
     right: 4,
-    bottom: _.md,
+    bottom: 22,
     left: 0
   },
   opacity: {

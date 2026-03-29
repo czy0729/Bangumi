@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-19 16:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-06 01:31:32
+ * @Last Modified time: 2026-03-29 22:26:28
  */
 import { _ } from '@stores'
 
@@ -16,7 +16,7 @@ export const memoStyles = _.memoStyles(() => ({
   text: {
     marginTop: _.md,
     maxWidth: _.window.contentWidth - 2 * _.md,
-    ..._.fontSize(14)
+    ..._.fontSize14
   },
   btn: {
     marginTop: _.lg,

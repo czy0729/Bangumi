@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:05:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-18 19:14:42
+ * @Last Modified time: 2026-03-29 22:59:04
  */
-import React from 'react'
+import React, { useMemo, useState } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { rakuenStore } from '@stores'
@@ -13,61 +13,45 @@ import { Flex } from '../../flex'
 import { Text } from '../../text'
 import { memoStyles } from './styles'
 
-import type { ReactNode } from '@types'
+import type { PropsWithChildren } from 'react'
 
-class QuoteText extends React.Component<{
-  children?: ReactNode | ReactNode[] | string | string[]
-}> {
-  state = {
-    show: rakuenStore.setting.quote || false,
-    toggle: false
-  }
+function QuoteText({ children }: PropsWithChildren<{}>) {
+  const styles = memoStyles()
 
-  show = () =>
-    this.setState({
-      show: true
-    })
+  const [show, setShow] = useState(rakuenStore.setting.quote)
+  const [toggle, setToggle] = useState(false)
 
-  toggle = () =>
-    this.setState({
-      toggle: true
-    })
-
-  get children() {
-    const { children } = this.props
-
-    // 过滤掉 q 里面的div
+  const processedChildren = useMemo(() => {
     if (!IOS && Array.isArray(children) && children.length > 1) {
-      return children.filter(item => !(item?.[0]?.key && item[0].key.indexOf('View-') === 0))
-    }
-
-    return children
-  }
-
-  render() {
-    const { show, toggle } = this.state
-    if (!show) {
-      return (
-        <Text style={this.styles.placeholder} onPress={this.show}>
-          「...」
-        </Text>
+      return children.filter(
+        item => !(item?.[0]?.key && String(item[0].key).indexOf('View-') === 0)
       )
     }
+    return children
+  }, [children])
 
+  if (!show) {
     return (
-      <Flex>
-        <View style={this.styles.quote}>
-          <Text size={12} numberOfLines={toggle ? 10 : 3} onPress={this.toggle}>
-            {this.children}
-          </Text>
-        </View>
-      </Flex>
+      <Text style={styles.placeholder} onPress={() => setShow(true)}>
+        「...」
+      </Text>
     )
   }
 
-  get styles() {
-    return memoStyles()
-  }
+  return (
+    <Flex>
+      <View style={styles.quote}>
+        <Text
+          style={styles.text}
+          size={12}
+          numberOfLines={toggle ? 10 : 3}
+          onPress={() => setToggle(true)}
+        >
+          {processedChildren}
+        </Text>
+      </View>
+    </Flex>
+  )
 }
 
 export default observer(QuoteText)

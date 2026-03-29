@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-18 05:03:47
+ * @Last Modified time: 2026-03-30 07:05:41
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -17,6 +17,7 @@ import Mask from './mask'
 import Textarea from './textarea'
 import ToolBar from './tool-bar'
 import {
+  BGM_EMOJIS_GROUP_DATA,
   COMPONENT,
   MAX_BGM_HISTORY_COUNT,
   MAX_HISTORY_COUNT,
@@ -58,6 +59,7 @@ class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
     showSource: false,
     showSourceText: true,
     showTextarea: false,
+    emojisGroupSelectedIndex: 0,
     keyboardHeight: 0,
     history: [],
     replyHistory: [],
@@ -72,12 +74,20 @@ class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
 
   async componentDidMount() {
     try {
-      const [showSource, showSourceText, history, replyHistory, lockHistory] = await Promise.all([
+      const [
+        showSource,
+        showSourceText,
+        history,
+        replyHistory,
+        lockHistory,
+        emojisGroupSelectedIndex
+      ] = await Promise.all([
         getStorage(`${NAMESPACE}|showSource`),
         getStorage(`${NAMESPACE}|showSourceText`),
         getStorage(NAMESPACE),
         getStorage(`${NAMESPACE}|replyHistory`),
-        getStorage(`${NAMESPACE}|lockHistory`)
+        getStorage(`${NAMESPACE}|lockHistory`),
+        getStorage(`${NAMESPACE}|emojisGroupSelectedIndex`)
       ])
 
       this.setState({
@@ -85,7 +95,8 @@ class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
         showSourceText: typeof showSourceText === 'boolean' ? showSourceText : true,
         history: (history || '38').split(',').filter(Boolean).map(Number),
         replyHistory: replyHistory || [],
-        lockHistory: lockHistory || ''
+        lockHistory: lockHistory || '',
+        emojisGroupSelectedIndex: emojisGroupSelectedIndex || 0
       })
     } catch {}
   }
@@ -239,16 +250,31 @@ class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
     })
     this.setSelection(result.cursor)
   }
-
   /** 选择 bgm 表情 */
   onSelectBgm = (key: string | number, updateRecent: boolean = true) => {
     const { value, selection } = this.state
     const id = Number(key)
     const index = selection.end
 
-    // 插入值如 (bgm38)
-    const left = `${value.slice(0, index)}(bgm${id})`
-    const right = `${value.slice(index)}`
+    // 计算表情占位符文本
+    let label = ''
+    if (id >= 700) {
+      // 700-799 -> (blake_00) - (blake_99)
+      const subId = String(id % 100).padStart(2, '0')
+      label = `(blake_${subId})`
+    } else if (id >= 600) {
+      // 600-699 -> (musume_00) - (musume_99)
+      const subId = String(id % 100).padStart(2, '0')
+      label = `(musume_${subId})`
+    } else {
+      // 其他 -> (bgm01), (bgm123) 等
+      label = `(bgm${id})`
+    }
+
+    // 插入内容
+    const left = `${value.slice(0, index)}${label}`
+    const right = value.slice(index)
+
     this.setState({
       value: `${left}${right}`
     })
@@ -459,6 +485,17 @@ class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
     setStorage(`${NAMESPACE}|lockHistory`, value)
   }
 
+  /** 选择表情组 */
+  onEmojisGroupChange = (label: string) => {
+    let emojisGroupSelectedIndex = BGM_EMOJIS_GROUP_DATA.findIndex(item => item === label)
+    if (emojisGroupSelectedIndex === -1) emojisGroupSelectedIndex = 0
+
+    this.setState({
+      emojisGroupSelectedIndex
+    })
+    setStorage(`${NAMESPACE}|emojisGroupSelectedIndex`, emojisGroupSelectedIndex)
+  }
+
   /** 检查草稿是否未发送, 收起输入框时保存草稿到回复历史中 */
   checkIsNeedToSaveDraft = () => {
     const { value } = this.state
@@ -490,8 +527,10 @@ class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
       keyboardHeight,
       history,
       replyHistory,
-      lockHistory
+      lockHistory,
+      emojisGroupSelectedIndex
     } = this.state
+
     return (
       <>
         {children}
@@ -534,9 +573,11 @@ class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
           showBgm={showBgm}
           showReplyHistory={showReplyHistory}
           showTextarea={showTextarea}
+          emojisGroupSelectedIndex={emojisGroupSelectedIndex}
           onChange={this.onChange}
           onSelectBgm={this.onSelectBgm}
           onLockHistory={this.onLockHistory}
+          onEmojisGroupChange={this.onEmojisGroupChange}
         />
       </>
     )

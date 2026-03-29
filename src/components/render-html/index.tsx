@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-29 06:08:20
+ * @Last Modified time: 2026-03-30 01:00:15
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -88,18 +88,16 @@ export const RenderHtml = observer(
 
       // 命中表情片段
       const isHasBigEmoji = /font-family:bgm[^>]*?>(?:6|7|8|9)\d{2}<\/span>/i.test(formatHtml)
+      const bigEmojiStyle = isHasBigEmoji ? { lineHeight: _.fontSize48.lineHeight } : {}
+      const flattenedBaseStyle = _.flatten([
+        this.defaultBaseFontStyle,
+        fixedBaseFontStyle(baseFontStyle),
+        bigEmojiStyle
+      ])
 
       return {
         imagesMaxWidth: _.window.width,
-        baseFontStyle: {
-          ...this.defaultBaseFontStyle,
-          ...fixedBaseFontStyle(baseFontStyle),
-          ...(isHasBigEmoji
-            ? {
-                lineHeight: _.fontSize48.lineHeight
-              }
-            : {})
-        },
+        baseFontStyle: flattenedBaseStyle,
         tagsStyles: {
           a: _.flatten([
             {
@@ -107,7 +105,8 @@ export const RenderHtml = observer(
               color: _.colorMain,
               textDecorationColor: _.colorMain
             },
-            linkStyle
+            linkStyle,
+            bigEmojiStyle
           ])
         },
         classesStyles: {
@@ -165,7 +164,7 @@ export const RenderHtml = observer(
                   attrs,
                   passProps,
                   defaultBaseFontStyle: this.defaultBaseFontStyle,
-                  baseFontStyle,
+                  baseFontStyle: flattenedBaseStyle,
                   maxWidth: imagesMaxWidth,
                   onPress: this.onLinkPress,
                   children

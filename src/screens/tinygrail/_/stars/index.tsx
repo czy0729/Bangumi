@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-07 20:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-01 00:39:17
+ * @Last Modified time: 2026-03-29 22:27:00
  */
 import React from 'react'
 import { Iconfont } from '@components'
@@ -15,7 +15,7 @@ function Stars({ value = 0, size = 11 }) {
   const passProps = {
     style: {
       color: '#ffc107',
-      lineHeight: _.fontSize(11).lineHeight
+      lineHeight: _.fontSize11.lineHeight
     },
     size
   } as const

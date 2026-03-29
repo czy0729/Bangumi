@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-17 04:00:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-07 07:49:41
+ * @Last Modified time: 2026-03-29 22:25:57
  */
 import { _ } from '@stores'
 
@@ -18,12 +18,12 @@ export const styles = _.create({
   },
   text: {
     maxWidth: _.window.contentWidth - 2 * _.md,
-    ..._.fontSize(14)
+    ..._.fontSize14
   },
   textMt: {
     maxWidth: _.web('64%', _.window.contentWidth - 2 * _.md),
     marginTop: _.sm,
-    ..._.fontSize(14)
+    ..._.fontSize14
   },
   empty: {
     minHeight: Math.floor(_.window.height * 0.64)

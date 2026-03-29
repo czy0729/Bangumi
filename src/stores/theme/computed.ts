@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 14:20:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-29 05:32:16
+ * @Last Modified time: 2026-03-29 22:33:57
  */
 import { StyleSheet } from 'react-native'
 import { computed } from 'mobx'
@@ -830,14 +830,114 @@ export default class Computed extends State implements StoreConstructor<typeof S
     return this.fontSize(32)
   }
 
+  /** 33 号字 */
+  @computed get fontSize33() {
+    return this.fontSize(33)
+  }
+
+  /** 34 号字 */
+  @computed get fontSize34() {
+    return this.fontSize(34)
+  }
+
+  /** 35 号字 */
+  @computed get fontSize35() {
+    return this.fontSize(35)
+  }
+
+  /** 36 号字 */
+  @computed get fontSize36() {
+    return this.fontSize(36)
+  }
+
+  /** 37 号字 */
+  @computed get fontSize37() {
+    return this.fontSize(37)
+  }
+
+  /** 38 号字 */
+  @computed get fontSize38() {
+    return this.fontSize(38)
+  }
+
+  /** 39 号字 */
+  @computed get fontSize39() {
+    return this.fontSize(39)
+  }
+
   /** 40 号字 */
   @computed get fontSize40() {
     return this.fontSize(40)
   }
 
+  /** 41 号字 */
+  @computed get fontSize41() {
+    return this.fontSize(41)
+  }
+
+  /** 42 号字 */
+  @computed get fontSize42() {
+    return this.fontSize(42)
+  }
+
+  /** 43 号字 */
+  @computed get fontSize43() {
+    return this.fontSize(43)
+  }
+
+  /** 44 号字 */
+  @computed get fontSize44() {
+    return this.fontSize(44)
+  }
+
+  /** 45 号字 */
+  @computed get fontSize45() {
+    return this.fontSize(45)
+  }
+
+  /** 46 号字 */
+  @computed get fontSize46() {
+    return this.fontSize(46)
+  }
+
+  /** 47 号字 */
+  @computed get fontSize47() {
+    return this.fontSize(47)
+  }
+
   /** 48 号字 */
   @computed get fontSize48() {
     return this.fontSize(48)
+  }
+
+  /** 49 号字 */
+  @computed get fontSize49() {
+    return this.fontSize(49)
+  }
+
+  /** 50 号字 */
+  @computed get fontSize50() {
+    return this.fontSize(50)
+  }
+
+  /** 51 号字 */
+  @computed get fontSize51() {
+    return this.fontSize(51)
+  }
+
+  /** 52 号字 */
+  @computed get fontSize52() {
+    return this.fontSize(52)
+  }
+
+  /** 53 号字 */
+  @computed get fontSize53() {
+    return this.fontSize(53)
+  }
+
+  /** 54 号字 */
+  @computed get fontSize54() {
+    return this.fontSize(54)
   }
 
   /** RenderHTML baseFontStyle 通用封装 */

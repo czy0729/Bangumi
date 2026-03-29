@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-11 07:03:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-16 17:34:03
+ * @Last Modified time: 2026-03-29 22:26:37
  */
 import { _ } from '@stores'
 
@@ -51,7 +51,7 @@ export const memoStyles = _.memoStyles(() => ({
     borderRadius: 0
   },
   btnText: {
-    ..._.fontSize(11)
+    ..._.fontSize11
   },
   segmented: {
     width: '100%',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-13 19:46:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-29 22:33:20
+ * @Last Modified time: 2026-03-30 07:02:37
  */
 import React, { useEffect, useMemo, useState } from 'react'
 import { Text } from 'react-native'
@@ -16,7 +16,15 @@ import { BGM_MAP, COMPONENT } from './ds'
 import { styles } from './styles'
 
 export { BGM_MAP }
-export { BGM_MAP_DSM, BGM_MAP_CINNAMOR, BGM_MAP_VICKSCARLET, BGM_MAP_WUHANG } from './ds'
+export {
+  BGM_MAP_CATFISH_BLAKE,
+  BGM_MAP_CATFISH_DESC,
+  BGM_MAP_CATFISH_MUSUME,
+  BGM_MAP_CINNAMOR,
+  BGM_MAP_DSM,
+  BGM_MAP_VICKSCARLET,
+  BGM_MAP_WUHANG
+} from './ds'
 export { getBgmMiddleFrame, getBgmFontFamily } from './utils'
 
 import type { Props as BgmTextProps } from './types'
