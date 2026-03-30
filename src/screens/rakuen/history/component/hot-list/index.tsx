@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-11-01 08:32:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 02:20:05
+ * @Last Modified time: 2026-03-31 05:19:25
  */
 import React, { useCallback } from 'react'
+import { observer } from 'mobx-react'
 import { SegmentedControl } from '@components'
 import { PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT, DS } from './ds'
 import { memoStyles } from './styles'
@@ -23,30 +23,28 @@ function HotList() {
     [$]
   )
 
-  return useObserver(() => {
-    const styles = memoStyles()
-    const { collectRankSort } = $.state
+  const styles = memoStyles()
+  const { collectRankSort } = $.state
 
-    return (
-      <>
-        <SegmentedControl
-          style={styles.segment}
-          size={11}
-          values={DS}
-          selectedIndex={DS.findIndex(item => item === collectRankSort)}
-          onValueChange={$.onCollectRankSortChange}
-        />
-        <PaginationList2
-          keyExtractor={keyExtractor}
-          contentContainerStyle={_.container.bottom}
-          data={$.collectRank}
-          limit={12}
-          renderItem={renderItem}
-          onPage={handlePage}
-        />
-      </>
-    )
-  })
+  return (
+    <>
+      <SegmentedControl
+        style={styles.segment}
+        size={11}
+        values={DS}
+        selectedIndex={DS.findIndex(item => item === collectRankSort)}
+        onValueChange={$.onCollectRankSortChange}
+      />
+      <PaginationList2
+        keyExtractor={keyExtractor}
+        contentContainerStyle={_.container.bottom}
+        data={$.collectRank}
+        limit={12}
+        renderItem={renderItem}
+        onPage={handlePage}
+      />
+    </>
+  )
 }
 
-export default HotList
+export default observer(HotList)

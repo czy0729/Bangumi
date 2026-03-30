@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-07-12 22:44:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-25 06:00:28
+ * @Last Modified time: 2026-03-31 05:20:47
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Pagination, ScrollView } from '@components'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import List from './list'
 import { COMPONENT } from './ds'
 
@@ -17,7 +17,7 @@ import type { Ctx } from '../../types'
 function ReplyList() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <>
       <ScrollView>
         {$.state.show && (
@@ -42,7 +42,7 @@ function ReplyList() {
         onSearch={$.doSearch}
       />
     </>
-  ))
+  )
 }
 
-export default ReplyList
+export default observer(ReplyList)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-06-09 16:39:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-01 21:05:43
+ * @Last Modified time: 2026-03-31 05:41:16
  */
 import { _ } from '@stores'
 
@@ -16,7 +16,7 @@ export const memoStyles = _.memoStyles(() => ({
     borderRadius: _.radiusMd
   },
   item: {
-    paddingVertical: 12
+    paddingVertical: 10
   },
   border: {
     borderTopWidth: 1,

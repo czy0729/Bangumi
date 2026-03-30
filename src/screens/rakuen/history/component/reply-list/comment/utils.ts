@@ -2,32 +2,50 @@
  * @Author: czy0729
  * @Date: 2024-06-13 16:21:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-01 21:36:25
+ * @Last Modified time: 2026-03-31 05:36:01
  */
 
-/** 分割 BGM 表情 */
+/** 分割并转换 BGM 表情 ID */
 export function parseEmojis(input: string) {
-  const regex = /<img[^>]+alt="\(\s*bgm(\d+)\s*\)"[^>]*>/gi
+  // 正则：捕获前缀 (blake/musume) 和 数字 (20)
+  const regex = /<img[^>]+alt="\(\s*([a-z]+)_?(\d+)\s*\)"[^>]*>/gi
   const result: (string | { type: 'smile'; id: number })[] = []
+
+  // 基础分值映射表
+  const prefixBase: Record<string, number> = {
+    blake: 700,
+    musume: 600,
+    bgm: 0
+  }
+
   let lastIndex = 0
   let match: RegExpExecArray | null
 
   while ((match = regex.exec(input))) {
-    const [full, id] = match
+    const [, prefix, idStr] = match
     const start = match.index
 
-    // 前面的普通文本
-    if (start > lastIndex) result.push(input.slice(lastIndex, start))
+    // 1. 推入前面的文本
+    if (start > lastIndex) {
+      result.push(input.slice(lastIndex, start))
+    }
 
-    // 表情对象
-    result.push({ type: 'smile', id: Number(id) })
+    // 2. 计算转换后的 ID
+    const base = prefixBase[prefix.toLowerCase()] ?? 0 // 如果找不到前缀，默认加 0
+    const finalId = base + Number(idStr)
 
-    // 更新位置
-    lastIndex = start + full.length
+    result.push({
+      type: 'smile',
+      id: finalId
+    })
+
+    lastIndex = regex.lastIndex
   }
 
-  // 最后剩余文本
-  if (lastIndex < input.length) result.push(input.slice(lastIndex))
+  // 3. 剩余文本
+  if (lastIndex < input.length) {
+    result.push(input.slice(lastIndex))
+  }
 
   return result
 }

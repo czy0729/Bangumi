@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-06-04 15:31:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-01 18:24:08
+ * @Last Modified time: 2026-03-31 05:15:39
  */
 import { computed } from 'mobx'
 import { rakuenStore, systemStore, userStore } from '@stores'
@@ -19,7 +19,7 @@ export default class Computed extends State {
   @computed get keys() {
     const { topic, cloudTopic } = rakuenStore.state
     return Array.from(new Set([...Object.keys(topic), ...Object.keys(cloudTopic)]))
-      .filter((topicId: TopicId) => {
+      .filter(topicId => {
         // 不知道哪里有问题, 有时会出现 undefined 的 key 值, 过滤掉
         if (!topicId.includes('group/') || topicId.includes('undefined')) return false
         if (!/^group\/(\d+)$/.test(topicId)) return false
