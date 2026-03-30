@@ -208,6 +208,7 @@ export default memo(
                 url={url}
                 imagesMaxWidth={IMAGES_MAX_WIDTH_SUB}
                 matchLink={matchLink}
+                splitLength={12}
                 event={event}
               />
               {!!translate && (

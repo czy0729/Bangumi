@@ -14,6 +14,7 @@ export type Props = WithNavigation<{
   length?: number
   imagesMaxWidth?: RenderHtmlProps['imagesMaxWidth']
   matchLink?: RenderHtmlProps['matchLink']
+  splitLength?: RenderHtmlProps['splitLength']
   id?: Id
   url?: string
   event?: EventType

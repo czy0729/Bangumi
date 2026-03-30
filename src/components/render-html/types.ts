@@ -22,8 +22,11 @@ export type Props = WithViewStyles<{
   /** 是否自动加载显示图片 */
   autoShowImage?: boolean
 
-  /** 是否使用 <A> 渲染内嵌链接 */
+  /** 是否使用 a 渲染内嵌链接 */
   matchLink?: boolean
+
+  /** 分割大表情前后吸附的文字长度断点 */
+  splitLength?: number
 
   /** 是否对内嵌片假名使用片假名终结者模块 */
   katakana?: boolean

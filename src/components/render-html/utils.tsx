@@ -136,15 +136,13 @@ export function formatStyles(styleStr: string) {
   return rnStyle
 }
 
-const SPLIT_LENGTH = 12
-
 /**
  * 将含有 Bangumi 动态表情的 HTML 字符串分割成片段
- *  - 识别大表情（600-999）并作为独立块或吸附块处理。
- *  - 大表情会尝试“吞噬”前后小于 SPLIT_LENGTH 的短文本，使其共享大行高。
- *  - 块级元素（div/q/blockquote）的闭合标签会触发物理分割，防止引用块与后续回复混淆。
+ * - 识别大表情（600-999）并作为独立块或吸附块处理。
+ * - 大表情会尝试“吞噬”前后小于 SPLIT_LENGTH 的短文本，使其共享大行高。
+ * - 块级元素（div/q/blockquote）的闭合标签会触发物理分割，防止引用块与后续回复混淆。
  */
-export function splitHtmlByEmoji(html: string) {
+export function splitHtmlByEmoji(html: string, splitLength: number = 12) {
   if (!html) return []
 
   // 0. 如果没有大表情就直接返回
@@ -176,7 +174,7 @@ export function splitHtmlByEmoji(html: string) {
     if (isEmoji) {
       // --- 向前吸附检查 ---
       const prevLen = getEffectiveTextLength(buffer)
-      if (buffer && prevLen > SPLIT_LENGTH) {
+      if (buffer && prevLen > splitLength) {
         // 如果前面的文字太长，先结算掉文字，不让表情影响长文行高
         smartSegments.push(trimBR(buffer))
         buffer = seg
@@ -197,7 +195,7 @@ export function splitHtmlByEmoji(html: string) {
           buffer += nextSeg
           nextIdx++
           break
-        } else if (nextLen <= SPLIT_LENGTH) {
+        } else if (nextLen <= splitLength) {
           // 后方也是短文字，吸过来
           buffer += nextSeg
           nextIdx++
@@ -214,24 +212,51 @@ export function splitHtmlByEmoji(html: string) {
 
     // 情况 B：换行 或 块级元素闭合
     else if (isBR || isBlockEnd) {
-      if (buffer) {
-        // 如果是 </div> 等，需要带上标签一起结算
-        const content = isBlockEnd ? buffer + seg : buffer
-        smartSegments.push(trimBR(content))
+      if (isBlockEnd) {
+        // 块级闭合是物理隔断，带上标签一起结算
+        if (buffer) {
+          smartSegments.push(trimBR(buffer + seg))
+        } else {
+          smartSegments.push(seg)
+        }
         buffer = ''
-      } else if (isBlockEnd) {
-        // 孤立的闭合标签
-        smartSegments.push(seg)
-      } else {
-        // 纯粹的文字间换行
-        smartSegments.push(seg)
+      } else if (isBR) {
+        // --- 换行符预读检查 ---
+        // 探测换行后是否紧跟“短文本+大表情”，若是则允许换行符留在 buffer 中等待吸附
+        let shouldHoldBR = false
+        const nextSeg = rawSegments[i + 1]
+        const thirdSeg = rawSegments[i + 2]
+
+        if (nextSeg) {
+          const nextIsEmoji = /font-family:bgm[^>]*?>(?:6|7|8|9)\d{2}<\/span>/i.test(nextSeg)
+          const nextLen = getEffectiveTextLength(nextSeg)
+
+          if (nextIsEmoji) {
+            shouldHoldBR = true
+          } else if (nextLen <= splitLength && thirdSeg) {
+            // 检查“换行 + 短文字 + 表情”的结构
+            const thirdIsEmoji = /font-family:bgm[^>]*?>(?:6|7|8|9)\d{2}<\/span>/i.test(thirdSeg)
+            if (thirdIsEmoji) shouldHoldBR = true
+          }
+        }
+
+        if (shouldHoldBR) {
+          buffer += seg
+        } else {
+          // 无表情吸附需求的普通换行，执行物理分割
+          if (buffer) {
+            smartSegments.push(trimBR(buffer))
+            buffer = ''
+          }
+          smartSegments.push(seg)
+        }
       }
     }
 
     // 情况 C：普通文字内容
     else {
       const currentLen = getEffectiveTextLength(seg)
-      if (currentLen > SPLIT_LENGTH) {
+      if (currentLen > splitLength) {
         // 长文字单独成块
         if (buffer) smartSegments.push(trimBR(buffer))
         smartSegments.push(trimBR(seg))
@@ -250,8 +275,8 @@ export function splitHtmlByEmoji(html: string) {
 
 /**
  * 获取 HTML 的有效参考长度
- *  - 探测块级开始标签：如果包含 div/q/blockquote，视为极长（强制分割）。
- *  - 正常文字：返回去标签后的 trim 长度。
+ * - 探测块级开始标签：如果包含 div/q/blockquote，视为极长（强制分割）。
+ * - 正常文字：返回去标签后的 trim 长度。
  */
 function getEffectiveTextLength(html: string) {
   if (!html) return 0

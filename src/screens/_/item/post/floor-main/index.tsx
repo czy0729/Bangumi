@@ -100,6 +100,7 @@ function FloorMain({
           url={url}
           imagesMaxWidth={IMAGES_MAX_WIDTH}
           matchLink={matchLink}
+          splitLength={14}
           event={event}
         />
         <Likes

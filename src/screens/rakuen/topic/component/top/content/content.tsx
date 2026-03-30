@@ -77,7 +77,7 @@ const Content = memo(
                 </View>
               )}
               <View style={_.mt.md}>
-                <RenderHtml html={html} matchLink onLinkPress={onLinkPress} />
+                <RenderHtml html={html} matchLink splitLength={16} onLinkPress={onLinkPress} />
                 <Heatmap bottom={133} id='帖子.跳转' to='Blog' alias='日志' transparent />
                 <Heatmap bottom={100} id='帖子.跳转' to='CatalogDetail' alias='目录' transparent />
                 <Heatmap bottom={67} id='帖子.跳转' to='Topic' alias='帖子' transparent />

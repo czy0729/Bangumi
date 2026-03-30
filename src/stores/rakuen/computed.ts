@@ -31,7 +31,6 @@ import type {
   GroupInfo,
   Likes,
   Mine,
-  Notify,
   Rakuen,
   Readed,
   Reviews,
@@ -67,52 +66,65 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 帖子内容 */
   topic(topicId: TopicId) {
-    this.init('topic', true)
-    return computed<Topic>(() => {
-      return this.state.topic[topicId] || INIT_TOPIC
+    const STATE_KEY = 'topic'
+    this.init(STATE_KEY, true)
+
+    return computed(() => {
+      const ITEM_KEY = topicId
+      return (this.state[STATE_KEY][ITEM_KEY] || INIT_TOPIC) as Topic
     }).get()
   }
 
   /** 帖子回复表情 */
-  likes(topicId: string | number) {
-    this.init('likes', true)
-    return computed<Likes>(() => {
-      return this.state.likes[topicId] || {}
+  likes(topicId: TopicId) {
+    const STATE_KEY = 'likes'
+    this.init(STATE_KEY, true)
+
+    return computed(() => {
+      const ITEM_KEY = topicId
+      return (this.state[STATE_KEY][ITEM_KEY] || {}) as Likes
     }).get()
   }
 
-  /** 帖子回复, 合并 comments 0-99 */
-  comments(topicId: TopicId): Comments {
-    if (!topicId) return LIST_EMPTY as Comments
-
+  /** 帖子回复, 合并 comments 0-999 */
+  comments(topicId: TopicId) {
     const last = getInt(topicId)
-    const key = `comments${last}` as const
-    this.init(key, true)
+    const STATE_KEY = `comments${last}` as const
+    this.init(STATE_KEY, true)
 
     return computed(() => {
-      return this.state?.[key]?.[topicId] || LIST_EMPTY
+      const ITEM_KEY = topicId
+      return (this.state?.[STATE_KEY]?.[ITEM_KEY] || LIST_EMPTY) as Comments
     }).get()
   }
 
   /** @deprecated 帖子内容 CDN 自维护数据 (用于帖子首次渲染加速) */
-  topicFormCDN(topicId: string | number) {
-    return computed<Topic>(() => {
-      return this.state.topicFormCDN[topicId] || INIT_TOPIC
+  topicFormCDN(topicId: TopicId) {
+    const STATE_KEY = 'topicFormCDN'
+
+    return computed(() => {
+      const ITEM_KEY = topicId
+      return (this.state[STATE_KEY][ITEM_KEY] || INIT_TOPIC) as Topic
     }).get()
   }
 
   /** 云端帖子内容 */
   cloudTopic(topicId: TopicId) {
-    this.init('cloudTopic', true)
-    return computed<Topic>(() => {
-      return this.state.cloudTopic[topicId] || INIT_TOPIC
+    const STATE_KEY = 'cloudTopic'
+    this.init(STATE_KEY, true)
+
+    return computed(() => {
+      const ITEM_KEY = topicId
+      return (this.state[STATE_KEY][ITEM_KEY] || INIT_TOPIC) as Topic
     }).get()
   }
 
   /** 电波提醒 */
-  @computed get notify(): Notify {
-    this.init('notify', true)
-    return this.state.notify
+  @computed get notify() {
+    const STATE_KEY = 'notify'
+    this.init(STATE_KEY, true)
+
+    return this.state[STATE_KEY]
   }
 
   /** 超展开设置 */
@@ -125,9 +137,12 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 是否本地收藏 */
   favor(topicId: TopicId) {
-    this.init('favor', true)
-    return computed<boolean>(() => {
-      return this.state.favor[topicId] || false
+    const STATE_KEY = 'favor'
+    this.init(STATE_KEY, true)
+
+    return computed(() => {
+      const ITEM_KEY = topicId
+      return this.state[STATE_KEY][ITEM_KEY] || false
     }).get()
   }
 
@@ -136,7 +151,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
     const STATE_KEY = 'group'
 
     return computed(() => {
-      const ITEM_KEY = `${groupId}|${page}`
+      const ITEM_KEY = `${groupId}|${page}` as const
       return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as Group
     }).get()
   }
@@ -144,6 +159,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   /** 小组信息 */
   groupInfo(groupId: Id) {
     this.init('groupInfo', true)
+
     return computed<GroupInfo>(() => {
       return this.state.groupInfo[groupId] || INIT_GROUP_INFO
     }).get()
@@ -152,15 +168,18 @@ export default class Computed extends State implements StoreConstructor<typeof S
   /** 小组缩略图缓存 */
   groupThumb(name: string) {
     this.init('groupThumb', true)
+
     return computed<CoverGroup<'l'>>(() => {
       return this.state.groupThumb[name] || ''
     }).get()
   }
 
   /** 我的小组 */
-  @computed get mine(): Mine {
-    this.init('mine', true)
-    return this.state.mine || LIST_EMPTY
+  @computed get mine() {
+    const STATE_KEY = 'mine'
+    this.init(STATE_KEY, true)
+
+    return (this.state.mine || LIST_EMPTY) as Mine
   }
 
   /** 日志内容 */
@@ -294,10 +313,10 @@ export default class Computed extends State implements StoreConstructor<typeof S
     }
 
     Object.keys(topic)
-      .filter((topicId: TopicId) => {
-        // 不知道哪里有问题, 有时会出现undefined的key值, 过滤掉
+      .filter(topicId => {
+        // 不知道哪里有问题, 有时会出现 undefined 的 key 值, 过滤掉
         if (!topicId.includes('group/') || topicId.includes('undefined')) return false
-        return this.favor(topicId)
+        return this.favor(topicId as TopicId)
       })
       .sort((a, b) => desc(String(b), String(a)))
       .forEach(topicId => {
@@ -318,7 +337,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   /** 帖子回复表情 */
-  likesList(topicId: string | number, floorId: string | number) {
+  likesList(topicId: TopicId, floorId: string | number) {
     return computed(() => {
       const likes = this.likes(topicId)?.[floorId]
       if (!likes) return null

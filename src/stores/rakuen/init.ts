@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-27 21:44:35
+ * @Last Modified time: 2026-03-30 20:29:14
  */
 import {
   LIST_EMPTY,
@@ -21,6 +21,7 @@ import type {
   RakuenTypeGroup,
   RakuenTypeMono,
   SubjectId,
+  TopicId,
   UserId
 } from '@types'
 import type {
@@ -28,8 +29,13 @@ import type {
   Blog,
   Board,
   BookmarksItem,
+  Comments,
+  Group,
+  Likes,
+  Notify,
   PrivacyValue,
   Rakuen,
+  Readed,
   Reviews,
   Topic,
   UserTopicsFromCDN
@@ -226,40 +232,28 @@ const STATE = {
   rakuen: {} as Record<`${RakuenScope}|${RakuenType | RakuenTypeMono | RakuenTypeGroup}`, Rakuen>,
 
   /** 帖子历史查看信息 */
-  readed: {
-    0: INIT_READED_ITEM
-  },
+  readed: {} as Record<TopicId, Readed>,
 
   /** 帖子内容 */
-  topic: {
-    0: INIT_TOPIC
-  },
+  topic: {} as Record<TopicId, Topic>,
 
   /** 帖子回复表情 */
-  likes: {
-    0: {}
-  },
+  likes: {} as Record<TopicId, Likes>,
 
   /** @deprecated 帖子内容CDN自维护数据 (用于帖子首次渲染加速) */
-  topicFormCDN: {
-    0: INIT_TOPIC
-  },
+  topicFormCDN: {} as Record<TopicId, Topic>,
 
   /** 云端帖子内容 */
-  cloudTopic: {
-    0: INIT_TOPIC
-  },
+  cloudTopic: {} as Record<TopicId, Topic>,
 
   /** 电波提醒 */
-  notify: INIT_NOTIFY,
+  notify: INIT_NOTIFY as Notify,
 
   /** 超展开设置 */
   setting: INIT_SETTING,
 
   /** @deprecated 是否本地收藏 */
-  favor: {
-    0: false
-  },
+  favor: {} as Record<TopicId, boolean>,
 
   /** 收藏 v2 */
   favorV2: {
@@ -272,9 +266,7 @@ const STATE = {
   },
 
   /** 小组帖子列表 */
-  group: {
-    0: INIT_GROUP_ITEM
-  },
+  group: {} as Record<`${Id}|${number}`, Group>,
 
   /** 小组信息 */
   groupInfo: {
@@ -350,16 +342,14 @@ const STATE = {
 }
 
 /**
- * comments 根据 id 最后 2 位拆开 100 个 key 存放
+ * 根据 ID 最后 3 位拆开 1000 个 key 存放
  * 避免 JSON.stringify 后长度太长, 无法本地化
  * 也能减少每次写入本地储存的量
- * @date 2023-03-24
+ * @date 2023/03/24
  */
-for (let i = 0; i < 100; i += 1) {
+for (let i = 0; i < 1000; i += 1) {
   /** 帖子回复 */
-  STATE[`comments${i}`] = {
-    0: LIST_EMPTY
-  }
+  STATE[`comments${i}`] = {} as Record<TopicId, Comments>
 }
 
 export { STATE }

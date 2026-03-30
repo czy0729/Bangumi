@@ -8,7 +8,7 @@ import type { TopicId } from '@types'
 
 export function getInt(topicId: TopicId) {
   const str = String(topicId)
-  return Number(str.slice(str.length - 2, str.length)) || 0
+  return Number(str.slice(str.length - 3, str.length)) || 0
 }
 
 export function getBlogItemTime(str: string) {

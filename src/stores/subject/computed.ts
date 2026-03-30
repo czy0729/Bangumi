@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:15:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 19:59:59
+ * @Last Modified time: 2026-03-30 20:30:42
  */
 import { computed } from 'mobx'
 import { x18 } from '@utils'
@@ -77,14 +77,16 @@ export default class Computed extends State implements StoreConstructor<typeof S
   /** 条目 (new api), 合并 subjectV2 0-999 */
   subjectV2(subjectId: SubjectId = 0) {
     const last = getInt(subjectId)
-    const key = `subjectV2${last}` as const
-    return computed<SubjectV2>(() => {
-      return this.state?.[key]?.[subjectId] || INIT_SUBJECT_V2
+    const STATE_KEY = `subjectV2${last}` as const
+
+    return computed(() => {
+      const ITEM_KEY = subjectId
+      return (this.state?.[STATE_KEY]?.[ITEM_KEY] || INIT_SUBJECT_V2) as SubjectV2
     }).get()
   }
 
   /** 条目 (云缓存) */
-  subjectFromOSS(subjectId: SubjectId) {
+  subjectFromOSS(subjectId: SubjectId = 0) {
     this.init('subjectFromOSS', true)
     return computed<Subject>(() => {
       return this.state.subjectFromOSS[subjectId] || INIT_SUBJECT
@@ -92,21 +94,21 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   /** @deprecated 条目 (CDN) */
-  subjectFormCDN(subjectId: SubjectId) {
+  subjectFormCDN(subjectId: SubjectId = 0) {
     return computed<SubjectFormCDN>(() => {
       return this.state.subjectFormCDN[subjectId] || INIT_SUBJECT_FROM_CDN_ITEM
     }).get()
   }
 
   /** @deprecated 条目章节 */
-  subjectEp(subjectId: SubjectId) {
+  subjectEp(subjectId: SubjectId = 0) {
     return computed(() => {
       return this.state.subjectEp[subjectId] || {}
     }).get()
   }
 
   /** 包含条目的目录 */
-  subjectCatalogs(subjectId: SubjectId) {
+  subjectCatalogs(subjectId: SubjectId = 0) {
     const STATE_KEY = 'subjectCatalogs'
 
     return computed(() => {
@@ -118,11 +120,12 @@ export default class Computed extends State implements StoreConstructor<typeof S
   /** 条目吐槽箱, 合并 subjectComments 0-999 */
   subjectComments(subjectId: SubjectId = 0) {
     const last = getInt(subjectId)
-    const key = `subjectComments${last}` as const
-    this.init(key, true)
+    const STATE_KEY = `subjectComments${last}` as const
+    this.init(STATE_KEY, true)
 
-    return computed<SubjectComments>(() => {
-      return this.state?.[key]?.[subjectId] || LIST_EMPTY
+    return computed(() => {
+      const ITEM_KEY = subjectId
+      return (this.state?.[STATE_KEY]?.[ITEM_KEY] || LIST_EMPTY) as SubjectComments
     }).get()
   }
 

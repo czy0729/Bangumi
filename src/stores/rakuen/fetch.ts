@@ -280,8 +280,6 @@ export default class Fetch extends Computed {
           unread,
           clearHref,
           list: data.list,
-
-          /** @ts-expect-error */
           _loaded: analysis ? getTimestamp() : _loaded
         }
       })

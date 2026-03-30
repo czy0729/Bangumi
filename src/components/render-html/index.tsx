@@ -37,6 +37,7 @@ export const RenderHtml = observer(
       html: '',
       autoShowImage: false,
       matchLink: false,
+      splitLength: 12,
       onLinkPress: FROZEN_FN,
       onImageFallback: FROZEN_FN
     }
@@ -188,6 +189,7 @@ export const RenderHtml = observer(
         html,
         autoShowImage,
         matchLink,
+        splitLength,
         onLinkPress,
         ...other
       } = this.props
@@ -202,7 +204,7 @@ export const RenderHtml = observer(
       return (
         <ErrorBoundary style={style}>
           <Component id='component-render-html' style={style}>
-            {splitHtmlByEmoji(htmlValue).map((item, index) => (
+            {splitHtmlByEmoji(htmlValue, splitLength).map((item, index) => (
               <RNRenderHTML
                 key={String(index)}
                 containerStyle={styles.container}

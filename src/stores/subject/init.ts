@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:27:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 19:59:19
+ * @Last Modified time: 2026-03-30 20:29:00
  */
 import { LIST_EMPTY } from '@constants'
 import { MODEL_RATING_STATUS } from '@constants/model'
@@ -16,7 +16,9 @@ import type {
   MonoWorks,
   Subject,
   SubjectCatalogs,
-  SubjectFromHTML
+  SubjectComments,
+  SubjectFromHTML,
+  SubjectV2
 } from './types'
 
 /** 命名空间 */
@@ -340,23 +342,23 @@ const STATE = {
 }
 
 /**
- * subject 和 subjectFormHTML 根据 id 最后 2 位拆开 100 个 key 存放
+ * 根据 ID 最后 3 位拆开 1000 个 key 存放
  * 避免 JSON.stringify 后长度太长, 无法本地化
  * 也能减少每次写入本地储存的量
  * @date 2022/04/06
  */
 for (let i = 0; i < 1000; i += 1) {
   /** 条目 */
-  STATE[`subject${i}`] = {} as Subject
+  STATE[`subject${i}`] = {} as Record<SubjectId, Subject>
 
   /** 条目 (HTML) */
-  STATE[`subjectFormHTML${i}`] = {} as SubjectFromHTML
+  STATE[`subjectFormHTML${i}`] = {} as Record<SubjectId, SubjectFromHTML>
 
   /** 条目 (new api) */
-  STATE[`subjectV2${i}`] = {}
+  STATE[`subjectV2${i}`] = {} as Record<SubjectId, SubjectV2>
 
   /** 条目吐槽箱 */
-  STATE[`subjectComments${i}`] = {}
+  STATE[`subjectComments${i}`] = {} as Record<SubjectId, SubjectComments>
 }
 
 export { STATE }
