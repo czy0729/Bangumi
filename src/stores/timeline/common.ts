@@ -195,7 +195,7 @@ export async function fetchTimeline(
             ),
             comment: cText($row.find('.comment')),
             reply: {
-              content: cText($row.find('.status')),
+              content: cHtml($row.find('.status')),
               count: cText($reply),
               url: $reply.attr('href') || ''
             },

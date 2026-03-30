@@ -132,7 +132,7 @@ export function span({
       const text = target?.data || ''
       if (text) {
         const { fontSize } = formatStyles(style)
-        return <EmojiText index={Number(text)} size={Math.max(15, fontSize || 48)} animated />
+        return <EmojiText index={Number(text)} size={Math.max(15, fontSize || 48)} />
       }
     }
   } catch (error) {

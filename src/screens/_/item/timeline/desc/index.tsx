@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Expand, Katakana, Text } from '@components'
+import { Expand, Katakana, RenderHtml } from '@components'
 import { _, systemStore, uiStore } from '@stores'
 import { feedback, findSubjectCn, getCoverMedium } from '@utils'
 import { t } from '@utils/fetch'
@@ -57,9 +57,15 @@ function Desc({ navigation, subject, subjectId, image, comment, replyContent, re
         </View>
       )}
       {!!text && (
-        <View style={_.mt.sm}>
+        <View style={_.mv.sm}>
           <Expand moreStyle={styles.more} ratio={0.64}>
-            <Text lineHeight={20}>{text}</Text>
+            <RenderHtml
+              html={text}
+              baseFontStyle={{
+                ..._.baseFontStyle.md,
+                color: _.colorDesc
+              }}
+            />
           </Expand>
         </View>
       )}

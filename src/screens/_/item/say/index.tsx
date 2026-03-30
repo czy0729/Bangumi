@@ -92,6 +92,7 @@ export const ItemSay = observer(
         <RenderHtml
           baseFontStyle={styles.baseFontStyle}
           html={format ? getBgmHtml(text) : text}
+          splitLength={16}
           onLinkPress={href => appNavigate(href, navigation, {}, event)}
         />
       </View>

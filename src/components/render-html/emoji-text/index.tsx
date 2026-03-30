@@ -6,12 +6,15 @@
  */
 import React from 'react'
 import { observer } from 'mobx-react'
+import { useIsFocused } from '@utils/hooks'
 import { BgmText } from '../../bgm-text'
 
 import type { BgmTextProps } from '../../bgm-text'
 
 function EmojiText({ style, children, ...other }: BgmTextProps) {
-  return <BgmText style={style} {...other} />
+  const isFocus = useIsFocused()
+
+  return <BgmText style={style} animated={isFocus} {...other} />
 }
 
 export default observer(EmojiText)

@@ -253,7 +253,7 @@ export function $(html: string, start: string, end: string, removeScript: boolea
   return cheerio(htmlMatch(html, start, end, removeScript))
 }
 
-/** HTMLDecode(cheerio.text().trim()) */
+/** 只返回文字，不包含 html 结构：HTMLDecode(cheerio.text().trim()) */
 export function cText($el: any, matchRawTextNode: boolean = false): string {
   try {
     let text = ''
