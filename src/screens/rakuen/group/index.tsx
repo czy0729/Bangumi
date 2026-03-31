@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:46:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-08 10:54:39
+ * @Last Modified time: 2026-04-01 06:37:25
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Component, Page, ScrollView } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import Extra from './component/extra'
 import Info from './component/info'
 import List from './component/list'
@@ -20,10 +20,10 @@ import { styles } from './styles'
 import type { NavigationProps } from '@types'
 
 /** 小组 */
-const Group = (props: NavigationProps) => {
+function Group(props: NavigationProps) {
   const { id, $, fixed, handleScroll } = useGroupPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-rakuen-group'>
       <StoreContext.Provider value={id}>
         <Page statusBarEvent={false}>
@@ -41,7 +41,7 @@ const Group = (props: NavigationProps) => {
         <Extra />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default Group
+export default observer(Group)
