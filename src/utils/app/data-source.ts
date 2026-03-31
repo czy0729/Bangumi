@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:16:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-24 16:50:17
+ * @Last Modified time: 2026-04-01 05:31:57
  */
 import { isObservableArray } from 'mobx'
 import { FROZEN_ARRAY, FROZEN_OBJECT } from '@constants'
 import { CDN_OSS_MAGMA_MONO, CDN_OSS_MAGMA_POSTER, CDN_OSS_SUBJECT } from '@constants/cdn'
-import { HOST, HOST_2, HOST_3, IMG_DEFAULT } from '@constants/constants'
+import { HOST, HOST_2, HOST_3, HOST_BGM_STATIC, IMG_DEFAULT } from '@constants/constants'
 import { getJSON } from '@assets/json'
 import userData from '@assets/json/user.json'
 import { logger } from '../dev'
@@ -812,7 +812,7 @@ export function getAvatarLocal(userId: UserId) {
     return false
   }
 
-  const avatar = `https://lain.bgm.tv/pic/user/l/000/${find.a}.jpg`
+  const avatar = `${HOST_BGM_STATIC}/pic/user/l/000/${find.a}.jpg` as const
   GET_AVATAR_CACHE_MAP.set(userId, avatar)
   return avatar
 }

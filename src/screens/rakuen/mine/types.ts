@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-09-29 17:21:33
  */
-import { WithNavigation } from '@types'
-import Store from './store'
+import type { WithNavigation } from '@types'
+import type Store from './store'
 
 export type Ctx = WithNavigation<{
   $: InstanceType<typeof Store>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-16 11:20:12
+ * @Last Modified time: 2026-04-01 05:38:05
  */
 import React from 'react'
 import { Flex, Heatmap, Loading, Text, Touchable } from '@components'
@@ -13,11 +13,18 @@ import { x18 } from '@utils'
 import { ob } from '@utils/decorators'
 import { fill } from '@utils/dev'
 import { t } from '@utils/fetch'
-import { IMG_DEFAULT, IMG_HEIGHT_LG, IMG_WIDTH_LG, MODEL_COLLECTION_STATUS } from '@constants'
-import { CollectionStatus } from '@types'
-import { Ctx } from '../types'
+import {
+  HOST_BGM_STATIC,
+  IMG_DEFAULT,
+  IMG_HEIGHT_LG,
+  IMG_WIDTH_LG,
+  MODEL_COLLECTION_STATUS
+} from '@constants'
 import Tags from './tags'
 import { memoStyles } from './styles'
+
+import type { CollectionStatus } from '@types'
+import type { Ctx } from '../types'
 
 function Item({ index, pickIndex }) {
   const { $, navigation } = useStore<Ctx>()
@@ -67,7 +74,7 @@ function Item({ index, pickIndex }) {
   const hotStr = fill('', hot, '◆')
   const upStr = fill('', up, '▲')
 
-  const cover = image ? `https://lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
+  const cover = image ? `${HOST_BGM_STATIC}/pic/cover/m/${image}.jpg` : IMG_DEFAULT
   const collection = collectionStore.collect(id)
   return (
     <Touchable

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-30 20:29:14
+ * @Last Modified time: 2026-04-01 06:10:37
  */
 import {
   LIST_EMPTY,
@@ -32,6 +32,7 @@ import type {
   Comments,
   Group,
   Likes,
+  Mine,
   Notify,
   PrivacyValue,
   Rakuen,
@@ -279,7 +280,7 @@ const STATE = {
   },
 
   /** 我的小组 */
-  mine: LIST_EMPTY,
+  mine: LIST_EMPTY as Mine,
 
   /** 日志内容 */
   blog: {} as Record<Id, Blog>,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-16 10:16:00
+ * @Last Modified time: 2026-04-01 05:47:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,11 +14,18 @@ import { formatPlaytime, HTMLDecode, showImageViewer, stl, x18 } from '@utils'
 import { ob } from '@utils/decorators'
 import { withT } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
-import { IMG_DEFAULT, IMG_HEIGHT_LG, IMG_WIDTH_LG, MODEL_COLLECTION_STATUS } from '@constants'
-import { CollectionStatus } from '@types'
+import {
+  HOST_BGM_STATIC,
+  IMG_DEFAULT,
+  IMG_HEIGHT_LG,
+  IMG_WIDTH_LG,
+  MODEL_COLLECTION_STATUS
+} from '@constants'
 import { getThumbs } from './utils'
 import { COMPONENT, THUMB_HEIGHT, THUMB_WIDTH } from './ds'
 import { memoStyles } from './styles'
+
+import type { CollectionStatus } from '@types'
 
 function Item({ index, pickIndex }) {
   const navigation = useNavigation()
@@ -38,7 +45,7 @@ function Item({ index, pickIndex }) {
   const _title = HTMLDecode(title)
   const size = _title.length >= 20 ? 13 : _title.length >= 14 ? 14 : 15
 
-  const image = cover ? `https://lain.bgm.tv/pic/cover/m/${cover}.jpg` : IMG_DEFAULT
+  const image = cover ? `${HOST_BGM_STATIC}/pic/cover/m/${cover}.jpg` : IMG_DEFAULT
   const thumbs = getThumbs(id, length)
   const thumbs2 = getThumbs(id, length, false)
 

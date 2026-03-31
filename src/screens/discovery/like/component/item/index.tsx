@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-20 13:52:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-30 16:17:22
+ * @Last Modified time: 2026-04-01 05:39:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,14 +13,15 @@ import { _, collectionStore, systemStore, uiStore, useStore } from '@stores'
 import { alert, getAction } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { MODEL_COLLECTION_STATUS, MODEL_SUBJECT_TYPE } from '@constants'
-import { CollectionStatus, SubjectType, SubjectTypeCn } from '@types'
-import { Ctx } from '../../types'
+import { HOST_BGM_STATIC, MODEL_COLLECTION_STATUS, MODEL_SUBJECT_TYPE } from '@constants'
 import { getReasonsInfo } from '../../utils'
 import Sub from './sub'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { CollectionStatus, SubjectType, SubjectTypeCn } from '@types'
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
 function Item({ item, index }: Props) {
   const { $, navigation } = useStore<Ctx>()
@@ -34,7 +35,7 @@ function Item({ item, index }: Props) {
 
   const styles = memoStyles()
   const isFromTyperank = item.image.includes('//')
-  const image = isFromTyperank ? item.image : `https://lain.bgm.tv/pic/cover/m/${item.image}.jpg`
+  const image = isFromTyperank ? item.image : `${HOST_BGM_STATIC}/pic/cover/m/${item.image}.jpg`
   const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subject.type)
   const action = getAction(typeCn)
 

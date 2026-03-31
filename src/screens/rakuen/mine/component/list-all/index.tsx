@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-02-25 12:31:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 16:38:44
+ * @Last Modified time: 2026-04-01 06:10:52
  */
-import React from 'react'
+import React, { useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { getJSON } from '@assets/json'
 import Filter from '../filter'
 import { renderItem } from './utils'
@@ -15,28 +15,28 @@ import { COMPONENT } from './ds'
 
 import type { Ctx } from '../../types'
 
-const ListAll = () => {
+function ListAll() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    const data = getJSON('group', [])
-    const { filter } = $.state
+  const data = getJSON('group', [])
+  const { filter } = $.state
 
-    return (
-      <>
-        <Filter $={$} />
-        <PaginationList2
-          style={_.mt._sm}
-          contentContainerStyle={[_.container.wind, _.container.bottom]}
-          data={
-            filter ? data.filter(item => item.t.toLowerCase().includes(filter.toLowerCase())) : data
-          }
-          numColumns={2}
-          renderItem={renderItem}
-        />
-      </>
-    )
-  })
+  const memoFilterData = useMemo(
+    () => data.filter(item => item.t.toLowerCase().includes(filter.toLowerCase())),
+    [data, filter]
+  )
+
+  return (
+    <>
+      <Filter />
+      <PaginationList2
+        contentContainerStyle={_.container.list}
+        data={filter ? memoFilterData : data}
+        numColumns={2}
+        renderItem={renderItem}
+      />
+    </>
+  )
 }
 
-export default ListAll
+export default observer(ListAll)

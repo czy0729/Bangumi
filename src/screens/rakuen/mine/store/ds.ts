@@ -5,8 +5,9 @@
  * @Last Modified time: 2024-09-16 20:23:27
  */
 import { WEB } from '@constants'
-import { Loaded } from '@types'
 import { COMPONENT } from '../ds'
+
+import type { Loaded } from '@types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 

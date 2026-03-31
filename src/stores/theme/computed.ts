@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 14:20:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-29 22:33:57
+ * @Last Modified time: 2026-04-01 05:25:00
  */
 import { StyleSheet } from 'react-native'
 import { computed } from 'mobx'
@@ -664,6 +664,12 @@ export default class Computed extends State implements StoreConstructor<typeof S
       touch: {
         borderRadius: _.radiusSm,
         overflow: 'hidden'
+      },
+
+      /** 列表容器布局 */
+      list: {
+        paddingHorizontal: this.wind,
+        paddingBottom: _.bottom
       },
 
       /** @deprecated */

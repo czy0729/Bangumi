@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-01-19 09:32:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 02:59:48
+ * @Last Modified time: 2026-04-01 05:50:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,8 +20,8 @@ function Mono({ text, cover, name, nameCn, onLinkPress }: Props) {
   const styles = memoStyles()
 
   /**
-   * https://lain.bgm.tv/r/400/pic/crt/l/fc/77/114888_crt_hd3gG.jpg ->
-   * https://lain.bgm.tv/pic/crt/g/fc/77/114888_crt_hd3gG.jpg
+   * {HOST_BGM_STATIC}/r/400/pic/crt/l/fc/77/114888_crt_hd3gG.jpg ->
+   * {HOST_BGM_STATIC}/pic/crt/g/fc/77/114888_crt_hd3gG.jpg
    */
   const gCover = cover.replace(/\/r\/\d+/g, '').replace(/\/(l|m)\//g, '/g/')
   const bottom = nameCn === text ? name : nameCn

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-11 12:07:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-15 11:06:21
+ * @Last Modified time: 2026-04-01 05:51:37
  */
 import { rc } from '@utils/dev'
 import { HOST } from '@constants'
@@ -25,9 +25,6 @@ export const MAX_ERROR_COUNT = 1
 
 /** 重试间隔 */
 export const RETRY_DISTANCE = 1000
-
-/** bgm 封面域名 */
-export const OSS_BGM = 'https://lain.bgm.tv'
 
 /** magma 域名图片后缀 */
 export const OSS_MEGMA_PREFIX = '/bgm_poster' // bgm_poster | bgm_thumb

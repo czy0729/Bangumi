@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-04-25 13:59:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-18 19:48:26
+ * @Last Modified time: 2026-04-01 05:33:32
  */
 import { computed } from 'mobx'
 import { HTMLDecode } from '@utils'
 import { fixedRemote } from '@utils/user-setting'
-import { LIST_EMPTY } from '@constants'
+import { HOST_BGM_STATIC, LIST_EMPTY } from '@constants'
 import userStore from '../user'
 import { INIT_USERS, INIT_USERS_INFO } from './init'
 import State from './state'
@@ -33,9 +33,10 @@ export default class Computed
   /** 寻找头像 */
   avatars(userId?: UserId) {
     this.init('avatars', true)
+
     return computed(() => {
       const value = this.state.avatars[userId]
-      return (value ? `https://lain.bgm.tv/pic/user/l/000/${value}` : '') as Avatar<'l'>
+      return (value ? `${HOST_BGM_STATIC}/pic/user/l/000/${value}` : '') as Avatar<'l'>
     }).get()
   }
 

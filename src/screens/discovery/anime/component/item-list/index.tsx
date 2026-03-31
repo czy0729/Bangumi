@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-04 01:08:56
+ * @Last Modified time: 2026-04-01 05:43:32
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -12,7 +12,13 @@ import { Cover, InView, Manage, PreventTouchPlaceholder, Rank, Stars, Tags } fro
 import { _, collectionStore, otaStore, uiStore, useStore } from '@stores'
 import { cnjp, desc, x18 } from '@utils'
 import { withT } from '@utils/fetch'
-import { IMG_DEFAULT, IMG_HEIGHT_LG, IMG_WIDTH_LG, MODEL_COLLECTION_STATUS } from '@constants'
+import {
+  HOST_BGM_STATIC,
+  IMG_DEFAULT,
+  IMG_HEIGHT_LG,
+  IMG_WIDTH_LG,
+  MODEL_COLLECTION_STATUS
+} from '@constants'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
@@ -56,7 +62,7 @@ function ItemList({ index, pickIndex }: Props) {
   const title = cnjp(cn, jp)
   const titleLen = title.length
   const titleSize = titleLen >= 20 ? 13 : titleLen >= 14 ? 14 : 15
-  const cover = image ? `https://lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
+  const cover = image ? `${HOST_BGM_STATIC}/pic/cover/m/${image}.jpg` : IMG_DEFAULT
 
   const epStr = String(ep).replace(/\(完结\)|第|\[|\]/g, '')
   const tipStr = [type === 'TV' ? '' : type, epStr, status, begin]

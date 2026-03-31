@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-01-07 21:53:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-01 10:27:59
+ * @Last Modified time: 2026-04-01 05:34:24
  */
 import React from 'react'
 import { Flex, Text, UserStatus } from '@components'
@@ -10,7 +10,7 @@ import { Avatar, InView } from '@_'
 import { _ } from '@stores'
 import { HTMLDecode } from '@utils'
 import { useNavigation, useObserver } from '@utils/hooks'
-import { IMG_DEFAULT_AVATAR } from '@constants'
+import { HOST_BGM_STATIC, IMG_DEFAULT_AVATAR } from '@constants'
 import { USERS_MAP } from '../../ds'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
@@ -38,7 +38,7 @@ function ListItem({ item, index }) {
             <Avatar
               navigation={navigation}
               src={
-                data?.a ? `https://lain.bgm.tv/pic/user/l/000/${data?.a}.jpg` : IMG_DEFAULT_AVATAR
+                data?.a ? `${HOST_BGM_STATIC}/pic/user/l/000/${data?.a}.jpg` : IMG_DEFAULT_AVATAR
               }
               name={data?.n}
               userId={userId}

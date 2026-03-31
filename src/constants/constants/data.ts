@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-09-02 12:03:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-18 20:40:05
+ * @Last Modified time: 2026-04-01 05:50:17
  */
 import PropTypes from 'prop-types'
 import { HOST_DOGE } from '../cdn/ds'
 import { PAD, RATIO, WEB } from '../device'
 import { IOS } from './env'
+import { HOST_BGM_STATIC } from './host'
 
 import type { ImageRequireSource } from 'react-native'
 import type { ListEmpty, MenuMap } from '@types'
@@ -36,7 +37,7 @@ export const IMG_DEFAULT = require('@assets/images/default.png') as ImageRequire
 
 /** 默认用户头像 */
 export const IMG_AVATAR_DEFAULT = WEB
-  ? 'https://lain.bgm.tv/pic/user/l/icon.jpg'
+  ? `${HOST_BGM_STATIC}/pic/user/l/icon.jpg`
   : (require('@assets/images/l.png') as ImageRequireSource)
 
 /** 默认角色缩略图 */

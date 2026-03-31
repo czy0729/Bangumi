@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-03 05:07:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-04 16:22:42
+ * @Last Modified time: 2026-04-01 05:43:43
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -10,7 +10,7 @@ import { Flex, Loading } from '@components'
 import { ItemCollectionsGrid } from '@_'
 import { _, collectionStore, otaStore } from '@stores'
 import { r } from '@utils/dev'
-import { IMG_DEFAULT, IMG_HEIGHT_LG } from '@constants'
+import { HOST_BGM_STATIC, IMG_DEFAULT, IMG_HEIGHT_LG } from '@constants'
 import { COMPONENT, EVENT } from './ds'
 import { memoStyles } from './styles'
 
@@ -50,7 +50,7 @@ function ItemGrid({ index, pickIndex }: Props) {
       num={num}
       id={id}
       aid={ageId}
-      cover={image ? `https://lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT}
+      cover={image ? `${HOST_BGM_STATIC}/pic/cover/m/${image}.jpg` : IMG_DEFAULT}
       name={jp}
       nameCn={cn}
       score={score}

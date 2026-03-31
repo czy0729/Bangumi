@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-07-18 08:31:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-03 21:55:16
+ * @Last Modified time: 2026-04-01 05:35:54
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
+import { HOST_BGM_STATIC } from '@constants'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'CDN')
 
-export const URL_LAIN = 'https://lain.bgm.tv/pic/cover/c/fa/1d/25833_kZIjD.jpg'
-export const URL_LAIN_NEW = 'https://lain.bgm.tv/pic/cover/c/ff/e5/327606_Q11Sq.jpg'
+export const URL_LAIN = `${HOST_BGM_STATIC}/pic/cover/c/fa/1d/25833_kZIjD.jpg`
+export const URL_LAIN_NEW = `${HOST_BGM_STATIC}/pic/cover/c/ff/e5/327606_Q11Sq.jpg`
 export const URL_JSDELIVR =
   'https://cdn.jsdelivr.net/gh/czy0729/Bangumi-OSS@master/data/subject/c/t/TfOdAB.jpg'
 export const URL_FASTLY = URL_JSDELIVR.replace('cdn', 'fastly')

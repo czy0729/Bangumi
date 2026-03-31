@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-30 22:21:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-30 18:11:56
+ * @Last Modified time: 2026-04-01 05:38:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import { Cover, Flex, Highlight, Iconfont, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { FROZEN_FN, IMG_INFO_ONLY } from '@constants'
+import { FROZEN_FN, HOST_BGM_STATIC, IMG_INFO_ONLY } from '@constants'
 import { useMonoResult } from './hooks'
 import { COMPONENT_MAIN, DEFAULT_PROPS_MONO } from './ds'
 
@@ -64,7 +64,7 @@ const AdvanceMono = memo(
           </>
         )}
         {result.map(item => {
-          const cover = item.c ? `https://lain.bgm.tv/pic/crt/g/${item.c}.jpg` : ''
+          const cover = item.c ? `${HOST_BGM_STATIC}/pic/crt/g/${item.c}.jpg` : ''
           return (
             <Flex key={item.i} style={styles.itemMono}>
               <View style={_.mr.sm}>

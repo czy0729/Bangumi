@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-23 23:29:06
+ * @Last Modified time: 2026-04-01 05:36:40
  */
 import React, { useCallback, useMemo } from 'react'
 import { Heatmap } from '@components'
@@ -11,7 +11,7 @@ import { _ } from '@stores'
 import { desc, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { FROZEN_FN, FROZEN_OBJECT } from '@constants'
+import { FROZEN_FN, FROZEN_OBJECT, HOST_BGM_STATIC } from '@constants'
 import { TITLE_CHARACTER } from '../../ds'
 import IconCharacter from '../icon/character'
 import IconHidden from '../icon/hidden'
@@ -38,7 +38,7 @@ const Character = memo(
           let image = item?.image || ''
           if (typeof image === 'string' && image.includes('/r/')) {
             const parts = image.split('/l/')
-            image = parts[1] ? `https://lain.bgm.tv/pic/crt/g/${parts[1]}` : image
+            image = parts[1] ? `${HOST_BGM_STATIC}/pic/crt/g/${parts[1]}` : image
           }
           return { ...item, image }
         } catch {

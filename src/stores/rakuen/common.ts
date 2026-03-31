@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-27 21:57:31
+ * @Last Modified time: 2026-04-01 06:07:34
  */
 import {
   cData,
@@ -434,22 +434,22 @@ export function cheerioBlog(html: string) {
 
 /** 我的小组 */
 export function cheerioMine(html: string) {
-  const $ = cheerio(html)
-  return {
-    list:
-      $('ul.browserMedium > li.user')
-        .map((_index: number, element: any) => {
-          const $li = cheerio(element)
-          const $a = $li.find('a.avatar')
-          return safeObject({
-            id: String($a.attr('href')).replace('/group/', ''),
-            cover: $li.find('img.avatar').attr('src').split('?')[0],
-            name: $a.text().trim(),
-            num: $li.find('small.feed').text().trim().replace(' 位成员', '')
-          })
+  const $ = cheerio(htmlMatch(html, '<div id="columnUserSingle', '<div id="footer'))
+  return (
+    $('ul.browserMedium > li.user')
+      .map((_index: number, element: any) => {
+        const $li = cheerio(element)
+        const $a = $li.find('a.avatar')
+
+        return safeObject({
+          id: String($a.attr('href')).replace('/group/', ''),
+          cover: $li.find('img.avatar').attr('src').split('?')[0],
+          name: $a.text().trim(),
+          num: $li.find('small.feed').text().trim().replace(' 位成员', '')
         })
-        .get() || []
-  }
+      })
+      .get() || []
+  )
 }
 
 /** 条目讨论版 */

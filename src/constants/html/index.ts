@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-13 12:26:44
+ * @Last Modified time: 2026-04-01 06:05:16
  */
 import { urlStringify } from '@utils/utils'
 import { HOST, URL_ZHINAN } from '../constants'
@@ -165,7 +165,7 @@ export const HTML_GROUP = (groupId: Id, page: number = 1) =>
   `${HOST}/group/${groupId}${groupId === 'my_reply' ? '' : '/forum'}?page=${page}`
 
 /** 我的小组 */
-export const HTML_GROUP_MINE = () => `${HOST}/group/mine`
+export const HTML_GROUP_MINE = () => `${HOST}/group/mine` as const
 
 /** 日志 */
 export const HTML_BLOG = (blogId: Id, postId?: string) =>

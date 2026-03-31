@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:00:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-16 11:12:41
+ * @Last Modified time: 2026-04-01 05:39:01
  */
 import React from 'react'
 import { Flex, Loading, Text, Touchable } from '@components'
@@ -12,11 +12,18 @@ import { _, collectionStore, otaStore, uiStore, useStore } from '@stores'
 import { desc, x18 } from '@utils'
 import { ob } from '@utils/decorators'
 import { withT } from '@utils/fetch'
-import { IMG_DEFAULT, IMG_HEIGHT_LG, IMG_WIDTH_LG, MODEL_COLLECTION_STATUS } from '@constants'
-import { CollectionStatus } from '@types'
-import { Ctx } from '../../types'
+import {
+  HOST_BGM_STATIC,
+  IMG_DEFAULT,
+  IMG_HEIGHT_LG,
+  IMG_WIDTH_LG,
+  MODEL_COLLECTION_STATUS
+} from '@constants'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+
+import type { CollectionStatus } from '@types'
+import type { Ctx } from '../../types'
 
 function Item({ pickIndex }) {
   const { $, navigation } = useStore<Ctx>()
@@ -48,7 +55,7 @@ function Item({ pickIndex }) {
     end
   } = otaStore.manga(subjectId)
   const titleSize = title.length >= 20 ? 13 : title.length >= 14 ? 14 : 15
-  const cover = image ? `https://lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
+  const cover = image ? `${HOST_BGM_STATIC}/pic/cover/m/${image}.jpg` : IMG_DEFAULT
 
   let top = ''
   let bottom = ''

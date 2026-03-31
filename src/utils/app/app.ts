@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:19:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-20 12:13:58
+ * @Last Modified time: 2026-04-01 05:32:37
  */
 import { Alert, BackHandler } from 'react-native'
 import { ON_AIR } from '@stores/calendar/onair'
@@ -308,7 +308,7 @@ export function calculateFutureLevel(level: number = 1, total: number = 0) {
 
 /**
  * 小圣杯 OSS 修正
- *  - https://lain.bgm.tv/pic/crt/g/b7/fe/88670_crt_Zv4H2.jpg -> https://lain.bgm.tv/{r/200|400/}pic/crt/l/b7/fe/88670_crt_Zv4H2.jpg
+ *  - {HOST_BGM_STATIC}/pic/crt/g/b7/fe/88670_crt_Zv4H2.jpg -> {HOST_BGM_STATIC}/{r/200|400/}pic/crt/l/b7/fe/88670_crt_Zv4H2.jpg
  *  - https://tinygrail.oss-cn-hangzhou.aliyuncs.com -> https://tinygrail.mange.cn/cover/1e5f9be0dfe62372a69e9a4f04acd0e1.jpg!w150
  * */
 export function tinygrailOSS(str: string, w: 120 | 150 | 480 = 120) {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:26:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-27 21:58:58
+ * @Last Modified time: 2026-04-01 06:04:51
  */
 import { getTimestamp, HTMLTrim } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -394,25 +394,29 @@ export default class Fetch extends Computed {
 
   /** 我的小组 */
   fetchMine = async () => {
-    const html = await fetchHTML({
-      url: HTML_GROUP_MINE()
-    })
-    const { list } = cheerioMine(html)
+    const STATE_KEY = 'mine'
 
-    const key = 'mine'
-    this.setState({
-      [key]: {
-        list,
-        pagination: {
-          page: 1,
-          pageTotal: 1
-        },
-        _loaded: getTimestamp()
-      }
-    })
-    this.save(key)
+    try {
+      const html = await fetchHTML({
+        url: HTML_GROUP_MINE()
+      })
 
-    return this[key]
+      this.setState({
+        [STATE_KEY]: {
+          list: cheerioMine(html),
+          pagination: {
+            page: 1,
+            pageTotal: 1
+          },
+          _loaded: getTimestamp()
+        }
+      })
+      this.save(STATE_KEY)
+    } catch (error) {
+      this.error('fetchMine', error)
+    }
+
+    return this[STATE_KEY]
   }
 
   /** 获取日志内容和留言 */

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-28 19:23:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-31 06:07:42
+ * @Last Modified time: 2026-04-01 06:16:53
  */
 import type { Expand, Id, SubjectId, SubjectType } from '@types'
 
@@ -39,6 +39,7 @@ export type JSONGroup = {
   t: string
   n: number
   i: number
+  u?: number
 }[]
 
 export type JSONMono = {

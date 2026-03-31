@@ -5,29 +5,29 @@
  * @Last Modified time: 2026-03-17 02:20:49
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { SegmentedControl } from '@components'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { COMPONENT, TYPE_DS } from './ds'
 import { styles } from './styles'
 
 import type { Ctx } from '../../types'
 
-let type: string
-
 function Extra({ $ }: Ctx) {
-  // 缓存最近一次确定值
-  if ($) type = $.state.type
+  r(COMPONENT)
 
-  const currentType = $?.state.type === undefined ? type : $?.state.type
+  const { type, _loaded } = $.state
+  if (!_loaded) return null
+
   return (
     <SegmentedControl
       style={styles.segment}
       size={11}
       values={TYPE_DS}
-      selectedIndex={currentType === 'mine' ? 0 : 1}
-      onValueChange={$?.onChange}
+      selectedIndex={type === 'all' ? 1 : 0}
+      onValueChange={$.onChange}
     />
   )
 }
 
-export default ob(Extra, COMPONENT)
+export default observer(Extra)

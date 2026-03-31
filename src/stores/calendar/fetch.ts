@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:05:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 20:14:42
+ * @Last Modified time: 2026-04-01 05:34:02
  */
 import { findTreeNode, getTimestamp, HTMLToTree, HTMLTrim } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
-import { API_CALENDAR, CDN_DISCOVERY_HOME, CDN_ONAIR, HOST } from '@constants'
+import { API_CALENDAR, CDN_DISCOVERY_HOME, CDN_ONAIR, HOST, HOST_BGM_STATIC } from '@constants'
 import { cheerioRaw, cheerioToday } from './common'
 import Computed from './computed'
 import { INIT_HOME, NAMESPACE } from './init'
@@ -49,7 +49,7 @@ export default class Fetch extends Computed {
 
           // @update 2022/12/30
           let cover = node?.[0]?.attrs?.style.match(/\/cover\/.+?\/(.+?).jpg/)?.[1] || ''
-          if (cover) cover = `https://lain.bgm.tv/pic/cover/l/${cover}.jpg`
+          if (cover) cover = `${HOST_BGM_STATIC}/pic/cover/l/${cover}.jpg`
 
           node = findTreeNode(children, 'a|href&title')
           const title = node ? node[0].attrs.title : ''

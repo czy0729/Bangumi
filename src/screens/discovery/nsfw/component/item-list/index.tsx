@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-07-20 11:02:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-08 22:04:37
+ * @Last Modified time: 2026-04-01 05:38:38
  */
 import React from 'react'
 import { Flex, Loading, Text, Touchable } from '@components'
@@ -12,6 +12,7 @@ import { _, collectionStore, otaStore, uiStore, userStore } from '@stores'
 import { t } from '@utils/fetch'
 import { useNavigation, useObserver } from '@utils/hooks'
 import {
+  HOST_BGM_STATIC,
   IMG_DEFAULT,
   IMG_HEIGHT_LG,
   IMG_WIDTH_LG,
@@ -44,7 +45,7 @@ function ItemList({ pickIndex }: Props) {
 
     const titleLen = title.length
     const titleSize = titleLen >= 20 ? 13 : titleLen >= 14 ? 14 : 15
-    const image = cover ? `https://lain.bgm.tv/pic/cover/m/${cover}.jpg` : IMG_DEFAULT
+    const image = cover ? `${HOST_BGM_STATIC}/pic/cover/m/${cover}.jpg` : IMG_DEFAULT
 
     const tip = [date, eps ? `${eps}话` : '', info].filter(Boolean).join(' / ')
 

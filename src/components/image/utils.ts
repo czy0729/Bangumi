@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-28 02:06:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-06 08:06:43
+ * @Last Modified time: 2026-04-01 05:51:32
  */
 import { _ } from '@stores'
 import { getCover400, getStorage, setStorage, showImageViewer } from '@utils'
@@ -10,14 +10,8 @@ import { HOST_IMAGE } from '@utils/app/ds'
 import { t } from '@utils/fetch'
 import hash from '@utils/thirdParty/hash'
 import ImageCacheManager from '@utils/thirdParty/image-cache-manager'
-import { HOST_CDN, IOS, WEB } from '@constants'
-import {
-  CACHE_KEY_404,
-  CACHE_KEY_451,
-  CACHE_KEY_TIMEOUT,
-  OSS_BGM,
-  OSS_BGM_EMOJI_PREFIX
-} from './ds'
+import { HOST_BGM_STATIC, HOST_CDN, IOS, WEB } from '@constants'
+import { CACHE_KEY_404, CACHE_KEY_451, CACHE_KEY_TIMEOUT, OSS_BGM_EMOJI_PREFIX } from './ds'
 
 import type { Props } from './types'
 
@@ -198,7 +192,7 @@ export function getRecoveryBgmCover(src: any, width: number, height: number, siz
     else if (w > 67) coverSize = 200
   }
 
-  return getCover400(`${OSS_BGM}/pic/${path}`, coverSize)
+  return getCover400(`${HOST_BGM_STATIC}/pic/${path}`, coverSize)
 }
 
 /** ImageViewer 回调 */

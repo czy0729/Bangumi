@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-14 05:00:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-30 05:09:28
+ * @Last Modified time: 2026-04-01 05:43:22
  */
 import React from 'react'
 import { Flex, Image, Text, Touchable } from '@components'
@@ -10,6 +10,7 @@ import { InView } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { useNavigation, useObserver } from '@utils/hooks'
+import { HOST_BGM_STATIC } from '@constants'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
@@ -32,7 +33,7 @@ function Item({ item, index }) {
             topicId: item.topicId,
             _title: item.title,
             _group: 'Bangumi半月刊',
-            _groupThumb: 'https://lain.bgm.tv/pic/icon/l/000/00/49/4986.jpg?r=1706848267'
+            _groupThumb: `${HOST_BGM_STATIC}/pic/icon/l/000/00/49/4986.jpg?r=1706848267`
           })
 
           t('半月刊.跳转', {

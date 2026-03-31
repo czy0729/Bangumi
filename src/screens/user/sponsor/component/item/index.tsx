@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-01 10:26:49
+ * @Last Modified time: 2026-04-01 05:34:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { _ } from '@stores'
 import { HTMLDecode, stl } from '@utils'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import { IMG_DEFAULT_AVATAR } from '@constants'
+import { HOST_BGM_STATIC, IMG_DEFAULT_AVATAR } from '@constants'
 import { USERS_MAP } from '../../ds'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -99,7 +99,7 @@ function Item({ w, h, x, y, data, percent, price, isFilter, onPress, onLongPress
                   <Avatar
                     src={
                       USERS_MAP[data]?.a
-                        ? `https://lain.bgm.tv/pic/user/l/000/${USERS_MAP[data]?.a}.jpg`
+                        ? `${HOST_BGM_STATIC}/pic/user/l/000/${USERS_MAP[data]?.a}.jpg`
                         : IMG_DEFAULT_AVATAR
                     }
                     size={avatarSize}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-16 11:48:09
+ * @Last Modified time: 2026-04-01 05:40:58
  */
 import React from 'react'
 import { Flex, Heatmap, Loading, Text, Touchable } from '@components'
@@ -13,19 +13,22 @@ import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HENTAI_TAGS } from '@utils/subject/hentai'
 import {
+  HOST_BGM_STATIC,
   IMG_DEFAULT,
   IMG_HEIGHT_LG,
   IMG_WIDTH_LG,
   MODEL_COLLECTION_STATUS,
   TEXT_ONLY
 } from '@constants'
-import { CollectionStatus } from '@types'
-import { Ctx } from '../types'
 import { getType } from './utils'
 import { memoStyles } from './styles'
 
+import type { CollectionStatus } from '@types'
+import type { Ctx } from '../types'
+
 function Item({ index, pickIndex }) {
   const { $, navigation } = useStore<Ctx>()
+
   const styles = memoStyles()
   const subjectId = otaStore.hentaiSubjectId(pickIndex)
   const {
@@ -49,7 +52,7 @@ function Item({ index, pickIndex }) {
   }
 
   const size = cn.length >= 20 ? 13 : cn.length >= 14 ? 14 : 15
-  const cover = image ? `https://lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
+  const cover = image ? `${HOST_BGM_STATIC}/pic/cover/m/${image}.jpg` : IMG_DEFAULT
   const tip = [ep ? `${ep}话` : '', air].filter(item => !!item).join(' / ')
   const collection = collectionStore.collect(id)
   return (
