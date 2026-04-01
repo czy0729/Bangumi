@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-09-26 22:17:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 05:38:20
+ * @Last Modified time: 2026-04-02 06:34:52
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Avatar, Flex, RenderHtml, UserStatus } from '@components'
@@ -22,6 +22,16 @@ function Mark({ style, id, message, userId, userName, avatar, url, directFloor, 
   const navigation = useNavigation()
 
   const styles = memoStyles()
+
+  const handleLinkPress = useCallback(
+    (href: string) => {
+      appNavigate(href, navigation, {}, event)
+    },
+    [event, navigation]
+  )
+  const handleImageFallback = useCallback(() => {
+    open(`${url}#post_${id}`)
+  }, [id, url])
 
   return (
     <Flex style={stl(styles.item, style)}>
@@ -48,10 +58,8 @@ function Mark({ style, id, message, userId, userName, avatar, url, directFloor, 
         baseFontStyle={_.baseFontStyle.sm}
         imagesMaxWidth={_.window.width - _.wind - AVATAR_WIDTH - _.sm}
         html={message}
-        onLinkPress={href => {
-          appNavigate(href, navigation, {}, event)
-        }}
-        onImageFallback={() => open(`${url}#post_${id}`)}
+        onLinkPress={handleLinkPress}
+        onImageFallback={handleImageFallback}
       />
 
       {/* 高亮 */}

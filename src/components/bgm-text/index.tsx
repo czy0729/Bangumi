@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-13 19:46:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-30 07:02:37
+ * @Last Modified time: 2026-04-02 06:23:04
  */
 import React, { useEffect, useMemo, useState } from 'react'
 import { Text } from 'react-native'
@@ -41,7 +41,7 @@ export const BgmText = observer(
     animated = false,
     children,
     ...other
-  }: BgmTextProps & { animated?: boolean }) => {
+  }: BgmTextProps) => {
     r(COMPONENT)
 
     // 获取基础字符串 (raw)

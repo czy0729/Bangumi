@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-19 13:40:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-28 21:58:23
+ * @Last Modified time: 2026-04-02 06:48:21
  */
 import type { PropsWithChildren } from 'react'
 import type { TextProps } from '../text'
@@ -25,4 +25,7 @@ export type Props = PropsWithChildren<{
 
   /** 是否允许动画 */
   animated?: boolean
+
+  /** 长按回调 */
+  onLongPress?: () => void
 }>

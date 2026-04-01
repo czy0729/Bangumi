@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-08-14 07:18:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-29 05:32:35
+ * @Last Modified time: 2026-04-02 06:18:13
  */
 import React from 'react'
+import { rakuenStore } from '@stores'
 import { logger } from '@utils/dev'
 import { SPAN_MARK } from '../ds'
 import { BgmText } from '../../bgm-text'
@@ -16,7 +17,6 @@ import TagText from '../tag-text'
 import { fixedBaseFontStyle, formatStyles } from '../utils'
 
 import type { TextStyle } from '@types'
-
 export function span({
   key,
   style,
@@ -132,7 +132,12 @@ export function span({
       const text = target?.data || ''
       if (text) {
         const { fontSize } = formatStyles(style)
-        return <EmojiText index={Number(text)} size={Math.max(15, fontSize || 48)} />
+        return (
+          <EmojiText
+            index={Number(text)}
+            size={Math.max(15, fontSize || Number(rakuenStore.setting.bigEmojiSize))}
+          />
+        )
       }
     }
   } catch (error) {

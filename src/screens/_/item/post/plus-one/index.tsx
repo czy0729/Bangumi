@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:24:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 05:38:50
+ * @Last Modified time: 2026-04-02 06:35:45
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Avatar, Flex, RenderHtml, UserStatus } from '@components'
@@ -33,6 +33,16 @@ function ItemPlusOne({
   event
 }: Props) {
   const navigation = useNavigation()
+
+  const handleLinkPress = useCallback(
+    (href: string) => {
+      appNavigate(href, navigation, {}, event)
+    },
+    [event, navigation]
+  )
+  const handleImageFallback = useCallback(() => {
+    open(`${url}#post_${id}`)
+  }, [id, url])
 
   const styles = memoStyles()
   const { avatarRound } = systemStore.setting
@@ -63,10 +73,8 @@ function ItemPlusOne({
             baseFontStyle={_.baseFontStyle.xs}
             imagesMaxWidth={_.window.width - 2 * _.wind - 2 * AVATAR_WIDTH - 2 * _.sm}
             html={message}
-            onLinkPress={href => {
-              appNavigate(href, navigation, {}, event)
-            }}
-            onImageFallback={() => open(`${url}#post_${id}`)}
+            onLinkPress={handleLinkPress}
+            onImageFallback={handleImageFallback}
           />
         </Flex>
       </Flex>

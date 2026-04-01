@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-29 06:14:23
+ * @Last Modified time: 2026-04-02 06:47:23
  */
 import { _, rakuenStore, subjectStore, systemStore } from '@stores'
 import { cheerio, HTMLDecode, sleep } from '@utils'
@@ -53,11 +53,14 @@ export function formatHtml(
               const isLg = finalIndex >= 600
 
               const { fontSize, lineHeight } = fixedBaseFontStyle(baseFontStyle)
+              const bigEmojiSize = `fontSize${rakuenStore.setting.bigEmojiSize}`
               const styles = [
                 `font-family:${fontFamily}`,
                 'user-select:all',
-                fontSize > 0 ? `font-size:${isLg ? _.fontSize48.fontSize : fontSize}px` : '',
-                lineHeight > 0 ? `line-height:${isLg ? _.fontSize48.lineHeight : lineHeight}px` : ''
+                fontSize > 0 ? `font-size:${isLg ? _[bigEmojiSize].fontSize : fontSize}px` : '',
+                lineHeight > 0
+                  ? `line-height:${isLg ? _[bigEmojiSize].lineHeight : lineHeight}px`
+                  : ''
               ]
                 .filter(Boolean)
                 .join(';')

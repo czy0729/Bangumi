@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-30 01:00:15
+ * @Last Modified time: 2026-04-02 06:20:24
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { rendererA, RNRenderHTML } from '@components/@'
-import { _, systemStore } from '@stores'
+import { _, rakuenStore, systemStore } from '@stores'
 import { open } from '@utils'
 import { logger, r } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
@@ -89,7 +89,9 @@ export const RenderHtml = observer(
 
       // 命中表情片段
       const isHasBigEmoji = /font-family:bgm[^>]*?>(?:6|7|8|9)\d{2}<\/span>/i.test(formatHtml)
-      const bigEmojiStyle = isHasBigEmoji ? { lineHeight: _.fontSize48.lineHeight } : {}
+      const bigEmojiStyle = isHasBigEmoji
+        ? { lineHeight: _[`fontSize${rakuenStore.setting.bigEmojiSize}`].lineHeight }
+        : {}
       const flattenedBaseStyle = _.flatten([
         this.defaultBaseFontStyle,
         fixedBaseFontStyle(baseFontStyle),
