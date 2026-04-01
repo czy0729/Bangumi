@@ -140,7 +140,7 @@ export const MosaicTile = observer(({ mosaicTile }: MosaicTileProps) => {
         <Heatmap id='时间线.点击瓷砖' />
       </Flex>
 
-      <Text style={_.mr.sm} type='icon' size={12} bold align='right'>
+      <Text style={_.mr.sm} type={_.select('sub', 'icon')} size={12} bold align='right'>
         过去一年共 {total} 次活动
       </Text>
     </View>

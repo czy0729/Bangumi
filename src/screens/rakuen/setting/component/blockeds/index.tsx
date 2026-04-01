@@ -6,9 +6,9 @@
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { rakuenStore } from '@stores'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import Block from '@screens/user/setting/component/block'
 import Tip from '@screens/user/setting/component/tip'
 import BlockedKeyword from '../blocked-keyword'
@@ -28,19 +28,18 @@ function Blockeds({ navigation, onNavigate }: Props) {
     handleDeleteBlockGroup(item)
   }, [])
 
-  return useObserver(() => {
-    const styles = memoStyles()
-    return (
-      <View style={styles.container}>
-        <BlockedUsers navigation={navigation} onNavigate={onNavigate} />
-        <BlockedKeyword />
-        <Block>
-          <Tip>屏蔽小组 / 条目（对帖子所属小组名生效）</Tip>
-          <History data={rakuenStore.setting.blockGroups} onDelete={handleDelete} />
-        </Block>
-      </View>
-    )
-  })
+  const styles = memoStyles()
+
+  return (
+    <View style={styles.container}>
+      <BlockedUsers navigation={navigation} onNavigate={onNavigate} />
+      <BlockedKeyword />
+      <Block>
+        <Tip>屏蔽小组 / 条目（对帖子所属小组名生效）</Tip>
+        <History data={rakuenStore.setting.blockGroups} onDelete={handleDelete} />
+      </Block>
+    </View>
+  )
 }
 
-export default Blockeds
+export default observer(Blockeds)

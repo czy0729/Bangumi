@@ -4,12 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-01-31 18:09:39
  */
-import React from 'react'
+import React, { useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import Block from '@screens/user/setting/component/block'
 import Tip from '@screens/user/setting/component/tip'
 import { styles } from '../styles'
@@ -27,11 +27,9 @@ function Base() {
   const { value: isMarkOldTopic, handleSwitch: handleSwitchIsMarkOldTopic } =
     useAsyncSwitchSetting('isMarkOldTopic')
 
-  return useObserver(() => (
-    <Block>
-      <Tip>列表</Tip>
-
-      {/* 过滤用户删除的楼层 */}
+  /** 过滤用户删除的楼层 */
+  const elFilterDelete = useMemo(
+    () => (
       <ItemSetting
         hd='过滤用户删除的楼层'
         ft={
@@ -50,8 +48,13 @@ function Base() {
         }
         withoutFeedback
       />
+    ),
+    [filterDelete, handleSwitchFilterDelete]
+  )
 
-      {/* 屏蔽疑似广告姬 */}
+  /** 屏蔽疑似广告姬 */
+  const elIsBlockDefaultUser = useMemo(
+    () => (
       <ItemSetting
         hd='屏蔽疑似广告姬'
         information='屏蔽默认头像发布且回复数小于 4 的帖子'
@@ -71,8 +74,13 @@ function Base() {
         }
         withoutFeedback
       />
+    ),
+    [handleSwitchIsBlockDefaultUser, isBlockDefaultUser]
+  )
 
-      {/* 标记坟贴 */}
+  /** 标记坟贴 */
+  const elIsMarkOldTopic = useMemo(
+    () => (
       <ItemSetting
         hd='标记坟贴'
         information='标记发布时间大于 1 年的帖子'
@@ -92,8 +100,18 @@ function Base() {
         }
         withoutFeedback
       />
+    ),
+    [handleSwitchIsMarkOldTopic, isMarkOldTopic]
+  )
+
+  return (
+    <Block>
+      <Tip>列表</Tip>
+      {elFilterDelete}
+      {elIsBlockDefaultUser}
+      {elIsMarkOldTopic}
     </Block>
-  ))
+  )
 }
 
-export default Base
+export default observer(Base)

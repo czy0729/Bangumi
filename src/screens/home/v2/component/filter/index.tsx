@@ -47,7 +47,7 @@ function Filter({ title, length }: Props) {
             </View>
           )}
           {length ? (
-            <Text type='icon' bold size={15}>
+            <Text type={_.select('sub', 'icon')} bold size={15}>
               {length}
             </Text>
           ) : (

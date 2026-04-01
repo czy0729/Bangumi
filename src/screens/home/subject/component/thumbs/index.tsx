@@ -133,7 +133,13 @@ function Thumbs({ onBlockRef }: Props) {
             <Flex.Item>
               <IconPic />
             </Flex.Item>
-            <Text type='icon' size={10} lineHeight={12} align='right' onPress={() => open(referer)}>
+            <Text
+              type={_.select('sub', 'icon')}
+              size={10}
+              lineHeight={12}
+              align='right'
+              onPress={() => open(referer)}
+            >
               数据来源自 {reference}
             </Text>
             <Iconfont

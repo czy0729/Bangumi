@@ -7,6 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Highlight, Touchable } from '@components'
+import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { memoStyles } from './styles'
 
@@ -16,7 +17,13 @@ function Item({ filter, label, value, show, onPress }) {
     <Flex.Item>
       <Touchable animate onPress={() => onPress(value)}>
         <Flex style={styles.tab} justify='center' direction='column'>
-          <Highlight type={show ? undefined : 'icon'} size={13} bold align='center' value={filter}>
+          <Highlight
+            type={show ? undefined : _.select('sub', 'icon')}
+            size={13}
+            bold
+            align='center'
+            value={filter}
+          >
             {label}
           </Highlight>
         </Flex>

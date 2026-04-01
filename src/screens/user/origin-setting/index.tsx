@@ -45,7 +45,7 @@ function OriginSetting(props: NavigationProps) {
               />
               <List onScrollIntoViewIfNeeded={handleScrollIntoViewIfNeeded} />
             </View>
-            <Text style={styles.ft} type='icon' size={11} align='center'>
+            <Text style={styles.ft} type={_.select('sub', 'icon')} size={11} align='center'>
               - 预设数据均来源自互联网 -
             </Text>
           </ScrollView>

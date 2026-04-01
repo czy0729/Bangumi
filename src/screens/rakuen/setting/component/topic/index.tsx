@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-01-31 17:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-25 16:26:36
+ * @Last Modified time: 2026-04-01 23:58:11
  */
-import React from 'react'
+import React, { useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { SegmentedControl, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import {
   MODEL_RAKUEN_AUTO_LOAD_IMAGE,
   MODEL_RAKUEN_NEW_FLOOR_STYLE,
@@ -31,10 +31,10 @@ function Topic() {
   r(COMPONENT)
 
   const { value: quote, handleSwitch: handleSwitchQuote } = useAsyncSwitchSetting('quote')
-  const { value: showFixedToggleFloorBtn, handleSwitch: handleShowFixedToggleFloorBtn } =
-    useAsyncSwitchSetting('showFixedToggleFloorBtn')
   const { value: quoteAvatar, handleSwitch: handleSwitchQuoteAvatar } =
     useAsyncSwitchSetting('quoteAvatar')
+  const { value: showFixedToggleFloorBtn, handleSwitch: handleShowFixedToggleFloorBtn } =
+    useAsyncSwitchSetting('showFixedToggleFloorBtn')
   const { value: wide, handleSwitch: handleSwitchWide } = useAsyncSwitchSetting('wide')
   const { value: autoLoadImageV2, handleSet: handleSetAutoLoadImageV2 } =
     useAsyncSetSetting('autoLoadImageV2')
@@ -42,11 +42,9 @@ function Topic() {
     useAsyncSetSetting('newFloorStyle')
   const { value: subExpand, handleSet: handleSetSubExpand } = useAsyncSetSetting('subExpand')
 
-  return useObserver(() => (
-    <Block>
-      <Tip>帖子</Tip>
-
-      {/* 展开引用 */}
+  /** 展开引用 */
+  const elQuote = useMemo(
+    () => (
       <ItemSetting
         hd='展开引用'
         information='展开子回复中上一级的回复内容'
@@ -70,35 +68,43 @@ function Topic() {
           '0/2022/png/386799/1661157697155-91a59c53-a075-423b-8116-717583a7f5f2.png'
         ])}
       />
+    ),
+    [handleSwitchQuote, quote]
+  )
 
-      {/* 显示引用头像 */}
-      {quote && (
-        <ItemSetting
-          hd='显示引用头像'
-          ft={
-            <SwitchPro
-              style={styles.switch}
-              value={quoteAvatar}
-              onSyncPress={() => {
-                handleSwitchQuoteAvatar()
+  /** 显示引用头像 */
+  const elQuoteAvatar = useMemo(
+    () => (
+      <ItemSetting
+        hd='显示引用头像'
+        ft={
+          <SwitchPro
+            style={styles.switch}
+            value={quoteAvatar}
+            onSyncPress={() => {
+              handleSwitchQuoteAvatar()
 
-                t('超展开设置.切换', {
-                  title: '显示引用头像',
-                  checked: !quoteAvatar
-                })
-              }}
-            />
-          }
-          withoutFeedback
-          thumb={getYuqueThumbs([
-            '0/2022/png/386799/1661157853356-0ecf0000-acd2-4faf-acfb-9804498ee85c.png',
-            '0/2022/png/386799/1661157856095-60c6b420-8aba-406b-8c82-97a8360c84c1.png'
-          ])}
-          sub
-        />
-      )}
+              t('超展开设置.切换', {
+                title: '显示引用头像',
+                checked: !quoteAvatar
+              })
+            }}
+          />
+        }
+        withoutFeedback
+        thumb={getYuqueThumbs([
+          '0/2022/png/386799/1661157853356-0ecf0000-acd2-4faf-acfb-9804498ee85c.png',
+          '0/2022/png/386799/1661157856095-60c6b420-8aba-406b-8c82-97a8360c84c1.png'
+        ])}
+        sub
+      />
+    ),
+    [handleSwitchQuoteAvatar, quoteAvatar]
+  )
 
-      {/* 是否显示长楼层漂浮收起按钮 */}
+  /** 长楼层收起按钮 */
+  const elShowFixedToggleFloorBtn = useMemo(
+    () => (
       <ItemSetting
         hd='长楼层收起按钮'
         information='当楼层展开后子楼层很多，整体处于屏幕中的时候，在底部显示收起楼层按钮'
@@ -118,8 +124,13 @@ function Topic() {
         }
         withoutFeedback
       />
+    ),
+    [handleShowFixedToggleFloorBtn, showFixedToggleFloorBtn]
+  )
 
-      {/* 楼层内容使用加宽版展示 */}
+  /** 楼层加宽展示 */
+  const elWide = useMemo(
+    () => (
       <ItemSetting
         hd='楼层加宽展示'
         ft={
@@ -142,8 +153,13 @@ function Topic() {
           '0/2022/png/386799/1661327416446-79d19833-ed5c-4a44-a86e-06c00e83f12d.png'
         ])}
       />
+    ),
+    [handleSwitchWide, wide]
+  )
 
-      {/* 楼层中图片自动加载 */}
+  /** 图片自动加载 */
+  const elAutoLoadImageV2 = useMemo(
+    () => (
       <ItemSetting
         hd='图片自动加载'
         information='开启自动加载会强制加载所有图片，但因图床为用户自己选择，可能出现不稳定且图片体积大，导致加载失败或卡顿，建议谨慎开启自动加载。'
@@ -165,8 +181,13 @@ function Topic() {
           />
         }
       />
+    ),
+    [autoLoadImageV2, handleSetAutoLoadImageV2]
+  )
 
-      {/* 新楼层样式 */}
+  /** 新楼层样式 */
+  const elNewFloorStyle = useMemo(
+    () => (
       <ItemSetting
         hd='新楼层样式'
         ft={
@@ -192,8 +213,13 @@ function Topic() {
           '0/2024/png/386799/1730186721241-645916b3-3ac6-46ad-a382-91a6d465f284.png'
         ])}
       />
+    ),
+    [handleSetNewFloorStyle, newFloorStyle]
+  )
 
-      {/* 子楼层折叠 */}
+  /** 子楼层折叠 */
+  const elSubExpand = useMemo(
+    () => (
       <ItemSetting
         hd='子楼层折叠'
         information='子回复超过此值后折叠，需手动展开；0 代表一直折叠，因性能问题暂不提供不折叠'
@@ -215,8 +241,22 @@ function Topic() {
           />
         }
       />
+    ),
+    [handleSetSubExpand, subExpand]
+  )
+
+  return (
+    <Block>
+      <Tip>帖子</Tip>
+      {elQuote}
+      {quote && elQuoteAvatar}
+      {elShowFixedToggleFloorBtn}
+      {elWide}
+      {elAutoLoadImageV2}
+      {elNewFloorStyle}
+      {elSubExpand}
     </Block>
-  ))
+  )
 }
 
-export default Topic
+export default observer(Topic)

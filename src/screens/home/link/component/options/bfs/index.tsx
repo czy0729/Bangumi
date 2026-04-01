@@ -76,7 +76,7 @@ function BFS({ map }: { map: RelateMap }) {
                 <Text type='sub' size={11}>
                   {item.nameCN || item.name}{' '}
                   {!!item.date && (
-                    <Text type='icon' size={9} lineHeight={11}>
+                    <Text type={_.select('sub', 'icon')} size={9} lineHeight={11}>
                       {item.date.slice(0, 7)}
                     </Text>
                   )}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 20:09:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 06:28:42
+ * @Last Modified time: 2026-04-02 00:50:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,7 +25,7 @@ const ItemSettingBlockItem = observer(
     iconStyle,
     iconColor,
     title,
-    titleSize = 15,
+    titleSize = 14,
     information,
     informationType = 'sub',
     filter,

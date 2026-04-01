@@ -121,7 +121,7 @@ function Options() {
           >
             <Flex>
               <Iconfont name='md-whatshot' size={18} color={_.colorIcon} />
-              <Text style={_.ml.xs} type='icon' bold>
+              <Text style={_.ml.xs} type={_.select('sub', 'icon')} bold>
                 {trend}
               </Text>
             </Flex>

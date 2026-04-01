@@ -13,6 +13,10 @@ import type { BooleanKeys, NonBooleanKeys } from '@types'
 
 /** 超展开设置页面逻辑 */
 export function useRakuenSettingPage() {
+  const handleScroll = useCallback(() => {
+    uiStore.closePopableSubject()
+  }, [])
+
   usePageLifecycle(
     {
       onEnterComplete() {
@@ -27,6 +31,10 @@ export function useRakuenSettingPage() {
     },
     'RakuenSetting'
   )
+
+  return {
+    handleScroll
+  }
 }
 
 /** 延迟切换设置, 更快响应且避免卡住 UI */

@@ -6,7 +6,7 @@
  */
 import React, { useCallback, useMemo } from 'react'
 import { Text } from '@components'
-import { systemStore, tinygrailStore, useStore } from '@stores'
+import { _, systemStore, tinygrailStore, useStore } from '@stores'
 import { confirm, info, open, showImageViewer } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { TEXT_FETCHING_INTERCEPT } from '../../ds'
@@ -119,7 +119,7 @@ function Item({ width, height, y, id, tags = '' }) {
       )
     } else if (image === 'null') {
       el = (
-        <Text type='icon' size={12} bold>
+        <Text type={_.select('sub', 'icon')} size={12} bold>
           加载失败
         </Text>
       )

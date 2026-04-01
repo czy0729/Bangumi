@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-25 03:23:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 06:46:23
+ * @Last Modified time: 2026-04-02 00:49:40
  */
 import React, { Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
@@ -36,7 +36,7 @@ export const ActionSheet = observer(
   ({
     forwardRef,
     show = false,
-    height = 440,
+    height = 480,
     title = '',
     titleLeft,
     scrollEnabled = true,

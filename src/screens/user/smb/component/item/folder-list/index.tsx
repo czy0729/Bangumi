@@ -11,7 +11,7 @@ import { _, useStore } from '@stores'
 import { copy, desc } from '@utils'
 import { ob } from '@utils/decorators'
 import { ASSETS_ICONS } from '@constants'
-import { Ctx, SMBListItem } from '../../../types'
+import { Ctx, SMBListItem, type } from '../../../types'
 import FolderEp from '../folder-ep'
 import LastModified from '../last-modified'
 import { styles } from './styles'
@@ -55,7 +55,7 @@ function FolderList({ folder }: { folder: SMBListItem }) {
                   <Text size={11} lineHeight={12} numberOfLines={2}>
                     {item.name}
                     {!!item.size && (
-                      <Text type='icon' size={11} lineHeight={12}>
+                      <Text type={_.select('sub', 'icon')} size={11} lineHeight={12}>
                         {' '}
                         ({item.size})
                       </Text>
@@ -67,7 +67,7 @@ function FolderList({ folder }: { folder: SMBListItem }) {
           ))}
         <Flex style={_.mt.sm}>
           <Flex.Item>
-            <Text size={12} type='icon'>
+            <Text type={_.select('sub', 'icon')} size={12}>
               点击复制地址，长按跳转
             </Text>
           </Flex.Item>
@@ -77,7 +77,7 @@ function FolderList({ folder }: { folder: SMBListItem }) {
               $.onFile(name)
             }}
           >
-            <Text size={12} type='icon'>
+            <Text type={_.select('sub', 'icon')} size={12}>
               [文件]
             </Text>
           </Touchable>

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-10 00:08:16
+ * @Last Modified time: 2026-04-02 00:18:38
  */
 import Crypto from '@utils/crypto'
 import { IOS } from '../constants'
@@ -855,6 +855,25 @@ export const MODEL_RAKUEN_NEW_FLOOR_STYLE = new Model(
   RAKUEN_NEW_FLOOR_STYLE,
   'RAKUEN_NEW_FLOOR_STYLE'
 )
+
+/** [设置] 大表情尺寸 */
+export const BIG_EMOJI_SIZE = [
+  {
+    label: '小',
+    value: '28'
+  },
+  {
+    label: '中',
+    value: '36'
+  },
+  {
+    label: '大',
+    value: '48'
+  }
+] as const
+
+/** [设置] 帖子新楼层样式 */
+export const MODEL_BIG_EMOJI_SIZE = new Model(BIG_EMOJI_SIZE, 'BIG_EMOJI_SIZE')
 
 /** 收藏排序 */
 export const COLLECTIONS_ORDERBY = [

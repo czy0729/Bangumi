@@ -86,7 +86,7 @@ function Subjects({
       scrollEnabled={!edit}
       renderItem={handleRenderItem}
       footerNoMoreDataComponent={
-        <Text style={_.mt.md} type='icon' size={12} align='center'>
+        <Text style={_.mt.md} type={_.select('sub', 'icon')} size={12} align='center'>
           - 到底了 -
         </Text>
       }

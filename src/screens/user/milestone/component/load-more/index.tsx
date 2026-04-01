@@ -37,7 +37,7 @@ function LoadMore() {
   return (
     <Flex style={_.mt.md} justify='center'>
       {isLoadedEnd ? (
-        <Text type='icon' size={12} align='center'>
+        <Text type={_.select('sub', 'icon')} size={12} align='center'>
           加载完毕
         </Text>
       ) : (
@@ -46,12 +46,12 @@ function LoadMore() {
             {fetching ? (
               <>
                 <Loading.Normal />
-                <Text style={_.mt.sm} type='icon' size={12} lineHeight={16}>
+                <Text style={_.mt.sm} type={_.select('sub', 'icon')} size={12} lineHeight={16}>
                   正在加载 {page + 1} / {pageTotal}
                 </Text>
               </>
             ) : (
-              <Text type='icon' size={12} lineHeight={16}>
+              <Text type={_.select('sub', 'icon')} size={12} lineHeight={16}>
                 点击加载 {page} / {pageTotal}
               </Text>
             )}

@@ -5,11 +5,11 @@
  * @Last Modified time: 2024-01-31 21:19:15
  */
 import React, { useCallback, useState } from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Iconfont, Input, Touchable } from '@components'
 import { _, rakuenStore } from '@stores'
 import { info } from '@utils'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import Block from '@screens/user/setting/component/block'
 import Tip from '@screens/user/setting/component/tip'
 import History from '../history'
@@ -22,6 +22,7 @@ function BlockedKeyword() {
   r(COMPONENT)
 
   const [keyword, setKeyword] = useState('')
+
   const handleChange = useCallback((keyword: string) => {
     setKeyword(keyword.trim())
   }, [])
@@ -38,7 +39,7 @@ function BlockedKeyword() {
     handleDeleteKeyword(item)
   }, [])
 
-  return useObserver(() => (
+  return (
     <Block>
       <Tip>屏蔽关键字（对超展开标题、帖子正文生效）</Tip>
       <History data={rakuenStore.setting.blockKeywords} onDelete={handleDelete} />
@@ -61,7 +62,7 @@ function BlockedKeyword() {
         </Touchable>
       </Flex>
     </Block>
-  ))
+  )
 }
 
-export default BlockedKeyword
+export default observer(BlockedKeyword)

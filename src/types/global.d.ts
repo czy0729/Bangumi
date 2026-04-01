@@ -80,6 +80,9 @@ declare const window: {
     ) => Promise<any>
   }
 
+  /** 打开新页面 */
+  open: (url: string) => void
+
   /** 交叉观察器 */
   IntersectionObserver: new (callback: (...args: any[]) => void, options?: any) => any
 

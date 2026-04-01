@@ -16,7 +16,7 @@ function Lasttime() {
   if (!ts?.[0]) return null
 
   return (
-    <Text style={_.mt.xs} size={10} type='icon' bold align='center'>
+    <Text style={_.mt.xs} type={_.select('sub', 'icon')} size={10} bold align='center'>
       last logged on: {date('y-m-d H:i', ts[0])}, {DEVICE_MODEL_NAME}
     </Text>
   )

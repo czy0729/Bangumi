@@ -18,7 +18,7 @@ function Collection({ collection, typeCn, airtime }: Props) {
   if (!collection && !airtime) return null
 
   let icon: IconfontNames
-  let type: TextType = 'icon'
+  let type: TextType = _.select('sub', 'icon')
   let size = 13
   if (collection.includes('过')) {
     icon = 'md-check'

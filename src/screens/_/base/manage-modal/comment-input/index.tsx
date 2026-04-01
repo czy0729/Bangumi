@@ -77,7 +77,7 @@ function CommentInput({
         </Flex.Item>
 
         {comment ? (
-          <Text style={styles.length} type='icon' size={13} lineHeight={14}>
+          <Text style={styles.length} type={_.select('sub', 'icon')} size={13} lineHeight={14}>
             {remaining}
           </Text>
         ) : (

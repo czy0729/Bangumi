@@ -68,7 +68,7 @@ export const Filter = observer(
                     </Text>
                     {multiSelect && (
                       <Touchable style={styles.how} useRN onPress={() => info('长按标签多选类型')}>
-                        <Text size={12} lineHeight={12} type='icon' bold noWrap>
+                        <Text type={_.select('sub', 'icon')} size={12} lineHeight={12} bold noWrap>
                           多选
                         </Text>
                       </Touchable>
@@ -210,7 +210,7 @@ export const Filter = observer(
               if (typeof $?.onExpand === 'function') $.onExpand()
             }}
           >
-            <Text size={11} lineHeight={12} type='icon' bold noWrap>
+            <Text type={_.select('sub', 'icon')} size={11} lineHeight={12} bold noWrap>
               {expand ? '收起' : '更多'}选项
             </Text>
           </Touchable>

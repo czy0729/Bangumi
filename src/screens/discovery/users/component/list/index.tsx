@@ -66,7 +66,7 @@ function List() {
           )
         })}
 
-        <Text style={_.mt.lg} type='icon' size={12} align='center'>
+        <Text style={_.mt.lg} type={_.select('sub', 'icon')} size={12} align='center'>
           不定期收录一些班友开发的社区项目（非官方）
         </Text>
       </ScrollView>

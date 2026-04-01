@@ -28,7 +28,7 @@ function IconFolder() {
           <Heatmap id='条目.管理目录' />
         </IconTouchable>
         {isInclude && (
-          <Text style={styles.num} size={10} type='icon' bold>
+          <Text style={styles.num} type={_.select('sub', 'icon')} size={10} bold>
             {$.catalogIncludes}
           </Text>
         )}

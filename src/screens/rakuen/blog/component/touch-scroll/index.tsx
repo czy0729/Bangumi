@@ -48,7 +48,7 @@ function TouchScroll({ onPress = FROZEN_FN }: { onPress?: Fn }) {
         <Flex.Item flex={isVertical ? 1 : 3}>
           <TouchableWithoutFeedback onPressIn={() => onPress(-1)}>
             <Flex style={isVertical ? styles.itemVertical : styles.itemHorizontal}>
-              <Text style={styles.text} size={8} type='icon' align='center'>
+              <Text style={styles.text} type='icon' size={8} align='center'>
                 0
               </Text>
             </Flex>
@@ -69,8 +69,8 @@ function TouchScroll({ onPress = FROZEN_FN }: { onPress?: Fn }) {
                   {showFloorText && (
                     <Text
                       style={styles.text}
-                      size={8}
                       type={isNew ? _.select('plain', 'icon') : 'icon'}
+                      size={8}
                       align='center'
                     >
                       {String(list[index].floor || '').replace('#', '')}

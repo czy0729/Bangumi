@@ -5,7 +5,8 @@
  * @Last Modified time: 2023-11-24 05:20:45
  */
 import React, { useState } from 'react'
-import { Touchable, Text } from '@components'
+import { Text, Touchable } from '@components'
+import { _ } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { timeAgo } from './utils'
 
@@ -18,7 +19,7 @@ function LastModified({ value }) {
         setFulltime(!fulltime)
       }}
     >
-      <Text size={11} lineHeight={12} type='icon'>
+      <Text type={_.select('sub', 'icon')} size={11} lineHeight={12}>
         [{fulltime ? String(value).replace('T', ' ').split('.')?.[0] : timeAgo(value)}]
       </Text>
     </Touchable>

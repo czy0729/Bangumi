@@ -7,7 +7,7 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Text, Touchable } from '@components'
-import { useStore } from '@stores'
+import { _, useStore } from '@stores'
 import { styles } from './styles'
 
 import type { Ctx } from '../../types'
@@ -21,7 +21,7 @@ function IconVersion() {
 
   return (
     <Touchable style={styles.version} onPress={$.toggleVersion}>
-      <Text type={filterVersion ? 'main' : 'icon'} size={13} bold>
+      <Text type={filterVersion ? 'main' : _.select('sub', 'icon')} size={13} bold>
         {filterVersion ? '当前' : '全部'}版本
       </Text>
     </Touchable>

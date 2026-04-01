@@ -24,7 +24,7 @@ export const ItemSetting = observer(
     contentStyle,
     show = true,
     hd,
-    hdSize = WEB ? 14 : 15,
+    hdSize = WEB ? 13 : 14,
     ft,
     arrow,
     arrowStyle,

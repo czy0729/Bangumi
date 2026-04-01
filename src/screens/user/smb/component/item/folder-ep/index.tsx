@@ -12,7 +12,7 @@ import { _, useStore } from '@stores'
 import { copy, desc } from '@utils'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
-import { Ctx, SMBListItem } from '../../../types'
+import { Ctx, SMBListItem, type } from '../../../types'
 import { SORT_ORDER } from '../ds'
 import { fixedUrl } from '../../../utils'
 import LastModified from '../last-modified'
@@ -179,7 +179,7 @@ function FolderEp({ folder }: { folder: SMBListItem }) {
               $.onFile(name)
             }}
           >
-            <Text size={12} type='icon'>
+            <Text type={_.select('sub', 'icon')} size={12}>
               [视频]
             </Text>
           </Touchable>

@@ -5,10 +5,10 @@
  * @Last Modified time: 2024-12-25 15:20:58
  */
 import React, { useCallback, useState } from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Iconfont, Input, Text, Touchable } from '@components'
 import { _, rakuenStore, userStore } from '@stores'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import i18n from '@constants/i18n'
 import Block from '@screens/user/setting/component/block'
 import Tip from '@screens/user/setting/component/tip'
@@ -24,6 +24,7 @@ function BlockedUsers({ navigation, onNavigate }: Props) {
   r(COMPONENT)
 
   const [keyword, setKeyword] = useState('')
+
   const handleChange = useCallback((keyword: string) => {
     setKeyword(keyword.trim())
   }, [])
@@ -33,7 +34,7 @@ function BlockedUsers({ navigation, onNavigate }: Props) {
     })
   }, [keyword])
 
-  return useObserver(() => (
+  return (
     <Block>
       <Tip>与以下用户绝交（不再看到用户的所有话题、评论、日志、私信、提醒）</Tip>
       {userStore.isWebLogin ? (
@@ -69,7 +70,7 @@ function BlockedUsers({ navigation, onNavigate }: Props) {
         </Flex>
       )}
     </Block>
-  ))
+  )
 }
 
-export default BlockedUsers
+export default observer(BlockedUsers)

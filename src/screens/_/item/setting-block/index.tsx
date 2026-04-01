@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 06:36:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 06:28:00
+ * @Last Modified time: 2026-04-02 00:30:42
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -25,7 +25,7 @@ const ItemSettingBlock: IItemSettingBlock = observer(
     title,
     information,
     informationType = 'sub',
-    size = WEB ? 14 : 15,
+    size = WEB ? 13 : 14,
     filter,
     sub,
     subStyle,

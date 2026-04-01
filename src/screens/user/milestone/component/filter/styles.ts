@@ -19,7 +19,7 @@ export const styles = _.create({
   },
   split: {
     marginHorizontal: -1,
-    opacity: 0.72,
+    opacity: _.select(0.44, 0.72),
     pointerEvents: 'none'
   },
   setting: {

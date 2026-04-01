@@ -97,8 +97,8 @@ const Box = memo(
           )}
 
           {outdate && (
-            <Link style={_.mt.md} path='LoginV2'>
-              <Text type='icon' size={statusSize} bold>
+            <Link style={styles.outdate} path='LoginV2'>
+              <Text type={_.select('sub', 'icon')} size={11} bold>
                 检测到授权信息过期，点击重新登录，或返回首页下拉刷新授权
               </Text>
             </Link>

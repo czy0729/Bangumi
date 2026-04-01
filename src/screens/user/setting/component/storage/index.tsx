@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-07 07:48:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-24 13:36:26
+ * @Last Modified time: 2026-04-02 00:54:12
  */
 import React, { useCallback, useState } from 'react'
 import { ActionSheet, Heatmap, Text } from '@components'
@@ -10,7 +10,7 @@ import { clearCache } from '@components/image/image'
 import { ItemSetting } from '@_'
 import Stores from '@stores'
 import { confirm, info, toFixed } from '@utils'
-import { r } from '@utils/dev'
+import { logger, r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { useBoolean, useMount, useObserver } from '@utils/hooks'
 import { getAllKeys, multiGet } from '@utils/storage/utils'
@@ -39,7 +39,7 @@ function Storage({ filter }) {
       })
       setStorageSize(`${toFixed(storageSize / 1000 / 1000, 1)} mb`)
     } catch (error) {
-      console.error('Setting', 'caculateStorageSize', error)
+      logger.error('Setting', 'caculateStorageSize', error)
     }
   }, [])
 

@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-01 06:10:37
+ * @Last Modified time: 2026-04-02 00:27:19
  */
 import {
   LIST_EMPTY,
+  MODEL_BIG_EMOJI_SIZE,
   MODEL_RAKUEN_AUTO_LOAD_IMAGE,
   MODEL_RAKUEN_NEW_FLOOR_STYLE,
   MODEL_RAKUEN_SCOPE,
@@ -169,7 +170,13 @@ export const INIT_SETTING = {
   scrollDirection: MODEL_RAKUEN_SCROLL_DIRECTION.getValue('右侧'),
 
   /** 帖子新楼层样式 */
-  newFloorStyle: MODEL_RAKUEN_NEW_FLOOR_STYLE.getValue('角标')
+  newFloorStyle: MODEL_RAKUEN_NEW_FLOOR_STYLE.getValue('角标'),
+
+  /** 大表情动画 */
+  bigEmojiAnimated: true,
+
+  /** 大表情尺寸 */
+  bigEmojiSize: MODEL_BIG_EMOJI_SIZE.getValue('中')
 }
 
 export const INIT_GROUP_INFO = {

@@ -8,12 +8,13 @@ import React from 'react'
 import { View } from 'react-native'
 import { Flex, Highlight, Iconfont, Touchable } from '@components'
 import { _, systemStore } from '@stores'
-import { HomeRenderTabs } from '@stores/system/types'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Fn, IconfontNames } from '@types'
 import { TEXTS } from '../../ds'
 import { memoStyles } from './styles'
+
+import type { HomeRenderTabs } from '@stores/system/types'
+import type { Fn, IconfontNames } from '@types'
 
 function Item({
   filter,
@@ -50,7 +51,12 @@ function Item({
           <View style={styles.icon}>
             <Iconfont name={name} color={show ? _.colorDesc : _.colorIcon} size={size} />
           </View>
-          <Highlight type={show ? undefined : 'icon'} size={11} bold value={filter}>
+          <Highlight
+            type={show ? undefined : _.select('sub', 'icon')}
+            size={11}
+            bold
+            value={filter}
+          >
             {TEXTS.initialPage[label.toLocaleLowerCase()]}
           </Highlight>
         </Flex>

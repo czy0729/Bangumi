@@ -33,7 +33,7 @@ function Filter() {
         {fetching && (
           <Flex style={styles.loading} justify='end'>
             {!!percent && (
-              <Text style={styles.percent} type='icon' size={11} bold>
+              <Text style={styles.percent} type={_.select('sub', 'icon')} size={11} bold>
                 {percent}
               </Text>
             )}

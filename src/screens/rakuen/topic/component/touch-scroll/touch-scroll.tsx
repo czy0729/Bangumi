@@ -76,7 +76,7 @@ export const TouchScroll = memo(
         <Flex.Item style={styles.itemText} flex={isVertical ? 1 : 3}>
           <TouchableWithoutFeedback {...makePressProps(-1)}>
             <Flex style={isVertical ? styles.itemVertical : styles.itemHorizontal}>
-              <Text style={_.container.block} size={8} type='icon' align='center'>
+              <Text style={_.container.block} type='icon' size={8} align='center'>
                 1
               </Text>
             </Flex>
@@ -122,8 +122,8 @@ export const TouchScroll = memo(
                   {showFloorText ? (
                     <Text
                       style={_.container.block}
-                      size={isVertical ? 8 : 9}
                       type={isNew ? _.select('plain', 'icon') : 'icon'}
+                      size={isVertical ? 8 : 9}
                       bold={isCurrent}
                       align='center'
                       noWrap

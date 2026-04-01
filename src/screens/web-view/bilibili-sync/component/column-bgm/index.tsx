@@ -15,7 +15,12 @@ function ColumnBgm({ select, text, next }) {
   r(COMPONENT)
 
   return useObserver(() => (
-    <Text style={_.mt.md} type={!text ? 'icon' : select ? 'icon' : 'desc'} size={11} bold>
+    <Text
+      style={_.mt.md}
+      type={!text ? _.select('sub', 'icon') : select ? _.select('sub', 'icon') : 'desc'}
+      size={11}
+      bold
+    >
       {text || (select ? '(空)' : '')}
       {select && (
         <Text size={11} bold type='desc'>

@@ -19,5 +19,15 @@ export const memoStyles = _.memoStyles(() => ({
   },
   bottom: {
     marginTop: -_.select(44, 50) + _.sm
+  },
+  outdate: {
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    marginTop: _.md,
+    backgroundColor: _.colorMainLight,
+    borderWidth: _.select(1, 0),
+    borderColor: _.colorMainLightBorder,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
   }
 }))

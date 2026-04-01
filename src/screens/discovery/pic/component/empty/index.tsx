@@ -77,7 +77,7 @@ function Empty({ showPagination = true }: Props) {
                 })
                 .slice(0, 10)
                 .map(({ item, picTotal }) => {
-                  const textType = picTotal === 0 ? 'icon' : 'desc'
+                  const textType = picTotal === 0 ? _.select('sub', 'icon') : 'desc'
 
                   return (
                     <Touchable
