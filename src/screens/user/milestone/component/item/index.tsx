@@ -12,7 +12,7 @@ import { Stars } from '@_'
 import { _, useStore } from '@stores'
 import { getTimestamp, getVisualLength, HTMLDecode, lastDate, stl } from '@utils'
 import { IMG_SUBJECT_ONLY, MODEL_SUBJECT_TYPE } from '@constants'
-import { getLastPart } from './utils'
+import { getLastParts, getPartAfterDate } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
@@ -22,6 +22,7 @@ import type { Props } from './types'
 
 function Item({ item, index }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
+  const { subjectType } = $.state
 
   const styles = memoStyles()
 
@@ -44,7 +45,8 @@ function Item({ item, index }: Props) {
     }
   } else if ($.state.subTitle === '描述') {
     if (item.tip) {
-      const lastPart = getLastPart(item.tip)
+      const lastPart =
+        subjectType === 'game' ? getLastParts(item.tip, 2) : getPartAfterDate(item.tip)
       if (lastPart) subTitleText = lastPart
     }
   }
@@ -62,7 +64,8 @@ function Item({ item, index }: Props) {
     }
   } else if ($.state.extraTitle === '描述') {
     if (item.tip) {
-      const lastPart = getLastPart(item.tip)
+      const lastPart =
+        subjectType === 'game' ? getLastParts(item.tip, 2) : getPartAfterDate(item.tip)
       if (lastPart) extraTitleText = lastPart
     }
   }
@@ -159,7 +162,14 @@ function Item({ item, index }: Props) {
             </Text>
           )}
           {!!subTitleText && (
-            <Text style={styles.sub} type='sub' size={size} bold align='center'>
+            <Text
+              style={styles.sub}
+              type='sub'
+              size={size - (getVisualLength(extraTitleText) >= 16 ? 2 : 0)}
+              numberOfLines={4}
+              bold
+              align='center'
+            >
               {subTitleText}
             </Text>
           )}
@@ -172,7 +182,14 @@ function Item({ item, index }: Props) {
             />
           )}
           {!!extraTitleText && (
-            <Text style={styles.sub} type='sub' size={size} numberOfLines={3} bold align='center'>
+            <Text
+              style={styles.sub}
+              type='sub'
+              size={size - (getVisualLength(extraTitleText) >= 16 ? 2 : 0)}
+              numberOfLines={4}
+              bold
+              align='center'
+            >
               {extraTitleText}
             </Text>
           )}

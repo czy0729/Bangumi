@@ -21,7 +21,7 @@ function Bg() {
     <LinearGradient
       style={_.absoluteFill}
       colors={_.select(
-        ['rgb(255, 255, 255)', _.colorMainLight],
+        ['rgb(255, 255, 255)', 'rgb(255, 233, 233)'],
         ['rgb(0, 0, 0)', _.colorDarkModeLevel2]
       )}
     />
