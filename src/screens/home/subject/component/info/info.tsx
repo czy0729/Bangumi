@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-23 23:29:39
+ * @Last Modified time: 2026-04-03 22:05:01
  */
 import React, { useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
 import { Expand, Heatmap, RenderHtml } from '@components'
 import { SectionTitle } from '@_'
 import { _ } from '@stores'
-import { appNavigate } from '@utils'
+import { appNavigate, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { FROZEN_FN } from '@constants'
@@ -83,7 +83,7 @@ const Info = memo(
     )
 
     return (
-      <View style={showInfo ? styles.container : styles.hide}>
+      <View style={stl(styles.container, !showInfo && styles.containerNotShow)}>
         <SectionTitle
           style={_.container.wind}
           right={elRight}

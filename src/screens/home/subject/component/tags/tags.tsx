@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-26 16:30:54
+ * @Last Modified time: 2026-04-03 19:15:09
  */
 import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
@@ -46,7 +46,13 @@ const Tags = memo(
     const handleToggle = useCallback(() => onSwitchBlock('showTags'), [onSwitchBlock])
 
     return (
-      <View style={stl(_.mt.lg, showTags ? styles.container : _.short, !show && _.mb.md)}>
+      <View
+        style={stl(
+          styles.container,
+          subjectTagsExpand && styles.containerExpand,
+          !showTags && styles.containerNotShow
+        )}
+      >
         <SectionTitle
           style={_.container.wind}
           right={elRight}

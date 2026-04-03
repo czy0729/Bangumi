@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 10:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:34:22
+ * @Last Modified time: 2026-04-03 17:05:53
  */
 import React, { Suspense } from 'react'
 import { View } from 'react-native'
@@ -31,6 +31,7 @@ function RelationsWrap({ onBlockRef }: Props) {
           style={_.container.layout}
           collapsable={false}
         />
+
         <Relations
           navigation={navigation}
           showRelations={systemStore.setting.showRelations}
@@ -40,6 +41,7 @@ function RelationsWrap({ onBlockRef }: Props) {
           name={cnjp($.cn, $.jp)}
           onSwitchBlock={$.onSwitchBlock}
         />
+
         <Split
           style={{
             marginTop: 12

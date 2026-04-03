@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:02:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-21 00:35:26
+ * @Last Modified time: 2026-04-03 19:40:49
  */
 import React, { useCallback, useMemo } from 'react'
 import { Heatmap, Text } from '@components'
@@ -32,12 +32,12 @@ const Comic = memo(
     const elRight = useMemo(() => <IconRelation title='单行本' list={comic} />, [comic])
 
     const handlePress = useCallback(
-      ({ id, name, image }: SubjectFromHtmlComitItem, type: SubjectTypeCn) => {
+      ({ id, name, image }: SubjectFromHtmlComitItem, type: string) => {
         navigation.push('Subject', {
           subjectId: id,
           _jp: name,
           _image: getCoverSrc(image, COVER_WIDTH),
-          _type: type
+          _type: type as SubjectTypeCn
         })
 
         t('条目.跳转', {

@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-04-08 10:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-15 15:26:17
+ * @Last Modified time: 2026-04-03 17:06:27
  */
 import React, { useCallback, useMemo } from 'react'
 import { Heatmap } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { HorizontalList, InView, SectionTitle } from '@_'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { FROZEN_FN } from '@constants'
@@ -19,7 +20,6 @@ import { COMPONENT_MAIN, COVER_HEIGHT, COVER_WIDTH, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
 import type { SubjectTypeCn } from '@types'
-
 const Relations = memo(
   ({
     navigation,
@@ -42,12 +42,12 @@ const Relations = memo(
     const handleToggle = useCallback(() => onSwitchBlock('showRelations'), [onSwitchBlock])
 
     const handleNavigate = useCallback(
-      ({ id, name, image }, type: SubjectTypeCn) => {
+      ({ id, name, image }, type: string) => {
         navigation.push('Subject', {
           subjectId: id,
           _jp: name,
           _image: getCoverSrc(image, COVER_WIDTH),
-          _type: type
+          _type: type as SubjectTypeCn
         })
 
         t('条目.跳转', {
@@ -60,7 +60,7 @@ const Relations = memo(
     )
 
     return (
-      <InView style={showRelations ? styles.container : styles.hide}>
+      <InView style={stl(styles.container, !showRelations && styles.containerNotShow)}>
         <SectionTitle
           style={_.container.wind}
           right={elRight}
@@ -81,6 +81,7 @@ const Relations = memo(
               findCn
               relationTypeCn={typeCn}
               initialRenderNums={_.device(Math.floor(_.window.contentWidth / COVER_WIDTH) + 1, 6)}
+              ellipsizeMode='middle'
               onPress={handleNavigate}
             />
             <Heatmap id='条目.跳转' from='关联条目' />

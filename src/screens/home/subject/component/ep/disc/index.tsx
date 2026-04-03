@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 02:26:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:10:37
+ * @Last Modified time: 2026-04-03 22:18:26
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -22,6 +22,7 @@ function DiscWrap() {
       styles={memoStyles()}
       subjectId={$.subjectId}
       disc={$.disc}
+      loaded={!!$.subjectFormHTML._loaded}
       discTranslateResult={$.state.discTranslateResult.slice()}
       focusOrigin={systemStore.setting.focusOrigin}
     />

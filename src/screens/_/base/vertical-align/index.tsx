@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-06-13 22:34:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 20:33:54
+ * @Last Modified time: 2026-04-03 06:38:54
  */
+import React from 'react'
 import { Text } from '@components'
 
 import type { Props as VerticalAlignProps } from './types'

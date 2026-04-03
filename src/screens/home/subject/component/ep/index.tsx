@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:04:28
+ * @Last Modified time: 2026-04-03 21:58:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -34,6 +34,7 @@ function EpWrap({ onBlockRef, onScrollIntoViewIfNeeded }: Props) {
         style={_.container.layout}
         collapsable={false}
       />
+
       {typeCn === '书籍' ? (
         <BookEp onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded} />
       ) : typeCn === '音乐' ? (
@@ -54,6 +55,7 @@ function EpWrap({ onBlockRef, onScrollIntoViewIfNeeded }: Props) {
           doUpdateSubjectEp={$.doUpdateSubjectEp}
         />
       )}
+
       <Split />
     </Component>
   )

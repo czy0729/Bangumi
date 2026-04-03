@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2023-01-18 02:14:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 14:38:15
+ * @Last Modified time: 2026-04-03 22:47:19
  */
 import { _ } from '@stores'
 
 export const styles = _.create({
   container: {
-    minHeight: 188,
-    marginTop: _.lg
+    minHeight: 212,
+    marginTop: 28
   },
-  hide: {
-    marginTop: _.lg,
-    marginBottom: -_.sm
+  containerNotShow: {
+    minHeight: 'auto'
   }
 })

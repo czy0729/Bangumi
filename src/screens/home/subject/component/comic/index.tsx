@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:02:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:03:14
+ * @Last Modified time: 2026-04-03 19:40:18
  */
 import React, { Suspense } from 'react'
 import { View } from 'react-native'
@@ -30,7 +30,9 @@ function ComicWrap({ onBlockRef }: Props) {
           style={_.container.layout}
           collapsable={false}
         />
+
         <Comic navigation={navigation} subjectId={$.subjectId} comic={$.comic} />
+
         <Split />
       </Component>
     </Suspense>

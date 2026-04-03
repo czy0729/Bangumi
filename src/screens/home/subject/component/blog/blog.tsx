@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:36:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-04 00:59:56
+ * @Last Modified time: 2026-04-03 22:36:59
  */
 import React, { useCallback, useMemo } from 'react'
+import { View } from 'react-native'
 import { Expand, Heatmap } from '@components'
 import { InView, ItemArticle, PreventTouchPlaceholder, SectionTitle } from '@_'
 import { _, rakuenStore } from '@stores'
@@ -19,7 +20,16 @@ import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Blog = memo(
   ({ navigation, styles, showBlog = true, subjectId = 0, blog, onSwitchBlock = FROZEN_FN }) => {
-    const { list, onExpand } = useExpandLazy(blog)
+    const filterBlog = blog.filter(item => {
+      const { nickname, username } = item.user
+      return !getIsBlockedUser(
+        rakuenStore.blockUserIds,
+        nickname,
+        username,
+        `Subject|Blog|${subjectId}|${item.id}`
+      )
+    })
+    const { list, onExpand } = useExpandLazy(filterBlog)
 
     const elRight = useMemo(
       () => (showBlog ? <IconBlog /> : <IconHidden name={TITLE_BLOG} value='showBlog' />),
@@ -28,8 +38,44 @@ const Blog = memo(
 
     const handleToggle = useCallback(() => onSwitchBlock('showBlog'), [onSwitchBlock])
 
+    const elList = useMemo(
+      () => (
+        <>
+          {list.map(item => (
+            <ItemArticle
+              key={item.id}
+              style={styles.item}
+              navigation={navigation}
+              avatar={item.user.avatar.small}
+              title={item.title}
+              summary={item.summary.replace(/\r\n/g, '').trim()}
+              nickname={item.user.nickname}
+              userId={item.user.username}
+              timestamp={item.timestamp}
+              replies={item.replies}
+              url={item.url}
+              event={{
+                id: '条目.跳转',
+                data: {
+                  from: '评论',
+                  subjectId
+                }
+              }}
+            />
+          ))}
+        </>
+      ),
+      [list, navigation, styles, subjectId]
+    )
+
     return (
-      <InView style={stl(styles.container, !showBlog && _.short)}>
+      <InView
+        style={stl(
+          styles.container,
+          list.length >= 2 && styles.containerFull,
+          !showBlog && styles.containerNotShow
+        )}
+      >
         <SectionTitle
           style={styles.sectionTitle}
           right={elRight}
@@ -40,45 +86,17 @@ const Blog = memo(
           {TITLE_BLOG}
         </SectionTitle>
 
-        {showBlog && (
-          <>
-            <Expand key={String(blog?.length)} style={_.mt.sm} onExpand={onExpand}>
-              {list.map(item => {
-                const { nickname, username } = item.user
-                const flag = getIsBlockedUser(
-                  rakuenStore.blockUserIds,
-                  nickname,
-                  username,
-                  `Subject|Blog|${subjectId}|${item.id}`
-                )
-                if (flag) return null
-
-                return (
-                  <ItemArticle
-                    key={item.id}
-                    style={styles.item}
-                    navigation={navigation}
-                    avatar={item.user.avatar.small}
-                    title={item.title}
-                    summary={item.summary.replace(/\r\n/g, '').trim()}
-                    nickname={nickname}
-                    userId={username}
-                    timestamp={item.timestamp}
-                    replies={item.replies}
-                    url={item.url}
-                    event={{
-                      id: '条目.跳转',
-                      data: {
-                        from: '评论',
-                        subjectId
-                      }
-                    }}
-                  />
-                )
-              })}
-            </Expand>
+        {showBlog && !!list.length && (
+          <View style={_.mt.sm}>
+            {list.length <= 1 ? (
+              elList
+            ) : (
+              <Expand checkLayout={false} onExpand={onExpand}>
+                {elList}
+              </Expand>
+            )}
             <Heatmap id='条目.跳转' from='评论' />
-          </>
+          </View>
         )}
         <PreventTouchPlaceholder />
       </InView>

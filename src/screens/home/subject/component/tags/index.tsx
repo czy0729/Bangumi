@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:35:55
+ * @Last Modified time: 2026-04-03 22:27:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -32,6 +32,7 @@ function TagsWrap({ onBlockRef }: Props) {
         style={_.container.layout}
         collapsable={false}
       />
+
       <Tags
         styles={styles}
         show={systemStore.setting.showTags && !!$.tags.length}
@@ -42,6 +43,7 @@ function TagsWrap({ onBlockRef }: Props) {
         focusOrigin={systemStore.setting.focusOrigin}
         onSwitchBlock={$.onSwitchBlock}
       />
+
       <Split style={styles.split} />
     </Component>
   )

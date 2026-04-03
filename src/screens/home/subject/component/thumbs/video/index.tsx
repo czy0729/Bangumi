@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-06-21 20:51:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:37:34
+ * @Last Modified time: 2026-04-03 22:03:41
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Image, Text, Touchable } from '@components'
 import { _, systemStore } from '@stores'
-import { open } from '@utils'
+import { getVisualLength, open } from '@utils'
 import { r } from '@utils/dev'
 import { THUMB_HEIGHT, THUMB_WIDTH } from '../ds'
 import { COMPONENT } from './ds'
@@ -21,6 +21,9 @@ function Video({ item, epsThumbsHeader, showTitle = true }: Props) {
   r(COMPONENT)
 
   if (!systemStore.setting.showCharacter) return null
+
+  const visualLength = getVisualLength(item.title)
+  const size = visualLength >= 32 ? 9 : visualLength >= 24 ? 10 : 11
 
   return (
     <View style={styles.video}>
@@ -45,11 +48,12 @@ function Video({ item, epsThumbsHeader, showTitle = true }: Props) {
         {showTitle && !!item.title && (
           <Text
             style={styles.title}
-            size={11}
-            lineHeight={14}
+            size={size}
+            lineHeight={13}
             bold
-            numberOfLines={3}
+            numberOfLines={2}
             align='center'
+            ellipsizeMode='middle'
           >
             {item.title}
           </Text>

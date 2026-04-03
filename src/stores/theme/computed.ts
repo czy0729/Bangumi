@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 14:20:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-01 05:25:00
+ * @Last Modified time: 2026-04-03 16:24:22
  */
 import { StyleSheet } from 'react-native'
 import { computed } from 'mobx'
@@ -412,6 +412,13 @@ export default class Computed extends State implements StoreConstructor<typeof S
   @computed get window() {
     return this.isLandscape ? this.landscapeWindow : this.state.window
   }
+
+  /**
+   * 替代使用 _.window.contentWidth
+   * 能规范各端最小宽度, 用于计算部分容器最小高度
+   * 避免频繁触发 onLayout
+   * */
+  readonly __contentWidth__ = 344
 
   /** 垂直窗口两翼宽度 (平板的两翼宽度会放大) */
   @computed get wind() {

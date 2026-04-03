@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-03 15:44:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:37:50
+ * @Last Modified time: 2026-04-03 22:50:42
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -12,10 +12,10 @@ import { _, collectionStore, systemStore, usersStore, useStore } from '@stores'
 import { getTimestamp, lastDate, titleCase } from '@utils'
 import { MODEL_COLLECTION_STATUS } from '@constants'
 import { COMPONENT, POPOVER_DATA } from './ds'
+import { styles } from './styles'
 
 import type { CollectionStatusCn, UserId } from '@types'
 import type { Ctx } from '../../types'
-
 function TrackComment() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
@@ -40,16 +40,18 @@ function TrackComment() {
 
   return (
     <Component id='screen-subject-track-comment' style={_.mt.sm}>
-      <InView y={_.window.height * 1.5}>
+      <InView y={Math.floor(_.window.height * 1.5)}>
         {items.map(item => {
           const collection = collectionStore.usersSubjectCollection(item, $.subjectId)
           const userInfo = usersStore.usersInfo(item)
           const status = String(
             MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(collection.type) || ''
           ).replace('看', $.action) as CollectionStatusCn
+
           return (
             <ItemComment
               key={item}
+              style={styles.item}
               event={event}
               time={lastDate(getTimestamp(collection.update_at))}
               avatar={userInfo.avatar}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-19 12:28:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 17:03:53
+ * @Last Modified time: 2026-04-03 16:40:30
  */
 import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
@@ -24,15 +24,20 @@ if (!DEV) {
   }, 20000)
 }
 
-export default ({ index = 0, y = 0, log, flex, visibleBottom, children, ...other }) => {
+export default ({ index = 0, y = 0, log, flex, visibleBottom, onLayout, children, ...other }) => {
   r(COMPONENT)
 
   const [currentY, setCurrentY] = useState(y)
   const [show, setShow] = useState(y && visibleBottom ? y <= visibleBottom : false)
 
-  const handleLayout = useCallback((event: LayoutChangeEvent) => {
-    setCurrentY(event.nativeEvent.layout.y)
-  }, [])
+  const handleLayout = useCallback(
+    (event: LayoutChangeEvent) => {
+      if (typeof onLayout === 'function') onLayout(event)
+
+      setCurrentY(event.nativeEvent.layout.y)
+    },
+    [onLayout]
+  )
 
   useEffect(() => {
     if (show) return

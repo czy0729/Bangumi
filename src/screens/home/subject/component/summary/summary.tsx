@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-23 23:38:09
+ * @Last Modified time: 2026-04-03 16:31:07
  */
 import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
 import { Expand, Text } from '@components'
 import { SectionTitle } from '@_'
 import { _, systemStore } from '@stores'
+import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { FROZEN_FN } from '@constants'
@@ -62,7 +63,7 @@ const Summary = memo(
     }, [name, navigation, subjectId])
 
     return (
-      <View style={showSummary ? styles.container : styles.hide}>
+      <View style={stl(styles.container, !showSummary && styles.containerNotShow)}>
         <SectionTitle
           right={elRight}
           icon={!showSummary && 'md-navigate-next'}

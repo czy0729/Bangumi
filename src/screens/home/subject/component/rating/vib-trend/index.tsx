@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-02-14 04:45:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:33:55
+ * @Last Modified time: 2026-04-03 22:55:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -27,10 +27,11 @@ function VibTrend() {
   const { state, setTrue, setFalse } = useBoolean(false)
 
   const { rating, vib, subjectId, subjectType } = $
+  const data = useVIBTrend(subjectId)
+
   if (!subjectType || !rating?.score) return null
 
   const styles = memoStyles()
-  const data = useVIBTrend(subjectId)
 
   const typeScoreData = Object.entries(typeScore[subjectType])
     .filter(([key]) => key !== '0.0' && key !== '10.0')

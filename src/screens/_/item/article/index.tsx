@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 04:40:04
+ * @Last Modified time: 2026-04-03 19:36:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -55,8 +55,9 @@ export const ItemArticle = observer(
                 />
               </UserStatus>
             </View>
+
             <Flex.Item style={styles.item}>
-              <Text lineHeight={16} bold>
+              <Text size={13} lineHeight={15} bold>
                 {HTMLDecode(title)}
               </Text>
               <Flex style={_.mt.xs}>
@@ -69,7 +70,7 @@ export const ItemArticle = observer(
                 </Text>
               </Flex>
               {!!summary && (
-                <Text style={_.mt.sm} size={13} lineHeight={15} numberOfLines={3}>
+                <Text style={_.mt.sm} size={12} lineHeight={15} numberOfLines={3}>
                   {HTMLDecode(summary.replace(/\r\n\r\n/g, '\r\n'))}
                 </Text>
               )}

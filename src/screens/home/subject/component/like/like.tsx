@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:00:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-23 05:55:00
+ * @Last Modified time: 2026-04-03 18:53:41
  */
 import React, { useCallback, useMemo } from 'react'
 import { Heatmap } from '@components'
@@ -44,12 +44,12 @@ const Like = memo(
     const handleToggle = useCallback(() => onSwitchBlock('showLike'), [onSwitchBlock])
 
     const handleNavigate = useCallback(
-      ({ id, name, image }: SubjectFromHtmlLikeItem, type: SubjectTypeCn) => {
+      ({ id, name, image }: SubjectFromHtmlLikeItem, type: string) => {
         navigation.push('Subject', {
           subjectId: id,
           _jp: name,
           _image: getCoverSrc(image, COVER_WIDTH),
-          _type: type
+          _type: type as SubjectTypeCn
         })
 
         t('条目.跳转', {
@@ -62,7 +62,7 @@ const Like = memo(
     )
 
     return (
-      <InView style={stl(styles.container, !showLike && _.short)}>
+      <InView style={stl(styles.container, !showLike && styles.containerNotShow)}>
         <SectionTitle
           style={_.container.wind}
           right={elRight}

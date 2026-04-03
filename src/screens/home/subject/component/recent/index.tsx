@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:34:14
+ * @Last Modified time: 2026-04-03 18:55:18
  */
 import React, { Suspense } from 'react'
 import { View } from 'react-native'
@@ -30,6 +30,7 @@ function RecentWrap({ onBlockRef }: Props) {
           style={_.container.layout}
           collapsable={false}
         />
+
         <Recent
           navigation={navigation}
           showRecent={systemStore.setting.showRecent}
@@ -38,6 +39,7 @@ function RecentWrap({ onBlockRef }: Props) {
           hideScore={systemStore.setting.hideScore}
           onSwitchBlock={$.onSwitchBlock}
         />
+
         <Split />
       </Component>
     </Suspense>

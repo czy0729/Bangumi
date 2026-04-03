@@ -2,14 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-08-26 00:53:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-15 16:51:11
+ * @Last Modified time: 2026-04-03 22:46:45
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   container: {
-    minHeight: 210,
-    marginTop: _.lg
+    minHeight: 218,
+    marginTop: 36
+  },
+  containerNotShow: {
+    minHeight: 'auto'
   },
   hide: {
     marginTop: _.lg,

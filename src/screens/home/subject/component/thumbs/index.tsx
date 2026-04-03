@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:37:13
+ * @Last Modified time: 2026-04-03 21:58:58
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
@@ -85,7 +85,13 @@ function Thumbs({ onBlockRef }: Props) {
         collapsable={false}
       />
 
-      <InView style={stl(styles.container, !showThumbs && _.short)}>
+      <InView
+        style={stl(
+          styles.container,
+          videos.length && styles.containerFull,
+          !showThumbs && styles.containerNotShow
+        )}
+      >
         <SectionTitle
           style={_.container.wind}
           right={elRight}
@@ -155,6 +161,7 @@ function Thumbs({ onBlockRef }: Props) {
         <PreventTouchPlaceholder />
         <Heatmap id='条目.预览' />
       </InView>
+
       <Split />
     </Component>
   )

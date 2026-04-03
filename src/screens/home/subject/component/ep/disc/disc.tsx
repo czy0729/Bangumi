@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 02:26:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 06:44:45
+ * @Last Modified time: 2026-04-03 22:25:31
  */
 import React, { useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
@@ -22,6 +22,7 @@ const Disc = memo(
     styles,
     subjectId = 0,
     disc,
+    loaded,
     discTranslateResult = FROZEN_ARRAY,
     focusOrigin = false
   }) => {
@@ -39,69 +40,75 @@ const Disc = memo(
       [focusOrigin, length]
     )
 
+    const hasList = !!(disc || []).length
+    const hasShortList = (!hasList && loaded) || (hasList && disc?.[0]?.disc?.length <= 4)
+    const elList = useMemo(
+      () => (
+        <>
+          {disc
+            .filter((item, index) =>
+              expand ? true : item.disc.length >= 6 ? index < 1 : index < 2
+            )
+            .map((item, index) => (
+              <View key={item.title} style={!!index && _.mt.md}>
+                <Text type='sub' size={16} selectable>
+                  {item.title}
+                </Text>
+                <View style={_.mt.sm}>
+                  {item.disc.map((i, idx) => {
+                    const title = HTMLDecode(i.title).replace(`${idx + 1} `, '')
+                    const translate =
+                      length > 0 ? discTranslateResult.find(d => d.src === title)?.dst || '' : ''
+
+                    return (
+                      <Flex
+                        key={i.href}
+                        style={stl(styles.item, idx % 2 === 0 && styles.odd)}
+                        align='start'
+                      >
+                        <Text>{idx + 1}</Text>
+                        <Flex.Item style={_.ml.sm}>
+                          <Text
+                            onPress={() =>
+                              appNavigate(
+                                i.href,
+                                navigation,
+                                {},
+                                {
+                                  id: '条目.跳转',
+                                  data: { from: '曲目列表', subjectId }
+                                }
+                              )
+                            }
+                          >
+                            {title}
+                          </Text>
+                          {!!translate && (
+                            <Text style={styles.translate} type='sub' size={12}>
+                              {translate}
+                            </Text>
+                          )}
+                        </Flex.Item>
+                      </Flex>
+                    )
+                  })}
+                </View>
+              </View>
+            ))}
+        </>
+      ),
+      [disc, discTranslateResult, expand, length, navigation, styles, subjectId]
+    )
+
     return (
-      <View style={styles.container}>
+      <View style={stl(styles.container, hasShortList && styles.containerShort)}>
         <SectionTitle right={elRight} splitStyles>
           曲目列表
         </SectionTitle>
 
-        {!!(disc || []).length && (
+        {hasList && (
           <View style={_.mt.md}>
-            <Expand onExpand={handleExpand}>
-              {disc
-                .filter((item, index) =>
-                  expand ? true : item.disc.length >= 6 ? index < 1 : index < 2
-                )
-                .map((item, index) => (
-                  <View key={item.title} style={!!index && _.mt.md}>
-                    <Text type='sub' size={16} selectable>
-                      {item.title}
-                    </Text>
-                    <View style={_.mt.sm}>
-                      {item.disc.map((i, idx) => {
-                        const title = HTMLDecode(i.title).replace(`${idx + 1} `, '')
-                        const translate =
-                          length > 0
-                            ? discTranslateResult.find(d => d.src === title)?.dst || ''
-                            : ''
-
-                        return (
-                          <Flex
-                            key={i.href}
-                            style={stl(styles.item, idx % 2 === 0 && styles.odd)}
-                            align='start'
-                          >
-                            <Text>{idx + 1}</Text>
-                            <Flex.Item style={_.ml.sm}>
-                              <Text
-                                onPress={() =>
-                                  appNavigate(
-                                    i.href,
-                                    navigation,
-                                    {},
-                                    {
-                                      id: '条目.跳转',
-                                      data: { from: '曲目列表', subjectId }
-                                    }
-                                  )
-                                }
-                              >
-                                {title}
-                              </Text>
-                              {!!translate && (
-                                <Text style={styles.translate} type='sub' size={12}>
-                                  {translate}
-                                </Text>
-                              )}
-                            </Flex.Item>
-                          </Flex>
-                        )
-                      })}
-                    </View>
-                  </View>
-                ))}
-            </Expand>
-
+            {hasShortList ? elList : <Expand onExpand={handleExpand}>{elList}</Expand>}
             <Heatmap id='条目.跳转' from='曲目列表' />
           </View>
         )}

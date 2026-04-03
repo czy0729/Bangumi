@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 05:09:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:37:43
+ * @Last Modified time: 2026-04-03 19:02:17
  */
 import React, { Suspense } from 'react'
 import { View } from 'react-native'
@@ -31,6 +31,7 @@ function TopicWrap({ onBlockRef }: Props) {
           style={_.container.layout}
           collapsable={false}
         />
+
         <Topic
           navigation={navigation}
           styles={memoStyles()}
@@ -39,6 +40,7 @@ function TopicWrap({ onBlockRef }: Props) {
           topic={$.filterTopic}
           onSwitchBlock={$.onSwitchBlock}
         />
+
         <Split />
       </Component>
     </Suspense>

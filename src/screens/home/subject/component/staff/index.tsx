@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:28:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:35:10
+ * @Last Modified time: 2026-04-03 17:02:57
  */
 import React, { Suspense } from 'react'
 import { View } from 'react-native'
@@ -30,6 +30,7 @@ function StaffWrap({ onBlockRef }: Props) {
           style={_.container.layout}
           collapsable={false}
         />
+
         <Staff
           navigation={navigation}
           showStaff={systemStore.setting.showStaff}
@@ -37,6 +38,7 @@ function StaffWrap({ onBlockRef }: Props) {
           staff={$.staff}
           onSwitchBlock={$.onSwitchBlock}
         />
+
         <Split
           style={{
             marginTop: 28

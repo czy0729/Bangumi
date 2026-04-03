@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 22:58:02
+ * @Last Modified time: 2026-04-03 19:37:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,6 +28,7 @@ function BoxWrap({ onBlockRef }: Props) {
         style={_.container.layout}
         collapsable={false}
       />
+
       <Box
         styles={memoStyles()}
         navigation={navigation}
@@ -39,6 +40,7 @@ function BoxWrap({ onBlockRef }: Props) {
         toRating={$.toRating}
         outdate={userStore.outdate}
       />
+
       <Split />
     </Component>
   )

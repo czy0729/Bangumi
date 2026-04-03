@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:00:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:32:13
+ * @Last Modified time: 2026-04-03 18:52:10
  */
 import React, { Suspense } from 'react'
 import { View } from 'react-native'
@@ -30,6 +30,7 @@ function LikeWrap({ onBlockRef }: Props) {
           style={_.container.layout}
           collapsable={false}
         />
+
         <Like
           navigation={navigation}
           showLike={systemStore.setting.showLike}
@@ -38,6 +39,7 @@ function LikeWrap({ onBlockRef }: Props) {
           typeCn={$.type}
           onSwitchBlock={$.onSwitchBlock}
         />
+
         <Split />
       </Component>
     </Suspense>

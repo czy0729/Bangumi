@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-18 04:51:28
+ * @Last Modified time: 2026-04-03 16:06:45
  */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, View } from 'react-native'
@@ -39,9 +39,7 @@ export const Expand = observer(
     r(COMPONENT)
 
     /** 固定首次 ratioHeight，避免窗口变化导致重新计算 */
-    const initialRatioHeight = useRef(
-      _.r(Math.floor(_.window.contentWidth * 0.618)) * ratio
-    ).current
+    const initialRatioHeight = useRef(_.r(Math.floor(_.__contentWidth__ * 0.618)) * ratio).current
 
     const aHeight = useRef(new Animated.Value(0))
     const [expand, setExpand] = useState(false)

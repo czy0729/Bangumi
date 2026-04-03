@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:31:54
+ * @Last Modified time: 2026-04-03 16:55:45
  */
 import React, { Suspense } from 'react'
 import { View } from 'react-native'
@@ -33,6 +33,7 @@ function InfoWrap({ onBlockRef }: Props) {
           style={_.container.layout}
           collapsable={false}
         />
+
         <Info
           navigation={navigation}
           styles={memoStyles()}
@@ -43,6 +44,7 @@ function InfoWrap({ onBlockRef }: Props) {
           name={cnjp($.cn, $.jp)}
           onSwitchBlock={$.onSwitchBlock}
         />
+
         <Split />
       </Component>
     </Suspense>

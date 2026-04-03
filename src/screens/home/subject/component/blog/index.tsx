@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:36:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 22:58:30
+ * @Last Modified time: 2026-04-03 18:32:45
  */
 import React, { Suspense } from 'react'
 import { View } from 'react-native'
@@ -31,6 +31,7 @@ function BlogWrap({ onBlockRef }: Props) {
           style={_.container.layout}
           collapsable={false}
         />
+
         <Blog
           navigation={navigation}
           styles={memoStyles()}
@@ -39,6 +40,7 @@ function BlogWrap({ onBlockRef }: Props) {
           blog={$.filterBlog}
           onSwitchBlock={$.onSwitchBlock}
         />
+
         <Split />
       </Component>
     </Suspense>

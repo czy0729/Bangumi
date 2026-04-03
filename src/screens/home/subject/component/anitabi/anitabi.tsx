@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-01-12 06:39:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-23 17:27:49
+ * @Last Modified time: 2026-04-03 19:18:36
  */
 import React, { useCallback, useMemo } from 'react'
 import { ScrollView, View } from 'react-native'
@@ -79,7 +79,7 @@ const Anitabi = memo(
     const handleToggle = useCallback(() => onSwitchBlock('showAnitabi'), [onSwitchBlock])
 
     return (
-      <InView style={stl(styles.container, !showAnitabi && _.short)}>
+      <InView style={stl(styles.container, !showAnitabi && styles.containerNotShow)}>
         <SectionTitle
           style={_.container.wind}
           right={elRight}

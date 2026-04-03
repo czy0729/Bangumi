@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:28:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 07:11:30
+ * @Last Modified time: 2026-04-03 17:03:50
  */
 import React, { useCallback, useMemo } from 'react'
 import { Heatmap } from '@components'
@@ -49,7 +49,7 @@ const Staff = memo(
     )
 
     return (
-      <InView style={stl(styles.container, !showStaff && _.short)}>
+      <InView style={stl(styles.container, !showStaff && styles.containerNotShow)}>
         <SectionTitle
           style={_.container.wind}
           right={elRight}

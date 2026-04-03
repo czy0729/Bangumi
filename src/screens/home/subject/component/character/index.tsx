@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:02:59
+ * @Last Modified time: 2026-04-03 16:59:40
  */
 import React, { Suspense } from 'react'
 import { View } from 'react-native'
@@ -30,6 +30,7 @@ function CharacterWrap({ onBlockRef }: Props) {
           style={_.container.layout}
           collapsable={false}
         />
+
         <Character
           navigation={navigation}
           showCharacter={systemStore.setting.showCharacter}
@@ -39,6 +40,7 @@ function CharacterWrap({ onBlockRef }: Props) {
           subjectName={$.cn}
           onSwitchBlock={$.onSwitchBlock}
         />
+
         <Split
           style={{
             marginTop: 28

@@ -31,6 +31,7 @@ function AnitabiWrap({ onBlockRef }: Props) {
           style={_.container.layout}
           collapsable={false}
         />
+
         <Anitabi
           styles={memoStyles()}
           showAnitabi={systemStore.setting.showAnitabi}
@@ -38,6 +39,7 @@ function AnitabiWrap({ onBlockRef }: Props) {
           data={$.state.anitabi}
           onSwitchBlock={$.onSwitchBlock}
         />
+
         <Split />
       </Component>
     </Suspense>
