@@ -5,9 +5,9 @@
  * @Last Modified time: 2025-12-27 06:34:44
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, Flex } from '@components'
 import { _, StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import TinygrailPage from '@tinygrail/_/page'
 import TinygrailScrollView from '@tinygrail/_/scroll-view'
 import Auction from './component/auction'
@@ -25,10 +25,10 @@ import { useTinygrailSacrificePage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** 资产重组 */
-const TinygrailSacrifice = (props: NavigationProps) => {
+function TinygrailSacrifice(props: NavigationProps) {
   const { id, $ } = useTinygrailSacrificePage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-tinygrail-sacrifice'>
       <StoreContext.Provider value={id}>
         <TinygrailPage>
@@ -49,7 +49,7 @@ const TinygrailSacrifice = (props: NavigationProps) => {
         <Header />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default TinygrailSacrifice
+export default observer(TinygrailSacrifice)

@@ -6,10 +6,11 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Button, Flex, Input, Text } from '@components'
 import { _, tinygrailStore, useStore } from '@stores'
 import { confirm, formatNumber } from '@utils'
-import { useMount, useObserver } from '@utils/hooks'
+import { useMount } from '@utils/hooks'
 import { memoStyles } from './styles'
 
 import type { Ctx } from '../../../types'
@@ -21,52 +22,50 @@ function Amount() {
     $.fetchQueueUnique([$.fetchMyTemple, $.fetchStarForcesRankValues])
   })
 
-  return useObserver(() => {
-    const styles = memoStyles()
-    const { loading, starForcesValue } = $.state
+  const styles = memoStyles()
+  const { loading, starForcesValue } = $.state
 
-    return (
-      <Flex style={_.mt.sm}>
-        <Flex.Item>
-          <View style={styles.inputWrap}>
-            <Input
-              style={styles.input}
-              keyboardType='numeric'
-              value={String(Math.floor(starForcesValue))}
-              clearButtonMode='never'
-              onChangeText={$.changeStarForces}
-            />
-            {!!$.myTemple.userStarForces && (
-              <Text style={styles.starforce} type='ask' size={12} pointerEvents='none'>
-                已贡献 {formatNumber($.myTemple.userStarForces, 0)} 星之力
-              </Text>
-            )}
-          </View>
-        </Flex.Item>
-        <View style={styles.btnSubmit}>
-          <Button
-            style={styles.btnAsk}
-            type='ask'
-            radius={false}
-            loading={loading}
-            onPress={() => {
-              if (tinygrailStore.checkAuth()) {
-                if (loading) return
-
-                confirm(
-                  `消耗固定资产 ${formatNumber(starForcesValue, 0)} 灌注星之力, 确定?`,
-                  () => $.doStarForces(),
-                  '小圣杯助手'
-                )
-              }
-            }}
-          >
-            确定
-          </Button>
+  return (
+    <Flex style={_.mt.sm}>
+      <Flex.Item>
+        <View style={styles.inputWrap}>
+          <Input
+            style={styles.input}
+            keyboardType='numeric'
+            value={String(Math.floor(starForcesValue))}
+            clearButtonMode='never'
+            onChangeText={$.changeStarForces}
+          />
+          {!!$.myTemple.userStarForces && (
+            <Text style={styles.starforce} type='ask' size={12} pointerEvents='none'>
+              已贡献 {formatNumber($.myTemple.userStarForces, 0)} 星之力
+            </Text>
+          )}
         </View>
-      </Flex>
-    )
-  })
+      </Flex.Item>
+      <View style={styles.btnSubmit}>
+        <Button
+          style={styles.btnAsk}
+          type='ask'
+          radius={false}
+          loading={loading}
+          onPress={() => {
+            if (tinygrailStore.checkAuth()) {
+              if (loading) return
+
+              confirm(
+                `消耗固定资产 ${formatNumber(starForcesValue, 0)} 灌注星之力, 确定?`,
+                () => $.doStarForces(),
+                '小圣杯助手'
+              )
+            }
+          }}
+        >
+          确定
+        </Button>
+      </View>
+    </Flex>
+  )
 }
 
-export default Amount
+export default observer(Amount)

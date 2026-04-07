@@ -6,9 +6,9 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex } from '@components'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import Amount from './amount'
 import Head from './head'
 import Slider from './slider'
@@ -20,34 +20,32 @@ import type { Ctx } from '../../types'
 function Auction() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    if ($.state.showAuction) {
-      return (
-        <View
-          style={[
-            styles.container,
-            {
-              width: _.window.width
-            }
-          ]}
-        >
-          <Head />
-          <View style={_.mb.sm}>
-            <Amount />
-            <Slider />
-          </View>
-        </View>
-      )
-    }
-
+  if ($.state.showAuction) {
     return (
-      <Flex.Item style={styles.container}>
+      <View
+        style={[
+          styles.container,
+          {
+            width: _.window.width
+          }
+        ]}
+      >
         <Head />
-      </Flex.Item>
+        <View style={_.mb.sm}>
+          <Amount />
+          <Slider />
+        </View>
+      </View>
     )
-  })
+  }
+
+  return (
+    <Flex.Item style={styles.container}>
+      <Head />
+    </Flex.Item>
+  )
 }
 
-export default Auction
+export default observer(Auction)

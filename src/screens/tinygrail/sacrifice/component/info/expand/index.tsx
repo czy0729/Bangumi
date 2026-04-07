@@ -5,9 +5,9 @@
  * @Last Modified time: 2026-01-14 06:59:50
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Iconfont, Touchable } from '@components'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { styles } from './styles'
 
 import type { Ctx } from '../../../types'
@@ -15,7 +15,7 @@ import type { Ctx } from '../../../types'
 function Expand() {
   const { $ } = useStore<Ctx>()
 
-  return useObserver(() => (
+  return (
     <Flex style={_.mt.sm} justify='center'>
       <Touchable onPress={$.toggleCover}>
         <Flex style={styles.expand} justify='center'>
@@ -26,7 +26,7 @@ function Expand() {
         </Flex>
       </Touchable>
     </Flex>
-  ))
+  )
 }
 
-export default Expand
+export default observer(Expand)

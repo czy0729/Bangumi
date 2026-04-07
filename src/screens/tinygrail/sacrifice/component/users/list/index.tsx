@@ -6,10 +6,11 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { _, useStore } from '@stores'
 import { formatNumber, getTimestamp, lastDate, toFixed } from '@utils'
-import { useMount, useObserver } from '@utils/hooks'
+import { useMount } from '@utils/hooks'
 import TinygrailAvatar from '@tinygrail/_/avatar'
 import TinygrailRank from '@tinygrail/_/rank'
 import { EVENT } from '../ds'
@@ -24,84 +25,82 @@ function List() {
     $.fetchQueueUnique([$.fetchUsers, $.fetchCharaPool])
   })
 
-  return useObserver(() => {
-    const styles = memoStyles()
-    const { usersSort, showUsers } = $.state
+  const styles = memoStyles()
+  const { usersSort, showUsers } = $.state
 
-    // 获取排序后的董事会列表
-    let list = [
-      ...$.users.list.map((item: any, index: number) => ({
-        ...item,
-        index
-      }))
-    ]
+  // 获取排序后的董事会列表
+  let list = [
+    ...$.users.list.map((item: any, index: number) => ({
+      ...item,
+      index
+    }))
+  ]
 
-    if (usersSort === '最近活跃') {
-      list = list.sort((a, b) => (b.lastActiveDate || '').localeCompare(a.lastActiveDate || ''))
-    }
+  if (usersSort === '最近活跃') {
+    list = list.sort((a, b) => (b.lastActiveDate || '').localeCompare(a.lastActiveDate || ''))
+  }
 
-    if (!showUsers) {
-      list = list.slice(0, 3)
-    }
+  if (!showUsers) {
+    list = list.slice(0, 3)
+  }
 
-    return (
-      <Flex style={_.mt.sm} wrap='wrap' align='start'>
-        {list.map(item => {
-          const showAmount = !!item.balance
-          return (
-            <Flex key={item.nickName} style={styles.item}>
-              {$.state.showUsers && (
-                <View style={styles.user}>
-                  <TinygrailAvatar
-                    navigation={navigation}
-                    src={item.avatar}
-                    size={showAmount ? 46 : 36}
-                    userId={item.name}
-                    name={item.nickName}
-                    last={item.lastActiveDate}
-                    event={EVENT}
+  return (
+    <Flex style={_.mt.sm} wrap='wrap' align='start'>
+      {list.map(item => {
+        const showAmount = !!item.balance
+        return (
+          <Flex key={item.nickName} style={styles.item}>
+            {$.state.showUsers && (
+              <View style={styles.user}>
+                <TinygrailAvatar
+                  navigation={navigation}
+                  src={item.avatar}
+                  size={showAmount ? 46 : 36}
+                  userId={item.name}
+                  name={item.nickName}
+                  last={item.lastActiveDate}
+                  event={EVENT}
+                />
+              </View>
+            )}
+            <Flex.Item>
+              <Flex style={_.mt.xs}>
+                <TinygrailRank style={styles.rank} value={item.lastIndex} />
+                <Flex.Item>
+                  <Text type='tinygrailPlain' size={11} bold numberOfLines={1}>
+                    {item.nickName}
+                  </Text>
+                </Flex.Item>
+              </Flex>
+              <Text style={_.mt.xs} type='tinygrailText' size={10} bold numberOfLines={1}>
+                {usersSort === '最近活跃'
+                  ? `${lastDate(getTimestamp(item.lastActiveDate))} · `
+                  : ''}
+                {item.balance
+                  ? `+${formatNumber(item.balance, 0)} (${toFixed(
+                      (item.balance / $.total) * 100,
+                      2
+                    )}%)`
+                  : `#${item.index + 1}`}
+              </Text>
+              {showAmount && (
+                <View style={styles.progress}>
+                  <View
+                    style={[
+                      styles.progressBar,
+                      {
+                        width: `${Math.max(0.04, item.balance / ($.total || 10000)) * 100}%`
+                      }
+                    ]}
                   />
                 </View>
               )}
-              <Flex.Item>
-                <Flex style={_.mt.xs}>
-                  <TinygrailRank style={styles.rank} value={item.lastIndex} />
-                  <Flex.Item>
-                    <Text type='tinygrailPlain' size={11} bold numberOfLines={1}>
-                      {item.nickName}
-                    </Text>
-                  </Flex.Item>
-                </Flex>
-                <Text style={_.mt.xs} type='tinygrailText' size={10} bold numberOfLines={1}>
-                  {usersSort === '最近活跃'
-                    ? `${lastDate(getTimestamp(item.lastActiveDate))} · `
-                    : ''}
-                  {item.balance
-                    ? `+${formatNumber(item.balance, 0)} (${toFixed(
-                        (item.balance / $.total) * 100,
-                        2
-                      )}%)`
-                    : `#${item.index + 1}`}
-                </Text>
-                {showAmount && (
-                  <View style={styles.progress}>
-                    <View
-                      style={[
-                        styles.progressBar,
-                        {
-                          width: `${Math.max(0.04, item.balance / ($.total || 10000)) * 100}%`
-                        }
-                      ]}
-                    />
-                  </View>
-                )}
-              </Flex.Item>
-            </Flex>
-          )
-        })}
-      </Flex>
-    )
-  })
+            </Flex.Item>
+          </Flex>
+        )
+      })}
+    </Flex>
+  )
 }
 
-export default List
+export default observer(List)

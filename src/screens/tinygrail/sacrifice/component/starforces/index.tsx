@@ -6,9 +6,9 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex } from '@components'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import Amount from './amount'
 import Head from './head'
 import RankPercents from './rank-percents'
@@ -21,35 +21,33 @@ import type { Ctx } from '../../types'
 function Starforces() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    if ($.state.showStarForces) {
-      return (
-        <View
-          style={[
-            styles.container,
-            {
-              width: _.window.width
-            }
-          ]}
-        >
-          <Head />
-          <View style={_.mb.sm}>
-            <Amount />
-            <RankPercents />
-            <Slider />
-          </View>
-        </View>
-      )
-    }
-
+  if ($.state.showStarForces) {
     return (
-      <Flex.Item style={styles.container}>
+      <View
+        style={[
+          styles.container,
+          {
+            width: _.window.width
+          }
+        ]}
+      >
         <Head />
-      </Flex.Item>
+        <View style={_.mb.sm}>
+          <Amount />
+          <RankPercents />
+          <Slider />
+        </View>
+      </View>
     )
-  })
+  }
+
+  return (
+    <Flex.Item style={styles.container}>
+      <Head />
+    </Flex.Item>
+  )
 }
 
-export default Starforces
+export default observer(Starforces)

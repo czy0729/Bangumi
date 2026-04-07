@@ -6,8 +6,9 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { useStore } from '@stores'
-import { useMount, useObserver } from '@utils/hooks'
+import { useMount } from '@utils/hooks'
 import Expand from './expand'
 import Head from './head'
 import List from './list'
@@ -23,13 +24,13 @@ function Temples() {
     $.fetchQueueUnique([$.fetchCharaTemple])
   })
 
-  return useObserver(() => (
+  return (
     <View style={styles.container}>
       <Head />
       {$.state.showTemples && <List />}
       <Expand />
     </View>
-  ))
+  )
 }
 
-export default Temples
+export default observer(Temples)

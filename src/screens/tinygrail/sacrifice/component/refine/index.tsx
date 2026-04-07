@@ -6,9 +6,9 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex } from '@components'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import Action from './action'
 import Head from './head'
 import Temple from './temple'
@@ -20,33 +20,31 @@ import type { Ctx } from '../../types'
 function Refine() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    const styles = memoStyles()
-    if ($.state.showRefine) {
-      return (
-        <View
-          style={[
-            styles.container,
-            {
-              width: _.window.width
-            }
-          ]}
-        >
-          <Head />
-          <View style={_.mb.sm}>
-            <Temple />
-            <Action />
-          </View>
-        </View>
-      )
-    }
-
+  const styles = memoStyles()
+  if ($.state.showRefine) {
     return (
-      <Flex.Item style={styles.container}>
+      <View
+        style={[
+          styles.container,
+          {
+            width: _.window.width
+          }
+        ]}
+      >
         <Head />
-      </Flex.Item>
+        <View style={_.mb.sm}>
+          <Temple />
+          <Action />
+        </View>
+      </View>
     )
-  })
+  }
+
+  return (
+    <Flex.Item style={styles.container}>
+      <Head />
+    </Flex.Item>
+  )
 }
 
-export default Refine
+export default observer(Refine)

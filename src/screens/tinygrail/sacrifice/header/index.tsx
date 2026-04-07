@@ -5,11 +5,11 @@
  * @Last Modified time: 2025-06-19 18:30:05
  */
 import React, { useCallback } from 'react'
+import { observer } from 'mobx-react'
 import { Flex, HeaderV2, Iconfont, Text, Touchable } from '@components'
 import { _, monoStore, useStore } from '@stores'
 import { open } from '@utils'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
@@ -18,107 +18,105 @@ import type { Ctx } from '../types'
 function Header() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    const picTotal = monoStore.picTotal($.name)
+  const picTotal = monoStore.picTotal($.name)
 
-    const handleHeaderRight = useCallback(
-      () => (
-        <>
-          <Touchable
-            style={[
-              styles.touch,
-              {
-                marginRight: -4
-              }
-            ]}
-            onPress={() => {
-              const { form, monoId } = $.params
-              if (form === 'deal') {
-                navigation.goBack()
-                return
-              }
+  const handleHeaderRight = useCallback(
+    () => (
+      <>
+        <Touchable
+          style={[
+            styles.touch,
+            {
+              marginRight: -4
+            }
+          ]}
+          onPress={() => {
+            const { form, monoId } = $.params
+            if (form === 'deal') {
+              navigation.goBack()
+              return
+            }
 
-              navigation.push('TinygrailDeal', {
-                monoId,
-                form: 'sacrifice'
-              })
+            navigation.push('TinygrailDeal', {
+              monoId,
+              form: 'sacrifice'
+            })
 
-              t('资产重组.跳转', {
-                to: 'TinygrailDeal',
-                monoId: $.monoId
-              })
-            }}
-          >
-            <Iconfont name='md-attach-money' color={_.colorTinygrailPlain} />
-          </Touchable>
+            t('资产重组.跳转', {
+              to: 'TinygrailDeal',
+              monoId: $.monoId
+            })
+          }}
+        >
+          <Iconfont name='md-attach-money' color={_.colorTinygrailPlain} />
+        </Touchable>
 
-          <Touchable
-            style={styles.touch}
-            onPress={() => {
-              const { form, monoId } = $.params
-              if (form === 'trade') {
-                navigation.goBack()
-                return
-              }
+        <Touchable
+          style={styles.touch}
+          onPress={() => {
+            const { form, monoId } = $.params
+            if (form === 'trade') {
+              navigation.goBack()
+              return
+            }
 
-              navigation.push('TinygrailTrade', {
-                monoId,
-                form: 'sacrifice'
-              })
+            navigation.push('TinygrailTrade', {
+              monoId,
+              form: 'sacrifice'
+            })
 
-              t('资产重组.跳转', {
-                to: 'TinygrailTrade',
-                monoId: $.monoId
-              })
-            }}
-          >
-            <Iconfont name='md-waterfall-chart' size={20} color={_.colorTinygrailPlain} />
-          </Touchable>
+            t('资产重组.跳转', {
+              to: 'TinygrailTrade',
+              monoId: $.monoId
+            })
+          }}
+        >
+          <Iconfont name='md-waterfall-chart' size={20} color={_.colorTinygrailPlain} />
+        </Touchable>
 
-          <Touchable
-            style={styles.touch}
-            onPress={() => {
-              open(`https://fuyuake.top/xsb/chara/${$.monoId}`)
-            }}
-          >
-            <Iconfont name='icon-link' size={19} color={_.colorTinygrailPlain} />
-          </Touchable>
+        <Touchable
+          style={styles.touch}
+          onPress={() => {
+            open(`https://fuyuake.top/xsb/chara/${$.monoId}`)
+          }}
+        >
+          <Iconfont name='icon-link' size={19} color={_.colorTinygrailPlain} />
+        </Touchable>
 
-          <Touchable
-            style={styles.touch}
-            onPress={() => {
-              navigation.push('Pic', {
-                monoId: $.monoId,
-                name: $.name,
-                keywords: [$.mono.name, $.subjectName].filter(Boolean)
-              })
-            }}
-          >
-            <Flex style={_.mr.xs}>
-              <Iconfont name='icon-image' size={19} color={_.colorTinygrailPlain} />
-              {!!picTotal && (
-                <Text style={styles.num} type='tinygrailPlain' size={10} bold>
-                  {picTotal > 99 ? '99+' : picTotal}
-                </Text>
-              )}
-            </Flex>
-          </Touchable>
-        </>
-      ),
-      [picTotal]
-    )
+        <Touchable
+          style={styles.touch}
+          onPress={() => {
+            navigation.push('Pic', {
+              monoId: $.monoId,
+              name: $.name,
+              keywords: [$.mono.name, $.subjectName].filter(Boolean)
+            })
+          }}
+        >
+          <Flex style={_.mr.xs}>
+            <Iconfont name='icon-image' size={19} color={_.colorTinygrailPlain} />
+            {!!picTotal && (
+              <Text style={styles.num} type='tinygrailPlain' size={10} bold>
+                {picTotal > 99 ? '99+' : picTotal}
+              </Text>
+            )}
+          </Flex>
+        </Touchable>
+      </>
+    ),
+    [$, navigation, picTotal]
+  )
 
-    return (
-      <HeaderV2
-        backgroundStyle={_.container.tinygrail}
-        headerTitleStyle={styles.headerTitle}
-        title={$.name ? $.name : '资产重组'}
-        headerTitleAlign='left'
-        hm={$.hm}
-        headerRight={handleHeaderRight}
-      />
-    )
-  })
+  return (
+    <HeaderV2
+      backgroundStyle={_.container.tinygrail}
+      headerTitleStyle={styles.headerTitle}
+      title={$.name ? $.name : '资产重组'}
+      headerTitleAlign='left'
+      hm={$.hm}
+      headerRight={handleHeaderRight}
+    />
+  )
 }
 
-export default Header
+export default observer(Header)

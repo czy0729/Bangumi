@@ -6,8 +6,8 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import Expand from './expand'
 import Head from './head'
 import List from './list'
@@ -17,17 +17,15 @@ import { memoStyles } from './styles'
 function Users() {
   r(COMPONENT)
 
-  return useObserver(() => {
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    return (
-      <View style={styles.users}>
-        <Head />
-        <List />
-        <Expand />
-      </View>
-    )
-  })
+  return (
+    <View style={styles.users}>
+      <Head />
+      <List />
+      <Expand />
+    </View>
+  )
 }
 
-export default Users
+export default observer(Users)

@@ -6,10 +6,11 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Image, Text, Touchable } from '@components'
 import { _, tinygrailStore, useStore } from '@stores'
 import { confirm, info, tinygrailOSS } from '@utils'
-import { useMount, useObserver } from '@utils/hooks'
+import { useMount } from '@utils/hooks'
 import { ITEMS_DESC } from '@tinygrail/_/ds'
 import { OSS } from '../ds'
 import { styles } from './styles'
@@ -24,7 +25,7 @@ function List({ onOpen }: Props) {
     $.fetchQueueUnique([$.fetchUserLogs, $.fetchMyTemple])
   })
 
-  return useObserver(() => (
+  return (
     <Flex wrap='wrap' align='start'>
       <View style={styles.item}>
         <Touchable
@@ -190,7 +191,7 @@ function List({ onOpen }: Props) {
         </Touchable>
       </View>
     </Flex>
-  ))
+  )
 }
 
-export default List
+export default observer(List)

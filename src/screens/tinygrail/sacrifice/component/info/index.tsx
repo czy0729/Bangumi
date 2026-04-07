@@ -6,8 +6,9 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { tinygrailStore, useStore } from '@stores'
-import { useMount, useObserver } from '@utils/hooks'
+import { useMount } from '@utils/hooks'
 import Cover from './cover'
 import Detail from './detail'
 import Expand from './expand'
@@ -34,20 +35,18 @@ function Info() {
     if ($.monoId && $.name) tinygrailStore.setLastPic($.monoId, $.name)
   })
 
-  return useObserver(() => {
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    return (
-      <View style={styles.container}>
-        <Cover />
-        <Title />
-        <Starforce />
-        <Detail />
-        <Progress />
-        <Expand />
-      </View>
-    )
-  })
+  return (
+    <View style={styles.container}>
+      <Cover />
+      <Title />
+      <Starforce />
+      <Detail />
+      <Progress />
+      <Expand />
+    </View>
+  )
 }
 
-export default Info
+export default observer(Info)

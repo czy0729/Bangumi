@@ -6,10 +6,10 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { _, useStore } from '@stores'
 import { calculateFutureLevel, formatNumber } from '@utils'
-import { useObserver } from '@utils/hooks'
 import { memoStyles } from './styles'
 
 import type { Ctx } from '../../../types'
@@ -17,37 +17,35 @@ import type { Ctx } from '../../../types'
 function Progress() {
   const { $ } = useStore<Ctx>()
 
-  return useObserver(() => {
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    const prev = calculateFutureLevel(($.level || 1) - 1)
-    const next = calculateFutureLevel($.level || 1)
+  const prev = calculateFutureLevel(($.level || 1) - 1)
+  const next = calculateFutureLevel($.level || 1)
 
-    const total = ($.chara.total || 0) + ($.valhallChara?.amount || 0)
-    const currentDistance = next - total
-    const percent = (total - prev) / (next - prev)
+  const total = ($.chara.total || 0) + ($.valhallChara?.amount || 0)
+  const currentDistance = next - total
+  const percent = (total - prev) / (next - prev)
 
-    return (
-      <View style={[_.container.wind, _.mt.md]}>
-        <View style={styles.progress}>
-          <View
-            style={[
-              styles.progressBar,
-              {
-                width: `${Math.max(0.02, percent) * 100}%`
-              }
-            ]}
-          />
-        </View>
-        <Text style={_.mt.xs} type='tinygrailText' size={11} align='center'>
-          升级还需{' '}
-          <Text size={11} type='bid'>
-            {formatNumber(currentDistance, 0)}
-          </Text>
-        </Text>
+  return (
+    <View style={[_.container.wind, _.mt.md]}>
+      <View style={styles.progress}>
+        <View
+          style={[
+            styles.progressBar,
+            {
+              width: `${Math.max(0.02, percent) * 100}%`
+            }
+          ]}
+        />
       </View>
-    )
-  })
+      <Text style={_.mt.xs} type='tinygrailText' size={11} align='center'>
+        升级还需{' '}
+        <Text size={11} type='bid'>
+          {formatNumber(currentDistance, 0)}
+        </Text>
+      </Text>
+    </View>
+  )
 }
 
-export default Progress
+export default observer(Progress)

@@ -5,52 +5,50 @@
  * @Last Modified time: 2026-01-14 08:14:22
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { _, tinygrailStore, useStore } from '@stores'
 import { confirm, formatNumber, lastDate } from '@utils'
-import { useObserver } from '@utils/hooks'
 
 import type { Ctx } from '../../../types'
 
 function Check() {
   const { $ } = useStore<Ctx>()
 
-  return useObserver(() => {
-    const { lastSacrifice } = $.state
+  const { lastSacrifice } = $.state
 
-    return (
-      <Flex style={_.mt.sm}>
-        <Touchable
-          onPress={() => {
-            if (tinygrailStore.checkAuth()) {
-              if ($.state.loading) return
+  return (
+    <Flex style={_.mt.sm}>
+      <Touchable
+        onPress={() => {
+          if (tinygrailStore.checkAuth()) {
+            if ($.state.loading) return
 
-              confirm(
-                `当前角色测试献祭效率至少需要先献祭 (${$.testAmount}) 股, 确定?`,
-                () => $.doTestSacrifice(),
-                '小圣杯助手'
-              )
-            }
-          }}
-        >
-          <Text type='tinygrailText' size={12}>
-            [效率]
-          </Text>
-        </Touchable>
-        {!!lastSacrifice.time && (
-          <Text style={_.ml.xs} type='tinygrailText' size={12}>
-            最近 (单价{formatNumber(Number(lastSacrifice.total) / Number(lastSacrifice.amount), 1)}{' '}
-            / 效率
-            {formatNumber(
-              (Number(lastSacrifice.total) / Number(lastSacrifice.amount) / $.current) * 100,
-              0
-            )}
-            % / {lastDate(lastSacrifice.time)})
-          </Text>
-        )}
-      </Flex>
-    )
-  })
+            confirm(
+              `当前角色测试献祭效率至少需要先献祭 (${$.testAmount}) 股, 确定?`,
+              () => $.doTestSacrifice(),
+              '小圣杯助手'
+            )
+          }
+        }}
+      >
+        <Text type='tinygrailText' size={12}>
+          [效率]
+        </Text>
+      </Touchable>
+      {!!lastSacrifice.time && (
+        <Text style={_.ml.xs} type='tinygrailText' size={12}>
+          最近 (单价{formatNumber(Number(lastSacrifice.total) / Number(lastSacrifice.amount), 1)} /
+          效率
+          {formatNumber(
+            (Number(lastSacrifice.total) / Number(lastSacrifice.amount) / $.current) * 100,
+            0
+          )}
+          % / {lastDate(lastSacrifice.time)})
+        </Text>
+      )}
+    </Flex>
+  )
 }
 
-export default Check
+export default observer(Check)

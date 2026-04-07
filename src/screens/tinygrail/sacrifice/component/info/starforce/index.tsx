@@ -5,10 +5,10 @@
  * @Last Modified time: 2026-03-03 23:29:20
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { appNavigate, feedback, formatNumber, HTMLDecode, info } from '@utils'
-import { useObserver } from '@utils/hooks'
 import Stars from '@tinygrail/_/stars'
 
 import type { Ctx } from '../../../types'
@@ -16,7 +16,7 @@ import type { Ctx } from '../../../types'
 function Starforce() {
   const { $, navigation } = useStore<Ctx>()
 
-  return useObserver(() => (
+  return (
     <Flex style={_.mt.xs} justify='center' wrap='wrap'>
       <Touchable
         onPress={() => {
@@ -83,7 +83,7 @@ function Starforce() {
         </>
       )}
     </Flex>
-  ))
+  )
 }
 
-export default Starforce
+export default observer(Starforce)
