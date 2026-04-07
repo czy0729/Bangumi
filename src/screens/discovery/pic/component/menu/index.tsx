@@ -1,3 +1,4 @@
+import { observer } from 'mobx-react'
 /*
  * @Author: czy0729
  * @Date: 2025-06-10 19:18:34
@@ -6,7 +7,6 @@
  */
 import { HeaderV2Popover } from '@components'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 
 import type { Ctx } from '../../types'
@@ -14,21 +14,19 @@ import type { Ctx } from '../../types'
 function Empty() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    if (!$.list?.length) return null
+  if (!$.list?.length) return null
 
-    const data = [`全部 (${$.list.length})`, ...$.tags($.state.page)]
+  const data = [`全部 (${$.list.length})`, ...$.tags($.state.page)]
 
-    return (
-      <HeaderV2Popover
-        data={data}
-        name='md-filter-list'
-        color={$.state.filter ? _.colorMain : _.colorTitle}
-        size={20}
-        onSelect={$.onFilter}
-      />
-    )
-  })
+  return (
+    <HeaderV2Popover
+      data={data}
+      name='md-filter-list'
+      color={$.state.filter ? _.colorMain : _.colorTitle}
+      size={20}
+      onSelect={$.onFilter}
+    />
+  )
 }
 
-export default Empty
+export default observer(Empty)

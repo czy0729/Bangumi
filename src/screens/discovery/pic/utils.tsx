@@ -21,7 +21,7 @@ export async function tag(
   onSrcsProgress: HandleSrcsProgress = FROZEN_FN,
   forceRefresh: boolean = false
 ): Promise<ListEmpty<ItemInfo> | false> {
-  let key = `pic_tag_${q}`
+  let key = `pic_tag_${q}` as const
   if (page > 1) key += `_${page}`
 
   let data: ListEmpty<ItemInfo>
@@ -63,7 +63,7 @@ export async function tag(
   const fetchs = uniqueList.map((item, index) => {
     return async () => {
       try {
-        const key = `pic_info_${item.id}`
+        const key = `pic_info_${item.id}` as const
         if (infos[key]) {
           uniqueList[index] = infos[key]
           await src([item.id], onSrcsProgress)
@@ -124,7 +124,7 @@ export async function src(ids: Id[], onProgress: HandleSrcsProgress = FROZEN_FN)
   const fetchs = ids.map(id => {
     return async () => {
       try {
-        const key = `pic_tag_${id}`
+        const key = `pic_tag_${id}` as const
         if (data[key]) return
 
         await sleep(800)

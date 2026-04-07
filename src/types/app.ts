@@ -178,17 +178,17 @@ export type Origin = DeepPartial<{
   >
 }>
 
+/** 自定义跳转数据项 */
+export type ActionsItem = {
+  uuid: Id
+  name: string
+  url: string
+  sort: Id
+  active: number
+}[]
+
 /** 自定义跳转数据 */
-export type Actions = Record<
-  SubjectId,
-  {
-    uuid: Id
-    name: string
-    url: string
-    sort: Id
-    active: number
-  }[]
->
+export type Actions = Record<SubjectId, ActionsItem>
 
 /** 翻译结果 */
 export type TranslateResult = {

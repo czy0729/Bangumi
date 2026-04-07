@@ -5,9 +5,9 @@
  * @Last Modified time: 2026-01-11 05:41:17
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Divider, Flex, Text, Touchable } from '@components'
 import { _, monoStore, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import Pagination from '../pagination'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -18,94 +18,94 @@ import type { Props } from './types'
 function Empty({ showPagination = true }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    const styles = memoStyles()
-    const noResult = !$.list.length
+  const styles = memoStyles()
+  const noResult = !$.list.length
 
-    return (
-      <>
-        <Flex style={noResult && styles.container} direction='column' justify='center'>
-          {noResult && (
-            <Text style={_.mt.md} type='sub' size={16} bold>
-              没有相关数据
+  return (
+    <>
+      <Flex style={noResult && styles.container} direction='column' justify='center'>
+        {noResult && (
+          <Text style={_.mt.md} type='sub' size={16} bold>
+            没有相关数据
+          </Text>
+        )}
+
+        {!!$.keywords.length && (
+          <>
+            <Divider style={_.mt.lg} />
+            <Text style={_.mt.md} type='sub' size={13}>
+              可尝试搜索
             </Text>
-          )}
-          {!!$.keywords.length && (
-            <>
-              <Divider style={_.mt.lg} />
-              <Text style={_.mt.md} type='sub' size={13}>
-                可尝试搜索
-              </Text>
-              {$.keywords
-                .filter(item => {
-                  if (!item || item.length > 20) return false
-                  return !/^第.*(季|期)$/.test(item)
-                })
-                .map((item, index) => {
-                  const picTotal = monoStore.picTotal(item)
+            {$.keywords
+              .filter(item => {
+                if (!item || item.length > 20) return false
+                return !/^第.*(季|期)$/.test(item)
+              })
+              .map((item, index) => {
+                const picTotal = monoStore.picTotal(item)
 
-                  return {
-                    item,
-                    index,
-                    picTotal
-                  }
-                })
-                .sort((a, b) => {
-                  const aTotal = a.picTotal
-                  const bTotal = b.picTotal
+                return {
+                  item,
+                  index,
+                  picTotal
+                }
+              })
+              .sort((a, b) => {
+                const aTotal = a.picTotal
+                const bTotal = b.picTotal
 
-                  // 都有图
-                  if (aTotal > 0 && bTotal > 0) {
-                    return bTotal - aTotal
-                  }
+                // 都有图
+                if (aTotal > 0 && bTotal > 0) {
+                  return bTotal - aTotal
+                }
 
-                  // 一个有图，一个没有
-                  if (aTotal > 0) return -1
-                  if (bTotal > 0) return 1
+                // 一个有图，一个没有
+                if (aTotal > 0) return -1
+                if (bTotal > 0) return 1
 
-                  // 都是 undefined（未知）
-                  if (aTotal === undefined && bTotal === undefined) {
-                    return a.index - b.index
-                  }
-
-                  // 一个未知，一个为 0：未知在前
-                  if (aTotal === undefined && bTotal === 0) return -1
-                  if (aTotal === 0 && bTotal === undefined) return 1
-
-                  // 都是 0，保持原顺序
+                // 都是 undefined（未知）
+                if (aTotal === undefined && bTotal === undefined) {
                   return a.index - b.index
-                })
-                .slice(0, 10)
-                .map(({ item, picTotal }) => {
-                  const textType = picTotal === 0 ? _.select('sub', 'icon') : 'desc'
+                }
 
-                  return (
-                    <Touchable
-                      key={item}
-                      style={_.mt.md}
-                      onPress={() => {
-                        navigation.push('Pic', {
-                          monoId: $.params.monoId,
-                          name: item
-                        })
-                      }}
-                    >
-                      <Text type={textType} size={13}>
-                        <Text type={textType} size={13} underline>
-                          {item}
-                        </Text>
-                        {picTotal !== undefined ? ` (${picTotal > 99 ? '99+' : picTotal})` : ''}
+                // 一个未知，一个为 0：未知在前
+                if (aTotal === undefined && bTotal === 0) return -1
+                if (aTotal === 0 && bTotal === undefined) return 1
+
+                // 都是 0，保持原顺序
+                return a.index - b.index
+              })
+              .slice(0, 10)
+              .map(({ item, picTotal }) => {
+                const textType = picTotal === 0 ? _.select('sub', 'icon') : 'desc'
+
+                return (
+                  <Touchable
+                    key={item}
+                    style={_.mt.md}
+                    onPress={() => {
+                      navigation.push('Pic', {
+                        monoId: $.params.monoId,
+                        name: item
+                      })
+                    }}
+                  >
+                    <Text type={textType} size={13}>
+                      <Text type={textType} size={13} underline>
+                        {item}
                       </Text>
-                    </Touchable>
-                  )
-                })}
-            </>
-          )}
-        </Flex>
-        {showPagination && <Pagination />}
-      </>
-    )
-  })
+                      {picTotal !== undefined ? ` (${picTotal > 99 ? '99+' : picTotal})` : ''}
+                    </Text>
+                  </Touchable>
+                )
+              })}
+          </>
+        )}
+      </Flex>
+
+      {showPagination && <Pagination />}
+    </>
+  )
 }
 
-export default Empty
+export default observer(Empty)

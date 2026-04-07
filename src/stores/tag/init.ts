@@ -6,7 +6,7 @@
  */
 import { MODEL_SUBJECT_TYPE } from '@constants'
 
-import type { SubjectType } from '@types'
+import type { SubjectType, UserId } from '@types'
 import type { Browser, Rank, Tag } from './types'
 
 export const NAMESPACE = 'Tag'
@@ -24,12 +24,16 @@ export const STATE = {
   rankWithoutPagination: {} as Record<string, Rank>,
 
   /** 索引 */
-  browser: {} as Record<string, Browser>
+  browser: {} as Record<string, Browser>,
+
+  /** 图集收藏索引 */
+  picFavor: {} as Record<UserId, string[]>
 }
 
 export const LOADED = {
   tag: false,
   rank: false,
   rankWithoutPagination: false,
-  browser: false
+  browser: false,
+  picFavor: false
 }

@@ -4,8 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-08-15 20:16:19
  */
-import { systemStore } from '@stores'
+import { systemStore, userStore } from '@stores'
 import { feedback, info, queue, updateVisibleBottom } from '@utils'
+import i18n from '@constants/i18n'
 import { TEXT_FETCHING_WAIT, TEXT_USER_LIMIT } from '../ds'
 import Fetch from './fetch'
 
@@ -48,6 +49,19 @@ export default class Action extends Fetch {
       filter
     })
     feedback(true)
+  }
+
+  onToggleFavor = async () => {
+    const { name } = this.params
+    if (!name) return
+
+    if (!userStore.myUserId) {
+      info(`收藏需要先${i18n.login()}`)
+      return
+    }
+
+    // const key = `pic_favor_${userStore.myUserId}` as const
+    // const value = await get(key)
   }
 
   /** 更新可视范围底部 y */

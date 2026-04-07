@@ -6,9 +6,9 @@
  */
 import React, { useCallback, useRef } from 'react'
 import { findNodeHandle, Image, UIManager, View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Touchable } from '@components'
 import { systemStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { s2t } from '@utils/thirdParty/open-cc'
 import { FROZEN_FN } from '@constants'
 import { getURI } from '../../../utils'
@@ -29,25 +29,23 @@ function Main({ width, height, data, image, onPress, onSelect }) {
     )
   }, [data, onSelect])
 
-  return useObserver(() => {
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    return (
-      <View>
-        <View ref={viewRef} style={styles.overflowView} pointerEvents='none' />
-        <Touchable style={styles.image} onPress={onPress} onLongPress={handleLongPress}>
-          <Image
-            width={width}
-            height={height}
-            fadeDuration={280}
-            source={{
-              uri: getURI(image)
-            }}
-          />
-        </Touchable>
-      </View>
-    )
-  })
+  return (
+    <View>
+      <View ref={viewRef} style={styles.overflowView} pointerEvents='none' />
+      <Touchable style={styles.image} onPress={onPress} onLongPress={handleLongPress}>
+        <Image
+          width={width}
+          height={height}
+          fadeDuration={280}
+          source={{
+            uri: getURI(image)
+          }}
+        />
+      </Touchable>
+    </View>
+  )
 }
 
-export default Main
+export default observer(Main)

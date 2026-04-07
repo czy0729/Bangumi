@@ -5,30 +5,28 @@
  * @Last Modified time: 2026-01-11 05:41:31
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex } from '@components'
 import { InView } from '@_'
-import { useObserver } from '@utils/hooks'
 import { memoStyles } from './styles'
 
 function Container({ width, height, y, children }) {
-  return useObserver(() => {
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    return (
-      <Flex
-        style={[
-          styles.item,
-          {
-            width,
-            height
-          }
-        ]}
-        justify='center'
-      >
-        <InView y={y}>{children}</InView>
-      </Flex>
-    )
-  })
+  return (
+    <Flex
+      style={[
+        styles.item,
+        {
+          width,
+          height
+        }
+      ]}
+      justify='center'
+    >
+      <InView y={y}>{children}</InView>
+    </Flex>
+  )
 }
 
-export default Container
+export default observer(Container)

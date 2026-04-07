@@ -5,10 +5,10 @@
  * @Last Modified time: 2026-01-14 08:49:39
  */
 import React, { useCallback, useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { _, systemStore, tinygrailStore, useStore } from '@stores'
 import { confirm, info, open, showImageViewer } from '@utils'
-import { useObserver } from '@utils/hooks'
 import { TEXT_FETCHING_INTERCEPT } from '../../ds'
 import { getURI } from '../../utils'
 import Container from './container'
@@ -23,114 +23,113 @@ let hasTrial = false
 function Item({ width, height, y, id, tags = '' }) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    const image = $.image(id)
+  const image = $.image(id)
 
-    const memoData = useMemo(() => {
-      return [
-        '打开原图',
-        $.params.monoId ? '设为塔图' : false,
-        !$.params.monoId &&
-          tinygrailStore.pic.name &&
-          tinygrailStore.pic.monoId &&
-          `设为〔${tinygrailStore.pic.name}〕的塔图`,
-        ...tags.split(',').map(item => `# ${item}`)
-      ].filter(Boolean) as string[]
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [tags])
+  const memoData = useMemo(() => {
+    return [
+      '打开原图',
+      $.params.monoId ? '设为塔图' : false,
+      !$.params.monoId &&
+        tinygrailStore.pic.name &&
+        tinygrailStore.pic.monoId &&
+        `设为〔${tinygrailStore.pic.name}〕的塔图`,
+      ...tags.split(',').map(item => `# ${item}`)
+    ].filter(Boolean) as string[]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tags])
 
-    const handlePress = useCallback(() => {
-      showImageViewer(
-        [
-          {
-            url: getURI(image, 'mw690')
-          }
-        ],
-        0,
-        false,
-        true
-      )
-    }, [image])
-    const handleSelect = useCallback(
-      async (title: string) => {
-        if (title === '打开原图') {
-          open(getURI(image, 'large'))
-          return
+  const handlePress = useCallback(() => {
+    showImageViewer(
+      [
+        {
+          url: getURI(image, 'mw690')
         }
+      ],
+      0,
+      false,
+      true
+    )
+  }, [image])
 
-        if (title.startsWith('设为')) {
-          if (!systemStore.advance) {
-            if (hasTrial) {
-              info('普通用户组已无剩余试用次数')
-              return
-            }
+  const handleSelect = useCallback(
+    async (title: string) => {
+      if (title === '打开原图') {
+        open(getURI(image, 'large'))
+        return
+      }
 
-            confirm(
-              '普通用户组暂不支持无限制使用此功能',
-              async () => {
-                const result = await tinygrailStore.doChangeCover(
-                  getURI(image, 'mw1024'),
-                  $.params.monoId || tinygrailStore.pic.monoId
-                )
-                if (result) hasTrial = true
-              },
-              '小圣杯助手',
-              () => {},
-              '试用一次'
-            )
+      if (title.startsWith('设为')) {
+        if (!systemStore.advance) {
+          if (hasTrial) {
+            info('普通用户组已无剩余试用次数')
             return
           }
 
-          tinygrailStore.doChangeCover(
-            getURI(image, 'mw1024'),
-            $.params.monoId || tinygrailStore.pic.monoId
+          confirm(
+            '普通用户组暂不支持无限制使用此功能',
+            async () => {
+              const result = await tinygrailStore.doChangeCover(
+                getURI(image, 'mw1024'),
+                $.params.monoId || tinygrailStore.pic.monoId
+              )
+              if (result) hasTrial = true
+            },
+            '小圣杯助手',
+            () => {},
+            '试用一次'
           )
           return
         }
 
-        if ($.checkGlobalFetching()) {
-          info(TEXT_FETCHING_INTERCEPT)
-          return
-        }
+        tinygrailStore.doChangeCover(
+          getURI(image, 'mw1024'),
+          $.params.monoId || tinygrailStore.pic.monoId
+        )
+        return
+      }
 
-        const name = title.split('# ')?.[1]
-        if (name) {
-          navigation[$.params.replace ? 'replace' : 'push']('Pic', {
-            monoId: $.params.monoId,
-            name
-            // replace: true
-          })
-        }
-      },
-      [image]
+      if ($.checkGlobalFetching()) {
+        info(TEXT_FETCHING_INTERCEPT)
+        return
+      }
+
+      const name = title.split('# ')?.[1]
+      if (name) {
+        navigation[$.params.replace ? 'replace' : 'push']('Pic', {
+          monoId: $.params.monoId,
+          name
+          // replace: true
+        })
+      }
+    },
+    [$, image, navigation]
+  )
+
+  let el: ReactNode = null
+  if (image && image !== 'null' && tags) {
+    el = (
+      <Main
+        width={width}
+        height={height}
+        data={memoData}
+        image={image}
+        onPress={handlePress}
+        onSelect={handleSelect}
+      />
     )
-
-    let el: ReactNode = null
-    if (image && image !== 'null' && tags) {
-      el = (
-        <Main
-          width={width}
-          height={height}
-          data={memoData}
-          image={image}
-          onPress={handlePress}
-          onSelect={handleSelect}
-        />
-      )
-    } else if (image === 'null') {
-      el = (
-        <Text type={_.select('sub', 'icon')} size={12} bold>
-          加载失败
-        </Text>
-      )
-    }
-
-    return (
-      <Container width={width} height={height} y={y}>
-        {el}
-      </Container>
+  } else if (image === 'null') {
+    el = (
+      <Text type={_.select('sub', 'icon')} size={12} bold>
+        加载失败
+      </Text>
     )
-  })
+  }
+
+  return (
+    <Container width={width} height={height} y={y}>
+      {el}
+    </Container>
+  )
 }
 
-export default Item
+export default observer(Item)

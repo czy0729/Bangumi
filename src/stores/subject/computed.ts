@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:15:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-30 20:30:42
+ * @Last Modified time: 2026-04-04 06:42:24
  */
 import { computed } from 'mobx'
 import { x18 } from '@utils'
 import { LIST_EMPTY } from '@constants'
 import {
   DEFAULT_RATING_STATUS,
+  INIT_EP_V2,
   INIT_MONO,
   INIT_MONO_WORKS,
   INIT_SUBJECT,
@@ -22,11 +23,11 @@ import { getInt } from './utils'
 import State from './state'
 
 import type {
+  ActionsItem,
   Cover,
   EpId,
   HTMLText,
   MonoId,
-  Origin,
   RatingStatus,
   StoreConstructor,
   SubjectId,
@@ -87,23 +88,30 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 条目 (云缓存) */
   subjectFromOSS(subjectId: SubjectId = 0) {
-    this.init('subjectFromOSS', true)
-    return computed<Subject>(() => {
-      return this.state.subjectFromOSS[subjectId] || INIT_SUBJECT
+    const STATE_KEY = 'subjectFromOSS'
+    this.init(STATE_KEY, true)
+
+    return computed(() => {
+      return (this.state[STATE_KEY][subjectId] || INIT_SUBJECT) as Subject
     }).get()
   }
 
   /** @deprecated 条目 (CDN) */
   subjectFormCDN(subjectId: SubjectId = 0) {
-    return computed<SubjectFormCDN>(() => {
-      return this.state.subjectFormCDN[subjectId] || INIT_SUBJECT_FROM_CDN_ITEM
+    const STATE_KEY = 'subjectFormCDN'
+
+    return computed(() => {
+      return (this.state[STATE_KEY][subjectId] || INIT_SUBJECT_FROM_CDN_ITEM) as SubjectFormCDN
     }).get()
   }
 
   /** @deprecated 条目章节 */
   subjectEp(subjectId: SubjectId = 0) {
+    const STATE_KEY = 'subjectEp'
+
     return computed(() => {
-      return this.state.subjectEp[subjectId] || {}
+      const ITEM_KEY = subjectId
+      return this.state[STATE_KEY][ITEM_KEY] || {}
     }).get()
   }
 
@@ -130,25 +138,34 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   /** 章节内容 */
-  epFormHTML(epId: EpId) {
-    return computed<HTMLText>(() => {
-      return this.state.epFormHTML[epId] || ''
+  epFormHTML(epId: EpId = 0) {
+    const STATE_KEY = 'epFormHTML'
+
+    return computed(() => {
+      const ITEM_KEY = epId
+      return (this.state[STATE_KEY][ITEM_KEY] || '') as HTMLText
     }).get()
   }
 
   /** 章节更新时间 */
-  epStatus(epId: EpId) {
-    this.init('epStatus', true)
+  epStatus(epId: EpId = 0) {
+    const STATE_KEY = 'epStatus'
+    this.init(STATE_KEY, true)
+
     return computed(() => {
-      return this.state.epStatus[epId] || ''
+      const ITEM_KEY = epId
+      return (this.state[STATE_KEY][ITEM_KEY] || '') as string
     }).get()
   }
 
   /** 集数大于 1000 的条目的章节信息 */
   epV2(subjectId: SubjectId) {
-    this.init('epV2', true)
-    return computed<EpV2>(() => {
-      return this.state.epV2[subjectId] || this.state.epV2[0]
+    const STATE_KEY = 'epStatus'
+    this.init(STATE_KEY, true)
+
+    return computed(() => {
+      const ITEM_KEY = subjectId
+      return (this.state[STATE_KEY][ITEM_KEY] || INIT_EP_V2) as EpV2
     }).get()
   }
 
@@ -175,8 +192,11 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 人物 (CDN), 用于人物首次渲染加速 */
   monoFormCDN(monoId: MonoId) {
-    return computed<Mono>(() => {
-      return this.state.monoFormCDN[monoId] || INIT_MONO
+    const STATE_KEY = 'monoFormCDN'
+
+    return computed(() => {
+      const ITEM_KEY = monoId
+      return (this.state[STATE_KEY][ITEM_KEY] || INIT_MONO) as Mono
     }).get()
   }
 
@@ -202,13 +222,16 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 好友评分列表 */
   rating(
-    subjectId: SubjectId,
+    subjectId: SubjectId = 0,
     status: RatingStatus = DEFAULT_RATING_STATUS,
     isFriend: boolean = false
   ) {
+    const STATE_KEY = 'rating'
+
     return computed<ComputedRating>(() => {
+      const ITEM_KEY = [subjectId, status, isFriend].join('|')
       return (
-        this.state.rating[`${subjectId}|${status}|${isFriend}`] || {
+        this.state[STATE_KEY][ITEM_KEY] || {
           ...LIST_EMPTY,
           counts: {
             wishes: 0,
@@ -223,11 +246,14 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   /** 条目分数 (用于收藏按网站评分排序) */
-  rank(subjectId: SubjectId) {
-    this.init('rank', true)
+  rank(subjectId: SubjectId = 0) {
+    const STATE_KEY = 'rank'
+    this.init(STATE_KEY, true)
+
     return computed<RankItem>(() => {
+      const ITEM_KEY = subjectId
       return (
-        this.state.rank[subjectId] || {
+        this.state[STATE_KEY][ITEM_KEY] || {
           r: undefined,
           s: undefined,
           _loaded: false
@@ -237,39 +263,53 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   /** VIB 相关数据 */
-  vib(subjectId: SubjectId) {
-    this.init('vib', true)
+  vib(subjectId: SubjectId = 0) {
+    const STATE_KEY = 'vib'
+    this.init(STATE_KEY, true)
+
     return computed<(typeof STATE.vib)[0]>(() => {
-      return this.state.vib[subjectId] || STATE.vib[0]
+      const ITEM_KEY = subjectId
+      return this.state[STATE_KEY][ITEM_KEY] || STATE.vib[0]
     }).get()
   }
 
   /** r18 */
-  nsfw(subjectId: SubjectId) {
-    this.init('nsfw', true)
+  nsfw(subjectId: SubjectId = 0) {
+    const STATE_KEY = 'nsfw'
+    this.init(STATE_KEY, true)
+
     return computed<boolean>(() => {
-      return this.state.nsfw[subjectId] || this.subjectV2(subjectId).nsfw || x18(subjectId) || false
+      const ITEM_KEY = subjectId
+      return this.state.nsfw[ITEM_KEY] || this.subjectV2(ITEM_KEY).nsfw || x18(ITEM_KEY) || false
     }).get()
   }
 
-  /** wiki 修订历史 */
-  wiki(subjectId: SubjectId) {
-    return computed<Wiki>(() => {
-      return this.state.wiki[subjectId] || INIT_SUBJECT_WIKI
+  /** 条目维基修订历史 */
+  wiki(subjectId: SubjectId = 0) {
+    const STATE_KEY = 'wiki'
+
+    return computed(() => {
+      const ITEM_KEY = subjectId
+      return (this.state[STATE_KEY][ITEM_KEY] || INIT_SUBJECT_WIKI) as Wiki
     }).get()
   }
 
   /** 自定义源头数据 */
-  @computed get origin(): Origin {
-    this.init('origin', true)
-    return this.state.origin
+  @computed get origin() {
+    const STATE_KEY = 'origin'
+    this.init(STATE_KEY, true)
+
+    return this.state[STATE_KEY]
   }
 
   /** 自定义跳转 */
-  actions(subjectId: SubjectId) {
-    this.init('actions', true)
+  actions(subjectId: SubjectId = 0) {
+    const STATE_KEY = 'actions'
+    this.init(STATE_KEY, true)
+
     return computed(() => {
-      return this.state.actions[subjectId] || []
+      const ITEM_KEY = subjectId
+      return (this.state[STATE_KEY][ITEM_KEY] || []) as ActionsItem
     }).get()
   }
 

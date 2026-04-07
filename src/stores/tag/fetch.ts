@@ -12,7 +12,6 @@ import Computed from './computed'
 import { DEFAULT_TYPE } from './init'
 
 import type { FetchBrowserArgs, FetchRankArgs, FetchTagArgs } from './types'
-
 export default class Fetch extends Computed {
   /** 标签条目 */
   fetchTag = async (args: FetchTagArgs, refresh?: boolean) => {

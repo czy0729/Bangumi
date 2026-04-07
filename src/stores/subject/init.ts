@@ -2,12 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:27:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-30 20:29:00
+ * @Last Modified time: 2026-04-04 06:42:44
  */
 import { LIST_EMPTY } from '@constants'
 import { MODEL_RATING_STATUS } from '@constants/model'
 
-import type { Actions, Loaded, MonoId, Origin, RatingStatus, SubjectId, SubjectType } from '@types'
+import type {
+  Actions,
+  EpId,
+  HTMLText,
+  Loaded,
+  MonoId,
+  Origin,
+  RatingStatus,
+  SubjectId,
+  SubjectType
+} from '@types'
 import type {
   EpStatus,
   Mono,
@@ -17,6 +27,7 @@ import type {
   Subject,
   SubjectCatalogs,
   SubjectComments,
+  SubjectFormCDN,
   SubjectFromHTML,
   SubjectV2
 } from './types'
@@ -223,16 +234,17 @@ export const INIT_SUBJECT_WIKI = {
   covers: []
 }
 
+export const INIT_EP_V2 = {
+  list: [],
+  _loaded: 0
+}
+
 const STATE = {
   /** 条目 (云缓存) */
-  subjectFromOSS: {
-    0: INIT_SUBJECT
-  },
+  subjectFromOSS: {} as Record<SubjectId, Subject>,
 
   /** @deprecated 条目 (CDN) */
-  subjectFormCDN: {
-    0: INIT_SUBJECT_FROM_CDN_ITEM
-  },
+  subjectFormCDN: {} as Record<SubjectId, SubjectFormCDN>,
 
   /** @deprecated 条目章节 */
   subjectEp: {
@@ -243,14 +255,10 @@ const STATE = {
   subjectCatalogs: {} as Record<SubjectId, SubjectCatalogs>,
 
   /** 章节内容 */
-  epFormHTML: {
-    0: ''
-  },
+  epFormHTML: {} as Record<EpId, HTMLText>,
 
   /** 章节更新时间 */
-  epStatus: {
-    0: ''
-  } as EpStatus,
+  epStatus: {} as EpStatus,
 
   /** 集数大于 1000 的条目的章节信息 */
   epV2: {
@@ -267,9 +275,7 @@ const STATE = {
   monoComments: {} as Record<MonoId, MonoComments>,
 
   /** 人物 (CDN) */
-  monoFormCDN: {
-    0: INIT_MONO
-  },
+  monoFormCDN: {} as Record<MonoId, Mono>,
 
   /** 人物角色 */
   monoVoices: {} as Record<MonoId, MonoVoices>,

@@ -6,10 +6,10 @@
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { HeaderPlaceholder } from '@components'
 import { ScrollView } from '@_'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { ITEM_MARGIN, NUM_COLUMNS } from '../../ds'
 import Empty from '../empty'
 import Item from '../item'
@@ -26,66 +26,64 @@ function List() {
     return $.getList(true)
   }, [$])
 
-  return useObserver(() => {
-    if (!$.state.show || !$.filterList.length) return null
+  if (!$.state.show || !$.filterList.length) return null
 
-    const width = (_.window.width - (NUM_COLUMNS + 1) * ITEM_MARGIN) / NUM_COLUMNS
+  const width = (_.window.width - (NUM_COLUMNS + 1) * ITEM_MARGIN) / NUM_COLUMNS
 
-    // 动态分配项目到较短的列
-    const columns: {
-      items: ListType
-      height: number
-    }[] = Array(NUM_COLUMNS)
-      .fill(null)
-      .map(() => ({
-        items: [],
-        height: 0
-      }))
-    $.filterList.forEach(item => {
-      // 找到当前高度最小的列
-      const shortestColumn = columns.reduce((prev, curr) =>
-        curr.height < prev.height ? curr : prev
-      )
+  // 动态分配项目到较短的列
+  const columns: {
+    items: ListType
+    height: number
+  }[] = Array(NUM_COLUMNS)
+    .fill(null)
+    .map(() => ({
+      items: [],
+      height: 0
+    }))
+  $.filterList.forEach(item => {
+    // 找到当前高度最小的列
+    const shortestColumn = columns.reduce((prev, curr) => (curr.height < prev.height ? curr : prev))
 
-      // 计算当前项目的高度（width / 宽高比）
-      const itemHeight = width / (item.aspectRatio || 1)
+    // 计算当前项目的高度（width / 宽高比）
+    const itemHeight = width / (item.aspectRatio || 1)
 
-      // 添加到该列，并更新列高度
-      shortestColumn.items.push(item)
-      shortestColumn.height += itemHeight + ITEM_MARGIN
-    })
-
-    const showMoreKeywords = !$.state.fetching && $.list.length <= 6
-
-    return (
-      <ScrollView
-        contentContainerStyle={styles.container}
-        onScroll={$.onScroll}
-        onRefresh={handleRefresh}
-      >
-        <View style={styles.wrap}>
-          <HeaderPlaceholder />
-          <View style={styles.list}>
-            {columns.map((column, index) => {
-              let y = 0
-              return (
-                <View key={`column-${index}`} style={styles.column}>
-                  {column.items.map(item => {
-                    const w = Math.floor(width - 4)
-                    const h = Math.floor(w / (item.aspectRatio || 1))
-                    y += h + ITEM_MARGIN
-                    return <Item key={item.id} width={w} height={h} y={y - h} {...item} />
-                  })}
-                </View>
-              )
-            })}
-          </View>
-          {showMoreKeywords && <Empty showPagination={false} />}
-        </View>
-        <Pagination />
-      </ScrollView>
-    )
+    // 添加到该列，并更新列高度
+    shortestColumn.items.push(item)
+    shortestColumn.height += itemHeight + ITEM_MARGIN
   })
+
+  const showMoreKeywords = !$.state.fetching && $.list.length <= 6
+
+  return (
+    <ScrollView
+      contentContainerStyle={styles.container}
+      onScroll={$.onScroll}
+      onRefresh={handleRefresh}
+    >
+      <View style={styles.wrap}>
+        <HeaderPlaceholder />
+
+        <View style={styles.list}>
+          {columns.map((column, index) => {
+            let y = 0
+            return (
+              <View key={`column-${index}`} style={styles.column}>
+                {column.items.map(item => {
+                  const w = Math.floor(width - 4)
+                  const h = Math.floor(w / (item.aspectRatio || 1))
+                  y += h + ITEM_MARGIN
+                  return <Item key={item.id} width={w} height={h} y={y - h} {...item} />
+                })}
+              </View>
+            )
+          })}
+        </View>
+        {showMoreKeywords && <Empty showPagination={false} />}
+      </View>
+
+      <Pagination />
+    </ScrollView>
+  )
 }
 
-export default List
+export default observer(List)

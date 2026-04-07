@@ -40,7 +40,7 @@ export default class Fetch extends Computed {
     }
 
     const { page } = this.state
-    const key = `pic_error_${this.keyword}`
+    const key = `pic_error_${this.keyword}` as const
     if (!forceRefresh) {
       const check = await get(encodeKey(key))
       if (check?.ts && Number(check.ts) && getTimestamp() - Number(check.ts) <= D7) {
