@@ -6,9 +6,9 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Iconfont, Touchable } from '@components'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import TinygrailItem from '@tinygrail/_/item'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
@@ -18,42 +18,40 @@ import type { Ctx } from '../../types'
 function ItemEdit({ item, type, users, event }) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    const { sort, editing, editingIds } = $.state
-    const { id, monoId, state } = item
-    const isActive = editingIds[id]
-    const el = (
-      <Flex style={editing && styles.item}>
-        {!!editing && (
-          <View style={styles.icon}>
-            <Iconfont
-              name={isActive ? 'md-radio-button-on' : 'md-radio-button-off'}
-              color={isActive ? _.colorBid : _.colorTinygrailText}
-            />
-          </View>
-        )}
-        <Flex.Item pointerEvents={editing ? 'none' : undefined}>
-          <TinygrailItem
-            style={editing && styles.edit}
-            {...item}
-            type={type}
-            users={users === 'ico' ? $.mpiUsers[monoId] : users}
-            sort={sort}
-            event={event}
-            withoutFeedback={editing}
-            showMenu={!editing}
-            showStatus
+  const { sort, editing, editingIds } = $.state
+  const { id, monoId, state } = item
+  const isActive = editingIds[id]
+  const el = (
+    <Flex style={editing && styles.item}>
+      {!!editing && (
+        <View style={styles.icon}>
+          <Iconfont
+            name={isActive ? 'md-radio-button-on' : 'md-radio-button-off'}
+            color={isActive ? _.colorBid : _.colorTinygrailText}
           />
-        </Flex.Item>
-      </Flex>
-    )
+        </View>
+      )}
+      <Flex.Item pointerEvents={editing ? 'none' : undefined}>
+        <TinygrailItem
+          style={editing && styles.edit}
+          {...item}
+          type={type}
+          users={users === 'ico' ? $.mpiUsers[monoId] : users}
+          sort={sort}
+          event={event}
+          withoutFeedback={editing}
+          showMenu={!editing}
+          showStatus
+        />
+      </Flex.Item>
+    </Flex>
+  )
 
-    if (editing) {
-      return <Touchable onPress={() => $.toggleEditingId(id, state)}>{el}</Touchable>
-    }
+  if (editing) {
+    return <Touchable onPress={() => $.toggleEditingId(id, state)}>{el}</Touchable>
+  }
 
-    return el
-  })
+  return el
 }
 
-export default ItemEdit
+export default observer(ItemEdit)

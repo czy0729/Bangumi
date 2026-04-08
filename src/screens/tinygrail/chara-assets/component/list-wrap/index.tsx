@@ -5,9 +5,9 @@
  * @Last Modified time: 2025-04-08 19:16:57
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Loading } from '@components'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import List from '../list'
 import { COMPONENT } from './ds'
 
@@ -17,13 +17,11 @@ import type { Props } from './types'
 function ListWrap({ id }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    if (!$.myCharaAssets._loaded) {
-      return <Loading style={_.container.flex} color={_.colorTinygrailText} />
-    }
+  if (!$.myCharaAssets._loaded) {
+    return <Loading style={_.container.flex} color={_.colorTinygrailText} />
+  }
 
-    return <List id={id} />
-  })
+  return <List id={id} />
 }
 
-export default ListWrap
+export default observer(ListWrap)

@@ -6,15 +6,16 @@
  */
 import React, { useCallback, useState } from 'react'
 import { RefreshControl } from 'react-native'
+import { observer } from 'mobx-react'
 import { ScrollView as ScrollViewComp } from '@components'
 import { _ } from '@stores'
 import { feedback } from '@utils'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
-import { Props } from './types'
 
-const wait = timeout => {
+import type { Props } from './types'
+
+const wait = (timeout: number) => {
   return new Promise(resolve => {
     setTimeout(resolve, timeout)
   })
@@ -24,6 +25,7 @@ function ScrollView({ forwardRef, style, contentContainerStyle, onRefresh, child
   r(COMPONENT)
 
   const [refreshing, setRefreshing] = useState(false)
+
   const handleRefreshCallback = useCallback(async () => {
     if (!onRefresh) return
 
@@ -38,7 +40,7 @@ function ScrollView({ forwardRef, style, contentContainerStyle, onRefresh, child
     }
   }, [onRefresh])
 
-  return useObserver(() => (
+  return (
     <ScrollViewComp
       forwardRef={forwardRef}
       style={style}
@@ -59,7 +61,7 @@ function ScrollView({ forwardRef, style, contentContainerStyle, onRefresh, child
     >
       {children}
     </ScrollViewComp>
-  ))
+  )
 }
 
-export default ScrollView
+export default observer(ScrollView)

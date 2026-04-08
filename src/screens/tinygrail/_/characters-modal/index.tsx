@@ -5,10 +5,11 @@
  * @Last Modified time: 2026-03-18 03:40:16
  */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { _, tinygrailStore } from '@stores'
 import { getTimestamp, info, queue, trim } from '@utils'
-import { useBackHandler, useMount, useObserver } from '@utils/hooks'
+import { useBackHandler, useMount } from '@utils/hooks'
 import { FROZEN_FN, LIST_EMPTY, M2 } from '@constants'
 import Bottom from './bottom'
 import Content from './content'
@@ -20,7 +21,6 @@ import { assets, charge, getLocal, lv, refine, rk, setLocal } from './utils'
 
 import type { ListEmpty, Loaded } from '@types'
 import type { PickItem, Props } from './types'
-
 export { ITEMS_TYPE, ITEMS_USED, ITEMS_NOTIFY } from './ds'
 
 function CharactersModal({
@@ -538,7 +538,7 @@ function CharactersModal({
     handleUpdateRight()
   }, [rightText, handleUpdateRight])
 
-  return useObserver(() => (
+  return (
     <Modal visible={visible} title={title} focus={focus} onClose={handleClose}>
       <Content>
         <Flex.Item>
@@ -596,7 +596,7 @@ function CharactersModal({
         onSubmit={handleSubmit}
       />
     </Modal>
-  ))
+  )
 }
 
-export default CharactersModal
+export default observer(CharactersModal)

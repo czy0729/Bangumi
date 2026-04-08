@@ -6,9 +6,9 @@
  */
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
-import { useObserver } from '@utils/hooks'
 import SubmitBtn from '../submit-btn'
 import { bottomTextType, cover, lv } from '../utils'
 import Form from './form'
@@ -65,56 +65,54 @@ function Bottom({
     return ''
   }, [amount, isChaos, isFishEye, isGuidePost, isStarBreak, isStarDust])
 
-  return useObserver(() => {
-    return (
-      <View>
-        <Flex style={styles.bottom}>
-          <Flex.Item>
-            {leftSelected ? (
+  return (
+    <View>
+      <Flex style={styles.bottom}>
+        <Flex.Item>
+          {leftSelected ? (
+            <Item
+              id={leftSelected.id}
+              src={cover(leftSelected)}
+              name={leftSelected.name}
+              level={lv(leftSelected)}
+              change={memoLeftText}
+              type={bottomTextType(memoLeftText)}
+              onPress={onCancelLeft}
+            />
+          ) : (
+            <Text type='tinygrailText' size={10}>
+              [请选择消耗]
+            </Text>
+          )}
+        </Flex.Item>
+        {hasRight && (
+          <Flex.Item style={_.ml.sm}>
+            {rightSelected ? (
               <Item
-                id={leftSelected.id}
-                src={cover(leftSelected)}
-                name={leftSelected.name}
-                level={lv(leftSelected)}
-                change={memoLeftText}
-                type={bottomTextType(memoLeftText)}
-                onPress={onCancelLeft}
+                src={cover(rightSelected)}
+                name={rightSelected.name}
+                level={lv(rightSelected)}
+                change={memoRightText}
+                type={bottomTextType(memoRightText)}
+                onPress={onCancelRight}
               />
             ) : (
               <Text type='tinygrailText' size={10}>
-                [请选择消耗]
+                [请选择目标]
               </Text>
             )}
           </Flex.Item>
-          {hasRight && (
-            <Flex.Item style={_.ml.sm}>
-              {rightSelected ? (
-                <Item
-                  src={cover(rightSelected)}
-                  name={rightSelected.name}
-                  level={lv(rightSelected)}
-                  change={memoRightText}
-                  type={bottomTextType(memoRightText)}
-                  onPress={onCancelRight}
-                />
-              ) : (
-                <Text type='tinygrailText' size={10}>
-                  [请选择目标]
-                </Text>
-              )}
-            </Flex.Item>
-          )}
-          {!isStarDust && <SubmitBtn canSubmit={canSubmit} loading={loading} onSubmit={onSubmit} />}
-        </Flex>
-        {isStarDust && (
-          <Flex>
-            <Form amount={amount} onFocus={onFocus} onBlur={onBlur} onChangeText={onChangeText} />
-            <SubmitBtn canSubmit={canSubmit} loading={loading} onSubmit={onSubmit} />
-          </Flex>
         )}
-      </View>
-    )
-  })
+        {!isStarDust && <SubmitBtn canSubmit={canSubmit} loading={loading} onSubmit={onSubmit} />}
+      </Flex>
+      {isStarDust && (
+        <Flex>
+          <Form amount={amount} onFocus={onFocus} onBlur={onBlur} onChangeText={onChangeText} />
+          <SubmitBtn canSubmit={canSubmit} loading={loading} onSubmit={onSubmit} />
+        </Flex>
+      )}
+    </View>
+  )
 }
 
-export default Bottom
+export default observer(Bottom)

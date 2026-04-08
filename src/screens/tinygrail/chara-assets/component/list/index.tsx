@@ -5,10 +5,10 @@
  * @Last Modified time: 2025-04-08 19:43:55
  */
 import React, { useCallback } from 'react'
+import { observer } from 'mobx-react'
 import { PaginationList2 } from '@_'
 import { _, tinygrailStore, useStore } from '@stores'
 import { queue } from '@utils'
-import { useObserver } from '@utils/hooks'
 import { TINYGRAIL_LIST_PROPS } from '@tinygrail/_/ds'
 import Item from '../item'
 import { keyExtractor } from './utils'
@@ -21,62 +21,60 @@ import type { Props } from './types'
 function List({ id }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    const dataSources = {
-      merge: () => $.mergeList,
-      chara: () => $.charaList,
-      temple: () => $.temple,
-      default: () => $.myCharaAssets.ico
-    }
+  const dataSources = {
+    merge: () => $.mergeList,
+    chara: () => $.charaList,
+    temple: () => $.temple,
+    default: () => $.myCharaAssets.ico
+  }
 
-    const refreshHandlers = {
-      merge: () =>
-        queue([
-          () => $.fetchTemple(),
-          () => $.fetchMyCharaAssets(),
-          () => tinygrailStore.fetchBid(),
-          () => tinygrailStore.fetchAsks(),
-          () => tinygrailStore.fetchAuction()
-        ]),
-      chara: () =>
-        queue([
-          () => $.fetchMyCharaAssets(),
-          () => tinygrailStore.fetchBid(),
-          () => tinygrailStore.fetchAsks(),
-          () => tinygrailStore.fetchAuction()
-        ]),
-      temple: () => $.fetchTemple(),
-      default: () => $.fetchMyCharaAssets()
-    }
+  const refreshHandlers = {
+    merge: () =>
+      queue([
+        () => $.fetchTemple(),
+        () => $.fetchMyCharaAssets(),
+        () => tinygrailStore.fetchBid(),
+        () => tinygrailStore.fetchAsks(),
+        () => tinygrailStore.fetchAuction()
+      ]),
+    chara: () =>
+      queue([
+        () => $.fetchMyCharaAssets(),
+        () => tinygrailStore.fetchBid(),
+        () => tinygrailStore.fetchAsks(),
+        () => tinygrailStore.fetchAuction()
+      ]),
+    temple: () => $.fetchTemple(),
+    default: () => $.fetchMyCharaAssets()
+  }
 
-    const isTemple = id === 'temple'
-    const numColumns = isTemple ? 3 : undefined
-    const data = (dataSources[id] || dataSources.default)() // 惰性执行
+  const isTemple = id === 'temple'
+  const numColumns = isTemple ? 3 : undefined
+  const data = (dataSources[id] || dataSources.default)() // 惰性执行
 
-    const handleHeaderRefresh = useCallback(
-      () => (refreshHandlers[id] || refreshHandlers.default)(),
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      [$, id]
-    )
-    const handleRenderItem = useCallback(
-      ({ item, index }) => <Item id={id} index={index} item={item} />,
-      []
-    )
+  const handleHeaderRefresh = useCallback(
+    () => (refreshHandlers[id] || refreshHandlers.default)(),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [$, id]
+  )
+  const handleRenderItem = useCallback(
+    ({ item, index }) => <Item id={id} index={index} item={item} />,
+    [id]
+  )
 
-    return (
-      <PaginationList2
-        {...TINYGRAIL_LIST_PROPS}
-        key={`${_.orientation}${numColumns}`}
-        keyExtractor={keyExtractor}
-        style={_.container.flex}
-        contentContainerStyle={isTemple ? styles.temple : styles.list}
-        data={data.list}
-        numColumns={numColumns}
-        renderItem={handleRenderItem}
-        onHeaderRefresh={handleHeaderRefresh}
-      />
-    )
-  })
+  return (
+    <PaginationList2
+      {...TINYGRAIL_LIST_PROPS}
+      key={`${_.orientation}${numColumns}`}
+      keyExtractor={keyExtractor}
+      style={_.container.flex}
+      contentContainerStyle={isTemple ? styles.temple : styles.list}
+      data={data.list}
+      numColumns={numColumns}
+      renderItem={handleRenderItem}
+      onHeaderRefresh={handleHeaderRefresh}
+    />
+  )
 }
 
-export default List
+export default observer(List)

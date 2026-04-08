@@ -5,13 +5,14 @@
  * @Last Modified time: 2025-05-03 16:28:35
  */
 import React, { useCallback, useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Iconfont, Text } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { HIT_SLOP } from '../ds'
 import { lv } from '../utils'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function LevelFilter({ source, value, onSelect }: Props) {
   const memoMap = useMemo(() => {
@@ -22,9 +23,7 @@ function LevelFilter({ source, value, onSelect }: Props) {
       ;(list || []).forEach(item =>
         data[lv(item) || 0] ? (data[lv(item) || 0] += 1) : (data[lv(item) || 0] = 1)
       )
-    } catch (error) {
-      console.error(error)
-    }
+    } catch {}
 
     return data
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -43,7 +42,7 @@ function LevelFilter({ source, value, onSelect }: Props) {
     [onSelect]
   )
 
-  return useObserver(() => (
+  return (
     <Popover.Old data={memoData} hitSlop={HIT_SLOP} onSelect={handleSelect}>
       <Flex justify='center'>
         <Iconfont
@@ -57,7 +56,7 @@ function LevelFilter({ source, value, onSelect }: Props) {
         </Text>
       </Flex>
     </Popover.Old>
-  ))
+  )
 }
 
-export default LevelFilter
+export default observer(LevelFilter)

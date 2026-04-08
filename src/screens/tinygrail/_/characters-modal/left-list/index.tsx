@@ -9,14 +9,15 @@ import { Flex } from '@components'
 import { _ } from '@stores'
 import { formatNumber, toFixed } from '@utils'
 import { useObserver } from '@utils/hooks'
-import { PickItem } from '../types'
 import { calculateRate } from '../../utils'
 import Item from '../item'
 import LevelFilter from '../level-filter'
 import List from '../list'
 import SearchInput from '../search-input'
 import { cover, lv } from '../utils'
-import { Props } from './types'
+
+import type { PickItem } from '../types'
+import type { Props } from './types'
 
 const LeftList = React.memo(
   ({

@@ -6,14 +6,16 @@
  */
 import React, { useCallback, useRef } from 'react'
 import { SafeAreaView } from 'react-navigation'
-import { ListView, Loading, ScrollToIndex } from '@components'
+import { observer } from 'mobx-react'
+import { ListView, Loading } from '@components'
 import { _, tinygrailStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { TINYGRAIL_LIST_PROPS } from '@tinygrail/styles'
 import Chart from '../chart'
 import Log from '../log'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { ScrollToIndex } from '@components'
+import type { Props } from './types'
 
 function List({ navigation, onToggle, onHeaderRefresh, onFooterRefresh }: Props) {
   const scrollToIndexRef = useRef<ScrollToIndex>(null)
@@ -32,25 +34,23 @@ function List({ navigation, onToggle, onHeaderRefresh, onFooterRefresh }: Props)
     })
   }, [])
 
-  return useObserver(() => {
-    if (!tinygrailStore.starLogs._loaded) return <Loading />
+  if (!tinygrailStore.starLogs._loaded) return <Loading />
 
-    return (
-      <SafeAreaView style={_.container.flex}>
-        <ListView
-          {...TINYGRAIL_LIST_PROPS}
-          ref={handleRef}
-          contentContainerStyle={styles.contentContainerStyle}
-          data={tinygrailStore.starLogs}
-          initialNumToRender={16}
-          renderItem={handleRenderItem}
-          onHeaderRefresh={onHeaderRefresh}
-          onFooterRefresh={onFooterRefresh}
-        />
-        <Chart onPress={handleChartPress} />
-      </SafeAreaView>
-    )
-  })
+  return (
+    <SafeAreaView style={_.container.flex}>
+      <ListView
+        {...TINYGRAIL_LIST_PROPS}
+        ref={handleRef}
+        contentContainerStyle={styles.contentContainerStyle}
+        data={tinygrailStore.starLogs}
+        initialNumToRender={16}
+        renderItem={handleRenderItem}
+        onHeaderRefresh={onHeaderRefresh}
+        onFooterRefresh={onFooterRefresh}
+      />
+      <Chart onPress={handleChartPress} />
+    </SafeAreaView>
+  )
 }
 
-export default List
+export default observer(List)

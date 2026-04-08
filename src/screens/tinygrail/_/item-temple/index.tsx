@@ -6,10 +6,11 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { formatNumber, stl } from '@utils'
-import { useNavigation, useObserver } from '@utils/hooks'
+import { useNavigation } from '@utils/hooks'
 import { EVENT } from '@constants'
 import Progress from '../progress'
 import TinygrailStatus from '../status'
@@ -48,87 +49,85 @@ function ItemTemple({
 }: Props) {
   const navigation = useNavigation(COMPONENT)
 
-  return useObserver(() => {
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    /** 最近圣殿页面用 */
-    const isFromTemplesPage = type === 'view'
+  /** 最近圣殿页面用 */
+  const isFromTemplesPage = type === 'view'
 
-    return (
-      <View style={stl(styles.item, style)}>
-        <Cover
-          level={level}
-          cover={cover}
-          coverSize={coverSize}
-          name={name}
-          refine={refine}
-          event={event || EVENT}
-          onPress={onPress}
-        />
-        <User
-          navigation={navigation}
-          userId={(isFromTemplesPage ? userId : name) || userId}
-          avatar={avatar}
-          nickname={nickname}
-          lastActive={lastActive}
-          event={event || EVENT}
-        />
-        <Title
-          style={isFromTemplesPage && _.mt.xs}
-          id={id}
-          name={name || nickname}
-          rank={rank}
-          cLevel={cLevel}
-          type={type}
-        />
-        {!!(assets || sacrifices) && (
-          <View style={_.mt.sm}>
-            <Progress
-              size='sm'
-              assets={assets}
-              sacrifices={sacrifices}
-              refine={refine}
-              star={userStarForces >= 10000}
-            />
-            {typeof onItem === 'function' && sacrifices - assets >= 50 && (
-              <Touchable style={styles.btn} onPress={onItem}>
-                <Iconfont name='md-add' size={13} color={'rgba(255, 255, 255, 0.4)'} />
-              </Touchable>
-            )}
-          </View>
-        )}
-        {!!extra && (
-          <Text
-            style={_.mt.sm}
-            type='tinygrailText'
-            size={10}
-            lineHeight={state ? 13 : 10}
-            align='center'
-            bold
-          >
-            {extra}
-            {state ? `\n持股 ${formatNumber(state, 0)}` : ''}
-          </Text>
-        )}
-        {!!userStarForces && !onItem && (
-          <Text
-            style={_.mt.sm}
-            type={userStarForces >= 10000 ? 'warning' : 'tinygrailText'}
-            size={10}
-            align='center'
-            bold
-          >
-            星之力 {formatNumber(userStarForces, 0)}
-          </Text>
-        )}
-        {showStatus && (
-          <Flex style={_.mt.xs} justify='center'>
-            <TinygrailStatus id={id} />
-          </Flex>
-        )}
-      </View>
-    )
-  })
+  return (
+    <View style={stl(styles.item, style)}>
+      <Cover
+        level={level}
+        cover={cover}
+        coverSize={coverSize}
+        name={name}
+        refine={refine}
+        event={event || EVENT}
+        onPress={onPress}
+      />
+      <User
+        navigation={navigation}
+        userId={(isFromTemplesPage ? userId : name) || userId}
+        avatar={avatar}
+        nickname={nickname}
+        lastActive={lastActive}
+        event={event || EVENT}
+      />
+      <Title
+        style={isFromTemplesPage && _.mt.xs}
+        id={id}
+        name={name || nickname}
+        rank={rank}
+        cLevel={cLevel}
+        type={type}
+      />
+      {!!(assets || sacrifices) && (
+        <View style={_.mt.sm}>
+          <Progress
+            size='sm'
+            assets={assets}
+            sacrifices={sacrifices}
+            refine={refine}
+            star={userStarForces >= 10000}
+          />
+          {typeof onItem === 'function' && sacrifices - assets >= 50 && (
+            <Touchable style={styles.btn} onPress={onItem}>
+              <Iconfont name='md-add' size={13} color={'rgba(255, 255, 255, 0.4)'} />
+            </Touchable>
+          )}
+        </View>
+      )}
+      {!!extra && (
+        <Text
+          style={_.mt.sm}
+          type='tinygrailText'
+          size={10}
+          lineHeight={state ? 13 : 10}
+          align='center'
+          bold
+        >
+          {extra}
+          {state ? `\n持股 ${formatNumber(state, 0)}` : ''}
+        </Text>
+      )}
+      {!!userStarForces && !onItem && (
+        <Text
+          style={_.mt.sm}
+          type={userStarForces >= 10000 ? 'warning' : 'tinygrailText'}
+          size={10}
+          align='center'
+          bold
+        >
+          星之力 {formatNumber(userStarForces, 0)}
+        </Text>
+      )}
+      {showStatus && (
+        <Flex style={_.mt.xs} justify='center'>
+          <TinygrailStatus id={id} />
+        </Flex>
+      )}
+    </View>
+  )
 }
 
-export default ItemTemple
+export default observer(ItemTemple)

@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-05-04 18:19:28
  */
-import { PickItem } from '../types'
+import type { PickItem } from '../types'
 
 export type Props = {
   type: string

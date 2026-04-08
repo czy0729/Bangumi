@@ -5,14 +5,14 @@
  * @Last Modified time: 2026-01-14 10:29:34
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Avatar, Flex, Text, Touchable } from '@components'
 import { _, tinygrailStore } from '@stores'
 import { feedback, queue, tinygrailOSS } from '@utils'
-import { useObserver } from '@utils/hooks'
 import TinygrailStatus from '../../../status'
 
 function Item({ id = 0, src, name, level, change, type, onPress }) {
-  return useObserver(() => (
+  return (
     <Flex>
       <Avatar
         key={tinygrailOSS(src)}
@@ -62,7 +62,7 @@ function Item({ id = 0, src, name, level, change, type, onPress }) {
       </Flex.Item>
       {!!id && <TinygrailStatus style={_.mr.sm} id={id} />}
     </Flex>
-  ))
+  )
 }
 
-export default Item
+export default observer(Item)

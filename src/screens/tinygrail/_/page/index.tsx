@@ -5,18 +5,20 @@
  * @Last Modified time: 2025-04-22 05:04:12
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Page } from '@components'
 import { _, useStore } from '@stores'
 import { stl } from '@utils'
-import { useInsets, useObserver } from '@utils/hooks'
+import { useInsets } from '@utils/hooks'
 
 import type { Props } from './types'
 
 function TinygrailPage({ loading, header = true, children }: Props) {
   const { $ } = useStore<any>()
+
   const { headerStyle } = useInsets()
 
-  return useObserver(() => (
+  return (
     <Page
       style={stl(_.container.tinygrail, header && headerStyle)}
       loaded={$?.state?._loaded}
@@ -25,7 +27,7 @@ function TinygrailPage({ loading, header = true, children }: Props) {
     >
       {children}
     </Page>
-  ))
+  )
 }
 
-export default TinygrailPage
+export default observer(TinygrailPage)

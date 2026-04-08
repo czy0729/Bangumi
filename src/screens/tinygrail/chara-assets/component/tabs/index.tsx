@@ -5,8 +5,9 @@
  * @Last Modified time: 2025-12-08 07:08:26
  */
 import React, { useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { r } from '@utils/dev'
-import { useInsets, useObserver } from '@utils/hooks'
+import { useInsets } from '@utils/hooks'
 import TinygrailTabs from '@tinygrail/_/tabs-v2'
 import { TABS } from '../../ds'
 import ToolBar from '../tool-bar'
@@ -20,7 +21,7 @@ function Tabs() {
 
   const elToolBar = useMemo(() => <ToolBar />, [])
 
-  return useObserver(() => (
+  return (
     <TinygrailTabs
       style={headerStyle}
       routes={TABS}
@@ -28,7 +29,7 @@ function Tabs() {
       renderItem={renderItem}
       renderLabel={renderLabel}
     />
-  ))
+  )
 }
 
-export default Tabs
+export default observer(Tabs)

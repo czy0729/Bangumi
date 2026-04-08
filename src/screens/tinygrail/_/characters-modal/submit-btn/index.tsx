@@ -5,25 +5,24 @@
  * @Last Modified time: 2025-05-03 16:28:43
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Button } from '@components'
-import { useObserver } from '@utils/hooks'
 import { memoStyles } from './styles'
 
 function SubmitBtn({ canSubmit, loading, onSubmit }) {
-  return useObserver(() => {
-    const styles = memoStyles()
-    return (
-      <Button
-        style={canSubmit ? styles.btn : styles.disabled}
-        styleText={styles.text}
-        type='bid'
-        loading={loading}
-        onPress={onSubmit}
-      >
-        提交
-      </Button>
-    )
-  })
+  const styles = memoStyles()
+
+  return (
+    <Button
+      style={canSubmit ? styles.btn : styles.disabled}
+      styleText={styles.text}
+      type='bid'
+      loading={loading}
+      onPress={onSubmit}
+    >
+      提交
+    </Button>
+  )
 }
 
-export default SubmitBtn
+export default observer(SubmitBtn)

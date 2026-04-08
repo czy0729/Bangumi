@@ -9,7 +9,8 @@ import { tinygrailStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { LIST_EMPTY } from '@constants'
 import { assets, lv, refine, rk } from './utils'
-import { PickItem, Props } from './types'
+
+import type { PickItem, Props } from './types'
 
 /** 物品类型判断 */
 export const useItemType = (title: string) => {

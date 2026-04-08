@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-04-22 00:20:12
  */
-import { Fn } from '@types'
+import type { Fn } from '@types'
 
 export type PickItem = Partial<{
   asks: number

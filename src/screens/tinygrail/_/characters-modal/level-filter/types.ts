@@ -4,7 +4,7 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2025-05-02 16:38:33
  */
-import { ListEmpty } from '@types'
+import type { ListEmpty } from '@types'
 
 export type Props = {
   source: ListEmpty

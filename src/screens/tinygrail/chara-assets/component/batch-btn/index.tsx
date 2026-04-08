@@ -5,9 +5,9 @@
  * @Last Modified time: 2024-10-24 20:27:15
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Iconfont, Touchable } from '@components'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
@@ -16,17 +16,15 @@ import type { Ctx } from '../../types'
 function BatchBtn() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    if (!$.state.editing) return null
+  if (!$.state.editing) return null
 
-    return (
-      <Touchable onPress={$.increaseBatchSelect}>
-        <Flex style={styles.check}>
-          <Iconfont name='md-done-all' size={16} color={_.colorTinygrailText} />
-        </Flex>
-      </Touchable>
-    )
-  })
+  return (
+    <Touchable onPress={$.increaseBatchSelect}>
+      <Flex style={styles.check}>
+        <Iconfont name='md-done-all' size={16} color={_.colorTinygrailText} />
+      </Flex>
+    </Touchable>
+  )
 }
 
-export default BatchBtn
+export default observer(BatchBtn)

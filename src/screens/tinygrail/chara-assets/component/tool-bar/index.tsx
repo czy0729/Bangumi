@@ -5,8 +5,8 @@
  * @Last Modified time: 2025-06-25 22:16:49
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import TinygrailToolBar from '@tinygrail/_/tool-bar'
 import { SORT_CHARA_DS, SORT_DS, SORT_TEMPLE_DS } from '../../ds'
 import BatchBtn from '../batch-btn'
@@ -17,31 +17,29 @@ import type { Ctx } from '../../types'
 function ToolBar() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    const { page, direction } = $.state
-    if (page > 2) return null
+  const { page, direction } = $.state
+  if (page > 2) return null
 
-    const isTemple = page === 2
-    const isChara = page === 1
+  const isTemple = page === 2
+  const isChara = page === 1
 
-    const levelKey = isTemple ? 'templeLevel' : 'level'
-    const levelMapKey = isTemple ? 'templeLevelMap' : 'levelMap'
-    const sortKey = isTemple ? 'templeSort' : 'sort'
+  const levelKey = isTemple ? 'templeLevel' : 'level'
+  const levelMapKey = isTemple ? 'templeLevelMap' : 'levelMap'
+  const sortKey = isTemple ? 'templeSort' : 'sort'
 
-    const passProps = {
-      data: isTemple ? SORT_TEMPLE_DS : isChara ? SORT_CHARA_DS : SORT_DS,
-      level: $.state[levelKey],
-      levelMap: $[levelMapKey],
-      sort: $.state[sortKey],
-      direction,
-      renderLeft: <BatchBtn />,
-      onLevelSelect: (value: string) => $.onLevelSelect(value, levelKey),
-      onSortPress: (value: string) => $.onSortPress(value, sortKey),
-      onSortLongPress: () => $.onSortLongPress(sortKey)
-    } as const
+  const passProps = {
+    data: isTemple ? SORT_TEMPLE_DS : isChara ? SORT_CHARA_DS : SORT_DS,
+    level: $.state[levelKey],
+    levelMap: $[levelMapKey],
+    sort: $.state[sortKey],
+    direction,
+    renderLeft: <BatchBtn />,
+    onLevelSelect: (value: string) => $.onLevelSelect(value, levelKey),
+    onSortPress: (value: string) => $.onSortPress(value, sortKey),
+    onSortLongPress: () => $.onSortLongPress(sortKey)
+  } as const
 
-    return <TinygrailToolBar key={String(page)} {...passProps} />
-  })
+  return <TinygrailToolBar key={String(page)} {...passProps} />
 }
 
-export default ToolBar
+export default observer(ToolBar)

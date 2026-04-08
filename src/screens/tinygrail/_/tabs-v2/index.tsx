@@ -5,14 +5,14 @@
  * @Last Modified time: 2025-12-28 06:10:39
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { TabsV2 } from '@components'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 
 function Tabs({ routes, renderItem, ...other }) {
   const { $ } = useStore<any>()
 
-  return useObserver(() => (
+  return (
     <TabsV2
       key={_.orientation}
       routes={routes}
@@ -25,7 +25,7 @@ function Tabs({ routes, renderItem, ...other }) {
       onChange={$.onChange}
       {...other}
     />
-  ))
+  )
 }
 
-export default Tabs
+export default observer(Tabs)

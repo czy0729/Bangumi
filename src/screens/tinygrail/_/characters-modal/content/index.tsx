@@ -5,15 +5,14 @@
  * @Last Modified time: 2025-05-03 16:28:23
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex } from '@components'
-import { useObserver } from '@utils/hooks'
 import { memoStyles } from './styles'
 
 function Content({ children }) {
-  return useObserver(() => {
-    const styles = memoStyles()
-    return <Flex style={styles.content}>{children}</Flex>
-  })
+  const styles = memoStyles()
+
+  return <Flex style={styles.content}>{children}</Flex>
 }
 
-export default Content
+export default observer(Content)

@@ -5,13 +5,13 @@
  * @Last Modified time: 2025-05-03 16:28:18
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
-import { useObserver } from '@utils/hooks'
 import SearchInput from '../../search-input'
 
 function BottomForm({ amount, onFocus, onBlur, onChangeText }) {
-  return useObserver(() => (
+  return (
     <>
       <Text type='tinygrailText' size={10}>
         消耗股份
@@ -27,7 +27,7 @@ function BottomForm({ amount, onFocus, onBlur, onChangeText }) {
         />
       </Flex.Item>
     </>
-  ))
+  )
 }
 
-export default BottomForm
+export default observer(BottomForm)

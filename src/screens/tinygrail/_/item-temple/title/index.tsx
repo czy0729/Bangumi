@@ -5,52 +5,51 @@
  * @Last Modified time: 2025-06-19 04:48:35
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { HTMLDecode } from '@utils'
-import { useNavigation, useObserver } from '@utils/hooks'
+import { useNavigation } from '@utils/hooks'
 import Level from '../../level'
 import Rank from '../../rank'
 
 function Title({ style, id, name, rank, cLevel, type }) {
   const navigation = useNavigation()
 
-  return useObserver(() => {
-    const text = HTMLDecode(name)
-    let size = 11
-    if (text.length > 4) {
-      if (rank) size -= 1
-      if (cLevel) size -= 1
-    }
+  const text = HTMLDecode(name)
+  let size = 11
+  if (text.length > 4) {
+    if (rank) size -= 1
+    if (cLevel) size -= 1
+  }
 
-    const isFromTemplesPage = type === 'view'
+  const isFromTemplesPage = type === 'view'
 
-    return (
-      <Flex style={style}>
-        <Rank value={rank} />
-        <Level value={cLevel} />
-        <Flex.Item>
-          <Text
-            type='tinygrailPlain'
-            size={size}
-            bold
-            numberOfLines={1}
-            align={isFromTemplesPage ? 'center' : 'left'}
-            onPress={
-              isFromTemplesPage
-                ? () => {
-                    navigation.push('TinygrailSacrifice', {
-                      monoId: String(id)
-                    })
-                  }
-                : undefined
-            }
-          >
-            {text}
-          </Text>
-        </Flex.Item>
-      </Flex>
-    )
-  })
+  return (
+    <Flex style={style}>
+      <Rank value={rank} />
+      <Level value={cLevel} />
+      <Flex.Item>
+        <Text
+          type='tinygrailPlain'
+          size={size}
+          bold
+          numberOfLines={1}
+          align={isFromTemplesPage ? 'center' : 'left'}
+          onPress={
+            isFromTemplesPage
+              ? () => {
+                  navigation.push('TinygrailSacrifice', {
+                    monoId: String(id)
+                  })
+                }
+              : undefined
+          }
+        >
+          {text}
+        </Text>
+      </Flex.Item>
+    </Flex>
+  )
 }
 
-export default Title
+export default observer(Title)

@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-05-02 22:45:10
  */
-import { ListEmpty } from '@types'
-import { PickItem } from '../types'
+import type { ListEmpty } from '@types'
+import type { PickItem } from '../types'
 
 export type Props = {
   source: ListEmpty
