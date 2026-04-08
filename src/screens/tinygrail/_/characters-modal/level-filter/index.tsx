@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-05-03 16:28:35
  */
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Text } from '@components'
 import { Popover } from '@_'
@@ -20,24 +20,34 @@ function LevelFilter({ source, value, onSelect }: Props) {
     const data = {}
 
     try {
-      ;(list || []).forEach(item =>
-        data[lv(item) || 0] ? (data[lv(item) || 0] += 1) : (data[lv(item) || 0] = 1)
-      )
+      ;(list || []).forEach(item => {
+        const level = lv(item) || 0
+        data[level] ? (data[level] += 1) : (data[level] = 1)
+      })
     } catch {}
 
     return data
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [source._loaded, source.list.length])
+  }, [source])
+
+  // 如果 value 不为空且 memoMap 里没有这个 key，说明没有重叠
+  const hasOverlap = value === '' || memoMap.hasOwnProperty(value)
+  const activeValue = hasOverlap ? value : ''
+
+  // 如果发生不匹配，强制同步父组件状态
+  useEffect(() => {
+    if (!hasOverlap) onSelect('')
+  }, [hasOverlap, onSelect])
 
   const memoData = useMemo(() => {
     const sum = Object.keys(memoMap).reduce((total, level) => total + memoMap[level], 0)
-    return [`全部 (${sum})`, ...Object.keys(memoMap).map(level => `lv${level} (${memoMap[level]})`)]
+    const sortedLevels = Object.keys(memoMap).sort((a, b) => Number(a) - Number(b))
+    return [`全部 (${sum})`, ...sortedLevels.map(level => `lv${level} (${memoMap[level]})`)]
   }, [memoMap])
 
   const handleSelect = useCallback(
     (title: string) => {
-      const lv = title.split(' ')[0]
-      onSelect(lv === '全部' ? '' : lv.replace('lv', ''))
+      const lvPart = title.split(' ')[0]
+      onSelect(lvPart === '全部' ? '' : lvPart.replace('lv', ''))
     },
     [onSelect]
   )
@@ -48,11 +58,11 @@ function LevelFilter({ source, value, onSelect }: Props) {
         <Iconfont
           name='md-filter-list'
           size={14}
-          color={value ? _.colorAsk : _.colorTinygrailText}
+          color={activeValue ? _.colorAsk : _.colorTinygrailText}
         />
-        <Text style={_.ml.xs} size={10} type={value ? 'ask' : 'tinygrailText'}>
-          {value ? `lv${value}` : '等级'}
-          {memoMap[value] ? ` (${memoMap[value]})` : ''}
+        <Text style={_.ml.xs} size={10} type={activeValue ? 'ask' : 'tinygrailText'}>
+          {activeValue ? `lv${activeValue}` : '等级'}
+          {memoMap[activeValue] ? ` (${memoMap[activeValue]})` : ''}
         </Text>
       </Flex>
     </Popover.Old>

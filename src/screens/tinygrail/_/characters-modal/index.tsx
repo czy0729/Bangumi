@@ -8,7 +8,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { _, tinygrailStore } from '@stores'
-import { getTimestamp, info, queue, trim } from '@utils'
+import { desc, getTimestamp, info, queue, trim } from '@utils'
 import { useBackHandler, useMount } from '@utils/hooks'
 import { FROZEN_FN, LIST_EMPTY, M2 } from '@constants'
 import Bottom from './bottom'
@@ -143,13 +143,13 @@ function CharactersModal({
       keyword
     })
     if (result?.data?.State === 0) {
-      const searchResults = result.data.Value.filter((item: { ICO: any }) => !item.ICO).map(
-        (item: { Id: any; Name: any; Level: any }) => ({
+      const searchResults = result.data.Value.filter((item: { ICO: any }) => !item.ICO)
+        .map((item: { Id: any; Name: any; Level: any }) => ({
           id: item.Id,
           name: item.Name,
           level: item.Level
-        })
-      )
+        }))
+        .sort((a: { level: any }, b: { level: any }) => desc(a.level, b.level))
       setSearch(searchResults)
       setRightSelected(null)
     }

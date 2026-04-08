@@ -7,7 +7,6 @@
 import { action, configure, extendObservable, isObservableArray, toJS } from 'mobx'
 import isEqual from 'lodash.isequal'
 import { LIST_EMPTY } from '@constants/constants'
-import { TEXT_BADGES } from '@constants/text'
 import { DEV } from '@src/config'
 import { logger } from '../dev'
 import fetch, { queue } from '../fetch'
@@ -397,12 +396,12 @@ export default class Store<
   }
 
   /** 开发调试 */
-  log(...arg: any) {
-    if (DEV) logger.info(TEXT_BADGES.primary, ...arg)
+  log(method: string, ...arg: any) {
+    if (DEV) logger.info(method, ...arg)
   }
 
   /** 开发打印 */
-  error = (...arg: any) => {
-    if (DEV) logger.info(TEXT_BADGES.danger, ...arg)
+  error = (method: string, ...arg: any) => {
+    if (DEV) logger.error(method, ...arg)
   }
 }
