@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-14 17:16:49
+ * @Last Modified time: 2026-04-09 09:27:56
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { _, tinygrailStore } from '@stores'
 import { caculateICO, stl, toFixed } from '@utils'
-import { ob } from '@utils/decorators'
 import { decimal } from '@tinygrail/_/utils'
-import { Id, ViewStyle } from '@types'
 import { memoStyles } from './styles'
+
+import type { Id, ViewStyle } from '@types'
 
 const BACKGROUND_COLOR_MAP = {
   0: '#aaa',
@@ -216,4 +217,4 @@ class StockPreview extends React.Component<typeof DEFAULT_PROPS> {
   }
 }
 
-export default ob(StockPreview)
+export default observer(StockPreview)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 15:21:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-13 21:34:34
+ * @Last Modified time: 2026-04-09 09:24:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -39,6 +39,7 @@ function Item({
   isAuctioning
 }) {
   const navigation = useNavigation()
+
   const styles = memoStyles()
   const { id: eventId, data: eventData } = event
   const isAuction = !firstBids && !firstAsks

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-14 03:17:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-12 23:20:18
+ * @Last Modified time: 2026-04-09 09:24:24
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -14,6 +14,7 @@ import { styles } from './styles'
 
 function IconGo({ $ }) {
   const { go } = $.state
+
   return (
     <Popover style={styles.touch} data={DATA} hitSlop={HIT_SLOP} onSelect={$.onSelectGo}>
       <Flex>

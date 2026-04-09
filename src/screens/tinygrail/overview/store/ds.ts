@@ -4,9 +4,10 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2024-12-16 20:21:34
  */
-import { Loaded } from '@types'
 import { COMPONENT } from '../ds'
-import { Direction } from '../types'
+
+import type { Loaded } from '@types'
+import type { Direction } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 

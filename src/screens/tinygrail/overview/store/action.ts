@@ -6,8 +6,9 @@
  */
 import { t } from '@utils/fetch'
 import { TABS } from '../ds'
-import { Direction } from '../types'
 import Fetch from './fetch'
+
+import type { Direction } from '../types'
 
 export default class Action extends Fetch {
   /** 标签页切换 */

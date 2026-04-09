@@ -5,15 +5,17 @@
  * @Last Modified time: 2025-04-23 07:57:52
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
 import TinygrailToolBar from '@tinygrail/_/tool-bar'
 import { SORT_DS } from '../../ds'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
+import type { Ctx } from '../../types'
+
 function ToolBar() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
+
   if ($.currentKey === 'refine/temple') return null
 
   return (
@@ -30,4 +32,4 @@ function ToolBar() {
   )
 }
 
-export default ob(ToolBar, COMPONENT)
+export default observer(ToolBar)

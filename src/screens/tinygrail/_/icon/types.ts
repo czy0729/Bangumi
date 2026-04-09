@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-12-27 06:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-27 07:38:12
+ * @Last Modified time: 2026-04-09 09:24:16
  */
-import { EventType, Id, MonoId, ViewStyle } from '@types'
+import type { EventType, Id, MonoId, WithViewStyles } from '@types'
 
-export type Props = {
-  style?: ViewStyle
+export type Props = WithViewStyles<{
   id?: MonoId
   monoId: Id
   name: string
@@ -15,4 +14,4 @@ export type Props = {
   size?: number
   radius?: number
   event?: EventType
-}
+}>

@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-03-03 06:46:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 04:57:50
+ * @Last Modified time: 2026-04-09 09:26:31
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { stl } from '@utils'
-import { ob } from '@utils/decorators'
-import { TextStyle } from '@types'
 import { styles } from './styles'
+
+import type { TextStyle } from '@types'
 
 function Refine({
   style,
@@ -29,4 +30,4 @@ function Refine({
   )
 }
 
-export default ob(Refine)
+export default observer(Refine)

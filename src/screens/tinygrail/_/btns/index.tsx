@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2021-01-25 11:50:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-20 12:09:00
+ * @Last Modified time: 2026-04-09 08:20:02
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Heatmap, Touchable } from '@components'
 import { stl } from '@utils'
-import { ob } from '@utils/decorators'
 import { memoStyles } from './styles'
 
 function Btns({ style = undefined, children = undefined, ...other }) {
   const styles = memoStyles()
+
   return (
     <Flex style={stl(styles.btns, style)} justify='center' {...other}>
       {children}
@@ -25,6 +26,7 @@ Btns.Touchable = function Item({
   children = undefined
 }) {
   const styles = memoStyles()
+
   return (
     <Touchable onPress={onSelect}>
       <Flex style={styles.item} justify='center'>
@@ -35,4 +37,4 @@ Btns.Touchable = function Item({
   )
 }
 
-export default ob(Btns)
+export default observer(Btns)

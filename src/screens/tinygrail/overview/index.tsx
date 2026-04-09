@@ -5,21 +5,22 @@
  * @Last Modified time: 2024-11-19 15:41:45
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Component } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import TinygrailHeader from '@tinygrail/_/header'
 import TinygrailPage from '@tinygrail/_/page'
-import { NavigationProps } from '@types'
 import Tabs from './component/tabs'
 import { useTinygrailOverviewPage } from './hooks'
 import { HM } from './ds'
 
+import type { NavigationProps } from '@types'
+
 /** 热门榜单 */
-const TinygrailOverview = (props: NavigationProps) => {
+function TinygrailOverview(props: NavigationProps) {
   const { id } = useTinygrailOverviewPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-tinygrail-overview'>
       <StoreContext.Provider value={id}>
         <TinygrailPage>
@@ -28,7 +29,7 @@ const TinygrailOverview = (props: NavigationProps) => {
         <TinygrailHeader title='热门榜单' hm={HM} go />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default TinygrailOverview
+export default observer(TinygrailOverview)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 21:04:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-13 22:30:44
+ * @Last Modified time: 2026-04-09 09:26:09
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
@@ -13,7 +13,8 @@ import { t } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
 import { EVENT, FROZEN_FN } from '@constants'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 const DATA = [
   // '收藏',

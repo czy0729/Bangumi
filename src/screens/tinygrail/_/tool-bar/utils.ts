@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2025-01-10 18:30:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-10 18:33:59
+ * @Last Modified time: 2026-04-09 09:28:25
  */
-import { ScrollView } from 'react-native'
+import type { ScrollView } from 'react-native'
 
 export function scrollToX(scrollView: ScrollView, data: readonly any[], value: any, width = 52) {
   try {

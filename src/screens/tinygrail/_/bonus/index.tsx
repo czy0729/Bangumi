@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-03-07 04:59:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-07 06:36:06
+ * @Last Modified time: 2026-04-09 08:14:34
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Text } from '@components'
-import { ob } from '@utils/decorators'
-import { TextStyle } from '@types'
+
+import type { TextStyle } from '@types'
 
 function Bonus({
   style,
@@ -29,4 +30,4 @@ function Bonus({
   )
 }
 
-export default ob(Bonus)
+export default observer(Bonus)

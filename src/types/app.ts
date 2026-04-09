@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-23 05:29:48
+ * @Last Modified time: 2026-04-09 08:03:55
  */
 import type { AppIcons, IoniconsIcons, MaterialIcons } from '@components/@'
 import type { SITES } from '@constants'
@@ -32,6 +32,7 @@ export type IconfontNames =
   | 'sunny'
   | 'moon'
   | 'star'
+  | 'crown'
 
 /** react-navigation 路由对象 */
 export type Navigation = {

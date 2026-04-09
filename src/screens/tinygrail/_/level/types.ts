@@ -1,10 +1,10 @@
 /*
  * @Author: czy0729
  * @Date: 2025-06-19 05:13:11
- * @Last Modified by:   czy0729
- * @Last Modified time: 2025-06-19 05:13:11
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-04-09 09:25:49
  */
-import { TextStyle } from '@types'
+import type { TextStyle } from '@types'
 
 export type Props = {
   style?: TextStyle

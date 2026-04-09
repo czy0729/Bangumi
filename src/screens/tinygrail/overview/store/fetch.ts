@@ -5,8 +5,9 @@
  * @Last Modified time: 2024-12-16 20:18:38
  */
 import { tinygrailStore } from '@stores'
-import { TabsKey } from '../types'
 import Computed from './computed'
+
+import type { TabsKey } from '../types'
 
 export default class Fetch extends Computed {
   fetchList = (key?: TabsKey) => {

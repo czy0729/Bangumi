@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2024-03-03 06:24:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-20 12:07:42
+ * @Last Modified time: 2026-04-09 09:25:04
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Image, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { tinygrailOSS } from '@utils'
-import { ob } from '@utils/decorators'
 import { IMG_HEIGHT_SM, IMG_WIDTH_SM } from '@constants'
-import { Navigation } from '@types'
 import { getOnPress } from '../item/utils'
 import Progress from '../progress'
 import Rank from '../rank'
 import Refine from '../refine'
 import { tinygrailLastDate } from '../utils'
 import { memoStyles } from './styles'
+
+import type { Navigation } from '@types'
 
 function ItemRefine({
   assets,
@@ -88,4 +89,4 @@ function ItemRefine({
   )
 }
 
-export default ob(ItemRefine)
+export default observer(ItemRefine)
