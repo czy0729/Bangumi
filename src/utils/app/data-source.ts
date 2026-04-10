@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-04-01 05:31:57
  */
 import { isObservableArray } from 'mobx'
-import { FROZEN_ARRAY, FROZEN_OBJECT } from '@constants'
+import { DEV, FROZEN_ARRAY, FROZEN_OBJECT } from '@constants'
 import { CDN_OSS_MAGMA_MONO, CDN_OSS_MAGMA_POSTER, CDN_OSS_SUBJECT } from '@constants/cdn'
 import { HOST, HOST_2, HOST_3, HOST_BGM_STATIC, IMG_DEFAULT } from '@constants/constants'
 import { getJSON } from '@assets/json'
@@ -160,7 +160,7 @@ export function findSubjectJp(cn: string = '', subjectId?: SubjectId): string {
 
 /** 简单控制请求频率工具函数, 若不需要发请求返回 true */
 export function opitimize(data: any, s = 60) {
-  if (!data?._loaded) return false
+  if (DEV || !data?._loaded) return false
 
   const diff = getTimestamp() - Number(data?._loaded || 0)
   const isPrevent = diff < s

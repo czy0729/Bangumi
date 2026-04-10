@@ -14,8 +14,8 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.colorPlain
   },
   inView: {
-    minWidth: 64,
-    minHeight: 64
+    minWidth: 56,
+    minHeight: 56
   },
   content: {
     marginLeft: 12

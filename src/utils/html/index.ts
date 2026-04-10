@@ -253,8 +253,17 @@ export function $(html: string, start: string, end: string, removeScript: boolea
   return cheerio(htmlMatch(html, start, end, removeScript))
 }
 
-/** 只返回文字，不包含 html 结构：HTMLDecode(cheerio.text().trim()) */
-export function cText($el: any, matchRawTextNode: boolean = false): string {
+/**
+ * 获取清理后的文本内容
+ * @param $el cheerio 对象
+ * @param matchRawTextNode 是否只匹配一级文本节点
+ * @param cleanWhitespace 是否去除换行并合并多个空格
+ */
+export function cText(
+  $el: any,
+  matchRawTextNode: boolean = false,
+  cleanWhitespace: boolean = false
+): string {
   try {
     let text = ''
 
@@ -266,12 +275,18 @@ export function cText($el: any, matchRawTextNode: boolean = false): string {
           return this.nodeType === 3
         })
         .text()
-        .trim()
     } else {
-      text = $el.text().trim()
+      text = $el.text()
     }
 
-    return HTMLDecode(text || '')
+    let result = HTMLDecode(text || '').trim()
+    if (cleanWhitespace) {
+      result = result
+        .replace(/[\r\n]+/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim()
+    }
+    return result
   } catch (error) {
     return ''
   }

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2025-01-08 05:50:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-10 01:06:28
+ * @Last Modified time: 2026-04-10 06:41:20
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import { Cover, Flex, Text, Touchable } from '@components'
-import { InView } from '@_'
+import { Flex, Text, Touchable } from '@components'
+import { Avatar, InView } from '@_'
 import { _ } from '@stores'
 import { appNavigate } from '@utils'
 import { t } from '@utils/fetch'
@@ -17,7 +17,7 @@ import { memoStyles } from './styles'
 
 import type { Props } from './types'
 
-function Ep({ index, item }: Props) {
+function Topic({ index, item }: Props) {
   const navigation = useNavigation(COMPONENT)
 
   const styles = memoStyles()
@@ -26,7 +26,7 @@ function Ep({ index, item }: Props) {
   return (
     <Flex style={styles.container} align='start'>
       <InView style={styles.inView} y={280 + 40 * (index + 1)}>
-        <Cover
+        <Avatar
           src={item.image}
           size={styles.inView.minWidth}
           radius={_.radiusXs}
@@ -34,7 +34,7 @@ function Ep({ index, item }: Props) {
             appNavigate(item.subId, navigation)
 
             t('目录详情.跳转', {
-              from: 'ep',
+              from: 'topic',
               id: item.subId
             })
           }}
@@ -46,7 +46,7 @@ function Ep({ index, item }: Props) {
             appNavigate(item.id, navigation)
 
             t('目录详情.跳转', {
-              from: 'ep',
+              from: 'topic',
               id: item.id
             })
           }}
@@ -72,4 +72,4 @@ function Ep({ index, item }: Props) {
   )
 }
 
-export default observer(Ep)
+export default observer(Topic)

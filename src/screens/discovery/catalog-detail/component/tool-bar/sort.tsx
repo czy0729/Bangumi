@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-03-20 00:14:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-22 01:23:34
+ * @Last Modified time: 2026-04-10 05:07:26
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { ToolBar } from '@components'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { SORT_DS } from '../../ds'
 import { SORT_DATA } from './ds'
 
@@ -16,7 +16,7 @@ import type { Ctx } from '../../types'
 function Sort() {
   const { $ } = useStore<Ctx>()
 
-  return useObserver(() => (
+  return (
     <ToolBar.Popover
       data={SORT_DATA}
       icon='md-sort'
@@ -25,7 +25,7 @@ function Sort() {
       type='desc'
       onSelect={$.onToggleSort}
     />
-  ))
+  )
 }
 
-export default Sort
+export default observer(Sort)

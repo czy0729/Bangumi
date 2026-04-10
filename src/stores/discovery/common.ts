@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:24:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-03 06:48:09
+ * @Last Modified time: 2026-04-10 06:25:43
  */
 import {
   cData,
@@ -19,7 +19,7 @@ import {
 } from '@utils'
 import { getBlogItemTime } from './utils'
 
-import type { Avatar, Cover, SubjectTypeCn } from '@types'
+import type { SubjectTypeCn } from '@types'
 import type { BlogItem, CatalogDetail, CatalogsItem, DollarsItem } from './types'
 
 /** 标签 */
@@ -77,7 +77,7 @@ export function cheerioCatalog(html: string): CatalogsItem[] {
 }
 
 /** 目录详情 */
-export function cheerioCatalogDetail(html: string): CatalogDetail {
+export function cheerioCatalogDetail(html: string) {
   const $ = cheerio(htmlMatch(html, '<div id="header"', '<div id="footer"'))
   const $grp = $('.grp_box')
   const $a = cFind($grp, '.tip_j a.l')
@@ -93,9 +93,9 @@ export function cheerioCatalogDetail(html: string): CatalogDetail {
 
   const mono = cMap($('.browserCrtList > div'), $row => ({
     id: cData(cFind($row, 'a.l'), 'href'),
-    image: cData(cFind($row, 'img.avatar'), 'src') as Avatar<'g'>,
+    image: cData(cFind($row, 'img.avatar'), 'src'),
     title: cText(cFind($row, 'a.l')),
-    info: cText(cFind($row, 'span.tip')),
+    info: cText(cFind($row, 'span.tip')) || cText(cFind($row, 'span.badge_job')),
     comment: cText(cFind($row, '.text_main_even .text'))
   }))
 
@@ -132,7 +132,7 @@ export function cheerioCatalogDetail(html: string): CatalogDetail {
       const $modify = cFind($row, '.tb_idx_rlt')
       return {
         id: cData($a, 'href').replace('/subject/', ''),
-        image: cData(cFind($row, 'img.cover'), 'src') as Cover<'c'>,
+        image: cData(cFind($row, 'img.cover'), 'src'),
         title: cText($a),
         type,
         info: cText(cFind($row, 'p.info')),
@@ -152,16 +152,36 @@ export function cheerioCatalogDetail(html: string): CatalogDetail {
     /** 人物 */
     prsn: mono.filter(item => item.id.includes('person')),
 
-    /** 章节 */
-    ep: cMap($('.browserList li.item'), $row => ({
+    /** 小组话题 */
+    topic: cMap($('.topic-list > .row'), $row => ({
       id: cData(cFind($row, 'a.l'), 'href'),
-      image: cData(cFind($row, 'img.avatar'), 'src') as Cover<'g'>,
+      image: matchAvatar(cData(cFind($row, 'span.avatarNeue'), 'style')),
       title: cText(cFind($row, 'a.l')),
-      info: cText(cFind($row, 'span.tip')),
+      info: cText(cFind($row, 'p.info'), false, true),
+      subId: cData(cFind($row, 'a.avatar'), 'href'),
+      comment: cText(cFind($row, '.text_main_even .text'))
+    })),
+
+    /** 章节 */
+    ep: cMap($('.browserList > .item'), $row => ({
+      id: cData(cFind($row, 'a.l'), 'href'),
+      image: cData(cFind($row, 'img.avatar'), 'src'),
+      title: cText(cFind($row, 'a.l')),
+      info: cText(cFind($row, 'span.tip_j')) || cText(cFind($row, 'span.tip')),
       subId: cData(cFind($row, 'h3 + a'), 'href'),
       comment: cText(cFind($row, '.text_main_even .text'))
+    })),
+
+    /** 日志 */
+    blog: cMap($('#entry_list > .item'), $row => ({
+      id: cData(cFind($row, 'a.l'), 'href'),
+      image: cData(cFind($row, 'img.avatarCover'), 'src'),
+      title: cText(cFind($row, 'a.l')),
+      info: cText(cFind($row, '.time'), false, true),
+      subId: cData(cFind($row, '.time a.l'), 'href'),
+      comment: cText(cFind($row, '.text_main_even .text'))
     }))
-  }
+  } as CatalogDetail
 }
 
 /** 全站日志 */

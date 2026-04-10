@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-03-20 00:13:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-22 01:21:56
+ * @Last Modified time: 2026-04-10 05:06:47
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Button, ToolBar as ToolBarComp } from '@components'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import Collect from './collect'
 import Layout from './layout'
 import Reverse from './reverse'
@@ -20,7 +20,7 @@ import type { Ctx } from '../../types'
 function ToolBar() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <ToolBarComp>
       <Sort />
       <Layout />
@@ -40,7 +40,7 @@ function ToolBar() {
       )}
       <Reverse />
     </ToolBarComp>
-  ))
+  )
 }
 
-export default ToolBar
+export default observer(ToolBar)

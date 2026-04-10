@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-08-10 14:06:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-22 01:12:22
+ * @Last Modified time: 2026-04-10 01:30:28
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Heatmap, Image, UserStatus } from '@components'
 import { _, useStore } from '@stores'
 import { getCoverLarge } from '@utils'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 
 import type { Ctx } from '../../../types'
@@ -16,30 +16,28 @@ import type { Ctx } from '../../../types'
 function Thumb() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    const { avatar, userId } = $.detail
-    if (!avatar) return null
+  const { avatar, userId } = $.detail
+  if (!avatar) return null
 
-    return (
-      <Flex style={_.mt.lg} justify='center'>
-        <UserStatus userId={userId}>
-          <Image
-            src={getCoverLarge(avatar)}
-            size={_.r(80)}
-            placeholder={false}
-            imageViewer
-            event={{
-              id: '目录详情.封面图查看',
-              data: {
-                catalogId: $.catalogId
-              }
-            }}
-          />
-        </UserStatus>
-        <Heatmap id='目录详情.封面图查看' />
-      </Flex>
-    )
-  })
+  return (
+    <Flex style={_.mt.lg} justify='center'>
+      <UserStatus userId={userId}>
+        <Image
+          src={getCoverLarge(avatar)}
+          size={_.r(80)}
+          placeholder={false}
+          imageViewer
+          event={{
+            id: '目录详情.封面图查看',
+            data: {
+              catalogId: $.catalogId
+            }
+          }}
+        />
+      </UserStatus>
+      <Heatmap id='目录详情.封面图查看' />
+    </Flex>
+  )
 }
 
-export default Thumb
+export default observer(Thumb)

@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-07-30 20:26:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 07:11:48
+ * @Last Modified time: 2026-04-10 00:01:00
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { ToolBar } from '@components'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 
 import type { Ctx } from '../../types'
 
 function More() {
   const { $ } = useStore<Ctx>()
 
-  return useObserver(() => (
+  return (
     <ToolBar.Popover
       data={$.toolBar}
       icon='md-more-vert'
@@ -24,7 +24,7 @@ function More() {
       transparent
       onSelect={$.onToolBar}
     />
-  ))
+  )
 }
 
-export default More
+export default observer(More)

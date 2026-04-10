@@ -2,21 +2,26 @@
  * @Author: czy0729
  * @Date: 2019-07-15 10:55:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-14 20:09:45
+ * @Last Modified time: 2026-04-10 05:46:05
  */
 import { LIST_EMPTY } from '@constants'
 
-import type { Blog, Catalog, Dollars, News, Wiki } from './types'
+import type {
+  Blog,
+  Catalog,
+  CatalogDetail,
+  CatalogDetailFromOSS,
+  Channel,
+  Dollars,
+  News,
+  Tags,
+  Wiki
+} from './types'
+import type { Id, SubjectType } from '@types'
 
 export const NAMESPACE = 'Discovery'
 
 export const DEFAULT_TYPE = 'anime'
-
-export const INIT_NINGMOE_DETAIL_ITEM = {
-  id: '',
-  bgmId: '',
-  eps: []
-}
 
 export const INIT_CATALOG_ITEM = {
   list: []
@@ -51,32 +56,25 @@ const STATE = {
   catalog: {} as Record<string, Catalog>,
 
   /** 目录详情 (云缓存) */
-  catalogDetailFromOSS: {
-    0: INIT_CATELOG_DETAIL_ITEM
-  },
+  catalogDetailFromOSS: {} as Record<Id, CatalogDetailFromOSS>,
 
   /** 标签 */
-  tags: {
-    0: LIST_EMPTY
-  },
+  tags: {} as Record<string, Tags>,
 
   /** 全站日志 */
   blog: {} as Record<string, Blog>,
 
   /** 日志查看历史 */
-  blogReaded: {
-    0: false
-  },
+  blogReaded: {} as Record<Id, boolean>,
 
   /** 频道聚合 */
   channel: {
-    0: INIT_CHANNEL,
     anime: INIT_CHANNEL,
     book: INIT_CHANNEL,
     game: INIT_CHANNEL,
     music: INIT_CHANNEL,
     real: INIT_CHANNEL
-  },
+  } as Record<SubjectType, Channel>,
 
   /** 在线人数 */
   online: 0,
@@ -105,17 +103,14 @@ const STATE = {
     }
   } as Wiki,
 
+  /** 资讯 */
   gcTimeline: {} as Record<number, News>,
+
+  /** 资讯 */
   ymTimeline: {} as Record<number, News>,
+
+  /** 资讯 */
   gsTimeline: {} as Record<number, News>,
-
-  /** @deprecated 随机看看 */
-  random: LIST_EMPTY,
-
-  /** @deprecated 柠萌条目信息 */
-  ningMoeDetail: {
-    0: INIT_NINGMOE_DETAIL_ITEM
-  },
 
   /** DOLLARS (聊天室) */
   dollars: LIST_EMPTY as Dollars
@@ -129,9 +124,7 @@ const STATE = {
  */
 for (let i = 0; i < 100; i += 1) {
   /** 目录详情 */
-  STATE[`catalogDetail${i}`] = {
-    0: INIT_CATELOG_DETAIL_ITEM
-  }
+  STATE[`catalogDetail${i}`] = {} as Record<Id, CatalogDetail>
 }
 
 export { STATE }

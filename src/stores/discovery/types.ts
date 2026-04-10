@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 14:21:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-23 19:15:02
+ * @Last Modified time: 2026-04-10 06:26:07
  */
 import type {
   DeepPartial,
@@ -61,36 +61,117 @@ export type CatalogsItem = {
 /** 目录 */
 export type Catalog = ListEmpty<CatalogsItem>
 
-/** 目录详情列表项 */
+/** 目录详情条目列表项 */
 export type CatalogDetailItem = {
+  /** 条目 ID */
   id: SubjectId
+
+  /** 条目封面 */
   image: string
+
+  /** 条目名称 */
   title: string
+
+  /** 条目类型 */
   type: SubjectTypeCn
+
+  /** 条目详情 */
   info: string
+
+  /** 评论 */
   comment: string
+
+  /** 是否收藏 */
   isCollect: boolean
+
+  /** 排序 */
   order: string
+
+  /** 修改表单 ID */
   modify: string
+
+  /** 删除关联链接 */
   erase: string
 }
 
 /** 目录详情人物列表项 */
 export type CatalogDetailMonoItem = {
+  /** 角色/人物链接 */
   id: string
+
+  /** 角色/人物名称 */
   image: string
+
+  /** 角色/人物名称 */
   title: string
+
+  /** 虚拟角色属性 / 人物职位 */
   info: string
+
+  /** 评论 */
+  comment: string
+}
+
+/** 目录详情小组列表项 */
+export type CatalogDetailTopicItem = {
+  /** 帖子链接 */
+  id: string
+
+  /** 发帖人头像 */
+  image: string
+
+  /** 帖子标题 */
+  title: string
+
+  /** 发帖者 · 小组名 · 时间 */
+  info: string
+
+  /** 发帖人空间链接 */
+  subId: string
+
+  /** 评论 */
   comment: string
 }
 
 /** 目录详情章节列表项 */
 export type CatalogDetailEpItem = {
+  /** 章节链接 */
   id: string
+
+  /** 条目封面 */
   image: string
+
+  /** 章节名称 */
   title: string
+
+  /** 条目名称 */
   info: string
+
+  /** 条目链接 */
   subId: string
+
+  /** 评论 */
+  comment: string
+}
+
+/** 目录详情日志列表项 */
+export type CatalogDetailBlogItem = {
+  /** 日志链接 */
+  id: string
+
+  /** 日志封面 */
+  image: string
+
+  /** 日志名称 */
+  title: string
+
+  /** 发帖者 · 时间 · 回复数 */
+  info: string
+
+  /** 发帖人空间链接 */
+  subId: string
+
+  /** 评论 */
   comment: string
 }
 
@@ -106,7 +187,11 @@ export type CatalogDetail = {
   replyCount: number | ''
   collect: null | string
   content: string
+
+  /** 收藏目录链接 */
   joinUrl: string
+
+  /** 取消收藏目录链接 */
   byeUrl: string
 
   /** 条目 */
@@ -118,8 +203,14 @@ export type CatalogDetail = {
   /** 人物 */
   prsn: CatalogDetailMonoItem[]
 
+  /** 小组话题 */
+  topic: CatalogDetailTopicItem[]
+
   /** 章节 */
   ep: CatalogDetailEpItem[]
+
+  /** 日志 */
+  blog: CatalogDetailBlogItem[]
 
   _loaded?: Loaded
 }

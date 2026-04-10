@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-01-05 21:50:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-22 01:24:03
+ * @Last Modified time: 2026-04-10 00:04:37
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, Page } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import List from './component/list'
 import Modal from './component/modal'
 import Tips from './component/tips'
@@ -17,10 +17,10 @@ import { useCatalogDetailPage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** 目录详情 */
-const CatalogDetail = (props: NavigationProps) => {
+function CatalogDetail(props: NavigationProps) {
   const { id } = useCatalogDetailPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-catalog-detail'>
       <StoreContext.Provider value={id}>
         <Page statusBarEvent={false}>
@@ -31,7 +31,7 @@ const CatalogDetail = (props: NavigationProps) => {
         <Modal />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default CatalogDetail
+export default observer(CatalogDetail)

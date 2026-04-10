@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-07-29 19:28:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-28 22:28:25
+ * @Last Modified time: 2026-04-10 06:30:15
  */
 import { computed } from 'mobx'
 import { _, discoveryStore, subjectStore, userStore } from '@stores'
@@ -100,13 +100,15 @@ export default class Computed extends State {
 
   /** 目录列表拥有的类型 */
   @computed get typeData() {
-    const { list, crt, prsn, ep } = this.catalogDetail || {}
+    const { list, crt, prsn, topic, ep, blog } = this.catalogDetail || {}
 
     const data: string[] = []
     if (list?.length) data.push(`动画 ${list.length}`)
     if (crt?.length) data.push(`角色 ${crt.length}`)
     if (prsn?.length) data.push(`人物 ${prsn.length}`)
+    if (topic?.length) data.push(`小组 ${topic.length}`)
     if (ep?.length) data.push(`章节 ${ep.length}`)
+    if (blog?.length) data.push(`日志 ${blog.length}`)
 
     return data
   }
@@ -140,8 +142,10 @@ export default class Computed extends State {
     const map = {
       角色: () => catalogDetail.crt || [],
       人物: () => catalogDetail.prsn || [],
-      章节: () => catalogDetail.ep || []
-    }
+      小组: () => catalogDetail.topic || [],
+      章节: () => catalogDetail.ep || [],
+      日志: () => catalogDetail.blog || []
+    } as const
     const getter = map[type] ?? (() => this.list)
     const data = getter()
 
