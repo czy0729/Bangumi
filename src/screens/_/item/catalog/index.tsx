@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 05:12:58
+ * @Last Modified time: 2026-04-11 05:26:30
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -11,7 +11,7 @@ import { discoveryStore } from '@stores'
 import { HTMLDecode, removeHTMLTag } from '@utils'
 import { r } from '@utils/dev'
 import { DATA_CATALOG_TYPE_MAP, EVENT } from '@constants'
-import { InView, PreventTouchPlaceholder } from '../../base'
+import { computeInViewY, InView, PreventTouchPlaceholder } from '../../base'
 import Covers from './covers'
 import Desc from './desc'
 import Title from './title'
@@ -103,10 +103,11 @@ export const ItemCatalog = observer(
           })}
         >
           <Flex style={styles.wrap} align='start'>
-            <InView style={styles.inView} y={ITEM_HEIGHT * (index + 1)}>
+            <InView style={styles.inView} y={computeInViewY(index, ITEM_HEIGHT, 1)}>
               <Covers
                 title={titleValue}
                 list={list
+                  .filter((item: { image: any }) => !!item.image)
                   .filter((_: any, index: number) => index < 3)
                   .map((item: { id: any; image: any }) => ({
                     id: item.id,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-23 10:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-16 06:51:21
+ * @Last Modified time: 2026-04-11 05:42:07
  */
 import { WEB } from '../device'
 
@@ -29,6 +29,9 @@ export const TEXT_UPDATE_GAME = '2024-07-14'
 
 /** 找漫画最后更新时间 */
 export const TEXT_UPDATE_MANGA = '2024-09-23'
+
+/** 本地整合目录最后更新时间 */
+export const TEXT_UPDATE_CATALOGS = '2026-04-11'
 
 /** 赞助者最后更新时间 */
 export const TEXT_UPDATE_SPONSOR = '2026-02-01'
@@ -82,6 +85,9 @@ export const TEXT_MENU_APP = '获取 APP'
 
 /** 菜单: 对应页面的设置 */
 export const TEXT_MENU_SETTING = '设置'
+
+/** 菜单: 补充说明 */
+export const TEXT_MENU_INFORMATION = '补充说明'
 
 /** 菜单: 发短信 */
 export const TEXT_MENU_PM = '发短信'

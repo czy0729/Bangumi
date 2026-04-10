@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-21 18:41:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 05:07:48
+ * @Last Modified time: 2026-04-11 05:28:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -26,6 +26,7 @@ function Desc({ userId, avatar, name, date, event }) {
             userId={userId}
             name={name}
             src={avatar}
+            radius={_.radiusXs}
             event={event}
           />
         </UserStatus>

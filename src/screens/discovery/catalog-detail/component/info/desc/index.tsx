@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-08-10 13:59:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-10 01:29:38
+ * @Last Modified time: 2026-04-11 05:31:19
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { _, useStore } from '@stores'
-import { simpleTime } from '@utils'
 import { t } from '@utils/fetch'
 import { COMPONENT } from './ds'
 
@@ -46,8 +45,8 @@ function Desc() {
         {nickname}
       </Text>
       {nickname ? ` · ` : ''}
-      {simpleTime(String(time).replace(/\n/g, ''))}
-      {!!lastUpdate && ` · 最后更新 ${simpleTime(lastUpdate)}`}
+      {String(time).replace(/\n/g, '').split(' ')?.[0]}
+      {!!lastUpdate && ` · 最后更新 ${lastUpdate}`}
     </Text>
   )
 }
