@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-02-19 06:19:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-15 00:52:18
+ * @Last Modified time: 2026-04-11 11:27:12
  */
 import React from 'react'
 import { Avatar, Flex, Loading, Text, Touchable, UserStatus } from '@components'
@@ -13,12 +13,13 @@ import { r as render } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { HOST, IMG_AVATAR_DEFAULT, IMG_INFO_ONLY, VERSION_GITHUB_RELEASE } from '@constants'
 import AdvanceData from '@assets/json/advance.json'
-import { Ctx } from '../../types'
 import Detail from '../detail'
 import Stats from '../stats'
 import { getReleaseDistance } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function Item({ i, d, o, u, r }) {
   render(COMPONENT)

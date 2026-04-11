@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-11 09:30:36
+ * @Last Modified time: 2026-04-12 01:25:44
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
@@ -85,6 +85,8 @@ function Thumbs({ onBlockRef }: Props) {
     elRight = null
   }
 
+  const showTitle = $.type && $.type !== '动画'
+
   return (
     <Component id='screen-subject-thumbs'>
       <View
@@ -96,7 +98,7 @@ function Thumbs({ onBlockRef }: Props) {
       <InView
         style={stl(
           styles.container,
-          videos.length && styles.containerFull,
+          showTitle && videos.length && styles.containerFull,
           !showThumbs && styles.containerNotShow
         )}
       >

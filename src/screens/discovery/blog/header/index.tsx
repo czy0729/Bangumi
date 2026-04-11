@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-11 21:51:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-03 06:10:38
+ * @Last Modified time: 2026-04-11 11:24:21
  */
 import React, { useCallback } from 'react'
 import { HeaderV2, HeaderV2Popover } from '@components'
@@ -24,6 +24,7 @@ function Header() {
     () => (
       <>
         <IconHeader
+          style={_.mr.xs}
           name='md-person-outline'
           color={_.colorDesc}
           onPress={() => {
