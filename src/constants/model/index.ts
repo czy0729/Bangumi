@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-02 00:18:38
+ * @Last Modified time: 2026-04-11 06:28:07
  */
 import Crypto from '@utils/crypto'
 import { IOS } from '../constants'
@@ -384,6 +384,10 @@ export const SEARCH_CAT = [
   //   label: '现实人物',
   //   value: 'mono_prsn'
   // }
+  {
+    label: '目录',
+    value: 'catalog'
+  },
   {
     label: '用户',
     value: 'user'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-10 11:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-31 02:50:54
+ * @Last Modified time: 2026-04-11 06:32:58
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -24,7 +24,7 @@ function BtnSubmit() {
   return (
     <View style={_.ml.sm}>
       <Button style={styles.btn} type='ghostPlain' size='sm' onPress={handlePress}>
-        {$.isUser ? '前往' : '查询'}
+        {$.isUser || $.isCatalog ? '前往' : '查询'}
       </Button>
       <Heatmap id='搜索.搜索' />
     </View>

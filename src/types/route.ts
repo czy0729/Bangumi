@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-18 18:58:49
+ * @Last Modified time: 2026-04-11 06:43:26
  */
 import type { ImageSourcePropType } from 'react-native'
 import type {
@@ -47,6 +47,7 @@ export type NavigationPushType = RouteActions &
   RouteBlog &
   RouteBlogs &
   RouteBoard &
+  RouteCatalog &
   RouteCatalogDetail &
   RouteCatalogs &
   RouteChannel &
@@ -447,6 +448,14 @@ export type RouteZone = Route<
 
     /** 占位用户头像 */
     _image?: string
+  }
+>
+
+export type RouteCatalog = Route<
+  'Catalog',
+  {
+    /** 默认搜索关键字 */
+    keyword?: string
   }
 >
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-06-03 11:42:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-23 01:22:38
+ * @Last Modified time: 2026-04-11 07:58:01
  */
 import { computed } from 'mobx'
 import { searchStore, subjectStore, userStore } from '@stores'
@@ -37,9 +37,14 @@ export default class Computed extends State {
     return MODEL_SEARCH_CAT.getLabel<SearchCatCn>(this.state.cat) === '用户'
   }
 
+  /** 当前是否在搜索目录 */
+  @computed get isCatalog() {
+    return MODEL_SEARCH_CAT.getLabel<SearchCatCn>(this.state.cat) === '目录'
+  }
+
   /** 是否显示推荐词 */
   @computed get showAdvance() {
-    if (!this.state.focus || this.state.cat === 'user' || this.search.list.length) {
+    if (!this.state.focus || this.isUser || this.isCatalog || this.search.list.length) {
       return false
     }
 

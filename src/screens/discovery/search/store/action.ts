@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-06-03 11:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-23 01:22:35
+ * @Last Modified time: 2026-04-11 06:44:26
  */
 import { systemStore, usersStore } from '@stores'
 import { debounce, info, loading, t2s, updateVisibleBottom } from '@utils'
@@ -155,6 +155,19 @@ export default class Action extends Fetch {
 
       navigation.push('Zone', {
         userId: value
+      })
+      return
+    }
+
+    if (this.isCatalog) {
+      const { value } = this.state
+      if (!value) {
+        info('请输入目录关键字')
+        return
+      }
+
+      navigation.push('Catalog', {
+        keyword: value.trim()
       })
       return
     }

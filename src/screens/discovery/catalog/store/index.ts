@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-02 16:52:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-29 20:29:07
+ * @Last Modified time: 2026-04-11 07:55:46
  */
 import { get } from '@utils/protobuf'
 import Action from './action'
@@ -19,6 +19,12 @@ export default class ScreenCatalog extends Action {
       loadedCatalog: !!get('catalog')?.length,
       _loaded: true
     })
+
+    const { keyword } = this.params
+    if (keyword) {
+      this.onFilterChange('filterKey', keyword)
+      return
+    }
 
     return this.fetchCatalog()
   }

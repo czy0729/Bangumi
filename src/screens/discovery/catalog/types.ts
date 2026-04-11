@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-09-01 14:37:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-28 17:52:47
+ * @Last Modified time: 2026-04-11 06:45:10
  */
-import type { Id, SubjectType, WithNavigation } from '@types'
+import type { GetRouteParams, Id, RouteCatalog, SubjectType, WithNavigation } from '@types'
 import type Store from './store'
 import type { FILTER_KEY_DS, FILTER_TYPE_DS, FILTER_YEAR_DS, TYPE_DS } from './ds'
 
 export type Ctx = WithNavigation<{
   $: InstanceType<typeof Store>
 }>
+
+export type Params = GetRouteParams<RouteCatalog>
 
 export type TypeType = (typeof TYPE_DS)[number]['key']
 
