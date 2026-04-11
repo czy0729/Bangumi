@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-21 18:35:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 05:12:09
+ * @Last Modified time: 2026-04-12 02:15:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -27,7 +27,7 @@ function Title({ title, typeCn, desc, collect, filter }) {
         <Text
           style={_.mt.sm}
           size={10}
-          numberOfLines={(collect ? 2 : 3) - (title.length >= 40 ? 1 : 0)}
+          numberOfLines={(collect ? 2 : 3) - (title.length >= 24 ? 1 : 0)}
         >
           {desc}
         </Text>

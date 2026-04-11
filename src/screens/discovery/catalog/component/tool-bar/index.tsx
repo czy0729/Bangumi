@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-07-30 11:48:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-10 00:00:41
+ * @Last Modified time: 2026-04-12 01:58:32
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -12,6 +12,7 @@ import { TYPE_DS } from '../../ds'
 import FilterKey from './filter-key'
 import FilterType from './filter-type'
 import FilterYear from './filter-year'
+import Search from './search'
 import Type from './type'
 import { COMPONENT } from './ds'
 
@@ -32,6 +33,7 @@ function ToolBar() {
           <FilterKey />
         </>
       )}
+      <Search />
     </ToolBarComp>
   )
 }

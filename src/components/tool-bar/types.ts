@@ -15,6 +15,7 @@ import type { Props as TouchableProps } from '../touchable/types'
 export type ToolBarIconProps = {
   icon: IconfontNames
   iconStyle?: ViewStyle
+  iconSize?: number
   iconColor?: ColorValue
   onSelect: (event?: any) => any
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-09 11:09:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-09 23:55:06
+ * @Last Modified time: 2026-04-12 01:39:02
  */
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
@@ -10,13 +10,13 @@ import { observer } from 'mobx-react'
 import { Empty, ScrollView } from '@components'
 import { ItemCatalog } from '@_'
 import { useStore } from '@stores'
+import { DATA_CATALOG_TYPE_MAP } from '@constants'
 import Pagination from '../pagination'
 import ToolBar from '../tool-bar'
 import { COMPONENT, EVENT } from './ds'
 import { styles } from './styles'
 
 import type { Ctx } from '../../types'
-
 function List() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
@@ -36,15 +36,23 @@ function List() {
             (!!_loaded && !list.length ? (
               <Empty text='到底了' />
             ) : (
-              list.map((item, index: number) => (
-                <ItemCatalog
-                  key={item.id}
-                  event={EVENT}
-                  {...item}
-                  index={index}
-                  filter={$.state.filterKey === '不限' ? '' : $.state.filterKey}
-                />
-              ))
+              list
+                .filter(item => {
+                  const total = Object.keys(DATA_CATALOG_TYPE_MAP).reduce((sum, key) => {
+                    const v = item[key] || 0
+                    return sum + v
+                  }, 0)
+                  return !!total
+                })
+                .map((item, index: number) => (
+                  <ItemCatalog
+                    key={item.id}
+                    event={EVENT}
+                    {...item}
+                    index={index}
+                    filter={$.state.filterKey === '不限' ? '' : $.state.filterKey}
+                  />
+                ))
             ))}
         </View>
         {!fixedPagination && show && elPagination}

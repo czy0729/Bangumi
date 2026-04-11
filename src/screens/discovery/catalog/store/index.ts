@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-02 16:52:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-11 07:55:46
+ * @Last Modified time: 2026-04-12 02:08:32
  */
 import { get } from '@utils/protobuf'
 import Action from './action'
@@ -20,9 +20,12 @@ export default class ScreenCatalog extends Action {
       _loaded: true
     })
 
-    const { keyword } = this.params
-    if (keyword) {
-      this.onFilterChange('filterKey', keyword)
+    const { _keyword } = this.params
+    if (_keyword) {
+      this.setState({
+        type: 'advance'
+      })
+      this.onFilterChange('filterKey', _keyword)
       return
     }
 

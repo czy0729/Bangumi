@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-06-03 11:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-11 06:44:26
+ * @Last Modified time: 2026-04-12 02:12:41
  */
 import { systemStore, usersStore } from '@stores'
 import { debounce, info, loading, t2s, updateVisibleBottom } from '@utils'
@@ -21,7 +21,7 @@ export default class Action extends Fetch {
   initState = () => {
     setTimeout(() => {
       const type = this.params.type || this.params._type
-      if (!touched && type) {
+      if ((!touched && type) || (this.params._from && type)) {
         this.setState({
           cat: MODEL_SEARCH_CAT.getValue<SearchCat>(type)
         })
@@ -131,50 +131,54 @@ export default class Action extends Fetch {
   }
 
   /** 提交 */
-  onSubmit = async (navigation?: Navigation) => {
-    if (this.isUser) {
-      const { value } = this.state
-      if (!value) {
-        info('请输入完整的用户 ID')
+  onSubmit = (navigation?: Navigation) => {
+    // 避免用户输入完文字后立马点击搜索前，文字还没有更新到状态里面导致空提示
+    setTimeout(async () => {
+      if (this.isUser) {
+        const { value } = this.state
+        if (!value) {
+          info('请输入完整的用户 ID')
+          return
+        }
+
+        const chineseRegex = /[\u4e00-\u9fa5]/
+        if (chineseRegex.test(value)) {
+          info('请输入用户 ID 而非用户昵称')
+          return
+        }
+
+        const hide = loading('检查用户 ID')
+        const isExist = await usersStore.checkUserExist(value)
+        hide()
+        if (!isExist) {
+          info('该用户 ID 不存在')
+          return
+        }
+
+        navigation.push('Zone', {
+          userId: value
+        })
         return
       }
 
-      const chineseRegex = /[\u4e00-\u9fa5]/
-      if (chineseRegex.test(value)) {
-        info('请输入用户 ID 而非用户昵称')
+      if (this.isCatalog) {
+        const { value } = this.state
+        if (!value) {
+          info('请输入目录关键字')
+          return
+        }
+
+        if (this.params._from === 'Catalog') navigation.popToTop()
+        navigation.push('Catalog', {
+          _keyword: value.trim()
+        })
         return
       }
 
-      const hide = loading('检查用户 ID')
-      const isExist = await usersStore.checkUserExist(value)
-      hide()
-      if (!isExist) {
-        info('该用户 ID 不存在')
-        return
-      }
-
-      navigation.push('Zone', {
-        userId: value
-      })
-      return
-    }
-
-    if (this.isCatalog) {
-      const { value } = this.state
-      if (!value) {
-        info('请输入目录关键字')
-        return
-      }
-
-      navigation.push('Catalog', {
-        keyword: value.trim()
-      })
-      return
-    }
-
-    setTimeout(() => {
-      this.doSearch(true)
-    }, 800)
+      setTimeout(() => {
+        this.doSearch(true)
+      }, 800)
+    }, 400)
   }
 
   /** 本地快速搜索索引点击 */
