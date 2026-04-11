@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2025-06-09 20:03:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-14 08:49:39
+ * @Last Modified time: 2026-04-11 10:27:38
  */
 import React, { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { _, systemStore, tinygrailStore, useStore } from '@stores'
-import { confirm, info, open, showImageViewer } from '@utils'
+import { confirm, copy, info, open, showImageViewer } from '@utils'
 import { TEXT_FETCHING_INTERCEPT } from '../../ds'
 import { getURI } from '../../utils'
 import Container from './container'
@@ -28,6 +28,8 @@ function Item({ width, height, y, id, tags = '' }) {
   const memoData = useMemo(() => {
     return [
       '打开原图',
+      '复制链接',
+      '复制头像链接',
       $.params.monoId ? '设为塔图' : false,
       !$.params.monoId &&
         tinygrailStore.pic.name &&
@@ -58,6 +60,16 @@ function Item({ width, height, y, id, tags = '' }) {
         return
       }
 
+      if (title === '复制链接') {
+        copy(getURI(image, 'mw690'), '已复制')
+        return
+      }
+
+      if (title === '复制头像链接') {
+        copy(getURI(image, 'square'), '已复制')
+        return
+      }
+
       if (title.startsWith('设为')) {
         if (!systemStore.advance) {
           if (hasTrial) {
@@ -69,7 +81,7 @@ function Item({ width, height, y, id, tags = '' }) {
             '普通用户组暂不支持无限制使用此功能',
             async () => {
               const result = await tinygrailStore.doChangeCover(
-                getURI(image, 'mw1024'),
+                getURI(image, 'mw690'),
                 $.params.monoId || tinygrailStore.pic.monoId
               )
               if (result) hasTrial = true
@@ -82,7 +94,7 @@ function Item({ width, height, y, id, tags = '' }) {
         }
 
         tinygrailStore.doChangeCover(
-          getURI(image, 'mw1024'),
+          getURI(image, 'mw690'),
           $.params.monoId || tinygrailStore.pic.monoId
         )
         return
@@ -106,7 +118,13 @@ function Item({ width, height, y, id, tags = '' }) {
   )
 
   let el: ReactNode = null
-  if (image && image !== 'null' && tags) {
+  if (image && (image === 'null' || image.includes('404.jpg'))) {
+    el = (
+      <Text type={_.select('sub', 'icon')} size={16} bold>
+        404
+      </Text>
+    )
+  } else if (image && tags) {
     el = (
       <Main
         width={width}
@@ -116,12 +134,6 @@ function Item({ width, height, y, id, tags = '' }) {
         onPress={handlePress}
         onSelect={handleSelect}
       />
-    )
-  } else if (image === 'null') {
-    el = (
-      <Text type={_.select('sub', 'icon')} size={12} bold>
-        加载失败
-      </Text>
     )
   }
 

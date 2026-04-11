@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-06-09 14:21:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-18 03:38:18
+ * @Last Modified time: 2026-04-11 08:37:39
  */
 import Crypto from '@utils/crypto'
 
@@ -27,9 +27,10 @@ export const DECODE = {
   NUM: Crypto.get('U2FsdGVkX187Exptse19agHhh+QbMYw2+Pll1zcTQtk=') as string,
   PAGE_TOTAL: Crypto.get('U2FsdGVkX19cOt1GWU/MGZWlzr6WGSTYX7EJuh0FlGs=') as string,
   SRC: Crypto.get('U2FsdGVkX189CcuNwbF7lq7jvJXpTBd/b7S2BIVeTTg=') as string,
-  URI: Crypto.get(
+  URI_LEGACY: Crypto.get(
     'U2FsdGVkX19uAqpov9MSMl/o3juIgzNsMTKTXKvbukkzowv9oU8oZutdx/K1MrVsrxHZya3gR7JH8w406QXWf/iRQQqfTqgqZYMkeLGx7wtHkmEb6dbPpw//6L3hZ+qu35Zwv58nuw6aDhg77TX88Q=='
-  ) as string
+  ) as string,
+  URI: Crypto.get('U2FsdGVkX19vLkzRLqcF/cc9Zzfda8clcCB8TRRtvPUvPUPjaZsyvHdxujYp/xkN') as string
 } as const
 
 export const HOST = DECODE.BASE

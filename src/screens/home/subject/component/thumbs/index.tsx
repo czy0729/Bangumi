@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-03 21:58:58
+ * @Last Modified time: 2026-04-11 09:30:36
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
@@ -36,7 +36,15 @@ function Thumbs({ onBlockRef }: Props) {
     if (!scrolled) setScrolled(true)
   }, [scrolled])
 
-  if (!$.showThumbs[1]) return null
+  if (!$.showThumbs[1]) {
+    return (
+      <Flex style={[_.container.wind, _.mt.sm]}>
+        <Flex.Item>
+          <IconPic />
+        </Flex.Item>
+      </Flex>
+    )
+  }
 
   const { showThumbs } = systemStore.setting
   const { epsThumbs = [], epsThumbsHeader, videos = [] } = $.state

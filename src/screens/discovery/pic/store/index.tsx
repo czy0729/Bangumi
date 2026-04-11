@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-06-09 14:54:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-15 20:08:31
+ * @Last Modified time: 2026-04-11 09:42:14
  */
 import { userStore } from '@stores'
 import { info } from '@utils'
@@ -31,7 +31,7 @@ export default class ScreenPic extends Action {
       return
     }
 
-    return this.getList()
+    return this.getList(!this.list.length)
   }
 
   unmount = () => {

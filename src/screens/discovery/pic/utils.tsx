@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-06-08 20:20:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-11 06:36:20
+ * @Last Modified time: 2026-04-11 10:26:35
  */
 import { monoStore } from '@stores'
 import { cData, cheerio, cMap, feedback, getTimestamp, htmlMatch, info, queue, sleep } from '@utils'
@@ -125,14 +125,14 @@ export async function src(ids: Id[], onProgress: HandleSrcsProgress = FROZEN_FN)
     return async () => {
       try {
         const key = `pic_tag_${id}` as const
-        if (data[key]) return
+        if (data[key] && data[key].startsWith('http')) return
 
         await sleep(800)
         const { _response } = await xhrCustom({
           url: HOST_URL(id)
         })
         const $ = cheerio(htmlMatch(_response, '<body>', '</body>'))
-        const src = (cData($(DECODE.SRC), 'src') || '').split('/large/')?.[1] || 'null'
+        const src = cData($(DECODE.SRC), 'src') || 'null'
         data[key] = src
 
         onProgress(data)
@@ -179,8 +179,39 @@ export function getURI(
     | 'small'
     | 'bmiddle'
     | 'large' = 'orj360'
-) {
-  return `${DECODE.URI}/${prefix}/${image}` as const
+): string {
+  if (!image) return ''
+
+  if (!image.startsWith('http')) {
+    return `${DECODE.URI}/${prefix}/${image}`
+  }
+
+  if (image.includes('404.jpg')) return 'null'
+
+  if (prefix === 'large') return image
+
+  if (image.includes('/img-original/img/')) {
+    if (prefix === 'mw690') {
+      return image
+        .replace('/img-original/img/', '/c/600x1200_90_webp/img-master/img/')
+        .replace('_p0.', '_p0_master1200.')
+        .replace('.png', '.jpg')
+    }
+
+    if (prefix === 'square' || prefix === 'thumb150') {
+      return image
+        .replace('/img-original/img/', '/c/540x540_70/img-master/img/')
+        .replace('_p0.', '_p0_square1200.')
+        .replace('.png', '.jpg')
+    }
+
+    return image
+      .replace('/img-original/img/', '/c/240x480/img-master/img/')
+      .replace('_p0.', '_p0_master1200.')
+      .replace('.png', '.jpg')
+  }
+
+  return image
 }
 
 export function encodeKey(key: string) {

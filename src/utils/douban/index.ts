@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-21 23:43:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-10 17:59:01
+ * @Last Modified time: 2026-04-11 09:23:54
  */
 import { HOST_AC_REFERER, HOST_DB, HOST_DB_MOVIE } from '@constants/cdn'
 import { xhrCustom } from '../fetch'
@@ -32,6 +32,10 @@ const HTML_SUBJECT = (doubanId: DoubanId) => {
 const HTML_PREVIEW = (doubanId: DoubanId, cat?: Cat, subtype: SubType = 'o', start = 0) => {
   if (cat === 'game') {
     return `${HOST_DB}/game/${doubanId}/photos/?type=1&start=0&sortby=hot`
+  }
+
+  if (subtype === 'R') {
+    return `${HTML_SUBJECT(doubanId)}/photos?type=R`
   }
 
   return `${HTML_SUBJECT(
@@ -228,6 +232,14 @@ export async function getPreview(
         })
         _response = data._response
       }
+    }
+
+    const finalLength = cheerio(_response)('.cover img').length
+    if (finalLength === 0) {
+      const data = await xhrCustom({
+        url: HTML_PREVIEW(doubanId, cat, 'R')
+      })
+      _response = data._response
     }
   }
 

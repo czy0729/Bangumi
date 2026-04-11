@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-06-09 14:52:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-15 20:16:19
+ * @Last Modified time: 2026-04-11 10:31:30
  */
 import { systemStore, userStore } from '@stores'
 import { feedback, info, queue, updateVisibleBottom } from '@utils'
@@ -39,7 +39,7 @@ export default class Action extends Fetch {
       })
     }, 80)
 
-    return this.getList()
+    return this.getList(!this.list.length)
   }
 
   onFilter = (label: string) => {
