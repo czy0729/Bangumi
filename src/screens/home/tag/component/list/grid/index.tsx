@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-07-30 10:49:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-23 02:23:53
+ * @Last Modified time: 2026-04-13 06:14:46
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { ItemCollectionsGrid } from '@_'
 import { _, collectionStore, useStore } from '@stores'
 import { matchYear } from '@utils'
-import { ob } from '@utils/decorators'
 import { EVENT } from './ds'
 
 import type { Ctx } from '../../../types'
 
 function Grid({ item, index, numColumns }) {
   const { $ } = useStore<Ctx>()
+
   return (
     <ItemCollectionsGrid
       style={(_.isPad || _.isLandscape) && !(index % numColumns) && _.container.left}
@@ -30,4 +31,4 @@ function Grid({ item, index, numColumns }) {
   )
 }
 
-export default ob(Grid)
+export default observer(Grid)

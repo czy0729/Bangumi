@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-18 04:07:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-23 19:05:14
+ * @Last Modified time: 2026-04-12 21:52:58
  */
 import { computed } from 'mobx'
 import { subjectStore } from '@stores'
@@ -21,6 +21,10 @@ export default class Computed extends State {
 
   @computed get subjectId() {
     return this.params.subjectId || 0
+  }
+
+  @computed get total() {
+    return this.state?.ids?.length || 0
   }
 
   subject(id: SubjectId) {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-23 10:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-12 01:17:45
+ * @Last Modified time: 2026-04-12 21:47:54
  */
 import { WEB } from '../device'
 
@@ -37,7 +37,7 @@ export const TEXT_UPDATE_CATALOGS = '2026-04-11'
 export const TEXT_UPDATE_SPONSOR = '2026-02-01'
 
 /** 分类排名更新时间 */
-export const TEXT_UPDATE_TYPERANK = '2025-04-02'
+export const TEXT_UPDATE_TYPERANK = '2026-04-12'
 
 /** 找番剧 (NSFW) 静态数据最后更新时间 */
 export const TEXT_UPDATE_NSFW = '2025-11-06'

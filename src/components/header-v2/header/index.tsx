@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-23 00:51:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-17 00:19:56
+ * @Last Modified time: 2026-04-13 06:52:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -27,6 +27,7 @@ function Header({
   headerTitleStyle,
   headerTitleSize = 16,
   headerTitleAppend,
+  headerTitleTextStyle,
   headerRight
 }: Props) {
   r(COMPONENT)
@@ -49,7 +50,7 @@ function Header({
           justify={headerTitleAlign === 'left' ? 'start' : 'center'}
         >
           <Text
-            style={styles.titleText}
+            style={stl(styles.titleText, headerTitleTextStyle)}
             size={headerTitleSize}
             numberOfLines={1}
             ellipsizeMode='middle'

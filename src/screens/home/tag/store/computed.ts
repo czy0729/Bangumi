@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-06-03 07:45:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-07 03:39:20
+ * @Last Modified time: 2026-04-12 22:46:54
  */
 import { computed } from 'mobx'
 import { subjectStore, tagStore } from '@stores'
@@ -22,9 +22,10 @@ import {
   TEXT_MENU_SPLIT_RIGHT,
   TEXT_MENU_TOOLBAR
 } from '@constants'
-import { SubjectId, SubjectTypeCn } from '@types'
-import { SnapshotId } from '../types'
 import State from './state'
+
+import type { SubjectId, SubjectTypeCn } from '@types'
+import type { SnapshotId } from '../types'
 
 export default class Computed extends State {
   /** 云快照 */

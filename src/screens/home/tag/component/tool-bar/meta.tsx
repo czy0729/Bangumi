@@ -2,18 +2,20 @@
  * @Author: czy0729
  * @Date: 2024-10-18 03:24:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 11:26:21
+ * @Last Modified time: 2026-04-13 06:19:04
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { ToolBar } from '@components'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { DATA_META } from '@constants'
-import { Ctx } from '../../types'
+
+import type { Ctx } from '../../types'
 
 function Meta() {
   const { $ } = useStore<Ctx>()
   const { meta } = $.state
+
   return (
     <ToolBar.Popover
       data={DATA_META}
@@ -25,4 +27,4 @@ function Meta() {
   )
 }
 
-export default ob(Meta)
+export default observer(Meta)

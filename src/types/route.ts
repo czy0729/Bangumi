@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-12 02:05:01
+ * @Last Modified time: 2026-04-12 22:34:25
  */
 import type { ImageSourcePropType } from 'react-native'
 import type {
@@ -126,6 +126,9 @@ export type RouteTyperank = Route<
 
     /** 来自哪个条目 */
     subjectId?: SubjectId
+
+    /** 来源 */
+    _from?: string
   }
 >
 
@@ -350,6 +353,9 @@ export type RouteTag = Route<
 
     /** 默认年份筛选值 */
     airtime?: string
+
+    /** 来源 */
+    _from?: string
   }
 >
 

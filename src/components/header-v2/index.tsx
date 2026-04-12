@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-11-22 07:43:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-25 15:41:14
+ * @Last Modified time: 2026-04-13 06:51:55
  */
 import React, { useEffect } from 'react'
 import { observer } from 'mobx-react'
@@ -29,6 +29,7 @@ export const HeaderV2 = observer(
     headerTitleStyle,
     headerTitleSize,
     headerTitleAppend,
+    headerTitleTextStyle,
     headerRight
   }: HeaderV2Props) => {
     const navigation = useNavigation(COMPONENT)
@@ -52,6 +53,7 @@ export const HeaderV2 = observer(
           headerTitleStyle={headerTitleStyle}
           headerTitleSize={headerTitleSize}
           headerTitleAppend={headerTitleAppend}
+          headerTitleTextStyle={headerTitleTextStyle}
           headerRight={headerRight}
         />
         <Track title={title} domTitle={domTitle} hm={hm} alias={alias} />

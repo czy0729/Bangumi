@@ -2,21 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-06-08 04:35:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-07 03:43:03
+ * @Last Modified time: 2026-04-13 06:18:46
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { ToolBar as ToolBarComp } from '@components'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
 import Meta from './meta'
 import Month from './month'
 import Sort from './sort'
 import Year from './year'
 import { COMPONENT } from './ds'
 
+import type { Ctx } from '../../types'
+
 function ToolBar() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
+
   return (
     <ToolBarComp style={!$.state.list && _.mb.sm}>
       <Sort />
@@ -27,4 +29,4 @@ function ToolBar() {
   )
 }
 
-export default ob(ToolBar, COMPONENT)
+export default observer(ToolBar)

@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-06-03 07:48:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-18 03:35:51
+ * @Last Modified time: 2026-04-13 05:21:09
  */
 import { collectionStore, tagStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { get, update } from '@utils/kv'
 import { D7 } from '@constants'
-import { SnapshotId } from '../types'
 import Computed from './computed'
+
+import type { SnapshotId } from '../types'
 
 /** 若更新过则不会再主动更新 */
 const THIRD_PARTY_UPDATED: SnapshotId[] = []

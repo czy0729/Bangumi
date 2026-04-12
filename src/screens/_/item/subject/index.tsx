@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-03 03:30:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 06:30:00
+ * @Last Modified time: 2026-04-12 22:25:45
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -11,14 +11,15 @@ import { _, collectionStore, subjectStore } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { MODEL_SUBJECT_TYPE } from '@constants'
+import { Rate } from '../../base'
 import { ItemSearch } from '../search'
+import { getSmoothTopRecent } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { SubjectTypeCn } from '@types'
-
 export const ItemSubject = observer(
-  ({ navigation, event, index, subjectId, type, subject, oss, active }) => {
+  ({ navigation, event, index, subjectId, type, subject, oss, active, total = 0 }) => {
     r(COMPONENT)
 
     const styles = memoStyles()
@@ -48,6 +49,8 @@ export const ItemSubject = observer(
         </Touchable>
       )
     }
+
+    const topRecent = getSmoothTopRecent(index, total)
 
     return (
       <Component
@@ -81,6 +84,14 @@ export const ItemSubject = observer(
           collection={collectionStore.collect(subjectId)}
           event={event}
         />
+        {!!topRecent && (
+          <Rate
+            style={styles.rate}
+            textStyle={styles.rateText}
+            value={`${topRecent}%`}
+            align='center'
+          />
+        )}
       </Component>
     )
   }

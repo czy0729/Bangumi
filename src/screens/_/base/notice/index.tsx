@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-02 13:28:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 17:49:54
+ * @Last Modified time: 2026-04-13 06:16:18
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -17,7 +17,7 @@ import type { Props as NoticeProps } from './types'
 export type { NoticeProps }
 
 /** 轻提示 */
-export const Notice = observer(({ style, children, ...other }) => {
+export const Notice = observer(({ style, children, ...other }: NoticeProps) => {
   r(COMPONENT)
 
   const styles = memoStyles()

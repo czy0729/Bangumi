@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 01:24:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 04:38:47
+ * @Last Modified time: 2026-04-12 22:01:12
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -20,7 +20,7 @@ export const IconTouchable = observer(
   ({
     style,
     name,
-    size,
+    size = 22,
     color,
     shadow,
     count = 0,

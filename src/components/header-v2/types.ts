@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-11-22 07:52:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-25 15:33:42
+ * @Last Modified time: 2026-04-13 06:52:34
  */
-import type { ReactNode, ViewStyle } from '@types'
+import type { ReactNode, TextStyle, ViewStyle } from '@types'
 import type { TrackProps } from '../track'
 
 export type Props = {
@@ -46,6 +46,9 @@ export type Props = {
 
   /** 标题为文字时, 可以追加在标题后方的节点 */
   headerTitleAppend?: ReactNode
+
+  /** 标题文字节点样式 */
+  headerTitleTextStyle?: TextStyle
 
   /** 右侧 element */
   headerRight?: () => ReactNode

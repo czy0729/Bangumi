@@ -2,10 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-06-03 07:55:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-20 10:39:58
+ * @Last Modified time: 2026-04-13 05:21:18
  */
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE, RESET_STATE, STATE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, RESET_STATE } from './ds'
+
+import type { STATE } from './ds'
 
 /** 标签条目页面状态机 */
 export default class ScreenTag extends Action {

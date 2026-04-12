@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-07-30 03:42:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-20 10:39:43
+ * @Last Modified time: 2026-04-13 05:21:00
  */
 import { _ } from '@stores'
 import { MODEL_TAG_ORDERBY } from '@constants'
-import { Loaded, TagOrder } from '@types'
 import { COMPONENT } from '../ds'
+
+import type { Loaded, TagOrder } from '@types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 

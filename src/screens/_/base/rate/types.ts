@@ -17,6 +17,9 @@ export type Props = WithViewStyles<{
   /** 对齐方向 */
   position?: 'top' | 'bottom'
 
+  /** 文字对齐 */
+  align?: TextProps['align']
+
   /** 文字点击 */
   onPress?: Fn
 }>

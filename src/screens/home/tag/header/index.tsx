@@ -2,27 +2,43 @@
  * @Author: czy0729
  * @Date: 2022-07-30 11:02:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-07 03:44:44
+ * @Last Modified time: 2026-04-13 06:48:15
  */
-import React from 'react'
+import React, { useCallback } from 'react'
+import { observer } from 'mobx-react'
 import { HeaderV2, HeaderV2Popover } from '@components'
-import { useStore } from '@stores'
+import { IconTouchable } from '@_'
+import { _, useStore } from '@stores'
 import { open } from '@utils'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { TEXT_MENU_BROWSER, TEXT_MENU_SPLIT } from '@constants'
-import { Ctx } from '../types'
-import { DATA } from './ds'
+import { COMPONENT, DATA } from './ds'
+
+import type { Ctx } from '../types'
 
 function Header() {
-  const { $ } = useStore<Ctx>()
-  const { tag } = $.params
-  return (
-    <HeaderV2
-      title={tag ? `${$.typeCn} · ${tag}` : `${$.typeCn}标签`}
-      alias='用户标签'
-      hm={$.hm}
-      headerRight={() => (
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
+
+  const handleHeaderRight = useCallback(
+    () => (
+      <>
+        <IconTouchable
+          name='md-equalizer'
+          size={20}
+          color={_.colorDesc}
+          onPress={() => {
+            if ($.params._from === 'Typerank') {
+              navigation.goBack()
+              return
+            }
+
+            navigation.push('Typerank', {
+              type: $.params.type || 'anime',
+              tag: $.params.tag,
+              _from: 'Tag'
+            })
+          }}
+        />
         <HeaderV2Popover
           data={[...DATA, TEXT_MENU_SPLIT, ...$.toolBar]}
           onSelect={title => {
@@ -37,9 +53,21 @@ function Header() {
             }
           }}
         />
-      )}
+      </>
+    ),
+    [$, navigation]
+  )
+
+  const { tag } = $.params
+
+  return (
+    <HeaderV2
+      title={tag ? `${$.typeCn} · ${tag}` : `${$.typeCn}标签`}
+      alias='用户标签'
+      hm={$.hm}
+      headerRight={handleHeaderRight}
     />
   )
 }
 
-export default ob(Header)
+export default observer(Header)
