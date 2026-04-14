@@ -5,9 +5,9 @@
  * @Last Modified time: 2025-12-23 01:25:40
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import List from './component/list'
 import Tips from './component/tips'
 import Header from './header'
@@ -16,10 +16,10 @@ import { useSeriesPage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** 关联系列 */
-const Series = (props: NavigationProps) => {
+function Series(props: NavigationProps) {
   const { id, $ } = useSeriesPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-series'>
       <StoreContext.Provider value={id}>
         <Page loaded={$.state._loaded}>
@@ -30,7 +30,7 @@ const Series = (props: NavigationProps) => {
         <Header />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default Series
+export default observer(Series)

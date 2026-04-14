@@ -6,10 +6,11 @@
  */
 import React, { useCallback, useState } from 'react'
 import { Pressable, View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, getCoverSrc, Text } from '@components'
 import { collectionStore, subjectStore, systemStore } from '@stores'
 import { stl } from '@utils'
-import { useNavigation, useObserver } from '@utils/hooks'
+import { useNavigation } from '@utils/hooks'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import Subject from '../subject'
 import { memoStyles } from './styles'
@@ -27,6 +28,7 @@ function Node({
   focusRelations
 }: Props) {
   const navigation = useNavigation()
+
   const [y, setY] = useState(0)
 
   const handleLayout = useCallback(
@@ -47,47 +49,45 @@ function Node({
     [focusId, setActiveRelation, setFocusId]
   )
 
-  return useObserver(() => {
-    const styles = memoStyles()
-    const isFocus = item.id === focusId
-    const isConnectedToFocus = focusRelations.some(r => r.dst === item.id) && focusId !== 0
-    const isActive = activeRelation?.dst === item.id
+  const styles = memoStyles()
+  const isFocus = item.id === focusId
+  const isConnectedToFocus = focusRelations.some(r => r.dst === item.id) && focusId !== 0
+  const isActive = activeRelation?.dst === item.id
 
-    return (
-      <View style={styles.node} onLayout={handleLayout}>
-        {systemStore.setting.subjectLinkCollected && (
-          <Flex style={styles.collect}>
-            <Text overrideStyle={styles.override} size={20} lineHeight={24}>
-              {collectionStore.collect(item.id, MODEL_SUBJECT_TYPE.getTitle(item.type))}
-            </Text>
-          </Flex>
-        )}
+  return (
+    <View style={styles.node} onLayout={handleLayout}>
+      {systemStore.setting.subjectLinkCollected && (
+        <Flex style={styles.collect}>
+          <Text overrideStyle={styles.override} size={20} lineHeight={24}>
+            {collectionStore.collect(item.id, MODEL_SUBJECT_TYPE.getTitle(item.type))}
+          </Text>
+        </Flex>
+      )}
 
-        <Pressable
-          style={({ pressed }) =>
-            stl(
-              styles.touchable,
-              isFocus && styles.focus,
-              isConnectedToFocus && !isFocus && styles.connected,
-              pressed && styles.pressed,
-              isActive && styles.active
-            )
-          }
-          onPress={() => handleNodePress(Number(item.id))}
-          onLongPress={() =>
-            navigation.push('Subject', {
-              subjectId: item.id,
-              _cn: item.nameCN,
-              _jp: item.name,
-              _image: getCoverSrc(subjectStore.cover(item.id), 56)
-            })
-          }
-        >
-          <Subject item={item} y={y} isFocus={isFocus} isActive={isActive} />
-        </Pressable>
-      </View>
-    )
-  })
+      <Pressable
+        style={({ pressed }) =>
+          stl(
+            styles.touchable,
+            isFocus && styles.focus,
+            isConnectedToFocus && !isFocus && styles.connected,
+            pressed && styles.pressed,
+            isActive && styles.active
+          )
+        }
+        onPress={() => handleNodePress(Number(item.id))}
+        onLongPress={() =>
+          navigation.push('Subject', {
+            subjectId: item.id,
+            _cn: item.nameCN,
+            _jp: item.name,
+            _image: getCoverSrc(subjectStore.cover(item.id), 56)
+          })
+        }
+      >
+        <Subject item={item} y={y} isFocus={isFocus} isActive={isActive} />
+      </Pressable>
+    </View>
+  )
 }
 
-export default Node
+export default observer(Node)

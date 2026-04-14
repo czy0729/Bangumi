@@ -6,8 +6,8 @@
  */
 import React, { useEffect, useRef, useState } from 'react'
 import { ScrollView, View } from 'react-native'
+import { observer } from 'mobx-react'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import Lines from './lines'
 import Node from './node'
@@ -28,7 +28,7 @@ import { styles } from './styles'
 import type { NodeLayout, RelationEdge, RelationGraphProps } from './types'
 import type { NodeItem } from '../../types'
 
-export default function RelationGraph({
+function RelationGraph({
   data,
   focusId: initialFocusId,
   maxRelations = 10,
@@ -179,7 +179,7 @@ export default function RelationGraph({
     })
   }, [focusLayoutReady, initialFocusId])
 
-  return useObserver(() => (
+  return (
     <ScrollView
       ref={scrollViewRef}
       contentContainerStyle={styles.container}
@@ -272,5 +272,7 @@ export default function RelationGraph({
         />
       </View>
     </ScrollView>
-  ))
+  )
 }
+
+export default observer(RelationGraph)

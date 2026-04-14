@@ -5,8 +5,9 @@
  * @Last Modified time: 2024-11-30 22:57:04
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { ToolBar as ToolBarComp } from '@components'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import Filter from './filter'
 import Sort from './sort'
 import Status from './status'
@@ -14,6 +15,8 @@ import Year from './year'
 import { COMPONENT } from './ds'
 
 function ToolBar() {
+  r(COMPONENT)
+
   return (
     <ToolBarComp>
       <Sort />
@@ -24,4 +27,4 @@ function ToolBar() {
   )
 }
 
-export default ob(ToolBar, COMPONENT)
+export default observer(ToolBar)

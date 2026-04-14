@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-30 19:57:08
  */
-import { SubjectId, ViewStyle } from '@types'
+import type { SubjectId, ViewStyle } from '@types'
 
 export type Props = {
   style?: ViewStyle

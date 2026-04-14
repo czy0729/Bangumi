@@ -6,14 +6,14 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Text, Touchable } from '@components'
-import { useObserver } from '@utils/hooks'
 import { styles } from './styles'
 
 import type { Props } from './types'
 
 function OmittedHint({ count, position, onPress }: Props) {
-  return useObserver(() => (
+  return (
     <Touchable onPress={onPress}>
       <View style={styles.omitted}>
         <Text type='sub' size={13}>
@@ -21,7 +21,7 @@ function OmittedHint({ count, position, onPress }: Props) {
         </Text>
       </View>
     </Touchable>
-  ))
+  )
 }
 
-export default OmittedHint
+export default observer(OmittedHint)

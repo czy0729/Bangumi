@@ -5,15 +5,18 @@
  * @Last Modified time: 2024-11-17 08:00:07
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { ToolBar } from '@components'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { DATA_FILTER } from '../../ds'
-import { Ctx } from '../../types'
+
+import type { Ctx } from '../../types'
 
 function Filter() {
   const { $ } = useStore<Ctx>()
+
   const { filter } = $.state
+
   return (
     <ToolBar.Popover
       data={DATA_FILTER}
@@ -24,4 +27,4 @@ function Filter() {
   )
 }
 
-export default ob(Filter)
+export default observer(Filter)

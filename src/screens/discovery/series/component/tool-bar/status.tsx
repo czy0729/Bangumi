@@ -5,15 +5,18 @@
  * @Last Modified time: 2024-11-17 08:00:28
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { ToolBar } from '@components'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { DATA_STATUS } from '../../ds'
-import { Ctx } from '../../types'
+
+import type { Ctx } from '../../types'
 
 function Status() {
   const { $ } = useStore<Ctx>()
+
   const { status } = $.state
+
   return (
     <ToolBar.Popover
       data={DATA_STATUS}
@@ -24,4 +27,4 @@ function Status() {
   )
 }
 
-export default ob(Status)
+export default observer(Status)

@@ -14,9 +14,10 @@ import {
   TEXT_MENU_SPLIT_RIGHT,
   TEXT_MENU_TOOLBAR
 } from '@constants'
-import { SubjectId } from '@types'
 import { SUBJECT_ITEM } from '../ds'
 import State from './state'
+
+import type { SubjectId } from '@types'
 
 export default class Computed extends State {
   @computed get userId() {

@@ -5,15 +5,18 @@
  * @Last Modified time: 2024-11-17 08:00:21
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { ToolBar } from '@components'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { DATA_SORT } from '../../ds'
-import { Ctx } from '../../types'
+
+import type { Ctx } from '../../types'
 
 function Sort() {
   const { $ } = useStore<Ctx>()
+
   const { sort } = $.state
+
   return (
     <ToolBar.Popover
       data={DATA_SORT}
@@ -26,4 +29,4 @@ function Sort() {
   )
 }
 
-export default ob(Sort)
+export default observer(Sort)

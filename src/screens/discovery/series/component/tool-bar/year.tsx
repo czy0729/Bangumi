@@ -5,15 +5,18 @@
  * @Last Modified time: 2024-11-17 08:00:35
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { ToolBar } from '@components'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { DATA_AIRTIME } from '@constants'
-import { Ctx } from '../../types'
+
+import type { Ctx } from '../../types'
 
 function Year() {
   const { $ } = useStore<Ctx>()
+
   const { airtime } = $.state
+
   return (
     <ToolBar.Popover
       data={DATA_AIRTIME}
@@ -24,4 +27,4 @@ function Year() {
   )
 }
 
-export default ob(Year)
+export default observer(Year)

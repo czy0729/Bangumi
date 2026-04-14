@@ -6,20 +6,22 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Loading, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover, InView, Manage, Progress, Rank, Stars } from '@_'
 import { _, collectionStore, uiStore, useStore } from '@stores'
 import { stl } from '@utils'
-import { ob } from '@utils/decorators'
 import { IMG_HEIGHT_SM, IMG_WIDTH_SM, MODEL_COLLECTION_STATUS } from '@constants'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
 function Subject({ style, id, small = false, section = 0 }: Props) {
-  const { $, navigation } = useStore<Ctx>()
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
+
   const styles = memoStyles()
   const subject = $.subject(id)
   if (subject._loaded === 0) {
@@ -131,4 +133,4 @@ function Subject({ style, id, small = false, section = 0 }: Props) {
   )
 }
 
-export default ob(Subject, COMPONENT)
+export default observer(Subject)

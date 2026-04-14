@@ -5,9 +5,9 @@
  * @Last Modified time: 2025-12-23 01:30:07
  */
 import React, { useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import ToolBar from '../tool-bar'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
@@ -19,25 +19,23 @@ function List() {
 
   const elToolBar = useMemo(() => <ToolBar />, [])
 
-  return useObserver(() => {
-    const { fixed } = $.state
+  const { fixed } = $.state
 
-    return (
-      <>
-        {fixed && elToolBar}
-        <PaginationList2
-          key={$.state.sort}
-          contentContainerStyle={_.container.bottom}
-          data={$.data}
-          limit={24}
-          ListHeaderComponent={!fixed && elToolBar}
-          renderItem={renderItem}
-          onScroll={$.onScroll}
-          onPage={$.onPage}
-        />
-      </>
-    )
-  })
+  return (
+    <>
+      {fixed && elToolBar}
+      <PaginationList2
+        key={$.state.sort}
+        contentContainerStyle={_.container.bottom}
+        data={$.data}
+        limit={24}
+        ListHeaderComponent={!fixed && elToolBar}
+        renderItem={renderItem}
+        onScroll={$.onScroll}
+        onPage={$.onPage}
+      />
+    </>
+  )
 }
 
-export default List
+export default observer(List)

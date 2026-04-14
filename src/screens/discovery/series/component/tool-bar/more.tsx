@@ -5,13 +5,15 @@
  * @Last Modified time: 2024-11-30 22:56:48
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { ToolBar } from '@components'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+
+import type { Ctx } from '../../types'
 
 function More() {
   const { $ } = useStore<Ctx>()
+
   return (
     <ToolBar.Popover
       data={$.toolBar}
@@ -25,4 +27,4 @@ function More() {
   )
 }
 
-export default ob(More)
+export default observer(More)

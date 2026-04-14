@@ -5,9 +5,9 @@
  * @Last Modified time: 2025-12-15 19:02:06
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { ItemCollections } from '@_'
 import { collectionStore, subjectStore, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { COMPONENT } from './ds'
 
@@ -17,7 +17,7 @@ import type { Props } from './types'
 function Item({ item, relate }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <ItemCollections
       navigation={navigation}
       id={item.id}
@@ -35,7 +35,7 @@ function Item({ item, relate }: Props) {
       collection={collectionStore.collect(item.id)}
       active={item.id == $.subjectId}
     />
-  ))
+  )
 }
 
-export default Item
+export default observer(Item)

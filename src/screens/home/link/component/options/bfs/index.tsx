@@ -5,10 +5,10 @@
  * @Last Modified time: 2025-12-17 02:19:13
  */
 import React, { useCallback, useEffect, useState } from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { Notice } from '@_'
 import { _ } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { findRelationPath } from './utils'
 import { memoStyles } from './styles'
 
@@ -50,44 +50,42 @@ function BFS({ map }: { map: RelateMap }) {
     }
   }, [endId, map, startId])
 
-  return useObserver(() => {
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    let { node } = map
-    if (startId && endId) node = node.filter(item => item.id === startId || item.id === endId)
+  let { node } = map
+  if (startId && endId) node = node.filter(item => item.id === startId || item.id === endId)
 
-    return (
-      <>
-        {!!desc && <Notice style={_.mt.md}>{desc}</Notice>}
-        <Flex style={_.mt.md} direction='column' align='start'>
-          {node.map(item => (
-            <Touchable key={item.id} style={styles.item} onPress={() => handlePress(item.id)}>
-              <Flex>
-                {startId === item.id && (
-                  <Text style={_.mr.xs} type='primary' size={11}>
-                    起点
-                  </Text>
-                )}
-                {endId === item.id && (
-                  <Text style={_.mr.xs} type='warning' size={11}>
-                    终点
-                  </Text>
-                )}
-                <Text type='sub' size={11}>
-                  {item.nameCN || item.name}{' '}
-                  {!!item.date && (
-                    <Text type={_.select('sub', 'icon')} size={9} lineHeight={11}>
-                      {item.date.slice(0, 7)}
-                    </Text>
-                  )}
+  return (
+    <>
+      {!!desc && <Notice style={_.mt.md}>{desc}</Notice>}
+      <Flex style={_.mt.md} direction='column' align='start'>
+        {node.map(item => (
+          <Touchable key={item.id} style={styles.item} onPress={() => handlePress(item.id)}>
+            <Flex>
+              {startId === item.id && (
+                <Text style={_.mr.xs} type='primary' size={11}>
+                  起点
                 </Text>
-              </Flex>
-            </Touchable>
-          ))}
-        </Flex>
-      </>
-    )
-  })
+              )}
+              {endId === item.id && (
+                <Text style={_.mr.xs} type='warning' size={11}>
+                  终点
+                </Text>
+              )}
+              <Text type='sub' size={11}>
+                {item.nameCN || item.name}{' '}
+                {!!item.date && (
+                  <Text type={_.select('sub', 'icon')} size={9} lineHeight={11}>
+                    {item.date.slice(0, 7)}
+                  </Text>
+                )}
+              </Text>
+            </Flex>
+          </Touchable>
+        ))}
+      </Flex>
+    </>
+  )
 }
 
-export default BFS
+export default observer(BFS)
