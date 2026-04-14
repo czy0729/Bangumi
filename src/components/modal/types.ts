@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-07 04:24:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-07 05:10:06
+ * @Last Modified time: 2026-04-14 15:51:12
  */
 import type { PropsWithChildren } from 'react'
 import type { WithViewStyles } from '@types'
@@ -24,6 +24,9 @@ export type Props = PropsWithChildren<
 
     /** [网页] 是否显示渐出动画 */
     animated?: boolean
+
+    /** 是否允许点击遮罩关闭 */
+    maskClosable?: boolean
 
     /** 关闭回调 */
     onClose: () => void

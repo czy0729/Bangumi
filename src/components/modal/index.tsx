@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-05 22:03:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 01:55:49
+ * @Last Modified time: 2026-04-14 15:50:17
  */
 import React, { Suspense, useEffect } from 'react'
 import { observer } from 'mobx-react'
@@ -20,7 +20,16 @@ export type { ModalProps }
 
 /** 通用模态框 */
 export const Modal = observer(
-  ({ style, visible, title, type = 'title', focus, onClose, children }: ModalProps) => {
+  ({
+    style,
+    visible,
+    title,
+    type = 'title',
+    focus,
+    maskClosable = true,
+    onClose,
+    children
+  }: ModalProps) => {
     r(COMPONENT)
 
     useEffect(() => {
@@ -41,7 +50,7 @@ export const Modal = observer(
         }
         transparent
         closable
-        maskClosable
+        maskClosable={maskClosable}
         onClose={onClose}
       >
         <Suspense>{children}</Suspense>

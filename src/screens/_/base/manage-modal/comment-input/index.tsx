@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-07-27 16:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 17:39:19
+ * @Last Modified time: 2026-04-14 16:04:53
  */
 import React, { useCallback, useRef, useState } from 'react'
 import { observer } from 'mobx-react'
@@ -76,13 +76,12 @@ function CommentInput({
           />
         </Flex.Item>
 
-        {comment ? (
+        {comment && (
           <Text style={styles.length} type={_.select('sub', 'icon')} size={13} lineHeight={14}>
             {remaining}
           </Text>
-        ) : (
-          <CommentHistory data={commentHistory} onSelect={onChangeText} onShow={onShowHistory} />
         )}
+        <CommentHistory data={commentHistory} onSelect={onChangeText} onShow={onShowHistory} />
       </Flex>
 
       {!!sensitiveWords?.length && (

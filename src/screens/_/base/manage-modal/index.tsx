@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 17:42:09
+ * @Last Modified time: 2026-04-14 16:02:11
  */
 import React from 'react'
 import { BackHandler } from 'react-native'
@@ -64,6 +64,7 @@ export const ManageModal = observer(
       showUserTags: false,
       comment: '',
       commentHistory: [],
+      commentChanged: false,
       status: '',
       privacy: MODEL_PRIVATE.getValue<Private>('公开')
     }
@@ -132,7 +133,8 @@ export const ManageModal = observer(
               confirm(
                 content,
                 () => {
-                  this.props.onClose()
+                  this.handleClose()
+
                   setTimeout(() => {
                     navigation.push('LoginV2')
                   }, 400)
@@ -166,6 +168,11 @@ export const ManageModal = observer(
           }
           if (this.state.status === '') state.status = newStatus.type
           if (privacy !== undefined) state.privacy = privacy
+
+          // 如果用户输入过评论，无论如何先保存草稿
+          const { commentChanged, comment: lastComment } = this.state
+          if (commentChanged && lastComment) this.setCommentHistory(lastComment)
+
           this.setState(state)
 
           this.fetchUserTags()
@@ -175,7 +182,7 @@ export const ManageModal = observer(
 
     handleBackAndroid = () => {
       if (this.props.visible) {
-        this.props.onClose()
+        this.handleClose()
         return true
       }
 
@@ -322,7 +329,8 @@ export const ManageModal = observer(
 
     handleCommentChange = (text: string) => {
       this.setState({
-        comment: HTMLDecode(text)
+        comment: HTMLDecode(text),
+        commentChanged: true
       })
     }
 
@@ -349,6 +357,17 @@ export const ManageModal = observer(
       })
     }
 
+    handleClose = () => {
+      // 如果用户输入过评论，无论如何先保存草稿
+      const { commentChanged, comment: lastComment } = this.state
+      if (commentChanged && lastComment) this.setCommentHistory(lastComment)
+
+      this.setState({
+        commentChanged: false
+      })
+      this.props?.onClose?.()
+    }
+
     get type() {
       const { action } = this.props
       let type: SubjectType
@@ -367,10 +386,11 @@ export const ManageModal = observer(
     render() {
       r(COMPONENT)
 
-      const { action, desc, disabled, subjectId, title, visible, onClose } = this.props
+      const { action, desc, disabled, subjectId, title, visible } = this.props
       const {
         comment,
         commentHistory,
+        commentChanged,
         fetching,
         focus,
         loading,
@@ -389,7 +409,8 @@ export const ManageModal = observer(
             visible={visible}
             title={title}
             focus={focus}
-            onClose={onClose}
+            maskClosable={!commentChanged}
+            onClose={this.handleClose}
           >
             <Text style={_.mt.sm} type='sub' size={13} numberOfLines={1} align='center'>
               {desc}

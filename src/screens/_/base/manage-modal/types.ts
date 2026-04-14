@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 15:39:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 17:41:30
+ * @Last Modified time: 2026-04-14 15:49:16
  */
 import type { CollectionStatus, RatingStatus, SubjectActions, SubjectId } from '@types'
 
@@ -35,6 +35,9 @@ export type State = Partial<{
   showUserTags: boolean
   comment: string
   commentHistory: string[]
+
+  /** 输入框是否主动变动过 */
+  commentChanged: boolean
   status: '' | RatingStatus | CollectionStatus
   privacy: any
 }>
