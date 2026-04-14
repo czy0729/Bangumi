@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:38:43
+ * @Last Modified time: 2026-04-13 12:06:41
  */
 import { _, collectionStore, rakuenStore, subjectStore, userStore } from '@stores'
 import { getTimestamp } from '@utils'
@@ -47,7 +47,7 @@ export default class ScreenSubject extends Action {
         () => this.onHeaderRefresh()
       ])
       return true
-    } catch (error) {
+    } catch {
       this.setState({
         ...EXCLUDE_STATE,
         focused: true,
@@ -107,6 +107,7 @@ export default class ScreenSubject extends Action {
         () => this.withFocus(() => this.fetchTrackComments(), 'fetchTrackComments'),
         () => this.withFocus(() => this.fetchSubjectComments(true), 'fetchSubjectComments'),
         () => this.withFocus(() => this.fetchVIB(), 'fetchVIB'),
+        () => this.withFocus(() => this.fetchRec(), 'fetchRec'),
         () => this.withFocus(() => this.fetchEpsData(), 'fetchEpsData'),
         () => this.withFocus(() => this.fetchPicTotal(), 'fetchPicTotal'),
         () =>

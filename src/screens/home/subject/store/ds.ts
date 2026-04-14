@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:30:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-06 19:32:25
+ * @Last Modified time: 2026-04-13 12:02:13
  */
 import { _ } from '@stores'
 import { LIST_EMPTY } from '@constants'
 import { COMPONENT } from '../ds'
 
 import type { CompletionItem, Loaded, RatingStatus, Sites, TranslateResult } from '@types'
-import type { AnitabiData, EpsData, SubjectSnapshot, VideoItem } from '../types'
+import type { AnitabiData, EpsData, RecData, SubjectSnapshot, VideoItem } from '../types'
 
 /** 唯一命名空间 */
 export const NAMESPACE = `Screen${COMPONENT}` as const
@@ -112,6 +112,12 @@ export const STATE = {
   epsData: {
     _loaded: false
   } as EpsData,
+
+  /** 推荐源 */
+  recData: {
+    data: [],
+    _loaded: false
+  } as RecData,
 
   /** 缩略图 */
   epsThumbs: [],

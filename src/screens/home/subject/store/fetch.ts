@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-18 23:16:43
+ * @Last Modified time: 2026-04-14 09:40:41
  */
 import {
   collectionStore,
@@ -10,7 +10,8 @@ import {
   otaStore,
   subjectStore,
   systemStore,
-  usersStore
+  usersStore,
+  userStore
 } from '@stores'
 import {
   getBangumiUrl,
@@ -35,8 +36,10 @@ import { decode, get as protoGet } from '@utils/protobuf'
 import {
   API_ANITABI,
   CDN_EPS,
+  CDN_REC,
   D1,
   D7,
+  DEV,
   H1,
   HOST_AC,
   HOST_AC_API,
@@ -48,7 +51,13 @@ import {
 import Computed from './computed'
 
 import type { UserId } from '@types'
-import type { AnitabiData } from '../types'
+import type { AnitabiData, RecData } from '../types'
+
+/** 第三方额外数据接口一次启动内控制请求频率 */
+const GLOBAL_FETCH_LIMIT = DEV ? 1 : 8
+let globalFetchThirdPartyCount = 0
+let globalFetchVIBCount = 0
+let globalFetchAnitabiCount = 0
 
 export default class Fetch extends Computed {
   /**
@@ -138,7 +147,10 @@ export default class Fetch extends Computed {
   fetchThirdParty = async (data: { name: string }) => {
     await decode('bangumi-data')
 
-    // 若匹配到 bangumi-data 数据, 使用其中的 sites 数据进行对应平台 api 查找缩略图
+    /**
+     * 压缩的 bangumi-data 数据
+     * - 若匹配到数据, 使用其中的 sites 数据进行对应平台 api 查找缩略图
+     * */
     const item = protoGet('bangumi-data').find(
       item =>
         item.id == this.subjectId ||
@@ -146,24 +158,31 @@ export default class Fetch extends Computed {
         item.c === HTMLDecode(data.name)
     )
 
-    let _item: ReturnType<typeof unzipBangumiData>
+    /** 解压的 bangumi-data 数据  */
+    let unzipItem: ReturnType<typeof unzipBangumiData>
     if (item) {
-      _item = unzipBangumiData(item)
+      unzipItem = unzipBangumiData(item)
       this.setState({
         bangumiInfo: {
-          sites: _item.sites as any,
-          type: _item.type
+          sites: unzipItem.sites as any,
+          type: unzipItem.type
         }
       })
     }
 
-    // 先检测云端数据
+    /** 检测云端数据 */
     const needUpdate = await this.getThirdParty()
     if (!needUpdate || WEB) return
 
-    if (item) {
+    if (globalFetchThirdPartyCount >= GLOBAL_FETCH_LIMIT) {
+      logger.warn('fetchThirdParty', 'limit denied')
+      return false
+    }
+    globalFetchThirdPartyCount += 1
+
+    if (unzipItem) {
       postTask(() => {
-        this.fetchEpsThumbs(_item)
+        this.fetchEpsThumbs(unzipItem)
       }, 0)
     }
 
@@ -245,12 +264,20 @@ export default class Fetch extends Computed {
     postTask(() => {
       this.fetchTrackUsersInfo(userIds)
     }, 0)
+
     return queue(fetchs, 1)
   }
 
   /** 获取单集播放源 */
   fetchEpsData = async () => {
-    if (this.type !== '动画' || this.nsfw || opitimize(this.state.epsData, D7)) return false
+    if (
+      !systemStore.setting.showLegalSource ||
+      this.type !== '动画' ||
+      this.nsfw ||
+      opitimize(this.state.epsData, D7)
+    ) {
+      return false
+    }
 
     const epsData = {
       _loaded: getTimestamp()
@@ -273,6 +300,37 @@ export default class Fetch extends Computed {
 
     this.setState({
       epsData
+    })
+    this.save()
+  }
+
+  /** 获取推荐源 */
+  fetchRec = async () => {
+    if (
+      (this.nsfw && !systemStore.isAdvance && userStore.isLimit) ||
+      opitimize(this.state.recData, D7)
+    ) {
+      return false
+    }
+
+    const recData: RecData = {
+      data: [],
+      _loaded: getTimestamp()
+    }
+
+    try {
+      const { _response } = await xhrCustom({
+        url: CDN_REC(this.subjectId)
+      })
+
+      const data = JSON.parse(_response)
+      if (Array.isArray(data) && data?.length) recData.data = data
+    } catch (error) {
+      logger.error(this.namespace, 'fetchRec', error)
+    }
+
+    this.setState({
+      recData
     })
     this.save()
   }
@@ -495,9 +553,7 @@ export default class Fetch extends Computed {
         // 数量不够更新
         videos.length + epsThumbs.length <= 2 ||
         // 7 天更新一次
-        getTimestamp() - ts >= D7 ||
-        // 最后一次逻辑修正的时间戳
-        ts < getTimestamp('2024-09-10 18:00:00')
+        getTimestamp() - ts >= D7
       ) {
         return true
       }
@@ -510,7 +566,7 @@ export default class Fetch extends Computed {
       this.save()
 
       return false
-    } catch (error) {
+    } catch {
       return true
     }
   }
@@ -631,6 +687,12 @@ export default class Fetch extends Computed {
     try {
       const fetched = await getStorage(fetchId)
       if (!fetched) {
+        if (globalFetchAnitabiCount >= GLOBAL_FETCH_LIMIT) {
+          logger.warn('fetchAnitabi', 'limit denied')
+          return false
+        }
+        globalFetchAnitabiCount += 1
+
         const { _response } = await xhrCustom({
           url: API_ANITABI(this.subjectId)
         })
@@ -690,6 +752,12 @@ export default class Fetch extends Computed {
       if (WEB) return true
 
       if (this.type === '动画') {
+        if (globalFetchVIBCount >= GLOBAL_FETCH_LIMIT) {
+          logger.warn('fetchVIB', 'limit denied')
+          return false
+        }
+        globalFetchVIBCount += 1
+
         await subjectStore.fetchMAL(this.subjectId, this.jp || this.cn)
         await subjectStore.fetchAniDB(this.subjectId, this.jp || this.cn)
       }

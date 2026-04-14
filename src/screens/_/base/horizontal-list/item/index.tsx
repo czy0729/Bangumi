@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-07-03 06:53:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 17:00:57
+ * @Last Modified time: 2026-04-13 12:28:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -55,7 +55,7 @@ function Item({
           size={w}
           height={_.r(height)}
           src={item.image}
-          radius={isMusic ? _.radiusSm : true}
+          radius={_.radiusSm}
           type={typeCnValue}
         />
         <Title

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-03 18:34:44
+ * @Last Modified time: 2026-04-13 12:08:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -101,7 +101,7 @@ import {
 import type { Subject } from '@stores/subject/types'
 import type { Collection, Id, RatingStatus, Sites, SubjectType, SubjectTypeCn } from '@types'
 import type { OriginItem } from '../../../user/origin-setting/utils'
-import type { Crt, Staff, SubjectCommentValue, TagsItem } from '../types'
+import type { Crt, RecDataItem, Staff, SubjectCommentValue, TagsItem } from '../types'
 
 export default class Computed extends State {
   /** 本地化 */
@@ -889,9 +889,14 @@ export default class Computed extends State {
 
   /** 猜你喜欢 */
   @computed get like() {
-    if (this.subjectFormHTML._loaded) return freeze(this.subjectFormHTML.like || [])
+    const { data } = this.state.recData
+    if (data?.length) return data as RecDataItem[]
 
-    return freeze(this.subjectFromOSS.like || [])
+    if (this.subjectFormHTML._loaded) {
+      return freeze(this.subjectFormHTML.like || []) as RecDataItem[]
+    }
+
+    return freeze(this.subjectFromOSS.like || []) as RecDataItem[]
   }
 
   /** 条目类别 */

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-23 05:43:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-13 14:08:53
+ * @Last Modified time: 2026-04-13 12:08:44
  */
 import dayjs from 'dayjs'
 import { getFolder } from './utils'
@@ -19,6 +19,11 @@ export const CDN_ONAIR = () => {
 /** 单集数据源 */
 export const CDN_EPS = (subjectId: SubjectId) => {
   return `${HOST_DOGE}/bangumi-onair/onair/${getFolder(subjectId, 1000)}/${subjectId}.json` as const
+}
+
+/** 推荐源 */
+export const CDN_REC = (subjectId: SubjectId) => {
+  return `${HOST_DOGE}/bangumi-rec/${getFolder(subjectId, 100)}/${subjectId}.json` as const
 }
 
 /** @deprecated */

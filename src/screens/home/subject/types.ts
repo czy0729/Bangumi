@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-04 15:40:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-21 05:07:52
+ * @Last Modified time: 2026-04-13 12:07:38
  */
 import type { View } from 'react-native'
 import type { ImageProps, ListViewInstance } from '@components'
@@ -102,6 +102,18 @@ export type EpsData = Expand<
     _loaded: Loaded
   }
 >
+
+export type RecDataItem = {
+  id: SubjectId
+  name: string
+  image: string
+  reason?: string
+}
+
+export type RecData = {
+  data: RecDataItem[]
+  _loaded: Loaded
+}
 
 export type AnitabiData = {
   id: SubjectId
