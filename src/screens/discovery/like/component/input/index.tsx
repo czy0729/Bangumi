@@ -2,20 +2,22 @@
  * @Author: czy0729
  * @Date: 2024-11-13 07:49:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-13 07:51:13
+ * @Last Modified time: 2026-04-14 13:18:57
  */
 import React, { useCallback, useState } from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Input as InputComp } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { info } from '@utils'
-import { useObserver } from '@utils/hooks'
-import { Navigation } from '@types'
 
-function Input({ navigation }: { navigation: Navigation }) {
+import type { WithNavigation } from '@types'
+
+function Input({ navigation }: WithNavigation) {
   const [username, setUsername] = useState('')
+
   const handleChange = useCallback(
-    text => {
+    (text: string) => {
       setUsername(text.trim())
     },
     [setUsername]
@@ -31,19 +33,19 @@ function Input({ navigation }: { navigation: Navigation }) {
     })
   }, [navigation, username])
 
-  return useObserver(() => (
+  return (
     <Flex style={[_.container.wind, _.mt.sm]}>
       <Flex.Item>
         <InputComp
           value={username}
-          placeholder='可输入用户 ID 直达'
+          placeholder='可输入用户 ID 查看其他人的结果'
           onChangeText={handleChange}
           onSubmitEditing={handleNavigate}
         />
       </Flex.Item>
       <IconTouchable style={_.ml.md} name='md-arrow-forward' onPress={handleNavigate} />
     </Flex>
-  ))
+  )
 }
 
-export default Input
+export default observer(Input)

@@ -2,13 +2,18 @@
  * @Author: czy0729
  * @Date: 2024-05-07 04:50:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-13 12:26:41
+ * @Last Modified time: 2026-04-14 14:51:51
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Katakana, Touchable } from '@components'
 import { _ } from '@stores'
 import { styles } from './styles'
+
+const REASON_MAP = {
+  同期热话: '同期大热',
+  风格关联: '风格相近'
+} as const
 
 function Desc({ item, typeCn, onPress }) {
   const text = String(item?.desc || item?.reason || '')
@@ -31,7 +36,7 @@ function Desc({ item, typeCn, onPress }) {
         bold
       >
         <Katakana type='sub' size={text.length >= 6 ? 9 : 10} numberOfLines={2} bold>
-          {text}
+          {REASON_MAP[text] || text}
         </Katakana>
       </Katakana.Provider>
     </Touchable>

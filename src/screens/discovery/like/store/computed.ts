@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-11-11 09:50:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-13 04:55:45
+ * @Last Modified time: 2026-04-14 09:49:21
  */
 import { computed } from 'mobx'
 import { systemStore, userStore } from '@stores'
-import { SubjectId } from '@types'
 import State from './state'
 import { NAMESPACE } from './ds'
+
+import type { SubjectId } from '@types'
 
 export default class Computed extends State {
   @computed get userId() {

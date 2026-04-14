@@ -2,10 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-06-10 05:41:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-13 08:51:01
+ * @Last Modified time: 2026-04-14 09:49:35
  */
 import Action from './action'
-import { EXCLUDE_STATE, RESET_STATE, STATE } from './ds'
+import { EXCLUDE_STATE, RESET_STATE } from './ds'
+
+import type { STATE } from './ds'
 
 export default class ScreenLike extends Action {
   init = async () => {

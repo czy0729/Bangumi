@@ -2,24 +2,28 @@
  * @Author: czy0729
  * @Date: 2023-06-11 15:57:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-30 05:33:52
+ * @Last Modified time: 2026-04-14 14:37:33
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { uiStore, useStore } from '@stores'
 import { desc, feedback, getType, similar } from '@utils'
-import { ob } from '@utils/decorators'
 import { MODEL_COLLECTION_STATUS } from '@constants'
-import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Ctx } from '../../../types'
+import type { Props } from './types'
 
 function Sub({ name, relates, action }: Props) {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
+
   const styles = memoStyles()
+
   let len = 0
   let count = 0
+
   return (
     <Flex style={styles.sub} wrap='wrap'>
       {relates
@@ -49,7 +53,7 @@ function Sub({ name, relates, action }: Props) {
             <Flex key={subject.id} style={styles.item} direction='column' align='start'>
               <Text
                 size={10}
-                lineHeight={14}
+                lineHeight={13}
                 numberOfLines={1}
                 onPress={() => {
                   uiStore.showPopableSubject({
@@ -59,7 +63,7 @@ function Sub({ name, relates, action }: Props) {
                 }}
               >
                 {!!status && (
-                  <Text size={10} type={getType(status)} lineHeight={14}>
+                  <Text size={10} type={getType(status)} lineHeight={13}>
                     {`${status.replace('看', action)} `}
                   </Text>
                 )}
@@ -72,4 +76,4 @@ function Sub({ name, relates, action }: Props) {
   )
 }
 
-export default ob(Sub, COMPONENT)
+export default observer(Sub)

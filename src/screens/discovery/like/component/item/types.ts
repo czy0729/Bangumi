@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-11-11 10:50:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-30 16:17:08
+ * @Last Modified time: 2026-04-14 10:06:23
  */
-import { ListItem } from '../../types'
+import type { ListItem } from '../../types'
 
 export type Props = {
   item: ListItem

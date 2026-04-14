@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2023-06-10 15:07:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-13 08:54:27
+ * @Last Modified time: 2026-04-14 14:24:48
  */
 import { systemStore } from '@stores'
 import { desc } from '@utils'
 import { MODEL_COLLECTION_STATUS } from '@constants'
 import { loadJSON } from '@assets/json'
-import { CollectionStatusCn, SubjectId, SubjectType } from '@types'
 import { REASONS, TIME_PATTERN } from './ds'
-import { CollectionsItem } from './types'
+
+import type { CollectionStatusCn, SubjectId, SubjectType } from '@types'
+import type { CollectionsItem } from './types'
 
 /** 推荐值 */
-export function calc(item: CollectionsItem, length = 1) {
+export function calc(item: CollectionsItem, length = 1, extraScore = 0) {
   const { likeRec } = systemStore.setting
   const { rate, rank, score, ep, comment, private: _private, diff, rec } = item
   const type = MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(item.type)
@@ -153,27 +154,32 @@ export function calc(item: CollectionsItem, length = 1) {
   reasons = reasons.map(item => Math.floor(item))
   return {
     reasons,
-    rate: sumArray(reasons)
+    rate: sumArray(reasons) + extraScore * 2
   }
 }
 
 /** 构建推荐理由 */
-export function getReasonsInfo(reasons: number[], isFromTyperank: boolean) {
+export function getReasonsInfo(
+  reasons: number[],
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _isFromTyperank: boolean
+) {
   const infos = reasons
     .map((item, index) => {
       let info = ''
       if (item !== 0) {
-        info += `${REASONS[index]}　`
+        info += `${REASONS[index]} `
         info += (item > 0 ? '↑' : '↓').repeat(
           item >= 80 ? 5 : item >= 60 ? 4 : item >= 40 ? 3 : item >= 20 ? 2 : 1
         )
+        // info += ` (${item > 0 ? `+${item}` : item})`
       }
       return [info, item]
     })
     .filter(item => !!item[0])
     .sort((a, b) => desc(a[1], b[1]))
     .map(item => item[0])
-  infos.push(`数据来源于「${isFromTyperank ? '分类排行' : '全站猜你喜欢'}」`)
+  // infos.push(`数据来源于「${isFromTyperank ? '分类排行' : '全站猜你喜欢'}」`)
 
   return infos
 }

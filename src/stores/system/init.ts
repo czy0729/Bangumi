@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-25 14:42:28
+ * @Last Modified time: 2026-04-14 13:07:45
  */
 import {
   IOS,
@@ -401,7 +401,7 @@ export const INIT_SETTING = {
    * ['自己评分', '收藏状态', '条目排名', '条目分数', '已看集数',
    *  '自己点评', '私密收藏', '最近收藏', '标签倾向', '多次推荐']
    */
-  likeRec: [1, 1, 1, 1, 1, 1, 1, 1, 1, 0] as LikeRec,
+  likeRec: [1, 1, 1, 1, 1, 1, 1, 0, 1, 0] as LikeRec,
 
   /** 猜你喜欢显示已收藏条目 */
   likeCollected: true,

@@ -2,13 +2,20 @@
  * @Author: czy0729
  * @Date: 2023-06-10 05:42:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-30 16:08:25
+ * @Last Modified time: 2026-04-14 12:57:13
  */
 import { _ } from '@stores'
 import { MODEL_COLLECTION_STATUS } from '@constants'
-import { CollectionStatusValue, Loaded, SubjectId, SubjectType, SubjectTypeValue } from '@types'
 import { COMPONENT } from '../ds'
-import { ListItem, Relates } from '../types'
+
+import type {
+  CollectionStatusValue,
+  Loaded,
+  SubjectId,
+  SubjectType,
+  SubjectTypeValue
+} from '@types'
+import type { ListItem, Relates } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
@@ -104,15 +111,15 @@ export const STATE = {
 export const COLLECTION_STATUS = [
   {
     value: MODEL_COLLECTION_STATUS.getTitle<CollectionStatusValue>('想看'),
-    page: 1
+    page: 2
   },
   {
     value: MODEL_COLLECTION_STATUS.getTitle<CollectionStatusValue>('在看'),
-    page: 1
+    page: 3
   },
   {
     value: MODEL_COLLECTION_STATUS.getTitle<CollectionStatusValue>('看过'),
-    page: 3
+    page: 6
   },
   {
     value: MODEL_COLLECTION_STATUS.getTitle<CollectionStatusValue>('搁置'),

@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-04-20 13:52:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-01 05:39:28
+ * @Last Modified time: 2026-04-14 14:37:03
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover, InView, Manage, Rank, Rate, Stars } from '@_'
 import { _, collectionStore, systemStore, uiStore, useStore } from '@stores'
-import { alert, getAction } from '@utils'
-import { ob } from '@utils/decorators'
+import { alert, getAction, x18 } from '@utils'
 import { t } from '@utils/fetch'
 import { HOST_BGM_STATIC, MODEL_COLLECTION_STATUS, MODEL_SUBJECT_TYPE } from '@constants'
 import { getReasonsInfo } from '../../utils'
@@ -24,7 +24,8 @@ import type { Ctx } from '../../types'
 import type { Props } from './types'
 
 function Item({ item, index }: Props) {
-  const { $, navigation } = useStore<Ctx>()
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
+
   const subject = $.subjects(item.id)
   if (!subject || $.state.type !== MODEL_SUBJECT_TYPE.getLabel<SubjectType>(subject.type)) {
     return null
@@ -34,8 +35,9 @@ function Item({ item, index }: Props) {
   if (collection && !systemStore.setting.likeCollected) return null
 
   const styles = memoStyles()
-  const isFromTyperank = item.image.includes('//')
-  const image = isFromTyperank ? item.image : `${HOST_BGM_STATIC}/pic/cover/m/${item.image}.jpg`
+
+  const isRemote = item.image.includes('//')
+  const image = isRemote ? item.image : `${HOST_BGM_STATIC}/pic/cover/m/${item.image}.jpg`
   const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subject.type)
   const action = getAction(typeCn)
 
@@ -44,7 +46,7 @@ function Item({ item, index }: Props) {
   if (isMusic) width = Math.floor(width * 1.1)
   const height = isMusic ? width : styles.cover.height
 
-  let size = 14
+  let size = 13
   if (item.name.length >= 30) {
     size = 10
   } else if (item.name.length >= 20) {
@@ -53,13 +55,14 @@ function Item({ item, index }: Props) {
 
   return (
     <Flex style={styles.item} align='start'>
-      <InView y={height * (index + 1)}>
+      <InView y={height * index + 1}>
         <Cover
           src={image}
           width={width}
           height={height}
           radius
           type={typeCn}
+          cdn={!x18(item.id)}
           onPress={() => {
             navigation.push('Subject', {
               subjectId: item.id,
@@ -134,11 +137,11 @@ function Item({ item, index }: Props) {
       <Rate
         value={item.rate}
         onPress={() => {
-          alert(getReasonsInfo(item.reasons, isFromTyperank).join('\n'), item.name)
+          alert(getReasonsInfo(item.reasons, false).join('\n'), item.name)
         }}
       />
     </Flex>
   )
 }
 
-export default ob(Item, COMPONENT)
+export default observer(Item)

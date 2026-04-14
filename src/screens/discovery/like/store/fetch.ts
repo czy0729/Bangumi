@@ -2,20 +2,22 @@
  * @Author: czy0729
  * @Date: 2024-11-11 10:06:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-13 09:27:25
+ * @Last Modified time: 2026-04-14 14:41:26
  */
 import { userStore } from '@stores'
-import { asc, confirm, desc, getTimestamp, HTMLDecode, info, queue, sleep } from '@utils'
+import { asc, confirm, desc, feedback, getTimestamp, HTMLDecode, info, queue, sleep } from '@utils'
+import { xhrCustom } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
 import { API_COLLECTIONS } from '@utils/fetch.v0/ds'
 import { get, gets, update } from '@utils/kv'
-import { MODEL_SUBJECT_TYPE } from '@constants'
-import { ResponseV0UserCollections, SubjectId } from '@types'
+import { CDN_REC, MODEL_SUBJECT_TYPE } from '@constants'
 import { MAX_COLLECT_PAGE, TIME_PATTERN } from '../ds'
-import { CollectionsItem, LikeItem, ListItem, Relates } from '../types'
 import { calc, dayDiff, getTyperankRelates, matchYear, mergeArrays } from '../utils'
 import Computed from './computed'
 import { COLLECTION_STATUS, EXCLUDE_STATE } from './ds'
+
+import type { ResponseV0UserCollections, SubjectId } from '@types'
+import type { CollectionsItem, LikeItem, ListItem, Relates } from '../types'
 
 export default class Fetch extends Computed {
   /** 本地化 */
@@ -36,6 +38,7 @@ export default class Fetch extends Computed {
           '没有获取到任何该类型的收藏数据，可能是您的授权信息过期了，也有可能是服务崩了，尝试重新自动授权后再次获取？',
           async () => {
             await userStore.reOauth()
+
             setTimeout(() => {
               this.getList(true)
             }, 0)
@@ -137,7 +140,7 @@ export default class Fetch extends Computed {
     const nulls: Record<SubjectId, true> = {}
 
     // 先从快照批量获取
-    await this.fetchSnapshotLikes(collections.map(item => item.id))
+    await this.fetchSnapshotLikesV2(collections.map(item => item.id))
     const { snapshotLikes } = this.state
     Object.entries(snapshotLikes).forEach(([key, item]) => {
       const subjectId = key.replace('like_', '')
@@ -212,11 +215,15 @@ export default class Fetch extends Computed {
       } catch {}
 
       if (like?.length) {
-        like.forEach(subject => {
+        like.forEach((subject, index) => {
           if (subjects[subject.id]) {
             subjects[subject.id].relates.push(item.id)
 
-            const { reasons, rate } = calc(item, subjects[subject.id].relates.length)
+            const { reasons, rate } = calc(
+              item,
+              subjects[subject.id].relates.length,
+              like.length - index
+            )
             subjects[subject.id].rate += rate
             subjects[subject.id].reasons = mergeArrays(subjects[subject.id].reasons, reasons)
           } else {
@@ -224,7 +231,7 @@ export default class Fetch extends Computed {
               ...item
             }
 
-            const { reasons, rate } = calc(item)
+            const { reasons, rate } = calc(item, undefined, like.length - index)
             subjects[subject.id] = {
               id: subject.id,
               name: subject.name,
@@ -257,6 +264,40 @@ export default class Fetch extends Computed {
       snapshotLikes
     })
     this.save()
+  }
+
+  /** 条目猜你喜欢快照 */
+  fetchSnapshotLikesV2 = async (subjectIds: SubjectId[]) => {
+    const fetchIds = subjectIds.filter(subjectId => !(subjectId in this.state.snapshotLikes))
+    if (!fetchIds.length) return
+
+    const snapshotLikes = {}
+
+    try {
+      await Promise.all(
+        fetchIds.map(async subjectId => {
+          try {
+            const { _response } = await xhrCustom({
+              url: CDN_REC(subjectId)
+            })
+
+            const data = JSON.parse(_response)
+
+            // 直接存储数组数据，保持与 CDN 返回结构一致
+            if (Array.isArray(data) && data.length) {
+              snapshotLikes[subjectId] = {
+                list: data
+              }
+            }
+          } catch {}
+        })
+      )
+
+      this.setState({
+        snapshotLikes
+      })
+      this.save()
+    } catch {}
   }
 
   /** 条目基本信息快照 */
@@ -299,6 +340,8 @@ export default class Fetch extends Computed {
         }
       })
       this.save()
+
+      if (refresh) feedback()
     } catch (error) {
       info('请求发生错误，请重试')
     }
