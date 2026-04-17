@@ -55,7 +55,7 @@ export const BlurViewTab = observer(({ length = 0 }) => {
           [
             styles.ios,
             {
-              top: _.device(-statusBarHeight || 0, 0),
+              top: (-statusBarHeight || 0) + _.device(0, 24),
               left: -_.window.width * length,
               height: headerHeight + H_TABBAR + (statusBarHeight || 0)
             }
@@ -68,7 +68,7 @@ export const BlurViewTab = observer(({ length = 0 }) => {
           ]
         ),
         length <= 1 && {
-          height: headerHeight + _.sm + _.ios(-statusBarHeight || 0, 0)
+          height: headerHeight + _.sm + _.device(_.ios(-statusBarHeight || 0, 0), 0)
         }
       )}
     />

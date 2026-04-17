@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-14 13:07:45
+ * @Last Modified time: 2026-04-16 21:42:39
  */
 import {
   IOS,
@@ -300,7 +300,7 @@ export const INIT_SETTING = {
   discoveryTodayOnair: true,
 
   /** 发现菜单一列个数 */
-  discoveryMenuNum: 5,
+  discoveryMenuNum: 5 as 4 | 5,
 
   /** @deprecated 发现页看板娘 live-2d */
   live2D: false,

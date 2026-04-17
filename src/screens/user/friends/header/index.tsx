@@ -5,12 +5,12 @@
  * @Last Modified time: 2026-01-21 11:30:10
  */
 import React, { useCallback } from 'react'
+import { observer } from 'mobx-react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { confirm, info, open } from '@utils'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import { TEXT_MENU_BROWSER } from '@constants'
 import { COMPONENT, DATA } from './ds'
 
@@ -56,14 +56,14 @@ function Header() {
     [$]
   )
 
-  return useObserver(() => (
+  return (
     <HeaderV2
       title={$.params.userId ? 'TA的好友' : '我的好友'}
       alias='好友'
       hm={$.hm}
       headerRight={handleHeaderRight}
     />
-  ))
+  )
 }
 
-export default Header
+export default observer(Header)

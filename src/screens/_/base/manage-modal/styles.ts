@@ -28,8 +28,8 @@ export const memoStyles = _.memoStyles(() => ({
   },
   tags: {
     width: '100%',
-    minHeight: 96,
-    maxHeight: _.select(136, 132),
+    minHeight: _.r(96),
+    maxHeight: _.r(_.select(136, 132)),
     paddingVertical: 12,
     marginTop: 6
   }

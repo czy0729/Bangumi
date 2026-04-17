@@ -29,6 +29,7 @@ function TabWrap({ keys }: Props) {
   }, [keys.join()])
 
   const { length } = keys
+
   return (
     <BlurView>
       {length >= 2 ? (

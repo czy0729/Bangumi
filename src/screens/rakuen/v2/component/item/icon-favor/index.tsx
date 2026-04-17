@@ -8,7 +8,7 @@ import React from 'react'
 import { observer } from 'mobx-react'
 import { Iconfont } from '@components'
 import { _, useStore } from '@stores'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
 import type { Ctx } from '../../../types'
 import type { Props } from './types'
@@ -17,6 +17,8 @@ function IconFavor({ topicId }: Props) {
   const { $ } = useStore<Ctx>()
 
   if (!$.isFavor(topicId)) return null
+
+  const styles = memoStyles()
 
   return <Iconfont style={styles.icon} size={14} name='md-star' color={_.colorYellow} />
 }

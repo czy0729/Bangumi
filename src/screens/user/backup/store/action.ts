@@ -10,10 +10,11 @@ import { t } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
 import { download, temp } from '@utils/kv'
 import { MODEL_SUBJECT_TYPE } from '@constants'
-import { SubjectId, SubjectTypeValue } from '@types'
 import { HOST_API } from '../ds'
-import { Item } from '../types'
 import Fetch from './fetch'
+
+import type { SubjectId, SubjectTypeValue } from '@types'
+import type { Item } from '../types'
 
 export default class Action extends Fetch {
   /** 切换 CSV 导出设置 */
@@ -43,7 +44,7 @@ export default class Action extends Fetch {
     t('本地备份.导出', {
       data: `${this.userId}|${this.csv.length}`
     })
-    open(download(data.downloadKey))
+    open(download(data.downloadKey) as string)
   }
 
   /** 置底 (导入模式) */

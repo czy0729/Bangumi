@@ -20,6 +20,6 @@ export const memoStyles = _.memoStyles(() => ({
   },
   item: {
     width: ITEM_WIDTH,
-    height: 110
+    height: _.device(110, 128)
   }
 }))

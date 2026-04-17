@@ -5,9 +5,9 @@
  * @Last Modified time: 2025-12-27 06:25:21
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import Extra from './component/extra'
 import List from './component/list'
 import Header from './header'
@@ -16,10 +16,10 @@ import { useCatalogsPage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** 条目目录 */
-const Catalogs = (props: NavigationProps) => {
+function Catalogs(props: NavigationProps) {
   const { id, $ } = useCatalogsPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-subject-catalogs'>
       <StoreContext.Provider value={id}>
         <Page loaded={$.list._loaded}>
@@ -30,7 +30,7 @@ const Catalogs = (props: NavigationProps) => {
         <Extra />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default Catalogs
+export default observer(Catalogs)

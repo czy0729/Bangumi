@@ -87,6 +87,7 @@ export const MesumeChat = observer(
               <Flex>
                 {MUSUME_DATA.filter(item => item !== musumePrompt).map(item => {
                   const config = MUSUME_CONFIG[item]
+
                   return (
                     <Touchable
                       key={item}

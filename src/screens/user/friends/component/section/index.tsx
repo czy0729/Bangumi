@@ -5,10 +5,10 @@
  * @Last Modified time: 2026-01-21 11:14:01
  */
 import React, { useCallback } from 'react'
+import { observer } from 'mobx-react'
 import { Iconfont, Text, Touchable } from '@components'
 import { SectionHeader } from '@_'
 import { useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
@@ -21,45 +21,43 @@ function Section({ title }: { title: string }) {
     $.toggleFriendGroup(title)
   }, [$, title])
 
-  return useObserver(() => {
-    const styles = memoStyles()
-    const { filter, friendGroup, friendGroupShows } = $.state
+  const styles = memoStyles()
 
-    let text: string | number
-    if (title === '未知') {
-      text = '点击右上按钮获取活跃度以进行分组'
-    } else {
-      text = friendGroup?.[title]?.length || 0
-    }
+  const { filter, friendGroup, friendGroupShows } = $.state
+  let text: string | number
+  if (title === '未知') {
+    text = '点击右上按钮获取活跃度以进行分组'
+  } else {
+    text = friendGroup?.[title]?.length || 0
+  }
 
-    const show = friendGroupShows[title]
+  const show = friendGroupShows[title]
 
-    return (
-      <Touchable onPress={handlePress}>
-        <SectionHeader
-          style={styles.sectionHeader}
-          type='title'
-          size={15}
-          right={
-            !filter && (
-              <Iconfont
-                style={styles.arrow}
-                name={show ? 'md-keyboard-arrow-down' : 'md-keyboard-arrow-up'}
-              />
-            )
-          }
-        >
-          {title}{' '}
-          {!!text && (
-            <Text type='sub' size={13} bold lineHeight={15}>
-              {' '}
-              {text}
-            </Text>
-          )}
-        </SectionHeader>
-      </Touchable>
-    )
-  })
+  return (
+    <Touchable onPress={handlePress}>
+      <SectionHeader
+        style={styles.sectionHeader}
+        type='title'
+        size={15}
+        right={
+          !filter && (
+            <Iconfont
+              style={styles.arrow}
+              name={show ? 'md-keyboard-arrow-down' : 'md-keyboard-arrow-up'}
+            />
+          )
+        }
+      >
+        {title}{' '}
+        {!!text && (
+          <Text type='sub' size={13} bold lineHeight={15}>
+            {' '}
+            {text}
+          </Text>
+        )}
+      </SectionHeader>
+    </Touchable>
+  )
 }
 
-export default Section
+export default observer(Section)

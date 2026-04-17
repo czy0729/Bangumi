@@ -30,7 +30,7 @@ export const memoStyles = _.memoStyles(() => ({
   body: {
     position: 'absolute',
     zIndex: 1,
-    bottom: 8,
+    bottom: _.device(8, 14),
     left: _.device(48, 56),
     right: WEB ? 0 : 56,
     minHeight

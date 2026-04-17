@@ -5,15 +5,17 @@
  * @Last Modified time: 2024-11-18 06:33:08
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { PaginationList2 as PaginationList } from '@_'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
 
+import type { Ctx } from '../../types'
+
 function List() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
+
   return (
     <PaginationList
       contentContainerStyle={_.container.bottom}
@@ -26,4 +28,4 @@ function List() {
   )
 }
 
-export default ob(List, COMPONENT)
+export default observer(List)

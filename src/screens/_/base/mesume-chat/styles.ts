@@ -13,8 +13,8 @@ export const memoStyles = _.memoStyles(() => ({
     right: 0,
     bottom: 20,
     left: 0,
-    paddingRight: _._wind,
-    paddingLeft: _.sm
+    paddingRight: _.wind,
+    paddingLeft: _.wind - _._wind + _.sm
   },
   btnContent: {
     width: 40,

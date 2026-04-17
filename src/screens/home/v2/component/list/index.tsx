@@ -22,10 +22,11 @@ import type { Props } from './types'
 function ListWrap({ title = '全部' }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  const { headerHeight, statusBarHeight } = useInsets()
+  const { headerHeight } = useInsets()
 
-  const basePadding = headerHeight + ($.tabs.length <= 1 ? _.sm : H_TABBAR)
-  const iosPadAdjustment = IOS && PAD ? statusBarHeight : 0
+  const isSingleTab = $.tabs.length <= 1
+  const basePadding = headerHeight + (isSingleTab ? _.sm : H_TABBAR)
+  const iosPadAdjustment = IOS && PAD ? (isSingleTab ? 2 : 14) : 0
   const paddingTop = basePadding + iosPadAdjustment
 
   const style = useMemo(

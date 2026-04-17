@@ -6,7 +6,8 @@
  */
 import { useEffect, useState } from 'react'
 import { MODEL_COLLECTION_STATUS } from '@constants'
-import { CollectionStatusCn, CollectionStatusValue, SubjectTypeCn } from '@types'
+
+import type { CollectionStatusCn, CollectionStatusValue, SubjectTypeCn } from '@types'
 
 export function actionStatus(type: CollectionStatusValue | '', typeCn: SubjectTypeCn) {
   let status = MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(type) || ''

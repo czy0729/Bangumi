@@ -102,7 +102,7 @@ export const ActionSheet = observer(
     })
 
     const calcHeight = Math.min(
-      height || Math.floor(_.window.height * 0.5),
+      Math.floor(height * _.device(1, 1.4)) || Math.floor(_.window.height * 0.5),
       Math.floor(_.window.height * _.web(0.92, 0.88))
     )
 

@@ -7,20 +7,23 @@
 import React from 'react'
 import { View } from 'react-native'
 import { WebView } from 'react-native-webview'
+import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
 import Btn from '../btn'
 import { injectedHTML } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+import type { Ctx } from '../../types'
+
 function Upload() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
+
   if (!$.state.modal) return null
 
   const styles = memoStyles()
+
   return (
     <>
       <View style={styles.mask} />
@@ -59,4 +62,4 @@ function Upload() {
   )
 }
 
-export default ob(Upload, COMPONENT)
+export default observer(Upload)

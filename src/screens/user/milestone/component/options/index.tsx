@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-12 15:31:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-24 21:04:03
+ * @Last Modified time: 2026-04-16 21:51:42
  */
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
@@ -384,7 +384,7 @@ function Options() {
         />
       </View>
 
-      <Notice style={_.mt.md}>此页面可一览用户收藏，可配合手机自带的长截屏使用。</Notice>
+      <Notice style={styles.notice}>此页面可一览用户收藏，可配合手机自带的长截屏使用。</Notice>
 
       <Input />
       {elUserInfo}

@@ -6,10 +6,10 @@
  */
 import { _ } from '@stores'
 
-export const styles = _.create({
+export const memoStyles = _.memoStyles(() => ({
   icon: {
     position: 'absolute',
-    right: 13,
+    right: _.wind - _._wind + 13,
     bottom: 14
   }
-})
+}))

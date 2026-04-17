@@ -5,15 +5,17 @@
  * @Last Modified time: 2024-11-18 06:32:55
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
 import Item from './item'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-export default ob(({ item }) => {
-  const { $, navigation } = useStore<Ctx>()
+import type { Ctx } from '../../types'
+
+export default observer(({ item }) => {
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
+
   return (
     <Item
       navigation={navigation}
@@ -24,4 +26,4 @@ export default ob(({ item }) => {
       onSubmit={$.onSubmit}
     />
   )
-}, COMPONENT)
+})

@@ -11,7 +11,7 @@ export const memoStyles = _.memoStyles(() => ({
     height: _.r(42),
     paddingLeft: _.r(_._wind),
     paddingRight: _.sm,
-    marginTop: _.ios(5, 4),
+    marginTop: _.r(_.ios(5, 4)),
     backgroundColor: 'transparent'
   },
   btn: {

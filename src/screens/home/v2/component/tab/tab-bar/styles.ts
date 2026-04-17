@@ -16,7 +16,7 @@ export const memoStyles = _.memoStyles(() => ({
     elevation: 0
   },
   tab: {
-    height: 48
+    height: _.r(48)
   },
   label: {
     padding: 0

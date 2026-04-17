@@ -4,6 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-07-10 16:17:50
  */
+import { _ } from '@stores'
+
 export const COMPONENT = 'Home'
 
 export const TABS_ITEM = {
@@ -30,4 +32,4 @@ export const TABS_ITEM = {
 } as const
 
 /** Tabs 组件高度 */
-export const H_TABBAR = 48
+export const H_TABBAR = _.r(48)

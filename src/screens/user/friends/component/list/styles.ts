@@ -10,6 +10,7 @@ export const memoStyles = _.memoStyles(() => ({
   contentContainerStyle: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    paddingHorizontal: _.wind - _._wind,
     paddingBottom: _.bottom
   }
 }))

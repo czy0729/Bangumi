@@ -12,7 +12,7 @@ export const memoStyles = _.memoStyles(() => ({
     minHeight: 40
   },
   wrap: {
-    paddingRight: _.wind - _._wind,
+    paddingRight: _._wind,
     marginTop: 2
   }
 }))

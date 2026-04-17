@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-12 15:42:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-24 21:05:17
+ * @Last Modified time: 2026-04-16 21:51:36
  */
 import { _ } from '@stores'
 
@@ -30,5 +30,9 @@ export const styles = _.create({
     zIndex: 1,
     top: -10,
     right: _._wind - 6
+  },
+  notice: {
+    marginTop: _.md,
+    marginHorizontal: _._wind
   }
 })

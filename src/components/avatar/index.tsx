@@ -51,7 +51,7 @@ export const Avatar = observer(
 
     const styles = memoStyles()
 
-    const avatarSize = _.r(size)
+    const avatarSize = size < 48 ? _.r(size) : size
     const avatarSrc = fixedAll(getAvatar(url) || IMG_DEFAULT, avatarSize)
     const avatarRadius = getRadius(radius, round, avatarSize)
     const avatarOnPress = getOnPress(onPress, {

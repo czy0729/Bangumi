@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:34:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 17:46:47
+ * @Last Modified time: 2026-04-16 21:45:50
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -140,7 +140,7 @@ export const MosaicTile = observer(({ mosaicTile }: MosaicTileProps) => {
         <Heatmap id='时间线.点击瓷砖' />
       </Flex>
 
-      <Text style={_.mr.sm} type={_.select('sub', 'icon')} size={12} bold align='right'>
+      <Text style={styles.footer} type={_.select('sub', 'icon')} size={12} bold align='right'>
         过去一年共 {total} 次活动
       </Text>
     </View>

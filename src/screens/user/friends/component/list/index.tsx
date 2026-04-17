@@ -5,9 +5,9 @@
  * @Last Modified time: 2026-01-21 11:26:55
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { PaginationList2 } from '@_'
 import { useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -17,22 +17,20 @@ import type { Ctx } from '../../types'
 function List() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    return (
-      <PaginationList2
-        keyExtractor={keyExtractor}
-        contentContainerStyle={styles.contentContainerStyle}
-        data={$.list}
-        limit={100}
-        renderItem={renderItem}
-        keyboardDismissMode='on-drag'
-        onHeaderRefresh={$.refresh}
-        onScroll={$.onScroll}
-      />
-    )
-  })
+  return (
+    <PaginationList2
+      keyExtractor={keyExtractor}
+      contentContainerStyle={styles.contentContainerStyle}
+      data={$.list}
+      limit={100}
+      renderItem={renderItem}
+      keyboardDismissMode='on-drag'
+      onHeaderRefresh={$.refresh}
+      onScroll={$.onScroll}
+    />
+  )
 }
 
-export default List
+export default observer(List)

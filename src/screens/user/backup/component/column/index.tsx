@@ -5,8 +5,9 @@
  * @Last Modified time: 2024-05-06 16:21:30
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { COMPONENT } from './ds'
 
 function Column({
@@ -17,6 +18,8 @@ function Column({
   right = undefined,
   onPress = undefined
 }) {
+  r(COMPONENT)
+
   if (!show) return null
 
   return (
@@ -29,4 +32,4 @@ function Column({
   )
 }
 
-export default ob(Column, COMPONENT)
+export default observer(Column)

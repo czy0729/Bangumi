@@ -6,12 +6,15 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Iconfont, Touchable } from '@components'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { COLOR_SUCCESS, COMPONENT, HIT_SLOP } from './ds'
 import { styles } from './styles'
 
 function ColumnSelect({ select, disabled, onPress }) {
+  r(COMPONENT)
+
   if (disabled) {
     return (
       <View style={styles.columnSelect}>
@@ -35,4 +38,4 @@ function ColumnSelect({ select, disabled, onPress }) {
   )
 }
 
-export default ob(ColumnSelect, COMPONENT)
+export default observer(ColumnSelect)

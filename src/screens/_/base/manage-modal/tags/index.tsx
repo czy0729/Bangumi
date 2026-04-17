@@ -14,6 +14,7 @@ import { stl } from '@utils'
 import { memoStyles } from './styles'
 
 import type { Props } from './types'
+
 function Tags({
   subjectId,
   tags,

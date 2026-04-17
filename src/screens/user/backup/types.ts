@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-05-06 20:45:23
  */
-import { CollectionStatusValue, SubjectId, SubjectTypeValue, WithNavigation } from '@types'
-import Store from './store'
+import type { CollectionStatusValue, SubjectId, SubjectTypeValue, WithNavigation } from '@types'
+import type Store from './store'
 
 export type Ctx = WithNavigation<{
   $: InstanceType<typeof Store>

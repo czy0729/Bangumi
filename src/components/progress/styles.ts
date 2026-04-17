@@ -10,7 +10,7 @@ export const memoStyles = _.memoStyles(() => ({
   progress: {
     position: 'absolute',
     zIndex: 1000,
-    right: _.wind,
+    right: _._wind,
     bottom: _.lg,
     paddingTop: _.sm,
     paddingHorizontal: _.sm + 4,

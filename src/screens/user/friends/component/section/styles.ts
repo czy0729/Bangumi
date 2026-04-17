@@ -9,7 +9,8 @@ import { _ } from '@stores'
 export const memoStyles = _.memoStyles(() => ({
   sectionHeader: {
     width: _.window.width,
-    marginBottom: _.md
+    marginBottom: _.md,
+    marginLeft: _.device(0, -(_.wind - _._wind))
   },
   arrow: {
     marginRight: -3

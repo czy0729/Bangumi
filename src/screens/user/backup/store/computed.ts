@@ -9,10 +9,11 @@ import { Parser } from 'json2csv'
 import { userStore } from '@stores'
 import { asc } from '@utils'
 import { MODEL_COLLECTION_STATUS, MODEL_SUBJECT_TYPE } from '@constants'
-import { CollectionStatusCn, SubjectId, SubjectTypeCn } from '@types'
 import { CSV_HEADS } from '../ds'
-import { Item } from '../types'
 import State from './state'
+
+import type { CollectionStatusCn, SubjectId, SubjectTypeCn } from '@types'
+import type { Item } from '../types'
 
 export default class Computed extends State {
   /** 当前用户 ID */

@@ -46,7 +46,7 @@ const Btns = ({ setMenu, onCancel, onSave }: Props) => {
           </Touchable>
         </Flex.Item>
         <IconTouchable
-          style={_.ml.md}
+          style={_.device(_.ml.md, _.ml.lg)}
           name='md-refresh'
           color={_.colorDesc}
           onPress={() => {

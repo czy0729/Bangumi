@@ -6,22 +6,24 @@
  */
 import { toJS } from 'mobx'
 import { getTimestamp } from '@utils'
+import { logger } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
 import { API_COLLECTIONS } from '@utils/fetch.v0/ds'
-import { Collection } from '@utils/fetch.v0/types'
 import { COLLECTION_STATUS, MODEL_SUBJECT_TYPE, SUBJECT_TYPE } from '@constants'
-import {
+import { LIMIT } from '../ds'
+import { actionStatus } from '../utils'
+import Computed from './computed'
+import { EXCLUDE_STATE } from './ds'
+
+import type { Collection } from '@utils/fetch.v0/types'
+import type {
   CollectionStatusValue,
   SubjectId,
   SubjectType,
   SubjectTypeCn,
   SubjectTypeValue
 } from '@types'
-import { LIMIT } from '../ds'
-import { actionStatus } from '../utils'
-import Computed from './computed'
-import { EXCLUDE_STATE } from './ds'
 
 export default class Fetch extends Computed {
   /** 循环获取所有类型和状态的条目收藏信息 */
@@ -134,6 +136,6 @@ export default class Fetch extends Computed {
 
   /** 更新一项收藏信息 */
   fetchCollection = async (subjectId: SubjectId) => {
-    console.info(subjectId)
+    logger.info('fetchCollection', subjectId)
   }
 }

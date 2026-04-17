@@ -20,7 +20,6 @@ import {
   MODEL_COLLECTION_STATUS,
   MODEL_SUBJECT_TYPE
 } from '@constants'
-import { CollectionStatus, SubjectTypeCn } from '@types'
 import {
   actionStatus,
   getSelectComment,
@@ -39,6 +38,8 @@ import Column from '../column'
 import ColumnBgm from '../column-bgm'
 import ColumnSelect from '../column-select'
 import { DEFAULT_PROPS } from './ds'
+
+import type { CollectionStatus, SubjectTypeCn } from '@types'
 
 export default memo(
   ({ navigation, styles, item = {}, upload = {}, onBottom = FROZEN_FN, onSubmit = FROZEN_FN }) => {

@@ -16,6 +16,6 @@ export const memoStyles = _.memoStyles(() => ({
   },
   btn: {
     paddingTop: _.md,
-    paddingBottom: _.ios(_.lg, _.md)
+    paddingBottom: _.device(_.ios(_.lg, _.md), _.md)
   }
 }))

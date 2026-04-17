@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-10-10 12:41:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-24 20:47:34
+ * @Last Modified time: 2026-04-16 21:54:48
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Avatar, Flex, Text, Touchable } from '@components'
+import { IconBack } from '@_'
 import { _, useStore } from '@stores'
 import { open, stl } from '@utils'
 import Filter from '../filter'
@@ -25,6 +26,7 @@ function User() {
 
   return (
     <Flex style={stl(styles.user, !userInfo && styles.userSm)}>
+      {_.isPad && <IconBack style={styles.back} navigation={navigation} color={_.colorDesc} />}
       {userInfo && (
         <Flex.Item>
           {!!$.users.avatar && (

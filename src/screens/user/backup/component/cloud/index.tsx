@@ -6,18 +6,21 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
 import { COLOR_SUCCESS, COMPONENT } from './ds'
 import { styles } from './styles'
 
+import type { Ctx } from '../../types'
+
 const Cloud = () => {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
+
   const { includeUrl, includeImage, upload } = $.state
   const { length } = Object.keys(upload)
+
   return (
     <View style={styles.cloud}>
       <ItemSettingBlock style={styles.container} size={20}>
@@ -66,4 +69,4 @@ const Cloud = () => {
   )
 }
 
-export default ob(Cloud, COMPONENT)
+export default observer(Cloud)

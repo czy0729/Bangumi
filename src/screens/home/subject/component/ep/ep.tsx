@@ -85,7 +85,7 @@ const Ep = memo(
                       onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
                     />
                     {!!totalEps && totalEps != 0 && (
-                      <Text style={styles.total} type='sub' size={11} bold>
+                      <Text style={styles.total} type='sub' size={_.device(11, 12)} bold>
                         / {totalEps}
                       </Text>
                     )}

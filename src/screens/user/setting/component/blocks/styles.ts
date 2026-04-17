@@ -8,6 +8,6 @@ import { _ } from '@stores'
 
 export const styles = _.create({
   container: {
-    marginHorizontal: -_._wind
+    marginHorizontal: _.device(0, -_.wind)
   }
 })

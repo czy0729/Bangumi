@@ -97,6 +97,7 @@ export default class ScreenSubject extends Action {
     queue(
       [
         () => this.withFocus(() => this.fetchAnitabi(), 'fetchAnitabi'),
+        () => this.withFocus(() => this.fetchRec(), 'fetchRec'),
         () =>
           this.withFocus(
             // 网页端走的反代, 很容易请求挂起, 需要第一时间回去云端缓存数据
@@ -107,7 +108,6 @@ export default class ScreenSubject extends Action {
         () => this.withFocus(() => this.fetchTrackComments(), 'fetchTrackComments'),
         () => this.withFocus(() => this.fetchSubjectComments(true), 'fetchSubjectComments'),
         () => this.withFocus(() => this.fetchVIB(), 'fetchVIB'),
-        () => this.withFocus(() => this.fetchRec(), 'fetchRec'),
         () => this.withFocus(() => this.fetchEpsData(), 'fetchEpsData'),
         () => this.withFocus(() => this.fetchPicTotal(), 'fetchPicTotal'),
         () =>
