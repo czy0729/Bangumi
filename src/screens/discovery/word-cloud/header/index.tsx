@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-26 16:17:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-29 17:56:24
+ * @Last Modified time: 2026-04-17 12:20:29
  */
 import React, { useCallback } from 'react'
 import { observer } from 'mobx-react'
@@ -43,13 +43,17 @@ function Header() {
           size={20}
           color='rgba(255, 255, 255, 0.64)'
           onPress={() => {
-            navigation.push('WebBrowser', {
-              url: 'https://www.yuque.com/chenzhenyu-k0epm/znygb4/ubpc03di49shf121?singleDoc',
-              title: '词云说明'
+            navigation.push('Information', {
+              title: '词云',
+              message: [
+                '数据是从官方用户收藏 API 批量获取的。',
+                '因参与计算的数据会因收藏条目的递增呈爆炸式增长，所以目前每次批量获取只取了想看前 2 页、在看前 3 页、看过前 5 页，每页 100 个。',
+                '瞬间过多的计算可能会导致客户端崩溃闪退，若出现请适当使用筛选减少计算的范围，以得到你需要的结果。'
+              ]
             })
 
             t('词云.跳转', {
-              to: 'WebBrowser'
+              to: 'Information'
             })
           }}
         />

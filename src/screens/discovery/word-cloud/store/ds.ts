@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-26 16:05:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-29 17:57:01
+ * @Last Modified time: 2026-04-17 12:08:47
  */
 import { _ } from '@stores'
 import { MODEL_COLLECTION_STATUS } from '@constants'
@@ -81,15 +81,15 @@ export const STATE = {
 export const COLLECTION_STATUS = [
   {
     value: MODEL_COLLECTION_STATUS.getTitle<CollectionStatusValue>('想看'),
-    page: 1
+    page: 2
   },
   {
     value: MODEL_COLLECTION_STATUS.getTitle<CollectionStatusValue>('在看'),
-    page: 1
+    page: 3
   },
   {
     value: MODEL_COLLECTION_STATUS.getTitle<CollectionStatusValue>('看过'),
-    page: 3
+    page: 5
   }
 ] as const
 

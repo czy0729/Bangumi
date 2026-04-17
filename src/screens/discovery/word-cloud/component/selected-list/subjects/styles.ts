@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-27 03:57:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 17:43:21
+ * @Last Modified time: 2026-04-17 12:10:12
  */
 import { _ } from '@stores'
 
@@ -12,7 +12,7 @@ export const styles = _.create({
   },
   container: {
     paddingHorizontal: _._wind,
-    paddingBottom: _.lg,
+    paddingBottom: _.bottom + _.lg,
     marginTop: _.web(8, 0)
   }
 })

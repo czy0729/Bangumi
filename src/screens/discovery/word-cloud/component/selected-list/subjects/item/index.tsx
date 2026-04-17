@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-11-03 04:54:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-29 17:55:05
+ * @Last Modified time: 2026-04-17 11:51:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -89,10 +89,10 @@ function Item({ item, index }: Props) {
               </InView>
             </View>
           </Flex>
-          <Text style={styles.title} size={12} bold numberOfLines={2} align='center'>
+          <Text style={styles.title} size={11} bold numberOfLines={3} align='center'>
             {item.name}
           </Text>
-          <Text style={styles.sub} type='sub' size={12} bold align='center'>
+          <Text style={styles.sub} type='sub' size={11} bold align='center'>
             {extraTitleText}
           </Text>
           {!!item.score && <Stars style={styles.stars} value={item.score} simple />}
