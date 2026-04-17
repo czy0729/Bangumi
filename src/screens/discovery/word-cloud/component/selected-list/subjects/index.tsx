@@ -6,10 +6,10 @@
  */
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { PaginationList2 } from '@_'
 import { useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { useObserver } from '@utils/hooks'
 import { NUM_COLUMNS } from '../ds'
 import { renderItem } from './utils'
 import { styles } from './styles'
@@ -21,25 +21,23 @@ function Subjects() {
 
   const elPlaceholder = useMemo(() => <View />, [])
 
-  return useObserver(() => {
-    if (!$.selectedSubjects.length) return null
+  if (!$.selectedSubjects.length) return null
 
-    return (
-      <PaginationList2
-        keyExtractor={keyExtractor}
-        style={styles.scrollView}
-        contentContainerStyle={styles.container}
-        data={$.selectedSubjects}
-        limit={20}
-        numColumns={NUM_COLUMNS}
-        renderItem={renderItem}
-        removeClippedSubviews={false}
-        footerEmptyDataComponent={elPlaceholder}
-        footerNoMoreDataComponent={elPlaceholder}
-        onScroll={$.onScroll}
-      />
-    )
-  })
+  return (
+    <PaginationList2
+      keyExtractor={keyExtractor}
+      style={styles.scrollView}
+      contentContainerStyle={styles.container}
+      data={$.selectedSubjects}
+      limit={20}
+      numColumns={NUM_COLUMNS}
+      renderItem={renderItem}
+      removeClippedSubviews={false}
+      footerEmptyDataComponent={elPlaceholder}
+      footerNoMoreDataComponent={elPlaceholder}
+      onScroll={$.onScroll}
+    />
+  )
 }
 
-export default Subjects
+export default observer(Subjects)

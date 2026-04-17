@@ -6,10 +6,10 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { BLURVIEW_TINT_DARK, Cover, Flex, Text } from '@components'
 import { BlurView } from '@_'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { IOS } from '@constants'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -19,65 +19,63 @@ import type { Ctx } from '../../../types'
 function Topic() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    if (!$.topic?.title) return null
+  if (!$.topic?.title) return null
 
-    const styles = memoStyles()
-    const top = $.topic.title
-    const bottom = [$.topic.time || $.topic.group, `${$.total} 回复`]
-      .filter(item => !!item)
-      .join(' · ')
+  const styles = memoStyles()
+  const top = $.topic.title
+  const bottom = [$.topic.time || $.topic.group, `${$.total} 回复`]
+    .filter(item => !!item)
+    .join(' · ')
 
-    const Component = IOS ? BlurView : View
-    const passProps: any = {
-      style: styles.container
-    }
-    if (IOS) {
-      passProps.tint = BLURVIEW_TINT_DARK
-      passProps.intensity = 64
-    }
+  const Component = IOS ? BlurView : View
+  const passProps: any = {
+    style: styles.container
+  }
+  if (IOS) {
+    passProps.tint = BLURVIEW_TINT_DARK
+    passProps.intensity = 64
+  }
 
-    return (
-      <Component {...passProps}>
-        <Flex align='start'>
-          <Cover
-            src={$.topic.avatar || $.topic.groupThumb}
-            size={styles.body.height}
-            radius={_.radiusMd - 2}
-          />
-          <Flex.Item>
-            <Flex style={styles.body} direction='column' justify='between' align='start'>
-              <Text type='__plain__' bold numberOfLines={2}>
-                {top}
-                {'  '}
-                {!!$.topic.time && (
-                  <Text
-                    style={styles.opacity}
-                    type='__plain__'
-                    size={12}
-                    lineHeight={14}
-                    bold
-                    numberOfLines={2}
-                  >
-                    {$.topic.group}
-                  </Text>
-                )}
-              </Text>
-              <Text
-                style={[_.mt.xs, styles.opacity]}
-                type='__plain__'
-                size={12}
-                bold
-                numberOfLines={2}
-              >
-                {bottom.replace(/ {2,}/g, ' ')}
-              </Text>
-            </Flex>
-          </Flex.Item>
-        </Flex>
-      </Component>
-    )
-  })
+  return (
+    <Component {...passProps}>
+      <Flex align='start'>
+        <Cover
+          src={$.topic.avatar || $.topic.groupThumb}
+          size={styles.body.height}
+          radius={_.radiusMd - 2}
+        />
+        <Flex.Item>
+          <Flex style={styles.body} direction='column' justify='between' align='start'>
+            <Text type='__plain__' bold numberOfLines={2}>
+              {top}
+              {'  '}
+              {!!$.topic.time && (
+                <Text
+                  style={styles.opacity}
+                  type='__plain__'
+                  size={12}
+                  lineHeight={14}
+                  bold
+                  numberOfLines={2}
+                >
+                  {$.topic.group}
+                </Text>
+              )}
+            </Text>
+            <Text
+              style={[_.mt.xs, styles.opacity]}
+              type='__plain__'
+              size={12}
+              bold
+              numberOfLines={2}
+            >
+              {bottom.replace(/ {2,}/g, ' ')}
+            </Text>
+          </Flex>
+        </Flex.Item>
+      </Flex>
+    </Component>
+  )
 }
 
-export default Topic
+export default observer(Topic)

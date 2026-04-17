@@ -6,9 +6,9 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { HeaderPlaceholder, Touchable } from '@components'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { WEB } from '@constants'
 import Mono from './mono'
 import Subject from './subject'
@@ -22,64 +22,62 @@ import type { Ctx } from '../../types'
 function Media() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    let el: ReactNode
-    if ($.subjectId) {
-      el = <Subject />
-    } else if ($.topicId) {
-      el = <Topic />
-    } else if ($.monoId) {
-      el = <Mono />
-    } else if ($.userId) {
-      el = <User />
-    }
-    if (!el) return null
+  let el: ReactNode
+  if ($.subjectId) {
+    el = <Subject />
+  } else if ($.topicId) {
+    el = <Topic />
+  } else if ($.monoId) {
+    el = <Mono />
+  } else if ($.userId) {
+    el = <User />
+  }
+  if (!el) return null
 
-    if (WEB) {
-      el = (
-        <Touchable
-          onPress={() => {
-            if ($.subjectId) {
-              navigation.push('Subject', {
-                subjectId: $.subjectId
-              })
-              return
-            }
+  if (WEB) {
+    el = (
+      <Touchable
+        onPress={() => {
+          if ($.subjectId) {
+            navigation.push('Subject', {
+              subjectId: $.subjectId
+            })
+            return
+          }
 
-            if ($.topicId) {
-              navigation.push('Topic', {
-                topicId: $.topicId
-              })
-              return
-            }
+          if ($.topicId) {
+            navigation.push('Topic', {
+              topicId: $.topicId
+            })
+            return
+          }
 
-            if ($.monoId) {
-              navigation.push('Mono', {
-                monoId: $.monoId
-              })
-              return
-            }
+          if ($.monoId) {
+            navigation.push('Mono', {
+              monoId: $.monoId
+            })
+            return
+          }
 
-            if ($.userId) {
-              navigation.push('Zone', {
-                userId: $.userId
-              })
-              return
-            }
-          }}
-        >
-          {el}
-        </Touchable>
-      )
-    }
-
-    return (
-      <>
-        <HeaderPlaceholder />
-        <View style={_.container.wind}>{el}</View>
-      </>
+          if ($.userId) {
+            navigation.push('Zone', {
+              userId: $.userId
+            })
+            return
+          }
+        }}
+      >
+        {el}
+      </Touchable>
     )
-  })
+  }
+
+  return (
+    <>
+      <HeaderPlaceholder />
+      <View style={_.container.wind}>{el}</View>
+    </>
+  )
 }
 
-export default Media
+export default observer(Media)

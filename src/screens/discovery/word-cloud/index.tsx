@@ -6,9 +6,9 @@
  */
 import React from 'react'
 import { RefreshControl } from 'react-native'
+import { observer } from 'mobx-react'
 import { Component, Page, ScrollView } from '@components'
 import { _, StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import Bg from './component/bg'
 import Cavans from './component/cavans'
 import Filter from './component/filter'
@@ -20,10 +20,10 @@ import { useWordCloudPage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** 词云 */
-const WordCloud = (props: NavigationProps) => {
+function WordCloud(props: NavigationProps) {
   const { id, $, refreshing, handleRefresh } = useWordCloudPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-word-cloud'>
       <StoreContext.Provider value={id}>
         <Page>
@@ -56,7 +56,7 @@ const WordCloud = (props: NavigationProps) => {
         <SelectedList />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default WordCloud
+export default observer(WordCloud)

@@ -116,6 +116,7 @@ class WordCloud extends React.Component<{
     this.spaceDataObject[distanceS] = new Space(type, w, h, x, y)
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _updateTextPosition(word, top, left, transform = false) {
     // Update the styles of the word view
     const textStyle = {

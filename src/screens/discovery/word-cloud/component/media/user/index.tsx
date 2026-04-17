@@ -6,10 +6,10 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Avatar, BLURVIEW_TINT_DARK, Flex, Text } from '@components'
 import { BlurView } from '@_'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { IOS } from '@constants'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -19,58 +19,56 @@ import type { Ctx } from '../../../types'
 function User() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    if (!$.users?.userId) return null
+  if (!$.users?.userId) return null
 
-    const styles = memoStyles()
-    const { userName, join, avatar, userStats } = $.users
-    const top = userName
+  const styles = memoStyles()
+  const { userName, join, avatar, userStats } = $.users
+  const top = userName
 
-    const bottom: string[] = []
-    if (userStats?.total) bottom.push(`${userStats.total} 收藏`)
-    if (userStats?.collect) bottom.push(`${userStats.collect} 完成`)
-    if (userStats?.percent) bottom.push(`完成率 ${userStats.percent}`)
-    const bottomText = bottom.join(' · ')
+  const bottom: string[] = []
+  if (userStats?.total) bottom.push(`${userStats.total} 收藏`)
+  if (userStats?.collect) bottom.push(`${userStats.collect} 完成`)
+  if (userStats?.percent) bottom.push(`完成率 ${userStats.percent}`)
+  const bottomText = bottom.join(' · ')
 
-    const Component = IOS ? BlurView : View
-    const passProps: any = {
-      style: styles.container
-    }
-    if (IOS) {
-      passProps.tint = BLURVIEW_TINT_DARK
-      passProps.intensity = 64
-    }
+  const Component = IOS ? BlurView : View
+  const passProps: any = {
+    style: styles.container
+  }
+  if (IOS) {
+    passProps.tint = BLURVIEW_TINT_DARK
+    passProps.intensity = 64
+  }
 
-    return (
-      <Component {...passProps}>
-        <Flex align='start'>
-          <Avatar src={avatar} size={styles.body.height} radius={_.radiusMd - 2} />
-          <Flex.Item>
-            <Flex style={styles.body} direction='column' justify='between' align='start'>
-              <Text type='__plain__' bold numberOfLines={2}>
-                {top}
-                {'  '}
-                <Text style={styles.opacity} type='__plain__' size={12} lineHeight={14} bold>
-                  {join}
-                </Text>
+  return (
+    <Component {...passProps}>
+      <Flex align='start'>
+        <Avatar src={avatar} size={styles.body.height} radius={_.radiusMd - 2} />
+        <Flex.Item>
+          <Flex style={styles.body} direction='column' justify='between' align='start'>
+            <Text type='__plain__' bold numberOfLines={2}>
+              {top}
+              {'  '}
+              <Text style={styles.opacity} type='__plain__' size={12} lineHeight={14} bold>
+                {join}
               </Text>
-              {!!bottomText && bottomText !== top && (
-                <Text
-                  style={[_.mt.xs, styles.opacity]}
-                  type='__plain__'
-                  size={12}
-                  bold
-                  numberOfLines={1}
-                >
-                  {bottomText}
-                </Text>
-              )}
-            </Flex>
-          </Flex.Item>
-        </Flex>
-      </Component>
-    )
-  })
+            </Text>
+            {!!bottomText && bottomText !== top && (
+              <Text
+                style={[_.mt.xs, styles.opacity]}
+                type='__plain__'
+                size={12}
+                bold
+                numberOfLines={1}
+              >
+                {bottomText}
+              </Text>
+            )}
+          </Flex>
+        </Flex.Item>
+      </Flex>
+    </Component>
+  )
 }
 
-export default User
+export default observer(User)

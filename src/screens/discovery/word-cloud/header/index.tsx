@@ -4,13 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-11-29 17:56:24
  */
-import React from 'react'
+import React, { useCallback } from 'react'
+import { observer } from 'mobx-react'
 import { Flex, HeaderV2, Iconfont, Text, Touchable } from '@components'
 import { IconTouchable } from '@_'
 import { useStore } from '@stores'
 import { info } from '@utils'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
@@ -19,50 +19,53 @@ import type { Ctx } from '../types'
 function Header() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    const { trend } = $.state
+  const { trend } = $.state
 
-    return (
-      <HeaderV2
-        transparent
-        title={$.title ? `${$.title}的词云` : '词云'}
-        hm={$.hm}
-        headerRight={() => (
-          <>
-            {!$.userId && !!trend && (
-              <Touchable
-                onPress={() => {
-                  info(`${trend} 人次访问`)
-                }}
-              >
-                <Flex>
-                  <Iconfont name='md-whatshot' size={20} color='rgba(255, 255, 255, 0.64)' />
-                  <Text style={styles.trend} type='__plain__' size={13} bold>
-                    {trend}
-                  </Text>
-                </Flex>
-              </Touchable>
-            )}
-            <IconTouchable
-              name='md-info-outline'
-              size={20}
-              color='rgba(255, 255, 255, 0.64)'
-              onPress={() => {
-                navigation.push('WebBrowser', {
-                  url: 'https://www.yuque.com/chenzhenyu-k0epm/znygb4/ubpc03di49shf121?singleDoc',
-                  title: '词云说明'
-                })
-
-                t('词云.跳转', {
-                  to: 'WebBrowser'
-                })
-              }}
-            />
-          </>
+  const handleHeaderRight = useCallback(
+    () => (
+      <>
+        {!$.userId && !!trend && (
+          <Touchable
+            onPress={() => {
+              info(`${trend} 人次访问`)
+            }}
+          >
+            <Flex>
+              <Iconfont name='md-whatshot' size={20} color='rgba(255, 255, 255, 0.64)' />
+              <Text style={styles.trend} type='__plain__' size={13} bold>
+                {trend}
+              </Text>
+            </Flex>
+          </Touchable>
         )}
-      />
-    )
-  })
+        <IconTouchable
+          name='md-info-outline'
+          size={20}
+          color='rgba(255, 255, 255, 0.64)'
+          onPress={() => {
+            navigation.push('WebBrowser', {
+              url: 'https://www.yuque.com/chenzhenyu-k0epm/znygb4/ubpc03di49shf121?singleDoc',
+              title: '词云说明'
+            })
+
+            t('词云.跳转', {
+              to: 'WebBrowser'
+            })
+          }}
+        />
+      </>
+    ),
+    [$, navigation, trend]
+  )
+
+  return (
+    <HeaderV2
+      transparent
+      title={$.title ? `${$.title}的词云` : '词云'}
+      hm={$.hm}
+      headerRight={handleHeaderRight}
+    />
+  )
 }
 
-export default Header
+export default observer(Header)

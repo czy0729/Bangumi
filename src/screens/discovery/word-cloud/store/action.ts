@@ -98,7 +98,7 @@ export default class Action extends Fetch {
       ['id', 'name', 'name_cn', 'image', 'tags', 'character', 'staff', 'rating', 'rank']
     )
     const subjects: Record<SubjectId, SnapshotSubjectsItem> = {}
-    Object.entries(data).forEach(([key, value]: [`subject_${string}`, SnapshotSubjectsItem]) => {
+    Object.entries(data).forEach(([key, value]) => {
       if (value) {
         // 因为数据有冗余, 有必要主动重新构建
         subjects[value.id] = {
