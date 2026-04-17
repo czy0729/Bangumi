@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-11-04 15:48:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-18 07:33:57
+ * @Last Modified time: 2026-04-17 12:51:01
  */
 import { getJSON, loadJSON } from '@assets/json'
-import { SubjectId, SubjectType } from '@types'
 import { TABS } from './ds'
+
+import type { SubjectId, SubjectType } from '@types'
 
 export function getType(page: number = 0) {
   return TABS?.[page]?.key || TABS[0].key

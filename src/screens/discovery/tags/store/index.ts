@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-10-03 14:48:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-21 05:42:38
+ * @Last Modified time: 2026-04-17 12:51:41
  */
 import { TABS } from '../ds'
 import { getType, loadTyperankIdsData } from '../utils'
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE } from './ds'
+
+import type { STATE } from './ds'
 
 /** 标签页面状态机 */
 export default class ScreenTags extends Action {

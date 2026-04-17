@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:26:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-25 14:43:11
+ * @Last Modified time: 2026-04-17 11:29:54
  */
 import * as Device from 'expo-device'
 import { _, systemStore, userStore } from '@stores'
@@ -92,6 +92,7 @@ export default class ScreenHomeV2 extends Action {
           if (await userStore.reOauth()) {
             reOauthing = false
 
+            feedback()
             info('重新授权成功')
             t('其他.重新授权')
             return this.initQueue()

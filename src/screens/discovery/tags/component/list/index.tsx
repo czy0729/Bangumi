@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:43:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-02 17:02:34
+ * @Last Modified time: 2026-04-17 14:09:16
  */
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { ListView, Loading } from '@components'
 import { Notice } from '@_'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
 import Filter from '../filter'
 import Item from '../item'
 import { keyExtractor } from './utils'
@@ -17,15 +17,27 @@ import { COMPONENT } from './ds'
 import type { Ctx } from '../../types'
 
 function List({ id }) {
-  const { $ } = useStore<Ctx>()
-  const list = $.list(id)
-  const numColumns = _.num(4)
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  const elListHeaderComponent = useMemo(
+    () => (
+      <Notice style={_.mb.md}>
+        「排名」为作者整理的对应标签下评分最高的前 100
+        个条目。若没有足够数据则跳转到正常的标签页面。
+      </Notice>
+    ),
+    []
+  )
+
   const handleHeaderRefresh = useCallback(() => $.fetchList(id, true), [$, id])
   const handleFooterRefresh = useCallback(() => $.fetchList(id), [$, id])
-  const renderItem = useCallback(
+  const handleRenderItem = useCallback(
     ({ item, index }) => <Item type={id} index={index} {...item} />,
     [id]
   )
+
+  const list = $.list(id)
+  const numColumns = _.num(4)
 
   return (
     <>
@@ -38,15 +50,8 @@ function List({ id }) {
           data={list}
           numColumns={numColumns}
           keyboardDismissMode='on-drag'
-          ListHeaderComponent={
-            $.state.rec && (
-              <Notice style={_.mb.md}>
-                「排名」为作者整理的对应标签下评分最高的前 100
-                个条目。若没有足够数据则跳转到正常的标签页面。
-              </Notice>
-            )
-          }
-          renderItem={renderItem}
+          ListHeaderComponent={$.state.rec && elListHeaderComponent}
+          renderItem={handleRenderItem}
           onHeaderRefresh={handleHeaderRefresh}
           onFooterRefresh={handleFooterRefresh}
         />
@@ -57,4 +62,4 @@ function List({ id }) {
   )
 }
 
-export default ob(List, COMPONENT)
+export default observer(List)

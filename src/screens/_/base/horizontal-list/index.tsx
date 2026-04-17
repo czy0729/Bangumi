@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 17:02:07
+ * @Last Modified time: 2026-04-17 11:27:03
  */
 import React, { useCallback, useMemo, useState } from 'react'
 import { observer } from 'mobx-react'
@@ -74,6 +74,7 @@ export const HorizontalList = observer(
             />
           ))}
         </ScrollViewHorizontal>
+
         <PreventTouchPlaceholder />
       </Component>
     )

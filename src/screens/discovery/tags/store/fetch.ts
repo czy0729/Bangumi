@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-08-18 05:55:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-18 05:57:07
+ * @Last Modified time: 2026-04-17 12:51:36
  */
 import { discoveryStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { get, update } from '@utils/kv'
 import { D7 } from '@constants'
-import { SubjectType } from '@types'
 import Computed from './computed'
+
+import type { SubjectType } from '@types'
 
 /** 若更新过则不会再主动更新 */
 const THIRD_PARTY_UPDATED = []

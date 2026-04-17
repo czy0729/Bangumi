@@ -2,21 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:46:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 08:08:40
+ * @Last Modified time: 2026-04-17 12:55:20
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Heatmap, Highlight, Squircle, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { formatNumber, HTMLDecode, stl } from '@utils'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../../types'
 import { getTyperankNums } from '../../utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+import type { Ctx } from '../../types'
+
 function Item({ type, name, nums, index }) {
-  const { $, navigation } = useStore<Ctx>()
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
+
   const styles = memoStyles()
   const { width, height } = styles.item
 
@@ -29,6 +31,7 @@ function Item({ type, name, nums, index }) {
 
   const num = _.num(4)
   const tag = HTMLDecode(name)
+
   return (
     <Touchable
       style={stl(
@@ -78,4 +81,4 @@ function Item({ type, name, nums, index }) {
   )
 }
 
-export default ob(Item, COMPONENT)
+export default observer(Item)
