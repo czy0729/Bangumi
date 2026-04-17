@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-11 15:08:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-21 20:44:08
+ * @Last Modified time: 2026-04-17 11:10:28
  */
 import React from 'react'
 import { Clipboard } from 'react-native'
@@ -20,7 +20,7 @@ import type { Fn } from '@types'
 import type { Ctx } from '../../types'
 import type { Props } from './types'
 
-function BtnWrap({ item }: Props) {
+function BtnWrap({ style, item }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   const { username, id } = userStore.userInfo
@@ -87,6 +87,7 @@ function BtnWrap({ item }: Props) {
 
   return (
     <Btn
+      style={style}
       item={item}
       userId={userId}
       showIcon={!(dragging && _.isSmallDevice)}

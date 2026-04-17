@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-19 17:56:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-21 20:40:30
+ * @Last Modified time: 2026-04-17 11:09:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,13 +18,13 @@ import { memoStyles } from './styles'
 
 import type { MainProps } from './types'
 
-function BtnMain({ item, userId, showIcon = true, onPress }: MainProps) {
+function BtnMain({ style, item, userId, showIcon = true, onPress }: MainProps) {
   r(COMPONENT_MAIN)
 
   const styles = memoStyles()
 
   const isSm = systemStore.setting.discoveryMenuNum >= 5
-  const wrapStyle = isSm ? styles.wrapSm : styles.wrap
+  const wrapStyle = stl(isSm ? styles.wrapSm : styles.wrap, style)
   const itemStyle = isSm ? styles.itemSm : styles.item
 
   if (item.key === 'Split') {

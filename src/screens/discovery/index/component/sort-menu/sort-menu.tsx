@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-09-10 07:56:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-23 02:05:30
+ * @Last Modified time: 2026-04-17 11:22:24
  */
 import React, { useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
-import { Flex, Text } from '@components'
-import { RNDraggableGrid } from '@components/@'
+import { DraggableGrid, Flex, Text } from '@components'
 import { _ } from '@stores'
 import { feedback, stl } from '@utils'
 import { memo } from '@utils/decorators'
@@ -17,7 +16,7 @@ import Btn from '../btn'
 import Btns from './btns'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
-import type { MenuItem } from '@types'
+import type { MenuItem, ViewStyle } from '@types'
 
 const SortMenu = memo(
   ({
@@ -30,11 +29,12 @@ const SortMenu = memo(
     onSubmit = FROZEN_FN
   }) => {
     const [menu, setMenu] = useState(discoveryMenu)
-    const memoMenus = useMemo(() => getMenus(menu), [menu])
-    const openIndex = memoMenus.findIndex(item => item.key === 'Open')
 
+    const memoMenus = useMemo(() => getMenus(menu), [menu])
+
+    const openIndex = memoMenus.findIndex(item => item.key === 'Open')
     const handleRenderItem = useCallback(
-      (item: MenuItem, index?: number, scale: boolean = true) => (
+      (item: MenuItem, index?: number, scale: boolean = true, style?: ViewStyle) => (
         <View
           key={item.key}
           style={stl(
@@ -42,7 +42,7 @@ const SortMenu = memo(
             scale && styles.item
           )}
         >
-          <Btn item={item} />
+          <Btn style={style} item={item} />
         </View>
       ),
       [openIndex, styles.item, styles.transparent]
@@ -111,7 +111,7 @@ const SortMenu = memo(
                 按住拖拽排序，拖动到分割线左侧显示，右侧隐藏
               </Text>
             )}
-            <RNDraggableGrid
+            <DraggableGrid
               key={`${orientation}|${discoveryMenuNum}`}
               data={data}
               numColumns={discoveryMenuNum}
@@ -122,7 +122,16 @@ const SortMenu = memo(
             {elBtns}
           </>
         ) : (
-          <Flex wrap='wrap'>{data.map((item, index) => handleRenderItem(item, index, false))}</Flex>
+          <Flex wrap='wrap'>
+            {data.map((item, index) =>
+              handleRenderItem(
+                item,
+                index,
+                false,
+                Math.ceil(data.length / discoveryMenuNum) >= 3 && styles.compact
+              )
+            )}
+          </Flex>
         )}
       </View>
     )

@@ -14,7 +14,7 @@ export const memoStyles = _.memoStyles(() => ({
     zIndex: 1,
     right: _.web(_.wind, 0),
     bottom: _.web(92, _.ios(_.tabBarHeight + _.sm, _.md)),
-    left: _.web(0, _._wind)
+    left: _.device(0, _._wind)
   },
   btns: {
     paddingHorizontal: _.sm,

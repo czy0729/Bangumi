@@ -30,7 +30,7 @@ const Btns = ({ setMenu, onCancel, onSave }: Props) => {
         <Flex.Item>
           <Touchable style={styles.touch} onPress={onCancel}>
             <Flex style={styles.btn} justify='center'>
-              <Text type='sub' size={11} bold>
+              <Text type='icon' size={11} bold>
                 取消
               </Text>
             </Flex>

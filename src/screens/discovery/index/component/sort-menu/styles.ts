@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-10 07:35:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-24 19:33:06
+ * @Last Modified time: 2026-04-17 11:14:18
  */
 import { _ } from '@stores'
 import { STATUS_BAR_HEIGHT } from '@styles'
@@ -32,5 +32,8 @@ export const memoStyles = _.memoStyles(() => ({
         scale: 0.8
       }
     ]
+  },
+  compact: {
+    paddingVertical: 6
   }
 }))
