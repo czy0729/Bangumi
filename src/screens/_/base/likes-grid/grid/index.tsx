@@ -10,13 +10,11 @@ import { Bgm, BgmText, Flex, Touchable } from '@components'
 import { rakuenStore, timelineStore, uiStore } from '@stores'
 import { stl } from '@utils'
 import { t } from '@utils/fetch'
-import { LIKE_TYPE_RAKUEN, LIKE_TYPE_TIMELINE, WEB } from '@constants'
+import { LIKE_TYPE_RAKUEN, LIKE_TYPE_SAY, LIKE_TYPE_TIMELINE, WEB } from '@constants'
 import { HIT_SLOP } from './ds'
 import { styles } from './styles'
 
 function Grid({ data, value, topicId, floorId, formhash, likeType }) {
-  const isTimeline = likeType == LIKE_TYPE_TIMELINE
-
   return (
     <Flex wrap='wrap'>
       {data.map(item => (
@@ -31,7 +29,7 @@ function Grid({ data, value, topicId, floorId, formhash, likeType }) {
             uiStore.preFlipLikes(topicId, floorId)
 
             const value = String(item[1])
-            if (isTimeline) {
+            if (likeType == LIKE_TYPE_TIMELINE || likeType == LIKE_TYPE_SAY) {
               timelineStore.doLike(
                 {
                   main_id: topicId,
@@ -41,12 +39,12 @@ function Grid({ data, value, topicId, floorId, formhash, likeType }) {
                 floorId,
                 formhash,
                 () => {
-                  // t('时间胶囊.贴贴', {
-                  //   mainId: topicId,
-                  //   relatedId: floorId,
-                  //   value,
-                  //   from: 'grid'
-                  // })
+                  t('时间胶囊.贴贴', {
+                    mainId: topicId,
+                    relatedId: floorId,
+                    value,
+                    from: 'grid'
+                  })
 
                   setTimeout(() => {
                     uiStore.afterFlip()

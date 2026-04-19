@@ -23,6 +23,7 @@ export default class Fetch extends Computed {
       },
       refresh
     )
+
     setTimeout(() => {
       timelineStore.syncActiveFromTimeline(scope, type)
     }, 0)

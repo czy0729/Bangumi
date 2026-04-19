@@ -10,6 +10,7 @@ import { Expand, Text } from '@components'
 import { Likes } from '@_'
 import { timelineStore, uiStore, userStore, useStore } from '@stores'
 import { HTMLDecode } from '@utils'
+import { LIKE_TYPE_TIMELINE } from '@constants'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
@@ -46,7 +47,7 @@ function Comment() {
         <Likes
           topicId={$.subjectId}
           id={relatedId}
-          likeType='40'
+          likeType={LIKE_TYPE_TIMELINE}
           formhash={userStore.formhash}
           onLongPress={uiStore.showLikesUsers}
         />

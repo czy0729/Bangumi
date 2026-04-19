@@ -9,3 +9,6 @@ export const LIKE_TYPE_RAKUEN = 8
 
 /** 贴贴类型: 时间胶囊, 条目评论 */
 export const LIKE_TYPE_TIMELINE = 40
+
+/** 贴贴类型: 吐槽 */
+export const LIKE_TYPE_SAY = 50

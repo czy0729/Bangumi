@@ -7,6 +7,7 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { uiStore, userStore } from '@stores'
+import { LIKE_TYPE_TIMELINE } from '@constants'
 import { Likes as LikesComp } from '../../../base'
 
 function Likes({ relatedId, subjectId }) {
@@ -16,7 +17,7 @@ function Likes({ relatedId, subjectId }) {
     <LikesComp
       topicId={subjectId}
       id={relatedId}
-      likeType='40'
+      likeType={LIKE_TYPE_TIMELINE}
       formhash={userStore.formhash}
       onLongPress={uiStore.showLikesUsers}
     />

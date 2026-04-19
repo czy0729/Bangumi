@@ -10,7 +10,7 @@ import { Bgm, BgmText, Flex, Text, Touchable } from '@components'
 import { rakuenStore, timelineStore, uiStore } from '@stores'
 import { stl } from '@utils'
 import { t } from '@utils/fetch'
-import { WEB } from '@constants'
+import { LIKE_TYPE_SAY, LIKE_TYPE_TIMELINE, WEB } from '@constants'
 import { HIT_SLOP } from '../ds'
 import { getLikesGridEmoji } from '../../likes-grid/utils'
 import { memoStyles } from './styles'
@@ -41,7 +41,7 @@ function Btn({ topicId, id, formhash, onPress, onLongPress, ...item }) {
     setTimeout(() => {
       const afterFlip = () => setTimeout(() => uiStore.afterFlip(), 800)
 
-      if (type === 40) {
+      if (type === LIKE_TYPE_TIMELINE || type === LIKE_TYPE_SAY) {
         timelineStore.doLike(item as any, id, formhash, () => {
           t('时间胶囊.贴贴', {
             mainId: topicId,

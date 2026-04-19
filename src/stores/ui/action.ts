@@ -14,7 +14,15 @@ import subjectStore from '../subject'
 import userStore from '../user'
 import Computed from './computed'
 
-import type { CollectionStatus, Id, RatingStatus, SubjectActions, SubjectId, TopicId } from '@types'
+import type {
+  BlogId,
+  CollectionStatus,
+  Id,
+  RatingStatus,
+  SubjectActions,
+  SubjectId,
+  TopicId
+} from '@types'
 import type { SubmitManageModalValues } from './types'
 
 export default class Action extends Computed {
@@ -89,7 +97,7 @@ export default class Action extends Computed {
   /** 显示回复表情选择弹出层 */
   showLikesGrid = (
     /** 同 mainId, 主类型唯一编号 */
-    topicId: Id,
+    topicId: TopicId | BlogId | SubjectId,
 
     /** 同 realatedId, 贴贴关联唯一编号 */
     floorId: Id,

@@ -200,7 +200,7 @@ export async function fetchTimeline(
               url: $reply.attr('href') || ''
             },
             like: {
-              type: 40,
+              type: Number(cData($row.find('a.like_dropdown'), 'data-like-type')) || 40,
               mainId: id,
               relatedId: ($row.find('.likes_grid').attr('id') || '').replace('likes_grid_', '')
             },

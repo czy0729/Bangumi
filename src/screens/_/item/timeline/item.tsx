@@ -26,7 +26,7 @@ import {
   LIKES_OFFSETS
 } from './ds'
 
-import type { SubjectTypeCn } from '@types'
+import type { SubjectTypeCn, TopicId } from '@types'
 
 const Item = memo(
   ({
@@ -60,7 +60,7 @@ const Item = memo(
       content: ''
     },
     like = {
-      mainId: '',
+      mainId: '' as TopicId,
       relatedId: '',
       type: ''
     },

@@ -12,6 +12,7 @@ import { getInt } from './utils'
 import State from './state'
 
 import type {
+  BlogId,
   CoverGroup,
   Id,
   RakuenType,
@@ -76,7 +77,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   /** 帖子回复表情 */
-  likes(topicId: TopicId) {
+  likes(topicId: TopicId | BlogId | SubjectId) {
     const STATE_KEY = 'likes'
     this.init(STATE_KEY, true)
 
@@ -337,7 +338,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   /** 帖子回复表情 */
-  likesList(topicId: TopicId, floorId: string | number) {
+  likesList(topicId: TopicId | BlogId | SubjectId, floorId: string | number) {
     return computed(() => {
       const likes = this.likes(topicId)?.[floorId]
       if (!likes) return null

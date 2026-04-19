@@ -12,7 +12,7 @@ import { rakuenStore, timelineStore, uiStore } from '@stores'
 import { feedback } from '@utils'
 import { r } from '@utils/dev'
 import { useBoolean } from '@utils/hooks'
-import { IOS, LIKE_TYPE_TIMELINE } from '@constants'
+import { IOS, LIKE_TYPE_SAY, LIKE_TYPE_TIMELINE } from '@constants'
 import Btn from './btn'
 import Flip from './flip'
 import { COMPONENT, HIT_SLOP, LIMIT } from './ds'
@@ -41,7 +41,7 @@ export const Likes = observer(
 
     if (!rakuenStore.setting.likes) return null
 
-    const isTimeline = likeType == LIKE_TYPE_TIMELINE
+    const isTimeline = likeType == LIKE_TYPE_TIMELINE || likeType == LIKE_TYPE_SAY
     if (isTimeline && !id) return null
 
     const likesList: any[] =
@@ -56,6 +56,7 @@ export const Likes = observer(
     if (!showCreateBtn && !likesList.length) return null
 
     const styles = memoStyles()
+
     return (
       <Component id='base-likes'>
         <ScrollView style={style} contentContainerStyle={styles.container} horizontal>

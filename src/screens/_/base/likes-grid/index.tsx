@@ -25,8 +25,9 @@ export const LikesGrid = observer(
     if (!rakuenStore.setting.likes) return null
 
     const styles = memoStyles()
-    const isTimeline = likeType == LIKE_TYPE_TIMELINE
-    const data = isTimeline ? DATA_TIMELINE : DATA
+
+    const isMiniGrids = likeType == LIKE_TYPE_TIMELINE
+    const data = isMiniGrids ? DATA_TIMELINE : DATA
     const rows = Math.ceil(data.length / 4)
     const position = getPosition(x, y, rows, offsets?.recommandPosition)
 

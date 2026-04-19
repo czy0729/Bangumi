@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-20 06:31:29
  */
-import type { EventType, SubjectId, UserId, WithNavigation, WithViewStyles } from '@types'
+import type { EventType, SubjectId, TopicId, UserId, WithNavigation, WithViewStyles } from '@types'
 
 export type Props = WithNavigation<
   WithViewStyles<{
@@ -36,7 +36,7 @@ export type Props = WithNavigation<
     }
     like?: {
       type: string | number
-      mainId: string | number
+      mainId: TopicId
       relatedId: string | number
     }
     time?: string

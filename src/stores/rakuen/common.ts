@@ -24,7 +24,7 @@ import {
 import Crypto from '@utils/crypto'
 import { fetchHTML } from '@utils/fetch'
 import decoder from '@utils/thirdParty/html-entities-decoder'
-import { HTML_RAKUEN } from '@constants'
+import { HTML_RAKUEN, LIKE_TYPE_RAKUEN } from '@constants'
 import { INIT_BLOG, INIT_COMMENTS_ITEM, INIT_TOPIC } from './init'
 import { getBlogItemTime, getBlogTime } from './utils'
 
@@ -260,7 +260,7 @@ export function cheerioTopic(html: string) {
       avatar: getCoverSmall(matchAvatar($('div.postTopic span.avatarNeue').attr('style'))),
       floor,
       formhash: $('input[name=formhash]').attr('value') || '',
-      likeType: $('a.like_dropdown').data('like-type') || '',
+      likeType: $('a.like_dropdown').data('like-type') || LIKE_TYPE_RAKUEN,
       group: $group.text().trim().replace(/\n/g, '') || $group.attr('title') || '',
       groupHref: $group.attr('href') || '',
       groupThumb: getCoverSmall($('a.avatar > img.avatar').attr('src')) || '',
