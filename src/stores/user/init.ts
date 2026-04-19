@@ -6,8 +6,17 @@
  */
 import { LIST_EMPTY, MODEL_SUBJECT_TYPE } from '@constants'
 
-import type { ImagesAvatar, SubjectType } from '@types'
-import type { Pm, PmMap, UserCollection } from './types'
+import type { Id, ImagesAvatar, SubjectId, SubjectType, UserId } from '@types'
+import type {
+  Pm,
+  PmDetail,
+  PmMap,
+  PmParams,
+  UserCollection,
+  UserCollections,
+  UserCollectionsStatus,
+  UserProgress
+} from './types'
 
 export const NAMESPACE = 'User'
 
@@ -76,20 +85,16 @@ export const STATE = {
   hmCookie: '',
 
   /** @deprecated 在看收藏 */
-  userCollection: LIST_EMPTY,
+  userCollection: LIST_EMPTY as UserCollection,
 
   /** 在看收藏 (新 API, 取代 userCollection) */
   collection: LIST_EMPTY as UserCollection,
 
   /** 收视进度 (章节) */
-  userProgress: {
-    0: {}
-  },
+  userProgress: {} as Record<SubjectId, UserProgress>,
 
   /** 用户收藏概览 */
-  userCollections: {
-    0: LIST_EMPTY
-  },
+  userCollections: {} as Record<`${SubjectType}|${UserId}`, UserCollections>,
 
   /** 某用户信息 */
   usersInfo: {
@@ -97,14 +102,10 @@ export const STATE = {
   },
 
   /** 用户收藏统计 (每种状态条目的数量) */
-  userCollectionsStatus: {
-    0: []
-  },
+  userCollectionsStatus: {} as Record<UserId, UserCollectionsStatus>,
 
   /** 用户介绍 */
-  users: {
-    0: ''
-  },
+  users: {} as Record<UserId, string>,
 
   /** 短信收信 */
   pmIn: LIST_EMPTY as Pm,
@@ -113,14 +114,10 @@ export const STATE = {
   pmOut: LIST_EMPTY as Pm,
 
   /** 短信详情 */
-  pmDetail: {
-    0: LIST_EMPTY
-  },
+  pmDetail: {} as Record<Id, PmDetail>,
 
   /** 新短信参数 */
-  pmParams: {
-    0: {}
-  },
+  pmParams: {} as Record<UserId, PmParams>,
 
   /** 同一个用户的短信关联集合 */
   pmMap: {} as PmMap,

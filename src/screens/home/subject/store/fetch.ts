@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-14 09:40:41
+ * @Last Modified time: 2026-04-17 14:19:35
  */
 import {
   collectionStore,
@@ -307,7 +307,7 @@ export default class Fetch extends Computed {
   /** 获取推荐源 */
   fetchRec = async () => {
     if (
-      (this.nsfw && !systemStore.isAdvance && userStore.isLimit) ||
+      (this.nsfw && !systemStore.isAdvance && userStore.isExtremeLimit) ||
       opitimize(this.state.recData, D7)
     ) {
       return false

@@ -7,6 +7,7 @@
 import type { CollectionStatus, CollectionStatusValue } from '@constants/model/types'
 import type {
   CollectionStatusCn,
+  EpId,
   Id,
   Images,
   ListEmpty,
@@ -47,6 +48,7 @@ export type UserCollectionItem = {
 /** 在看的收藏 (进度页面) */
 export type UserCollection = ListEmpty<UserCollectionItem>
 
+/** 用户收藏概览项 */
 export type CollectionsItem = {
   list: {
     id: SubjectId
@@ -63,6 +65,10 @@ export type CollectionsItem = {
   count: number
 }
 
+/** 用户收藏概览 (每种状态最多 25 条数据) */
+export type UserCollections = ListEmpty<CollectionsItem>
+
+/** 用户收藏统计项 */
 export type CollectionsStatusItem = {
   type: SubjectTypeValue
   name: SubjectType
@@ -77,8 +83,13 @@ export type CollectionsStatusItem = {
   }[]
 }
 
+/** 用户收藏统计 (每种状态条目的数量) */
+export type UserCollectionsStatus = CollectionsStatusItem[]
+
+/** 短信类型 */
 export type PmType = 'pmIn' | 'pmOut'
 
+/** 短信列表项 */
 export type PmItem = {
   id: Id
   title: string
@@ -90,8 +101,10 @@ export type PmItem = {
   new: boolean
 }
 
+/** 短信列表 */
 export type Pm = ListEmpty<PmItem>
 
+/** 短信详情项 */
 export type PmDetailItem = {
   name: string
   avatar: string
@@ -101,6 +114,7 @@ export type PmDetailItem = {
   date?: string
 }
 
+/** 短信详情 */
 export type PmDetail = Override<
   ListEmpty<PmDetailItem>,
   {
@@ -114,12 +128,14 @@ export type PmDetail = Override<
   }
 >
 
-export type PmParamsItem = {
+/** 发短信参数 */
+export type PmParams = {
   formhash: string
   msg_receivers: string
   _loaded?: number
 }
 
+/** 同一个用户的短信关联集合项 */
 export type PmMapItem = Record<
   string,
   {
@@ -128,4 +144,8 @@ export type PmMapItem = Record<
   }
 >
 
+/** 同一个用户的短信关联集合 */
 export type PmMap = Record<UserId, PmMapItem>
+
+/** 收视进度 (章节) */
+export type UserProgress = Record<EpId, CollectionStatusCn>
