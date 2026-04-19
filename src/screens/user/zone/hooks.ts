@@ -29,8 +29,7 @@ export function useZonePage(props: NavigationProps) {
       },
       onBlur() {
         $.resetRemarkModal()
-        uiStore.closePopableSubject()
-        uiStore.closeLikesGrid()
+        uiStore.closeAll()
       },
       onLeaveComplete() {
         $.setState({

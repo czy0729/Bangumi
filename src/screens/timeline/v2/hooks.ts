@@ -27,7 +27,7 @@ export function useTimelinePage(props: NavigationProps) {
         })
       },
       onBlur() {
-        uiStore.closePopableSubject()
+        uiStore.closeAll()
       }
     },
     id

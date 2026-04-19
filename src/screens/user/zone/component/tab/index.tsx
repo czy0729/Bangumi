@@ -8,7 +8,7 @@ import React, { useCallback, useMemo } from 'react'
 import { Animated } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, SceneMap, TabBar, TabView } from '@components'
-import { _, useStore } from '@stores'
+import { _, uiStore, useStore } from '@stores'
 import { H_HEADER } from '../../ds'
 import About from '../about'
 import BangumiList from '../bangumi-list'
@@ -49,10 +49,13 @@ function Tab() {
 
   const handleSwipeStart = useCallback(() => {
     $.updatePageOffset()
+
+    uiStore.closeAll()
   }, [$])
   const handleIndexChange = useCallback(
     (index: number) => {
       $.onTabChange(index)
+
       setTimeout(() => {
         $.updatePageOffset([0])
       }, 0)

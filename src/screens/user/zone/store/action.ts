@@ -70,8 +70,7 @@ export default class Action extends Fetch {
 
   /** 滚动事件, 控制顶部背景是否固定 */
   onScroll = (e: ScrollEvent) => {
-    uiStore.closePopableSubject()
-    uiStore.closeLikesGrid()
+    uiStore.closeAll()
 
     const { fixed } = this.state
     const { y } = e.nativeEvent.contentOffset

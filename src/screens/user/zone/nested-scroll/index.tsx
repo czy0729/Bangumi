@@ -7,7 +7,7 @@
 import React, { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { NestedScrollParallaxHeader } from '@components'
-import { useStore } from '@stores'
+import { uiStore, useStore } from '@stores'
 import About from '../component/about'
 import BackgroundImage from '../component/background-image'
 import BangumiList from '../component/bangumi-list'
@@ -28,11 +28,9 @@ import type { Ctx } from '../types'
 function NestedScroll() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  const elTopNavbar = useMemo(() => <TopNavbarComponent />, [])
-
-  const handleBackground = useCallback((fixed: boolean) => <BackgroundImage fixed={fixed} />, [])
-
   const styles = memoStyles()
+
+  const elTopNavbar = useMemo(() => <TopNavbarComponent />, [])
   const elHeader = useMemo(
     () => (
       <>
@@ -41,6 +39,15 @@ function NestedScroll() {
       </>
     ),
     [styles]
+  )
+
+  const handleBackground = useCallback((fixed: boolean) => <BackgroundImage fixed={fixed} />, [])
+  const handleIndexChange = useCallback(
+    (page: number) => {
+      $.onTabChange(page)
+      uiStore.closeAll()
+    },
+    [$]
   )
 
   return (
@@ -54,7 +61,7 @@ function NestedScroll() {
         TopNavbarComponent={elTopNavbar}
         BackgroundComponent={handleBackground}
         renderLabel={renderLabel}
-        onIndexChange={$.onTabChange}
+        onIndexChange={handleIndexChange}
       >
         <About />
         <BangumiList />

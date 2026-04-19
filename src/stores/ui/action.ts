@@ -86,7 +86,7 @@ export default class Action extends Computed {
   }
 
   /** ==================== likesGrid ==================== */
-  /**  显示回复表情选择弹出层 */
+  /** 显示回复表情选择弹出层 */
   showLikesGrid = (
     /** 同 mainId, 主类型唯一编号 */
     topicId: Id,
@@ -155,6 +155,12 @@ export default class Action extends Computed {
         }
       }
     })
+  }
+
+  /** 关闭条目缩略信息和回复表情选择弹出层 */
+  closeAll = () => {
+    this.closePopableSubject()
+    this.closeLikesGrid()
   }
 
   /** ==================== likesUsers ==================== */

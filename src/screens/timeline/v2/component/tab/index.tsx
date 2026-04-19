@@ -9,7 +9,7 @@ import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { TabView } from '@components'
 import { BlurViewBottomTab, BlurViewRoot, BlurViewTab } from '@_'
-import { _, useStore } from '@stores'
+import { _, uiStore, useStore } from '@stores'
 import { useInsets } from '@utils/hooks'
 import { TABS } from '../../ds'
 import renderScene from './renderScene'
@@ -37,6 +37,7 @@ function Tab() {
         renderTabBar={renderTabBar}
         renderBackground={elBackground}
         renderScene={renderScene}
+        onSwipeStart={uiStore.closeAll}
         onIndexChange={$.onChange}
       />
       <View
