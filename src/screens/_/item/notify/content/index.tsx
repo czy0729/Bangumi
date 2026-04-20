@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2024-01-19 17:23:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 05:27:40
+ * @Last Modified time: 2026-04-20 12:54:40
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { _, timelineStore } from '@stores'
-import { removeHTMLTag } from '@utils'
+import { HTMLDecode, removeHTMLTag } from '@utils'
 import { r } from '@utils/dev'
 import { Name } from '../../../base'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { Props } from './types'
+
 function Content({ userId, userName, title, message, message2, href }: Props) {
   r(COMPONENT)
 
@@ -24,7 +25,7 @@ function Content({ userId, userName, title, message, message2, href }: Props) {
   const notifyId = String(href).split('/status/')?.[1]
   if (notifyId) {
     const say = timelineStore.say(notifyId)
-    if (say.list.length) sayTitle = removeHTMLTag(say.list[0]?.text)
+    if (say.list.length) sayTitle = HTMLDecode(removeHTMLTag(say.list[0]?.text))
   }
 
   return (
