@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 02:00:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 05:51:38
+ * @Last Modified time: 2026-04-20 12:19:43
  */
 import React, { useMemo } from 'react'
 import { observer } from 'mobx-react'
@@ -35,7 +35,7 @@ function SectionTitle() {
         <IconReverse
           style={reverse ? styles.reverse : undefined}
           iconStyle={styles.reverseIcon}
-          color={reverse ? _.colorMain : _.colorIcon}
+          color={reverse ? _.colorDesc : _.colorIcon}
           size={18}
           onPress={$.toggleReverseComments}
         >

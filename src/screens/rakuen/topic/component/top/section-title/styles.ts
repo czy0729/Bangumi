@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-28 17:34:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 20:49:30
+ * @Last Modified time: 2026-04-20 12:33:30
  */
 import { _ } from '@stores'
 
@@ -15,7 +15,7 @@ export const memoStyles = _.memoStyles(() => ({
   reverse: {
     transform: [
       {
-        rotateX: '180deg'
+        scaleY: -1
       }
     ]
   },

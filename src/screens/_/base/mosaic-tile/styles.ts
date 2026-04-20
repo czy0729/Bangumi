@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-20 15:53:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-16 21:45:43
+ * @Last Modified time: 2026-04-20 12:33:29
  */
 import { _ } from '@stores'
 
@@ -42,7 +42,7 @@ export const memoStyles = _.memoStyles(() => ({
     height: (PX + MARGIN) * 7,
     transform: [
       {
-        rotateX: '180deg'
+        scaleY: -1
       }
     ]
   },

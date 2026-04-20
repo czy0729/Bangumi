@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-07 12:22:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-05 04:24:28
+ * @Last Modified time: 2026-04-20 12:36:43
  */
 import { _ } from '@stores'
 
@@ -52,9 +52,6 @@ export const styles = _.create({
     marginRight: -11,
     marginLeft: 3
   },
-  comment: {
-    marginRight: -12
-  },
   disc: {
     marginLeft: _.sm,
     marginRight: -_.sm
@@ -96,10 +93,13 @@ export const styles = _.create({
     paddingHorizontal: 8,
     marginRight: 4
   },
+  comment: {
+    marginRight: -12
+  },
   reverse: {
     transform: [
       {
-        rotateX: '180deg'
+        scaleY: -1
       }
     ]
   }
