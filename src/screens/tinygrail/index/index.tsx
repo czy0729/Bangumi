@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-07 08:02:11
+ * @Last Modified time: 2026-04-20 17:48:50
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Component } from '@components'
 import { StatusBarPlaceholder } from '@_'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import TinygrailPage from '@tinygrail/_/page'
 import TinygrailStarsLogs from '@tinygrail/_/stars-logs'
 import Auth from './component/auth'
@@ -24,7 +24,7 @@ import type { NavigationProps } from '@types'
 const Tinygrail = (props: NavigationProps) => {
   const { id, $, navigation } = useTinygrailPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-tinygrail'>
       <StoreContext.Provider value={id}>
         <TinygrailPage header={false}>
@@ -43,7 +43,7 @@ const Tinygrail = (props: NavigationProps) => {
         </TinygrailPage>
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default Tinygrail
+export default observer(Tinygrail)
