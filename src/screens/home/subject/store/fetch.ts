@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-17 14:19:35
+ * @Last Modified time: 2026-04-20 21:37:10
  */
 import {
   collectionStore,
@@ -785,5 +785,44 @@ export default class Fetch extends Computed {
     this.save()
 
     return true
+  }
+
+  private _fetchFriendsRating = false
+
+  /** 获取好友动态 */
+  fetchFriendsRating = () => {
+    if (
+      this._fetchFriendsRating ||
+      !userStore.isLogin ||
+      systemStore.setting.subjectRecentType !== '好友'
+    ) {
+      return false
+    }
+
+    this._fetchFriendsRating = true
+
+    return queue(
+      [
+        () =>
+          subjectStore.fetchRating(
+            {
+              subjectId: this.subjectId,
+              status: 'doings',
+              isFriend: true
+            },
+            true
+          ),
+        () =>
+          subjectStore.fetchRating(
+            {
+              subjectId: this.subjectId,
+              status: 'collections',
+              isFriend: true
+            },
+            true
+          )
+      ],
+      1
+    )
   }
 }

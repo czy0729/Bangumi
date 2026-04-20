@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-01 03:31:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 21:24:07
+ * @Last Modified time: 2026-04-20 22:07:11
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -42,7 +42,7 @@ function Btns({ btnText, rating, privacy, last, onPress }: BtnsProps) {
             extra={
               <>
                 <Iconfont style={_.ml.sm} name='md-star' size={16} color={_.__colorPlain__} />
-                <Text style={_.ml.xxs} bold>
+                <Text style={_.ml.xxs} type='__plain__' bold>
                   {rating}
                 </Text>
               </>

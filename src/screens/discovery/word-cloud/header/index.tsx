@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-09-26 16:17:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-17 12:20:29
+ * @Last Modified time: 2026-04-20 21:53:17
  */
 import React, { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { Flex, HeaderV2, Iconfont, Text, Touchable } from '@components'
 import { IconTouchable } from '@_'
-import { useStore } from '@stores'
+import { _, useStore } from '@stores'
 import { info } from '@utils'
 import { t } from '@utils/fetch'
 import { COMPONENT } from './ds'
@@ -67,6 +67,7 @@ function Header() {
       transparent
       title={$.title ? `${$.title}的词云` : '词云'}
       hm={$.hm}
+      color={_.__colorPlain__}
       headerRight={handleHeaderRight}
     />
   )

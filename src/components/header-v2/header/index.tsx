@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-23 00:51:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-13 06:52:10
+ * @Last Modified time: 2026-04-20 21:52:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,6 +23,7 @@ function Header({
   style,
   transparent,
   title,
+  color,
   headerTitleAlign,
   headerTitleStyle,
   headerTitleSize = 16,
@@ -60,7 +61,7 @@ function Header({
           {!!headerTitleAppend && <View style={styles.titleAppend}>{headerTitleAppend}</View>}
         </Flex>
       )}
-      <Back />
+      <Back color={color} />
       <Flex.Item />
       {!!headerRight && headerRight()}
     </Flex>

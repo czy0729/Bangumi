@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-13 12:08:06
+ * @Last Modified time: 2026-04-20 21:41:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,6 +31,7 @@ import {
   HTMLDecode,
   isArray,
   keepBasicChars,
+  lastDate,
   matchCoverUrl,
   removeHTMLTag,
   x18
@@ -98,7 +99,7 @@ import {
   TEXT_VIB
 } from './ds'
 
-import type { Subject } from '@stores/subject/types'
+import type { Subject, SubjectFromHtmlWhoItem } from '@stores/subject/types'
 import type { Collection, Id, RatingStatus, Sites, SubjectType, SubjectTypeCn } from '@types'
 import type { OriginItem } from '../../../user/origin-setting/utils'
 import type { Crt, RecDataItem, Staff, SubjectCommentValue, TagsItem } from '../types'
@@ -1161,7 +1162,38 @@ export default class Computed extends State {
     if (systemStore.setting.filterDefault || userStore.isLimit) {
       who = who.filter(item => !item.avatar?.includes?.(URL_DEFAULT_AVATAR))
     }
-    return freeze(who)
+    return freeze(who) as SubjectFromHtmlWhoItem[]
+  }
+
+  /** 好友的动态 */
+  @computed get friendsRating() {
+    const { list: doings = [] } = subjectStore.rating(this.subjectId, 'doings', true)
+    const doingsWithTag = doings.map(item => ({ ...item, _isDone: false }))
+
+    const { list: collections = [] } = subjectStore.rating(this.subjectId, 'collections', true)
+    const collectionsWithTag = collections.map(item => ({ ...item, _isDone: true }))
+
+    const combinedList = [...doingsWithTag, ...collectionsWithTag]
+
+    if (combinedList.length > 0) {
+      return combinedList
+        .sort((a, b) => getTimestamp(b.time) - getTimestamp(a.time))
+        .slice(0, 16)
+        .map(item => {
+          const ts = getTimestamp(item.time)
+          const actionText = item._isDone ? `${this.action}过` : this.action
+
+          return {
+            userId: item.id,
+            name: item.name,
+            avatar: item.avatar,
+            star: item.star,
+            status: `${lastDate(ts)}在${actionText}`
+          }
+        })
+    }
+
+    return freeze([])
   }
 
   /** 吐槽数量 */

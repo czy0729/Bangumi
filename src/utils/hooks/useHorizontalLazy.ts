@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-01-30 09:26:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-19 22:13:40
+ * @Last Modified time: 2026-04-20 21:28:15
  */
 import { useCallback, useState } from 'react'
 import { _ } from '@stores'
-import { ScrollEvent } from '@types'
+
+import type { ScrollEvent } from '@types'
 
 /** 用于水平滑动块初次进入时, 减少渲染看不见的区域 */
 export default function useHorizontalLazy<T extends readonly U[], U = T[number]>(

@@ -12,6 +12,7 @@ export type Props = Override<
     ComponentProps,
     | 'transparent'
     | 'title'
+    | 'color'
     | 'headerTitleAlign'
     | 'headerTitleStyle'
     | 'headerTitleSize'

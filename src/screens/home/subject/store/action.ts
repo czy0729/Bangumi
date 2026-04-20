@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-03 18:20:16
+ * @Last Modified time: 2026-04-20 21:26:53
  */
 import { toJS } from 'mobx'
 import { StatusBar } from '@components'
@@ -990,6 +990,15 @@ export default class Action extends Fetch {
     this.save()
 
     feedback(true)
+  }
+
+  /** 切换动态类型 */
+  onSwitchSubjectRecentType = (label: string) => {
+    systemStore.setSetting('subjectRecentType', label)
+
+    setTimeout(() => {
+      this.fetchFriendsRating()
+    }, 0)
   }
 
   // -------------------- action --------------------

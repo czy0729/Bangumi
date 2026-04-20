@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-10 14:20:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-20 11:23:05
+ * @Last Modified time: 2026-04-20 20:22:10
  */
 import type {
   Collection,
@@ -185,6 +185,15 @@ export type SubjectFromHtmlLikeItem = {
   image: string
 }
 
+/** 条目 (HTML) 动态项 */
+export type SubjectFromHtmlWhoItem = {
+  avatar: string
+  name: string
+  userId: UserId
+  star: string | number
+  status: string
+}
+
 /** 条目 (HTML) 关联系列项 */
 export type SubjectFromHtmlRelationsItem = {
   id: Id
@@ -248,13 +257,7 @@ export type SubjectFromHTML = {
   like: SubjectFromHtmlLikeItem[]
 
   /** 谁收藏了 */
-  who: {
-    avatar: string
-    name: string
-    userId: UserId
-    star: string
-    status: string
-  }[]
+  who: SubjectFromHtmlWhoItem[]
 
   /** 目录 */
   catalog: SubjectFromHtmlCatalogItem[]

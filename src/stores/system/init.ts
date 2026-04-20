@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-16 21:42:39
+ * @Last Modified time: 2026-04-20 21:12:47
  */
 import {
   IOS,
@@ -359,6 +359,9 @@ export const INIT_SETTING = {
 
   /** 条目关联页面是否不使用客户端推荐字体 (true: 默认不使用, 使用系统字体) */
   subjectLinkCustomFontFamily: true,
+
+  /** 条目动态类型 */
+  subjectRecentType: '全站' as '全站' | '好友',
 
   /** 突出显示源头按钮 */
   focusOrigin: WEB,

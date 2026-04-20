@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-11-22 07:43:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-13 06:51:55
+ * @Last Modified time: 2026-04-20 21:53:37
  */
 import React, { useEffect } from 'react'
 import { observer } from 'mobx-react'
@@ -25,6 +25,7 @@ export const HeaderV2 = observer(
     domTitle,
     hm,
     alias,
+    color,
     headerTitleAlign,
     headerTitleStyle,
     headerTitleSize,
@@ -49,6 +50,7 @@ export const HeaderV2 = observer(
           style={backgroundStyle}
           transparent={transparent}
           title={title}
+          color={color}
           headerTitleAlign={headerTitleAlign}
           headerTitleStyle={headerTitleStyle}
           headerTitleSize={headerTitleSize}

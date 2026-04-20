@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-11-22 07:52:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-13 06:52:34
+ * @Last Modified time: 2026-04-20 22:12:03
  */
-import type { ReactNode, TextStyle, ViewStyle } from '@types'
+import type { ReactNode, TextStyle, ViewStyle, ColorValue } from '@types'
 import type { TrackProps } from '../track'
 
 export type Props = {
@@ -28,6 +28,9 @@ export type Props = {
 
   /** 统计别名 */
   alias?: string
+
+  /** 文字颜色 (包括退后按钮) */
+  color?: ColorValue
 
   /** 左侧 element */
   headerLeft?: ReactNode

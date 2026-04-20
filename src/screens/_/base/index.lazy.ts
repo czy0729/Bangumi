@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-08 18:25:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-03 06:40:52
+ * @Last Modified time: 2026-04-20 21:06:53
  */
 
 /**
@@ -11,6 +11,7 @@
 export * from './avatar'
 export * from './cover'
 export * from './popover'
+export * from './segment'
 export * from './with-layout-tracker'
 
 export * from './app-common/index.lazy'
