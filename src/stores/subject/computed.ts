@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:15:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-04 06:42:24
+ * @Last Modified time: 2026-04-20 11:18:40
  */
 import { computed } from 'mobx'
 import { x18 } from '@utils'
@@ -228,20 +228,18 @@ export default class Computed extends State implements StoreConstructor<typeof S
   ) {
     const STATE_KEY = 'rating'
 
-    return computed<ComputedRating>(() => {
+    return computed(() => {
       const ITEM_KEY = [subjectId, status, isFriend].join('|')
-      return (
-        this.state[STATE_KEY][ITEM_KEY] || {
-          ...LIST_EMPTY,
-          counts: {
-            wishes: 0,
-            collections: 0,
-            doings: 0,
-            on_hold: 0,
-            dropped: 0
-          }
+      return (this.state[STATE_KEY][ITEM_KEY] || {
+        ...LIST_EMPTY,
+        counts: {
+          wishes: 0,
+          collections: 0,
+          doings: 0,
+          on_hold: 0,
+          dropped: 0
         }
-      )
+      }) as ComputedRating
     }).get()
   }
 

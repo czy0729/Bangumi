@@ -5,9 +5,9 @@
  * @Last Modified time: 2025-12-25 05:05:57
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import List from './component/list'
 import Textarea from './component/textarea'
 import Header from './header'
@@ -16,10 +16,10 @@ import { useDollarsPage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** Dollars */
-const Dollars = (props: NavigationProps) => {
+function Dollars(props: NavigationProps) {
   const { id, $ } = useDollarsPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-dollars'>
       <StoreContext.Provider value={id}>
         <Page loaded={$.dollars._loaded}>
@@ -30,7 +30,7 @@ const Dollars = (props: NavigationProps) => {
         <Header />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default Dollars
+export default observer(Dollars)

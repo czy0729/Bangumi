@@ -4,8 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-26 08:21:45
  */
-import { Loaded } from '@types'
 import { COMPONENT } from '../ds'
+
+import type { Loaded } from '@types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 

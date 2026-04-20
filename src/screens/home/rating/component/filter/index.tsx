@@ -6,9 +6,9 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Heatmap, SegmentedControl } from '@components'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT, DATA } from './ds'
 import { styles } from './styles'
 
@@ -17,7 +17,7 @@ import type { Ctx } from '../../types'
 function Filter({ $ }: Ctx) {
   r(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <View>
       <SegmentedControl
         style={styles.segment}
@@ -28,7 +28,7 @@ function Filter({ $ }: Ctx) {
       />
       <Heatmap id='用户评分.切换类型' />
     </View>
-  ))
+  )
 }
 
-export default Filter
+export default observer(Filter)

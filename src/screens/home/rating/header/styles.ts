@@ -8,6 +8,6 @@ import { _ } from '@stores'
 
 export const styles = _.create({
   headerTitleStyle: {
-    paddingRight: 88
+    paddingRight: 92
   }
 })

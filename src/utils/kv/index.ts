@@ -33,7 +33,9 @@ export async function get<T = any>(key: string): Promise<T | null> {
   if (isDevtoolsOpen()) return Promise.reject('denied')
 
   // 部分没有登录的用户, 出现了预料之外的请求, 统一过滤掉
-  if (typeof key !== 'string' || /["//]/.test(key)) return Promise.reject('denied')
+  if (typeof key !== 'string' || key.includes('_undefined') || /["//]/.test(key)) {
+    return Promise.reject('denied')
+  }
 
   try {
     const { data } = await axios({
@@ -106,6 +108,11 @@ export async function update(
   fingerCheck: boolean = true
 ): Promise<Result | null> {
   if (isDevtoolsOpen()) return Promise.reject('denied')
+
+  // 部分没有登录的用户, 出现了预料之外的请求, 统一过滤掉
+  if (typeof key !== 'string' || key.includes('_undefined') || /["//]/.test(key)) {
+    return Promise.reject('denied')
+  }
 
   if (WEB && !allowWebCommit) return
 

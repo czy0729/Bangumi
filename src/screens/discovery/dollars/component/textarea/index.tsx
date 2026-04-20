@@ -6,9 +6,9 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Input, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
@@ -17,37 +17,35 @@ import type { Ctx } from '../../types'
 function Textarea() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    if (!$.state.show) return null
+  if (!$.state.show) return null
 
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    return (
-      <View style={styles.container}>
-        <Input
-          ref={$.forwardInputRef}
-          style={styles.textarea}
-          inputStyle={styles.input}
-          multiline
-          numberOfLines={3}
-          value={$.state.text}
-          placeholder='单击头像可以@某人，长按则前往空间'
-          autoFocus
-          returnKeyType='done'
-          returnKeyLabel='发送'
-          onChangeText={$.onChangeText}
-          onSubmitEditing={$.onSubmit}
-        />
-        <Touchable style={_.mt.md} onPress={$.onSubmit}>
-          <View style={styles.btn}>
-            <Text size={16} bold align='center'>
-              POST
-            </Text>
-          </View>
-        </Touchable>
-      </View>
-    )
-  })
+  return (
+    <View style={styles.container}>
+      <Input
+        ref={$.forwardInputRef}
+        style={styles.textarea}
+        inputStyle={styles.input}
+        multiline
+        numberOfLines={3}
+        value={$.state.text}
+        placeholder='单击头像可以@某人，长按则前往空间'
+        autoFocus
+        returnKeyType='done'
+        returnKeyLabel='发送'
+        onChangeText={$.onChangeText}
+        onSubmitEditing={$.onSubmit}
+      />
+      <Touchable style={_.mt.md} onPress={$.onSubmit}>
+        <View style={styles.btn}>
+          <Text size={16} bold align='center'>
+            POST
+          </Text>
+        </View>
+      </Touchable>
+    </View>
+  )
 }
 
-export default Textarea
+export default observer(Textarea)

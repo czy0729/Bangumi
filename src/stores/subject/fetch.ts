@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:33:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 20:16:37
+ * @Last Modified time: 2026-04-20 11:16:58
  */
 import { getTimestamp, HTMLTrim, omit, queue } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -53,7 +53,13 @@ import { getInt, mapV0Episodes } from './utils'
 
 import type { EpId, MonoId, RatingStatus, ResponseV0Episodes, SubjectId } from '@types'
 import type { STATE } from './init'
-import type { ApiSubjectResponse, FetchMonoVoicesArgs, FetchMonoWorksArgs, Subject } from './types'
+import type {
+  ApiSubjectResponse,
+  FetchMonoVoicesArgs,
+  FetchMonoWorksArgs,
+  FetchRatingArgs,
+  Subject
+} from './types'
 
 export default class Fetch extends Computed {
   /** 条目信息 */
@@ -576,42 +582,40 @@ export default class Fetch extends Computed {
   }
 
   /** 所有人评分 */
-  fetchRating = async (
-    args: {
-      subjectId: SubjectId
-      status: RatingStatus
-      isFriend?: boolean
-    },
-    refresh?: boolean
-  ) => {
+  fetchRating = async (args: FetchRatingArgs, refresh?: boolean) => {
     const { subjectId = 0, status = DEFAULT_RATING_STATUS, isFriend = false } = args || {}
+    const STATE_KEY = 'rating'
+    const ITEM_ARGS = [subjectId, status, isFriend] as const
+    const ITEM_KEY = ITEM_ARGS.join('|')
+    const LIMIT = 20
 
-    const key = 'rating'
-    const stateKey = `${subjectId}|${status}|${isFriend}`
-    const limit = 20
-    const { list, pagination } = this[key](subjectId, status, isFriend)
-    const page = refresh ? 1 : pagination.page + 1
+    try {
+      const { list, pagination } = this[STATE_KEY](...ITEM_ARGS)
+      const page = refresh ? 1 : pagination.page + 1
 
-    const html = await fetchHTML({
-      url: HTML_SUBJECT_RATING(subjectId, status, isFriend, page)
-    })
-    const next = cheerioRating(html)
+      const html = await fetchHTML({
+        url: HTML_SUBJECT_RATING(subjectId, status, isFriend, page)
+      })
+      const next = cheerioRating(html)
 
-    this.setState({
-      [key]: {
-        [stateKey]: {
-          list: refresh ? next.list : [...list, ...next.list],
-          pagination: {
-            page,
-            pageTotal: next.list.length === limit ? 100 : page
-          },
-          counts: next.counts,
-          _loaded: getTimestamp()
+      this.setState({
+        [STATE_KEY]: {
+          [ITEM_KEY]: {
+            list: refresh ? next.list : [...list, ...next.list],
+            pagination: {
+              page,
+              pageTotal: next.list.length === LIMIT ? 100 : page
+            },
+            counts: next.counts,
+            _loaded: getTimestamp()
+          }
         }
-      }
-    })
+      })
+    } catch (error) {
+      this.error('fetchRating', error)
+    }
 
-    return this[key](subjectId, status, isFriend)
+    return this[STATE_KEY](...ITEM_ARGS)
   }
 
   /** wiki 修订历史 */

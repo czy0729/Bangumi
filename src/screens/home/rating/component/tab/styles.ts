@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-09-01 10:45:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-06 17:02:54
+ * @Last Modified time: 2026-04-20 11:29:51
  */
 import { _ } from '@stores'
 import { TABS } from '../../ds'
 
 export const memoStyles = _.memoStyles(() => {
-  const W_TAB = _.window.width / TABS.length
+  const W_TAB = Math.floor(_.window.width / TABS.length)
   const W_INDICATOR = 16
+
   return {
     tabBar: {
       backgroundColor: _.ios(

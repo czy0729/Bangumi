@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-06-10 14:20:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-15 23:59:13
+ * @Last Modified time: 2026-04-20 11:23:05
  */
 import type {
-  Avatar,
   Collection,
   Cover,
   CoverCrt,
@@ -731,16 +730,19 @@ export type MonoWorks = Override<
   }
 >
 
+/** 好友评分列表项 */
+export type RatingItem = {
+  id: UserId
+  avatar: string
+  name: string
+  time: string
+  star: number
+  comment: string
+}
+
 /** 好友评分列表 */
 export type Rating = Override<
-  ListEmpty<{
-    id: UserId
-    avatar: Avatar<'l'>
-    name: string
-    time: string
-    star: number
-    comment: string
-  }>,
+  ListEmpty<RatingItem>,
   {
     counts: Record<RatingStatus, number>
   }
@@ -841,4 +843,11 @@ export type FetchMonoWorksArgs = {
 
   /** 作品排序 */
   order?: 'date' | 'rank' | 'title'
+}
+
+/** 所有人评分参数 */
+export type FetchRatingArgs = {
+  subjectId: SubjectId
+  status: RatingStatus
+  isFriend?: boolean
 }

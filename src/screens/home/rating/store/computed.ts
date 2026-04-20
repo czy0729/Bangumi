@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-08-26 08:13:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-06 15:59:57
+ * @Last Modified time: 2026-04-20 11:23:52
  */
 import { computed } from 'mobx'
 import { subjectStore, systemStore } from '@stores'
 import { HTML_SUBJECT_RATING, URL_DEFAULT_AVATAR } from '@constants'
-import { RatingStatus } from '@types'
 import { TABS } from '../ds'
 import State from './state'
+
+import type { RatingStatus } from '@types'
 
 export default class Computed extends State {
   @computed get subjectId() {
@@ -33,7 +34,7 @@ export default class Computed extends State {
     }).get()
   }
 
-  _counts = null
+  private _counts = null
 
   /** 各评分状态的数目统计 */
   @computed get counts() {

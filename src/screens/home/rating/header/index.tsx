@@ -5,11 +5,11 @@
  * @Last Modified time: 2026-03-17 05:39:07
  */
 import React, { useCallback } from 'react'
+import { observer } from 'mobx-react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { open } from '@utils'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import { TEXT_MENU_BROWSER } from '@constants'
 import Filter from '../component/filter'
 import { COMPONENT, DATA } from './ds'
@@ -41,7 +41,7 @@ function Header() {
     [$]
   )
 
-  return useObserver(() => (
+  return (
     <HeaderV2
       title={$.params?.name || '用户评分'}
       headerTitleAlign='left'
@@ -50,7 +50,7 @@ function Header() {
       hm={$.hm}
       headerRight={handleHeaderRight}
     />
-  ))
+  )
 }
 
-export default Header
+export default observer(Header)

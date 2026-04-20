@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:27:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-04 06:42:44
+ * @Last Modified time: 2026-04-20 11:19:53
  */
 import { LIST_EMPTY } from '@constants'
 import { MODEL_RATING_STATUS } from '@constants/model'
@@ -19,6 +19,7 @@ import type {
   SubjectType
 } from '@types'
 import type {
+  ComputedRating,
   EpStatus,
   Mono,
   MonoComments,
@@ -284,18 +285,7 @@ const STATE = {
   monoWorks: {} as Record<MonoId, MonoWorks>,
 
   /** 好友评分列表 */
-  rating: {
-    0: {
-      ...LIST_EMPTY,
-      counts: {
-        wishes: 0,
-        collections: 0,
-        doings: 0,
-        on_hold: 0,
-        dropped: 0
-      }
-    }
-  },
+  rating: {} as Record<`${SubjectId}|${RatingStatus}|${boolean}`, ComputedRating>,
 
   /** 条目分数 (用于收藏按网站评分排序) */
   rank: {

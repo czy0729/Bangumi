@@ -15,7 +15,7 @@ import {
   safeObject
 } from '@utils'
 import { fetchHTML } from '@utils/fetch'
-import { HTML_TIMELINE, LIST_EMPTY, MODEL_TIMELINE_SCOPE } from '@constants'
+import { HTML_TIMELINE, LIKE_TYPE_TIMELINE, LIST_EMPTY, MODEL_TIMELINE_SCOPE } from '@constants'
 
 import type { Override, TimeLineScope, TimeLineScopeCn, TimeLineType, UserId } from '@types'
 import type { Likes } from '../rakuen/types'
@@ -200,7 +200,8 @@ export async function fetchTimeline(
               url: $reply.attr('href') || ''
             },
             like: {
-              type: Number(cData($row.find('a.like_dropdown'), 'data-like-type')) || 40,
+              type:
+                Number(cData($row.find('a.like_dropdown'), 'data-like-type')) || LIKE_TYPE_TIMELINE,
               mainId: id,
               relatedId: ($row.find('.likes_grid').attr('id') || '').replace('likes_grid_', '')
             },

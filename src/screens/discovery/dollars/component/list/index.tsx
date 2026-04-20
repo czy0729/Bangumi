@@ -5,10 +5,10 @@
  * @Last Modified time: 2026-03-05 14:40:46
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { useObserver } from '@utils/hooks'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
@@ -18,7 +18,7 @@ import type { Ctx } from '../../types'
 function List() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <PaginationList2
       forwardRef={$.forwardRef}
       keyExtractor={keyExtractor}
@@ -31,7 +31,7 @@ function List() {
       renderItem={renderItem}
       onScroll={$.onScroll}
     />
-  ))
+  )
 }
 
-export default List
+export default observer(List)

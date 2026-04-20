@@ -5,9 +5,9 @@
  * @Last Modified time: 2025-12-25 05:21:45
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, Heatmap, Page } from '@components'
 import { _, StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import Tab from './component/tab'
 import Header from './header'
 import { useRatingPage } from './hooks'
@@ -15,10 +15,10 @@ import { useRatingPage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** 用户评分 */
-const Rating = (props: NavigationProps) => {
+function Rating(props: NavigationProps) {
   const { id, $ } = useRatingPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-rating'>
       <StoreContext.Provider value={id}>
         <Page loaded={$.state._loaded}>
@@ -28,7 +28,7 @@ const Rating = (props: NavigationProps) => {
         <Header />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default Rating
+export default observer(Rating)

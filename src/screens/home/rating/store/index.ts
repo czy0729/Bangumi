@@ -6,7 +6,9 @@
  */
 import { STATUS_MAP, TABS } from '../ds'
 import Action from './action'
-import { NAMESPACE, STATE } from './ds'
+import { NAMESPACE } from './ds'
+
+import type { STATE } from './ds'
 
 /** 用户评分页面状态机 */
 export default class ScreenRating extends Action {
