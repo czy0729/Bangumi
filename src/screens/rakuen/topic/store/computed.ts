@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:01:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-15 23:19:29
+ * @Last Modified time: 2026-04-20 12:13:25
  */
 import { computed } from 'mobx'
 import { rakuenStore, subjectStore, systemStore, usersStore, userStore } from '@stores'
@@ -58,15 +58,16 @@ export default class Computed extends State {
   @computed get comments() {
     return freeze(() => {
       // 只显示跳转楼层
-      if (this.state.filterPost) {
+      const { filterPost } = this.state
+      if (filterPost) {
         return {
           ...this.topicComments,
           list: this.topicComments.list.filter(item => {
-            if (item.id === this.state.filterPost) return true
+            if (item.id === filterPost) return true
 
             let flag = false
             item.sub.forEach(i => {
-              if (i.id === this.state.filterPost) flag = true
+              if (i.id === filterPost) flag = true
             })
             return flag
           }),

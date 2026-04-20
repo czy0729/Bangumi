@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:05:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-21 19:09:45
+ * @Last Modified time: 2026-04-20 11:58:37
  */
 import { rakuenStore, subjectStore } from '@stores'
 import { getTimestamp, omit } from '@utils'
@@ -20,7 +20,7 @@ export default class Fetch extends Computed {
   }
 
   /** 章节内容 */
-  fetchEpFormHTML = () => {
+  fetchEpFromHTML = () => {
     const epId = this.topicId.replace('ep/', '')
     return subjectStore.fetchEpFormHTML(epId)
   }

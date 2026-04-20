@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-28 22:28:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 05:39:12
+ * @Last Modified time: 2026-04-20 11:44:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,13 +17,16 @@ import type { Ctx } from '../../types'
 function Filter({ $ }: Ctx) {
   r(COMPONENT)
 
+  const { _loaded, isFriend } = $.state
+  if (!_loaded) return null
+
   return (
     <View>
       <SegmentedControl
         style={styles.segment}
         size={11}
         values={DATA}
-        selectedIndex={$.state.isFriend ? 1 : 0}
+        selectedIndex={isFriend ? 1 : 0}
         onValueChange={$.onToggleFilter}
       />
       <Heatmap id='用户评分.切换类型' />

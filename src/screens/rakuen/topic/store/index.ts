@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-20 07:27:40
+ * @Last Modified time: 2026-04-20 11:58:40
  */
 import { rakuenStore, usersStore } from '@stores'
 import { getTimestamp } from '@utils'
+import { M1 } from '@constants'
 import Action from './action'
 import { EXCLUDE_STATE, NAMESPACE, RESET_STATE } from './ds'
 
@@ -17,7 +18,7 @@ export default class ScreenTopic extends Action {
   init = async () => {
     const now = getTimestamp()
     const { _loaded } = this.state
-    const needRefresh = !_loaded || now - Number(_loaded) > 60
+    const needRefresh = !_loaded || now - Number(_loaded) > M1
     const loadedTime = needRefresh ? now : _loaded
     const commonState = await this.getStorage(NAMESPACE)
 
@@ -49,7 +50,7 @@ export default class ScreenTopic extends Action {
       if (needRefresh) {
         // 章节需要请求章节详情
         if (this.isEp) {
-          this.fetchEpFormHTML()
+          this.fetchEpFromHTML()
         } else {
           rakuenStore.checkIsFavor(this.topicId)
         }
@@ -60,6 +61,7 @@ export default class ScreenTopic extends Action {
         const { _noFetch } = this.params
         if (!_noFetch) {
           await this.fetchTopic()
+
           setTimeout(() => {
             this.cacheAvatars()
           }, 0)

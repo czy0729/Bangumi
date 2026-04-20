@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-20 19:55:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 05:45:35
+ * @Last Modified time: 2026-04-20 12:14:05
  */
 import React, { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
@@ -28,7 +28,7 @@ function Segement() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const { state, commentFollowCount, commentMeCount, commentFriendsCount, likesFloorIds } = $
-  const { filterPost, filterType } = state
+  const { filterPost, filterType, _loaded } = state
 
   const data: Data = useMemo(() => {
     const list: Data = [FILTER_ALL]
@@ -104,10 +104,11 @@ function Segement() {
     [$, filterPost, filterType]
   )
 
-  if (data.length <= 1) return null
+  if (!_loaded || data.length <= 1) return null
 
   return (
     <SegmentedControl
+      key={`${_loaded}|${filterPost}`}
       style={segmentedControlStyle}
       size={size}
       values={data}
