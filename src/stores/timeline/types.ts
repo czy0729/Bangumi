@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-02-02 07:15:05
  */
-import type { Id, ListEmpty, Loaded, SubjectId, UrlUser, UserId } from '@types'
+import type { Id, ListEmpty, Loaded, SubjectId, TopicId, UrlUser, UserId } from '@types'
 
 /** 时间胶囊项 */
 export type TimelineItem = {
@@ -40,7 +40,7 @@ export type TimelineItem = {
   }
   like: {
     type: number
-    mainId: number
+    mainId: TopicId
     relatedId: number
   }
   image: string[]

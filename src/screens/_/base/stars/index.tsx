@@ -44,7 +44,12 @@ export const Stars = observer(
       return (
         <Component id='base-stars' data-simple={simple}>
           <Flex style={style}>
-            <Iconfont style={webStyle} name='md-star' size={size} color={color || _.colorWarning} />
+            <Iconfont
+              style={stl(styles.item, webStyle)}
+              name='md-star'
+              size={size}
+              color={color || _.colorWarning}
+            />
             <Text style={stl(_.ml.xxs, textStyle, webStyle)} type={type} size={size} bold>
               {value}
               {extraText}
@@ -62,7 +67,7 @@ export const Stars = observer(
               return (
                 <Iconfont
                   key={item}
-                  style={webStyle}
+                  style={stl(styles.item, webStyle)}
                   name='md-star'
                   size={size}
                   color={color || _.colorWarning}
@@ -72,9 +77,9 @@ export const Stars = observer(
 
             if (Number(value) / 2 >= item - 0.5) {
               return (
-                <View key={item}>
+                <View key={item} style={styles.item}>
                   <Iconfont
-                    style={webStyle}
+                    style={stl(webStyle)}
                     name='md-star'
                     size={size}
                     color={_.select(_.colorBorder, 'rgba(255, 255, 255, 0.4)')}
@@ -92,7 +97,7 @@ export const Stars = observer(
             return (
               <Iconfont
                 key={item}
-                style={webStyle}
+                style={stl(styles.item, webStyle)}
                 name='md-star'
                 size={size}
                 color={_.select(_.colorBorder, 'rgba(255, 255, 255, 0.4)')}

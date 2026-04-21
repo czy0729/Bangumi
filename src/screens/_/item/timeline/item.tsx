@@ -130,6 +130,7 @@ const Item = memo(
             />
           </InView>
         )}
+
         <Flex.Item style={stl(showImages ? styles.noPR : styles.content, _.ml.sm)}>
           <Flex align='start'>
             <Flex.Item>
@@ -146,6 +147,7 @@ const Item = memo(
                   avatarSrc={avatarSrc}
                   onNavigate={handleNavigate}
                 />
+
                 <Desc
                   navigation={navigation}
                   subject={subject}
@@ -157,6 +159,7 @@ const Item = memo(
                   event
                 />
               </View>
+
               <InView key={index} y={y}>
                 <Images
                   type={type}
@@ -166,6 +169,7 @@ const Item = memo(
                   onNavigate={handleNavigate}
                 />
               </InView>
+
               <Likes
                 show
                 topicId={like.mainId}
@@ -175,7 +179,18 @@ const Item = memo(
                 offsets={LIKES_OFFSETS}
                 onLongPress={uiStore.showLikesUsers}
               />
-              <Flex style={image.length === 1 && !(comment || replyCount) ? _.mt.lg : _.mt.md}>
+
+              <Flex
+                style={stl(
+                  image.length === 1 && !(comment || replyCount) ? _.mt.lg : _.mt.md,
+                  _.mb.xxs,
+                  {
+                    flex: 1,
+                    width: '100%'
+                  }
+                )}
+                align='end'
+              >
                 {!!replyCount && (
                   <>
                     <Touchable animate scale={0.9} onPress={() => handleNavigate(replyUrl)}>
@@ -227,6 +242,7 @@ const Item = memo(
                   </Touchable>
                 </InView>
               )}
+
               <View style={styles.menu}>
                 {!SHARE_MODE &&
                   (clearHref ? (

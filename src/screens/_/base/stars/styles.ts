@@ -7,6 +7,9 @@
 import { _ } from '@stores'
 
 export const styles = _.create({
+  item: {
+    marginLeft: -0.5
+  },
   half: {
     position: 'absolute',
     zIndex: 1,
