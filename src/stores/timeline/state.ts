@@ -46,7 +46,8 @@ export default class State extends Store<typeof STATE> {
 
   /** 修正并更新回复表情数据 */
   updateLikes = async (response: Likes) => {
-    await this.init('likes')
+    const STATE_KEY = 'likes'
+    await this.init(STATE_KEY)
 
     const data = {}
     Object.entries(response).forEach(([key, value]) => {
@@ -60,11 +61,10 @@ export default class State extends Store<typeof STATE> {
       }
     })
 
-    const key = 'likes'
     this.setState({
-      [key]: data
+      [STATE_KEY]: data
     })
-    this.save(key)
+    this.save(STATE_KEY)
   }
 
   log = (...arg: any) => {

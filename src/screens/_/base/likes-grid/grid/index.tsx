@@ -7,7 +7,7 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Bgm, BgmText, Flex, Touchable } from '@components'
-import { rakuenStore, timelineStore, uiStore } from '@stores'
+import { rakuenStore, timelineStore, uiStore, userStore } from '@stores'
 import { stl } from '@utils'
 import { t } from '@utils/fetch'
 import { LIKE_TYPE_RAKUEN, LIKE_TYPE_SAY, LIKE_TYPE_TIMELINE, WEB } from '@constants'
@@ -49,7 +49,8 @@ function Grid({ data, value, topicId, floorId, formhash, likeType }) {
                   setTimeout(() => {
                     uiStore.afterFlip()
                   }, 800)
-                }
+                },
+                userStore.userInfo
               )
               return
             }
@@ -74,7 +75,8 @@ function Grid({ data, value, topicId, floorId, formhash, likeType }) {
                 setTimeout(() => {
                   uiStore.afterFlip()
                 }, 800)
-              }
+              },
+              userStore.userInfo
             )
           }}
         >

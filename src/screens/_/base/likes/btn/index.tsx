@@ -7,7 +7,7 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Bgm, BgmText, Flex, Text, Touchable } from '@components'
-import { rakuenStore, timelineStore, uiStore } from '@stores'
+import { rakuenStore, timelineStore, uiStore, userStore } from '@stores'
 import { stl } from '@utils'
 import { t } from '@utils/fetch'
 import { LIKE_TYPE_SAY, LIKE_TYPE_TIMELINE, WEB } from '@constants'
@@ -42,27 +42,40 @@ function Btn({ topicId, id, formhash, onPress, onLongPress, ...item }) {
       const afterFlip = () => setTimeout(() => uiStore.afterFlip(), 800)
 
       if (type === LIKE_TYPE_TIMELINE || type === LIKE_TYPE_SAY) {
-        timelineStore.doLike(item as any, id, formhash, () => {
-          t('时间胶囊.贴贴', {
-            mainId: topicId,
-            relatedId: id,
-            value,
-            from: 'grid'
-          })
-          afterFlip()
-        })
+        timelineStore.doLike(
+          item as any,
+          id,
+          formhash,
+          () => {
+            t('时间胶囊.贴贴', {
+              mainId: topicId,
+              relatedId: id,
+              value,
+              from: 'grid'
+            })
+            afterFlip()
+          },
+          userStore.userInfo
+        )
         return
       }
 
-      rakuenStore.doLike(item as any, id, formhash, topicId, () => {
-        t('帖子.贴贴', {
-          id,
-          topicId,
-          value,
-          from: 'likes'
-        })
-        afterFlip()
-      })
+      rakuenStore.doLike(
+        item as any,
+        id,
+        formhash,
+        topicId,
+        () => {
+          t('帖子.贴贴', {
+            id,
+            topicId,
+            value,
+            from: 'likes'
+          })
+          afterFlip()
+        },
+        userStore.userInfo
+      )
     }, 40)
   }
 

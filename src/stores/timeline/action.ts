@@ -172,7 +172,11 @@ export default class Action extends Fetch {
     },
     id: number,
     formhash: string,
-    callback?: Fn
+    callback?: Fn,
+    userInfo?: {
+      username: string
+      nickname: string
+    }
   ) => {
     if (this._doLiking) return
 
@@ -180,6 +184,92 @@ export default class Action extends Fetch {
     setTimeout(() => {
       this._doLiking = false
     }, 1600)
+
+    let isOptimisticUpdated = false
+
+    // 使用 try-catch 包裹乐观更新，防止其致命错误阻塞 API 请求
+    try {
+      if (userInfo?.username && userInfo?.nickname) {
+        const idKey = String(id)
+        const targetValue = String(item.value)
+
+        const rawData = this.likes(idKey) || {}
+
+        // 如果 rawData 已经包含 idKey，就取里面的，否则取它自己
+        const currentReactions = JSON.parse(JSON.stringify(rawData[idKey] || rawData))
+
+        // 查找当前是否已经有选中的 value (互斥逻辑)
+        let prevSelectedValue = null
+        for (const val in currentReactions) {
+          if (val === idKey) continue
+
+          if (currentReactions[val] && currentReactions[val].selected === true) {
+            prevSelectedValue = String(val)
+            break
+          }
+        }
+
+        if (prevSelectedValue === targetValue) {
+          // 取消逻辑
+          const reaction = currentReactions[targetValue]
+          reaction.total = Math.max(0, (Number(reaction.total) || 1) - 1)
+          reaction.selected = false
+          reaction.users = (reaction.users || []).filter(
+            (u: any) => u.username !== userInfo.username
+          )
+
+          if (reaction.total === 0) {
+            delete currentReactions[targetValue]
+          }
+        } else {
+          // 切换/新增逻辑
+          // 清理旧的
+          if (prevSelectedValue && currentReactions[prevSelectedValue]) {
+            const prevReaction = currentReactions[prevSelectedValue]
+            prevReaction.total = Math.max(0, (Number(prevReaction.total) || 1) - 1)
+            prevReaction.selected = false
+            prevReaction.users = (prevReaction.users || []).filter(
+              (u: any) => u.username !== userInfo.username
+            )
+            if (prevReaction.total === 0) delete currentReactions[prevSelectedValue]
+          }
+
+          // 增加新的
+          if (!currentReactions[targetValue]) {
+            currentReactions[targetValue] = {
+              type: item.type,
+              main_id: String(item.main_id),
+              value: targetValue,
+              total: 1,
+              users: [
+                {
+                  username: userInfo.username,
+                  nickname: userInfo.nickname
+                }
+              ],
+              selected: true
+            }
+          } else {
+            const targetReaction = currentReactions[targetValue]
+            targetReaction.total = (Number(targetReaction.total) || 0) + 1
+            targetReaction.selected = true
+            if (!targetReaction.users) targetReaction.users = []
+            targetReaction.users.push({
+              username: userInfo.username,
+              nickname: userInfo.nickname
+            })
+          }
+        }
+
+        this.updateLikes({
+          [idKey]: currentReactions
+        })
+        isOptimisticUpdated = true
+      }
+    } catch (e) {
+      // 发生致命错误，重置标识位，确保下面的 xhr 正常更新数据
+      isOptimisticUpdated = false
+    }
 
     xhr(
       {
@@ -189,12 +279,14 @@ export default class Action extends Fetch {
         try {
           const data = JSON.parse(responseText)
           if (data?.status === 'ok') {
-            this.updateLikes(
-              data?.data || {
-                [id]: {}
-              }
-            )
-
+            // 如果没走乐观更新，或者发生了错误，走原有的更新逻辑
+            if (!isOptimisticUpdated) {
+              this.updateLikes(
+                data?.data || {
+                  [id]: {}
+                }
+              )
+            }
             if (typeof callback === 'function') callback()
           }
         } catch {}

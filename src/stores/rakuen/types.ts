@@ -203,6 +203,9 @@ export type NotifyItem = {
 export type Notify = {
   unread: number
   clearHref: string
+
+  /** @deprecated */
+  clearHTML?: string
   list: NotifyItem[]
   _loaded?: number
 }
