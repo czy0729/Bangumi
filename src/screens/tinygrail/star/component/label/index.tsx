@@ -5,15 +5,21 @@
  * @Last Modified time: 2026-03-18 22:40:44
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { SegmentedControl } from '@components'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { COMPONENT, LABEL_DS } from './ds'
 import { styles } from './styles'
 
 import type { Ctx } from '../../types'
 
 function Label({ $ }: Ctx) {
+  r(COMPONENT)
+
+  const { _loaded, label } = $.state
+  if (!_loaded) return null
+
   return (
     <SegmentedControl
       style={styles.segment}
@@ -22,10 +28,10 @@ function Label({ $ }: Ctx) {
       backgroundColor={_.select(_.colorTinygrailBg, _.colorTinygrailBorder)}
       size={11}
       values={LABEL_DS}
-      selectedIndex={LABEL_DS.findIndex(item => item === $.state.label)}
+      selectedIndex={LABEL_DS.findIndex(item => item === label)}
       onValueChange={$.setLabel}
     />
   )
 }
 
-export default ob(Label, COMPONENT)
+export default observer(Label)

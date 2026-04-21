@@ -5,10 +5,10 @@
  * @Last Modified time: 2026-03-10 01:21:05
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap, SegmentedControl } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import { TEXTS } from '../ds'
 import { useAsyncSetSetting } from '../../../hooks'
 import { DATA } from './ds'
@@ -20,7 +20,7 @@ import type { WithFilterProps } from '../../../types'
 function Live2DScale({ filter }: WithFilterProps) {
   const { value, handleSet } = useAsyncSetSetting('live2dScale')
 
-  return useObserver(() => (
+  return (
     <ItemSetting
       ft={
         <SegmentedControl
@@ -44,7 +44,7 @@ function Live2DScale({ filter }: WithFilterProps) {
     >
       <Heatmap id='设置.切换' title='Live2d 大小' />
     </ItemSetting>
-  ))
+  )
 }
 
-export default Live2DScale
+export default observer(Live2DScale)

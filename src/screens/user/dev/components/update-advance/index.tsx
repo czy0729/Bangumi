@@ -6,12 +6,13 @@
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Iconfont, Input, SegmentedControl, Text, Touchable } from '@components'
 import { ItemSetting } from '@_'
 import { _ } from '@stores'
 import { getData } from '@stores/system/utils'
 import { info } from '@utils'
-import { useMount, useObserver } from '@utils/hooks'
+import { useMount } from '@utils/hooks'
 import { get, update } from '@utils/kv'
 import { PAYTYPE_DS } from './ds'
 import { memoStyles } from './styles'
@@ -60,74 +61,72 @@ function UpdateAdvance({ navigation, onScrollTo }: { navigation: Navigation; onS
     fetchData()
   })
 
-  return useObserver(() => {
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    return (
-      <>
-        <ItemSetting
-          hd='Update Advance'
-          ft={
-            <Touchable onPress={() => setShow(!show)}>
-              <Text>使用</Text>
-            </Touchable>
-          }
-          withoutFeedback
-        />
-        {show && (
-          <View style={styles.container}>
-            <Flex>
-              <Flex.Item>
-                <Input
-                  style={styles.input}
-                  value={uid}
-                  placeholder='uid'
-                  onChangeText={handleUidChange}
-                  onScrollIntoViewIfNeeded={onScrollTo}
-                />
-              </Flex.Item>
-              <SegmentedControl
-                style={styles.segmentedControl}
-                size={12}
-                values={PAYTYPE_DS}
-                selectedIndex={payType === 'w' ? 0 : 1}
-                onValueChange={handlePayTypeChange}
+  return (
+    <>
+      <ItemSetting
+        hd='Update Advance'
+        ft={
+          <Touchable onPress={() => setShow(!show)}>
+            <Text>使用</Text>
+          </Touchable>
+        }
+        withoutFeedback
+      />
+      {show && (
+        <View style={styles.container}>
+          <Flex>
+            <Flex.Item>
+              <Input
+                style={styles.input}
+                value={uid}
+                placeholder='uid'
+                onChangeText={handleUidChange}
+                onScrollIntoViewIfNeeded={onScrollTo}
               />
-              <Flex.Item style={_.ml.md}>
-                <Input
-                  style={styles.input}
-                  value={val}
-                  keyboardType='decimal-pad'
-                  placeholder='val'
-                  onChangeText={handleValChange}
-                />
-              </Flex.Item>
+            </Flex.Item>
+            <SegmentedControl
+              style={styles.segmentedControl}
+              size={12}
+              values={PAYTYPE_DS}
+              selectedIndex={payType === 'w' ? 0 : 1}
+              onValueChange={handlePayTypeChange}
+            />
+            <Flex.Item style={_.ml.md}>
+              <Input
+                style={styles.input}
+                value={val}
+                keyboardType='decimal-pad'
+                placeholder='val'
+                onChangeText={handleValChange}
+              />
+            </Flex.Item>
+          </Flex>
+          <Flex style={_.mt.md}>
+            <Flex.Item>
+              <Text bold>{data[uid] || '-'}</Text>
+            </Flex.Item>
+            <Flex style={_.ml.lg}>
+              <Touchable
+                onPress={() => {
+                  if (!uid) return
+                  navigation.push('Zone', {
+                    userId: uid
+                  })
+                }}
+              >
+                <Iconfont name='md-arrow-forward' />
+              </Touchable>
+              <Touchable style={_.ml.lg} onPress={handleSubmit}>
+                <Iconfont name='md-check' />
+              </Touchable>
             </Flex>
-            <Flex style={_.mt.md}>
-              <Flex.Item>
-                <Text bold>{data[uid] || '-'}</Text>
-              </Flex.Item>
-              <Flex style={_.ml.lg}>
-                <Touchable
-                  onPress={() => {
-                    if (!uid) return
-                    navigation.push('Zone', {
-                      userId: uid
-                    })
-                  }}
-                >
-                  <Iconfont name='md-arrow-forward' />
-                </Touchable>
-                <Touchable style={_.ml.lg} onPress={handleSubmit}>
-                  <Iconfont name='md-check' />
-                </Touchable>
-              </Flex>
-            </Flex>
-          </View>
-        )}
-      </>
-    )
-  })
+          </Flex>
+        </View>
+      )}
+    </>
+  )
 }
 
-export default UpdateAdvance
+export default observer(UpdateAdvance)

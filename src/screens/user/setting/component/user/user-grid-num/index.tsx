@@ -5,21 +5,23 @@
  * @Last Modified time: 2024-04-26 04:20:43
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap, SegmentedControl } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import { SETTING_USER_GRID_NUM } from '@constants'
 import styles from '../../../styles'
 import { TEXTS } from '../ds'
 import { useAsyncSetSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
 
+import type { WithFilterProps } from '../../../types'
+
 /** 网格布局个数 */
-function UserGridNum({ filter }) {
+function UserGridNum({ filter }: WithFilterProps) {
   const { value, handleSet } = useAsyncSetSetting('userGridNum')
 
-  return useObserver(() => (
+  return (
     <ItemSetting
       ft={
         <SegmentedControl
@@ -47,7 +49,7 @@ function UserGridNum({ filter }) {
     >
       <Heatmap id='设置.切换' title='网格布局个数' />
     </ItemSetting>
-  ))
+  )
 }
 
-export default UserGridNum
+export default observer(UserGridNum)

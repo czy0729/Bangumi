@@ -5,14 +5,15 @@
  * @Last Modified time: 2025-04-12 19:09:31
  */
 import React, { useCallback, useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap, SegmentedControl } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import commonStyles from '../../styles'
 import { useAsyncSetSetting } from '../../hooks'
 import { getYuqueThumbs } from '../../utils'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function ItemSettingSegmented({
   setting,
@@ -27,43 +28,46 @@ function ItemSettingSegmented({
     [values]
   )
 
-  return useObserver(() => {
-    const { value, handleSet } = useAsyncSetSetting(setting)
-    const handleSyncPress = useCallback(
-      (label: string) => {
-        const find = values.find(item => item.label === label)
-        if (!find) return
+  const { value, handleSet } = useAsyncSetSetting(setting)
+  const handleSyncPress = useCallback(
+    (label: string) => {
+      const find = values.find(item => item.label === label)
+      if (!find) return
 
-        handleSet(find.value)
+      handleSet(find.value)
 
-        t('设置.切换', {
-          title: hd,
-          label
-        })
-      },
-      [handleSet]
-    )
+      t('设置.切换', {
+        title: hd,
+        label
+      })
+    },
+    [handleSet, hd, values]
+  )
 
-    return (
-      <ItemSetting
-        hd={hd}
-        information={information}
-        ft={
-          <SegmentedControl
-            style={commonStyles.segmentedControl}
-            values={memoValues}
-            size={12}
-            selectedIndex={values.findIndex(item => item.value === value)}
-            onValueChange={handleSyncPress}
-          />
-        }
-        filter={filter}
-        thumb={thumb ? getYuqueThumbs(thumb) : undefined}
-      >
-        <Heatmap id='设置.切换' title={hd} />
-      </ItemSetting>
-    )
-  })
+  const elFt = useMemo(
+    () => (
+      <SegmentedControl
+        style={commonStyles.segmentedControl}
+        values={memoValues}
+        size={12}
+        selectedIndex={values.findIndex(item => item.value === value)}
+        onValueChange={handleSyncPress}
+      />
+    ),
+    [handleSyncPress, memoValues, value, values]
+  )
+
+  return (
+    <ItemSetting
+      hd={hd}
+      information={information}
+      ft={elFt}
+      filter={filter}
+      thumb={thumb ? getYuqueThumbs(thumb) : undefined}
+    >
+      <Heatmap id='设置.切换' title={hd} />
+    </ItemSetting>
+  )
 }
 
-export default ItemSettingSegmented
+export default observer(ItemSettingSegmented)

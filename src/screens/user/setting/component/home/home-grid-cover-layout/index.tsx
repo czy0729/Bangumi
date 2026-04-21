@@ -5,21 +5,23 @@
  * @Last Modified time: 2024-04-24 08:42:41
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap, SegmentedControl } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import { MODEL_SETTING_HOME_GRID_COVER_LAYOUT, SETTING_HOME_GRID_COVER_LAYOUT } from '@constants'
 import styles from '../../../styles'
 import { TEXTS } from '../ds'
 import { useAsyncSetSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
 
+import type { WithFilterProps } from '../../../types'
+
 /** 封面形状 */
-function HomeGridCoverLayout({ filter }) {
+function HomeGridCoverLayout({ filter }: WithFilterProps) {
   const { value, handleSet } = useAsyncSetSetting('homeGridCoverLayout')
 
-  return useObserver(() => (
+  return (
     <ItemSetting
       ft={
         <SegmentedControl
@@ -47,7 +49,7 @@ function HomeGridCoverLayout({ filter }) {
     >
       <Heatmap id='设置.切换' title='封面形状' />
     </ItemSetting>
-  ))
+  )
 }
 
-export default HomeGridCoverLayout
+export default observer(HomeGridCoverLayout)

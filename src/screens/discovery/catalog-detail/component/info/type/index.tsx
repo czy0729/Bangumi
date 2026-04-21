@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-01-07 15:35:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-10 01:30:39
+ * @Last Modified time: 2026-04-20 22:22:58
  */
 import React, { useMemo } from 'react'
 import { observer } from 'mobx-react'
@@ -22,6 +22,9 @@ function Type() {
 
   const selectedIndex = useMemo(() => data.findIndex(item => item.startsWith(type)), [data, type])
   if (length <= 1) return null
+
+  const { _loaded } = $.state
+  if (!_loaded) return null
 
   const styles = memoStyles()
   const isMini = length > 5

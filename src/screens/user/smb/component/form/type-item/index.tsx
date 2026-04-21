@@ -5,10 +5,10 @@
  * @Last Modified time: 2026-03-17 05:42:37
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, SegmentedControl, Text, Touchable } from '@components'
 import { useStore } from '@stores'
 import { alert } from '@utils'
-import { ob } from '@utils/decorators'
 import { IOS } from '@constants'
 import { styles } from './styles'
 
@@ -18,7 +18,9 @@ function TypeItem({ store }: { store: Ctx['$'] }) {
   let { $ } = useStore<Ctx>()
   $ = $?.state ? $ : store
 
-  const { webDAV } = $.state
+  const { _loaded, webDAV } = $.state
+  if (!_loaded) return null
+
   const elType = (
     <SegmentedControl
       style={styles.segmentedControl}
@@ -52,4 +54,4 @@ function TypeItem({ store }: { store: Ctx['$'] }) {
   )
 }
 
-export default ob(TypeItem)
+export default observer(TypeItem)

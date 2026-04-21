@@ -181,3 +181,9 @@ export type RenderSection<T, K> = {
   }
   item: K
 }
+
+/** 取对象所有键值 */
+export type Keys<T extends object> = keyof T
+
+/** 取数组所有项 */
+export type Values<T extends readonly any[]> = T[number]

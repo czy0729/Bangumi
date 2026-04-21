@@ -5,27 +5,36 @@
  * @Last Modified time: 2026-03-17 05:42:08
  */
 import React, { useCallback } from 'react'
+import { observer } from 'mobx-react'
 import { SegmentedControl } from '@components'
 import { useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT, DS } from './ds'
 import { styles } from './styles'
 
 import type { Ctx } from '../../types'
+import type { Values } from '@types'
 
 function Segmented() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  const handleValueChange = useCallback(title => $.onValueChange(DS.indexOf(title)), [$])
+  const handleValueChange = useCallback(
+    (title: Values<typeof DS>) => {
+      $.onValueChange(DS.indexOf(title))
+    },
+    [$]
+  )
 
-  return useObserver(() => (
+  const { _loaded, selectedIndex } = $.state
+  if (!_loaded) return null
+
+  return (
     <SegmentedControl
       style={styles.segmented}
       values={DS}
-      selectedIndex={$.state.selectedIndex}
+      selectedIndex={selectedIndex}
       onValueChange={handleValueChange}
     />
-  ))
+  )
 }
 
-export default Segmented
+export default observer(Segmented)

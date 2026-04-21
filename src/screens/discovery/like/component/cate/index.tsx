@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-16 20:58:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-14 09:59:49
+ * @Last Modified time: 2026-04-20 22:23:57
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -17,6 +17,9 @@ import type { Ctx } from '../../types'
 function Cate() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
+  const { _loaded, type } = $.state
+  if (!_loaded) return null
+
   const styles = memoStyles()
 
   return (
@@ -24,7 +27,7 @@ function Cate() {
       style={styles.segment}
       size={11}
       values={DATA}
-      selectedIndex={SUBJECT_TYPE.findIndex(item => item.label === $.state.type)}
+      selectedIndex={SUBJECT_TYPE.findIndex(item => item.label === type)}
       onValueChange={$.onChange}
     />
   )

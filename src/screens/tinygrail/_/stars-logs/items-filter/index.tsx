@@ -5,6 +5,7 @@
  * @Last Modified time: 2025-04-22 05:31:18
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { ITEMS_DS } from '../ds'
 import SegmentedControl from '../../segmented-control'
 import { styles } from './styles'
@@ -20,4 +21,4 @@ function ItemsFilter({ value, onValueChange }) {
   )
 }
 
-export default ItemsFilter
+export default observer(ItemsFilter)

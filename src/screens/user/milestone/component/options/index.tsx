@@ -24,6 +24,8 @@ function Options() {
 
   const { advance } = systemStore
   const {
+    _loaded,
+    show,
     userInfo,
     fixedHeader,
     numColumns,
@@ -352,9 +354,11 @@ function Options() {
     [$, nsfw]
   )
 
+  if (!_loaded) return null
+
   return (
     <ActionSheet
-      show={$.state.show}
+      show={show}
       title='照片墙'
       height={Math.floor(_.window.height * 0.68)}
       onClose={() => $.setOptions('show', false)}

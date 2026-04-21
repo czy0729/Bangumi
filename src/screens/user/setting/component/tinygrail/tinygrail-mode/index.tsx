@@ -5,18 +5,20 @@
  * @Last Modified time: 2024-04-25 17:13:23
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap, SegmentedControl } from '@components'
 import { ItemSetting } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import styles from '../../../styles'
 import { DS, TEXTS } from '../ds'
 import { getYuqueThumbs } from '../../../utils'
 
+import type { WithFilterProps } from '../../../types'
+
 /** 小圣杯涨跌色 */
-function TinygrailMode({ filter }) {
-  return useObserver(() => (
+function TinygrailMode({ filter }: WithFilterProps) {
+  return (
     <ItemSetting
       ft={
         <SegmentedControl
@@ -47,7 +49,7 @@ function TinygrailMode({ filter }) {
     >
       <Heatmap id='设置.切换' title='小圣杯涨跌色' />
     </ItemSetting>
-  ))
+  )
 }
 
-export default TinygrailMode
+export default observer(TinygrailMode)

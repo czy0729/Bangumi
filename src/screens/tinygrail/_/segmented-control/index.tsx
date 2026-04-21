@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-03-18 22:40:29
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { SegmentedControl } from '@components'
 import { _ } from '@stores'
 
@@ -23,4 +24,4 @@ function TinygrailSegmentedControl<T extends DataSource>(props: SegmentedControl
   )
 }
 
-export default TinygrailSegmentedControl
+export default observer(TinygrailSegmentedControl)

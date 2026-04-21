@@ -5,20 +5,22 @@
  * @Last Modified time: 2024-04-24 10:52:43
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap, SegmentedControl } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import styles from '../../../styles'
 import { TEXTS, VALUES } from '../ds'
 import { useAsyncSetSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
 
+import type { WithFilterProps } from '../../../types'
+
 /** 收藏项右侧菜单 */
-function HomeOrigin({ filter }) {
+function HomeOrigin({ filter }: WithFilterProps) {
   const { value, handleSet } = useAsyncSetSetting('homeOrigin')
 
-  return useObserver(() => (
+  return (
     <ItemSetting
       ft={
         <SegmentedControl
@@ -46,7 +48,7 @@ function HomeOrigin({ filter }) {
     >
       <Heatmap id='设置.切换' title='显示搜索源头按钮' />
     </ItemSetting>
-  ))
+  )
 }
 
-export default HomeOrigin
+export default observer(HomeOrigin)

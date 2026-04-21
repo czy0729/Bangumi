@@ -6,11 +6,11 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Modal, SegmentedControl, SwitchPro, Text } from '@components'
 import { ItemSetting } from '@_'
 import { _, useStore } from '@stores'
 import { open } from '@utils'
-import { ob } from '@utils/decorators'
 import { HTML_SINGLE_DOC, WEB } from '@constants'
 import {
   ACTION_DDPLAY,
@@ -25,9 +25,11 @@ import { memoStyles } from './styles'
 import type { Ctx } from '../../types'
 
 function Config() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
+
   const styles = memoStyles()
-  const { configVisible, configs } = $.state
+
+  const { _loaded, configVisible, configs } = $.state
 
   return (
     <Modal style={styles.modal} visible={configVisible} title='通用配置' onClose={$.onCloseConfig}>
@@ -35,40 +37,47 @@ function Config() {
         <Text style={_.mt.sm} type='sub' size={12} bold>
           UI
         </Text>
+
         <ItemSetting
           hd='布局'
           hdSize={14}
           ft={
-            <SegmentedControl
-              style={styles.segmentedControl}
-              size={12}
-              values={['列表', '网格']}
-              selectedIndex={configs.layoutList ? 0 : 1}
-              onValueChange={label => {
-                if (
-                  (configs.layoutList === false && label === '列表') ||
-                  (configs.layoutList === true && label === '网格')
-                ) {
-                  $.onSwitchConfig('layoutList')
-                }
-              }}
-            />
+            !!_loaded && (
+              <SegmentedControl
+                style={styles.segmentedControl}
+                size={12}
+                values={['列表', '网格']}
+                selectedIndex={configs.layoutList ? 0 : 1}
+                onValueChange={label => {
+                  if (
+                    (configs.layoutList === false && label === '列表') ||
+                    (configs.layoutList === true && label === '网格')
+                  ) {
+                    $.onSwitchConfig('layoutList')
+                  }
+                }}
+              />
+            )
           }
         />
+
         <ItemSetting
           show={!configs.layoutList}
           hd='列数'
           hdSize={14}
           ft={
-            <SegmentedControl
-              style={styles.segmentedControl}
-              size={12}
-              values={['2', '3', '4']}
-              selectedIndex={Number(configs.layoutGridNums - 2)}
-              onValueChange={$.onSwitchLayoutGridNums}
-            />
+            !!_loaded && (
+              <SegmentedControl
+                style={styles.segmentedControl}
+                size={12}
+                values={['2', '3', '4']}
+                selectedIndex={Number(configs.layoutGridNums - 2)}
+                onValueChange={$.onSwitchLayoutGridNums}
+              />
+            )
           }
         />
+
         <Text style={_.mt.md} type='sub' size={12} bold>
           视频菜单
           <Text type='sub' size={12}>
@@ -88,6 +97,7 @@ function Config() {
             />
           }
         />
+
         <ItemSetting
           style={_.mt._sm}
           hd={ACTION_POTPLAYER}
@@ -101,6 +111,7 @@ function Config() {
             />
           }
         />
+
         <ItemSetting
           style={_.mt._sm}
           hd={ACTION_VLC}
@@ -114,6 +125,7 @@ function Config() {
             />
           }
         />
+
         <ItemSetting
           style={_.mt._sm}
           hd={ACTION_MPV}
@@ -127,6 +139,7 @@ function Config() {
             />
           }
         />
+
         {WEB && (
           <>
             <Text style={_.mt.md} type='sub' size={12} bold>
@@ -154,4 +167,4 @@ function Config() {
   )
 }
 
-export default ob(Config, COMPONENT)
+export default observer(Config)

@@ -19,8 +19,10 @@ import type { Ctx } from '../../types'
 function FavorList() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
+  const { _loaded, type } = $.state
+  if (!_loaded) return null
+
   const styles = memoStyles()
-  const { type } = $.state
 
   return (
     <>

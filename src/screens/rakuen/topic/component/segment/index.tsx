@@ -27,8 +27,8 @@ import type { Ctx } from '../../types'
 function Segement() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  const { state, commentFollowCount, commentMeCount, commentFriendsCount, likesFloorIds } = $
-  const { filterPost, filterType, _loaded } = state
+  const { commentFollowCount, commentMeCount, commentFriendsCount, likesFloorIds } = $
+  const { _loaded, filterPost, filterType } = $.state
 
   const data: Data = useMemo(() => {
     const list: Data = [FILTER_ALL]

@@ -23,8 +23,10 @@ function HotList() {
     [$]
   )
 
+  const { _loaded, collectRankSort } = $.state
+  if (!_loaded) return null
+
   const styles = memoStyles()
-  const { collectRankSort } = $.state
 
   return (
     <>
