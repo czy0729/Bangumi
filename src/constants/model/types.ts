@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-22 13:09:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-10 01:17:21
+ * @Last Modified time: 2026-04-21 22:06:34
  */
 import type { ModelValueOf } from '@types'
 import type {
@@ -39,6 +39,7 @@ import type {
   SETTING_INITIAL_PAGE,
   SETTING_LETTER_SPACING,
   SETTING_LIVE2D_MODEL,
+  SETTING_SERVER_STATUS,
   SETTING_SUBJECT_SPLIT_STYLES,
   SETTING_TRANSITION,
   SETTING_USER_GRID_NUM,
@@ -156,6 +157,8 @@ export type SettingCDNOrigin = ModelValueOf<typeof SETTING_CDN_ORIGIN>
 export type SettingCDNOriginCn = ModelValueOf<typeof SETTING_CDN_ORIGIN, 'label'>
 
 export type SettingLive2DModel = ModelValueOf<typeof SETTING_LIVE2D_MODEL>
+
+export type SettingServerStatus = ModelValueOf<typeof SETTING_SERVER_STATUS>
 
 export type SettingLive2DScale = '大' | '中' | '小'
 

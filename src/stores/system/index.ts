@@ -2,16 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-09 16:56:52
+ * @Last Modified time: 2026-04-22 23:42:20
  */
 import { getTimestamp } from '@utils'
-import { D7, DEV, WEB } from '@constants'
+import { D7, DEV, MODEL_SETTING_SERVER_STATUS, WEB } from '@constants'
 import UserStore from '../user'
 import Action from './action'
 import { NAMESPACE } from './init'
 
 class SystemStore extends Action {
+  private _serverStatusId = null
+
   init = async () => {
+    // 优先度: 高
     await this.readStorage(
       [
         'advance',
@@ -27,8 +30,17 @@ class SystemStore extends Action {
       NAMESPACE
     )
 
-    // 优先度: 高
     if (!WEB) {
+      if (MODEL_SETTING_SERVER_STATUS.getLabel(this.setting.serverStatus) !== '不显示') {
+        this.fetchServerStatus()
+
+        if (!this._serverStatusId) {
+          this._serverStatusId = setInterval(() => {
+            this.fetchServerStatus()
+          }, 90000)
+        }
+      }
+
       // 优先度: 中
       setTimeout(() => {
         this.setState({

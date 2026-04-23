@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-10-13 17:10:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-24 19:08:07
+ * @Last Modified time: 2026-04-21 14:15:55
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import {
   Activity,
   Button,
@@ -17,8 +18,8 @@ import {
   ScrollView,
   Text
 } from '@components'
+import { Notice } from '@_'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
 import { ping, t } from '@utils/fetch'
 import { getSitesList } from './utils'
 import { HM } from './ds'
@@ -34,40 +35,49 @@ class ServerStatus extends React.Component {
     pinging: false
   }
 
+  private _isUnmounted = false
+
+  componentWillUnmount() {
+    this._isUnmounted = true
+  }
+
+  /** 单个检测 */
   onPingOne = (index: number) => {
     const { list, pinging } = this.state
     if (pinging) return
 
-    t('网络探针.检测', {
-      index
-    })
+    // 跳过非 http 链接
+    if (!list[index].url?.startsWith('http')) {
+      return
+    }
+
+    t('网络探针.检测', { index })
 
     list[index].msg = []
     list[index].loading = true
-    this.setState(
-      {
-        list,
-        pinging: true
-      },
-      async () => {
-        const { list } = this.state
-        for (let ii = 0; ii < PING_COUNTS; ii += 1) {
-          const detail = await ping(list[index].url, list[index].headers)
-          list[index].msg.push(detail)
-          this.setState({
-            list
-          })
-        }
 
-        list[index].loading = false
-        this.setState({
-          list,
-          pinging: false
-        })
+    this.setState({ list, pinging: true }, async () => {
+      const { list } = this.state
+
+      for (let ii = 0; ii < PING_COUNTS; ii += 1) {
+        if (this._isUnmounted) return
+
+        const detail = await ping(list[index].url, list[index].headers)
+
+        if (!this._isUnmounted) {
+          list[index].msg.push(detail)
+          this.setState({ list })
+        }
       }
-    )
+
+      if (!this._isUnmounted) {
+        list[index].loading = false
+        this.setState({ list, pinging: false })
+      }
+    })
   }
 
+  /** 全部检测 */
   onPing = () => {
     const { pinging } = this.state
     if (pinging) return
@@ -82,28 +92,33 @@ class ServerStatus extends React.Component {
       async () => {
         const { list } = this.state
         for (let i = 0; i < list.length; i += 1) {
+          if (this._isUnmounted) return
+
+          // 跳过非 http 链接
+          if (!list[i].url?.startsWith('http')) continue
+
           list[i].loading = true
-          this.setState({
-            list
-          })
+          this.setState({ list })
 
           for (let ii = 0; ii < PING_COUNTS; ii += 1) {
+            if (this._isUnmounted) return
             const detail = await ping(list[i].url, list[i].headers)
-            list[i].msg.push(detail)
-            this.setState({
-              list
-            })
+
+            if (!this._isUnmounted) {
+              list[i].msg.push(detail)
+              this.setState({ list })
+            }
           }
 
-          list[i].loading = false
-          this.setState({
-            list
-          })
+          if (!this._isUnmounted) {
+            list[i].loading = false
+            this.setState({ list })
+          }
         }
 
-        this.setState({
-          pinging: false
-        })
+        if (!this._isUnmounted) {
+          this.setState({ pinging: false })
+        }
       }
     )
   }
@@ -125,6 +140,13 @@ class ServerStatus extends React.Component {
     return (
       <Component id='screen-server-status'>
         <HeaderPlaceholder />
+
+        <Notice>
+          <Text size={12} lineHeight={13} bold>
+            这是一个过时的功能，目前已不作维护。
+          </Text>
+        </Notice>
+
         <ScrollView
           style={_.container.plain}
           contentContainerStyle={this.styles.contentContainerStyle}
@@ -208,4 +230,4 @@ class ServerStatus extends React.Component {
   }
 }
 
-export default ob(ServerStatus)
+export default observer(ServerStatus)

@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-13 12:21:56
+ * @Last Modified time: 2026-04-21 23:55:05
  */
 import { HOST, IMG_DEFAULT } from '../constants'
 import { WEB } from '../device'
@@ -29,6 +29,9 @@ export const API_V0 = `${API_HOST}/v0` as const
 
 /** bangumi 私有 API（next） */
 export const API_P1 = 'https://next.bgm.tv/p1' as const
+
+/** bangumi status */
+export const API_MK_STATUS_HOST = 'https://bgm-status.ry.mk' as const
 
 /* -------------------------------------------------------------------------- */
 /* OAuth                                                                      */

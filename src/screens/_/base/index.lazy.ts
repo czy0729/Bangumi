@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-03-08 18:25:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-20 21:06:53
+ * @Last Modified time: 2026-04-21 21:26:19
  */
 
 /**
  * 实验性暂未启用
  */
 export * from './avatar'
+export * from './breathing-light'
 export * from './cover'
 export * from './popover'
 export * from './segment'

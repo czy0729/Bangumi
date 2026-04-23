@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-01-30 23:04:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-09 23:51:57
+ * @Last Modified time: 2026-04-22 23:19:50
  */
-import type { UserId } from '@types'
+import type { Loaded, UserId } from '@types'
 import type { INIT_SETTING, LOADED } from './init'
 
 export type CacheKey = keyof typeof LOADED
@@ -35,3 +35,9 @@ export type LikeRec = (1 | 0)[]
 export type Setting = typeof INIT_SETTING
 
 export type SettingKeys = keyof Setting
+
+export type ServerStatus = {
+  message: string
+  status: 'ok' | 'degraded' | 'down' | ''
+  _loaded: Loaded
+}

@@ -2,13 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-08-20 10:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-16 06:38:17
+ * @Last Modified time: 2026-04-21 13:54:01
  */
 import { subjectStore } from '@stores'
 import {
   API_CALENDAR,
-  CDN_DISCOVERY_HOME,
-  CDN_ONAIR,
   GITHUB_RELEASE_REPOS,
   HOST_AC,
   HOST_AC_API,
@@ -27,7 +25,7 @@ export function getSitesList() {
     const origins = getOriginConfig(subjectStore.origin)
     Object.keys(origins).forEach(type => {
       origins[type].forEach(item => {
-        if (item.active === 1) {
+        if (item.active === 1 && String(item.url).startsWith('http')) {
           OriginUrls.push({
             title: item.url,
             desc: `${item.name} (源头)`,
@@ -50,13 +48,6 @@ export function getSitesList() {
         loading: false
       },
       {
-        title: 'https://bangumi.tv',
-        desc: '登录验证码 (登录必要)',
-        url: 'https://bangumi.tv/about/copyright',
-        msg: [],
-        loading: false
-      },
-      {
         title: URL_OAUTH,
         desc: '授权登录服务 (登录必要)',
         url: URL_OAUTH,
@@ -65,50 +56,22 @@ export function getSitesList() {
       },
       {
         title: 'https://api.bgm.tv',
-        desc: '主站 Api (必要)',
+        desc: '主站 API (必要)',
         url: API_CALENDAR(),
         msg: [],
         loading: false
       },
       {
-        title: 'https://gitee.com',
-        desc: 'CDN 版本检测',
-        url: 'https://gitee.com/a402731062/bangumi/raw/master/data.json',
-        msg: [],
-        loading: false
-      },
-      {
-        title: 'https://cdn.jsdelivr.net',
-        desc: 'CDN 资源域',
-        url: CDN_DISCOVERY_HOME(),
-        msg: [],
-        loading: false
-      },
-      {
         title: 'https://tinygrail.com',
-        desc: '小圣杯 Api',
+        desc: '小圣杯 API',
         url: 'https://tinygrail.com',
         msg: [],
         loading: false
       },
       {
         title: GITHUB_RELEASE_REPOS,
-        desc: 'App 版本检测',
+        desc: '客户端版本检测',
         url: GITHUB_RELEASE_REPOS,
-        msg: [],
-        loading: false
-      },
-      {
-        title: 'https://bangumi-mosaic-tile.aho.im',
-        desc: '进度瓷砖 Api',
-        url: 'https://bangumi-mosaic-tile.aho.im',
-        msg: [],
-        loading: false
-      },
-      {
-        title: '/gh/ekibun/bangumi_onair',
-        desc: '每日放送',
-        url: CDN_ONAIR(),
         msg: [],
         loading: false
       },

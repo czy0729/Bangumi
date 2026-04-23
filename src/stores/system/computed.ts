@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:11:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-06 19:44:55
+ * @Last Modified time: 2026-04-22 22:44:49
  */
 import { computed } from 'mobx'
 import { radiusMd } from '@styles'
@@ -52,6 +52,13 @@ export default class Computed extends State implements StoreConstructor<typeof S
     return this.state.advanceDetail
   }
 
+  /** 服务可用性 */
+  @computed get serverStatus() {
+    const STATE_KEY = 'serverStatus'
+
+    return this.state[STATE_KEY]
+  }
+
   /** 是否显示图片预览 */
   @computed get imageViewer() {
     return this.state.imageViewer
@@ -96,6 +103,19 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** setting.cdnAvatarV2 */
   @computed get cdnAvatar() {
+    return false
+  }
+
+  /** 是否需要提示服务可用性有状况 */
+  @computed get notifyServerStatus() {
+    const { serverStatus } = this.setting
+    if (serverStatus === 'none') return false
+
+    const { status } = this.serverStatus
+    if (serverStatus === 'degraded') return status === 'degraded' || status === 'down'
+
+    if (serverStatus === 'down') return status === 'down'
+
     return false
   }
 

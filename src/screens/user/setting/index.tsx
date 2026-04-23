@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-16 23:16:07
+ * @Last Modified time: 2026-04-21 14:26:52
  */
 import React from 'react'
 import { Component, HeaderPlaceholder, HeaderV2, Input, Page, ScrollView } from '@components'
@@ -22,6 +22,7 @@ import Katakana from './component/katakana'
 import Lasttime from './component/lasttime'
 import Rakuen from './component/rakuen'
 import Route from './component/route'
+import Status from './component/status'
 import Storage from './component/storage'
 import Subject from './component/subject'
 import System from './component/system'
@@ -101,7 +102,12 @@ const Setting = (props: NavigationProps<Params>) => {
           <Dev navigation={navigation} />
         </ScrollView>
       </Page>
-      <HeaderV2 title={i18n.setting()} alias='设置' hm={HM} />
+      <HeaderV2
+        title={i18n.setting()}
+        alias='设置'
+        hm={HM}
+        headerRight={() => <Status navigation={navigation} />}
+      />
     </Component>
   ))
 }

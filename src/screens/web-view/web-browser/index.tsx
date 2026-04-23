@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-12-30 20:54:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-26 22:44:46
+ * @Last Modified time: 2026-04-21 15:20:44
  */
 import React, { useCallback, useState } from 'react'
+import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page } from '@components'
-
 import { usePreventBack } from '@utils/hooks'
 import Notice from './component/notice'
 import WebView from './component/webview'
@@ -18,9 +18,10 @@ import type { Props } from './types'
 let show = true
 
 /** 浏览器 */
-const WebBrowser = ({ route }: Props) => {
+function WebBrowser({ route }: Props) {
   const [key, setKey] = useState(0)
   const [showDesc, setShowDesc] = useState(show)
+
   const { url, title, desc, injectedViewport, gestureEnabled = true } = route.params
 
   const handleClose = useCallback(() => {
@@ -34,7 +35,6 @@ const WebBrowser = ({ route }: Props) => {
   usePreventBack({
     enabled: !gestureEnabled
   })
-
   if (!url) return null
 
   return (
@@ -53,4 +53,4 @@ const WebBrowser = ({ route }: Props) => {
   )
 }
 
-export default WebBrowser
+export default observer(WebBrowser)

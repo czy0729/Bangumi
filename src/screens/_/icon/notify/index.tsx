@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:19:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 01:21:10
+ * @Last Modified time: 2026-04-22 17:33:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,7 +19,7 @@ import { memoStyles } from './styles'
 import type { Props as IconNotifyProps } from './types'
 export type { IconNotifyProps }
 
-let isSetTimeout = false
+let isSetInterval = false
 
 export const IconNotify = observer(
   class IconNotifyComponent extends React.Component<IconNotifyProps> {
@@ -28,8 +28,8 @@ export const IconNotify = observer(
     }
 
     componentDidMount() {
-      if (!isSetTimeout) {
-        isSetTimeout = true
+      if (!isSetInterval) {
+        isSetInterval = true
 
         setInterval(() => {
           if (userStore.isWebLogin) {

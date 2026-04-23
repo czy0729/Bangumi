@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-11 06:28:07
+ * @Last Modified time: 2026-04-21 22:06:47
  */
 import Crypto from '@utils/crypto'
 import { IOS } from '../constants'
@@ -758,6 +758,25 @@ export const SETTING_LIVE2D_MODEL = [
 
 /** [设置] Live2D Model */
 export const MODEL_SETTING_LIVE2D_MODEL = new Model(SETTING_LIVE2D_MODEL, 'SETTING_LIVE2D_MODEL')
+
+/** [设置] 显示服务可用性 */
+export const SETTING_SERVER_STATUS = [
+  {
+    label: '不显示',
+    value: 'none'
+  },
+  {
+    label: '降级时',
+    value: 'degraded'
+  },
+  {
+    label: '中断时',
+    value: 'down'
+  }
+] as const
+
+/** [设置] 显示服务可用性 */
+export const MODEL_SETTING_SERVER_STATUS = new Model(SETTING_SERVER_STATUS, 'SETTING_SERVER_STATUS')
 
 /** [设置] 楼层导航条方向 */
 export const RAKUEN_SCROLL_DIRECTION = [

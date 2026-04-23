@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-12 22:34:25
+ * @Last Modified time: 2026-04-21 14:30:41
  */
 import type { ImageSourcePropType } from 'react-native'
 import type {
@@ -427,7 +427,7 @@ export type RouteWebBrowser = (
     url: string
 
     /** 页面标题 */
-    title: string
+    title?: string
 
     /** 顶部补充说明 */
     desc?: string

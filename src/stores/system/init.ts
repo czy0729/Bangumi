@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-20 21:12:47
+ * @Last Modified time: 2026-04-22 23:19:38
  */
 import {
   IOS,
@@ -13,6 +13,8 @@ import {
   MODEL_SETTING_HOME_LAYOUT,
   MODEL_SETTING_HOME_SORTING,
   MODEL_SETTING_INITIAL_PAGE,
+  MODEL_SETTING_LIVE2D_MODEL,
+  MODEL_SETTING_SERVER_STATUS,
   MODEL_SETTING_SUBJECT_SPLIT_STYLES,
   MODEL_SETTING_TRANSITION,
   MODEL_SETTING_USER_GRID_NUM,
@@ -23,23 +25,16 @@ import { IOS_IMAGE_CACHE_V2 } from '@src/config'
 import { radiusMd } from '@styles'
 
 import type { MUSUME_PROMPT } from '@utils/kv/ds'
+import type { EventKeys, MenuItem, Paths, SettingLive2DScale } from '@types'
 import type {
-  EventKeys,
-  MenuItem,
-  Paths,
-  SettingCDNOrigin,
-  SettingHomeCountView,
-  SettingHomeGridCoverLayout,
-  SettingHomeLayout,
-  SettingHomeSorting,
-  SettingInitialPage,
-  SettingLive2DModel,
-  SettingLive2DScale,
-  SettingSubjectSplitStyles,
-  SettingTransition,
-  SettingUserGridNum
-} from '@types'
-import type { HomeRenderTabs, HomeTabs, LayoutValue, LikeRec, TrackIds, UserRemark } from './types'
+  HomeRenderTabs,
+  HomeTabs,
+  LayoutValue,
+  LikeRec,
+  ServerStatus,
+  TrackIds,
+  UserRemark
+} from './types'
 
 export const NAMESPACE = 'System'
 
@@ -140,7 +135,7 @@ export const INIT_SETTING = {
   cdn: false,
 
   /** CDN 源头 (已不支持修改) */
-  cdnOrigin: MODEL_SETTING_CDN_ORIGIN.getValue<SettingCDNOrigin>('magma'),
+  cdnOrigin: MODEL_SETTING_CDN_ORIGIN.getValue('magma'),
 
   /** 头像启用付费 CDN */
   cdnAvatarV2: false,
@@ -184,7 +179,7 @@ export const INIT_SETTING = {
   /** 主题跟随系统 */
   autoColorScheme: false,
 
-  /** 是否允许点击 Logo 切换主题 */
+  /** 是否允许点击 LOGO 切换主题 */
   logoToggleTheme: false,
 
   /** 封面拟物 */
@@ -206,7 +201,7 @@ export const INIT_SETTING = {
   source: false,
 
   /** 时光机网格个数 */
-  userGridNum: MODEL_SETTING_USER_GRID_NUM.getValue<SettingUserGridNum>('4'),
+  userGridNum: MODEL_SETTING_USER_GRID_NUM.getValue('4'),
 
   /** 时光机分页 */
   userPagination: true,
@@ -230,13 +225,13 @@ export const INIT_SETTING = {
   zoneSensor: false,
 
   /** 启动页 */
-  initialPage: MODEL_SETTING_INITIAL_PAGE.getValue<SettingInitialPage>('进度'),
+  initialPage: MODEL_SETTING_INITIAL_PAGE.getValue('进度'),
 
   /** 首屏底栏页面是否懒加载 */
   bottomTabLazy: true,
 
   /** 切页动画 */
-  transition: MODEL_SETTING_TRANSITION.getValue<SettingTransition>('水平'),
+  transition: MODEL_SETTING_TRANSITION.getValue('水平'),
 
   /** 是否显示正版播放源 */
   showLegalSource: WEB,
@@ -263,14 +258,13 @@ export const INIT_SETTING = {
   homeTabs: ['all', 'anime', 'book', 'real'] as HomeTabs,
 
   /** 首页收藏布局 */
-  homeLayout: MODEL_SETTING_HOME_LAYOUT.getValue<SettingHomeLayout>('列表'),
+  homeLayout: MODEL_SETTING_HOME_LAYOUT.getValue('列表'),
 
   /** 首页收藏列表布局时, 是否紧凑显示列表项 */
   homeListCompact: false,
 
   /** 首页收藏网格布局时, 条目封面形状 */
-  homeGridCoverLayout:
-    MODEL_SETTING_HOME_GRID_COVER_LAYOUT.getValue<SettingHomeGridCoverLayout>('正方形'),
+  homeGridCoverLayout: MODEL_SETTING_HOME_GRID_COVER_LAYOUT.getValue('正方形'),
 
   /** 首页收藏网格布局时, 是否显示条目标题 */
   homeGridTitle: true,
@@ -279,10 +273,10 @@ export const INIT_SETTING = {
   homeGridEpAutoAdjust: true,
 
   /** 首页放送数字显示 */
-  homeCountView: MODEL_SETTING_HOME_COUNT_VIEW.getValue<SettingHomeCountView>('A'),
+  homeCountView: MODEL_SETTING_HOME_COUNT_VIEW.getValue('A'),
 
   /** 首页收藏排序 */
-  homeSorting: MODEL_SETTING_HOME_SORTING.getValue<SettingHomeSorting>('网页'),
+  homeSorting: MODEL_SETTING_HOME_SORTING.getValue('网页'),
 
   /** 首页右上角自定义功能 (左) */
   homeTopLeftCustom: 'Calendar' as Paths,
@@ -312,10 +306,16 @@ export const INIT_SETTING = {
   live2DVoice: false,
 
   /** 发现页看板娘 live-2d 模型 */
-  live2DModel: 'auto_riff' as SettingLive2DModel,
+  live2DModel: MODEL_SETTING_LIVE2D_MODEL.getValue('全自动 Bangumi 娘'),
 
   /** 发现页看板娘 live-2d 渲染大小 */
   live2dScale: '中' as SettingLive2DScale,
+
+  /** 首页 LOGO 旁显示服务可用性的时机 */
+  serverStatus: MODEL_SETTING_SERVER_STATUS.getValue('中断时'),
+
+  /** 服务可用性呼吸灯效果 */
+  serverStatusBreathing: true,
 
   /** 是否不使用字体 */
   customFontFamily: false,
@@ -342,8 +342,7 @@ export const INIT_SETTING = {
   subjectPromoteAlias: false,
 
   /** 条目不同板块间是否显示分割线 (支持多种样式) */
-  subjectSplitStyles:
-    MODEL_SETTING_SUBJECT_SPLIT_STYLES.getValue<SettingSubjectSplitStyles>('不显示'),
+  subjectSplitStyles: MODEL_SETTING_SUBJECT_SPLIT_STYLES.getValue('不显示'),
 
   /** 条目对吐槽中的斜杠进行换行 */
   subjectCommentSplit: false,
@@ -479,6 +478,13 @@ export const STATE = {
 
   /** 是否显示图片预览 */
   imageViewer: INIT_IMAGE_VIEWER,
+
+  /** 服务可用性 */
+  serverStatus: {
+    status: '',
+    message: '',
+    _loaded: 0
+  } as ServerStatus,
 
   /** 是否开发环境 */
   dev: false,

@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2025-08-07 00:18:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-09 05:01:14
+ * @Last Modified time: 2026-04-21 15:52:40
  */
 import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import RNWebView from 'react-native-webview'
+import { observer } from 'mobx-react'
 import { Flex, KeyboardSpacer } from '@components'
 import { userStore } from '@stores'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
-import { TimerRef } from '@types'
 import { hashString, wrapWithGuard } from './utils'
 import { COMPONENT } from './ds'
-import { Props } from './types'
+
+import type { TimerRef } from '@types'
+import type { Props } from './types'
 
 function WebView({ uri, injectedJavaScript = '' }: Props) {
   r(COMPONENT)
@@ -51,6 +52,7 @@ function WebView({ uri, injectedJavaScript = '' }: Props) {
     didTryInjectThisLoadRef.current = true
     return true
   }, [guardedCodeMemo])
+
   const handleTryInjectWithRetry = useCallback(
     (retries = 8, delay = 80) => {
       clearRetryTimer()
@@ -91,7 +93,7 @@ function WebView({ uri, injectedJavaScript = '' }: Props) {
 
   useEffect(() => clearRetryTimer, [])
 
-  return useObserver(() => (
+  return (
     <Flex.Item>
       <RNWebView
         ref={webViewRef}
@@ -108,7 +110,7 @@ function WebView({ uri, injectedJavaScript = '' }: Props) {
       />
       <KeyboardSpacer />
     </Flex.Item>
-  ))
+  )
 }
 
-export default WebView
+export default observer(WebView)
