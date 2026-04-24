@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-08 11:55:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 06:04:07
+ * @Last Modified time: 2026-04-24 11:12:11
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -34,21 +34,26 @@ function ItemList({ item, index, page }: Props) {
   let collection = collectionStore.collect(item.id, typeCn)
   if ($.isMe && collection === title.replace('看', $.action)) collection = undefined
 
+  const { userCommentsFull, userCommentsLines } = systemStore.setting
+
   return (
     <ItemCollections
       navigation={navigation}
       index={index}
       inViewY={H_HEADER}
       {...item}
-      showManage={showManage}
-      collection={collection}
       filter={filter && $.isTabActive(subjectType, key) ? filter : ''}
-      hideScore={false}
       rank={rankText}
+      type={typeCn}
+      collection={collection}
+      relatedId={timelineStore.relatedId($.username || $.userId, item.id)}
+      showManage={showManage}
+      showLikesCreate={!$.isMe}
+      hideScore={false}
       showLabel={false}
       simpleStars
-      type={typeCn}
-      relatedId={timelineStore.relatedId($.username || $.userId, item.id)}
+      commentsFull={userCommentsFull}
+      commentsLines={userCommentsLines}
       event={EVENT}
     />
   )

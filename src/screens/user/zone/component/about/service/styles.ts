@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-08 22:13:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-08 22:41:11
+ * @Last Modified time: 2026-04-23 12:51:24
  */
 import { _ } from '@stores'
 
@@ -22,5 +22,8 @@ export const styles = _.create({
     borderColor: 'rgba(255, 255, 255, 0.08)',
     borderRadius: _.radiusMd,
     overflow: 'hidden'
+  },
+  text: {
+    maxWidth: '86%'
   }
 })

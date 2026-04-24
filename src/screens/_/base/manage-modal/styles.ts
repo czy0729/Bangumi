@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-06-14 15:54:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 17:41:29
+ * @Last Modified time: 2026-04-23 21:50:02
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   modal: {
-    width: _.r(_.window.width - 2 * _.wind),
+    width: _.r(_.window.width - 2 * (_.wind - 4)),
     maxWidth: _.device(408, 560),
     paddingTop: _.device(_.md + 2, 28),
     paddingHorizontal: _.device(0, _.sm),

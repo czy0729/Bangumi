@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 05:22:17
+ * @Last Modified time: 2026-04-23 22:17:50
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -44,7 +44,10 @@ export const ItemCollections = observer(
     event,
     filter,
     showManage,
+    showLikesCreate,
     touchPosition,
+    commentsFull,
+    commentsLines,
     active,
     onEdit
   }: ItemCollectionsProps) => {
@@ -81,7 +84,10 @@ export const ItemCollections = observer(
         event={event}
         filter={filter}
         showManage={showManage}
+        showLikesCreate={showLikesCreate}
         touchPosition={touchPosition}
+        commentsFull={commentsFull}
+        commentsLines={commentsLines}
         active={active}
         onEdit={onEdit}
       />

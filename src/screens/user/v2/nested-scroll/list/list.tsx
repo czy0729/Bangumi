@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-09 15:54:50
+ * @Last Modified time: 2026-04-23 23:54:13
  */
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { ListView } from '@components'
 import { keyExtractor } from '@utils'
 import { memo } from '@utils/decorators'
@@ -44,6 +44,11 @@ const List = memo(
       passProps.onFooterRefresh = onFooterRefresh
     }
 
+    const elListHeaderComponent = useMemo(
+      () => <ToolBar page={page} pageCurrent={pageCurrent} pageTotal={pageTotal} />,
+      [page, pageCurrent, pageTotal]
+    )
+
     const handleRef = useCallback(
       (ref: { scrollToIndex: any; scrollToOffset: any }) => {
         forwardRef(ref, page)
@@ -51,7 +56,7 @@ const List = memo(
       [forwardRef, page]
     )
 
-    const renderItem = useCallback(
+    const handleRenderItem = useCallback(
       ({ item, index }) => <Item item={item} index={index} page={page} />,
       [page]
     )
@@ -65,10 +70,8 @@ const List = memo(
         numColumns={numColumns}
         keyboardDismissMode='on-drag'
         scrollEventThrottle={16}
-        renderItem={renderItem}
-        ListHeaderComponent={
-          <ToolBar page={page} pageCurrent={pageCurrent} pageTotal={pageTotal} />
-        }
+        ListHeaderComponent={elListHeaderComponent}
+        renderItem={handleRenderItem}
         onScroll={onScroll}
         {...passProps}
       />

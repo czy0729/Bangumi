@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-12-27 21:49:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 06:14:25
+ * @Last Modified time: 2026-04-23 23:50:03
  */
 import React, { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { NestedScrollParallaxHeader } from '@components'
-import { useStore } from '@stores'
+import { uiStore, useStore } from '@stores'
 import BackgroundImage from '../component/background-image'
 import HeaderComponent from '../component/header-component'
 import Menu from '../component/menu'
@@ -40,6 +40,15 @@ function NestedScroll() {
 
   const handleBackground = useCallback((fixed: boolean) => <BackgroundImage fixed={fixed} />, [])
 
+  const handleIndexChange = useCallback(
+    (page: number) => {
+      $.onChange(page)
+
+      uiStore.closeAll()
+    },
+    [$]
+  )
+
   return (
     <>
       <NestedScrollParallaxHeader
@@ -51,7 +60,7 @@ function NestedScroll() {
         BackgroundComponent={handleBackground}
         TabBarLeft={elTabBarLeft}
         renderLabel={renderLabel}
-        onIndexChange={$.onChange}
+        onIndexChange={handleIndexChange}
       >
         {TABS.map(({ title }) => (
           <List key={title} title={title} />

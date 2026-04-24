@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-27 21:49:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 06:58:25
+ * @Last Modified time: 2026-04-23 23:48:45
  */
 import React, { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
@@ -45,6 +45,7 @@ function NestedScroll() {
   const handleIndexChange = useCallback(
     (page: number) => {
       $.onTabChange(page)
+
       uiStore.closeAll()
     },
     [$]

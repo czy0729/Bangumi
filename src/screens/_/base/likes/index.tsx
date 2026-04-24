@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 05:22:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 17:05:23
+ * @Last Modified time: 2026-04-23 22:13:49
  */
 import React from 'react'
 import { toJS } from 'mobx'
@@ -26,11 +26,13 @@ export const Likes = observer(
   ({
     style,
     show = false,
+    showCreate = false,
     topicId,
     id,
     formhash,
     likeType,
     offsets,
+    limit = LIMIT,
     storybook,
     onPress,
     onLongPress
@@ -52,7 +54,7 @@ export const Likes = observer(
     // 避免不可预料的结构错误
     if (!Array.isArray(toJS(likesList))) return null
 
-    const showCreateBtn = show // !!formhash && show
+    const showCreateBtn = show || showCreate
     if (!showCreateBtn && !likesList.length) return null
 
     const styles = memoStyles()
@@ -81,7 +83,7 @@ export const Likes = observer(
             </Touchable>
           )}
           {likesList
-            .filter((item, index) => (item.selected ? true : state ? true : index < LIMIT))
+            .filter((item, index) => (item.selected ? true : state ? true : index < limit))
             .map(item => {
               const passProps = {
                 topicId,
@@ -98,7 +100,7 @@ export const Likes = observer(
                 </Flip>
               )
             })}
-          {likesList.length >= LIMIT + 1 && !state && (
+          {likesList.length >= limit + 1 && !state && (
             <Touchable animate hitSlop={HIT_SLOP} onPress={setTrue}>
               <Flex style={styles.item} justify='center'>
                 <Iconfont name='md-navigate-next' size={18} />

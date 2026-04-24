@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-24 08:40:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 05:20:03
+ * @Last Modified time: 2026-04-23 22:14:05
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -10,7 +10,7 @@ import { uiStore, userStore } from '@stores'
 import { LIKE_TYPE_TIMELINE } from '@constants'
 import { Likes as LikesComp } from '../../../base'
 
-function Likes({ relatedId, subjectId }) {
+function Likes({ relatedId, subjectId, limit, showCreate }) {
   if (!relatedId) return null
 
   return (
@@ -18,6 +18,8 @@ function Likes({ relatedId, subjectId }) {
       topicId={subjectId}
       id={relatedId}
       likeType={LIKE_TYPE_TIMELINE}
+      limit={limit}
+      showCreate={showCreate}
       formhash={userStore.formhash}
       onLongPress={uiStore.showLikesUsers}
     />

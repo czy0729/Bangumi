@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-09 08:03:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 06:35:40
+ * @Last Modified time: 2026-04-23 14:04:53
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -18,6 +18,23 @@ import type { Item } from './types'
 
 function Service() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
+
+  const extraItems: Item[] = []
+  if ($.isAdvance) {
+    extraItems.push({
+      label: 'VIP',
+      value: '高级会员',
+      color: _.colorWarning
+    })
+  }
+
+  if ($.users.disconnectUrl) {
+    extraItems.push({
+      label: '好友',
+      value: $.state.friendStatus || '查询时间',
+      color: _.colorMain
+    })
+  }
 
   const baseItems: Item[] = [
     {
@@ -40,20 +57,12 @@ function Service() {
     }
   ]
 
-  const extraItems: Item[] = []
-  if ($.isAdvance) {
-    extraItems.push({
-      label: 'VIP',
-      value: '高级会员',
-      color: _.colorWarning
-    })
-  }
-
-  if ($.users.disconnectUrl) {
-    extraItems.push({
-      label: '好友',
-      value: $.state.friendStatus || '查询时间',
-      color: _.colorMain
+  if ($.bg?.startsWith?.('http')) {
+    baseItems.push({
+      label: '背景',
+      value: '查看图片',
+      href: $.bg,
+      color: _.colorBg
     })
   }
 
@@ -98,7 +107,14 @@ function Service() {
                 {item.label}
               </Text>
             </View>
-            <Text size={11} bold onPress={() => handlePress(item)}>
+            <Text
+              style={styles.text}
+              size={11}
+              bold
+              ellipsizeMode='middle'
+              numberOfLines={1}
+              onPress={() => handlePress(item)}
+            >
               {item.value}
             </Text>
           </Flex>

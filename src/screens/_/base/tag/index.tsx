@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 05:06:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 20:30:53
+ * @Last Modified time: 2026-04-24 00:59:17
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -27,11 +27,11 @@ export const Tag = observer(
 
     const styles = memoStyles()
 
-    const tagType = type || getType(value) || _.select('plain', 'title')
+    const tagType = type || getType(value) || _.select('plain', 'desc')
     const isActive = tagType.includes('Active')
 
     const textType = (
-      isActive ? _.select('plain', 'title') : _.select('sub', tagType === 'plain' ? 'sub' : tagType)
+      isActive ? _.select('plain', 'desc') : _.select('sub', tagType === 'plain' ? 'sub' : tagType)
     ) as TextType
 
     return (

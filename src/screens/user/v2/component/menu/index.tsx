@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-30 14:44:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 06:05:25
+ * @Last Modified time: 2026-04-23 22:27:57
  */
 import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
@@ -42,12 +42,9 @@ function Menu() {
     [statusBarHeight]
   )
 
-  const { userId } = $
+  const { userId, isMe } = $
   const { userId: paramsUserId } = $.params
   const { id, username, nickname } = $.usersInfo
-  const self = !!id && $.myUserId === id
-
-  const memoData = useMemo(() => (self ? DATA_ME : DATA_OTHER), [self])
 
   const handleSelect = useCallback(
     (key: MenuLabel) => {
@@ -71,12 +68,12 @@ function Menu() {
         style={
           paramsUserId
             ? [header.right, styles.more]
-            : self
+            : isMe
             ? [header.left, styles.menu]
             : [header.right, styles.more]
         }
       >
-        <Popover style={styles.touch} data={memoData} onSelect={handleSelect}>
+        <Popover style={styles.touch} data={isMe ? DATA_ME : DATA_OTHER} onSelect={handleSelect}>
           <Flex style={styles.icon} justify='center'>
             <Iconfont name='md-menu' color={_.__colorPlain__} shadow />
           </Flex>

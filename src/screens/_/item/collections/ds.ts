@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:20:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-12 00:16:26
+ * @Last Modified time: 2026-04-23 22:16:39
  */
 import { rc } from '@utils/dev'
 import { EVENT, FROZEN_FN, IMG_HEIGHT, IMG_WIDTH } from '@constants'
@@ -52,7 +52,10 @@ export const DEFAULT_PROPS = {
   event: EVENT as Props['event'],
   filter: '' as Props['filter'],
   showManage: false as Props['showManage'],
+  showLikesCreate: false as Props['showLikesCreate'],
   touchPosition: 'outer' as Props['touchPosition'],
+  commentsFull: false as Props['commentsFull'],
+  commentsLines: undefined as Props['commentsLines'],
   active: false as boolean,
   onEdit: FROZEN_FN as Props['onEdit']
 } as const

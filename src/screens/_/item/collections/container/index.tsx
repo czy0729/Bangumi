@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-01-24 05:56:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 05:18:44
+ * @Last Modified time: 2026-04-24 11:29:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,8 +11,11 @@ import { Touchable } from '@components'
 import { stl } from '@utils'
 import { memoStyles } from './styles'
 
-function Container({ active, onPress, children }) {
+import type { Props } from './types'
+
+function Container({ active, onPress, children }: Props) {
   const styles = memoStyles()
+
   const Component = onPress ? Touchable : View
 
   return (

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-03-19 16:50:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-10 22:37:43
+ * @Last Modified time: 2026-04-23 22:36:04
  */
 import React, { useCallback, useRef, useState } from 'react'
 import { Animated } from 'react-native'
-import { _ } from '@stores'
+import { _, uiStore } from '@stores'
 import { memo } from '@utils/decorators'
 import { FROZEN_FN, FROZEN_OBJECT } from '@constants'
 import { H_HEADER } from '../ds'
@@ -81,6 +81,8 @@ const Scroll = memo(
 
     const handleSwipeStart = useCallback(() => {
       handleUpdatePageOffset([-1, 1])
+
+      uiStore.closeAll()
     }, [handleUpdatePageOffset])
 
     const handleIndexChange = useCallback(

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 14:20:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-03 16:24:22
+ * @Last Modified time: 2026-04-24 00:23:14
  */
 import { StyleSheet } from 'react-native'
 import { computed } from 'mobx'
@@ -951,6 +951,26 @@ export default class Computed extends State implements StoreConstructor<typeof S
   /** 54 号字 */
   @computed get fontSize54() {
     return this.fontSize(54)
+  }
+
+  /** 64 号字 */
+  @computed get fontSize64() {
+    return this.fontSize(64)
+  }
+
+  /** 72 号字 */
+  @computed get fontSize72() {
+    return this.fontSize(72)
+  }
+
+  /** 80 号字 */
+  @computed get fontSize80() {
+    return this.fontSize(80)
+  }
+
+  /** 96 号字 */
+  @computed get fontSize96() {
+    return this.fontSize(96)
   }
 
   /** RenderHTML baseFontStyle 通用封装 */

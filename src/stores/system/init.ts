@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-22 23:19:38
+ * @Last Modified time: 2026-04-23 21:29:51
  */
 import {
   IOS,
@@ -211,6 +211,12 @@ export const INIT_SETTING = {
 
   /** 时光机视差背景 */
   userSensor: false,
+
+  /** 时光机评论是否使用平铺布局 */
+  userCommentsFull: true,
+
+  /** 时光机评论默认显示行数 */
+  userCommentsLines: 8,
 
   /** 用户备注 */
   userRemark: {} as UserRemark,

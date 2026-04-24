@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-13 21:11:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-24 11:10:50
+ * @Last Modified time: 2026-04-24 00:59:13
  */
 import { _ } from '@stores'
 
@@ -45,6 +45,10 @@ export const memoStyles = _.memoStyles(() => ({
     borderColor: _.select(_.colorBorder, _._colorDarkModeLevel1)
   },
   title: {
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
+    borderColor: _.select(_.colorBorder, _._colorDarkModeLevel1)
+  },
+  desc: {
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
     borderColor: _.select(_.colorBorder, _._colorDarkModeLevel1)
   },

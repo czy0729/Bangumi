@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-04 06:26:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-24 08:50:39
+ * @Last Modified time: 2026-04-23 23:59:21
  */
 import { _, collectionStore, uiStore } from '@stores'
 import { debounce, feedback, updateVisibleBottom } from '@utils'
@@ -14,7 +14,13 @@ import Fetch from './fetch'
 import { NAMESPACE } from './ds'
 
 import type { ScrollToIndex, ScrollToOffset } from '@components'
-import type { CollectionsOrder, CollectionsOrderCn, SubjectType, SubjectTypeCn } from '@types'
+import type {
+  CollectionsOrder,
+  CollectionsOrderCn,
+  ScrollEvent,
+  SubjectType,
+  SubjectTypeCn
+} from '@types'
 import type { STATE } from './ds'
 
 export default class Action extends Fetch {
@@ -273,6 +279,12 @@ export default class Action extends Fetch {
     this.fetchUserCollectionsNormal(value)
   }
 
+  updateVisibleBottom = updateVisibleBottom.bind(this)
+
   /** 更新可视范围底部 y */
-  onScroll = updateVisibleBottom.bind(this)
+  onScroll = (e: ScrollEvent) => {
+    this.updateVisibleBottom(e)
+
+    uiStore.closeAll()
+  }
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-08 17:35:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 05:17:13
+ * @Last Modified time: 2026-04-24 12:10:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,11 +15,11 @@ import { memoStyles } from './styles'
 function Bottom({ id, score, rank, total, simpleStars, time, tags, hideScore, hasComment }) {
   const styles = memoStyles()
 
-  // 数据预处理
   const info = String(time).slice(2)
   const tag = tags
     .split(' ')
-    .filter(item => !!item && item !== '自己可见')
+    .map((item: string) => item.replace('自己可见', ''))
+    .filter((item: string) => !!item)
     .slice(0, 4)
 
   const hasScore = !!score
@@ -83,7 +83,13 @@ function Bottom({ id, score, rank, total, simpleStars, time, tags, hideScore, ha
       {hasRight && (
         <>
           {(hasLeft || hasCenter) && <View style={styles.split} />}
-          <Tags value={tag} />
+          <Flex.Item
+            style={{
+              paddingRight: _._wind
+            }}
+          >
+            <Tags value={tag} />
+          </Flex.Item>
         </>
       )}
     </Flex>

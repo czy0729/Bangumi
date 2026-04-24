@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:19:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-12 06:16:04
+ * @Last Modified time: 2026-04-24 12:09:23
  */
-import React from 'react'
+import React, { useCallback, useMemo } from 'react'
+import { View } from 'react-native'
 import { Component, Flex, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { EVENT, FROZEN_FN, IMG_WIDTH } from '@constants'
-import { PreventTouchPlaceholder } from '../../base'
+import { computeInViewY, PreventTouchPlaceholder } from '../../base'
 import { IconTouchable } from '../../icon'
 import Bottom from './bottom'
 import Comments from './comments'
@@ -53,15 +54,27 @@ const Item = memo(
     event = EVENT,
     filter = '',
     showManage = false,
+    showLikesCreate = false,
     touchPosition = 'outer',
+    commentsFull = false,
+    commentsLines,
     active = false,
     onEdit = FROZEN_FN
   }) => {
-    const subjectId = String(id).replace('/subject/', '')
-    const hasComment = !!comments && comments !== 'undefined'
-    const isOuterTouch = touchPosition === 'outer'
+    const {
+      subjectId,
+      hasComment
+      // isOuterTouch
+    } = useMemo(
+      () => ({
+        subjectId: String(id).replace('/subject/', ''),
+        hasComment: !!comments && comments !== 'undefined',
+        isOuterTouch: touchPosition === 'outer'
+      }),
+      [id, comments, touchPosition]
+    )
 
-    const handleNavigate = () => {
+    const handleNavigate = useCallback(() => {
       navigation.push('Subject', {
         subjectId: id,
         _jp: name,
@@ -76,52 +89,75 @@ const Item = memo(
         type: 'list',
         ...event.data
       })
-    }
+    }, [navigation, id, name, nameCn, cover, type, event])
 
-    const elTitle = (
-      <Title
-        name={name}
-        nameCn={nameCn}
-        filter={filter}
-        numberOfLines={name && nameCn && name !== nameCn && comments ? 1 : 2}
-      />
+    const titleLines = useMemo(
+      () => (name && nameCn && name !== nameCn && comments ? 1 : 2),
+      [name, nameCn, comments]
+    )
+
+    const renderCommentsAndLikes = (customStyle = null) => (
+      <>
+        {hasComment && (
+          <Comments style={customStyle} value={comments} numberOfLines={commentsLines} />
+        )}
+        <Likes
+          relatedId={relatedId}
+          subjectId={id}
+          limit={(commentsFull ? 5 : 3) + _.device(0, 3)}
+          showCreate={showLikesCreate}
+        />
+      </>
     )
 
     return (
       <Component id='item-collections' data-key={id}>
-        <Container active={active} onPress={isOuterTouch ? handleNavigate : undefined}>
+        <Container active={active}>
           <Flex style={styles.wrap} align='start'>
             <Cover
               index={index}
               subjectId={subjectId}
               cover={cover}
-              y={ITEM_HEIGHT * (index + 1) + inViewY}
+              y={computeInViewY(index, ITEM_HEIGHT, inViewY)}
               type={type}
-              onPress={isOuterTouch ? undefined : handleNavigate}
+              onPress={handleNavigate}
             />
+
             <Flex.Item style={styles.body}>
               <Content comments={comments} isCatalog={isCatalog} isEditable={isEditable}>
-                <Flex style={_.container.block} align='start'>
-                  <Flex.Item>
-                    {isOuterTouch ? (
-                      elTitle
-                    ) : (
-                      <Touchable onPress={handleNavigate}>{elTitle}</Touchable>
+                <Touchable onPress={handleNavigate}>
+                  <Flex style={_.container.block} align='start'>
+                    <Flex.Item>
+                      <Title
+                        name={name}
+                        nameCn={nameCn}
+                        filter={filter}
+                        numberOfLines={titleLines}
+                      />
+                    </Flex.Item>
+
+                    {showManage && (
+                      <Manage
+                        subjectId={subjectId}
+                        name={name}
+                        nameCn={nameCn}
+                        collection={collection}
+                        typeCn={type}
+                      />
                     )}
-                  </Flex.Item>
-                  {showManage && (
-                    <Manage
-                      subjectId={subjectId}
+                  </Flex>
+
+                  {!!tip && (
+                    <Tip
+                      style={!isEditable && _.mt.xs}
                       name={name}
                       nameCn={nameCn}
-                      collection={collection}
-                      typeCn={type}
+                      numberOfLines={numberOfLines}
+                      value={tip}
                     />
                   )}
-                </Flex>
-                {!!tip && (
-                  <Tip name={name} nameCn={nameCn} numberOfLines={numberOfLines} value={tip} />
-                )}
+                </Touchable>
+
                 <Flex>
                   <Flex.Item>
                     <Bottom
@@ -136,21 +172,26 @@ const Item = memo(
                       hasComment={hasComment}
                     />
                   </Flex.Item>
+
                   {isEditable && (
                     <IconTouchable
                       style={styles.edit}
                       name='md-edit'
-                      size={18}
+                      size={17}
                       onPress={() => onEdit(modify)}
                     />
                   )}
                 </Flex>
               </Content>
-              {hasComment && <Comments value={comments} />}
-              <Likes relatedId={relatedId} subjectId={id} />
+
+              {!commentsFull && renderCommentsAndLikes()}
             </Flex.Item>
           </Flex>
         </Container>
+
+        {commentsFull && (
+          <View style={styles.comments}>{renderCommentsAndLikes(styles.commentsFull)}</View>
+        )}
 
         <PreventTouchPlaceholder />
       </Component>

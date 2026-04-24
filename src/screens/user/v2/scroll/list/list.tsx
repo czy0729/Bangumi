@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-23 19:38:08
+ * @Last Modified time: 2026-04-23 23:56:01
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -75,7 +75,7 @@ const List = memo(
     )
 
     const numColumns = list ? undefined : userGridNum
-    const renderItem = useCallback(
+    const handleRenderItem = useCallback(
       ({ item, index }) => {
         return (
           <>
@@ -112,9 +112,8 @@ const List = memo(
         data={userCollections}
         numColumns={numColumns}
         progressViewOffset={_.parallaxImageHeight + 32}
-        lazy={12}
         keyboardDismissMode='on-drag'
-        renderItem={renderItem}
+        renderItem={handleRenderItem}
         ListHeaderComponent={ListHeaderComponent}
         scrollEventThrottle={16}
         onScroll={handleScroll}
