@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-11-11 19:43:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 06:30:28
+ * @Last Modified time: 2026-04-25 13:39:19
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Expand, Katakana, RenderHtml } from '@components'
 import { _, systemStore, uiStore } from '@stores'
-import { feedback, findSubjectCn, getCoverMedium } from '@utils'
+import { appNavigate, feedback, findSubjectCn, getCoverMedium } from '@utils'
 import { t } from '@utils/fetch'
 import { styles } from './styles'
 
@@ -65,6 +65,7 @@ function Desc({ navigation, subject, subjectId, image, comment, replyContent, re
                 ..._.baseFontStyle.md,
                 color: _.colorDesc
               }}
+              onLinkPress={href => appNavigate(href, navigation)}
             />
           </Expand>
         </View>
