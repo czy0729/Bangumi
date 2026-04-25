@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-02-04 07:04:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:38:08
+ * @Last Modified time: 2026-04-25 20:54:08
  */
 import React, { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
@@ -10,7 +10,7 @@ import { HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { open } from '@utils'
 import { t } from '@utils/fetch'
-import { TEXT_MENU_BROWSER, TEXT_MENU_SPLIT_LEFT, TEXT_MENU_SPLIT_RIGHT } from '@constants'
+import { TEXT_MENU_BROWSER, withSplit } from '@constants'
 import { MENU_ACTIONS, MENU_DS } from './ds'
 import { styles } from './styles'
 
@@ -21,11 +21,7 @@ function MenuComponent({ color }: Props) {
   const { $, navigation } = useStore<Ctx>()
 
   const memoData = useMemo(
-    () =>
-      [
-        `${TEXT_MENU_BROWSER}${TEXT_MENU_SPLIT_LEFT}${$.subjectId}${TEXT_MENU_SPLIT_RIGHT}`,
-        ...MENU_DS
-      ] as const,
+    () => [`${TEXT_MENU_BROWSER}${withSplit($.subjectId)}` as const, ...MENU_DS] as const,
     [$]
   )
 

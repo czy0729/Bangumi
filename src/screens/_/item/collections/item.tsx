@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:19:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-25 20:37:12
+ * @Last Modified time: 2026-04-25 22:13:05
  */
 import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
@@ -98,7 +98,12 @@ const Item = memo(
     const renderCommentsAndLikes = (customStyle = null) => (
       <>
         {hasComment && (
-          <Comments style={customStyle} value={comments} numberOfLines={commentsLines} />
+          <Comments
+            key={String(commentsLines)}
+            style={customStyle}
+            value={comments}
+            numberOfLines={commentsLines}
+          />
         )}
         <Likes
           relatedId={relatedId}

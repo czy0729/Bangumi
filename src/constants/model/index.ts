@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-21 22:06:47
+ * @Last Modified time: 2026-04-25 21:55:22
  */
 import Crypto from '@utils/crypto'
 import { IOS } from '../constants'
@@ -774,6 +774,28 @@ export const SETTING_SERVER_STATUS = [
     value: 'down'
   }
 ] as const
+
+/** [设置] 评论默认展示行数 */
+export const SETTING_USER_COMMENTS_LINES = [
+  {
+    label: '4',
+    value: '4'
+  },
+  {
+    label: '8',
+    value: '8'
+  },
+  {
+    label: '不限制',
+    value: '100'
+  }
+] as const
+
+/** [设置] 评论默认展示行数 */
+export const MODEL_USER_COMMENTS_LINES = new Model(
+  SETTING_USER_COMMENTS_LINES,
+  'SETTING_USER_COMMENTS_LINES'
+)
 
 /** [设置] 显示服务可用性 */
 export const MODEL_SETTING_SERVER_STATUS = new Model(SETTING_SERVER_STATUS, 'SETTING_SERVER_STATUS')

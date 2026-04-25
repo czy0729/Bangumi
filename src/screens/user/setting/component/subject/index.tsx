@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-28 15:31:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-09 20:15:41
+ * @Last Modified time: 2026-04-25 21:13:42
  */
 import React from 'react'
 import { ActionSheet, Divider } from '@components'
@@ -22,8 +22,15 @@ import SplitStyles from './split-styles'
 import SubjectLayout from './subject-layout'
 import { COMPONENT, TEXTS } from './ds'
 
+import type { WithFilterProps } from '../../types'
+
 /** 条目 */
-function Subject({ filter, open = false }) {
+function Subject({
+  filter,
+  open = false
+}: WithFilterProps<{
+  open: boolean
+}>) {
   r(COMPONENT)
 
   const { state, setTrue, setFalse } = useBoolean(open)

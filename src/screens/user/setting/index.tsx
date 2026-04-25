@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-21 14:26:52
+ * @Last Modified time: 2026-04-25 21:12:10
  */
 import React from 'react'
 import { Component, HeaderPlaceholder, HeaderV2, Input, Page, ScrollView } from '@components'
@@ -81,7 +81,7 @@ const Setting = (props: NavigationProps<Params>) => {
             <Discovery filter={filter} open={open === 'Discovery'} />
             <Timeline filter={filter} />
             <Rakuen navigation={navigation} filter={filter} />
-            <User filter={filter} />
+            <User filter={filter} open={open === 'User'} />
             <UserSetting navigation={navigation} filter={filter} />
             <Subject filter={filter} open={open === 'Subject'} />
             <Tinygrail filter={filter} open={open === 'Tinygrail'} />
@@ -102,6 +102,7 @@ const Setting = (props: NavigationProps<Params>) => {
           <Dev navigation={navigation} />
         </ScrollView>
       </Page>
+
       <HeaderV2
         title={i18n.setting()}
         alias='设置'

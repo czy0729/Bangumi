@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-22 13:09:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-21 22:06:34
+ * @Last Modified time: 2026-04-25 21:56:24
  */
 import type { ModelValueOf } from '@types'
 import type {
@@ -42,6 +42,7 @@ import type {
   SETTING_SERVER_STATUS,
   SETTING_SUBJECT_SPLIT_STYLES,
   SETTING_TRANSITION,
+  SETTING_USER_COMMENTS_LINES,
   SETTING_USER_GRID_NUM,
   SUBJECT_TYPE,
   TAG_ORDERBY,
@@ -152,6 +153,8 @@ export type SettingSubjectSplitStylesCn = ModelValueOf<typeof SETTING_SUBJECT_SP
 
 export type SettingUserGridNum = ModelValueOf<typeof SETTING_USER_GRID_NUM>
 export type SettingUserGridNumCn = ModelValueOf<typeof SETTING_USER_GRID_NUM, 'label'>
+
+export type SettingUserCommentsLines = ModelValueOf<typeof SETTING_USER_COMMENTS_LINES>
 
 export type SettingCDNOrigin = ModelValueOf<typeof SETTING_CDN_ORIGIN>
 export type SettingCDNOriginCn = ModelValueOf<typeof SETTING_CDN_ORIGIN, 'label'>

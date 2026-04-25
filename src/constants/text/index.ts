@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-23 10:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-14 22:17:31
+ * @Last Modified time: 2026-04-25 20:54:05
  */
 import { WEB } from '../device'
 
@@ -128,7 +128,7 @@ export const TEXT_MENU_SPLIT_LEFT = '〔'
 /** 菜单: 右分割 */
 export const TEXT_MENU_SPLIT_RIGHT = '〕'
 
-export function withSplit(text: string) {
+export function withSplit(text: string | number) {
   return `${TEXT_MENU_SPLIT_LEFT}${text}${TEXT_MENU_SPLIT_RIGHT}`
 }
 

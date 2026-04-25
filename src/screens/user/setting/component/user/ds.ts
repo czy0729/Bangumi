@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 12:53:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-26 02:13:38
+ * @Last Modified time: 2026-04-25 22:17:48
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
@@ -25,5 +25,13 @@ export const TEXTS = {
     hd: '显示收藏管理',
     information:
       '默认关闭，查看别人的时光机条目收藏右方显示管理按钮；开启后在自己的时光机也显示管理按钮'
+  },
+  userCommentsFull: {
+    hd: '评论占满布局',
+    information: '关闭就是旧客户端布局'
+  },
+  userCommentsLines: {
+    hd: '评论默认展示行数',
+    information: '8 行大概是显示最大字数评论的一半'
   }
 } as const
