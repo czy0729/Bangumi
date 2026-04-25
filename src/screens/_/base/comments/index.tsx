@@ -2,20 +2,22 @@
  * @Author: czy0729
  * @Date: 2025-01-24 05:45:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-24 01:09:54
+ * @Last Modified time: 2026-04-25 14:50:02
  */
 import React, { useCallback, useMemo, useState } from 'react'
 import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { copy, getVisualLength, HTMLDecode, stl } from '@utils'
+import { r } from '@utils/dev'
+import { COMPONENT, REG_SPLIT } from './ds'
 import { memoStyles } from './styles'
 
 import type { TextLayoutEvent } from 'react-native'
-import type { Props } from './types'
+import type { Props as CommentsProps } from './types'
 
-export const REG_SPLIT = /(?!\/(?:[A-Za-z0-9]{1,2}\/)+)(?:\s*\/\s*)+/g
+export const Comments = observer(({ style, numberOfLines, value }: CommentsProps) => {
+  r(COMPONENT)
 
-function Comments({ style, numberOfLines, value }: Props) {
   // 初始 lines 设为 undefined，以便测量真实高度
   const [lines, setLines] = useState<number | undefined>(undefined)
   const [isOverflow, setIsOverflow] = useState(false)
@@ -106,6 +108,6 @@ function Comments({ style, numberOfLines, value }: Props) {
       {processedValue}
     </Text>
   )
-}
+})
 
-export default observer(Comments)
+export default Comments

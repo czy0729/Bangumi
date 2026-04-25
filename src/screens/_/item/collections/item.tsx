@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:19:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-24 12:09:23
+ * @Last Modified time: 2026-04-25 20:37:12
  */
 import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
@@ -12,10 +12,9 @@ import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { EVENT, FROZEN_FN, IMG_WIDTH } from '@constants'
-import { computeInViewY, PreventTouchPlaceholder } from '../../base'
+import { Comments, computeInViewY, PreventTouchPlaceholder } from '../../base'
 import { IconTouchable } from '../../icon'
 import Bottom from './bottom'
-import Comments from './comments'
 import Container from './container'
 import Content from './content'
 import Cover from './cover'

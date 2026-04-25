@@ -10,6 +10,7 @@
  */
 export * from './avatar'
 export * from './breathing-light'
+export * from './comments'
 export * from './cover'
 export * from './popover'
 export * from './segment'

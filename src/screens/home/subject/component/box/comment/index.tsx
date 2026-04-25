@@ -2,14 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-03-25 11:07:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 22:57:30
+ * @Last Modified time: 2026-04-25 20:46:59
  */
-import React, { useState } from 'react'
+import React from 'react'
 import { observer } from 'mobx-react'
-import { Expand, Text } from '@components'
-import { Likes } from '@_'
+import { Comments, Likes } from '@_'
 import { timelineStore, uiStore, userStore, useStore } from '@stores'
-import { HTMLDecode } from '@utils'
 import { LIKE_TYPE_TIMELINE } from '@constants'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -19,30 +17,15 @@ import type { Ctx } from '../../../types'
 function Comment() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  const [lines, setLines] = useState(3)
-
-  const comment = HTMLDecode($.collection.comment || '')
+  const { comment } = $.collection
   if (!comment) return null
 
   const styles = memoStyles()
   const relatedId = timelineStore.relatedId(userStore.userInfo.username || $.userId, $.subjectId)
 
-  const elContent = (
-    <Text
-      style={styles.comment}
-      size={14}
-      lineHeight={16}
-      numberOfLines={lines}
-      selectable
-      onPress={() => setLines(undefined)}
-    >
-      {comment}
-    </Text>
-  )
-
   return (
     <>
-      {comment.length >= 80 ? <Expand ratio={0.72}>{elContent}</Expand> : elContent}
+      <Comments style={styles.comments} value={comment} numberOfLines={4} />
       {!!relatedId && (
         <Likes
           topicId={$.subjectId}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-04-21 21:23:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-22 23:33:04
+ * @Last Modified time: 2026-04-25 14:50:35
  */
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
@@ -17,11 +17,15 @@ import Animated, {
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { stl } from '@utils'
+import { r } from '@utils/dev'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { Props as BreathingLightProps } from './types'
 
 export const BreathingLight = observer(({ style, color, running = true }: BreathingLightProps) => {
+  r(COMPONENT)
+
   const opacity = useSharedValue(0.6)
   const scale = useSharedValue(1)
 
