@@ -77,7 +77,7 @@ iOS 和安卓都做了兼容，并最大限度保持一致
 
 # 版本
 
-[当前版本图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/zincwt4r8ffmrfgn?singleDoc)
+[当前版本图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/uchnd5v0cmxamohl?singleDoc)
 
 [所有更新 CHANGELOG](https://github.com/czy0729/Bangumi/blob/master/web/CHANGELOG.MD)
 
