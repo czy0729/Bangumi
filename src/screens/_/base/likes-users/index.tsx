@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-10-30 04:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 17:07:35
+ * @Last Modified time: 2026-04-25 12:51:21
  */
-import React from 'react'
+import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { ActionSheet, Avatar, BgmText, Component, Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { desc, navigationReference } from '@utils'
+import { desc, HTMLDecode, navigationReference } from '@utils'
 import CacheManager from '@utils/cache-manager'
 import { r } from '@utils/dev'
 import { Name } from '../name'
@@ -20,19 +20,24 @@ import { styles } from './styles'
 export const LikesUsers = observer(({ show, list, emoji, onClose }) => {
   r(COMPONENT)
 
+  const elTitle = useMemo(
+    () => (
+      <Flex style={_.mb.sm} justify='center'>
+        <BgmText style={styles.bgm} size={13} index={emoji} selectable={false} />
+        <Text style={_.ml.sm} type='sub' size={13} bold align='center'>
+          {list.length}
+        </Text>
+      </Flex>
+    ),
+    [emoji, list.length]
+  )
+
   return (
     <Component id='base-likes-users'>
       <ActionSheet
         show={show}
         height={list.length < 10 ? 480 : 640}
-        title={
-          <Flex style={_.mb.sm} justify='center'>
-            <BgmText style={styles.bgm} size={13} index={emoji} selectable={false} />
-            <Text style={_.ml.sm} size={13} bold type='sub' align='center'>
-              {list.length}
-            </Text>
-          </Flex>
-        }
+        title={elTitle}
         onClose={onClose}
       >
         <View style={_.container.wind}>
@@ -46,10 +51,11 @@ export const LikesUsers = observer(({ show, list, emoji, onClose }) => {
             )
             .map(item => {
               const avatar = CacheManager.get(`avatar|${item.username}`)
+
               return (
                 <Touchable
                   key={item.username}
-                  style={_.mt.md}
+                  style={styles.user}
                   onPress={() => {
                     onClose()
 
@@ -58,7 +64,7 @@ export const LikesUsers = observer(({ show, list, emoji, onClose }) => {
                       if (navigation) {
                         navigation.push('Zone', {
                           userId: item.username,
-                          _name: item.nickname
+                          _name: HTMLDecode(item.nickname)
                         })
                       }
                     }, 240)
@@ -67,21 +73,22 @@ export const LikesUsers = observer(({ show, list, emoji, onClose }) => {
                   <Flex>
                     {!!avatar && (
                       <View style={_.mr.sm}>
-                        <Avatar size={32} src={avatar} />
+                        <Avatar size={28} src={avatar} radius={_.radiusXs} />
                       </View>
                     )}
                     <Name
                       userId={item.username}
+                      lineHeight={15}
                       showFriend
                       bold
                       right={
-                        <Text type='sub' size={12} lineHeight={13} bold>
+                        <Text type='sub' size={12} lineHeight={15} bold>
                           {' '}
                           @{item.username}
                         </Text>
                       }
                     >
-                      {item.nickname}
+                      {HTMLDecode(item.nickname)}
                     </Name>
                   </Flex>
                 </Touchable>
