@@ -94,7 +94,8 @@ jobs:
         run: |
           set -euo pipefail
           cd "$SOURCE_DIR/ios"
-          pod install
+          rm -rf Pods Podfile.lock Bangumi.xcworkspace
+          pod install --repo-update
 
       - name: Build Release app
         if: steps.upstream.outputs.should_build == 'true'
