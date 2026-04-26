@@ -15,6 +15,11 @@ on:
         description: 'Upstream Bangumi tag to build, for example 8.32.3. Leave empty for latest semantic tag.'
         required: false
         type: string
+      force:
+        description: 'Rebuild and replace existing release assets.'
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: write
@@ -43,6 +48,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REQUESTED_TAG: ${{ github.event.inputs.tag || '' }}
+          FORCE_REBUILD: ${{ github.event_name == 'push' || github.event.inputs.force == 'true' }}
         run: node .github/scripts/upstream-ipa.mjs resolve
 
       - name: Skip existing IPA
@@ -105,6 +111,50 @@ jobs:
             }
 
             console.log(`Enabled iOS New Architecture for react-native-reanimated ${reanimatedVersion}`)
+          }
+
+          const appDelegateHeaderPath = 'ios/Bangumi/AppDelegate.h'
+          const appDelegateImplementationPath = 'ios/Bangumi/AppDelegate.mm'
+
+          if (
+            reactNativeMinor >= 81 &&
+            fs.existsSync(appDelegateHeaderPath) &&
+            fs.existsSync(appDelegateImplementationPath)
+          ) {
+            let header = fs.readFileSync(appDelegateHeaderPath, 'utf8')
+            let implementation = fs.readFileSync(appDelegateImplementationPath, 'utf8')
+            let patched = false
+
+            if (header.includes('@interface AppDelegate : EXAppDelegateWrapper')) {
+              header = header.replace(/\n#import <Expo\/Expo\.h>\n/, '\n')
+              header = header.replace(
+                '@interface AppDelegate : EXAppDelegateWrapper',
+                '@interface AppDelegate : RCTAppDelegate',
+              )
+              patched = true
+            }
+
+            if (!implementation.includes('<ReactAppDependencyProvider/RCTAppDependencyProvider.h>')) {
+              implementation = implementation.replace(
+                '#import <React/RCTLinkingManager.h>\n',
+                '#import <React/RCTLinkingManager.h>\n#import <ReactAppDependencyProvider/RCTAppDependencyProvider.h>\n',
+              )
+              patched = true
+            }
+
+            if (!implementation.includes('self.dependencyProvider = [RCTAppDependencyProvider new];')) {
+              implementation = implementation.replace(
+                '  self.moduleName = @"main";\n',
+                '  self.moduleName = @"main";\n  self.dependencyProvider = [RCTAppDependencyProvider new];\n',
+              )
+              patched = true
+            }
+
+            if (patched) {
+              fs.writeFileSync(appDelegateHeaderPath, header)
+              fs.writeFileSync(appDelegateImplementationPath, implementation)
+              console.log('Patched iOS AppDelegate to mount the React Native root view on React Native 0.81+')
+            }
           }
           NODE
 
@@ -260,9 +310,24 @@ jobs:
             exit 1
           fi
 
+          rn_minor="$(node -p "String(require(process.env.SOURCE_DIR + '/package.json').dependencies['react-native'] || '').match(/\\d+\\.(\\d+)/)?.[1] || '0'")"
+
+          if [ "$rn_minor" -ge 81 ]; then
+            if grep -q 'EXAppDelegateWrapper' "$SOURCE_DIR/ios/Bangumi/AppDelegate.h"; then
+              echo "::error::AppDelegate still uses EXAppDelegateWrapper, which produces a black launch screen with this upstream React Native version."
+              exit 1
+            fi
+
+            if ! grep -q 'RCTAppDependencyProvider' "$SOURCE_DIR/ios/Bangumi/AppDelegate.mm"; then
+              echo "::error::AppDelegate is missing RCTAppDependencyProvider."
+              exit 1
+            fi
+          fi
+
       - name: Upload release assets
         if: steps.upstream.outputs.should_build == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FORCE_REBUILD: ${{ github.event_name == 'push' || github.event.inputs.force == 'true' }}
           TAG: ${{ steps.upstream.outputs.tag }}
         run: node .github/scripts/upstream-ipa.mjs upload --tag "$TAG" --ipa "$IPA_PATH" --sha "$SHA_PATH"
