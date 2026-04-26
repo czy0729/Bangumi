@@ -3,6 +3,12 @@ name: Build upstream unsigned IPA
 on:
   schedule:
     - cron: '37 8 * * *'
+  push:
+    branches:
+      - master
+    paths:
+      - '.github/workflows/build-upstream-ipa.yml'
+      - '.github/scripts/upstream-ipa.mjs'
   workflow_dispatch:
     inputs:
       tag:
