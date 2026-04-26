@@ -34,7 +34,7 @@ export const SegmentedControl = observer(
     return (
       <Component id='component-segmented-control'>
         <Comp
-          key={values.join()}
+          // key={values.join()}
           values={values}
           tintColor={tintColor || _.select(_.colorPlain, _._colorDarkModeLevel2)}
           backgroundColor={backgroundColor || _.colorBg}

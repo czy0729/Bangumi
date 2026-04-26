@@ -19,7 +19,7 @@
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
-	<string>8.30.1</string>
+	<string>8.32.3</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -39,14 +39,24 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
+  <dict>
+    <key>NSAllowsArbitraryLoads</key>
+    <true/>
     <key>NSAllowsArbitraryLoadsInWebContent</key>
     <true/>
-		<key>NSAllowsLocalNetworking</key>
-		<true/>
-	</dict>
+    <key>NSExceptionDomains</key>
+    <dict>
+      <key>bangumi-app-assets.5t5.top</key>
+      <dict>
+        <key>NSExceptionAllowsInsecureHTTPLoads</key>
+        <true/>
+        <key>NSIncludesSubdomains</key>
+        <true/>
+        <key>NSExceptionRequiresForwardSecrecy</key>
+        <false/>
+      </dict>
+    </dict>
+  </dict>
 	<key>NSCalendarsFullAccessUsageDescription</key>
 	<string>The app needs to access your calendar.</string>
 	<key>NSCalendarsUsageDescription</key>
