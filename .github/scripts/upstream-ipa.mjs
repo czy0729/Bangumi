@@ -24,6 +24,7 @@ async function main() {
 
 async function resolveCommand(options) {
   const requestedTag = (options.tag || process.env.REQUESTED_TAG || '').trim()
+  const forceRebuild = isTruthy(process.env.FORCE_REBUILD)
   const tags = await listUpstreamSemverTags()
   const tag = requestedTag || tags[0]
 
@@ -42,7 +43,7 @@ async function resolveCommand(options) {
   const assets = release ? await listReleaseAssets(targetRepo(), release.id) : []
   const hasIpa = assets.some(asset => asset.name === assetName)
   const hasSha = assets.some(asset => asset.name === shaName)
-  const shouldBuild = hasIpa && hasSha ? 'false' : 'true'
+  const shouldBuild = forceRebuild || !(hasIpa && hasSha) ? 'true' : 'false'
 
   setOutput('tag', tag)
   setOutput('release_tag', releaseTag)
@@ -53,7 +54,9 @@ async function resolveCommand(options) {
   console.log(`Upstream tag: ${tag}`)
   console.log(`Target release: ${releaseTag}`)
   console.log(
-    hasIpa && hasSha
+    forceRebuild
+      ? `Force rebuild requested; existing ${assetName} and ${shaName} will be replaced if present.`
+      : hasIpa && hasSha
       ? `Existing IPA and checksum assets found: ${assetName}, ${shaName}`
       : `IPA assets will be built: ${assetName}, ${shaName}`,
   )
@@ -79,8 +82,9 @@ async function uploadCommand(options) {
   const assets = await listReleaseAssets(repo, release.id)
   const hasIpa = assets.some(asset => asset.name === assetName)
   const hasSha = assets.some(asset => asset.name === shaName)
+  const forceRebuild = isTruthy(process.env.FORCE_REBUILD)
 
-  if (hasIpa && hasSha) {
+  if (hasIpa && hasSha && !forceRebuild) {
     console.log(`Release already has ${assetName} and ${shaName}; leaving them unchanged.`)
     return
   }
@@ -317,6 +321,10 @@ function requiredOption(options, name) {
     throw new Error(`--${name} is required`)
   }
   return value
+}
+
+function isTruthy(value) {
+  return ['1', 'true', 'yes'].includes(String(value || '').toLowerCase())
 }
 
 function ensureFile(filePath) {
