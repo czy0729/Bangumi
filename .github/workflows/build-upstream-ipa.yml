@@ -1,0 +1,181 @@
+name: Build upstream unsigned IPA
+
+on:
+  schedule:
+    - cron: '37 8 * * *'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Upstream Bangumi tag to build, for example 8.32.3. Leave empty for latest semantic tag.'
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-upstream-ipa-${{ github.event.inputs.tag || 'latest' }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build unsigned IPA
+    runs-on: macos-26
+    timeout-minutes: 180
+
+    steps:
+      - name: Checkout automation
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '23.7.0'
+
+      - name: Resolve upstream tag
+        id: upstream
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REQUESTED_TAG: ${{ github.event.inputs.tag || '' }}
+        run: node .github/scripts/upstream-ipa.mjs resolve
+
+      - name: Skip existing IPA
+        if: steps.upstream.outputs.should_build != 'true'
+        run: echo "IPA asset ${{ steps.upstream.outputs.asset_name }} already exists on release ${{ steps.upstream.outputs.release_tag }}."
+
+      - name: Download upstream source
+        if: steps.upstream.outputs.should_build == 'true'
+        env:
+          TAG: ${{ steps.upstream.outputs.tag }}
+        run: |
+          set -euo pipefail
+          source_zip="$RUNNER_TEMP/bangumi-$TAG.zip"
+          source_dir="$RUNNER_TEMP/Bangumi-$TAG"
+
+          rm -rf "$source_dir" "$source_zip"
+          curl -fsSL "https://github.com/czy0729/Bangumi/archive/refs/tags/$TAG.zip" -o "$source_zip"
+          unzip -q "$source_zip" -d "$RUNNER_TEMP"
+
+          if [ ! -d "$source_dir" ]; then
+            echo "::error::Expected source directory not found: $source_dir"
+            exit 1
+          fi
+
+          echo "SOURCE_DIR=$source_dir" >> "$GITHUB_ENV"
+
+      - name: Install JavaScript dependencies
+        if: steps.upstream.outputs.should_build == 'true'
+        run: |
+          set -euo pipefail
+          cd "$SOURCE_DIR"
+
+          corepack enable
+          corepack prepare yarn@1.22.22 --activate
+          yarn --version
+          yarn install --frozen-lockfile --network-timeout 600000
+
+      - name: Install CocoaPods dependencies
+        if: steps.upstream.outputs.should_build == 'true'
+        run: |
+          set -euo pipefail
+          cd "$SOURCE_DIR/ios"
+          pod install
+
+      - name: Build Release app
+        if: steps.upstream.outputs.should_build == 'true'
+        env:
+          NODE_ENV: production
+        run: |
+          set -euo pipefail
+          cd "$SOURCE_DIR/ios"
+
+          xcodebuild \
+            -workspace Bangumi.xcworkspace \
+            -scheme Bangumi \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination generic/platform=iOS \
+            CODE_SIGN_IDENTITY= \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            -derivedDataPath build \
+            GCC_WARN_INHIBIT_ALL_WARNINGS=YES \
+            CLANG_WARN_DOCUMENTATION_COMMENTS=NO \
+            SWIFT_SUPPRESS_WARNINGS=YES \
+            COMPILER_INDEX_STORE_ENABLE=NO
+
+      - name: Package IPA
+        if: steps.upstream.outputs.should_build == 'true'
+        env:
+          ASSET_NAME: ${{ steps.upstream.outputs.asset_name }}
+          TAG: ${{ steps.upstream.outputs.tag }}
+        run: |
+          set -euo pipefail
+          cd "$SOURCE_DIR"
+
+          node web/ipa.js
+
+          app_version="$(node -p "require('./app.json').expo.version")"
+          generated_ipa="web/bangumi_v${app_version}_archive.ipa"
+
+          if [ ! -f "$generated_ipa" ]; then
+            echo "::error::Expected generated IPA not found: $generated_ipa"
+            exit 1
+          fi
+
+          if [ "$app_version" != "$TAG" ]; then
+            echo "::warning::app.json version $app_version does not match upstream tag $TAG."
+          fi
+
+          target_ipa="$GITHUB_WORKSPACE/$ASSET_NAME"
+          mv "$generated_ipa" "$target_ipa"
+
+          cd "$GITHUB_WORKSPACE"
+          shasum -a 256 "$ASSET_NAME" > "$ASSET_NAME.sha256"
+
+          echo "IPA_PATH=$target_ipa" >> "$GITHUB_ENV"
+          echo "SHA_PATH=$target_ipa.sha256" >> "$GITHUB_ENV"
+
+      - name: Validate IPA
+        if: steps.upstream.outputs.should_build == 'true'
+        run: |
+          set -euo pipefail
+
+          unzip -t "$IPA_PATH"
+          unzip -l "$IPA_PATH" "Payload/Bangumi.app/Info.plist"
+
+          info_plist="$RUNNER_TEMP/Bangumi-Info.plist"
+          unzip -p "$IPA_PATH" "Payload/Bangumi.app/Info.plist" > "$info_plist"
+
+          bundle_version="$(plutil -extract CFBundleShortVersionString raw -o - "$info_plist")"
+          app_version="$(node -p "require(process.env.SOURCE_DIR + '/app.json').expo.version")"
+
+          if [ "$bundle_version" != "$app_version" ]; then
+            echo "::error::Bundle version $bundle_version does not match app.json version $app_version."
+            exit 1
+          fi
+
+          app_path="$SOURCE_DIR/ios/build/Build/Products/Release-iphoneos/Bangumi.app"
+          set +e
+          codesign_output="$(codesign -dv "$app_path" 2>&1)"
+          codesign_status="$?"
+          set -e
+
+          echo "$codesign_output"
+
+          if [ "$codesign_status" -eq 0 ]; then
+            echo "::error::Expected unsigned app, but codesign reported a valid signature."
+            exit 1
+          fi
+
+          if [[ "$codesign_output" != *"code object is not signed at all"* ]]; then
+            echo "::error::codesign did not report the expected unsigned-app message."
+            exit 1
+          fi
+
+      - name: Upload release assets
+        if: steps.upstream.outputs.should_build == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.upstream.outputs.tag }}
+        run: node .github/scripts/upstream-ipa.mjs upload --tag "$TAG" --ipa "$IPA_PATH" --sha "$SHA_PATH"
