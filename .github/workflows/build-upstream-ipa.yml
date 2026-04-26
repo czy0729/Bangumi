@@ -81,6 +81,14 @@ jobs:
           yarn install --ignore-scripts --frozen-lockfile --network-timeout 600000
           yarn patch-package --use-yarn || echo "::warning::Some upstream patch-package patches did not apply; continuing for iOS build."
 
+      - name: Prepare iOS build settings
+        if: steps.upstream.outputs.should_build == 'true'
+        run: |
+          set -euo pipefail
+          cd "$SOURCE_DIR"
+
+          node -e "const fs = require('fs'); const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8')); const version = pkg.dependencies?.['react-native-reanimated'] || ''; const major = Number(String(version).replace(/^[^0-9]*/, '').split('.')[0]); if (major >= 4) { const file = 'ios/Podfile.properties.json'; const props = JSON.parse(fs.readFileSync(file, 'utf8')); props.newArchEnabled = 'true'; fs.writeFileSync(file, JSON.stringify(props, null, 2) + '\n'); if (process.env.GITHUB_ENV) fs.appendFileSync(process.env.GITHUB_ENV, 'RCT_NEW_ARCH_ENABLED=1\n'); console.log('Enabled iOS New Architecture for react-native-reanimated ' + version); }"
+
       - name: Install CocoaPods dependencies
         if: steps.upstream.outputs.should_build == 'true'
         run: |
