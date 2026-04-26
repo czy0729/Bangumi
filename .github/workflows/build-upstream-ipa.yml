@@ -69,6 +69,44 @@ jobs:
 
           echo "SOURCE_DIR=$source_dir" >> "$GITHUB_ENV"
 
+      - name: Prepare upstream source
+        if: steps.upstream.outputs.should_build == 'true'
+        run: |
+          set -euo pipefail
+          cd "$SOURCE_DIR"
+
+          node <<'NODE'
+          const fs = require('fs')
+
+          const packageJsonPath = 'package.json'
+          const pkg = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
+          const dependencies = pkg.dependencies || {}
+          const reactNativeVersion = dependencies['react-native'] || ''
+          const reactNativeMinor = Number(String(reactNativeVersion).match(/\d+\.(\d+)/)?.[1] || 0)
+
+          if (reactNativeMinor >= 81 && dependencies['@react-native-community/blur'] === '4.2.0') {
+            dependencies['@react-native-community/blur'] = '4.4.1'
+            fs.writeFileSync(packageJsonPath, `${JSON.stringify(pkg, null, 2)}\n`)
+            console.log(`Updated @react-native-community/blur to 4.4.1 for React Native ${reactNativeVersion}`)
+          }
+
+          const reanimatedVersion = dependencies['react-native-reanimated'] || ''
+          const reanimatedMajor = Number(String(reanimatedVersion).replace(/^[^0-9]*/, '').split('.')[0])
+
+          if (reanimatedMajor >= 4) {
+            const podfilePropertiesPath = 'ios/Podfile.properties.json'
+            const podfileProperties = JSON.parse(fs.readFileSync(podfilePropertiesPath, 'utf8'))
+            podfileProperties.newArchEnabled = 'true'
+            fs.writeFileSync(podfilePropertiesPath, `${JSON.stringify(podfileProperties, null, 2)}\n`)
+
+            if (process.env.GITHUB_ENV) {
+              fs.appendFileSync(process.env.GITHUB_ENV, 'RCT_NEW_ARCH_ENABLED=1\n')
+            }
+
+            console.log(`Enabled iOS New Architecture for react-native-reanimated ${reanimatedVersion}`)
+          }
+          NODE
+
       - name: Install JavaScript dependencies
         if: steps.upstream.outputs.should_build == 'true'
         run: |
@@ -80,14 +118,6 @@ jobs:
           yarn --version
           yarn install --ignore-scripts --frozen-lockfile --network-timeout 600000
           yarn patch-package --use-yarn || echo "::warning::Some upstream patch-package patches did not apply; continuing for iOS build."
-
-      - name: Prepare iOS build settings
-        if: steps.upstream.outputs.should_build == 'true'
-        run: |
-          set -euo pipefail
-          cd "$SOURCE_DIR"
-
-          node -e "const fs = require('fs'); const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8')); const version = pkg.dependencies?.['react-native-reanimated'] || ''; const major = Number(String(version).replace(/^[^0-9]*/, '').split('.')[0]); if (major >= 4) { const file = 'ios/Podfile.properties.json'; const props = JSON.parse(fs.readFileSync(file, 'utf8')); props.newArchEnabled = 'true'; fs.writeFileSync(file, JSON.stringify(props, null, 2) + '\n'); if (process.env.GITHUB_ENV) fs.appendFileSync(process.env.GITHUB_ENV, 'RCT_NEW_ARCH_ENABLED=1\n'); console.log('Enabled iOS New Architecture for react-native-reanimated ' + version); }"
 
       - name: Install CocoaPods dependencies
         if: steps.upstream.outputs.should_build == 'true'
