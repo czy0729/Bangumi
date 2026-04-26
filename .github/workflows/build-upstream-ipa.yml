@@ -67,6 +67,7 @@ jobs:
             exit 1
           fi
 
+          source_dir="$(cd "$source_dir" && pwd -P)"
           echo "SOURCE_DIR=$source_dir" >> "$GITHUB_ENV"
 
       - name: Prepare upstream source
@@ -107,6 +108,19 @@ jobs:
           }
           NODE
 
+          app_version="$(node -p "require('./app.json').expo.version")"
+          plutil -replace CFBundleShortVersionString -string "$app_version" ios/Bangumi/Info.plist
+          echo "Synced iOS bundle version to app.json: $app_version"
+
+          node_binary="$(command -v node)"
+          {
+            printf 'export NODE_BINARY='
+            printf '%q' "$node_binary"
+            printf '\n'
+          } > ios/.xcode.env.local
+          echo "NODE_BINARY=$node_binary" >> "$GITHUB_ENV"
+          echo "Using Node for Xcode scripts: $node_binary"
+
       - name: Install JavaScript dependencies
         if: steps.upstream.outputs.should_build == 'true'
         run: |
@@ -123,7 +137,33 @@ jobs:
         if: steps.upstream.outputs.should_build == 'true'
         run: |
           set -euo pipefail
-          cd "$SOURCE_DIR/ios"
+          cd "$SOURCE_DIR"
+
+          node <<'NODE'
+          const fs = require('fs')
+
+          const fmtPodspecPath = 'node_modules/react-native/third-party-podspecs/fmt.podspec'
+          if (fs.existsSync(fmtPodspecPath)) {
+            const original = fs.readFileSync(fmtPodspecPath, 'utf8')
+            const fmtVersion = original.match(/spec\.version\s*=\s*"([^"]+)"/)?.[1] || ''
+            const fmtMajor = Number(fmtVersion.split('.')[0])
+
+            let patched = original
+            if (fmtMajor >= 11 && original.includes('"CLANG_CXX_LANGUAGE_STANDARD" => rct_cxx_language_standard()')) {
+              patched = original.replace(
+                '"CLANG_CXX_LANGUAGE_STANDARD" => rct_cxx_language_standard()',
+                '"CLANG_CXX_LANGUAGE_STANDARD" => "c++17"',
+              )
+            }
+
+            if (patched !== original) {
+              fs.writeFileSync(fmtPodspecPath, patched)
+              console.log(`Pinned fmt ${fmtVersion} pod to c++17 for Xcode compatibility`)
+            }
+          }
+          NODE
+
+          cd ios
           rm -rf Pods Podfile.lock Bangumi.xcworkspace
           pod install --repo-update
 
@@ -131,6 +171,7 @@ jobs:
         if: steps.upstream.outputs.should_build == 'true'
         env:
           NODE_ENV: production
+          ENTRY_FILE: index.js
         run: |
           set -euo pipefail
           cd "$SOURCE_DIR/ios"
