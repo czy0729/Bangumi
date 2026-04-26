@@ -71,6 +71,8 @@ jobs:
 
       - name: Install JavaScript dependencies
         if: steps.upstream.outputs.should_build == 'true'
+        env:
+          CI: 'false'
         run: |
           set -euo pipefail
           cd "$SOURCE_DIR"
