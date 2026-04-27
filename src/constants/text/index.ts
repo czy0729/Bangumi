@@ -1,3 +1,4 @@
+import Crypto from '@utils/crypto'
 /*
  * @Author: czy0729
  * @Date: 2021-02-23 10:40:56
@@ -235,3 +236,9 @@ export const TEXT_BADGES = {
   yellow: '🟡',
   purple: '🟣'
 } as const
+
+export const TEXT_NEWS_GC = Crypto.get('U2FsdGVkX18vV4hUPCdJbY/D2eIpYRzHSc1F5GyFbc0=')
+
+export const TEXT_NEWS_YM = Crypto.get('U2FsdGVkX19ZRKL0sfshJetA8MSbBGcTu0sbE3TWi+M=')
+
+export const TEXT_NEWS_GS = Crypto.get('U2FsdGVkX18v+G1pp2YBAyzerWroRX+iJZUp875Sz8k=')

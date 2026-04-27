@@ -5,9 +5,9 @@
  * @Last Modified time: 2025-12-23 06:11:39
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page } from '@components'
 import { _, StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import List from './component/list'
 import Pagination from './component/pagination'
 import Header from './header'
@@ -15,11 +15,11 @@ import { useAnitamaPage } from './hooks'
 
 import type { NavigationProps } from '@types'
 
-/** 二次元资讯 */
-const Anitama = (props: NavigationProps) => {
+/** 业界资讯 */
+function Anitama(props: NavigationProps) {
   const { id, $ } = useAnitamaPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-anitama'>
       <StoreContext.Provider value={id}>
         <Page
@@ -34,7 +34,7 @@ const Anitama = (props: NavigationProps) => {
         <Header />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default Anitama
+export default observer(Anitama)

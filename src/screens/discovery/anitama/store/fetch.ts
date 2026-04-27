@@ -5,6 +5,7 @@
  * @Last Modified time: 2025-11-14 21:51:23
  */
 import { discoveryStore } from '@stores'
+import { TEXT_NEWS_GC, TEXT_NEWS_GS, TEXT_NEWS_YM } from '@constants'
 import Computed from './computed'
 
 export default class Fetch extends Computed {
@@ -13,13 +14,13 @@ export default class Fetch extends Computed {
     const { page } = this.state
 
     switch (this.label) {
-      case '机核GCORES':
+      case TEXT_NEWS_GC:
         return discoveryStore.fetchGCTimeline(page)
 
-      case '翼萌动漫':
+      case TEXT_NEWS_YM:
         return discoveryStore.fetchYMTimeline(page)
 
-      case '动漫星空':
+      case TEXT_NEWS_GS:
         return discoveryStore.fetchGSTimeline(page)
 
       default:

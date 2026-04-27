@@ -6,12 +6,12 @@
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Heatmap, Image, ScrollView, Text, Touchable } from '@components'
-import { InView } from '@_'
+import { computeInViewY, InView } from '@_'
 import { _, useStore } from '@stores'
 import { open } from '@utils'
 import { hm, t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
@@ -23,78 +23,75 @@ const title = '资讯'
 function List() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    const styles = memoStyles()
-    const { useWebView } = $.state
+  const { useWebView } = $.state
 
-    const handlePress = useCallback(
-      (item: NewsItem) => {
-        if (useWebView) {
-          navigation.push('WebBrowser', {
-            url: item.url,
-            title: item.title
-          })
-        } else {
-          open(item.url)
-        }
-
-        t('Anitama.跳转', {
-          to: 'WebBrowser',
+  const handlePress = useCallback(
+    (item: NewsItem) => {
+      if (useWebView) {
+        navigation.push('WebBrowser', {
           url: item.url,
-          useWebView
+          title: item.title
         })
-        hm(item.url, title)
-      },
-      [useWebView]
-    )
+      } else {
+        open(item.url)
+      }
 
-    return (
-      <ScrollView onScroll={$.onScroll}>
-        {$.state.show && (
-          <View style={styles.container}>
-            {$.article.list.map((item, index) => (
-              <Touchable
-                key={item.aid}
-                style={styles.item}
-                animate
-                onPress={() => handlePress(item)}
-              >
-                <Text align='right'>
-                  © {[item.author, item.origin].filter(item => !!item).join(' / ')}
+      t('Anitama.跳转', {
+        to: 'WebBrowser',
+        url: item.url,
+        useWebView
+      })
+      hm(item.url, title)
+    },
+    [navigation, useWebView]
+  )
+
+  const styles = memoStyles()
+
+  return (
+    <ScrollView keyboardDismissMode='on-drag' onScroll={$.onScroll}>
+      {$.state.show && (
+        <View style={styles.container}>
+          {$.article.list.map((item, index) => (
+            <Touchable key={item.aid} style={styles.item} animate onPress={() => handlePress(item)}>
+              <Text align='right'>
+                © {[item.author, item.origin].filter(item => !!item).join(' / ')}
+              </Text>
+
+              <InView style={_.mt.md} y={computeInViewY(index, 280)}>
+                <Image
+                  src={item.cover.url}
+                  headers={item.cover.headers}
+                  width={styles.cover.width}
+                  height={styles.cover.height}
+                  radius
+                  errorToHide
+                />
+              </InView>
+
+              <View style={styles.info}>
+                <Text size={18} type='title' bold>
+                  {item.title}
                 </Text>
-                <InView style={_.mt.md} y={280 * (index + 1)}>
-                  <Image
-                    src={item.cover.url}
-                    headers={item.cover.headers}
-                    width={styles.cover.width}
-                    height={styles.cover.height}
-                    radius
-                    errorToHide
-                  />
-                </InView>
-                <View style={styles.info}>
-                  <Text size={18} type='title' bold>
-                    {item.title}
+                {!!item.subtitle && (
+                  <Text style={_.mt.sm} lineHeight={18} type='sub' bold>
+                    {item.subtitle}
                   </Text>
-                  {!!item.subtitle && (
-                    <Text style={_.mt.sm} lineHeight={18} type='sub' bold>
-                      {item.subtitle}
-                    </Text>
-                  )}
-                  {!!item.intro && (
-                    <Text style={_.mt.md} type='sub' lineHeight={18}>
-                      {item.intro}
-                    </Text>
-                  )}
-                </View>
-                {!index && <Heatmap id='Anitama.跳转' />}
-              </Touchable>
-            ))}
-          </View>
-        )}
-      </ScrollView>
-    )
-  })
+                )}
+                {!!item.intro && (
+                  <Text style={_.mt.md} type='sub' lineHeight={18}>
+                    {item.intro}
+                  </Text>
+                )}
+              </View>
+
+              {!index && <Heatmap id='Anitama.跳转' />}
+            </Touchable>
+          ))}
+        </View>
+      )}
+    </ScrollView>
+  )
 }
 
-export default List
+export default observer(List)

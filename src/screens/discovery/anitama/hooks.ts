@@ -11,7 +11,7 @@ import store from './store'
 import type { NavigationProps } from '@types'
 import type { Ctx } from './types'
 
-/** 二次元资讯页面逻辑 */
+/** 业界资讯页面逻辑 */
 export function useAnitamaPage(props: NavigationProps) {
   const context = useInitStore<Ctx['$']>(props, store)
   const { id, $ } = context

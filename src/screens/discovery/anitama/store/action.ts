@@ -13,6 +13,22 @@ import { EXCLUDE_STATE } from './ds'
 import type { Id } from '@types'
 
 export default class Action extends Fetch {
+  /** 更新页码并刷新列表 */
+  private updatePage = (
+    page: number,
+    eventName: 'Anitama.上一页' | 'Anitama.下一页' | 'Anitama.页码跳转'
+  ) => {
+    this.setState({
+      page,
+      ipt: String(page)
+    })
+    this.prevPage = page
+    this.fetchList()
+    this.resetScrollView()
+
+    t(eventName, { page })
+  }
+
   /** 隐藏后延迟显示列表 (用于重置滚动位置) */
   resetScrollView = () => {
     this.setState({
@@ -32,37 +48,14 @@ export default class Action extends Fetch {
   /** 前一页 */
   prev = () => {
     const { page } = this.state
-    if (page == 1) return
+    if (page <= 1) return
 
-    const value = parseInt(String(page)) - 1
-    this.setState({
-      page: value,
-      ipt: String(value)
-    })
-    this.prevPage = value
-    this.fetchList()
-    this.resetScrollView()
-
-    t('Anitama.上一页', {
-      page: value
-    })
+    this.updatePage(page - 1, 'Anitama.上一页')
   }
 
   /** 下一页 */
   next = () => {
-    const { page } = this.state
-    const value = parseInt(String(page)) + 1
-    this.setState({
-      page: value,
-      ipt: String(value)
-    })
-    this.prevPage = value
-    this.fetchList()
-    this.resetScrollView()
-
-    t('Anitama.下一页', {
-      page: value
-    })
+    this.updatePage(this.state.page + 1, 'Anitama.下一页')
   }
 
   /** 切换站点 */
@@ -73,6 +66,7 @@ export default class Action extends Fetch {
     })
     this.save()
     this.fetchList()
+    this.resetScrollView()
 
     t('Anitama.切换站点', {
       label
@@ -105,11 +99,7 @@ export default class Action extends Fetch {
     })
     this.save()
 
-    if (value) {
-      info('使用内置浏览器打开')
-    } else {
-      info('使用外部浏览器打开')
-    }
+    info(`使用${value ? '内置' : '外部'}浏览器打开`)
     feedback(true)
 
     t('Anitama.内置浏览器', {
@@ -117,28 +107,18 @@ export default class Action extends Fetch {
     })
   }
 
-  /** 更新可视范围底部 y */
-  onScroll = updateVisibleBottom.bind(this)
-
   /** 页码跳转 */
   doSearch = () => {
     const { ipt } = this.state
     const value = ipt === '' ? 1 : parseInt(ipt)
-    if (value < 1) {
+    if (value < 1 || isNaN(value)) {
       info('请输入正确页码')
       return
     }
 
-    this.setState({
-      page: value,
-      ipt: String(value)
-    })
-    this.prevPage = value
-    this.fetchList()
-    this.resetScrollView()
-
-    t('Anitama.页码跳转', {
-      page: value
-    })
+    this.updatePage(value, 'Anitama.页码跳转')
   }
+
+  /** 更新可视范围底部 y */
+  onScroll = updateVisibleBottom.bind(this)
 }

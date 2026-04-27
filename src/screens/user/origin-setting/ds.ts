@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-23 20:28:21
  */
-import { HOST_AC_SEARCH } from '@constants'
+import { HOST_AC_SEARCH, TEXT_NEWS_GC } from '@constants'
 
 export const COMPONENT = 'OriginSetting'
 
@@ -410,7 +410,7 @@ export const SITES_GAME = [
   },
   {
     id: 'game|gcore',
-    name: '机核GCORES',
+    name: TEXT_NEWS_GC,
     url: 'https://www.gcores.com/search?keyword=[CN]&tab=all',
     icon: require('@assets/images/icon/gcore.png'),
     iconSquare: true,

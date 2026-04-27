@@ -15,7 +15,7 @@
 export function computeInViewY(
   index: number,
   itemHeight: number,
-  baseOffset: number,
+  baseOffset: number = 0,
   columnCount: number = 1
 ): number {
   const row = Math.floor(index / columnCount) + 1

@@ -29,8 +29,5 @@ export const memoStyles = _.memoStyles(() => ({
   },
   disabled: {
     opacity: 0.4
-  },
-  check: {
-    padding: _.sm
   }
 }))

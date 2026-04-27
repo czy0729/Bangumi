@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-03-19 02:54:13
  */
 import React, { useRef, useState } from 'react'
+import { KeyboardAvoidingView } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { feedback, stl } from '@utils'
@@ -40,8 +41,9 @@ export const Pagination = observer(
   }: PaginationProps) => {
     r(COMPONENT)
 
-    const [show, setShow] = useState(false)
     const inputRef = useRef(null)
+
+    const [isFocused, setIsFocused] = useState(false)
 
     const styles = memoStyles()
 
@@ -79,62 +81,48 @@ export const Pagination = observer(
           showClear={false}
           returnKeyType='search'
           returnKeyLabel='跳转'
-          onChange={e => {
-            setShow(true)
-            onChange(e)
-          }}
+          onChange={onChange}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
           onSubmitEditing={() => {
             onSearch()
             inputRef.current?.onBlur()
             feedback(true)
           }}
-          onFocus={() => {
-            setShow(true)
-          }}
-          onBlur={() => {
-            setShow(false)
-          }}
         />
-        {IOS && show && (
-          <Touchable
-            style={styles.check}
-            onPress={() => {
-              setShow(false)
-              onSearch()
-              inputRef.current?.onBlur()
-              feedback(true)
-            }}
-          >
-            <Iconfont name='md-arrow-forward' size={16} color={_.colorDesc} />
-          </Touchable>
-        )}
       </Flex>
     )
 
     return (
       <Component id='component-pagination'>
-        <SafeAreaBottom type='paddingBottom'>
-          <Flex style={stl(styles.container, style)}>
-            <Flex.Item>
-              {renderButton('md-navigate-before', onPrev, heatmaps.prev, input === '1')}
-            </Flex.Item>
+        <KeyboardAvoidingView
+          behavior={IOS && isFocused ? 'padding' : undefined}
+          keyboardVerticalOffset={0}
+        >
+          <SafeAreaBottom type='paddingBottom'>
+            <Flex style={stl(styles.container, style)}>
+              <Flex.Item>
+                {renderButton('md-navigate-before', onPrev, heatmaps.prev, input === '1')}
+              </Flex.Item>
 
-            <Flex.Item style={_.ml.lg}>
-              {renderInput()}
-              {!!heatmaps.search && <Heatmap id={heatmaps.search} />}
-            </Flex.Item>
+              <Flex.Item style={_.ml.lg}>
+                {renderInput()}
+                {!!heatmaps.search && <Heatmap id={heatmaps.search} />}
+              </Flex.Item>
 
-            <Flex.Item style={_.ml.lg}>
-              {renderButton(
-                'md-navigate-next',
-                onNext,
-                heatmaps.next,
-                pageTotal && String(pageTotal) === input ? true : false
-              )}
-            </Flex.Item>
-          </Flex>
-          <KeyboardSpacer />
-        </SafeAreaBottom>
+              <Flex.Item style={_.ml.lg}>
+                {renderButton(
+                  'md-navigate-next',
+                  onNext,
+                  heatmaps.next,
+                  pageTotal && String(pageTotal) === input ? true : false
+                )}
+              </Flex.Item>
+            </Flex>
+
+            {!IOS && isFocused && <KeyboardSpacer />}
+          </SafeAreaBottom>
+        </KeyboardAvoidingView>
       </Component>
     )
   }

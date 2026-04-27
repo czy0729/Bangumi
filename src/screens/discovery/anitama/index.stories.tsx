@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-04-12 09:56:40
  */
 import React from 'react'
-import { getStorybookArgs, Page, StorybookList, StorybookSPA, Text } from '@components'
+import { Page, StorybookList, StorybookSPA, Text } from '@components'
 import { _ } from '@stores'
 
 const Component = () => (
@@ -24,7 +24,9 @@ export default {
 export const Anitama = () => (
   <StorybookSPA>
     <StorybookList>
-      <Component {...getStorybookArgs('Anitama')} />
+      <Component
+      // {...getStorybookArgs('Anitama')}
+      />
     </StorybookList>
   </StorybookSPA>
 )
