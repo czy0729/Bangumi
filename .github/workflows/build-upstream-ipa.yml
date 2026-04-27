@@ -18,6 +18,9 @@ on:
 permissions:
   contents: write
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 concurrency:
   group: build-upstream-ipa-${{ github.event.inputs.tag || 'latest' }}
   cancel-in-progress: false
@@ -30,10 +33,10 @@ jobs:
 
     steps:
       - name: Checkout automation
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: '20'
 
@@ -173,7 +176,7 @@ jobs:
           corepack enable
           corepack prepare yarn@1.22.22 --activate
           yarn --version
-          yarn install --ignore-engines --network-timeout 600000
+          yarn install --ignore-engines --ignore-scripts --network-timeout 600000
           ./node_modules/.bin/patch-package --patch-dir packages/ipa/patches || echo "::warning::Some IPA patch-package patches did not apply; continuing for iOS build."
 
       - name: Install CocoaPods dependencies
