@@ -3,12 +3,6 @@ name: Build upstream unsigned IPA
 on:
   schedule:
     - cron: '37 8 * * *'
-  push:
-    branches:
-      - master
-    paths:
-      - '.github/workflows/build-upstream-ipa.yml'
-      - '.github/scripts/upstream-ipa.mjs'
   workflow_dispatch:
     inputs:
       tag:
@@ -41,14 +35,14 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: '23.7.0'
+          node-version: '20'
 
       - name: Resolve upstream tag
         id: upstream
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REQUESTED_TAG: ${{ github.event.inputs.tag || '' }}
-          FORCE_REBUILD: ${{ github.event_name == 'push' || github.event.inputs.force == 'true' }}
+          FORCE_REBUILD: ${{ github.event.inputs.force == 'true' }}
         run: node .github/scripts/upstream-ipa.mjs resolve
 
       - name: Skip existing IPA
@@ -76,86 +70,85 @@ jobs:
           source_dir="$(cd "$source_dir" && pwd -P)"
           echo "SOURCE_DIR=$source_dir" >> "$GITHUB_ENV"
 
-      - name: Prepare upstream source
+      - name: Prepare IPA source
         if: steps.upstream.outputs.should_build == 'true'
         run: |
           set -euo pipefail
           cd "$SOURCE_DIR"
 
+          node packages/env.js ipa
+
           node <<'NODE'
           const fs = require('fs')
 
-          const packageJsonPath = 'package.json'
-          const pkg = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
-          const dependencies = pkg.dependencies || {}
-          const reactNativeVersion = dependencies['react-native'] || ''
-          const reactNativeMinor = Number(String(reactNativeVersion).match(/\d+\.(\d+)/)?.[1] || 0)
-
-          if (reactNativeMinor >= 81 && dependencies['@react-native-community/blur'] === '4.2.0') {
-            dependencies['@react-native-community/blur'] = '4.4.1'
-            fs.writeFileSync(packageJsonPath, `${JSON.stringify(pkg, null, 2)}\n`)
-            console.log(`Updated @react-native-community/blur to 4.4.1 for React Native ${reactNativeVersion}`)
+          function readJson(path) {
+            return JSON.parse(fs.readFileSync(path, 'utf8'))
           }
 
-          const reanimatedVersion = dependencies['react-native-reanimated'] || ''
-          const reanimatedMajor = Number(String(reanimatedVersion).replace(/^[^0-9]*/, '').split('.')[0])
-
-          if (reanimatedMajor >= 4) {
-            const podfilePropertiesPath = 'ios/Podfile.properties.json'
-            const podfileProperties = JSON.parse(fs.readFileSync(podfilePropertiesPath, 'utf8'))
-            podfileProperties.newArchEnabled = 'true'
-            fs.writeFileSync(podfilePropertiesPath, `${JSON.stringify(podfileProperties, null, 2)}\n`)
-
-            if (process.env.GITHUB_ENV) {
-              fs.appendFileSync(process.env.GITHUB_ENV, 'RCT_NEW_ARCH_ENABLED=1\n')
-            }
-
-            console.log(`Enabled iOS New Architecture for react-native-reanimated ${reanimatedVersion}`)
+          function writeJson(path, value) {
+            fs.writeFileSync(path, `${JSON.stringify(value, null, 2)}\n`)
           }
 
-          const appDelegateHeaderPath = 'ios/Bangumi/AppDelegate.h'
-          const appDelegateImplementationPath = 'ios/Bangumi/AppDelegate.mm'
-
-          if (
-            reactNativeMinor >= 81 &&
-            fs.existsSync(appDelegateHeaderPath) &&
-            fs.existsSync(appDelegateImplementationPath)
-          ) {
-            let header = fs.readFileSync(appDelegateHeaderPath, 'utf8')
-            let implementation = fs.readFileSync(appDelegateImplementationPath, 'utf8')
-            let patched = false
-
-            if (header.includes('@interface AppDelegate : EXAppDelegateWrapper')) {
-              header = header.replace(/\n#import <Expo\/Expo\.h>\n/, '\n')
-              header = header.replace(
-                '@interface AppDelegate : EXAppDelegateWrapper',
-                '@interface AppDelegate : RCTAppDelegate',
-              )
-              patched = true
-            }
-
-            if (!implementation.includes('<ReactAppDependencyProvider/RCTAppDependencyProvider.h>')) {
-              implementation = implementation.replace(
-                '#import <React/RCTLinkingManager.h>\n',
-                '#import <React/RCTLinkingManager.h>\n#import <ReactAppDependencyProvider/RCTAppDependencyProvider.h>\n',
-              )
-              patched = true
-            }
-
-            if (!implementation.includes('self.dependencyProvider = [RCTAppDependencyProvider new];')) {
-              implementation = implementation.replace(
-                '  self.moduleName = @"main";\n',
-                '  self.moduleName = @"main";\n  self.dependencyProvider = [RCTAppDependencyProvider new];\n',
-              )
-              patched = true
-            }
-
-            if (patched) {
-              fs.writeFileSync(appDelegateHeaderPath, header)
-              fs.writeFileSync(appDelegateImplementationPath, implementation)
-              console.log('Patched iOS AppDelegate to mount the React Native root view on React Native 0.81+')
+          function replaceInFile(path, from, to) {
+            if (!fs.existsSync(path)) return
+            const original = fs.readFileSync(path, 'utf8')
+            const patched = original.replace(from, to)
+            if (patched !== original) {
+              fs.writeFileSync(path, patched)
+              console.log(`Patched ${path}`)
             }
           }
+
+          const pkg = readJson('package.json')
+          pkg.dependencies ||= {}
+          if (!pkg.dependencies['expo-speech']) {
+            pkg.dependencies['expo-speech'] = '~13.0.1'
+            writeJson('package.json', pkg)
+            console.log('Added expo-speech for the IPA dependency set')
+          }
+
+          const appJson = readJson('app.json')
+          const plugins = appJson.expo?.plugins
+          if (Array.isArray(plugins)) {
+            const filtered = plugins.filter(plugin => {
+              if (plugin === 'expo-web-browser') return false
+              return !(Array.isArray(plugin) && plugin[0] === 'expo-web-browser')
+            })
+
+            if (filtered.length !== plugins.length) {
+              appJson.expo.plugins = filtered
+              writeJson('app.json', appJson)
+              console.log('Removed expo-web-browser config plugin for Expo 52 IPA builds')
+            }
+          }
+
+          const appVersion = appJson.expo?.version
+          if (!appVersion) {
+            throw new Error('app.json is missing expo.version')
+          }
+
+          replaceInFile(
+            'src/utils/thirdParty/open-cc/module.ts',
+            [
+              "import * as OpenCC from 'opencc-js/core'",
+              "import CN from 'opencc-js/from/cn'",
+              "import HK from 'opencc-js/to/hk'",
+              "import TW from 'opencc-js/to/tw'",
+            ].join('\n'),
+            [
+              "import * as OpenCC from 'opencc-js/dist/esm-lib/core'",
+              "import CN from 'opencc-js/dist/esm-lib/from/cn'",
+              "import HK from 'opencc-js/dist/esm-lib/to/hk'",
+              "import TW from 'opencc-js/dist/esm-lib/to/tw'",
+            ].join('\n'),
+          )
+          replaceInFile(
+            'src/utils/thirdParty/file-system/index.ts',
+            'expo-file-system/legacy',
+            'expo-file-system',
+          )
+
+          fs.appendFileSync(process.env.GITHUB_ENV, `APP_VERSION=${appVersion}\n`)
           NODE
 
           app_version="$(node -p "require('./app.json').expo.version")"
@@ -180,42 +173,21 @@ jobs:
           corepack enable
           corepack prepare yarn@1.22.22 --activate
           yarn --version
-          yarn install --ignore-scripts --frozen-lockfile --network-timeout 600000
-          yarn patch-package --use-yarn || echo "::warning::Some upstream patch-package patches did not apply; continuing for iOS build."
+          yarn install --ignore-engines --network-timeout 600000
+          ./node_modules/.bin/patch-package --patch-dir packages/ipa/patches || echo "::warning::Some IPA patch-package patches did not apply; continuing for iOS build."
 
       - name: Install CocoaPods dependencies
         if: steps.upstream.outputs.should_build == 'true'
         run: |
           set -euo pipefail
-          cd "$SOURCE_DIR"
+          cd "$SOURCE_DIR/ios"
+          pod install
 
-          node <<'NODE'
-          const fs = require('fs')
-
-          const fmtPodspecPath = 'node_modules/react-native/third-party-podspecs/fmt.podspec'
-          if (fs.existsSync(fmtPodspecPath)) {
-            const original = fs.readFileSync(fmtPodspecPath, 'utf8')
-            const fmtVersion = original.match(/spec\.version\s*=\s*"([^"]+)"/)?.[1] || ''
-            const fmtMajor = Number(fmtVersion.split('.')[0])
-
-            let patched = original
-            if (fmtMajor >= 11 && original.includes('"CLANG_CXX_LANGUAGE_STANDARD" => rct_cxx_language_standard()')) {
-              patched = original.replace(
-                '"CLANG_CXX_LANGUAGE_STANDARD" => rct_cxx_language_standard()',
-                '"CLANG_CXX_LANGUAGE_STANDARD" => "c++17"',
-              )
-            }
-
-            if (patched !== original) {
-              fs.writeFileSync(fmtPodspecPath, patched)
-              console.log(`Pinned fmt ${fmtVersion} pod to c++17 for Xcode compatibility`)
-            }
-          }
-          NODE
-
-          cd ios
-          rm -rf Pods Podfile.lock Bangumi.xcworkspace
-          pod install --repo-update
+          fmt_base_h="Pods/fmt/include/fmt/base.h"
+          if [ -f "$fmt_base_h" ]; then
+            ruby -0777 -pi -e 'gsub("defined(__apple_build_version__) && __apple_build_version__ < 14000029L", "defined(__apple_build_version__)")' "$fmt_base_h"
+            echo "Patched fmt for Xcode clang compatibility"
+          fi
 
       - name: Build Release app
         if: steps.upstream.outputs.should_build == 'true'
@@ -250,22 +222,24 @@ jobs:
           set -euo pipefail
           cd "$SOURCE_DIR"
 
-          node web/ipa.js
-
-          app_version="$(node -p "require('./app.json').expo.version")"
-          generated_ipa="web/bangumi_v${app_version}_archive.ipa"
-
-          if [ ! -f "$generated_ipa" ]; then
-            echo "::error::Expected generated IPA not found: $generated_ipa"
+          app_path="ios/build/Build/Products/Release-iphoneos/Bangumi.app"
+          if [ ! -d "$app_path" ]; then
+            echo "::error::Expected .app not found: $app_path"
             exit 1
           fi
 
+          payload_root="$RUNNER_TEMP/ipa-payload"
+          rm -rf "$payload_root"
+          mkdir -p "$payload_root/Payload"
+          cp -R "$app_path" "$payload_root/Payload/"
+
+          target_ipa="$GITHUB_WORKSPACE/$ASSET_NAME"
+          (cd "$payload_root" && zip -qr "$target_ipa" Payload)
+
+          app_version="$(node -p "require('./app.json').expo.version")"
           if [ "$app_version" != "$TAG" ]; then
             echo "::warning::app.json version $app_version does not match upstream tag $TAG."
           fi
-
-          target_ipa="$GITHUB_WORKSPACE/$ASSET_NAME"
-          mv "$generated_ipa" "$target_ipa"
 
           cd "$GITHUB_WORKSPACE"
           shasum -a 256 "$ASSET_NAME" > "$ASSET_NAME.sha256"
@@ -279,16 +253,24 @@ jobs:
           set -euo pipefail
 
           unzip -t "$IPA_PATH"
-          unzip -l "$IPA_PATH" "Payload/Bangumi.app/Info.plist"
+          unzip -l "$IPA_PATH" "Payload/Bangumi.app/Info.plist" "Payload/Bangumi.app/EXConstants.bundle/app.config"
 
           info_plist="$RUNNER_TEMP/Bangumi-Info.plist"
+          app_config="$RUNNER_TEMP/Bangumi-app.config"
           unzip -p "$IPA_PATH" "Payload/Bangumi.app/Info.plist" > "$info_plist"
+          unzip -p "$IPA_PATH" "Payload/Bangumi.app/EXConstants.bundle/app.config" > "$app_config"
 
           bundle_version="$(plutil -extract CFBundleShortVersionString raw -o - "$info_plist")"
           app_version="$(node -p "require(process.env.SOURCE_DIR + '/app.json').expo.version")"
+          embedded_version="$(node -p "JSON.parse(require('fs').readFileSync(process.env.RUNNER_TEMP + '/Bangumi-app.config', 'utf8')).version")"
 
           if [ "$bundle_version" != "$app_version" ]; then
             echo "::error::Bundle version $bundle_version does not match app.json version $app_version."
+            exit 1
+          fi
+
+          if [ "$embedded_version" != "$app_version" ]; then
+            echo "::error::Embedded Expo config version $embedded_version does not match app.json version $app_version."
             exit 1
           fi
 
@@ -310,24 +292,10 @@ jobs:
             exit 1
           fi
 
-          rn_minor="$(node -p "String(require(process.env.SOURCE_DIR + '/package.json').dependencies['react-native'] || '').match(/\\d+\\.(\\d+)/)?.[1] || '0'")"
-
-          if [ "$rn_minor" -ge 81 ]; then
-            if grep -q 'EXAppDelegateWrapper' "$SOURCE_DIR/ios/Bangumi/AppDelegate.h"; then
-              echo "::error::AppDelegate still uses EXAppDelegateWrapper, which produces a black launch screen with this upstream React Native version."
-              exit 1
-            fi
-
-            if ! grep -q 'RCTAppDependencyProvider' "$SOURCE_DIR/ios/Bangumi/AppDelegate.mm"; then
-              echo "::error::AppDelegate is missing RCTAppDependencyProvider."
-              exit 1
-            fi
-          fi
-
       - name: Upload release assets
         if: steps.upstream.outputs.should_build == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          FORCE_REBUILD: ${{ github.event_name == 'push' || github.event.inputs.force == 'true' }}
+          FORCE_REBUILD: ${{ github.event.inputs.force == 'true' }}
           TAG: ${{ steps.upstream.outputs.tag }}
         run: node .github/scripts/upstream-ipa.mjs upload --tag "$TAG" --ipa "$IPA_PATH" --sha "$SHA_PATH"
