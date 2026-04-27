@@ -1,0 +1,304 @@
+name: Build upstream unsigned IPA
+
+on:
+  schedule:
+    - cron: '37 8 * * *'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Upstream Bangumi tag to build, for example 8.32.3. Leave empty for latest semantic tag.'
+        required: false
+        type: string
+      force:
+        description: 'Rebuild and replace existing release assets.'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+concurrency:
+  group: build-upstream-ipa-${{ github.event.inputs.tag || 'latest' }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build unsigned IPA
+    runs-on: macos-26
+    timeout-minutes: 180
+
+    steps:
+      - name: Checkout automation
+        uses: actions/checkout@v5
+
+      - name: Set up Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: '20'
+
+      - name: Resolve upstream tag
+        id: upstream
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REQUESTED_TAG: ${{ github.event.inputs.tag || '' }}
+          FORCE_REBUILD: ${{ github.event.inputs.force == 'true' }}
+        run: node .github/scripts/upstream-ipa.mjs resolve
+
+      - name: Skip existing IPA
+        if: steps.upstream.outputs.should_build != 'true'
+        run: echo "IPA asset ${{ steps.upstream.outputs.asset_name }} already exists on release ${{ steps.upstream.outputs.release_tag }}."
+
+      - name: Download upstream source
+        if: steps.upstream.outputs.should_build == 'true'
+        env:
+          TAG: ${{ steps.upstream.outputs.tag }}
+        run: |
+          set -euo pipefail
+          source_zip="$RUNNER_TEMP/bangumi-$TAG.zip"
+          source_dir="$RUNNER_TEMP/Bangumi-$TAG"
+
+          rm -rf "$source_dir" "$source_zip"
+          curl -fsSL "https://github.com/czy0729/Bangumi/archive/refs/tags/$TAG.zip" -o "$source_zip"
+          unzip -q "$source_zip" -d "$RUNNER_TEMP"
+
+          if [ ! -d "$source_dir" ]; then
+            echo "::error::Expected source directory not found: $source_dir"
+            exit 1
+          fi
+
+          source_dir="$(cd "$source_dir" && pwd -P)"
+          echo "SOURCE_DIR=$source_dir" >> "$GITHUB_ENV"
+
+      - name: Prepare IPA source
+        if: steps.upstream.outputs.should_build == 'true'
+        run: |
+          set -euo pipefail
+          cd "$SOURCE_DIR"
+
+          node packages/env.js ipa
+
+          node <<'NODE'
+          const fs = require('fs')
+
+          function readJson(path) {
+            return JSON.parse(fs.readFileSync(path, 'utf8'))
+          }
+
+          function writeJson(path, value) {
+            fs.writeFileSync(path, `${JSON.stringify(value, null, 2)}\n`)
+          }
+
+          function replaceInFile(path, from, to) {
+            if (!fs.existsSync(path)) return
+            const original = fs.readFileSync(path, 'utf8')
+            const patched = original.replace(from, to)
+            if (patched !== original) {
+              fs.writeFileSync(path, patched)
+              console.log(`Patched ${path}`)
+            }
+          }
+
+          const pkg = readJson('package.json')
+          pkg.dependencies ||= {}
+          if (!pkg.dependencies['expo-speech']) {
+            pkg.dependencies['expo-speech'] = '~13.0.1'
+            writeJson('package.json', pkg)
+            console.log('Added expo-speech for the IPA dependency set')
+          }
+
+          const appJson = readJson('app.json')
+          const plugins = appJson.expo?.plugins
+          if (Array.isArray(plugins)) {
+            const filtered = plugins.filter(plugin => {
+              if (plugin === 'expo-web-browser') return false
+              return !(Array.isArray(plugin) && plugin[0] === 'expo-web-browser')
+            })
+
+            if (filtered.length !== plugins.length) {
+              appJson.expo.plugins = filtered
+              writeJson('app.json', appJson)
+              console.log('Removed expo-web-browser config plugin for Expo 52 IPA builds')
+            }
+          }
+
+          const appVersion = appJson.expo?.version
+          if (!appVersion) {
+            throw new Error('app.json is missing expo.version')
+          }
+
+          replaceInFile(
+            'src/utils/thirdParty/open-cc/module.ts',
+            [
+              "import * as OpenCC from 'opencc-js/core'",
+              "import CN from 'opencc-js/from/cn'",
+              "import HK from 'opencc-js/to/hk'",
+              "import TW from 'opencc-js/to/tw'",
+            ].join('\n'),
+            [
+              "import * as OpenCC from 'opencc-js/dist/esm-lib/core'",
+              "import CN from 'opencc-js/dist/esm-lib/from/cn'",
+              "import HK from 'opencc-js/dist/esm-lib/to/hk'",
+              "import TW from 'opencc-js/dist/esm-lib/to/tw'",
+            ].join('\n'),
+          )
+          replaceInFile(
+            'src/utils/thirdParty/file-system/index.ts',
+            'expo-file-system/legacy',
+            'expo-file-system',
+          )
+
+          fs.appendFileSync(process.env.GITHUB_ENV, `APP_VERSION=${appVersion}\n`)
+          NODE
+
+          app_version="$(node -p "require('./app.json').expo.version")"
+          plutil -replace CFBundleShortVersionString -string "$app_version" ios/Bangumi/Info.plist
+          echo "Synced iOS bundle version to app.json: $app_version"
+
+          node_binary="$(command -v node)"
+          {
+            printf 'export NODE_BINARY='
+            printf '%q' "$node_binary"
+            printf '\n'
+          } > ios/.xcode.env.local
+          echo "NODE_BINARY=$node_binary" >> "$GITHUB_ENV"
+          echo "Using Node for Xcode scripts: $node_binary"
+
+      - name: Install JavaScript dependencies
+        if: steps.upstream.outputs.should_build == 'true'
+        run: |
+          set -euo pipefail
+          cd "$SOURCE_DIR"
+
+          corepack enable
+          corepack prepare yarn@1.22.22 --activate
+          yarn --version
+          yarn install --ignore-engines --ignore-scripts --network-timeout 600000
+          ./node_modules/.bin/patch-package --patch-dir packages/ipa/patches || echo "::warning::Some IPA patch-package patches did not apply; continuing for iOS build."
+
+      - name: Install CocoaPods dependencies
+        if: steps.upstream.outputs.should_build == 'true'
+        run: |
+          set -euo pipefail
+          cd "$SOURCE_DIR/ios"
+          pod install
+
+          fmt_base_h="Pods/fmt/include/fmt/base.h"
+          if [ -f "$fmt_base_h" ]; then
+            ruby -0777 -pi -e 'gsub("defined(__apple_build_version__) && __apple_build_version__ < 14000029L", "defined(__apple_build_version__)")' "$fmt_base_h"
+            echo "Patched fmt for Xcode clang compatibility"
+          fi
+
+      - name: Build Release app
+        if: steps.upstream.outputs.should_build == 'true'
+        env:
+          NODE_ENV: production
+          ENTRY_FILE: index.js
+        run: |
+          set -euo pipefail
+          cd "$SOURCE_DIR/ios"
+
+          xcodebuild \
+            -workspace Bangumi.xcworkspace \
+            -scheme Bangumi \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination generic/platform=iOS \
+            CODE_SIGN_IDENTITY= \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            -derivedDataPath build \
+            GCC_WARN_INHIBIT_ALL_WARNINGS=YES \
+            CLANG_WARN_DOCUMENTATION_COMMENTS=NO \
+            SWIFT_SUPPRESS_WARNINGS=YES \
+            COMPILER_INDEX_STORE_ENABLE=NO
+
+      - name: Package IPA
+        if: steps.upstream.outputs.should_build == 'true'
+        env:
+          ASSET_NAME: ${{ steps.upstream.outputs.asset_name }}
+          TAG: ${{ steps.upstream.outputs.tag }}
+        run: |
+          set -euo pipefail
+          cd "$SOURCE_DIR"
+
+          app_path="ios/build/Build/Products/Release-iphoneos/Bangumi.app"
+          if [ ! -d "$app_path" ]; then
+            echo "::error::Expected .app not found: $app_path"
+            exit 1
+          fi
+
+          payload_root="$RUNNER_TEMP/ipa-payload"
+          rm -rf "$payload_root"
+          mkdir -p "$payload_root/Payload"
+          cp -R "$app_path" "$payload_root/Payload/"
+
+          target_ipa="$GITHUB_WORKSPACE/$ASSET_NAME"
+          (cd "$payload_root" && zip -qr "$target_ipa" Payload)
+
+          app_version="$(node -p "require('./app.json').expo.version")"
+          if [ "$app_version" != "$TAG" ]; then
+            echo "::warning::app.json version $app_version does not match upstream tag $TAG."
+          fi
+
+          cd "$GITHUB_WORKSPACE"
+          shasum -a 256 "$ASSET_NAME" > "$ASSET_NAME.sha256"
+
+          echo "IPA_PATH=$target_ipa" >> "$GITHUB_ENV"
+          echo "SHA_PATH=$target_ipa.sha256" >> "$GITHUB_ENV"
+
+      - name: Validate IPA
+        if: steps.upstream.outputs.should_build == 'true'
+        run: |
+          set -euo pipefail
+
+          unzip -t "$IPA_PATH"
+          unzip -l "$IPA_PATH" "Payload/Bangumi.app/Info.plist" "Payload/Bangumi.app/EXConstants.bundle/app.config"
+
+          info_plist="$RUNNER_TEMP/Bangumi-Info.plist"
+          app_config="$RUNNER_TEMP/Bangumi-app.config"
+          unzip -p "$IPA_PATH" "Payload/Bangumi.app/Info.plist" > "$info_plist"
+          unzip -p "$IPA_PATH" "Payload/Bangumi.app/EXConstants.bundle/app.config" > "$app_config"
+
+          bundle_version="$(plutil -extract CFBundleShortVersionString raw -o - "$info_plist")"
+          app_version="$(node -p "require(process.env.SOURCE_DIR + '/app.json').expo.version")"
+          embedded_version="$(node -p "JSON.parse(require('fs').readFileSync(process.env.RUNNER_TEMP + '/Bangumi-app.config', 'utf8')).version")"
+
+          if [ "$bundle_version" != "$app_version" ]; then
+            echo "::error::Bundle version $bundle_version does not match app.json version $app_version."
+            exit 1
+          fi
+
+          if [ "$embedded_version" != "$app_version" ]; then
+            echo "::error::Embedded Expo config version $embedded_version does not match app.json version $app_version."
+            exit 1
+          fi
+
+          app_path="$SOURCE_DIR/ios/build/Build/Products/Release-iphoneos/Bangumi.app"
+          set +e
+          codesign_output="$(codesign -dv "$app_path" 2>&1)"
+          codesign_status="$?"
+          set -e
+
+          echo "$codesign_output"
+
+          if [ "$codesign_status" -eq 0 ]; then
+            echo "::error::Expected unsigned app, but codesign reported a valid signature."
+            exit 1
+          fi
+
+          if [[ "$codesign_output" != *"code object is not signed at all"* ]]; then
+            echo "::error::codesign did not report the expected unsigned-app message."
+            exit 1
+          fi
+
+      - name: Upload release assets
+        if: steps.upstream.outputs.should_build == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FORCE_REBUILD: ${{ github.event.inputs.force == 'true' }}
+          TAG: ${{ steps.upstream.outputs.tag }}
+        run: node .github/scripts/upstream-ipa.mjs upload --tag "$TAG" --ipa "$IPA_PATH" --sha "$SHA_PATH"
