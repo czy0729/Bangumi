@@ -18,7 +18,7 @@ export function scrollToX(scrollView: ScrollView, data: readonly any[], value: a
   try {
     if (scrollView && value) {
       const index = data.findIndex(i => i == value)
-      if (index >= 5) {
+      if (index >= 4) {
         setTimeout(() => {
           try {
             scrollView.scrollTo(

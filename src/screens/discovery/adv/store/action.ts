@@ -1,10 +1,10 @@
-import { otaStore } from '@stores'
 /*
  * @Author: czy0729
  * @Date: 2024-07-14 15:53:46
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-07-14 16:05:16
  */
+import { otaStore } from '@stores'
 import { t } from '@utils/fetch'
 import Fetch from './fetch'
 
@@ -30,6 +30,10 @@ export default class Action extends Fetch {
   }
 
   scrollToOffset = null
+
+  forwardRef = (ref: { scrollToOffset: any }) => {
+    if (ref?.scrollToOffset) this.scrollToOffset = ref.scrollToOffset
+  }
 
   /** 到顶 */
   scrollToTop = () => {

@@ -7,7 +7,9 @@
 import { collectionStore } from '@stores'
 import { init } from '@utils/subject/adv'
 import Action from './action'
-import { NAMESPACE, STATE } from './ds'
+import { NAMESPACE } from './ds'
+
+import type { STATE } from './ds'
 
 let _loaded = false
 

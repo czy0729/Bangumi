@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-07-14 15:05:10
  */
 import { rc } from '@utils/dev'
-import { COMPONENT as PARENT } from '../ds'
+import { COMPONENT as PARENT } from '../item/ds'
 
 export const COMPONENT = rc(PARENT, 'ItemGrid')
 

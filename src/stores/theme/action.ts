@@ -68,7 +68,6 @@ export default class Action extends Computed {
 
   /** 手机 * 1, 平板 * ratio */
   r = (px: number = 0) => {
-    // @ts-expect-error
     return Math.floor(this.ratio * px)
   }
 

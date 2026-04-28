@@ -1,0 +1,30 @@
+/*
+ * @Author: czy0729
+ * @Date: 2024-03-16 16:02:08
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2025-11-04 16:00:45
+ */
+import React from 'react'
+import { observer } from 'mobx-react'
+import { Filter as FilterComp } from '@_'
+import { r } from '@utils/dev'
+import { TEXT_UPDATE_GAME } from '@constants'
+import { filterDS } from '../../ds'
+import { COMPONENT, TEXT_INFORMATION } from './ds'
+
+function Filter() {
+  r(COMPONENT)
+
+  return (
+    <FilterComp
+      filterDS={filterDS}
+      title='频道　'
+      name='ADV'
+      type='ADV'
+      lastUpdate={TEXT_UPDATE_GAME.slice(0, 7)}
+      information={TEXT_INFORMATION}
+    />
+  )
+}
+
+export default observer(Filter)

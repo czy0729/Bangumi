@@ -12,6 +12,8 @@ import List from './component/list'
 import Header from './header'
 import { useAnimePage } from './hooks'
 
+export { Header }
+
 import type { NavigationProps } from '@types'
 
 /** 找番剧 */

@@ -94,7 +94,7 @@ export function t(desc: EventKeys, eventData?: EventData) {
   })
 }
 
-/** with Evt */
+/** @deprecated with Evt */
 export function withT<T extends (...args: any[]) => any>(
   fn: T,
   desc: EventKeys,

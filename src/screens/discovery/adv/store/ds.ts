@@ -4,17 +4,17 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-07-14 17:30:03
  */
-import { ADV_YEAR } from '@utils/subject/adv'
 import { LIST_EMPTY } from '@constants'
-import { Loaded } from '@types'
 import { COMPONENT } from '../ds'
+
+import type { Loaded } from '@types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const STATE = {
   query: {
     first: '',
-    year: ADV_YEAR[0],
+    year: '2024',
     dev: '',
     playtime: '',
     cn: '',

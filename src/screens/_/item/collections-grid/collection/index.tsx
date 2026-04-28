@@ -46,17 +46,22 @@ function Collection({ collection, typeCn, airtime }: Props) {
   if (typeCn === '书籍') _collection = _collection.replace('看', '读')
   if (typeCn === '游戏') _collection = _collection.replace('看', '玩')
 
+  let airtimeText = airtime
+  if (typeof airtimeText === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(airtimeText)) {
+    airtimeText = airtimeText.slice(2)
+  }
+
   return (
     <Flex style={_.mt.xs} justify='center'>
       {!!_collection && (
         <Iconfont style={_.mr.xs} name={icon} size={size} color={_[`color${titleCase(type)}`]} />
       )}
-      <Text size={11} lineHeight={13} type='sub' bold align='center'>
-        <Text size={11} lineHeight={13} type={type} bold>
+      <Text size={10} lineHeight={12} type='sub' bold align='center'>
+        <Text size={10} lineHeight={12} type={type} bold>
           {_collection}
         </Text>
-        {!!_collection && !!airtime && ' · '}
-        {airtime}
+        {!!_collection && !!airtimeText && ' · '}
+        {airtimeText}
       </Text>
     </Flex>
   )
