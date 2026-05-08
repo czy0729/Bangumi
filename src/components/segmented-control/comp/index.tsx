@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-06-24 16:50:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-26 13:30:52
+ * @Last Modified time: 2026-05-09 07:47:27
  */
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { View } from 'react-native'
 import Animated, {
   Easing,
   useAnimatedStyle,
+  useDerivedValue,
   useSharedValue,
   withTiming
 } from 'react-native-reanimated'
@@ -33,21 +34,22 @@ function SegmentedControlComp<T extends DataSource>({
   type,
   size
 }: Props<T>) {
-  const [currentSelectedIndex, setCurrentSelectedIndex] = useState(selectedIndex)
-  const [segmentWidth, setSegmentWidth] = useState(0)
-
-  // 用于标记：是否由用户点击触发（决定是否显示动画）
-  const isInternalChange = useRef(false)
-  const animation = useSharedValue(0)
+  const containerWidth = useSharedValue(0)
+  const indexAnim = useSharedValue(selectedIndex)
+  const isInitialized = useSharedValue(false)
 
   useEffect(() => {
-    if (selectedIndex !== currentSelectedIndex) {
-      // 外部改变或初始化，不触发动画
-      isInternalChange.current = false
-      setCurrentSelectedIndex(selectedIndex)
+    if (containerWidth.value === 0) {
+      indexAnim.value = selectedIndex
+      return
     }
+
+    indexAnim.value = withTiming(selectedIndex, {
+      duration: 250,
+      easing: Easing.out(Easing.quad)
+    })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedIndex])
+  }, [selectedIndex, containerWidth])
 
   const handleLayout = useCallback(
     ({
@@ -55,43 +57,39 @@ function SegmentedControlComp<T extends DataSource>({
         layout: { width }
       }
     }: LayoutChangeEvent) => {
-      const newSegmentWidth = values.length ? width / values.length : 0
-      if (newSegmentWidth !== segmentWidth) {
-        // 布局重新计算时，滑块应直接定位，不执行动画
-        isInternalChange.current = false
-        setSegmentWidth(newSegmentWidth)
+      if (width > 0) {
+        containerWidth.value = width
+        if (!isInitialized.value) {
+          indexAnim.value = selectedIndex
+          isInitialized.value = true
+        }
       }
     },
-    [values.length, segmentWidth]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [selectedIndex]
   )
 
-  useEffect(() => {
-    if (segmentWidth > 0 && currentSelectedIndex != null) {
-      const targetValue = segmentWidth * currentSelectedIndex
+  const itemWidth = useDerivedValue(() => {
+    return values.length > 0 ? containerWidth.value / values.length : 0
+  })
 
-      if (isInternalChange.current) {
-        // 只有用户点击时才使用 withTiming 动画
-        animation.value = withTiming(targetValue, {
-          duration: 250,
-          easing: Easing.out(Easing.quad)
-        })
-      } else {
-        // 初次加载、容器大小变化或外部 Props 更新，直接赋值（一步到位）
-        animation.value = targetValue
-      }
+  const animatedStyle = useAnimatedStyle(() => {
+    const show = isInitialized.value && itemWidth.value > 0
 
-      // 执行完毕后重置标记位
-      isInternalChange.current = false
+    return {
+      opacity: show ? 1 : 0,
+      width: itemWidth.value > 0 ? itemWidth.value - 2 : 0,
+      transform: [
+        {
+          translateX: indexAnim.value * itemWidth.value
+        }
+      ]
     }
-  }, [segmentWidth, currentSelectedIndex, animation])
+  })
 
-  const handleChange = useCallback(
+  const handlePress = useCallback(
     (index: number) => {
-      if (currentSelectedIndex === index || !enabled) return
-
-      // 用户点击，开启触发动画的开关
-      isInternalChange.current = true
-      setCurrentSelectedIndex(index)
+      if (!enabled || index === selectedIndex) return
 
       const event = {
         nativeEvent: {
@@ -99,47 +97,37 @@ function SegmentedControlComp<T extends DataSource>({
           selectedSegmentIndex: index
         }
       }
-
-      setTimeout(() => {
-        onChange?.(event)
-        onValueChange?.(values[index])
-      }, 250)
+      onChange?.(event)
+      onValueChange?.(values[index])
     },
-    [currentSelectedIndex, values, enabled, onChange, onValueChange]
+    [enabled, selectedIndex, values, onChange, onValueChange]
   )
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: animation.value }]
-  }))
 
   return (
     <View
       style={stl(styles.default, style, styleExtra, backgroundColor && { backgroundColor })}
       onLayout={handleLayout}
     >
-      {segmentWidth > 0 && currentSelectedIndex != null && (
-        <Animated.View
-          style={stl(
-            styles.slider,
-            animatedStyle,
-            {
-              width: segmentWidth - 2,
-              backgroundColor: tintColor || 'white'
-            },
-            styleExtra
-          )}
-        />
-      )}
+      <Animated.View
+        style={[
+          styles.slider,
+          {
+            backgroundColor: tintColor || 'white'
+          },
+          styleExtra,
+          animatedStyle
+        ]}
+      />
 
-      {values?.map?.((value: any, index: number) => (
+      {values?.map((value, index) => (
         <SegmentedControlTab
           key={index}
           value={value}
           type={type}
           size={size}
           enabled={enabled}
-          selected={currentSelectedIndex === index}
-          onSelect={() => handleChange(index)}
+          selected={selectedIndex === index}
+          onSelect={() => handlePress(index)}
         />
       ))}
     </View>
