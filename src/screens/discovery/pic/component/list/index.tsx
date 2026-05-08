@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-06-09 15:12:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-11 05:44:27
+ * @Last Modified time: 2026-05-08 22:27:29
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -32,7 +32,7 @@ function List() {
 
   // 动态分配项目到较短的列
   const columns: {
-    items: ListType
+    items: ListType[number][]
     height: number
   }[] = Array(NUM_COLUMNS)
     .fill(null)
@@ -40,9 +40,14 @@ function List() {
       items: [],
       height: 0
     }))
+
   $.filterList.forEach(item => {
-    // 找到当前高度最小的列
-    const shortestColumn = columns.reduce((prev, curr) => (curr.height < prev.height ? curr : prev))
+    // 找到当前高度最小的列，高度相等时选择索引更大的列以实现交替分配
+    const shortestColumn = columns.reduce((prev, curr, i) => {
+      if (curr.height < prev.height) return curr
+      if (curr.height === prev.height && i > columns.indexOf(prev)) return curr
+      return prev
+    })
 
     // 计算当前项目的高度（width / 宽高比）
     const itemHeight = width / (item.aspectRatio || 1)
@@ -72,6 +77,7 @@ function List() {
                   const w = Math.floor(width - 4)
                   const h = Math.floor(w / (item.aspectRatio || 1))
                   y += h + ITEM_MARGIN
+
                   return <Item key={item.id} width={w} height={h} y={y - h} {...item} />
                 })}
               </View>

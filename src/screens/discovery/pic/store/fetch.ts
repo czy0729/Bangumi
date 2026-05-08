@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2025-06-09 14:51:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-11 06:29:16
+ * @Last Modified time: 2026-05-07 22:59:01
  */
 import { monoStore } from '@stores'
-import { getTimestamp, info } from '@utils'
+import { getTimestamp, info, throttle } from '@utils'
 import { get, update } from '@utils/kv'
 import { D7 } from '@constants'
 import { TEXT_FETCHING_ABORT, TEXT_FETCHING_WAIT } from '../ds'
@@ -22,6 +22,12 @@ export default class Fetch extends Computed {
   checkGlobalFetching = () => {
     return globalFetching
   }
+
+  updateProgress = throttle((percent: string) => {
+    this.setState({
+      percent
+    })
+  }, 800)
 
   /** 获取列表数据 */
   fetchList = async (forceRefresh: boolean = false) => {
@@ -53,10 +59,12 @@ export default class Fetch extends Computed {
     }
 
     this.setState({
-      fetching: true
+      fetching: true,
+      percent: ''
     })
 
     globalFetching = true
+
     const result = await tag(
       this.keyword,
       page,
@@ -64,11 +72,13 @@ export default class Fetch extends Computed {
       this.onSrcsProgress,
       forceRefresh
     )
+
     globalFetching = false
 
     if (!result) {
       this.setState({
         fetching: false,
+        percent: '',
         empty: true
       })
 
@@ -88,6 +98,7 @@ export default class Fetch extends Computed {
         _loaded: getTimestamp()
       },
       pageTotal: pagination.pageTotal,
+      percent: '',
       fetching: false
     })
     this.save()
@@ -110,35 +121,46 @@ export default class Fetch extends Computed {
     }
 
     this.setState({
-      fetching: true
+      fetching: true,
+      percent: ''
     })
 
     globalFetching = true
-    const srcs = await src(fetchIds, this.onSrcsProgress)
+
+    const srcs = await src(fetchIds, (data, percent) => {
+      this.onSrcsProgress(data, percent)
+    })
+
     globalFetching = false
 
     this.setState({
       srcs,
-      fetching: false
+      fetching: false,
+      percent: ''
     })
     this.save()
   }
 
   /** 提前更新列表数据 */
-  onListProgress = (data: List) => {
+  onListProgress = (data: List, percent?: string) => {
     this.setState({
       list: {
         [this.state.page]: processImages(data),
         _loaded: getTimestamp()
       }
     })
+
+    if (percent) this.updateProgress(percent)
   }
 
   /** 提前更新实际地址数据 */
-  onSrcsProgress = (data: Srcs) => {
+  onSrcsProgress = (data: Srcs, percent?: string) => {
     this.setState({
       srcs: data
     })
+
+    if (percent) this.updateProgress(percent)
+
     this.save()
   }
 }

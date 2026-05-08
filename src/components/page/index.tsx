@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-01 14:26:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-02 12:03:16
+ * @Last Modified time: 2026-05-07 23:36:51
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -30,6 +30,7 @@ export const Page = observer(
     loadingColor,
     backgroundColor,
     loading,
+    loadingText,
     children,
     statusBarEvent = true,
     ...other
@@ -52,7 +53,13 @@ export const Page = observer(
             {children}
             {!!loading && (
               <View style={styles.loading}>
-                <Loading />
+                <Loading>
+                  {!!loadingText && (
+                    <Text style={_.mt.sm} type='icon' size={12} bold>
+                      {loadingText}
+                    </Text>
+                  )}
+                </Loading>
               </View>
             )}
           </View>

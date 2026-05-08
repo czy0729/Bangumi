@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-04-05 23:33:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-05 23:34:18
+ * @Last Modified time: 2026-05-07 23:54:42
  */
 import { _ } from '@stores'
 
@@ -12,6 +12,6 @@ export const memoStyles = _.memoStyles(() => ({
   },
   loading: {
     marginLeft: 4,
-    marginRight: -22
+    marginRight: -48
   }
 }))

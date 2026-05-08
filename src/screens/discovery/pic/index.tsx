@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-06-09 04:13:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-22 20:34:31
+ * @Last Modified time: 2026-05-08 22:03:31
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -18,13 +18,12 @@ import type { NavigationProps } from '@types'
 /** 图集 */
 function Pic(props: NavigationProps) {
   const { id, $ } = usePicPage(props)
-
-  const { _loaded, fetching, empty } = $.state
+  const { _loaded, fetching, percent, empty } = $.state
 
   return (
     <Component id='screen-pic'>
       <StoreContext.Provider value={id}>
-        <Page loaded={_loaded} loading={fetching && !$.list.length}>
+        <Page loaded={_loaded} loading={fetching && !$.list.length} loadingText={percent}>
           {empty && !$.list.length ? <Empty /> : <List />}
         </Page>
         <Header />

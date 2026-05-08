@@ -372,7 +372,7 @@ export default class Action extends Fetch {
       this.setState({
         swiping: false
       })
-    }, 120)
+    }, 300)
   }
 
   /** 更新可视范围底部 y */

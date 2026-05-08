@@ -21,7 +21,6 @@ export const memoStyles = _.memoStyles(() => ({
     borderRadius: 12,
     borderWidth: 1,
     borderColor: _.colorBorder,
-    elevation: 3,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -29,6 +28,7 @@ export const memoStyles = _.memoStyles(() => ({
     },
     shadowOpacity: 0.1,
     shadowRadius: 1,
+    elevation: 1,
     opacity: _.select(0.96, 0.92)
   },
   side: {

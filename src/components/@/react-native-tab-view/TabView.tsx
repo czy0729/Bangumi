@@ -108,7 +108,7 @@ export function TabView<T extends Route>({
     setTimeout(() => {
       setIsSwiping(false)
       onSwipeEnd?.()
-    }, 120)
+    }, 300)
   }, [onSwipeEnd, overlayOpacity])
 
   return (

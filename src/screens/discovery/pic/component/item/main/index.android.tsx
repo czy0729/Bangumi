@@ -2,31 +2,35 @@
  * @Author: czy0729
  * @Date: 2025-06-18 03:19:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-11 09:49:18
+ * @Last Modified time: 2026-05-08 21:16:04
  */
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useRef } from 'react'
 import { findNodeHandle, Image, UIManager, View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Flex, Text, Touchable } from '@components' // 引入 Flex, Text
-import { _, systemStore } from '@stores' // 引入 _ 以获取主题配置
+import { Touchable } from '@components'
+import { systemStore } from '@stores'
 import { s2t } from '@utils/thirdParty/open-cc'
 import { FROZEN_FN } from '@constants'
 import { getURI } from '../../../utils'
 import { memoStyles } from './styles'
 
-function Main({ width, height, data, image, onPress, onSelect }) {
+import type { Props } from './types'
+
+function Main({
+  width,
+  height,
+  data,
+  image,
+  onPress,
+  onSelect,
+  onError
+}: Props) {
   const viewRef = useRef<View>(null)
-
-  const [isError, setIsError] = useState(false)
-
-  useEffect(() => {
-    setIsError(false)
-  }, [image])
 
   const handleLongPress = useCallback(() => {
     if (!viewRef.current) return
 
-    // @ts-expect-error
+    // @ts-ignore
     UIManager.showPopupMenu(
       findNodeHandle(viewRef.current),
       systemStore.setting.s2t
@@ -36,6 +40,10 @@ function Main({ width, height, data, image, onPress, onSelect }) {
       (_event: any, index: number) => onSelect(data[index])
     )
   }, [data, onSelect])
+
+  const handleError = useCallback(() => {
+    onError?.()
+  }, [onError])
 
   const styles = memoStyles()
 
@@ -49,22 +57,12 @@ function Main({ width, height, data, image, onPress, onSelect }) {
         onLongPress={handleLongPress}
         withoutFeedback
       >
-        {isError ? (
-          <Flex style={{ width, height }} justify='center'>
-            <Text type={_.select('sub', 'icon')} size={16} bold>
-              404
-            </Text>
-          </Flex>
-        ) : (
-          <Image
-            style={{ width, height }}
-            fadeDuration={280}
-            source={{
-              uri: getURI(image)
-            }}
-            onError={() => setIsError(true)}
-          />
-        )}
+        <Image
+          style={{ width, height }}
+          fadeDuration={280}
+          source={{ uri: getURI(image) }}
+          onError={handleError}
+        />
       </Touchable>
     </View>
   )

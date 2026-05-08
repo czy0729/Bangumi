@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-06-09 14:21:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-11 08:37:39
+ * @Last Modified time: 2026-05-07 22:28:03
  */
 import Crypto from '@utils/crypto'
 
@@ -38,6 +38,10 @@ export const HOST = DECODE.BASE
 export const HOST_INFO = (id: Id) => `${HOST}/${id}.html`
 
 export const HOST_URL = (id: Id) => `${DECODE.GO}/${id}.jpg`
+
+export const HOST_PIXIV = 'https://i.pximg.net'
+
+export const HOST_PIXIV_RE = 'https://i.pixiv.re'
 
 export const PROGRESS_LIMIT = 4
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-06-09 04:36:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-18 03:33:05
+ * @Last Modified time: 2026-05-08 21:46:07
  */
 import { _ } from '@stores'
 import { COMPONENT } from '../ds'
@@ -27,7 +27,10 @@ export const EXCLUDE_STATE = {
   show: true,
 
   /** 是否请求中 */
-  fetching: false
+  fetching: false,
+
+  /** 批量请求完成度 */
+  percent: ''
 }
 
 export const STATE = {

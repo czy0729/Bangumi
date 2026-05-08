@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-06-09 14:50:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-28 00:28:39
+ * @Last Modified time: 2026-05-07 23:19:28
  */
 import { computed } from 'mobx'
 import { keepBasicChars } from '@utils'
@@ -32,9 +32,12 @@ export default class Computed extends State {
 
   @computed get filterList() {
     const { filter } = this.state
-    if (!filter) return this.list
 
-    return this.list.filter(item => `,${item.tags},`.includes(`,${filter},`))
+    const listWithTags = this.list.filter(item => !!item.tags)
+
+    if (!filter) return listWithTags
+
+    return listWithTags.filter(item => `,${item.tags},`.includes(`,${filter},`))
   }
 
   image(id: Id) {
