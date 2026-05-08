@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-05 15:46:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-22 11:54:43
+ * @Last Modified time: 2026-05-08 23:37:01
  */
 import { _ } from '@stores'
 
@@ -18,7 +18,7 @@ export const memoStyles = _.memoStyles(() => ({
     },
     {
       height: 160,
-      backgroundColor: _.colorBg
+      overflow: 'hidden'
     }
   )
 }))

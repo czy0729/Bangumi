@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 05:46:02
+ * @Last Modified time: 2026-05-09 00:53:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import Author from './author'
 import Content from './content'
 import Ep from './ep'
 import GroupInfo from './group-info'
-import Milestone from './milestone'
+// import Milestone from './milestone'
 import SectionTitle from './section-title'
 import Title from './title'
 import { COMPONENT } from './ds'
@@ -30,7 +30,7 @@ function Top() {
     <>
       <HeaderPlaceholder />
       <View style={styles.top}>
-        <Milestone />
+        {/* <Milestone /> */}
         <Title />
         <GroupInfo />
         {$.topicId.includes('group/') && <Author />}

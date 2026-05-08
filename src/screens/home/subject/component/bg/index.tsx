@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:31:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 22:58:54
+ * @Last Modified time: 2026-05-08 23:36:19
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Component } from '@components'
+import { BlurView, BLURVIEW_TINT_DARK, Component } from '@components'
 import { _, useStore } from '@stores'
 import { getCover400 } from '@utils'
 import { IOS, TEXT_ONLY } from '@constants'
-import Bg from './bg'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
@@ -34,7 +33,15 @@ function BgWrap() {
 
   return (
     <Component id='screen-subject-bg'>
-      <Bg style={styles.bg} src={src} cdn={cdn} height={_.ios(styles.bg.height, _.window.width)} />
+      <BlurView
+        style={styles.bg}
+        tint={_.select('light', BLURVIEW_TINT_DARK)}
+        src={src}
+        height={_.ios(styles.bg.height, _.window.width)}
+        intensity={80}
+        blurRadius={_.web(16, 8)}
+        cdn={cdn}
+      />
     </Component>
   )
 }

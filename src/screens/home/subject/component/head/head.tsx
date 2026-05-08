@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-16 11:46:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-22 17:59:48
+ * @Last Modified time: 2026-05-08 23:48:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -108,6 +108,7 @@ const Head = memo(
             {release} 上映
           </Text>
         )}
+        <View style={styles.topLine} />
         <View
           style={[
             styles.content,

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-07-31 18:45:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-23 02:58:57
+ * @Last Modified time: 2026-05-09 01:10:13
  */
 import React from 'react'
 import { ItemSearch } from '@_'
-import { _, collectionStore } from '@stores'
+import { collectionStore } from '@stores'
 import { HTMLDecode } from '@utils'
 import { useNavigation, useObserver } from '@utils/hooks'
 import { MODEL_SUBJECT_TYPE } from '@constants'
@@ -24,7 +24,6 @@ function Item({ item, index }: RenderItem<MonoWorksItem>) {
     return (
       <ItemSearch
         navigation={navigation}
-        style={_.container.item}
         event={EVENT}
         index={index}
         {...item}

@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:16:47
+ * @Last Modified time: 2026-05-08 23:40:54
  */
 import React, { useMemo } from 'react'
-import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Component, ErrorBoundary } from '@components'
+import { Component, ErrorBoundary, Flex } from '@components'
 import { renderWithErrorBoundary } from '@components/error-boundary/utils'
 import { _, useStore } from '@stores'
 import { IOS } from '@constants'
@@ -41,11 +40,11 @@ function HeaderComponent(props: Props) {
         </ErrorBoundary>
       )}
       <Head onBlockRef={props.onBlockRef} />
-      <View style={_.container.plain}>
+      <Flex.Item style={IOS && _.container.plain}>
         {elTop}
         {$.state.scrolled && elBottom}
         <Loading />
-      </View>
+      </Flex.Item>
     </Component>
   )
 }

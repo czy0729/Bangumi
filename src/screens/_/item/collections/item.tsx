@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:19:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-25 22:13:05
+ * @Last Modified time: 2026-05-09 00:36:29
  */
 import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { EVENT, FROZEN_FN, IMG_WIDTH } from '@constants'
-import { Comments, computeInViewY, PreventTouchPlaceholder } from '../../base'
+import { Comments, InView, PreventTouchPlaceholder } from '../../base'
 import { IconTouchable } from '../../icon'
 import Bottom from './bottom'
 import Container from './container'
@@ -122,7 +122,7 @@ const Item = memo(
               index={index}
               subjectId={subjectId}
               cover={cover}
-              y={computeInViewY(index, ITEM_HEIGHT, inViewY)}
+              y={InView.y(index - 1, ITEM_HEIGHT, inViewY)}
               type={type}
               onPress={handleNavigate}
             />

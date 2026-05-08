@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-07-27 05:24:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 17:56:28
+ * @Last Modified time: 2026-05-09 01:05:27
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { ItemSearch } from '@_'
-import { _, collectionStore, useStore } from '@stores'
+import { collectionStore, useStore } from '@stores'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { COMPONENT, EVENT } from './ds'
 
@@ -20,7 +20,6 @@ function Item({ index, ...item }: Props) {
 
   return (
     <ItemSearch
-      style={_.container.item}
       navigation={navigation}
       {...item}
       index={index}

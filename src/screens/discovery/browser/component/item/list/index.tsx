@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-07-27 05:24:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-25 21:22:43
+ * @Last Modified time: 2026-05-09 01:07:57
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { ItemSearch } from '@_'
-import { _, collectionStore, useStore } from '@stores'
+import { collectionStore, useStore } from '@stores'
 import { COMPONENT, EVENT } from './ds'
 
 import type { Ctx } from '../../../types'
@@ -17,7 +17,6 @@ function List({ item, index, id, typeCn }) {
 
   return (
     <ItemSearch
-      style={_.container.item}
       navigation={navigation}
       event={EVENT}
       index={index}

@@ -121,4 +121,7 @@ export type State = {
 
   /** 加载步骤是否完成 */
   loaded: boolean
+
+  /** 图片加载完成且动画结束 (用于移除背景色防止安卓过度绘制) */
+  animFinished: boolean
 }

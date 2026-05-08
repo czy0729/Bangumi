@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-20 08:37:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-20 08:38:40
+ * @Last Modified time: 2026-05-08 23:58:26
  */
 import { _ } from '@stores'
 
@@ -13,7 +13,7 @@ export const memoStyles = _.memoStyles(() => {
       paddingVertical: _.r(_._wind),
       paddingRight: needWind ? _.wind - _._wind : 0,
       paddingLeft: needWind ? _.wind : _._wind,
-      backgroundColor: _.colorPlain,
+      backgroundColor: _.ios(_.colorPlain, 'transparent'),
       borderBottomWidth: 8,
       borderBottomColor: _.colorBg
     },
@@ -22,7 +22,7 @@ export const memoStyles = _.memoStyles(() => {
       paddingRight: needWind ? _.wind - _._wind : 0,
       paddingBottom: _.r(_._wind + 4),
       paddingLeft: needWind ? _.wind : _._wind,
-      backgroundColor: _.colorPlain,
+      backgroundColor: _.ios(_.colorPlain, 'transparent'),
       borderBottomWidth: 8,
       borderBottomColor: _.colorBg
     }

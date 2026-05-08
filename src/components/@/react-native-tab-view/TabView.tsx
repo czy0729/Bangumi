@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-11-15 14:30:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-07 18:59:24
+ * @Last Modified time: 2026-05-09 05:59:59
  */
 import { useCallback, useRef, useState } from 'react'
-import { Animated, Dimensions, StyleSheet, View } from 'react-native'
+import { Animated, StyleSheet, View } from 'react-native'
 import { Pager } from 'react-native-tab-view/src/Pager'
 import { SceneView } from 'react-native-tab-view/src/SceneView'
 import { TabBar } from 'react-native-tab-view/src/TabBar'
@@ -194,7 +194,7 @@ export function TabView<T extends Route>({
 const styles = StyleSheet.create({
   pager: {
     height: '100%',
-    maxHeight: Dimensions.get('window').height,
+    maxHeight: '100%',
     overflow: 'hidden'
   }
 })

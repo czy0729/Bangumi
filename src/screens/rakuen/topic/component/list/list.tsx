@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-03 22:16:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-24 19:37:52
+ * @Last Modified time: 2026-05-09 00:54:13
  */
 import React, { useCallback } from 'react'
 import { ListView } from '@components'
@@ -39,7 +39,7 @@ const List = memo(
     const passProps = {
       ...LISTVIEW_PROPS,
       keyExtractor,
-      style: _.container.content,
+      style: _.ios(_.container.content, _.container.flex),
       contentContainerStyle: WEB ? _.container.bottom : styles.list,
       lazy: postId ? undefined : 4,
       progressViewOffset: _.ios(STATUS_BAR_HEIGHT, 0),

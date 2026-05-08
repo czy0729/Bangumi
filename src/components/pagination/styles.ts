@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-03 15:56:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-01 12:05:45
+ * @Last Modified time: 2026-05-09 05:52:39
  */
 import { _ } from '@stores'
 
@@ -10,7 +10,7 @@ export const memoStyles = _.memoStyles(() => ({
   container: {
     paddingBottom: _.web(_.sm, 0),
     marginHorizontal: _.wind,
-    backgroundColor: _.colorPlain
+    backgroundColor: _.ios(_.colorPlain, 'transparent')
   },
   pagination: {
     height: 36

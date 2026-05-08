@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-02-14 02:14:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-31 14:32:46
+ * @Last Modified time: 2026-05-09 00:18:03
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { ItemTimeline, SectionHeader } from '@_'
-import { _, rakuenStore, useStore } from '@stores'
+import { rakuenStore, useStore } from '@stores'
 import { getIsBlockedUser } from '@utils'
 import { MODEL_TIMELINE_SCOPE } from '@constants'
 import ItemHeatmaps from '../item-heatmaps'
@@ -48,7 +48,6 @@ function Item({ title, item, index }: Props) {
     <>
       {!!item.date && <SectionHeader>{item.date}</SectionHeader>}
       <ItemTimeline
-        style={_.container.item}
         navigation={navigation}
         {...item}
         full={MODEL_TIMELINE_SCOPE.getLabel(scope) === '自己'}

@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-06-19 12:58:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 07:37:09
+ * @Last Modified time: 2026-05-09 05:49:20
  */
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { PaginationList2 } from '@_'
 import { _, systemStore } from '@stores'
 import { memo } from '@utils/decorators'
@@ -32,8 +32,14 @@ const List = memo(
     onHeaderRefresh = FROZEN_FN,
     onFooterRefresh
   }) => {
+    const { homeFilter } = systemStore.setting
     const { length } = data.list
-    const elEmpty = <Empty title={title} length={length} />
+
+    const elListHeaderComponent = useMemo(
+      () => (homeFilter ? <Filter title={title} length={length} /> : null),
+      [homeFilter, length, title]
+    )
+    const elEmpty = useMemo(() => <Empty title={title} length={length} />, [length, title])
 
     const handleRenderItem = useCallback(
       ({ item, index }: RenderItem<ItemType>) => {
@@ -59,9 +65,7 @@ const List = memo(
         data={data.list}
         limit={16}
         keyboardDismissMode='on-drag'
-        ListHeaderComponent={
-          systemStore.setting.homeFilter ? <Filter title={title} length={length} /> : null
-        }
+        ListHeaderComponent={elListHeaderComponent}
         renderItem={handleRenderItem}
         footerEmptyDataComponent={elEmpty}
         footerNoMoreDataComponent={elEmpty}

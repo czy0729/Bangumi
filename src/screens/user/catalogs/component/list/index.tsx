@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:44:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-17 09:17:18
+ * @Last Modified time: 2026-05-09 06:05:46
  */
 import React, { useCallback } from 'react'
 import { ListView, Loading } from '@components'
@@ -46,7 +46,6 @@ function List({ id }: Props) {
     return (
       <ListView
         keyExtractor={keyExtractor}
-        style={_.container.plain}
         contentContainerStyle={_.container.bottom}
         data={catalogs}
         renderItem={handleRenderItem}

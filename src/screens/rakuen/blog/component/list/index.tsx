@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-03-15 21:18:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-05 05:49:18
+ * @Last Modified time: 2026-05-09 05:46:51
  */
 import React from 'react'
-import { View } from 'react-native'
 import { FixedTextarea, ListView } from '@components'
 import { ItemPost } from '@_'
 import { _ } from '@stores'
@@ -163,10 +162,9 @@ class Blog extends React.Component<
     const { placeholder, value } = $.state
 
     return (
-      <View style={_.container.content}>
+      <>
         <ListView
           ref={this.connectListViewRef}
-          style={_.container.content}
           contentContainerStyle={_.container.bottom}
           keyExtractor={keyExtractor}
           data={$.comments}
@@ -189,7 +187,7 @@ class Blog extends React.Component<
           />
         )}
         <TouchScroll onPress={this.scrollToThenFeedback} />
-      </View>
+      </>
     )
   }
 }

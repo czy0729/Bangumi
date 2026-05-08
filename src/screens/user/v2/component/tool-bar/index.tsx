@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 02:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 06:07:23
+ * @Last Modified time: 2026-05-09 00:21:26
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -17,7 +17,7 @@ import Search from './search'
 import Sort from './sort'
 import Tag from './tag'
 import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
 import type { Ctx } from '../../types'
 import type { Props } from './types'
@@ -30,8 +30,6 @@ function ToolBar({ page, pageCurrent, pageTotal, onRefreshOffset }: Props) {
 
     $.onRefreshOffset()
   }, [$, onRefreshOffset])
-
-  const styles = memoStyles()
 
   return (
     <View style={stl(styles.container, $.state.list && styles.list)}>

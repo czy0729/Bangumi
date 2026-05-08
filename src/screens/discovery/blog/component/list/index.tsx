@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-04-04 16:14:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-30 04:52:20
+ * @Last Modified time: 2026-05-09 05:54:46
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Loading, ScrollView } from '@components'
 import { ItemBlog } from '@_'
-import { _, useStore } from '@stores'
+import { useStore } from '@stores'
 import Pagination from '../paginantion'
 import { COMPONENT, EVENT } from './ds'
 import { memoStyles } from './styles'
@@ -35,13 +35,7 @@ function List({ type }: Props) {
             <Loading />
           ) : (
             blog.list.map((item, index) => (
-              <ItemBlog
-                key={item.id}
-                style={_.container.item}
-                index={index}
-                event={EVENT}
-                {...item}
-              />
+              <ItemBlog key={item.id} index={index} event={EVENT} {...item} />
             ))
           )}
         </View>

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 06:32:50
+ * @Last Modified time: 2026-05-09 01:03:22
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import './styles'
-import { Component } from '@components'
-import { _, StoreContext } from '@stores'
+import { Component, Page } from '@components'
+import { StoreContext } from '@stores'
 import { ANDROID } from '@constants'
 import Extra from './component/extra'
 import { useZonePage } from './hooks'
@@ -22,14 +22,16 @@ function Zone(props: NavigationProps) {
   const { id, $ } = useZonePage(props)
 
   return (
-    <Component id='screen-zone' style={_.container.plain}>
+    <Component id='screen-zone'>
       <StoreContext.Provider value={id}>
-        {!!$.state._loaded && (
-          <>
-            {ANDROID ? <NestedScroll /> : <Scroll />}
-            <Extra />
-          </>
-        )}
+        <Page>
+          {!!$.state._loaded && (
+            <>
+              {ANDROID ? <NestedScroll /> : <Scroll />}
+              <Extra />
+            </>
+          )}
+        </Page>
       </StoreContext.Provider>
     </Component>
   )

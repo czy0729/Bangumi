@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-12 00:39:26
+ * @Last Modified time: 2026-05-09 00:25:58
  */
 import React from 'react'
 import { Image as RNImage } from 'react-native'
@@ -37,7 +37,7 @@ import {
   setErrorTimeout,
   timeoutPromise
 } from './utils'
-import { COMPONENT, DEFAULT_HEADERS, MAX_ERROR_COUNT, OSS_MEGMA_PREFIX, RETRY_DISTANCE } from './ds'
+import { COMPONENT, DEFAULT_HEADERS, IMAGE_FADE_DURATION, MAX_ERROR_COUNT, OSS_MEGMA_PREFIX, RETRY_DISTANCE } from './ds'
 import { memoStyles } from './styles'
 
 import type { ImageErrorEvent } from 'react-native'
@@ -82,6 +82,7 @@ export const Image = observer(
       width: 0,
       height: 0,
       loaded: false,
+      animFinished: false,
       error: false
     }
 
@@ -466,6 +467,7 @@ export const Image = observer(
 
     /** 加载步骤完成 */
     onLoadEnd = () => {
+      const { fadeDuration } = this.props
       this.setState(
         {
           loaded: true
@@ -473,6 +475,17 @@ export const Image = observer(
         () => {
           const { onLoadEnd } = this.props
           if (typeof onLoadEnd === 'function') onLoadEnd()
+
+          // 若无动画或动画已跳过, 直接标记完成
+          if (!IOS || fadeDuration === 0) {
+            this.setState({ animFinished: true })
+            return
+          }
+
+          // 等待渐入动画结束后移除背景色, 防止安卓过度绘制
+          setTimeout(() => {
+            this.setState({ animFinished: true })
+          }, IMAGE_FADE_DURATION + 100)
         }
       )
     }
@@ -577,7 +590,8 @@ export const Image = observer(
         container.push(shadow === 'lg' ? this.styles.shadowLg : this.styles.shadow)
       }
 
-      if (placeholder) {
+      // 图片加载完成且动画结束后移除背景色, 防止安卓过度绘制
+      if (placeholder && !this.state.animFinished) {
         if (skeleton) {
           container.push({
             backgroundColor: getSkeletonColor(skeletonType)

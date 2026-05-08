@@ -2,11 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-11-23 14:50:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-23 14:51:15
+ * @Last Modified time: 2026-05-09 00:56:46
  */
 import { _ } from '@stores'
 
 export const styles = _.create({
+  page: {
+    overflow: 'hidden'
+  },
   loading: {
     position: 'absolute',
     zIndex: 100,

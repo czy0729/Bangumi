@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-04 12:56:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-23 05:45:47
+ * @Last Modified time: 2026-05-09 00:55:06
  */
 import { _ } from '@stores'
 
@@ -12,14 +12,14 @@ export const memoStyles = _.memoStyles(() => ({
     right: 0,
     bottom: _.ios(64, 46),
     width: 16,
-    backgroundColor: _.colorPlain
+    backgroundColor: _.ios(_.colorPlain, 'transparent')
   },
   containerLeft: {
     position: 'absolute',
     left: 0,
     bottom: _.ios(64, 46),
     width: 16,
-    backgroundColor: _.colorPlain
+    backgroundColor: _.ios(_.colorPlain, 'transparent')
   },
   containerBottom: {
     position: 'absolute',

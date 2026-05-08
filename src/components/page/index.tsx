@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-01 14:26:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-07 23:36:51
+ * @Last Modified time: 2026-05-09 05:56:06
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -45,7 +45,7 @@ export const Page = observer(
       }, [statusBarEvent])
     )
 
-    const mergeStyle = stl(_.container.plain, style)
+    const mergeStyle = stl(styles.page, IOS ? _.container.plain : _.container.flex, style)
     if (loaded || loaded === undefined) {
       return (
         <ErrorBoundary style={mergeStyle}>

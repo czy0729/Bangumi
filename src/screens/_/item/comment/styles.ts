@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:43:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-26 13:46:38
+ * @Last Modified time: 2026-05-08 23:52:10
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   item: {
-    backgroundColor: _.colorPlain
+    backgroundColor: _.ios(_.colorPlain, 'transparent')
   },
   avatar: {
     marginTop: _.md - 3,

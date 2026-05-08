@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-08 07:35:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:32:04
+ * @Last Modified time: 2026-05-08 23:51:44
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -55,9 +55,8 @@ function Item({
   if (!$.state.scrolled) return <View style={styles.item} />
 
   return (
-    <InView key={userId} y={_.window.height + (index + 1) * ITEM_HEIGHT}>
+    <InView key={userId} y={InView.y(index, ITEM_HEIGHT, _.window.height)}>
       <ItemComment
-        event={$.itemEvent}
         time={time}
         avatar={avatar}
         userId={userId}
@@ -70,6 +69,7 @@ function Item({
         mainId={mainId}
         mainName={mainName}
         popoverData={POPOVER_DATA[$.type]}
+        event={$.itemEvent}
         onSelect={handleSelect}
       />
     </InView>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-10-29 23:02:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-29 23:19:39
+ * @Last Modified time: 2026-05-09 01:06:59
  */
 import React from 'react'
 import { ItemCollectionsGrid, ItemSearch } from '@_'
@@ -29,7 +29,6 @@ function Item({ item, index }: Props) {
       return (
         <ItemSearch
           key={item.id}
-          style={_.container.item}
           navigation={navigation}
           index={index}
           collection={collection}
@@ -48,6 +47,7 @@ function Item({ item, index }: Props) {
       <ItemCollectionsGrid
         key={item.id}
         style={!(index % num) && styles.left}
+        index={index}
         num={num}
         airtime={$.airtime === '' && matchYear(item.tip)}
         {...item}

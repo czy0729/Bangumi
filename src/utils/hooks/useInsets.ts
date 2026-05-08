@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2025-12-01 18:14:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-25 05:58:21
+ * @Last Modified time: 2026-05-09 05:53:06
  */
 import { useMemo } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { IOS, PAD, WEB, WSA } from '@constants'
-import { IS_IOS_5_6_7_8 } from '@styles/layout'
+import { IS_IOS_5_6_7_8, tabBarHeight } from '@styles/layout'
 
 /** 最大头部高度 */
 const MAX_HEADER_HEIGHT = WEB ? 48 : 80
@@ -56,7 +56,10 @@ function useInsets() {
     headerHeight,
 
     /** 整个头部高度占位样式 */
-    headerStyle
+    headerStyle,
+
+    /** 底部 BottomTab 高度 */
+    tabBarHeight: tabBarHeight + (edgeInsets.bottom || 0)
   }
 }
 
