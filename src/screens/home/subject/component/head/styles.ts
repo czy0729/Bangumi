@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-16 11:35:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-08 23:50:42
+ * @Last Modified time: 2026-05-10 05:51:20
  */
 import { _ } from '@stores'
 
@@ -20,7 +20,8 @@ export const memoStyles = _.memoStyles(() => ({
   content: {
     paddingRight: _.wind,
     paddingBottom: 20,
-    marginTop: -_.r(20)
+    marginTop: -_.r(20),
+    backgroundColor: _.ios(_.colorPlain, 'transparent')
   },
   release: {
     position: 'absolute',
