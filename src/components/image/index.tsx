@@ -37,9 +37,17 @@ import {
   setErrorTimeout,
   timeoutPromise
 } from './utils'
-import { COMPONENT, DEFAULT_HEADERS, IMAGE_FADE_DURATION, MAX_ERROR_COUNT, OSS_MEGMA_PREFIX, RETRY_DISTANCE } from './ds'
+import {
+  COMPONENT,
+  DEFAULT_HEADERS,
+  IMAGE_FADE_DURATION,
+  MAX_ERROR_COUNT,
+  OSS_MEGMA_PREFIX,
+  RETRY_DISTANCE
+} from './ds'
 import { memoStyles } from './styles'
 
+// @ts-ignore
 import type { ImageErrorEvent } from 'react-native'
 import type { AnyObject, Fn } from '@types'
 import type { Props as ImageProps, State } from './types'
@@ -87,25 +95,25 @@ export const Image = observer(
     }
 
     /** 图片下载失败次数 */
-    _errorCount = 0
+    private _errorCount = 0
 
     /** 图片下载失败重试间隔 */
-    _timeoutId = null
+    private _timeoutId = null
 
     /** 是否已获取远程图片宽高 */
-    _getSized = false
+    private _getSized = false
 
     /** 是否已回退到 props.fallback 地址 */
-    _fallbacked = false
+    private _fallbacked = false
 
     /** 是否已回退到 bgm 源头  */
-    _recoveried = false
+    private _recoveried = false
 
     /** 是否已确定加载失败 */
-    _commited = false
+    private _commited = false
 
     /** 当前图片大小 */
-    _size = 0
+    private _size = 0
 
     componentDidMount() {
       if (this.props.textOnly) return
@@ -485,7 +493,7 @@ export const Image = observer(
           // 等待渐入动画结束后移除背景色, 防止安卓过度绘制
           setTimeout(() => {
             this.setState({ animFinished: true })
-          }, IMAGE_FADE_DURATION + 100)
+          }, IMAGE_FADE_DURATION + 400)
         }
       )
     }
@@ -747,7 +755,7 @@ export const Image = observer(
                       JSON.stringify(
                         {
                           _size: `${Math.floor(this._size / 1024)} kb`,
-                          ...pick(this, [
+                          ...pick(this as any, [
                             '_errorCount',
                             '_timeoutId',
                             '_getSized',

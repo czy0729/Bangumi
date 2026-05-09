@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-12 08:32:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 14:59:28
+ * @Last Modified time: 2026-05-09 18:27:32
  */
 import React from 'react'
 import Animated, {
@@ -12,11 +12,13 @@ import Animated, {
   withTiming
 } from 'react-native-reanimated'
 import { observer } from 'mobx-react'
-import { systemStore } from '@stores'
+import { _, systemStore } from '@stores'
+import { stl } from '@utils'
 import { DOGE_CDN_IMG_DEFAULT, IOS } from '@constants'
 import { IMAGE_FADE_DURATION } from '../ds'
 import Image from '../image'
 
+import type { Props } from './types'
 const memo = new Map<string, boolean>()
 memo.set(DOGE_CDN_IMG_DEFAULT, true)
 
@@ -31,7 +33,7 @@ function Remote({
   priority,
   onLoadEnd,
   ...other
-}) {
+}: Props) {
   const opacity = useSharedValue(fadeDuration === 0 ? 1 : 0)
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -69,7 +71,9 @@ function Remote({
   }
 
   return (
-    <Animated.View style={[containerStyle?.width === 'auto' && containerStyle, animatedStyle]}>
+    <Animated.View
+      style={stl(_.flatten(containerStyle)?.width === 'auto' && containerStyle, animatedStyle)}
+    >
       <Image {...passProps} onLoadEnd={handleLoadEnd} />
     </Animated.View>
   )

@@ -111,7 +111,7 @@ export type State = {
   error: boolean
 
   /** 图片加载实际地址 */
-  uri: ImageSource | string
+  uri: ImageSource | string | undefined
 
   /** 图片当前宽度 */
   width: number
