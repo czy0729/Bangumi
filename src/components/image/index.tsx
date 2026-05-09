@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-09 00:25:58
+ * @Last Modified time: 2026-05-09 22:49:55
  */
 import React from 'react'
 import { Image as RNImage } from 'react-native'
@@ -49,7 +49,7 @@ import { memoStyles } from './styles'
 
 // @ts-ignore
 import type { ImageErrorEvent } from 'react-native'
-import type { AnyObject, Fn } from '@types'
+import type { AnyObject, Fn, TimerRef } from '@types'
 import type { Props as ImageProps, State } from './types'
 
 export type { ImageProps }
@@ -112,6 +112,9 @@ export const Image = observer(
     /** 是否已确定加载失败 */
     private _commited = false
 
+    /** 所有 setTimeout 的 id, 用于组件销毁时统一清理 */
+    private _timers: TimerRef[] = []
+
     /** 当前图片大小 */
     private _size = 0
 
@@ -143,12 +146,14 @@ export const Image = observer(
         return this.preCache()
       }
 
-      setTimeout(
-        () => {
-          if (this.preGetLocalCache()) return
-          this.preCache()
-        },
-        priority === 'low' ? 40 : 0
+      this._timers.push(
+        setTimeout(
+          () => {
+            if (this.preGetLocalCache()) return
+            this.preCache()
+          },
+          priority === 'low' ? 40 : 0
+        )
       )
     }
 
@@ -169,6 +174,8 @@ export const Image = observer(
 
     componentWillUnmount() {
       try {
+        this._timers.forEach(id => clearTimeout(id))
+        this._timers = []
         if (this._timeoutId) clearTimeout(this._timeoutId)
       } catch {}
     }
@@ -198,9 +205,11 @@ export const Image = observer(
     /** 判断是否需要获取远程图片宽高 */
     checkAutoSize = () => {
       if (this.props.autoSize || this.props.autoHeight) {
-        setTimeout(() => {
-          this.getSize()
-        }, 0)
+        this._timers.push(
+          setTimeout(() => {
+            this.getSize()
+          }, 0)
+        )
       }
     }
 
@@ -311,13 +320,16 @@ export const Image = observer(
           this._errorCount += 1
           this.cache(src)
         }, 400)
+        this._timers.push(this._timeoutId)
         return
       }
 
       this._timeoutId = null
-      setTimeout(() => {
-        this.onError()
-      }, 0)
+      this._timers.push(
+        setTimeout(() => {
+          this.onError()
+        }, 0)
+      )
     }
 
     /** 获取远程图片宽高 */
@@ -333,24 +345,26 @@ export const Image = observer(
         return
       }
 
-      setTimeout(() => {
-        RNImage.getSizeWithHeaders(
-          uri,
-          this.headers,
-          (width: number, height: number) => {
-            this._getSized = true
+      this._timers.push(
+        setTimeout(() => {
+          RNImage.getSizeWithHeaders(
+            uri,
+            this.headers,
+            (width: number, height: number) => {
+              this._getSized = true
 
-            const sizes = getAutoSize(width, height, autoSize, autoHeight)
-            this.setState({
-              width: sizes.width,
-              height: sizes.height
-            })
-          },
-          () => {
-            this.commitError('error: getSize')
-          }
-        )
-      }, 0)
+              const sizes = getAutoSize(width, height, autoSize, autoHeight)
+              this.setState({
+                width: sizes.width,
+                height: sizes.height
+              })
+            },
+            () => {
+              this.commitError('error: getSize')
+            }
+          )
+        }, 0)
+      )
     }
 
     /** 加载失败 */
@@ -366,47 +380,53 @@ export const Image = observer(
           return
         }
 
-        setTimeout(() => {
-          if (IOS) {
-            const that = this
-            const request = new XMLHttpRequest()
-            request.withCredentials = false
+        this._timers.push(
+          setTimeout(() => {
+            if (IOS) {
+              const that = this
+              const request = new XMLHttpRequest()
+              request.withCredentials = false
 
-            request.onreadystatechange = function () {
-              if (this.readyState === 4) {
-                if (this.status === 451) {
-                  setError451(src)
-                  that.recoveryToBgmCover()
-                } else if (this.status === 404) {
-                  setError404(src)
-                  that.recoveryToBgmCover()
-                } else {
-                  setTimeout(() => {
-                    that.retry(`${src}?ts=${getTimestamp()}`)
-                  }, RETRY_DISTANCE)
+              request.onreadystatechange = function () {
+                if (this.readyState === 4) {
+                  if (this.status === 451) {
+                    setError451(src)
+                    that.recoveryToBgmCover()
+                  } else if (this.status === 404) {
+                    setError404(src)
+                    that.recoveryToBgmCover()
+                  } else {
+                    that._timers.push(
+                      setTimeout(() => {
+                        that.retry(`${src}?ts=${getTimestamp()}`)
+                      }, RETRY_DISTANCE)
+                    )
+                  }
                 }
-              }
-            }.bind(request)
+              }.bind(request)
 
-            request.open('get', src, true)
-            request.send(null)
-          } else {
-            RNImage.getSizeWithHeaders(src, this.headers, FROZEN_FN, error => {
-              // magma oss 若 status code 为 451 直接触发失败
-              if (String(error).includes('code=451')) {
-                setError451(src)
-                this.recoveryToBgmCover()
-              } else if (String(error).includes('code=404')) {
-                setError404(src)
-                this.recoveryToBgmCover()
-              } else {
-                setTimeout(() => {
-                  this.retry(`${src}?ts=${getTimestamp()}`)
-                }, RETRY_DISTANCE)
-              }
-            })
-          }
-        }, 0)
+              request.open('get', src, true)
+              request.send(null)
+            } else {
+              RNImage.getSizeWithHeaders(src, this.headers, FROZEN_FN, error => {
+                // magma oss 若 status code 为 451 直接触发失败
+                if (String(error).includes('code=451')) {
+                  setError451(src)
+                  this.recoveryToBgmCover()
+                } else if (String(error).includes('code=404')) {
+                  setError404(src)
+                  this.recoveryToBgmCover()
+                } else {
+                  this._timers.push(
+                    setTimeout(() => {
+                      this.retry(`${src}?ts=${getTimestamp()}`)
+                    }, RETRY_DISTANCE)
+                  )
+                }
+              })
+            }
+          }, 0)
+        )
         return
       } else if (typeof src === 'string' && src.includes(OSS_MEGMA_PREFIX)) {
         // 失败次数达到最大值, 回退到 bgm 源头
@@ -485,15 +505,17 @@ export const Image = observer(
           if (typeof onLoadEnd === 'function') onLoadEnd()
 
           // 若无动画或动画已跳过, 直接标记完成
-          if (!IOS || fadeDuration === 0) {
+          if (fadeDuration === 0) {
             this.setState({ animFinished: true })
             return
           }
 
           // 等待渐入动画结束后移除背景色, 防止安卓过度绘制
-          setTimeout(() => {
-            this.setState({ animFinished: true })
-          }, IMAGE_FADE_DURATION + 400)
+          this._timers.push(
+            setTimeout(() => {
+              this.setState({ animFinished: true })
+            }, IMAGE_FADE_DURATION + 400)
+          )
         }
       )
     }

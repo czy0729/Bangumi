@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-28 12:02:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 06:33:00
+ * @Last Modified time: 2026-05-09 22:35:22
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -41,6 +41,8 @@ export const ItemVoice = observer(
     cover,
     subject = [],
     collected = '全部',
+    showMonoId,
+    showSubjectId,
     children
   }: ItemVoiceProps) => {
     r(COMPONENT)
@@ -51,7 +53,7 @@ export const ItemVoice = observer(
 
     const cn = cnjp(nameCn, name)
     const jp = cnjp(name, nameCn)
-    const y = (collected !== '全部' ? ITEM_HEIGHT_WITH_COLLECTED : ITEM_HEIGHT) * (index + 1)
+    const y = (collected !== '全部' ? ITEM_HEIGHT_WITH_COLLECTED : ITEM_HEIGHT) * index
 
     // 角色级判断：是否存在任意收藏
     const hasCollectedInSeries = list.some(item => collectionStore.collect(item.id))
@@ -108,15 +110,20 @@ export const ItemVoice = observer(
                   <Text style={_.mt.xs} type='sub' size={10} lineHeight={11} bold>
                     {jp}
                   </Text>
-                  <Flex style={_.mt.sm}>
+                  <Flex style={_.mt.xs} wrap='wrap'>
                     {!!collect && (
                       <>
-                        <Tag value={collect} />
-                        <View style={styles.split} />
+                        <Tag style={_.mt.sm} value={collect} />
+                        <View style={[styles.split, _.mt.sm]} />
                       </>
                     )}
-                    <Tag type={collected !== '全部' ? 'plain' : undefined} value={item.staff} />
-                    <Tag style={_.ml.sm} type='plain' value={item.tip} />
+                    <Tag
+                      style={_.mt.sm}
+                      type={collected !== '全部' ? 'plain' : undefined}
+                      value={item.staff}
+                    />
+                    <Tag style={[_.mh.sm, _.mt.sm]} type='plain' value={item.tip} />
+                    {showSubjectId && <Tag style={_.mt.sm} type='plain' value={`ID: ${item.id}`} />}
                   </Flex>
                 </Flex.Item>
                 <InView style={styles.inViewCover} y={y}>
@@ -172,6 +179,11 @@ export const ItemVoice = observer(
                     <Text style={_.mt.xs} type='sub' size={10} lineHeight={11} bold>
                       {jp}
                     </Text>
+                  )}
+                  {showMonoId && (
+                    <Flex style={_.mt.xs}>
+                      <Tag type='plain' value={`ID: ${id}`} />
+                    </Flex>
                   )}
                 </Flex.Item>
               </Flex>

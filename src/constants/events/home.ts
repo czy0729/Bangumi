@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:38:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-05 20:32:14
+ * @Last Modified time: 2026-05-09 21:36:02
  */
 
 /** Home */
@@ -113,6 +113,8 @@ export default {
   '角色.跳转': 'Voices.to',
   '角色.右上角菜单': 'Voices.topRightMenu',
   '角色.职位选择': 'Voices.onFilterSelect',
+  '角色.外层排序选择': 'Voices.onOuterOrderSelect',
+  '角色.内层排序选择': 'Voices.onInnerOrderSelect',
 
   更多角色: 'Characters',
   '更多角色.跳转': 'Characters.to',

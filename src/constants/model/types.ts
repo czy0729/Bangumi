@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-22 13:09:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-25 21:56:24
+ * @Last Modified time: 2026-05-09 22:16:56
  */
 import type { ModelValueOf } from '@types'
 import type {
@@ -11,6 +11,8 @@ import type {
   COLLECTION_STATUS,
   EP_STATUS,
   EP_TYPE,
+  MONO_VOICES_INNER_ORDERBY,
+  MONO_VOICES_OUTER_ORDERBY,
   MONO_WORKS_ORDERBY,
   PRIVATE,
   RAKUEN_AUTO_LOAD_IMAGE,
@@ -116,6 +118,9 @@ export type RankRealFilter = ModelValueOf<typeof RANK_REAL_FILTER>
 
 export type RatingStatus = ModelValueOf<typeof RATING_STATUS>
 export type RatingStatusCn = ModelValueOf<typeof RATING_STATUS, 'label'>
+
+export type MonoVoicesOuterOrderby = ModelValueOf<typeof MONO_VOICES_OUTER_ORDERBY>
+export type MonoVoicesInnerOrderby = ModelValueOf<typeof MONO_VOICES_INNER_ORDERBY>
 
 export type SearchCat = ModelValueOf<typeof SEARCH_CAT>
 export type SearchCatCn = ModelValueOf<typeof SEARCH_CAT, 'label'>

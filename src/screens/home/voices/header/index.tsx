@@ -9,7 +9,7 @@ import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { open } from '@utils'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
+import { observer } from 'mobx-react'
 import { TEXT_MENU_BROWSER } from '@constants'
 import { SNAPSHOT_LIMIT } from '../ds'
 import { COMPONENT, DATA } from './ds'
@@ -37,13 +37,11 @@ function Header() {
     [$]
   )
 
-  return useObserver(() => {
-    let title = $.params?.name ? `${$.params.name}的角色` : '角色'
-    const { length } = $.monoVoices.list
-    if (length && length !== SNAPSHOT_LIMIT) title += ` (${length})`
+  let title = $.params?.name ? `${$.params.name}的角色` : '角色'
+  const { length } = $.monoVoices.list
+  if (length && length !== SNAPSHOT_LIMIT) title += ` (${length})`
 
-    return <HeaderV2 title={title} alias='角色' hm={$.hm} headerRight={handleHeaderRight} />
-  })
+  return <HeaderV2 title={title} alias='角色' hm={$.hm} headerRight={handleHeaderRight} />
 }
 
-export default Header
+export default observer(Header)
