@@ -18,7 +18,9 @@
     "re": "sudo mv ios_ ios && mv android_ android && yarn k",
     "open:win": "start .\\android\\app\\build\\outputs\\apk\\release\\",
     "build:ipa": "sudo cd ios && xcodebuild -workspace Bangumi.xcworkspace -scheme Bangumi -configuration Release -sdk iphoneos CODE_SIGN_IDENTITY=\"\" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO -derivedDataPath build",
-    "make:ipa": "sudo node web/ipa.js"
+    "make:ipa": "sudo node web/ipa.js",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "resolutions": {
     "define-properties": "1.2.0",
@@ -117,6 +119,8 @@
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@react-native-community/eslint-config": "^3.0.1",
+    "@testing-library/jest-native": "^5.4.3",
+    "@testing-library/react-native": "^13.3.3",
     "@typescript-eslint/eslint-plugin": "6.21.0",
     "@typescript-eslint/parser": "6.21.0",
     "babel-plugin-module-resolver": "^5.0.2",
@@ -126,6 +130,8 @@
     "eslint-plugin-react": "^7.26.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-native": "^4.0.0",
+    "jest": "^29.7.0",
+    "jest-expo": "^55.0.17",
     "prettier": "^2.6.2",
     "typescript": "^5.3.3"
   }
