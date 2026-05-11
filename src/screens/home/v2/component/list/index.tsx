@@ -58,6 +58,7 @@ function ListWrap({ title = '全部' }: Props) {
       data={$.currentCollection(title)}
       title={title}
       showItem={showItem}
+      homeFilter={systemStore.setting.homeFilter}
       onScroll={$.onScroll}
       onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={title === '游戏' ? $.onFooterRefresh : undefined}

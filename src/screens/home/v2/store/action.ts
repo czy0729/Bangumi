@@ -15,7 +15,6 @@ import {
   debounce,
   feedback,
   genICSCalenderEventDate,
-  getBangumiUrl,
   getCalenderEventTitle,
   HTMLDecode,
   info,
@@ -55,7 +54,7 @@ import {
 } from './ds'
 
 import type { Ep } from '@stores/subject/types'
-import type { EpId, EpStatus, Id, Navigation, RatingStatus, SubjectId } from '@types'
+import type { EpId, EpStatus, Navigation, RatingStatus, SubjectId } from '@types'
 import type { OriginItem } from '../../../user/origin-setting/utils'
 import type { TabsLabel } from '../types'
 
@@ -249,24 +248,9 @@ export default class Action extends Fetch {
       }
 
       if (!url) {
-        const bangumiInfo = this.bangumiInfo(subjectId)
-        const { sites = [] } = bangumiInfo
         const cn = HTMLDecode(name_cn || name)
-        let item: {
-          site: string
-          id: Id
-          url?: string
-        }
-
-        switch (label) {
-          case 'AGE动漫':
-            url = `${SITE_AGEFANS()}/search?query=${encodeURIComponent(cn)}&page=1`
-            break
-
-          default:
-            item = sites.find(item => item.site === label)
-            if (item) url = getBangumiUrl(item)
-            break
+        if (label === 'AGE动漫') {
+          url = `${SITE_AGEFANS()}/search?query=${encodeURIComponent(cn)}&page=1`
         }
       }
 

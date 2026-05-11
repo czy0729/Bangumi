@@ -6,7 +6,7 @@
  */
 import React, { useCallback, useMemo } from 'react'
 import { PaginationList2 } from '@_'
-import { _, systemStore } from '@stores'
+import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import { FROZEN_FN, IOS, LIST_EMPTY } from '@constants'
 import Empty from '../empty'
@@ -28,11 +28,11 @@ const List = memo(
     data = LIST_EMPTY,
     title = '' as TabsLabel,
     showItem = IOS ? false : true,
+    homeFilter,
     onScroll = FROZEN_FN,
     onHeaderRefresh = FROZEN_FN,
     onFooterRefresh
   }) => {
-    const { homeFilter } = systemStore.setting
     const { length } = data.list
 
     const elListHeaderComponent = useMemo(

@@ -19,8 +19,17 @@ import {
 } from '@constants'
 import { getOriginConfig } from '@src/screens/user/origin-setting/utils'
 import { TABS_ITEM } from '../ds'
+import {
+  calcSortWeightClient,
+  calcSortWeightOnair,
+  getEpsNoSp,
+  getTopMap,
+  getWatchedCount,
+  isOnairNextDay,
+  isOnairToday
+} from './utils'
 import State from './state'
-import { BANGUMI_INFO, INIT_ITEM, NAMESPACE, PAGE_LIMIT_GRID, PAGE_LIMIT_LIST } from './ds'
+import { INIT_ITEM, NAMESPACE, PAGE_LIMIT_GRID, PAGE_LIMIT_LIST } from './ds'
 
 import type { OriginItem } from '@screens/user/origin-setting/utils'
 import type { UserCollections } from '@stores/collection/types'
@@ -39,10 +48,7 @@ import type { Tabs, TabsLabel } from '../types'
 export default class Computed extends State {
   /** 置顶的映射 */
   getTopMap() {
-    return this.state.top.reduce<Record<SubjectId, number>>((map, subjectId, index) => {
-      map[subjectId] = index + 1
-      return map
-    }, {})
+    return getTopMap(this.state.top)
   }
 
   /** Tabs SceneMap */
@@ -205,26 +211,13 @@ export default class Computed extends State {
           list.forEach(item => {
             const { subject_id: subjectId } = item
             const { weekDay, isOnair } = this.onAirCustom(subjectId)
-            let weight = 1
-            if (isOnair) {
-              if (this.isToday(subjectId)) {
-                weight = 1001
-              } else if (this.isNextDay(subjectId)) {
-                weight = 1000
-              } else if (day === 0) {
-                weight = 100 - weekDay
-              } else if (weekDay >= day) {
-                weight = 100 - weekDay
-              } else {
-                weight = 10 - weekDay
-              }
-            }
-
-            // 看完下沉逻辑
-            if (systemStore.setting.homeSortSink && !this.hasNewEp(subjectId)) {
-              weight -= 10000
-            }
-
+            const weight = calcSortWeightOnair({
+              weekDay,
+              isOnair,
+              day,
+              hasNewEp: this.hasNewEp(subjectId),
+              homeSortSink: systemStore.setting.homeSortSink
+            })
             weightMap[subjectId] = weight
           })
 
@@ -239,26 +232,20 @@ export default class Computed extends State {
         // 客户端顺序：未看 > 放送中 > 明天 > 本季 > 网页
         list.forEach(item => {
           const { subject_id: subjectId } = item
-          const progress = this.userProgress(subjectId)
-          let watchedCount = 0
-          Object.keys(progress).forEach(i => {
-            if (progress[i] === '看过') watchedCount += 1
-          })
+          const watchedCount = Object.values(this.userProgress(subjectId)).filter(
+            status => status === '看过'
+          ).length
 
           // air 代表该条目放送到哪一集
           const { air = 0 } = calendarStore.onAir[subjectId] || {}
-          let weight = 1
-          if (this.isToday(subjectId)) {
-            weight = air > watchedCount ? 100000 : 10000
-          } else if (this.isNextDay(subjectId)) {
-            weight = air > watchedCount ? 1000 : 100
-          } else {
-            weight = air > watchedCount ? 10 : 1
-          }
-
-          if (systemStore.setting.homeSortSink && !this.hasNewEp(subjectId)) {
-            weight -= 100001
-          }
+          const weight = calcSortWeightClient({
+            isToday: this.isToday(subjectId),
+            isNextDay: this.isNextDay(subjectId),
+            air,
+            watchedCount,
+            hasNewEp: this.hasNewEp(subjectId),
+            homeSortSink: systemStore.setting.homeSortSink
+          })
 
           weightMap[subjectId] = weight
         })
@@ -328,11 +315,7 @@ export default class Computed extends State {
 
   /** 条目章节数据 (排除 SP) */
   epsNoSp(subjectId: SubjectId) {
-    return freeze(
-      computed(() => {
-        return (this.subject(subjectId).eps || []).filter(item => item.type === 0)
-      }).get()
-    )
+    return computed(() => getEpsNoSp(this.subject(subjectId).eps)).get()
   }
 
   /** 条目章节数据 */
@@ -448,17 +431,7 @@ export default class Computed extends State {
 
       // 不能直接用 API 给的 epStatus, 会把 SP 都加上
       // 需要根据 userProgress 和 eps 排除掉 SP 算
-      const epsMap = {}
-      this.eps(subjectId).forEach(item => {
-        if (item.type !== 1) epsMap[item.id] = true // 排除 SP
-      })
-
-      let count = 0
-      Object.keys(this.userProgress(subjectId)).forEach(item => {
-        if (epsMap[item] && this.userProgress(subjectId)[item] === '看过') {
-          count += 1
-        }
-      })
+      const count = getWatchedCount(this.userProgress(subjectId), this.eps(subjectId))
 
       // 主要是有些特殊情况, 会有意料不到的问题, 特殊处理
       // epStatus=1 的时候, 优先使用 count
@@ -518,10 +491,7 @@ export default class Computed extends State {
   isToday(subjectId: SubjectId) {
     return computed(() => {
       const { weekDay, isOnair } = this.onAirCustom(subjectId)
-      if (!isOnair) return false
-
-      const day = new Date().getDay()
-      return weekDay === day
+      return isOnairToday(weekDay, isOnair)
     }).get()
   }
 
@@ -529,42 +499,8 @@ export default class Computed extends State {
   isNextDay(subjectId: SubjectId) {
     return computed(() => {
       const { weekDay, isOnair } = this.onAirCustom(subjectId)
-      if (!isOnair) return false
-
-      const day = new Date().getDay()
-      return day === 6 ? weekDay === 0 : day === weekDay - 1
+      return isOnairNextDay(weekDay, isOnair)
     }).get()
-  }
-
-  /** bangumi-data 数据扩展 */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  bangumiInfo(_subjectId: SubjectId) {
-    // return computed(() => {
-    //   if (!this.state.loadedBangumiData) {
-    //     return {
-    //       title: '',
-    //       type: 'tv',
-    //       sites: [],
-    //       titleTranslate: {
-    //         'zh-Hans': []
-    //       }
-    //     }
-    //   }
-
-    //   const { name_cn, name } = this.subject(subjectId)
-    //   return unzipBangumiData(
-    //     get('bangumi-data').find(
-    //       item =>
-    //         item.j === HTMLDecode(name_cn) ||
-    //         item.j === HTMLDecode(name) ||
-    //         item.c === HTMLDecode(name_cn) ||
-    //         item.c === HTMLDecode(name)
-    //     )
-    //   )
-    // }).get()
-
-    // 暂时不使用 bangumi-data 数据
-    return BANGUMI_INFO
   }
 
   /** 在线源头数据 */
@@ -589,14 +525,6 @@ export default class Computed extends State {
               data.push(item)
             })
         }
-
-        // const bangumiInfo = this.bangumiInfo(subjectId)
-        // const { sites = [] } = bangumiInfo
-        // sites
-        //   .filter(item => SITES_DS.includes(item.site))
-        //   .forEach(item => {
-        //     data.push(item.site)
-        //   })
 
         return data
       }).get()
@@ -631,7 +559,7 @@ export default class Computed extends State {
         if (subject?.eps && typeof subject.eps === 'object') {
           const { length } = subject.eps.filter(item => {
             if (filterZero) return item.type === 0 && item.sort != 0
-            item.type === 0
+            return item.type === 0
           })
           if (length) return length
         }

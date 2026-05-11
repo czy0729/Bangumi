@@ -26,6 +26,7 @@ export const DEFAULT_PROPS = {
   data: LIST_EMPTY as ReturnType<$['currentCollection']>,
   title: '' as TabsLabel,
   showItem: (IOS ? false : true) as boolean,
+  homeFilter: true as boolean,
   onScroll: FROZEN_FN as $['onScroll'],
   onHeaderRefresh: FROZEN_FN as $['onHeaderRefresh'],
   onFooterRefresh: undefined as $['onFooterRefresh'] | undefined
