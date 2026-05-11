@@ -7,9 +7,9 @@
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { _ } from '@stores'
-import { Text } from '../text'
+import { Text } from '../../text'
 
-import type { TextType } from '../text'
+import type { TextType } from '../../text'
 
 type Props = {
   /** Tab 文字 */

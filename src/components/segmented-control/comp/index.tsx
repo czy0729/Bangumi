@@ -2,22 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-06-24 16:50:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-09 07:47:27
+ * @Last Modified time: 2026-04-25 22:34:35
  */
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
 import Animated, {
   Easing,
   useAnimatedStyle,
-  useDerivedValue,
   useSharedValue,
   withTiming
 } from 'react-native-reanimated'
 import { stl } from '@utils'
-import { SegmentedControlTab } from '../segmented-control-tab'
+import { SegmentedControlTab } from './segmented-control-tab'
 import { styles } from './styles'
 
-import type { LayoutChangeEvent } from 'react-native'
 import type { DataSource } from '@types'
 import type { Props } from '../types'
 
@@ -34,62 +32,42 @@ function SegmentedControlComp<T extends DataSource>({
   type,
   size
 }: Props<T>) {
-  const containerWidth = useSharedValue(0)
-  const indexAnim = useSharedValue(selectedIndex)
-  const isInitialized = useSharedValue(false)
+  const [currentSelectedIndex, setCurrentSelectedIndex] = useState(selectedIndex)
+  const [segmentWidth, setSegmentWidth] = useState(0)
+
+  const animation = useSharedValue(0)
 
   useEffect(() => {
-    if (containerWidth.value === 0) {
-      indexAnim.value = selectedIndex
-      return
-    }
-
-    indexAnim.value = withTiming(selectedIndex, {
-      duration: 250,
-      easing: Easing.out(Easing.quad)
-    })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedIndex, containerWidth])
+    setCurrentSelectedIndex(selectedIndex)
+  }, [selectedIndex])
 
   const handleLayout = useCallback(
     ({
       nativeEvent: {
         layout: { width }
       }
-    }: LayoutChangeEvent) => {
-      if (width > 0) {
-        containerWidth.value = width
-        if (!isInitialized.value) {
-          indexAnim.value = selectedIndex
-          isInitialized.value = true
-        }
+    }) => {
+      const newSegmentWidth = values.length ? width / values.length : 0
+      if (newSegmentWidth !== segmentWidth) {
+        animation.value = newSegmentWidth * (currentSelectedIndex || 0)
+        setSegmentWidth(newSegmentWidth)
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [selectedIndex]
+    [currentSelectedIndex, animation, segmentWidth, values.length]
   )
 
-  const itemWidth = useDerivedValue(() => {
-    return values.length > 0 ? containerWidth.value / values.length : 0
-  })
-
-  const animatedStyle = useAnimatedStyle(() => {
-    const show = isInitialized.value && itemWidth.value > 0
-
-    return {
-      opacity: show ? 1 : 0,
-      width: itemWidth.value > 0 ? itemWidth.value - 2 : 0,
-      transform: [
-        {
-          translateX: indexAnim.value * itemWidth.value
-        }
-      ]
-    }
-  })
-
-  const handlePress = useCallback(
+  const handleChange = useCallback(
     (index: number) => {
-      if (!enabled || index === selectedIndex) return
+      if (currentSelectedIndex === index) return
+
+      if (segmentWidth) {
+        animation.value = withTiming(segmentWidth * index, {
+          duration: 250,
+          easing: Easing.out(Easing.quad)
+        })
+      }
+
+      setCurrentSelectedIndex(index)
 
       const event = {
         nativeEvent: {
@@ -97,37 +75,59 @@ function SegmentedControlComp<T extends DataSource>({
           selectedSegmentIndex: index
         }
       }
-      onChange?.(event)
-      onValueChange?.(values[index])
+
+      setTimeout(() => {
+        onChange && onChange(event)
+        onValueChange && onValueChange(values[index])
+      }, 300)
     },
-    [enabled, selectedIndex, values, onChange, onValueChange]
+    [currentSelectedIndex, values, segmentWidth, animation, onChange, onValueChange]
   )
+
+  useEffect(() => {
+    if (segmentWidth) {
+      const targetValue = segmentWidth * (currentSelectedIndex || 0)
+      if (animation.value !== targetValue) {
+        animation.value = withTiming(targetValue, {
+          duration: 300,
+          easing: Easing.out(Easing.quad)
+        })
+      }
+    }
+  }, [segmentWidth, currentSelectedIndex, animation])
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: animation.value }]
+  }))
 
   return (
     <View
       style={stl(styles.default, style, styleExtra, backgroundColor && { backgroundColor })}
       onLayout={handleLayout}
     >
-      <Animated.View
-        style={[
-          styles.slider,
-          {
-            backgroundColor: tintColor || 'white'
-          },
-          styleExtra,
-          animatedStyle
-        ]}
-      />
+      {currentSelectedIndex != null && segmentWidth ? (
+        <Animated.View
+          style={stl(
+            styles.slider,
+            animatedStyle,
+            {
+              width: segmentWidth - 2,
+              backgroundColor: tintColor || 'white'
+            },
+            styleExtra
+          )}
+        />
+      ) : null}
 
-      {values?.map((value, index) => (
+      {values?.map?.((value: any, index: number) => (
         <SegmentedControlTab
           key={index}
           value={value}
           type={type}
           size={size}
           enabled={enabled}
-          selected={selectedIndex === index}
-          onSelect={() => handlePress(index)}
+          selected={currentSelectedIndex === index}
+          onSelect={() => handleChange(index)}
         />
       ))}
     </View>
