@@ -72,7 +72,7 @@ function Item({ title, href, replies, userName, tip = '', tipHref = '', time }: 
           >
             <View style={styles.wrap}>
               <Text size={size} lineHeight={lineHeight} bold>
-                {HTMLDecode(title)}
+                {titleText}
                 <Text type={isReaded ? 'sub' : 'main'} size={11} lineHeight={lineHeight}>
                   {' '}
                   {replyText}
@@ -88,7 +88,7 @@ function Item({ title, href, replies, userName, tip = '', tipHref = '', time }: 
                 <Text type='sub' size={11} lineHeight={12}>
                   最后回复 {correctAgo(time)} /{' '}
                   <Name userId={userId} type='sub' size={11} lineHeight={12} showFriend>
-                    {tip}
+                    {HTMLDecode(tip)}
                   </Name>{' '}
                   / {userName}
                 </Text>

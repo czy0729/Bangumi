@@ -32,11 +32,7 @@ export default class Action extends Fetch {
   onPage = async (data: TopicId[]) => {
     if (!data.length) return true
 
-    const keys = []
-    data.forEach(item => {
-      const key = `favor_${item.replace('/', '_')}`
-      keys.push(key)
-    })
+    const keys = data.map(item => `favor_${item.replace('/', '_')}`)
     if (!keys.length) return true
 
     const datas = await gets(keys)
@@ -50,11 +46,9 @@ export default class Action extends Fetch {
   onPageMemo = async (data: string[]) => {
     if (!data.length) return true
 
-    const keys = []
-    data.forEach(item => {
-      const key = `favor_${item.replace('/', '_')}`
-      if (!this.state.topics[key]) keys.push(key)
-    })
+    const keys = data
+      .map(item => `favor_${item.replace('/', '_')}`)
+      .filter(key => !this.state.topics[key])
     if (!keys.length) return true
 
     const datas = await gets(keys)

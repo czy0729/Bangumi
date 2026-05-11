@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-09 22:49:55
+ * @Last Modified time: 2026-05-11 08:28:40
  */
 import React from 'react'
 import { Image as RNImage } from 'react-native'
@@ -504,16 +504,22 @@ export const Image = observer(
           const { onLoadEnd } = this.props
           if (typeof onLoadEnd === 'function') onLoadEnd()
 
+          if (IOS) return
+
           // 若无动画或动画已跳过, 直接标记完成
           if (fadeDuration === 0) {
-            this.setState({ animFinished: true })
+            this.setState({
+              animFinished: true
+            })
             return
           }
 
           // 等待渐入动画结束后移除背景色, 防止安卓过度绘制
           this._timers.push(
             setTimeout(() => {
-              this.setState({ animFinished: true })
+              this.setState({
+                animFinished: true
+              })
             }, IMAGE_FADE_DURATION + 400)
           )
         }

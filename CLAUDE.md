@@ -2,11 +2,22 @@
 
 bgm.tv (Bangumi) 第三方客户端，React Native (Expo SDK 54) 项目。作者: czy0729
 
+## 通用
+
+- 优先选择编辑而非重写整个文件
+- 除非文件被编辑过，否则不要重复阅读已读过的文件
+- 输出追求简洁，但推理过程必须详尽
+
+## 代码规范
+
+- 一个文件没必要不超过 400 行，超了就拆
+- 嵌套没必要不要超过 4 层
+
 ## Token 预算规则
 
 ### 禁止读取的路径（文件过大，浪费 tokens）
 
-- `src/assets/json/` — 所有 JSON 数据文件（mono.json、vib.json、substrings/*、typerank/*）
+- `src/assets/json/` — 所有 JSON 数据文件（mono.json、vib.json、substrings/_、typerank/_）
 - `src/assets/` — 图片、字体等二进制资源（39M+）
 - `dist/`、`node_modules/`、`metro-cache/`
 - `web/test/*.json` — 测试数据
@@ -31,14 +42,14 @@ bgm.tv (Bangumi) 第三方客户端，React Native (Expo SDK 54) 项目。作者
 
 > 触发对应业务时读取对应文件，不要一次性全部加载。
 
-| 场景 | 文档 |
-|------|------|
+| 场景                                       | 文档                                                         |
+| ------------------------------------------ | ------------------------------------------------------------ |
 | 了解项目结构、技术栈、路径别名、导航、构建 | [.claude/docs/architecture.md](.claude/docs/architecture.md) |
-| 新建/修改页面（Screen） | [.claude/docs/screen.md](.claude/docs/screen.md) |
-| 查找/定位某个页面 | [.claude/docs/screens.md](.claude/docs/screens.md) |
-| 新建/修改可复用组件（components/） | [.claude/docs/component.md](.claude/docs/component.md) |
-| 新建/修改 MobX Store | [.claude/docs/store.md](.claude/docs/store.md) |
-| API 请求相关 | [.claude/docs/api.md](.claude/docs/api.md) |
+| 新建/修改页面（Screen）                    | [.claude/docs/screen.md](.claude/docs/screen.md)             |
+| 查找/定位某个页面                          | [.claude/docs/screens.md](.claude/docs/screens.md)           |
+| 新建/修改可复用组件（components/）         | [.claude/docs/component.md](.claude/docs/component.md)       |
+| 新建/修改 MobX Store                       | [.claude/docs/store.md](.claude/docs/store.md)               |
+| API 请求相关                               | [.claude/docs/api.md](.claude/docs/api.md)                   |
 
 ## 文档维护
 

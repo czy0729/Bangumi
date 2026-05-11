@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-06-05 20:47:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-31 05:21:27
+ * @Last Modified time: 2026-05-11 00:00:00
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import { Flex, Mesume, ScrollView, Text } from '@components'
+import { Flex, Mesume, Text } from '@components'
+import { PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
-import Item from '../item'
+import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
@@ -30,11 +31,13 @@ function List() {
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.list}>
-      {list.map(item => (
-        <Item key={item.href} {...item} />
-      ))}
-    </ScrollView>
+    <PaginationList2
+      keyExtractor={keyExtractor}
+      contentContainerStyle={_.container.bottom}
+      data={list}
+      limit={7}
+      renderItem={renderItem}
+    />
   )
 }
 

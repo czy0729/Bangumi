@@ -18,14 +18,12 @@ export default class Computed extends State {
   /** 需要把 rakuenStore.state.topic 和 rakuenStore.state.cloudTopic key 值合并计算 */
   @computed get keys() {
     const { topic, cloudTopic } = rakuenStore.state
-    return Array.from(new Set([...Object.keys(topic), ...Object.keys(cloudTopic)]))
-      .filter(topicId => {
-        // 不知道哪里有问题, 有时会出现 undefined 的 key 值, 过滤掉
-        if (!topicId.includes('group/') || topicId.includes('undefined')) return false
-        if (!/^group\/(\d+)$/.test(topicId)) return false
-        return true
-      })
-      .sort((a, b) => desc(parseInt(a.split('/')?.[1]), parseInt(b.split('/')?.[1]))) as TopicId[]
+    return (
+      Array.from(new Set([...Object.keys(topic), ...Object.keys(cloudTopic)]))
+        // 正则已覆盖 group/ 和 undefined key 的过滤
+        .filter(topicId => /^group\/\d+$/.test(topicId))
+        .sort((a, b) => desc(parseInt(a.split('/')?.[1]), parseInt(b.split('/')?.[1]))) as TopicId[]
+    )
   }
 
   /** 本地缓存帖子 */
@@ -63,21 +61,18 @@ export default class Computed extends State {
   @computed get list(): TopicId[] {
     const { type } = this.state
     const { favorV2 } = rakuenStore.state
-    const list = []
-    Object.keys(favorV2).map(key => {
-      if (favorV2[key]) list.push(key)
-    })
+    const typeMap: Record<string, (item: string) => boolean> = {
+      小组: item => item.includes('group/'),
+      条目: item => item.includes('subject/'),
+      章节: item => item.includes('ep/'),
+      人物: item => item.includes('crt/') || item.includes('prsn/'),
+      日志: item => item.includes('blog/')
+    }
+    const match = typeMap[type] ?? typeMap['小组']
 
-    return list
-      .filter(item => {
-        if (type === '小组') return item.includes('group/')
-        if (type === '条目') return item.includes('subject/')
-        if (type === '章节') return item.includes('ep/')
-        if (type === '人物') return item.includes('crt/') || item.includes('prsn/')
-        if (type === '日志') return item.includes('blog/')
-        return item.includes('group/')
-      })
-      .sort((a, b) => desc(parseInt(a.split('/')?.[1]), parseInt(b.split('/')?.[1])))
+    return Object.keys(favorV2)
+      .filter(key => favorV2[key] && match(key))
+      .sort((a, b) => desc(parseInt(a.split('/')?.[1]), parseInt(b.split('/')?.[1]))) as TopicId[]
   }
 
   /** 云端帖子数据 */
@@ -95,15 +90,12 @@ export default class Computed extends State {
   /** 热门帖子 */
   @computed get collectRank() {
     const { collectRank, collectRankSort } = this.state
-    if (collectRankSort === '收藏数') {
-      return collectRank.filter(item => item.collect_count >= 10)
-    }
+    const filtered = collectRank.filter(item => item.collect_count >= 10)
+    if (collectRankSort === '收藏数') return filtered
 
-    return collectRank
-      .filter(item => item.collect_count >= 10)
-      .sort(
-        (a, b) => Number(b.topic_id.split('/')?.[1] || 0) - Number(a.topic_id.split('/')?.[1] || 0)
-      )
+    return filtered.sort(
+      (a, b) => Number(b.topic_id.split('/')?.[1] || 0) - Number(a.topic_id.split('/')?.[1] || 0)
+    )
   }
 
   /** 帖子历史查看记录 */
@@ -122,44 +114,39 @@ export default class Computed extends State {
   comment(topicId: TopicId) {
     return computed(() => {
       const limit = systemStore.isAdvance ? COMMENT_LIMIT_ADVANCE : COMMENT_LIMIT
-      const items: {
-        id: Id
-        floor: string
-        time: string
-        message: string
-      }[] = []
+      const items: { id: Id; floor: string; time: string; message: string }[] = []
 
-      rakuenStore
-        .comments(topicId)
-        .list.slice()
-        .reverse()
-        .forEach((item: CommentsItemWithSub) => {
-          if (items.length >= limit) return
+      const list = rakuenStore.comments(topicId).list
+      for (let i = list.length - 1; i >= 0; i--) {
+        if (items.length >= limit) break
 
-          if (item.userId === userStore.myId && !item.message.includes('删除了回复')) {
-            items.push({
-              id: item.id,
-              floor: item.floor,
-              time: item.time,
-              message: item.message
-            })
-            if (items.length >= limit) return
-          }
-
-          item.sub.forEach(item => {
-            if (items.length >= limit) return
-
-            if (item.userId === userStore.myId && !item.message.includes('删除了回复')) {
-              items.push({
-                id: item.id,
-                floor: item.floor,
-                time: item.time,
-                message: item.message
-              })
-              if (items.length >= limit) return
-            }
+        const item: CommentsItemWithSub = list[i]
+        if (item.userId === userStore.myId && !item.message.includes('删除了回复')) {
+          items.push({
+            id: item.id,
+            floor: item.floor,
+            time: item.time,
+            message: item.message
           })
-        })
+          if (items.length >= limit) break
+        }
+
+        const sub = item.sub
+        for (let j = 0; j < sub.length; j++) {
+          if (items.length >= limit) break
+
+          const subItem = sub[j]
+          if (subItem.userId === userStore.myId && !subItem.message.includes('删除了回复')) {
+            items.push({
+              id: subItem.id,
+              floor: subItem.floor,
+              time: subItem.time,
+              message: subItem.message
+            })
+            if (items.length >= limit) break
+          }
+        }
+      }
 
       return items
     }).get()

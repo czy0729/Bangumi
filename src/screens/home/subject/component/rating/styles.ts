@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-06 23:30:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 14:28:07
+ * @Last Modified time: 2026-05-11 08:38:29
  */
 import { _ } from '@stores'
 
@@ -11,6 +11,9 @@ export const memoStyles = _.memoStyles(() => ({
     minHeight: 200,
     paddingHorizontal: _.wind,
     marginTop: _.lg
+  },
+  hideScoreContainer: {
+    minHeight: _.r(96)
   },
   rate: {
     marginTop: -32
@@ -21,6 +24,6 @@ export const memoStyles = _.memoStyles(() => ({
     marginBottom: -_.sm
   },
   hideScore: {
-    height: _.r(144)
+    marginTop: _.r(64)
   }
 }))

@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-07-12 22:44:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-31 05:20:47
+ * @Last Modified time: 2026-05-11 00:00:00
  */
 import React from 'react'
-import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Pagination, ScrollView } from '@components'
+import { Flex, Pagination } from '@components'
 import { _, useStore } from '@stores'
 import List from './list'
 import { COMPONENT } from './ds'
@@ -19,20 +18,7 @@ function ReplyList() {
 
   return (
     <>
-      <ScrollView>
-        {$.state.show && (
-          <View
-            style={[
-              {
-                minHeight: _.window.height
-              },
-              _.mt.sm
-            ]}
-          >
-            <List />
-          </View>
-        )}
-      </ScrollView>
+      <Flex.Item>{$.state.show && <List />}</Flex.Item>
       <Pagination
         style={_.mt.xs}
         input={$.state.ipt}

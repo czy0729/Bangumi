@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-08-12 13:34:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-23 06:17:15
+ * @Last Modified time: 2026-05-11 08:37:55
  */
 import React, { useState } from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
+import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { TITLE_RATING } from '../../ds'
 import IconHidden from '../icon/hidden'
@@ -20,7 +21,13 @@ const Rating = memo(
     const [showScore, setShowScore] = useState(!hideScore)
 
     return (
-      <View style={showRating ? styles.container : styles.hide}>
+      <View
+        style={stl(
+          styles.container,
+          showRating && !showScore && styles.hideScoreContainer,
+          !showRating && !showScore && styles.hide
+        )}
+      >
         <Flex>
           <Flex.Item>
             <Title showScore={showScore} />
@@ -36,11 +43,11 @@ const Rating = memo(
                 <VIB />
               </>
             ) : (
-              <Touchable onPress={() => setShowScore(true)}>
-                <Flex style={styles.hideScore} justify='center'>
-                  <Text>评分已隐藏, 点击显示</Text>
-                </Flex>
-              </Touchable>
+              <Flex style={styles.hideScore} justify='center'>
+                <Touchable onPress={() => setShowScore(true)}>
+                  <Text type='sub'>评分已隐藏，点击显示</Text>
+                </Touchable>
+              </Flex>
             )}
           </View>
         )}

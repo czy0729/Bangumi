@@ -13,9 +13,10 @@ import { H12 } from '@constants'
 import Computed from './computed'
 import { NAMESPACE } from './ds'
 
-import type { TopicId } from '@types'
+import type { TimerRef, TopicId } from '@types'
 
 const loaded: Record<TopicId, true> = {}
+let topicQueueTimer: TimerRef = null
 
 export default class Fetch extends Computed {
   /** 小组帖子列表 (我的回复跟小组是一个性质的) */
@@ -24,7 +25,12 @@ export default class Fetch extends Computed {
       groupId: 'my_reply',
       page: this.state.replyPage
     })
-    setTimeout(() => {
+
+    if (topicQueueTimer !== null) {
+      clearTimeout(topicQueueTimer)
+    }
+    topicQueueTimer = setTimeout(() => {
+      topicQueueTimer = null
       this.fetchTopicQueue()
     }, 4000)
 
@@ -45,24 +51,25 @@ export default class Fetch extends Computed {
     )
 
     const now = getTimestamp()
-    const fetchs = []
-    topicIds.forEach(topicId => {
-      if (loaded[topicId]) return true
+    const fetches = topicIds
+      .filter(topicId => {
+        if (loaded[topicId]) return false
 
-      // 请求间隔为 12 小时乘以页数
-      const { _loaded } = rakuenStore.comments(topicId)
-      if (_loaded && now - Number(_loaded) <= H12 * Number(this.state.page)) return true
+        // 请求间隔为 12 小时乘以页数
+        const { _loaded } = rakuenStore.comments(topicId)
+        if (_loaded && now - Number(_loaded) <= H12 * Number(this.state.page)) return false
 
-      loaded[topicId] = true
-      fetchs.push(() => {
+        loaded[topicId] = true
+        return true
+      })
+      .map(topicId => () => {
         logger.info(NAMESPACE, 'fetchTopicQueue', topicId)
         return rakuenStore.fetchTopic({
           topicId
         })
       })
-    })
 
-    return queue(fetchs)
+    return queue(fetches)
   }
 
   /** 获取热门帖子 */
