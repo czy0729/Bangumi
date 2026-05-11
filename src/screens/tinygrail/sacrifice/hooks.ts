@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-06 09:50:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 16:01:57
+ * @Last Modified time: 2026-05-11 07:54:21
  */
 import { useInitStore } from '@stores'
 import { useMount, useRunAfter } from '@utils/hooks'
@@ -24,7 +24,7 @@ export function useTinygrailSacrificePage(props: NavigationProps) {
   useMount(() => {
     return () => {
       $.setState({
-        mounted: false
+        focused: false
       })
     }
   })

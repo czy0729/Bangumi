@@ -4,7 +4,7 @@
     "target": "es2020",
     "module": "es2020",
     "lib": ["es2020"],
-    "types": ["react", "react-native"],
+    "types": ["react", "react-native", "jest"],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "isolatedModules": true,
@@ -16,6 +16,7 @@
     "strictFunctionTypes": true,
     // "strictNullChecks": true,
     "verbatimModuleSyntax": true,
+    "ignoreDeprecations": "6.0",
     "baseUrl": ".",
     "paths": {
       "@_": ["src/screens/_"],

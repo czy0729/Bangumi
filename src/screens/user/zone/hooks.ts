@@ -33,7 +33,7 @@ export function useZonePage(props: NavigationProps) {
       },
       onLeaveComplete() {
         $.setState({
-          mounted: false
+          focused: false
         })
       }
     },

@@ -43,7 +43,7 @@ export const EXCLUDE_STATE = {
   loadingRefine: false,
 
   /** 当前页面实例是否在路由栈中 */
-  mounted: true
+  focused: true
 }
 
 export const STATE = {

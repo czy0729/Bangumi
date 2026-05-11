@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-05-19 08:09:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-19 17:11:11
+ * @Last Modified time: 2026-05-11 08:19:39
  */
 import { computed } from 'mobx'
 import { subjectStore, systemStore, tinygrailStore } from '@stores'
 import { asc, formatNumber, toFixed } from '@utils'
+import { logger } from '@utils/dev'
 import { getXsbRelationOTA, HOST } from '@constants'
 import { calculateRate, decimal } from '@tinygrail/_/utils'
 import State from './state'
@@ -16,10 +17,25 @@ import type { TinygrailTopWeekItem } from '@stores/tinygrail/types'
 import type { MonoId } from '@types'
 
 export default class Computed extends State {
+  /** 开发调试 */
+  log(...arg: any) {
+    logger.info(this.namespace, ...arg)
+  }
+
+  /** 开发调试 */
+  warn(...arg: any) {
+    logger.warn(this.namespace, ...arg)
+  }
+
   /** 角色数字 ID */
   @computed get monoId() {
     const { monoId = '' } = this.params
     return monoId.replace('character/', '') as MonoId
+  }
+
+  /** 页面唯一命名空间 */
+  @computed get namespace() {
+    return `${NAMESPACE}|${this.monoId}`
   }
 
   /** 全局人物数据 */

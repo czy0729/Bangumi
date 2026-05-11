@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-08 12:49:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-14 16:43:15
+ * @Last Modified time: 2026-05-11 07:42:45
  */
 import { computed } from 'mobx'
 import { fixedHD, getCDNAvatar } from '@components/avatar/utils'
@@ -17,6 +17,7 @@ import {
   userStore
 } from '@stores'
 import { getBlurRadius, HTMLDecode } from '@utils'
+import { logger } from '@utils/dev'
 import { fixedRemote } from '@utils/user-setting'
 import { IMG_EMPTY_DARK, TEXT_ONLY } from '@constants'
 import { H_HEADER, TABS, TABS_WITH_TINYGRAIL } from '../ds'
@@ -30,6 +31,16 @@ export default class Computed extends State {
   /** 本地化 */
   save = () => {
     return this.saveStorage(this.namespace, EXCLUDE_STATE)
+  }
+
+  /** 开发调试 */
+  log(...arg: any) {
+    logger.info(this.namespace, ...arg)
+  }
+
+  /** 开发调试 */
+  warn(...arg: any) {
+    logger.warn(this.namespace, ...arg)
   }
 
   /** 页面唯一命名空间 */

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-08 18:35:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-14 16:42:52
+ * @Last Modified time: 2026-05-11 07:48:57
  */
 import { queue } from '@utils'
 import { WEB } from '@constants'
@@ -32,48 +32,33 @@ export default class ScreenZone extends Action {
     }
     this.setState(state)
 
-    // 每个请求都判断 this.state.mounted 若用户在未请求完就退出页面需要尽快终止余下请求
     return queue([
-      () => {
-        if (!this.state.mounted) return
-        return this.onTabChangeCallback(this.state.page)
-      },
-      () => {
-        if (!this.state.mounted) return
-        return this.fetchUsersInfo()
-      },
-      () => {
-        if (!this.state.mounted) return
-        return this.fetchUsersFromOSS()
-      },
-      () => {
-        if (!this.state.mounted) return
-        return this.fetchUsers()
-      },
-      () => {
-        if (!this.state.mounted || !this.fromTinygrail) return
-        return this.fetchCharaAssets()
-      },
-      () => {
-        if (!this.state.mounted || !this.fromTinygrail) return
-        return this.fetchTempleTotal()
-      },
-      () => {
-        if (!this.state.mounted || !this.fromTinygrail) return
-        return this.fetchCharaTotal()
-      },
-      () => {
-        if (!this.state.mounted) return
-        return this.fetchUsersTimeline(true)
-      },
-      () => {
-        if (!this.state.mounted || WEB) return
-        return this.fetchRecent()
-      },
-      () => {
-        if (!this.state.mounted || WEB) return
-        updateTrackUserInfo(this.usersInfo)
-      }
+      () => this.withFocus(() => this.onTabChangeCallback(this.state.page), 'onTabChangeCallback'),
+      () => this.withFocus(() => this.fetchUsersInfo(), 'fetchUsersInfo'),
+      () => this.withFocus(() => this.fetchUsersFromOSS(), 'fetchUsersFromOSS'),
+      () => this.withFocus(() => this.fetchUsers(), 'fetchUsers'),
+      () => this.withFocus(() => this.fetchCharaAssets(), 'fetchCharaAssets', !this.fromTinygrail),
+      () => this.withFocus(() => this.fetchTempleTotal(), 'fetchTempleTotal', !this.fromTinygrail),
+      () => this.withFocus(() => this.fetchCharaTotal(), 'fetchCharaTotal', !this.fromTinygrail),
+      () => this.withFocus(() => this.fetchUsersTimeline(true), 'fetchUsersTimeline'),
+      () => this.withFocus(() => this.fetchRecent(), 'fetchRecent', !WEB),
+      () => this.withFocus(() => updateTrackUserInfo(this.usersInfo), 'updateTrackUserInfo', !WEB)
     ])
+  }
+
+  /** 每个请求都判断 this.state.focused 判断用户在未请求完就退出页面需要尽快终止余下请求 */
+  private withFocus<T>(fn: () => T, desc: string = '', extraCondition: boolean = true) {
+    if (!this.state.focused) {
+      this.warn('withFocus', 'cancel', `(${desc})`)
+      return
+    }
+
+    if (!extraCondition) {
+      this.warn('withFocus', 'extraCondition cancel', `(${desc})`)
+      return
+    }
+
+    this.log(desc)
+    return fn()
   }
 }

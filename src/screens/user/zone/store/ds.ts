@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-30 02:04:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-16 07:45:37
+ * @Last Modified time: 2026-05-11 07:46:34
  */
 import { INIT_USERS } from '@stores/users/init'
 import { TIMELINE_TYPE } from '@constants'
@@ -56,7 +56,7 @@ export const EXCLUDE_STATE = {
   chatLoading: false,
 
   /** 当前页面实例是否在路由栈中 */
-  mounted: true
+  focused: true
 }
 
 export const STATE = {
