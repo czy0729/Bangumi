@@ -5,6 +5,8 @@
  * @Last Modified time: 2026-03-18 04:33:13
  */
 import RNCollapsible from 'react-native-collapsible'
+import { IOS_IPA } from '@src/config'
+import CustomCollapsible from './collapsible'
 import CollapsibleBase from './collapsible-base'
 
 import type { Props as CollapsibleProps } from './types'
@@ -15,7 +17,9 @@ export type { CollapsibleProps }
  * @doc https://github.com/oblador/react-native-collapsible
  */
 export function Collapsible(props: CollapsibleProps) {
-  return <CollapsibleBase {...props} CollapsibleImpl={RNCollapsible} />
+  return (
+    <CollapsibleBase {...props} CollapsibleImpl={IOS_IPA ? CustomCollapsible : RNCollapsible} />
+  )
 }
 
 export default Collapsible

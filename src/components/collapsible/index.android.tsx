@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-18 04:33:48
  */
-import RNCollapsible from './collapsible'
+import CustomCollapsible from './collapsible'
 import CollapsibleBase from './collapsible-base'
 
 import type { Props as CollapsibleProps } from './types'
@@ -15,7 +15,7 @@ export type { CollapsibleProps }
  * @doc https://github.com/oblador/react-native-collapsible
  */
 export function Collapsible(props: CollapsibleProps) {
-  return <CollapsibleBase {...props} CollapsibleImpl={RNCollapsible} />
+  return <CollapsibleBase {...props} CollapsibleImpl={CustomCollapsible} />
 }
 
 export default Collapsible

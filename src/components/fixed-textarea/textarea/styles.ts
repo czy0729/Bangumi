@@ -34,14 +34,16 @@ export const memoStyles = _.memoStyles(() => ({
   textarea: {
     minHeight: 48,
     maxHeight: 152,
-    paddingTop: 12,
+    paddingTop: 14,
     paddingHorizontal: 0,
     paddingBottom: 8,
     marginBottom: -_.hairlineWidth,
     color: _.colorDesc,
+    fontFamily: _.fontBoldFamily,
     fontSize: 14 + _.fontSizeAdjust,
     lineHeight: 22,
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
+    includeFontPadding: false
   },
   hiddenText: {
     color: 'transparent',

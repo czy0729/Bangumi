@@ -21,15 +21,7 @@ export const memoStyles = _.memoStyles(() => ({
     right: 48,
     bottom: 0,
     left: 48,
-    height: _.r(_.ios(36, 48)),
     pointerEvents: 'none'
-  },
-  titleText: {
-    lineHeight: 20,
-    marginTop: -7
-  },
-  titleAppend: {
-    marginTop: -7
   },
   transparent: {
     backgroundColor: 'transparent'

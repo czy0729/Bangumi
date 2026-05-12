@@ -8,15 +8,17 @@ import React from 'react'
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated'
 import { observer } from 'mobx-react'
 import { r } from '@utils/dev'
+import { useInsets } from '@utils/hooks'
 import { ScrollView } from '../../scroll-view'
 import { Text } from '../../text'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { Props } from './types'
-
 function Transition({ fixed, title, headerTitle }: Props) {
   r(COMPONENT)
+
+  const { statusBarHeight } = useInsets()
 
   const wrapStyles = useAnimatedStyle(
     () => ({
@@ -45,7 +47,16 @@ function Transition({ fixed, title, headerTitle }: Props) {
 
   return (
     <Animated.View style={[styles.view, wrapStyles]}>
-      <Animated.View style={[styles.body, title && styles.bodyTitle, bodyStyles]}>
+      <Animated.View
+        style={[
+          styles.body,
+          title && styles.bodyTitle,
+          bodyStyles,
+          {
+            top: statusBarHeight + 2
+          }
+        ]}
+      >
         {headerTitle || (
           <ScrollView style={styles.scrollView} contentContainerStyle={styles.container} horizontal>
             <Text style={styles.text} size={15} numberOfLines={1}>

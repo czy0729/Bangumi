@@ -101,7 +101,7 @@
     "react-native-reanimated": "3.16.1",
     "react-native-render-html": "4.1.1",
     "react-native-restart": "0.0.14",
-    "react-native-safe-area-context": "5.5.2",
+    "react-native-safe-area-context": "~5.6.0",
     "react-native-safe-area-view": "1.1.1",
     "react-native-screens": "4.12.0",
     "react-native-shimmer-placeholder": "^2.0.9",

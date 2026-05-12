@@ -8,13 +8,12 @@ import { _ } from '@stores'
 
 export const styles = _.create({
   icon: {
-    padding: _.sm,
-    marginRight: 2
+    padding: _.sm
   },
   pic: {
     paddingVertical: _.sm,
     paddingLeft: 10,
-    paddingRight: 16
+    paddingRight: 14
   },
   num: {
     marginRight: -8,

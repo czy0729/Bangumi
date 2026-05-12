@@ -5,7 +5,6 @@
  * @Last Modified time: 2026-04-20 21:52:20
  */
 import React from 'react'
-import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
@@ -47,18 +46,20 @@ function Header({
       <Background style={stl(style, transparent && styles.transparent)} />
       {!transparent && (
         <Flex
-          style={stl(styles.title, headerTitleStyle)}
+          style={stl(styles.title, headerTitleStyle, {
+            top: statusBarHeight
+          })}
           justify={headerTitleAlign === 'left' ? 'start' : 'center'}
         >
           <Text
-            style={stl(styles.titleText, headerTitleTextStyle)}
+            style={stl(headerTitleTextStyle)}
             size={headerTitleSize}
             numberOfLines={1}
             ellipsizeMode='middle'
           >
             {title}
           </Text>
-          {!!headerTitleAppend && <View style={styles.titleAppend}>{headerTitleAppend}</View>}
+          {!!headerTitleAppend && headerTitleAppend}
         </Flex>
       )}
       <Back color={color} />

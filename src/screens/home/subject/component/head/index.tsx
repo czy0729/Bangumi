@@ -8,7 +8,8 @@ import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
-import { systemStore, useStore } from '@stores'
+import { _, systemStore, useStore } from '@stores'
+import { useInsets } from '@utils/hooks'
 import { TITLE_HEAD } from '../../ds'
 import Head from './head'
 import { COMPONENT } from './ds'
@@ -16,9 +17,10 @@ import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
 import type { Props } from './types'
-
 function HeadWrap({ onBlockRef }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
+
+  const { statusBarHeight } = useInsets()
 
   // 书籍需要显示连载时间段
   const { subjectShowAirdayMonth } = systemStore.setting
@@ -30,11 +32,19 @@ function HeadWrap({ onBlockRef }: Props) {
     }
   }
 
+  const styles = memoStyles()
+
   return (
     <Component id='screen-subject-head'>
-      <View ref={ref => onBlockRef(ref, TITLE_HEAD)} collapsable={false}>
+      <View
+        ref={ref => onBlockRef(ref, TITLE_HEAD)}
+        style={{
+          paddingTop: _.r(statusBarHeight),
+          marginTop: _.ios(_.r(statusBarHeight) + 48, -80)
+        }}
+      >
         <Head
-          styles={memoStyles()}
+          styles={styles}
           showRelation={systemStore.setting.showRelation}
           subjectId={Number($.subject.id || $.subjectId)}
           subjectPrev={$.subjectPrev}

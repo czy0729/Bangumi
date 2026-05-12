@@ -13,7 +13,7 @@ import Provider from '@ant-design/react-native/lib/provider'
 import { DeepLink, DEV, HoldMenuProvider } from '@components'
 import { AppCommon } from '@_'
 import { _ } from '@stores'
-import { useCachedResources, useOrientation } from '@utils/hooks'
+import { useCachedResources, useObserver, useOrientation } from '@utils/hooks'
 import NaviteStacks from '@src/navigations/native-stacks'
 import theme from '@styles/theme'
 
@@ -32,26 +32,29 @@ export default function App() {
     _.toggleOrientation(orientation)
   }, [orientation])
 
-  if (!loadingResult) return null
+  return useObserver(() => {
+    if (!loadingResult) return null
 
-  const isLoadingComplete = loadingResult >= 3
-  return (
-    <GestureHandlerRootView style={_.container.flex}>
-      <SafeAreaProvider style={_.container.flex}>
-        {/* @ts-ignore */}
-        <Provider theme={theme}>
-          <HoldMenuProvider>
-            <NaviteStacks isLoadingComplete={isLoadingComplete} />
-          </HoldMenuProvider>
-          {isLoadingComplete && (
-            <Suspense>
-              <AppCommon />
-              <DeepLink />
-              <DEV />
-            </Suspense>
-          )}
-        </Provider>
-      </SafeAreaProvider>
-    </GestureHandlerRootView>
-  )
+    const isLoadingComplete = loadingResult >= 3
+
+    return (
+      <GestureHandlerRootView style={_.container.plain}>
+        <SafeAreaProvider style={_.container.flex}>
+          {/* @ts-ignore */}
+          <Provider theme={theme}>
+            <HoldMenuProvider>
+              <NaviteStacks isLoadingComplete={isLoadingComplete} />
+            </HoldMenuProvider>
+            {isLoadingComplete && (
+              <Suspense>
+                <AppCommon />
+                <DeepLink />
+                <DEV />
+              </Suspense>
+            )}
+          </Provider>
+        </SafeAreaProvider>
+      </GestureHandlerRootView>
+    )
+  })
 }

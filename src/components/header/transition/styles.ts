@@ -5,16 +5,7 @@
  * @Last Modified time: 2024-08-28 21:23:15
  */
 import { _ } from '@stores'
-import { WEB, WSA } from '@constants'
-
-let minHeight: number
-if (WSA) {
-  minHeight = 40
-} else if (WEB) {
-  minHeight = 32
-} else {
-  minHeight = 20 * 1.28
-}
+import { WEB } from '@constants'
 
 export const memoStyles = _.memoStyles(() => ({
   view: {
@@ -28,12 +19,12 @@ export const memoStyles = _.memoStyles(() => ({
     overflow: 'hidden'
   },
   body: {
+    display: 'flex',
+    justifyContent: 'center',
     position: 'absolute',
     zIndex: 1,
-    bottom: _.device(8, 14),
     left: _.device(48, 56),
-    right: WEB ? 0 : 56,
-    minHeight
+    right: WEB ? 0 : 56
   },
   bodyTitle: {
     bottom: _.device(6, 10)

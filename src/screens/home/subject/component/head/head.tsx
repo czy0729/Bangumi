@@ -92,7 +92,7 @@ const Head = memo(
     const leftOffset = imageWidth + _.wind + _.device(12, 20)
 
     return (
-      <View style={styles.container}>
+      <>
         {showRelease && (
           <Text
             style={[
@@ -188,7 +188,7 @@ const Head = memo(
           </Flex>
         </View>
         <Cover />
-      </View>
+      </>
     )
   },
   DEFAULT_PROPS,

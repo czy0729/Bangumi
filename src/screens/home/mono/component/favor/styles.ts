@@ -9,7 +9,7 @@ import { _ } from '@stores'
 export const styles = _.create({
   touch: {
     paddingHorizontal: _.sm,
-    marginRight: 6,
+    marginRight: 4,
     borderRadius: _.radiusSm,
     overflow: 'hidden'
   }

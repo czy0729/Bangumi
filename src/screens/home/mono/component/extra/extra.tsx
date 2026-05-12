@@ -20,7 +20,7 @@ const Extra = memo(
     if (canICO) {
       return (
         <Touchable
-          style={[_.container.touch, _.mr.sm]}
+          style={_.container.touch}
           onPress={() => {
             confirm('花费 10000cc 启动 ICO?', () => {
               doICO(navigation)
@@ -29,7 +29,7 @@ const Extra = memo(
         >
           <Flex style={_.mr.sm}>
             <IconHeader name='trophy' size={18} />
-            <Text size={13}>启动 ICO</Text>
+            <Text size={12}>启动 ICO</Text>
           </Flex>
         </Touchable>
       )
