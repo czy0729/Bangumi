@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-11-03 04:54:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-17 11:51:48
+ * @Last Modified time: 2026-05-12 21:13:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -95,7 +95,9 @@ function Item({ item, index }: Props) {
           <Text style={styles.sub} type='sub' size={11} bold align='center'>
             {extraTitleText}
           </Text>
-          {!!item.score && <Stars style={styles.stars} value={item.score} simple />}
+          {!!item.score && (
+            <Stars style={styles.stars} value={item.score} simple hideScore={false} />
+          )}
         </Flex>
       </Touchable>
     </Flex>

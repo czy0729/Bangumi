@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-07-03 07:18:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:00:25
+ * @Last Modified time: 2026-05-12 21:07:27
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Cover, Flex, Link, Text } from '@components'
 import { fixedAll } from '@components/avatar/utils'
-import { _, useStore } from '@stores'
+import { _, systemStore, useStore } from '@stores'
 import { HTMLDecode, x18 } from '@utils'
 import { memoStyles } from './styles'
 
@@ -27,7 +27,8 @@ function Item({ item }: WithItem<SubjectFromHtmlCatalogItem>) {
       style={styles.item}
       path='CatalogDetail'
       params={{
-        catalogId: item.id
+        catalogId: item.id,
+        _hideScore: systemStore.setting.hideScore
       }}
       eventId='条目.跳转'
       eventData={{

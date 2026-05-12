@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:16:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-12 19:57:21
+ * @Last Modified time: 2026-05-12 21:01:32
  */
 import { isObservableArray } from 'mobx'
 import { DEV, FROZEN_ARRAY, FROZEN_OBJECT } from '@constants'
@@ -847,7 +847,7 @@ export function randomizeImgHost(url: string): string {
  *  - 中文算 1
  *  - 数字 / 英文 / 常见半角符号算 0.5
  */
-export function getVisualLength(str: string) {
+export function getVisualLength(str: string = '') {
   let len = 0
 
   for (const char of str) {

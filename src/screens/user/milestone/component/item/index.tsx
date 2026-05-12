@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-11 05:10:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-24 21:11:19
+ * @Last Modified time: 2026-05-12 21:10:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -179,6 +179,7 @@ function Item({ item, index }: Props) {
               value={item.score}
               simple={!$.state.starsFull}
               color={$.state.starsColor ? undefined : _.colorSub}
+              hideScore={false}
             />
           )}
           {!!extraTitleText && (
@@ -199,6 +200,7 @@ function Item({ item, index }: Props) {
               value={item.score}
               simple={!$.state.starsFull}
               color={$.state.starsColor ? undefined : _.colorSub}
+              hideScore={false}
             />
           )}
         </Flex>
