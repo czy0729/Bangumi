@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-08 09:53:01
+ * @Last Modified time: 2026-05-13 06:36:05
  */
 import cheerioRN from 'cheerio-without-node-native'
-import { TEXT_BADGES } from '@constants/text'
 import { DEV } from '@src/config'
+import { logger } from '../dev'
 import HTMLParser from '../thirdParty/html-parser'
 import { safeObject } from '../utils'
 
@@ -226,9 +226,8 @@ export function cheerio(
     // 需要优化内容
     if (target.indexOf('<!DOCTYPE html>') === 0) {
       if (DEV) {
-        console.info(
-          TEXT_BADGES.plain,
-          '[@utils/html/cheerio]',
+        logger.info(
+          '@utils/html/cheerio',
           'need match',
           target.match(/<title>(.*?)<\/title>/g)?.[0]
         )
@@ -264,6 +263,10 @@ export function cText(
   matchRawTextNode: boolean = false,
   cleanWhitespace: boolean = false
 ): string {
+  if (DEV && !$el?.text) {
+    logger.warn('@utils/html/cText', '$el 不是有效的 cheerio 对象')
+  }
+
   try {
     let text = ''
 
@@ -310,6 +313,10 @@ export function cData(
     | 'onclick'
     | `data-${string}`
 ): string {
+  if (DEV && !$el?.attr && !$el?.data) {
+    logger.warn('@utils/html/cData', '$el 不是有效的 cheerio 对象')
+  }
+
   try {
     if (key.startsWith('data-')) return $el.data(key.split('data-')[1]) || ''
     return $el.attr(key) || ''
@@ -320,6 +327,10 @@ export function cData(
 
 /** HTMLTrim(cheerio.html(key)) */
 export function cHtml($el: any): string {
+  if (DEV && !$el?.html) {
+    logger.warn('@utils/html/cHtml', '$el 不是有效的 cheerio 对象')
+  }
+
   try {
     return HTMLTrim($el.html() || '').replace(/\u0000/g, '')
   } catch (error) {
@@ -329,6 +340,10 @@ export function cHtml($el: any): string {
 
 /** cheerio.map */
 export function cMap<T>($el: any, callback: ($ele: any, index?: number) => T): T[] {
+  if (DEV && !$el?.map) {
+    logger.warn('@utils/html/cMap', '$el 不是有效的 cheerio 对象')
+  }
+
   try {
     return (
       $el
@@ -345,6 +360,10 @@ export function cMap<T>($el: any, callback: ($ele: any, index?: number) => T): T
 
 /** cheerio.each */
 export function cEach($el: any, callback: ($ele: any, index?: number) => void) {
+  if (DEV && !$el?.each) {
+    logger.warn('@utils/html/cEach', '$el 不是有效的 cheerio 对象')
+  }
+
   try {
     $el.each((index: number, ele: any) => {
       callback(cheerio(ele), index)
@@ -357,6 +376,10 @@ export function cEach($el: any, callback: ($ele: any, index?: number) => void) {
  *  - 切勿使用 cFind($, ...)
  * */
 export function cFind($el: any, selector: string, index: number | 'last' = 0) {
+  if (DEV && !$el?.find) {
+    logger.warn('@utils/html/cFind', '$el 不是有效的 cheerio 对象')
+  }
+
   try {
     return index === 'last' ? $el.find(selector).last() : $el.find(selector).eq(index)
   } catch (error) {
@@ -366,6 +389,10 @@ export function cFind($el: any, selector: string, index: number | 'last' = 0) {
 
 /** cheerio.find */
 export function cList($el: any, selector: string) {
+  if (DEV && !$el?.find) {
+    logger.warn('@utils/html/cList', '$el 不是有效的 cheerio 对象')
+  }
+
   try {
     return $el.find(selector)
   } catch (error) {
@@ -375,6 +402,10 @@ export function cList($el: any, selector: string) {
 
 /** cheerio.filter */
 export function cFilter($el: any, match: string) {
+  if (DEV && !$el?.filter) {
+    logger.warn('@utils/html/cFilter', '$el 不是有效的 cheerio 对象')
+  }
+
   try {
     return $el.filter((_index: number, ele: any) => {
       return cText(cheerio(ele)).includes(match)
@@ -386,6 +417,10 @@ export function cFilter($el: any, match: string) {
 
 /** cheerio.length > 0 */
 export function cHas($el: any) {
+  if (DEV && $el?.length === undefined) {
+    logger.warn('@utils/html/cHas', '$el 不是有效的 cheerio 对象')
+  }
+
   try {
     return $el.length > 0
   } catch (error) {
@@ -398,6 +433,10 @@ export function cHas($el: any) {
  *  - 只适用于 bgm.tv
  * */
 export function cPagination($: any) {
+  if (DEV && !$?.find) {
+    logger.warn('@utils/html/cPagination', '$ 不是有效的 cheerio 对象')
+  }
+
   let pageTotal = 1
   let page = 1
 

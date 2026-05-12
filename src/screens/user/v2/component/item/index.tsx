@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-21 17:22:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 06:03:05
+ * @Last Modified time: 2026-05-13 05:16:00
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -19,7 +19,7 @@ function Item({ item, index, page }: Props) {
 
   if ($.state.list) return <ItemList item={item} index={index} page={page} />
 
-  return <ItemGrid item={item} numColumns={$.numColumns} />
+  return <ItemGrid item={item} index={index} numColumns={$.numColumns} />
 }
 
 export default observer(Item)

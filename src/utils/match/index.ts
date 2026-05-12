@@ -2,14 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-08-08 11:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-31 02:51:48
+ * @Last Modified time: 2026-05-13 05:22:54
  */
 import { pad } from '../utils'
 
-import type { Avatar, UserId } from '@types'
+import type { UserId } from '@types'
 
 /** 缓存结果 */
 const cacheMap = new Map<string, any>()
+
+const DEFAULT_AVATAR = '//lain.bgm.tv/pic/user/s/icon.jpg'
 
 /** 匹配 */
 function match(
@@ -37,14 +39,13 @@ function match(
  * 匹配头像地址
  *  - style="background-image:url('//lain.bgm.tv/pic/user/l/000/00/00/000000.jpg?r=0')"
  * */
-export function matchAvatar(str: string = ''): Avatar {
+export function matchAvatar(str: string = ''): string {
   return (
     match(
       str,
-      str =>
-        str.match(/background-image:url\('(.+?)'\)/)?.[1] || '//lain.bgm.tv/pic/user/s/icon.jpg',
+      str => str.match(/background-image:url\('(.+?)'\)/)?.[1] || DEFAULT_AVATAR,
       'matchAvatar'
-    ) || ''
+    ) || DEFAULT_AVATAR
   )
 }
 
@@ -88,7 +89,7 @@ export function matchStar(str: string = ''): string {
 }
 
 /** 匹配字符串中第一个 bgm 地址 */
-export function matchBgmUrl(str: string = '', returnAll: boolean = false) {
+export function matchBgmUrl(str: string = '', returnAll: boolean = false): string {
   return match(
     str,
     str => {
@@ -97,12 +98,13 @@ export function matchBgmUrl(str: string = '', returnAll: boolean = false) {
       return returnAll ? matchs : matchs[0] || ''
     },
     `${matchBgmUrl}${returnAll ? 'returnAll' : ''}`,
-    []
+    ''
   )
 }
 
 /** 从头像地址匹配用户 Id */
 export function matchUserIdFromAvatar(str: string = ''): UserId {
+  if (!str) return 0
   return match(str, str => str.match(/\/(\d+).jpg/)?.[1] || 0, 'matchUserIdFromAvatar', 0)
 }
 
@@ -117,8 +119,8 @@ export function matchYearAndMonth(str: string = ''): string {
     str,
     str => {
       const data = [matchYear(str)]
-      const month = str.match(/(\d+)(月|-)/)?.[1]
-      if (month) data.push(pad(month))
+      const month = str.match(/(?:年|-)(\d+)/)?.[1]
+      if (month) data.push(month.length < 2 ? pad(month) : month)
       return data.filter(item => !!item).join('-')
     },
     'matchYearAndMonth'

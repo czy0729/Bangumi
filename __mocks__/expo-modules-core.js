@@ -1,1 +1,4 @@
-module.exports = { requireOptionalNativeModule: jest.fn(() => ({})) }
+module.exports = {
+  requireNativeModule: jest.fn(() => ({})),
+  requireOptionalNativeModule: jest.fn(() => ({}))
+}

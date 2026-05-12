@@ -8,42 +8,6 @@ bgm.tv (Bangumi) 第三方客户端，React Native (Expo SDK 54) 项目。作者
 - 除非文件被编辑过，否则不要重复阅读已读过的文件
 - 输出追求简洁，但推理过程必须详尽
 
-## 代码规范
-
-- 一个文件没必要不超过 400 行，超了就拆
-- 嵌套没必要不要超过 4 层
-
-## 测试规范
-
-- `it()` / `test()` 描述使用**中文**，格式为简洁的行为描述
-- `describe()` 为被测函数/模块名，`it()` 描述预期行为，如 `it('空字符串返回空数组')`
-- 测试注释使用中文，保持格式一致
-
-## Token 预算规则
-
-### 禁止读取的路径（文件过大，浪费 tokens）
-
-- `src/assets/json/` — 所有 JSON 数据文件（mono.json、vib.json、substrings/_、typerank/_）
-- `src/assets/` — 图片、字体等二进制资源（39M+）
-- `dist/`、`node_modules/`、`metro-cache/`
-- `web/test/*.json` — 测试数据
-- 任何超过 50KB 的 `.json` 文件
-
-### 替代方案
-
-- 用 grep/find 查找 JSON key 或资源在代码中的引用
-- 通过读取 import 语句了解数据结构，而非直接读数据文件
-- 如确需了解 JSON 结构，只用 Read 工具的 `limit` 参数读前 20 行
-
-## 代码风格（全局）
-
-- 所有组件统一用 `observer()` 包裹，**不使用** `useObserver` 或 `ob`
-- 不使用 React.memo / useMemo，依赖 MobX observer() 自动优化
-- useCallback 用于稳定引用
-- 每个组件/页面通过 `ds.ts` 导出 `COMPONENT` 常量标识自身，子组件用 `rc(PARENT, 'Name')` 生成
-- Store 访问：页面通过 hooks 解构 `{ id, $ }`，子组件通过 `useStore<Ctx>(COMPONENT)` 获取
-- `StoreContext.Provider` 在页面 index.tsx 中提供，子组件通过 context 消费
-
 ## 详细规范（按需读取）
 
 > 触发对应业务时读取对应文件，不要一次性全部加载。
@@ -56,6 +20,9 @@ bgm.tv (Bangumi) 第三方客户端，React Native (Expo SDK 54) 项目。作者
 | 新建/修改可复用组件（components/）         | [.claude/docs/component.md](.claude/docs/component.md)       |
 | 新建/修改 MobX Store                       | [.claude/docs/store.md](.claude/docs/store.md)               |
 | API 请求相关                               | [.claude/docs/api.md](.claude/docs/api.md)                   |
+| 测试规范                                   | [.claude/docs/testing.md](.claude/docs/testing.md)           |
+| Token 预算规则                             | [.claude/docs/token-budget.md](.claude/docs/token-budget.md) |
+| 代码规范与风格                             | [.claude/docs/code-style.md](.claude/docs/code-style.md)     |
 
 ## 文档维护
 
@@ -67,6 +34,7 @@ bgm.tv (Bangumi) 第三方客户端，React Native (Expo SDK 54) 项目。作者
 - Store 继承链或文件结构变化 → 更新 `store.md`
 - API 请求方式或常量位置变化 → 更新 `api.md`
 - 新增路径别名、导航结构变化、技术栈升级 → 更新 `architecture.md`
-- 发现代码风格约定与文档不符 → 更新 CLAUDE.md 对应段落
+- 发现代码风格约定与文档不符 → 更新 `code-style.md`
+- 测试规范变化 → 更新 `testing.md`
 
 原则：改了什么就更新什么，不要等用户提醒。

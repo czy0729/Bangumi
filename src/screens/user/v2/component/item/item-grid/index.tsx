@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-08 11:59:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 06:03:20
+ * @Last Modified time: 2026-05-13 05:16:14
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -16,7 +16,7 @@ import type { SubjectTypeCn } from '@types'
 import type { Ctx } from '../../../types'
 import type { Props } from './types'
 
-function ItemGrid({ item, numColumns }: Props) {
+function ItemGrid({ item, index, numColumns }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const { subjectType, showYear } = $.state
@@ -24,6 +24,7 @@ function ItemGrid({ item, numColumns }: Props) {
 
   return (
     <ItemCollectionsGrid
+      index={index}
       num={numColumns}
       typeCn={typeCn}
       event={EVENT}

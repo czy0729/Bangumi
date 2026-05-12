@@ -4,15 +4,15 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-15 14:17:07
  */
-import { getPinYinFirstCharacter } from '../thirdParty/pinyin'
 import { t2s } from '../thirdParty/cn-char'
+import { getPinYinFirstCharacter } from '../thirdParty/pinyin'
 
 /** 缓存结果 */
 const getPinyinCacheMap = new Map<string, string>()
 
 /** 获取字符串所有字的首字母 */
 export function getPinYin(title: string) {
-  if (typeof title !== 'string' && !title) {
+  if (typeof title !== 'string' || !title) {
     return {
       str: title,
       pinyin: ''
