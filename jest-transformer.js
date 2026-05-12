@@ -13,7 +13,7 @@ module.exports = {
       configFile: false,
       babelrc: false,
       presets: ['@babel/preset-typescript', '@babel/preset-react'],
-      plugins: ['@babel/plugin-transform-modules-commonjs']
+      plugins: ['@babel/plugin-transform-modules-commonjs', 'babel-plugin-jest-hoist']
     })
     return { code: result.code }
   }

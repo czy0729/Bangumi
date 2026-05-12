@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:16:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-01 05:31:57
+ * @Last Modified time: 2026-05-12 19:57:21
  */
 import { isObservableArray } from 'mobx'
 import { DEV, FROZEN_ARRAY, FROZEN_OBJECT } from '@constants'
@@ -405,7 +405,7 @@ export function matchBgmLink(url: string = ''):
      *  - https://bgm.tv/subject/454684
      */
     if (value.includes('/subject/')) {
-      const subjectId = value.replace(`${HOST}/subject/`, '')
+      const subjectId = value.replace(`${HOST}/subject/`, '').split('?')[0].replace(/\/$/, '')
       return {
         route: 'Subject',
         params: {
@@ -691,7 +691,7 @@ export function fixedRemoteImageUrl(url: any) {
 
   // fixed: 2022-09-27, 去除 cf 无缘无故添加的前缀
   // 类似 /cdn-cgi/mirage/xxx-xxx-1800/1280/(https://abc.com/123.jpg | img/smiles/tv/15.fig)
-  value = value.replace(/\/cdn-cgi\/mirage\/.+?\/\d+\//g, '').replace('http://', 'https://')
+  value = value.replace(/\/cdn-cgi\/mirage\/[^/]+\/\d+\//g, '/').replace('http://', 'https://')
 
   // 带有服务器 r/800 前缀的必须是 l 大小的图片
   if (/\/r\/\d+\//.test(value)) value = value.replace(/\/(g|s|m|c)\//, '/l/')
@@ -729,8 +729,10 @@ export function getBangumiUrl(item: { site?: string; id?: Id; url?: string }): s
 export function getCookie(cookies = '', name: string) {
   const list = cookies.split('; ')
   for (let i = 0; i < list.length; i += 1) {
-    const arr = list[i].split('=')
-    if (arr[0] == name) return decodeURIComponent(arr[1])
+    const eqIndex = list[i].indexOf('=')
+    if (eqIndex === -1) continue
+    const key = list[i].substring(0, eqIndex)
+    if (key === name) return decodeURIComponent(list[i].substring(eqIndex + 1))
   }
   return ''
 }
@@ -849,6 +851,9 @@ export function getVisualLength(str: string) {
   let len = 0
 
   for (const char of str) {
+    // 控制字符不计宽度
+    if (char.charCodeAt(0) < 32) continue
+
     // ASCII 范围（英文、数字、常见符号）
     if (/[\x00-\x7F]/.test(char)) {
       len += 0.5

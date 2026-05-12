@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-25 21:47:27
+ * @Last Modified time: 2026-05-12 17:00:00
  */
 import { Linking } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -14,7 +14,7 @@ import { info } from '../ui'
 import { log } from './utils'
 
 import type { ComponentType } from 'react'
-import type { AnyObject, Fn } from '@types'
+import type { AnyObject, Fn, TimerRef } from '@types'
 
 export * from '../date'
 
@@ -76,7 +76,6 @@ export function isObject(value: any): boolean {
 
 /** 缩短 runAfterInteractions */
 export function runAfter(fn: () => any, postTask: boolean = false) {
-  // return InteractionManager.runAfterInteractions(fn)
   if (postTask) {
     setTimeout(() => {
       requestAnimationFrame(fn)
@@ -95,7 +94,7 @@ export function stl(...styles: any[]): any | any[] {
 
 /** 节流 */
 export function throttle(callback: (arg?: any) => void, delay = 400) {
-  let timeoutID: any
+  let timeoutID: TimerRef
   let lastExec = 0
 
   return function (this: any, ...args: any[]) {
@@ -110,17 +109,17 @@ export function throttle(callback: (arg?: any) => void, delay = 400) {
     }
     clearTimeout(timeoutID)
 
-    if (elapsed > delay) {
+    if (elapsed > Math.max(0, delay)) {
       exec()
     } else {
-      timeoutID = setTimeout(exec, delay - elapsed)
+      timeoutID = setTimeout(exec, Math.max(0, delay) - elapsed)
     }
   }
 }
 
 /** 防抖 */
 export function debounce(fn: Fn, ms = 320): typeof fn {
-  let timeout: any = null
+  let timeout: TimerRef = null
 
   return function (this: any, ...args: any[]) {
     const context = this
@@ -195,7 +194,7 @@ export function desc(a: any, b: any, fn?: (item: any) => any): 0 | 1 | -1 {
 export async function queue(fetchs: (() => any)[] = [], num: number = 2) {
   if (fetchs?.length === 0) return false
 
-  const limit = pLimit(num)
+  const limit = pLimit(Math.max(1, num))
   return Promise.all(fetchs.map(fetch => limit(fetch)))
 }
 
@@ -647,8 +646,8 @@ export function truncateMiddle(text: string = '', maxLength: number = 20, charsT
 
 /** 随机挑选数组项 */
 export function getRandomItems<T>(array: T[], count: number): T[] {
-  // 如果数组为空或 count 为 0，直接返回空数组
-  if (array.length === 0 || count === 0) return []
+  // 如果数组为空或 count 为 0 或负数，直接返回空数组
+  if (array.length === 0 || count <= 0) return []
 
   // 如果数组长度小于等于需要的数量，直接返回打乱后的数组
   if (array.length <= count) return shuffleArray(array)

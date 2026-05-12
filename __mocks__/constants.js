@@ -5,6 +5,8 @@
  * @Last Modified time: 2026-05-10 17:23:12
  */
 module.exports = {
+  B: 100000000,
+  M: 10000,
   TIMEZONE_IS_GMT8: true,
   TIMEZONE_OFFSET_LOCAL: 8,
   TIMEZONE_OFFSET_GMT8: 8

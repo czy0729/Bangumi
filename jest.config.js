@@ -7,10 +7,15 @@
 const path = require('path')
 
 module.exports = {
+  globals: {
+    __DEV__: true
+  },
   transform: {
     '^.+\\.[jt]sx?$': path.resolve(__dirname, 'jest-transformer.js')
   },
-  transformIgnorePatterns: ['/node_modules/'],
+  transformIgnorePatterns: [
+    '/node_modules/(?!p-limit|yocto-queue|expo-*)'
+  ],
   moduleNameMapper: {
     '^@_$': '<rootDir>',
     '^@/(.*)$': '<rootDir>/$1',
@@ -26,7 +31,9 @@ module.exports = {
     '^@types/(.*)$': '<rootDir>/src/types/$1',
     '^@utils/(.*)$': '<rootDir>/src/utils/$1',
     '^@src/(.*)$': '<rootDir>/src/$1',
-    '^react-native$': '<rootDir>/__mocks__/react-native.js'
+    '^react-native$': '<rootDir>/__mocks__/react-native.js',
+    '^expo-web-browser$': '<rootDir>/__mocks__/expo-web-browser.js',
+    '^expo-modules-core(/.*)?$': '<rootDir>/__mocks__/expo-modules-core.js'
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
   testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],

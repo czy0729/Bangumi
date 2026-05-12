@@ -30,7 +30,7 @@ export function getSPAParams(routeName: string, params?: AnyObject) {
     ...Object.entries(params || {})
       // .filter(([key]) => !key.startsWith('_'))
       .filter(([key]) => key !== 'id')
-      .filter(([, value]) => value)
+      .filter(([, value]) => value != null)
       .reduce((obj, [key, value]) => {
         obj[key] = value
         return obj

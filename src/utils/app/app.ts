@@ -203,7 +203,7 @@ export function formatTime(time: string | number | Date) {
     day = Math.floor(times / (60 * 60 * 24))
     hour = Math.floor(times / (60 * 60)) - day * 24
     if (day > 0) return `${day}天${hour}小时`
-    if (hour > 1) return `剩余${hour}小时`
+    if (hour >= 1) return `剩余${hour}小时`
     return '即将结束'
   }
 
@@ -255,7 +255,7 @@ export function caculateICO(ico: { users?: number; total?: number; Users?: numbe
 
   // 计算最终值
   amount = baseAmount + (level - 1) * 7500
-  price = (currentTotal - 500000) / amount
+  price = Math.max(0, (currentTotal - 500000) / amount)
   nextUser = (level + 1) * 5 + 10
 
   return {

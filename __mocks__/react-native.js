@@ -28,5 +28,12 @@ module.exports = {
   Alert: {
     alert: jest.fn()
   },
-  NativeModules: {}
+  NativeModules: {},
+  NativeEventEmitter: class NativeEventEmitter {
+    addListener() { return { remove: jest.fn() } }
+    removeAllListeners() {}
+  },
+  InteractionManager: {
+    runAfterInteractions: fn => fn()
+  }
 }

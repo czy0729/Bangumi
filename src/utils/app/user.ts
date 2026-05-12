@@ -61,7 +61,7 @@ export function getIsBlocked(
   keyword: string,
   trackUUID?: string
 ): boolean {
-  const isBlock = blockKeywords.some(item => keyword.includes(item))
+  const isBlock = blockKeywords.some(item => item && keyword.includes(item))
 
   if (isBlock && trackUUID) {
     const memoKey = `${keyword}|${trackUUID}`
