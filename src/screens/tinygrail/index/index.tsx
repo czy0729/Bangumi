@@ -21,7 +21,7 @@ import { useTinygrailPage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** 小圣杯首页 */
-const Tinygrail = (props: NavigationProps) => {
+function Tinygrail(props: NavigationProps) {
   const { id, $, navigation } = useTinygrailPage(props)
 
   return (

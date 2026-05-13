@@ -95,7 +95,16 @@ export function appRandom<T extends Record<string, any>>(
   return data
 }
 
-let _navigationReference: Navigation | undefined
+const NAVIGATION_COOLDOWN = 400
+let __lastNavigationTime = 0
+let __navigationReference: Navigation | undefined
+
+function isNavigationAllowed(): boolean {
+  const now = Date.now()
+  if (now - __lastNavigationTime < NAVIGATION_COOLDOWN) return false
+  __lastNavigationTime = now
+  return true
+}
 
 /** 保存 navigation 引用 */
 export function navigationReference(navigation?: Navigation | undefined) {
@@ -104,13 +113,24 @@ export function navigationReference(navigation?: Navigation | undefined) {
   }
 
   if (navigation) {
-    _navigationReference = navigation
-    if (!_navigationReference.push) {
-      _navigationReference.push = _navigationReference.navigate
+    __navigationReference = navigation
+    if (!__navigationReference.push) {
+      __navigationReference.push = __navigationReference.navigate
+    }
+
+    const originalPush = __navigationReference.push
+    const originalNavigate = __navigationReference.navigate
+    __navigationReference.push = (...args: [any, ...any[]]) => {
+      if (!isNavigationAllowed()) return
+      return originalPush(...args)
+    }
+    __navigationReference.navigate = (...args: [any, ...any[]]) => {
+      if (!isNavigationAllowed()) return
+      return originalNavigate(...args)
     }
   }
 
-  return _navigationReference
+  return __navigationReference
 }
 
 /** keyExtractor */
@@ -171,6 +191,8 @@ export function appNavigate(
       }
       return false
     }
+
+    if (!isNavigationAllowed()) return false
 
     const { route, params } = result
     t(id, {

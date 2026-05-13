@@ -76,6 +76,7 @@ jest.mock('../ds', () => ({
 }))
 
 import {
+  appNavigate,
   appRandom,
   caculateICO,
   calculateFutureICO,
@@ -442,5 +443,124 @@ describe('getGroupThumbStatic', () => {
 
   it('非字符串返回原值', () => {
     expect(getGroupThumbStatic(null as any)).toBe(null)
+  })
+})
+
+describe('appNavigate', () => {
+  const mockNavigation = {
+    push: jest.fn(),
+    navigate: jest.fn(),
+    goBack: jest.fn(),
+    replace: jest.fn(),
+    popToTop: jest.fn(),
+    getRootState: jest.fn(),
+    getState: jest.fn(),
+    setOptions: jest.fn(),
+    addListener: jest.fn(),
+    emit: jest.fn()
+  } as any
+
+  const mockEvent = { id: 'test', data: {} } as any
+
+  let fakeTime: number
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+    // 每次递增一个足够大的值，确保冷却时间已过
+    fakeTime = (fakeTime || Date.now()) + 10000
+    jest.useFakeTimers()
+    jest.setSystemTime(fakeTime)
+  })
+
+  afterEach(() => {
+    jest.useRealTimers()
+  })
+
+  it('有效 bgm.tv URL 正常跳转', () => {
+    const { matchBgmLink } = require('../data-source')
+    matchBgmLink.mockReturnValue({ route: 'Subject', params: { subjectId: '12345' } })
+
+    const result = appNavigate('https://bgm.tv/subject/12345', mockNavigation, {}, mockEvent)
+
+    expect(result).toBe(true)
+    expect(mockNavigation.push).toHaveBeenCalledWith('Subject', {
+      _url: 'https://bgm.tv/subject/12345',
+      subjectId: '12345'
+    })
+  })
+
+  it('无 navigation 对象返回 false', () => {
+    const result = appNavigate('https://bgm.tv/subject/12345', undefined, {}, mockEvent)
+    expect(result).toBe(false)
+  })
+
+  it('非本站 URL 返回 false', () => {
+    const result = appNavigate('https://example.com/test', mockNavigation, {}, mockEvent)
+    expect(result).toBe(false)
+  })
+
+  it('matchBgmLink 返回 false 时返回 false', () => {
+    const { matchBgmLink } = require('../data-source')
+    matchBgmLink.mockReturnValue(false)
+
+    const result = appNavigate('https://bgm.tv/unknown', mockNavigation, {}, mockEvent)
+    expect(result).toBe(false)
+  })
+
+  it('openWebBrowser=false 时不打开浏览器', () => {
+    const { open } = require('../../utils')
+    const result = appNavigate('https://example.com/test', mockNavigation, {}, mockEvent, false)
+
+    expect(result).toBe(false)
+    expect(open).not.toHaveBeenCalled()
+  })
+
+  it('openWebBrowser=true 时打开浏览器', () => {
+    const { open } = require('../../utils')
+    const result = appNavigate('https://example.com/test', mockNavigation, {}, mockEvent, true)
+
+    expect(result).toBe(false)
+    expect(open).toHaveBeenCalledWith('https://example.com/test')
+  })
+
+  it('400ms 内重复调用被阻止', () => {
+    const { matchBgmLink } = require('../data-source')
+    matchBgmLink.mockReturnValue({ route: 'Subject', params: { subjectId: '12345' } })
+
+    const result1 = appNavigate('https://bgm.tv/subject/12345', mockNavigation, {}, mockEvent)
+    expect(result1).toBe(true)
+    expect(mockNavigation.push).toHaveBeenCalledTimes(1)
+
+    // 100ms 内再次调用
+    jest.advanceTimersByTime(100)
+    const result2 = appNavigate('https://bgm.tv/subject/12345', mockNavigation, {}, mockEvent)
+    expect(result2).toBe(false)
+    expect(mockNavigation.push).toHaveBeenCalledTimes(1)
+  })
+
+  it('400ms 后可以再次调用', () => {
+    const { matchBgmLink } = require('../data-source')
+    matchBgmLink.mockReturnValue({ route: 'Subject', params: { subjectId: '12345' } })
+
+    appNavigate('https://bgm.tv/subject/12345', mockNavigation, {}, mockEvent)
+    expect(mockNavigation.push).toHaveBeenCalledTimes(1)
+
+    // 400ms 后再次调用
+    jest.advanceTimersByTime(400)
+    appNavigate('https://bgm.tv/subject/12345', mockNavigation, {}, mockEvent)
+    expect(mockNavigation.push).toHaveBeenCalledTimes(2)
+  })
+
+  it('传递 passParams', () => {
+    const { matchBgmLink } = require('../data-source')
+    matchBgmLink.mockReturnValue({ route: 'Subject', params: { subjectId: '12345' } })
+
+    appNavigate('https://bgm.tv/subject/12345', mockNavigation, { from: 'home' }, mockEvent)
+
+    expect(mockNavigation.push).toHaveBeenCalledWith('Subject', {
+      _url: 'https://bgm.tv/subject/12345',
+      subjectId: '12345',
+      from: 'home'
+    })
   })
 })

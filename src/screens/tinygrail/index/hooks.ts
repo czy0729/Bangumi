@@ -8,7 +8,7 @@ import { useCallback } from 'react'
 import { StatusBar } from '@components'
 import { _, useInitStore } from '@stores'
 import { hm } from '@utils/fetch'
-import { useFocusEffect, useRunAfter } from '@utils/hooks'
+import { useFocusEffect, usePageLifecycle } from '@utils/hooks'
 import store from './store'
 
 import type { NavigationProps } from '@types'
@@ -17,13 +17,18 @@ import type { Ctx } from './types'
 /** 小圣杯页面逻辑 */
 export function useTinygrailPage(props: NavigationProps) {
   const context = useInitStore<Ctx['$']>(props, store)
-  const { $ } = context
+  const { id, $ } = context
 
-  useRunAfter(() => {
-    $.init()
+  usePageLifecycle(
+    {
+      onEnterComplete() {
+        $.init()
 
-    hm('tinygrail', 'Tinygrail')
-  })
+        hm('tinygrail', 'Tinygrail')
+      }
+    },
+    id
+  )
 
   useFocusEffect(
     useCallback(() => {

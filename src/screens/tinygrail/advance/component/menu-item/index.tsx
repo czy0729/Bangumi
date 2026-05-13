@@ -5,26 +5,26 @@
  * @Last Modified time: 2023-03-29 05:03:18
  */
 import React from 'react'
-import { Flex, Text, Touchable, Iconfont } from '@components'
+import { observer } from 'mobx-react'
+import { Flex, Iconfont, Text, Touchable } from '@components'
 import { stl } from '@utils'
 import { t } from '@utils/fetch'
-import { ob } from '@utils/decorators'
 import { memoStyles } from './styles'
-import { Props } from './types'
 
-function MenuItem({ navigation, style, pathname, config, title, icon }: Props) {
+import type { Props } from './types'
+
+function MenuItem({ navigation, style, pathname, title, icon }: Props) {
   const styles = memoStyles()
+
   return (
     <Touchable
       style={styles.container}
       onPress={() => {
-        t('高级分析.跳转', {
-          to: pathname,
-          ...config
-        })
+        navigation.push(pathname as any)
 
-        // @ts-expect-error
-        navigation.push(pathname, config)
+        t('高级分析.跳转', {
+          to: pathname
+        })
       }}
     >
       <Flex style={stl(styles.block, style)}>
@@ -37,4 +37,4 @@ function MenuItem({ navigation, style, pathname, config, title, icon }: Props) {
   )
 }
 
-export default ob(MenuItem)
+export default observer(MenuItem)

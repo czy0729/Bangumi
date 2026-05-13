@@ -49,7 +49,17 @@ import { Ctx } from './types'
 export function useXxxPage(props: NavigationProps) {
   const context = useInitStore<Ctx['$']>(props, store)
   const { id, $ } = context
-  usePageLifecycle({ onEnterComplete() { $.init() }, onLeaveComplete() { $.unmount() } }, id)
+  usePageLifecycle(
+    {
+      onEnterComplete() {
+        $.init()
+      },
+      onLeaveComplete() {
+        $.unmount()
+      }
+    },
+    id
+  )
   return context
 }
 ```
@@ -113,3 +123,21 @@ export default observer(function Info() {
 ```
 
 所有组件统一用 `observer()` 包裹，不使用 `useObserver` 或 `ob`。
+
+## 代码风格要求
+
+1. **必须使用 `function` 声明**：页面组件和子组件必须使用 `function` 关键字声明，不要使用箭头函数 `const Xxx = () => {}`
+2. **必须使用 `observer`**：页面组件必须使用 `observer()` 包裹导出，不要使用 `useObserver` hook 和旧封装的 `ob`
+3. **必须使用 `import type`**：仅用于类型的位置必须使用 `import type { ... }` 语法
+4. **header 组件独立**：页面头部（TinygrailHeader / Header）应独立放在 `header/` 目录，不要内联在 index.tsx 中
+5. **回调使用 `useCallback`**：headerRight 必须用 `useCallback` 包裹
+
+```tsx
+const handleHeaderRight = useCallback(
+  () => <IconHeader name='md-info-outline' onPress={handlePress} />,
+  []
+)
+
+return <Header title='标题' hm={HM} headerRight={handleHeaderRight} />
+```
+6. **埋点 `t()` 置后**：先执行核心业务逻辑（如 alert、导航），后执行 `t()` 埋点调用

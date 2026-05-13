@@ -4,17 +4,14 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-02-07 07:55:07
  */
-import type { Navigation } from '@types'
+import type { GetRouteParams, RouteTinygrail, WithNavigation } from '@types'
 import type Store from './store'
 
-export type Ctx = {
+export type Ctx = WithNavigation<{
   $: InstanceType<typeof Store>
-  navigation?: Navigation
-}
+}>
 
-export type Params = {
-  fromBottomTab?: boolean
-}
+export type Params = GetRouteParams<RouteTinygrail>
 
 export type Bonus = {
   Amount: number

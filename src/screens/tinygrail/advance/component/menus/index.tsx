@@ -5,14 +5,16 @@
  * @Last Modified time: 2024-11-20 12:11:07
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex } from '@components'
-import { ob } from '@utils/decorators'
-import { Navigation } from '@types'
 import MenuItem from '../menu-item'
 import { memoStyles } from './styles'
 
-function Menus({ navigation }: { navigation: Navigation }) {
+import type { WithNavigation } from '@types'
+
+function Menus({ navigation }: WithNavigation) {
   const styles = memoStyles()
+
   return (
     <Flex style={styles.section} wrap='wrap'>
       <MenuItem
@@ -41,12 +43,6 @@ function Menus({ navigation }: { navigation: Navigation }) {
         pathname='TinygrailAdvanceAuction2'
         icon='md-gavel'
       />
-      {/* <MenuItem
-        navigation={navigation}
-        title='献祭推荐'
-        pathname='TinygrailAdvanceSacrifice'
-        icon='md-workspaces-outline'
-      /> */}
       <MenuItem
         navigation={navigation}
         title='低价股'
@@ -63,4 +59,4 @@ function Menus({ navigation }: { navigation: Navigation }) {
   )
 }
 
-export default ob(Menus)
+export default observer(Menus)
