@@ -141,3 +141,4 @@ const handleHeaderRight = useCallback(
 return <Header title='标题' hm={HM} headerRight={handleHeaderRight} />
 ```
 6. **埋点 `t()` 置后**：先执行核心业务逻辑（如 alert、导航），后执行 `t()` 埋点调用
+7. **页面子组件放 `component/` 目录**：除 header 外的页面私有子组件必须放在 `component/` 目录下，不要与页面根目录平级

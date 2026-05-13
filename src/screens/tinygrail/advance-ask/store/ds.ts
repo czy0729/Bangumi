@@ -5,10 +5,11 @@
  * @Last Modified time: 2024-12-17 00:00:45
  */
 import type { Loaded } from '@types'
+import { COMPONENT } from '../ds'
 
-export const COMPONENT = 'TinygrailAdvanceAsk'
+export const NAMESPACE = `Screen${COMPONENT}`
 
-export const EXCLUDE_STATE = {
-  level: '',
+export const STATE = {
+  level: '' as string,
   _loaded: false as Loaded
 }
