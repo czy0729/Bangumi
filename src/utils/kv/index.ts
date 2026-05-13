@@ -20,11 +20,19 @@ import {
   HOST_COMPLETIONS,
   HOST_HM,
   HOST_PIC_LIST,
+  HOST_RY_MK,
   UPDATE_CACHE_MAP
 } from './ds'
 
 import type { TranslateResult, UserId } from '@types'
-import type { Result, ResultCollectList, ResultHeatmap, ResultPicList, ResultTemp } from './type'
+import type {
+  GroupTopicsResult,
+  Result,
+  ResultCollectList,
+  ResultHeatmap,
+  ResultPicList,
+  ResultTemp
+} from './type'
 
 let userAgent = ''
 
@@ -468,8 +476,10 @@ export async function completions(
     const text = response?.data?.choices?.[0]?.message?.content || ''
     return text
   } catch (error) {
-    return ''
+    err('completions', error)
   }
+
+  return ''
 }
 
 async function c2(prompt: string, roleSystem: string, roleUser: string) {
@@ -503,8 +513,10 @@ async function c2(prompt: string, roleSystem: string, roleUser: string) {
     const text = response?.data?.choices?.[0]?.message?.content || ''
     return text
   } catch (error) {
-    return ''
+    err('c2', error)
   }
+
+  return ''
 }
 
 export async function picList(prefix: string, maxKeys: number = 100): Promise<ResultPicList> {
@@ -519,7 +531,9 @@ export async function picList(prefix: string, maxKeys: number = 100): Promise<Re
     if (data?.success && Array.isArray(data?.files) && data.files.length) {
       return data.files
     }
-  } catch {}
+  } catch (error) {
+    err('picList', error)
+  }
 
   return null
 }
@@ -538,6 +552,47 @@ export async function heatmap(username: UserId): Promise<false | ResultHeatmap> 
 
     return response?.data
   } catch (error) {
-    return false
+    err('heatmap', error)
   }
+
+  return false
+}
+
+export async function groupTopics(
+  username: UserId,
+  options: {
+    target?: 'all' | 'title' | 'content'
+    minReplies?: number
+    includeBlocked?: boolean
+    exact?: boolean
+    sort?: 'match' | 'newest' | 'oldest' | 'replies'
+    limit?: number
+    offset?: number
+  } = {}
+): Promise<GroupTopicsResult | null> {
+  if (isDevtoolsOpen()) return Promise.reject('denied')
+
+  const {
+    target = 'title',
+    minReplies = 0,
+    includeBlocked = false,
+    exact = false,
+    sort = 'newest',
+    limit = 100,
+    offset = 0
+  } = options
+
+  try {
+    const { data } = await axios({
+      method: 'get',
+      url: `${HOST_RY_MK}/v1/group-topics?user=${username}&target=${target}&min_replies=${minReplies}&include_blocked=${includeBlocked}&exact=${exact}&sort=${sort}&limit=${limit}&offset=${offset}`
+    })
+
+    const response = data
+    if (response?.data?.length) return response
+  } catch (error) {
+    err('groupTopics', error)
+  }
+
+  return null
 }

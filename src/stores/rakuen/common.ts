@@ -571,3 +571,35 @@ export function getUserTopicsFromCDN(response: string) {
     userName: item.un
   }))
 }
+
+/** 将新接口格式转换为 UserTopicsFromCDNItem 格式 */
+export function convertGroupTopicsToUserTopics(
+  items: {
+    id: number
+    title: string
+    createdAt: number
+    replyCount: number
+    creator: {
+      id: number
+      username: string
+      avatar: {
+        small: string
+      }
+    }
+    group: {
+      title: string
+    }
+  }[]
+): UserTopicsFromCDNItem[] {
+  return items.map(item => ({
+    topicId: `group/${item.id}`,
+    title: item.title,
+    group: item.group.title,
+    date: new Date(item.createdAt * 1000).toISOString().split('T')[0],
+    time: new Date(item.createdAt * 1000).toISOString().split('T')[1].slice(0, 8),
+    avatar: item.creator.avatar.small,
+    userId: String(item.creator.id),
+    userName: item.creator.username,
+    replyCount: item.replyCount
+  }))
+}

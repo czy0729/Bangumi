@@ -259,6 +259,7 @@ export type UserTopicsFromCDNItem = {
   avatar: string // '000/45/62/456208'
   userId: UserId
   userName: string
+  replyCount?: number
 }
 
 /** 用户历史超展开帖子 */

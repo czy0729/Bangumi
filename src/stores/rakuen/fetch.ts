@@ -6,10 +6,9 @@
  */
 import { getTimestamp, HTMLTrim } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
-import { get } from '@utils/kv'
+import { get, groupTopics } from '@utils/kv'
 import {
   CDN_RAKUEN,
-  CDN_RAKUEN_USER_TOPICS,
   FROZEN_FN,
   HTML_BLOG,
   HTML_BOARD,
@@ -21,8 +20,7 @@ import {
   HTML_RAKUEN_HOT,
   HTML_REVIEWS,
   HTML_TOPIC,
-  HTML_TOPIC_EDIT,
-  LIST_EMPTY
+  HTML_TOPIC_EDIT
 } from '@constants'
 import {
   cheerioBlog,
@@ -36,8 +34,8 @@ import {
   cheerioReviews,
   cheerioTopic,
   cheerioTopicEdit,
-  fetchRakuen,
-  getUserTopicsFromCDN
+  convertGroupTopicsToUserTopics,
+  fetchRakuen
 } from './common'
 import Computed from './computed'
 import { DEFAULT_SCOPE, DEFAULT_TYPE, INIT_TOPIC } from './init'
@@ -466,36 +464,42 @@ export default class Fetch extends Computed {
   fetchBlogFormCDN = FROZEN_FN
 
   /** 获取用户历史超展开帖子 */
-  fetchUserTopicsFromCDN = async (userId: UserId) => {
+  fetchUserTopicsFromCDN = async (userId: UserId, refresh: boolean = false) => {
     const STATE_KEY = 'userTopicsFromCDN'
     const ITEM_KEY = userId
 
     try {
-      const { _response } = await xhrCustom({
-        url: CDN_RAKUEN_USER_TOPICS(userId)
+      const data = this[STATE_KEY](ITEM_KEY)
+      const { list, pagination } = data
+      if (!refresh && pagination.page >= pagination.pageTotal) return data
+
+      const page = refresh ? 1 : pagination.page + 1
+      const limit = 20
+      const result = await groupTopics(userId, {
+        sort: 'newest',
+        limit,
+        offset: (page - 1) * limit
       })
 
+      const nextList = result?.data ? convertGroupTopicsToUserTopics(result.data) : []
+      const total = result?.pagination?.total ?? 0
       this.setState({
         [STATE_KEY]: {
           [ITEM_KEY]: {
-            list: getUserTopicsFromCDN(_response),
+            list: refresh ? nextList : [...list, ...nextList],
             pagination: {
-              page: 1,
-              pageTotal: 1
+              page,
+              pageTotal: Math.max(Math.ceil(total / limit) || 1, page)
             },
             _loaded: getTimestamp()
           }
         }
       })
-      return this[STATE_KEY](ITEM_KEY)
     } catch (error) {
-      this.error('fetchUserTopicsFromCDN', error)
+      this.log('fetchUserTopicsFromCDN', error)
     }
 
-    return {
-      ...LIST_EMPTY,
-      _loaded: getTimestamp()
-    }
+    return this[STATE_KEY](ITEM_KEY)
   }
 
   /** 超展开热门数据 */

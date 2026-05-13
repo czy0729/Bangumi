@@ -37,6 +37,10 @@ export const HOST_C2_CONFIG = Crypto.get<string>(
   'U2FsdGVkX1/F1iKuNM/knEoDVrbXS0v4bRtX+zIlkOUhydQ0ce+Vq/rgDMpPoGWYDLyvJD5s7t1ZHnwfZ+1rxcVNf/LlVsPq0FQkyjcyXAkPL90tImgeEeq4O1ytd9/5F4hvBDPX+6SDyOdW2Kt4agWpe8l0pMTRrE7Ezpkzk4JPcy/CCPJfLK+4kxhJxt9g6wXKyN4amC0fYlsboasO+n3t2FJgSlgjYzDBCZO7jC8D4cwwxwcT6wXNULZyrEHd'
 )
 
+export const HOST_RY_MK = Crypto.get<string>(
+  'U2FsdGVkX1/QY9FPVOBqx18teFxOJudcYC0vtV9aUXHtubQlKGI85tYYLVWAob1g'
+)
+
 export const HOST_HM = Crypto.get<string>(
   'U2FsdGVkX1+asNWQt7K0i6LxZhv5NatP0c1eETXeQ+rT/GnP8lXYoUxcXtiNHbw4oyAQrHI4IZC/E1jcpODKQQ=='
 )

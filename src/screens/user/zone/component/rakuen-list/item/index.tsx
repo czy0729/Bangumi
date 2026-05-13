@@ -16,7 +16,16 @@ import { memoStyles } from './styles'
 
 import type { UserTopicsFromCDNItem } from '@stores/rakuen/types'
 
-function Item({ topicId, userName, title, group, date, time, userId }: UserTopicsFromCDNItem) {
+function Item({
+  topicId,
+  userName,
+  title,
+  group,
+  date,
+  time,
+  userId,
+  replyCount
+}: UserTopicsFromCDNItem) {
   const navigation = useNavigation(COMPONENT)
 
   const styles = memoStyles()
@@ -45,9 +54,15 @@ function Item({ topicId, userName, title, group, date, time, userId }: UserTopic
       >
         <Text size={15} bold>
           {title}
+          {!!replyCount && (
+            <Text type='main' size={12} lineHeight={15} bold>
+              {' '}
+              +{replyCount}
+            </Text>
+          )}
         </Text>
         <Text style={_.mt.sm} type='sub' size={12}>
-          {time} / {group}
+          {time.slice(0, 5)} / {group}
         </Text>
       </Touchable>
     </View>

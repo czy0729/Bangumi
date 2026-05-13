@@ -39,3 +39,38 @@ export type ResultHeatmap = {
   date: string
   count: number
 }[]
+
+/** 用户超展开帖子项 */
+export type GroupTopicsItem = {
+  id: number
+  title: string
+  creatorID: number
+  parentID: number
+  replyCount: number
+  createdAt: number
+  creator: {
+    id: number
+    username: string
+    nickname: string
+    avatar: {
+      small: string
+      medium: string
+      large: string
+    }
+  }
+  group: {
+    id: number
+    name: string
+    title: string
+  }
+}
+
+/** 用户超展开帖子结果 */
+export type GroupTopicsResult = {
+  data: GroupTopicsItem[]
+  pagination: {
+    total: number
+    limit: number
+    offset: number
+  }
+}

@@ -113,8 +113,7 @@ export default class Action extends Fetch {
     } else if (title === '时间线') {
       await this.fetchUsersTimeline(true)
     } else if (title === '超展开') {
-      this.checkUserTopicsIsTimeout()
-      await this.fetchUserTopicsFromCDN()
+      await this.fetchUserTopicsFromCDN(true)
     } else if (title === '小圣杯' && !this.fromTinygrail) {
       await this.fetchCharaAssets()
       await this.fetchTempleTotal()
@@ -122,17 +121,6 @@ export default class Action extends Fetch {
     }
 
     setTimeout(() => this.updatePageOffset([0]), 0)
-  }
-
-  /** 若干秒后, 若用户帖子为空, 认为该用户没有发过帖子 */
-  checkUserTopicsIsTimeout = () => {
-    setTimeout(() => {
-      if (this.userTopicsFromCDN.list.length === 0) {
-        this.setState({
-          timeout: true
-        })
-      }
-    }, 3600)
   }
 
   /** 番剧展开分组 */

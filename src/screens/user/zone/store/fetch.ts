@@ -66,8 +66,8 @@ export default class Fetch extends Computed {
   }
 
   /** 用户历史帖子 */
-  fetchUserTopicsFromCDN = () => {
-    return rakuenStore.fetchUserTopicsFromCDN(this.usersInfo.username || this.usersInfo.id)
+  fetchUserTopicsFromCDN = (refresh?: boolean) => {
+    return rakuenStore.fetchUserTopicsFromCDN(this.usersInfo.username || this.usersInfo.id, refresh)
   }
 
   /** 小圣杯 / 用户资产 */

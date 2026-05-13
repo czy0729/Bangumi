@@ -25,9 +25,6 @@ export const EXCLUDE_STATE = {
   /** 是否显示历史头像模态框 */
   visible: false,
 
-  /** 是否查询历史帖子超时 */
-  timeout: false,
-
   /** 是否显示用户原始 Id */
   originUid: false,
 

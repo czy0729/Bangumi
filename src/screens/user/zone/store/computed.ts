@@ -24,8 +24,7 @@ import { H_HEADER, TABS, TABS_WITH_TINYGRAIL } from '../ds'
 import State from './state'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
 
-import type { UserTopicsFromCDN } from '@stores/rakuen/types'
-import type { ImageSource, Override } from '@types'
+import type { ImageSource } from '@types'
 
 export default class Computed extends State {
   /** 本地化 */
@@ -96,24 +95,9 @@ export default class Computed extends State {
     return timelineStore.usersTimeline(this.userId)
   }
 
-  /** 用户历史帖子 (网页没有此功能, 数据为自行整理) */
-  @computed get userTopicsFromCDN(): Override<
-    UserTopicsFromCDN,
-    {
-      _filter?: number
-    }
-  > {
-    const userTopics = rakuenStore.userTopicsFromCDN(this.usersInfo.username || this.usersInfo.id)
-    if (systemStore.advance) return userTopics
-
-    const filterCount = 8
-    if (userTopics.list.length <= filterCount) return userTopics
-
-    return {
-      ...userTopics,
-      list: userTopics.list.filter((_item, index) => index < filterCount),
-      _filter: userTopics.list.length - filterCount
-    }
+  /** 用户历史帖子 */
+  @computed get userTopicsFromCDN() {
+    return rakuenStore.userTopicsFromCDN(this.usersInfo.username || this.usersInfo.id)
   }
 
   /** 用户信息 */
