@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-04 06:26:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-23 23:59:21
+ * @Last Modified time: 2026-05-14 21:16:14
  */
 import { _, collectionStore, uiStore } from '@stores'
 import { debounce, feedback, updateVisibleBottom } from '@utils'
@@ -97,6 +97,7 @@ export default class Action extends Fetch {
     })
 
     const { page } = this.state
+
     this.setState({
       subjectType,
       tag: '',
@@ -181,6 +182,7 @@ export default class Action extends Fetch {
         showFilter: !showFilter,
         filter: ''
       })
+
       setTimeout(() => {
         const { page } = this.state
         this.scrollToOffset[page]?.({
@@ -194,7 +196,7 @@ export default class Action extends Fetch {
         fliterInputText: ''
       })
 
-      // 因为会瞬间触发大量计算, 卡住UI, 需要把关键字延迟入库
+      // 因为会瞬间触发大量计算阻塞 UI, 需要把关键字延迟入库
       setTimeout(() => {
         this.setState({
           filter: ''

@@ -38,8 +38,7 @@ export const ANDROID_DEV_MENU = true
 export const TEXT_ONLY = DEV ? !DEV : false
 
 /** 反代地址 */
-export const HOST_PROXY = 'https://bangumi-app-webproxy-dev.magmablock.top'
-// export const HOST_PROXY = 'http://192.168.31.87:3000'
+export const HOST_PROXY = 'http://192.168.31.87:3000'
 
 /** ==================== 默认路由 ==================== */
 /** 路由覆盖配置 */
@@ -48,7 +47,7 @@ const CONFIGS: Configs = {
   initialRouteParams: {
     // subjectId: 467461 // anime: 296870, music: 302514, book: 267358, game: 283730
     // topicId: 'group/438017' // group/366561
-    // userId: 'imagebuilder183' // 456208, 419012, 'lilyurey'
+    // userId: 'sukaretto' // 456208, 419012, 'lilyurey', 'imagebuilder183'
     // monoId: 'character/109775' // character/70323 person/5745
     // id: 55723902
     // ids: [72649, 59610, 59611, 72648, 72650, 72651, 72652, 74522, 75203, 75207]

@@ -1,14 +1,13 @@
 /*
  * @Author: czy0729
- * @Date: 2022-03-16 16:30:53
+ * @Date: 2023-03-19 16:50:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-14 21:43:39
+ * @Last Modified time: 2026-05-14 08:40:19
  */
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useRef } from 'react'
 import { Animated } from 'react-native'
 import { observer } from 'mobx-react'
-import { Flex } from '@components'
-import { _, uiStore, useStore } from '@stores'
+import { _, useStore } from '@stores'
 import { H_HEADER } from '../ds'
 import ParallaxImage from './parallax-image'
 import Tab from './tab'
@@ -17,33 +16,30 @@ import { COMPONENT, FIXED_OFFSET } from './ds'
 import type { ScrollEvent } from '@types'
 import type { Ctx } from '../types'
 
-/** iOS 和 WEB 用 */
+/** WEB 用 */
 function Scroll() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  const { page } = $.state
   const fixedHeight = $.fixedHeight ?? _.parallaxImageHeight - H_HEADER
 
   const scrollY = useRef(new Animated.Value(0))
   const y = useRef(0)
-
-  const fixedRef = useRef(false)
-  const [fixed, setFixed] = useState(false)
+  const fixed = useRef(false)
 
   const handleScrollCallback = useCallback(
     (e: ScrollEvent) => {
       $.onScroll(e)
-      y.current = e.nativeEvent.contentOffset.y
 
-      if (fixedRef.current && y.current < fixedHeight - FIXED_OFFSET) {
-        fixedRef.current = false
-        setFixed(false)
+      const { y: evtY } = e.nativeEvent.contentOffset
+      y.current = evtY
+
+      if (fixed.current && evtY < fixedHeight - FIXED_OFFSET) {
+        fixed.current = false
         return
       }
 
-      if (!fixedRef.current && y.current >= fixedHeight - FIXED_OFFSET) {
-        fixedRef.current = true
-        setFixed(true)
+      if (!fixed.current && evtY >= fixedHeight - FIXED_OFFSET) {
+        fixed.current = true
       }
     },
     [fixedHeight, $]
@@ -55,64 +51,63 @@ function Scroll() {
 
       try {
         const config = {
-          offset: fixed ? fixedHeight : Math.min(y.current, fixedHeight),
+          offset: fixed.current ? fixedHeight : y.current,
           animated: false
-        } as const
+        }
 
         if (Array.isArray(offsets)) {
           offsets.forEach(item => {
-            if (typeof $.scrollToOffset[page + item] === 'function') {
-              $.scrollToOffset[page + item](config)
+            if (typeof $.scrollToOffset[$.state.page + item] === 'function') {
+              $.scrollToOffset[$.state.page + item](config)
             }
           })
         }
 
-        if (typeof offsets === 'number' && typeof $.scrollToOffset[offsets] === 'function') {
-          $.scrollToOffset[offsets](config)
+        if (typeof offsets === 'number') {
+          if (typeof $.scrollToOffset[offsets] === 'function') {
+            $.scrollToOffset[offsets](config)
+          }
         }
       } catch {}
     },
-    [fixed, fixedHeight, $, page]
+    [fixedHeight, $]
   )
 
   const handleSwipeStart = useCallback(() => {
     handleUpdatePageOffset([-1, 1])
-
-    uiStore.closeAll()
   }, [handleUpdatePageOffset])
 
   const handleIndexChange = useCallback(
     (index: number) => {
       $.onChange(index)
-
-      requestAnimationFrame(() => {
+      setTimeout(() => {
         handleUpdatePageOffset([0])
-      })
+      }, 0)
     },
     [$, handleUpdatePageOffset]
   )
 
   const handleRefreshOffset = useCallback(
     (offsets: number | number[] = [0]) => {
-      requestAnimationFrame(() => {
+      setTimeout(() => {
         handleUpdatePageOffset(offsets)
-      })
+      }, 0)
     },
     [handleUpdatePageOffset]
   )
 
   return (
-    <Flex.Item>
+    <>
       <Tab
-        page={page}
+        page={$.state.page}
         scrollY={scrollY.current}
         onScroll={handleScrollCallback}
         onSwipeStart={handleSwipeStart}
         onIndexChange={handleIndexChange}
         onRefreshOffset={handleRefreshOffset}
       />
-      <ParallaxImage scrollY={scrollY.current} fixed={fixed} />
-    </Flex.Item>
+      <ParallaxImage scrollY={scrollY.current} fixed={fixed.current} />
+    </>
   )
 }
 

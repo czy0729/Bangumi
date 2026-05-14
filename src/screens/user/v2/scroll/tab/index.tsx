@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-03-19 04:52:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-23 17:46:58
+ * @Last Modified time: 2026-05-14 21:46:07
  */
 import React, { useCallback, useMemo, useRef } from 'react'
 import { Animated } from 'react-native'
+import { observer } from 'mobx-react'
 import { SceneMap, TabView } from '@components'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
@@ -95,4 +96,4 @@ function Tab({ page, scrollY, onIndexChange, onScroll, onSwipeStart, onRefreshOf
   )
 }
 
-export default Tab
+export default observer(Tab)

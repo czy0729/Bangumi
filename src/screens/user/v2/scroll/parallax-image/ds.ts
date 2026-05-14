@@ -4,43 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-15 06:49:46
  */
-import { Animated } from 'react-native'
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
 
-import type { ImagesAvatar, Navigation, UserId } from '@types'
-import type { memoStyles } from './styles'
-
 export const COMPONENT = rc(PARENT, 'ParallaxImage')
-
-export const COMPONENT_MAIN = rc(COMPONENT)
-
-export const DATA_ME = [
-  '我的空间',
-  '我的好友',
-  '我的人物',
-  '我的目录',
-  '我的日志',
-  '我的词云',
-  '我的时间线',
-  '我的netaba.re'
-] as const
-
-export const DATA_OTHER = ['TA的好友', 'TA的netaba.re'] as const
-
-export const DEFAULT_PROPS = {
-  navigation: {} as Navigation,
-  themeStyles: {} as ReturnType<typeof memoStyles>,
-  parallaxImageHeight: 0 as number,
-  avatar: {} as ImagesAvatar,
-  fixed: false as boolean,
-  id: '' as UserId,
-  myUserId: '' as UserId,
-  nickname: '' as string,
-  paramsUserId: '' as UserId,
-  scrollY: new Animated.Value(0),
-  src: '' as string,
-  userId: '' as UserId,
-  username: '' as string,
-  userSensor: true as boolean
-} as const

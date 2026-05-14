@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-06-06 05:26:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-09 00:47:42
+ * @Last Modified time: 2026-05-14 19:46:52
  */
 import { _ } from '@stores'
 import { IS_IOS_5_6_7_8 } from '@styles'
 import { H_RADIUS_LINE } from '../../ds'
 
 export const memoStyles = _.memoStyles(() => {
+  const height = _.parallaxImageHeight + H_RADIUS_LINE / 2
   const backgroundColor = _.select(
     _.colorPlain,
     _.deepDark ? _._colorPlain : _._colorDarkModeLevel1
@@ -16,13 +17,13 @@ export const memoStyles = _.memoStyles(() => {
 
   return {
     head: {
-      height: '100%',
+      height,
       paddingTop: H_RADIUS_LINE,
       overflow: 'hidden'
     },
     parallaxBg: {
-      height: _.parallaxImageHeight + 8,
-      marginTop: -8,
+      height,
+      marginTop: -(H_RADIUS_LINE / 2),
       backgroundColor,
       overflow: 'hidden'
     },
@@ -99,9 +100,10 @@ export const styles = _.create({
     opacity: 0.88
   },
   sensor: {
+    position: 'absolute',
     zIndex: 1,
-    marginTop: _.parallaxImageHeight - 102 + _.ios(IS_IOS_5_6_7_8 ? -6 : -6, -4),
-    marginRight: 3,
+    bottom: _.lg,
+    right: 11,
     opacity: 0.8
   },
   touch: {

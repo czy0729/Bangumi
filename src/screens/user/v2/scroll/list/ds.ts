@@ -5,29 +5,6 @@
  * @Last Modified time: 2025-10-24 08:44:17
  */
 import { rc } from '@utils/dev'
-import { FROZEN_FN, LIST_EMPTY } from '@constants'
 import { COMPONENT as PARENT } from '../ds'
 
-import type { Ctx } from '../../types'
-import type { memoStyles } from './styles'
-
 export const COMPONENT = rc(PARENT, 'List')
-
-export const COMPONENT_MAIN = rc(COMPONENT)
-
-type $ = Ctx['$']
-
-export const DEFAULT_PROPS = {
-  styles: {} as ReturnType<typeof memoStyles>,
-  forwardRef: FROZEN_FN as $['forwardRef'],
-  scrollY: 0 as any,
-  page: 0 as number,
-  list: true as boolean,
-  userPagination: false as boolean,
-  userGridNum: 4 as number,
-  userCollections: LIST_EMPTY as ReturnType<$['userCollections']>,
-  onScroll: FROZEN_FN,
-  onRefreshOffset: FROZEN_FN,
-  onHeaderRefresh: FROZEN_FN,
-  onFooterRefresh: FROZEN_FN
-}

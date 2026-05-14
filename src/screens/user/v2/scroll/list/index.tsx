@@ -1,16 +1,20 @@
 /*
  * @Author: czy0729
- * @Date: 2023-03-21 16:47:14
+ * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 06:16:57
+ * @Last Modified time: 2026-05-14 21:43:52
  */
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
+import { Animated, View } from 'react-native'
 import { observer } from 'mobx-react'
+import { ListView } from '@components'
 import { _, systemStore, useStore } from '@stores'
-import { getKeyString } from '@utils'
-import { MODEL_COLLECTION_STATUS } from '@constants'
+import { getKeyString, keyExtractor } from '@utils'
+import { MODEL_COLLECTION_STATUS, USE_NATIVE_DRIVER } from '@constants'
+import FixedToolBar from '../../component/fixed-tool-bar'
+import Item from '../../component/item'
 import Loading from '../../component/loading'
-import List from './list'
+import Pagination from '../../component/pagination'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
@@ -18,41 +22,107 @@ import type { CollectionStatus } from '@types'
 import type { Ctx } from '../../types'
 import type { Props } from './types'
 
-function ListWrap({ page, title, scrollY, onScroll, onRefreshOffset }: Props) {
+function List({ page, title, scrollY, onScroll, onRefreshOffset }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const handleHeaderRefresh = useCallback(() => $.fetchIsNeedToEnd(true), [$])
 
-  const elLoading = <Loading />
-  if (!$.state._loaded) return elLoading
+  const handleScroll = useMemo(
+    () =>
+      Animated.event(
+        [
+          {
+            nativeEvent: {
+              contentOffset: {
+                y: scrollY
+              }
+            }
+          }
+        ],
+        {
+          useNativeDriver: USE_NATIVE_DRIVER,
+          listener: onScroll
+        }
+      ),
+    [onScroll, scrollY]
+  )
+
+  const handleRef = useCallback(
+    (ref: { scrollToIndex: any; scrollToOffset: any }) => {
+      $.forwardRef(ref, page)
+    },
+    [$, page]
+  )
+
+  const handleRenderItem = useCallback(
+    ({ item, index }) => <Item item={item} index={index} page={page} />,
+    [page]
+  )
+
+  const handleLayout = useCallback(() => {
+    onRefreshOffset(page)
+
+    requestAnimationFrame(() => {
+      onRefreshOffset(page)
+    })
+  }, [onRefreshOffset, page])
+
+  if (!$.state._loaded) return <Loading />
 
   const { subjectType, list } = $.state
   const userCollections = $.userCollections(
     subjectType,
     MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(title)
   )
-  if (!userCollections._loaded) return elLoading
+  if (!userCollections._loaded) return <Loading />
 
   const { userPagination, userGridNum } = systemStore.setting
   const num = Number(userGridNum) + (_.isLandscape ? 1 : 0)
+  const numColumns = list ? undefined : num
+
+  const { page: pageCurrent, pageTotal } = userCollections.pagination
+  const themeStyles = memoStyles()
+
+  const ListHeaderComponent = (
+    <>
+      <View style={themeStyles.header} />
+      <FixedToolBar
+        page={page}
+        pageCurrent={pageCurrent}
+        pageTotal={pageTotal}
+        onRefreshOffset={onRefreshOffset}
+      />
+    </>
+  )
+
+  const passProps: any = {}
+  if (userPagination) {
+    passProps.ListFooterComponent = <Pagination pageTotal={pageTotal} />
+  } else {
+    passProps.onHeaderRefresh = handleHeaderRefresh
+    passProps.onFooterRefresh = $.fetchUserCollections
+  }
 
   return (
-    <List
+    <ListView
       key={getKeyString(_.orientation, subjectType, userGridNum)}
-      styles={memoStyles()}
-      forwardRef={$.forwardRef}
-      scrollY={scrollY}
-      page={page}
-      list={list}
-      userPagination={userPagination}
-      userGridNum={num}
-      userCollections={userCollections}
-      onScroll={onScroll}
-      onRefreshOffset={onRefreshOffset}
-      onHeaderRefresh={handleHeaderRefresh}
-      onFooterRefresh={$.fetchUserCollections}
+      ref={handleRef}
+      keyExtractor={keyExtractor}
+      style={themeStyles.listView}
+      contentContainerStyle={list ? themeStyles.list : themeStyles.grid}
+      animated
+      data={userCollections}
+      numColumns={numColumns}
+      progressViewOffset={_.parallaxImageHeight + 32}
+      keyboardDismissMode='on-drag'
+      renderItem={handleRenderItem}
+      ListHeaderComponent={ListHeaderComponent}
+      scrollEventThrottle={16}
+      onLayout={handleLayout}
+      onScroll={handleScroll}
+      {...passProps}
     />
   )
 }
 
-export default observer(ListWrap)
+export default observer(List)
