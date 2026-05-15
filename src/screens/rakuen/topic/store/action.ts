@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:09:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-05 20:33:33
+ * @Last Modified time: 2026-05-15 22:35:06
  */
 import { toJS } from 'mobx'
 import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
@@ -362,6 +362,24 @@ export default class Action extends Fetch {
     this.save()
 
     feedback(true)
+  }
+
+  /** 显示相关帖子 */
+  showRecommend = () => {
+    this.setState({
+      recommendVisible: true
+    })
+
+    if (!this.state.recommendTopics.list.length) {
+      this.fetchRecommendTopics()
+    }
+  }
+
+  /** 隐藏相关帖子 */
+  hideRecommend = () => {
+    this.setState({
+      recommendVisible: false
+    })
   }
 
   // -------------------- action --------------------

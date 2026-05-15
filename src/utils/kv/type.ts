@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-27 07:41:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-14 16:48:10
+ * @Last Modified time: 2026-05-15 06:16:48
  */
 export type Result<T = any> = Record<any, any> & {
   code: 200 | 400
@@ -66,11 +66,33 @@ export type GroupTopicsItem = {
 }
 
 /** 用户超展开帖子结果 */
-export type GroupTopicsResult = {
+export type ResultGroupTopics = {
   data: GroupTopicsItem[]
   pagination: {
     total: number
     limit: number
     offset: number
   }
+}
+
+/** 推荐帖子项 */
+export type RecommendTopicItem = {
+  id: number
+  title: string
+  similarity: number
+  url: string
+  group_slug: string
+  created_at: string
+  reply_count: number
+  group_name: string
+  user_username: string
+  user_nickname: string
+  user_avatar: string
+}
+
+/** 推荐帖子结果 */
+export type ResultRecommendTopics = {
+  topic_id: number
+  recommendations: RecommendTopicItem[]
+  execution_time_ms: number
 }

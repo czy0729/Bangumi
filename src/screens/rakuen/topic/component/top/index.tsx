@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-09 00:53:23
+ * @Last Modified time: 2026-05-15 22:43:55
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Divider, Expand, HeaderPlaceholder, Text } from '@components'
 import { _, useStore } from '@stores'
+import Recommend from '../recommend'
 import Author from './author'
 import Content from './content'
 import Ep from './ep'
 import GroupInfo from './group-info'
-// import Milestone from './milestone'
 import SectionTitle from './section-title'
 import Title from './title'
 import { COMPONENT } from './ds'
@@ -30,7 +30,6 @@ function Top() {
     <>
       <HeaderPlaceholder />
       <View style={styles.top}>
-        {/* <Milestone /> */}
         <Title />
         <GroupInfo />
         {$.topicId.includes('group/') && <Author />}
@@ -46,6 +45,7 @@ function Top() {
             数据库中没有查询到指定话题{'\n'}话题可能正在审核或已被删除
           </Text>
         )}
+        {$.isTopic && <Recommend />}
       </View>
       <Divider />
       <Ep />

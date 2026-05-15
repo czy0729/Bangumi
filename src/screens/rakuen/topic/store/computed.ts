@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:01:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-05 20:33:51
+ * @Last Modified time: 2026-05-15 22:43:45
  */
 import { computed } from 'mobx'
 import { rakuenStore, subjectStore, systemStore, usersStore, userStore } from '@stores'
@@ -22,13 +22,13 @@ export default class Computed extends State {
     return this.saveStorage(common ? NAMESPACE : this.namespace, EXCLUDE_STATE)
   }
 
-  /** 帖子 id */
+  /** 帖子 ID */
   @computed get topicId() {
     const { topicId = '' } = this.params
     return (topicId ? topicId.split('#')?.[0] || '' : '0') as TopicId
   }
 
-  /** 需要跳转到的楼层 id */
+  /** 需要跳转到的楼层 ID */
   @computed get postId() {
     const { topicId = '' } = this.params
     return topicId.split('#post_')?.[1]
@@ -262,6 +262,11 @@ export default class Computed extends State {
 
       return CacheManager.set(key, data)
     })
+  }
+
+  /** 是否小组 */
+  @computed get isTopic() {
+    return this.topicId.indexOf('group/') === 0
   }
 
   /** 是否章节 */

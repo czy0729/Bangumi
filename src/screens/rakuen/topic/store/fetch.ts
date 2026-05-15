@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:05:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-20 11:58:37
+ * @Last Modified time: 2026-05-15 23:02:46
  */
 import { rakuenStore, subjectStore } from '@stores'
-import { getTimestamp, omit } from '@utils'
-import { get, update } from '@utils/kv'
+import { feedback, getTimestamp, info, omit } from '@utils'
+import { get, recommendTopics, update } from '@utils/kv'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { H } from '@constants'
 import Computed from './computed'
@@ -67,6 +67,51 @@ export default class Fetch extends Computed {
 
       if (_loaded - ts >= H * 4) this.updateTopicThirdParty()
     } catch {}
+  }
+
+  /** 获取相关帖子 */
+  fetchRecommendTopics = async () => {
+    if (this.state.recommendLoading) return
+
+    const topicId = Number(String(this.topicId).match(/\d+/g)?.[0])
+    if (!topicId) return
+
+    this.setState({
+      recommendLoading: true
+    })
+
+    const { recommendTopics: existing } = this.state
+    const { list, pagination } = existing
+    const offset = list.length
+    const limit = 10
+    const result = await recommendTopics(topicId, {
+      limit,
+      offset
+    })
+
+    this.setState({
+      recommendLoading: false
+    })
+
+    if (!result) {
+      if (!list.length) info('获取相关帖子失败')
+      return
+    }
+
+    const page = pagination.page + 1
+    this.setState({
+      recommendTopics: {
+        list: [...list, ...result.recommendations],
+        pagination: {
+          page,
+          pageTotal: result.recommendations.length === limit ? page + 1 : page
+        },
+        _loaded: getTimestamp()
+      }
+    })
+    feedback(true)
+
+    this.save()
   }
 
   /** 上传帖子预数据 */

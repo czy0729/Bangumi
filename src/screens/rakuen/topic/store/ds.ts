@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-09-28 17:50:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-15 23:20:16
+ * @Last Modified time: 2026-05-15 22:35:49
  */
 import { _ } from '@stores'
 import { COMPONENT } from '../ds'
 
 import type { Comments, Topic } from '@stores/rakuen/types'
-import type { CompletionItem, Id, Loaded, TranslateResult } from '@types'
+import type { CompletionItem, Id, ListEmpty, Loaded, TranslateResult } from '@types'
+import type { RecommendTopicItem } from '@utils/kv/type'
 import type { FilterType } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
@@ -77,7 +78,23 @@ export const EXCLUDE_STATE = {
   chatModalVisible: false,
 
   /** 锐评请求中 */
-  chatLoading: false
+  chatLoading: false,
+
+  /** 相关帖子结果 */
+  recommendTopics: {
+    list: [],
+    pagination: {
+      page: 0,
+      pageTotal: 0
+    },
+    _loaded: 0
+  } as ListEmpty<RecommendTopicItem>,
+
+  /** 是否显示相关帖子 */
+  recommendVisible: false,
+
+  /** 相关帖子请求中 */
+  recommendLoading: false
 }
 
 export const STATE = {

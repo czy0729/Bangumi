@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-23 01:47:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-02 13:38:46
+ * @Last Modified time: 2026-05-15 23:00:57
  */
 import Constants from 'expo-constants'
 import { WEB } from '@constants/device'
@@ -26,11 +26,12 @@ import {
 
 import type { TranslateResult, UserId } from '@types'
 import type {
-  GroupTopicsResult,
   Result,
   ResultCollectList,
+  ResultGroupTopics,
   ResultHeatmap,
   ResultPicList,
+  ResultRecommendTopics,
   ResultTemp
 } from './type'
 
@@ -569,7 +570,7 @@ export async function groupTopics(
     limit?: number
     offset?: number
   } = {}
-): Promise<GroupTopicsResult | null> {
+): Promise<ResultGroupTopics | null> {
   if (isDevtoolsOpen()) return Promise.reject('denied')
 
   const {
@@ -592,6 +593,31 @@ export async function groupTopics(
     if (response?.data?.length) return response
   } catch (error) {
     err('groupTopics', error)
+  }
+
+  return null
+}
+
+export async function recommendTopics(
+  topicId: number,
+  options: {
+    limit?: number
+    offset?: number
+  }
+): Promise<ResultRecommendTopics | null> {
+  if (isDevtoolsOpen()) return Promise.reject('denied')
+
+  const { limit = 10, offset = 0 } = options
+
+  try {
+    const { data } = await axios({
+      method: 'get',
+      url: `${HOST_RY_MK}/recommend/topics/${topicId}?limit=${limit}&offset=${offset}`
+    })
+
+    if (data?.recommendations?.length) return data
+  } catch (error) {
+    err('recommendTopics', error)
   }
 
   return null
