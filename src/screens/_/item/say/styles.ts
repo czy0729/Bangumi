@@ -7,7 +7,7 @@
 import { _ } from '@stores'
 import { AVATAR_SIZE } from './ds'
 
-const MARGIN = 28
+const MARGIN = _.r(28)
 
 export const memoStyles = _.memoStyles(() => ({
   avatarWrap: {
@@ -36,15 +36,15 @@ export const memoStyles = _.memoStyles(() => ({
   },
   text: {
     maxWidth: '100%',
-    paddingVertical: 12,
-    paddingHorizontal: 18,
-    marginRight: 24,
+    paddingVertical: _.r(12),
+    paddingHorizontal: _.r(18),
+    marginRight: _.r(24),
     backgroundColor: _.colorPlain,
     borderRadius: _.radiusSm
   },
   textActive: {
     marginRight: 0,
-    marginLeft: 24,
+    marginLeft: _.r(24),
     borderBottomWidth: 3,
     borderBottomColor: _.colorPrimary,
     borderTopLeftRadius: _.radiusSm

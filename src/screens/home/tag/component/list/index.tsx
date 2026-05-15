@@ -23,7 +23,7 @@ function List() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const { list, hide, fixed, meta, order } = $.state
-  const numColumns = list ? undefined : _.portrait(3, 5)
+  const numColumns = list ? undefined : _.portrait(_.device(3, 4), 5)
 
   const elToolBar = useMemo(() => <ToolBar />, [])
   const elListHeaderComponent = useMemo(

@@ -32,6 +32,6 @@ export const memoStyles = _.memoStyles(() => ({
   },
   rec: {
     top: 12,
-    right: _._wind
+    right: _.wind
   }
 }))

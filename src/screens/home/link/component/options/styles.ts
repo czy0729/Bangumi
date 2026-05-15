@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2025-12-16 03:43:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-17 04:21:30
+ * @Last Modified time: 2026-05-16 02:04:50
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   container: {
     paddingTop: _.md,
-    paddingHorizontal: _.wind
+    paddingHorizontal: _._wind
   },
   item: {
     paddingVertical: 6,
@@ -37,6 +37,10 @@ export const memoStyles = _.memoStyles(() => ({
     zIndex: 1,
     top: -4,
     right: _._wind + 2
+  },
+  notice: {
+    marginTop: _.md,
+    marginHorizontal: _._wind
   },
   switch: {
     marginRight: -4,

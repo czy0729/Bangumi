@@ -17,7 +17,7 @@ export const styles = _.create({
   },
   title: {
     position: 'absolute',
-    left: _.wind + 32,
+    left: _._wind + 32,
     bottom: H_RADIUS_LINE + 15
   },
   avatar: {

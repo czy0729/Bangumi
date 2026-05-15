@@ -15,12 +15,14 @@ import { useBoolean } from '@utils/hooks'
 import { REASONS, REASONS_INFO } from '../../ds'
 import Input from '../input'
 import { COMPONENT } from './ds'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
 import type { WithNavigation } from '@types'
 
 function Setting({ navigation, length }: WithNavigation<{ length: number }>) {
   r(COMPONENT)
+
+  const styles = memoStyles()
 
   const { state, setTrue, setFalse } = useBoolean(false)
 
@@ -29,7 +31,13 @@ function Setting({ navigation, length }: WithNavigation<{ length: number }>) {
   return (
     <>
       <IconTouchable name='icon-setting' size={19} color={_.colorDesc} onPress={setTrue} />
-      <ActionSheet show={state} title='设置' height={800} onClose={setFalse}>
+      <ActionSheet
+        contentContainerStyle={styles.container}
+        show={state}
+        title='设置'
+        height={800}
+        onClose={setFalse}
+      >
         <View style={styles.share}>
           <IconTouchable
             name='md-info-outline'

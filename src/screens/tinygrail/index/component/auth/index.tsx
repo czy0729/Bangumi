@@ -26,7 +26,7 @@ function Auth() {
   const src = tinygrailOSS(avatar?.large)
 
   return (
-    <Flex style={_.mb.sm}>
+    <Flex style={styles.auth}>
       {!$.params.fromBottomTab && (
         <IconBack style={styles.back} navigation={navigation} color={_.colorTinygrailPlain} />
       )}

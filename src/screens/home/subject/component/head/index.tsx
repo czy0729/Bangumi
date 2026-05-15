@@ -39,7 +39,7 @@ function HeadWrap({ onBlockRef }: Props) {
       <View
         ref={ref => onBlockRef(ref, TITLE_HEAD)}
         style={{
-          paddingTop: _.r(statusBarHeight),
+          paddingTop: _.r(statusBarHeight) + _.device(0, 24),
           marginTop: _.ios(_.r(statusBarHeight) + 48, -80)
         }}
       >

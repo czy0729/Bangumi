@@ -9,7 +9,7 @@ import { _ } from '@stores'
 export const memoStyles = _.memoStyles(() => ({
   scroll: {
     marginTop: _.md,
-    marginHorizontal: -_.wind
+    marginHorizontal: -_._wind
   },
   container: {
     paddingHorizontal: _._wind

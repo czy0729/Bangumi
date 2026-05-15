@@ -7,7 +7,7 @@
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => {
-  const height = _.isMobileLanscape ? 132 : 244
+  const height = _.r(_.isMobileLanscape ? 132 : 244)
 
   return {
     container: {

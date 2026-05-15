@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 06:15:03
+ * @Last Modified time: 2026-05-16 04:42:06
  */
 import React, { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { Loading } from '@components'
-import { systemStore, useStore } from '@stores'
+import { _, systemStore, useStore } from '@stores'
+import { getKeyString } from '@utils'
 import { MODEL_COLLECTION_STATUS } from '@constants'
 import { TABS } from '../../ds'
 import List from './list'
@@ -27,7 +28,7 @@ function ListWrap({ title }: Props) {
   const elLoading = <Loading style={styles.loading} />
   if (!$.state._loaded) return elLoading
 
-  const { userPagination } = systemStore.setting
+  const { userGridNum, userPagination } = systemStore.setting
   const { subjectType, list } = $.state
   const page = TABS.findIndex(item => item.title === title)
   const data = $.userCollections(
@@ -36,12 +37,9 @@ function ListWrap({ title }: Props) {
   )
   if (!$.loadedPage(page) || !data?._loaded) return elLoading
 
-  let key = `${subjectType}|${list}`
-  if (userPagination) key += data.pagination.page
-
   return (
     <List
-      key={key}
+      key={getKeyString(_.orientation, subjectType, userGridNum, list)}
       styles={styles}
       forwardRef={$.forwardRef}
       list={list}

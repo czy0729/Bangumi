@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-03-15 01:43:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-27 06:29:09
+ * @Last Modified time: 2026-05-16 02:13:39
  */
 import React from 'react'
-import { Image, ScrollView, Text, Touchable } from '@components'
+import { Flex, Image, ScrollView, Text, Touchable } from '@components'
 import { InView } from '@_'
 import { _, useStore } from '@stores'
 import { showImageViewer } from '@utils'
@@ -60,11 +60,13 @@ function List() {
     }))
 
     return (
-      <ScrollView style={_.mt.sm} contentContainerStyle={_.container.bottom} onScroll={$.onScroll}>
+      <ScrollView style={_.mt.sm} contentContainerStyle={styles.container} onScroll={$.onScroll}>
         {images.map((item, index) => (
           <InView key={item} style={styles.item} y={styles.item.minHeight * (index + 1)}>
             <Touchable withoutFeedback onPress={() => showImageViewer(viewerData, index)}>
-              <Image {...passProps} src={item} headers={headers} errorToHide />
+              <Flex>
+                <Image {...passProps} src={item} headers={headers} errorToHide />
+              </Flex>
             </Touchable>
           </InView>
         ))}

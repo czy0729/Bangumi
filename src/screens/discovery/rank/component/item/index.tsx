@@ -41,7 +41,7 @@ function Item({ item, index }: Props) {
       )
     }
 
-    const num = _.portrait(3, 5)
+    const num = _.portrait(_.device(3, 4), 5)
 
     return (
       <ItemCollectionsGrid

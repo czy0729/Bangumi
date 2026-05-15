@@ -4,9 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-24 19:38:51
  */
-import { IOS, PAD, TIMELINE_TYPE } from '@constants'
+import { TIMELINE_TYPE } from '@constants'
 import { EVENT_APP_TAB_PRESS } from '@src/navigations/tab-bar'
-import { STATUS_BAR_HEIGHT } from '@styles'
 
 export const COMPONENT = 'Timeline'
 
@@ -16,5 +15,3 @@ export const TABS = TIMELINE_TYPE.map(item => ({
   title: item.label,
   key: item.value
 })).filter(item => !!item.title)
-
-export const H_TABBAR = 48 + (IOS && PAD ? STATUS_BAR_HEIGHT : 0)

@@ -45,6 +45,7 @@ function Header({ style }: WithViewStyles) {
     <Animated.View style={stl(styles.parallaxWrap, style, memoParallaxStyle)}>
       <Flex style={styles.title}>
         <Avatar
+          key={$.src}
           style={styles.avatar}
           size={28}
           src={$.src}

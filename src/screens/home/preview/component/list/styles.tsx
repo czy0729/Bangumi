@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-21 13:28:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-06 15:53:45
+ * @Last Modified time: 2026-05-16 02:12:04
  */
 import { _ } from '@stores'
 
@@ -11,6 +11,10 @@ export const memoStyles = _.memoStyles(() => {
   const height = Math.floor(width * 0.56)
 
   return {
+    container: {
+      paddingHorizontal: _.wind - _._wind,
+      paddingBottom: _.bottom
+    },
     item: {
       width,
       minHeight: height,

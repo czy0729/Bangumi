@@ -7,7 +7,7 @@
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => {
-  const width = _.windowSm.contentWidth * _.device(0.34, 0.42)
+  const width = Math.floor(_.windowSm.contentWidth * 0.34)
 
   return {
     item: {

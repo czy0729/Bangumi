@@ -7,6 +7,9 @@
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
+  auth: {
+    marginBottom: _.sm
+  },
   back: {
     marginLeft: -8,
     marginRight: _.xs

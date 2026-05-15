@@ -11,7 +11,7 @@ export const memoStyles = _.memoStyles(() => ({
     marginRight: -4,
     transform: [
       {
-        scale: _.device(0.8, 1.12)
+        scale: _.device(0.8, 1)
       }
     ]
   }

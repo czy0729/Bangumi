@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-12-16 03:31:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-17 23:20:13
+ * @Last Modified time: 2026-05-16 02:05:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -127,7 +127,7 @@ function Options() {
         </Touchable>
       )}
 
-      <Notice style={_.mt.md}>
+      <Notice style={styles.notice}>
         点击关系线可指向目标，长按节点可跳转到条目页面。
         {$.params.extra
           ? '\n\n对于书籍、音乐等类型的关联，数据为广泛匹配结果，预期大概率不准确，仅供参考。'

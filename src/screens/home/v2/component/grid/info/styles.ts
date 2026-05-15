@@ -9,6 +9,7 @@ import { memoStyles as gridItemMemoStyles } from '../item/styles'
 
 export const memoStyles = _.memoStyles(() => {
   const itemStyles = gridItemMemoStyles()
+
   return {
     item: {
       paddingVertical: _.device(16, 32),

@@ -16,7 +16,7 @@ function Item({ item: pickIndex, index }) {
   const { $ } = useStore<Ctx>()
   if ($.isList) return <ItemList pickIndex={pickIndex} index={index} />
 
-  return <ItemGrid pickIndex={pickIndex} index={index} num={_.portrait(3, 5)} />
+  return <ItemGrid pickIndex={pickIndex} index={index} num={_.portrait(_.device(3, 4), 5)} />
 }
 
 export default ob(Item, COMPONENT)

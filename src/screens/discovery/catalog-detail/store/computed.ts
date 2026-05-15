@@ -176,7 +176,7 @@ export default class Computed extends State {
 
   /** 网格布局个数 */
   @computed get gridNum() {
-    return _.portrait(3, 5)
+    return _.portrait(_.device(3, 4), 5)
   }
 
   @computed get hm() {

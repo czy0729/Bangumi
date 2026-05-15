@@ -26,7 +26,7 @@ function List() {
     )
   }
 
-  const numColumns = $.isList ? undefined : _.portrait(3, 5)
+  const numColumns = $.isList ? undefined : _.portrait(_.device(3, 4), 5)
   return (
     <PaginationList2
       key={`${$.state.layout}${numColumns}`}

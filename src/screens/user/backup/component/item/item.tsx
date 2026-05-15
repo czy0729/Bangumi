@@ -139,12 +139,12 @@ export default memo(
                   text='点评'
                   type='sub'
                 />
-                <Column style={_.mt.md} text='更新' type='sub' />
               </View>
+              <Column style={styles.ft} text='更新' type='sub' />
 
               {/* 导出 */}
               <Flex.Item style={_.ml.md}>
-                <Column text='导出' type='sub' />
+                <Column text='值' type='sub' />
                 <Column style={_.mt.md} text={a.status} />
                 <Column
                   style={_.mt.md}

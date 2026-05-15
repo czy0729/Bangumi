@@ -10,7 +10,7 @@ import { Filter, PaginationList2 } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { ADVANCE_LIMIT, filterDS } from '../ds'
-import { Ctx } from '../types'
+import { Ctx, type } from '../types'
 import Item from '../item'
 import ItemGrid from '../item-grid'
 import { keyExtractor } from './utils'
@@ -24,7 +24,7 @@ class List extends React.Component<Ctx> {
   }
 
   get num() {
-    return _.portrait(3, 5)
+    return _.portrait(_.device(3, 4), 5)
   }
 
   renderItem = ({ item: pickIndex, index }) => {

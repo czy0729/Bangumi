@@ -24,7 +24,7 @@ function ItemGrid({ pickIndex, index }: Props) {
   // --- Data Logic ---
   const subjectId = otaStore.advSubjectId(pickIndex)
   const { id } = otaStore.adv(subjectId)
-  const columnNum = _.portrait(3, 5)
+  const columnNum = _.portrait(_.device(3, 4), 5)
 
   // --- Render ---
   if (!id) {

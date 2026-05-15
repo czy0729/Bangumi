@@ -46,85 +46,87 @@ function BlockItem({ navigation, setFalse }) {
   const value = rakuenStore.setting.commentTrack
 
   return (
-    <Block style={styles.block}>
-      <View>
-        {value.length ? (
-          value.map(userId => {
-            const users = usersStore.usersInfo(userId)
-            const textProps = {
-              size: 13,
-              bold: true,
-              numbersOfLine: 1
-            } as const
-            const handlePress = () => {
-              setFalse()
+    <View style={styles.container}>
+      <Block style={styles.block}>
+        <View>
+          {value.length ? (
+            value.map(userId => {
+              const users = usersStore.usersInfo(userId)
+              const textProps = {
+                size: 13,
+                bold: true,
+                numbersOfLine: 1
+              } as const
+              const handlePress = () => {
+                setFalse()
 
-              setTimeout(() => {
-                navigation.push('Zone', { userId })
-              }, 160)
-            }
+                setTimeout(() => {
+                  navigation.push('Zone', { userId })
+                }, 160)
+              }
 
-            return (
-              <Flex key={userId} style={_.mt.sm}>
-                <UserStatusAvatar
-                  key={users.avatar}
-                  style={_.mr.sm}
-                  navigation={navigation}
-                  avatar={users.avatar}
-                  userId={users.userId}
-                  userName={users.userName}
-                  size={30}
-                  radius={_.radiusXs}
-                  mini
-                  onPress={handlePress}
-                />
-                <Flex.Item style={styles.item}>
-                  <Text {...textProps} onPress={handlePress}>
-                    {users.userName ? `${users.userName} ` : ''}
-                    <Text {...textProps} type={users.userName ? 'sub' : 'desc'}>
-                      @{userId}
+              return (
+                <Flex key={userId} style={_.mt.sm}>
+                  <UserStatusAvatar
+                    key={users.avatar}
+                    style={_.mr.sm}
+                    navigation={navigation}
+                    avatar={users.avatar}
+                    userId={users.userId}
+                    userName={users.userName}
+                    size={30}
+                    radius={_.radiusXs}
+                    mini
+                    onPress={handlePress}
+                  />
+                  <Flex.Item style={styles.item}>
+                    <Text {...textProps} onPress={handlePress}>
+                      {users.userName ? `${users.userName} ` : ''}
+                      <Text {...textProps} type={users.userName ? 'sub' : 'desc'}>
+                        @{userId}
+                      </Text>
                     </Text>
-                  </Text>
-                </Flex.Item>
-                <Touchable
-                  style={_.ml.md}
-                  onPress={() => {
-                    confirm('确定取消?', () => rakuenStore.cancelTrackUsersComment(userId))
-                  }}
-                >
-                  <Flex style={styles.icon} justify='center'>
-                    <Iconfont name='md-close' size={20} />
-                  </Flex>
-                </Touchable>
-              </Flex>
-            )
-          })
-        ) : (
-          <Text style={styles.item} type='sub' bold>
-            (空)
-          </Text>
-        )}
-      </View>
+                  </Flex.Item>
+                  <Touchable
+                    style={_.ml.md}
+                    onPress={() => {
+                      confirm('确定取消?', () => rakuenStore.cancelTrackUsersComment(userId))
+                    }}
+                  >
+                    <Flex style={styles.icon} justify='center'>
+                      <Iconfont name='md-close' size={20} />
+                    </Flex>
+                  </Touchable>
+                </Flex>
+              )
+            })
+          ) : (
+            <Text style={styles.item} type='sub' bold>
+              (空)
+            </Text>
+          )}
+        </View>
 
-      <Flex style={styles.section}>
-        <Flex.Item>
-          <Input
-            style={styles.input}
-            value={keyword}
-            placeholder='输入用户 ID'
-            returnKeyType='search'
-            returnKeyLabel='添加'
-            onChangeText={handleChange}
-            onSubmitEditing={handleSubmit}
-          />
-        </Flex.Item>
-        <Touchable style={_.ml.md} onPress={handleSubmit}>
-          <Flex style={styles.icon} justify='center'>
-            <Iconfont name='md-add' size={24} />
-          </Flex>
-        </Touchable>
-      </Flex>
-    </Block>
+        <Flex style={styles.section}>
+          <Flex.Item>
+            <Input
+              style={styles.input}
+              value={keyword}
+              placeholder='输入用户 ID'
+              returnKeyType='search'
+              returnKeyLabel='添加'
+              onChangeText={handleChange}
+              onSubmitEditing={handleSubmit}
+            />
+          </Flex.Item>
+          <Touchable style={_.ml.md} onPress={handleSubmit}>
+            <Flex style={styles.icon} justify='center'>
+              <Iconfont name='md-add' size={24} />
+            </Flex>
+          </Touchable>
+        </Flex>
+      </Block>
+    </View>
   )
 }
 

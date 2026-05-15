@@ -28,7 +28,7 @@ function CoverXsWrap({ title, avatar, data }: Props) {
     <CoverXs
       navigation={navigation}
       styles={memoStyles()}
-      imageWidth={_.windowSm.contentWidth * 0.2}
+      imageWidth={Math.floor(_.windowSm.contentWidth * 0.2)}
       avatarRound={systemStore.setting.avatarRound}
       title={title}
       avatar={avatar}

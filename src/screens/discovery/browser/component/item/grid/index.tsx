@@ -14,7 +14,7 @@ import { COMPONENT, EVENT } from './ds'
 function Grid({ item, index, id, typeCn }) {
   r(COMPONENT)
 
-  const numColumns = _.portrait(3, 5)
+  const numColumns = _.portrait(_.device(3, 4), 5)
 
   return (
     <ItemCollectionsGrid

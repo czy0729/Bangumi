@@ -26,7 +26,7 @@ function FlatList() {
   return useObserver(() => {
     const styles = memoStyles()
     const { show, fixed } = $.state
-    const numColumns = $.isList ? undefined : _.portrait(3, 5)
+    const numColumns = $.isList ? undefined : _.portrait(_.device(3, 4), 5)
 
     return (
       <>

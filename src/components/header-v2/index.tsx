@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-11-22 07:43:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-20 21:53:37
+ * @Last Modified time: 2026-05-16 02:16:45
  */
 import React, { useEffect } from 'react'
 import { observer } from 'mobx-react'
+import { _ } from '@stores'
 import { useNavigation } from '@utils/hooks'
 import { Track } from '../track'
 import Header from './header'
@@ -51,8 +52,16 @@ export const HeaderV2 = observer(
           transparent={transparent}
           title={title}
           color={color}
-          headerTitleAlign={headerTitleAlign}
-          headerTitleStyle={headerTitleStyle}
+          headerTitleAlign={_.device(headerTitleAlign, 'center')}
+          headerTitleStyle={_.device(
+            headerTitleStyle,
+            _.flatten([
+              headerTitleStyle,
+              {
+                paddingRight: 0
+              }
+            ])
+          )}
           headerTitleSize={headerTitleSize}
           headerTitleAppend={headerTitleAppend}
           headerTitleTextStyle={headerTitleTextStyle}

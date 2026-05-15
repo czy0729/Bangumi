@@ -10,8 +10,8 @@ import { ListView, Loading } from '@components'
 import { Login } from '@_'
 import { _, uiStore, userStore, useStore } from '@stores'
 import { useInsets } from '@utils/hooks'
-import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants'
-import { H_TABBAR, TABS } from '../../ds'
+import { IOS, MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE, PAD } from '@constants'
+import { TABS } from '../../ds'
 import Item from '../item'
 import { keyExtractor } from './utils'
 import { COMPONENT, ENTERING_EXITING_ANIMATIONS_NUM } from './ds'
@@ -25,14 +25,15 @@ import type { TimelineItem } from '@stores/timeline/types'
 function List({ title }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  const { headerHeight } = useInsets()
+  const { statusBarHeight, headerHeight } = useInsets()
+  const tabBarheight = 48 + (IOS && PAD ? statusBarHeight - 8 : 0)
 
   const contentContainerStyle = useMemo(
     () => ({
-      paddingTop: headerHeight + H_TABBAR,
+      paddingTop: headerHeight + tabBarheight,
       paddingBottom: _.bottom
     }),
-    [headerHeight]
+    [headerHeight, tabBarheight]
   )
 
   const handleForwardRef = useCallback(

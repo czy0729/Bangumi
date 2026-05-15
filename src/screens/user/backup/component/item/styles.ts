@@ -26,5 +26,11 @@ export const memoStyles = _.memoStyles(() => ({
   },
   loading: {
     marginTop: 13
+  },
+  ft: {
+    position: 'absolute',
+    zIndex: 1,
+    bottom: 0,
+    left: 0
   }
 }))

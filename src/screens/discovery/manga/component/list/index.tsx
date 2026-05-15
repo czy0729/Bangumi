@@ -27,7 +27,7 @@ class List extends React.Component<Ctx> {
   }
 
   get num() {
-    return _.portrait(3, 5)
+    return _.portrait(_.device(3, 4), 5)
   }
 
   renderItem = ({ item: pickIndex, index }) => {

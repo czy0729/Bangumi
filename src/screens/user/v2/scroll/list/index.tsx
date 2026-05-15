@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-14 21:43:52
+ * @Last Modified time: 2026-05-16 04:40:38
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -105,7 +105,7 @@ function List({ page, title, scrollY, onScroll, onRefreshOffset }: Props) {
 
   return (
     <ListView
-      key={getKeyString(_.orientation, subjectType, userGridNum)}
+      key={getKeyString(_.orientation, subjectType, userGridNum, list)}
       ref={handleRef}
       keyExtractor={keyExtractor}
       style={themeStyles.listView}

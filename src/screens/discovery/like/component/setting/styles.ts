@@ -6,12 +6,15 @@
  */
 import { _ } from '@stores'
 
-export const styles = _.create({
+export const memoStyles = _.memoStyles(() => ({
+  container: {
+    marginHorizontal: -(_.wind - _._wind)
+  },
   switch: {
     marginRight: -4,
     transform: [
       {
-        scale: _.device(0.8, 1.12)
+        scale: _.device(0.8, 1)
       }
     ]
   },
@@ -21,4 +24,4 @@ export const styles = _.create({
     top: -10,
     right: _._wind - 6
   }
-})
+}))

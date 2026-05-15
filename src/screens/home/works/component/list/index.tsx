@@ -22,7 +22,7 @@ function List() {
 
   return useObserver(() => {
     const { fixed, list } = $.state
-    const numColumns = list ? undefined : _.portrait(3, 5)
+    const numColumns = list ? undefined : _.portrait(_.device(3, 4), 5)
 
     return (
       <>

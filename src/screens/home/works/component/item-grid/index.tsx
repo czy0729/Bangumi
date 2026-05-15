@@ -20,7 +20,7 @@ function ItemGrid({ item, index }: RenderItem<MonoWorksItem>) {
   r(COMPONENT)
 
   return useObserver(() => {
-    const numColumns = _.portrait(3, 5)
+    const numColumns = _.portrait(_.device(3, 4), 5)
     const id = String(item.id).replace('/subject/', '')
 
     return (

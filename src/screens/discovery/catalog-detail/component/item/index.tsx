@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-11 23:14:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-10 04:59:12
+ * @Last Modified time: 2026-05-16 02:27:11
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -11,10 +11,10 @@ import { ItemCollections, ItemCollectionsGrid } from '@_'
 import { _, collectionStore, subjectStore, useStore } from '@stores'
 import { findSubjectCn } from '@utils'
 import { COMPONENT, EVENT } from './ds'
+import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
 import type { Props } from './types'
-
 function Item({ index, item }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
@@ -57,8 +57,11 @@ function Item({ index, item }: Props) {
     )
   }
 
+  const styles = memoStyles()
+
   return (
     <ItemCollectionsGrid
+      style={index % $.gridNum === 0 && styles.side}
       index={index}
       id={id}
       num={$.gridNum}

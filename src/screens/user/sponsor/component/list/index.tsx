@@ -2,35 +2,37 @@
  * @Author: czy0729
  * @Date: 2023-01-07 17:27:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-01 10:27:31
+ * @Last Modified time: 2026-05-16 02:01:20
  */
 import React, { useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { Notice, PaginationList2 } from '@_'
-import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
+import { useStore } from '@stores'
 import { TEXT_UPDATE_SPONSOR } from '@constants'
 import { LIST } from '../../ds'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
+import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
-
 function List() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
+  const styles = memoStyles()
+
   const elListHeaderComponent = useMemo(
     () => (
-      <Notice>
+      <Notice style={styles.notice}>
         截止至 {TEXT_UPDATE_SPONSOR} 共 {LIST.length} 人投食了，感谢你们的支持！
       </Notice>
     ),
-    []
+    [styles]
   )
 
-  return useObserver(() => (
+  return (
     <PaginationList2
       keyExtractor={keyExtractor}
-      contentContainerStyle={_.container.bottom}
+      contentContainerStyle={styles.container}
       data={LIST}
       numColumns={2}
       limit={40}
@@ -38,7 +40,7 @@ function List() {
       renderItem={renderItem}
       onScroll={$.onScroll}
     />
-  ))
+  )
 }
 
-export default List
+export default observer(List)

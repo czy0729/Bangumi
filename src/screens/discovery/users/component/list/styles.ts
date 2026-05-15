@@ -17,13 +17,13 @@ export const memoStyles = _.memoStyles(() => ({
     overflow: 'hidden'
   },
   main: {
-    minHeight: 108,
+    height: 132,
     paddingVertical: _.lg,
     paddingLeft: _.lg,
     backgroundColor: _.select('rgba(0, 0, 0, 0.06)', 'rgba(255, 255, 255, 0.08)')
   },
   sub: {
-    minHeight: 108,
+    height: 132,
     padding: _.lg,
     backgroundColor: _.select('rgba(0, 0, 0, 0.06)', 'rgba(255, 255, 255, 0.08)')
   }

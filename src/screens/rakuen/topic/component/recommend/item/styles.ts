@@ -10,7 +10,7 @@ export const memoStyles = _.memoStyles(() => ({
   item: {
     width: '100%',
     paddingVertical: 6,
-    paddingHorizontal: _.wind,
+    paddingHorizontal: _._wind,
     marginTop: _.sm
   },
   avatar: {

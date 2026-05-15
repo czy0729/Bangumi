@@ -25,10 +25,10 @@ import { HOST, LIMIT_TOPIC_PUSH } from '@constants'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-import type { TopicId, WithViewStyles } from '@types'
+import type { TopicId } from '@types'
 import type { Ctx } from '../../types'
 
-function List({ style }: WithViewStyles) {
+function List() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   const styles = memoStyles()
@@ -49,7 +49,7 @@ function List({ style }: WithViewStyles) {
   const { showLastDate } = $.state
 
   return (
-    <View style={style}>
+    <View>
       {list.map(({ title, href, replies, time, userName }, index) => {
         const topicId = href.replace('/group/topic/', 'group/') as TopicId
         const readed = $.readed(topicId)

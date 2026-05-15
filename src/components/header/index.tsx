@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-03-10 17:27:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-28 21:15:21
+ * @Last Modified time: 2026-05-16 02:10:13
  */
 import React, { useEffect } from 'react'
 import { observer } from 'mobx-react'
+import { _ } from '@stores'
 import { r } from '@utils/dev'
 import { useNavigation } from '@utils/hooks'
 import { WEB } from '@constants'
@@ -51,7 +52,7 @@ const Header = observer(
         title,
         headerLeft,
         headerRight,
-        headerTitleAlign,
+        headerTitleAlign: _.device(headerTitleAlign, 'center'),
         headerTitleStyle,
         statusBarEventsType,
         onBackPress
