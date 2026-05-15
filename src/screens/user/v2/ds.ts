@@ -21,7 +21,7 @@ export const H_RADIUS_LINE = _.radiusLg
 /** fixed 后带背景的头部高度 */
 export const H_HEADER = WEB
   ? 68
-  : _.platforms(88, 68, 80, 80 - Constants.statusBarHeight) + H_RADIUS_LINE
+  : _.platforms(90, 68, 80, 80 - Constants.statusBarHeight) + H_RADIUS_LINE
 
 /** TabBar 高度 */
 export const H_TABBAR = _.r(48)

@@ -8,6 +8,7 @@ import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _, useStore } from '@stores'
+import { useInsets } from '@utils/hooks'
 import { H_HEADER } from '../../ds'
 import Menu from '../menu'
 import { COMPONENT, Layers } from './ds'
@@ -19,6 +20,9 @@ import type { Ctx } from '../../types'
 function ParallaxImage() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
+  const { headerHeight } = useInsets()
+  const topHeaderHeight = Math.max(H_HEADER, headerHeight)
+
   const { scrollY } = $
   const memoParallaxStyle = useMemo(() => {
     const h = _.parallaxImageHeight
@@ -27,8 +31,8 @@ function ParallaxImage() {
       transform: [
         {
           translateY: scrollY.interpolate({
-            inputRange: [-h, 0, h - H_HEADER, h],
-            outputRange: [h / 2, 0, -(h - H_HEADER), -(h - H_HEADER)]
+            inputRange: [-h, 0, h - topHeaderHeight, h],
+            outputRange: [h / 2, 0, -(h - topHeaderHeight), -(h - topHeaderHeight)]
           })
         },
         {
@@ -43,7 +47,7 @@ function ParallaxImage() {
         }
       ]
     } as ViewStyle
-  }, [scrollY])
+  }, [scrollY, topHeaderHeight])
 
   return (
     <>

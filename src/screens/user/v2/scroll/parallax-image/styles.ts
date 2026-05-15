@@ -57,7 +57,6 @@ export const styles = _.create({
     left: 0,
     overflow: 'hidden'
   },
-
   parallaxMask: {
     backgroundColor: 'rgba(0, 0, 0, 0.24)'
   },
@@ -65,7 +64,7 @@ export const styles = _.create({
     position: 'absolute',
     left: '50%',
     width: 240,
-    bottom: H_RADIUS_LINE + 10,
+    bottom: H_RADIUS_LINE + 12,
     transform: [
       {
         translateX: -120

@@ -23,7 +23,8 @@ import type { Ctx } from '../../../types'
 function Center({ style }: WithViewStyles) {
   const { $ } = useStore<Ctx>()
 
-  const { statusBarHeight } = useInsets()
+  const { statusBarHeight, headerHeight } = useInsets()
+  const topHeaderHeight = Math.max(H_HEADER, headerHeight)
 
   const memoHeaderStyle = useMemo(
     () =>
@@ -46,13 +47,13 @@ function Center({ style }: WithViewStyles) {
         inputRange: [
           -_.parallaxImageHeight,
           0,
-          _.parallaxImageHeight - H_HEADER,
+          _.parallaxImageHeight - topHeaderHeight,
           _.parallaxImageHeight
         ],
         outputRange: [1, 1, 0, 0]
       })
     }),
-    [scrollY]
+    [scrollY, topHeaderHeight]
   )
 
   return (

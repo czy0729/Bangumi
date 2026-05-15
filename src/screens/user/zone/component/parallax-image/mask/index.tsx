@@ -9,14 +9,17 @@ import { Animated } from 'react-native'
 import { observer } from 'mobx-react'
 import { _, useStore } from '@stores'
 import { stl } from '@utils'
+import { useInsets } from '@utils/hooks'
 import { H_HEADER } from '../../../ds'
 import { styles } from './styles'
 
 import type { WithViewStyles } from '@types'
 import type { Ctx } from '../../../types'
-
 function Mask({ style }: WithViewStyles) {
   const { $ } = useStore<Ctx>()
+
+  const { headerHeight } = useInsets()
+  const topHeaderHeight = Math.max(H_HEADER, headerHeight)
 
   const { scrollY } = $
   const memoMaskStyle = useMemo(
@@ -26,13 +29,13 @@ function Mask({ style }: WithViewStyles) {
         inputRange: [
           -_.parallaxImageHeight,
           0,
-          _.parallaxImageHeight - H_HEADER,
+          _.parallaxImageHeight - topHeaderHeight,
           _.parallaxImageHeight
         ],
         outputRange: _.select([0, 0.4, 1, 1], [0.4, 0.8, 1, 1])
       })
     }),
-    [scrollY]
+    [scrollY, topHeaderHeight]
   )
 
   return <Animated.View style={stl(styles.parallaxWrap, style, memoMaskStyle)} />

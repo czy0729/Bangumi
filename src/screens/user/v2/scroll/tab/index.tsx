@@ -10,6 +10,7 @@ import { observer } from 'mobx-react'
 import { SceneMap, TabView } from '@components'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
+import { useInsets } from '@utils/hooks'
 import TabBarLeft from '../../component/tab-bar-left'
 import { H_HEADER, TABS } from '../../ds'
 import List from '../list'
@@ -21,6 +22,9 @@ import type { Props } from './types'
 
 function Tab({ page, scrollY, onIndexChange, onScroll, onSwipeStart, onRefreshOffset }: Props) {
   r(COMPONENT)
+
+  const { headerHeight } = useInsets()
+  const topHeaderHeight = Math.max(H_HEADER, headerHeight)
 
   const renderScene = useRef(
     SceneMap(
@@ -55,25 +59,28 @@ function Tab({ page, scrollY, onIndexChange, onScroll, onSwipeStart, onRefreshOf
             inputRange: [
               -_.parallaxImageHeight,
               0,
-              _.parallaxImageHeight - H_HEADER,
+              _.parallaxImageHeight - topHeaderHeight,
               _.parallaxImageHeight
             ],
-            outputRange: [_.parallaxImageHeight * 2, _.parallaxImageHeight, H_HEADER, H_HEADER]
+            outputRange: [
+              _.parallaxImageHeight * 2,
+              _.parallaxImageHeight,
+              topHeaderHeight,
+              topHeaderHeight
+            ]
           })
         }
       ]
     }),
-    [scrollY]
+    [topHeaderHeight, scrollY]
   )
 
   const renderTabBar = useCallback(
-    props => {
-      return (
-        <Animated.View style={[styles.tabBarWrap, transform]}>
-          <TabBar {...props} />
-        </Animated.View>
-      )
-    },
+    props => (
+      <Animated.View style={[styles.tabBarWrap, transform]}>
+        <TabBar {...props} />
+      </Animated.View>
+    ),
     [transform]
   )
 

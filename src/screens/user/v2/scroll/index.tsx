@@ -9,6 +9,7 @@ import { Animated } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex } from '@components'
 import { _, uiStore, useStore } from '@stores'
+import { useInsets } from '@utils/hooks'
 import { H_HEADER } from '../ds'
 import ParallaxImage from './parallax-image'
 import Tab from './tab'
@@ -16,13 +17,15 @@ import { COMPONENT, FIXED_OFFSET } from './ds'
 
 import type { ScrollEvent } from '@types'
 import type { Ctx } from '../types'
-
 /** iOS 和 WEB 用 */
 function Scroll() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
+  const { headerHeight } = useInsets()
+  const topHeaderHeight = Math.max(H_HEADER, headerHeight)
+
   const { page } = $.state
-  const fixedHeight = $.fixedHeight ?? _.parallaxImageHeight - H_HEADER
+  const fixedHeight = _.parallaxImageHeight - topHeaderHeight
 
   const scrollY = useRef(new Animated.Value(0))
   const y = useRef(0)

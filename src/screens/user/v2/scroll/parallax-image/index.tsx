@@ -11,6 +11,7 @@ import { Flex, Text } from '@components'
 import { Avatar } from '@_'
 import { _, useStore } from '@stores'
 import { HTMLDecode, stl } from '@utils'
+import { useInsets } from '@utils/hooks'
 import { IOS } from '@constants'
 import BackgroundImage from '../../component/background-image'
 import HeaderComponent from '../../component/header-component'
@@ -26,9 +27,11 @@ import type { Props } from './types'
 function ParallaxImage({ scrollY, fixed }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  const themeStyles = memoStyles()
+  const { headerHeight } = useInsets()
+  const topHeaderHeight = Math.max(H_HEADER, headerHeight)
 
-  const parallaxImageHeight = _.parallaxImageHeight
+  const themeStyles = memoStyles()
+  const { parallaxImageHeight } = _
 
   const { avatar, nickname } = $.usersInfo
   const src = $.avatar || avatar.large
@@ -42,14 +45,14 @@ function ParallaxImage({ scrollY, fixed }: Props) {
               inputRange: [
                 -parallaxImageHeight,
                 0,
-                parallaxImageHeight - H_HEADER,
+                parallaxImageHeight - topHeaderHeight,
                 parallaxImageHeight
               ],
               outputRange: [
                 parallaxImageHeight / 2,
                 0,
-                -(parallaxImageHeight - H_HEADER),
-                -(parallaxImageHeight - H_HEADER)
+                -(parallaxImageHeight - topHeaderHeight),
+                -(parallaxImageHeight - topHeaderHeight)
               ]
             })
           },
@@ -67,7 +70,7 @@ function ParallaxImage({ scrollY, fixed }: Props) {
           }
         ]
       } as const),
-    [parallaxImageHeight, scrollY]
+    [topHeaderHeight, parallaxImageHeight, scrollY]
   )
 
   const elHeader = useMemo(
@@ -92,7 +95,7 @@ function ParallaxImage({ scrollY, fixed }: Props) {
               inputRange: [
                 -parallaxImageHeight,
                 0,
-                parallaxImageHeight - H_HEADER,
+                parallaxImageHeight - topHeaderHeight,
                 parallaxImageHeight
               ],
               outputRange: _.select([0, 0.4, 1, 1], [0.4, 0.8, 1, 1])
@@ -107,7 +110,7 @@ function ParallaxImage({ scrollY, fixed }: Props) {
               inputRange: [
                 -parallaxImageHeight,
                 0,
-                parallaxImageHeight - H_HEADER,
+                parallaxImageHeight - topHeaderHeight,
                 parallaxImageHeight
               ],
               outputRange: [0, 0, 1, 1]
@@ -137,7 +140,7 @@ function ParallaxImage({ scrollY, fixed }: Props) {
                 inputRange: [
                   -parallaxImageHeight,
                   0,
-                  parallaxImageHeight - H_HEADER,
+                  parallaxImageHeight - topHeaderHeight,
                   parallaxImageHeight
                 ],
                 outputRange: [1, 1, 0, 0]
@@ -153,15 +156,17 @@ function ParallaxImage({ scrollY, fixed }: Props) {
       </>
     ),
     [
-      avatar.large,
-      elHeader,
-      fixed,
-      nickname,
-      parallaxImageHeight,
+      themeStyles.parallaxBg,
+      themeStyles.parallaxLine,
       memoParallaxStyle,
+      fixed,
       scrollY,
+      parallaxImageHeight,
+      topHeaderHeight,
       src,
-      themeStyles
+      avatar.large,
+      nickname,
+      elHeader
     ]
   )
 

@@ -9,6 +9,7 @@ import { Animated } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, SceneMap, TabBar, TabView } from '@components'
 import { _, uiStore, useStore } from '@stores'
+import { useInsets } from '@utils/hooks'
 import { H_HEADER } from '../../ds'
 import About from '../about'
 import BangumiList from '../bangumi-list'
@@ -26,6 +27,9 @@ import type { Ctx } from '../../types'
 
 function Tab() {
   const { $ } = useStore<Ctx>(COMPONENT)
+
+  const { headerHeight } = useInsets()
+  const topHeaderHeight = Math.max(H_HEADER, headerHeight)
 
   const handleScroll = useCallback(
     (e: ScrollEvent) => {
@@ -83,15 +87,20 @@ function Tab() {
             inputRange: [
               -_.parallaxImageHeight,
               0,
-              _.parallaxImageHeight - H_HEADER,
+              _.parallaxImageHeight - topHeaderHeight,
               _.parallaxImageHeight
             ],
-            outputRange: [_.parallaxImageHeight * 2, _.parallaxImageHeight, H_HEADER, H_HEADER]
+            outputRange: [
+              _.parallaxImageHeight * 2,
+              _.parallaxImageHeight,
+              topHeaderHeight,
+              topHeaderHeight
+            ]
           })
         }
       ]
     }),
-    [$]
+    [$.scrollY, topHeaderHeight]
   )
 
   const handleRenderLabel = useCallback(

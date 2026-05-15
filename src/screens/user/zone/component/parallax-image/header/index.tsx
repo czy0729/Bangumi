@@ -11,14 +11,17 @@ import { Flex, Text } from '@components'
 import { Avatar } from '@_'
 import { _, useStore } from '@stores'
 import { HTMLDecode, stl } from '@utils'
+import { useInsets } from '@utils/hooks'
 import { H_HEADER } from '../../../ds'
 import { styles } from './styles'
 
 import type { WithViewStyles } from '@types'
 import type { Ctx } from '../../../types'
-
 function Header({ style }: WithViewStyles) {
   const { $ } = useStore<Ctx>()
+
+  const { headerHeight } = useInsets()
+  const topHeaderHeight = Math.max(H_HEADER, headerHeight)
 
   const { scrollY } = $
   const memoParallaxStyle = useMemo(
@@ -27,13 +30,13 @@ function Header({ style }: WithViewStyles) {
         inputRange: [
           -_.parallaxImageHeight,
           0,
-          _.parallaxImageHeight - H_HEADER,
+          _.parallaxImageHeight - topHeaderHeight,
           _.parallaxImageHeight
         ],
         outputRange: [0, 0, 1, 1]
       })
     }),
-    [scrollY]
+    [scrollY, topHeaderHeight]
   )
 
   const { avatar, nickname } = $.usersInfo

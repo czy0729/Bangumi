@@ -20,7 +20,7 @@ export const styles = _.create({
   menu: {
     zIndex: 1,
     padding: _.sm,
-    marginTop: _.ios(IS_IOS_5_6_7_8 ? -14 : -16, -12),
+    marginTop: _.ios(-13, -12),
     marginLeft: -4,
     opacity: 0.88
   },
