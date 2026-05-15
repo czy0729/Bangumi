@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-04-23 08:26:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 05:49:26
+ * @Last Modified time: 2026-05-15 23:36:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -59,7 +59,7 @@ function GroupInfo() {
               <Text
                 style={_.ml.sm}
                 size={visualLength >= 16 ? 11 : visualLength >= 12 ? 12 : 13}
-                numberOfLines={1}
+                numberOfLines={isEp ? 2 : 1}
                 shrink
               >
                 {group}

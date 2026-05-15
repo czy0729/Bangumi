@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:24:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-02 06:35:45
+ * @Last Modified time: 2026-05-15 23:06:17
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -69,7 +69,7 @@ function ItemPlusOne({
         </Flex>
         <Flex>
           <RenderHtml
-            style={_.ml.sm}
+            style={styles.html}
             baseFontStyle={_.baseFontStyle.xs}
             imagesMaxWidth={_.window.width - 2 * _.wind - 2 * AVATAR_WIDTH - 2 * _.sm}
             html={message}
