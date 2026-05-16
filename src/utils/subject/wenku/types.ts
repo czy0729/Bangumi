@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-09-20 01:25:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-20 16:16:15
+ * @Last Modified time: 2026-05-17 05:40:58
  */
-import { Loaded } from '@types'
+import type { Loaded } from '@types'
 
 export type Finger = string
 

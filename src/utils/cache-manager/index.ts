@@ -1,9 +1,9 @@
 /*
- * APP 内各种需要缓存的数据集合
+ * 客户端内各种需要缓存的数据集合
  * @Author: czy0729
  * @Date: 2023-02-27 23:17:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-05 14:52:47
+ * @Last Modified time: 2026-05-17 05:32:31
  */
 import { toJS } from 'mobx'
 

@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2025-08-08 22:15:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-08 22:16:32
+ * @Last Modified time: 2026-05-17 05:38:20
  */
 import { useEffect, useRef } from 'react'
 import { BackHandler, Platform } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { confirm } from '@utils'
-import { Fn } from '@types'
+
+import type { Fn } from '@types'
 
 /**
  * 防止误触退出页面的自定义 Hook

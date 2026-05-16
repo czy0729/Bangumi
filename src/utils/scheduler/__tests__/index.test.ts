@@ -2,10 +2,6 @@
  * @Author: czy0729
  * @Date: 2026-05-13
  */
-jest.mock('@constants/device', () => ({
-  WEB: false
-}))
-
 describe('postTask', () => {
   let postTask: typeof import('../index').postTask
 

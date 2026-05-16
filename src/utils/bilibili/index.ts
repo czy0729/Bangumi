@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-03 11:20:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-23 19:53:27
+ * @Last Modified time: 2026-05-17 05:32:21
  */
 import { HOST_AC_SEARCH } from '@constants/cdn'
 import { xhrCustom } from '../fetch'
@@ -68,9 +68,7 @@ export async function search(q: string, artist: string) {
         return false
       })
       .filter((_item, index: number) => index <= 6)
-  } catch (ex) {
-    console.error(ex)
-  }
+  } catch {}
 
   return []
 }

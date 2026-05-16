@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:16:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-12 21:01:32
+ * @Last Modified time: 2026-05-17 05:03:43
  */
 import { isObservableArray } from 'mobx'
 import { DEV, FROZEN_ARRAY, FROZEN_OBJECT } from '@constants'
@@ -159,22 +159,22 @@ export function findSubjectJp(cn: string = '', subjectId?: SubjectId): string {
 }
 
 /** 简单控制请求频率工具函数, 若不需要发请求返回 true */
-export function opitimize(data: any, s = 60) {
+export function optimize(data: any, s = 60) {
   if (DEV || !data?._loaded) return false
 
   const diff = getTimestamp() - Number(data?._loaded || 0)
   const isPrevent = diff < s
   if (isPrevent) {
-    logger.warn('@utils/opitimize', diff, s, Object.keys(data).slice(0, 5))
+    logger.warn('@utils/optimize', diff, s, Object.keys(data).slice(0, 5))
   }
 
   return isPrevent
 }
 
 /** 适配系统中文优先返回合适字符串 */
-export function cnjp(cn: any, jp: any) {
+export function cnjp(cn: any, jp: any): string {
   const { cnFirst } = getSetting()
-  return HTMLDecode(cnFirst ? cn || jp : jp || cn)
+  return HTMLDecode((cnFirst ? cn || jp : jp || cn) || '')
 }
 
 let NSFW_IDS: SubjectId[] = []

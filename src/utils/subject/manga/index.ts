@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2021-01-09 20:07:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-23 22:02:29
+ * @Last Modified time: 2026-05-17 05:40:45
  */
-import { SubjectId } from '@types'
 import { getTimestamp } from '../../index'
 import { decode, get } from '../../protobuf'
 import { SORT } from '../anime'
 import { MANGA_AUTHORS_MAP, MANGA_TAGS_MAP } from './ds'
-import { Finger, Item, Query, SearchResult, UnzipItem } from './types'
+
+import type { SubjectId } from '@types'
+import type { Finger, Item, Query, SearchResult, UnzipItem } from './types'
 
 export {
   MANGA_COLLECTED,

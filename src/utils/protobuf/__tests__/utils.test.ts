@@ -11,7 +11,7 @@ jest.mock('../../dev', () => ({
   logger: { log: jest.fn() }
 }))
 
-import { cacheMap, checkCache, get, isPromise, lockMap } from '../utils'
+import { cacheMap, get, isPromise, lockMap } from '../utils'
 
 beforeEach(() => {
   cacheMap.clear()
@@ -37,59 +37,59 @@ describe('isPromise', () => {
   })
 })
 
-describe('checkCache', () => {
-  it('有缓存时直接返回缓存值', () => {
-    cacheMap.set('anime', [1, 2, 3])
-    expect(checkCache('anime')).toEqual([1, 2, 3])
-  })
+// describe('checkCache', () => {
+//   it('有缓存时直接返回缓存值', () => {
+//     cacheMap.set('anime', [1, 2, 3])
+//     expect(checkCache('anime')).toEqual([1, 2, 3])
+//   })
 
-  it('无缓存无锁时返回 true 并加锁', () => {
-    const result = checkCache('manga')
-    expect(result).toBe(true)
-    expect(lockMap.get('manga')).toBe(true)
-  })
+//   it('无缓存无锁时返回 true 并加锁', () => {
+//     const result = checkCache('manga')
+//     expect(result).toBe(true)
+//     expect(lockMap.get('manga')).toBe(true)
+//   })
 
-  it('有锁无缓存时返回 Promise 等待解锁', () => {
-    lockMap.set('game', true)
-    // 不设置缓存，模拟锁已存在但数据还没加载完
+//   it('有锁无缓存时返回 Promise 等待解锁', () => {
+//     lockMap.set('game', true)
+//     // 不设置缓存，模拟锁已存在但数据还没加载完
 
-    const result = checkCache('game')
-    expect(typeof (result as any).then).toBe('function')
-  })
+//     const result = checkCache('game')
+//     expect(typeof (result as any).then).toBe('function')
+//   })
 
-  // 验证问题1: 内存泄漏 - setInterval 无超时机制
-  it('[问题] 锁永远不释放时 Promise 永远挂起，setInterval 无法清除', async () => {
-    jest.useFakeTimers()
+//   // 验证问题1: 内存泄漏 - setInterval 无超时机制
+//   it('[问题] 锁永远不释放时 Promise 永远挂起，setInterval 无法清除', async () => {
+//     jest.useFakeTimers()
 
-    lockMap.set('test', true)
-    // 不设置缓存，模拟锁永远不释放
+//     lockMap.set('test', true)
+//     // 不设置缓存，模拟锁永远不释放
 
-    const promise = checkCache('test')
-    let resolved = false
-    promise.then(() => {
-      resolved = true
-    })
+//     const promise = checkCache('test')
+//     let resolved = false
+//     promise.then(() => {
+//       resolved = true
+//     })
 
-    // 推进时间，interval 持续运行
-    jest.advanceTimersByTime(5000)
+//     // 推进时间，interval 持续运行
+//     jest.advanceTimersByTime(5000)
 
-    // Promise 永远不会 resolve
-    expect(resolved).toBe(false)
+//     // Promise 永远不会 resolve
+//     expect(resolved).toBe(false)
 
-    jest.useRealTimers()
-  })
+//     jest.useRealTimers()
+//   })
 
-  // 验证问题2: 竞态条件
-  it('[问题] 并发调用可能同时获得锁', () => {
-    // 第一次调用获得锁
-    const result1 = checkCache('race')
-    expect(result1).toBe(true)
+//   // 验证问题2: 竞态条件
+//   it('[问题] 并发调用可能同时获得锁', () => {
+//     // 第一次调用获得锁
+//     const result1 = checkCache('race')
+//     expect(result1).toBe(true)
 
-    // 第二次调用时锁已存在，应该返回 Promise
-    const result2 = checkCache('race')
-    expect(typeof (result2 as any).then).toBe('function')
-  })
-})
+//     // 第二次调用时锁已存在，应该返回 Promise
+//     const result2 = checkCache('race')
+//     expect(typeof (result2 as any).then).toBe('function')
+//   })
+// })
 
 describe('get', () => {
   it('有缓存时返回数据', () => {

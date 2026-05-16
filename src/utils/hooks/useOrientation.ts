@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-30 06:27:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:06:28
+ * @Last Modified time: 2026-05-17 05:38:12
  */
 import { useEffect, useState } from 'react'
 import {
@@ -10,11 +10,12 @@ import {
   getOrientationAsync,
   lockAsync,
   Orientation,
-  OrientationChangeEvent,
   OrientationLock,
   removeOrientationChangeListener
 } from 'expo-screen-orientation'
 import { PAD } from '@constants/device'
+
+import type { OrientationChangeEvent } from 'expo-screen-orientation'
 
 /** 默认锁竖屏, 并且监听屏幕方向 */
 export default function useOrientation() {

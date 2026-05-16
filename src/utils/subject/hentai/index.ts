@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-17 14:28:47
+ * @Last Modified time: 2026-05-17 05:40:29
  */
 import { loadJSON } from '@assets/json'
-import { SubjectId } from '@types'
 import { getTimestamp } from '../../index'
 import { SORT } from '../anime'
 import {
@@ -20,7 +19,9 @@ import {
   HENTAI_TAGS_MAP,
   HENTAI_YEAR
 } from './ds'
-import { Finger, Item, Query, SearchResult, UnzipItem } from './types'
+
+import type { SubjectId } from '@types'
+import type { Finger, Item, Query, SearchResult, UnzipItem } from './types'
 
 export {
   HENTAI_BODY,

@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:29:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-19 00:16:04
+ * @Last Modified time: 2026-05-17 05:40:10
  */
-import { SubjectId } from '@types'
 import { getTimestamp } from '../../index'
 import { decode, get } from '../../protobuf'
-import { SORT } from './../anime'
+import { SORT } from '../anime'
 import {
   GAME_CATE,
   GAME_CATE_MAP,
@@ -22,7 +21,9 @@ import {
   GAME_SORT,
   GAME_YEAR
 } from './ds'
-import { Finger, Item, Query, SearchResult, UnzipItem } from './types'
+
+import type { SubjectId } from '@types'
+import type { Finger, Item, Query, SearchResult, UnzipItem } from './types'
 
 export {
   GAME_CATE,

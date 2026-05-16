@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-05-01 13:57:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-03 20:18:38
+ * @Last Modified time: 2026-05-17 05:38:32
  */
 import { useCallback, useState } from 'react'
 import { systemStore } from '@stores'
-import { Setting } from '@stores/system/types'
-import { BooleanKeys, NonBooleanKeys } from '@types'
 import { feedback } from '../ui'
+
+import type { Setting } from '@stores/system/types'
+import type { BooleanKeys, NonBooleanKeys } from '@types'
 
 /** 延迟切换设置, 更快响应且避免卡住 UI */
 export function useAsyncSwitchSetting(key: BooleanKeys<Setting>) {

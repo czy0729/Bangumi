@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:26:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-17 14:02:22
+ * @Last Modified time: 2026-05-17 05:40:57
  */
 import { loadJSON } from '@assets/json'
-import { SubjectId } from '@types'
 import { desc, getTimestamp } from '../../index'
 import { SORT } from '../anime'
 import {
@@ -23,7 +22,9 @@ import {
   WENKU_TAGS_NUMS_MAP,
   WENKU_YEAR
 } from './ds'
-import { Finger, Item, Query, SearchResult, UnzipItem } from './types'
+
+import type { SubjectId } from '@types'
+import type { Finger, Item, Query, SearchResult, UnzipItem } from './types'
 
 export {
   WENKU_ANIME,

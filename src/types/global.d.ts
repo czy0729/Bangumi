@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-25 17:33:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 20:32:20
+ * @Last Modified time: 2026-05-17 05:37:35
  */
 declare namespace global {
   /** 是否开发模式 */
@@ -30,6 +30,7 @@ declare namespace global {
 
 /** 全局 WEB 类型声明 (仅为防止 RN 编译报错) */
 declare const document: {
+  title: string
   documentElement: {
     clientWidth: number
     clientHeight: number
@@ -37,6 +38,7 @@ declare const document: {
   querySelector: (selector: string) => {
     offsetTop?: number
     addEventListener?: Fn
+    scrollTo?: (options: { x: number; y: number; animated?: boolean }) => void
   } | null
   addEventListener?: Fn
   removeEventListener?: Fn

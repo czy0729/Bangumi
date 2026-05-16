@@ -2,16 +2,9 @@
  * @Author: czy0729
  * @Date: 2026-05-12
  */
-jest.mock('mobx', () => ({
-  isObservableArray: () => false
-}))
-
 jest.mock('../../utils', () => ({
   getTimestamp: jest.fn(() => Date.now() / 1000)
 }))
-
-jest.mock('expo-asset', () => ({}))
-jest.mock('expo-haptics', () => ({}))
 
 jest.mock(
   '@constants',
@@ -44,10 +37,6 @@ jest.mock('@assets/json', () => ({
 
 jest.mock('@assets/json/user.json', () => ({
   default: {}
-}))
-
-jest.mock('../../dev', () => ({
-  logger: { warn: jest.fn(), error: jest.fn() }
 }))
 
 jest.mock('../../html', () => ({
@@ -100,24 +89,43 @@ jest.mock('../ds', () => ({
 }))
 
 import {
+  FIND_SUBJECT_CN_CACHE_MAP,
+  FIND_SUBJECT_JP_CACHE_MAP,
+  GET_AVATAR_CACHE_MAP,
+  NSFW_CACHE_MAP
+} from '../ds'
+import {
+  cnjp,
+  findSubjectCn,
+  findSubjectJp,
   fixedBgmUrl,
   fixedRemoteImageUrl,
   freeze,
   getAction,
+  getAvatarLocal,
   getBangumiUrl,
   getCommentPlainText,
   getCookie,
+  getCover400,
   getCoverLarge,
   getCoverMedium,
   getCoverSmall,
+  getMonoCoverSmall,
   getRating,
+  getSubjectCoverCommon,
   getType,
   getVisualLength,
   guessTotalCount,
   isArray,
   matchBgmLink,
+  matchCoverUrl,
+  optimize,
   randomizeImgHost,
-  sliceByVisualLength
+  sliceByVisualLength,
+  unzipBangumiData,
+  updateVisibleBottom,
+  x18,
+  x18s
 } from '../data-source'
 
 describe('getVisualLength', () => {
@@ -656,5 +664,403 @@ describe('guessTotalCount', () => {
     expect(
       guessTotalCount({ _loaded: true, list: [], pagination: { page: 1, pageTotal: 10 } })
     ).toBe(0)
+  })
+})
+
+describe('optimize', () => {
+  it('DEV=false 且无 _loaded 时返回 false', () => {
+    expect(optimize({})).toBe(false)
+  })
+
+  it('DEV=false 且 _loaded 存在但 diff >= s 时返回 false', () => {
+    const oldTimestamp = Math.floor(Date.now() / 1000) - 120
+    expect(optimize({ _loaded: oldTimestamp }, 60)).toBe(false)
+  })
+
+  it('DEV=false 且 diff < s 时返回 true（请求被阻止）', () => {
+    const recentTimestamp = Math.floor(Date.now() / 1000) - 10
+    expect(optimize({ _loaded: recentTimestamp }, 60)).toBe(true)
+  })
+
+  it('自定义 s 参数', () => {
+    jest.useFakeTimers()
+    jest.setSystemTime(new Date('2024-01-15T12:00:05Z'))
+    const { getTimestamp } = require('../../utils')
+    getTimestamp.mockReturnValue(1705312805) // 2024-01-15T12:00:05Z
+    expect(optimize({ _loaded: 1705312800 }, 10)).toBe(true) // diff=5 < 10
+    jest.useRealTimers()
+  })
+})
+
+describe('cnjp', () => {
+  it('cnFirst=false 时优先返回 jp', () => {
+    expect(cnjp('中文名', '日文名')).toBe('日文名')
+  })
+
+  it('cnFirst=false 时 jp 为空返回 cn', () => {
+    expect(cnjp('中文名', '')).toBe('中文名')
+  })
+
+  it('cnFirst=false 时两者都为空返回空', () => {
+    expect(cnjp('', '')).toBe('')
+  })
+
+  it('cnFirst=false 且 cn/jp 均为 undefined 返回空', () => {
+    const result = cnjp(undefined, undefined)
+    expect(result).toBe('')
+  })
+
+  it('cnFirst=true 时优先返回 cn', () => {
+    const { getSetting: mockGetSetting } = require('../utils')
+    mockGetSetting.mockReturnValueOnce({ cnFirst: true })
+    expect(cnjp('中文名', '日文名')).toBe('中文名')
+  })
+})
+
+describe('x18s', () => {
+  it('包含 nsfw 返回 true', () => {
+    expect(x18s('this is nsfw content')).toBe(true)
+  })
+
+  it('包含 18+ 返回 true', () => {
+    expect(x18s('rated 18+')).toBe(true)
+  })
+
+  it('不包含关键词返回 false', () => {
+    expect(x18s('normal content')).toBe(false)
+  })
+
+  it('大小写不敏感', () => {
+    expect(x18s('NSFW')).toBe(true)
+    expect(x18s('18+')).toBe(true)
+  })
+
+  it('非字符串输入转为字符串', () => {
+    expect(x18s(123 as any)).toBe(false)
+  })
+
+  it('空字符串', () => {
+    expect(x18s('')).toBe(false)
+  })
+})
+
+describe('x18', () => {
+  beforeEach(() => {
+    NSFW_CACHE_MAP.clear()
+  })
+
+  it('空 subjectId 返回 false', () => {
+    expect(x18(0)).toBe(false)
+  })
+
+  // [问题] NSFW_IDS 为空时即使 title 含敏感词也返回 false
+  it('[问题] NSFW_IDS 为空时即使 title 含敏感词也返回 false', () => {
+    expect(x18(12345, '乳頭')).toBe(false)
+  })
+
+  it('NSFW_IDS 有数据且 subjectId 命中时返回 true', () => {
+    const { getJSON } = require('@assets/json')
+    getJSON.mockReturnValueOnce([88888])
+    expect(x18(88888)).toBe(true)
+  })
+
+  it('字符串格式 subjectId 正确解析', () => {
+    // NSFW_IDS 已由上一个测试加载 [88888]，使用同一 ID 测试字符串解析
+    expect(x18('/subject/88888' as any)).toBe(true)
+  })
+
+  it('title 包含敏感关键词时返回 true', () => {
+    const { getJSON } = require('@assets/json')
+    getJSON.mockReturnValueOnce([11111])
+    expect(x18(66666, '某作品乳')).toBe(true)
+  })
+
+  it('title 不包含敏感关键词时返回 false', () => {
+    const { getJSON } = require('@assets/json')
+    getJSON.mockReturnValueOnce([11111])
+    expect(x18(55555, '正常作品')).toBe(false)
+  })
+
+  it('已缓存的结果直接返回', () => {
+    NSFW_CACHE_MAP.set(33333, true)
+    expect(x18(33333)).toBe(true)
+  })
+})
+
+describe('getCover400', () => {
+  it('lain.bgm.tv URL 替换为 r/size 前缀', () => {
+    const result = getCover400('//lain.bgm.tv/pic/cover/g/test.jpg')
+    expect(result).toContain('/r/400/')
+    expect(result).toContain('/pic/cover/l/')
+  })
+
+  it('自定义 size', () => {
+    const result = getCover400('//lain.bgm.tv/pic/cover/g/test.jpg', 200)
+    expect(result).toContain('/r/200/')
+  })
+
+  it('已含 r/NxN 格式替换为 r/size', () => {
+    const result = getCover400('//lain.bgm.tv/r/300x300/pic/cover/g/test.jpg', 400)
+    expect(result).toContain('/r/400/')
+  })
+
+  it('已含 r/800 替换为 r/size', () => {
+    const result = getCover400('//lain.bgm.tv/r/800/pic/cover/g/test.jpg', 400)
+    expect(result).toContain('/r/400/')
+  })
+
+  it('非 lain.bgm.tv URL 返回原值', () => {
+    expect(getCover400('https://example.com/test.jpg')).toBe('https://example.com/test.jpg')
+  })
+
+  it('空字符串返回空字符串', () => {
+    expect(getCover400('')).toBe('')
+  })
+
+  it('默认 size=400', () => {
+    const result = getCover400('//lain.bgm.tv/pic/cover/m/test.jpg')
+    expect(result).toContain('/r/400/')
+  })
+})
+
+describe('getSubjectCoverCommon', () => {
+  it('将 r/N 前缀替换为 /pic/cover/c/', () => {
+    const result = getSubjectCoverCommon('//lain.bgm.tv/r/400/pic/cover/l/test.jpg')
+    expect(result).toContain('/pic/cover/c/')
+    expect(result).not.toContain('/r/400/')
+  })
+
+  it('非字符串返回原值', () => {
+    expect(getSubjectCoverCommon(null as any)).toBe(null)
+  })
+
+  it('空字符串返回空字符串', () => {
+    expect(getSubjectCoverCommon('')).toBe('')
+  })
+
+  it('无 r/ 前缀的 URL 不变', () => {
+    const result = getSubjectCoverCommon('//lain.bgm.tv/pic/cover/c/test.jpg')
+    expect(result).toBe('https://lain.bgm.tv/pic/cover/c/test.jpg')
+  })
+})
+
+describe('getMonoCoverSmall', () => {
+  it('将 r/N 前缀和质量标记替换为 /pic/crt/g/', () => {
+    const result = getMonoCoverSmall('//lain.bgm.tv/r/400/pic/crt/l/test.jpg')
+    expect(result).toContain('/pic/crt/g/')
+  })
+
+  it('非字符串返回原值', () => {
+    expect(getMonoCoverSmall(null as any)).toBe(null)
+  })
+
+  it('空字符串返回空字符串', () => {
+    expect(getMonoCoverSmall('')).toBe('')
+  })
+})
+
+describe('unzipBangumiData', () => {
+  it('正常数据转换', () => {
+    const item = {
+      id: 132734,
+      j: '冴えない彼女の育てかた♭',
+      c: '路人女主的养成方法 ♭',
+      s: { p: 'SP3XVb0jk9E0sho', i: 'a_19rrh9f1yl', ni: 'saenai2', b: 28228738 },
+      t: 'tv'
+    }
+    const result = unzipBangumiData(item)
+    expect(result.title).toBe('冴えない彼女の育てかた♭')
+    expect(result.type).toBe('tv')
+    expect(result.titleTranslate['zh-Hans']).toEqual(['路人女主的养成方法 ♭'])
+    expect(result.sites.length).toBe(5)
+    expect(result.sites[0]).toEqual({ site: 'bangumi', id: '132734' })
+  })
+
+  it('无 s 字段只有 bangumi 站点', () => {
+    const result = unzipBangumiData({ id: 100, j: 'title', c: '中文' })
+    expect(result.sites).toHaveLength(1)
+    expect(result.sites[0]).toEqual({ site: 'bangumi', id: '100' })
+  })
+
+  it('无 t 字段默认 type=tv', () => {
+    const result = unzipBangumiData({ id: 1 })
+    expect(result.type).toBe('tv')
+  })
+
+  it('空参数', () => {
+    const result = unzipBangumiData()
+    expect(result.title).toBeUndefined()
+    expect(result.type).toBe('tv')
+    expect(result.sites).toHaveLength(1)
+  })
+})
+
+describe('matchCoverUrl', () => {
+  it('非字符串输入返回原值', () => {
+    expect(matchCoverUrl(null)).toBe(null)
+    expect(matchCoverUrl(123)).toBe(123)
+  })
+
+  it('src 在 NO_IMGS 中返回默认图', () => {
+    const result = matchCoverUrl('//lain.bgm.tv/pic/cover/c/')
+    expect(result).toBe('https://lain.bgm.tv/img/default_cover.jpg')
+  })
+
+  it('noDefault=true 且 src 在 NO_IMGS 中返回空字符串', () => {
+    // [问题] 实际代码中 NO_IMGS 分支返回 IMG_DEFAULT || fallback，
+    // 当 noDefault=true 时 fallback=''，但 IMG_DEFAULT 有值所以仍返回 IMG_DEFAULT
+    const result = matchCoverUrl('//lain.bgm.tv/pic/cover/c/', true)
+    expect(result).toBe('https://lain.bgm.tv/img/default_cover.jpg')
+  })
+
+  it('大图（含 /l/）不替换质量', () => {
+    const result = matchCoverUrl('//lain.bgm.tv/pic/cover/l/test.jpg')
+    expect(result).toContain('/l/')
+  })
+})
+
+describe('getAvatarLocal', () => {
+  beforeEach(() => {
+    GET_AVATAR_CACHE_MAP.clear()
+  })
+
+  it('空 userId 返回 false', () => {
+    expect(getAvatarLocal('' as any)).toBe(false)
+  })
+
+  it('userData 中找不到对应 userId 返回 false', () => {
+    expect(getAvatarLocal('nonexistent' as any)).toBe(false)
+  })
+
+  it('已缓存的结果直接返回', () => {
+    GET_AVATAR_CACHE_MAP.set('cached', 'https://lain.bgm.tv/pic/user/l/000/abc.jpg')
+    expect(getAvatarLocal('cached' as any)).toBe('https://lain.bgm.tv/pic/user/l/000/abc.jpg')
+  })
+
+  it('已缓存 false 结果直接返回 false', () => {
+    GET_AVATAR_CACHE_MAP.set('missed', false)
+    expect(getAvatarLocal('missed' as any)).toBe(false)
+  })
+})
+
+describe('findSubjectCn', () => {
+  beforeEach(() => {
+    FIND_SUBJECT_CN_CACHE_MAP.clear()
+  })
+
+  it('cnFirst=false 时直接返回 jp', () => {
+    expect(findSubjectCn('日文名')).toBe('日文名')
+  })
+
+  it('已缓存的结果直接返回', () => {
+    const { getSetting: mockGetSetting } = require('../utils')
+    mockGetSetting.mockReturnValueOnce({ cnFirst: true })
+    FIND_SUBJECT_CN_CACHE_MAP.set('cached_jp', '缓存的中文名')
+    expect(findSubjectCn('cached_jp')).toBe('缓存的中文名')
+  })
+
+  it('cnFirst=true 且有匹配时返回中文名', () => {
+    const { getSetting: mockGetSetting } = require('../utils')
+    const { get: mockGet } = require('../../protobuf')
+    mockGetSetting.mockReturnValueOnce({ cnFirst: true })
+    mockGet.mockReturnValueOnce([{ id: 100, j: '日文', c: '中文名' }])
+    expect(findSubjectCn('日文', 100)).toBe('中文名')
+  })
+
+  it('[问题] cnFirst=true 且匹配但 c 为空时缓存并返回 jp', () => {
+    const { getSetting: mockGetSetting } = require('../utils')
+    const { get: mockGet } = require('../../protobuf')
+    mockGetSetting.mockReturnValueOnce({ cnFirst: true })
+    mockGet.mockReturnValueOnce([{ id: 200, j: '日文', c: '' }])
+    const result = findSubjectCn('日文', 200)
+    expect(result).toBe('日文')
+    expect(FIND_SUBJECT_CN_CACHE_MAP.get('日文')).toBe('日文')
+  })
+})
+
+describe('findSubjectJp', () => {
+  beforeEach(() => {
+    FIND_SUBJECT_JP_CACHE_MAP.clear()
+  })
+
+  it('已缓存的结果直接返回', () => {
+    FIND_SUBJECT_JP_CACHE_MAP.set('cached_cn', '缓存的日文名')
+    expect(findSubjectJp('cached_cn')).toBe('缓存的日文名')
+  })
+
+  it('bangumiData 为空数组时返回 cn', () => {
+    expect(findSubjectJp('某中文')).toBe('某中文')
+  })
+
+  it('匹配到数据时返回日文名', () => {
+    const { get: mockGet } = require('../../protobuf')
+    mockGet.mockReturnValueOnce([{ id: 300, j: '日文名', c: '中文名' }])
+    expect(findSubjectJp('中文名', 300)).toBe('日文名')
+  })
+
+  it('匹配到但 j 为空时缓存并返回 cn', () => {
+    const { get: mockGet } = require('../../protobuf')
+    mockGet.mockReturnValueOnce([{ id: 400, j: '', c: '某中文' }])
+    const result = findSubjectJp('某中文', 400)
+    expect(result).toBe('某中文')
+  })
+})
+
+describe('updateVisibleBottom', () => {
+  it('this 无 setState 函数时直接返回', () => {
+    const ctx = {}
+    expect(() =>
+      updateVisibleBottom.call(ctx, {
+        nativeEvent: { contentOffset: { y: 0 }, layoutMeasurement: { height: 100 } }
+      } as any)
+    ).not.toThrow()
+  })
+
+  it('32ms 内重复调用被阻止', () => {
+    const setState = jest.fn()
+    const ctx = {
+      setState,
+      state: { visibleBottom: 0 },
+      __lastVisibleBottomUpdate: 0
+    }
+    const event = {
+      nativeEvent: { contentOffset: { y: 100 }, layoutMeasurement: { height: 500 } }
+    }
+
+    updateVisibleBottom.call(ctx, event as any)
+    expect(setState).toHaveBeenCalledTimes(1)
+
+    updateVisibleBottom.call(ctx, event as any)
+    expect(setState).toHaveBeenCalledTimes(1)
+  })
+
+  it('visibleBottom 小于等于当前值时不更新', () => {
+    const setState = jest.fn()
+    const ctx = {
+      setState,
+      state: { visibleBottom: 999 },
+      __lastVisibleBottomUpdate: 0
+    }
+    const event = {
+      nativeEvent: { contentOffset: { y: 0 }, layoutMeasurement: { height: 100 } }
+    }
+    updateVisibleBottom.call(ctx, event as any)
+    expect(setState).not.toHaveBeenCalled()
+  })
+
+  it('正常更新 visibleBottom', () => {
+    const setState = jest.fn()
+    const ctx = {
+      setState,
+      state: { visibleBottom: 0 },
+      __lastVisibleBottomUpdate: 0
+    }
+    const event = {
+      nativeEvent: { contentOffset: { y: 100 }, layoutMeasurement: { height: 500 } }
+    }
+    updateVisibleBottom.call(ctx, event as any)
+    expect(setState).toHaveBeenCalledWith(
+      expect.objectContaining({ visibleBottom: expect.any(Number) })
+    )
   })
 })

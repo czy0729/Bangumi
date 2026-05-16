@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2022-09-22 03:34:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-14 17:31:10
+ * @Last Modified time: 2026-05-17 05:39:55
  */
-import { SubjectId } from '@types'
 import { getTimestamp } from '../../index'
 import { decode, get } from '../../protobuf'
 import { SORT } from '../anime'
@@ -17,7 +16,9 @@ import {
   ADV_SORT,
   ADV_YEAR
 } from './ds'
-import { Finger, Item, Query, SearchResult, UnzipItem } from './types'
+
+import type { SubjectId } from '@types'
+import type { Finger, Item, Query, SearchResult, UnzipItem } from './types'
 
 export { ADV_COLLECTED, ADV_DEV, ADV_DEV_MAP, ADV_FIRST, ADV_SORT, ADV_YEAR }
 

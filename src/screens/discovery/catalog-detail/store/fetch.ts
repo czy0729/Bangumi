@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-08-10 23:17:25
  */
 import { collectionStore, discoveryStore, subjectStore } from '@stores'
-import { confirm, opitimize, sleep } from '@utils'
+import { confirm, optimize, sleep } from '@utils'
 import { queue } from '@utils/fetch'
 import { M2 } from '@constants'
 import Computed from './computed'
@@ -14,7 +14,7 @@ import { EXCLUDE_STATE } from './ds'
 export default class Fetch extends Computed {
   /** 目录详情 */
   fetchCatalogDetail = async (refresh: boolean = false) => {
-    if (refresh || !opitimize(this.catalogDetail, M2)) {
+    if (refresh || !optimize(this.catalogDetail, M2)) {
       await discoveryStore.fetchCatalogDetail(this.catalogId)
     }
 

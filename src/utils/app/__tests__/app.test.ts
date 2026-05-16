@@ -2,14 +2,6 @@
  * @Author: czy0729
  * @Date: 2026-05-12
  */
-jest.mock('expo-asset', () => ({}))
-jest.mock('expo-haptics', () => ({}))
-
-jest.mock('react-native', () => ({
-  Alert: { alert: jest.fn() },
-  BackHandler: { exitApp: jest.fn() }
-}))
-
 jest.mock('@stores/calendar/onair', () => ({
   ON_AIR: {
     '12345': { weekDayCN: 1, timeCN: '1030', type: 'tv', tag: 'test' }
@@ -21,10 +13,6 @@ jest.mock('@constants/constants', () => ({
   HOST: 'https://bgm.tv',
   IOS: false,
   URL_PRIVACY: 'https://example.com/privacy'
-}))
-
-jest.mock('@constants/device', () => ({
-  WEB: false
 }))
 
 jest.mock('@constants/init', () => ({
@@ -43,13 +31,6 @@ jest.mock('@src/config', () => ({
 
 jest.mock('../../async', () => ({
   syncS2T: (s: string) => s
-}))
-
-jest.mock('../../dev', () => ({
-  globalLog: jest.fn(),
-  globalWarn: jest.fn(),
-  rerender: jest.fn(),
-  logger: { error: jest.fn(), warn: jest.fn() }
 }))
 
 jest.mock('../../fetch', () => ({
@@ -78,6 +59,7 @@ jest.mock('../ds', () => ({
 import {
   appNavigate,
   appRandom,
+  bootApp,
   caculateICO,
   calculateFutureICO,
   calculateFutureLevel,
@@ -89,6 +71,8 @@ import {
   getOnAirItem,
   getUserIdFromAvatar,
   keyExtractor,
+  navigationReference,
+  privacy,
   tinygrailFixedTime,
   tinygrailOSS
 } from '../app'
@@ -562,5 +546,148 @@ describe('appNavigate', () => {
       subjectId: '12345',
       from: 'home'
     })
+  })
+})
+
+describe('bootApp', () => {
+  const originalConsole = { ...console }
+
+  afterEach(() => {
+    global.console = originalConsole as any
+    delete (global as any).log
+    delete (global as any).warn
+    delete (global as any).rerender
+  })
+
+  it('挂载 log/warn/rerender 到 global', () => {
+    bootApp()
+    expect(global.log).toBeDefined()
+    expect(global.warn).toBeDefined()
+    expect(global.rerender).toBeDefined()
+  })
+
+  it('console.warn 被 FROZEN_FN 替换', () => {
+    bootApp()
+    const { FROZEN_FN } = require('@constants/init')
+    expect(global.console.warn).toBe(FROZEN_FN)
+  })
+
+  it('console.error 被 FROZEN_FN 替换', () => {
+    bootApp()
+    const { FROZEN_FN } = require('@constants/init')
+    expect(global.console.error).toBe(FROZEN_FN)
+  })
+
+  it('DEV=false 时 console.info 也被替换', () => {
+    bootApp()
+    const { FROZEN_FN } = require('@constants/init')
+    expect(global.console.info).toBe(FROZEN_FN)
+  })
+})
+
+describe('navigationReference', () => {
+  // 使用固定的大时间值，避免与 appNavigate 测试的冷却状态冲突
+  const BASE_TIME = 9999999999999
+
+  afterEach(() => {
+    jest.useRealTimers()
+  })
+
+  it('传入 navigation 对象后保存引用', () => {
+    const mockNav = { push: jest.fn(), navigate: jest.fn() } as any
+    const result = navigationReference(mockNav)
+    expect(result).toBeDefined()
+    expect(result!.push).toBeDefined()
+    expect(result!.navigate).toBeDefined()
+  })
+
+  it('无参数时返回已保存的引用', () => {
+    const mockNav = { push: jest.fn(), navigate: jest.fn() } as any
+    navigationReference(mockNav)
+    const result = navigationReference()
+    expect(result).toBeDefined()
+  })
+
+  it('400ms 内重复 push 被阻止', () => {
+    jest.useFakeTimers()
+    jest.setSystemTime(BASE_TIME)
+    const originalPush = jest.fn()
+    const mockNav = { push: originalPush, navigate: jest.fn() } as any
+    navigationReference(mockNav)
+    const nav = navigationReference()!
+
+    nav.push!('LoginV2')
+    expect(originalPush).toHaveBeenCalledTimes(1)
+
+    jest.advanceTimersByTime(100)
+    nav.push!('LoginV2')
+    expect(originalPush).toHaveBeenCalledTimes(1)
+  })
+
+  it('400ms 后可以再次 push', () => {
+    jest.useFakeTimers()
+    jest.setSystemTime(BASE_TIME + 5000)
+    const originalPush = jest.fn()
+    const mockNav = { push: originalPush, navigate: jest.fn() } as any
+    navigationReference(mockNav)
+    const nav = navigationReference()!
+
+    nav.push!('LoginV2')
+    expect(originalPush).toHaveBeenCalledTimes(1)
+
+    jest.advanceTimersByTime(400)
+    nav.push!('LoginV2')
+    expect(originalPush).toHaveBeenCalledTimes(2)
+  })
+
+  it('navigation 无 push 方法时自动从 navigate 复制', () => {
+    const mockNav = { navigate: jest.fn() } as any
+    navigationReference(mockNav)
+    const nav = navigationReference()!
+    expect(nav!.push).toBeDefined()
+  })
+})
+
+describe('privacy', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  it('getStorage 返回已同意时直接返回不弹窗', async () => {
+    const { getStorage } = require('../../storage')
+    getStorage.mockResolvedValueOnce(1)
+    await privacy()
+    expect(require('react-native').Alert.alert).not.toHaveBeenCalled()
+  })
+
+  it('getStorage 返回 null 时弹出 Alert', async () => {
+    const { getStorage } = require('../../storage')
+    getStorage.mockResolvedValueOnce(null)
+    await privacy()
+    expect(require('react-native').Alert.alert).toHaveBeenCalled()
+  })
+
+  it('同意按钮点击后调用 setStorage', async () => {
+    const { getStorage, setStorage } = require('../../storage')
+    getStorage.mockResolvedValueOnce(null)
+    await privacy()
+
+    const alertCall = require('react-native').Alert.alert.mock.calls[0]
+    const params = alertCall[2]
+    const agreeButton = params.find((p: any) => p.text === '同意')
+    agreeButton.onPress()
+    expect(setStorage).toHaveBeenCalledWith('bangumi|privacy', 1)
+  })
+
+  it('不同意并退出按钮调用 BackHandler.exitApp', async () => {
+    const { getStorage } = require('../../storage')
+    getStorage.mockResolvedValueOnce(null)
+    await privacy()
+
+    const alertCall = require('react-native').Alert.alert.mock.calls[0]
+    const params = alertCall[2]
+    const exitButton = params.find((p: any) => p.text === '不同意并退出')
+    exitButton.onPress()
+    expect(require('react-native').BackHandler.exitApp).toHaveBeenCalled()
   })
 })

@@ -33,6 +33,9 @@ module.exports = {
     addListener() { return { remove: jest.fn() } }
     removeAllListeners() {}
   },
+  BackHandler: {
+    exitApp: jest.fn()
+  },
   InteractionManager: {
     runAfterInteractions: fn => fn()
   }

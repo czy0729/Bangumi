@@ -12,7 +12,7 @@ jest.mock('../../async', () => ({
   })
 }))
 
-import { getKeyString, getSafeValue, isNull, sortObject } from '../utils'
+import { getKeyString, getSafeValue, getSetting, isNull, sortObject } from '../utils'
 
 describe('isNull', () => {
   it('undefined 返回 true', () => {
@@ -109,8 +109,20 @@ describe('sortObject', () => {
   })
 
   it('特殊字符键', () => {
-    const result = sortObject({ '!': 1, 'a': 2, '1': 3 })
+    const result = sortObject({ '!': 1, a: 2, '1': 3 })
     // asc 对字符串用 compare 做反向比较
     expect(Object.keys(result).length).toBe(3)
+  })
+})
+
+describe('getSetting', () => {
+  it('返回 syncSystemStore 的 setting 对象', () => {
+    const result = getSetting()
+    expect(result).toEqual({ cnFirst: false })
+  })
+
+  it('返回对象包含 cnFirst 属性', () => {
+    const result = getSetting()
+    expect(result).toHaveProperty('cnFirst')
   })
 })

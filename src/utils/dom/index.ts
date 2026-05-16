@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-04-14 17:37:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 13:56:06
+ * @Last Modified time: 2026-05-17 05:34:18
  */
 import { useRef } from 'react'
 import { WEB } from '@constants/device'
 import { FROZEN_FN } from '@constants/init'
-import { Fn } from '@types'
 import { isDevtoolsOpen } from './devtools'
+
+import type { Fn } from '@types'
 
 export { isDevtoolsOpen }
 
@@ -131,6 +132,8 @@ export function measurePerformance(func: Fn, count: number = 10) {
 
     const endTime = performance.now()
     const executionTime = endTime - startTime
+
+    // eslint-disable-next-line no-console
     console.info(func, `函数执行耗时：${Math.floor(executionTime)} 毫秒`)
   }, 0)
 }

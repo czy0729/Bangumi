@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-06-22 17:56:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-11 09:10:25
+ * @Last Modified time: 2026-05-17 05:36:07
  */
 
-/** 豆瓣条目 id */
+/** 豆瓣条目 ID */
 export type DoubanId = string | false
 
 /** 分类 1002 电影, 3114 游戏 */

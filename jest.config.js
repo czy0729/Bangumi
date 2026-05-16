@@ -10,6 +10,7 @@ module.exports = {
   globals: {
     __DEV__: true
   },
+  setupFiles: ['./jest.setup.js'],
   transform: {
     '^.+\\.[jt]sx?$': path.resolve(__dirname, 'jest-transformer.js')
   },

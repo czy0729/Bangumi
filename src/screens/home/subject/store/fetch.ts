@@ -20,7 +20,7 @@ import {
   HTMLDecode,
   HTMLTrim,
   omit,
-  opitimize,
+  optimize,
   postTask,
   queue,
   setStorage,
@@ -62,10 +62,10 @@ let globalFetchAnitabiCount = 0
 export default class Fetch extends Computed {
   /**
    * 条目信息
-   * @opitimize 60s
+   * @optimize 60s
    */
   fetchSubject = () => {
-    if (this.subject._responseGroup !== 'large' && opitimize(this.subject, M5)) {
+    if (this.subject._responseGroup !== 'large' && optimize(this.subject, M5)) {
       return this.subject
     }
 
@@ -74,7 +74,7 @@ export default class Fetch extends Computed {
 
   /** 网页的条目信息 (书籍只有网页端有数据源, 需要初始值) */
   fetchSubjectFromHTML = async (refresh: boolean = false) => {
-    if (!refresh && opitimize(this.subjectFormHTML, M5)) return false
+    if (!refresh && optimize(this.subjectFormHTML, M5)) return false
 
     const data = await subjectStore.fetchSubjectFromHTML(this.subjectId)
     const { watchedEps, book } = data
@@ -274,7 +274,7 @@ export default class Fetch extends Computed {
       !systemStore.setting.showLegalSource ||
       this.type !== '动画' ||
       this.nsfw ||
-      opitimize(this.state.epsData, D7)
+      optimize(this.state.epsData, D7)
     ) {
       return false
     }
@@ -308,7 +308,7 @@ export default class Fetch extends Computed {
   fetchRec = async () => {
     if (
       (this.nsfw && !systemStore.isAdvance && userStore.isExtremeLimit) ||
-      opitimize(this.state.recData, D7)
+      optimize(this.state.recData, D7)
     ) {
       return false
     }
@@ -660,7 +660,7 @@ export default class Fetch extends Computed {
       this.nsfw ||
       systemStore.setting.showAnitabi === -1 ||
       !systemStore.setting.showAnitabi ||
-      opitimize(this.state.anitabi, D1)
+      optimize(this.state.anitabi, D1)
     ) {
       return false
     }
@@ -669,7 +669,7 @@ export default class Fetch extends Computed {
     const snapshotId = `anitabi_${this.subjectId}`
     try {
       const snapshot = await get(snapshotId)
-      if (opitimize(snapshot, D1)) {
+      if (optimize(snapshot, D1)) {
         this.setState({
           anitabi: {
             ...snapshot,
@@ -722,13 +722,13 @@ export default class Fetch extends Computed {
 
   /**
    * VIB 等评分数据
-   * @opitimize 12h
+   * @optimize 12h
    * */
   fetchVIB = async () => {
     if (
       systemStore.setting.hideScore ||
       systemStore.setting.showRating !== true ||
-      opitimize(this.vib, D1)
+      optimize(this.vib, D1)
     ) {
       return false
     }

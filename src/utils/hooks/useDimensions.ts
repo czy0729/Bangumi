@@ -2,10 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-11-30 06:36:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-25 01:26:41
+ * @Last Modified time: 2026-05-17 05:37:10
  */
 import { useEffect, useState } from 'react'
-import { Dimensions, ScaledSize } from 'react-native'
+import { Dimensions } from 'react-native'
+
+import type { ScaledSize } from 'react-native'
 
 const window = Dimensions.get('window')
 const screen = Dimensions.get('screen')
