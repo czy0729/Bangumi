@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-07-29 19:28:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-10 06:30:15
+ * @Last Modified time: 2026-05-16 07:58:22
  */
 import { computed } from 'mobx'
 import { _, discoveryStore, subjectStore, userStore } from '@stores'
@@ -51,7 +51,7 @@ export default class Computed extends State {
 
     // 尽量补全评分信息
     list = list.map(item => {
-      const { id } = item
+      const { id } = item || {}
       return {
         ...item,
         score: subjectStore.ratingScore(id),

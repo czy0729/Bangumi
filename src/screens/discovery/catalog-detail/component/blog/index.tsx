@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-01-08 05:50:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-10 06:41:20
+ * @Last Modified time: 2026-05-16 08:01:38
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -22,7 +22,7 @@ function Blog({ index, item }: Props) {
 
   const styles = memoStyles()
 
-  const { comment } = item
+  const { comment } = item || {}
 
   return (
     <Flex style={styles.container} align='start'>

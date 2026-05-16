@@ -13,7 +13,9 @@
     "clean": "cd android && ./gradlew clean",
     "build": "cd android && ./gradlew assembleRelease && cd .. && node web/rename.js",
     "open": "start .\\android\\app\\build\\outputs\\apk\\release\\",
-    "open:mac": "open ./android/app/build/outputs/apk/release/"
+    "open:mac": "open ./android/app/build/outputs/apk/release/",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "resolutions": {
     "define-properties": "1.2.0",

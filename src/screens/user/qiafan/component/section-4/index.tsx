@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-26 04:02:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 18:36:41
+ * @Last Modified time: 2026-05-16 07:50:34
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -30,7 +30,7 @@ function Section4() {
           size={340}
           height={334}
           onLongPress={() => {
-            open('https://p.sda1.dev/19/4ade9df6f52168beba94f444b155e2c8/alipay.jpg')
+            open('https://lsky.ry.mk/i/2026/05/15/13bfe904b76d7.webp')
           }}
         />
       </Flex>
@@ -46,7 +46,7 @@ function Section4() {
           size={340}
           height={334}
           onLongPress={() => {
-            open('https://p.sda1.dev/19/62671a0bfd9e40ef944b030b670fc1a7/wx.jpg')
+            open('https://lsky.ry.mk/i/2026/05/15/3c098ee47ec1c.webp')
           }}
         />
       </Flex>
@@ -60,7 +60,7 @@ function Section4() {
           height={480}
           radius={_.radiusSm}
           onLongPress={() => {
-            open('https://p.sda1.dev/19/06f923230c58da2f4c1599d2f85af175/hongbao.jpg')
+            open('https://lsky.ry.mk/i/2026/05/15/e273cca0c4437.webp')
           }}
         />
       </Flex>

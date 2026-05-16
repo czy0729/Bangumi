@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-25 22:07:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-14 14:35:46
+ * @Last Modified time: 2026-05-16 07:15:38
  */
 import { Dimensions, Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
@@ -40,7 +40,7 @@ export const STORYBOOK = false
 export const WEB = false
 
 /** 平板放大比例 */
-export const RATIO = PAD === 2 ? (WSA ? 1.44 : 1.64) : PAD === 1 ? (WSA ? 1.16 : 1.44) : 1
+export const RATIO = PAD === 2 ? 1.44 : PAD === 1 ? 1.28 : 1
 
 /** 是否 Storybook iframe.html 中 */
 export const STORYBOOK_IFRAME = false

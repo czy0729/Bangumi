@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 22:49:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 01:50:14
+ * @Last Modified time: 2026-05-16 07:33:19
  */
 import React from 'react'
 import { ActivityIndicator } from 'react-native'
@@ -33,7 +33,7 @@ const Raw = observer(({ spinnerStyle, color, size = 'small' }: ActivityIndicator
   return USED_SPINNER ? (
     <Spinner style={stl(styles.spinner, spinnerStyle)} />
   ) : (
-    <ActivityIndicator color={color || _.select(_.colorSub, _.colorDesc)} size={size} />
+    <ActivityIndicator color={color || _.colorSub} size={size} />
   )
 })
 
@@ -41,7 +41,7 @@ const Raw = observer(({ spinnerStyle, color, size = 'small' }: ActivityIndicator
 const Normal = observer(({ color, size = 'small' }: ActivityIndicatorProps) => {
   r(COMPONENT)
 
-  return <ActivityIndicator color={color || _.select(_.colorSub, _.colorDesc)} size={size} />
+  return <ActivityIndicator color={color || _.colorSub} size={size} />
 })
 
 /** Loading (中) */
@@ -50,7 +50,7 @@ const Medium = observer(({ style, color, size = 'small' }: ActivityIndicatorProp
 
   return (
     <Component id='component-loading' style={stl(styles.medium, style)}>
-      <ActivityIndicator color={color || _.select(_.colorSub, _.colorDesc)} size={size} />
+      <ActivityIndicator color={color || _.colorSub} size={size} />
     </Component>
   )
 })
@@ -61,7 +61,7 @@ const Mini = observer(({ style, color, size = 'small' }: ActivityIndicatorProps)
 
   return (
     <Component id='component-loading' style={stl(styles.mini, style)}>
-      <ActivityIndicator color={color || _.select(_.colorSub, _.colorDesc)} size={size} />
+      <ActivityIndicator color={color || _.colorSub} size={size} />
     </Component>
   )
 })

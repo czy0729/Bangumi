@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:16:32
+ * @Last Modified time: 2026-05-16 07:20:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,6 +17,7 @@ import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
 import type { Props } from './types'
+
 function HeadWrap({ onBlockRef }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
@@ -39,7 +40,7 @@ function HeadWrap({ onBlockRef }: Props) {
       <View
         ref={ref => onBlockRef(ref, TITLE_HEAD)}
         style={{
-          paddingTop: _.r(statusBarHeight) + _.device(0, 24),
+          paddingTop: _.r(statusBarHeight) + _.device(_.ios(0, 16), 24),
           marginTop: _.ios(_.r(statusBarHeight) + 48, -80)
         }}
       >
