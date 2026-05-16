@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-24 08:12:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:24:45
+ * @Last Modified time: 2026-05-16 22:38:16
  */
 import React, { useCallback } from 'react'
 import { observer } from 'mobx-react'
@@ -26,7 +26,7 @@ function IconGame({ style, children }: IconProps) {
     [$, navigation]
   )
 
-  if (!$.titleLabel.includes('游戏')) return null
+  if ($.type !== '游戏') return null
 
   return (
     <Popover

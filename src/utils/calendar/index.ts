@@ -1,11 +1,11 @@
+import dayjs from 'dayjs'
 /*
  * @Author: czy0729
  * @Date: 2021-07-10 16:08:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:05:49
+ * @Last Modified time: 2026-05-16 22:28:31
  */
 import * as Calendar from 'expo-calendar'
-import dayjs from 'dayjs'
 import { IOS } from '@constants/constants'
 
 const CALENDAR_TITLE = 'Bangumi番组计划'
@@ -77,9 +77,7 @@ export async function calendarGetEventsAsync(): Promise<string[]> {
   const events = await Calendar.getEventsAsync(
     [lastCalendarId],
     new Date(dayjs().subtract(8, 'hours').format('YYYY-MM-DDTHH:mm:ss.000[Z]')),
-    new Date(
-      dayjs().subtract(8, 'hours').add(6, 'month').format('YYYY-MM-DDTHH:mm:ss.000[Z]')
-    )
+    new Date(dayjs().subtract(8, 'hours').add(6, 'month').format('YYYY-MM-DDTHH:mm:ss.000[Z]'))
   )
   return events.map(item => item.title)
 }
@@ -106,4 +104,39 @@ async function createCalendar() {
     accessLevel: Calendar.CalendarAccessLevel.OWNER
   })
   return newCalendarID
+}
+
+/** 保存游戏发售日期到日历 */
+export async function calendarEventsSaveGameReleaseDate(
+  title: string,
+  date: string,
+  region: string,
+  notes?: string
+): Promise<string | boolean> {
+  const status = await calendarEventsRequestPermissions()
+  if (status !== 'authorized') return false
+
+  try {
+    // 支持多种日期格式:
+    // 1998年11月21日, 2004-04-28, 2004-04-28(PC)
+    let dateStr = date.replace(/(\d{4})年(\d{1,2})月(\d{1,2})日?/, '$1-$2-$3')
+    // 去除可能的平台后缀，如 (PC)
+    dateStr = dateStr.replace(/\(.+\)$/, '').trim()
+    const eventTitle = region ? `${title} (${region})` : title
+
+    const startDate = dayjs(`${dateStr}T00:00:00`)
+    const endDate = dayjs(`${dateStr}T23:59:59`)
+
+    const format = 'YYYY-MM-DDTHH:mm:ss.000[Z]'
+    const sDate = startDate.subtract(8, 'hours').format(format)
+    const eDate = endDate.subtract(8, 'hours').format(format)
+
+    return calendarEventsSaveEvent(eventTitle, {
+      startDate: sDate,
+      endDate: eDate,
+      notes
+    })
+  } catch (error) {
+    return false
+  }
 }

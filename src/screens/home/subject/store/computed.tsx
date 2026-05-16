@@ -92,6 +92,7 @@ import {
   SORT_RELATION_DESC,
   TEXT_ACTIONS_MANAGE,
   TEXT_ANI_DB,
+  TEXT_GAME_CALENDAR_SUBSCRIBE,
   TEXT_ICS_MANAGE,
   TEXT_MAL,
   TEXT_NETABA,
@@ -1391,10 +1392,33 @@ export default class Computed extends State {
     return data.map(item => (typeof item === 'object' ? item.name : item))
   }
 
+  /** 游戏发售日期 */
+  @computed get gameReleaseDates() {
+    if (this.type !== '游戏' || !this.rawInfo) return []
+
+    const dates: { date: string; region: string; fullText: string }[] = []
+    try {
+      // 匹配所有日期，不管前面是什么字段名
+      // 格式: 1998年11月21日(日本), 2004-04-28(PC), 2004-03-18 (PS2) 等
+      const datePattern = /(\d{4}[-年]\d{1,2}[-月]\d{1,2}[日]?)(?:\s*\(([^)]+)\))?/g
+      for (const m of this.rawInfo.matchAll(datePattern)) {
+        dates.push({
+          date: m[1],
+          region: m[2] || '',
+          fullText: m[2] ? `${m[1]}(${m[2]})` : m[1]
+        })
+      }
+    } catch {}
+    return dates
+  }
+
   /** 游戏源头菜单 */
   @computed get gameData() {
     const data = [...this.onlineGameOrigins, TEXT_ORIGINS_MANAGE]
     if (!this.actions.length) data.push(TEXT_ACTIONS_MANAGE)
+    if (systemStore.setting.exportICS && this.gameReleaseDates.length) {
+      data.push(TEXT_GAME_CALENDAR_SUBSCRIBE)
+    }
     return data.map(item => (typeof item === 'object' ? item.name : item))
   }
 

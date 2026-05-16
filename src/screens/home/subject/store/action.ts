@@ -43,6 +43,7 @@ import {
   showActionSheet,
   updateVisibleBottom
 } from '@utils'
+import { calendarEventsSaveGameReleaseDate } from '@utils/calendar'
 import { logger } from '@utils/dev'
 import { baiduTranslate, t } from '@utils/fetch'
 import { completions, download, get, lx, temp, update } from '@utils/kv'
@@ -82,6 +83,7 @@ import Fetch from './fetch'
 import {
   TEXT_ACTIONS_MANAGE,
   TEXT_ANI_DB,
+  TEXT_GAME_CALENDAR_SUBSCRIBE,
   TEXT_ICS_MANAGE,
   TEXT_MAL,
   TEXT_NETABA,
@@ -590,6 +592,11 @@ export default class Action extends Fetch {
         subjectId: this.subjectId,
         name: this.cn || this.jp
       })
+      return
+    }
+
+    if (title === TEXT_GAME_CALENDAR_SUBSCRIBE) {
+      this.doSaveGameReleaseDate()
       return
     }
 
@@ -1599,6 +1606,47 @@ export default class Action extends Fetch {
       const url = await download(data.downloadKey)
       open(url)
     }
+  }
+
+  /** 添加游戏发售日期到日历 */
+  doSaveGameReleaseDate = () => {
+    const dates = this.gameReleaseDates
+    if (!dates.length) {
+      info('没有可解析的发售日期')
+      return
+    }
+
+    const sheetData = [...dates.map(item => item.fullText), '取消'] as const
+    showActionSheet(sheetData, index => {
+      if (index < dates.length) {
+        const item = dates[index]
+        setTimeout(async () => {
+          try {
+            const title = cnjp(this.cn, this.jp)
+            const url = `https://bgm.tv/subject/${this.subjectId}`
+
+            const cb = async () => {
+              const calendarId = await calendarEventsSaveGameReleaseDate(
+                title,
+                item.date,
+                item.region,
+                url
+              )
+              if (!calendarId) {
+                info('添加可能失败了，请检查')
+              } else {
+                feedback()
+                info('添加成功')
+              }
+            }
+
+            confirm(`${title}\n${item.fullText}\n确定添加到日历中吗？`, cb, '发售提醒')
+          } catch (error) {
+            info('功能出错，请联系开发者')
+          }
+        }, 80)
+      }
+    })
   }
 
   private _doChatUpdate = false

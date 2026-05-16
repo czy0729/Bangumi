@@ -209,3 +209,5 @@ export const TEXT_ANI_DB = 'AniDB'
 export const TEXT_MAL = 'MAL'
 
 export const TEXT_NETABA = 'netaba.re'
+
+export const TEXT_GAME_CALENDAR_SUBSCRIBE = '订阅发售日期到日历'
