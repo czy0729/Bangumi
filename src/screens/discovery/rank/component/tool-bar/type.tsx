@@ -5,9 +5,9 @@
  * @Last Modified time: 2024-11-16 09:54:26
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { ToolBar } from '@components'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { DATA_TYPE } from './ds'
 
 import type { Ctx } from '../../types'
@@ -16,7 +16,7 @@ import type { Ctx } from '../../types'
 function Type() {
   const { $ } = useStore<Ctx>()
 
-  return useObserver(() => (
+  return (
     <ToolBar.Popover
       data={DATA_TYPE}
       icon='md-filter-list'
@@ -26,7 +26,7 @@ function Type() {
       onSelect={$.onTypeSelect}
       heatmap='排行榜.类型选择'
     />
-  ))
+  )
 }
 
-export default Type
+export default observer(Type)

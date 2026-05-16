@@ -5,10 +5,10 @@
  * @Last Modified time: 2025-12-22 20:47:29
  */
 import React, { useCallback, useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { ListView } from '@components'
 import { _, useStore } from '@stores'
 import { keyExtractor, stl } from '@utils'
-import { useObserver } from '@utils/hooks'
 import ToolBar from '../tool-bar'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
@@ -23,32 +23,31 @@ function FlatList() {
 
   const handleHeaderRefresh = useCallback(() => $.fetchRankWithoutPagination(true), [$])
 
-  return useObserver(() => {
-    const styles = memoStyles()
-    const { show, fixed } = $.state
-    const numColumns = $.isList ? undefined : _.portrait(_.device(3, 4), 5)
+  const styles = memoStyles()
 
-    return (
-      <>
-        {fixed && elToolbar}
-        {show && !!$.list._loaded && (
-          <ListView
-            key={`${$.isList}|${numColumns}`}
-            keyExtractor={keyExtractor}
-            contentContainerStyle={stl(_.container.bottom, !$.isList && styles.grid)}
-            numColumns={numColumns}
-            data={$.list}
-            ListHeaderComponent={!fixed && elToolbar}
-            renderItem={renderItem}
-            scrollEventThrottle={16}
-            onScroll={$.onScroll}
-            onHeaderRefresh={handleHeaderRefresh}
-            onFooterRefresh={$.fetchRankWithoutPagination}
-          />
-        )}
-      </>
-    )
-  })
+  const { show, fixed } = $.state
+  const numColumns = $.isList ? undefined : _.portrait(_.device(3, 4), 5)
+
+  return (
+    <>
+      {fixed && elToolbar}
+      {show && !!$.list._loaded && (
+        <ListView
+          key={`${$.isList}|${numColumns}`}
+          keyExtractor={keyExtractor}
+          contentContainerStyle={stl(_.container.bottom, !$.isList && styles.grid)}
+          numColumns={numColumns}
+          data={$.list}
+          ListHeaderComponent={!fixed && elToolbar}
+          renderItem={renderItem}
+          scrollEventThrottle={16}
+          onScroll={$.onScroll}
+          onHeaderRefresh={handleHeaderRefresh}
+          onFooterRefresh={$.fetchRankWithoutPagination}
+        />
+      )}
+    </>
+  )
 }
 
-export default FlatList
+export default observer(FlatList)

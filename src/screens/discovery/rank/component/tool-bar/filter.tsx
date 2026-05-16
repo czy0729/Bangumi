@@ -5,9 +5,9 @@
  * @Last Modified time: 2024-11-16 09:48:50
  */
 import React, { useCallback, useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { ToolBar } from '@components'
 import { useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { DATA_FILTER } from './ds'
 
 import type { RankFilter } from '@types'
@@ -17,39 +17,37 @@ import type { Ctx } from '../../types'
 function Filter() {
   const { $ } = useStore<Ctx>()
 
-  return useObserver(() => {
-    const typeCn = $.typeCn as '动画' | '书籍' | '游戏' | '三次元'
-    const data = DATA_FILTER[typeCn]
+  const typeCn = $.typeCn as '动画' | '书籍' | '游戏' | '三次元'
+  const data = DATA_FILTER[typeCn]
 
-    const memoData = useMemo(() => {
-      if (!data?.data) return []
+  const memoData = useMemo(() => {
+    if (!data?.data) return [] as RankFilter[]
 
-      return data.data.map((item: { label: string }) => item.label)
-    }, [data?.data])
+    return data.data.map((item: { label: string }) => item.label) as RankFilter[]
+  }, [data?.data])
 
-    const handleSelect = useCallback(
-      (title: RankFilter) => {
-        $.onFilterSelect(title, data)
-      },
-      [data]
-    )
+  const handleSelect = useCallback(
+    (title: RankFilter) => {
+      $.onFilterSelect(title, data)
+    },
+    [$, data]
+  )
 
-    if (!data) return null
+  if (!data) return null
 
-    const { filter } = $.state
-    const text: string = data.getLabel(filter)
+  const { filter } = $.state
+  const text: string = data.getLabel(filter)
 
-    return (
-      <ToolBar.Popover
-        key={typeCn}
-        data={memoData}
-        text={text === '全部' ? '分类' : text}
-        type={filter === '' ? undefined : 'desc'}
-        onSelect={handleSelect}
-        heatmap='排行榜.筛选选择'
-      />
-    )
-  })
+  return (
+    <ToolBar.Popover
+      key={typeCn}
+      data={memoData}
+      text={text === '全部' ? '分类' : text}
+      type={filter === '' ? undefined : 'desc'}
+      onSelect={handleSelect}
+      heatmap='排行榜.筛选选择'
+    />
+  )
 }
 
-export default Filter
+export default observer(Filter)

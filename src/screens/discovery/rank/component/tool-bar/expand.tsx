@@ -5,9 +5,9 @@
  * @Last Modified time: 2024-11-16 09:47:07
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { ToolBar } from '@components'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 
 import type { ColorValue } from '@types'
 import type { Ctx } from '../../types'
@@ -15,29 +15,27 @@ import type { Ctx } from '../../types'
 function Expand() {
   const { $ } = useStore<Ctx>()
 
-  return useObserver(() => {
-    let color: ColorValue = _.colorIcon
-    if (
-      $.state.filter ||
-      $.state.filterSub ||
-      $.state.tag !== '全部' ||
-      $.state.source !== '全部' ||
-      $.state.area !== '全部' ||
-      $.state.target !== '全部' ||
-      $.state.classification !== '全部' ||
-      $.state.theme !== '全部'
-    ) {
-      color = _.colorDesc
-    }
+  let color: ColorValue = _.colorIcon
+  if (
+    $.state.filter ||
+    $.state.filterSub ||
+    $.state.tag !== '全部' ||
+    $.state.source !== '全部' ||
+    $.state.area !== '全部' ||
+    $.state.target !== '全部' ||
+    $.state.classification !== '全部' ||
+    $.state.theme !== '全部'
+  ) {
+    color = _.colorDesc
+  }
 
-    return (
-      <ToolBar.Icon
-        icon={$.state.expand ? 'md-keyboard-arrow-up' : 'md-keyboard-arrow-down'}
-        iconColor={color}
-        onSelect={$.onExpand}
-      />
-    )
-  })
+  return (
+    <ToolBar.Icon
+      icon={$.state.expand ? 'md-keyboard-arrow-up' : 'md-keyboard-arrow-down'}
+      iconColor={color}
+      onSelect={$.onExpand}
+    />
+  )
 }
 
-export default Expand
+export default observer(Expand)

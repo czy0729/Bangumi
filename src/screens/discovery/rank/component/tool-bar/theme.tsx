@@ -5,9 +5,9 @@
  * @Last Modified time: 2024-11-16 09:54:05
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { ToolBar } from '@components'
 import { useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { DATA_THEME } from './ds'
 
 import type { Ctx } from '../../types'
@@ -16,22 +16,20 @@ import type { Ctx } from '../../types'
 function Theme() {
   const { $ } = useStore<Ctx>()
 
-  return useObserver(() => {
-    const typeCn = $.typeCn as '三次元'
-    const data = DATA_THEME[typeCn]
-    if (!data) return null
+  const typeCn = $.typeCn as '三次元'
+  const data = DATA_THEME[typeCn]
+  if (!data) return null
 
-    return (
-      <ToolBar.Popover
-        key={typeCn}
-        data={data}
-        text={$.theme || '题材'}
-        type={$.theme === '' ? undefined : 'desc'}
-        onSelect={$.onThemeSelect}
-        heatmap='排行榜.题材选择'
-      />
-    )
-  })
+  return (
+    <ToolBar.Popover
+      key={typeCn}
+      data={data}
+      text={$.theme || '题材'}
+      type={$.theme === '' ? undefined : 'desc'}
+      onSelect={$.onThemeSelect}
+      heatmap='排行榜.题材选择'
+    />
+  )
 }
 
-export default Theme
+export default observer(Theme)

@@ -5,9 +5,9 @@
  * @Last Modified time: 2025-10-29 23:22:50
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import FlatList from './component/flat-list'
 import Scroll from './component/scroll'
 import Header from './header'
@@ -16,10 +16,10 @@ import { useRankPage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** 排行榜 */
-const Rank = (props: NavigationProps) => {
+function Rank(props: NavigationProps) {
   const { id, $ } = useRankPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-rank'>
       <StoreContext.Provider value={id}>
         <Page loaded={$.state._loaded} loading={$.loading}>
@@ -29,7 +29,7 @@ const Rank = (props: NavigationProps) => {
         <Header />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default Rank
+export default observer(Rank)

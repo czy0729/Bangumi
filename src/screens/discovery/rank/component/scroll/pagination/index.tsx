@@ -5,9 +5,9 @@
  * @Last Modified time: 2025-10-29 23:18:17
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Pagination as PaginationComp } from '@components'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT, HEATMAPS } from './ds'
 
 import type { Ctx } from '../../../types'
@@ -15,7 +15,7 @@ import type { Ctx } from '../../../types'
 function Pagination() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <PaginationComp
       style={_.mt.xs}
       input={$.state.ipt[$.state.type]}
@@ -25,7 +25,7 @@ function Pagination() {
       onChange={$.onPaginationInputChange}
       onSearch={$.doSearch}
     />
-  ))
+  )
 }
 
-export default Pagination
+export default observer(Pagination)

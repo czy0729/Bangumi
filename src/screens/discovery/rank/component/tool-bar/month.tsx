@@ -5,9 +5,9 @@
  * @Last Modified time: 2024-11-16 09:49:19
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { ToolBar } from '@components'
 import { useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { DATA_MONTH } from '@constants'
 
 import type { Ctx } from '../../types'
@@ -16,19 +16,17 @@ import type { Ctx } from '../../types'
 function Month() {
   const { $ } = useStore<Ctx>()
 
-  return useObserver(() => {
-    if (!$.airtime) return null
+  if (!$.airtime) return null
 
-    return (
-      <ToolBar.Popover
-        data={DATA_MONTH}
-        text={$.month ? `${$.month}月` : '月'}
-        type={$.month === '' ? undefined : 'desc'}
-        onSelect={$.onMonthSelect}
-        heatmap='排行榜.月选择'
-      />
-    )
-  })
+  return (
+    <ToolBar.Popover
+      data={DATA_MONTH}
+      text={$.month ? `${$.month}月` : '月'}
+      type={$.month === '' ? undefined : 'desc'}
+      onSelect={$.onMonthSelect}
+      heatmap='排行榜.月选择'
+    />
+  )
 }
 
-export default Month
+export default observer(Month)

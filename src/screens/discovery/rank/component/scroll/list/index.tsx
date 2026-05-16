@@ -5,10 +5,10 @@
  * @Last Modified time: 2025-10-29 23:16:34
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Empty, Heatmap } from '@components'
 import { FilterText } from '@_'
 import { useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import Item from '../../item'
 import { COMPONENT } from './ds'
 
@@ -17,22 +17,20 @@ import type { Ctx } from '../../../types'
 function List() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    const { list } = $.list
-    const { _filter } = $.rank
+  const { list } = $.list
+  const { _filter } = $.rank
 
-    return (
-      <>
-        {list.length ? (
-          list.map((item, index) => <Item key={item.id} item={item} index={index} />)
-        ) : (
-          <Empty />
-        )}
-        {!!_filter && <FilterText value={_filter} />}
-        <Heatmap id='排行榜.跳转' />
-      </>
-    )
-  })
+  return (
+    <>
+      {list.length ? (
+        list.map((item, index) => <Item key={item.id} item={item} index={index} />)
+      ) : (
+        <Empty />
+      )}
+      {!!_filter && <FilterText value={_filter} />}
+      <Heatmap id='排行榜.跳转' />
+    </>
+  )
 }
 
-export default List
+export default observer(List)
