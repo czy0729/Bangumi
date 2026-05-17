@@ -19,8 +19,8 @@
     "open:win": "start .\\android\\app\\build\\outputs\\apk\\release\\",
     "build:ipa": "sudo cd ios && xcodebuild -workspace Bangumi.xcworkspace -scheme Bangumi -configuration Release -sdk iphoneos CODE_SIGN_IDENTITY=\"\" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO -derivedDataPath build",
     "make:ipa": "sudo node web/ipa.js",
-    "test": "jest",
-    "test:watch": "jest --watch"
+    "test": "jest --detectOpenHandles",
+    "test:watch": "jest --watch --forceExit"
   },
   "resolutions": {
     "define-properties": "1.2.0",

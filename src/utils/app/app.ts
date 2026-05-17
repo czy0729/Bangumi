@@ -100,8 +100,13 @@ let __lastNavigationTime = 0
 let __navigationReference: Navigation | undefined
 
 function isNavigationAllowed(): boolean {
+  return true
+
   const now = Date.now()
-  if (now - __lastNavigationTime < NAVIGATION_COOLDOWN) return false
+  if (__lastNavigationTime && now - __lastNavigationTime < NAVIGATION_COOLDOWN) {
+    return false
+  }
+
   __lastNavigationTime = now
   return true
 }
@@ -191,8 +196,6 @@ export function appNavigate(
       }
       return false
     }
-
-    if (!isNavigationAllowed()) return false
 
     const { route, params } = result
     t(id, {
