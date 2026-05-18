@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-09 17:34:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-28 05:53:18
+ * @Last Modified time: 2026-05-17 07:11:30
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, Page } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import Tabs from './component/tabs'
 import Header from './header'
 import { useCharacterPage } from './hooks'
@@ -15,10 +15,10 @@ import { useCharacterPage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** 用户人物 */
-const Character = (props: NavigationProps) => {
+function Character(props: NavigationProps) {
   const { id, $ } = useCharacterPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-character'>
       <StoreContext.Provider value={id}>
         <Page loaded={$.state._loaded} loading={$.loading}>
@@ -27,7 +27,7 @@ const Character = (props: NavigationProps) => {
         <Header />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default Character
+export default observer(Character)

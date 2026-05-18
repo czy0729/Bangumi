@@ -6,8 +6,8 @@
  */
 import dayjs from 'dayjs'
 import dayjsCustomParseFormat from 'dayjs/plugin/customParseFormat'
-import dayjsCustomUTC from 'dayjs/plugin/utc'
 import dayjsCustomTimezone from 'dayjs/plugin/timezone'
+import dayjsCustomUTC from 'dayjs/plugin/utc'
 import dayjsCustomWeekday from 'dayjs/plugin/weekday'
 import { TIMEZONE_IS_GMT8 } from '@constants/constants'
 
@@ -89,6 +89,18 @@ export function toCN(weekDayJP: string | number = 0, timeJP: string = '0000') {
   }
 }
 
+/** 判断 info 字段中的日期是否在未来（晚于今天） */
+export function isFutureDate(info: string): boolean {
+  const now = dayjs()
+  const m1 = info.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/)
+  if (m1) return dayjs(`${m1[1]}-${m1[2]}-${m1[3]}`).isAfter(now, 'day')
+
+  const m2 = info.match(/(\d{4})-(\d{1,2})-(\d{1,2})/)
+  if (m2) return dayjs(`${m2[1]}-${m2[2]}-${m2[3]}`).isAfter(now, 'day')
+
+  return false
+}
+
 /** 当前时区 */
 export const TZ = dayjs.tz.guess()
 
@@ -106,9 +118,7 @@ export function toLocal(weekDayCN: string | number = 0, timeCN: string = '0000')
   const nextWeekday = dayjs()
     .weekday(Number(weekDayCN || 7))
     .format('YYYY-MM-DD')
-  const day = dayjs(
-    `${nextWeekday}T${timeCN.slice(0, 2)}:${timeCN.slice(2, 4)}:00+08:00`
-  )
+  const day = dayjs(`${nextWeekday}T${timeCN.slice(0, 2)}:${timeCN.slice(2, 4)}:00+08:00`)
   return {
     weekDayCN,
     timeCN,

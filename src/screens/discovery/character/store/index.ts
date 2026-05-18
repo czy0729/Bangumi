@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-09 17:38:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-03 15:45:00
+ * @Last Modified time: 2026-05-18 21:13:35
  */
 import Action from './action'
 import { RESET_STATE } from './ds'
@@ -18,5 +18,6 @@ export default class ScreenCharacter extends Action {
 
   unmount = () => {
     this.setState(RESET_STATE)
+    this.scrollToOffset = null
   }
 }

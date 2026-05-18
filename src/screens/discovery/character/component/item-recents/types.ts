@@ -7,4 +7,4 @@
 import type { RecentsItem } from '@stores/users/types'
 import type { WithIndex } from '@types'
 
-export type Props = WithIndex<RecentsItem>
+export type Props = WithIndex<RecentsItem> & { showDivider?: boolean }

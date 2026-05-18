@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-10-01 22:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-09 21:48:48
+ * @Last Modified time: 2026-05-18 20:56:36
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Avatar, Cover, Flex, Katakana, Text, Touchable } from '@components'
+import { observer } from 'mobx-react'
+import { Avatar, Cover, Flex, Iconfont, Katakana, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { InView, Stars, Tag } from '@_'
 import { _ } from '@stores'
-import { cnjp, HTMLDecode, stl, x18 } from '@utils'
+import { cnjp, date, getTimestamp, HTMLDecode, stl, x18 } from '@utils'
 import { t } from '@utils/fetch'
-import { useNavigation, useObserver } from '@utils/hooks'
+import { useNavigation } from '@utils/hooks'
 import { IMG_SUBJECT_ONLY, MODEL_SUBJECT_TYPE } from '@constants'
 import { COMPONENT, COVER_HEIGHT, COVER_WIDTH } from './ds'
 import { memoStyles } from './styles'
@@ -30,45 +31,57 @@ function ItemRecents({
   info,
   star,
   starInfo,
-  actors = []
+  actors = [],
+  showDivider
 }: Props) {
   const navigation = useNavigation(COMPONENT)
 
-  return useObserver(() => {
-    const styles = memoStyles()
-    const y = COVER_HEIGHT * (index + 1)
-    const left = cnjp(name, nameJP)
-    const right = cnjp(nameJP, name)
-    const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
-    const numberOfLines = info?.length >= 40 ? 2 : 3
+  const styles = memoStyles()
 
-    const handlePressSubject = () => {
-      navigation.push('Subject', {
-        subjectId: id,
-        _jp: nameJP,
-        _cn: name,
-        _image: getCoverSrc(cover, COVER_WIDTH),
-        _type: typeCn
-      })
+  const y = COVER_HEIGHT * (index + 1)
+  const left = cnjp(name, nameJP)
+  const right = cnjp(nameJP, name)
+  const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
+  const numberOfLines = info?.length >= 40 ? 2 : 3
 
-      t('收藏的人物.跳转', {
-        to: 'Subject',
-        subjectId: id
-      })
-    }
+  const handlePressSubject = () => {
+    navigation.push('Subject', {
+      subjectId: id,
+      _jp: nameJP,
+      _cn: name,
+      _image: getCoverSrc(cover, COVER_WIDTH),
+      _type: typeCn
+    })
 
-    const handlePressActor = (actorId: MonoId) => {
-      navigation.push('Mono', {
-        monoId: actorId
-      })
+    t('收藏的人物.跳转', {
+      to: 'Subject',
+      subjectId: id
+    })
+  }
 
-      t('收藏的人物.跳转', {
-        to: 'Mono',
-        monoId: actorId
-      })
-    }
+  const handlePressActor = (actorId: MonoId) => {
+    navigation.push('Mono', {
+      monoId: actorId
+    })
 
-    return (
+    t('收藏的人物.跳转', {
+      to: 'Mono',
+      monoId: actorId
+    })
+  }
+
+  return (
+    <>
+      {!!showDivider && (
+        <Flex>
+          <Flex.Item style={styles.dividerLine} />
+          <Iconfont name='md-access-time' color={_.colorMain} size={16} />
+          <Text style={_.ml.xs} type='main' bold>
+            {date('y-m-d', getTimestamp())}
+          </Text>
+          <Flex.Item style={styles.dividerLine} />
+        </Flex>
+      )}
       <Flex align='start' style={styles.container}>
         <InView style={styles.inView} y={y}>
           <Touchable animate onPress={handlePressSubject}>
@@ -144,8 +157,8 @@ function ItemRecents({
           </Flex>
         </Flex.Item>
       </Flex>
-    )
-  })
+    </>
+  )
 }
 
-export default ItemRecents
+export default observer(ItemRecents)

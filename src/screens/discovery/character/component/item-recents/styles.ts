@@ -24,5 +24,11 @@ export const memoStyles = _.memoStyles(() => ({
   },
   actors: {
     width: '50%'
+  },
+  dividerLine: {
+    height: 1,
+    marginVertical: _.md,
+    marginHorizontal: _._wind,
+    backgroundColor: _.colorMain
   }
 }))
