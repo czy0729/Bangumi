@@ -43,6 +43,7 @@ function List({ id }: Props) {
         ref={$.forwardRef}
         {...commonProps}
         data={list as Recents}
+        footerEmptyDataText={`收藏你喜欢的角色/声优/团体\n追踪最新相关作品动态`}
         renderItem={renderItemRecents(dividerIndex)}
       />
     )
