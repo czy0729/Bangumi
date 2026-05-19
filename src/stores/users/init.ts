@@ -68,6 +68,9 @@ export const STATE = {
   /** 好友列表 */
   friends: {} as Record<UserId, Friends>,
 
+  /** 反向好友列表 */
+  revFriends: {} as Record<UserId, Friends>,
+
   /** 我的好友 userId 哈希映射 */
   myFriendsMap: {
     _loaded: 0
@@ -109,6 +112,7 @@ export const LOADED = {
   catalogsCollect: false,
   characters: false,
   friends: false,
+  revFriends: false,
   myFriendsMap: false,
   persons: false,
   recents: false,

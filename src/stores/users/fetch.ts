@@ -8,6 +8,7 @@ import { getTimestamp } from '@utils'
 import { fetchHTML } from '@utils/fetch'
 import {
   HTML_FRIENDS,
+  HTML_REV_FRIENDS,
   HTML_USERS,
   HTML_USERS_BLOGS,
   HTML_USERS_CATALOGS,
@@ -75,6 +76,30 @@ export default class Fetch extends Computed {
         })
         this.save(STATE_KEY_2)
       }
+    } catch {}
+
+    return this[STATE_KEY](ITEM_KEY)
+  }
+
+  /** 反向好友列表 */
+  fetchRevFriends = async (userId: UserId = userStore.myId) => {
+    const STATE_KEY = 'revFriends'
+    const ITEM_KEY = userId
+
+    try {
+      const html = await fetchHTML({
+        url: `!${HTML_REV_FRIENDS(userId)}`
+      })
+
+      this.setState({
+        [STATE_KEY]: {
+          [ITEM_KEY]: {
+            list: cheerioFriends(html),
+            _loaded: getTimestamp()
+          }
+        }
+      })
+      this.save(STATE_KEY)
     } catch {}
 
     return this[STATE_KEY](ITEM_KEY)

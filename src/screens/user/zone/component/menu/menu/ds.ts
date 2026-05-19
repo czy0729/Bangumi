@@ -18,6 +18,7 @@ import {
   TEXT_MENU_DEV,
   TEXT_MENU_DISCONNECT,
   TEXT_MENU_FRIEND,
+  TEXT_MENU_REV_FRIEND,
   TEXT_MENU_IGNORE,
   TEXT_MENU_PM,
   TEXT_MENU_REPORT,
@@ -33,6 +34,7 @@ export const MENU_DS = [
   !WEB && TEXT_MENU_PM,
   TEXT_MENU_COLLECT,
   TEXT_MENU_FRIEND,
+  TEXT_MENU_REV_FRIEND,
   TEXT_MENU_CHARACTER
 ].filter(Boolean)
 
@@ -66,6 +68,14 @@ export const MENU_ACTIONS = {
     const { userId } = getData(context)
     navigation.push('Friends', {
       userId
+    })
+  },
+  [TEXT_MENU_REV_FRIEND](context: Ctx) {
+    const { navigation } = context
+    const { userId } = getData(context)
+    navigation.push('Friends', {
+      userId,
+      type: 'rev'
     })
   },
   [TEXT_MENU_CHARACTER](context: Ctx) {

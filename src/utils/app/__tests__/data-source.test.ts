@@ -330,6 +330,11 @@ describe('matchBgmLink', () => {
     expect(result).toEqual({ route: 'Friends', params: { userId: 'sai' } })
   })
 
+  it('用户反向好友', () => {
+    const result = matchBgmLink('https://bgm.tv/user/sai/rev_friends')
+    expect(result).toEqual({ route: 'Friends', params: { userId: 'sai', type: 'rev' } })
+  })
+
   it('条目', () => {
     const result = matchBgmLink('https://bgm.tv/subject/454684')
     expect(result).toEqual({ route: 'Subject', params: { subjectId: '454684' } })

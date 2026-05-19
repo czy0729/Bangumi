@@ -58,7 +58,7 @@ function Header() {
 
   return (
     <HeaderV2
-      title={$.params.userId ? 'TA的好友' : '我的好友'}
+      title={$.title}
       alias='好友'
       hm={$.hm}
       headerRight={handleHeaderRight}
