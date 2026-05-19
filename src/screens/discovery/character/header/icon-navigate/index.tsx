@@ -31,8 +31,7 @@ function IconNavigate({ $ }: Ctx) {
     })
   }, [$])
 
-  const { page } = $.state
-  if ($.tabs[page].title !== '人物近况') return null
+  if ($.title !== '人物近况') return null
 
   const list = $.list('recents') as Recents
   const dividerIndex = getDividerIndex(list)

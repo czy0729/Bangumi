@@ -10,7 +10,7 @@ import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { open } from '@utils'
 import { t } from '@utils/fetch'
-import { TEXT_MENU_BROWSER } from '@constants'
+import { HOST, TEXT_MENU_BROWSER } from '@constants'
 import IconNavigate from './icon-navigate'
 import { COMPONENT, DATA } from './ds'
 
@@ -27,7 +27,11 @@ function Header() {
           data={DATA}
           onSelect={title => {
             if (title === TEXT_MENU_BROWSER) {
-              open($.url)
+              if (this.title === '人物近况') {
+                open(`${HOST}/mono/update`)
+              } else {
+                open($.url)
+              }
 
               t('收藏的人物.右上角菜单', {
                 key: title

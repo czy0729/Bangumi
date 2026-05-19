@@ -21,8 +21,12 @@ export default class Computed extends State {
     return this.userId === userStore.myId ? TABS_SELF : TABS
   }
 
-  @computed get id(): Keys {
+  @computed get id() {
     return this.tabs?.[this.state.page]?.key || TABS[0].key
+  }
+
+  @computed get title() {
+    return this.tabs?.[this.state.page]?.title || TABS[0].title
   }
 
   @computed get loading() {
@@ -30,7 +34,7 @@ export default class Computed extends State {
   }
 
   @computed get url() {
-    return `${HOST}/user/${this.params?.userName}/mono`
+    return `${HOST}/user/${this.params?.userName || userStore.myId}/mono`
   }
 
   @computed get hm() {
