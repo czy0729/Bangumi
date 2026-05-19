@@ -156,7 +156,7 @@ export default class Computed extends State {
     if (TEXT_ONLY) {
       source = IMG_EMPTY_DARK
     } else {
-      if (typeof _image === 'string') source.uri = _image
+      if (typeof _image === 'string' && !!_image) source.uri = _image
       source.uri = fixedHD(this.bg || this.avatar || source.uri)
     }
 

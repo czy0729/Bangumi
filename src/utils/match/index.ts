@@ -11,8 +11,6 @@ import type { UserId } from '@types'
 /** 缓存结果 */
 const cacheMap = new Map<string, any>()
 
-const DEFAULT_AVATAR = '//lain.bgm.tv/pic/user/s/icon.jpg'
-
 /** 匹配 */
 function match(
   str: string = '',
@@ -38,14 +36,16 @@ function match(
 /**
  * 匹配头像地址
  *  - style="background-image:url('//lain.bgm.tv/pic/user/l/000/00/00/000000.jpg?r=0')"
+ *  - 没匹配到必须返回空，不能返回默认头像地址
  * */
 export function matchAvatar(str: string = ''): string {
   return (
     match(
       str,
-      str => str.match(/background-image:url\('(.+?)'\)/)?.[1] || DEFAULT_AVATAR,
+      str =>
+        str.match(/background-image:url\('(.+?)'\)/)?.[1] || '//lain.bgm.tv/pic/user/s/icon.jpg',
       'matchAvatar'
-    ) || DEFAULT_AVATAR
+    ) || ''
   )
 }
 
