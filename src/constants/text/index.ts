@@ -99,6 +99,9 @@ export const TEXT_MENU_COLLECT = 'TA的收藏'
 /** 菜单: TA的好友 */
 export const TEXT_MENU_FRIEND = 'TA的好友'
 
+/** 菜单: 谁加TA为好友 */
+export const TEXT_MENU_REV_FRIEND = '谁加TA为好友'
+
 /** 菜单: TA的人物 */
 export const TEXT_MENU_CHARACTER = 'TA的人物'
 
@@ -183,6 +186,9 @@ export const TEXT_MENU_ZONE_SELF = '我的空间'
 
 /** 菜单: 我的好友 */
 export const TEXT_MENU_FRIEND_SELF = '我的好友'
+
+/** 菜单: 谁加我为好友 */
+export const TEXT_MENU_REV_FRIEND_SELF = '谁加我为好友'
 
 /** 菜单: 我的人物 */
 export const TEXT_MENU_CHARACTER_SELF = '我的人物'

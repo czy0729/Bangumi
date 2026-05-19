@@ -386,6 +386,9 @@ export const HTML_USERS = (userId: UserId) => `${HOST}/user/${userId}`
 /** 用户好友 */
 export const HTML_FRIENDS = (userId: UserId) => `${HOST}/user/${userId}/friends`
 
+/** 谁加用户为好友 */
+export const HTML_REV_FRIENDS = (userId: UserId) => `${HOST}/user/${userId}/rev_friends`
+
 /** 用户收藏的虚拟角色 */
 export const HTML_USERS_CHARCTER = (userId: UserId = '', page: number = 1) =>
   `${HOST}/user/${userId}/mono/character?page=${page}`

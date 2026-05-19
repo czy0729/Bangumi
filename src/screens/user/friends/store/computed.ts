@@ -6,7 +6,7 @@
  */
 import { computed } from 'mobx'
 import { _, usersStore, userStore } from '@stores'
-import { HTML_FRIENDS } from '@constants'
+import { HTML_FRIENDS, HTML_REV_FRIENDS } from '@constants'
 import State from './state'
 
 import type { UserId } from '@types'
@@ -18,6 +18,11 @@ export default class Computed extends State {
     return this.params.userId || userStore.myId
   }
 
+  /** 是否反向好友 */
+  @computed get isRevFriends() {
+    return this.params.type === 'rev'
+  }
+
   /** 用户信息 */
   users(userId: UserId) {
     return computed(() => usersStore.users(userId)).get()
@@ -25,7 +30,7 @@ export default class Computed extends State {
 
   /** 好友列表 */
   @computed get friends() {
-    return usersStore.friends(this.userId)
+    return this.isRevFriends ? usersStore.revFriends(this.userId) : usersStore.friends(this.userId)
   }
 
   /** 筛选 + 分组 + header 后的列表 */
@@ -111,7 +116,14 @@ export default class Computed extends State {
 
   /** 网址 */
   @computed get url() {
-    return HTML_FRIENDS(this.params?.userId || userStore.myId)
+    const userId = this.params?.userId || userStore.myId
+    return this.isRevFriends ? HTML_REV_FRIENDS(userId) : HTML_FRIENDS(userId)
+  }
+
+  /** 标题 */
+  @computed get title() {
+    if (this.isRevFriends) return this.params.userId ? '谁加TA为好友' : '谁加我为好友'
+    return this.params.userId ? 'TA的好友' : '我的好友'
   }
 
   @computed get hm() {

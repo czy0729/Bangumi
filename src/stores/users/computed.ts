@@ -51,6 +51,17 @@ export default class Computed
     }).get()
   }
 
+  /** 反向好友列表 */
+  revFriends(userId?: UserId) {
+    const STATE_KEY = 'revFriends'
+    this.init(STATE_KEY, true)
+
+    return computed(() => {
+      const ITEM_KEY = userId || userStore.myId
+      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as Friends
+    }).get()
+  }
+
   /** 我的好友 userId 哈希映射 */
   @computed get myFriendsMap() {
     const STATE_KEY = 'myFriendsMap'

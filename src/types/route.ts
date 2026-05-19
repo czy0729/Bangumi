@@ -548,6 +548,9 @@ export type RouteFriends = Route<
   {
     /** 用户 ID */
     userId?: UserId
+
+    /** 好友类型 */
+    type?: 'rev'
   }
 >
 

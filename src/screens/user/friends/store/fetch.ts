@@ -15,6 +15,8 @@ export default class Fetch extends Computed {
 
   /** 好友列表 */
   fetchFriends = () => {
+    if (this.isRevFriends) return usersStore.fetchRevFriends(this.userId)
+
     return usersStore.fetchFriends(this.userId)
   }
 

@@ -15,6 +15,8 @@ import {
   TEXT_MENU_FRIEND_SELF,
   TEXT_MENU_NETABA,
   TEXT_MENU_NETABA_SELF,
+  TEXT_MENU_REV_FRIEND,
+  TEXT_MENU_REV_FRIEND_SELF,
   TEXT_MENU_USER_TIMELINE_SELF,
   TEXT_MENU_WORDCLOUD_SELF,
   TEXT_MENU_ZONE_SELF
@@ -37,6 +39,12 @@ export function handleMenuPopoverPress(
 
     case TEXT_MENU_FRIEND_SELF:
       navigation.push('Friends')
+      break
+
+    case TEXT_MENU_REV_FRIEND_SELF:
+      navigation.push('Friends', {
+        type: 'rev'
+      })
       break
 
     case TEXT_MENU_CHARACTER_SELF:
@@ -70,6 +78,13 @@ export function handleMenuPopoverPress(
     case TEXT_MENU_FRIEND:
       navigation.push('Friends', {
         userId: id
+      })
+      break
+
+    case TEXT_MENU_REV_FRIEND:
+      navigation.push('Friends', {
+        userId: id,
+        type: 'rev'
       })
       break
 

@@ -323,9 +323,25 @@ export function matchBgmLink(url: string = ''):
     }
 
     /**
+     * 用户反向好友
+     *  - [/user/{userId}/rev_friends]
+     *  - https://bgm.tv/user/sai/rev_friends
+     */
+    if (value.includes('/user/') && value.endsWith('/rev_friends')) {
+      const userId = value.replace(`${HOST}/user/`, '').replace('/rev_friends', '')
+      return {
+        route: 'Friends',
+        params: {
+          userId,
+          type: 'rev'
+        }
+      }
+    }
+
+    /**
      * 用户好友
-     *  - [/user/{userId}/blog]
-     *  - https://bgm.tv/user/sai/blog
+     *  - [/user/{userId}/friends]
+     *  - https://bgm.tv/user/sai/friends
      */
     if (value.includes('/user/') && value.endsWith('/friends')) {
       const userId = value.replace(`${HOST}/user/`, '').replace('/friends', '')
