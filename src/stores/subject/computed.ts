@@ -162,7 +162,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 集数大于 1000 的条目的章节信息 */
   epV2(subjectId: SubjectId) {
-    const STATE_KEY = 'epStatus'
+    const STATE_KEY = 'epV2'
     this.init(STATE_KEY, true)
 
     return computed(() => {
