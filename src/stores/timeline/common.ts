@@ -12,10 +12,17 @@ import {
   getTimestamp,
   htmlMatch,
   matchAvatar,
+  matchUserId,
   safeObject
 } from '@utils'
 import { fetchHTML } from '@utils/fetch'
-import { HTML_TIMELINE, LIKE_TYPE_TIMELINE, LIST_EMPTY, MODEL_TIMELINE_SCOPE } from '@constants'
+import {
+  HOST,
+  HTML_TIMELINE,
+  LIKE_TYPE_TIMELINE,
+  LIST_EMPTY,
+  MODEL_TIMELINE_SCOPE
+} from '@constants'
 
 import type { Override, TimeLineScope, TimeLineScopeCn, TimeLineType, UserId } from '@types'
 import type { Likes } from '../rakuen/types'
@@ -51,6 +58,12 @@ export async function fetchTimeline(
     url: HTML_TIMELINE(scope, type, userId || userInfo?.username, page)
   })
   const list = []
+  const lastItem =
+    !refresh && oldData?.list?.length ? oldData.list[oldData.list.length - 1] : undefined
+  let lastUserId = matchUserId(
+    String(lastItem?.avatar?.url || lastItem?.p1?.url || '').replace(HOST, '')
+  )
+  let lastAvatarSrc = lastItem?.avatar?.src || ''
   const $ = cheerio(htmlMatch(html, '<div id="timeline">', '<div id="tmlPager">'))
 
   $('h4').each((_index: number, element: any) => {
@@ -129,9 +142,19 @@ export async function fetchTimeline(
           }
 
           /** 头像 */
+          const avatarStyle = $row.find('.avatarNeue').attr('style') || ''
+          const avatarUrl = $row.find('a.avatar').attr('href') || ''
+          const avatarUserId = matchUserId(String(avatarUrl || p1.url).replace(HOST, ''))
+          let avatarSrc = avatarStyle ? matchAvatar(avatarStyle) || '' : ''
+          if (!avatarSrc) {
+            avatarSrc =
+              avatarUserId && avatarUserId === lastUserId && lastAvatarSrc
+                ? lastAvatarSrc
+                : matchAvatar()
+          }
           const avatar = {
-            src: matchAvatar($row.find('.avatarNeue').attr('style')) || '',
-            url: $row.find('a.avatar').attr('href') || ''
+            src: avatarSrc,
+            url: avatarUrl
           }
 
           /** 主条目文字 (只有 ep 才显示) */
@@ -208,6 +231,11 @@ export async function fetchTimeline(
             image,
             clearHref: $row.find('.tml_del').attr('href') || ''
           })
+
+          if (avatarUserId) {
+            lastUserId = avatarUserId
+            lastAvatarSrc = avatarSrc
+          }
         } catch {}
       })
   })
