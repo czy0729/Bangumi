@@ -19,7 +19,6 @@ function Popover({
   style,
   hitSlop,
   activateOn = 'tap',
-  onPress,
   onSelect = FROZEN_FN,
   onLongPress = FROZEN_FN,
   children
@@ -48,7 +47,6 @@ function Popover({
   let handleLongPress: Fn | undefined
 
   if (activateOn === 'hold') {
-    handlePress = onPress
     handleLongPress = handlePopover
   } else {
     delayPressIn = 1600

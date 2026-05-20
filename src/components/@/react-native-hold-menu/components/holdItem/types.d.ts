@@ -121,8 +121,6 @@ export type HoldItemProps = {
    * closeOnTap={true}
    */
   closeOnTap?: boolean
-
-  onPress?: () => any
 }
 
 export type GestureHandlerProps = {

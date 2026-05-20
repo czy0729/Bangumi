@@ -56,7 +56,6 @@ const HoldItemComponent = ({
   hapticFeedback,
   actionParams,
   closeOnTap,
-  onPress,
   children
 }: HoldItemProps) => {
   //#region hooks
@@ -265,7 +264,7 @@ const HoldItemComponent = ({
     }
 
     // default hold
-    const longPressGesture = Gesture.LongPress()
+    return Gesture.LongPress()
       .minDuration(150)
       .onStart(() => {
         if (canCallActivateFunctions()) {
@@ -279,17 +278,7 @@ const HoldItemComponent = ({
         ctx.didMeasureLayout = false
         if (isHold) scaleBack()
       })
-
-    if (typeof onPress !== 'function') return longPressGesture
-
-    const tapGesture = Gesture.Tap()
-      .numberOfTaps(1)
-      .onEnd((_event, success) => {
-        if (success) runOnJS(onPress)()
-      })
-
-    return Gesture.Exclusive(longPressGesture, tapGesture)
-  }, [activateOn, onPress])
+  }, [activateOn])
 
   const overlayGesture = useMemo(() => {
     return Gesture.Tap()
