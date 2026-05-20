@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-13 05:03:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-21 11:16:52
+ * @Last Modified time: 2026-05-21 01:52:29
  */
 import { usersStore, userStore } from '@stores'
 import { confirm, debounce, feedback, HTMLDecode, info, updateVisibleBottom } from '@utils'
@@ -172,7 +172,6 @@ export default class Action extends Fetch {
     } catch {}
 
     info('获取好友数字 ID 失败')
-    return
   }
 
   /** 获取表单授权码 */
@@ -184,7 +183,6 @@ export default class Action extends Fetch {
       if (userStore.formhash) return userStore.formhash
     } catch {}
 
-    info('获取表单授权码失败')
-    return
+    info('获取表单授权码失败，请检查登录状态')
   }
 }

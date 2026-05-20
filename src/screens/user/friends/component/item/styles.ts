@@ -1,14 +1,13 @@
 /*
  * @Author: czy0729
- * @Date: 2024-04-12 02:16:52
+ * @Date: 2026-05-21 01:30:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-18 19:09:15
+ * @Last Modified time: 2026-05-21 02:02:06
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => {
-  const num = _.portrait(5, 8)
-  const { width, marginLeft } = _.grid(num)
+  const { width, marginLeft } = _.grid(_.portrait(5, 8))
 
   return {
     item: {
