@@ -17,7 +17,7 @@ const EVENT_TYPE = 'POPOVER_ONSELECT'
 
 let uniqueId = 0
 
-function Popover({ activateOn, children, ...other }) {
+function Popover({ activateOn, onPress, children, ...other }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const data = other.data || other.overlay?.props?.data || []
   const title = other.title || other.overlay?.props?.title || ''
@@ -78,6 +78,7 @@ function Popover({ activateOn, children, ...other }) {
         disableMove={items.length >= 10}
         closeOnTap
         hapticFeedback={IOS ? 'Light' : 'None'}
+        onPress={onPress}
       >
         {children}
       </HoldItem>

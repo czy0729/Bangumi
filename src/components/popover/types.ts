@@ -29,6 +29,8 @@ export type Props<Data extends PopoverData> = PropsWithChildren<
 
     activateOn?: 'tap' | 'hold'
 
+    onPress?: () => any
+
     /** 菜单选择 */
     onSelect?: (
       title?: Data[number],

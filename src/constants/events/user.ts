@@ -15,6 +15,7 @@ export default {
   '好友.跳转': 'Friends.to',
   '好友.排序': 'Friends.sort',
   '好友.右上角菜单': 'Friends.topRightMenu',
+  '好友.长按菜单': 'Friends.longPressMenu',
 
   我的: 'User',
   '我的.跳转': 'User.to',

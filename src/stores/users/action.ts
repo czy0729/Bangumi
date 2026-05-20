@@ -63,6 +63,67 @@ export default class Actions extends Fetch {
     }
   }
 
+  /** 从全局好友缓存移除好友项 */
+  removeFriend = async ({
+    userId = userStore.myId,
+    friendUserId,
+    type
+  }: {
+    userId?: UserId
+    friendUserId: UserId
+    type?: 'rev'
+  }) => {
+    const STATE_KEY = type === 'rev' ? 'revFriends' : 'friends'
+    const ITEM_KEY = userId
+
+    await this.init(STATE_KEY)
+
+    const data = this.state[STATE_KEY][ITEM_KEY]
+    if (!data?.list?.length) return false
+
+    // Bangumi 接口成功后不整页刷新列表，直接移除当前项保持 UI 即时反馈。
+    this.setState({
+      [STATE_KEY]: {
+        [ITEM_KEY]: {
+          ...data,
+          list: data.list.filter(item => String(item.userId) !== String(friendUserId)),
+          _loaded: getTimestamp()
+        }
+      }
+    })
+    this.save(STATE_KEY)
+
+    if (STATE_KEY === 'friends' && ITEM_KEY === userStore.myId) {
+      await this.init('myFriendsMap')
+
+      const myFriendsMap = {
+        ...this.myFriendsMap
+      }
+      delete myFriendsMap[friendUserId]
+
+      this.clearState('myFriendsMap', myFriendsMap)
+      this.save('myFriendsMap')
+
+      // 若对方空间页已缓存，清掉旧的解除好友入口，避免返回时显示过期状态。
+      await this.init('users')
+      const users = this.state.users[friendUserId]
+      if (users?._loaded && users.disconnectUrl) {
+        this.setState({
+          users: {
+            [friendUserId]: {
+              ...users,
+              disconnectUrl: '',
+              formhash: ''
+            }
+          }
+        })
+        this.save('users')
+      }
+    }
+
+    return true
+  }
+
   /** 更新用户简短信息 */
   updateUsersInfo = async (item: { avatar: string; userId: UserId; userName: string }) => {
     const STATE_KEY = 'usersInfo'
