@@ -79,7 +79,7 @@ class PM extends React.Component<Ctx> {
           <Loading />
         )}
         <FixedTextarea
-          placeholder='回复'
+          placeholder={$.userId ? '正文' : '回复'}
           value={value}
           onChange={$.onChange}
           onClose={$.closeFixedTextarea}

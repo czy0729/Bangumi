@@ -389,6 +389,14 @@ export const HTML_FRIENDS = (userId: UserId) => `${HOST}/user/${userId}/friends`
 /** 谁加用户为好友 */
 export const HTML_REV_FRIENDS = (userId: UserId) => `${HOST}/user/${userId}/rev_friends`
 
+/** 解除好友 */
+export const HTML_ACTION_DISCONNECT = (userNumId: number, formhash: string) =>
+  `${HOST}/disconnect/${userNumId}?gh=${formhash}`
+
+/** 移除对我的关注 */
+export const HTML_ACTION_DISCONNECT_REV = (userNumId: number, formhash: string) =>
+  `${HOST}/disconnect/rev/${userNumId}?gh=${formhash}`
+
 /** 用户收藏的虚拟角色 */
 export const HTML_USERS_CHARCTER = (userId: UserId = '', page: number = 1) =>
   `${HOST}/user/${userId}/mono/character?page=${page}`

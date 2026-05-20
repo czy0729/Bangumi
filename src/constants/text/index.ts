@@ -111,6 +111,9 @@ export const TEXT_MENU_CONNECT = '加为好友'
 /** 菜单: 解除好友 */
 export const TEXT_MENU_DISCONNECT = '解除好友'
 
+/** 菜单: 移除对我的关注 */
+export const TEXT_MENU_DISCONNECT_REV = '移除对我的关注'
+
 /** 菜单: 屏蔽用户 */
 export const TEXT_MENU_BLOCK = '屏蔽用户'
 
