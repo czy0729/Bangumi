@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-23 21:29:51
+ * @Last Modified time: 2026-05-20 20:53:54
  */
 import {
   IOS,
@@ -241,6 +241,9 @@ export const INIT_SETTING = {
 
   /** 是否显示正版播放源 */
   showLegalSource: WEB,
+
+  /** 是否看过时自动完成所有进度 */
+  autoCompleteEps: false,
 
   /** 首页列表是否显示搜索框 */
   homeFilter: true,

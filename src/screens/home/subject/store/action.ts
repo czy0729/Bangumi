@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-05 20:33:27
+ * @Last Modified time: 2026-05-20 23:14:11
  */
 import { toJS } from 'mobx'
 import { StatusBar } from '@components'
@@ -14,12 +14,14 @@ import {
   collectionStore,
   otaStore,
   rakuenStore,
+  subjectStore,
   systemStore,
   timelineStore,
   uiStore,
   usersStore,
   userStore
 } from '@stores'
+import { getInt } from '@stores/subject'
 import {
   appNavigate,
   asc,
@@ -102,7 +104,6 @@ import type {
 } from '@types'
 import type { OriginItem } from '../../../user/origin-setting/utils'
 import type { EpsItem } from '../types'
-
 export default class Action extends Fetch {
   private _updateStatusBarTimeoutId = null
 
@@ -1339,17 +1340,33 @@ export default class Action extends Fetch {
   }
 
   /** 输入框更新章节 */
-  doUpdateSubjectEp = async () => {
+  doUpdateSubjectEp = async (value?: string) => {
     const { watchedEps } = this.state
 
     // 20220414 nsfw 无效，待废弃，改用 doUpdateEp
     this.doUpdateEp({
-      eps: watchedEps
+      eps: value || watchedEps
     })
 
     t('条目.输入框更新章节', {
       subjectId: this.subjectId
     })
+  }
+
+  /** 看过时自动完成所有进度 */
+  autoCompleteEps = async () => {
+    const last = getInt(this.subjectId)
+    const STATE_KEY = `subjectFormHTML${last}` as const
+    await subjectStore.init(STATE_KEY)
+
+    const totalEps =
+      Number(subjectStore.subjectFormHTML(this.subjectId).totalEps || 0) ||
+      Number((await subjectStore.fetchSubjectFromHTML(this.subjectId))?.totalEps || 0)
+    if (totalEps) {
+      this.doUpdateEp({
+        eps: totalEps
+      })
+    }
   }
 
   /** 章节更新统一入口 */

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-07 07:13:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:11:30
+ * @Last Modified time: 2026-05-20 23:04:35
  */
 import React, { useCallback } from 'react'
 import { observer } from 'mobx-react'
@@ -31,7 +31,7 @@ function Eps() {
       login={userStore.isLogin}
       subjectId={$.params.subjectId}
       eps={$.toEps}
-      userProgress={$.userProgress}
+      userProgress={!!$?.collection?.status ? $.userProgress : undefined} // 当前没收藏的不能传递进度，因为进度数据在数据库中删除收藏后依然保留
       canPlay={$.onlinePlayActionSheetData.length >= 2}
       flip={$.state.flipEps}
       onFliped={$.afterEpsFlip}

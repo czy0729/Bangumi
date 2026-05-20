@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-14 16:02:11
+ * @Last Modified time: 2026-05-20 23:08:15
  */
 import React from 'react'
 import { BackHandler } from 'react-native'
@@ -10,6 +10,7 @@ import { observer } from 'mobx-react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { Component, Flex, Modal, Text } from '@components'
 import { _, collectionStore, subjectStore, systemStore, userStore } from '@stores'
+import { getInt } from '@stores/subject'
 import {
   alert,
   confirm,
@@ -35,7 +36,15 @@ import { COMPONENT, MAX_HISTORY_COUNT, NAMESPACE_COMMENT, NAMESPACE_PRIVACY } fr
 import { memoStyles } from './styles'
 
 import type { InputInstance } from '@components'
-import type { CollectionStatus, Private, PrivateCn, RatingStatus, SubjectType } from '@types'
+import type {
+  CollectionStatus,
+  Fn,
+  Private,
+  PrivateCn,
+  RatingStatus,
+  SubjectId,
+  SubjectType
+} from '@types'
 import type { Props as ManageModalProps, State } from './types'
 export type { ManageModalProps }
 
@@ -51,7 +60,8 @@ export const ManageModal = observer(
       status: '',
       action: '看',
       onSubmit: FROZEN_FN,
-      onClose: FROZEN_FN
+      onClose: FROZEN_FN,
+      onAutoCompleteEps: undefined
     }
 
     state: State = {
@@ -125,8 +135,8 @@ export const ManageModal = observer(
           this._fetched = true
           logger.log(COMPONENT, 'componentWillReceiveProps', JSON.stringify(result))
 
-          // 提前告知授权信息失效
-          if (result?.error && result.error.includes('token')) {
+          if (result?.error && result?.error?.includes?.('token')) {
+            // 提前告知授权信息失效
             const navigation = navigationReference()
             const content = `获取收藏信息失败：${result.error}，授权信息可能过期了`
             if (navigation) {
@@ -146,6 +156,11 @@ export const ManageModal = observer(
             } else {
               alert(content)
             }
+          } else if (result?.code === 400 && result?.error?.includes?.('Nothing found')) {
+            // 通常在客户端里面收藏过的条目，在网页端删除收藏了，没被追踪到需要主动清理本地缓存
+            collectionStore.removeCollection(nextProps.subjectId)
+            collectionStore.removeStatus(nextProps.subjectId)
+            userStore.removeCollection(nextProps.subjectId)
           }
 
           const {
@@ -292,6 +307,45 @@ export const ManageModal = observer(
         privacy,
         comment: HTMLDecode(comment || '')
       })
+
+      if (systemStore.setting.autoCompleteEps) {
+        setTimeout(() => {
+          this.doAutoCompleteEps(subjectId, this.props.onAutoCompleteEps)
+        }, 320)
+      }
+    }
+
+    /** 看过时自动完成所有进度 */
+    doAutoCompleteEps = async (subjectId: SubjectId, onAutoCompleteEps: Fn) => {
+      if (this.type !== 'anime' && this.type !== 'real') return
+
+      const result = await collectionStore.fetchCollection(subjectId)
+      if (result?.status?.type !== 'collect') return
+
+      // 通常在条目页中
+      if (onAutoCompleteEps && typeof onAutoCompleteEps === 'function') {
+        onAutoCompleteEps()
+        return
+      }
+
+      // 通常在列表项中
+      const last = getInt(subjectId)
+      const STATE_KEY = `subjectFormHTML${last}` as const
+      await subjectStore.init(STATE_KEY)
+
+      const totalEps =
+        Number(subjectStore.subjectFormHTML(subjectId).totalEps || 0) ||
+        Number((await subjectStore.fetchSubjectFromHTML(subjectId))?.totalEps || 0)
+      if (totalEps) {
+        const data = {
+          subjectId,
+          watchedEps: totalEps,
+          watchedVols: undefined,
+          noConsole: true
+        } as const
+        logger.log(COMPONENT, 'doAutoCompleteEps', data)
+        collectionStore.doUpdateSubjectEp(data)
+      }
     }
 
     setCommentHistory = (value: string) => {

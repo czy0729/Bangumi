@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-26 10:52:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 15:58:34
+ * @Last Modified time: 2026-05-20 23:19:46
  */
 import { rc } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
@@ -24,5 +24,6 @@ export const DEFAULT_PROPS = {
   nameCn: '' as $['subject']['name_cn'],
   action: '看' as $['action'],
   onSubmit: (() => undefined) as $['doUpdateCollection'],
-  onClose: FROZEN_FN as $['closeManageModal']
+  onClose: FROZEN_FN as $['closeManageModal'],
+  onAutoCompleteEps: FROZEN_FN as $['autoCompleteEps']
 }

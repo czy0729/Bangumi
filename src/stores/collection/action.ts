@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 03:04:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 15:51:07
+ * @Last Modified time: 2026-05-20 21:56:45
  */
 import { toJS } from 'mobx'
 import { confirm } from '@utils'
@@ -222,16 +222,19 @@ export default class Action extends Fetch {
       subjectId: SubjectId
       watchedEps?: string | number
       watchedVols?: string | number
+      noConsole?: boolean
     },
     success?: () => any
   ) => {
-    const { subjectId, watchedEps, watchedVols } = args || {}
+    const { subjectId, watchedEps, watchedVols, noConsole = false } = args || {}
     const query: Record<string, unknown> = {
       referer: 'subject',
       submit: '更新',
-      watchedeps: watchedEps
+      watchedeps: watchedEps,
+      noConsole
     }
     if (watchedVols) query.watched_vols = watchedVols
+
     return xhr(
       {
         url: HTML_ACTION_SUBJECT_SET_WATCHED(subjectId),

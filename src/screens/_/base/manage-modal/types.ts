@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 15:39:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-14 15:49:16
+ * @Last Modified time: 2026-05-20 21:43:09
  */
 import type { CollectionStatus, RatingStatus, SubjectActions, SubjectId } from '@types'
 
@@ -23,6 +23,7 @@ export type Props = {
     comment: string
   }) => any
   onClose?: () => any
+  onAutoCompleteEps?: () => any
 }
 
 export type State = Partial<{

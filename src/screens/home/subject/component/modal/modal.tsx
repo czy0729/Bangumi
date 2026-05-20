@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:37:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 06:58:17
+ * @Last Modified time: 2026-05-20 23:07:15
  */
 import React from 'react'
 import { ManageModal } from '@_'
@@ -21,7 +21,8 @@ const Modal = memo(
     nameCn = '',
     action = '看' as ManageModalProps['action'],
     onSubmit = FROZEN_FN,
-    onClose = FROZEN_FN
+    onClose = FROZEN_FN,
+    onAutoCompleteEps = FROZEN_FN
   }) => {
     return (
       <ManageModal
@@ -33,6 +34,7 @@ const Modal = memo(
         action={action}
         onSubmit={onSubmit}
         onClose={onClose}
+        onAutoCompleteEps={onAutoCompleteEps}
       />
     )
   },

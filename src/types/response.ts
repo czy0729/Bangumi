@@ -32,6 +32,7 @@ export type ResponseKVAdvance = Record<string, string>
 
 /** 旧 API 结构 */
 export type ResponseApi<T> = T & {
+  code?: number
   error?: string
 }
 
