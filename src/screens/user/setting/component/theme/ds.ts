@@ -31,7 +31,7 @@ export const TEXTS = {
   },
   autoColorScheme: {
     hd: '跟随系统',
-    information: '冷启动客户端时，主题是否跟随系统'
+    information: '客户端冷启动或系统主动切换主题时，主题是否跟随系统'
   },
   logoToggleTheme: {
     hd: '快速切换主题',

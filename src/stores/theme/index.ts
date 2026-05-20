@@ -31,6 +31,13 @@ class ThemeStore extends Action {
       letterSpacing: await this.getStorage('letterSpacing', NAMESPACE, 0)
     })
 
+    // 监听系统颜色方案变化, 跟随系统主题时自动切换
+    Appearance.addChangeListener(({ colorScheme }) => {
+      if (this.autoColorScheme && colorScheme && colorScheme !== this.mode) {
+        this.toggleMode(colorScheme)
+      }
+    })
+
     return true
   }
 }
