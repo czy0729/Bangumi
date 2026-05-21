@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-20 23:14:11
+ * @Last Modified time: 2026-05-22 00:21:02
  */
 import { toJS } from 'mobx'
 import { StatusBar } from '@components'
@@ -104,6 +104,7 @@ import type {
 } from '@types'
 import type { OriginItem } from '../../../user/origin-setting/utils'
 import type { EpsItem } from '../types'
+
 export default class Action extends Fetch {
   private _updateStatusBarTimeoutId = null
 
@@ -1359,13 +1360,18 @@ export default class Action extends Fetch {
     const STATE_KEY = `subjectFormHTML${last}` as const
     await subjectStore.init(STATE_KEY)
 
-    const totalEps =
-      Number(subjectStore.subjectFormHTML(this.subjectId).totalEps || 0) ||
-      Number((await subjectStore.fetchSubjectFromHTML(this.subjectId))?.totalEps || 0)
-    if (totalEps) {
-      this.doUpdateEp({
-        eps: totalEps
-      })
+    if (this.type === '动画' || this.type === '三次元') {
+      const eps =
+        Number(subjectStore.subjectFormHTML(this.subjectId)?.totalEps) ||
+        Number((await subjectStore.fetchSubjectFromHTML(this.subjectId))?.totalEps)
+      if (eps) return this.doUpdateEp({ eps })
+    }
+
+    if (this.type === '书籍') {
+      const book = (await subjectStore.fetchSubjectFromHTML(this.subjectId))?.book
+      const eps = Number(book?.totalChap) || undefined
+      const vol = Number(book?.totalVol) || undefined
+      if (eps || vol) return this.doUpdateEp({ eps, vol })
     }
   }
 
@@ -1383,7 +1389,7 @@ export default class Action extends Fetch {
         async () => {
           userStore.fetchCollectionSingle(this.subjectId)
           await userStore.fetchUserProgress(this.subjectId)
-          await this.fetchSubjectFromHTML(true)
+          await this.fetchSubjectFromHTML(true, false)
           this.save()
           this.afterEpsFlip()
           if (isNeedFeedback) {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-20 23:08:15
+ * @Last Modified time: 2026-05-22 00:20:22
  */
 import React from 'react'
 import { BackHandler } from 'react-native'
@@ -308,17 +308,18 @@ export const ManageModal = observer(
         comment: HTMLDecode(comment || '')
       })
 
-      if (systemStore.setting.autoCompleteEps) {
+      if (
+        (systemStore.setting.autoCompleteEps && (this.type === 'anime' || this.type === 'real')) ||
+        (systemStore.setting.autoCompleteBooks && this.type === 'book')
+      ) {
         setTimeout(() => {
           this.doAutoCompleteEps(subjectId, this.props.onAutoCompleteEps)
         }, 320)
       }
     }
 
-    /** 看过时自动完成所有进度 */
+    /** 看、读过时自动完成所有进度、话数、卷数 */
     doAutoCompleteEps = async (subjectId: SubjectId, onAutoCompleteEps: Fn) => {
-      if (this.type !== 'anime' && this.type !== 'real') return
-
       const result = await collectionStore.fetchCollection(subjectId)
       if (result?.status?.type !== 'collect') return
 
@@ -333,18 +334,29 @@ export const ManageModal = observer(
       const STATE_KEY = `subjectFormHTML${last}` as const
       await subjectStore.init(STATE_KEY)
 
-      const totalEps =
-        Number(subjectStore.subjectFormHTML(subjectId).totalEps || 0) ||
-        Number((await subjectStore.fetchSubjectFromHTML(subjectId))?.totalEps || 0)
-      if (totalEps) {
-        const data = {
+      const updateEps = (data: {
+        subjectId: SubjectId
+        watchedEps?: number
+        watchedVols?: number
+      }) => {
+        if (data.watchedEps || data.watchedVols) {
+          logger.log(COMPONENT, 'doAutoCompleteEps', data)
+          collectionStore.doUpdateSubjectEp({ ...data, noConsole: true })
+        }
+      }
+
+      if (this.type === 'anime' || this.type === 'real') {
+        const totalEps =
+          Number(subjectStore.subjectFormHTML(subjectId)?.totalEps) ||
+          Number((await subjectStore.fetchSubjectFromHTML(subjectId))?.totalEps)
+        updateEps({ subjectId, watchedEps: totalEps || undefined })
+      } else if (this.type === 'book') {
+        const book = (await subjectStore.fetchSubjectFromHTML(subjectId))?.book
+        updateEps({
           subjectId,
-          watchedEps: totalEps,
-          watchedVols: undefined,
-          noConsole: true
-        } as const
-        logger.log(COMPONENT, 'doAutoCompleteEps', data)
-        collectionStore.doUpdateSubjectEp(data)
+          watchedEps: Number(book?.totalChap) || undefined,
+          watchedVols: Number(book?.totalVol) || undefined
+        })
       }
     }
 

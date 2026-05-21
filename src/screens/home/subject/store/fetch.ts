@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-05 20:33:29
+ * @Last Modified time: 2026-05-21 23:47:59
  */
 import {
   collectionStore,
@@ -73,10 +73,10 @@ export default class Fetch extends Computed {
   }
 
   /** 网页的条目信息 (书籍只有网页端有数据源, 需要初始值) */
-  fetchSubjectFromHTML = async (refresh: boolean = false) => {
+  fetchSubjectFromHTML = async (refresh: boolean = false, autoPrevent: boolean = true) => {
     if (!refresh && optimize(this.subjectFormHTML, M5)) return false
 
-    const data = await subjectStore.fetchSubjectFromHTML(this.subjectId)
+    const data = await subjectStore.fetchSubjectFromHTML(this.subjectId, autoPrevent)
     const { watchedEps, book } = data
     this.setState({
       watchedEps: watchedEps || '0',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 22:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:04:43
+ * @Last Modified time: 2026-05-22 00:09:01
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -17,11 +17,13 @@ import type { Props } from './types'
 function BookEpWrap({ onScrollIntoViewIfNeeded }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
+  const isCollected = !!$?.collection?.status
+
   return (
     <BookEp
       styles={memoStyles()}
-      chap={$.state.chap || '0'}
-      vol={$.state.vol || '0'}
+      chap={isCollected ? $.state.chap || '0' : '0'}
+      vol={isCollected ? $.state.vol || '0' : '0'}
       book={$.subjectFormHTML.book}
       comicLength={$.comic.length}
       status={$.collection.status}

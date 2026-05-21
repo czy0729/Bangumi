@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:33:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-20 11:16:58
+ * @Last Modified time: 2026-05-21 23:47:33
  */
 import { getTimestamp, HTMLTrim, omit, queue } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -121,13 +121,14 @@ export default class Fetch extends Computed {
   }
 
   /** 网页获取条目信息 */
-  fetchSubjectFromHTML = async (subjectId: SubjectId) => {
+  fetchSubjectFromHTML = async (subjectId: SubjectId, autoPrevent: boolean = true) => {
     const STATE_KEY = 'subjectFormHTML'
     const ITEM_KEY = subjectId
 
     try {
       const html = await fetchHTML({
-        url: HTML_SUBJECT(subjectId)
+        url: HTML_SUBJECT(subjectId),
+        autoPrevent
       })
 
       const STATE_KEY_FINAL = `subjectFormHTML${getInt(subjectId)}` as const

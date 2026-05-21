@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:36:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-04 17:19:03
+ * @Last Modified time: 2026-05-21 23:46:28
  */
 import { API_HOST, API_V0 } from '@constants/api'
 import { APP_ID, HOST, UA } from '@constants/constants'
@@ -137,7 +137,15 @@ const LAST_FETCH_HTML = {}
 export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
   if (isDevtoolsOpen()) return Promise.reject('denied')
 
-  const { method = 'GET', url, data = {}, headers = {}, cookie, raw = false } = args || {}
+  const {
+    method = 'GET',
+    url,
+    data = {},
+    headers = {},
+    cookie,
+    raw = false,
+    autoPrevent = true
+  } = args || {}
   const isGet = method === 'GET'
 
   /** @todo [网页端] POST 请求需要携带授权信息, 暂没接入 */
@@ -159,7 +167,9 @@ export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
       LAST_FETCH_HTML[cacheKey] = ts
     } else {
       const distance = ts - LAST_FETCH_HTML[cacheKey]
-      if (distance <= 4000) return Promise.reject(new Error(`prevent, ${url}, ${distance}ms`))
+      if (distance <= 4000 && autoPrevent) {
+        return Promise.reject(new Error(`prevent, ${url}, ${distance}ms`))
+      }
 
       LAST_FETCH_HTML[cacheKey] = ts
     }

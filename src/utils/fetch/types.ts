@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:14:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-14 01:04:39
+ * @Last Modified time: 2026-05-21 23:45:38
  */
 import type { AnyObject } from '@types'
 
@@ -36,6 +36,7 @@ export type FetchHTMLArgs = {
   headers?: AnyObject
   cookie?: string
   raw?: boolean
+  autoPrevent?: boolean
 }
 
 export type XHRArgs = {

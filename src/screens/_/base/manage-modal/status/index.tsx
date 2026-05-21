@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-07-27 16:26:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-20 21:16:14
+ * @Last Modified time: 2026-05-21 20:58:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,32 +11,35 @@ import { Flex, Iconfont, Text, Touchable } from '@components'
 import { _, systemStore } from '@stores'
 import { feedback, stl } from '@utils'
 import { StatusBtnGroup } from '../../status-btn-group'
+import { AUTO_COMPLETE } from './ds'
 import { styles } from './styles'
 
 import type { Props } from './types'
 
 function Status({ status, action, onSelect }: Props) {
-  const { autoCompleteEps } = systemStore.setting
+  const config = AUTO_COMPLETE[action]
+  const enabled = config && systemStore.setting[config.key]
 
   return (
     <>
       <StatusBtnGroup style={_.mt.md} value={status} action={action} onSelect={onSelect} />
-      {action === '看' && status === 'collect' && (
-        <View style={stl(styles.setting, !autoCompleteEps && styles.opacity)}>
+
+      {config && status === 'collect' && (
+        <View style={stl(styles.setting, !enabled && styles.opacity)}>
           <Touchable
             withoutFeedback
             onPress={() => {
-              systemStore.switchSetting('autoCompleteEps')
+              systemStore.switchSetting(config.key)
               feedback(true)
             }}
           >
             <Flex>
               <Text type='sub' size={12} bold>
-                看过时自动完成所有进度
+                {config.label}
               </Text>
               <Iconfont
                 style={_.ml.xs}
-                name={autoCompleteEps ? 'md-radio-button-on' : 'md-radio-button-off'}
+                name={enabled ? 'md-radio-button-on' : 'md-radio-button-off'}
                 color={_.colorSub}
                 size={14}
               />

@@ -245,6 +245,9 @@ export const INIT_SETTING = {
   /** 是否看过时自动完成所有进度 */
   autoCompleteEps: false,
 
+  /** 是否读过时自动完成所有章节、卷数 */
+  autoCompleteBooks: false,
+
   /** 首页列表是否显示搜索框 */
   homeFilter: true,
 

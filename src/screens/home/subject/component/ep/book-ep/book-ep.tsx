@@ -154,7 +154,12 @@ const BookEp = memo(
 
           {canSubmit ? (
             <View style={_.ml.md}>
-              <Button style={styles.btn} type='ghostPrimary' onPress={doUpdateBookEp}>
+              <Button
+                style={styles.btn}
+                styleText={styles.btnSubmit}
+                type='ghostPrimary'
+                onPress={doUpdateBookEp}
+              >
                 更新
               </Button>
               <Heatmap id='条目.更新书籍章节' />

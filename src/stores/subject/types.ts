@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-10 14:20:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-20 20:22:10
+ * @Last Modified time: 2026-05-22 00:21:46
  */
 import type {
   Collection,
@@ -242,7 +242,7 @@ export type SubjectFromHTML = {
     }[]
   }[]
 
-  /** 书籍额外信息 */
+  /** 书籍额外信息 (只有在已经收藏了条目的情况下才有此具体数值) */
   book: {
     chap: string | number
     vol: string | number

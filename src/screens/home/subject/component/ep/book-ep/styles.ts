@@ -7,7 +7,7 @@
 import { _ } from '@stores'
 
 const LABEL_WIDTH = _.r(48)
-const INPUT_WIDTH = _.r(120)
+const INPUT_WIDTH = _.r(112)
 
 export const memoStyles = _.memoStyles(() => ({
   container: {
@@ -47,6 +47,7 @@ export const memoStyles = _.memoStyles(() => ({
     height: _.device(34, 48)
   },
   btnText: _.device(_.fontSize13, _.fontSize18),
+  btnSubmit: _.device(_.fontSize13, _.fontSize14),
   progressWrap: {
     width: INPUT_WIDTH,
     marginBottom: 4
