@@ -1,13 +1,13 @@
 /*
  * @Author: czy0729
  * @Date: 2024-09-13 01:04:20
- * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 01:14:15
+ * @Last Modified by: imagebuilder1837
+ * @Last Modified time: 2026-05-22 00:27:20
  */
 import { userStore } from '@stores'
 import { feedback, info } from '@utils'
 import { t } from '@utils/fetch'
-import { Navigation } from '@types'
+import type { Navigation } from '@types'
 import Fetch from './fetch'
 
 export default class Action extends Fetch {
@@ -86,9 +86,16 @@ export default class Action extends Fetch {
 
   /** 新短信 */
   doCreate = (content: string, navigation: Navigation) => {
+    const msgTitle = this.state.title.trim()
+
+    if (!msgTitle) {
+      info('请填写短信标题')
+      return
+    }
+
     userStore.doPM(
       {
-        msg_title: this.state.title,
+        msg_title: msgTitle,
         msg_body: content,
         submit: '发送',
         ...this.pmParams
