@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
- * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-07 20:12:36
+ * @Last Modified by: imagebuilder1837
+ * @Last Modified time: 2026-05-22 07:08:28
  */
 import React, { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
@@ -82,6 +82,7 @@ function List({ title }: Props) {
       data={timeline}
       renderItem={handleRenderItem}
       scrollEventThrottle={16}
+      overScrollMode='never'
       onScroll={handleScroll}
       onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={$.fetchTimeline}
