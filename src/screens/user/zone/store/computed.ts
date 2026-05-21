@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2024-04-08 12:49:58
- * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-11 07:42:45
+ * @Last Modified by: imagebuilder1837
+ * @Last Modified time: 2026-05-22 02:56:51
  */
 import { computed } from 'mobx'
 import { fixedHD, getCDNAvatar } from '@components/avatar/utils'
@@ -210,13 +210,13 @@ export default class Computed extends State {
   }
 
   @computed get isAdvance() {
-    return systemStore.isAdvance(this.userId, this.username)
+    return systemStore.isAdvance(this.usersInfo.id, this.userId)
   }
 
   @computed get advanceDetail() {
     if (!userStore.isDeveloper) return ''
 
-    return systemStore.advanceDetail[this.userId || this.username]
+    return systemStore.advanceDetail[this.usersInfo.id] || systemStore.advanceDetail[this.userId]
   }
 
   @computed get currentChatValues() {
