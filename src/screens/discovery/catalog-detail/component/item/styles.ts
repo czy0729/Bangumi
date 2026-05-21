@@ -8,6 +8,6 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   side: {
-    marginLeft: _.wind - _._wind
+    marginLeft: _.wind
   }
 }))

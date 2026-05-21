@@ -15,6 +15,7 @@ import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
 import type { Props } from './types'
+
 function Item({ index, item }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
