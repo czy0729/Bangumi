@@ -73,7 +73,7 @@ export const ItemNotify = observer(
 
     return (
       <Component id='item-notify' data-key={href}>
-        {connectUserId ? (
+        {connectUserId || !href ? (
           elBody
         ) : (
           <Link
