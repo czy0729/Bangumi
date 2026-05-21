@@ -12,7 +12,7 @@ import type { RenderItem } from '@types'
 import type { ListItem } from '../../types'
 
 export function renderItem({ item, index }: RenderItem<ListItem>) {
-  if (item.type === 'header') return <Section title={item.title} />
+  if (item.type === 'header') return <Section title={item.title} index={index} />
 
   return <Item item={item.item} index={index} />
 }

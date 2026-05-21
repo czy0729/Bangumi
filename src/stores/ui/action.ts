@@ -205,7 +205,7 @@ export default class Action extends Computed {
           emoji: 0
         }
       })
-    }, 800)
+    }, 280)
   }
 
   /** ==================== manageModal ==================== */

@@ -12,9 +12,10 @@ import { useStore } from '@stores'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+import type { WithIndex } from '@types'
 import type { Ctx } from '../../types'
 
-function Section({ title }: { title: string }) {
+function Section({ title }: WithIndex<{ title: string }>) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const handlePress = useCallback(() => {

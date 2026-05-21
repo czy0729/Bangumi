@@ -9,9 +9,9 @@ import { observer } from 'mobx-react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
-import { confirm, info, open } from '@utils'
+import { alert, confirm, info, open } from '@utils'
 import { t } from '@utils/fetch'
-import { TEXT_MENU_BROWSER } from '@constants'
+import { TEXT_MENU_BROWSER, TEXT_MENU_INFORMATION } from '@constants'
 import { COMPONENT, DATA } from './ds'
 
 import type { Ctx } from '../types'
@@ -44,11 +44,13 @@ function Header() {
           onSelect={title => {
             if (title === TEXT_MENU_BROWSER) {
               open($.url)
-
-              t('好友.右上角菜单', {
-                key: title
-              })
+            } else if (title === TEXT_MENU_INFORMATION) {
+              alert(`点击头像前往空间\n长按头像展开菜单`)
             }
+
+            t('好友.右上角菜单', {
+              key: title
+            })
           }}
         />
       </>
@@ -56,14 +58,7 @@ function Header() {
     [$]
   )
 
-  return (
-    <HeaderV2
-      title={$.title}
-      alias='好友'
-      hm={$.hm}
-      headerRight={handleHeaderRight}
-    />
-  )
+  return <HeaderV2 title={$.title} alias='好友' hm={$.hm} headerRight={handleHeaderRight} />
 }
 
 export default observer(Header)
