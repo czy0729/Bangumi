@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2023-03-31 05:22:23
- * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-23 22:13:49
+ * @Last Modified by: imagebuilder1837
+ * @Last Modified time: 2026-05-22 20:15:51
  */
 import React from 'react'
 import { toJS } from 'mobx'
@@ -57,6 +57,11 @@ export const Likes = observer(
     const showCreateBtn = show || showCreate
     if (!showCreateBtn && !likesList.length) return null
 
+    const visibleLikesList = likesList.filter(
+      (item, index) => item.selected || state || index < limit
+    )
+    const hasHiddenLikes =
+      !state && likesList.some((item, index) => !item.selected && index >= limit)
     const styles = memoStyles()
 
     return (
@@ -82,25 +87,23 @@ export const Likes = observer(
               </Flex>
             </Touchable>
           )}
-          {likesList
-            .filter((item, index) => (item.selected ? true : state ? true : index < limit))
-            .map(item => {
-              const passProps = {
-                topicId,
-                id,
-                formhash,
-                selected: false,
-                onPress,
-                onLongPress,
-                ...item
-              }
-              return (
-                <Flip key={item.emoji} height={28} {...passProps}>
-                  <Btn {...passProps} />
-                </Flip>
-              )
-            })}
-          {likesList.length >= limit + 1 && !state && (
+          {visibleLikesList.map(item => {
+            const passProps = {
+              topicId,
+              id,
+              formhash,
+              selected: false,
+              onPress,
+              onLongPress,
+              ...item
+            }
+            return (
+              <Flip key={item.emoji} height={28} {...passProps}>
+                <Btn {...passProps} />
+              </Flip>
+            )
+          })}
+          {hasHiddenLikes && (
             <Touchable animate hitSlop={HIT_SLOP} onPress={setTrue}>
               <Flex style={styles.item} justify='center'>
                 <Iconfont name='md-navigate-next' size={18} />

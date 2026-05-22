@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2022-06-17 12:19:32
- * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-09 00:36:29
+ * @Last Modified by: imagebuilder1837
+ * @Last Modified time: 2026-05-22 11:18:48
  */
 import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
@@ -105,12 +105,7 @@ const Item = memo(
             numberOfLines={commentsLines}
           />
         )}
-        <Likes
-          relatedId={relatedId}
-          subjectId={id}
-          limit={(commentsFull ? 5 : 3) + _.device(0, 3)}
-          showCreate={showLikesCreate}
-        />
+        <Likes relatedId={relatedId} subjectId={id} showCreate={showLikesCreate} />
       </>
     )
 
