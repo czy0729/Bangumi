@@ -127,7 +127,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   /** 是否高级用户 */
-  isAdvance(userId: number, userName?: UserId) {
+  isAdvance(userId: UserId, userName?: UserId) {
     return computed<boolean>(() => {
       let flag = false
       if (userId) flag = userId in this.advanceDetail

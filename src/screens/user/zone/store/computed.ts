@@ -210,13 +210,17 @@ export default class Computed extends State {
   }
 
   @computed get isAdvance() {
-    return systemStore.isAdvance(this.usersInfo.id, this.userId)
+    return systemStore.isAdvance(this.usersInfo.id || this.userId, this.username)
   }
 
   @computed get advanceDetail() {
     if (!userStore.isDeveloper) return ''
 
-    return systemStore.advanceDetail[this.usersInfo.id] || systemStore.advanceDetail[this.userId]
+    return (
+      systemStore.advanceDetail[this.usersInfo.id] ||
+      systemStore.advanceDetail[this.userId] ||
+      systemStore.advanceDetail[this.username]
+    )
   }
 
   @computed get currentChatValues() {
