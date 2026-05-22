@@ -31,11 +31,33 @@ const DECODE_SPECIAL_CHARS = {
   '&quot;': '"'
 } as const
 
+/** 解码十进制或十六进制数字 HTML 实体（如 emoji） */
+export function decodeNumericHTMLEntity(match: string, value: string, radix: number): string {
+  const codePoint = Number.parseInt(value, radix)
+
+  if (!Number.isFinite(codePoint)) return match
+
+  try {
+    return String.fromCodePoint(codePoint)
+  } catch {
+    return match
+  }
+}
+
 /** HTML 反转义 */
 export function HTMLDecode(str: string = ''): string {
   if (str.length === 0) return ''
 
-  return str.replace(/(&amp;|&lt;|&gt;|&nbsp;|&#39;|&quot;)/g, match => DECODE_SPECIAL_CHARS[match])
+  return str
+    .replace(/(&amp;|&lt;|&gt;|&nbsp;|&#39;|&quot;)/g, match => {
+      return DECODE_SPECIAL_CHARS[match] || match
+    })
+    .replace(/&#x([0-9a-fA-F]+);/g, (match, hex) => {
+      return decodeNumericHTMLEntity(match, hex, 16)
+    })
+    .replace(/&#(\d+);/g, (match, dec) => {
+      return decodeNumericHTMLEntity(match, dec, 10)
+    })
 }
 
 const ENCODE_SPECIAL_CHARS = {
