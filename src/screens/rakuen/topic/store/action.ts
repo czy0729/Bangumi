@@ -8,10 +8,10 @@ import { toJS } from 'mobx'
 import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
 import { rakuenStore, systemStore, uiStore } from '@stores'
 import {
+  decodeHTMLEntities,
   feedback,
   getRandomItems,
   getTimestamp,
-  HTMLDecode,
   info,
   loading,
   removeHTMLTag,
@@ -141,7 +141,7 @@ export default class Action extends Fetch {
     let placeholder = ''
     if (username) placeholder = `回复 ${username}：`
     if (msg) {
-      let comment = HTMLDecode(removeHTMLTag(msg, false))
+      let comment = decodeHTMLEntities(removeHTMLTag(msg, false))
       if (comment.length >= 64) comment = `${comment.slice(0, 64)}...`
       placeholder += comment
     }
