@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2021-11-30 04:24:34
- * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 01:45:11
+ * @Last Modified by: imagebuilder1837
+ * @Last Modified time: 2026-05-22 07:08:42
  */
 import React from 'react'
 import { FlatList, SectionList } from 'react-native'
@@ -24,8 +24,8 @@ function List<ItemT>({
   const passProps: any = {
     ref: connectRef,
     removeClippedSubviews: true,
-    ...other,
     overScrollMode: 'always',
+    ...other,
     alwaysBounceHorizontal: false,
     alwaysBounceVertical: false,
     legacyImplementation: false
