@@ -6,7 +6,7 @@
  */
 import { tinygrailStore } from '@stores'
 import { queue } from '@utils'
-import { TabsKeys } from '../types'
+import type { TabsKeys } from '../types'
 import Computed from './computed'
 
 export default class Fetch extends Computed {

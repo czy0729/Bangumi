@@ -5,7 +5,7 @@
  * @Last Modified time: 2025-04-12 19:24:19
  */
 import React from 'react'
-import { WithFilterProps } from '../../../types'
+import type { WithFilterProps } from '../../../types'
 import { LAYOUT_VALUES, TEXTS } from '../ds'
 import ItemSettingSegmented from '../../item-setting-segmented'
 import { THUMB } from './ds'

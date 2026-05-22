@@ -10,7 +10,7 @@ import { t } from '@utils/fetch'
 import store from '@utils/store'
 import { init, search } from '@utils/subject/wenku'
 import { ADVANCE_LIMIT, NAMESPACE, STATE } from './ds'
-import { Params } from './types'
+import type { Params } from './types'
 
 let _loaded = false
 

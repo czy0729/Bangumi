@@ -8,7 +8,7 @@ import React from 'react'
 import { ToolBar } from '@components'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+import type { Ctx } from '../../types'
 
 function Tag() {
   const { $ } = useStore<Ctx>()

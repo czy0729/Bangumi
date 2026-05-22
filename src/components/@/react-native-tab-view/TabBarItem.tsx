@@ -2,7 +2,7 @@ import * as React from 'react'
 import { LayoutChangeEvent, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native'
 import Animated from 'react-native-reanimated'
 import memoize from 'react-native-tab-view/src/memoize'
-import { NavigationState, Route, Scene } from 'react-native-tab-view/src/types'
+import type { NavigationState, Route, Scene } from 'react-native-tab-view/src/types'
 import { stl } from '@utils/utils'
 import TouchableItem from './TouchableItem'
 

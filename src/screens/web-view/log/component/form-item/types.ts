@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-03-16 06:39:30
  */
-import { ViewStyle } from '@types'
+import type { ViewStyle } from '@types'
 import { STATE } from '../../store/ds'
 
 export type Props = {

@@ -12,7 +12,7 @@ import { queue, t } from '@utils/fetch'
 import { get, update } from '@utils/kv'
 import { IOS, WEB } from '@constants'
 import i18n from '@constants/i18n'
-import { Navigation } from '@types'
+import type { Navigation } from '@types'
 import {
   ACTION_CLOSE_DIRECTORY,
   ACTION_CONNECT,
@@ -23,7 +23,7 @@ import {
   ACTION_OPEN_DIRECTORY,
   LIMIT
 } from '../ds'
-import { Sort } from '../types'
+import type { Sort } from '../types'
 import { smbList, webDAVList } from '../utils'
 import Fetch from './fetch'
 import { EXCLUDE_STATE, STATE } from './ds'

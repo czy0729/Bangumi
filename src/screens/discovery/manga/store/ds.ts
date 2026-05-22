@@ -6,7 +6,7 @@
  */
 import { MANGA_YEAR } from '@utils/subject/manga'
 import { LIST_EMPTY } from '@constants'
-import { Loaded } from '@types'
+import type { Loaded } from '@types'
 import { COMPONENT } from '../ds'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const

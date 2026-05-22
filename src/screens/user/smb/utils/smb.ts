@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-05-08 00:02:50
  */
-import { SMBListItem } from '../types'
+import type { SMBListItem } from '../types'
 
 export function smbList(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-17 05:00:49
  */
-import { Loaded } from '@types'
+import type { Loaded } from '@types'
 
 export const NAMESPACE = 'ScreenTinygrailTrade'
 

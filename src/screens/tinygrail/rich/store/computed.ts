@@ -6,7 +6,7 @@
  */
 import { computed } from 'mobx'
 import { tinygrailStore } from '@stores'
-import { UserId } from '@types'
+import type { UserId } from '@types'
 import { TABS } from '../ds'
 import State from './state'
 

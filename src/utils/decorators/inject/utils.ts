@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-05-01 14:43:45
  */
-import { AnyObject } from '@types'
+import type { AnyObject } from '@types'
 import { urlStringify } from '../../index'
 
 export function getScreenKey(

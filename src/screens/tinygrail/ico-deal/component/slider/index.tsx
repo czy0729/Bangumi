@@ -11,7 +11,7 @@ import { _, tinygrailStore, useStore } from '@stores'
 import { confirm, debounce, formatNumber } from '@utils'
 import { ob } from '@utils/decorators'
 import { decimal } from '@tinygrail/_/utils'
-import { Ctx } from '../../types'
+import type { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 

@@ -10,7 +10,7 @@ import { _, monoStore, useStore } from '@stores'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import TinygrailHeader from '@tinygrail/_/header'
-import { Ctx } from '../types'
+import type { Ctx } from '../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 

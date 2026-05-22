@@ -10,7 +10,7 @@ import { Flex, Input, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { COLORS } from '../../ds'
-import { Ctx } from '../../types'
+import type { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 

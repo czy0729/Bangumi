@@ -6,9 +6,9 @@
  */
 import { computed } from 'mobx'
 import { collectionStore, discoveryStore } from '@stores'
-import { Channel } from '@stores/discovery/types'
+import type { Channel } from '@stores/discovery/types'
 import { HTML_CHANNEL, MODEL_SUBJECT_TYPE } from '@constants'
-import { SubjectTypeCn } from '@types'
+import type { SubjectTypeCn } from '@types'
 import State from './state'
 
 export default class Computed extends State {

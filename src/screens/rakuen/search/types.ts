@@ -4,7 +4,7 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2022-09-29 17:37:42
  */
-import { WithNavigation } from '@types'
+import type { WithNavigation } from '@types'
 import Store from './store'
 
 export type Ctx = WithNavigation<{

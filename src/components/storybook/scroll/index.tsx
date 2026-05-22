@@ -14,7 +14,7 @@ import { Component } from '../../component'
 import { StorybookState } from '../state'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props as StorybookScrollProps } from './types'
+import type { Props as StorybookScrollProps } from './types'
 
 /** [WEB] 单页面滑动容器 */
 export const StorybookScroll = ({

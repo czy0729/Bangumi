@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-05-08 00:10:35
  */
 import { _ } from '@stores'
-import { Loaded } from '@types'
+import type { Loaded } from '@types'
 
 export const COMPONENT = 'RakuenSearch'
 

@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-04-12 18:46:05
  */
-import { SwitchSettingKeys } from '../../types'
+import type { SwitchSettingKeys } from '../../types'
 
 export type Props = {
   /** 设置项 */

@@ -11,10 +11,10 @@ import { _, useStore } from '@stores'
 import { stl, toFixed } from '@utils'
 import { ob } from '@utils/decorators'
 import { getLevelBackground } from '@tinygrail/_/utils'
-import { Ctx } from '../../types'
+import type { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props } from './types'
+import type { Props } from './types'
 
 function Bar({ style, total = 0, level, next = 1 }: Props) {
   const { $ } = useStore<Ctx>()

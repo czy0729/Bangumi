@@ -9,9 +9,9 @@ import { cnjp, desc, fixedSubjectInfo, getTimestamp, pick } from '@utils'
 import { queue, t } from '@utils/fetch'
 import { gets } from '@utils/kv'
 import { MODEL_SUBJECT_TYPE, WEB } from '@constants'
-import { SubjectId, SubjectTypeCn } from '@types'
+import type { SubjectId, SubjectTypeCn } from '@types'
 import { DICT_ORDER, REG_AIRDATE } from '../ds'
-import { ListItem, MergeListItem } from '../types'
+import type { ListItem, MergeListItem } from '../types'
 import Computed from './computed'
 
 export default class Fetch extends Computed {

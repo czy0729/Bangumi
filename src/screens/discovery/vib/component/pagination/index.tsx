@@ -11,7 +11,7 @@ import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import Title from '../title'
 import { COMPONENT } from './ds'
-import { Props } from './types'
+import type { Props } from './types'
 
 function Pagination({ data, index, onSelect }: Props) {
   const { length } = data

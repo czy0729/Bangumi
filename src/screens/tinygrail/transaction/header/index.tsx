@@ -9,7 +9,7 @@ import { HeaderV2 } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../types'
+import type { Ctx } from '../types'
 import { COMPONENT, HM } from './ds'
 
 function Header() {

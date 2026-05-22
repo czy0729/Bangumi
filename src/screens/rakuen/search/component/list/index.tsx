@@ -10,7 +10,7 @@ import { _ } from '@stores'
 import { keyExtractor } from '@utils'
 import { ob } from '@utils/decorators'
 import { r } from '@utils/dev'
-import { Ctx } from '../../types'
+import type { Ctx } from '../../types'
 import Item from '../item'
 import { COMPONENT } from './ds'
 

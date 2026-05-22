@@ -9,7 +9,7 @@ import { Text } from '@components'
 import { useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import Btns from '@tinygrail/_/btns'
-import { Ctx } from '../../types'
+import type { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
 function ToolBar() {

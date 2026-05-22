@@ -6,7 +6,7 @@
  */
 import { computed } from 'mobx'
 import { subjectStore, systemStore, tinygrailStore, userStore } from '@stores'
-import { Id } from '@types'
+import type { Id } from '@types'
 import State from './state'
 
 export default class Computed extends State {

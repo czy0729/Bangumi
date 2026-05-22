@@ -5,7 +5,7 @@
  * @Last Modified time: 2025-08-17 17:04:39
  */
 import { rc } from '@utils/dev'
-import { Navigation } from '@types'
+import type { Navigation } from '@types'
 import { COMPONENT as PARENT } from '../ds'
 
 import type { Ctx } from '../../types'

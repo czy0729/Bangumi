@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-02-23 05:38:51
  */
 import { CDN_GAME } from '@constants'
-import { SubjectId } from '@types'
+import type { SubjectId } from '@types'
 
 export function fixed(image: string | string[]) {
   return `m/${image}`

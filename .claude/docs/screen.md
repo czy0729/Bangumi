@@ -29,7 +29,7 @@ screen-name/
 ## types.ts
 
 ```ts
-import { GetRouteParams, WithNavigation } from '@types'
+import type { GetRouteParams, WithNavigation } from '@types'
 import Store from './store'
 
 export type Ctx = WithNavigation<{
@@ -44,7 +44,7 @@ export type Params = GetRouteParams<RouteXxx>
 import { useInitStore } from '@stores'
 import { usePageLifecycle } from '@utils/hooks'
 import Store from './store'
-import { Ctx } from './types'
+import type { Ctx } from './types'
 
 export function useXxxPage(props: NavigationProps) {
   const context = useInitStore<Ctx['$']>(props, store)
@@ -110,7 +110,7 @@ import { observer } from 'mobx-react'
 import { rc } from '@utils/dev'
 import { useStore } from '@stores'
 import { COMPONENT as PARENT } from '../ds'
-import { Ctx } from '../types'
+import type { Ctx } from '../types'
 
 export const COMPONENT = rc(PARENT, 'Info')
 

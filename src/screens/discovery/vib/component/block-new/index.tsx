@@ -11,7 +11,7 @@ import { ob } from '@utils/decorators'
 import Title from '../title'
 import Item from './item'
 import { COMPONENT } from './ds'
-import { Props } from './types'
+import type { Props } from './types'
 
 function BlockNew({ style, navigation, title, data }: Props) {
   return (

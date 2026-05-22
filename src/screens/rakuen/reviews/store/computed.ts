@@ -7,7 +7,7 @@
 import { computed } from 'mobx'
 import { rakuenStore } from '@stores'
 import { HTML_REVIEWS, LIST_EMPTY } from '@constants'
-import { TopicId } from '@types'
+import type { TopicId } from '@types'
 import State from './state'
 import { NAMESPACE } from './ds'
 

@@ -9,7 +9,7 @@ import { View } from 'react-native'
 import { Input, Modal, Text } from '@components'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+import type { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 

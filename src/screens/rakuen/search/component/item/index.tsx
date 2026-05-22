@@ -12,7 +12,7 @@ import { _, useStore } from '@stores'
 import { getTimestamp, lastDate, removeHTMLTag } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../../types'
+import type { Ctx } from '../../types'
 import { COMPONENT, LENGTH } from './ds'
 import { memoStyles } from './styles'
 

@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2019-06-23 02:20:58
- * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-17 16:29:27
+ * @Last Modified by: imagebuilder1837
+ * @Last Modified time: 2026-05-22 09:36:25
  */
 import React from 'react'
 import { Loading } from '@components'
@@ -10,7 +10,7 @@ import { Filter, PaginationList2 } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { ADVANCE_LIMIT, filterDS } from '../ds'
-import { Ctx, type } from '../types'
+import type { Ctx } from '../types'
 import Item from '../item'
 import ItemGrid from '../item-grid'
 import { keyExtractor } from './utils'

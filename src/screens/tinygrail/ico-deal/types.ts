@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-11-08 18:19:32
  */
-import { MonoId, WithNavigation } from '@types'
+import type { MonoId, WithNavigation } from '@types'
 import Store from './store'
 
 export type Ctx = WithNavigation<{

@@ -11,7 +11,7 @@ import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HM } from '../ds'
-import { Ctx } from '../types'
+import type { Ctx } from '../types'
 import { COMPONENT } from './ds'
 
 function Header() {

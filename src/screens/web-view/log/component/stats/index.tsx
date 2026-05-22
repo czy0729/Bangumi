@@ -9,7 +9,7 @@ import { View } from 'react-native'
 import { Flex, Text } from '@components'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
-import { Ctx, Stats as StatsType } from '../../types'
+import type { Ctx, Stats as StatsType } from '../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 

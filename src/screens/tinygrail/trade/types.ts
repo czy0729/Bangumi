@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-11-11 04:22:25
  */
 import { factory } from '@utils'
-import { MonoId, Navigation } from '@types'
+import type { MonoId, Navigation } from '@types'
 import Store from './store'
 
 const f = factory(Store)

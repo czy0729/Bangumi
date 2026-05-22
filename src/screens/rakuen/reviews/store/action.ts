@@ -6,7 +6,7 @@
  */
 import { rakuenStore } from '@stores'
 import { updateVisibleBottom } from '@utils'
-import { TopicId } from '@types'
+import type { TopicId } from '@types'
 import Fetch from './fetch'
 
 export default class Action extends Fetch {

@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-24 07:21:33
  */
-import { GetRouteParams, RouteEpisodes, WithNavigation } from '@types'
+import type { GetRouteParams, RouteEpisodes, WithNavigation } from '@types'
 import Store from './store'
 
 export type Ctx = WithNavigation<{

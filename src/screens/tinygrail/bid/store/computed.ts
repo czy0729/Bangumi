@@ -7,9 +7,9 @@
 import { computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import { levelList, sortList } from '@tinygrail/_/utils'
-import { Id } from '@types'
+import type { Id } from '@types'
 import { TABS } from '../ds'
-import { TabsKeys } from '../types'
+import type { TabsKeys } from '../types'
 import State from './state'
 
 export default class Computed extends State {

@@ -7,7 +7,7 @@
 import React, { memo } from 'react'
 import isEqual from 'lodash.isequal'
 import MenuItem from './MenuItem'
-import { MenuItemProps } from './types'
+import type { MenuItemProps } from './types'
 
 const MenuItemsComponent = ({ items }: { items: MenuItemProps[] }) => {
   return (

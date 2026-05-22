@@ -6,7 +6,7 @@
  */
 import { rc } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
-import { StoreType as $ } from '../../types'
+import type { StoreType as $ } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
 

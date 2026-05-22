@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-23 11:22:53
  */
-import { Fn, ReactNode, ViewStyle } from '@types'
+import type { Fn, ReactNode, ViewStyle } from '@types'
 
 export type Props = {
   style?: ViewStyle

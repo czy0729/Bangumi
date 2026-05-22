@@ -9,9 +9,9 @@ import { useInitStore } from '@stores'
 import { info } from '@utils'
 import { t } from '@utils/fetch'
 import { useRunAfter } from '@utils/hooks'
-import { NavigationProps } from '@types'
+import type { NavigationProps } from '@types'
 import store from './store'
-import { Ctx } from './types'
+import type { Ctx } from './types'
 
 /** 前百首富页面逻辑 */
 export function useTinygrailTreeRichPage(props: NavigationProps) {

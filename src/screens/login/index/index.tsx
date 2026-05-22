@@ -14,7 +14,7 @@ import { ob } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
 import { APP_ID, HOST, SDK, URL_OAUTH, URL_OAUTH_REDIRECT } from '@constants'
 import i18n from '@constants/i18n'
-import { NavigationProps } from '@types'
+import type { NavigationProps } from '@types'
 import { memoStyles } from './styles'
 
 const uri = `${URL_OAUTH}?${urlStringify({

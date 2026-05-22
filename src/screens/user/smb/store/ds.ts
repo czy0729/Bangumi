@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-09-05 00:06:30
  */
 import { IOS, WEB } from '@constants'
-import { Id, Loaded, SubjectId } from '@types'
+import type { Id, Loaded, SubjectId } from '@types'
 import {
   ACTIONS_SORT,
   COMPONENT,
@@ -13,7 +13,7 @@ import {
   URL_SMB_DEFAULT,
   URL_WEBDAV_DEFAULT
 } from '../ds'
-import { SubjectOSS } from '../types'
+import type { SubjectOSS } from '../types'
 
 /** 本地化保存空间 */
 export const NAMESPACE = `Screen${COMPONENT}` as const

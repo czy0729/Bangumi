@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-19 15:47:58
  */
-import { Loaded } from '@types'
+import type { Loaded } from '@types'
 
 export const EXCLUDE_STATE = {
   level: '',

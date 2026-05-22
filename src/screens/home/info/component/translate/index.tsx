@@ -10,7 +10,7 @@ import { IconTouchable } from '@_'
 import { systemStore, useStore } from '@stores'
 import { isChineseParagraph } from '@utils'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
+import type { Ctx } from '../../types'
 import { styles } from './styles'
 
 function Translate({ content = '' }) {

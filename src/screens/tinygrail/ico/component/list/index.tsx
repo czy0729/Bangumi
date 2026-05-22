@@ -11,7 +11,7 @@ import { _, useStore } from '@stores'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { TINYGRAIL_LIST_PROPS } from '@tinygrail/styles'
-import { Ctx, TabsKey } from '../../types'
+import type { Ctx, TabsKey } from '../../types'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
 

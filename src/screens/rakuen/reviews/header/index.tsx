@@ -10,7 +10,7 @@ import { useStore } from '@stores'
 import { open } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { TEXT_MENU_BROWSER } from '@constants'
-import { Ctx } from '../types'
+import type { Ctx } from '../types'
 import { COMPONENT, DATA } from './ds'
 
 function Header() {

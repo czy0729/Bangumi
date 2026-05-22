@@ -9,7 +9,7 @@ import { useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import ToolBarComp from '@tinygrail/_/tool-bar'
 import { SORT_DS } from '../../ds'
-import { Ctx } from '../../types'
+import type { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
 function ToolBar() {

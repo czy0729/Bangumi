@@ -10,7 +10,7 @@ import { Flex, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { desc } from '@utils'
 import { ob } from '@utils/decorators'
-import { Ctx, SMBListItem } from '../../../types'
+import type { Ctx, SMBListItem } from '../../../types'
 import Folder from '../folder'
 import { styles } from './styles'
 

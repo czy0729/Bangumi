@@ -5,7 +5,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-02-06 20:02:01
  */
-import { SubjectTypeCn } from '@types'
+import type { SubjectTypeCn } from '@types'
 
 export const html = (dark = false, type: SubjectTypeCn) => {
   const bgColor = dark ? '#fff' : '#000'

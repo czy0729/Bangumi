@@ -6,9 +6,9 @@
  */
 import { useInitStore } from '@stores'
 import { useMount } from '@utils/hooks'
-import { NavigationProps } from '@types'
+import type { NavigationProps } from '@types'
 import store from './store'
-import { Ctx } from './types'
+import type { Ctx } from './types'
 
 /** 通天塔页面逻辑 */
 export function useTinygrailTemplesPage(props: NavigationProps) {

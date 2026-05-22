@@ -4,7 +4,7 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2024-05-01 14:21:22
  */
-import { Fn, Navigation } from '@types'
+import type { Fn, Navigation } from '@types'
 
 export type Config = {
   /** 页面 store 是否缓存 */

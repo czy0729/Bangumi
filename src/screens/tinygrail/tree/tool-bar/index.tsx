@@ -20,8 +20,8 @@ import {
   TINYGRAIL_CACULATE_TEMPLE_TYPE,
   TINYGRAIL_CACULATE_TYPE
 } from '@constants'
-import { ViewStyle } from '@types'
-import { Ctx } from '../types'
+import type { ViewStyle } from '@types'
+import type { Ctx } from '../types'
 import { memoStyles } from './styles'
 
 const TYPE_DATA = TINYGRAIL_ASSETS_TYPE.map(item => item.label)

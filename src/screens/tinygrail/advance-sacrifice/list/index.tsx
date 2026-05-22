@@ -9,7 +9,7 @@ import { ListView, Loading } from '@components'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../types'
+import type { Ctx } from '../types'
 import ItemAdvance from '../../_/item-advance'
 
 function List() {

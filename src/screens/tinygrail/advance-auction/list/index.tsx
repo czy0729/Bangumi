@@ -10,7 +10,7 @@ import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { ob } from '@utils/decorators'
 import ItemAdvance from '@tinygrail/_/item-advance'
-import { Ctx } from '../types'
+import type { Ctx } from '../types'
 
 function List() {
   const { $ } = useStore<Ctx>()

@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-05-16 14:10:48
  */
-import { Navigation } from '@types'
-import { ItemNew } from '../../../types'
+import type { Navigation } from '@types'
+import type { ItemNew } from '../../../types'
 
 export type Props = {
   navigation: Navigation

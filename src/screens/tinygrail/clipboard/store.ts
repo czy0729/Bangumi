@@ -10,7 +10,7 @@ import { tinygrailStore } from '@stores'
 import { copy, feedback, getTimestamp, info } from '@utils'
 import { t } from '@utils/fetch'
 import store from '@utils/store'
-import { MonoId, Navigation } from '@types'
+import type { MonoId, Navigation } from '@types'
 import { relation, throttleInfo } from '../_/utils'
 import { EXCLUDE_STATE } from './ds'
 

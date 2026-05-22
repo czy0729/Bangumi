@@ -6,7 +6,7 @@
  */
 import isEqual from 'lodash.isequal'
 import { WEB } from '@constants'
-import { AnyObject } from '@types'
+import type { AnyObject } from '@types'
 
 /** 封装通用 React.memo 的第二参数, 注意返回 true 代表不更新, false 代表强制更新 */
 export function memoCompare<P extends AnyObject>(

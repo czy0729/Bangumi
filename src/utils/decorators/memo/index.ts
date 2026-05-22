@@ -8,7 +8,7 @@ import React from 'react'
 import { DEV } from '@src/config'
 import { withDev } from '../utils'
 import { memoCompare } from './utils'
-import { CustemCompareFn } from './types'
+import type { CustemCompareFn } from './types'
 
 /**
  * 封装通用 React.memo

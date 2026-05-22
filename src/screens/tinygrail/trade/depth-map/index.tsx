@@ -10,7 +10,7 @@ import { Flex, Text } from '@components'
 import { _, useStore } from '@stores'
 import { toFixed } from '@utils'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../types'
+import type { Ctx } from '../types'
 import { memoStyles } from './styles'
 
 function DepthMap() {

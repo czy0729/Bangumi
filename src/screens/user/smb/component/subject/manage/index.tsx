@@ -10,8 +10,8 @@ import { collectionStore, uiStore, userStore, useStore } from '@stores'
 import { cnjp } from '@utils'
 import { ob } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
-import { SubjectTypeCn } from '@types'
-import { Ctx } from '../../../types'
+import type { SubjectTypeCn } from '@types'
+import type { Ctx } from '../../../types'
 
 function Manage({ subjectId }) {
   const { $ } = useStore<Ctx>()

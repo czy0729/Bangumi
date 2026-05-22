@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-04-04 07:15:13
  */
-import { Loaded, MonoId } from '@types'
+import type { Loaded, MonoId } from '@types'
 
 export const COMPONENT = 'TinygrailClipboard'
 

@@ -24,7 +24,7 @@ import {
   SORT_XFJL
 } from '../_/utils'
 import { STATE } from './ds'
-import { Params } from './types'
+import type { Params } from './types'
 
 export const SORT_DS = [
   SORT_SC,

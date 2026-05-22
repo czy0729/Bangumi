@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-20 14:23:00
  */
-import { SubjectType } from '@types'
+import type { SubjectType } from '@types'
 
 export const STATE = {
   type: '' as SubjectType,

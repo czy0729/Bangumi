@@ -9,7 +9,7 @@ import { PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
-import { Ctx } from '../../types'
+import type { Ctx } from '../../types'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
 

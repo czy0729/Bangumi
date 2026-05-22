@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-20 12:00:17
  */
-import { Override } from '@types'
-import { Ctx } from '../types'
+import type { Override } from '@types'
+import type { Ctx } from '../types'
 
 export type Props = Override<
   Ctx,

@@ -8,7 +8,7 @@ import React from 'react'
 import { HeaderV2 } from '@components'
 import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../types'
+import type { Ctx } from '../types'
 import { COMPONENT } from './ds'
 
 function Header() {

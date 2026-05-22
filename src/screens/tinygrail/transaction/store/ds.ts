@@ -5,9 +5,9 @@ import { _ } from '@stores'
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-03-07 17:55:15
  */
-import { Loaded, UserId } from '@types'
+import type { Loaded, UserId } from '@types'
 import { COLORS, COMPONENT } from '../ds'
-import { DataItem, DetailItem, LikesItem } from '../types'
+import type { DataItem, DetailItem, LikesItem } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 

@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-05-08 04:33:23
  */
-import { Loaded } from '@types'
+import type { Loaded } from '@types'
 
 export const COMPONENT = 'Board'
 

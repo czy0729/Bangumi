@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-08-22 23:30:49
  */
 import { contextTypes } from '@constants/constants'
-import { IReactComponent } from '@types'
+import type { IReactComponent } from '@types'
 
 /** @deprecated */
 export default function context<T extends IReactComponent>(Component: T, defaultProps?: object): T {

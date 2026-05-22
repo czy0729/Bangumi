@@ -10,8 +10,8 @@ import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { syncS2T } from '@utils/async'
 import { ob } from '@utils/decorators'
-import { AnyObject } from '@types'
-import { Ctx } from '../../../types'
+import type { AnyObject } from '@types'
+import type { Ctx } from '../../../types'
 import { styles } from './styles'
 
 function InputItem({

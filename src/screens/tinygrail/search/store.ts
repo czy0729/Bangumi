@@ -9,7 +9,7 @@ import { tinygrailStore } from '@stores'
 import { info } from '@utils'
 import { t } from '@utils/fetch'
 import store from '@utils/store'
-import { MonoId, Navigation } from '@types'
+import type { MonoId, Navigation } from '@types'
 import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 
 export default class ScreenTinygrailSearch extends store<typeof STATE> {

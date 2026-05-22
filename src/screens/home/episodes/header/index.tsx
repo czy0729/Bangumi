@@ -11,7 +11,7 @@ import { open } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { TEXT_MENU_BROWSER } from '@constants'
-import { Ctx } from '../types'
+import type { Ctx } from '../types'
 import { COMPONENT, DATA } from './ds'
 
 function Header() {

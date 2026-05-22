@@ -9,7 +9,7 @@ import { Button } from '@components'
 import { Popover } from '@_'
 import { useStore } from '@stores'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+import type { Ctx } from '../../types'
 import { COMPONENT, DATA } from './ds'
 import { styles } from './styles'
 

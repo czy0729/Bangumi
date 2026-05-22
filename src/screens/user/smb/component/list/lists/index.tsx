@@ -7,7 +7,7 @@
 import React from 'react'
 import { useStore } from '@stores'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../../../types'
+import type { Ctx } from '../../../types'
 import Item from '../../item'
 
 function Lists() {

@@ -7,7 +7,7 @@
 import React from 'react'
 import { useStore } from '@stores'
 import { ob } from '@utils/decorators'
-import { Ctx, MergeListItem } from '../../types'
+import type { Ctx, MergeListItem } from '../../types'
 import Item from './item'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'

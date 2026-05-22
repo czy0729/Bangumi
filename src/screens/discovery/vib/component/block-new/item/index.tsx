@@ -14,7 +14,7 @@ import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props } from './types'
+import type { Props } from './types'
 
 function Item({ navigation, item, index }: Props) {
   const jp = findSubjectJp(item.title, item.id)

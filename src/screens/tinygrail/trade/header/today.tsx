@@ -10,7 +10,7 @@ import { Flex, Text } from '@components'
 import { _, useStore } from '@stores'
 import { date, getTimestamp, toFixed } from '@utils'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../types'
+import type { Ctx } from '../types'
 
 function Today() {
   const { $ } = useStore<Ctx>()

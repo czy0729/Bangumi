@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-12-17 05:27:16
  */
 import { MODEL_TINYGRAIL_ASSETS_TYPE, MODEL_TINYGRAIL_CACULATE_TYPE } from '@constants'
-import { Loaded } from '@types'
+import type { Loaded } from '@types'
 
 export const TINYGRAIL_VALHALL_ID = 'valhalla@tinygrail.com'
 

@@ -16,7 +16,7 @@ import {
   WENKU_YEAR
 } from '@utils/subject/wenku'
 import { LIST_EMPTY } from '@constants'
-import { Loaded } from '@types'
+import type { Loaded } from '@types'
 
 export const NAMESPACE = 'ScreenWenku'
 

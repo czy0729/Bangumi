@@ -6,7 +6,7 @@
  */
 import { rc } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
-import { InferArray, Navigation } from '@types'
+import type { InferArray, Navigation } from '@types'
 import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
 

@@ -6,7 +6,7 @@
  */
 import { observable } from 'mobx'
 import Store from '@utils/store'
-import { MergeListItem, SMBListItem } from '../types'
+import type { MergeListItem, SMBListItem } from '../types'
 import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 
 export default class State extends Store<typeof STATE> {

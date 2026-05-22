@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-05-08 00:02:36
  */
 import { factory } from '@utils'
-import { Cover, Expand, Navigation, Override, Rating, SubjectId, SubjectTypeValue } from '@types'
+import type { Cover, Expand, Navigation, Override, Rating, SubjectId, SubjectTypeValue } from '@types'
 import Store from './store'
 import { ACTIONS_SORT } from './ds'
 

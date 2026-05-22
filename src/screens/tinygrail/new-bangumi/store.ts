@@ -6,7 +6,7 @@
  */
 import { computed, observable } from 'mobx'
 import { tinygrailStore } from '@stores'
-import { ListKey } from '@stores/tinygrail/types'
+import type { ListKey } from '@stores/tinygrail/types'
 import { getTimestamp } from '@utils'
 import { t } from '@utils/fetch'
 import store from '@utils/store'

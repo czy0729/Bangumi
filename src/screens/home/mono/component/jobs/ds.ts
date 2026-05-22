@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-07-20 14:33:15
  */
 import { rc } from '@utils/dev'
-import { Navigation, ViewStyle } from '@types'
+import type { Navigation, ViewStyle } from '@types'
 import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
 

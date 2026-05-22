@@ -11,7 +11,7 @@ import Stores from '@stores'
 import { contextTypes } from '@constants/constants'
 import { WEB } from '@constants/device'
 import { getScreenKey } from './utils'
-import { Config, Props, WrapComponentProps } from './types'
+import type { Config, Props, WrapComponentProps } from './types'
 
 /** 封装应用主要功能实现的装饰器 */
 const Inject = (Store, config?: Config) => {

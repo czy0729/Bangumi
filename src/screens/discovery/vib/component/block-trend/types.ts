@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-05-16 14:09:19
  */
-import { Navigation, ViewStyle } from '@types'
-import { ItemTrend } from '../../types'
+import type { Navigation, ViewStyle } from '@types'
+import type { ItemTrend } from '../../types'
 
 export type Props = {
   style?: ViewStyle

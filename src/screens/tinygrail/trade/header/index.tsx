@@ -13,7 +13,7 @@ import { tinygrailOSS, toFixed } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { FROZEN_FN } from '@constants'
-import { Ctx } from '../types'
+import type { Ctx } from '../types'
 import Today from './today'
 import { memoStyles } from './styles'
 

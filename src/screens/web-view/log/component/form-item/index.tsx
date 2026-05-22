@@ -9,9 +9,9 @@ import { Input, Text } from '@components'
 import { useStore } from '@stores'
 import { stl } from '@utils'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
+import type { Ctx } from '../../types'
 import { memoStyles } from './styles'
-import { Props } from './types'
+import type { Props } from './types'
 
 function FormItem({ style, name }: Props) {
   const { $ } = useStore<Ctx>()

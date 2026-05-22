@@ -6,9 +6,9 @@
  */
 import { useInitStore } from '@stores'
 import { useRunAfter } from '@utils/hooks'
-import { NavigationProps } from '@types'
+import type { NavigationProps } from '@types'
 import store from './store'
-import { Ctx } from './types'
+import type { Ctx } from './types'
 
 /** 新番榜单页面逻辑 */
 export function useTinygrailNewPage(props: NavigationProps) {

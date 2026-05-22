@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-12-17 15:51:47
  */
 import { MODEL_TINYGRAIL_CACULATE_RICH_TYPE } from '@constants'
-import { Loaded, TinygrailCaculateRichType } from '@types'
+import type { Loaded, TinygrailCaculateRichType } from '@types'
 
 export const H_TOOL_BAR = 44
 

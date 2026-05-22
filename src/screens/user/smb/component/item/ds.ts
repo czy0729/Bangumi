@@ -5,8 +5,8 @@
  * @Last Modified time: 2024-05-07 22:47:46
  */
 import { rc } from '@utils/dev'
-import { Navigation, SubjectId } from '@types'
-import { SMBListItem, StoreType as $ } from '../../types'
+import type { Navigation, SubjectId } from '@types'
+import type { SMBListItem, StoreType as $ } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
 

@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-07-08 18:03:59
  */
-import { Loaded, UserId, WithNavigation } from '@types'
+import type { Loaded, UserId, WithNavigation } from '@types'
 import Store from './store'
 
 export type Ctx = WithNavigation<{

@@ -12,7 +12,7 @@ import { caculateICO, calculateFutureICO, formatNumber } from '@utils'
 import { ob } from '@utils/decorators'
 import TinygrailAvatar from '@tinygrail/_/avatar'
 import TinygrailRank from '@tinygrail/_/rank'
-import { Ctx } from '../../types'
+import type { Ctx } from '../../types'
 import { COMPONENT, EVENT } from './ds'
 import { memoStyles } from './styles'
 

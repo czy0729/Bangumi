@@ -24,7 +24,7 @@ import { ob } from '@utils/decorators'
 import { t, xhrCustom } from '@utils/fetch'
 import { APP_ID, APP_SECRET, HOST, URL_OAUTH_REDIRECT } from '@constants'
 import i18n from '@constants/i18n'
-import { NavigationProps } from '@types'
+import type { NavigationProps } from '@types'
 import { memoStyles } from './styles'
 
 const code = `JSON.stringify({

@@ -7,8 +7,8 @@
 import { AuthType, createClient, WebDAVClient } from 'webdav'
 import { alert, asc, desc, info, loading } from '@utils'
 import { queue } from '@utils/fetch'
-import { SubjectId } from '@types'
-import { SMBListItem, SMBRawItem, WebDAVRawItem } from '../types'
+import type { SubjectId } from '@types'
+import type { SMBListItem, SMBRawItem, WebDAVRawItem } from '../types'
 import { getFileMediaType, matchTags } from './utils'
 
 let webDAVClient: WebDAVClient

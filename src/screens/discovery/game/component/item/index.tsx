@@ -7,7 +7,7 @@
 import React from 'react'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+import type { Ctx } from '../../types'
 import ItemGrid from '../item-grid'
 import ItemList from '../item-list'
 import { COMPONENT } from './ds'

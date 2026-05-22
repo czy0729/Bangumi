@@ -6,9 +6,9 @@
  */
 import { useInitStore } from '@stores'
 import { usePageLifecycle } from '@utils/hooks'
-import { NavigationProps } from '@types'
+import type { NavigationProps } from '@types'
 import store from './store'
-import { Ctx } from './types'
+import type { Ctx } from './types'
 
 /** AI 推荐页面逻辑 */
 export function useRecommendPage(props: NavigationProps) {

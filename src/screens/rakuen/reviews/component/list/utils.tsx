@@ -5,8 +5,8 @@
  * @Last Modified time: 2024-06-22 17:21:56
  */
 import React from 'react'
-import { ReviewsItem } from '@stores/rakuen/types'
-import { RenderItem } from '@types'
+import type { ReviewsItem } from '@stores/rakuen/types'
+import type { RenderItem } from '@types'
 import Item from '../item'
 
 export function keyExtractor(item: ReviewsItem, index: number) {

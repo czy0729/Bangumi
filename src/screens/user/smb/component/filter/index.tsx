@@ -9,7 +9,7 @@ import { View } from 'react-native'
 import { Flex, Iconfont, Input } from '@components'
 import { ob } from '@utils/decorators'
 import { r } from '@utils/dev'
-import { Ctx } from '../../types'
+import type { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 

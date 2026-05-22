@@ -10,7 +10,7 @@ import { _, systemStore, useStore } from '@stores'
 import { appNavigate, feedback } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { processHtml } from '@screens/home/subject/component/info/utils'
-import { Ctx } from '../../types'
+import type { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 

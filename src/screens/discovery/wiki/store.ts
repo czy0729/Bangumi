@@ -8,7 +8,7 @@ import { computed, observable } from 'mobx'
 import { discoveryStore } from '@stores'
 import store from '@utils/store'
 import { KEYS, LAST_DS, NAMESPACE, RELATION_DS, STATE, TOP_DS, TYPE_DS } from './ds'
-import { TopIndex } from './types'
+import type { TopIndex } from './types'
 
 export default class ScreenWiki extends store<typeof STATE> {
   state = observable(STATE)

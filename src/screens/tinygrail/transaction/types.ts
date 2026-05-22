@@ -5,7 +5,7 @@
  * @Last Modified time: 2025-03-07 17:53:12
  */
 import { factory } from '@utils'
-import { Avatar, Navigation, UserId } from '@types'
+import type { Avatar, Navigation, UserId } from '@types'
 import Store from './store'
 
 const f = factory(Store)

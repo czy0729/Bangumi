@@ -7,8 +7,8 @@
 import { tinygrailStore, userStore } from '@stores'
 import { feedback, getTimestamp, info, updateVisibleBottom } from '@utils'
 import { collect, get, update } from '@utils/kv'
-import { UserId } from '@types'
-import { DataItem, LikesItem } from '../types'
+import type { UserId } from '@types'
+import type { DataItem, LikesItem } from '../types'
 import Fetch from './fetch'
 import { EXCLUDE_STATE } from './ds'
 

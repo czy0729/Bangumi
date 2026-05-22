@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-04-12 19:08:33
  */
-import { SetSettingKeys } from '../../types'
+import type { SetSettingKeys } from '../../types'
 
 export type Props = {
   /** 设置项 */

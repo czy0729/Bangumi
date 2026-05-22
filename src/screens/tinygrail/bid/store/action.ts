@@ -8,9 +8,9 @@ import { tinygrailStore } from '@stores'
 import { t } from '@utils/fetch'
 import { feedback, info } from '@utils/ui'
 import { throttleInfo } from '@tinygrail/_/utils'
-import { Id } from '@types'
+import type { Id } from '@types'
 import { TABS } from '../ds'
-import { Direction } from '../types'
+import type { Direction } from '../types'
 import Fetch from './fetch'
 
 export default class Action extends Fetch {

@@ -12,7 +12,7 @@ import { ob } from '@utils/decorators'
 import Item from '@tinygrail/_/item'
 import { refreshControlProps } from '@tinygrail/styles'
 import { TABS } from '../ds'
-import { Ctx } from '../types'
+import type { Ctx } from '../types'
 
 const EVENT = {
   id: '新番榜单.跳转'

@@ -8,7 +8,7 @@ import React from 'react'
 import { Progress } from '@components'
 import { useStore } from '@stores'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+import type { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
 function Tips() {

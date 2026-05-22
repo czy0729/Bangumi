@@ -13,7 +13,7 @@ import { useObserver } from '@utils/hooks'
 import { CDN_OSS_MAGMA_POSTER } from '@constants'
 import commonStyles from '../../../styles'
 import { IMG_HEIGHT, IMG_WIDTH, TEXTS, URL_LAIN } from '../ds'
-import { Pings } from '../types'
+import type { Pings } from '../types'
 import { memoStyles } from './styles'
 
 function CDNTest({ filter }) {

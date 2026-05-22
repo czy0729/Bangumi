@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-01-14 16:44:22
  */
-import { Loaded } from '@types'
-import { Direction } from '../types'
+import type { Loaded } from '@types'
+import type { Direction } from '../types'
 
 export const STATE = {
   page: 0,

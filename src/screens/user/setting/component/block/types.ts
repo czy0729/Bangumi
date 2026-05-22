@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-07-04 05:24:37
  */
 import { ViewProps } from 'react-native'
-import { Override } from '@types'
+import type { Override } from '@types'
 
 export type Props = Override<
   ViewProps,

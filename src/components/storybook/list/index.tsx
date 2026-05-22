@@ -12,7 +12,7 @@ import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { Component } from '../../component'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props as StorybookListProps } from './types'
+import type { Props as StorybookListProps } from './types'
 
 /** [WEB] 单页面列表容器 */
 export const StorybookList = ({ style, wind, space, children, ...other }: StorybookListProps) => {

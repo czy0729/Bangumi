@@ -5,8 +5,8 @@
  * @Last Modified time: 2024-05-08 00:02:45
  */
 import { findJA } from '@utils/thirdParty/ja'
-import { SubjectId } from '@types'
-import { SMBListItem } from '../types'
+import type { SubjectId } from '@types'
+import type { SMBListItem } from '../types'
 import { formatFileSize, getFileMediaType, matchTags } from './utils'
 
 /** input 选择文件夹的结果转换为 smb 一样的输入数据 */

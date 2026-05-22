@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-12-17 15:59:17
  */
-import { Loaded } from '@types'
+import type { Loaded } from '@types'
 
 export const NAMESPACE = 'ScreenTinygrailValhall'
 

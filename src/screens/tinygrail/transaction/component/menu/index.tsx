@@ -11,7 +11,7 @@ import { _, userStore, useStore } from '@stores'
 import { confirm, lastDate } from '@utils'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
+import type { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 

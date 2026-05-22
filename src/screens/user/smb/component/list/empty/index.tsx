@@ -9,7 +9,7 @@ import { Empty as EmptyComp, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { WEB } from '@constants'
-import { Ctx } from '../../../types'
+import type { Ctx } from '../../../types'
 
 function Empty() {
   const { $, navigation } = useStore<Ctx>()

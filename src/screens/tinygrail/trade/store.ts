@@ -9,9 +9,9 @@ import { tinygrailStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { queue, t } from '@utils/fetch'
 import store from '@utils/store'
-import { MonoId } from '@types'
+import type { MonoId } from '@types'
 import { d1, h1, h12, h4, m1, m15, m5, month1, NAMESPACE, STATE, w1 } from './ds'
-import { Params } from './types'
+import type { Params } from './types'
 
 export { m1, m5, m15, h1, h4, h12, d1, w1, month1 }
 

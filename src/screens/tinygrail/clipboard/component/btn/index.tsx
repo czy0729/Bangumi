@@ -9,7 +9,7 @@ import { Button, Flex } from '@components'
 import { useStore } from '@stores'
 import { confirm } from '@utils'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+import type { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 

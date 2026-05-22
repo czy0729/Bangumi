@@ -12,8 +12,8 @@ import { toFixed } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { B, M, MODEL_TINYGRAIL_CACULATE_RICH_TYPE, TINYGRAIL_CACULATE_RICH_TYPE } from '@constants'
-import { TinygrailCaculateRichTypeCn } from '@types'
-import { Ctx } from '../types'
+import type { TinygrailCaculateRichTypeCn } from '@types'
+import type { Ctx } from '../types'
 import { memoStyles } from './styles'
 
 const caculateTypeData = TINYGRAIL_CACULATE_RICH_TYPE.map(item => item.label)

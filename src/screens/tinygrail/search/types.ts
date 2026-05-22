@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-11-09 06:21:59
  */
 import { factory } from '@utils'
-import { Navigation } from '@types'
+import type { Navigation } from '@types'
 import Store from './store'
 
 const f = factory(Store)

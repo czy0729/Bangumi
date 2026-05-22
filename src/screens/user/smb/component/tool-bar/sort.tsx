@@ -9,7 +9,7 @@ import { ToolBar } from '@components'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { ACTIONS_SORT } from '../../ds'
-import { Ctx } from '../../types'
+import type { Ctx } from '../../types'
 
 function Sort() {
   const { $ } = useStore<Ctx>()

@@ -9,7 +9,7 @@ import { ListView, Loading } from '@components'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../types'
+import type { Ctx } from '../types'
 import Item from '../../_/item'
 import { levelList, sortList } from '../../_/utils'
 

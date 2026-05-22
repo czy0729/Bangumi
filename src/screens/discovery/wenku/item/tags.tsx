@@ -9,7 +9,7 @@ import { Tags as CompTags } from '@_'
 import { useStore } from '@stores'
 import { desc } from '@utils'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../types'
+import type { Ctx } from '../types'
 
 function Tags({ value }) {
   const { $ } = useStore<Ctx>()

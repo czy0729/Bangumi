@@ -15,7 +15,7 @@ import {
   HENTAI_YEAR
 } from '@utils/subject/hentai'
 import { LIST_EMPTY } from '@constants'
-import { Loaded } from '@types'
+import type { Loaded } from '@types'
 
 export const NAMESPACE = 'ScreenHentai'
 

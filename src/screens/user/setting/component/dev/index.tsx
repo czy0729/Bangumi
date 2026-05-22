@@ -9,7 +9,7 @@ import { View } from 'react-native'
 import { Flex, Touchable } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
-import { Navigation } from '@types'
+import type { Navigation } from '@types'
 import { styles } from './styles'
 
 function Dev({ navigation }: { navigation: Navigation }) {

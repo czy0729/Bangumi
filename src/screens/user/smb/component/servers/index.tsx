@@ -10,7 +10,7 @@ import { Flex, Iconfont, Text } from '@components'
 import { Popover } from '@_'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+import type { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
 function Servers({ store }: { store: Ctx['$'] }) {

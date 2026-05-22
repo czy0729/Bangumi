@@ -11,7 +11,7 @@ import { t } from '@utils/fetch'
 import store from '@utils/store'
 import { getTagType, HENTAI_TAGS_MAP, init, search } from '@utils/subject/hentai'
 import { ADVANCE_LIMIT, NAMESPACE, STATE } from './ds'
-import { Params } from './types'
+import type { Params } from './types'
 
 let _loaded = false
 

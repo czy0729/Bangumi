@@ -6,14 +6,14 @@
  */
 import { computed, observable } from 'mobx'
 import { rakuenStore } from '@stores'
-import { Board } from '@stores/rakuen/types'
+import type { Board } from '@stores/rakuen/types'
 import { getTimestamp } from '@utils'
 import { get, update } from '@utils/kv'
 import store from '@utils/store'
 import { HTML_BOARD, LIST_EMPTY } from '@constants'
-import { TopicId } from '@types'
+import type { TopicId } from '@types'
 import { NAMESPACE, STATE } from './ds'
-import { Params } from './types'
+import type { Params } from './types'
 
 /** 若更新过则不会再主动更新 */
 const THIRD_PARTY_UPDATED = []

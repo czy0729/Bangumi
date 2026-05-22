@@ -12,7 +12,7 @@ import { open } from '@utils'
 import { ob } from '@utils/decorators'
 import { HTML_SINGLE_DOC } from '@constants'
 import { TABS } from '../ds'
-import { Ctx } from '../types'
+import type { Ctx } from '../types'
 import { COMPONENT, HM } from './ds'
 
 function Header() {

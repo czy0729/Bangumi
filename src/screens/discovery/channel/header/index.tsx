@@ -12,7 +12,7 @@ import { ob } from '@utils/decorators'
 import { scrollToTop } from '@utils/dom'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE, TEXT_MENU_BROWSER } from '@constants'
-import { Ctx } from '../types'
+import type { Ctx } from '../types'
 import { COMPONENT, DATA } from './ds'
 
 function Header() {

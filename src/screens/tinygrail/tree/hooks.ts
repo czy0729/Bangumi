@@ -10,9 +10,9 @@ import { alert, info } from '@utils'
 import { t } from '@utils/fetch'
 import { useRunAfter } from '@utils/hooks'
 import i18n from '@constants/i18n'
-import { NavigationProps } from '@types'
+import type { NavigationProps } from '@types'
 import store from './store'
-import { Ctx } from './types'
+import type { Ctx } from './types'
 
 /** 资产分析页面逻辑 */
 export function useTinygrailTreePage(props: NavigationProps) {

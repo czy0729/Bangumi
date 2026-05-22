@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-04-04 07:32:05
  */
-import { Loaded } from '@types'
-import { LastIndex, RelationIndex, TopIndex, TypeIndex } from './types'
+import type { Loaded } from '@types'
+import type { LastIndex, RelationIndex, TopIndex, TypeIndex } from './types'
 
 export const COMPONENT = 'Wiki'
 

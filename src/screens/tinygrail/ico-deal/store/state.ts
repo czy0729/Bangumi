@@ -6,7 +6,7 @@
  */
 import { observable } from 'mobx'
 import Store from '@utils/store'
-import { Params } from '../types'
+import type { Params } from '../types'
 import { STATE } from './ds'
 
 export default class State extends Store<typeof STATE> {

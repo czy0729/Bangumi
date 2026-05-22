@@ -7,8 +7,8 @@
 import SMBClient from 'react-native-smb'
 import { alert, asc, desc, info, loading } from '@utils'
 import { queue } from '@utils/fetch'
-import { SubjectId } from '@types'
-import { SMBListItem, SMBRawItem } from '../types'
+import type { SubjectId } from '@types'
+import type { SMBListItem, SMBRawItem } from '../types'
 import { getFileMediaType, matchTags } from './utils'
 
 let smbClient: {

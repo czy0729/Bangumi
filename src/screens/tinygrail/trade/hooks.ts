@@ -8,9 +8,9 @@ import { useCallback, useState } from 'react'
 import { useInitStore } from '@stores'
 import { hm, t } from '@utils/fetch'
 import { useIsFocused, useRunAfter } from '@utils/hooks'
-import { NavigationProps } from '@types'
+import type { NavigationProps } from '@types'
 import store from './store'
-import { Ctx } from './types'
+import type { Ctx } from './types'
 
 /** K 线页面逻辑 */
 export function useTinygrailTradePage(props: NavigationProps) {

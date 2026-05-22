@@ -18,7 +18,7 @@ import i18n from '@constants/i18n'
 import InputPassword from '../input-password'
 import { HOST_DS } from './ds'
 import { memoStyles } from './styles'
-import { Props } from './types'
+import type { Props } from './types'
 
 class Form extends React.Component<Props> {
   static defaultProps = {

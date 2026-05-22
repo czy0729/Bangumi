@@ -7,7 +7,7 @@
 import { computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import { TABS } from '../ds'
-import { TabsKey } from '../types'
+import type { TabsKey } from '../types'
 import State from './state'
 
 export default class Computed extends State {

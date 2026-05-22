@@ -1,11 +1,11 @@
 /*
  * @Author: czy0729
  * @Date: 2024-05-04 05:47:22
- * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-16 14:10:17
+ * @Last Modified by: imagebuilder1837
+ * @Last Modified time: 2026-05-22 08:14:58
  */
-import { Navigation } from '@types'
-import { ItemTrend } from '../../../types'
+import type { Navigation } from '@types'
+import type { ItemTrend } from '../../../types'
 
 export type Props = {
   navigation: Navigation

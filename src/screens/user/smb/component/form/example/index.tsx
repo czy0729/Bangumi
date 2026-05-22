@@ -9,8 +9,8 @@ import { Flex, Text } from '@components'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { WEB } from '@constants'
-import { ReactNode } from '@types'
-import { Ctx } from '../../../types'
+import type { ReactNode } from '@types'
+import type { Ctx } from '../../../types'
 import { styles } from './styles'
 
 function Example({ store }: { store: Ctx['$'] }) {

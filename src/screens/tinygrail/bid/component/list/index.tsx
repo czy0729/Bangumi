@@ -11,7 +11,7 @@ import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import Item from '@tinygrail/_/item'
 import { refreshControlProps } from '@tinygrail/styles'
-import { Ctx, TabsKeys } from '../../types'
+import type { Ctx, TabsKeys } from '../../types'
 import { keyExtractor } from './utils'
 import { EVENT, GO } from './ds'
 

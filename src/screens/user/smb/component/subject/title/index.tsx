@@ -10,7 +10,7 @@ import { useStore } from '@stores'
 import { cnjp, HTMLDecode } from '@utils'
 import { ob } from '@utils/decorators'
 import { TEXT_SPACE } from '@constants'
-import { Ctx } from '../../../types'
+import type { Ctx } from '../../../types'
 
 function Title({ name, nameCn }) {
   const { $ } = useStore<Ctx>()

@@ -12,7 +12,7 @@ import { _, useStore } from '@stores'
 import { findSubjectCn } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../../types'
+import type { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 

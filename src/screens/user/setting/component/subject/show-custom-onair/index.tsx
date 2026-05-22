@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import i18n from '@constants/i18n'
-import { WithFilterProps } from '../../../types'
+import type { WithFilterProps } from '../../../types'
 import { LAYOUT_VALUES, TEXTS } from '../ds'
 import ItemSettingSegmented from '../../item-setting-segmented'
 import { THUMB } from './ds'

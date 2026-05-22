@@ -9,7 +9,7 @@ import { View } from 'react-native'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { MODEL_TINYGRAIL_CACULATE_TYPE } from '@constants'
-import { TinygrailCaculateTypeCn } from '@types'
+import type { TinygrailCaculateTypeCn } from '@types'
 import Item from '../item'
 
 function Chart({ data = [], caculateType, isTemple, onPress, onLongPress }) {

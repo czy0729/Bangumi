@@ -6,7 +6,7 @@
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
-import { Navigation, ViewStyle } from '@types'
+import type { Navigation, ViewStyle } from '@types'
 import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
 

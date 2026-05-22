@@ -9,7 +9,7 @@ import { t } from '@utils/fetch'
 import { gets } from '@utils/kv'
 import axios from '@utils/thirdParty/axios'
 import { MODEL_SUBJECT_TYPE, WEB } from '@constants'
-import { SubjectTypeValue } from '@types'
+import type { SubjectTypeValue } from '@types'
 import Computed from './computed'
 import { HOST_REC } from './ds'
 

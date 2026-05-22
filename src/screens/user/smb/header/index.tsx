@@ -8,7 +8,7 @@ import React from 'react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../types'
+import type { Ctx } from '../types'
 import { DATA, HM } from './ds'
 
 function Header() {

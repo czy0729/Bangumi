@@ -6,12 +6,12 @@
  */
 import { computed } from 'mobx'
 import { collectionStore, smbStore, subjectStore, userStore } from '@stores'
-import { SMB } from '@stores/smb/types'
+import type { SMB } from '@stores/smb/types'
 import { fixedSubjectInfo } from '@utils'
 import { WEB } from '@constants'
-import { InferArray, SubjectId } from '@types'
+import type { InferArray, SubjectId } from '@types'
 import { LIMIT, REG_AIRDATE } from '../ds'
-import { SubjectOSS } from '../types'
+import type { SubjectOSS } from '../types'
 import { fixedUrl } from '../utils'
 import State from './state'
 

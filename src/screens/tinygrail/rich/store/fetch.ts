@@ -6,7 +6,7 @@
  */
 import { tinygrailStore } from '@stores'
 import { getTimestamp, info } from '@utils'
-import { Balance } from '../types'
+import type { Balance } from '../types'
 import Computed from './computed'
 
 export default class Fetch extends Computed {

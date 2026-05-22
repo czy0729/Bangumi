@@ -9,7 +9,7 @@ import { HeaderV2, HeaderV2Popover } from '@components'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { COMPONENT, HM, TEXT_GROUP } from './ds'
-import { Props } from './types'
+import type { Props } from './types'
 
 function Header({ navigation, data, onSelect }: Props) {
   return (

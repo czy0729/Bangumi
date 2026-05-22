@@ -11,7 +11,7 @@ import { useStore } from '@stores'
 import { HTMLDecode } from '@utils'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
+import type { Ctx } from '../../types'
 import { COMPONENT, LIMIT } from './ds'
 import { styles } from './styles'
 

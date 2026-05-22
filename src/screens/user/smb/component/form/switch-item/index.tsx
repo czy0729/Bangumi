@@ -11,7 +11,7 @@ import { _, useStore } from '@stores'
 import { alert } from '@utils'
 import { syncS2T } from '@utils/async'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../../../types'
+import type { Ctx } from '../../../types'
 import { styles } from './styles'
 
 function SwitchItem() {

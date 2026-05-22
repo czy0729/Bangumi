@@ -5,7 +5,7 @@
  * @Last Modified time: 2025-04-12 16:54:19
  */
 import React from 'react'
-import { WithFilterProps } from '../../../types'
+import type { WithFilterProps } from '../../../types'
 import { TEXTS } from '../ds'
 import ItemSettingSwitch from '../../item-setting-switch'
 import { THUMB } from './ds'

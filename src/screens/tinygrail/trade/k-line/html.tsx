@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-11-11 04:44:14
  */
-import { AnyObject } from '@types'
+import type { AnyObject } from '@types'
 
 const HOST = 'https://unpkg.com'
 

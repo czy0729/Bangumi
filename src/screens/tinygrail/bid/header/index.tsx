@@ -10,7 +10,7 @@ import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { confirm } from '@utils'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../types'
+import type { Ctx } from '../types'
 import { COMPONENT } from './ds'
 
 function Header() {

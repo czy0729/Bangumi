@@ -8,7 +8,7 @@ import React from 'react'
 import { Flex, Iconfont, Text, ToolBar as ToolBarComp } from '@components'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+import type { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
 function ToolBar() {

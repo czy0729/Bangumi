@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-01-14 16:44:16
  */
-import { WithNavigation } from '@types'
+import type { WithNavigation } from '@types'
 import Store from './store'
 import { TABS } from './ds'
 

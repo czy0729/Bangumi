@@ -4,7 +4,7 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2025-09-12 18:51:30
  */
-import { MenuItemProps } from '../components/menu/types'
+import type { MenuItemProps } from '../components/menu/types'
 
 function fieldAreSame(obj1: MenuItemProps, obj2: MenuItemProps) {
   'worklet'

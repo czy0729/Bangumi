@@ -10,7 +10,7 @@ import { IconNavigate, ItemBlog, SectionTitle } from '@_'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../../types'
+import type { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
 function Blog() {

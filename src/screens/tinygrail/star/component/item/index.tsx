@@ -11,7 +11,7 @@ import { _, useStore } from '@stores'
 import { formatNumber, tinygrailOSS } from '@utils'
 import { ob } from '@utils/decorators'
 import Stars from '@tinygrail/_/stars'
-import { Ctx } from '../../types'
+import type { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 

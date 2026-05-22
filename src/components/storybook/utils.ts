@@ -1,12 +1,12 @@
 /*
  * @Author: czy0729
  * @Date: 2023-04-10 15:21:47
- * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-15 17:23:41
+ * @Last Modified by: imagebuilder1837
+ * @Last Modified time: 2026-05-22 08:11:01
  */
 import { appNavigate, getSPAParams } from '@utils'
 import { cleanQuery } from '@utils/dom'
-import { AnyObject } from '@types'
+import type { AnyObject } from '@types'
 import { setNavigating } from './state'
 
 /** 获取所有网页参数并返回对象 */

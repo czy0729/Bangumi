@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-04-13 17:50:56
  */
-import { Loaded } from '@types'
+import type { Loaded } from '@types'
 
 export const COMPONENT = 'TinygrailStar'
 
