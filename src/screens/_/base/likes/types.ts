@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-05 14:59:57
  * @Last Modified by: imagebuilder1837
- * @Last Modified time: 2026-05-22 11:19:21
+ * @Last Modified time: 2026-05-22 20:24:34
  */
 import type { rakuenStore } from '@stores'
 import type { BlogId, Fn, Id, SubjectId, TopicId, ViewStyle } from '@types'
@@ -29,6 +29,9 @@ export type Props = {
 
   /** 贴贴类型 */
   likeType: Id
+
+  /** 默认显示贴贴数量 */
+  limit?: number
 
   /** 偏移值 */
   offsets?: {
