@@ -44,8 +44,8 @@ export function decodeNumericHTMLEntity(match: string, value: string, radix: num
   }
 }
 
-/** HTML 反转义 */
-export function HTMLDecode(str: string = ''): string {
+/** 含十进制或十六进制数字 HTML 实体（如 emoji）的 HTML 反转义 */
+export function decodeHTMLEntities(str: string = ''): string {
   if (str.length === 0) return ''
 
   return str
@@ -58,6 +58,13 @@ export function HTMLDecode(str: string = ''): string {
     .replace(/&#(\d+);/g, (match, dec) => {
       return decodeNumericHTMLEntity(match, dec, 10)
     })
+}
+
+/** HTML 反转义 */
+export function HTMLDecode(str: string = ''): string {
+  if (str.length === 0) return ''
+
+  return str.replace(/(&amp;|&lt;|&gt;|&nbsp;|&#39;|&quot;)/g, match => DECODE_SPECIAL_CHARS[match])
 }
 
 const ENCODE_SPECIAL_CHARS = {
