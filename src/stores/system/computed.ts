@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2023-04-23 15:11:13
- * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-22 22:44:49
+ * @Last Modified by: imagebuilder1837
+ * @Last Modified time: 2026-05-22 02:50:10
  */
 import { computed } from 'mobx'
 import { radiusMd } from '@styles'
@@ -127,7 +127,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   /** 是否高级用户 */
-  isAdvance(userId: UserId, userName?: string) {
+  isAdvance(userId: UserId, userName?: UserId) {
     return computed<boolean>(() => {
       let flag = false
       if (userId) flag = userId in this.advanceDetail
