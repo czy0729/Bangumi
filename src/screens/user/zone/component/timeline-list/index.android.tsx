@@ -4,12 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-22 06:56:58
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { ListView, Loading } from '@components'
 import { TapListener } from '@_'
-import { useStore } from '@stores'
+import { uiStore, useStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { renderItem, renderSectionHeader } from './utils'
 import { COMPONENT } from './ds'
@@ -19,6 +19,10 @@ import type { Ctx } from '../../types'
 
 function TimelineList() {
   const { $ } = useStore<Ctx>(COMPONENT)
+
+  const handleScrollBeginDrag = useCallback(() => {
+    uiStore.closeAll()
+  }, [])
 
   if (!$.usersTimeline._loaded) {
     return (
@@ -32,6 +36,7 @@ function TimelineList() {
     <TapListener>
       <ListView
         nestedScrollEnabled
+        onScrollBeginDrag={handleScrollBeginDrag}
         keyExtractor={keyExtractor}
         contentContainerStyle={styles.nestScroll}
         data={$.usersTimeline}
