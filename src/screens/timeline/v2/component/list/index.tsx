@@ -45,9 +45,12 @@ function List({ title }: Props) {
     [$, title]
   )
 
+  const handleScrollBeginDrag = useCallback(() => {
+    uiStore.closeAll()
+  }, [])
+
   const handleScroll = useCallback(
     (evt: ScrollEvent) => {
-      uiStore.closeAll()
       $.onScroll(evt)
     },
     [$]
@@ -83,6 +86,7 @@ function List({ title }: Props) {
       renderItem={handleRenderItem}
       scrollEventThrottle={16}
       overScrollMode='never'
+      onScrollBeginDrag={handleScrollBeginDrag}
       onScroll={handleScroll}
       onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={$.fetchTimeline}
