@@ -36,7 +36,6 @@ function TimelineList() {
     <TapListener>
       <ListView
         nestedScrollEnabled
-        onScrollBeginDrag={handleScrollBeginDrag}
         keyExtractor={keyExtractor}
         contentContainerStyle={styles.nestScroll}
         data={$.usersTimeline}
@@ -44,6 +43,7 @@ function TimelineList() {
         stickySectionHeadersEnabled={false}
         renderSectionHeader={renderSectionHeader}
         renderItem={renderItem}
+        onScrollBeginDrag={handleScrollBeginDrag}
         onFooterRefresh={$.fetchUsersTimeline}
       />
     </TapListener>
