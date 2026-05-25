@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-21 23:47:59
+ * @Last Modified time: 2026-05-25 06:14:21
  */
 import {
   collectionStore,
@@ -33,6 +33,7 @@ import { getPreview, getTrailer, getVideo, matchGame, matchMovie, search } from 
 import { xhrCustom } from '@utils/fetch'
 import { get, update } from '@utils/kv'
 import { decode, get as protoGet } from '@utils/protobuf'
+import { fetchVndbScreenshots, probeDlsiteImages } from '@utils/thirdParty/dlsite-vndb'
 import {
   API_ANITABI,
   CDN_EPS,
@@ -306,12 +307,7 @@ export default class Fetch extends Computed {
 
   /** 获取推荐源 */
   fetchRec = async () => {
-    if (
-      (this.nsfw && !systemStore.isAdvance && userStore.isExtremeLimit) ||
-      optimize(this.state.recData, D7)
-    ) {
-      return false
-    }
+    if ((this.nsfw && userStore.isExtremeLimit) || optimize(this.state.recData, D7)) return false
 
     const recData: RecData = {
       data: [],
@@ -524,6 +520,89 @@ export default class Fetch extends Computed {
     }
   }
 
+  /** 获取 VNDB/DLsite 外部截图 */
+  fetchExternalScreenshots = async () => {
+    if (this.type !== '游戏') return false
+    if (!this.vndbId && !this.dlsiteId) return false
+    if (optimize(this.state.externalScreenshotsLoaded, H1)) return false
+
+    const now = getTimestamp()
+    const promises: Promise<void>[] = []
+    if (this.vndbId) {
+      promises.push(
+        (async () => {
+          const cacheKey = `vndb_${this.subjectId}` as const
+
+          try {
+            const cache = await get(cacheKey)
+            if (Array.isArray(cache?.data) && cache.data.length) {
+              this.setState({
+                vndbScreenshots: cache.data
+              })
+              return
+            }
+          } catch {}
+
+          try {
+            const screenshots = await fetchVndbScreenshots(this.vndbId)
+            this.setState({
+              vndbScreenshots: screenshots
+            })
+
+            if (screenshots.length) {
+              postTask(() => {
+                update(cacheKey, {
+                  data: screenshots
+                })
+              }, 0)
+            }
+          } catch {}
+        })()
+      )
+    }
+
+    if (this.dlsiteId) {
+      promises.push(
+        (async () => {
+          const cacheKey = `dlsite_${this.subjectId}` as const
+
+          try {
+            const cache = await get(cacheKey)
+            if (Array.isArray(cache?.data) && cache.data.length) {
+              this.setState({
+                dlsiteImages: cache.data
+              })
+              return
+            }
+          } catch {}
+
+          try {
+            const images = await probeDlsiteImages(this.dlsiteId)
+            this.setState({
+              dlsiteImages: images
+            })
+
+            if (images.length) {
+              postTask(() => {
+                update(cacheKey, {
+                  data: images
+                })
+              }, 0)
+            }
+          } catch {}
+        })()
+      )
+    }
+    await Promise.all(promises)
+
+    this.setState({
+      externalScreenshotsLoaded: now
+    })
+    this.save()
+
+    return true
+  }
+
   /** 从 bilibili 匹配音乐 MV */
   fetchMVFromBilibili = async (cn: string, jp: string, artist: string) => {
     if (WEB) return false
@@ -641,14 +720,15 @@ export default class Fetch extends Computed {
   }
 
   /** 装载找条目快照数据 */
-  fetchSnapshot = () => {
+  fetchSnapshot = async () => {
     if (this.type === '动画') {
       if (this.animeInfo?.i) otaStore.fetchAnime(this.animeInfo.i)
       return
     }
 
     if (this.type === '游戏') {
-      if (this.gameInfo?.i) otaStore.fetchGame(this.gameInfo.i)
+      const hasExternal = await this.fetchExternalScreenshots()
+      if (!hasExternal && this.gameInfo?.i) otaStore.fetchGame(this.gameInfo.i)
       return
     }
   }

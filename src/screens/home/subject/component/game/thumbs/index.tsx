@@ -39,29 +39,31 @@ function Thumbs() {
       scrollEventThrottle={16}
       onScroll={handleScroll}
     >
-      {thumbs.map((item, index) => (
-        <Image
-          key={item}
-          style={index ? styles.image : styles.side}
-          src={item}
-          size={THUMB_WIDTH}
-          height={THUMB_HEIGHT}
-          radius={_.radiusSm}
-          errorToHide
-          onPress={() => {
-            const previews = getThumbs($.subjectId, $.gameInfo?.isADV, false).map(item => ({
-              url: item
-            }))
-            if (!previews.length) return
+      {thumbs
+        .filter((_item, index) => index <= (scrolled ? 12 : 4))
+        .map((item, index) => (
+          <Image
+            key={item}
+            style={index ? styles.image : styles.side}
+            src={item}
+            size={THUMB_WIDTH}
+            height={THUMB_HEIGHT}
+            radius={_.radiusSm}
+            errorToHide
+            onPress={() => {
+              const previews = getThumbs($.subjectId, $.gameInfo?.isADV, false).map(item => ({
+                url: item
+              }))
+              if (!previews.length) return
 
-            showImageViewer(previews, index)
+              showImageViewer(previews, index)
 
-            t('条目.游戏截图', {
-              subjectId: $.subjectId
-            })
-          }}
-        />
-      ))}
+              t('条目.游戏截图', {
+                subjectId: $.subjectId
+              })
+            }}
+          />
+        ))}
     </ScrollView>
   )
 }

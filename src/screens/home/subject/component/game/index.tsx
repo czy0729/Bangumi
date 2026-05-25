@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:28:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:15:34
+ * @Last Modified time: 2026-05-25 06:01:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,10 +13,10 @@ import { _, systemStore, useStore } from '@stores'
 import { stl } from '@utils'
 import { TITLE_GAME } from '../../ds'
 import IconHidden from '../icon/hidden'
-import IconPic from '../icon/pic'
 import IconPS from '../icon/ps'
 import Split from '../split'
 import Details from './details'
+import ExternalThumbs from './externalThumbs'
 import Thumbs from './thumbs'
 import { COMPONENT } from './ds'
 
@@ -58,25 +58,13 @@ function Game({ onBlockRef }: Props) {
 
           {showGameInfo && (
             <>
-              <Thumbs />
+              {$.hasExternalScreenshots ? <ExternalThumbs /> : <Thumbs />}
               <Details />
             </>
           )}
 
           <PreventTouchPlaceholder />
         </Expand>
-
-        <View
-          style={[
-            _.container.wind,
-            {
-              marginTop: 4,
-              marginLeft: -2
-            }
-          ]}
-        >
-          <IconPic />
-        </View>
       </InView>
 
       <Split />

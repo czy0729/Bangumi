@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:30:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-13 12:02:13
+ * @Last Modified time: 2026-05-25 06:05:43
  */
 import { _ } from '@stores'
 import { LIST_EMPTY } from '@constants'
 import { COMPONENT } from '../ds'
 
 import type { CompletionItem, Loaded, RatingStatus, Sites, TranslateResult } from '@types'
+import type { DlsiteImage, VndbScreenshot } from '@utils/thirdParty/dlsite-vndb'
 import type { AnitabiData, EpsData, RecData, SubjectSnapshot, VideoItem } from '../types'
 
 /** 唯一命名空间 */
@@ -129,6 +130,15 @@ export const STATE = {
 
   /** 视频 */
   videos: [] as VideoItem[],
+
+  /** VNDB 截图 */
+  vndbScreenshots: [] as VndbScreenshot[],
+
+  /** DLsite 图片 */
+  dlsiteImages: [] as DlsiteImage[],
+
+  /** 外部截图加载状态 */
+  externalScreenshotsLoaded: false as Loaded,
 
   /** 圣地巡游信息 */
   anitabi: {

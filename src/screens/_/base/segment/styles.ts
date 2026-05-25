@@ -17,5 +17,8 @@ export const memoStyles = _.memoStyles(() => ({
     marginHorizontal: 12,
     borderRadius: 4,
     backgroundColor: _.colorIcon
+  },
+  opacity: {
+    opacity: 0.76
   }
 }))

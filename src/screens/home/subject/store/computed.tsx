@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-20 21:41:43
+ * @Last Modified time: 2026-05-24 22:13:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -42,6 +42,7 @@ import { ANIME_TAGS, findAnime } from '@utils/subject/anime'
 import { findGame, GAME_CATE } from '@utils/subject/game'
 import { findManga, MANGA_TAGS } from '@utils/subject/manga'
 import { findWenku, WENKU_TAGS } from '@utils/subject/wenku'
+import { extractDlsiteId, extractVndbId } from '@utils/thirdParty/dlsite-vndb'
 import {
   HOST,
   IMG_DEFAULT,
@@ -494,6 +495,23 @@ export default class Computed extends State {
     // @ts-expect-error
     const tags = this.gameInfo?.ta || []
     return freeze<TagsItem[]>(tags.map((item: string | number) => GAME_CATE[item]))
+  }
+
+  /** VNDB ID (从 infobox 链接提取) */
+  @computed get vndbId(): string | null {
+    if (this.type !== '游戏') return null
+    return extractVndbId(this.rawInfo)
+  }
+
+  /** DLsite ID (从 infobox 链接提取) */
+  @computed get dlsiteId(): string | null {
+    if (this.type !== '游戏') return null
+    return extractDlsiteId(this.rawInfo)
+  }
+
+  /** 是否有外部截图数据 */
+  @computed get hasExternalScreenshots(): boolean {
+    return !!(this.state.vndbScreenshots.length || this.state.dlsiteImages.length)
   }
 
   /** 第三方漫画信息 */
@@ -1250,8 +1268,10 @@ export default class Computed extends State {
 
   /** 是否显示游戏 */
   @computed get showGame() {
+    if (this.nsfw && userStore.isExtremeLimit) return NON_SHOW
+
     const { showGameInfo } = systemStore.setting
-    if (showGameInfo === -1 || !this.gameInfo?.i) return NON_SHOW
+    if (showGameInfo === -1 || (!this.gameInfo?.i && !this.hasExternalScreenshots)) return NON_SHOW
 
     return [showGameInfo === true, true] as const
   }

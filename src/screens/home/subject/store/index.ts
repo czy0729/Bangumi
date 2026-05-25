@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-20 22:14:52
+ * @Last Modified time: 2026-05-25 06:14:36
  */
 import { _, collectionStore, rakuenStore, subjectStore, userStore } from '@stores'
 import { getTimestamp } from '@utils'
@@ -84,11 +84,12 @@ export default class ScreenSubject extends Action {
     /** ==================== 条目次要数据 ==================== */
     await queue(
       [
-        () => this.withFocus(() => this.fetchSnapshot(), 'fetchSnapshot'),
         () => this.withFocus(() => this.fetchSubjectFromHTML(), 'fetchSubjectFromHTML'),
-        () => this.withFocus(() => this.fetchThirdParty(data), 'fetchThirdParty')
+        () => this.withFocus(() => this.fetchThirdParty(data), 'fetchThirdParty'),
+        () =>
+          this.withFocus(() => this.fetchSnapshot(), 'fetchSnapshot', !this.hasExternalScreenshots)
       ],
-      2
+      1
     )
 
     /** ==================== 非必要扩展数据 ==================== */
