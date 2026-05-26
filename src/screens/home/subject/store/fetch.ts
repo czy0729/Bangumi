@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-25 06:14:21
+ * @Last Modified time: 2026-05-26 23:45:55
  */
 import {
   collectionStore,
@@ -34,6 +34,7 @@ import { xhrCustom } from '@utils/fetch'
 import { get, update } from '@utils/kv'
 import { decode, get as protoGet } from '@utils/protobuf'
 import { fetchVndbScreenshots, probeDlsiteImages } from '@utils/thirdParty/dlsite-vndb'
+import { hltb } from '@utils/thirdParty/hltb'
 import {
   API_ANITABI,
   CDN_EPS,
@@ -731,6 +732,82 @@ export default class Fetch extends Computed {
       if (!hasExternal && this.gameInfo?.i) otaStore.fetchGame(this.gameInfo.i)
       return
     }
+  }
+
+  /** 游戏通关时长 */
+  fetchGameDuration = async () => {
+    if (this.type !== '游戏' || this.state.gameDuration.mainStory) return false
+
+    // 这个不是找 ADV 时长的
+    if (this.hasExternalScreenshots) return false
+
+    const now = getTimestamp()
+
+    // 查询缓存
+    const cacheKey = `hltb_${this.subjectId}` as const
+    try {
+      const cache = await get(cacheKey)
+      if (cache?.mainStory) {
+        this.setState({
+          gameDuration: {
+            ...cache,
+            _loaded: now
+          }
+        })
+        this.save()
+        return true
+      }
+    } catch {}
+
+    // 中日韩文字 Unicode 范围：中文 一-鿿，平假名 ぀-ゟ，片假名 ゠-ヿ，韩文 가-힯
+    const CJK_RE = /[一-鿿぀-ゟ゠-ヿ가-힯]/
+    const m = this.rawInfo.match(/(?:中文名|英文名|别名)[\s\S]*?<\/span>\s*([^<]+)/g)
+    let englishName = ''
+    if (m) {
+      for (const item of m) {
+        const text = item.match(/<\/span>\s*([^<]+)/)?.[1]?.trim() || ''
+        // 不包含中日韩文字，选最长的
+        if (!CJK_RE.test(text) && text.length > englishName.length) {
+          englishName = text
+        }
+      }
+    }
+
+    if (!englishName && !CJK_RE.test(this.cn || '')) {
+      englishName = this.cn
+    } else if (!englishName && !CJK_RE.test(this.jp || '')) {
+      englishName = this.jp
+    }
+    console.log({
+      englishName
+    })
+    if (!englishName) return false
+
+    const result = await hltb(englishName)
+    if (result) {
+      this.setState({
+        gameDuration: {
+          ...result,
+          _loaded: now
+        }
+      })
+      this.save()
+
+      postTask(() => {
+        update(cacheKey, result)
+      }, 0)
+
+      return true
+    }
+
+    // 不管如何，若请求过就不再抓取
+    this.setState({
+      gameDuration: {
+        _loaded: now
+      }
+    })
+    this.save()
+    return false
   }
 
   /** 获取圣地巡游信息 */

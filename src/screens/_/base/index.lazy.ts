@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-08 18:25:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-06 18:33:42
+ * @Last Modified time: 2026-05-26 19:22:48
  */
 
 /**
@@ -21,6 +21,7 @@ export * from './app-common/index.lazy'
 export * from './auth/index.lazy'
 export * from './blur-view-layout/index.lazy'
 export * from './blur-view/index.lazy'
+export * from './digit-clock/index.lazy'
 export * from './eps/index.lazy'
 export * from './error-notice/index.lazy'
 export * from './filter-switch/index.lazy'

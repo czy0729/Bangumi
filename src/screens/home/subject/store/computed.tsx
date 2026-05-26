@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-24 22:13:23
+ * @Last Modified time: 2026-05-26 20:39:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -497,19 +497,19 @@ export default class Computed extends State {
     return freeze<TagsItem[]>(tags.map((item: string | number) => GAME_CATE[item]))
   }
 
-  /** VNDB ID (从 infobox 链接提取) */
+  /** ADV 类型游戏专用，VNDB ID (从 infobox 链接提取) */
   @computed get vndbId(): string | null {
     if (this.type !== '游戏') return null
     return extractVndbId(this.rawInfo)
   }
 
-  /** DLsite ID (从 infobox 链接提取) */
+  /** ADV 类型游戏专用，DLsite ID (从 infobox 链接提取) */
   @computed get dlsiteId(): string | null {
     if (this.type !== '游戏') return null
     return extractDlsiteId(this.rawInfo)
   }
 
-  /** 是否有外部截图数据 */
+  /** ADV 类型游戏专用，是否有外部截图数据 */
   @computed get hasExternalScreenshots(): boolean {
     return !!(this.state.vndbScreenshots.length || this.state.dlsiteImages.length)
   }
@@ -1271,7 +1271,12 @@ export default class Computed extends State {
     if (this.nsfw && userStore.isExtremeLimit) return NON_SHOW
 
     const { showGameInfo } = systemStore.setting
-    if (showGameInfo === -1 || (!this.gameInfo?.i && !this.hasExternalScreenshots)) return NON_SHOW
+    if (
+      showGameInfo === -1 ||
+      (!this.gameInfo?.i && !this.hasExternalScreenshots && !this.state.gameDuration.mainStory)
+    ) {
+      return NON_SHOW
+    }
 
     return [showGameInfo === true, true] as const
   }

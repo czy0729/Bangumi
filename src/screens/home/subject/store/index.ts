@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-25 06:14:36
+ * @Last Modified time: 2026-05-26 22:55:03
  */
 import { _, collectionStore, rakuenStore, subjectStore, userStore } from '@stores'
 import { getTimestamp } from '@utils'
@@ -85,12 +85,25 @@ export default class ScreenSubject extends Action {
     await queue(
       [
         () => this.withFocus(() => this.fetchSubjectFromHTML(), 'fetchSubjectFromHTML'),
-        () => this.withFocus(() => this.fetchThirdParty(data), 'fetchThirdParty'),
-        () =>
-          this.withFocus(() => this.fetchSnapshot(), 'fetchSnapshot', !this.hasExternalScreenshots)
+        () => this.withFocus(() => this.fetchThirdParty(data), 'fetchThirdParty')
       ],
       1
     )
+
+    setTimeout(() => {
+      queue(
+        [
+          () =>
+            this.withFocus(
+              () => this.fetchSnapshot(),
+              'fetchSnapshot',
+              !this.hasExternalScreenshots
+            ),
+          () => this.withFocus(() => this.fetchGameDuration(), 'fetchGameDuration')
+        ],
+        2
+      )
+    }, 0)
 
     /** ==================== 非必要扩展数据 ==================== */
     await this.waitUntilScrolled()

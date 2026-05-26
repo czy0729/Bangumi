@@ -2,14 +2,22 @@
  * @Author: czy0729
  * @Date: 2022-07-16 11:46:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-16 07:18:25
+ * @Last Modified time: 2026-05-27 00:01:43
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Heatmap, Katakana, Text } from '@components'
+import { Flex, Heatmap, Katakana, Text, Touchable } from '@components'
 import { ScoreTag, Tag } from '@_'
 import { _ } from '@stores'
-import { cnjp, copy, getTimestamp, getVisualLength, sliceByVisualLength, toFixed } from '@utils'
+import {
+  cnjp,
+  copy,
+  getTimestamp,
+  getVisualLength,
+  info,
+  sliceByVisualLength,
+  toFixed
+} from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { PAD } from '@constants'
@@ -35,6 +43,8 @@ const Head = memo(
     hideScore = false,
     rating = {},
     duration = '',
+    gameDuration = '',
+    pinnedGameDuration = '',
     nsfw = false,
     hasSeries = false,
     isMusic = false
@@ -184,6 +194,25 @@ const Head = memo(
               </>
             )}
             {!!duration && <Tag style={styles.duration} type='sub' size={12} value={duration} />}
+            {!!gameDuration && (
+              <Touchable
+                onPress={() => {
+                  const labels = {
+                    mainStory: '主线故事 / 剧情',
+                    mainExtra: '主线 + 支线任务',
+                    completionist: '全收集 / 完美通关 / 全成就'
+                  } as const
+                  info(`平均时长：${labels[pinnedGameDuration] || ''}`, 2)
+                }}
+              >
+                <Tag
+                  style={styles.duration}
+                  type='sub'
+                  size={12}
+                  value={gameDuration === '0h' ? '- h' : `${gameDuration.split('h')?.[0] || ''} h`}
+                />
+              </Touchable>
+            )}
             {nsfw && <Tag type='sub' size={12} value='NSFW' />}
           </Flex>
         </View>

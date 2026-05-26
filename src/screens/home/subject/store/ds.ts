@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:30:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-25 06:05:43
+ * @Last Modified time: 2026-05-26 18:16:48
  */
 import { _ } from '@stores'
 import { LIST_EMPTY } from '@constants'
@@ -139,6 +139,19 @@ export const STATE = {
 
   /** 外部截图加载状态 */
   externalScreenshotsLoaded: false as Loaded,
+
+  /** 游戏通关时长 */
+  gameDuration: {
+    /** 主线故事 */
+    mainStory: '',
+
+    /** 主线与额外内容 */
+    mainExtra: '',
+
+    /** 完美通关 */
+    completionist: '',
+    _loaded: false as Loaded
+  },
 
   /** 圣地巡游信息 */
   anitabi: {

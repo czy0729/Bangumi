@@ -34,6 +34,8 @@ export const DEFAULT_PROPS = {
   hideScore: false as typeof systemStore.setting.hideScore,
   rating: {} as $['rating'],
   duration: '' as $['duration'],
+  gameDuration: '' as string,
+  pinnedGameDuration: '' as typeof systemStore.setting.pinnedGameDuration,
   nsfw: false as $['nsfw'],
   hasSeries: false as $['hasSeries'],
   isMusic: false as boolean

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-17 01:32:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:26:03
+ * @Last Modified time: 2026-05-26 23:38:03
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -14,16 +14,17 @@ import type { Ctx } from '../../types'
 function IconPS() {
   const { $ } = useStore<Ctx>()
 
-  if (!$.isPS) return null
+  if (!$.isPS || $.state.vndbScreenshots.length || $.state.dlsiteImages.length) return null
 
   return (
-    <Touchable style={_.mr._sm} onPress={$.toPSNINE}>
+    <Touchable onPress={$.toPSNINE}>
       <Flex>
-        <Text style={_.ml.xs} size={13} type='sub'>
-          奖杯
+        <Text style={_.ml.xs} type='sub' lineHeight={22}>
+          奖杯信息
         </Text>
-        <Iconfont style={_.ml.xs} name='md-open-in-new' size={17} />
+        <Iconfont style={_.ml.xs} name='md-open-in-new' size={16} lineHeight={19} />
       </Flex>
+
       <Heatmap id='条目.查看奖杯' />
     </Touchable>
   )

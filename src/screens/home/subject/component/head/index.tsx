@@ -24,7 +24,7 @@ function HeadWrap({ onBlockRef }: Props) {
   const { statusBarHeight } = useInsets()
 
   // 书籍需要显示连载时间段
-  const { subjectShowAirdayMonth } = systemStore.setting
+  const { subjectShowAirdayMonth, pinnedGameDuration } = systemStore.setting
   let year = subjectShowAirdayMonth ? $.yearAndMount : $.year
   if (year && $.subjectTypeValue === 'book') {
     const end = subjectShowAirdayMonth ? $.yearAndMountEnd : $.end
@@ -32,6 +32,11 @@ function HeadWrap({ onBlockRef }: Props) {
       year = `${year.replace('-', '/')} - ${end.replace('-', '/')}`
     }
   }
+
+  // 置顶游戏时长
+  const gameDuration = pinnedGameDuration
+    ? $.state.gameDuration[pinnedGameDuration] || ''
+    : ''
 
   const styles = memoStyles()
 
@@ -61,6 +66,8 @@ function HeadWrap({ onBlockRef }: Props) {
           hideScore={systemStore.setting.hideScore}
           rating={$.rating}
           duration={$.duration}
+          gameDuration={gameDuration}
+          pinnedGameDuration={pinnedGameDuration}
           nsfw={$.nsfw}
           hasSeries={$.hasSeries}
           isMusic={$.type === '音乐'}

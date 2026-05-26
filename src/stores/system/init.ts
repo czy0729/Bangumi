@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-20 20:53:54
+ * @Last Modified time: 2026-05-26 22:07:42
  */
 import {
   IOS,
@@ -443,6 +443,9 @@ export const INIT_SETTING = {
 
   /** 翻译引擎 */
   translateEngine: 'baidu' as 'baidu' | 'deeplx' | 'gemini',
+
+  /** 置顶游戏时长类型 */
+  pinnedGameDuration: '' as 'mainStory' | 'mainExtra' | 'completionist' | '',
 
   /** 看板娘锐评人格 */
   musumePrompt: 'bangumi' as keyof typeof MUSUME_PROMPT,
