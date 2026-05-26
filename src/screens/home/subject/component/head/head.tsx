@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-16 11:46:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-27 00:01:43
+ * @Last Modified time: 2026-05-27 06:58:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -198,6 +198,7 @@ const Head = memo(
               <Touchable
                 onPress={() => {
                   const labels = {
+                    vndb: 'VNDB',
                     mainStory: '主线故事 / 剧情',
                     mainExtra: '主线 + 支线任务',
                     completionist: '全收集 / 完美通关 / 全成就'
@@ -209,7 +210,9 @@ const Head = memo(
                   style={styles.duration}
                   type='sub'
                   size={12}
-                  value={gameDuration === '0h' ? '- h' : `${gameDuration.split('h')?.[0] || ''} h`}
+                  value={
+                    gameDuration === '0h' ? '- h' : `${gameDuration.replace(/\.\d+h/, '') || ''} h`
+                  }
                 />
               </Touchable>
             )}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:30:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-26 18:16:48
+ * @Last Modified time: 2026-05-27 06:03:25
  */
 import { _ } from '@stores'
 import { LIST_EMPTY } from '@constants'
@@ -131,14 +131,17 @@ export const STATE = {
   /** 视频 */
   videos: [] as VideoItem[],
 
-  /** VNDB 截图 */
-  vndbScreenshots: [] as VndbScreenshot[],
+  /** 外部截图 */
+  externalScreenshots: {
+    /** VNDB 截图 */
+    vndb: [] as VndbScreenshot[],
 
-  /** DLsite 图片 */
-  dlsiteImages: [] as DlsiteImage[],
+    /** DLsite 图片 */
+    dlsite: [] as DlsiteImage[],
 
-  /** 外部截图加载状态 */
-  externalScreenshotsLoaded: false as Loaded,
+    /** 加载状态 */
+    _loaded: false as Loaded
+  },
 
   /** 游戏通关时长 */
   gameDuration: {
@@ -150,6 +153,10 @@ export const STATE = {
 
     /** 完美通关 */
     completionist: '',
+
+    /** ADV 类型游戏专用，平均通关时长 */
+    vndb: '',
+
     _loaded: false as Loaded
   },
 

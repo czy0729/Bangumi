@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-16 11:34:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-30 09:40:14
+ * @Last Modified time: 2026-05-27 06:54:58
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
@@ -35,7 +35,7 @@ export const DEFAULT_PROPS = {
   rating: {} as $['rating'],
   duration: '' as $['duration'],
   gameDuration: '' as string,
-  pinnedGameDuration: '' as typeof systemStore.setting.pinnedGameDuration,
+  pinnedGameDuration: '' as typeof systemStore.setting.pinnedGameDuration | 'vndb',
   nsfw: false as $['nsfw'],
   hasSeries: false as $['hasSeries'],
   isMusic: false as boolean

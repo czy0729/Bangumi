@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-26 23:45:55
+ * @Last Modified time: 2026-05-27 07:33:05
  */
 import {
   collectionStore,
@@ -33,7 +33,7 @@ import { getPreview, getTrailer, getVideo, matchGame, matchMovie, search } from 
 import { xhrCustom } from '@utils/fetch'
 import { get, update } from '@utils/kv'
 import { decode, get as protoGet } from '@utils/protobuf'
-import { fetchVndbScreenshots, probeDlsiteImages } from '@utils/thirdParty/dlsite-vndb'
+import { fetchVndbData, probeDlsiteImages } from '@utils/thirdParty/dlsite-vndb'
 import { hltb } from '@utils/thirdParty/hltb'
 import {
   API_ANITABI,
@@ -525,7 +525,9 @@ export default class Fetch extends Computed {
   fetchExternalScreenshots = async () => {
     if (this.type !== '游戏') return false
     if (!this.vndbId && !this.dlsiteId) return false
-    if (optimize(this.state.externalScreenshotsLoaded, H1)) return false
+
+    if (this.hasExternalScreenshots && this.state.gameDuration.vndb) return true
+    if (optimize(this.state.externalScreenshots._loaded, D1)) return true
 
     const now = getTimestamp()
     const promises: Promise<void>[] = []
@@ -533,29 +535,60 @@ export default class Fetch extends Computed {
       promises.push(
         (async () => {
           const cacheKey = `vndb_${this.subjectId}` as const
+          const hltbKey = `hltb_${this.subjectId}` as const
+
+          // 因为有旧数据没有获取 vndb 的时长，需要补请求
+          let allCached = false
 
           try {
             const cache = await get(cacheKey)
-            if (Array.isArray(cache?.data) && cache.data.length) {
+            const hltbCache = await get(hltbKey)
+            if (Array.isArray(cache?.data) && cache.data.length && hltbCache?.vndb) {
               this.setState({
-                vndbScreenshots: cache.data
+                externalScreenshots: {
+                  vndb: cache.data
+                },
+                gameDuration: {
+                  ...hltbCache,
+                  _loaded: getTimestamp()
+                }
               })
-              return
+              allCached = true
             }
           } catch {}
 
-          try {
-            const screenshots = await fetchVndbScreenshots(this.vndbId)
-            this.setState({
-              vndbScreenshots: screenshots
-            })
+          if (allCached) return
 
-            if (screenshots.length) {
-              postTask(() => {
-                update(cacheKey, {
-                  data: screenshots
-                })
-              }, 0)
+          try {
+            const result = await fetchVndbData(this.vndbId)
+            if (result) {
+              const vndbDuration = `${(result.lengthMinutes / 60).toFixed(1)}h`
+              this.setState({
+                externalScreenshots: {
+                  vndb: result.screenshots
+                },
+                gameDuration: {
+                  vndb: vndbDuration
+                }
+              })
+
+              if (result.screenshots.length) {
+                postTask(() => {
+                  update(cacheKey, {
+                    data: result.screenshots
+                  })
+                }, 0)
+              }
+
+              if (vndbDuration) {
+                postTask(() => {
+                  const { _loaded, ...rest } = this.state.gameDuration
+                  update(hltbKey, {
+                    ...rest,
+                    vndb: vndbDuration
+                  })
+                }, 0)
+              }
             }
           } catch {}
         })()
@@ -571,7 +604,9 @@ export default class Fetch extends Computed {
             const cache = await get(cacheKey)
             if (Array.isArray(cache?.data) && cache.data.length) {
               this.setState({
-                dlsiteImages: cache.data
+                externalScreenshots: {
+                  dlsite: cache.data
+                }
               })
               return
             }
@@ -580,7 +615,9 @@ export default class Fetch extends Computed {
           try {
             const images = await probeDlsiteImages(this.dlsiteId)
             this.setState({
-              dlsiteImages: images
+              externalScreenshots: {
+                dlsite: images
+              }
             })
 
             if (images.length) {
@@ -597,7 +634,9 @@ export default class Fetch extends Computed {
     await Promise.all(promises)
 
     this.setState({
-      externalScreenshotsLoaded: now
+      externalScreenshots: {
+        _loaded: now
+      }
     })
     this.save()
 
@@ -728,18 +767,23 @@ export default class Fetch extends Computed {
     }
 
     if (this.type === '游戏') {
-      const hasExternal = await this.fetchExternalScreenshots()
-      if (!hasExternal && this.gameInfo?.i) otaStore.fetchGame(this.gameInfo.i)
+      await this.fetchExternalScreenshots()
+      if (this.gameInfo?.i) otaStore.fetchGame(this.gameInfo.i)
       return
     }
   }
 
   /** 游戏通关时长 */
   fetchGameDuration = async () => {
-    if (this.type !== '游戏' || this.state.gameDuration.mainStory) return false
-
-    // 这个不是找 ADV 时长的
-    if (this.hasExternalScreenshots) return false
+    if (
+      this.type !== '游戏' ||
+      // 这个不是找 ADV 时长的
+      this.hasExternalScreenshots ||
+      this.state.gameDuration.mainStory ||
+      this.state.gameDuration.vndb
+    ) {
+      return false
+    }
 
     const now = getTimestamp()
 
@@ -758,6 +802,9 @@ export default class Fetch extends Computed {
         return true
       }
     } catch {}
+
+    // 不管如何，若请求过就不再抓取
+    if (this.state.gameDuration._loaded) return false
 
     // 中日韩文字 Unicode 范围：中文 一-鿿，平假名 ぀-ゟ，片假名 ゠-ヿ，韩文 가-힯
     const CJK_RE = /[一-鿿぀-ゟ゠-ヿ가-힯]/
@@ -778,9 +825,6 @@ export default class Fetch extends Computed {
     } else if (!englishName && !CJK_RE.test(this.jp || '')) {
       englishName = this.jp
     }
-    console.log({
-      englishName
-    })
     if (!englishName) return false
 
     const result = await hltb(englishName)
@@ -794,13 +838,13 @@ export default class Fetch extends Computed {
       this.save()
 
       postTask(() => {
-        update(cacheKey, result)
+        const { _loaded, ...rest } = this.state.gameDuration
+        update(cacheKey, rest)
       }, 0)
 
       return true
     }
 
-    // 不管如何，若请求过就不再抓取
     this.setState({
       gameDuration: {
         _loaded: now

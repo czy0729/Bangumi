@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-05-24 12:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-25 06:19:08
+ * @Last Modified time: 2026-05-27 07:37:05
  */
 import React, { useCallback, useMemo, useState } from 'react'
 import { ScrollView, View } from 'react-native'
@@ -21,12 +21,14 @@ import type { Ctx } from '../../../types'
 
 function ExternalThumbs() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
+
   const { isAdvance } = systemStore
+  const { subjectId, nsfw } = $
 
   const [sourceIndex, setSourceIndex] = useState(0)
   const [scrolled, setScrolled] = useState(false)
 
-  const { vndbScreenshots, dlsiteImages } = $.state
+  const { vndb: vndbScreenshots, dlsite: dlsiteImages } = $.state.externalScreenshots
   const hasVndb = vndbScreenshots.length > 0
   const hasDlsite = dlsiteImages.length > 0
   const isVndb = sourceIndex === 0 && hasVndb
@@ -34,9 +36,9 @@ function ExternalThumbs() {
   const memoImages = useMemo(() => {
     const images = isVndb
       ? vndbScreenshots.map(s => ({ url: s.thumbnail || s.url, nsfw: isNsfwScreenshot(s) }))
-      : dlsiteImages.map((s, i) => ({ url: s.url, nsfw: i > 0 }))
+      : dlsiteImages.map((s, i) => ({ url: s.url, nsfw: nsfw && i > 0 }))
     return images
-  }, [isVndb, vndbScreenshots, dlsiteImages])
+  }, [isVndb, vndbScreenshots, dlsiteImages, nsfw])
   const memoSafeImages = useMemo(
     () => (isVndb || isAdvance ? memoImages : memoImages.filter(i => !i.nsfw)),
     [isAdvance, isVndb, memoImages]
@@ -72,9 +74,10 @@ function ExternalThumbs() {
         const safeIndex = memoSafeImages.findIndex(i => i.url === url)
         showImageViewer(memoPreviews, safeIndex)
       }
-      t('条目.游戏截图', { subjectId: $.subjectId })
+
+      t('条目.游戏截图', { subjectId })
     },
-    [isVndb, isAdvance, $.subjectId, memoPreviews, memoSafeImages]
+    [isVndb, isAdvance, subjectId, memoPreviews, memoSafeImages]
   )
   if ((!hasVndb && !hasDlsite) || !memoImages.length) return null
 

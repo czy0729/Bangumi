@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-16 07:20:21
+ * @Last Modified time: 2026-05-27 06:54:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -33,8 +33,11 @@ function HeadWrap({ onBlockRef }: Props) {
     }
   }
 
-  // 置顶游戏时长
-  const gameDuration = pinnedGameDuration
+  // 游戏时长：VNDB 默认 pin，否则使用 pinnedGameDuration
+  const { vndb } = $.state.gameDuration
+  const gameDuration = vndb
+    ? $.state.gameDuration.vndb || ''
+    : pinnedGameDuration
     ? $.state.gameDuration[pinnedGameDuration] || ''
     : ''
 
@@ -67,7 +70,7 @@ function HeadWrap({ onBlockRef }: Props) {
           rating={$.rating}
           duration={$.duration}
           gameDuration={gameDuration}
-          pinnedGameDuration={pinnedGameDuration}
+          pinnedGameDuration={vndb ? 'vndb' : pinnedGameDuration}
           nsfw={$.nsfw}
           hasSeries={$.hasSeries}
           isMusic={$.type === '音乐'}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-26 20:39:27
+ * @Last Modified time: 2026-05-27 07:24:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -511,7 +511,9 @@ export default class Computed extends State {
 
   /** ADV 类型游戏专用，是否有外部截图数据 */
   @computed get hasExternalScreenshots(): boolean {
-    return !!(this.state.vndbScreenshots.length || this.state.dlsiteImages.length)
+    return !!(
+      this.state.externalScreenshots.vndb.length || this.state.externalScreenshots.dlsite.length
+    )
   }
 
   /** 第三方漫画信息 */
@@ -1273,7 +1275,10 @@ export default class Computed extends State {
     const { showGameInfo } = systemStore.setting
     if (
       showGameInfo === -1 ||
-      (!this.gameInfo?.i && !this.hasExternalScreenshots && !this.state.gameDuration.mainStory)
+      (!this.gameInfo?.i &&
+        !this.hasExternalScreenshots &&
+        !this.state.gameDuration.mainStory &&
+        !this.state.gameDuration.vndb)
     ) {
       return NON_SHOW
     }

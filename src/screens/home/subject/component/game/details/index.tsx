@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-13 12:23:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-26 22:51:14
+ * @Last Modified time: 2026-05-27 07:23:32
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -30,8 +30,8 @@ function Details() {
   const developer = getDevelopers(dev)
   const publisher = getPublishers(publish)
 
-  const { mainStory, mainExtra, completionist } = $.state.gameDuration
-  const hasGameDuration = mainStory || mainExtra || completionist
+  const { mainStory, mainExtra, completionist, vndb } = $.state.gameDuration
+  const hasGameDuration = mainStory || mainExtra || completionist || vndb
 
   const { pinnedGameDuration } = systemStore.setting
   const handlePinGameDuration = useCallback(
@@ -58,26 +58,33 @@ function Details() {
     <View style={styles.details}>
       {hasGameDuration && (
         <View style={_.mb.xs}>
-          {(
-            [
-              ['主线剧情', 'mainStory', mainStory],
-              ['主线额外', 'mainExtra', mainExtra],
-              ['完美通关', 'completionist', completionist]
-            ] as const
-          ).map(([label, key, value], i) => (
-            <Flex key={key} style={i === 0 ? _.mt._xs : _.mt.xs}>
-              <Flex.Item>
-                <DigitClock label={label} value={value} />
-              </Flex.Item>
-              <Touchable style={styles.pinBtn} onPress={() => handlePinGameDuration(key)}>
-                <Iconfont
-                  name='md-vertical-align-top'
-                  color={pinnedGameDuration === key ? _.colorDesc : _.colorIcon}
-                  size={18}
-                />
-              </Touchable>
-            </Flex>
-          ))}
+          {vndb ? (
+            <DigitClock label='VNDB 平均' value={vndb} />
+          ) : (
+            (
+              [
+                ['主线剧情', 'mainStory', mainStory],
+                ['主线额外', 'mainExtra', mainExtra],
+                ['完美通关', 'completionist', completionist]
+              ] as const
+            ).map(
+              ([label, key, value], i) =>
+                !!value && (
+                  <Flex key={key} style={i === 0 ? _.mt._xs : _.mt.xs}>
+                    <Flex.Item>
+                      <DigitClock label={label} value={value} />
+                    </Flex.Item>
+                    <Touchable style={styles.pinBtn} onPress={() => handlePinGameDuration(key)}>
+                      <Iconfont
+                        name='md-vertical-align-top'
+                        color={pinnedGameDuration === key ? _.colorDesc : _.colorIcon}
+                        size={18}
+                      />
+                    </Touchable>
+                  </Flex>
+                )
+            )
+          )}
         </View>
       )}
 

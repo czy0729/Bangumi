@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2026-05-24 12:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-26 17:52:39
+ * @Last Modified time: 2026-05-27 06:01:18
  */
 import { logger } from '../../dev'
 import { axios } from '../index'
 import { HOST_DLSITE, HOST_VNDB } from './ds'
 
-import type { DlsiteImage, VndbScreenshot } from './types'
+import type { DlsiteImage, VndbScreenshot, VndbVnResult } from './types'
 export type { DlsiteImage, VndbScreenshot }
 
 /** 从 infobox HTML 中提取 VNDB ID */
@@ -40,25 +40,40 @@ export function buildDlsiteImageUrl(id: string, suffix: string): string {
   }/${prefix}${padded}/${id}${suffix}`
 }
 
-/** 从 VNDB API 获取 VN 截图 */
-export async function fetchVndbScreenshots(vndbId: string): Promise<VndbScreenshot[]> {
+/** 从 VNDB API 获取 VN 截图和平均游玩时长 */
+export async function fetchVndbData(vndbId: string): Promise<{
+  screenshots: VndbScreenshot[]
+  lengthMinutes: number
+} | null> {
   try {
-    logger.purple('@utils/thirdParty/dlsite-vndb', 'fetchVndbScreenshots', { vndbId })
-    const { data } = await axios<{ results: { screenshots: VndbScreenshot[] }[] }>({
+    logger.purple('@utils/thirdParty/dlsite-vndb', 'fetchVndbData', { vndbId })
+    const { data } = await axios<{ results: VndbVnResult[] }>({
       method: 'post',
       url: `${HOST_VNDB}/kana/vn`,
       headers: { 'Content-Type': 'application/json' },
       data: {
         filters: ['id', '=', vndbId],
-        fields: 'id,screenshots{id,url,dims,sexual,violence,thumbnail,thumbnail_dims}'
+        fields:
+          'id,length_minutes,screenshots{id,url,dims,sexual,violence,thumbnail,thumbnail_dims}'
       }
     })
 
     const vn = data.results?.[0]
-    return vn?.screenshots || []
+    if (!vn) return null
+
+    return {
+      screenshots: vn.screenshots || [],
+      lengthMinutes: vn.length_minutes
+    }
   } catch {
-    return []
+    return null
   }
+}
+
+/** 从 VNDB API 获取 VN 截图 */
+export async function fetchVndbScreenshots(vndbId: string): Promise<VndbScreenshot[]> {
+  const result = await fetchVndbData(vndbId)
+  return result?.screenshots || []
 }
 
 /** 探测 DLsite 可用图片（使用 fetch HEAD 请求） */

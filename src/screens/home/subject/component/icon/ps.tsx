@@ -14,7 +14,7 @@ import type { Ctx } from '../../types'
 function IconPS() {
   const { $ } = useStore<Ctx>()
 
-  if (!$.isPS || $.state.vndbScreenshots.length || $.state.dlsiteImages.length) return null
+  if (!$.isPS || $.state.externalScreenshots.vndb.length || $.state.externalScreenshots.dlsite.length) return null
 
   return (
     <Touchable onPress={$.toPSNINE}>

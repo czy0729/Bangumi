@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:28:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-26 23:40:56
+ * @Last Modified time: 2026-05-27 07:35:14
  */
 import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
@@ -26,7 +26,6 @@ import type { Props } from './types'
 
 function Game({ onBlockRef }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
-  console.log($.state.gameDuration)
 
   const { cn, jp } = $
   const isADV = $.gameInfo?.isADV
