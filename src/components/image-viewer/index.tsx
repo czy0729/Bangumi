@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-18 19:08:09
  */
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback } from 'react'
 import { Modal, View } from 'react-native'
 import { observer } from 'mobx-react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
@@ -39,13 +39,7 @@ export const ImageViewer = observer(
   }: ImageViewerProps) => {
     r(COMPONENT)
 
-    // 组件 RNImageViewer 在 iOS Expo 环境下代码已过时, 导致初始 index 非 0 时布局错乱 (待处理)
-    const iOSToFixed = IOS && index !== 0
-    const memoData = useMemo(
-      () => (iOSToFixed ? [imageUrls[index]] : imageUrls),
-      [iOSToFixed, imageUrls, index]
-    )
-    const selectedIndex = iOSToFixed ? 0 : index
+    const selectedIndex = index
 
     const handleRequestClose = useCallback(() => {
       if (typeof onCancel === 'function') onCancel()
@@ -70,13 +64,13 @@ export const ImageViewer = observer(
     }, [])
 
     const handleMenus = useCallback(() => {
-      const currentUrl = memoData[selectedIndex]?._url || memoData[selectedIndex]?.url
+      const currentUrl = imageUrls[selectedIndex]?._url || imageUrls[selectedIndex]?.url
       return handleRenderMenus(currentUrl, onCancel)
-    }, [memoData, selectedIndex, handleRenderMenus, onCancel])
+    }, [imageUrls, selectedIndex, handleRenderMenus, onCancel])
 
     const handleRenderIndicator = useCallback(
       (currentIndex: number, allSize: number) => {
-        if (memoData.length <= 1) return null
+        if (imageUrls.length <= 1) return null
 
         return (
           <Text style={styles.indicator} type='__plain__' align='center' pointerEvents='none'>
@@ -84,7 +78,7 @@ export const ImageViewer = observer(
           </Text>
         )
       },
-      [memoData.length]
+      [imageUrls.length]
     )
 
     const handleRenderImage = useCallback(
@@ -96,13 +90,13 @@ export const ImageViewer = observer(
             src={p?.source?.uri}
             width={p?.style?.width}
             height={p?.style?.height}
-            headers={memoData?.[0]?.headers}
+            headers={imageUrls?.[0]?.headers}
             placeholder={false}
             skeleton={false}
           />
         )
       },
-      [memoData]
+      [imageUrls]
     )
 
     return (
@@ -123,7 +117,7 @@ export const ImageViewer = observer(
               <RNImageViewer
                 style={styles.viewer}
                 index={selectedIndex}
-                imageUrls={memoData}
+                imageUrls={imageUrls}
                 backgroundColor='transparent'
                 enableSwipeDown={!mini}
                 enableImageZoom={!mini}

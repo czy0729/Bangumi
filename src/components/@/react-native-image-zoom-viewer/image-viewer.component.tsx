@@ -19,10 +19,12 @@ import ImageZoom from 'react-native-image-pan-zoom'
 import styles from 'react-native-image-zoom-viewer/built/image-viewer.style'
 import { Props, State } from 'react-native-image-zoom-viewer/built/image-viewer.type'
 
+import type { ViewStyle } from 'react-native'
 import type { IImageInfo, IImageSize } from 'react-native-image-zoom-viewer/built/image-viewer.type'
 
 export default class ImageViewer extends React.Component<Props, State> {
   public static defaultProps = new Props()
+
   public state = new State()
 
   // 背景透明度渐变动画
@@ -38,7 +40,7 @@ export default class ImageViewer extends React.Component<Props, State> {
   private width = 0
   private height = 0
 
-  private styles = styles(0, 0, 'transparent')
+  private styles: { [key: string]: ViewStyle } = styles(0, 0, 'transparent') as any
 
   // 是否执行过 layout. fix 安卓不断触发 onLayout 的 bug
   private hasLayout = false
@@ -131,6 +133,8 @@ export default class ImageViewer extends React.Component<Props, State> {
    * 调到当前看图位置
    */
   public jumpToCurrentImage() {
+    if (this.width === 0) return
+
     // 跳到当前图的位置
     this.positionXNumber =
       this.width * (this.state.currentShowIndex || 0) * (I18nManager.isRTL ? 1 : -1)
@@ -440,7 +444,11 @@ export default class ImageViewer extends React.Component<Props, State> {
 
       this.width = event.nativeEvent.layout.width
       this.height = event.nativeEvent.layout.height
-      this.styles = styles(this.width, this.height, this.props.backgroundColor || 'transparent')
+      this.styles = styles(
+        this.width,
+        this.height,
+        this.props.backgroundColor || 'transparent'
+      ) as any
 
       // 强制刷新
       this.forceUpdate()

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-03 19:36:20
+ * @Last Modified time: 2026-05-27 07:49:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -44,17 +44,19 @@ export const ItemArticle = observer(
       <Component id='item-article' data-key={url}>
         <Touchable style={style} animate onPress={() => appNavigate(url, navigation, {}, event)}>
           <Flex align='start'>
-            <View style={styles.cover}>
-              <UserStatus userId={userId}>
-                <Avatar
-                  navigation={navigation}
-                  userId={userId}
-                  name={nickname}
-                  src={avatar}
-                  event={event}
-                />
-              </UserStatus>
-            </View>
+            {!!avatar && (
+              <View style={styles.cover}>
+                <UserStatus userId={userId}>
+                  <Avatar
+                    navigation={navigation}
+                    userId={userId}
+                    name={nickname}
+                    src={avatar}
+                    event={event}
+                  />
+                </UserStatus>
+              </View>
+            )}
 
             <Flex.Item style={styles.item}>
               <Text size={13} lineHeight={15} bold>

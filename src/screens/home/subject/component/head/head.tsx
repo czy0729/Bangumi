@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-16 11:46:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-27 06:58:11
+ * @Last Modified time: 2026-05-27 07:51:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -211,7 +211,9 @@ const Head = memo(
                   type='sub'
                   size={12}
                   value={
-                    gameDuration === '0h' ? '- h' : `${gameDuration.replace(/\.\d+h/, '') || ''} h`
+                    gameDuration === '0h'
+                      ? '- h'
+                      : `${gameDuration.replace(/\.\d+/, '').split('h')[0] || ''} h`
                   }
                 />
               </Touchable>

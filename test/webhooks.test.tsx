@@ -5,8 +5,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-03-10 15:44:35
  */
+
 /** 类型可以到下方文件查看 */
-import {
+import type {
   WebHookCatalog,
   WebHookCollection,
   WebHookEp,
@@ -359,8 +360,7 @@ export const group_1: Test<WebHookGroup> = {
     group: {
       id: 'genshin',
       title: '原神',
-      content:
-        '速溶咖啡天下第一，小组群530600378。\n有可能被他人无法接受的话题，包括但',
+      content: '速溶咖啡天下第一，小组群530600378。\n有可能被他人无法接受的话题，包括但',
       cover: '//lain.bgm.tv/pic/icon/l/000/00/46/4663.jpg?r=1661952077',
       create: '创建于 2022-8-31 00:26'
     },
