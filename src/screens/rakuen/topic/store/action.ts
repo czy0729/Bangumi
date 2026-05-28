@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:09:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-15 22:35:06
+ * @Last Modified time: 2026-05-28 13:09:12
  */
 import { toJS } from 'mobx'
 import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
@@ -23,6 +23,7 @@ import { completions, get, lx, update } from '@utils/kv'
 import { MUSUME_EP_PROMPT, MUSUME_PROMPT, MUSUME_TOPIC_PROMPT } from '@utils/kv/ds'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HOST, IOS } from '@constants'
+import i18n from '@constants/i18n'
 import { getPlainText, removeSlogan } from '@screens/discovery/word-cloud/store/utils'
 import { getTopicMainFloorRawText } from '../utils'
 import Fetch from './fetch'
@@ -443,12 +444,17 @@ export default class Action extends Fetch {
 
   /** 回复 */
   doReply = (content: string, type: RakuenReplyType) => {
+    const { formhash } = this.topic
+    if (!formhash) {
+      info(`表单验证码为空，${i18n.login()}可能过期了`)
+      return
+    }
+
     t('帖子.回复', {
       topicId: this.topicId,
       sub: false
     })
 
-    const { formhash } = this.topic
     rakuenStore.doReply(
       {
         type,
@@ -478,13 +484,18 @@ export default class Action extends Fetch {
 
   /** 回复子回复 */
   doReplySub = (content: string, type: RakuenReplyType) => {
+    const { formhash } = this.topic
+    if (!formhash) {
+      info(`表单验证码为空，${i18n.login()}可能过期了`)
+      return
+    }
+
     t('帖子.回复', {
       topicId: this.topicId,
       sub: true
     })
 
     const { placeholder, replySub, message } = this.state
-    const { formhash } = this.topic
     const [, topicId, related, , subReplyUid, postUid] = replySub.split(',')
     let _content = content
     if (message) {

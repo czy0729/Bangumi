@@ -3,17 +3,15 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:21:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-03 15:01:46
+ * @Last Modified time: 2026-05-28 08:09:30
  */
 import { HOST, HOST_CDN, HOST_NAME, IOS } from '@constants/constants'
 import { WEB } from '@constants/device'
 import { FROZEN_FN } from '@constants/init'
-import { HOST_PROXY } from '@src/config'
 import { syncUserStore } from '../async'
-import { isDevtoolsOpen } from '../dom'
 import { loading } from '../ui'
 import { urlStringify } from '../utils'
-import { log } from './utils'
+import { applyProxy, checkDenied, log, logProxy } from './utils'
 
 import type { Fn } from '@types'
 import type { XHRArgs, XHRCustomArgs } from './types'
@@ -24,11 +22,25 @@ export function xhr(
   success: (responseText?: string, request?: XMLHttpRequest) => any = FROZEN_FN,
   fail: Fn = FROZEN_FN
 ) {
-  if (isDevtoolsOpen()) return Promise.reject('denied')
-
   const { method = 'POST', url, data = {}, noConsole } = args || {}
+  checkDenied(url, false)
+
   const userStore = syncUserStore()
   const { cookie: userCookie, userAgent } = userStore.userCookie
+
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/x-www-form-urlencoded',
+    Cookie: userCookie,
+    'User-Agent': userAgent,
+    Host: HOST_NAME,
+    'accept-encoding': 'gzip, deflate'
+  }
+  const isHtml = url.includes(HOST) && !url.includes('api.')
+  const proxyResult = applyProxy(url, headers, isHtml)
+  const requestUrl = proxyResult.url
+  const requestHeaders = proxyResult.headers
+  logProxy('xhr', proxyResult.proxyType, url, requestUrl)
+
   const hide = noConsole ? 0 : loading()
   const request = new XMLHttpRequest()
 
@@ -43,21 +55,18 @@ export function xhr(
     }
   }.bind(request)
 
-  request.open(method, url)
+  request.open(method, requestUrl)
   request.withCredentials = false
-  request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
-  request.setRequestHeader('Cookie', userCookie)
-  request.setRequestHeader('User-Agent', userAgent)
-  request.setRequestHeader('Host', HOST_NAME)
-  request.setRequestHeader('accept-encoding', 'gzip, deflate')
+
+  Object.keys(requestHeaders).forEach(key => {
+    request.setRequestHeader(key, requestHeaders[key])
+  })
 
   request.send(urlStringify(data))
 }
 
 /** 自定义 XHR */
 export function xhrCustom(args: XHRCustomArgs): Promise<{ _response: string }> {
-  if (isDevtoolsOpen()) return Promise.reject('denied')
-
   const {
     method = 'GET',
     url,
@@ -68,29 +77,28 @@ export function xhrCustom(args: XHRCustomArgs): Promise<{ _response: string }> {
     showLog = true
   } = args || {}
 
-  let _url = url
-  if (WEB && HOST_PROXY) _url = _url.replace(HOST, HOST_PROXY)
+  checkDenied(url, true)
+
+  const isHtml = url.includes(HOST) && !url.includes('api.')
+  const proxyResult = applyProxy(url, headers, isHtml)
+  const requestUrl = proxyResult.url
+  const requestHeaders = proxyResult.headers
+  logProxy('xhrCustom', proxyResult.proxyType, url, requestUrl)
 
   return new Promise((resolve, reject) => {
     const request = new XMLHttpRequest()
 
     request.onreadystatechange = function () {
-      if (this.readyState === 4) {
-        if (this.status === 200 || this.status === 201) {
-          if (WEB) {
-            return resolve({
-              ...this,
-              _response: this._response || this.responseText
-            })
-          }
+      if (this.readyState !== 4) return
 
-          return resolve(this)
-        }
+      if (this.status === 200 || this.status === 201) {
+        resolve(WEB ? { ...this, _response: this._response || this.responseText } : this)
+        return
+      }
 
-        log('xhrCustom', 'error:', this.status, url, this._response || this.responseText)
-
-        if (this.status === 404) reject(new TypeError('404'))
-        if (this.status === 500) reject(new TypeError('500'))
+      log('xhrCustom', 'error:', this.status, url, this._response || this.responseText)
+      if (this.status === 404 || this.status === 500) {
+        reject(new TypeError(String(this.status)))
       }
     }.bind(request)
 
@@ -106,15 +114,14 @@ export function xhrCustom(args: XHRCustomArgs): Promise<{ _response: string }> {
       reject(new TypeError('xhrCustom onAbort'))
     }.bind(request)
 
-    request.open(method, _url, true)
+    request.open(method, requestUrl, true)
     request.withCredentials = withCredentials
     if (responseType) request.responseType = responseType
 
-    const _headers = headers
-    if (url.includes(HOST_CDN) && !_headers.Referer) _headers.Referer = HOST
+    if (url.includes(HOST_CDN) && !requestHeaders.Referer) requestHeaders.Referer = HOST
 
-    Object.keys(_headers).forEach(key => {
-      request.setRequestHeader(key, headers[key])
+    Object.keys(requestHeaders).forEach(key => {
+      request.setRequestHeader(key, requestHeaders[key])
     })
 
     const body = data

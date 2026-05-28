@@ -61,9 +61,6 @@ export const APP_ADVANCE_TRACK_COMMENT = 10
 /** 项目地址 */
 export const GITHUB_PROJECT = 'https://github.com/czy0729/Bangumi'
 
-/** 项目 gh-pages */
-export const GITHUB_PROJECT_GH = 'https://czy0729.github.io/Bangumi'
-
 /** 项目发版内容地址 */
 export const GITHUB_RELEASE = `${GITHUB_PROJECT}/releases`
 

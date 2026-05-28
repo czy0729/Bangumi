@@ -1,0 +1,7 @@
+name = "bangumi-app-webproxy"
+main = "index.js"
+compatibility_date = "2024-01-01"
+
+# 密钥通过 wrangler secret put WORKER_SECRET 设置，不要写在 toml 里
+# [vars]
+# WORKER_SECRET = ""

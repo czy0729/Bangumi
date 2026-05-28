@@ -2,10 +2,23 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-19 21:33:11
+ * @Last Modified time: 2026-05-29 06:01:27
  */
 import pLimit from 'p-limit'
+import { API_HOST, API_HOST_BACKUP, API_P1 } from '@constants/api'
+import { HOST } from '@constants/constants'
+import { WEB } from '@constants/device'
+import {
+  HOST_PROXY,
+  USE_API_HOST_BACKUP,
+  USE_WORKER_PROXY,
+  WORKER_PROXY,
+  WORKER_SECRET
+} from '@src/config'
+import { syncUserStore } from '../async'
 import { logger } from '../dev'
+import { isDevtoolsOpen } from '../dom'
+import { urlStringify } from '../utils'
 
 import type { Fn } from '@types'
 
@@ -46,4 +59,93 @@ export function log(method: string, ...others: any[]) {
 /** err */
 export function err(method: string, ...others: any[]) {
   logger.error(`@utils/fetch/${method}`, ...others)
+}
+
+/** 检查请求是否被拒绝 */
+export function checkDenied(_url: string, isGet: boolean): void {
+  if (isDevtoolsOpen()) throw new Error('denied')
+  if (WEB && !isGet && !USE_WORKER_PROXY) {
+    throw new Error('denied')
+  }
+}
+
+/** 处理 proxy 替换 */
+export function applyProxy(
+  url: string,
+  headers: Record<string, string> = {},
+  isHtml = false
+): { url: string; headers: Record<string, string>; proxyType: '' | 'worker' | 'backup' } {
+  const newHeaders = { ...headers }
+  let proxyUrl = url
+  let proxyType: '' | 'worker' | 'backup' = ''
+
+  const isP1 = url.includes(API_P1)
+  const isBgm = url.includes(API_HOST) || url.includes(HOST) || isP1
+
+  if (USE_API_HOST_BACKUP && (url.includes(API_HOST) || isP1)) {
+    proxyUrl = url.replace(API_HOST, API_HOST_BACKUP).replace(API_P1, API_HOST_BACKUP + '/p1')
+    proxyType = 'backup'
+  } else if (USE_WORKER_PROXY && isBgm) {
+    proxyUrl = url
+      .replace(API_HOST, WORKER_PROXY)
+      .replace(HOST, WORKER_PROXY)
+      .replace(API_P1, WORKER_PROXY)
+    newHeaders['x-upstream'] = isHtml ? 'bgm.tv' : isP1 ? 'next.bgm.tv' : 'api.bgm.tv'
+    if (WORKER_SECRET) newHeaders['x-proxy-key'] = WORKER_SECRET
+    if (newHeaders.Cookie) {
+      newHeaders['X-Cookie'] = newHeaders.Cookie
+      delete newHeaders.Cookie
+    }
+    delete newHeaders.host
+    delete newHeaders.Host
+    delete newHeaders.origin
+    delete newHeaders.Origin
+    proxyType = 'worker'
+  } else if (isHtml && WEB && HOST_PROXY && isBgm) {
+    proxyUrl = url.replace(HOST, HOST_PROXY)
+  }
+
+  return { url: proxyUrl, headers: newHeaders, proxyType }
+}
+
+export function logProxy(method: string, proxyType: string, _url: string, finalUrl: string) {
+  if (proxyType) log(method, `[${proxyType}]`, finalUrl)
+}
+
+/** 构建 GET 请求 URL */
+export function buildGetUrl(url: string, body: Record<string, any>): string {
+  const separator = url.includes('?') ? '&' : '?'
+  return `${url}${separator}${urlStringify(body)}`
+}
+
+/** 处理 cookie 中的 chii_cookietime */
+export function normalizeCookieTime(cookie: string): string {
+  if (!cookie) return cookie
+  if (cookie.includes('chii_cookietime=0')) {
+    return cookie.replace('chii_cookietime=0', 'chii_cookietime=2592000')
+  }
+  if (!cookie.includes('chii_cookietime=2592000')) {
+    return `${cookie}; chii_cookietime=2592000;`
+  }
+  return cookie
+}
+
+/** 构建 cookie 请求头 */
+export function buildCookieHeaders(
+  url: string,
+  cookie?: string,
+  extraHeaders?: Record<string, string>
+): Record<string, string> {
+  if (url.startsWith('!')) return {}
+
+  const { cookie: userCookie, setCookie, userAgent } = syncUserStore().userCookie
+  const cookieValue = cookie
+    ? `${userCookie} ${cookie} ${setCookie}`
+    : `; ${userCookie}; ${setCookie}`
+
+  return {
+    'User-Agent': userAgent,
+    Cookie: normalizeCookieTime(cookieValue),
+    ...extraHeaders
+  }
 }

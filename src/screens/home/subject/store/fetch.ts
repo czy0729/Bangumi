@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-27 07:33:05
+ * @Last Modified time: 2026-05-28 09:17:39
  */
 import {
   collectionStore,
@@ -70,7 +70,6 @@ export default class Fetch extends Computed {
     if (this.subject._responseGroup !== 'large' && optimize(this.subject, M5)) {
       return this.subject
     }
-
     return subjectStore.fetchSubject(this.subjectId)
   }
 

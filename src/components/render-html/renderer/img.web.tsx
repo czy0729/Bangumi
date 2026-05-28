@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import { _, rakuenStore } from '@stores'
+import { TEXT_ONLY } from '@constants'
 import { Bgm } from '../../bgm'
 import LinkImage from '../link-image'
 import ToggleImage from '../toggle-image'
@@ -19,7 +20,7 @@ export function img({ key, src, alt, autoSize, show, onImageFallback }) {
   }
   if (index) return <Bgm key={key} index={index} size={18} />
 
-  if (!Number(rakuenStore.setting.autoLoadImageV2 || 0)) {
+  if (TEXT_ONLY || !Number(rakuenStore.setting.autoLoadImageV2 || 0)) {
     return <LinkImage key={key} style={_.mt.xs} src={src || ''} />
   }
 

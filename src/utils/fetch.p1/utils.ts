@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2026-01-20 08:06:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-20 08:07:54
+ * @Last Modified time: 2026-05-28 13:21:12
  */
 import { urlStringify } from '@utils'
-import { safe } from '@utils/fetch'
-import axios from '@utils/thirdParty/axios'
 import { WEB } from '@constants'
-import { UA } from '@constants/constants'
-import { isDevtoolsOpen } from '../dom'
+import { HOST, UA } from '@constants/constants'
+
+import { safe } from '../fetch'
+import { applyProxy, checkDenied, logProxy } from '../fetch/utils'
+import { axios } from '../thirdParty'
 
 import type { Config } from './types'
 
@@ -24,32 +25,32 @@ export async function request<T>(
     onError: () => {}
   }
 ): Promise<T> {
-  if (isDevtoolsOpen()) return Promise.reject('denied')
-
-  // @ts-expect-error
-  axios.defaults.withCredentials = false
-
-  // @ts-expect-error
-  axios.defaults.timeout = config?.timeout || 8000
+  checkDenied(url, true)
 
   try {
-    const config: Config = {
+    const requestConfig: Config = {
       method: typeof data === 'object' ? 'post' : 'get',
       url,
       headers: {}
     }
 
     if (!WEB) {
-      config.headers['User-Agent'] = UA
+      requestConfig.headers['User-Agent'] = UA
     }
 
-    if (config.method === 'post') {
-      config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
-      config.data = urlStringify(data)
+    if (requestConfig.method === 'post') {
+      requestConfig.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+      requestConfig.data = urlStringify(data)
     }
+
+    const isHtml = requestConfig.url.includes(HOST) && !requestConfig.url.includes('api.')
+    const proxyResult = applyProxy(requestConfig.url, requestConfig.headers, isHtml)
+    requestConfig.url = proxyResult.url
+    requestConfig.headers = proxyResult.headers
+    logProxy('fetch.p1', proxyResult.proxyType, url, requestConfig.url)
 
     // @ts-expect-error
-    const { data: responseData } = await axios(config)
+    const { data: responseData } = await axios(requestConfig)
     return safe(responseData) as T
   } catch (ex) {
     if (typeof config?.onError === 'function') config.onError(ex)

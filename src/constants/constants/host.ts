@@ -11,10 +11,10 @@ export const HOST_NAME = 'bgm.tv'
 /** 域名 */
 export const HOST = `https://${HOST_NAME}` as const
 
-/** 备用域名2 */
+/** 备用域名 */
 export const HOST_2 = 'https://bangumi.tv'
 
-/** 备用域名3 */
+/** 备用域名 2 */
 export const HOST_3 = 'https://chii.in'
 
 /** 静态资源域 */
@@ -23,16 +23,10 @@ export const HOST_BGM_STATIC = 'https://lain.bgm.tv'
 /** Track trending anime with real-time analytics from Bangumi */
 export const HOST_NETABA = 'https://netaba.re'
 
-/** jsDelivr */
+/** @deprecated jsDelivr */
 export const HOST_CDN = 'https://cdn.jsdelivr.net'
 
-/** 动漫之家 */
-export const HOST_DMZJ = 'https://mnews.idmzj.com'
-
-/** @deprecated HD 漫画 */
-export const HOST_MANGA = 'https://tinygrail.mange.cn/app'
-
-/** 免费图床 */
+/** @deprecated 免费图床 */
 export const HOST_IMAGE_UPLOAD = 'https://p.sda1.dev'
 
 /** 免费图床 by wataame */
@@ -44,7 +38,7 @@ export const URL_OAUTH = `${HOST}/oauth/authorize` as const
 /** @deprecated 登录 v1.0 授权跳转地址 */
 export const URL_OAUTH_REDIRECT = `${HOST}/dev/app` as const
 
-/** bgm项目帖子地址 */
+/** 项目帖子地址 */
 export const URL_FEEDBACK = `${HOST}/group/topic/350677` as const
 
 /** 空头像地址 */
