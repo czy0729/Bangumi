@@ -2,40 +2,22 @@
  * @Author: czy0729
  * @Date: 2024-06-22 05:14:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-17 16:38:23
+ * @Last Modified time: 2026-05-29 07:18:01
  */
 import { desc, fixedSubjectInfo, getTimestamp, info, pick } from '@utils'
 import { t } from '@utils/fetch'
 import { gets } from '@utils/kv'
-import axios from '@utils/thirdParty/axios'
+import { axios } from '@utils/thirdParty'
 import { MODEL_SUBJECT_TYPE, WEB } from '@constants'
-import { SubjectTypeValue } from '@types'
 import Computed from './computed'
 import { HOST_REC } from './ds'
+
+import type { SubjectTypeValue } from '@types'
 
 export default class Fetch extends Computed {
   /** 这个接口太慢了, 而且不太依赖, 暂时屏蔽 */
   fetchSubjects = async () => {
     return true
-
-    // const ids = [...this.ids]
-    // if (!ids.length) return true
-
-    // await subjectStore.initSubjectV2(ids)
-    // const now = getTimestamp()
-    // const fetchs = []
-    // ids.forEach(id => {
-    //   const { _loaded } = subjectStore.subjectV2(id)
-    //   if (!_loaded || now - Number(_loaded) >= 60 * 60) {
-    //     fetchs.push(() => {
-    //       console.info('fetchSubjects', id)
-    //       return subjectStore.fetchSubjectV2(id)
-    //     })
-    //   }
-    // })
-    // if (!fetchs.length) return true
-
-    // return queue(fetchs)
   }
 
   /** 从云端快照加载条目基本数据 */
@@ -61,8 +43,6 @@ export default class Fetch extends Computed {
     if (!fetchIds.length) return true
 
     try {
-      console.info('fetchSubjectsFromOSS', fetchIds)
-
       const picker = [
         'name',
         'name_cn',
@@ -137,9 +117,8 @@ export default class Fetch extends Computed {
 
       const subjectType = MODEL_SUBJECT_TYPE.getValue<SubjectTypeValue>(cat)
 
-      // @ts-expect-error
       let { data } = await axios({
-        method: 'POST',
+        method: 'post',
         url: `${HOST_REC}/api/v4/rec/${value.trim()}`,
         data: {
           IsTagFilter: false,

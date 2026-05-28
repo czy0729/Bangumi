@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-03-10 14:02:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-19 21:21:42
+ * @Last Modified time: 2026-05-29 07:29:55
  */
 import { observable, runInAction } from 'mobx'
-import axios from '@utils/thirdParty/axios'
+import { axios } from '@utils/thirdParty'
 import { getMonoCoverSmall, getSubjectCoverCommon } from '../app'
 import { syncSystemStore } from '../async'
 import { removeHTMLTag } from '../html'
@@ -45,7 +45,7 @@ export const webhook: WebHooksTypes = (type: string, data: any) => {
             type,
             data: data || {}
           }
-        }
+        } as const
 
         runInAction(() => {
           logs.unshift({
@@ -56,7 +56,6 @@ export const webhook: WebHooksTypes = (type: string, data: any) => {
           if (logs.length > MAX_LENGTH) logs.pop()
         })
 
-        // @ts-expect-error
         const res = await axios(params)
         const content: any = {
           status: res?.status

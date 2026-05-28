@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-05-14 07:14:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 00:02:24
+ * @Last Modified time: 2026-05-29 06:57:44
  */
 import { _, systemStore, usersStore, userStore } from '@stores'
 import { getCover400, getCoverMedium, getTimestamp, navigationReference } from '@utils'
 import { syncUserStore } from '@utils/async'
 import { t } from '@utils/fetch'
+import { axiosWithProxyRedirect } from '@utils/fetch/utils'
 import axios from '@utils/thirdParty/axios'
 import {
   HOST_CDN_AVATAR,
@@ -18,7 +19,6 @@ import {
   URL_DEFAULT_MONO
 } from '@constants'
 
-import type { Fn } from '@types'
 import type { Props } from './types'
 
 /** 判断是否自己的头像, 一周才变化一次 */
@@ -212,11 +212,9 @@ export function fixedAll(src: any, size: number) {
 /** 获取头像 API 跳转后的地址 */
 export async function head(url: string) {
   const { accessToken } = syncUserStore()
-  let cancelToken: Fn
 
-  return new Promise(resolve => {
-    // @ts-expect-error
-    axios({
+  try {
+    const { redirectUrl } = await axiosWithProxyRedirect(axios as any, {
       method: 'get',
       url,
       headers: {
@@ -226,21 +224,10 @@ export async function head(url: string) {
       responseType: 'arraybuffer',
       withCredentials: false,
       timeout: 8000,
-      maxRedirects: 0,
-      // @ts-expect-error
-      cancelToken: new axios.CancelToken(function executor(c) {
-        cancelToken = c
-      })
+      maxRedirects: 0
     })
-      .then((response: any) => {
-        cancelToken()
-
-        const { responseURL } = response.request
-        resolve(responseURL ? responseURL : IMG_AVATAR_DEFAULT)
-      })
-      .catch(() => {
-        cancelToken()
-        resolve(IMG_AVATAR_DEFAULT)
-      })
-  })
+    return redirectUrl || IMG_AVATAR_DEFAULT
+  } catch {
+    return IMG_AVATAR_DEFAULT
+  }
 }

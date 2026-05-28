@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2026-01-20 08:06:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-28 13:21:12
+ * @Last Modified time: 2026-05-29 07:28:23
  */
 import { urlStringify } from '@utils'
 import { WEB } from '@constants'
 import { HOST, UA } from '@constants/constants'
-
 import { safe } from '../fetch'
 import { applyProxy, checkDenied, logProxy } from '../fetch/utils'
 import { axios } from '../thirdParty'
@@ -49,7 +48,6 @@ export async function request<T>(
     requestConfig.headers = proxyResult.headers
     logProxy('fetch.p1', proxyResult.proxyType, url, requestConfig.url)
 
-    // @ts-expect-error
     const { data: responseData } = await axios(requestConfig)
     return safe(responseData) as T
   } catch (ex) {

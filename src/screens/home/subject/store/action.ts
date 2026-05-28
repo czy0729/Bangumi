@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-22 00:21:02
+ * @Last Modified time: 2026-05-29 07:19:32
  */
 import { toJS } from 'mobx'
 import { StatusBar } from '@components'
@@ -50,7 +50,7 @@ import { logger } from '@utils/dev'
 import { baiduTranslate, t } from '@utils/fetch'
 import { completions, download, get, lx, temp, update } from '@utils/kv'
 import { MUSUME_PROMPT, MUSUME_SUBJECT_PROMPT } from '@utils/kv/ds'
-import axios from '@utils/thirdParty/axios'
+import { axios } from '@utils/thirdParty'
 import { s2t } from '@utils/thirdParty/open-cc'
 import { webhookCollection, webhookEp } from '@utils/webhooks'
 import {
@@ -839,10 +839,6 @@ export default class Action extends Fetch {
 
     const hide = loading('下载封面中...')
 
-    // @ts-expect-error
-    axios.defaults.withCredentials = false
-
-    // @ts-expect-error
     const { request } = await axios({
       method: 'get',
       url: src.replace('http://', 'https://'),

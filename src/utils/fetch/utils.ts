@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-29 06:01:27
+ * @Last Modified time: 2026-05-29 06:58:32
  */
 import pLimit from 'p-limit'
 import { API_HOST, API_HOST_BACKUP, API_P1 } from '@constants/api'
@@ -51,22 +51,10 @@ export async function queue(fetchs: Fn[] = [], num: number = 2) {
   return Promise.all(fetchs.map(fetch => limit(fetch)))
 }
 
-/** info */
-export function log(method: string, ...others: any[]) {
-  logger.log(`@utils/fetch/${method}`, ...others)
-}
-
-/** err */
-export function err(method: string, ...others: any[]) {
-  logger.error(`@utils/fetch/${method}`, ...others)
-}
-
 /** 检查请求是否被拒绝 */
 export function checkDenied(_url: string, isGet: boolean): void {
   if (isDevtoolsOpen()) throw new Error('denied')
-  if (WEB && !isGet && !USE_WORKER_PROXY) {
-    throw new Error('denied')
-  }
+  if (WEB && !isGet && !USE_WORKER_PROXY) throw new Error('denied')
 }
 
 /** 处理 proxy 替换 */
@@ -112,6 +100,44 @@ export function logProxy(method: string, proxyType: string, _url: string, finalU
   if (proxyType) log(method, `[${proxyType}]`, finalUrl)
 }
 
+/** 对 axios config 应用 proxy 转换 */
+export function applyProxyToAxiosConfig(
+  config: { url: string; headers?: Record<string, string>; [key: string]: any },
+  isHtml = false
+): void {
+  if (!USE_WORKER_PROXY) return
+  const result = applyProxy(config.url, config.headers || {}, isHtml)
+  config.url = result.url
+  config.headers = result.headers
+}
+
+/** 带 proxy 的 axios 普通请求 */
+export async function axiosWithProxy<T = any>(
+  axiosFn: (config: any) => Promise<T>,
+  config: { url: string; headers?: Record<string, string>; [key: string]: any },
+  isHtml = false
+): Promise<T> {
+  if (USE_WORKER_PROXY) applyProxyToAxiosConfig(config, isHtml)
+  return axiosFn(config)
+}
+
+/** 带 proxy 的 authorize 重定向请求，自动提取重定向 URL */
+export async function axiosWithProxyRedirect(
+  axiosFn: (config: any) => Promise<any>,
+  config: { url: string; headers?: Record<string, string>; [key: string]: any },
+  isHtml = false
+): Promise<{ response: any; redirectUrl: string }> {
+  if (USE_WORKER_PROXY) {
+    if (!config.headers) config.headers = {}
+    config.headers['x-no-redirect'] = 'true'
+    applyProxyToAxiosConfig(config, isHtml)
+  }
+  const response = await axiosFn(config)
+  const redirectUrl =
+    response.request?.responseURL || response.headers?.location || response.headers?.Location
+  return { response, redirectUrl }
+}
+
 /** 构建 GET 请求 URL */
 export function buildGetUrl(url: string, body: Record<string, any>): string {
   const separator = url.includes('?') ? '&' : '?'
@@ -148,4 +174,14 @@ export function buildCookieHeaders(
     Cookie: normalizeCookieTime(cookieValue),
     ...extraHeaders
   }
+}
+
+/** info */
+export function log(method: string, ...others: any[]) {
+  logger.log(`@utils/fetch/${method}`, ...others)
+}
+
+/** err */
+export function err(method: string, ...others: any[]) {
+  logger.error(`@utils/fetch/${method}`, ...others)
 }

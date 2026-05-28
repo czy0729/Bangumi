@@ -58,6 +58,7 @@ export default {
     // 透传自定义头
     const customUserAgent = request.headers.get('x-user-agent')
     const customCookie = request.headers.get('x-cookie')
+    const noRedirect = headers.get('x-no-redirect')
     if (customUserAgent) headers.set('User-Agent', customUserAgent)
     if (customCookie) headers.set('Cookie', customCookie)
 
@@ -66,6 +67,7 @@ export default {
     headers.delete('x-proxy-key')
     headers.delete('origin')
     headers.delete('x-cookie')
+    headers.delete('x-no-redirect')
     headers.delete('host')
     headers.delete('cf-connecting-ip')
     headers.delete('cf-ipcountry')
@@ -78,7 +80,7 @@ export default {
       method,
       headers,
       body: method !== 'GET' && method !== 'HEAD' ? request.body : undefined,
-      redirect: 'follow',
+      redirect: noRedirect ? 'manual' : 'follow',
       cf: { cacheTtl: 0 }
     }
 
@@ -86,6 +88,14 @@ export default {
 
     // 构造响应头
     const respHeaders = new Headers(response.headers)
+
+    // 重写 302 的 Location header，将 worker 域名替换回 upstream 域名
+    if (response.status >= 300 && response.status < 400) {
+      const location = respHeaders.get('Location')
+      if (location) {
+        respHeaders.set('Location', location.replace(url.origin, upstream))
+      }
+    }
 
     // CORS
     for (const [key, value] of Object.entries(corsHeaders(reqOrigin))) {
@@ -125,7 +135,7 @@ function corsHeaders(origin) {
     'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE, OPTIONS',
     'Access-Control-Allow-Headers': '*',
     'Access-Control-Allow-Credentials': 'true',
-    'Access-Control-Expose-Headers': 'X-Set-Cookie',
+    'Access-Control-Expose-Headers': 'X-Set-Cookie, Location',
     Vary: 'Origin'
   }
 }

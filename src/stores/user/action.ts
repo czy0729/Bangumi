@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-04-22 16:38:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-14 17:59:28
+ * @Last Modified time: 2026-05-29 07:13:40
  */
 import { toJS } from 'mobx'
 import cheerio from 'cheerio-without-node-native'
 import { getTimestamp, info, loading, urlStringify } from '@utils'
 import fetch, { xhr } from '@utils/fetch'
 import { fetchCollectionSingleV0 } from '@utils/fetch.v0'
-import axios from '@utils/thirdParty/axios'
+import { axiosWithProxy, axiosWithProxyRedirect } from '@utils/fetch/utils'
+import { axios } from '@utils/thirdParty'
 import {
   API_EP_STATUS,
   API_SUBJECT_UPDATE_WATCHED,
@@ -291,48 +292,46 @@ export default class Action extends Fetch {
       this._reOauthCount += 1
     }
 
-    // @ts-expect-error
-    axios.defaults.withCredentials = false
-
-    // @ts-expect-error
-    const { data } = await axios({
-      method: 'get',
-      url: `${HOST}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
-      headers: {
-        'User-Agent': this.userCookie.userAgent,
-        Cookie: this.userCookie.cookie
-      }
-    })
-
+    const { data } = await axiosWithProxy<any>(
+      axios,
+      {
+        method: 'get',
+        url: `${HOST}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
+        headers: {
+          'User-Agent': this.userCookie.userAgent,
+          Cookie: this.userCookie.cookie
+        }
+      },
+      true
+    )
     const formhash = cheerio.load(data)('input[name=formhash]').attr('value')
     return this.authorize(formhash)
   }
 
   /** 授权获取 code */
   authorize = async (formhash: string) => {
-    // @ts-expect-error
-    axios.defaults.withCredentials = false
-
-    // @ts-expect-error
-    const { request } = await axios({
-      method: 'post',
-      maxRedirects: 0,
-      validateStatus: null,
-      url: `${HOST}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'User-Agent': this.userCookie.userAgent,
-        Cookie: this.userCookie.cookie
+    const { redirectUrl } = await axiosWithProxyRedirect(
+      axios,
+      {
+        method: 'post',
+        maxRedirects: 0,
+        validateStatus: null,
+        url: `${HOST}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'User-Agent': this.userCookie.userAgent,
+          Cookie: this.userCookie.cookie
+        },
+        data: urlStringify({
+          formhash,
+          redirect_uri: '',
+          client_id: APP_ID,
+          submit: '授权'
+        })
       },
-      data: urlStringify({
-        formhash,
-        redirect_uri: '',
-        client_id: APP_ID,
-        submit: '授权'
-      })
-    })
-
-    const code = request?.responseURL?.split('=').slice(1).join('=')
+      true
+    )
+    const code = redirectUrl?.split('=').slice(1).join('=')
     try {
       return this.getAccessToken(code)
     } catch (error) {
@@ -352,28 +351,28 @@ export default class Action extends Fetch {
 
   /** code 获取 access_token */
   getAccessToken = async (code: string) => {
-    // @ts-expect-error
-    axios.defaults.withCredentials = false
-
-    // @ts-expect-error
-    const { status, data } = await axios({
-      method: 'post',
-      maxRedirects: 0,
-      validateStatus: null,
-      url: `${HOST}/oauth/access_token`,
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'User-Agent': this.userCookie.userAgent
+    const { status, data } = await axiosWithProxy<any>(
+      axios,
+      {
+        method: 'post',
+        maxRedirects: 0,
+        validateStatus: null,
+        url: `${HOST}/oauth/access_token`,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'User-Agent': this.userCookie.userAgent
+        },
+        data: urlStringify({
+          grant_type: 'authorization_code',
+          client_id: APP_ID,
+          client_secret: APP_SECRET,
+          code,
+          redirect_uri: URL_OAUTH_REDIRECT,
+          state: getTimestamp()
+        })
       },
-      data: urlStringify({
-        grant_type: 'authorization_code',
-        client_id: APP_ID,
-        client_secret: APP_SECRET,
-        code,
-        redirect_uri: URL_OAUTH_REDIRECT,
-        state: getTimestamp()
-      })
-    })
+      true
+    )
 
     if (status !== 200) {
       throw new TypeError(status)

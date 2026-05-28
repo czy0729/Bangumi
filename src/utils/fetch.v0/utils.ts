@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-16 07:33:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-28 07:14:33
+ * @Last Modified time: 2026-05-29 07:28:37
  */
 import { WEB } from '@constants'
 import { APP_ID, UA } from '@constants/constants'
@@ -59,7 +59,6 @@ export async function request<T>(
     requestConfig.headers = proxyResult.headers
     logProxy('fetch.v0', proxyResult.proxyType, url, requestConfig.url)
 
-    // @ts-expect-error
     const { data: responseData } = await axios(requestConfig)
     return safe(responseData) as T
   } catch (ex) {

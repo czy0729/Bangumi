@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-28 11:20:35
+ * @Last Modified time: 2026-05-29 07:14:34
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
@@ -10,9 +10,8 @@ import Constants from 'expo-constants'
 import type { Paths } from '@types'
 
 /** ==================== 开发调试时用配置 ==================== */
-/** @ts-ignore 是否开发模式 */
-export const DEV = global.__DEV__ || window?.CONFIG_TYPE === 'DEVELOPMENT'
-// export const DEV = global.__DEV__
+/** 是否开发模式 */
+export const DEV = __DEV__ || window?.CONFIG_TYPE === 'DEVELOPMENT'
 
 /** ==================== 常用配置 ==================== */
 /** 观察组件 */
@@ -82,13 +81,19 @@ let WORKER_PROXY = ''
 /** Worker 代理密钥 */
 let WORKER_SECRET = ''
 
+/** 是否使用备用 API */
+let USE_API_HOST_BACKUP = false
+
 try {
   const local = require('./config.local')
   if (typeof local.WORKER_PROXY === 'string') WORKER_PROXY = local.WORKER_PROXY
   if (typeof local.WORKER_SECRET === 'string') WORKER_SECRET = local.WORKER_SECRET
+  if (typeof local.USE_API_HOST_BACKUP === 'boolean') {
+    USE_API_HOST_BACKUP = local.USE_API_HOST_BACKUP
+  }
 } catch {}
 
-export { WORKER_PROXY, WORKER_SECRET }
+export { WORKER_PROXY, WORKER_SECRET, USE_API_HOST_BACKUP }
 
 /** 是否使用 Worker 代理（开启后所有 bgm.tv / api.bgm.tv 请求走 Worker） */
 export const USE_WORKER_PROXY = !!WORKER_PROXY

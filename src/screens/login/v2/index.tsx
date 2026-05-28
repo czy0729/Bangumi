@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-14 16:57:13
+ * @Last Modified time: 2026-05-29 07:13:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,14 +13,15 @@ import { Notice, StatusBarPlaceholder } from '@_'
 import { _, rakuenStore, usersStore, userStore } from '@stores'
 import { confirm, feedback, getStorage, getTimestamp, info, setStorage, urlStringify } from '@utils'
 import { ob } from '@utils/decorators'
+import { logger } from '@utils/dev'
 import { hm, queue, t } from '@utils/fetch'
+import { axiosWithProxy, axiosWithProxyRedirect } from '@utils/fetch/utils'
 import { get } from '@utils/kv'
-import axios from '@utils/thirdParty/axios'
+import { axios } from '@utils/thirdParty'
 import { APP_ID, APP_SECRET, HOST, URL_OAUTH_REDIRECT, WEB } from '@constants'
 import i18n from '@constants/i18n'
 import { confirmDownloadSetting } from '@screens/user/setting/component/system/utils'
 import { HOST_PROXY } from '@src/config'
-import { NavigationProps } from '@types'
 import Extra from './component/extra'
 import Footer from './component/footer'
 import Form from './component/form'
@@ -28,6 +29,7 @@ import Notify from './component/notify'
 import Preview from './component/preview'
 import { AUTH_RETRY_COUNT, NAMESPACE, UA_EKIBUN_BANGUMI_APP } from './ds'
 
+import type { NavigationProps } from '@types'
 /** 账号密码登录 */
 class LoginV2 extends React.Component<NavigationProps> {
   state = {
@@ -86,15 +88,15 @@ class LoginV2 extends React.Component<NavigationProps> {
   getFormHash = async () => {
     const { host } = this.state
 
-    // @ts-expect-error
-    axios.defaults.withCredentials = false
-
-    // @ts-expect-error
-    const { data, headers } = await axios({
-      method: 'get',
-      url: `${host}/login`,
-      headers: this.getHeaders(['User-Agent'])
-    })
+    const { data, headers } = await axiosWithProxy<any>(
+      axios,
+      {
+        method: 'get',
+        url: `${host}/login`,
+        headers: this.getHeaders(['User-Agent'])
+      },
+      true
+    )
     this.getCookies(headers)
 
     const match = data.match(/<input type="hidden" name="formhash" value="(.+?)">/)
@@ -111,22 +113,22 @@ class LoginV2 extends React.Component<NavigationProps> {
 
     const { host } = this.state
 
-    // @ts-expect-error
-    axios.defaults.withCredentials = false
-
-    // @ts-expect-error
-    const { request, headers } = await axios({
-      method: 'get',
-      url: `${host}/signup/captcha?${new Date().getTime()}${String(
-        1 + Math.floor(Math.random() * 6)
-      )}`,
-      headers: this.getHeaders(['User-Agent', 'Cookie']),
-      responseType: 'arraybuffer'
-    })
+    const { request, headers } = await axiosWithProxy<any>(
+      axios,
+      {
+        method: 'get',
+        url: `${host}/signup/captcha?${new Date().getTime()}${String(
+          1 + Math.floor(Math.random() * 6)
+        )}`,
+        headers: this.getHeaders(['User-Agent', 'Cookie']),
+        responseType: 'arraybuffer'
+      },
+      true
+    )
     this.getCookies(headers)
 
     const base64: string = WEB
-      ? btoa(String.fromCharCode.apply(null, new Uint8Array(request.response)))
+      ? btoa(String.fromCharCode(...new Uint8Array(request.response)))
       : request._response
     this.setState({
       base64: `data:image/gif;base64,${base64}`,
@@ -145,24 +147,24 @@ class LoginV2 extends React.Component<NavigationProps> {
 
     const { host, email, password, captcha } = this.state
 
-    // @ts-expect-error
-    axios.defaults.withCredentials = false
-
-    // @ts-expect-error
-    const { data, headers } = await axios({
-      method: 'post',
-      url: `${host}/FollowTheRabbit`,
-      headers: this.getHeaders(['User-Agent', 'Cookie', 'Content-Type']),
-      data: urlStringify({
-        formhash: this._formhash,
-        referer: '',
-        dreferer: '',
-        email,
-        password,
-        captcha_challenge_field: captcha,
-        loginsubmit: '登录'
-      })
-    })
+    const { data, headers } = await axiosWithProxy<any>(
+      axios,
+      {
+        method: 'post',
+        url: `${host}/FollowTheRabbit`,
+        headers: this.getHeaders(['User-Agent', 'Cookie', 'Content-Type']),
+        data: urlStringify({
+          formhash: this._formhash,
+          referer: '',
+          dreferer: '',
+          email,
+          password,
+          captcha_challenge_field: captcha,
+          loginsubmit: '登录'
+        })
+      },
+      true
+    )
 
     if (data.includes('分钟内您将不能登录本站')) {
       info(`累计 5 次错误尝试，15 分钟内您将不能${i18n.login()}本站。`)
@@ -181,15 +183,15 @@ class LoginV2 extends React.Component<NavigationProps> {
 
     const { host } = this.state
 
-    // @ts-expect-error
-    axios.defaults.withCredentials = false
-
-    // @ts-expect-error
-    const { data } = await axios({
-      method: 'get',
-      url: `${host}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
-      headers: this.getHeaders(['User-Agent', 'Cookie'])
-    })
+    const { data } = await axiosWithProxy<any>(
+      axios,
+      {
+        method: 'get',
+        url: `${host}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
+        headers: this.getHeaders(['User-Agent', 'Cookie'])
+      },
+      true
+    )
     this._formhash = cheerio.load(data)('input[name=formhash]').attr('value')
 
     return true
@@ -203,24 +205,24 @@ class LoginV2 extends React.Component<NavigationProps> {
 
     const { host } = this.state
 
-    // @ts-expect-error
-    axios.defaults.withCredentials = false
-
-    // @ts-expect-error
-    const { request } = await axios({
-      method: 'post',
-      maxRedirects: 0,
-      validateStatus: null,
-      url: `${host}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
-      headers: this.getHeaders(['User-Agent', 'Cookie', 'Content-Type']),
-      data: urlStringify({
-        formhash: this._formhash,
-        redirect_uri: '',
-        client_id: APP_ID,
-        submit: '授权'
-      })
-    })
-    this._code = request?.responseURL?.split('=').slice(1).join('=')
+    const { redirectUrl } = await axiosWithProxyRedirect(
+      axios,
+      {
+        method: 'post',
+        maxRedirects: 0,
+        validateStatus: null,
+        url: `${host}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
+        headers: this.getHeaders(['User-Agent', 'Cookie', 'Content-Type']),
+        data: urlStringify({
+          formhash: this._formhash,
+          redirect_uri: '',
+          client_id: APP_ID,
+          submit: '授权'
+        })
+      },
+      true
+    )
+    this._code = redirectUrl?.split('=').slice(1).join('=')
 
     return true
   }
@@ -233,25 +235,25 @@ class LoginV2 extends React.Component<NavigationProps> {
 
     const { host } = this.state
 
-    // @ts-expect-error
-    axios.defaults.withCredentials = false
-
-    // @ts-expect-error
-    const { status, data } = await axios({
-      method: 'post',
-      maxRedirects: 0,
-      validateStatus: null,
-      url: `${host}/oauth/access_token`,
-      headers: this.getHeaders(['User-Agent', 'Content-Type']),
-      data: urlStringify({
-        grant_type: 'authorization_code',
-        client_id: APP_ID,
-        client_secret: APP_SECRET,
-        code: this._code,
-        redirect_uri: URL_OAUTH_REDIRECT,
-        state: getTimestamp()
-      })
-    })
+    const { status, data } = await axiosWithProxy<any>(
+      axios,
+      {
+        method: 'post',
+        maxRedirects: 0,
+        validateStatus: null,
+        url: `${host}/oauth/access_token`,
+        headers: this.getHeaders(['User-Agent', 'Content-Type']),
+        data: urlStringify({
+          grant_type: 'authorization_code',
+          client_id: APP_ID,
+          client_secret: APP_SECRET,
+          code: this._code,
+          redirect_uri: URL_OAUTH_REDIRECT,
+          state: getTimestamp()
+        })
+      },
+      true
+    )
     if (status !== 200) throw new TypeError(status)
 
     this._accessToken = data
@@ -271,7 +273,7 @@ class LoginV2 extends React.Component<NavigationProps> {
 
   /** 获取 cookie */
   getCookies = (headers = {}) => {
-    this.updateCookie(WEB ? headers?.['x-set-cookie'] : headers?.['set-cookie']?.[0])
+    this.updateCookie(headers?.['x-set-cookie'] || headers?.['set-cookie']?.[0])
   }
 
   /** 更新 set-cookie */
@@ -298,10 +300,6 @@ class LoginV2 extends React.Component<NavigationProps> {
           this._cookie[key] = value
         }
       }
-    })
-
-    console.log({
-      cookie: this._cookie
     })
   }
 
@@ -397,7 +395,7 @@ class LoginV2 extends React.Component<NavigationProps> {
         return
       }
 
-      console.error('login/v2/index.js', 'onLogin', ex)
+      logger.error(NAMESPACE, 'onLogin', ex)
       this.onLogin()
     }
   }
@@ -426,7 +424,7 @@ class LoginV2 extends React.Component<NavigationProps> {
       const { navigation } = this.props
       navigation.popToTop()
     } catch (error) {
-      console.error(NAMESPACE, 'onTour', error)
+      logger.error(NAMESPACE, 'onTour', error)
       info(`${i18n.login()}状态过期, 请稍后再试`)
     }
   }

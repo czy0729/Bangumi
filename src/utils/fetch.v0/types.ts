@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-16 07:29:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-04 13:18:25
+ * @Last Modified time: 2026-05-29 07:28:45
  */
 import type {
   Collection as BaseCollection,
@@ -23,7 +23,7 @@ export type Config = {
   headers: {
     Authorization?: string
     'User-Agent'?: string
-    'Content-Type'?: string
+    'Content-Type'?: 'application/x-www-form-urlencoded'
   }
   data?: string
 }

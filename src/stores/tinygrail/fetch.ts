@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:38:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-07 13:15:54
+ * @Last Modified time: 2026-05-29 07:26:09
  */
 import { toJS } from 'mobx'
 import { getTimestamp, HTMLDecode, info, lastDate, toFixed } from '@utils'
 import { queue } from '@utils/fetch'
-import axios from '@utils/thirdParty/axios'
+import { axios } from '@utils/thirdParty'
 import {
   API_TINYGRAIL_ASSETS,
   API_TINYGRAIL_AUCTION_LIST,
@@ -118,9 +118,7 @@ export default class Fetch extends Computed {
     data?: any,
     showError?: boolean,
     headers: AnyObject = {}
-  ) => {
-    // @ts-expect-error
-    axios.defaults.withCredentials = false
+  ): any => {
     const config: any = {
       method: isPost ? 'POST' : 'GET',
       url,
@@ -132,7 +130,6 @@ export default class Fetch extends Computed {
     }
     if (data) config.data = data
 
-    // @ts-expect-error
     return axios(config).catch(() => {
       if (showError) info('接口出错')
     })

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-12-29 11:16:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-29 11:17:36
+ * @Last Modified time: 2026-05-29 07:13:10
  */
 import cheerio from 'cheerio-without-node-native'
 import { systemStore, tinygrailStore } from '@stores'
@@ -18,8 +18,9 @@ import {
   urlStringify
 } from '@utils'
 import { t } from '@utils/fetch'
+import { axiosWithProxy, axiosWithProxyRedirect } from '@utils/fetch/utils'
 import { collect, update } from '@utils/kv'
-import axios from '@utils/thirdParty/axios'
+import { axios } from '@utils/thirdParty'
 import {
   API_TINYGRAIL_LOGOUT,
   HOST,
@@ -310,7 +311,6 @@ export default class Action extends Fetch {
 
   /** 登出 */
   logout = async () => {
-    // @ts-expect-error
     return axios({
       method: 'post',
       url: API_TINYGRAIL_LOGOUT()
@@ -321,58 +321,53 @@ export default class Action extends Fetch {
   oauth = async () => {
     const { cookie, userAgent } = this.userCookie
 
-    // @ts-expect-error
-    axios.defaults.withCredentials = false
-
-    // @ts-expect-error
-    const res = axios({
-      method: 'get',
-      url: `${HOST}/oauth/authorize?client_id=${TINYGRAIL_APP_ID}&response_type=code&redirect_uri=${TINYGRAIL_URL_OAUTH_REDIRECT}`,
-      headers: {
-        Cookie: `chii_cookietime=2592000; ${cookie}`,
-        'User-Agent': userAgent
-      }
-    })
-
-    const data = await res
+    const data = await axiosWithProxy<any>(
+      axios,
+      {
+        method: 'get',
+        url: `${HOST}/oauth/authorize?client_id=${TINYGRAIL_APP_ID}&response_type=code&redirect_uri=${TINYGRAIL_URL_OAUTH_REDIRECT}`,
+        headers: {
+          Cookie: `chii_cookietime=2592000; ${cookie}`,
+          'User-Agent': userAgent
+        }
+      },
+      true
+    )
     const { request } = data
     const { _response } = request
     this._formhash = cheerio.load(_response)('input[name=formhash]').attr('value')
 
-    return res
+    return data
   }
 
   /** 授权 */
   authorize = async () => {
     const { cookie, userAgent } = this.userCookie
 
-    // @ts-expect-error
-    axios.defaults.withCredentials = false
-
-    // @ts-expect-error
-    const res = axios({
-      method: 'post',
-      maxRedirects: 0,
-      validateStatus: null,
-      url: `${HOST}/oauth/authorize?client_id=${TINYGRAIL_APP_ID}&response_type=code&redirect_uri=${TINYGRAIL_URL_OAUTH_REDIRECT}${ERROR_STR}`,
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Cookie: `chii_cookietime=2592000; ${cookie}`,
-        'User-Agent': userAgent
+    const { response: data, redirectUrl } = await axiosWithProxyRedirect(
+      axios,
+      {
+        method: 'post',
+        maxRedirects: 0,
+        validateStatus: null,
+        url: `${HOST}/oauth/authorize?client_id=${TINYGRAIL_APP_ID}&response_type=code&redirect_uri=${TINYGRAIL_URL_OAUTH_REDIRECT}${ERROR_STR}`,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Cookie: `chii_cookietime=2592000; ${cookie}`,
+          'User-Agent': userAgent
+        },
+        data: urlStringify({
+          formhash: this._formhash,
+          redirect_uri: '',
+          client_id: TINYGRAIL_APP_ID,
+          submit: '授权'
+        })
       },
-      data: urlStringify({
-        formhash: this._formhash,
-        redirect_uri: '',
-        client_id: TINYGRAIL_APP_ID,
-        submit: '授权'
-      })
-    })
-    const data = await res
-    const { request } = data
-    const { responseURL } = request
+      true
+    )
 
     // tinygrail 服务器那边获取 access_token 也会失败, 需要重试
-    if (!responseURL.includes('code=')) {
+    if (!redirectUrl?.includes('code=')) {
       this._errorCount += 1
 
       if (this._errorCount < MAX_ERROR_COUNT) {
@@ -382,9 +377,10 @@ export default class Action extends Fetch {
     }
 
     feedback()
-    tinygrailStore.updateCookie(`${data.headers['set-cookie'][0].split(';')[0]};`)
+    const setCookie = data.headers?.['x-set-cookie'] || data.headers?.['set-cookie']?.[0]
+    tinygrailStore.updateCookie(`${setCookie.split(';')[0]};`)
 
-    return res
+    return data
   }
 
   /** 资产金额 UI 变动 */

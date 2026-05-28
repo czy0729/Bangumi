@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-05-03 22:44:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-23 01:52:40
+ * @Last Modified time: 2026-05-29 07:18:35
  */
 import { decode } from '@utils/protobuf'
-import axios from '@utils/thirdParty/axios'
+import { axios } from '@utils/thirdParty'
 import { URL_SOURCE } from './ds'
 
 import type { Fn } from '@types'
@@ -63,14 +63,11 @@ export async function initBangumiData(callback: Fn) {
 
 export async function getData() {
   try {
-    // @ts-expect-error
     const { data } = await axios({
       method: 'get',
       url: URL_SOURCE
     })
     if (Array.isArray(data)) return data
-
-    return []
   } catch {}
 
   return []

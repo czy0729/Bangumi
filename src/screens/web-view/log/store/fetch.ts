@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2025-02-19 07:51:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-22 06:31:01
+ * @Last Modified time: 2026-05-29 07:22:16
  */
 import { usersStore } from '@stores'
 import { getTimestamp, omit } from '@utils'
 import { gets, update } from '@utils/kv'
-import axios from '@utils/thirdParty/axios'
+import { axios } from '@utils/thirdParty'
 import Computed from './computed'
 
 import type { UserId } from '@types'
@@ -17,7 +17,6 @@ export default class Fetch extends Computed {
     const { url, authorization } = this.state
     if (!url || !authorization) return false
 
-    // @ts-expect-error
     const response = await axios({
       url,
       headers: {
@@ -216,7 +215,6 @@ export default class Fetch extends Computed {
     const endAt = new Date(now)
     endAt.setHours(23, 59, 59, 999)
 
-    // @ts-expect-error
     const response = await axios({
       url: `${url2}&url=${encodeURIComponent(
         u

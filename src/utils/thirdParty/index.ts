@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2025-11-03 15:17:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-04 12:48:41
+ * @Last Modified time: 2026-05-29 07:28:16
  */
 import Axios from './axios'
 
 type AxiosFunction = <T = any>(config: {
-  method: 'get' | 'post'
+  method?: 'get' | 'post'
   url: string
   headers?: {
-    'Content-Type'?: 'application/json'
+    'Content-Type'?: 'application/json' | 'application/x-www-form-urlencoded'
     'User-Agent'?: string
     Authorization?: string
     Referer?: string
   }
-  data?: Record<string, any>
-}) => Promise<{ data: T }>
+  data?: Record<string, any> | string
+  responseType?: 'arraybuffer'
+}) => Promise<{ status: any; request: any; data: T; headers: any }>
 
 type AxiosExtensions = {
   defaults: {
