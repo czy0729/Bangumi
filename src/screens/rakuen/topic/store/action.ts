@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:09:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-28 13:09:12
+ * @Last Modified time: 2026-05-29 20:12:42
  */
 import { toJS } from 'mobx'
 import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
@@ -134,21 +134,23 @@ export default class Action extends Fetch {
   }
 
   /** 显示评论框 */
-  showFixedTextarea = (username: string, replySub: any, message: any, msg?: string) => {
+  showFixedTextarea = (username: string, replySub: string, message: string) => {
     t('帖子.显示评论框', {
       topicId: this.topicId
     })
 
-    let placeholder = ''
-    if (username) placeholder = `回复 ${username}：`
-    if (msg) {
-      let comment = decodeHTMLEntities(removeHTMLTag(msg, false))
+    let placeholder = '回复'
+    if (username) placeholder += ` ${username}`
+    if (message) {
+      const _message = decoder(message).replace(/<div class="quote"><q>[\s\S]*?<\/q><\/div>/, '')
+      let comment = decodeHTMLEntities(removeHTMLTag(_message, false))
       if (comment.length >= 64) comment = `${comment.slice(0, 64)}...`
-      placeholder += comment
+      if (comment) placeholder += ` 说：${comment}`
     }
 
     this.setState({
       placeholder,
+      replyUsername: username,
       replySub,
       message
     })
@@ -158,6 +160,7 @@ export default class Action extends Fetch {
   closeFixedTextarea = () => {
     this.setState({
       placeholder: '',
+      replyUsername: '',
       replySub: '',
       message: '',
       editPostId: ''
@@ -495,16 +498,17 @@ export default class Action extends Fetch {
       sub: true
     })
 
-    const { placeholder, replySub, message } = this.state
+    const { replyUsername, replySub, message } = this.state
     const [, topicId, related, , subReplyUid, postUid] = replySub.split(',')
     let _content = content
     if (message) {
-      const _message = decoder(message).replace(/<div class="quote"><q>.*<\/q><\/div>/, '')
-      _content = `[quote][b]${placeholder}[/b] 说: ${removeHTMLTag(
+      const _message = decoder(message).replace(/<div class="quote"><q>[\s\S]*?<\/q><\/div>/, '')
+      _content = `[quote][b]${replyUsername}[/b] 说: ${removeHTMLTag(
         _message,
         false
       )}[/quote]\n${content}`
     }
+
     rakuenStore.doReply(
       {
         type,

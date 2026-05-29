@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-28 17:50:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-15 22:35:49
+ * @Last Modified time: 2026-05-29 19:41:38
  */
 import { _ } from '@stores'
 import { COMPONENT } from '../ds'
@@ -36,6 +36,9 @@ export const EXCLUDE_STATE = {
 
   /** 回复框 placeholder */
   placeholder: '',
+
+  /** 回复用户名（用于 BBCode 构建） */
+  replyUsername: '',
 
   /** 回复框 value */
   value: '',

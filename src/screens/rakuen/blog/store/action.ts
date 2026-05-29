@@ -251,7 +251,7 @@ export default class Action extends Fetch {
     const [, blogId, related, , subReplyUid, postUid] = replySub.split(',')
     let _content = content
     if (message) {
-      const _message = decoder(message).replace(/<div class="quote"><q>.*<\/q><\/div>/, '')
+      const _message = decoder(message).replace(/<div class="quote"><q>[\s\S]*?<\/q><\/div>/, '')
       _content = `[quote][b]${placeholder}[/b] 说: ${removeHTMLTag(_message)}[/quote]\n${content}`
     }
     rakuenStore.doReplyBlog(
