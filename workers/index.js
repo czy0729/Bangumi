@@ -21,7 +21,7 @@ export default {
 
     // CORS 预检
     if (request.method === 'OPTIONS') {
-      return new Response(null, { headers: corsHeaders() })
+      return new Response(null, { headers: corsHeaders(request.headers.get('origin')) })
     }
 
     // 密钥验证
@@ -33,40 +33,37 @@ export default {
       }
     }
 
+    // IP 封禁
     const ip = request.headers.get('cf-connecting-ip')
     if (BLOCKED_IP.includes(ip)) {
       return new Response('Access denied: IP blocked.', { status: 403 })
     }
 
-    // 从 x-upstream 头读取目标域名
+    // 上游域名校验
     const upstreamHost = request.headers.get('x-upstream')
     if (!upstreamHost || !ALLOWED_UPSTREAMS.includes(upstreamHost)) {
       return new Response('Forbidden: invalid or missing x-upstream header.', { status: 403 })
     }
 
     const upstream = `https://${upstreamHost}`
-    const pathname = url.pathname
-    const upstreamUrl = `${upstream}${pathname}${url.search}`
+    const upstreamUrl = `${upstream}${url.pathname}${url.search}`
 
     // 构造请求头
     const headers = new Headers(request.headers)
-    headers.set('Referer', upstream)
-
-    // 读取 origin 用于 CORS 响应（读完即删，不发给上游）
-    const reqOrigin = request.headers.get('origin')
 
     // 透传自定义头
     const customUserAgent = request.headers.get('x-user-agent')
     const customCookie = request.headers.get('x-cookie')
-    const noRedirect = headers.get('x-no-redirect')
+    const noRedirect = request.headers.get('x-no-redirect')
+
     if (customUserAgent) headers.set('User-Agent', customUserAgent)
     if (customCookie) headers.set('Cookie', customCookie)
 
-    // 清除自定义代理头和 Cloudflare 特有头
+    // 清除代理头
     headers.delete('x-upstream')
     headers.delete('x-proxy-key')
-    headers.delete('origin')
     headers.delete('x-cookie')
+    headers.delete('x-user-agent')
     headers.delete('x-no-redirect')
     headers.delete('host')
     headers.delete('cf-connecting-ip')
@@ -75,26 +72,50 @@ export default {
     headers.delete('cf-visitor')
 
     // 发起上游请求
-    const method = request.method
     const init = {
-      method,
+      method: request.method,
       headers,
-      body: method !== 'GET' && method !== 'HEAD' ? request.body : undefined,
+      body: ['GET', 'HEAD'].includes(request.method) ? undefined : request.body,
       redirect: noRedirect ? 'manual' : 'follow',
       cf: { cacheTtl: 0 }
     }
 
     const response = await fetch(upstreamUrl, init)
+    const reqOrigin = request.headers.get('origin')
+
+    // 拦截 30x 重定向，转为 200 返回，通过 x-redirect-url 传递重定向地址
+    if (noRedirect && [301, 302, 307, 308].includes(response.status)) {
+      const redirectLocation = response.headers.get('Location')
+      const redirectHeaders = new Headers(corsHeaders(reqOrigin))
+
+      if (redirectLocation) {
+        redirectHeaders.set('Location', redirectLocation)
+        redirectHeaders.set('x-redirect-url', redirectLocation)
+      }
+
+      return new Response(JSON.stringify({ location: redirectLocation }), {
+        status: 200,
+        headers: redirectHeaders
+      })
+    }
 
     // 构造响应头
     const respHeaders = new Headers(response.headers)
 
-    // 重写 302 的 Location header，将 worker 域名替换回 upstream 域名
-    if (response.status >= 300 && response.status < 400) {
-      const location = respHeaders.get('Location')
-      if (location) {
-        respHeaders.set('Location', location.replace(url.origin, upstream))
-      }
+    // buffer body 避免 RN axios redirect hang
+    const body = await response.arrayBuffer()
+
+    // 检测跟随重定向后 URL 是否变化
+    const finalUrl = response.url
+    if (noRedirect && finalUrl !== upstreamUrl) {
+      respHeaders.set('x-redirect-url', finalUrl)
+      respHeaders.set('Location', finalUrl)
+    }
+
+    // preserve redirect
+    const location = respHeaders.get('Location')
+    if (location) {
+      respHeaders.set('Location', location)
     }
 
     // CORS
@@ -102,7 +123,7 @@ export default {
       respHeaders.set(key, value)
     }
 
-    // 防缓存认证响应
+    // 防缓存
     respHeaders.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
     respHeaders.set('CDN-Cache-Control', 'no-store')
 
@@ -111,17 +132,17 @@ export default {
     respHeaders.delete('content-security-policy-report-only')
     respHeaders.delete('clear-site-data')
 
-    // Set-Cookie -> X-Set-Cookie
-    const setCookies = response.headers.getAll?.('Set-Cookie')
-    if (setCookies) {
+    // Set-Cookie 透传
+    const setCookies = response.headers.getSetCookie?.()
+    if (setCookies?.length) {
       for (const cookie of setCookies) {
-        respHeaders.append('X-Set-Cookie', cookie)
+        respHeaders.append('Set-Cookie', cookie)
       }
     } else if (response.headers.has('Set-Cookie')) {
-      respHeaders.set('X-Set-Cookie', response.headers.get('Set-Cookie'))
+      respHeaders.set('Set-Cookie', response.headers.get('Set-Cookie'))
     }
 
-    return new Response(response.body, {
+    return new Response(body, {
       status: response.status,
       statusText: response.statusText,
       headers: respHeaders
@@ -129,13 +150,14 @@ export default {
   }
 }
 
+/** CORS 响应头 */
 function corsHeaders(origin) {
   return {
     'Access-Control-Allow-Origin': origin || '*',
     'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE, OPTIONS',
     'Access-Control-Allow-Headers': '*',
     'Access-Control-Allow-Credentials': 'true',
-    'Access-Control-Expose-Headers': 'X-Set-Cookie, Location',
+    'Access-Control-Expose-Headers': 'Set-Cookie, Location, x-redirect-url',
     Vary: 'Origin'
   }
 }

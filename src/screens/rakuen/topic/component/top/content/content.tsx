@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-03 20:09:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-15 17:52:47
+ * @Last Modified time: 2026-05-30 05:24:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -88,6 +88,7 @@ const Content = memo(
           )
         )}
         <Likes
+          style={styles.likes}
           show
           topicId={topicId}
           id={id}

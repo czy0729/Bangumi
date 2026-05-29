@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-22 16:38:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-29 07:13:40
+ * @Last Modified time: 2026-05-29 22:21:36
  */
 import { toJS } from 'mobx'
 import cheerio from 'cheerio-without-node-native'
@@ -138,6 +138,8 @@ export default class Action extends Fetch {
     if (!data) return false
 
     const collection = toJS(this.collection)
+
+    // @ts-expect-error
     collection.list.unshift(data)
     this.setState({
       collection
@@ -331,7 +333,9 @@ export default class Action extends Fetch {
       },
       true
     )
+
     const code = redirectUrl?.split('=').slice(1).join('=')
+
     try {
       return this.getAccessToken(code)
     } catch (error) {

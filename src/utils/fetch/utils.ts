@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-29 06:58:32
+ * @Last Modified time: 2026-05-30 05:21:40
  */
 import pLimit from 'p-limit'
 import { API_HOST, API_HOST_BACKUP, API_P1 } from '@constants/api'
@@ -84,6 +84,10 @@ export function applyProxy(
       newHeaders['X-Cookie'] = newHeaders.Cookie
       delete newHeaders.Cookie
     }
+    if (newHeaders['User-Agent']) {
+      newHeaders['x-user-agent'] = newHeaders['User-Agent']
+      delete newHeaders['User-Agent']
+    }
     delete newHeaders.host
     delete newHeaders.Host
     delete newHeaders.origin
@@ -97,7 +101,7 @@ export function applyProxy(
 }
 
 export function logProxy(method: string, proxyType: string, _url: string, finalUrl: string) {
-  if (proxyType) log(method, `[${proxyType}]`, finalUrl)
+  if (proxyType) log(`${method} (${proxyType})`, finalUrl)
 }
 
 /** 对 axios config 应用 proxy 转换 */
@@ -132,10 +136,57 @@ export async function axiosWithProxyRedirect(
     config.headers['x-no-redirect'] = 'true'
     applyProxyToAxiosConfig(config, isHtml)
   }
-  const response = await axiosFn(config)
-  const redirectUrl =
-    response.request?.responseURL || response.headers?.location || response.headers?.Location
-  return { response, redirectUrl }
+
+  const safeConfig = {
+    ...config,
+    timeout: 10000,
+    responseType: 'text',
+    validateStatus: () => true
+  }
+
+  try {
+    const response = await axiosFn(safeConfig)
+
+    // 从 Worker 返回的 JSON body 提取重定向 URL
+    let redirectUrl = ''
+    if (
+      response?.data &&
+      typeof response.data === 'string' &&
+      response.data.includes('"location"')
+    ) {
+      try {
+        const parsed = JSON.parse(response.data)
+        redirectUrl = parsed?.location || ''
+      } catch (e) {
+        // 静默解析错误
+      }
+    }
+
+    // 从响应头提取
+    if (!redirectUrl) {
+      redirectUrl =
+        response?.headers?.['x-redirect-url'] ||
+        response?.headers?.['X-Redirect-Url'] ||
+        response?.headers?.['location'] ||
+        response?.headers?.['Location']
+    }
+
+    return { response, redirectUrl }
+  } catch (error: any) {
+    // 降级：从 Error 对象的响应头中提取
+    const errResp = error?.response
+    const fallbackUrl =
+      errResp?.headers?.['x-redirect-url'] ||
+      errResp?.headers?.['X-Redirect-Url'] ||
+      errResp?.headers?.['location'] ||
+      errResp?.headers?.['Location']
+
+    if (fallbackUrl) {
+      return { response: errResp, redirectUrl: fallbackUrl }
+    }
+
+    throw error
+  }
 }
 
 /** 构建 GET 请求 URL */

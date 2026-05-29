@@ -2,14 +2,16 @@
  * @Author: czy0729
  * @Date: 2023-09-23 05:22:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-08 00:03:01
+ * @Last Modified time: 2026-05-30 05:20:41
  */
 import SMBClient from 'react-native-smb'
 import { alert, asc, desc, info, loading } from '@utils'
+import { logger } from '@utils/dev'
 import { queue } from '@utils/fetch'
-import { SubjectId } from '@types'
-import { SMBListItem, SMBRawItem } from '../types'
 import { getFileMediaType, matchTags } from './utils'
+
+import type { SubjectId } from '@types'
+import type { SMBListItem, SMBRawItem } from '../types'
 
 let smbClient: {
   list: (arg0: string, arg1: { (data: any): Promise<void>; (data: any): void }) => void
@@ -40,8 +42,6 @@ export function smbList(
       config.username,
       config.password,
       (data: { success: any; errorCode: any; message: any }) => {
-        console.info('Create', data)
-
         if (!data?.success) {
           smbClient = null
           alert(`[${data.errorCode}] ${data.message}`, '连接失败')
@@ -76,7 +76,7 @@ function _smbList(path = ''): Promise<SMBListItem[] | false> {
       path,
       async (data: { success: any; errorCode: any; message: any; list: SMBRawItem[] }) => {
         if (!data?.success) {
-          smbClient.disconnect(() => console.info('Disconnect'))
+          smbClient.disconnect(() => logger.info('Disconnect'))
           smbClient = null
 
           alert(`[${data.errorCode}] ${data.message}`, '连接失败')
@@ -174,7 +174,7 @@ function _smbList(path = ''): Promise<SMBListItem[] | false> {
 function smbDisconnect() {
   if (smbClient) {
     try {
-      smbClient.disconnect(() => console.info('Disconnect'))
+      smbClient.disconnect(() => logger.info('Disconnect'))
     } catch {}
     smbClient = null
   }

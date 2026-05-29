@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-27 11:32:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 04:04:43
+ * @Last Modified time: 2026-05-30 05:20:01
  */
 import Constants from 'expo-constants'
 import Crypto from '@utils/crypto'
@@ -43,10 +43,9 @@ export async function oauth() {
     showLog: false
   })
 
-  console.info(res)
   const { access_token } = JSON.parse(res._response)
   accessToken = access_token
-  console.info(`🗃  oauth ${access_token}`)
+
   return accessToken
 }
 
@@ -75,7 +74,6 @@ export async function read({ path }) {
       sha,
       content: Base64.atob(content)
     }
-    console.info(`🗃  read ${path}`)
   }
 
   return files[path]
@@ -111,7 +109,6 @@ export async function add({ path, content, message }) {
     content
   }
 
-  console.info(`🗃  add ${path}`)
   return files[path]
 }
 
@@ -155,7 +152,6 @@ export async function update(args: {
     content
   }
 
-  console.info(`🗃  update ${path}`)
   return files[path]
 }
 
@@ -176,11 +172,8 @@ export async function put(args: { path: string; content: string; message?: strin
      *  - 若存在使用更新, 还需要获取文件sha
      */
     const { sha } = await read({ path })
-    return sha
-      ? update({ path, content, sha, message })
-      : add({ path, content, message })
-  } catch (error) {
-    console.error('utils/db', 'put', error)
+    return sha ? update({ path, content, sha, message }) : add({ path, content, message })
+  } catch {
     return false
   }
 }

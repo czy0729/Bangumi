@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-12-29 11:16:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-29 07:13:10
+ * @Last Modified time: 2026-05-30 04:26:07
  */
 import cheerio from 'cheerio-without-node-native'
 import { systemStore, tinygrailStore } from '@stores'
@@ -63,9 +63,12 @@ export default class Action extends Fetch {
 
     try {
       await this.oauth()
-      res = this.authorize()
+      res = await this.authorize()
 
-      await res
+      if (!res) {
+        throw new Error('Authorize returned empty or failed')
+      }
+
       t('小圣杯.授权成功')
 
       this._doAuthFailCount = 0
@@ -377,8 +380,17 @@ export default class Action extends Fetch {
     }
 
     feedback()
-    const setCookie = data.headers?.['x-set-cookie'] || data.headers?.['set-cookie']?.[0]
-    tinygrailStore.updateCookie(`${setCookie.split(';')[0]};`)
+
+    // 从响应头提取 Set-Cookie
+    const targetHeaders = data?.headers || {}
+    const setCookie =
+      targetHeaders['x-set-cookie'] ||
+      targetHeaders['X-Set-Cookie'] ||
+      targetHeaders['set-cookie']?.[0] ||
+      targetHeaders['Set-Cookie']?.[0]
+    if (setCookie && typeof setCookie === 'string') {
+      tinygrailStore.updateCookie(`${setCookie.split(';')[0]};`)
+    }
 
     return data
   }

@@ -2,14 +2,16 @@
  * @Author: czy0729
  * @Date: 2023-09-23 05:28:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-08 00:02:54
+ * @Last Modified time: 2026-05-30 05:22:17
  */
-import { AuthType, createClient, WebDAVClient } from 'webdav'
+import { AuthType, createClient } from 'webdav'
 import { alert, asc, desc, info, loading } from '@utils'
 import { queue } from '@utils/fetch'
-import { SubjectId } from '@types'
-import { SMBListItem, SMBRawItem, WebDAVRawItem } from '../types'
 import { getFileMediaType, matchTags } from './utils'
+
+import type { WebDAVClient } from 'webdav'
+import type { SubjectId } from '@types'
+import type { SMBListItem, SMBRawItem, WebDAVRawItem } from '../types'
 
 let webDAVClient: WebDAVClient
 
@@ -150,9 +152,7 @@ function _webDAVList(path = ''): Promise<SMBListItem[] | false> {
       hide()
 
       resolve(list)
-    } catch (err) {
-      console.log(err)
-    }
+    } catch {}
   })
 }
 

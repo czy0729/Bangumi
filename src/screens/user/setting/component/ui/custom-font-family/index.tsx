@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-20 18:56:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-20 19:19:42
+ * @Last Modified time: 2026-05-29 20:36:22
  */
 import React from 'react'
 import { Heatmap, setComponentsDefaultProps, Text } from '@components'
@@ -10,7 +10,7 @@ import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
-import { loadAppFontsAsync } from '@utils/hooks/useCachedResources'
+import { loadAppFonts } from '@utils/hooks/useCachedResources'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
@@ -39,7 +39,7 @@ function CustomFontFamily({ filter }: WithFilterProps) {
         onPress={async () => {
           if (!value) return
 
-          await loadAppFontsAsync()
+          await loadAppFonts()
           handleSwitch()
           setComponentsDefaultProps()
 

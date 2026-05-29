@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-02 11:57:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-06 08:43:43
+ * @Last Modified time: 2026-05-30 03:08:03
  */
 
 /** 域 */
@@ -35,7 +35,7 @@ export const HOST_IMAGE_UPLOAD_RYMK = 'https://lsky.ry.mk'
 /** @deprecated 登录 v1.0 oauth 地址 */
 export const URL_OAUTH = `${HOST}/oauth/authorize` as const
 
-/** @deprecated 登录 v1.0 授权跳转地址 */
+/** 授权跳转地址 */
 export const URL_OAUTH_REDIRECT = `${HOST}/dev/app` as const
 
 /** 项目帖子地址 */

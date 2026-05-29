@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-29 07:13:15
+ * @Last Modified time: 2026-05-30 04:14:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -30,6 +30,7 @@ import Preview from './component/preview'
 import { AUTH_RETRY_COUNT, NAMESPACE, UA_EKIBUN_BANGUMI_APP } from './ds'
 
 import type { NavigationProps } from '@types'
+
 /** 账号密码登录 */
 class LoginV2 extends React.Component<NavigationProps> {
   state = {
@@ -205,24 +206,50 @@ class LoginV2 extends React.Component<NavigationProps> {
 
     const { host } = this.state
 
-    const { redirectUrl } = await axiosWithProxyRedirect(
-      axios,
-      {
-        method: 'post',
-        maxRedirects: 0,
-        validateStatus: null,
-        url: `${host}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
-        headers: this.getHeaders(['User-Agent', 'Cookie', 'Content-Type']),
-        data: urlStringify({
-          formhash: this._formhash,
-          redirect_uri: '',
-          client_id: APP_ID,
-          submit: '授权'
-        })
-      },
-      true
-    )
-    this._code = redirectUrl?.split('=').slice(1).join('=')
+    try {
+      const { redirectUrl } = await axiosWithProxyRedirect(
+        axios,
+        {
+          method: 'post',
+          maxRedirects: 0,
+          validateStatus: null,
+          timeout: 12000,
+          url: `${host}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
+          headers: this.getHeaders(['User-Agent', 'Cookie', 'Content-Type']),
+          data: urlStringify({
+            formhash: this._formhash,
+            redirect_uri: '',
+            client_id: APP_ID,
+            submit: '授权'
+          })
+        },
+        true
+      )
+
+      // 从重定向 URL 提取 code
+      const codeMatch = redirectUrl?.match(/[?&]code=([^&]+)/)
+      this._code = codeMatch ? codeMatch[1] : ''
+
+      if (!this._code) {
+        throw new Error('授权失败: 无法从重定向 URL 提取 code')
+      }
+    } catch (error: any) {
+      // 降级：尝试从错误响应中提取
+      if (!this._code) {
+        const errResp = error?.response
+        const fallbackUrl =
+          errResp?.headers?.['x-redirect-url'] ||
+          errResp?.headers?.['X-Redirect-Url'] ||
+          errResp?.headers?.['location'] ||
+          errResp?.headers?.['Location']
+        const codeMatch = fallbackUrl?.match(/[?&]code=([^&]+)/)
+        this._code = codeMatch ? codeMatch[1] : ''
+      }
+
+      if (!this._code) {
+        throw new Error('授权失败: 无法从重定向 URL 提取 code')
+      }
+    }
 
     return true
   }
