@@ -57,6 +57,8 @@ function TimelineList(props: Props) {
     [$]
   )
 
+  const handleHeaderRefresh = useCallback(() => $.fetchUsersTimeline(true, true), [$])
+
   const handleFooterRefresh = useCallback(() => $.fetchUsersTimeline(), [$])
 
   if (!$.usersTimeline._loaded) {
@@ -85,6 +87,7 @@ function TimelineList(props: Props) {
           renderSectionHeader={renderSectionHeader}
           renderItem={renderItem}
           animated={!ANDROID}
+          onHeaderRefresh={handleHeaderRefresh}
           onFooterRefresh={handleFooterRefresh}
           {...props}
           onScroll={handleScrollEvent}

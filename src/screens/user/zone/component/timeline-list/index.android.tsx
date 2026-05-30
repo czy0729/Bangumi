@@ -44,6 +44,7 @@ function TimelineList() {
         renderSectionHeader={renderSectionHeader}
         renderItem={renderItem}
         onScrollBeginDrag={handleScrollBeginDrag}
+        onHeaderRefresh={() => $.fetchUsersTimeline(true, true)}
         onFooterRefresh={$.fetchUsersTimeline}
       />
     </TapListener>
