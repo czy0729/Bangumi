@@ -6,11 +6,14 @@
  */
 import { INIT_USERS } from '@stores/users/init'
 import { TIMELINE_TYPE } from '@constants'
-import { COLLECTION_TYPES, COMPONENT } from '../ds'
+import { COLLECTION_TYPES, COMPONENT, STATS_TYPES } from '../ds'
 
+import type { UserStatsKey } from '@stores/users/types'
 import type { CollectionStatusCn, CompletionItem, Loaded, SubjectType, TimeLineType } from '@types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
+
+export const DEFAULT_STATS_TYPE = STATS_TYPES[0].value as UserStatsKey
 
 export const DEFAULT_COLLECTION_TYPE = COLLECTION_TYPES[0].value
 
@@ -94,6 +97,9 @@ export const EXCLUDE_STATE = {
 
   /** 时间线类型 */
   timelineType: TIMELINE_TYPE[0].value as TimeLineType,
+
+  /** 统计类型 */
+  statsType: DEFAULT_STATS_TYPE,
 
   /** 是否显示备注弹窗 */
   remarkModalVisible: false,

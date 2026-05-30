@@ -75,6 +75,10 @@ export type UserStats = {
   total: string
 }
 
+export type UserStatsKey = 'all' | '1' | '2' | '3' | '4'
+
+export type UserStatsMap = Record<UserStatsKey, UserStats>
+
 /** 用户信息 */
 export type Users = {
   userId: UserId
@@ -95,6 +99,7 @@ export type Users = {
   formhash: string
   ban?: string
   userStats: UserStats
+  userStatsMap?: UserStatsMap
   networkService: NetworkServiceItem[]
   _loaded?: Loaded
 }

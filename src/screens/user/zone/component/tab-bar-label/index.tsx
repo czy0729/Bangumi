@@ -10,8 +10,9 @@ import { Flex, Text } from '@components'
 import { Popover } from '@_'
 import { _, useStore } from '@stores'
 import { MODEL_TIMELINE_TYPE, TIMELINE_TYPE } from '@constants'
+import { STATS_TYPES } from '../../ds'
 import { COLLECTION_TYPES } from '../../ds'
-import { COLLECTION_PAGE, COMPONENT, TIMELINE_PAGE } from './ds'
+import { COLLECTION_PAGE, COMPONENT, STATS_PAGE, TIMELINE_PAGE } from './ds'
 import { styles } from './styles'
 
 import type { Ctx } from '../../types'
@@ -56,6 +57,24 @@ function TabBarLabel({ style, title }: Props) {
           <Text size={10} lineHeight={13} type='sub' noWrap>
             {' '}
             {$.collectionTypeLabel}{' '}
+          </Text>
+        </Flex>
+      </Popover>
+    )
+  }
+
+  if (title === '统计' && $.state.page === STATS_PAGE) {
+    return (
+      <Popover
+        style={_.container.block}
+        data={STATS_TYPES.map(item => item.title)}
+        onSelect={$.onSelectStatsType}
+      >
+        <Flex style={styles.popover} justify='center'>
+          {elText}
+          <Text size={10} lineHeight={13} type='sub' noWrap>
+            {' '}
+            {$.statsTypeLabel}{' '}
           </Text>
         </Flex>
       </Popover>

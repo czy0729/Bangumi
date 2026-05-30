@@ -12,6 +12,7 @@ import { completions, get, update } from '@utils/kv'
 import { MUSUME_PROMPT, MUSUME_ZONE_PROMPT } from '@utils/kv/ds'
 import { webhookFriend } from '@utils/webhooks'
 import { HOST, MODEL_SUBJECT_TYPE, MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants'
+import { STATS_TYPES } from '../ds'
 import Fetch from './fetch'
 import { DEFAULT_COLLECTION_EXPAND } from './ds'
 
@@ -217,6 +218,21 @@ export default class Action extends Fetch {
       timelineType
     })
     this.fetchUsersTimeline(true, true)
+  }
+
+  /** 选择统计类型 */
+  onSelectStatsType = (title: string) => {
+    const statsType = STATS_TYPES.find(item => item.title === title)?.value
+    if (!statsType || statsType === this.state.statsType) return
+
+    t('空间.统计类型切换', {
+      userId: this.userId,
+      title
+    })
+
+    this.setState({
+      statsType
+    })
   }
 
   /** 显示备注弹窗 */

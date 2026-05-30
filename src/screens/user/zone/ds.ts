@@ -56,6 +56,28 @@ export const COLLECTION_TYPES = [
     title: '三次元',
     value: MODEL_SUBJECT_TYPE.getLabel<SubjectType>('三次元')
   }
+]
+export const STATS_TYPES = [
+  {
+    title: '全部',
+    value: 'all'
+  },
+  {
+    title: '书籍',
+    value: '1'
+  },
+  {
+    title: '动画',
+    value: '2'
+  },
+  {
+    title: '音乐',
+    value: '3'
+  },
+  {
+    title: '游戏',
+    value: '4'
+  }
 ] as const
 
 export const TABS_WITH_TINYGRAIL = [

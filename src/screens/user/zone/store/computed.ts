@@ -16,11 +16,12 @@ import {
   usersStore,
   userStore
 } from '@stores'
+import { INIT_USER_STATS } from '@stores/users/init'
 import { getBlurRadius, HTMLDecode } from '@utils'
 import { logger } from '@utils/dev'
 import { fixedRemote } from '@utils/user-setting'
 import { IMG_EMPTY_DARK, TEXT_ONLY } from '@constants'
-import { H_HEADER, TABS, TABS_WITH_TINYGRAIL } from '../ds'
+import { H_HEADER, STATS_TYPES, TABS, TABS_WITH_TINYGRAIL } from '../ds'
 import State from './state'
 import { COLLECTION_STATUS_MAP, COLLECTION_STATUS_TEXT, EXCLUDE_STATE, NAMESPACE } from './ds'
 
@@ -123,6 +124,21 @@ export default class Computed extends State {
         ]
       }
     })
+  }
+
+  /** 当前统计类型中文 */
+  @computed get statsTypeLabel() {
+    return (
+      STATS_TYPES.find(item => item.value === this.state.statsType)?.title || STATS_TYPES[0].title
+    )
+  }
+
+  /** 当前用户统计 */
+  @computed get userStats() {
+    const { userStats, userStatsMap } = this.users
+    if (this.state.statsType === 'all') return userStatsMap?.all || userStats || INIT_USER_STATS
+
+    return userStatsMap?.[this.state.statsType] || INIT_USER_STATS
   }
 
   /** 用户时间胶囊 */

@@ -12,7 +12,6 @@ import { _, useStore } from '@stores'
 import { getHeight } from './utils'
 import { memoStyles } from './styles'
 
-import type { UserStats } from '@stores/users/types'
 import type { Ctx } from '../../../types'
 
 function Chart() {
@@ -20,7 +19,7 @@ function Chart() {
 
   const styles = memoStyles()
 
-  const userStats = ($.users?.userStats || {}) as UserStats
+  const { userStats } = $
   const count = userStats?.chart
   const max = Math.max(...Object.keys(count || {}).map(item => Number(count?.[item] || 0)))
 

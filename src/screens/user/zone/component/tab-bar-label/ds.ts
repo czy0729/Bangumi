@@ -12,4 +12,6 @@ export const COMPONENT = rc(PARENT, 'TabBarLabel')
 
 export const COLLECTION_PAGE = TABS.findIndex(item => item.title === '收藏')
 
+export const STATS_PAGE = TABS.findIndex(item => item.title === '统计')
+
 export const TIMELINE_PAGE = TABS.findIndex(item => item.title === '时间线')

@@ -12,7 +12,6 @@ import { useStore } from '@stores'
 import { formatNumber, stl } from '@utils'
 import { memoStyles } from './styles'
 
-import type { UserStats } from '@stores/users/types'
 import type { Ctx } from '../../../types'
 
 function Counts() {
@@ -20,7 +19,7 @@ function Counts() {
 
   const styles = memoStyles()
 
-  const userStats = ($.users?.userStats || {}) as UserStats
+  const { userStats } = $
   const rows = [
     [
       {

@@ -8,7 +8,73 @@ import { cData, cFind, cheerio, cHtml, cMap, cText, htmlMatch, matchAvatar } fro
 import { getBlogItemTime } from '../discovery/utils'
 
 import type { MonoId, SubjectTypeValue } from '@types'
-import type { BlogsItem, CatalogsItem, CharactersItem, Friend, RecentsItem, Users } from './types'
+import type {
+  BlogsItem,
+  CatalogsItem,
+  CharactersItem,
+  Friend,
+  RecentsItem,
+  Users,
+  UserStats,
+  UserStatsKey,
+  UserStatsMap
+} from './types'
+
+const USER_STATS_KEYS: UserStatsKey[] = ['all', '1', '2', '3', '4']
+
+function emptyUserStats(): UserStats {
+  return {
+    total: '',
+    collect: '',
+    percent: '',
+    avg: '',
+    std: '',
+    scored: '',
+    chart: {
+      10: '',
+      9: '',
+      8: '',
+      7: '',
+      6: '',
+      5: '',
+      4: '',
+      3: '',
+      2: '',
+      1: ''
+    }
+  }
+}
+
+function cheerioUserStats($: any, $scope?: any): UserStats {
+  const gridNums = cMap($scope ? $scope.find('.gridStats .item') : $('.gridStats .item'), $row =>
+    cText(cFind($row, '.num'))
+  )
+  const chartNums = cMap(
+    $scope ? $scope.find('.horizontalChart li') : $('.horizontalChart li'),
+    $row => cText(cFind($row, '.count')).replace(/[()]/g, '')
+  )
+
+  return {
+    total: gridNums[0] || '',
+    collect: gridNums[1] || '',
+    percent: gridNums[2] || '',
+    avg: gridNums[3] || '',
+    std: gridNums[4] || '',
+    scored: gridNums[5] || '',
+    chart: {
+      10: chartNums[0] || '',
+      9: chartNums[1] || '',
+      8: chartNums[2] || '',
+      7: chartNums[3] || '',
+      6: chartNums[4] || '',
+      5: chartNums[5] || '',
+      4: chartNums[6] || '',
+      3: chartNums[7] || '',
+      2: chartNums[8] || '',
+      1: chartNums[9] || ''
+    }
+  }
+}
 
 /** 好友列表 */
 export function cheerioFriends(html: string) {
@@ -51,10 +117,18 @@ export function cheerioUsers(html: string) {
   const countsText = cText(cFind($('#anime'), '.horizontalOptions'))
   const getCount = (reg: RegExp) => Number(countsText.match(reg)?.[1] || 0)
 
-  const gridNums = cMap($('.gridStats .item'), $row => cText(cFind($row, '.num')))
-  const chartNums = cMap($('.horizontalChart li'), $row =>
-    cText(cFind($row, '.count')).replace(/[()]/g, '')
-  )
+  const legacyUserStats = cheerioUserStats($)
+  const userStatsMap = USER_STATS_KEYS.reduce((result, key) => {
+    const $block = $(`#userStats_${key}`)
+    if ($block.length) {
+      result[key] = cheerioUserStats($, $block)
+    } else if (key === 'all') {
+      result[key] = legacyUserStats
+    } else {
+      result[key] = emptyUserStats()
+    }
+    return result
+  }, {} as UserStatsMap)
 
   /** ==================== 徽章 ==================== */
   const networkService = cMap($('.network_service li'), $row => {
@@ -90,26 +164,8 @@ export function cheerioUsers(html: string) {
     formhash,
     ban: cText(cFind($('.tipIntro'), '.tip')).replace(/\s*\n\s*/g, ''),
 
-    userStats: {
-      total: gridNums[0] || '',
-      collect: gridNums[1] || '',
-      percent: gridNums[2] || '',
-      avg: gridNums[3] || '',
-      std: gridNums[4] || '',
-      scored: gridNums[5] || '',
-      chart: {
-        10: chartNums[0] || '',
-        9: chartNums[1] || '',
-        8: chartNums[2] || '',
-        7: chartNums[3] || '',
-        6: chartNums[4] || '',
-        5: chartNums[5] || '',
-        4: chartNums[6] || '',
-        3: chartNums[7] || '',
-        2: chartNums[8] || '',
-        1: chartNums[9] || ''
-      }
-    },
+    userStats: userStatsMap.all,
+    userStatsMap,
 
     networkService
   } as Users

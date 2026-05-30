@@ -7,9 +7,48 @@
 import { LIST_EMPTY } from '@constants'
 
 import type { UserId } from '@types'
-import type { Blogs, Catalogs, Characters, Friends, MyFriendsMap, Recents, Users } from './types'
+import type {
+  Blogs,
+  Catalogs,
+  Characters,
+  Friends,
+  MyFriendsMap,
+  Recents,
+  Users,
+  UserStats,
+  UserStatsMap
+} from './types'
 
 export const NAMESPACE = 'Users'
+
+export const INIT_USER_STATS = {
+  avg: '',
+  chart: {
+    '1': '',
+    '2': '',
+    '3': '',
+    '4': '',
+    '5': '',
+    '6': '',
+    '7': '',
+    '8': '',
+    '9': '',
+    '10': ''
+  },
+  collect: '',
+  percent: '',
+  scored: '',
+  std: '',
+  total: ''
+} as UserStats
+
+export const INIT_USER_STATS_MAP = {
+  all: INIT_USER_STATS,
+  1: INIT_USER_STATS,
+  2: INIT_USER_STATS,
+  3: INIT_USER_STATS,
+  4: INIT_USER_STATS
+} as UserStatsMap
 
 export const INIT_USERS = {
   userId: '',
@@ -29,26 +68,8 @@ export const INIT_USERS = {
   disconnectUrl: '',
   formhash: '',
   ban: '',
-  userStats: {
-    avg: '',
-    chart: {
-      '1': '',
-      '2': '',
-      '3': '',
-      '4': '',
-      '5': '',
-      '6': '',
-      '7': '',
-      '8': '',
-      '9': '',
-      '10': ''
-    },
-    collect: '',
-    percent: '',
-    scored: '',
-    std: '',
-    total: ''
-  },
+  userStats: INIT_USER_STATS,
+  userStatsMap: INIT_USER_STATS_MAP,
   networkService: []
 } as Users
 
