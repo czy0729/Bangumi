@@ -57,15 +57,7 @@ const List = memo(
       return <ListView {...passProps} ref={forwardRef} data={data} />
     }
 
-    return (
-      <PaginationList2
-        {...passProps}
-        forwardRef={forwardRef}
-        data={list}
-        limit={24}
-        enableScrollToIndexLoadMore
-      />
-    )
+    return <PaginationList2 {...passProps} forwardRef={forwardRef} data={list} limit={24} />
   },
   DEFAULT_PROPS,
   COMPONENT_MAIN

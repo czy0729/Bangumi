@@ -27,8 +27,5 @@ export type Props<ItemT> = Override<
 
     /** 下下一页回调 (用于提前加载) */
     onNextPage?: (nextPageData?: ItemT[]) => any
-
-    /** scrollToIndex 目标未加载时, 自动逐页加载更多 */
-    enableScrollToIndexLoadMore?: boolean
   }
 >
