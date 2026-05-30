@@ -19,6 +19,8 @@ import {
   DEFAULT_MAX_TO_RENDER_PER_BATCH,
   DEFAULT_UPDATE_CELLS_BATCHING_PERIOD,
   DEFAULT_WINDOW_SIZE,
+  FOOTER_REFRESH_DELAY,
+  ON_END_REACHED_THROTTLE,
   REFRESH_STATE,
   SCROLL_CALLBACK
 } from './ds'
@@ -203,7 +205,7 @@ export const ListView = observer(
           refreshState: REFRESH_STATE.FooterRefreshing
         })
 
-        await sleep(640)
+        await sleep(FOOTER_REFRESH_DELAY)
         onFooterRefresh()
       }
     }
@@ -218,7 +220,7 @@ export const ListView = observer(
         this.onFooterRefresh()
         setTimeout(() => {
           this._onEndReached = false
-        }, 1000)
+        }, ON_END_REACHED_THROTTLE)
       }
     }
 
