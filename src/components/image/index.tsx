@@ -223,7 +223,7 @@ export const Image = observer(
 
       try {
         if (typeof src === 'string') {
-          const fixedSrc = fixedRemoteImageUrl(src)
+          const fixedSrc = applyLainProxy(fixedRemoteImageUrl(src))
 
           // 空地址不作处理
           if (
