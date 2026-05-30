@@ -9,15 +9,27 @@ import Item from './item'
 import SectionHeader from './section-header'
 
 import type { CollectionsItem } from '@stores/user/types'
-import type { CollectionStatusCn, RenderSection } from '@types'
+import type { CollectionStatusCn } from '@types'
 
-export function renderSectionHeader({ section: { title, count } }) {
-  return <SectionHeader title={title} count={count} />
+type Section = {
+  section: {
+    title: string
+    status: CollectionStatusCn
+    count: number
+  }
+}
+
+type ItemSection = Section & {
+  item: CollectionsItem
+}
+
+export function renderSectionHeader({ section: { title, status, count } }: Section) {
+  return <SectionHeader title={title} status={status} count={count} />
 }
 
 export function renderItem({
   item,
-  section: { title }
-}: RenderSection<CollectionStatusCn, CollectionsItem>) {
-  return <Item item={item} title={title} />
+  section: { status }
+}: ItemSection) {
+  return <Item item={item} status={status} />
 }

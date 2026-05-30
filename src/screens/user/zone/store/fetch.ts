@@ -47,9 +47,9 @@ export default class Fetch extends Computed {
     return usersStore.fetchUsers(this.userId)
   }
 
-  /** 用户番剧信息 */
+  /** 用户收藏概览 */
   fetchUserCollections = () => {
-    return userStore.fetchUserCollections('anime', this.userId)
+    return userStore.fetchUserCollections(this.state.collectionType, this.userId)
   }
 
   /** 用户时间胶囊 (60s) */

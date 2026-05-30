@@ -11,14 +11,18 @@ import { fetchHTML, t } from '@utils/fetch'
 import { completions, get, update } from '@utils/kv'
 import { MUSUME_PROMPT, MUSUME_ZONE_PROMPT } from '@utils/kv/ds'
 import { webhookFriend } from '@utils/webhooks'
-import { HOST, MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants'
+import { HOST, MODEL_SUBJECT_TYPE, MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants'
 import Fetch from './fetch'
+import { DEFAULT_COLLECTION_EXPAND } from './ds'
 
 import type { ScrollTo, ScrollToOffset } from '@components'
 import type {
   CompletionItem,
+  CollectionStatusCn,
   Navigation,
   ScrollEvent,
+  SubjectType,
+  SubjectTypeCn,
   TimeLineScope,
   TimeLineType,
   TimeLineTypeCn
@@ -108,7 +112,7 @@ export default class Action extends Fetch {
   /** 标签页切换后回调, 延迟请求对应页面数据 */
   onTabChangeCallback = async (page: number) => {
     const { title } = this.tabs[page]
-    if (title === '番剧') {
+    if (title === '收藏') {
       await this.fetchUserCollections()
     } else if (title === '时间线') {
       await this.fetchUsersTimeline(true)
@@ -123,13 +127,13 @@ export default class Action extends Fetch {
     setTimeout(() => this.updatePageOffset([0]), 0)
   }
 
-  /** 番剧展开分组 */
-  onToggleSection = (title: string) => {
+  /** 收藏展开分组 */
+  onToggleSection = (status: CollectionStatusCn) => {
     const { expand } = this.state
     t('空间.展开分组', {
       userId: this.userId,
-      title,
-      expand: !expand[title]
+      title: status,
+      expand: !expand[status]
     })
 
     if (systemStore.setting.zoneCollapse) {
@@ -140,7 +144,7 @@ export default class Action extends Fetch {
           想看: false,
           搁置: false,
           抛弃: false,
-          [title]: !expand[title]
+          [status]: !expand[status]
         }
       })
       return
@@ -149,10 +153,29 @@ export default class Action extends Fetch {
     this.setState({
       expand: {
         ...expand,
-        [title]: !expand[title]
+        [status]: !expand[status]
       }
     })
     this.save()
+  }
+
+  /** 选择收藏类型 */
+  onSelectCollectionType = (title: SubjectTypeCn) => {
+    const collectionType = MODEL_SUBJECT_TYPE.getLabel<SubjectType>(title)
+    if (!collectionType || collectionType === this.state.collectionType) return
+
+    t('空间.收藏类型切换', {
+      userId: this.userId,
+      title
+    })
+
+    this.setState({
+      collectionType,
+      expand: {
+        ...DEFAULT_COLLECTION_EXPAND
+      }
+    })
+    this.fetchUserCollections()
   }
 
   /** 去用户的所有收藏页面 */

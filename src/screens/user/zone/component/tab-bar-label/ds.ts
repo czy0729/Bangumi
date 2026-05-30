@@ -10,4 +10,6 @@ import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'TabBarLabel')
 
+export const COLLECTION_PAGE = TABS.findIndex(item => item.title === '收藏')
+
 export const TIMELINE_PAGE = TABS.findIndex(item => item.title === '时间线')

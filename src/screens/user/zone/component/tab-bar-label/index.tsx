@@ -10,7 +10,8 @@ import { Flex, Text } from '@components'
 import { Popover } from '@_'
 import { _, useStore } from '@stores'
 import { MODEL_TIMELINE_TYPE, TIMELINE_TYPE } from '@constants'
-import { COMPONENT, TIMELINE_PAGE } from './ds'
+import { COLLECTION_TYPES } from '../../ds'
+import { COLLECTION_PAGE, COMPONENT, TIMELINE_PAGE } from './ds'
 import { styles } from './styles'
 
 import type { Ctx } from '../../types'
@@ -37,6 +38,24 @@ function TabBarLabel({ style, title }: Props) {
           <Text size={10} lineHeight={13} type='sub' noWrap>
             {' '}
             {MODEL_TIMELINE_TYPE.getLabel($.state.timelineType)}{' '}
+          </Text>
+        </Flex>
+      </Popover>
+    )
+  }
+
+  if (title === '收藏' && $.state.page === COLLECTION_PAGE) {
+    return (
+      <Popover
+        style={_.container.block}
+        data={COLLECTION_TYPES.map(item => item.title)}
+        onSelect={$.onSelectCollectionType}
+      >
+        <Flex style={styles.popover} justify='center'>
+          {elText}
+          <Text size={10} lineHeight={13} type='sub' noWrap>
+            {' '}
+            {$.collectionTypeLabel}{' '}
           </Text>
         </Flex>
       </Popover>
