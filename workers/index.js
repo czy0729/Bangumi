@@ -1,6 +1,8 @@
 /*
  * @Author: czy0729
- * @Description: Cloudflare Worker 反向代理, 客户端通过 x-upstream 头指定上游域名
+ * @Date: 2026-05-30 08:02:00
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-05-30 08:04:16
  */
 
 /** 允许的上游域名白名单 */
@@ -8,6 +10,9 @@ const ALLOWED_UPSTREAMS = ['api.bgm.tv', 'bgm.tv', 'next.bgm.tv']
 
 /** 被屏蔽的 IP */
 const BLOCKED_IP = ['0.0.0.0', '127.0.0.1']
+
+/** 机密键名 */
+const SECRET_NAME = 'WORKER_SECRET'
 
 export default {
   async fetch(request, env, ctx) {
@@ -25,7 +30,7 @@ export default {
     }
 
     // 密钥验证
-    const secret = env.WORKER_SECRET
+    const secret = env[SECRET_NAME]
     if (secret) {
       const key = request.headers.get('x-proxy-key')
       if (key !== secret) {

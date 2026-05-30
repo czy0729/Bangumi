@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-11 08:28:40
+ * @Last Modified time: 2026-05-30 07:19:41
  */
 import React from 'react'
 import { Image as RNImage } from 'react-native'
@@ -10,6 +10,7 @@ import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { getTimestamp, omit, pick } from '@utils'
 import { logger, r } from '@utils/dev'
+import { applyLainProxy } from '@utils/proxy'
 import { EVENT, FROZEN_FN, HOST_CDN_AVATAR, IOS, WEB } from '@constants'
 import { IOS_IPA, TEXT_ONLY } from '@src/config'
 import { Component } from '../component'
@@ -720,14 +721,14 @@ export const Image = observer(
             return <Placeholder style={this.computedStyle.image} />
           }
 
-          // 网络图片
+          const finalUri = applyLainProxy(uri)
           return (
             <Remote
               {...otherProps}
               style={this.computedStyle.image}
               containerStyle={this.computedStyle.container}
               headers={this.headers}
-              uri={uri}
+              uri={finalUri}
               autoSize={autoSize}
               autoHeight={autoHeight}
               fadeDuration={this.props.fadeDuration}

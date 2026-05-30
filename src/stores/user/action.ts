@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-04-22 16:38:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-29 22:21:36
+ * @Last Modified time: 2026-05-30 06:40:48
  */
 import { toJS } from 'mobx'
 import cheerio from 'cheerio-without-node-native'
 import { getTimestamp, info, loading, urlStringify } from '@utils'
 import fetch, { xhr } from '@utils/fetch'
 import { fetchCollectionSingleV0 } from '@utils/fetch.v0'
-import { axiosWithProxy, axiosWithProxyRedirect } from '@utils/fetch/utils'
+import { axiosWithProxy, axiosWithProxyRedirect } from '@utils/proxy'
 import { axios } from '@utils/thirdParty'
 import {
   API_EP_STATUS,

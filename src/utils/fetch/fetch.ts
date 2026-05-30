@@ -1,9 +1,10 @@
+import { applyProxy, logProxy } from '@utils/proxy'
 /*
  * 使用 RN.fetch 的请求 (待废弃, 尽量少用)
  * @Author: czy0729
  * @Date: 2022-08-06 12:36:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-28 12:42:55
+ * @Last Modified time: 2026-05-30 06:40:52
  */
 import { API_HOST, API_V0 } from '@constants/api'
 import { APP_ID, UA } from '@constants/constants'
@@ -12,17 +13,7 @@ import { syncUserStore } from '../async'
 import fetch from '../thirdParty/fetch-polyfill'
 import { loading } from '../ui'
 import { getTimestamp, sleep, urlStringify } from '../utils'
-import {
-  applyProxy,
-  buildCookieHeaders,
-  buildGetUrl,
-  checkDenied,
-  err,
-  log,
-  logProxy,
-  safe,
-  safeCookie
-} from './utils'
+import { buildCookieHeaders, buildGetUrl, checkDenied, err, log, safe, safeCookie } from './utils'
 import { FETCH_RETRY, FETCH_TIMEOUT, HEADERS_DEFAULT } from './ds'
 
 import type { Body, Config, FetchAPIArgs, FetchHTMLArgs } from './types'

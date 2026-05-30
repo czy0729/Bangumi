@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-29 07:14:34
+ * @Last Modified time: 2026-05-30 08:10:13
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
@@ -34,7 +34,7 @@ export const INVIEW_SHOW = false
 export const ANDROID_DEV_MENU = true
 
 /** 是否不显示图片 (开发用) false 是为了打包后的 apk 稳定显示图片 */
-export const TEXT_ONLY = DEV ? DEV : false
+export const TEXT_ONLY = DEV ? !DEV : false
 
 /** 反代地址 */
 export const HOST_PROXY = 'http://192.168.31.87:3000'
@@ -74,7 +74,7 @@ type Configs = {
   initialRouteParams: any
 }
 
-/** ==================== 下方配置通常不修改 ==================== */
+/** ==================== 下方为代理约定参数按需修改 (修改需要自建 config.local.ts) ==================== */
 /** Worker 代理地址 */
 let WORKER_PROXY = ''
 
@@ -84,6 +84,12 @@ let WORKER_SECRET = ''
 /** 是否使用备用 API */
 let USE_API_HOST_BACKUP = false
 
+/** Lain 图片代理地址 */
+let WORKER_LAIN_PROXY = ''
+
+/** Lain 图片代理密钥*/
+let WORKER_LAIN_SECRET = ''
+
 try {
   const local = require('./config.local')
   if (typeof local.WORKER_PROXY === 'string') WORKER_PROXY = local.WORKER_PROXY
@@ -91,13 +97,16 @@ try {
   if (typeof local.USE_API_HOST_BACKUP === 'boolean') {
     USE_API_HOST_BACKUP = local.USE_API_HOST_BACKUP
   }
+  if (typeof local.WORKER_LAIN_PROXY === 'string') WORKER_LAIN_PROXY = local.WORKER_LAIN_PROXY
+  if (typeof local.WORKER_LAIN_SECRET === 'string') WORKER_LAIN_SECRET = local.WORKER_LAIN_SECRET
 } catch {}
 
-export { WORKER_PROXY, WORKER_SECRET, USE_API_HOST_BACKUP }
+export { WORKER_PROXY, WORKER_SECRET, USE_API_HOST_BACKUP, WORKER_LAIN_PROXY, WORKER_LAIN_SECRET }
 
 /** 是否使用 Worker 代理（开启后所有 bgm.tv / api.bgm.tv 请求走 Worker） */
 export const USE_WORKER_PROXY = !!WORKER_PROXY
 
+/** ==================== 下方配置通常不修改 ==================== */
 /** 日志级别 (开发用): 2 所有, 1 只输出错误和警告, 0 不输出 */
 export const LOG_LEVEL = 0
 

@@ -3,5 +3,4 @@ main = "index.js"
 compatibility_date = "2024-01-01"
 
 [observability]
-logs.enabled = true
-logs.invocation_logs = true
+enabled = false

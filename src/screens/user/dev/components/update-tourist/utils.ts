@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-08-19 02:49:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-29 07:13:27
+ * @Last Modified time: 2026-05-30 06:40:29
  */
 import cheerio from 'cheerio-without-node-native'
 import { getTimestamp, urlStringify } from '@utils'
-import { axiosWithProxy, axiosWithProxyRedirect } from '@utils/fetch/utils'
+import { axiosWithProxy, axiosWithProxyRedirect } from '@utils/proxy'
 import { axios } from '@utils/thirdParty'
 import Base64 from '@utils/thirdParty/base64'
 import { APP_ID, APP_SECRET, HOST, URL_OAUTH_REDIRECT } from '@constants'

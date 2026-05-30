@@ -10,10 +10,9 @@ import { observer } from 'mobx-react'
 import { Avatar } from '@components'
 import { systemStore, tinygrailStore } from '@stores'
 import { tinygrailOSS } from '@utils'
-import { HOST_IMAGE } from '@utils/app/ds'
 import { t } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
-import { CDN_OSS_MAGMA_MONO } from '@constants'
+import { CDN_OSS_MAGMA_MONO, HOST_IMAGE } from '@constants'
 
 import type { Props } from './types'
 

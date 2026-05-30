@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-10 04:54:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 11:55:11
+ * @Last Modified time: 2026-05-30 07:04:38
  */
 import CryptoJS from 'crypto-js'
 import { APP_ID } from '@constants/constants/app'
@@ -18,7 +18,13 @@ export function get<T extends object | string>(content: string): T {
   return JSON.parse(bytes.toString(CryptoJS.enc.Utf8))
 }
 
+/** HMAC-SHA256 签名, 返回 hex 字符串 */
+export function hmacSHA256(message: string, secret: string): string {
+  return CryptoJS.HmacSHA256(message, secret).toString(CryptoJS.enc.Hex)
+}
+
 export default {
   set,
-  get
+  get,
+  hmacSHA256
 }

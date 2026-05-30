@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-05-14 07:14:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-29 06:57:44
+ * @Last Modified time: 2026-05-30 08:39:06
  */
 import { _, systemStore, usersStore, userStore } from '@stores'
 import { getCover400, getCoverMedium, getTimestamp, navigationReference } from '@utils'
 import { syncUserStore } from '@utils/async'
 import { t } from '@utils/fetch'
-import { axiosWithProxyRedirect } from '@utils/fetch/utils'
+import { axiosWithProxyRedirect } from '@utils/proxy'
 import axios from '@utils/thirdParty/axios'
 import {
   HOST_CDN_AVATAR,
+  HOST_IMAGE,
   IMG_AVATAR_DEFAULT,
   IMG_DEFAULT,
   UA,
@@ -23,9 +24,6 @@ import type { Props } from './types'
 
 /** 判断是否自己的头像, 一周才变化一次 */
 const TS = Math.floor(getTimestamp() / 604800)
-
-/** 静态资源域名 */
-const HOST_IMAGE = '//lain.bgm.tv'
 
 /** 大质量头像 */
 const USER_LARGE = `${HOST_IMAGE}/pic/user/l/`

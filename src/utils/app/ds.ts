@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-11 09:18:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-24 15:22:48
+ * @Last Modified time: 2026-05-30 08:39:37
  */
 import { Dimensions } from 'react-native'
 import { HOST_AC_MEDIA } from '@constants/cdn'
@@ -11,9 +11,6 @@ import { HOST } from '@constants/constants'
 import type { Id, SubjectId, UserId } from '@types'
 
 const date = new Date()
-
-/** 源站图片域名 */
-export const HOST_IMAGE = '//lain.bgm.tv'
 
 /** 随机数因子 */
 export const RANDOM_FACTOR = Number(String(date.getSeconds()).slice(0, 1))

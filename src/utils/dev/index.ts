@@ -1,9 +1,8 @@
 /*
- * 开发调试
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 19:31:08
+ * @Last Modified time: 2026-05-30 08:46:30
  */
 import { WEB } from '@constants/device'
 import { DEV, LOG_LEVEL, RERENDER_NOT_SHOW, RERENDER_SHOW } from '@src/config'
@@ -167,7 +166,7 @@ const TEXT_BADGES = {
   purple: '🟣'
 } as const
 
-const PAD_LENGTH = 32
+const PAD_LENGTH = 36
 
 export const logger = {
   /** ⚪ */

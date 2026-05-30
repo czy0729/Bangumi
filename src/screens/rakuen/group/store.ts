@@ -3,17 +3,16 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:49:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-17 16:40:59
+ * @Last Modified time: 2026-05-30 08:43:00
  */
 import { computed, observable } from 'mobx'
 import { rakuenStore, systemStore, userStore } from '@stores'
 import { feedback, getTimestamp, info } from '@utils'
-import { HOST_IMAGE } from '@utils/app/ds'
 import { fetchHTML, t } from '@utils/fetch'
 import { get, update } from '@utils/kv'
 import store from '@utils/store'
 import { webhookGroup } from '@utils/webhooks'
-import { CDN_OSS_MAGMA_PIC, HOST, LIST_EMPTY } from '@constants'
+import { CDN_OSS_MAGMA_PIC, HOST, HOST_IMAGE, LIST_EMPTY } from '@constants'
 import { NAMESPACE, STATE } from './ds'
 
 import type { Group } from '@stores/rakuen/types'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-12-29 11:16:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-30 04:26:07
+ * @Last Modified time: 2026-05-30 06:40:25
  */
 import cheerio from 'cheerio-without-node-native'
 import { systemStore, tinygrailStore } from '@stores'
@@ -18,8 +18,8 @@ import {
   urlStringify
 } from '@utils'
 import { t } from '@utils/fetch'
-import { axiosWithProxy, axiosWithProxyRedirect } from '@utils/fetch/utils'
 import { collect, update } from '@utils/kv'
+import { axiosWithProxy, axiosWithProxyRedirect } from '@utils/proxy'
 import { axios } from '@utils/thirdParty'
 import {
   API_TINYGRAIL_LOGOUT,

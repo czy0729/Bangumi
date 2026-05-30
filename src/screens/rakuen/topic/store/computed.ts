@@ -7,9 +7,8 @@
 import { computed } from 'mobx'
 import { rakuenStore, subjectStore, systemStore, usersStore, userStore } from '@stores'
 import { asc, freeze, getGroupThumbStatic, HTMLDecode } from '@utils'
-import { HOST_IMAGE } from '@utils/app/ds'
 import CacheManager from '@utils/cache-manager'
-import { CDN_OSS_MAGMA_PIC, CDN_OSS_MAGMA_POSTER, HOST, URL_DEFAULT_AVATAR } from '@constants'
+import { CDN_OSS_MAGMA_PIC, CDN_OSS_MAGMA_POSTER, HOST, HOST_IMAGE, URL_DEFAULT_AVATAR } from '@constants'
 import State from './state'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
 

@@ -3,15 +3,16 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:21:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-28 08:09:30
+ * @Last Modified time: 2026-05-30 08:34:44
  */
+import { applyProxy, logProxy } from '@utils/proxy'
 import { HOST, HOST_CDN, HOST_NAME, IOS } from '@constants/constants'
 import { WEB } from '@constants/device'
 import { FROZEN_FN } from '@constants/init'
 import { syncUserStore } from '../async'
 import { loading } from '../ui'
 import { urlStringify } from '../utils'
-import { applyProxy, checkDenied, log, logProxy } from './utils'
+import { checkDenied, log } from './utils'
 
 import type { Fn } from '@types'
 import type { XHRArgs, XHRCustomArgs } from './types'

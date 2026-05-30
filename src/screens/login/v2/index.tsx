@@ -15,7 +15,7 @@ import { confirm, feedback, getStorage, getTimestamp, info, setStorage, urlStrin
 import { ob } from '@utils/decorators'
 import { logger } from '@utils/dev'
 import { hm, queue, t } from '@utils/fetch'
-import { axiosWithProxy, axiosWithProxyRedirect } from '@utils/fetch/utils'
+import { axiosWithProxy, axiosWithProxyRedirect } from '@utils/proxy'
 import { get } from '@utils/kv'
 import { axios } from '@utils/thirdParty'
 import { APP_ID, APP_SECRET, HOST, URL_OAUTH_REDIRECT, WEB } from '@constants'
