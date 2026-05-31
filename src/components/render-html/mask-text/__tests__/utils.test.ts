@@ -12,6 +12,16 @@ import {
   maskRichText
 } from '../utils'
 
+jest.mock('../../emoji-text', () => {
+  function EmojiText() {
+    return null
+  }
+  return { __esModule: true, default: EmojiText }
+})
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const EmojiText = require('../../emoji-text').default
+
 function lastStyle(node: any) {
   const { style } = node.props
   return Array.isArray(style) ? style[style.length - 1] : style
@@ -56,26 +66,38 @@ describe('maskRichText', () => {
     })
   })
 
-  it('收起时隐藏 Bangumi 表情节点', () => {
-    function BgmText() {
-      return null
-    }
+  it('收起时替换 Bangumi 表情为全角空白', () => {
+    const emoji = React.createElement(EmojiText, { index: 38, size: 24 }, '38')
 
-    const emoji = React.createElement(
-      BgmText,
-      { style: { fontFamily: 'bgm', color: '#000' }, index: 38 },
-      '38'
-    )
+    const result = maskRichText(emoji, false)
 
-    const result = maskRichText(emoji, false) as any
+    expect(result).toBe('　')
+  })
 
-    expect(result.type).toBe(BgmText)
+  it('展开时恢复 Bangumi 表情节点', () => {
+    const emoji = React.createElement(EmojiText, { index: 38, size: 24 }, '38')
+
+    const result = maskRichText(emoji, true) as any
+
+    expect(result.type).toBe(EmojiText)
     expect(result.props.index).toBe(38)
+    expect(result.props.size).toBe(24)
     expect(result.props.children).toBe('38')
-    expect(lastStyle(result)).toEqual({
-      color: MASK_BACKGROUND_COLOR,
-      opacity: 0
-    })
+    expect(lastStyle(result)).toEqual({ color: MASK_TEXT_COLOR })
+  })
+
+  it('收起时混合内容中表情替换为全角空白', () => {
+    const children = [
+      '前缀',
+      React.createElement(EmojiText, { key: 'emoji', index: 38, size: 24 }, '38'),
+      React.createElement('Text', { key: 'text' }, '正文')
+    ]
+
+    const result = maskRichText(children, false) as any[]
+
+    expect(result[0]).toBe('前缀')
+    expect(result[1]).toBe('　')
+    expect(lastStyle(result[2])).toEqual({ color: MASK_BACKGROUND_COLOR, opacity: 0 })
   })
 
   it('收起与展开保持相同结构', () => {

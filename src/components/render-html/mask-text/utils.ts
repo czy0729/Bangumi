@@ -8,6 +8,7 @@ import React from 'react'
 
 import type { ReactElement } from 'react'
 import type { ReactNode, TextStyle } from '@types'
+import EmojiText from '../emoji-text'
 
 export const MASK_BACKGROUND_COLOR = '#555'
 export const MASK_TEXT_COLOR = '#fff'
@@ -35,6 +36,11 @@ function maskChildren(children: ReactNode, show: boolean, style: TextStyle): Rea
   if (React.isValidElement(children)) {
     const element = children as ReactElement<any>
     const props = element.props || {}
+
+    if (!show && element.type === EmojiText) {
+      return '　'
+    }
+
     const nextProps: {
       style?: unknown[]
       children?: ReactNode
