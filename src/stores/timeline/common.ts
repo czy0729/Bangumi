@@ -48,7 +48,7 @@ export async function fetchTimeline(
   const isSelf = scopeCn === '自己'
 
   const html = await fetchHTML({
-    url: HTML_TIMELINE(scope, type, userId || userInfo?.username, page)
+    url: HTML_TIMELINE(scope, type, userInfo?.username || userId, page)
   })
   const list = []
   const $ = cheerio(htmlMatch(html, '<div id="timeline">', '<div id="tmlPager">'))
