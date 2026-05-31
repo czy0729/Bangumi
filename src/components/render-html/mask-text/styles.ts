@@ -5,14 +5,15 @@
  * @Last Modified time: 2022-05-17 06:32:02
  */
 import { _ } from '@stores'
+import { MASK_BACKGROUND_COLOR, MASK_TEXT_COLOR } from './utils'
 
 export const memoStyles = _.memoStyles(() => ({
   blockText: {
-    color: _.select(_.colorDesc, _._colorDarkModeLevel2),
-    backgroundColor: _.select(_.colorDesc, _._colorDarkModeLevel2)
+    color: MASK_BACKGROUND_COLOR,
+    backgroundColor: MASK_BACKGROUND_COLOR
   },
   blockTextShow: {
-    color: _.colorPlain,
-    backgroundColor: _.colorDesc
+    color: MASK_TEXT_COLOR,
+    backgroundColor: MASK_BACKGROUND_COLOR
   }
 }))

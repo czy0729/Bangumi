@@ -9,7 +9,7 @@ import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { Text } from '../../text'
-import { extractText } from './utils'
+import { maskRichText } from './utils'
 import { memoStyles } from './styles'
 
 import type { Props } from './types'
@@ -23,22 +23,21 @@ function MaskText({ style, children }: Props) {
 
   const styles = memoStyles()
   const flattenStyle = _.flatten(style)
+  const childrenValue = maskRichText(children, show)
 
   return (
-    <Text>
-      <Text
-        style={stl(
-          flattenStyle,
-          show ? styles.blockTextShow : styles.blockText,
-          flattenStyle?.fontSize &&
-            !flattenStyle?.lineHeight && {
-              lineHeight: Math.floor(flattenStyle.fontSize * 1.5)
-            }
-        )}
-        onPress={handlePress}
-      >
-        {show ? children : extractText(children)}
-      </Text>
+    <Text
+      style={stl(
+        flattenStyle,
+        show ? styles.blockTextShow : styles.blockText,
+        flattenStyle?.fontSize &&
+          !flattenStyle?.lineHeight && {
+            lineHeight: Math.floor(flattenStyle.fontSize * 1.5)
+          }
+      )}
+      onPress={handlePress}
+    >
+      {childrenValue}
     </Text>
   )
 }
