@@ -4,6 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-14 16:44:31
  */
+import { MODEL_SUBJECT_TYPE } from '@constants'
+
+import type { SubjectType } from '@types'
+
 export { H_HEADER, H_RADIUS_LINE, H_TABBAR } from '@screens/user/v2/ds'
 
 export const COMPONENT = 'Zone'
@@ -14,7 +18,7 @@ export const TABS = [
     key: 'about'
   },
   {
-    title: '番剧',
+    title: '收藏',
     key: 'bangumi'
   },
   {
@@ -28,6 +32,29 @@ export const TABS = [
   {
     title: '超展开',
     key: 'rakuen'
+  }
+] as const
+
+export const COLLECTION_TYPES = [
+  {
+    title: '动画',
+    value: MODEL_SUBJECT_TYPE.getLabel<SubjectType>('动画')
+  },
+  {
+    title: '书籍',
+    value: MODEL_SUBJECT_TYPE.getLabel<SubjectType>('书籍')
+  },
+  {
+    title: '音乐',
+    value: MODEL_SUBJECT_TYPE.getLabel<SubjectType>('音乐')
+  },
+  {
+    title: '游戏',
+    value: MODEL_SUBJECT_TYPE.getLabel<SubjectType>('游戏')
+  },
+  {
+    title: '三次元',
+    value: MODEL_SUBJECT_TYPE.getLabel<SubjectType>('三次元')
   }
 ] as const
 

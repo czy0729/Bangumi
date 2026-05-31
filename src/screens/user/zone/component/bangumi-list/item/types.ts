@@ -9,5 +9,5 @@ import type { CollectionStatusCn } from '@types'
 
 export type Props = {
   item: CollectionsItem
-  title: CollectionStatusCn
+  status: CollectionStatusCn
 }

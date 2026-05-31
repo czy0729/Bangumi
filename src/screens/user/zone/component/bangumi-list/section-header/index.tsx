@@ -14,16 +14,16 @@ import { memoStyles } from './styles'
 
 import type { Ctx } from '../../../types'
 
-function SectionHeader({ title, count }) {
+function SectionHeader({ title, status, count }) {
   const { $ } = useStore<Ctx>()
 
   const handlePress = useCallback(() => {
-    $.onToggleSection(title)
-  }, [$, title])
+    $.onToggleSection(status)
+  }, [$, status])
 
   const styles = memoStyles()
 
-  const expand = $.state.expand[title]
+  const expand = $.state.expand[status]
   const elRight = useMemo(
     () => (
       <Iconfont
@@ -36,14 +36,14 @@ function SectionHeader({ title, count }) {
   )
 
   return (
-    <Touchable style={stl(styles.section, title === '在看' && _.mt.sm)} onPress={handlePress}>
+    <Touchable style={stl(styles.section, status === '在看' && _.mt.sm)} onPress={handlePress}>
       <SectionHeaderComp style={styles.sectionHeader} type='title' size={15} right={elRight}>
         {title}{' '}
         <Text type='sub' size={13} bold lineHeight={15}>
           {count}
         </Text>
       </SectionHeaderComp>
-      {title === '在看' && <Heatmap id='空间.展开分组' />}
+      {status === '在看' && <Heatmap id='空间.展开分组' />}
     </Touchable>
   )
 }

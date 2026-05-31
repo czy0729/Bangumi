@@ -15,10 +15,10 @@ import { EVENT } from './ds'
 import type { Ctx } from '../../../types'
 import type { Props } from './types'
 
-function Item({ item, title }: Props) {
+function Item({ item, status }: Props) {
   const { $ } = useStore<Ctx>()
 
-  if (!$.state.expand[title]) return null
+  if (!$.state.expand[status]) return null
 
   return (
     <Flex wrap='wrap' align='start'>
@@ -33,7 +33,7 @@ function Item({ item, title }: Props) {
             event={EVENT}
           />
         ))}
-      {title.includes('在看') && <Heatmap id='空间.跳转' to='Subject' alias='条目' />}
+      {status === '在看' && <Heatmap id='空间.跳转' to='Subject' alias='条目' />}
     </Flex>
   )
 }

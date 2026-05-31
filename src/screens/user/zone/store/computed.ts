@@ -22,9 +22,9 @@ import { fixedRemote } from '@utils/user-setting'
 import { IMG_EMPTY_DARK, TEXT_ONLY } from '@constants'
 import { H_HEADER, TABS, TABS_WITH_TINYGRAIL } from '../ds'
 import State from './state'
-import { EXCLUDE_STATE, NAMESPACE } from './ds'
+import { COLLECTION_STATUS_MAP, COLLECTION_STATUS_TEXT, EXCLUDE_STATE, NAMESPACE } from './ds'
 
-import type { ImageSource } from '@types'
+import type { CollectionStatusCn, ImageSource, SubjectTypeCn } from '@types'
 
 export default class Computed extends State {
   /** 本地化 */
@@ -72,22 +72,57 @@ export default class Computed extends State {
     return this.usersInfo.username
   }
 
-  /** 用户番剧收藏 */
+  /** 用户收藏概览 */
   @computed get userCollections() {
-    return userStore.userCollections(undefined, this.userId)
+    return userStore.userCollections(this.state.collectionType, this.userId)
   }
 
-  /** 用户番剧收藏 section list data */
+  /** 当前收藏类型中文 */
+  @computed get collectionTypeLabel() {
+    switch (this.state.collectionType) {
+      case 'book':
+        return '书籍' as SubjectTypeCn
+
+      case 'music':
+        return '音乐' as SubjectTypeCn
+
+      case 'game':
+        return '游戏' as SubjectTypeCn
+
+      case 'real':
+        return '三次元' as SubjectTypeCn
+
+      default:
+        return '动画' as SubjectTypeCn
+    }
+  }
+
+  /** 当前收藏状态文案 */
+  collectionStatusText(status: CollectionStatusCn) {
+    return COLLECTION_STATUS_TEXT[this.state.collectionType]?.[status] || status
+  }
+
+  /** 归一成通用收藏状态 */
+  collectionStatus(status: string): CollectionStatusCn {
+    return COLLECTION_STATUS_MAP[status] || (status as CollectionStatusCn)
+  }
+
+  /** 用户收藏概览 section list data */
   @computed get sections() {
-    return this.userCollections.list.map(item => ({
-      title: item.status,
-      count: item.count,
-      data: [
-        {
-          list: item.list
-        }
-      ]
-    }))
+    return this.userCollections.list.map(item => {
+      const status = this.collectionStatus(item.status)
+
+      return {
+        title: this.collectionStatusText(status),
+        status,
+        count: item.count,
+        data: [
+          {
+            list: item.list
+          }
+        ]
+      }
+    })
   }
 
   /** 用户时间胶囊 */

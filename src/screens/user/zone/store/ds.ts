@@ -6,21 +6,76 @@
  */
 import { INIT_USERS } from '@stores/users/init'
 import { TIMELINE_TYPE } from '@constants'
-import { COMPONENT } from '../ds'
+import { COLLECTION_TYPES, COMPONENT } from '../ds'
 
-import type { CompletionItem, Loaded, TimeLineType } from '@types'
+import type { CollectionStatusCn, CompletionItem, Loaded, SubjectType, TimeLineType } from '@types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
-export const EXCLUDE_STATE = {
-  /** 番剧收藏状态折叠 */
-  expand: {
-    在看: true,
-    看过: false,
-    想看: false,
-    搁置: false,
-    抛弃: false
+export const DEFAULT_COLLECTION_TYPE = COLLECTION_TYPES[0].value
+
+export const DEFAULT_COLLECTION_EXPAND: Record<CollectionStatusCn, boolean> = {
+  在看: true,
+  看过: false,
+  想看: false,
+  搁置: false,
+  抛弃: false
+}
+
+export const COLLECTION_STATUS_TEXT: Record<
+  SubjectType,
+  Partial<Record<CollectionStatusCn, string>>
+> = {
+  anime: {
+    在看: '在看',
+    看过: '看过',
+    想看: '想看'
   },
+  book: {
+    在看: '在读',
+    看过: '读过',
+    想看: '想读'
+  },
+  music: {
+    在看: '在听',
+    看过: '听过',
+    想看: '想听'
+  },
+  game: {
+    在看: '在玩',
+    看过: '玩过',
+    想看: '想玩'
+  },
+  real: {
+    在看: '在看',
+    看过: '看过',
+    想看: '想看'
+  }
+}
+
+export const COLLECTION_STATUS_MAP: Record<string, CollectionStatusCn> = {
+  想看: '想看',
+  想读: '想看',
+  想听: '想看',
+  想玩: '想看',
+  看过: '看过',
+  读过: '看过',
+  听过: '看过',
+  玩过: '看过',
+  在看: '在看',
+  在读: '在看',
+  在听: '在看',
+  在玩: '在看',
+  搁置: '搁置',
+  抛弃: '抛弃'
+}
+
+export const EXCLUDE_STATE = {
+  /** 收藏状态折叠 */
+  expand: DEFAULT_COLLECTION_EXPAND,
+
+  /** 收藏类型 */
+  collectionType: DEFAULT_COLLECTION_TYPE,
 
   /** 是否显示历史头像模态框 */
   visible: false,

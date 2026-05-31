@@ -57,6 +57,7 @@ export default {
   '空间.历史': 'Zone.used',
   '空间.绝交': 'Zone.blockUser',
   '空间.聊天': 'Zone.chat',
+  '空间.收藏类型切换': 'Zone.switchCollectionType',
 
   时间线: 'UserTimeline',
   '时间线.跳转': 'UserTimeline.to',

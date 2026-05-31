@@ -53,7 +53,7 @@ function BangumiList({ ListHeaderComponent, onScroll }: Props) {
 
       $.forwardRef(
         ref,
-        TABS.findIndex(item => item.title === '番剧')
+        TABS.findIndex(item => item.title === '收藏')
       )
     },
     [$]
