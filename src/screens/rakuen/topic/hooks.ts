@@ -201,6 +201,27 @@ export function useTopicPage(props: NavigationProps) {
   const handleFloorPress = useCallback<HandleFloorPress>(
     (index = 0) => {
       try {
+        const { list } = $.comments
+        const loadedLength = (scrollViewRef.current as any)?.props?.data?.list?.length
+        if (
+          typeof loadedLength === 'number' &&
+          typeof list.length === 'number' &&
+          index >= loadedLength &&
+          loadedLength < list.length
+        ) {
+          const { sliderAnimated } = rakuenStore.setting
+          t('帖子.楼层跳转', {
+            topicId: $.topicId,
+            index
+          })
+          info(list[index]?.floor, 0.8)
+          scrollViewRef.current?.scrollToEnd({
+            animated: sliderAnimated
+          })
+          feedback(true)
+          return
+        }
+
         handleScrollToRetry(index)
 
         const directIndex = $.directItems.findIndex(item => item.floor === `#${index + 1}`)
