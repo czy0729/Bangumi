@@ -52,7 +52,7 @@ export function xhr(
       success(this.responseText, this)
     } else {
       fail(this)
-      log('xhr', 'fail:', url, this)
+      log('xhr', 'fail:', requestUrl, this)
     }
   }.bind(request)
 
@@ -97,7 +97,7 @@ export function xhrCustom(args: XHRCustomArgs): Promise<{ _response: string }> {
         return
       }
 
-      log('xhrCustom', 'error:', this.status, url, this._response || this.responseText)
+      log('xhrCustom', 'error:', this.status, requestUrl, this._response || this.responseText)
       if (this.status === 404 || this.status === 500) {
         reject(new TypeError(String(this.status)))
       }
@@ -132,7 +132,7 @@ export function xhrCustom(args: XHRCustomArgs): Promise<{ _response: string }> {
       : null
     request.send(body)
 
-    if (showLog) log('xhrCustom', url)
+    if (showLog) log('xhrCustom', requestUrl)
   })
 }
 

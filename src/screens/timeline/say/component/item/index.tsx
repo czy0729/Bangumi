@@ -51,7 +51,11 @@ function Item({ item, index }: Props) {
           index={index}
           event={EVENT}
           position={id === userStore.myId ? 'right' : 'left'}
-          avatar={usersStore.avatars(id) || getAvatarLocal(id) || API_AVATAR(id)}
+          avatar={
+            usersStore.avatars(id) ||
+            getAvatarLocal(id) ||
+            (systemStore.setting.workerApiProxy ? '' : API_AVATAR(id))
+          }
           showName={prevItem.name !== name}
           onLongPress={handleLongPress}
         />

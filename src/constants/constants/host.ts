@@ -5,10 +5,13 @@
  * @Last Modified time: 2026-05-30 08:44:00
  */
 
-/** 域 */
+/**
+ * 主站域
+ *  - 因实装了 Proxy 模式，除了此文件其他地方不应该再引用这个常量，除非在请求前正确替换
+ * */
 export const HOST_NAME = 'bgm.tv'
 
-/** 域名 */
+/** 主站域名 */
 export const HOST = `https://${HOST_NAME}` as const
 
 /** 备用域名 */

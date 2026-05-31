@@ -174,7 +174,7 @@ export default class Computed extends State {
   @computed get src() {
     return fixedRemoteImageUrl(
       getCDNAvatar(
-        fixedHD(this.avatar || this.params._image || this.usersInfo.avatar?.large),
+        fixedHD(this.avatar || this.usersInfo.avatar?.large || this.params._image),
         'bgm_poster_200'
       )
     )

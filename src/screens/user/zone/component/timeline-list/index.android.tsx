@@ -24,6 +24,8 @@ function TimelineList() {
     uiStore.closeAll()
   }, [])
 
+  const handleHeaderRefresh = useCallback(() => $.fetchUsersTimeline(true, true), [$])
+
   if (!$.usersTimeline._loaded) {
     return (
       <View style={styles.nestScrollLoading}>
@@ -44,7 +46,7 @@ function TimelineList() {
         renderSectionHeader={renderSectionHeader}
         renderItem={renderItem}
         onScrollBeginDrag={handleScrollBeginDrag}
-        onHeaderRefresh={() => $.fetchUsersTimeline(true, true)}
+        onHeaderRefresh={handleHeaderRefresh}
         onFooterRefresh={$.fetchUsersTimeline}
       />
     </TapListener>

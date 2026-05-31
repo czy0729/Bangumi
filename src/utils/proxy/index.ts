@@ -48,8 +48,11 @@ export function applyProxy(
       .replace(HOST, workerProxy)
       .replace(API_P1, workerProxy)
 
+    // 直连模式
     if (workerProxyDirect) {
-      // 直连模式: 仅替换 host, 不转换 header
+      // 仅替换 host, 修正 Host header 为目标域名, 若不一致可能会被 CDN 直接拒绝
+      const match = proxyUrl.match(/^https?:\/\/([^/]+)/)
+      if (match) newHeaders.Host = match[1]
       proxyType = 'host'
     } else {
       // Worker 模式: 添加 x-upstream 等 header
@@ -164,7 +167,13 @@ export async function axiosWithProxyRedirect(
 
 /** 若配置了 workerLainProxy, 将 lain.bgm.tv 图片域名替换为代理地址, 附加 HMAC 签名 */
 export function applyLainProxy(url: string) {
-  const { workerLainProxy, workerLainSecret } = syncSystemStore().setting
+  const { workerLainProxy, workerLainSecret, workerApiProxy } = syncSystemStore().setting
+
+  // api.bgm.tv 的 redirect 图片 (如 avatar) 走 API proxy
+  if (typeof url === 'string' && workerApiProxy && url.includes(API_HOST)) {
+    return url.replace(API_HOST, workerApiProxy.replace(/\/$/, ''))
+  }
+
   if (!workerLainProxy || typeof url !== 'string' || !url.includes(HOST_IMAGE)) return url
 
   const proxyUrl = url.split(HOST_IMAGE).join(workerLainProxy.replace(/^https?:/, ''))

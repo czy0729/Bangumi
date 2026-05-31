@@ -9,7 +9,7 @@ import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Expand, Flex, Iconfont, Text, Touchable } from '@components'
 import { Avatar } from '@_'
-import { _, rakuenStore } from '@stores'
+import { _, rakuenStore, systemStore } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { API_AVATAR, FROZEN_FN } from '@constants'
@@ -95,7 +95,11 @@ function History({
               <Flex style={styles.content}>
                 {showAvatar && !!userId && (
                   <View style={_.mr.sm}>
-                    <Avatar src={API_AVATAR(userId)} size={28} onPress={onPress} />
+                    <Avatar
+                      src={systemStore.setting.workerApiProxy ? '' : API_AVATAR(userId)}
+                      size={28}
+                      onPress={onPress}
+                    />
                   </View>
                 )}
                 <Flex.Item>

@@ -11,6 +11,7 @@ import { Component } from '@components'
 import { rakuenStore, userStore } from '@stores'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
+import { useMount } from '@utils/hooks'
 import { EVENT } from '@constants'
 import { IconTabsHeader } from '../tabs-header'
 import { COMPONENT } from './ds'
@@ -22,12 +23,10 @@ export type { IconNotifyProps }
 let isSetInterval = false
 
 export const IconNotify = observer(
-  class IconNotifyComponent extends React.Component<IconNotifyProps> {
-    static defaultProps = {
-      event: EVENT
-    }
+  ({ style, navigation, event = EVENT, children }: IconNotifyProps) => {
+    r(COMPONENT)
 
-    componentDidMount() {
+    useMount(() => {
       if (!isSetInterval) {
         isSetInterval = true
 
@@ -38,45 +37,39 @@ export const IconNotify = observer(
           }
         }, 60000)
       }
-    }
+    })
 
-    render() {
-      r(COMPONENT)
+    const hasNewNotify = !!rakuenStore.notify.unread
+    const { hasNewPM } = userStore
 
-      const { style, navigation, event, children } = this.props
-      const hasNewNotify = !!rakuenStore.notify.unread
-      const { hasNewPM } = userStore
+    const styles = memoStyles()
 
-      return (
-        <Component id='item-notify'>
-          {(hasNewNotify || hasNewPM) && <View style={this.styles.dot} pointerEvents='none' />}
-          <IconTabsHeader
-            style={style}
-            name='md-mail-outline'
-            onPress={() => {
-              if (userStore.isWebLogin) {
-                const { id, data } = event
-                t(id, {
-                  to: 'Notify',
-                  ...data
-                })
-                navigation.push('Notify', {
-                  type: hasNewPM ? 'pm' : 'notify'
-                })
-              } else {
-                navigation.push('LoginV2')
-              }
-            }}
-          >
-            {children}
-          </IconTabsHeader>
-        </Component>
-      )
-    }
+    return (
+      <Component id='item-notify'>
+        {(hasNewNotify || hasNewPM) && <View style={styles.dot} pointerEvents='none' />}
+        <IconTabsHeader
+          style={style}
+          name='md-mail-outline'
+          onPress={() => {
+            if (userStore.isWebLogin) {
+              const { id, data } = event
+              navigation.push('Notify', {
+                type: hasNewPM ? 'pm' : 'notify'
+              })
 
-    get styles() {
-      return memoStyles()
-    }
+              t(id, {
+                to: 'Notify',
+                ...data
+              })
+            } else {
+              navigation.push('LoginV2')
+            }
+          }}
+        >
+          {children}
+        </IconTabsHeader>
+      </Component>
+    )
   }
 )
 

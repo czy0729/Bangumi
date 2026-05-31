@@ -52,7 +52,6 @@ import { memoStyles } from './styles'
 import type { ImageErrorEvent } from 'react-native'
 import type { AnyObject, Fn, TimerRef } from '@types'
 import type { Props as ImageProps, State } from './types'
-
 export type { ImageProps }
 
 /**

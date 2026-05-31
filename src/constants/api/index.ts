@@ -153,7 +153,10 @@ export const API_COLLECTION_ACTION = (
 export const API_COVER = (subjectId: SubjectId, type: string = 'common') =>
   `${API_V0}/subjects/${subjectId}/image?type=${type}`
 
-/** 用户头像 (v0) */
+/**
+ * 用户头像 (v0)
+ *  - 在 API 代理下不能使用此接口，因为接口会直接返回 lain 地址，中途无法插手修改成 Lain 代理地址
+ * */
 export const API_AVATAR = (username: string | number) =>
   WEB ? IMG_DEFAULT : `${API_V0}/users/${username}/avatar?type=large`
 
