@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-21 16:35:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-24 19:08:35
+ * @Last Modified time: 2026-05-31 09:44:34
  */
 import { _ } from '@stores'
 
@@ -52,5 +52,10 @@ export const styles = _.create({
     paddingHorizontal: 17,
     ..._.fontSize14,
     borderWidth: 0
+  },
+  preview: {
+    paddingHorizontal: _.xs,
+    marginTop: _.sm,
+    letterSpacing: -0.2
   }
 })

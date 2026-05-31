@@ -2,62 +2,73 @@
  * @Author: czy0729
  * @Date: 2026-05-30 06:28:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-30 08:39:56
+ * @Last Modified time: 2026-05-31 10:00:23
  */
+import { syncSystemStore } from '@utils/async'
 import { hmacSHA256 } from '@utils/crypto'
-import { API_HOST, API_HOST_BACKUP, API_P1 } from '@constants/api'
+import { API_HOST, API_P1 } from '@constants/api'
 import { HOST, HOST_IMAGE } from '@constants/constants'
 import { WEB } from '@constants/device'
-import {
-  HOST_PROXY,
-  USE_API_HOST_BACKUP,
-  USE_WORKER_PROXY,
-  WORKER_LAIN_PROXY,
-  WORKER_LAIN_SECRET,
-  WORKER_PROXY,
-  WORKER_SECRET
-} from '@src/config'
+import { HOST_PROXY } from '@src/config'
 import { logger } from '../dev'
 
 /** HMAC 签名缓存, 避免重复计算 */
 const signCache: Record<string, string> = {}
+
+/** 需要删除或重命名的 hop-by-hop header */
+const HOP_HEADERS = ['host', 'Host', 'origin', 'Origin'] as const
+
+/** 需要转发到 worker 的 header 映射 */
+const FORWARD_HEADERS: Record<string, string> = {
+  Cookie: 'X-Cookie',
+  'User-Agent': 'x-user-agent'
+}
 
 /** 处理 proxy 替换 */
 export function applyProxy(
   url: string,
   headers: Record<string, string> = {},
   isHtml = false
-): { url: string; headers: Record<string, string>; proxyType: '' | 'worker' | 'backup' } {
+): { url: string; headers: Record<string, string>; proxyType: '' | 'worker' | 'api' | 'host' } {
+  const { workerProxy, workerSecret, workerProxyDirect, workerApiProxy } = syncSystemStore().setting
   const newHeaders = { ...headers }
   let proxyUrl = url
-  let proxyType: '' | 'worker' | 'backup' = ''
+  let proxyType: '' | 'worker' | 'api' | 'host' = ''
 
   const isP1 = url.includes(API_P1)
   const isBgm = url.includes(API_HOST) || url.includes(HOST) || isP1
 
-  if (USE_API_HOST_BACKUP && (url.includes(API_HOST) || isP1)) {
-    proxyUrl = url.replace(API_HOST, API_HOST_BACKUP).replace(API_P1, API_HOST_BACKUP + '/p1')
-    proxyType = 'backup'
-  } else if (USE_WORKER_PROXY && isBgm) {
+  if (workerApiProxy && (url.includes(API_HOST) || isP1)) {
+    const replacement = workerApiProxy.replace(/\/$/, '')
+    proxyUrl = url.replace(API_HOST, replacement).replace(API_P1, replacement + '/p1')
+    proxyType = 'api'
+  } else if (workerProxy && isBgm) {
     proxyUrl = url
-      .replace(API_HOST, WORKER_PROXY)
-      .replace(HOST, WORKER_PROXY)
-      .replace(API_P1, WORKER_PROXY)
-    newHeaders['x-upstream'] = isHtml ? 'bgm.tv' : isP1 ? 'next.bgm.tv' : 'api.bgm.tv'
-    if (WORKER_SECRET) newHeaders['x-proxy-key'] = WORKER_SECRET
-    if (newHeaders.Cookie) {
-      newHeaders['X-Cookie'] = newHeaders.Cookie
-      delete newHeaders.Cookie
+      .replace(API_HOST, workerProxy)
+      .replace(HOST, workerProxy)
+      .replace(API_P1, workerProxy)
+
+    if (workerProxyDirect) {
+      // 直连模式: 仅替换 host, 不转换 header
+      proxyType = 'host'
+    } else {
+      // Worker 模式: 添加 x-upstream 等 header
+      newHeaders['x-upstream'] = isHtml ? 'bgm.tv' : isP1 ? 'next.bgm.tv' : 'api.bgm.tv'
+      if (workerSecret) newHeaders['x-proxy-key'] = workerSecret
+
+      // 转发特定 header 到 worker
+      for (const [from, to] of Object.entries(FORWARD_HEADERS)) {
+        if (newHeaders[from]) {
+          newHeaders[to] = newHeaders[from]
+          delete newHeaders[from]
+        }
+      }
+
+      // 删除 hop-by-hop header
+      for (const key of HOP_HEADERS) delete newHeaders[key]
+
+      proxyType = 'worker'
     }
-    if (newHeaders['User-Agent']) {
-      newHeaders['x-user-agent'] = newHeaders['User-Agent']
-      delete newHeaders['User-Agent']
-    }
-    delete newHeaders.host
-    delete newHeaders.Host
-    delete newHeaders.origin
-    delete newHeaders.Origin
-    proxyType = 'worker'
   } else if (isHtml && WEB && HOST_PROXY && isBgm) {
     proxyUrl = url.replace(HOST, HOST_PROXY)
   }
@@ -65,8 +76,9 @@ export function applyProxy(
   return { url: proxyUrl, headers: newHeaders, proxyType }
 }
 
+/** 调试打印 */
 export function logProxy(method: string, proxyType: string, _url: string, finalUrl: string) {
-  if (proxyType) log(`${method} (${proxyType})`, finalUrl)
+  if (proxyType) logger.log(`@utils/proxy/${method} (${proxyType})`, finalUrl)
 }
 
 /** 对 axios config 应用 proxy 转换 */
@@ -74,7 +86,8 @@ export function applyProxyToAxiosConfig(
   config: { url: string; headers?: Record<string, string>; [key: string]: any },
   isHtml = false
 ): void {
-  if (!USE_WORKER_PROXY) return
+  const { workerProxy } = syncSystemStore().setting
+  if (!workerProxy) return
   const result = applyProxy(config.url, config.headers || {}, isHtml)
   config.url = result.url
   config.headers = result.headers
@@ -86,8 +99,29 @@ export async function axiosWithProxy<T = any>(
   config: { url: string; headers?: Record<string, string>; [key: string]: any },
   isHtml = false
 ): Promise<T> {
-  if (USE_WORKER_PROXY) applyProxyToAxiosConfig(config, isHtml)
+  if (syncSystemStore().setting.workerProxy) applyProxyToAxiosConfig(config, isHtml)
   return axiosFn(config)
+}
+
+/** 从响应头中提取重定向 URL */
+function getRedirectFromHeaders(headers: Record<string, string> = {}): string {
+  return (
+    headers['x-redirect-url'] ||
+    headers['X-Redirect-Url'] ||
+    headers['location'] ||
+    headers['Location'] ||
+    ''
+  )
+}
+
+/** 从 Worker JSON body 中提取重定向 URL */
+function getRedirectFromBody(data: unknown): string {
+  if (typeof data !== 'string' || !data.includes('"location"')) return ''
+  try {
+    return JSON.parse(data)?.location || ''
+  } catch {
+    return ''
+  }
 }
 
 /** 带 proxy 的 authorize 重定向请求，自动提取重定向 URL */
@@ -96,9 +130,12 @@ export async function axiosWithProxyRedirect(
   config: { url: string; headers?: Record<string, string>; [key: string]: any },
   isHtml = false
 ): Promise<{ response: any; redirectUrl: string }> {
-  if (USE_WORKER_PROXY) {
-    if (!config.headers) config.headers = {}
-    config.headers['x-no-redirect'] = 'true'
+  const { workerProxy, workerProxyDirect } = syncSystemStore().setting
+  if (workerProxy) {
+    if (!workerProxyDirect) {
+      if (!config.headers) config.headers = {}
+      config.headers['x-no-redirect'] = 'true'
+    }
     applyProxyToAxiosConfig(config, isHtml)
   }
 
@@ -110,71 +147,37 @@ export async function axiosWithProxyRedirect(
 
   try {
     const response = await axiosFn(safeConfig)
-
-    // 从 Worker 返回的 JSON body 提取重定向 URL
-    let redirectUrl = ''
-    if (
-      response?.data &&
-      typeof response.data === 'string' &&
-      response.data.includes('"location"')
-    ) {
-      try {
-        const parsed = JSON.parse(response.data)
-        redirectUrl = parsed?.location || ''
-      } catch (e) {
-        // 静默解析错误
-      }
-    }
-
-    // 从响应头提取
-    if (!redirectUrl) {
-      redirectUrl =
-        response?.headers?.['x-redirect-url'] ||
-        response?.headers?.['X-Redirect-Url'] ||
-        response?.headers?.['location'] ||
-        response?.headers?.['Location']
-    }
+    const redirectUrl =
+      getRedirectFromBody(response?.data) ||
+      getRedirectFromHeaders(response?.headers) ||
+      response?.request?.responseURL ||
+      ''
 
     return { response, redirectUrl }
   } catch (error: any) {
-    // 降级：从 Error 对象的响应头中提取
     const errResp = error?.response
-    const fallbackUrl =
-      errResp?.headers?.['x-redirect-url'] ||
-      errResp?.headers?.['X-Redirect-Url'] ||
-      errResp?.headers?.['location'] ||
-      errResp?.headers?.['Location']
-
-    if (fallbackUrl) {
-      return { response: errResp, redirectUrl: fallbackUrl }
-    }
-
+    const fallbackUrl = getRedirectFromHeaders(errResp?.headers)
+    if (fallbackUrl) return { response: errResp, redirectUrl: fallbackUrl }
     throw error
   }
 }
 
-/** 若配置了 WORKER_LAIN_PROXY, 将 lain.bgm.tv 图片域名替换为代理地址, 附加 HMAC 签名 */
+/** 若配置了 workerLainProxy, 将 lain.bgm.tv 图片域名替换为代理地址, 附加 HMAC 签名 */
 export function applyLainProxy(url: string) {
-  if (!WORKER_LAIN_PROXY || typeof url !== 'string' || !url.includes(HOST_IMAGE)) return url
-  const proxyUrl = url.split(HOST_IMAGE).join(WORKER_LAIN_PROXY.replace(/^https?:/, ''))
-  if (!WORKER_LAIN_SECRET) return proxyUrl
+  const { workerLainProxy, workerLainSecret } = syncSystemStore().setting
+  if (!workerLainProxy || typeof url !== 'string' || !url.includes(HOST_IMAGE)) return url
+
+  const proxyUrl = url.split(HOST_IMAGE).join(workerLainProxy.replace(/^https?:/, ''))
+  if (!workerLainSecret) return proxyUrl
 
   // 提取 pathname 用于签名 (不含 query string)
   const pathStart = proxyUrl.indexOf('/', proxyUrl.indexOf('//') + 2)
-  const rawPath = pathStart !== -1 ? proxyUrl.slice(pathStart) : '/'
-  const pathname = rawPath.split('?')[0]
+  const pathname = (pathStart !== -1 ? proxyUrl.slice(pathStart) : '/').split('?')[0]
 
   // 计算 HMAC-SHA256(secret, pathname), 带缓存
   if (!signCache[pathname]) {
-    signCache[pathname] = hmacSHA256(pathname, WORKER_LAIN_SECRET).slice(0, 4)
+    signCache[pathname] = hmacSHA256(pathname, workerLainSecret).slice(0, 4)
   }
 
-  const finalUrl = `${proxyUrl}${proxyUrl.includes('?') ? '&' : '?'}v=${signCache[pathname]}`
-  // logProxy('image', 'lain', url, finalUrl)
-  return finalUrl
-}
-
-/** info */
-function log(method: string, ...others: any[]) {
-  logger.log(`@utils/proxy/${method}`, ...others)
+  return `${proxyUrl}${proxyUrl.includes('?') ? '&' : '?'}v=${signCache[pathname]}`
 }

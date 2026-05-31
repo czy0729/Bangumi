@@ -1,11 +1,11 @@
-import { applyProxy, logProxy } from '@utils/proxy'
 /*
  * 使用 RN.fetch 的请求 (待废弃, 尽量少用)
  * @Author: czy0729
  * @Date: 2022-08-06 12:36:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-30 06:40:52
+ * @Last Modified time: 2026-05-31 09:58:23
  */
+import { applyProxy, logProxy } from '@utils/proxy'
 import { API_HOST, API_V0 } from '@constants/api'
 import { APP_ID, UA } from '@constants/constants'
 import { WEB } from '@constants/device'

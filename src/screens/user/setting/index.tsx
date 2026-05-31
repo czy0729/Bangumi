@@ -29,6 +29,7 @@ import Timeline from './component/timeline'
 import Timezone from './component/timezone'
 import Tinygrail from './component/tinygrail'
 import Tip from './component/tip'
+import Worker from './component/worker'
 import Track from './component/track'
 import UI from './component/ui'
 import User from './component/user'
@@ -99,6 +100,7 @@ function Setting(props: NavigationProps<Params>) {
             <Storage filter={filter} />
             <System filter={filter} />
             <Timezone filter={filter} />
+            <Worker filter={filter} />
             <DangerZone navigation={navigation} filter={filter} />
           </Block>
 

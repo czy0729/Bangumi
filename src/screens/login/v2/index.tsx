@@ -2,21 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-30 04:14:28
+ * @Last Modified time: 2026-05-31 07:11:29
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import cheerio from 'cheerio-without-node-native'
 import Constants from 'expo-constants'
 import { Component, KeyboardSpacer } from '@components'
 import { Notice, StatusBarPlaceholder } from '@_'
 import { _, rakuenStore, usersStore, userStore } from '@stores'
 import { confirm, feedback, getStorage, getTimestamp, info, setStorage, urlStringify } from '@utils'
-import { ob } from '@utils/decorators'
 import { logger } from '@utils/dev'
 import { hm, queue, t } from '@utils/fetch'
-import { axiosWithProxy, axiosWithProxyRedirect } from '@utils/proxy'
 import { get } from '@utils/kv'
+import { axiosWithProxy, axiosWithProxyRedirect } from '@utils/proxy'
 import { axios } from '@utils/thirdParty'
 import { APP_ID, APP_SECRET, HOST, URL_OAUTH_REDIRECT, WEB } from '@constants'
 import i18n from '@constants/i18n'
@@ -30,7 +30,6 @@ import Preview from './component/preview'
 import { AUTH_RETRY_COUNT, NAMESPACE, UA_EKIBUN_BANGUMI_APP } from './ds'
 
 import type { NavigationProps } from '@types'
-
 /** 账号密码登录 */
 class LoginV2 extends React.Component<NavigationProps> {
   state = {
@@ -148,24 +147,52 @@ class LoginV2 extends React.Component<NavigationProps> {
 
     const { host, email, password, captcha } = this.state
 
-    const { data, headers } = await axiosWithProxy<any>(
-      axios,
-      {
-        method: 'post',
-        url: `${host}/FollowTheRabbit`,
-        headers: this.getHeaders(['User-Agent', 'Cookie', 'Content-Type']),
-        data: urlStringify({
-          formhash: this._formhash,
-          referer: '',
-          dreferer: '',
-          email,
-          password,
-          captcha_challenge_field: captcha,
-          loginsubmit: '登录'
-        })
-      },
-      true
-    )
+    const postLogin = async () => {
+      return axiosWithProxy<any>(
+        axios,
+        {
+          method: 'post',
+          url: `${host}/FollowTheRabbit`,
+          headers: this.getHeaders(['User-Agent', 'Cookie', 'Content-Type']),
+          data: urlStringify({
+            formhash: this._formhash,
+            referer: '',
+            dreferer: '',
+            email,
+            password,
+            captcha_challenge_field: captcha,
+            loginsubmit: '登录'
+          })
+        },
+        true
+      )
+    }
+
+    let { data, headers } = await postLogin()
+
+    // 用户已有有效 session，服务端直接返回已登录页面而非登录结果
+    // 需要先主动登出清除 session，再重新请求登录
+    if (data.includes('class="logout"')) {
+      const logoutMatch = data.match(/href="([^"]*\/logout\/[^"]*)"/)
+      if (logoutMatch) {
+        await axiosWithProxy<any>(
+          axios,
+          {
+            method: 'get',
+            url: logoutMatch[1],
+            headers: this.getHeaders(['User-Agent', 'Cookie'])
+          },
+          true
+        )
+      }
+
+      this._cookie = { chii_theme: 'dark' }
+      await this.getFormHash()
+
+      const retry = await postLogin()
+      data = retry.data
+      headers = retry.headers
+    }
 
     if (data.includes('分钟内您将不能登录本站')) {
       info(`累计 5 次错误尝试，15 分钟内您将不能${i18n.login()}本站。`)
@@ -291,8 +318,8 @@ class LoginV2 extends React.Component<NavigationProps> {
   /** 获取请求头 */
   getHeaders = (keys: string[] = []) => {
     const headers: Record<string, string> = {}
-    if (keys.includes('User-Agent')) headers[WEB ? 'X-User-Agent' : 'User-Agent'] = this._userAgent
-    if (keys.includes('Cookie')) headers[WEB ? 'X-Cookie' : 'Cookie'] = this.cookieString
+    if (keys.includes('User-Agent')) headers['User-Agent'] = this._userAgent
+    if (keys.includes('Cookie')) headers['Cookie'] = this.cookieString
     if (keys.includes('Content-Type')) headers['Content-Type'] = 'application/x-www-form-urlencoded'
     if (keys.includes('Referer')) headers['Referer'] = `${this.state.host}/login`
     return headers
@@ -629,4 +656,4 @@ class LoginV2 extends React.Component<NavigationProps> {
   }
 }
 
-export default ob(LoginV2)
+export default observer(LoginV2)

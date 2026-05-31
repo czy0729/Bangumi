@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 06:36:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-02 00:30:42
+ * @Last Modified time: 2026-05-31 09:14:36
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -92,6 +92,7 @@ const ItemSettingBlock: IItemSettingBlock = observer(
             size={12}
             lineHeight={14}
             value={filter}
+            selectable
           >
             {information}
           </Highlight>

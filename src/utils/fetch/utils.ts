@@ -6,8 +6,7 @@
  */
 import pLimit from 'p-limit'
 import { WEB } from '@constants/device'
-import { USE_WORKER_PROXY } from '@src/config'
-import { syncUserStore } from '../async'
+import { syncSystemStore, syncUserStore } from '../async'
 import { logger } from '../dev'
 import { isDevtoolsOpen } from '../dom'
 import { urlStringify } from '../utils'
@@ -46,7 +45,8 @@ export async function queue(fetchs: Fn[] = [], num: number = 2) {
 /** 检查请求是否被拒绝 */
 export function checkDenied(_url: string, isGet: boolean): void {
   if (isDevtoolsOpen()) throw new Error('denied')
-  if (WEB && !isGet && !USE_WORKER_PROXY) throw new Error('denied')
+  const { workerProxy } = syncSystemStore().setting
+  if (WEB && !isGet && !workerProxy) throw new Error('denied')
 }
 
 /** 构建 GET 请求 URL */
