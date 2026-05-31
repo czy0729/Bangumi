@@ -75,7 +75,7 @@ export type UserStats = {
   total: string
 }
 
-export type UserStatsKey = 'all' | '1' | '2' | '3' | '4'
+export type UserStatsKey = 'all' | '1' | '2' | '3' | '4' | '6'
 
 export type UserStatsMap = Record<UserStatsKey, UserStats>
 

@@ -47,7 +47,8 @@ export const INIT_USER_STATS_MAP = {
   1: INIT_USER_STATS,
   2: INIT_USER_STATS,
   3: INIT_USER_STATS,
-  4: INIT_USER_STATS
+  4: INIT_USER_STATS,
+  6: INIT_USER_STATS
 } as UserStatsMap
 
 export const INIT_USERS = {

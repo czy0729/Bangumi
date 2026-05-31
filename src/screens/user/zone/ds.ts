@@ -77,6 +77,10 @@ export const STATS_TYPES = [
   {
     title: '游戏',
     value: '4'
+  },
+  {
+    title: '电视剧',
+    value: '6'
   }
 ] as const
 

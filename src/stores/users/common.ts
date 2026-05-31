@@ -20,7 +20,7 @@ import type {
   UserStatsMap
 } from './types'
 
-const USER_STATS_KEYS: UserStatsKey[] = ['all', '1', '2', '3', '4']
+const USER_STATS_KEYS: UserStatsKey[] = ['all', '1', '2', '3', '4', '6']
 
 function emptyUserStats(): UserStats {
   return {
