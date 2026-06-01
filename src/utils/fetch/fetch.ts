@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:36:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-31 09:58:23
+ * @Last Modified time: 2026-06-02 00:29:23
  */
 import { applyProxy, logProxy } from '@utils/proxy'
 import { API_HOST, API_V0 } from '@constants/api'
@@ -169,7 +169,7 @@ export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
     // @ts-expect-error fetch polyfill 类型问题
     return raw ? response : await response.text()
   } catch (error) {
-    err('fetchHTML', 'catch error:', url, error)
+    err('fetchHTML', 'catch error:', requestUrl, error)
     throw error
   } finally {
     hideCb?.()

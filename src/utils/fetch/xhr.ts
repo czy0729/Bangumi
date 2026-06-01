@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:21:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-30 08:34:44
+ * @Last Modified time: 2026-06-02 00:46:17
  */
 import { applyProxy, logProxy } from '@utils/proxy'
-import { HOST, HOST_CDN, HOST_NAME, IOS } from '@constants/constants'
+import { HOST, HOST_CDN, HOST_NAME } from '@constants/constants'
 import { WEB } from '@constants/device'
 import { FROZEN_FN } from '@constants/init'
 import { syncUserStore } from '../async'
@@ -143,20 +143,18 @@ export function ping(url: string, headers = {}): Promise<number> {
     const xhr = new XMLHttpRequest()
 
     const cb = function (res: XMLHttpRequest) {
-      // 有数据就马上返回
-      // @ts-expect-error _response 在 RN 下存在
-      if (res?._response?.length > 10) {
-        resolve(Date.now() - start)
+      // 只在请求完成时检查
+      if (res.readyState !== 4) return
+
+      // 必须是 200 状态码才算成功
+      if (res.status !== 200) {
+        resolve(0)
         return xhr.abort()
       }
 
-      const length =
-        // @ts-expect-error responseHeaders 在 RN 下存在
-        res?.responseHeaders?.[IOS ? 'Content-Length' : 'content-length']
-      if (res?.readyState === 4 && length) {
-        resolve(Date.now() - start)
-        return xhr.abort()
-      }
+      // 200 即视为成功，直接返回延迟
+      resolve(Date.now() - start)
+      return xhr.abort()
     }
 
     xhr.onreadystatechange = function () {

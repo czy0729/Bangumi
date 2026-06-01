@@ -48,7 +48,7 @@ const CONFIGS: Configs = {
     // topicId: 'group/438017' // group/366561
     // userId: 'sukaretto' // 456208, 419012, 'lilyurey', 'imagebuilder183'
     // monoId: 'character/109775' // character/70323 person/5745
-    // id: 55723902
+    id: 68522148
     // ids: [72649, 59610, 59611, 72648, 72650, 72651, 72652, 74522, 75203, 75207]
     // blogId: 295515 // 294448
     // catalogId: 34360

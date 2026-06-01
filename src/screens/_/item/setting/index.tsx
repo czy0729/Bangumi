@@ -31,6 +31,7 @@ export const ItemSetting = observer(
     arrowIcon = 'md-navigate-next',
     arrowSize = 22,
     information,
+    informationStyle,
     informationType = 'sub',
     thumb,
     filter,
@@ -88,7 +89,7 @@ export const ItemSetting = observer(
         </Flex>
         <Flex>
           {!!information && (
-            <View style={styles.information}>
+            <View style={stl(styles.information, informationStyle)}>
               <Highlight type={informationType} size={12} lineHeight={13} value={filter}>
                 {information}
               </Highlight>
