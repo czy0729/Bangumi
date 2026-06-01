@@ -1,8 +1,6 @@
 apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
 
-import com.android.build.OutputFile
-
 def expoVersionCode = "node -p require('../app.json').expo.android.versionCode".execute().text.trim().toInteger()
 def expoVersionName = "node -p require('../app.json').expo.version".execute().text.trim()
 
@@ -131,8 +129,9 @@ android {
 
   buildTypes {
     debug {
+      applicationIdSuffix ".dev"
       // signingConfig signingConfigs.debug
-      signingConfig signingConfigs.release
+      // signingConfig signingConfigs.release
     }
     release {
       // Caution! In production, you need to generate your own keystore file.
