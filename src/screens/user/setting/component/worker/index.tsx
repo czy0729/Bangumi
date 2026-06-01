@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-05-30 12:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-02 03:07:29
+ * @Last Modified time: 2026-06-02 03:10:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,7 +28,7 @@ import type { WithFilterProps } from '../../types'
 function Worker({ filter }: WithFilterProps) {
   r(COMPONENT)
 
-  const { state, setTrue, setFalse } = useBoolean(true)
+  const { state, setTrue, setFalse } = useBoolean(false)
   const shows = getShows(filter, TEXTS)
   const styles = memoStyles()
 
