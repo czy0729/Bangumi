@@ -95,14 +95,15 @@ function TabBar({
 
   return (
     <View style={stl(styles.tabbar, style)}>
-      {tabs.map((tab: string, index: number) => (
+      {tabs.map(({ title, key }, index: number) => (
         <TabBarItem
-          key={tab}
+          key={key}
+          title={title}
+          tabKey={key}
           style={stl(tabStyle, {
             marginLeft: index === 0 ? 0 : spacing
           })}
           labelStyle={labelStyle}
-          title={tab}
           renderLabel={renderLabel}
           onPress={() => handleTabPress(index)}
           onLayout={(event: LayoutChangeEvent) => handleTabLayout(index, event.nativeEvent.layout)}

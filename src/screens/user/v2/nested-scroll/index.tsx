@@ -17,7 +17,7 @@ import { TABS } from '../ds'
 import List from './list'
 import TopNavbarComponent from './top-navbar-component'
 import { renderLabel } from './utils'
-import { COMPONENT, PAGES } from './ds'
+import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 import type { Ctx } from '../types'
@@ -52,7 +52,7 @@ function NestedScroll() {
   return (
     <>
       <NestedScrollParallaxHeader
-        pages={PAGES}
+        pages={TABS}
         initialPage={$.state.page}
         tabBarLocalKey='UserV2|NestedScroll'
         HeaderComponent={elHeader}

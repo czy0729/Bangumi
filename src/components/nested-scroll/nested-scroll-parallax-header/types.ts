@@ -9,7 +9,7 @@ import type { ImageSourcePropType } from 'react-native'
 import type { ViewStyle } from '@types'
 
 export type Props = PropsWithChildren<{
-  pages: string[]
+  pages: readonly { title: string; key: string }[]
   initialPage?: number
   imageHeight?: number
   imageSource?: ImageSourcePropType
@@ -25,6 +25,6 @@ export type Props = PropsWithChildren<{
   TopNavbarComponent?: JSX.Element
   TabBarLeft?: JSX.Element
   BackgroundComponent?: (fixed?: boolean) => JSX.Element
-  renderLabel?: (item: { style: ViewStyle; title: string }) => JSX.Element
+  renderLabel?: (item: { style: ViewStyle; title: string; tabKey: string }) => JSX.Element
   onIndexChange?: (position: number) => any
 }>

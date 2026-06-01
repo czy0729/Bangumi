@@ -19,7 +19,7 @@ export const TABS = [
   },
   {
     title: '收藏',
-    key: 'bangumi'
+    key: 'collection'
   },
   {
     title: '统计',
@@ -56,33 +56,9 @@ export const COLLECTION_TYPES = [
     title: '三次元',
     value: MODEL_SUBJECT_TYPE.getLabel<SubjectType>('三次元')
   }
-]
-export const STATS_TYPES = [
-  {
-    title: '全部',
-    value: 'all'
-  },
-  {
-    title: '书籍',
-    value: '1'
-  },
-  {
-    title: '动画',
-    value: '2'
-  },
-  {
-    title: '音乐',
-    value: '3'
-  },
-  {
-    title: '游戏',
-    value: '4'
-  },
-  {
-    title: '电视剧',
-    value: '6'
-  }
 ] as const
+
+export type CollectionTypeTitle = (typeof COLLECTION_TYPES)[number]['title']
 
 export const TABS_WITH_TINYGRAIL = [
   ...TABS,
@@ -91,3 +67,10 @@ export const TABS_WITH_TINYGRAIL = [
     key: 'tinygrail'
   }
 ] as const
+
+export type ZoneTabKey = (typeof TABS_WITH_TINYGRAIL)[number]['key']
+
+export const TAB_PAGE = TABS_WITH_TINYGRAIL.reduce((result, item, index) => {
+  result[item.key] = index
+  return result
+}, {} as Record<ZoneTabKey, number>)

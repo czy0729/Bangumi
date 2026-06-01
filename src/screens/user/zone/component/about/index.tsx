@@ -10,7 +10,7 @@ import { observer } from 'mobx-react'
 import { Component } from '@components'
 import { useStore } from '@stores'
 import { ANDROID, SCROLL_VIEW_RESET_PROPS, USE_NATIVE_DRIVER } from '@constants'
-import { TABS } from '../../ds'
+import { TAB_PAGE } from '../../ds'
 import Lock from '../lock'
 import Content from './content'
 import Service from './service'
@@ -51,7 +51,7 @@ function About({ onScroll }: Props) {
 
       $.forwardRef(
         ref,
-        TABS.findIndex(item => item.title === '关于')
+        TAB_PAGE.about
       )
     },
     [$]

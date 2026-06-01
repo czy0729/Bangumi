@@ -12,7 +12,7 @@ import { TapListener } from '@_'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { ANDROID, USE_NATIVE_DRIVER } from '@constants'
-import { TABS } from '../../ds'
+import { TAB_PAGE } from '../../ds'
 import { renderItem, renderSectionHeader } from './utils'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
@@ -51,7 +51,7 @@ function TimelineList(props: Props) {
 
       $.forwardRef(
         ref,
-        TABS.findIndex(item => item.title === '时间线')
+        TAB_PAGE.timeline
       )
     },
     [$]

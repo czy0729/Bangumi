@@ -5,15 +5,16 @@
  * @Last Modified time: 2026-05-11 07:46:34
  */
 import { INIT_USERS } from '@stores/users/init'
+import { USER_STATS_TYPES } from '@stores/users/ds'
 import { TIMELINE_TYPE } from '@constants'
-import { COLLECTION_TYPES, COMPONENT, STATS_TYPES } from '../ds'
+import { COLLECTION_TYPES, COMPONENT } from '../ds'
 
-import type { UserStatsKey } from '@stores/users/types'
+import type { UserStatsKey } from '@stores/users/ds'
 import type { CollectionStatusCn, CompletionItem, Loaded, SubjectType, TimeLineType } from '@types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
-export const DEFAULT_STATS_TYPE = STATS_TYPES[0].value as UserStatsKey
+export const DEFAULT_STATS_TYPE = USER_STATS_TYPES[0].value as UserStatsKey
 
 export const DEFAULT_COLLECTION_TYPE = COLLECTION_TYPES[0].value
 

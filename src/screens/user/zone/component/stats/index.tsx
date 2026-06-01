@@ -11,7 +11,7 @@ import { Component, Flex, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { t } from '@utils/fetch'
 import { ANDROID, SCROLL_VIEW_RESET_PROPS, USE_NATIVE_DRIVER } from '@constants'
-import { TABS } from '../../ds'
+import { TAB_PAGE } from '../../ds'
 import Chart from './chart'
 import Counts from './counts'
 import { COMPONENT } from './ds'
@@ -51,7 +51,7 @@ function Stats(props: Props) {
 
       $.forwardRef(
         ref,
-        TABS.findIndex(item => item.title === '统计')
+        TAB_PAGE.stats
       )
     },
     [$]

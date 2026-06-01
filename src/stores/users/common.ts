@@ -6,6 +6,7 @@
  */
 import { cData, cFind, cheerio, cHtml, cMap, cText, htmlMatch, matchAvatar } from '@utils'
 import { getBlogItemTime } from '../discovery/utils'
+import { USER_STATS_TYPES } from './ds'
 
 import type { MonoId, SubjectTypeValue } from '@types'
 import type {
@@ -16,11 +17,8 @@ import type {
   RecentsItem,
   Users,
   UserStats,
-  UserStatsKey,
   UserStatsMap
 } from './types'
-
-const USER_STATS_KEYS: UserStatsKey[] = ['all', '1', '2', '3', '4', '6']
 
 function emptyUserStats(): UserStats {
   return {
@@ -118,14 +116,14 @@ export function cheerioUsers(html: string) {
   const getCount = (reg: RegExp) => Number(countsText.match(reg)?.[1] || 0)
 
   const legacyUserStats = cheerioUserStats($)
-  const userStatsMap = USER_STATS_KEYS.reduce((result, key) => {
-    const $block = $(`#userStats_${key}`)
+  const userStatsMap = USER_STATS_TYPES.reduce((result, { value }) => {
+    const $block = $(`#userStats_${value}`)
     if ($block.length) {
-      result[key] = cheerioUserStats($, $block)
-    } else if (key === 'all') {
-      result[key] = legacyUserStats
+      result[value] = cheerioUserStats($, $block)
+    } else if (value === 'all') {
+      result[value] = legacyUserStats
     } else {
-      result[key] = emptyUserStats()
+      result[value] = emptyUserStats()
     }
     return result
   }, {} as UserStatsMap)

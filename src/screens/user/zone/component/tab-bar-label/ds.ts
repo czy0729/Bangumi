@@ -5,13 +5,13 @@
  * @Last Modified time: 2024-05-01 10:51:44
  */
 import { rc } from '@utils/dev'
-import { TABS } from '../../ds'
+import { TAB_PAGE } from '../../ds'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'TabBarLabel')
 
-export const COLLECTION_PAGE = TABS.findIndex(item => item.title === '收藏')
+export const COLLECTION_PAGE = TAB_PAGE.collection
 
-export const STATS_PAGE = TABS.findIndex(item => item.title === '统计')
+export const STATS_PAGE = TAB_PAGE.stats
 
-export const TIMELINE_PAGE = TABS.findIndex(item => item.title === '时间线')
+export const TIMELINE_PAGE = TAB_PAGE.timeline

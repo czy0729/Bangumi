@@ -12,7 +12,7 @@ import { _, useStore } from '@stores'
 import { formatNumber, HTMLDecode } from '@utils'
 import { t } from '@utils/fetch'
 import { ANDROID, SCROLL_VIEW_RESET_PROPS, USE_NATIVE_DRIVER } from '@constants'
-import { TABS_WITH_TINYGRAIL } from '../../ds'
+import { TAB_PAGE } from '../../ds'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
@@ -50,7 +50,7 @@ function Tinygrail({ onScroll }: Props) {
 
       $.forwardRef(
         ref,
-        TABS_WITH_TINYGRAIL.findIndex(item => item.title === '小圣杯')
+        TAB_PAGE.tinygrail
       )
     },
     [$]

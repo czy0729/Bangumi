@@ -24,6 +24,7 @@ import { memoStyles } from './styles'
 
 import type { ScrollEvent } from '@types'
 import type { Ctx } from '../../types'
+import type { ZoneTabKey } from '../../ds'
 
 function Tab() {
   const { $ } = useStore<Ctx>(COMPONENT)
@@ -41,13 +42,19 @@ function Tab() {
   const renderScene = useMemo(
     () =>
       SceneMap({
-        bangumi: () => <BangumiList ListHeaderComponent={ListHeader} onScroll={handleScroll} />,
+        collection: () => (
+          <BangumiList ListHeaderComponent={ListHeader} onScroll={handleScroll} />
+        ),
         stats: () => <Stats ListHeaderComponent={ListHeader} onScroll={handleScroll} />,
-        timeline: () => <TimelineList ListHeaderComponent={ListHeader} onScroll={handleScroll} />,
-        rakuen: () => <RakuenList ListHeaderComponent={ListHeader} onScroll={handleScroll} />,
+        timeline: () => (
+          <TimelineList ListHeaderComponent={ListHeader} onScroll={handleScroll} />
+        ),
+        rakuen: () => (
+          <RakuenList ListHeaderComponent={ListHeader} onScroll={handleScroll} />
+        ),
         about: () => <About onScroll={handleScroll} />,
         tinygrail: () => <Tinygrail onScroll={handleScroll} />
-      }),
+      } satisfies Record<ZoneTabKey, () => JSX.Element>),
     [handleScroll]
   )
 
@@ -106,7 +113,7 @@ function Tab() {
   const handleRenderLabel = useCallback(
     ({ route }) => (
       <Flex style={styles.labelText} justify='center'>
-        <TabBarLabel title={route.title} />
+        <TabBarLabel title={route.title} tabKey={route.key} />
       </Flex>
     ),
     [styles]

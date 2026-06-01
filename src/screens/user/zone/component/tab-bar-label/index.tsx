@@ -9,16 +9,25 @@ import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { Popover } from '@_'
 import { _, useStore } from '@stores'
+import { USER_STATS_TYPES } from '@stores/users/ds'
 import { MODEL_TIMELINE_TYPE, TIMELINE_TYPE } from '@constants'
-import { STATS_TYPES } from '../../ds'
 import { COLLECTION_TYPES } from '../../ds'
 import { COLLECTION_PAGE, COMPONENT, STATS_PAGE, TIMELINE_PAGE } from './ds'
 import { styles } from './styles'
 
+import type { TimeLineTypeCn } from '@types'
+import type { UserStatsTitle } from '@stores/users/ds'
+import type { CollectionTypeTitle } from '../../ds'
 import type { Ctx } from '../../types'
 import type { Props } from './types'
 
-function TabBarLabel({ style, title }: Props) {
+type SelectableTabLabel = {
+  label: string
+  options: readonly string[]
+  onSelect: (title?: string) => void
+}
+
+function TabBarLabel({ style, title, tabKey }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const elText = (
@@ -27,54 +36,43 @@ function TabBarLabel({ style, title }: Props) {
     </Text>
   )
 
-  if (title === '时间线' && $.state.page === TIMELINE_PAGE) {
-    return (
-      <Popover
-        style={_.container.block}
-        data={TIMELINE_TYPE.map(item => item.label)}
-        onSelect={$.onSelectTimelineType}
-      >
-        <Flex style={styles.popover} justify='center'>
-          {elText}
-          <Text size={10} lineHeight={13} type='sub' noWrap>
-            {' '}
-            {MODEL_TIMELINE_TYPE.getLabel($.state.timelineType)}{' '}
-          </Text>
-        </Flex>
-      </Popover>
-    )
+  let selectableTabLabel: SelectableTabLabel | null = null
+  if (tabKey === 'collection' && $.state.page === COLLECTION_PAGE) {
+    selectableTabLabel = {
+      label: $.collectionTypeLabel,
+      options: COLLECTION_TYPES.map(item => item.title),
+      onSelect: title => title && $.onSelectCollectionType(title as CollectionTypeTitle)
+    }
   }
 
-  if (title === '收藏' && $.state.page === COLLECTION_PAGE) {
-    return (
-      <Popover
-        style={_.container.block}
-        data={COLLECTION_TYPES.map(item => item.title)}
-        onSelect={$.onSelectCollectionType}
-      >
-        <Flex style={styles.popover} justify='center'>
-          {elText}
-          <Text size={10} lineHeight={13} type='sub' noWrap>
-            {' '}
-            {$.collectionTypeLabel}{' '}
-          </Text>
-        </Flex>
-      </Popover>
-    )
+  if (tabKey === 'stats' && $.state.page === STATS_PAGE) {
+    selectableTabLabel = {
+      label: $.statsTypeLabel,
+      options: USER_STATS_TYPES.map(item => item.title),
+      onSelect: title => title && $.onSelectStatsType(title as UserStatsTitle)
+    }
   }
 
-  if (title === '统计' && $.state.page === STATS_PAGE) {
+  if (tabKey === 'timeline' && $.state.page === TIMELINE_PAGE) {
+    selectableTabLabel = {
+      label: MODEL_TIMELINE_TYPE.getLabel($.state.timelineType),
+      options: TIMELINE_TYPE.map(item => item.label),
+      onSelect: title => title && $.onSelectTimelineType(title as TimeLineTypeCn)
+    }
+  }
+
+  if (selectableTabLabel) {
     return (
       <Popover
         style={_.container.block}
-        data={STATS_TYPES.map(item => item.title)}
-        onSelect={$.onSelectStatsType}
+        data={selectableTabLabel.options}
+        onSelect={selectableTabLabel.onSelect}
       >
         <Flex style={styles.popover} justify='center'>
           {elText}
           <Text size={10} lineHeight={13} type='sub' noWrap>
             {' '}
-            {$.statsTypeLabel}{' '}
+            {selectableTabLabel.label}{' '}
           </Text>
         </Flex>
       </Popover>

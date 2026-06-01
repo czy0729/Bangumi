@@ -19,7 +19,7 @@ export interface Props {
   tabStyle?: ViewStyle
   labelStyle?: TextStyle
   indicatorStyle?: ViewStyle
-  tabs: string[]
+  tabs: readonly { title: string; key: string }[]
   position: Animated.Value
   offset: Animated.Value
   page: number
@@ -29,7 +29,7 @@ export interface Props {
   /** 使用本地化加速下一次的 onLayout */
   tabBarLocalKey: string
   TabBarLeft?: JSX.Element
-  renderLabel?: (item: { style: ViewStyle; title: string }) => JSX.Element
+  renderLabel?: (item: { style: ViewStyle; title: string; tabKey: string }) => JSX.Element
   onTabPress: (index: number) => void
   onTabsLayout?: (layouts: Layout[]) => void
 }

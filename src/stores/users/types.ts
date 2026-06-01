@@ -17,6 +17,7 @@ import type {
   UserId
 } from '@types'
 import type { LOADED } from './init'
+import type { UserStatsKey } from './ds'
 
 export type CacheKey = keyof typeof LOADED
 
@@ -74,8 +75,6 @@ export type UserStats = {
   std: string
   total: string
 }
-
-export type UserStatsKey = 'all' | '1' | '2' | '3' | '4' | '6'
 
 export type UserStatsMap = Record<UserStatsKey, UserStats>
 
