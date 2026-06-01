@@ -7,6 +7,8 @@
 import React from 'react'
 import TabBarLabel from '../component/tab-bar-label'
 
-export function renderLabel({ style, title }) {
-  return <TabBarLabel style={style} title={title} />
+import type { ZoneTabKey } from '../ds'
+
+export function renderLabel({ style, title, tabKey }) {
+  return <TabBarLabel style={style} title={title} tabKey={tabKey as ZoneTabKey} />
 }

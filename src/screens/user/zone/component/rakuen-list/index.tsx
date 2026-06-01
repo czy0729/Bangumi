@@ -10,7 +10,7 @@ import { observer } from 'mobx-react'
 import { Component, ListView, Loading, ScrollView, Text } from '@components'
 import { _, systemStore, useStore } from '@stores'
 import { ANDROID, USE_NATIVE_DRIVER } from '@constants'
-import { TABS } from '../../ds'
+import { TAB_PAGE } from '../../ds'
 import { handleToQiafan, keyExtractor, renderItem, renderSectionHeader } from './utils'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
@@ -52,7 +52,7 @@ function RakuenList({ ListHeaderComponent, onScroll }: Props) {
 
       $.forwardRef(
         ref,
-        TABS.findIndex(item => item.title === '超展开')
+        TAB_PAGE.rakuen
       )
     },
     [$]

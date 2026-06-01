@@ -11,18 +11,20 @@ import { fetchHTML, t } from '@utils/fetch'
 import { completions, get, update } from '@utils/kv'
 import { MUSUME_PROMPT, MUSUME_ZONE_PROMPT } from '@utils/kv/ds'
 import { webhookFriend } from '@utils/webhooks'
-import { HOST, MODEL_SUBJECT_TYPE, MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants'
+import { USER_STATS_TYPES } from '@stores/users/ds'
+import { HOST, MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants'
+import { COLLECTION_TYPES } from '../ds'
 import Fetch from './fetch'
 import { DEFAULT_COLLECTION_EXPAND } from './ds'
 
 import type { ScrollTo, ScrollToOffset } from '@components'
+import type { UserStatsTitle } from '@stores/users/ds'
+import type { CollectionTypeTitle } from '../ds'
 import type {
   CompletionItem,
   CollectionStatusCn,
   Navigation,
   ScrollEvent,
-  SubjectType,
-  SubjectTypeCn,
   TimeLineScope,
   TimeLineType,
   TimeLineTypeCn
@@ -111,14 +113,14 @@ export default class Action extends Fetch {
 
   /** 标签页切换后回调, 延迟请求对应页面数据 */
   onTabChangeCallback = async (page: number) => {
-    const { title } = this.tabs[page]
-    if (title === '收藏') {
+    const { key } = this.tabs[page]
+    if (key === 'collection') {
       await this.fetchUserCollections()
-    } else if (title === '时间线') {
+    } else if (key === 'timeline') {
       await this.fetchUsersTimeline(true)
-    } else if (title === '超展开') {
+    } else if (key === 'rakuen') {
       await this.fetchUserTopicsFromCDN(true)
-    } else if (title === '小圣杯' && !this.fromTinygrail) {
+    } else if (key === 'tinygrail' && !this.fromTinygrail) {
       await this.fetchCharaAssets()
       await this.fetchTempleTotal()
       await this.fetchCharaTotal()
@@ -160,8 +162,8 @@ export default class Action extends Fetch {
   }
 
   /** 选择收藏类型 */
-  onSelectCollectionType = (title: SubjectTypeCn) => {
-    const collectionType = MODEL_SUBJECT_TYPE.getLabel<SubjectType>(title)
+  onSelectCollectionType = (title?: CollectionTypeTitle) => {
+    const collectionType = COLLECTION_TYPES.find(item => item.title === title)?.value
     if (!collectionType || collectionType === this.state.collectionType) return
 
     t('空间.收藏类型切换', {
@@ -217,6 +219,21 @@ export default class Action extends Fetch {
       timelineType
     })
     this.fetchUsersTimeline(true, true)
+  }
+
+  /** 选择统计类型 */
+  onSelectStatsType = (title?: UserStatsTitle) => {
+    const statsType = USER_STATS_TYPES.find(item => item.title === title)?.value
+    if (!statsType || statsType === this.state.statsType) return
+
+    t('空间.统计类型切换', {
+      userId: this.userId,
+      title
+    })
+
+    this.setState({
+      statsType
+    })
   }
 
   /** 显示备注弹窗 */

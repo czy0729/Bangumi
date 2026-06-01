@@ -19,7 +19,8 @@ import TimelineList from '../component/timeline-list'
 import HeaderComponent from './header-component'
 import TopNavbarComponent from './top-navbar-component'
 import { renderLabel } from './utils'
-import { COMPONENT, PAGES } from './ds'
+import { TABS } from '../ds'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { Ctx } from '../types'
@@ -55,7 +56,7 @@ function NestedScroll() {
     <>
       <NestedScrollParallaxHeader
         tabStyle={styles.tab}
-        pages={PAGES}
+        pages={TABS}
         initialPage={$.state.page}
         tabBarLocalKey='Zone|NestedScroll'
         HeaderComponent={elHeader}

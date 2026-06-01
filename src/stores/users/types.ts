@@ -17,6 +17,7 @@ import type {
   UserId
 } from '@types'
 import type { LOADED } from './init'
+import type { UserStatsKey } from './ds'
 
 export type CacheKey = keyof typeof LOADED
 
@@ -75,6 +76,8 @@ export type UserStats = {
   total: string
 }
 
+export type UserStatsMap = Record<UserStatsKey, UserStats>
+
 /** 用户信息 */
 export type Users = {
   userId: UserId
@@ -95,6 +98,7 @@ export type Users = {
   formhash: string
   ban?: string
   userStats: UserStats
+  userStatsMap?: UserStatsMap
   networkService: NetworkServiceItem[]
   _loaded?: Loaded
 }

@@ -16,15 +16,17 @@ import {
   usersStore,
   userStore
 } from '@stores'
+import { USER_STATS_TYPES } from '@stores/users/ds'
+import { INIT_USER_STATS } from '@stores/users/init'
 import { getBlurRadius, HTMLDecode } from '@utils'
 import { logger } from '@utils/dev'
 import { fixedRemote } from '@utils/user-setting'
 import { IMG_EMPTY_DARK, TEXT_ONLY } from '@constants'
-import { H_HEADER, TABS, TABS_WITH_TINYGRAIL } from '../ds'
+import { COLLECTION_TYPES, H_HEADER, TABS, TABS_WITH_TINYGRAIL } from '../ds'
 import State from './state'
 import { COLLECTION_STATUS_MAP, COLLECTION_STATUS_TEXT, EXCLUDE_STATE, NAMESPACE } from './ds'
 
-import type { CollectionStatusCn, ImageSource, SubjectTypeCn } from '@types'
+import type { CollectionStatusCn, ImageSource } from '@types'
 
 export default class Computed extends State {
   /** 本地化 */
@@ -79,22 +81,10 @@ export default class Computed extends State {
 
   /** 当前收藏类型中文 */
   @computed get collectionTypeLabel() {
-    switch (this.state.collectionType) {
-      case 'book':
-        return '书籍' as SubjectTypeCn
-
-      case 'music':
-        return '音乐' as SubjectTypeCn
-
-      case 'game':
-        return '游戏' as SubjectTypeCn
-
-      case 'real':
-        return '三次元' as SubjectTypeCn
-
-      default:
-        return '动画' as SubjectTypeCn
-    }
+    return (
+      COLLECTION_TYPES.find(item => item.value === this.state.collectionType)?.title ||
+      COLLECTION_TYPES[0].title
+    )
   }
 
   /** 当前收藏状态文案 */
@@ -123,6 +113,22 @@ export default class Computed extends State {
         ]
       }
     })
+  }
+
+  /** 当前统计类型中文 */
+  @computed get statsTypeLabel() {
+    return (
+      USER_STATS_TYPES.find(item => item.value === this.state.statsType)?.title ||
+      USER_STATS_TYPES[0].title
+    )
+  }
+
+  /** 当前用户统计 */
+  @computed get userStats() {
+    const { userStats, userStatsMap } = this.users
+    if (this.state.statsType === 'all') return userStatsMap?.all || userStats || INIT_USER_STATS
+
+    return userStatsMap?.[this.state.statsType] || INIT_USER_STATS
   }
 
   /** 用户时间胶囊 */

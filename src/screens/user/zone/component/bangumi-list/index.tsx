@@ -11,7 +11,7 @@ import { Component, ListView, Loading } from '@components'
 import { useStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { ANDROID, USE_NATIVE_DRIVER } from '@constants'
-import { TABS } from '../../ds'
+import { TAB_PAGE } from '../../ds'
 import Footer from './footer'
 import { renderItem, renderSectionHeader } from './utils'
 import { COMPONENT } from './ds'
@@ -53,7 +53,7 @@ function BangumiList({ ListHeaderComponent, onScroll }: Props) {
 
       $.forwardRef(
         ref,
-        TABS.findIndex(item => item.title === '收藏')
+        TAB_PAGE.collection
       )
     },
     [$]

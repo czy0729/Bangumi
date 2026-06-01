@@ -14,13 +14,14 @@ import { styles } from './styles'
 import type { Props } from './types'
 import type { ViewStyle } from '@types'
 
-function TabBarItem({ title, style, labelStyle, renderLabel, onPress, onLayout }: Props) {
+function TabBarItem({ title, tabKey, style, labelStyle, renderLabel, onPress, onLayout }: Props) {
   return (
     <Pressable style={stl(styles.tab, style)} onPress={onPress} onLayout={onLayout}>
       {typeof renderLabel === 'function' ? (
         renderLabel({
           style: (labelStyle || {}) as ViewStyle,
-          title
+          title,
+          tabKey
         })
       ) : (
         <Text style={labelStyle} size={14} type='desc'>

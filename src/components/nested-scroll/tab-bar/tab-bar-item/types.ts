@@ -9,12 +9,13 @@ import type { TextStyle, ViewStyle } from '@types'
 
 export interface Props {
   title: string
+  tabKey: string
   style?: ViewStyle
   // labelStyle?:
   //   | Animated.WithAnimatedObject<TextStyle>
   //   | Animated.WithAnimatedArray<StyleProp<TextStyle>>
   labelStyle?: TextStyle
-  renderLabel?: (item: { style: ViewStyle; title: string }) => JSX.Element
+  renderLabel?: (item: { style: ViewStyle; title: string; tabKey: string }) => JSX.Element
   onPress?: () => void
   onLayout: ViewProps['onLayout']
 }
