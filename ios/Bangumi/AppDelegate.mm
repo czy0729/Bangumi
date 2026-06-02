@@ -7,6 +7,12 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  // 配置图片磁盘缓存, 配合 source.cache = 'force-cache' 使用
+  NSURLCache *imageCache = [[NSURLCache alloc] initWithMemoryCapacity:50 * 1024 * 1024
+                                                        diskCapacity:200 * 1024 * 1024
+                                                            diskPath:@"bnm_image_cache"];
+  [NSURLCache setSharedURLCache:imageCache];
+
   self.moduleName = @"main";
 
   // You can add your custom initial props in the dictionary below.
