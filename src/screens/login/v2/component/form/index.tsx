@@ -8,7 +8,6 @@ import React from 'react'
 import { Image as RNImage, View } from 'react-native'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { Button, Flex, Heatmap, Iconfont, Input, Mesume, Text, Touchable } from '@components'
-import { Popover } from '@_'
 import { _ } from '@stores'
 import { alert } from '@utils'
 import { ob } from '@utils/decorators'
@@ -16,9 +15,9 @@ import { t } from '@utils/fetch'
 import { FROZEN_FN, WEB } from '@constants'
 import i18n from '@constants/i18n'
 import InputPassword from '../input-password'
-import { HOST_DS } from './ds'
 import { memoStyles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 class Form extends React.Component<Props> {
   static defaultProps = {
@@ -190,8 +189,7 @@ class Form extends React.Component<Props> {
   }
 
   renderConfig() {
-    const { isCommonUA, isSyncSetting, host, onSelect, onUAChange, onSyncSettingChange } =
-      this.props
+    const { navigation, isSyncSetting, onSyncSettingChange } = this.props
     const { config } = this.state
     if (!config) {
       return (
@@ -212,7 +210,7 @@ class Form extends React.Component<Props> {
 
     return (
       <View style={this.styles.config}>
-        <Flex style={_.mt._xs}>
+        {/* <Flex style={_.mt._xs}>
           <Flex.Item>
             <Popover style={this.styles.touch} data={HOST_DS} onSelect={onSelect}>
               <Flex>
@@ -228,8 +226,8 @@ class Form extends React.Component<Props> {
               <Iconfont name='md-info-outline' size={18} />
             </Flex>
           </Touchable>
-        </Flex>
-        <Flex style={_.mt._xs}>
+        </Flex> */}
+        {/* <Flex style={_.mt._xs}>
           <Flex.Item>
             <Touchable style={this.styles.touch} onPress={onUAChange}>
               <Flex>
@@ -249,7 +247,7 @@ class Form extends React.Component<Props> {
               <Iconfont name='md-info-outline' size={18} />
             </Flex>
           </Touchable>
-        </Flex>
+        </Flex> */}
         <Flex style={_.mt._xs}>
           <Flex.Item>
             <Touchable style={this.styles.touch} onPress={onSyncSettingChange}>
@@ -271,6 +269,18 @@ class Form extends React.Component<Props> {
             </Flex>
           </Touchable>
         </Flex>
+        <Touchable
+          style={_.mt.xs}
+          onPress={() => {
+            navigation.push('Setting', {
+              open: 'Worker'
+            })
+          }}
+        >
+          <Text type='sub' size={12}>
+            遇到连接问题？点击设置代理
+          </Text>
+        </Touchable>
       </View>
     )
   }

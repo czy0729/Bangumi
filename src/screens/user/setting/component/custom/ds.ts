@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 07:17:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-05 22:29:55
+ * @Last Modified time: 2026-06-03 00:17:08
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
@@ -48,6 +48,6 @@ export const TEXTS = {
   filter18x: {
     hd: '屏蔽敏感内容',
     information:
-      '条目、时间胶囊、排行榜等，因站规对于 NSFW 不返回数据，建议注册少于 3 个月的用户开启'
+      '条目、时间胶囊、排行榜等，因站规对于 NSFW 不返回数据，建议刚注册的用户开启。PS：此选项仅影响到客户端的展示，若需要完全开启请使用网页端登录后，到设置打开开关。'
   }
 } as const

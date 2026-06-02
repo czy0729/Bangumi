@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:31:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-05 20:34:49
+ * @Last Modified time: 2026-06-03 00:06:20
  */
 import { confirm, getTimestamp, info } from '@utils'
 import { syncSystemStore, syncUserStore } from '@utils/async'
@@ -37,23 +37,23 @@ import type { SettingKeys } from './types'
 
 export default class Action extends Fetch {
   /** 清除电波提醒未读 */
-  doClearNotify = async () => {
+  doClearNotify = () => {
     const { clearHref } = this.notify
     if (clearHref) {
-      await fetchHTML({
-        url: `${HOST}${clearHref}`
-      })
-
-      const key = 'notify'
+      const STATE_KEY = 'notify'
       this.setState({
-        notify: {
-          ...this.notify,
+        [STATE_KEY]: {
+          ...this[STATE_KEY],
           unread: 0,
           clearHref: '',
           clearHTML: ''
         }
       })
-      this.save(key)
+      this.save(STATE_KEY)
+
+      return fetchHTML({
+        url: `${HOST}${clearHref}`
+      })
     }
   }
 

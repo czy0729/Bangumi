@@ -30,6 +30,7 @@ import Preview from './component/preview'
 import { AUTH_RETRY_COUNT, NAMESPACE, UA_EKIBUN_BANGUMI_APP } from './ds'
 
 import type { NavigationProps } from '@types'
+
 /** 账号密码登录 */
 class LoginV2 extends React.Component<NavigationProps> {
   state = {
@@ -66,7 +67,13 @@ class LoginV2 extends React.Component<NavigationProps> {
 
   /** 恢复本地数据 */
   getLocalSetting = async () => {
-    const keys = ['host', 'email', 'password', 'isCommonUA', 'isSyncSetting'] as const
+    const keys = [
+      // 'host',
+      'email',
+      'password',
+      // 'isCommonUA',
+      'isSyncSetting'
+    ] as const
     const values = await Promise.all(keys.map(key => getStorage(`${NAMESPACE}|${key}`)))
     const state = keys.reduce((acc, key, index) => {
       // 只有 truthy 值才添加到 state

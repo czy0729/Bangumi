@@ -1,6 +1,8 @@
 apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
 
+import com.android.build.OutputFile
+
 def expoVersionCode = "node -p require('../app.json').expo.android.versionCode".execute().text.trim().toInteger()
 def expoVersionName = "node -p require('../app.json').expo.version".execute().text.trim()
 

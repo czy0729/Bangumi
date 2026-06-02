@@ -12,6 +12,10 @@ export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const TABS = [
   {
+    title: '8.34.0 - 2026/06/02',
+    key: 'lp0phgrq7he01shu'
+  },
+  {
     title: '8.33.0 - 2026/05/09',
     key: 'ngolrxwixlixlsv1'
   },

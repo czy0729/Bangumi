@@ -12,12 +12,12 @@ export const USER_STATS_TYPES = [
     value: 'all'
   },
   {
-    title: '书籍',
-    value: '1'
-  },
-  {
     title: '动画',
     value: '2'
+  },
+  {
+    title: '书籍',
+    value: '1'
   },
   {
     title: '音乐',
