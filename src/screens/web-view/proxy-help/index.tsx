@@ -30,10 +30,10 @@ function ProxyHelp({ navigation }: NavigationProps) {
             本客户端支持通过代理访问 Bangumi 域名、API、静态资源域，以解决网络连接问题。
           </Text>
           <Text style={_.mt.md} size={16} lineHeight={20}>
-            如果你已经有工具建议不要折腾本功能。
+            如果你已经有工具建议不要折腾本功能，因为开启代理后，可能会碰到预料不到的问题。
           </Text>
           <Text style={_.mt.md} size={16} lineHeight={20}>
-            请在知悉此功能的情况下再填写输入框，一旦有值即生效，错误值会导致你无法正常使用客户端。
+            请在知悉此功能的情况下再填写地址输入框，一旦有值即生效，错误值会导致你无法正常使用客户端。
           </Text>
           <Text style={_.mt.md} size={16} lineHeight={20}>
             首次填写值，可能需要重新完整登录授权、冷启动才能正常表现。

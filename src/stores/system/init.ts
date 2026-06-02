@@ -444,6 +444,9 @@ export const INIT_SETTING = {
   /** 翻译引擎 */
   translateEngine: 'baidu' as 'baidu' | 'deeplx' | 'gemini',
 
+  /** 全局禁用代理 (开启后即使代理设置有值也不走代理) */
+  workerProxyDisabled: false,
+
   /** Worker 代理地址 (替换 Host) */
   workerProxy: '',
 

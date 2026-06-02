@@ -29,22 +29,22 @@ import type { NavigationProps } from '@types'
 function Worker({ navigation, filter }: WithFilterProps<NavigationProps>) {
   r(COMPONENT)
 
-  const { state, setTrue, setFalse } = useBoolean(true)
+  const { state, setTrue, setFalse } = useBoolean(false)
   const shows = getShows(filter, TEXTS)
-  const styles = memoStyles()
-
   const {
     setWorkerApiProxy,
     setWorkerLainProxy,
     setWorkerLainSecret,
     setWorkerProxy,
     setWorkerProxyDirect,
+    setWorkerProxyDisabled,
     setWorkerSecret,
     workerApiProxy,
     workerLainProxy,
     workerLainSecret,
     workerProxy,
     workerProxyDirect,
+    workerProxyDisabled,
     workerSecret,
     lockedFields,
     focusedField,
@@ -57,6 +57,8 @@ function Worker({ navigation, filter }: WithFilterProps<NavigationProps>) {
   } = useWorkerSettings()
 
   if (!shows) return null
+
+  const styles = memoStyles()
 
   /** 渲染代理输入框 */
   const renderProxyInput = (
@@ -166,6 +168,22 @@ function Worker({ navigation, filter }: WithFilterProps<NavigationProps>) {
             }}
           />
         </View>
+
+        {shows.workerProxyDisabled && (
+          <ItemSetting
+            ft={
+              <SwitchPro
+                style={commonStyles.switch}
+                value={workerProxyDisabled}
+                onSyncPress={setWorkerProxyDisabled}
+              />
+            }
+            filter={filter}
+            {...TEXTS.workerProxyDisabled}
+          />
+        )}
+
+        <Divider />
 
         {renderProxyInput(
           shows.workerProxy,

@@ -15,6 +15,10 @@ export const TEXTS = {
   worker: {
     hd: '代理'
   },
+  workerProxyDisabled: {
+    hd: '全局禁用代理',
+    information: '开启后即使下方设置有值，客户端也不会走代理模式，所有请求直连默认服务器'
+  },
   workerProxy: {
     title: '主站域名',
     information: '用于替换 Host (登录和绝大部分功能都需要用到)'

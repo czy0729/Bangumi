@@ -30,7 +30,12 @@ export function applyProxy(
   headers: Record<string, string> = {},
   isHtml = false
 ): { url: string; headers: Record<string, string>; proxyType: '' | 'worker' | 'api' | 'host' } {
-  const { workerProxy, workerSecret, workerProxyDirect, workerApiProxy } = syncSystemStore().setting
+  const { workerProxyDisabled, workerProxy, workerSecret, workerProxyDirect, workerApiProxy } =
+    syncSystemStore().setting
+
+  // 全局禁用代理时直接返回原始值
+  if (workerProxyDisabled) return { url, headers: { ...headers }, proxyType: '' }
+
   const newHeaders = { ...headers }
   let proxyUrl = url
   let proxyType: '' | 'worker' | 'api' | 'host' = ''
@@ -91,6 +96,7 @@ export function applyProxyToAxiosConfig(
 ): void {
   const { workerProxy } = syncSystemStore().setting
   if (!workerProxy) return
+
   const result = applyProxy(config.url, config.headers || {}, isHtml)
   config.url = result.url
   config.headers = result.headers
@@ -167,7 +173,11 @@ export async function axiosWithProxyRedirect(
 
 /** 若配置了 workerLainProxy, 将 lain.bgm.tv 图片域名替换为代理地址, 附加 HMAC 签名 */
 export function applyLainProxy(url: string) {
-  const { workerLainProxy, workerLainSecret, workerApiProxy } = syncSystemStore().setting
+  const { workerProxyDisabled, workerLainProxy, workerLainSecret, workerApiProxy } =
+    syncSystemStore().setting
+
+  // 全局禁用代理时直接返回原始 URL
+  if (workerProxyDisabled) return url
 
   // api.bgm.tv 的 redirect 图片 (如 avatar) 走 API proxy
   if (typeof url === 'string' && workerApiProxy && url.includes(API_HOST)) {

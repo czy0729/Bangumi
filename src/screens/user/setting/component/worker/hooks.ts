@@ -7,12 +7,13 @@
 import { useCallback, useRef, useState } from 'react'
 import { systemStore } from '@stores'
 import { feedback } from '@utils'
+import { logger } from '@utils/dev'
 import { ping } from '@utils/fetch'
 import { useMount } from '@utils/hooks'
 import { API_HOST, HOST, HOST_BGM_STATIC } from '@constants'
+import { COMPONENT } from './ds'
 
 import type { PingStatus } from './types'
-
 /** Ping 测试钩子 */
 function usePingTest(urlTemplate: string, replaceTarget: string) {
   const [state, setState] = useState<{ status: PingStatus; ms: number }>({
@@ -25,7 +26,10 @@ function usePingTest(urlTemplate: string, replaceTarget: string) {
       if (!proxy) return
       setState({ status: 'testing', ms: 0 })
       const url = urlTemplate.replace(replaceTarget, proxy)
+
+      logger.info(COMPONENT, 'ping', { url })
       const ms = await ping(url)
+
       feedback(true)
       setState({ status: ms > 0 ? 'done' : 'fail', ms })
     },
@@ -113,6 +117,10 @@ export function useWorkerSettings() {
     systemStore.switchSetting('workerProxyDirect')
   }, [])
 
+  const setWorkerProxyDisabled = useCallback(() => {
+    systemStore.switchSetting('workerProxyDisabled')
+  }, [])
+
   useMount(() => {
     return () => {
       const trimProxy = workerProxyRef.current.trim()
@@ -148,6 +156,7 @@ export function useWorkerSettings() {
     workerLainProxy,
     workerLainSecret,
     workerApiProxy,
+    workerProxyDisabled: systemStore.setting.workerProxyDisabled,
     workerProxyDirect: systemStore.setting.workerProxyDirect,
     lockedFields,
     focusedField,
@@ -156,6 +165,7 @@ export function useWorkerSettings() {
     setWorkerLainProxy: handleSetWorkerLainProxy,
     setWorkerLainSecret: handleSetWorkerLainSecret,
     setWorkerApiProxy: handleSetWorkerApiProxy,
+    setWorkerProxyDisabled,
     setWorkerProxyDirect,
     toggleLock,
     handleFocus,
