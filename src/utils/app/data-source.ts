@@ -7,7 +7,14 @@
 import { isObservableArray } from 'mobx'
 import { DEV, FROZEN_ARRAY, FROZEN_OBJECT } from '@constants'
 import { CDN_OSS_MAGMA_MONO, CDN_OSS_MAGMA_POSTER, CDN_OSS_SUBJECT } from '@constants/cdn'
-import { HOST, HOST_2, HOST_3, HOST_BGM_STATIC, IMG_DEFAULT } from '@constants/constants'
+import {
+  HOST,
+  HOST_2,
+  HOST_3,
+  HOST_BGM_STATIC,
+  HOST_IMAGE,
+  IMG_DEFAULT
+} from '@constants/constants'
 import { getJSON } from '@assets/json'
 import userData from '@assets/json/user.json'
 import { logger } from '../dev'
@@ -21,7 +28,6 @@ import {
   FIND_SUBJECT_JP_CACHE_MAP,
   GET_AVATAR_CACHE_MAP,
   HEIGHT,
-  HOST_IMAGE,
   NO_IMGS,
   NSFW_CACHE_MAP,
   NSFW_KEYWORDS,
@@ -830,7 +836,10 @@ export function getAvatarLocal(userId: UserId) {
     return false
   }
 
-  const avatar = `${HOST_BGM_STATIC}/pic/user/l/000/${find.a}.jpg` as const
+  // 兼容旧数据: 旧格式不含目录前缀, 默认补 000/
+  const a = find.a
+  const path = !/^\d{3}\//.test(a) ? `000/${a}` : a
+  const avatar = `${HOST_BGM_STATIC}/pic/user/l/${path}.jpg` as const
   GET_AVATAR_CACHE_MAP.set(userId, avatar)
   return avatar
 }

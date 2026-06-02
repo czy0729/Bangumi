@@ -11,6 +11,7 @@ import userStore from '../user'
 import Fetch from './fetch'
 
 import type { UserId } from '@types'
+
 export default class Actions extends Fetch {
   autoUpdateAvatars = async (
     list: any[],
@@ -27,11 +28,8 @@ export default class Actions extends Fetch {
       const userId = item?.[userIdKey]
       const avatar = item?.[avatarIdKey]
       if (userId && avatar) {
-        if (avatar.includes('/l/000/')) {
-          data[userId] = avatar.split('/l/000/')?.[1]
-        } else if (avatar.includes('/l/icon.jpg')) {
-          data[userId] = 'icon.jpg'
-        }
+        const lMatch = avatar.match(/\/l\/(.+)$/)
+        if (lMatch) data[userId] = lMatch[1]
       }
     })
 

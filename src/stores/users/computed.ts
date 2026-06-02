@@ -12,7 +12,7 @@ import userStore from '../user'
 import { INIT_USERS, INIT_USERS_INFO } from './init'
 import State from './state'
 
-import type { Avatar, StoreConstructor, UserId } from '@types'
+import type { StoreConstructor, UserId } from '@types'
 import type { STATE } from './init'
 import type {
   Blogs,
@@ -36,7 +36,9 @@ export default class Computed
 
     return computed(() => {
       const value = this.state.avatars[userId]
-      return (value ? `${HOST_BGM_STATIC}/pic/user/l/000/${value}` : '') as Avatar<'l'>
+      // 兼容旧数据: 旧格式不含目录前缀 (如 21/77/217781.jpg), 默认补 000/
+      const path = value && !/^\d{3}\//.test(value) && value !== 'icon.jpg' ? `000/${value}` : value
+      return (path ? `${HOST_BGM_STATIC}/pic/user/l/${path}` : '') as string
     }).get()
   }
 

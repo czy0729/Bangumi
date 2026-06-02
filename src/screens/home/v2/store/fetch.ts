@@ -8,6 +8,7 @@ import { collectionStore, subjectStore, systemStore, timelineStore, userStore } 
 import { getTimestamp, queue } from '@utils'
 import { decode } from '@utils/protobuf'
 import {
+  H1,
   H6,
   MODEL_COLLECTION_STATUS,
   MODEL_COLLECTIONS_ORDERBY,
@@ -117,18 +118,20 @@ export default class Fetch extends Computed {
     )
   }
 
-  private _fetchedCollectionTimelines = false
-
   /** 追踪特定用户收藏时间线 */
   fetchCollectionTimelines = () => {
     if (!this.isLogin) return false
 
-    if (this._fetchedCollectionTimelines) return true
+    const { lastfetchedCollectionTimelines } = this.state
+    if (getTimestamp() - Number(lastfetchedCollectionTimelines) < H1) return true
 
     const { collectionTimelines } = systemStore.setting
     if (!collectionTimelines?.length) return false
 
-    this._fetchedCollectionTimelines = true
+    this.setState({
+      lastfetchedCollectionTimelines: getTimestamp()
+    })
+    this.save()
 
     return queue(
       collectionTimelines.map(userName => () => timelineStore.fetchCollectionTimelines(userName)),

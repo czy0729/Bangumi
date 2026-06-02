@@ -103,6 +103,9 @@ export const STATE = {
   /** 初始化次数 */
   boot: 0,
 
+  /** 上次请求收藏时间线的时间戳 */
+  lastfetchedCollectionTimelines: 0 as Loaded,
+
   _loaded: false as Loaded
 }
 
