@@ -8,5 +8,6 @@ import type { Fn, WithIndex, WithNavigation } from '@types'
 import type { RecommendTopicItem } from '@utils/kv/type'
 
 export type Props = WithNavigation<WithIndex<RecommendTopicItem>> & {
+  openWebBrowser: boolean
   onClose: Fn
 }

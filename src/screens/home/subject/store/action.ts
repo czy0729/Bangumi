@@ -634,7 +634,7 @@ export default class Action extends Fetch {
 
       navigation.push('WebBrowser', {
         title: `${cnjp(this.cn, this.jp)}的透视`,
-        url: `https://bgm.tv/subject/${this.subjectId}/stats`
+        url: `${HOST}/subject/${this.subjectId}/stats`
       })
       return
     }

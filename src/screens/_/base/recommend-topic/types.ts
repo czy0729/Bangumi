@@ -26,6 +26,9 @@ export type Props = WithNavigation<{
   /** 到底文案 */
   footerNoMoreText?: string
 
+  /** 是否使用外部浏览器打开帖子 */
+  openWebBrowser?: boolean
+
   /** 显示推荐 */
   onShow: Fn
 

@@ -21,9 +21,9 @@ import PingButton from './ping-button'
 import { COMPONENT, TEXTS } from './ds'
 import { memoStyles } from './styles'
 
+import type { NavigationProps } from '@types'
 import type { PingStatus } from './types'
 import type { WithFilterProps } from '../../types'
-import type { NavigationProps } from '@types'
 
 /** 代理服务器设置 */
 function Worker({ navigation, filter }: WithFilterProps<NavigationProps>) {

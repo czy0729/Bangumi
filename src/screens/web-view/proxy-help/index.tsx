@@ -50,6 +50,7 @@ function ProxyHelp({ navigation }: NavigationProps) {
             data={data}
             iconSize={22}
             footerNoMoreText='- 以上为 26 年 5 月 28 日以来「反代」相关帖子 -'
+            openWebBrowser
             onShow={handleShow}
             onHide={handleHide}
             onLoadMore={handleLoadMore}

@@ -8,6 +8,7 @@ import React, { useCallback, useState } from 'react'
 import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page } from '@components'
 import { usePreventBack } from '@utils/hooks'
+import { applyProxy } from '@utils/proxy'
 import Notice from './component/notice'
 import WebView from './component/webview'
 import Header from './header'
@@ -22,7 +23,8 @@ function WebBrowser({ route }: Props) {
   const [key, setKey] = useState(0)
   const [showDesc, setShowDesc] = useState(show)
 
-  const { url, title, desc, injectedViewport, gestureEnabled = true } = route.params
+  const { url: _url, title, desc, injectedViewport, gestureEnabled = true } = route.params
+  const url = applyProxy(_url).url
 
   const handleClose = useCallback(() => {
     setShowDesc(false)

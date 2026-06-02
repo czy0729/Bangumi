@@ -9,6 +9,7 @@ import * as WebBrowser from 'expo-web-browser'
 import pLimit from 'p-limit'
 import { B, IOS, M, TIMEZONE_IS_GMT8 } from '@constants/constants'
 import { date, getTimestamp } from '../date'
+import { applyProxy } from '../proxy'
 import Base64 from '../thirdParty/base64'
 import { info } from '../ui'
 import { log } from './utils'
@@ -261,6 +262,9 @@ export function open(url: string, encode: boolean = false): boolean {
   if (url.startsWith('//')) url = `https:${url}`
 
   if (encode) url = encodeURI(url)
+
+  // 接管 workerProxy 替换
+  url = applyProxy(url).url
 
   if (IOS && url.indexOf('http') === 0) {
     WebBrowser.openBrowserAsync(url, {

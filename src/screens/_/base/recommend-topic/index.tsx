@@ -27,6 +27,7 @@ export const RecommendTopic = observer(
     data,
     iconSize = 11,
     footerNoMoreText = '- 到底了 -',
+    openWebBrowser = false,
     onShow,
     onHide,
     onLoadMore
@@ -47,7 +48,13 @@ export const RecommendTopic = observer(
             {!!list.length ? (
               <>
                 {list.map(item => (
-                  <Item key={item.id} {...item} navigation={navigation} onClose={onHide} />
+                  <Item
+                    key={item.id}
+                    {...item}
+                    navigation={navigation}
+                    openWebBrowser={openWebBrowser}
+                    onClose={onHide}
+                  />
                 ))}
                 {hasMore ? (
                   <Touchable style={styles.loadMore} onPress={onLoadMore}>

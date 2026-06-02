@@ -9,8 +9,10 @@ import { observer } from 'mobx-react'
 import { Avatar, Flex, Text, Touchable, UserStatus } from '@components'
 import { isBlockUser } from '@_/item/post/utils'
 import { _ } from '@stores'
+import { open } from '@utils'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
+import { HOST } from '@constants'
 import { memoStyles } from './styles'
 
 import type { TopicId } from '@types'
@@ -27,6 +29,7 @@ function Item({
   user_username,
   created_at,
   content,
+  openWebBrowser,
   onClose
 }: Props) {
   r('RecommendTopicItem')
@@ -43,10 +46,15 @@ function Item({
   }, [navigation, onClose, user_nickname, user_username])
 
   const handlePress = useCallback(() => {
-    onClose()
+    if (!openWebBrowser) onClose()
 
     setTimeout(() => {
       const topicId = `group/${id}` as TopicId
+      if (openWebBrowser) {
+        open(`${HOST}/${topicId}`)
+        return
+      }
+
       navigation.push('Topic', {
         topicId,
         _title: title,
@@ -58,7 +66,7 @@ function Item({
         topicId
       })
     }, 320)
-  }, [id, navigation, onClose, reply_count, title])
+  }, [id, navigation, onClose, openWebBrowser, reply_count, title])
 
   // 屏蔽用户
   if (isBlockUser(user_username, user_nickname, '', `TopicRecommend|${id}`)) return null
