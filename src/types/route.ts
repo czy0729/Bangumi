@@ -62,6 +62,7 @@ export type NavigationPushType = RouteActions &
   RouteHentai &
   RouteInformation &
   RouteLike &
+  RouteProxyHelp &
   RouteManga &
   RouteMilestone &
   RouteMono &
@@ -754,6 +755,8 @@ export type RouteInformation = (
     ai?: boolean
   }
 ) => any
+
+export type RouteProxyHelp = (path: 'ProxyHelp') => any
 
 export type RouteLike = Route<
   'Like',

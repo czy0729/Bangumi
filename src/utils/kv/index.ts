@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-23 01:47:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-15 23:00:57
+ * @Last Modified time: 2026-06-02 08:24:54
  */
 import Constants from 'expo-constants'
 import { WEB } from '@constants/device'
@@ -593,6 +593,59 @@ export async function groupTopics(
     if (response?.data?.length) return response
   } catch (error) {
     err('groupTopics', error)
+  }
+
+  return null
+}
+
+export async function searchGroupTopics(
+  q: string,
+  options: {
+    target?: 'all' | 'title' | 'content'
+    minReplies?: number
+    includeBlocked?: boolean
+    exact?: boolean
+    sort?: 'match' | 'newest' | 'oldest' | 'replies'
+    after?: string
+    limit?: number
+    offset?: number
+  } = {}
+): Promise<ResultGroupTopics | null> {
+  if (isDevtoolsOpen()) return Promise.reject('denied')
+
+  const {
+    target = 'title',
+    minReplies = 0,
+    includeBlocked = false,
+    exact = false,
+    sort = 'newest',
+    after,
+    limit = 20,
+    offset = 0
+  } = options
+
+  try {
+    const { data } = await axios({
+      method: 'get',
+      url: [
+        `${HOST_RY_MK}/v1/group-topics?q=${encodeURIComponent(q)}`,
+        `target=${target}`,
+        `min_replies=${minReplies}`,
+        `include_blocked=${includeBlocked}`,
+        `exact=${exact}`,
+        `sort=${sort}`,
+        after ? `after=${after}` : '',
+        `limit=${limit}`,
+        `offset=${offset}`
+      ]
+        .filter(Boolean)
+        .join('&')
+    })
+
+    const response = data
+    if (response?.data?.length) return response
+  } catch (error) {
+    err('searchGroupTopics', error)
   }
 
   return null

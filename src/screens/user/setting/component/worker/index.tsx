@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2026-05-30 12:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-02 03:10:44
+ * @Last Modified time: 2026-06-02 10:45:00
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { ActionSheet, Divider, Flex, SwitchPro, Text } from '@components'
-import { ItemSetting, ItemSettingBlock, Notice } from '@_'
+import { IconTouchable, ItemSetting, ItemSettingBlock, Notice } from '@_'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
 import { useBoolean } from '@utils/hooks'
@@ -23,12 +23,13 @@ import { memoStyles } from './styles'
 
 import type { PingStatus } from './types'
 import type { WithFilterProps } from '../../types'
+import type { NavigationProps } from '@types'
 
 /** 代理服务器设置 */
-function Worker({ filter }: WithFilterProps) {
+function Worker({ navigation, filter }: WithFilterProps<NavigationProps>) {
   r(COMPONENT)
 
-  const { state, setTrue, setFalse } = useBoolean(false)
+  const { state, setTrue, setFalse } = useBoolean(true)
   const shows = getShows(filter, TEXTS)
   const styles = memoStyles()
 
@@ -151,9 +152,20 @@ function Worker({ filter }: WithFilterProps) {
         height={filter ? 440 : 720}
         onClose={setFalse}
       >
-        <Notice>
-          如果你已经有工具建议不要折腾本功能。请在知悉此功能的情况下再填写，一旦有值即生效，错误值会导致你无法正常使用客户端。首次填写值，可能需要重新完整登录授权、冷启动才能正常表现。
-        </Notice>
+        <View>
+          <Notice>若不熟悉本页用途，点击右方按钮查看说明。</Notice>
+          <IconTouchable
+            style={styles.info}
+            name='md-info-outline'
+            size={16}
+            onPress={() => {
+              setFalse()
+              setTimeout(() => {
+                navigation.push('ProxyHelp')
+              }, 320)
+            }}
+          />
+        </View>
 
         {renderProxyInput(
           shows.workerProxy,

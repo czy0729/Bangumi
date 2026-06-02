@@ -2,19 +2,21 @@
  * @Author: czy0729
  * @Date: 2026-05-15 05:31:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-15 22:59:18
+ * @Last Modified time: 2026-06-02 10:00:00
  */
 import React, { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { Avatar, Flex, Text, Touchable, UserStatus } from '@components'
 import { isBlockUser } from '@_/item/post/utils'
 import { _ } from '@stores'
+import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { memoStyles } from './styles'
 
 import type { TopicId } from '@types'
 import type { Props } from './types'
-function RecommendItem({
+
+function Item({
   navigation,
   id,
   title,
@@ -24,8 +26,11 @@ function RecommendItem({
   user_avatar,
   user_username,
   created_at,
+  content,
   onClose
 }: Props) {
+  r('RecommendTopicItem')
+
   const handleAvatarPress = useCallback(() => {
     onClose()
 
@@ -79,10 +84,15 @@ function RecommendItem({
           <Text style={_.mt.xs} type='sub' size={11} numberOfLines={1}>
             {created_at.slice(2, 10)} / {user_nickname} / {group_name}
           </Text>
+          {!!content && (
+            <Text style={_.mt.md} size={11} numberOfLines={20}>
+              {content}
+            </Text>
+          )}
         </Flex.Item>
       </Flex>
     </Touchable>
   )
 }
 
-export default observer(RecommendItem)
+export default observer(Item)

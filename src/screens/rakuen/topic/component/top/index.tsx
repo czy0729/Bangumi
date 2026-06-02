@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-15 22:43:55
+ * @Last Modified time: 2026-06-02 05:53:07
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Divider, Expand, HeaderPlaceholder, Text } from '@components'
+import { RecommendTopic } from '@_'
 import { _, useStore } from '@stores'
-import Recommend from '../recommend'
 import Author from './author'
 import Content from './content'
 import Ep from './ep'
@@ -22,7 +22,7 @@ import { memoStyles } from './styles'
 import type { Ctx } from '../../types'
 
 function Top() {
-  const { $ } = useStore<Ctx>(COMPONENT)
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   const styles = memoStyles()
 
@@ -45,7 +45,17 @@ function Top() {
             数据库中没有查询到指定话题{'\n'}话题可能正在审核或已被删除
           </Text>
         )}
-        {$.isTopic && <Recommend />}
+        {$.isTopic && (
+          <RecommendTopic
+            navigation={navigation}
+            visible={$.state.recommendVisible}
+            loading={$.state.recommendLoading}
+            data={$.state.recommendTopics}
+            onShow={$.showRecommend}
+            onHide={$.hideRecommend}
+            onLoadMore={$.fetchRecommendTopics}
+          />
+        )}
       </View>
       <Divider />
       <Ep />

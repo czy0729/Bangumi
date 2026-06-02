@@ -100,7 +100,7 @@ function Setting(props: NavigationProps<Params>) {
             <Storage filter={filter} />
             <System filter={filter} />
             <Timezone filter={filter} />
-            <Worker filter={filter} />
+            <Worker navigation={navigation} filter={filter} />
             <DangerZone navigation={navigation} filter={filter} />
           </Block>
 

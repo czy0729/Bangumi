@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-06-01 12:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-02 02:41:53
+ * @Last Modified time: 2026-06-02 09:27:53
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -28,23 +28,21 @@ function PingButton({ status, ms, onPress }: Props) {
               : 'md-radio-button-off'
           }
           size={13}
-          color={
-            status === 'done' ? _.colorSuccess : status === 'fail' ? _.colorDanger : _.colorIcon
-          }
+          color={status === 'done' ? _.colorSuccess : status === 'fail' ? _.colorIcon : _.colorIcon}
         />
         {status === 'testing' && (
-          <Text style={styles.text} size={10} type='sub'>
+          <Text style={styles.text} type='sub' size={10}>
             检测中
           </Text>
         )}
         {status === 'done' && (
-          <Text style={styles.text} size={10} type='sub'>
+          <Text style={styles.text} type='sub' size={10}>
             {ms}ms
           </Text>
         )}
         {status === 'fail' && (
-          <Text style={styles.text} size={10} type='danger'>
-            失败
+          <Text style={styles.text} type='icon' size={10}>
+            缓慢或失败
           </Text>
         )}
       </Flex>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-07 17:49:27
+ * @Last Modified time: 2026-06-02 08:02:04
  */
 import { lazy } from 'react'
 
@@ -143,6 +143,7 @@ export const DoubanSync = lazy(() => import('./web-view/douban-sync'))
 export const Information = lazy(() => import('./web-view/information'))
 export const Log = lazy(() => import('./web-view/log'))
 export const Playground = lazy(() => import('./web-view/playground'))
+export const ProxyHelp = lazy(() => import('./web-view/proxy-help'))
 export const Share = lazy(() => import('./web-view/share'))
 export const Tips = lazy(() => import('./web-view/tips'))
 export const Versions = lazy(() => import('./web-view/versions'))

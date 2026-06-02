@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-08 18:25:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-26 19:22:48
+ * @Last Modified time: 2026-06-02 05:57:21
  */
 
 /**
@@ -14,6 +14,7 @@ export * from './client-track'
 export * from './comments'
 export * from './cover'
 export * from './popover'
+export * from './recommend-topic'
 export * from './segment'
 export * from './with-layout-tracker'
 

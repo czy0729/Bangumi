@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-05-30 12:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-02 01:10:01
+ * @Last Modified time: 2026-06-02 09:29:27
  */
 import { useCallback, useRef, useState } from 'react'
 import { systemStore } from '@stores'
@@ -53,8 +53,8 @@ export function useWorkerSettings() {
     workerProxy: !!systemStore.setting.workerProxy,
     workerApiProxy: !!systemStore.setting.workerApiProxy,
     workerLainProxy: !!systemStore.setting.workerLainProxy,
-    workerSecret: !!systemStore.setting.workerSecret,
-    workerLainSecret: !!systemStore.setting.workerLainSecret
+    workerSecret: true,
+    workerLainSecret: true
   })
 
   const [focusedField, setFocusedField] = useState<string | null>(null)
