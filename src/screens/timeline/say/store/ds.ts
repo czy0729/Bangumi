@@ -14,7 +14,10 @@ export const RESET_STATE = {
 }
 
 export const EXCLUDE_STATE = {
-  ...RESET_STATE
+  ...RESET_STATE,
+
+  /** 外部插入文本后, 光标移到末尾的触发器 */
+  cursorEnd: 0
 }
 
 export const STATE = {

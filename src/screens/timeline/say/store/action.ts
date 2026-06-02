@@ -65,7 +65,8 @@ export default class Action extends Fetch {
   /** 长按 at 某人 */
   at = (id: UserId) => {
     this.setState({
-      value: `${this.state.value} @${id} `
+      value: `${this.state.value} @${id} `,
+      cursorEnd: this.state.cursorEnd + 1
     })
 
     t('吐槽.at', {

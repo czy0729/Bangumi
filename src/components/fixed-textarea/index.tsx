@@ -101,12 +101,22 @@ class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
     } catch {}
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps: { value: any }) {
-    const { value } = nextProps
+  UNSAFE_componentWillReceiveProps(nextProps: { value: any; cursorEnd: any }) {
+    const { value, cursorEnd } = nextProps
     if (value !== this.state.value) {
-      this.setState({
-        value
-      })
+      if (cursorEnd !== this.props.cursorEnd) {
+        this.setState({
+          value,
+          selection: {
+            start: value.length,
+            end: value.length
+          }
+        })
+      } else {
+        this.setState({
+          value
+        })
+      }
     }
   }
 

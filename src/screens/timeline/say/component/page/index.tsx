@@ -73,6 +73,7 @@ function Say() {
               placeholder={$.isNew ? '新吐槽' : '回复吐槽, 长按头像@某人'}
               simple
               value={$.state.value}
+              cursorEnd={$.state.cursorEnd}
               onChange={$.onChange}
               onClose={$.closeFixedTextarea}
               onSubmit={newValue => $.doSubmit(newValue, scrollViewRef.current, navigation)}

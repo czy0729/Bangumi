@@ -10,6 +10,9 @@ export type Props = PropsWithChildren<{
   /** 输入框值 */
   value?: string
 
+  /** 外部插入文本后, 光标移到末尾的触发器 */
+  cursorEnd?: number
+
   /** 输入框提示信息 */
   placeholder?: string
 
