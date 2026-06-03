@@ -43,6 +43,7 @@ const Head = memo(
     hideScore = false,
     rating = {},
     duration = '',
+    musicDuration = '',
     gameDuration = '',
     pinnedGameDuration = '',
     nsfw = false,
@@ -194,6 +195,7 @@ const Head = memo(
               </>
             )}
             {!!duration && <Tag style={styles.duration} type='sub' size={12} value={duration} />}
+            {!!musicDuration && <Tag style={styles.duration} type='sub' size={12} value={musicDuration} />}
             {!!gameDuration && (
               <Touchable
                 onPress={() => {

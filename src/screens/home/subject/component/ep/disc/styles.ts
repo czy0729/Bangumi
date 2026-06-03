@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-26 00:33:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-03 22:23:48
+ * @Last Modified time: 2026-06-03 18:41:23
  */
 import { _ } from '@stores'
 
@@ -24,5 +24,14 @@ export const memoStyles = _.memoStyles(() => ({
   },
   translate: {
     marginTop: _.xs
+  },
+  tag: {
+    paddingVertical: 2,
+    paddingHorizontal: 4,
+    marginLeft: _.sm,
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
+    borderColor: _.select(_.colorBg, _._colorDarkModeLevel1),
+    borderRadius: _.radiusXs,
+    overflow: 'hidden'
   }
 }))

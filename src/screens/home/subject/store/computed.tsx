@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-27 07:24:03
+ * @Last Modified time: 2026-06-04 03:01:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -80,6 +80,9 @@ import {
   extractYear,
   extractYearMonth,
   normalizeYearMonth,
+  parseMaxDurationFromEps,
+  parseMovieDuration,
+  parseMusicDuration,
   pickInfoValue,
   PRIMARY_KEYS,
   SECONDARY_KEYS
@@ -1514,6 +1517,11 @@ export default class Computed extends State {
     } as const
   }
 
+  /** 音乐碟播放时长 */
+  @computed get musicDuration() {
+    return this.rawInfo ? parseMusicDuration(this.rawInfo) : ''
+  }
+
   /** 剧场版、电影时长 */
   @computed get duration() {
     if (this.titleLabel !== '剧场版' && this.titleLabel !== 'MOVIE' && this.titleLabel !== '电影') {
@@ -1522,27 +1530,12 @@ export default class Computed extends State {
 
     const { eps } = this.subject
     if (eps?.length) {
-      const maxSeconds = Math.max(
-        0,
-        ...eps.map(item => {
-          if (typeof item?.duration !== 'string') return 0
-
-          const parts = item.duration.split(':').map(Number)
-          if (parts.length !== 3 || parts.some(n => !Number.isFinite(n))) return 0
-
-          const [h, m, s] = parts
-          return h * 3600 + m * 60 + s
-        })
-      )
-
-      const minutes = Math.ceil(maxSeconds / 60)
+      const minutes = parseMaxDurationFromEps(eps)
       if (minutes > 26) return `${minutes} min`
     }
 
     if (this.rawInfo) {
-      const match = this.rawInfo.match(/片长[\s\S]*?(\d+)\s*(分钟|分)/)
-      const minutes = match ? Number(match[1]) : 0
-
+      const minutes = parseMovieDuration(this.rawInfo)
       if (minutes > 26) return `${minutes} min`
     }
 

@@ -69,6 +69,7 @@ function HeadWrap({ onBlockRef }: Props) {
           hideScore={systemStore.setting.hideScore}
           rating={$.rating}
           duration={$.duration}
+          musicDuration={$.musicDuration}
           gameDuration={gameDuration}
           pinnedGameDuration={vndb ? 'vndb' : pinnedGameDuration}
           nsfw={$.nsfw}

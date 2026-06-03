@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-06-02 02:26:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-03 22:25:31
+ * @Last Modified time: 2026-06-03 18:42:42
  */
 import React, { useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
 import { Expand, Flex, Heatmap, Text } from '@components'
-import { SectionTitle } from '@_'
+import { SectionTitle, Tag } from '@_'
 import { _ } from '@stores'
 import { appNavigate, HTMLDecode, stl } from '@utils'
 import { memo } from '@utils/decorators'
@@ -27,17 +27,25 @@ const Disc = memo(
     focusOrigin = false
   }) => {
     const [expand, setExpand] = useState(false)
-    const handleExpand = useCallback(() => setExpand(true), [])
 
-    const { length } = discTranslateResult
+    const { length: discLength } = disc
+    const { length: translateLength } = discTranslateResult
+
+    const elLeft = useMemo(
+      () =>
+        discLength > 1 ? (
+          <Tag style={styles.tag} type='sub' size={12} value={`${discLength} Disc`} />
+        ) : undefined,
+      [discLength, styles.tag]
+    )
     const elRight = useMemo(
       () => (
         <>
           {!focusOrigin && <IconSearchDisc />}
-          {!length && <IconDisc />}
+          {!translateLength && <IconDisc />}
         </>
       ),
-      [focusOrigin, length]
+      [focusOrigin, translateLength]
     )
 
     const hasList = !!(disc || []).length
@@ -58,7 +66,9 @@ const Disc = memo(
                   {item.disc.map((i, idx) => {
                     const title = HTMLDecode(i.title).replace(`${idx + 1} `, '')
                     const translate =
-                      length > 0 ? discTranslateResult.find(d => d.src === title)?.dst || '' : ''
+                      discTranslateResult.length > 0
+                        ? discTranslateResult.find(d => d.src === title)?.dst || ''
+                        : ''
 
                     return (
                       <Flex
@@ -97,12 +107,14 @@ const Disc = memo(
             ))}
         </>
       ),
-      [disc, discTranslateResult, expand, length, navigation, styles, subjectId]
+      [disc, discTranslateResult, expand, navigation, styles, subjectId]
     )
+
+    const handleExpand = useCallback(() => setExpand(true), [])
 
     return (
       <View style={stl(styles.container, hasShortList && styles.containerShort)}>
-        <SectionTitle right={elRight} splitStyles>
+        <SectionTitle left={elLeft} right={elRight} splitStyles>
           曲目列表
         </SectionTitle>
 

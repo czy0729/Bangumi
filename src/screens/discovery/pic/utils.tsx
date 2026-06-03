@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-06-08 20:20:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-16 04:48:43
+ * @Last Modified time: 2026-06-03 23:20:55
  */
 import { monoStore } from '@stores'
 import { cData, cheerio, cMap, feedback, getTimestamp, htmlMatch, info, queue, sleep } from '@utils'
@@ -32,7 +32,7 @@ export async function tag(
 
   let html = ''
   try {
-    let url = `${HOST}/en/${encodeURIComponent(q)}`
+    let url = `${HOST}/tag/${encodeURIComponent(q)}`
     if (page > 1) url += `/?pos=${page}`
     html = (await xhrCustom({ url }))._response
   } catch (error) {
