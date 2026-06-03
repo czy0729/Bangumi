@@ -35,9 +35,9 @@ export type Props = Override<
     delayPressOut?: number
 
     /**
-     * iOS 端此值无变化
+     * @deprecated iOS 端此值无变化
      * 安卓端 Touchable 都使用了 react-native-gesture-handler 提供的封装
-     * 有比 RN 提供的更快的反馈效果，若设置为 true 强制使用 RN 提供的 <Touchable>
+     * 有比 RN 提供的更快的反馈效果，若设置为 true 强制使用 RN 提供的 Touchable
      */
     useRN?: boolean
 

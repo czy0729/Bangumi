@@ -4,13 +4,14 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-18 19:08:09
  */
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import { Modal, View } from 'react-native'
 import { observer } from 'mobx-react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { RNImageViewer } from '@components/@'
 import { open, showActionSheet, stl } from '@utils'
-import { r } from '@utils/dev'
+import { logger, r } from '@utils/dev'
+import { applyLainProxy } from '@utils/proxy'
 import { FROZEN_FN, HOST_DOGE, IOS } from '@constants'
 import { Component } from '../component'
 import { Iconfont } from '../iconfont'
@@ -39,6 +40,24 @@ export const ImageViewer = observer(
   }: ImageViewerProps) => {
     r(COMPONENT)
 
+    const proxyImageUrls = useMemo(
+      () =>
+        imageUrls.map(item => ({
+          ...item,
+          url: applyLainProxy(item.url),
+          _url: item._url ? applyLainProxy(item._url) : item._url
+        })),
+      [imageUrls]
+    )
+
+    const prevVisible = useRef(false)
+    useEffect(() => {
+      if (visible && !prevVisible.current) {
+        logger.success(COMPONENT, { urls: proxyImageUrls })
+      }
+      prevVisible.current = visible
+    }, [visible, proxyImageUrls])
+
     const selectedIndex = index
 
     const handleRequestClose = useCallback(() => {
@@ -64,13 +83,13 @@ export const ImageViewer = observer(
     }, [])
 
     const handleMenus = useCallback(() => {
-      const currentUrl = imageUrls[selectedIndex]?._url || imageUrls[selectedIndex]?.url
+      const currentUrl = proxyImageUrls[selectedIndex]?._url || proxyImageUrls[selectedIndex]?.url
       return handleRenderMenus(currentUrl, onCancel)
-    }, [imageUrls, selectedIndex, handleRenderMenus, onCancel])
+    }, [proxyImageUrls, selectedIndex, handleRenderMenus, onCancel])
 
     const handleRenderIndicator = useCallback(
       (currentIndex: number, allSize: number) => {
-        if (imageUrls.length <= 1) return null
+        if (proxyImageUrls.length <= 1) return null
 
         return (
           <Text style={styles.indicator} type='__plain__' align='center' pointerEvents='none'>
@@ -78,7 +97,7 @@ export const ImageViewer = observer(
           </Text>
         )
       },
-      [imageUrls.length]
+      [proxyImageUrls.length]
     )
 
     const handleRenderImage = useCallback(
@@ -90,13 +109,13 @@ export const ImageViewer = observer(
             src={p?.source?.uri}
             width={p?.style?.width}
             height={p?.style?.height}
-            headers={imageUrls?.[0]?.headers}
+            headers={proxyImageUrls?.[0]?.headers}
             placeholder={false}
             skeleton={false}
           />
         )
       },
-      [imageUrls]
+      [proxyImageUrls]
     )
 
     return (
@@ -117,7 +136,7 @@ export const ImageViewer = observer(
               <RNImageViewer
                 style={styles.viewer}
                 index={selectedIndex}
-                imageUrls={imageUrls}
+                imageUrls={proxyImageUrls}
                 backgroundColor='transparent'
                 enableSwipeDown={!mini}
                 enableImageZoom={!mini}

@@ -197,21 +197,21 @@ export function getRecoveryBgmCover(src: any, width: number, height: number, siz
 /** ImageViewer 回调 */
 export function imageViewerCallback({ imageViewerSrc, uri, src, headers, event }) {
   return () => {
-    let _src = imageViewerSrc
-    if (typeof _src === 'string' && !_src.startsWith('http')) _src = undefined
+    let imageSrc = imageViewerSrc
+    if (typeof imageSrc === 'string' && !imageSrc.startsWith('http')) imageSrc = undefined
+
+    showImageViewer([
+      {
+        headers,
+        url: imageSrc || uri,
+        _url: imageSrc || src
+      }
+    ])
 
     t(event?.id, {
       from: '封面图',
       ...event?.data
     })
-
-    showImageViewer([
-      {
-        headers,
-        url: _src || uri,
-        _url: _src || src
-      }
-    ])
   }
 }
 
