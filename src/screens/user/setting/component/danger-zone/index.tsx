@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 18:08:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-06 00:25:46
+ * @Last Modified time: 2026-06-03 16:01:08
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -18,6 +18,7 @@ import NetworkServices from './network-services'
 import Password from './password'
 import Privacy from './privacy'
 import Settings from './settings'
+import ShowNSFWSubject from './show-nsfw-subject'
 import { COMPONENT, TEXTS } from './ds'
 
 import type { WithNavigation } from '@types'
@@ -35,7 +36,6 @@ function DangerZone({ navigation, filter }: WithNavigation<WithFilterProps>) {
   return (
     <>
       <ItemSetting
-        show={shows.logout}
         arrow
         highlight
         filter={filter}
@@ -49,10 +49,16 @@ function DangerZone({ navigation, filter }: WithNavigation<WithFilterProps>) {
       >
         <Heatmap id='设置.退出登陆' />
       </ItemSetting>
-      <ActionSheet show={state} title={TEXTS.dangerZone.hd} height={680} onClose={setFalse}>
+      <ActionSheet
+        show={state}
+        title={TEXTS.dangerZone.hd}
+        height={filter ? 480 : 720}
+        onClose={setFalse}
+      >
         {shows.logout && <Logout navigation={navigation} filter={filter} setFalse={setFalse} />}
         {shows.settings && <Settings filter={filter} />}
         {shows.networdServices && <NetworkServices filter={filter} />}
+        {shows.showNSFWSubject && <ShowNSFWSubject filter={filter} />}
         {shows.privacy && <Privacy filter={filter} />}
         {shows.password && <Password filter={filter} />}
         {shows.email && <Email filter={filter} />}

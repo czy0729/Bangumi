@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 14:56:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-06 00:20:02
+ * @Last Modified time: 2026-06-03 16:03:09
  */
 import { rc } from '@utils/dev'
 import i18n from '@constants/i18n'
@@ -13,7 +13,7 @@ export const COMPONENT = rc(PARENT, 'DangerZone')
 export const TEXTS = {
   dangerZone: {
     hd: '账户',
-    information: `${i18n.logout()}、个人设置、隐私、密码、邮箱`
+    information: '登出、个人设置、隐私、受限、密码、邮箱'
   },
   logout: {
     hd: i18n.logout()
@@ -25,6 +25,10 @@ export const TEXTS = {
   networdServices: {
     hd: '网络服务',
     information: '输入例如 Steam、GitHub、PSN 等社交信息，在个人空间展示'
+  },
+  showNSFWSubject: {
+    hd: '受限内容',
+    information: '显示受限条目内容'
   },
   privacy: {
     hd: '隐私',

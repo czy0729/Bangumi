@@ -54,10 +54,11 @@ const HeaderTitle = memo(
     return (
       <Flex style={styles.container}>
         {!!avatar && isCover ? (
-          <Cover src={avatar} size={IMG_WIDTH} radius={_.radiusXs} />
+          <Cover key={String(avatar)} src={avatar} size={IMG_WIDTH} radius={_.radiusXs} />
         ) : (
           <UserStatus userId={userId} mini>
             <Avatar
+              key={String(avatar)}
               navigation={navigation}
               size={IMG_WIDTH}
               src={avatar}

@@ -11,7 +11,7 @@ import { WEB } from '@constants/device'
 import { FROZEN_FN } from '@constants/init'
 import { GROUP_THUMB_MAP } from '@assets/images'
 import { DEV } from '@src/config'
-import { syncS2T } from '../async'
+import { syncS2T, syncSystemStore } from '../async'
 import { globalLog, globalWarn, logger, rerender } from '../dev'
 import { t } from '../fetch'
 import { getStorage, setStorage } from '../storage'
@@ -180,7 +180,14 @@ export function appNavigate(
 ): boolean {
   try {
     const { id, data = {} } = event
-    const value = fixedBgmUrl(url)
+
+    // 代理模式下需要把代理域名替换回 bgm.tv, 否则 matchBgmLink 无法匹配路由
+    let value = fixedBgmUrl(url)
+    const { workerProxy } = syncSystemStore().setting
+    if (workerProxy && value.includes(workerProxy)) {
+      value = value.replace(workerProxy, HOST)
+    }
+
     const result = matchBgmLink(value)
 
     // 没路由对象或者非本站

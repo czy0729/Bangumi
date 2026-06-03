@@ -17,7 +17,7 @@ const HeaderTitle = memo(
   ({ tinygrail = false, cover = '', nameTop = '', nameBottom = '' }) => {
     return (
       <Flex style={stl(styles.container, tinygrail && styles.containerTinygrail)}>
-        {!!cover && <Cover size={styles.container.height} src={cover} radius />}
+        {!!cover && <Cover key={String(cover)} size={styles.container.height} src={cover} radius />}
         <Flex.Item style={_.ml.sm}>
           <Text size={13} numberOfLines={1}>
             {nameTop}

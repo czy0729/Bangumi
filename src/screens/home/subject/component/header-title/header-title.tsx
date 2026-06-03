@@ -58,6 +58,7 @@ const HeaderTitle = memo(
     return (
       <Flex style={styles.container}>
         <Cover
+          key={String(common)}
           src={common}
           size={type === '音乐' ? IMAGE_HEIGHT : IMAGE_WIDTH}
           height={IMAGE_HEIGHT}
