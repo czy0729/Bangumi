@@ -50,7 +50,7 @@ export type ColorValue = RNColorValue
 /** 图片 uri */
 export type ImageSource = ImageProps['source']
 
-type DeepReadonly<T> = T extends (...args: any[]) => any
+export type DeepReadonly<T> = T extends (...args: any[]) => any
   ? T
   : T extends Array<infer U>
   ? ReadonlyArray<DeepReadonly<U>>

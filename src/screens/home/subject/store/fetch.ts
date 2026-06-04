@@ -860,16 +860,16 @@ export default class Fetch extends Computed {
       this.nsfw ||
       systemStore.setting.showAnitabi === -1 ||
       !systemStore.setting.showAnitabi ||
-      optimize(this.state.anitabi, D1)
+      optimize(this.state.anitabi, D7)
     ) {
       return false
     }
 
     const now = getTimestamp()
-    const snapshotId = `anitabi_${this.subjectId}`
+    const snapshotId = `anitabi_${this.subjectId}` as const
     try {
       const snapshot = await get(snapshotId)
-      if (optimize(snapshot, D1)) {
+      if (optimize(snapshot, D7)) {
         this.setState({
           anitabi: {
             ...snapshot,
@@ -880,7 +880,7 @@ export default class Fetch extends Computed {
       }
     } catch {}
 
-    const fetchId = `fetchAnitabi|${this.subjectId}`
+    const fetchId = `fetchAnitabi|${this.subjectId}` as const
     let anitabi: Partial<AnitabiData> = {
       _loaded: now
     }

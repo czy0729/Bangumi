@@ -17,7 +17,6 @@ import type {
   Optional,
   Override,
   Rating,
-  ReadonlyResult,
   RouteSubject,
   Sites,
   SubjectId,
@@ -90,7 +89,7 @@ export type SubjectSnapshot = Override<
   }
 >
 
-export type SubjectCommentValue = ReadonlyResult<Optional<SubjectComments, 'version'>>
+export type SubjectCommentValue = Optional<SubjectComments, 'version'>
 
 export type EpsData = Expand<
   Record<

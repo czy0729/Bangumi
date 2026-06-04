@@ -4,8 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-06-04 03:01:39
  */
-import React from 'react'
-import { View } from 'react-native'
 import { computed } from 'mobx'
 import {
   _,
@@ -19,38 +17,27 @@ import {
   usersStore,
   userStore
 } from '@stores'
-import { ON_AIR } from '@stores/calendar/onair'
 import {
   asc,
   desc,
   findSubjectCn,
   fixedSubjectInfo,
   freeze,
+  getAction,
   getOnAir,
   getTimestamp,
   HTMLDecode,
-  isArray,
   keepBasicChars,
-  lastDate,
   matchCoverUrl,
-  removeHTMLTag,
   x18
 } from '@utils'
 import { logger } from '@utils/dev'
-import { findADV } from '@utils/subject/adv'
-import { ANIME_TAGS, findAnime } from '@utils/subject/anime'
-import { findGame, GAME_CATE } from '@utils/subject/game'
-import { findManga, MANGA_TAGS } from '@utils/subject/manga'
-import { findWenku, WENKU_TAGS } from '@utils/subject/wenku'
 import { extractDlsiteId, extractVndbId } from '@utils/thirdParty/dlsite-vndb'
 import {
   HOST,
   IMG_DEFAULT,
-  IMG_INFO_ONLY,
   IMG_WIDTH_LG,
   MODEL_SUBJECT_TYPE,
-  SITES,
-  SITES_DS,
   URL_DEFAULT_AVATAR,
   WEB
 } from '@constants'
@@ -77,15 +64,43 @@ import {
 } from '../ds'
 import { getOriginConfig } from '../../../user/origin-setting/utils'
 import {
-  extractYear,
-  extractYearMonth,
-  normalizeYearMonth,
-  parseMaxDurationFromEps,
-  parseMovieDuration,
-  parseMusicDuration,
-  pickInfoValue,
-  PRIMARY_KEYS,
-  SECONDARY_KEYS
+  buildCrtKeywords,
+  buildKeywords,
+  checkIsPS,
+  filterDefaultAvatar,
+  filterSubjectComments,
+  findOriginArtist,
+  findRelationByType,
+  findRelationByTypes,
+  getAnimeInfo,
+  getAnimeTags,
+  getArtist,
+  getEnd,
+  getFilterEpsData,
+  getGameInfo,
+  getGameTags,
+  getMangaInfo,
+  getMangaTags,
+  getOnlineOrigins,
+  getRelease,
+  getSubjectStatus,
+  getValidPlaySources,
+  getWenkuInfo,
+  getWenkuTags,
+  getYear,
+  getYearAndMonth,
+  getYearAndMonthEnd,
+  mapBoardToTopic,
+  mapCrt,
+  mapFriendsRating,
+  mapPersons,
+  mapRelations,
+  mapReviewsToBlog,
+  mapStaff,
+  getDuration,
+  parseAlias,
+  parseGameReleaseDates,
+  parseMusicDuration
 } from './utils'
 import State from './state'
 import {
@@ -93,7 +108,6 @@ import {
   INIT_RATING,
   NAMESPACE,
   NON_SHOW,
-  SORT_RELATION_DESC,
   TEXT_ACTIONS_MANAGE,
   TEXT_ANI_DB,
   TEXT_GAME_CALENDAR_SUBSCRIBE,
@@ -105,9 +119,8 @@ import {
 } from './ds'
 
 import type { Subject, SubjectFromHtmlWhoItem } from '@stores/subject/types'
-import type { Collection, Id, RatingStatus, Sites, SubjectType, SubjectTypeCn } from '@types'
-import type { OriginItem } from '../../../user/origin-setting/utils'
-import type { Crt, RecDataItem, Staff, SubjectCommentValue, TagsItem } from '../types'
+import type { Collection, Id, Sites, SubjectType, SubjectTypeCn } from '@types'
+import type { Crt, RecDataItem, SubjectCommentValue, TagsItem } from '../types'
 
 export default class Computed extends State {
   /** 本地化 */
@@ -147,13 +160,6 @@ export default class Computed extends State {
     )
   }
 
-  /** 不显示吐槽块的空占位组件 */
-  @computed get footerEmptyDataComponent() {
-    if (systemStore.setting.showComment === -1) return <View />
-
-    return undefined
-  }
-
   /** 官方网址 */
   @computed get url() {
     return `${HOST}/subject/${this.subjectId}`
@@ -190,8 +196,8 @@ export default class Computed extends State {
       subjectComments = this.state.comments
     }
 
-    const { showComment } = systemStore.setting
-    if (!showComment || showComment === -1) {
+    const filteredList = filterSubjectComments(subjectComments.list, this.state.filterScores)
+    if (!filteredList.length) {
       const { pageTotal } = subjectComments.pagination
       return {
         list: [],
@@ -205,23 +211,7 @@ export default class Computed extends State {
       }
     }
 
-    const shouldFilterDefault = systemStore.setting.filterDefault || userStore.isLimit
-    const { filterScores } = this.state
-    const hasScoreFilter = filterScores.length > 0
-    if (!shouldFilterDefault && !hasScoreFilter) return subjectComments
-
-    const filteredList = subjectComments.list.filter(item => {
-      // 过滤默认头像
-      if (shouldFilterDefault && item.avatar?.includes(URL_DEFAULT_AVATAR)) return false
-
-      // 过滤分数范围
-      if (hasScoreFilter) {
-        const score = Number(item.star)
-        return score >= Number(filterScores[0]) && score <= Number(filterScores[1])
-      }
-
-      return true
-    })
+    if (filteredList.length === subjectComments.list.length) return subjectComments
 
     return {
       ...subjectComments,
@@ -291,23 +281,12 @@ export default class Computed extends State {
 
   /** 章节正版播放源 */
   @computed get onlinePlayActionSheetData() {
-    const { epsData } = this.state
-
-    // 过滤并映射有效的播放源
-    const validSources = SITES.filter((item: Sites) => {
-      const sourceData = epsData[item]
-      return sourceData && Object.keys(sourceData).length > 0
-    })
-
-    return [...validSources, '取消']
+    return getValidPlaySources(this.state.epsData)
   }
 
   /** 条目动作 */
   @computed get action() {
-    if (this.type === '音乐') return '听'
-    if (this.type === '游戏') return '玩'
-    if (this.type === '书籍') return '读'
-    return '看'
+    return getAction(this.type as SubjectTypeCn)
   }
 
   /** 用户自定义源头 */
@@ -328,50 +307,14 @@ export default class Computed extends State {
 
   /** 动画和三次元源头 */
   @computed get onlineOrigins() {
-    const data: (OriginItem | Sites)[] = []
-
-    if (this.type === '动画') {
-      if (userStore.isLogin) {
-        const flag = this.nsfw || this.tags?.some?.(item => item.name?.includes?.('里番'))
-
-        // nsfw
-        if (flag) {
-          getOriginConfig(subjectStore.origin, 'hanime')
-            .filter(item => item.active)
-            .forEach(item => {
-              data.push(item)
-            })
-        }
-      }
-
-      // anime
-      getOriginConfig(subjectStore.origin, 'anime')
-        .filter(item => item.active)
-        .forEach(item => {
-          data.push(item)
-        })
-    }
-
-    if (this.type === '三次元') {
-      // real
-      getOriginConfig(subjectStore.origin, 'real')
-        .filter(item => item.active)
-        .forEach(item => {
-          data.push(item)
-        })
-    }
-
-    if (systemStore.setting.showLegalSource) {
-      // bangumi-data
-      const { sites = [] } = this.state.bangumiInfo
-      sites
-        .filter(item => SITES_DS.includes(item.site))
-        .forEach(item => {
-          data.push(item.site)
-        })
-    }
-
-    return freeze(data)
+    return freeze(
+      getOnlineOrigins({
+        type: this.type,
+        nsfw: this.nsfw,
+        tags: this.tags || [],
+        sites: this.state.bangumiInfo.sites || []
+      })
+    )
   }
 
   /** 漫画源头 */
@@ -396,108 +339,31 @@ export default class Computed extends State {
 
   /** 是否 PS 游戏, 跳转 psnine 查看奖杯 */
   @computed get isPS() {
-    return (
-      this.type === '游戏' &&
-      (this.info.includes('PS4') || this.info.includes('PS3') || this.info.includes('PS5'))
-    )
+    return checkIsPS(this.type, this.info)
   }
 
   /** 第三方动画信息 */
   @computed get animeInfo() {
-    if (this.type !== '动画') return null
-
-    const item = findAnime(this.subjectId)
-    if (item?.i) return freeze(item)
-
-    return null
+    const item = getAnimeInfo(this.type, this.subjectId)
+    return item ? freeze(item) : null
   }
 
   /** 第三方动画标签 */
   @computed get animeTags() {
-    const calendarInfo = ON_AIR[this.subjectId]
-    if (!this.animeInfo && !calendarInfo) return null
-
-    let animeInfoTags: string[]
-    if (isArray(this.animeInfo?.t)) {
-      animeInfoTags = this.animeInfo.t.map(item => ANIME_TAGS[item]).filter(item => !!item)
-    }
-    if (!animeInfoTags && !calendarInfo) return null
-
-    const tags: {
-      pressable: boolean
-      value: string
-    }[] = []
-    const exist = {}
-    if (animeInfoTags) {
-      animeInfoTags.forEach(item => {
-        tags.push({
-          pressable: true,
-          value: item
-        })
-        exist[item] = true
-      })
-    }
-
-    if (calendarInfo) {
-      if (!exist[calendarInfo.type]) {
-        tags.push({
-          pressable: false,
-          value: calendarInfo.type
-        })
-      }
-
-      calendarInfo.origin.split('/').forEach((item: string) => {
-        if (!exist[item]) {
-          tags.push({
-            pressable: false,
-            value: item
-          })
-        }
-      })
-
-      calendarInfo.tag.split('/').forEach((item: string) => {
-        if (!exist[item]) {
-          tags.push({
-            pressable: false,
-            value: item
-          })
-        }
-      })
-    }
-
-    return freeze<TagsItem[]>(tags)
+    const tags = getAnimeTags(this.subjectId, this.animeInfo)
+    return tags ? freeze<TagsItem[]>(tags) : null
   }
 
   /** 第三方游戏信息 */
   @computed get gameInfo() {
-    if (this.type !== '游戏') return null
-
-    const item = findGame(this.subjectId)
-    if (item?.i) {
-      return freeze({
-        ...item,
-        isADV: false
-      })
-    }
-
-    const adv = findADV(this.subjectId)
-    if (adv?.i) {
-      return freeze({
-        ...adv,
-        isADV: true
-      })
-    }
-
-    return null
+    const item = getGameInfo(this.type, this.subjectId)
+    return item ? freeze(item) : null
   }
 
   /** 第三方游戏标签 */
   @computed get gameTags() {
-    if (!this.gameInfo || this.gameInfo?.isADV) return null
-
-    // @ts-expect-error
-    const tags = this.gameInfo?.ta || []
-    return freeze<TagsItem[]>(tags.map((item: string | number) => GAME_CATE[item]))
+    const tags = getGameTags(this.gameInfo)
+    return tags ? freeze<TagsItem[]>(tags) : null
   }
 
   /** ADV 类型游戏专用，VNDB ID (从 infobox 链接提取) */
@@ -521,38 +387,26 @@ export default class Computed extends State {
 
   /** 第三方漫画信息 */
   @computed get mangaInfo() {
-    if (this.type !== '书籍') return null
-
-    const item = findManga(this.subjectId)
-    if (item?.i) return freeze(item)
-
-    return null
+    const item = getMangaInfo(this.type, this.subjectId)
+    return item ? freeze(item) : null
   }
 
   /** 第三方游漫画标签 */
   @computed get mangaTags() {
-    if (!this.mangaInfo) return null
-
-    const tags = this.mangaInfo?.b || []
-    return freeze<TagsItem[]>(tags.map(item => MANGA_TAGS[item]))
+    const tags = getMangaTags(this.mangaInfo)
+    return tags ? freeze<TagsItem[]>(tags) : null
   }
 
   /** 第三方文库信息 */
   @computed get wenkuInfo() {
-    if (this.type !== '书籍') return null
-
-    const item = findWenku(this.subjectId)
-    if (item?.i) return freeze(item)
-
-    return null
+    const item = getWenkuInfo(this.type, this.subjectId)
+    return item ? freeze(item) : null
   }
 
   /** 第三方游文库标签 */
   @computed get wenkuTags() {
-    if (!this.wenkuInfo) return null
-
-    const tags = this.wenkuInfo?.j || []
-    return freeze<TagsItem[]>(tags.map(item => WENKU_TAGS[item]))
+    const tags = getWenkuTags(this.wenkuInfo)
+    return tags ? freeze<TagsItem[]>(tags) : null
   }
 
   /** 漫画或文库是否有源头 */
@@ -567,120 +421,42 @@ export default class Computed extends State {
 
   /** 筛选章节构造数据, 每 100 章节一个选项 */
   @computed get filterEpsData() {
-    const data = ['从 1 起']
-    if (this.eps.length < 100) return freeze(data)
-
-    const count = Math.floor(this.eps.length / 100)
-    for (let i = 1; i <= count; i += 1) data.push(`从 ${i * 100} 开始`)
-    return freeze(data)
+    return freeze(getFilterEpsData(this.eps.length))
   }
 
   /** 全站人员状态数字 */
   @computed get status() {
-    const {
-      wish = 0,
-      collect = 0,
-      doing = 0,
-      on_hold: onHold = 0,
-      dropped = 0
-    } = this.subjectCollection
-    const status: {
-      status: '' | RatingStatus
-      text: string
-      sum?: number
-    }[] = []
-
-    if (wish) {
-      status.push({
-        status: 'wishes',
-        text: `${wish}想${this.action}`
-      })
-    }
-
-    if (collect) {
-      status.push({
-        status: 'collections',
-        text: `${collect}${this.action}过`
-      })
-    }
-
-    if (doing) {
-      status.push({
-        status: 'doings',
-        text: `${doing}在${this.action}`
-      })
-    }
-
-    if (onHold) {
-      status.push({
-        status: 'on_hold',
-        text: `${onHold}搁置`
-      })
-    }
-
-    if (dropped) {
-      status.push({
-        status: 'dropped',
-        text: `${dropped}抛弃`
-      })
-    }
-
-    const sum = wish + collect + doing + onHold + dropped
-    if (sum) {
-      status.push({
-        status: '',
-        text: `总${sum}`,
-        sum
-      })
-    }
-    return freeze(status)
+    return freeze(getSubjectStatus(this.subjectCollection, this.action))
   }
 
   /** 上映时间 (用于标识未上映) */
   @computed get release() {
-    return pickInfoValue(this.info, '发售日|放送开始|上映年度|上映时间|上映日')
+    return getRelease(this.info)
   }
 
   /** 发布时间 (年) */
   @computed get year() {
-    // 漫画的详情通常包含发售日、连载开始，以连载开始为最优
-    const primary = extractYear(pickInfoValue(this.info, PRIMARY_KEYS))
-    if (primary) return primary
-
-    return extractYear(pickInfoValue(this.info, SECONDARY_KEYS))
+    return getYear(this.info)
   }
 
   /** 发布时间 (年-月) */
   @computed get yearAndMount() {
-    try {
-      const primary = extractYearMonth(pickInfoValue(this.info, PRIMARY_KEYS))
-      const temp = primary || extractYearMonth(pickInfoValue(this.info, SECONDARY_KEYS))
-      if (!temp) return this.year
-      return normalizeYearMonth(temp)
-    } catch {
-      return this.year
-    }
+    return getYearAndMonth(this.info, this.year)
   }
 
   /** 结束时间 (年) */
   @computed get end() {
-    return extractYear(pickInfoValue(this.info, '连载结束|结束'))
+    return getEnd(this.info)
   }
 
   /** 结束时间 (年-月) */
   @computed get yearAndMountEnd() {
-    try {
-      const temp = extractYearMonth(pickInfoValue(this.info, '连载结束|结束'))
-      if (!temp) return this.end
-      return normalizeYearMonth(temp)
-    } catch {
-      return this.end
-    }
+    return getYearAndMonthEnd(this.info, this.end)
   }
 
   /** 艺术家 */
   @computed get artist() {
-    return removeHTMLTag(this.info.match(/<li><span>艺术家: <\/span>(.+?)<\/li>/)?.[1] || '')
+    return getArtist(this.info)
   }
 
   /** 封面图宽度 */
@@ -690,16 +466,17 @@ export default class Computed extends State {
       return Math.floor(Math.min(IMG_WIDTH_LG * ratio * 1.4, _.window.contentWidth / 2))
     }
 
-    return (IMG_WIDTH_LG + 16) * ratio
+    return Math.floor((IMG_WIDTH_LG + 16) * ratio)
   }
 
   /** 封面图高度, 音乐类型条目为正方形 */
   @computed get imageHeight() {
     if (this.type === '音乐') return this.imageWidth
 
-    return this.imageWidth * 1.4
+    return Math.floor(this.imageWidth * 1.4)
   }
 
+  /** 统计 */
   @computed get hm() {
     return [this.url, 'Subject'] as const
   }
@@ -829,19 +606,7 @@ export default class Computed extends State {
   @computed get crt() {
     const source =
       this.subject._loaded && this.subject.rating
-        ? (this.subject.crt || []).map(
-            ({ id, images, name, name_cn, role_name, actors = [] }) =>
-              ({
-                id,
-                image: images?.grid || IMG_INFO_ONLY,
-                _image: images?.medium || IMG_INFO_ONLY,
-                name: name_cn || name,
-                nameJP: name,
-                desc: actors[0]?.name || role_name,
-                roleName: role_name,
-                actorId: actors[0]?.id
-              } as Crt)
-          )
+        ? mapCrt(this.subject.crt || [])
         : ((this.subjectFromOSS.character || []) as Crt[])
 
     return freeze(source) as Crt[]
@@ -854,34 +619,10 @@ export default class Computed extends State {
 
       /** NSFW 不再返回数据, 而旧接口 staff 也错乱, 改为使用网页的 staff 数据 */
       if (staff?.[0]?.id == this.subjectId) {
-        return freeze(
-          monoStore.persons(this.subjectId).list.map(
-            item =>
-              ({
-                id: item.id.replace('/person/', ''),
-                image: item.cover || IMG_INFO_ONLY,
-                _image: item.cover || IMG_INFO_ONLY,
-                name: (item.nameCn || item.name).trim(),
-                nameJP: item.name.trim(),
-                desc: item.position
-              } as Staff)
-          )
-        )
+        return freeze(mapPersons(monoStore.persons(this.subjectId).list))
       }
 
-      return freeze(
-        (staff || []).map(
-          ({ id, images = {}, name, name_cn: nameCn, jobs = [] }) =>
-            ({
-              id,
-              image: images?.grid || IMG_INFO_ONLY,
-              _image: images?.medium || IMG_INFO_ONLY,
-              name: nameCn || name,
-              nameJP: name,
-              desc: jobs[0]
-            } as Staff)
-        )
-      )
+      return freeze(mapStaff(staff || []))
     }
 
     return freeze(this.subjectFromOSS.staff || [])
@@ -893,16 +634,7 @@ export default class Computed extends State {
       this.subject._loaded && this.subject.rating
         ? this.subjectFormHTML.relations || []
         : this.subjectFromOSS.relations || []
-    return freeze(
-      relations
-        .map(item => ({
-          id: item.id,
-          image: item.image,
-          name: item.title,
-          desc: item.type
-        }))
-        .sort((a, b) => desc(SORT_RELATION_DESC[a.desc] || 0, SORT_RELATION_DESC[b.desc] || 0))
-    )
+    return freeze(mapRelations(relations))
   }
 
   /** 单行本 */
@@ -982,12 +714,12 @@ export default class Computed extends State {
 
   /** 关联: 前传和续集, 或系列: 若为单行本, relations 第一项则为系列前传 */
   @computed get subjectPrev() {
-    return freeze(this.subjectRelations.find(item => item.type === '前传'))
+    return freeze(findRelationByType(this.subjectRelations, '前传'))
   }
 
   /** 续集 */
   @computed get subjectAfter() {
-    return freeze(this.subjectRelations.find(item => item.type === '续集'))
+    return freeze(findRelationByType(this.subjectRelations, '续集'))
   }
 
   /** 系列 */
@@ -1005,7 +737,7 @@ export default class Computed extends State {
       return null
     }
 
-    return freeze(this.subjectRelations.find(item => item.type === '书籍'))
+    return freeze(findRelationByType(this.subjectRelations, '书籍'))
   }
 
   /** 动画化 */
@@ -1013,9 +745,7 @@ export default class Computed extends State {
     const title = this.titleLabel || ''
     if (!title.includes('系列') && !title.includes('音乐')) return null
 
-    const find =
-      this.subjectRelations.find(item => item.type === '动画') ||
-      this.subjectRelations.find(item => item.type === '其他')
+    const find = findRelationByTypes(this.subjectRelations, ['动画', '其他'])
 
     // 部分条目维护不够好, 动画化条目标签为其他, 若日文名字相等都认为是动画化
     if (find?.type === '动画' || (find?.type === '其他' && this.jp.includes(find?.title))) {
@@ -1027,13 +757,7 @@ export default class Computed extends State {
 
   /** 不同演绎 */
   @computed get subjectDiff() {
-    let find = this.subjectRelations.find(item => item.type === '不同演绎')
-    if (find) return freeze(find)
-
-    find = this.subjectRelations.find(item => item.type === '主版本')
-    if (find) return freeze(find)
-
-    find = this.subjectRelations.find(item => item.type === '主线故事')
+    const find = findRelationByTypes(this.subjectRelations, ['不同演绎', '主版本', '主线故事'])
     if (find) return freeze(find)
 
     if (this.type === '书籍' && this.comic?.length) {
@@ -1047,10 +771,7 @@ export default class Computed extends State {
       } as const
     }
 
-    find = this.subjectRelations.find(item => item.type === '外传')
-    if (find) return freeze(find)
-
-    return null
+    return freeze(findRelationByType(this.subjectRelations, '外传'))
   }
 
   /** 是否有相关系列 */
@@ -1086,11 +807,7 @@ export default class Computed extends State {
 
   /** 过滤后的目录 */
   @computed get filterCatalog() {
-    let catalog = this.catalog
-    if (systemStore.setting.filterDefault || userStore.isLimit) {
-      catalog = catalog.filter(item => !item.avatar?.includes?.(URL_DEFAULT_AVATAR))
-    }
-    return freeze(catalog)
+    return freeze(filterDefaultAvatar(this.catalog))
   }
 
   /** 过滤后的日志 */
@@ -1107,29 +824,7 @@ export default class Computed extends State {
       try {
         const reviews = rakuenStore.reviews(this.subjectId)
         if (reviews?.list?.length) {
-          // @ts-ignore
-          blog = reviews.list.map(item => ({
-            dateline: item.time,
-            id: Number(item.id),
-            image: '',
-            replies: Number(item.replies.replace('+', '') || 0),
-            summary: item.content,
-            timestamp: getTimestamp(item.time),
-            title: item.title,
-            url: `//bgm.tv/blog/${item.id}`,
-            user: {
-              avatar: {
-                large: item.avatar,
-                medium: item.avatar,
-                small: item.avatar
-              },
-              id: item.userId,
-              nickname: item.userName,
-              sign: '',
-              url: `//bgm.tv/user/${item.userId}`,
-              username: item.userId
-            }
-          }))
+          blog = mapReviewsToBlog(reviews.list) as typeof blog
         }
       } catch {}
     }
@@ -1151,28 +846,7 @@ export default class Computed extends State {
       try {
         const board = rakuenStore.board(this.subjectId)
         if (board?.list?.length) {
-          // @ts-ignore
-          topic = board.list.map(item => ({
-            id: Number(item.href.replace('/subject/topic/', '')),
-            lastpost: 0,
-            main_id: this.subjectId,
-            replies: Number(item.replies.replace(' replies', '')),
-            timestamp: getTimestamp(item.time),
-            title: item.title,
-            url: item.href,
-            user: {
-              avatar: {
-                large: '',
-                medium: '',
-                small: ''
-              },
-              id: item.userId,
-              nickname: item.userName,
-              sign: '',
-              url: `//bgm.tv/user/${item.userId}`,
-              username: item.userId
-            }
-          }))
+          topic = mapBoardToTopic(board.list, this.subjectId) as typeof topic
         }
       } catch {}
     }
@@ -1182,42 +856,15 @@ export default class Computed extends State {
 
   /** 过滤后的动态 */
   @computed get filterRecent() {
-    let who = this.subjectFormHTML.who || []
-    if (systemStore.setting.filterDefault || userStore.isLimit) {
-      who = who.filter(item => !item.avatar?.includes?.(URL_DEFAULT_AVATAR))
-    }
-    return freeze(who) as SubjectFromHtmlWhoItem[]
+    return freeze(filterDefaultAvatar(this.subjectFormHTML.who || [])) as SubjectFromHtmlWhoItem[]
   }
 
   /** 好友的动态 */
   @computed get friendsRating() {
     const { list: doings = [] } = subjectStore.rating(this.subjectId, 'doings', true)
-    const doingsWithTag = doings.map(item => ({ ...item, _isDone: false }))
-
     const { list: collections = [] } = subjectStore.rating(this.subjectId, 'collections', true)
-    const collectionsWithTag = collections.map(item => ({ ...item, _isDone: true }))
-
-    const combinedList = [...doingsWithTag, ...collectionsWithTag]
-
-    if (combinedList.length > 0) {
-      return combinedList
-        .sort((a, b) => getTimestamp(b.time) - getTimestamp(a.time))
-        .slice(0, 16)
-        .map(item => {
-          const ts = getTimestamp(item.time)
-          const actionText = item._isDone ? `${this.action}过` : this.action
-
-          return {
-            userId: item.id,
-            name: item.name,
-            avatar: item.avatar,
-            star: item.star,
-            status: `${lastDate(ts)}在${actionText}`
-          }
-        })
-    }
-
-    return freeze([])
+    const result = mapFriendsRating(doings, collections, this.action)
+    return result.length > 0 ? result : freeze([])
   }
 
   /** 吐槽数量 */
@@ -1401,6 +1048,7 @@ export default class Computed extends State {
     return freeze(data)
   }
 
+  /** 锐评 */
   @computed get currentChatValues() {
     return this.state.chat[systemStore.setting.musumePrompt] || []
   }
@@ -1427,22 +1075,7 @@ export default class Computed extends State {
 
   /** 游戏发售日期 */
   @computed get gameReleaseDates() {
-    if (this.type !== '游戏' || !this.rawInfo) return []
-
-    const dates: { date: string; region: string; fullText: string }[] = []
-    try {
-      // 匹配所有日期，不管前面是什么字段名
-      // 格式: 1998年11月21日(日本), 2004-04-28(PC), 2004-03-18 (PS2) 等
-      const datePattern = /(\d{4}[-年]\d{1,2}[-月]\d{1,2}[日]?)(?:\s*\(([^)]+)\))?/g
-      for (const m of this.rawInfo.matchAll(datePattern)) {
-        dates.push({
-          date: m[1],
-          region: m[2] || '',
-          fullText: m[2] ? `${m[1]}(${m[2]})` : m[1]
-        })
-      }
-    } catch {}
-    return dates
+    return parseGameReleaseDates(this.type, this.rawInfo)
   }
 
   /** 游戏源头菜单 */
@@ -1473,37 +1106,19 @@ export default class Computed extends State {
 
   /** 别名 */
   @computed get alias() {
-    try {
-      return Array.from(this.rawInfo.matchAll(/<span[^>]*>别名:\s*<\/span>\s*([^<]+)/g), m =>
-        m[1].trim()
-      )
-    } catch (error) {
-      return []
-    }
+    return parseAlias(this.rawInfo)
   }
 
   /** 条目图集关键字 */
   @computed get subjectKeywords() {
     const clean = (s?: string) => (s ? s.replace(/(?:第.*?(?:季|期)|(前|后)篇)$/g, '').trim() : '')
     const base = [this.cn, this.jp, clean(this.cn), ...this.alias, keepBasicChars(this.cn)]
-    return [...new Set(base)]
-      .filter(Boolean)
-      .filter(item => item.length < 24)
-      .slice(0, 8)
+    return buildKeywords(base, 24, 8)
   }
 
   /** 角色图集关键字 */
   @computed get crtKeywords() {
-    const base: string[] = []
-    this.crt
-      .filter(item => item.roleName === '主角')
-      .forEach(item => {
-        base.push(item.name || item.nameJP)
-      })
-    return [...new Set(base)]
-      .filter(Boolean)
-      .filter(item => item.length < 12)
-      .slice(0, 4)
+    return buildCrtKeywords(this.crt, 12, 4)
   }
 
   /** 吐槽项事件 */
@@ -1524,34 +1139,11 @@ export default class Computed extends State {
 
   /** 剧场版、电影时长 */
   @computed get duration() {
-    if (this.titleLabel !== '剧场版' && this.titleLabel !== 'MOVIE' && this.titleLabel !== '电影') {
-      return ''
-    }
-
-    const { eps } = this.subject
-    if (eps?.length) {
-      const minutes = parseMaxDurationFromEps(eps)
-      if (minutes > 26) return `${minutes} min`
-    }
-
-    if (this.rawInfo) {
-      const minutes = parseMovieDuration(this.rawInfo)
-      if (minutes > 26) return `${minutes} min`
-    }
-
-    return ''
+    return getDuration(this.titleLabel, this.subject.eps, this.rawInfo)
   }
 
-  /** 原作（按优先级返回） */
+  /** 原作（按优先级返回，用于源头的可选参数） */
   @computed get originArtist() {
-    if (!this.staff.length) return ''
-
-    const priority = ['作者', '原作', '艺术家', '开发'] as const
-    for (const desc of priority) {
-      const find = this.staff.find(item => item.desc === desc)
-      if (find) return find.nameJP || find.name || ''
-    }
-
-    return ''
+    return this.staff.length ? findOriginArtist(this.staff) : ''
   }
 }

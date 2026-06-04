@@ -10,7 +10,7 @@ import { COMPONENT } from '../ds'
 
 import type { CompletionItem, Loaded, RatingStatus, Sites, TranslateResult } from '@types'
 import type { DlsiteImage, VndbScreenshot } from '@utils/thirdParty/dlsite-vndb'
-import type { AnitabiData, EpsData, RecData, SubjectSnapshot, VideoItem } from '../types'
+import type { AnitabiData, EpsData, RecData, SubjectCommentValue, SubjectSnapshot, VideoItem } from '../types'
 
 /** 唯一命名空间 */
 export const NAMESPACE = `Screen${COMPONENT}` as const
@@ -62,7 +62,7 @@ export const EXCLUDE_STATE = {
   subject: {} as SubjectSnapshot,
 
   /** 云端缓存的留言信息 */
-  comments: LIST_EMPTY,
+  comments: LIST_EMPTY as SubjectCommentValue,
 
   /** Box 中按钮是否允许使用翻页动画 */
   flip: false,

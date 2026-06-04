@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-03-13 21:28:46
  */
 import type { FlatList, FlatListProps, SectionListScrollParams } from 'react-native'
-import type { ListEmpty, Override, ReactNode, Ref, Sections } from '@types'
+import type { ListEmpty, MaybeReadonly, Override, ReactNode, Ref, Sections } from '@types'
 import type { REFRESH_STATE } from './ds'
 
 /** 提取出类的实例类型 */
@@ -26,14 +26,16 @@ export type Props<ItemT = any> = Override<
     skipEnteringExitingAnimations?: number
 
     /** 客户端约定列表数据结构 */
-    data?: Override<
-      ListEmpty<ItemT>,
-      {
-        pagination?: {
-          page: number
-          pageTotal: number
+    data?: MaybeReadonly<
+      Override<
+        ListEmpty<ItemT>,
+        {
+          pagination?: {
+            page: number
+            pageTotal: number
+          }
         }
-      }
+      >
     >
 
     /** 与 data 结构一致, https://www.react-native.cn/docs/sectionlist#section */

@@ -5,9 +5,10 @@
  * @Last Modified time: 2026-03-17 23:30:07
  */
 import React, { useMemo } from 'react'
+import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { ListView } from '@components'
-import { _, useStore } from '@stores'
+import { _, systemStore, useStore } from '@stores'
 import { keyExtractor } from '@utils'
 import HeaderComponent from '../header-component'
 import { renderItem } from './utils'
@@ -29,6 +30,9 @@ function List({ forwardRef, onScrollIntoViewIfNeeded, onBlockRef }: Props) {
     [onBlockRef, onScrollIntoViewIfNeeded]
   )
 
+  const { showComment } = systemStore.setting
+  const elFooterEmpty = useMemo(() => (showComment === -1 ? <View /> : undefined), [showComment])
+
   return (
     <ListView
       ref={forwardRef}
@@ -41,7 +45,7 @@ function List({ forwardRef, onScrollIntoViewIfNeeded, onBlockRef }: Props) {
       refreshControlProps={REFRESH_CONTROL_PROPS}
       ListHeaderComponent={elHeader}
       renderItem={renderItem}
-      footerEmptyDataComponent={$.footerEmptyDataComponent}
+      footerEmptyDataComponent={elFooterEmpty}
       onScroll={$.onScroll}
       onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={$.fetchSubjectComments}
