@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-03 18:42:24
+ * @Last Modified time: 2026-06-05 22:28:30
  */
 import React from 'react'
 import { Cover, Flex, Heatmap, Iconfont, Link, Squircle, Text } from '@components'
@@ -86,6 +86,7 @@ const Series = memo(
               src={subjectSeries.image}
               size={COVER_WIDTH}
               height={COVER_HEIGHT}
+              radius={0}
               cdn={!x18(subjectId)}
               fadeDuration={0}
               skeleton={false}

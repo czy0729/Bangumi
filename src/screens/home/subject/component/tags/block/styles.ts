@@ -15,7 +15,7 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
     borderWidth: 1,
     borderColor: _.select(_.colorBorder, _._colorDarkModeLevel1),
-    borderRadius: _.radiusSm,
+    borderRadius: _.radiusXs,
     overflow: 'hidden'
   },
   disabled: {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-04 04:50:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-04 16:56:00
+ * @Last Modified time: 2026-06-05 22:12:37
  */
 import { _ } from '@stores'
 
@@ -15,7 +15,7 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
     borderWidth: 1,
     borderColor: _.select(_.colorBorder, _._colorDarkModeLevel1),
-    borderRadius: _.radiusSm,
+    borderRadius: _.radiusXs,
     overflow: 'hidden'
   },
   selected: {

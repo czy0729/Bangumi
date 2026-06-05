@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-16 23:51:55
+ * @Last Modified time: 2026-06-05 22:10:46
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Cover, Flex, Katakana, Text, Touchable } from '@components'
 import { Rank, Stars } from '@_'
 import { _ } from '@stores'
-import { cnjp, x18 } from '@utils'
+import { cnjp, getVisualLength, x18 } from '@utils'
 import { memo } from '@utils/decorators'
 import { FROZEN_FN, IOS } from '@constants'
 import { COMPONENT_MAIN, DEFAULT_PROPS, IMAGE_HEIGHT, IMAGE_WIDTH } from './ds'
@@ -27,14 +27,24 @@ const HeaderTitle = memo(
     titleLabel = '',
     onScrollToTop = FROZEN_FN
   }) => {
+    const top = cnjp(cn, jp)
+    const visualLength = getVisualLength(`${top}${titleLabel ? ` · ${titleLabel}` : ''}`)
+    const size = visualLength >= 13 ? 11 : 12
+    const lineHeight = 12
+
     const el = (
       <>
         <View style={styles.title}>
-          <Katakana.Provider style={styles.itemStyle} size={12} numberOfLines={1}>
-            <Katakana size={12} numberOfLines={1}>
-              {cnjp(cn, jp)}
+          <Katakana.Provider
+            style={styles.itemStyle}
+            size={size}
+            lineHeight={lineHeight}
+            numberOfLines={1}
+          >
+            <Katakana size={size} lineHeight={lineHeight} numberOfLines={1}>
+              {top}
               {!!titleLabel && (
-                <Text size={12} type='sub'>
+                <Text type='sub' size={size} lineHeight={lineHeight}>
                   {' '}
                   · {titleLabel}
                 </Text>
@@ -48,7 +58,7 @@ const HeaderTitle = memo(
             <Stars value={score} />
           </Flex>
         ) : (
-          <Text style={_.mt.xs} size={10} type='sub' numberOfLines={1}>
+          <Text style={_.mt.xs} type='sub' size={10} numberOfLines={1}>
             {cnjp(jp, cn)}
           </Text>
         )}

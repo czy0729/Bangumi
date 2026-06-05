@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-24 19:20:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:34:41
+ * @Last Modified time: 2026-06-05 22:31:52
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -43,11 +43,12 @@ function Item({ from, data }) {
       }}
     >
       <Flex>
-        <Squircle width={COVER_WIDTH} height={COVER_HEIGHT} radius={3}>
+        <Squircle width={COVER_WIDTH} height={COVER_HEIGHT} radius={4}>
           <Cover
             src={data.image || IMG_DEFAULT}
             size={COVER_WIDTH}
             height={COVER_HEIGHT}
+            radius={0}
             cdn={!x18($.subjectId)}
             fadeDuration={0}
             skeleton={false}
