@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-03 16:31:07
+ * @Last Modified time: 2026-06-05 21:59:02
  */
 import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
@@ -15,6 +15,7 @@ import { t } from '@utils/fetch'
 import { FROZEN_FN } from '@constants'
 import { TITLE_SUMMARY } from '../../ds'
 import IconHidden from '../icon/hidden'
+import IconHtmlExpand from '../icon/html-expand'
 import IconTranslate from '../icon/translate'
 import { fixedTranslateResult } from '../utils'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
@@ -102,9 +103,12 @@ const Summary = memo(
                   ratio={0.88}
                   onPress={subjectHtmlExpand ? undefined : handleNavigate}
                 >
-                  <Text size={15} lineHeight={22} selectable>
-                    {content}
-                  </Text>
+                  <View style={styles.content}>
+                    <Text size={15} lineHeight={22} selectable>
+                      {content}
+                    </Text>
+                    {subjectHtmlExpand && <IconHtmlExpand />}
+                  </View>
                 </Expand>
               )
             )}

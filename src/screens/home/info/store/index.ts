@@ -6,7 +6,9 @@
  */
 import { subjectStore } from '@stores'
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE } from './ds'
+
+import type { STATE } from './ds'
 
 export default class ScreenWordCloud extends Action {
   init = async () => {

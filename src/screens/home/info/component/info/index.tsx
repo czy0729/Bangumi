@@ -5,14 +5,15 @@
  * @Last Modified time: 2025-10-09 19:54:58
  */
 import React, { useCallback } from 'react'
-import { Flex, RenderHtml, Text, Touchable } from '@components'
-import { _, systemStore, useStore } from '@stores'
-import { appNavigate, feedback } from '@utils'
-import { useObserver } from '@utils/hooks'
+import { observer } from 'mobx-react'
+import { RenderHtml } from '@components'
+import { _, useStore } from '@stores'
+import { appNavigate } from '@utils'
 import { processHtml } from '@screens/home/subject/component/info/utils'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function Info() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
@@ -34,35 +35,18 @@ function Info() {
     [$.subjectId, navigation]
   )
 
-  return useObserver(() => {
-    const styles = memoStyles()
-    const html = $.rawInfo.replace('展开+', '')
+  const styles = memoStyles()
 
-    return (
-      <>
-        <RenderHtml
-          style={styles.info}
-          baseFontStyle={_.baseFontStyle.md}
-          html={processHtml(html)}
-          onLinkPress={handleLinkPress}
-        />
-        <Flex style={styles.settings} justify='end'>
-          <Touchable
-            style={styles.touch}
-            onPress={() => {
-              systemStore.switchSetting('subjectPromoteAlias')
+  const html = $.rawInfo.replace('展开+', '')
 
-              feedback(true)
-            }}
-          >
-            <Text type='sub' size={11} bold>
-              关联设置：别名提前 [{systemStore.setting.subjectPromoteAlias ? '开' : '关'}]
-            </Text>
-          </Touchable>
-        </Flex>
-      </>
-    )
-  })
+  return (
+    <RenderHtml
+      style={styles.info}
+      baseFontStyle={_.baseFontStyle.md}
+      html={processHtml(html)}
+      onLinkPress={handleLinkPress}
+    />
+  )
 }
 
-export default Info
+export default observer(Info)

@@ -14,7 +14,7 @@ import { findManga, MANGA_TAGS } from '@utils/subject/manga'
 import { findWenku, WENKU_TAGS } from '@utils/subject/wenku'
 import { HOST, IMG_INFO_ONLY, SITES, SITES_DS, URL_DEFAULT_AVATAR } from '@constants'
 import { getOriginConfig } from '../../../user/origin-setting/utils'
-import { SORT_RELATION_DESC } from './ds'
+import { NON_SHOW, SORT_RELATION_DESC } from './ds'
 
 import type { Collection, DeepReadonly } from '@types'
 import type { BoardItem, ReviewsItem } from '@stores/rakuen/types'
@@ -616,4 +616,15 @@ export function getDuration(titleLabel: string, eps: readonly Ep[] | undefined, 
   }
 
   return ''
+}
+
+/**
+ * 根据 setting 值生成 show 元组
+ *  - -1: 完全隐藏
+ *  - true: 显示且展开
+ *  - 其他: 显示但折叠
+ */
+export function settingTuple(val: boolean | number): readonly [boolean, boolean] {
+  if (val === -1) return NON_SHOW
+  return [val === true, true] as const
 }

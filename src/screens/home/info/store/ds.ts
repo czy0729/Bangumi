@@ -4,8 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-08 06:30:53
  */
-import { GetRouteParams, Loaded, RouteSubjectInfo } from '@types'
 import { COMPONENT } from '../ds'
+
+import type { GetRouteParams, Loaded, RouteSubjectInfo } from '@types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 

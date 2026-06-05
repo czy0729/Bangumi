@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-03 22:05:01
+ * @Last Modified time: 2026-06-05 21:58:44
  */
 import React, { useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
@@ -14,6 +14,7 @@ import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { FROZEN_FN } from '@constants'
 import IconHidden from '../icon/hidden'
+import IconHtmlExpand from '../icon/html-expand'
 import IconWiki from '../icon/wiki'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
@@ -94,26 +95,23 @@ const Info = memo(
           详情
         </SectionTitle>
 
-        {showInfo && (
-          <View>
-            {!!info && (
-              <Expand
-                ratio={0.88}
-                checkLayout={false}
-                onExpand={handleExpand}
-                onPress={subjectHtmlExpand ? undefined : handleExpandPress}
-              >
-                <RenderHtml
-                  style={styles.info}
-                  baseFontStyle={_.baseFontStyle.md}
-                  html={html}
-                  onLinkPress={handleNavigate}
-                />
-              </Expand>
-            )}
-
-            <Heatmap id='条目.跳转' from='详情' />
-          </View>
+        {showInfo && !!info && (
+          <Expand
+            ratio={0.88}
+            checkLayout={false}
+            onExpand={handleExpand}
+            onPress={subjectHtmlExpand ? undefined : handleExpandPress}
+          >
+            <View style={styles.info}>
+              <RenderHtml
+                baseFontStyle={_.baseFontStyle.md}
+                html={html}
+                onLinkPress={handleNavigate}
+              />
+              {subjectHtmlExpand && <IconHtmlExpand showPromoteAlias />}
+              <Heatmap id='条目.跳转' from='详情' />
+            </View>
+          </Expand>
         )}
       </View>
     )

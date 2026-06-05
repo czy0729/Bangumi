@@ -100,7 +100,8 @@ import {
   getDuration,
   parseAlias,
   parseGameReleaseDates,
-  parseMusicDuration
+  parseMusicDuration,
+  settingTuple
 } from './utils'
 import State from './state'
 import {
@@ -889,16 +890,13 @@ export default class Computed extends State {
 
   /** 是否显示标签 */
   @computed get showTags() {
-    const { showTags } = systemStore.setting
-    return [showTags === true, showTags !== -1] as const
+    return settingTuple(systemStore.setting.showTags)
   }
 
   /** 是否显示简介 */
   @computed get showSummary() {
     if (this.subject._loaded && !this.summary) return NON_SHOW
-
-    const { showSummary } = systemStore.setting
-    return [showSummary === true, showSummary !== -1] as const
+    return settingTuple(systemStore.setting.showSummary)
   }
 
   /** 是否显示预览 */
@@ -914,8 +912,7 @@ export default class Computed extends State {
 
   /** 是否显示详情 */
   @computed get showInfo() {
-    const { showInfo } = systemStore.setting
-    return [showInfo === true, showInfo !== -1] as const
+    return settingTuple(systemStore.setting.showInfo)
   }
 
   /** 是否显示游戏 */
@@ -938,87 +935,67 @@ export default class Computed extends State {
 
   /** 是否显示评分 */
   @computed get showRating() {
-    const { showRating } = systemStore.setting
-    return [showRating === true, showRating !== -1] as const
+    return settingTuple(systemStore.setting.showRating)
   }
 
   /** 是否显示角色 */
   @computed get showCharacter() {
     if (!this.crt.length) return NON_SHOW
-
-    const { showCharacter } = systemStore.setting
-    return [showCharacter === true, showCharacter !== -1] as const
+    return settingTuple(systemStore.setting.showCharacter)
   }
 
   /** 是否显示制作人员 */
   @computed get showStaff() {
     if (!this.staff.length) return NON_SHOW
-
-    const { showStaff } = systemStore.setting
-    return [showStaff === true, showStaff !== -1] as const
+    return settingTuple(systemStore.setting.showStaff)
   }
 
   /** 是否显示取景地标 */
   @computed get showAnitabi() {
     if (!this.state.anitabi.pointsLength) return NON_SHOW
-
-    const { showAnitabi } = systemStore.setting
-    return [showAnitabi === true, showAnitabi !== -1] as const
+    return settingTuple(systemStore.setting.showAnitabi)
   }
 
   /** 是否显示关联 */
   @computed get showRelations() {
     if (!this.relations.length) return NON_SHOW
-
-    const { showRelations } = systemStore.setting
-    return [showRelations === true, showRelations !== -1] as const
+    return settingTuple(systemStore.setting.showRelations)
   }
 
   /** 是否显示单行本 */
   @computed get showComic() {
     if (!this.comic.length) return NON_SHOW
-
-    return [true, true] as const
+    return settingTuple(true)
   }
 
   /** 是否显示目录 */
   @computed get showCalalog() {
-    const { showCatalog } = systemStore.setting
-    if (showCatalog === -1 || !this.filterCatalog.length) return NON_SHOW
-
-    return [showCatalog === true, true] as const
+    if (!this.filterCatalog.length) return NON_SHOW
+    return settingTuple(systemStore.setting.showCatalog)
   }
 
   /** 是否显示猜你喜欢 */
   @computed get showLike() {
     if (!this.like.length) return NON_SHOW
-
-    const { showLike } = systemStore.setting
-    return [showLike === true, showLike !== -1] as const
+    return settingTuple(systemStore.setting.showLike)
   }
 
   /** 是否显示日志 */
   @computed get showBlog() {
-    const { showBlog } = systemStore.setting
-    if (showBlog === -1 || !this.filterBlog.length) return NON_SHOW
-
-    return [showBlog === true, true] as const
+    if (!this.filterBlog.length) return NON_SHOW
+    return settingTuple(systemStore.setting.showBlog)
   }
 
   /** 是否显示帖子 */
   @computed get showTopic() {
-    const { showTopic } = systemStore.setting
-    if (showTopic === -1 || !this.filterTopic.length) return NON_SHOW
-
-    return [showTopic === true, true] as const
+    if (!this.filterTopic.length) return NON_SHOW
+    return settingTuple(systemStore.setting.showTopic)
   }
 
   /** 是否显示动态 */
   @computed get showRecent() {
-    const { showRecent } = systemStore.setting
-    if (showRecent === -1 || !this.filterRecent.length) return NON_SHOW
-
-    return [showRecent === true, true] as const
+    if (!this.filterRecent.length) return NON_SHOW
+    return settingTuple(systemStore.setting.showRecent)
   }
 
   /** 右上角跳转到目标块菜单 */

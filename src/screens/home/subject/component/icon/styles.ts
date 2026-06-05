@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-07 12:22:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-20 12:36:43
+ * @Last Modified time: 2026-06-05 21:45:47
  */
 import { _ } from '@stores'
 
@@ -23,6 +23,12 @@ export default _.create({
 })
 
 export const styles = _.create({
+  fixed: {
+    position: 'absolute',
+    zIndex: 1,
+    right: -6,
+    bottom: -6
+  },
   touch: {
     borderRadius: 20,
     overflow: 'hidden'
@@ -95,6 +101,10 @@ export const styles = _.create({
   },
   comment: {
     marginRight: -12
+  },
+  translate: {
+    marginTop: 1,
+    marginRight: 6
   },
   reverse: {
     transform: [
