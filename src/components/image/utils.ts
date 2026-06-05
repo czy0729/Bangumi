@@ -2,17 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-05-28 02:06:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-30 08:42:29
+ * @Last Modified time: 2026-06-06 00:18:59
  */
-import { _ } from '@stores'
+import { Image as RNImage } from 'react-native'
+import { _, systemStore } from '@stores'
 import { getCover400, getStorage, setStorage, showImageViewer } from '@utils'
 import { t } from '@utils/fetch'
 import hash from '@utils/thirdParty/hash'
 import ImageCacheManager from '@utils/thirdParty/image-cache-manager'
 import { HOST_BGM_STATIC, HOST_CDN, HOST_IMAGE, IOS, WEB } from '@constants'
+import { getSkeletonColor } from '../skeleton'
 import { CACHE_KEY_404, CACHE_KEY_451, CACHE_KEY_TIMEOUT, OSS_BGM_EMOJI_PREFIX } from './ds'
 
-import type { Props } from './types'
+import type { AnyObject } from '@types'
+import type { Props, State } from './types'
 
 /** 记录 451 (OSS 鉴定为敏感) 的图片 */
 let memo451: Map<string, boolean>
@@ -62,6 +65,7 @@ export function setError451(src: string) {
 
   memo451.set(id, true)
   setStorage(CACHE_KEY_451, Object.fromEntries(memo451))
+  return false
 }
 
 /** 检查 451 */
@@ -79,6 +83,7 @@ export function setError404(src: string) {
 
   memo404.set(id, true)
   setStorage(CACHE_KEY_404, Object.fromEntries(memo404))
+  return false
 }
 
 /** 检查 404 */
@@ -117,7 +122,7 @@ export function checkBgmEmoji(src: string): boolean {
 
 /** 开发调试样式 */
 export function getDevStyles(src: any, fallback: boolean = false, size: number) {
-  if (typeof src !== 'string') return false
+  if (typeof src !== 'string') return undefined
 
   if (fallback) {
     return {
@@ -144,21 +149,21 @@ export function getDevStyles(src: any, fallback: boolean = false, size: number) 
     return { borderWidth, borderColor: _.colorBid }
   }
 
-  return false
+  return undefined
 }
 
 /** 计算自适应尺寸 */
 export function getAutoSize(
   width: number,
   height: number,
-  autoSize: number | boolean,
+  autoSize: number,
   autoHeight: number
 ) {
   let w: number
   let h: number
 
-  if (autoSize && typeof autoSize === 'number') {
-    if (width < autoSize) {
+  if (autoSize) {
+    if (!width || width < autoSize) {
       w = width
       h = height
     } else {
@@ -166,6 +171,7 @@ export function getAutoSize(
       h = Math.floor((autoSize / width) * height)
     }
   } else {
+    if (!height) return { width: 0, height: 0 }
     w = Math.floor((autoHeight / height) * width)
     h = autoHeight
   }
@@ -258,4 +264,152 @@ export function timeoutPromise() {
       reject('download timed out')
     }, 10000)
   })
+}
+
+/** 计算图片实际样式 */
+export function computeImageStyles(
+  props: Props,
+  state: State,
+  borderRadius: number,
+  dev: boolean,
+  fallbacked: boolean,
+  _size: number,
+  styles: AnyObject
+) {
+  const {
+    style,
+    imageStyle,
+    autoHeight,
+    autoSize,
+    border,
+    borderWidth,
+    height,
+    placeholder,
+    radius,
+    shadow,
+    size,
+    skeleton,
+    skeletonType,
+    src
+  } = props
+  const { width: w, height: h, animFinished } = state
+  const container: any[] = []
+  const image: any[] = []
+
+  // 以 state 里面的 width 和 height 优先
+  if (autoSize) {
+    image.push({
+      width: w || (WEB ? 'auto' : 160),
+      height: h || (WEB ? 'auto' : 160)
+    })
+  } else if (autoHeight) {
+    image.push({
+      width: w || (WEB ? 'auto' : 160),
+      height: h || (WEB ? 'auto' : 160)
+    })
+  } else if (size) {
+    image.push({
+      width: props.width || size,
+      height: height || size
+    })
+  }
+
+  // 若边框等于 hairlineWidth 且有影子就不显示边框
+  if (border && !(border === _.hairlineWidth && shadow)) {
+    image.push(
+      typeof border === 'string'
+        ? {
+            borderWidth,
+            borderColor: border
+          }
+        : styles.border
+    )
+  }
+
+  // 圆角
+  if (radius) {
+    if (typeof radius === 'boolean') {
+      const s = {
+        borderRadius,
+        overflow: 'hidden'
+      }
+      container.push(s)
+      image.push(s)
+    } else {
+      const s = {
+        borderRadius: radius,
+        overflow: 'hidden'
+      }
+      container.push(s)
+      image.push(s)
+    }
+  }
+
+  /**
+   * 以下特殊情况不显示阴影
+   * _.isDark 黑暗模式没必要显示阴影
+   * systemStore.devEvent 安卓下当有阴影, 层级会被提高, 导致遮挡卖点分析的可视化文字
+   */
+  if (shadow && !_.isDark && !(!IOS && systemStore.devEvent.text)) {
+    container.push(shadow === 'lg' ? styles.shadowLg : styles.shadow)
+  }
+
+  // 图片加载完成且动画结束后移除背景色, 防止安卓过度绘制
+  if (placeholder && !animFinished) {
+    if (skeleton) {
+      container.push({
+        backgroundColor: getSkeletonColor(skeletonType)
+      })
+    } else {
+      container.push(styles.placeholder)
+    }
+  }
+
+  if (style) container.push(style)
+  if (imageStyle) {
+    container.push(imageStyle)
+    image.push(imageStyle)
+  }
+
+  if (dev) {
+    image.push(getDevStyles(src, fallbacked, _size))
+  }
+
+  return {
+    container: _.flatten(container),
+    image: _.flatten(image)
+  }
+}
+
+/** 探测 magma CDN 状态码, 决定回退还是重试 */
+export function probeMagmaCdn(src: string, headers: AnyObject, onStatus: (code: number) => void) {
+  if (IOS) {
+    const request = new XMLHttpRequest()
+    request.withCredentials = false
+
+    request.onreadystatechange = function () {
+      if (this.readyState === 4) {
+        onStatus(this.status)
+      }
+    }
+
+    request.open('get', src, true)
+    request.send(null)
+  } else {
+    RNImage.getSizeWithHeaders(
+      src,
+      headers,
+      () => {},
+      (error: any) => {
+        const errorStr = String(error)
+        if (errorStr.includes('code=451')) {
+          onStatus(451)
+        } else if (errorStr.includes('code=404')) {
+          onStatus(404)
+        } else {
+          onStatus(0)
+        }
+      }
+    )
+  }
 }

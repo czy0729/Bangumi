@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-30 07:19:41
+ * @Last Modified time: 2026-06-06 00:38:48
  */
 import React from 'react'
 import { Image as RNImage } from 'react-native'
@@ -11,11 +11,10 @@ import { _, systemStore } from '@stores'
 import { getTimestamp, omit, pick } from '@utils'
 import { logger, r } from '@utils/dev'
 import { applyLainProxy } from '@utils/proxy'
-import { EVENT, FROZEN_FN, HOST_CDN_AVATAR, IOS, WEB } from '@constants'
+import { EVENT, HOST_CDN_AVATAR, IOS, WEB } from '@constants'
 import { IOS_IPA, TEXT_ONLY } from '@src/config'
 import { Component } from '../component'
 import { devLog } from '../dev'
-import { getSkeletonColor } from '../skeleton'
 import { Touchable } from '../touchable'
 import Error from './error'
 import Local from './local'
@@ -26,13 +25,14 @@ import TextOnly from './text-only'
 import {
   checkErrorTimeout,
   checkLocalError,
+  computeImageStyles,
   fixedRemoteImageUrl,
   getAutoSize,
-  getDevStyles,
   getLocalCache,
   getLocalCacheStatic,
   getRecoveryBgmCover,
   imageViewerCallback,
+  probeMagmaCdn,
   setError404,
   setError451,
   setErrorTimeout,
@@ -64,7 +64,7 @@ export type { ImageProps }
  *  - 自动选择 Bangumi 图片质量
  *  - 联动 ImageViewer
  *  - 支持 @magma 提供的 [bgm_poster] 后缀
- *  - iOS 环境下, Expo 浏览暂时不使用 cacheV2
+ *  - iOS 环境下, Expo 浏览暂时不使用 cacheWithSystemStrategy
  */
 export const Image = observer(
   class ImageComponent extends React.Component<ImageProps, State> {
@@ -94,6 +94,9 @@ export const Image = observer(
       error: false
     }
 
+    /** 组件是否已挂载 */
+    private _mounted = false
+
     /** 图片下载失败次数 */
     private _errorCount = 0
 
@@ -119,6 +122,7 @@ export const Image = observer(
     private _size = 0
 
     componentDidMount() {
+      this._mounted = true
       if (this.props.textOnly) return
 
       const { src } = this.props
@@ -173,6 +177,7 @@ export const Image = observer(
     }
 
     componentWillUnmount() {
+      this._mounted = false
       try {
         this._timers.forEach(id => clearTimeout(id))
         this._timers = []
@@ -215,9 +220,9 @@ export const Image = observer(
 
     /** 缓存图片 */
     cache = async (src: ImageProps['src']) => {
-      // 通常只有安卓走 V2 流程
+      // 通常只有安卓走 systemStrategy 流程
       if (!IOS || (IOS && systemStore.setting.iosImageCacheV2)) {
-        return this.cacheV2(src)
+        return this.cacheWithSystemStrategy(src)
       }
 
       try {
@@ -252,9 +257,18 @@ export const Image = observer(
               return
             }
           } else {
-            const result = await getLocalCache(fixedSrc, this.headers)
-            path = result?.path
-            this._size = result?.size
+            try {
+              const result = (await Promise.race([
+                getLocalCache(fixedSrc, this.headers),
+                timeoutPromise()
+              ])) as Awaited<ReturnType<typeof getLocalCache>>
+              path = result?.path
+              this._size = result?.size
+            } catch (error) {
+              setErrorTimeout(this.props.src)
+              this.onError()
+              return
+            }
           }
 
           /**
@@ -269,7 +283,7 @@ export const Image = observer(
             this.onError()
           } else {
             const uri = path || fixedSrc
-            if (this.state.uri !== uri) {
+            if (this._mounted && this.state.uri !== uri) {
               this.setState({
                 uri
               })
@@ -282,7 +296,7 @@ export const Image = observer(
     }
 
     /** 缓存图片 (使用系统默认图片策略) */
-    cacheV2 = async (src: ImageProps['src']) => {
+    cacheWithSystemStrategy = async (src: ImageProps['src']) => {
       if (typeof src === 'string') {
         if (checkLocalError(src)) {
           this.recoveryToBgmCover()
@@ -305,9 +319,11 @@ export const Image = observer(
 
       if (uri) {
         if (typeof uri === 'string' && !IOS) getLocalCache(uri)
-        this.setState({
-          uri
-        })
+        if (this._mounted) {
+          this.setState({
+            uri
+          })
+        }
       }
 
       return true
@@ -347,19 +363,24 @@ export const Image = observer(
 
       this._timers.push(
         setTimeout(() => {
+          if (!this._mounted) return
+
           RNImage.getSizeWithHeaders(
             uri,
             this.headers,
             (width: number, height: number) => {
+              if (!this._mounted) return
+
               this._getSized = true
 
-              const sizes = getAutoSize(width, height, autoSize, autoHeight)
+              const sizes = getAutoSize(width, height, autoSize as number, autoHeight)
               this.setState({
                 width: sizes.width,
                 height: sizes.height
               })
             },
             () => {
+              if (!this._mounted) return
               this.commitError('error: getSize')
             }
           )
@@ -382,49 +403,23 @@ export const Image = observer(
 
         this._timers.push(
           setTimeout(() => {
-            if (IOS) {
-              const that = this
-              const request = new XMLHttpRequest()
-              request.withCredentials = false
+            probeMagmaCdn(src, this.headers, (code: number) => {
+              if (!this._mounted) return
 
-              request.onreadystatechange = function () {
-                if (this.readyState === 4) {
-                  if (this.status === 451) {
-                    setError451(src)
-                    that.recoveryToBgmCover()
-                  } else if (this.status === 404) {
-                    setError404(src)
-                    that.recoveryToBgmCover()
-                  } else {
-                    that._timers.push(
-                      setTimeout(() => {
-                        that.retry(`${src}?ts=${getTimestamp()}`)
-                      }, RETRY_DISTANCE)
-                    )
-                  }
-                }
-              }.bind(request)
-
-              request.open('get', src, true)
-              request.send(null)
-            } else {
-              RNImage.getSizeWithHeaders(src, this.headers, FROZEN_FN, error => {
-                // magma oss 若 status code 为 451 直接触发失败
-                if (String(error).includes('code=451')) {
-                  setError451(src)
-                  this.recoveryToBgmCover()
-                } else if (String(error).includes('code=404')) {
-                  setError404(src)
-                  this.recoveryToBgmCover()
-                } else {
-                  this._timers.push(
-                    setTimeout(() => {
-                      this.retry(`${src}?ts=${getTimestamp()}`)
-                    }, RETRY_DISTANCE)
-                  )
-                }
-              })
-            }
+              if (code === 451) {
+                setError451(src)
+                this.recoveryToBgmCover()
+              } else if (code === 404) {
+                setError404(src)
+                this.recoveryToBgmCover()
+              } else {
+                this._timers.push(
+                  setTimeout(() => {
+                    this.retry(`${src}?ts=${getTimestamp()}`)
+                  }, RETRY_DISTANCE)
+                )
+              }
+            })
           }, 0)
         )
         return
@@ -488,13 +483,15 @@ export const Image = observer(
           const { onError } = this.props
           if (typeof onError === 'function') onError()
 
-          logger.log(COMPONENT, 'commitError', errorInfo, this.props.src)
+          logger.warn(COMPONENT, 'commitError', errorInfo, this.props.src)
         }
       )
     }
 
     /** 加载步骤完成 */
     onLoadEnd = () => {
+      if (!this._mounted) return
+
       const { fadeDuration } = this.props
       this.setState(
         {
@@ -517,9 +514,11 @@ export const Image = observer(
           // 等待渐入动画结束后移除背景色, 防止安卓过度绘制
           this._timers.push(
             setTimeout(() => {
-              this.setState({
-                animFinished: true
-              })
+              if (this._mounted) {
+                this.setState({
+                  animFinished: true
+                })
+              }
             }, IMAGE_FADE_DURATION + 400)
           )
         }
@@ -549,108 +548,15 @@ export const Image = observer(
 
     /** 计算图片实际样式 */
     get computedStyle() {
-      const {
-        style,
-        imageStyle,
-        autoHeight,
-        autoSize,
-        border,
-        borderWidth,
-        height,
-        placeholder,
-        radius,
-        shadow,
-        size,
-        skeleton,
-        skeletonType
-      } = this.props
-      const { width: w, height: h } = this.state
-      const container = []
-      const image = []
-
-      // 以 state 里面的 width 和 height 优先
-      if (autoSize) {
-        image.push({
-          width: w || (WEB ? 'auto' : 160),
-          height: h || (WEB ? 'auto' : 160)
-        })
-      } else if (autoHeight) {
-        image.push({
-          width: w || (WEB ? 'auto' : 160),
-          height: h || (WEB ? 'auto' : 160)
-        })
-      } else if (size) {
-        image.push({
-          width: this.props.width || size,
-          height: height || size
-        })
-      }
-
-      // 若边框等于 hairlineWidth 且有影子就不显示边框
-      if (border && !(border === _.hairlineWidth && shadow)) {
-        image.push(
-          typeof border === 'string'
-            ? {
-                borderWidth,
-                borderColor: border
-              }
-            : this.styles.border
-        )
-      }
-
-      // 圆角
-      if (radius) {
-        if (typeof radius === 'boolean') {
-          const style = {
-            borderRadius: this.borderRadius,
-            overflow: 'hidden'
-          }
-          container.push(style)
-          image.push(style)
-        } else {
-          const style = {
-            borderRadius: radius,
-            overflow: 'hidden'
-          }
-          container.push(style)
-          image.push(style)
-        }
-      }
-
-      /**
-       * 以下特殊情况不显示阴影
-       * _.isDark 黑暗模式没必要显示阴影
-       * systemStore.devEvent 安卓下当有阴影, 层级会被提高, 导致遮挡卖点分析的可视化文字
-       */
-      if (shadow && !_.isDark && !(!IOS && systemStore.devEvent.text)) {
-        container.push(shadow === 'lg' ? this.styles.shadowLg : this.styles.shadow)
-      }
-
-      // 图片加载完成且动画结束后移除背景色, 防止安卓过度绘制
-      if (placeholder && !this.state.animFinished) {
-        if (skeleton) {
-          container.push({
-            backgroundColor: getSkeletonColor(skeletonType)
-          })
-        } else {
-          container.push(this.styles.placeholder)
-        }
-      }
-
-      if (style) container.push(style)
-      if (imageStyle) {
-        container.push(imageStyle)
-        image.push(imageStyle)
-      }
-
-      if (this.dev) {
-        image.push(getDevStyles(this.props.src, this._fallbacked, this._size))
-      }
-
-      return {
-        container: _.flatten(container),
-        image: _.flatten(image)
-      }
+      return computeImageStyles(
+        this.props,
+        this.state,
+        this.borderRadius,
+        this.dev,
+        this._fallbacked,
+        this._size,
+        this.styles
+      )
     }
 
     /** 圆角 */
