@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-05 05:48:42
+ * @Last Modified time: 2026-06-06 21:43:22
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { Avatar } from '@_'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT, IMG_WIDTH } from './ds'
 import { styles } from './styles'
 
@@ -17,7 +16,7 @@ import type { Ctx } from '../../types'
 function HeaderTitle() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <Flex style={styles.container}>
       {!!$.avatar && (
         <Avatar
@@ -26,6 +25,7 @@ function HeaderTitle() {
           src={$.avatar}
           userId={$.userId}
           name={$.userName}
+          radius={_.radiusXs}
         />
       )}
       <Flex.Item style={_.ml.sm}>
@@ -39,7 +39,7 @@ function HeaderTitle() {
         )}
       </Flex.Item>
     </Flex>
-  ))
+  )
 }
 
-export default HeaderTitle
+export default observer(HeaderTitle)

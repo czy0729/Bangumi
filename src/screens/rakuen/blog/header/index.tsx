@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-03-15 21:20:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-09 23:51:10
+ * @Last Modified time: 2026-06-06 21:35:33
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Header as HeaderComp } from '@components'
 import { useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import IconFavor from '../component/favor'
 import HeaderTitle from '../component/header-title'
 import Menu from '../component/menu'
@@ -33,7 +33,7 @@ function Header({ fixed }) {
     []
   )
 
-  return useObserver(() => (
+  return (
     <HeaderComp
       mode='transition'
       statusBarEventsType='Topic'
@@ -44,7 +44,7 @@ function Header({ fixed }) {
       headerTitle={elHeaderTitle}
       headerRight={handleHeaderRight}
     />
-  ))
+  )
 }
 
-export default Header
+export default observer(Header)

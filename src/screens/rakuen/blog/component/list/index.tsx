@@ -5,11 +5,11 @@
  * @Last Modified time: 2026-05-09 05:46:51
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { FixedTextarea, ListView } from '@components'
 import { ItemPost } from '@_'
 import { _ } from '@stores'
 import { info, keyExtractor, postTask } from '@utils'
-import { ob } from '@utils/decorators'
 import { logger, r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { HEADER_HEIGHT } from '@styles'
@@ -192,4 +192,4 @@ class Blog extends React.Component<
   }
 }
 
-export default ob(Blog)
+export default observer(Blog)

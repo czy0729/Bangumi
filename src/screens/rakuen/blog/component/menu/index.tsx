@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2025-02-09 23:37:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-05 05:50:19
+ * @Last Modified time: 2026-06-06 21:37:09
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
+import { observer } from 'mobx-react'
 import { HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { copy, open } from '@utils'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import { TEXT_MENU_BROWSER, TEXT_MENU_COPY_LINK, TEXT_MENU_COPY_SHARE } from '@constants'
 import { COMPONENT, DATA } from './ds'
 
@@ -44,7 +44,7 @@ function Menu() {
     [$]
   )
 
-  return useObserver(() => <HeaderV2Popover data={DATA} onSelect={handleSelect} />)
+  return <HeaderV2Popover data={DATA} onSelect={handleSelect} />
 }
 
-export default Menu
+export default observer(Menu)

@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:15:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 12:27:51
+ * @Last Modified time: 2026-06-06 21:34:58
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, Page } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import Extra from './component/extra'
 import List from './component/list'
 import Header from './header'
@@ -16,10 +15,10 @@ import { useBlogPage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** 日志 */
-const Blog = (props: NavigationProps) => {
+function ScreenBlog(props: NavigationProps) {
   const { id, $, fixed, handleScroll } = useBlogPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-blog'>
       <StoreContext.Provider value={id}>
         <Page statusBarEvent={false}>
@@ -29,7 +28,7 @@ const Blog = (props: NavigationProps) => {
         <Extra />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default Blog
+export default observer(ScreenBlog)
