@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-03 17:01:08
+ * @Last Modified time: 2026-06-06 07:33:07
  */
 import React, { useCallback, useMemo } from 'react'
-import { Heatmap } from '@components'
-import { HorizontalList, InView, SectionTitle } from '@_'
+import { Heatmap, HorizontalList } from '@components'
+import { InView, SectionTitle } from '@_'
 import { _ } from '@stores'
 import { desc, stl } from '@utils'
 import { memo } from '@utils/decorators'
@@ -110,7 +110,8 @@ const Character = memo(
         {showCharacter && (
           <>
             <HorizontalList
-              style={_.mt.sm}
+              style={_.mt.md}
+              contentContainerStyle={_.container.wind}
               data={processedCrt}
               counts={crtCounts}
               typeCn='角色'

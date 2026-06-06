@@ -2,24 +2,29 @@
  * @Author: czy0729
  * @Date: 2023-07-03 06:53:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-13 12:28:07
+ * @Last Modified time: 2026-06-06 17:40:38
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Cover, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { stl } from '@utils'
+import { Cover } from '../../cover'
+import { Text } from '../../text'
+import { Touchable } from '../../touchable'
 import Desc from './desc'
 import Title from './title'
 import { getTypeCn } from './utils'
 import { HIT_SLOP } from './ds'
 
-function Item({
+import type { ItemData } from '../types'
+import type { Props } from './types'
+
+function Item<T extends ItemData>({
   item,
   count,
-  width,
-  height,
+  width = 60,
+  height = 60,
   findCn,
   ellipsizeMode,
   isFirst,
@@ -27,7 +32,7 @@ function Item({
   relationTypeCn,
   onPress,
   onSubPress
-}) {
+}: Props<T>) {
   const typeCnValue = getTypeCn(item.name, item.desc, typeCn, relationTypeCn)
   const isMusic = typeCnValue === '音乐'
   const w = _.r(isMusic ? width * 1.16 : width)
@@ -48,7 +53,7 @@ function Item({
         scale={0.9}
         hitSlop={HIT_SLOP}
         onPress={() => {
-          onPress(item, typeCn)
+          onPress?.(item, typeCn)
         }}
       >
         <Cover
@@ -76,4 +81,4 @@ function Item({
   )
 }
 
-export default observer(Item)
+export default observer(Item) as <T extends ItemData>(props: Props<T>) => React.JSX.Element

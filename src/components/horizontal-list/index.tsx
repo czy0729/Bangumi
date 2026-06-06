@@ -2,98 +2,116 @@
  * @Author: czy0729
  * @Date: 2021-01-24 19:41:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-08 19:05:27
+ * @Last Modified time: 2026-06-06 17:39:51
  */
-import React from 'react'
+import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { observer } from 'mobx-react'
-import { _ } from '@stores'
+import { desc } from '@utils'
 import { r } from '@utils/dev'
+import { FROZEN_FN, FROZEN_OBJECT } from '@constants'
 import { Component } from '../component'
+import Item from './item'
 import ScrollViewHorizontal from './scroll-view-horizontal'
 import { COMPONENT } from './ds'
 
 export { ScrollViewHorizontal }
 
-import type { ScrollEvent } from '@types'
-import type { Props as HorizontalListProps } from './types'
-export type { HorizontalListProps }
+import type { NativeSyntheticEvent, NativeScrollEvent } from 'react-native'
+import type { Props as HorizontalListProps, WithId, ItemData, TypeCn } from './types'
+export type { HorizontalListProps, WithId, ItemData, TypeCn }
 
 /** 通用水平移动列表 */
 export const HorizontalList = observer(
-  class HorizontalListComponent extends React.Component<HorizontalListProps> {
-    static defaultProps = {
-      data: [],
-      initialRenderNums: 3
-    }
+  <T extends WithId = ItemData>({
+    style,
+    contentContainerStyle,
+    data,
+    counts = FROZEN_OBJECT,
+    width = 60,
+    height = 60,
+    findCn = false,
+    typeCn = '',
+    relationTypeCn = '',
+    ellipsizeMode = 'tail',
+    initialRenderNums = 0,
+    scrolled: initialScrolled = false,
+    showMask = false,
+    sortData = true,
+    renderItem,
+    renderNums,
+    onEndReachedOnce,
+    onPress = FROZEN_FN as HorizontalListProps<T>['onPress'],
+    onSubPress
+  }: HorizontalListProps<T>) => {
+    r(COMPONENT)
 
-    private scrollEndReached = false
+    const [scrolled, setScrolled] = useState(initialScrolled)
+    const endReachedRef = useRef(false)
 
-    state = {
-      scrolled: false
-    }
+    const memoData = useMemo(() => {
+      if (!data?.length) return []
 
-    onScroll = (evt: ScrollEvent) => {
-      const { x } = evt.nativeEvent.contentOffset
-      if (x >= 20) {
-        this.setState({
-          scrolled: true
-        })
-      }
+      // 没封面图的置后
+      const sortedData = sortData
+        ? [...data].sort((a, b) => desc(a, b, item => (item.image ? 1 : 0)))
+        : [...data]
+      if (!initialRenderNums || scrolled) return sortedData
 
-      if (!this.scrollEndReached && this.state.scrolled) {
-        const { onEndReachedOnce } = this.props
-        if (typeof onEndReachedOnce === 'function') {
-          const contentWidth = evt.nativeEvent.contentSize.width
-          const scrollViewWidth = evt.nativeEvent.layoutMeasurement.width
-          if (scrollViewWidth + x + 20 >= contentWidth) {
+      return sortedData.filter((_item, index) => index < initialRenderNums)
+    }, [data, initialRenderNums, scrolled, sortData])
+
+    // 滚动回调
+    const handleScroll = useCallback(
+      (evt: NativeSyntheticEvent<NativeScrollEvent>) => {
+        if (!scrolled) setScrolled(true)
+
+        // onEndReachedOnce 回调
+        if (!endReachedRef.current && onEndReachedOnce) {
+          const { x } = evt.nativeEvent.contentOffset
+          const contentW = evt.nativeEvent.contentSize.width
+          const scrollViewW = evt.nativeEvent.layoutMeasurement.width
+          if (scrollViewW + x + 20 >= contentW) {
             onEndReachedOnce()
-            this.scrollEndReached = true
+            endReachedRef.current = true
           }
         }
-      }
-    }
+      },
+      [scrolled, onEndReachedOnce]
+    )
 
-    get initialRenderNums() {
-      return this.props.initialRenderNums * (_.isLandscape ? 2 : 1)
-    }
-
-    get show() {
-      return !this.initialRenderNums || this.state.scrolled
-    }
-
-    get data() {
-      const { data } = this.props
-      if (this.show) return data.slice()
-
-      return data.filter((_item, index) => index < this.initialRenderNums)
-    }
-
-    render() {
-      r(COMPONENT)
-
-      const { style, contentContainerStyle, renderItem, renderNums } = this.props
-
-      return (
-        <Component id='component-horizontal-list'>
-          <ScrollViewHorizontal
-            style={style}
-            contentContainerStyle={contentContainerStyle}
-            onScroll={this.show ? undefined : this.onScroll}
-          >
-            {this.data.map((item, index) => {
-              const element = renderItem(item, index)
-              if (element) {
-                return React.cloneElement(element, {
-                  key: `horizontal-list-item-${index}`
-                })
-              }
-              return null
-            })}
-            {typeof renderNums === 'function' && renderNums()}
-          </ScrollViewHorizontal>
-        </Component>
-      )
-    }
+    return (
+      <Component id='component-horizontal-list'>
+        <ScrollViewHorizontal
+          style={style}
+          contentContainerStyle={contentContainerStyle}
+          showMask={showMask}
+          onScroll={handleScroll}
+        >
+          {memoData.map((item, index) => {
+            const key = item.id ?? index
+            return renderItem ? (
+              <React.Fragment key={key}>{renderItem(item as T, index)}</React.Fragment>
+            ) : (
+              <Item
+                key={key}
+                item={item}
+                count={counts[String(item.id)] || 0}
+                width={width}
+                height={height}
+                findCn={findCn}
+                ellipsizeMode={ellipsizeMode}
+                isFirst={index === 0}
+                typeCn={typeCn}
+                relationTypeCn={relationTypeCn}
+                onPress={onPress}
+                onSubPress={onSubPress}
+              />
+            )
+          })}
+          {typeof renderNums === 'function' && renderNums()}
+        </ScrollViewHorizontal>
+      </Component>
+    )
   }
 )
 

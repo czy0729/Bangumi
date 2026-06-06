@@ -2,11 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-04-04 08:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-04 08:45:24
+ * @Last Modified time: 2026-06-06 05:50:53
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
+  bottom: {
+    marginTop: _.md,
+    marginRight: -(_._wind + _.sm)
+  },
   split: {
     width: 3,
     height: 8,

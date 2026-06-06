@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-10 20:03:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 03:08:51
+ * @Last Modified time: 2026-06-06 16:59:58
  */
 import React, { useRef } from 'react'
 import { Animated, ScrollView as RNScrollView } from 'react-native'
@@ -10,8 +10,10 @@ import { observer } from 'mobx-react'
 import { r } from '@utils/dev'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { ScrollToTop } from '../scroll-to-top'
+import { Mask, useMask } from './mask'
 import { COMPONENT } from './ds'
 
+import type { NativeSyntheticEvent, NativeScrollEvent } from 'react-native'
 import type { Props as ScrollViewProps, ScrollTo } from './types'
 export type { ScrollViewProps, ScrollTo }
 
@@ -25,6 +27,7 @@ export const ScrollView = observer(
     forwardRef,
     connectRef,
     animated,
+    showMask,
 
     // 此属性对于 iOS 需要有默认值, 否则会出现首次渲染滚动条位置不正确的问题
     scrollIndicatorInsets = {
@@ -32,6 +35,7 @@ export const ScrollView = observer(
     },
     scrollEventThrottle,
     onScroll,
+    onContentSizeChange,
     children,
     ...other
   }: ScrollViewProps) => {
@@ -39,32 +43,74 @@ export const ScrollView = observer(
 
     const scrollViewEl = useRef(null)
 
-    let ref: React.LegacyRef<RNScrollView>
+    const {
+      leftMaskStyle,
+      rightMaskStyle,
+      maskColors,
+      handleLayout,
+      handleContentSizeChange,
+      handleScroll
+    } = useMask()
+
+    let ref: React.Ref<RNScrollView>
     if (scrollToTop) {
-      ref = ref => (scrollViewEl.current = ref?.scrollTo)
+      ref = ref => {
+        scrollViewEl.current = ref?.scrollTo
+      }
     } else if (forwardRef || connectRef) {
-      ref = ref => (forwardRef || connectRef)(ref?.scrollTo, ref)
+      ref = ref => {
+        ;(forwardRef || connectRef)?.(ref?.scrollTo as ScrollTo, ref)
+      }
     }
 
-    const Component: any = animated ? Animated.ScrollView : RNScrollView
+    const Component = animated ? Animated.ScrollView : RNScrollView
+
+    const handleOnScroll = (evt: NativeSyntheticEvent<NativeScrollEvent>) => {
+      if (showMask && horizontal) handleScroll(evt)
+      onScroll?.(evt)
+    }
+
+    const handleOnContentSizeChange = (w: number, h: number) => {
+      if (showMask && horizontal) handleContentSizeChange(w)
+      onContentSizeChange?.(w, h)
+    }
+
+    const elScrollView = (
+      <Component
+        ref={ref}
+        style={style}
+        contentContainerStyle={contentContainerStyle}
+        horizontal={horizontal}
+        scrollIndicatorInsets={scrollIndicatorInsets}
+        scrollEventThrottle={
+          scrollEventThrottle === undefined && (onScroll || showMask) ? 16 : scrollEventThrottle
+        }
+        onScroll={handleOnScroll}
+        onContentSizeChange={handleOnContentSizeChange}
+        {...other}
+        {...SCROLL_VIEW_RESET_PROPS}
+      >
+        {children}
+      </Component>
+    )
+
+    const elContent =
+      showMask && horizontal ? (
+        <Mask
+          leftMaskStyle={leftMaskStyle}
+          rightMaskStyle={rightMaskStyle}
+          maskColors={maskColors}
+          onLayout={handleLayout}
+        >
+          {elScrollView}
+        </Mask>
+      ) : (
+        elScrollView
+      )
 
     return (
       <>
-        <Component
-          ref={ref}
-          style={style}
-          contentContainerStyle={contentContainerStyle}
-          horizontal={horizontal}
-          scrollIndicatorInsets={scrollIndicatorInsets}
-          scrollEventThrottle={
-            scrollEventThrottle === undefined && onScroll ? 16 : scrollEventThrottle
-          }
-          onScroll={onScroll}
-          {...other}
-          {...SCROLL_VIEW_RESET_PROPS}
-        >
-          {children}
-        </Component>
+        {elContent}
         {scrollToTop && <ScrollToTop scrollTo={scrollViewEl.current} />}
       </>
     )

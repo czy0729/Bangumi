@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:02:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-03 19:40:49
+ * @Last Modified time: 2026-06-06 07:33:26
  */
 import React, { useCallback, useMemo } from 'react'
-import { Heatmap, Text } from '@components'
+import { Heatmap, HorizontalList, Text } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { HorizontalList, InView, SectionTitle } from '@_'
+import { InView, SectionTitle } from '@_'
 import { _ } from '@stores'
 import { truncateMiddle } from '@utils'
 import { memo } from '@utils/decorators'
@@ -61,7 +61,8 @@ const Comic = memo(
         </SectionTitle>
 
         <HorizontalList
-          style={_.mt.sm}
+          style={_.mt.md}
+          contentContainerStyle={_.container.wind}
           data={processedComic}
           width={COVER_WIDTH}
           height={COVER_HEIGHT}

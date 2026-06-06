@@ -2,26 +2,28 @@
  * @Author: czy0729
  * @Date: 2023-11-08 00:47:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-24 20:12:55
+ * @Last Modified time: 2026-06-06 17:20:03
  */
 import React from 'react'
-import { ScrollView } from 'react-native'
 import { observer } from 'mobx-react'
-import { SCROLL_VIEW_RESET_PROPS } from '@constants'
-import { memoStyles } from './styles'
+import { ScrollView } from '../../scroll-view'
 
-import type { Props } from './types'
+import type { ScrollViewProps } from '../../scroll-view'
 
-function ScrollViewHorizontal({ children, ...other }: Props) {
-  const styles = memoStyles()
-
+function ScrollViewHorizontal({
+  children,
+  contentContainerStyle,
+  showMask,
+  ...other
+}: Omit<ScrollViewProps, 'horizontal'>) {
   return (
     <ScrollView
-      contentContainerStyle={styles.contentContainerStyle}
+      contentContainerStyle={contentContainerStyle}
       scrollEventThrottle={16}
-      {...SCROLL_VIEW_RESET_PROPS}
-      {...other}
+      animated
       horizontal
+      showMask={showMask}
+      {...other}
     >
       {children}
     </ScrollView>

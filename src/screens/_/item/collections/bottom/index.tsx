@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-08 17:35:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-24 12:10:32
+ * @Last Modified time: 2026-06-06 05:49:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -40,7 +40,7 @@ function Bottom({ id, score, rank, total, simpleStars, time, tags, hideScore, ha
   }
 
   return (
-    <Flex style={_.mt.md}>
+    <Flex style={styles.bottom}>
       {/* left */}
       {hasLeft && (
         <>

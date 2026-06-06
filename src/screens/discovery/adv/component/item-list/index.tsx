@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-01 05:47:14
+ * @Last Modified time: 2026-06-06 07:31:48
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -132,8 +132,8 @@ function Item({ index, pickIndex }: Props) {
                 data={thumbs.filter((_, idx) => idx < 3)}
                 renderItem={(item, idx) => (
                   <Image
-                    style={stl(!!idx && _.ml.sm, idx === thumbs.length - 1 && _.mr.md)}
                     key={item}
+                    style={stl(!!idx && _.ml.sm, idx === thumbs.length - 1 && _.mr.md)}
                     src={item}
                     size={THUMB_WIDTH}
                     height={THUMB_HEIGHT}

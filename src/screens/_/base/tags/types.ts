@@ -4,14 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-24 10:43:55
  */
-import type { ScrollViewProps } from '@components'
-import type { Override } from '@types'
+import type { ViewStyle } from '@types'
 
-export type Props = Override<
-  ScrollViewProps,
-  {
-    value: string[]
-    active?: string[]
-    limit?: number
-  }
->
+export type Props = {
+  style?: ViewStyle
+  value: string[]
+  active?: string[]
+  limit?: number
+}

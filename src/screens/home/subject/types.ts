@@ -63,8 +63,8 @@ export type Crt = {
 
 export type Staff = {
   id: Id
-  image: ImageSource
-  _image: ImageSource
+  image: ImageSource | string | number
+  _image: ImageSource | string | number
   name: string
   nameJP: string
   desc: string

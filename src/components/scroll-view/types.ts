@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-05-24 10:39:02
  */
 import type { ScrollView, ScrollViewProps } from 'react-native'
-import type { Expand, ReactNode } from '@types'
+import type { Expand } from '@types'
 
 export type ScrollTo = (params: { x?: number; y?: number; animated?: boolean }) => void
 
@@ -24,6 +24,7 @@ export type Props = Expand<
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     connectRef?: (scrollTo: ScrollTo, scrollViewRef?: ScrollView) => any
 
-    children?: ReactNode
+    /** 是否显示左右溢出遮罩（仅水平模式有效） */
+    showMask?: boolean
   }
 >

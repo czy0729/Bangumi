@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-04-08 10:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-03 17:06:27
+ * @Last Modified time: 2026-06-06 07:33:43
  */
 import React, { useCallback, useMemo } from 'react'
-import { Heatmap } from '@components'
+import { Heatmap, HorizontalList } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { HorizontalList, InView, SectionTitle } from '@_'
+import { InView, SectionTitle } from '@_'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { memo } from '@utils/decorators'
@@ -74,7 +74,8 @@ const Relations = memo(
         {showRelations && (
           <>
             <HorizontalList
-              style={_.mt.sm}
+              style={_.mt.md}
+              contentContainerStyle={_.container.wind}
               data={relations}
               width={COVER_WIDTH}
               height={COVER_HEIGHT}

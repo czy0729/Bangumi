@@ -2,29 +2,30 @@
  * @Author: czy0729
  * @Date: 2024-09-02 17:49:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 17:00:44
+ * @Last Modified time: 2026-06-06 17:26:54
  */
 import type { SubjectTypeCn } from '@types'
+import type { TypeCn } from '../types'
 
 const memo = new Map<string, SubjectTypeCn>()
 
 /** 推断条目的类型 */
 export function getTypeCn(
-  name: string,
-  desc: string,
-  typeCn?: SubjectTypeCn,
-  relationTypeCn?: SubjectTypeCn
+  name?: string,
+  desc?: string,
+  typeCn?: TypeCn,
+  relationTypeCn?: TypeCn
 ): SubjectTypeCn {
-  const text = String(name).toLocaleLowerCase().trim()
-  if (text.includes('soundtrack') || (text.endsWith('cd') && desc === '其他')) {
-    return '音乐'
-  }
+  const text = String(name ?? '')
+    .toLocaleLowerCase()
+    .trim()
+  if (text.includes('soundtrack') || (text.endsWith('cd') && desc === '其他')) return '音乐'
 
-  const str = String(desc || '')
+  const str = String(desc ?? '')
   const id = `${str}|${typeCn}|${relationTypeCn}`
   if (memo.has(id)) return memo.get(id)
 
-  let value: SubjectTypeCn = typeCn
+  let value: SubjectTypeCn = typeCn as SubjectTypeCn
   if (!value) {
     if (str.includes('动画')) {
       value = '动画'
@@ -41,7 +42,7 @@ export function getTypeCn(
       value = '游戏'
     } else if (relationTypeCn) {
       if (str.includes('不同演绎') || str.includes('相同世界观') || str.includes('主版本')) {
-        value = relationTypeCn
+        value = relationTypeCn as SubjectTypeCn
       }
     }
   }

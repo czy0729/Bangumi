@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:28:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-03 17:03:50
+ * @Last Modified time: 2026-06-06 07:33:51
  */
 import React, { useCallback, useMemo } from 'react'
-import { Heatmap } from '@components'
-import { HorizontalList, InView, SectionTitle } from '@_'
+import { Heatmap, HorizontalList } from '@components'
+import { InView, SectionTitle } from '@_'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { memo } from '@utils/decorators'
@@ -63,7 +63,8 @@ const Staff = memo(
         {showStaff && (
           <>
             <HorizontalList
-              style={_.mt.sm}
+              style={_.mt.md}
+              contentContainerStyle={_.container.wind}
               data={removeDuplicateItemsById(staff)}
               typeCn='角色'
               initialRenderNums={_.device(Math.floor(_.window.contentWidth / 56) + 1, 8)}

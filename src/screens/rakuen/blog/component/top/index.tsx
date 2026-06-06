@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:51:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-25 06:42:40
+ * @Last Modified time: 2026-06-06 07:40:38
  */
 import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
@@ -10,13 +10,14 @@ import {
   Divider,
   Flex,
   HeaderPlaceholder,
+  HorizontalList,
   Loading,
   RenderHtml,
   Text,
   UserStatus
 } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { Avatar, HorizontalList, Name } from '@_'
+import { Avatar, Name } from '@_'
 import { _, useStore } from '@stores'
 import { appNavigate } from '@utils'
 import { t } from '@utils/fetch'
@@ -143,6 +144,7 @@ function Top() {
               关联条目
             </Text>
             <HorizontalList
+              contentContainerStyle={_.container.wind}
               data={related}
               width={IMG_WIDTH_SM}
               height={IMG_HEIGHT_SM}

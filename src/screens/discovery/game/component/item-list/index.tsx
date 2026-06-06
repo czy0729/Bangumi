@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-01 05:42:53
+ * @Last Modified time: 2026-06-06 07:32:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -114,7 +114,7 @@ function ItemList({ index, pickIndex }) {
                       ({total})
                     </Text>
                   )}
-                  <Flex.Item>
+                  <Flex.Item style={styles.tags}>
                     <Tags value={tag} />
                   </Flex.Item>
                 </Flex>
@@ -148,8 +148,8 @@ function ItemList({ index, pickIndex }) {
                 })}
                 renderItem={(item, index) => (
                   <Image
-                    style={stl(!!index && _.ml.sm, index === thumbs.length - 1 && _.mr.md)}
                     key={item}
+                    style={stl(!!index && _.ml.sm, index === thumbs.length - 1 && _.mr.md)}
                     src={item}
                     size={THUMB_WIDTH}
                     height={THUMB_HEIGHT}

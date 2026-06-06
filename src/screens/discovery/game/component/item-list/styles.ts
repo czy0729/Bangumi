@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-28 15:40:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 14:57:38
+ * @Last Modified time: 2026-06-06 07:16:19
  */
 import { _ } from '@stores'
 import { IMG_HEIGHT_LG } from '@constants'
@@ -22,6 +22,9 @@ export const memoStyles = _.memoStyles(() => ({
   },
   body: {
     marginRight: _.wind
+  },
+  tags: {
+    marginRight: -48
   },
   thumbs: {
     marginTop: _.md,

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:00:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-03 18:53:41
+ * @Last Modified time: 2026-06-06 07:33:34
  */
 import React, { useCallback, useMemo } from 'react'
-import { Heatmap } from '@components'
+import { Heatmap, HorizontalList } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { HorizontalList, InView, SectionTitle } from '@_'
+import { InView, SectionTitle } from '@_'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { memo } from '@utils/decorators'
@@ -76,7 +76,8 @@ const Like = memo(
         {showLike && (
           <>
             <HorizontalList
-              style={_.mt.sm}
+              style={_.mt.md}
+              contentContainerStyle={_.container.wind}
               data={like}
               width={COVER_WIDTH}
               height={COVER_HEIGHT}
