@@ -163,4 +163,9 @@ export default class Computed extends State implements StoreConstructor<typeof S
       return amount
     }).get()
   }
+
+  /** 主域名代理中 */
+  @computed get isHostProxy() {
+    return !this.setting.workerProxyDisabled && !!this.setting.workerProxy
+  }
 }

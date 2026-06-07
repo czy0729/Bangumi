@@ -10,7 +10,7 @@ export type Props = {
   year: string
   source: {
     html: string
-    baseUrl: 'https://bgm.tv'
+    baseUrl: string
   }
   onLoad: Fn
   onError: Fn

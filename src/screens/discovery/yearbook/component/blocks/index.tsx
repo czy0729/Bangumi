@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-03 22:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-13 15:37:00
+ * @Last Modified time: 2026-06-07 06:18:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,6 +20,7 @@ function Blocks() {
 
   return useObserver(() => {
     const styles = memoStyles()
+
     const { width, height } = styles.item2021
 
     return (

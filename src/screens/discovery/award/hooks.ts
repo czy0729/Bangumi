@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-04-30 00:28:51
  */
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { systemStore } from '@stores'
 import {
   appNavigate,
   cheerio,
@@ -16,13 +17,13 @@ import {
   setStorage
 } from '@utils'
 import { fetchHTML, t } from '@utils/fetch'
+import { applyProxy } from '@utils/proxy'
 import { HOST, WEB } from '@constants'
 import { getAwardUrl, getAwardYear, transformAwardHTML } from './utils'
 import { NAMESPACE } from './ds'
 
 import type { NavigationProps } from '@types'
 import type { Params } from './types'
-
 const HTML_CACHE: Record<string, string> = {}
 
 /** 年鉴页面逻辑 */
@@ -33,12 +34,13 @@ export function useAwardPage({ navigation, route }: NavigationProps<Params>) {
 
   const uri = route?.params?.uri || ''
   const year = useMemo(() => getAwardYear(uri), [uri])
+  const proxyBaseUrl = useMemo(() => applyProxy(HOST).url, [])
   const source = useMemo(
     () => ({
       html,
-      baseUrl: HOST
+      baseUrl: proxyBaseUrl
     }),
-    [html]
+    [html, proxyBaseUrl]
   )
 
   const handleLoad = useCallback(() => {
@@ -66,7 +68,7 @@ export function useAwardPage({ navigation, route }: NavigationProps<Params>) {
       const params: any = {}
 
       if (href.includes('/subject/')) {
-        if (innerHTML) {
+        if (innerHTML && !systemStore.isHostProxy) {
           params._image = fixedBgmUrl(cheerio(innerHTML)('img').attr('src') || '')
         }
 
