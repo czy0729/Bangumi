@@ -8,7 +8,7 @@ import React from 'react'
 import { observer } from 'mobx-react'
 import { Button, Flex, Link, Mesume, Text } from '@components'
 import { randomSpeech } from '@components/mesume/utils'
-import { useStore } from '@stores'
+import { systemStore, useStore } from '@stores'
 import { COMPONENT, FOOTER_EMPTY_TEXT } from './ds'
 import { memoStyles } from './styles'
 
@@ -27,7 +27,11 @@ function Empty({ title, length }: Props) {
     <Flex style={length ? styles.top : styles.empty} direction='column' justify='center'>
       <Mesume size={80} />
       <Text style={styles.text} type='sub' size={13} align='center'>
-        {length ? randomSpeech() : FOOTER_EMPTY_TEXT[title]}
+        {length
+          ? systemStore.setting.speech
+            ? randomSpeech()
+            : '- 到底了 -'
+          : FOOTER_EMPTY_TEXT[title]}
       </Text>
       {!!filter && length <= 3 && (
         <Link

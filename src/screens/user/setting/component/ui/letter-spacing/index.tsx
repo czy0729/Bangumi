@@ -38,7 +38,12 @@ function LetterSpacing({ filter }: WithFilterProps) {
 
   return useObserver(() => (
     <ItemSettingBlock style={styles.block} filter={filter} {...TEXTS.letterSpacing}>
-      <ScrollView forwardRef={handleForwardRef} contentContainerStyle={styles.scroll} horizontal>
+      <ScrollView
+        forwardRef={handleForwardRef}
+        contentContainerStyle={styles.scroll}
+        horizontal
+        maskColors={_.select(_.colorPlainRaw, _._colorDarkModeLevel1Raw)}
+      >
         {SETTING_LETTER_SPACING.map((item, index) => (
           <ItemSettingBlock.Item
             key={item.label}

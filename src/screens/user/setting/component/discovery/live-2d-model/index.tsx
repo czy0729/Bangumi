@@ -50,7 +50,12 @@ function Live2DModel({ filter }: WithFilterProps) {
         subStyle={styles.sub}
         {...TEXTS.live2DModel.setting}
       >
-        <ScrollView forwardRef={handleForwardRef} contentContainerStyle={styles.scroll} horizontal>
+        <ScrollView
+          forwardRef={handleForwardRef}
+          contentContainerStyle={styles.scroll}
+          horizontal
+          maskColors={_.select(_.colorPlainRaw, _._colorDarkModeLevel1Raw)}
+        >
           {SETTING_LIVE2D_MODEL.map((item, index) => {
             const { title, information, src } = TEXTS.live2DModel[item.value]
 

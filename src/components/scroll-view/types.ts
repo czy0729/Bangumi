@@ -29,5 +29,8 @@ export type Props = Expand<
 
     /** 左右溢出遮罩宽度 */
     maskWidth?: number
+
+    /** 遮罩颜色 */
+    maskColors?: readonly [string, string, string]
   }
 >

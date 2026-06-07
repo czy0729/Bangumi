@@ -24,7 +24,7 @@ import {
 } from './ds'
 
 import type { FlatList } from 'react-native'
-import type { AnyObject, ListEmpty } from '@types'
+import type { AnyObject, ListEmpty, MaybeReadonly } from '@types'
 import type {
   Props as ListViewProps,
   RefreshState,
@@ -146,7 +146,7 @@ export const ListView = observer(
       }
     }
 
-    updateRefreshState = (data: ListEmpty<ItemT>) => {
+    updateRefreshState = (data: MaybeReadonly<ListEmpty<ItemT>>) => {
       const {
         list = [],
         pagination = {

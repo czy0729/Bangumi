@@ -30,6 +30,7 @@ export const ScrollView = observer(
     animated,
     showMask,
     maskWidth,
+    maskColors: colors,
 
     // 此属性对于 iOS 需要有默认值, 否则会出现首次渲染滚动条位置不正确的问题
     scrollIndicatorInsets = {
@@ -58,7 +59,7 @@ export const ScrollView = observer(
       handleLayout,
       handleContentSizeChange,
       handleScroll
-    } = useMask()
+    } = useMask(colors)
 
     let ref: React.Ref<RNScrollView>
     if (scrollToTop) {

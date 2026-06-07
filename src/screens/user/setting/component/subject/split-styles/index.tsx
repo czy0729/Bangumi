@@ -61,7 +61,12 @@ function SplitStyles({ filter }: WithFilterProps) {
 
     return (
       <ItemSettingBlock style={styles.block} filter={filter} {...TEXTS.splitStyles.setting}>
-        <ScrollView forwardRef={handleForwardRef} contentContainerStyle={styles.scroll} horizontal>
+        <ScrollView
+          forwardRef={handleForwardRef}
+          contentContainerStyle={styles.scroll}
+          horizontal
+          maskColors={_.select(_.colorPlainRaw, _._colorDarkModeLevel1Raw)}
+        >
           {SETTING_SUBJECT_SPLIT_STYLES.map((item, index) => {
             const { value } = item
             const { title } = TEXTS.splitStyles[value]

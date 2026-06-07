@@ -16,7 +16,7 @@ import { _ } from '@stores'
 import type { LayoutChangeEvent, NativeSyntheticEvent, NativeScrollEvent } from 'react-native'
 
 /** 水平滚动遮罩 hook */
-export function useMask() {
+export function useMask(color: readonly [string, string, string]) {
   const scrollX = useSharedValue(0)
   const contentWidth = useSharedValue(0)
   const containerWidth = useSharedValue(0)
@@ -55,12 +55,8 @@ export function useMask() {
 
   // 3色渐变：opaque → 低alpha过渡 → 全透明
   // 避免 2 色线性插值在接近透明时 RGB 残留导致的"脏边"断层
-  const rgb = _.colorPlainRaw.join()
-  const maskColors = [
-    `rgba(${rgb}, 1)`,
-    `rgba(${rgb}, 0.06)`,
-    `rgba(${rgb}, 0)`
-  ] as const
+  const rgb = (color || _.colorPlainRaw).join()
+  const maskColors = [`rgba(${rgb}, 1)`, `rgba(${rgb}, 0.06)`, `rgba(${rgb}, 0)`] as const
 
   return {
     leftMaskStyle,

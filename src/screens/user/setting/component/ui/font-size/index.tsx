@@ -50,7 +50,12 @@ function FontSize({ filter }: WithFilterProps) {
       ])}
       {...TEXTS.fontSize}
     >
-      <ScrollView forwardRef={handleForwardRef} contentContainerStyle={styles.scroll} horizontal>
+      <ScrollView
+        forwardRef={handleForwardRef}
+        contentContainerStyle={styles.scroll}
+        horizontal
+        maskColors={_.select(_.colorPlainRaw, _._colorDarkModeLevel1Raw)}
+      >
         {SETTING_FONTSIZE_ADJUST.map((item, index) => (
           <ItemSettingBlock.Item
             key={item.label}
