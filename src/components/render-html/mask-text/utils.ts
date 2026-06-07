@@ -6,57 +6,53 @@
  */
 import React from 'react'
 
-import type { ReactNode } from '@types'
+import type { ReactElement } from 'react'
+import type { ReactNode, TextStyle } from '@types'
+import EmojiText from '../emoji-text'
 
-export function extractText(children: ReactNode): string {
-  try {
-    const rawText = _extract(children) || ''
-    const visualLength = calculateVisualLength(rawText)
-    const finalLength = Math.max(visualLength, 2)
-    return '　'.repeat(finalLength)
-  } catch {
-    return '　　'
+export const MASK_BACKGROUND_COLOR = '#555'
+export const MASK_TEXT_COLOR = '#fff'
+
+export function getMaskTextStyle(show: boolean): TextStyle {
+  return {
+    color: show ? MASK_TEXT_COLOR : MASK_BACKGROUND_COLOR,
+    ...(!show && {
+      opacity: 0
+    })
   }
 }
 
-function _extract(children: ReactNode): string {
-  if (children == null || typeof children === 'boolean') return ''
+export function maskRichText(children: ReactNode, show: boolean): ReactNode {
+  return maskChildren(children, show, getMaskTextStyle(show))
+}
 
-  if (typeof children === 'string' || typeof children === 'number') {
-    return String(children)
-  }
+function maskChildren(children: ReactNode, show: boolean, style: TextStyle): ReactNode {
+  if (children == null || typeof children === 'boolean') return children
 
-  if (Array.isArray(children)) {
-    return children.map(_extract).join('')
-  }
+  if (typeof children === 'string' || typeof children === 'number') return children
+
+  if (Array.isArray(children)) return children.map(item => maskChildren(item, show, style))
 
   if (React.isValidElement(children)) {
-    return _extract(children.props?.children)
-  }
+    const element = children as ReactElement<any>
+    const props = element.props || {}
 
-  return ''
-}
-
-function calculateVisualLength(text: string): number {
-  let units = 0
-
-  for (const char of text) {
-    if (isCJK(char)) {
-      units += 1
-    } else {
-      units += 0.5
+    if (!show && element.type === EmojiText) {
+      return '　'
     }
+
+    const nextProps: {
+      style?: unknown[]
+      children?: ReactNode
+      onPress?: undefined
+    } = {}
+
+    if (element.type !== React.Fragment) nextProps.style = [props.style, style]
+    if (!show && props.onPress) nextProps.onPress = undefined
+    if ('children' in props) nextProps.children = maskChildren(props.children, show, style)
+
+    return React.cloneElement(element, nextProps)
   }
 
-  return Math.ceil(units)
-}
-
-// 判断是否 CJK
-function isCJK(char: string): boolean {
-  const code = char.codePointAt(0)!
-  return (
-    (code >= 0x4e00 && code <= 0x9fff) ||
-    (code >= 0x3400 && code <= 0x4dbf) ||
-    (code >= 0x20000 && code <= 0x2a6df)
-  )
+  return children
 }
