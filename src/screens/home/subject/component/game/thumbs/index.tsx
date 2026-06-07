@@ -2,16 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-08-13 11:42:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:16:17
+ * @Last Modified time: 2026-06-07 20:45:12
  */
 import React, { useCallback, useState } from 'react'
-import { ScrollView } from 'react-native'
 import { observer } from 'mobx-react'
-import { Image } from '@components'
+import { Image, ScrollView } from '@components'
 import { _, useStore } from '@stores'
 import { showImageViewer } from '@utils'
 import { t } from '@utils/fetch'
-import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { getThumbs } from './utils'
 import { COMPONENT, THUMB_HEIGHT, THUMB_WIDTH } from './ds'
 import { styles } from './styles'
@@ -35,8 +33,6 @@ function Thumbs() {
       style={_.mt.md}
       contentContainerStyle={_.container.wind}
       horizontal
-      {...SCROLL_VIEW_RESET_PROPS}
-      scrollEventThrottle={16}
       onScroll={handleScroll}
     >
       {thumbs

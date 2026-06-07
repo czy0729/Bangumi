@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-01-12 06:39:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-03 19:18:36
+ * @Last Modified time: 2026-06-07 20:35:32
  */
 import React, { useCallback, useMemo } from 'react'
-import { ScrollView, View } from 'react-native'
-import { Flex, Heatmap, Iconfont, Image, Link, Squircle, Text } from '@components'
+import { View } from 'react-native'
+import { Flex, Heatmap, Iconfont, Image, Link, ScrollView, Squircle, Text } from '@components'
 import { InView, PreventTouchPlaceholder, SectionTitle } from '@_'
 import { _ } from '@stores'
 import { date, showImageViewer, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { useHorizontalLazy } from '@utils/hooks'
-import { FROZEN_FN, SCROLL_VIEW_RESET_PROPS } from '@constants'
+import { FROZEN_FN } from '@constants'
 import { TITLE_ANITABI } from '../../ds'
 import IconHidden from '../icon/hidden'
 import { COMPONENT_MAIN, DEFAULT_PROPS, THUMB_HEIGHT, THUMB_WIDTH } from './ds'
@@ -107,8 +107,6 @@ const Anitabi = memo(
               style={_.mt.md}
               contentContainerStyle={_.container.wind}
               horizontal
-              {...SCROLL_VIEW_RESET_PROPS}
-              scrollEventThrottle={16}
               onScroll={onScroll}
             >
               {list.map((item, index: number) => (

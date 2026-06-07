@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 07:07:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-05 22:30:18
+ * @Last Modified time: 2026-06-07 19:59:24
  */
 import { rc } from '@utils/dev'
 import {
@@ -103,5 +103,9 @@ export const TEXTS = {
     hd: '震动',
     information:
       '提交操作后会提供中度震动反馈，部分切换操作也会触发轻度震动（建议开启以获得完整体验）'
+  },
+  horizontalShowMask: {
+    hd: '溢出遮罩',
+    information: '在水平列表两侧的溢出内容上方，显示遮罩（平板设备默认开启）'
   }
 } as const

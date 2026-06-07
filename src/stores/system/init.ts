@@ -18,6 +18,7 @@ import {
   MODEL_SETTING_SUBJECT_SPLIT_STYLES,
   MODEL_SETTING_TRANSITION,
   MODEL_SETTING_USER_GRID_NUM,
+  PAD,
   VERSION_GITHUB_RELEASE,
   WEB
 } from '@constants'
@@ -470,6 +471,9 @@ export const INIT_SETTING = {
 
   /** 看板娘锐评人格 */
   musumePrompt: 'bangumi' as keyof typeof MUSUME_PROMPT,
+
+  /** 水平方向容器左右两侧是否显示遮罩 (平板设备默认开启) */
+  horizontalShowMask: !!PAD,
 
   /** 条目页面布局 */
   ...INIT_SUBJECT_LAYOUT

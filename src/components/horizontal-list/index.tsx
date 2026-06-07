@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-24 19:41:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-06 17:39:51
+ * @Last Modified time: 2026-06-07 20:06:34
  */
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { observer } from 'mobx-react'
@@ -35,7 +35,8 @@ export const HorizontalList = observer(
     ellipsizeMode = 'tail',
     initialRenderNums = 0,
     scrolled: initialScrolled = false,
-    showMask = false,
+    showMask,
+    maskWidth,
     sortData = true,
     renderItem,
     renderNums,
@@ -85,6 +86,7 @@ export const HorizontalList = observer(
           style={style}
           contentContainerStyle={contentContainerStyle}
           showMask={showMask}
+          maskWidth={maskWidth}
           onScroll={handleScroll}
         >
           {memoData.map((item, index) => {

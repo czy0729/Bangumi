@@ -53,9 +53,13 @@ export function useMask() {
     }
   })
 
+  // 3色渐变：opaque → 低alpha过渡 → 全透明
+  // 避免 2 色线性插值在接近透明时 RGB 残留导致的"脏边"断层
+  const rgb = _.colorPlainRaw.join()
   const maskColors = [
-    `rgba(${_.colorPlainRaw.join()}, 1)`,
-    `rgba(${_.colorPlainRaw.join()}, 0)`
+    `rgba(${rgb}, 1)`,
+    `rgba(${rgb}, 0.06)`,
+    `rgba(${rgb}, 0)`
   ] as const
 
   return {

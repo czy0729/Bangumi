@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-12-10 20:03:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-06 16:59:58
+ * @Last Modified time: 2026-06-07 20:07:34
  */
 import React, { useRef } from 'react'
 import { Animated, ScrollView as RNScrollView } from 'react-native'
 import { observer } from 'mobx-react'
+import { systemStore } from '@stores'
 import { r } from '@utils/dev'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { ScrollToTop } from '../scroll-to-top'
@@ -28,6 +29,7 @@ export const ScrollView = observer(
     connectRef,
     animated,
     showMask,
+    maskWidth,
 
     // 此属性对于 iOS 需要有默认值, 否则会出现首次渲染滚动条位置不正确的问题
     scrollIndicatorInsets = {
@@ -42,6 +44,12 @@ export const ScrollView = observer(
     r(COMPONENT)
 
     const scrollViewEl = useRef(null)
+
+    const showMaskValue = horizontal
+      ? showMask === undefined
+        ? systemStore.setting.horizontalShowMask
+        : showMask
+      : false
 
     const {
       leftMaskStyle,
@@ -66,12 +74,12 @@ export const ScrollView = observer(
     const Component = animated ? Animated.ScrollView : RNScrollView
 
     const handleOnScroll = (evt: NativeSyntheticEvent<NativeScrollEvent>) => {
-      if (showMask && horizontal) handleScroll(evt)
+      if (showMaskValue && horizontal) handleScroll(evt)
       onScroll?.(evt)
     }
 
     const handleOnContentSizeChange = (w: number, h: number) => {
-      if (showMask && horizontal) handleContentSizeChange(w)
+      if (showMaskValue && horizontal) handleContentSizeChange(w)
       onContentSizeChange?.(w, h)
     }
 
@@ -83,7 +91,9 @@ export const ScrollView = observer(
         horizontal={horizontal}
         scrollIndicatorInsets={scrollIndicatorInsets}
         scrollEventThrottle={
-          scrollEventThrottle === undefined && (onScroll || showMask) ? 16 : scrollEventThrottle
+          scrollEventThrottle === undefined && (onScroll || showMaskValue)
+            ? 16
+            : scrollEventThrottle
         }
         onScroll={handleOnScroll}
         onContentSizeChange={handleOnContentSizeChange}
@@ -94,19 +104,20 @@ export const ScrollView = observer(
       </Component>
     )
 
-    const elContent =
-      showMask && horizontal ? (
-        <Mask
-          leftMaskStyle={leftMaskStyle}
-          rightMaskStyle={rightMaskStyle}
-          maskColors={maskColors}
-          onLayout={handleLayout}
-        >
-          {elScrollView}
-        </Mask>
-      ) : (
-        elScrollView
-      )
+    const elContent = horizontal ? (
+      <Mask
+        showMask={showMaskValue}
+        maskWidth={maskWidth}
+        leftMaskStyle={leftMaskStyle}
+        rightMaskStyle={rightMaskStyle}
+        maskColors={maskColors}
+        onLayout={handleLayout}
+      >
+        {elScrollView}
+      </Mask>
+    ) : (
+      elScrollView
+    )
 
     return (
       <>

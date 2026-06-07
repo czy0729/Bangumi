@@ -9,8 +9,10 @@ import type { LayoutChangeEvent, ViewStyle } from 'react-native'
 import type { AnimatedStyle } from 'react-native-reanimated'
 
 export type Props = PropsWithChildren<{
+  showMask?: boolean
+  maskWidth?: number
   leftMaskStyle: AnimatedStyle<ViewStyle>
   rightMaskStyle: AnimatedStyle<ViewStyle>
-  maskColors: readonly [string, string]
+  maskColors: readonly [string, string, string]
   onLayout: (e: LayoutChangeEvent) => void
 }>

@@ -2,18 +2,17 @@
  * @Author: czy0729
  * @Date: 2026-05-24 12:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-27 07:37:05
+ * @Last Modified time: 2026-06-07 20:37:05
  */
 import React, { useCallback, useMemo, useState } from 'react'
-import { ScrollView, View } from 'react-native'
+import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Flex, Image, Text, Touchable } from '@components'
+import { Flex, Image, ScrollView, Text, Touchable } from '@components'
 import { IconTouchable, Segment } from '@_'
 import { _, systemStore, useStore } from '@stores'
 import { open, showImageViewer, stl } from '@utils'
 import { t } from '@utils/fetch'
 import { isNsfwScreenshot } from '@utils/thirdParty/dlsite-vndb'
-import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
@@ -114,8 +113,6 @@ function ExternalThumbs() {
         style={_.mt.sm}
         contentContainerStyle={_.container.wind}
         horizontal
-        {...SCROLL_VIEW_RESET_PROPS}
-        scrollEventThrottle={16}
         onScroll={scrolled ? undefined : handleScroll}
       >
         {memoImages

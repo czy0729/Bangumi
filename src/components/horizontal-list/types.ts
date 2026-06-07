@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-28 15:45:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-06 17:18:36
+ * @Last Modified time: 2026-06-07 20:25:03
  */
 import type { ReactNode } from 'react'
 import type { TextProps } from 'react-native'
@@ -59,6 +59,9 @@ export type Props<T extends WithId = ItemData> = WithViewStyles<{
 
   /** 是否显示左右溢出遮罩 */
   showMask?: boolean
+
+  /** 左右溢出遮罩宽度 */
+  maskWidth?: number
 
   /** 是否对数据排序（默认 true，没封面图的置后） */
   sortData?: boolean

@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:34:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-16 21:45:50
+ * @Last Modified time: 2026-06-07 21:02:57
  */
 import React from 'react'
-import { ScrollView, View } from 'react-native'
+import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Flex, Heatmap, Text, Touchable } from '@components'
+import { Flex, Heatmap, ScrollView, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { feedback, info, stl } from '@utils'
 import { r } from '@utils/dev'
-import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { formatYMD, getDatesForMosaic } from './utils'
 import { COMPONENT } from './ds'
 import { MARGIN, memoStyles, PX } from './styles'
@@ -123,11 +122,7 @@ export const MosaicTile = observer(({ mosaicTile }: MosaicTileProps) => {
         <View style={styles.days}>{renderWeekDays()}</View>
 
         <Flex.Item>
-          <ScrollView
-            contentContainerStyle={styles.contentContainerStyle}
-            horizontal
-            {...SCROLL_VIEW_RESET_PROPS}
-          >
+          <ScrollView contentContainerStyle={styles.contentContainerStyle} horizontal>
             <View>
               <Flex style={styles.months}>{renderMonths()}</Flex>
               <Flex style={styles.items} direction='column' wrap='wrap'>

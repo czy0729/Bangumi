@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2023-01-10 05:37:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 10:02:37
+ * @Last Modified time: 2026-06-07 20:51:04
  */
 import React from 'react'
-import { ScrollView, View } from 'react-native'
-import { Flex, Iconfont, Text, Touchable, UserStatus } from '@components'
+import { View } from 'react-native'
+import { Flex, Iconfont, ScrollView, Text, Touchable, UserStatus } from '@components'
 import { Avatar, InView, PreventTouchPlaceholder, SectionTitle } from '@_'
 import { _, useStore } from '@stores'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
-import { HOST, SCROLL_VIEW_RESET_PROPS } from '@constants'
+import { HOST } from '@constants'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
@@ -58,12 +58,7 @@ function Collected() {
           谁收藏了
         </SectionTitle>
 
-        <ScrollView
-          style={_.mt.md}
-          contentContainerStyle={_.container.wind}
-          horizontal
-          {...SCROLL_VIEW_RESET_PROPS}
-        >
+        <ScrollView style={_.mt.md} contentContainerStyle={_.container.wind} horizontal>
           {collected.map(item => (
             <Touchable
               key={item.userId}

@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-01-10 05:37:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 10:02:20
+ * @Last Modified time: 2026-06-07 20:51:57
  */
 import React from 'react'
-import { ScrollView, View } from 'react-native'
-import { Flex, Iconfont, Text, Touchable } from '@components'
+import { View } from 'react-native'
+import { Flex, Iconfont, ScrollView, Text, Touchable } from '@components'
 import { Avatar, InView, PreventTouchPlaceholder, SectionTitle } from '@_'
 import { _, useStore } from '@stores'
 import { appNavigate, getMonoCoverSmall } from '@utils'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
-import { HOST, IMG_INFO_ONLY, SCROLL_VIEW_RESET_PROPS } from '@constants'
+import { HOST, IMG_INFO_ONLY } from '@constants'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
@@ -59,12 +59,7 @@ function Collabs() {
           合作
         </SectionTitle>
 
-        <ScrollView
-          style={_.mt.md}
-          contentContainerStyle={_.container.wind}
-          horizontal
-          {...SCROLL_VIEW_RESET_PROPS}
-        >
+        <ScrollView style={_.mt.md} contentContainerStyle={_.container.wind} horizontal>
           {collabs.map(item => (
             <Touchable
               key={item.href}

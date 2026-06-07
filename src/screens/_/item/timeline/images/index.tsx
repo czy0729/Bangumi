@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-11-11 19:53:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 06:30:44
+ * @Last Modified time: 2026-06-07 21:00:18
  */
 import React from 'react'
-import { ScrollView, View } from 'react-native'
+import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Cover, Flex, Touchable } from '@components'
+import { Cover, Flex, ScrollView, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { _ } from '@stores'
 import { findSubjectCn } from '@utils'
-import { IMG_HEIGHT_SM, IMG_WIDTH_SM, SCROLL_VIEW_RESET_PROPS } from '@constants'
+import { IMG_HEIGHT_SM, IMG_WIDTH_SM } from '@constants'
 import { AVATAR_COVER_WIDTH } from '../ds'
 import { matchSubjectId } from '../utils'
 import { styles } from './styles'
@@ -58,7 +58,7 @@ function Images({ type, image, p3Text, p3Url, onNavigate }) {
       style={styles.scrollView}
       contentContainerStyle={styles.images}
       horizontal
-      {...SCROLL_VIEW_RESET_PROPS}
+      showMask={false}
     >
       {images}
     </ScrollView>

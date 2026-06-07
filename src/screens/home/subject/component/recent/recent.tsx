@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-20 21:46:47
+ * @Last Modified time: 2026-06-07 20:34:40
  */
 import React, { useCallback, useMemo } from 'react'
-import { ScrollView, View } from 'react-native'
-import { Flex, Heatmap, Text, UserStatus } from '@components'
+import { View } from 'react-native'
+import { Flex, Heatmap, ScrollView, Text, UserStatus } from '@components'
 import { Avatar, InView, PreventTouchPlaceholder, SectionTitle, Segment, Stars } from '@_'
 import { _ } from '@stores'
 import { getVisualLength, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { useHorizontalLazy } from '@utils/hooks'
-import { FROZEN_FN, SCROLL_VIEW_RESET_PROPS } from '@constants'
+import { FROZEN_FN } from '@constants'
 import { TITLE_RECENT } from '../../ds'
 import IconHidden from '../icon/hidden'
 import { COMPONENT_MAIN, DATA, DEFAULT_PROPS } from './ds'
@@ -66,8 +66,6 @@ const Recent = memo(
               style={_.mt.md}
               contentContainerStyle={_.container.wind}
               horizontal
-              {...SCROLL_VIEW_RESET_PROPS}
-              scrollEventThrottle={16}
               onScroll={onScroll}
             >
               {list.map(item => {
