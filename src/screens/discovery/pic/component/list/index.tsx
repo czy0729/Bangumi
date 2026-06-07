@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-06-09 15:12:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-08 22:27:29
+ * @Last Modified time: 2026-06-07 22:23:29
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import { observer } from 'mobx-react'
 import { HeaderPlaceholder } from '@components'
 import { ScrollView } from '@_'
 import { _, useStore } from '@stores'
-import { ITEM_MARGIN, NUM_COLUMNS } from '../../ds'
+import { ITEM_MARGIN } from '../../ds'
 import Empty from '../empty'
 import Item from '../item'
 import Pagination from '../pagination'
@@ -28,13 +28,14 @@ function List() {
 
   if (!$.state.show || !$.filterList.length) return null
 
-  const width = (_.window.width - (NUM_COLUMNS + 1) * ITEM_MARGIN) / NUM_COLUMNS
+  const numColumns = _.device(2, _.portrait(3, 4))
+  const width = (_.window.width - (numColumns + 1) * ITEM_MARGIN) / numColumns
 
   // 动态分配项目到较短的列
   const columns: {
     items: ListType[number][]
     height: number
-  }[] = Array(NUM_COLUMNS)
+  }[] = Array(numColumns)
     .fill(null)
     .map(() => ({
       items: [],

@@ -2,15 +2,13 @@
  * @Author: czy0729
  * @Date: 2025-06-09 14:21:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-16 04:51:05
+ * @Last Modified time: 2026-06-07 22:23:35
  */
 import Crypto from '@utils/crypto'
 
 import type { Id } from '@types'
 
 export const COMPONENT = 'Pic'
-
-export const NUM_COLUMNS = 2
 
 export const ITEM_MARGIN = 16
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-05-30 12:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-02 10:45:00
+ * @Last Modified time: 2026-06-07 22:27:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -153,7 +153,7 @@ function Worker({ navigation, filter, open }: Props) {
         onClose={setFalse}
       >
         <View>
-          <Notice>若不熟悉本页用途，点击右方按钮查看说明。</Notice>
+          <Notice style={styles.notice}>若不熟悉本页用途，点击右方按钮查看说明。</Notice>
           <IconTouchable
             style={styles.info}
             name='md-info-outline'
