@@ -43,6 +43,7 @@ export const Tags = observer(({ value = [], active = [], limit, ...other }: Tags
         {...other}
         data={memoData}
         showMask
+        maskWidth={48}
         sortData={false}
         renderItem={handleRenderItem}
       />
