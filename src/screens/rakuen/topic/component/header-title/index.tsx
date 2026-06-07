@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-15 23:37:55
+ * @Last Modified time: 2026-06-07 21:32:35
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -19,7 +19,11 @@ function HeaderTitleWrap({ onScrollToTop }: Props) {
 
   return (
     <HeaderTitle
-      avatar={$.avatar?.includes?.(IMG_DEFAULT_AVATAR) ? $.groupThumb : $.avatar}
+      avatar={
+        ($.avatar?.includes(IMG_DEFAULT_AVATAR) ? $.groupThumb : $.avatar) ||
+        $.groupThumb ||
+        $.avatar
+      }
       userId={$.userId}
       userName={$.userName}
       title={$.title}
