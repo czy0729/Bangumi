@@ -8,15 +8,13 @@ import React from 'react'
 import { rakuenStore } from '@stores'
 import { logger } from '@utils/dev'
 import { SPAN_MARK } from '../ds'
-import { BgmText } from '../../bgm-text'
 import EmojiText from '../emoji-text'
 import HiddenText from '../hidden-text'
 import LineThroughtText from '../line-throught-text'
 import MaskText from '../mask-text'
 import TagText from '../tag-text'
-import { fixedBaseFontStyle, formatStyles } from '../utils'
+import { formatStyles } from '../utils'
 
-import type { TextStyle } from '@types'
 export function span({
   key,
   style,
@@ -32,37 +30,6 @@ export function span({
     // 暂时没有对样式混合情况作出正确判断, 以重要程度优先(剧透 > 删除 > 隐藏 > 其他)
     // 防剧透字
     if (style.includes(SPAN_MARK.mask)) {
-      const text = []
-      const target = rawChildren?.[0]
-      if (target) {
-        if (target?.children) {
-          // 防剧透字中有表情
-          target?.children?.forEach((item: { data: any; children: any[] }, index: number) => {
-            if (item.data) {
-              // 文字
-              text.push(item.data)
-            } else if (item.children) {
-              const _baseFontStyle: TextStyle = fixedBaseFontStyle(baseFontStyle)
-              item.children.forEach((i, idx) => {
-                // 表情
-                text.push(
-                  <BgmText
-                    key={`${index}-${idx}`}
-                    size={_baseFontStyle.fontSize}
-                    lineHeight={_baseFontStyle.lineHeight}
-                  >
-                    {i.data}
-                  </BgmText>
-                )
-              })
-            }
-          })
-        } else {
-          // 防剧透字中没表情
-          text.push(target?.data)
-        }
-      }
-
       return (
         <MaskText
           style={{
@@ -70,7 +37,7 @@ export function span({
             ...baseFontStyle
           }}
         >
-          {text}
+          {children}
         </MaskText>
       )
     }
