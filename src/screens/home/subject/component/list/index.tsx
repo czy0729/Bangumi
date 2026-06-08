@@ -7,16 +7,16 @@
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { ListView } from '@components'
+import { FooterEmptyData, ListView } from '@components'
 import { _, systemStore, useStore } from '@stores'
 import { keyExtractor } from '@utils'
+import { TEXT_18X } from '@constants'
 import HeaderComponent from '../header-component'
 import { renderItem } from './utils'
 import { COMPONENT, REFRESH_CONTROL_PROPS } from './ds'
 
 import type { Ctx } from '../../types'
 import type { Props } from './types'
-
 function List({ forwardRef, onScrollIntoViewIfNeeded, onBlockRef }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
@@ -31,7 +31,11 @@ function List({ forwardRef, onScrollIntoViewIfNeeded, onBlockRef }: Props) {
   )
 
   const { showComment } = systemStore.setting
-  const elFooterEmpty = useMemo(() => (showComment === -1 ? <View /> : undefined), [showComment])
+  const { nsfw } = $
+  const elFooterEmpty = useMemo(
+    () => (showComment === -1 ? <View /> : nsfw ? <FooterEmptyData text={TEXT_18X} /> : undefined),
+    [nsfw, showComment]
+  )
 
   return (
     <ListView

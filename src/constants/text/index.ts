@@ -20,7 +20,7 @@ export const TEXT_NO_MORE = '到底啦'
 export const TEXT_EMPTY = '好像什么都没有'
 
 /** 敏感提示 */
-export const TEXT_18X = '什么都没找到\n敏感内容需要账号成年(注册2个月)才能显示哦'
+export const TEXT_18X = `好像什么都没有\n可能需要你到网页端的设置页面\n打开「显示受限条目内容」设置`
 
 /** 找番剧静态数据最后更新时间 */
 export const TEXT_UPDATE_ANIME = '2026-04-10'

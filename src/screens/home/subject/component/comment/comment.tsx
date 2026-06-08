@@ -5,8 +5,10 @@
  * @Last Modified time: 2025-09-23 23:29:09
  */
 import React, { useCallback, useMemo } from 'react'
+import { View } from 'react-native'
 import { Heatmap, Text } from '@components'
 import { SectionTitle } from '@_'
+import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import { FROZEN_FN } from '@constants'
 import IconComment from '../icon/comment'
@@ -45,11 +47,12 @@ const Comment = memo(
           onPress={handleToggle}
         >
           吐槽
-          <Text size={12} type='sub' lineHeight={24}>
+          <Text size={12} type='sub' lineHeight={20}>
             {' '}
             {commentLength}+
           </Text>
         </SectionTitle>
+        {!showComment && <View style={_.mt.sm} />}
 
         <Heatmap bottom={32} id='条目.跳转' from='吐槽' />
       </>

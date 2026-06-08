@@ -7,14 +7,14 @@
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
-import { systemStore } from '@stores'
 import { REFRESH_STATE } from '../ds'
-import { Flex } from '../../flex'
-import { Mesume } from '../../mesume'
-import { Text } from '../../text'
-import RandomText from './random-text'
+import FooterEmptyData from './empty-data'
+import FooterFailure from './failure'
+import FooterNoMoreData from './no-more-data'
+import FooterRefreshing from './refreshing'
 import { styles } from './styles'
+
+export { FooterEmptyData, FooterFailure, FooterNoMoreData, FooterRefreshing }
 
 function Footer({
   filterText,
@@ -38,66 +38,42 @@ function Footer({
     case REFRESH_STATE.Failure:
       return (
         footerFailureComponent || (
-          <View style={styles.container}>
-            <Text
-              style={styles.text}
-              type={footerTextType}
-              size={12}
-              lineHeight={16}
-              align='center'
-            >
-              {footerFailureText}
-            </Text>
-          </View>
+          <FooterFailure text={footerFailureText} textType={footerTextType} />
         )
       )
 
     case REFRESH_STATE.EmptyData:
       return (
         footerEmptyDataComponent || (
-          <Flex style={styles.empty} direction='column' justify='center'>
-            {showMesume && <Mesume size={64} />}
-            <Text
-              style={styles.textMt}
-              type={footerTextType}
-              size={12}
-              lineHeight={16}
-              align='center'
-            >
-              {footerEmptyDataText}
-            </Text>
-          </Flex>
+          <FooterEmptyData
+            text={footerEmptyDataText}
+            showMesume={showMesume}
+            textType={footerTextType}
+          />
         )
       )
 
     case REFRESH_STATE.FooterRefreshing:
       return (
         footerRefreshingComponent || (
-          <Flex style={styles.noMore} justify='center' direction='column'>
-            <ActivityIndicator size='small' />
-            <Text
-              style={styles.textMt}
-              type={footerTextType}
-              align='center'
-              size={12}
-              lineHeight={16}
-            >
-              {footerRefreshingText}
-              {page && pageTotal && pageTotal != 100 ? ` ${Number(page) + 1} / ${pageTotal}` : ''}
-            </Text>
-          </Flex>
+          <FooterRefreshing
+            text={footerRefreshingText}
+            page={page}
+            pageTotal={pageTotal}
+            textType={footerTextType}
+          />
         )
       )
 
     case REFRESH_STATE.NoMoreData:
       return (
-        footerNoMoreDataComponent ||
-        (showMesume ? (
-          <Flex style={styles.noMore} justify='center' direction='column'>
-            <Mesume size={64} />
-            {systemStore.setting.speech && <RandomText type={footerTextType} text={filterText} />}
-          </Flex>
-        ) : null)
+        footerNoMoreDataComponent || (
+          <FooterNoMoreData
+            filterText={filterText}
+            showMesume={showMesume}
+            textType={footerTextType}
+          />
+        )
       )
 
     default:

@@ -9,7 +9,7 @@ import { observer } from 'mobx-react'
 import { checkLocalError, getRecoveryBgmCover } from '@components/image/utils'
 import { systemStore } from '@stores'
 import { r } from '@utils/dev'
-import { HOST_BGM_STATIC } from '@constants'
+import { HOST_BGM_STATIC, IMG_DEFAULT } from '@constants'
 import { Component } from '../component'
 import { Image } from '../image'
 import { Squircle } from '../squircle'
@@ -47,8 +47,14 @@ export const Cover = observer(
   }: CoverProps) => {
     r(COMPONENT)
 
-    // 修正部分不规范维基数据
-    if (src === `${HOST_BGM_STATIC}/r/200/pic/cover/l/`) src = ''
+    if (
+      // 修正受限内容封面
+      src === '/img/no_icon_subject.png' ||
+      // 修正部分不规范维基数据
+      src === `${HOST_BGM_STATIC}/r/200/pic/cover/l/`
+    ) {
+      src = IMG_DEFAULT
+    }
 
     const { width, radius } = other
     const coverWidth = width || size

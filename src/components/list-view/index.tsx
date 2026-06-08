@@ -37,6 +37,8 @@ import type {
   State
 } from './types'
 
+export { FooterEmptyData, FooterFailure, FooterNoMoreData, FooterRefreshing } from './footer'
+
 export type {
   ListViewProps,
   ScrollToEnd,
