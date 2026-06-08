@@ -8,12 +8,14 @@ import React from 'react'
 import { View } from 'react-native'
 import { Cover, Flex, Katakana, Text, Touchable } from '@components'
 import { Rank, Stars } from '@_'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { cnjp, getVisualLength, x18 } from '@utils'
 import { memo } from '@utils/decorators'
 import { FROZEN_FN, IOS } from '@constants'
 import { COMPONENT_MAIN, DEFAULT_PROPS, IMAGE_HEIGHT, IMAGE_WIDTH } from './ds'
 import { styles } from './styles'
+
+import type { TextProps } from '@components'
 
 const HeaderTitle = memo(
   ({
@@ -29,22 +31,20 @@ const HeaderTitle = memo(
   }) => {
     const top = cnjp(cn, jp)
     const visualLength = getVisualLength(`${top}${titleLabel ? ` · ${titleLabel}` : ''}`)
-    const size = visualLength >= 13 ? 11 : 12
-    const lineHeight = 12
+    const textProps: TextProps = {
+      size: visualLength >= 13 ? 11 : 12,
+      lineHeight: 12,
+      numberOfLines: 1
+    } as const
 
     const el = (
       <>
         <View style={styles.title}>
-          <Katakana.Provider
-            style={styles.itemStyle}
-            size={size}
-            lineHeight={lineHeight}
-            numberOfLines={1}
-          >
-            <Katakana size={size} lineHeight={lineHeight} numberOfLines={1}>
+          <Katakana.Provider style={styles.itemStyle} {...textProps}>
+            <Katakana {...textProps}>
               {top}
               {!!titleLabel && (
-                <Text type='sub' size={size} lineHeight={lineHeight}>
+                <Text {...textProps} type='sub'>
                   {' '}
                   · {titleLabel}
                 </Text>
@@ -52,7 +52,7 @@ const HeaderTitle = memo(
             </Katakana>
           </Katakana.Provider>
         </View>
-        {score ? (
+        {!systemStore.setting.hideScore && score ? (
           <Flex style={_.mt.xs}>
             <Rank style={_.mr.xs} value={rank} size={9} />
             <Stars value={score} />

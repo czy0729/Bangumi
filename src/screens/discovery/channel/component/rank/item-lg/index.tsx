@@ -10,13 +10,14 @@ import { Flex, Katakana, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover, Rate, Tag } from '@_'
 import { _, collectionStore, useStore } from '@stores'
-import { ChannelRankItem } from '@stores/discovery/types'
 import { findSubjectCn, HTMLDecode, stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../../../types'
 import { COVER_HEIGHT, COVER_WIDTH } from '../ds'
 import { memoStyles } from './styles'
+
+import type { ChannelRankItem } from '@stores/discovery/types'
+import type { Ctx } from '../../../types'
 
 function ItemLg({ item, index }: { item: ChannelRankItem; index: number }) {
   const { $, navigation } = useStore<Ctx>()
@@ -44,7 +45,13 @@ function ItemLg({ item, index }: { item: ChannelRankItem; index: number }) {
       }}
     >
       <Flex align='start'>
-        <Cover src={item.cover} width={COVER_WIDTH} height={COVER_HEIGHT} radius type={$.typeCn} />
+        <Cover
+          src={item.cover}
+          width={COVER_WIDTH}
+          height={COVER_HEIGHT}
+          radius={_.radiusSm}
+          type={$.typeCn}
+        />
         <Flex.Item style={_.ml.md}>
           <Flex
             style={stl(styles.content, $.typeCn === '音乐' && styles.music)}

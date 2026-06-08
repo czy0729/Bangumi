@@ -114,15 +114,19 @@ import { Ctx } from '../types'
 
 export const COMPONENT = rc(PARENT, 'Info')
 
-export default observer(function Info() {
+function Info() {
   const { $ } = useStore<Ctx>(COMPONENT)
   return (
     // JSX
   )
-})
+}
+
+export default observer(Info)
 ```
 
 所有组件统一用 `observer()` 包裹，不使用 `useObserver` 或 `ob`。
+
+> 页面使用内联写法 `export default observer(function Xxx() {})`，子组件使用命名函数 + 底部导出 `export default observer(Xxx)`。
 
 ## 代码风格要求
 

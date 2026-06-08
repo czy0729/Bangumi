@@ -58,7 +58,7 @@ function Friends() {
                     src={item.cover}
                     width={COVER_WIDTH_SM}
                     height={COVER_HEIGHT_SM}
-                    radius
+                    radius={_.radiusSm}
                     type={$.typeCn}
                   />
                 </View>

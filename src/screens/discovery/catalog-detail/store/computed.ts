@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-05-16 07:58:22
  */
 import { computed } from 'mobx'
-import { _, discoveryStore, subjectStore, userStore } from '@stores'
+import { _, discoveryStore, subjectStore, systemStore, userStore } from '@stores'
 import { desc, getTimestamp } from '@utils'
 import CacheManager from '@utils/cache-manager'
 import State from './state'
@@ -157,9 +157,9 @@ export default class Computed extends State {
     return !!this.catalogDetail.byeUrl
   }
 
-  /** 隐藏分数? */
+  /** 隐藏分数 (用于传递参数目录详情页是否显示评分) */
   @computed get hideScore() {
-    return this.params._hideScore
+    return this.params._hideScore || (!this.isSelf && systemStore.setting.hideScore)
   }
 
   /** 是否自己创建的目录 */

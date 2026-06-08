@@ -19,12 +19,12 @@ function Rating({ hideScore, rank, score, total }) {
         <>
           <Rank value={rank} />
           <Stars style={_.mr.xs} value={score} />
-          {!!total && (
-            <Text type='sub' size={11} bold>
-              ({total})
-            </Text>
-          )}
         </>
+      )}
+      {!!total && (
+        <Text type='sub' size={11} bold>
+          ({total})
+        </Text>
       )}
     </Flex>
   )
