@@ -86,7 +86,7 @@ const BookEp = memo(
               onChangeText={
                 canSubmit ? text => onChangeText(type, text.replace(/[^\d]+/, '')) : undefined
               }
-              onSubmitEditing={canSubmit ? doUpdateBookEp : undefined}
+              onSubmitEditing={canSubmit ? () => doUpdateBookEp() : undefined}
               onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
             />
             {!!totalNumber && Number(totalNumber) !== 0 && (

@@ -81,7 +81,7 @@ const Ep = memo(
                       returnKeyType='done'
                       returnKeyLabel='更新'
                       onChangeText={text => onChangeText('watchedEps', text.replace(/[^\d]+/, ''))}
-                      onSubmitEditing={doUpdateSubjectEp}
+                      onSubmitEditing={() => doUpdateSubjectEp()}
                       onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
                     />
                     {!!totalEps && totalEps != 0 && (

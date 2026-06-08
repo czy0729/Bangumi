@@ -230,15 +230,15 @@ export default class Action extends Fetch {
     const query: Record<string, unknown> = {
       referer: 'subject',
       submit: '更新',
-      watchedeps: watchedEps,
-      noConsole
+      watchedeps: watchedEps
     }
     if (watchedVols) query.watched_vols = watchedVols
 
     return xhr(
       {
         url: HTML_ACTION_SUBJECT_SET_WATCHED(subjectId),
-        data: query
+        data: query,
+        noConsole
       },
       success
     )
