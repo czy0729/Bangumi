@@ -54,7 +54,7 @@
     "expo-linking": "5.0.2",
     "expo-screen-orientation": "~6.0.6",
     "expo-speech": "~11.3.0",
-    "expo-splash-screen": "~0.20.5",
+    "expo-splash-screen": "0.20.4",
     "expo-status-bar": "1.6.0",
     "expo-web-browser": "12.3.2",
     "hoist-non-react-statics": "2.5.0",
