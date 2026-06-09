@@ -10,7 +10,7 @@ import { acSearch, getSubStrings } from '@utils/ac-search'
 import { logger } from '@utils/dev'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { s2t } from '@utils/thirdParty/open-cc'
-import { IOS, WEB } from '@constants'
+import { IOS, URL_FEEDBACK, WEB } from '@constants'
 import { BGM_MAP, getBgmFontFamily } from '../bgm-text'
 import { COMPONENT, PAD_FONT_ZISE_INCREASE, PAD_LINE_HEIGHT_INCREASE, REGS } from './ds'
 
@@ -442,7 +442,7 @@ function removeHTMLTag(str: string) {
   return str.replace(/(<([^>]+)>)/gi, '').replace(/^\s*[\r\n]/gm, '')
 }
 
-/** 匹配 bgm 部分页面链接, 把这些链接变成 Media 块, 与行内文字独立 */
+/** 匹配主站部分主要页面链接, 把这些链接变成媒体块, 与行内文字独立 */
 function hackMatchMediaLink(html: string) {
   const { matchLink, acSearchV2: acSearchSetting } = rakuenStore.setting
 
@@ -451,10 +451,10 @@ function hackMatchMediaLink(html: string) {
 
   if (matchLink) {
     htmlValue = html.replace(REGS.media, match => {
-      // App 推广语不做单独块处理
+      // 客户端推广语不做单独块处理
       if (
         match.includes(
-          '<a href="https://bgm.tv/group/topic/350677" target="_blank" rel="nofollow external noopener noreferrer" class="l"><'
+          `<a href="${URL_FEEDBACK}" target="_blank" rel="nofollow external noopener noreferrer" class="l"><`
         )
       ) {
         return match

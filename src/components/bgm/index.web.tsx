@@ -7,6 +7,7 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { r } from '@utils/dev'
+import { HOST } from '@constants'
 import { Component } from '../component'
 import { Image } from '../image'
 import { COMPONENT } from './ds'
@@ -37,7 +38,7 @@ let bgm: {
 function init() {
   bgm = {}
   for (let i = 1; i <= 102; i += 1) {
-    bgm[i.toString()] = `https://bgm.tv/img/smiles/tv/${i.toString().padStart(2, '0')}.gif`
+    bgm[i.toString()] = `${HOST}/img/smiles/tv/${i.toString().padStart(2, '0')}.gif` as const
   }
   return bgm
 }

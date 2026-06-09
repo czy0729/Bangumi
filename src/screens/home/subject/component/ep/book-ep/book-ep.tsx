@@ -158,7 +158,7 @@ const BookEp = memo(
                 style={styles.btn}
                 styleText={styles.btnSubmit}
                 type='ghostPrimary'
-                onPress={doUpdateBookEp}
+                onPress={() => doUpdateBookEp()}
               >
                 更新
               </Button>

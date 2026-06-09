@@ -5,7 +5,8 @@
  * @Last Modified time: 2026-03-10 00:50:29
  */
 import { _, systemStore } from '@stores'
-import { HOST_DOGE, URL_PKG_JQUERY } from '@constants'
+import { applyProxy } from '@utils/proxy'
+import { HOST, HOST_DOGE, URL_PKG_JQUERY } from '@constants'
 
 import type { SettingLive2DModel } from '@types'
 
@@ -102,7 +103,7 @@ export function getHtml(scale: number = 1, width: number, height: number) {
           return $.ajax(options)
         }
 
-        $.cachedScript('https://bgm.tv/js/oml-cubism4.min.js?v3').done(()=>{
+        $.cachedScript('${applyProxy(`${HOST}/js/oml-cubism4.min.js?v3`).url}').done(()=>{
 
         OML2D.loadOhMyLive2D({
           sayHello:false,

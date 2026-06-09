@@ -7,7 +7,7 @@
 import { computed } from 'mobx'
 import { systemStore, timelineStore, userStore } from '@stores'
 import { x18 } from '@utils'
-import { IOS, URL_DEFAULT_AVATAR } from '@constants'
+import { HOST, IOS, URL_DEFAULT_AVATAR } from '@constants'
 import { TABS } from '../ds'
 import State from './state'
 
@@ -44,7 +44,7 @@ export default class Computed extends State {
 
           if ((systemStore.setting.filter18x || userStore.isLimit) && item?.p3?.url?.[0]) {
             const url = String(item.p3.url[0])
-            if (url.match(/\/subject\/\d+/)) return !x18(url.replace('https://bgm.tv/subject/', ''))
+            if (url.match(/\/subject\/\d+/)) return !x18(url.replace(`${HOST}/subject/`, ''))
           }
 
           return true

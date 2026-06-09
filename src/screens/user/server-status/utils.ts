@@ -8,6 +8,7 @@ import { subjectStore } from '@stores'
 import {
   API_CALENDAR,
   GITHUB_RELEASE_REPOS,
+  HOST,
   HOST_AC,
   HOST_AC_API,
   HOST_IMAGE_UPLOAD_RYMK,
@@ -41,9 +42,9 @@ export function getSitesList() {
   return [
     ...[
       {
-        title: 'https://bgm.tv',
+        title: HOST,
         desc: '主站 (必要)',
-        url: 'https://bgm.tv/about/copyright',
+        url: `${HOST}/about/copyright`,
         msg: [],
         loading: false
       },

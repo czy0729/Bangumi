@@ -7,6 +7,7 @@
 import { tinygrailStore } from '@stores'
 import { alert, confirm, copy, feedback, info, toFixed } from '@utils'
 import { t } from '@utils/fetch'
+import { HOST } from '@constants'
 import { ITEMS_TYPE } from '@tinygrail/_/characters-modal'
 import { getCharaLevelLowestPrice, throttleInfo } from '@tinygrail/_/utils'
 import { PER_BATCH_COUNT } from '../ds'
@@ -342,9 +343,7 @@ export default class Action extends Fetch {
     }
 
     copy(
-      items
-        .map(item => `https://bgm.tv/character/${item.monoId || item.id}\n${item.name}`)
-        .join('\n'),
+      items.map(item => `${HOST}/character/${item.monoId || item.id}\n${item.name}`).join('\n'),
       `已复制 ${items.length} 个角色的分享链接`
     )
     this.toggleBatchEdit()

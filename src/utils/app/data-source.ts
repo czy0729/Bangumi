@@ -526,7 +526,7 @@ export function matchBgmLink(url: string = ''):
      */
     if (value.includes('/timeline/status/')) {
       const splits = value.split('/timeline/status/')
-      const _userId = splits[0].replace('https://bgm.tv/user/', '')
+      const _userId = splits[0].replace(`${HOST}/user/`, '')
       const _id = splits[1]
       return {
         route: 'Say',

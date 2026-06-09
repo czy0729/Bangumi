@@ -4,7 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-11 04:02:25
  */
-import { URL_PKG_JQUERY } from '@constants'
+import { applyProxy } from '@utils/proxy'
+import { HOST, URL_PKG_JQUERY } from '@constants'
 
 export function getHtml(width: number, height: number) {
   return `
@@ -104,7 +105,7 @@ export function getHtml(width: number, height: number) {
       </div>
     </div>
     <script src="${URL_PKG_JQUERY}"></script>
-    <script src="https://bgm.tv/js/jquery_blockrain.js?r351"></script>
+    <script src="${applyProxy(`${HOST}/js/jquery_blockrain.js?r351`).url}"></script>
     <script>
       window.addEventListener('DOMContentLoaded', function () {
         $('.screen_game').blockrain({

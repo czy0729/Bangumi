@@ -10,9 +10,11 @@ import { tinygrailStore } from '@stores'
 import { copy, feedback, getTimestamp, info } from '@utils'
 import { t } from '@utils/fetch'
 import store from '@utils/store'
-import { MonoId, Navigation } from '@types'
+import { HOST } from '@constants'
 import { relation, throttleInfo } from '../_/utils'
-import { EXCLUDE_STATE } from './ds'
+
+import type { MonoId, Navigation } from '@types'
+import type { EXCLUDE_STATE } from './ds'
 
 export default class ScreenTinygrailClipboard extends store<typeof EXCLUDE_STATE> {
   state = observable({
@@ -71,7 +73,7 @@ export default class ScreenTinygrailClipboard extends store<typeof EXCLUDE_STATE
     }
 
     copy(
-      this.list.list.map(item => `https://bgm.tv/character/${item.id}\n${item.name}`).join('\n'),
+      this.list.list.map(item => `${HOST}/character/${item.id}\n${item.name}`).join('\n'),
       `已复制 ${this.list.list.length} 个角色的分享链接`
     )
   }

@@ -12,7 +12,7 @@ import { ANIME_TAGS, findAnime } from '@utils/subject/anime'
 import { findGame, GAME_CATE } from '@utils/subject/game'
 import { findManga, MANGA_TAGS } from '@utils/subject/manga'
 import { findWenku, WENKU_TAGS } from '@utils/subject/wenku'
-import { HOST, IMG_INFO_ONLY, SITES, SITES_DS, URL_DEFAULT_AVATAR } from '@constants'
+import { HOST, HOST_NAME, IMG_INFO_ONLY, SITES, SITES_DS, URL_DEFAULT_AVATAR } from '@constants'
 import { getOriginConfig } from '../../../user/origin-setting/utils'
 import { NON_SHOW, SORT_RELATION_DESC } from './ds'
 
@@ -202,7 +202,7 @@ export function mapReviewsToBlog(list: readonly ReviewsItem[]) {
     summary: item.content,
     timestamp: getTimestamp(item.time),
     title: item.title,
-    url: `//bgm.tv/blog/${item.id}`,
+    url: `//${HOST_NAME}/blog/${item.id}` as const,
     user: {
       avatar: {
         large: item.avatar,
@@ -212,7 +212,7 @@ export function mapReviewsToBlog(list: readonly ReviewsItem[]) {
       id: item.userId,
       nickname: item.userName,
       sign: '',
-      url: `//bgm.tv/user/${item.userId}`,
+      url: `//${HOST_NAME}/user/${item.userId}` as const,
       username: item.userId
     }
   }))
@@ -237,7 +237,7 @@ export function mapBoardToTopic(list: DeepReadonly<BoardItem[]>, subjectId: stri
       id: item.userId,
       nickname: item.userName,
       sign: '',
-      url: `//bgm.tv/user/${item.userId}`,
+      url: `//${HOST_NAME}/user/${item.userId}` as const,
       username: item.userId
     }
   }))

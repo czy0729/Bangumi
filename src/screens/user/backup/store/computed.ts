@@ -8,7 +8,8 @@ import { computed } from 'mobx'
 import { Parser } from 'json2csv'
 import { userStore } from '@stores'
 import { asc } from '@utils'
-import { MODEL_COLLECTION_STATUS, MODEL_SUBJECT_TYPE } from '@constants'
+import { applyProxy } from '@utils/proxy'
+import { HOST, MODEL_COLLECTION_STATUS, MODEL_SUBJECT_TYPE } from '@constants'
 import { CSV_HEADS } from '../ds'
 import State from './state'
 
@@ -32,7 +33,7 @@ export default class Computed extends State {
         [CSV_HEADS[0]]: subject.id
       }
       if (includeImage) row[CSV_HEADS[1]] = subject.image
-      if (includeUrl) row[CSV_HEADS[2]] = `https://bgm.tv/subject/${subject.id}`
+      if (includeUrl) row[CSV_HEADS[2]] = applyProxy(`${HOST}/subject/${subject.id}`).url
 
       row = {
         ...row,

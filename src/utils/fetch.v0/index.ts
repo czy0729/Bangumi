@@ -10,9 +10,12 @@
 import dayjs from 'dayjs'
 import { getTimestamp } from '@utils'
 import { API_V0 } from '@constants/api'
+import { HOST } from '@constants/constants'
 import { syncSystemStore } from '../async'
 import { request } from './utils'
 import { API_COLLECTION, API_COLLECTIONS, API_EPS_COLLECTION, API_ME, API_USERS } from './ds'
+
+export { request }
 
 import type {
   Subject as BaseSubject,
@@ -30,8 +33,6 @@ import type {
   Users
 } from './types'
 
-export { request }
-
 /**
  * 获取条目信息, 测试中的新 API 接口
  * 旧版接口不再返回 NSFW 条目信息, 但是新版也不返回用户相关信息
@@ -42,7 +43,7 @@ export async function fetchSubjectV0(config: { url: string }) {
   const eps = await request<any>(`${API_V0}/episodes?subject_id=${subjectId}`)
   const data = {
     id: subjectId,
-    url: `https://bgm.tv/subject/${subjectId}`,
+    url: `${HOST}/subject/${subjectId}` as const,
     type: subject?.type,
     name: subject?.name,
     name_cn: subject?.name_cn,

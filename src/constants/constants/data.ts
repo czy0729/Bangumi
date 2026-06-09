@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import { HOST_DOGE } from '../cdn/ds'
 import { PAD, RATIO, WEB } from '../device'
 import { IOS } from './env'
-import { HOST_BGM_STATIC } from './host'
+import { HOST, HOST_BGM_STATIC } from './host'
 
 import type { ImageRequireSource } from 'react-native'
 import type { ListEmpty, MenuMap } from '@types'
@@ -42,11 +42,11 @@ export const IMG_AVATAR_DEFAULT = WEB
 
 /** 默认角色缩略图 */
 export const IMG_INFO_ONLY = WEB
-  ? 'https://bgm.tv/img/info_only.png'
+  ? (`${HOST}/img/info_only.png` as const)
   : (require('@assets/images/info_only.png') as ImageRequireSource)
 
 /** 默认条目缩略图 */
-export const IMG_SUBJECT_ONLY = 'https://bgm.tv/img/no_icon_subject.png'
+export const IMG_SUBJECT_ONLY = `${HOST}/img/no_icon_subject.png` as const
 
 const h = (w: any) => Math.floor(w * 1.4)
 

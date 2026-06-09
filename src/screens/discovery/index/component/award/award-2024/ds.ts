@@ -5,8 +5,9 @@
  * @Last Modified time: 2025-01-27 15:49:07
  */
 import { rc } from '@utils/dev'
+import { HOST } from '@constants'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'Award2024')
 
-export const URI = 'https://bgm.tv/award/2024'
+export const URI = `${HOST}/award/2024` as const

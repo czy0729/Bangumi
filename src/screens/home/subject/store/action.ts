@@ -50,6 +50,7 @@ import { logger } from '@utils/dev'
 import { baiduTranslate, t } from '@utils/fetch'
 import { completions, download, get, lx, temp, update } from '@utils/kv'
 import { MUSUME_PROMPT, MUSUME_SUBJECT_PROMPT } from '@utils/kv/ds'
+import { applyProxy } from '@utils/proxy'
 import { axios } from '@utils/thirdParty'
 import { s2t } from '@utils/thirdParty/open-cc'
 import { webhookCollection, webhookEp } from '@utils/webhooks'
@@ -1594,7 +1595,7 @@ export default class Action extends Fetch {
       eps.forEach(item => {
         const { DTSTART, DTEND } = genICSCalenderEventDate(item, onAir)
 
-        let desc = `https://bgm.tv/ep/${item.id}`
+        let desc = `${applyProxy(`${HOST}/ep/${item.id}`).url}`
         if (item.name_cn || item.name) desc += ` (${item.name_cn || item.name})`
 
         ics.push(
@@ -1642,7 +1643,7 @@ export default class Action extends Fetch {
         setTimeout(async () => {
           try {
             const title = cnjp(this.cn, this.jp)
-            const url = `https://bgm.tv/subject/${this.subjectId}`
+            const url = applyProxy(`${HOST}/subject/${this.subjectId}`).url
 
             const cb = async () => {
               const calendarId = await calendarEventsSaveGameReleaseDate(

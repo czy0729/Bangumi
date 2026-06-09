@@ -4,6 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-01-14 10:05:24
  */
+import { HOST } from '@constants'
+
 export const NAMESPACE = 'TinygrailCompCharactersModal'
 
 /** 道具 ID */
@@ -38,7 +40,7 @@ export const ITEMS_NOTIFY = {
       '适合：快速扩股，稳赚不赔'
     ],
     ai: true,
-    url: 'https://bgm.tv/group/topic/388838#post_2504302'
+    url: `${HOST}/group/topic/388838#post_2504302`
   },
   虚空道标: {
     title: '虚空道标',
@@ -52,7 +54,7 @@ export const ITEMS_NOTIFY = {
       '适合：精准抢股/增发核心手段。'
     ],
     ai: true,
-    url: 'https://bgm.tv/group/topic/388838#post_2504302'
+    url: `${HOST}/group/topic/388838#post_2504302`
   },
   星光碎片: {
     title: '星光碎片',
@@ -72,7 +74,7 @@ export const ITEMS_NOTIFY = {
       '适合：烧退市股补热门塔，或幻想乡循环利用（烧五星角色后刮回）'
     ],
     ai: true,
-    url: 'https://bgm.tv/group/topic/388838#post_2504304'
+    url: `${HOST}/group/topic/388838#post_2504304`
   },
   闪光结晶: {
     title: '闪光结晶',
@@ -96,7 +98,7 @@ export const ITEMS_NOTIFY = {
       '适合：PVP玩家，但需谨慎（易结仇）'
     ],
     ai: true,
-    url: 'https://bgm.tv/group/topic/388838#post_2504306'
+    url: `${HOST}/group/topic/388838#post_2504306`
   },
   鲤鱼之眼: {
     title: '鲤鱼之眼',
@@ -110,7 +112,7 @@ export const ITEMS_NOTIFY = {
       '注意：现版本幻想乡股少，性价比低，基本不用'
     ],
     ai: true,
-    url: 'https://bgm.tv/group/topic/388838#post_2504304'
+    url: `${HOST}/group/topic/388838#post_2504304`
   }
 } as const
 

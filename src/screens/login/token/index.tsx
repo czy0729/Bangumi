@@ -22,6 +22,7 @@ import { _, collectionStore, userStore } from '@stores'
 import { getTimestamp, info, open } from '@utils'
 import { fetchMeV0 } from '@utils/fetch.v0'
 import { useMount, useObserver } from '@utils/hooks'
+import { HOST } from '@constants'
 import { styles } from './styles'
 
 /** SPA 网页版更新授权 */
@@ -89,6 +90,7 @@ const LoginToken = () => {
 
   return useObserver(() => {
     const { avatar, nickname, username } = userStore.userInfo
+
     return (
       <Component id='screen-login-token'>
         <Header
@@ -98,7 +100,7 @@ const LoginToken = () => {
             <Touchable
               style={_.mr.sm}
               onPress={() => {
-                open('https://bgm.tv/group/topic/370315')
+                open(`${HOST}/group/topic/370315`)
               }}
             >
               <Text>如何获取</Text>

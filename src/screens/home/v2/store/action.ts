@@ -29,8 +29,10 @@ import { calendarEventsRequestPermissions, calendarGetEventsAsync } from '@utils
 import { logger } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { download, temp } from '@utils/kv'
+import { applyProxy } from '@utils/proxy'
 import { webhookCollection, webhookEp } from '@utils/webhooks'
 import {
+  HOST,
   IMG_WIDTH,
   IOS,
   MODEL_COLLECTION_STATUS,
@@ -788,7 +790,7 @@ export default class Action extends Fetch {
       eps.forEach(item => {
         const { DTSTART, DTEND } = genICSCalenderEventDate(item, onAir)
 
-        let desc = `https://bgm.tv/ep/${item.id}`
+        let desc = applyProxy(`${HOST}/ep/${item.id}`).url
         if (item.name_cn || item.name) desc += ` (${item.name_cn || item.name})`
 
         ics.push(

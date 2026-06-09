@@ -95,7 +95,7 @@ const Ep = memo(
                       style={styles.btn}
                       size='sm'
                       type='ghostPrimary'
-                      onPress={canSubmit ? doUpdateSubjectEp : undefined}
+                      onPress={canSubmit ? () => doUpdateSubjectEp() : undefined}
                     >
                       更新
                     </Button>

@@ -19,6 +19,7 @@ import { memoStyles } from './styles'
 
 import type { TopicId } from '@types'
 import type { Props } from './types'
+
 function Item({
   navigation,
   id,
@@ -50,12 +51,12 @@ function Item({
     if (!openWebBrowser) onClose()
 
     setTimeout(() => {
-      const topicId = `group/${id}` as TopicId
       if (openWebBrowser) {
-        open(`${HOST}/${topicId}`)
+        open(`${HOST}/group/topic/${id}`)
         return
       }
 
+      const topicId = `group/${id}` as TopicId
       navigation.push('Topic', {
         topicId,
         _title: title,

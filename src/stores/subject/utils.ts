@@ -4,6 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-20 01:46:28
  */
+import { HOST } from '@constants'
+
 import type { ResponseV0Episodes, SubjectId } from '@types'
 import type { SubjectSnapshot } from './types'
 
@@ -50,6 +52,6 @@ export function mapV0Episodes(data: ResponseV0Episodes['data'] = []) {
     sort: item.sort,
     status: item.name || item.name_cn ? 'Air' : 'NA',
     type: item.type,
-    url: `http://bgm.tv/ep/${item.id}`
+    url: `${HOST}/ep/${item.id}` as const
   }))
 }
