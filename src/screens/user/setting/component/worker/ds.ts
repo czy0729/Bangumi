@@ -21,15 +21,15 @@ export const TEXTS = {
   },
   workerProxy: {
     title: '主站域名',
-    information: '用于替换 Host (登录和绝大部分功能都需要用到)'
+    information: '用于替换 Host (登录和绝大部分功能都需要用到，请注意不应该以斜杠结尾)'
   },
   workerApiProxy: {
     title: 'API 域名',
-    information: `用于替换 API Host (接口授权和管理条目收藏进度等)，推荐填入 ${API_HOST_BACKUP}`
+    information: `用于替换 API Host (接口授权和管理条目收藏进度等，请注意不应该以斜杠结尾)，推荐填入 ${API_HOST_BACKUP}`
   },
   imageProxy: {
     title: '图片域名',
-    information: '用于替换图片 Host (显示条目封面、头像等)'
+    information: '用于替换图片 Host (显示条目封面、头像等，请注意不应该以斜杠结尾)'
   },
   workerSecret: {
     title: '代理密钥',

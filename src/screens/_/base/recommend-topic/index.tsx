@@ -7,6 +7,7 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { ActionSheet, Flex, Loading, Text, Touchable } from '@components'
+import { Notice } from '@_'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
 import { IconTouchable } from '../../icon'
@@ -42,8 +43,9 @@ export const RecommendTopic = observer(
 
     return (
       <>
-        <IconTouchable style={styles.icon} size={iconSize} name='icon-series' onPress={onShow} />
+        <IconTouchable style={styles.icon} name='icon-series' size={iconSize} onPress={onShow} />
         <ActionSheet show={visible} title={title} height={680} onClose={onHide}>
+          <Notice>点击链接可以直接复制，请仔细区分链接的类型，不要在代理中填反了。</Notice>
           <Flex style={styles.list} direction='column' justify={!list.length ? 'center' : 'start'}>
             {!!list.length ? (
               <>

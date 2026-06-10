@@ -10,13 +10,13 @@ export const styles = _.create({
   leftMask: {
     position: 'absolute',
     zIndex: 1,
-    left: 0,
+    left: -2,
     height: '100%'
   },
   rightMask: {
     position: 'absolute',
     zIndex: 1,
-    right: 0,
+    right: -2,
     height: '100%'
   }
 })

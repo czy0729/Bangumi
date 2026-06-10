@@ -36,7 +36,9 @@ export function Mask({
    *  - _.wind - _._wind 为平板设备两侧预留间距，在手机上永远为 0
    */
   const maskWidthValue =
-    maskWidth + _.device(0, maskWidth >= DEFAULT_MASK_WIDTH ? (_.wind - _._wind) * (PAD + 1) : 0)
+    maskWidth +
+    _.device(0, maskWidth >= DEFAULT_MASK_WIDTH ? (_.wind - _._wind) * (PAD + 1) : 0) +
+    _.ios(0, 24)
 
   return (
     <View onLayout={onLayout}>

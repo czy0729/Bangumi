@@ -117,8 +117,7 @@ class LoginV2 extends React.Component<NavigationProps> {
   /** 获取验证码 */
   getCaptcha = async () => {
     this.setState({
-      base64: '',
-      info: ''
+      base64: ''
     })
 
     const { host } = this.state

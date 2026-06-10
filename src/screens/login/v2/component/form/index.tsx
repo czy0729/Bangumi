@@ -53,6 +53,12 @@ class Form extends React.Component<Props> {
     if (networkFailed) this.showConfig()
   }
 
+  componentDidUpdate(prevProps: Props) {
+    if (!prevProps.networkFailed && this.props.networkFailed && !this.state.config) {
+      this.showConfig()
+    }
+  }
+
   showConfig = () => {
     this.setState({
       config: true
@@ -184,7 +190,7 @@ class Form extends React.Component<Props> {
               ) : networkFailed ? (
                 <Iconfont name='md-refresh' size={20} />
               ) : (
-                <ActivityIndicator size='small' />
+                <ActivityIndicator size='small' color={_.colorIcon} />
               )}
             </Flex>
           </Touchable>

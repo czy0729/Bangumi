@@ -15,6 +15,7 @@ export const memoStyles = _.memoStyles(() => ({
     paddingVertical: 0,
     paddingHorizontal: 17,
     ..._.fontSize14,
+    backgroundColor: _.colorBg,
     borderWidth: 0
   },
   lockedText: {
