@@ -12,9 +12,6 @@ import { FROZEN_FN } from '@constants/init'
 
 import type { Fn } from '@types'
 
-// import { NativeModules } from 'react-native'
-// const { HighRefreshRateModule } = NativeModules
-
 /** 保存 base64 图片到相册 */
 export async function saveBase64ImageToCameraRoll(
   base64Img: string,
@@ -52,24 +49,4 @@ async function hasAndroidPermission() {
 
   const status = await PermissionsAndroid.request(permission)
   return status === 'granted'
-}
-
-export const isHighRefreshRateSupported = async () => {
-  // try {
-  //   const isSupported = await HighRefreshRateModule.isHighRefreshRateSupported()
-  //   return isSupported
-  // } catch (error) {
-  //   console.error('Failed to check high refresh rate support:', error)
-  //   return false
-  // }
-}
-
-export const enableHighRefreshRate = async () => {
-  // try {
-  //   const success = await HighRefreshRateModule.enableHighRefreshRate()
-  //   return success
-  // } catch (error) {
-  //   console.error('Failed to enable high refresh rate:', error)
-  //   return false
-  // }
 }

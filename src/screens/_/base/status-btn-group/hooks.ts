@@ -66,7 +66,7 @@ export function useStatusBtnGroup(value: Props['value']) {
     (index: number) => {
       buttonColors.forEach((color, i) => {
         color.value = withTiming(i === index ? 1 : 0, {
-          duration: 80
+          duration: 120
         })
       })
     },

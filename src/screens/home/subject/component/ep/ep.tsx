@@ -74,13 +74,17 @@ const Ep = memo(
                       style={styles.inputRaw}
                       pointerEvents='box-none'
                       keyboardType='numeric'
-                      value={String(watchedEps)}
+                      value={String(watchedEps || '')}
                       placeholder={String(watchedEps || '0')}
                       editable={canSubmit}
                       clearButtonMode='never'
                       returnKeyType='done'
                       returnKeyLabel='更新'
-                      onChangeText={text => onChangeText('watchedEps', text.replace(/[^\d]+/, ''))}
+                      onChangeText={
+                        canSubmit
+                          ? text => onChangeText('watchedEps', text.replace(/[^\d]/g, ''))
+                          : undefined
+                      }
                       onSubmitEditing={() => doUpdateSubjectEp()}
                       onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
                     />

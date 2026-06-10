@@ -1191,7 +1191,28 @@ export default class Action extends Fetch {
     })
   }
 
-  /** 批量更新收视进度 */
+  /**
+   * 更新进度相关方法
+   *
+   * 统一入口: doUpdateEp — 所有需要更新服务端收视进度的操作, 最终都应通过此方法提交
+   *   └─ collectionStore.doUpdateSubjectEp → xhr 提交 → 回调中刷新进度 + webhook
+   *
+   * 普通条目 (动画/三次元):
+   *   doUpdateSubjectEp     输入框点「更新」/ 键盘 done → doUpdateEp
+   *   doUpdateSubjectWatched 章节按钮点击「看到」→ userStore.doUpdateSubjectWatched (绕过 doUpdateEp)
+   *   doEpsSelect           章节长按菜单 → doUpdateSubjectWatched 或 doUpdateEpStatus
+   *   doEpsLongPress        章节按钮长按, 切换看过/撤销 → userStore.doUpdateEpStatus (绕过 doUpdateEp)
+   *   autoCompleteEps       标记「看过」时自动填满全部集数 → doUpdateEp
+   *
+   * 书籍条目:
+   *   doUpdateBookEp        书籍输入框点「更新」→ doUpdateEp
+   *   doUpdateNext          书籍 +1 按钮 → doUpdateEp
+   *
+   * 注: doUpdateSubjectWatched 和 doUpdateEpStatus 绕过了 doUpdateEp,
+   *     回调中手动做了 fetchCollectionSingle + fetchUserProgress, 但没有 fetchSubjectFromHTML.
+   */
+
+  /** 章节按钮点击「看到」, 批量更新收视进度到该集 (绕过 doUpdateEp, 直接走 userStore) */
   doUpdateSubjectWatched = async (item: EpsItem) => {
     t('条目.章节菜单操作', {
       title: '批量更新收视进度',
@@ -1245,7 +1266,7 @@ export default class Action extends Fetch {
     )
   }
 
-  /** 章节菜单操作 */
+  /** 章节按钮长按弹出菜单, 根据选择分发到 doUpdateSubjectWatched / doUpdateEpStatus / toEp / toPlay */
   doEpsSelect = async (value: string, item: EpsItem, navigation?: Navigation) => {
     try {
       // iOS 是本集讨论, 安卓是 (+N)...
@@ -1294,7 +1315,7 @@ export default class Action extends Fetch {
     }
   }
 
-  /** 更新书籍下一个章节 */
+  /** 书籍 +1 按钮, 将 chap 或 vol 自增后提交 → doUpdateEp */
   doUpdateNext = async (name: string | number) => {
     const { chap, vol } = this.state
     const next = String(parseInt(this.state[name] || 0) + 1)
@@ -1319,15 +1340,15 @@ export default class Action extends Fetch {
     })
   }
 
-  /** 更新书籍章节 */
+  /** 书籍输入框点「更新」, 提交当前 chap 和 vol → doUpdateEp */
   doUpdateBookEp = async () => {
     const { chap, vol } = this.state
 
     // 20220414 nsfw 无效，待废弃，改用 doUpdateEp
     this.doUpdateEp(
       {
-        eps: chap,
-        vol
+        eps: chap || '0',
+        vol: vol || '0'
       },
       true
     )
@@ -1337,13 +1358,13 @@ export default class Action extends Fetch {
     })
   }
 
-  /** 输入框更新章节 */
+  /** 普通条目输入框点「更新」/ 键盘 done, 提交当前 watchedEps → doUpdateEp */
   doUpdateSubjectEp = async (value?: string) => {
     const { watchedEps } = this.state
 
     // 20220414 nsfw 无效，待废弃，改用 doUpdateEp
     this.doUpdateEp({
-      eps: value || watchedEps
+      eps: value || watchedEps || '0'
     })
 
     t('条目.输入框更新章节', {
@@ -1351,7 +1372,7 @@ export default class Action extends Fetch {
     })
   }
 
-  /** 看过时自动完成所有进度 */
+  /** 标记「看过」时自动填满全部集数 (动画取 totalEps, 书籍取 totalChap/totalVol) → doUpdateEp */
   autoCompleteEps = async () => {
     const last = getInt(this.subjectId)
     const STATE_KEY = `subjectFormHTML${last}` as const
@@ -1361,57 +1382,76 @@ export default class Action extends Fetch {
       const eps =
         Number(subjectStore.subjectFormHTML(this.subjectId)?.totalEps) ||
         Number((await subjectStore.fetchSubjectFromHTML(this.subjectId))?.totalEps)
-      if (eps) return this.doUpdateEp({ eps })
+      if (eps) {
+        this.doUpdateEp({ eps })
+        return
+      }
     }
 
     if (this.type === '书籍') {
       const book = (await subjectStore.fetchSubjectFromHTML(this.subjectId))?.book
       const eps = Number(book?.totalChap) || undefined
       const vol = Number(book?.totalVol) || undefined
-      if (eps || vol) return this.doUpdateEp({ eps, vol })
+      if (eps || vol) {
+        this.doUpdateEp({ eps, vol })
+        return
+      }
     }
   }
 
-  /** 章节更新统一入口 */
-  doUpdateEp = async ({ eps, vol }: { eps?: any; vol?: any }, isNeedFeedback: boolean = false) => {
-    try {
-      this.prepareEpsFlip()
+  /** 章节更新统一入口, 所有进度更新最终汇聚于此, 提交到 collectionStore 并刷新本地状态 */
+  doUpdateEp = async (
+    { eps, vol }: { eps?: string | number; vol?: string | number },
+    isNeedFeedback: boolean = false
+  ) => {
+    const submit = () => {
+      try {
+        this.prepareEpsFlip()
 
-      collectionStore.doUpdateSubjectEp(
-        {
-          subjectId: this.subjectId,
-          watchedEps: eps,
-          watchedVols: vol
-        },
-        async () => {
-          userStore.fetchCollectionSingle(this.subjectId)
-          await userStore.fetchUserProgress(this.subjectId)
-          await this.fetchSubjectFromHTML(true, false)
-          this.save()
-          this.afterEpsFlip()
-          if (isNeedFeedback) {
-            info('已提交')
-            feedback()
+        collectionStore.doUpdateSubjectEp(
+          {
+            subjectId: this.subjectId,
+            watchedEps: eps,
+            watchedVols: vol
+          },
+          async () => {
+            userStore.fetchCollectionSingle(this.subjectId)
+            await userStore.fetchUserProgress(this.subjectId)
+            await this.fetchSubjectFromHTML(true, false)
+
+            this.save()
+            this.afterEpsFlip()
+            if (isNeedFeedback) {
+              info('已提交')
+              feedback()
+            }
+
+            webhookEp(
+              {
+                status: 'watched',
+                sort: eps,
+                vols: vol,
+                batch: false
+              },
+              this.subject,
+              userStore.userInfo
+            )
           }
-
-          webhookEp(
-            {
-              status: 'watched',
-              sort: eps,
-              vols: vol,
-              batch: false
-            },
-            this.subject,
-            userStore.userInfo
-          )
-        }
-      )
-    } catch (error) {
-      logger.error(COMPONENT, 'doUpdateEp', error)
+        )
+      } catch (error) {
+        logger.error(COMPONENT, 'doUpdateEp', error)
+      }
     }
+
+    if (Number(eps) === 0 && (this.type === '动画' || this.type === '三次元')) {
+      confirm('进度更新为 0 的同时会清空所有章节状态，确定？', submit)
+      return
+    }
+
+    submit()
   }
 
-  /** 章节按钮长按 */
+  /** 章节按钮长按, 切换单集看过/撤销状态 (绕过 doUpdateEp, 直接走 userStore.doUpdateEpStatus) */
   doEpsLongPress = async ({
     id
   }: Partial<{

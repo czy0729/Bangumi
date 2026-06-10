@@ -22,8 +22,8 @@ function BookEpWrap({ onScrollIntoViewIfNeeded }: Props) {
   return (
     <BookEp
       styles={memoStyles()}
-      chap={isCollected ? $.state.chap || '0' : '0'}
-      vol={isCollected ? $.state.vol || '0' : '0'}
+      chap={isCollected ? $.state.chap : '0'}
+      vol={isCollected ? $.state.vol : '0'}
       book={$.subjectFormHTML.book}
       comicLength={$.comic.length}
       status={$.collection.status}

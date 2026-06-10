@@ -17,7 +17,8 @@ export const memoStyles = _.memoStyles(() => ({
     paddingRight: _.wind,
     paddingBottom: 20,
     marginTop: -_.r(20),
-    backgroundColor: _.ios(_.colorPlain, 'transparent')
+    marginBottom: -_.r(1),
+    backgroundColor: _.colorPlain
   },
   release: {
     position: 'absolute',

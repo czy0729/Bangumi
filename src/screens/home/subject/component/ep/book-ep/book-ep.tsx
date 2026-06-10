@@ -84,7 +84,7 @@ const BookEp = memo(
               returnKeyType='done'
               returnKeyLabel='更新'
               onChangeText={
-                canSubmit ? text => onChangeText(type, text.replace(/[^\d]+/, '')) : undefined
+                canSubmit ? text => onChangeText(type, text.replace(/[^\d]/g, '')) : undefined
               }
               onSubmitEditing={canSubmit ? () => doUpdateBookEp() : undefined}
               onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}

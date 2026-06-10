@@ -42,7 +42,7 @@ function EpWrap({ onBlockRef, onScrollIntoViewIfNeeded }: Props) {
       ) : (
         <Ep
           styles={memoStyles()}
-          watchedEps={$.state.watchedEps || '0'}
+          watchedEps={$.state.watchedEps}
           totalEps={$.subjectFormHTML.totalEps || '0'}
           onAirCustom={$.onAirCustom}
           status={$.collection.status}

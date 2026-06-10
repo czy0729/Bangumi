@@ -37,7 +37,7 @@ class SystemStore extends Action {
         if (!this._serverStatusId) {
           this._serverStatusId = setInterval(() => {
             this.fetchServerStatus()
-          }, 90000)
+          }, 180000)
         }
       }
 
