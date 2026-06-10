@@ -43,7 +43,7 @@ function InputItem({
         ) : (
           <Input
             style={styles.input}
-            value={value}
+            defaultValue={value}
             placeholder={placeholder}
             showClear={false}
             onChangeText={onChangeText}

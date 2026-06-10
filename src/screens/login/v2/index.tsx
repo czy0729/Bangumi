@@ -45,7 +45,8 @@ class LoginV2 extends React.Component<NavigationProps> {
     loading: false,
     info: '',
     focus: false,
-    failed: false
+    failed: false,
+    networkFailed: false
   }
 
   private _userAgent = ''
@@ -80,6 +81,7 @@ class LoginV2 extends React.Component<NavigationProps> {
       if (values[index]) acc[key] = values[index]
       return acc
     }, {})
+
     this.setState(state, this.reset)
   }
 
@@ -115,7 +117,8 @@ class LoginV2 extends React.Component<NavigationProps> {
   /** 获取验证码 */
   getCaptcha = async () => {
     this.setState({
-      base64: ''
+      base64: '',
+      info: ''
     })
 
     const { host } = this.state
@@ -397,17 +400,25 @@ class LoginV2 extends React.Component<NavigationProps> {
 
   /** 重设 */
   reset = async () => {
-    this._cookie = {
-      chii_theme: 'dark'
-    }
-    this.setState({
-      base64: ''
-    })
-    this._retryCount = 0
+    try {
+      this._cookie = {
+        chii_theme: 'dark'
+      }
+      this.setState({
+        base64: ''
+      })
+      this._retryCount = 0
 
-    await this.getUA()
-    await this.getFormHash()
-    await this.getCaptcha()
+      await this.getUA()
+      await this.getFormHash()
+      await this.getCaptcha()
+    } catch {
+      this.setState({
+        loading: false,
+        info: '连接主站失败，获取验证码失败',
+        networkFailed: true
+      })
+    }
   }
 
   /** 登录流程 */
@@ -609,7 +620,8 @@ class LoginV2 extends React.Component<NavigationProps> {
       isSyncSetting,
       loading,
       info,
-      failed
+      failed,
+      networkFailed
     } = this.state
     return (
       <Form
@@ -625,6 +637,7 @@ class LoginV2 extends React.Component<NavigationProps> {
         info={info}
         host={host}
         failed={failed}
+        networkFailed={networkFailed}
         onGetCaptcha={this.getCaptcha}
         onBlur={this.onBlur}
         onFocus={this.onFocus}

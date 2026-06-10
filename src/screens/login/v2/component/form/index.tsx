@@ -41,14 +41,16 @@ class Form extends React.Component<Props> {
   private _codeRef: any
 
   componentDidMount() {
-    const { email, password, captcha } = this.props
+    const { email, password, captcha, networkFailed } = this.props
     if (email && password && !captcha) {
       try {
-        if (typeof this?._codeRef?.inputRef?.focus === 'function') {
+        if (!networkFailed && typeof this?._codeRef?.inputRef?.focus === 'function') {
           this._codeRef.inputRef.focus()
         }
       } catch {}
     }
+
+    if (networkFailed) this.showConfig()
   }
 
   showConfig = () => {
@@ -113,6 +115,7 @@ class Form extends React.Component<Props> {
       password,
       captcha,
       base64,
+      networkFailed,
       forwardRef,
       onGetCaptcha,
       onFocus,
@@ -178,6 +181,8 @@ class Form extends React.Component<Props> {
                     uri: base64
                   }}
                 />
+              ) : networkFailed ? (
+                <Iconfont name='md-refresh' size={20} />
               ) : (
                 <ActivityIndicator size='small' />
               )}
@@ -270,14 +275,14 @@ class Form extends React.Component<Props> {
           </Touchable>
         </Flex>
         <Touchable
-          style={_.mt.xs}
+          style={[_.mt.xs, _.mb.sm]}
           onPress={() => {
             navigation.push('Setting', {
               open: 'Worker'
             })
           }}
         >
-          <Text type='sub' size={12}>
+          <Text type='sub' size={12} underline>
             遇到连接问题？点击设置代理
           </Text>
         </Touchable>
@@ -286,14 +291,14 @@ class Form extends React.Component<Props> {
   }
 
   renderError() {
-    const { navigation, info } = this.props
+    const { navigation, info, networkFailed } = this.props
     const isError = info.includes('错误') || info.includes('TypeError')
     return (
       <Text
         style={_.mt.md}
         size={12}
         lineHeight={16}
-        type='sub'
+        type={networkFailed ? 'danger' : 'sub'}
         onPress={() => {
           if (isError) navigation.push('Login')
         }}

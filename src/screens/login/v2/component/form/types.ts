@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-03-22 19:10:18
  */
-import { Fn, Navigation } from '@types'
+import type { Fn, Navigation } from '@types'
 
 export type Props = {
   navigation: Navigation
@@ -18,6 +18,7 @@ export type Props = {
   host: string
   loading: boolean
   failed: boolean
+  networkFailed: boolean
   forwardRef: Fn
   onGetCaptcha: Fn
   onFocus: Fn

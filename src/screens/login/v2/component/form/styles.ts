@@ -21,13 +21,14 @@ export const memoStyles = _.memoStyles(() => ({
   },
   touchCaptcha: {
     height: 44,
-    marginLeft: _.sm,
+    marginLeft: 12,
     borderRadius: _.radiusSm,
     overflow: 'hidden'
   },
   captchaContainer: {
     width: 118,
-    height: 44
+    height: 44,
+    backgroundColor: _.colorBg
   },
   captcha: {
     width: 118,
