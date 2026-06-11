@@ -6,7 +6,7 @@
  */
 import { computed } from 'mobx'
 import { _, calendarStore, collectionStore, subjectStore, systemStore, userStore } from '@stores'
-import { desc, findLastIndex, freeze, getOnAir, getPinYinFilterValue, t2s, x18 } from '@utils'
+import { desc, freeze, getOnAir, t2s } from '@utils'
 import CacheManager from '@utils/cache-manager'
 import { logger } from '@utils/dev'
 import {
@@ -17,24 +17,33 @@ import {
   MODEL_SUBJECT_TYPE,
   WEB
 } from '@constants'
-import { getOriginConfig } from '@src/screens/user/origin-setting/utils'
-import { TABS_ITEM } from '../ds'
 import {
   calcSortWeightClient,
   calcSortWeightOnair,
+  formatCountRight,
+  getCollection,
+  getCurrentOnAir,
+  getEpsCount,
   getEpsNoSp,
+  getLastWatchedSort,
+  getNextWatchEp,
+  getOnlineOrigins,
+  getSubjectFilterName,
+  getTabs,
   getTopMap,
+  getVisibleEps,
   getWatchedCount,
+  hasNewEp as checkHasNewEp,
   isOnairNextDay,
-  isOnairToday
+  isOnairToday,
+  matchFilter,
+  sortByWeightAndTop
 } from './utils'
 import State from './state'
 import { INIT_ITEM, NAMESPACE, PAGE_LIMIT_GRID, PAGE_LIMIT_LIST } from './ds'
 
-import type { OriginItem } from '@screens/user/origin-setting/utils'
 import type { UserCollections } from '@stores/collection/types'
 import type { UserCollection, UserCollectionItem } from '@stores/user/types'
-import type { Ep } from '@stores/subject/types'
 import type {
   CollectionStatus,
   Id,
@@ -43,7 +52,7 @@ import type {
   SubjectType,
   SubjectTypeValue
 } from '@types'
-import type { Tabs, TabsLabel } from '../types'
+import type { TabsLabel } from '../types'
 
 export default class Computed extends State {
   /** 置顶的映射 */
@@ -51,14 +60,12 @@ export default class Computed extends State {
     return getTopMap(this.state.top)
   }
 
-  /** Tabs SceneMap */
+  /** 标签页配置 */
   @computed get tabs() {
-    const tabs: Tabs = systemStore.setting.homeTabs.map(item => TABS_ITEM[item]).filter(Boolean)
-    if (systemStore.setting.showGame) tabs.push(TABS_ITEM.game)
-    return freeze(tabs)
+    return freeze(getTabs())
   }
 
-  /** Tabs navigationState */
+  /** 标签页导航状态 */
   @computed get navigationState() {
     const { tabs } = this
     return freeze({
@@ -77,7 +84,7 @@ export default class Computed extends State {
     return freeze(userStore.usersInfo(userStore.myUserId))
   }
 
-  /** 当前 Tabs 类型 */
+  /** 当前标签页类型 */
   @computed get tabsLabel() {
     return this.tabs[this.state.page]?.title
   }
@@ -87,7 +94,7 @@ export default class Computed extends State {
     return this.tabsLabel !== '全部' && this.tabs.length >= 2 ? this.tabsLabel : ''
   }
 
-  /** Item 状态 */
+  /** 收藏项状态 */
   $Item(subjectId: SubjectId) {
     return freeze(computed(() => this.state.item[subjectId] || INIT_ITEM).get())
   }
@@ -99,12 +106,7 @@ export default class Computed extends State {
 
   /** 在看的用户收藏 */
   @computed get collection() {
-    if (!userStore.isLimit) return userStore.collection
-
-    return {
-      ...userStore.collection,
-      list: userStore.collection.list.filter(item => !x18(item.subject_id))
-    }
+    return getCollection()
   }
 
   /** 过滤条件文字 (转大写和简体) */
@@ -116,12 +118,9 @@ export default class Computed extends State {
   filterValue(title: TabsLabel) {
     return computed(() => {
       const { filterPage } = this.state
-      const isValidPage = filterPage >= 0 && filterPage < this.tabs.length
-      if (isValidPage) {
-        const currentTab = this.tabs[filterPage]
-        if (title === currentTab?.title) return this.state.filter
+      if (filterPage >= 0 && filterPage < this.tabs.length) {
+        if (title === this.tabs[filterPage]?.title) return this.state.filter
       }
-
       return ''
     }).get()
   }
@@ -152,16 +151,8 @@ export default class Computed extends State {
       // 文字过滤处理
       if (this.isFilter(title) && this.filter.length) {
         data.list = data.list.filter(item => {
-          // 转大写和简体
-          // 暂时只用中文名来过滤 (忽略日文优先设置)
-          const cnName = (
-            this.subject(item.subject_id).name_cn ||
-            item?.subject?.name_cn ||
-            item.name ||
-            item?.subject?.name ||
-            ''
-          ).toUpperCase()
-          return cnName.includes(this.filter) || getPinYinFilterValue(cnName, this.filter)
+          const cnName = getSubjectFilterName(this.subject(item.subject_id).name_cn, item)
+          return matchFilter(cnName, this.filter)
         })
       }
 
@@ -211,22 +202,15 @@ export default class Computed extends State {
           list.forEach(item => {
             const { subject_id: subjectId } = item
             const { weekDay, isOnair } = this.onAirCustom(subjectId)
-            const weight = calcSortWeightOnair({
+            weightMap[subjectId] = calcSortWeightOnair({
               weekDay,
               isOnair,
               day,
               hasNewEp: this.hasNewEp(subjectId),
               homeSortSink: systemStore.setting.homeSortSink
             })
-            weightMap[subjectId] = weight
           })
-
-          return freeze(
-            list
-              .slice()
-              .sort((a, b) => desc(a, b, item => weightMap[item.subject_id]))
-              .sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
-          )
+          return freeze(sortByWeightAndTop(list, weightMap, topMap))
         }
 
         // 客户端顺序：未看 > 放送中 > 明天 > 本季 > 网页
@@ -238,7 +222,7 @@ export default class Computed extends State {
 
           // air 代表该条目放送到哪一集
           const { air = 0 } = calendarStore.onAir[subjectId] || {}
-          const weight = calcSortWeightClient({
+          weightMap[subjectId] = calcSortWeightClient({
             isToday: this.isToday(subjectId),
             isNextDay: this.isNextDay(subjectId),
             air,
@@ -246,16 +230,8 @@ export default class Computed extends State {
             hasNewEp: this.hasNewEp(subjectId),
             homeSortSink: systemStore.setting.homeSortSink
           })
-
-          weightMap[subjectId] = weight
         })
-
-        return freeze(
-          list
-            .slice()
-            .sort((a, b) => desc(a, b, item => weightMap[item.subject_id]))
-            .sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
-        )
+        return freeze(sortByWeightAndTop(list, weightMap, topMap))
       } catch {}
 
       return freeze(
@@ -293,11 +269,8 @@ export default class Computed extends State {
       list: userCollections.list
         .filter(item => {
           if (!this.filter.length) return true
-
           const cn = (item.nameCn || item.name || '').toUpperCase()
-          if (cn.includes(this.filter)) return true
-
-          return getPinYinFilterValue(cn, this.filter)
+          return matchFilter(cn, this.filter)
         })
         .sort((a, b) => desc(a, b, item => topMap[item.id] || 0))
     }) as UserCollections
@@ -324,7 +297,6 @@ export default class Computed extends State {
       computed(() => {
         try {
           const eps = this.epsNoSp(subjectId)
-          const { length } = eps
 
           // 一页章节按钮显示的最大数量
           const maxLength =
@@ -332,26 +304,7 @@ export default class Computed extends State {
               ? this.pageLimitGrid(subjectId)
               : PAGE_LIMIT_LIST
 
-          if (length > maxLength) {
-            const userProgress = this.userProgress(subjectId)
-
-            // 第一个不为看过章节按钮的位置
-            const index = eps.findIndex(item => userProgress[item.id] !== '看过')
-
-            // 找不到未看集数, 可以看作为全部看过, 返回最后的数据
-            if (index === -1) return eps.slice(length - maxLength, length)
-
-            // 长篇动画从最后看过开始显示
-            if (systemStore.setting.homeEpStartAtLastWathed) {
-              const lastIndex = findLastIndex(eps, (item: Ep) => userProgress[item.id] === '看过')
-              return eps.slice(Math.max(lastIndex, 0), lastIndex + maxLength)
-            }
-
-            // 找到第 1 个未看过的集数, 返回 1 个看过的集数和剩余的集数
-            // 注意这里第一个值不能小于 0, 不然会返回空
-            return eps.slice(Math.max(0, index - maxLength + 1), index + maxLength - 1)
-          }
-          return eps
+          return getVisibleEps(eps, this.userProgress(subjectId), maxLength)
         } catch (error) {
           logger.error(NAMESPACE, 'eps', error)
         }
@@ -369,12 +322,7 @@ export default class Computed extends State {
     return freeze(
       computed(() => {
         try {
-          const eps = this.epsNoSp(subjectId)
-          const userProgress = this.userProgress(subjectId)
-          const index = eps.findIndex(item => userProgress[item.id] !== '看过')
-          if (index === -1) return {}
-
-          return eps[index]
+          return getNextWatchEp(this.epsNoSp(subjectId), this.userProgress(subjectId))
         } catch (error) {
           logger.error(NAMESPACE, 'nextWatchEp', error)
         }
@@ -387,14 +335,7 @@ export default class Computed extends State {
   /** 当前放送到的章节 */
   currentOnAir(subjectId: SubjectId) {
     try {
-      const eps = this.epsNoSp(subjectId).slice().reverse()
-
-      // 若第一集为第 0 集, +1
-      let flagZero = false
-      if (eps.length && eps[eps.length - 1].sort === 0) flagZero = true
-
-      const current = eps.find(item => item.status === 'Air')?.sort || 0
-      return flagZero && current ? current + 1 : current
+      return getCurrentOnAir(this.epsNoSp(subjectId))
     } catch (error) {
       logger.error(NAMESPACE, 'nextWatchEp', error)
       return 0
@@ -418,20 +359,14 @@ export default class Computed extends State {
   countFixed(subjectId: SubjectId, epStatus: number | string) {
     return computed(() => {
       // 直接获取第一个看过章节的 sort
-      const eps = this.eps(subjectId)
-        .filter(item => item.type !== 1)
-        .reverse()
+      const eps = this.eps(subjectId).filter(item => item.type !== 1)
       const userProgress = this.userProgress(subjectId)
-      const item = eps.find(item => userProgress[item.id] === '看过')
-      if (item) {
-        // 若第一集为第 0 集, +1
-        if (eps.length && eps[eps.length - 1].sort === 0) return item.sort + 1
-        return item.sort
-      }
+      const lastWatchedSort = getLastWatchedSort(eps, userProgress)
+      if (lastWatchedSort !== undefined) return lastWatchedSort
 
       // 不能直接用 API 给的 epStatus, 会把 SP 都加上
       // 需要根据 userProgress 和 eps 排除掉 SP 算
-      const count = getWatchedCount(this.userProgress(subjectId), this.eps(subjectId))
+      const count = getWatchedCount(userProgress, eps)
 
       // 主要是有些特殊情况, 会有意料不到的问题, 特殊处理
       // epStatus=1 的时候, 优先使用 count
@@ -508,37 +443,16 @@ export default class Computed extends State {
     return freeze(
       computed(() => {
         const { type } = this.subject(subjectId)
-        const data: (OriginItem | string)[] = []
-
-        if (Number(type) === 2) {
-          getOriginConfig(subjectStore.origin, 'anime')
-            .filter(item => item.active)
-            .forEach(item => {
-              data.push(item)
-            })
-        }
-
-        if (Number(type) === 6) {
-          getOriginConfig(subjectStore.origin, 'real')
-            .filter(item => item.active)
-            .forEach(item => {
-              data.push(item)
-            })
-        }
-
-        return data
+        return getOnlineOrigins(type, subjectStore.origin)
       }).get()
     )
   }
 
   /** 是否存在没有看的章节 */
   hasNewEp(subjectId: SubjectId) {
-    return computed(() => {
-      const progress = this.userProgress(subjectId)
-      return this.epsNoSp(subjectId).some(
-        item => (item.status === 'Air' || item.status === 'Today') && !(item.id in progress)
-      )
-    }).get()
+    return computed(() =>
+      checkHasNewEp(this.epsNoSp(subjectId), this.userProgress(subjectId))
+    ).get()
   }
 
   /** 是否渲染 Item */
@@ -553,57 +467,15 @@ export default class Computed extends State {
 
   /** 排除 SP 章节的长度 */
   epsCount(subjectId: SubjectId, filterZero: boolean = true) {
-    return computed(() => {
-      const subject = this.subject(subjectId)
-      try {
-        if (subject?.eps && typeof subject.eps === 'object') {
-          const { length } = subject.eps.filter(item => {
-            if (filterZero) return item.type === 0 && item.sort != 0
-            return item.type === 0
-          })
-          if (length) return length
-        }
-
-        if (subject?.eps_count) return subject.eps_count
-
-        return 0
-      } catch (error) {
-        return subject?.eps_count || 0
-      }
-    }).get()
+    return computed(() => getEpsCount(this.subject(subjectId), filterZero)).get()
   }
 
   /** 显示数字组合 */
   countRight(subjectId: SubjectId) {
     return computed(() => {
       const current = this.currentOnAir(subjectId)
-
-      // 二季度的番剧，首集非 1 开始的需要从所有章节里面获取最大集数
-      let total = this.totalEps(subjectId)
-      if (total !== '??' && Number(current) > Number(total)) total = current
-
-      let right = ''
-      switch (systemStore.setting.homeCountView) {
-        case 'B':
-          right = `${current}`
-          if (total !== current) right += ` (${total})`
-          break
-
-        case 'C':
-          right = `${total}`
-          if (total !== current) right += ` (${current})`
-          break
-
-        case 'D':
-          right = `${current}`
-          if (total !== current) right += ` / ${total}`
-          break
-
-        default:
-          right = `${total}`
-          break
-      }
-      return right
+      const total = this.totalEps(subjectId)
+      return formatCountRight(current, total)
     }).get()
   }
 

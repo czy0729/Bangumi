@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-11-27 16:49:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-24 13:22:14
+ * @Last Modified time: 2026-06-11 16:26:28
  */
 import { getStorage, getTimestamp, setStorage } from '@utils'
 
 const NAMESPACE = 'Global'
 
-/** App 相关辅助数据 */
+/** 客户端相关辅助数据 */
 export const APP_PARAMS = {
   /** 上一次启动时间戳 */
   lastBoot: 0

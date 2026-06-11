@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-14 06:19:42
+ * @Last Modified time: 2026-06-11 16:25:21
  */
 import { StatusBar } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { confirm } from '@utils'
+import { getInt } from '@stores/subject'
+import { confirm, queue } from '@utils'
 import { DEV, WEB } from '@constants'
 import i18n from '@constants/i18n'
 import calendarStore from './calendar'
 import collectionStore from './collection'
 import rakuenStore from './rakuen'
 import smbStore from './smb'
-import subjectStore, { getInt } from './subject'
+import subjectStore from './subject'
 import systemStore from './system'
 import themeStore from './theme'
 import tinygrailStore from './tinygrail'
@@ -34,17 +35,14 @@ let inited = false
 
 /** 管理全局 Stores 和放置系统级别状态 */
 class GlobalStores {
-  /**
-   * 保证所有子 Store 初始化和加载缓存,
-   * 只有在第一次初始化后返回 systemStore.setting
-   * */
+  /** 保证所有子 Store 初始化和加载缓存,只有在第一次初始化后返回 systemStore.setting */
   async init() {
     try {
       if (inited) return true
 
       inited = true
 
-      /** ========== systemStore, themeStore 维持旧逻辑 ========== */
+      /** ========== systemStore, themeStore 核心数据，串行加载 ========== */
       await systemStore.init()
       await themeStore.init()
 
@@ -53,47 +51,53 @@ class GlobalStores {
 
       /**
        * 其他 store 使用新的懒读取本地数据逻辑，以下数据在初始化前拿出来
-       * 会显著提高 APP 使用体验，实际上不取出来也不会影响使用
+       * 会显著提高冷启动速度，实际上不取出来也不会影响使用
        */
       /** ==================== usersStore ==================== */
-      for (let i = 0; i < USERS_STORE_KEYS.length; i += 1) {
-        await usersStore.init(USERS_STORE_KEYS[i])
-      }
+      await queue(
+        USERS_STORE_KEYS.map(key => () => usersStore.init(key)),
+        4
+      )
 
       /** ==================== userStore ==================== */
-      for (let i = 0; i < USER_STORE_KEYS.length; i += 1) {
-        await userStore.init(USER_STORE_KEYS[i])
-      }
-      userStore.checkLogin()
+      await queue(
+        USER_STORE_KEYS.map(key => () => userStore.init(key)),
+        4
+      ).then(() => {
+        userStore.checkLogin()
+      })
 
       /** ==================== calendarStore ==================== */
-      for (let i = 0; i < CALENDAR_STORE_KEYS.length; i += 1) {
-        await calendarStore.init(CALENDAR_STORE_KEYS[i])
-      }
+      await queue(
+        CALENDAR_STORE_KEYS.map(key => () => calendarStore.init(key)),
+        4
+      )
 
       /** ==================== subjectStoreKeys ==================== */
-      const subjectStoreKeys: `subject${number}`[] = []
-      userStore.collection.list.forEach(item => {
-        subjectStoreKeys.push(`subject${getInt(item.subject_id as SubjectId)}`)
-      })
-      for (let i = 0; i < subjectStoreKeys.length; i += 1) {
-        await subjectStore.init(subjectStoreKeys[i])
-      }
+      await queue(
+        userStore.collection.list.map(
+          item => () => subjectStore.init(`subject${getInt(item.subject_id as SubjectId)}`)
+        ),
+        4
+      )
 
       /** ==================== collectionStore ==================== */
-      for (let i = 0; i < COLLECTION_STORE_KEYS.length; i += 1) {
-        await collectionStore.init(COLLECTION_STORE_KEYS[i])
-      }
+      await queue(
+        COLLECTION_STORE_KEYS.map(key => () => collectionStore.init(key)),
+        4
+      )
 
       /** ==================== rakuenStore ==================== */
-      for (let i = 0; i < RAKUEN_STORE_KEYS.length; i += 1) {
-        await rakuenStore.init(RAKUEN_STORE_KEYS[i])
-      }
+      await queue(
+        RAKUEN_STORE_KEYS.map(key => () => rakuenStore.init(key)),
+        4
+      )
 
       /** ==================== smbStore ==================== */
-      for (let i = 0; i < SMB_STORE_KEYS.length; i += 1) {
-        await smbStore.init(SMB_STORE_KEYS[i])
-      }
+      await queue(
+        SMB_STORE_KEYS.map(key => () => smbStore.init(key)),
+        4
+      )
 
       return systemStore.setting
     } catch (error) {
@@ -172,6 +176,7 @@ class GlobalStores {
       `确定${i18n.logout()}?`,
       () => {
         userStore.logout()
+
         setTimeout(() => {
           navigation.popToTop()
         }, 0)
