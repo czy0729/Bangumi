@@ -10,7 +10,6 @@ import { Katakana, Text } from '@components'
 import { systemStore, uiStore } from '@stores'
 import { feedback, findSubjectCn, getCoverMedium, HTMLDecode } from '@utils'
 import { t } from '@utils/fetch'
-import { HOST_NAME } from '@constants'
 import { matchSubjectId } from '../utils'
 
 function P3({ image, p3Text, p3Url, onNavigate }) {
@@ -21,7 +20,7 @@ function P3({ image, p3Text, p3Url, onNavigate }) {
     p3Text.forEach((item: string, index: number) => {
       const text = HTMLDecode(item)
       const url = String(p3Url[index])
-      const isSubject = url.includes(`${HOST_NAME}/subject/`) && !url.includes('/ep/')
+      const isSubject = url.includes('/subject/') && !url.includes('/ep/')
       const subjectId = isSubject ? matchSubjectId(url) : 0
 
       nodes.push(
@@ -66,8 +65,7 @@ function P3({ image, p3Text, p3Url, onNavigate }) {
   } else if (p3Text.length === 1) {
     const text = HTMLDecode(p3Text[0])
     const url = p3Url[0]
-    const isSubject =
-      !!String(!!p3Url.length && url).includes(`${HOST_NAME}/subject/`) && !url.includes('/ep/')
+    const isSubject = !!String(!!p3Url.length && url).includes('/subject/') && !url.includes('/ep/')
     const subjectId = isSubject ? matchSubjectId(!!p3Url.length && url) : 0
 
     nodes = (
