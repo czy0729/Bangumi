@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:41:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:30:07
+ * @Last Modified time: 2026-06-11 15:09:30
  */
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
@@ -33,7 +33,12 @@ function List({ forwardRef, onScrollIntoViewIfNeeded, onBlockRef }: Props) {
   const { showComment } = systemStore.setting
   const { nsfw } = $
   const elFooterEmpty = useMemo(
-    () => (showComment === -1 ? <View /> : nsfw ? <FooterEmptyData text={TEXT_18X} /> : undefined),
+    () =>
+      showComment === -1 ? (
+        <View />
+      ) : nsfw ? (
+        <FooterEmptyData style={_.container.plain} text={TEXT_18X} />
+      ) : undefined,
     [nsfw, showComment]
   )
 

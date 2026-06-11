@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-06-08 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-08 00:00:00
+ * @Last Modified time: 2026-06-11 15:07:21
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -12,18 +12,14 @@ import { Mesume } from '../../mesume'
 import RandomText from './random-text'
 import { styles } from './styles'
 
-import type { TextProps } from '../../text'
+import type { FooterNoMoreDataProps } from './types'
 
 /** 列表没有更多数据 footer */
 function FooterNoMoreData({
   filterText,
   showMesume = true,
   textType = 'sub'
-}: {
-  filterText?: string
-  showMesume?: boolean
-  textType?: TextProps['type']
-}) {
+}: FooterNoMoreDataProps) {
   if (!showMesume) return null
 
   return (

@@ -5,7 +5,7 @@
  * @Last Modified time: 2025-03-03 21:58:28
  */
 import React, { useCallback } from 'react'
-import { useObserver } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { DEV } from '@constants'
 import * as Screens from '@screens'
@@ -24,7 +24,8 @@ function NativeStacks({ isLoadingComplete }: { isLoadingComplete: boolean }) {
     () => (isReady ? BottomTabNavigator : Placeholder),
     [isReady]
   )
-  return useObserver(() => (
+
+  return (
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={getScreenOptions(isFullScreen)}
@@ -45,7 +46,7 @@ function NativeStacks({ isLoadingComplete }: { isLoadingComplete: boolean }) {
           : null}
       </Stack.Navigator>
     </NavigationContainer>
-  ))
+  )
 }
 
-export default NativeStacks
+export default observer(NativeStacks)
