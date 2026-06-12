@@ -41,5 +41,15 @@ export const REGS = {
   q: /<q>(.+?)<\/q>/g,
   quote: /<div class="quote"><q(.+?)<\/q><\/div>/g,
   ruby: /<ruby>(.+?)<\/ruby>/g,
-  whiteTags: /<(?!\/?(div|a|p|span|h1|h2|h3|h4|h5|strong|em|small|hr|br|q|img|ol|ul|li))/g
+  whiteTags:
+    /<(?!\/?(div|a|p|span|h1|h2|h3|h4|h5|strong|em|small|hr|br|q|blockquote|img|ol|ul|li))/g,
+
+  // splitHtmlByEmoji 使用的正则（无 /g，仅 .test()）
+  emoji: /font-family:bgm[^>]*?>(?:6|7|8|9)\d{2}<\/span>/i,
+  br: /<br\s*\/?>|\n/i,
+  blockEnd: /^<\/(div|q|blockquote)>$/i,
+  quoteOpen: /<q[\s>]/i,
+  blockquoteOpen: /<blockquote[\s>]/i,
+  quoteClose: /<\/q>/i,
+  blockquoteClose: /<\/blockquote>/i
 } as const

@@ -15,9 +15,9 @@ import { Component } from '../component'
 import { ErrorBoundary } from '../error-boundary'
 import { translateAll } from '../katakana/utils'
 import Error from './error'
-import { a, img, li, q, span, ul } from './renderer'
+import { a, blockquote, img, li, q, span, ul } from './renderer'
 import { fixedBaseFontStyle, formatHtml, splitHtmlByEmoji } from './utils'
-import { COMPONENT, PAD_FONT_ZISE_INCREASE } from './ds'
+import { COMPONENT, PAD_FONT_ZISE_INCREASE, REGS } from './ds'
 import { styles } from './styles'
 
 import type { Props as RenderHtmlProps } from './types'
@@ -88,7 +88,7 @@ export const RenderHtml = observer(
       const { imagesMaxWidth, baseFontStyle, linkStyle, matchLink } = this.props
 
       // 命中表情片段
-      const isHasBigEmoji = /font-family:bgm[^>]*?>(?:6|7|8|9)\d{2}<\/span>/i.test(formatHtml)
+      const isHasBigEmoji = REGS.emoji.test(formatHtml)
       const bigEmojiStyle = isHasBigEmoji
         ? { lineHeight: _[`fontSize${rakuenStore.setting.bigEmojiSize}`].lineHeight }
         : {}
@@ -145,6 +145,11 @@ export const RenderHtml = observer(
             }),
           q: (_attrs: any, children: any, _css: any, passProps: any) =>
             q({
+              key: passProps.key,
+              children
+            }),
+          blockquote: (_attrs: any, children: any, _css: any, passProps: any) =>
+            blockquote({
               key: passProps.key,
               children
             }),

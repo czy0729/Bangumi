@@ -139,17 +139,22 @@ export function formatStyles(styleStr: string) {
   return rnStyle
 }
 
+/** 移除片段首尾的冗余换行 */
+function trimBR(str: string) {
+  return str.replace(/^(?:<br\s*\/?>|\n|\r)+|(?:<br\s*\/?>|\n|\r)+$/gi, '').trim()
+}
+
 /**
  * 将含有 Bangumi 动态表情的 HTML 字符串分割成片段
  * - 识别大表情（600-999）并作为独立块或吸附块处理。
- * - 大表情会尝试“吞噬”前后小于 SPLIT_LENGTH 的短文本，使其共享大行高。
+ * - 大表情会尝试”吞噬”前后小于 SPLIT_LENGTH 的短文本，使其共享大行高。
  * - 块级元素（div/q/blockquote）的闭合标签会触发物理分割，防止引用块与后续回复混淆。
  */
 export function splitHtmlByEmoji(html: string, splitLength: number = 12) {
   if (!html) return []
 
   // 0. 如果没有大表情就直接返回
-  const hasBigEmoji = /font-family:bgm[^>]*?>(?:6|7|8|9)\d{2}<\/span>/i.test(html)
+  const hasBigEmoji = REGS.emoji.test(html)
   if (!hasBigEmoji) return [trimBR(html)].filter(Boolean)
 
   // 1. 初始切分：匹配大表情、换行符、以及块级元素的结束标签
@@ -161,17 +166,27 @@ export function splitHtmlByEmoji(html: string, splitLength: number = 12) {
 
   const smartSegments: string[] = []
   let buffer = ''
-
-  /** 辅助：移除片段首尾的冗余换行 */
-  function trimBR(str: string) {
-    return str.replace(/^(?:<br\s*\/?>|\n|\r)+|(?:<br\s*\/?>|\n|\r)+$/gi, '').trim()
-  }
+  let insideQuote = false // 追踪是否在引用块内部
 
   for (let i = 0; i < rawSegments.length; i++) {
     const seg = rawSegments[i]
-    const isEmoji = /font-family:bgm[^>]*?>(?:6|7|8|9)\d{2}<\/span>/i.test(seg)
-    const isBR = /<br\s*\/?>|\n/i.test(seg)
-    const isBlockEnd = /^<\/(div|q|blockquote)>$/i.test(seg)
+    const isEmoji = REGS.emoji.test(seg)
+    const isBR = REGS.br.test(seg)
+    const isBlockEnd = REGS.blockEnd.test(seg)
+
+    // 追踪引用块标签的进入和离开
+    if (REGS.quoteOpen.test(seg) || REGS.blockquoteOpen.test(seg)) {
+      insideQuote = true
+    }
+    if (REGS.quoteClose.test(seg) || REGS.blockquoteClose.test(seg)) {
+      insideQuote = false
+    }
+
+    // 在引用块内部, 所有内容保持在同一 buffer 中, 直到遇到闭合标签
+    if (insideQuote && !isBlockEnd) {
+      buffer += seg
+      continue
+    }
 
     // 情况 A：遇到大表情
     if (isEmoji) {
@@ -190,7 +205,7 @@ export function splitHtmlByEmoji(html: string, splitLength: number = 12) {
       let nextIdx = i + 1
       while (nextIdx < rawSegments.length) {
         const nextSeg = rawSegments[nextIdx]
-        const isNextBR = /<br\s*\/?>|\n/i.test(nextSeg)
+        const isNextBR = REGS.br.test(nextSeg)
         const nextLen = getEffectiveTextLength(nextSeg)
 
         if (isNextBR) {
@@ -231,14 +246,14 @@ export function splitHtmlByEmoji(html: string, splitLength: number = 12) {
         const thirdSeg = rawSegments[i + 2]
 
         if (nextSeg) {
-          const nextIsEmoji = /font-family:bgm[^>]*?>(?:6|7|8|9)\d{2}<\/span>/i.test(nextSeg)
+          const nextIsEmoji = REGS.emoji.test(nextSeg)
           const nextLen = getEffectiveTextLength(nextSeg)
 
           if (nextIsEmoji) {
             shouldHoldBR = true
           } else if (nextLen <= splitLength && thirdSeg) {
-            // 检查“换行 + 短文字 + 表情”的结构
-            const thirdIsEmoji = /font-family:bgm[^>]*?>(?:6|7|8|9)\d{2}<\/span>/i.test(thirdSeg)
+            // 检查”换行 + 短文字 + 表情”的结构
+            const thirdIsEmoji = REGS.emoji.test(thirdSeg)
             if (thirdIsEmoji) shouldHoldBR = true
           }
         }
@@ -312,7 +327,8 @@ export async function fetchMediaQueue(
 
     if (
       IDS.length <= 16 &&
-      ![...IDS, ...LOADED_IDS].find(item => item.type === type && item.id === id)
+      !IDS.find(item => item.type === type && item.id === id) &&
+      !LOADED_IDS.find(item => item.type === type && item.id === id)
     ) {
       IDS.push({
         type,
@@ -371,9 +387,9 @@ function removeQuote(html: string) {
 
       // 暂时没办法处理像 </smal... 结尾这样的情况
       // 因为之前的错误全局 HTMLDecode, 没办法再处理
-      if (REGS.fixedQ.test(_q)) {
-        const { index } = _q.match(REGS.fixedQ)
-        _q = _q.slice(0, index)
+      const match = _q.match(REGS.fixedQ)
+      if (match) {
+        _q = _q.slice(0, match.index)
       }
 
       return `<q>${_q}</span></q>`
@@ -425,16 +441,27 @@ function fixedWhiteTags(html: string) {
   return html.replace(REGS.whiteTags, '&lt;')
 }
 
+/** 把 div.quote > q 转换为 blockquote, 解决 react-native-render-html 在 br 处断开 inline 元素的问题 */
+function convertQuoteToBlockquote(html: string) {
+  return html.replace(
+    /<div class="quote"><q([^>]*)>([\s\S]*?)<\/q><\/div>/g,
+    (_match, attrs, content) => `<blockquote${attrs}>${content}</blockquote>`
+  )
+}
+
 /** 强制修改 html 以能被组件正常渲染 */
 function hackFixedHTMLTags(html: string) {
-  let htmlValue = HTMLDecode(html)
-  htmlValue = removeQuote(htmlValue)
-  htmlValue = removePre(htmlValue)
-  htmlValue = smallQuote(htmlValue)
-  htmlValue = removeBrBetweenImages(htmlValue)
-  htmlValue = removeSomeTags(htmlValue)
-  htmlValue = htmlS2T(htmlValue)
-  return fixedWhiteTags(htmlValue)
+  return [
+    HTMLDecode,
+    removeQuote,
+    removePre,
+    smallQuote,
+    convertQuoteToBlockquote,
+    removeBrBetweenImages,
+    removeSomeTags,
+    htmlS2T,
+    fixedWhiteTags
+  ].reduce((acc, fn) => fn(acc), html)
 }
 
 /** 去除 html 标签、空行、换行 */

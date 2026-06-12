@@ -10,3 +10,7 @@ import QuoteText from '../quote-text'
 export function q({ key, children }) {
   return <QuoteText key={key}>{children}</QuoteText>
 }
+
+export function blockquote({ key, children }) {
+  return <QuoteText key={key}>{children}</QuoteText>
+}
