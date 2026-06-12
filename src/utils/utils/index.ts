@@ -615,8 +615,13 @@ export function findLastIndex(arr: any[] | readonly any[], callback: any, thisAr
   return -1
 }
 
-/** 段落是否中文语境 */
+/**
+ * 段落是否中文语境
+ *  - 26/06/12 发现有维基人对段落做过 AI 翻译，直接对这种段落进行直接返回
+ * */
 export function isChineseParagraph(text: string = '', threshold: number = 0.8) {
+  if (text.includes('[简介原文]')) return true
+
   text = text.replace(/「|」|、|，|。|？|！|・|―|/g, '')
 
   const chineseRegex = /[\u4e00-\u9fa5]/

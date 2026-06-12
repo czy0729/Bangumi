@@ -7,7 +7,7 @@
 import { systemStore } from '@stores'
 import { info, loading } from '@utils'
 import { baiduTranslate } from '@utils/fetch'
-import { lx } from '@utils/kv'
+import { lx, lxCache } from '@utils/kv'
 import Computed from './computed'
 
 export default class Action extends Computed {
@@ -20,6 +20,16 @@ export default class Action extends Computed {
     let hide: () => void
     try {
       hide = loading('请求中...')
+
+      // 不管翻译引擎, 先尝试获取云缓存
+      const cache = await lxCache(this.summary)
+      if (cache) {
+        hide()
+        this.setState({
+          translateResult: cache
+        })
+        return
+      }
 
       if (isGemini) {
         const response = await lx(this.summary, systemStore.advance)

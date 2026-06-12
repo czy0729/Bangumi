@@ -8,7 +8,7 @@ import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
 import { systemStore, tinygrailStore, userStore } from '@stores'
 import { feedback, info, loading, open, removeHTMLTag, updateVisibleBottom } from '@utils'
 import { baiduTranslate, fetchHTML, t } from '@utils/fetch'
-import { lx } from '@utils/kv'
+import { lx, lxCache } from '@utils/kv'
 import { webhookMono } from '@utils/webhooks'
 import { HOST } from '@constants'
 import Fetch from './fetch'
@@ -136,6 +136,17 @@ export default class Action extends Fetch {
       const text = String(content)
         .replace(/<br \/>/g, '\n')
         .replace(/<\/?[^>]*>/g, '') // 去除HTML tag
+
+      // 不管翻译引擎, 先尝试获取云缓存
+      const cache = await lxCache(text)
+      if (cache) {
+        hide()
+        this.setState({
+          [key]: cache
+        })
+        return
+      }
+
       if (isGemini) {
         const response = await lx(text, systemStore.advance)
         hide()
@@ -183,6 +194,20 @@ export default class Action extends Fetch {
       hide = loading()
 
       const text = removeHTMLTag(msg.replace(/<br>/g, '\n'))
+
+      // 不管翻译引擎, 先尝试获取云缓存
+      const cache = await lxCache(text)
+      if (cache) {
+        hide()
+        this.setState({
+          translateResultFloor: {
+            ...translateResultFloor,
+            [floorId]: cache.map(item => item.dst).join('\n')
+          }
+        })
+        return
+      }
+
       if (isGemini) {
         const translateResult = await lx(text, systemStore.advance)
         hide()

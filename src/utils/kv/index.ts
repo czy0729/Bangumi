@@ -405,15 +405,28 @@ export async function list(count: number = 100) {
   return null
 }
 
+/** 生成翻译缓存 key */
+function lxKey(text: string) {
+  const q = text.split('\r\n').join('\n')
+  return `fanyi_glm_${hash(q)}`
+}
+
+/** 查询翻译云缓存 */
+export async function lxCache(text: string): Promise<false | TranslateResult> {
+  const k = lxKey(text)
+  const cache = await get(k)
+  if (Array.isArray(cache?.data) && cache.data.length) return cache.data
+  return false
+}
+
 export async function lx(text: string, advance?: boolean): Promise<false | TranslateResult> {
   if (isDevtoolsOpen()) return Promise.reject('denied')
 
   // 云缓存, 因每个月免费翻译额度有限, 避免过多调用
-  const q = text.split('\r\n').join('\n')
-  const k = `fanyi_glm_${hash(q)}`
-  const cache = await get(k)
-  if (Array.isArray(cache?.data) && cache.data.length) return cache.data
+  const cache = await lxCache(text)
+  if (cache) return cache
 
+  const k = lxKey(text)
   const responseText = await completions(
     '你是一位擅长自然语言表达的日语到中文翻译，请让译文自然流畅、符合中文口语习惯，但不要添加解释或注释。',
     '',

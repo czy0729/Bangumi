@@ -48,7 +48,7 @@ import {
 import { calendarEventsSaveGameReleaseDate } from '@utils/calendar'
 import { logger } from '@utils/dev'
 import { baiduTranslate, t } from '@utils/fetch'
-import { completions, download, get, lx, temp, update } from '@utils/kv'
+import { completions, download, get, lx, lxCache, temp, update } from '@utils/kv'
 import { MUSUME_PROMPT, MUSUME_SUBJECT_PROMPT } from '@utils/kv/ds'
 import { applyProxy } from '@utils/proxy'
 import { axios } from '@utils/thirdParty'
@@ -1540,6 +1540,16 @@ export default class Action extends Fetch {
     let hide: () => void
     try {
       hide = loading('请求中...')
+
+      // 不管翻译引擎, 先尝试获取云缓存
+      const cache = await lxCache(this.summary)
+      if (cache) {
+        hide()
+        this.setState({
+          translateResult: cache
+        })
+        return
+      }
 
       if (isGemini) {
         const response = await lx(this.summary, systemStore.advance)

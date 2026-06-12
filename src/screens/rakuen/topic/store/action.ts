@@ -19,7 +19,7 @@ import {
 } from '@utils'
 import CacheManager from '@utils/cache-manager'
 import { baiduTranslate, t } from '@utils/fetch'
-import { completions, get, lx, update } from '@utils/kv'
+import { completions, get, lx, lxCache, update } from '@utils/kv'
 import { MUSUME_EP_PROMPT, MUSUME_PROMPT, MUSUME_TOPIC_PROMPT } from '@utils/kv/ds'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HOST, IOS } from '@constants'
@@ -576,6 +576,17 @@ export default class Action extends Fetch {
       hide = loading()
 
       const text = getTopicMainFloorRawText(this.title, this.html)
+
+      // 不管翻译引擎, 先尝试获取云缓存
+      const cache = await lxCache(text)
+      if (cache) {
+        hide()
+        this.setState({
+          translateResult: cache
+        })
+        return
+      }
+
       if (isGemini) {
         const response = await lx(text, systemStore.advance)
         hide()
@@ -623,6 +634,20 @@ export default class Action extends Fetch {
       hide = loading()
 
       const text = removeHTMLTag(msg.replace(/<br>/g, '\n'), false)
+
+      // 不管翻译引擎, 先尝试获取云缓存
+      const cache = await lxCache(text)
+      if (cache) {
+        hide()
+        this.setState({
+          translateResultFloor: {
+            ...translateResultFloor,
+            [floorId]: cache.map(item => item.dst).join('\n')
+          }
+        })
+        return
+      }
+
       if (isGemini) {
         const translateResult = await lx(text, systemStore.advance)
         hide()
