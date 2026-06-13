@@ -11,7 +11,8 @@ import { t } from '@utils/fetch'
 import store from '@utils/store'
 import { getTagType, HENTAI_TAGS_MAP, init, search } from '@utils/subject/hentai'
 import { ADVANCE_LIMIT, NAMESPACE, STATE } from './ds'
-import { Params } from './types'
+
+import type { Params } from './types'
 
 let _loaded = false
 
@@ -58,11 +59,6 @@ export default class ScreenHentai extends store<typeof STATE> {
   }
 
   // -------------------- get --------------------
-  /** 是否允许访问 */
-  @computed get access() {
-    return !userStore.isLimit
-  }
-
   /** 是否登录 (api) */
   @computed get isLogin() {
     return userStore.isLogin

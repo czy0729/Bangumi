@@ -43,7 +43,7 @@ export const ItemBangumiList = observer(
             ...event?.data
           })}
         >
-          <Cover size={width} src={image} radius cdn={!x18(subjectId)} />
+          <Cover size={width} src={image} radius cdn={!x18(subjectId, text)} />
           <Text
             style={_.mt.sm}
             size={text.length > 14 ? 10 : 11}

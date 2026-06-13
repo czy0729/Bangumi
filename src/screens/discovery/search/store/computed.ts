@@ -21,7 +21,7 @@ export default class Computed extends State {
 
     return {
       ...search,
-      list: search.list.filter(item => !x18(item.id))
+      list: search.list.filter(item => !x18(item.id, item.nameCn || item.name))
     }
   }
 

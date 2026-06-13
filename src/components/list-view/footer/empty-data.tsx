@@ -7,6 +7,7 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { stl } from '@utils'
+import { TEXT_EMPTY } from '@constants'
 import { Flex } from '../../flex'
 import { Mesume } from '../../mesume'
 import { Text } from '../../text'
@@ -17,7 +18,7 @@ import type { FooterEmptyDataProps } from './types'
 /** 列表空数据 footer */
 function FooterEmptyData({
   style,
-  text,
+  text = TEXT_EMPTY,
   showMesume = true,
   textType = 'sub'
 }: FooterEmptyDataProps) {

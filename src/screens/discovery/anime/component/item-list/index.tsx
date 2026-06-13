@@ -118,7 +118,13 @@ function ItemList({ index, pickIndex }: Props) {
       <Touchable style={styles.container} animate onPress={handlePress}>
         <Flex style={styles.wrap} align='start'>
           <InView style={styles.inView} y={InView.y(index, IMG_HEIGHT_LG, _.window.height * 0.4)}>
-            <Cover src={cover} width={IMG_WIDTH_LG} height={IMG_HEIGHT_LG} radius cdn={!x18(id)} />
+            <Cover
+              src={cover}
+              width={IMG_WIDTH_LG}
+              height={IMG_HEIGHT_LG}
+              radius
+              cdn={!x18(id, title)}
+            />
           </InView>
 
           <Flex.Item style={_.ml.wind}>

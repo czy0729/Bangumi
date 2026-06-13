@@ -98,7 +98,13 @@ function Item({ pickIndex }) {
       )}
     >
       <Flex style={styles.wrap} align='start'>
-        <Cover src={cover} width={IMG_WIDTH_LG} height={IMG_HEIGHT_LG} radius cdn={!x18(id)} />
+        <Cover
+          src={cover}
+          width={IMG_WIDTH_LG}
+          height={IMG_HEIGHT_LG}
+          radius
+          cdn={!x18(id, title)}
+        />
         <Flex.Item style={_.ml.wind}>
           <Flex align='start'>
             <Flex.Item>

@@ -6,7 +6,8 @@
  */
 import { LIST_EMPTY, MODEL_SUBJECT_TYPE } from '@constants'
 
-import type { Id, ImagesAvatar, SubjectId, SubjectType, UserId } from '@types'
+import type { UserCollection as UserCollectionV2 } from '@utils/fetch.v0/types'
+import type { Id, ImagesAvatar, Loaded, SubjectId, SubjectType, UserId } from '@types'
 import type {
   Pm,
   PmDetail,
@@ -54,12 +55,31 @@ export const INIT_USER_COOKIE: {
   tourist: 0
 }
 
+/** 个人设置 */
 export const INIT_USER_SETTING = {
+  /** 自我介绍 */
   sign: '',
+
+  /** 昵称 */
   nickname: '',
+
+  /** 签名 */
   sign_input: '',
+
+  /** 设置页表单码 */
   formhash: '',
-  timeoffsetnew: ''
+
+  /** 时区 */
+  timeoffsetnew: '',
+
+  /** 受限内容 */
+  show_nsfw_subject: false,
+
+  /** 区分客户端设置版本 (用于判断是否需要强制更新一次) */
+  _v: 1,
+
+  /** 更新时间 */
+  _loaded: 0 as Loaded
 }
 
 export const STATE = {
@@ -88,7 +108,7 @@ export const STATE = {
   userCollection: LIST_EMPTY as UserCollection,
 
   /** 在看收藏 (新 API, 取代 userCollection) */
-  collection: LIST_EMPTY as UserCollection,
+  collection: LIST_EMPTY as UserCollectionV2,
 
   /** 收视进度 (章节) */
   userProgress: {} as Record<SubjectId, UserProgress>,

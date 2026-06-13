@@ -5,9 +5,9 @@
  * @Last Modified time: 2025-12-27 06:21:07
  */
 import React from 'react'
-import { Component, HeaderPlaceholder, Page, Text } from '@components'
+import { Component, FooterEmptyData, HeaderPlaceholder, Page } from '@components'
 import { FilterSwitch } from '@_'
-import { _, StoreContext, userStore } from '@stores'
+import { StoreContext, userStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import Header from '../anime/header'
 import List from './component/list'
@@ -25,12 +25,10 @@ const NSFW = (props: NavigationProps) => {
       <StoreContext.Provider value={id}>
         <Page loaded={$.state._loaded}>
           <HeaderPlaceholder />
-          {userStore.isLimit ? (
+          {userStore.isExtremeLimit ? (
             <>
               <FilterSwitch name='NSFW' />
-              <Text style={_.mt.lg} align='center'>
-                游客或您所在的用户组暂不开放此功能
-              </Text>
+              <FooterEmptyData />
             </>
           ) : (
             <List />

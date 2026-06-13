@@ -38,11 +38,11 @@ export const FilterSwitch = observer(
 
           <Flex.Item style={_.ml.md}>
             <ScrollView
-              style={styles.contentContainerStyle}
-              horizontal
               ref={scrollView => {
                 scrollToX(scrollView, FILTER_SWITCH_DS, name)
               }}
+              style={styles.contentContainerStyle}
+              horizontal
               {...SCROLL_VIEW_RESET_PROPS}
             >
               {FILTER_SWITCH_DS.map(item => {

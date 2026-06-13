@@ -7,10 +7,10 @@
 import type { CollectionStatus, CollectionStatusValue } from '@constants/model/types'
 import type {
   CollectionStatusCn,
-  EpId,
   Id,
   Images,
   ListEmpty,
+  Loaded,
   Override,
   SubjectId,
   SubjectType,
@@ -148,4 +148,7 @@ export type PmMapItem = Record<
 export type PmMap = Record<UserId, PmMapItem>
 
 /** 收视进度 (章节) */
-export type UserProgress = Record<EpId, CollectionStatusCn>
+export interface UserProgress {
+  [key: string]: CollectionStatusCn | Loaded
+  _loaded: Loaded
+}

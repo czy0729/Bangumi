@@ -49,7 +49,7 @@ function Cover({ index, subjectId, typeCn, name, name_cn, image, disabled }: Pro
           height={height}
           type={typeCn}
           radius
-          cdn={!x18(subjectId)}
+          cdn={!x18(subjectId, name_cn || name)}
           priority={index < 4 ? 'high' : 'normal'}
         />
       </InView>

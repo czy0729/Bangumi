@@ -202,7 +202,7 @@ export function mapReviewsToBlog(list: readonly ReviewsItem[]) {
     summary: item.content,
     timestamp: getTimestamp(item.time),
     title: item.title,
-    url: `//${HOST_NAME}/blog/${item.id}` as const,
+    url: `//${HOST_NAME}/blog/${item.id}`,
     user: {
       avatar: {
         large: item.avatar,
@@ -227,7 +227,7 @@ export function mapBoardToTopic(list: DeepReadonly<BoardItem[]>, subjectId: stri
     replies: Number((item.replies || '').replace(' replies', '')),
     timestamp: getTimestamp(item.time),
     title: item.title,
-    url: `${HOST}${item.href}` as const,
+    url: `${HOST}${item.href}`,
     user: {
       avatar: {
         large: '',

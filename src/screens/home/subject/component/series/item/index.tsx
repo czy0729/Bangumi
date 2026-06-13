@@ -49,7 +49,7 @@ function Item({ from, data }) {
             size={COVER_WIDTH}
             height={COVER_HEIGHT}
             radius={0}
-            cdn={!x18($.subjectId)}
+            cdn={!x18($.subjectId, data.title)}
             fadeDuration={0}
             skeleton={false}
             noDefault

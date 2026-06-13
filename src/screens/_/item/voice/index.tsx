@@ -132,7 +132,7 @@ export const ItemVoice = observer(
                     height={COVER_HEIGHT}
                     src={item.cover}
                     radius={_.radiusSm}
-                    cdn={!x18(item.id)}
+                    cdn={!x18(item.id, item.nameCn || item.name)}
                   />
                 </InView>
               </Flex>

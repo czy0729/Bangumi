@@ -62,7 +62,7 @@ function Item({ item, index }: Props) {
           height={height}
           radius
           type={typeCn}
-          cdn={!x18(item.id)}
+          cdn={!x18(item.id, item.name)}
           onPress={() => {
             navigation.push('Subject', {
               subjectId: item.id,

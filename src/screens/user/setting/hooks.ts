@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-05-04 14:26:43
  */
 import { useCallback, useRef, useState } from 'react'
-import { systemStore } from '@stores'
+import { systemStore, userStore } from '@stores'
 import { feedback, scrollToView } from '@utils'
 import { useMount, useRunAfter } from '@utils/hooks'
 
@@ -29,6 +29,7 @@ export function useSettingPage({ navigation, route }: NavigationProps<Params>) {
 
   useRunAfter(() => {
     systemStore.fetchAdvance()
+    if (userStore.isWebLogin) userStore.fetchUserSetting()
   })
 
   useMount(() => {

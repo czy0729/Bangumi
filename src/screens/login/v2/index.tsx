@@ -387,6 +387,7 @@ class LoginV2 extends React.Component<NavigationProps> {
       [
         () => userStore.fetchUserInfo(),
         () => userStore.fetchUsersInfo(),
+        () => userStore.fetchUserSetting(),
         () => {
           return this.state.isSyncSetting ? confirmDownloadSetting() : true
         },

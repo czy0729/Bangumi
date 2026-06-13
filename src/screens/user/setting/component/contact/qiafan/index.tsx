@@ -37,11 +37,11 @@ function Qiafan({ navigation, filter }) {
           </Text>
         }
         onPress={() => {
+          navigation.push('Qiafan')
+
           t('设置.跳转', {
             to: 'Qiafan'
           })
-
-          navigation.push('Qiafan')
         }}
       >
         <Heatmap id='设置.跳转' to='Qiafan' alias='投食' />

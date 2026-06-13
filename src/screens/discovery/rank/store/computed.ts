@@ -114,7 +114,7 @@ export default class Computed extends State {
       return {
         ...rank,
         list: rank.list.filter(item => {
-          const filter = x18(item.id)
+          const filter = x18(item.id, item.nameCn || item.name)
           if (filter) _filter += 1
           return !filter
         }),

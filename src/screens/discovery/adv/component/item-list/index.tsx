@@ -94,7 +94,13 @@ function Item({ index, pickIndex }: Props) {
     <Touchable style={styles.container} animate onPress={handlePress}>
       <Flex style={styles.wrap} align='start'>
         <InView style={styles.inView} y={y}>
-          <Cover src={image} width={IMG_WIDTH_LG} height={IMG_HEIGHT_LG} radius cdn={!x18(id)} />
+          <Cover
+            src={image}
+            width={IMG_WIDTH_LG}
+            height={IMG_HEIGHT_LG}
+            radius
+            cdn={!x18(id, titleText)}
+          />
         </InView>
 
         <Flex style={styles.content} direction='column' align='start'>

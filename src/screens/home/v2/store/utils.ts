@@ -172,7 +172,7 @@ export function getCollection() {
 
   return {
     ...userStore.collection,
-    list: userStore.collection.list.filter(item => !x18(item.subject_id))
+    list: userStore.collection.list.filter(item => !x18(item.subject_id, item.name))
   }
 }
 

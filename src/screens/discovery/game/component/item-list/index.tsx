@@ -95,7 +95,13 @@ function ItemList({ index, pickIndex }) {
       )}
     >
       <Flex style={styles.wrap} align='start'>
-        <Cover src={cover} width={IMG_WIDTH_LG} height={IMG_HEIGHT_LG} radius cdn={!x18(id)} />
+        <Cover
+          src={cover}
+          width={IMG_WIDTH_LG}
+          height={IMG_HEIGHT_LG}
+          radius
+          cdn={!x18(id, _title)}
+        />
         <Flex style={styles.content} direction='column' align='start'>
           <View style={styles.body}>
             <Flex style={_.container.block} align='start'>

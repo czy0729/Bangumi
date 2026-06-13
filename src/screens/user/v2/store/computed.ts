@@ -192,7 +192,7 @@ export default class Computed extends State {
         })
       }
 
-      if (userStore.isLimit) list = list.filter(item => !x18(item.id))
+      if (userStore.isLimit) list = list.filter(item => !x18(item.id, item.nameCn || item.name))
 
       return { list, ...other }
     }).get()

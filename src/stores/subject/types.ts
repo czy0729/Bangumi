@@ -28,7 +28,6 @@ import type {
   UrlMono,
   UrlSubject,
   UrlSubjectTopic,
-  UrlUser,
   UserId
 } from '@types'
 
@@ -47,7 +46,7 @@ type Blog = {
     id: UserId
     nickname: string
     sign: string
-    url: UrlUser
+    url: string
     username: string
   }
 }
@@ -66,7 +65,7 @@ type Topic = {
     id: UserId
     nickname: string
     sign: string
-    url: UrlUser
+    url: string
     username: string
   }
 }

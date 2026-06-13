@@ -73,7 +73,7 @@ const HeaderTitle = memo(
           size={type === '音乐' ? IMAGE_HEIGHT : IMAGE_WIDTH}
           height={IMAGE_HEIGHT}
           radius={4}
-          cdn={!x18(subjectId)}
+          cdn={!x18(subjectId, cn || jp)}
           fadeDuration={0}
         />
         <Flex.Item style={_.ml.sm}>

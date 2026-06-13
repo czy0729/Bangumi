@@ -5,15 +5,16 @@
  * @Last Modified time: 2025-12-25 05:06:21
  */
 import React from 'react'
-import { Component, HeaderPlaceholder, Page, Text } from '@components'
+import { Component, FooterEmptyData, HeaderPlaceholder, Page } from '@components'
 import { FilterSwitch, Notice } from '@_'
-import { _, StoreContext } from '@stores'
+import { StoreContext, userStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import Header from '../anime/header'
 import { useHentaiPage } from './hooks'
 import List from './list'
 import { HM } from './ds'
+
+import type { NavigationProps } from '@types'
 
 /** 找番剧 */
 const Hentai = (props: NavigationProps) => {
@@ -25,12 +26,10 @@ const Hentai = (props: NavigationProps) => {
         <Page loaded={$.state._loaded}>
           <HeaderPlaceholder />
           <Notice>此页面已不再维护</Notice>
-          {!$.access ? (
+          {userStore.isExtremeLimit ? (
             <>
               <FilterSwitch name='Hentai' />
-              <Text style={_.mt.lg} align='center'>
-                游客或您所在的用户组暂不开放此功能
-              </Text>
+              <FooterEmptyData />
             </>
           ) : (
             <List $={$} />

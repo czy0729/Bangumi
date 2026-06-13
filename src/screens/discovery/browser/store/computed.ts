@@ -44,7 +44,7 @@ export default class Computed extends State {
     if (userStore.isLimit) {
       let _filter = 0
       const list = browser.list.filter(item => {
-        const filter = x18(item.id)
+        const filter = x18(item.id, item.nameCn || item.name)
         if (filter) _filter += 1
         return !filter
       })

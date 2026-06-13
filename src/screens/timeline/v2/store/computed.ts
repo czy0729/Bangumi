@@ -44,7 +44,9 @@ export default class Computed extends State {
 
           if ((systemStore.setting.filter18x || userStore.isLimit) && item?.p3?.url?.[0]) {
             const url = String(item.p3.url[0])
-            if (url.match(/\/subject\/\d+/)) return !x18(url.replace(`${HOST}/subject/`, ''))
+            if (url.match(/\/subject\/\d+/)) {
+              return !x18(url.replace(`${HOST}/subject/`, ''), String(item.p3.text?.[0] || ''))
+            }
           }
 
           return true

@@ -54,7 +54,7 @@ export const ItemCollectionsGrid = observer(
         nameCn={nameCn}
         sub={sub}
         cover={cover}
-        cdn={cdn !== undefined ? cdn : !x18(id)}
+        cdn={cdn !== undefined ? cdn : !x18(id, nameCn || name)}
         score={score}
         rank={rank}
         typeCn={typeCn}

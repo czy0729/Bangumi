@@ -43,7 +43,7 @@ function Item({ item }: WithItem<SubjectFromHtmlCatalogItem>) {
           size={_.r(40)}
           radius
           type='目录'
-          cdn={!x18($.subjectId)}
+          cdn={!x18($.subjectId, $.cn || $.jp)}
         />
         <Flex.Item style={_.ml.md}>
           <Text style={styles.text} size={9} lineHeight={12} bold numberOfLines={2}>

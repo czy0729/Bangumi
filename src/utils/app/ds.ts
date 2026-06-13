@@ -16,10 +16,12 @@ const date = new Date()
 export const RANDOM_FACTOR = Number(String(date.getSeconds()).slice(0, 1))
 
 /** 敏感字符串集 */
-export const NSFW_KEYWORDS = ['乳', '淫', '裏', '黄油'] as const
+export const NSFW_KEYWORDS = ['乳', '交', '性', '慰', '淫', '肛', '黄油'] as const
 
 /** 敏感字符串集 (标签) */
 export const X18_DS = [
+  ...NSFW_KEYWORDS,
+  '裏',
   '18',
   'bl',
   'gal',
@@ -28,12 +30,9 @@ export const X18_DS = [
   '兵',
   '成',
   '拔',
-  '淫',
   '禁',
   '肉',
-  '裏',
-  '里',
-  '黄油'
+  '里'
 ] as const
 
 /** 年 */

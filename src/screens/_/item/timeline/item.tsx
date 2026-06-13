@@ -100,7 +100,7 @@ const Item = memo(
       })
     }, [clearHref, onDelete])
 
-    let type: SubjectTypeCn
+    let type: SubjectTypeCn = '动画'
     if (p2Text?.includes('读') || p4Text?.includes('书籍')) {
       type = '书籍'
     } else if (p2Text?.includes('听') || p4Text?.includes('音乐')) {
@@ -156,7 +156,7 @@ const Item = memo(
                   comment={comment}
                   replyContent={replyContent}
                   replyCount={replyCount}
-                  event
+                  event={event}
                 />
               </View>
 
@@ -240,7 +240,7 @@ const Item = memo(
                       height={rightCoverIsAvatar ? AVATAR_COVER_WIDTH : IMG_HEIGHT_SM}
                       radius={_.radiusSm}
                       type={type}
-                      cdn={!x18(subjectId)}
+                      cdn={!x18(subjectId, (!!p3Text.length && p3Text[0]) || '')}
                     />
                   </Touchable>
                 </InView>

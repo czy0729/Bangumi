@@ -47,7 +47,7 @@ import type {
   SubjectType,
   UserId
 } from '@types'
-import type { PmDetail, PmMap, PmType } from './types'
+import type { PmDetail, PmMap, PmType, UserProgress } from './types'
 
 export default class Fetch extends Computed {
   /**
@@ -175,7 +175,7 @@ export default class Fetch extends Computed {
       _data.forEach(item => {
         if (!item.eps) return
 
-        const userProgress = {
+        const userProgress: UserProgress = {
           _loaded: getTimestamp()
         }
         item.eps.forEach(i => (userProgress[i.id] = i.status.cn_name))
@@ -204,7 +204,7 @@ export default class Fetch extends Computed {
   fetchUserProgressV0 = async (subjectId: SubjectId) => {
     const data: any = await fetchUserProgressV0(subjectId)
 
-    const userProgress = {
+    const userProgress: UserProgress = {
       _loaded: getTimestamp()
     }
 
@@ -430,20 +430,24 @@ export default class Fetch extends Computed {
 
   /** 个人设置 */
   fetchUserSetting = async () => {
-    const HTML = await fetchHTML({
-      url: HTML_USER_SETTING()
-    })
+    const STATE_KEY = 'userSetting'
 
-    const key = 'userSetting'
-    const data = {
-      ...cheerioUserSetting(HTML),
-      _loaded: getTimestamp()
-    }
+    try {
+      const html = await fetchHTML({
+        url: HTML_USER_SETTING()
+      })
 
-    this.setState({
-      [key]: data
-    })
-    return data
+      this.setState({
+        [STATE_KEY]: {
+          ...cheerioUserSetting(html),
+          _v: 2,
+          _loaded: getTimestamp()
+        }
+      })
+      this.save(STATE_KEY)
+    } catch {}
+
+    return this[STATE_KEY]
   }
 
   /** 在线用户最后上报时间集 */

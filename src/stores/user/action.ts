@@ -138,8 +138,6 @@ export default class Action extends Fetch {
     if (!data) return false
 
     const collection = toJS(this.collection)
-
-    // @ts-expect-error
     collection.list.unshift(data)
     this.setState({
       collection
@@ -394,7 +392,7 @@ export default class Action extends Fetch {
   /** 检查登录状态 */
   checkLogin = () => {
     if (this.isWebLogin) {
-      // 用户信息被动刷新
+      // 检查登录状态是否过期
       if (!APP_PARAMS.lastBoot || getTimestamp() - APP_PARAMS.lastBoot > M1) {
         setTimeout(() => {
           try {
@@ -403,11 +401,16 @@ export default class Action extends Fetch {
         }, 4000)
       }
 
-      // 用户信息被动刷新
+      // 刷新用户信息
       const { _loaded } = this.userInfo
       if (!_loaded || getTimestamp() - _loaded > H6) {
         this.fetchUserInfo()
         this.fetchUsersInfo()
+      }
+
+      // 刷新至少一次用户设置
+      if (this.userSetting._v !== 2) {
+        this.fetchUserSetting()
       }
     }
   }
