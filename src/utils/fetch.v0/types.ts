@@ -7,7 +7,6 @@
 import type {
   Collection as BaseCollection,
   CollectionStatusValue,
-  DeepPartial,
   Images,
   ListEmpty,
   Rating,
@@ -90,7 +89,7 @@ export type UserCollectionItem = {
   subject: BaseSubject
 }
 
-export type UserCollection = ListEmpty<DeepPartial<UserCollectionItem>>
+export type UserCollection = ListEmpty<UserCollectionItem>
 
 export type Users = {
   avatar: {

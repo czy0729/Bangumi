@@ -5,8 +5,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-11-13 12:18:07
  */
-import type { CollectionStatusValue, SubjectTypeValue } from '@constants/model/types'
-import type { Images, SubjectId } from './bangumi'
+import type {
+  CollectionStatusCn,
+  CollectionStatusValue,
+  SubjectTypeValue
+} from '@constants/model/types'
+import type { Id, Images, SubjectId } from './bangumi'
 
 /** https://api.github.com/repos/czy0729/Bangumi/releases/latest */
 export type ResponseGHReleases = {
@@ -35,6 +39,26 @@ export type ResponseApi<T> = T & {
   code?: number
   error?: string
 }
+
+type UserProgress = {
+  subject_id: SubjectId
+  eps: {
+    id: Id
+    status: {
+      id: number
+      css_name: string
+      url_name: string
+      cn_name: CollectionStatusCn
+    }
+  }[]
+}
+
+/**
+ * `${API_HOST}/user/${userId}/progress`
+ *  - 注意请求单个返回对象，多个返回数组
+ *  - 当用户没有收视进度，接口服务器直接返回 null
+ * */
+export type ResponseUserProgress = UserProgress | UserProgress[] | null
 
 /** `${API_HOST}/v0/episodes?subject_id=${subjectId}&type=0&limit=100&offset=1000` */
 export type ResponseV0Episodes = {

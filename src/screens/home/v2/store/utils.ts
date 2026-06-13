@@ -9,10 +9,11 @@ import { desc, findLastIndex, getPinYinFilterValue, x18 } from '@utils'
 import { getOriginConfig } from '@src/screens/user/origin-setting/utils'
 import { TABS_ITEM } from '../ds'
 
+import type { UserProgress } from '@stores/user/types'
+import type { Ep } from '@stores/subject/types'
+import type { UserCollectionItem } from '@utils/fetch.v0/types'
 import type { SubjectId } from '@types'
 import type { Tabs } from '../types'
-import type { UserCollectionItem } from '@stores/user/types'
-import type { Ep } from '@stores/subject/types'
 
 /** 获取置顶映射 */
 export function getTopMap(topList: SubjectId[]) {
@@ -50,10 +51,7 @@ export function getEpsCount(
 }
 
 /** 计算已看章节数量（排除 SP） */
-export function getWatchedCount(
-  userProgress: Record<string, string>,
-  eps: readonly Ep[] | undefined
-) {
+export function getWatchedCount(userProgress: UserProgress, eps: readonly Ep[] | undefined) {
   const epsMap: Record<string, boolean> = {}
   eps.forEach(item => {
     if (item.type !== 1) epsMap[item.id] = true
@@ -67,12 +65,12 @@ export function getWatchedCount(
 }
 
 /** 获取第一个未看章节的索引 */
-export function getFirstUnwatchedIndex(eps: Ep[], userProgress: Record<string, string>) {
+export function getFirstUnwatchedIndex(eps: Ep[], userProgress: UserProgress) {
   return eps.findIndex(item => userProgress[item.id] !== '看过')
 }
 
 /** 获取最后一个已看章节的索引 */
-export function getLastWatchedIndex(eps: Ep[], userProgress: Record<string, string>) {
+export function getLastWatchedIndex(eps: Ep[], userProgress: UserProgress) {
   return findLastIndex(eps, (item: Ep) => userProgress[item.id] === '看过')
 }
 
@@ -193,7 +191,7 @@ export function matchFilter(name: string, filter: string) {
 }
 
 /** 获取下一个未看章节 */
-export function getNextWatchEp(eps: Ep[], userProgress: Record<string, string>) {
+export function getNextWatchEp(eps: Ep[], userProgress: UserProgress) {
   const index = getFirstUnwatchedIndex(eps, userProgress)
   if (index === -1) return {}
   return eps[index]
@@ -215,7 +213,7 @@ export function isZeroBasedEps(eps: readonly Ep[]) {
 }
 
 /** 获取最后一个已看章节的集数 */
-export function getLastWatchedSort(eps: readonly Ep[], userProgress: Record<string, string>) {
+export function getLastWatchedSort(eps: readonly Ep[], userProgress: UserProgress) {
   const reversed = eps.slice().reverse()
   const item = reversed.find(item => userProgress[item.id] === '看过')
   if (!item) return undefined
@@ -224,14 +222,14 @@ export function getLastWatchedSort(eps: readonly Ep[], userProgress: Record<stri
 }
 
 /** 检查是否存在未看的新章节 */
-export function hasNewEp(eps: readonly Ep[], userProgress: Record<string, string>) {
+export function hasNewEp(eps: readonly Ep[], userProgress: UserProgress) {
   return eps.some(
     item => (item.status === 'Air' || item.status === 'Today') && !(item.id in userProgress)
   )
 }
 
 /** 获取可见的章节范围 */
-export function getVisibleEps(eps: Ep[], userProgress: Record<string, string>, maxLength: number) {
+export function getVisibleEps(eps: Ep[], userProgress: UserProgress, maxLength: number) {
   const { length } = eps
   if (length <= maxLength) return eps
 

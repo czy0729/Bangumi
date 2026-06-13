@@ -43,6 +43,7 @@ import type {
   CollectionStatusCn,
   CollectionStatusValue,
   Id,
+  ResponseUserProgress,
   SubjectId,
   SubjectType,
   UserId
@@ -153,49 +154,46 @@ export default class Fetch extends Computed {
 
   /** 获取某人的收视进度 */
   fetchUserProgress = async (subjectId?: SubjectId, userId: UserId = this.myUserId) => {
-    const config = {
-      url: API_USER_PROGRESS(userId),
-      data: {} as {
-        subject_id?: SubjectId
-      },
-      retryCb: () => this.fetchUserProgress(subjectId, userId),
-      info: '收视进度'
-    }
-    if (subjectId) config.data.subject_id = subjectId
+    const STATE_KEY = 'userProgress'
 
-    const data = await fetch(config)
+    let data: ResponseUserProgress
+    try {
+      data = await fetch({
+        url: API_USER_PROGRESS(userId),
+        data: subjectId ? { subject_id: subjectId } : {},
+        retryCb: () => this.fetchUserProgress(subjectId, userId),
+        info: '收视进度'
+      })
 
-    // @issue 当用户没有收视进度, API_USER_PROGRESS 接口服务器直接返回 null
-    // 注意请求单个返回对象, 多个返回数组
-    if (data) {
-      // 统一结构
-      const _data = Array.isArray(data) ? data : [data]
+      const merged: Record<string, UserProgress> = {}
+      const loaded = getTimestamp()
+      if (data) {
+        const items = Array.isArray(data) ? data : [data]
+        items.forEach(item => {
+          if (!item.eps) return
 
-      // 扁平化
-      _data.forEach(item => {
-        if (!item.eps) return
-
-        const userProgress: UserProgress = {
-          _loaded: getTimestamp()
-        }
-        item.eps.forEach(i => (userProgress[i.id] = i.status.cn_name))
-        this.setState({
-          userProgress: {
-            [item.subject_id]: userProgress
+          const userProgress: UserProgress = {
+            _loaded: loaded
           }
+          item.eps.forEach(i => (userProgress[i.id] = i.status.cn_name))
+          merged[item.subject_id] = userProgress
         })
-      })
-    } else {
-      // 没有数据也要记得设置_loaded
-      this.setState({
-        userProgress: {
-          [subjectId]: {
-            _loaded: getTimestamp()
-          }
+      } else if (subjectId) {
+        // 没有数据也要记得设置 _loaded
+        merged[subjectId] = {
+          _loaded: loaded
         }
-      })
+      }
+
+      if (Object.keys(merged).length) {
+        this.setState({
+          [STATE_KEY]: merged
+        })
+        this.save(STATE_KEY)
+      }
+    } catch (error) {
+      this.error('fetchUserProgress', error)
     }
-    this.save('userProgress')
 
     return data
   }

@@ -43,7 +43,8 @@ import State from './state'
 import { INIT_ITEM, NAMESPACE, PAGE_LIMIT_GRID, PAGE_LIMIT_LIST } from './ds'
 
 import type { UserCollections } from '@stores/collection/types'
-import type { UserCollection, UserCollectionItem } from '@stores/user/types'
+import type { UserCollection } from '@stores/user/types'
+import type { UserCollectionItem } from '@utils/fetch.v0/types'
 import type {
   CollectionStatus,
   Id,
@@ -157,8 +158,7 @@ export default class Computed extends State {
       }
 
       if (title === '全部' && systemStore.setting.showGame) {
-        // @ts-expect-error
-        data.list = [...this.sortList(data.list), ...this.games.list]
+        data.list = [...this.sortList(data.list), ...this.games.list] as UserCollectionItem[]
       } else {
         data.list = [...this.sortList(data.list)]
       }

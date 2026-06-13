@@ -1174,6 +1174,7 @@ export default class Action extends Fetch {
     })
     userStore.fetchCollectionSingle(this.subjectId)
     userStore.fetchUserProgress(this.subjectId)
+
     webhookEp(
       {
         ...item,
@@ -1255,6 +1256,7 @@ export default class Action extends Fetch {
     })
     userStore.fetchCollectionSingle(this.subjectId)
     userStore.fetchUserProgress(this.subjectId)
+
     webhookEp(
       {
         ...item,

@@ -504,6 +504,7 @@ export default class Action extends Fetch {
         () => {
           userStore.fetchCollectionSingle(subjectId)
           this.fetchUserProgress(subjectId)
+
           webhookEp(
             {
               ...item,
