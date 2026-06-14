@@ -8,7 +8,7 @@ import React, { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { Flex, HeaderV2, Iconfont, Text, Touchable } from '@components'
 import { _, monoStore, useStore } from '@stores'
-import { open } from '@utils'
+import { getVisualLength, open } from '@utils'
 import { t } from '@utils/fetch'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
@@ -107,11 +107,17 @@ function Header() {
     [$, navigation, picTotal]
   )
 
+  const title = $.name ? $.name : '资产重组'
+  const visualLength = getVisualLength($.name)
+
   return (
     <HeaderV2
       backgroundStyle={_.container.tinygrail}
       headerTitleStyle={styles.headerTitle}
-      title={$.name ? $.name : '资产重组'}
+      headerTitleSize={
+        visualLength >= 12 ? 13 : visualLength >= 10 ? 14 : visualLength >= 8 ? 15 : 16
+      }
+      title={title}
       headerTitleAlign='left'
       hm={$.hm}
       headerRight={handleHeaderRight}

@@ -5,13 +5,12 @@
  * @Last Modified time: 2026-02-07 13:01:29
  */
 import React from 'react'
-import { RefreshControl, ScrollView, View } from 'react-native'
+import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
-import { SCROLL_VIEW_RESET_PROPS } from '@constants'
-import { refreshControlProps } from '@tinygrail/styles'
+import ScrollView from '@tinygrail/_/scroll-view'
 import Depth from '../depth'
 import Form from '../form'
 import Logs from '../logs'
@@ -19,39 +18,30 @@ import Records from '../records'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Scroll({ refreshing, onRefresh }) {
+import type { Ctx } from '../../types'
+
+/** 滚动内容区 */
+function Scroll() {
   r(COMPONENT)
 
-  return useObserver(() => {
-    const styles = memoStyles()
+  const { $ } = useStore<Ctx>()
 
-    return (
-      <ScrollView
-        style={styles.container}
-        refreshControl={
-          <RefreshControl
-            {...refreshControlProps}
-            progressBackgroundColor={_.select(_.colorPlain, _._colorDarkModeLevel2)}
-            colors={[_.colorMain]}
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-          />
-        }
-        {...SCROLL_VIEW_RESET_PROPS}
-      >
-        <Flex style={styles.form} align='start'>
-          <Flex.Item>
-            <Form />
-          </Flex.Item>
-          <View style={styles.depth}>
-            <Depth />
-          </View>
-        </Flex>
-        <Logs />
-        <Records />
-      </ScrollView>
-    )
-  })
+  const styles = memoStyles()
+
+  return (
+    <ScrollView contentContainerStyle={_.container.bottom} onRefresh={$.refresh}>
+      <Flex style={styles.form} align='start'>
+        <Flex.Item>
+          <Form />
+        </Flex.Item>
+        <View style={styles.depth}>
+          <Depth />
+        </View>
+      </Flex>
+      <Logs />
+      <Records />
+    </ScrollView>
+  )
 }
 
-export default Scroll
+export default observer(Scroll)

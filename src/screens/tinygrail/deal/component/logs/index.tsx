@@ -6,115 +6,115 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { formatNumber } from '@utils'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
 
+/** 委托列表 */
 function Logs() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    const styles = memoStyles()
-    const { bids, asks } = $.userLogs
+  const styles = memoStyles()
 
-    return (
-      <Flex style={styles.container} align='start'>
-        <Flex.Item>
-          <Flex>
-            <Flex.Item>
-              <Text type='bid' size={16}>
-                买入委托
-              </Text>
-            </Flex.Item>
-            {!!bids.length && (
-              <Touchable style={[styles.cancel, _.ml.sm]} onPress={() => $.doCancelAll('bid')}>
-                <Iconfont name='md-close' size={14} color={_.colorTinygrailIcon} />
-              </Touchable>
-            )}
-          </Flex>
-          {!bids.length && <Text type='tinygrailText'>-</Text>}
-          {bids
-            .slice()
-            .sort((a, b) => b.price - a.price)
-            .map((item, index) => (
-              <View key={index} style={styles.item}>
-                <Flex>
-                  <Flex.Item>
-                    <Text size={12} type='tinygrailPlain'>
-                      {formatNumber(item.price)}
-                      {item.type === 1 && (
-                        <Text size={12} type='tinygrailText'>
-                          {' '}
-                          [冰山]
-                        </Text>
-                      )}
-                    </Text>
-                  </Flex.Item>
-                  <Text type='tinygrailText' size={12}>
-                    {formatNumber(item.amount, 0)}
+  const { bids, asks } = $.userLogs
+
+  return (
+    <Flex style={styles.container} align='start'>
+      <Flex.Item>
+        <Flex>
+          <Flex.Item>
+            <Text type='bid' size={16}>
+              买入委托
+            </Text>
+          </Flex.Item>
+          {!!bids.length && (
+            <Touchable style={[styles.cancel, _.ml.sm]} onPress={() => $.doCancelAll('bid')}>
+              <Iconfont name='md-close' size={14} color={_.colorTinygrailIcon} />
+            </Touchable>
+          )}
+        </Flex>
+        {!bids.length && <Text type='tinygrailText'>-</Text>}
+        {bids
+          .slice()
+          .sort((a, b) => b.price - a.price)
+          .map((item, index) => (
+            <View key={index} style={styles.item}>
+              <Flex>
+                <Flex.Item>
+                  <Text size={12} type='tinygrailPlain'>
+                    {formatNumber(item.price)}
+                    {item.type === 1 && (
+                      <Text size={12} type='tinygrailText'>
+                        {' '}
+                        [冰山]
+                      </Text>
+                    )}
                   </Text>
-                  <Touchable
-                    style={[styles.cancel, _.ml.sm]}
-                    onPress={() => $.doCancel('bid', item.id)}
-                  >
-                    <Iconfont name='md-close' size={14} color={_.colorTinygrailIcon} />
-                  </Touchable>
-                </Flex>
-              </View>
-            ))}
-        </Flex.Item>
-        <Flex.Item style={_.ml.wind}>
-          <Flex>
-            <Flex.Item>
-              <Text type='ask' size={16}>
-                卖出委托
-              </Text>
-            </Flex.Item>
-            {!!asks.length && (
-              <Touchable style={[styles.cancel, _.ml.sm]} onPress={() => $.doCancelAll('ask')}>
-                <Iconfont name='md-close' size={14} color={_.colorTinygrailIcon} />
-              </Touchable>
-            )}
-          </Flex>
-          {!asks.length && <Text type='tinygrailText'>-</Text>}
-          {asks
-            .slice()
-            .sort((a, b) => a.price - b.price)
-            .map((item, index) => (
-              <View key={index} style={styles.item}>
-                <Flex>
-                  <Flex.Item>
-                    <Text size={12} type='tinygrailPlain'>
-                      {formatNumber(item.price)}
-                      {item.type === 1 && (
-                        <Text size={12} type='tinygrailText'>
-                          {' '}
-                          [冰山]
-                        </Text>
-                      )}
-                    </Text>
-                  </Flex.Item>
-                  <Text type='tinygrailText' size={12}>
-                    {formatNumber(item.amount, 0)}
+                </Flex.Item>
+                <Text type='tinygrailText' size={12}>
+                  {formatNumber(item.amount, 0)}
+                </Text>
+                <Touchable
+                  style={[styles.cancel, _.ml.sm]}
+                  onPress={() => $.doCancel('bid', item.id)}
+                >
+                  <Iconfont name='md-close' size={14} color={_.colorTinygrailIcon} />
+                </Touchable>
+              </Flex>
+            </View>
+          ))}
+      </Flex.Item>
+      <Flex.Item style={_.ml.wind}>
+        <Flex>
+          <Flex.Item>
+            <Text type='ask' size={16}>
+              卖出委托
+            </Text>
+          </Flex.Item>
+          {!!asks.length && (
+            <Touchable style={[styles.cancel, _.ml.sm]} onPress={() => $.doCancelAll('ask')}>
+              <Iconfont name='md-close' size={14} color={_.colorTinygrailIcon} />
+            </Touchable>
+          )}
+        </Flex>
+        {!asks.length && <Text type='tinygrailText'>-</Text>}
+        {asks
+          .slice()
+          .sort((a, b) => a.price - b.price)
+          .map((item, index) => (
+            <View key={index} style={styles.item}>
+              <Flex>
+                <Flex.Item>
+                  <Text size={12} type='tinygrailPlain'>
+                    {formatNumber(item.price)}
+                    {item.type === 1 && (
+                      <Text size={12} type='tinygrailText'>
+                        {' '}
+                        [冰山]
+                      </Text>
+                    )}
                   </Text>
-                  <Touchable
-                    style={[styles.cancel, _.ml.sm]}
-                    onPress={() => $.doCancel('ask', item.id)}
-                  >
-                    <Iconfont name='md-close' size={14} color={_.colorTinygrailIcon} />
-                  </Touchable>
-                </Flex>
-              </View>
-            ))}
-        </Flex.Item>
-      </Flex>
-    )
-  })
+                </Flex.Item>
+                <Text type='tinygrailText' size={12}>
+                  {formatNumber(item.amount, 0)}
+                </Text>
+                <Touchable
+                  style={[styles.cancel, _.ml.sm]}
+                  onPress={() => $.doCancel('ask', item.id)}
+                >
+                  <Iconfont name='md-close' size={14} color={_.colorTinygrailIcon} />
+                </Touchable>
+              </Flex>
+            </View>
+          ))}
+      </Flex.Item>
+    </Flex>
+  )
 }
 
-export default Logs
+export default observer(Logs)

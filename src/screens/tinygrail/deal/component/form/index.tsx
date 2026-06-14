@@ -6,9 +6,9 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import Btns from './btns'
 import Slider from './slider'
 import Stepper from './stepper'
@@ -16,21 +16,20 @@ import Submit from './submit'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+/** 交易表单 */
 function Form() {
   r(COMPONENT)
 
-  return useObserver(() => {
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    return (
-      <View style={styles.container}>
-        <Btns />
-        <Stepper style={_.mt.md} />
-        <Slider style={_.mt.md} />
-        <Submit style={_.mt.sm} />
-      </View>
-    )
-  })
+  return (
+    <View style={styles.container}>
+      <Btns />
+      <Stepper style={_.mt.md} />
+      <Slider style={_.mt.md} />
+      <Submit style={_.mt.sm} />
+    </View>
+  )
 }
 
-export default Form
+export default observer(Form)

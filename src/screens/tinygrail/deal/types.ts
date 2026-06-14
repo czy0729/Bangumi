@@ -4,22 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-02-07 11:10:39
  */
-import { factory } from '@utils'
-import Store from './store'
+import type { GetRouteParams, RouteTinygrailDeal, WithNavigation } from '@types'
+import type Store from './store'
 
-import type { MonoId, Navigation } from '@types'
+export type Ctx = WithNavigation<{
+  $: InstanceType<typeof Store>
+}>
 
-const f = factory(Store)
-
-export type StoreType = typeof f
-
-export type Ctx = {
-  $: StoreType
-  navigation?: Navigation
-}
-
-export type Params = {
-  monoId?: MonoId
-  type?: 'bid' | 'asks'
-  form?: 'trade' | 'sacrifice'
-}
+export type Params = GetRouteParams<RouteTinygrailDeal>

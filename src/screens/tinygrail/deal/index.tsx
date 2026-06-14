@@ -5,34 +5,30 @@
  * @Last Modified time: 2026-02-07 11:10:30
  */
 import React from 'react'
-import { Component, Page } from '@components'
+import { observer } from 'mobx-react'
+import { Component } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
+import TinygrailPage from '@tinygrail/_/page'
 import Scroll from './component/scroll'
 import Header from './header'
 import { useTinygrailDealPage } from './hooks'
-import { memoStyles } from './styles'
 
 import type { NavigationProps } from '@types'
 
 /** 交易 */
-const TinygrailDeal = (props: NavigationProps) => {
-  const { id, refreshing, handleRefresh } = useTinygrailDealPage(props)
+function TinygrailDeal(props: NavigationProps) {
+  const { id } = useTinygrailDealPage(props)
 
-  return useObserver(() => {
-    const styles = memoStyles()
-
-    return (
-      <Component id='screen-tinygrail-deal'>
-        <StoreContext.Provider value={id}>
-          <Page style={styles.container}>
-            <Header />
-            <Scroll refreshing={refreshing} onRefresh={handleRefresh} />
-          </Page>
-        </StoreContext.Provider>
-      </Component>
-    )
-  })
+  return (
+    <Component id='screen-tinygrail-deal'>
+      <StoreContext.Provider value={id}>
+        <TinygrailPage header={false}>
+          <Header />
+          <Scroll />
+        </TinygrailPage>
+      </StoreContext.Provider>
+    </Component>
+  )
 }
 
-export default TinygrailDeal
+export default observer(TinygrailDeal)

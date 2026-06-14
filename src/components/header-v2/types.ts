@@ -41,7 +41,7 @@ export type Props = {
   /** 标题容器样式 */
   headerTitleStyle?: ViewStyle
 
-  /** 标题文字大小 */
+  /** 标题文字大小 (默认：16) */
   headerTitleSize?: number
 
   /** 标题对齐 */

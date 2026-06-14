@@ -6,48 +6,48 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Input, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { stl } from '@utils'
-import { useObserver } from '@utils/hooks'
 import { memoStyles } from './styles'
 
 import type { Ctx } from '../../../types'
 
+/** 步进器 */
 function Stepper({ style }) {
   const { $ } = useStore<Ctx>()
 
-  return useObserver(() => {
-    const styles = memoStyles()
-    const { value } = $.state
+  const styles = memoStyles()
 
-    return (
-      <Flex style={stl(styles.stepper, style)}>
-        <Flex.Item>
-          <Input
-            style={styles.input}
-            keyboardType='numeric'
-            value={String(value)}
-            colorClear={_.colorTinygrailText}
-            clearButtonMode='never'
-            onChangeText={$.changeValue}
-          />
-        </Flex.Item>
-        <Touchable onPress={$.stepMinus}>
-          <Flex style={[styles.step, styles.stepMinus]} justify='center'>
-            <View style={styles.minus} />
-          </Flex>
-        </Touchable>
-        <View style={styles.split} />
-        <Touchable onPress={$.stepPlus}>
-          <Flex style={styles.step} justify='center'>
-            <View style={styles.minus} />
-            <View style={styles.plus} />
-          </Flex>
-        </Touchable>
-      </Flex>
-    )
-  })
+  const { value } = $.state
+
+  return (
+    <Flex style={stl(styles.stepper, style)}>
+      <Flex.Item>
+        <Input
+          style={styles.input}
+          keyboardType='numeric'
+          value={String(value)}
+          colorClear={_.colorTinygrailText}
+          clearButtonMode='never'
+          onChangeText={$.changeValue}
+        />
+      </Flex.Item>
+      <Touchable onPress={$.stepMinus}>
+        <Flex style={[styles.step, styles.stepMinus]} justify='center'>
+          <View style={styles.minus} />
+        </Flex>
+      </Touchable>
+      <View style={styles.split} />
+      <Touchable onPress={$.stepPlus}>
+        <Flex style={styles.step} justify='center'>
+          <View style={styles.minus} />
+          <View style={styles.plus} />
+        </Flex>
+      </Touchable>
+    </Flex>
+  )
 }
 
-export default Stepper
+export default observer(Stepper)

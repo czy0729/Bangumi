@@ -67,11 +67,13 @@ export function useXxxPage(props: NavigationProps) {
 ## index.tsx
 
 ```ts
+import React from 'react'
 import { observer } from 'mobx-react'
 import { Component, StoreContext } from '@stores'
 import { useXxxPage } from './hooks'
 
-export default observer(function ScreenXxx(props: NavigationProps) {
+/** 页面描述 */
+function ScreenXxx(props: NavigationProps) {
   const { id, $ } = useXxxPage(props)
   return (
     <Component id='screen-xxx'>
@@ -81,7 +83,9 @@ export default observer(function ScreenXxx(props: NavigationProps) {
       </StoreContext.Provider>
     </Component>
   )
-})
+}
+
+export default observer(ScreenXxx)
 ```
 
 ## store/ds.ts
@@ -106,6 +110,7 @@ State → Computed → Fetch → Action → ScreenXxx
 ## 子组件访问 Store
 
 ```ts
+import React from 'react'
 import { observer } from 'mobx-react'
 import { rc } from '@utils/dev'
 import { useStore } from '@stores'
@@ -114,6 +119,7 @@ import { Ctx } from '../types'
 
 export const COMPONENT = rc(PARENT, 'Info')
 
+/** 组件描述 */
 function Info() {
   const { $ } = useStore<Ctx>(COMPONENT)
   return (
@@ -126,7 +132,7 @@ export default observer(Info)
 
 所有组件统一用 `observer()` 包裹，不使用 `useObserver` 或 `ob`。
 
-> 页面使用内联写法 `export default observer(function Xxx() {})`，子组件使用命名函数 + 底部导出 `export default observer(Xxx)`。
+> 页面和子组件统一使用命名函数 + 底部导出 `export default observer(Xxx)` 的分体写法。
 
 ## 代码风格要求
 

@@ -88,6 +88,7 @@ export type NavigationPushType = RouteActions &
   RouteTags &
   RouteTinygrail &
   RouteTinygrailCharaAssets &
+  RouteTinygrailDeal &
   RouteTips &
   RouteTopic &
   RouteTyperank &
@@ -852,5 +853,19 @@ export type RouteTinygrailCharaAssets = Route<
     userName?: string
     message?: string
     form?: 'lottery' | undefined
+  }
+>
+
+export type RouteTinygrailDeal = Route<
+  'TinygrailDeal',
+  {
+    /** 人物 ID */
+    monoId?: MonoId
+
+    /** 交易类型 */
+    type?: 'bid' | 'asks'
+
+    /** 来源页面 */
+    form?: 'trade' | 'sacrifice'
   }
 >

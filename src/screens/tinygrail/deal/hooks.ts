@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-02-07 11:10:47
  */
-import { useCallback, useState } from 'react'
 import { useInitStore } from '@stores'
 import { hm } from '@utils/fetch'
 import { useMount, useRunAfter } from '@utils/hooks'
@@ -26,22 +25,5 @@ export function useTinygrailDealPage(props: NavigationProps) {
     hm(`tinygrail/deal/${$.monoId}`, 'TinygrailDeal')
   })
 
-  const [refreshing, setRefreshing] = useState(false)
-  const handleRefresh = useCallback(() => {
-    setRefreshing(true)
-
-    setTimeout(async () => {
-      await $.refresh()
-
-      setTimeout(() => {
-        setRefreshing(false)
-      }, 1200)
-    }, 0)
-  }, [$])
-
-  return {
-    ...context,
-    refreshing,
-    handleRefresh
-  }
+  return context
 }

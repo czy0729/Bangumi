@@ -7,15 +7,11 @@
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
-  container: {
-    flex: 1,
-    backgroundColor: _.colorTinygrailContainer
-  },
   form: {
     paddingRight: _.wind - _._wind
   },
   depth: {
-    width: _.window.contentWidth * 0.44,
+    width: Math.floor(_.window.contentWidth * 0.44),
     marginLeft: 18
   }
 }))
