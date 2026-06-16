@@ -5,19 +5,25 @@
  * @Last Modified time: 2024-11-19 18:59:11
  */
 import { useInitStore } from '@stores'
-import { useRunAfter } from '@utils/hooks'
-import { NavigationProps } from '@types'
+import { usePageLifecycle } from '@utils/hooks'
 import store from './store'
-import { Ctx } from './types'
+
+import type { NavigationProps } from '@types'
+import type { Ctx } from './types'
 
 /** 每周萌王页面逻辑 */
 export function useTinygrailTopWeekPage(props: NavigationProps) {
   const context = useInitStore<Ctx['$']>(props, store)
-  const { $ } = context
+  const { id, $ } = context
 
-  useRunAfter(() => {
-    $.init()
-  })
+  usePageLifecycle(
+    {
+      onEnterComplete() {
+        $.init()
+      }
+    },
+    id
+  )
 
   return context
 }

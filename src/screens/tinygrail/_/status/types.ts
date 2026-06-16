@@ -8,4 +8,5 @@ import type { Id, WithViewStyles } from '@types'
 
 export type Props = WithViewStyles<{
   id: Id
+  showMenu?: boolean
 }>

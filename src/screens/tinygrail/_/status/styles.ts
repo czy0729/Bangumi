@@ -23,5 +23,8 @@ export const memoStyles = _.memoStyles(() => ({
   },
   auction: {
     backgroundColor: _.colorWarning
+  },
+  popover: {
+    padding: 8
   }
 }))

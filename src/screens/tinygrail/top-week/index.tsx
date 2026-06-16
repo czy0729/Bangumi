@@ -5,21 +5,22 @@
  * @Last Modified time: 2025-07-27 05:10:54
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Component } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import TinygrailPage from '@tinygrail/_/page'
-import { NavigationProps } from '@types'
 import List from './component/list'
 import ToolBar from './component/tool-bar'
 import Header from './header'
 import { useTinygrailTopWeekPage } from './hooks'
 
+import type { NavigationProps } from '@types'
+
 /** 每周萌王 */
-const TinygrailTopWeek = (props: NavigationProps) => {
+function TinygrailTopWeek(props: NavigationProps) {
   const { id } = useTinygrailTopWeekPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-tinygrail-top-week'>
       <StoreContext.Provider value={id}>
         <TinygrailPage>
@@ -29,7 +30,7 @@ const TinygrailTopWeek = (props: NavigationProps) => {
         <Header />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default TinygrailTopWeek
+export default observer(TinygrailTopWeek)

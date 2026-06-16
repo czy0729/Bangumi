@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-11-09 06:40:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-29 22:27:01
+ * @Last Modified time: 2026-06-16 04:50:40
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   item: {
-    height: 132,
+    height: 128,
     paddingHorizontal: _.sm
   },
   itemLg: {
-    height: 164
+    height: 152
   },
   itemMd: {
-    height: 148
+    height: 144
   },
   avatar: {
     backgroundColor: _.select(_.colorTinygrailBg, _._colorDarkModeLevel2)
@@ -43,5 +43,11 @@ export const memoStyles = _.memoStyles(() => ({
   recXs: {
     ..._.fontSize(32),
     color: _.colorTinygrailText
+  },
+  status: {
+    position: 'absolute',
+    zIndex: 1,
+    right: 4,
+    bottom: 4
   }
 }))
