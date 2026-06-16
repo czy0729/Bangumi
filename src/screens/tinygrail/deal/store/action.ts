@@ -11,7 +11,7 @@ import Computed from './computed'
 import { NAMESPACE } from './ds'
 
 export default class Action extends Computed {
-  prev: any = 0
+  private _prev: string | number = 0
 
   refresh = () => {
     return queue([
@@ -71,10 +71,10 @@ export default class Action extends Computed {
     if (v && !/^(([1-9]\d*)|0)(\.\d{0,2}?)?$/.test(v)) {
       if (v === '.') return '0.'
       if (!v) return ''
-      return this.prev
+      return this._prev
     }
 
-    this.prev = v
+    this._prev = v
     return v
   }
 

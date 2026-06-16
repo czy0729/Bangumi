@@ -122,8 +122,8 @@ function ItemTemple({
         </Text>
       )}
       {showStatus && (
-        <Flex style={_.mt.xs} justify='center'>
-          <TinygrailStatus id={id} />
+        <Flex justify='center'>
+          <TinygrailStatus id={id} showMenu />
         </Flex>
       )}
     </View>

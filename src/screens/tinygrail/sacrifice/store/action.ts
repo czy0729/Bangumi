@@ -190,6 +190,8 @@ export default class Action extends Fetch {
       auctionAmount: 0
     })
     this.refresh()
+
+    tinygrailStore.fetchAuction()
   }
 
   /** 灌注星之力 */

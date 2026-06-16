@@ -25,9 +25,7 @@ export const memoStyles = _.memoStyles(() => ({
   status: {
     position: 'absolute',
     zIndex: 1,
-    right: _.wind,
-    bottom: 3,
-    height: 10,
-    marginRight: -1
+    right: _.wind - 9,
+    bottom: -2
   }
 }))

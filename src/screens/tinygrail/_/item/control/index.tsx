@@ -75,7 +75,7 @@ function Control(props: Props) {
           )}
         </>
       )}
-      {showStatus && <TinygrailStatus style={styles.status} id={id} />}
+      {showStatus && <TinygrailStatus style={styles.status} id={id} showMenu />}
     </Flex>
   )
 }

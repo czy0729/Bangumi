@@ -88,13 +88,7 @@ function Detail() {
             )}
           </>
         )}
-        <TinygrailStatus
-          style={{
-            marginLeft: _.xs,
-            marginTop: 1
-          }}
-          id={$.monoId}
-        />
+        <TinygrailStatus id={$.monoId} showMenu />
       </Flex>
     </View>
   )

@@ -8,19 +8,17 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   container: {
-    paddingLeft: _.wind,
+    paddingHorizontal: _.wind,
     backgroundColor: _.colorTinygrailContainer
   },
-  wrap: {
-    paddingRight: _.wind
-  },
-  item: {
-    paddingVertical: _.md
+  content: {
+    paddingVertical: _.md,
+    paddingRight: _.sm
   },
   status: {
     position: 'absolute',
     zIndex: 1,
-    right: 8,
-    bottom: -12
+    right: 0,
+    bottom: -22
   }
 }))

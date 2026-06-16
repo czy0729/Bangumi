@@ -29,18 +29,18 @@ function Progress({ style, size = 'md', assets, sacrifices, refine = 0, star }: 
     barColor = _.colorDanger
   } else if (assets && sacrifices) {
     percent = Math.max(Math.min(assets / sacrifices, 1), 0.06)
-    if (assets > sacrifices || (refine >= 10 && assets + refine >= sacrifices)) {
+    if (sacrifices < 500) {
+      barColor = _.colorDisabled
+    } else if (assets > sacrifices || (refine >= 10 && assets + refine >= sacrifices)) {
       barColor = _.colorPrimary
     } else if (assets >= sacrifices) {
       barColor = _.colorSuccess
-    } else {
-      if (sacrifices < 500 || assets < 250) {
-        barColor = _.colorDisabled
-      } else if (percent <= 0.3) {
-        barColor = _.colorDanger
-      } else if (percent <= 0.5) {
-        barColor = _.colorWarning
-      }
+    } else if (assets < 250) {
+      barColor = _.colorDisabled
+    } else if (percent <= 0.3) {
+      barColor = _.colorDanger
+    } else if (percent <= 0.5) {
+      barColor = _.colorWarning
     }
   }
 
