@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-02-27 12:19:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-15 06:26:14
+ * @Last Modified time: 2026-06-17 19:54:36
  */
 import React, { useCallback, useEffect, useState } from 'react'
-import { Image as RNImage } from 'react-native'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
-import { Flex, Iconfont, Input, Text, Touchable } from '@components'
+import { Flex, Iconfont, Input, RNImage, Text, Touchable } from '@components'
 import { ItemSetting } from '@_'
 import { _ } from '@stores'
 import { info } from '@utils'
@@ -47,7 +46,7 @@ function UpdateTourist() {
       const data = await doLogin(config, captcha)
       if (!data) info('login fail')
 
-      await update('tourist', data)
+      await update('tourist', data as object)
       info('update db success')
     } catch (error) {
       info('catch error: login fail')

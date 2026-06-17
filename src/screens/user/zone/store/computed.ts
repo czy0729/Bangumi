@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2024-04-08 12:49:58
- * @Last Modified by: imagebuilder1837
- * @Last Modified time: 2026-05-22 02:56:51
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-06-17 19:42:15
  */
 import { computed } from 'mobx'
 import { fixedHD, getCDNAvatar } from '@components/avatar/utils'
@@ -20,6 +20,7 @@ import { USER_STATS_TYPES } from '@stores/users/ds'
 import { INIT_USER_STATS } from '@stores/users/init'
 import { getBlurRadius, HTMLDecode } from '@utils'
 import { logger } from '@utils/dev'
+import { applyLainProxy } from '@utils/proxy'
 import { fixedRemote } from '@utils/user-setting'
 import { IMG_EMPTY_DARK, TEXT_ONLY } from '@constants'
 import { COLLECTION_TYPES, H_HEADER, TABS, TABS_WITH_TINYGRAIL } from '../ds'
@@ -198,7 +199,7 @@ export default class Computed extends State {
       source = IMG_EMPTY_DARK
     } else {
       if (typeof _image === 'string' && !!_image) source.uri = _image
-      source.uri = fixedHD(this.bg || this.avatar || source.uri)
+      source.uri = applyLainProxy(fixedHD(this.bg || this.avatar || source.uri))
     }
 
     return source

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2025-06-18 03:19:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-08 21:16:04
+ * @Last Modified time: 2026-06-17 19:53:42
  */
 import React, { useCallback, useRef } from 'react'
-import { findNodeHandle, Image, UIManager, View } from 'react-native'
+import { findNodeHandle, UIManager, View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Touchable } from '@components'
+import { RNImage, Touchable } from '@components'
 import { systemStore } from '@stores'
 import { s2t } from '@utils/thirdParty/open-cc'
 import { FROZEN_FN } from '@constants'
@@ -16,15 +16,7 @@ import { memoStyles } from './styles'
 
 import type { Props } from './types'
 
-function Main({
-  width,
-  height,
-  data,
-  image,
-  onPress,
-  onSelect,
-  onError
-}: Props) {
+function Main({ width, height, data, image, onPress, onSelect, onError }: Props) {
   const viewRef = useRef<View>(null)
 
   const handleLongPress = useCallback(() => {
@@ -57,7 +49,7 @@ function Main({
         onLongPress={handleLongPress}
         withoutFeedback
       >
-        <Image
+        <RNImage
           style={{ width, height }}
           fadeDuration={280}
           source={{ uri: getURI(image) }}

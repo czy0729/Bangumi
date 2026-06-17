@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-11-23 06:15:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-17 17:31:13
+ * @Last Modified time: 2026-06-17 20:32:04
  */
-import { Image } from 'react-native'
+import { Image as RNImage } from 'react-native'
 import ImageCacheManager from '@utils/thirdParty/image-cache-manager'
 
-export default Image
+export default RNImage
 
 export async function clearCache() {
   try {

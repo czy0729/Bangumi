@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2025-06-18 02:28:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-08 22:09:49
+ * @Last Modified time: 2026-06-17 19:53:16
  */
 import React, { useCallback, useMemo } from 'react'
-import { Image } from 'react-native'
 import { observer } from 'mobx-react'
-import { Touchable } from '@components'
+import { RNImage, Touchable } from '@components'
 import { Popover } from '@_'
 import { getURI } from '../../../utils'
 import { memoStyles } from './styles'
@@ -24,7 +23,7 @@ function Main({ width, height, data, image, onPress, onSelect, onError }: Props)
   const elImage = useMemo(
     () => (
       <Touchable style={styles.image} withoutFeedback onPress={onPress}>
-        <Image
+        <RNImage
           style={{ width, height }}
           fadeDuration={280}
           source={{ uri: getURI(image) }}

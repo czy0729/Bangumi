@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-08-16 10:57:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 04:01:06
+ * @Last Modified time: 2026-06-17 20:30:17
  */
 import React, { useCallback, useEffect } from 'react'
-import { Image, View } from 'react-native'
+import { View } from 'react-native'
 import Animated, {
   cancelAnimation,
   Easing,
@@ -18,6 +18,7 @@ import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
 import { Flex } from '../flex'
+import { RNImage } from '../image'
 import { COMPONENT, HALF_CIRCLE } from './ds'
 import { memoStyles } from './styles'
 
@@ -78,7 +79,7 @@ export const Spinner = observer(({ style, backgroundColor = 'transparent' }: Spi
             }
           ]}
         >
-          <Image style={styles.image} source={HALF_CIRCLE} resizeMode='contain' />
+          <RNImage style={styles.image} source={HALF_CIRCLE} resizeMode='contain' />
         </Animated.View>
       ) : (
         <Animated.View style={[styles.circle, animatedStyle]}>

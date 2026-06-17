@@ -2,15 +2,25 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-23 23:07:33
+ * @Last Modified time: 2026-06-17 20:29:43
  */
 import React from 'react'
-import { Image as RNImage, View } from 'react-native'
+import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
-import { Button, Flex, Heatmap, Iconfont, Input, Mesume, Text, Touchable } from '@components'
+import {
+  Button,
+  Flex,
+  Heatmap,
+  Iconfont,
+  Input,
+  Mesume,
+  RNImage,
+  Text,
+  Touchable
+} from '@components'
 import { _ } from '@stores'
 import { alert } from '@utils'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { FROZEN_FN, WEB } from '@constants'
 import i18n from '@constants/i18n'
@@ -339,4 +349,4 @@ class Form extends React.Component<Props> {
   }
 }
 
-export default ob(Form)
+export default observer(Form)

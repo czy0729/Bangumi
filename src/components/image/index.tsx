@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-06 00:38:48
+ * @Last Modified time: 2026-06-17 19:51:19
  */
 import React from 'react'
 import { Image as RNImage } from 'react-native'
@@ -47,6 +47,9 @@ import {
   RETRY_DISTANCE
 } from './ds'
 import { memoStyles } from './styles'
+
+// 项目中若需要使用原本的 RN Image Component，也需在这里引入以便统一管理
+export { RNImage }
 
 // @ts-ignore
 import type { ImageErrorEvent } from 'react-native'
