@@ -90,3 +90,14 @@ export type TinygrailStarLogsItem = {
   userId: number
   userName: string
 }
+
+export type TinygrailRedPacketLogItem = {
+  id: number
+  userId: number
+  relatedName: string
+  change: number
+  description: string
+  logTime: string
+  type: number
+  state: number
+}

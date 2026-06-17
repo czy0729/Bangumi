@@ -10,13 +10,13 @@ import { autorun } from 'mobx'
 import { observer } from 'mobx-react'
 import { ActionSheet, Flex, Iconfont, Input, Modal, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
-
 import { COMPONENT, LINKS } from './ds'
 import { memoStyles } from './styles'
 
 import type { InputInstance } from '@components'
 import type { Ctx } from '../../types'
-const LinkModal = () => {
+
+function LinkModal() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   const [show, setShow] = useState(false)

@@ -31,6 +31,7 @@ import {
   API_TINYGRAIL_MY_AUCTION_LIST,
   API_TINYGRAIL_MY_CHARA_ASSETS,
   API_TINYGRAIL_MY_TEMPLE,
+  API_TINYGRAIL_RED_PACKET_LOG,
   API_TINYGRAIL_REFINE_TEMPLE,
   API_TINYGRAIL_RICH,
   API_TINYGRAIL_STAR,
@@ -2086,5 +2087,40 @@ export default class Fetch extends Computed {
     }
 
     return this[key]
+  }
+
+  /** 红包记录 */
+  fetchRedPacketLog = async (userId: UserId, page: number = 1) => {
+    const STATE_KEY = 'redPacketLog'
+    const ITEM_KEY = userId
+
+    try {
+      const result = await this.fetch(API_TINYGRAIL_RED_PACKET_LOG(userId, page, 100))
+      const { State, Value } = result.data
+      if (State === 0) {
+        this.setState({
+          [STATE_KEY]: {
+            [ITEM_KEY]: {
+              list: Value.Items.map((item: any) => ({
+                id: item.Id,
+                userId: item.UserId,
+                relatedName: item.RelatedName,
+                change: item.Change,
+                description: item.Description,
+                logTime: item.LogTime,
+                type: item.Type,
+                state: item.State
+              })),
+              pagination: paginationOnePage,
+              _loaded: getTimestamp()
+            }
+          }
+        })
+      }
+    } catch (error) {
+      this.error('fetchRedPacketLog', error)
+    }
+
+    return this[STATE_KEY](ITEM_KEY)
   }
 }

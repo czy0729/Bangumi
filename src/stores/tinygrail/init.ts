@@ -6,9 +6,10 @@
  */
 import { LIST_EMPTY } from '@constants'
 
-import type { Id, ListEmpty, Loaded, MonoId } from '@types'
+import type { Id, ListEmpty, Loaded, MonoId, UserId } from '@types'
 import type {
   TinygrailItemsItem,
+  TinygrailRedPacketLogItem,
   TinygrailStarLogsItem,
   TinygrailTopWeekHistoryItem,
   TinygrailTopWeekItem
@@ -392,6 +393,9 @@ export const STATE = {
   /** 检测用户有多少角色 */
   charaTotal: {},
 
+  /** 红包记录 */
+  redPacketLog: {} as Record<UserId, ListEmpty<TinygrailRedPacketLogItem>>,
+
   /** 卖一推荐 */
   advanceList: LIST_EMPTY,
 
@@ -475,6 +479,7 @@ export const LOADED = {
   myTemple: false,
   nbc: false,
   recent: false,
+  redPacketLog: false,
   refine_temple: false,
   rich: false,
   star: false,

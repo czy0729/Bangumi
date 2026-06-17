@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-10-24 20:17:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-13 23:04:43
+ * @Last Modified time: 2026-06-17 18:55:20
  */
 import { computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import { getTimestamp } from '@utils'
-import { LIST_EMPTY } from '@constants'
+import { FROZEN_OBJECT, LIST_EMPTY } from '@constants'
 import { levelList, sortList } from '@tinygrail/_/utils'
 import State from './state'
 
@@ -85,6 +85,8 @@ export default class Computed extends State {
 
   /** 角色列表 (等级筛选、排序) */
   @computed get charaList() {
+    if (!this.originalChara.list?.length) return LIST_EMPTY
+
     const { sort, level, direction } = this.state
 
     // 如果不需要筛选和排序，直接返回原始数据
@@ -105,7 +107,10 @@ export default class Computed extends State {
 
   /** 角色列表等级映射 */
   @computed get levelMap() {
-    return this.originalChara.list.reduce((acc, { level }) => {
+    const { list } = this.originalChara
+    if (!list?.length) return FROZEN_OBJECT
+
+    return list.reduce((acc, { level }) => {
       acc[level] = (acc[level] || 0) + 1
       return acc
     }, {})
@@ -122,7 +127,10 @@ export default class Computed extends State {
 
   /** 角色列表持股数映射 */
   @computed get amountMap() {
-    return Object.fromEntries(this.originalChara.list.map(item => [item.id, item.state]))
+    const { list } = this.originalChara
+    if (!list?.length) return FROZEN_OBJECT
+
+    return Object.fromEntries(list.map(item => [item.id, item.state]))
   }
 
   amount(id: Id) {

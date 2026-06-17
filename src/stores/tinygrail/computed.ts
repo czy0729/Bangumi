@@ -21,7 +21,7 @@ import { defaultKey, defaultSort, paginationOnePage } from './ds'
 
 import type { Id, ListEmpty, MonoId, StoreConstructor, UserId } from '@types'
 import type { STATE } from './init'
-import type { Characters, ListKey, MyTemple } from './types'
+import type { Characters, ListKey, MyTemple, TinygrailRedPacketLogItem } from './types'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   /** 授权 cookie */
@@ -366,6 +366,16 @@ export default class Computed extends State implements StoreConstructor<typeof S
   charaTotal(hash: UserId) {
     return computed<number>(() => {
       return this.state.charaTotal[hash] || 0
+    }).get()
+  }
+
+  /** 红包记录 */
+  redPacketLog(userId: UserId) {
+    const STATE_KEY = 'redPacketLog'
+
+    return computed(() => {
+      const ITEM_KEY = userId
+      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as ListEmpty<TinygrailRedPacketLogItem>
     }).get()
   }
 

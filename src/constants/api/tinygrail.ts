@@ -309,6 +309,14 @@ export const API_TINYGRAIL_MAGIC = (
 /* 活动 / 奖励                                                                 */
 /* -------------------------------------------------------------------------- */
 
+/** 发红包 */
+export const API_TINYGRAIL_SEND_RED_PACKET = (userId: UserId, amount: number, message: string) =>
+  `${API_HOST_TINYGRAIL}/api/event/send/${userId}/${amount}/${encodeURIComponent(message)}`
+
+/** 红包记录 */
+export const API_TINYGRAIL_RED_PACKET_LOG = (userId: UserId, page: number = 1, limit: number = 100) =>
+  `${API_HOST_TINYGRAIL}/api/chara/user/send/log/${userId}/${page}/${limit}`
+
 /** 每周分红 */
 export const API_TINYGRAIL_BONUS = () => `${API_HOST_TINYGRAIL}/api/event/share/bonus`
 

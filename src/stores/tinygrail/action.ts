@@ -39,6 +39,7 @@ import {
   API_TINYGRAIL_SCRATCH,
   API_TINYGRAIL_SCRATCH2,
   API_TINYGRAIL_SEARCH,
+  API_TINYGRAIL_SEND_RED_PACKET,
   SDK
 } from '@constants'
 import systemStore from '../system'
@@ -362,12 +363,9 @@ export default class Action extends Fetch {
     return data
   }
 
-  /** 新年快乐 */
-  doSend = async (count: number = 10000, userId: UserId = 'sukaretto') => {
-    const { data } = await this.fetch(
-      `https://tinygrail.com/api/event/send/${userId}/${count}`,
-      true
-    )
+  /** 发红包 */
+  doSendRedPacket = async (userId: UserId, amount: number = 10000, message: string = '') => {
+    const { data } = await this.fetch(API_TINYGRAIL_SEND_RED_PACKET(userId, amount, message), true)
     return data
   }
 
