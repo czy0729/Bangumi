@@ -1,0 +1,22 @@
+[package]
+name = "ech-proxy"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "echproxy"
+crate-type = ["cdylib"]
+
+[dependencies]
+openssl-sys = "0.9"
+openssl = "0.10"
+foreign-types-shared = "0.1"
+parking_lot = "0.12"
+rcgen = "0.13"
+rustls = { version = "0.23", default-features = false, features = ["ring", "std", "tls12"] }
+rustls-pemfile = "2"
+base64 = "0.22"
+jni = "0.21"
+
+[build-dependencies]
+cc = "1"

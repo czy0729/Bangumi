@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-02 03:11:00
+ * @Last Modified time: 2026-06-18 06:54:32
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
@@ -34,7 +34,7 @@ export const INVIEW_SHOW = false
 export const ANDROID_DEV_MENU = true
 
 /** 是否不显示图片 (开发用) false 是为了打包后的 apk 稳定显示图片 */
-export const TEXT_ONLY = DEV ? !DEV : false
+export const TEXT_ONLY = DEV ? DEV : false
 
 /** 反代地址 */
 export const HOST_PROXY = 'http://192.168.31.87:3000'
@@ -46,7 +46,7 @@ const CONFIGS: Configs = {
   initialRouteParams: {
     // subjectId: 467461 // anime: 296870, music: 302514, book: 267358, game: 283730
     // topicId: 'group/438017' // group/366561
-    // userId: 'sukaretto' // 456208, 419012, 'lilyurey', 'imagebuilder183'
+    // userId: 'koyuki' // 456208, 419012, 'lilyurey', 'imagebuilder183'
     // monoId: 'character/109775' // character/70323 person/5745
     // id: 68522148
     // ids: [72649, 59610, 59611, 72648, 72650, 72651, 72652, 74522, 75203, 75207]

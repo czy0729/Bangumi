@@ -1,0 +1,9 @@
+# Rust build artifacts
+/target/
+
+# OpenSSL build artifacts
+/openssl/build/
+/openssl/install/
+
+# macOS
+.DS_Store

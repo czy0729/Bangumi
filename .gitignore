@@ -23,6 +23,7 @@ ios_/
 metro-cache/
 node_modules/
 src/config.local.ts
+android/app/src/main/jniLibs/**/*.so
 storybook-static/
 web/test/
 yarn.lock
