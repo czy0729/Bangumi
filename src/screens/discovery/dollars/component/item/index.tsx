@@ -13,7 +13,7 @@ import { _, useStore } from '@stores'
 import { appNavigate, date, HTMLDecode } from '@utils'
 import { extractIdFromAvatar } from '@utils/app/ages'
 import { t } from '@utils/fetch'
-import { HOST } from '@constants'
+import { HOST_IMAGE } from '@constants'
 import { extractLinks } from './utils'
 import { COMPONENT, ITEM_HEIGHT } from './ds'
 import { memoStyles } from './styles'
@@ -25,7 +25,7 @@ import type { Ctx } from '../../types'
 function Item({ index, id, avatar, nickname, msg, color }: WithIndex<DollarsItem>) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
-  const src = `${HOST}/pic/user/l/${avatar}` as const
+  const src = `${HOST_IMAGE}/pic/user/l/${avatar}` as const
   const userId = extractIdFromAvatar(src)
   const content = HTMLDecode(msg).replace(/<br \/>/g, '')
   const links = extractLinks(content)
