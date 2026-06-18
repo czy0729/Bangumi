@@ -31,7 +31,8 @@ function Timezone({ filter }: WithFilterProps) {
     nickname: '',
     sign_input: '',
     newbio: '',
-    timeoffsetnew: ''
+    timeoffsetnew: '',
+    show_nsfw_subject: false as boolean | number
   })
 
   const getTimezone = useCallback(async () => {
@@ -42,7 +43,8 @@ function Timezone({ filter }: WithFilterProps) {
         nickname: data.nickname,
         sign_input: data.sign_input,
         newbio: data.sign,
-        timeoffsetnew: data.timeoffsetnew
+        timeoffsetnew: data.timeoffsetnew,
+        show_nsfw_subject: data.show_nsfw_subject
       })
     }
   }, [])

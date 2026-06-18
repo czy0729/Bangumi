@@ -259,6 +259,7 @@ export default class Action extends Fetch {
       sign_input: string
       newbio: string
       timeoffsetnew: string
+      show_nsfw_subject: boolean | number
     },
     success?: (responseText?: string, request?: any) => any,
     fail?: (request?: any) => any

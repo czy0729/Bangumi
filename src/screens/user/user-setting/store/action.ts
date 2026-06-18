@@ -53,10 +53,10 @@ export default class Action extends Fetch {
   }
 
   onSave = async () => {
-    const { formhash, sign, timeoffsetnew } = this.userSetting
+    const { formhash, sign, timeoffsetnew, show_nsfw_subject } = this.userSetting
     const { avatar, bg, nickname, sign_input } = this.state
 
-    // 使用个人签名来记录APP自定义头像和背景
+    // 使用个人签名来记录客户端自定义头像和背景
     let _sign = sign
     if (_sign.match(REG_AVATAR)) {
       _sign = _sign.replace(REG_AVATAR, `[avatar]${avatar || ''}[/avatar]`)
@@ -84,7 +84,8 @@ export default class Action extends Fetch {
         nickname,
         sign_input,
         newbio: _sign,
-        timeoffsetnew
+        timeoffsetnew,
+        show_nsfw_subject: show_nsfw_subject ? 1 : 0
       },
       () => {
         t('个人设置.保存', {
