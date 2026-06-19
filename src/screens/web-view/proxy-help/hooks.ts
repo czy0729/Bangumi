@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2026-06-02 06:25:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-02 10:30:00
+ * @Last Modified time: 2026-06-19 05:59:28
  */
 import { useCallback, useState } from 'react'
 import { info } from '@utils'
-import { searchGroupTopics } from '@utils/kv'
+import { get, searchGroupTopics, update } from '@utils/kv'
 
 import type { RecommendTopicItem } from '@utils/kv/type'
 import type { ListEmpty } from '@types'
@@ -35,11 +35,29 @@ export function useProxyHelpPage() {
   const handleSearch = useCallback(async (currentOffset: number) => {
     setLoading(true)
     try {
+      // 首次加载时检查快照
+      if (currentOffset === 0) {
+        const snapshot = await get('search_group_topics_反代')
+        if (snapshot?.data?.length) {
+          setData({
+            list: snapshot.data,
+            pagination: snapshot.pagination || {
+              page: 1,
+              pageTotal: 1
+            }
+          })
+          setOffset(snapshot.data.length)
+          setLoading(false)
+          return
+        }
+      }
+
       const result = await searchGroupTopics('反代', {
         target: 'title',
         limit: LIMIT,
         offset: currentOffset,
-        after: '2026-05-28'
+        after: '2026-05-28',
+        sort: 'oldest'
       })
 
       if (result?.data) {
@@ -57,6 +75,13 @@ export function useProxyHelpPage() {
           user_avatar: item.creator?.avatar?.medium || '',
           content: item.content || ''
         }))
+
+        if (currentOffset === 0 && newItems.length) {
+          update('search_group_topics_反代', {
+            data: newItems,
+            pagination: result.pagination
+          })
+        }
 
         // 当返回数据少于 limit 时，表示没有更多数据
         const hasMore = newItems.length >= LIMIT
