@@ -24,6 +24,8 @@ metro-cache/
 node_modules/
 src/config.local.ts
 android/app/src/main/jniLibs/**/*.so
+android/rust/openssl/
+android/rust/target/
 storybook-static/
 web/test/
 yarn.lock

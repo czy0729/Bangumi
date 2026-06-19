@@ -9,19 +9,17 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.modules.network.NetworkingModule;
 
 import android.util.Log;
-
-import java.net.InetSocketAddress;
-import java.net.Proxy;
-import java.util.concurrent.TimeUnit;
 
 /**
  * ECH 代理 Native Module
  *
  * 通过本地 HTTPS CONNECT 代理 (ECH + DoH) 绕过 SNI 封锁访问 bgm.tv
  * JS 桥接: src/utils/proxy/ech/native.ts
+ *
+ * OkHttp 接管仅通过 BangumiOkHttpClientFactory 的 ProxySelector 白名单实现,
+ * 不再使用 NetworkingModule.setCustomClientBuilder 全局固定 proxy。
  */
 public class EchProxyModule extends ReactContextBaseJavaModule {
 
@@ -50,8 +48,16 @@ public class EchProxyModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void enable(ReadableMap config, Promise promise) {
-        if (running) {
-            promise.resolve(currentPort);
+        if (!EchProxyNative.isAvailable) {
+            promise.reject("ECH_NATIVE_UNAVAILABLE", "Native library libechproxy.so not available");
+            return;
+        }
+
+        // 以 static sProxyPort 为准, 防止 ReactContext 重建后重复启动
+        if (sProxyPort > 0) {
+            currentPort = sProxyPort;
+            running = true;
+            promise.resolve(sProxyPort);
             return;
         }
 
@@ -62,7 +68,7 @@ public class EchProxyModule extends ReactContextBaseJavaModule {
             String caDir = getCaDir();
             String cacheDir = getCacheDir();
             Log.d("EchProxy", "Starting proxy with port=" + port + ", dns=" + dns + ", caDir=" + caDir + ", cacheDir=" + cacheDir);
-            currentPort = EchProxyNative.startProxy(port, dns, caDir, cacheDir);
+            currentPort = EchProxyNative.safeStartProxy(port, dns, caDir, cacheDir);
             running = currentPort > 0;
             sProxyPort = currentPort;
             Log.d("EchProxy", "Proxy started: port=" + currentPort);
@@ -82,13 +88,9 @@ public class EchProxyModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void disable(Promise promise) {
-        if (!running) {
-            promise.resolve(null);
-            return;
-        }
-
         try {
-            EchProxyNative.stopProxy();
+            // 不依赖实例 running 字段, 总是尝试停止 native server
+            EchProxyNative.safeStopProxy();
             currentPort = 0;
             sProxyPort = 0;
             running = false;
@@ -100,55 +102,33 @@ public class EchProxyModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void getStatus(Promise promise) {
+        // 以 static sProxyPort 为准, 跨 ReactContext 实例一致
         WritableMap status = Arguments.createMap();
-        status.putBoolean("running", running);
-        status.putInt("port", currentPort);
+        status.putBoolean("running", sProxyPort > 0);
+        status.putInt("port", sProxyPort);
         promise.resolve(status);
     }
 
     /**
-     * 仅配置 NetworkingModule (fetch/XHR) 走代理
-     * 图片 (FastImage/Glide) 暂不走代理
+     * OkHttp 代理已通过 BangumiOkHttpClientFactory 的 ProxySelector 白名单实现,
+     * 不再需要 NetworkingModule.setCustomClientBuilder 全局固定 proxy。
+     * 保留方法签名兼容 JS 调用, 实际为空操作。
      */
     @ReactMethod
     public void setOkHttpProxy(int port, Promise promise) {
-        try {
-            Log.d("EchProxy", "setOkHttpProxy: port=" + port);
-
-            final Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", port));
-
-            // Reuse the shared SSL singletons from BangumiOkHttpClientFactory
-            // to avoid two separate SSLContext instances racing inside BoringSSL
-            NetworkingModule.setCustomClientBuilder(builder -> {
-                builder.proxy(proxy);
-                builder.sslSocketFactory(
-                    BangumiOkHttpClientFactory.SHARED_SSL_FACTORY,
-                    BangumiOkHttpClientFactory.SHARED_TRUST_MANAGER
-                );
-                builder.hostnameVerifier((hostname, session) -> true);
-                builder.connectTimeout(15, TimeUnit.SECONDS);
-                builder.readTimeout(30, TimeUnit.SECONDS);
-            });
-
-            Log.d("EchProxy", "OkHttp proxy configured (NetworkingModule only)");
-            promise.resolve(null);
-        } catch (Exception e) {
-            Log.e("EchProxy", "setOkHttpProxy failed", e);
-            promise.reject("ECH_PROXY_CONFIG_FAILED", e.getMessage(), e);
-        }
+        Log.d("EchProxy", "setOkHttpProxy: no-op (ProxySelector handles routing)");
+        promise.resolve(null);
     }
 
+    /**
+     * OkHttp 代理已通过 BangumiOkHttpClientFactory 的 ProxySelector 白名单实现,
+     * 不再需要清除 NetworkingModule custom builder。
+     * 保留方法签名兼容 JS 调用, 实际为空操作。
+     */
     @ReactMethod
     public void clearOkHttpProxy(Promise promise) {
-        try {
-            Log.d("EchProxy", "clearOkHttpProxy");
-            NetworkingModule.setCustomClientBuilder(builder -> {});
-            Log.d("EchProxy", "OkHttp proxy cleared");
-            promise.resolve(null);
-        } catch (Exception e) {
-            Log.e("EchProxy", "clearOkHttpProxy failed", e);
-            promise.reject("ECH_PROXY_CLEAR_FAILED", e.getMessage(), e);
-        }
+        Log.d("EchProxy", "clearOkHttpProxy: no-op (ProxySelector handles routing)");
+        promise.resolve(null);
     }
 
     private String getCaDir() {

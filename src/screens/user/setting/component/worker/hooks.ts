@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-05-30 12:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-02 09:29:27
+ * @Last Modified time: 2026-06-19 17:14:00
  */
 import { useCallback, useRef, useState } from 'react'
 import { systemStore } from '@stores'
@@ -10,6 +10,7 @@ import { feedback } from '@utils'
 import { logger } from '@utils/dev'
 import { ping } from '@utils/fetch'
 import { useMount } from '@utils/hooks'
+import { disableEchProxy, enableEchProxy } from '@utils/proxy/ech'
 import { API_HOST, HOST, HOST_BGM_STATIC } from '@constants'
 import { COMPONENT } from './ds'
 
@@ -41,6 +42,33 @@ function usePingTest(urlTemplate: string, replaceTarget: string) {
 
 /** Worker 代理设置逻辑 */
 export function useWorkerSettings() {
+  // ECH 代理状态 (仅 Android), 以 systemStore.setting 为 source of truth
+  const [echLoading, setEchLoading] = useState(false)
+
+  const toggleEchProxy = useCallback(async () => {
+    if (echLoading) return
+
+    setEchLoading(true)
+    feedback(true)
+
+    try {
+      const enabled = systemStore.setting.echProxyEnabled
+      if (enabled) {
+        await disableEchProxy()
+      } else {
+        const port = await enableEchProxy()
+        logger.log(COMPONENT, 'toggleEchProxy running', port)
+      }
+
+      // 无论成功失败都切换 setting, 下次启动时 restoreEchProxy 会根据此值恢复
+      systemStore.switchSetting('echProxyEnabled')
+    } catch (e) {
+      logger.warn(COMPONENT, 'toggleEchProxy error', e)
+    } finally {
+      setEchLoading(false)
+    }
+  }, [echLoading])
+
   const [workerProxy, setWorkerProxy] = useState(String(systemStore.setting.workerProxy || ''))
   const [workerSecret, setWorkerSecret] = useState(String(systemStore.setting.workerSecret || ''))
   const [workerLainProxy, setWorkerLainProxy] = useState(
@@ -172,6 +200,9 @@ export function useWorkerSettings() {
     handleBlur,
     pingWorkerProxy,
     pingWorkerApiProxy,
-    pingWorkerLainProxy
+    pingWorkerLainProxy,
+    echRunning: systemStore.setting.echProxyEnabled,
+    echLoading,
+    toggleEchProxy
   }
 }

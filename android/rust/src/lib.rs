@@ -119,6 +119,7 @@ fn is_cloudflare_ip(ip: Ipv4Addr) -> bool {
 struct MitmCa {
     ca_key: rcgen::KeyPair,
     ca_cert: rcgen::Certificate,
+    cert_cache: Mutex<std::collections::HashMap<String, Arc<rustls::ServerConfig>>>,
 }
 
 impl MitmCa {
@@ -137,7 +138,7 @@ impl MitmCa {
             p.is_ca = rcgen::IsCa::Ca(rcgen::BasicConstraints::Unconstrained);
             let cert = p.self_signed(&key)
                 .map_err(|e| io::Error::new(io::ErrorKind::Other, format!("self sign: {e}")))?;
-            return Ok(Self { ca_cert: cert, ca_key: key });
+            return Ok(Self { ca_cert: cert, ca_key: key, cert_cache: Mutex::new(std::collections::HashMap::new()) });
         }
 
         let key = rcgen::KeyPair::generate()
@@ -151,10 +152,25 @@ impl MitmCa {
             .map_err(|e| io::Error::new(io::ErrorKind::Other, format!("write ca.pem: {e}")))?;
         std::fs::write(&kp, key.serialize_pem())
             .map_err(|e| io::Error::new(io::ErrorKind::Other, format!("write ca-key: {e}")))?;
-        Ok(Self { ca_cert: cert, ca_key: key })
+        Ok(Self { ca_cert: cert, ca_key: key, cert_cache: Mutex::new(std::collections::HashMap::new()) })
     }
 
-    fn server_config(&self, host: &str) -> io::Result<rustls::ServerConfig> {
+    fn server_config(&self, host: &str) -> io::Result<Arc<rustls::ServerConfig>> {
+        // 先查缓存, 命中则直接返回
+        {
+            let cache = self.cert_cache.lock();
+            if let Some(cfg) = cache.get(host) {
+                return Ok(Arc::clone(cfg));
+            }
+        }
+
+        // 未命中, 生成新的证书和 config (加锁防止并发生成)
+        let mut cache = self.cert_cache.lock();
+        // double-check: 另一个线程可能已经生成了
+        if let Some(cfg) = cache.get(host) {
+            return Ok(Arc::clone(cfg));
+        }
+
         let hk = rcgen::KeyPair::generate()
             .map_err(|e| io::Error::new(io::ErrorKind::Other, format!("gen host key: {e}")))?;
         let mut p = rcgen::CertificateParams::new(vec![host.into()])
@@ -167,10 +183,13 @@ impl MitmCa {
             rustls::pki_types::CertificateDer::from(self.ca_cert.der().to_vec()),
         ];
         let key = rustls::pki_types::PrivatePkcs8KeyDer::from(hk.serialize_der());
-        rustls::ServerConfig::builder()
+        let cfg = rustls::ServerConfig::builder()
             .with_no_client_auth()
             .with_single_cert(certs, rustls::pki_types::PrivateKeyDer::from(key))
-            .map_err(|e| io::Error::new(io::ErrorKind::Other, format!("server config: {e}")))
+            .map_err(|e| io::Error::new(io::ErrorKind::Other, format!("server config: {e}")))?;
+        let cfg = Arc::new(cfg);
+        cache.insert(host.to_string(), Arc::clone(&cfg));
+        Ok(cfg)
     }
 }
 
@@ -183,10 +202,12 @@ struct CacheEntry<T: Clone> {
 }
 
 const IP_CACHE_TTL_SECS: u64 = 300; // 5 minutes
+const ECH_CONFIG_TTL_SECS: u64 = 3600; // 1 hour
+const CF_IPS_TTL_SECS: u64 = 3600; // 1 hour
 
 struct EchCache {
-    config: Mutex<Option<Vec<u8>>>,
-    cf_ips: Mutex<Option<Vec<Ipv4Addr>>>,
+    config: Mutex<Option<CacheEntry<Vec<u8>>>>,
+    cf_ips: Mutex<Option<CacheEntry<Vec<Ipv4Addr>>>>,
     ips: Mutex<std::collections::HashMap<String, CacheEntry<Vec<Ipv4Addr>>>>,
     dns_servers: Vec<String>,
     cache_dir: PathBuf,
@@ -222,7 +243,7 @@ impl EchCache {
         if let Ok(data) = std::fs::read(&ech_path) {
             if !data.is_empty() {
                 log_d!("Loaded cached ECH config: {} bytes", data.len());
-                *self.config.lock() = Some(data);
+                *self.config.lock() = Some(CacheEntry { value: data, created: Instant::now() });
             }
         }
 
@@ -234,7 +255,7 @@ impl EchCache {
                 .collect();
             if !ips.is_empty() {
                 log_d!("Loaded cached CF IPs: {:?}", ips);
-                *self.cf_ips.lock() = Some(ips);
+                *self.cf_ips.lock() = Some(CacheEntry { value: ips, created: Instant::now() });
             }
         }
 
@@ -307,15 +328,20 @@ impl EchCache {
 
     /// Get ECH config, trying all CF DoH IPs
     fn get_ech(&self) -> io::Result<Vec<u8>> {
-        if let Some(c) = &*self.config.lock() {
-            return Ok(c.clone());
+        {
+            let cache = self.config.lock();
+            if let Some(entry) = &*cache {
+                if entry.created.elapsed().as_secs() < ECH_CONFIG_TTL_SECS {
+                    return Ok(entry.value.clone());
+                }
+            }
         }
         for ip in self.cloudflare_doh_ips()? {
             match grease_ech(ip) {
                 Ok(c) => {
                     log_d!("ECH GREASE succeeded via {ip}, {} bytes", c.len());
                     self.save_ech_config(&c);
-                    *self.config.lock() = Some(c.clone());
+                    *self.config.lock() = Some(CacheEntry { value: c.clone(), created: Instant::now() });
                     return Ok(c);
                 }
                 Err(e) => {
@@ -355,8 +381,13 @@ impl EchCache {
 
     /// Bootstrap CF DoH IPs (resolve via configured DNS, filter to CF range)
     fn cloudflare_doh_ips(&self) -> io::Result<Vec<Ipv4Addr>> {
-        if let Some(ips) = &*self.cf_ips.lock() {
-            return Ok(ips.clone());
+        {
+            let cache = self.cf_ips.lock();
+            if let Some(entry) = &*cache {
+                if entry.created.elapsed().as_secs() < CF_IPS_TTL_SECS {
+                    return Ok(entry.value.clone());
+                }
+            }
         }
 
         let mut ips = match self.resolve_multi(CF_DOH_HOST) {
@@ -376,7 +407,7 @@ impl EchCache {
         }
         log_d!("{CF_DOH_HOST} -> {:?} (bootstrap)", ips);
         self.save_cf_ips(&ips);
-        *self.cf_ips.lock() = Some(ips.clone());
+        *self.cf_ips.lock() = Some(CacheEntry { value: ips.clone(), created: Instant::now() });
         Ok(ips)
     }
 
@@ -775,147 +806,155 @@ fn handle_tunnel(client: &mut TcpStream, host: &str, _cache: &EchCache) {
 
 fn handle_mitm(client: &mut TcpStream, host: &str, cache: &EchCache, ca: &MitmCa) {
     log_d!("handle_mitm: {}", host);
-    let mut backend = match open_backend(host, cache) {
-        Ok(s) => s,
-        Err(e) => { log_e!("handle_mitm: open_backend failed: {}", e); return; },
-    };
-    if let Err(e) = client.write_all(b"HTTP/1.1 200 Connection Established\r\n\r\n") {
-        log_e!("handle_mitm: write 200 failed: {}", e);
-        return;
-    }
-    if let Err(e) = client.flush() {
-        log_e!("handle_mitm: flush 200 failed: {}", e);
-        return;
-    }
-    log_d!("handle_mitm: sent 200, waiting for client TLS");
-    let config = match ca.server_config(host) {
-        Ok(c) => Arc::new(c),
-        Err(e) => { log_e!("handle_mitm: server_config failed: {}", e); return; },
-    };
-    let mut acceptor = rustls::server::Acceptor::default();
-    let mut tcp = match client.try_clone() {
-        Ok(c) => c,
-        Err(e) => { log_e!("handle_mitm: try_clone failed: {}", e); return; },
-    };
-    let accept_start = Instant::now();
-    let accept_timeout = std::time::Duration::from_secs(15);
-    let accepted = loop {
-        if accept_start.elapsed() > accept_timeout {
-            log_e!("handle_mitm: TLS accept timed out for {}", host);
+
+    // Per-host 互斥: 串行化 open_backend + TLS 握手, relay 阶段不持锁
+    let mut browser_tls;
+    let mut backend;
+    {
+        let host_lock = get_host_lock(host);
+        let _host_guard = host_lock.lock();
+
+        backend = match open_backend(host, cache) {
+            Ok(s) => s,
+            Err(e) => { log_e!("handle_mitm: open_backend failed: {}", e); return; },
+        };
+        if let Err(e) = client.write_all(b"HTTP/1.1 200 Connection Established\r\n\r\n") {
+            log_e!("handle_mitm: write 200 failed: {}", e);
             return;
         }
-        match acceptor.accept() {
-            Ok(Some(a)) => {
-                log_d!("handle_mitm: TLS accept succeeded");
-                break a;
-            },
-            Ok(None) => {
-                let mut buf = [0u8; 4096];
-                match tcp.read(&mut buf) {
-                    Ok(0) => {
-                        log_e!("handle_mitm: client closed before TLS");
-                        return;
-                    },
-                    Ok(n) => {
-                        log_d!("handle_mitm: read {} bytes from client", n);
-                        if acceptor.read_tls(&mut &buf[..n]).is_err() {
-                            log_e!("handle_mitm: read_tls failed");
+        if let Err(e) = client.flush() {
+            log_e!("handle_mitm: flush 200 failed: {}", e);
+            return;
+        }
+        log_d!("handle_mitm: sent 200, waiting for client TLS");
+        let config = match ca.server_config(host) {
+            Ok(c) => c,
+            Err(e) => { log_e!("handle_mitm: server_config failed: {}", e); return; },
+        };
+        let mut acceptor = rustls::server::Acceptor::default();
+        let mut tcp = match client.try_clone() {
+            Ok(c) => c,
+            Err(e) => { log_e!("handle_mitm: try_clone failed: {}", e); return; },
+        };
+        let accept_start = Instant::now();
+        let accept_timeout = std::time::Duration::from_secs(15);
+        let accepted = loop {
+            if accept_start.elapsed() > accept_timeout {
+                log_e!("handle_mitm: TLS accept timed out for {}", host);
+                return;
+            }
+            match acceptor.accept() {
+                Ok(Some(a)) => {
+                    log_d!("handle_mitm: TLS accept succeeded");
+                    break a;
+                },
+                Ok(None) => {
+                    let mut buf = [0u8; 4096];
+                    match tcp.read(&mut buf) {
+                        Ok(0) => {
+                            log_e!("handle_mitm: client closed before TLS");
+                            return;
+                        },
+                        Ok(n) => {
+                            log_d!("handle_mitm: read {} bytes from client", n);
+                            if acceptor.read_tls(&mut &buf[..n]).is_err() {
+                                log_e!("handle_mitm: read_tls failed");
+                                return;
+                            }
+                        }
+                        Err(ref e) if e.kind() == io::ErrorKind::WouldBlock => {
+                            thread::sleep(std::time::Duration::from_millis(10));
+                            continue;
+                        }
+                        Err(e) => {
+                            log_e!("handle_mitm: client read error: {}", e);
                             return;
                         }
                     }
-                    Err(ref e) if e.kind() == io::ErrorKind::WouldBlock => {
-                        thread::sleep(std::time::Duration::from_millis(10));
-                        continue;
-                    }
-                    Err(e) => {
-                        log_e!("handle_mitm: client read error: {}", e);
-                        return;
-                    }
+                }
+                Err((_, e)) => {
+                    log_e!("handle_mitm: acceptor error: {:?}", e);
+                    return;
                 }
             }
-            Err((_, e)) => {
-                log_e!("handle_mitm: acceptor error: {:?}", e);
-                return;
-            }
-        }
-    };
-    let mut browser_tls = match accepted.into_connection(config) {
-        Ok(c) => { log_d!("handle_mitm: into_connection OK"); c },
-        Err((_, e)) => { log_e!("handle_mitm: into_connection failed: {:?}", e); return; },
-    };
+        };
+        browser_tls = match accepted.into_connection(config) {
+            Ok(c) => { log_d!("handle_mitm: into_connection OK"); c },
+            Err((_, e)) => { log_e!("handle_mitm: into_connection failed: {:?}", e); return; },
+        };
+    }
+    // _host_guard 已释放, 不同连接可以并行 relay
     log_d!("handle_mitm: starting data relay for {}", host);
     client.set_nonblocking(true).ok();
     backend.get_ref().set_nonblocking(true).ok();
-    {
-        let mut bs = rustls::Stream::new(&mut browser_tls, &mut *client);
-        let relay_start = Instant::now();
-        let relay_timeout = std::time::Duration::from_secs(300); // 5 min max for large images
-        let mut last_activity = Instant::now();
-        let idle_timeout = std::time::Duration::from_secs(60); // 60s idle timeout
-        let mut buf = vec![0u8; 32768]; // Larger buffer for images (32KB)
+    let mut bs = rustls::Stream::new(&mut browser_tls, &mut *client);
+    let relay_start = Instant::now();
+    let relay_timeout = std::time::Duration::from_secs(300); // 5 min max for large images
+    let mut last_activity = Instant::now();
+    let idle_timeout = std::time::Duration::from_secs(60); // 60s idle timeout
+    let mut buf = vec![0u8; 32768]; // Larger buffer for images (32KB)
 
-        loop {
-            // Check timeouts
-            if relay_start.elapsed() > relay_timeout {
-                log_e!("handle_mitm: relay timeout for {}", host);
+    loop {
+        // Check timeouts
+        if relay_start.elapsed() > relay_timeout {
+            log_e!("handle_mitm: relay timeout for {}", host);
+            break;
+        }
+        if last_activity.elapsed() > idle_timeout {
+            log_d!("handle_mitm: idle timeout for {}", host);
+            break;
+        }
+
+        let mut activity = false;
+        match bs.read(&mut buf) {
+            Ok(0) => {
+                log_d!("handle_mitm: client EOF");
                 break;
             }
-            if last_activity.elapsed() > idle_timeout {
-                log_d!("handle_mitm: idle timeout for {}", host);
+            Ok(n) => {
+                if let Err(e) = backend.write_all(&buf[..n]) {
+                    log_e!("handle_mitm: backend write failed: {}", e);
+                    break;
+                }
+                backend.flush().ok();
+                last_activity = Instant::now();
+                activity = true;
+            }
+            Err(ref e) if e.kind() == io::ErrorKind::WouldBlock => {}
+            Err(ref e) if e.kind() == io::ErrorKind::TimedOut => {
                 break;
             }
-
-            let mut activity = false;
-            match bs.read(&mut buf) {
-                Ok(0) => {
-                    log_d!("handle_mitm: client EOF");
-                    break;
-                }
-                Ok(n) => {
-                    if let Err(e) = backend.write_all(&buf[..n]) {
-                        log_e!("handle_mitm: backend write failed: {}", e);
-                        break;
-                    }
-                    backend.flush().ok();
-                    last_activity = Instant::now();
-                    activity = true;
-                }
-                Err(ref e) if e.kind() == io::ErrorKind::WouldBlock => {}
-                Err(ref e) if e.kind() == io::ErrorKind::TimedOut => {
-                    break;
-                }
-                Err(e) => {
-                    log_e!("handle_mitm: client read error: {}", e);
-                    break;
-                }
+            Err(e) => {
+                log_e!("handle_mitm: client read error: {}", e);
+                break;
             }
-            match backend.read(&mut buf) {
-                Ok(0) => {
-                    log_d!("handle_mitm: backend EOF");
-                    break;
-                }
-                Ok(n) => {
-                    if let Err(e) = bs.write_all(&buf[..n]) {
-                        log_e!("handle_mitm: client write failed: {}", e);
-                        break;
-                    }
-                    bs.flush().ok();
-                    last_activity = Instant::now();
-                    activity = true;
-                }
-                Err(ref e) if e.kind() == io::ErrorKind::WouldBlock => {}
-                Err(ref e) if e.kind() == io::ErrorKind::TimedOut => {
-                    break;
-                }
-                Err(e) => {
-                    log_e!("handle_mitm: backend read error: {}", e);
-                    break;
-                }
+        }
+        match backend.read(&mut buf) {
+            Ok(0) => {
+                log_d!("handle_mitm: backend EOF");
+                break;
             }
-            // Only sleep if no activity
-            if !activity {
-                thread::sleep(std::time::Duration::from_millis(5));
+            Ok(n) => {
+                if let Err(e) = bs.write_all(&buf[..n]) {
+                    log_e!("handle_mitm: client write failed: {}", e);
+                    break;
+                }
+                bs.flush().ok();
+                last_activity = Instant::now();
+                activity = true;
             }
+            Err(ref e) if e.kind() == io::ErrorKind::WouldBlock => {}
+            Err(ref e) if e.kind() == io::ErrorKind::TimedOut => {
+                break;
+            }
+            Err(e) => {
+                log_e!("handle_mitm: backend read error: {}", e);
+                break;
+            }
+        }
+        // Only sleep if no activity
+        if !activity {
+            thread::sleep(std::time::Duration::from_millis(5));
         }
     }
     log_d!("handle_mitm: relay done for {}", host);
@@ -1049,10 +1088,25 @@ fn handle_client(mut client: TcpStream, cache: Arc<EchCache>, ca: Arc<MitmCa>) {
 struct ProxyServer {
     port: u16,
     running: Arc<Mutex<bool>>,
+    listener_handle: Option<std::thread::JoinHandle<()>>,
 }
+
+/// 最大并发连接数, 防止图片瀑布流打爆低端机
+const MAX_CONCURRENT: u32 = 8;
 
 static SERVER: Mutex<Option<ProxyServer>> = Mutex::new(None);
 static CA_PEM: std::sync::OnceLock<String> = std::sync::OnceLock::new();
+
+/// Per-host mutex: 串行化同一 host 的 MITM 操作, 防止 OpenSSL FFI 并发崩溃
+static HOST_LOCKS: Mutex<Option<std::collections::HashMap<String, Arc<Mutex<()>>>>> = Mutex::new(None);
+
+fn get_host_lock(host: &str) -> Arc<Mutex<()>> {
+    let mut map = HOST_LOCKS.lock();
+    let map = map.get_or_insert_with(std::collections::HashMap::new);
+    map.entry(host.to_string())
+        .or_insert_with(|| Arc::new(Mutex::new(())))
+        .clone()
+}
 
 fn start_server(port: u16, dns: &str, ca_dir: &str, cache_dir: &str) -> u16 {
     log_d!("start_server: port={}, dns={}, ca_dir={}, cache_dir={}", port, dns, ca_dir, cache_dir);
@@ -1086,16 +1140,27 @@ fn start_server(port: u16, dns: &str, ca_dir: &str, cache_dir: &str) -> u16 {
     let actual_port = listener.local_addr().unwrap().port();
     log_d!("Main proxy port: {}", actual_port);
 
-    thread::spawn(move || {
+    let active_count = Arc::new(Mutex::new(0u32));
+
+    let handle = thread::spawn(move || {
         listener.set_nonblocking(true).ok();
         while *running_clone.lock() {
+            // 检查并发数
+            let current = *active_count.lock();
+            if current >= MAX_CONCURRENT {
+                thread::sleep(std::time::Duration::from_millis(20));
+                continue;
+            }
+
             match listener.accept() {
                 Ok((client, _)) => {
-                    let (c, ca) = (Arc::clone(&cache_clone), Arc::clone(&ca));
+                    *active_count.lock() += 1;
+                    let (c, ca, ac) = (Arc::clone(&cache_clone), Arc::clone(&ca), Arc::clone(&active_count));
                     thread::spawn(move || {
                         let _ = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
                             handle_client(client, c, ca);
                         }));
+                        *ac.lock() -= 1;
                     });
                 }
                 Err(ref e) if e.kind() == io::ErrorKind::WouldBlock => {
@@ -1113,6 +1178,7 @@ fn start_server(port: u16, dns: &str, ca_dir: &str, cache_dir: &str) -> u16 {
     *SERVER.lock() = Some(ProxyServer {
         port: actual_port,
         running,
+        listener_handle: Some(handle),
     });
 
     // Pre-resolve all target domains at startup
@@ -1141,6 +1207,11 @@ fn start_server(port: u16, dns: &str, ca_dir: &str, cache_dir: &str) -> u16 {
 fn stop_server() {
     if let Some(server) = SERVER.lock().take() {
         *server.running.lock() = false;
+        // 等待 listener 线程退出
+        if let Some(handle) = server.listener_handle {
+            let _ = handle.join();
+        }
+        log_d!("Server stopped");
     }
 }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-07 15:18:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-28 21:42:26
+ * @Last Modified time: 2026-06-19 17:21:17
  */
 import { useState } from 'react'
 import { loadAsync } from 'expo-font'
@@ -11,8 +11,8 @@ import { devLog } from '@components/dev'
 import { setComponentsDefaultProps } from '@components/text/utils'
 import Stores from '@stores'
 import { postTask } from '@utils'
+import { restoreEchProxy } from '@utils/proxy/ech'
 import { bootApp } from '../app'
-import { enableEchProxy } from '@utils/proxy/ech'
 import useMount from './useMount'
 
 async function loadBaseFonts() {
@@ -58,13 +58,8 @@ export default function useCachedResources() {
         const settings = await Stores.init()
         setState(1)
 
-        // 测试 ECH 代理
-        try {
-          const port = await enableEchProxy()
-          console.log('[ECH] 代理启动, 端口:', port)
-        } catch (e) {
-          console.warn('[ECH] 启动失败:', e)
-        }
+        // 恢复 ECH 代理 (仅当用户上次开启了 echProxyEnabled setting)
+        restoreEchProxy()
 
         // 加载 bgm 表情特殊字体
         postTask(() => {

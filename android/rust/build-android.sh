@@ -75,11 +75,16 @@ setup_ndk() {
 
 # ============================================================
 # 3. 交叉编译 OpenSSL (带 ECH 支持)
+#
+# 需要手动下载 OpenSSL 源码:
+#   https://github.com/openssl/openssl/releases/download/openssl-4.0.1/openssl-4.0.1.tar.gz
+#   解压到 android/rust/openssl/build/openssl-4.0.1/
 # ============================================================
 build_openssl() {
     local OPENSSL_DIR="$SCRIPT_DIR/openssl"
     local OPENSSL_BUILD="$OPENSSL_DIR/build"
     local OPENSSL_INSTALL="$OPENSSL_DIR/install"
+    local OPENSSL_SRC="$OPENSSL_BUILD/openssl-$OPENSSL_VERSION"
     local ANDROID_HOME="${ANDROID_HOME:-$HOME/Library/Android/sdk}"
     local NDK_DIR="$ANDROID_HOME/ndk/$NDK_VERSION"
     local TOOLCHAIN="$NDK_DIR/toolchains/llvm/prebuilt/darwin-x86_64"
@@ -94,17 +99,28 @@ build_openssl() {
         return
     fi
 
-    log "下载并编译 OpenSSL (带 ECH 支持)..."
-
-    mkdir -p "$OPENSSL_BUILD" "$OPENSSL_INSTALL"
-
-    # 下载 OpenSSL 源码 (如果不存在)
-    if [ ! -d "$OPENSSL_BUILD/openssl-$OPENSSL_VERSION" ]; then
-        log "下载 OpenSSL $OPENSSL_VERSION..."
-        curl -L "https://github.com/openssl/openssl/releases/download/openssl-$OPENSSL_VERSION/openssl-$OPENSSL_VERSION.tar.gz" | tar xz -C "$OPENSSL_BUILD"
+    # 检查源码是否存在, 不存在则询问是否下载
+    if [ ! -d "$OPENSSL_SRC" ]; then
+        warn "OpenSSL 源码未找到: $OPENSSL_SRC"
+        echo ""
+        echo "  下载地址: https://github.com/openssl/openssl/releases/download/openssl-$OPENSSL_VERSION/openssl-$OPENSSL_VERSION.tar.gz"
+        echo "  目标目录: android/rust/openssl/build/openssl-$OPENSSL_VERSION/"
+        echo ""
+        read -p "  是否自动下载? (y/N) " -n 1 -r
+        echo ""
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            mkdir -p "$OPENSSL_BUILD"
+            log "下载 OpenSSL $OPENSSL_VERSION..."
+            curl -L "https://github.com/openssl/openssl/releases/download/openssl-$OPENSSL_VERSION/openssl-$OPENSSL_VERSION.tar.gz" | tar xz -C "$OPENSSL_BUILD"
+        else
+            err "请手动下载并解压到上述目录后重新运行"
+        fi
     fi
 
-    cd "$OPENSSL_BUILD/openssl-$OPENSSL_VERSION"
+    log "编译 OpenSSL $OPENSSL_VERSION (带 ECH 支持)..."
+    mkdir -p "$OPENSSL_INSTALL"
+
+    cd "$OPENSSL_SRC"
 
     # 配置交叉编译
     ./Configure android-arm64 -D__ANDROID_API__=$API_LEVEL \
@@ -136,13 +152,13 @@ build_rust_lib() {
     cargo ndk -t arm64-v8a --platform 21 build --release 2>&1
 
     # 复制产物到 jniLibs
-    local SO_FILE="$SCRIPT_DIR/target/aarch64-linux-android/release/libech_proxy.so"
+    local SO_FILE="$SCRIPT_DIR/target/aarch64-linux-android/release/libechproxy.so"
 
     if [ -f "$SO_FILE" ]; then
         mkdir -p "$JNILIBS_DIR"
         cp "$SO_FILE" "$JNILIBS_DIR/"
-        log "已复制到 $JNILIBS_DIR/libech_proxy.so"
-        log "大小: $(du -h "$JNILIBS_DIR/libech_proxy.so" | cut -f1)"
+        log "已复制到 $JNILIBS_DIR/libechproxy.so"
+        log "大小: $(du -h "$JNILIBS_DIR/libechproxy.so" | cut -f1)"
     else
         err "编译产物未找到: $SO_FILE"
     fi
@@ -168,7 +184,7 @@ main() {
 
     log "=== 编译完成 ==="
     log ""
-    log "产物: $JNILIBS_DIR/libech_proxy.so"
+    log "产物: $JNILIBS_DIR/libechproxy.so"
     log ""
     log "下一步:"
     log "  1. 重新编译 Android App"

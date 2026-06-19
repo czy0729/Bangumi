@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-05-30 12:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-07 22:27:24
+ * @Last Modified time: 2026-06-19 17:38:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,8 @@ import { IconTouchable, ItemSetting, ItemSettingBlock, Notice } from '@_'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
 import { useBoolean } from '@utils/hooks'
-import { API_HOST, HOST, HOST_BGM_STATIC } from '@constants'
+import { ANDROID, API_HOST, HOST, HOST_BGM_STATIC } from '@constants'
+import { ECH_PROXY_ENABLED } from '@src/config'
 import commonStyles from '../../styles'
 import { getShows } from '../../utils'
 import { useWorkerSettings } from './hooks'
@@ -51,7 +52,10 @@ function Worker({ navigation, filter, open }: Props) {
     handleBlur,
     pingWorkerProxy,
     pingWorkerApiProxy,
-    pingWorkerLainProxy
+    pingWorkerLainProxy,
+    echRunning,
+    echLoading,
+    toggleEchProxy
   } = useWorkerSettings()
 
   if (!shows) return null
@@ -166,6 +170,21 @@ function Worker({ navigation, filter, open }: Props) {
             }}
           />
         </View>
+
+        {ANDROID && ECH_PROXY_ENABLED && shows.echProxy && (
+          <ItemSetting
+            ft={
+              <SwitchPro
+                style={commonStyles.switch}
+                value={echRunning}
+                loading={echLoading}
+                onSyncPress={toggleEchProxy}
+              />
+            }
+            filter={filter}
+            {...TEXTS.echProxy}
+          />
+        )}
 
         {shows.workerProxyDisabled && (
           <ItemSetting

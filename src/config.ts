@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-18 06:54:32
+ * @Last Modified time: 2026-06-19 15:43:30
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
@@ -35,6 +35,10 @@ export const ANDROID_DEV_MENU = true
 
 /** 是否不显示图片 (开发用) false 是为了打包后的 apk 稳定显示图片 */
 export const TEXT_ONLY = DEV ? DEV : false
+
+/** ==================== 代理配置 ==================== */
+/** ECH 代理功能开关 (仅开发模式默认开启) */
+export const ECH_PROXY_ENABLED = DEV
 
 /** 反代地址 */
 export const HOST_PROXY = 'http://192.168.31.87:3000'

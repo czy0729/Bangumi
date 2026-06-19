@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2026-05-30 12:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-02 09:38:07
+ * @Last Modified time: 2026-06-19 16:51:10
  */
 import { rc } from '@utils/dev'
 import { API_HOST_BACKUP } from '@constants'
@@ -14,6 +14,11 @@ export const COMPONENT = rc(PARENT, 'Worker')
 export const TEXTS = {
   worker: {
     hd: '代理'
+  },
+  echProxy: {
+    hd: 'ECH 代理 (Android)',
+    information:
+      '通过本地 HTTPS CONNECT 代理绕过 SNI 封锁，使用 ECH 加密访问 Bangumi。\n开启后会自动接管 Bangumi 域名的网络请求，无需配置下方的代理地址。\n需要重新启动客户端后生效。'
   },
   workerProxyDisabled: {
     hd: '全局禁用代理',

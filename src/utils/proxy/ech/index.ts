@@ -1,11 +1,13 @@
+/* eslint-disable no-console */
 /*
  * @Author: czy0729
  * @Date: 2026-06-17 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-18 00:48:27
+ * @Last Modified time: 2026-06-19 17:21:50
  */
 import { Platform } from 'react-native'
-import { getStorage, setStorage } from '../../storage'
+import { systemStore } from '@stores'
+import { ECH_PROXY_ENABLED } from '@src/config'
 import {
   nativeClearOkHttpProxy,
   nativeDisable,
@@ -16,8 +18,6 @@ import {
 
 import type { EchProxyConfig, EchProxyStatus } from './types'
 export type { EchProxyConfig, EchProxyStatus }
-
-const STORAGE_KEY = 'echProxyEnabled'
 
 /** 当前代理端口, 0 表示未启用 */
 let _port = 0
@@ -32,7 +32,7 @@ let _running = false
  * - iOS / Web 直接跳过
  */
 export async function enableEchProxy(config: EchProxyConfig = {}): Promise<number> {
-  if (Platform.OS !== 'android') return 0
+  if (Platform.OS !== 'android' || !ECH_PROXY_ENABLED) return 0
 
   try {
     // 启动本地代理, 返回实际端口
@@ -41,11 +41,17 @@ export async function enableEchProxy(config: EchProxyConfig = {}): Promise<numbe
       // 让 OkHttp 走本地代理
       await nativeSetOkHttpProxy(_port)
       _running = true
-      await setStorage(STORAGE_KEY, '1')
+    } else {
+      // native start 返回 0, 回滚
+      await nativeDisable()
     }
     return _port
   } catch (e) {
     console.warn('[ECH] enable failed:', e)
+    // 失败时回滚 native server, 防止残留
+    try {
+      await nativeDisable()
+    } catch {}
     _port = 0
     _running = false
     return 0
@@ -56,7 +62,7 @@ export async function enableEchProxy(config: EchProxyConfig = {}): Promise<numbe
  * 停止 ECH 代理, 恢复 OkHttp 直连
  */
 export async function disableEchProxy(): Promise<void> {
-  if (Platform.OS !== 'android' || !_running) return
+  if (Platform.OS !== 'android') return
 
   try {
     await nativeClearOkHttpProxy()
@@ -66,7 +72,6 @@ export async function disableEchProxy(): Promise<void> {
   } finally {
     _port = 0
     _running = false
-    await setStorage(STORAGE_KEY, '0')
   }
 }
 
@@ -85,15 +90,14 @@ export function isEchProxyRunning(): boolean {
 }
 
 /**
- * App 启动时恢复 ECH 代理状态
- * 若上次退出前是开启的, 自动重新启动
+ * 客户端启动时恢复 ECH 代理状态
+ * 从 systemStore.setting.echProxyEnabled 读取, 若为 true 则启动 native proxy
  */
 export async function restoreEchProxy(): Promise<void> {
   if (Platform.OS !== 'android') return
 
   try {
-    const enabled = await getStorage(STORAGE_KEY)
-    if (enabled === '1') {
+    if (systemStore.setting.echProxyEnabled) {
       await enableEchProxy()
     }
   } catch {}

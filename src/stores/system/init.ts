@@ -466,6 +466,9 @@ export const INIT_SETTING = {
   /** Worker Lain 代理密钥 (对图片生效) */
   workerLainSecret: '',
 
+  /** ECH 代理开关 (Android, 通过本地 MITM 代理绕过 SNI 封锁) */
+  echProxyEnabled: false,
+
   /** 置顶游戏时长类型 */
   pinnedGameDuration: '' as 'mainStory' | 'mainExtra' | 'completionist' | '',
 

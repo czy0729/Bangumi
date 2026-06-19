@@ -2,6 +2,7 @@
 #include <openssl/ech.h>
 #include <openssl/bio.h>
 #include <openssl/err.h>
+#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
@@ -30,6 +31,9 @@ int ech_get_retry_config(
     if (!bio) { SSL_CTX_free(ctx); return 0; }
 
     BIO_set_conn_hostname(bio, hostname);
+
+    // 设置连接超时: 通过 SSL_CTX 的 session timeout 控制 (10秒)
+    SSL_CTX_set_timeout(ctx, 10);
 
     SSL *ssl = NULL;
     BIO_get_ssl(bio, &ssl);
