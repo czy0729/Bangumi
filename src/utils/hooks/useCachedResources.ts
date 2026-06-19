@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-07 15:18:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-28 21:42:26
+ * @Last Modified time: 2026-06-19 21:57:36
  */
 import { useState } from 'react'
 import { loadAsync } from 'expo-font'
@@ -32,9 +32,13 @@ export async function loadAppFonts() {
   if (loadAppFontsLoaded) return true
 
   loadAppFontsLoaded = true
+
+  // 思源幼圆 (Resource Han Rounded CN)，原始文件约 13-14MB
+  // 经 pyftsubset 子集化裁剪至 ~3MB，仅保留 GB2312 一级+二级常用字 (6,763 字)
+  // 如需更新字表或重新生成，见 web/fontmin/subset.sh
   await loadAsync({
-    rhrm: require('@assets/fonts/ResourceHanRoundedCN-Medium.ttf'),
-    rhrb: require('@assets/fonts/ResourceHanRoundedCN-Bold.ttf')
+    rhrm: require('@assets/fonts/ResourceHanRoundedCN-Medium.min.ttf'),
+    rhrb: require('@assets/fonts/ResourceHanRoundedCN-Bold.min.ttf')
   })
 
   return true
