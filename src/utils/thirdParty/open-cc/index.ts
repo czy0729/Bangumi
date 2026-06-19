@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2024-04-13 16:32:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-18 07:20:23
+ * @Last Modified time: 2026-06-19 22:26:42
  */
 import { getSetting } from '../../app'
 import hash from '../hash'
@@ -23,6 +23,12 @@ const converters = {
 /** 检查字符串是否包含中文 */
 function containsChinese(str: string): boolean {
   return /[\u4e00-\u9fa5]/.test(str)
+}
+
+/** 兼容 ESM ([[STPhrases, STCharacters]]) 和 UMD ([STPhrases, STCharacters]) 格式 */
+function normalizeDictGroups(groups: unknown[]): unknown[][] {
+  if (Array.isArray(groups[0]) && typeof groups[0][0] === 'string') return groups as unknown[][]
+  return [groups]
 }
 
 /** 简转繁 */
@@ -46,9 +52,13 @@ export function s2t(str: string): string {
   // 检查目标语言缓存
   if (memoCache[targetLocale].has(id)) return memoCache[targetLocale].get(id)!
 
-  // 初始化转换器
+  // 初始化转换器, 兼容 ESM 和 UMD 不同的字典结构
   if (!converters[targetLocale]) {
-    converters[targetLocale] = OpenCC.ConverterFactory(CN, targetLocale === 'hk' ? HK : TW)
+    const toDict = targetLocale === 'hk' ? HK : TW
+    converters[targetLocale] = OpenCC.ConverterFactory(
+      ...normalizeDictGroups(CN),
+      ...normalizeDictGroups(toDict)
+    )
   }
 
   // 执行转换并缓存结果
