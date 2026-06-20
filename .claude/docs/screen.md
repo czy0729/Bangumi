@@ -19,11 +19,16 @@ screen-name/
 │   ├── index.tsx       # 页面头部组件
 │   ├── ds.ts
 │   └── styles.ts
-└── component/          # 页面私有子组件
-    └── xxx/
+├── component/          # 页面私有子组件（访问 Store）
+│   └── xxx/
+│       ├── index.tsx
+│       ├── ds.ts
+│       └── styles.ts
+└── components/         # 页面内纯 UI 小组件（不访问 Store）
+    └── yyy/
         ├── index.tsx
-        ├── ds.ts
-        └── styles.ts
+        ├── types.ts
+        └── styles.ts   # 可选，无样式时省略
 ```
 
 ## types.ts
@@ -152,3 +157,66 @@ return <Header title='标题' hm={HM} headerRight={handleHeaderRight} />
 ```
 6. **埋点 `t()` 置后**：先执行核心业务逻辑（如 alert、导航），后执行 `t()` 埋点调用
 7. **页面子组件放 `component/` 目录**：除 header 外的页面私有子组件必须放在 `component/` 目录下，不要与页面根目录平级
+
+## 页面内组件规范（components/）
+
+页面内纯 UI 小组件放在 `components/` 目录，不访问 Store：
+
+```
+components/
+└── collapse/
+    ├── index.tsx
+    ├── types.ts
+    └── styles.ts   # 可选
+```
+
+### 类型定义
+
+使用 `WithViewStyles` 和 `PropsWithChildren`：
+
+```ts
+// types.ts
+import type { PropsWithChildren } from 'react'
+import type { WithViewStyles } from '@types'
+
+export type Props = PropsWithChildren<WithViewStyles<{}>>
+```
+
+### 样式数组
+
+使用 `stl()` 包裹样式数组（处理 falsy 值）：
+
+```tsx
+import { stl } from '@utils'
+
+// ❌ 错误
+<Text style={[_.mt.sm, style]}>
+
+// ✅ 正确
+<Text style={stl(_.mt.sm, style)}>
+```
+
+### 组件写法
+
+使用命名函数 + 底部 `export default observer()` 导出：
+
+```tsx
+import React from 'react'
+import { observer } from 'mobx-react'
+import { Text } from '@components'
+import { _ } from '@stores'
+import { stl } from '@utils'
+
+import type { Props } from './types'
+
+/** 组件描述 */
+function Xxx({ style, children }: Props) {
+  return (
+    <Text style={stl(_.mt.sm, style)} size={14} lineHeight={18}>
+      {children}
+    </Text>
+  )
+}
+
+export default observer(Xxx)
+```

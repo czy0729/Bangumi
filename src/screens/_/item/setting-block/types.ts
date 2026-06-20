@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 20:11:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 06:27:16
+ * @Last Modified time: 2026-06-21 04:28:30
  */
 import type { TextType } from '@components'
 import type { ColorValue, IconfontNames, TextStyle, ViewStyle, WithViewStyles } from '@types'
@@ -19,6 +19,7 @@ export type ItemSettingBlockItemProps = PropsWithChildren<
     title?: string
     titleSize?: number
     information?: string
+    informationSize?: number
     informationType?: TextType
     filter?: string
     onPress?: () => any

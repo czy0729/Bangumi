@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-06-17 10:00:00
  */
 import { NativeModules, Platform } from 'react-native'
-import type { EchProxyConfig, EchProxyStatus } from './types'
+import type { EchProxyConfig, EchProxyStatus, EchProxyLog } from './types'
 
 const LINKING_ERROR =
   `The package 'bangumi-ech-proxy' doesn't seem to be linked. Make sure:\n\n` +
@@ -68,4 +68,12 @@ export async function nativeSetOkHttpProxy(_port: number): Promise<void> {
 export async function nativeClearOkHttpProxy(): Promise<void> {
   if (Platform.OS !== 'android') return
   return EchProxyModule.clearOkHttpProxy()
+}
+
+/**
+ * 获取 Native 端收集的 ECH 日志
+ */
+export async function nativeGetLogs(): Promise<EchProxyLog[]> {
+  if (Platform.OS !== 'android') return []
+  return EchProxyModule.getLogs()
 }

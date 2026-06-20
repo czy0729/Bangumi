@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:26:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-04 13:27:47
+ * @Last Modified time: 2026-06-21 05:19:14
  */
 import * as Device from 'expo-device'
 import { _, systemStore, userStore } from '@stores'
@@ -139,12 +139,23 @@ export default class ScreenHomeV2 extends Action {
       })
       this.save()
 
+      const { setting } = systemStore
       update(`u_${this.userId}`, {
         v: VERSION_GITHUB_RELEASE,
         a: systemStore.advance,
         n: boot,
         t: date('Y-m-d H:i:s', getTimestamp()),
         ipa: IOS_IPA,
+        p: {
+          disabled: setting.workerProxyDisabled,
+          proxy: setting.workerProxy.length,
+          api: setting.workerApiProxy.length,
+          lain: setting.workerLainProxy.length,
+          direct: setting.workerProxyDirect,
+          secret: setting.workerSecret.length,
+          lainSecret: setting.workerLainSecret.length,
+          ech: setting.echProxyEnabled
+        },
         l: {
           statusBar: STATUS_BAR_HEIGHT,
           header: HEADER_HEIGHT,
@@ -161,7 +172,7 @@ export default class ScreenHomeV2 extends Action {
           os: Device.osVersion,
           mem: `${Math.floor(Device.totalMemory / 1000 / 1000 / 1000)}G`
         },
-        s: pick(systemStore.setting, [
+        s: pick(setting, [
           'androidBlur',
           'avatarRound',
           'cdn',

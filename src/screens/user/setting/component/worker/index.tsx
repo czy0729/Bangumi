@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-05-30 12:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-20 07:01:50
+ * @Last Modified time: 2026-06-21 04:37:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,13 +18,14 @@ import commonStyles from '../../styles'
 import { getShows } from '../../utils'
 import { useWorkerSettings } from './hooks'
 import InputItem from './input-item'
+import LogConsole from './log-console'
 import PingButton from './ping-button'
 import { COMPONENT, TEXTS } from './ds'
 import { memoStyles } from './styles'
 
 import type { PingStatus, Props } from './types'
 
-/** 代理服务器设置 */
+/** 网络设置 */
 function Worker({ navigation, filter, open }: Props) {
   r(COMPONENT)
 
@@ -53,6 +54,8 @@ function Worker({ navigation, filter, open }: Props) {
     pingWorkerLainProxy,
     echRunning,
     echPort,
+    echLogs,
+    workerLogs,
     proxyMode,
     setProxyMode
   } = useWorkerSettings()
@@ -173,24 +176,24 @@ function Worker({ navigation, filter, open }: Props) {
 
         <ItemSettingBlock style={_.mt.sm} filter={filter} {...TEXTS.proxyMode}>
           <ItemSettingBlock.Item
-            title='禁用'
+            title='直连'
             active={proxyMode === 'disabled'}
             filter={filter}
             onPress={() => setProxyMode('disabled')}
           >
-            <Text style={_.mt.xs} type='sub' size={11} lineHeight={13} align='center'>
-              直连默认服务器，不做代理处理
+            <Text style={_.mt.xs} type='sub' size={10} align='center'>
+              直连默认服务器，不做任何处理
             </Text>
           </ItemSettingBlock.Item>
           <ItemSettingBlock.Item
             style={_.ml.sm}
-            title='镜像'
+            title='镜像 / 反代'
             active={proxyMode === 'worker'}
             filter={filter}
             onPress={() => setProxyMode('worker')}
           >
-            <Text style={_.mt.xs} type='sub' size={11} lineHeight={13} align='center'>
-              镜像、反代、Worker，需填写服务器地址（推荐）
+            <Text style={_.mt.xs} type='sub' size={10} align='center'>
+              自建或社区提供的服务，需填写地址（推荐）
             </Text>
           </ItemSettingBlock.Item>
           {ANDROID && ECH_PROXY_ENABLED && (
@@ -201,8 +204,8 @@ function Worker({ navigation, filter, open }: Props) {
               filter={filter}
               onPress={() => setProxyMode('ech')}
             >
-              <Text style={_.mt.xs} type='sub' size={11} lineHeight={13} align='center'>
-                自动配置无需填写， 加密 SNI 绕过封锁（实验性功能）
+              <Text style={_.mt.xs} type='sub' size={10} align='center'>
+                自动配置无需填写，加密 SNI 和 DNS 保护隐私（实验性）
               </Text>
             </ItemSettingBlock.Item>
           )}
@@ -211,18 +214,21 @@ function Worker({ navigation, filter, open }: Props) {
         <Divider />
 
         {proxyMode === 'ech' && ANDROID && (
-          <ItemSetting
-            style={_.mt.sm}
-            ft={
-              <Text type={echRunning ? 'success' : 'sub'} size={13} bold>
-                {echRunning
-                  ? `${TEXTS.echStatus.running} Port: ${echPort}`
-                  : TEXTS.echStatus.stopped}
-              </Text>
-            }
-            filter={filter}
-            {...TEXTS.echProxy}
-          />
+          <>
+            <ItemSetting
+              style={_.mt.sm}
+              ft={
+                <Text type={echRunning ? 'success' : 'sub'} size={13} bold>
+                  {echRunning
+                    ? `${TEXTS.echStatus.running} Port: ${echPort}`
+                    : TEXTS.echStatus.stopped}
+                </Text>
+              }
+              filter={filter}
+              {...TEXTS.echProxy}
+            />
+            <LogConsole title='ECH 日志' logs={echLogs} />
+          </>
         )}
 
         {proxyMode === 'worker' && (
@@ -275,11 +281,6 @@ function Worker({ navigation, filter, open }: Props) {
                 filter={filter}
                 informationStyle={styles.information}
                 {...TEXTS.workerProxyDirect}
-                information={
-                  workerProxyDirect
-                    ? TEXTS.workerProxyDirect.information
-                    : `${TEXTS.workerProxyDirect.information}\n\n${TEXTS.workerProxyDirect.informationDirect}`
-                }
               />
             )}
 
@@ -302,6 +303,8 @@ function Worker({ navigation, filter, open }: Props) {
                 )}
               </>
             )}
+
+            <LogConsole title='日志' logs={workerLogs} />
           </>
         )}
 

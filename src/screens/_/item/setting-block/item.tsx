@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 20:09:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-02 00:50:02
+ * @Last Modified time: 2026-06-21 04:28:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -27,6 +27,7 @@ const ItemSettingBlockItem = observer(
     title,
     titleSize = 14,
     information,
+    informationSize = 10,
     informationType = 'sub',
     filter,
     children,
@@ -61,8 +62,8 @@ const ItemSettingBlockItem = observer(
                 <Highlight
                   style={_.mt.xs}
                   type={informationType}
-                  size={10}
-                  lineHeight={11}
+                  size={informationSize}
+                  lineHeight={informationSize + 1}
                   align='center'
                   value={filter}
                 >

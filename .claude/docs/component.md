@@ -1,5 +1,7 @@
 # 可复用组件（components/）规范
 
+> 页面内私有组件规范见 [screen.md](./screen.md)
+
 ## 目录结构
 
 ```
@@ -24,18 +26,28 @@ component-name/
 
 - **使用 `type` 而不是 `interface`** 定义 Props
 - 导出名称统一为 `Props`
+- style 使用 `WithViewStyles` 类型
+- children 使用 `PropsWithChildren`
 - 示例：
   ```typescript
   // types.ts
-  export type Props = {
-    title: string
-    onPress: () => void
-  }
+  import type { PropsWithChildren } from 'react'
+  import type { WithViewStyles } from '@types'
+
+  export type Props = PropsWithChildren<WithViewStyles<{}>>
   ```
 
 ## 样式规范
 
-- 样式使用 `_.create()` 创建
-- 导出名称统一为 `styles`
+- 样式使用 `_.memoStyles()` 创建
+- 导出名称统一为 `memoStyles`
 - 组件内部样式放在组件目录下的 `styles.ts` 中
 - 共享样式放在上层目录的 `styles.ts` 中
+- 样式数组必须用 `stl()` 包裹：
+  ```tsx
+  // ❌ 错误
+  <Text style={[_.mt.sm, style]}>
+
+  // ✅ 正确
+  <Text style={stl(_.mt.sm, style)}>
+  ```

@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-29 02:32:46
+ * @Last Modified time: 2026-06-21 04:47:38
  */
 import { HOST, IMG_DEFAULT } from '../constants'
 import { WEB } from '../device'
@@ -22,10 +22,10 @@ export * from './tinygrail'
 /* -------------------------------------------------------------------------- */
 
 /** bangumi 官方 API 域名 */
-export const API_HOST = 'https://api.bgm.tv' as const
+export const API_HOST = 'https://api.bgmapi.com' as const
 
 /** bangumi 备用 API 域名 */
-export const API_HOST_BACKUP = 'https://api.bgmapi.com' as const
+export const API_HOST_BACKUP = 'https://api.bgm.tv' as const
 
 /** bangumi v0 API */
 export const API_V0 = `${API_HOST}/v0` as const

@@ -135,6 +135,10 @@ public class BangumiOkHttpClientFactory implements OkHttpClientFactory {
                     @Override
                     public void connectFailed(URI uri, SocketAddress sa, IOException ioe) {
                         Log.w(TAG, "Proxy connect failed for " + uri + ": " + ioe.getMessage());
+                        String host = uri.getHost();
+                        if (isTarget(host)) {
+                            EchProxyModule.addLog("error", host + " 连接失败: " + ioe.getMessage());
+                        }
                     }
                 })
                 .addInterceptor(chain -> {
@@ -147,8 +151,16 @@ public class BangumiOkHttpClientFactory implements OkHttpClientFactory {
                         String fullUrl = fullPath + (query != null ? "?" + query : "");
                         String ip = getCachedIp(host);
                         Log.d(TAG, host + fullUrl + " -> proxy -> " + ip);
+                        EchProxyModule.addLog("info", host + fullUrl + " -> " + ip);
                     }
-                    return chain.proceed(request);
+                    try {
+                        return chain.proceed(request);
+                    } catch (Exception e) {
+                        if (port > 0 && isTarget(host)) {
+                            EchProxyModule.addLog("error", host + " 请求失败: " + e.getMessage());
+                        }
+                        throw e;
+                    }
                 })
                 .cache(new Cache(httpCacheDir, cacheSize));
 

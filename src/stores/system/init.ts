@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-31 07:45:55
+ * @Last Modified time: 2026-06-21 05:17:58
  */
 import {
   IOS,
@@ -454,14 +454,14 @@ export const INIT_SETTING = {
   /** Worker 代理地址 (替换 Api) */
   workerApiProxy: '',
 
-  /** Worker 代理密钥 (对 Host 和 Api 都生效)  */
-  workerSecret: '',
+  /** Worker Lain 代理地址 (替换图片 Host) */
+  workerLainProxy: '',
 
   /** Worker 代理是否为直连模式 (通常在不走 worker 走 Nginx 情况下开启, 开启下仅替换 Host 和 Api, 不转换 Header) */
   workerProxyDirect: true,
 
-  /** Worker Lain 代理地址 (替换图片 Host) */
-  workerLainProxy: '',
+  /** Worker 代理密钥 (对 Host 和 Api 都生效)  */
+  workerSecret: '',
 
   /** Worker Lain 代理密钥 (对图片生效) */
   workerLainSecret: '',

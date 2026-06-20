@@ -25,3 +25,15 @@ export type EchProxyStatus = {
   /** CA 证书 PEM 内容 (首次启动时返回, 用于安装到系统信任链) */
   caPem?: string
 }
+
+/** ECH 代理日志 */
+export type EchProxyLog = {
+  /** 时间戳 (毫秒) */
+  time: number
+
+  /** 日志等级 */
+  level: 'info' | 'success' | 'warn' | 'error'
+
+  /** 日志消息 */
+  message: string
+}

@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2026-05-30 06:28:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-18 01:11:36
+ * @Last Modified time: 2026-06-21 05:34:01
  */
-import { API_HOST, API_P1 } from '@constants/api'
+import { API_HOST, API_HOST_BACKUP, API_P1 } from '@constants/api'
 import { HOST, HOST_IMAGE } from '@constants/constants'
 import { WEB } from '@constants/device'
 import { HOST_PROXY } from '@src/config'
@@ -12,6 +12,7 @@ import { syncSystemStore } from '../async'
 import { hmacSHA256 } from '../crypto'
 import { logger } from '../dev'
 import { isEchProxyRunning } from './ech'
+import { addWorkerLog } from './worker-log'
 
 /** HMAC 签名缓存, 避免重复计算 */
 const signCache: Record<string, string> = {}
@@ -49,15 +50,20 @@ export function applyProxy(
   let proxyType: '' | 'ech' | 'worker' | 'api' | 'host' = ''
 
   const isP1 = url.includes(API_P1)
-  const isBgm = url.includes(API_HOST) || url.includes(HOST) || isP1
+  const isBgm =
+    url.includes(API_HOST) || url.includes(API_HOST_BACKUP) || url.includes(HOST) || isP1
 
-  if (workerApiProxy && (url.includes(API_HOST) || isP1)) {
+  if (workerApiProxy && (url.includes(API_HOST) || url.includes(API_HOST_BACKUP) || isP1)) {
     const replacement = workerApiProxy.replace(/\/$/, '')
-    proxyUrl = url.replace(API_HOST, replacement).replace(API_P1, replacement + '/p1')
+    proxyUrl = url
+      .replace(API_HOST, replacement)
+      .replace(API_HOST_BACKUP, replacement)
+      .replace(API_P1, replacement + '/p1')
     proxyType = 'api'
   } else if (workerProxy && isBgm) {
     proxyUrl = url
       .replace(API_HOST, workerProxy)
+      .replace(API_HOST_BACKUP, workerProxy)
       .replace(HOST, workerProxy)
       .replace(API_P1, workerProxy)
 
@@ -87,6 +93,11 @@ export function applyProxy(
     }
   } else if (isHtml && WEB && HOST_PROXY && isBgm) {
     proxyUrl = url.replace(HOST, HOST_PROXY)
+  }
+
+  // 记录代理替换日志
+  if (proxyType && proxyUrl !== url) {
+    addWorkerLog('info', proxyUrl)
   }
 
   return { url: proxyUrl, headers: newHeaders, proxyType }
@@ -152,8 +163,8 @@ export async function axiosWithProxyRedirect(
   config: { url: string; headers?: Record<string, string>; [key: string]: any },
   isHtml = false
 ): Promise<{ response: any; redirectUrl: string }> {
-  const { workerProxy, workerProxyDirect } = syncSystemStore().setting
-  if (workerProxy) {
+  const { workerProxyDisabled, workerProxy, workerProxyDirect } = syncSystemStore().setting
+  if (!workerProxyDisabled && workerProxy) {
     if (!workerProxyDirect) {
       if (!config.headers) config.headers = {}
       config.headers['x-no-redirect'] = 'true'
@@ -167,6 +178,9 @@ export async function axiosWithProxyRedirect(
     validateStatus: () => true
   }
 
+  // 提取请求域名
+  const reqHost = config.url?.match(/^https?:\/\/([^/]+)/)?.[1] || ''
+
   try {
     const response = await axiosFn(safeConfig)
     const redirectUrl =
@@ -175,8 +189,13 @@ export async function axiosWithProxyRedirect(
       response?.request?.responseURL ||
       ''
 
+    if (redirectUrl) {
+      addWorkerLog('success', `${reqHost} → 重定向`)
+    }
+
     return { response, redirectUrl }
   } catch (error: any) {
+    addWorkerLog('error', `${reqHost} 请求失败: ${error?.message || '未知错误'}`)
     const errResp = error?.response
     const fallbackUrl = getRedirectFromHeaders(errResp?.headers)
     if (fallbackUrl) return { response: errResp, redirectUrl: fallbackUrl }
@@ -197,8 +216,14 @@ export function applyLainProxy(url: string) {
   if (workerProxyDisabled) return url
 
   // api.bgm.tv 的 redirect 图片 (如 avatar) 走 API proxy
-  if (typeof url === 'string' && workerApiProxy && url.includes(API_HOST)) {
-    return url.replace(API_HOST, workerApiProxy.replace(/\/$/, ''))
+  if (
+    typeof url === 'string' &&
+    workerApiProxy &&
+    (url.includes(API_HOST) || url.includes(API_HOST_BACKUP))
+  ) {
+    return url
+      .replace(API_HOST, workerApiProxy.replace(/\/$/, ''))
+      .replace(API_HOST_BACKUP, workerApiProxy.replace(/\/$/, ''))
   }
 
   if (!workerLainProxy || typeof url !== 'string' || !url.includes(HOST_IMAGE)) return url

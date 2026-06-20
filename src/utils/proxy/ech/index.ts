@@ -11,11 +11,12 @@ import { ECH_PROXY_ENABLED } from '@src/config'
 import {
   nativeDisable,
   nativeEnable,
+  nativeGetLogs,
   nativeGetStatus
 } from './native'
 
-import type { EchProxyConfig, EchProxyStatus } from './types'
-export type { EchProxyConfig, EchProxyStatus }
+import type { EchProxyConfig, EchProxyLog, EchProxyStatus } from './types'
+export type { EchProxyConfig, EchProxyLog, EchProxyStatus }
 
 /** 当前代理端口, 0 表示未启用 */
 let _port = 0
@@ -108,6 +109,14 @@ export async function syncEchProxyStatus(): Promise<EchProxyStatus> {
   _port = status.port
   _running = status.running
   return status
+}
+
+/**
+ * 获取 Native 端收集的 ECH 日志
+ */
+export async function getEchProxyLogs(): Promise<EchProxyLog[]> {
+  if (Platform.OS !== 'android' || !ECH_PROXY_ENABLED) return []
+  return nativeGetLogs()
 }
 
 export { enableEchProxy as enable, disableEchProxy as disable }
