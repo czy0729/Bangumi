@@ -35,6 +35,7 @@ function ProxyHelp({ navigation }: NavigationProps) {
           <Text style={_.mt.md} size={16} lineHeight={20}>
             本客户端支持通过代理访问 Bangumi 域名、API 和静态资源，以解决网络连接问题。
           </Text>
+
           <Text style={_.mt.md} size={16} lineHeight={20}>
             如果你已有科学上网工具，建议不要启用此功能，代理可能导致一些未知问题。
           </Text>

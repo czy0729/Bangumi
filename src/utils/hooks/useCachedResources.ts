@@ -11,6 +11,8 @@ import { devLog } from '@components/dev'
 import { setComponentsDefaultProps } from '@components/text/utils'
 import Stores from '@stores'
 import { postTask } from '@utils'
+import { logger } from '@utils/dev'
+import { restoreEchProxy } from '@utils/proxy/ech'
 import { bootApp } from '../app'
 import useMount from './useMount'
 
@@ -60,6 +62,11 @@ export default function useCachedResources() {
         // Stores 初始化
         const settings = await Stores.init()
         setState(1)
+
+        // 恢复 ECH 代理 (仅当用户上次开启了 echProxyEnabled setting)
+        restoreEchProxy().catch(e => {
+          logger.warn('useCachedResources', 'restoreEchProxy failed:', e)
+        })
 
         // 加载 bgm 表情特殊字体
         postTask(() => {

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ECH 代理需要信任自签 CA 证书用于 MITM
+  仅对目标域名信任 user CA, 其他域名只信任 system CA
+-->
+<network-security-config>
+    <base-config>
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+
+    <!-- 目标域名: 信任 user CA (ECH MITM 代理需要) -->
+    <domain-config>
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="user" />
+        </trust-anchors>
+        <domain includeSubdomains="true">bgm.tv</domain>
+        <domain includeSubdomains="true">chii.in</domain>
+        <domain includeSubdomains="true">lain.bgm.tv</domain>
+        <domain includeSubdomains="true">next.bgm.tv</domain>
+        <domain includeSubdomains="true">api.bgm.tv</domain>
+    </domain-config>
+
+    <!-- 开发环境: 允许 Metro bundler 明文 HTTP 连接 -->
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">localhost</domain>
+        <domain>127.0.0.1</domain>
+        <domain includeSubdomains="true">10.0.2.2</domain>
+        <domain includeSubdomains="true">10.0.3.2</domain>
+    </domain-config>
+</network-security-config>

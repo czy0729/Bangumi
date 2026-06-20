@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2026-05-30 06:28:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-31 10:00:23
+ * @Last Modified time: 2026-06-18 01:11:36
  */
-import { syncSystemStore } from '@utils/async'
-import { hmacSHA256 } from '@utils/crypto'
 import { API_HOST, API_P1 } from '@constants/api'
 import { HOST, HOST_IMAGE } from '@constants/constants'
 import { WEB } from '@constants/device'
 import { HOST_PROXY } from '@src/config'
+import { syncSystemStore } from '../async'
+import { hmacSHA256 } from '../crypto'
 import { logger } from '../dev'
+import { isEchProxyRunning } from './ech'
 
 /** HMAC 签名缓存, 避免重复计算 */
 const signCache: Record<string, string> = {}
@@ -29,16 +30,23 @@ export function applyProxy(
   url: string,
   headers: Record<string, string> = {},
   isHtml = false
-): { url: string; headers: Record<string, string>; proxyType: '' | 'worker' | 'api' | 'host' } {
+): {
+  url: string
+  headers: Record<string, string>
+  proxyType: '' | 'ech' | 'worker' | 'api' | 'host'
+} {
   const { workerProxyDisabled, workerProxy, workerSecret, workerProxyDirect, workerApiProxy } =
     syncSystemStore().setting
+
+  // ECH 代理运行时, OkHttp 已走本地代理, 无需 URL 替换
+  if (isEchProxyRunning()) return { url, headers: { ...headers }, proxyType: 'ech' }
 
   // 全局禁用代理时直接返回原始值
   if (workerProxyDisabled) return { url, headers: { ...headers }, proxyType: '' }
 
   const newHeaders = { ...headers }
   let proxyUrl = url
-  let proxyType: '' | 'worker' | 'api' | 'host' = ''
+  let proxyType: '' | 'ech' | 'worker' | 'api' | 'host' = ''
 
   const isP1 = url.includes(API_P1)
   const isBgm = url.includes(API_HOST) || url.includes(HOST) || isP1
@@ -85,7 +93,12 @@ export function applyProxy(
 }
 
 /** 调试打印 */
-export function logProxy(method: string, proxyType: string, _url: string, finalUrl: string) {
+export function logProxy(
+  method: string,
+  proxyType: '' | 'ech' | 'worker' | 'api' | 'host',
+  _url: string,
+  finalUrl: string
+) {
   if (proxyType) logger.log(`@utils/proxy/${method} (${proxyType})`, finalUrl)
 }
 
@@ -175,6 +188,10 @@ export async function axiosWithProxyRedirect(
 export function applyLainProxy(url: string) {
   const { workerProxyDisabled, workerLainProxy, workerLainSecret, workerApiProxy } =
     syncSystemStore().setting
+
+  // DoH DNS (BangumiOkHttpClientFactory) 已注入 OkHttpClient 单例,
+  // FastImage/Glide 共享同一实例, 图片域名自动走 DoH 解析, 无需改写 URL
+  if (isEchProxyRunning()) return url
 
   // 全局禁用代理时直接返回原始 URL
   if (workerProxyDisabled) return url

@@ -4,9 +4,9 @@
  * @Author: czy0729
  * @Date: 2022-04-13 04:14:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-21 13:31:18
+ * @Last Modified time: 2026-06-18 06:26:28
  */
-import { queue } from '../utils'
+import pLimit from 'p-limit'
 import { getItem, setItem } from './utils'
 import { CACHE_MAP, LAZY_SET_STORAGE_INTERVAL, LAZY_SET_STORAGE_SIZE } from './ds'
 
@@ -57,11 +57,12 @@ setStorageInterval = setInterval(() => {
       if (DEV_LOG) {
         const size = (String(value).length / 1000).toFixed(2)
         if (Number(size) >= 100) {
-          console.info('setStorageLazy', `${size}kb`.padEnd(10, ' '), key)
+          // console.info('setStorageLazy', `${size}kb`.padEnd(10, ' '), key)
         }
       }
     })
   })
 
-  queue(setItems, 1)
+  const limit = pLimit(1)
+  Promise.all(setItems.map(fn => limit(fn)))
 }, LAZY_SET_STORAGE_INTERVAL)

@@ -15,7 +15,8 @@
     "open": "start .\\android\\app\\build\\outputs\\apk\\release\\",
     "open:mac": "open ./android/app/build/outputs/apk/release/",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "build:rust": "bash android/rust/build-android.sh"
   },
   "resolutions": {
     "define-properties": "1.2.1",

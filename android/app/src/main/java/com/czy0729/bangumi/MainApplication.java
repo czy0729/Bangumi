@@ -23,6 +23,9 @@ import com.umeng.commonsdk.UMConfigure;
 import com.czy0729.bangumi.umeng.DplusReactPackage;
 import com.czy0729.bangumi.umeng.RNUMConfigure;
 import com.czy0729.bangumi.daynight.DayNightPackage;
+import com.czy0729.bangumi.doh.EchProxyPackage;
+import com.czy0729.bangumi.doh.BangumiOkHttpClientFactory;
+import com.facebook.react.modules.network.OkHttpClientProvider;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -40,6 +43,7 @@ public class MainApplication extends Application implements ReactApplication {
         packages.add(new DplusReactPackage());
         packages.add(new DayNightPackage());
         packages.add(new TextSharePackage());
+        packages.add(new EchProxyPackage());
         return packages;
       }
 
@@ -67,6 +71,13 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+
+    // Inject DoH DNS into the shared OkHttpClient singleton.
+    // FastImage/Glide derives from the same instance, so images
+    // automatically use clean DNS for Bangumi domains.
+    OkHttpClientProvider.setOkHttpClientFactory(
+        new BangumiOkHttpClientFactory(getCacheDir()));
+
     SoLoader.init(this, /* native exopackage */ false);
     if (!BuildConfig.REACT_NATIVE_UNSTABLE_USE_RUNTIME_SCHEDULER_ALWAYS) {
       ReactFeatureFlags.unstable_useRuntimeSchedulerAlways = false;

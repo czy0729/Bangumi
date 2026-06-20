@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-05-30 12:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-07 22:27:24
+ * @Last Modified time: 2026-06-20 07:01:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,8 @@ import { IconTouchable, ItemSetting, ItemSettingBlock, Notice } from '@_'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
 import { useBoolean } from '@utils/hooks'
-import { API_HOST, HOST, HOST_BGM_STATIC } from '@constants'
+import { ANDROID, API_HOST, HOST, HOST_BGM_STATIC } from '@constants'
+import { ECH_PROXY_ENABLED } from '@src/config'
 import commonStyles from '../../styles'
 import { getShows } from '../../utils'
 import { useWorkerSettings } from './hooks'
@@ -35,14 +36,12 @@ function Worker({ navigation, filter, open }: Props) {
     setWorkerLainSecret,
     setWorkerProxy,
     setWorkerProxyDirect,
-    setWorkerProxyDisabled,
     setWorkerSecret,
     workerApiProxy,
     workerLainProxy,
     workerLainSecret,
     workerProxy,
     workerProxyDirect,
-    workerProxyDisabled,
     workerSecret,
     lockedFields,
     focusedField,
@@ -51,7 +50,11 @@ function Worker({ navigation, filter, open }: Props) {
     handleBlur,
     pingWorkerProxy,
     pingWorkerApiProxy,
-    pingWorkerLainProxy
+    pingWorkerLainProxy,
+    echRunning,
+    echPort,
+    proxyMode,
+    setProxyMode
   } = useWorkerSettings()
 
   if (!shows) return null
@@ -70,6 +73,7 @@ function Worker({ navigation, filter, open }: Props) {
     onPing: () => void
   ) => {
     if (!show) return null
+
     return (
       <ItemSettingBlock style={_.mt.md} filter={filter} {...TEXTS[textKey]}>
         <View style={_.container.block}>
@@ -167,89 +171,142 @@ function Worker({ navigation, filter, open }: Props) {
           />
         </View>
 
-        {shows.workerProxyDisabled && (
-          <ItemSetting
-            ft={
-              <SwitchPro
-                style={commonStyles.switch}
-                value={workerProxyDisabled}
-                onSyncPress={setWorkerProxyDisabled}
-              />
-            }
+        <ItemSettingBlock style={_.mt.sm} filter={filter} {...TEXTS.proxyMode}>
+          <ItemSettingBlock.Item
+            title='禁用'
+            active={proxyMode === 'disabled'}
             filter={filter}
-            {...TEXTS.workerProxyDisabled}
-          />
-        )}
+            onPress={() => setProxyMode('disabled')}
+          >
+            <Text style={_.mt.xs} type='sub' size={11} lineHeight={13} align='center'>
+              直连默认服务器，不做代理处理
+            </Text>
+          </ItemSettingBlock.Item>
+          <ItemSettingBlock.Item
+            style={_.ml.sm}
+            title='镜像'
+            active={proxyMode === 'worker'}
+            filter={filter}
+            onPress={() => setProxyMode('worker')}
+          >
+            <Text style={_.mt.xs} type='sub' size={11} lineHeight={13} align='center'>
+              镜像、反代、Worker，需填写服务器地址（推荐）
+            </Text>
+          </ItemSettingBlock.Item>
+          {ANDROID && ECH_PROXY_ENABLED && (
+            <ItemSettingBlock.Item
+              style={_.ml.sm}
+              title='ECH'
+              active={proxyMode === 'ech'}
+              filter={filter}
+              onPress={() => setProxyMode('ech')}
+            >
+              <Text style={_.mt.xs} type='sub' size={11} lineHeight={13} align='center'>
+                自动配置无需填写， 加密 SNI 绕过封锁（实验性功能）
+              </Text>
+            </ItemSettingBlock.Item>
+          )}
+        </ItemSettingBlock>
 
         <Divider />
 
-        {renderProxyInput(
-          shows.workerProxy,
-          'workerProxy',
-          workerProxy,
-          `当前为 ${HOST}`,
-          HOST,
-          'workerProxy',
-          pingWorkerProxy,
-          () => pingWorkerProxy.handlePing(workerProxy)
-        )}
-
-        {renderProxyInput(
-          shows.workerApiProxy,
-          'workerApiProxy',
-          workerApiProxy,
-          `当前为 ${API_HOST}`,
-          API_HOST,
-          'workerApiProxy',
-          pingWorkerApiProxy,
-          () => pingWorkerApiProxy.handlePing(workerApiProxy)
-        )}
-
-        {renderProxyInput(
-          shows.imageProxy,
-          'imageProxy',
-          workerLainProxy,
-          `当前为 ${HOST_BGM_STATIC}`,
-          HOST_BGM_STATIC,
-          'workerLainProxy',
-          pingWorkerLainProxy,
-          () => pingWorkerLainProxy.handlePing(workerLainProxy)
-        )}
-
-        <Divider />
-
-        {renderSecretInput(
-          shows.workerSecret,
-          'workerSecret',
-          workerSecret,
-          '对 Host 和 API 都生效',
-          'workerSecret'
-        )}
-
-        {renderSecretInput(
-          shows.workerLainSecret,
-          'workerLainSecret',
-          workerLainSecret,
-          '对图片生效',
-          'workerLainSecret'
-        )}
-
-        <Divider />
-
-        {shows.workerProxyDirect && (
+        {proxyMode === 'ech' && ANDROID && (
           <ItemSetting
             style={_.mt.sm}
             ft={
-              <SwitchPro
-                style={commonStyles.switch}
-                value={workerProxyDirect}
-                onSyncPress={setWorkerProxyDirect}
-              />
+              <Text type={echRunning ? 'success' : 'sub'} size={13} bold>
+                {echRunning
+                  ? `${TEXTS.echStatus.running} Port: ${echPort}`
+                  : TEXTS.echStatus.stopped}
+              </Text>
             }
             filter={filter}
-            informationStyle={styles.information}
-            {...TEXTS.workerProxyDirect}
+            {...TEXTS.echProxy}
           />
+        )}
+
+        {proxyMode === 'worker' && (
+          <>
+            {renderProxyInput(
+              shows.workerProxy,
+              'workerProxy',
+              workerProxy,
+              `当前为 ${HOST}`,
+              HOST,
+              'workerProxy',
+              pingWorkerProxy,
+              () => pingWorkerProxy.handlePing(workerProxy)
+            )}
+
+            {renderProxyInput(
+              shows.workerApiProxy,
+              'workerApiProxy',
+              workerApiProxy,
+              `当前为 ${API_HOST}`,
+              API_HOST,
+              'workerApiProxy',
+              pingWorkerApiProxy,
+              () => pingWorkerApiProxy.handlePing(workerApiProxy)
+            )}
+
+            {renderProxyInput(
+              shows.imageProxy,
+              'imageProxy',
+              workerLainProxy,
+              `当前为 ${HOST_BGM_STATIC}`,
+              HOST_BGM_STATIC,
+              'workerLainProxy',
+              pingWorkerLainProxy,
+              () => pingWorkerLainProxy.handlePing(workerLainProxy)
+            )}
+
+            <Divider />
+
+            {shows.workerProxyDirect && (
+              <ItemSetting
+                style={_.mt.sm}
+                ft={
+                  <SwitchPro
+                    style={commonStyles.switch}
+                    value={!workerProxyDirect}
+                    onSyncPress={setWorkerProxyDirect}
+                  />
+                }
+                filter={filter}
+                informationStyle={styles.information}
+                {...TEXTS.workerProxyDirect}
+                information={
+                  workerProxyDirect
+                    ? TEXTS.workerProxyDirect.information
+                    : `${TEXTS.workerProxyDirect.information}\n\n${TEXTS.workerProxyDirect.informationDirect}`
+                }
+              />
+            )}
+
+            {!workerProxyDirect && (
+              <>
+                {renderSecretInput(
+                  shows.workerSecret,
+                  'workerSecret',
+                  workerSecret,
+                  '对 Host 和 API 都生效',
+                  'workerSecret'
+                )}
+
+                {renderSecretInput(
+                  shows.workerLainSecret,
+                  'workerLainSecret',
+                  workerLainSecret,
+                  '对图片生效',
+                  'workerLainSecret'
+                )}
+              </>
+            )}
+          </>
+        )}
+
+        {proxyMode === 'disabled' && (
+          <ItemSetting style={_.mt.sm} filter={filter} {...TEXTS.workerProxyDisabled} />
         )}
       </ActionSheet>
     </>
