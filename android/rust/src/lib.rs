@@ -21,17 +21,20 @@ const ANDROID_LOG_ERROR: i32 = 6;
 
 macro_rules! log_d {
     ($($arg:tt)*) => {
-        #[cfg(target_os = "android")]
+        // Only log in debug builds to avoid performance overhead in production
+        #[cfg(debug_assertions)]
         {
-            let msg = std::ffi::CString::new(format!($($arg)*)).unwrap();
-            let tag = b"EchProxy\0";
-            unsafe {
-                __android_log_print(ANDROID_LOG_DEBUG, tag.as_ptr(), b"%s\0".as_ptr(), msg.as_ptr());
+            #[cfg(target_os = "android")]
+            {
+                let msg = std::ffi::CString::new(format!($($arg)*)).unwrap();
+                let tag = b"EchProxy\0";
+                unsafe {
+                    __android_log_print(ANDROID_LOG_DEBUG, tag.as_ptr(), b"%s\0".as_ptr(), msg.as_ptr());
+                }
             }
-            // msg is dropped here, after __android_log_print has finished
+            #[cfg(not(target_os = "android"))]
+            eprintln!($($arg)*);
         }
-        #[cfg(not(target_os = "android"))]
-        eprintln!($($arg)*);
     };
 }
 
@@ -69,6 +72,7 @@ mod ffi {
 
 #[cfg(has_ech)]
 const OUTER_SNI: &str = "cloudflare-ech.com";
+/// Target domains for ECH proxy (must stay in sync with src/config.ts ECH_TARGET_DOMAINS)
 const TARGETS: &[&str] = &["chii.in", "lain.bgm.tv", "bgm.tv", "next.bgm.tv", "api.bgm.tv", "cloudflare-dns.com"];
 
 const CF_DOH_IPS: &[Ipv4Addr] = &[
@@ -1092,7 +1096,7 @@ struct ProxyServer {
 }
 
 /// 最大并发连接数, 防止图片瀑布流打爆低端机
-const MAX_CONCURRENT: u32 = 8;
+const MAX_CONCURRENT: u32 = 12;
 
 static SERVER: Mutex<Option<ProxyServer>> = Mutex::new(None);
 static CA_PEM: std::sync::OnceLock<String> = std::sync::OnceLock::new();

@@ -53,16 +53,17 @@ export async function nativeGetStatus(): Promise<EchProxyStatus> {
 }
 
 /**
- * 配置 OkHttp 使用本地代理
- * 由 Native 层调用 OkHttpClientFactory 重新创建 client
+ * @deprecated OkHttp 路由已通过 ProxySelector 自动处理, Java 端为 no-op。
+ * 保留方法签名兼容 NativeModule 注册, JS 侧不再调用。
  */
-export async function nativeSetOkHttpProxy(port: number): Promise<void> {
+export async function nativeSetOkHttpProxy(_port: number): Promise<void> {
   if (Platform.OS !== 'android') return
-  return EchProxyModule.setOkHttpProxy(port)
+  return EchProxyModule.setOkHttpProxy(_port)
 }
 
 /**
- * 清除 OkHttp 代理配置, 恢复直连
+ * @deprecated OkHttp 路由已通过 ProxySelector 自动处理, Java 端为 no-op。
+ * 保留方法签名兼容 NativeModule 注册, JS 侧不再调用。
  */
 export async function nativeClearOkHttpProxy(): Promise<void> {
   if (Platform.OS !== 'android') return

@@ -40,10 +40,77 @@ function usePingTest(urlTemplate: string, replaceTarget: string) {
   return { ...state, handlePing, urlTemplate }
 }
 
+/** 代理模式 */
+export type ProxyMode = 'ech' | 'worker' | 'disabled'
+
 /** Worker 代理设置逻辑 */
 export function useWorkerSettings() {
   // ECH 代理状态 (仅 Android), 以 systemStore.setting 为 source of truth
   const [echLoading, setEchLoading] = useState(false)
+  const [echPort, setEchPort] = useState<number>(0)
+
+  /** 计算当前代理模式 */
+  const proxyMode: ProxyMode = systemStore.setting.echProxyEnabled
+    ? 'ech'
+    : systemStore.setting.workerProxyDisabled
+      ? 'disabled'
+      : 'worker'
+
+  /** 切换代理模式 */
+  const setProxyMode = useCallback(
+    async (mode: ProxyMode) => {
+      feedback(true)
+
+      if (mode === 'ech') {
+        // 启用 ECH, 取消全局禁用
+        if (systemStore.setting.workerProxyDisabled) {
+          systemStore.switchSetting('workerProxyDisabled')
+        }
+        if (!systemStore.setting.echProxyEnabled) {
+          setEchLoading(true)
+          try {
+            const port = await enableEchProxy()
+            if (port > 0) {
+              logger.log(COMPONENT, 'setProxyMode ech running', port)
+              setEchPort(port)
+              systemStore.switchSetting('echProxyEnabled')
+            } else {
+              logger.warn(COMPONENT, 'setProxyMode ech failed: port=0')
+            }
+          } catch (e) {
+            logger.warn(COMPONENT, 'setProxyMode ech error', e)
+          } finally {
+            setEchLoading(false)
+          }
+        }
+      } else if (mode === 'worker') {
+        // 启用 Worker, 关闭 ECH, 取消全局禁用
+        if (systemStore.setting.echProxyEnabled) {
+          try {
+            await disableEchProxy()
+          } catch {}
+          setEchPort(0)
+          systemStore.switchSetting('echProxyEnabled')
+        }
+        if (systemStore.setting.workerProxyDisabled) {
+          systemStore.switchSetting('workerProxyDisabled')
+        }
+      } else {
+        // 禁用代理, 关闭 ECH
+        if (systemStore.setting.echProxyEnabled) {
+          try {
+            await disableEchProxy()
+          } catch {}
+          setEchPort(0)
+          systemStore.switchSetting('echProxyEnabled')
+        }
+        if (!systemStore.setting.workerProxyDisabled) {
+          systemStore.switchSetting('workerProxyDisabled')
+        }
+      }
+    },
+    []
+  )
 
   const toggleEchProxy = useCallback(async () => {
     if (echLoading) return
@@ -55,13 +122,18 @@ export function useWorkerSettings() {
       const enabled = systemStore.setting.echProxyEnabled
       if (enabled) {
         await disableEchProxy()
+        setEchPort(0)
+        systemStore.switchSetting('echProxyEnabled')
       } else {
         const port = await enableEchProxy()
-        logger.log(COMPONENT, 'toggleEchProxy running', port)
+        if (port > 0) {
+          logger.log(COMPONENT, 'toggleEchProxy running', port)
+          setEchPort(port)
+          systemStore.switchSetting('echProxyEnabled')
+        } else {
+          logger.warn(COMPONENT, 'toggleEchProxy failed: port=0')
+        }
       }
-
-      // 无论成功失败都切换 setting, 下次启动时 restoreEchProxy 会根据此值恢复
-      systemStore.switchSetting('echProxyEnabled')
     } catch (e) {
       logger.warn(COMPONENT, 'toggleEchProxy error', e)
     } finally {
@@ -203,6 +275,9 @@ export function useWorkerSettings() {
     pingWorkerLainProxy,
     echRunning: systemStore.setting.echProxyEnabled,
     echLoading,
-    toggleEchProxy
+    echPort,
+    toggleEchProxy,
+    proxyMode,
+    setProxyMode
   }
 }

@@ -2,6 +2,8 @@ package com.czy0729.bangumi.doh;
 
 import androidx.annotation.NonNull;
 
+import java.io.File;
+
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -69,19 +71,28 @@ public class EchProxyModule extends ReactContextBaseJavaModule {
             String cacheDir = getCacheDir();
             Log.d("EchProxy", "Starting proxy with port=" + port + ", dns=" + dns + ", caDir=" + caDir + ", cacheDir=" + cacheDir);
             currentPort = EchProxyNative.safeStartProxy(port, dns, caDir, cacheDir);
-            running = currentPort > 0;
+
+            if (currentPort <= 0) {
+                Log.e("EchProxy", "Proxy failed to start: returned port " + currentPort);
+                promise.reject("ECH_START_FAILED", "Proxy failed to start (port=" + currentPort + ")");
+                return;
+            }
+
+            running = true;
             sProxyPort = currentPort;
             Log.d("EchProxy", "Proxy started: port=" + currentPort);
 
             // Share EchProxy cache with DoHDNS for image DNS resolution
-            if (running) {
-                DoHDNS.getInstance().setEchProxy(cacheDir);
-                Log.d("EchProxy", "Shared EchProxy cache with DoHDNS: " + cacheDir);
-            }
+            DoHDNS.getInstance().setEchProxy(cacheDir);
+            Log.d("EchProxy", "Shared EchProxy cache with DoHDNS: " + cacheDir);
 
             promise.resolve(currentPort);
         } catch (Exception e) {
             Log.e("EchProxy", "Failed to start proxy", e);
+            // Reset state on failure
+            currentPort = 0;
+            sProxyPort = 0;
+            running = false;
             promise.reject("ECH_START_FAILED", e.getMessage(), e);
         }
     }
@@ -137,5 +148,14 @@ public class EchProxyModule extends ReactContextBaseJavaModule {
 
     private String getCacheDir() {
         return getReactApplicationContext().getCacheDir().getAbsolutePath();
+    }
+
+    /**
+     * Get cache directory for use by other components (e.g., BangumiOkHttpClientFactory).
+     * Returns null if context is not available.
+     */
+    public static File getCacheDirStatic(ReactApplicationContext context) {
+        if (context == null) return null;
+        return context.getCacheDir();
     }
 }

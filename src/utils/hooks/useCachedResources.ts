@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-07 15:18:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-19 17:21:17
+ * @Last Modified time: 2026-06-19 19:21:34
  */
 import { useState } from 'react'
 import { loadAsync } from 'expo-font'
@@ -11,6 +11,7 @@ import { devLog } from '@components/dev'
 import { setComponentsDefaultProps } from '@components/text/utils'
 import Stores from '@stores'
 import { postTask } from '@utils'
+import { logger } from '@utils/dev'
 import { restoreEchProxy } from '@utils/proxy/ech'
 import { bootApp } from '../app'
 import useMount from './useMount'
@@ -59,7 +60,9 @@ export default function useCachedResources() {
         setState(1)
 
         // 恢复 ECH 代理 (仅当用户上次开启了 echProxyEnabled setting)
-        restoreEchProxy()
+        restoreEchProxy().catch(e => {
+          logger.warn('useCachedResources', 'restoreEchProxy failed:', e)
+        })
 
         // 加载 bgm 表情特殊字体
         postTask(() => {

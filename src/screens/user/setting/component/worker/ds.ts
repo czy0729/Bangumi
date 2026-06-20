@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2026-05-30 12:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-19 16:51:10
+ * @Last Modified time: 2026-06-20 06:55:40
  */
 import { rc } from '@utils/dev'
 import { API_HOST_BACKUP } from '@constants'
@@ -15,14 +15,22 @@ export const TEXTS = {
   worker: {
     hd: '代理'
   },
+  proxyMode: {
+    hd: '代理模式',
+    information: '选择访问 Bangumi 的网络方式'
+  },
   echProxy: {
     hd: 'ECH 代理 (Android)',
     information:
-      '通过本地 HTTPS CONNECT 代理绕过 SNI 封锁，使用 ECH 加密访问 Bangumi。\n开启后会自动接管 Bangumi 域名的网络请求，无需配置下方的代理地址。\n需要重新启动客户端后生效。'
+      '自动接管 Bangumi 域名请求，无需配置。\n通过 ECH 加密 SNI 绕过封锁，同时启用 DoH 防止 DNS 污染。'
+  },
+  echStatus: {
+    running: '运行中',
+    stopped: '未运行'
   },
   workerProxyDisabled: {
-    hd: '全局禁用代理',
-    information: '开启后即使下方设置有值，客户端也不会走代理模式，所有请求直连默认服务器'
+    hd: '禁用代理',
+    information: '所有请求直连默认服务器'
   },
   workerProxy: {
     title: '主站域名',
@@ -46,10 +54,11 @@ export const TEXTS = {
       '通常不填，若有值会在图片地址后携带参数\nv={hmacSHA256(图片去参数地址, 密钥).slice(0, 4)}\n可用于图片鉴权，防止盗用'
   },
   workerProxyDirect: {
-    hd: '直连模式',
-    information: `如果目标是 Nginx 等直接对域名直接覆写的请开启，开启后仅替换 Host。
-    \n推荐直连使用代理，请自行到超展开社区里面找，目前已经有不少班友提供有效服务。
-    \n如果目标是 cf worker / deno deploy 请关闭，并请到 github 项目相应目录里复制作者编写的 worker 文件部署。
-    \n解析：在请求层层转发后，例如 cookie、授权后的 code、重定向地址等会丢失。如果是正常访问普通页面可能不需要，但是登录等复杂操作就必须要自行在 worker 里捕获并转为例如 x-redirect-url、location、set-cookie 之类的头，传透返回给客户端提取使用。`
+    hd: '使用了自建 Worker？',
+    information: `关闭：由镜像 / 反代自行处理转发（如 Nginx 直接覆写域名）
+    \n开启：由 Worker 帮你处理 cookie、重定向等转发细节。
+    \n推荐保持关闭，直接使用社区提供的镜像站即可（超展开社区有不少班友提供服务）。
+    \n⚠️ 注意：使用第三方镜像 / 反代服务意味着你的请求会经过第三方服务器。如需自建，请到 GitHub 项目目录复制作者提供的 Worker 文件部署到 cf worker / deno deploy。`,
+    informationDirect: `解析：在请求层层转发后，例如 cookie、授权后的 code、重定向地址等会丢失。如果是正常访问普通页面可能不需要，但是登录等复杂操作就必须要自行在 worker 里捕获并转为例如 x-redirect-url、location、set-cookie 之类的头，传透返回给客户端提取使用。`
   }
 } as const

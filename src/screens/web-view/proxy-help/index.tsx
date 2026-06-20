@@ -27,13 +27,35 @@ function ProxyHelp({ navigation }: NavigationProps) {
             代理补充说明
           </Text>
           <Text style={_.mt.md} size={16} lineHeight={20}>
-            本客户端支持通过代理访问 Bangumi 域名、API、静态资源域，以解决网络连接问题。
+            本客户端支持三种代理模式，用于解决网络连接问题。
+          </Text>
+
+          <Text style={[_.mt.md, _.mb.xs]} size={16} lineHeight={20} bold>
+            ECH 代理 (Android)
+          </Text>
+          <Text size={14} lineHeight={18} type='sub'>
+            通过本地 HTTPS CONNECT 代理绕过 SNI 封锁，使用 ECH 加密访问 Bangumi。无需配置地址，开启即用。
+          </Text>
+
+          <Text style={[_.mt.md, _.mb.xs]} size={16} lineHeight={20} bold>
+            Worker 代理
+          </Text>
+          <Text size={14} lineHeight={18} type='sub'>
+            通过自建反代服务器访问 Bangumi。需要填写代理地址，推荐到超展开社区寻找可用服务。
+          </Text>
+
+          <Text style={[_.mt.md, _.mb.xs]} size={16} lineHeight={20} bold>
+            禁用代理
+          </Text>
+          <Text size={14} lineHeight={18} type='sub'>
+            所有请求直连默认服务器，不做任何代理处理。
+          </Text>
+
+          <Text style={_.mt.md} size={16} lineHeight={20}>
+            如果你已经有工具（如 VPN、Clash 等）建议不要折腾本功能。
           </Text>
           <Text style={_.mt.md} size={16} lineHeight={20}>
-            如果你已经有工具建议不要折腾本功能，因为开启代理后，可能会碰到预料不到的问题。
-          </Text>
-          <Text style={_.mt.md} size={16} lineHeight={20}>
-            请在知悉此功能的情况下再填写地址输入框，一旦有值即生效，错误值会导致你无法正常使用客户端。
+            Worker 模式下，一旦有值即生效，错误值会导致你无法正常使用客户端。
           </Text>
           <Text style={_.mt.md} size={16} lineHeight={20}>
             首次填写值，可能需要重新完整登录授权、冷启动才能正常表现。

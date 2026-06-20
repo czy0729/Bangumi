@@ -9,11 +9,9 @@ import { Platform } from 'react-native'
 import { systemStore } from '@stores'
 import { ECH_PROXY_ENABLED } from '@src/config'
 import {
-  nativeClearOkHttpProxy,
   nativeDisable,
   nativeEnable,
-  nativeGetStatus,
-  nativeSetOkHttpProxy
+  nativeGetStatus
 } from './native'
 
 import type { EchProxyConfig, EchProxyStatus } from './types'
@@ -36,10 +34,10 @@ export async function enableEchProxy(config: EchProxyConfig = {}): Promise<numbe
 
   try {
     // 启动本地代理, 返回实际端口
+    // OkHttp 路由已通过 BangumiOkHttpClientFactory.ProxySelector 自动处理,
+    // 不再需要 nativeSetOkHttpProxy
     _port = await nativeEnable(config)
     if (_port > 0) {
-      // 让 OkHttp 走本地代理
-      await nativeSetOkHttpProxy(_port)
       _running = true
     } else {
       // native start 返回 0, 回滚
@@ -65,7 +63,6 @@ export async function disableEchProxy(): Promise<void> {
   if (Platform.OS !== 'android') return
 
   try {
-    await nativeClearOkHttpProxy()
     await nativeDisable()
   } catch (e) {
     console.warn('[ECH] disable failed:', e)

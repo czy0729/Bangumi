@@ -34,6 +34,7 @@ public class DoHDNS implements Dns {
 
     private static final String TAG = "DoHDNS";
 
+    /** Target domains for ECH proxy (must stay in sync with src/config.ts ECH_TARGET_DOMAINS) */
     private static final List<String> TARGETS = Arrays.asList(
             "bgm.tv", "chii.in", "lain.bgm.tv", "next.bgm.tv", "api.bgm.tv"
     );
@@ -76,6 +77,14 @@ public class DoHDNS implements Dns {
         }
     }
 
+    /**
+     * Get EchProxy cache directory for use by other components.
+     * Returns null if not set.
+     */
+    public File getEchProxyCacheDir() {
+        return echCacheDir;
+    }
+
     @NonNull
     @Override
     public List<InetAddress> lookup(@NonNull String hostname) throws UnknownHostException {
@@ -83,19 +92,23 @@ public class DoHDNS implements Dns {
             return Dns.SYSTEM.lookup(hostname);
         }
 
-        // 1. Check in-memory cache first
-        CacheEntry cached = cache.get(hostname);
-        if (cached != null && !cached.isExpired()) {
-            Log.d(TAG, hostname + " -> " + cached.addresses + " (cached)");
-            return cached.addresses;
-        }
+        // Use synchronized to ensure atomic get-check-put operations
+        // This prevents multiple threads from reading the file simultaneously
+        synchronized (cache) {
+            // 1. Check in-memory cache first
+            CacheEntry cached = cache.get(hostname);
+            if (cached != null && !cached.isExpired()) {
+                Log.d(TAG, hostname + " -> " + cached.addresses + " (cached)");
+                return cached.addresses;
+            }
 
-        // 2. Try EchProxy persistent cache (target_ips.txt)
-        List<InetAddress> echResult = readEchCache(hostname);
-        if (echResult != null && !echResult.isEmpty()) {
-            cache.put(hostname, new CacheEntry(echResult));
-            Log.d(TAG, hostname + " -> " + echResult + " (EchProxy cache)");
-            return echResult;
+            // 2. Try EchProxy persistent cache (target_ips.txt)
+            List<InetAddress> echResult = readEchCache(hostname);
+            if (echResult != null && !echResult.isEmpty()) {
+                cache.put(hostname, new CacheEntry(echResult));
+                Log.d(TAG, hostname + " -> " + echResult + " (EchProxy cache)");
+                return echResult;
+            }
         }
 
         // 3. System DNS fallback (polluted, but no other option without EchProxy cache)
