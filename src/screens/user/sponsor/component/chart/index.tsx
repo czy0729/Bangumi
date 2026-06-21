@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-01 10:25:40
+ * @Last Modified time: 2026-06-21 15:12:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,8 +20,14 @@ import { memoStyles } from './styles'
 function Chart() {
   const navigation = useNavigation(COMPONENT)
 
-  const { data, filterLength, filterCount, handleFilter, handleBatchFilter, handleResetFilter } =
-    useTreemapSquarify()
+  const {
+    data,
+    filterLength,
+    // filterCount,
+    handleFilter,
+    handleBatchFilter,
+    handleResetFilter
+  } = useTreemapSquarify()
 
   return useObserver(() => {
     const styles = memoStyles()
@@ -33,7 +39,7 @@ function Chart() {
             {filterLength ? (
               <>
                 <Text size={12} bold>
-                  已隐藏 {filterLength} 格，还有 {filterCount} 格未显示
+                  已隐藏 {filterLength} 格
                 </Text>
                 <View style={styles.refresh}>
                   <IconTouchable
@@ -45,9 +51,11 @@ function Chart() {
                 </View>
               </>
             ) : (
-              <Text size={12} bold>
-                还有 {filterCount} 格未显示，点击方格隐藏，点击色块显示区间
-              </Text>
+              <>
+                {/* <Text size={12} bold>
+                  还有 {filterCount} 格未显示，点击方格隐藏，点击色块显示区间
+                </Text> */}
+              </>
             )}
           </Flex>
           {!filterLength && (

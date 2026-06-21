@@ -97,7 +97,8 @@ export function applyProxy(
 
   // 记录代理替换日志
   if (proxyType && proxyUrl !== url) {
-    addWorkerLog('info', proxyUrl)
+    const logType = proxyType === 'api' ? 'api' : 'host'
+    addWorkerLog('info', proxyUrl, logType)
   }
 
   return { url: proxyUrl, headers: newHeaders, proxyType }
@@ -190,12 +191,12 @@ export async function axiosWithProxyRedirect(
       ''
 
     if (redirectUrl) {
-      addWorkerLog('success', `${reqHost} → 重定向`)
+      addWorkerLog('success', `${reqHost} → 重定向`, 'host')
     }
 
     return { response, redirectUrl }
   } catch (error: any) {
-    addWorkerLog('error', `${reqHost} 请求失败: ${error?.message || '未知错误'}`)
+    addWorkerLog('error', `${reqHost} 请求失败: ${error?.message || '未知错误'}`, 'host')
     const errResp = error?.response
     const fallbackUrl = getRedirectFromHeaders(errResp?.headers)
     if (fallbackUrl) return { response: errResp, redirectUrl: fallbackUrl }
@@ -229,6 +230,10 @@ export function applyLainProxy(url: string) {
   if (!workerLainProxy || typeof url !== 'string' || !url.includes(HOST_IMAGE)) return url
 
   const proxyUrl = url.split(HOST_IMAGE).join(workerLainProxy.replace(/^https?:/, ''))
+
+  // 记录图片代理日志
+  addWorkerLog('info', proxyUrl, 'lain')
+
   if (!workerLainSecret) return proxyUrl
 
   // 提取 pathname 用于签名 (不含 query string)

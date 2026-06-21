@@ -17,6 +17,7 @@ rustls = { version = "0.23", default-features = false, features = ["ring", "std"
 rustls-pemfile = "2"
 base64 = "0.22"
 jni = "0.21"
+libc = "0.2"
 
 [build-dependencies]
 cc = "1"

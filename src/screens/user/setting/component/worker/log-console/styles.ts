@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-06-20 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-21 02:06:35
+ * @Last Modified time: 2026-06-21 05:59:07
  */
 import { _ } from '@stores'
 
@@ -24,6 +24,20 @@ export const memoStyles = _.memoStyles(() => ({
     borderBottomWidth: 1,
     borderBottomColor: '#404040'
   },
+  filters: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  filterBtn: {
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    marginLeft: 4,
+    borderRadius: 3,
+    backgroundColor: '#404040'
+  },
+  filterBtnActive: {
+    backgroundColor: '#555'
+  },
   content: {
     paddingHorizontal: 10,
     paddingVertical: 6
@@ -39,6 +53,9 @@ export const memoStyles = _.memoStyles(() => ({
     paddingVertical: _.sm,
     borderBottomWidth: _.hairlineWidth,
     borderBottomColor: 'rgba(255, 255, 255, 0.16)'
+  },
+  rowLast: {
+    borderBottomWidth: 0
   },
   time: {
     color: '#666',

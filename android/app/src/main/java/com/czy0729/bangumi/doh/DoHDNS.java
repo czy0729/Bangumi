@@ -49,6 +49,7 @@ public class DoHDNS implements Dns {
 
     // EchProxy cache directory
     private volatile File echCacheDir = null;
+    private volatile boolean echCacheInitialized = false;
 
     private final ConcurrentHashMap<String, CacheEntry> cache = new ConcurrentHashMap<>();
 
@@ -74,6 +75,10 @@ public class DoHDNS implements Dns {
         if (cacheDir != null) {
             this.echCacheDir = new File(cacheDir);
             Log.d(TAG, "EchProxy cache dir: " + cacheDir);
+            if (!echCacheInitialized) {
+                echCacheInitialized = true;
+                EchProxyModule.addLog("success", "dns", "DoHDNS 缓存目录已初始化");
+            }
         }
     }
 
@@ -107,13 +112,24 @@ public class DoHDNS implements Dns {
             if (echResult != null && !echResult.isEmpty()) {
                 cache.put(hostname, new CacheEntry(echResult));
                 Log.d(TAG, hostname + " -> " + echResult + " (EchProxy cache)");
+                EchProxyModule.addLog("info", "dns", hostname + " -> " + formatIps(echResult));
                 return echResult;
             }
         }
 
         // 3. System DNS fallback (polluted, but no other option without EchProxy cache)
         Log.d(TAG, hostname + " -> system DNS fallback (EchProxy cache not available)");
+        EchProxyModule.addLog("warn", "dns", hostname + " 使用系统 DNS (ECH 缓存不可用)");
         return Dns.SYSTEM.lookup(hostname);
+    }
+
+    private static String formatIps(List<InetAddress> addresses) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < addresses.size(); i++) {
+            if (i > 0) sb.append(", ");
+            sb.append(addresses.get(i).getHostAddress());
+        }
+        return sb.toString();
     }
 
     private boolean isTarget(String hostname) {

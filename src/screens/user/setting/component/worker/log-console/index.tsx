@@ -2,39 +2,74 @@
  * @Author: czy0729
  * @Date: 2026-06-20 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-21 04:57:38
+ * @Last Modified time: 2026-06-21 10:00:00
  */
-import React from 'react'
+import React, { useState } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Text } from '@components'
+import { Text, Touchable } from '@components'
+import { _ } from '@stores'
 import { formatTime } from './utils'
-import { LEVEL_COLORS, LEVEL_PREFIX } from './ds'
+import { LEVEL_COLORS, LEVEL_PREFIX, WORKER_TYPE_FILTERS } from './ds'
 import { memoStyles } from './styles'
 
 import type { Props } from './types'
 
 /** 日志控制台 */
-function LogConsole({ title, logs }: Props) {
+function LogConsole({ title, logs, showFilters = false, typeFilters }: Props) {
   const styles = memoStyles()
+  const filters = typeFilters || WORKER_TYPE_FILTERS
+  const defaultActiveTypes = new Set(filters.map((f: { key: string }) => f.key))
+  const [activeTypes, setActiveTypes] = useState<Set<string>>(defaultActiveTypes)
+
+  const toggleType = (type: string) => {
+    setActiveTypes(prev => {
+      const next = new Set(prev)
+      if (next.has(type)) {
+        next.delete(type)
+      } else {
+        next.add(type)
+      }
+      return next
+    })
+  }
+
+  const filteredLogs = showFilters
+    ? logs.filter(log => !log.type || activeTypes.has(log.type))
+    : logs
 
   return (
     <View style={styles.container}>
       {/* 标题栏 */}
       <View style={styles.header}>
-        <Text size={11} type='sub' bold>
+        <Text type='sub' size={11} bold>
           {title}
         </Text>
-        <Text size={10} type='sub'>
-          {logs.length} 条
-        </Text>
+        <View style={styles.filters}>
+          {showFilters &&
+            filters.map(({ key, label }) => (
+              <Touchable key={key} onPress={() => toggleType(key)}>
+                <View style={[styles.filterBtn, activeTypes.has(key) && styles.filterBtnActive]}>
+                  <Text type={activeTypes.has(key) ? 'main' : 'sub'} size={9} bold>
+                    {label}
+                  </Text>
+                </View>
+              </Touchable>
+            ))}
+          <Text style={_.ml.sm} type='sub' size={10}>
+            {filteredLogs.length} 条
+          </Text>
+        </View>
       </View>
 
       {/* 日志内容 */}
-      <View style={[styles.content, !logs.length && styles.empty]}>
-        {logs.length ? (
-          logs.reverse().map(log => (
-            <View key={`${log.time}|${log.message}`} style={styles.row}>
+      <View style={[styles.content, !filteredLogs.length && styles.empty]}>
+        {filteredLogs.length ? (
+          filteredLogs.reverse().map((log, index) => (
+            <View
+              key={`${log.time}|${log.message}`}
+              style={[styles.row, index === filteredLogs.length - 1 && styles.rowLast]}
+            >
               {/* 时间 */}
               <Text style={styles.time} size={10}>
                 {formatTime(log.time)}
@@ -68,3 +103,5 @@ function LogConsole({ title, logs }: Props) {
 }
 
 export default observer(LogConsole)
+
+export { WORKER_TYPE_FILTERS, ECH_TYPE_FILTERS } from './ds'

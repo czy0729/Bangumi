@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-05-30 12:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-21 04:37:48
+ * @Last Modified time: 2026-06-21 06:12:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,6 +19,7 @@ import { getShows } from '../../utils'
 import { useWorkerSettings } from './hooks'
 import InputItem from './input-item'
 import LogConsole from './log-console'
+import { ECH_TYPE_FILTERS } from './log-console/ds'
 import PingButton from './ping-button'
 import { COMPONENT, TEXTS } from './ds'
 import { memoStyles } from './styles'
@@ -57,7 +58,8 @@ function Worker({ navigation, filter, open }: Props) {
     echLogs,
     workerLogs,
     proxyMode,
-    setProxyMode
+    setProxyMode,
+    saveFields
   } = useWorkerSettings()
 
   if (!shows) return null
@@ -152,12 +154,22 @@ function Worker({ navigation, filter, open }: Props) {
 
   return (
     <>
-      <ItemSetting arrow highlight filter={filter} onPress={setTrue} {...TEXTS.worker} />
+      <ItemSetting
+        arrow
+        highlight
+        filter={filter}
+        onPress={setTrue}
+        {...TEXTS.worker}
+        ft={proxyMode !== 'disabled' ? (proxyMode === 'ech' ? 'ECH' : '镜像') : '直连'}
+      />
       <ActionSheet
         show={state}
         title={TEXTS.worker.hd}
         height={filter ? 440 : 720}
-        onClose={setFalse}
+        onClose={() => {
+          saveFields()
+          setFalse()
+        }}
       >
         <View>
           <Notice style={styles.notice}>若不熟悉本页用途，点击右方按钮查看说明。</Notice>
@@ -227,7 +239,7 @@ function Worker({ navigation, filter, open }: Props) {
               filter={filter}
               {...TEXTS.echProxy}
             />
-            <LogConsole title='ECH 日志' logs={echLogs} />
+            <LogConsole title='ECH 日志' logs={echLogs} showFilters typeFilters={ECH_TYPE_FILTERS} />
           </>
         )}
 
@@ -304,7 +316,7 @@ function Worker({ navigation, filter, open }: Props) {
               </>
             )}
 
-            <LogConsole title='日志' logs={workerLogs} />
+            <LogConsole title='日志' logs={workerLogs} showFilters />
           </>
         )}
 

@@ -41,6 +41,7 @@ export function useWorkerSettings() {
     workerLogs,
     echRunning: echProxy.echRunning,
     echLoading: echProxy.echLoading,
-    echPort: proxyMode.echPort || echProxy.echPort
+    echPort: proxyMode.echPort || echProxy.echPort,
+    saveFields: workerFields.saveFields
   }
 }

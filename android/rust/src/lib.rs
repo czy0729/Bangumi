@@ -1,5 +1,6 @@
 use std::io::{self, BufRead, BufReader, Read, Write};
 use std::net::{Ipv4Addr, SocketAddrV4, TcpListener, TcpStream, ToSocketAddrs, UdpSocket};
+use std::os::unix::io::AsRawFd;
 use std::path::PathBuf;
 use std::sync::Arc;
 use std::thread;
@@ -888,15 +889,21 @@ fn handle_mitm(client: &mut TcpStream, host: &str, cache: &EchCache, ca: &MitmCa
         };
     }
     // _host_guard 已释放, 不同连接可以并行 relay
+    // 使用 ManuallyDrop 包装 backend: 当连接异常断开时 (如 App 挂后台后 OS 杀掉 TCP),
+    // 直接跳过 OpenSSL 的 drop (SSL_free), 避免在已损坏的内部状态上触发 SIGSEGV。
+    // 改为手动关闭底层 TCP socket 来释放资源。
     log_d!("handle_mitm: starting data relay for {}", host);
     client.set_nonblocking(true).ok();
     backend.get_ref().set_nonblocking(true).ok();
+    let tcp_fd = backend.get_ref().as_raw_fd();
+    let mut backend = std::mem::ManuallyDrop::new(backend);
     let mut bs = rustls::Stream::new(&mut browser_tls, &mut *client);
     let relay_start = Instant::now();
     let relay_timeout = std::time::Duration::from_secs(300); // 5 min max for large images
     let mut last_activity = Instant::now();
     let idle_timeout = std::time::Duration::from_secs(60); // 60s idle timeout
     let mut buf = vec![0u8; 32768]; // Larger buffer for images (32KB)
+    let mut backend_error = false;
 
     loop {
         // Check timeouts
@@ -918,6 +925,7 @@ fn handle_mitm(client: &mut TcpStream, host: &str, cache: &EchCache, ca: &MitmCa
             Ok(n) => {
                 if let Err(e) = backend.write_all(&buf[..n]) {
                     log_e!("handle_mitm: backend write failed: {}", e);
+                    backend_error = true;
                     break;
                 }
                 backend.flush().ok();
@@ -949,10 +957,12 @@ fn handle_mitm(client: &mut TcpStream, host: &str, cache: &EchCache, ca: &MitmCa
             }
             Err(ref e) if e.kind() == io::ErrorKind::WouldBlock => {}
             Err(ref e) if e.kind() == io::ErrorKind::TimedOut => {
+                backend_error = true;
                 break;
             }
             Err(e) => {
                 log_e!("handle_mitm: backend read error: {}", e);
+                backend_error = true;
                 break;
             }
         }
@@ -961,6 +971,13 @@ fn handle_mitm(client: &mut TcpStream, host: &str, cache: &EchCache, ca: &MitmCa
             thread::sleep(std::time::Duration::from_millis(5));
         }
     }
+    // 后端连接出错时, 跳过 OpenSSL drop (SSL_free/SSL_shutdown 会访问已损坏的状态导致 SIGSEGV)
+    // 直接关闭底层 TCP socket 释放 fd
+    if backend_error {
+        unsafe { libc::close(tcp_fd); }
+        // ManuallyDrop 不会调用 SSL_free, 避免 crash
+    }
+    // backend 正常退出时不 forget, 让 OpenSSL 正常 drop
     log_d!("handle_mitm: relay done for {}", host);
     client.set_nonblocking(false).ok();
 }
@@ -1061,13 +1078,16 @@ fn handle_client(mut client: TcpStream, cache: Arc<EchCache>, ca: Arc<MitmCa>) {
         let _ = backend.flush();
         client.set_nonblocking(true).ok();
         backend.get_ref().set_nonblocking(true).ok();
+        let tcp_fd = backend.get_ref().as_raw_fd();
+        let mut backend = std::mem::ManuallyDrop::new(backend);
+        let mut backend_error = false;
         loop {
             let mut buf = [0u8; 8192];
             match client.read(&mut buf) {
                 Ok(0) => break,
                 Ok(n) => {
-                    let _ = backend.write_all(&buf[..n]);
-                    let _ = backend.flush();
+                    if backend.write_all(&buf[..n]).is_err() { backend_error = true; break; }
+                    backend.flush().ok();
                 }
                 Err(ref e) if e.kind() == io::ErrorKind::WouldBlock => {}
                 Err(_) => break,
@@ -1079,9 +1099,12 @@ fn handle_client(mut client: TcpStream, cache: Arc<EchCache>, ca: Arc<MitmCa>) {
                     let _ = client.flush();
                 }
                 Err(ref e) if e.kind() == io::ErrorKind::WouldBlock => {}
-                Err(_) => break,
+                Err(_) => { backend_error = true; break; }
             }
             thread::sleep(std::time::Duration::from_millis(1));
+        }
+        if backend_error {
+            unsafe { libc::close(tcp_fd); }
         }
         client.set_nonblocking(false).ok();
     }

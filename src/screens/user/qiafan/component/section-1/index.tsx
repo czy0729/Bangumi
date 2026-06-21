@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-25 20:22:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-06 01:53:30
+ * @Last Modified time: 2026-06-21 15:31:12
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -36,7 +36,12 @@ function Section1() {
           border
         />
       </Flex>
-      <ScrollView style={styles.scroll} contentContainerStyle={styles.container} horizontal>
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={styles.container}
+        horizontal
+        showMask={false}
+      >
         <Image
           src={require('@assets/images/repo/overtime.png')}
           width={618}
@@ -73,16 +78,13 @@ function Section1() {
       </Text>
       <Text style={_.mt.sm} {...FONT_BASE}>
         {TEXT_SECTION_INDENT}
-        这几年一直有被人说作者是网络乞丐，我寻思也没赚到多少甚至是亏本的（笑哭）。作者把几年间绝大部分的业余时间都投入到了开发里面，95%
-        以上的功能都是免费更新的，就算是余下的 5%
-        非免费功能也是在一定程度上免费提供使用，你要是还有意见那就是你对。
+        这几年作者把绝大部分的业余时间都投入到了开发里面，纯粹是出于兴趣和学习目的。所有核心功能对所有人完全开放，就是希望能让更多人用上好用的工具。
       </Text>
       <Text style={_.mt.sm} {...FONT_BASE}>
         {TEXT_SECTION_INDENT}
         目前能公开的一些数据，这么多年来单安卓，日独立 UV 一直稳定在 5k，启动次数在 10k，PV
         浏览量（不算退后）在 80k，而且每天上下很少差
-        5%，没什么增长也没什么下跌，作者表示也是没怎么看懂，可能入宅和脱宅的人每年都是一样吧（流汗）。付费率大概在
-        5-8%，了解过其实也符合市面上同类产品数据。
+        5%，没什么增长也没什么下跌，作者表示也是没怎么看懂，可能入宅和脱宅的人每年都是一样吧（流汗）。
       </Text>
       <Text style={_.mt.sm} {...FONT_BASE}>
         {TEXT_SECTION_INDENT}

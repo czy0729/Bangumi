@@ -66,6 +66,7 @@ dependencies = [
  "cc",
  "foreign-types-shared",
  "jni",
+ "libc",
  "openssl",
  "openssl-sys",
  "parking_lot",

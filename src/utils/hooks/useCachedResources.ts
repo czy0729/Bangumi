@@ -9,7 +9,7 @@ import { loadAsync } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
 import { devLog } from '@components/dev'
 import { setComponentsDefaultProps } from '@components/text/utils'
-import Stores from '@stores'
+import Stores, { systemStore } from '@stores'
 import { postTask } from '@utils'
 import { logger } from '@utils/dev'
 import { restoreEchProxy } from '@utils/proxy/ech'
@@ -64,7 +64,7 @@ export default function useCachedResources() {
         setState(1)
 
         // 恢复 ECH 代理 (仅当用户上次开启了 echProxyEnabled setting)
-        restoreEchProxy().catch(e => {
+        restoreEchProxy(systemStore.setting.echProxyEnabled).catch(e => {
           logger.warn('useCachedResources', 'restoreEchProxy failed:', e)
         })
 

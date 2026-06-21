@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-25 23:32:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-06 01:48:32
+ * @Last Modified time: 2026-06-21 15:35:35
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -14,13 +14,13 @@ function Section3() {
   return (
     <>
       <Text style={_.mt.md} size={16} bold align='center'>
-        目前有如下高级功能
+        支持者的额外权益
       </Text>
       <Text style={_.mt.md} {...FONT_BASE}>
-        　客户端：无限制畅用多达百个功能 / 页面
+        　客户端：完整使用多达百个功能 / 页面
       </Text>
       <Text style={_.mt.sm} {...FONT_BASE}>
-        条目封面：高清私域反代（历史打赏需达 10 元）
+        条目封面：备用图片源（需支持过项目发展）
       </Text>
       <Text style={_.mt.sm} {...FONT_BASE}>
         需求反馈：优先跟进
@@ -44,22 +44,19 @@ function Section3() {
         　找条目：支持更多数据
       </Text>
       <Text style={_.mt.sm} {...FONT_BASE}>
-        哔哩同步：无限制同步
+        哔哩同步：完整同步功能
       </Text>
       <Text style={_.mt.sm} {...FONT_BASE}>
-        豆瓣同步：无限制同步
+        豆瓣同步：完整同步功能
       </Text>
       <Text style={_.mt.sm} {...FONT_BASE}>
-        翻译功能：支持 gemini 翻译
-      </Text>
-      {/* <Text style={_.mt.sm} {...FONT_BASE}>
-        本地管理：添加多个服务器
-      </Text> */}
-      <Text style={_.mt.sm} {...FONT_BASE}>
-        　小圣杯：交易功能
+        翻译功能：支持多个翻译源
       </Text>
       <Text style={_.mt.sm} {...FONT_BASE}>
-        　还有很多不写了，罗列完整也并不会促使去尝试使用，该用到的时候自然会用到。
+        　小圣杯：通用玩法功能
+      </Text>
+      <Text style={_.mt.sm} {...FONT_BASE}>
+        　　还有很多不写了，罗列完整也并不会促使去尝试使用，该用到的时候自然会用到。其实绝大部分日常功能根本不会碰到这些限制。
       </Text>
     </>
   )

@@ -46,22 +46,29 @@ public class EchProxyModule extends ReactContextBaseJavaModule {
     private static class LogEntry {
         final long time;
         final String level;
+        final String type;
         final String message;
 
-        LogEntry(String level, String message) {
+        LogEntry(String level, String type, String message) {
             this.time = System.currentTimeMillis();
             this.level = level;
+            this.type = type;
             this.message = message;
         }
     }
 
     /** 添加日志 */
     public static void addLog(String level, String message) {
+        addLog(level, "proxy", message);
+    }
+
+    /** 添加带类型的日志 */
+    public static void addLog(String level, String type, String message) {
         synchronized (sLogsLock) {
             if (sLogs.size() >= MAX_LOGS) {
                 sLogs.remove(0);
             }
-            sLogs.add(new LogEntry(level, message));
+            sLogs.add(new LogEntry(level, type, message));
         }
     }
 
@@ -93,7 +100,7 @@ public class EchProxyModule extends ReactContextBaseJavaModule {
         if (sProxyPort > 0) {
             currentPort = sProxyPort;
             running = true;
-            addLog("info", "代理已在运行，端口: " + sProxyPort);
+            addLog("info", "proxy", "代理已在运行，端口: " + sProxyPort);
             promise.resolve(sProxyPort);
             return;
         }
@@ -105,12 +112,13 @@ public class EchProxyModule extends ReactContextBaseJavaModule {
             String caDir = getCaDir();
             String cacheDir = getCacheDir();
             Log.d("EchProxy", "Starting proxy with port=" + port + ", dns=" + dns + ", caDir=" + caDir + ", cacheDir=" + cacheDir);
-            addLog("info", "启动代理中...");
+            addLog("info", "proxy", "启动代理中，端口: " + (port == 0 ? "随机" : port));
+            addLog("info", "dns", "DoH 服务器: " + dns);
             currentPort = EchProxyNative.safeStartProxy(port, dns, caDir, cacheDir);
 
             if (currentPort <= 0) {
                 Log.e("EchProxy", "Proxy failed to start: returned port " + currentPort);
-                addLog("error", "启动失败，端口返回 0");
+                addLog("error", "proxy", "启动失败，端口返回 0");
                 promise.reject("ECH_START_FAILED", "Proxy failed to start (port=" + currentPort + ")");
                 return;
             }
@@ -118,17 +126,17 @@ public class EchProxyModule extends ReactContextBaseJavaModule {
             running = true;
             sProxyPort = currentPort;
             Log.d("EchProxy", "Proxy started: port=" + currentPort);
-            addLog("success", "代理已启动，端口: " + currentPort);
+            addLog("success", "proxy", "代理已启动，端口: " + currentPort);
 
             // Share EchProxy cache with DoHDNS for image DNS resolution
             DoHDNS.getInstance().setEchProxy(cacheDir);
             Log.d("EchProxy", "Shared EchProxy cache with DoHDNS: " + cacheDir);
-            addLog("info", "缓存已共享至 DoHDNS");
+            addLog("info", "cache", "缓存已共享至 DoHDNS: " + cacheDir);
 
             promise.resolve(currentPort);
         } catch (Exception e) {
             Log.e("EchProxy", "Failed to start proxy", e);
-            addLog("error", "启动异常: " + e.getMessage());
+            addLog("error", "proxy", "启动异常: " + e.getMessage());
             // Reset state on failure
             currentPort = 0;
             sProxyPort = 0;
@@ -141,15 +149,15 @@ public class EchProxyModule extends ReactContextBaseJavaModule {
     public void disable(Promise promise) {
         try {
             // 不依赖实例 running 字段, 总是尝试停止 native server
-            addLog("info", "停止代理中...");
+            addLog("info", "proxy", "停止代理中...");
             EchProxyNative.safeStopProxy();
             currentPort = 0;
             sProxyPort = 0;
             running = false;
-            addLog("success", "代理已停止");
+            addLog("success", "proxy", "代理已停止");
             promise.resolve(null);
         } catch (Exception e) {
-            addLog("error", "停止失败: " + e.getMessage());
+            addLog("error", "proxy", "停止失败: " + e.getMessage());
             promise.reject("ECH_STOP_FAILED", e.getMessage(), e);
         }
     }
@@ -171,6 +179,7 @@ public class EchProxyModule extends ReactContextBaseJavaModule {
                 WritableMap log = Arguments.createMap();
                 log.putDouble("time", entry.time);
                 log.putString("level", entry.level);
+                log.putString("type", entry.type);
                 log.putString("message", entry.message);
                 logs.pushMap(log);
             }

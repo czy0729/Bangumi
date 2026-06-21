@@ -14,9 +14,11 @@ public class EchProxyNative {
             System.loadLibrary("echproxy");
             isAvailable = true;
             Log.d(TAG, "libechproxy.so loaded successfully");
+            EchProxyModule.addLog("success", "proxy", "ECH 原生库加载成功");
         } catch (Throwable e) {
             Log.e(TAG, "Failed to load libechproxy.so", e);
             isAvailable = false;
+            EchProxyModule.addLog("error", "proxy", "ECH 原生库加载失败: " + e.getMessage());
         }
     }
 

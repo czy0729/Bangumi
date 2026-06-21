@@ -34,6 +34,9 @@ export type EchProxyLog = {
   /** 日志等级 */
   level: 'info' | 'success' | 'warn' | 'error'
 
+  /** 日志类型 */
+  type: 'proxy' | 'dns' | 'cache' | 'connect'
+
   /** 日志消息 */
   message: string
 }

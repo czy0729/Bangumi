@@ -6,7 +6,6 @@
  * @Last Modified time: 2026-06-19 17:21:50
  */
 import { Platform } from 'react-native'
-import { systemStore } from '@stores'
 import { ECH_PROXY_ENABLED } from '@src/config'
 import {
   nativeDisable,
@@ -89,13 +88,13 @@ export function isEchProxyRunning(): boolean {
 
 /**
  * 客户端启动时恢复 ECH 代理状态
- * 从 systemStore.setting.echProxyEnabled 读取, 若为 true 则启动 native proxy
+ * @param enabled - 是否启用, 由调用方从 systemStore.setting.echProxyEnabled 传入
  */
-export async function restoreEchProxy(): Promise<void> {
+export async function restoreEchProxy(enabled: boolean): Promise<void> {
   if (Platform.OS !== 'android') return
 
   try {
-    if (systemStore.setting.echProxyEnabled) {
+    if (enabled) {
       await enableEchProxy()
     }
   } catch {}

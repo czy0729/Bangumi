@@ -30,10 +30,7 @@ export function useProxyMode() {
     feedback(true)
 
     if (mode === 'ech') {
-      // 启用 ECH, 取消全局禁用
-      if (systemStore.setting.workerProxyDisabled) {
-        systemStore.switchSetting('workerProxyDisabled')
-      }
+      // 先启用 ECH, 成功后再取消全局禁用, 避免中间状态闪烁
       if (!systemStore.setting.echProxyEnabled) {
         try {
           const port = await enableEchProxy()
@@ -47,6 +44,9 @@ export function useProxyMode() {
         } catch (e) {
           logger.warn(COMPONENT, 'setProxyMode ech error', e)
         }
+      }
+      if (systemStore.setting.workerProxyDisabled) {
+        systemStore.switchSetting('workerProxyDisabled')
       }
     } else if (mode === 'worker') {
       // 启用 Worker, 关闭 ECH, 取消全局禁用

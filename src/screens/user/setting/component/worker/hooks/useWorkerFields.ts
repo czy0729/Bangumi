@@ -83,32 +83,36 @@ export function useWorkerFields() {
     systemStore.switchSetting('workerProxyDisabled')
   }, [])
 
+  const saveFields = useCallback(() => {
+    const trimProxy = workerProxyRef.current.trim()
+    if (trimProxy !== systemStore.setting.workerProxy) {
+      systemStore.setSetting('workerProxy', trimProxy)
+    }
+
+    const trimSecret = workerSecretRef.current.trim()
+    if (trimSecret !== systemStore.setting.workerSecret) {
+      systemStore.setSetting('workerSecret', trimSecret)
+    }
+
+    const trimLainProxy = workerLainProxyRef.current.trim()
+    if (trimLainProxy !== systemStore.setting.workerLainProxy) {
+      systemStore.setSetting('workerLainProxy', trimLainProxy)
+    }
+
+    const trimLainSecret = workerLainSecretRef.current.trim()
+    if (trimLainSecret !== systemStore.setting.workerLainSecret) {
+      systemStore.setSetting('workerLainSecret', trimLainSecret)
+    }
+
+    const trimApiProxy = workerApiProxyRef.current.trim()
+    if (trimApiProxy !== systemStore.setting.workerApiProxy) {
+      systemStore.setSetting('workerApiProxy', trimApiProxy)
+    }
+  }, [])
+
   useMount(() => {
     return () => {
-      const trimProxy = workerProxyRef.current.trim()
-      if (trimProxy !== systemStore.setting.workerProxy) {
-        systemStore.setSetting('workerProxy', trimProxy)
-      }
-
-      const trimSecret = workerSecretRef.current.trim()
-      if (trimSecret !== systemStore.setting.workerSecret) {
-        systemStore.setSetting('workerSecret', trimSecret)
-      }
-
-      const trimLainProxy = workerLainProxyRef.current.trim()
-      if (trimLainProxy !== systemStore.setting.workerLainProxy) {
-        systemStore.setSetting('workerLainProxy', trimLainProxy)
-      }
-
-      const trimLainSecret = workerLainSecretRef.current.trim()
-      if (trimLainSecret !== systemStore.setting.workerLainSecret) {
-        systemStore.setSetting('workerLainSecret', trimLainSecret)
-      }
-
-      const trimApiProxy = workerApiProxyRef.current.trim()
-      if (trimApiProxy !== systemStore.setting.workerApiProxy) {
-        systemStore.setSetting('workerApiProxy', trimApiProxy)
-      }
+      saveFields()
     }
   })
 
@@ -131,6 +135,7 @@ export function useWorkerFields() {
     setWorkerProxyDirect,
     toggleLock,
     handleFocus,
-    handleBlur
+    handleBlur,
+    saveFields
   }
 }

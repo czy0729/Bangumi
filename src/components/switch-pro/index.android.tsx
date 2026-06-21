@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-12-29 22:09:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 04:09:40
+ * @Last Modified time: 2026-06-21 06:06:39
  */
 import React from 'react'
 import { Switch } from 'react-native'
 import { observer } from 'mobx-react'
+import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { Component } from '../component'
@@ -30,6 +31,9 @@ export const SwitchPro = observer(({ style, value, onSyncPress, onAsyncPress }: 
         })}
         value={value}
         onValueChange={onAsyncPress || onSyncPress}
+        trackColor={{
+          false: _.select('#e0e0e0', _._colorDarkModeLevel2)
+        }}
       />
     </Component>
   )

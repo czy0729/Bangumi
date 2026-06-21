@@ -18,21 +18,19 @@ function Section2() {
         {TEXT_SECTION_INDENT}客户端内并没有直接播放视频的功能，请你先知悉客户端是用来干什么的！
       </Text>
       <Text style={_.mt.sm} {...FONT_BASE}>
-        {TEXT_SECTION_INDENT}补充说明一下何为 <Text {...FONT_MAIN}>高级用户</Text>
-        ，只要给予过打赏，
-        <Text {...FONT_MAIN}>并且留言 / 告知用户 id</Text>
-        。因为非企业是没办法申请到付款 API
-        的，只能通过手动添加操作。作者看见会第一时间把您加进高级用户组，可以无限制享受客户端内特有功能。
+        {TEXT_SECTION_INDENT}如果你觉得这个项目对你有帮助，
+        <Text {...FONT_MAIN}>可以通过下方方式支持项目发展并留言 / 告知用户 id</Text>
+        ，作者看见会第一时间为您开放额外权益。
       </Text>
       <Text style={_.mt.sm} {...FONT_BASE}>
         {TEXT_SECTION_INDENT}
         目前定义为：通常只有主站 <Text {...FONT_STRONG}>没有的功能</Text> 或者{' '}
         <Text {...FONT_STRONG}>无法直接获取的关联信息</Text>{' '}
-        才会成为高级功能。当然普通用户也能使用，只会在不影响使用的程度内进行限制，以避免滥用。
+        才会有所区分。普通用户也能使用，只是在使用频率上有所限制，以保障服务稳定运行。
       </Text>
       <Text style={_.mt.sm} {...FONT_BASE}>
         {TEXT_SECTION_INDENT}
-        为了能继续发展，部分功能可能会突然消失，懂的都懂，不懂的我也不好多说，这事牵扯太多
+        作为第三方客户端，部分功能可能会随主站政策调整而变化，还请理解
         <BgmText index={40} {...FONT_BASE} />。
       </Text>
     </>

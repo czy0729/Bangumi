@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-17 20:29:43
+ * @Last Modified time: 2026-06-21 16:00:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -86,6 +86,16 @@ class Form extends React.Component<Props> {
     this.props.onBlur()
     this.setState({
       focusPassword: false
+    })
+  }
+
+  onNotice = () => {
+    alert(
+      `勾选后，${i18n.login()}成功后会自动使用上一次上传的设置覆盖本地设置。\n\n若你在多设备上使用过本客户端，请注意定期到设置手动上传设置，以避免同步后丢失最近修改过的设置。`
+    )
+
+    t('登陆.配置提示', {
+      name: 'host'
     })
   }
 
@@ -284,7 +294,7 @@ class Form extends React.Component<Props> {
               </Flex>
             </Touchable>
           </Flex.Item>
-          <Touchable style={this.styles.touchIcon} onPress={this.onNoticeUA}>
+          <Touchable style={this.styles.touchIcon} onPress={this.onNotice}>
             <Flex style={this.styles.icon} justify='center'>
               <Iconfont name='md-info-outline' size={18} />
             </Flex>
