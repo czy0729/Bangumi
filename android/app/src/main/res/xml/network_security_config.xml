@@ -4,7 +4,7 @@
   仅对目标域名信任 user CA, 其他域名只信任 system CA
 -->
 <network-security-config>
-    <base-config>
+    <base-config cleartextTrafficPermitted="true">
         <trust-anchors>
             <certificates src="system" />
         </trust-anchors>
@@ -21,13 +21,5 @@
         <domain includeSubdomains="true">lain.bgm.tv</domain>
         <domain includeSubdomains="true">next.bgm.tv</domain>
         <domain includeSubdomains="true">api.bgm.tv</domain>
-    </domain-config>
-
-    <!-- 开发环境: 允许 Metro bundler 明文 HTTP 连接 -->
-    <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="true">localhost</domain>
-        <domain includeSubdomains="true">127.0.0.1</domain>
-        <domain includeSubdomains="true">10.0.2.2</domain>
-        <domain includeSubdomains="true">10.0.3.2</domain>
     </domain-config>
 </network-security-config>
