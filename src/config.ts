@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-19 19:21:58
+ * @Last Modified time: 2026-06-21 16:02:29
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
@@ -48,7 +48,14 @@ export const ECH_PROXY_ENABLED = true
  *   - android/app/.../DoHDNS.java TARGETS[]
  *   - android/rust/src/lib.rs TARGET_DOMAINS[]
  */
-export const ECH_TARGET_DOMAINS = ['bgm.tv', 'chii.in', 'lain.bgm.tv', 'next.bgm.tv', 'api.bgm.tv', 'cloudflare-dns.com'] as const
+export const ECH_TARGET_DOMAINS = [
+  'bgm.tv',
+  'chii.in',
+  'lain.bgm.tv',
+  'next.bgm.tv',
+  'api.bgm.tv',
+  'cloudflare-dns.com'
+] as const
 
 /** 反代地址 */
 export const HOST_PROXY = 'http://192.168.31.87:3000'

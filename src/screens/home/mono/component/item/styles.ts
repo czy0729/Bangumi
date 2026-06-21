@@ -8,7 +8,7 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   contentStyle: {
-    paddingRight: _.wind - _.md
+    paddingRight: _.wind - _._wind
   },
   extraStyle: {
     marginRight: -2

@@ -13,7 +13,7 @@ import _, { IS_IOS_5_6_7_8 } from '@styles'
 import systemStore from '../system'
 import Computed from './computed'
 import { STYLES_DARK, STYLES_LIGHT } from './init'
-import { getMemoStyles, getMemoStylesHash } from './utils'
+import { getMemoStyles } from './utils'
 
 import type { AnyObject, SelectFn, SettingFontsizeAdjust, SettingLetterSpacing } from '@types'
 import type { Mode, Orientation, Styles, TinygrailMode } from './types'
@@ -243,33 +243,30 @@ export default class Action extends Computed {
     return () => {
       /**
        * 通过闭包使每一个组件里面的 StyleSheet.create 都被缓存
-       * 当会影响到全局样式的设置 (mode | tMode | deepDark | orientation | customFontFamily) 改变了
+       * 当会影响到全局样式的设置 (mode | deepDark | orientation | customFontFamily | wsaLayoutChanged) 改变了
        * 会重新调用 StyleSheet.create, 配合 mobx -> observer 触发重新渲染
+       *
+       * 热路径: 直接比较原始值引用, 全部命中则跳过, 无任何中间开销
        * */
-      const hash = getMemoStylesHash([
-        this.mode,
-        // this.tinygrailThemeMode,
-        this.deepDark,
-        this.orientation,
-        this.customFontFamily,
-        this.wsaLayoutChanged
-      ])
-      if (!item._styles || !item._hash || item._hash !== hash) {
-        item._hash = hash
-
-        const computedStyles: any = styles(this)
-
-        /** @deprecated current 逻辑复杂用不上, 请勿再使用此特性 */
-        if (computedStyles.current) {
-          const { current, ...otherStyles } = computedStyles
-          item._styles = StyleSheet.create(otherStyles)
-          item._styles.current = current
-        } else {
-          item._styles = StyleSheet.create(computedStyles)
-        }
-
-        if (dev) this.log('memoStyles', item)
+      if (
+        item._styles &&
+        item._mode === this.mode &&
+        item._deepDark === this.deepDark &&
+        item._orientation === this.orientation &&
+        item._customFontFamily === this.customFontFamily &&
+        item._wsaLayoutChanged === this.wsaLayoutChanged
+      ) {
+        return item._styles as T
       }
+
+      item._mode = this.mode
+      item._deepDark = this.deepDark
+      item._orientation = this.orientation
+      item._customFontFamily = this.customFontFamily
+      item._wsaLayoutChanged = this.wsaLayoutChanged
+      item._styles = StyleSheet.create(styles(this))
+
+      if (dev) this.log('memoStyles', item)
 
       return item._styles as T
     }

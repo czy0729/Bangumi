@@ -1,7 +1,7 @@
 {
   "expo": {
     "description": "A React Native App for https://bgm.tv, tinygrail plugin 260101",
-    "version": "8.34.3",
+    "version": "8.35.0",
     "android": {
       "versionCode": 900630,
       "package": "com.czy0729.bangumi",
@@ -76,9 +76,7 @@
       "useClassicUpdates": true,
       "url": "https://u.expo.dev/ecbab469-60cb-4ec7-b6b7-b90e6d72c937"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": [],
     "githubUrl": "https://github.com/czy0729/Bangumi",
     "runtimeVersion": "1.0.0"
   }

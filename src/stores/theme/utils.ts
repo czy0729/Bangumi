@@ -4,11 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-25 08:49:32
  */
-import hash from '@utils/thirdParty/hash'
-
 import type { MemoStylesItem } from './types'
-
-const memo = new Map<string, string>()
 
 let _memoStylesId = 0
 
@@ -27,15 +23,11 @@ export function getMemoStyles(): MemoStylesItem {
 
   return {
     _id: _memoStylesId,
-    _hash: '',
-    _styles: ''
+    _styles: '',
+    _mode: '' as any,
+    _deepDark: false,
+    _orientation: '' as any,
+    _customFontFamily: false,
+    _wsaLayoutChanged: -1
   }
-}
-
-/** 生成记忆 styles 的 hash 标识, 用于判断是否重新生成 styles */
-export function getMemoStylesHash(configs: any[]): string {
-  const id = configs.join()
-  if (!memo.has(id)) memo.set(id, hash(id))
-
-  return memo.get(id)
 }

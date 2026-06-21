@@ -27,8 +27,12 @@ export type Styles<T> = StyleSheet.NamedStyles<T> | StyleSheet.NamedStyles<any>
 
 export type MemoStylesItem = {
   _id: number
-  _hash: any
   _styles: any
+  _mode: Mode
+  _deepDark: boolean
+  _orientation: Orientation
+  _customFontFamily: boolean
+  _wsaLayoutChanged: number
 }
 
 export type FontStyle = {

@@ -7,7 +7,7 @@
 import { ORIENTATION_PORTRAIT, WEB } from '@constants'
 import _ from '@styles'
 
-import type { MemoStylesItem, Mode, Orientation, TinygrailMode } from './types'
+import type { Mode, Orientation, TinygrailMode } from './types'
 
 export type themeWindowType = {
   width: number
@@ -83,18 +83,6 @@ export const STYLES_DARK = {
   colorWarning: _._colorWarning,
   colorYellow: _._colorYellow
 } as const
-
-let _memoStylesId = 0
-
-/** 生成记忆styles的标识 */
-export function getMemoStylesId(): MemoStylesItem {
-  _memoStylesId += 1
-  return {
-    _id: _memoStylesId,
-    _hash: '',
-    _styles: ''
-  }
-}
 
 const STATE = {
   mode: DEFAULT_MODE as Mode,

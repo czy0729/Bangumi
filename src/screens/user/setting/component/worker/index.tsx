@@ -12,7 +12,7 @@ import { IconTouchable, ItemSetting, ItemSettingBlock, Notice } from '@_'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
 import { useBoolean } from '@utils/hooks'
-import { ANDROID, API_HOST, HOST, HOST_BGM_STATIC } from '@constants'
+import { ANDROID, API_HOST, HOST, HOST_BGM_STATIC, IOS } from '@constants'
 import { ECH_PROXY_ENABLED } from '@src/config'
 import commonStyles from '../../styles'
 import { getShows } from '../../utils'
@@ -193,18 +193,18 @@ function Worker({ navigation, filter, open }: Props) {
             filter={filter}
             onPress={() => setProxyMode('disabled')}
           >
-            <Text style={_.mt.xs} type='sub' size={10} align='center'>
+            <Text style={_.mt.xs} type='sub' size={IOS ? 11 : 10} align='center'>
               直连默认服务器，不做任何处理
             </Text>
           </ItemSettingBlock.Item>
           <ItemSettingBlock.Item
-            style={_.ml.sm}
+            style={IOS ? _.ml.md : _.ml.sm}
             title='镜像 / 反代'
             active={proxyMode === 'worker'}
             filter={filter}
             onPress={() => setProxyMode('worker')}
           >
-            <Text style={_.mt.xs} type='sub' size={10} align='center'>
+            <Text style={_.mt.xs} type='sub' size={IOS ? 11 : 10} align='center'>
               自建或社区提供的服务，需填写地址（推荐）
             </Text>
           </ItemSettingBlock.Item>
@@ -239,7 +239,12 @@ function Worker({ navigation, filter, open }: Props) {
               filter={filter}
               {...TEXTS.echProxy}
             />
-            <LogConsole title='ECH 日志' logs={echLogs} showFilters typeFilters={ECH_TYPE_FILTERS} />
+            <LogConsole
+              title='ECH 日志'
+              logs={echLogs}
+              showFilters
+              typeFilters={ECH_TYPE_FILTERS}
+            />
           </>
         )}
 
