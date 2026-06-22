@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-21 05:17:58
+ * @Last Modified time: 2026-06-22 21:18:04
  */
 import {
   IOS,
@@ -427,7 +427,10 @@ export const INIT_SETTING = {
   /** 启用毛玻璃布局 (android) */
   androidBlur: WEB,
 
-  /** 毛玻璃: 首屏页面顶部和底部 (android) */
+  /** 毛玻璃: 首屏页面顶部 (android) */
+  blurTopTabs: WEB,
+
+  /** 毛玻璃: 首屏页面底部 (android) */
   blurBottomTabs: WEB,
 
   /** 毛玻璃: 轻提示 (android) */

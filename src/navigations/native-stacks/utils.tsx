@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-08-14 04:14:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-09 00:06:51
+ * @Last Modified time: 2026-06-22 21:35:24
  */
 import { useCallback, useEffect, useState } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -52,7 +52,7 @@ export function getScreenOptions(isFullScreen: boolean) {
   if (
     IOS ||
     isFullScreen ||
-    (!IOS && systemStore.setting.androidBlur && systemStore.setting.blurBottomTabs && _.isDark)
+    ((systemStore.blurTopTabs || systemStore.blurBottomTabs) && _.isDark)
   ) {
     navigationBarColor = 'transparent'
   }

@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-11-13 05:13:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 14:51:30
+ * @Last Modified time: 2026-06-22 21:34:48
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { BlurView as ExpoBlurView } from 'expo-blur'
 import { syncSystemStore, syncThemeStore } from '@utils/async'
-import { IOS } from '@constants/constants'
-import { WEB } from '@constants/device'
 import { BLURVIEW_TINT_DARK, BLURVIEW_TINT_LIGHT } from './ds'
 
+import type { BlurTint } from 'expo-blur'
 import type { Props } from './types'
 
 function BlurView({ style, children }: Props) {
@@ -34,11 +33,11 @@ function BlurView({ style, children }: Props) {
     }
   })
 
-  if (IOS || WEB || (!IOS && systemStore.setting.androidBlur && systemStore.setting.blurToast)) {
+  if (systemStore.blurToast) {
     return (
       <ExpoBlurView
         style={[style, styles.blurView]}
-        tint={_.select(BLURVIEW_TINT_LIGHT, BLURVIEW_TINT_DARK)}
+        tint={_.select(BLURVIEW_TINT_LIGHT, BLURVIEW_TINT_DARK) as BlurTint}
         intensity={64}
       >
         {children}

@@ -1,10 +1,11 @@
 /*
  * @Author: czy0729
  * @Date: 2023-04-23 15:11:13
- * @Last Modified by: imagebuilder1837
- * @Last Modified time: 2026-05-22 02:50:10
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-06-22 21:30:58
  */
 import { computed } from 'mobx'
+import { IOS, WEB } from '@constants'
 import { radiusMd } from '@styles'
 import State from './state'
 
@@ -167,5 +168,33 @@ export default class Computed extends State implements StoreConstructor<typeof S
   /** 主域名代理中 */
   @computed get isHostProxy() {
     return !this.setting.workerProxyDisabled && !!this.setting.workerProxy
+  }
+
+  /** 毛玻璃: 首屏页面顶部 */
+  @computed get blurTopTabs() {
+    if (IOS || WEB) return true
+
+    return this.setting.androidBlur && this.setting.blurTopTabs
+  }
+
+  /** 毛玻璃: 首屏页面顶部 */
+  @computed get blurBottomTabs() {
+    if (IOS || WEB) return true
+
+    return this.setting.androidBlur && this.setting.blurBottomTabs
+  }
+
+  /** 毛玻璃: 轻提示 */
+  @computed get blurToast() {
+    if (IOS || WEB) return true
+
+    return this.setting.androidBlur && this.setting.blurToast
+  }
+
+  /** 毛玻璃: 模态框 */
+  @computed get blurModal() {
+    if (IOS || WEB) return true
+
+    return this.setting.androidBlur && this.setting.blurModal
   }
 }
