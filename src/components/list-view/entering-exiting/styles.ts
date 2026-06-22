@@ -8,7 +8,6 @@ import { _ } from '@stores'
 
 export const styles = _.create({
   flatList: {
-    maxHeight: _.window.height,
     overflow: 'hidden'
   }
 })

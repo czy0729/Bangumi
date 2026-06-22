@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 02:53:09
+ * @Last Modified time: 2026-06-22 17:56:30
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -23,8 +23,8 @@ function Rakuen(props: NavigationProps) {
     <Component id='screen-rakuen'>
       <StoreContext.Provider value={id}>
         <Page>
-          <Header />
           <Tab />
+          <Header />
         </Page>
         <Extra />
       </StoreContext.Provider>

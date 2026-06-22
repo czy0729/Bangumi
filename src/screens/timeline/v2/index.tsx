@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-10 18:38:52
+ * @Last Modified time: 2026-06-22 18:13:37
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -25,8 +25,8 @@ function Timeline(props: NavigationProps) {
       <StoreContext.Provider value={id}>
         <TapListener>
           <Page>
-            <Header />
             {$.state._loaded && <Tab />}
+            <Header />
           </Page>
         </TapListener>
         <Extra />

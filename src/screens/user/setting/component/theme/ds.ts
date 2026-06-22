@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-07-18 07:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-05 22:30:08
+ * @Last Modified time: 2026-06-22 20:35:50
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'Theme')
 
-export const BLUR_SETTINGS = ['blurBottomTabs', 'blurToast', 'blurModal'] as const
+export const BLUR_SETTINGS = ['blurTopTabs', 'blurBottomTabs', 'blurToast', 'blurModal'] as const
 
 export const TEXTS = {
   theme: {
@@ -38,12 +38,15 @@ export const TEXTS = {
     information: '是否允许点击顶部 Logo 快速切换主题'
   },
   androidBlur: {
-    hd: '[实验性] 毛玻璃布局',
+    hd: '毛玻璃效果（实验性）',
     information:
-      '在首屏顶部底部、模态框、输入框等 UI 背景上，启用仿 iOS 的毛玻璃效果\n因在安卓里，毛玻璃的实现需要消耗大量资源，很有可能出现明显掉帧情况，仅建议最新型号的手机尝试'
+      '在首屏顶部底部、模态框、输入框等 UI 背景上，启用仿 iOS 的毛玻璃效果\n\n安卓上，毛玻璃的实现需要消耗大量资源，极可能出现明显掉帧情况，请自行决定是否适用\n\n切换后可能需要重新冷启动才能正常表现'
+  },
+  blurTopTabs: {
+    hd: '首屏页面顶部'
   },
   blurBottomTabs: {
-    hd: '首屏页面顶部和底部'
+    hd: '首屏页面底部'
   },
   blurToast: {
     hd: '轻提示'

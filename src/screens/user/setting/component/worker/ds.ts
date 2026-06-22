@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2026-05-30 12:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-21 05:10:25
+ * @Last Modified time: 2026-06-22 17:54:02
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
@@ -16,7 +16,7 @@ export const TEXTS = {
   },
   proxyMode: {
     hd: '连接模式',
-    information: '选择访问 Bangumi 的网络方式'
+    information: '选择访问 Bangumi 的网络方式（切换后可能需要冷启动才能正常）'
   },
   echProxy: {
     hd: 'ECH 模式 (Android)',

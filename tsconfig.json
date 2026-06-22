@@ -42,7 +42,8 @@
       "@src": ["src"],
       "@src/*": ["src/*"],
       "@": ["./"],
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "react-native-realtimeblurview": ["src/types/react-native-realtimeblurview.d.ts"]
     }
   },
   "include": ["src", "types"],

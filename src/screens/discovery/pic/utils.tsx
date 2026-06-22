@@ -33,7 +33,7 @@ export async function tag(
   let html = ''
   try {
     let url = `${HOST}/tag/${encodeURIComponent(q)}`
-    if (page > 1) url += `/?pos=${page}`
+    if (page > 1) url += `/list/${page}`
     html = (await xhrCustom({ url }))._response
   } catch (error) {
     return false
