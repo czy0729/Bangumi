@@ -348,106 +348,94 @@ export default class Fetch extends Computed {
       const jp = bangumiData.title
       await this.fetchMovieFromDouban(cn, jp)
 
+      // 收集所有平台的缩略图结果
+      const allThumbs: string[] = []
+      let thumbsHeader: Record<string, string> = {}
+
       // bilibili
-      if (this.state.epsThumbs.length < 12 && this.bilibiliSite.id) {
-        const url = getBangumiUrl(this.bilibiliSite)
-        const { _response } = await xhrCustom({
-          url
-        })
-        const match = _response.match(/"season_id":(\d+)/)
-        if (match) {
-          const seasonId = match[1]
-          const { _response } = await xhrCustom({
-            url: `${HOST_AC_API}/pgc/web/season/section?season_id=${seasonId}`
-          })
-          const { message, result } = JSON.parse(_response)
-          if (message === 'success' && result?.main_section?.episodes) {
-            this.setState({
-              epsThumbs: Array.from(
-                new Set(
-                  result.main_section.episodes.map(
-                    (item: { cover: string }) =>
-                      `${item.cover.replace('http://', 'https://')}@192w_120h_1c.jpg`
-                  )
-                )
-              ),
-              epsThumbsHeader: {
-                Referer: `${HOST_AC}/`
-              }
+      if (this.state.epsThumbs.length + allThumbs.length < 12 && this.bilibiliSite.id) {
+        try {
+          const url = getBangumiUrl(this.bilibiliSite)
+          const { _response } = await xhrCustom({ url })
+          const match = _response.match(/"season_id":(\d+)/)
+          if (match) {
+            const seasonId = match[1]
+            const { _response } = await xhrCustom({
+              url: `${HOST_AC_API}/pgc/web/season/section?season_id=${seasonId}`
             })
-            this.save()
-            this.updateThirdParty()
+            const { message, result } = JSON.parse(_response)
+            if (message === 'success' && result?.main_section?.episodes) {
+              const thumbs = result.main_section.episodes.map(
+                (item: { cover: string }) =>
+                  `${item.cover.replace('http://', 'https://')}@192w_120h_1c.jpg`
+              )
+              allThumbs.push(...thumbs)
+              thumbsHeader = { Referer: `${HOST_AC}/` }
+            }
           }
-        }
+        } catch {}
       }
 
       // 优酷
-      if (this.state.epsThumbs.length < 12 && this.youkuSite.id) {
-        const url = getBangumiUrl(this.youkuSite)
-        const { _response } = await xhrCustom({
-          url
-        })
-        const match = _response.match(/showid:"(\d+)"/)
-        if (match) {
-          const showid = match[1]
-          const { _response } = await xhrCustom({
-            url: `https://list.youku.com/show/module?id=${showid}&tab=point&callback=jQuery`
-          })
-          this.setState({
-            epsThumbs: Array.from(
-              new Set(
-                (
-                  decodeURIComponent(_response)
-                    .replace(/\\\/>/g, '/>')
-                    .replace(/(\\"|"\\)/g, '"')
-                    .match(/<img.+?src=('|")?([^'"]+)('|")?(?:\s+|>)/gim) || []
-                )
-                  .map((item: string) => {
-                    const match = item.match(/src="(.+?)"/)
-                    if (match) {
-                      return match[1].replace(/\\\//g, '/').replace('http://', 'https://')
-                    }
-                    return ''
-                  })
-                  .filter(item => !!item)
-              )
-            ),
-            epsThumbsHeader: {
-              Referer: 'https://list.youku.com/'
-            }
-          })
-          this.save()
-          this.updateThirdParty()
-        }
+      if (this.state.epsThumbs.length + allThumbs.length < 12 && this.youkuSite.id) {
+        try {
+          const url = getBangumiUrl(this.youkuSite)
+          const { _response } = await xhrCustom({ url })
+          const match = _response.match(/showid:"(\d+)"/)
+          if (match) {
+            const showid = match[1]
+            const { _response } = await xhrCustom({
+              url: `https://list.youku.com/show/module?id=${showid}&tab=point&callback=jQuery`
+            })
+            const thumbs = (
+              decodeURIComponent(_response)
+                .replace(/\\\/>/g, '/>')
+                .replace(/(\\"|"\\)/g, '"')
+                .match(/<img.+?src=('|")?([^'"]+)('|")?(?:\s+|>)/gim) || []
+            )
+              .map((item: string) => {
+                const match = item.match(/src="(.+?)"/)
+                if (match) {
+                  return match[1].replace(/\\\//g, '/').replace('http://', 'https://')
+                }
+                return ''
+              })
+              .filter(item => !!item)
+
+            allThumbs.push(...thumbs)
+            thumbsHeader = { Referer: 'https://list.youku.com/' }
+          }
+        } catch {}
       }
 
       // 爱奇艺
-      if (this.state.epsThumbs.length < 12 && this.iqiyiSite.id) {
-        const url = getBangumiUrl(this.iqiyiSite)
-        const { _response } = await xhrCustom({
-          url
-        })
+      if (this.state.epsThumbs.length + allThumbs.length < 12 && this.iqiyiSite.id) {
+        try {
+          const url = getBangumiUrl(this.iqiyiSite)
+          const { _response } = await xhrCustom({ url })
+          const match = HTMLTrim(_response, true).match(/data-jpg-img="(.+?)"/g)
+          if (match) {
+            const thumbs = match
+              .map((item: string) => `https:${item.replace(/(data-jpg-img="|")/g, '')}`)
+              .filter((_item: any, index: number) => !!index)
 
-        const match = HTMLTrim(_response, true).match(/data-jpg-img="(.+?)"/g)
-        if (match) {
-          this.setState({
-            epsThumbs: Array.from(
-              new Set(
-                match
-                  .map((item: string) => `https:${item.replace(/(data-jpg-img="|")/g, '')}`)
-                  .filter((_item: any, index: number) => !!index)
-              )
-            ),
-            epsThumbsHeader: {
-              Referer: 'https://www.iqiyi.com/'
-            }
-          })
-          this.save()
-          this.updateThirdParty()
-        }
+            allThumbs.push(...thumbs)
+            thumbsHeader = { Referer: 'https://www.iqiyi.com/' }
+          }
+        } catch {}
       }
 
       // qq 网站没有截屏, 不找
+
+      // 统一更新状态
+      if (allThumbs.length) {
+        this.setState({
+          epsThumbs: Array.from(new Set(allThumbs)),
+          epsThumbsHeader: thumbsHeader
+        })
+        this.save()
+        this.updateThirdParty()
+      }
     } catch (error) {
       logger.error(this.namespace, 'fetchEpsThumbs', error)
     }
@@ -461,28 +449,27 @@ export default class Fetch extends Computed {
     if (q) {
       const result = await search(q)
       const doubanId = matchMovie(q, result, jp, this.year)
-      const trailer = await getTrailer(doubanId)
+
+      const [trailer, preview] = await Promise.all([
+        getTrailer(doubanId),
+        getPreview(doubanId)
+      ])
+
+      const updates: Record<string, any> = {}
       if (trailer.data.length) {
-        this.setState({
-          videos: trailer.data,
-          epsThumbsHeader: {
-            Referer: trailer.referer
-          }
-        })
+        updates.videos = trailer.data
+        updates.epsThumbsHeader = { Referer: trailer.referer }
       }
-
-      const preview = await getPreview(doubanId)
       if (preview.data.length) {
-        this.setState({
-          epsThumbs: preview.data.slice().reverse(),
-          epsThumbsHeader: {
-            Referer: preview.referer
-          }
-        })
+        updates.epsThumbs = preview.data.slice().reverse()
+        updates.epsThumbsHeader = { ...updates.epsThumbsHeader, Referer: preview.referer }
       }
 
-      this.save()
-      this.updateThirdParty()
+      if (Object.keys(updates).length) {
+        this.setState(updates)
+        this.save()
+        this.updateThirdParty()
+      }
     }
   }
 
@@ -495,28 +482,26 @@ export default class Fetch extends Computed {
       const result = await search(q, 'game')
       const doubanId = matchGame(q, result)
 
-      const videos = await getVideo(doubanId, 'game')
+      const [videos, previews] = await Promise.all([
+        getVideo(doubanId, 'game'),
+        getPreview(doubanId, 'game')
+      ])
+
+      const updates: Record<string, any> = {}
       if (videos.data.length) {
-        this.setState({
-          videos: videos.data,
-          epsThumbsHeader: {
-            Referer: videos.referer
-          }
-        })
+        updates.videos = videos.data
+        updates.epsThumbsHeader = { Referer: videos.referer }
       }
-
-      const previews = await getPreview(doubanId, 'game')
       if (previews.data.length) {
-        this.setState({
-          epsThumbs: previews.data,
-          epsThumbsHeader: {
-            Referer: previews.referer
-          }
-        })
+        updates.epsThumbs = previews.data
+        updates.epsThumbsHeader = { ...updates.epsThumbsHeader, Referer: previews.referer }
       }
 
-      this.save()
-      this.updateThirdParty()
+      if (Object.keys(updates).length) {
+        this.setState(updates)
+        this.save()
+        this.updateThirdParty()
+      }
     }
   }
 
@@ -529,63 +514,46 @@ export default class Fetch extends Computed {
     if (optimize(this.state.externalScreenshots._loaded, D1)) return true
 
     const now = getTimestamp()
+
+    // 收集 VNDB 和 DLsite 的结果
+    const results: {
+      vndb?: { screenshots: any[]; duration?: string }
+      dlsite?: { images: any[] }
+    } = {}
+
     const promises: Promise<void>[] = []
+
     if (this.vndbId) {
       promises.push(
         (async () => {
           const cacheKey = `vndb_${this.subjectId}` as const
           const hltbKey = `hltb_${this.subjectId}` as const
 
-          // 因为有旧数据没有获取 vndb 的时长，需要补请求
-          let allCached = false
-
           try {
             const cache = await get(cacheKey)
             const hltbCache = await get(hltbKey)
             if (Array.isArray(cache?.data) && cache.data.length && hltbCache?.vndb) {
-              this.setState({
-                externalScreenshots: {
-                  vndb: cache.data
-                },
-                gameDuration: {
-                  ...hltbCache,
-                  _loaded: getTimestamp()
-                }
-              })
-              allCached = true
+              results.vndb = { screenshots: cache.data, duration: hltbCache.vndb }
+              return
             }
           } catch {}
-
-          if (allCached) return
 
           try {
             const result = await fetchVndbData(this.vndbId)
             if (result) {
               const vndbDuration = `${(result.lengthMinutes / 60).toFixed(1)}h`
-              this.setState({
-                externalScreenshots: {
-                  vndb: result.screenshots
-                },
-                gameDuration: {
-                  vndb: vndbDuration
-                }
-              })
+              results.vndb = { screenshots: result.screenshots, duration: vndbDuration }
 
               if (result.screenshots.length) {
                 postTask(() => {
-                  update(cacheKey, {
-                    data: result.screenshots
-                  })
+                  update(cacheKey, { data: result.screenshots })
                 }, 0)
               }
 
               if (vndbDuration) {
                 postTask(() => {
                   const { _loaded, ...rest } = this.state.gameDuration
-                  update(hltbKey, {
-                    ...rest,
-                    vndb: vndbDuration
-                  })
+                  update(hltbKey, { ...rest, vndb: vndbDuration })
                 }, 0)
               }
             }
@@ -602,41 +570,54 @@ export default class Fetch extends Computed {
           try {
             const cache = await get(cacheKey)
             if (Array.isArray(cache?.data) && cache.data.length) {
-              this.setState({
-                externalScreenshots: {
-                  dlsite: cache.data
-                }
-              })
+              results.dlsite = { images: cache.data }
               return
             }
           } catch {}
 
           try {
             const images = await probeDlsiteImages(this.dlsiteId)
-            this.setState({
-              externalScreenshots: {
-                dlsite: images
-              }
-            })
+            results.dlsite = { images }
 
             if (images.length) {
               postTask(() => {
-                update(cacheKey, {
-                  data: images
-                })
+                update(cacheKey, { data: images })
               }, 0)
             }
           } catch {}
         })()
       )
     }
+
     await Promise.all(promises)
 
-    this.setState({
+    // 统一更新状态
+    const updates: Record<string, any> = {
       externalScreenshots: {
         _loaded: now
       }
-    })
+    }
+
+    if (results.vndb) {
+      updates.externalScreenshots = {
+        ...updates.externalScreenshots,
+        vndb: results.vndb.screenshots
+      }
+      if (results.vndb.duration) {
+        updates.gameDuration = {
+          vndb: results.vndb.duration
+        }
+      }
+    }
+
+    if (results.dlsite) {
+      updates.externalScreenshots = {
+        ...updates.externalScreenshots,
+        dlsite: results.dlsite.images
+      }
+    }
+
+    this.setState(updates)
     this.save()
 
     return true

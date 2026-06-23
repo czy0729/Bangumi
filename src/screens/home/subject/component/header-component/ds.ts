@@ -33,6 +33,9 @@ export const COMPONENT = rc(PARENT, 'HeaderComponent')
 
 export const TopEls = [Lock, Box, Ep, SMB, Tags, Summary, Thumbs, Info] as const
 
+// 需要延迟渲染的组件索引（Lock=0, SMB=3, Thumbs=6, Info=7）
+export const DEFERRED_INDICES = [0, 3, 6, 7] as const
+
 export const BottomEls = [
   Game,
   Rating,

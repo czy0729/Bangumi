@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-08 07:35:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-08 23:51:44
+ * @Last Modified time: 2026-06-23 17:00:13
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -13,9 +13,9 @@ import { getIsBlockedUser } from '@utils'
 import { COMPONENT, ITEM_HEIGHT, POPOVER_DATA } from './ds'
 import { styles } from './styles'
 
-import type { SubjectCommentsItem } from '@stores/subject/types'
-import type { Id, UserId, WithIndex } from '@types'
+import type { Id, UserId } from '@types'
 import type { Ctx } from '../../types'
+import type { Props } from './types'
 
 function Item({
   index,
@@ -29,7 +29,7 @@ function Item({
   action,
   mainId,
   mainName
-}: WithIndex<SubjectCommentsItem>) {
+}: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   const handleSelect = useCallback(

@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2023-04-25 13:59:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-01 05:33:32
+ * @Last Modified time: 2026-06-23 20:44:26
  */
 import { computed } from 'mobx'
 import { HTMLDecode } from '@utils'
 import { fixedRemote } from '@utils/user-setting'
 import { HOST_BGM_STATIC, LIST_EMPTY } from '@constants'
+import discoveryStore from '../discovery'
 import userStore from '../user'
 import { INIT_USERS, INIT_USERS_INFO } from './init'
 import State from './state'
 
-import type { StoreConstructor, UserId } from '@types'
+import type { StoreConstructor, SubjectId, UserId } from '@types'
 import type { STATE } from './init'
 import type {
   Blogs,
@@ -163,5 +164,21 @@ export default class Computed
     } catch (error) {
       return ''
     }
+  }
+
+  /** 条目 → 目录数量索引（预计算，仅自己的目录） */
+  @computed get catalogSubjectIndex() {
+    const index = new Map<SubjectId, number>()
+    this.catalogs().list.forEach(item => {
+      discoveryStore.catalogDetail(item.id).list.forEach(i => {
+        index.set(i.id, (index.get(i.id) || 0) + 1)
+      })
+    })
+    return index
+  }
+
+  /** 条目存在于多少个自己的目录中（O(1) 查询） */
+  catalogSubjectCount(subjectId: SubjectId) {
+    return this.catalogSubjectIndex.get(subjectId) || 0
   }
 }

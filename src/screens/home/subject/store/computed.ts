@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-04 03:01:39
+ * @Last Modified time: 2026-06-23 20:46:09
  */
 import { computed } from 'mobx'
 import {
@@ -75,6 +75,7 @@ import {
   getAnimeInfo,
   getAnimeTags,
   getArtist,
+  getDuration,
   getEnd,
   getFilterEpsData,
   getGameInfo,
@@ -97,7 +98,6 @@ import {
   mapRelations,
   mapReviewsToBlog,
   mapStaff,
-  getDuration,
   parseAlias,
   parseGameReleaseDates,
   parseMusicDuration,
@@ -787,11 +787,6 @@ export default class Computed extends State {
     )
   }
 
-  /** 计算本条目存在在多少个自己创建的目录里面 */
-  @computed get catalogs() {
-    return freeze(usersStore.catalogs())
-  }
-
   /** 目录详情 */
   catalogDetail(id: Id) {
     return freeze(computed(() => discoveryStore.catalogDetail(id)).get())
@@ -799,11 +794,7 @@ export default class Computed extends State {
 
   /** 是否存在在目录中 */
   @computed get catalogIncludes() {
-    let num = 0
-    this.catalogs.list.forEach(item => {
-      if (this.catalogDetail(item.id).list.some(i => i.id == this.subjectId)) num += 1
-    })
-    return num
+    return usersStore.catalogSubjectCount(this.subjectId)
   }
 
   /** 过滤后的目录 */
