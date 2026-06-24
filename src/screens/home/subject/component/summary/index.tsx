@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-17 23:35:48
  */
-import React from 'react'
+import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
@@ -22,6 +22,8 @@ import type { Props } from './types'
 function SummaryWrap({ onBlockRef }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
+  const content = useMemo(() => $.summary.replace(/\r\n\r\n/g, '\r\n'), [$.summary])
+
   if (!$.showSummary[1]) return null
 
   return (
@@ -37,8 +39,8 @@ function SummaryWrap({ onBlockRef }: Props) {
         subjectId={$.subjectId}
         showSummary={systemStore.setting.showSummary}
         subjectHtmlExpand={systemStore.setting.subjectHtmlExpand}
-        translateResult={$.state.translateResult.slice()}
-        content={$.summary.replace(/\r\n\r\n/g, '\r\n')}
+        translateResult={$.translateResult}
+        content={content}
         name={cnjp($.cn, $.jp)}
         onSwitchBlock={$.onSwitchBlock}
       />

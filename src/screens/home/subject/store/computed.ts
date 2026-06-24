@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-23 20:46:09
+ * @Last Modified time: 2026-06-24 07:47:13
  */
 import { computed } from 'mobx'
 import {
   _,
   calendarStore,
   collectionStore,
-  discoveryStore,
   monoStore,
   rakuenStore,
   subjectStore,
@@ -33,14 +32,7 @@ import {
 } from '@utils'
 import { logger } from '@utils/dev'
 import { extractDlsiteId, extractVndbId } from '@utils/thirdParty/dlsite-vndb'
-import {
-  HOST,
-  IMG_DEFAULT,
-  IMG_WIDTH_LG,
-  MODEL_SUBJECT_TYPE,
-  URL_DEFAULT_AVATAR,
-  WEB
-} from '@constants'
+import { HOST, IMG_DEFAULT, IMG_WIDTH_LG, MODEL_SUBJECT_TYPE, WEB } from '@constants'
 import {
   TITLE_ANITABI,
   TITLE_BLOG,
@@ -69,6 +61,7 @@ import {
   checkIsPS,
   filterDefaultAvatar,
   filterSubjectComments,
+  filterUserAvatar,
   findOriginArtist,
   findRelationByType,
   findRelationByTypes,
@@ -94,6 +87,7 @@ import {
   mapBoardToTopic,
   mapCrt,
   mapFriendsRating,
+  mapNames,
   mapPersons,
   mapRelations,
   mapReviewsToBlog,
@@ -120,7 +114,7 @@ import {
 } from './ds'
 
 import type { Subject, SubjectFromHtmlWhoItem } from '@stores/subject/types'
-import type { Collection, Id, Sites, SubjectType, SubjectTypeCn } from '@types'
+import type { Collection, Sites, SubjectType, SubjectTypeCn, TranslateResult } from '@types'
 import type { Crt, RecDataItem, SubjectCommentValue, TagsItem } from '../types'
 
 export default class Computed extends State {
@@ -179,6 +173,16 @@ export default class Computed extends State {
   /** 条目信息 (来自网页) */
   @computed get subjectFormHTML() {
     return freeze(subjectStore.subjectFormHTML(this.subjectId))
+  }
+
+  /** 网页版详情是否已加载 */
+  @computed get isFormHTMLLoaded() {
+    return this.subjectFormHTML._loaded
+  }
+
+  /** 条目是否已加载完整数据 */
+  @computed get isSubjectLoaded() {
+    return this.subject._loaded && !!this.subject.rating
   }
 
   /** 条目缓存 (来自云端快照) */
@@ -296,10 +300,14 @@ export default class Computed extends State {
   }
 
   /** 自定义跳转 */
+  /** 原始动作数据 */
+  @computed get rawActions() {
+    return subjectStore.actions(this.subjectId)
+  }
+
   @computed get actions() {
     return freeze(
-      subjectStore
-        .actions(this.subjectId)
+      this.rawActions
         .slice()
         .filter(item => item.active)
         .sort((a, b) => desc(a.sort || 0, b.sort || 0))
@@ -511,7 +519,7 @@ export default class Computed extends State {
   @computed get rating() {
     // 若条目 api 返回 404, 是没有 rating 结构的
     // 所以可以使用此来判断数据源, 让游客也能访问到数据, 下方其他 computed 同理
-    if (this.subject._loaded && this.subject.rating) {
+    if (this.isSubjectLoaded) {
       return freeze({
         ...INIT_RATING,
         ...this.subject.rating
@@ -530,72 +538,86 @@ export default class Computed extends State {
 
   /** 是否锁定条目 */
   @computed get lock() {
-    if (this.subjectFormHTML._loaded) return this.subjectFormHTML.lock
+    if (this.isFormHTMLLoaded) return this.subjectFormHTML.lock
 
     return this.subjectFromOSS.lock
   }
 
   /** 各状态评分人数 */
   @computed get subjectCollection() {
-    if (this.subject._loaded && this.subject.rating) {
+    if (this.isSubjectLoaded) {
       return freeze((this.subject.collection || {}) as Collection)
     }
 
     return freeze((this.subjectFromOSS.collection || {}) as Collection)
   }
 
-  /** 章节数据 */
-  @computed get eps() {
-    if (this.subject._loaded && this.subject.rating) {
+  /** 原始章节数据（不排序） */
+  @computed get rawEps() {
+    if (this.isSubjectLoaded) {
       const eps = this.subject.eps || []
       if (eps.length >= 1000) {
-        return [...eps, ...subjectStore.epV2(this.subject.id).list].sort((a, b) =>
-          asc(a, b, item => item.type)
-        )
+        return [...eps, ...subjectStore.epV2(this.subject.id).list]
       }
-
-      return freeze(eps.slice().sort((a, b) => asc(a, b, item => item.type)))
+      return eps
     }
+    return this.subjectFromOSS.eps || []
+  }
 
-    return freeze(this.subjectFromOSS.eps || [])
+  /** 章节数据（排序后） */
+  @computed get eps() {
+    return freeze(this.rawEps.slice().sort((a, b) => asc(a, b, item => item.type)))
+  }
+
+  /** 过滤后的章节数据 */
+  @computed get filteredEps() {
+    if (this.state.filterEps) {
+      return this.eps.filter((_item, index) => index > this.state.filterEps)
+    }
+    return this.eps
   }
 
   /** 经过计算后传递到 Eps 的 data */
   @computed get toEps() {
-    if (this.state.filterEps) {
-      const eps = this.eps.filter((_item, index) => index > this.state.filterEps)
-      return freeze(this.state.epsReverse ? eps.slice().reverse() : eps)
-    }
-
-    return freeze(this.state.epsReverse ? this.eps.map(item => item).reverse() : this.eps)
+    return freeze(this.state.epsReverse ? this.filteredEps.slice().reverse() : this.filteredEps)
   }
 
   /** 音乐曲目数据 */
   @computed get disc() {
-    if (this.subjectFormHTML._loaded) return freeze(this.subjectFormHTML.disc || [])
+    if (this.isFormHTMLLoaded) return freeze(this.subjectFormHTML.disc || [])
 
     return freeze(this.subjectFromOSS.disc || [])
   }
 
   /** 详情 */
   @computed get summary() {
-    if (this.subject._loaded && this.subject.rating) return this.subject.summary
+    if (this.isSubjectLoaded) return this.subject.summary
 
     return this.subjectFromOSS.summary || ''
   }
 
-  /** 标签 */
+  /** 翻译结果 */
+  @computed get translateResult() {
+    return freeze(this.state.translateResult?.slice() || []) as TranslateResult
+  }
+
+  /** 原始标签数据 */
+  @computed get rawTags() {
+    return (this.isFormHTMLLoaded ? this.subjectFormHTML.tags : this.subjectFromOSS.tags) || []
+  }
+
+  /** 标签（过滤后） */
   @computed get tags() {
-    const value =
-      (this.subjectFormHTML._loaded ? this.subjectFormHTML.tags : this.subjectFromOSS.tags) || []
-    return freeze(value.some(item => !item.name) ? value.filter(item => !!item.name) : value)
+    return freeze(
+      this.rawTags.some(item => !item.name)
+        ? this.rawTags.filter(item => !!item.name)
+        : this.rawTags
+    )
   }
 
   /** 网页版详情 */
   @computed get rawInfo() {
-    return (
-      (this.subjectFormHTML._loaded ? this.subjectFormHTML.info : this.subjectFromOSS.info) || ''
-    )
+    return (this.isFormHTMLLoaded ? this.subjectFormHTML.info : this.subjectFromOSS.info) || ''
   }
 
   /** 网页版详情处理后 */
@@ -603,44 +625,59 @@ export default class Computed extends State {
     return fixedSubjectInfo(this.rawInfo)
   }
 
-  /** 关联人物 */
-  @computed get crt() {
-    const source =
-      this.subject._loaded && this.subject.rating
-        ? mapCrt(this.subject.crt || [])
-        : ((this.subjectFromOSS.character || []) as Crt[])
-
-    return freeze(source) as Crt[]
+  /** 原始关联人物数据 */
+  @computed get rawCrt() {
+    if (this.isSubjectLoaded) {
+      return this.subject.crt || []
+    }
+    return (this.subjectFromOSS.character || []) as Crt[]
   }
 
-  /** 制作人员 */
-  @computed get staff() {
-    if (this.subject._loaded && this.subject.rating) {
+  /** 关联人物（映射后） */
+  @computed get crt() {
+    return freeze(mapCrt(this.rawCrt as any)) as Crt[]
+  }
+
+  /** 原始制作人员数据 */
+  @computed get rawStaff() {
+    if (this.isSubjectLoaded) {
       const { staff } = this.subject
 
       /** NSFW 不再返回数据, 而旧接口 staff 也错乱, 改为使用网页的 staff 数据 */
       if (staff?.[0]?.id == this.subjectId) {
-        return freeze(mapPersons(monoStore.persons(this.subjectId).list))
+        return { type: 'persons' as const, data: monoStore.persons(this.subjectId).list }
       }
 
-      return freeze(mapStaff(staff || []))
+      return { type: 'staff' as const, data: staff || [] }
     }
-
-    return freeze(this.subjectFromOSS.staff || [])
+    return { type: 'oss' as const, data: this.subjectFromOSS.staff || [] }
   }
 
-  /** 关联条目 */
+  /** 制作人员（映射后） */
+  @computed get staff() {
+    const { type, data } = this.rawStaff
+    if (type === 'persons') {
+      return freeze(mapPersons(data as any))
+    }
+    return freeze(mapStaff(data as any))
+  }
+
+  /** 原始关联条目数据 */
+  @computed get rawRelations() {
+    if (this.isSubjectLoaded) {
+      return this.subjectFormHTML.relations || []
+    }
+    return this.subjectFromOSS.relations || []
+  }
+
+  /** 关联条目（映射后） */
   @computed get relations() {
-    const relations =
-      this.subject._loaded && this.subject.rating
-        ? this.subjectFormHTML.relations || []
-        : this.subjectFromOSS.relations || []
-    return freeze(mapRelations(relations))
+    return freeze(mapRelations(this.rawRelations))
   }
 
   /** 单行本 */
   @computed get comic() {
-    if (this.subjectFormHTML._loaded) return freeze(this.subjectFormHTML.comic || [])
+    if (this.isFormHTMLLoaded) return freeze(this.subjectFormHTML.comic || [])
 
     return freeze(this.subjectFromOSS.comic || [])
   }
@@ -650,7 +687,7 @@ export default class Computed extends State {
     const { data } = this.state.recData
     if (data?.length) return data as RecDataItem[]
 
-    if (this.subjectFormHTML._loaded) {
+    if (this.isFormHTMLLoaded) {
       return freeze(this.subjectFormHTML.like || []) as RecDataItem[]
     }
 
@@ -677,7 +714,7 @@ export default class Computed extends State {
 
   /** 包含的目录 */
   @computed get catalog() {
-    if (this.subjectFormHTML._loaded) return freeze(this.subjectFormHTML.catalog || [])
+    if (this.isFormHTMLLoaded) return freeze(this.subjectFormHTML.catalog || [])
 
     return freeze(this.subjectFromOSS.catalog || [])
   }
@@ -708,7 +745,7 @@ export default class Computed extends State {
 
   /** 关联数据 (原始) */
   @computed get subjectRelations() {
-    if (this.subjectFormHTML._loaded) return freeze(this.subjectFormHTML.relations || [])
+    if (this.isFormHTMLLoaded) return freeze(this.subjectFormHTML.relations || [])
 
     return freeze(this.subjectFromOSS.relations || [])
   }
@@ -787,14 +824,14 @@ export default class Computed extends State {
     )
   }
 
-  /** 目录详情 */
-  catalogDetail(id: Id) {
-    return freeze(computed(() => discoveryStore.catalogDetail(id)).get())
-  }
-
   /** 是否存在在目录中 */
   @computed get catalogIncludes() {
     return usersStore.catalogSubjectCount(this.subjectId)
+  }
+
+  /** 是否应该过滤默认头像 */
+  @computed get shouldFilterDefault() {
+    return systemStore.setting.filterDefault || userStore.isLimit
   }
 
   /** 过滤后的目录 */
@@ -805,11 +842,8 @@ export default class Computed extends State {
   /** 过滤后的日志 */
   @computed get filterBlog() {
     let blog = this.subject.blog || []
-    if (systemStore.setting.filterDefault || userStore.isLimit) {
-      blog = blog.filter(item => {
-        if (item?.user?.avatar?.small?.includes?.(URL_DEFAULT_AVATAR)) return false
-        return true
-      })
+    if (this.shouldFilterDefault) {
+      blog = filterUserAvatar(blog)
     }
 
     if (!blog.length) {
@@ -827,11 +861,8 @@ export default class Computed extends State {
   /** 过滤后的帖子 */
   @computed get filterTopic() {
     let topic = this.subject.topic || []
-    if (systemStore.setting.filterDefault || userStore.isLimit) {
-      topic = topic.filter(item => {
-        if (item?.user?.avatar?.small?.includes?.(URL_DEFAULT_AVATAR)) return false
-        return true
-      })
+    if (this.shouldFilterDefault) {
+      topic = filterUserAvatar(topic)
     }
 
     if (!topic.length) {
@@ -851,10 +882,16 @@ export default class Computed extends State {
     return freeze(filterDefaultAvatar(this.subjectFormHTML.who || [])) as SubjectFromHtmlWhoItem[]
   }
 
-  /** 好友的动态 */
-  @computed get friendsRating() {
+  /** 原始好友评分数据 */
+  @computed get rawFriendsRating() {
     const { list: doings = [] } = subjectStore.rating(this.subjectId, 'doings', true)
     const { list: collections = [] } = subjectStore.rating(this.subjectId, 'collections', true)
+    return { doings, collections }
+  }
+
+  /** 好友评分（映射后） */
+  @computed get friendsRating() {
+    const { doings, collections } = this.rawFriendsRating
     const result = mapFriendsRating(doings, collections, this.action)
     return result.length > 0 ? result : freeze([])
   }
@@ -1021,6 +1058,11 @@ export default class Computed extends State {
     return this.state.chat[systemStore.setting.musumePrompt] || []
   }
 
+  /** 是否有自定义跳转 */
+  @computed get hasActions() {
+    return this.actions.length > 0
+  }
+
   /** 自定义跳转菜单 */
   @computed get actionsData() {
     return [...this.actions.map(item => item.name), TEXT_ACTIONS_MANAGE] as const
@@ -1029,16 +1071,16 @@ export default class Computed extends State {
   /** 动画、三次元源头菜单 */
   @computed get onlineData() {
     const data = [...this.onlineOrigins, TEXT_ORIGINS_MANAGE]
-    if (!this.actions.length) data.push(TEXT_ACTIONS_MANAGE)
+    if (!this.hasActions) data.push(TEXT_ACTIONS_MANAGE)
     if (systemStore.setting.exportICS) data.push(TEXT_ICS_MANAGE)
-    return data.map(item => (typeof item === 'object' ? item.name : item))
+    return mapNames(data)
   }
 
   /** 书籍源头菜单 */
   @computed get comicData() {
     const data = [...this.onlineComicOrigins, TEXT_ORIGINS_MANAGE]
-    if (!this.actions.length) data.push(TEXT_ACTIONS_MANAGE)
-    return data.map(item => (typeof item === 'object' ? item.name : item))
+    if (!this.hasActions) data.push(TEXT_ACTIONS_MANAGE)
+    return mapNames(data)
   }
 
   /** 游戏发售日期 */
@@ -1049,18 +1091,18 @@ export default class Computed extends State {
   /** 游戏源头菜单 */
   @computed get gameData() {
     const data = [...this.onlineGameOrigins, TEXT_ORIGINS_MANAGE]
-    if (!this.actions.length) data.push(TEXT_ACTIONS_MANAGE)
+    if (!this.hasActions) data.push(TEXT_ACTIONS_MANAGE)
     if (systemStore.setting.exportICS && this.gameReleaseDates.length) {
       data.push(TEXT_GAME_CALENDAR_SUBSCRIBE)
     }
-    return data.map(item => (typeof item === 'object' ? item.name : item))
+    return mapNames(data)
   }
 
   /** 曲目源头菜单 */
   @computed get discData() {
     const data = [...this.onlineDiscOrigins, TEXT_ORIGINS_MANAGE]
-    if (!this.actions.length) data.push(TEXT_ACTIONS_MANAGE)
-    return data.map(item => (typeof item === 'object' ? item.name : item))
+    if (!this.hasActions) data.push(TEXT_ACTIONS_MANAGE)
+    return mapNames(data)
   }
 
   /** VIB 评分透视菜单 */

@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-03 21:58:47
  */
-import React from 'react'
+import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
@@ -24,9 +24,13 @@ import type { Props } from './types'
 function EpWrap({ onBlockRef, onScrollIntoViewIfNeeded }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
+  const typeCn = useMemo(
+    () => $.type || MODEL_SUBJECT_TYPE.getTitle(subjectStore.type($.subjectId)),
+    [$.type, $.subjectId]
+  )
+
   if (!$.showEp[1]) return null
 
-  const typeCn = $.type || MODEL_SUBJECT_TYPE.getTitle(subjectStore.type($.subjectId))
   return (
     <Component id='screen-subject-ep'>
       <View

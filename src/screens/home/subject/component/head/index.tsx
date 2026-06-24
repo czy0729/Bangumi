@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-05-27 06:54:52
  */
-import React from 'react'
+import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
@@ -25,21 +25,28 @@ function HeadWrap({ onBlockRef }: Props) {
 
   // 书籍需要显示连载时间段
   const { subjectShowAirdayMonth, pinnedGameDuration } = systemStore.setting
-  let year = subjectShowAirdayMonth ? $.yearAndMount : $.year
-  if (year && $.subjectTypeValue === 'book') {
-    const end = subjectShowAirdayMonth ? $.yearAndMountEnd : $.end
-    if (end && end !== year) {
-      year = `${year.replace('-', '/')} - ${end.replace('-', '/')}`
+  const year = useMemo(() => {
+    let y = subjectShowAirdayMonth ? $.yearAndMount : $.year
+    if (y && $.subjectTypeValue === 'book') {
+      const end = subjectShowAirdayMonth ? $.yearAndMountEnd : $.end
+      if (end && end !== y) {
+        y = `${y.replace('-', '/')} - ${end.replace('-', '/')}`
+      }
     }
-  }
+    return y
+  }, [subjectShowAirdayMonth, $.yearAndMount, $.year, $.subjectTypeValue, $.yearAndMountEnd, $.end])
 
   // 游戏时长：VNDB 默认 pin，否则使用 pinnedGameDuration
   const { vndb } = $.state.gameDuration
-  const gameDuration = vndb
-    ? $.state.gameDuration.vndb || ''
-    : pinnedGameDuration
-    ? $.state.gameDuration[pinnedGameDuration] || ''
-    : ''
+  const gameDuration = useMemo(
+    () =>
+      vndb
+        ? $.state.gameDuration.vndb || ''
+        : pinnedGameDuration
+        ? $.state.gameDuration[pinnedGameDuration] || ''
+        : '',
+    [vndb, pinnedGameDuration, $.state.gameDuration]
+  )
 
   const styles = memoStyles()
 

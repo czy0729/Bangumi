@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-12 01:25:44
  */
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component, Flex, Heatmap, Iconfont, ScrollViewHorizontal, Text } from '@components'
@@ -36,6 +36,40 @@ function Thumbs({ onBlockRef }: Props) {
     if (!scrolled) setScrolled(true)
   }, [scrolled])
 
+  const { showThumbs } = systemStore.setting
+  const { epsThumbs = [], epsThumbsHeader, videos = [] } = $.state
+
+  // 随机化 host
+  const epsThumbsData = useMemo(
+    () => epsThumbs.map(item => randomizeImgHost(item)),
+    [epsThumbs]
+  )
+
+  // 处理 thumbs 数据
+  const thumbs = useMemo(
+    () =>
+      epsThumbsData.map(item => ({
+        url: String(item.split('@')?.[0]),
+        headers: epsThumbsHeader
+      })),
+    [epsThumbsData, epsThumbsHeader]
+  )
+
+  // 来源
+  const referer = epsThumbsHeader?.Referer
+  const reference = useMemo(() => {
+    if (referer?.includes?.(HOST_DB_REFERER)) return HOST_DB_REFERER
+    if (referer?.includes?.(HOST_AC_REFERER)) return HOST_AC_REFERER
+    return ''
+  }, [referer])
+
+  // 标题
+  const title = useMemo(() => {
+    if ($.type === '音乐') return 'MV'
+    if ($.type === '三次元') return '剧照'
+    return '预览'
+  }, [$.type])
+
   if (!$.showThumbs[1]) {
     return (
       <Flex style={[_.container.wind, _.mt.sm]}>
@@ -44,35 +78,6 @@ function Thumbs({ onBlockRef }: Props) {
         </Flex.Item>
       </Flex>
     )
-  }
-
-  const { showThumbs } = systemStore.setting
-  const { epsThumbs = [], epsThumbsHeader, videos = [] } = $.state
-
-  // 随机化 host
-  const epsThumbsData = epsThumbs.map(item => randomizeImgHost(item))
-
-  // 处理 thumbs 数据
-  const thumbs = epsThumbsData.map(item => ({
-    url: String(item.split('@')?.[0]),
-    headers: epsThumbsHeader
-  }))
-
-  // 来源
-  let reference = ''
-  const referer = epsThumbsHeader?.Referer
-  if (referer?.includes?.(HOST_DB_REFERER)) {
-    reference = HOST_DB_REFERER
-  } else if (referer?.includes?.(HOST_AC_REFERER)) {
-    reference = HOST_AC_REFERER
-  }
-
-  // 标题
-  let title = '预览'
-  if ($.type === '音乐') {
-    title = 'MV'
-  } else if ($.type === '三次元') {
-    title = '剧照'
   }
 
   // 右侧按钮

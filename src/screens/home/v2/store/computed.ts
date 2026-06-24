@@ -57,7 +57,7 @@ import type { TabsLabel } from '../types'
 
 export default class Computed extends State {
   /** 置顶的映射 */
-  getTopMap() {
+  @computed get topMap() {
     return getTopMap(this.state.top)
   }
 
@@ -152,7 +152,7 @@ export default class Computed extends State {
       // 文字过滤处理
       if (this.isFilter(title) && this.filter.length) {
         data.list = data.list.filter(item => {
-          const cnName = getSubjectFilterName(this.subject(item.subject_id).name_cn, item)
+          const cnName = getSubjectFilterName(undefined, item)
           return matchFilter(cnName, this.filter)
         })
       }
@@ -182,7 +182,7 @@ export default class Computed extends State {
     return computed(() => {
       if (!list?.length) return freeze([]) as UserCollectionItem[]
 
-      const topMap = this.getTopMap()
+      const topMap = this.topMap
 
       // 网页顺序: 不需要处理
       if (
@@ -216,9 +216,7 @@ export default class Computed extends State {
         // 客户端顺序：未看 > 放送中 > 明天 > 本季 > 网页
         list.forEach(item => {
           const { subject_id: subjectId } = item
-          const watchedCount = Object.values(this.userProgress(subjectId)).filter(
-            status => status === '看过'
-          ).length
+          const watchedCount = this.watchedCount(subjectId)
 
           // air 代表该条目放送到哪一集
           const { air = 0 } = calendarStore.onAir[subjectId] || {}
@@ -255,30 +253,45 @@ export default class Computed extends State {
     }).get()
   }
 
-  /** 在玩的游戏 */
-  @computed get games() {
-    const userCollections = collectionStore.userCollections(
+  /** 原始游戏数据 */
+  @computed get rawGames() {
+    return collectionStore.userCollections(
       this.usersInfo.username || this.userId,
       MODEL_SUBJECT_TYPE.getLabel<SubjectType>('游戏'),
       MODEL_COLLECTION_STATUS.getValue<CollectionStatus>('在看')
     )
-    const topMap = this.getTopMap()
+  }
+
+  /** 过滤后的游戏数据 */
+  @computed get filteredGames() {
+    if (!this.filter.length) return this.rawGames.list
+
+    return this.rawGames.list.filter(item => {
+      const cn = (item.nameCn || item.name || '').toUpperCase()
+      return matchFilter(cn, this.filter)
+    })
+  }
+
+  /** 在玩的游戏（排序后） */
+  @computed get games() {
+    const topMap = this.topMap
 
     return freeze({
-      ...userCollections,
-      list: userCollections.list
-        .filter(item => {
-          if (!this.filter.length) return true
-          const cn = (item.nameCn || item.name || '').toUpperCase()
-          return matchFilter(cn, this.filter)
-        })
-        .sort((a, b) => desc(a, b, item => topMap[item.id] || 0))
+      ...this.rawGames,
+      list: this.filteredGames.sort((a, b) => desc(a, b, item => topMap[item.id] || 0))
     }) as UserCollections
   }
 
   /** 用户条目收视进度 */
   userProgress(subjectId: SubjectId) {
     return freeze(computed(() => userStore.userProgress(subjectId)).get())
+  }
+
+  /** 已看过的章节数量 */
+  watchedCount(subjectId: SubjectId) {
+    return computed(
+      () => Object.values(this.userProgress(subjectId)).filter(status => status === '看过').length
+    ).get()
   }
 
   /** 条目信息 */
@@ -355,11 +368,16 @@ export default class Computed extends State {
     }
   }
 
+  /** 过滤 SP 后的章节 */
+  epsNoType1(subjectId: SubjectId) {
+    return computed(() => this.eps(subjectId).filter(item => item.type !== 1)).get()
+  }
+
   /** 猜测条目当前看到的集数 */
   countFixed(subjectId: SubjectId, epStatus: number | string) {
     return computed(() => {
       // 直接获取第一个看过章节的 sort
-      const eps = this.eps(subjectId).filter(item => item.type !== 1)
+      const eps = this.epsNoType1(subjectId)
       const userProgress = this.userProgress(subjectId)
       const lastWatchedSort = getLastWatchedSort(eps, userProgress)
       if (lastWatchedSort !== undefined) return lastWatchedSort
@@ -397,12 +415,17 @@ export default class Computed extends State {
     ).get()
   }
 
-  /** subject 中的 epStatus 未必准确, 需要手动算一个对比 */
-  epStatus(subjectId: SubjectId) {
+  /** 已看过的章节 */
+  watchedEps(subjectId: SubjectId) {
     return computed(() => {
       const userProgress = this.userProgress(subjectId)
-      return this.epsNoSp(subjectId).filter(item => userProgress[item.id] === '看过').length
+      return this.epsNoSp(subjectId).filter(item => userProgress[item.id] === '看过')
     }).get()
+  }
+
+  /** subject 中的 epStatus 未必准确, 需要手动算一个对比 */
+  epStatus(subjectId: SubjectId) {
+    return this.watchedEps(subjectId).length
   }
 
   /** 放送顺序 */
@@ -479,11 +502,16 @@ export default class Computed extends State {
     }).get()
   }
 
-  /** 自定义跳转 */
+  /** 原始自定义跳转数据 */
+  rawActions(subjectId: SubjectId) {
+    return freeze(computed(() => subjectStore.actions(subjectId)).get())
+  }
+
+  /** 自定义跳转（过滤+排序后） */
   actions(subjectId: SubjectId) {
     return freeze(
       computed(() => {
-        const actions = subjectStore.actions(subjectId)
+        const actions = this.rawActions(subjectId)
         if (!actions.length) return actions
 
         return actions.filter(item => item.active).sort((a, b) => desc(a.sort || 0, b.sort || 0))

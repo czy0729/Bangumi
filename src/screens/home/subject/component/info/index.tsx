@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-03 18:35:18
+ * @Last Modified time: 2026-06-24 07:42:46
  */
-import React, { Suspense } from 'react'
+import React, { Suspense, useMemo } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
@@ -23,6 +23,8 @@ import type { Props } from './types'
 function InfoWrap({ onBlockRef }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
+  const info = useMemo(() => processHtml($.rawInfo.replace('展开+', '')), [$.rawInfo])
+
   if (!$.showInfo[1]) return null
 
   return (
@@ -40,7 +42,7 @@ function InfoWrap({ onBlockRef }: Props) {
           subjectId={$.subjectId}
           showInfo={systemStore.setting.showInfo}
           subjectHtmlExpand={systemStore.setting.subjectHtmlExpand}
-          info={processHtml($.rawInfo.replace('展开+', ''))}
+          info={info}
           name={cnjp($.cn, $.jp)}
           onSwitchBlock={$.onSwitchBlock}
         />

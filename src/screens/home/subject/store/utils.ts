@@ -483,6 +483,13 @@ export function filterDefaultAvatar<T extends { avatar?: string }>(list: readonl
   return list.filter(item => !item.avatar?.includes?.(URL_DEFAULT_AVATAR))
 }
 
+/** 过滤包含默认头像的用户项（嵌套 user.avatar.small 结构） */
+export function filterUserAvatar<T extends { user?: { avatar?: { small?: string } } }>(
+  list: readonly T[]
+) {
+  return list.filter(item => !item?.user?.avatar?.small?.includes?.(URL_DEFAULT_AVATAR))
+}
+
 /**
  * 过滤留言列表
  *  - 主动设置屏蔽默认头像用户相关信息
@@ -599,6 +606,11 @@ export function buildCrtKeywords(
       base.push(item.name || item.nameJP)
     })
   return buildKeywords(base, maxLength, maxCount)
+}
+
+/** 提取菜单项名称 */
+export function mapNames(list: readonly (string | { name: string })[]) {
+  return list.map(item => (typeof item === 'object' ? item.name : item))
 }
 
 /** 获取剧场版/电影时长 */
