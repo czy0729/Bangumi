@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-10-24 21:04:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-10 05:07:14
+ * @Last Modified time: 2026-06-25 02:45:33
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { ToolBar } from '@components'
 import { useStore } from '@stores'
+import { styles } from './styles'
 
 import type { Ctx } from '../../types'
 
@@ -16,13 +17,7 @@ function Reverse() {
 
   return (
     <ToolBar.Icon
-      iconStyle={{
-        transform: [
-          {
-            rotate: $.state.reverse ? '90deg' : '-90deg'
-          }
-        ]
-      }}
+      iconStyle={$.state.reverse ? styles.forward : styles.reverse}
       icon='md-arrow-back'
       onSelect={$.onReverse}
     />

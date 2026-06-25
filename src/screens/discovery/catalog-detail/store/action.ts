@@ -133,6 +133,7 @@ export default class Action extends Fetch {
       visibleBottom: EXCLUDE_STATE.visibleBottom
     })
     this.save()
+    feedback(true)
   }
 
   /** 切换类型筛选 */

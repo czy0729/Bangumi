@@ -2,18 +2,21 @@
  * @Author: czy0729
  * @Date: 2024-07-29 19:28:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-16 07:58:22
+ * @Last Modified time: 2026-06-25 00:39:02
  */
 import { computed } from 'mobx'
-import { _, discoveryStore, subjectStore, systemStore, userStore } from '@stores'
-import { desc, getTimestamp } from '@utils'
+import { _, discoveryStore, systemStore, userStore } from '@stores'
 import CacheManager from '@utils/cache-manager'
+import { enrichListWithScore, sortByScore, sortByTimestamp, sortByTotal } from './utils'
 import State from './state'
 import { NAMESPACE } from './ds'
 
 import type { List } from '../types'
 
 export default class Computed extends State {
+  private _reverseSrc: unknown = null
+  private _reverseResult: unknown = null
+
   /** 目录 ID */
   @computed get catalogId() {
     return this.params.catalogId || ''
@@ -50,15 +53,7 @@ export default class Computed extends State {
     }
 
     // 尽量补全评分信息
-    list = list.map(item => {
-      const { id } = item || {}
-      return {
-        ...item,
-        score: subjectStore.ratingScore(id),
-        rank: subjectStore.ratingRank(id),
-        total: subjectStore.ratingTotal(id)
-      }
-    })
+    list = enrichListWithScore(list)
 
     // 收藏
     const { collect, sort } = this.state
@@ -68,31 +63,13 @@ export default class Computed extends State {
       list = list.filter(item => !item.isCollect)
     }
 
-    // 时间
+    // 排序
     if (String(sort) === '1') {
-      return CacheManager.set(
-        key,
-        list.slice().sort((a, b) => {
-          return desc(
-            getTimestamp((String(a.info).split(' / ')?.[0] || '').trim(), 'YYYY年M月D日'),
-            getTimestamp((String(b.info).split(' / ')?.[0] || '').trim(), 'YYYY年M月D日')
-          )
-        })
-      )
+      return CacheManager.set(key, sortByTimestamp(list))
     } else if (String(sort) === '2') {
-      // 分数
-      return CacheManager.set(
-        key,
-        list
-          .slice()
-          .sort((a, b) => desc(a, b, item => (item.rank ? 10000 - item.rank : item.score)))
-      )
+      return CacheManager.set(key, sortByScore(list))
     } else if (String(sort) === '3') {
-      // 评分人数
-      return CacheManager.set(
-        key,
-        list.slice().sort((a, b) => desc(a, b, item => item.total || 0))
-      )
+      return CacheManager.set(key, sortByTotal(list))
     }
 
     return CacheManager.set(key, list)
@@ -149,7 +126,12 @@ export default class Computed extends State {
     const getter = map[type] ?? (() => this.list)
     const data = getter()
 
-    return reverse ? data.slice().reverse() : data
+    if (!reverse) return data
+    if (this._reverseSrc !== data) {
+      this._reverseSrc = data
+      this._reverseResult = data.slice().reverse()
+    }
+    return this._reverseResult as typeof data
   }
 
   /** 目录是否已收藏 */

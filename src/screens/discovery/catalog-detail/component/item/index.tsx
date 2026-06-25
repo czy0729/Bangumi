@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-11 23:14:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-16 02:27:11
+ * @Last Modified time: 2026-06-25 10:05:49
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -43,6 +43,7 @@ function Item({ index, item }: Props) {
           rank={item.rank}
           total={item.total}
           numberOfLines={3}
+          commentsLines={10}
           modify={item.modify}
           isCollect={item.isCollect}
           collection={collection}

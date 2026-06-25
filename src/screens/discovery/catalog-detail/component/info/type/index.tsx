@@ -17,10 +17,9 @@ function Type() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const { type, typeData } = $
-  const data = typeData.slice()
-  const { length } = data
+  const { length } = typeData
 
-  const selectedIndex = useMemo(() => data.findIndex(item => item.startsWith(type)), [data, type])
+  const selectedIndex = useMemo(() => typeData.findIndex(item => item.startsWith(type)), [typeData, type])
   if (length <= 1) return null
 
   const { _loaded } = $.state
@@ -39,7 +38,7 @@ function Type() {
           }
         ]}
         size={isMini ? 10 : 11}
-        values={data}
+        values={typeData}
         selectedIndex={selectedIndex}
         onValueChange={$.onType}
       />
