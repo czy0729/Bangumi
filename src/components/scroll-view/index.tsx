@@ -4,15 +4,15 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-06-07 20:07:34
  */
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Animated, ScrollView as RNScrollView } from 'react-native'
 import { observer } from 'mobx-react'
-import { systemStore } from '@stores'
+import { systemStore, uiStore } from '@stores'
 import { r } from '@utils/dev'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { ScrollToTop } from '../scroll-to-top'
 import { Mask, useMask } from './mask'
-import { COMPONENT } from './ds'
+import { COMPONENT, SCROLL_THRESHOLD } from './ds'
 
 import type { NativeSyntheticEvent, NativeScrollEvent } from 'react-native'
 import type { Props as ScrollViewProps, ScrollTo } from './types'
@@ -45,6 +45,15 @@ export const ScrollView = observer(
     r(COMPONENT)
 
     const scrollViewEl = useRef(null)
+    const scrollStartY = useRef(0)
+    const scrollLocked = useRef(false)
+    const scrollEndTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+    useEffect(() => {
+      return () => {
+        if (scrollEndTimer.current) clearTimeout(scrollEndTimer.current)
+      }
+    }, [])
 
     const showMaskValue = horizontal
       ? showMask === undefined
@@ -76,12 +85,50 @@ export const ScrollView = observer(
 
     const handleOnScroll = (evt: NativeSyntheticEvent<NativeScrollEvent>) => {
       if (showMaskValue && horizontal) handleScroll(evt)
+
+      // 滑动距离超过阈值才锁定
+      if (!scrollLocked.current) {
+        const currentY = evt.nativeEvent.contentOffset.y
+        if (Math.abs(currentY - scrollStartY.current) > SCROLL_THRESHOLD) {
+          scrollLocked.current = true
+          uiStore.setScrolling(true)
+        }
+      }
+
       onScroll?.(evt)
     }
 
     const handleOnContentSizeChange = (w: number, h: number) => {
       if (showMaskValue && horizontal) handleContentSizeChange(w)
       onContentSizeChange?.(w, h)
+    }
+
+    const {
+      onScrollBeginDrag: userOnScrollBeginDrag,
+      onScrollEndDrag: userOnScrollEndDrag,
+      onMomentumScrollEnd: userOnMomentumScrollEnd,
+      ...restOther
+    } = other
+
+    const handleScrollBeginDrag = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+      scrollStartY.current = e.nativeEvent.contentOffset.y
+      scrollLocked.current = false
+      userOnScrollBeginDrag?.(e)
+    }
+
+    const handleScrollEndDrag = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+      if (scrollEndTimer.current) clearTimeout(scrollEndTimer.current)
+      scrollEndTimer.current = setTimeout(() => {
+        scrollLocked.current = false
+        uiStore.setScrolling(false)
+      }, 100)
+      userOnScrollEndDrag?.(e)
+    }
+
+    const handleMomentumScrollEnd = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+      scrollLocked.current = false
+      uiStore.setScrolling(false)
+      userOnMomentumScrollEnd?.(e)
     }
 
     const elScrollView = (
@@ -91,14 +138,13 @@ export const ScrollView = observer(
         contentContainerStyle={contentContainerStyle}
         horizontal={horizontal}
         scrollIndicatorInsets={scrollIndicatorInsets}
-        scrollEventThrottle={
-          scrollEventThrottle === undefined && (onScroll || showMaskValue)
-            ? 16
-            : scrollEventThrottle
-        }
+        scrollEventThrottle={scrollEventThrottle === undefined ? 16 : scrollEventThrottle}
         onScroll={handleOnScroll}
         onContentSizeChange={handleOnContentSizeChange}
-        {...other}
+        onScrollBeginDrag={handleScrollBeginDrag}
+        onScrollEndDrag={handleScrollEndDrag}
+        onMomentumScrollEnd={handleMomentumScrollEnd}
+        {...restOther}
         {...SCROLL_VIEW_RESET_PROPS}
       >
         {children}

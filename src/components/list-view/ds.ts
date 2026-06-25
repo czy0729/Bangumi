@@ -28,3 +28,6 @@ export const DEFAULT_MAX_TO_RENDER_PER_BATCH = 40
 export const DEFAULT_UPDATE_CELLS_BATCHING_PERIOD = 40
 
 export const DEFAULT_WINDOW_SIZE = 20
+
+/** 滑动距离超过阈值才锁定 */
+export const SCROLL_THRESHOLD = 16

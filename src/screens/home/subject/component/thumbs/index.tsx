@@ -4,14 +4,14 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-12 01:25:44
  */
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component, Flex, Heatmap, Iconfont, ScrollViewHorizontal, Text } from '@components'
 import { InView, PreventTouchPlaceholder, SectionTitle } from '@_'
 import { _, systemStore, useStore } from '@stores'
-import { findSubjectCn, open, randomizeImgHost, stl } from '@utils'
-import { HOST_AC_REFERER, HOST_DB_REFERER } from '@constants'
+import { findSubjectCn, open, stl } from '@utils'
+import { HOST_DB_REFERER } from '@constants'
 import { TITLE_THUMBS } from '../../ds'
 import IconHidden from '../icon/hidden'
 import IconPic from '../icon/pic'
@@ -37,38 +37,7 @@ function Thumbs({ onBlockRef }: Props) {
   }, [scrolled])
 
   const { showThumbs } = systemStore.setting
-  const { epsThumbs = [], epsThumbsHeader, videos = [] } = $.state
-
-  // 随机化 host
-  const epsThumbsData = useMemo(
-    () => epsThumbs.map(item => randomizeImgHost(item)),
-    [epsThumbs]
-  )
-
-  // 处理 thumbs 数据
-  const thumbs = useMemo(
-    () =>
-      epsThumbsData.map(item => ({
-        url: String(item.split('@')?.[0]),
-        headers: epsThumbsHeader
-      })),
-    [epsThumbsData, epsThumbsHeader]
-  )
-
-  // 来源
-  const referer = epsThumbsHeader?.Referer
-  const reference = useMemo(() => {
-    if (referer?.includes?.(HOST_DB_REFERER)) return HOST_DB_REFERER
-    if (referer?.includes?.(HOST_AC_REFERER)) return HOST_AC_REFERER
-    return ''
-  }, [referer])
-
-  // 标题
-  const title = useMemo(() => {
-    if ($.type === '音乐') return 'MV'
-    if ($.type === '三次元') return '剧照'
-    return '预览'
-  }, [$.type])
+  const { epsThumbsHeader, videos = [] } = $.state
 
   if (!$.showThumbs[1]) {
     return (
@@ -80,12 +49,14 @@ function Thumbs({ onBlockRef }: Props) {
     )
   }
 
+  const { thumbsData, thumbsList, thumbsReference, thumbsTitle } = $
+
   // 右侧按钮
   let elRight: ReactNode
   if (!showThumbs) {
-    elRight = <IconHidden name={title} value='showThumbs' />
-  } else if (reference === HOST_DB_REFERER) {
-    elRight = <IconPreview data={epsThumbsData} headers={epsThumbsHeader} />
+    elRight = <IconHidden name={thumbsTitle} value='showThumbs' />
+  } else if (thumbsReference === HOST_DB_REFERER) {
+    elRight = <IconPreview data={thumbsData} headers={epsThumbsHeader} />
   } else {
     elRight = null
   }
@@ -114,7 +85,7 @@ function Thumbs({ onBlockRef }: Props) {
           splitStyles
           onPress={() => $.onSwitchBlock('showThumbs')}
         >
-          {title}
+          {thumbsTitle}
         </SectionTitle>
 
         {showThumbs && (
@@ -131,25 +102,25 @@ function Thumbs({ onBlockRef }: Props) {
                 key={item.cover || item.src || item.href}
                 item={item}
                 epsThumbsHeader={epsThumbsHeader}
-                showTitle={$.type && $.type !== '动画'}
+                showTitle={showTitle}
               />
             ))}
 
-            {epsThumbsData
+            {thumbsData
               .filter((_item, index) => index <= (scrolled ? 12 : 4))
               .map((item, index) => (
                 <Preview
                   key={item}
                   item={item}
                   index={index}
-                  thumbs={thumbs}
+                  thumbs={thumbsList}
                   epsThumbsHeader={epsThumbsHeader}
                 />
               ))}
           </ScrollViewHorizontal>
         )}
 
-        {showThumbs && !!reference && (
+        {showThumbs && !!thumbsReference && (
           <Flex style={[_.container.wind, _.mt.sm]}>
             <Flex.Item>
               <IconPic />
@@ -159,9 +130,9 @@ function Thumbs({ onBlockRef }: Props) {
               size={10}
               lineHeight={12}
               align='right'
-              onPress={() => open(referer)}
+              onPress={() => open(epsThumbsHeader?.Referer)}
             >
-              数据来源自 {reference}
+              数据来源自 {thumbsReference}
             </Text>
             <Iconfont
               style={_.ml.xs}

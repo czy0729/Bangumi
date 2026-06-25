@@ -8,3 +8,6 @@ import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'ScrollView')
+
+/** 滑动距离阈值，超过才锁定点击 */
+export const SCROLL_THRESHOLD = 16

@@ -7,7 +7,7 @@
 import React from 'react'
 import { RefreshControl } from 'react-native'
 import { observer } from 'mobx-react'
-import { _ } from '@stores'
+import { _, uiStore } from '@stores'
 import { date, omit, pick, simpleTime, sleep } from '@utils'
 import { r } from '@utils/dev'
 import { LIST_EMPTY, TEXT_EMPTY, TEXT_FAIL, TEXT_NO_MORE, TEXT_REFRESHING, WEB } from '@constants'
@@ -20,8 +20,11 @@ import {
   DEFAULT_UPDATE_CELLS_BATCHING_PERIOD,
   DEFAULT_WINDOW_SIZE,
   REFRESH_STATE,
-  SCROLL_CALLBACK
+  SCROLL_CALLBACK,
+  SCROLL_THRESHOLD
 } from './ds'
+
+export { FooterEmptyData, FooterFailure, FooterNoMoreData, FooterRefreshing } from './footer'
 
 import type { FlatList } from 'react-native'
 import type { AnyObject, ListEmpty, MaybeReadonly } from '@types'
@@ -36,9 +39,6 @@ import type {
   ScrollToOffset,
   State
 } from './types'
-
-export { FooterEmptyData, FooterFailure, FooterNoMoreData, FooterRefreshing } from './footer'
-
 export type {
   ListViewProps,
   ScrollToEnd,
@@ -82,6 +82,10 @@ export const ListView = observer(
 
     componentDidMount() {
       this.updateRefreshState(this.props.data)
+    }
+
+    componentWillUnmount() {
+      if (this._scrollEndTimer) clearTimeout(this._scrollEndTimer)
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
@@ -269,6 +273,62 @@ export const ListView = observer(
       }
     }
 
+    /** ==================== 滚动保护 ==================== */
+
+    /** 滑动开始时记录起始位置 */
+    private _scrollStartY = 0
+
+    /** 是否已经触发了滑动锁定 */
+    private _scrollLocked = false
+
+    /** scrollEnd 延迟定时器 */
+    private _scrollEndTimer: ReturnType<typeof setTimeout> | null = null
+
+    private _onScrollBeginDrag = (e: any) => {
+      this._scrollStartY = e?.nativeEvent?.contentOffset?.y ?? 0
+      this._scrollLocked = false
+    }
+
+    private _onScroll = (e: any) => {
+      if (!this._scrollLocked) {
+        const currentY = e?.nativeEvent?.contentOffset?.y ?? 0
+        if (Math.abs(currentY - this._scrollStartY) > SCROLL_THRESHOLD) {
+          this._scrollLocked = true
+          uiStore.setScrolling(true)
+        }
+      }
+    }
+
+    private _onScrollEndDrag = () => {
+      if (this._scrollEndTimer) clearTimeout(this._scrollEndTimer)
+      this._scrollEndTimer = setTimeout(() => {
+        this._scrollLocked = false
+        uiStore.setScrolling(false)
+      }, 100)
+    }
+
+    private _onMomentumScrollEnd = () => {
+      this._scrollLocked = false
+      uiStore.setScrolling(false)
+    }
+
+    /** 合并滚动回调，确保滑动保护始终生效 */
+    private mergeScrollCallback<K extends keyof AnyObject>(
+      passProps: AnyObject,
+      key: K,
+      internal: (...args: any[]) => void
+    ) {
+      const user = passProps[key]
+      if (typeof user === 'function') {
+        passProps[key] = ((...args: any[]) => {
+          internal(...args)
+          ;(user as Function)(...args)
+        }) as any
+      } else {
+        passProps[key] = internal as any
+      }
+    }
+
     get sections() {
       const { data, sectionKey, sections } = this.props
       let computedSections = []
@@ -334,6 +394,14 @@ export const ListView = observer(
       const passProps: AnyObject<typeof rest> = {
         ...rest
       }
+
+      // 合并滚动回调，确保滑动保护始终生效
+      passProps.scrollEventThrottle = 16
+      this.mergeScrollCallback(passProps, 'onScrollBeginDrag', this._onScrollBeginDrag)
+      this.mergeScrollCallback(passProps, 'onScroll', this._onScroll)
+      this.mergeScrollCallback(passProps, 'onScrollEndDrag', this._onScrollEndDrag)
+      this.mergeScrollCallback(passProps, 'onMomentumScrollEnd', this._onMomentumScrollEnd)
+
       if (sectionKey || sections) {
         passProps.sections = this.sections
       } else {

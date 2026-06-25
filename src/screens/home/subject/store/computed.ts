@@ -28,11 +28,20 @@ import {
   HTMLDecode,
   keepBasicChars,
   matchCoverUrl,
+  randomizeImgHost,
   x18
 } from '@utils'
 import { logger } from '@utils/dev'
 import { extractDlsiteId, extractVndbId } from '@utils/thirdParty/dlsite-vndb'
-import { HOST, IMG_DEFAULT, IMG_WIDTH_LG, MODEL_SUBJECT_TYPE, WEB } from '@constants'
+import {
+  HOST,
+  HOST_AC_REFERER,
+  HOST_DB_REFERER,
+  IMG_DEFAULT,
+  IMG_WIDTH_LG,
+  MODEL_SUBJECT_TYPE,
+  WEB
+} from '@constants'
 import {
   TITLE_ANITABI,
   TITLE_BLOG,
@@ -903,6 +912,34 @@ export default class Computed extends State {
       pagination: { pageTotal = 0 }
     } = this.subjectComments
     return pageTotal <= 1 ? list.length : 20 * (pageTotal >= 2 ? pageTotal - 1 : pageTotal)
+  }
+
+  /** 预览图片数据（随机化 host） */
+  @computed get thumbsData() {
+    return this.state.epsThumbs.map(item => randomizeImgHost(item))
+  }
+
+  /** 预览图片展示数据 */
+  @computed get thumbsList() {
+    return this.thumbsData.map(item => ({
+      url: String(item.split('@')?.[0]),
+      headers: this.state.epsThumbsHeader
+    }))
+  }
+
+  /** 预览数据来源 */
+  @computed get thumbsReference() {
+    const referer = this.state.epsThumbsHeader?.Referer
+    if (referer?.includes?.(HOST_DB_REFERER)) return HOST_DB_REFERER
+    if (referer?.includes?.(HOST_AC_REFERER)) return HOST_AC_REFERER
+    return ''
+  }
+
+  /** 预览标题 */
+  @computed get thumbsTitle() {
+    if (this.type === '音乐') return 'MV'
+    if (this.type === '三次元') return '剧照'
+    return '预览'
   }
 
   /**

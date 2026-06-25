@@ -26,6 +26,15 @@ import type {
 import type { SubmitManageModalValues } from './types'
 
 export default class Action extends Computed {
+  /** ==================== 滚动状态 ==================== */
+  /** 全局滚动状态, 用于防止滑动过程中误触 Touchable */
+  isScrolling = false
+
+  /** 设置全局滚动状态 */
+  setScrolling = (value: boolean) => {
+    this.isScrolling = value
+  }
+
   /** ==================== tapXY ==================== */
   /** 存放带监听组件的页面上面, 最近一次点击的 x, y 坐标 */
   setXY = (x = 0, y = 0) => {

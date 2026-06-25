@@ -5,6 +5,7 @@
  * @Last Modified time: 2024-01-09 22:51:12
  */
 import { useCallback, useState } from 'react'
+import { uiStore } from '@stores'
 
 import type { GestureResponderEvent } from 'react-native'
 import type { Fn } from '@types'
@@ -14,6 +15,9 @@ export function useCallOnceInInterval(onPress: Fn) {
 
   const handlePress = useCallback(
     (event: GestureResponderEvent) => {
+      // 滑动过程中不响应点击，防止误触
+      if (uiStore.isScrolling) return
+
       setDisabled(true)
 
       /**
@@ -27,6 +31,7 @@ export function useCallOnceInInterval(onPress: Fn) {
           pageX,
           pageY
         })
+
         setTimeout(() => {
           setDisabled(false)
         }, 400)
