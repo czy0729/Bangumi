@@ -6,7 +6,7 @@
  */
 import { useEffect, useRef, useState } from 'react'
 import { ONAIR_2026S2 } from '@stores/calendar/onair/2026S2'
-import { asc, desc, t2s } from '@utils'
+import { asc, desc, ensureCacheLimit, t2s } from '@utils'
 import { decode, get } from '@utils/protobuf'
 import { loadJSON } from '@assets/json'
 
@@ -65,6 +65,7 @@ export function useResult(cat: SearchCat, value: string) {
 
         list.sort((a, b) => desc(store[a].id, store[b].id))
 
+        ensureCacheLimit(MEMO, 50)
         MEMO.set(memoKey, list)
         setResult(list)
       } catch {}
@@ -111,6 +112,7 @@ export function useMonoResult(value: string) {
           if (item.norm.includes(q)) list.push(item)
         }
 
+        ensureCacheLimit(MEMO_MONO, 50)
         MEMO_MONO.set(q, list)
         setResult(list)
       } catch {}

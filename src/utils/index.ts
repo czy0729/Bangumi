@@ -5,6 +5,7 @@
  * @Last Modified time: 2025-10-15 22:55:59
  */
 export * from './app'
+export * from './cache'
 export * from './html'
 export * from './match'
 export * from './pinyin'

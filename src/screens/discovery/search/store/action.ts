@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-06-03 11:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-12 02:12:41
+ * @Last Modified time: 2026-06-26 07:29:08
  */
 import { systemStore, usersStore } from '@stores'
 import { debounce, info, loading, t2s, updateVisibleBottom } from '@utils'
@@ -200,7 +200,7 @@ export default class Action extends Fetch {
   /** 失去焦点 */
   onBlur = () => {
     this.setState({
-      focus: true
+      focus: false
     })
   }
 
