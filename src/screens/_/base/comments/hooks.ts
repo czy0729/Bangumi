@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-06-25 10:08:02
  */
 import { useCallback, useMemo, useState } from 'react'
-import { copy, getVisualLength, HTMLDecode, stl } from '@utils'
+import { copy, feedback, getVisualLength, HTMLDecode, stl } from '@utils'
 import { REG_SPLIT } from './ds'
 import { memoStyles } from './styles'
 
@@ -33,14 +33,25 @@ export function useComments(value: string, numberOfLines: number | undefined, st
     if (!isExpanded) {
       if (isOverflow) {
         setLines(100)
+        feedback(true)
       } else {
-        setUseSplit(true)
+        const rawText = HTMLDecode((value || '').replace(/\r\n/g, ''))
+        const processedText = rawText.replace(REG_SPLIT, '//\n')
+        if (processedText !== rawText) {
+          setUseSplit(true)
+          feedback(true)
+        }
       }
       setIsExpanded(true)
     } else {
-      setUseSplit(!useSplit)
+      const rawText = HTMLDecode((value || '').replace(/\r\n/g, ''))
+      const processedText = rawText.replace(REG_SPLIT, '//\n')
+      if (processedText !== rawText) {
+        setUseSplit(!useSplit)
+        feedback(true)
+      }
     }
-  }, [isExpanded, useSplit, isOverflow])
+  }, [isExpanded, useSplit, isOverflow, value])
 
   // 测量实际行数，判断是否溢出
   const handleTextLayout = useCallback(

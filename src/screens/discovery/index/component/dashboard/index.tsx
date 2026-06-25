@@ -7,12 +7,12 @@
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Flex, Heatmap, Text, Touchable } from '@components'
+import { Flex, Heatmap, Text } from '@components'
 import { StatusBarPlaceholder } from '@_'
-import { discoveryStore, userStore, useStore } from '@stores'
-import { feedback, info } from '@utils'
+import { useStore } from '@stores'
 import Award from '../award'
 import Live2DMenu from '../live-2d-menu'
+import OnlineStatus from '../online-status'
 import SortMenu from '../sort-menu'
 import Today from '../today'
 import { COMPONENT } from './ds'
@@ -25,7 +25,6 @@ function Dashboard() {
 
   const styles = memoStyles()
   const { dragging } = $.state
-  const length = Object.keys(userStore.state.onlines || {}).length
 
   return (
     <>
@@ -42,26 +41,7 @@ function Dashboard() {
       {!dragging && (
         <>
           <Flex style={styles.wrap}>
-            {!!discoveryStore.online && (
-              <>
-                <Text style={styles.compact} size={12}>
-                  online {discoveryStore.online}
-                </Text>
-                {!!length && (
-                  <Touchable
-                    style={styles.badge}
-                    onPress={() => {
-                      info('客户端最近公开的在线人数')
-                      feedback(true)
-                    }}
-                  >
-                    <Text type='sub' size={11} bold>
-                      {length}
-                    </Text>
-                  </Touchable>
-                )}
-              </>
-            )}
+            <OnlineStatus />
             <Flex.Item>
               <Text style={styles.compact} align='right' size={12} numberOfLines={1}>
                 {$.today || $.home.today}

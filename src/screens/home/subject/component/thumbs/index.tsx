@@ -36,9 +36,6 @@ function Thumbs({ onBlockRef }: Props) {
     if (!scrolled) setScrolled(true)
   }, [scrolled])
 
-  const { showThumbs } = systemStore.setting
-  const { epsThumbsHeader, videos = [] } = $.state
-
   if (!$.showThumbs[1]) {
     return (
       <Flex style={[_.container.wind, _.mt.sm]}>
@@ -49,6 +46,8 @@ function Thumbs({ onBlockRef }: Props) {
     )
   }
 
+  const { showThumbs } = systemStore.setting
+  const { epsThumbsHeader, videos = [] } = $.state
   const { thumbsData, thumbsList, thumbsReference, thumbsTitle } = $
 
   // 右侧按钮

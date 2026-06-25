@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-08-30 08:03:58
  */
 import { calendarStore, usersStore, userStore } from '@stores'
-import { getTimestamp } from '@utils'
+import { appRandom, getTimestamp } from '@utils'
 import { queue, withT } from '@utils/fetch'
 import { D, H6, WEB } from '@constants'
 import Action from './action'
@@ -63,15 +63,31 @@ export default class ScreenDiscovery extends Action {
       ])
     }, 800)
 
-    return calendarStore.fetchHome()
+    await calendarStore.fetchHome()
+    this.updateRandomHome()
   }
 
-  onHeaderRefresh = withT(() => {
-    return queue([
+  onHeaderRefresh = withT(async () => {
+    await queue([
       () => this.fetchOnline(),
       () => calendarStore.fetchOnAir(true),
       () => calendarStore.fetchCalendar(),
       () => calendarStore.fetchHome()
     ])
+    this.updateRandomHome()
   }, '发现.下拉刷新')
+
+  /** 更新随机打乱的首页数据 */
+  updateRandomHome = () => {
+    const home = calendarStore.home
+    this.setState({
+      randomHome: {
+        anime: appRandom(home.anime, 'info'),
+        book: appRandom(home.book, 'info'),
+        game: appRandom(home.game, 'info'),
+        music: appRandom(home.music, 'info'),
+        real: appRandom(home.real, 'info')
+      }
+    })
+  }
 }

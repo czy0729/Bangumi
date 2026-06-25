@@ -9,7 +9,8 @@ import { getTimestamp } from '@utils'
 import { SUBJECT_TYPE } from '@constants'
 import { COMPONENT } from '../ds'
 
-import type { Loaded } from '@types'
+import type { Loaded, SubjectType } from '@types'
+import type { HomeItem } from '@stores/calendar/types'
 
 export const NAMESPACE = `Screen${COMPONENT}`
 
@@ -32,6 +33,9 @@ export const EXCLUDE_STATE = {
     },
     _loaded: getTimestamp()
   },
+
+  /** 缓存的随机打乱后的首页数据 */
+  randomHome: {} as Record<SubjectType, HomeItem[]>,
 
   /** 是否显示剪贴板 Modal */
   visible: false,

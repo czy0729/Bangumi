@@ -76,6 +76,11 @@ export type Calendar = {
   _loaded: Loaded
 }
 
+/** 扁平化的日历条目，包含 weekday */
+export type CalendarItemFlat = CalendarItem & {
+  weekday: number
+}
+
 export type OnAirItem = {
   /** 中国放送星期几 */
   weekDayCN: string | number

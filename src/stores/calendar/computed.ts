@@ -12,7 +12,7 @@ import State from './state'
 
 import type { StoreConstructor, SubjectId } from '@types'
 import type { STATE } from './init'
-import type { OnAirItem, OnAirUser } from './types'
+import type { CalendarItemFlat, OnAirItem, OnAirUser } from './types'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   /** 发现页信息聚合 */
@@ -66,6 +66,42 @@ export default class Computed extends State implements StoreConstructor<typeof S
     })
 
     return data
+  }
+
+  /** 扁平化的每日放送数据，按时间排序，供发现页直接使用 */
+  @computed get calendarFlat(): CalendarItemFlat[] {
+    const { list } = this.calendar
+
+    const temp = list.map(item => ({
+      ...item,
+      items: item.items
+        .map(i => {
+          const { air = 0, timeCN, timeJP } = this.onAir[i.id] || ON_AIR[i.id] || ({} as any)
+          return {
+            ...i,
+            air,
+            timeCN: timeCN || timeJP || '2359'
+          }
+        })
+        .filter(item => item.timeCN !== '2359')
+        .sort((a, b) => {
+          const aTime = String(a.timeCN || '')
+          const bTime = String(b.timeCN || '')
+          return aTime > bTime ? -1 : aTime < bTime ? 1 : 0
+        })
+    }))
+
+    const flat: CalendarItemFlat[] = []
+    temp.forEach(item => {
+      item.items.forEach(i => {
+        flat.push({
+          ...i,
+          weekday: item.weekday.id
+        })
+      })
+    })
+
+    return flat.reverse()
   }
 
   /** 云端 onAir */
