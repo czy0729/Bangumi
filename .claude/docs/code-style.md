@@ -19,3 +19,9 @@
 - 每个组件/页面通过 `ds.ts` 导出 `COMPONENT` 常量标识自身，子组件用 `rc(PARENT, 'Name')` 生成
 - Store 访问：页面通过 hooks 解构 `{ id, $ }`，子组件通过 `useStore<Ctx>(COMPONENT)` 获取
 - `StoreContext.Provider` 在页面 index.tsx 中提供，子组件通过 context 消费
+
+# MobX 规范
+
+- **禁止在 computed / derivation 中原地修改 observable 数组**：`.sort()`、`.reverse()` 等会 mutates in-place，必须先 `.slice()` 或 `[...arr]` 拷贝后再操作，例如 `arr.slice().sort(...)`
+- 同理避免 `.splice()`、`.push()`、`.pop()` 等原地修改 observable 数组的操作
+- 如果 `.filter()` / `.map()` 的源是 observable 数组，其返回值已经是新数组，可安全使用 `.sort()`；但如果源是其他 computed 返回值，需先 `.slice()`

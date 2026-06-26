@@ -136,6 +136,7 @@ export type ListEmpty<T = any> = Expand<{
   }
   _list?: T[] | readonly T[]
   _loaded?: Loaded
+  _filter?: string
 }>
 
 /** T: 传入 state 的所有 keys, 约束把所有 key 都可以通过 this[key] 访问 */

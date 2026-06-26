@@ -2,18 +2,21 @@
  * @Author: czy0729
  * @Date: 2022-05-17 04:49:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-13 21:28:46
+ * @Last Modified time: 2026-06-26 18:00:00
  */
 import type { FlatList, FlatListProps, SectionListScrollParams } from 'react-native'
 import type { ListEmpty, MaybeReadonly, Override, ReactNode, Ref, Sections } from '@types'
+import type { TextProps } from '../text'
 import type { REFRESH_STATE } from './ds'
 
-/** 提取出类的实例类型 */
+/** 提取出 FlatList 类的实例类型，用于 ref 暴露滚动方法 */
 export type ListViewInstance = InstanceType<typeof FlatList>
 
+/** ListView 主组件属性，基于 FlatListProps 扩展 */
 export type Props<ItemT = any> = Override<
   FlatListProps<ItemT>,
   {
+    /** 列表引用，暴露 scrollToIndex 等滚动方法 */
     ref?:
       | Ref<ListViewInstance>
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -75,7 +78,7 @@ export type Props<ItemT = any> = Override<
     footerEmptyDataComponent?: ReactNode
 
     /** 底部 Text 的 type */
-    footerTextType?: string
+    footerTextType?: TextProps['type']
 
     /** 是否显示底部 */
     showFooter?: boolean
@@ -108,16 +111,19 @@ export type Props<ItemT = any> = Override<
   }
 >
 
+/** 列表刷新状态枚举类型，取自 REFRESH_STATE 常量 */
 export type RefreshState = (typeof REFRESH_STATE)[keyof typeof REFRESH_STATE]
 
+/** 列表内部状态 */
 export type State = {
+  /** 当前刷新状态 */
   refreshState: RefreshState
 }
 
+/** 渲染列表主体时传递的属性，从 Props 中去除与容器相关的字段 */
 export type RenderListProps<ItemT> = Omit<
   Props<ItemT>,
   | 'style'
-  | 'data'
   | 'optimize'
   | 'progressViewOffset'
   | 'refreshControlProps'
@@ -127,6 +133,7 @@ export type RenderListProps<ItemT> = Omit<
   | 'showsVerticalScrollIndicator'
 >
 
+/** 滚动到指定索引位置的参数 */
 export type ScrollToIndex = (params: {
   animated?: boolean
   index: number
@@ -134,8 +141,10 @@ export type ScrollToIndex = (params: {
   viewPosition?: number
 }) => void
 
+/** 滚动到指定偏移量的参数 */
 export type ScrollToOffset = (params: { animated?: boolean; offset: number }) => void
 
+/** 滚动到指定条目的参数 */
 export type ScrollToItem = <ItemT>(params: {
   animated?: boolean
   item: ItemT
@@ -143,6 +152,8 @@ export type ScrollToItem = <ItemT>(params: {
   viewPosition?: number
 }) => void
 
+/** 滚动到底部的参数 */
 export type ScrollToEnd = (params?: { animated?: boolean }) => void
 
+/** 滚动到 SectionList 指定位置的参数 */
 export type ScrollToLocation = (params: SectionListScrollParams) => void

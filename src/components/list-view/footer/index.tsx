@@ -16,6 +16,9 @@ import { styles } from './styles'
 
 export { FooterEmptyData, FooterFailure, FooterNoMoreData, FooterRefreshing }
 
+import type { FooterProps } from './types'
+
+/** 列表底部区域，根据刷新状态展示不同内容 */
 function Footer({
   filterText,
   footerEmptyDataComponent,
@@ -30,7 +33,7 @@ function Footer({
   pageTotal,
   refreshState,
   showMesume
-}) {
+}: FooterProps) {
   switch (refreshState) {
     case REFRESH_STATE.Idle:
       return <View style={styles.container} />

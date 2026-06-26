@@ -18,8 +18,9 @@ function Tab({ renderScene }) {
   const { $ } = useStore<Ctx>(COMPONENT_MAIN)
 
   const { length } = $.tabs
-
   const elBackground = useMemo(() => <BlurViewTab length={length} />, [length])
+
+  if (!$.state._loaded) return null
 
   return (
     <TabView

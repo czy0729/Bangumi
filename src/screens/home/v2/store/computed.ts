@@ -278,7 +278,7 @@ export default class Computed extends State {
 
     return freeze({
       ...this.rawGames,
-      list: this.filteredGames.sort((a, b) => desc(a, b, item => topMap[item.id] || 0))
+      list: this.filteredGames.slice().sort((a, b) => desc(a, b, item => topMap[item.id] || 0))
     }) as UserCollections
   }
 

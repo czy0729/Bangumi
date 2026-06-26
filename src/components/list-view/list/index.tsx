@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-30 04:24:34
  * @Last Modified by: imagebuilder1837
- * @Last Modified time: 2026-05-22 07:08:42
+ * @Last Modified time: 2026-06-26 18:00:00
  */
 import React from 'react'
 import { FlatList, SectionList } from 'react-native'
@@ -10,7 +10,7 @@ import { observer } from 'mobx-react'
 import EnteringExiting from '../entering-exiting'
 import { AnimatedFlatList, AnimatedSectionList } from './ds'
 
-import type { ListProps } from './types'
+import type { BaseProps, ListProps } from './types'
 
 function List<ItemT>({
   connectRef,
@@ -21,29 +21,34 @@ function List<ItemT>({
   data,
   ...other
 }: ListProps<ItemT>) {
-  const passProps: any = {
+  const baseProps = {
+    ...other,
     ref: connectRef,
     removeClippedSubviews: true,
     overScrollMode: 'always',
-    ...other,
     alwaysBounceHorizontal: false,
     alwaysBounceVertical: false,
     legacyImplementation: false
-  }
-  let Component: any
+  } as BaseProps<ItemT>
 
   if (skipEnteringExitingAnimations) {
-    passProps.data = data
-    Component = EnteringExiting
-  } else if (sections) {
-    passProps.sections = sections
-    Component = animated ? AnimatedSectionList : SectionList
-  } else {
-    passProps.data = data
-    Component = animated ? AnimatedFlatList : FlatList
+    return (
+      <EnteringExiting
+        {...(baseProps as any)}
+        data={data}
+        skipEnteringExitingAnimations={skipEnteringExitingAnimations}
+        renderItem={other.renderItem}
+      />
+    )
   }
 
-  return <Component {...passProps} />
+  if (sections) {
+    const SectionComponent = animated ? AnimatedSectionList : SectionList
+    return <SectionComponent {...(baseProps as any)} sections={sections} />
+  }
+
+  const ListComponent = animated ? AnimatedFlatList : FlatList
+  return <ListComponent {...(baseProps as any)} data={data} />
 }
 
 export default observer(List)
