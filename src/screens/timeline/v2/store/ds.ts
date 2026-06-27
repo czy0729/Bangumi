@@ -36,3 +36,10 @@ export const STATE = {
   /** 页面初始化完成 */
   _loaded: false as Loaded
 }
+
+/** 隐藏天数映射 */
+export const HIDDEN_DAYS: Record<string, number> = {
+  '1天不看TA': 1,
+  '3天不看TA': 3,
+  '7天不看TA': 7
+} as const

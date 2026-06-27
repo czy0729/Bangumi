@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-27 10:55:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-07 20:16:07
+ * @Last Modified time: 2026-06-27 00:00:00
  */
 import type { ScrollToIndex } from '@components'
 import { timelineStore, uiStore } from '@stores'
@@ -12,7 +12,7 @@ import { fetchHTML, t } from '@utils/fetch'
 import { MODEL_TIMELINE_SCOPE, TIMELINE_TYPE } from '@constants'
 import { TABS } from '../ds'
 import Fetch from './fetch'
-import { NAMESPACE } from './ds'
+import { HIDDEN_DAYS, NAMESPACE } from './ds'
 
 import type { TimeLineScope, UserId } from '@types'
 
@@ -96,16 +96,7 @@ export default class Action extends Fetch {
 
   /** 隐藏 */
   onHidden = (title: string, userId: UserId) => {
-    let day: number
-    if (title === '1天不看TA') {
-      day = 1
-    } else if (title === '3天不看TA') {
-      day = 3
-    } else if (title === '7天不看TA') {
-      day = 7
-    } else {
-      day = 0
-    }
+    const day = HIDDEN_DAYS[title] ?? 0
     timelineStore.updateHidden(userId, day)
 
     t('时间胶囊.隐藏', {
