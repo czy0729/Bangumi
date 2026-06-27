@@ -5,9 +5,9 @@
  * @Last Modified time: 2024-07-17 03:42:49
  */
 import { discoveryStore } from '@stores'
-import { queue } from '@utils/fetch'
-import { SUBJECT_TYPE } from '@constants'
 import Computed from './computed'
+
+import type { SubjectType } from '@types'
 
 export default class Fetch extends Computed {
   /** 在线人数 */
@@ -16,15 +16,9 @@ export default class Fetch extends Computed {
   }
 
   /** 频道聚合 */
-  fetchChannel = () => {
-    return queue(
-      SUBJECT_TYPE.map(
-        item => () =>
-          discoveryStore.fetchChannel({
-            type: item.label
-          })
-      ),
-      1
-    )
+  fetchChannel = (type: SubjectType = 'anime') => {
+    return discoveryStore.fetchChannel({
+      type
+    })
   }
 }

@@ -5,6 +5,7 @@
  * @Last Modified time: 2025-10-20 15:44:44
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { calendarStore, discoveryStore } from '@stores'
 import { date, getTimestamp } from '@utils'
 import State from './state'
@@ -29,9 +30,9 @@ export default class Computed extends State {
   }
 
   /** 好友的频道聚合信息 */
-  friendsChannel(type: SubjectType) {
-    return computed(() => discoveryStore.channel(type).friends).get()
-  }
+  friendsChannel = computedFn((type: SubjectType) => {
+    return discoveryStore.channel(type).friends
+  })
 
   /** 放送数据（已在 calendarStore 中缓存扁平化结果） */
   @computed get calendar(): CalendarItemFlat[] {

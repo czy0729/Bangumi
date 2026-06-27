@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-30 08:03:58
  */
-import { calendarStore, usersStore, userStore } from '@stores'
+import { calendarStore, usersStore } from '@stores'
 import { appRandom, getTimestamp } from '@utils'
 import { queue, withT } from '@utils/fetch'
 import { D, H6, WEB } from '@constants'
@@ -30,9 +30,7 @@ export default class ScreenDiscovery extends Action {
           return this.fetchOnline()
         },
         () => {
-          if (userStore.isWebLogin) return this.fetchChannel()
-
-          return true
+          return this.fetchChannel()
         },
         async () => {
           await calendarStore.init('onAir')

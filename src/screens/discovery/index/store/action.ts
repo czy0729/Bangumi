@@ -4,14 +4,18 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2024-07-17 03:43:57
  */
-import { systemStore } from '@stores'
+import { _, systemStore } from '@stores'
 import { appNavigate, info, matchBgmUrl, updateVisibleBottom } from '@utils'
 import { logger } from '@utils/dev'
 import { t, withT } from '@utils/fetch'
+import { SUBJECT_TYPE } from '@constants'
 import Fetch from './fetch'
 
 import type { ScrollToIndex } from '@components'
-import type { Navigation } from '@types'
+import type { Navigation, ScrollEvent, SubjectType } from '@types'
+
+/** 已请求过的频道类型, 避免重复请求 */
+const fetchedChannelTypes = new Set<SubjectType>(['anime'])
 
 export default class Action extends Fetch {
   /** 刷新到顶函数引用 */
@@ -134,6 +138,21 @@ export default class Action extends Fetch {
     })
   }
 
-  /** 更新可视范围底部 y */
-  onScroll = updateVisibleBottom.bind(this)
+  /** 更新可视范围底部 y, 并按需请求进入视口的频道数据 */
+  onScroll = (event: ScrollEvent) => {
+    updateVisibleBottom.call(this, event)
+    if (fetchedChannelTypes.size >= SUBJECT_TYPE.length) return
+
+    const { visibleBottom } = this.state
+    const headerY = Math.floor(_.window.height * 0.64)
+    SUBJECT_TYPE.forEach(({ label }, index) => {
+      if (index === 0 || fetchedChannelTypes.has(label)) return
+
+      const y = headerY + index * 640
+      if (visibleBottom >= y) {
+        fetchedChannelTypes.add(label)
+        this.fetchChannel(label)
+      }
+    })
+  }
 }
