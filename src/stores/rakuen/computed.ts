@@ -5,6 +5,7 @@
  * @Last Modified time: 2025-10-17 23:30:50
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { desc } from '@utils'
 import { LIST_EMPTY } from '@constants'
 import { DEFAULT_SCOPE, DEFAULT_TYPE, INIT_GROUP_INFO, INIT_READED_ITEM, INIT_TOPIC } from './init'
@@ -29,7 +30,6 @@ import type {
   Board,
   Comments,
   Group,
-  GroupInfo,
   Likes,
   Mine,
   Rakuen,
@@ -40,240 +40,162 @@ import type {
 } from './types'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
-  /** 超展开列表 */
-  rakuen(
-    scope = DEFAULT_SCOPE,
-    type: RakuenType | RakuenTypeMono | RakuenTypeGroup = DEFAULT_TYPE
-  ) {
-    const STATE_KEY = 'rakuen'
-    this.init(STATE_KEY, true)
+  // -------------------- 纯计算 (直接 computedFn) --------------------
+  /** @deprecated 帖子内容 CDN 自维护数据 (用于帖子首次渲染加速) */
+  topicFormCDN = computedFn((topicId: TopicId) => {
+    return (this.state.topicFormCDN[topicId] || INIT_TOPIC) as Topic
+  })
 
-    return computed(() => {
-      const ITEM_KEY = `${scope}|${type}` as const
-      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as Rakuen
-    }).get()
-  }
+  /** 小组帖子列表 */
+  group = computedFn((groupId: Id, page: number = 1) => {
+    const ITEM_KEY = `${groupId}|${page}` as const
+    return (this.state.group[ITEM_KEY] || LIST_EMPTY) as Group
+  })
 
-  /** 帖子历史查看信息 */
-  readed(topicId: TopicId) {
-    const STATE_KEY = 'readed'
-    this.init(STATE_KEY, true)
+  /** 日志回复 */
+  blogComments = computedFn((blogId: Id) => {
+    return (this.state.blogComments[blogId] || LIST_EMPTY) as Comments
+  })
 
-    return computed(() => {
-      const ITEM_KEY = topicId
-      return (this.state[STATE_KEY][ITEM_KEY] || INIT_READED_ITEM) as Readed
-    }).get()
-  }
+  /** 用户历史超展开帖子 */
+  userTopicsFromCDN = computedFn((userId: UserId) => {
+    return (this.state.userTopicsFromCDN[userId] || LIST_EMPTY) as UserTopicsFromCDN
+  })
 
-  /** 帖子内容 */
-  topic(topicId: TopicId) {
-    const STATE_KEY = 'topic'
-    this.init(STATE_KEY, true)
+  /** 条目帖子 */
+  board = computedFn((subjectId: SubjectId) => {
+    return (this.state.board[subjectId] || LIST_EMPTY) as Board
+  })
 
-    return computed(() => {
-      const ITEM_KEY = topicId
-      return (this.state[STATE_KEY][ITEM_KEY] || INIT_TOPIC) as Topic
-    }).get()
-  }
+  /** 条目讨论版 */
+  reviews = computedFn((subjectId: SubjectId) => {
+    return (this.state.reviews[subjectId] || LIST_EMPTY) as Reviews
+  })
+
+  /** @deprecated 日志内容 (CDN) */
+  blogFormCDN = computedFn(() => {
+    return INIT_TOPIC
+  })
 
   /** 帖子回复表情 */
-  likes(topicId: TopicId | BlogId | SubjectId) {
-    const STATE_KEY = 'likes'
-    this.init(STATE_KEY, true)
+  likesList = computedFn((topicId: TopicId | BlogId | SubjectId, floorId: string | number) => {
+    const likes = this.likes(topicId)?.[floorId]
+    if (!likes) return null
 
-    return computed(() => {
-      const ITEM_KEY = topicId
-      return (this.state[STATE_KEY][ITEM_KEY] || {}) as Likes
-    }).get()
-  }
+    return Object.entries(likes)
+      .sort((a, b) => desc(Number(a[1]?.total || 0), Number(b[1]?.total || 0)))
+      .map(item => item[1])
+  })
+
+  /** 已存书签 */
+  bookmarksSaved = computedFn((href: string) => {
+    if (!href) return false
+    return !!this.bookmarks.find(item => item.href === href)
+  })
+
+  /** 是否已追踪用户 */
+  commentTracked = computedFn((userName: UserId) => {
+    return this.setting.commentTrack.includes(userName)
+  })
+
+  // -------------------- 有副作用 (分离 init + computedFn) --------------------
+  /** 超展开列表 */
+  private _rakuen = computedFn(
+    (scope = DEFAULT_SCOPE, type: RakuenType | RakuenTypeMono | RakuenTypeGroup = DEFAULT_TYPE) => {
+      const ITEM_KEY = `${scope}|${type}` as const
+      return (this.state.rakuen[ITEM_KEY] || LIST_EMPTY) as Rakuen
+    }
+  )
+
+  /** 帖子历史查看信息 */
+  private _readed = computedFn((topicId: TopicId) => {
+    return (this.state.readed[topicId] || INIT_READED_ITEM) as Readed
+  })
+
+  /** 帖子内容 */
+  private _topic = computedFn((topicId: TopicId) => {
+    return (this.state.topic[topicId] || INIT_TOPIC) as Topic
+  })
+
+  /** 帖子回复表情 */
+  private _likes = computedFn((topicId: TopicId | BlogId | SubjectId) => {
+    return (this.state.likes[topicId] || {}) as Likes
+  })
 
   /** 帖子回复, 合并 comments 0-999 */
-  comments(topicId: TopicId) {
+  private _comments = computedFn((topicId: TopicId) => {
     const last = getInt(topicId)
     const STATE_KEY = `comments${last}` as const
-    this.init(STATE_KEY, true)
-
-    return computed(() => {
-      const ITEM_KEY = topicId
-      return (this.state?.[STATE_KEY]?.[ITEM_KEY] || LIST_EMPTY) as Comments
-    }).get()
-  }
-
-  /** @deprecated 帖子内容 CDN 自维护数据 (用于帖子首次渲染加速) */
-  topicFormCDN(topicId: TopicId) {
-    const STATE_KEY = 'topicFormCDN'
-
-    return computed(() => {
-      const ITEM_KEY = topicId
-      return (this.state[STATE_KEY][ITEM_KEY] || INIT_TOPIC) as Topic
-    }).get()
-  }
+    return (this.state?.[STATE_KEY]?.[topicId] || LIST_EMPTY) as Comments
+  })
 
   /** 云端帖子内容 */
-  cloudTopic(topicId: TopicId) {
-    const STATE_KEY = 'cloudTopic'
-    this.init(STATE_KEY, true)
+  private _cloudTopic = computedFn((topicId: TopicId) => {
+    return (this.state.cloudTopic[topicId] || INIT_TOPIC) as Topic
+  })
 
-    return computed(() => {
-      const ITEM_KEY = topicId
-      return (this.state[STATE_KEY][ITEM_KEY] || INIT_TOPIC) as Topic
-    }).get()
-  }
+  /** 是否本地收藏 */
+  private _favor = computedFn((topicId: TopicId) => {
+    return this.state.favor[topicId] || false
+  })
 
-  /** 电波提醒 */
+  /** 小组信息 */
+  private _groupInfo = computedFn((groupId: Id) => {
+    return this.state.groupInfo[groupId] || INIT_GROUP_INFO
+  })
+
+  /** 小组缩略图缓存 */
+  private _groupThumb = computedFn((name: string) => {
+    return (this.state.groupThumb[name] || '') as CoverGroup<'l'>
+  })
+
+  /** 日志内容 */
+  private _blog = computedFn((blogId: Id) => {
+    return (this.state.blog[blogId] || INIT_TOPIC) as Blog
+  })
+
+  /** 收藏 v2 */
+  private _favorV2 = computedFn((topicId: TopicId | `blog/${Id}`) => {
+    return this.state.favorV2[topicId] || false
+  })
+
+  /** 收藏人数 v2 */
+  private _favorCount = computedFn((topicId: TopicId | `blog/${Id}`) => {
+    return this.state.favorCount[topicId] || 0
+  })
+
+  /** 屏蔽用户的屏蔽次数追踪 */
+  private _blockedUsersTrack = computedFn((userId: UserId) => {
+    return this.state.blockedUsersTrack[userId] || 0
+  })
+
+  /** 屏蔽关键字的屏蔽次数追踪 */
+  private _blockedTrack = computedFn((keyword: string) => {
+    return this.state.blockedTrack[keyword] || 0
+  })
+
+  /** @deprecated 所有收藏条目状态 */
   @computed get notify() {
-    const STATE_KEY = 'notify'
-    this.init(STATE_KEY, true)
-
-    return this.state[STATE_KEY]
+    this.init('notify', true)
+    return this.state.notify
   }
 
   /** 超展开设置 */
   @computed get setting() {
-    const STATE_KEY = 'setting'
-    this.init(STATE_KEY, true)
-
-    return this.state[STATE_KEY]
-  }
-
-  /** 是否本地收藏 */
-  favor(topicId: TopicId) {
-    const STATE_KEY = 'favor'
-    this.init(STATE_KEY, true)
-
-    return computed(() => {
-      const ITEM_KEY = topicId
-      return this.state[STATE_KEY][ITEM_KEY] || false
-    }).get()
-  }
-
-  /** 小组帖子列表 */
-  group(groupId: Id, page: number = 1) {
-    const STATE_KEY = 'group'
-
-    return computed(() => {
-      const ITEM_KEY = `${groupId}|${page}` as const
-      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as Group
-    }).get()
-  }
-
-  /** 小组信息 */
-  groupInfo(groupId: Id) {
-    this.init('groupInfo', true)
-
-    return computed<GroupInfo>(() => {
-      return this.state.groupInfo[groupId] || INIT_GROUP_INFO
-    }).get()
-  }
-
-  /** 小组缩略图缓存 */
-  groupThumb(name: string) {
-    this.init('groupThumb', true)
-
-    return computed<CoverGroup<'l'>>(() => {
-      return this.state.groupThumb[name] || ''
-    }).get()
+    this.init('setting', true)
+    return this.state.setting
   }
 
   /** 我的小组 */
   @computed get mine() {
-    const STATE_KEY = 'mine'
-    this.init(STATE_KEY, true)
-
+    this.init('mine', true)
     return (this.state.mine || LIST_EMPTY) as Mine
-  }
-
-  /** 日志内容 */
-  blog(blogId: Id) {
-    const STATE_KEY = 'blog'
-    this.init(STATE_KEY, true)
-
-    return computed(() => {
-      const ITEM_KEY = blogId
-      return (this.state[STATE_KEY][ITEM_KEY] || INIT_TOPIC) as Blog
-    }).get()
-  }
-
-  /** 日志回复 */
-  blogComments(blogId: Id) {
-    return computed<Comments>(() => {
-      return this.state.blogComments[blogId] || LIST_EMPTY
-    }).get()
-  }
-
-  /** 用户历史超展开帖子 */
-  userTopicsFromCDN(userId: UserId) {
-    const STATE_KEY = 'userTopicsFromCDN'
-
-    return computed(() => {
-      const ITEM_KEY = userId
-      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as UserTopicsFromCDN
-    }).get()
-  }
-
-  /** 条目帖子 */
-  board(subjectId: SubjectId) {
-    const STATE_KEY = 'board'
-
-    return computed<Board>(() => {
-      const ITEM_KEY = subjectId
-      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as Board
-    }).get()
-  }
-
-  /** 条目讨论版 */
-  reviews(subjectId: SubjectId) {
-    const STATE_KEY = 'reviews'
-
-    return computed(() => {
-      const ITEM_KEY = subjectId
-      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as Reviews
-    }).get()
   }
 
   /** 超展开热门 */
   @computed get hot() {
-    const STATE_KEY = 'hot'
-    this.init(STATE_KEY, true)
-
-    return (this.state[STATE_KEY] || LIST_EMPTY) as Rakuen
-  }
-
-  /** @deprecated 日志内容 (CDN) */
-  blogFormCDN() {
-    return INIT_TOPIC
-  }
-
-  /** 收藏 v2 */
-  favorV2(topicId: TopicId | `blog/${Id}`) {
-    this.init('favorV2', true)
-    return computed<boolean>(() => {
-      return this.state.favorV2[topicId] || false
-    }).get()
-  }
-
-  /** 收藏人数 v2 */
-  favorCount(topicId: TopicId | `blog/${Id}`) {
-    this.init('favorCount', true)
-    return computed<number>(() => {
-      return this.state.favorCount[topicId] || 0
-    }).get()
-  }
-
-  /** 屏蔽用户的屏蔽次数追踪 */
-  blockedUsersTrack(userId: UserId) {
-    this.init('blockedUsersTrack', true)
-    return computed<number>(() => {
-      return this.state.blockedUsersTrack[userId] || 0
-    }).get()
-  }
-
-  /** 屏蔽关键字的屏蔽次数追踪 */
-  blockedTrack(keyword: string) {
-    this.init('blockedTrack', true)
-    return computed<number>(() => {
-      return this.state.blockedTrack[keyword] || 0
-    }).get()
+    this.init('hot', true)
+    return (this.state.hot || LIST_EMPTY) as Rakuen
   }
 
   /** 消息与提醒 */
@@ -300,7 +222,6 @@ export default class Computed extends State implements StoreConstructor<typeof S
     return this.state.formhash
   }
 
-  // -------------------- computed --------------------
   /** 收藏的帖子 */
   @computed get favorTopic() {
     this.init('favor', true)
@@ -337,37 +258,98 @@ export default class Computed extends State implements StoreConstructor<typeof S
     return data
   }
 
-  /** 帖子回复表情 */
-  likesList(topicId: TopicId | BlogId | SubjectId, floorId: string | number) {
-    return computed(() => {
-      const likes = this.likes(topicId)?.[floorId]
-      if (!likes) return null
-
-      return Object.entries(likes)
-        .sort((a, b) => desc(Number(a[1]?.total || 0), Number(b[1]?.total || 0)))
-        .map(item => item[1])
-    }).get()
-  }
-
   /** 绝交用户 ID, 替代旧的 rakuenStore.setting.blockUserIds */
   @computed get blockUserIds() {
     const { list } = this.state.blockedUsers
     return list.map(item => `${item.userName}@${item.userId}`)
   }
 
-  /** 已存书签 */
-  bookmarksSaved(href: string) {
-    return computed(() => {
-      if (!href) return false
-
-      return !!this.bookmarks.find(item => item.href === href)
-    }).get()
+  // -------------------- 导出方法 (分离 init) --------------------
+  /** 超展开列表 */
+  rakuen(
+    scope = DEFAULT_SCOPE,
+    type: RakuenType | RakuenTypeMono | RakuenTypeGroup = DEFAULT_TYPE
+  ) {
+    this.init('rakuen', true)
+    return this._rakuen(scope, type)
   }
 
-  /** 是否已追踪用户 */
-  commentTracked(userName: UserId) {
-    return computed(() => {
-      return this.setting.commentTrack.includes(userName)
-    }).get()
+  /** 帖子历史查看信息 */
+  readed(topicId: TopicId) {
+    this.init('readed', true)
+    return this._readed(topicId)
+  }
+
+  /** 帖子内容 */
+  topic(topicId: TopicId) {
+    this.init('topic', true)
+    return this._topic(topicId)
+  }
+
+  /** 帖子回复表情 */
+  likes(topicId: TopicId | BlogId | SubjectId) {
+    this.init('likes', true)
+    return this._likes(topicId)
+  }
+
+  /** 帖子回复, 合并 comments 0-999 */
+  comments(topicId: TopicId) {
+    const last = getInt(topicId)
+    this.init(`comments${last}`, true)
+    return this._comments(topicId)
+  }
+
+  /** 云端帖子内容 */
+  cloudTopic(topicId: TopicId) {
+    this.init('cloudTopic', true)
+    return this._cloudTopic(topicId)
+  }
+
+  /** 是否本地收藏 */
+  favor(topicId: TopicId) {
+    this.init('favor', true)
+    return this._favor(topicId)
+  }
+
+  /** 小组信息 */
+  groupInfo(groupId: Id) {
+    this.init('groupInfo', true)
+    return this._groupInfo(groupId)
+  }
+
+  /** 小组缩略图缓存 */
+  groupThumb(name: string) {
+    this.init('groupThumb', true)
+    return this._groupThumb(name)
+  }
+
+  /** 日志内容 */
+  blog(blogId: Id) {
+    this.init('blog', true)
+    return this._blog(blogId)
+  }
+
+  /** 收藏 v2 */
+  favorV2(topicId: TopicId | `blog/${Id}`) {
+    this.init('favorV2', true)
+    return this._favorV2(topicId)
+  }
+
+  /** 收藏人数 v2 */
+  favorCount(topicId: TopicId | `blog/${Id}`) {
+    this.init('favorCount', true)
+    return this._favorCount(topicId)
+  }
+
+  /** 屏蔽用户的屏蔽次数追踪 */
+  blockedUsersTrack(userId: UserId) {
+    this.init('blockedUsersTrack', true)
+    return this._blockedUsersTrack(userId)
+  }
+
+  /** 屏蔽关键字的屏蔽次数追踪 */
+  blockedTrack(keyword: string) {
+    this.init('blockedTrack', true)
+    return this._blockedTrack(keyword)
   }
 }

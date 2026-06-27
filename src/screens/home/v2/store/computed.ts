@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-03-20 07:01:09
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { _, calendarStore, collectionStore, subjectStore, systemStore, userStore } from '@stores'
 import { desc, freeze, getOnAir, t2s } from '@utils'
 import CacheManager from '@utils/cache-manager'
@@ -96,9 +97,7 @@ export default class Computed extends State {
   }
 
   /** 收藏项状态 */
-  $Item(subjectId: SubjectId) {
-    return freeze(computed(() => this.state.item[subjectId] || INIT_ITEM).get())
-  }
+  $Item = computedFn((subjectId: SubjectId) => this.state.item[subjectId] || INIT_ITEM)
 
   /** 是否登录 (API) */
   @computed get isLogin() {
@@ -242,16 +241,14 @@ export default class Computed extends State {
   }
 
   /** 当前列表有过滤 */
-  isFilter(title: TabsLabel) {
-    return computed(() => {
-      const { filterPage } = this.state
-      if (filterPage >= 0 && filterPage <= this.tabs.length) {
-        return this.tabs[filterPage]?.title === title && !!this.state.filter
-      }
+  isFilter = computedFn((title: TabsLabel) => {
+    const { filterPage } = this.state
+    if (filterPage >= 0 && filterPage <= this.tabs.length) {
+      return this.tabs[filterPage]?.title === title && !!this.state.filter
+    }
 
-      return false
-    }).get()
-  }
+    return false
+  })
 
   /** 原始游戏数据 */
   @computed get rawGames() {
@@ -288,11 +285,10 @@ export default class Computed extends State {
   }
 
   /** 已看过的章节数量 */
-  watchedCount(subjectId: SubjectId) {
-    return computed(
-      () => Object.values(this.userProgress(subjectId)).filter(status => status === '看过').length
-    ).get()
-  }
+  watchedCount = computedFn(
+    (subjectId: SubjectId) =>
+      Object.values(this.userProgress(subjectId)).filter(status => status === '看过').length
+  )
 
   /** 条目信息 */
   subject(subjectId: SubjectId) {
@@ -300,9 +296,7 @@ export default class Computed extends State {
   }
 
   /** 条目章节数据 (排除 SP) */
-  epsNoSp(subjectId: SubjectId) {
-    return computed(() => getEpsNoSp(this.subject(subjectId).eps)).get()
-  }
+  epsNoSp = computedFn((subjectId: SubjectId) => getEpsNoSp(this.subject(subjectId).eps))
 
   /** 条目章节数据 */
   eps(subjectId: SubjectId) {
@@ -369,39 +363,35 @@ export default class Computed extends State {
   }
 
   /** 过滤 SP 后的章节 */
-  epsNoType1(subjectId: SubjectId) {
-    return computed(() => this.eps(subjectId).filter(item => item.type !== 1)).get()
-  }
+  epsNoType1 = computedFn((subjectId: SubjectId) =>
+    this.eps(subjectId).filter(item => item.type !== 1)
+  )
 
   /** 猜测条目当前看到的集数 */
-  countFixed(subjectId: SubjectId, epStatus: number | string) {
-    return computed(() => {
-      // 直接获取第一个看过章节的 sort
-      const eps = this.epsNoType1(subjectId)
-      const userProgress = this.userProgress(subjectId)
-      const lastWatchedSort = getLastWatchedSort(eps, userProgress)
-      if (lastWatchedSort !== undefined) return lastWatchedSort
+  countFixed = computedFn((subjectId: SubjectId, epStatus: number | string) => {
+    // 直接获取第一个看过章节的 sort
+    const eps = this.epsNoType1(subjectId)
+    const userProgress = this.userProgress(subjectId)
+    const lastWatchedSort = getLastWatchedSort(eps, userProgress)
+    if (lastWatchedSort !== undefined) return lastWatchedSort
 
-      // 不能直接用 API 给的 epStatus, 会把 SP 都加上
-      // 需要根据 userProgress 和 eps 排除掉 SP 算
-      const count = getWatchedCount(userProgress, eps)
+    // 不能直接用 API 给的 epStatus, 会把 SP 都加上
+    // 需要根据 userProgress 和 eps 排除掉 SP 算
+    const count = getWatchedCount(userProgress, eps)
 
-      // 主要是有些特殊情况, 会有意料不到的问题, 特殊处理
-      // epStatus=1 的时候, 优先使用 count
-      return Number(epStatus == 1 ? count || epStatus : epStatus || count)
-    }).get()
-  }
+    // 主要是有些特殊情况, 会有意料不到的问题, 特殊处理
+    // epStatus=1 的时候, 优先使用 count
+    return Number(epStatus == 1 ? count || epStatus : epStatus || count)
+  })
 
   /** 网格布局实际显示的章节一行多少个 */
-  numbersOfLineGrid(subjectId: SubjectId) {
-    return computed(() =>
-      _.isMobileLanscape
-        ? 12
-        : systemStore.setting.homeGridEpAutoAdjust
-        ? _.device(this.epsCount(subjectId, false) <= 18 ? 6 : 7, 8)
-        : _.device(7, 8)
-    ).get()
-  }
+  numbersOfLineGrid = computedFn((subjectId: SubjectId) =>
+    _.isMobileLanscape
+      ? 12
+      : systemStore.setting.homeGridEpAutoAdjust
+      ? _.device(this.epsCount(subjectId, false) <= 18 ? 6 : 7, 8)
+      : _.device(7, 8)
+  )
 
   /** 网格布局实际显示的章节多少行 */
   @computed get linesGrid() {
@@ -409,19 +399,15 @@ export default class Computed extends State {
   }
 
   /** 网格布局实际显示的章节按钮数目 */
-  pageLimitGrid(subjectId: SubjectId) {
-    return computed(
-      () => this.numbersOfLineGrid(subjectId) * this.linesGrid || PAGE_LIMIT_GRID
-    ).get()
-  }
+  pageLimitGrid = computedFn(
+    (subjectId: SubjectId) => this.numbersOfLineGrid(subjectId) * this.linesGrid || PAGE_LIMIT_GRID
+  )
 
   /** 已看过的章节 */
-  watchedEps(subjectId: SubjectId) {
-    return computed(() => {
-      const userProgress = this.userProgress(subjectId)
-      return this.epsNoSp(subjectId).filter(item => userProgress[item.id] === '看过')
-    }).get()
-  }
+  watchedEps = computedFn((subjectId: SubjectId) => {
+    const userProgress = this.userProgress(subjectId)
+    return this.epsNoSp(subjectId).filter(item => userProgress[item.id] === '看过')
+  })
 
   /** subject 中的 epStatus 未必准确, 需要手动算一个对比 */
   epStatus(subjectId: SubjectId) {
@@ -472,26 +458,22 @@ export default class Computed extends State {
   }
 
   /** 是否存在没有看的章节 */
-  hasNewEp(subjectId: SubjectId) {
-    return computed(() =>
-      checkHasNewEp(this.epsNoSp(subjectId), this.userProgress(subjectId))
-    ).get()
-  }
+  hasNewEp = computedFn((subjectId: SubjectId) =>
+    checkHasNewEp(this.epsNoSp(subjectId), this.userProgress(subjectId))
+  )
 
   /** 是否渲染 Item */
-  showItem(title: TabsLabel) {
-    return computed(() => {
-      if (!IOS || this.tabs.length <= 1) return true
+  showItem = computedFn((title: TabsLabel) => {
+    if (!IOS || this.tabs.length <= 1) return true
 
-      const index = this.tabs.findIndex(item => item.title === title)
-      return this.state.renderedTabsIndex.includes(index)
-    }).get()
-  }
+    const index = this.tabs.findIndex(item => item.title === title)
+    return this.state.renderedTabsIndex.includes(index)
+  })
 
   /** 排除 SP 章节的长度 */
-  epsCount(subjectId: SubjectId, filterZero: boolean = true) {
-    return computed(() => getEpsCount(this.subject(subjectId), filterZero)).get()
-  }
+  epsCount = computedFn((subjectId: SubjectId, filterZero: boolean = true) =>
+    getEpsCount(this.subject(subjectId), filterZero)
+  )
 
   /** 显示数字组合 */
   countRight(subjectId: SubjectId) {

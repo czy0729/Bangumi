@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-06-22 21:30:58
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { IOS, WEB } from '@constants'
 import { radiusMd } from '@styles'
 import State from './state'
@@ -121,49 +122,43 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   /** 某用户备注 */
-  userRemark(userId: UserId) {
-    return computed(() => {
-      return this.setting.userRemark[userId] || ''
-    }).get()
-  }
+  userRemark = computedFn((userId: UserId) => {
+    return this.setting.userRemark[userId] || ''
+  })
 
   /** 是否高级用户 */
-  isAdvance(userId: UserId, userName?: UserId) {
-    return computed<boolean>(() => {
-      let flag = false
-      if (userId) flag = userId in this.advanceDetail
-      if (!flag && userName) flag = userName in this.advanceDetail
-      return flag
-    }).get()
-  }
+  isAdvance = computedFn((userId: UserId, userName?: UserId) => {
+    let flag = false
+    if (userId) flag = userId in this.advanceDetail
+    if (!flag && userName) flag = userName in this.advanceDetail
+    return flag
+  })
 
   /** 高级用户额度 */
-  advanceAmount(userId: number, userName: UserId) {
+  advanceAmount = computedFn((userId: number, userName: UserId) => {
     if (!userId || !userName) return 0
 
-    return computed<number>(() => {
-      let amount = 0
+    let amount = 0
 
-      try {
-        let temp: string | number = this.advanceDetail[userId] || 0
+    try {
+      let temp: string | number = this.advanceDetail[userId] || 0
+      if (typeof temp === 'string') {
+        const value = Number(temp.split('|')?.[1])
+        if (value) amount += value
+      }
+
+      // 若改过 ID 才进行二次计算
+      if (userId && userName && userId !== userName) {
+        temp = this.advanceDetail[userName] || 0
         if (typeof temp === 'string') {
           const value = Number(temp.split('|')?.[1])
           if (value) amount += value
         }
+      }
+    } catch {}
 
-        // 若改过 ID 才进行二次计算
-        if (userId && userName && userId !== userName) {
-          temp = this.advanceDetail[userName] || 0
-          if (typeof temp === 'string') {
-            const value = Number(temp.split('|')?.[1])
-            if (value) amount += value
-          }
-        }
-      } catch {}
-
-      return amount
-    }).get()
-  }
+    return amount
+  })
 
   /** 主域名代理中 */
   @computed get isHostProxy() {

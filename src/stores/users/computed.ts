@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-06-23 20:44:26
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { HTMLDecode } from '@utils'
 import { fixedRemote } from '@utils/user-setting'
 import { HOST_BGM_STATIC, LIST_EMPTY } from '@constants'
@@ -31,121 +32,81 @@ export default class Computed
   extends State
   implements StoreConstructor<Omit<typeof STATE, 'catalogsCollect'>>
 {
-  /** 寻找头像 */
-  avatars(userId?: UserId) {
-    this.init('avatars', true)
+  // -------------------- 纯计算 (直接 computedFn) --------------------
+  /** 条目存在于多少个自己的目录中（O(1) 查询） */
+  catalogSubjectCount = computedFn((subjectId: SubjectId) => {
+    return this.catalogSubjectIndex.get(subjectId) || 0
+  })
 
-    return computed(() => {
-      const value = this.state.avatars[userId]
-      // 兼容旧数据: 旧格式不含目录前缀 (如 21/77/217781.jpg), 默认补 000/
-      const path = value && !/^\d{3}\//.test(value) && value !== 'icon.jpg' ? `000/${value}` : value
-      return (path ? `${HOST_BGM_STATIC}/pic/user/l/${path}` : '') as string
-    }).get()
-  }
+  // -------------------- 有副作用 (分离 init + computedFn) --------------------
+  /** 寻找头像 */
+  private _avatars = computedFn((userId?: UserId) => {
+    const value = this.state.avatars[userId]
+    // 兼容旧数据: 旧格式不含目录前缀 (如 21/77/217781.jpg), 默认补 000/
+    const path = value && !/^\d{3}\//.test(value) && value !== 'icon.jpg' ? `000/${value}` : value
+    return (path ? `${HOST_BGM_STATIC}/pic/user/l/${path}` : '') as string
+  })
 
   /** 好友列表 */
-  friends(userId?: UserId) {
-    const STATE_KEY = 'friends'
-    this.init(STATE_KEY, true)
-
-    return computed(() => {
-      const ITEM_KEY = userId || userStore.myId
-      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as Friends
-    }).get()
-  }
+  private _friends = computedFn((userId?: UserId) => {
+    const ITEM_KEY = userId || userStore.myId
+    return (this.state.friends[ITEM_KEY] || LIST_EMPTY) as Friends
+  })
 
   /** 反向好友列表 */
-  revFriends(userId?: UserId) {
-    const STATE_KEY = 'revFriends'
-    this.init(STATE_KEY, true)
-
-    return computed(() => {
-      const ITEM_KEY = userId || userStore.myId
-      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as Friends
-    }).get()
-  }
-
-  /** 我的好友 userId 哈希映射 */
-  @computed get myFriendsMap() {
-    const STATE_KEY = 'myFriendsMap'
-    this.init(STATE_KEY, true)
-
-    return this.state[STATE_KEY]
-  }
+  private _revFriends = computedFn((userId?: UserId) => {
+    const ITEM_KEY = userId || userStore.myId
+    return (this.state.revFriends[ITEM_KEY] || LIST_EMPTY) as Friends
+  })
 
   /** 用户信息 */
-  users(userId?: UserId) {
-    const STATE_KEY = 'users'
-    this.init(STATE_KEY, true)
-
-    return computed(() => {
-      const ITEM_KEY = userId || userStore.myId
-      return (this.state[STATE_KEY][ITEM_KEY] || INIT_USERS) as Users
-    }).get()
-  }
+  private _users = computedFn((userId?: UserId) => {
+    const ITEM_KEY = userId || userStore.myId
+    return (this.state.users[ITEM_KEY] || INIT_USERS) as Users
+  })
 
   /** 用户简短信息 */
-  usersInfo(userId?: UserId) {
-    this.init('usersInfo', true)
-    return computed<UsersInfo>(() => {
-      const key = userId
-      return this.state.usersInfo[key] || INIT_USERS_INFO
-    }).get()
-  }
+  private _usersInfo = computedFn((userId?: UserId) => {
+    return (this.state.usersInfo[userId] || INIT_USERS_INFO) as UsersInfo
+  })
 
   /** 用户收藏的虚拟角色 */
-  characters(userId?: UserId) {
-    const STATE_KEY = 'characters'
-    this.init(STATE_KEY, true)
-
-    return computed(() => {
-      const ITEM_KEY = userId || userStore.myId
-      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as Characters
-    }).get()
-  }
+  private _characters = computedFn((userId?: UserId) => {
+    const ITEM_KEY = userId || userStore.myId
+    return (this.state.characters[ITEM_KEY] || LIST_EMPTY) as Characters
+  })
 
   /** 用户收藏的现实人物 */
-  persons(userId?: UserId) {
-    const STATE_KEY = 'persons'
-    this.init(STATE_KEY, true)
+  private _persons = computedFn((userId?: UserId) => {
+    const ITEM_KEY = userId || userStore.myId
+    return (this.state.persons[ITEM_KEY] || LIST_EMPTY) as Persons
+  })
 
-    return computed(() => {
-      const ITEM_KEY = userId || userStore.myId
-      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as Persons
-    }).get()
+  /** 用户日志 */
+  private _blogs = computedFn((userId?: UserId) => {
+    const ITEM_KEY = userId || userStore.myId
+    return (this.state.blogs[ITEM_KEY] || LIST_EMPTY) as Blogs
+  })
+
+  /** 用户目录 */
+  private _catalogs = computedFn((userId?: UserId, isCollect?: boolean) => {
+    const STATE_KEY = `catalogs${isCollect ? 'Collect' : ''}` as const
+    const ITEM_KEY = userId || userStore.myId
+    return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as Catalogs
+  })
+
+  /** @deprecated 所有收藏条目状态 */
+  @computed get myFriendsMap() {
+    this.init('myFriendsMap', true)
+    return this.state.myFriendsMap
   }
 
   /** 我收藏的人物近况 */
   @computed get recents(): Recents {
-    const STATE_KEY = 'recents'
-    this.init(STATE_KEY, true)
-
-    return this.state[STATE_KEY]
+    this.init('recents', true)
+    return this.state.recents
   }
 
-  /** 用户日志 */
-  blogs(userId?: UserId) {
-    const STATE_KEY = 'blogs'
-    this.init(STATE_KEY, true)
-
-    return computed(() => {
-      const ITEM_KEY = userId || userStore.myId
-      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as Blogs
-    }).get()
-  }
-
-  /** 用户目录 */
-  catalogs(userId?: UserId, isCollect?: boolean) {
-    const STATE_KEY = `catalogs${isCollect ? 'Collect' : ''}` as const
-    this.init(STATE_KEY, true)
-
-    return computed(() => {
-      const ITEM_KEY = userId || userStore.myId
-      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as Catalogs
-    }).get()
-  }
-
-  // -------------------- computed --------------------
   /** @deprecated 好友对象 */
   @computed get friendsMap(): FriendsMap {
     const { list } = this.friends()
@@ -177,8 +138,59 @@ export default class Computed
     return index
   }
 
-  /** 条目存在于多少个自己的目录中（O(1) 查询） */
-  catalogSubjectCount(subjectId: SubjectId) {
-    return this.catalogSubjectIndex.get(subjectId) || 0
+  // -------------------- 导出方法 (分离 init) --------------------
+  /** 寻找头像 */
+  avatars(userId?: UserId) {
+    this.init('avatars', true)
+    return this._avatars(userId)
+  }
+
+  /** 好友列表 */
+  friends(userId?: UserId) {
+    this.init('friends', true)
+    return this._friends(userId)
+  }
+
+  /** 反向好友列表 */
+  revFriends(userId?: UserId) {
+    this.init('revFriends', true)
+    return this._revFriends(userId)
+  }
+
+  /** 用户信息 */
+  users(userId?: UserId) {
+    this.init('users', true)
+    return this._users(userId)
+  }
+
+  /** 用户简短信息 */
+  usersInfo(userId?: UserId) {
+    this.init('usersInfo', true)
+    return this._usersInfo(userId)
+  }
+
+  /** 用户收藏的虚拟角色 */
+  characters(userId?: UserId) {
+    this.init('characters', true)
+    return this._characters(userId)
+  }
+
+  /** 用户收藏的现实人物 */
+  persons(userId?: UserId) {
+    this.init('persons', true)
+    return this._persons(userId)
+  }
+
+  /** 用户日志 */
+  blogs(userId?: UserId) {
+    this.init('blogs', true)
+    return this._blogs(userId)
+  }
+
+  /** 用户目录 */
+  catalogs(userId?: UserId, isCollect?: boolean) {
+    const STATE_KEY = `catalogs${isCollect ? 'Collect' : ''}` as const
+    this.init(STATE_KEY, true)
+    return this._catalogs(userId, isCollect)
   }
 }

@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-04-10 05:45:37
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { LIST_EMPTY } from '@constants'
 import { INIT_CATALOG_ITEM, INIT_CATELOG_DETAIL_ITEM, INIT_CHANNEL } from './init'
 import { getInt } from './utils'
@@ -23,135 +24,116 @@ import type {
 } from './types'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
+  // -------------------- 纯计算 (直接 computedFn) --------------------
+  /** 标签 */
+  tags = computedFn((type: SubjectType, filter?: string) => {
+    const ITEM_KEY = `${type}|${filter}` as const
+    return (this.state.tags[ITEM_KEY] || LIST_EMPTY) as Tags
+  })
+
+  /** 资讯 */
+  gcTimeline = computedFn((page: number = 1) => {
+    return (this.state.gcTimeline[page] || LIST_EMPTY) as News
+  })
+
+  /** 资讯 */
+  ymTimeline = computedFn((page: number = 1) => {
+    return (this.state.ymTimeline[page] || LIST_EMPTY) as News
+  })
+
+  /** 资讯 */
+  gsTimeline = computedFn((page: number = 1) => {
+    return (this.state.gsTimeline[page] || LIST_EMPTY) as News
+  })
+
+  // -------------------- 有副作用 (分离 init + computedFn) --------------------
+  /** 目录 */
+  private _catalog = computedFn((type: '' | 'collect' | 'me' = '', page: number = 1) => {
+    const ITEM_KEY = `${type}|${page}` as const
+    return (this.state.catalog[ITEM_KEY] || INIT_CATALOG_ITEM) as Catalog
+  })
+
+  /** 目录详情 */
+  private _catalogDetail = computedFn((id: Id) => {
+    const last = getInt(id)
+    const STATE_KEY = `catalogDetail${last}` as const
+    return (this.state?.[STATE_KEY]?.[id] || INIT_CATELOG_DETAIL_ITEM) as CatalogDetail
+  })
+
+  /** 目录详情 (云缓存) */
+  private _catalogDetailFromOSS = computedFn((id: Id) => {
+    return (this.state.catalogDetailFromOSS[id] || INIT_CATELOG_DETAIL_ITEM) as CatalogDetailFromOSS
+  })
+
+  /** 全站日志 */
+  private _blog = computedFn((type: SubjectType | 'all' | '' = '', page: number = 1) => {
+    const ITEM_KEY = [type, page].join('|')
+    return (this.state.blog[ITEM_KEY] || LIST_EMPTY) as Blog
+  })
+
+  /** 日志查看历史 */
+  private _blogReaded = computedFn((blogId: Id) => {
+    return (this.state.blogReaded[blogId] || false) as boolean
+  })
+
+  /** 频道聚合 */
+  private _channel = computedFn((type: SubjectType = 'anime') => {
+    return (this.state.channel[type] || INIT_CHANNEL) as Channel
+  })
+
+  /** @deprecated 所有收藏条目状态 */
+  @computed get online() {
+    this.init('online', true)
+    return this.state.online
+  }
+
+  /** 维基人 */
+  @computed get wiki() {
+    this.init('wiki', true)
+    return this.state.wiki
+  }
+
+  /** DOLLARS */
+  @computed get dollars() {
+    this.init('dollars', true)
+    return this.state.dollars
+  }
+
+  // -------------------- 导出方法 (分离 init) --------------------
   /** 目录 */
   catalog(type: '' | 'collect' | 'me' = '', page: number = 1) {
-    const STATE_KEY = 'catalog'
-    this.init(STATE_KEY, true)
-
-    return computed(() => {
-      const ITEM_KEY = `${type}|${page}` as const
-      return (this.state[STATE_KEY][ITEM_KEY] || INIT_CATALOG_ITEM) as Catalog
-    }).get()
+    this.init('catalog', true)
+    return this._catalog(type, page)
   }
 
   /** 目录详情 */
   catalogDetail(id: Id) {
     const last = getInt(id)
-    const STATE_KEY = `catalogDetail${last}` as const
-    this.init(STATE_KEY, true)
-
-    return computed(() => {
-      const ITEM_KEY = id
-      return (this.state?.[STATE_KEY]?.[ITEM_KEY] || INIT_CATELOG_DETAIL_ITEM) as CatalogDetail
-    }).get()
+    this.init(`catalogDetail${last}`, true)
+    return this._catalogDetail(id)
   }
 
   /** 目录详情 (云缓存) */
   catalogDetailFromOSS(id: Id) {
-    const STATE_KEY = 'catalogDetailFromOSS'
-    this.init(STATE_KEY, true)
-
-    return computed(() => {
-      const ITEM_KEY = id
-      return (this.state[STATE_KEY][ITEM_KEY] || INIT_CATELOG_DETAIL_ITEM) as CatalogDetailFromOSS
-    }).get()
-  }
-
-  /** 标签 */
-  tags(type: SubjectType, filter?: string) {
-    const STATE_KEY = 'tags'
-
-    return computed(() => {
-      const ITEM_KEY = `${type}|${filter}` as const
-      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as Tags
-    }).get()
+    this.init('catalogDetailFromOSS', true)
+    return this._catalogDetailFromOSS(id)
   }
 
   /** 全站日志 */
   blog(type: SubjectType | 'all' | '' = '', page: number = 1) {
-    const STATE_KEY = 'blog'
-    this.init(STATE_KEY, true)
-
-    return computed(() => {
-      const ITEM_ARGS = [type, page] as const
-      const ITEM_KEY = ITEM_ARGS.join('|')
-      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as Blog
-    }).get()
+    this.init('blog', true)
+    return this._blog(type, page)
   }
 
   /** 日志查看历史 */
   blogReaded(blogId: Id) {
-    const STATE_KEY = 'blogReaded'
-    this.init(STATE_KEY, true)
-
-    return computed(() => {
-      const ITEM_KEY = blogId
-      return (this.state[STATE_KEY][ITEM_KEY] || false) as boolean
-    }).get()
+    this.init('blogReaded', true)
+    return this._blogReaded(blogId)
   }
 
   /** 频道聚合 */
   channel(type: SubjectType = 'anime') {
-    const STATE_KEY = 'channel'
-    this.init(STATE_KEY, true)
-
-    return computed(() => {
-      const ITEM_KEY = type
-      return (this.state[STATE_KEY][ITEM_KEY] || INIT_CHANNEL) as Channel
-    }).get()
-  }
-
-  /** 在线人数 */
-  @computed get online() {
-    const STATE_KEY = 'online'
-    this.init(STATE_KEY, true)
-
-    return this.state[STATE_KEY]
-  }
-
-  /** 维基人 */
-  @computed get wiki() {
-    const STATE_KEY = 'wiki'
-    this.init(STATE_KEY, true)
-
-    return this.state[STATE_KEY]
-  }
-
-  /** 资讯 */
-  gcTimeline(page: number = 1) {
-    const STATE_KEY = 'gcTimeline'
-
-    return computed(() => {
-      const ITEM_KEY = page
-      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as News
-    }).get()
-  }
-
-  /** 资讯 */
-  ymTimeline(page: number = 1) {
-    const STATE_KEY = 'ymTimeline'
-
-    return computed(() => {
-      const ITEM_KEY = page
-      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as News
-    }).get()
-  }
-
-  /** 资讯 */
-  gsTimeline(page: number = 1) {
-    const STATE_KEY = 'gsTimeline'
-
-    return computed(() => {
-      const ITEM_KEY = page
-      return (this.state[STATE_KEY][ITEM_KEY] || LIST_EMPTY) as News
-    }).get()
-  }
-
-  /** DOLLARS */
-  @computed get dollars() {
-    const STATE_KEY = 'dollars'
-    this.init(STATE_KEY, true)
-
-    return this.state[STATE_KEY]
+    this.init('channel', true)
+    return this._channel(type)
   }
 }

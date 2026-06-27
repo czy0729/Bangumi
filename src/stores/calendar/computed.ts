@@ -5,6 +5,7 @@
  * @Last Modified time: 2025-10-20 10:46:21
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { deepClone, getTimestamp, toLocal } from '@utils'
 import { INIT_CALENDAR, INIT_ONAIR_ITEM, INIT_USER_ONAIR_ITEM } from './init'
 import { ON_AIR } from './onair'
@@ -12,7 +13,7 @@ import State from './state'
 
 import type { StoreConstructor, SubjectId } from '@types'
 import type { STATE } from './init'
-import type { CalendarItemFlat, OnAirItem, OnAirUser } from './types'
+import type { CalendarItemFlat } from './types'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   /** 发现页信息聚合 */
@@ -111,55 +112,55 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   /** 用户自定义放送时间 */
+  private _onAirUser = computedFn((subjectId: SubjectId) => {
+    const { onAirUser } = this.state
+    return onAirUser[subjectId] || INIT_USER_ONAIR_ITEM
+  })
+
   onAirUser(subjectId: SubjectId) {
     this.init('onAirUser', true)
-    return computed<OnAirUser>(() => {
-      const { onAirUser } = this.state
-      return onAirUser[subjectId] || INIT_USER_ONAIR_ITEM
-    }).get()
+    return this._onAirUser(subjectId)
   }
 
   // -------------------- computed --------------------
   /** 整合: 云端放送, 用户自定义放送时间, 本地时区 */
-  onAirLocal(subjectId: SubjectId) {
-    return computed<OnAirItem>(() => {
-      // 云端放送数据
-      const onAir = this.onAir[subjectId] || INIT_ONAIR_ITEM
+  onAirLocal = computedFn((subjectId: SubjectId) => {
+    // 云端放送数据
+    const onAir = this.onAir[subjectId] || INIT_ONAIR_ITEM
 
-      // 用户自定义放送时间数据
-      const onAirUser = this.onAirUser(subjectId)
+    // 用户自定义放送时间数据
+    const onAirUser = this.onAirUser(subjectId)
 
-      // 用户自定义放送时间最优先
-      if (onAirUser.weekDayCN !== '' || onAirUser.timeCN !== '') {
-        return {
-          ...onAir,
-          ...onAirUser,
-          custom: true
-        }
-      }
-
-      // 若云端和代码本地数据全为空, 不处理
-      if (
-        !onAir.weekDayCN &&
-        !onAir.timeCN &&
-        !onAir.weekDayJP &&
-        !onAir.timeJP &&
-        !ON_AIR[subjectId]
-      ) {
-        return {
-          ...onAir
-        }
-      }
-
-      // 本地时区次优先
-      const onAirLocal = toLocal(
-        onAir.weekDayCN || onAir.weekDayJP || ON_AIR[subjectId]?.weekDayCN,
-        onAir.timeCN || onAir.timeJP || ON_AIR[subjectId]?.timeCN
-      )
+    // 用户自定义放送时间最优先
+    if (onAirUser.weekDayCN !== '' || onAirUser.timeCN !== '') {
       return {
         ...onAir,
-        ...onAirLocal
+        ...onAirUser,
+        custom: true
       }
-    }).get()
-  }
+    }
+
+    // 若云端和代码本地数据全为空, 不处理
+    if (
+      !onAir.weekDayCN &&
+      !onAir.timeCN &&
+      !onAir.weekDayJP &&
+      !onAir.timeJP &&
+      !ON_AIR[subjectId]
+    ) {
+      return {
+        ...onAir
+      }
+    }
+
+    // 本地时区次优先
+    const onAirLocal = toLocal(
+      onAir.weekDayCN || onAir.weekDayJP || ON_AIR[subjectId]?.weekDayCN,
+      onAir.timeCN || onAir.timeJP || ON_AIR[subjectId]?.timeCN
+    )
+    return {
+      ...onAir,
+      ...onAirLocal
+    }
+  })
 }
