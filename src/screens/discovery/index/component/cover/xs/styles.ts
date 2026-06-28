@@ -29,9 +29,12 @@ export const memoStyles = _.memoStyles(() => ({
     zIndex: 2,
     right: 3,
     bottom: 3,
-    left: _.r(AVATAR_SIZE + 1),
+    left: 3,
     minHeight: 13,
     opacity: 0.92
+  },
+  withAvatar: {
+    left: _.r(AVATAR_SIZE + 1)
   },
   fixed: {
     position: 'absolute',

@@ -18,7 +18,7 @@ import type { Props } from './types'
 function CoverXsWrap({ title, avatar, data }: Props) {
   const navigation = useNavigation(COMPONENT)
 
-  if (!avatar || !data.cover) return null
+  if (!data.cover) return null
 
   const subjectId = data.id
   const cn = subjectStore.cn(subjectId)

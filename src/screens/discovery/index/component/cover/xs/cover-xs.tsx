@@ -71,7 +71,7 @@ const CoverXs = memo(
               pointerEvents='none'
             />
             <Text
-              style={styles.desc}
+              style={stl(styles.desc, avatar && styles.withAvatar)}
               type='__plain__'
               size={7}
               lineHeight={_.r(7)}

@@ -12,75 +12,81 @@ import Computed from './computed'
 import { INIT_HOME, NAMESPACE } from './init'
 import { fixedOnAir } from './utils'
 
-import type { OnAir } from './types'
+import type { Home, OnAir } from './types'
 
 export default class Fetch extends Computed {
   /** 发现页信息聚合 */
   fetchHome = async () => {
-    const raw = await fetchHTML({
-      url: `!${HOST}`
-    })
-    const html = HTMLTrim(raw)
-
-    const data = {
+    const data: Home = {
       anime: [],
       game: [],
       book: [],
       music: [],
       real: [],
-      today: '今日上映 - 部。共 - 人收看今日番组。'
+      today: '今日上映 - 部。共 - 人收看今日番组。',
+      _loaded: getTimestamp()
     }
-    const itemsHTML = html.match(/<ul id="featuredItems" class="featuredItems">(.+?)<\/ul>/)
-    if (itemsHTML) {
-      const type = ['anime', 'game', 'book', 'music', 'real']
 
-      let node: any
-      const tree = HTMLToTree(itemsHTML[1])
-      tree.children.forEach((item, index) => {
-        const list = []
-
-        item.children.forEach(({ children }, idx) => {
-          // 第一个是标签栏, 排除掉
-          if (idx === 0) return
-
-          node =
-            findTreeNode(children, 'a > div|style~background') ||
-            findTreeNode(children, 'a|style~background')
-
-          // @update 2022/12/30
-          let cover = node?.[0]?.attrs?.style.match(/\/cover\/.+?\/(.+?).jpg/)?.[1] || ''
-          if (cover) cover = `${HOST_BGM_STATIC}/pic/cover/l/${cover}.jpg`
-
-          node = findTreeNode(children, 'a|href&title')
-          const title = node ? node[0].attrs.title : ''
-          const subjectId = node ? node[0].attrs.href.replace('/subject/', '') : ''
-
-          node = findTreeNode(children, 'p > small') || findTreeNode(children, 'div > small')
-          const info = node ? node[0].text[0] : ''
-
-          list.push({
-            cover,
-            title,
-            subjectId,
-            info
-          })
+    try {
+      const html = HTMLTrim(
+        await fetchHTML({
+          url: `!${HOST}`
         })
+      )
 
-        data[type[index]] = list
-      })
-    }
+      const itemsHTML = html.match(/<ul id="featuredItems" class="featuredItems">(.+?)<\/ul>/)
+      if (itemsHTML) {
+        const type = ['anime', 'game', 'book', 'music', 'real']
 
-    const todayHTML = html.match('<li class="tip">(.+?)</li>')
-    if (todayHTML) data.today = cheerioToday(`<li>${todayHTML[1]}</li>`)
+        try {
+          let node: any
+          const tree = HTMLToTree(itemsHTML[1])
+          tree.children.forEach((item, index) => {
+            const list = []
 
-    const key = 'home'
-    this.setState({
-      [key]: {
-        ...data,
-        _loaded: getTimestamp()
+            item.children.forEach(({ children }, idx) => {
+              // 第一个是标签栏, 排除掉
+              if (idx === 0) return
+
+              node =
+                findTreeNode(children, 'a > div|style~background') ||
+                findTreeNode(children, 'a|style~background')
+
+              // @update 2022/12/30
+              let cover = node?.[0]?.attrs?.style.match(/\/cover\/.+?\/(.+?).jpg/)?.[1] || ''
+              if (cover) cover = `${HOST_BGM_STATIC}/pic/cover/l/${cover}.jpg`
+
+              node = findTreeNode(children, 'a|href&title')
+              const title = node ? node[0].attrs.title : ''
+              const subjectId = node ? node[0].attrs.href.replace('/subject/', '') : ''
+
+              node = findTreeNode(children, 'p > small') || findTreeNode(children, 'div > small')
+              const info = node ? node[0].text[0] : ''
+
+              list.push({
+                cover,
+                title,
+                subjectId,
+                info
+              })
+            })
+
+            data[type[index]] = list
+          })
+        } catch {}
       }
-    })
-    this.save(key)
+
+      const todayHTML = html.match('<li class="tip">(.+?)</li>')
+      if (todayHTML) data.today = cheerioToday(`<li>${todayHTML[1]}</li>`)
+    } catch {}
+
+    if (data.anime?.length) {
+      const STATE_KEY = 'home'
+      this.setState({
+        [STATE_KEY]: data
+      })
+      this.save(STATE_KEY)
+    }
 
     return data
   }

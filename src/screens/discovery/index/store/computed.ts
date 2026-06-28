@@ -19,11 +19,6 @@ export default class Computed extends State {
     return calendarStore.home
   }
 
-  /** 随机打乱（缓存在 state 中，仅 fetchHome 后更新） */
-  @computed get ramdonHome() {
-    return this.state.randomHome
-  }
-
   /** 今日上映 - 部。共 - 人收看今日番组 */
   @computed get today() {
     return calendarStore.home.today

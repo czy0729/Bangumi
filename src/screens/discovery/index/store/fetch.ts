@@ -15,7 +15,7 @@ export default class Fetch extends Computed {
     return discoveryStore.fetchOnline()
   }
 
-  /** 频道聚合 */
+  /** 频道聚合（用于获取好友时间线）*/
   fetchChannel = (type: SubjectType = 'anime') => {
     return discoveryStore.fetchChannel({
       type

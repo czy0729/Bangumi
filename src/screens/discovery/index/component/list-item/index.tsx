@@ -21,7 +21,7 @@ function ListItemWrap({ style, index, type = 'anime' }: Props) {
 
   if ($.state.dragging) return null
 
-  const list = MEMO_LIST.get(type) || $.ramdonHome[type]
+  const list = MEMO_LIST.get(type) || $.state.randomHome[type]
   if (!list?.length) return null
 
   if (list?.length && !MEMO_LIST.has(type)) MEMO_LIST.set(type, list)

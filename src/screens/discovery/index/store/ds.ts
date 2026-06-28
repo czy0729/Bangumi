@@ -34,9 +34,6 @@ export const EXCLUDE_STATE = {
     _loaded: getTimestamp()
   },
 
-  /** 缓存的随机打乱后的首页数据 */
-  randomHome: {} as Record<SubjectType, HomeItem[]>,
-
   /** 是否显示剪贴板 Modal */
   visible: false,
 
@@ -53,6 +50,9 @@ export const EXCLUDE_STATE = {
 export const STATE = {
   ...EXCLUDE_STATE,
 
+  /** 缓存的随机打乱后的首页数据 */
+  randomHome: {} as Record<SubjectType, HomeItem[]>,
+
   /** 页面初始化完成 */
-  _loaded: true as Loaded
+  _loaded: false as Loaded
 }

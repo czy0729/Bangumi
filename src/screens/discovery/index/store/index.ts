@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-30 08:03:58
  */
-import { calendarStore, usersStore } from '@stores'
+import { calendarStore, usersStore, userStore } from '@stores'
 import { appRandom, getTimestamp } from '@utils'
 import { queue, withT } from '@utils/fetch'
 import { D, H6, WEB } from '@constants'
@@ -30,6 +30,8 @@ export default class ScreenDiscovery extends Action {
           return this.fetchOnline()
         },
         () => {
+          if (!userStore.isWebLogin) return true
+
           return this.fetchChannel()
         },
         async () => {
@@ -76,8 +78,10 @@ export default class ScreenDiscovery extends Action {
   }, '发现.下拉刷新')
 
   /** 更新随机打乱的首页数据 */
-  updateRandomHome = () => {
-    const home = calendarStore.home
+  updateRandomHome = async () => {
+    const { home } = calendarStore
+    if (!home?.anime?.length) return false
+
     this.setState({
       randomHome: {
         anime: appRandom(home.anime, 'info'),
@@ -87,5 +91,8 @@ export default class ScreenDiscovery extends Action {
         real: appRandom(home.real, 'info')
       }
     })
+    this.save()
+
+    return true
   }
 }
