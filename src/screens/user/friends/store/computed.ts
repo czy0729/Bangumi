@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-01-21 11:18:42
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { _, usersStore, userStore } from '@stores'
 import { HTML_FRIENDS, HTML_REV_FRIENDS } from '@constants'
 import State from './state'
@@ -24,9 +25,9 @@ export default class Computed extends State {
   }
 
   /** 用户信息 */
-  users(userId: UserId) {
-    return computed(() => usersStore.users(userId)).get()
-  }
+  users = computedFn((userId: UserId) => {
+    return usersStore.users(userId)
+  })
 
   /** 好友列表 */
   @computed get friends() {

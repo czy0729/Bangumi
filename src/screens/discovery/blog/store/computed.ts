@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-01-02 20:57:08
  */
-import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { discoveryStore, userStore } from '@stores'
 import { x18s } from '@utils'
 import { TABS } from '../ds'
@@ -18,16 +18,14 @@ export default class Computed extends State {
   }
 
   /** 全站日志 */
-  blog(type: BlogType) {
-    return computed(() => {
-      const blog = discoveryStore.blog(type, this.state.currentPage[type])
-      if (userStore.isLimit) {
-        return {
-          ...blog,
-          list: blog.list.filter(item => !x18s(item.title))
-        }
+  blog = computedFn((type: BlogType) => {
+    const blog = discoveryStore.blog(type, this.state.currentPage[type])
+    if (userStore.isLimit) {
+      return {
+        ...blog,
+        list: blog.list.filter(item => !x18s(item.title))
       }
-      return blog
-    }).get()
-  }
+    }
+    return blog
+  })
 }

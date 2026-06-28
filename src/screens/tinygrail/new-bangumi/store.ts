@@ -5,13 +5,15 @@
  * @Last Modified time: 2024-11-19 15:32:02
  */
 import { computed, observable } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { tinygrailStore } from '@stores'
-import { ListKey } from '@stores/tinygrail/types'
 import { getTimestamp } from '@utils'
 import { t } from '@utils/fetch'
 import store from '@utils/store'
 import { levelList, relation, sortList } from '@tinygrail/_/utils'
 import { NAMESPACE, STATE, TABS } from './ds'
+
+import type { ListKey } from '@stores/tinygrail/types'
 
 export default class ScreenTinygrailNew extends store<typeof STATE> {
   state = observable(STATE)
@@ -54,34 +56,32 @@ export default class ScreenTinygrailNew extends store<typeof STATE> {
     return data
   }
 
-  list(key: ListKey = 'recent') {
-    return computed(() => relation(tinygrailStore.list(key))).get()
-  }
+  list = computedFn((key: ListKey = 'recent') => {
+    return relation(tinygrailStore.list(key))
+  })
 
-  computedList(key: ListKey) {
+  computedList = computedFn((key: ListKey) => {
     const { sort, level, direction } = this.state
-    return computed(() => {
-      const list = this.list(key)
-      if (!list._loaded) return list
+    const list = this.list(key)
+    if (!list._loaded) return list
 
-      let _list = list
-      if (level) {
-        _list = {
-          ..._list,
-          list: levelList(level, _list.list)
-        }
+    let _list = list
+    if (level) {
+      _list = {
+        ..._list,
+        list: levelList(level, _list.list)
       }
+    }
 
-      if (sort) {
-        _list = {
-          ..._list,
-          list: sortList(sort, direction, _list.list)
-        }
+    if (sort) {
+      _list = {
+        ..._list,
+        list: sortList(sort, direction, _list.list)
       }
+    }
 
-      return _list
-    }).get()
-  }
+    return _list
+  })
 
   // -------------------- page --------------------
   /** 标签页切换 */

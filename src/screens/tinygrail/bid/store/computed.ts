@@ -5,12 +5,14 @@
  * @Last Modified time: 2025-01-16 16:25:18
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { tinygrailStore } from '@stores'
 import { levelList, sortList } from '@tinygrail/_/utils'
-import { Id } from '@types'
 import { TABS } from '../ds'
-import { TabsKeys } from '../types'
 import State from './state'
+
+import type { Id } from '@types'
+import type { TabsKeys } from '../types'
 
 export default class Computed extends State {
   @computed get currentKey() {
@@ -37,44 +39,40 @@ export default class Computed extends State {
     return data
   }
 
-  list(key: TabsKeys = 'bid') {
-    return computed(() => tinygrailStore.list(key)).get()
-  }
+  list = computedFn((key: TabsKeys = 'bid') => {
+    return tinygrailStore.list(key)
+  })
 
-  computedList(key: TabsKeys) {
-    return computed(() => {
-      const { sort, level, direction } = this.state
-      const list = this.list(key)
-      if (!list._loaded) return list
+  computedList = computedFn((key: TabsKeys) => {
+    const { sort, level, direction } = this.state
+    const list = this.list(key)
+    if (!list._loaded) return list
 
-      let _list = list
-      if (level) {
-        _list = {
-          ..._list,
-          list: levelList(level, _list.list)
-        }
+    let _list = list
+    if (level) {
+      _list = {
+        ..._list,
+        list: levelList(level, _list.list)
       }
+    }
 
-      if (sort) {
-        _list = {
-          ..._list,
-          list: sortList(sort, direction, _list.list)
-        }
+    if (sort) {
+      _list = {
+        ..._list,
+        list: sortList(sort, direction, _list.list)
       }
+    }
 
-      return _list
-    }).get()
-  }
+    return _list
+  })
 
   @computed get hm() {
     const { type = 'bid' } = this.params
     return [`tinygrail/${type}`, 'TinygrailBid'] as const
   }
 
-  topWeekRank(id: Id) {
-    return computed(() => {
-      const find = tinygrailStore.topWeek.list.find(item => item.id === id)
-      return find?.rank || ''
-    }).get()
-  }
+  topWeekRank = computedFn((id: Id) => {
+    const find = tinygrailStore.topWeek.list.find(item => item.id === id)
+    return find?.rank || ''
+  })
 }

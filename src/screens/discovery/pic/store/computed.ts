@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-05-07 23:19:28
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { keepBasicChars } from '@utils'
 import State from './state'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
@@ -40,33 +41,29 @@ export default class Computed extends State {
     return listWithTags.filter(item => `,${item.tags},`.includes(`,${filter},`))
   }
 
-  image(id: Id) {
-    return computed(() => {
-      return this.state.srcs[`pic_tag_${id}`]
-    }).get()
-  }
+  image = computedFn((id: Id) => {
+    return this.state.srcs[`pic_tag_${id}`]
+  })
 
-  tags(page: number = 1) {
-    return computed(() => {
-      const data = this.state.list[page] || []
-      const map: Record<string, number> = {}
-      data.forEach(item => {
-        ;(item.tags || '').split(',').forEach(i => {
-          const tag = i.trim()
-          if (tag) map[tag] = map[tag] ? map[tag] + 1 : 1
-        })
+  tags = computedFn((page: number = 1) => {
+    const data = this.state.list[page] || []
+    const map: Record<string, number> = {}
+    data.forEach(item => {
+      ;(item.tags || '').split(',').forEach(i => {
+        const tag = i.trim()
+        if (tag) map[tag] = map[tag] ? map[tag] + 1 : 1
       })
+    })
 
-      const entries = Object.entries(map)
-      entries.sort((a, b) => {
-        if (b[1] !== a[1]) return b[1] - a[1]
+    const entries = Object.entries(map)
+    entries.sort((a, b) => {
+      if (b[1] !== a[1]) return b[1] - a[1]
 
-        return a[0].localeCompare(b[0])
-      })
+      return a[0].localeCompare(b[0])
+    })
 
-      return entries.map(([name, count]) => `${name} (${count})`)
-    }).get()
-  }
+    return entries.map(([name, count]) => `${name} (${count})`)
+  })
 
   /** 进一步搜索的关键字 */
   @computed get keywords() {

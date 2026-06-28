@@ -4,13 +4,15 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-17 04:58:20
  */
-import { computed, observable } from 'mobx'
+import { observable } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { tinygrailStore } from '@stores'
 import { info } from '@utils'
 import { t } from '@utils/fetch'
 import store from '@utils/store'
-import { MonoId, Navigation } from '@types'
 import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
+
+import type { MonoId, Navigation } from '@types'
 
 export default class ScreenTinygrailSearch extends store<typeof STATE> {
   state = observable(STATE)
@@ -27,9 +29,9 @@ export default class ScreenTinygrailSearch extends store<typeof STATE> {
 
   // -------------------- get --------------------
   /** 全局人物数据 */
-  chara(monoId: MonoId) {
-    return computed(() => tinygrailStore.characters(monoId)).get()
-  }
+  chara = computedFn((monoId: MonoId) => {
+    return tinygrailStore.characters(monoId)
+  })
 
   // -------------------- page --------------------
   onChange = ({ nativeEvent }) => {

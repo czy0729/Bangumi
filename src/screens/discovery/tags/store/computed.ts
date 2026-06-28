@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-04-17 12:51:26
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { discoveryStore, userStore } from '@stores'
 import { x18s } from '@utils'
 import { HTML_TAGS, LIST_EMPTY } from '@constants'
@@ -33,31 +34,29 @@ export default class Computed extends State {
   }
 
   /** 标签 */
-  list(type: SubjectType) {
-    return computed(() => {
-      const tags = discoveryStore.tags(type, this.state.filter)
-      if (!tags._loaded) {
-        return this.ota
-          ? {
-              ...this.ota,
-              pagination: {
-                page: 1,
-                pageTotal: 10
-              }
+  list = computedFn((type: SubjectType) => {
+    const tags = discoveryStore.tags(type, this.state.filter)
+    if (!tags._loaded) {
+      return this.ota
+        ? {
+            ...this.ota,
+            pagination: {
+              page: 1,
+              pageTotal: 10
             }
-          : LIST_EMPTY
-      }
+          }
+        : LIST_EMPTY
+    }
 
-      if (userStore.isLimit) {
-        return {
-          ...tags,
-          list: tags.list.filter(item => !x18s(item.name))
-        }
+    if (userStore.isLimit) {
+      return {
+        ...tags,
+        list: tags.list.filter(item => !x18s(item.name))
       }
+    }
 
-      return tags
-    }).get()
-  }
+    return tags
+  })
 
   @computed get hm() {
     return [this.url, 'Tags']

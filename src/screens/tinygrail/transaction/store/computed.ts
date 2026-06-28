@@ -5,6 +5,7 @@
  * @Last Modified time: 2025-03-07 17:58:04
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import State from './state'
 
 export default class Computed extends State {
@@ -12,11 +13,11 @@ export default class Computed extends State {
     return this.state.data.list
   }
 
-  detail(id: string) {
-    return computed(() => this.state.detail[id] || null).get()
-  }
+  detail = computedFn((id: string) => {
+    return this.state.detail[id] || null
+  })
 
-  likes(id: string) {
-    return computed(() => this.state.likes[`likes_${id}`] || null).get()
-  }
+  likes = computedFn((id: string) => {
+    return this.state.likes[`likes_${id}`] || null
+  })
 }

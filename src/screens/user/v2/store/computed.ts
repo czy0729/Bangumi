@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-06-17 19:43:12
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { fixedHD } from '@components/avatar/utils'
 import { _, collectionStore, systemStore, usersStore, userStore } from '@stores'
 import { getBlurRadius, getPinYinFilterValue, HTMLDecode, t2s, x18 } from '@utils'
@@ -123,9 +124,9 @@ export default class Computed extends State {
   }
 
   /** tab 条目计数 */
-  count(subjectTypeCn: SubjectTypeCn, collectionStatus: CollectionStatusCn) {
-    return computed(() => this.counts[subjectTypeCn][collectionStatus]).get()
-  }
+  count = computedFn((subjectTypeCn: SubjectTypeCn, collectionStatus: CollectionStatusCn) => {
+    return this.counts[subjectTypeCn][collectionStatus]
+  })
 
   /** 顶部背景高度 */
   @computed get fixedHeight() {
@@ -139,8 +140,8 @@ export default class Computed extends State {
    * @param {*} isBetween 前后tab也算当前
    * @returns
    */
-  isTabActive(subjectType: SubjectType, type: CollectionStatus, isBetween: boolean = false) {
-    return computed(() => {
+  isTabActive = computedFn(
+    (subjectType: SubjectType, type: CollectionStatus, isBetween: boolean = false) => {
       const { subjectType: _subjectType } = this.state
       if (subjectType !== _subjectType) return false
 
@@ -152,17 +153,15 @@ export default class Computed extends State {
       }
 
       return TABS[page]?.key === type
-    }).get()
-  }
+    }
+  )
 
   /** 是否应用筛选中 */
-  isFiltering(subjectType: SubjectType, type: CollectionStatus) {
-    return computed(() => {
-      if (!this.isTabActive(subjectType, type)) return false
+  isFiltering = computedFn((subjectType: SubjectType, type: CollectionStatus) => {
+    if (!this.isTabActive(subjectType, type)) return false
 
-      return !!(this.state.showFilter && this.state.filter && this.state.fetching)
-    }).get()
-  }
+    return !!(this.state.showFilter && this.state.filter && this.state.fetching)
+  })
 
   /** 过滤 */
   @computed get filter() {
@@ -170,42 +169,38 @@ export default class Computed extends State {
   }
 
   /** 用户收藏 */
-  userCollections(subjectType: SubjectType, type: CollectionStatus) {
-    return computed(() => {
-      let {
-        list,
-        // eslint-disable-next-line prefer-const
-        ...other
-      } = collectionStore.userCollections(this.username, subjectType, type)
+  userCollections = computedFn((subjectType: SubjectType, type: CollectionStatus) => {
+    let {
+      list,
+      // eslint-disable-next-line prefer-const
+      ...other
+    } = collectionStore.userCollections(this.username, subjectType, type)
 
-      // 当前 TAB 激活且存在筛选关键字时，进行过滤
-      if (this.isTabActive(subjectType, type, true) && this.filter) {
-        const keyword = this.filter.toUpperCase()
-        list = list.filter(item => {
-          const cn = (item.nameCn || '').toUpperCase()
-          const jp = (item.name || '').toUpperCase()
+    // 当前 TAB 激活且存在筛选关键字时，进行过滤
+    if (this.isTabActive(subjectType, type, true) && this.filter) {
+      const keyword = this.filter.toUpperCase()
+      list = list.filter(item => {
+        const cn = (item.nameCn || '').toUpperCase()
+        const jp = (item.name || '').toUpperCase()
 
-          return (
-            cn.includes(keyword) ||
-            jp.includes(keyword) ||
-            getPinYinFilterValue(cn, keyword) ||
-            getPinYinFilterValue(jp, keyword)
-          )
-        })
-      }
+        return (
+          cn.includes(keyword) ||
+          jp.includes(keyword) ||
+          getPinYinFilterValue(cn, keyword) ||
+          getPinYinFilterValue(jp, keyword)
+        )
+      })
+    }
 
-      if (userStore.isLimit) list = list.filter(item => !x18(item.id, item.nameCn || item.name))
+    if (userStore.isLimit) list = list.filter(item => !x18(item.id, item.nameCn || item.name))
 
-      return { list, ...other }
-    }).get()
-  }
+    return { list, ...other }
+  })
 
   /** 用户收藏概览的标签 (HTML) */
-  userCollectionsTags(subjectType: SubjectType, type: CollectionStatus) {
-    return computed(() =>
-      collectionStore.userCollectionsTags(this.username, subjectType, type)
-    ).get()
-  }
+  userCollectionsTags = computedFn((subjectType: SubjectType, type: CollectionStatus) => {
+    return collectionStore.userCollectionsTags(this.username, subjectType, type)
+  })
 
   /** 是否根据网站评分排序 */
   @computed get isSortByScore() {
@@ -230,11 +225,9 @@ export default class Computed extends State {
   }
 
   /** 检查 tabbar 此页是否已经渲染过 */
-  loadedPage(index: number) {
-    return computed(() => {
-      return this.state.loadedPage.includes(index)
-    }).get()
-  }
+  loadedPage = computedFn((index: number) => {
+    return this.state.loadedPage.includes(index)
+  })
 
   @computed get hm() {
     return [`user/${this.myUserId}?route=user`, 'User'] as const

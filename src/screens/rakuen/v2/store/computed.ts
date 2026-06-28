@@ -5,6 +5,7 @@
  * @Last Modified time: 2025-10-17 11:54:36
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { _, rakuenStore, systemStore, userStore } from '@stores'
 import {
   MODEL_RAKUEN_TYPE,
@@ -44,58 +45,54 @@ export default class Computed extends State {
    *  - 主动设置屏蔽 18x 关键字
    *  - 限制用户群体 (iOS 的游客和审核员) 强制屏蔽默认头像用户和 18x
    */
-  rakuen(type: RakuenType | RakuenTypeMono | RakuenTypeGroup) {
-    return computed(() => {
-      const rakuen = type === 'hot' ? rakuenStore.hot : rakuenStore.rakuen(this.state.scope, type)
-      const { filterDefault, filter18x } = systemStore.setting
-      if (filterDefault || filter18x || userStore.isLimit) {
-        return {
-          ...rakuen,
-          list: rakuen.list.filter(item => {
-            if (
-              (filterDefault || userStore.isLimit) &&
-              item?.avatar?.includes(URL_DEFAULT_AVATAR)
-            ) {
-              return false
-            }
+  rakuen = computedFn((type: RakuenType | RakuenTypeMono | RakuenTypeGroup) => {
+    const rakuen = type === 'hot' ? rakuenStore.hot : rakuenStore.rakuen(this.state.scope, type)
+    const { filterDefault, filter18x } = systemStore.setting
+    if (filterDefault || filter18x || userStore.isLimit) {
+      return {
+        ...rakuen,
+        list: rakuen.list.filter(item => {
+          if (
+            (filterDefault || userStore.isLimit) &&
+            item?.avatar?.includes(URL_DEFAULT_AVATAR)
+          ) {
+            return false
+          }
 
-            if (filter18x || userStore.isLimit) {
-              const group = String(item.group).toLocaleLowerCase()
-              return !['gal', '性', '癖', '里番'].some(i => group.includes(i))
-            }
+          if (filter18x || userStore.isLimit) {
+            const group = String(item.group).toLocaleLowerCase()
+            return !['gal', '性', '癖', '里番'].some(i => group.includes(i))
+          }
 
-            return true
-          })
-        }
+          return true
+        })
       }
-      return rakuen
-    }).get()
-  }
+    }
+    return rakuen
+  })
 
   /** 帖子历史查看记录 */
-  readed(topicId: TopicId) {
-    return computed(() => rakuenStore.readed(topicId)).get()
-  }
+  readed = computedFn((topicId: TopicId) => {
+    return rakuenStore.readed(topicId)
+  })
 
   /** 计算实际 type */
-  type(page: number) {
-    return computed(() => {
-      const { title } = TABS[page]
-      if (title === '小组') {
-        const { group } = this.state
-        const label = MODEL_RAKUEN_TYPE_GROUP.getLabel<RakuenTypeGroupCn>(group)
-        return MODEL_RAKUEN_TYPE_GROUP.getValue<RakuenTypeGroup>(label)
-      }
+  type = computedFn((page: number) => {
+    const { title } = TABS[page]
+    if (title === '小组') {
+      const { group } = this.state
+      const label = MODEL_RAKUEN_TYPE_GROUP.getLabel<RakuenTypeGroupCn>(group)
+      return MODEL_RAKUEN_TYPE_GROUP.getValue<RakuenTypeGroup>(label)
+    }
 
-      if (title === '人物') {
-        const { mono } = this.state
-        const label = MODEL_RAKUEN_TYPE_MONO.getLabel<RakuenTypeMonoCn>(mono)
-        return MODEL_RAKUEN_TYPE_MONO.getValue<RakuenTypeMono>(label)
-      }
+    if (title === '人物') {
+      const { mono } = this.state
+      const label = MODEL_RAKUEN_TYPE_MONO.getLabel<RakuenTypeMonoCn>(mono)
+      return MODEL_RAKUEN_TYPE_MONO.getValue<RakuenTypeMono>(label)
+    }
 
-      return MODEL_RAKUEN_TYPE.getValue<RakuenType>(title)
-    }).get()
-  }
+    return MODEL_RAKUEN_TYPE.getValue<RakuenType>(title)
+  })
 
   /** 导航栏标题 */
   @computed get title() {
@@ -109,7 +106,7 @@ export default class Computed extends State {
   }
 
   /** 是否收藏 */
-  isFavor(topicId: TopicId) {
-    return computed(() => rakuenStore.favorV2(topicId)).get()
-  }
+  isFavor = computedFn((topicId: TopicId) => {
+    return rakuenStore.favorV2(topicId)
+  })
 }

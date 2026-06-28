@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-04-11 07:58:01
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { searchStore, subjectStore, userStore } from '@stores'
 import { x18 } from '@utils'
 import { HTML_SEARCH, MODEL_SEARCH_CAT } from '@constants'
@@ -52,9 +53,9 @@ export default class Computed extends State {
   }
 
   /** 条目信息 */
-  subject(subjectId: SubjectId) {
-    return computed(() => subjectStore.subject(subjectId)).get()
-  }
+  subject = computedFn((subjectId: SubjectId) => {
+    return subjectStore.subject(subjectId)
+  })
 
   @computed get hm() {
     return [this.url, 'Search'] as const

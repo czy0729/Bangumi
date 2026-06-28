@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-04-12 22:46:54
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { subjectStore, tagStore } from '@stores'
 import {
   HTML_TAG,
@@ -95,9 +96,9 @@ export default class Computed extends State {
   }
 
   /** 条目信息 */
-  subject(subjectId: SubjectId) {
-    return computed(() => subjectStore.subject(subjectId)).get()
-  }
+  subject = computedFn((subjectId: SubjectId) => {
+    return subjectStore.subject(subjectId)
+  })
 
   /** 工具栏菜单 */
   @computed get toolBar() {

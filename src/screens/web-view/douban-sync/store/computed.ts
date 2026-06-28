@@ -5,6 +5,7 @@
  * @Last Modified time: 2024-09-16 14:12:43
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { userStore } from '@stores'
 import { asc, desc } from '@utils'
 import State from './state'
@@ -41,15 +42,11 @@ export default class Computed extends State {
     return count
   }
 
-  collection(subjectId: SubjectId) {
-    return computed(() => {
-      return this.state.collections[subjectId]
-    }).get()
-  }
+  collection = computedFn((subjectId: SubjectId) => {
+    return this.state.collections[subjectId]
+  })
 
-  totalEps(subjectId: SubjectId) {
-    return computed(() => {
-      return this.state.totalEps[subjectId] || 0
-    }).get()
-  }
+  totalEps = computedFn((subjectId: SubjectId) => {
+    return this.state.totalEps[subjectId] || 0
+  })
 }

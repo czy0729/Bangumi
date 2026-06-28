@@ -5,6 +5,7 @@
  * @Last Modified time: 2024-11-09 10:12:31
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { discoveryStore, subjectStore } from '@stores'
 import { HTML_SUBJECT_CATALOGS, LIST_EMPTY } from '@constants'
 import State from './state'
@@ -46,9 +47,9 @@ export default class Computed extends State {
   }
 
   /** 目录详情 */
-  catalogDetail(id: Id) {
-    return computed(() => discoveryStore.catalogDetail(id)).get()
-  }
+  catalogDetail = computedFn((id: Id) => {
+    return discoveryStore.catalogDetail(id)
+  })
 
   /** 云快照 */
   @computed get ota() {

@@ -5,6 +5,7 @@
  * @Last Modified time: 2024-11-30 22:55:22
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { userStore } from '@stores'
 import { asc, desc } from '@utils'
 import {
@@ -28,80 +29,70 @@ export default class Computed extends State {
     return this.state.collections.map(item => item.id)
   }
 
-  collection(subjectId: SubjectId) {
-    return computed(() => {
-      return (
-        this.state.collections.find(item => item.id === subjectId) ||
-        this.state.otherCollections.find(item => item.id === subjectId)
-      )
-    }).get()
-  }
+  collection = computedFn((subjectId: SubjectId) => {
+    return (
+      this.state.collections.find(item => item.id === subjectId) ||
+      this.state.otherCollections.find(item => item.id === subjectId)
+    )
+  })
 
-  collections(subjectIds: SubjectId[]) {
-    return computed(() => {
-      const data = {}
-      subjectIds.forEach(subjectId => {
-        const item = this.collection(subjectId)
-        if (item) data[subjectId] = item
+  collections = computedFn((subjectIds: SubjectId[]) => {
+    const data = {}
+    subjectIds.forEach(subjectId => {
+      const item = this.collection(subjectId)
+      if (item) data[subjectId] = item
+    })
+
+    return data
+  })
+
+  subject = computedFn((subjectId: SubjectId) => {
+    return this.state.subjects[subjectId] || SUBJECT_ITEM
+  })
+
+  subjects = computedFn((subjectIds: SubjectId[]) => {
+    const data = {}
+    subjectIds.forEach(subjectId => {
+      data[subjectId] = this.subject(subjectId)
+    })
+    return data
+  })
+
+  filterData = computedFn((item: SubjectId[]) => {
+    const { filter } = this.state
+    let data = item
+    if (filter) {
+      data = data.filter(subjectId => {
+        const subject = this.subject(subjectId)
+        return subject?.platform && String(subject.platform).includes(filter)
       })
+    }
 
-      return data
-    }).get()
-  }
-
-  subject(subjectId: SubjectId) {
-    return computed(() => {
-      return this.state.subjects[subjectId] || SUBJECT_ITEM
-    }).get()
-  }
-
-  subjects(subjectIds: SubjectId[]) {
-    return computed(() => {
-      const data = {}
-      subjectIds.forEach(subjectId => {
-        data[subjectId] = this.subject(subjectId)
+    const { airtime } = this.state
+    if (airtime) {
+      data = data.filter(subjectId => {
+        const subject = this.subject(subjectId)
+        return subject?.date && String(subject.date).includes(`${airtime}-`)
       })
-      return data
-    }).get()
-  }
+    }
 
-  filterData(item: SubjectId[]) {
-    return computed(() => {
-      const { filter } = this.state
-      let data = item
-      if (filter) {
-        data = data.filter(subjectId => {
-          const subject = this.subject(subjectId)
-          return subject?.platform && String(subject.platform).includes(filter)
-        })
-      }
+    const { status } = this.state
+    if (status === '未收藏') {
+      data = data.filter(subjectId => !this.collection(subjectId))
+    } else if (status === '看过') {
+      data = data.filter(subjectId => this.collection(subjectId)?.type === 2)
+    } else if (status === '在看') {
+      data = data.filter(subjectId => this.collection(subjectId)?.type === 3)
+    } else if (status === '未看完') {
+      data = data.filter(subjectId => {
+        const collection = this.collection(subjectId)
+        const subject = this.subject(subjectId)
+        return collection?.ep && subject?.eps && collection?.ep !== subject?.eps
+      })
+    }
 
-      const { airtime } = this.state
-      if (airtime) {
-        data = data.filter(subjectId => {
-          const subject = this.subject(subjectId)
-          return subject?.date && String(subject.date).includes(`${airtime}-`)
-        })
-      }
-
-      const { status } = this.state
-      if (status === '未收藏') {
-        data = data.filter(subjectId => !this.collection(subjectId))
-      } else if (status === '看过') {
-        data = data.filter(subjectId => this.collection(subjectId)?.type === 2)
-      } else if (status === '在看') {
-        data = data.filter(subjectId => this.collection(subjectId)?.type === 3)
-      } else if (status === '未看完') {
-        data = data.filter(subjectId => {
-          const collection = this.collection(subjectId)
-          const subject = this.subject(subjectId)
-          return collection?.ep && subject?.eps && collection?.ep !== subject?.eps
-        })
-      }
-
-      return data
-    }).get()
-  }
+    return data
+  })
 
   @computed get data() {
     const { data, sort } = this.state

@@ -5,6 +5,7 @@
  * @Last Modified time: 2025-12-23 02:59:53
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { subjectStore } from '@stores'
 import {
   HTML_MONO_WORKS,
@@ -65,9 +66,9 @@ export default class Computed extends State {
   }
 
   /** 条目信息 */
-  subject(subjectId: SubjectId) {
-    return computed(() => subjectStore.subject(subjectId)).get()
-  }
+  subject = computedFn((subjectId: SubjectId) => {
+    return subjectStore.subject(subjectId)
+  })
 
   /** 云快照 */
   @computed get ota() {

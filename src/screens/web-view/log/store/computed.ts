@@ -5,31 +5,26 @@
  * @Last Modified time: 2025-04-04 06:46:45
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { lastDate } from '@utils'
 import State from './state'
 
 export default class Computed extends State {
-  users(u: string) {
-    return computed(() => {
-      const id = u.split('user/')?.[1]
-      if (!id || !(id in this.state.users)) return null
-      return this.state.users[id]
-    }).get()
-  }
+  users = computedFn((u: string) => {
+    const id = u.split('user/')?.[1]
+    if (!id || !(id in this.state.users)) return null
+    return this.state.users[id]
+  })
 
-  infos(u: string) {
-    return computed(() => {
-      const id = u.split('user/')?.[1]
-      if (!id || !(id in this.state.infos)) return null
-      return this.state.infos[id]
-    }).get()
-  }
+  infos = computedFn((u: string) => {
+    const id = u.split('user/')?.[1]
+    if (!id || !(id in this.state.infos)) return null
+    return this.state.infos[id]
+  })
 
-  stats(u: string) {
-    return computed(() => {
-      return this.state.stats[u] || null
-    }).get()
-  }
+  stats = computedFn((u: string) => {
+    return this.state.stats[u] || null
+  })
 
   @computed get headerInfo() {
     const { list } = this.state.data

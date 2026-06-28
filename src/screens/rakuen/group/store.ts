@@ -6,6 +6,7 @@
  * @Last Modified time: 2026-05-30 08:43:00
  */
 import { computed, observable } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { rakuenStore, systemStore, userStore } from '@stores'
 import { feedback, getTimestamp, info } from '@utils'
 import { fetchHTML, t } from '@utils/fetch'
@@ -175,9 +176,9 @@ export default class ScreenGroup extends store<typeof STATE> {
   }
 
   /** 帖子历史查看记录 */
-  readed(topicId: TopicId) {
-    return computed(() => rakuenStore.readed(topicId)).get()
-  }
+  readed = computedFn((topicId: TopicId) => {
+    return rakuenStore.readed(topicId)
+  })
 
   /** 云快照 */
   @computed get ota() {

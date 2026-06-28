@@ -5,15 +5,17 @@
  * @Last Modified time: 2024-10-16 06:17:57
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { collectionStore, smbStore, subjectStore, userStore } from '@stores'
-import { SMB } from '@stores/smb/types'
 import { fixedSubjectInfo } from '@utils'
 import { WEB } from '@constants'
-import { InferArray, SubjectId } from '@types'
 import { LIMIT, REG_AIRDATE } from '../ds'
-import { SubjectOSS } from '../types'
 import { fixedUrl } from '../utils'
 import State from './state'
+
+import type { SMB } from '@stores/smb/types'
+import type { InferArray, SubjectId } from '@types'
+import type { SubjectOSS } from '../types'
 
 export default class Computed extends State {
   /** 因为性能, 列表没有参与反应, 自己维护了一个值用于监控更新 */
@@ -108,51 +110,47 @@ export default class Computed extends State {
   }
 
   /** 条目接口数据 */
-  subjectV2(subjectId: SubjectId) {
-    return computed(() => {
-      if (WEB) return this.subjectOSS(subjectId)
+  subjectV2 = computedFn((subjectId: SubjectId) => {
+    if (WEB) return this.subjectOSS(subjectId)
 
-      return subjectStore.subjectV2(subjectId) || this.subjectOSS(subjectId)
-    }).get()
-  }
+    return subjectStore.subjectV2(subjectId) || this.subjectOSS(subjectId)
+  })
 
   /** 条目云端快照 */
-  subjectOSS(id: SubjectId) {
-    return computed(() => this.state.subjects[`subject_${id}`] || ({} as SubjectOSS)).get()
-  }
+  subjectOSS = computedFn((id: SubjectId) => {
+    return this.state.subjects[`subject_${id}`] || ({} as SubjectOSS)
+  })
 
   /** 条目收藏状态 */
-  collection(subjectId: SubjectId) {
-    return computed(() => collectionStore.collection(subjectId)).get()
-  }
+  collection = computedFn((subjectId: SubjectId) => {
+    return collectionStore.collection(subjectId)
+  })
 
   /** 猜测发售日 */
-  airDate(subjectId: SubjectId) {
-    return computed(() => {
-      const subject = this.subjectV2(subjectId)
-      if (subject?._loaded && subject?.date && subject.date !== '0000-00-00') {
-        return subject.date
-      }
+  airDate = computedFn((subjectId: SubjectId) => {
+    const subject = this.subjectV2(subjectId)
+    if (subject?._loaded && subject?.date && subject.date !== '0000-00-00') {
+      return subject.date
+    }
 
-      const subjectFormHTML = subjectStore.subjectFormHTML(subjectId)
-      if (subjectFormHTML?._loaded && typeof subjectFormHTML?.info === 'string') {
-        const match = fixedSubjectInfo(subjectFormHTML.info).match(REG_AIRDATE)
-        return match?.[2] || ''
-      }
+    const subjectFormHTML = subjectStore.subjectFormHTML(subjectId)
+    if (subjectFormHTML?._loaded && typeof subjectFormHTML?.info === 'string') {
+      const match = fixedSubjectInfo(subjectFormHTML.info).match(REG_AIRDATE)
+      return match?.[2] || ''
+    }
 
-      return ''
-    }).get()
-  }
+    return ''
+  })
 
   /** 构造目标链接 */
-  url = (
-    sharedFolder: string = '',
-    folderPath: string = '',
-    folderName: string = '',
-    fileName: string = '',
-    urlTemplate?: string
-  ) => {
-    return computed(() => {
+  url = computedFn(
+    (
+      sharedFolder: string = '',
+      folderPath: string = '',
+      folderName: string = '',
+      fileName: string = '',
+      urlTemplate?: string
+    ) => {
       try {
         if (!this.current) return ''
 
@@ -173,35 +171,29 @@ export default class Computed extends State {
       } catch (error) {
         return ''
       }
-    }).get()
-  }
+    }
+  )
 
   /** 文件夹是否显示文件全名列表, 若从来没操作过, 返回 null */
-  isFiles = (folderName: string) => {
-    return computed<boolean | null>(() => {
-      const { files } = this.state
-      if (!(folderName in files)) return null
-      return !!files[folderName]
-    }).get()
-  }
+  isFiles = computedFn((folderName: string) => {
+    const { files } = this.state
+    if (!(folderName in files)) return null
+    return !!files[folderName]
+  })
 
   /** 文件夹是否展开, 若从来没操作过, 返回 null */
-  isExpanded = (folderName: string) => {
-    return computed(() => {
-      const { expands } = this.state
-      if (!(folderName in expands)) return null
-      return !!expands[folderName]
-    }).get()
-  }
+  isExpanded = computedFn((folderName: string) => {
+    const { expands } = this.state
+    if (!(folderName in expands)) return null
+    return !!expands[folderName]
+  })
 
   /** 是否折叠展开文件夹列表, 若从来没操作过, 返回 null */
-  isFoldersExpanded = (folderName: string) => {
-    return computed(() => {
-      const { foldersExpands } = this.state
-      if (!(folderName in foldersExpands)) return null
-      return !!foldersExpands[folderName]
-    }).get()
-  }
+  isFoldersExpanded = computedFn((folderName: string) => {
+    const { foldersExpands } = this.state
+    if (!(folderName in foldersExpands)) return null
+    return !!foldersExpands[folderName]
+  })
 
   /** 事件类型 */
   @computed get eventType() {

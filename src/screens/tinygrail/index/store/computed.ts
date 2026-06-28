@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-02-07 07:56:57
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { systemStore, tinygrailStore, userStore } from '@stores'
 import State from './state'
 
@@ -51,7 +52,7 @@ export default class Computed extends State {
     return isBonus2 ? 2000 * 2 ** count : 1000
   }
 
-  list(key: ListKey = 'bid') {
-    return computed(() => tinygrailStore.list(key)).get()
-  }
+  list = computedFn((key: ListKey = 'bid') => {
+    return tinygrailStore.list(key)
+  })
 }

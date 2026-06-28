@@ -115,58 +115,54 @@ export default class Computed extends State {
   }
 
   /** 实际过滤框的值 */
-  filterValue(title: TabsLabel) {
-    return computed(() => {
-      const { filterPage } = this.state
-      if (filterPage >= 0 && filterPage < this.tabs.length) {
-        if (title === this.tabs[filterPage]?.title) return this.state.filter
-      }
-      return ''
-    }).get()
-  }
+  filterValue = computedFn((title: TabsLabel) => {
+    const { filterPage } = this.state
+    if (filterPage >= 0 && filterPage < this.tabs.length) {
+      if (title === this.tabs[filterPage]?.title) return this.state.filter
+    }
+    return ''
+  })
 
   /** 列表当前数据 */
-  currentCollection(title: TabsLabel) {
-    return computed(() => {
-      const key = `${NAMESPACE}|${title}`
+  currentCollection = computedFn((title: TabsLabel) => {
+    const key = `${NAMESPACE}|${title}`
 
-      // 优先检查缓存
-      if (this.state.progress.fetching) {
-        const cachedData = CacheManager.get<UserCollection>(key)
-        if (cachedData) return cachedData
-      }
+    // 优先检查缓存
+    if (this.state.progress.fetching) {
+      const cachedData = CacheManager.get<UserCollection>(key)
+      if (cachedData) return cachedData
+    }
 
-      // 游戏特殊处理
-      if (title === '游戏') return CacheManager.set<UserCollections>(key, this.games)
+    // 游戏特殊处理
+    if (title === '游戏') return CacheManager.set<UserCollections>(key, this.games)
 
-      // 基础数据
-      const data = { ...this.collection }
+    // 基础数据
+    const data = { ...this.collection }
 
-      // 过滤条目类型
-      const type = MODEL_SUBJECT_TYPE.getValue<SubjectTypeValue>(title)
-      if (type) {
-        data.list = data.list.filter(item => item?.subject?.type == type)
-      }
+    // 过滤条目类型
+    const type = MODEL_SUBJECT_TYPE.getValue<SubjectTypeValue>(title)
+    if (type) {
+      data.list = data.list.filter(item => item?.subject?.type == type)
+    }
 
-      // 文字过滤处理
-      if (this.isFilter(title) && this.filter.length) {
-        data.list = data.list.filter(item => {
-          const cnName = getSubjectFilterName(undefined, item)
-          return matchFilter(cnName, this.filter)
-        })
-      }
+    // 文字过滤处理
+    if (this.isFilter(title) && this.filter.length) {
+      data.list = data.list.filter(item => {
+        const cnName = getSubjectFilterName(undefined, item)
+        return matchFilter(cnName, this.filter)
+      })
+    }
 
-      if (title === '全部' && systemStore.setting.showGame) {
-        data.list = [...this.sortList(data.list), ...this.games.list] as UserCollectionItem[]
-      } else {
-        data.list = [...this.sortList(data.list)]
-      }
+    if (title === '全部' && systemStore.setting.showGame) {
+      data.list = [...this.sortList(data.list), ...this.games.list] as UserCollectionItem[]
+    } else {
+      data.list = [...this.sortList(data.list)]
+    }
 
-      if (WEB) data.list = data.list.slice(0, 50)
+    if (WEB) data.list = data.list.slice(0, 50)
 
-      return CacheManager.set(key, data)
-    }).get()
-  }
+    return CacheManager.set(key, data)
+  })
 
   /**
    * 列表排序（优先度从上到下）
@@ -177,68 +173,66 @@ export default class Computed extends State {
    *  - 未完结新番还有未看
    *  - 默认排序
    */
-  sortList = (list: UserCollectionItem[]) => {
-    return computed(() => {
-      if (!list?.length) return freeze([]) as UserCollectionItem[]
+  sortList = computedFn((list: UserCollectionItem[]) => {
+    if (!list?.length) return freeze([]) as UserCollectionItem[]
 
-      const topMap = this.topMap
+    const topMap = this.topMap
 
-      // 网页顺序: 不需要处理
-      if (
-        systemStore.setting.homeSorting ===
-        MODEL_SETTING_HOME_SORTING.getValue<SettingHomeSorting>('网页')
-      ) {
-        return freeze(list.slice().sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0)))
-      }
+    // 网页顺序: 不需要处理
+    if (
+      systemStore.setting.homeSorting ===
+      MODEL_SETTING_HOME_SORTING.getValue<SettingHomeSorting>('网页')
+    ) {
+      return freeze(list.slice().sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0)))
+    }
 
-      try {
-        // 计算每一个条目看过章节的数量
-        const weightMap: Record<number, number> = {}
+    try {
+      // 计算每一个条目看过章节的数量
+      const weightMap: Record<number, number> = {}
 
-        // 放送顺序: 根据今天星期几每天递减, 放送中优先
-        if (this.sortOnAir) {
-          const day = new Date().getDay()
-          list.forEach(item => {
-            const { subject_id: subjectId } = item
-            const { weekDay, isOnair } = this.onAirCustom(subjectId)
-            weightMap[subjectId] = calcSortWeightOnair({
-              weekDay,
-              isOnair,
-              day,
-              hasNewEp: this.hasNewEp(subjectId),
-              homeSortSink: systemStore.setting.homeSortSink
-            })
-          })
-          return freeze(sortByWeightAndTop(list, weightMap, topMap))
-        }
-
-        // 客户端顺序：未看 > 放送中 > 明天 > 本季 > 网页
+      // 放送顺序: 根据今天星期几每天递减, 放送中优先
+      if (this.sortOnAir) {
+        const day = new Date().getDay()
         list.forEach(item => {
           const { subject_id: subjectId } = item
-          const watchedCount = this.watchedCount(subjectId)
-
-          // air 代表该条目放送到哪一集
-          const { air = 0 } = calendarStore.onAir[subjectId] || {}
-          weightMap[subjectId] = calcSortWeightClient({
-            isToday: this.isToday(subjectId),
-            isNextDay: this.isNextDay(subjectId),
-            air,
-            watchedCount,
+          const { weekDay, isOnair } = this.onAirCustom(subjectId)
+          weightMap[subjectId] = calcSortWeightOnair({
+            weekDay,
+            isOnair,
+            day,
             hasNewEp: this.hasNewEp(subjectId),
             homeSortSink: systemStore.setting.homeSortSink
           })
         })
         return freeze(sortByWeightAndTop(list, weightMap, topMap))
-      } catch {}
+      }
 
-      return freeze(
-        list
-          .slice()
-          .sort((a, b) => desc(a, b, item => this.isToday(item.subject_id)))
-          .sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
-      )
-    }).get()
-  }
+      // 客户端顺序：未看 > 放送中 > 明天 > 本季 > 网页
+      list.forEach(item => {
+        const { subject_id: subjectId } = item
+        const watchedCount = this.watchedCount(subjectId)
+
+        // air 代表该条目放送到哪一集
+        const { air = 0 } = calendarStore.onAir[subjectId] || {}
+        weightMap[subjectId] = calcSortWeightClient({
+          isToday: this.isToday(subjectId),
+          isNextDay: this.isNextDay(subjectId),
+          air,
+          watchedCount,
+          hasNewEp: this.hasNewEp(subjectId),
+          homeSortSink: systemStore.setting.homeSortSink
+        })
+      })
+      return freeze(sortByWeightAndTop(list, weightMap, topMap))
+    } catch {}
+
+    return freeze(
+      list
+        .slice()
+        .sort((a, b) => desc(a, b, item => this.isToday(item.subject_id)))
+        .sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
+    )
+  })
 
   /** 当前列表有过滤 */
   isFilter = computedFn((title: TabsLabel) => {
@@ -280,9 +274,9 @@ export default class Computed extends State {
   }
 
   /** 用户条目收视进度 */
-  userProgress(subjectId: SubjectId) {
-    return freeze(computed(() => userStore.userProgress(subjectId)).get())
-  }
+  userProgress = computedFn((subjectId: SubjectId) => {
+    return freeze(userStore.userProgress(subjectId))
+  })
 
   /** 已看过的章节数量 */
   watchedCount = computedFn(
@@ -291,17 +285,17 @@ export default class Computed extends State {
   )
 
   /** 条目信息 */
-  subject(subjectId: SubjectId) {
-    return freeze(computed(() => subjectStore.subject(subjectId)).get())
-  }
+  subject = computedFn((subjectId: SubjectId) => {
+    return freeze(subjectStore.subject(subjectId))
+  })
 
   /** 条目章节数据 (排除 SP) */
   epsNoSp = computedFn((subjectId: SubjectId) => getEpsNoSp(this.subject(subjectId).eps))
 
   /** 条目章节数据 */
-  eps(subjectId: SubjectId) {
+  eps = computedFn((subjectId: SubjectId) => {
     return freeze(
-      computed(() => {
+      (() => {
         try {
           const eps = this.epsNoSp(subjectId)
 
@@ -317,27 +311,31 @@ export default class Computed extends State {
         }
 
         return []
-      }).get()
+      })()
     )
-  }
+  })
 
   /** 条目下一个未看章节 */
-  nextWatchEp(subjectId: SubjectId): {
-    id?: Id
-    sort?: number
-  } {
-    return freeze(
-      computed(() => {
-        try {
-          return getNextWatchEp(this.epsNoSp(subjectId), this.userProgress(subjectId))
-        } catch (error) {
-          logger.error(NAMESPACE, 'nextWatchEp', error)
-        }
+  nextWatchEp = computedFn(
+    (
+      subjectId: SubjectId
+    ): {
+      id?: Id
+      sort?: number
+    } => {
+      return freeze(
+        (() => {
+          try {
+            return getNextWatchEp(this.epsNoSp(subjectId), this.userProgress(subjectId))
+          } catch (error) {
+            logger.error(NAMESPACE, 'nextWatchEp', error)
+          }
 
-        return {}
-      }).get()
-    )
-  }
+          return {}
+        })()
+      )
+    }
+  )
 
   /** 当前放送到的章节 */
   currentOnAir(subjectId: SubjectId) {
@@ -423,39 +421,31 @@ export default class Computed extends State {
   }
 
   /** 云端 onAir 和自定义 onAir 组合判断 (自定义最优先) */
-  onAirCustom(subjectId: SubjectId) {
-    return freeze(
-      computed(() =>
-        getOnAir(calendarStore.onAirLocal(subjectId), calendarStore.onAirUser(subjectId))
-      ).get()
-    )
-  }
+  onAirCustom = computedFn((subjectId: SubjectId) => {
+    return freeze(getOnAir(calendarStore.onAirLocal(subjectId), calendarStore.onAirUser(subjectId)))
+  })
 
   /** 是否放送中 */
-  isToday(subjectId: SubjectId) {
-    return computed(() => {
-      const { weekDay, isOnair } = this.onAirCustom(subjectId)
-      return isOnairToday(weekDay, isOnair)
-    }).get()
-  }
+  isToday = computedFn((subjectId: SubjectId) => {
+    const { weekDay, isOnair } = this.onAirCustom(subjectId)
+    return isOnairToday(weekDay, isOnair)
+  })
 
   /** 是否明天放送 */
-  isNextDay(subjectId: SubjectId) {
-    return computed(() => {
-      const { weekDay, isOnair } = this.onAirCustom(subjectId)
-      return isOnairNextDay(weekDay, isOnair)
-    }).get()
-  }
+  isNextDay = computedFn((subjectId: SubjectId) => {
+    const { weekDay, isOnair } = this.onAirCustom(subjectId)
+    return isOnairNextDay(weekDay, isOnair)
+  })
 
   /** 在线源头数据 */
-  onlineOrigins(subjectId: SubjectId) {
+  onlineOrigins = computedFn((subjectId: SubjectId) => {
     return freeze(
-      computed(() => {
+      (() => {
         const { type } = this.subject(subjectId)
         return getOnlineOrigins(type, subjectStore.origin)
-      }).get()
+      })()
     )
-  }
+  })
 
   /** 是否存在没有看的章节 */
   hasNewEp = computedFn((subjectId: SubjectId) =>
@@ -476,42 +466,28 @@ export default class Computed extends State {
   )
 
   /** 显示数字组合 */
-  countRight(subjectId: SubjectId) {
-    return computed(() => {
-      const current = this.currentOnAir(subjectId)
-      const total = this.totalEps(subjectId)
-      return formatCountRight(current, total)
-    }).get()
-  }
+  countRight = computedFn((subjectId: SubjectId) => {
+    const current = this.currentOnAir(subjectId)
+    const total = this.totalEps(subjectId)
+    return formatCountRight(current, total)
+  })
 
   /** 原始自定义跳转数据 */
-  rawActions(subjectId: SubjectId) {
-    return freeze(computed(() => subjectStore.actions(subjectId)).get())
-  }
+  rawActions = computedFn((subjectId: SubjectId) => {
+    return freeze(subjectStore.actions(subjectId))
+  })
 
   /** 自定义跳转（过滤+排序后） */
-  actions(subjectId: SubjectId) {
+  actions = computedFn((subjectId: SubjectId) => {
     return freeze(
-      computed(() => {
+      (() => {
         const actions = this.rawActions(subjectId)
         if (!actions.length) return actions
 
         return actions.filter(item => item.active).sort((a, b) => desc(a.sort || 0, b.sort || 0))
-      }).get()
+      })()
     )
-  }
-
-  /** 当前是否显示 ScrollToTop 组件 */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  scrollToTop(_title: TabsLabel) {
-    return false
-
-    // if (IOS) return false
-
-    // return computed(() => {
-    //   return this.state.isFocused && TABS_WITH_GAME[this.state.page].title === title
-    // }).get()
-  }
+  })
 
   @computed get hm() {
     return (

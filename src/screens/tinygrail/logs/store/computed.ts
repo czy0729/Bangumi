@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-02-06 14:54:31
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { tinygrailStore } from '@stores'
 import State from './state'
 
@@ -15,7 +16,7 @@ export default class Computed extends State {
     return tinygrailStore.balance
   }
 
-  icons(monoId: MonoId) {
-    return computed(() => tinygrailStore.iconsCache(monoId)).get()
-  }
+  icons = computedFn((monoId: MonoId) => {
+    return tinygrailStore.iconsCache(monoId)
+  })
 }

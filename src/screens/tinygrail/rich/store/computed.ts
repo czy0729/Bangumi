@@ -4,28 +4,29 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-07-08 15:49:52
  */
-import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { tinygrailStore } from '@stores'
-import { UserId } from '@types'
 import { TABS } from '../ds'
 import State from './state'
 
-export default class Computed extends State {
-  key(page: number) {
-    return computed(() => TABS[page].key).get()
-  }
+import type { UserId } from '@types'
 
-  title(page: number) {
-    return computed(() => TABS[page].title).get()
-  }
+export default class Computed extends State {
+  key = computedFn((page: number) => {
+    return TABS[page].key
+  })
+
+  title = computedFn((page: number) => {
+    return TABS[page].title
+  })
 
   /** 番市首富 */
-  rich(key: string) {
-    return computed(() => tinygrailStore.rich(key)).get()
-  }
+  rich = computedFn((key: string) => {
+    return tinygrailStore.rich(key)
+  })
 
   /** 用户现金 */
-  balance(userId: UserId) {
-    return computed(() => this.state.balance[userId] || 0).get()
-  }
+  balance = computedFn((userId: UserId) => {
+    return this.state.balance[userId] || 0
+  })
 }

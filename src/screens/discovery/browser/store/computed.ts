@@ -5,6 +5,7 @@
  * @Last Modified time: 2024-05-25 04:32:50
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { subjectStore, tagStore, userStore } from '@stores'
 import { x18 } from '@utils'
 import {
@@ -92,9 +93,9 @@ export default class Computed extends State {
   }
 
   /** 条目信息 */
-  subject(subjectId: SubjectId) {
-    return computed(() => subjectStore.subject(subjectId)).get()
-  }
+  subject = computedFn((subjectId: SubjectId) => {
+    return subjectStore.subject(subjectId)
+  })
 
   @computed get thirdPartyKey() {
     const query = [this.state.type, this.airtime, this.state.sort].join('_')

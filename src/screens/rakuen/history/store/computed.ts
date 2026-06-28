@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-03-31 05:15:39
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { rakuenStore, systemStore, userStore } from '@stores'
 import { desc } from '@utils'
 import State from './state'
@@ -53,9 +54,9 @@ export default class Computed extends State {
   }
 
   /** 是否收藏 */
-  isFavor(topicId: TopicId) {
-    return computed(() => rakuenStore.favorV2(topicId)).get()
-  }
+  isFavor = computedFn((topicId: TopicId) => {
+    return rakuenStore.favorV2(topicId)
+  })
 
   /** 收藏键值数组 */
   @computed get list(): TopicId[] {
@@ -76,11 +77,9 @@ export default class Computed extends State {
   }
 
   /** 云端帖子数据 */
-  topic(key: string) {
-    return computed(() => {
-      return this.state.topics[`favor_${key.replace('/', '_')}`] || null
-    }).get()
-  }
+  topic = computedFn((key: string) => {
+    return this.state.topics[`favor_${key.replace('/', '_')}`] || null
+  })
 
   /** 我回复的帖子 */
   @computed get myReply() {
@@ -99,56 +98,52 @@ export default class Computed extends State {
   }
 
   /** 帖子历史查看记录 */
-  readed(topicId: TopicId) {
-    return computed(() => rakuenStore.readed(topicId)).get()
-  }
+  readed = computedFn((topicId: TopicId) => {
+    return rakuenStore.readed(topicId)
+  })
 
   /** 帖子头像 */
-  avatar(topicId: TopicId) {
-    return computed(() => {
-      return rakuenStore.topic(topicId).avatar
-    }).get()
-  }
+  avatar = computedFn((topicId: TopicId) => {
+    return rakuenStore.topic(topicId).avatar
+  })
 
   /** 我的回复数统计 */
-  comment(topicId: TopicId) {
-    return computed(() => {
-      const limit = systemStore.isAdvance ? COMMENT_LIMIT_ADVANCE : COMMENT_LIMIT
-      const items: { id: Id; floor: string; time: string; message: string }[] = []
+  comment = computedFn((topicId: TopicId) => {
+    const limit = systemStore.isAdvance ? COMMENT_LIMIT_ADVANCE : COMMENT_LIMIT
+    const items: { id: Id; floor: string; time: string; message: string }[] = []
 
-      const list = rakuenStore.comments(topicId).list
-      for (let i = list.length - 1; i >= 0; i--) {
+    const list = rakuenStore.comments(topicId).list
+    for (let i = list.length - 1; i >= 0; i--) {
+      if (items.length >= limit) break
+
+      const item: CommentsItemWithSub = list[i]
+      if (item.userId === userStore.myId && !item.message.includes('删除了回复')) {
+        items.push({
+          id: item.id,
+          floor: item.floor,
+          time: item.time,
+          message: item.message
+        })
+        if (items.length >= limit) break
+      }
+
+      const sub = item.sub
+      for (let j = 0; j < sub.length; j++) {
         if (items.length >= limit) break
 
-        const item: CommentsItemWithSub = list[i]
-        if (item.userId === userStore.myId && !item.message.includes('删除了回复')) {
+        const subItem = sub[j]
+        if (subItem.userId === userStore.myId && !subItem.message.includes('删除了回复')) {
           items.push({
-            id: item.id,
-            floor: item.floor,
-            time: item.time,
-            message: item.message
+            id: subItem.id,
+            floor: subItem.floor,
+            time: subItem.time,
+            message: subItem.message
           })
           if (items.length >= limit) break
         }
-
-        const sub = item.sub
-        for (let j = 0; j < sub.length; j++) {
-          if (items.length >= limit) break
-
-          const subItem = sub[j]
-          if (subItem.userId === userStore.myId && !subItem.message.includes('删除了回复')) {
-            items.push({
-              id: subItem.id,
-              floor: subItem.floor,
-              time: subItem.time,
-              message: subItem.message
-            })
-            if (items.length >= limit) break
-          }
-        }
       }
+    }
 
-      return items
-    }).get()
-  }
+    return items
+  })
 }

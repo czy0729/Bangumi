@@ -5,6 +5,7 @@
  * @Last Modified time: 2024-09-13 05:36:09
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { discoveryStore, usersStore, userStore } from '@stores'
 import { HTML_USERS_CATALOGS } from '@constants'
 import { TABS } from '../ds'
@@ -30,9 +31,9 @@ export default class Computed extends State {
     return usersStore.catalogs(this.userId, key === 'collect')
   }
 
-  catalogDetail(id: Id) {
-    return computed(() => discoveryStore.catalogDetail(id)).get()
-  }
+  catalogDetail = computedFn((id: Id) => {
+    return discoveryStore.catalogDetail(id)
+  })
 
   @computed get hm() {
     return [this.url, 'Catelogs'] as const

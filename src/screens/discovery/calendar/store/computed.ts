@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-03-21 04:01:47
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { calendarStore, collectionStore, subjectStore } from '@stores'
 import { desc, getOnAirItem } from '@utils'
 import { get } from '@utils/protobuf'
@@ -102,18 +103,16 @@ export default class Computed extends State {
   }
 
   /** 条目信息 */
-  subject(subjectId: SubjectId) {
-    return computed(() => subjectStore.subject(subjectId)).get()
-  }
+  subject = computedFn((subjectId: SubjectId) => {
+    return subjectStore.subject(subjectId)
+  })
 
   /** 放送站点 */
-  sites(subjectId: SubjectId) {
-    return computed(() => {
-      if (!this.state.loadedBangumiData) return {}
+  sites = computedFn((subjectId: SubjectId) => {
+    if (!this.state.loadedBangumiData) return {}
 
-      return get('bangumi-data')?.find(item => item.id == subjectId)?.s || {}
-    }).get()
-  }
+    return get('bangumi-data')?.find(item => item.id == subjectId)?.s || {}
+  })
 
   /** 工具栏菜单 */
   @computed get toolBar() {

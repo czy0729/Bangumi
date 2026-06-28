@@ -5,11 +5,13 @@
  * @Last Modified time: 2024-06-22 15:18:14
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { rakuenStore } from '@stores'
 import { HTML_REVIEWS, LIST_EMPTY } from '@constants'
-import { TopicId } from '@types'
 import State from './state'
 import { NAMESPACE } from './ds'
+
+import type { TopicId } from '@types'
 
 export default class Computed extends State {
   @computed get subjectId() {
@@ -43,9 +45,9 @@ export default class Computed extends State {
   }
 
   /** 帖子历史查看记录 */
-  readed(topicId: TopicId) {
-    return computed(() => rakuenStore.readed(topicId)).get()
-  }
+  readed = computedFn((topicId: TopicId) => {
+    return rakuenStore.readed(topicId)
+  })
 
   /** 云快照 */
   @computed get ota() {

@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-12-16 20:22:41
  */
-import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { tinygrailStore } from '@stores'
 import { levelList, sortList } from '@tinygrail/_/utils'
 import { TABS } from '../ds'
@@ -26,33 +26,29 @@ export default class Computed extends State {
     return data
   }
 
-  list(key: TabsKey = TABS[0].key) {
-    return computed(() =>
-      key === 'refine/temple' ? tinygrailStore.refine_temple : tinygrailStore.list(key)
-    ).get()
-  }
+  list = computedFn((key: TabsKey = TABS[0].key) => {
+    return key === 'refine/temple' ? tinygrailStore.refine_temple : tinygrailStore.list(key)
+  })
 
-  computedList(key: TabsKey) {
-    return computed(() => {
-      const list = this.list(key)
-      if (key === 'refine/temple' || !list._loaded) return list
+  computedList = computedFn((key: TabsKey) => {
+    const list = this.list(key)
+    if (key === 'refine/temple' || !list._loaded) return list
 
-      let _list = list
-      if (this.state.level) {
-        _list = {
-          ..._list,
-          list: levelList(this.state.level, _list.list)
-        }
+    let _list = list
+    if (this.state.level) {
+      _list = {
+        ..._list,
+        list: levelList(this.state.level, _list.list)
       }
+    }
 
-      if (this.state.sort) {
-        _list = {
-          ..._list,
-          list: sortList(this.state.sort, this.state.direction, _list.list)
-        }
+    if (this.state.sort) {
+      _list = {
+        ..._list,
+        list: sortList(this.state.sort, this.state.direction, _list.list)
       }
+    }
 
-      return _list
-    }).get()
-  }
+    return _list
+  })
 }

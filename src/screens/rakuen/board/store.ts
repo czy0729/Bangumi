@@ -5,15 +5,17 @@
  * @Last Modified time: 2024-11-17 12:35:32
  */
 import { computed, observable } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { rakuenStore } from '@stores'
-import { Board } from '@stores/rakuen/types'
 import { getTimestamp } from '@utils'
 import { get, update } from '@utils/kv'
 import store from '@utils/store'
 import { HTML_BOARD, LIST_EMPTY } from '@constants'
-import { TopicId } from '@types'
 import { NAMESPACE, STATE } from './ds'
-import { Params } from './types'
+
+import type { Board } from '@stores/rakuen/types'
+import type { TopicId } from '@types'
+import type { Params } from './types'
 
 /** 若更新过则不会再主动更新 */
 const THIRD_PARTY_UPDATED = []
@@ -104,18 +106,20 @@ export default class ScreenBoard extends store<typeof STATE> {
     return `${NAMESPACE}|${this.subjectId}`
   }
 
-  @computed get board(): Board {
+  @computed get board() {
     const board = rakuenStore.board(this.subjectId)
     if (!board._loaded) {
-      return this.ota
-        ? {
-            ...this.ota,
-            pagination: {
-              page: 1,
-              pageTotal: 10
+      return (
+        this.ota
+          ? {
+              ...this.ota,
+              pagination: {
+                page: 1,
+                pageTotal: 10
+              }
             }
-          }
-        : LIST_EMPTY
+          : LIST_EMPTY
+      ) as Board
     }
 
     return board
@@ -126,9 +130,9 @@ export default class ScreenBoard extends store<typeof STATE> {
   }
 
   /** 帖子历史查看记录 */
-  readed(topicId: TopicId) {
-    return computed(() => rakuenStore.readed(topicId)).get()
-  }
+  readed = computedFn((topicId: TopicId) => {
+    return rakuenStore.readed(topicId)
+  })
 
   /** 云快照 */
   @computed get ota() {

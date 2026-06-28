@@ -5,9 +5,11 @@
  * @Last Modified time: 2024-06-22 05:13:36
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { subjectStore } from '@stores'
-import { SubjectId } from '@types'
 import State from './state'
+
+import type { SubjectId } from '@types'
 
 export default class Computed extends State {
   @computed get ids() {
@@ -28,15 +30,11 @@ export default class Computed extends State {
     return ids
   }
 
-  subject(id: SubjectId) {
-    return computed(() => {
-      return subjectStore.subjectV2(id)
-    }).get()
-  }
+  subject = computedFn((id: SubjectId) => {
+    return subjectStore.subjectV2(id)
+  })
 
-  subjectOSS(id: SubjectId) {
-    return computed(() => {
-      return this.state.subjects[`subject_${id}`] || {}
-    }).get()
-  }
+  subjectOSS = computedFn((id: SubjectId) => {
+    return this.state.subjects[`subject_${id}`] || {}
+  })
 }

@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-02-07 09:07:19
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { userStore } from '@stores'
 import { desc } from '@utils'
 import { FROZEN_ARRAY } from '@constants'
@@ -35,15 +36,11 @@ export default class Computed extends State {
     })
   }
 
-  detail(id: string) {
-    return computed(() => {
-      return this.state.detail[id] || null
-    }).get()
-  }
+  detail = computedFn((id: string) => {
+    return this.state.detail[id] || null
+  })
 
-  userStatus(userId: UserId) {
-    return computed(() => {
-      return this.state.userStatus[userId] || false
-    }).get()
-  }
+  userStatus = computedFn((userId: UserId) => {
+    return this.state.userStatus[userId] || false
+  })
 }

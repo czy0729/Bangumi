@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-04-12 21:52:58
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { subjectStore } from '@stores'
 import State from './state'
 
@@ -27,11 +28,11 @@ export default class Computed extends State {
     return this.state?.ids?.length || 0
   }
 
-  subject(id: SubjectId) {
-    return computed(() => subjectStore.subjectV2(id)).get()
-  }
+  subject = computedFn((id: SubjectId) => {
+    return subjectStore.subjectV2(id)
+  })
 
-  subjectOSS(id: SubjectId) {
-    return computed(() => this.state.subjects[`subject_${id}`] || {}).get()
-  }
+  subjectOSS = computedFn((id: SubjectId) => {
+    return this.state.subjects[`subject_${id}`] || {}
+  })
 }

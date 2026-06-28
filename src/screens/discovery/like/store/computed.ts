@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-04-14 09:49:21
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { systemStore, userStore } from '@stores'
 import State from './state'
 import { NAMESPACE } from './ds'
@@ -23,17 +24,13 @@ export default class Computed extends State {
     return `${NAMESPACE}|${this.userId}`
   }
 
-  relates(subjectId: SubjectId) {
-    return computed(() => {
-      return this.state.relates[subjectId]
-    }).get()
-  }
+  relates = computedFn((subjectId: SubjectId) => {
+    return this.state.relates[subjectId]
+  })
 
-  subjects(subjectId: SubjectId) {
-    return computed(() => {
-      return this.state.subjects[subjectId]
-    }).get()
-  }
+  subjects = computedFn((subjectId: SubjectId) => {
+    return this.state.subjects[subjectId]
+  })
 
   @computed get list() {
     const { type } = this.state

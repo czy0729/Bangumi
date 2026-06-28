@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-05-15 22:43:45
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { rakuenStore, subjectStore, systemStore, usersStore, userStore } from '@stores'
 import { asc, freeze, getGroupThumbStatic, HTMLDecode } from '@utils'
 import CacheManager from '@utils/cache-manager'
@@ -345,27 +346,25 @@ export default class Computed extends State {
   }
 
   /** 是否屏蔽用户 */
-  isBlockUser(userId: UserId, userName: string, replySub: string = '') {
-    return computed(() => {
-      const findIndex = rakuenStore.blockUserIds.findIndex(item => {
-        const [itemUserName, itemUserId] = item.split('@')
-        if (itemUserId === 'undefined') return itemUserName === userName
+  isBlockUser = computedFn((userId: UserId, userName: string, replySub: string = '') => {
+    const findIndex = rakuenStore.blockUserIds.findIndex(item => {
+      const [itemUserName, itemUserId] = item.split('@')
+      if (itemUserId === 'undefined') return itemUserName === userName
 
-        /**
-         * userId 可能是用户更改后的英文单词, 但是外面屏蔽的 userId 一定是整数 ID
-         * 所以需要优先使用 subReply('group',361479,1773295,0,456208,[572818],0) 中的 userId 进行匹配
-         */
-        if (replySub) {
-          const splits = replySub.split(',')
-          if (splits.length === 7 && itemUserId == splits[5]) return true
-        }
+      /**
+       * userId 可能是用户更改后的英文单词, 但是外面屏蔽的 userId 一定是整数 ID
+       * 所以需要优先使用 subReply('group',361479,1773295,0,456208,[572818],0) 中的 userId 进行匹配
+       */
+      if (replySub) {
+        const splits = replySub.split(',')
+        if (splits.length === 7 && itemUserId == splits[5]) return true
+      }
 
-        return itemUserId == userId || itemUserName === userName
-      })
+      return itemUserId == userId || itemUserName === userName
+    })
 
-      return findIndex !== -1
-    }).get()
-  }
+    return findIndex !== -1
+  })
 
   /** 帖子标题 */
   @computed get title() {

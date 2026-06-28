@@ -5,6 +5,7 @@
  * @Last Modified time: 2024-09-14 15:44:38
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { userStore } from '@stores'
 import { asc, desc } from '@utils'
 import State from './state'
@@ -24,15 +25,11 @@ export default class Computed extends State {
       .sort((a, b) => desc(a.subjectId ? 1 : 0, b.subjectId ? 1 : 0))
   }
 
-  review(mediaId: Id) {
-    return computed(() => {
-      return this.state.reviews[mediaId]
-    }).get()
-  }
+  review = computedFn((mediaId: Id) => {
+    return this.state.reviews[mediaId]
+  })
 
-  collection(subjectId: SubjectId) {
-    return computed(() => {
-      return this.state.collections[subjectId]
-    }).get()
-  }
+  collection = computedFn((subjectId: SubjectId) => {
+    return this.state.collections[subjectId]
+  })
 }

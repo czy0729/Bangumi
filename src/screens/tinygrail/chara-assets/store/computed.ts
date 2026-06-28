@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-06-17 18:55:20
  */
-import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { tinygrailStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { FROZEN_OBJECT, LIST_EMPTY } from '@constants'
@@ -133,12 +133,10 @@ export default class Computed extends State {
     return Object.fromEntries(list.map(item => [item.id, item.state]))
   }
 
-  amount(id: Id) {
-    return computed(() => {
-      if (id in this.amountMap) return this.amountMap[id]
-      return 0
-    }).get()
-  }
+  amount = computedFn((id: Id) => {
+    if (id in this.amountMap) return this.amountMap[id]
+    return 0
+  })
 
   /** 人物和圣殿合组合总览列表 */
   @computed get mergeList() {
@@ -198,9 +196,9 @@ export default class Computed extends State {
   }
 
   /** ICO 最高人气 (显示自己当前参与) */
-  @computed get mpi() {
-    return computed(() => tinygrailStore.list('mpi')).get()
-  }
+  mpi = computedFn(() => {
+    return tinygrailStore.list('mpi')
+  })
 
   /** ICO 用户 */
   @computed get mpiUsers() {

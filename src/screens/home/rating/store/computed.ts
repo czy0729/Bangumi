@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-04-20 11:23:52
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { subjectStore, systemStore } from '@stores'
 import { HTML_SUBJECT_RATING, URL_DEFAULT_AVATAR } from '@constants'
 import { TABS } from '../ds'
@@ -18,21 +19,19 @@ export default class Computed extends State {
   }
 
   /** 好友评分列表 */
-  rating(status: RatingStatus) {
-    return computed(() => {
-      const rating = subjectStore.rating(this.subjectId, status, this.state.isFriend)
-      if (systemStore.setting.filterDefault) {
-        return {
-          ...rating,
-          list: rating.list.filter(
-            item => !(item.avatar.includes(URL_DEFAULT_AVATAR) && !item.comment)
-          )
-        }
+  rating = computedFn((status: RatingStatus) => {
+    const rating = subjectStore.rating(this.subjectId, status, this.state.isFriend)
+    if (systemStore.setting.filterDefault) {
+      return {
+        ...rating,
+        list: rating.list.filter(
+          item => !(item.avatar.includes(URL_DEFAULT_AVATAR) && !item.comment)
+        )
       }
+    }
 
-      return rating
-    }).get()
-  }
+    return rating
+  })
 
   private _counts = null
 

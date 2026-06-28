@@ -5,6 +5,7 @@
  * @Last Modified time: 2024-09-14 07:12:44
  */
 import { computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 import { Parser } from 'json2csv'
 import { userStore } from '@stores'
 import { asc } from '@utils'
@@ -70,11 +71,9 @@ export default class Computed extends State {
   }
 
   /** 导入的收藏项 */
-  upload(subjectId: SubjectId) {
-    return computed(() => {
-      return this.state.upload[subjectId] || null
-    }).get()
-  }
+  upload = computedFn((subjectId: SubjectId) => {
+    return this.state.upload[subjectId] || null
+  })
 
   /** 收藏列表 */
   @computed get list() {
