@@ -2,18 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-05-16 19:51:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-17 11:54:36
+ * @Last Modified time: 2026-06-29 00:00:00
  */
 import { computed } from 'mobx'
 import { computedFn } from 'mobx-utils'
-import { _, rakuenStore, systemStore, userStore } from '@stores'
-import {
-  MODEL_RAKUEN_TYPE,
-  MODEL_RAKUEN_TYPE_GROUP,
-  MODEL_RAKUEN_TYPE_MONO,
-  URL_DEFAULT_AVATAR
-} from '@constants'
+import { _, rakuenStore } from '@stores'
+import { MODEL_RAKUEN_TYPE, MODEL_RAKUEN_TYPE_GROUP, MODEL_RAKUEN_TYPE_MONO } from '@constants'
 import { TABS } from '../ds'
+import { filterRakuenList, shouldFilterRakuen } from './utils'
 import State from './state'
 
 import type {
@@ -39,36 +35,15 @@ export default class Computed extends State {
     return _.select(_.colorPlain, _._colorDarkModeLevel1)
   }
 
-  /**
-   * 筛选逻辑
-   *  - 主动设置屏蔽默认头像用户相关信息
-   *  - 主动设置屏蔽 18x 关键字
-   *  - 限制用户群体 (iOS 的游客和审核员) 强制屏蔽默认头像用户和 18x
-   */
+  /** 超展开列表 */
   rakuen = computedFn((type: RakuenType | RakuenTypeMono | RakuenTypeGroup) => {
     const rakuen = type === 'hot' ? rakuenStore.hot : rakuenStore.rakuen(this.state.scope, type)
-    const { filterDefault, filter18x } = systemStore.setting
-    if (filterDefault || filter18x || userStore.isLimit) {
-      return {
-        ...rakuen,
-        list: rakuen.list.filter(item => {
-          if (
-            (filterDefault || userStore.isLimit) &&
-            item?.avatar?.includes(URL_DEFAULT_AVATAR)
-          ) {
-            return false
-          }
+    if (!shouldFilterRakuen()) return rakuen
 
-          if (filter18x || userStore.isLimit) {
-            const group = String(item.group).toLocaleLowerCase()
-            return !['gal', '性', '癖', '里番'].some(i => group.includes(i))
-          }
-
-          return true
-        })
-      }
+    return {
+      ...rakuen,
+      list: filterRakuenList(rakuen.list)
     }
-    return rakuen
   })
 
   /** 帖子历史查看记录 */

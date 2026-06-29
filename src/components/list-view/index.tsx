@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-13 22:26:36
+ * @Last Modified time: 2026-06-29 07:12:57
  */
-import React, { useCallback, useMemo } from 'react'
+import React, { forwardRef, useCallback, useMemo } from 'react'
 import { RefreshControl } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
@@ -27,7 +27,7 @@ import {
 
 export { FooterEmptyData, FooterFailure, FooterNoMoreData, FooterRefreshing } from './footer'
 
-import type { Props as ListViewProps, RenderListProps } from './types'
+import type { Props as ListViewProps, ListViewScrollMethods, RenderListProps } from './types'
 import type { AnyObject, ListEmpty } from '@types'
 export type {
   ListViewInstance,
@@ -46,7 +46,10 @@ export type { ListViewProps }
  *  - SectionList 需要传递 sections, sectionKey
  *  - skipEnteringExitingAnimations 能制造进场效果
  * */
-export const ListView = observer(function ListViewComponent<ItemT>(props: ListViewProps<ItemT>) {
+const ListViewComponent = forwardRef(function ListViewComponent<ItemT>(
+  props: ListViewProps<ItemT>,
+  ref: React.Ref<ListViewScrollMethods>
+) {
   r(COMPONENT)
 
   /** 用 ref 持有 props，避免依赖整个 props 引用 */
@@ -85,7 +88,7 @@ export const ListView = observer(function ListViewComponent<ItemT>(props: ListVi
   const { onScrollBeginDrag, onScroll, onScrollEndDrag, onMomentumScrollEnd, mergeScrollCallback } =
     useScrollProtection()
 
-  const { connectRef } = useScrollMethods()
+  const { connectRef } = useScrollMethods(ref)
 
   const { sections, list } = useListData<ItemT>({
     data,
@@ -239,5 +242,12 @@ export const ListView = observer(function ListViewComponent<ItemT>(props: ListVi
 
   return <ErrorBoundary>{renderList()}</ErrorBoundary>
 })
+
+/**
+ * 核心：利用类型断言，将 observer(forwardRef(...)) 包装回支持泛型的组件类型
+ */
+export const ListView = observer(ListViewComponent) as <ItemT>(
+  props: ListViewProps<ItemT> & { ref?: React.Ref<ListViewScrollMethods> }
+) => React.ReactElement
 
 export default ListView

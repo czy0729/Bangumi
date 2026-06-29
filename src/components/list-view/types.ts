@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-17 04:49:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-26 18:00:00
+ * @Last Modified time: 2026-06-29 07:12:30
  */
 import type { FlatList, FlatListProps, SectionListScrollParams } from 'react-native'
 import type { ListEmpty, MaybeReadonly, Override, ReactNode, Ref, Sections } from '@types'
@@ -54,7 +54,7 @@ export type Props<ItemT = any> = Override<
     refreshControlProps?: object
 
     /** 有 sections 才生效 */
-    renderSectionHeader?: any
+    renderSectionHeader?: (info: { section: { title: string; data: any[] } }) => ReactNode
 
     /** 替代整个底部组件 */
     ListFooterComponent?: ReactNode
@@ -157,3 +157,23 @@ export type ScrollToEnd = (params?: { animated?: boolean }) => void
 
 /** 滚动到 SectionList 指定位置的参数 */
 export type ScrollToLocation = (params: SectionListScrollParams) => void
+
+/** useImperativeHandle 暴露给外部的滚动方法 */
+export type ListViewScrollMethods = {
+  scrollToIndex?: ScrollToIndex
+  scrollToOffset?: ScrollToOffset
+  scrollToItem?: ScrollToItem
+  scrollToEnd?: ScrollToEnd
+  scrollToLocation?: ScrollToLocation
+}
+
+/** FlatList / SectionList ref 类型，包含 RN 内部虚拟化列表属性 */
+export type FlatListRef = ListViewInstance & {
+  _wrapperListRef?: {
+    _listRef?: {
+      scrollToOffset?: ScrollToOffset
+      scrollToEnd?: ScrollToEnd
+    }
+  }
+  scrollToLocation?: ScrollToLocation
+}

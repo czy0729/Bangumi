@@ -7,11 +7,11 @@
 import React, { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { rakuenStore, useStore } from '@stores'
-import { appNavigate, confirm, findSubjectCn, getIsBlocked, getIsBlockedUser, open } from '@utils'
+import { appNavigate, confirm, findSubjectCn, open } from '@utils'
 import { t } from '@utils/fetch'
 import { HOST, LIMIT_TOPIC_PUSH } from '@constants'
 import Item from './item'
-import { getIsAd, getIsGroup, getReplyCount, getTopicId, getUserId } from './utils'
+import { getIsGroup, getReplyCount, getTopicId, getUserId, isTopicBlocked } from './utils'
 import { COMPONENT, LIMIT_HEAVY } from './ds'
 import { memoStyles } from './styles'
 
@@ -88,13 +88,7 @@ function ItemWrap({
 
   const groupCn = findSubjectCn(group)
   const itemUserId = userId || getUserId(avatar)
-  const uuid = `Rakuen|${topicId}|${index}`
-  if (
-    getIsBlocked(rakuenStore.setting.blockKeywords, title, uuid) ||
-    getIsBlocked(rakuenStore.setting.blockGroups, groupCn, uuid) ||
-    getIsBlockedUser(rakuenStore.blockUserIds, userName, itemUserId, uuid) ||
-    getIsAd(rakuenStore.setting.isBlockDefaultUser, avatar, replyCount)
-  ) {
+  if (isTopicBlocked(title, groupCn, userName, itemUserId, avatar, replyCount, topicId, index)) {
     return null
   }
 
