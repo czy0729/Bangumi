@@ -15,7 +15,7 @@ import { Component } from '../component'
 import { ErrorBoundary } from '../error-boundary'
 import { translateAll } from '../katakana/utils'
 import Error from './error'
-import { a, blockquote, img, li, q, span, ul } from './renderer'
+import { a, blockquote, div, img, li, q, span, ul } from './renderer'
 import { fixedBaseFontStyle, formatHtml, splitHtmlByEmoji } from './utils'
 import { COMPONENT, PAD_FONT_ZISE_INCREASE, REGS } from './ds'
 import { styles } from './styles'
@@ -164,6 +164,14 @@ export const RenderHtml = observer(
               style: attrs.style || '',
               className: attrs.class || '',
               children
+            }),
+          div: (attrs: any, children: any, _css: any, passProps: any) =>
+            div({
+              key: passProps.key,
+              attrs,
+              className: attrs.class || '',
+              children,
+              rawChildren: passProps.rawChildren
             }),
           a: matchLink
             ? (attrs: any, children: any, _css: any, passProps: any) =>

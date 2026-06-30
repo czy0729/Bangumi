@@ -15,7 +15,6 @@ export const memoStyles = _.memoStyles(() => ({
     bottom: 21
   },
   list: {
-    paddingTop: _.sm,
     minHeight: 520
   },
   loadMore: {

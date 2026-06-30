@@ -51,6 +51,7 @@ function Top() {
             visible={$.state.recommendVisible}
             loading={$.state.recommendLoading}
             data={$.state.recommendTopics}
+            iconSize={17}
             onShow={$.showRecommend}
             onHide={$.hideRecommend}
             onLoadMore={$.fetchRecommendTopics}

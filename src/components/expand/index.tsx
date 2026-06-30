@@ -34,6 +34,7 @@ export const Expand = observer(
     checkLayout = true,
     onExpand,
     onPress,
+    collapsedChildren,
     children
   }: ExpandProps) => {
     r(COMPONENT)
@@ -136,7 +137,7 @@ export const Expand = observer(
         {/* @ts-ignore */}
         <Animated.View style={animatedStyles}>
           <View style={styles.layout} onLayout={handleLayout}>
-            {children}
+            {!expand && collapsedChildren ? collapsedChildren : children}
           </View>
 
           {!expand && (

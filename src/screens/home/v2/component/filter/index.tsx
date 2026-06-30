@@ -43,7 +43,7 @@ function Filter({ title, length }: Props) {
         <Flex style={styles.icon} justify='center' pointerEvents='none'>
           {$.state.progress.fetching && (
             <View style={styles.loading}>
-              <Loading.Medium color={_.colorSub} size={16} />
+              <Loading.Medium color={_.colorIcon} size={16} />
             </View>
           )}
           {length ? (

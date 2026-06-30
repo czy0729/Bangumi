@@ -4,6 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-18 04:51:08
  */
+import type React from 'react'
 import type { ColorValue, Fn, ViewStyle, WithViewStyles } from '@types'
 import type { PropsWithChildren } from 'react'
 
@@ -32,5 +33,8 @@ export type Props = PropsWithChildren<
 
     /** 点击回调替代展开 */
     onPress?: Fn
+
+    /** 收起状态时渲染的内容, 未传则始终渲染 children */
+    collapsedChildren?: React.ReactNode
   }>
 >
