@@ -20,7 +20,7 @@ function FilterWrap({ page }: Props) {
 
   const { subjectType, showFilter, fliterInputText } = $.state
   const { key: type } = TABS[page]
-  const isTabActive = $.isTabActive(subjectType, type)
+  const isTabActive = $.isTabActive(subjectType, type, false)
   const isFiltering = $.isFiltering(subjectType, type)
 
   return (

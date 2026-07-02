@@ -158,7 +158,7 @@ export default class Computed extends State {
 
   /** 是否应用筛选中 */
   isFiltering = computedFn((subjectType: SubjectType, type: CollectionStatus) => {
-    if (!this.isTabActive(subjectType, type)) return false
+    if (!this.isTabActive(subjectType, type, false)) return false
 
     return !!(this.state.showFilter && this.state.filter && this.state.fetching)
   })

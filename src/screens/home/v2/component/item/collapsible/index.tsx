@@ -20,7 +20,7 @@ function Collapsible({ subjectId, isFirst }: Props) {
 
   return (
     <CollapsibleComp
-      key={String(Math.floor(Number($.epsCount(subjectId)) / numbersOfLine))}
+      key={String(Math.floor(Number($.epsCount(subjectId, true)) / numbersOfLine))}
       collapsed={!$.$Item(subjectId).expand}
     >
       <Eps subjectId={subjectId} isFirst={isFirst} />

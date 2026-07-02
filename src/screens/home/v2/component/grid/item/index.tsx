@@ -35,7 +35,7 @@ function Item({ subject = {}, subjectId = 0, epStatus }: Props) {
   let total: number
   let current: number
   if (!isGame) {
-    total = $.epsCount(subjectId)
+    total = $.epsCount(subjectId, true)
     current = $.currentOnAir(subjectId)
 
     // 有一种情况为多季度番剧, 章节数非 0 或 1 开始的

@@ -23,7 +23,7 @@ function OnAir({ subjectId, typeCn }: Props) {
   // 防止完结的番剧因放送数据更新不及时, 导致一直显示放送中的问题
   const current = $.currentOnAir(subjectId)
   if (current >= 8 && !systemStore.setting.homeOnAir) {
-    const total = $.epsCount(subjectId)
+    const total = $.epsCount(subjectId, true)
     if (total >= 8 && current === total) return null
   }
 

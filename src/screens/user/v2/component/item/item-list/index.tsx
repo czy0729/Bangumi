@@ -42,7 +42,7 @@ function ItemList({ item, index, page }: Props) {
       index={index}
       inViewY={H_HEADER}
       {...item}
-      filter={filter && $.isTabActive(subjectType, key) ? filter : ''}
+      filter={filter && $.isTabActive(subjectType, key, false) ? filter : ''}
       rank={rankText}
       type={typeCn}
       collection={collection}

@@ -16,7 +16,7 @@ import type { Props } from './types'
 function Progress({ subjectId, epStatus }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  const total = $.epsCount(subjectId)
+  const total = $.epsCount(subjectId, true)
   let current = $.currentOnAir(subjectId)
 
   // 有一种情况为多季度番剧, 章节数非 0 或 1 开始的

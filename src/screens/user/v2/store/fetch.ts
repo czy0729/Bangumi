@@ -122,7 +122,7 @@ export default class Fetch extends Computed {
     lastType: CollectionStatus,
     isNext: boolean = false
   ) => {
-    if (!this.isTabActive(lastSubjectType, lastType)) return
+    if (!this.isTabActive(lastSubjectType, lastType, false)) return
 
     const { subjectType, page } = this.state
     const { key: type } = TABS[page]
