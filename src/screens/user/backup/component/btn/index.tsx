@@ -12,16 +12,18 @@ import { r } from '@utils/dev'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+import type { Props } from './types'
+
 function Btn({
-  style = undefined,
-  btnStyle = undefined,
+  style,
+  btnStyle,
   text = '同步',
-  type = undefined,
+  type,
   size = 11,
-  disabled = undefined,
-  loading = undefined,
-  onPress = undefined
-}) {
+  disabled,
+  loading,
+  onPress
+}: Props) {
   r(COMPONENT)
 
   const styles = memoStyles()

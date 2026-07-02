@@ -12,8 +12,9 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
+import type { Props } from './types'
 
-export default observer(({ item }) => {
+export default observer(({ item }: Props) => {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   return (

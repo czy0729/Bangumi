@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-22 12:26:59
+ * @Last Modified time: 2026-07-02 23:22:38
  */
 
 /** User */
@@ -103,6 +103,7 @@ export default {
   '本地备份.导入': 'Backup.import',
   '本地备份.置底': 'Backup.onBottom',
   '本地备份.同步': 'Backup.onSubmit',
+  '本地备份.本地导出': 'Backup.onExportLocal',
 
   SMB: 'SMB',
   'SMB.跳转': 'SMB.to',

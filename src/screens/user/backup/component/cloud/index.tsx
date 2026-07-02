@@ -2,68 +2,79 @@
  * @Author: czy0729
  * @Date: 2022-12-07 14:31:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 06:32:26
+ * @Last Modified time: 2026-07-03 02:33:09
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
-import { ItemSettingBlock } from '@_'
 import { _, useStore } from '@stores'
+import { confirm } from '@utils'
+import { CSV_HEADS } from '../../ds'
 import { COLOR_SUCCESS, COMPONENT } from './ds'
 import { styles } from './styles'
 
 import type { Ctx } from '../../types'
-
-const Cloud = () => {
+function Cloud() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  const { includeUrl, includeImage, upload } = $.state
-  const { length } = Object.keys(upload)
+  const { includeColumns } = $.state
+
+  const Btn = ({ title, info, onPress }: { title: string; info: string; onPress: () => void }) => (
+    <Touchable style={styles.btn} onPress={onPress}>
+      <Flex direction='column' align='start'>
+        <Text size={12} bold>
+          {title}
+        </Text>
+        <Text style={_.mt.xs} type='sub' size={10}>
+          {info}
+        </Text>
+      </Flex>
+    </Touchable>
+  )
 
   return (
     <View style={styles.cloud}>
-      <ItemSettingBlock style={styles.container} size={20}>
-        <ItemSettingBlock.Item
-          title='导出 CSV'
-          information={`已获取 ${$.data.length} 个收藏`}
-          onPress={$.onExport}
+      <Flex wrap='wrap' style={styles.btns}>
+        <Btn
+          title='保存为 CSV'
+          info={`已获取 ${$.data.length} 个收藏`}
+          onPress={() => $.onExportLocal('csv')}
         />
-        <ItemSettingBlock.Item
-          style={_.ml.md}
+        <Btn
+          title='保存为 JSON'
+          info={`已获取 ${$.data.length} 个收藏`}
+          onPress={() => $.onExportLocal('json')}
+        />
+        <Btn
           title='导入 CSV'
-          information={length ? `已导入 ${length} 个收藏` : '导入后进行同步操作'}
-          onPress={$.onToggleUpload}
+          info='导入后进行同步'
+          onPress={() => {
+            confirm('导入收藏同步功能目前已不作维护，仍要尝试使用？', $.onToggleUpload)
+          }}
         />
-      </ItemSettingBlock>
-      <Flex style={_.mt.sm}>
+      </Flex>
+      <Flex style={_.mt.sm} wrap='wrap'>
         <Text size={12} bold>
-          导出 CSV 列包含：
+          导出列包含：
         </Text>
-        <Touchable style={_.ml.sm} onPress={() => $.onSetting('includeUrl')}>
-          <Flex>
-            <Iconfont
-              name={includeUrl ? 'md-check-circle' : 'md-radio-button-off'}
-              size={16}
-              color={includeUrl ? COLOR_SUCCESS : undefined}
-            />
-            <Text style={_.ml.xs} size={12} bold type={includeUrl ? 'desc' : 'sub'}>
-              条目地址
-            </Text>
-          </Flex>
-        </Touchable>
-        <Touchable style={_.ml.md} onPress={() => $.onSetting('includeImage')}>
-          <Flex>
-            <Iconfont
-              name={includeImage ? 'md-check-circle' : 'md-radio-button-off'}
-              size={16}
-              color={includeImage ? COLOR_SUCCESS : undefined}
-            />
-            <Text style={_.ml.xs} size={12} bold type={includeImage ? 'desc' : 'sub'}>
-              封面地址
-            </Text>
-          </Flex>
-        </Touchable>
+        {CSV_HEADS.map(head => {
+          const selected = includeColumns.includes(head)
+          return (
+            <Touchable key={head} style={styles.head} onPress={() => $.onToggleColumn(head)}>
+              <Flex>
+                <Iconfont
+                  name={selected ? 'md-check-circle' : 'md-radio-button-off'}
+                  size={16}
+                  color={selected ? COLOR_SUCCESS : undefined}
+                />
+                <Text style={_.ml.xs} size={12} bold type={selected ? 'desc' : 'sub'}>
+                  {head}
+                </Text>
+              </Flex>
+            </Touchable>
+          )
+        })}
       </Flex>
     </View>
   )

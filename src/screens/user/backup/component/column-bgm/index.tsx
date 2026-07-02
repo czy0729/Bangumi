@@ -11,7 +11,9 @@ import { _ } from '@stores'
 import { r } from '@utils/dev'
 import { COMPONENT } from './ds'
 
-function ColumnBgm({ select, text, next }) {
+import type { Props } from './types'
+
+function ColumnBgm({ select, text, next }: Props) {
   r(COMPONENT)
 
   return (

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-12-16 17:36:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-12-20 23:02:57
+ * @Last Modified time: 2026-07-03 02:30:48
  */
 import { _ } from '@stores'
 
@@ -22,7 +22,7 @@ export function injectedHTML() {
           margin: 0;
         }
         body {
-          background-color: ${_.isDark ? _.colorDarkModeLevel1 : '#fff'};
+          background-color: ${_.isDark ? '#aaa' : '#fff'};
         }
         #upload_wrap {
           height: 120px;

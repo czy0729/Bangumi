@@ -9,7 +9,7 @@ import { computedFn } from 'mobx-utils'
 import { Parser } from 'json2csv'
 import { userStore } from '@stores'
 import { asc } from '@utils'
-import { applyProxy } from '@utils/proxy'
+import { applyLainProxy, applyProxy } from '@utils/proxy'
 import { HOST, MODEL_COLLECTION_STATUS, MODEL_SUBJECT_TYPE } from '@constants'
 import { CSV_HEADS } from '../ds'
 import State from './state'
@@ -23,51 +23,79 @@ export default class Computed extends State {
     return userStore.usersInfo(userStore.myUserId).username || userStore.myUserId
   }
 
+  /** 构建完整行 */
+  private _buildRow(item: Item) {
+    const { subject } = item
+    const row: Record<string, any> = {
+      [CSV_HEADS[0]]: subject.id,
+      [CSV_HEADS[1]]: applyLainProxy(subject.image),
+      [CSV_HEADS[2]]: applyProxy(`${HOST}/subject/${subject.id}`).url,
+      [CSV_HEADS[3]]: MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subject.type),
+      [CSV_HEADS[4]]: subject.cn,
+      [CSV_HEADS[5]]: subject.jp,
+      [CSV_HEADS[6]]: subject.date,
+      [CSV_HEADS[7]]: subject.rank || '',
+      [CSV_HEADS[8]]: subject.score || '',
+      [CSV_HEADS[9]]: subject.eps || '',
+      [CSV_HEADS[10]]: item.ep_status || '',
+      [CSV_HEADS[11]]: MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(item.type),
+      [CSV_HEADS[12]]: item.tags.join(' '),
+      [CSV_HEADS[13]]: item.rate || '',
+      [CSV_HEADS[14]]: item.comment || '',
+      [CSV_HEADS[15]]: item.private ? '是' : '',
+      [CSV_HEADS[16]]: item.updated_at
+    }
+
+    const typeCn = row[CSV_HEADS[3]]
+    if (typeCn === '书籍') {
+      row[CSV_HEADS[11]] = row[CSV_HEADS[11]].replace('看', '读')
+    } else if (typeCn === '游戏') {
+      row[CSV_HEADS[11]] = row[CSV_HEADS[11]].replace('看', '玩')
+    } else if (typeCn === '音乐') {
+      row[CSV_HEADS[11]] = row[CSV_HEADS[11]].replace('看', '听')
+    }
+
+    return row
+  }
+
+  /** 导出的列头 (根据选择过滤) */
+  @computed get exportHeads() {
+    const { includeColumns } = this.state
+    if (!includeColumns.length) return [...CSV_HEADS]
+    return CSV_HEADS.filter(head => includeColumns.includes(head))
+  }
+
   /** 导出的 CSV */
   @computed get csv() {
     if (this.state.progress.fetching || !this.data.length) return ''
 
-    const { includeUrl, includeImage } = this.state
+    const heads = this.exportHeads
     const data = this.data.map(item => {
-      const { subject } = item
-      let row: any = {
-        [CSV_HEADS[0]]: subject.id
-      }
-      if (includeImage) row[CSV_HEADS[1]] = subject.image
-      if (includeUrl) row[CSV_HEADS[2]] = applyProxy(`${HOST}/subject/${subject.id}`).url
-
-      row = {
-        ...row,
-        [CSV_HEADS[3]]: MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subject.type),
-        [CSV_HEADS[4]]: subject.cn,
-        [CSV_HEADS[5]]: subject.jp,
-        [CSV_HEADS[6]]: subject.date,
-        [CSV_HEADS[7]]: subject.rank || '',
-        [CSV_HEADS[8]]: subject.score || '',
-        [CSV_HEADS[9]]: subject.eps || '',
-        [CSV_HEADS[10]]: item.ep_status || '',
-        [CSV_HEADS[11]]: MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(item.type),
-        [CSV_HEADS[12]]: item.tags.join(' '),
-        [CSV_HEADS[13]]: item.rate || '',
-        [CSV_HEADS[14]]: item.comment || '',
-        [CSV_HEADS[15]]: item.private ? '是' : '',
-        [CSV_HEADS[16]]: item.updated_at
-      }
-
-      const typeCn = row[CSV_HEADS[3]]
-      if (typeCn === '书籍') {
-        row[CSV_HEADS[11]] = row[CSV_HEADS[11]].replace('看', '读')
-      } else if (typeCn === '游戏') {
-        row[CSV_HEADS[11]] = row[CSV_HEADS[11]].replace('看', '玩')
-      } else if (typeCn === '音乐') {
-        row[CSV_HEADS[11]] = row[CSV_HEADS[11]].replace('看', '听')
-      }
-
-      return row
+      const row = this._buildRow(item)
+      const filtered: Record<string, any> = {}
+      heads.forEach(head => {
+        filtered[head] = row[head]
+      })
+      return filtered
     })
 
-    const json2csvParser = new Parser(CSV_HEADS)
+    const json2csvParser = new Parser(heads)
     return json2csvParser.parse(data)
+  }
+
+  /** 导出的 JSON (扁平化) */
+  @computed get json() {
+    if (this.state.progress.fetching || !this.data.length) return []
+
+    const heads = this.exportHeads
+    return this.data.map(item => {
+      const row = this._buildRow(item)
+      const filtered: Record<string, any> = {}
+      heads.forEach(head => {
+        filtered[head] = row[head]
+      })
+      return filtered
+    })
   }
 
   /** 导入的收藏项 */

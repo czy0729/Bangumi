@@ -9,6 +9,7 @@ import { date, feedback, getTimestamp, info, open } from '@utils'
 import { t } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
 import { download, temp } from '@utils/kv'
+import { exportLocal } from '../export'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { HOST_API } from '../ds'
 import Fetch from './fetch'
@@ -17,10 +18,14 @@ import type { SubjectId, SubjectTypeValue } from '@types'
 import type { Item } from '../types'
 
 export default class Action extends Fetch {
-  /** 切换 CSV 导出设置 */
-  onSetting = (key: 'includeUrl' | 'includeImage') => {
+  /** 切换导出列 */
+  onToggleColumn = (column: string) => {
+    const { includeColumns } = this.state
+    const next = includeColumns.includes(column)
+      ? includeColumns.filter(c => c !== column)
+      : [...includeColumns, column]
     this.setState({
-      [key]: !this.state[key]
+      includeColumns: next
     })
     this.save()
   }
@@ -45,6 +50,30 @@ export default class Action extends Fetch {
       data: `${this.userId}|${this.csv.length}`
     })
     open(download(data.downloadKey) as string)
+  }
+
+  /** 本地导出 CSV / JSON */
+  onExportLocal = async (format: 'csv' | 'json') => {
+    const timestamp = date('Y-m-d_H-i-s', getTimestamp())
+    const fileName = `${this.userId}_${timestamp}.${format}`
+
+    if (format === 'csv') {
+      if (!this.csv.length) {
+        info('没有获取到收藏信息，请检查登录状态')
+        return false
+      }
+      await exportLocal(fileName, `﻿${this.csv}`)
+    } else {
+      if (!this.json.length) {
+        info('没有获取到收藏信息，请检查登录状态')
+        return false
+      }
+      await exportLocal(fileName, JSON.stringify(this.json, null, 2))
+    }
+
+    t('本地备份.本地导出', {
+      data: `${this.userId}|${format}`
+    })
   }
 
   /** 置底 (导入模式) */

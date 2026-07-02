@@ -4,10 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-14 07:07:39
  */
-import { COMPONENT } from '../ds'
+import { COMPONENT, CSV_HEADS } from '../ds'
 
 import type { Loaded, SubjectId } from '@types'
 import type { Item } from '../types'
+
+/** 默认不选中的列 */
+const DEFAULT_EXCLUDE_COLUMNS = ['封面', '网址'] as const
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
@@ -39,8 +42,9 @@ export const STATE = {
   game: [] as Item[],
   real: [] as Item[],
   last: 0,
-  includeUrl: false,
-  includeImage: false,
+
+  /** 导出包含的列名 (默认选中除网址、封面外的所有列) */
+  includeColumns: CSV_HEADS.filter(head => !DEFAULT_EXCLUDE_COLUMNS.includes(head as any)) as string[],
 
   /** 页面初始化完成 */
   _loaded: false as Loaded

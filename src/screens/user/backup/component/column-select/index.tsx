@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-12-08 10:47:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-06 16:19:54
+ * @Last Modified time: 2026-07-03 00:40:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,17 +12,13 @@ import { r } from '@utils/dev'
 import { COLOR_SUCCESS, COMPONENT, HIT_SLOP } from './ds'
 import { styles } from './styles'
 
-function ColumnSelect({ select, disabled, onPress }) {
+import type { Props } from './types'
+
+function ColumnSelect({ select, disabled, onPress }: Props) {
   r(COMPONENT)
 
   if (disabled) {
-    return (
-      <View style={styles.columnSelect}>
-        {/* <Flex style={styles.radio} justify='center'>
-          <Iconfont name='md-do-not-disturb-alt' size={16} />
-        </Flex> */}
-      </View>
-    )
+    return <View style={styles.columnSelect} />
   }
 
   return (

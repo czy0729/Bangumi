@@ -10,21 +10,16 @@ import { Flex, Text } from '@components'
 import { r } from '@utils/dev'
 import { COMPONENT } from './ds'
 
-function Column({
-  style = undefined,
-  show = true,
-  type = undefined,
-  text = undefined,
-  right = undefined,
-  onPress = undefined
-}) {
+import type { Props } from './types'
+
+function Column({ style, show = true, type, text, right, onPress }: Props) {
   r(COMPONENT)
 
   if (!show) return null
 
   return (
     <Flex style={style}>
-      <Text size={11} type={!text || text === '/' ? 'sub' : type} onPress={onPress}>
+      <Text type={!text || text === '/' ? 'sub' : type} size={11} onPress={onPress}>
         {text || '__'}
       </Text>
       {right}

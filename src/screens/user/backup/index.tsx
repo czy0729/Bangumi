@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-12-03 10:16:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-11 05:39:57
+ * @Last Modified time: 2026-07-03 02:19:12
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -24,7 +24,7 @@ function Backup(props: NavigationProps) {
   return (
     <Component id='screen-backup'>
       <StoreContext.Provider value={id}>
-        <Page>
+        <Page loaded={$.state._loaded}>
           <HeaderPlaceholder />
           <Upload />
           <Cloud />
