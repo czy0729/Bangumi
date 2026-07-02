@@ -3,9 +3,9 @@
  * @Author: czy0729
  * @Date: 2021-07-09 23:04:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-06 20:02:01
+ * @Last Modified time: 2026-07-03 05:52:34
  */
-import { SubjectTypeCn } from '@types'
+import type { SubjectTypeCn } from '@types'
 
 export const html = (dark = false, type: SubjectTypeCn) => {
   const bgColor = dark ? '#fff' : '#000'
@@ -62,9 +62,7 @@ export const html = (dark = false, type: SubjectTypeCn) => {
         width: 300vw;
         height: 300vh;
         background: linear-gradient(to ${linearGradientTo},${
-    dark
-      ? 'rgba(0,0,0,0.72),rgba(0,0,0,1)'
-      : 'rgba(255,255,255,0.5),rgba(255,255,255,1)'
+    dark ? 'rgba(0,0,0,0.72),rgba(0,0,0,1)' : 'rgba(255,255,255,0.5),rgba(255,255,255,1)'
   });
         transform-origin: top left;
       }

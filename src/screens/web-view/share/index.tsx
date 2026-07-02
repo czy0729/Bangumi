@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2021-07-09 23:30:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-23 05:31:32
+ * @Last Modified time: 2026-07-03 06:25:24
  */
 import React from 'react'
 import { View } from 'react-native'
 import { WebView } from 'react-native-webview'
+import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, HeaderV2 } from '@components'
 import { IconTouchable, SafeAreaView } from '@_'
 import { _ } from '@stores'
 import { feedback, getStorage, info, loading, setStorage } from '@utils'
-import { saveBase64ImageToCameraRoll } from '@utils/android'
-import { ob } from '@utils/decorators'
+import { saveBase64ImageToCameraRoll, saveBase64ImageToShareSheet } from '@utils/android'
 import { IOS } from '@constants'
 import { html } from './utils'
 import { styles } from './styles'
@@ -74,25 +74,13 @@ class WebViewShare extends React.Component<{
           break
 
         case 'base64':
-          if (IOS) return
-
           if (data?.dataUrl) {
             if (this.saved) {
-              info('已保存到相册')
+              info(IOS ? '已保存' : '已保存到相册')
               return
             }
 
-            saveBase64ImageToCameraRoll(
-              data.dataUrl,
-              () => {
-                this.saved = true
-                info('已保存到相册')
-                feedback()
-              },
-              () => {
-                info('保存失败, 请确保给与读写权限')
-              }
-            )
+            IOS ? this.saveToShareSheet(data.dataUrl) : this.saveToCameraRoll(data.dataUrl)
           }
           break
 
@@ -100,6 +88,34 @@ class WebViewShare extends React.Component<{
           break
       }
     } catch (ex) {}
+  }
+
+  saveToShareSheet = (dataUrl: string) => {
+    saveBase64ImageToShareSheet(
+      dataUrl,
+      () => {
+        this.saved = true
+        info('已保存')
+        feedback()
+      },
+      () => {
+        info('保存失败，请重试')
+      }
+    )
+  }
+
+  saveToCameraRoll = (dataUrl: string) => {
+    saveBase64ImageToCameraRoll(
+      dataUrl,
+      () => {
+        this.saved = true
+        info('已保存到相册')
+        feedback()
+      },
+      () => {
+        info('保存失败, 请确保给与读写权限')
+      }
+    )
   }
 
   get source() {
@@ -148,7 +164,7 @@ class WebViewShare extends React.Component<{
           )}
         </SafeAreaView>
         <HeaderV2
-          title={IOS ? 'iOS 暂请自行截屏' : '长按保存图片'}
+          title='长按保存图片'
           alias='条目分享'
           hm={[`share/subject/${route?.params?._subjectId}`, 'Share']}
           headerRight={() => (
@@ -166,4 +182,4 @@ class WebViewShare extends React.Component<{
   }
 }
 
-export default ob(WebViewShare)
+export default observer(WebViewShare)

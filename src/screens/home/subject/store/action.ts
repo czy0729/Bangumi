@@ -50,7 +50,7 @@ import { logger } from '@utils/dev'
 import { baiduTranslate, t } from '@utils/fetch'
 import { completions, download, get, lx, lxCache, temp, update } from '@utils/kv'
 import { MUSUME_PROMPT, MUSUME_SUBJECT_PROMPT } from '@utils/kv/ds'
-import { applyProxy } from '@utils/proxy'
+import { applyLainProxy, applyProxy } from '@utils/proxy'
 import { axios } from '@utils/thirdParty'
 import { s2t } from '@utils/thirdParty/open-cc'
 import { webhookCollection, webhookEp } from '@utils/webhooks'
@@ -842,7 +842,7 @@ export default class Action extends Fetch {
 
     const { request } = await axios({
       method: 'get',
-      url: src.replace('http://', 'https://'),
+      url: applyLainProxy(src.replace('http://', 'https://')),
       responseType: 'arraybuffer'
     })
     hide()
