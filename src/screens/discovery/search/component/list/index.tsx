@@ -27,7 +27,6 @@ function List() {
       data={$.search}
       keyboardDismissMode='on-drag'
       renderItem={renderItem}
-      scrollEventThrottle={16}
       onScroll={$.onScroll}
       onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={$.doSearch}

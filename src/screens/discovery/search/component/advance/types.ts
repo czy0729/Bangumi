@@ -14,3 +14,5 @@ type SubItem = {
 }
 
 export type SubStrings = Record<SubjectTitle, SubItem>
+
+export type RawSubStrings = Record<string, SubjectId>

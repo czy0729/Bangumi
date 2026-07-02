@@ -7,7 +7,6 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Highlight, Iconfont, Text, Touchable } from '@components'
-import { desc } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { FROZEN_FN } from '@constants'
@@ -17,10 +16,13 @@ import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 const Advance = memo(
   ({ navigation, styles, cat = 'subject_2', value = '', onSubmit = FROZEN_FN }) => {
     const { result, substrings } = useResult(cat, value)
+
+    // 直接复用输入框内是否是纯数字条目 ID 的判断
     const isSubjectId = /\d+/.test(value)
 
     return (
       <View>
+        {/* 条目 ID 直达 */}
         {isSubjectId && (
           <Flex style={styles.itemId}>
             <Touchable
@@ -41,15 +43,16 @@ const Advance = memo(
             </Touchable>
           </Flex>
         )}
+
+        {/* 模糊联想列表 */}
         {!!value &&
-          result
-            .slice()
-            .sort((a, b) => desc(substrings.current[a], substrings.current[b]))
-            .map(item => (
+          result.map(item => {
+            return (
               <Flex key={item} style={styles.item}>
                 <Flex.Item>
                   <Touchable
                     onPress={() => {
+                      // 此时依据最新的安全时序，无论是否就绪，都能稳定拿到 subjectId
                       const subjectId = substrings.current[item]
                       navigation.push('Subject', {
                         subjectId,
@@ -66,6 +69,8 @@ const Advance = memo(
                     </Highlight>
                   </Touchable>
                 </Flex.Item>
+
+                {/* 填入搜索框二次确认按钮 */}
                 <Touchable
                   style={styles.open}
                   onPress={() => {
@@ -79,7 +84,8 @@ const Advance = memo(
                   <Iconfont name='md-search' size={20} />
                 </Touchable>
               </Flex>
-            ))}
+            )
+          })}
       </View>
     )
   },
