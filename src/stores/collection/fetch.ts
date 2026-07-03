@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 03:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-04 19:08:55
+ * @Last Modified time: 2026-07-04 07:30:21
  */
 import { getTimestamp, info, queue, sleep } from '@utils'
 import { fetchHTML } from '@utils/fetch'
@@ -27,6 +27,7 @@ import { DEFAULT_COLLECTION_STATUS, DEFAULT_ORDER, DEFAULT_SUBJECT_TYPE, NAMESPA
 import type { UserCollectionItem } from '@utils/fetch.v0/types'
 import type {
   CollectionStatusCn,
+  CollectionsOrder,
   Fn,
   ResponseApi,
   SubjectId,
@@ -93,6 +94,24 @@ export default class Fetch extends Computed {
     )
   }
 
+  /** 倒序刷新：获取第一页确定 pageTotal，返回 pageTotal 和 page1 数据供复用 */
+  private fetchReverseFirstPage = async (
+    userId: UserId,
+    subjectType: SubjectType,
+    type: CollectionStatus,
+    order: CollectionsOrder,
+    tag: string
+  ) => {
+    const firstHtml = await fetchHTML({
+      url: HTML_USER_COLLECTIONS(userId, subjectType, type, order, tag, 1)
+    })
+    if (!firstHtml) return { earlyReturn: true, pageTotal: 0, firstPage: null } as const
+
+    const firstPage = cheerioUserCollections(firstHtml)
+    const pageTotal = firstPage.pagination.pageTotal
+    return { earlyReturn: false, pageTotal, firstPage } as const
+  }
+
   /** 用户收藏概览 */
   fetchUserCollections = async (
     {
@@ -101,7 +120,8 @@ export default class Fetch extends Computed {
       type = DEFAULT_COLLECTION_STATUS,
       order = DEFAULT_ORDER,
       tag = '',
-      forMilestone = false
+      forMilestone = false,
+      reverse = false
     }: FetchUserCollectionsArgs = {},
     refreshOrPage?: boolean | number,
     maxPage?: number
@@ -116,15 +136,34 @@ export default class Fetch extends Computed {
 
       let page: number
       let refresh: boolean
+      let firstPage: ReturnType<typeof cheerioUserCollections> | null = null
       if (typeof refreshOrPage === 'boolean') {
         refresh = refreshOrPage
-        page = refresh ? 1 : pagination.page + 1
+        if (reverse) {
+          if (refresh) {
+            // 倒序刷新：先获取第一页获取 pageTotal，然后从最后一页开始
+            const result = await this.fetchReverseFirstPage(userId, subjectType, type, order, tag)
+            if (result.earlyReturn) return this[STATE_KEY](...ITEM_ARGS)
+
+            // pageTotal 为 0 说明请求失败
+            if (!result.pageTotal) return data
+
+            firstPage = result.firstPage
+            // 多页，从最后一页开始
+            page = result.pageTotal
+          } else {
+            // 倒序加载更多：获取前一页（page是API页码，从pageTotal递减）
+            page = pagination.pageTotal - pagination.page
+          }
+        } else {
+          page = refresh ? 1 : pagination.page + 1
+        }
       } else {
         refresh = true
         page = refreshOrPage
       }
 
-      // 没有更多不再请求
+      // 没有更多不再请求（正序/倒序 displayPage 都从 1 递增到 pageTotal）
       if (
         !refresh &&
         (pagination.page >= pagination.pageTotal || (maxPage && pagination.page >= maxPage))
@@ -137,14 +176,72 @@ export default class Fetch extends Computed {
       })
       const next = cheerioUserCollections(html)
 
+      // 倒序时，每页数据需要反转（API返回的是正序，倒序需要最新在前）
+      const pageList = reverse ? [...next.list].reverse() : next.list
+
+      // 新数据追加到列表后面
+      let newList = refresh ? pageList : [...list, ...pageList]
+
+      // 计算pagination：倒序时page从1开始递增（表示已加载页数）
+      let displayPage: number
+      if (reverse) {
+        if (refresh) {
+          // 倒序刷新：已加载1页（可能多页如果最后一页不满）
+          displayPage = Math.ceil(newList.length / 24)
+        } else {
+          // 倒序加载更多：page递增
+          displayPage = pagination.page + 1
+        }
+      } else {
+        displayPage = page
+      }
+
+      const currentPagination = {
+        page: displayPage,
+        pageTotal: Math.max(
+          next.pagination.pageTotal,
+          pagination.pageTotal || next.pagination.pageTotal
+        )
+      }
+
+      // 倒序刷新时，如果最后一页不满，继续往前获取多页
+      if (reverse && refresh && next.list.length < 24 && page > 1) {
+        let fetchPage = page - 1
+        let extraPagesLoaded = 1 // 主 fetch 已加载1页，从此开始计数
+        while (fetchPage >= 1) {
+          let extraPage: ReturnType<typeof cheerioUserCollections>
+
+          // 复用 fetchReverseFirstPage 已获取的 page1 数据，避免重复请求
+          if (fetchPage === 1 && firstPage) {
+            extraPage = firstPage
+          } else {
+            const extraHtml = await fetchHTML({
+              url: HTML_USER_COLLECTIONS(userId, subjectType, type, order, tag, fetchPage)
+            })
+            if (!extraHtml) break
+            extraPage = cheerioUserCollections(extraHtml)
+          }
+
+          if (!extraPage.list.length) break
+
+          // 反转每页数据，追加到列表后面
+          const reversedList = [...extraPage.list].reverse()
+          newList = [...newList, ...reversedList]
+          extraPagesLoaded += 1
+
+          // 如果已获取足够数据或到达第一页，停止
+          if (extraPage.list.length === 24 || fetchPage <= 1) break
+          fetchPage -= 1
+        }
+        // 更新显示页码（已加载的总页数）
+        currentPagination.page = extraPagesLoaded
+      }
+
       this.setState({
         [STATE_KEY]: {
           [ITEM_KEY]: {
-            list: refresh ? next.list : [...list, ...next.list],
-            pagination: {
-              page,
-              pageTotal: Math.max(next.pagination.pageTotal, page)
-            },
+            list: newList,
+            pagination: currentPagination,
             _loaded: getTimestamp()
           }
         }

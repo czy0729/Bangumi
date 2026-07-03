@@ -97,4 +97,5 @@ export type FetchUserCollectionsArgs = {
   tag?: string
   auth?: boolean
   forMilestone?: boolean
+  reverse?: boolean
 }

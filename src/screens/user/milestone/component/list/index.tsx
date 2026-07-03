@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-10 12:41:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-24 20:38:32
+ * @Last Modified time: 2026-07-04 21:50:00
  */
 import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { useStore } from '@stores'
 import { keyExtractor } from '@utils'
 import ListHeader from '../list-header'
 import LoadMore from '../load-more'
-import { renderItem } from './utils'
+import { getInitialNumToRender, renderItem } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
@@ -20,10 +20,11 @@ import type { Ctx } from '../../types'
 
 function List() {
   const { $ } = useStore<Ctx>(COMPONENT)
-  const { fixedHeader } = $.state
+  const { fixedHeader, numColumns } = $.state
 
   const styles = memoStyles()
 
+  const initialNumToRender = useMemo(() => getInitialNumToRender(numColumns), [numColumns])
   const elListHeader = useMemo(() => <ListHeader />, [])
   const elPlaceholder = useMemo(() => <View />, [])
   const elFooter = useMemo(() => <LoadMore />, [])
@@ -39,8 +40,9 @@ function List() {
         keyExtractor={keyExtractor}
         contentContainerStyle={styles.container}
         data={$.data}
-        numColumns={Number($.state.numColumns)}
+        numColumns={numColumns}
         renderItem={renderItem}
+        initialNumToRender={initialNumToRender}
         ListHeaderComponent={fixedHeader ? undefined : elListHeader}
         ListFooterComponent={elFooter}
         footerEmptyDataComponent={elPlaceholder}

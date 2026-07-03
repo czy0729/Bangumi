@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-10-12 15:31:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-16 21:51:42
+ * @Last Modified time: 2026-07-04 22:00:00
  */
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { ActionSheet, SegmentedControl, SwitchPro, Touchable } from '@components'
+import { ActionSheet, Divider, SegmentedControl, SwitchPro, Touchable } from '@components'
 import { IconTouchable, ItemSetting, Notice } from '@_'
 import { _, systemStore, useStore } from '@stores'
 import { info, open } from '@utils'
@@ -41,7 +41,8 @@ function Options() {
     lastTime,
     starsFull,
     starsColor,
-    nsfw
+    nsfw,
+    reverse
   } = $.state
 
   const elUserInfo = useMemo(
@@ -353,6 +354,32 @@ function Options() {
     ),
     [$, nsfw]
   )
+  const elReverse = useMemo(
+    () => (
+      <ItemSetting
+        hd='倒序'
+        information='开启后列表从最后一页开始加载'
+        ft={
+          <SwitchPro
+            style={styles.switch}
+            value={reverse}
+            onSyncPress={() => {
+              $.setOptions('reverse')
+
+              setTimeout(() => {
+                $.setOptions('show', false)
+
+                setTimeout(() => {
+                  $.fetchUserCollections(true)
+                }, 400)
+              }, 400)
+            }}
+          />
+        }
+      />
+    ),
+    [$, reverse]
+  )
 
   if (!_loaded) return null
 
@@ -393,12 +420,15 @@ function Options() {
       <Input />
       {elUserInfo}
       {elFixedHeader}
+      <Divider />
+      {elReverse}
       {elNumColumns}
       {elNumberOfLines}
       {elTitleAutoSize}
       {elSubTitle}
       {elExtra}
       {elLimit}
+      <Divider />
       {elBg}
       {elRadius}
       {elAutoHeight}

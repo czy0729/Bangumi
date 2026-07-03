@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 03:04:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-20 21:56:45
+ * @Last Modified time: 2026-07-04 06:14:02
  */
 import { toJS } from 'mobx'
 import { confirm } from '@utils'
@@ -120,6 +120,27 @@ export default class Action extends Fetch {
     this.save(STATE_KEY)
 
     return true
+  }
+
+  /** 清空指定用户收藏概览数据（用于切换排序方向等场景） */
+  clearUserCollections = (
+    userId: UserId,
+    subjectType: SubjectType,
+    type: CollectionStatus,
+    forMilestone: boolean = false
+  ) => {
+    const STATE_KEY = forMilestone ? 'userCollectionsForMilestone' : 'userCollections'
+    const ITEM_KEY = `${userId}|${subjectType}|${type}`
+
+    this.setState({
+      [STATE_KEY]: {
+        [ITEM_KEY]: {
+          list: [],
+          pagination: { page: 0, pageTotal: 0 },
+          _loaded: 0
+        }
+      }
+    })
   }
 
   // -------------------- action --------------------

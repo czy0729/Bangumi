@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-10 11:54:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-24 20:51:58
+ * @Last Modified time: 2026-07-04 22:00:00
  */
 import { COLLECTION_STATUS, COLLECTIONS_ORDERBY, SUBJECT_TYPE } from '@constants'
 import { COMPONENT } from '../ds'
@@ -44,6 +44,7 @@ export const STATE = {
   nsfw: true,
   lastTime: false,
   limit: 100,
+  reverse: false,
 
   /** 页面初始化完成 */
   _loaded: false as Loaded

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-11 05:10:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-12 21:10:55
+ * @Last Modified time: 2026-07-04 21:45:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,21 +10,23 @@ import { observer } from 'mobx-react'
 import { Flex, getCoverSrc, Image, Text, Touchable } from '@components'
 import { Stars } from '@_'
 import { _, useStore } from '@stores'
-import { getTimestamp, getVisualLength, HTMLDecode, lastDate, stl } from '@utils'
+import { getVisualLength, stl } from '@utils'
 import { IMG_SUBJECT_ONLY, MODEL_SUBJECT_TYPE } from '@constants'
-import { getLastParts, getPartAfterDate } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { ImageProps } from '@components'
-import type { Ctx } from '../../types'
+import type { Ctx, MilestoneItemData } from '../../types'
 import type { Props } from './types'
 
 function Item({ item, index }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
-  const { subjectType } = $.state
 
   const styles = memoStyles()
+
+  // 使用预计算的数据
+  const { titleDecoded, titleVisualLength, timeStr, parsedTime, parsedTimeNoYear, tipParsed } =
+    item as MilestoneItemData
 
   const numberOfLines = Number($.state.numberOfLines) || 0
   let titleText = ''
@@ -37,18 +39,13 @@ function Item({ item, index }: Props) {
     subTitleText = `#${index + 1}`
   } else if ($.state.subTitle === '时间') {
     if ($.state.lastTime) {
-      const ts = getTimestamp(item.time)
-      subTitleText = lastDate(ts)
-      if (subTitleText.includes('年')) subTitleText = lastDate(ts, false)
+      subTitleText = parsedTime
+      if (subTitleText.includes('年')) subTitleText = parsedTimeNoYear
     } else {
-      subTitleText = String(item.time).slice(2)
+      subTitleText = timeStr
     }
   } else if ($.state.subTitle === '描述') {
-    if (item.tip) {
-      const lastPart =
-        subjectType === 'game' ? getLastParts(item.tip, 2) : getPartAfterDate(item.tip)
-      if (lastPart) subTitleText = lastPart
-    }
+    if (tipParsed) subTitleText = tipParsed
   }
 
   let extraTitleText = ''
@@ -56,18 +53,13 @@ function Item({ item, index }: Props) {
     extraTitleText = `#${index + 1}`
   } else if ($.state.extraTitle === '时间') {
     if ($.state.lastTime) {
-      const ts = getTimestamp(item.time)
-      extraTitleText = lastDate(ts)
-      if (extraTitleText.includes('年')) extraTitleText = lastDate(ts, false)
+      extraTitleText = parsedTime
+      if (extraTitleText.includes('年')) extraTitleText = parsedTimeNoYear
     } else {
-      extraTitleText = String(item.time).slice(2)
+      extraTitleText = timeStr
     }
   } else if ($.state.extraTitle === '描述') {
-    if (item.tip) {
-      const lastPart =
-        subjectType === 'game' ? getLastParts(item.tip, 2) : getPartAfterDate(item.tip)
-      if (lastPart) extraTitleText = lastPart
-    }
+    if (tipParsed) extraTitleText = tipParsed
   }
 
   const numColumns = Number($.state.numColumns)
@@ -78,13 +70,13 @@ function Item({ item, index }: Props) {
     size -= 2
   }
 
-  const title = HTMLDecode(titleText)
+  // 使用预计算的 titleDecoded 和 titleVisualLength
+  const title = titleDecoded || titleText
   let titleSize = size
   if ($.state.titleAutoSize) {
-    const visualLength = getVisualLength(title)
-    if (visualLength >= 20) {
+    if (titleVisualLength >= 20) {
       titleSize -= 2
-    } else if (visualLength >= 12) {
+    } else if (titleVisualLength >= 12) {
       titleSize -= 1
     }
   }
@@ -165,7 +157,7 @@ function Item({ item, index }: Props) {
             <Text
               style={styles.sub}
               type='sub'
-              size={size - (getVisualLength(extraTitleText) >= 16 ? 2 : 0)}
+              size={size - (getVisualLength(subTitleText) >= 16 ? 2 : 0)}
               numberOfLines={4}
               bold
               align='center'

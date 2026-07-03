@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-29 07:12:57
+ * @Last Modified time: 2026-07-04 06:06:38
  */
 import React, { forwardRef, useCallback, useMemo } from 'react'
 import { RefreshControl } from 'react-native'
@@ -161,7 +161,9 @@ const ListViewComponent = forwardRef(function ListViewComponent<ItemT>(
       connectRef,
       ListHeaderComponentStyle: _.container.block,
       ListFooterComponentStyle: _.container.block,
-      ListFooterComponent: showFooter ? renderFooter() : ListFooterComponent ?? null,
+      ListFooterComponent: showFooter
+        ? ListFooterComponent || renderFooter()
+        : ListFooterComponent ?? null,
       refreshing: refreshState === REFRESH_STATE.HeaderRefreshing,
       refreshControl: renderRefreshControl(),
       onRefresh: rawOnHeaderRefresh ? onHeaderRefresh : undefined,

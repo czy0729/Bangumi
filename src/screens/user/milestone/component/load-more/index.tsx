@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-03-24 19:42:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-24 20:48:40
+ * @Last Modified time: 2026-07-04 06:07:33
  */
 import React, { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
@@ -22,21 +22,29 @@ function LoadMore() {
 
   const isLoadedEnd = useMemo(() => {
     if (!page || !pageTotal) return false
-    return page >= pageTotal || (!!limit && list.length >= limit)
-  }, [page, pageTotal, limit, list.length])
+    return page >= pageTotal
+  }, [page, pageTotal])
+
+  const isLimitReached = useMemo(() => {
+    return !!limit && list.length >= limit
+  }, [limit, list.length])
 
   const handlePress = useCallback(async () => {
-    if (fetching || isLoadedEnd) return
+    if (fetching || isLoadedEnd || isLimitReached) return
 
     await $.fetchUserCollections()
     feedback(true)
-  }, [$, fetching, isLoadedEnd])
+  }, [$, fetching, isLoadedEnd, isLimitReached])
 
   if (!list.length) return null
 
   return (
     <Flex style={_.mt.md} justify='center'>
-      {isLoadedEnd ? (
+      {isLimitReached ? (
+        <Text type={_.select('sub', 'icon')} size={12} align='center'>
+          已达显示上限，可到右上角设置调整
+        </Text>
+      ) : isLoadedEnd ? (
         <Text type={_.select('sub', 'icon')} size={12} align='center'>
           加载完毕
         </Text>

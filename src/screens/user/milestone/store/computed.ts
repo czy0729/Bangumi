@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-10-10 11:54:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-24 07:14:22
+ * @Last Modified time: 2026-07-04 21:45:00
  */
 import { computed } from 'mobx'
 import { collectionStore, usersStore, userStore } from '@stores'
 import { getSPAParams, omit } from '@utils'
 import { HTML_USER_COLLECTIONS, URL_SPA } from '@constants'
 import State from './state'
+import { filterByCover, filterByScore, precomputeItems } from './utils'
 
 export default class Computed extends State {
   @computed get userId() {
@@ -40,40 +41,24 @@ export default class Computed extends State {
   }
 
   @computed get data() {
-    const { limit, nsfw, score } = this.state
+    const { limit, nsfw, score, subjectType } = this.state
     let { list } = this.collections
 
-    if (!nsfw) {
-      list = list.filter(item => item.cover && !item.cover.includes('no_icon_subject'))
+    // 分步过滤，每步返回新数组
+    list = filterByCover(list, nsfw)
+    list = filterByScore(list, score)
+
+    // 限制数量
+    if (limit) {
+      list = list.slice(0, limit)
     }
 
-    if (score && score !== '全部') {
-      list = list.filter(item => {
-        const itemScore = item.score ? Number(item.score) : 0
-
-        if (score === '未评分') {
-          return !item.score || item.score === '0' || item.score === ''
-        }
-
-        if (score.includes('-')) {
-          const [min, max] = score.split('-').map(Number)
-          return itemScore >= min && itemScore <= max
-        }
-
-        return itemScore === Number(score)
-      })
-    }
-
-    if (!limit) {
-      return {
-        ...this.collections,
-        list
-      }
-    }
+    // 预计算 Item 所需数据，避免渲染时重复计算
+    const precomputed = precomputeItems(list, subjectType)
 
     return {
       ...this.collections,
-      list: list.slice(0, limit)
+      list: precomputed
     }
   }
 
