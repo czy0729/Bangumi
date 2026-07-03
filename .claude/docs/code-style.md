@@ -20,6 +20,30 @@
 - Store 访问：页面通过 hooks 解构 `{ id, $ }`，子组件通过 `useStore<Ctx>(COMPONENT)` 获取
 - `StoreContext.Provider` 在页面 index.tsx 中提供，子组件通过 context 消费
 
+# React Native 规范
+
+- **触摸事件必须在同步代码中提取数据**：React Native 的触摸事件（如 `onTouchMove`、`onTouchStart`、`onTouchEnd`）使用合成事件（Synthetic Event），事件对象会被重用和回收。如果在 `requestAnimationFrame`、`setTimeout`、`Promise` 等异步回调中访问 `e.nativeEvent.touches`，事件对象可能已被回收导致 `Cannot read property 'touches' of null` 错误。
+  - ✅ 正确：在同步代码中提取所需数据，然后在异步回调中使用提取的数据
+  ```typescript
+  const handleTouchMove = useCallback((e: any) => {
+    const touch = e.nativeEvent?.touches?.[0]
+    if (!touch) return
+    const { pageX, pageY } = touch  // 同步提取
+
+    requestAnimationFrame(() => {
+      // 使用已提取的 pageX, pageY
+    })
+  }, [])
+  ```
+  - ❌ 错误：在异步回调中直接访问事件对象
+  ```typescript
+  const handleTouchMove = useCallback((e: any) => {
+    requestAnimationFrame(() => {
+      const touch = e.nativeEvent?.touches?.[0]  // 事件可能已被回收
+    })
+  }, [])
+  ```
+
 # MobX 规范
 
 - **禁止在 computed / derivation 中原地修改 observable 数组**：`.sort()`、`.reverse()` 等会 mutates in-place，必须先 `.slice()` 或 `[...arr]` 拷贝后再操作，例如 `arr.slice().sort(...)`

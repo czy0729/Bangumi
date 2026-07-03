@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-04 14:12:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-10 07:11:36
+ * @Last Modified time: 2026-07-03 23:07:03
  */
 import { useCallback, useRef, useState } from 'react'
 import { _, useInitStore } from '@stores'
@@ -35,14 +35,16 @@ export function useDiscoveryPage(props: NavigationProps) {
     (e: any) => {
       if (!loaded || !isFocused) return
 
+      const touch = e.nativeEvent?.touches?.[0]
+      if (!touch || !webviewRef.current) return
+
+      const { pageX, pageY } = touch
       if (rafRef.current) return
+
       rafRef.current = requestAnimationFrame(() => {
         rafRef.current = 0
 
-        const touch = e.nativeEvent.touches?.[0]
-        if (!touch || !webviewRef.current) return
-
-        const { pageX, pageY } = touch
+        if (!webviewRef.current) return
         webviewRef.current.injectJavaScript(`
           (function() {
             const shell = document.getElementById('ukagaka_shell')
