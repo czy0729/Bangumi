@@ -243,8 +243,8 @@ function CharactersModal({
   // 更新左侧列表数据
   const handleUpdateLeft = useCallback(() => {
     const templeCopy = {
-      ...tinygrailStore.temple(),
-      list: [...tinygrailStore.temple().list]
+      ...tinygrailStore.temple(tinygrailStore.hash),
+      list: [...tinygrailStore.temple(tinygrailStore.hash).list]
     }
 
     let filteredList = templeCopy.list
@@ -261,7 +261,7 @@ function CharactersModal({
         .sort((a, b) => a.rate - b.rate)
     } else if (itemType.isStarDust) {
       const dataCopy = isTemple
-        ? { ...tinygrailStore.temple(), list: [...tinygrailStore.temple().list] }
+        ? { ...tinygrailStore.temple(tinygrailStore.hash), list: [...tinygrailStore.temple(tinygrailStore.hash).list] }
         : {
             ...tinygrailStore.myCharaAssets.chara,
             list: [...tinygrailStore.myCharaAssets.chara.list]
@@ -336,8 +336,8 @@ function CharactersModal({
         .sort((a, b) => rk(a) - rk(b))
     } else if (itemType.isStarDust) {
       const templeCopy = {
-        ...tinygrailStore.temple(),
-        list: [...tinygrailStore.temple().list]
+        ...tinygrailStore.temple(tinygrailStore.hash),
+        list: [...tinygrailStore.temple(tinygrailStore.hash).list]
       }
 
       rightData.list = templeCopy.list
@@ -382,8 +382,8 @@ function CharactersModal({
       })
     } else {
       const templeCopy = {
-        ...tinygrailStore.temple(),
-        list: [...tinygrailStore.temple().list]
+        ...tinygrailStore.temple(tinygrailStore.hash),
+        list: [...tinygrailStore.temple(tinygrailStore.hash).list]
       }
 
       rightData.list = templeCopy.list
@@ -459,7 +459,7 @@ function CharactersModal({
       const isStale = (loaded: Loaded) => (refresh ? true : !loaded || now - Number(loaded) > M2)
       await queue(
         [
-          isStale(tinygrailStore.temple()._loaded) && (() => tinygrailStore.fetchTemple()),
+          isStale(tinygrailStore.temple(tinygrailStore.hash)._loaded) && (() => tinygrailStore.fetchTemple()),
           isStale(tinygrailStore.myCharaAssets.chara._loaded) &&
             (() => tinygrailStore.fetchMyCharaAssets()),
           isStale(tinygrailStore.msrc._loaded) && (() => tinygrailStore.fetchList('msrc')),

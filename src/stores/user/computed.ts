@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-04-17 14:24:15
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
+import { computedFn } from '@utils/computed-fn'
 import { APP_USERID_TOURIST, HOST, LIST_EMPTY, UA, WEB } from '@constants'
 import { DEFAULT_SCOPE, INIT_USER_INFO } from './init'
 import State from './state'

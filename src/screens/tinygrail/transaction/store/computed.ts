@@ -5,7 +5,7 @@
  * @Last Modified time: 2025-03-07 17:58:04
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
+import { computedFn } from '@utils/computed-fn'
 import State from './state'
 
 export default class Computed extends State {

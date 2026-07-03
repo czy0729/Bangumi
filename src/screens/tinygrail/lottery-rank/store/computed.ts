@@ -5,9 +5,9 @@
  * @Last Modified time: 2026-02-07 09:07:19
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { userStore } from '@stores'
 import { desc } from '@utils'
+import { computedFn } from '@utils/computed-fn'
 import { FROZEN_ARRAY } from '@constants'
 import { getDay, getPercent, getTotal } from '../utils'
 import State from './state'

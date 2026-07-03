@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-06-22 15:17:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-22 15:18:14
+ * @Last Modified time: 2026-07-03 20:38:11
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { rakuenStore } from '@stores'
+import { computedFn } from '@utils/computed-fn'
 import { HTML_REVIEWS, LIST_EMPTY } from '@constants'
 import State from './state'
 import { NAMESPACE } from './ds'

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-08-09 03:15:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-02 20:57:08
+ * @Last Modified time: 2026-07-03 20:37:24
  */
-import { computedFn } from 'mobx-utils'
 import { discoveryStore, userStore } from '@stores'
 import { x18s } from '@utils'
+import { computedFn } from '@utils/computed-fn'
 import { TABS } from '../ds'
 import State from './state'
 

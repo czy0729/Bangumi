@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-11-11 09:50:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-14 09:49:21
+ * @Last Modified time: 2026-07-03 20:37:40
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { systemStore, userStore } from '@stores'
+import { computedFn } from '@utils/computed-fn'
 import State from './state'
 import { NAMESPACE } from './ds'
 

@@ -5,8 +5,8 @@
  * @Last Modified time: 2024-09-13 05:36:09
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { discoveryStore, usersStore, userStore } from '@stores'
+import { computedFn } from '@utils/computed-fn'
 import { HTML_USERS_CATALOGS } from '@constants'
 import { TABS } from '../ds'
 import State from './state'

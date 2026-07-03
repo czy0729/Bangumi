@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-07-08 15:49:52
  */
-import { computedFn } from 'mobx-utils'
 import { tinygrailStore } from '@stores'
+import { computedFn } from '@utils/computed-fn'
 import { TABS } from '../ds'
 import State from './state'
 

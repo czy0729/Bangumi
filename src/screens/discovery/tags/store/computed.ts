@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-08-18 05:52:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-17 12:51:26
+ * @Last Modified time: 2026-07-03 20:37:55
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { discoveryStore, userStore } from '@stores'
 import { x18s } from '@utils'
+import { computedFn } from '@utils/computed-fn'
 import { HTML_TAGS, LIST_EMPTY } from '@constants'
 import { TABS } from '../ds'
 import State from './state'

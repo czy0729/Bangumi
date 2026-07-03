@@ -5,8 +5,8 @@
  * @Last Modified time: 2025-10-20 10:46:21
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { deepClone, getTimestamp, toLocal } from '@utils'
+import { computedFn } from '@utils/computed-fn'
 import { INIT_CALENDAR, INIT_ONAIR_ITEM, INIT_USER_ONAIR_ITEM } from './init'
 import { ON_AIR } from './onair'
 import State from './state'

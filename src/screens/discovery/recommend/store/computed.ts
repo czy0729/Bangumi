@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-06-22 05:12:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-22 05:13:36
+ * @Last Modified time: 2026-07-03 20:37:49
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { subjectStore } from '@stores'
+import { computedFn } from '@utils/computed-fn'
 import State from './state'
 
 import type { SubjectId } from '@types'

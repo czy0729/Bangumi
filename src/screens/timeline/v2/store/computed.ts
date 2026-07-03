@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-05-27 10:43:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-27 00:00:00
+ * @Last Modified time: 2026-07-03 20:38:15
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { systemStore, timelineStore, userStore } from '@stores'
+import { computedFn } from '@utils/computed-fn'
 import { IOS } from '@constants'
 import { TABS } from '../ds'
 import { deduplicateDates, filter18xContent, filterDefaultAvatar } from './utils'

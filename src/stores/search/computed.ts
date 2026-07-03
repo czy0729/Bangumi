@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-05-20 00:56:12
  */
-import { computedFn } from 'mobx-utils'
+import { computedFn } from '@utils/computed-fn'
 import { LIST_EMPTY } from '@constants'
 import { DEFAULT_CAT } from './init'
 import State from './state'

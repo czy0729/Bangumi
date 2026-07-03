@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-06-11 21:31:26
  */
-import { computedFn } from 'mobx-utils'
+import { computedFn } from '@utils/computed-fn'
 import hash from '@utils/thirdParty/hash'
 import { LIST_EMPTY } from '@constants'
 import State from './state'

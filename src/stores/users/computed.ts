@@ -5,8 +5,8 @@
  * @Last Modified time: 2026-06-23 20:44:26
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { HTMLDecode } from '@utils'
+import { computedFn } from '@utils/computed-fn'
 import { fixedRemote } from '@utils/user-setting'
 import { HOST_BGM_STATIC, LIST_EMPTY } from '@constants'
 import discoveryStore from '../discovery'

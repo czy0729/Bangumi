@@ -5,8 +5,8 @@
  * @Last Modified time: 2026-05-05 20:34:20
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { x18 } from '@utils'
+import { computedFn } from '@utils/computed-fn'
 import { LIST_EMPTY } from '@constants'
 import {
   DEFAULT_RATING_STATUS,

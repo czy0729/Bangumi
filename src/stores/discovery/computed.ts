@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-04-10 05:45:37
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
+import { computedFn } from '@utils/computed-fn'
 import { LIST_EMPTY } from '@constants'
 import { INIT_CATALOG_ITEM, INIT_CATELOG_DETAIL_ITEM, INIT_CHANNEL } from './init'
 import { getInt } from './utils'

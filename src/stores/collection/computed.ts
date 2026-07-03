@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-03-24 06:42:44
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
+import { computedFn } from '@utils/computed-fn'
 import { LIST_EMPTY } from '@constants'
 import userStore from '../user'
 import { DEFAULT_USERS_SUBJECT_COLLECTION } from './init'
@@ -32,15 +32,20 @@ export default class Computed extends State implements StoreConstructor<typeof S
     return collection?.status?.name || ''
   })
 
+  /** 获取指定条目收藏状态 */
+  private _collect = computedFn((subjectId: SubjectId) => {
+    return (this.collectionStatus(subjectId) || '') as CollectActions
+  })
+
   /** 获取指定条目收藏状态, 若传递了 type 会自动转换对应动作 */
-  collect = computedFn((subjectId: SubjectId, typeCn?: SubjectTypeCn) => {
-    const value = this.collectionStatus(subjectId) || ''
+  collect(subjectId: SubjectId, typeCn?: SubjectTypeCn) {
+    const value = this._collect(subjectId)
     if (!value || !typeCn || typeCn === '动画' || typeCn === '三次元') return value
     if (typeCn === '书籍') return value.replace('看', '读') as CollectActions
     if (typeCn === '游戏') return value.replace('看', '玩') as CollectActions
     if (typeCn === '音乐') return value.replace('看', '听') as CollectActions
     return value
-  })
+  }
 
   // -------------------- 有副作用 (分离 init + computedFn) --------------------
   /** 条目收藏信息 */

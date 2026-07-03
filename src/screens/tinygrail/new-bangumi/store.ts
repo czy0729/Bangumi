@@ -5,9 +5,9 @@
  * @Last Modified time: 2024-11-19 15:32:02
  */
 import { computed, observable } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { tinygrailStore } from '@stores'
 import { getTimestamp } from '@utils'
+import { computedFn } from '@utils/computed-fn'
 import { t } from '@utils/fetch'
 import store from '@utils/store'
 import { levelList, relation, sortList } from '@tinygrail/_/utils'

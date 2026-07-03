@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:14:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 07:01:09
+ * @Last Modified time: 2026-07-03 20:38:03
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { _, calendarStore, collectionStore, subjectStore, systemStore, userStore } from '@stores'
 import { desc, freeze, getOnAir, t2s } from '@utils'
 import CacheManager from '@utils/cache-manager'
+import { computedFn } from '@utils/computed-fn'
 import { logger } from '@utils/dev'
 import {
   IOS,

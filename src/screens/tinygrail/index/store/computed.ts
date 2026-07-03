@@ -5,8 +5,8 @@
  * @Last Modified time: 2026-02-07 07:56:57
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { systemStore, tinygrailStore, userStore } from '@stores'
+import { computedFn } from '@utils/computed-fn'
 import State from './state'
 
 import type { ListKey } from '@stores/tinygrail/types'

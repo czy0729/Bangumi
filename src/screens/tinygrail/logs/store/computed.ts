@@ -5,8 +5,8 @@
  * @Last Modified time: 2026-02-06 14:54:31
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { tinygrailStore } from '@stores'
+import { computedFn } from '@utils/computed-fn'
 import State from './state'
 
 import type { MonoId } from '@types'

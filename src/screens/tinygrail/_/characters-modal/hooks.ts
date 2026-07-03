@@ -83,8 +83,8 @@ export const useUpdateLeft = (
 ) => {
   return useCallback(() => {
     const templeCopy = {
-      ...tinygrailStore.temple(),
-      list: [...tinygrailStore.temple().list]
+      ...tinygrailStore.temple(tinygrailStore.hash),
+      list: [...tinygrailStore.temple(tinygrailStore.hash).list]
     }
 
     let filteredList = templeCopy.list
@@ -101,7 +101,7 @@ export const useUpdateLeft = (
         .sort((a, b) => a.rate - b.rate)
     } else if (itemType.isStarDust) {
       const dataCopy = isTemple
-        ? { ...tinygrailStore.temple(), list: [...tinygrailStore.temple().list] }
+        ? { ...tinygrailStore.temple(tinygrailStore.hash), list: [...tinygrailStore.temple(tinygrailStore.hash).list] }
         : {
             ...tinygrailStore.myCharaAssets.chara,
             list: [...tinygrailStore.myCharaAssets.chara.list]
@@ -186,8 +186,8 @@ export const useUpdateRight = (
         .sort((a, b) => rk(a) - rk(b))
     } else if (itemType.isStarDust) {
       const templeCopy = {
-        ...tinygrailStore.temple(),
-        list: [...tinygrailStore.temple().list]
+        ...tinygrailStore.temple(tinygrailStore.hash),
+        list: [...tinygrailStore.temple(tinygrailStore.hash).list]
       }
 
       rightData.list = templeCopy.list
@@ -232,8 +232,8 @@ export const useUpdateRight = (
       })
     } else {
       const templeCopy = {
-        ...tinygrailStore.temple(),
-        list: [...tinygrailStore.temple().list]
+        ...tinygrailStore.temple(tinygrailStore.hash),
+        list: [...tinygrailStore.temple(tinygrailStore.hash).list]
       }
 
       rightData.list = templeCopy.list

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2025-06-09 14:50:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-07 23:19:28
+ * @Last Modified time: 2026-07-03 20:37:44
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { keepBasicChars } from '@utils'
+import { computedFn } from '@utils/computed-fn'
 import State from './state'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
 

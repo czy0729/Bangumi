@@ -116,7 +116,7 @@ export default class ScreenTinygrailAdvanceAuction extends store<typeof EXCLUDE_
 
   @computed get myCharaAssetsMap() {
     const map = {}
-    const { list } = tinygrailStore.charaAll()
+    const { list } = tinygrailStore.charaAll(tinygrailStore.hash)
     list.forEach(item => {
       map[item.id] = {
         state: item.state || 0,

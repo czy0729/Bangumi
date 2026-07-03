@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2025-01-14 16:35:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-16 16:25:18
+ * @Last Modified time: 2026-07-03 20:38:17
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { tinygrailStore } from '@stores'
+import { computedFn } from '@utils/computed-fn'
 import { levelList, sortList } from '@tinygrail/_/utils'
 import { TABS } from '../ds'
 import State from './state'

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-06-04 15:31:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-31 05:15:39
+ * @Last Modified time: 2026-07-03 20:38:09
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { rakuenStore, systemStore, userStore } from '@stores'
 import { desc } from '@utils'
+import { computedFn } from '@utils/computed-fn'
 import State from './state'
 import { COMMENT_LIMIT, COMMENT_LIMIT_ADVANCE } from './ds'
 

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-11-09 06:32:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-09 10:12:31
+ * @Last Modified time: 2026-07-03 20:37:56
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { discoveryStore, subjectStore } from '@stores'
+import { computedFn } from '@utils/computed-fn'
 import { HTML_SUBJECT_CATALOGS, LIST_EMPTY } from '@constants'
 import State from './state'
 

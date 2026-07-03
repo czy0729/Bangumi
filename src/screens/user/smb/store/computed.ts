@@ -5,9 +5,9 @@
  * @Last Modified time: 2024-10-16 06:17:57
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { collectionStore, smbStore, subjectStore, userStore } from '@stores'
 import { fixedSubjectInfo } from '@utils'
+import { computedFn } from '@utils/computed-fn'
 import { WEB } from '@constants'
 import { LIMIT, REG_AIRDATE } from '../ds'
 import { fixedUrl } from '../utils'
@@ -142,14 +142,14 @@ export default class Computed extends State {
     return ''
   })
 
-  /** 构造目标链接 */
-  url = computedFn(
+  /** 构造目标链接 (内部, 参数固定) */
+  private _url = computedFn(
     (
-      sharedFolder: string = '',
-      folderPath: string = '',
-      folderName: string = '',
-      fileName: string = '',
-      urlTemplate?: string
+      sharedFolder: string,
+      folderPath: string,
+      folderName: string,
+      fileName: string,
+      urlTemplate: string
     ) => {
       try {
         if (!this.current) return ''
@@ -173,6 +173,17 @@ export default class Computed extends State {
       }
     }
   )
+
+  /** 构造目标链接 */
+  url(
+    sharedFolder: string = '',
+    folderPath: string = '',
+    folderName: string = '',
+    fileName: string = '',
+    urlTemplate?: string
+  ) {
+    return this._url(sharedFolder, folderPath, folderName, fileName, urlTemplate || '')
+  }
 
   /** 文件夹是否显示文件全名列表, 若从来没操作过, 返回 null */
   isFiles = computedFn((folderName: string) => {

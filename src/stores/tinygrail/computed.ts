@@ -5,8 +5,8 @@
  * @Last Modified time: 2026-01-14 08:34:05
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { getTimestamp } from '@utils'
+import { computedFn } from '@utils/computed-fn'
 import { LIST_EMPTY } from '@constants'
 import {
   INIT_ASSETS,

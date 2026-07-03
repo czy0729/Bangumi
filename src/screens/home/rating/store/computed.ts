@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-08-26 08:13:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-20 11:23:52
+ * @Last Modified time: 2026-07-03 20:37:58
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { subjectStore, systemStore } from '@stores'
+import { computedFn } from '@utils/computed-fn'
 import { HTML_SUBJECT_RATING, URL_DEFAULT_AVATAR } from '@constants'
 import { TABS } from '../ds'
 import State from './state'

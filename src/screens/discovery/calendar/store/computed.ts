@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-06-20 17:28:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-21 04:01:47
+ * @Last Modified time: 2026-07-03 20:37:32
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { calendarStore, collectionStore, subjectStore } from '@stores'
 import { desc, getOnAirItem } from '@utils'
+import { computedFn } from '@utils/computed-fn'
 import { get } from '@utils/protobuf'
 import {
   TEXT_MENU_FAVOR,

@@ -2,14 +2,20 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:01:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-15 22:43:45
+ * @Last Modified time: 2026-07-03 20:38:12
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { rakuenStore, subjectStore, systemStore, usersStore, userStore } from '@stores'
 import { asc, freeze, getGroupThumbStatic, HTMLDecode } from '@utils'
 import CacheManager from '@utils/cache-manager'
-import { CDN_OSS_MAGMA_PIC, CDN_OSS_MAGMA_POSTER, HOST, HOST_IMAGE, URL_DEFAULT_AVATAR } from '@constants'
+import { computedFn } from '@utils/computed-fn'
+import {
+  CDN_OSS_MAGMA_PIC,
+  CDN_OSS_MAGMA_POSTER,
+  HOST,
+  HOST_IMAGE,
+  URL_DEFAULT_AVATAR
+} from '@constants'
 import State from './state'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
 

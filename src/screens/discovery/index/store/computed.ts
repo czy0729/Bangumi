@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-07-17 03:35:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-20 15:44:44
+ * @Last Modified time: 2026-07-03 20:37:36
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { calendarStore, discoveryStore } from '@stores'
 import { date, getTimestamp } from '@utils'
+import { computedFn } from '@utils/computed-fn'
 import State from './state'
 
 import type { SubjectType } from '@types'

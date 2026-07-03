@@ -5,8 +5,8 @@
  * @Last Modified time: 2026-05-06 05:22:42
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { desc } from '@utils'
+import { computedFn } from '@utils/computed-fn'
 import { LIST_EMPTY } from '@constants'
 import userStore from '../user'
 import { DEFAULT_SCOPE, DEFAULT_TYPE } from './init'
@@ -20,10 +20,12 @@ import type { Hidden, Say, Timeline } from './types'
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   // -------------------- 纯计算 (直接 computedFn) --------------------
   /** 时间胶囊 */
-  timeline = computedFn((scope: TimeLineScope = DEFAULT_SCOPE, type: TimeLineType = DEFAULT_TYPE) => {
-    const ITEM_KEY = `${scope}|${type}` as const
-    return (this.state.timeline[ITEM_KEY] || LIST_EMPTY) as Timeline
-  })
+  timeline = computedFn(
+    (scope: TimeLineScope = DEFAULT_SCOPE, type: TimeLineType = DEFAULT_TYPE) => {
+      const ITEM_KEY = `${scope}|${type}` as const
+      return (this.state.timeline[ITEM_KEY] || LIST_EMPTY) as Timeline
+    }
+  )
 
   /** 其他人的时间胶囊 */
   usersTimeline = computedFn((userId?: UserId) => {

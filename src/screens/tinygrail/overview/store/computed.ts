@@ -4,8 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-12-16 20:22:41
  */
-import { computedFn } from 'mobx-utils'
+import { computed } from 'mobx'
 import { tinygrailStore } from '@stores'
+import { computedFn } from '@utils/computed-fn'
 import { levelList, sortList } from '@tinygrail/_/utils'
 import { TABS } from '../ds'
 import State from './state'

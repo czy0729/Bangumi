@@ -5,8 +5,8 @@
  * @Last Modified time: 2026-01-21 11:18:42
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { _, usersStore, userStore } from '@stores'
+import { computedFn } from '@utils/computed-fn'
 import { HTML_FRIENDS, HTML_REV_FRIENDS } from '@constants'
 import State from './state'
 

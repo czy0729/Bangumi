@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:49:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-30 08:43:00
+ * @Last Modified time: 2026-07-03 20:38:06
  */
 import { computed, observable } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { rakuenStore, systemStore, userStore } from '@stores'
 import { feedback, getTimestamp, info } from '@utils'
+import { computedFn } from '@utils/computed-fn'
 import { fetchHTML, t } from '@utils/fetch'
 import { get, update } from '@utils/kv'
 import store from '@utils/store'

@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-10-24 20:17:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-17 18:55:20
+ * @Last Modified time: 2026-07-03 20:38:17
  */
-import { computedFn } from 'mobx-utils'
+import { computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import { getTimestamp } from '@utils'
+import { computedFn } from '@utils/computed-fn'
 import { FROZEN_OBJECT, LIST_EMPTY } from '@constants'
 import { levelList, sortList } from '@tinygrail/_/utils'
 import State from './state'
@@ -195,13 +196,8 @@ export default class Computed extends State {
     }
   }
 
-  /** ICO 最高人气 (显示自己当前参与) */
-  mpi = computedFn(() => {
-    return tinygrailStore.list('mpi')
-  })
-
   /** ICO 用户 */
   @computed get mpiUsers() {
-    return Object.fromEntries(this.mpi.list.map(item => [item.id, item.users]))
+    return Object.fromEntries(tinygrailStore.list('mpi').list.map(item => [item.id, item.users]))
   }
 }

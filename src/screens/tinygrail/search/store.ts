@@ -5,9 +5,9 @@
  * @Last Modified time: 2023-12-17 04:58:20
  */
 import { observable } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { tinygrailStore } from '@stores'
 import { info } from '@utils'
+import { computedFn } from '@utils/computed-fn'
 import { t } from '@utils/fetch'
 import store from '@utils/store'
 import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'

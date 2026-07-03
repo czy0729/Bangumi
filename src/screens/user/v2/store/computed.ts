@@ -5,10 +5,10 @@
  * @Last Modified time: 2026-06-17 19:43:12
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { fixedHD } from '@components/avatar/utils'
 import { _, collectionStore, systemStore, usersStore, userStore } from '@stores'
 import { getBlurRadius, getPinYinFilterValue, HTMLDecode, t2s, x18 } from '@utils'
+import { computedFn } from '@utils/computed-fn'
 import { applyLainProxy } from '@utils/proxy'
 import { fixedRemote } from '@utils/user-setting'
 import { MODEL_COLLECTION_STATUS, MODEL_COLLECTIONS_ORDERBY, MODEL_SUBJECT_TYPE } from '@constants'

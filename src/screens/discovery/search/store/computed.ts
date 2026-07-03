@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-06-03 11:42:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-11 07:58:01
+ * @Last Modified time: 2026-07-03 20:37:51
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { searchStore, subjectStore, userStore } from '@stores'
 import { x18 } from '@utils'
+import { computedFn } from '@utils/computed-fn'
 import { HTML_SEARCH, MODEL_SEARCH_CAT } from '@constants'
 import State from './state'
 

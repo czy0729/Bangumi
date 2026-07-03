@@ -5,10 +5,10 @@
  * @Last Modified time: 2024-09-14 07:12:44
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { Parser } from 'json2csv'
 import { userStore } from '@stores'
 import { asc } from '@utils'
+import { computedFn } from '@utils/computed-fn'
 import { applyLainProxy, applyProxy } from '@utils/proxy'
 import { HOST, MODEL_COLLECTION_STATUS, MODEL_SUBJECT_TYPE } from '@constants'
 import { CSV_HEADS } from '../ds'

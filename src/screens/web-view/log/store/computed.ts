@@ -5,8 +5,8 @@
  * @Last Modified time: 2025-04-04 06:46:45
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { lastDate } from '@utils'
+import { computedFn } from '@utils/computed-fn'
 import State from './state'
 
 export default class Computed extends State {

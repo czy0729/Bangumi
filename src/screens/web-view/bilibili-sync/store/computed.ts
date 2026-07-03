@@ -5,9 +5,9 @@
  * @Last Modified time: 2024-09-14 15:44:38
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { userStore } from '@stores'
 import { asc, desc } from '@utils'
+import { computedFn } from '@utils/computed-fn'
 import State from './state'
 
 import type { Id, SubjectId } from '@types'

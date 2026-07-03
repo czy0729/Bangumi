@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-06-22 21:30:58
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
+import { computedFn } from '@utils/computed-fn'
 import { IOS, WEB } from '@constants'
 import { radiusMd } from '@styles'
 import State from './state'

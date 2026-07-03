@@ -5,8 +5,8 @@
  * @Last Modified time: 2025-10-17 23:30:50
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { desc } from '@utils'
+import { computedFn } from '@utils/computed-fn'
 import { LIST_EMPTY } from '@constants'
 import { DEFAULT_SCOPE, DEFAULT_TYPE, INIT_GROUP_INFO, INIT_READED_ITEM, INIT_TOPIC } from './init'
 import { getInt } from './utils'

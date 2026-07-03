@@ -25,4 +25,4 @@
 - **禁止在 computed / derivation 中原地修改 observable 数组**：`.sort()`、`.reverse()` 等会 mutates in-place，必须先 `.slice()` 或 `[...arr]` 拷贝后再操作，例如 `arr.slice().sort(...)`
 - 同理避免 `.splice()`、`.push()`、`.pop()` 等原地修改 observable 数组的操作
 - 如果 `.filter()` / `.map()` 的源是 observable 数组，其返回值已经是新数组，可安全使用 `.sort()`；但如果源是其他 computed 返回值，需先 `.slice()`
-- **`computedFn` 调用必须参数数量一致**：`computedFn` 内部使用 DeepMap 做缓存，要求所有调用点传入相同数量的参数。即使函数定义了默认参数（如 `(a, b = false)`），所有调用处也必须显式传入完整参数（如 `(a, false)` 或 `(a, true)`），**绝不能**依赖默认值而省略。省略会导致不同调用点参数长度不一致，触发 `DeepMap should be used with functions with a consistent length` 错误
+- **`computedFn` 统一从 `@utils/computed-fn` 导入**，禁止直接从 `mobx-utils` 导入。项目自定义的 `computedFn` 内部通过 Proxy 自动补齐可选参数，避免原版 DeepMap 因 `arguments.length` 不一致而崩溃（`DeepMap should be used with functions with a consistent length`）

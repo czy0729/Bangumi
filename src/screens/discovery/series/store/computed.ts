@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-11-30 17:33:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-30 22:55:22
+ * @Last Modified time: 2026-07-03 20:37:52
  */
 import { computed } from 'mobx'
-import { computedFn } from 'mobx-utils'
 import { userStore } from '@stores'
 import { asc, desc } from '@utils'
+import { computedFn } from '@utils/computed-fn'
 import {
   TEXT_MENU_FIXED,
   TEXT_MENU_FLOAT,
