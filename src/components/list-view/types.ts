@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-17 04:49:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-29 07:12:30
+ * @Last Modified time: 2026-07-05 03:51:33
  */
 import type { FlatList, FlatListProps, SectionListScrollParams } from 'react-native'
 import type { ListEmpty, MaybeReadonly, Override, ReactNode, Ref, Sections } from '@types'
@@ -165,6 +165,9 @@ export type ListViewScrollMethods = {
   scrollToItem?: ScrollToItem
   scrollToEnd?: ScrollToEnd
   scrollToLocation?: ScrollToLocation
+
+  /** 获取原始的 FlatList ref，用于安卓端 measureLayout */
+  getInnerRef?: () => FlatListRef | null
 }
 
 /** FlatList / SectionList ref 类型，包含 RN 内部虚拟化列表属性 */

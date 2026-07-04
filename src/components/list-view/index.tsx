@@ -31,6 +31,7 @@ import type { Props as ListViewProps, ListViewScrollMethods, RenderListProps } f
 import type { AnyObject, ListEmpty } from '@types'
 export type {
   ListViewInstance,
+  ListViewScrollMethods,
   ScrollToEnd,
   ScrollToIndex,
   ScrollToItem,

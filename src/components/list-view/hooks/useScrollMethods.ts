@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-06-29 07:08:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-29 07:08:58
+ * @Last Modified time: 2026-07-05 04:27:05
  */
 import { useCallback, useImperativeHandle, useRef } from 'react'
 import { SCROLL_CALLBACK } from '../ds'
@@ -21,15 +21,21 @@ export function useScrollMethods(ref?: React.Ref<ListViewScrollMethods>) {
     scrollToLocation: SCROLL_CALLBACK
   })
 
+  /** 保存原始的 FlatList ref，用于安卓端 measureLayout */
+  const rawListRef = useRef<FlatListRef>(null)
+
   /** 连接列表引用，动态绑定滚动方法 */
   const connectRef = useCallback((listRef: FlatListRef) => {
     if (!listRef) return
+
+    // 保存原始 ref
+    rawListRef.current = listRef
 
     const methods = methodsRef.current
     const nestedRef = listRef._wrapperListRef?._listRef
 
     // 批量映射方法名与其优先级的获取逻辑
-    const keys: (keyof ListViewScrollMethods)[] = [
+    const keys: Exclude<keyof ListViewScrollMethods, 'getInnerRef'>[] = [
       'scrollToIndex',
       'scrollToOffset',
       'scrollToItem',
@@ -52,7 +58,9 @@ export function useScrollMethods(ref?: React.Ref<ListViewScrollMethods>) {
       scrollToOffset: (...args) => methodsRef.current.scrollToOffset(...args),
       scrollToItem: (...args) => methodsRef.current.scrollToItem(...args),
       scrollToEnd: (...args) => methodsRef.current.scrollToEnd(...args),
-      scrollToLocation: (...args) => methodsRef.current.scrollToLocation(...args)
+      scrollToLocation: (...args) => methodsRef.current.scrollToLocation(...args),
+      /** 获取原始的 FlatList ref，用于安卓端 measureLayout */
+      getInnerRef: () => rawListRef.current
     }),
     []
   )

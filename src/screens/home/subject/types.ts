@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-04-13 12:07:38
  */
 import type { View } from 'react-native'
-import type { ImageProps, ListViewInstance } from '@components'
+import type { ImageProps, ListViewScrollMethods } from '@components'
 import type { Ep, SubjectComments, SubjectFromHTML } from '@stores/subject/types'
 import type {
   Collection,
@@ -32,7 +32,7 @@ export type Ctx = WithNavigation<{
 export type Params = GetRouteParams<RouteSubject>
 
 /** 收集长列表的 ref */
-export type HandleForwardRef = (ref: ListViewInstance) => void
+export type HandleForwardRef = (ref: ListViewScrollMethods) => void
 
 /** 收集子组件的 ref */
 export type HandleBlockRef = (ref: View, componentName: string) => void

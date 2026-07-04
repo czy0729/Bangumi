@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-15 16:13:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-21 04:40:26
+ * @Last Modified time: 2026-07-05 03:44:45
  */
 import { useCallback, useEffect, useRef } from 'react'
 import { findNodeHandle } from 'react-native'
@@ -18,7 +18,7 @@ import { TITLE_HEAD } from './ds'
 
 import type { View } from 'react-native'
 import type { NavigationProps, TimerRef } from '@types'
-import type { ListViewInstance } from '@components'
+import type { ListViewScrollMethods } from '@components'
 import type {
   Ctx,
   HandleBlockRef,
@@ -76,7 +76,7 @@ export function useSubjectPage(props: NavigationProps) {
 /** 管理所有 ref 收集和卸载清理 */
 function useSubjectRefs() {
   /** ListView.ref */
-  const scrollViewRef = useRef<ListViewInstance>(null)
+  const scrollViewRef = useRef<ListViewScrollMethods>(null)
 
   /** 子组件的 ref */
   const blockRefs = useRef<Record<string, View>>({})
@@ -116,7 +116,7 @@ function useSubjectRefs() {
 /** 所有滚动相关逻辑 */
 function useSubjectScroll(
   $: Ctx['$'],
-  scrollViewRef: React.RefObject<ListViewInstance>,
+  scrollViewRef: React.RefObject<ListViewScrollMethods>,
   blockRefs: React.RefObject<Record<string, View>>,
   scrollTimers: React.RefObject<TimerRef[]>
 ) {
@@ -171,7 +171,7 @@ function useSubjectScroll(
       }
 
       blockRefs.current[name].measureLayout(
-        findNodeHandle(scrollViewRef.current),
+        findNodeHandle(scrollViewRef.current.getInnerRef()),
         (_x: number, y: number) => {
           scrollViewRef.current.scrollToOffset({
             offset: y - HEADER_HEIGHT,
