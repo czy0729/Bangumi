@@ -42,7 +42,7 @@ import okhttp3.OkHttpClient;
  * so it automatically picks up the proxy when EchProxy starts.
  *
  * Register in MainApplication.onCreate():
- *   OkHttpClientProvider.setOkHttpClientFactory(new BangumiOkHttpClientFactory(context));
+ * OkHttpClientProvider.setOkHttpClientFactory(new BangumiOkHttpClientFactory(context));
  */
 public class BangumiOkHttpClientFactory implements OkHttpClientFactory {
 
@@ -102,6 +102,21 @@ public class BangumiOkHttpClientFactory implements OkHttpClientFactory {
         }
     }
 
+    /** * 安全获取系统默认 ProxySelector。
+     * 增加防御性判断，防止因 Factory 重复初始化或外部包装导致拿到的默认 Selector 是自身，引发死循环闪退。
+     */
+    private static ProxySelector getSafeSystemDefault() {
+        try {
+            ProxySelector selector = ProxySelector.getDefault();
+            if (selector != null && selector.getClass().getName().contains("BangumiOkHttpClientFactory")) {
+                return null;
+            }
+            return selector;
+        } catch (Exception ignored) {
+            return null;
+        }
+    }
+
     public BangumiOkHttpClientFactory(File cacheDir) {
         this.cacheDir = cacheDir;
     }
@@ -120,15 +135,27 @@ public class BangumiOkHttpClientFactory implements OkHttpClientFactory {
                 .cookieJar(new com.facebook.react.modules.network.ReactCookieJarContainer())
                 .dns(DoHDNS.getInstance())
                 .proxySelector(new ProxySelector() {
+                    /** 保存初始化此时的系统默认 ProxySelector，用于无缝回退 */
+                    private final ProxySelector systemDefault = getSafeSystemDefault();
+
                     @Override
                     public List<Proxy> select(URI uri) {
                         String host = uri.getHost();
                         int port = EchProxyModule.getProxyPort();
+
+                        // 当 ECH 穿透开启，且是目标域名时，强制走本地 ECH 代理隧道
                         if (port > 0 && isTarget(host)) {
                             return Collections.singletonList(
                                 new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", port))
                             );
                         }
+
+                        // 【核心修复】：ECH 未运行或非目标域名时，将控制权还给系统代理（保留用户手机 Wi-Fi 挂的 HTTP 代理）
+                        if (systemDefault != null) {
+                            return systemDefault.select(uri);
+                        }
+
+                        // 若既没有开启 ECH，系统也没有任何代理配置，则彻底直连
                         return Collections.singletonList(Proxy.NO_PROXY);
                     }
 
@@ -138,6 +165,10 @@ public class BangumiOkHttpClientFactory implements OkHttpClientFactory {
                         String host = uri.getHost();
                         if (isTarget(host)) {
                             EchProxyModule.addLog("error", "connect", host + " 连接失败: " + ioe.getMessage());
+                        }
+                        // 同时将连接失败通知给系统默认的 Selector，保证其内部重试/健康度监测逻辑不中断
+                        if (systemDefault != null) {
+                            systemDefault.connectFailed(uri, sa, ioe);
                         }
                     }
                 })
