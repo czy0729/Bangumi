@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-25 12:45:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-09 01:38:17
+ * @Last Modified time: 2026-07-05 06:03:36
  */
 import type { CollectionStatus, CollectionStatusValue } from '@constants/model/types'
 import type {
@@ -106,6 +106,7 @@ export type Pm = ListEmpty<PmItem>
 
 /** 短信详情项 */
 export type PmDetailItem = {
+  type?: 'label' | 'message'
   name: string
   avatar: string
   userId: UserId

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-19 11:16:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-26 21:57:53
+ * @Last Modified time: 2026-07-05 06:00:33
  */
 import React from 'react'
 import { HeaderV2, HeaderV2Popover } from '@components'
@@ -12,7 +12,7 @@ import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { TEXT_MENU_BROWSER } from '@constants'
-import RelatedPM from '../component/related-pm'
+// import RelatedPM from '../component/related-pm'
 import ScrollNavButtons from './scroll-nav-buttons'
 import { COMPONENT, DATA, HM } from './ds'
 
@@ -51,7 +51,7 @@ function Header() {
                 onScrollToBottom={() => $.scrollToBottom(true)}
               />
             )}
-            <RelatedPM userId={$.params._userId} />
+            {/* <RelatedPM userId={$.params._userId} /> */}
             <HeaderV2Popover
               data={DATA}
               onSelect={key => {

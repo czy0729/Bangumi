@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-22 16:34:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-24 21:36:43
+ * @Last Modified time: 2026-07-05 05:56:41
  */
 import { toJS } from 'mobx'
 import { getTimestamp, HTMLDecode, HTMLTrim } from '@utils'
@@ -20,6 +20,7 @@ import {
   APP_SECRET,
   HTML_PM,
   HTML_PM_DETAIL,
+  HTML_PM_DETAIL_V2,
   HTML_PM_OUT,
   HTML_PM_PARAMS,
   HTML_SUBJECT_COLLECT_DETAIL,
@@ -30,9 +31,10 @@ import {
   URL_OAUTH_REDIRECT
 } from '@constants'
 import {
-  cheerioPM,
   cheerioPMDetail,
+  cheerioPMDetailV2,
   cheerioPMParams,
+  cheerioPMV2,
   cheerioTags,
   cheerioUserSetting
 } from './common'
@@ -345,7 +347,7 @@ export default class Fetch extends Computed {
       const html = await fetchHTML({
         url: STATE_KEY === 'pmOut' ? HTML_PM_OUT(page) : HTML_PM(page)
       })
-      const next = cheerioPM(html)
+      const next = cheerioPMV2(html)
 
       this.setState({
         [STATE_KEY]: {
@@ -394,6 +396,37 @@ export default class Fetch extends Computed {
       },
       _loaded: getTimestamp()
     }
+    this.setState({
+      [key]: {
+        [id]: data
+      }
+    })
+    this.save(key)
+
+    return data
+  }
+
+  /** 短信详情拉取 */
+  fetchPMDetailV2 = async (config: { id?: Id }) => {
+    const { id } = config || {}
+    const response = await fetchHTML({
+      url: HTML_PM_DETAIL_V2(id),
+      raw: true
+    })
+
+    const html = await response.text()
+    const key = 'pmDetail'
+
+    // 解析新 HTML，格式依然对齐旧的数据结构
+    const data: PmDetail = {
+      ...cheerioPMDetailV2(html),
+      pagination: {
+        page: 1,
+        pageTotal: 1
+      },
+      _loaded: getTimestamp()
+    }
+
     this.setState({
       [key]: {
         [id]: data

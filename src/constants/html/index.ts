@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-01 06:05:16
+ * @Last Modified time: 2026-07-05 05:51:07
  */
 import { urlStringify } from '@utils/utils'
 import { HOST, URL_ZHINAN } from '../constants'
@@ -340,6 +340,9 @@ export const HTML_PM_OUT = (page: number = 1) => `${HOST}/pm/outbox.chii?page=${
 
 /** 短信详情 */
 export const HTML_PM_DETAIL = (id: Id) => `${HOST}/pm/view/${id}.chii`
+
+/** 短信详情 V2 */
+export const HTML_PM_DETAIL_V2 = (id: Id) => `${HOST}/pm/conversation/${id}.chii?page=1`
 
 /**
  * [POST] 发短信
