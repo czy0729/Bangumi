@@ -1,43 +1,62 @@
-/**
- * 安全版 computedFn
- *
- * 解决原版 mobx-utils 的 computedFn 内部使用 DeepMap 时，
- * 因不同调用点传入参数数量不一致（如可选参数）导致 DeepMap 抛出长度不一致异常的问题。
- *
- * 本模块通过 Proxy 拦截，在调用前自动裁剪或补齐参数，确保 arguments.length 始终等于函数形参个数。
- * 同时提供可选的性能优化参数，允许对已知无参数长度风险的高频方法跳过 Proxy 代理。
+/*
+ * @Author: czy0729
+ * @Date: 2026-07-05 00:49:22
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-07-05 00:53:43
  */
-import { computedFn as _computedFn } from 'mobx-utils'
+import { computed } from 'mobx'
+
+import type { IComputedValue } from 'mobx'
 
 /**
- * 包装原生的 computedFn，提供参数长度自动对齐的安全保护。
- * @param fn 目标计算函数
- * @param hasOptionalArgs 是否包含可选/默认参数。若设为 false，将跳过 Proxy 代理以追求极致性能。
+ * 稳定安全版 computedFn（适配 RN / MobX Store 场景）
+ * - 不使用 JSON.stringify（避免循环引用/性能问题）
+ * - 使用稳定 key join
+ * - 缓存 computed 实例（避免重复创建）
+ * - 支持默认参数 / 可选参数
  */
-export function computedFn<F extends (...args: any[]) => any>(fn: F, hasOptionalArgs = true): F {
-  const inner = _computedFn(fn)
+export function computedFn<F extends (...args: any[]) => any>(fn: F): F {
+  const cache = new Map<string, IComputedValue<any>>()
   const paramCount = fn.length
 
-  // 边缘情况处理：若函数无形参，或明确声明不包含可选参数，则直接返回原版 computedFn 以提升性能
-  if (paramCount === 0 || !hasOptionalArgs) {
-    return inner
+  function createKey(args: any[]) {
+    return args
+      .map(v => {
+        if (v === undefined) return '__u'
+        if (v === null) return '__n'
+        return String(v)
+      })
+      .join('\u0001')
   }
 
-  // 通过 Proxy 拦截调用，强制规范参数长度
-  return new Proxy(inner, {
-    apply(target, thisArg, args: any[]) {
-      const argsLength = args.length
+  const wrapped = function (this: any, ...args: any[]) {
+    let aligned = args
 
-      if (argsLength !== paramCount) {
-        const padded =
-          argsLength < paramCount
-            ? args.concat(new Array(paramCount - argsLength).fill(undefined)) // 参数不足，自适应补齐 undefined
-            : args.slice(0, paramCount) // 参数溢出，防御性裁剪
-
-        return Reflect.apply(target, thisArg, padded)
+    if (paramCount > 0) {
+      if (aligned.length < paramCount) {
+        aligned = aligned.concat(new Array(paramCount - aligned.length).fill(undefined))
+      } else if (aligned.length > paramCount) {
+        aligned = aligned.slice(0, paramCount)
       }
-
-      return Reflect.apply(target, thisArg, args)
     }
-  }) as F
+
+    const key = createKey(aligned)
+    let computedFnInstance = cache.get(key)
+
+    if (!computedFnInstance) {
+      const self = this
+      // 直接捕获外部传进来的原始参数 args（如果是少传了，args 长度就少，apply 时会自动触发 JS 默认参数机制）
+      const rawArgs = args
+
+      computedFnInstance = computed(() => {
+        return fn.apply(self, rawArgs)
+      })
+
+      cache.set(key, computedFnInstance)
+    }
+
+    return computedFnInstance.get()
+  }
+
+  return wrapped as unknown as F
 }
