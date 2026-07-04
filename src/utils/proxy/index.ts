@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-05-30 06:28:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-21 05:34:01
+ * @Last Modified time: 2026-07-05 05:18:53
  */
 import { API_HOST, API_HOST_BACKUP, API_P1 } from '@constants/api'
 import { HOST, HOST_IMAGE } from '@constants/constants'
@@ -34,48 +34,57 @@ export function applyProxy(
 ): {
   url: string
   headers: Record<string, string>
-  proxyType: '' | 'ech' | 'worker' | 'api' | 'host'
+  proxyType: '' | 'ech' | 'worker' | 'api' | 'host' | 'web_proxy' // 建议增加类型
 } {
   const { workerProxyDisabled, workerProxy, workerSecret, workerProxyDirect, workerApiProxy } =
     syncSystemStore().setting
 
-  // ECH 代理运行时, OkHttp 已走本地代理, 无需 URL 替换
+  // 1. ECH 代理运行时, OkHttp 已走本地代理, 无需 URL 替换
   if (isEchProxyRunning()) return { url, headers: { ...headers }, proxyType: 'ech' }
 
-  // 全局禁用代理时直接返回原始值
+  // 2. 全局禁用代理时直接返回原始值
   if (workerProxyDisabled) return { url, headers: { ...headers }, proxyType: '' }
 
   const newHeaders = { ...headers }
   let proxyUrl = url
-  let proxyType: '' | 'ech' | 'worker' | 'api' | 'host' = ''
+  let proxyType: '' | 'ech' | 'worker' | 'api' | 'host' | 'web_proxy' = ''
 
-  const isP1 = url.includes(API_P1)
-  const isBgm =
-    url.includes(API_HOST) || url.includes(API_HOST_BACKUP) || url.includes(HOST) || isP1
+  const isHost = url.includes(HOST)
+  const isApi = url.includes(API_HOST) || url.includes(API_HOST_BACKUP)
+  const isNextApi = url.includes(API_P1)
 
-  if (workerApiProxy && (url.includes(API_HOST) || url.includes(API_HOST_BACKUP) || isP1)) {
+  // 3. API 代理分支
+  if (workerApiProxy && isApi) {
     const replacement = workerApiProxy.replace(/\/$/, '')
     proxyUrl = url
       .replace(API_HOST, replacement)
       .replace(API_HOST_BACKUP, replacement)
       .replace(API_P1, replacement + '/p1')
     proxyType = 'api'
-  } else if (workerProxy && isBgm) {
-    proxyUrl = url
-      .replace(API_HOST, workerProxy)
-      .replace(API_HOST_BACKUP, workerProxy)
-      .replace(HOST, workerProxy)
-      .replace(API_P1, workerProxy)
+  }
 
+  // 4. Worker/Host 代理分支 (确保包含所有需要被 Worker 托管的域名)
+  else if (workerProxy && (isHost || isApi || isNextApi)) {
     // 直连模式
     if (workerProxyDirect) {
+      proxyUrl = url.replace(HOST, workerProxy)
+
       // 仅替换 host, 修正 Host header 为目标域名, 若不一致可能会被 CDN 直接拒绝
       const match = proxyUrl.match(/^https?:\/\/([^/]+)/)
       if (match) newHeaders.Host = match[1]
       proxyType = 'host'
-    } else {
+    }
+
+    // Worker 模式
+    else {
+      proxyUrl = url
+        .replace(API_HOST, workerProxy)
+        .replace(API_HOST_BACKUP, workerProxy)
+        .replace(API_P1, workerProxy)
+        .replace(HOST, workerProxy)
+
       // Worker 模式: 添加 x-upstream 等 header
-      newHeaders['x-upstream'] = isHtml ? 'bgm.tv' : isP1 ? 'next.bgm.tv' : 'api.bgm.tv'
+      newHeaders['x-upstream'] = isHtml ? 'bgm.tv' : isNextApi ? 'next.bgm.tv' : 'api.bgm.tv'
       if (workerSecret) newHeaders['x-proxy-key'] = workerSecret
 
       // 转发特定 header 到 worker
@@ -91,11 +100,15 @@ export function applyProxy(
 
       proxyType = 'worker'
     }
-  } else if (isHtml && WEB && HOST_PROXY && isBgm) {
-    proxyUrl = url.replace(HOST, HOST_PROXY)
   }
 
-  // 记录代理替换日志
+  // 5. 纯 Web 代理分支
+  else if (isHtml && WEB && HOST_PROXY && isHost) {
+    proxyUrl = url.replace(HOST, HOST_PROXY)
+    proxyType = 'web_proxy'
+  }
+
+  // 6. 记录代理替换日志
   if (proxyType && proxyUrl !== url) {
     const logType = proxyType === 'api' ? 'api' : 'host'
     addWorkerLog('info', proxyUrl, logType)

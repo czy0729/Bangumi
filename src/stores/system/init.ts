@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-22 21:18:04
+ * @Last Modified time: 2026-07-05 04:47:34
  */
 import {
   IOS,
@@ -449,7 +449,7 @@ export const INIT_SETTING = {
   translateEngine: 'baidu' as 'baidu' | 'deeplx' | 'gemini',
 
   /** 全局禁用代理 (开启后即使代理设置有值也不走代理) */
-  workerProxyDisabled: false,
+  workerProxyDisabled: true,
 
   /** Worker 代理地址 (替换 Host) */
   workerProxy: '',
