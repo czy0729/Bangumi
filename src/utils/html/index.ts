@@ -276,8 +276,8 @@ export function cheerio(
   return cheerioRN(target)
 }
 
-/** cheerio() */
-export function $(html: string, start: string, end: string, removeScript: boolean = true) {
+/** 裁剪 HTML 后 cheerio 解析（替代 $ 避免命名冲突） */
+export function cParse(html: string, start: string, end: string, removeScript: boolean = true) {
   return cheerio(htmlMatch(html, start, end, removeScript))
 }
 
@@ -452,6 +452,19 @@ export function cHas($el: any) {
 
   try {
     return $el.length > 0
+  } catch (error) {
+    return false
+  }
+}
+
+/** cheerio.hasClass */
+export function cHasClass($el: any, className: string) {
+  if (DEV && !$el?.hasClass) {
+    logger.warn('@utils/html/cHasClass', '$el 不是有效的 cheerio 对象')
+  }
+
+  try {
+    return $el.hasClass(className)
   } catch (error) {
     return false
   }

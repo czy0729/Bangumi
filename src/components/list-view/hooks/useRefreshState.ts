@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-06-29 07:08:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-29 07:08:58
+ * @Last Modified time: 2026-07-05 20:13:40
  */
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { sleep } from '@utils'
@@ -93,8 +93,13 @@ export function useRefreshState<ItemT>({
     setRefreshState(REFRESH_STATE.FooterRefreshing)
 
     await sleep(640)
-    footerRef.current()
-  }, [])
+    await footerRef.current()
+
+    if (isMountedRef.current) {
+      onEndReachedRef.current = false
+      updateRefreshState(dataRef.current)
+    }
+  }, [updateRefreshState])
 
   /** 是否已触发加载更多（防重复触发锁） */
   const onEndReachedRef = useRef(false)
@@ -123,10 +128,10 @@ export function useRefreshState<ItemT>({
 
   /** 仅在 data 发生变化或初始化时同步状态 */
   useEffect(() => {
-    // 每次 data 变更，说明上一次的加载或刷新已经完成，解除上拉防重复锁定
     onEndReachedRef.current = false
     updateRefreshState(data)
-  }, [data, updateRefreshState])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data?._loaded, updateRefreshState])
 
   return {
     refreshState,

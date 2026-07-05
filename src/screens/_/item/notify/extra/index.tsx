@@ -43,11 +43,11 @@ function Extra({ userId, connectUserId, repeat }: Props) {
     init()
   })
 
-  if (usersStore.myFriendsMap[userId]) return null
+  const isFriend = !!usersStore.myFriendsMap[userId]
 
   return (
     <Flex style={_.ml.md} justify='end'>
-      {connectUserId && connect !== false ? (
+      {!isFriend && connectUserId && connect !== false ? (
         typeof connect === 'string' ? (
           <Text size={12} type='sub'>
             {connect}

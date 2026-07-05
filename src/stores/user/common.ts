@@ -2,13 +2,28 @@
  * @Author: czy0729
  * @Date: 2020-02-01 22:42:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-05 06:08:15
+ * @Last Modified time: 2026-07-05 20:34:32
  */
-import { cData, cheerio, cHtml, cMap, cText, htmlMatch, matchAvatar, safeObject } from '@utils'
+import {
+  cData,
+  cFind,
+  cHas,
+  cHasClass,
+  cheerio,
+  cHtml,
+  cMap,
+  cParse,
+  cText,
+  htmlMatch,
+  matchAvatar,
+  safeObject
+} from '@utils'
 
-/** 收(发) 件箱 */
+import type { PmItem } from './types'
+
+/** @deprecated 收(发) 件箱 */
 export function cheerioPM(html: string) {
-  const $ = cheerio(htmlMatch(html, '<div id="pm_main">', '<div id="pm_sidebar">'))
+  const $ = cheerio(htmlMatch(html, '<div id="pm_main', '<div id="pm_sidebar'))
   return (
     $('table.topic_list > tbody > tr')
       .map((_index: number, element: any) => {
@@ -33,74 +48,52 @@ export function cheerioPM(html: string) {
   ).filter((item: { id: any }) => !!item.id)
 }
 
-/** 收(发) 件箱 */
-export function cheerioPMV2(html: string) {
-  // 适配新的最外层容器 pm-conversation-list
-  const $ = cheerio(htmlMatch(html, '<div class="pm-conversation-list', '<div id="pm_pager'))
+/** 收(发)件箱 */
+export function cheerioPMV2(html: string): PmItem[] {
+  const $ = cParse(html, '<div class="pm-conversation-list', '<div id="pm_pager')
+  return cMap<PmItem>($('a.pm-conversation-item'), $row => {
+    const id = cData($row, 'href').match(/\/conversation\/(\d+)/)?.[1] || ''
+    if (!id) return {} as PmItem
 
-  return (
-    $('a.pm-conversation-item')
-      .map((_index: number, element: any) => {
-        const $row = cheerio(element)
+    const avatar =
+      cData(cFind($row, '.avatarNeue'), 'style').match(/url\(['"]?([^'"]+)['"]?\)/)?.[1] || ''
+    const name = cText(cFind($row, '.pm-conversation-name'))
+    const time = cText(cFind($row, '.pm-conversation-date'))
+    const rawDesc = cText(cFind($row, '.pm-conversation-desc'))
+    const isNew =
+      cHasClass($row, 'pm_new') ||
+      cHas(cFind($row, '.pm_new')) ||
+      cHas(cFind($row, '.pm-conversation-unread'))
 
-        // 1. 提取会话/消息 ID
-        const href = $row.attr('href') || ''
-        const idMatch = href.match(/\/conversation\/(\d+)/)
-        const id = idMatch ? idMatch[1] : ''
-        if (!id) return {}
+    const hasRe = rawDesc.startsWith('Re:')
+    const cleanDesc = hasRe ? rawDesc.slice(3).trim() : rawDesc
+    let title = cleanDesc
+    let content = cleanDesc
+    if (cleanDesc.includes(' / ')) {
+      const parts = cleanDesc.split(' / ')
+      title = parts[0].trim()
+      content = parts.slice(1).join(' / ').trim()
+    }
+    if (hasRe) content = `Re: ${content}`
 
-        // 2. 提取头像 (从 background-image 的 url 中提取)
-        const style = $row.find('.avatarNeue').attr('style') || ''
-        const avatarMatch = style.match(/url\(['"]?([^'"]+)['"]?\)/)
-        const avatar = avatarMatch ? avatarMatch[1] : ''
+    const userId = avatar.match(/\/(\d+)\.jpg/)?.[1] || '0'
 
-        // 3. 提取用户名和时间
-        const name = $row.find('.pm-conversation-name').text().trim()
-        const time = $row.find('.pm-conversation-date').text().trim()
-
-        // 4. 精细化拆分标题与内容 (剥离 Re: 并转移到 content)
-        const rawDesc = $row.find('.pm-conversation-desc').text().trim()
-
-        // 检查是否有 Re: 开头
-        const hasRe = rawDesc.startsWith('Re:')
-        // 如果有，先去掉 Re: 方便后续切分标题
-        const cleanDesc = hasRe ? rawDesc.slice(3).trim() : rawDesc
-
-        let title = cleanDesc
-        let content = cleanDesc
-
-        if (cleanDesc.includes(' / ')) {
-          const parts = cleanDesc.split(' / ')
-          title = parts[0].trim()
-          content = parts.slice(1).join(' / ').trim()
-        }
-
-        // 如果原本带 Re:，将其重新拼接到 content 前面
-        if (hasRe) {
-          content = `Re: ${content}`
-        }
-
-        // 5. 判断是否为新消息
-        const isNew = $row.hasClass('pm_new') || !!$row.find('.pm_new').length
-
-        return safeObject({
-          id,
-          title,
-          content,
-          avatar,
-          name,
-          userId: id,
-          time,
-          new: isNew
-        })
-      })
-      .get() || []
-  ).filter((item: { id: any }) => !!item.id)
+    return {
+      id,
+      title,
+      content,
+      avatar,
+      name,
+      userId,
+      time,
+      new: isNew
+    }
+  }).filter(item => !!item.id)
 }
 
-/** 收(发) 件箱内容 */
+/** @deprecated 收(发) 件箱内容 */
 export function cheerioPMDetail(html: string) {
-  const $ = cheerio(htmlMatch(html, '<div id="headerSubject"', '<div id="footer">'))
+  const $ = cheerio(htmlMatch(html, '<div id="headerSubject', '<div id="footer'))
   return {
     list: cMap($('div#comment_box > div.item'), $row => {
       const content = cHtml($row.find('div.text_pm')).split('</a>:')
@@ -123,61 +116,49 @@ export function cheerioPMDetail(html: string) {
   }
 }
 
-/** 收(发) 件箱内容 */
+/** 收(发)件箱内容 */
 export function cheerioPMDetailV2(html: string) {
   const $ = cheerio(htmlMatch(html, '<div class="pm-chat-panel', '<div id="footer'))
-  const peerName = $('.pm-chat-title strong a.l').text().trim()
-
+  const peerName = cText($('.pm-chat-title strong a.l'))
   const list: any[] = []
 
-  // 遍历列表容器下的所有直接子节点 (包括 label 和 message)
   $('div.pm-message-list')
     .children()
     .each((_index: number, element: any) => {
       const $el = $(element)
 
-      // 情况 A：如果是主题分割标签
-      if ($el.hasClass('pm-thread-label')) {
+      if (cHasClass($el, 'pm-thread-label')) {
         list.push({
           type: 'label',
-          content: $el.text().trim() // "想让你用codex看看分支ech-proxy"
+          content: cText($el)
         })
         return
       }
 
-      // 情况 B：如果是真正的消息气泡
-      if ($el.hasClass('pm-message')) {
-        const style = $el.find('span.avatarNeue').attr('style') || ''
-        const avatarMatch = style.match(/url\(['"]?([^'"]+)['"]?\)/)
-        const avatar = avatarMatch ? avatarMatch[1] : ''
-
-        const userHref = $el.find('a.avatar').attr('href') || ''
-        const userId = userHref.replace('/user/', '')
-
-        const isSelf = $el.hasClass('pm-message-self')
-        const name = isSelf ? '我' : peerName || userId
-        const content = $el.find('div.pm-message-body').html() || ''
-
-        const timeRaw = $el.find('div.pm-message-info small').text() || ''
-        const time = timeRaw.split(' / ')[0].trim()
+      if (cHasClass($el, 'pm-message')) {
+        const avatar =
+          cData(cFind($el, 'span.avatarNeue'), 'style').match(/url\(['"]?([^'"]+)['"]?\)/)?.[1] ||
+          ''
+        const userId = cData(cFind($el, 'a.avatar'), 'href').replace('/user/', '')
+        const isSelf = cHasClass($el, 'pm-message-self')
 
         list.push({
-          type: 'message', // 标记为消息类型
-          name,
+          type: 'message',
+          name: isSelf ? '我' : peerName || userId,
           avatar,
           userId,
-          content: content.trim(),
-          time
+          content: cHtml(cFind($el, 'div.pm-message-body')),
+          time: (cText(cFind($el, 'div.pm-message-info small')).split(' / ')[0] || '').trim()
         })
       }
     })
 
   const form = {
-    related: $('input[name=related]').attr('value') || '',
-    msg_receivers: $('input[name=msg_receivers]').attr('value') || '',
+    related: cData($('input[name=related]'), 'value'),
+    msg_receivers: cData($('input[name=msg_receivers]'), 'value'),
     current_msg_id: '',
-    formhash: $('input[name=formhash]').attr('value') || '',
-    msg_title: $('input[name=msg_title]').attr('value') || ''
+    formhash: cData($('input[name=formhash]'), 'value'),
+    msg_title: cData($('input[name=msg_title]'), 'value')
   }
 
   return {

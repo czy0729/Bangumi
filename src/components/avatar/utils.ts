@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-05-14 07:14:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-30 08:39:06
+ * @Last Modified time: 2026-07-05 20:39:14
  */
 import { _, systemStore, usersStore, userStore } from '@stores'
 import { getCover400, getCoverMedium, getTimestamp, navigationReference } from '@utils'
@@ -145,6 +145,8 @@ export function getOnPress(
 
   return () => {
     if (onPress) return onPress()
+
+    if (userId == 0) return false
 
     const { id, data = {} } = event || {}
     t(id, {

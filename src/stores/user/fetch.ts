@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-22 16:34:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-05 05:56:41
+ * @Last Modified time: 2026-07-05 20:19:46
  */
 import { toJS } from 'mobx'
 import { getTimestamp, HTMLDecode, HTMLTrim } from '@utils'
@@ -351,10 +351,10 @@ export default class Fetch extends Computed {
 
       this.setState({
         [STATE_KEY]: {
-          list: refresh ? next : [...list, ...next],
+          list: refresh || next.length ? (refresh ? next : [...list, ...next]) : list,
           pagination: {
             page,
-            pageTotal: 100
+            pageTotal: next.length ? 100 : page
           },
           _loaded: getTimestamp()
         }

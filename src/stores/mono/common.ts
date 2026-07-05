@@ -4,14 +4,14 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-08-14 21:03:29
  */
-import { $, cData, cFind, cList, cMap, cText } from '@utils'
+import { cData, cFind, cList, cMap, cParse, cText } from '@utils'
 
 import type { CharactersItem, PersonsItem } from './types'
 
 /** 条目更多角色 */
 export function cheerioCharacters(html: string) {
   return cMap(
-    $(html, '<div id="columnInSubjectA', '<div id="columnInSubjectB')('div.light_odd'),
+    cParse(html, '<div id="columnInSubjectA', '<div id="columnInSubjectB')('div.light_odd'),
     $row => {
       const $a = cFind($row, '> div.clearit > h2 > a')
       const cover = cData(cFind($row, 'img.avatar'), 'src')
@@ -45,7 +45,7 @@ export function cheerioCharacters(html: string) {
 /** 条目更多制作人员 */
 export function cheerioPersons(html: string) {
   return cMap(
-    $(html, '<div id="columnInSubjectA', '<div id="columnInSubjectB')('div.light_odd'),
+    cParse(html, '<div id="columnInSubjectA', '<div id="columnInSubjectB')('div.light_odd'),
     $row => {
       const $a = cFind($row, 'h2 > a')
       const cover = cData(cFind($row, 'img.avatar'), 'src')

@@ -120,7 +120,7 @@ export function applyProxy(
 /** 调试打印 */
 export function logProxy(
   method: string,
-  proxyType: '' | 'ech' | 'worker' | 'api' | 'host',
+  proxyType: '' | 'ech' | 'worker' | 'api' | 'host' | 'web_proxy',
   _url: string,
   finalUrl: string
 ) {

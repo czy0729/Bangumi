@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-25 12:45:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-05 06:03:36
+ * @Last Modified time: 2026-07-05 17:19:53
  */
 import type { CollectionStatus, CollectionStatusValue } from '@constants/model/types'
 import type {
@@ -91,13 +91,28 @@ export type PmType = 'pmIn' | 'pmOut'
 
 /** 短信列表项 */
 export type PmItem = {
+  /** 会话 ID */
   id: Id
+
+  /** 标题（descr 中 / 左侧） */
   title: string
+
+  /** 预览内容（descr 中 / 右侧，可能带 Re:） */
   content: string
+
+  /** 对方头像 */
   avatar: string
+
+  /** 对方用户名 */
   name: string
+
+  /** 对方用户 ID（当前实际填入会话 ID） */
   userId: UserId
+
+  /** 最后消息时间 */
   time: string
+
+  /** 是否未读 */
   new: boolean
 }
 

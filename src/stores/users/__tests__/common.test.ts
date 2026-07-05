@@ -2,35 +2,6 @@
  * @Author: czy0729
  * @Date: 2026-06-01
  */
-jest.mock(
-  '@utils',
-  () => {
-    const cheerioRN = require('cheerio-without-node-native')
-    const cheerio = (target: any) =>
-      typeof target === 'string' ? cheerioRN.load(target) : cheerioRN(target)
-
-    return {
-      cData: ($el: any, key: string) => $el.attr(key) || '',
-      cFind: ($el: any, selector: string, index: number | 'last' = 0) =>
-        index === 'last' ? $el.find(selector).last() : $el.find(selector).eq(index),
-      cHtml: ($el: any) => $el.html() || '',
-      cMap: ($el: any, callback: ($row: any, index?: number) => any) =>
-        $el
-          .map((index: number, element: any) => callback(cheerio(element), index))
-          .get()
-          .filter(Boolean),
-      cText: ($el: any) => $el.text().trim(),
-      cheerio,
-      htmlMatch: (html: string, start: string, end: string) =>
-        html.substring(html.indexOf(start), html.indexOf(end)),
-      matchAvatar: (str: string = '') => str.match(/url\(['"]?(.*?)['"]?\)/)?.[1] || ''
-    }
-  },
-  {
-    virtual: true
-  }
-)
-
 import { cheerioUsers } from '../common'
 
 function createStatsBlock(key: string, total: string, score10: string) {
