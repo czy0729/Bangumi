@@ -19,7 +19,7 @@ export type TabsKey = (typeof TABS)[number]['key']
 
 export type TabsLabel = (typeof TABS)[number]['title']
 
-export type PMKeys = 'pmIn' | 'pmOut'
+export type PMKeys = 'pmIn' // | 'pmOut'
 
 export type MergeNotifyItem = Override<
   NotifyItem,

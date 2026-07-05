@@ -53,8 +53,8 @@ export default class Computed extends State {
     return userStore.pmIn
   }
 
-  /** 短信发信 */
-  @computed get pmOut() {
-    return userStore.pmOut
-  }
+  // /** 短信发信 */
+  // @computed get pmOut() {
+  //   return userStore.pmOut
+  // }
 }

@@ -21,7 +21,7 @@ export default class ScreenMono extends Action {
     return queue([
       () => this.fetchNotify(),
       () => this.fetchPM(true, 'pmIn'),
-      () => this.fetchPM(true, 'pmOut'),
+      // () => this.fetchPM(true, 'pmOut'),
       () => usersStore.fetchFriends()
     ])
   }
