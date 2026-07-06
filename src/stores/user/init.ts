@@ -7,7 +7,7 @@
 import { LIST_EMPTY, MODEL_SUBJECT_TYPE } from '@constants'
 
 import type { UserCollection as UserCollectionV2 } from '@utils/fetch.v0/types'
-import type { Id, ImagesAvatar, Loaded, SubjectId, SubjectType, UserId } from '@types'
+import type { Id, ImagesAvatar, ListEmpty, Loaded, SubjectId, SubjectType, UserId } from '@types'
 import type {
   Pm,
   PmDetail,
@@ -142,9 +142,6 @@ export const STATE = {
   /** 同一个用户的短信关联集合 */
   pmMap: {} as PmMap,
 
-  /** 登出地址 */
-  // logout: '',
-
   /** 表单提交唯一码 */
   formhash: '',
 
@@ -158,10 +155,10 @@ export const STATE = {
   websiteError: false,
 
   /** 在线用户最后上报时间集 */
-  onlines: {},
+  onlines: {} as Record<UserId, string>,
 
   /** 我的标签 */
-  tags: {}
+  tags: {} as Record<SubjectType, ListEmpty>
 }
 
 export const LOADED = {

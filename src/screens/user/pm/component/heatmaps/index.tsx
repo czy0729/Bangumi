@@ -5,12 +5,15 @@
  * @Last Modified time: 2024-05-07 22:07:01
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { COMPONENT } from './ds'
 
 function Heatmaps() {
+  r(COMPONENT)
+
   return (
     <>
       <Heatmap bottom={_.bottom} id='短信' screen='Say' />
@@ -20,4 +23,4 @@ function Heatmaps() {
   )
 }
 
-export default ob(Heatmaps, COMPONENT)
+export default observer(Heatmaps)

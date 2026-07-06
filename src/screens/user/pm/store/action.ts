@@ -1,14 +1,15 @@
 /*
  * @Author: czy0729
  * @Date: 2024-09-13 01:04:20
- * @Last Modified by: imagebuilder1837
- * @Last Modified time: 2026-05-22 00:27:20
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-07-06 02:12:17
  */
 import { userStore } from '@stores'
 import { feedback, info } from '@utils'
 import { t } from '@utils/fetch'
-import type { Navigation } from '@types'
 import Fetch from './fetch'
+
+import type { Navigation } from '@types'
 
 export default class Action extends Fetch {
   /** 滚动到底 */

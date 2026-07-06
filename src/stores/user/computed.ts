@@ -10,86 +10,108 @@ import { APP_USERID_TOURIST, HOST, LIST_EMPTY, UA, WEB } from '@constants'
 import { DEFAULT_SCOPE, INIT_USER_INFO } from './init'
 import State from './state'
 
-import type { Id, ListEmpty, StoreConstructor, SubjectId, SubjectType, UserId } from '@types'
+import type { Id, StoreConstructor, SubjectId, SubjectType, UserId } from '@types'
 import type { STATE } from './init'
-import type {
-  PmDetail,
-  PmMapItem,
-  PmParams,
-  UserCollections,
-  UserCollectionsStatus,
-  UserProgress
-} from './types'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   // -------------------- 纯计算 (直接 computedFn) --------------------
   /** 用户介绍 */
   users = computedFn((userId?: UserId) => {
+    const STATE_KEY = 'users'
     const ITEM_KEY = userId || this.myUserId
-    return (this.state.users[ITEM_KEY] || '') as string
+
+    return this.getState(STATE_KEY, ITEM_KEY, '')
   })
 
   /** 用户收藏概览 (每种状态最多 25 条数据) */
   userCollections = computedFn((scope = DEFAULT_SCOPE, userId: UserId) => {
+    const STATE_KEY = 'userCollections'
     const ITEM_KEY = `${scope}|${userId || this.myUserId}` as const
-    return (this.state.userCollections[ITEM_KEY] || LIST_EMPTY) as UserCollections
+
+    return this.getState(STATE_KEY, ITEM_KEY, LIST_EMPTY)
   })
 
   /** 新短信参数 */
   pmParams = computedFn((userId: UserId) => {
-    return (this.state.pmParams[userId] || {}) as PmParams
+    const STATE_KEY = 'pmParams'
+    const ITEM_KEY = userId
+
+    return this.getState(STATE_KEY, ITEM_KEY, {})
   })
 
   // -------------------- 有副作用 (分离 init + computedFn) --------------------
   /** 同一个用户的短信关联集合 */
   private _pmMap = computedFn((userId: UserId) => {
-    return (this.state.pmMap[userId] || null) as PmMapItem
+    const STATE_KEY = 'pmMap'
+    const ITEM_KEY = userId
+
+    return this.getState(STATE_KEY, ITEM_KEY, null)
   })
 
   /** 某用户信息 */
   private _usersInfo = computedFn((userId?: UserId) => {
+    const STATE_KEY = 'usersInfo'
     const ITEM_KEY = userId || this.myUserId
-    return (this.state.usersInfo[ITEM_KEY] || INIT_USER_INFO) as typeof INIT_USER_INFO
+
+    return this.getState(STATE_KEY, ITEM_KEY, INIT_USER_INFO)
   })
 
   /** 收视进度 (章节) */
   private _userProgress = computedFn((subjectId: SubjectId) => {
-    return (this.state.userProgress[subjectId] || {}) as UserProgress
+    const STATE_KEY = 'userProgress'
+    const ITEM_KEY = subjectId
+
+    return this.getState(STATE_KEY, ITEM_KEY, {})
   })
 
   /** 用户收藏统计 (每种状态条目的数量) */
   private _userCollectionsStatus = computedFn((userId: UserId) => {
+    const STATE_KEY = 'userCollectionsStatus'
     const ITEM_KEY = userId || this.myUserId
-    return (this.state.userCollectionsStatus[ITEM_KEY] || []) as UserCollectionsStatus
+
+    return this.getState(STATE_KEY, ITEM_KEY, [])
   })
 
   /** 短信详情 */
   private _pmDetail = computedFn((id: Id) => {
-    return (this.state.pmDetail[id] || LIST_EMPTY) as PmDetail
+    const STATE_KEY = 'pmDetail'
+    const ITEM_KEY = id
+
+    return this.getState(STATE_KEY, ITEM_KEY, LIST_EMPTY)
   })
 
   /** 在线用户最后上报时间集 */
   private _onlines = computedFn((userId: UserId) => {
-    const values = this.state.onlines
-    if (values[userId]) return Math.floor(Number(values[userId]) / 1000)
+    const STATE_KEY = 'onlines'
+    const ITEM_KEY = userId
+
+    const value = this.getState(STATE_KEY, ITEM_KEY)
+    if (value) return Math.floor(Number(value) / 1000)
     return 0
   })
 
   /** 我的标签 */
   private _tags = computedFn((subjectType: SubjectType) => {
-    return (this.state.tags[subjectType] || LIST_EMPTY) as ListEmpty
+    const STATE_KEY = 'tags'
+    const ITEM_KEY = subjectType
+
+    return this.getState(STATE_KEY, ITEM_KEY, LIST_EMPTY)
   })
 
   /** @deprecated 授权信息 (api) */
   @computed get accessToken() {
-    this.init('accessToken')
-    return this.state.accessToken
+    const STATE_KEY = 'accessToken'
+    this.init(STATE_KEY)
+
+    return this.getState(STATE_KEY)
   }
 
   /** 用户 cookie (html) */
   @computed get userCookie() {
-    this.init('userCookie')
-    return this.state.userCookie
+    const STATE_KEY = 'userCookie'
+    this.init(STATE_KEY)
+
+    return this.getState(STATE_KEY)
   }
 
   /**
@@ -97,66 +119,88 @@ export default class Computed extends State implements StoreConstructor<typeof S
    * 会随请求一直更新, 并带上请求防止一段时候后掉登录
    */
   @computed get setCookie() {
-    this.init('setCookie')
-    return this.state.setCookie
+    const STATE_KEY = 'setCookie'
+    this.init(STATE_KEY)
+
+    return this.getState(STATE_KEY)
   }
 
   /** @deprecated hm.js 请求 cookie , 区分唯一用户, 一旦获取通常不再变更 */
   @computed get hmCookie() {
-    this.init('hmCookie')
-    return this.state.hmCookie
+    const STATE_KEY = 'hmCookie'
+    this.init(STATE_KEY)
+
+    return this.getState(STATE_KEY)
   }
 
   /** 自己用户信息 */
   @computed get userInfo() {
-    this.init('userInfo')
-    return this.state.userInfo
+    const STATE_KEY = 'userInfo'
+    this.init(STATE_KEY)
+
+    return this.getState(STATE_KEY)
   }
 
   /** @deprecated 在看收藏 */
   @computed get userCollection() {
-    this.init('userCollection')
-    return this.state.userCollection
+    const STATE_KEY = 'userCollection'
+    this.init(STATE_KEY)
+
+    return this.getState(STATE_KEY)
   }
 
   /** 在看收藏 (进度页面, 新 API, 取代 userCollection) */
   @computed get collection() {
-    this.init('collection')
-    return this.state.collection
+    const STATE_KEY = 'collection'
+    this.init(STATE_KEY)
+
+    return this.getState(STATE_KEY)
   }
 
   /** 表单提交唯一码 */
   @computed get formhash() {
-    this.init('formhash')
-    return this.state.formhash
+    const STATE_KEY = 'formhash'
+    this.init(STATE_KEY)
+
+    return this.getState(STATE_KEY)
   }
 
   /** 短信收信 */
   @computed get pmIn() {
-    this.init('pmIn')
-    return this.state.pmIn
+    const STATE_KEY = 'pmIn'
+    this.init(STATE_KEY)
+
+    return this.getState(STATE_KEY)
   }
 
   /** 短信发信 */
   @computed get pmOut() {
-    this.init('pmOut')
-    return this.state.pmOut
+    const STATE_KEY = 'pmOut'
+    this.init(STATE_KEY)
+
+    return this.getState(STATE_KEY)
   }
 
   /** 个人设置 */
   @computed get userSetting() {
-    this.init('userSetting')
-    return this.state.userSetting
+    const STATE_KEY = 'userSetting'
+    this.init(STATE_KEY)
+
+    return this.getState(STATE_KEY)
   }
 
   /** 登录是否过期 */
   @computed get outdate() {
-    return this.state.outdate
+    const STATE_KEY = 'outdate'
+
+    return this.getState(STATE_KEY)
   }
 
   /** 主站 502 */
   @computed get websiteError() {
-    return this.state.websiteError
+    const STATE_KEY = 'websiteError'
+
+    return this.getState(STATE_KEY)
   }
 
   /** 自己用户 Id (数字) */
@@ -171,7 +215,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 用户空间地址 */
   @computed get url() {
-    return `${HOST}/user/${this.myId || 0}`
+    return `${HOST}/user/${this.myId || 0}` as const
   }
 
   /** 有新短信 */
@@ -186,20 +230,17 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 是否登录 (客户端内是否获得了 api 鉴权) */
   @computed get isLogin() {
-    if (WEB) return false
-    return !!this.accessToken.access_token
+    return WEB ? false : !!this.accessToken.access_token
   }
 
   /** 是否登录 (客户端内是否获得了网页 cookie) */
   @computed get isWebLogin() {
-    if (WEB) return false
-    return !!this.userCookie.cookie
+    return WEB ? false : !!this.userCookie.cookie
   }
 
   /** 是否登录 (客户端的网页版是否进行了用户令牌设置) */
   @computed get isStorybookLogin() {
-    if (!WEB) return false
-    return !!this.accessToken.access_token
+    return !WEB ? false : !!this.accessToken.access_token
   }
 
   /** 是否限制内容展示 (防止基本功能滥用) */
@@ -227,44 +268,66 @@ export default class Computed extends State implements StoreConstructor<typeof S
   // -------------------- 导出方法 (分离 init) --------------------
   /** 同一个用户的短信关联集合 */
   pmMap(userId: UserId) {
-    this.init('pmMap')
-    return this._pmMap(userId)
+    const STATE_KEY = 'pmMap'
+    const ITEM_KEY = userId
+    this.init(STATE_KEY)
+
+    return this[`_${STATE_KEY}`](ITEM_KEY)
   }
 
   /** 某用户信息 */
   usersInfo(userId?: UserId) {
-    this.init('usersInfo')
-    return this._usersInfo(userId)
+    const STATE_KEY = 'usersInfo'
+    const ITEM_KEY = userId
+    this.init(STATE_KEY)
+
+    return this[`_${STATE_KEY}`](ITEM_KEY)
   }
 
   /** 收视进度 (章节) */
   userProgress(subjectId: SubjectId) {
-    this.init('userProgress')
-    return this._userProgress(subjectId)
+    const STATE_KEY = 'userProgress'
+    const ITEM_KEY = subjectId
+    this.init(STATE_KEY)
+
+    return this[`_${STATE_KEY}`](ITEM_KEY)
   }
 
   /** 用户收藏统计 (每种状态条目的数量) */
   userCollectionsStatus(userId: UserId) {
-    this.init('userCollectionsStatus')
-    return this._userCollectionsStatus(userId)
+    const STATE_KEY = 'userCollectionsStatus'
+    const ITEM_KEY = userId
+    this.init(STATE_KEY)
+
+    return this[`_${STATE_KEY}`](ITEM_KEY)
   }
 
   /** 短信详情 */
   pmDetail(id: Id) {
-    this.init('pmDetail')
-    return this._pmDetail(id)
+    const STATE_KEY = 'pmDetail'
+    const ITEM_KEY = id
+    this.init(STATE_KEY)
+
+    return this[`_${STATE_KEY}`](ITEM_KEY)
   }
 
   /** 在线用户最后上报时间集 */
   onlines(userId: UserId) {
     if (!userId) return 0
-    this.init('onlines')
-    return this._onlines(userId)
+
+    const STATE_KEY = 'onlines'
+    const ITEM_KEY = userId
+    this.init(STATE_KEY)
+
+    return this[`_${STATE_KEY}`](ITEM_KEY)
   }
 
   /** 我的标签 */
   tags(subjectType: SubjectType) {
-    this.init('tags')
-    return this._tags(subjectType)
+    const STATE_KEY = 'tags'
+    const ITEM_KEY = subjectType
+    this.init(STATE_KEY)
+
+    return this[`_${STATE_KEY}`](ITEM_KEY)
   }
 }

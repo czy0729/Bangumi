@@ -19,7 +19,6 @@ import {
   APP_ID,
   APP_SECRET,
   HTML_PM,
-  HTML_PM_DETAIL,
   HTML_PM_DETAIL_V2,
   HTML_PM_OUT,
   HTML_PM_PARAMS,
@@ -31,7 +30,6 @@ import {
   URL_OAUTH_REDIRECT
 } from '@constants'
 import {
-  cheerioPMDetail,
   cheerioPMDetailV2,
   cheerioPMParams,
   cheerioPMV2,
@@ -50,7 +48,7 @@ import type {
   SubjectType,
   UserId
 } from '@types'
-import type { PmDetail, PmMap, PmType, UserProgress } from './types'
+import type { PmMap, PmType, UserProgress } from './types'
 
 export default class Fetch extends Computed {
   /**
@@ -368,73 +366,36 @@ export default class Fetch extends Computed {
     return this[STATE_KEY]
   }
 
-  /** 短信详情 */
-  fetchPMDetail = async (config: { id?: Id }) => {
-    const { id } = config || {}
-    const response = await fetchHTML({
-      url: HTML_PM_DETAIL(id),
-      raw: true
-    })
-
-    // 这个接口可能会 code=30 重定向
-    const { url } = response
-    let html: string
-    if (url.includes(id)) {
-      html = await response.text()
-    } else {
-      html = await fetchHTML({
-        url: HTML_PM_DETAIL(url.match(/\d+/g)[0])
-      })
-    }
-
-    const key = 'pmDetail'
-    const data: PmDetail = {
-      ...cheerioPMDetail(html),
-      pagination: {
-        page: 1,
-        pageTotal: 1
-      },
-      _loaded: getTimestamp()
-    }
-    this.setState({
-      [key]: {
-        [id]: data
-      }
-    })
-    this.save(key)
-
-    return data
-  }
-
   /** 短信详情拉取 */
-  fetchPMDetailV2 = async (config: { id?: Id }) => {
-    const { id } = config || {}
-    const response = await fetchHTML({
-      url: HTML_PM_DETAIL_V2(id),
-      raw: true
-    })
+  fetchPMDetail = async (id: Id) => {
+    const STATE_KEY = 'pmDetail'
+    const ITEM_KEY = id
 
-    const html = await response.text()
-    const key = 'pmDetail'
+    try {
+      const response = await fetchHTML({
+        url: HTML_PM_DETAIL_V2(id),
+        raw: true
+      })
+      const html = await response.text()
 
-    // 解析新 HTML，格式依然对齐旧的数据结构
-    const data: PmDetail = {
-      ...cheerioPMDetailV2(html),
-      pagination: {
-        page: 1,
-        pageTotal: 1
-      },
-      _loaded: getTimestamp()
+      this.setState({
+        [STATE_KEY]: {
+          [ITEM_KEY]: {
+            ...cheerioPMDetailV2(html),
+            pagination: {
+              page: 1,
+              pageTotal: 1
+            },
+            _loaded: getTimestamp()
+          }
+        }
+      })
+      this.save(STATE_KEY)
+    } catch (error) {
+      this.error('fetchPMDetailV2', error)
     }
 
-    this.setState({
-      [key]: {
-        [id]: data
-      }
-    })
-    this.save(key)
-
-    return data
+    return this[STATE_KEY](ITEM_KEY)
   }
 
   /** 新短信参数 */

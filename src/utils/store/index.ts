@@ -118,6 +118,24 @@ export default class Store<
   })
 
   /**
+   * 安全读取状态值，自动推导返回类型
+   * @param key 状态键
+   * @param itemKey 可选，当状态值为 Record 时的子键
+   * @param defaultValue 可选，值为空时的默认值
+   */
+  getState<K extends keyof T>(key: K): T[K]
+  getState<K extends keyof T, I extends string | number>(
+    key: K,
+    itemKey: I,
+    defaultValue?: any
+  ): T[K] extends Record<any, infer V> ? V : any
+  getState(key: any, itemKey?: any, defaultValue?: any): any {
+    if (itemKey === undefined) return this.state[key]
+    const value = this.state[key]?.[itemKey]
+    return value ?? defaultValue
+  }
+
+  /**
    * 请求并入 Store, 入 Store 成功会设置标志位 _loaded=date()
    * 请求失败后会在 1 秒后递归重试
    * @version 190420 v1.2

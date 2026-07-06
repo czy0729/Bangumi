@@ -2,19 +2,21 @@
  * @Author: czy0729
  * @Date: 2025-07-22 20:36:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-24 23:15:29
+ * @Last Modified time: 2026-07-06 02:11:58
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 
-function ScrollNavButtons({ onScrollToTop, onScrollToBottom }) {
+import type { Props } from './types'
+
+function ScrollNavButtons({ onScrollToTop, onScrollToBottom }: Props) {
   r(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <>
       <IconTouchable
         style={_.mr._xs}
@@ -30,7 +32,7 @@ function ScrollNavButtons({ onScrollToTop, onScrollToBottom }) {
         onPress={onScrollToBottom}
       />
     </>
-  ))
+  )
 }
 
-export default ScrollNavButtons
+export default observer(ScrollNavButtons)

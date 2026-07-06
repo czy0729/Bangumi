@@ -17,8 +17,6 @@ export default class Fetch extends Computed {
 
   /** 短信详情 */
   fetchPMDetail = () => {
-    return userStore.fetchPMDetailV2({
-      id: this.id
-    })
+    return userStore.fetchPMDetail(this.id)
   }
 }

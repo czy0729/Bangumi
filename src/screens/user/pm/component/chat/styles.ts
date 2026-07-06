@@ -10,5 +10,8 @@ export const memoStyles = _.memoStyles(() => ({
   container: {
     paddingVertical: _.md,
     paddingHorizontal: _.wind
+  },
+  section: {
+    marginVertical: _.md
   }
 }))

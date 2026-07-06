@@ -121,12 +121,25 @@ export type Pm = ListEmpty<PmItem>
 
 /** 短信详情项 */
 export type PmDetailItem = {
+  /** 消息项类型，'label' 为日期分隔标签，'message' 为消息 */
   type?: 'label' | 'message'
+
+  /** 发送者用户名（自己发送显示为 '我'） */
   name: string
+
+  /** 发送者头像 */
   avatar: string
+
+  /** 发送者用户 ID */
   userId: UserId
+
+  /** 消息内容 */
   content: string
+
+  /** 消息时间 */
   time: string
+
+  /** 会话日期标签（仅首个消息项使用，作为顶部居中日期显示） */
   date?: string
 }
 
@@ -135,10 +148,19 @@ export type PmDetail = Override<
   ListEmpty<PmDetailItem>,
   {
     form?: {
+      /** 关联会话 ID */
       related: string
+
+      /** 收件人 ID */
       msg_receivers: string
+
+      /** 当前消息 ID */
       current_msg_id: string
+
+      /** 表单校验值 */
       formhash: string
+
+      /** 消息标题 */
       msg_title: string
     }
   }

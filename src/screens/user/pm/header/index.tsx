@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-08-19 11:16:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-05 06:00:33
+ * @Last Modified time: 2026-07-06 02:11:28
  */
-import React from 'react'
+import React, { useCallback } from 'react'
+import { observer } from 'mobx-react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { open } from '@utils'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { TEXT_MENU_BROWSER } from '@constants'
 // import RelatedPM from '../component/related-pm'
@@ -20,55 +20,57 @@ import type { Ctx } from '../types'
 
 function Header() {
   const { $ } = useStore<Ctx>(COMPONENT)
+  const { list } = $.pmDetail
 
-  return useObserver(() => {
-    const { list } = $.pmDetail
+  let title = ''
+  try {
+    title = list?.[0]?.content?.match(/<strong>(.*?)<\/strong>/)?.[1]
+    if (title) title = decoder(title)
+  } catch {}
 
-    let title = ''
-    try {
-      title = list?.[0]?.content?.match(/<strong>(.*?)<\/strong>/)?.[1]
-      if (title) title = decoder(title)
-    } catch {}
+  const showLength = list.length >= 8
+  let headerTitle = '短信'
+  if (showLength) headerTitle += ` (${list.length})`
+  if (title) headerTitle += ` · ${title}`
 
-    const showLength = list.length >= 8
-    let headerTitle = '短信'
-    if (showLength) headerTitle += ` (${list.length})`
-    if (title) headerTitle += ` · ${title}`
-
-    return (
-      <HeaderV2
-        title={headerTitle}
-        headerTitleStyle={{
-          paddingRight: 64
-        }}
-        hm={HM}
-        headerTitleAlign='left'
-        headerRight={() => (
-          <>
-            {showLength && (
-              <ScrollNavButtons
-                onScrollToTop={() => $.scrollToTop(true)}
-                onScrollToBottom={() => $.scrollToBottom(true)}
-              />
-            )}
-            {/* <RelatedPM userId={$.params._userId} /> */}
-            <HeaderV2Popover
-              data={DATA}
-              onSelect={key => {
-                if (key === TEXT_MENU_BROWSER) {
-                  open($.url)
-
-                  t('短信.右上角菜单', {
-                    key
-                  })
-                }
-              }}
-            />
-          </>
+  const handleHeaderRight = useCallback(
+    () => (
+      <>
+        {showLength && (
+          <ScrollNavButtons
+            onScrollToTop={() => $.scrollToTop(true)}
+            onScrollToBottom={() => $.scrollToBottom(true)}
+          />
         )}
-      />
-    )
-  })
+        {/* <RelatedPM userId={$.params._userId} /> */}
+        <HeaderV2Popover
+          data={DATA}
+          onSelect={key => {
+            if (key === TEXT_MENU_BROWSER) {
+              open($.url)
+
+              t('短信.右上角菜单', {
+                key
+              })
+            }
+          }}
+        />
+      </>
+    ),
+    [$, showLength]
+  )
+
+  return (
+    <HeaderV2
+      title={headerTitle}
+      headerTitleStyle={{
+        paddingRight: 64
+      }}
+      hm={HM}
+      headerTitleAlign='left'
+      headerRight={handleHeaderRight}
+    />
+  )
 }
 
-export default Header
+export default observer(Header)

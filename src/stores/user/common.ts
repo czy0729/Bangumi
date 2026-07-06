@@ -19,7 +19,7 @@ import {
   safeObject
 } from '@utils'
 
-import type { PmItem } from './types'
+import type { PmDetail, PmDetailItem, PmItem } from './types'
 
 /** @deprecated 收(发) 件箱 */
 export function cheerioPM(html: string) {
@@ -117,53 +117,46 @@ export function cheerioPMDetail(html: string) {
 }
 
 /** 收(发)件箱内容 */
-export function cheerioPMDetailV2(html: string) {
-  const $ = cheerio(htmlMatch(html, '<div class="pm-chat-panel', '<div id="footer'))
-  const peerName = cText($('.pm-chat-title strong a.l'))
-  const list: any[] = []
+export function cheerioPMDetailV2(html: string): PmDetail {
+  const $ = cParse(html, '<div class="pm-chat-panel', '<div id="footer')
+  const peerName = cText(cFind($('.pm-chat-title'), 'strong a.l'))
 
-  $('div.pm-message-list')
-    .children()
-    .each((_index: number, element: any) => {
-      const $el = $(element)
+  const list = cMap<PmDetailItem>($('div.pm-message-list').children(), $el => {
+    if (cHasClass($el, 'pm-thread-label')) {
+      return {
+        type: 'label',
+        content: cText($el)
+      } as PmDetailItem
+    }
 
-      if (cHasClass($el, 'pm-thread-label')) {
-        list.push({
-          type: 'label',
-          content: cText($el)
-        })
-        return
+    if (cHasClass($el, 'pm-message')) {
+      const avatar =
+        cData(cFind($el, 'span.avatarNeue'), 'style').match(/url\(['"]?([^'"]+)['"]?\)/)?.[1] || ''
+      const userId = cData(cFind($el, 'a.avatar'), 'href').replace('/user/', '')
+      const isSelf = cHasClass($el, 'pm-message-self')
+
+      return {
+        type: 'message',
+        name: isSelf ? '我' : peerName || userId,
+        avatar,
+        userId,
+        content: cHtml(cFind($el, 'div.pm-message-body')),
+        time: (cText(cFind($el, 'div.pm-message-info small')).split(' / ')[0] || '').trim()
       }
+    }
 
-      if (cHasClass($el, 'pm-message')) {
-        const avatar =
-          cData(cFind($el, 'span.avatarNeue'), 'style').match(/url\(['"]?([^'"]+)['"]?\)/)?.[1] ||
-          ''
-        const userId = cData(cFind($el, 'a.avatar'), 'href').replace('/user/', '')
-        const isSelf = cHasClass($el, 'pm-message-self')
-
-        list.push({
-          type: 'message',
-          name: isSelf ? '我' : peerName || userId,
-          avatar,
-          userId,
-          content: cHtml(cFind($el, 'div.pm-message-body')),
-          time: (cText(cFind($el, 'div.pm-message-info small')).split(' / ')[0] || '').trim()
-        })
-      }
-    })
-
-  const form = {
-    related: cData($('input[name=related]'), 'value'),
-    msg_receivers: cData($('input[name=msg_receivers]'), 'value'),
-    current_msg_id: '',
-    formhash: cData($('input[name=formhash]'), 'value'),
-    msg_title: cData($('input[name=msg_title]'), 'value')
-  }
+    return {} as PmDetailItem
+  }).filter(item => !!item.type)
 
   return {
     list,
-    form
+    form: {
+      related: cData($('input[name=related]'), 'value'),
+      msg_receivers: cData($('input[name=msg_receivers]'), 'value'),
+      current_msg_id: '',
+      formhash: cData($('input[name=formhash]'), 'value'),
+      msg_title: cData($('input[name=msg_title]'), 'value')
+    }
   }
 }
 

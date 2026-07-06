@@ -2,32 +2,35 @@
  * @Author: czy0729
  * @Date: 2020-02-02 05:03:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-05 05:46:39
+ * @Last Modified time: 2026-07-06 04:08:22
  */
 import React from 'react'
-import { Component } from '@components'
-import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
+import { observer } from 'mobx-react'
+import { Component, HeaderPlaceholder, Page } from '@components'
+import { _, StoreContext } from '@stores'
 import Heatmaps from './component/heatmaps'
-import Page from './component/page'
+import Scroll from './component/scroll'
 import Header from './header'
 import { usePMPage } from './hooks'
 
 import type { NavigationProps } from '@types'
 
 /** 短信 */
-const PM = (props: NavigationProps) => {
-  const { id, $, navigation } = usePMPage(props)
+function ScreenPM(props: NavigationProps) {
+  const { id } = usePMPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-pm'>
       <StoreContext.Provider value={id}>
-        <Page $={$} navigation={navigation} />
+        <Page style={_.container.screen}>
+          <HeaderPlaceholder />
+          <Scroll />
+        </Page>
         <Header />
         <Heatmaps />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default PM
+export default observer(ScreenPM)
