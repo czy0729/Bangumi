@@ -1,0 +1,48 @@
+name: Update AltStore Source
+
+on:
+  push:
+    tags:
+      - 'upstream-*'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Extract version
+        id: version
+        run: |
+          echo "version=${GITHUB_REF_NAME#upstream-}" >> "$GITHUB_OUTPUT"
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Generate alt_store.json
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python .github/scripts/generate-altstore.py \
+            --version "${{ steps.version.outputs.version }}" \
+            --output alt_store.json
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: bot/update-${{ steps.version.outputs.version }}
+          delete-branch: true
+          commit-message: |
+            chore: update AltStore source ${{ steps.version.outputs.version }}
+          title: |
+            Update AltStore source (${{ steps.version.outputs.version }})
+          body: |
+            This PR was generated automatically from the upstream release.
