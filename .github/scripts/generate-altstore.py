@@ -17,7 +17,7 @@ ICON_URL = (
 
 APP = {
     "name": "Bangumi",
-    "bundleIdentifier": "com.czy0729.bangumi",
+    "bundleIdentifier": "tv.bangumi.czy0729",
     "developerName": "czy0729",
     "iconURL": ICON_URL,
     "localizedDescription": "Bangumi for iOS",
@@ -101,7 +101,7 @@ def main():
     else:
         source = {
             "name": "Bangumi",
-            "identifier": "com.czy0729.bangumi",
+            "identifier": "tv.bangumi.czy0729",
             "sourceURL": SOURCE_URL,
             "apps": [{**APP, "versions": []}],
         }
