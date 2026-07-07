@@ -1,0 +1,34 @@
+{
+  "name": "Bangumi",
+  "identifier": "com.czy0729.bangumi",
+  "sourceURL": "https://raw.githubusercontent.com/czy0729/Bangumi/main/alt_store.json",
+  "apps": [
+    {
+      "name": "Bangumi",
+      "bundleIdentifier": "com.czy0729.bangumi",
+      "developerName": "czy0729",
+      "iconURL": "https://raw.githubusercontent.com/czy0729/Bangumi/master/src/assets/images/foreground.png",
+      "localizedDescription": "Bangumi for iOS",
+      "versions": [
+        {
+          "version": "8.36.5",
+          "buildVersion": "8.36.5",
+          "date": "2026-07-05T11:10:11Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/upstream-8.36.5/Bangumi-8.36.5-unsigned.ipa",
+          "size": 23060321,
+          "sha256": "55ae3223467d52b8980c6066e4e795befd35072c060a8453bea109e3639c53dc",
+          "localizedDescription": "Automated unsigned IPA build for upstream Bangumi tag `8.36.5`.\n\nSource: https://github.com/czy0729/Bangumi/tree/8.36.5\n\nSource archive: https://github.com/czy0729/Bangumi/archive/refs/tags/8.36.5.zip\n\nThe IPA is intentionally unsigned and should be signed by your sideloading tool or a later signing workflow.\n\nBuild run: https://github.com/czy0729/Bangumi/actions/runs/28738239886"
+        },
+        {
+          "version": "8.35.2",
+          "buildVersion": "8.35.2",
+          "date": "2026-06-23T16:46:29Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/upstream-8.35.2/Bangumi-8.35.2-unsigned.ipa",
+          "size": 23040371,
+          "sha256": "db9bc0e30e1b5dfbfd7bd723c06b84af960eca393e709a9b656063b1d5a5f292",
+          "localizedDescription": "Automated unsigned IPA build for upstream Bangumi tag `8.35.2`.\n\nSource: https://github.com/czy0729/Bangumi/tree/8.35.2\n\nSource archive: https://github.com/czy0729/Bangumi/archive/refs/tags/8.35.2.zip\n\nThe IPA is intentionally unsigned and should be signed by your sideloading tool or a later signing workflow.\n\nBuild run: https://github.com/czy0729/Bangumi/actions/runs/28040906264"
+        }
+      ]
+    }
+  ]
+}
