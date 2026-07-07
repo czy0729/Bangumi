@@ -1,11 +1,11 @@
 {
   "name": "Bangumi",
-  "identifier": "com.czy0729.bangumi",
+  "identifier": "tv.bangumi.czy0729",
   "sourceURL": "https://raw.githubusercontent.com/czy0729/Bangumi/main/alt_store.json",
   "apps": [
     {
       "name": "Bangumi",
-      "bundleIdentifier": "com.czy0729.bangumi",
+      "bundleIdentifier": "tv.bangumi.czy0729",
       "developerName": "czy0729",
       "iconURL": "https://raw.githubusercontent.com/czy0729/Bangumi/master/src/assets/images/foreground.png",
       "localizedDescription": "Bangumi for iOS",
