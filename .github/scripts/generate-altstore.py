@@ -81,7 +81,7 @@ def main():
 
     version_entry = {
         "version": args.version,
-        "buildVersion": args.version,
+        "buildVersion": 1,
         "date": release["published_at"],
         "downloadURL": ipa["browser_download_url"],
         "size": ipa["size"],
