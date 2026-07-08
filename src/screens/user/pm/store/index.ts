@@ -2,17 +2,27 @@
  * @Author: czy0729
  * @Date: 2020-02-02 05:04:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 01:15:11
+ * @Last Modified time: 2026-07-07 22:58:11
  */
 import Action from './action'
+import { EXCLUDE_STATE } from './ds'
 
 export default class ScreenPM extends Action {
   init = async (scrollView?: any) => {
+    this.setState({
+      ...EXCLUDE_STATE,
+      _loaded: true
+    })
+
     if (scrollView) this.scrollViewRef = scrollView
 
-    if (this.userId) return this.fetchPMParams()
+    if (this.userId) {
+      if (this.params.pmFormhash) return
 
-    if (this.pmDetail._loaded) this.scrollToBottom()
+      return this.fetchPMParams()
+    }
+
+    if (this.pmDetail?._loaded) this.scrollToBottom()
 
     await this.fetchPMDetail()
 

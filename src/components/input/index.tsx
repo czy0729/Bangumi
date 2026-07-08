@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-16 06:45:36
+ * @Last Modified time: 2026-07-08 04:16:57
  */
 import React from 'react'
 import { Keyboard, TouchableWithoutFeedback, View } from 'react-native'
@@ -245,13 +245,7 @@ export const Input = observer(
       return (
         <Component id='component-input' data-editable={editable} style={_.container.block}>
           <TextInput
-            style={stl(
-              {
-                fontFamily: _.fontBoldFamily,
-                borderRadius: _.radiusXs
-              },
-              style
-            )}
+            style={stl(this.styles.input, style)}
             {...this.passProps}
             {...this.overrideProps}
             onSubmitEditing={this.onSubmitEditing}

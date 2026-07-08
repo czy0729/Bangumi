@@ -40,14 +40,6 @@ export default class Computed extends State implements StoreConstructor<typeof S
   })
 
   // -------------------- 有副作用 (分离 init + computedFn) --------------------
-  /** 同一个用户的短信关联集合 */
-  private _pmMap = computedFn((userId: UserId) => {
-    const STATE_KEY = 'pmMap'
-    const ITEM_KEY = userId
-
-    return this.getState(STATE_KEY, ITEM_KEY, null)
-  })
-
   /** 某用户信息 */
   private _usersInfo = computedFn((userId?: UserId) => {
     const STATE_KEY = 'usersInfo'
@@ -266,15 +258,6 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   // -------------------- 导出方法 (分离 init) --------------------
-  /** 同一个用户的短信关联集合 */
-  pmMap(userId: UserId) {
-    const STATE_KEY = 'pmMap'
-    const ITEM_KEY = userId
-    this.init(STATE_KEY)
-
-    return this[`_${STATE_KEY}`](ITEM_KEY)
-  }
-
   /** 某用户信息 */
   usersInfo(userId?: UserId) {
     const STATE_KEY = 'usersInfo'

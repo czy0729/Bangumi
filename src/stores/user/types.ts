@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-25 12:45:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-05 17:19:53
+ * @Last Modified time: 2026-07-08 04:29:43
  */
 import type { CollectionStatus, CollectionStatusValue } from '@constants/model/types'
 import type {
@@ -141,6 +141,12 @@ export type PmDetailItem = {
 
   /** 会话日期标签（仅首个消息项使用，作为顶部居中日期显示） */
   date?: string
+
+  /** 所属线程 ID */
+  threadId?: string
+
+  /** 线程标题（type='label' 时作为线程分隔标题） */
+  threadTitle?: string
 }
 
 /** 短信详情 */
@@ -162,6 +168,27 @@ export type PmDetail = Override<
 
       /** 消息标题 */
       msg_title: string
+
+      /** 新主题标记 */
+      new_topic?: string
+
+      /** 线程列表（当前会话下的子主题） */
+      threads?: {
+        /** 线程 ID */
+        id: string
+
+        /** 线程标题 */
+        title: string
+
+        /** 是否为当前线程 */
+        current: boolean
+      }[]
+
+      /** 对方用户 ID */
+      peerUserId?: string
+
+      /** 对方用户名 */
+      peerUserName?: string
     }
   }
 >
@@ -172,18 +199,6 @@ export type PmParams = {
   msg_receivers: string
   _loaded?: number
 }
-
-/** 同一个用户的短信关联集合项 */
-export type PmMapItem = Record<
-  string,
-  {
-    id: Id
-    time: string
-  }
->
-
-/** 同一个用户的短信关联集合 */
-export type PmMap = Record<UserId, PmMapItem>
 
 /** 收视进度 (章节) */
 export interface UserProgress {

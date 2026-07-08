@@ -57,22 +57,22 @@ export const ItemSay = observer(
       showName &&
       (isRight ? (
         <Text style={_.mr.sm} size={11} type='title' bold>
+          {name}
           {!!time && (
             <Text type='sub' size={11} bold>
+              {!!name && ' · '}
               {time}
-              {' · '}
             </Text>
           )}
-          {name}
         </Text>
       ) : (
         <View style={_.ml.sm}>
           <Name
             userId={id}
-            showFriend
-            size={11}
             type='title'
+            size={11}
             bold
+            showFriend
             right={
               !!time && (
                 <Text type='sub' size={11} bold>

@@ -342,13 +342,15 @@ export const HTML_PM_OUT = (page: number = 1) => `${HOST}/pm/outbox.chii?page=${
 export const HTML_PM_DETAIL = (id: Id) => `${HOST}/pm/view/${id}.chii`
 
 /** 短信详情 V2 */
-export const HTML_PM_DETAIL_V2 = (id: Id) => `${HOST}/pm/conversation/${id}.chii?page=1`
+export const HTML_PM_DETAIL_V2 = (id: Id, thread?: string) =>
+  `${HOST}/pm/conversation/${id}.chii?page=1${thread ? `&thread=${thread}` : ''}`
 
 /**
  * [POST] 发短信
  *
  * query
  * [related]
+ * [redirect_thread]
  * [msg_receivers]
  * [current_msg_id]
  * [formhash]

@@ -13,7 +13,7 @@ import { COMPONENT } from './ds'
 
 import type { Props } from './types'
 
-function ScrollNavButtons({ onScrollToTop, onScrollToBottom }: Props) {
+function ScrollNavButtons({ onPrevThread, onNextThread, onScrollToTop, onScrollToBottom }: Props) {
   r(COMPONENT)
 
   return (
@@ -23,13 +23,15 @@ function ScrollNavButtons({ onScrollToTop, onScrollToBottom }: Props) {
         name='md-keyboard-arrow-up'
         size={24}
         color={_.colorTitle}
-        onPress={onScrollToTop}
+        onPress={onPrevThread}
+        onLongPress={onScrollToTop}
       />
       <IconTouchable
         name='md-keyboard-arrow-down'
         size={24}
         color={_.colorTitle}
-        onPress={onScrollToBottom}
+        onPress={onNextThread}
+        onLongPress={onScrollToBottom}
       />
     </>
   )

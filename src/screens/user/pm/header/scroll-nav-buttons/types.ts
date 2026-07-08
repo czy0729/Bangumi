@@ -5,6 +5,8 @@
  * @Last Modified time: 2026-07-06 02:11:44
  */
 export type Props = {
-  onScrollToTop: () => void
-  onScrollToBottom: () => void
+  onPrevThread: () => void
+  onNextThread: () => void
+  onScrollToTop?: () => void
+  onScrollToBottom?: () => void
 }

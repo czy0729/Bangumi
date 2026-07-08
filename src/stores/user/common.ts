@@ -59,7 +59,7 @@ export function cheerioPMV2(html: string): PmItem[] {
       cData(cFind($row, '.avatarNeue'), 'style').match(/url\(['"]?([^'"]+)['"]?\)/)?.[1] || ''
     const name = cText(cFind($row, '.pm-conversation-name'))
     const time = cText(cFind($row, '.pm-conversation-date'))
-    const rawDesc = cText(cFind($row, '.pm-conversation-desc'))
+    const rawDesc = cText(cFind($row, '.pm-conversation-desc')).replace(/\s+/g, ' ').trim()
     const isNew =
       cHasClass($row, 'pm_new') ||
       cHas(cFind($row, '.pm_new')) ||
@@ -120,12 +120,35 @@ export function cheerioPMDetail(html: string) {
 export function cheerioPMDetailV2(html: string): PmDetail {
   const $ = cParse(html, '<div class="pm-chat-panel', '<div id="footer')
   const peerName = cText(cFind($('.pm-chat-title'), 'strong a.l'))
+  const peerUserId = (cData(cFind($('.pm-chat-title'), 'strong a.l'), 'href') || '').replace('/user/', '')
 
+  // 解析线程列表
+  const threads = cMap<{
+    id: string
+    title: string
+    current: boolean
+  }>($('.pm-thread-filter a'), $a => ({
+    id: (cData($a, 'href').match(/thread=(\d+)/)?.[1] || ''),
+    title: cText($a).trim(),
+    current: cHasClass($a, 'focus')
+  }))
+
+  // 构建线程标题 → ID 映射
+  const threadTitleMap: Record<string, string> = {}
+  threads.forEach(t => {
+    if (t.title) threadTitleMap[t.title] = t.id
+  })
+
+  let currentThreadId = ''
   const list = cMap<PmDetailItem>($('div.pm-message-list').children(), $el => {
     if (cHasClass($el, 'pm-thread-label')) {
+      const labelText = cText($el).trim()
+      currentThreadId = threadTitleMap[labelText] || ''
       return {
         type: 'label',
-        content: cText($el)
+        content: labelText,
+        threadId: currentThreadId,
+        threadTitle: labelText
       } as PmDetailItem
     }
 
@@ -141,7 +164,8 @@ export function cheerioPMDetailV2(html: string): PmDetail {
         avatar,
         userId,
         content: cHtml(cFind($el, 'div.pm-message-body')),
-        time: (cText(cFind($el, 'div.pm-message-info small')).split(' / ')[0] || '').trim()
+        time: cText(cFind($el, 'div.pm-message-info small')).replace(/\s*\/\s*del\s*$/, '').trim(),
+        threadId: currentThreadId || undefined
       }
     }
 
@@ -155,7 +179,11 @@ export function cheerioPMDetailV2(html: string): PmDetail {
       msg_receivers: cData($('input[name=msg_receivers]'), 'value'),
       current_msg_id: '',
       formhash: cData($('input[name=formhash]'), 'value'),
-      msg_title: cData($('input[name=msg_title]'), 'value')
+      msg_title: cData($('input[name=msg_title]'), 'value'),
+      new_topic: cData($('input[name=new_topic]'), 'value') || undefined,
+      threads: threads.length > 0 ? threads : undefined,
+      peerUserId,
+      peerUserName: peerName || undefined
     }
   }
 }

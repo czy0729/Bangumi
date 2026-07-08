@@ -18,5 +18,6 @@ export type Props = PropsWithChildren<
     withoutFeedback?: boolean
     hitSlop?: Insets
     onPress?: Fn
+    onLongPress?: Fn
   }>
 >

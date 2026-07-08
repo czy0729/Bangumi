@@ -27,7 +27,8 @@ export const IconTouchable = observer(
     withoutFeedback,
     hitSlop,
     children,
-    onPress
+    onPress,
+    onLongPress
   }: IconTouchableProps) => {
     r(COMPONENT)
 
@@ -40,6 +41,7 @@ export const IconTouchable = observer(
             scale={0.8}
             hitSlop={hitSlop}
             onPress={onPress}
+            onLongPress={onLongPress}
           >
             <Flex align='end'>
               <Iconfont name={name} size={size} color={color} shadow={shadow} />
@@ -61,6 +63,7 @@ export const IconTouchable = observer(
           scale={0.8}
           hitSlop={hitSlop}
           onPress={onPress}
+          onLongPress={onLongPress}
         >
           <Iconfont name={name} size={size} color={color} shadow={shadow} />
           {children}

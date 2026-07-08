@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-23 10:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-06 01:41:12
+ * @Last Modified time: 2026-07-07 18:57:53
  */
 import Crypto from '@utils/crypto'
 import { WEB } from '../device'
@@ -125,6 +125,9 @@ export const TEXT_MENU_REPORT = '报告疑虑'
 
 /** 菜单: 开发调试 */
 export const TEXT_MENU_DEV = '开发调试'
+
+/** 菜单: 新主题 */
+export const TEXT_NEW_TOPIC = '新主题'
 
 /** 菜单: 分割 */
 export const TEXT_MENU_SPLIT = '一一一'

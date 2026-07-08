@@ -69,12 +69,13 @@ export const ItemPM = observer(
                 <Flex.Item>
                   <Name
                     userId={userId}
-                    showFriend
-                    size={13}
                     type='title'
+                    size={13}
+                    lineHeight={15}
                     bold
+                    showFriend
                     right={
-                      <Text size={11} lineHeight={13} type='sub'>
+                      <Text type='sub' size={11} lineHeight={15} bold>
                         {'  '}
                         {time}
                       </Text>

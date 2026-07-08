@@ -2,11 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-05-04 14:04:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-11 13:19:37
+ * @Last Modified time: 2026-07-08 04:19:55
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
+  input: {
+    fontFamily: _.fontBoldFamily,
+    borderRadius: _.radiusXs
+  },
   multiline: {
     width: '100%',
     paddingVertical: 8,

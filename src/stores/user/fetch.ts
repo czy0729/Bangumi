@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-22 16:34:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-05 20:19:46
+ * @Last Modified time: 2026-07-07 22:36:39
  */
 import { toJS } from 'mobx'
 import { getTimestamp, HTMLDecode, HTMLTrim } from '@utils'
@@ -48,7 +48,7 @@ import type {
   SubjectType,
   UserId
 } from '@types'
-import type { PmMap, PmType, UserProgress } from './types'
+import type { PmType, UserProgress } from './types'
 
 export default class Fetch extends Computed {
   /**
@@ -358,22 +358,21 @@ export default class Fetch extends Computed {
         }
       })
       this.save(STATE_KEY)
-      this.updatePmMap(type)
     } catch (error) {
       this.error('fetchPM', error)
     }
 
-    return this[STATE_KEY]
+    return this.getState(STATE_KEY)
   }
 
   /** 短信详情拉取 */
-  fetchPMDetail = async (id: Id) => {
+  fetchPMDetail = async (id: Id, threadId?: string) => {
     const STATE_KEY = 'pmDetail'
-    const ITEM_KEY = id
+    const ITEM_KEY = threadId ? `${id}|${threadId}` : id
 
     try {
       const response = await fetchHTML({
-        url: HTML_PM_DETAIL_V2(id),
+        url: HTML_PM_DETAIL_V2(id, threadId),
         raw: true
       })
       const html = await response.text()
@@ -390,34 +389,37 @@ export default class Fetch extends Computed {
           }
         }
       })
-      this.save(STATE_KEY)
+      if (!threadId) this.save(STATE_KEY)
     } catch (error) {
       this.error('fetchPMDetailV2', error)
     }
 
-    return this[STATE_KEY](ITEM_KEY)
+    return this.getState(STATE_KEY, ITEM_KEY)
   }
 
   /** 新短信参数 */
-  fetchPMParams = async (config: { userId?: Id }) => {
-    const { userId } = config || {}
+  fetchPMParams = async (userId: Id) => {
+    const STATE_KEY = 'pmParams'
+    const ITEM_KEY = userId
 
-    const HTML = await fetchHTML({
-      url: HTML_PM_PARAMS(userId)
-    })
-    const key = 'pmParams'
+    try {
+      const html = await fetchHTML({
+        url: HTML_PM_PARAMS(userId)
+      })
 
-    const data = {
-      ...cheerioPMParams(HTML),
-      _loaded: getTimestamp()
+      this.setState({
+        [STATE_KEY]: {
+          [ITEM_KEY]: {
+            ...cheerioPMParams(html),
+            _loaded: getTimestamp()
+          }
+        }
+      })
+    } catch (error) {
+      this.error('fetchPMParams', error)
     }
-    this.setState({
-      [key]: {
-        [userId]: data
-      }
-    })
 
-    return data
+    return this.getState(STATE_KEY, ITEM_KEY)
   }
 
   /** 个人设置 */
@@ -485,45 +487,5 @@ export default class Fetch extends Computed {
     this.save(key)
 
     return data
-  }
-
-  /** 更新同一个用户的短信关联集合 */
-  updatePmMap = async (type: PmType) => {
-    const STATE_KEY = 'pmMap'
-
-    try {
-      await this.init(STATE_KEY)
-
-      const { list } = this[type]
-      const data = this.toJS<PmMap>(STATE_KEY)
-      list.forEach(item => {
-        const title = item.title.replace('Re:', '') || ''
-        if (title) {
-          const { id, userId, time } = item
-          if (!(userId in data)) {
-            data[userId] = {
-              [title]: {
-                id,
-                time
-              }
-            }
-          } else {
-            if (!(title in data[userId])) {
-              data[userId][title] = {
-                id,
-                time
-              }
-            }
-          }
-        }
-      })
-
-      this.setState({
-        [STATE_KEY]: data
-      })
-      this.save(STATE_KEY)
-    } catch (error) {
-      this.error('updatePmMap', error)
-    }
   }
 }

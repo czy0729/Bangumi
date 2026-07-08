@@ -14,16 +14,9 @@ import type { Ctx } from './types'
 /** 短信页面逻辑 */
 export function usePMPage(props: NavigationProps) {
   const context = useInitStore<Ctx['$']>(props, store)
-  const { id, $ } = context
+  const { id } = context
 
-  usePageLifecycle(
-    {
-      onEnterComplete() {
-        $.init()
-      }
-    },
-    id
-  )
+  usePageLifecycle({}, id)
 
   return context
 }

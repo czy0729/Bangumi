@@ -11,7 +11,6 @@ import type { Id, ImagesAvatar, ListEmpty, Loaded, SubjectId, SubjectType, UserI
 import type {
   Pm,
   PmDetail,
-  PmMap,
   PmParams,
   UserCollection,
   UserCollections,
@@ -139,9 +138,6 @@ export const STATE = {
   /** 新短信参数 */
   pmParams: {} as Record<UserId, PmParams>,
 
-  /** 同一个用户的短信关联集合 */
-  pmMap: {} as PmMap,
-
   /** 表单提交唯一码 */
   formhash: '',
 
@@ -169,7 +165,6 @@ export const LOADED = {
   onlines: false,
   pmDetail: false,
   pmIn: false,
-  pmMap: false,
   pmOut: false,
   setCookie: false,
   userCollection: false,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-21 14:30:41
+ * @Last Modified time: 2026-07-07 23:02:20
  */
 import type { ImageSourcePropType } from 'react-native'
 import type {
@@ -113,7 +113,7 @@ export type RouteReviews = Route<
 export type RouteNotify = Route<
   'Notify',
   {
-    type?: 'pm' | 'notify' | 'out'
+    type?: 'pm' | 'notify'
   }
 >
 
@@ -562,11 +562,17 @@ export type RoutePM = Route<
     /** 已有 ID, 没有为新建 */
     id?: Id
 
-    /** 必须是数字 ID, 用于发新短信 */
-    userId?: number
+    /** 对方用户 ID (数字或用户名), 用于发新短信 */
+    userId?: UserId
 
     /** 用户昵称 (用于占位显示) */
     userName?: string
+
+    /** 预填表单 hash (跳过 fetchPMParams) */
+    pmFormhash?: string
+
+    /** 预填收件人 ID */
+    pmMsgReceivers?: string
 
     /** 信件交往用户 ID (用于查询关联信件) */
     _userId?: UserId

@@ -26,6 +26,6 @@ export type Props<Data extends PopoverData> = PropsWithChildren<
     menuStyle?: ViewStyle
 
     /** Popover onSelect */
-    onSelect?: (title?: Data[number]) => any
+    onSelect?: (title?: Data[number], index?: number) => any
   }>
 >
