@@ -27,7 +27,7 @@ iOS 和安卓都做了兼容，并最大限度保持一致
 
 # 下载
 
-[安卓 APK 下载](https://github.com/czy0729/Bangumi/releases) | [AltStore 侧载](https://www.yuque.com/chenzhenyu-k0epm/znygb4/qw4xr3) | [iOS 上当前能使用的方法](https://github.com/czy0729/Bangumi/blob/master/web/IOS-TEST.MD) | [Expo 主页](https://expo.dev/@bgmtv/bangumi-pro)
+[安卓 APK 下载](https://github.com/czy0729/Bangumi/releases) | [AltStore 侧载](https://www.yuque.com/chenzhenyu-k0epm/znygb4/qw4xr3) | [AltStore 直接添加源](./web/ALTSTORE-USAGE.md) | [iOS 上当前能使用的方法](https://github.com/czy0729/Bangumi/blob/master/web/IOS-TEST.MD) | [Expo 主页](https://expo.dev/@bgmtv/bangumi-pro)
 
 - Google Play 被举报下架，暂搁置
 
