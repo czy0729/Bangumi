@@ -11,10 +11,12 @@ import { _ } from '@stores'
 import { r } from '@utils/dev'
 import { COMPONENT } from './ds'
 
-import type { Props } from './types'
+import type { Ctx } from '../../types'
 
-function ScrollNavButtons({ onPrevThread, onNextThread, onScrollToTop, onScrollToBottom }: Props) {
+function ScrollNavButtons({ $ }: Ctx) {
   r(COMPONENT)
+
+  if ($.threads?.length < 2 && ($.pmList?.list?.length ?? 0) < 8) return null
 
   return (
     <>
@@ -23,15 +25,15 @@ function ScrollNavButtons({ onPrevThread, onNextThread, onScrollToTop, onScrollT
         name='md-keyboard-arrow-up'
         size={24}
         color={_.colorTitle}
-        onPress={onPrevThread}
-        onLongPress={onScrollToTop}
+        onPress={$.onPrevThread}
+        onLongPress={$.scrollToTopEnd}
       />
       <IconTouchable
         name='md-keyboard-arrow-down'
         size={24}
         color={_.colorTitle}
-        onPress={onNextThread}
-        onLongPress={onScrollToBottom}
+        onPress={$.onNextThread}
+        onLongPress={$.scrollToBottomEnd}
       />
     </>
   )

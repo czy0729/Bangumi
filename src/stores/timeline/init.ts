@@ -7,7 +7,7 @@
 import { LIST_EMPTY, MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants'
 
 import type { TimeLineScope, TimeLineType, UserId } from '@types'
-import type { CollectionsTimeline, CollectionTimelines } from './types'
+import type { CollectionsTimeline, CollectionTimelines, Timeline } from './types'
 
 export const NAMESPACE = 'Timeline'
 
@@ -23,9 +23,7 @@ export const INIT_SAY_ITEM = {
 
 export const STATE = {
   /** 时间胶囊 */
-  timeline: {
-    0: LIST_EMPTY
-  },
+  timeline: {} as Record<string, Timeline>,
 
   /** 其他人的时间胶囊 */
   usersTimeline: {

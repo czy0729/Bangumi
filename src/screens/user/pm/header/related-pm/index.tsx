@@ -11,19 +11,18 @@ import { _ } from '@stores'
 import { open } from '@utils'
 import { TEXT_MENU_BROWSER, TEXT_MENU_SPLIT, TEXT_NEW_TOPIC } from '@constants'
 
-import type { Props } from './types'
+import type { Ctx } from '../../types'
 
-function RelatedPM({
-  navigation,
-  threads,
-  url,
-  isNewPM,
-  peerUserId,
-  peerUserName,
-  pmFormhash,
-  pmMsgReceivers,
-  onThreadChange
-}: Props) {
+function RelatedPM({ $, navigation }: Ctx) {
+  const { threads, url, userId, pmDetail, onThreadChange } = $
+  const isNewPM = !!userId
+  const {
+    peerUserId,
+    peerUserName,
+    formhash: pmFormhash,
+    msg_receivers: pmMsgReceivers
+  } = pmDetail?.form || {}
+
   const titles = threads.map(t => t.title)
   const hasTitles = titles.length
   const showNum = hasTitles > 2

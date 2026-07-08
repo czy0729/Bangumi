@@ -7,56 +7,28 @@
 import React, { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { HeaderV2 } from '@components'
-import { IconTouchable } from '@_'
-import { _, useStore } from '@stores'
+import { useStore } from '@stores'
 import { getVisualLength } from '@utils'
+import BackToAll from './back-to-all'
 import RelatedPM from './related-pm'
 import ScrollNavButtons from './scroll-nav-buttons'
 import { COMPONENT, HM } from './ds'
 import { styles } from './styles'
 
 import type { Ctx } from '../types'
+
 function Header() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
-
-  const { thread } = $.state
-  const threadLength = $.threads?.length
-  const listLength = $.pmList?.list?.length
 
   const handleHeaderRight = useCallback(
     () => (
       <>
-        {!!thread && (
-          <IconTouchable
-            style={_.mr._xs}
-            name='md-subdirectory-arrow-right'
-            color={_.colorTitle}
-            size={18}
-            onPress={() => $.onThreadChange('')}
-          />
-        )}
-        {(threadLength >= 2 || listLength >= 8) && (
-          <ScrollNavButtons
-            onPrevThread={$.onPrevThread}
-            onNextThread={$.onNextThread}
-            onScrollToTop={$.scrollToTopEnd}
-            onScrollToBottom={$.scrollToBottomEnd}
-          />
-        )}
-        <RelatedPM
-          navigation={navigation}
-          threads={$.threads}
-          url={$.url}
-          isNewPM={!!$.userId}
-          peerUserId={$.pmDetail?.form?.peerUserId}
-          peerUserName={$.pmDetail?.form?.peerUserName}
-          pmFormhash={$.pmDetail?.form?.formhash}
-          pmMsgReceivers={$.pmDetail?.form?.msg_receivers}
-          onThreadChange={$.onThreadChange}
-        />
+        <BackToAll $={$} />
+        <ScrollNavButtons $={$} />
+        <RelatedPM $={$} navigation={navigation} />
       </>
     ),
-    [$, listLength, navigation, thread, threadLength]
+    [$, navigation]
   )
 
   return (

@@ -2,40 +2,40 @@
  * @Author: czy0729
  * @Date: 2023-04-25 16:29:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-06 05:05:58
+ * @Last Modified time: 2026-07-09 06:19:13
  */
 import { getTimestamp, queue } from '@utils'
 import { fetchHTML } from '@utils/fetch'
 import { fetchUserActive } from '@utils/fetch.p1'
 import { fetchCollectionV0, fetchUsersV0 } from '@utils/fetch.v0'
-import { H1, HOST, HTML_SAY, MODEL_TIMELINE_SCOPE } from '@constants'
+import { H1, HOST, HTML_SAY, HTML_TIMELINE, LIST_EMPTY, MODEL_TIMELINE_SCOPE } from '@constants'
 import systemStore from '../system'
 import userStore from '../user'
-import { cheerioFormHash, cheerioSay, fetchTimeline } from './common'
+import { cheerioFormHash, cheerioSay, cheerioTimeline } from './common'
 import Computed from './computed'
 import { DEFAULT_SCOPE, DEFAULT_TYPE } from './init'
 
-import type { Id, SubjectId, TimeLineScope, TimeLineType, UserId } from '@types'
-import type { CollectionTimelines } from './types'
+import type { Id, SubjectId, TimeLineScope, TimeLineScopeCn, UserId } from '@types'
+import type {
+  CollectionTimelines,
+  FetchTimelineArgs,
+  FetchTimelineHTMLReturn,
+  FetchUsersCollectionsTimelineArgs,
+  FetchUsersTimelineArgs,
+  Timeline
+} from './types'
 
 export default class Fetch extends Computed {
   /** 获取自己视角的时间胶囊 */
-  fetchTimeline = async (
-    args: {
-      scope?: TimeLineScope
-      type?: TimeLineType
-      userId?: UserId
-    },
-    refresh?: boolean
-  ) => {
+  fetchTimeline = async (args: FetchTimelineArgs, refresh?: boolean) => {
     const { scope = DEFAULT_SCOPE, type = DEFAULT_TYPE, userId } = args || {}
     const STATE_KEY = 'timeline'
     const ITEM_ARGS = [scope, type] as const
     const ITEM_KEY = ITEM_ARGS.join('|')
 
     try {
-      const data = this[STATE_KEY](...ITEM_ARGS)
-      const { likes, ...next } = await fetchTimeline(
+      const data = this.getState(STATE_KEY, ITEM_KEY, LIST_EMPTY)
+      const { likes, ...next } = await this.fetchTimelineHTML(
         {
           scope,
           type,
@@ -56,17 +56,38 @@ export default class Fetch extends Computed {
       this.error('fetchTimeline', error)
     }
 
-    return this[STATE_KEY](...ITEM_ARGS)
+    return this.getState(STATE_KEY, ITEM_KEY, LIST_EMPTY)
+  }
+
+  /**
+   * 请求并解析时间胶囊 HTML
+   * (私有, 供 fetchTimeline / fetchUsersTimeline / fetchUsersCollectionsTimeline 复用)
+   * */
+  private fetchTimelineHTML = async (
+    args: FetchTimelineArgs = {},
+    refresh?: boolean,
+    prevTimeline?: Timeline,
+    userInfo?: any
+  ): Promise<FetchTimelineHTMLReturn> => {
+    const { scope, type, userId } = args || {}
+    const oldData = prevTimeline || LIST_EMPTY
+    const page = refresh ? 1 : oldData?.pagination.page + 1
+    const scopeCn = MODEL_TIMELINE_SCOPE.getLabel<TimeLineScopeCn>(scope)
+
+    const html = await fetchHTML({
+      url: HTML_TIMELINE(scope, type, userInfo?.username || userId, page)
+    })
+    const { list, pagination, likes } = cheerioTimeline(html, { page, scopeCn })
+    return {
+      list: page === 1 ? list : [...oldData.list, ...list],
+      pagination,
+      likes,
+      _loaded: getTimestamp()
+    }
   }
 
   /** 获取他人视角的时间胶囊 */
-  fetchUsersTimeline = async (
-    args: {
-      userId?: UserId
-      type?: TimeLineType
-    },
-    refresh?: boolean
-  ) => {
+  fetchUsersTimeline = async (args: FetchUsersTimelineArgs, refresh?: boolean) => {
     let { userId, type } = args || {}
 
     // ID 若改过必须要用改过后的
@@ -75,7 +96,7 @@ export default class Fetch extends Computed {
 
     // 范围是自己返回的是某个人的请求地址
     const scope = MODEL_TIMELINE_SCOPE.getValue<TimeLineScope>('自己')
-    const { likes, ...next } = await fetchTimeline(
+    const { likes, ...next } = await this.fetchTimelineHTML(
       { scope, type, userId },
       refresh,
       this.usersTimeline(userId),
@@ -98,24 +119,22 @@ export default class Fetch extends Computed {
   }
 
   /** 获取条目评论关联贴贴 */
-  fetchUsersCollectionsTimeline = async (
-    args: {
-      /** 需要改过后的 ID */
-      userId?: UserId
-    },
-    page: number
-  ) => {
+  fetchUsersCollectionsTimeline = async (args: FetchUsersCollectionsTimelineArgs, page: number) => {
     const { userId = userStore.myUserId } = args || {}
 
     // 范围是自己返回的是某个人的请求地址
     const scope = MODEL_TIMELINE_SCOPE.getValue<TimeLineScope>('自己')
-    const { likes, ...next } = await fetchTimeline({ scope, type: 'subject', userId }, page === 1, {
-      list: [],
-      pagination: {
-        page: page - 1,
-        pageTotal: 100
+    const { likes, ...next } = await this.fetchTimelineHTML(
+      { scope, type: 'subject', userId },
+      page === 1,
+      {
+        list: [],
+        pagination: {
+          page: page - 1,
+          pageTotal: 100
+        }
       }
-    })
+    )
     this.updateLikes(likes)
 
     const data: Record<SubjectId, Id> = {}

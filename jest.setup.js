@@ -38,6 +38,9 @@ jest.mock(
       cHas: $el => $el.length > 0,
       cHasClass: ($el, className) => $el.hasClass(className),
       cHtml: $el => $el.html() || '',
+      cEach: ($el, callback) => {
+        $el.each((index, element) => callback(cheerio(element), index))
+      },
       cMap: ($el, callback) =>
         $el
           .map((index, element) => callback(cheerio(element), index))
@@ -47,7 +50,8 @@ jest.mock(
       cText: $el => $el.text().trim(),
       cheerio,
       htmlMatch: (html, start, end) => html.substring(html.indexOf(start), html.indexOf(end)),
-      matchAvatar: (str = '') => str.match(/url\(['"]?(.*?)['"]?\)/)?.[1] || ''
+      matchAvatar: (str = '') => str.match(/url\(['"]?(.*?)['"]?\)/)?.[1] || '',
+      safeObject: (object = {}) => object
     }
   },
   { virtual: true }
