@@ -524,13 +524,21 @@ const LAST_DATE_UNITS = [
 ] as const
 
 /** 时间戳距离现在时间的描述 */
-export function lastDate(timestamp: number | string, simple: boolean = true) {
+export function lastDate(
+  timestamp: number | string,
+  simple: boolean = true,
+  includeSeconds: boolean = false
+) {
   if (!timestamp) return '刚刚'
+
+  const units = includeSeconds
+    ? [...LAST_DATE_UNITS, { name: '秒', seconds: 1 } as const]
+    : LAST_DATE_UNITS
 
   let seconds = Math.floor(Date.now() / 1000 - Number(timestamp))
   let str = ''
   let hits = 0
-  for (const unit of LAST_DATE_UNITS) {
+  for (const unit of units) {
     if (hits >= 2) break
 
     const count = Math.floor(seconds / unit.seconds)
@@ -544,6 +552,28 @@ export function lastDate(timestamp: number | string, simple: boolean = true) {
     }
   }
   return str ? `${str}前` : '刚刚'
+}
+
+/** 中文相对时间（"3天15时前"）转 epoch 秒 */
+export function relativeToEpoch(time: string, _loaded: number): number | undefined {
+  if (!time.includes('前')) return
+
+  const suffixMatch = time.match(/( · .+)$/)
+  const relativePart = suffixMatch ? time.slice(0, -suffixMatch[1].length) : time
+
+  const units: [string, number][] = [
+    ['天', 86400],
+    ['时', 3600],
+    ['分', 60],
+    ['秒', 1]
+  ]
+  let offset = 0
+  for (const [unit, seconds] of units) {
+    const match = relativePart.match(new RegExp(`(\\d+)${unit}`))
+    if (match) offset += parseInt(match[1]) * seconds
+  }
+
+  return _loaded - offset
 }
 
 /** 清除搜索关键字的特殊字符 */

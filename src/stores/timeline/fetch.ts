@@ -52,6 +52,7 @@ export default class Fetch extends Computed {
           [ITEM_KEY]: next
         }
       })
+      this.save(STATE_KEY)
     } catch (error) {
       this.error('fetchTimeline', error)
     }
@@ -77,12 +78,13 @@ export default class Fetch extends Computed {
     const html = await fetchHTML({
       url: HTML_TIMELINE(scope, type, userInfo?.username || userId, page)
     })
-    const { list, pagination, likes } = cheerioTimeline(html, { page, scopeCn })
+    const _loaded = getTimestamp()
+    const { list, pagination, likes } = cheerioTimeline(html, { page, scopeCn }, _loaded)
     return {
       list: page === 1 ? list : [...oldData.list, ...list],
       pagination,
       likes,
-      _loaded: getTimestamp()
+      _loaded
     }
   }
 

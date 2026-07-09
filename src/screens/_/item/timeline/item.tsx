@@ -9,7 +9,7 @@ import { View } from 'react-native'
 import { Cover, Flex, Iconfont, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { _, uiStore, userStore } from '@stores'
-import { appNavigate, confirm, stl, x18 } from '@utils'
+import { appNavigate, confirm, lastDate, stl, x18 } from '@utils'
 import { memo } from '@utils/decorators'
 import { EVENT, FROZEN_ARRAY, FROZEN_FN, IMG_HEIGHT_SM, IMG_WIDTH_SM, SHARE_MODE } from '@constants'
 import { InView, Likes, Popover, Stars } from '../../base'
@@ -65,6 +65,7 @@ const Item = memo(
       type: ''
     },
     time = '',
+    epoch = '',
     star = '',
     subject = '',
     subjectId = 0,
@@ -81,6 +82,9 @@ const Item = memo(
     const { text: p3Text, url: p3Url } = p3
     const { text: p4Text } = p4
     const _image = !!image.length && image[0]
+    const displayTime = epoch
+      ? `${lastDate(epoch, false, true)}${(time.match(/ · .+$/) || [])[0] || ''}`
+      : time
 
     const handleNavigate = useCallback(
       (url: string, passParams?: object) => {
@@ -207,7 +211,7 @@ const Item = memo(
                   </>
                 )}
                 <Text type='sub' size={12} numberOfLines={1}>
-                  {time}
+                  {displayTime}
                 </Text>
                 <Stars style={_.ml.sm} value={star} />
               </Flex>
@@ -275,7 +279,8 @@ const Item = memo(
     styles: props.styles,
 
     /** 时间胶囊项的信息变化不重要, 只根据时间判断 */
-    time: props.time
+    time: props.time,
+    epoch: props.epoch
   })
 )
 

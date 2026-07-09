@@ -15,6 +15,7 @@ import {
   cText,
   htmlMatch,
   matchAvatar,
+  relativeToEpoch,
   safeObject
 } from '@utils'
 import { LIKE_TYPE_TIMELINE } from '@constants'
@@ -30,10 +31,12 @@ const NODE_TYPE_RAW_TEXT = 3
  * @param html    时间胶囊页面 HTML
  * @param page    当前页码
  * @param scopeCn 范围中文 ('自己' | '好友' | '全站' | ...)
+ * @param _loaded 数据加载时的时间戳（毫秒），传入会给每项补 _time 字段（epoch 秒）
  */
 export function cheerioTimeline(
   html: string,
-  { page, scopeCn }: { page: number; scopeCn: TimeLineScopeCn }
+  { page, scopeCn }: { page: number; scopeCn: TimeLineScopeCn },
+  _loaded?: number
 ) {
   const isSelf = scopeCn === '自己'
   const $ = cParse(html, '<div id="timeline', '<div id="tmlPager')
@@ -41,7 +44,12 @@ export function cheerioTimeline(
   const list = cMap<TimelineItem | null>($('li'), $li => {
     try {
       const date = cText($li.closest('ul').prev('h4'))
-      return cheerioTimelineItem($li, { date, page, isSelf })
+      const item = cheerioTimelineItem($li, { date, page, isSelf })
+      if (item && _loaded) {
+        const epoch = relativeToEpoch(item.time, _loaded)
+        if (epoch !== undefined) item.epoch = epoch
+      }
+      return item
     } catch (error) {
       return null
     }

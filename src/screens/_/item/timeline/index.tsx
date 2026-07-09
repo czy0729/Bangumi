@@ -33,6 +33,7 @@ export const ItemTimeline = observer(
     reply,
     like,
     time,
+    epoch,
     star,
     subject,
     subjectId,
@@ -67,6 +68,7 @@ export const ItemTimeline = observer(
           reply={reply}
           like={like}
           time={time}
+          epoch={epoch}
           star={star}
           subject={subject}
           subjectId={subjectId}

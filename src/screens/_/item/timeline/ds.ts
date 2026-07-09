@@ -44,6 +44,7 @@ export const DEFAULT_PROPS = {
   reply: {} as Props['reply'],
   like: {} as Props['like'],
   time: '' as Props['time'],
+  epoch: 0 as Props['epoch'],
   star: '' as Props['star'],
   subject: '' as Props['subject'],
   subjectId: 0 as Props['subjectId'],

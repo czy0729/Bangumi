@@ -73,6 +73,9 @@ export type TimelineItem = {
   /** 发布时间 (如 2小时前) */
   time: string
 
+  /** 绝对时间戳（秒），用于缓存冷启动后重新计算相对时间 */
+  epoch?: number
+
   /** 评价星级 (stars3 等) */
   star: string
 

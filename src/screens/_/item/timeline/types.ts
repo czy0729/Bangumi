@@ -2,51 +2,29 @@
  * @Author: czy0729
  * @Date: 2022-06-17 20:50:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 06:31:29
+ * @Last Modified time: 2026-07-09 00:00:00
  */
-import type { EventType, SubjectId, TopicId, UserId, WithNavigation, WithViewStyles } from '@types'
+import type { EventType, UserId, WithNavigation, WithViewStyles } from '@types'
+import type { TimelineItem } from '@stores/timeline/types'
 
+/** ItemTimeline 组件 props，时间胶囊数据结构从 TimelineItem 继承，其余为 UI 控制参数 */
 export type Props = WithNavigation<
-  WithViewStyles<{
-    full?: boolean
-    avatar?: {
-      url?: string
-      src?: string
+  WithViewStyles<
+    Partial<TimelineItem> & {
+      /** 是否完整显示（含右侧头像） */
+      full?: boolean
+
+      /** 列表索引 */
+      index?: number
+
+      /** 埋点对象 */
+      event?: EventType
+
+      /** 删除回调 */
+      onDelete?: (clearHref?: string) => any
+
+      /** 隐藏 TA 回调 */
+      onHidden?: (title?: string, userId?: UserId) => any
     }
-    p1?: {
-      text: string
-      url: string
-    }
-    p2?: {
-      text: string
-    }
-    p3?: {
-      text: string[]
-      url: string[]
-    }
-    p4?: {
-      text: string
-    }
-    image?: string[]
-    comment?: string
-    reply?: {
-      count: string | number
-      url?: string
-      content?: string
-    }
-    like?: {
-      type: string | number
-      mainId: TopicId
-      relatedId: string | number
-    }
-    time?: string
-    star?: string | number
-    subject?: string
-    subjectId?: SubjectId
-    clearHref?: string
-    index?: number
-    event?: EventType
-    onDelete?: (clearHref?: string) => any
-    onHidden?: (title?: string, userId?: UserId) => any
-  }>
+  >
 >
