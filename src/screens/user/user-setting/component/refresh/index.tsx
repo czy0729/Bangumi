@@ -6,9 +6,9 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Iconfont, Touchable } from '@components'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
@@ -17,21 +17,19 @@ import type { Ctx } from '../../types'
 function Refresh({ onRefresh }) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    if ($.state.selectedIndex !== 1) return null
+  if ($.state.selectedIndex !== 1) return null
 
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    return (
-      <View style={styles.btn}>
-        <Touchable style={styles.touch} onPress={onRefresh}>
-          <Flex style={styles.icon} justify='center'>
-            <Iconfont name='md-refresh' color={_.colorPlain} size={20} />
-          </Flex>
-        </Touchable>
-      </View>
-    )
-  })
+  return (
+    <View style={styles.btn}>
+      <Touchable style={styles.touch} onPress={onRefresh}>
+        <Flex style={styles.icon} justify='center'>
+          <Iconfont name='md-refresh' color={_.colorPlain} size={20} />
+        </Flex>
+      </Touchable>
+    </View>
+  )
 }
 
-export default Refresh
+export default observer(Refresh)

@@ -439,9 +439,11 @@ export default class Fetch extends Computed {
         }
       })
       this.save(STATE_KEY)
-    } catch {}
+    } catch (error) {
+      this.error('fetchUserSetting', error)
+    }
 
-    return this[STATE_KEY]
+    return this.getState(STATE_KEY)
   }
 
   /** 在线用户最后上报时间集 */

@@ -199,14 +199,14 @@ export function cheerioPMParams(html: string) {
 
 /** 个人设置 */
 export function cheerioUserSetting(html: string) {
-  const $ = cheerio(htmlMatch(html, '<div id="columnSearchB', '<div id="footer'))
+  const $ = cParse(html, '<div id="columnSearchB', '<div id="footer')
   return {
-    sign: $('#newbio').text().trim(),
-    nickname: $('input[name=nickname]').attr('value'),
-    sign_input: $('input[name=sign_input]').attr('value'),
-    formhash: $('input[name=formhash]').attr('value'),
-    timeoffsetnew: $('select[name=timeoffsetnew] option[selected=selected]').attr('value') || '8',
-    show_nsfw_subject: $('input[name=show_nsfw_subject]').attr('value') === '1'
+    sign: cText($('#newbio')),
+    nickname: cData($('input[name=nickname]'), 'value'),
+    sign_input: cData($('input[name=sign_input]'), 'value'),
+    formhash: cData($('input[name=formhash]'), 'value'),
+    timeoffsetnew: cData($('select[name=timeoffsetnew] option[selected=selected]'), 'value') || '8',
+    show_nsfw_subject: cHas($('input[name=show_nsfw_subject][checked]'))
   }
 }
 

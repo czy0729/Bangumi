@@ -8,8 +8,9 @@ import { usersStore, userStore } from '@stores'
 import { feedback, HTMLDecode, info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
 import { FROZEN_FN } from '@constants'
-import { REG_AVATAR, REG_BG, REG_FIXED } from '../ds'
 import Fetch from './fetch'
+import { buildSign } from './utils'
+import { REG_AVATAR, REG_BG, REG_FIXED } from './ds'
 
 export default class Action extends Fetch {
   /** 还原 */
@@ -57,33 +58,13 @@ export default class Action extends Fetch {
     const { avatar, bg, nickname, sign_input } = this.state
 
     // 使用个人签名来记录客户端自定义头像和背景
-    let _sign = sign
-    if (_sign.match(REG_AVATAR)) {
-      _sign = _sign.replace(REG_AVATAR, `[avatar]${avatar || ''}[/avatar]`)
-    } else {
-      _sign += `[size=0][avatar]${avatar || ''}[/avatar][/size]`
-    }
-
-    let _bg = bg || ''
-    if (typeof _bg === 'string' && _bg.includes('i.pixiv.re')) {
-      _bg = _bg.replace('/c/540x540_70', '')
-    }
-
-    if (_sign.match(REG_BG)) {
-      _sign = _sign.replace(REG_BG, `[bg]${_bg}[/bg]`)
-    } else {
-      _sign += `[size=0][bg]${_bg}[/bg][/size]`
-    }
-
-    // 清除错误保存的历史数据
-    _sign = _sign.replace(REG_FIXED, '')
-
+    const { newbio, bg: savedBg } = buildSign(sign, avatar, bg)
     userStore.doUpdateUserSetting(
       {
         formhash,
         nickname,
         sign_input,
-        newbio: _sign,
+        newbio,
         timeoffsetnew,
         show_nsfw_subject: show_nsfw_subject ? 1 : 0
       },
@@ -100,7 +81,7 @@ export default class Action extends Fetch {
         usersStore.fetchUsers(this.myUserId)
 
         this.setState({
-          bg: _bg
+          bg: savedBg
         })
         this.save()
       },

@@ -7,7 +7,7 @@
 import { computed } from 'mobx'
 import { usersStore, userStore } from '@stores'
 import { HTMLDecode } from '@utils'
-import { REG_AVATAR, REG_BG, REG_FIXED } from '../ds'
+import { REG_AVATAR, REG_BG, REG_FIXED } from './ds'
 import State from './state'
 
 export default class Computed extends State {

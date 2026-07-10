@@ -5,11 +5,11 @@
  * @Last Modified time: 2026-03-16 06:53:19
  */
 import React, { useCallback } from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Input, Text, Touchable } from '@components'
 import { IconTouchable, Notice } from '@_'
 import { _, useStore } from '@stores'
 import { confirm, open, stl } from '@utils'
-import { useObserver } from '@utils/hooks'
 import { HOST_IMAGE_UPLOAD_RYMK, IOS } from '@constants'
 import { COMPONENT, FIELDS } from './ds'
 import { styles } from './styles'
@@ -38,7 +38,7 @@ function Form({ expand, onExpand, onScrollIntoViewIfNeeded }) {
     [$]
   )
 
-  return useObserver(() => (
+  return (
     <>
       {expand &&
         FIELDS.map((item, index) => (
@@ -82,7 +82,7 @@ function Form({ expand, onExpand, onScrollIntoViewIfNeeded }) {
         </Notice>
       )}
     </>
-  ))
+  )
 }
 
-export default Form
+export default observer(Form)
