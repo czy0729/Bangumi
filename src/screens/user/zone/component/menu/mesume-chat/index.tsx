@@ -22,7 +22,7 @@ function MesumeChat() {
       size={19}
       color={_.__colorPlain__}
       shadow
-      onPress={$.doChat}
+      onPress={() => $.doChat()}
     />
   )
 }

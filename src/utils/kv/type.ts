@@ -98,3 +98,15 @@ export type ResultRecommendTopics = {
   recommendations: RecommendTopicItem[]
   execution_time_ms: number
 }
+
+export type GenerateType =
+  | 'subject'
+  | 'subject_topic'
+  | 'group_topic'
+  | 'blog'
+  | 'user'
+  | 'ep'
+  | 'character'
+  | 'person'
+
+

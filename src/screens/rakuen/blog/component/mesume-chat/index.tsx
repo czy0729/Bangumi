@@ -21,7 +21,7 @@ function MesumeChat() {
       size={18}
       color={_.colorDesc}
       name='md-chat-bubble-outline'
-      onPress={$.doChat}
+      onPress={() => $.doChat()}
     />
   )
 }

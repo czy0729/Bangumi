@@ -8,11 +8,10 @@ import { toJS } from 'mobx'
 import { rakuenStore, systemStore } from '@stores'
 import { feedback, getTimestamp, info, removeHTMLTag } from '@utils'
 import { t } from '@utils/fetch'
-import { completions, get, update } from '@utils/kv'
+import { generate, get, update } from '@utils/kv'
 import { MUSUME_BLOG_PROMPT, MUSUME_PROMPT } from '@utils/kv/ds'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HOST, IOS } from '@constants'
-import { getTopicMainFloorRawText } from '@screens/rakuen/topic/utils'
 import Fetch from './fetch'
 import { EXCLUDE_STATE } from './ds'
 
@@ -358,21 +357,20 @@ export default class Action extends Fetch {
 
     if (!refresh && this.currentChatValues.length) return
 
-    const prompt = `${MUSUME_PROMPT[musumePrompt]}${MUSUME_BLOG_PROMPT}`
-    const roleSystem = `你正在和用户一起浏览班友"${this.userName}"发布的日志。请评论：`
-    const roleUser = `标题：${getTopicMainFloorRawText(this.title, this.html)}`
+    const prompt =
+      musumePrompt !== 'bangumi' ? `${MUSUME_PROMPT[musumePrompt]}${MUSUME_BLOG_PROMPT}` : undefined
 
     this.setState({
       chatLoading: true
     })
-    const value = await completions(prompt, roleSystem, roleUser, systemStore.advance)
+    const value = await generate('blog', this.blogId, refresh, prompt)
     this.setState({
       chatLoading: false
     })
     feedback()
 
     if (!value) {
-      info('请求超时请重试')
+      info('请求超时，可以过一段时间再试')
       return
     }
 

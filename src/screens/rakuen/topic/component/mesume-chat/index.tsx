@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-02-04 07:13:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 05:44:32
+ * @Last Modified time: 2026-07-11 05:46:50
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -22,7 +22,7 @@ function MesumeChat() {
       size={18}
       color={_.colorDesc}
       name='md-chat-bubble-outline'
-      onPress={$.doChat}
+      onPress={() => $.doChat()}
     />
   )
 }

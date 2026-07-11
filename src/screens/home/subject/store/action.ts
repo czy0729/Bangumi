@@ -34,7 +34,6 @@ import {
   getBangumiUrl,
   getCoverLarge,
   getCoverMedium,
-  getRandomItems,
   getSPAParams,
   getTimestamp,
   info,
@@ -48,7 +47,7 @@ import {
 import { calendarEventsSaveGameReleaseDate } from '@utils/calendar'
 import { logger } from '@utils/dev'
 import { baiduTranslate, t } from '@utils/fetch'
-import { completions, download, get, lx, lxCache, temp, update } from '@utils/kv'
+import { download, generate, get, lx, lxCache, temp, update } from '@utils/kv'
 import { MUSUME_PROMPT, MUSUME_SUBJECT_PROMPT } from '@utils/kv/ds'
 import { applyLainProxy, applyProxy } from '@utils/proxy'
 import { axios } from '@utils/thirdParty'
@@ -79,7 +78,6 @@ import {
   WEB
 } from '@constants'
 import i18n from '@constants/i18n'
-import { getPlainText, removeSlogan } from '@screens/discovery/word-cloud/store/utils'
 import { COMPONENT, TEXT_COPY_COMMENT, TEXT_LIKES } from '../ds'
 import { replaceOriginUrl } from '../../../user/origin-setting/utils'
 import Fetch from './fetch'
@@ -1755,45 +1753,21 @@ export default class Action extends Fetch {
 
     if (!refresh && this.currentChatValues.length) return
 
-    if (this.subjectComments.list.length <= 20) {
-      this.setState({
-        chatLoading: true
-      })
-      await this.fetchSubjectComments()
-    }
-
-    const roleSystem = `以下是条目《${this.cn}》（可提及），当前全站评分为${
-      this.rating.score || '-'
-    }，其中最近班友的吐槽（每个换行为一个，若班友进行过评分在最前方使用了中括号标记，满分为十分），请总结条目当前的风评，但请勿剧透：`
-
-    let roleUser = ''
-
-    // 适当打乱数据, 让结果能呈现更多的不同
-    getRandomItems(
-      this.subjectComments.list.filter(item => !(item.avatar || '').includes('icon.jpg')),
-      20
-    ).forEach(item => {
-      roleUser += `\n${item.star ? `[${item.star}分] ` : ''}${removeSlogan(
-        getPlainText(item.comment.slice(0, 32))
-      )}`
-    })
-
     this.setState({
       chatLoading: true
     })
-    const value = await completions(
-      `${MUSUME_PROMPT[musumePrompt]}${MUSUME_SUBJECT_PROMPT}`,
-      roleSystem,
-      roleUser,
-      systemStore.advance
-    )
+    const prompt =
+      musumePrompt !== 'bangumi'
+        ? `${MUSUME_PROMPT[musumePrompt]}${MUSUME_SUBJECT_PROMPT}`
+        : undefined
+    const value = await generate('subject', this.subjectId, refresh, prompt)
     this.setState({
       chatLoading: false
     })
     feedback()
 
     if (!value) {
-      info('请求超时请重试')
+      info('请求超时，可以过一段时间再试')
       return
     }
 

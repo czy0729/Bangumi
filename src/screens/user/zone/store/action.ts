@@ -6,12 +6,12 @@
  */
 import { toJS } from 'mobx'
 import { systemStore, timelineStore, uiStore, userStore } from '@stores'
+import { USER_STATS_TYPES } from '@stores/users/ds'
 import { feedback, getTimestamp, info, loading } from '@utils'
 import { fetchHTML, t } from '@utils/fetch'
-import { completions, get, update } from '@utils/kv'
+import { generate, get, update } from '@utils/kv'
 import { MUSUME_PROMPT, MUSUME_ZONE_PROMPT } from '@utils/kv/ds'
 import { webhookFriend } from '@utils/webhooks'
-import { USER_STATS_TYPES } from '@stores/users/ds'
 import { HOST, MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants'
 import { COLLECTION_TYPES } from '../ds'
 import Fetch from './fetch'
@@ -460,26 +460,20 @@ export default class Action extends Fetch {
 
     if (!refresh && this.currentChatValues.length) return
 
-    const roleSystem = `你正在和用户一起浏览班友"${this.nickname}"（可提及）的个人空间，请评论：`
-    let roleUser = `注册时间：${this.users.join}。`
-    if (this.content) roleUser += `个人简介：${this.content.slice(0, 400)}。`
+    const prompt =
+      musumePrompt !== 'bangumi' ? `${MUSUME_PROMPT[musumePrompt]}${MUSUME_ZONE_PROMPT}` : undefined
 
     this.setState({
       chatLoading: true
     })
-    const value = await completions(
-      `${MUSUME_PROMPT[musumePrompt]}${MUSUME_ZONE_PROMPT}`,
-      roleSystem,
-      roleUser,
-      systemStore.advance
-    )
+    const value = await generate('user', this.username, refresh, prompt)
     this.setState({
       chatLoading: false
     })
     feedback()
 
     if (!value) {
-      info('请求超时请重试')
+      info('请求超时，可以过一段时间再试')
       return
     }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-23 01:47:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-02 08:24:54
+ * @Last Modified time: 2026-07-11 05:45:07
  */
 import Constants from 'expo-constants'
 import { WEB } from '@constants/device'
@@ -21,11 +21,13 @@ import {
   HOST_HM,
   HOST_PIC_LIST,
   HOST_RY_MK,
+  HOST_RY_MK_AI,
   UPDATE_CACHE_MAP
 } from './ds'
 
 import type { TranslateResult, UserId } from '@types'
 import type {
+  GenerateType,
   Result,
   ResultCollectList,
   ResultGroupTopics,
@@ -528,6 +530,56 @@ async function c2(prompt: string, roleSystem: string, roleUser: string) {
     return text
   } catch (error) {
     err('c2', error)
+  }
+
+  return ''
+}
+
+/**
+ * @param type 页面类型
+ *   - subject        /subject/:id          条目页
+ *   - subject_topic  /subject/topic/:id    条目讨论版
+ *   - group_topic    /group/topic/:id      小组帖子
+ *   - blog           /blog/:id             日志
+ *   - user           /user/:username       用户空间
+ *   - ep             /ep/:id               章节
+ *   - character      /character/:id 或 /person/:id  角色/人物
+ * @param id 页面 ID，user 类型时为用户名
+ * @param regenerate 是否强制重新生成
+ * @param customPrompt 自定义提示词
+ * */
+export async function generate(
+  type: GenerateType = 'subject',
+  id: string | number,
+  regenerate = false,
+  customPrompt?: string
+): Promise<string> {
+  if (isDevtoolsOpen()) return Promise.reject('denied')
+
+  if (!userAgent) userAgent = await Constants.getWebViewUserAgentAsync()
+
+  try {
+    const body: Record<string, any> = { type, id, regenerate }
+    if (type === 'person' || type === 'character') {
+      body.type = 'character'
+      body.subKind = type
+    }
+    if (customPrompt) body.customPrompt = customPrompt
+
+    log('generate', body)
+    const { data } = await axios({
+      method: 'post',
+      url: `${HOST_RY_MK_AI}/generate`,
+      headers: {
+        ...JSON.parse(HOST_C2_CONFIG),
+        'User-Agent': userAgent
+      },
+      data: body
+    })
+
+    return data?.text || ''
+  } catch (error) {
+    err('generate', error)
   }
 
   return ''

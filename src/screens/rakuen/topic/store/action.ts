@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:09:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-29 20:12:42
+ * @Last Modified time: 2026-07-11 05:47:01
  */
 import { toJS } from 'mobx'
 import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
@@ -10,7 +10,6 @@ import { rakuenStore, systemStore, uiStore } from '@stores'
 import {
   decodeHTMLEntities,
   feedback,
-  getRandomItems,
   getTimestamp,
   info,
   loading,
@@ -19,16 +18,16 @@ import {
 } from '@utils'
 import CacheManager from '@utils/cache-manager'
 import { baiduTranslate, t } from '@utils/fetch'
-import { completions, get, lx, lxCache, update } from '@utils/kv'
+import { generate, get, lx, lxCache, update } from '@utils/kv'
 import { MUSUME_EP_PROMPT, MUSUME_PROMPT, MUSUME_TOPIC_PROMPT } from '@utils/kv/ds'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HOST, IOS } from '@constants'
 import i18n from '@constants/i18n'
-import { getPlainText, removeSlogan } from '@screens/discovery/word-cloud/store/utils'
 import { getTopicMainFloorRawText } from '../utils'
 import Fetch from './fetch'
 
 import type { AnyObject, CompletionItem, Fn, Id, ScrollEvent, TopicType } from '@types'
+import type { GenerateType } from '@utils/kv/type'
 import type { RakuenReplyType } from '@constants/html/types'
 
 export default class Action extends Fetch {
@@ -688,7 +687,7 @@ export default class Action extends Fetch {
   private _doChatUpdate = false
 
   /** 锐评 */
-  doChat = async (refresh = false) => {
+  doChat = async (refresh: boolean = false) => {
     if (this.state.chatLoading || !this.topic._loaded) return
 
     t('帖子.聊天', {
@@ -719,40 +718,32 @@ export default class Action extends Fetch {
 
     if (!refresh && this.currentChatValues.length) return
 
-    let prompt = ''
-    let roleSystem = ''
-    let roleUser = ''
-    if (this.isEp) {
-      prompt = `${MUSUME_PROMPT[musumePrompt]}${MUSUME_EP_PROMPT}`
-      roleSystem = `你正在和用户一起浏览条目《${this.group}》（可提及）的章节"${this.title}"的吐槽。请评论：`
-      roleUser = '最近班友们的吐槽：'
-
-      // 适当打乱数据, 让结果能呈现更多的不同
-      getRandomItems(
-        this.topicComments.list.filter(item => !(item.avatar || '').includes('icon.jpg')),
-        12
-      ).forEach(item => {
-        roleUser += `${removeSlogan(
-          getPlainText(getTopicMainFloorRawText('', item.message).slice(0, 32))
-        )}；`
-      })
-    } else {
-      prompt = `${MUSUME_PROMPT[musumePrompt]}${MUSUME_TOPIC_PROMPT}`
-      roleSystem = `你正在和用户一起浏览班友"${this.userName}"发布的帖子。请评论：`
-      roleUser = `标题：${getTopicMainFloorRawText(this.title, this.html)}`
-    }
+    const aiType: GenerateType = this.isEp
+      ? 'ep'
+      : this.isMono
+      ? this.topicId.startsWith('prsn/')
+        ? 'person'
+        : 'character'
+      : this.isTopic
+      ? 'group_topic'
+      : 'subject_topic'
+    const aiId = this.topicId.split('/')[1]
+    const prompt =
+      musumePrompt !== 'bangumi'
+        ? `${MUSUME_PROMPT[musumePrompt]}${this.isEp ? MUSUME_EP_PROMPT : MUSUME_TOPIC_PROMPT}`
+        : undefined
 
     this.setState({
       chatLoading: true
     })
-    const value = await completions(prompt, roleSystem, roleUser, systemStore.advance)
+    const value = await generate(aiType, aiId, refresh, prompt)
     this.setState({
       chatLoading: false
     })
     feedback()
 
     if (!value) {
-      info('请求超时请重试')
+      info('请求超时，可以过一段时间再试')
       return
     }
 

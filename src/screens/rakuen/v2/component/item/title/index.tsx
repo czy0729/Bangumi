@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 17:40:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 02:59:21
+ * @Last Modified time: 2026-07-11 05:54:36
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -18,6 +18,7 @@ function Title({ topicId, title, replyCount, isGroup }: Props) {
   const { $ } = useStore<Ctx>()
 
   const isReaded = $.readed(topicId).time
+  const isBlog = String(topicId).includes('blog/')
 
   // 处理 (+30) +10 样式
   const replyText = `+${replyCount}`
@@ -51,9 +52,15 @@ function Title({ topicId, title, replyCount, isGroup }: Props) {
           {replyAdd}
         </Text>
       )}
+      {isBlog && (
+        <Text {...BASE_TEXT_PROPS} type='sub'>
+          {'  '}
+          日志
+        </Text>
+      )}
       {isOldTopic && (
         <Text {...BASE_TEXT_PROPS} type='sub'>
-          {' '}
+          {'  '}
           旧帖
         </Text>
       )}
