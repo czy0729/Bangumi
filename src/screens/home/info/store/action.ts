@@ -19,7 +19,7 @@ export default class Action extends Computed {
     const errorInfo = `翻译${isGemini ? '超时' : '失败'}, 请重试`
     let hide: () => void
     try {
-      hide = loading('请求中...')
+      hide = loading()
 
       // 不管翻译引擎, 先尝试获取云缓存
       const cache = await lxCache(this.summary)
@@ -41,17 +41,19 @@ export default class Action extends Computed {
           })
           return
         }
-      } else {
-        const response = await baiduTranslate(this.summary)
-        hide()
 
-        const { trans_result: translateResult } = JSON.parse(response)
-        if (Array.isArray(translateResult)) {
-          this.setState({
-            translateResult
-          })
-          return
-        }
+        hide = loading()
+      }
+
+      const response = await baiduTranslate(this.summary)
+      hide()
+
+      const { trans_result: translateResult } = JSON.parse(response)
+      if (Array.isArray(translateResult)) {
+        this.setState({
+          translateResult
+        })
+        return
       }
 
       info(errorInfo)

@@ -596,17 +596,19 @@ export default class Action extends Fetch {
           })
           return
         }
-      } else {
-        const response = await baiduTranslate(text)
-        hide()
 
-        const { trans_result: translateResult } = JSON.parse(response)
-        if (Array.isArray(translateResult)) {
-          this.setState({
-            translateResult
-          })
-          return
-        }
+        hide = loading()
+      }
+
+      const response = await baiduTranslate(text)
+      hide()
+
+      const { trans_result: translateResult } = JSON.parse(response)
+      if (Array.isArray(translateResult)) {
+        this.setState({
+          translateResult
+        })
+        return
       }
 
       info(errorInfo)
@@ -660,20 +662,22 @@ export default class Action extends Fetch {
           })
           return
         }
-      } else {
-        const response = await baiduTranslate(text)
-        hide()
 
-        const { trans_result: translateResult } = JSON.parse(response)
-        if (Array.isArray(translateResult)) {
-          this.setState({
-            translateResultFloor: {
-              ...translateResultFloor,
-              [floorId]: translateResult.map(item => item.dst).join('\n')
-            }
-          })
-          return
-        }
+        hide = loading()
+      }
+
+      const response = await baiduTranslate(text)
+      hide()
+
+      const { trans_result: translateResult } = JSON.parse(response)
+      if (Array.isArray(translateResult)) {
+        this.setState({
+          translateResultFloor: {
+            ...translateResultFloor,
+            [floorId]: translateResult.map(item => item.dst).join('\n')
+          }
+        })
+        return
       }
 
       info(errorInfo)

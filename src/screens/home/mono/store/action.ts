@@ -157,17 +157,19 @@ export default class Action extends Fetch {
           })
           return
         }
-      } else {
-        const response = await baiduTranslate(text)
-        hide()
 
-        const { trans_result } = JSON.parse(response)
-        if (Array.isArray(trans_result)) {
-          this.setState({
-            [key]: trans_result
-          })
-          return
-        }
+        hide = loading()
+      }
+
+      const response = await baiduTranslate(text)
+      hide()
+
+      const { trans_result } = JSON.parse(response)
+      if (Array.isArray(trans_result)) {
+        this.setState({
+          [key]: trans_result
+        })
+        return
       }
 
       info(errorInfo)
