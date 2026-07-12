@@ -5,7 +5,6 @@
  * @Last Modified time: 2024-09-02 13:20:08
  */
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { FROZEN_FN } from '@constants/init'
 
 export const getItem = AsyncStorage.getItem
 
@@ -15,5 +14,6 @@ export const getAllKeys = AsyncStorage.getAllKeys
 
 export const multiGet = AsyncStorage.multiGet
 
-/** @todo */
-export const removeItem = FROZEN_FN
+export const removeItem = AsyncStorage.removeItem
+
+export const clear = AsyncStorage.clear

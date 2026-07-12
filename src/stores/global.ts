@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-11 16:25:21
+ * @Last Modified time: 2026-07-12 02:28:32
  */
 import { StatusBar } from 'react-native'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { confirm, queue } from '@utils'
+import { clear } from '@utils/storage/utils'
 import { DEV, WEB } from '@constants'
 import i18n from '@constants/i18n'
 import calendarStore from './calendar'
@@ -117,7 +117,7 @@ class GlobalStores {
 
   /** 清除缓存 */
   async clearStorage() {
-    await AsyncStorage.clear()
+    await clear()
     this.restore()
     return true
   }

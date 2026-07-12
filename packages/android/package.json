@@ -85,6 +85,7 @@
     "react-native-gesture-handler": "~2.12.0",
     "react-native-hold-menu": "0.1.1",
     "react-native-image-zoom-viewer": "2.2.26",
+    "react-native-mmkv": "2.12.2",
     "react-native-modal-popover": "0.0.12",
     "react-native-pager-view": "6.2.0",
     "react-native-popable": "0.4.3",
