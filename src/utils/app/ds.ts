@@ -71,7 +71,10 @@ export const SITE_MAP = {
   p: 'pptv',
   m: 'mgtv',
   ni: 'nicovideo',
-  n: 'netflix'
+  n: 'netflix',
+  bhmt: 'bilibili-hmt',
+  mal: 'MyAnimeList',
+  adb: 'AniDB'
 } as const
 
 /** 隐私条款弹窗 key */
@@ -110,7 +113,11 @@ export const BANGUMI_URL_TEMPLATES = {
   pptv: (id: Id) => `http://v.pptv.com/page/${id}.html`,
   qq: (id: Id) => `https://v.qq.com/detail/${id}.html`,
   sohu: (id: Id) => `https://tv.sohu.com/${id}`,
-  youku: (id: Id) => `https://list.youku.com/show/id_z${id}.html`
+  youku: (id: Id) => `https://list.youku.com/show/id_z${id}.html`,
+  tmdb: (id: Id) => `https://www.themoviedb.org/${id}`,
+  anidb: (id: Id) => `https://anidb.net/anime/${id}`,
+  aniList: (id: Id) => `https://anilist.co/anime/${id}`,
+  myanimelist: (id: Id) => `https://myanimelist.net/anime/${id}`
 } as const
 
 export const GET_AVATAR_CACHE_MAP = new Map<UserId, any>()

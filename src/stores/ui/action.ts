@@ -34,7 +34,7 @@ export default class Action extends Computed {
   setScrolling = (value: boolean) => {
     if (value !== this.isScrolling) {
       this.isScrolling = value
-      this.log('setScrolling', this.isScrolling)
+      // this.log('setScrolling', this.isScrolling)
     }
   }
 

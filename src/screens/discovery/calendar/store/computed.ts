@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-06-20 17:28:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-03 20:37:32
+ * @Last Modified time: 2026-07-13 01:40:36
  */
 import { computed } from 'mobx'
 import { calendarStore, collectionStore, subjectStore } from '@stores'
@@ -17,8 +17,7 @@ import {
   TEXT_MENU_NOT_SHOW,
   TEXT_MENU_ONLY_SHOW,
   TEXT_MENU_SHOW,
-  TEXT_MENU_SPLIT_LEFT,
-  TEXT_MENU_SPLIT_RIGHT
+  withSplit
 } from '@constants'
 import { PREV_DAY_HOUR } from '../ds'
 import { getTime } from '../utils'
@@ -117,15 +116,13 @@ export default class Computed extends State {
   /** 工具栏菜单 */
   @computed get toolBar() {
     return [
-      `${TEXT_MENU_LAYOUT}${TEXT_MENU_SPLIT_LEFT}${
+      `${TEXT_MENU_LAYOUT}${withSplit(
         this.state.layout === 'list' ? TEXT_MENU_LIST : TEXT_MENU_GRID
-      }${TEXT_MENU_SPLIT_RIGHT}`,
-      `${TEXT_MENU_FAVOR}${TEXT_MENU_SPLIT_LEFT}${
+      )}`,
+      `${TEXT_MENU_FAVOR}${withSplit(
         this.state.type === 'all' ? TEXT_MENU_SHOW : TEXT_MENU_ONLY_SHOW
-      }${TEXT_MENU_SPLIT_RIGHT}`,
-      `未知时间番剧${TEXT_MENU_SPLIT_LEFT}${
-        this.state.expand ? TEXT_MENU_SHOW : TEXT_MENU_NOT_SHOW
-      }${TEXT_MENU_SPLIT_RIGHT}`
+      )}`,
+      `未知时间番剧${withSplit(this.state.expand ? TEXT_MENU_SHOW : TEXT_MENU_NOT_SHOW)}`
     ]
   }
 }

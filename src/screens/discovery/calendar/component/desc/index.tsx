@@ -30,8 +30,8 @@ function Desc({ style, subjectId, sites, size = 11, filterToShow = false }: Prop
 
   if (sites?.b) extra.push('bilibili')
   if (!sites?.b && sites?.bhmt) extra.push('bilibili 港澳台')
-  if (sites?.i) extra.push('爱奇艺')
-  if (sites?.q) extra.push('腾讯视频')
+  // if (sites?.i) extra.push('爱奇艺')
+  // if (sites?.q) extra.push('腾讯视频')
   if (extra.length) {
     els.push(
       <Text {...baseTextProps} type='sub'>
