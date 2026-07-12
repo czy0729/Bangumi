@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-11-15 14:30:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-09 05:59:59
+ * @Last Modified time: 2026-07-13 02:14:26
  */
 import { useCallback, useRef, useState } from 'react'
 import { Animated, StyleSheet, View } from 'react-native'
 import { Pager } from 'react-native-tab-view/src/Pager'
 import { SceneView } from 'react-native-tab-view/src/SceneView'
 import { TabBar } from 'react-native-tab-view/src/TabBar'
+import { uiStore } from '@stores'
 import { stl } from '@utils/utils'
 import { IOS } from '@constants/constants'
 
@@ -89,6 +90,7 @@ export function TabView<T extends Route>({
   }, [])
 
   const handleSwipeStart = useCallback(() => {
+    uiStore.setScrolling(true)
     setIsSwiping(true)
     Animated.timing(overlayOpacity, {
       toValue: 1,
@@ -108,6 +110,10 @@ export function TabView<T extends Route>({
     setTimeout(() => {
       setIsSwiping(false)
       onSwipeEnd?.()
+
+      setTimeout(() => {
+        uiStore.setScrolling(false)
+      }, 0)
     }, 300)
   }, [onSwipeEnd, overlayOpacity])
 

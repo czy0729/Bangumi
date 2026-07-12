@@ -34,8 +34,6 @@ function Tab() {
         renderTabBar={renderTabBar}
         renderBackground={elBackground}
         renderScene={renderScene}
-        onSwipeStart={$.onSwipeStart}
-        onSwipeEnd={$.onSwipeEnd}
         onIndexChange={$.onChange}
       />
       <BlurViewBottomTab />

@@ -111,6 +111,7 @@ export const ScrollView = observer(
     } = other
 
     const handleScrollBeginDrag = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+      if (scrollEndTimer.current) clearTimeout(scrollEndTimer.current)
       scrollStartY.current = e.nativeEvent.contentOffset.y
       scrollLocked.current = false
       userOnScrollBeginDrag?.(e)
@@ -126,8 +127,11 @@ export const ScrollView = observer(
     }
 
     const handleMomentumScrollEnd = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-      scrollLocked.current = false
-      uiStore.setScrolling(false)
+      if (scrollEndTimer.current) clearTimeout(scrollEndTimer.current)
+      scrollEndTimer.current = setTimeout(() => {
+        scrollLocked.current = false
+        uiStore.setScrolling(false)
+      }, 100)
       userOnMomentumScrollEnd?.(e)
     }
 

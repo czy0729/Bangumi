@@ -36,8 +36,6 @@ function ItemWrap({
   const replyCount = getReplyCount(replies)
 
   const handleCallback = useCallback(() => {
-    if ($.state.swiping) return
-
     appNavigate(
       href,
       navigation,
@@ -58,7 +56,7 @@ function ItemWrap({
     setTimeout(() => {
       rakuenStore.updateTopicReaded(topicId, replyCount)
     }, 400)
-  }, [$, avatar, group, href, navigation, replyCount, time, title, topicId, userId, userName])
+  }, [avatar, group, href, navigation, replyCount, time, title, topicId, userId, userName])
 
   const handlePress = useCallback(() => {
     if (replyCount > LIMIT_TOPIC_PUSH) {

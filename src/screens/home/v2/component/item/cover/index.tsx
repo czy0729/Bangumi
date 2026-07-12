@@ -18,7 +18,7 @@ import { styles } from './styles'
 
 import type { Props } from './types'
 
-function Cover({ index, subjectId, typeCn, name, name_cn, image, disabled }: Props) {
+function Cover({ index, subjectId, typeCn, name, name_cn, image }: Props) {
   r(COMPONENT)
 
   const style = systemStore.setting.homeListCompact ? styles.inViewCompact : styles.inView
@@ -40,7 +40,6 @@ function Cover({ index, subjectId, typeCn, name, name_cn, image, disabled }: Pro
         to: 'Subject',
         from: 'list'
       }}
-      disabled={disabled}
     >
       <InView style={style} y={height * index + HEADER_HEIGHT}>
         <CoverComp

@@ -21,7 +21,7 @@ export async function checkAdvance() {
   if (myId || myUserId) {
     const value = advanceJSON[myId] || advanceJSON[myUserId]
     if (value == 1) {
-      info('你是老打赏用户或特殊关照用户，允许开启')
+      info('你是老打赏用户或特殊关照用户，无限制开启')
       return true
     }
 
@@ -32,7 +32,7 @@ export async function checkAdvance() {
   // 获取历史打赏金额
   const value = await systemStore.fetchAdvanceDetail()
   if (value == 1) {
-    info('你是老打赏用户或特殊关照用户，允许开启')
+    info('你是老打赏用户或特殊关照用户，无限制开启')
     return true
   }
 

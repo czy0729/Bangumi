@@ -31,8 +31,6 @@ function Tab({ renderScene }) {
       renderTabBar={renderTabBar}
       renderBackground={elBackground}
       renderScene={renderScene}
-      onSwipeStart={$.onSwipeStart}
-      onSwipeEnd={$.onSwipeEnd}
       onIndexChange={$.onChange}
     />
   )

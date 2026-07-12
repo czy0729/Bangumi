@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-20 11:15:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 07:28:56
+ * @Last Modified time: 2026-07-13 02:27:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -57,7 +57,6 @@ function Layout({ title }: Props) {
           epStatus={find.ep_status}
           tip={tip}
           time={isGame ? find.subject?.time : ''}
-          disabled={$.state.swiping}
         />
       ) : (
         <Flex style={styles.noSelect} justify='center' direction='column'>

@@ -5,9 +5,17 @@
  * @Last Modified time: 2023-12-17 11:54:22
  */
 import { observable } from 'mobx'
+import { titleCase } from '@utils'
+import { logger } from '@utils/dev'
 import Store from '@utils/store'
-import { STATE } from './init'
+import { NAMESPACE, STATE } from './init'
 
 export default class State extends Store<typeof STATE> {
+  private _namespace = NAMESPACE
+
   state = observable(STATE)
+
+  log = (...arg: any) => {
+    logger.log(`${titleCase(this._namespace)}Store`, ...arg)
+  }
 }

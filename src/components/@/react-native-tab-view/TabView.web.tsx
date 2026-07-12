@@ -2,23 +2,29 @@
  * @Author: czy0729
  * @Date: 2024-01-16 18:26:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-24 06:46:02
+ * @Last Modified time: 2026-07-13 02:13:55
  */
 import * as React from 'react'
-import { LayoutChangeEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
-import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler'
+import { StyleSheet, View } from 'react-native'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated'
-import Pager, { Props as ChildProps } from 'react-native-tab-view/src/Pager'
-import TabBar, { Props as TabBarProps } from 'react-native-tab-view/src/TabBar'
-import {
+import Pager from 'react-native-tab-view/src/Pager'
+import TabBar from 'react-native-tab-view/src/TabBar'
+import { uiStore } from '@stores'
+import { stl } from '@utils/utils'
+import { IOS } from '@constants/constants'
+import SceneView from './SceneView'
+
+import type { LayoutChangeEvent, StyleProp, ViewStyle } from 'react-native'
+import type { PanGestureHandler } from 'react-native-gesture-handler'
+import type { Props as ChildProps } from 'react-native-tab-view/src/Pager'
+import type { Props as TabBarProps } from 'react-native-tab-view/src/TabBar'
+import type {
   Layout,
   PagerCommonProps,
   Route,
   SceneRendererProps
 } from 'react-native-tab-view/src/types'
-import { stl } from '@utils/utils'
-import { IOS } from '@constants/constants'
-import SceneView from './SceneView'
 
 type NavigationState<T extends Route> = {
   index: number
@@ -90,6 +96,18 @@ class TabView<T extends Route> extends React.Component<Props<T>, State> {
     }
   }
 
+  private handleSwipeStart = () => {
+    uiStore.setScrolling(true)
+    this.props.onSwipeStart?.()
+  }
+
+  private handleSwipeEnd = () => {
+    setTimeout(() => {
+      uiStore.setScrolling(false)
+      this.props.onSwipeEnd?.()
+    }, 300)
+  }
+
   private handleLayout = (e: LayoutChangeEvent) => {
     const { height, width } = e.nativeEvent.layout
 
@@ -108,8 +126,8 @@ class TabView<T extends Route> extends React.Component<Props<T>, State> {
   render() {
     const {
       position: positionListener,
-      onSwipeStart,
-      onSwipeEnd,
+      // onSwipeStart,
+      // onSwipeEnd,
       navigationState,
       lazy,
       lazyPreloadDistance,
@@ -146,8 +164,8 @@ class TabView<T extends Route> extends React.Component<Props<T>, State> {
           swipeVelocityImpact,
           timingConfig,
           springConfig,
-          onSwipeStart,
-          onSwipeEnd,
+          onSwipeStart: this.handleSwipeStart,
+          onSwipeEnd: this.handleSwipeEnd,
           onIndexChange: this.jumpToIndex,
           springVelocityScale,
           removeClippedSubviews,

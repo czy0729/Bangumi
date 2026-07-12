@@ -11,7 +11,7 @@ import { WEB } from '@constants/device'
 import { FROZEN_FN } from '@constants/init'
 import { GROUP_THUMB_MAP } from '@assets/images'
 import { DEV } from '@src/config'
-import { syncS2T, syncSystemStore } from '../async'
+import { syncS2T, syncSystemStore, syncUIStore } from '../async'
 import { globalLog, globalWarn, logger, rerender } from '../dev'
 import { t } from '../fetch'
 import { getStorage, setStorage } from '../storage'
@@ -179,6 +179,8 @@ export function appNavigate(
   openWebBrowser: boolean = true
 ): boolean {
   try {
+    if (syncUIStore().isScrolling) return false
+
     const { id, data = {} } = event
 
     // 代理模式下需要把代理域名替换回 bgm.tv, 否则 matchBgmLink 无法匹配路由

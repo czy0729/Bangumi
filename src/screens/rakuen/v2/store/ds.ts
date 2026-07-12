@@ -25,10 +25,7 @@ export const INIT_PREFETCH_STATE = {
 
 export const RESET_STATE = {
   /** 可视范围底部 y */
-  visibleBottom: _.window.height,
-
-  /** TabBar 是否切换中 */
-  swiping: false
+  visibleBottom: _.window.height
 }
 
 export const EXCLUDE_STATE = {

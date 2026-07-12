@@ -28,6 +28,5 @@ export const DEFAULT_PROPS = {
   epStatus: '' as string | number,
 
   /** 收藏时间 (游戏才有) */
-  time: '' as string,
-  disabled: false
+  time: '' as string
 }

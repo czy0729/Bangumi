@@ -19,10 +19,7 @@ export const INIT_ITEM = {
 
 export const RESET_STATE = {
   /** 可视范围底部 y */
-  visibleBottom: _.window.height,
-
-  /** Tabs 是否切换中 */
-  swiping: false
+  visibleBottom: _.window.height
 }
 
 /** 不参与本地化的 state */

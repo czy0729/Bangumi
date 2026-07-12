@@ -13,5 +13,4 @@ export type Props = {
   name: string
   name_cn: string
   image: string
-  disabled: boolean
 }

@@ -32,7 +32,10 @@ export default class Action extends Computed {
 
   /** 设置全局滚动状态 */
   setScrolling = (value: boolean) => {
-    this.isScrolling = value
+    if (value !== this.isScrolling) {
+      this.isScrolling = value
+      this.log('setScrolling', this.isScrolling)
+    }
   }
 
   /** ==================== tapXY ==================== */

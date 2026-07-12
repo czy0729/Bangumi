@@ -26,6 +26,7 @@ export function useScrollProtection() {
   }, [])
 
   const onScrollBeginDrag = useCallback((e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    if (scrollEndTimerRef.current) clearTimeout(scrollEndTimerRef.current)
     scrollStartYRef.current = e?.nativeEvent?.contentOffset?.y ?? 0
     scrollLockedRef.current = false
   }, [])
@@ -49,7 +50,8 @@ export function useScrollProtection() {
   }, [resetScrollState])
 
   const onMomentumScrollEnd = useCallback(() => {
-    resetScrollState()
+    if (scrollEndTimerRef.current) clearTimeout(scrollEndTimerRef.current)
+    scrollEndTimerRef.current = setTimeout(resetScrollState, 100)
   }, [resetScrollState])
 
   /** * 合并滚动回调，确保滑动保护始终生效

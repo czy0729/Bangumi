@@ -6,6 +6,9 @@
  */
 import type { CollectionStatus, Id, RatingStatus, SubjectActions, SubjectId, TopicId } from '@types'
 
+/** 命名空间 */
+export const NAMESPACE = 'UI'
+
 export const STATE = {
   /** 存放带监听组件的页面上面, 最近一次点击的 x, y 坐标 */
   tapXY: {

@@ -25,14 +25,7 @@ import { memoStyles } from './styles'
 
 import type { Props } from './types'
 
-function Info({
-  subjectId = 0,
-  subject = {},
-  epStatus = '',
-  tip = '',
-  time = '',
-  disabled
-}: Props) {
+function Info({ subjectId = 0, subject = {}, epStatus = '', tip = '', time = '' }: Props) {
   r(COMPONENT)
 
   const styles = memoStyles()
@@ -54,7 +47,6 @@ function Info({
             from: 'grid',
             subjectId
           }}
-          disabled={disabled}
         >
           <Cover subjectId={subjectId} subject={subject} />
         </Link>
