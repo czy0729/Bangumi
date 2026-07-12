@@ -42,22 +42,46 @@ function SplitStyles({ filter }: WithFilterProps) {
 
   return useObserver(() => {
     const styles = memoStyles()
+
     const label = MODEL_SETTING_SUBJECT_SPLIT_STYLES.getLabel(value)
+
+    const STYLE_KEYS = ['main', 'warning', 'primary', 'success'] as const
     const styleMap: Record<
       SettingSubjectSplitStyles,
       {
         lineStyle?: object
         titleStyle?: object
+        underlineStyle?: object
       }
     > = {
       off: { lineStyle: styles.off },
       'line-1': { lineStyle: styles.line1 },
       'line-2': { lineStyle: styles.line2 },
-      'title-main': { titleStyle: styles.titleMain },
-      'title-warning': { titleStyle: styles.titleWarning },
-      'title-primary': { titleStyle: styles.titlePrimary },
-      'title-success': { titleStyle: styles.titleSuccess }
-    }
+      ...Object.fromEntries(
+        STYLE_KEYS.map(key => [
+          `title-${key}`,
+          { titleStyle: styles[`title${key.charAt(0).toUpperCase() + key.slice(1)}`] }
+        ])
+      ),
+      ...Object.fromEntries(
+        STYLE_KEYS.map(key => [
+          `underline-${key}`,
+          { underlineStyle: styles[`underline${key.charAt(0).toUpperCase() + key.slice(1)}`] }
+        ])
+      )
+    } as any
+
+    const renderBlock = (text: string, ts?: object, us?: object) => (
+      <View>
+        {!!us && <View style={[styles.underline, us]} />}
+        <Flex justify='center'>
+          {!!ts && <View style={[styles.title, ts]} />}
+          <Text size={12} bold align='center' shadow>
+            {text}
+          </Text>
+        </Flex>
+      </View>
+    )
 
     return (
       <ItemSettingBlock style={styles.block} filter={filter} {...TEXTS.splitStyles.setting}>
@@ -69,8 +93,8 @@ function SplitStyles({ filter }: WithFilterProps) {
         >
           {SETTING_SUBJECT_SPLIT_STYLES.map((item, index) => {
             const { value } = item
-            const { title } = TEXTS.splitStyles[value]
-            const { titleStyle, lineStyle } = styleMap[value] || {}
+            const { title = '' } = TEXTS.splitStyles[value] || {}
+            const { titleStyle, lineStyle, underlineStyle } = styleMap[value] || {}
             return (
               <ItemSettingBlock.Item
                 key={value}
@@ -91,19 +115,9 @@ function SplitStyles({ filter }: WithFilterProps) {
                 {...TEXTS.splitStyles[value]}
               >
                 <View style={styles.container}>
-                  <Flex justify='center'>
-                    {titleStyle && <View style={[styles.title, titleStyle]} />}
-                    <Text size={12} bold align='center'>
-                      版块 1
-                    </Text>
-                  </Flex>
+                  {renderBlock('版块 1', titleStyle, underlineStyle)}
                   <View style={lineStyle || styles.off} />
-                  <Flex justify='center'>
-                    {titleStyle && <View style={[styles.title, titleStyle]} />}
-                    <Text size={12} bold align='center'>
-                      版块 2
-                    </Text>
-                  </Flex>
+                  {renderBlock('版块 2', titleStyle, underlineStyle)}
                 </View>
               </ItemSettingBlock.Item>
             )

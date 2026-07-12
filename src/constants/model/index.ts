@@ -727,16 +727,32 @@ export const SETTING_SUBJECT_SPLIT_STYLES = [
     value: 'title-main'
   },
   {
+    label: '标题 B (粉)',
+    value: 'underline-main'
+  },
+  {
     label: '标题 (橙)',
     value: 'title-warning'
+  },
+  {
+    label: '标题 B (橙)',
+    value: 'underline-warning'
   },
   {
     label: '标题 (蓝)',
     value: 'title-primary'
   },
   {
+    label: '标题 B (蓝)',
+    value: 'underline-primary'
+  },
+  {
     label: '标题 (绿)',
     value: 'title-success'
+  },
+  {
+    label: '标题 B (绿)',
+    value: 'underline-success'
   }
 ] as const
 

@@ -120,6 +120,18 @@ export const TEXTS = {
     },
     'title-success': {
       title: MODEL_SETTING_SUBJECT_SPLIT_STYLES.getLabel('title-success')
+    },
+    'underline-main': {
+      title: MODEL_SETTING_SUBJECT_SPLIT_STYLES.getLabel('underline-main')
+    },
+    'underline-warning': {
+      title: MODEL_SETTING_SUBJECT_SPLIT_STYLES.getLabel('underline-warning')
+    },
+    'underline-primary': {
+      title: MODEL_SETTING_SUBJECT_SPLIT_STYLES.getLabel('underline-primary')
+    },
+    'underline-success': {
+      title: MODEL_SETTING_SUBJECT_SPLIT_STYLES.getLabel('underline-success')
     }
   },
   showAirdayMonth: {

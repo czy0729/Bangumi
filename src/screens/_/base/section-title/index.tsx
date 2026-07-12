@@ -26,20 +26,47 @@ export const SectionTitle = observer(
     const styles = memoStyles()
 
     let splitStylesTitle: ReactNode = null
+    let splitStylesUnderline: ReactNode = null
     if (splitStyles) {
       const { subjectSplitStyles } = systemStore.setting
-      if (String(subjectSplitStyles || '').startsWith('title-')) {
+      const value = String(subjectSplitStyles || '')
+      if (value.startsWith('title-')) {
         const styleMap = {
           main: styles.titleMain,
           warning: styles.titleWarning,
           primary: styles.titlePrimary,
           success: styles.titleSuccess
         }
-        const styleKey = subjectSplitStyles.split('-')?.[1] || 'main'
+        const styleKey = value.split('-')?.[1] || 'main'
         const selectedStyle = styleMap[styleKey] || styles.titleMain
         splitStylesTitle = <View style={stl(styles.title, selectedStyle)} />
+      } else if (value.startsWith('underline-')) {
+        const styleMap = {
+          main: styles.underlineMain,
+          warning: styles.underlineWarning,
+          primary: styles.underlinePrimary,
+          success: styles.underlineSuccess
+        }
+        const styleKey = value.split('-')?.[1] || 'main'
+        const selectedStyle = styleMap[styleKey] || styles.underlineMain
+        splitStylesUnderline = <View style={stl(styles.underline, selectedStyle)} />
       }
     }
+
+    const titleEl = onPress ? (
+      <Touchable style={styles.touch} onPress={onPress}>
+        <Flex>
+          <Text type='title' size={20} bold shadow={!!splitStylesUnderline}>
+            {children}
+          </Text>
+          {!!icon && <Iconfont name={icon} color={_.colorIcon} />}
+        </Flex>
+      </Touchable>
+    ) : (
+      <Text type='title' size={20} bold shadow={!!splitStylesUnderline}>
+        {children}
+      </Text>
+    )
 
     return (
       <Component id='base-section-title'>
@@ -47,19 +74,13 @@ export const SectionTitle = observer(
           <Flex.Item style={_.mr.sm}>
             <Flex>
               {splitStylesTitle}
-              {onPress ? (
-                <Touchable style={styles.touch} onPress={onPress}>
-                  <Flex>
-                    <Text type='title' size={20} bold>
-                      {children}
-                    </Text>
-                    {!!icon && <Iconfont name={icon} color={_.colorIcon} />}
-                  </Flex>
-                </Touchable>
+              {splitStylesUnderline ? (
+                <View>
+                  {splitStylesUnderline}
+                  {titleEl}
+                </View>
               ) : (
-                <Text type='title' size={20} bold>
-                  {children}
-                </Text>
+                titleEl
               )}
               {left}
             </Flex>

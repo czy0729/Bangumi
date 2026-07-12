@@ -8,6 +8,7 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   touch: {
+    zIndex: 2,
     paddingHorizontal: _.xs,
     marginLeft: -_.xs,
     borderRadius: _.radiusSm,
@@ -32,6 +33,29 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.colorPrimary
   },
   titleSuccess: {
+    backgroundColor: _.colorSuccess
+  },
+  underline: {
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
+    left: 0,
+    height: 10,
+    minWidth: 44,
+    borderRadius: 1,
+    opacity: _.select(0.72, 0.88),
+    overflow: 'hidden'
+  },
+  underlineMain: {
+    backgroundColor: _.colorMain
+  },
+  underlineWarning: {
+    backgroundColor: _.colorWarning
+  },
+  underlinePrimary: {
+    backgroundColor: _.colorPrimary
+  },
+  underlineSuccess: {
     backgroundColor: _.colorSuccess
   }
 }))

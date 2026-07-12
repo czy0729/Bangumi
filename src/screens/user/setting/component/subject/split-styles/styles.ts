@@ -60,5 +60,27 @@ export const memoStyles = _.memoStyles(() => ({
   },
   titleSuccess: {
     backgroundColor: _.colorSuccess
+  },
+  underline: {
+    position: 'absolute',
+    right: 0,
+    bottom: -1,
+    left: 0,
+    height: 8,
+    borderRadius: 1,
+    opacity: _.select(0.72, 0.88),
+    overflow: 'hidden'
+  },
+  underlineMain: {
+    backgroundColor: _.colorMain
+  },
+  underlineWarning: {
+    backgroundColor: _.colorWarning
+  },
+  underlinePrimary: {
+    backgroundColor: _.colorPrimary
+  },
+  underlineSuccess: {
+    backgroundColor: _.colorSuccess
   }
 }))
