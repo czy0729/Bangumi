@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-04-23 20:52:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-05 22:08:12
+ * @Last Modified time: 2026-07-13 22:31:45
  */
 import React from 'react'
 import { Heatmap, Text } from '@components'
 import { ItemSetting } from '@_'
-import { systemStore, userStore } from '@stores'
+import { _, systemStore, userStore } from '@stores'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
 import { TEXT_UPDATE_QIAFAN } from '@constants'
@@ -27,8 +27,11 @@ function Qiafan({ navigation, filter }) {
         highlight
         information={
           systemStore.advance &&
-          `已收到巨款${amount ? ` (¥${amount})` : ''}，您已成为高级用户，感谢支持`
+          `已收到巨款${amount ? ` (¥${amount})` : ''}，已成为高级用户，感谢支持`
         }
+        informationStyle={{
+          paddingRight: _.sm
+        }}
         informationType='success'
         filter={filter}
         ft={

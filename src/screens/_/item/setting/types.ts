@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:56:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-02 02:49:39
+ * @Last Modified time: 2026-07-13 22:25:29
  */
 import type { TextType, TouchableProps } from '@components'
 import type { Fn, IconfontNames, Override, ReactNode, TextStyle, ViewStyle } from '@types'
@@ -33,6 +33,7 @@ export type Props = Override<
           _url?: string
           headers?: object
         }[]
+    extra?: ReactNode
     onInfoPress?: Fn
     onPress?: Fn
   }

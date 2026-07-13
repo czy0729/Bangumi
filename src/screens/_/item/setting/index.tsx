@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 02:02:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-30 05:58:32
+ * @Last Modified time: 2026-07-13 22:34:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -36,6 +36,7 @@ export const ItemSetting = observer(
     thumb,
     filter,
     sub,
+    extra,
     children,
     onInfoPress,
     onPress,
@@ -48,7 +49,9 @@ export const ItemSetting = observer(
     const styles = memoStyles()
 
     const content = (
-      <View style={stl(styles.item, contentStyle, sub && styles.sub)}>
+      <View
+        style={stl(styles.item, contentStyle, sub && styles.sub, !!extra && styles.itemWithExtra)}
+      >
         <Flex>
           <Flex.Item>
             <Flex>
@@ -101,6 +104,22 @@ export const ItemSetting = observer(
     )
 
     if (onPress) {
+      if (extra) {
+        return (
+          <Component id='item-setting' data-type='press'>
+            <Flex>
+              <Flex.Item>
+                <Touchable style={stl(styles.touchable, style)} onPress={onPress} {...other}>
+                  {content}
+                </Touchable>
+              </Flex.Item>
+              <View style={styles.split} />
+              {extra}
+            </Flex>
+          </Component>
+        )
+      }
+
       return (
         <Component id='item-setting' data-type='press'>
           <Touchable style={stl(styles.touchable, style)} onPress={onPress} {...other}>

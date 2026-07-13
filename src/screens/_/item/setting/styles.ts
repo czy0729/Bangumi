@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:52:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-30 05:59:27
+ * @Last Modified time: 2026-07-13 22:35:06
  */
 import { _ } from '@stores'
 
@@ -13,6 +13,9 @@ export const memoStyles = _.memoStyles(() => ({
   item: {
     paddingVertical: 12,
     paddingRight: _._wind
+  },
+  itemWithExtra: {
+    paddingRight: 6
   },
   information: {
     maxWidth: '84%',
@@ -29,5 +32,12 @@ export const memoStyles = _.memoStyles(() => ({
   touch: {
     padding: 12,
     margin: -6
+  },
+  split: {
+    width: 2,
+    height: 6,
+    marginHorizontal: 4,
+    borderRadius: 4,
+    backgroundColor: _.colorIcon
   }
 }))
