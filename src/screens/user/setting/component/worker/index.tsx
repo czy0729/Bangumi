@@ -99,18 +99,15 @@ function Worker({ navigation, filter, open }: Props) {
             onBlur={handleBlur}
             onToggleLock={() => toggleLock(field)}
             extra={
-              !!value && (
-                <Flex style={styles.preview}>
-                  <Flex.Item>
-                    <Text type='sub' size={11}>
-                      {host}
-                      {' → '}
-                      {value}
-                    </Text>
-                  </Flex.Item>
-                  <PingButton status={pingData.status} ms={pingData.ms} onPress={onPing} />
-                </Flex>
-              )
+              <Flex style={styles.preview}>
+                <Flex.Item>
+                  <Text type='sub' size={11}>
+                    {host}
+                    {!!value && ` → ${value}`}
+                  </Text>
+                </Flex.Item>
+                <PingButton status={pingData.status} ms={pingData.ms} onPress={onPing} />
+              </Flex>
             }
           />
         </View>

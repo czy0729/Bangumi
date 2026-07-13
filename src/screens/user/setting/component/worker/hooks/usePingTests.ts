@@ -22,9 +22,10 @@ function usePingTest(urlTemplate: string, replaceTarget: string) {
 
   const handlePing = useCallback(
     async (proxy: string) => {
-      if (!proxy) return
+      const url = proxy
+        ? urlTemplate.replace(replaceTarget, proxy)
+        : urlTemplate
       setState({ status: 'testing', ms: 0 })
-      const url = urlTemplate.replace(replaceTarget, proxy)
 
       logger.info(COMPONENT, 'ping', { url })
       const ms = await ping(url)

@@ -26,6 +26,7 @@ import { DEFAULT_COLLECTION_STATUS, DEFAULT_ORDER, DEFAULT_SUBJECT_TYPE, NAMESPA
 
 import type { UserCollectionItem } from '@utils/fetch.v0/types'
 import type {
+  CollectionStatus,
   CollectionStatusCn,
   CollectionsOrder,
   Fn,

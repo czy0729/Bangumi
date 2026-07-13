@@ -40,7 +40,7 @@ function YearSection({ year, index, nodes, layoutsRef }: Props) {
       {year !== '未知' && (
         <View style={styles.row}>
           <Text overrideStyle={styles.text} size={22} lineHeight={24}>
-            {year}
+            {year}{' '}
           </Text>
         </View>
       )}
