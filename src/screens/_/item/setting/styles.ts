@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:52:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-13 22:35:06
+ * @Last Modified time: 2026-07-13 22:52:39
  */
 import { _ } from '@stores'
 
@@ -15,7 +15,7 @@ export const memoStyles = _.memoStyles(() => ({
     paddingRight: _._wind
   },
   itemWithExtra: {
-    paddingRight: 6
+    paddingRight: 7
   },
   information: {
     maxWidth: '84%',

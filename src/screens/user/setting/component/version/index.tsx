@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-01-22 16:25:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-13 22:45:48
+ * @Last Modified time: 2026-07-13 22:51:44
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import { Flex, Text } from '@components'
+import { Text } from '@components'
 import { IconTouchable, ItemSetting } from '@_'
 import { _, systemStore } from '@stores'
 import { open } from '@utils'
@@ -42,21 +42,19 @@ function Version({ filter }: WithFilterProps) {
       arrowSize={17}
       highlight
       ft={
-        <Flex>
-          {hasNewVersion ? (
-            <Text type='success' bold>
-              {`${TEXTS.version.ft}${name}`}
-              <Text type='sub' bold>
-                {' '}
-                / {VERSION_GITHUB_RELEASE}
-              </Text>
-            </Text>
-          ) : (
+        hasNewVersion ? (
+          <Text type='success' bold>
+            {`${TEXTS.version.ft}${name}`}
             <Text type='sub' bold>
-              {VERSION_GITHUB_RELEASE}
+              {' '}
+              / {VERSION_GITHUB_RELEASE}
             </Text>
-          )}
-        </Flex>
+          </Text>
+        ) : (
+          <Text type='sub' bold>
+            {VERSION_GITHUB_RELEASE}
+          </Text>
+        )
       }
       filter={filter}
       extra={
