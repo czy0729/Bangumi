@@ -11,3 +11,6 @@ export const COMPONENT = rc(PARENT, 'ScrollView')
 
 /** 滑动距离阈值，超过才锁定点击 */
 export const SCROLL_THRESHOLD = 16
+
+/** 滚动空闲超时（毫秒），onScroll 停止触发后自动释放 isScrolling */
+export const SCROLL_IDLE_MS = 300

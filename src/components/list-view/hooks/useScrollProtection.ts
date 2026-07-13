@@ -6,7 +6,7 @@
  */
 import { useCallback, useEffect, useRef } from 'react'
 import { uiStore } from '@stores'
-import { SCROLL_THRESHOLD } from '../ds'
+import { SCROLL_IDLE_MS, SCROLL_THRESHOLD } from '../ds'
 
 import type { NativeScrollEvent, NativeSyntheticEvent } from 'react-native'
 
@@ -14,34 +14,54 @@ import type { NativeScrollEvent, NativeSyntheticEvent } from 'react-native'
  * 滚动保护 hook
  */
 export function useScrollProtection() {
+  /** 滚动起始 Y 坐标，用于计算滑动距离是否超过阈值 */
   const scrollStartYRef = useRef(0)
+
+  /** 是否已锁定点击，超过阈值后为 true */
   const scrollLockedRef = useRef(false)
+
+  /** 滚动手势结束防抖定时器（100ms） */
   const scrollEndTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  // 统一的重置与状态清理逻辑
+  /** 滚动空闲超时定时器（300ms），兜底释放 isScrolling */
+  const scrollIdleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  /** 统一的重置与状态清理逻辑 */
   const resetScrollState = useCallback(() => {
     if (scrollEndTimerRef.current) clearTimeout(scrollEndTimerRef.current)
+    if (scrollIdleTimerRef.current) clearTimeout(scrollIdleTimerRef.current)
     scrollLockedRef.current = false
     uiStore.setScrolling(false)
   }, [])
 
+  /** 手指按下开始拖动 → 重置所有定时器和滚动起始位置 */
   const onScrollBeginDrag = useCallback((e: NativeSyntheticEvent<NativeScrollEvent>) => {
     if (scrollEndTimerRef.current) clearTimeout(scrollEndTimerRef.current)
+    if (scrollIdleTimerRef.current) clearTimeout(scrollIdleTimerRef.current)
     scrollStartYRef.current = e?.nativeEvent?.contentOffset?.y ?? 0
     scrollLockedRef.current = false
   }, [])
 
-  const onScroll = useCallback((e: NativeSyntheticEvent<NativeScrollEvent>) => {
-    // 核心优化：一旦进入锁定状态，直接熔断，避免每次滚动都去计算 Math.abs() 和读取属性
-    if (scrollLockedRef.current) return
+  /** 滚动中 → 距离超过阈值时锁定点击，同时持续刷新空闲超时 */
+  const onScroll = useCallback(
+    (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+      // 滚动空闲超时：每次 onScroll 重置定时器，停止触发后自动释放 isScrolling
+      if (scrollIdleTimerRef.current) clearTimeout(scrollIdleTimerRef.current)
+      scrollIdleTimerRef.current = setTimeout(resetScrollState, SCROLL_IDLE_MS)
 
-    const currentY = e?.nativeEvent?.contentOffset?.y ?? 0
-    if (Math.abs(currentY - scrollStartYRef.current) > SCROLL_THRESHOLD) {
-      scrollLockedRef.current = true
-      uiStore.setScrolling(true)
-    }
-  }, [])
+      // 核心优化：一旦进入锁定状态，直接熔断，避免每次滚动都去计算 Math.abs() 和读取属性
+      if (scrollLockedRef.current) return
 
+      const currentY = e?.nativeEvent?.contentOffset?.y ?? 0
+      if (Math.abs(currentY - scrollStartYRef.current) > SCROLL_THRESHOLD) {
+        scrollLockedRef.current = true
+        uiStore.setScrolling(true)
+      }
+    },
+    [resetScrollState]
+  )
+
+  /** 手指抬起 → 100ms 防抖后释放滚动锁 */
   const onScrollEndDrag = useCallback(() => {
     if (scrollEndTimerRef.current) clearTimeout(scrollEndTimerRef.current)
 
@@ -49,6 +69,7 @@ export function useScrollProtection() {
     scrollEndTimerRef.current = setTimeout(resetScrollState, 100)
   }, [resetScrollState])
 
+  /** 惯性滚动结束 → 100ms 防抖后释放滚动锁 */
   const onMomentumScrollEnd = useCallback(() => {
     if (scrollEndTimerRef.current) clearTimeout(scrollEndTimerRef.current)
     scrollEndTimerRef.current = setTimeout(resetScrollState, 100)

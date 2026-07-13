@@ -64,3 +64,6 @@ export const DEFAULT_WINDOW_SIZE = 16
 
 /** 滑动距离超过此阈值（像素）才锁定滚动状态，防止轻微触碰误触发 */
 export const SCROLL_THRESHOLD = 16
+
+/** 滚动空闲超时（毫秒），onScroll 停止触发后自动释放 isScrolling */
+export const SCROLL_IDLE_MS = 300

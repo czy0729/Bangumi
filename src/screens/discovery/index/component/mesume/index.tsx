@@ -11,7 +11,7 @@ import { observer } from 'mobx-react'
 import { systemStore, useStore } from '@stores'
 import { stl } from '@utils'
 import { useAppState, useIsFocused } from '@utils/hooks'
-import { WEB } from '@constants'
+import { TEXT_ONLY, WEB } from '@constants'
 import { getHtml } from './utils'
 import { COMPONENT, STAGE_HEIGHT, STAGE_WIDTH } from './ds'
 import { memoStyles } from './styles'
@@ -26,7 +26,7 @@ function Mesume({ forwardRef, loaded, onMessage }: Props) {
   const appState = useAppState()
 
   const { live2DV2, live2DModel, live2dScale } = systemStore.setting
-  if (!live2DV2 || WEB || $.state.dragging || !show || !appState) return null
+  if (TEXT_ONLY || WEB || !live2DV2 || $.state.dragging || !show || !appState) return null
 
   const styles = memoStyles()
 

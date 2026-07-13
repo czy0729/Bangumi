@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-12-10 22:49:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-17 23:15:49
+ * @Last Modified time: 2026-07-13 06:47:23
  */
 import { collectionStore, subjectStore, systemStore } from '@stores'
 import { getTimestamp, queue } from '@utils'
@@ -16,8 +16,11 @@ import type { NodeItem, RelateMap } from '../types'
 const cacheMap = new Map<string, RelateMap>()
 
 export default class Fetch extends Computed {
+  private _hasFetchedOnce = false
+
   fetchNode = async () => {
-    if (this.state.map?._loaded && this.state.map?.node?.length) return true
+    if (this._hasFetchedOnce && this.state.map?._loaded && this.state.map?.node?.length) return true
+    this._hasFetchedOnce = true
 
     try {
       const { extra } = this.params

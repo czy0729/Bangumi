@@ -12,12 +12,13 @@ import { IconTouchable, ItemSetting, Notice } from '@_'
 import { _, systemStore, useStore } from '@stores'
 import { info, stl } from '@utils'
 import { MODEL_SUBJECT_TYPE, WEB } from '@constants'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
 
 function Options() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   const styles = memoStyles()
 
