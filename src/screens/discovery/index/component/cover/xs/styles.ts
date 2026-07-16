@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-09-09 22:37:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-11 05:04:50
+ * @Last Modified time: 2026-07-16 22:21:28
  */
 import { _ } from '@stores'
 
 export const AVATAR_SIZE = 24
 
-export const memoStyles = _.memoStyles(() => ({
+export const styles = _.create({
   item: {
     marginRight: _._wind + 2
   },
@@ -42,4 +42,4 @@ export const memoStyles = _.memoStyles(() => ({
     bottom: -1,
     left: -4
   }
-}))
+})

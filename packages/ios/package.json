@@ -20,7 +20,9 @@
     "build:ipa": "sudo cd ios && xcodebuild -workspace Bangumi.xcworkspace -scheme Bangumi -configuration Release -sdk iphoneos CODE_SIGN_IDENTITY=\"\" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO -derivedDataPath build",
     "make:ipa": "sudo node web/ipa.js",
     "test": "jest --detectOpenHandles",
-    "test:watch": "jest --watch --forceExit"
+    "test:watch": "jest --watch --forceExit",
+    "lint:styles": "npx eslint 'src/**/styles.ts'",
+    "lint:imports": "npx eslint 'src/**/*.{ts,tsx}' --quiet --config eslint-rules/.eslintrc.check-imports.js"
   },
   "resolutions": {
     "define-properties": "1.2.0",

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-13 06:10:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-13 06:16:46
+ * @Last Modified time: 2026-07-16 06:18:14
  */
 import { _ } from '@stores'
 
@@ -10,10 +10,6 @@ export const memoStyles = _.memoStyles(() => ({
   step: {
     width: 24,
     height: 24
-  },
-  stepMinus: {
-    borderLeftWidth: 1,
-    borderLeftColor: _.colorTinygrailBorder
   },
   minus: {
     width: 12,

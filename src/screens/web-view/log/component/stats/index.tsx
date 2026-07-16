@@ -2,25 +2,30 @@
  * @Author: czy0729
  * @Date: 2025-02-22 11:32:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-23 04:41:24
+ * @Last Modified time: 2026-07-14 20:53:10
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx, Stats as StatsType } from '../../types'
 import { COMPONENT } from './ds'
-import { styles } from './styles'
+import { memoStyles } from './styles'
+
+import type { Ctx, Stats as StatsType } from '../../types'
 
 function Stats({ u }: any) {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
+
   const data: StatsType = u ? $.stats(u) : $.state.series
   if (!data) return null
+
+  const styles = memoStyles()
 
   const { length } = data.a
   const max = Math.max(...data.a.map(item => item))
   const sum = data.a.reduce((acc, num) => acc + num, 0)
+
   return (
     <Flex style={_.container.block}>
       <Flex style={styles.stats} align='end'>
@@ -62,4 +67,4 @@ function Stats({ u }: any) {
   )
 }
 
-export default ob(Stats, COMPONENT)
+export default observer(Stats)

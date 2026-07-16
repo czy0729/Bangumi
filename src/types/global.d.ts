@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-05-25 17:33:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-28 12:15:18
+ * @Last Modified time: 2026-07-16 06:43:47
  */
-declare global {
-  /** 是否开发模式 */
-  var __DEV__: boolean
 
+/** 以下类型仅按需补充以规避类型错误，非完整类型声明 (仅为防止 RN 编译报错) */
+declare global {
   interface Global {
     __DEV__: boolean
   }
@@ -15,6 +14,9 @@ declare global {
   interface GlobalThis {
     __DEV__: boolean
   }
+
+  /** 是否开发模式 */
+  var __DEV__: boolean
 
   /** [DEV] 全局覆写 log, 能打印循环引用 */
   function log(value: any, space?: any): void
@@ -35,7 +37,7 @@ declare global {
     function assert(...args: any[]): void
   }
 
-  /** 全局 window 类型声明 (仅为防止 RN 编译报错) */
+  /** 全局 window 类型声明 */
   var window: {
     CONFIG_TYPE?: 'DEVELOPMENT'
 
@@ -45,17 +47,62 @@ declare global {
     /** 顶层 window */
     top: any
 
+    /** 文档 */
+    document: {
+      /** 页面标题 */
+      title: string
+
+      /** 根元素 */
+      documentElement: {
+        /** 视口宽度 */
+        clientWidth: number
+
+        /** 视口高度 */
+        clientHeight: number
+      }
+
+      /** 选择元素 */
+      querySelector: (selectors: string) => any
+
+      /** 添加事件监听 */
+      addEventListener: (type: string, listener: (event: any) => void, options?: any) => void
+
+      /** 移除事件监听 */
+      removeEventListener: (type: string, listener: (event: any) => void, options?: any) => void
+    }
+
     /** 文档当前位置 */
     location: {
+      /** 查询字符串 */
       search: string
+
+      /** 完整 URL */
       href: string
+
+      /** 路径部分 */
       pathname: string
     }
 
     /** history 对象 */
     history: {
+      /** 替换历史记录 */
       replaceState(data: any, title: string, url?: string | null): void
+
+      /** 返回上一页 */
+      back(): void
     }
+
+    /** 浏览器/WebView 信息 */
+    navigator: {
+      /** 用户代理字符串 */
+      userAgent: string
+
+      /** 平台标识 */
+      platform: string
+    }
+
+    /** 派发事件 */
+    dispatchEvent: (event: any) => boolean
 
     /** 弹窗 */
     alert: (message?: any) => void
@@ -78,6 +125,9 @@ declare global {
     /** 打开新页面 */
     open: (url: string) => void
 
+    /** Base64 编码 */
+    btoa: (data: string) => string
+
     /** 交叉观察器 */
     IntersectionObserver: new (callback: (...args: any[]) => void, options?: any) => any
 
@@ -99,6 +149,23 @@ declare global {
       get(key: string): string
       toString(): string
       [Symbol.iterator](): IterableIterator<[string, string]>
+    }
+
+    /** PopStateEvent 构造函数 */
+    PopStateEvent: new (
+      type: string,
+      eventInitDict?: {
+        state?: any
+        bubbles?: boolean
+        cancelable?: boolean
+        composed?: boolean
+      }
+    ) => {
+      type: string
+      state: any
+      bubbles: boolean
+      cancelable: boolean
+      composed: boolean
     }
   }
 }

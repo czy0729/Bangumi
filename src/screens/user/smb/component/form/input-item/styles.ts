@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-11-17 05:21:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-17 06:18:59
+ * @Last Modified time: 2026-07-15 22:38:17
  */
 import { _ } from '@stores'
 
-export const styles = _.create({
+export const memoStyles = _.memoStyles(() => ({
   label: {
     width: 60
   },
@@ -15,4 +15,4 @@ export const styles = _.create({
     paddingVertical: 0,
     ..._.fontSize12
   }
-})
+}))

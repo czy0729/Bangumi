@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-01-21 16:35:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-10 07:04:09
+ * @Last Modified time: 2026-07-16 00:26:23
  */
 import { _ } from '@stores'
 import { ITEM_WIDTH } from './ds'
 
-export const memoStyles = _.memoStyles(() => ({
+export const styles = _.create({
   block: {
     marginTop: _.sm,
     marginRight: -_._wind
@@ -22,4 +22,4 @@ export const memoStyles = _.memoStyles(() => ({
     width: ITEM_WIDTH,
     height: _.device(110, 128)
   }
-}))
+})

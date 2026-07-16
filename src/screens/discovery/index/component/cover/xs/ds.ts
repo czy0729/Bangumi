@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-09-10 07:02:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-02 18:12:14
+ * @Last Modified time: 2026-07-16 22:21:53
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
 
 import type { Navigation, SubjectId, SubjectTypeCn, UserId } from '@types'
-import type { memoStyles } from './styles'
 
 export const COMPONENT = rc(PARENT, 'Xs')
 
@@ -16,7 +15,6 @@ export const COMPONENT_MAIN = rc(COMPONENT)
 
 export const DEFAULT_PROPS = {
   navigation: {} as Navigation,
-  styles: {} as ReturnType<typeof memoStyles>,
   imageWidth: 0 as number,
   avatarRound: false as boolean,
   title: '' as SubjectTypeCn,

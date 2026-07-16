@@ -2,22 +2,23 @@
  * @Author: czy0729
  * @Date: 2021-02-28 14:52:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 18:33:49
+ * @Last Modified time: 2026-07-16 05:45:25
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Image, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { formatNumber, tinygrailOSS } from '@utils'
-import { ob } from '@utils/decorators'
 import Stars from '@tinygrail/_/stars'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function Item({ id, size, icon, name, rank, stars, starForces, hover, isDisabled }) {
-  const { $, navigation } = useStore<Ctx>()
-  const styles = memoStyles()
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
+
   return (
     <View>
       <Touchable
@@ -64,4 +65,4 @@ function Item({ id, size, icon, name, rank, stars, starForces, hover, isDisabled
   )
 }
 
-export default ob(Item, COMPONENT)
+export default observer(Item)

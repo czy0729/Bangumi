@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-04-10 16:13:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-21 03:45:56
+ * @Last Modified time: 2026-07-16 22:26:14
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { collectionStore, systemStore, useStore } from '@stores'
 import ItemLine from './item-line'
 import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
 
 import type { Ctx } from '../../../types'
 
@@ -30,7 +29,6 @@ function ItemLineWrap({
   return (
     <ItemLine
       index={index}
-      styles={memoStyles()}
       hideScore={systemStore.setting.hideScore}
       subjectId={subjectId}
       name={name}

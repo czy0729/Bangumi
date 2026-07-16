@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-14 03:18:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-05 22:22:41
+ * @Last Modified time: 2026-07-16 00:27:27
  */
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,7 @@ import { useBoolean } from '@utils/hooks'
 import RakuenBlocks from '../../../../rakuen/setting/component/blockeds'
 import { getShows } from '../../utils'
 import { COMPONENT, TEXTS } from './ds'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
 import type { WithNavigation } from '@types'
 import type { WithFilterProps } from '../../types'
@@ -34,6 +34,8 @@ function Blocks({ navigation, filter }: WithNavigation<WithFilterProps>) {
   }, [state])
 
   if (!shows) return null
+
+  const styles = memoStyles()
 
   return (
     <>

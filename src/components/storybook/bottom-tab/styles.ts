@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-11-02 03:58:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-09 21:53:01
+ * @Last Modified time: 2026-07-16 22:32:29
  */
 import { _ } from '@stores'
 import { isMobile } from '@utils/dom'
 
-export const memoStyles = _.memoStyles(() => ({
+export const styles = _.create({
   bottomTab: {
     position: 'absolute',
     zIndex: 99999,
@@ -30,4 +30,4 @@ export const memoStyles = _.memoStyles(() => ({
   icon: {
     height: 24
   }
-}))
+})

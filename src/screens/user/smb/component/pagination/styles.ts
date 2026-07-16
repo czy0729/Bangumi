@@ -6,7 +6,7 @@
  */
 import { _ } from '@stores'
 
-export const styles = _.create({
+export const memoStyles = _.memoStyles(() => ({
   pagination: _.web(
     {
       position: 'absolute',
@@ -30,4 +30,4 @@ export const styles = _.create({
     backgroundColor: 'transparent',
     borderRadius: 0
   }
-})
+}))

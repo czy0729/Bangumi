@@ -6,7 +6,7 @@
  */
 import { _ } from '@stores'
 
-export const memoStyles = _.memoStyles(() => ({
+export const styles = _.create({
   assets: {
     width: '100%',
     minHeight: 56,
@@ -19,4 +19,4 @@ export const memoStyles = _.memoStyles(() => ({
     borderRadius: _.radiusSm,
     overflow: 'hidden'
   }
-}))
+})

@@ -2,22 +2,27 @@
  * @Author: czy0729
  * @Date: 2024-05-04 05:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-06 06:44:45
+ * @Last Modified time: 2026-07-16 22:15:07
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { Rank } from '@_'
 import { _, uiStore } from '@stores'
 import { feedback, findSubjectJp, HTMLDecode } from '@utils'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function Item({ navigation, item, index }: Props) {
+  r(COMPONENT)
+
   const jp = findSubjectJp(item.title, item.id)
+
   return (
     <Flex style={styles.item} align='start'>
       <Flex style={styles.index}>
@@ -78,4 +83,4 @@ function Item({ navigation, item, index }: Props) {
   )
 }
 
-export default ob(Item, COMPONENT)
+export default observer(Item)

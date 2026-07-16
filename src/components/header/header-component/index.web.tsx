@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-01 01:25:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-03 12:56:46
+ * @Last Modified time: 2026-07-16 22:37:43
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -13,7 +13,7 @@ import { Flex } from '../../flex'
 import Back from '../back'
 import Transition from '../transition'
 import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 import './index.scss'
 
 import type { Props } from './types'
@@ -32,7 +32,6 @@ function HeaderComponent({
 }: Props) {
   r(COMPONENT)
 
-  const styles = memoStyles()
   const color = colors[statusBarEventsType] ? colors[statusBarEventsType](fixed) : undefined
 
   return (

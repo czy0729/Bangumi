@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-22 17:24:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 06:51:31
+ * @Last Modified time: 2026-07-14 21:11:10
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated } from 'react-native'
@@ -13,7 +13,7 @@ import { ANDROID, USE_NATIVE_DRIVER } from '@constants'
 import { TAB_PAGE } from '../../ds'
 import { handleToQiafan, keyExtractor, renderItem, renderSectionHeader } from './utils'
 import { COMPONENT } from './ds'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
 import type { Props } from './types'
@@ -23,6 +23,8 @@ function RakuenList({ ListHeaderComponent, onScroll }: Props) {
 
   const { advance } = systemStore
   const { _loaded, list, pagination } = $.userTopicsFromCDN
+
+  const styles = memoStyles()
 
   /** iOS 才需要 scroll 同步 */
   const handleScrollEvent = useMemo(() => {
@@ -50,10 +52,7 @@ function RakuenList({ ListHeaderComponent, onScroll }: Props) {
     (ref: any) => {
       if (ANDROID) return
 
-      $.forwardRef(
-        ref,
-        TAB_PAGE.rakuen
-      )
+      $.forwardRef(ref, TAB_PAGE.rakuen)
     },
     [$]
   )

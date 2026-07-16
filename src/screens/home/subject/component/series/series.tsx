@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-05 22:28:30
+ * @Last Modified time: 2026-07-16 20:54:02
  */
 import React from 'react'
 import { Cover, Flex, Heatmap, Iconfont, Link, Squircle, Text } from '@components'
@@ -13,12 +13,12 @@ import { memo } from '@utils/decorators'
 import { WEB } from '@constants'
 import Item from './item'
 import { COMPONENT_MAIN, COVER_HEIGHT, COVER_WIDTH, DEFAULT_PROPS } from './ds'
+import { styles } from './styles'
 
 import type { ReactNode } from '@types'
 
 const Series = memo(
   ({
-    styles,
     showRelation = true,
     size = 14,
     subjectId = 0,

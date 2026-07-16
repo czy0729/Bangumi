@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-11 10:44:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-21 20:42:42
+ * @Last Modified time: 2026-07-16 22:23:54
  */
 import React, { useRef } from 'react'
 import { View } from 'react-native'
@@ -14,13 +14,12 @@ import { useMount, useNavigation } from '@utils/hooks'
 import { HOST } from '@constants'
 import { getHtml } from './utils'
 import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
 import type { Props } from './types'
 
 function Award2022({ width, height }: Props) {
   const navigation = useNavigation(COMPONENT)
-  const styles = memoStyles()
   const ref = useRef(null)
 
   useMount(() => {

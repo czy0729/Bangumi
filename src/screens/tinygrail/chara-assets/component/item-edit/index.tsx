@@ -11,12 +11,14 @@ import { Flex, Iconfont, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import TinygrailItem from '@tinygrail/_/item'
 import { COMPONENT } from './ds'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
 
 function ItemEdit({ item, type, users, event }) {
   const { $ } = useStore<Ctx>(COMPONENT)
+
+  const styles = memoStyles()
 
   const { sort, editing, editingIds } = $.state
   const { id, monoId, state } = item

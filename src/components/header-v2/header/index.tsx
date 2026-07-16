@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-23 00:51:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-20 21:52:20
+ * @Last Modified time: 2026-07-14 20:50:40
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -14,7 +14,7 @@ import { Text } from '../../text'
 import Back from '../back'
 import Background from '../background'
 import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
 import type { Props } from './types'
 
@@ -33,8 +33,6 @@ function Header({
   r(COMPONENT)
 
   const { headerHeight, statusBarHeight } = useInsets()
-
-  const styles = memoStyles()
 
   return (
     <Flex

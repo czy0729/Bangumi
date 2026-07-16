@@ -35,14 +35,6 @@ export const memoStyles = _.memoStyles(() => ({
     marginRight: -4,
     marginLeft: 2
   },
-  folderOpenFixed: {
-    height: 22,
-    transform: [
-      {
-        translateY: 3
-      }
-    ]
-  },
   path: {
     paddingTop: 8,
     marginTop: 8,

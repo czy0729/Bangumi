@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-13 15:59:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 06:37:04
+ * @Last Modified time: 2026-07-15 05:35:50
  */
 import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import { _, systemStore, useStore } from '@stores'
 import { feedback } from '@utils'
 import { t } from '@utils/fetch'
 import { TEXT_MENU_SPLIT_LEFT, TEXT_MENU_SPLIT_RIGHT } from '@constants'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
 import type { Ctx } from '../../../types'
 
@@ -50,6 +50,8 @@ function Footer() {
       feedback(true)
     }
   }, [])
+
+  const styles = memoStyles()
 
   return (
     <Flex style={_.mt.lg} justify='center'>

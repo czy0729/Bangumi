@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-01 01:56:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:39:16
+ * @Last Modified time: 2026-07-16 22:05:27
  */
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import { r } from '@utils/dev'
 import { IOS } from '@constants'
 import Btns from './btns'
 import { ANIMATED_CONFIG, COMPONENT_MAIN, PERSPECTIVE } from './ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
 import type { FlipBtnProps } from './types'
 
@@ -93,8 +93,6 @@ function FlipBtn({ animate, btnText, rating, privacy, last, onAnimated, onPress 
 
   const beforeStyle = createAnimatedStyle(true)
   const afterStyle = createAnimatedStyle(false)
-
-  const styles = memoStyles()
 
   return (
     <View style={styles.container}>

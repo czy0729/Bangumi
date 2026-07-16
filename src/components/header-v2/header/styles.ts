@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-04-11 16:05:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-01 21:06:52
+ * @Last Modified time: 2026-07-14 20:50:29
  */
 import { _ } from '@stores'
 
-export const memoStyles = _.memoStyles(() => ({
+export const styles = _.create({
   header: {
     position: 'absolute',
     zIndex: 10,
@@ -26,4 +26,4 @@ export const memoStyles = _.memoStyles(() => ({
   transparent: {
     backgroundColor: 'transparent'
   }
-}))
+})

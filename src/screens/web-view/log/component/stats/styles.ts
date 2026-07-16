@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2025-02-22 11:34:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-23 04:39:13
+ * @Last Modified time: 2026-07-14 20:53:02
  */
 import { _ } from '@stores'
 
-export const styles = _.create({
+export const memoStyles = _.memoStyles(() => ({
   stats: {
     minWidth: _.window.contentWidth - 80,
     height: 32,
@@ -32,4 +32,4 @@ export const styles = _.create({
     borderRadius: 6,
     opacity: 0.64
   }
-})
+}))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-23 00:51:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-01 21:19:54
+ * @Last Modified time: 2026-07-16 22:37:34
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -14,7 +14,7 @@ import { Flex } from '../../flex'
 import Back from '../back'
 import Transition from '../transition'
 import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
 import type { Props } from './types'
 
@@ -33,7 +33,6 @@ function HeaderComponent({
 
   const { headerHeight, statusBarHeight } = useInsets()
 
-  const styles = memoStyles()
   const color = colors[statusBarEventsType] ? colors[statusBarEventsType](fixed) : undefined
 
   return (

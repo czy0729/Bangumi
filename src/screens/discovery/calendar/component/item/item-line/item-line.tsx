@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-25 23:12:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-21 03:46:17
+ * @Last Modified time: 2026-07-16 22:25:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,12 +18,12 @@ import Rating from './rating'
 import Time from './time'
 import Title from './title'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
+import { styles } from './styles'
 
 import type { CollectionStatus } from '@types'
 
 const ItemLine = memo(
   ({
-    styles,
     index = 0,
     hideScore = false,
     subjectId = 0,

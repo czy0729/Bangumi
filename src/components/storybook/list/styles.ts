@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-11-08 21:06:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 17:08:30
+ * @Last Modified time: 2026-07-16 22:32:16
  */
 import { _ } from '@stores'
-import { STORYBOOK_WIDTH, STORYBOOK_GRID } from '@constants'
+import { STORYBOOK_GRID, STORYBOOK_WIDTH } from '@constants'
 
 export const styles = _.create({
   scrollView: {
@@ -21,8 +21,10 @@ export const styles = _.create({
           width: STORYBOOK_WIDTH,
           height: '100vh'
         }),
+    // eslint-disable-next-line bangumi/forbid-computed-in-create
     backgroundColor: _.colorPlain,
     overflow: 'hidden',
+    // @ts-ignore
     overflowY: 'hidden'
   },
   wind: {

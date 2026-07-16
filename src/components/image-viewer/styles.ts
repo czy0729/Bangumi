@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-05-06 17:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-24 22:59:17
+ * @Last Modified time: 2026-07-16 22:36:33
  */
 import { _ } from '@stores'
 import { APP_BAR_HEIGHT } from '@styles'
 
-export const styles = _.create({
+export const memoStyles = _.memoStyles(() => ({
   container: {
     flex: 1,
     minHeight: _.window.height,
@@ -53,4 +53,4 @@ export const styles = _.create({
     right: 0,
     left: 0
   }
-})
+}))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-31 07:11:29
+ * @Last Modified time: 2026-07-16 06:22:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -137,7 +137,7 @@ class LoginV2 extends React.Component<NavigationProps> {
     this.getCookies(headers)
 
     const base64: string = WEB
-      ? btoa(String.fromCharCode(...new Uint8Array(request.response)))
+      ? window.btoa(String.fromCharCode(...new Uint8Array(request.response)))
       : request._response
     this.setState({
       base64: `data:image/gif;base64,${base64}`,

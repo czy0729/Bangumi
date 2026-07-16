@@ -6,7 +6,7 @@
  */
 import { _ } from '@stores'
 
-export const styles = _.create({
+export const memoStyles = _.memoStyles(() => ({
   label: {
     width: 60
   },
@@ -22,4 +22,4 @@ export const styles = _.create({
   multilineInputStyle: {
     ..._.fontSize12
   }
-})
+}))

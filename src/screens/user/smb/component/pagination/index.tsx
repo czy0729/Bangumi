@@ -5,15 +5,19 @@
  * @Last Modified time: 2024-11-18 07:29:46
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Pagination as PaginationComp } from '@components'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
-import { styles } from './styles'
+import { memoStyles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function Pagination() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  const styles = memoStyles()
+
   return (
     <PaginationComp
       style={styles.pagination}
@@ -27,4 +31,4 @@ function Pagination() {
   )
 }
 
-export default ob(Pagination, COMPONENT)
+export default observer(Pagination)

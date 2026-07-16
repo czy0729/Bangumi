@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-05 04:21:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-18 21:37:53
+ * @Last Modified time: 2026-07-16 20:35:58
  */
 import { _ } from '@stores'
 
@@ -33,12 +33,6 @@ export const memoStyles = _.memoStyles(() => {
       marginTop: -(imageResizeHeight - imageHeight) / 3,
       marginLeft: -(imageResizeWidth - width) / 2,
       backgroundColor: '#fff'
-    },
-    absolute: {
-      position: 'absolute',
-      zIndex: 2,
-      top: 0,
-      left: 0
     },
     refine: {
       position: 'absolute',

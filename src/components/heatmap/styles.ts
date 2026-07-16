@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2022-05-06 17:46:16
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-05-06 17:46:16
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-07-16 22:37:22
  */
 import { _ } from '@stores'
 
@@ -48,7 +48,7 @@ export const memoStyles = _.memoStyles(() => ({
   control: {
     position: 'absolute',
     zIndex: 10001,
-    top: _.window.height / 1.5,
+    top: Math.floor(_.window.height / 1.5),
     right: 0,
     backgroundColor: _.select('rgba(0, 0, 0, 0.64)', 'rgba(0, 0, 0, 0.7)')
   },

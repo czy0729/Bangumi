@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-28 00:26:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 06:08:56
+ * @Last Modified time: 2026-07-16 22:17:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,9 +12,10 @@ import { memo } from '@utils/decorators'
 import { FROZEN_ARRAY, FROZEN_OBJECT } from '@constants'
 import Subject from '../subject'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
+import { styles } from './styles'
 
 export default memo(
-  ({ styles, data = FROZEN_ARRAY, index = 0, subjects = FROZEN_OBJECT }) => {
+  ({ data = FROZEN_ARRAY, index = 0, subjects = FROZEN_OBJECT }) => {
     if (!data.length) return null
 
     // 以最小的 subjectId 作为 pid

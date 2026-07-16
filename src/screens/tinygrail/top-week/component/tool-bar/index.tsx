@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-07-17 17:05:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-03 03:05:03
+ * @Last Modified time: 2026-07-16 05:45:03
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -12,15 +12,13 @@ import { _, useStore } from '@stores'
 import { MAX_PREV } from '../../ds'
 import { getWeekData } from './utils'
 import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
 import type { Ctx } from '../../types'
 
 /** 工具栏 */
 function ToolBar() {
   const { $ } = useStore<Ctx>(COMPONENT)
-
-  const styles = memoStyles()
 
   const { prev } = $.state
 

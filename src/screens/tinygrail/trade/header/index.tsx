@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 22:34:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-04 19:36:08
+ * @Last Modified time: 2026-07-16 05:44:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,13 +13,13 @@ import { tinygrailOSS, toFixed } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { FROZEN_FN } from '@constants'
-import { Ctx } from '../types'
 import Today from './today'
-import { memoStyles } from './styles'
+import { styles } from './styles'
+
+import type { Ctx } from '../types'
 
 function Header({ goBack = FROZEN_FN }) {
   const { $, navigation } = useStore<Ctx>()
-  const styles = memoStyles()
   const { icon, name, current, fluctuation } = $.chara
   let color = _.colorTinygrailPlain
   if (fluctuation < 0) {

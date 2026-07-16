@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-27 02:45:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-29 17:51:48
+ * @Last Modified time: 2026-07-16 22:08:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { BlurView, Rank, Stars } from '@_'
 import { _, useStore } from '@stores'
 import { IMG_HEIGHT_SM, IMG_WIDTH_SM, IOS } from '@constants'
 import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
 import type { Ctx } from '../../../types'
 
@@ -21,7 +21,6 @@ function Subject() {
 
   if (!$.subject?.id) return null
 
-  const styles = memoStyles()
   const top = $.subject.name_cn || $.subject.name
   const bottom = $.subject.name
 

@@ -2,26 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-07-10 03:36:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-29 15:35:01
+ * @Last Modified time: 2026-07-16 22:04:51
  */
 import { _ } from '@stores'
 
-export const memoStyles = _.memoStyles(() => {
-  const height = _.device(44, 50)
-  const space = 14
-  return {
-    container: {
-      height: height * 2 + space,
-      paddingTop: space
-    },
-    animated: {
-      marginTop: -height
-    },
-    placeholder: {
-      height
-    }
-  }
-})
+const height = _.device(44, 50)
+const space = 14
 
 export const styles = _.create({
   left: {
@@ -40,8 +26,14 @@ export const styles = _.create({
   rightFocus: {
     paddingRight: _.sm
   },
-  open: {
-    marginLeft: _.sm,
-    marginRight: -22
+  container: {
+    height: height * 2 + space,
+    paddingTop: space
+  },
+  animated: {
+    marginTop: -height
+  },
+  placeholder: {
+    height
   }
 })

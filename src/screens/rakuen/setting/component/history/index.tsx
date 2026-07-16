@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:28:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-09 23:33:24
+ * @Last Modified time: 2026-07-16 20:45:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { API_AVATAR, FROZEN_FN } from '@constants'
 import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
 import type { BlockedUsersItem } from '@stores/rakuen/types'
 import type { UserId } from '@types'
@@ -30,8 +30,6 @@ function History({
   onDelete = FROZEN_FN
 }: Props) {
   r(COMPONENT)
-
-  const styles = memoStyles()
 
   if (!data.length) {
     return (

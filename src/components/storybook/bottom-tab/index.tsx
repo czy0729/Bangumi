@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-02 03:54:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 15:28:33
+ * @Last Modified time: 2026-07-16 22:32:37
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -23,7 +23,7 @@ import { Text } from '../../text'
 import { Touchable } from '../../touchable'
 import { StorybookNavigation } from '../navigation'
 import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
 export const StorybookBottomTab = observer(() => {
   r(COMPONENT)
@@ -36,7 +36,6 @@ export const StorybookBottomTab = observer(() => {
   const DS = userStore.isStorybookLogin ? BOTTOM_TAB_WITH_AUTH_DS : BOTTOM_TAB_DS
   if (!DS.some(item => currentStoryId === getSPAId(item.id))) return null
 
-  const styles = memoStyles()
   return (
     <Component id='component-storybook-bottom-tab' style={styles.bottomTab}>
       <BlurView

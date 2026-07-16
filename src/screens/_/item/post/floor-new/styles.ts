@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-10-07 07:16:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-05 09:22:00
+ * @Last Modified time: 2026-07-16 22:26:36
  */
 import { _ } from '@stores'
 
-export const memoStyles = _.memoStyles(() => ({
+export const styles = _.create({
   image: {
     position: 'absolute',
     top: -12,
@@ -19,4 +19,4 @@ export const memoStyles = _.memoStyles(() => ({
     top: 0,
     left: 0
   }
-}))
+})

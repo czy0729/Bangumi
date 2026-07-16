@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-10-21 17:24:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 17:19:13
+ * @Last Modified time: 2026-07-16 06:24:35
  */
 import React from 'react'
 import { ScrollView } from '@components'
@@ -15,7 +15,7 @@ const cls = 'screen-award-web-view'
 function WebView({ source }) {
   useMount(() => {
     setTimeout(() => {
-      const parent = document.querySelector(`.${cls}`)
+      const parent = window.document.querySelector(`.${cls}`)
 
       parent.addEventListener('click', function (event) {
         // @ts-ignore

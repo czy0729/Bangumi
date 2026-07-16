@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 20:26:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-31 15:05:28
+ * @Last Modified time: 2026-07-16 20:37:28
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -11,15 +11,13 @@ import { Popover } from '@_'
 import { useStore } from '@stores'
 import { MODEL_TIMELINE_SCOPE } from '@constants'
 import { COMPONENT, DATA } from './ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
 import type { TimeLineScopeCn } from '@types'
 import type { Ctx } from '../../../types'
 
 function TabBarLeft() {
   const { $ } = useStore<Ctx>(COMPONENT)
-
-  const styles = memoStyles()
 
   return (
     <Popover data={DATA} onSelect={$.onSelectScope}>

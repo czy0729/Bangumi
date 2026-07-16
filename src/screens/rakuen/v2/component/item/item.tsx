@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-18 01:09:48
+ * @Last Modified time: 2026-07-16 20:38:19
  */
 import React from 'react'
 import { Flex, Touchable, UserStatus } from '@components'
@@ -16,10 +16,10 @@ import Content from './content'
 import IconFavor from './icon-favor'
 import Readed from './readed'
 import { COMPONENT_MAIN, DEFAULT_PROPS, ITEM_HEIGHT } from './ds'
+import { styles } from './styles'
 
 const Item = memo(
   ({
-    styles,
     index = 0,
     avatar = '',
     userId = '',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-04-21 21:23:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-25 14:50:35
+ * @Last Modified time: 2026-07-16 22:30:36
  */
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
@@ -19,7 +19,7 @@ import { _, systemStore } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
 import type { Props as BreathingLightProps } from './types'
 
@@ -60,8 +60,6 @@ export const BreathingLight = observer(({ style, color, running = true }: Breath
     opacity: opacity.value,
     transform: [{ scale: scale.value }]
   }))
-
-  const styles = memoStyles()
 
   let colorValue = color
   if (colorValue === undefined) {

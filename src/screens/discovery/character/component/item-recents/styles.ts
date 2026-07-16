@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-28 01:11:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-09 06:04:29
+ * @Last Modified time: 2026-07-16 22:24:34
  */
 import { _ } from '@stores'
 import { COVER_HEIGHT, COVER_WIDTH } from './ds'
@@ -17,10 +17,6 @@ export const memoStyles = _.memoStyles(() => ({
   },
   content: {
     minHeight: COVER_HEIGHT + 4
-  },
-  border: {
-    borderTopColor: _.colorBorder,
-    borderTopWidth: _.hairlineWidth
   },
   actors: {
     width: '50%'

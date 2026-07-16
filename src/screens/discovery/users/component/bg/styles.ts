@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-01-02 04:38:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-02 17:04:47
+ * @Last Modified time: 2026-07-16 22:16:43
  */
 import { _ } from '@stores'
 
@@ -20,8 +20,8 @@ export const memoStyles = _.memoStyles(() => {
     },
     ballTL: {
       position: 'absolute',
-      top: -BALL * 0.15,
-      right: -BALL * 0.3,
+      top: Math.floor(-BALL * 0.15),
+      right: Math.floor(-BALL * 0.3),
       width: BALL,
       height: BALL,
       backgroundColor: _.select('rgba(170, 180, 200, 0.16)', 'rgba(170, 180, 200, 0.04)'),
@@ -29,7 +29,7 @@ export const memoStyles = _.memoStyles(() => {
     },
     ballBR: {
       position: 'absolute',
-      left: -BALL * 0.3,
+      left: Math.floor(-BALL * 0.3),
       bottom: 0,
       width: BALL,
       height: BALL,

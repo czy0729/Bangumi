@@ -2,20 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-09-29 17:18:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-06 21:52:40
+ * @Last Modified time: 2026-07-16 20:47:54
  */
 import { _ } from '@stores'
 
-export const styles = _.create({
+export const memoStyles = _.memoStyles(() => ({
   container: {
     paddingVertical: _.sm,
     paddingHorizontal: _.wind
-  },
-  groupWrap: {
-    height: 32
-  },
-  groupThumbWrap: {
-    width: 30
   },
   userWrap: {
     height: 42
@@ -37,4 +31,4 @@ export const styles = _.create({
     borderBottomWidth: 1.5,
     borderBottomColor: _.colorBorder
   }
-})
+}))

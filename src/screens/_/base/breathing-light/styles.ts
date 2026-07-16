@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2026-04-21 21:23:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-22 17:42:45
+ * @Last Modified time: 2026-07-16 22:30:27
  */
 import { _ } from '@stores'
 
-export const memoStyles = _.memoStyles(() => ({
+export const styles = _.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center'
@@ -32,4 +32,4 @@ export const memoStyles = _.memoStyles(() => ({
     borderRadius: 10,
     opacity: 0.3
   }
-}))
+})

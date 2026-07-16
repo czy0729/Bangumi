@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-08-14 07:05:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-06 07:49:23
+ * @Last Modified time: 2026-07-16 20:37:21
  */
 import { _ } from '@stores'
 
-export const memoStyles = _.memoStyles(() => ({
+export const styles = _.create({
   tabBarLeft: {
     height: _.r(42),
     paddingLeft: _.r(_._wind),
@@ -19,4 +19,4 @@ export const memoStyles = _.memoStyles(() => ({
     height: _.r(24),
     borderRadius: _.r(16)
   }
-}))
+})

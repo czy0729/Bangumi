@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-03-07 18:13:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-08 21:34:36
+ * @Last Modified time: 2026-07-16 05:43:52
  */
 import React, { useCallback, useMemo } from 'react'
 import { Flex, Iconfont, Text } from '@components'
@@ -11,9 +11,10 @@ import { _, userStore, useStore } from '@stores'
 import { confirm, lastDate } from '@utils'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function Menu({ id }) {
   r(COMPONENT)
@@ -21,7 +22,6 @@ function Menu({ id }) {
   const { $ } = useStore<Ctx>()
 
   return useObserver(() => {
-    const styles = memoStyles()
     const detail = $.detail(id)
     const { userInfo } = userStore
     const { id: userId } = userInfo

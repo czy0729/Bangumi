@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2026-05-15 05:31:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-07 22:25:36
+ * @Last Modified time: 2026-07-16 22:27:43
  */
 import { _ } from '@stores'
 
-export const memoStyles = _.memoStyles(() => ({
+export const styles = _.create({
   icon: {
     position: 'absolute',
     zIndex: 1,
@@ -27,4 +27,4 @@ export const memoStyles = _.memoStyles(() => ({
     marginBottom: -_.bottom + _.lg,
     opacity: 0.8
   }
-}))
+})

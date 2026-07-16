@@ -2,20 +2,18 @@
  * @Author: czy0729
  * @Date: 2025-06-18 02:28:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-17 19:53:16
+ * @Last Modified time: 2026-07-16 22:19:35
  */
 import React, { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { RNImage, Touchable } from '@components'
 import { Popover } from '@_'
 import { getURI } from '../../../utils'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
 import type { Props } from './types'
 
 function Main({ width, height, data, image, onPress, onSelect, onError }: Props) {
-  const styles = memoStyles()
-
   const handleError = useCallback(() => {
     onError?.()
   }, [onError])
@@ -31,7 +29,7 @@ function Main({ width, height, data, image, onPress, onSelect, onError }: Props)
         />
       </Touchable>
     ),
-    [styles, onPress, width, height, image, handleError]
+    [onPress, width, height, image, handleError]
   )
 
   return (

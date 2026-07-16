@@ -13,14 +13,12 @@ import { _, systemStore, useStore } from '@stores'
 import { feedback, HTMLDecode, tinygrailOSS } from '@utils'
 import Btns from '../btns'
 import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
 import type { Ctx } from '../../types'
 
 function Auth() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
-
-  const styles = memoStyles()
 
   const { nickname, avatar } = $.userInfo
   const src = tinygrailOSS(avatar?.large)

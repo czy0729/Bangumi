@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2022-09-29 19:16:05
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-09-29 19:16:05
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-07-16 05:42:00
  */
 import { _ } from '@stores'
 
@@ -23,9 +23,6 @@ export const memoStyles = _.memoStyles(() => ({
     width: '100%',
     paddingRight: _._wind,
     marginTop: _.xs
-  },
-  loading: {
-    marginTop: 13
   },
   ft: {
     position: 'absolute',

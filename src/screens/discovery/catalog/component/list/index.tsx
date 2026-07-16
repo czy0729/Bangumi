@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-09 11:09:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-12 01:39:02
+ * @Last Modified time: 2026-07-16 22:38:27
  */
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import { DATA_CATALOG_TYPE_MAP } from '@constants'
 import Pagination from '../pagination'
 import ToolBar from '../tool-bar'
 import { COMPONENT, EVENT } from './ds'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
 
@@ -30,6 +30,8 @@ function List() {
   const elPagination = useMemo(() => <Pagination />, [])
 
   // --- Render ---
+  const styles = memoStyles()
+
   return (
     <>
       {fixedFilter && elToolBar}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-05-24 12:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-07 20:37:05
+ * @Last Modified time: 2026-07-16 20:56:17
  */
 import React, { useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import { open, showImageViewer, stl } from '@utils'
 import { t } from '@utils/fetch'
 import { isNsfwScreenshot } from '@utils/thirdParty/dlsite-vndb'
 import { COMPONENT } from './ds'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
 import type { Ctx } from '../../../types'
 
@@ -79,6 +79,8 @@ function ExternalThumbs() {
     [isVndb, isAdvance, subjectId, memoPreviews, memoSafeImages]
   )
   if ((!hasVndb && !hasDlsite) || !memoImages.length) return null
+
+  const styles = memoStyles()
 
   return (
     <View style={styles.container}>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-18 01:10:57
+ * @Last Modified time: 2026-07-16 20:38:08
  */
 import React, { useCallback } from 'react'
 import { observer } from 'mobx-react'
@@ -13,7 +13,6 @@ import { HOST, LIMIT_TOPIC_PUSH } from '@constants'
 import Item from './item'
 import { getIsGroup, getReplyCount, getTopicId, getUserId, isTopicBlocked } from './utils'
 import { COMPONENT, LIMIT_HEAVY } from './ds'
-import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
 import type { Props } from './types'
@@ -92,7 +91,6 @@ function ItemWrap({
 
   return (
     <Item
-      styles={memoStyles()}
       index={index}
       avatar={avatar}
       userId={itemUserId}

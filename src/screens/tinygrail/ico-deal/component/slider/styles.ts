@@ -25,9 +25,6 @@ export const memoStyles = _.memoStyles(() => ({
     borderWidth: 0,
     borderRadius: 0
   },
-  balance: {
-    marginTop: 16
-  },
   slider: {
     height: 40,
     marginTop: _.sm,

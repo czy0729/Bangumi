@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:03:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-29 23:08:49
+ * @Last Modified time: 2026-07-16 22:33:44
  */
 import React, { useCallback, useState } from 'react'
 import { observer } from 'mobx-react'
@@ -10,7 +10,7 @@ import { _ } from '@stores'
 import { stl } from '@utils'
 import { Text } from '../../text'
 import { maskRichText } from './utils'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
 import type { Props } from './types'
 
@@ -21,7 +21,6 @@ function MaskText({ style, children }: Props) {
     setShow(prev => !prev)
   }, [])
 
-  const styles = memoStyles()
   const flattenStyle = _.flatten(style)
   const childrenValue = maskRichText(children, show)
 

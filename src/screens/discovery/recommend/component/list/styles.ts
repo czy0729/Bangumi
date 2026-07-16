@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-05-24 16:21:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-15 12:41:24
+ * @Last Modified time: 2026-07-16 22:20:13
  */
 import { _ } from '@stores'
 import { IMG_HEIGHT_LG } from '@constants'
 
-export const styles = _.create({
+export const memoStyles = _.memoStyles(() => ({
   list: {
     minHeight: 80
   },
@@ -32,4 +32,4 @@ export const styles = _.create({
     lineHeight: 40,
     letterSpacing: -2 + _.letterSpacing
   }
-})
+}))

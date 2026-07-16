@@ -2,24 +2,27 @@
  * @Author: czy0729
  * @Date: 2023-05-24 12:33:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 07:52:01
+ * @Last Modified time: 2026-07-16 22:20:58
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Loading, ScrollView, Text } from '@components'
 import { ItemSearch } from '@_'
 import { _, useStore } from '@stores'
 import { desc } from '@utils'
-import { ob } from '@utils/decorators'
 import { IOS, MODEL_SUBJECT_TYPE } from '@constants'
-import { SubjectTypeCn } from '@types'
-import { Ctx } from '../../types'
 import { COMPONENT, EVENT, SORT } from './ds'
-import { styles } from './styles'
+import { memoStyles } from './styles'
+
+import type { SubjectTypeCn } from '@types'
+import type { Ctx } from '../../types'
 
 function List() {
-  const { $, navigation } = useStore<Ctx>()
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
   if ($.state.searching) return <Loading style={_.container.flex} />
+
+  const styles = memoStyles()
 
   const { cat } = $.state
   if (cat === 'v1') {
@@ -138,4 +141,4 @@ function List() {
   )
 }
 
-export default ob(List, COMPONENT)
+export default observer(List)

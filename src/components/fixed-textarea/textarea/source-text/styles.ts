@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-07-30 18:24:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-30 20:20:24
+ * @Last Modified time: 2026-07-14 20:43:23
  */
 import { _ } from '@stores'
 
-export const memoStyles = _.memoStyles(() => ({
+export const styles = _.create({
   source: {
     position: 'absolute',
     zIndex: 2,
@@ -29,4 +29,4 @@ export const memoStyles = _.memoStyles(() => ({
     borderRadius: _.radiusSm,
     overflow: 'hidden'
   }
-}))
+})

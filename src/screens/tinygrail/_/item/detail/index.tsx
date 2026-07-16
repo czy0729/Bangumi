@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-03 23:17:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-07 04:57:19
+ * @Last Modified time: 2026-07-16 20:35:48
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -25,7 +25,7 @@ import {
   getCharaItemSortText
 } from '@tinygrail/_/utils'
 import { COLOR_MAP, TEXT_SPLIT, TIMEZONE, TYPES } from './ds'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
 function Detail(props) {
   const {
@@ -46,6 +46,8 @@ function Detail(props) {
     users,
     auction
   } = props
+
+  const styles = memoStyles()
 
   const isICO = !!end
   const isAuction = type === 'auction'

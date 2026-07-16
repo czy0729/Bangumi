@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-13 20:40:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-20 07:38:30
+ * @Last Modified time: 2026-07-16 06:26:27
  */
 import { isMobile } from '@utils/dom'
 
@@ -27,7 +27,7 @@ export const STORYBOOK = true
 /** 是否 Storybook 环境, 也就是是否 Web SPA */
 export const WEB = true
 
-const { clientWidth, clientHeight } = document.documentElement
+const { clientWidth, clientHeight } = window.document.documentElement
 
 /** 是否 Storybook iframe.html 中 */
 export const STORYBOOK_IFRAME = window.self !== window.top

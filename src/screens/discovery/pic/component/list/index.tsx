@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-06-09 15:12:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-07 22:23:29
+ * @Last Modified time: 2026-07-16 22:19:19
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,7 @@ import Empty from '../empty'
 import Item from '../item'
 import Pagination from '../pagination'
 import { COMPONENT } from './ds'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
 import type { Ctx, List as ListType } from '../../types'
 
@@ -59,6 +59,8 @@ function List() {
   })
 
   const showMoreKeywords = !$.state.fetching && $.list.length <= 6
+
+  const styles = memoStyles()
 
   return (
     <ScrollView

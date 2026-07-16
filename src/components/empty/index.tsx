@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 22:49:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-18 04:49:21
+ * @Last Modified time: 2026-07-14 20:27:18
  */
 import React, { useRef } from 'react'
 import { observer } from 'mobx-react'
@@ -14,7 +14,7 @@ import { Mesume } from '../mesume'
 import { randomSpeech } from '../mesume/utils'
 import { Text } from '../text'
 import { COMPONENT } from './ds'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
 import type { Props as EmptyProps } from './types'
 export type { EmptyProps }
@@ -23,6 +23,7 @@ export type { EmptyProps }
 export const Empty = observer(({ text, children }: EmptyProps) => {
   r(COMPONENT)
 
+  const styles = memoStyles()
   const randomRef = useRef(randomSpeech())
 
   return (

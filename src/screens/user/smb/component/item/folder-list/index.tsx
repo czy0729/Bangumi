@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-17 09:54:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 07:24:38
+ * @Last Modified time: 2026-07-16 06:17:23
  */
 import React from 'react'
 import { Linking, View } from 'react-native'
@@ -11,10 +11,11 @@ import { _, useStore } from '@stores'
 import { copy, desc } from '@utils'
 import { ob } from '@utils/decorators'
 import { ASSETS_ICONS } from '@constants'
-import { Ctx, SMBListItem, type } from '../../../types'
 import FolderEp from '../folder-ep'
 import LastModified from '../last-modified'
 import { styles } from './styles'
+
+import type { Ctx, SMBListItem } from '../../../types'
 
 function FolderList({ folder }: { folder: SMBListItem }) {
   const { $ } = useStore<Ctx>()

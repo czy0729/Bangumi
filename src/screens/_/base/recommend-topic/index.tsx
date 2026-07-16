@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-05-15 05:31:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-02 10:00:00
+ * @Last Modified time: 2026-07-16 22:27:51
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -13,7 +13,7 @@ import { IconTouchable } from '../../icon'
 import { Notice } from '../notice'
 import Item from './item'
 import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
 import type { Props as RecommendTopicProps } from './types'
 export type { RecommendTopicProps }
@@ -34,8 +34,6 @@ export const RecommendTopic = observer(
     onLoadMore
   }: RecommendTopicProps) => {
     r(COMPONENT)
-
-    const styles = memoStyles()
 
     const { list, pagination } = data
     const { page, pageTotal } = pagination

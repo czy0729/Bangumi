@@ -6,7 +6,7 @@
  */
 import { _ } from '@stores'
 
-export const memoStyles = _.memoStyles(() => ({
+export const styles = _.create({
   auth: {
     marginBottom: _.sm
   },
@@ -18,4 +18,4 @@ export const memoStyles = _.memoStyles(() => ({
     paddingVertical: _.xs,
     paddingHorizontal: _.sm
   }
-}))
+})

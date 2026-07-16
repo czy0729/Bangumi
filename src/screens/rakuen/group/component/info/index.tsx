@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:48:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-01 06:57:08
+ * @Last Modified time: 2026-07-16 20:47:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,12 +19,14 @@ import {
 } from '@components'
 import { _, useStore } from '@stores'
 import { COMPONENT } from './ds'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
 
 function Info() {
   const { $ } = useStore<Ctx>(COMPONENT)
+
+  const styles = memoStyles()
 
   return (
     <View style={styles.container}>

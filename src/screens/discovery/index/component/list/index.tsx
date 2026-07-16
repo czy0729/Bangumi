@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-09 21:41:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-26 02:48:05
+ * @Last Modified time: 2026-07-16 22:21:22
  */
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import { useInsets } from '@utils/hooks'
 import Dashboard from '../dashboard'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
 
@@ -25,6 +25,7 @@ function List({ onTouchMove }) {
 
   const elHeader = useMemo(() => <Dashboard />, [])
 
+  const styles = memoStyles()
   const { dragging } = $.state
 
   return (

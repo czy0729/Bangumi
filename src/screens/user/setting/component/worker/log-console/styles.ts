@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2026-06-20 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-21 05:59:07
+ * @Last Modified time: 2026-07-15 22:53:00
  */
 import { _ } from '@stores'
 
-export const memoStyles = _.memoStyles(() => ({
+export const styles = _.create({
   container: {
     marginTop: _.md,
     backgroundColor: '#1e1e1e',
@@ -75,4 +75,4 @@ export const memoStyles = _.memoStyles(() => ({
     flex: 1,
     opacity: 0.92
   }
-}))
+})

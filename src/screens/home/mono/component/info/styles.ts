@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-21 04:09:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-04 17:25:13
+ * @Last Modified time: 2026-07-16 22:06:40
  */
 import { _ } from '@stores'
 
@@ -14,9 +14,6 @@ export const memoStyles = _.memoStyles(() => ({
     minHeight: Math.floor(_.window.height * 0.56),
     paddingVertical: _.md,
     paddingHorizontal: _.wind
-  },
-  loading: {
-    minHeight: Math.floor(_.window.height * 0.48)
   },
   touch: {
     paddingHorizontal: _.xs,

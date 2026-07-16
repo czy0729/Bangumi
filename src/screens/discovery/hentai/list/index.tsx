@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-06-23 02:20:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-17 16:29:27
+ * @Last Modified time: 2026-07-16 06:23:48
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Loading } from '@components'
 import { Filter, PaginationList2 } from '@_'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
 import { ADVANCE_LIMIT, filterDS } from '../ds'
-import { Ctx, type } from '../types'
 import Item from '../item'
 import ItemGrid from '../item-grid'
 import { keyExtractor } from './utils'
+
+import type { Ctx } from '../types'
 
 class List extends React.Component<Ctx> {
   connectRef = (ref: { scrollToOffset: any }) => {
@@ -80,4 +81,4 @@ class List extends React.Component<Ctx> {
   }
 }
 
-export default ob(List)
+export default observer(List)

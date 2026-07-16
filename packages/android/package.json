@@ -16,7 +16,9 @@
     "open:mac": "open ./android/app/build/outputs/apk/release/",
     "test": "jest",
     "test:watch": "jest --watch",
-    "build:rust": "bash android/rust/build-android.sh"
+    "build:rust": "bash android/rust/build-android.sh",
+    "lint:styles": "npx eslint 'src/**/styles.ts'",
+    "lint:imports": "npx eslint 'src/**/*.{ts,tsx}' --quiet --config eslint-rules/.eslintrc.check-imports.js"
   },
   "resolutions": {
     "define-properties": "1.2.1",

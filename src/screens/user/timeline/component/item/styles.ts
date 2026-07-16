@@ -32,9 +32,6 @@ export const memoStyles = _.memoStyles(() => ({
   subjects: {
     marginBottom: _.sm
   },
-  cover: {
-    width: WIDTH
-  },
   subject: {
     width: '100%',
     marginBottom: _.sm

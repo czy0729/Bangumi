@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-14 21:09:41
+ * @Last Modified time: 2026-07-15 05:45:26
  */
 import React, { useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -19,7 +19,7 @@ import Menu from '../../component/menu'
 import Sensor from '../../component/sensor'
 import { H_HEADER } from '../../ds'
 import { COMPONENT } from './ds'
-import { memoStyles, styles } from './styles'
+import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
 import type { Props } from './types'
@@ -30,7 +30,7 @@ function ParallaxImage({ scrollY, fixed }: Props) {
   const { headerHeight } = useInsets()
   const topHeaderHeight = Math.max(H_HEADER, headerHeight)
 
-  const themeStyles = memoStyles()
+  const styles = memoStyles()
   const { parallaxImageHeight } = _
 
   const { avatar, nickname } = $.usersInfo
@@ -75,17 +75,17 @@ function ParallaxImage({ scrollY, fixed }: Props) {
 
   const elHeader = useMemo(
     () => (
-      <Flex style={themeStyles.head} justify='center'>
+      <Flex style={styles.head} justify='center'>
         <HeaderComponent fixed={fixed} />
       </Flex>
     ),
-    [fixed, themeStyles]
+    [fixed, styles]
   )
 
   const elBg = useMemo(
     () => (
       <>
-        <Animated.View style={stl(themeStyles.parallaxBg, memoParallaxStyle)} pointerEvents='none'>
+        <Animated.View style={stl(styles.parallaxBg, memoParallaxStyle)} pointerEvents='none'>
           <BackgroundImage fixed={fixed} />
         </Animated.View>
 
@@ -151,13 +151,12 @@ function ParallaxImage({ scrollY, fixed }: Props) {
             <Sensor style={styles.sensor} />
           </Animated.View>
 
-          <View style={themeStyles.parallaxLine} />
+          <View style={styles.parallaxLine} />
         </Animated.View>
       </>
     ),
     [
-      themeStyles.parallaxBg,
-      themeStyles.parallaxLine,
+      styles,
       memoParallaxStyle,
       fixed,
       scrollY,

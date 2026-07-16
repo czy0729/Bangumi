@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2025-04-04 01:49:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-04 01:56:29
+ * @Last Modified time: 2026-07-16 00:27:49
  */
 import { _ } from '@stores'
 
-export const memoStyles = _.memoStyles(() => ({
+export const styles = _.create({
   scroll: {
     marginTop: _.md,
     marginHorizontal: -_._wind
@@ -14,4 +14,4 @@ export const memoStyles = _.memoStyles(() => ({
   container: {
     paddingHorizontal: _._wind
   }
-}))
+})

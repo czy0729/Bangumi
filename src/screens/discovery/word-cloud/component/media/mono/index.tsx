@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-28 16:51:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-23 01:57:52
+ * @Last Modified time: 2026-07-16 22:08:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import { _, useStore } from '@stores'
 import { getMonoCoverSmall } from '@utils'
 import { IOS } from '@constants'
 import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
 import type { Ctx } from '../../../types'
 
@@ -21,8 +21,6 @@ function Mono() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   if (!$.mono?.name) return null
-
-  const styles = memoStyles()
 
   const top = $.mono.nameCn || $.mono.name
 

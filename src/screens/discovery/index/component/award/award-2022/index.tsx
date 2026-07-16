@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-01-22 06:05:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-21 20:32:15
+ * @Last Modified time: 2026-07-16 22:23:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,7 @@ import { useIsFocused, useNavigation } from '@utils/hooks'
 import { HOST, TEXT_ONLY } from '@constants'
 import { getHtml } from './utils'
 import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
 import type { Props } from './types'
 
@@ -24,7 +24,6 @@ function Award2022({ width, height }: Props) {
 
   const show = useIsFocused()
 
-  const styles = memoStyles()
   const w = width || styles.item2022.width
   const h = height || styles.item2022.height
 

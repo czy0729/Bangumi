@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-11-01 23:25:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-23 02:01:16
+ * @Last Modified time: 2026-07-16 22:07:38
  */
 import { _ } from '@stores'
 
-export const memoStyles = _.memoStyles(() => ({
+export const styles = _.create({
   container: {
     padding: _.sm,
     marginTop: _.xs,
@@ -23,10 +23,7 @@ export const memoStyles = _.memoStyles(() => ({
     paddingBottom: 2,
     marginLeft: 12
   },
-  rank: {
-    backgroundColor: 'rgba(255, 255, 255, 0.2)'
-  },
   opacity: {
     opacity: 0.64
   }
-}))
+})

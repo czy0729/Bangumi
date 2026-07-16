@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-21 20:30:35
+ * @Last Modified time: 2026-07-16 22:22:39
  */
 import React, { useCallback, useState } from 'react'
 import { observer } from 'mobx-react'
@@ -14,7 +14,7 @@ import Award2025 from './award-2025'
 import More from './more'
 import ScrollViewHorizontal from './scroll-view-horizontal'
 import { COMPONENT } from './ds'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
 import type { ScrollEvent } from '@types'
 
@@ -27,6 +27,8 @@ function Award() {
     const { x } = evt.nativeEvent.contentOffset
     if (x >= 20) setScrolled(true)
   }, [])
+
+  const styles = memoStyles()
 
   return (
     <ScrollViewHorizontal

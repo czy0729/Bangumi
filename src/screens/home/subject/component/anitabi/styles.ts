@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-01-12 06:39:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-03 19:43:54
+ * @Last Modified time: 2026-07-16 22:05:50
  */
 import { _ } from '@stores'
 import { THUMB_HEIGHT, THUMB_WIDTH } from './ds'
@@ -38,9 +38,5 @@ export const memoStyles = _.memoStyles(() => ({
   touch: {
     paddingLeft: _.xs,
     marginRight: -_.sm
-  },
-  layout: {
-    width: '100%',
-    height: 1
   }
 }))

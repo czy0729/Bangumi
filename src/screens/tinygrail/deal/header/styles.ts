@@ -17,12 +17,6 @@ export const memoStyles = _.memoStyles(() => ({
   back: {
     marginLeft: -8
   },
-  backIsPad: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 24,
-    left: _._wind
-  },
   avatar: {
     marginHorizontal: _.xs
   },

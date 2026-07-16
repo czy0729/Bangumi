@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-11 08:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-24 20:45:56
+ * @Last Modified time: 2026-07-16 01:46:28
  */
 import React, { useMemo } from 'react'
 import { observer } from 'mobx-react'
@@ -13,13 +13,15 @@ import { stl } from '@utils'
 import { COLLECTION_STATUS, MODEL_COLLECTION_STATUS, MODEL_SUBJECT_TYPE } from '@constants'
 import { ORDER_DS } from '../../ds'
 import { COMPONENT, DATA, DATA_SCORE } from './ds'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
 import type { CollectionStatusCn } from '@types'
 import type { Ctx } from '../../types'
 
 function Filter() {
   const { $ } = useStore<Ctx>(COMPONENT)
+
+  const styles = memoStyles()
 
   const {
     selectSubjectType,
@@ -67,7 +69,7 @@ function Filter() {
         ·
       </Text>
     ),
-    [userInfo]
+    [styles, userInfo]
   )
   const elSubjectType = useMemo(
     () => (
@@ -81,7 +83,7 @@ function Filter() {
         </Text>
       </Popover>
     ),
-    [selectSubjectType, subjectType, userInfo]
+    [selectSubjectType, styles, subjectType, userInfo]
   )
   const elCollectionStatus = useMemo(
     () => (
@@ -95,7 +97,7 @@ function Filter() {
         </Text>
       </Popover>
     ),
-    [userInfo, memoCollectionStatus, selectType, type, action]
+    [styles, userInfo, memoCollectionStatus, selectType, type, action]
   )
   const elOrder = useMemo(
     () => (
@@ -109,7 +111,7 @@ function Filter() {
         </Text>
       </Popover>
     ),
-    [orderText, selectOrder, userInfo]
+    [orderText, selectOrder, styles, userInfo]
   )
   const elTag = useMemo(
     () => (
@@ -123,7 +125,7 @@ function Filter() {
         </Text>
       </Popover>
     ),
-    [memoTags, selectTag, tag, userInfo]
+    [memoTags, selectTag, styles, tag, userInfo]
   )
   const elScore = useMemo(
     () => (
@@ -137,7 +139,7 @@ function Filter() {
         </Text>
       </Popover>
     ),
-    [score, selectScore, userInfo]
+    [score, selectScore, styles, userInfo]
   )
 
   return (

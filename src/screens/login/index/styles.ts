@@ -1,12 +1,12 @@
 /*
  * @Author: czy0729
  * @Date: 2022-09-02 17:19:55
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-09-02 17:19:55
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-07-16 20:50:26
  */
 import { _ } from '@stores'
 
-export const memoStyles = _.memoStyles(() => ({
+export const styles = _.create({
   bottomContainer: {
     width: _.r(320),
     height: 400
@@ -15,4 +15,4 @@ export const memoStyles = _.memoStyles(() => ({
     width: _.r(320),
     height: 64
   }
-}))
+})

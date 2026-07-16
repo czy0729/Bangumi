@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-25 22:05:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-29 04:30:05
+ * @Last Modified time: 2026-07-16 22:25:10
  */
 import { _ } from '@stores'
 
@@ -14,9 +14,5 @@ export const styles = _.create({
   },
   transparent: {
     opacity: 0
-  },
-  undetermined: {
-    zIndex: 1,
-    paddingVertical: _.sm
   }
 })

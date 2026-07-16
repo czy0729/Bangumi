@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-26 00:53:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-05 21:44:30
+ * @Last Modified time: 2026-07-16 20:55:43
  */
 import { _ } from '@stores'
 
@@ -13,10 +13,6 @@ export const memoStyles = _.memoStyles(() => ({
   },
   containerNotShow: {
     minHeight: 'auto'
-  },
-  hide: {
-    marginTop: _.lg,
-    marginBottom: -_.sm
   },
   info: {
     paddingTop: _.md,

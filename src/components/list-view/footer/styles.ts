@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-05-17 04:00:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-29 22:25:57
+ * @Last Modified time: 2026-07-16 22:34:44
  */
 import { _ } from '@stores'
 
-export const styles = _.create({
+export const memoStyles = _.memoStyles(() => ({
   container: {
     flex: 1,
     flexDirection: 'row',
@@ -32,4 +32,4 @@ export const styles = _.create({
     padding: 8,
     marginTop: _.lg
   }
-})
+}))

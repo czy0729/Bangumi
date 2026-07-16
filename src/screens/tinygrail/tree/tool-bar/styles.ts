@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2022-11-11 00:54:16
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-11-11 00:54:16
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-07-16 05:43:24
  */
 import { _ } from '@stores'
 
@@ -14,8 +14,5 @@ export const memoStyles = _.memoStyles(() => ({
   item: {
     paddingVertical: _.md - 4,
     paddingHorizontal: _.md
-  },
-  touchable: {
-    paddingHorizontal: _.lg
   }
 }))

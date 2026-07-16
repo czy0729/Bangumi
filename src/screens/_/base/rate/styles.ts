@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-06-10 14:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-15 12:41:01
+ * @Last Modified time: 2026-07-16 22:37:56
  */
 import { _ } from '@stores'
 
-export const styles = _.create({
+export const memoStyles = _.memoStyles(() => ({
   rate: {
     position: 'absolute',
     zIndex: 1,
@@ -22,4 +22,4 @@ export const styles = _.create({
     lineHeight: 40,
     letterSpacing: -2 + _.letterSpacing
   }
-})
+}))

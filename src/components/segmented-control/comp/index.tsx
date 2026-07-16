@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-24 16:50:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-25 22:34:35
+ * @Last Modified time: 2026-07-16 22:33:15
  */
 import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import { stl } from '@utils'
 import { SegmentedControlTab } from './segmented-control-tab'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
 import type { DataSource } from '@types'
 import type { Props } from '../types'
@@ -99,6 +99,8 @@ function SegmentedControlComp<T extends DataSource>({
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: animation.value }]
   }))
+
+  const styles = memoStyles()
 
   return (
     <View

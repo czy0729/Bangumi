@@ -24,13 +24,6 @@ export const memoStyles = _.memoStyles(() => {
       left: 0,
       opacity: 0.88
     },
-    manage: {
-      position: 'absolute',
-      zIndex: 1,
-      top: 0,
-      right: 0,
-      opacity: 0.88
-    },
     folderContent: {
       bottom: 32
     },
@@ -38,9 +31,6 @@ export const memoStyles = _.memoStyles(() => {
       minHeight: 48,
       paddingHorizontal: 10,
       paddingVertical: 10
-    },
-    folderTitle: {
-      marginBottom: -24
     }
   }
 })

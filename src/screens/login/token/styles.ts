@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-11-27 16:33:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 02:01:55
+ * @Last Modified time: 2026-07-16 20:49:37
  */
 import { _ } from '@stores'
 
-export const styles = _.create({
+export const memoStyles = _.memoStyles(() => ({
   container: {
-    minHeight: _.window.height * 0.72,
+    minHeight: Math.floor(_.window.height * 0.72),
     paddingHorizontal: 48
   },
   item: {
@@ -29,4 +29,4 @@ export const styles = _.create({
     borderColor: _.colorIcon,
     borderRadius: 20
   }
-})
+}))

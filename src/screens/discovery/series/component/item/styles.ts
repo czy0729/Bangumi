@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-08-28 00:26:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-30 20:07:21
+ * @Last Modified time: 2026-07-16 22:17:18
  */
 import { _ } from '@stores'
 
-export const memoStyles = _.memoStyles(() => ({
+export const styles = _.create({
   sub: {
     marginTop: -_.sm,
     paddingLeft: _._wind + _.device(_.sm, _.md)
@@ -14,4 +14,4 @@ export const memoStyles = _.memoStyles(() => ({
   subItem: {
     paddingVertical: _.md
   }
-}))
+})

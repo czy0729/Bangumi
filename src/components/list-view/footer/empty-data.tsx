@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-06-08 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-11 15:08:02
+ * @Last Modified time: 2026-07-16 22:35:02
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -11,7 +11,7 @@ import { TEXT_EMPTY } from '@constants'
 import { Flex } from '../../flex'
 import { Mesume } from '../../mesume'
 import { Text } from '../../text'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
 import type { FooterEmptyDataProps } from './types'
 
@@ -22,6 +22,8 @@ function FooterEmptyData({
   showMesume = true,
   textType = 'sub'
 }: FooterEmptyDataProps) {
+  const styles = memoStyles()
+
   return (
     <Flex style={stl(styles.empty, style)} direction='column' justify='center'>
       {showMesume && <Mesume size={64} />}

@@ -5,10 +5,11 @@
  * @Last Modified time: 2025-11-08 21:45:54
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Text, Touchable } from '@components'
 import { Filter as FilterComp } from '@_'
 import { _ } from '@stores'
-import { useNavigation, useObserver } from '@utils/hooks'
+import { useNavigation } from '@utils/hooks'
 import { TEXT_UPDATE_NSFW } from '@constants'
 import { filterDS } from '../../ds'
 import { COMPONENT, TEXT_INFORMATION } from './ds'
@@ -16,7 +17,7 @@ import { COMPONENT, TEXT_INFORMATION } from './ds'
 function Filter() {
   const navigation = useNavigation(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <FilterComp
       filterDS={filterDS}
       name='NSFW'
@@ -33,7 +34,7 @@ function Filter() {
         </>
       }
     />
-  ))
+  )
 }
 
-export default Filter
+export default observer(Filter)

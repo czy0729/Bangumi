@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-14 03:18:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-06 05:41:05
+ * @Last Modified time: 2026-07-16 00:20:29
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -15,7 +15,7 @@ import CollectionTimelines from './collection-timelines'
 import Comment from './comment'
 import Topic from './topic'
 import { COMPONENT, TEXTS } from './ds'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
 import type { WithNavigation } from '@types'
 import type { WithFilterProps } from '../../types'
@@ -36,6 +36,8 @@ function Track({
   const shows = getShows(filter, TEXTS)
 
   if (!shows) return null
+
+  const styles = memoStyles()
 
   return (
     <>

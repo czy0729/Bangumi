@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-10-22 10:13:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 01:00:37
+ * @Last Modified time: 2026-07-14 21:10:38
  */
 import { _ } from '@stores'
 
-export const styles = _.create({
+export const memoStyles = _.memoStyles(() => ({
   loading: {
     marginTop: _.lg
   },
@@ -20,4 +20,4 @@ export const styles = _.create({
   nestScrollLoading: {
     marginTop: -320
   }
-})
+}))

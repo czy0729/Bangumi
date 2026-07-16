@@ -6,7 +6,7 @@
  */
 import { _ } from '@stores'
 
-export const styles = _.create({
+export const memoStyles = _.memoStyles(() => ({
   item: {
     paddingLeft: _.wind - _._wind + _.sm,
     paddingRight: _.sm + 2
@@ -18,4 +18,4 @@ export const styles = _.create({
     padding: _.sm,
     marginRight: _.sm
   }
-})
+}))

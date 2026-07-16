@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-05-03 11:07:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-12 20:50:34
+ * @Last Modified time: 2026-07-16 22:32:58
  */
 import { _ } from '@stores'
 
-export const styles = _.create({
+export const memoStyles = _.memoStyles(() => ({
   default: {
     position: 'relative',
     flexDirection: 'row',
@@ -25,4 +25,4 @@ export const styles = _.create({
     left: 1,
     borderRadius: _.radiusXs
   }
-})
+}))

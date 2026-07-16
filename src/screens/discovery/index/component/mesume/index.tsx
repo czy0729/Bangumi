@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-12 05:42:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-25 14:43:08
+ * @Last Modified time: 2026-07-16 22:19:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import { useAppState, useIsFocused } from '@utils/hooks'
 import { TEXT_ONLY, WEB } from '@constants'
 import { getHtml } from './utils'
 import { COMPONENT, STAGE_HEIGHT, STAGE_WIDTH } from './ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
 import type { Ctx } from '../../types'
 import type { Props } from './types'
@@ -27,8 +27,6 @@ function Mesume({ forwardRef, loaded, onMessage }: Props) {
 
   const { live2DV2, live2DModel, live2dScale } = systemStore.setting
   if (TEXT_ONLY || WEB || !live2DV2 || $.state.dragging || !show || !appState) return null
-
-  const styles = memoStyles()
 
   const scale = live2dScale === '大' ? 1 : live2dScale === '中' ? 0.76 : 0.5
   const width = Math.floor(STAGE_WIDTH * scale)

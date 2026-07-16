@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-24 16:50:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-09 07:47:27
+ * @Last Modified time: 2026-07-16 22:33:25
  */
 import React, { useCallback, useEffect } from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import { stl } from '@utils'
 import { SegmentedControlTab } from './segmented-control-tab'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
 import type { LayoutChangeEvent } from 'react-native'
 import type { DataSource } from '@types'
@@ -102,6 +102,8 @@ function SegmentedControlComp<T extends DataSource>({
     },
     [enabled, selectedIndex, values, onChange, onValueChange]
   )
+
+  const styles = memoStyles()
 
   return (
     <View

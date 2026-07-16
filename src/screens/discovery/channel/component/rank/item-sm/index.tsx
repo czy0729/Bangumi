@@ -2,26 +2,26 @@
  * @Author: czy0729
  * @Date: 2024-08-20 16:32:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-04 01:13:18
+ * @Last Modified time: 2026-07-16 22:25:01
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Katakana, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover, Rate, Tag } from '@_'
 import { _, collectionStore, useStore } from '@stores'
 import { findSubjectCn, HTMLDecode, stl } from '@utils'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { COVER_HEIGHT_SM, COVER_WIDTH_SM } from '../ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
 import type { ChannelRankItem } from '@stores/discovery/types'
 import type { Ctx } from '../../../types'
 
 function ItemSm({ item, index }: { item: ChannelRankItem; index: number }) {
   const { $, navigation } = useStore<Ctx>()
-  const styles = memoStyles()
+
   const collection = collectionStore.collect(item.id, $.typeCn) || ''
   const isMusic = $.typeCn === '音乐'
   const numberOfLines = isMusic ? 2 : 3
@@ -90,4 +90,4 @@ function ItemSm({ item, index }: { item: ChannelRankItem; index: number }) {
   )
 }
 
-export default ob(ItemSm)
+export default observer(ItemSm)

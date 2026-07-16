@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-03-21 19:50:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-18 03:37:16
+ * @Last Modified time: 2026-07-14 18:04:30
  */
 import React from 'react'
-import { Platform, StyleSheet, Text, View } from 'react-native'
+import { Platform, Text, View } from 'react-native'
 import PropTypes from 'prop-types'
 import alert from '@ant-design/react-native/lib/modal/alert'
 import RCModal from '@ant-design/react-native/lib/modal/ModalView'
@@ -14,45 +14,19 @@ import prompt from '@ant-design/react-native/lib/modal/prompt'
 import modalStyles from '@ant-design/react-native/lib/modal/style/index'
 import { WithTheme } from '@ant-design/react-native/lib/style'
 import { syncThemeStore } from '@utils/async'
-import { window } from '@styles'
 import { Flex } from '../../../flex'
 import { Iconfont } from '../../../iconfont'
 import { Touchable } from '../../../touchable'
 import BlurView from './blur-view'
 import { stl } from './utils'
 import Wrap from './wrap'
+import { DEFAULT_PROPS } from './ds'
 import { styles as overideStyles } from './styles'
 
 const _ = syncThemeStore()
 
-const maxHeight = StyleSheet.create({
-  maxHeight: {
-    maxHeight: window.height
-  }
-}).maxHeight
-
-const defaultProps = {
-  styles: {},
-  style: undefined,
-  bodyStyle: undefined,
-  animateAppear: true,
-  animationType: 'fade' as const,
-  closable: false,
-  footer: [],
-  maskClosable: false,
-  onClose: () => {},
-  onAnimationEnd: () => {},
-  operation: false,
-  popup: false,
-  title: '' as any,
-  transparent: false,
-  visible: false,
-  focus: false,
-  children: null
-}
-
-export class AntmModal extends React.Component<typeof defaultProps> {
-  static defaultProps = defaultProps
+export class AntmModal extends React.Component<typeof DEFAULT_PROPS> {
+  static defaultProps = DEFAULT_PROPS
   static alert = alert
   static operation = operation
   static prompt = prompt
@@ -94,7 +68,7 @@ export class AntmModal extends React.Component<typeof defaultProps> {
           >
             <Wrap focus={focus}>
               <BlurView>
-                <View style={maxHeight}>
+                <View style={overideStyles.maxHeight}>
                   <View style={overideStyles.title}>
                     {title && (
                       <Text

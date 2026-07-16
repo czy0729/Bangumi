@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2025-12-05 06:54:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-07 05:07:44
+ * @Last Modified time: 2026-07-16 22:06:09
  */
 import React, { useCallback, useMemo } from 'react'
 import { ToolBar as ToolBarComp } from '@components'
 import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { COMPONENT, LEFT_SPLIT, RIGHT_SPLIT } from './ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
 import type { Ctx } from '../../types'
 
@@ -60,8 +60,6 @@ function ToolBar() {
       return result.map(item => `${item.desc}${LEFT_SPLIT}${item.count}${RIGHT_SPLIT}`)
     }, [list])
     if (!memoData.length) return null
-
-    const styles = memoStyles()
 
     const { filter } = $.state
     let text = ''

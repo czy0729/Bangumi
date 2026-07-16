@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-05-26 08:53:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 02:55:04
+ * @Last Modified time: 2026-07-16 06:30:52
  */
 import React, { useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
@@ -50,7 +50,7 @@ function Popover({ children, ...other }) {
         trigger={['click']}
         overlay={overlayElement}
         onVisibleChange={onVisibleChange}
-        getPopupContainer={() => document.querySelector('component-storybook-page')}
+        getPopupContainer={() => window.document.querySelector('component-storybook-page')}
       >
         <View style={style}>{children}</View>
       </Dropdown>

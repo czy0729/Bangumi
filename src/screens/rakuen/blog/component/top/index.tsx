@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:51:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-06 21:56:07
+ * @Last Modified time: 2026-07-16 20:48:10
  */
 import { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
@@ -27,7 +27,7 @@ import { IMG_HEIGHT_SM, IMG_WIDTH_SM } from '@constants'
 import SectionTitle from '../section-title'
 import { getHtmlTextLength } from './utils'
 import { COMPONENT } from './ds'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
 
@@ -69,6 +69,8 @@ function Top() {
     },
     [navigation]
   )
+
+  const styles = memoStyles()
 
   if (!_loaded) {
     return (

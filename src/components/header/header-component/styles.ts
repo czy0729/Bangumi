@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-04-11 16:05:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-01 18:56:23
+ * @Last Modified time: 2026-07-16 22:37:26
  */
 import { _ } from '@stores'
 
-export const memoStyles = _.memoStyles(() => ({
+export const styles = _.create({
   header: {
     position: 'absolute',
     zIndex: 1,
@@ -19,4 +19,4 @@ export const memoStyles = _.memoStyles(() => ({
   back: {
     zIndex: 1
   }
-}))
+})

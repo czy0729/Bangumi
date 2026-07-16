@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-09 22:34:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-21 21:18:05
+ * @Last Modified time: 2026-07-16 22:22:03
  */
 import { _ } from '@stores'
 
@@ -15,7 +15,7 @@ export const memoStyles = _.memoStyles(() => {
     },
     cover: {
       width,
-      height: width * 1.38
+      height: Math.floor(width * 1.38)
     },
     linear: {
       position: 'absolute',

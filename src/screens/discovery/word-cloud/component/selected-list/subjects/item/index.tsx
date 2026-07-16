@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-11-03 04:54:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-12 21:13:26
+ * @Last Modified time: 2026-07-16 22:07:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import { getTimestamp, lastDate } from '@utils'
 import { t } from '@utils/fetch'
 import { IMG_SUBJECT_ONLY, MODEL_SUBJECT_TYPE, WEB } from '@constants'
 import { NUM_COLUMNS } from '../../ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
 import type { Ctx } from '../../../../types'
 import type { Props } from './types'
@@ -22,7 +22,6 @@ import type { Props } from './types'
 function Item({ item, index }: Props) {
   const { $, navigation } = useStore<Ctx>()
 
-  const styles = memoStyles()
   const width = Math.floor(_.window.contentWidth / (NUM_COLUMNS + 0.2 * NUM_COLUMNS))
   const height = $.state.subjectType === 'music' ? width : Math.floor(width * 1.4)
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-30 03:43:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 01:41:54
+ * @Last Modified time: 2026-07-16 22:35:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import FooterEmptyData from './empty-data'
 import FooterFailure from './failure'
 import FooterNoMoreData from './no-more-data'
 import FooterRefreshing from './refreshing'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
 export { FooterEmptyData, FooterFailure, FooterNoMoreData, FooterRefreshing }
 
@@ -34,6 +34,8 @@ function Footer({
   refreshState,
   showMesume
 }: FooterProps) {
+  const styles = memoStyles()
+
   switch (refreshState) {
     case REFRESH_STATE.Idle:
       return <View style={styles.container} />

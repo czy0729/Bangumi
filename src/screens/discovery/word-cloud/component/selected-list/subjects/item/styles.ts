@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-09-27 03:57:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 16:02:31
+ * @Last Modified time: 2026-07-16 22:06:49
  */
 import { _ } from '@stores'
 
-export const memoStyles = _.memoStyles(() => ({
+export const styles = _.create({
   item: {
     minHeight: 130,
     paddingBottom: 16
@@ -34,4 +34,4 @@ export const memoStyles = _.memoStyles(() => ({
       }
     ]
   }
-}))
+})

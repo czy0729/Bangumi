@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-01-27 15:33:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-21 20:32:43
+ * @Last Modified time: 2026-07-16 22:23:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,12 +12,10 @@ import { open } from '@utils'
 import { useNavigation } from '@utils/hooks'
 import { ASSETS_AWARDS, HOST, TEXT_ONLY } from '@constants'
 import { COMPONENT, URI } from './ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
 function Award2024() {
   const navigation = useNavigation(COMPONENT)
-
-  const styles = memoStyles()
 
   return (
     <View style={styles.container}>

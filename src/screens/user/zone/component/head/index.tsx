@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 06:38:57
+ * @Last Modified time: 2026-07-15 05:32:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,14 +19,12 @@ import Recent from './recent'
 import Remark from './remark'
 import Sync from './sync'
 import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
 import type { WithViewStyles } from '@types'
 
 function Head({ style }: WithViewStyles) {
   r(COMPONENT)
-
-  const styles = memoStyles()
 
   return (
     <Flex style={stl(styles.head, style)} direction='column'>

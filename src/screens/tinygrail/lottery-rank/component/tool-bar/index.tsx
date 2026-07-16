@@ -13,7 +13,7 @@ import { useObserver } from '@utils/hooks'
 import TinygrailSegmentedControl from '@tinygrail/_/segmented-control'
 import { getDay } from '../../utils'
 import { COMPONENT, VALUES } from './ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
 import type { Ctx } from '../../types'
 
@@ -21,7 +21,6 @@ function ToolBar() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
-    const styles = memoStyles()
     const { prev, sort, _loaded } = $.state
 
     return (

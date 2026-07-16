@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-25 09:22:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 01:55:17
+ * @Last Modified time: 2026-07-16 22:34:33
  */
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,7 @@ import { Flex } from '../../flex'
 import { Mask } from '../../mask'
 import { ScrollView } from '../../scroll-view'
 import { Text } from '../../text'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
 import type { Props } from '../types'
 
@@ -39,6 +39,8 @@ export const ModalFixed = observer(
     }, [activeRef, animated, visible])
 
     if (!visible) return null
+
+    const styles = memoStyles()
 
     return (
       <Component id='component-modal'>

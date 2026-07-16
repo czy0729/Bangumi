@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-07-25 22:05:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-30 05:47:52
+ * @Last Modified time: 2026-07-16 22:26:07
  */
 import { _ } from '@stores'
 import { COVER_HEIGHT, COVER_WIDTH } from '../../../ds'
 
-export const memoStyles = _.memoStyles(() => ({
+export const styles = _.create({
   item: {
     width: '100%',
     paddingVertical: 12,
@@ -33,12 +33,8 @@ export const memoStyles = _.memoStyles(() => ({
   katakanas: {
     marginTop: -10
   },
-  undetermined: {
-    zIndex: 1,
-    paddingVertical: _.sm
-  },
   desc: {
     marginTop: -6,
     marginRight: -36
   }
-}))
+})

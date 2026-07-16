@@ -2,18 +2,20 @@
  * @Author: czy0729
  * @Date: 2023-10-21 02:07:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-11 15:07:23
+ * @Last Modified time: 2026-07-16 22:35:46
  */
 import React, { useRef } from 'react'
 import { observer } from 'mobx-react'
 import { randomSpeech } from '../../mesume/utils'
 import { Text } from '../../text'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
 import type { RandomTextProps } from './types'
 
 function RandomText({ type = undefined, text = '' }: RandomTextProps) {
   const randomRef = useRef(randomSpeech())
+
+  const styles = memoStyles()
 
   return (
     <Text style={styles.textMt} type={type} align='center' size={13} lineHeight={17}>

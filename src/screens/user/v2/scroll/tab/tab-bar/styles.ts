@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-03-19 16:09:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-09 00:50:11
+ * @Last Modified time: 2026-07-15 05:37:02
  */
 import { _ } from '@stores'
-import { H_RADIUS_LINE } from '../../../ds'
 
 export const memoStyles = _.memoStyles(() => {
   const W_TAB_BAR_LEFT = _.r(72)
@@ -13,13 +12,6 @@ export const memoStyles = _.memoStyles(() => {
   const W_INDICATOR = _.r(16)
 
   return {
-    tabBarWrap: {
-      position: 'absolute',
-      zIndex: 2,
-      top: -H_RADIUS_LINE + 2,
-      right: 0,
-      left: 0
-    },
     tabBar: {
       paddingLeft: W_TAB_BAR_LEFT,
       backgroundColor: _.select(_.colorPlain, _.deepDark ? _._colorPlain : _._colorDarkModeLevel1),

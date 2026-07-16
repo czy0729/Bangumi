@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-11 05:10:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-04 21:45:00
+ * @Last Modified time: 2026-07-16 00:33:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import { _, useStore } from '@stores'
 import { getVisualLength, stl } from '@utils'
 import { IMG_SUBJECT_ONLY, MODEL_SUBJECT_TYPE } from '@constants'
 import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
 import type { ImageProps } from '@components'
 import type { Ctx, MilestoneItemData } from '../../types'
@@ -21,8 +21,6 @@ import type { Props } from './types'
 
 function Item({ item, index }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
-
-  const styles = memoStyles()
 
   // 使用预计算的数据
   const { titleDecoded, titleVisualLength, timeStr, parsedTime, parsedTimeNoYear, tipParsed } =

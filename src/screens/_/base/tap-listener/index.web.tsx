@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-02 22:47:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-06 14:44:14
+ * @Last Modified time: 2026-07-16 06:24:50
  */
 import { useEffect } from 'react'
 import { Component } from '@components'
@@ -23,12 +23,12 @@ export const TapListener = ({ children }) => {
       uiStore.setXY(Math.floor(event.clientX), Math.floor(event.clientY))
     }
 
-    document.addEventListener('touchend', handleTouchEnd)
-    document.addEventListener('mouseup', handleMouseUp)
+    window.document.addEventListener('touchend', handleTouchEnd)
+    window.document.addEventListener('mouseup', handleMouseUp)
 
     return () => {
-      document.removeEventListener('touchend', handleTouchEnd)
-      document.removeEventListener('mouseup', handleMouseUp)
+      window.document.removeEventListener('touchend', handleTouchEnd)
+      window.document.removeEventListener('mouseup', handleMouseUp)
     }
   }, [])
 

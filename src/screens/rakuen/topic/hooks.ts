@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-21 15:06:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-23 06:03:48
+ * @Last Modified time: 2026-07-16 06:20:24
  */
 import { useCallback, useRef } from 'react'
 import { layoutHeightMap } from '@_/item/post/utils'
@@ -58,7 +58,9 @@ export function useTopicPage(props: NavigationProps) {
             return
           }
 
-          const offsetTop = document.querySelector(`item-post[data-key="${item.id}"]`)?.offsetTop
+          const offsetTop = window.document.querySelector(
+            `item-post[data-key="${item.id}"]`
+          )?.offsetTop
           if (offsetTop) scrollToTop(offsetTop - HEADER_HEIGHT)
           return
         }
@@ -107,7 +109,9 @@ export function useTopicPage(props: NavigationProps) {
         if (animated) info(item?.floor, 0.8)
 
         if (WEB) {
-          const offsetTop = document.querySelector(`item-post[data-key="${item.id}"]`)?.offsetTop
+          const offsetTop = window.document.querySelector(
+            `item-post[data-key="${item.id}"]`
+          )?.offsetTop
           if (offsetTop) scrollToTop(offsetTop - HEADER_HEIGHT)
         } else {
           scrollViewRef.current?.scrollToIndex({

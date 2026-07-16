@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-02-12 05:57:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-12 22:38:57
+ * @Last Modified time: 2026-07-16 22:19:43
  */
 import { _ } from '@stores'
 
-export const memoStyles = _.memoStyles(() => ({
+export const styles = _.create({
   stage: {
     position: 'absolute',
     zIndex: 10,
@@ -17,4 +17,4 @@ export const memoStyles = _.memoStyles(() => ({
   webview: {
     backgroundColor: 'transparent'
   }
-}))
+})

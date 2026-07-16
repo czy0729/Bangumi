@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-11 07:03:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-29 22:26:37
+ * @Last Modified time: 2026-07-16 20:36:54
  */
 import { _ } from '@stores'
 
@@ -15,14 +15,6 @@ export const memoStyles = _.memoStyles(() => ({
   },
   focus: {
     marginTop: -Math.floor(_.window.height * 0.56)
-  },
-  wrap: {
-    width: '100%',
-    maxWidth: _.window.maxWidth,
-    height: _.window.height * 0.64,
-    maxHeight: 664,
-    paddingBottom: _.sm,
-    marginTop: _.md
   },
   information: {
     position: 'absolute',
@@ -42,22 +34,5 @@ export const memoStyles = _.memoStyles(() => ({
     height: 28,
     marginLeft: _.sm,
     borderRadius: 0
-  },
-  btnDisabled: {
-    width: 80,
-    height: 28,
-    marginLeft: _.sm,
-    opacity: 0.5,
-    borderRadius: 0
-  },
-  btnText: {
-    ..._.fontSize11
-  },
-  segmented: {
-    width: '100%',
-    height: 28
-  },
-  segmentedExtra: {
-    borderRadius: _.radiusXs
   }
 }))

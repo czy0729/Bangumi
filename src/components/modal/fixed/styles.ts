@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-11-26 09:00:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-25 14:07:02
+ * @Last Modified time: 2026-07-16 22:34:16
  */
 import { _ } from '@stores'
 
-export const styles = _.create({
+export const memoStyles = _.memoStyles(() => ({
   mask: {
     position: 'absolute',
     zIndex: 1000,
@@ -26,7 +26,7 @@ export const styles = _.create({
     paddingBottom: _.tabBarHeight
   },
   container: {
-    maxHeight: _.window.height * 0.75
+    maxHeight: Math.floor(_.window.height * 0.75)
   },
   modal: {
     height: 'auto',
@@ -36,4 +36,4 @@ export const styles = _.create({
     paddingLeft: _.md,
     marginTop: 0
   }
-})
+}))

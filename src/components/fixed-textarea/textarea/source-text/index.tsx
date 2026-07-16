@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-07-30 18:21:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-18 05:02:47
+ * @Last Modified time: 2026-07-14 20:43:30
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -15,7 +15,7 @@ import { Text } from '../../../text'
 import { Touchable } from '../../../touchable'
 import Count from './count'
 import Marks from './marks'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
 function SourceText({
   source,
@@ -29,8 +29,6 @@ function SourceText({
   onToggleSourceText
 }) {
   if (!source || !showTextarea) return null
-
-  const styles = memoStyles()
 
   return (
     <Flex style={styles.source}>

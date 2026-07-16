@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2025-06-09 20:25:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-18 02:25:46
+ * @Last Modified time: 2026-07-16 22:19:27
  */
 import { _ } from '@stores'
 
-export const memoStyles = _.memoStyles(() => ({
+export const styles = _.create({
   image: {
     borderRadius: 6,
     overflow: 'hidden'
@@ -19,4 +19,4 @@ export const memoStyles = _.memoStyles(() => ({
     left: 0,
     backgroundColor: 'transparent'
   }
-}))
+})

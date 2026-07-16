@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 16:30:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 16:37:40
+ * @Last Modified time: 2026-07-16 20:46:15
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import { getGroupThumbStatic, getVisualLength } from '@utils'
 import { t } from '@utils/fetch'
 import { CDN_OSS_MAGMA_PIC, HOST_IMAGE } from '@constants'
 import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
 import type { Ctx } from '../../types'
 
@@ -39,8 +39,6 @@ function Item({ id, cover, name, num }: any) {
   ) {
     src = CDN_OSS_MAGMA_PIC(src)
   }
-
-  const styles = memoStyles()
 
   const { type, filter } = $.state
 

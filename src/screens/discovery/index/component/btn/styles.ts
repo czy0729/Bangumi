@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-09-10 07:22:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-17 20:22:31
+ * @Last Modified time: 2026-07-16 22:22:12
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   wrap: {
-    width: (_.windowSm.width - 2 * _.windSm) * 0.249,
-    height: (_.windowSm.width - 2 * _.windSm) * 0.249,
+    width: Math.floor((_.windowSm.width - 2 * _.windSm) * 0.249),
+    height: Math.floor((_.windowSm.width - 2 * _.windSm) * 0.249),
     paddingVertical: _.sm + 4
   },
   wrapSm: {
-    width: (_.windowSm.width - 2 * _.windSm) * 0.198,
+    width: Math.floor((_.windowSm.width - 2 * _.windSm) * 0.198),
     paddingVertical: _.sm + 4
   },
   item: {

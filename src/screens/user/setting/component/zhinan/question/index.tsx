@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-04-26 05:12:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-26 05:13:16
+ * @Last Modified time: 2026-07-16 06:17:49
  */
 import React from 'react'
 import { Heatmap } from '@components'
 import { ItemSetting } from '@_'
 import { _ } from '@stores'
+import { open } from '@utils'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
 import { URL_WENJUAN } from '@constants'

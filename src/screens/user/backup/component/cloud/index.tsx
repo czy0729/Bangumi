@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-12-07 14:31:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-03 02:33:09
+ * @Last Modified time: 2026-07-16 05:43:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,12 +12,14 @@ import { _, useStore } from '@stores'
 import { confirm } from '@utils'
 import { CSV_HEADS } from '../../ds'
 import { COLOR_SUCCESS, COMPONENT } from './ds'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
+
 function Cloud() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
+  const styles = memoStyles()
   const { includeColumns } = $.state
 
   const Btn = ({ title, info, onPress }: { title: string; info: string; onPress: () => void }) => (

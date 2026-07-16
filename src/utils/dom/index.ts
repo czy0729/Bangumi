@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-14 17:37:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-17 05:34:18
+ * @Last Modified time: 2026-07-16 06:31:48
  */
 import { useRef } from 'react'
 import { WEB } from '@constants/device'
@@ -17,7 +17,7 @@ export { isDevtoolsOpen }
 export function isMobile() {
   if (typeof window === 'undefined' || !WEB) return
 
-  const ua = navigator.userAgent.toLowerCase()
+  const ua = window.navigator.userAgent.toLowerCase()
   const keywords = ['android', 'iphone', 'ipod', 'ipad', 'windows phone', 'mqqbrowser']
   return keywords.some(keyword => ua.indexOf(keyword) !== -1)
 }
@@ -27,7 +27,7 @@ export function isWindows() {
   if (typeof window === 'undefined' || !WEB) return false
 
   try {
-    return navigator.platform.indexOf('Win') !== -1
+    return window.navigator.platform.indexOf('Win') !== -1
   } catch (error) {
     return false
   }
@@ -80,7 +80,7 @@ export function scrollToTop(y: number = 0, animated: boolean = true) {
 
   setTimeout(() => {
     try {
-      document.querySelector('component-page component-storybook-scroll > div').scrollTo({
+      window.document.querySelector('component-page component-storybook-scroll > div').scrollTo({
         // @ts-ignore
         x: 0,
         y,

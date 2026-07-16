@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-28 00:22:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-03 09:52:28
+ * @Last Modified time: 2026-07-16 22:17:07
  */
 import { _ } from '@stores'
 import { IMG_HEIGHT_SM } from '@constants'
@@ -20,7 +20,7 @@ export const memoStyles = _.memoStyles(() => ({
     paddingLeft: _.md
   },
   bodySm: {
-    height: IMG_HEIGHT_SM * 0.88,
+    height: Math.floor(IMG_HEIGHT_SM * 0.88),
     paddingLeft: _.md
   },
   manage: {

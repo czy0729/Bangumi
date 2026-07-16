@@ -11,14 +11,12 @@ import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { formatChange, formatValue } from './utils'
 import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
 import type { Ctx } from '../../types'
 
 function Assets() {
   const { $ } = useStore<Ctx>(COMPONENT)
-
-  const styles = memoStyles()
 
   const { currentBalance, currentTotal, lastBalance, lastTotal } = $.state
   const { balance, lastIndex } = $.assets

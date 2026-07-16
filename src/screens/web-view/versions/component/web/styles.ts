@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-02-08 17:47:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-22 11:26:08
+ * @Last Modified time: 2026-07-16 00:24:28
  */
 import { _ } from '@stores'
 
@@ -12,7 +12,7 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.colorPlain
   },
   loading: {
-    marginTop: _.window.height * 0.25
+    marginTop: Math.floor(_.window.height * 0.25)
   },
   text: {
     paddingHorizontal: _.wind

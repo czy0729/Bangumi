@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2025-02-20 16:49:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-23 03:56:23
+ * @Last Modified time: 2026-07-16 00:25:56
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   detail: {
     minHeight: 120,
-    maxHeight: _.window.height * 0.56
+    maxHeight: Math.floor(_.window.height * 0.56)
   },
   contentContainerStyle: {
     paddingVertical: _.sm,

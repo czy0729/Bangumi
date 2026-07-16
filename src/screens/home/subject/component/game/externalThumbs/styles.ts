@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2026-05-24 12:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-25 06:19:25
+ * @Last Modified time: 2026-07-16 20:56:01
  */
 import { _ } from '@stores'
 import { THUMB_HEIGHT, THUMB_WIDTH } from './ds'
 
-export const styles = _.create({
+export const memoStyles = _.memoStyles(() => ({
   container: {
     marginTop: _.sm
   },
@@ -19,10 +19,6 @@ export const styles = _.create({
   },
   segmentText: {
     letterSpacing: -0.4
-  },
-  item: {
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
   },
   image: {
     width: THUMB_WIDTH,
@@ -49,4 +45,4 @@ export const styles = _.create({
     marginTop: 2,
     opacity: 0.4
   }
-})
+}))

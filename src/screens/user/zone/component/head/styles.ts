@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-29 06:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-15 16:27:46
+ * @Last Modified time: 2026-07-15 05:31:53
  */
 import { _ } from '@stores'
 import { H_RADIUS_LINE } from '../../ds'
@@ -31,7 +31,7 @@ const rStyle = (top: number, left: number): object => ({
   opacity: 0.92
 })
 
-export const memoStyles = _.memoStyles(() => ({
+export const styles = _.create({
   head: {
     paddingTop: H_RADIUS_LINE / 2
   },
@@ -41,4 +41,4 @@ export const memoStyles = _.memoStyles(() => ({
   r1: rStyle(16, 100),
   r2: rStyle(52, 116),
   r3: rStyle(88, 100)
-}))
+})

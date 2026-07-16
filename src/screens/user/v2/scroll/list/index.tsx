@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-16 04:40:38
+ * @Last Modified time: 2026-07-15 05:47:44
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -81,11 +81,11 @@ function List({ page, title, scrollY, onScroll, onRefreshOffset }: Props) {
   const numColumns = list ? undefined : num
 
   const { page: pageCurrent, pageTotal } = userCollections.pagination
-  const themeStyles = memoStyles()
+  const styles = memoStyles()
 
   const ListHeaderComponent = (
     <>
-      <View style={themeStyles.header} />
+      <View style={styles.header} />
       <FixedToolBar
         page={page}
         pageCurrent={pageCurrent}
@@ -108,8 +108,8 @@ function List({ page, title, scrollY, onScroll, onRefreshOffset }: Props) {
       key={getKeyString(_.orientation, subjectType, userGridNum, list)}
       ref={handleRef}
       keyExtractor={keyExtractor}
-      style={themeStyles.listView}
-      contentContainerStyle={list ? themeStyles.list : themeStyles.grid}
+      style={styles.listView}
+      contentContainerStyle={list ? styles.list : styles.grid}
       animated
       data={userCollections}
       numColumns={numColumns}

@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-11-04 12:02:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-25 14:57:50
+ * @Last Modified time: 2026-07-14 19:37:31
  */
 import { syncThemeStore } from '@utils/async'
+import { window } from '@styles'
 
 const _ = syncThemeStore()
 
@@ -12,6 +13,9 @@ export const styles = _.create({
   center: {
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  maxHeight: {
+    maxHeight: window.height
   },
   transparent: {
     backgroundColor: 'transparent'

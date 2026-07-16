@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-12 00:31:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-06 03:29:18
+ * @Last Modified time: 2026-07-16 06:17:10
  */
 import React from 'react'
 import { getStorybookArgs, StorybookList, StorybookSPA } from '@components'
@@ -16,7 +16,6 @@ export default {
 export const Zone = () => (
   <StorybookSPA>
     <StorybookList
-      // eslint-disable-next-line react-native/no-inline-styles
       style={{
         // @ts-expect-error
         overflowY: 'scroll'

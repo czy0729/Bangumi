@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-09-03 04:30:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-04 17:26:01
+ * @Last Modified time: 2026-07-16 20:47:28
  */
 import { _ } from '@stores'
 
-export const styles = _.create({
+export const memoStyles = _.memoStyles(() => ({
   container: {
     minHeight: 328,
     paddingVertical: _.md,
@@ -15,4 +15,4 @@ export const styles = _.create({
   loading: {
     height: 200
   }
-})
+}))

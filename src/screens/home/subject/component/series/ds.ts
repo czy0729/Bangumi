@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-26 10:03:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-16 04:43:57
+ * @Last Modified time: 2026-07-16 20:54:09
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
@@ -10,7 +10,6 @@ import { COMPONENT as PARENT } from '../ds'
 
 import type { systemStore } from '@stores'
 import type { Ctx } from '../../types'
-import type { memoStyles } from './styles'
 
 type $ = Ctx['$']
 
@@ -23,7 +22,6 @@ export const COVER_WIDTH = _.device(26, 40)
 export const COVER_HEIGHT = Math.floor(COVER_WIDTH * 1.4)
 
 export const DEFAULT_PROPS = {
-  styles: {} as ReturnType<typeof memoStyles>,
   showRelation: true as typeof systemStore.setting.showRelation,
   size: 14 as number,
   subjectId: 0 as $['subjectId'],

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-14 06:57:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-21 20:31:38
+ * @Last Modified time: 2026-07-16 22:24:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,12 +13,11 @@ import { withT } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
 import { ASSETS_AWARDS, HOST, TEXT_ONLY } from '@constants'
 import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
 function Award2021() {
   const navigation = useNavigation(COMPONENT)
 
-  const styles = memoStyles()
   const { width, height } = styles.item2021
 
   return (

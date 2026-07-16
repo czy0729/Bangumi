@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:51:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-21 21:18:57
+ * @Last Modified time: 2026-07-16 22:21:38
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -11,7 +11,6 @@ import { cnjp, HTMLDecode } from '@utils'
 import { useNavigation } from '@utils/hooks'
 import CoverXs from './cover-xs'
 import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
 
 import type { Props } from './types'
 
@@ -27,7 +26,6 @@ function CoverXsWrap({ title, avatar, data }: Props) {
   return (
     <CoverXs
       navigation={navigation}
-      styles={memoStyles()}
       imageWidth={Math.floor(_.windowSm.contentWidth * 0.2)}
       avatarRound={systemStore.setting.avatarRound}
       title={title}

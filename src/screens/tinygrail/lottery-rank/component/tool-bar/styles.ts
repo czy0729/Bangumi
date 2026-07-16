@@ -6,7 +6,7 @@
  */
 import { _ } from '@stores'
 
-export const memoStyles = _.memoStyles(() => ({
+export const styles = _.create({
   toolBar: {
     paddingBottom: 8
   },
@@ -17,4 +17,4 @@ export const memoStyles = _.memoStyles(() => ({
     width: 64,
     height: 24
   }
-}))
+})

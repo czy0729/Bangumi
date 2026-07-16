@@ -8,12 +8,14 @@ import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Touchable } from '@components'
 import { _, useStore } from '@stores'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
 import type { Ctx } from '../../../types'
 
 function Expand() {
   const { $ } = useStore<Ctx>()
+
+  const styles = memoStyles()
 
   return (
     <Flex style={_.mt.sm} justify='center'>

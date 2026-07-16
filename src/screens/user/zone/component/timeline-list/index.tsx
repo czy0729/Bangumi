@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:40:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 06:57:08
+ * @Last Modified time: 2026-07-14 21:02:18
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -15,7 +15,7 @@ import { ANDROID, USE_NATIVE_DRIVER } from '@constants'
 import { TAB_PAGE } from '../../ds'
 import { renderItem, renderSectionHeader } from './utils'
 import { COMPONENT } from './ds'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
 import type { Props } from './types'
@@ -49,18 +49,15 @@ function TimelineList(props: Props) {
     (ref: any) => {
       if (ANDROID) return
 
-      $.forwardRef(
-        ref,
-        TAB_PAGE.timeline
-      )
+      $.forwardRef(ref, TAB_PAGE.timeline)
     },
     [$]
   )
 
   const handleHeaderRefresh = useCallback(() => $.fetchUsersTimeline(true, true), [$])
-
   const handleFooterRefresh = useCallback(() => $.fetchUsersTimeline(), [$])
 
+  const styles = memoStyles()
   if (!$.usersTimeline._loaded) {
     if (ANDROID) {
       return (

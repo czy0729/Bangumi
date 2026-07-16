@@ -6,17 +6,18 @@
  */
 import React from 'react'
 import { Alert } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Input, Text } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { alert, open } from '@utils'
 import { syncS2T } from '@utils/async'
-import { ob } from '@utils/decorators'
 import { FROZEN_FN, WEB } from '@constants'
-import { AnyObject } from '@types'
-import { Ctx } from '../../../types'
 import { CONTENT_DIRECTORY, CONTENT_SMB, TITLE } from './ds'
-import { styles } from './styles'
+import { memoStyles } from './styles'
+
+import type { AnyObject } from '@types'
+import type { Ctx } from '../../../types'
 
 function UrlItem({
   store,
@@ -26,6 +27,8 @@ function UrlItem({
 }>) {
   let { $ } = useStore<Ctx>()
   $ = $?.state ? $ : store
+
+  const styles = memoStyles()
 
   const { url } = $.state
   return (
@@ -89,4 +92,4 @@ function UrlItem({
   )
 }
 
-export default ob(UrlItem)
+export default observer(UrlItem)

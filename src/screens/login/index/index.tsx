@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 11:47:42
+ * @Last Modified time: 2026-07-16 20:50:53
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Button, Component, Flex, Heatmap, Loading, Mesume, Text, WebView } from '@components'
 import { Notice, StatusBarPlaceholder } from '@_'
 import { _, userStore } from '@stores'
 import { alert, feedback, HTMLTrim, info, urlStringify } from '@utils'
-import { ob } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
 import { APP_ID, HOST, SDK, URL_OAUTH, URL_OAUTH_REDIRECT } from '@constants'
 import i18n from '@constants/i18n'
-import { NavigationProps } from '@types'
-import { memoStyles } from './styles'
+import { styles } from './styles'
+
+import type { NavigationProps } from '@types'
 
 const uri = `${URL_OAUTH}?${urlStringify({
   response_type: 'code',
@@ -151,7 +152,7 @@ class Login extends React.Component<NavigationProps> {
     return (
       <View style={[_.container.column, _.container.plain]}>
         <Mesume />
-        <View style={[this.styles.bottomContainer, _.mt.lg]}>
+        <View style={[styles.bottomContainer, _.mt.lg]}>
           <Button type='main' shadow onPress={this.onLogin}>
             授权{i18n.login()}
           </Button>
@@ -171,8 +172,8 @@ class Login extends React.Component<NavigationProps> {
     return (
       <View style={[_.container.column, _.container.plain]}>
         <Mesume />
-        <View style={[this.styles.bottomContainer, _.mt.md]}>
-          <Flex style={this.styles.loading} direction='column' justify='center'>
+        <View style={[styles.bottomContainer, _.mt.md]}>
+          <Flex style={styles.loading} direction='column' justify='center'>
             <Loading.Raw color={_.colorMain} />
             <Text style={_.mt.md} size={12} type='main'>
               网页加载中, 请稍等
@@ -268,9 +269,7 @@ class Login extends React.Component<NavigationProps> {
     return (
       <Component id='screen-login' style={_.container.plain}>
         <StatusBarPlaceholder />
-        <Notice style={_.mt.md} align='center'>
-          这是一个过时的功能，不保证能正常使用
-        </Notice>
+        <Notice style={_.mt.md}>这是一个过时的功能，不保证能正常使用</Notice>
         <View style={_.container.flex}>
           {clicked ? this.renderWebView() : this.renderPreview()}
         </View>
@@ -282,10 +281,6 @@ class Login extends React.Component<NavigationProps> {
       </Component>
     )
   }
-
-  get styles() {
-    return memoStyles()
-  }
 }
 
-export default ob(Login)
+export default observer(Login)

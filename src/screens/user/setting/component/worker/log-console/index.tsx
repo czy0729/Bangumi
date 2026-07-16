@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-06-20 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-21 10:00:00
+ * @Last Modified time: 2026-07-15 22:53:07
  */
 import React, { useState } from 'react'
 import { View } from 'react-native'
@@ -11,13 +11,12 @@ import { Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { formatTime } from './utils'
 import { LEVEL_COLORS, LEVEL_PREFIX, WORKER_TYPE_FILTERS } from './ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
 import type { Props } from './types'
 
 /** 日志控制台 */
 function LogConsole({ title, logs, showFilters = false, typeFilters }: Props) {
-  const styles = memoStyles()
   const filters = typeFilters || WORKER_TYPE_FILTERS
   const defaultActiveTypes = new Set(filters.map((f: { key: string }) => f.key))
   const [activeTypes, setActiveTypes] = useState<Set<string>>(defaultActiveTypes)

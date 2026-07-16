@@ -27,10 +27,6 @@ export const memoStyles = _.memoStyles(() => ({
     borderRadius: _.radiusMd,
     overflow: 'hidden'
   },
-  avatar: {
-    marginTop: _.md,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)'
-  },
   example: {
     position: 'absolute',
     zIndex: 2,

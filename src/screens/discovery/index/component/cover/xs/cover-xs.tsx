@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-10 06:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 06:01:03
+ * @Last Modified time: 2026-07-16 22:21:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,14 +16,13 @@ import { memo } from '@utils/decorators'
 import { withT } from '@utils/fetch'
 import { linearColor } from '../../../ds'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
-import { AVATAR_SIZE } from './styles'
+import { AVATAR_SIZE, styles } from './styles'
 
 import type { SubjectTypeCn } from '@types'
 
 const CoverXs = memo(
   ({
     navigation,
-    styles,
     imageWidth = 0,
     avatarRound = false,
     title = '' as SubjectTypeCn,

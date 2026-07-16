@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:34:30
+ * @Last Modified time: 2026-07-16 20:53:49
  */
 import React, { Suspense } from 'react'
 import { observer } from 'mobx-react'
@@ -12,7 +12,7 @@ import { systemStore, useStore } from '@stores'
 import { cnjp } from '@utils'
 import Series from './series'
 import { COMPONENT } from './ds'
-import { memoStyles, styles } from './styles'
+import { styles } from './styles'
 
 import type { SubjectFromHtmlRelationsItem } from '@stores/subject/types'
 import type { Ctx } from '../../types'
@@ -86,7 +86,6 @@ function SeriewWrap({ size }: { size: number }) {
       <Flex>
         <Flex.Item>
           <Series
-            styles={memoStyles()}
             showRelation={showRelation}
             size={size}
             subjectId={$.subjectId}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-01-27 15:33:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-21 20:33:27
+ * @Last Modified time: 2026-07-16 22:23:15
  */
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Animated, StyleSheet, View } from 'react-native'
@@ -15,7 +15,9 @@ import { open } from '@utils'
 import { useFocusEffect, useNavigation } from '@utils/hooks'
 import { HOST } from '@constants'
 import { COMPONENT, URI } from './ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
+
+import type { TimerRef } from '@types'
 
 const messages = [
   'open /award/2025',
@@ -35,7 +37,7 @@ function Award2025() {
   const idxRef = useRef(0)
   const holdRef = useRef(0)
   const lastTextRef = useRef('')
-  const timerRef = useRef<NodeJS.Timeout | null>(null)
+  const timerRef = useRef<TimerRef>(null)
 
   const cursorOpacity = useRef(new Animated.Value(1)).current
 
@@ -110,8 +112,6 @@ function Award2025() {
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
   )
-
-  const styles = memoStyles()
 
   return (
     <View style={styles.container}>

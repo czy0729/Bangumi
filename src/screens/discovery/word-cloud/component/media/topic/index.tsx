@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-27 19:27:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-29 17:52:27
+ * @Last Modified time: 2026-07-16 22:08:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { BlurView } from '@_'
 import { _, useStore } from '@stores'
 import { IOS } from '@constants'
 import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
 import type { Ctx } from '../../../types'
 
@@ -21,7 +21,6 @@ function Topic() {
 
   if (!$.topic?.title) return null
 
-  const styles = memoStyles()
   const top = $.topic.title
   const bottom = [$.topic.time || $.topic.group, `${$.total} 回复`]
     .filter(item => !!item)

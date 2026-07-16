@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-26 07:10:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-21 20:34:11
+ * @Last Modified time: 2026-07-16 22:22:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,14 +13,13 @@ import { withT } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
 import { ASSETS_AWARDS, HOST } from '@constants'
 import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
 import type { Props } from './types'
 
 function Block({ year }: Props) {
   const navigation = useNavigation(COMPONENT)
 
-  const styles = memoStyles()
   const { width, height } = styles.item
 
   return (

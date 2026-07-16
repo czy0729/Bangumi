@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-25 20:22:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-21 15:31:12
+ * @Last Modified time: 2026-07-16 00:27:55
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -11,11 +11,9 @@ import { _ } from '@stores'
 import { getTimestamp, lastDate } from '@utils'
 import { TEXT_SECTION_INDENT, TEXT_UPDATE_QIAFAN } from '@constants'
 import { FONT_BASE, FONT_STRONG, REPO_COMMIT_COUNT, REPO_PUBLISH_COUNT } from '../../ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
 function Section1() {
-  const styles = memoStyles()
-
   return (
     <>
       <Text {...FONT_BASE}>

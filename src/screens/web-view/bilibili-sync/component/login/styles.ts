@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-29 18:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-24 19:14:22
+ * @Last Modified time: 2026-07-14 21:00:19
  */
 import { _ } from '@stores'
 
@@ -57,12 +57,6 @@ export const memoStyles = _.memoStyles(() => ({
     paddingTop: 20,
     paddingHorizontal: _.md,
     paddingBottom: 28
-  },
-  iconToggle: {
-    position: 'absolute',
-    zIndex: 2,
-    top: 1,
-    right: 0
   },
   btn: {
     width: 128

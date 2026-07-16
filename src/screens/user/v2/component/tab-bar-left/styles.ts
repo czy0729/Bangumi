@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-08-05 06:27:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-23 04:29:37
+ * @Last Modified time: 2026-07-16 05:37:53
  */
 import { _ } from '@stores'
-
 import { H_RADIUS_LINE } from '../../ds'
 
-export const memoStyles = _.memoStyles(() => ({
+export const styles = _.create({
   tabBarLeft: {
     zIndex: 10,
     paddingLeft: _.r(_._wind) - 4,
@@ -29,4 +28,4 @@ export const memoStyles = _.memoStyles(() => ({
     width: 56,
     lineHeight: _.ios(_.r(14), 16)
   }
-}))
+})

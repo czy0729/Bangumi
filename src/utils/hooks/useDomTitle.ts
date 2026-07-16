@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-05 03:12:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-17 12:44:39
+ * @Last Modified time: 2026-07-16 06:09:01
  */
 import { useEffect } from 'react'
 import { WEB } from '@constants/device'
@@ -16,9 +16,9 @@ export default function useDomTitle(title: string) {
     if (!WEB) return
 
     if (title && !isInclude(title)) {
-      document.title = `${title} | ${TITLE}`
+      window.document.title = `${title} | ${TITLE}`
     } else {
-      document.title = TITLE
+      window.document.title = TITLE
     }
   }, [title])
 }

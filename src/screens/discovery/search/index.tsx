@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:18:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-23 01:25:12
+ * @Last Modified time: 2026-07-16 22:18:04
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -17,13 +17,15 @@ import List from './component/list'
 import SearchBar from './component/search-bar'
 import Header from './header'
 import { useSearchPage } from './hooks'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
 import type { NavigationProps } from '@types'
 
 /** 搜索 */
 function Search(props: NavigationProps) {
   const { id, $, iptRef, handleFocus } = useSearchPage(props)
+
+  const styles = memoStyles()
 
   return (
     <Component id='screen-search'>

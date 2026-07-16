@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-09 23:45:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:27:01
+ * @Last Modified time: 2026-07-16 06:23:12
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -27,32 +27,31 @@ function IconShare({
     color?: any
   }
 >) {
-    if (WEB) return null
+  if (WEB) return null
 
-    return (
-      <Header.Popover
-        style={_.mr.xs}
-        data={DATA}
-        name='md-ios-share'
-        color={color}
-        size={19}
-        onSelect={key => {
-          switch (key) {
-            case TEXT_POST_SHARE:
-              $.onPostShare(navigation)
-              break
+  return (
+    <Header.Popover
+      style={_.mr.xs}
+      data={DATA}
+      name='md-ios-share'
+      color={color}
+      size={19}
+      onSelect={key => {
+        switch (key) {
+          case TEXT_POST_SHARE:
+            $.onPostShare(navigation)
+            break
 
-            case TEXT_WEB_SHARE:
-              $.onWebShare()
-              break
+          case TEXT_WEB_SHARE:
+            $.onWebShare()
+            break
 
-            default:
-              break
-          }
-        }}
-      />
-    )
-  }
+          default:
+            break
+        }
+      }}
+    />
+  )
 }
 
 export default observer(IconShare)

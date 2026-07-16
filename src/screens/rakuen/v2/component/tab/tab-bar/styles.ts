@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-15 17:59:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-10 06:34:41
+ * @Last Modified time: 2026-07-16 20:37:38
  */
 import { _ } from '@stores'
 
@@ -28,9 +28,6 @@ export const memoStyles = _.memoStyles(() => {
     },
     label: {
       padding: 0
-    },
-    labelText: {
-      width: '100%'
     },
     indicator: {
       width: W_INDICATOR,

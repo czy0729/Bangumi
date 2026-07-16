@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-06-28 08:48:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-08 10:24:30
+ * @Last Modified time: 2026-07-15 05:34:21
  */
 import { _ } from '@stores'
 
-export const styles = _.create({
+export const memoStyles = _.memoStyles(() => ({
   avatar: {
     marginTop: 14,
     backgroundColor: _.__colorPlain__,
@@ -33,4 +33,4 @@ export const styles = _.create({
   onlineWarning: {
     backgroundColor: _.colorWarning
   }
-})
+}))

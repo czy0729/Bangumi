@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-18 19:08:09
+ * @Last Modified time: 2026-07-16 22:36:55
  */
 import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import { Modal, View } from 'react-native'
@@ -19,7 +19,7 @@ import { Image } from '../image'
 import { Text } from '../text'
 import { Touchable } from '../touchable'
 import { ACTION_SHEET_DS, COMPONENT } from './ds'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
 import type { Props as ImageViewerProps } from './types'
 export type { ImageViewerProps }
@@ -39,6 +39,8 @@ export const ImageViewer = observer(
     ...other
   }: ImageViewerProps) => {
     r(COMPONENT)
+
+    const styles = memoStyles()
 
     const proxyImageUrls = useMemo(
       () =>
@@ -97,7 +99,7 @@ export const ImageViewer = observer(
           </Text>
         )
       },
-      [proxyImageUrls.length]
+      [proxyImageUrls.length, styles]
     )
 
     const handleRenderImage = useCallback(

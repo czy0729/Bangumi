@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-10 07:30:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-28 03:57:53
+ * @Last Modified time: 2026-07-16 22:19:56
  */
 import { _ } from '@stores'
 
@@ -10,7 +10,7 @@ export const memoStyles = _.memoStyles(() => ({
   modal: {
     width: _.windowSm.width - 2 * _.windSm,
     maxWidth: 400,
-    marginBottom: _.windowSm.height * 0.4,
+    marginBottom: Math.floor(_.windowSm.height * 0.4),
     backgroundColor: _.select(_.colorBg, _.colorBg),
     borderRadius: _.radiusMd
   },

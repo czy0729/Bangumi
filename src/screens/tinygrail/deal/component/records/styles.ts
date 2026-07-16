@@ -19,10 +19,6 @@ export const memoStyles = _.memoStyles(() => ({
     width: '100%',
     paddingVertical: 6
   },
-  cancel: {
-    paddingVertical: _.sm,
-    paddingLeft: _.sm
-  },
   expand: {
     paddingVertical: _.sm,
     marginTop: _.sm
