@@ -62,7 +62,8 @@ export default class Computed extends State {
   @computed get exportHeads() {
     const { includeColumns } = this.state
     if (!includeColumns.length) return [...CSV_HEADS]
-    return CSV_HEADS.filter(head => includeColumns.includes(head))
+    const includeColumnsSet = new Set(includeColumns)
+    return CSV_HEADS.filter(head => includeColumnsSet.has(head))
   }
 
   /** 导出的 CSV */

@@ -109,6 +109,14 @@ export default class Computed extends State {
     return getCollection()
   }
 
+  /** 收藏项映射 (subjectId → item) */
+  @computed get collectionMap() {
+    const { list } = this.collection
+    const map: Record<SubjectId, UserCollectionItem> = {}
+    list.forEach(item => { map[item.subject_id] = item })
+    return freeze(map)
+  }
+
   /** 过滤条件文字 (转大写和简体) */
   @computed get filter() {
     return t2s(this.state.filter.toUpperCase())

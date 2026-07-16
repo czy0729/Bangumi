@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:01:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-03 20:38:12
+ * @Last Modified time: 2026-07-17 05:00:58
  */
 import { computed } from 'mobx'
 import { rakuenStore, subjectStore, systemStore, usersStore, userStore } from '@stores'
@@ -110,14 +110,15 @@ export default class Computed extends State {
           }
         }
 
+        const trackSet = new Set(commentTrack)
         return {
           ...comments,
           list: list.filter(item => {
-            if (commentTrack.includes(item.userId)) return true
+            if (trackSet.has(item.userId)) return true
 
             let flag = false
             item.sub.forEach(i => {
-              if (commentTrack.includes(i.userId)) flag = true
+              if (trackSet.has(i.userId)) flag = true
             })
             return flag
           }),
@@ -137,21 +138,22 @@ export default class Computed extends State {
           }
         }
 
+        const idsSet = new Set(ids)
         return {
           ...comments,
           list: list
             .filter(item => {
-              if (ids.includes(item.id)) return true
+              if (idsSet.has(item.id)) return true
 
               let flag = false
               item.sub.forEach(i => {
-                if (ids.includes(i.id)) flag = true
+                if (idsSet.has(i.id)) flag = true
               })
               return flag
             })
             .map(item => ({
               ...item,
-              sub: item.sub.filter(i => ids.includes(i.id))
+              sub: item.sub.filter(i => idsSet.has(i.id))
             })),
           pagination: {
             page: 1,

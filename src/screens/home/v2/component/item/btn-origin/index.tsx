@@ -40,7 +40,7 @@ function BtnOrigin({ subjectId }: Props) {
   const subject = $.subject(subjectId)
   const title = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subject.type)
   const isAnime = ['动画', '三次元'].includes(title)
-  const isPinned = $.state.top.indexOf(subjectId) !== -1
+  const isPinned = !!$.topMap[subjectId]
 
   // 来源
   const origins = [...$.actions(subjectId).map(item => item.name)]

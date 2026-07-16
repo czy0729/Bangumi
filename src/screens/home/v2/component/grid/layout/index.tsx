@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-20 11:15:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-13 02:27:09
+ * @Last Modified time: 2026-07-17 05:16:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,6 @@ import { COMPONENT, PREV_TEXT } from './ds'
 
 import type { UserCollectionItem } from '@stores/user/types'
 import type { UserCollectionsItem } from '@stores/collection/types'
-import type { SubjectId } from '@types'
 import type { Ctx } from '../../../types'
 import type { Props } from './types'
 
@@ -29,9 +28,12 @@ function Layout({ title }: Props) {
   const { current, grid } = $.state
   const isGame = title === '游戏'
   const { list } = $.currentCollection(title)
-  let find: any = isGame
-    ? grid
-    : (list as UserCollectionItem[]).find(item => item.subject_id === current)
+  const subjectMap = new Map(
+    (list as UserCollectionItem[])
+      .filter(item => item.subject_id != null)
+      .map(item => [item.subject_id, item])
+  )
+  let find: any = isGame ? grid : subjectMap.get(current)
   let tip = ''
 
   /**
@@ -39,13 +41,19 @@ function Layout({ title }: Props) {
    * 需要在确定找到项目后, 使用 $.state.grid
    */
   if (title === '全部' && !find && systemStore.setting.showGame) {
-    find = (list as UserCollectionsItem[]).find((item: { id: SubjectId }) => item.id == current)
+    const gameMap = new Map(
+      (list as UserCollectionsItem[])
+        .filter(item => item.id != null)
+        .map(item => [String(item.id), item])
+    )
+    find = gameMap.get(String(current))
     if (find) {
       tip = find?.tip || ''
       find = grid
     }
   } else if (isGame) {
-    tip = $.games.list.find(item => item.id == current)?.tip || ''
+    const gameMap = new Map($.games.list.map(item => [String(item.id), item]))
+    tip = gameMap.get(String(current))?.tip || ''
   }
 
   return (

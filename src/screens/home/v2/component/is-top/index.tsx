@@ -26,7 +26,7 @@ function IsTop({ style, subjectId }: Props) {
     })
   }, [$, subjectId])
 
-  if ($.state.top.indexOf(subjectId) === -1) return null
+  if (!$.topMap[subjectId]) return null
 
   const styles = memoStyles()
 

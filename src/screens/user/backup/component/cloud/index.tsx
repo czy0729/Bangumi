@@ -21,6 +21,7 @@ function Cloud() {
 
   const styles = memoStyles()
   const { includeColumns } = $.state
+  const includeColumnsSet = new Set(includeColumns)
 
   const Btn = ({ title, info, onPress }: { title: string; info: string; onPress: () => void }) => (
     <Touchable style={styles.btn} onPress={onPress}>
@@ -61,7 +62,7 @@ function Cloud() {
           导出列包含：
         </Text>
         {CSV_HEADS.map(head => {
-          const selected = includeColumns.includes(head)
+          const selected = includeColumnsSet.has(head)
           return (
             <Touchable key={head} style={styles.head} onPress={() => $.onToggleColumn(head)}>
               <Flex>

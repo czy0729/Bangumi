@@ -83,7 +83,8 @@ export default class Computed extends State {
 
     // 3. 如果有 hideRelates，进一步过滤关联
     if (hideRelates.length) {
-      filteredRelate = filteredRelate.filter(r => !hideRelates.includes(r.relate))
+      const hideRelatesSet = new Set(hideRelates)
+      filteredRelate = filteredRelate.filter(r => !hideRelatesSet.has(r.relate))
     }
 
     // 4. 如果有 hideRelates，移除孤立节点

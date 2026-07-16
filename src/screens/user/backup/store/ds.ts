@@ -10,7 +10,7 @@ import type { Loaded, SubjectId } from '@types'
 import type { Item } from '../types'
 
 /** 默认不选中的列 */
-const DEFAULT_EXCLUDE_COLUMNS = ['封面', '网址'] as const
+const DEFAULT_EXCLUDE_COLUMNS = new Set(['封面', '网址'])
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
@@ -44,7 +44,7 @@ export const STATE = {
   last: 0,
 
   /** 导出包含的列名 (默认选中除网址、封面外的所有列) */
-  includeColumns: CSV_HEADS.filter(head => !DEFAULT_EXCLUDE_COLUMNS.includes(head as any)) as string[],
+  includeColumns: CSV_HEADS.filter(head => !DEFAULT_EXCLUDE_COLUMNS.has(head as any)) as string[],
 
   /** 页面初始化完成 */
   _loaded: false as Loaded

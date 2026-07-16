@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 15:08:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 07:35:30
+ * @Last Modified time: 2026-07-17 04:50:25
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -17,10 +17,7 @@ import type { Props } from './types'
 function CountBook({ subjectId, isFirst }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  const { list = [] } = $.collection
-  const { ep_status: epStatus, vol_status: volStatus } =
-    list.find(item => item.subject_id === subjectId) || {}
-
+  const { ep_status: epStatus, vol_status: volStatus } = $.collectionMap[subjectId] || {}
   const subject = $.subject(subjectId)
   const chap = subject.eps_count || 0
 

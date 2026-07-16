@@ -97,8 +97,8 @@ export default class ScreenTinygrailTreeRich extends store<typeof STATE> {
     const total = caculateTotal(list, label) // 所有总值
 
     // 过滤
-    const filterIds = filterItems.map(item => item.id)
-    const _list = list.filter(item => !filterIds.includes(item.userId))
+    const filterIdSet = new Set(filterItems.map(item => item.id))
+    const _list = list.filter(item => !filterIdSet.has(item.userId))
     const currentTotal = caculateTotal(_list, label) // 过滤后总值
 
     const filterRate = 0.0088 // 过滤比例

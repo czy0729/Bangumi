@@ -21,7 +21,8 @@ export default class Action extends Fetch {
   /** 切换导出列 */
   onToggleColumn = (column: string) => {
     const { includeColumns } = this.state
-    const next = includeColumns.includes(column)
+    const includeColumnsSet = new Set(includeColumns)
+    const next = includeColumnsSet.has(column)
       ? includeColumns.filter(c => c !== column)
       : [...includeColumns, column]
     this.setState({

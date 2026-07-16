@@ -142,7 +142,8 @@ function RelationGraph({
   if (focusId) {
     focusRelations = relate.filter(r => r.src === focusId)
     if (hideRelates.length > 0) {
-      focusRelations = focusRelations.filter(r => !hideRelates.includes(r.relate))
+      const hideRelatesSet = new Set(hideRelates)
+      focusRelations = focusRelations.filter(r => !hideRelatesSet.has(r.relate))
     }
     focusRelations = focusRelations.slice(0, maxRelations)
   }

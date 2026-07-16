@@ -92,7 +92,8 @@ export function useTreemapSquarify() {
     memo = []
   }, [setFilterUserIds])
 
-  let list = LIST.filter(item => !filterUserIds.includes(item.data))
+  const filterUserIdsSet = new Set(filterUserIds)
+  let list = LIST.filter(item => !filterUserIdsSet.has(item.data))
   const total = caculateTotal(list)
 
   /** 过滤的个数 */
