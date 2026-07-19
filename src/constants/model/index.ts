@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-09 22:16:57
+ * @Last Modified time: 2026-07-19 08:55:21
  */
 import Crypto from '@utils/crypto'
 import { IOS } from '../constants'
@@ -580,6 +580,28 @@ export const SETTING_HOME_SORTING = [
 
 /** [设置] 首页收藏排序 */
 export const MODEL_SETTING_HOME_SORTING = new Model(SETTING_HOME_SORTING, 'SETTING_HOME_SORTING')
+
+/** [设置] 首页动画额外信息显示位置 */
+export const SETTING_HOME_ANIME_INFO_INLINE = [
+  {
+    label: '不显示',
+    value: '0'
+  },
+  {
+    label: '底部',
+    value: '1'
+  },
+  {
+    label: '行内',
+    value: '2'
+  }
+] as const
+
+/** [设置] 首页动画额外信息显示位置 */
+export const MODEL_SETTING_HOME_ANIME_INFO_INLINE = new Model(
+  SETTING_HOME_ANIME_INFO_INLINE,
+  'SETTING_HOME_ANIME_INFO_INLINE'
+)
 
 /** [设置] 启动页面 */
 export const SETTING_INITIAL_PAGE = [

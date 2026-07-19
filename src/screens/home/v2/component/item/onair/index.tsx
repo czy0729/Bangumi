@@ -50,7 +50,8 @@ function OnAir({ subjectId, typeCn }: Props) {
   }
 
   if (systemStore.setting.homeOnAir) {
-    const { weekDay, h, m } = $.onAirCustom(subjectId)
+    const { weekDay, h, m, isOnair } = $.onAirCustom(subjectId)
+    if (!isOnair) return null
 
     if (WEEK_DAY_MAP[weekDay] && h && m) {
       const weekDayText = `周${WEEK_DAY_MAP[weekDay]}`

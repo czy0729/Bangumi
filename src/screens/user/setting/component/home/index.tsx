@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 15:04:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-09 23:12:28
+ * @Last Modified time: 2026-07-19 06:27:02
  */
 import React from 'react'
 import { ActionSheet } from '@components'
@@ -12,6 +12,7 @@ import { r } from '@utils/dev'
 import { useBoolean, useObserver } from '@utils/hooks'
 import { MODEL_SETTING_HOME_LAYOUT, MODEL_SETTING_HOME_SORTING, WEB } from '@constants'
 import { getShows } from '../../utils'
+import HomeAnimeInfoInline from './home-anime-info-inline'
 import HomeCountView from './home-count-view'
 import HomeCustom from './home-custom'
 import HomeEpStartAtLast from './home-ep-start-at-last'
@@ -49,17 +50,18 @@ function Home({ filter }) {
           {shows.homeCustom && <HomeCustom filter={filter} />}
           <HomeTabs filter={filter} />
           {shows.homeLayout && <HomeLayout filter={filter} />}
+          {shows.homeAnimeInfoInline && isList && <HomeAnimeInfoInline filter={filter} />}
           {shows.homeListCompact && isList && <HomeListCompact filter={filter} />}
           {shows.homeGridCoverLayout && !isList && <HomeGridCoverLayout filter={filter} />}
           {shows.homeGridTitle && !isList && <HomeGridTitle filter={filter} />}
           {shows.homeGridEpAutoAdjust && !isList && <HomeGridEpAutoAdjust filter={filter} />}
           {shows.homeListLimit && <HomeListLimit filter={filter} />}
-          {shows.homeCountView && <HomeCountView filter={filter} />}
           {shows.homeSorting && <HomeSorting filter={filter} />}
           {shows.homeSortSink &&
             systemStore.setting.homeSorting !== MODEL_SETTING_HOME_SORTING.getValue('网页') && (
               <HomeSortSink filter={filter} />
             )}
+          {shows.homeCountView && <HomeCountView filter={filter} />}
           {shows.homeOrigin && !userStore.isLimit && <HomeOrigin filter={filter} />}
           {shows.homeOnAir && <HomeOnair filter={filter} />}
           {shows.homeEpStartAtLastWathed && <HomeEpStartAtLast filter={filter} />}

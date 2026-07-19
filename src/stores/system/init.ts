@@ -11,6 +11,7 @@ import {
   MODEL_SETTING_HOME_COUNT_VIEW,
   MODEL_SETTING_HOME_GRID_COVER_LAYOUT,
   MODEL_SETTING_HOME_LAYOUT,
+  MODEL_SETTING_HOME_ANIME_INFO_INLINE,
   MODEL_SETTING_HOME_SORTING,
   MODEL_SETTING_INITIAL_PAGE,
   MODEL_SETTING_LIVE2D_MODEL,
@@ -275,6 +276,9 @@ export const INIT_SETTING = {
 
   /** 首页收藏列表布局时, 是否紧凑显示列表项 */
   homeListCompact: false,
+
+  /** 首页动画额外信息显示位置: 0=不显示, 1=底部单独一行, 2=随在追人数行 */
+  homeAnimeInfoInline: MODEL_SETTING_HOME_ANIME_INFO_INLINE.getValue('不显示'),
 
   /** 首页收藏网格布局时, 条目封面形状 */
   homeGridCoverLayout: MODEL_SETTING_HOME_GRID_COVER_LAYOUT.getValue('正方形'),

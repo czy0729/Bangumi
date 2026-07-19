@@ -14,6 +14,10 @@ export const COMPONENT = rc(PARENT, 'Item')
 
 export const COMPONENT_MAIN = rc(COMPONENT)
 
+export const SEASON_LABELS = ['冬', '春', '夏', '秋'] as const
+
+export const SEASON_COLORS = ['#7EC8E8', '#F09CB0', '#8CD4B8', '#F5C898'] as const
+
 export const DEFAULT_PROPS = {
   index: 0 as number,
   title: '' as TabsLabel,

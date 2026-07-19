@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-01-20 08:37:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-08 23:58:26
+ * @Last Modified time: 2026-07-18 05:28:01
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => {
   const needWind = _.isMobileLanscape || _.isPad
+
   return {
     item: {
       paddingVertical: _.r(_._wind),

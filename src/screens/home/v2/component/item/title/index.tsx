@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2021-01-21 15:55:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 07:38:26
+ * @Last Modified time: 2026-07-19 23:11:54
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Highlight, Katakana } from '@components'
 import { systemStore, useStore } from '@stores'
 import { cnjp, getPinYinFilterValue, getVisualLength, HTMLDecode } from '@utils'
-import Doing from './doing'
+import { MODEL_SETTING_HOME_ANIME_INFO_INLINE } from '@constants'
 import { COMPONENT } from './ds'
 
 import type { Ctx } from '../../../types'
 import type { Props } from './types'
 
-function Title({ subjectId, typeCn, title, name, name_cn, doing }: Props) {
+function Title({ subjectId, title, name, name_cn }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const text = HTMLDecode(
@@ -28,7 +28,12 @@ function Title({ subjectId, typeCn, title, name, name_cn, doing }: Props) {
   const visualLength = getVisualLength(text)
   const textProps = {
     size: visualLength > 28 ? 12 : visualLength > 18 ? 13 : 15,
-    numberOfLines: systemStore.setting.homeListCompact ? 2 : 3,
+    numberOfLines:
+      systemStore.setting.homeListCompact ||
+      MODEL_SETTING_HOME_ANIME_INFO_INLINE.getLabel(systemStore.setting.homeAnimeInfoInline) ===
+        '行内'
+        ? 2
+        : 3,
     bold: true
   } as const
 
@@ -43,7 +48,6 @@ function Title({ subjectId, typeCn, title, name, name_cn, doing }: Props) {
           <Katakana {...textProps}>{text}</Katakana>
         </Katakana.Provider>
       )}
-      <Doing subjectId={subjectId} typeCn={typeCn} doing={doing} />
     </>
   )
 }

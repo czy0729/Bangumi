@@ -34,6 +34,7 @@ import type {
   SEARCH_LEGACY,
   SETTING_CDN_ORIGIN,
   SETTING_FONTSIZE_ADJUST,
+  SETTING_HOME_ANIME_INFO_INLINE,
   SETTING_HOME_COUNT_VIEW,
   SETTING_HOME_GRID_COVER_LAYOUT,
   SETTING_HOME_LAYOUT,
@@ -146,6 +147,9 @@ export type SettingHomeCountViewCn = ModelValueOf<typeof SETTING_HOME_COUNT_VIEW
 
 export type SettingHomeSorting = ModelValueOf<typeof SETTING_HOME_SORTING>
 export type SettingHomeSortingCn = ModelValueOf<typeof SETTING_HOME_SORTING, 'label'>
+
+export type SettingHomeAnimeInfoInline = ModelValueOf<typeof SETTING_HOME_ANIME_INFO_INLINE>
+export type SettingHomeAnimeInfoInlineCn = ModelValueOf<typeof SETTING_HOME_ANIME_INFO_INLINE, 'label'>
 
 export type SettingInitialPage = ModelValueOf<typeof SETTING_INITIAL_PAGE>
 export type SettingInitialPageCn = ModelValueOf<typeof SETTING_INITIAL_PAGE, 'label'>

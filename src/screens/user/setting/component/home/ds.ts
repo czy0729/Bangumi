@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 10:48:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-04 01:14:44
+ * @Last Modified time: 2026-07-18 23:40:25
  */
 import { rc } from '@utils/dev'
 import { SETTING_HOME_GRID_COVER_LAYOUT } from '@constants'
@@ -18,12 +18,14 @@ export const HOME_COUNT_VIEW = {
 }
 
 export const HOME_SORTING_INFORMATION = {
-  APP: '当季放送 > 当季未看 > 未看 > 网页',
-  放送: '放送中 > 明天放送 > 网页',
-  网页: '与网页 bgm.tv 一致'
+  APP: '季度分组：当季放送 > 当季未看 > 上一季 > 默认',
+  放送: '今天放送 > 明天放送 > 默认',
+  网页: '默认与 bgm.tv 一致'
 } as const
 
 export const VALUES = ['全部', '基本', '隐藏'] as const
+
+export const HOME_ANIME_INFO_INLINE_VALUES = ['不显示', '底部', '行内'] as const
 
 export const TEXTS = {
   homeLayout: {
@@ -74,7 +76,7 @@ export const TEXTS = {
   homeSorting: {
     title: '排序',
     information:
-      '若你当前在看番剧过多，排序的效果可能并没有那么明显，推荐选用「网页」排序；若不想让没有可观看章节的番剧显示在列表前列，建议开启下方的「条目自动下沉」功能',
+      '若你当前「在看」番剧过多，排序的效果可能并没有那么明显，推荐选用「网页」排序；若不想让没有可观看章节的番剧显示在列表前列，建议开启下方的「条目自动下沉」',
     search: HOME_SORTING_INFORMATION
   },
   homeOrigin: {
@@ -96,5 +98,9 @@ export const TEXTS = {
   },
   homeFilter: {
     hd: '列表搜索框'
+  },
+  homeAnimeInfoInline: {
+    hd: '放送及额外信息',
+    information: '显示播送进度、下一集时间、季度颜色徽章'
   }
 } as const

@@ -532,5 +532,13 @@ export const ONAIR_2026S3 = {
     title: '二十世纪电气目录',
     type: '小说改编动画',
     weekDayCN: 7
+  },
+  621835: {
+    origin: 'STUDIO EEK',
+    tag: '冒险/奇幻',
+    timeCN: '2355',
+    title: '盗墓王',
+    type: '小说改编动画',
+    weekDayCN: 3
   }
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:14:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-03 20:38:03
+ * @Last Modified time: 2026-07-18 22:55:11
  */
 import { computed } from 'mobx'
 import { _, calendarStore, collectionStore, subjectStore, systemStore, userStore } from '@stores'
@@ -29,6 +29,7 @@ import {
   getLastWatchedSort,
   getNextWatchEp,
   getOnlineOrigins,
+  getSeasonKey,
   getSubjectFilterName,
   getTabs,
   getTopMap,
@@ -113,7 +114,9 @@ export default class Computed extends State {
   @computed get collectionMap() {
     const { list } = this.collection
     const map: Record<SubjectId, UserCollectionItem> = {}
-    list.forEach(item => { map[item.subject_id] = item })
+    list.forEach(item => {
+      map[item.subject_id] = item
+    })
     return freeze(map)
   }
 
@@ -145,7 +148,9 @@ export default class Computed extends State {
     if (title === '游戏') return CacheManager.set<UserCollections>(key, this.games)
 
     // 基础数据
-    const data = { ...this.collection }
+    const data = {
+      ...this.collection
+    }
 
     // 过滤条目类型
     const type = MODEL_SUBJECT_TYPE.getValue<SubjectTypeValue>(title)
@@ -191,31 +196,40 @@ export default class Computed extends State {
       systemStore.setting.homeSorting ===
       MODEL_SETTING_HOME_SORTING.getValue<SettingHomeSorting>('网页')
     ) {
-      return freeze(list.slice().sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0)))
+      return freeze(
+        list
+          .slice()
+          .map(item => [item, topMap[item.subject_id] || 0] as [UserCollectionItem, number])
+          .sort(([, a], [, b]) => desc(a, b))
+          .map(([item]) => item)
+      )
     }
 
     try {
       // 计算每一个条目看过章节的数量
       const weightMap: Record<number, number> = {}
 
-      // 放送顺序: 根据今天星期几每天递减, 放送中优先
+      // 放送顺序: 本季优先, 其次 CDN 放送中, 其次星期顺序
       if (this.sortOnAir) {
         const day = new Date().getDay()
         list.forEach(item => {
           const { subject_id: subjectId } = item
           const { weekDay, isOnair } = this.onAirCustom(subjectId)
+          const { air = 0 } = calendarStore.onAir[subjectId] || {}
           weightMap[subjectId] = calcSortWeightOnair({
             weekDay,
             isOnair,
             day,
             hasNewEp: this.hasNewEp(subjectId),
-            homeSortSink: systemStore.setting.homeSortSink
+            seasonKey: getSeasonKey(item.subject?.air_date),
+            air,
+            epsCount: item.subject?.eps_count
           })
         })
         return freeze(sortByWeightAndTop(list, weightMap, topMap))
       }
 
-      // 客户端顺序：未看 > 放送中 > 明天 > 本季 > 网页
+      // 客户端顺序：按 seasonKey 分组（越近越大） > 放送中/未看/默认
       list.forEach(item => {
         const { subject_id: subjectId } = item
         const watchedCount = this.watchedCount(subjectId)
@@ -228,7 +242,8 @@ export default class Computed extends State {
           air,
           watchedCount,
           hasNewEp: this.hasNewEp(subjectId),
-          homeSortSink: systemStore.setting.homeSortSink
+          seasonKey: getSeasonKey(item.subject?.air_date),
+          epsCount: item.subject?.eps_count
         })
       })
       return freeze(sortByWeightAndTop(list, weightMap, topMap))
@@ -237,8 +252,20 @@ export default class Computed extends State {
     return freeze(
       list
         .slice()
-        .sort((a, b) => desc(a, b, item => this.isToday(item.subject_id)))
-        .sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
+        .map(
+          item =>
+            [item, topMap[item.subject_id] || 0, this.isToday(item.subject_id)] as [
+              UserCollectionItem,
+              number,
+              boolean
+            ]
+        )
+        .sort(([, t1, d1], [, t2, d2]) => {
+          const r1 = desc(t1, t2)
+          if (r1 !== 0) return r1
+          return desc(d1, d2)
+        })
+        .map(([item]) => item)
     )
   })
 
@@ -277,7 +304,11 @@ export default class Computed extends State {
 
     return freeze({
       ...this.rawGames,
-      list: this.filteredGames.slice().sort((a, b) => desc(a, b, item => topMap[item.id] || 0))
+      list: this.filteredGames
+        .slice()
+        .map(item => [item, topMap[item.id] || 0])
+        .sort(([, a], [, b]) => desc(a, b))
+        .map(([item]) => item)
     }) as UserCollections
   }
 
@@ -430,7 +461,26 @@ export default class Computed extends State {
 
   /** 云端 onAir 和自定义 onAir 组合判断 (自定义最优先) */
   onAirCustom = computedFn((subjectId: SubjectId) => {
-    return freeze(getOnAir(calendarStore.onAirLocal(subjectId), calendarStore.onAirUser(subjectId)))
+    const onAir = calendarStore.onAirLocal(subjectId)
+    const result = getOnAir(onAir, calendarStore.onAirUser(subjectId))
+
+    // 若已知总集数且放送集数 >= 总集数，说明条目已完结，不应标记为放送中
+    if (result.isOnair && onAir.air) {
+      const s = this.subject(subjectId)
+      if (s?.eps_count && Number(onAir.air) >= s.eps_count) {
+        result.isOnair = false
+      }
+    }
+
+    // 兜底：若 onAir.air 或 eps_count 缺失，但全部章节均已放送，标记为完结
+    if (result.isOnair) {
+      const eps = this.epsNoSp(subjectId)
+      if (eps.length > 0 && eps.every(ep => ep.status === 'Air' || ep.status === 'Today')) {
+        result.isOnair = false
+      }
+    }
+
+    return freeze(result)
   })
 
   /** 是否放送中 */
