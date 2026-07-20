@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:26:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-01 06:04:51
+ * @Last Modified time: 2026-07-20 22:11:11
  */
 import { getTimestamp, HTMLTrim } from '@utils'
-import { fetchHTML, xhrCustom } from '@utils/fetch'
+import { fetchHTML, xhr, xhrCustom } from '@utils/fetch'
 import { get, groupTopics } from '@utils/kv'
 import {
   CDN_RAKUEN,
@@ -16,6 +16,7 @@ import {
   HTML_GROUP_INFO,
   HTML_GROUP_MINE,
   HTML_NOTIFY,
+  HTML_NOTIFY_META,
   HTML_PRIVACY,
   HTML_RAKUEN_HOT,
   HTML_REVIEWS,
@@ -52,7 +53,7 @@ import type {
   TopicType,
   UserId
 } from '@types'
-import type { NotifyItem } from './types'
+import type { NotifyItem, NotifyMeta } from './types'
 
 export default class Fetch extends Computed {
   /** 获取超展开聚合列表 */
@@ -251,27 +252,39 @@ export default class Fetch extends Computed {
     }
 
     try {
+      const { list, _loaded } = this[STATE_KEY]
+      let { unread, clearHref } = this[STATE_KEY]
+
+      /** 元信息 */
+      try {
+        await new Promise<void>((resolve, reject) => {
+          xhr(
+            { method: 'GET', url: HTML_NOTIFY_META() },
+            responseText => {
+              try {
+                if (responseText) {
+                  const notifyMeta: NotifyMeta = JSON.parse(responseText)
+                  clearHref = notifyMeta.notify_ignore_url ?? clearHref
+                  unread = notifyMeta.notify_count ?? unread
+                }
+                resolve()
+              } catch (e) {
+                reject(e)
+              }
+            },
+            reject
+          )
+        })
+      } catch {}
+
       const res = await fetchHTML({
         url: HTML_NOTIFY(),
         raw: true
       })
 
-      const { list, _loaded } = this[STATE_KEY]
-      let { unread, clearHref } = this[STATE_KEY]
       data.setCookie = res?.headers?.map?.['set-cookie'] || ''
       data.html = HTMLTrim(await res.text()) || ''
-      data.list = list
-
-      /** 清除动作 */
-      const clearHTML = data.html.match(/<a id="notify_ignore_all" href="(.+?)">\[知道了\]<\/a>/)
-      if (clearHTML) clearHref = clearHTML[1]
-
-      /** 未读数 */
-      const countHTML = data.html.match(/<span id="notify_count">(.+?)<\/span>/)
-      if (countHTML) unread = parseInt(countHTML[1])
-
-      /** 回复内容 */
-      if (analysis) data.list = cheerioNotify(data.html)
+      data.list = analysis ? cheerioNotify(data.html) : list
 
       this.setState({
         [STATE_KEY]: {

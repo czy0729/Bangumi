@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-05 05:51:07
+ * @Last Modified time: 2026-07-20 20:38:26
  */
 import { urlStringify } from '@utils/utils'
 import { HOST, URL_ZHINAN } from '../constants'
@@ -331,6 +331,9 @@ export const HTML_NEW_TIMELINE = (userId: UserId) => `${HOST}/user/${userId}/tim
 
 /** 电波提醒 */
 export const HTML_NOTIFY = () => `${HOST}/notify/all`
+
+/** 电波提醒 JSON meta */
+export const HTML_NOTIFY_META = () => `${HOST}/json/notify`
 
 /** 收件箱 */
 export const HTML_PM = (page: number = 1) => `${HOST}/pm/inbox.chii?page=${page}`

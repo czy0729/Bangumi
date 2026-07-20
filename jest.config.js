@@ -18,6 +18,7 @@ module.exports = {
     '/node_modules/(?!p-limit|yocto-queue|expo-*)'
   ],
   moduleNameMapper: {
+    '^.+\\.(png|jpg|jpeg|gif|webp)$': '<rootDir>/__mocks__/fileMock.js',
     '^@_$': '<rootDir>',
     '^@/(.*)$': '<rootDir>/$1',
     '^@_/(.*)$': '<rootDir>/src/screens/_/$1',

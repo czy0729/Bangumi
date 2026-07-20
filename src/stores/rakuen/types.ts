@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-07-01 04:41:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-27 15:55:35
+ * @Last Modified time: 2026-07-20 21:38:50
  */
 import type {
-  Avatar,
   CoverGroup,
   DeepPartial,
   HTMLText,
@@ -189,24 +188,69 @@ export type Likes = Record<
   >
 >
 
+/** 电波提醒元信息接口（/json/notify） */
+export type NotifyMeta = {
+  /** 通知总数 */
+  count: number
+
+  /** 未读数 */
+  notify_count: number
+
+  /** 全部已读链接 */
+  notify_ignore_url: string
+
+  /** 未读短信数 */
+  pm_count: number
+
+  /** 短信全部已读链接 */
+  pm_ignore_url: string
+
+  /** 最近短信列表 */
+  pm_list: any[]
+
+  /** 短信收件箱链接 */
+  pm_url: string
+}
+
+/** 电波提醒项 */
 export type NotifyItem = {
-  avatar: Avatar<'l'>
+  /** 用户头像 */
+  avatar: string
+
+  /** 通知链接 */
   href: string
+
+  /** 回复内容（title 之前） */
   message: string
+
+  /** 回复内容（title 之后） */
   message2: string
+
+  /** 通知标题 */
   title: string
+
+  /** 用户 ID */
   userId: UserId
+
+  /** 用户名 */
   userName: string
 }
 
 /** 电波提醒 */
 export type Notify = {
+  /** 未读数 */
   unread: number
+
+  /** 全部已读链接 */
   clearHref: string
 
   /** @deprecated */
   clearHTML?: string
+
+  /** 电波提醒列表 */
   list: NotifyItem[]
+
+  /** 加载时间戳 */
   _loaded?: number
 }
 

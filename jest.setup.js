@@ -50,8 +50,51 @@ jest.mock(
       cText: $el => $el.text().trim(),
       cheerio,
       htmlMatch: (html, start, end) => html.substring(html.indexOf(start), html.indexOf(end)),
+      getCoverSmall: (str = '') => str || '',
+      HTMLDecode: (str = '') => str || '',
+      HTMLToTree: () => ({ children: [] }),
+      HTMLTrim: (str = '') => (str || '').trim(),
       matchAvatar: (str = '') => str.match(/url\(['"]?(.*?)['"]?\)/)?.[1] || '',
-      safeObject: (object = {}) => object
+      matchUserId: (str = '') => (str || '').substring(str.lastIndexOf('/') + 1),
+      safeObject: (object = {}) => object,
+      trim: (str = '') => (str || '').trim()
+    }
+  },
+  { virtual: true }
+)
+
+jest.mock(
+  '@utils/fetch',
+  () => ({ fetchHTML: jest.fn() }),
+  { virtual: true }
+)
+
+jest.mock(
+  '@utils/crypto',
+  () => ({ default: { get: () => [] } }),
+  { virtual: true }
+)
+
+jest.mock(
+  '@utils/thirdParty/html-entities-decoder',
+  () => ({ default: (str = '') => str }),
+  { virtual: true }
+)
+
+jest.mock(
+  '@constants',
+  () => {
+    const model = label => ({
+      getValue: () => label
+    })
+    return {
+      LIST_EMPTY: { list: [], pagination: { page: 0, pageTotal: 0 } },
+      MODEL_BIG_EMOJI_SIZE: model('中'),
+      MODEL_RAKUEN_AUTO_LOAD_IMAGE: model('0.2m'),
+      MODEL_RAKUEN_NEW_FLOOR_STYLE: model('角标'),
+      MODEL_RAKUEN_SCOPE: model('全局聚合'),
+      MODEL_RAKUEN_SCROLL_DIRECTION: model('右侧'),
+      MODEL_RAKUEN_TYPE: model('全部')
     }
   },
   { virtual: true }

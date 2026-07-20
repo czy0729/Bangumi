@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-04 15:05:35
+ * @Last Modified time: 2026-07-20 20:46:53
  */
 import {
   cData,
@@ -10,6 +10,7 @@ import {
   cheerio,
   cHtml,
   cMap,
+  cParse,
   cText,
   getCoverSmall,
   HTMLDecode,
@@ -204,27 +205,31 @@ export function cheerioGroup(html: string) {
 
 /** 电波提醒列表 */
 export function cheerioNotify(html: string) {
-  const $ = cheerio(htmlMatch(html, '<div id="comment_list"', '<div id="footer">'))
+  const $ = cParse(html, '<div id="comment_list', '<div id="footer')
 
   return cMap($('div.tml_item'), $row => {
-    const $name = $row.find('a.l')
-    const $title = $row.find('a.nt_link')
+    const $avatar = cFind($row, 'span.avatarNeue')
+    const $name = cFind($row, 'a.l')
+    const $title = cFind($row, 'a.nt_link')
+    const $replyContent = cFind($row, 'div.reply_content')
+
     const title = cText($title)
     let message: string
     let message2: string
 
     if (title) {
-      ;[message, message2] = cText($row.find('div.reply_content')).split(title)
+      ;[message, message2] = cText($replyContent).split(title)
     } else {
-      message = cText($row.find('div.reply_content'))
+      message = cText($replyContent)
+      message2 = ''
     }
 
     return {
-      avatar: matchAvatar(cData($row.find('span.avatarNeue'), 'style')) || '',
-      userName: cText($name),
-      userId: matchUserId(cData($name, 'href')) || '',
-      title,
-      href: cData($title, 'href') || '',
+      avatar: matchAvatar(cData($avatar, 'style')),
+      userName: HTMLDecode(cText($name)),
+      userId: matchUserId(cData($name, 'href')),
+      title: HTMLDecode(title),
+      href: cData($title, 'href'),
       message,
       message2
     } as NotifyItem

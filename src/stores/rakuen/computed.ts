@@ -32,6 +32,7 @@ import type {
   Group,
   Likes,
   Mine,
+  Notify,
   Rakuen,
   Readed,
   Reviews,
@@ -174,8 +175,8 @@ export default class Computed extends State implements StoreConstructor<typeof S
     return this.state.blockedTrack[keyword] || 0
   })
 
-  /** @deprecated 所有收藏条目状态 */
-  @computed get notify() {
+  /** 电波提醒 */
+  @computed get notify(): Notify {
     this.init('notify', true)
     return this.state.notify
   }
