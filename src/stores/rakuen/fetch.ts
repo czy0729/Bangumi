@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:26:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-20 22:11:11
+ * @Last Modified time: 2026-07-21 00:41:08
  */
 import { getTimestamp, HTMLTrim } from '@utils'
 import { fetchHTML, xhr, xhrCustom } from '@utils/fetch'
@@ -259,13 +259,17 @@ export default class Fetch extends Computed {
       try {
         await new Promise<void>((resolve, reject) => {
           xhr(
-            { method: 'GET', url: HTML_NOTIFY_META() },
+            {
+              method: 'GET',
+              url: HTML_NOTIFY_META(),
+              noConsole: true
+            },
             responseText => {
               try {
                 if (responseText) {
                   const notifyMeta: NotifyMeta = JSON.parse(responseText)
-                  clearHref = notifyMeta.notify_ignore_url ?? clearHref
-                  unread = notifyMeta.notify_count ?? unread
+                  clearHref = notifyMeta.notify_ignore_url || clearHref || ''
+                  unread = notifyMeta.notify_count || unread || 0
                 }
                 resolve()
               } catch (e) {

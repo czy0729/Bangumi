@@ -399,7 +399,7 @@ export default class Action extends Fetch {
           try {
             this.doCheckCookie()
           } catch {}
-        }, 4000)
+        }, 8000)
       }
 
       // 刷新用户信息

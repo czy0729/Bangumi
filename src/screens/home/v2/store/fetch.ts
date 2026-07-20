@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:20:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-04 12:53:16
+ * @Last Modified time: 2026-07-21 00:39:13
  */
 import { collectionStore, subjectStore, systemStore, timelineStore, userStore } from '@stores'
 import { getTimestamp, queue } from '@utils'
@@ -17,6 +17,7 @@ import {
 import Computed from './computed'
 import { EXCLUDE_STATE } from './ds'
 
+import type { UserCollectionItem } from '@utils/fetch.v0/types'
 import type { CollectionsOrder, CollectionStatus, SubjectId, SubjectType } from '@types'
 
 export default class Fetch extends Computed {
@@ -72,7 +73,7 @@ export default class Fetch extends Computed {
   }
 
   /** 队列请求条目信息 */
-  fetchSubjectsQueue = async (list = [], count?: number) => {
+  fetchSubjectsQueue = async (list: UserCollectionItem[] = [], count?: number) => {
     if (this.state.progress.fetching) return false
 
     const sortedList = this.sortList(list)

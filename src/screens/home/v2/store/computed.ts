@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:14:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-18 22:55:11
+ * @Last Modified time: 2026-07-21 00:38:23
  */
 import { computed } from 'mobx'
 import { _, calendarStore, collectionStore, subjectStore, systemStore, userStore } from '@stores'
@@ -414,11 +414,7 @@ export default class Computed extends State {
 
     // 不能直接用 API 给的 epStatus, 会把 SP 都加上
     // 需要根据 userProgress 和 eps 排除掉 SP 算
-    const count = getWatchedCount(userProgress, eps)
-
-    // 主要是有些特殊情况, 会有意料不到的问题, 特殊处理
-    // epStatus=1 的时候, 优先使用 count
-    return Number(epStatus == 1 ? count || epStatus : epStatus || count)
+    return Math.max(Number(epStatus || 0), getWatchedCount(userProgress, eps) || 0)
   })
 
   /** 网格布局实际显示的章节一行多少个 */
@@ -475,8 +471,7 @@ export default class Computed extends State {
     // 兜底：若 onAir.air 或 eps_count 缺失，但全部章节均已放送，标记为完结
     if (result.isOnair) {
       const s = this.subject(subjectId)
-      const stillAiring =
-        Number(onAir.air) > 0 && s?.eps_count && Number(onAir.air) < s.eps_count
+      const stillAiring = Number(onAir.air) > 0 && s?.eps_count && Number(onAir.air) < s.eps_count
 
       if (!stillAiring) {
         const eps = this.epsNoSp(subjectId)

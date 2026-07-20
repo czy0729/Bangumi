@@ -137,6 +137,7 @@
     "jest": "^29.7.0",
     "jest-expo": "^55.0.17",
     "prettier": "^2.6.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "eslint-plugin-bangumi": "file:./eslint-rules"
   }
 }

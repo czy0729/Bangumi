@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:21:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-02 00:46:17
+ * @Last Modified time: 2026-07-21 00:08:44
  */
 import { applyProxy, logProxy } from '@utils/proxy'
 import { HOST, HOST_CDN, HOST_NAME } from '@constants/constants'
@@ -12,7 +12,7 @@ import { FROZEN_FN } from '@constants/init'
 import { syncUserStore } from '../async'
 import { loading } from '../ui'
 import { urlStringify } from '../utils'
-import { checkDenied, log } from './utils'
+import { checkDenied, err, log } from './utils'
 
 import type { Fn } from '@types'
 import type { XHRArgs, XHRCustomArgs } from './types'
@@ -52,7 +52,7 @@ export function xhr(
       success(this.responseText, this)
     } else {
       fail(this)
-      log('xhr', 'fail:', requestUrl, this)
+      err('xhr', 'fail:', requestUrl)
     }
   }.bind(request)
 
@@ -97,7 +97,7 @@ export function xhrCustom(args: XHRCustomArgs): Promise<{ _response: string }> {
         return
       }
 
-      log('xhrCustom', 'error:', this.status, requestUrl, this._response || this.responseText)
+      err('xhrCustom', 'error:', this.status, requestUrl, this._response || this.responseText)
       if (this.status === 404 || this.status === 500) {
         reject(new TypeError(String(this.status)))
       }

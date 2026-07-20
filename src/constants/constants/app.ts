@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-02 11:54:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-03 00:15:39
+ * @Last Modified time: 2026-07-20 22:17:57
  */
 
 /** App ID https://bgm.tv/dev/app */
@@ -19,9 +19,9 @@ export const APP_SECRET = '1da52e7834bbb73cca90302f9ddbc8dd'
  * - [2023] 32279369,33457566,35103537,35103537,36237364,36996426,37896791
  * - [2024] 39891895,41146160,42096174,43424518,46060874
  * - [2025] 48252302,51417234,55723902,59537960
- * - [2026] 60850666,65853128,68522148
+ * - [2026] 60850666,65853128,68522148,70027457
  * */
-export const APP_ID_SAY_DEVELOP = '68522148'
+export const APP_ID_SAY_DEVELOP = '70027457'
 
 /** 小圣杯意见反馈入口 */
 export const APP_ID_SAY_TINYGRAIL = '19820034'
