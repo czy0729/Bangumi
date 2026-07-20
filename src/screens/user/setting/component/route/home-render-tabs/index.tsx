@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-23 03:21:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-23 03:59:03
+ * @Last Modified time: 2026-07-20 00:23:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,7 +28,7 @@ function HomeRenderTabs({ filter }: WithFilterProps) {
 
   return (
     <View style={styles.blocks}>
-      <Highlight type='title' size={16} bold value={filter}>
+      <Highlight type='title' size={15} bold value={filter}>
         {TEXTS.blocks.setting}
       </Highlight>
       <Text style={_.mt.sm} type='sub' size={12}>

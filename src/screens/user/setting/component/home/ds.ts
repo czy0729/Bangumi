@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 10:48:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-18 23:40:25
+ * @Last Modified time: 2026-07-20 00:24:42
  */
 import { rc } from '@utils/dev'
 import { SETTING_HOME_GRID_COVER_LAYOUT } from '@constants'
@@ -90,7 +90,7 @@ export const TEXTS = {
   },
   homeSortSink: {
     hd: '条目自动下沉',
-    information: '当条目没有未观看的已放送章节时，自动下沉到底'
+    information: '当条目没有未观看的已放送章节时，自动下沉到分组底部'
   },
   showGame: {
     hd: '游戏标签页',

@@ -474,9 +474,15 @@ export default class Computed extends State {
 
     // 兜底：若 onAir.air 或 eps_count 缺失，但全部章节均已放送，标记为完结
     if (result.isOnair) {
-      const eps = this.epsNoSp(subjectId)
-      if (eps.length > 0 && eps.every(ep => ep.status === 'Air' || ep.status === 'Today')) {
-        result.isOnair = false
+      const s = this.subject(subjectId)
+      const stillAiring =
+        Number(onAir.air) > 0 && s?.eps_count && Number(onAir.air) < s.eps_count
+
+      if (!stillAiring) {
+        const eps = this.epsNoSp(subjectId)
+        if (eps.length > 0 && eps.every(ep => ep.status === 'Air' || ep.status === 'Today')) {
+          result.isOnair = false
+        }
       }
     }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-12 02:28:32
+ * @Last Modified time: 2026-07-20 01:55:52
  */
 import { StatusBar } from 'react-native'
 import { confirm, queue } from '@utils'
@@ -125,48 +125,42 @@ class GlobalStores {
   /** 以下为不需要清除的数据, 再次本地化 */
   restore = async () => {
     /** 设置 */
-    systemStore.save('setting')
-    systemStore.save('advance')
-    systemStore.save('advanceDetail')
+    ;(['setting', 'advance', 'advanceDetail', 't'] as const).forEach(k => systemStore.save(k))
 
     /** 主题 */
-    themeStore.save('mode')
-    themeStore.save('fontSizeAdjust')
+    ;(['mode', 'fontSizeAdjust'] as const).forEach(k => themeStore.save(k))
+
+    /** 需要确保读取过本地化数据 */
+    await Promise.all([
+      rakuenStore.init('setting'),
+      rakuenStore.init('favor'),
+      userStore.init('accessToken'),
+      userStore.init('userInfo'),
+      userStore.init('userCookie'),
+      subjectStore.init('origin'),
+      calendarStore.init('onAirUser'),
+      smbStore.init('data'),
+      tinygrailStore.init('collected')
+    ])
 
     /** 超展开 */
-    await rakuenStore.init('setting')
-    rakuenStore.save('setting')
-
-    await rakuenStore.init('favor')
-    rakuenStore.save('favor')
+    ;(['setting', 'favor'] as const).forEach(k => rakuenStore.save(k))
 
     /** 用户 */
-    await userStore.init('accessToken')
-    userStore.save('accessToken')
-
-    await userStore.init('userInfo')
-    userStore.save('userInfo')
-
-    await userStore.init('userCookie')
-    userStore.save('userCookie')
+    ;(['accessToken', 'userInfo', 'userCookie'] as const).forEach(k => userStore.save(k))
     userStore.checkLogin()
 
     /** 条目 */
-    await subjectStore.init('origin')
-    subjectStore.save('origin')
-    subjectStore.save('actions')
+    ;(['origin', 'actions'] as const).forEach(k => subjectStore.save(k))
 
     /** 放送 */
-    await calendarStore.init('onAirUser')
-    calendarStore.save('onAirUser')
+    ;(['onAirUser'] as const).forEach(k => calendarStore.save(k))
 
     /** SMB */
-    await smbStore.init('data')
-    smbStore.save('data')
+    ;(['data'] as const).forEach(k => smbStore.save(k))
 
     /** 小圣杯 */
-    await tinygrailStore.init('collected')
-    tinygrailStore.save('collected')
+    ;(['collected'] as const).forEach(k => tinygrailStore.save(k))
   }
 
   /** 登出 */
