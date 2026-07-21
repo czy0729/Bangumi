@@ -6,8 +6,8 @@
  */
 import { uiStore, useInitStore } from '@stores'
 import { usePageLifecycle } from '@utils/hooks'
+import { addAppTabPressListener } from '@src/navigations/tab-bar'
 import store from './store'
-import { REFRESH_EVENT_ID } from './ds'
 
 import type { NavigationProps } from '@types'
 import type { Ctx } from './types'
@@ -22,7 +22,7 @@ export function useTimelinePage(props: NavigationProps) {
       onEnter() {
         $.init()
 
-        navigation.addListener(REFRESH_EVENT_ID, () => {
+        addAppTabPressListener(navigation, 'Timeline', () => {
           $.onRefreshThenScrollTop()
         })
       },

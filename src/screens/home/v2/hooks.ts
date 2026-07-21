@@ -6,7 +6,7 @@
  */
 import { useInitStore } from '@stores'
 import { usePageLifecycle } from '@utils/hooks'
-import { EVENT_APP_TAB_PRESS } from '@src/navigations/tab-bar'
+import { addAppTabPressListener } from '@src/navigations/tab-bar'
 import store from './store'
 
 import type { NavigationProps } from '@types'
@@ -22,7 +22,7 @@ export function useHomePage(props: NavigationProps) {
       onEnter() {
         $.updateInitialPage(navigation)
 
-        navigation.addListener(`${EVENT_APP_TAB_PRESS}|Home`, () => {
+        addAppTabPressListener(navigation, 'Home', () => {
           $.onRefreshThenScrollTop()
         })
       },

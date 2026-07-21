@@ -5,18 +5,13 @@
  * @Last Modified time: 2025-11-13 12:20:26
  */
 import { useEffect, useRef } from 'react'
-import { enableScreens } from 'react-native-screens'
-import { devLog } from '@components'
 import { IOS } from '@constants/constants'
-import { DEV, IOS_IPA } from '@src/config'
+import { DEV } from '@src/config'
 
 import type { Navigation } from '@types'
 
-/** 路由路径达到长度后开启 enableScreens */
-const enabledLimit = 5
-
 /** 是否开启 enableScreens */
-export let enabled = false
+export const enabled = IOS
 
 /** 上一个页面路径 */
 let lastPath = ''
@@ -35,27 +30,6 @@ export function useEnableScreens() {
       // console.info(TEXT_BADGES.primary, `./src/screens/${currentPath}/index.tsx`)
       lastPath = currentPath
     })
-    return unsubscribe
-  }, [])
-
-  // 当页码少于 enabledLimit 页时, 不启用 react-native-screens, 这样切页动画会流畅非常多
-  // 当大于 enabledLimit 页时, 为了节省重叠页面的内存占用, 重新启动
-  useEffect(() => {
-    if (!IOS || IOS_IPA) return
-
-    const unsubscribe = navigationRef.current?.addListener('state', e => {
-      const { index } = e.data.state
-      if (!enabled && index > enabledLimit) {
-        enabled = true
-        enableScreens(enabled)
-        devLog('enableScreens', enabled)
-      } else if (enabled && index <= enabledLimit) {
-        enabled = false
-        enableScreens(enabled)
-        devLog('enableScreens', enabled)
-      }
-    })
-
     return unsubscribe
   }, [])
 

@@ -16,6 +16,20 @@ import { styles } from './styles'
 
 export { EVENT_APP_TAB_PRESS }
 
+export function addAppTabPressListener(
+  navigation: any,
+  routeName: string,
+  listener: () => void
+) {
+  if (IOS) {
+    return navigation.addListener('tabPress', () => {
+      if (navigation.isFocused()) listener()
+    })
+  }
+
+  return navigation.addListener(`${EVENT_APP_TAB_PRESS}|${routeName}`, listener)
+}
+
 import type { Props } from './types'
 
 function TabBar({ state, descriptors, navigation }: Props) {

@@ -6,7 +6,12 @@
  */
 import React from 'react'
 import { useObserver } from 'mobx-react'
-import { NavigationContainer as NavigationNativeContainer } from '@react-navigation/native'
+import {
+  DarkTheme,
+  DefaultTheme,
+  NavigationContainer as NavigationNativeContainer
+} from '@react-navigation/native'
+import { _ } from '@stores'
 import { navigationReference } from '@utils'
 import { useEnableScreens } from './utils'
 
@@ -15,17 +20,34 @@ import type { Props } from './types'
 function NavigationContainer({ children }: Props) {
   const navigationRef = useEnableScreens()
 
-  return useObserver(() => (
-    <NavigationNativeContainer
-      // @ts-expect-error
-      ref={navigationRef}
-      onReady={() => {
-        if (navigationRef.current) navigationReference(navigationRef.current)
-      }}
-    >
-      {children}
-    </NavigationNativeContainer>
-  ))
+  return useObserver(() => {
+    const baseTheme = _.isDark ? DarkTheme : DefaultTheme
+    const navigationTheme = {
+      ...baseTheme,
+      colors: {
+        ...baseTheme.colors,
+        primary: _.colorMain,
+        background: _.colorPlain,
+        card: _.colorPlain,
+        text: _.colorTitle,
+        border: _.colorBorder,
+        notification: _.colorDanger
+      }
+    }
+
+    return (
+      <NavigationNativeContainer
+        // @ts-expect-error
+        ref={navigationRef}
+        theme={navigationTheme}
+        onReady={() => {
+          if (navigationRef.current) navigationReference(navigationRef.current)
+        }}
+      >
+        {children}
+      </NavigationNativeContainer>
+    )
+  })
 }
 
 export default NavigationContainer

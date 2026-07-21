@@ -28,6 +28,7 @@ function NativeStacks({ isLoadingComplete }: { isLoadingComplete: boolean }) {
   return (
     <NavigationContainer>
       <Stack.Navigator
+        id='RootStack'
         screenOptions={getScreenOptions(isFullScreen)}
         initialRouteName={initialRouteName}
       >

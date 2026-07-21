@@ -23,16 +23,20 @@ function BottomTabNavigator() {
 
   return (
     <Tab.Navigator
+      id='BottomTabs'
       initialRouteName={getInitialRouteName()}
       screenOptions={
         bottomTabLazy
-          ? DEFAULT_SCREEN_OPTIONS
+          ? {
+              ...DEFAULT_SCREEN_OPTIONS,
+              sceneStyle: styles.sceneContainerStyle
+            }
           : {
               ...DEFAULT_SCREEN_OPTIONS,
-              lazy: false
+              lazy: false,
+              sceneStyle: styles.sceneContainerStyle
             }
       }
-      sceneContainerStyle={styles.sceneContainerStyle}
       tabBar={renderTabBar}
     >
       {tabConfigs.map(config => {
@@ -42,7 +46,7 @@ function BottomTabNavigator() {
           <Tab.Screen
             key={config.name}
             name={config.name}
-            component={config.component}
+            component={config.component as React.ComponentType<any>}
             initialParams={config.initialParams}
           />
         )

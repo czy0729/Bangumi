@@ -12,6 +12,7 @@ import { enableScreens } from 'react-native-screens'
 import Provider from '@ant-design/react-native/lib/provider'
 import { DeepLink, DEV, HoldMenuProvider } from '@components'
 import { AppCommon } from '@_'
+import { IOS } from '@constants/constants'
 import { _ } from '@stores'
 import { useCachedResources, useObserver, useOrientation } from '@utils/hooks'
 import NaviteStacks from '@src/navigations/native-stacks'
@@ -19,8 +20,7 @@ import theme from '@styles/theme'
 
 LogBox.ignoreAllLogs(true)
 
-// iOS 侧载情况下, App 切出或者休眠后返回, 滑动退后会卡死, 暂不使用这个优化
-enableScreens(false)
+if (IOS) enableScreens(true)
 
 export default function App() {
   // 加载图标等资源
