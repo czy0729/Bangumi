@@ -13,12 +13,14 @@ import { uiStore, useStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { renderItem, renderSectionHeader } from './utils'
 import { COMPONENT } from './ds'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
 
 function TimelineList() {
   const { $ } = useStore<Ctx>(COMPONENT)
+
+  const styles = memoStyles()
 
   const handleScrollBeginDrag = useCallback(() => {
     uiStore.closeAll()

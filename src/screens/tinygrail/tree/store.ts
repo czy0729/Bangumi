@@ -157,7 +157,7 @@ export default class ScreenTinygrailTree extends store<typeof STATE> {
     const _list = list.filter(item => !filterIdSet.has(item.id))
     const currentTotal = caculateTotal(_list, label, this.isTemple) // 过滤后总值
 
-    const filterRate = Math.max(0.0072 - filterIds.length * 0.0002, 0.005) // 过滤比例
+    const filterRate = Math.max(0.0072 - filterIdSet.size * 0.0002, 0.005) // 过滤比例
     let filterCount = 0 // 过滤的个数
     let filterTotal = 0 // 过滤的总值
     const nodes = _list

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:47:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-14 22:14:49
+ * @Last Modified time: 2026-07-21 05:34:18
  */
 import { cheerio, feedback, getTimestamp } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -227,6 +227,7 @@ export default class Fetch extends Computed {
   /** 目录 */
   fetchCatalog = async (args: FetchCatalogArgs) => {
     const { type = '', page = 1 } = args || {}
+
     const STATE_KEY = 'catalog'
     const ITEM_ARGS = [type, page] as const
     const ITEM_KEY = ITEM_ARGS.join('|')
