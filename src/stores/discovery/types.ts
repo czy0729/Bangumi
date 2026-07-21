@@ -30,6 +30,9 @@ export type CatalogsItem = {
   /** 创建者 ID */
   userId: UserId
 
+  /** 创建日期 */
+  time: string
+
   /** 最后更新日期 */
   last: string
 
@@ -356,11 +359,10 @@ export type Dollars = Override<
   }
 >
 
-export type FetchCatalogArgs = {
-  type?: '' | 'collect' | 'me'
-  page?: number
-}
+/** 目录页面类型（空=全部, collect=收藏, me=我的） */
+export type CatalogType = '' | 'collect' | 'me'
 
+/** 获取全站日志参数 */
 export type FetchBlogArgs = {
   type?: SubjectType | 'all' | ''
   page?: number

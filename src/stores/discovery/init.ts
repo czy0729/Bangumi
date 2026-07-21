@@ -11,6 +11,7 @@ import type {
   Catalog,
   CatalogDetail,
   CatalogDetailFromOSS,
+  CatalogType,
   Channel,
   Dollars,
   News,
@@ -53,7 +54,7 @@ export const INIT_CHANNEL = {
 
 const STATE = {
   /** 目录 */
-  catalog: {} as Record<string, Catalog>,
+  catalog: {} as Record<`${CatalogType}|${number}`, Catalog>,
 
   /** 目录详情 (云缓存) */
   catalogDetailFromOSS: {} as Record<Id, CatalogDetailFromOSS>,

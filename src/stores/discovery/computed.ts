@@ -18,6 +18,7 @@ import type {
   Catalog,
   CatalogDetail,
   CatalogDetailFromOSS,
+  CatalogType,
   Channel,
   News,
   Tags
@@ -48,7 +49,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   // -------------------- 有副作用 (分离 init + computedFn) --------------------
   /** 目录 */
-  private _catalog = computedFn((type: '' | 'collect' | 'me' = '', page: number = 1) => {
+  private _catalog = computedFn((type: CatalogType = '', page: number = 1) => {
     const ITEM_KEY = `${type}|${page}` as const
     return (this.state.catalog[ITEM_KEY] || INIT_CATALOG_ITEM) as Catalog
   })
@@ -101,7 +102,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   // -------------------- 导出方法 (分离 init) --------------------
   /** 目录 */
-  catalog(type: '' | 'collect' | 'me' = '', page: number = 1) {
+  catalog(type: CatalogType = '', page: number = 1) {
     this.init('catalog', true)
     return this._catalog(type, page)
   }

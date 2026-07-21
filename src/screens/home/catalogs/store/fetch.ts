@@ -48,9 +48,7 @@ export default class Fetch extends Computed {
       return true
     }
 
-    const result = await discoveryStore.fetchCatalogDetailFromOSS({
-      id
-    })
+    const result = await discoveryStore.fetchCatalogDetailFromOSS(id)
     if (result) return true
 
     const data = await discoveryStore.fetchCatalogDetail(id)

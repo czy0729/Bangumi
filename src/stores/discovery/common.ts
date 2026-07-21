@@ -11,6 +11,7 @@ import {
   cheerio,
   cHtml,
   cMap,
+  cParse,
   cText,
   HTMLDecode,
   htmlMatch,
@@ -53,9 +54,9 @@ export function cheerioTags(html: string) {
 }
 
 /** 目录 */
-export function cheerioCatalog(html: string): CatalogsItem[] {
-  const $ = cheerio(htmlMatch(html, '<div id="columnA"', '<div id="columnB"'))
-  return cMap($('li.tml_item'), $row => {
+export function cheerioCatalog(html: string) {
+  const $ = cParse(html, '<div id="columnA', '<div id="columnB')
+  return cMap<CatalogsItem>($('li.tml_item'), $row => {
     const $a = cFind($row, '.clearit a.l')
     const $user = cFind($row, '.time a.l')
     return {

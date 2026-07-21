@@ -6,7 +6,7 @@
  */
 import { cheerio, feedback, getTimestamp } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
-import { get } from '@utils/kv'
+import { get, gets } from '@utils/kv'
 import {
   HOST,
   HTML_BLOG_LIST,
@@ -28,11 +28,11 @@ import {
   cheerioWiki
 } from './common'
 import Computed from './computed'
-import { DEFAULT_TYPE } from './init'
+import { DEFAULT_TYPE, INIT_CATALOG_ITEM } from './init'
 import { getInt } from './utils'
 
 import type { Id, SubjectType } from '@types'
-import type { FetchBlogArgs, FetchCatalogArgs } from './types'
+import type { CatalogDetailFromOSS, CatalogType, FetchBlogArgs } from './types'
 
 export default class Fetch extends Computed {
   fetchGCTimeline = async (page: number = 1) => {
@@ -225,12 +225,9 @@ export default class Fetch extends Computed {
   }
 
   /** 目录 */
-  fetchCatalog = async (args: FetchCatalogArgs) => {
-    const { type = '', page = 1 } = args || {}
-
+  fetchCatalog = async (type: CatalogType = '', page: number = 1) => {
     const STATE_KEY = 'catalog'
-    const ITEM_ARGS = [type, page] as const
-    const ITEM_KEY = ITEM_ARGS.join('|')
+    const ITEM_KEY = `${type}|${page}` as const
 
     try {
       const html = await fetchHTML({
@@ -250,7 +247,7 @@ export default class Fetch extends Computed {
       this.error('fetchCatalog', error)
     }
 
-    return this[STATE_KEY](...ITEM_ARGS)
+    return this.getState(STATE_KEY, ITEM_KEY, INIT_CATALOG_ITEM)
   }
 
   /** 目录详情 */
@@ -281,27 +278,60 @@ export default class Fetch extends Computed {
     return this[STATE_KEY](ITEM_KEY)
   }
 
-  /** 下载预数据 */
-  fetchCatalogDetailFromOSS = async (args: { id?: Id }) => {
+  /** 下载目录预数据 */
+  fetchCatalogDetailFromOSS = async (id: Id) => {
+    const STATE_KEY = 'catalogDetailFromOSS'
+    const ITEM_KEY = id
+
     try {
-      const { id } = args || {}
       const data = await get(`catalog_${id}`)
       if (!data) return false
 
-      const key = 'catalogDetailFromOSS'
       this.setState({
-        [key]: {
-          [id]: {
+        [STATE_KEY]: {
+          [ITEM_KEY]: {
             ...data,
             _loaded: getTimestamp()
           }
         }
       })
-      this.save(key)
+      this.save(STATE_KEY)
 
       return true
     } catch (error) {
-      return false
+      this.error('fetchCatalogDetailFromOSS', error)
+    }
+
+    return false
+  }
+
+  /** 批量下载目录预数据 */
+  fetchCatalogDetailFromOSSBatch = async (ids: Id[]) => {
+    const STATE_KEY = 'catalogDetailFromOSS'
+    const ITEM_KEYS = ids.map(id => `catalog_${id}` as const)
+
+    try {
+      const data = await gets<CatalogDetailFromOSS>(ITEM_KEYS)
+      if (!data) return
+
+      const update: Record<Id, CatalogDetailFromOSS> = {}
+      ids.forEach(id => {
+        const item = data[`catalog_${id}` as const]
+        if (item) {
+          update[id] = {
+            ...item,
+            _loaded: getTimestamp()
+          }
+        }
+      })
+      if (Object.keys(update).length) {
+        this.setState({
+          [STATE_KEY]: update
+        })
+        this.save(STATE_KEY)
+      }
+    } catch (error) {
+      this.error('fetchCatalogDetailFromOSSBatch', error)
     }
   }
 

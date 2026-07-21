@@ -29,13 +29,19 @@ export default class Fetch extends Computed {
 
       data = this.catalogAdvanceFilter.list
     } else {
-      const { list } = await discoveryStore.fetchCatalog({
-        type,
-        page
-      })
+      const { list } = await discoveryStore.fetchCatalog(type, page)
       data = list
     }
-    queue(data.map(item => () => this.fetchCatalogDetail(item.id)))
+
+    // 批量拉取 OSS 缓存，避免逐条 kv.get
+    await discoveryStore.fetchCatalogDetailFromOSSBatch(data.map(item => item.id))
+
+    // 只对没有 OSS 缓存的条目执行 HTML 降级
+    queue(
+      data
+        .filter(item => !discoveryStore.catalogDetailFromOSS(item.id)._loaded)
+        .map(item => () => this.fetchCatalogDetail(item.id))
+    )
 
     return data
   }
@@ -44,15 +50,9 @@ export default class Fetch extends Computed {
   fetchCatalogDetail = async (id: Id) => {
     if (discoveryStore.catalogDetail(id)._loaded) return true
 
+    // batch 已拉过 OSS，不再单独调 fetchCatalogDetailFromOSS
     const oss = discoveryStore.catalogDetailFromOSS(id)
     if (oss?._loaded && oss?.list?.length) return true
-
-    if (!oss?._loaded) {
-      const result = await discoveryStore.fetchCatalogDetailFromOSS({
-        id
-      })
-      if (result) return true
-    }
 
     const data = await discoveryStore.fetchCatalogDetail(id)
 
