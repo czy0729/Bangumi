@@ -76,7 +76,7 @@ public class MainApplication extends Application implements ReactApplication {
     // FastImage/Glide derives from the same instance, so images
     // automatically use clean DNS for Bangumi domains.
     OkHttpClientProvider.setOkHttpClientFactory(
-        new BangumiOkHttpClientFactory(getCacheDir()));
+        new BangumiOkHttpClientFactory(this));
 
     SoLoader.init(this, /* native exopackage */ false);
     if (!BuildConfig.REACT_NATIVE_UNSTABLE_USE_RUNTIME_SCHEDULER_ALWAYS) {

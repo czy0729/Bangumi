@@ -1,5 +1,6 @@
 package com.czy0729.bangumi.doh;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.facebook.react.modules.network.OkHttpClientFactory;
@@ -47,7 +48,12 @@ import okhttp3.OkHttpClient;
 public class BangumiOkHttpClientFactory implements OkHttpClientFactory {
 
     private static final String TAG = "BangumiOkHttpFactory";
-    private final File cacheDir;
+
+    /** HTTP 磁盘缓存大小: 100 MB */
+    private static final long HTTP_CACHE_SIZE = 100 * 1024 * 1024;
+
+    /** 持久化文件目录 (冷启动不丢失) */
+    private final File filesDir;
 
     /** Target domains for ECH proxy (must stay in sync with src/config.ts ECH_TARGET_DOMAINS) */
     private static final String[] TARGETS = {
@@ -117,14 +123,13 @@ public class BangumiOkHttpClientFactory implements OkHttpClientFactory {
         }
     }
 
-    public BangumiOkHttpClientFactory(File cacheDir) {
-        this.cacheDir = cacheDir;
+    public BangumiOkHttpClientFactory(Context context) {
+        this.filesDir = context.getFilesDir();
     }
 
     @Override
     public OkHttpClient createNewNetworkModuleClient() {
-        int cacheSize = 10 * 1024 * 1024; // 10 MB
-        File httpCacheDir = new File(cacheDir, "http-cache");
+        File httpCacheDir = new File(filesDir, "http-cache");
 
         // Use a selector that dynamically checks proxy port
         // This way, when EchProxy starts, new connections automatically go through it
@@ -193,7 +198,7 @@ public class BangumiOkHttpClientFactory implements OkHttpClientFactory {
                         throw e;
                     }
                 })
-                .cache(new Cache(httpCacheDir, cacheSize));
+                .cache(new Cache(httpCacheDir, HTTP_CACHE_SIZE));
 
         // Dynamic SSL: only use permissive when ECH proxy is active and connecting to target domains
         // This ensures non-target domains and requests when ECH is disabled use standard verification
