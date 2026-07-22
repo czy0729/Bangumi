@@ -1119,7 +1119,7 @@ struct ProxyServer {
 }
 
 /// 最大并发连接数, 防止图片瀑布流打爆低端机
-const MAX_CONCURRENT: u32 = 12;
+const MAX_CONCURRENT: u32 = 32;
 
 static SERVER: Mutex<Option<ProxyServer>> = Mutex::new(None);
 static CA_PEM: std::sync::OnceLock<String> = std::sync::OnceLock::new();
@@ -1249,6 +1249,24 @@ fn get_status() -> (bool, u16) {
     }
 }
 
+/// 真实存活检测: 检查 SERVER 存在 + running 标志为 true + listener 线程未退出
+fn is_proxy_alive() -> bool {
+    match &*SERVER.lock() {
+        Some(server) => {
+            if !*server.running.lock() {
+                return false;
+            }
+            // listener_handle.is_finished() == true 意味着线程已退出 (被 OS kill 或异常)
+            if let Some(handle) = &server.listener_handle {
+                !handle.is_finished()
+            } else {
+                false
+            }
+        }
+        None => false,
+    }
+}
+
 // ============================= JNI ==========================================
 
 #[allow(non_snake_case)]
@@ -1299,5 +1317,19 @@ pub mod android {
     ) -> jni::objects::JString<'local> {
         let pem = CA_PEM.get().map(|s| s.as_str()).unwrap_or("");
         env.new_string(pem).unwrap()
+    }
+
+    #[no_mangle]
+    pub extern "C" fn Java_com_czy0729_bangumi_doh_EchProxyNative_isAlive(
+        _env: JNIEnv,
+        _class: JClass,
+    ) -> jni::sys::jboolean {
+        let result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+            is_proxy_alive()
+        }));
+        match result {
+            Ok(alive) => if alive { 1 } else { 0 },
+            Err(_) => 0,
+        }
     }
 }

@@ -133,11 +133,12 @@ export function setupEchLifecycle(): void {
     const setting = syncSystemStore()?.setting
     if (!setting?.echProxyEnabled) return
 
-    syncEchProxyStatus().then(status => {
+    ;(async () => {
+      const status = await syncEchProxyStatus()
       if (!status.running || status.port <= 0) {
-        enableEchProxy()
+        await enableEchProxy()
       }
-    })
+    })()
   })
 }
 

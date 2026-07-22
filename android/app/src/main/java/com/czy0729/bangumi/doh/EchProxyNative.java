@@ -49,7 +49,19 @@ public class EchProxyNative {
         return getCaPem();
     }
 
+    /** 安全调用 isAlive, 检测代理 listener 线程是否真实存活 */
+    public static boolean safeIsAlive() {
+        if (!isAvailable) return false;
+        try {
+            return isAlive();
+        } catch (Throwable e) {
+            Log.e(TAG, "isAlive failed", e);
+            return false;
+        }
+    }
+
     public static native int startProxy(int port, String dns, String caDir, String cacheDir);
     public static native void stopProxy();
     public static native String getCaPem();
+    public static native boolean isAlive();
 }

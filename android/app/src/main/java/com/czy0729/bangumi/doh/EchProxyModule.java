@@ -103,7 +103,7 @@ public class EchProxyModule extends ReactContextBaseJavaModule {
             currentPort = sProxyPort;
             running = true;
             addLog("info", "proxy", "代理已在运行，端口: " + sProxyPort);
-            evictOkHttpConnectionPool();
+            // 代理仍在运行, 不清理连接池 — 避免误杀健康连接
             promise.resolve(sProxyPort);
             return;
         }
@@ -170,7 +170,14 @@ public class EchProxyModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void getStatus(Promise promise) {
-        // 以 static sProxyPort 为准, 跨 ReactContext 实例一致
+        // 真实存活检测: 不仅看静态标志, 还检查 native listener 线程是否存活
+        boolean alive = EchProxyNative.safeIsAlive();
+        if (!alive && sProxyPort > 0) {
+            // native 代理已死但 Java 标志未同步, 重置以触发上游重建
+            Log.d("EchProxy", "getStatus: native proxy dead, resetting sProxyPort");
+            addLog("warn", "proxy", "检测到代理已停止, 重置状态");
+            sProxyPort = 0;
+        }
         WritableMap status = Arguments.createMap();
         status.putBoolean("running", sProxyPort > 0);
         status.putInt("port", sProxyPort);
