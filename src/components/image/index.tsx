@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-17 19:51:19
+ * @Last Modified time: 2026-07-22 05:58:51
  */
 import React from 'react'
 import { Image as RNImage } from 'react-native'
@@ -25,6 +25,7 @@ import TextOnly from './text-only'
 import {
   checkErrorTimeout,
   checkLocalError,
+  clearErrorTimeout,
   computeImageStyles,
   fixedRemoteImageUrl,
   getAutoSize,
@@ -124,6 +125,10 @@ export const Image = observer(
     /** 当前图片大小 */
     private _size = 0
 
+    /** 指数退避重试 */
+    private _retryAttempt = 0
+    private _retryTimer: TimerRef = null
+
     componentDidMount() {
       this._mounted = true
       if (this.props.textOnly) return
@@ -185,6 +190,7 @@ export const Image = observer(
         this._timers.forEach(id => clearTimeout(id))
         this._timers = []
         if (this._timeoutId) clearTimeout(this._timeoutId)
+        if (this._retryTimer) clearTimeout(this._retryTimer)
       } catch {}
     }
 
@@ -486,9 +492,46 @@ export const Image = observer(
           const { onError } = this.props
           if (typeof onError === 'function') onError()
 
-          logger.warn(COMPONENT, 'commitError', errorInfo, this.props.src)
+          logger.error(COMPONENT, 'commitError', errorInfo, this.props.src)
         }
       )
+    }
+
+    // ==================== exponential backoff retry ====================
+    componentDidUpdate(_prevProps: any, prevState: { error: any }) {
+      if (!prevState.error && this.state.error) {
+        this.scheduleRetry()
+      }
+    }
+
+    scheduleRetry = () => {
+      const delay = Math.min(3000 * Math.pow(2, this._retryAttempt), 3600000)
+      logger.warn(
+        COMPONENT,
+        'retry',
+        this.props.src,
+        `attempt=${this._retryAttempt} delay=${delay}`
+      )
+      this._retryAttempt += 1
+
+      this._retryTimer = setTimeout(() => {
+        if (!this._mounted) return
+        this._retryAttempt = 0
+        this._commited = false
+        this._errorCount = 0
+        this._recoveried = false
+        this._fallbacked = false
+        if (typeof this.props.src === 'string') clearErrorTimeout(this.props.src)
+        this.setState(
+          {
+            error: false,
+            uri: undefined
+          },
+          () => {
+            this.cache(this.props.src)
+          }
+        )
+      }, delay)
     }
 
     /** 加载步骤完成 */

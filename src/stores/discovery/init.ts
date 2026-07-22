@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 10:55:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-10 05:46:05
+ * @Last Modified time: 2026-07-21 23:38:11
  */
 import { LIST_EMPTY } from '@constants'
 
@@ -134,7 +134,6 @@ export const LOADED = {
   blog: false,
   blogReaded: false,
   catalog: false,
-  // catalogDetail: false,
   catalogDetailFromOSS: false,
   channel: false,
   online: false,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-07 15:18:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-19 21:57:36
+ * @Last Modified time: 2026-07-22 05:08:24
  */
 import { useState } from 'react'
 import { loadAsync } from 'expo-font'
@@ -12,7 +12,7 @@ import { setComponentsDefaultProps } from '@components/text/utils'
 import Stores, { systemStore } from '@stores'
 import { postTask } from '@utils'
 import { logger } from '@utils/dev'
-import { restoreEchProxy } from '@utils/proxy/ech'
+import { restoreEchProxy, setupEchLifecycle } from '@utils/proxy/ech'
 import { bootApp } from '../app'
 import useMount from './useMount'
 
@@ -67,6 +67,9 @@ export default function useCachedResources() {
         restoreEchProxy(systemStore.setting.echProxyEnabled).catch(e => {
           logger.warn('useCachedResources', 'restoreEchProxy failed:', e)
         })
+
+        // 注册生命周期监听: 后台→前台时自动检查 / 重建代理
+        setupEchLifecycle()
 
         // 加载 bgm 表情特殊字体
         postTask(() => {

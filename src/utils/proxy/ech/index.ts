@@ -3,16 +3,12 @@
  * @Author: czy0729
  * @Date: 2026-06-17 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-19 17:21:50
+ * @Last Modified time: 2026-07-22 05:08:58
  */
-import { Platform } from 'react-native'
+import { AppState, Platform } from 'react-native'
+import { syncSystemStore } from '@utils/async'
 import { ECH_PROXY_ENABLED } from '@src/config'
-import {
-  nativeDisable,
-  nativeEnable,
-  nativeGetLogs,
-  nativeGetStatus
-} from './native'
+import { nativeDisable, nativeEnable, nativeGetLogs, nativeGetStatus } from './native'
 
 import type { EchProxyConfig, EchProxyLog, EchProxyStatus } from './types'
 export type { EchProxyConfig, EchProxyLog, EchProxyStatus }
@@ -22,6 +18,9 @@ let _port = 0
 
 /** 是否正在运行 */
 let _running = false
+
+/** 生命周期监听是否已注册 */
+let _lifecycleSetup = false
 
 /**
  * 启动 ECH 代理
@@ -116,6 +115,30 @@ export async function syncEchProxyStatus(): Promise<EchProxyStatus> {
 export async function getEchProxyLogs(): Promise<EchProxyLog[]> {
   if (Platform.OS !== 'android' || !ECH_PROXY_ENABLED) return []
   return nativeGetLogs()
+}
+
+/**
+ * 注册 AppState 生命周期监听
+ * - 后台→前台时自动检查 ECH 代理状态，已死则重建
+ * - 确保 OkHttp 连接池在重建时被清理（Java 端自动处理）
+ * - 仅注册一次，全 App 生命周期有效
+ */
+export function setupEchLifecycle(): void {
+  if (_lifecycleSetup || Platform.OS !== 'android' || !ECH_PROXY_ENABLED) return
+  _lifecycleSetup = true
+
+  AppState.addEventListener('change', (state: string) => {
+    if (state !== 'active') return
+
+    const setting = syncSystemStore()?.setting
+    if (!setting?.echProxyEnabled) return
+
+    syncEchProxyStatus().then(status => {
+      if (!status.running || status.port <= 0) {
+        enableEchProxy()
+      }
+    })
+  })
 }
 
 export { enableEchProxy as enable, disableEchProxy as disable }

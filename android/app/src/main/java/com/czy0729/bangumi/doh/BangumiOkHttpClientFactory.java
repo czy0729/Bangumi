@@ -129,9 +129,9 @@ public class BangumiOkHttpClientFactory implements OkHttpClientFactory {
         // Use a selector that dynamically checks proxy port
         // This way, when EchProxy starts, new connections automatically go through it
         okhttp3.OkHttpClient.Builder builder = new OkHttpClient.Builder()
-                .connectTimeout(15, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(30, TimeUnit.SECONDS)
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(15, TimeUnit.SECONDS)
+                .writeTimeout(20, TimeUnit.SECONDS)
                 .cookieJar(new com.facebook.react.modules.network.ReactCookieJarContainer())
                 .dns(DoHDNS.getInstance())
                 .proxySelector(new ProxySelector() {

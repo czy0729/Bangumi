@@ -20,6 +20,8 @@ import com.facebook.react.bridge.WritableMap;
 
 import android.util.Log;
 
+import com.facebook.react.modules.network.OkHttpClientProvider;
+
 /**
  * ECH 代理 Native Module
  *
@@ -101,6 +103,7 @@ public class EchProxyModule extends ReactContextBaseJavaModule {
             currentPort = sProxyPort;
             running = true;
             addLog("info", "proxy", "代理已在运行，端口: " + sProxyPort);
+            evictOkHttpConnectionPool();
             promise.resolve(sProxyPort);
             return;
         }
@@ -132,6 +135,9 @@ public class EchProxyModule extends ReactContextBaseJavaModule {
             DoHDNS.getInstance().setEchProxy(cacheDir);
             Log.d("EchProxy", "Shared EchProxy cache with DoHDNS: " + cacheDir);
             addLog("info", "cache", "缓存已共享至 DoHDNS: " + cacheDir);
+
+            // 清理 OkHttp 连接池, 防止后台回来时复用残留的死连接
+            evictOkHttpConnectionPool();
 
             promise.resolve(currentPort);
         } catch (Exception e) {
@@ -224,5 +230,19 @@ public class EchProxyModule extends ReactContextBaseJavaModule {
     public static File getCacheDirStatic(ReactApplicationContext context) {
         if (context == null) return null;
         return context.getCacheDir();
+    }
+
+    /**
+     * 清理 OkHttp 连接池，强制丢弃所有已建立的连接。
+     * 下一次请求会重建连接到 ECH 代理，避免后台回来后复用到已被 OS 杀掉的死连接。
+     */
+    private void evictOkHttpConnectionPool() {
+        try {
+            OkHttpClientProvider.getOkHttpClient().connectionPool().evictAll();
+            Log.d("EchProxy", "OkHttp connection pool evicted");
+            addLog("info", "proxy", "OkHttp 连接池已清理");
+        } catch (Exception e) {
+            Log.w("EchProxy", "Failed to evict connection pool: " + e.getMessage());
+        }
     }
 }

@@ -381,6 +381,16 @@ export function computeImageStyles(
   }
 }
 
+/** 清除指定 src 的超时记录, 返回是否实际清除了 */
+export function clearErrorTimeout(src?: string): boolean {
+  if (!memoTimeout || typeof src !== 'string') return false
+  const id = hash(src)
+  if (!memoTimeout.has(id)) return false
+  memoTimeout.delete(id)
+  setStorage(CACHE_KEY_TIMEOUT, Object.fromEntries(memoTimeout))
+  return true
+}
+
 /** 探测 magma CDN 状态码, 决定回退还是重试 */
 export function probeMagmaCdn(src: string, headers: AnyObject, onStatus: (code: number) => void) {
   if (IOS) {
