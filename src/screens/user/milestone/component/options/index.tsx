@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-12 15:31:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-04 22:00:00
+ * @Last Modified time: 2026-07-23 07:27:44
  */
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
@@ -395,7 +395,7 @@ function Options() {
           <IconTouchable
             name={_.isDark ? 'moon' : 'sunny'}
             color={_.colorIcon}
-            size={18}
+            size={17}
             onPress={() => {
               setTimeout(() => {
                 _.toggleMode()
@@ -408,7 +408,7 @@ function Options() {
         <IconTouchable
           name='md-ios-share'
           color={_.colorIcon}
-          size={18}
+          size={17}
           onPress={() => {
             open($.shareUrl)
           }}

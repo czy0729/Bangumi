@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-12-16 03:43:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-16 02:04:50
+ * @Last Modified time: 2026-07-23 07:25:11
  */
 import { _ } from '@stores'
 
@@ -29,13 +29,13 @@ export const memoStyles = _.memoStyles(() => ({
   theme: {
     position: 'absolute',
     zIndex: 1,
-    top: -10,
+    top: -8,
     left: _._wind - 6
   },
   trend: {
     position: 'absolute',
     zIndex: 1,
-    top: -4,
+    top: -2,
     right: _._wind + 2
   },
   notice: {

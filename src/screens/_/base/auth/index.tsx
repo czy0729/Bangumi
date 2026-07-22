@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-03-14 17:59:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 22:30:57
+ * @Last Modified time: 2026-07-23 06:56:33
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Button, Component, Flex, Iconfont, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { feedback, open } from '@utils'
+import { open } from '@utils'
 import { useNavigation } from '@utils/hooks'
 import { URL_ZHINAN, WEB } from '@constants'
 import i18n from '@constants/i18n'
@@ -44,7 +44,6 @@ export const Auth = observer(() => {
             size={18}
             onPress={() => {
               setTimeout(() => {
-                feedback(true)
                 _.toggleMode()
               }, 40)
             }}

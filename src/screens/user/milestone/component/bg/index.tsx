@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-10 13:04:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-23 20:53:22
+ * @Last Modified time: 2026-07-23 06:27:06
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -21,9 +21,10 @@ function Bg() {
     <LinearGradient
       style={_.absoluteFill}
       colors={_.select(
-        ['rgb(255, 255, 255)', 'rgb(255, 233, 233)'],
-        ['rgb(0, 0, 0)', _.colorDarkModeLevel2]
+        ['rgb(255, 255, 255)', 'rgb(255, 244, 244)', 'rgb(255, 233, 233)'],
+        ['rgb(0, 0, 0)', 'rgb(15, 15, 20)', _.colorDarkModeLevel2]
       )}
+      locations={[0, 0.5, 1]}
     />
   )
 }

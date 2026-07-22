@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-12-16 03:31:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-16 02:05:08
+ * @Last Modified time: 2026-07-23 07:25:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -120,7 +120,7 @@ function Options() {
           }}
         >
           <Flex>
-            <Iconfont name='md-whatshot' size={18} color={_.colorIcon} />
+            <Iconfont name='md-whatshot' size={17} color={_.colorIcon} />
             <Text style={_.ml.xs} type={_.select('sub', 'icon')} bold>
               {trend}
             </Text>

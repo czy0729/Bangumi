@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-01 14:26:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-09 05:56:06
+ * @Last Modified time: 2026-07-23 06:50:51
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,6 @@ import { DEV, IOS } from '@constants'
 import { INVIEW_SHOW } from '@src/config'
 import { ErrorBoundary } from '../error-boundary'
 import { Loading } from '../loading'
-import { StatusBar } from '../status-bar'
 import { Text } from '../text'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
@@ -39,9 +38,7 @@ export const Page = observer(
 
     useFocusEffect(
       useCallback(() => {
-        if (IOS && statusBarEvent) {
-          StatusBar.setBarStyle(_.isDark ? 'light-content' : 'dark-content')
-        }
+        if (IOS && statusBarEvent) _.changeStatusBarStyle(false)
       }, [statusBarEvent])
     )
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-20 18:05:30
+ * @Last Modified time: 2026-07-23 06:57:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import { observer } from 'mobx-react'
 import { Avatar, Flex, Text, Touchable } from '@components'
 import { IconBack, IconTouchable } from '@_'
 import { _, systemStore, useStore } from '@stores'
-import { feedback, HTMLDecode, tinygrailOSS } from '@utils'
+import { HTMLDecode, tinygrailOSS } from '@utils'
 import Btns from '../btns'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
@@ -64,7 +64,6 @@ function Auth() {
             onPress={() => {
               setTimeout(() => {
                 _.toggleMode()
-                feedback()
               }, 40)
             }}
           />

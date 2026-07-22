@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-04-23 14:27:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 14:49:36
+ * @Last Modified time: 2026-07-23 07:14:24
  */
-import { Appearance, StyleSheet } from 'react-native'
+import { Appearance, StatusBar, StyleSheet } from 'react-native'
 import { androidDayNightToggle, feedback, info } from '@utils/ui'
 import { runAfter } from '@utils/utils'
 import { IOS } from '@constants/constants'
@@ -125,6 +125,7 @@ export default class Action extends Computed {
 
     this.save(key)
     this.changeNavigationBarColor()
+    this.changeStatusBarStyle()
     androidDayNightToggle(this.isDark)
 
     // 若用户启用了主题跟随系统, 而切换后与系统主题不一致, 需要提醒
@@ -163,15 +164,6 @@ export default class Action extends Computed {
       height: Math.floor(width * 1.4),
       marginLeft
     }
-  }
-
-  /** @deprecated 切换小圣杯主题模式 */
-  toggleTinygrailThemeMode = () => {
-    // const key = 'tinygrailThemeMode'
-    // this.setState({
-    //   [key]: this.tSelect('light', 'dark')
-    // })
-    // this.save(key)
   }
 
   /** 切换小圣杯涨跌颜色 */
@@ -215,6 +207,15 @@ export default class Action extends Computed {
         this.error('changeNavigationBarColor', error)
       }
     })
+  }
+
+  /** 更新状态栏样式 */
+  changeStatusBarStyle = (animated: boolean = true) => {
+    try {
+      StatusBar.setBarStyle(this.isDark ? 'light-content' : 'dark-content', animated)
+    } catch (error) {
+      this.error('changeStatusBarStyle', error)
+    }
   }
 
   /** 小圣杯模块, 安卓改变底部菜单颜色 */

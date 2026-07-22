@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-29 07:19:32
+ * @Last Modified time: 2026-07-23 07:12:34
  */
 import { toJS } from 'mobx'
 import { StatusBar } from '@components'
@@ -108,13 +108,11 @@ export default class Action extends Fetch {
   private _updateStatusBarTimeoutId = null
 
   /** 更新状态栏主题色 */
-  updateStatusBar = () => {
+  updateStatusBar = (fixed: boolean) => {
     if (this._updateStatusBarTimeoutId) return
 
     this._updateStatusBarTimeoutId = setTimeout(() => {
-      StatusBar.setBarStyle(
-        _.isDark ? 'light-content' : this.state.fixed ? 'dark-content' : 'light-content'
-      )
+      StatusBar.setBarStyle(_.isDark ? 'light-content' : fixed ? 'dark-content' : 'light-content')
       this._updateStatusBarTimeoutId = null
     }, 80)
   }
@@ -962,9 +960,12 @@ export default class Action extends Fetch {
       return
     }
 
+    const fixed = y > HEADER_TRANSITION_HEIGHT
     this.setState({
-      fixed: y > HEADER_TRANSITION_HEIGHT
+      fixed
     })
+    this.updateStatusBar(fixed)
+
     if (!this.state.scrolled) {
       setTimeout(() => {
         this.setState({
@@ -972,8 +973,6 @@ export default class Action extends Fetch {
         })
       }, 0)
     }
-
-    this.updateStatusBar()
   }
 
   /** 显示锐评框 */

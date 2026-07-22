@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:12:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-22 22:45:39
+ * @Last Modified time: 2026-07-23 06:56:54
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Component, Flex, Iconfont, StatusBar, Touchable } from '@components'
+import { Component, Flex, Iconfont, Touchable } from '@components'
 import { _, systemStore } from '@stores'
 import { info } from '@utils'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
-import { API_MK_STATUS_HOST, IOS, WEB } from '@constants'
+import { API_MK_STATUS_HOST, WEB } from '@constants'
 import BreathingLight from '../breathing-light'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
@@ -44,12 +44,6 @@ export const Logo = observer(({ navigation, forceUpdate, path = 'Setting' }: Log
 
     setTimeout(() => {
       _.toggleMode()
-
-      if (IOS) {
-        setTimeout(() => {
-          StatusBar.setBarStyle(_.isDark ? 'light-content' : 'dark-content')
-        }, 0)
-      }
 
       if (typeof forceUpdate === 'function') {
         // 安卓端需要主动触发重渲染才能改变颜色
