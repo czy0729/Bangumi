@@ -10,7 +10,7 @@ import { ActionSheet } from '@components'
 import { ItemSetting } from '@_'
 import { r } from '@utils/dev'
 import { useBoolean } from '@utils/hooks'
-import { WEB } from '@constants'
+import { IOS, WEB } from '@constants'
 import { getShows } from '../../utils'
 import BottomTabLazy from './bottom-tab-lazy'
 import HomeRenderTabs from './home-render-tabs'
@@ -34,7 +34,7 @@ function Route({ filter }: WithFilterProps) {
       <ActionSheet show={state} title='底栏' height={560} onClose={setFalse}>
         {shows.blocks && <HomeRenderTabs filter={filter} />}
         {shows.initialPage && <InitialPage filter={filter} />}
-        {shows.bottomTabLazy && <BottomTabLazy filter={filter} />}
+        {!IOS && shows.bottomTabLazy && <BottomTabLazy filter={filter} />}
       </ActionSheet>
     </>
   )
