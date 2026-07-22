@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2025-10-17 11:47:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-17 11:48:35
+ * @Last Modified time: 2026-07-22 20:36:57
  */
 import type { TopicId } from '@types'
+import type { Props as ParentProps } from '../types'
 
-export type Props = {
+export type Props = Pick<ParentProps, 'title'> & {
   topicId: TopicId
-  title: string
   replyCount: number
   isGroup: boolean
 }

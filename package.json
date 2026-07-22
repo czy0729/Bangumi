@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "expo start",
+    "dev:tee": "yarn dev | tee -a output.txt",
     "dev:offline": "EXPO_USE_EXOTIC=0 expo start --offline",
     "postinstall": "patch-package",
     "env": "node ./packages/env.js",

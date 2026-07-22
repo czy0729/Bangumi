@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:24:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-10 06:25:43
+ * @Last Modified time: 2026-07-21 22:49:17
  */
 import {
   cData,
@@ -21,7 +21,17 @@ import {
 import { getBlogItemTime } from './utils'
 
 import type { SubjectTypeCn } from '@types'
-import type { BlogItem, CatalogDetail, CatalogsItem, DollarsItem } from './types'
+import type {
+  BlogItem,
+  CatalogDetail,
+  CatalogDetailBlogItem,
+  CatalogDetailEpItem,
+  CatalogDetailItem,
+  CatalogDetailMonoItem,
+  CatalogDetailTopicItem,
+  CatalogsItem,
+  DollarsItem
+} from './types'
 
 /** 标签 */
 export function cheerioTags(html: string) {
@@ -79,7 +89,7 @@ export function cheerioCatalog(html: string) {
 
 /** 目录详情 */
 export function cheerioCatalogDetail(html: string) {
-  const $ = cheerio(htmlMatch(html, '<div id="header"', '<div id="footer"'))
+  const $ = cParse(html, '<div id="header', '<div id="footer')
   const $grp = $('.grp_box')
   const $a = cFind($grp, '.tip_j a.l')
 
@@ -92,7 +102,7 @@ export function cheerioCatalogDetail(html: string) {
     joinUrl = href
   }
 
-  const mono = cMap($('.browserCrtList > div'), $row => ({
+  const mono = cMap<CatalogDetailMonoItem>($('.browserCrtList > div'), $row => ({
     id: cData(cFind($row, 'a.l'), 'href'),
     image: cData(cFind($row, 'img.avatar'), 'src'),
     title: cText(cFind($row, 'a.l')),
@@ -115,7 +125,7 @@ export function cheerioCatalogDetail(html: string) {
     byeUrl,
 
     /** 条目 */
-    list: cMap($('#browserItemList li.item'), $row => {
+    list: cMap<CatalogDetailItem>($('#browserItemList li.item'), $row => {
       const $a = cFind($row, 'h3 a.l')
 
       const _type = cData(cFind($row, 'span.ico_subject_type'), 'class')
@@ -154,7 +164,7 @@ export function cheerioCatalogDetail(html: string) {
     prsn: mono.filter(item => item.id.includes('person')),
 
     /** 小组话题 */
-    topic: cMap($('.topic-list > .row'), $row => ({
+    topic: cMap<CatalogDetailTopicItem>($('.topic-list > .row'), $row => ({
       id: cData(cFind($row, 'a.l'), 'href'),
       image: matchAvatar(cData(cFind($row, 'span.avatarNeue'), 'style')),
       title: cText(cFind($row, 'a.l')),
@@ -164,7 +174,7 @@ export function cheerioCatalogDetail(html: string) {
     })),
 
     /** 章节 */
-    ep: cMap($('.browserList > .item'), $row => ({
+    ep: cMap<CatalogDetailEpItem>($('.browserList > .item'), $row => ({
       id: cData(cFind($row, 'a.l'), 'href'),
       image: cData(cFind($row, 'img.avatar'), 'src'),
       title: cText(cFind($row, 'a.l')),
@@ -174,7 +184,7 @@ export function cheerioCatalogDetail(html: string) {
     })),
 
     /** 日志 */
-    blog: cMap($('#entry_list > .item'), $row => ({
+    blog: cMap<CatalogDetailBlogItem>($('#entry_list > .item'), $row => ({
       id: cData(cFind($row, 'a.l'), 'href'),
       image: cData(cFind($row, 'img.avatarCover'), 'src'),
       title: cText(cFind($row, 'a.l')),

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-20 20:46:53
+ * @Last Modified time: 2026-07-22 19:10:23
  */
 import {
   cData,
@@ -15,21 +15,19 @@ import {
   getCoverSmall,
   HTMLDecode,
   htmlMatch,
-  HTMLToTree,
   HTMLTrim,
   matchAvatar,
   matchUserId,
+  relativeEnToEpoch,
   safeObject,
   trim
 } from '@utils'
 import Crypto from '@utils/crypto'
-import { fetchHTML } from '@utils/fetch'
 import decoder from '@utils/thirdParty/html-entities-decoder'
-import { HTML_RAKUEN, LIKE_TYPE_RAKUEN } from '@constants'
+import { LIKE_TYPE_RAKUEN } from '@constants'
 import { INIT_BLOG, INIT_COMMENTS_ITEM, INIT_TOPIC } from './init'
 import { getBlogItemTime, getBlogTime } from './utils'
 
-import type { RakuenScope, RakuenType, RakuenTypeGroup, RakuenTypeMono } from '@types'
 import type { STATE } from './init'
 import type {
   BlockedUsersItem,
@@ -44,63 +42,38 @@ import type {
   UserTopicsFromCDNItem
 } from './types'
 
-export async function fetchRakuen(args: {
-  scope: RakuenScope
-  type: RakuenType | RakuenTypeMono | RakuenTypeGroup
-}) {
-  const { scope, type } = args || {}
+/** 超展开聚合列表 */
+export function cheerioRakuen(html: string, _loaded?: number) {
+  const $ = cParse(html, '<div id="eden_tpc_list', '</body')
 
-  // -------------------- 请求HTML --------------------
-  const res = fetchHTML({
-    url: HTML_RAKUEN(scope, type)
+  return cMap<RakuenItem>($('li.item_list'), $row => {
+    const $avatarNeue = cFind($row, 'span.avatarNeue')
+    const $inner = cFind($row, 'div.inner')
+    const $title = cFind($inner, 'a.title')
+    const $rowInner = cFind($inner, 'span.row')
+    const $group = cFind($rowInner, 'a')
+
+    const item: RakuenItem = {
+      title: HTMLDecode(cText($title)),
+      avatar: cData($avatarNeue, 'style')
+        .replace(/background-image:\s*url\('|'\)/g, '')
+        .trim(),
+      userId: cData($avatarNeue, 'data-user'),
+      userName: HTMLDecode(cData(cFind($row, 'a.avatar'), 'title')),
+      href: cData($title, 'href'),
+      replies: cText(cFind($inner, 'small.grey')),
+      group: HTMLDecode(cText($group)),
+      groupHref: cData($group, 'href'),
+      time: cText(cFind($rowInner, 'small.time'))
+    }
+
+    if (_loaded) {
+      const epoch = relativeEnToEpoch(item.time, _loaded)
+      if (epoch !== undefined) item.epoch = epoch
+    }
+
+    return item
   })
-  const raw = await res
-  const HTML = HTMLTrim(raw).match(/<div id="eden_tpc_list"><ul>(.+?)<\/ul><\/div>/)
-
-  // -------------------- 分析HTML --------------------
-  const rakuen: RakuenItem[] = []
-  if (HTML) {
-    const tree = HTMLToTree(HTML[1])
-    tree.children.forEach(item => {
-      const avatar = item.children[0].children[0].attrs.style.replace(
-        /background-image:url\('|'\)/g,
-        ''
-      )
-      const userId = item.children[0].children[0].attrs?.['data-user']
-
-      const { children } = item.children[1]
-      const title = children[0].text[0]
-      const { href = '' } = children[0].attrs
-      const replies = children[1].text[0]
-
-      // 小组有可能是没有的
-      let group = ''
-      let groupHref = ''
-      let time = ''
-      if (children.length === 3) {
-        time = children[2].children[0].text[0]
-      } else {
-        group = children[3].text[0]
-        groupHref = children[3].attrs.href
-        time = children[4] ? children[4].text[0] : children[3].text[0]
-      }
-
-      const data = {
-        title: HTMLDecode(title),
-        avatar,
-        userId,
-        userName: HTMLDecode(item.children[0].attrs.title),
-        href,
-        replies,
-        group: HTMLDecode(group),
-        groupHref,
-        time
-      }
-      rakuen.push(data)
-    })
-  }
-
-  return rakuen
 }
 
 /** 留言层信息 */

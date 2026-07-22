@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 20:38:08
+ * @Last Modified time: 2026-07-22 20:23:59
  */
 import React, { useCallback } from 'react'
 import { observer } from 'mobx-react'
@@ -27,6 +27,7 @@ function ItemWrap({
   href,
   title,
   time,
+  epoch,
   replies
 }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
@@ -100,6 +101,7 @@ function ItemWrap({
       href={href}
       title={title}
       time={time}
+      epoch={epoch}
       topicId={topicId}
       replyCount={replyCount}
       isGroup={getIsGroup(topicId)}

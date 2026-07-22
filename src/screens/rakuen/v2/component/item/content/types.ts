@@ -2,18 +2,15 @@
  * @Author: czy0729
  * @Date: 2025-10-17 11:47:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-17 11:49:34
+ * @Last Modified time: 2026-07-22 20:36:40
  */
-import type { TopicId, UserId } from '@types'
+import type { TopicId } from '@types'
+import type { Props as ParentProps } from '../types'
 
-export type Props = {
+export type Props = Pick<ParentProps, 'time' | 'title' | 'userId' | 'userName' | 'avatar'> & {
   groupCn: string
   replyCount: number
-  time: string
-  title: string
+  epoch: number
   topicId: TopicId
-  userId: UserId
-  userName: string
-  avatar: string
   isGroup: boolean
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-03 11:13:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 20:38:26
+ * @Last Modified time: 2026-07-22 20:24:27
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
@@ -34,6 +34,7 @@ export const DEFAULT_PROPS = {
   href: '' as string,
   title: '' as string,
   time: '' as string,
+  epoch: 0 as number,
   topicId: '' as TopicId,
   replyCount: 0 as number,
   isGroup: false as boolean,

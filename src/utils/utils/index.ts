@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-26 23:50:55
+ * @Last Modified time: 2026-07-22 20:14:30
  */
 import { Linking } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -574,6 +574,26 @@ export function relativeToEpoch(time: string, _loaded: number): number | undefin
   }
 
   return _loaded - offset
+}
+
+/** 英文相对时间（"...1h 2m ago"）转 epoch 秒 */
+export function relativeEnToEpoch(time: string, _loaded: number): number | undefined {
+  const clean = time.replace(/^\.\.\./, '').trim()
+  if (!clean.includes('ago')) return
+
+  const relative = clean.replace(/\s*ago$/, '').trim()
+  let offset = 0
+
+  const d = relative.match(/(\d+)\s*d(?!\w)/)
+  if (d) offset += parseInt(d[1]) * 86400
+  const h = relative.match(/(\d+)\s*h/)
+  if (h) offset += parseInt(h[1]) * 3600
+  const m = relative.match(/(\d+)\s*m(?!\w)/)
+  if (m) offset += parseInt(m[1]) * 60
+  const s = relative.match(/(\d+)\s*s/)
+  if (s) offset += parseInt(s[1])
+
+  return offset > 0 ? _loaded - offset : undefined
 }
 
 /** 清除搜索关键字的特殊字符 */

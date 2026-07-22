@@ -31,15 +31,35 @@ export type BlockedUsersItem = {
 
 /** 超展开项 */
 export type RakuenItem = {
+  /** 小组名 */
   group: string
+
+  /** 小组地址 */
   groupHref: string
+
+  /** 用户头像 */
   avatar: string
+
+  /** 用户 Id */
   userId: UserId
+
+  /** 用户名 */
   userName: string
+
+  /** 帖子标题 */
   title: string
+
+  /** 帖子地址 */
   href: string
+
+  /** 回复数 */
   replies: string
+
+  /** 发帖时间 */
   time: string
+
+  /** 绝对时间戳（秒），用于缓存冷启动后重新计算相对时间 */
+  epoch?: number
 }
 
 /** 超展开 */

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 17:55:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 02:58:28
+ * @Last Modified time: 2026-07-22 20:25:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,6 +17,7 @@ function Content({
   groupCn,
   replyCount,
   time,
+  epoch,
   title,
   topicId,
   userId,
@@ -32,6 +33,7 @@ function Content({
       <Title topicId={topicId} title={title} replyCount={replyCount} isGroup={isGroup} />
       <Detail
         time={time}
+        epoch={epoch}
         groupCn={isMono ? '' : groupCn}
         userName={isMono || isEp ? '' : userName}
         userId={isMono || isEp ? '' : userId}

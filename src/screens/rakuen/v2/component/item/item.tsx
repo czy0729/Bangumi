@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 20:38:19
+ * @Last Modified time: 2026-07-22 20:25:43
  */
 import React from 'react'
 import { Flex, Touchable, UserStatus } from '@components'
@@ -29,6 +29,7 @@ const Item = memo(
     href = '',
     title = '',
     time = '',
+    epoch = 0,
     topicId = 'group/0',
     replyCount = 0,
     isGroup = false,
@@ -67,6 +68,7 @@ const Item = memo(
                       groupCn={groupCn}
                       title={title}
                       time={time}
+                      epoch={epoch}
                       topicId={topicId}
                       replyCount={replyCount}
                       userId={userId}

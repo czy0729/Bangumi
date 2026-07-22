@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:26:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-21 00:41:08
+ * @Last Modified time: 2026-07-22 20:14:09
  */
 import { getTimestamp, HTMLTrim } from '@utils'
 import { fetchHTML, xhr, xhrCustom } from '@utils/fetch'
@@ -18,10 +18,12 @@ import {
   HTML_NOTIFY,
   HTML_NOTIFY_META,
   HTML_PRIVACY,
+  HTML_RAKUEN,
   HTML_RAKUEN_HOT,
   HTML_REVIEWS,
   HTML_TOPIC,
-  HTML_TOPIC_EDIT
+  HTML_TOPIC_EDIT,
+  LIST_EMPTY
 } from '@constants'
 import {
   cheerioBlog,
@@ -32,11 +34,11 @@ import {
   cheerioMine,
   cheerioNotify,
   cheerioPrivacy,
+  cheerioRakuen,
   cheerioReviews,
   cheerioTopic,
   cheerioTopicEdit,
-  convertGroupTopicsToUserTopics,
-  fetchRakuen
+  convertGroupTopicsToUserTopics
 } from './common'
 import Computed from './computed'
 import { DEFAULT_SCOPE, DEFAULT_TYPE, INIT_TOPIC } from './init'
@@ -65,7 +67,12 @@ export default class Fetch extends Computed {
     const ITEM_KEY = `${scope}|${type}` as const
 
     try {
-      const list = await fetchRakuen({ scope, type })
+      const html = await fetchHTML({
+        url: HTML_RAKUEN(scope, type)
+      })
+
+      const _loaded = getTimestamp()
+      const list = cheerioRakuen(html, _loaded)
       if (list?.length) {
         this.setState({
           [STATE_KEY]: {
@@ -75,7 +82,7 @@ export default class Fetch extends Computed {
                 page: 1,
                 pageTotal: 1
               },
-              _loaded: getTimestamp()
+              _loaded
             }
           }
         })
@@ -85,7 +92,7 @@ export default class Fetch extends Computed {
       this.error('fetchRakuen', error)
     }
 
-    return this[STATE_KEY](scope, type)
+    return this.getState(STATE_KEY, ITEM_KEY, LIST_EMPTY)
   }
 
   /** 获取帖子内容和留言 */

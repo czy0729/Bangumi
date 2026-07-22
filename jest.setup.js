@@ -53,9 +53,28 @@ jest.mock(
       getCoverSmall: (str = '') => str || '',
       HTMLDecode: (str = '') => str || '',
       HTMLToTree: () => ({ children: [] }),
-      HTMLTrim: (str = '') => (str || '').trim(),
+      HTMLTrim: (str = '') =>
+        (str || '')
+          .replace(/\n+|\s\s\s*|\t/g, '')
+          .replace(/> </g, '><')
+          .trim(),
       matchAvatar: (str = '') => str.match(/url\(['"]?(.*?)['"]?\)/)?.[1] || '',
       matchUserId: (str = '') => (str || '').substring(str.lastIndexOf('/') + 1),
+      relativeEnToEpoch: (time, _loaded) => {
+        const clean = time.replace(/^\.\.\./, '').trim()
+        if (!clean.includes('ago')) return undefined
+        const relative = clean.replace(/\s*ago$/, '').trim()
+        let offset = 0
+        const d = relative.match(/(\d+)\s*d(?!\w)/)
+        if (d) offset += parseInt(d[1]) * 86400
+        const h = relative.match(/(\d+)\s*h/)
+        if (h) offset += parseInt(h[1]) * 3600
+        const m = relative.match(/(\d+)\s*m(?!\w)/)
+        if (m) offset += parseInt(m[1]) * 60
+        const s = relative.match(/(\d+)\s*s/)
+        if (s) offset += parseInt(s[1])
+        return offset > 0 ? _loaded - offset : undefined
+      },
       safeObject: (object = {}) => object,
       trim: (str = '') => (str || '').trim()
     }
@@ -63,23 +82,13 @@ jest.mock(
   { virtual: true }
 )
 
-jest.mock(
-  '@utils/fetch',
-  () => ({ fetchHTML: jest.fn() }),
-  { virtual: true }
-)
+jest.mock('@utils/fetch', () => ({ fetchHTML: jest.fn() }), { virtual: true })
 
-jest.mock(
-  '@utils/crypto',
-  () => ({ default: { get: () => [] } }),
-  { virtual: true }
-)
+jest.mock('@utils/crypto', () => ({ default: { get: () => [] } }), { virtual: true })
 
-jest.mock(
-  '@utils/thirdParty/html-entities-decoder',
-  () => ({ default: (str = '') => str }),
-  { virtual: true }
-)
+jest.mock('@utils/thirdParty/html-entities-decoder', () => ({ default: (str = '') => str }), {
+  virtual: true
+})
 
 jest.mock(
   '@constants',
