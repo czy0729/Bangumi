@@ -5,10 +5,10 @@
  * @Last Modified time: 2025-12-24 23:04:03
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, Flex, HeaderPlaceholder, Mesume, Page, ScrollView } from '@components'
 import RandomText from '@components/list-view/footer/random-text'
 import { _, StoreContext, systemStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import Blog from './component/blog'
 import Discuss from './component/discuss'
 import Friends from './component/friends'
@@ -20,10 +20,10 @@ import { useChannelPage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** 频道 */
-const Channel = (props: NavigationProps) => {
+function Channel(props: NavigationProps) {
   const { id, $ } = useChannelPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-channel'>
       <StoreContext.Provider value={id}>
         <Page loaded={$.channel._loaded}>
@@ -43,7 +43,7 @@ const Channel = (props: NavigationProps) => {
         <Header />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default Channel
+export default observer(Channel)

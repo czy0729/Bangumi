@@ -28,7 +28,7 @@ export const styles = _.create({
     bottom: _.ios(-12, 0)
   },
   recText: {
-    fontSize: 40,
+    fontSize: 36,
     lineHeight: 52,
     opacity: 0.64
   }

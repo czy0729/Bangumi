@@ -14,10 +14,14 @@ export const memoStyles = _.memoStyles(() => ({
     paddingRight: _.wind - _._wind
   },
   content: {
-    paddingVertical: _.md,
+    paddingVertical: 14,
     paddingRight: _._wind
   },
   katakanas: {
     marginTop: -4
+  },
+  side: {
+    marginTop: -2,
+    marginLeft: _.lg
   }
 }))

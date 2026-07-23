@@ -253,49 +253,118 @@ export type Blog = ListEmpty<BlogItem>
 
 /** 频道聚合热度排行项 */
 export type ChannelRankItem = {
+  /** 条目 ID */
   id: SubjectId
+
+  /** 条目名称 */
   name: string
+
+  /** 封面图 */
   cover: string
+
+  /** 关注人数 */
   follow: string
 }
 
 /** 频道聚合好友相关项 */
 export type ChannelFriendsItem = {
+  /** 条目 ID */
   id: SubjectId
+
+  /** 条目名称 */
   name: string
+
+  /** 封面图 */
   cover: string
+
+  /** 好友 ID */
   userId: UserId
+
+  /** 好友昵称 */
   userName: string
+
+  /** 好友动作（如"在看"） */
   action: string
+}
+
+/** 频道聚合讨论项 */
+export type ChannelDiscussItem = {
+  /** 帖子链接 subject/{topicId} */
+  id: `subject/${SubjectId}`
+
+  /** 帖子标题 */
+  title: string
+
+  /** 回复数 */
+  replies: string
+
+  /** 关联条目 ID */
+  subjectId: SubjectId
+
+  /** 关联条目名称 */
+  subjectName: string
+
+  /** 发帖人 ID */
+  userId: UserId
+
+  /** 发帖人昵称 */
+  userName: string
+
+  /** 发帖时间 */
+  time: string
+}
+
+/** 频道聚合日志项 */
+export type ChannelBlogItem = {
+  /** 日志 ID */
+  id: Id
+
+  /** 日志标题 */
+  title: string
+
+  /** 封面图 */
+  cover: string
+
+  /** 发布时间 */
+  time: string
+
+  /** 回复数 */
+  replies: string
+
+  /** 内容摘要 */
+  content: string
+
+  /** 作者 */
+  username: string
+
+  /** 关联条目名称 */
+  subject: string
+
+  /** 标签 */
+  tags: string
 }
 
 /** 频道聚合 */
 export type Channel = {
+  /** 热度排行（前 3） */
   rankTop: ChannelRankItem[]
+
+  /** 热度排行 */
   rank: ChannelRankItem[]
+
+  /** 好友最近关注 */
   friends: ChannelFriendsItem[]
+
+  /** 标签 */
   tags: string[]
-  discuss: {
-    id: `subject/${SubjectId}`
-    title: string
-    replies: string
-    subjectId: SubjectId
-    subjectName: string
-    userId: UserId
-    userName: string
-    time: string
-  }[]
-  blog: {
-    id: Id
-    title: string
-    cover: string
-    time: string
-    replies: string
-    content: string
-    username: string
-    subject: string
-    tags: string
-  }[]
+
+  /** 最新讨论 */
+  discuss: ChannelDiscussItem[]
+
+  /** 最新日志 */
+  blog: ChannelBlogItem[]
+
+  /** 加载时间戳 */
   _loaded?: number
 }
 

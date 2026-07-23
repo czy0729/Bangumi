@@ -11,16 +11,14 @@ import { D } from '@constants'
 import Computed from './computed'
 
 /** 若更新过则不会再主动更新 */
-const THIRD_PARTY_UPDATED = []
+const THIRD_PARTY_UPDATED = new Set<string>()
 
 export default class Fetch extends Computed {
   /** 频道聚合 */
   fetchChannel = async () => {
     this.fetchThirdParty()
 
-    const data = await discoveryStore.fetchChannel({
-      type: this.type
-    })
+    const data = await discoveryStore.fetchChannel(this.type)
 
     if (
       data &&
@@ -65,11 +63,11 @@ export default class Fetch extends Computed {
 
   /** 上传预数据 */
   updateThirdParty = async () => {
-    if (THIRD_PARTY_UPDATED.includes(this.thirdPartyKey)) return
+    if (THIRD_PARTY_UPDATED.has(this.thirdPartyKey)) return
 
     setTimeout(() => {
       update(this.thirdPartyKey, omit(this.channel, ['friends', '_loaded']))
-      THIRD_PARTY_UPDATED.push(this.thirdPartyKey)
+      THIRD_PARTY_UPDATED.add(this.thirdPartyKey)
     }, 0)
   }
 }

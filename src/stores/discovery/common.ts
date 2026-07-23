@@ -30,6 +30,11 @@ import type {
   CatalogDetailMonoItem,
   CatalogDetailTopicItem,
   CatalogsItem,
+  Channel,
+  ChannelBlogItem,
+  ChannelDiscussItem,
+  ChannelFriendsItem,
+  ChannelRankItem,
   DollarsItem
 } from './types'
 
@@ -234,11 +239,11 @@ export function cheerioBlog(html: string) {
 }
 
 /** 频道聚合 */
-export function cheerioChannel(html: string) {
-  const $ = cheerio(htmlMatch(html, '<div class="columns clearit">', '<div id="footer">'))
+export function cheerioChannel(html: string): Channel {
+  const $ = cParse(html, '<div class="columns', '<div id="footer')
   return {
     rankTop: [],
-    rank: cMap($('.featuredItems .mainItem'), $row => {
+    rank: cMap<ChannelRankItem>($('.featuredItems .mainItem'), $row => {
       const $a = $row.find('> a')
       return {
         id: cData($a, 'href').replace('/subject/', ''),
@@ -247,70 +252,57 @@ export function cheerioChannel(html: string) {
         follow: cText($row.find('.grey'))
       }
     }),
-    friends:
-      $('ul.coversSmall > li')
-        .map((_index: number, element: any) => {
-          const $li = cheerio(element)
-          const $subject = $li.find('> a')
-          const $user = $li.find('a.l')
-          return safeObject({
-            id: $subject.attr('href').replace('/subject/', ''),
-            name: $subject.attr('title'),
-            cover: $subject.find('img').attr('src'),
-            userId: $user.attr('href').replace('/user/', ''),
-            userName: $user.text().trim(),
-            action: $li.find('p.info').text().trim().split(' ')[1]
-          })
-        })
-        .get() || [],
-    tags:
-      $('a.level8')
-        .map((_index: number, element: any) => {
-          const $a = cheerio(element)
-          return $a.text().trim()
-        })
-        .get() || [],
-    discuss: (
-      $('table.topic_list tr')
-        .map((index: number, element: any) => {
-          if (index === 0) return {}
-
-          const $li = cheerio(element)
-          const $a = $li.find(' > td > a.l')
-          const $subject = $li.find(' > td > small.feed > a')
-          const $user = $li.find(' > td[align=right] > a')
-          return safeObject({
-            id: $a.attr('href').replace('/subject/topic', 'subject'),
-            title: HTMLDecode($a.text().trim()),
-            replies: $li.find(' > td > a.l + small.grey').text().trim().replace(/\(|\)/g, ''),
-            subjectId: $subject.attr('href').replace('/subject/', ''),
-            subjectName: $subject.text().trim().replace(/"/g, ''),
-            userId: $user.attr('href').replace('/user/', ''),
-            userName: $user.text().trim(),
-            time: $li.find(' > td[align=right] > small').text().trim()
-          })
-        })
-        .get() || []
-    ).filter((item: { id: any }) => !!item.id),
-    blog:
-      $('div#news_list > div.item')
-        .map((_index: number, element: any) => {
-          const $li = cheerio(element)
-          const $a = $li.find('h2.title a')
-          const times = $li.find('div.time').text().trim().split('/ ')
-          return safeObject({
-            id: $a.attr('href').replace('/blog/', ''),
-            title: $a.text().trim(),
-            cover: $li.find('span.pictureFrameGroup img').attr('src'),
-            time: String(times[times.length - 1]).replace('\n', ''),
-            replies: $li.find('div.content .blue').text().trim().replace(/\(|\)/g, ''),
-            content: `${$li.find('div.content').text().trim().split('...')[0]}...`,
-            username: $li.find('div.time small.blue a').text().trim(),
-            subject: $li.find('div.time small.grey a').text().trim(),
-            tags: ''
-          })
-        })
-        .get() || []
+    friends: cMap<ChannelFriendsItem>($('ul.coversSmall > li'), $li => {
+      const $subject = $li.find('> a')
+      const $user = $li.find('a.l')
+      return {
+        id: cData($subject, 'href').replace('/subject/', ''),
+        name: cData($subject, 'title'),
+        cover: $subject.find('img').attr('src'),
+        userId: cData($user, 'href').replace('/user/', ''),
+        userName: cText($user),
+        action: $li
+          .find('p.info')
+          .text()
+          .replace(cText($li.find('p.info a')), '')
+          .trim()
+      }
+    }),
+    tags: cMap($('a.level8'), $a => {
+      return cText($a)
+    }),
+    discuss: cMap<ChannelDiscussItem>($('table.topic_list tr'), $li => {
+      const $a = $li.find(' > td > a.l')
+      const $subject = $li.find(' > td > small.feed > a')
+      const $user = $li.find(' > td[align=right] > a')
+      return {
+        id: $a.attr('href')?.replace('/subject/topic', 'subject'),
+        title: HTMLDecode(cText($a)),
+        replies: $li.find(' > td > a.l + small.grey').text().trim().replace(/\(|\)/g, ''),
+        subjectId: $subject.attr('href')?.replace('/subject/', ''),
+        subjectName: cText($subject).replace(/"/g, ''),
+        userId: $user.attr('href')?.replace('/user/', ''),
+        userName: cText($user),
+        time: $li.find(' > td[align=right] > small').text().trim()
+      }
+    }).filter(item => !!item.id),
+    blog: cMap<ChannelBlogItem>($('#entry_list > div.item'), $li => {
+      const $a = $li.find('h2.title a')
+      const $timeLinks = $li.find('div.time a')
+      const timeText = $li.find('div.time').text()
+      const timeMatch = timeText.match(/(\d+[分天].*?前)/)
+      return {
+        id: $a.attr('href')?.replace('/blog/', ''),
+        title: cText($a),
+        cover: $li.find('p.cover img').attr('src'),
+        time: timeMatch ? timeMatch[1] : '',
+        replies: $timeLinks.eq(2).text().trim().replace(/\(|\)/g, ''),
+        content: `${$li.find('div.content').text().trim().split('...')[0]}...`,
+        username: cText($timeLinks.eq(0)),
+        subject: cText($timeLinks.eq(1)),
+        tags: ''
+      }
+    })
   }
 }
 

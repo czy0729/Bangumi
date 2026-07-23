@@ -29,7 +29,7 @@ export const memoStyles = _.memoStyles(() => ({
     right: 0
   },
   recText: {
-    fontSize: 56,
+    fontSize: 52,
     lineHeight: 64,
     opacity: 0.5
   },

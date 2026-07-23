@@ -6,16 +6,19 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { IconNavigate, ItemBlog, SectionTitle } from '@_'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
+import type { Ctx } from '../../types'
+
 function Blog() {
-  const { $, navigation } = useStore<Ctx>()
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
+
   const { blog = [] } = $.channel
+
   return (
     <View style={_.mt.lg}>
       <SectionTitle
@@ -38,10 +41,12 @@ function Blog() {
       >
         最新日志
       </SectionTitle>
+
       <View style={_.mt.sm}>
-        {blog.map(item => (
+        {blog.map((item, index) => (
           <ItemBlog
             key={item.id}
+            index={index}
             {...item}
             typeCn={$.typeCn}
             event={{
@@ -58,4 +63,4 @@ function Blog() {
   )
 }
 
-export default ob(Blog, COMPONENT)
+export default observer(Blog)

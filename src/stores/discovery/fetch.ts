@@ -365,25 +365,29 @@ export default class Fetch extends Computed {
   }
 
   /** 频道聚合 */
-  fetchChannel = async (args: { type?: SubjectType }) => {
-    const { type = 'anime' } = args || {}
-    const html = await fetchHTML({
-      url: HTML_CHANNEL(type)
-    })
+  fetchChannel = async (type: SubjectType = 'anime') => {
+    const STATE_KEY = 'channel'
+    const ITEM_KEY = type
 
-    const data = cheerioChannel(html)
-    const key = 'channel'
-    this.setState({
-      [key]: {
-        [type]: {
-          ...data,
-          _loaded: getTimestamp()
+    try {
+      const html = await fetchHTML({
+        url: HTML_CHANNEL(type)
+      })
+
+      this.setState({
+        [STATE_KEY]: {
+          [ITEM_KEY]: {
+            ...cheerioChannel(html),
+            _loaded: getTimestamp()
+          }
         }
-      }
-    })
-    this.save(key)
+      })
+      this.save(STATE_KEY)
+    } catch (error) {
+      this.error('fetchChannel', error)
+    }
 
-    return this.channel(type)
+    return this.getState(STATE_KEY, ITEM_KEY)
   }
 
   /** 在线人数 */
