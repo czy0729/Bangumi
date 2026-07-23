@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-21 16:57:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-09 23:08:47
+ * @Last Modified time: 2026-07-24 02:54:09
  */
 import React, { useEffect, useState } from 'react'
 import { Flex, Highlight, Text } from '@components'
@@ -13,8 +13,9 @@ import { useObserver } from '@utils/hooks'
 import { CDN_OSS_MAGMA_POSTER } from '@constants'
 import commonStyles from '../../../styles'
 import { IMG_HEIGHT, IMG_WIDTH, TEXTS, URL_LAIN } from '../ds'
-import { Pings } from '../types'
 import { memoStyles } from './styles'
+
+import type { Pings } from '../types'
 
 function CDNTest({ filter }) {
   const [test, setTest] = useState(false)

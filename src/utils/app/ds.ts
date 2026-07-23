@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-11 09:18:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-30 08:39:37
+ * @Last Modified time: 2026-07-23 23:33:29
  */
 import { Dimensions } from 'react-native'
 import { HOST_AC_MEDIA } from '@constants/cdn'
@@ -80,14 +80,19 @@ export const SITE_MAP = {
 /** 隐私条款弹窗 key */
 export const PRIVACY_STATE = 'bangumi|privacy'
 
+/** 设备屏幕高度 */
 export const { height: HEIGHT } = Dimensions.get('window')
 
+/** 条目中文名缓存（日文名 → 中文名） */
 export const FIND_SUBJECT_CN_CACHE_MAP = new Map<string, string>()
 
+/** 条目日文名缓存（中文名 → 日文名） */
 export const FIND_SUBJECT_JP_CACHE_MAP = new Map<string, string>()
 
+/** 敏感条目判断缓存（subjectId → 是否敏感） */
 export const NSFW_CACHE_MAP = new Map<SubjectId, boolean>()
 
+/** 评分数字对应文字 */
 export const RATING_MAP = {
   1: '不忍直视',
   2: '很差',
@@ -101,6 +106,7 @@ export const RATING_MAP = {
   10: '超神作'
 } as const
 
+/** 各站点条目链接模板 */
 export const BANGUMI_URL_TEMPLATES = {
   acfun: (id: Id) => `https://www.acfun.cn/bangumi/aa${id}`,
   bangumi: (id: Id) => `${HOST}/subject/${id}`,
@@ -120,4 +126,5 @@ export const BANGUMI_URL_TEMPLATES = {
   myanimelist: (id: Id) => `https://myanimelist.net/anime/${id}`
 } as const
 
-export const GET_AVATAR_CACHE_MAP = new Map<UserId, any>()
+/** 用户头像缓存（userId → 头像 URL 或 false） */
+export const GET_AVATAR_CACHE_MAP = new Map<UserId, string | false>()

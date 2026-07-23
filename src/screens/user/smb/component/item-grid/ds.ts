@@ -14,4 +14,4 @@ export const COLORS = [
   'rgba(0, 0, 0, 0.24)',
   'rgba(0, 0, 0, 0.72)',
   'rgba(0, 0, 0, 0.92)'
-]
+] as const

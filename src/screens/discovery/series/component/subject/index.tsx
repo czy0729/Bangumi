@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-20 13:52:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-30 20:25:14
+ * @Last Modified time: 2026-07-24 02:58:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { Flex, Loading, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover, InView, Manage, Progress, Rank, Stars } from '@_'
 import { _, collectionStore, uiStore, useStore } from '@stores'
-import { stl } from '@utils'
+import { stl, x18 } from '@utils'
 import { IMG_HEIGHT_SM, IMG_WIDTH_SM, MODEL_COLLECTION_STATUS } from '@constants'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -83,7 +83,13 @@ function Subject({ style, id, small = false, section = 0 }: Props) {
           }}
           y={section < 4 ? height : _.window.height * 2}
         >
-          <Cover src={subject.image} width={width} height={height} radius={_.radiusSm} />
+          <Cover
+            src={subject.image}
+            width={width}
+            height={height}
+            radius={_.radiusSm}
+            cdn={!x18(id)}
+          />
         </InView>
         <Flex.Item>
           <Flex

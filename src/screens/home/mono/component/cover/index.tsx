@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-03-19 19:17:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-19 19:50:39
+ * @Last Modified time: 2026-07-24 02:46:16
  */
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useState } from 'react'
+import { observer } from 'mobx-react'
 import { Cover as CoverComp, Flex, Heatmap, Image } from '@components'
 import { _ } from '@stores'
 import { getCoverLarge } from '@utils'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
@@ -17,21 +17,17 @@ function Cover({ thumb, src, monoId }) {
   r(COMPONENT)
 
   const [loaded, setLoaded] = useState(false)
-  const event = useMemo(
-    () =>
-      ({
-        id: '人物.封面图查看',
-        data: {
-          monoId
-        }
-      } as const),
-    [monoId]
-  )
+  const event = {
+    id: '人物.封面图查看',
+    data: {
+      monoId
+    }
+  } as const
   const handleLoadEnd = useCallback(() => {
     setLoaded(true)
-  }, [setLoaded])
+  }, [])
 
-  return useObserver(() => (
+  return (
     <Flex style={styles.cover} justify='center'>
       {!!thumb && !loaded && <CoverComp src={thumb} size={80} />}
       {!!src && (
@@ -50,7 +46,7 @@ function Cover({ thumb, src, monoId }) {
         </>
       )}
     </Flex>
-  ))
+  )
 }
 
-export default Cover
+export default observer(Cover)

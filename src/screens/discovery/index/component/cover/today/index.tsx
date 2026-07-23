@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 00:14:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-21 21:18:29
+ * @Last Modified time: 2026-07-24 04:22:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { Katakana, Squircle, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover } from '@_'
 import { _, systemStore } from '@stores'
-import { cnjp, getCoverMedium, HTMLDecode } from '@utils'
+import { cnjp, getCoverMedium, HTMLDecode, x18 } from '@utils'
 import { withT } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
 import { linearColor } from '../../../ds'
@@ -25,7 +25,9 @@ function CoverToday({ data }: Props) {
   const navigation = useNavigation(COMPONENT)
 
   const styles = memoStyles()
+
   const { width, height } = styles.cover
+  const subjectId = data.id
 
   return (
     <Touchable
@@ -34,7 +36,7 @@ function CoverToday({ data }: Props) {
       onPress={withT(
         () => {
           navigation.push('Subject', {
-            subjectId: data.id,
+            subjectId,
             _jp: data.name,
             _cn: data.name_cn,
             _image: getCoverSrc(data?.images?.common, width)
@@ -43,13 +45,18 @@ function CoverToday({ data }: Props) {
         '发现.跳转',
         {
           to: 'Subject',
-          subjectId: data.id,
+          subjectId,
           from: 'CoverToday'
         }
       )}
     >
       <Squircle width={width} height={height} radius={systemStore.coverRadius}>
-        <Cover src={getCoverMedium(data?.images?.common)} width={width} height={height} />
+        <Cover
+          src={getCoverMedium(data?.images?.common)}
+          width={width}
+          height={height}
+          cdn={!x18(subjectId)}
+        />
         <LinearGradient style={styles.linear} colors={linearColor} pointerEvents='none' />
         <View style={styles.info} pointerEvents='none'>
           <Text

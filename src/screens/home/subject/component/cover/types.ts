@@ -13,4 +13,5 @@ export type Props = {
   width: number
   height: number
   subjectId: SubjectId
+  nsfw: boolean
 }

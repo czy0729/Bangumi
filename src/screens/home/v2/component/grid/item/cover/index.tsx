@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-11-21 07:28:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 07:27:32
+ * @Last Modified time: 2026-07-24 02:51:08
  */
 import React, { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { Cover as CoverComp, Touchable } from '@components'
 import { systemStore, useStore } from '@stores'
+import { x18 } from '@utils'
 import { MODEL_SETTING_HOME_GRID_COVER_LAYOUT } from '@constants'
 import { memoStyles } from '../styles'
 import { COMPONENT } from './ds'
@@ -37,11 +38,12 @@ function Cover({ subjectId, subject, epStatus }: Props) {
   return (
     <Touchable animate onPress={handlePress}>
       <CoverComp
+        src={subject?.images?.medium || ''}
         size={styles.item.width}
         height={Math.floor(styles.item.width * (homeGridCoverLayoutCn === '长方形' ? 1.4 : 1))}
-        src={subject?.images?.medium || ''}
         radius
         delay={false}
+        cdn={!x18(subjectId)}
       />
     </Touchable>
   )

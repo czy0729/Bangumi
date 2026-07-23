@@ -1069,3 +1069,41 @@ describe('updateVisibleBottom', () => {
     )
   })
 })
+
+describe('x18 Set 查询性能', () => {
+  it('用真实 nsfw_id_distribution (1.5W) + game 频道 rank ID 测试', () => {
+    jest.useRealTimers()
+
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const ids: number[] = require('../../../assets/json/nsfw_id_distribution.json')
+    const idSet = new Set(ids)
+
+    // 实际 game 频道 rank ID（全部不在 nsfw 列表中，模拟未命中场景）
+    const gameRankIds = [
+      631826, 510010, 477111, 611546, 548128, 117092, 484230, 509947, 1143, 625782, 488392, 503983,
+      278949, 233030, 614361
+    ]
+
+    const t1 = performance.now()
+    for (let i = 0; i < 100000; i++) {
+      for (const id of gameRankIds) ids.includes(id)
+    }
+    const includesTime = performance.now() - t1
+
+    const t2 = performance.now()
+    for (let i = 0; i < 100000; i++) {
+      for (const id of gameRankIds) idSet.has(id)
+    }
+    const setTime = performance.now() - t2
+
+    // eslint-disable-next-line no-console
+    console.log(
+      `nsfw_id_distribution (${ids.length}条) includes: ${includesTime.toFixed(
+        1
+      )}ms, Set: ${setTime.toFixed(1)}ms, 快 ${(includesTime / setTime).toFixed(0)} 倍`
+    )
+
+    // Set 应该比 includes 快至少 10 倍
+    expect(setTime).toBeLessThan(includesTime / 10)
+  })
+})

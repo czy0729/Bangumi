@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-08 23:56:40
+ * @Last Modified time: 2026-07-24 02:49:16
  */
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
@@ -19,7 +19,7 @@ import type { CoverProps } from '@components'
 import type { EventType } from '@types'
 import type { Props } from './types'
 
-function Cover({ image, placeholder, width, height, subjectId }: Props) {
+function Cover({ image, placeholder, width, height, subjectId, nsfw }: Props) {
   r(COMPONENT_MAIN)
 
   const event = useMemo<EventType>(
@@ -56,6 +56,7 @@ function Cover({ image, placeholder, width, height, subjectId }: Props) {
           {...baseCoverProps}
           style={styles.placeholder}
           src={placeholder || IMG_DEFAULT}
+          cdn={!nsfw}
         />
         {typeof image === 'string' && !!image && (
           <CoverComp
@@ -66,6 +67,7 @@ function Cover({ image, placeholder, width, height, subjectId }: Props) {
             imageViewerSrc={getCoverLarge(image || placeholder)}
             fadeDuration={0}
             event={event}
+            cdn={!nsfw}
           />
         )}
         <Heatmap id='条目.封面图查看' />

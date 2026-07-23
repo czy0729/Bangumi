@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-10 06:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 22:21:47
+ * @Last Modified time: 2026-07-24 04:21:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { Squircle, Text, Touchable, UserStatus } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Avatar, Cover } from '@_'
 import { _ } from '@stores'
-import { getCoverMedium, stl } from '@utils'
+import { getCoverMedium, stl, x18 } from '@utils'
 import { memo } from '@utils/decorators'
 import { withT } from '@utils/fetch'
 import { linearColor } from '../../../ds'
@@ -63,7 +63,12 @@ const CoverXs = memo(
           )}
         >
           <Squircle width={width} height={height} radius={_.radiusSm}>
-            <Cover src={getCoverMedium(cover)} width={width} height={height} />
+            <Cover
+              src={getCoverMedium(cover)}
+              width={width}
+              height={height}
+              cdn={!x18(subjectId)}
+            />
             <LinearGradient
               style={stl(styles.linear, isMusic && styles.linearMusic)}
               colors={linearColor}

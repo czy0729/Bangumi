@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:44:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-21 21:18:06
+ * @Last Modified time: 2026-07-24 04:23:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { Katakana, Squircle, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover } from '@_'
 import { _, subjectStore, systemStore } from '@stores'
-import { cnjp, getCoverMedium, HTMLDecode, stl } from '@utils'
+import { cnjp, getCoverMedium, HTMLDecode, stl, x18 } from '@utils'
 import { withT } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
 import { linearColor } from '../../../ds'
@@ -56,7 +56,7 @@ function CoverSm({ title, src, cn, data }: Props) {
       )}
     >
       <Squircle width={width} height={height} radius={systemStore.coverRadius}>
-        <Cover src={getCoverMedium(src)} size={width} height={height} />
+        <Cover src={getCoverMedium(src)} size={width} height={height} cdn={!x18(subjectId)} />
         <LinearGradient
           style={stl(styles.linear, isMusic && styles.linearMusic)}
           colors={linearColor}

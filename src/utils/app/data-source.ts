@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:16:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-17 05:03:43
+ * @Last Modified time: 2026-07-23 21:32:50
  */
 import { isObservableArray } from 'mobx'
 import { DEV, FROZEN_ARRAY, FROZEN_OBJECT } from '@constants'
@@ -183,32 +183,29 @@ export function cnjp(cn: any, jp: any): string {
   return HTMLDecode((cnFirst ? cn || jp : jp || cn) || '')
 }
 
-let NSFW_IDS: SubjectId[] = []
+let NSFW_SET: Set<number> | null = null
 
-/**
- * 是否敏感条目
- * @param subjectId 条目 ID
- * @param title     辅助检测, 有关键字则认为是 nsfw
- */
+/** 是否敏感条目 */
 export function x18(subjectId: SubjectId, title?: string): boolean {
-  if (!NSFW_IDS.length) {
-    NSFW_IDS = getJSON('nsfw_id_distribution', [], true)
-    if (!NSFW_IDS.length) return false
-  }
-
   if (!subjectId) return false
 
+  // 懒加载敏感 ID 集合（空数组时允许重试）
+  if (!NSFW_SET || !NSFW_SET.size) {
+    const ids: number[] = getJSON('nsfw_id_distribution', [], true)
+    if (!ids.length) return false
+    NSFW_SET = new Set(ids)
+  }
+
+  // string → number 统一格式
   if (typeof subjectId === 'string') {
     subjectId = Number(subjectId.replace('/subject/', ''))
   }
 
-  if (NSFW_CACHE_MAP.has(subjectId)) {
-    return NSFW_CACHE_MAP.get(subjectId)!
-  }
+  // 命中缓存直接返回
+  if (NSFW_CACHE_MAP.has(subjectId)) return NSFW_CACHE_MAP.get(subjectId)!
 
   const result =
-    NSFW_IDS.includes(subjectId) ||
-    (title ? NSFW_KEYWORDS.some(keyword => title.includes(keyword)) : false)
+    NSFW_SET.has(subjectId) || (title ? NSFW_KEYWORDS.some(k => title.includes(k)) : false)
 
   NSFW_CACHE_MAP.set(subjectId, result)
   return result

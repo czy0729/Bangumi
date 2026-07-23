@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:04:14
+ * @Last Modified time: 2026-07-24 02:47:55
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -22,6 +22,7 @@ function CoverWrap() {
       width={$.imageWidth}
       height={$.imageHeight}
       subjectId={$.subjectId}
+      nsfw={$.nsfw}
     />
   )
 }

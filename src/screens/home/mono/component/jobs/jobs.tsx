@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-20 14:29:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 06:15:13
+ * @Last Modified time: 2026-07-24 05:28:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import { Cover, Expand, Flex, Heatmap, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { SectionTitle, Tag } from '@_'
 import { _, systemStore } from '@stores'
-import { appNavigate, cnjp, getCoverMedium, getMonoCoverSmall, stl } from '@utils'
+import { appNavigate, cnjp, getCoverMedium, getMonoCoverSmall, stl, x18 } from '@utils'
 import { memo } from '@utils/decorators'
 import { IMG_INFO_ONLY, MODEL_SUBJECT_TYPE } from '@constants'
 import { COVER_HEIGHT, COVER_WIDTH } from '../../ds'
@@ -36,6 +36,7 @@ const Jobs = memo(
             const nameTop = cnjp(item.nameCn, item.name)
             const nameBottom = cnjp(item.name, item.nameCn)
             const type = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(item.type)
+            const subjectId = item.href?.split('/subject/')?.[1]
 
             const isMusic = type === '音乐'
             const width = isMusic ? Math.floor(COVER_WIDTH * 1.2) : COVER_WIDTH
@@ -66,6 +67,7 @@ const Jobs = memo(
                     size={width}
                     height={height}
                     radius={_.radiusSm}
+                    cdn={subjectId ? !x18(subjectId) : undefined}
                   />
                   {!index && <Heatmap right={-32} id='人物.跳转' to='Subject' alias='条目' />}
                   <Flex.Item style={styles.content}>

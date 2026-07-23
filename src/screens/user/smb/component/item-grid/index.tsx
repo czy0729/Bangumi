@@ -2,26 +2,30 @@
  * @Author: czy0729
  * @Date: 2023-11-24 07:56:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 07:27:44
+ * @Last Modified time: 2026-07-24 04:37:36
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
+import { observer } from 'mobx-react'
 import { LinearGradient } from 'expo-linear-gradient'
-import { Cover, Flex, Hover, HoverProps, Image, Text, Touchable } from '@components'
+import { Cover, Flex, Hover, Image, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { _, collectionStore, useStore } from '@stores'
-import { stl } from '@utils'
-import { ob } from '@utils/decorators'
+import { stl, x18 } from '@utils'
 import { t } from '@utils/fetch'
 import { ASSETS_ICONS, MODEL_SUBJECT_TYPE, WEB } from '@constants'
-import { SubjectTypeCn } from '@types'
-import { Ctx, MergeListItem } from '../../types'
 import { COLORS, COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+import type { HoverProps } from '@components'
+import type { SubjectTypeCn } from '@types'
+import type { Ctx, MergeListItem } from '../../types'
+
 function ItemGrid({ subjectId, merge, ...folder }: MergeListItem) {
-  const { $, navigation } = useStore<Ctx>()
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
+
   const styles = memoStyles()
+
   const { jp, cn, image, type } = $.subjectV2(subjectId)
   const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
   const collect = collectionStore.collect(subjectId, typeCn)
@@ -103,7 +107,7 @@ function ItemGrid({ subjectId, merge, ...folder }: MergeListItem) {
       }}
     >
       {subjectId ? (
-        <Cover src={image} size={width} height={height} />
+        <Cover src={image} size={width} height={height} cdn={!x18(subjectId)} />
       ) : (
         <Image
           src={ASSETS_ICONS.folder}
@@ -118,4 +122,4 @@ function ItemGrid({ subjectId, merge, ...folder }: MergeListItem) {
   )
 }
 
-export default ob(ItemGrid, COMPONENT)
+export default observer(ItemGrid)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-25 17:32:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 06:15:32
+ * @Last Modified time: 2026-07-24 05:28:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import { Cover, Flex, Heatmap, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { InView, SectionTitle, Tag } from '@_'
 import { _ } from '@stores'
-import { appNavigate, cnjp, getMonoCoverSmall, stl } from '@utils'
+import { appNavigate, cnjp, getMonoCoverSmall, stl, x18 } from '@utils'
 import { memo } from '@utils/decorators'
 import { IMG_INFO_ONLY } from '@constants'
 import { COVER_HEIGHT, COVER_WIDTH } from '../../ds'
@@ -39,6 +39,7 @@ const Voice = memo(
             const nameBottom = cnjp(item.name, item.nameCn)
             const subjectTop = cnjp(item.subjectNameCn, item.subjectName)
             const subjectBottom = cnjp(item.subjectName, item.subjectNameCn)
+            const subjectId = item.subjectHref?.split('/subject/')?.[1]
 
             return (
               <Flex key={item.href} style={styles.item} align='start'>
@@ -105,6 +106,7 @@ const Voice = memo(
                             size={COVER_WIDTH}
                             height={COVER_HEIGHT}
                             radius={_.radiusSm}
+                            cdn={subjectId ? !x18(subjectId) : undefined}
                           />
                         </View>
                       )}

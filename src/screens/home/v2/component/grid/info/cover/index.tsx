@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-11-20 08:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 07:22:46
+ * @Last Modified time: 2026-07-24 02:52:17
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Cover as CoverComp } from '@components'
 import { _, useStore } from '@stores'
+import { x18 } from '@utils'
 import { memoStyles as gridItemMemoStyles } from '../../item/styles'
 import { COMPONENT } from './ds'
 
@@ -30,6 +31,7 @@ function Cover({ subjectId, subject = {}, onPress }: Props) {
       height={imageHeight}
       src={current?.images?.medium || subject?.images?.medium || ''}
       radius
+      cdn={!x18(subjectId)}
       onPress={onPress}
     />
   )
