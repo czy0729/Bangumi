@@ -62,6 +62,7 @@ function CharactersModal({
   const [rightFilter, setRightFilter] = useState('')
   const [rightSelected, setRightSelected] = useState<PickItem>(null)
   const [rightText, setRightText] = useState('')
+  const [rightSortType, setRightSortType] = useState<'price' | 'value' | ''>('')
 
   // 记录上次使用的道具类型
   const titleRef = useRef(title)
@@ -73,7 +74,8 @@ function CharactersModal({
     leftText,
     rightFilter,
     rightSelected,
-    rightText
+    rightText,
+    rightSortType
   })
 
   // 实时同步状态到 ref
@@ -84,9 +86,10 @@ function CharactersModal({
       leftText,
       rightFilter,
       rightSelected,
-      rightText
+      rightText,
+      rightSortType
     }
-  }, [leftFilter, leftSelected, leftText, rightFilter, rightSelected, rightText])
+  }, [leftFilter, leftSelected, leftText, rightFilter, rightSelected, rightText, rightSortType])
 
   // 是否可以提交
   const memoCanSubmit = useMemo(() => {
@@ -195,6 +198,11 @@ function CharactersModal({
   // 右侧列表过滤
   const handleFilterRight = useCallback((value: string) => {
     setRightFilter(value)
+  }, [])
+
+  // 右侧排序切换（互斥）
+  const handleToggleSortRight = useCallback((type: string) => {
+    setRightSortType(prev => (prev === type ? '' : (type as 'price' | 'value')))
   }, [])
 
   // 右侧项选择
@@ -504,6 +512,7 @@ function CharactersModal({
         if (state?.rightFilter !== undefined) setRightFilter(state.rightFilter)
         if (state?.rightSelected !== undefined) setRightSelected(state.rightSelected)
         if (state?.rightText !== undefined) setRightText(state.rightText)
+        if (state?.rightSortType !== undefined) setRightSortType(state.rightSortType)
       } catch {}
     }
     callback()
@@ -516,6 +525,7 @@ function CharactersModal({
       setLoading(false)
       if (leftItem) setLeftFilter('')
       if (rightItem) setRightFilter('')
+      setRightSortType('')
       setLeftSelected(leftItem || null)
       setRightSelected(rightItem || null)
       handleSetRightSelected(rightItemId)
@@ -566,10 +576,12 @@ function CharactersModal({
               text={rightText}
               selected={rightSelected}
               isStarBreak={itemType.isStarBreak}
+              sortType={rightSortType}
               onChangeText={handleChangeRightText}
               onFilter={handleFilterRight}
               onSelect={handleSelectedRight}
               onSubmitEditing={handleSearch}
+              onToggleSort={handleToggleSortRight}
             />
           )}
         </Flex.Item>

@@ -5,10 +5,10 @@
  * @Last Modified time: 2025-05-04 18:22:42
  */
 import React, { useCallback, useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { Flex } from '@components'
 import { _ } from '@stores'
 import { formatNumber, toFixed } from '@utils'
-import { useObserver } from '@utils/hooks'
 import { calculateRate } from '../../utils'
 import Item from '../item'
 import LevelFilter from '../level-filter'
@@ -19,26 +19,34 @@ import { cover, lv } from '../utils'
 import type { PickItem } from '../types'
 import type { Props } from './types'
 
-const RightList = React.memo(function ({
+function RightList({
   source,
   text,
   filter,
   selected,
   isStarBreak,
+  sortType,
   onFilter,
   onChangeText,
   onSelect,
-  onSubmitEditing
+  onSubmitEditing,
+  onToggleSort
 }: Props) {
   const memoData = useMemo(() => {
-    if (!filter || !source?.list?.length) return source
+    if (!source?.list?.length) return source
 
-    return {
-      ...source,
-      list: source.list.filter(item => String(lv(item)) === filter)
+    let list = filter ? source.list.filter(item => String(lv(item)) === filter) : source.list
+    if (sortType === 'price') {
+      list = [...list].sort((a, b) => (b.current || 0) - (a.current || 0))
+    } else if (sortType === 'value') {
+      list = [...list].sort(
+        (a, b) => (b.current || 0) / (lv(b) || 1) - (a.current || 0) / (lv(a) || 1)
+      )
     }
+
+    return { ...source, list }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter, source._loaded, source.list.length])
+  }, [filter, sortType, source._loaded, source.list.length])
 
   const handleRenderItem = useCallback(
     ({ item }: { item: PickItem }) => {
@@ -80,10 +88,16 @@ const RightList = React.memo(function ({
     [isStarBreak, onSelect, selected?.id]
   )
 
-  return useObserver(() => (
+  return (
     <>
       <Flex style={_.ml.xs}>
-        <LevelFilter source={source} value={filter} onSelect={onFilter} />
+        <LevelFilter
+          source={source}
+          value={filter}
+          sortType={sortType}
+          onSelect={onFilter}
+          onToggleSort={onToggleSort}
+        />
         <Flex.Item style={_.ml.sm}>
           <SearchInput
             placeholder='目标'
@@ -95,7 +109,7 @@ const RightList = React.memo(function ({
       </Flex>
       <List data={memoData} renderItem={handleRenderItem} />
     </>
-  ))
-})
+  )
+}
 
-export default RightList
+export default observer(RightList)

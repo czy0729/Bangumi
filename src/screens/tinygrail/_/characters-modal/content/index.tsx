@@ -2,14 +2,16 @@
  * @Author: czy0729
  * @Date: 2025-05-03 16:14:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-03 16:28:23
+ * @Last Modified time: 2026-07-24 23:03:52
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex } from '@components'
 import { memoStyles } from './styles'
 
-function Content({ children }) {
+import type { PropsWithChildren } from 'react'
+
+function Content({ children }: PropsWithChildren) {
   const styles = memoStyles()
 
   return <Flex style={styles.content}>{children}</Flex>

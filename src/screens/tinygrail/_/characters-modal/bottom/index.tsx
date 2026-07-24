@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-05-02 18:38:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-14 10:29:53
+ * @Last Modified time: 2026-07-24 22:41:52
  */
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
@@ -14,6 +14,8 @@ import { bottomTextType, cover, lv } from '../utils'
 import Form from './form'
 import Item from './item'
 import { styles } from './styles'
+
+import type { Props } from './types'
 
 function Bottom({
   leftSelected,
@@ -34,7 +36,7 @@ function Bottom({
   onBlur,
   onChangeText,
   onSubmit
-}) {
+}: Props) {
   const memoLeftText = useMemo(() => {
     if (isChaos) return '-10'
     if (isGuidePost || isStarBreak || isFishEye) return '-100'

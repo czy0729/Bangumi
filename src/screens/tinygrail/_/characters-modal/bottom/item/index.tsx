@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-03 15:08:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-14 10:29:34
+ * @Last Modified time: 2026-07-24 23:03:25
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -11,7 +11,9 @@ import { _, tinygrailStore } from '@stores'
 import { feedback, queue, tinygrailOSS } from '@utils'
 import TinygrailStatus from '../../../status'
 
-function Item({ id = 0, src, name, level, change, type, onPress }) {
+import type { Props } from './types'
+
+function Item({ id = 0, src, name, level, change, type, onPress }: Props) {
   return (
     <Flex>
       <Avatar

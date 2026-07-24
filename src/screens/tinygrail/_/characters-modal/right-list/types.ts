@@ -13,8 +13,10 @@ export type Props = {
   text: string
   selected: PickItem
   isStarBreak: boolean
+  sortType?: 'price' | 'value' | ''
   onFilter: (filter: string) => void
   onChangeText: (text: string) => void
   onSelect: (item: PickItem) => void
   onSubmitEditing?: () => void
+  onToggleSort?: (type: string) => void
 }

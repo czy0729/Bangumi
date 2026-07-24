@@ -44,7 +44,10 @@ function Remote({
     ...other,
     style,
     source: {
-      headers,
+      headers: {
+        ...headers,
+        'Cache-Control': 'max-age=31536000'
+      },
       uri,
       cache: IOS ? 'force-cache' : 'immutable'
     },

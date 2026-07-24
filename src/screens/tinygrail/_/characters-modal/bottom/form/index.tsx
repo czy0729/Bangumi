@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-05-02 20:16:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-03 16:28:18
+ * @Last Modified time: 2026-07-24 22:57:00
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -10,7 +10,9 @@ import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import SearchInput from '../../search-input'
 
-function BottomForm({ amount, onFocus, onBlur, onChangeText }) {
+import type { Props } from './types'
+
+function BottomForm({ amount, onFocus, onBlur, onChangeText }: Props) {
   return (
     <>
       <Text type='tinygrailText' size={10}>
@@ -20,7 +22,7 @@ function BottomForm({ amount, onFocus, onBlur, onChangeText }) {
         <SearchInput
           keyboardType='numeric'
           placeholder='数量'
-          value={amount}
+          value={String(amount)}
           onFocus={onFocus}
           onBlur={onBlur}
           onChangeText={onChangeText}

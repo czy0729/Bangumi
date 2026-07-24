@@ -9,5 +9,7 @@ import type { ListEmpty } from '@types'
 export type Props = {
   source: ListEmpty
   value: string
+  sortType?: 'price' | 'value' | ''
   onSelect: (title: string) => void
+  onToggleSort?: (type: string) => void
 }

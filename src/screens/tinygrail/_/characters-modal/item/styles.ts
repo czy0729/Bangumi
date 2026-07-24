@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-11 06:59:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 20:37:11
+ * @Last Modified time: 2026-07-24 22:29:25
  */
 import { _ } from '@stores'
 
@@ -14,6 +14,14 @@ export const memoStyles = _.memoStyles(() => ({
     borderWidth: 1,
     borderColor: _.select('rgba(0, 0, 0, 0.16)', 'rgba(255, 255, 255, 0.16)'),
     borderRadius: _.radiusXs
+  },
+  activeBid: {
+    backgroundColor: _.colorDepthBid,
+    borderColor: _.colorBid
+  },
+  activeAsk: {
+    backgroundColor: _.colorDepthAsk,
+    borderColor: _.colorAsk
   },
   rank: {
     minWidth: 16,

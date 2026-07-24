@@ -13,6 +13,8 @@ import { FROZEN_FN } from '@constants'
 import { HIT_SLOP } from './ds'
 import { memoStyles } from './styles'
 
+import type { Props } from './types'
+
 function SearchInput({
   placeholder,
   value,
@@ -20,7 +22,7 @@ function SearchInput({
   onSubmitEditing = undefined,
   onBlur = FROZEN_FN,
   ...other
-}) {
+}: Props) {
   useKeyboardHide(onBlur)
 
   const styles = memoStyles()

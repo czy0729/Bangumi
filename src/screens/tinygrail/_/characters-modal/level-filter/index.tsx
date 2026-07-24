@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-05-02 16:25:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-03 16:28:35
+ * @Last Modified time: 2026-07-25 00:52:50
  */
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { observer } from 'mobx-react'
@@ -14,7 +14,7 @@ import { lv } from '../utils'
 
 import type { Props } from './types'
 
-function LevelFilter({ source, value, onSelect }: Props) {
+function LevelFilter({ source, value, sortType, onSelect, onToggleSort }: Props) {
   const memoMap = useMemo(() => {
     const { list } = source
     const data = {}
@@ -41,24 +41,39 @@ function LevelFilter({ source, value, onSelect }: Props) {
   const memoData = useMemo(() => {
     const sum = Object.keys(memoMap).reduce((total, level) => total + memoMap[level], 0)
     const sortedLevels = Object.keys(memoMap).sort((a, b) => Number(a) - Number(b))
-    return [`全部 (${sum})`, ...sortedLevels.map(level => `lv${level} (${memoMap[level]})`)]
-  }, [memoMap])
+    const items = [`全部 (${sum})`]
+    if (onToggleSort) {
+      items.push(`价格降序${sortType === 'price' ? ' ✓' : ''}`)
+      items.push(`性价比降序${sortType === 'value' ? ' ✓' : ''}`)
+    }
+    return [...items, ...sortedLevels.map(level => `lv${level} (${memoMap[level]})`)]
+  }, [memoMap, sortType, onToggleSort])
 
   const handleSelect = useCallback(
     (title: string) => {
+      if (title.startsWith('价格降序')) {
+        onToggleSort?.('price')
+        return
+      }
+      if (title.startsWith('性价比降序')) {
+        onToggleSort?.('value')
+        return
+      }
       const lvPart = title.split(' ')[0]
       onSelect(lvPart === '全部' ? '' : lvPart.replace('lv', ''))
     },
-    [onSelect]
+    [onSelect, onToggleSort]
   )
+
+  const isActive = !!activeValue || !!sortType
 
   return (
     <Popover.Old data={memoData} hitSlop={HIT_SLOP} onSelect={handleSelect}>
       <Flex justify='center'>
         <Iconfont
-          name='md-filter-list'
+          name={sortType ? 'md-sort' : 'md-filter-list'}
           size={14}
-          color={activeValue ? _.colorAsk : _.colorTinygrailText}
+          color={isActive ? _.colorAsk : _.colorTinygrailText}
         />
         <Text style={_.ml.xs} size={10} type={activeValue ? 'ask' : 'tinygrailText'}>
           {activeValue ? `lv${activeValue}` : '等级'}
