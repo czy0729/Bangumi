@@ -10,10 +10,10 @@ import { WEB } from '@constants'
 export const memoStyles = _.memoStyles(() => ({
   wrap: {
     // 只在 WEB 允许使用 position: fixed
-    position: _.web('fixed' as any, 'absolute'),
+    position: _.web('fixed' as any, _.ios('relative', 'absolute')),
     zIndex: 1,
     right: _.web(_.wind, 0),
-    bottom: _.web(92, _.ios(_.tabBarHeight + _.sm, _.md)),
+    bottom: _.web(92, _.ios(0, _.md)),
     left: _.device(0, _._wind)
   },
   btns: {

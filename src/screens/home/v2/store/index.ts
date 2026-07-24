@@ -224,11 +224,13 @@ export default class ScreenHomeV2 extends Action {
           screen: 'Home'
         })
 
-        this.scrollToIndex[page]({
-          animated: true,
-          index: 0,
-          viewOffset: 8000
-        })
+        if (this.currentCollection(this.tabsLabel).list.length) {
+          this.scrollToIndex[page]({
+            animated: true,
+            index: 0,
+            viewOffset: 8000
+          })
+        }
         setTimeout(() => {
           feedback()
         }, 400)

@@ -51,11 +51,14 @@ export default class Action extends Fetch {
           screen: 'User'
         })
 
-        this.scrollToIndex[page]({
-          animated: true,
-          index: 0,
-          viewOffset: 8000
-        })
+        const { subjectType } = this.state
+        if (this.userCollections(subjectType, TABS[page].key).list.length) {
+          this.scrollToIndex[page]({
+            animated: true,
+            index: 0,
+            viewOffset: 8000
+          })
+        }
         setTimeout(() => {
           feedback()
         }, 400)

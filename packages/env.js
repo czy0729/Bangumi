@@ -144,7 +144,8 @@ function updateAppJson(target) {
   }
 
   const appJson = JSON.parse(fs.readFileSync(appJsonPath, 'utf-8'))
-  const config = PLATFORM_CONFIG[target] || { plugins: [] }
+  const platformTarget = target === 'ipa' ? 'ios' : target
+  const config = PLATFORM_CONFIG[platformTarget] || { plugins: [] }
 
   // 确保 expo 配置存在
   if (!appJson.expo) appJson.expo = {}
@@ -184,9 +185,9 @@ function updateAppJson(target) {
   })
 
   // 4. 更新 platforms 数组
-  if (target === 'android') {
+  if (platformTarget === 'android') {
     appJson.expo.platforms = ['android']
-  } else if (target === 'ios') {
+  } else if (platformTarget === 'ios') {
     appJson.expo.platforms = ['ios']
   }
 

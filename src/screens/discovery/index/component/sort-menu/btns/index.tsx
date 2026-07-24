@@ -12,7 +12,7 @@ import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { INIT_DISCOVERY_MENU } from '@stores/system/init'
 import { withT } from '@utils/fetch'
-import { useNavigation } from '@utils/hooks'
+import { useInsets, useNavigation } from '@utils/hooks'
 import { WEB } from '@constants'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -21,11 +21,12 @@ import type { Props } from './types'
 
 const Btns = ({ setMenu, onCancel, onSave }: Props) => {
   const navigation = useNavigation(COMPONENT)
+  const { tabBarHeight } = useInsets()
 
   const styles = memoStyles()
 
   return (
-    <View style={styles.wrap}>
+    <View style={[styles.wrap, _.ios({ bottom: 50 + tabBarHeight + _.sm }, undefined)]}>
       <Flex style={styles.btns} justify='end'>
         <Flex.Item>
           <Touchable style={styles.touch} onPress={onCancel}>
