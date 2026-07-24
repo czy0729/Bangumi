@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-22 05:58:51
+ * @Last Modified time: 2026-07-25 04:52:02
  */
 import React from 'react'
 import { Image as RNImage } from 'react-native'
@@ -58,18 +58,7 @@ import type { AnyObject, Fn, TimerRef } from '@types'
 import type { Props as ImageProps, State } from './types'
 export type { ImageProps }
 
-/**
- * 图片
- *  - 支持各种样式设置
- *  - 支持本地和远端图片
- *  - 图片缓存到本地
- *  - 远端图片自动获取高度
- *  - 错误处理
- *  - 自动选择 Bangumi 图片质量
- *  - 联动 ImageViewer
- *  - 支持 @magma 提供的 [bgm_poster] 后缀
- *  - iOS 环境下, Expo 浏览暂时不使用 cacheWithSystemStrategy
- */
+/** 图片组件，支持本地/远端图片、缓存、自动宽高、错误重试 */
 export const Image = observer(
   class ImageComponent extends React.Component<ImageProps, State> {
     static defaultProps: ImageProps = {
@@ -98,36 +87,54 @@ export const Image = observer(
       error: false
     }
 
-    /** 组件是否已挂载 */
+    /** 是否已挂载 */
     private _mounted = false
 
-    /** 图片下载失败次数 */
+    /** 累计下载失败次数（用于短间隔重试） */
     private _errorCount = 0
 
-    /** 图片下载失败重试间隔 */
+    /** 短间隔重试定时器 */
     private _timeoutId = null
 
     /** 是否已获取远程图片宽高 */
     private _getSized = false
 
-    /** 是否已回退到 props.fallback 地址 */
+    /** 是否已回退到 props.fallbackSrc */
     private _fallbacked = false
 
-    /** 是否已回退到 bgm 源头  */
+    /** 是否已回退到 bgm 默认图 */
     private _recoveried = false
 
-    /** 是否已确定加载失败 */
+    /** 是否已触发 commitError（确定失败） */
     private _commited = false
 
-    /** 所有 setTimeout 的 id, 用于组件销毁时统一清理 */
+    /** 所有定时器 id，组件销毁时统一清理 */
     private _timers: TimerRef[] = []
 
-    /** 当前图片大小 */
+    /** 下载到本地的文件大小 (bytes) */
     private _size = 0
 
-    /** 指数退避重试 */
+    /** 指数退避重试计数 */
     private _retryAttempt = 0
+
+    /** 指数退避定时器 */
     private _retryTimer: TimerRef = null
+
+    /** omit 结果缓存，src 不变时复用 */
+    private _passProps: AnyObject = null
+    private _passPropsSrc: ImageProps['src'] = null
+
+    /** headers 缓存 */
+    private _headers: AnyObject = null
+    private _headersSrc: ImageProps['src'] = undefined
+    private _headersProps: AnyObject = undefined
+
+    /** dev 模式 onLongPress 缓存 */
+    private _devLongPress: Fn = null
+
+    /** imageViewerCallback 缓存 */
+    private _imageViewerHandle: Fn = null
+    private _imageViewerUri: ImageProps['src'] = undefined
 
     componentDidMount() {
       this._mounted = true
@@ -135,7 +142,7 @@ export const Image = observer(
 
       const { src } = this.props
 
-      // 不缓存图片
+      // 不缓存 / WEB 环境：直接用远端地址
       if (!this.props.cache || WEB) {
         this.setState({
           uri: fixedRemoteImageUrl(src)
@@ -143,7 +150,7 @@ export const Image = observer(
         return
       }
 
-      // 本地图片
+      // 本地图片：直接使用
       if (typeof src !== 'string') {
         this.setState({
           uri: src
@@ -151,7 +158,7 @@ export const Image = observer(
         return
       }
 
-      // 优先响应图片
+      // high 优先级立即加载，low 延迟 40ms
       const { priority } = this.props
       if (priority === 'high') {
         if (this.preGetLocalCache()) return
@@ -194,7 +201,7 @@ export const Image = observer(
       } catch {}
     }
 
-    /** 若图片已明确知道在本地有缓存, 忽略大部分预置规则, 直接取出渲染 */
+    /** 本地已缓存则直接使用，跳过网络加载 */
     preGetLocalCache = () => {
       const { src } = this.props
       if (typeof src === 'string') {
@@ -210,7 +217,7 @@ export const Image = observer(
       }
     }
 
-    /** 预加载的规则 */
+    /** 缓存图片并检查自动宽高 */
     preCache = async () => {
       await this.cache(this.props.src)
       this.checkAutoSize()
@@ -227,9 +234,8 @@ export const Image = observer(
       }
     }
 
-    /** 缓存图片 */
+    /** 缓存图片：安卓/iOS v2 走系统策略，iOS 原生走自定义下载 */
     cache = async (src: ImageProps['src']) => {
-      // 通常只有安卓走 systemStrategy 流程
       if (!IOS || (IOS && systemStore.setting.iosImageCacheV2)) {
         return this.cacheWithSystemStrategy(src)
       }
@@ -239,17 +245,14 @@ export const Image = observer(
           const fixedSrc = applyLainProxy(fixedRemoteImageUrl(src))
 
           // 空地址不作处理
-          if (
-            fixedSrc === 'https:' ||
-            (typeof fixedSrc === 'string' && fixedSrc.includes('https:/img/'))
-          ) {
+          if (fixedSrc === 'https:' || fixedSrc.includes('https:/img/')) {
             this.commitError('error: cache')
             return false
           }
 
-          /** 头像 CDN 目前尚未稳定, 发现了图片损坏下载不能的现象 (暂时写了超时应对) */
+          // 头像 CDN 不稳定，加超时保护
           let path: string
-          if (typeof fixedSrc === 'string' && fixedSrc.includes(HOST_CDN_AVATAR)) {
+          if (fixedSrc.includes(HOST_CDN_AVATAR)) {
             try {
               await Promise.race([
                 new Promise(async resolve => {
@@ -280,15 +283,8 @@ export const Image = observer(
             }
           }
 
-          /**
-           * magma 的 cdn 要单独对第一次对象存储镜像做延迟处理, 需要再重新请求一遍
-           * @date 20220509
-           */
-          if (
-            typeof fixedSrc === 'string' &&
-            fixedSrc.includes(OSS_MEGMA_PREFIX) &&
-            path === undefined
-          ) {
+          // magma CDN 首次镜像可能未就绪，触发重试
+          if (fixedSrc.includes(OSS_MEGMA_PREFIX) && path === undefined) {
             this.onError()
           } else {
             const uri = path || fixedSrc
@@ -304,7 +300,7 @@ export const Image = observer(
       }
     }
 
-    /** 缓存图片 (使用系统默认图片策略) */
+    /** 缓存图片，交给系统默认策略处理 */
     cacheWithSystemStrategy = async (src: ImageProps['src']) => {
       if (typeof src === 'string') {
         if (checkLocalError(src)) {
@@ -338,7 +334,7 @@ export const Image = observer(
       return true
     }
 
-    /** 图片是不是会下载失败, 当错误次数大于 MAX_ERROR_COUNT 就认为是错误 */
+    /** 短间隔重试，超过 MAX_ERROR_COUNT 则判定失败 */
     retry = (src: ImageProps['src']) => {
       if (this._errorCount < MAX_ERROR_COUNT) {
         this._timeoutId = setTimeout(() => {
@@ -357,7 +353,7 @@ export const Image = observer(
       )
     }
 
-    /** 获取远程图片宽高 */
+    /** 获取远程图片宽高（autoSize/autoHeight 时调用） */
     getSize = () => {
       if (this._getSized) return
 
@@ -397,7 +393,7 @@ export const Image = observer(
       )
     }
 
-    /** 加载失败 */
+    /** 图片加载失败 */
     onError = async (evt?: ImageErrorEvent) => {
       const { src } = this.props
       if (
@@ -433,7 +429,7 @@ export const Image = observer(
         )
         return
       } else if (typeof src === 'string' && src.includes(OSS_MEGMA_PREFIX)) {
-        // 失败次数达到最大值, 回退到 bgm 源头
+        // 重试耗尽，回退默认图
         setError404(src)
         this.recoveryToBgmCover()
         return
@@ -448,7 +444,7 @@ export const Image = observer(
       } else {
         const errorInfo = String(evt?.nativeEvent?.error || '')
 
-        // 本地缓存了不能正常读取的图片文件
+        // 本地文件损坏：重新下载
         if (errorInfo.includes('The file')) {
           this.setState({
             uri: fixedRemoteImageUrl(this.props.src)
@@ -459,7 +455,7 @@ export const Image = observer(
       }
     }
 
-    /** 其他源头回退到 bgm 源头 */
+    /** 回退到 bgm 默认封面图 */
     recoveryToBgmCover = () => {
       if (this._recoveried) return
 
@@ -479,7 +475,7 @@ export const Image = observer(
       })
     }
 
-    /** 确定失败 */
+    /** 标记最终失败，触发错误回调 */
     commitError = (errorInfo?: string) => {
       if (this._commited) return
 
@@ -497,7 +493,7 @@ export const Image = observer(
       )
     }
 
-    // ==================== exponential backoff retry ====================
+    // ==================== 指数退避重试 ====================
     componentDidUpdate(_prevProps: any, prevState: { error: any }) {
       if (!prevState.error && this.state.error) {
         this.scheduleRetry()
@@ -516,7 +512,6 @@ export const Image = observer(
 
       this._retryTimer = setTimeout(() => {
         if (!this._mounted) return
-        this._retryAttempt = 0
         this._commited = false
         this._errorCount = 0
         this._recoveried = false
@@ -534,9 +529,14 @@ export const Image = observer(
       }, delay)
     }
 
-    /** 加载步骤完成 */
+    /** 图片加载结束（成功或失败都会触发） */
     onLoadEnd = () => {
       if (!this._mounted) return
+
+      // _commited=true 说明 onError 已触发（失败），不重置退避计数
+      if (!this._commited) {
+        this._retryAttempt = 0
+      }
 
       const { fadeDuration } = this.props
       this.setState(
@@ -549,7 +549,7 @@ export const Image = observer(
 
           if (IOS) return
 
-          // 若无动画或动画已跳过, 直接标记完成
+          // 无动画：直接完成
           if (fadeDuration === 0) {
             this.setState({
               animFinished: true
@@ -557,7 +557,7 @@ export const Image = observer(
             return
           }
 
-          // 等待渐入动画结束后移除背景色, 防止安卓过度绘制
+          // 有动画：等动画结束后移除背景色
           this._timers.push(
             setTimeout(() => {
               if (this._mounted) {
@@ -571,28 +571,36 @@ export const Image = observer(
       )
     }
 
-    /** 自定义请求头 */
+    /** 请求头：lain 域名自动加 UA */
     get headers(): AnyObject {
       const { src, headers } = this.props
-      if (headers) {
-        if (typeof src === 'string' && src.includes('lain.')) {
-          return {
-            ...DEFAULT_HEADERS,
-            ...(headers || {})
-          }
-        }
-
-        return {
-          ...headers
-        }
+      if (this._headersSrc === src && this._headersProps === headers && this._headers) {
+        return this._headers
       }
 
-      if (typeof src === 'string' && src.includes('lain.')) return DEFAULT_HEADERS
+      this._headersSrc = src
+      this._headersProps = headers
 
-      return {}
+      if (headers) {
+        if (typeof src === 'string' && src.includes('lain.')) {
+          this._headers = { ...DEFAULT_HEADERS, ...(headers || {}) }
+          return this._headers
+        }
+
+        this._headers = { ...headers }
+        return this._headers
+      }
+
+      if (typeof src === 'string' && src.includes('lain.')) {
+        this._headers = DEFAULT_HEADERS
+        return this._headers
+      }
+
+      this._headers = {}
+      return this._headers
     }
 
-    /** 计算图片实际样式 */
+    /** 合并计算最终样式 */
     get computedStyle() {
       return computeImageStyles(
         this.props,
@@ -605,79 +613,85 @@ export const Image = observer(
       )
     }
 
-    /** 圆角 */
+    /** 当前圆角值 */
     get borderRadius() {
       return systemStore.coverRadius || _.radiusXs
     }
 
-    /** 开发模式 */
+    /** 是否开发模式 */
     get dev() {
       return systemStore.dev
     }
 
     renderImage() {
-      if (this.props.textOnly) return <TextOnly style={this.computedStyle.image} />
+      const { image: imageStyle, container: containerStyle } = this.computedStyle
 
-      // 加载错误后显示显示图形
+      if (this.props.textOnly) return <TextOnly style={imageStyle} />
+
+      // 加载失败：显示错误图标
       if (this.state.error && !WEB) {
-        return <Error style={this.computedStyle.image} size={this.props.width || this.props.size} />
+        return <Error style={imageStyle} size={this.props.width || this.props.size} />
       }
 
-      const otherProps = omit(this.props, [
-        'style',
-        'imageStyle',
-        'src',
-        'size',
-        'height',
-        'border',
-        'borderWidth',
-        'radius',
-        'shadow',
-        'placeholder',
-        'autoSize',
-        'autoHeight',
-        'imageViewer',
-        'imageViewerSrc',
-        'withoutFeedback',
-        'headers',
-        'event',
-        'delay',
-        'scale',
-        'cache',
-        'fadeDuration',
-        'errorToHide',
-        'skeleton',
-        'skeletonType',
-        'textOnly',
-        'priority',
-        'onPress',
-        'onLongPress',
-        'onError'
-      ])
+      if (this._passPropsSrc !== this.props.src) {
+        this._passPropsSrc = this.props.src
+        this._passProps = omit(this.props, [
+          'style',
+          'imageStyle',
+          'src',
+          'size',
+          'height',
+          'border',
+          'borderWidth',
+          'radius',
+          'shadow',
+          'placeholder',
+          'autoSize',
+          'autoHeight',
+          'imageViewer',
+          'imageViewerSrc',
+          'withoutFeedback',
+          'headers',
+          'event',
+          'delay',
+          'scale',
+          'cache',
+          'fadeDuration',
+          'errorToHide',
+          'skeleton',
+          'skeletonType',
+          'textOnly',
+          'priority',
+          'onPress',
+          'onLongPress',
+          'onError'
+        ])
+      }
+      const otherProps = this._passProps
       const { src } = this.props
       if (typeof src === 'string' || typeof src === 'undefined') {
         const { uri } = this.state
 
-        // 显示图片占位
-        if (!uri) return <Placeholder style={this.computedStyle.image} />
+        // 无 URI：显示占位
+        if (!uri) return <Placeholder style={imageStyle} />
 
         if (typeof uri === 'string') {
           const { autoSize, autoHeight } = this.props
 
-          // 获取图片的宽高中, 占位
+          // 安卓 autoSize 场景：宽高未获取完前显示占位
           if (
             !(IOS || WEB) &&
             ((autoSize && !this.state.width) || (autoHeight && !this.state.height))
           ) {
-            return <Placeholder style={this.computedStyle.image} />
+            return <Placeholder style={imageStyle} />
           }
 
           const finalUri = applyLainProxy(uri)
           return (
             <Remote
               {...otherProps}
-              style={this.computedStyle.image}
-              containerStyle={this.computedStyle.container}
+              style={imageStyle}
+              containerStyle={containerStyle}
               headers={this.headers}
               uri={finalUri}
               autoSize={autoSize}
@@ -691,11 +705,11 @@ export const Image = observer(
         }
       }
 
-      // 本地图片
+      // 本地图片直接渲染
       return (
         <Local
           {...otherProps}
-          style={this.computedStyle.image}
+          style={imageStyle}
           headers={this.props.headers}
           overrideHeaders={this.headers}
           src={src}
@@ -721,38 +735,44 @@ export const Image = observer(
     }
 
     renderTouchableImage(onPress: Fn) {
+      const { container: containerStyle } = this.computedStyle
+
+      let onLongPress = this.props.onLongPress
+      if (this.dev) {
+        if (!this._devLongPress) {
+          this._devLongPress = () => {
+            devLog(
+              JSON.stringify(
+                {
+                  _size: `${Math.floor(this._size / 1024)} kb`,
+                  ...pick(this as any, [
+                    '_errorCount',
+                    '_timeoutId',
+                    '_getSized',
+                    '_fallbacked',
+                    '_recoveried',
+                    '_commited'
+                  ]),
+                  ...this.props,
+                  ...this.state
+                },
+                null,
+                2
+              )
+            )
+          }
+        }
+        onLongPress = this._devLongPress
+      }
+
       return (
-        <Component id='component-image' style={this.computedStyle.container}>
+        <Component id='component-image' style={containerStyle}>
           <Touchable
             delay={this.props.delay}
             scale={this.props.scale}
             withoutFeedback={this.props.withoutFeedback}
             onPress={onPress}
-            onLongPress={
-              this.dev
-                ? () => {
-                    devLog(
-                      JSON.stringify(
-                        {
-                          _size: `${Math.floor(this._size / 1024)} kb`,
-                          ...pick(this as any, [
-                            '_errorCount',
-                            '_timeoutId',
-                            '_getSized',
-                            '_fallbacked',
-                            '_recoveried',
-                            '_commited'
-                          ]),
-                          ...this.props,
-                          ...this.state
-                        },
-                        null,
-                        2
-                      )
-                    )
-                  }
-                : this.props.onLongPress
-            }
+            onLongPress={onLongPress}
           >
             {this.renderImage()}
           </Touchable>
@@ -768,18 +788,22 @@ export const Image = observer(
 
       let onPressHandle = this.props.onPress
 
-      // 需要调用 ImageViewer 弹窗
+      // ImageViewer 模式：点击打开大图
       if (this.props.imageViewer) {
-        onPressHandle = imageViewerCallback({
-          imageViewerSrc: this.props.imageViewerSrc,
-          headers: this.headers,
-          src: this.props.src,
-          uri: this.state.uri,
-          event: this.props.event
-        })
+        if (this._imageViewerUri !== this.state.uri) {
+          this._imageViewerUri = this.state.uri
+          this._imageViewerHandle = imageViewerCallback({
+            imageViewerSrc: this.props.imageViewerSrc,
+            headers: this.headers,
+            src: this.props.src,
+            uri: this.state.uri,
+            event: this.props.event
+          })
+        }
+        onPressHandle = this._imageViewerHandle
       }
 
-      // 带点击事件
+      // 有交互事件：包裹 Touchable
       if (this.dev || onPressHandle || this.props.onLongPress) {
         return this.renderTouchableImage(onPressHandle)
       }
