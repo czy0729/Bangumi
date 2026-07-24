@@ -5,11 +5,11 @@
  * @Last Modified time: 2026-05-29 20:36:22
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap, setComponentsDefaultProps, Text } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import { loadAppFonts } from '@utils/hooks/useCachedResources'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
@@ -22,7 +22,7 @@ import type { WithFilterProps } from '../../../types'
 function CustomFontFamily({ filter }: WithFilterProps) {
   const { value, handleSwitch } = useAsyncSwitchSetting('customFontFamily')
 
-  return useObserver(() => (
+  return (
     <ItemSettingBlock
       style={_.mt.sm}
       filter={filter}
@@ -84,7 +84,7 @@ function CustomFontFamily({ filter }: WithFilterProps) {
 
       <Heatmap id='设置.切换' title='字体' />
     </ItemSettingBlock>
-  ))
+  )
 }
 
-export default CustomFontFamily
+export default observer(CustomFontFamily)

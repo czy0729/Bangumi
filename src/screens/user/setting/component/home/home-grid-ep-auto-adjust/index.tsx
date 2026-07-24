@@ -5,20 +5,22 @@
  * @Last Modified time: 2024-04-24 09:20:39
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import styles from '../../../styles'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
 
+import type { WithFilterProps } from '../../../types'
+
 /** 自动调整章节按钮大小 */
-function HomeGridEpAutoAdjust({ filter }) {
+function HomeGridEpAutoAdjust({ filter }: WithFilterProps) {
   const { value, handleSwitch } = useAsyncSwitchSetting('homeGridEpAutoAdjust')
 
-  return useObserver(() => (
+  return (
     <ItemSetting
       ft={
         <SwitchPro
@@ -44,7 +46,7 @@ function HomeGridEpAutoAdjust({ filter }) {
     >
       <Heatmap id='设置.切换' title='自动调整章节按钮大小' />
     </ItemSetting>
-  ))
+  )
 }
 
-export default HomeGridEpAutoAdjust
+export default observer(HomeGridEpAutoAdjust)

@@ -5,19 +5,21 @@
  * @Last Modified time: 2024-04-20 00:42:34
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import styles from '../../../styles'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 
+import type { WithFilterProps } from '../../../types'
+
 /** 跟随系统 */
-function AutoColorScheme({ filter }) {
+function AutoColorScheme({ filter }: WithFilterProps) {
   const { value, handleSwitch } = useAsyncSwitchSetting('autoColorScheme')
 
-  return useObserver(() => (
+  return (
     <ItemSetting
       ft={
         <SwitchPro
@@ -38,7 +40,7 @@ function AutoColorScheme({ filter }) {
     >
       <Heatmap id='设置.切换' title='跟随系统' />
     </ItemSetting>
-  ))
+  )
 }
 
-export default AutoColorScheme
+export default observer(AutoColorScheme)

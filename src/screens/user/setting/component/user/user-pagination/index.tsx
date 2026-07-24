@@ -2,24 +2,26 @@
  * @Author: czy0729
  * @Date: 2025-08-26 01:07:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-26 01:45:10
+ * @Last Modified time: 2026-07-24 21:50:44
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
 import { styles } from './styles'
 
+import type { WithFilterProps } from '../../../types'
+
 /** 列表分页 */
-function UserPagination({ filter }) {
+function UserPagination({ filter }: WithFilterProps) {
   const { value, handleSwitch } = useAsyncSwitchSetting('userPagination')
   const { hd } = TEXTS.userPagination
 
-  return useObserver(() => (
+  return (
     <ItemSetting
       ft={
         <SwitchPro
@@ -45,7 +47,7 @@ function UserPagination({ filter }) {
     >
       <Heatmap id='设置.切换' title={hd} />
     </ItemSetting>
-  ))
+  )
 }
 
-export default UserPagination
+export default observer(UserPagination)

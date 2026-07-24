@@ -5,12 +5,12 @@
  * @Last Modified time: 2026-01-15 12:59:42
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap, Text } from '@components'
 import { randomSpeech } from '@components/mesume/utils'
 import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
@@ -22,7 +22,7 @@ import type { WithFilterProps } from '../../../types'
 function Speech({ filter }: WithFilterProps) {
   const { value, handleSwitch } = useAsyncSwitchSetting('speech')
 
-  return useObserver(() => (
+  return (
     <ItemSettingBlock
       style={_.mt.sm}
       filter={filter}
@@ -70,7 +70,7 @@ function Speech({ filter }: WithFilterProps) {
 
       <Heatmap id='设置.切换' title='看板娘吐槽' />
     </ItemSettingBlock>
-  ))
+  )
 }
 
-export default Speech
+export default observer(Speech)

@@ -5,23 +5,25 @@
  * @Last Modified time: 2024-04-24 08:26:35
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import { MODEL_SETTING_HOME_LAYOUT } from '@constants'
 import { TEXTS } from '../ds'
 import { useAsyncSetSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
 
+import type { WithFilterProps } from '../../../types'
+
 /** 首页布局 */
-function HomeLayout({ filter }) {
+function HomeLayout({ filter }: WithFilterProps) {
   const { value, handleSet } = useAsyncSetSetting('homeLayout')
   const list = MODEL_SETTING_HOME_LAYOUT.getValue('列表')
   const grid = MODEL_SETTING_HOME_LAYOUT.getValue('网格')
 
-  return useObserver(() => (
+  return (
     <ItemSettingBlock
       style={_.mt.sm}
       filter={filter}
@@ -66,7 +68,7 @@ function HomeLayout({ filter }) {
       />
       <Heatmap id='设置.切换' title='首页布局' />
     </ItemSettingBlock>
-  ))
+  )
 }
 
-export default HomeLayout
+export default observer(HomeLayout)

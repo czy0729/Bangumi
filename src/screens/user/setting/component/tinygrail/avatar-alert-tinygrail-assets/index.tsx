@@ -5,19 +5,21 @@
  * @Last Modified time: 2025-05-16 15:12:23
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import styles from '../../../styles'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 
+import type { WithFilterProps } from '../../../types'
+
 /** 在全局中, 是否长按用户头像也显示小圣杯缩略资产 */
-function AvatarAlertTinygrailAssets({ filter }) {
+function AvatarAlertTinygrailAssets({ filter }: WithFilterProps) {
   const { value, handleSwitch } = useAsyncSwitchSetting('avatarAlertTinygrailAssets')
 
-  return useObserver(() => (
+  return (
     <ItemSetting
       ft={
         <SwitchPro
@@ -38,7 +40,7 @@ function AvatarAlertTinygrailAssets({ filter }) {
     >
       <Heatmap id='设置.切换' title='缩略资产' />
     </ItemSetting>
-  ))
+  )
 }
 
-export default AvatarAlertTinygrailAssets
+export default observer(AvatarAlertTinygrailAssets)

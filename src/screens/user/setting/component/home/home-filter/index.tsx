@@ -5,20 +5,22 @@
  * @Last Modified time: 2024-04-24 13:02:58
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import styles from '../../../styles'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
 
+import type { WithFilterProps } from '../../../types'
+
 /** 列表搜索框 */
-function HomeFilter({ filter }) {
+function HomeFilter({ filter }: WithFilterProps) {
   const { value, handleSwitch } = useAsyncSwitchSetting('homeFilter')
 
-  return useObserver(() => (
+  return (
     <ItemSetting
       ft={
         <SwitchPro
@@ -43,7 +45,7 @@ function HomeFilter({ filter }) {
     >
       <Heatmap id='设置.切换' title='显示列表搜索框' />
     </ItemSetting>
-  ))
+  )
 }
 
-export default HomeFilter
+export default observer(HomeFilter)

@@ -5,20 +5,22 @@
  * @Last Modified time: 2024-04-19 21:09:46
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import commonStyles from '../../../styles'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
 
+import type { WithFilterProps } from '../../../types'
+
 /** 隐藏评分 */
-function HideScore({ filter }) {
+function HideScore({ filter }: WithFilterProps) {
   const { value, handleSwitch } = useAsyncSwitchSetting('hideScore')
 
-  return useObserver(() => (
+  return (
     <ItemSetting
       ft={
         <SwitchPro
@@ -43,7 +45,7 @@ function HideScore({ filter }) {
     >
       <Heatmap id='设置.切换' title='隐藏评分' />
     </ItemSetting>
-  ))
+  )
 }
 
-export default HideScore
+export default observer(HideScore)

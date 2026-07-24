@@ -5,20 +5,22 @@
  * @Last Modified time: 2025-01-08 09:21:57
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro, Touchable } from '@components'
 import { ItemSetting } from '@_'
 import { uiStore } from '@stores'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import commonStyles from '../../../styles'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 
+import type { WithFilterProps } from '../../../types'
+
 /** 显示缩略信息 */
-function TimelinePopable({ filter }) {
+function TimelinePopable({ filter }: WithFilterProps) {
   const { value, handleSwitch } = useAsyncSwitchSetting('timelinePopable')
 
-  return useObserver(() => (
+  return (
     <>
       <ItemSetting
         ft={
@@ -48,7 +50,7 @@ function TimelinePopable({ filter }) {
         }}
       />
     </>
-  ))
+  )
 }
 
-export default TimelinePopable
+export default observer(TimelinePopable)

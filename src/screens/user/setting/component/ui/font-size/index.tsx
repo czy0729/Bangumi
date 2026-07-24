@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-04-20 20:17:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-13 19:11:22
+ * @Last Modified time: 2026-07-24 21:49:44
  */
 import React, { useCallback, useRef } from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap, ScrollView, Text } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
-import { useMount, useObserver } from '@utils/hooks'
+import { useMount } from '@utils/hooks'
 import { SETTING_FONTSIZE_ADJUST } from '@constants'
 import { TEXTS } from '../ds'
 import { getYuqueThumbs } from '../../../utils'
@@ -21,6 +22,7 @@ import type { WithFilterProps } from '../../../types'
 /** 字号 */
 function FontSize({ filter }: WithFilterProps) {
   const scrollToRef = useRef<ScrollTo>(null)
+
   const handleForwardRef = useCallback((scrollTo: ScrollTo) => {
     scrollToRef.current = scrollTo
   }, [])
@@ -37,7 +39,7 @@ function FontSize({ filter }: WithFilterProps) {
     }, 0)
   })
 
-  return useObserver(() => (
+  return (
     <ItemSettingBlock
       style={styles.block}
       filter={filter}
@@ -82,7 +84,7 @@ function FontSize({ filter }: WithFilterProps) {
 
       <Heatmap id='设置.切换' title='字号' />
     </ItemSettingBlock>
-  ))
+  )
 }
 
-export default FontSize
+export default observer(FontSize)

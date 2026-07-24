@@ -2,20 +2,22 @@
  * @Author: czy0729
  * @Date: 2024-04-26 05:07:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-26 05:08:06
+ * @Last Modified time: 2026-07-24 21:52:16
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { ItemSetting } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import { URL_ZHINAN } from '@constants'
 import { TEXTS } from '../ds'
 
+import type { Props } from './types'
+
 /** 使用指南 */
-function AppZhinan({ navigation, filter, setFalse }) {
-  return useObserver(() => (
+function AppZhinan({ navigation, filter, setFalse }: Props) {
+  return (
     <ItemSetting
       arrow
       arrowStyle={_.mr.xxs}
@@ -41,7 +43,7 @@ function AppZhinan({ navigation, filter, setFalse }) {
     >
       <Heatmap id='设置.跳转' to='Zhinan' alias='个人设置' />
     </ItemSetting>
-  ))
+  )
 }
 
-export default AppZhinan
+export default observer(AppZhinan)

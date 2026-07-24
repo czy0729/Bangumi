@@ -5,20 +5,22 @@
  * @Last Modified time: 2024-04-24 12:59:51
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import styles from '../../../styles'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
 
+import type { WithFilterProps } from '../../../types'
+
 /** 一直显示放送时间 */
-function HomeOnair({ filter }) {
+function HomeOnair({ filter }: WithFilterProps) {
   const { value, handleSwitch } = useAsyncSwitchSetting('homeOnAir')
 
-  return useObserver(() => (
+  return (
     <ItemSetting
       ft={
         <SwitchPro
@@ -43,7 +45,7 @@ function HomeOnair({ filter }) {
     >
       <Heatmap id='设置.切换' title='一直显示放送时间' />
     </ItemSetting>
-  ))
+  )
 }
 
-export default HomeOnair
+export default observer(HomeOnair)

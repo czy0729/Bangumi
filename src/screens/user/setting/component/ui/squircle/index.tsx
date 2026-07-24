@@ -5,11 +5,11 @@
  * @Last Modified time: 2026-01-15 13:00:01
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
@@ -20,7 +20,7 @@ import type { WithFilterProps } from '../../../types'
 function Squircle({ filter }: WithFilterProps) {
   const { value, handleSwitch } = useAsyncSwitchSetting('squircle')
 
-  return useObserver(() => (
+  return (
     <ItemSettingBlock
       style={_.mt.sm}
       filter={filter}
@@ -67,7 +67,7 @@ function Squircle({ filter }: WithFilterProps) {
 
       <Heatmap id='设置.切换' title='圆角过渡' />
     </ItemSettingBlock>
-  ))
+  )
 }
 
-export default Squircle
+export default observer(Squircle)

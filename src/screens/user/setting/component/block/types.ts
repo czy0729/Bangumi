@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-07-04 05:23:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-04 05:24:37
+ * @Last Modified time: 2026-07-24 05:48:11
  */
-import { ViewProps } from 'react-native'
-import { Override } from '@types'
+import type { ViewProps } from 'react-native'
+import type { Override } from '@types'
 
 export type Props = Override<
   ViewProps,

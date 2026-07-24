@@ -2,18 +2,21 @@
  * @Author: czy0729
  * @Date: 2022-01-22 18:26:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-09 23:33:01
+ * @Last Modified time: 2026-07-24 06:13:08
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { stl } from '@utils'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { Props } from './types'
 
 function Block({ style, title, onBlockRef, children, ...other }: Props) {
+  r(COMPONENT)
+
   const styles = memoStyles()
 
   return (
@@ -32,4 +35,4 @@ function Block({ style, title, onBlockRef, children, ...other }: Props) {
   )
 }
 
-export default ob(Block, COMPONENT)
+export default observer(Block)

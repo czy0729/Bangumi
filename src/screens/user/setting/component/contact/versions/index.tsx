@@ -2,16 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-04-23 20:55:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-23 20:56:45
+ * @Last Modified time: 2026-07-24 06:21:10
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { ItemSetting } from '@_'
-import { useObserver } from '@utils/hooks'
 import { TEXTS } from '../ds'
 
+import type { WithNavigation } from '@types'
+import type { WithFilterProps } from '../../../types'
+
 /** 更新内容 */
-function Versions({ navigation, filter }) {
-  return useObserver(() => (
+function Versions({ navigation, filter }: WithNavigation<WithFilterProps>) {
+  return (
     <ItemSetting
       arrow
       highlight
@@ -21,7 +24,7 @@ function Versions({ navigation, filter }) {
         navigation.push('Versions')
       }}
     />
-  ))
+  )
 }
 
-export default Versions
+export default observer(Versions)

@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-11-22 04:40:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-18 20:57:26
+ * @Last Modified time: 2026-07-24 18:09:23
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { ActionSheet, Flex, Text } from '@components'
 import { _, systemStore } from '@stores'
 import { t } from '@utils/fetch'
-import { useBoolean, useObserver } from '@utils/hooks'
+import { useBoolean } from '@utils/hooks'
 import { MENU_MAP } from '@constants'
 import Btn from './btn'
 import { CUSTOM_BTN_DEFAULT, CUSTOM_BTN_KEYS } from './ds'
@@ -54,59 +55,57 @@ function CustomBtn() {
     })
   }, [])
 
-  return useObserver(() => {
-    const styles = memoStyles()
-    const { homeTopLeftCustom, homeTopRightCustom, homeTopExtraCustom } = systemStore.setting
+  const styles = memoStyles()
+  const { homeTopLeftCustom, homeTopRightCustom, homeTopExtraCustom } = systemStore.setting
 
-    return (
-      <>
-        <Flex style={styles.btns}>
+  return (
+    <>
+      <Flex style={styles.btns}>
+        <Btn
+          item={(MENU_MAP[homeTopExtraCustom] || CUSTOM_BTN_DEFAULT) as MenuItem}
+          onPress={() => handlePress('homeTopExtraCustom', homeTopExtraCustom || '')}
+        />
+        <View style={styles.split} />
+        <Btn
+          item={(MENU_MAP[homeTopLeftCustom] || CUSTOM_BTN_DEFAULT) as MenuItem}
+          onPress={() => handlePress('homeTopLeftCustom', homeTopLeftCustom || '')}
+        />
+        <Btn
+          item={(MENU_MAP[homeTopRightCustom] || CUSTOM_BTN_DEFAULT) as MenuItem}
+          onPress={() => handlePress('homeTopRightCustom', homeTopRightCustom || '')}
+        />
+      </Flex>
+
+      <ActionSheet show={state} height={552} onClose={handleCloseActionSheet}>
+        <Text style={[_.mt.sm, _.mb.xs]} bold align='center'>
+          选择一个功能作为入口
+        </Text>
+        <Flex style={_.mt.md} wrap='wrap' justify='center'>
           <Btn
-            item={(MENU_MAP[homeTopExtraCustom] || CUSTOM_BTN_DEFAULT) as MenuItem}
-            onPress={() => handlePress('homeTopExtraCustom', homeTopExtraCustom || '')}
+            item={CUSTOM_BTN_DEFAULT as MenuItem}
+            active={current.key === ''}
+            onPress={() => handleSelectBtn('')}
           />
-          <View style={styles.split} />
-          <Btn
-            item={(MENU_MAP[homeTopLeftCustom] || CUSTOM_BTN_DEFAULT) as MenuItem}
-            onPress={() => handlePress('homeTopLeftCustom', homeTopLeftCustom || '')}
-          />
-          <Btn
-            item={(MENU_MAP[homeTopRightCustom] || CUSTOM_BTN_DEFAULT) as MenuItem}
-            onPress={() => handlePress('homeTopRightCustom', homeTopRightCustom || '')}
-          />
+          {CUSTOM_BTN_KEYS.map(key => {
+            const item = MENU_MAP[key]
+
+            return (
+              <Btn
+                key={item.key}
+                style={_.mb.xs}
+                item={item}
+                active={current.key === key}
+                onPress={() => handleSelectBtn(item.key)}
+              />
+            )
+          })}
+
+          {/* 补几个按钮方便所有按钮居左 */}
+          {Array(8).fill(<Btn />)}
         </Flex>
-
-        <ActionSheet show={state} height={552} onClose={handleCloseActionSheet}>
-          <Text style={[_.mt.sm, _.mb.xs]} bold align='center'>
-            选择一个功能作为入口
-          </Text>
-          <Flex style={_.mt.md} wrap='wrap' justify='center'>
-            <Btn
-              item={CUSTOM_BTN_DEFAULT as MenuItem}
-              active={current.key === ''}
-              onPress={() => handleSelectBtn('')}
-            />
-            {CUSTOM_BTN_KEYS.map(key => {
-              const item = MENU_MAP[key]
-
-              return (
-                <Btn
-                  key={item.key}
-                  style={_.mb.xs}
-                  item={item}
-                  active={current.key === key}
-                  onPress={() => handleSelectBtn(item.key)}
-                />
-              )
-            })}
-
-            {/* 补几个按钮方便所有按钮居左 */}
-            {Array(8).fill(<Btn />)}
-          </Flex>
-        </ActionSheet>
-      </>
-    )
-  })
+      </ActionSheet>
+    </>
+  )
 }
 
-export default CustomBtn
+export default observer(CustomBtn)

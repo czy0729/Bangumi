@@ -5,17 +5,19 @@
  * @Last Modified time: 2024-04-26 05:13:39
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { ItemSetting } from '@_'
 import { _ } from '@stores'
 import { appNavigate } from '@utils'
-import { useObserver } from '@utils/hooks'
 import { GITHUB_PROJECT } from '@constants'
 import { TEXTS } from '../ds'
 
+import type { WithFilterProps } from '../../../types'
+
 /** Github */
-function RepoGithub({ filter }) {
-  return useObserver(() => (
+function RepoGithub({ filter }: WithFilterProps) {
+  return (
     <ItemSetting
       style={_.mt.xs}
       arrow
@@ -33,7 +35,7 @@ function RepoGithub({ filter }) {
     >
       <Heatmap id='设置.跳转' to='WebBrowser' alias='浏览器' />
     </ItemSetting>
-  ))
+  )
 }
 
-export default RepoGithub
+export default observer(RepoGithub)

@@ -2,25 +2,29 @@
  * @Author: czy0729
  * @Date: 2024-04-23 05:21:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-13 11:53:21
+ * @Last Modified time: 2026-07-24 18:19:05
  */
 import React, { useCallback, useRef } from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Input } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _, systemStore } from '@stores'
 import { alert } from '@utils'
-import { useMount, useObserver } from '@utils/hooks'
+import { useMount } from '@utils/hooks'
 import { styles } from '../../../styles'
 import { TEXTS } from '../ds'
 import { useAsyncSetSetting } from '../../../hooks'
 
+import type { Props } from './types'
+
 /** 翻译引擎 */
-function TranslateEngine({ filter, onScrollIntoViewIfNeeded }) {
+function TranslateEngine({ filter, onScrollIntoViewIfNeeded }: Props) {
   const { value, handleSet } = useAsyncSetSetting('translateEngine')
 
   const appId = useRef(String(systemStore.setting.baiduAppId || ''))
   const appKey = useRef(String(systemStore.setting.baiduKey || ''))
+
   const handleChangeAppId = useCallback((text: string) => {
     appId.current = text.trim()
   }, [])
@@ -40,7 +44,7 @@ function TranslateEngine({ filter, onScrollIntoViewIfNeeded }) {
     }
   })
 
-  return useObserver(() => (
+  return (
     <>
       <ItemSettingBlock style={_.mt.md} filter={filter} {...TEXTS.engine.setting}>
         <ItemSettingBlock.Item
@@ -99,7 +103,7 @@ function TranslateEngine({ filter, onScrollIntoViewIfNeeded }) {
         </ItemSettingBlock>
       )}
     </>
-  ))
+  )
 }
 
-export default TranslateEngine
+export default observer(TranslateEngine)

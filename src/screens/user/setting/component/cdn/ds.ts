@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-07-18 08:31:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-05 22:30:30
+ * @Last Modified time: 2026-07-24 05:46:08
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
-import { HOST_BGM_STATIC } from '@constants'
+import { CDN_MAGMA, HOST_BGM_STATIC } from '@constants'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'CDN')
@@ -29,7 +29,7 @@ export const TEXTS = {
   cover: {
     setting: {
       title: '封面加速',
-      information: '使用特定 CDN 域名加速访问，切换后可能需要重新启动才能生效（仅支持国内流量）'
+      information: `使用特定 CDN 域名加速访问，切换后可能需要重新启动才能生效（仅支持国内流量，如有必要可对域名「${CDN_MAGMA}」进行分流策略）`
     },
     lain: {
       title: 'lain.bgm.tv',

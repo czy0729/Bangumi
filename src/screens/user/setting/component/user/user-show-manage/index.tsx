@@ -5,21 +5,23 @@
  * @Last Modified time: 2025-08-26 02:17:27
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
 import { styles } from './styles'
 
+import type { WithFilterProps } from '../../../types'
+
 /** 显示收藏管理 */
-function UserShowManage({ filter }) {
+function UserShowManage({ filter }: WithFilterProps) {
   const { value, handleSwitch } = useAsyncSwitchSetting('userShowManage')
   const { hd } = TEXTS.userShowManage
 
-  return useObserver(() => (
+  return (
     <ItemSetting
       ft={
         <SwitchPro
@@ -44,7 +46,7 @@ function UserShowManage({ filter }) {
     >
       <Heatmap id='设置.切换' title={hd} />
     </ItemSetting>
-  ))
+  )
 }
 
-export default UserShowManage
+export default observer(UserShowManage)

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-05-23 07:22:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-26 07:01:28
+ * @Last Modified time: 2026-07-24 05:44:23
  */
 import { syncSystemStore } from '@utils/async'
 import Crypto from '@utils/crypto'
@@ -137,6 +137,8 @@ function initCDN() {
   }
   return !!CDN_MAGMA
 }
+
+export { CDN_MAGMA }
 
 const REG_COVER = /\/(c|l)\//
 

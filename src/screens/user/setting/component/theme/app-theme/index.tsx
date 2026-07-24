@@ -2,21 +2,23 @@
  * @Author: czy0729
  * @Date: 2024-04-20 00:38:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-18 11:51:52
+ * @Last Modified time: 2026-07-24 21:10:44
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _, systemStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { WEB } from '@constants'
 import { TEXTS } from '../ds'
 import { getYuqueThumbs } from '../../../utils'
 import { handleDark, handleDeepDark, handleLight } from './utils'
 
+import type { WithFilterProps } from '../../../types'
+
 /** 主题 */
-function AppTheme({ filter }) {
-  return useObserver(() => (
+function AppTheme({ filter }: WithFilterProps) {
+  return (
     <ItemSettingBlock
       style={_.mt.sm}
       filter={filter}
@@ -62,7 +64,7 @@ function AppTheme({ filter }) {
         <Heatmap id='设置.切换' title='纯黑' />
       </ItemSettingBlock.Item>
     </ItemSettingBlock>
-  ))
+  )
 }
 
-export default AppTheme
+export default observer(AppTheme)

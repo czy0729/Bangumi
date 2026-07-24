@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2026-04-25 21:42:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-25 21:51:59
+ * @Last Modified time: 2026-07-24 21:51:01
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
@@ -21,7 +21,7 @@ function UserCommentsFull({ filter }: WithFilterProps) {
   const { value, handleSwitch } = useAsyncSwitchSetting('userCommentsFull')
   const { hd } = TEXTS.userCommentsFull
 
-  return useObserver(() => (
+  return (
     <ItemSetting
       ft={
         <SwitchPro
@@ -46,7 +46,7 @@ function UserCommentsFull({ filter }: WithFilterProps) {
     >
       <Heatmap id='设置.切换' title={hd} />
     </ItemSetting>
-  ))
+  )
 }
 
-export default UserCommentsFull
+export default observer(UserCommentsFull)

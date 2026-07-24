@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-26 04:43:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-04 14:43:17
+ * @Last Modified time: 2026-07-24 21:54:40
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -12,8 +12,10 @@ import { appNavigate } from '@utils'
 import { URL_FEEDBACK } from '@constants'
 import { TEXTS } from '../ds'
 
+import type { Props } from './types'
+
 /** 项目帖子 */
-function RepoTopic({ navigation, filter, setFalse }) {
+function RepoTopic({ navigation, filter, setFalse }: Props) {
   return (
     <ItemSetting
       arrow

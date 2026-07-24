@@ -5,20 +5,22 @@
  * @Last Modified time: 2024-04-24 08:42:15
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import styles from '../../../styles'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
 
+import type { WithFilterProps } from '../../../types'
+
 /** 条目下方显示标题 */
-function HomeGridTitle({ filter }) {
+function HomeGridTitle({ filter }: WithFilterProps) {
   const { value, handleSwitch } = useAsyncSwitchSetting('homeGridTitle')
 
-  return useObserver(() => (
+  return (
     <ItemSetting
       ft={
         <SwitchPro
@@ -44,7 +46,7 @@ function HomeGridTitle({ filter }) {
     >
       <Heatmap id='设置.切换' title='条目下方显示标题' />
     </ItemSetting>
-  ))
+  )
 }
 
-export default HomeGridTitle
+export default observer(HomeGridTitle)

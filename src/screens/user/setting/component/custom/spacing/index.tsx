@@ -2,23 +2,25 @@
  * @Author: czy0729
  * @Date: 2025-08-19 20:58:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-19 23:42:00
+ * @Last Modified time: 2026-07-24 17:20:07
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap, Text } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
 
+import type { Props } from './types'
+
 /** 文字排版 */
-function Spacing({ filter, sub = false }) {
+function Spacing({ filter, sub = false }: Props) {
   const { value, handleSwitch } = useAsyncSwitchSetting('spacing')
 
-  return useObserver(() => (
+  return (
     <ItemSettingBlock
       style={_.mt.sm}
       filter={filter}
@@ -76,7 +78,7 @@ function Spacing({ filter, sub = false }) {
       </ItemSettingBlock.Item>
       <Heatmap id='设置.切换' title='文字排版' />
     </ItemSettingBlock>
-  ))
+  )
 }
 
-export default Spacing
+export default observer(Spacing)

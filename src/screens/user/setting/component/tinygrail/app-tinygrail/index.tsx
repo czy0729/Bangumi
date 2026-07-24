@@ -5,20 +5,22 @@
  * @Last Modified time: 2024-04-25 16:50:32
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import styles from '../../../styles'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
 
+import type { WithFilterProps } from '../../../types'
+
 /** 小圣杯 */
-function AppTinygrail({ filter }) {
+function AppTinygrail({ filter }: WithFilterProps) {
   const { value, handleSwitch } = useAsyncSwitchSetting('tinygrail')
 
-  return useObserver(() => (
+  return (
     <ItemSetting
       ft={
         <SwitchPro
@@ -47,7 +49,7 @@ function AppTinygrail({ filter }) {
     >
       <Heatmap id='设置.切换' title='小圣杯' />
     </ItemSetting>
-  ))
+  )
 }
 
-export default AppTinygrail
+export default observer(AppTinygrail)

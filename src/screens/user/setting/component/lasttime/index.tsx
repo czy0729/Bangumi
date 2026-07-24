@@ -5,10 +5,10 @@
  * @Last Modified time: 2026-04-09 23:36:22
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { _, userStore } from '@stores'
 import { date } from '@utils'
-import { ob } from '@utils/decorators'
 import { DEVICE_MODEL_NAME } from '@constants'
 
 function Lasttime() {
@@ -22,4 +22,4 @@ function Lasttime() {
   )
 }
 
-export default ob(Lasttime)
+export default observer(Lasttime)

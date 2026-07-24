@@ -2,38 +2,25 @@
  * @Author: czy0729
  * @Date: 2024-04-21 20:39:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-23 03:53:07
+ * @Last Modified time: 2026-07-24 18:28:04
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Highlight, Iconfont, Touchable } from '@components'
 import { _, systemStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { TEXTS } from '../../ds'
 import { memoStyles } from './styles'
 
-import type { HomeRenderTabs } from '@stores/system/types'
-import type { Fn, IconfontNames } from '@types'
+import type { Props } from './types'
 
-function Item({
-  filter,
-  label,
-  name,
-  size,
-  active,
-  handleSet
-}: {
-  filter: string
-  label: HomeRenderTabs[number]
-  name: IconfontNames
-  size: number
-  active: boolean
-  handleSet: Fn
-}) {
+function Item({ filter, label, name, size, active, handleSet }: Props) {
   const styles = memoStyles()
+
   const { homeRenderTabs } = systemStore.setting
   const show = homeRenderTabs.includes(label)
+
   return (
     <Flex.Item>
       <Touchable
@@ -68,4 +55,4 @@ function Item({
   )
 }
 
-export default ob(Item)
+export default observer(Item)

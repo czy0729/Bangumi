@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2024-01-28 07:35:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-23 21:59:20
+ * @Last Modified time: 2026-07-24 17:24:24
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Touchable } from '@components'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
-import { Navigation } from '@types'
 import { styles } from './styles'
 
-function Dev({ navigation }: { navigation: Navigation }) {
+import type { WithNavigation } from '@types'
+
+function Dev({ navigation }: WithNavigation) {
   return (
     <Flex style={_.mt.lg} justify='center'>
       <Touchable
@@ -26,4 +27,4 @@ function Dev({ navigation }: { navigation: Navigation }) {
   )
 }
 
-export default ob(Dev)
+export default observer(Dev)

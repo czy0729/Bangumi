@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-01-22 16:36:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-04 14:46:48
+ * @Last Modified time: 2026-07-24 06:15:46
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import { getShows } from '../../utils'
 import Feedback from './feedback'
 import Qiafan from './qiafan'
@@ -14,24 +14,25 @@ import Sponsor from './sponsor'
 import Versions from './versions'
 import { COMPONENT, TEXTS } from './ds'
 
+import type { WithNavigation } from '@types'
+import type { WithFilterProps } from '../../types'
+
 /** 联系 */
-function Contact({ navigation, filter }) {
+function Contact({ navigation, filter }: WithNavigation<WithFilterProps>) {
   r(COMPONENT)
 
   const shows = getShows(filter, TEXTS)
 
-  return useObserver(() => {
-    if (!shows) return null
+  if (!shows) return null
 
-    return (
-      <>
-        {shows.say && <Feedback navigation={navigation} filter={filter} />}
-        {shows.qiafan && <Qiafan navigation={navigation} filter={filter} />}
-        {shows.advance && <Sponsor navigation={navigation} filter={filter} />}
-        {shows.versions && <Versions navigation={navigation} filter={filter} />}
-      </>
-    )
-  })
+  return (
+    <>
+      {shows.say && <Feedback navigation={navigation} filter={filter} />}
+      {shows.qiafan && <Qiafan navigation={navigation} filter={filter} />}
+      {shows.advance && <Sponsor navigation={navigation} filter={filter} />}
+      {shows.versions && <Versions navigation={navigation} filter={filter} />}
+    </>
+  )
 }
 
-export default Contact
+export default observer(Contact)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-05-04 15:15:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-06 05:12:06
+ * @Last Modified time: 2026-07-24 21:17:44
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -12,7 +12,9 @@ import { TEXTS } from '../ds'
 import { getYuqueThumbs } from '../../../utils'
 import BlockItem from './block-item'
 
-function Comment({ navigation, filter, setFalse }) {
+import type { Props } from './types'
+
+function Comment({ navigation, filter, setFalse }: Props) {
   return (
     <>
       <ItemSetting

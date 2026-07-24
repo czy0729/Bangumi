@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 07:07:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-07 19:59:24
+ * @Last Modified time: 2026-07-24 22:14:08
  */
 import { rc } from '@utils/dev'
 import {
@@ -18,9 +18,9 @@ import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'UI')
 
-export const URL_BOOK = `${HOST_BGM_STATIC}/r/400/pic/cover/l/8a/92/546350_S1MzK.jpg`
-export const URL_MUSIC = `${HOST_BGM_STATIC}/r/400/pic/cover/l/b8/d0/239082_Tg6XT.jpg`
-export const URL_GAME = `${HOST_BGM_STATIC}/r/400/pic/cover/l/b2/72/200763_s2kSG.jpg`
+export const URL_BOOK = `${HOST_BGM_STATIC}/r/400/pic/cover/l/a7/d8/571438_JmBRt.jpg`
+export const URL_MUSIC = `${HOST_BGM_STATIC}/r/400/pic/cover/l/0e/d1/620834_444lw.jpg`
+export const URL_GAME = `${HOST_BGM_STATIC}/r/400/pic/cover/l/13/03/548128_13Vl9.jpg`
 
 export const width = Math.floor(IMG_WIDTH_SM / 1.7)
 export const height = Math.floor(IMG_HEIGHT_SM / 1.7)

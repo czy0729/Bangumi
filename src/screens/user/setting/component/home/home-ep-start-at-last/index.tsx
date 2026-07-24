@@ -5,19 +5,21 @@
  * @Last Modified time: 2024-04-24 11:10:15
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import styles from '../../../styles'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
 
-function HomeEpStartAtLast({ filter }) {
+import type { WithFilterProps } from '../../../types'
+
+function HomeEpStartAtLast({ filter }: WithFilterProps) {
   const { value, handleSwitch } = useAsyncSwitchSetting('homeEpStartAtLastWathed')
 
-  return useObserver(() => (
+  return (
     <ItemSetting
       ft={
         <SwitchPro
@@ -42,7 +44,7 @@ function HomeEpStartAtLast({ filter }) {
     >
       <Heatmap id='设置.切换' title='长篇动画从最后看过开始显示' />
     </ItemSetting>
-  ))
+  )
 }
 
-export default HomeEpStartAtLast
+export default observer(HomeEpStartAtLast)

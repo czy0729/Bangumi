@@ -5,20 +5,22 @@
  * @Last Modified time: 2024-04-24 11:03:58
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import styles from '../../../styles'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
 
+import type { WithFilterProps } from '../../../types'
+
 /** 放送提醒菜单增加导出 ICS */
-function HomeICS({ filter }) {
+function HomeICS({ filter }: WithFilterProps) {
   const { value, handleSwitch } = useAsyncSwitchSetting('exportICS')
 
-  return useObserver(() => (
+  return (
     <ItemSetting
       ft={
         <SwitchPro
@@ -44,7 +46,7 @@ function HomeICS({ filter }) {
     >
       <Heatmap id='设置.切换' title='导出ICS' />
     </ItemSetting>
-  ))
+  )
 }
 
-export default HomeICS
+export default observer(HomeICS)

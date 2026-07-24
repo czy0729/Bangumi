@@ -5,20 +5,22 @@
  * @Last Modified time: 2024-04-24 03:32:49
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import styles from '../../../styles'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
 
+import type { WithFilterProps } from '../../../types'
+
 /** 紧凑模式 */
-function HomeListCompact({ filter }) {
+function HomeListCompact({ filter }: WithFilterProps) {
   const { value, handleSwitch } = useAsyncSwitchSetting('homeListCompact')
 
-  return useObserver(() => (
+  return (
     <ItemSetting
       ft={
         <SwitchPro
@@ -44,7 +46,7 @@ function HomeListCompact({ filter }) {
     >
       <Heatmap id='设置.切换' title='紧凑模式' />
     </ItemSetting>
-  ))
+  )
 }
 
-export default HomeListCompact
+export default observer(HomeListCompact)

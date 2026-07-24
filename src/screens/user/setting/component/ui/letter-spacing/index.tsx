@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2026-01-15 11:19:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-15 11:48:24
+ * @Last Modified time: 2026-07-24 21:49:55
  */
 import React, { useCallback, useRef } from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap, ScrollView, Text } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
-import { useMount, useObserver } from '@utils/hooks'
+import { useMount } from '@utils/hooks'
 import { SETTING_LETTER_SPACING } from '@constants'
 import { TEXTS } from '../ds'
 import { styles } from './styles'
@@ -20,6 +21,7 @@ import type { WithFilterProps } from '../../../types'
 /** 字间距 */
 function LetterSpacing({ filter }: WithFilterProps) {
   const scrollToRef = useRef<ScrollTo>(null)
+
   const handleForwardRef = useCallback((scrollTo: ScrollTo) => {
     scrollToRef.current = scrollTo
   }, [])
@@ -36,7 +38,7 @@ function LetterSpacing({ filter }: WithFilterProps) {
     }, 0)
   })
 
-  return useObserver(() => (
+  return (
     <ItemSettingBlock style={styles.block} filter={filter} {...TEXTS.letterSpacing}>
       <ScrollView
         forwardRef={handleForwardRef}
@@ -75,7 +77,7 @@ function LetterSpacing({ filter }: WithFilterProps) {
       </ScrollView>
       <Heatmap id='设置.切换' title='字间距' />
     </ItemSettingBlock>
-  ))
+  )
 }
 
-export default LetterSpacing
+export default observer(LetterSpacing)

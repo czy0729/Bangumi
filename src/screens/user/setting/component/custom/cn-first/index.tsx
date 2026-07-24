@@ -2,23 +2,25 @@
  * @Author: czy0729
  * @Date: 2024-04-19 04:31:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-09 22:24:03
+ * @Last Modified time: 2026-07-24 06:26:48
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap, Text } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
 
+import type { Props } from './types'
+
 /** 优先中文 */
-function CnFirst({ filter, sub = false }) {
+function CnFirst({ filter, sub = false }: Props) {
   const { value, handleSwitch } = useAsyncSwitchSetting('cnFirst')
 
-  return useObserver(() => (
+  return (
     <ItemSettingBlock
       style={_.mt.sm}
       filter={filter}
@@ -76,7 +78,7 @@ function CnFirst({ filter, sub = false }) {
       </ItemSettingBlock.Item>
       <Heatmap id='设置.切换' title='优先中文' />
     </ItemSettingBlock>
-  ))
+  )
 }
 
-export default CnFirst
+export default observer(CnFirst)

@@ -2,23 +2,25 @@
  * @Author: czy0729
  * @Date: 2024-04-19 21:16:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-19 21:19:22
+ * @Last Modified time: 2026-07-24 06:34:25
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import commonStyles from '../../../styles'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
 
+import type { WithFilterProps } from '../../../types'
+
 /** 屏蔽无头像用户相关信息 */
-function FilterDefault({ filter }) {
+function FilterDefault({ filter }: WithFilterProps) {
   const { value, handleSwitch } = useAsyncSwitchSetting('filterDefault')
 
-  return useObserver(() => (
+  return (
     <ItemSetting
       ft={
         <SwitchPro
@@ -43,7 +45,7 @@ function FilterDefault({ filter }) {
     >
       <Heatmap id='设置.切换' title='屏蔽默认头像用户相关信息' />
     </ItemSetting>
-  ))
+  )
 }
 
-export default FilterDefault
+export default observer(FilterDefault)

@@ -5,22 +5,24 @@
  * @Last Modified time: 2025-01-25 14:44:06
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro, Text } from '@components'
 import { ItemSetting, ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import commonStyles from '../../../styles'
 import { TEXTS } from '../ds'
 import { useAsyncSetSetting, useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
 
+import type { WithFilterProps } from '../../../types'
+
 /** 繁体 */
-function S2T({ filter }) {
+function S2T({ filter }: WithFilterProps) {
   const { value, handleSwitch } = useAsyncSwitchSetting('s2t')
   const { value: s2tLocal, handleSet } = useAsyncSetSetting('s2tLocal')
 
-  return useObserver(() => (
+  return (
     <>
       <ItemSetting
         ft={
@@ -95,7 +97,7 @@ function S2T({ filter }) {
         </ItemSettingBlock>
       )}
     </>
-  ))
+  )
 }
 
-export default S2T
+export default observer(S2T)

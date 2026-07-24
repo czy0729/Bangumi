@@ -5,20 +5,22 @@
  * @Last Modified time: 2024-04-24 10:42:25
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import styles from '../../../styles'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
 
+import type { WithFilterProps } from '../../../types'
+
 /** 条目自动下沉 */
-function HomeSortSink({ filter }) {
+function HomeSortSink({ filter }: WithFilterProps) {
   const { value, handleSwitch } = useAsyncSwitchSetting('homeSortSink')
 
-  return useObserver(() => (
+  return (
     <ItemSetting
       ft={
         <SwitchPro
@@ -44,7 +46,7 @@ function HomeSortSink({ filter }) {
     >
       <Heatmap id='设置.切换' title='自动下沉' />
     </ItemSetting>
-  ))
+  )
 }
 
-export default HomeSortSink
+export default observer(HomeSortSink)

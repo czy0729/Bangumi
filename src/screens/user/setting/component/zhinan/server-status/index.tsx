@@ -5,15 +5,18 @@
  * @Last Modified time: 2025-07-24 23:15:57
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import { TEXTS } from '../ds'
 
+import type { WithNavigation } from '@types'
+import type { WithFilterProps } from '../../../types'
+
 /** 网络探针 */
-function ServerStatus({ navigation, filter }) {
-  return useObserver(() => (
+function ServerStatus({ navigation, filter }: WithNavigation<WithFilterProps>) {
+  return (
     <ItemSetting
       arrow
       highlight
@@ -30,7 +33,7 @@ function ServerStatus({ navigation, filter }) {
     >
       <Heatmap id='设置.跳转' to='ServerStatus' alias='网络探针' />
     </ItemSetting>
-  ))
+  )
 }
 
-export default ServerStatus
+export default observer(ServerStatus)

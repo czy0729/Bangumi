@@ -5,21 +5,23 @@
  * @Last Modified time: 2024-04-23 05:27:39
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { View } from 'react-native'
 import { Katakana as KText, Text } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
 import { styles } from './styles'
 
+import type { WithFilterProps } from '../../../types'
+
 /** 片假名终结者 */
-function AppKatakana({ filter }) {
+function AppKatakana({ filter }: WithFilterProps) {
   const { value, handleSwitch } = useAsyncSwitchSetting('katakana')
 
-  return useObserver(() => (
+  return (
     <ItemSettingBlock
       style={_.mt.sm}
       filter={filter}
@@ -63,7 +65,7 @@ function AppKatakana({ filter }) {
         </View>
       </ItemSettingBlock.Item>
     </ItemSettingBlock>
-  ))
+  )
 }
 
-export default AppKatakana
+export default observer(AppKatakana)
