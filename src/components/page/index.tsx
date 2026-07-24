@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-01 14:26:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-23 06:50:51
+ * @Last Modified time: 2026-07-25 06:26:47
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -10,12 +10,11 @@ import { observer } from 'mobx-react'
 import { useFocusEffect } from '@react-navigation/native'
 import { _, useStore } from '@stores'
 import { stl } from '@utils'
-import { DEV, IOS } from '@constants'
-import { INVIEW_SHOW } from '@src/config'
+import { IOS } from '@constants'
 import { ErrorBoundary } from '../error-boundary'
 import { Loading } from '../loading'
 import { Text } from '../text'
-import { COMPONENT } from './ds'
+import { COMPONENT, DEV_DEBUG } from './ds'
 import { styles } from './styles'
 
 import type { Ctx, Props as PageProps } from './types'
@@ -44,6 +43,7 @@ export const Page = observer(
 
     const mergeStyle = stl(styles.page, IOS ? _.container.plain : _.container.flex, style)
     if (loaded || loaded === undefined) {
+      const showDebug = DEV_DEBUG && typeof $?.state === 'object' && 'visibleBottom' in $.state
       return (
         <ErrorBoundary style={mergeStyle}>
           <View style={mergeStyle} {...other}>
@@ -60,7 +60,7 @@ export const Page = observer(
               </View>
             )}
           </View>
-          {DEV && INVIEW_SHOW && typeof $?.state === 'object' && 'visibleBottom' in $.state && (
+          {showDebug && (
             <Text style={styles.visibleBottom} type='__plain__' size={8} bold shadow>
               vb:{$.state.visibleBottom}
             </Text>

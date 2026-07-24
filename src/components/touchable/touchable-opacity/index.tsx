@@ -15,4 +15,4 @@ function TouchableOpacity({ useRN, children, ...other }) {
   )
 }
 
-export default TouchableOpacity
+export default React.memo(TouchableOpacity)

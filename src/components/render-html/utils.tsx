@@ -309,11 +309,19 @@ function getEffectiveTextLength(html: string) {
 /** 存放等待发起获取媒体信息的 id */
 const IDS = []
 
-/** 已获取过媒体信息的 id */
-const LOADED_IDS = []
+/** IDS 的 Set 索引，用于 O(1) 去重检查 */
+const IDS_SET = new Set<string>()
+
+/** 已获取过媒体信息的 id，用于 O(1) 去重检查 */
+const LOADED_IDS = new Set<string>()
 
 /** 是否获取中 */
 let loading = false
+
+/** 生成去重 key */
+function getMediaKey(type: string, id: string) {
+  return `${type}:${id}`
+}
 
 /** 列队请求媒体信息 */
 export async function fetchMediaQueue(
@@ -323,17 +331,16 @@ export async function fetchMediaQueue(
 ) {
   if (type && id) {
     // 针对 chrome 的「复制指向突出显示的内容的链接」, 清理 key
-    id = String(id).split('#')?.[0]
+    const _id = String(id).split('#')[0]
 
+    const key = getMediaKey(type, _id)
     if (
       IDS.length <= 16 &&
-      !IDS.find(item => item.type === type && item.id === id) &&
-      !LOADED_IDS.find(item => item.type === type && item.id === id)
+      !IDS_SET.has(key) &&
+      !LOADED_IDS.has(key)
     ) {
-      IDS.push({
-        type,
-        id
-      })
+      IDS.push({ type, id: _id })
+      IDS_SET.add(key)
     }
   }
 
@@ -341,7 +348,8 @@ export async function fetchMediaQueue(
 
   if (!loading) {
     const item = IDS.shift()
-    LOADED_IDS.push(item)
+    IDS_SET.delete(getMediaKey(item.type, item.id))
+    LOADED_IDS.add(getMediaKey(item.type, item.id))
 
     try {
       logger.log(`${COMPONENT}/utils/fetchMediaQueue`, IDS, item)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 22:49:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-16 07:33:19
+ * @Last Modified time: 2026-07-25 06:30:57
  */
 import React from 'react'
 import { ActivityIndicator } from 'react-native'
@@ -10,31 +10,18 @@ import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
-import { DEV, IOS } from '@constants'
 import { Component } from '../component'
-import { Spinner } from '../spinner'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 import type { ActivityIndicatorProps, ILoading } from './types'
 export type { ILoading, ActivityIndicatorProps }
 
-const USED_SPINNER = !IOS || DEV
-
 /** Loading (原始) */
-const Raw = observer(({ spinnerStyle, color, size = 'small' }: ActivityIndicatorProps) => {
+const Raw = observer(({ color, size = 'large' }: ActivityIndicatorProps) => {
   r(COMPONENT)
 
-  if (USED_SPINNER) {
-    return <ActivityIndicator color={_.colorIcon} size='large' />
-  }
-
-  // 因有无暂时法解决的平台 bug, 不使用此组件
-  return USED_SPINNER ? (
-    <Spinner style={stl(styles.spinner, spinnerStyle)} />
-  ) : (
-    <ActivityIndicator color={color || _.colorSub} size={size} />
-  )
+  return <ActivityIndicator color={color || _.colorSub} size={size} />
 })
 
 /** Loading (中) */
@@ -72,7 +59,7 @@ const Loading: ILoading = observer(({ style, spinnerStyle, color, size = 'small'
 
   return (
     <Component id='component-loading' style={stl(_.container.column, styles.loading, style)}>
-      <Raw spinnerStyle={spinnerStyle} color={color} size={size} />
+      <Raw spinnerStyle={spinnerStyle} color={color || _.colorSub} size={size} />
       {children}
     </Component>
   )

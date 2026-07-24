@@ -14,7 +14,11 @@ export type Props = PropsWithChildren<
      * `${'component' | 'base' | 'item' | 'icon' | 'screen'}-${string}` | 'div'
      * */
     id: string
+
+    /** Web 环境下渲染的 html 标签的 title 属性 */
     'data-title'?: string
+
+    /** 是否解析参数 */
     parseParams?: boolean
   }>
 >

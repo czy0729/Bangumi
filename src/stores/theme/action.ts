@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 14:27:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-23 07:14:24
+ * @Last Modified time: 2026-07-25 05:44:23
  */
 import { Appearance, StatusBar, StyleSheet } from 'react-native'
 import { androidDayNightToggle, feedback, info } from '@utils/ui'
@@ -125,7 +125,9 @@ export default class Action extends Computed {
 
     this.save(key)
     this.changeNavigationBarColor()
-    this.changeStatusBarStyle()
+    setTimeout(() => {
+      this.changeStatusBarStyle()
+    }, 0)
     androidDayNightToggle(this.isDark)
 
     // 若用户启用了主题跟随系统, 而切换后与系统主题不一致, 需要提醒

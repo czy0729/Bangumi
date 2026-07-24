@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-01 11:46:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 02:07:59
+ * @Last Modified time: 2026-07-25 05:43:09
  */
 import React from 'react'
 import { Text as RNText } from 'react-native'
@@ -12,7 +12,7 @@ import { systemStore } from '@stores'
 import { r } from '@utils/dev'
 import { WEB } from '@constants'
 import { formatS2T, formatSpacing, getTextStyle, setComponentsDefaultProps } from './utils'
-import { COMPONENT } from './ds'
+import { COMPONENT, TEXT_STATIC_PROPS } from './ds'
 
 export { getTextStyle, setComponentsDefaultProps }
 
@@ -66,15 +66,10 @@ function TextComp(
         shrink,
         noWrap
       })}
-      allowFontScaling={false}
       selectable={selectable}
       numberOfLines={0}
       {...other}
-      suppressHighlighting
-      lineBreakStrategyIOS='push-out'
-      textBreakStrategy='simple'
-      android_hyphenationFrequency='none'
-      dataDetectorType='none'
+      {...TEXT_STATIC_PROPS}
     >
       {content}
     </RNText>
@@ -86,4 +81,5 @@ TextComp.contextTypes = {
 }
 
 export const Text = observer(TextComp)
+
 export default Text

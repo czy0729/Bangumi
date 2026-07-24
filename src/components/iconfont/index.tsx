@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 14:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-18 19:03:01
+ * @Last Modified time: 2026-07-25 06:20:07
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -32,16 +32,22 @@ export const Iconfont = observer(
 
     const sizeValue = size + _.fontSizeAdjust + _.device(0, _.padIncrease)
     const lineHeightValue = lineHeight + _.fontSizeAdjust
+    const shadowStyle = shadow && styles.shadow
+
+    // 公共属性
+    const commonProps = {
+      size: sizeValue,
+      color: color || _.colorIcon,
+      ...other
+    } as const
 
     if (name.indexOf('md-') === 0) {
       return (
         <Material
-          style={stl(shadow && styles.shadow, style)}
+          style={stl(shadowStyle, style)}
           name={name.replace('md-', '') as MaterialIconsNames}
-          size={sizeValue}
           lineHeight={lineHeightValue}
-          color={color}
-          {...other}
+          {...commonProps}
         />
       )
     }
@@ -49,12 +55,10 @@ export const Iconfont = observer(
     if (name.indexOf('ios-') === 0) {
       return (
         <Ionicons
-          style={stl(shadow && styles.shadow, style)}
+          style={stl(shadowStyle, style)}
           name={name as IoniconsIconsNames}
-          size={sizeValue}
           lineHeight={lineHeightValue}
-          color={color}
-          {...other}
+          {...commonProps}
         />
       )
     }
@@ -66,13 +70,11 @@ export const Iconfont = observer(
             height: sizeValue,
             lineHeight: lineHeight ? lineHeightValue : sizeValue
           },
-          shadow && styles.shadow,
+          shadowStyle,
           style
         )}
         name={(name.includes('icon') ? name : `icon-${name}`) as AppIconsNames}
-        size={sizeValue}
-        color={color || _.colorIcon}
-        {...other}
+        {...commonProps}
       />
     )
   }
