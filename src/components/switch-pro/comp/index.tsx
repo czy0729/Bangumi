@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-03-17 04:03:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 04:14:54
+ * @Last Modified time: 2026-07-26 02:40:43
  */
 import React, { useEffect, useMemo, useState } from 'react'
 import { PanResponder } from 'react-native'
@@ -13,6 +13,8 @@ import Animated, {
   withTiming
 } from 'react-native-reanimated'
 import { stl } from '@utils'
+
+import type { Props } from '../types'
 
 const SCALE = 6 / 5
 
@@ -30,7 +32,7 @@ function SwitchProComp({
   onAsyncPress,
   onSyncPress,
   ...rest
-}: any) {
+}: Props) {
   /** 是圆圈可移动的净距离：容器总宽 - 圆圈直径 - 两侧内边距(假设为2) */
   const offset = width - height
 
@@ -53,11 +55,15 @@ function SwitchProComp({
     switchAnimation.value = withTiming(v ? 1 : 0, { duration: 200 })
   }
 
-  const toggleSwitch = (result: boolean, callback: any = () => null) => {
+  const toggleSwitch = (result: boolean, callback: (value: boolean) => void = () => null) => {
     toggleSwitchToValue(result, !value, callback)
   }
 
-  const toggleSwitchToValue = (result: boolean, toValue: boolean, callback: any = () => null) => {
+  const toggleSwitchToValue = (
+    result: boolean,
+    toValue: boolean,
+    callback: (value: boolean) => void = () => null
+  ) => {
     animateHandler(handlerSize)
     if (result) {
       animateSwitch(toValue)
@@ -102,21 +108,19 @@ function SwitchProComp({
   )
 
   const containerAnimatedStyle = useAnimatedStyle(() => ({
-    backgroundColor: interpolateColor(
-      switchAnimation.value,
-      [0, 1],
-      [backgroundInactive, backgroundActive]
-    )
+    backgroundColor: interpolateColor(switchAnimation.value, [0, 1], [
+      backgroundInactive,
+      backgroundActive
+    ] as string[])
   }))
 
   const circleAnimatedStyle = useAnimatedStyle(() => ({
     width: handlerAnimation.value,
     height: handlerSize,
-    backgroundColor: interpolateColor(
-      switchAnimation.value,
-      [0, 1],
-      [circleColorInactive, circleColorActive]
-    ),
+    backgroundColor: interpolateColor(switchAnimation.value, [0, 1], [
+      circleColorInactive,
+      circleColorActive
+    ] as string[]),
     borderRadius: handlerSize / 2,
     transform: [{ translateX: switchAnimation.value * offset }] // 这里的 offset 是移动的终点
   }))

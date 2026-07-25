@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-28 16:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 14:38:22
+ * @Last Modified time: 2026-07-26 01:24:10
  */
 import React, { useCallback, useRef } from 'react'
 import { View } from 'react-native'
@@ -17,6 +17,9 @@ import { observer } from 'mobx-react'
 import { stl } from '@utils'
 import { separateStyles } from '../utils'
 
+import type { TimerRef, ViewStyle } from '@types'
+import type { TouchableReanimatedProps } from './types'
+
 const duration = 96
 
 function TouchableAnimated({
@@ -28,15 +31,15 @@ function TouchableAnimated({
   onPress,
   children,
   ...other
-}) {
+}: TouchableReanimatedProps) {
   /** 防止快速滑动时触摸到减少缩放的标志 */
   const hitRef = useRef(false)
 
   /** 动画准备开始的标志 */
-  const timeoutStartRef = useRef(null)
+  const timeoutStartRef = useRef<TimerRef>(null)
 
   /** 动画主动取消的标志 */
-  const timeoutCancelRef = useRef(null)
+  const timeoutCancelRef = useRef<TimerRef>(null)
 
   /** 动画进行中 */
   const animatingRef = useRef(false)
@@ -139,7 +142,9 @@ function TouchableAnimated({
   const _styles = separateStyles(style)
 
   return (
-    <Animated.View style={stl(_styles.containerStyle, containerStyle)}>
+    <Animated.View
+      style={stl(_styles.containerStyle as ViewStyle, containerStyle as unknown as ViewStyle)}
+    >
       <GenericTouchable
         style={_styles.style}
         {...other}

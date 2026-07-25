@@ -2,12 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-02-28 16:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 14:39:19
+ * @Last Modified time: 2026-07-26 01:16:10
  */
 import React, { useCallback, useRef } from 'react'
 import { Animated, Easing } from 'react-native'
 import GenericTouchable, { TOUCHABLE_STATE } from 'react-native-gesture-handler/src/components/touchables/GenericTouchable'
 import { USE_NATIVE_DRIVER } from '@constants'
+
+import type { TimerRef } from '@types'
+import type { TouchableAnimatedProps } from './types'
 
 const duration = 96
 const delay = 0
@@ -22,12 +25,12 @@ function TouchableAnimated({
   onPress,
   children,
   ...other
-}) {
+}: TouchableAnimatedProps) {
   /** 防止快速滑动时触摸到减少缩放的标志 */
   const hitRef = useRef(false)
 
   /** 动画准备开始的标志 */
-  const timeoutStartRef = useRef(null)
+  const timeoutStartRef = useRef<TimerRef>(null)
 
   /** 动画进行中 */
   const animatingRef = useRef(false)

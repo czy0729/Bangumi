@@ -2,14 +2,22 @@
  * @Author: czy0729
  * @Date: 2023-02-28 16:21:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-28 16:36:58
+ * @Last Modified time: 2026-07-26 01:15:41
  */
 import React from 'react'
 import { TouchableNativeFeedback as RNTouchableNativeFeedback, View } from 'react-native'
 import { TouchableNativeFeedback as GHTouchableNativeFeedback } from 'react-native-gesture-handler'
 import { separateStyles, styles } from '../utils'
 
-function TouchableNativeFeedback({ style, useRN, delayPressIn, children, ...other }) {
+import type { TouchableNativeFeedbackProps } from './types'
+
+function TouchableNativeFeedback({
+  style,
+  useRN,
+  delayPressIn,
+  children,
+  ...other
+}: TouchableNativeFeedbackProps) {
   // TouchableNativeFeedback 当 delayPressIn=0 时在安卓端触摸太快会触发涟漪, 需要延迟
   if (delayPressIn !== 0) delayPressIn = 80
 

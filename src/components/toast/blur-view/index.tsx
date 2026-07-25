@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-13 05:13:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-22 21:34:48
+ * @Last Modified time: 2026-07-26 01:35:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,6 +20,7 @@ function BlurView({ style, children }: Props) {
 
   const styles = _.create({
     blurView: {
+      // eslint-disable-next-line bangumi/forbid-computed-in-create
       backgroundColor: _.select('rgba(255, 255, 255, 0.4)', 'rgba(255, 255, 255, 0.08)'),
       borderRadius: _.radiusMd,
       overflow: 'hidden'

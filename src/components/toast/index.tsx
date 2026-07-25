@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-28 18:32:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-09 09:02:10
+ * @Last Modified time: 2026-07-26 01:31:46
  */
 import React from 'react'
 import { Portal } from '../portal'
@@ -11,9 +11,9 @@ import Container from './container'
 function notice(
   content: string,
   type: string,
-  duration = 2,
+  duration: number = 2,
   onClose: (() => void) | undefined,
-  mask = true
+  mask: boolean = true
 ) {
   const key = Portal.add(
     <Container

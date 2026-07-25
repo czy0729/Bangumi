@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-01 12:03:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-30 05:05:08
+ * @Last Modified time: 2026-07-26 01:46:03
  */
 import { Text, TextInput } from 'react-native'
 import { _ } from '@stores'
@@ -12,6 +12,7 @@ import { spacing } from '@utils/thirdParty/pangu-lite'
 import { IOS, WEB } from '@constants'
 import { memoStyles } from './styles'
 
+import type { ReactNode, TextStyle } from '@types'
 import type { Props as TextProps } from './types'
 
 /** 强制给内部组件注入默认参数 */
@@ -41,19 +42,19 @@ export function computedLineHeight(
 }
 
 /** 文字递归简转繁 */
-export function formatS2T(children: TextProps['children']) {
+export function formatS2T(children: TextProps['children']): ReactNode {
   if (typeof children === 'string') return s2t(children)
 
-  if (Array.isArray(children)) return children.map(item => formatS2T(item))
+  if (Array.isArray(children)) return (children as ReactNode[]).map(item => formatS2T(item))
 
   return children
 }
 
 /** 文字递归文案排版 */
-export function formatSpacing(children: TextProps['children']) {
+export function formatSpacing(children: TextProps['children']): ReactNode {
   if (typeof children === 'string') return spacing(children)
 
-  if (Array.isArray(children)) return children.map(item => formatSpacing(item))
+  if (Array.isArray(children)) return (children as ReactNode[]).map(item => formatSpacing(item))
 
   return children
 }
@@ -78,7 +79,7 @@ export function getTextStyle({
 
   if (type) textStyle.push(styles[type])
   if (underline) textStyle.push(styles.underline)
-  if (size) textStyle.push(_[`fontSize${size + _.device(0, _.padIncrease)}`])
+  if (size) textStyle.push(_[`fontSize${size + _.device(0, _.padIncrease)}`] as TextStyle)
 
   const _lineHeight = computedLineHeight(size, lineHeight, lineHeightIncrease)
   if (_lineHeight) {

@@ -15,7 +15,7 @@ import { info } from '../ui'
 import { log } from './utils'
 
 import type { ComponentType } from 'react'
-import type { AnyObject, Fn, TimerRef } from '@types'
+import type { AnyObject, Fn, TimerRef, ViewStyle, TextStyle, ImageStyle } from '@types'
 
 export * from '../date'
 
@@ -88,8 +88,8 @@ export function runAfter(fn: () => any, postTask: boolean = false) {
 }
 
 /** 若有后续样式返回数组否则返回第一参数 (用于防止组件重渲染) */
-export function stl(...styles: any[]): any | any[] {
-  const filteredStyles = styles.filter(Boolean)
+export function stl(...styles: (ViewStyle | TextStyle | ImageStyle | false | null | undefined)[]): ViewStyle | ViewStyle[] {
+  const filteredStyles = styles.filter(Boolean) as ViewStyle[]
   return filteredStyles.length === 1 ? filteredStyles[0] : filteredStyles
 }
 

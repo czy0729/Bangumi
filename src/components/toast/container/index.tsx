@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-28 18:30:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 14:51:51
+ * @Last Modified time: 2026-07-26 01:34:12
  */
 import React from 'react'
 import { ActivityIndicator, Animated, TouchableOpacity, View } from 'react-native'
@@ -14,9 +14,10 @@ import BlurView from '../blur-view'
 import Desc from '../desc'
 import { styles as overrideStyles } from './styles'
 
-import type { ToastProps } from './type'
+import type { State, ToastProps } from './type'
+import type { TimerRef } from '@types'
 
-export default class Container extends React.Component<ToastProps, any> {
+export default class Container extends React.Component<ToastProps, State> {
   static defaultProps = {
     duration: 3,
     mask: true,
@@ -30,7 +31,7 @@ export default class Container extends React.Component<ToastProps, any> {
 
   anim: Animated.CompositeAnimation | null
 
-  timeoutId: any
+  timeoutId: TimerRef
 
   componentDidMount() {
     const { type, onClose, onAnimationEnd } = this.props
@@ -96,7 +97,7 @@ export default class Container extends React.Component<ToastProps, any> {
     return (
       <WithTheme styles={this.props.styles} themeStyles={ToastStyles}>
         {styles => {
-          let iconDom: React.ReactElement<any> | null = null
+          let iconDom: React.ReactElement | null = null
           if (type === 'loading') {
             iconDom = (
               <ActivityIndicator

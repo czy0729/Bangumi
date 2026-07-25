@@ -7,7 +7,9 @@
 import React from 'react'
 import { TouchableOpacity as RNTouchableOpacity } from 'react-native'
 
-function TouchableOpacity({ useRN, children, ...other }) {
+import type { Props } from './types'
+
+function TouchableOpacity({ useRN, children, ...other }: Props) {
   return (
     <RNTouchableOpacity {...other} activeOpacity={0.72}>
       {children}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-29 17:25:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-02 15:00:16
+ * @Last Modified time: 2026-07-26 01:11:19
  */
 import { StyleSheet } from 'react-native'
 import { _ } from '@stores'
@@ -10,7 +10,7 @@ import { postTask } from '@utils'
 import { IOS } from '@constants'
 
 import type { StyleProp, TextStyle, ViewStyle } from 'react-native'
-import type { Fn } from '@types'
+import type { Fn, TimerRef } from '@types'
 
 export const defaultHitSlop = {
   top: _.device(3, 4),
@@ -27,7 +27,7 @@ export const styles = _.create({
 })
 
 let isCalled = false
-let timer: any
+let timer: TimerRef
 
 /** 防止瞬间多次点击 */
 export function callOnceInInterval(
@@ -35,7 +35,7 @@ export function callOnceInInterval(
   functionTobeCalled: Fn,
 
   /** 两次执行最小间隔 */
-  interval = 80
+  interval: number = 80
 ) {
   if (isCalled) return false
 
