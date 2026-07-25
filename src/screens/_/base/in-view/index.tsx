@@ -25,7 +25,7 @@ const InView = observer(
     const { $ } = useStore<Ctx>(COMPONENT)
 
     // 浏览器或者若页面没有管理的 y 轴数值, 或者传递了 index
-    if (WEB || (typeof index === 'number' && index < 8) || !('visibleBottom' in $?.state)) {
+    if (WEB || (typeof index === 'number' && index < 8) || !$?.state || !('visibleBottom' in $.state)) {
       return Object.keys(other).length ? <View {...other}>{children}</View> : children
     }
 
