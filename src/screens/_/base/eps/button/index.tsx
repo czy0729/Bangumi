@@ -2,42 +2,23 @@
  * @Author: czy0729
  * @Date: 2022-09-03 17:28:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-02 11:04:06
+ * @Last Modified time: 2026-07-25 18:53:07
  */
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Button as ButtonComp, Menu, Popover } from '@components'
 import { _, systemStore } from '@stores'
-import { FROZEN_ARRAY, FROZEN_FN, FROZEN_OBJECT, IOS, WSA } from '@constants'
+import { IOS, WSA } from '@constants'
 import FlipButton from '../flip-button'
-import { getComment, getPopoverData, getType } from './utils'
+import { getPopoverData, getType } from './utils'
 import { memoStyles } from './styles'
 
-function Button({
-  props = {
-    width: 0,
-    margin: 0,
-    subjectId: 0,
-    numbersOfLine: 8,
-    canPlay: false,
-    login: false,
-    advance: false,
-    userProgress: FROZEN_OBJECT,
-    flip: false,
-    onFliped: FROZEN_FN,
-    onSelect: FROZEN_FN,
-    onLongPress: FROZEN_FN
-  },
-  item = FROZEN_OBJECT as any,
-  eps = FROZEN_ARRAY,
-  epStatus = '',
-  isSp = false,
-  num = 0
-}) {
+import type { Props } from './types'
+
+function Button({ props, item, epStatus = '', isSp = false, num = 0 }: Props) {
   const styles = memoStyles()
 
-  // --- Data Logic ---
   const { heatMap } = systemStore.setting
   const {
     subjectId,
@@ -50,7 +31,9 @@ function Button({
     userProgress,
     flip,
     onFliped,
-    onSelect
+    onSelect,
+    commentMin = 0,
+    commentMax = 1
   } = props
 
   const type = getType(userProgress[item.id], item.status)
@@ -72,7 +55,6 @@ function Button({
     type
   } as const
 
-  // --- Memos ---
   const memoPopoverData = useMemo(
     () => getPopoverData(item, isSp, canPlay, login, advance, userProgress, epStatus),
     [item, isSp, canPlay, login, advance, userProgress, epStatus]
@@ -95,25 +77,22 @@ function Button({
         onSelect: (value: string) => onSelect(value, item, subjectId)
       }
 
-  // --- Memos (Elements) ---
   const elHeatMap = useMemo(() => {
     if (!heatMap) return null
 
-    const { min, max } = getComment(eps)
     return (
       <View
         style={[
           styles.bar,
           {
             /** 1.68 是比率, 增大少回复与高回复的透明度幅度 */
-            opacity: (item.comment - min / 1.68) / max
+            opacity: (item.comment - commentMin / 1.68) / commentMax
           }
         ]}
       />
     )
-  }, [heatMap, eps, item.comment, styles.bar])
+  }, [heatMap, item.comment, styles.bar, commentMin, commentMax])
 
-  // --- Render ---
   return (
     <View style={containerStyle}>
       {flip && <View style={styles.flip} />}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-05 22:19:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 15:41:57
+ * @Last Modified time: 2026-07-25 18:48:33
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -11,7 +11,9 @@ import { subjectStore } from '@stores'
 import Button from '../button'
 import { styles } from './styles'
 
-function SpButtons({ props, eps, preNum }) {
+import type { Props } from './types'
+
+function SpButtons({ props, eps, preNum }: Props) {
   if (!eps.length) return null
 
   const { width, margin, numbersOfLine } = props
@@ -25,6 +27,7 @@ function SpButtons({ props, eps, preNum }) {
       marginBottom: margin + 4
     }
   ]
+
   return (
     <>
       {!!eps.length && (
@@ -39,7 +42,6 @@ function SpButtons({ props, eps, preNum }) {
           key={item.id}
           props={props}
           item={item}
-          eps={eps}
           epStatus={subjectStore.epStatus(item.id)}
           isSp
           num={preNum + index + 2}

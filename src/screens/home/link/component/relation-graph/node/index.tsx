@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-12-15 05:12:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-17 23:14:32
+ * @Last Modified time: 2026-07-25 20:39:04
  */
 import React, { useCallback, useState } from 'react'
 import { Pressable, View } from 'react-native'
@@ -59,7 +59,7 @@ function Node({
       {systemStore.setting.subjectLinkCollected && (
         <Flex style={styles.collect}>
           <Text overrideStyle={styles.override} size={20} lineHeight={24}>
-            {collectionStore.collect(item.id, MODEL_SUBJECT_TYPE.getTitle(item.type))}
+            {collectionStore.collect(item.id, MODEL_SUBJECT_TYPE.getTitle(item.type))}{' '}
           </Text>
         </Flex>
       )}

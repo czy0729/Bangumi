@@ -1,16 +1,15 @@
 /*
  * @Author: czy0729
  * @Date: 2023-03-31 05:22:23
- * @Last Modified by: imagebuilder1837
- * @Last Modified time: 2026-05-22 20:15:51
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-07-25 08:59:45
  */
 import React from 'react'
-import { toJS } from 'mobx'
 import { observer } from 'mobx-react'
 import { Component, Flex, Iconfont, ScrollView, Touchable } from '@components'
 import { rakuenStore, timelineStore, uiStore } from '@stores'
 import { feedback } from '@utils'
-import { r } from '@utils/dev'
+import { logger, r } from '@utils/dev'
 import { useBoolean } from '@utils/hooks'
 import { IOS, LIKE_TYPE_SAY, LIKE_TYPE_TIMELINE } from '@constants'
 import Btn from './btn'
@@ -18,7 +17,7 @@ import Flip from './flip'
 import { COMPONENT, HIT_SLOP, LIMIT } from './ds'
 import { memoStyles } from './styles'
 
-import type { Props as LikesProps } from './types'
+import type { Props as LikesProps, LikesItem } from './types'
 export type { LikesProps }
 
 /** 贴贴显示列表 */
@@ -46,22 +45,24 @@ export const Likes = observer(
     const isTimeline = likeType == LIKE_TYPE_TIMELINE || likeType == LIKE_TYPE_SAY
     if (isTimeline && !id) return null
 
-    const likesList: any[] =
+    const likesList: LikesItem[] =
       storybook?.likesList ||
       (isTimeline ? timelineStore.likesList(id) : rakuenStore.likesList(topicId, id)) ||
       []
 
-    // 避免不可预料的结构错误
-    if (!Array.isArray(toJS(likesList))) return null
-
     const showCreateBtn = show || showCreate
     if (!showCreateBtn && !likesList.length) return null
 
-    const visibleLikesList = likesList.filter(
-      (item, index) => item.selected || state || index < limit
-    )
-    const hasHiddenLikes =
-      !state && likesList.some((item, index) => !item.selected && index >= limit)
+    let visibleLikesList: LikesItem[] = []
+    let hasHiddenLikes = false
+    try {
+      visibleLikesList = likesList.filter((item, index) => item.selected || state || index < limit)
+      hasHiddenLikes = !state && likesList.some((item, index) => !item.selected && index >= limit)
+    } catch (e) {
+      logger.warn(COMPONENT, 'filter likesList error:', e)
+      return null
+    }
+
     const styles = memoStyles()
 
     return (

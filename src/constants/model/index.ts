@@ -67,15 +67,15 @@ export const EP_STATUS = [
 /** 章节状态 */
 export const MODEL_EP_STATUS = new Model(EP_STATUS, 'EP_STATUS')
 
-/** 章节类型 */
+/** 章节类型 (本篇 = 0 特别篇 = 1 OP = 2 ED = 3 预告/宣传/广告 = 4 MAD = 5 其他 = 6) */
 export const EP_TYPE = [
   {
     label: '普通',
-    value: '1'
+    value: '0'
   },
   {
     label: 'SP',
-    value: '0'
+    value: '1'
   }
 ] as const
 

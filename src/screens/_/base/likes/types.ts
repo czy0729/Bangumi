@@ -1,13 +1,18 @@
 /*
  * @Author: czy0729
  * @Date: 2023-04-05 14:59:57
- * @Last Modified by: imagebuilder1837
- * @Last Modified time: 2026-05-22 20:24:34
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-07-25 08:45:25
  */
 import type { rakuenStore } from '@stores'
 import type { BlogId, Fn, Id, SubjectId, TopicId, ViewStyle } from '@types'
 
 type LikesList = ReturnType<typeof rakuenStore.likesList>
+
+/** 贴贴列表项 */
+export type LikesItem = NonNullable<LikesList>[number] & {
+  users?: { username: string; nickname: string }[]
+}
 
 export type Props = {
   style?: ViewStyle

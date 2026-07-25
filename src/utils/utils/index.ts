@@ -162,7 +162,9 @@ export function compare(a: string, b: string) {
  * @param fn 映射函数, 将比较项转换后再进行比较
  * @returns 如果a < b, 则返回 -1; 如果a = b, 则返回 0; 如果a > b, 则返回 1
  */
-export function asc(a: any, b: any, fn?: (item: any) => any): 0 | 1 | -1 {
+export function asc(a: number | string, b: number | string): 0 | 1 | -1
+export function asc<T, K extends number | string>(a: T, b: T, fn: (item: T) => K): 0 | 1 | -1
+export function asc(a: any, b: any, fn?: (item: any) => number | string): 0 | 1 | -1 {
   const _a = typeof fn === 'function' ? fn(a) : a
   const _b = typeof fn === 'function' ? fn(b) : b
   if (typeof _a === 'string' && typeof _b === 'string') return compare(_b, _a)
@@ -178,7 +180,9 @@ export function asc(a: any, b: any, fn?: (item: any) => any): 0 | 1 | -1 {
  * @param fn 映射函数, 将比较项转换后再进行比较
  * @returns 如果a < b, 则返回 1; 如果a = b, 则返回 0; 如果a > b, 则返回 -1
  */
-export function desc(a: any, b: any, fn?: (item: any) => any): 0 | 1 | -1 {
+export function desc(a: number | string, b: number | string): 0 | 1 | -1
+export function desc<T, K extends number | string>(a: T, b: T, fn: (item: T) => K): 0 | 1 | -1
+export function desc(a: any, b: any, fn?: (item: any) => number | string): 0 | 1 | -1 {
   const _a = typeof fn === 'function' ? fn(a) : a
   const _b = typeof fn === 'function' ? fn(b) : b
   if (typeof _a === 'string' && typeof _b === 'string') return compare(_a, _b)

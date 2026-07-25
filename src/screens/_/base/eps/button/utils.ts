@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-05-25 17:20:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-09 17:35:12
+ * @Last Modified time: 2026-07-25 18:54:43
  */
 import dayjs from 'dayjs'
 import { systemStore } from '@stores'
 import { desc, HTMLDecode } from '@utils'
 import { TEXT_MENU_SPLIT_LEFT, TEXT_MENU_SPLIT_RIGHT, TEXT_MENU_TOPIC, WEB, WSA } from '@constants'
 
-import type { DEFAULT_PROPS } from './ds'
+import type { Ep } from '@stores/subject/types'
 
 const TODAY = dayjs().subtract(1, 'day').format('YYYY-MM-DD 23:59:59')
 
 export function getPopoverData(
-  item: { comment: any; name_cn: any; name: any; id: string | number; airdate: string },
+  item: Ep,
   isSp: boolean,
   canPlay: boolean,
   login: boolean,
@@ -58,7 +58,7 @@ export function getPopoverData(
   return data
 }
 
-export function getType(progress: any, status: any) {
+export function getType(progress: string, status: Ep['status']) {
   switch (progress) {
     case '想看':
       return 'main'
@@ -82,26 +82,5 @@ export function getType(progress: any, status: any) {
 
     default:
       return 'disabled'
-  }
-}
-
-export function getComment(eps: any[] | readonly any[]) {
-  return {
-    min: Math.min(...eps.map(item => item.comment || 1).filter(item => !!item)),
-    max: Math.max(...eps.map(item => item.comment || 1))
-  }
-}
-
-/** @deprecated */
-export function customCompare({ props, item, eps, isSp, num }: typeof DEFAULT_PROPS) {
-  const { userProgress, flip, ...otherProps } = props
-  return {
-    props: otherProps,
-    userProgress: userProgress[item?.id],
-    item,
-    eps: eps?.length,
-    isSp,
-    num,
-    flip
   }
 }

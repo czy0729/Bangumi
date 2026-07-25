@@ -2,11 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-13 05:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-17 00:05:56
+ * @Last Modified time: 2026-07-25 18:31:01
  */
 module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
+  parserOptions: {
+    project: './tsconfig.json'
+  },
   plugins: ['@typescript-eslint/eslint-plugin', 'react-hooks', 'prettier', 'bangumi'],
   ignorePatterns: [
     '/components/@/*',
@@ -51,6 +54,32 @@ module.exports = {
     }
   ],
   rules: {
+    /** 禁止显式使用 any 类型 */
+    '@typescript-eslint/no-explicit-any': 'warn',
+
+    /** 禁止 any 类型赋值 */
+    '@typescript-eslint/no-unsafe-assignment': 'warn',
+
+    /** 禁止访问 any 类型的成员 */
+    '@typescript-eslint/no-unsafe-member-access': 'warn',
+
+    /** 禁止调用 any 类型 */
+    '@typescript-eslint/no-unsafe-call': 'warn',
+
+    /** 禁止返回 any 类型 */
+    '@typescript-eslint/no-unsafe-return': 'warn',
+
+    /** 禁止将 any 作为参数传递 */
+    '@typescript-eslint/no-unsafe-argument': 'warn',
+
+    /** 要求函数参数有类型注解 */
+    '@typescript-eslint/typedef': [
+      'warn',
+      {
+        parameter: true
+      }
+    ],
+
     /** 允许变量与外部作用域同名 */
     '@typescript-eslint/no-shadow': 0,
 

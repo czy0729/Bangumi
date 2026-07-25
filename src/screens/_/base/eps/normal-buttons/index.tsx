@@ -2,27 +2,28 @@
  * @Author: czy0729
  * @Date: 2021-08-05 16:47:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-02 11:57:40
+ * @Last Modified time: 2026-07-25 20:22:01
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex } from '@components'
 import { subjectStore, systemStore } from '@stores'
-import { MODEL_EP_TYPE } from '@constants'
 import Button from '../button'
 import SpButtons from '../sp-buttons'
 import TimelineAvatars from '../timeline-avatars'
 
-function NormalButtons({ props, eps }) {
-  const itemsNormal = []
-  const itemsSp = []
-  eps.forEach((item: { type: any }) => {
-    const label = MODEL_EP_TYPE.getLabel(item.type)
-    if (label === '普通') {
-      itemsSp.push(item)
-    } else if (label === 'SP') {
+import type { Ep } from '@stores/subject/types'
+import type { Props } from './types'
+
+function NormalButtons({ props, eps }: Props) {
+  const itemsNormal: Ep[] = []
+  const itemsSp: Ep[] = []
+  eps.forEach(item => {
+    if (item.type === 0) {
       itemsNormal.push(item)
+    } else if (item.type === 1) {
+      itemsSp.push(item)
     }
   })
 
@@ -47,7 +48,6 @@ function NormalButtons({ props, eps }) {
             <Button
               props={props}
               item={item}
-              eps={eps}
               epStatus={subjectStore.epStatus(item.id)}
               num={num}
             />
@@ -55,7 +55,11 @@ function NormalButtons({ props, eps }) {
         )
       })}
 
-      <SpButtons props={props} eps={itemsSp} preNum={itemsNormal.length} />
+      <SpButtons
+        props={props}
+        eps={itemsSp}
+        preNum={itemsNormal.length}
+      />
     </Flex>
   )
 }

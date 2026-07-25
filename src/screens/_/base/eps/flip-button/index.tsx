@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-02 20:50:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 15:40:47
+ * @Last Modified time: 2026-07-25 20:21:06
  */
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { View } from 'react-native'
@@ -18,6 +18,8 @@ import { _ } from '@stores'
 import { feedback, urlStringify } from '@utils'
 import { IOS } from '@constants'
 
+import type { Props } from './types'
+
 const perspective = 2400
 const config = {
   duration: 480,
@@ -25,9 +27,11 @@ const config = {
 }
 let feedbacked = false
 
-function FlipBtn({ style, styleText, type, text, onAnimated }) {
+function FlipBtn({ style, styleText, type, text, onAnimated }: Props) {
+  const _style = (style || {}) as Record<string, unknown>
+  const height = typeof _style.height === 'number' ? _style.height : _.device(32, 44)
+
   const animate = true
-  const { height = _.device(32, 44) } = style
   const activeRef = useSharedValue(0)
   const animatedRef = useRef(false)
 

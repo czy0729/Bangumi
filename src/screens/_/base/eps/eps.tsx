@@ -2,21 +2,21 @@
  * @Author: czy0729
  * @Date: 2022-08-31 14:21:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-02 11:02:30
+ * @Last Modified time: 2026-07-25 20:24:07
  */
 import React, { useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
 import { _ } from '@stores'
 import { arrGroup, asc, postTask } from '@utils'
 import { memo } from '@utils/decorators'
-import { FROZEN_ARRAY, FROZEN_FN, FROZEN_OBJECT, MODEL_EP_TYPE, WSA } from '@constants'
+import { FROZEN_ARRAY, FROZEN_FN, FROZEN_OBJECT, WSA } from '@constants'
 import Carousel from './carousel'
 import NormalButtons from './normal-buttons'
+import { getComment } from './utils'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 import type { LayoutChangeEvent } from 'react-native'
-import type { EpTypeCn } from '@types'
-import type { Props } from './types'
+import type { PassProps, Props } from './types'
 
 export default memo(
   ({
@@ -38,10 +38,8 @@ export default memo(
     onFliped = FROZEN_FN,
     onSelect = FROZEN_FN
   }: Props) => {
-    // --- Data Logic ---
     const [width, setWidth] = useState(layoutWidth - marginRight)
 
-    // --- Memos ---
     const memoBtnStyle = useMemo(() => {
       if (WSA || _.isPad) {
         return {
@@ -65,7 +63,34 @@ export default memo(
       }
     }, [width, numbersOfLine, grid])
 
-    const memoPassProps = useMemo(() => {
+    const memoPages = useMemo(() => {
+      const epsData = eps || []
+
+      // 一次遍历完成: 过滤有效类型 + 检测是否有 SP
+      let hasSp = false
+      const filteredEps = epsData.filter(item => {
+        if (item.type === 1) hasSp = true
+        return item.type === 0 || item.type === 1
+      })
+
+      // 保证 SP 排在普通章节后面
+      if (hasSp) {
+        filteredEps.sort((a, b) => asc(a, b, item => (item.type === 0 ? 1 : 0)))
+      }
+
+      // 计算评论数的 min/max，用于热力图
+      const { min: commentMin, max: commentMax } = getComment(filteredEps)
+
+      // SP 可能会占用一格, 若 eps 当中存在 sp, 每组要减 1 项避免换行
+      const arrNum = numbersOfLine * lines - (lines <= 3 ? 0 : advance && hasSp ? 1 : 0)
+      return {
+        pages: arrGroup(filteredEps, arrNum),
+        commentMin,
+        commentMax
+      }
+    }, [eps, numbersOfLine, lines, advance])
+
+    const memoPassProps = useMemo<PassProps>(() => {
       const { width: btnWidth, margin: btnMargin } = memoBtnStyle
 
       return {
@@ -79,7 +104,9 @@ export default memo(
         width: btnWidth,
         flip,
         onFliped,
-        onSelect
+        onSelect,
+        commentMin: memoPages.commentMin,
+        commentMax: memoPages.commentMax
       }
     }, [
       advance,
@@ -91,33 +118,11 @@ export default memo(
       userProgress,
       flip,
       onFliped,
-      onSelect
+      onSelect,
+      memoPages.commentMin,
+      memoPages.commentMax
     ])
 
-    const memoPages = useMemo(() => {
-      let epsData = eps || []
-
-      /** 是否有 SP */
-      const hasSp = epsData.some(item => item.type == 1)
-      if (hasSp) {
-        // 保证 SP 排在普通章节后面
-        epsData = epsData
-          .slice()
-          // 后来发现会有 2 的情况, 是 OP 或 ED, 暂时排除掉
-          .filter(item => item.type === 0 || item.type === 1)
-          .sort((a, b) =>
-            asc(a, b, item =>
-              MODEL_EP_TYPE.getLabel<EpTypeCn>(String(item.type)) === '普通' ? 1 : 0
-            )
-          )
-      }
-
-      // SP 可能会占用一格, 若 eps 当中存在 sp, 每组要减 1 项避免换行
-      const arrNum = numbersOfLine * lines - (lines <= 3 ? 0 : advance && hasSp ? 1 : 0)
-      return arrGroup(epsData, arrNum)
-    }, [eps, numbersOfLine, lines, advance])
-
-    // --- Handlers ---
     const handleLayout = useCallback(
       (event: LayoutChangeEvent) => {
         if (layoutWidth) return
@@ -131,8 +136,8 @@ export default memo(
       [orientation, layoutWidth, marginRight]
     )
 
-    // --- Render ---
-    if (!memoPages.length) return null
+    const { pages } = memoPages
+    if (!pages.length) return null
 
     const mounted = width !== 0
     const layoutStyle = mounted
@@ -148,10 +153,10 @@ export default memo(
       return (
         <View style={layoutStyle} onLayout={handleLayout}>
           {mounted ? (
-            memoPages.length <= 1 ? (
-              <NormalButtons props={memoPassProps} eps={memoPages[0]} />
+            pages.length <= 1 ? (
+              <NormalButtons props={memoPassProps} eps={pages[0]} />
             ) : (
-              <Carousel props={memoPassProps} epsGroup={memoPages} />
+              <Carousel props={memoPassProps} epsGroup={pages} />
             )
           ) : null}
         </View>
@@ -165,7 +170,7 @@ export default memo(
 
     return (
       <View style={[layoutStyle, marginStyle]} onLayout={handleLayout}>
-        {mounted && <NormalButtons props={memoPassProps} eps={memoPages[0]} />}
+        {mounted && <NormalButtons props={memoPassProps} eps={pages[0]} />}
       </View>
     )
   },

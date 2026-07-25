@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-13 08:07:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 15:42:17
+ * @Last Modified time: 2026-07-25 20:26:37
  */
 import type { Ep } from '@stores/subject/types'
 import type { Fn, SubjectId, WithViewStyles } from '@types'
@@ -42,7 +42,7 @@ export type Props = WithViewStyles<{
   subjectId?: SubjectId
 
   /** 用户收藏记录 */
-  userProgress?: object
+  userProgress?: Record<string, string>
 
   /** 目前的设备方向 */
   orientation?: string
@@ -59,3 +59,26 @@ export type Props = WithViewStyles<{
   /** @deprecated 长按回调 */
   // onLongPress?: (item?: object, subjectId?: SubjectId) => void
 }>
+
+/** memoPassProps 传递给子组件的精简 props */
+export type PassProps = Pick<
+  Props,
+  | 'advance'
+  | 'canPlay'
+  | 'login'
+  | 'numbersOfLine'
+  | 'subjectId'
+  | 'userProgress'
+  | 'flip'
+  | 'onFliped'
+  | 'onSelect'
+> & {
+  margin: number
+  width: number
+
+  /** 章节评论数最小值（用于热力图） */
+  commentMin: number
+
+  /** 章节评论数最大值（用于热力图） */
+  commentMax: number
+}

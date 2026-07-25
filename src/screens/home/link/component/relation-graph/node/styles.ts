@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-12-15 05:14:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-15 12:41:32
+ * @Last Modified time: 2026-07-25 20:39:15
  */
 import { _ } from '@stores'
 import { NODE_OFFSET, NODE_WIDTH, SCREEN_WIDTH, YEAR_TEXT_GAP } from '../ds'
@@ -44,7 +44,7 @@ export const memoStyles = _.memoStyles(() => ({
     top: NODE_OFFSET / 2,
     right: 0,
     bottom: 0,
-    marginRight: -((SCREEN_WIDTH - NODE_WIDTH) / 2) + YEAR_TEXT_GAP + 8,
+    marginRight: -((SCREEN_WIDTH - NODE_WIDTH) / 2) + YEAR_TEXT_GAP + 6,
     paddingVertical: 2,
     paddingHorizontal: YEAR_TEXT_GAP,
     pointerEvents: 'none',

@@ -2,16 +2,19 @@
  * @Author: czy0729
  * @Date: 2021-08-05 16:43:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 06:36:11
+ * @Last Modified time: 2026-07-25 18:55:57
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import AntCarousel from '@ant-design/react-native/lib/carousel'
+import { FROZEN_ARRAY } from '@constants'
 import NormalButtons from '../normal-buttons'
 import { memoStyles, paginationStyles } from './styles'
 
-function Carousel({ props, epsGroup = [] }) {
+import type { Props } from './types'
+
+function Carousel({ props, epsGroup = FROZEN_ARRAY }: Props) {
   const styles = memoStyles()
 
   return (
