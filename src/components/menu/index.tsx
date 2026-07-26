@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-06 06:57:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 01:51:40
+ * @Last Modified time: 2026-07-26 05:52:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -57,7 +57,7 @@ export const Menu = observer(
             </Text>
           )}
           {removeDuplicateStrings(data).map(
-            (item: string | { title: string; type: string }, index: number) => {
+            (item: string | { title?: string; type?: string }, index: number) => {
               const showBorder = title.length !== 0 || (title.length === 0 && index !== 0)
               if (typeof item === 'string') {
                 return (

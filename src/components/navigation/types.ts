@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-07-25 15:09:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 01:57:33
+ * @Last Modified time: 2026-07-26 05:15:46
  */
 import type { PropsWithChildren } from 'react'
 
@@ -10,14 +10,14 @@ export type Props = PropsWithChildren<{}>
 
 export type NavigationEventsProps = {
   /** 聚焦前，在 react-navigation@5 后，与 onDidFocus 合并，同时只使用一个即可 */
-  onWillFocus?: () => any
+  onWillFocus?: () => void
 
   /** 聚焦后，在 react-navigation@5 后，与 onWillFocus 合并，同时只使用一个即可 */
-  onDidFocus?: () => any
+  onDidFocus?: () => void
 
   /** 失去焦点前，在 react-navigation@5 后，与 onDidBlur 合并，同时只使用一个即可 */
-  onWillBlur?: () => any
+  onWillBlur?: () => void
 
   /** 失去焦点后，在 react-navigation@5 后，与 onWillBlur 合并，同时只使用一个即可 */
-  onDidBlur?: () => any
+  onDidBlur?: () => void
 }

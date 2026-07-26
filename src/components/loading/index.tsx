@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 22:49:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-25 06:30:57
+ * @Last Modified time: 2026-07-26 04:19:30
  */
 import React from 'react'
 import { ActivityIndicator } from 'react-native'
@@ -54,7 +54,7 @@ const Mini = observer(({ style, color, size = 'small' }: ActivityIndicatorProps)
 })
 
 /** Loading */
-const Loading: ILoading = observer(({ style, spinnerStyle, color, size = 'small', children }) => {
+const Loading: ILoading = observer(({ style, spinnerStyle, color, size = 'large', children }) => {
   r(COMPONENT)
 
   return (

@@ -7,7 +7,12 @@
 import type { Fn, TopicId } from '@types'
 
 export type Props = {
+  /** 帖子 ID */
   topicId?: TopicId
+
+  /** 解析后的文本内容 */
   text?: string
+
+  /** 链接点击回调 */
   onLinkPress?: Fn
 }

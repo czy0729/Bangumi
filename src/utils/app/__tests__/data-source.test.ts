@@ -224,11 +224,10 @@ describe('fixedRemoteImageUrl', () => {
   })
 
   // 已修复：regex 使用 [^/]+ 防止跨斜杠匹配
-  it('Cloudflare mirage 前缀正确去除', () => {
+  it('补全 https 协议, 但保留 cdn-cgi 前缀', () => {
     const input = '//lain.bgm.tv/cdn-cgi/mirage/xxx-xxx-1800/1280/pic/test.jpg'
     const result = fixedRemoteImageUrl(input)
-    expect(result).not.toContain('cdn-cgi')
-    expect(result).toBe('https://lain.bgm.tv/pic/test.jpg')
+    expect(result).toBe('https://lain.bgm.tv/cdn-cgi/mirage/xxx-xxx-1800/1280/pic/test.jpg')
   })
 
   it('带 r/ 前缀时替换质量标记为 l', () => {

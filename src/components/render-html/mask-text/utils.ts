@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-02-26 21:45:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-07 21:25:09
+ * @Last Modified time: 2026-07-26 07:03:04
  */
 import React from 'react'
 import { IOS } from '@constants'
@@ -28,16 +28,24 @@ export function maskRichText(children: ReactNode, show: boolean): ReactNode {
   return maskChildren(children, show, getMaskTextStyle(show))
 }
 
+/** 元素 props 的可访问字段 */
+type ElementProps = {
+  style?: TextStyle
+  onPress?: unknown
+  children?: ReactNode
+}
+
 function maskChildren(children: ReactNode, show: boolean, style: TextStyle): ReactNode {
   if (children == null || typeof children === 'boolean') return children
 
   if (typeof children === 'string' || typeof children === 'number') return children
 
-  if (Array.isArray(children)) return children.map(item => maskChildren(item, show, style))
+  if (Array.isArray(children))
+    return (children as ReactNode[]).map(item => maskChildren(item, show, style))
 
   if (React.isValidElement(children)) {
-    const element = children as ReactElement<any>
-    const props = element.props || {}
+    const element = children as ReactElement<ElementProps>
+    const props = (element.props ?? {}) as ElementProps
 
     if (!show && element.type === EmojiText) {
       return '　'
@@ -53,7 +61,7 @@ function maskChildren(children: ReactNode, show: boolean, style: TextStyle): Rea
     if (!show && props.onPress) nextProps.onPress = undefined
     if ('children' in props) nextProps.children = maskChildren(props.children, show, style)
 
-    return React.cloneElement(element, nextProps)
+    return React.cloneElement(element, nextProps as Record<string, unknown>)
   }
 
   return children

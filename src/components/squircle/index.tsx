@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-09 14:10:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 04:01:21
+ * @Last Modified time: 2026-07-26 03:06:35
  */
 import React from 'react'
 import Svg, { ClipPath, Defs, Path } from 'react-native-svg'
@@ -45,6 +45,7 @@ export const Squircle = observer(
       )
     }
 
+    /** 生成 iOS 风格平滑圆角遮罩路径 */
     const maskPath = getMaskPath({
       width: width || height,
       height: height || width,

@@ -2,14 +2,16 @@
  * @Author: czy0729
  * @Date: 2023-12-12 04:53:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-12 05:28:55
+ * @Last Modified time: 2026-07-26 03:00:00
  */
 import React from 'react'
 import { _ } from '@stores'
 import { Component } from '../../component'
 import { Flex } from '../../flex'
 
-function Radius({ style, width, height, radius, children }) {
+import type { Props as SquircleProps } from '../types'
+
+function Radius({ style, width, height, radius, children }: SquircleProps) {
   let borderRadius: number
 
   if (radius === true || !radius) {

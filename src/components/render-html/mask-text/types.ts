@@ -8,5 +8,6 @@ import type { PropsWithChildren } from 'react'
 import type { TextStyle } from '@types'
 
 export type Props = PropsWithChildren<{
+  /** 文本样式 */
   style?: TextStyle
 }>

@@ -5,16 +5,18 @@
  * @Last Modified time: 2024-03-13 07:59:08
  */
 export type Props = {
+  /** 自定义渐变颜色数组，覆盖默认主题色 */
   shimmerColors?: string[]
 
-  /** 渐变颜色风格 */
+  /** 渐变颜色风格，默认 'app' */
   type?: 'app' | 'tinygrail'
 
-  /** 容器宽度 */
+  /** 骨架屏宽度 */
   width?: number
 
-  /** 容器高度 */
+  /** 骨架屏高度 */
   height?: number
 
+  /** 动画时长（毫秒），默认 1600 */
   duration?: number
 }

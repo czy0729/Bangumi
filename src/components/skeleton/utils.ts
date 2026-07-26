@@ -7,7 +7,8 @@
 import { _ } from '@stores'
 import { SHIMMER_COLORS, SHIMMER_COLORS_DARK, SHIMMER_COLORS_TINYGRAIL_DARK } from './ds'
 
-export function getSkeletonColor(type?: 'tinygrail' | 'app') {
+/** 获取骨架屏背景色 */
+export function getSkeletonColor(type?: 'tinygrail' | 'app'): string {
   return _.select(
     SHIMMER_COLORS,
     type === 'tinygrail' ? SHIMMER_COLORS_TINYGRAIL_DARK : SHIMMER_COLORS_DARK

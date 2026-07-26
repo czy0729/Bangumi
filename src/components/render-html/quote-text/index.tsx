@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:05:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-29 22:59:04
+ * @Last Modified time: 2026-07-26 07:05:19
  */
 import React, { useMemo, useState } from 'react'
 import { View } from 'react-native'
@@ -23,9 +23,11 @@ function QuoteText({ children }: PropsWithChildren<{}>) {
 
   const processedChildren = useMemo(() => {
     if (!IOS && Array.isArray(children) && children.length > 1) {
-      return children.filter(
-        item => !(item?.[0]?.key && String(item[0].key).indexOf('View-') === 0)
-      )
+      return (children as React.ReactNode[]).filter(item => {
+        if (!Array.isArray(item)) return true
+        const first = item[0] as { key?: string } | undefined
+        return !(first?.key && String(first.key).indexOf('View-') === 0)
+      })
     }
     return children
   }, [children])

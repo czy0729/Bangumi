@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-13 05:12:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 03:01:48
+ * @Last Modified time: 2026-07-26 17:44:55
  */
 import React, { useEffect, useState } from 'react'
 import { observer } from 'mobx-react'
@@ -16,7 +16,10 @@ import type { Props } from './types'
 
 function A({ style, attrs = {}, passProps, children, onPress, ...other }: Props) {
   const { href } = attrs
-  const { route, params = {}, app } = matchBgmLink(href) || {}
+  const matched = matchBgmLink(href) || undefined
+  const route = matched?.route
+  const params = (matched?.params ?? {}) as Record<string, string>
+  const app = matched?.app
 
   const [el, setEl] = useState<JSX.Element>(null)
 
@@ -33,7 +36,10 @@ function A({ style, attrs = {}, passProps, children, onPress, ...other }: Props)
 
     ;(async () => {
       if (app && route === 'Subject') {
-        if (rakuenStore.setting.acSearchV2) setEl(getACSearch(args))
+        if (rakuenStore.setting.acSearchV2) {
+          const result = getACSearch(args)
+          if (result) setEl(result)
+        }
         return
       }
 
@@ -59,12 +65,14 @@ function A({ style, attrs = {}, passProps, children, onPress, ...other }: Props)
   if (el) return el
 
   const childrens = React.Children.toArray(children)
+  const child = childrens[0] as React.ReactElement
   if (
     childrens?.length === 1 &&
-    // @ts-expect-error
-    childrens?.[0]?.type?.displayName === 'ToggleImage'
+    child?.type &&
+    typeof child.type === 'function' &&
+    (child.type as { displayName?: string }).displayName === 'ToggleImage'
   ) {
-    return childrens[0]
+    return child
   }
 
   return (

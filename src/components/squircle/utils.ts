@@ -10,7 +10,8 @@ import { WEB } from '@constants'
 
 import type { getMaskPathInput } from './types'
 
-const cacheMap = new Map<string, any>()
+const pathCache = new Map<string, string>()
+const radiusCache = new Map<string, number>()
 
 /** iOS 圆角轨迹参数 */
 const iOS_PREST = {
@@ -29,9 +30,9 @@ export const DEFAULT_ROUNDNESS = 0.176
 export const ROUND_ROUNDNESS = 0.35
 
 /** 获取 iOS 圆角轨迹遮罩 svg */
-export function getMaskPath(input: getMaskPathInput) {
+export function getMaskPath(input: getMaskPathInput): string {
   const id = `getMaskPath|${JSON.stringify(input)}`
-  if (cacheMap.has(id)) return cacheMap.get(id)
+  if (pathCache.has(id)) return pathCache.get(id)!
 
   const { width, height } = input
 
@@ -54,12 +55,12 @@ export function getSquirclePath(
   h: number,
   r1: number = iOS_PREST.r1,
   r2: number = iOS_PREST.r2
-) {
+): string {
   const id = `getSquirclePath|${w}|${h}|${r1}|${r2}`
-  if (cacheMap.has(id)) return cacheMap.get(id)
+  if (pathCache.has(id)) return pathCache.get(id)!
 
   r1 = Math.min(r1, r2)
-  return `
+  const path = `
     M 0,${r2}
     C 0,${r1} ${r1},0 ${r2},0
     L ${w - r2},0
@@ -72,16 +73,18 @@ export function getSquirclePath(
   `
     .trim()
     .replace(/\n/g, ' ')
+  pathCache.set(id, path)
+  return path
 }
 
 /** 自动计算适合比例的圆角大小 */
-export function getRadius(size: number, radius?: number | boolean) {
+export function getRadius(size: number, radius?: number | boolean): number {
   const id = `getRadius|${size}|${radius}`
-  if (cacheMap.has(id)) return cacheMap.get(id)
+  if (radiusCache.has(id)) return radiusCache.get(id)!
 
   // 若长和高一样, radius 大于等于长和高, 认为是圆
   if (size && radius && Number(radius) >= size) {
-    cacheMap.set(id, radius)
+    radiusCache.set(id, radius as number)
     return radius as number
   }
 
@@ -94,11 +97,13 @@ export function getRadius(size: number, radius?: number | boolean) {
     } else {
       value = MIN_RADIUS
     }
+  } else {
+    value = radius
   }
 
   if (!size) {
     const borderRadius = value || MIN_RADIUS
-    cacheMap.set(id, borderRadius)
+    radiusCache.set(id, borderRadius)
     return borderRadius
   }
 
@@ -118,7 +123,7 @@ export function getRadius(size: number, radius?: number | boolean) {
     Math.max(Math.floor(size * ratio), size <= 28 ? MIN_RADIUS : MIN_RADIUS * 2),
     MAX_RADIUS
   )
-  cacheMap.set(id, borderRadius)
+  radiusCache.set(id, borderRadius)
   return borderRadius
 }
 

@@ -7,9 +7,12 @@
 import React from 'react'
 import Li from '../li'
 
-export function li({ key, style, className, children }) {
+import type { ViewStyle } from 'react-native'
+import type { StyledRendererProps } from './types'
+
+export function li({ key, style, className, children }: StyledRendererProps) {
   return (
-    <Li key={key} style={style} className={className}>
+    <Li key={key} style={style as ViewStyle} className={className}>
       {children}
     </Li>
   )

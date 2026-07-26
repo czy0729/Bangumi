@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 20:58:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 02:54:13
+ * @Last Modified time: 2026-07-26 05:14:42
  */
 import React, { useRef, useState } from 'react'
 import { KeyboardAvoidingView } from 'react-native'
@@ -23,6 +23,7 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { EventKeys } from '@constants/events'
+import type { InputInstance } from '../input'
 import type { Props as PaginationProps } from './types'
 export type { PaginationProps }
 
@@ -41,7 +42,7 @@ export const Pagination = observer(
   }: PaginationProps) => {
     r(COMPONENT)
 
-    const inputRef = useRef(null)
+    const inputRef = useRef<InputInstance>(null)
 
     const [isFocused, setIsFocused] = useState(false)
 

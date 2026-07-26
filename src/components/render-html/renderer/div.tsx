@@ -8,10 +8,12 @@ import React from 'react'
 import { Expand } from '../../expand'
 import CodeBlock from '../code-block'
 
+import type { DivRendererProps, RawNode } from './types'
+
 /** 收起状态下最多显示的行数 */
 const COLLAPSED_MAX_LINES = 10
 
-export function div({ key, attrs, className, children, rawChildren }) {
+export function div({ key, attrs, className, children, rawChildren }: DivRendererProps) {
   // 代码高亮块
   if (className?.includes('codeHighlight')) {
     const text = extractText(rawChildren?.[0])
@@ -42,12 +44,12 @@ export function div({ key, attrs, className, children, rawChildren }) {
 }
 
 /** 递归提取节点中的所有文本，保留换行 */
-function extractText(node: any): string {
+function extractText(node: RawNode | undefined): string {
   if (!node) return ''
   if (node.data) return node.data
   if (node.children) {
     return node.children
-      .map((child: any) => {
+      .map((child: RawNode) => {
         const text = extractText(child)
         // 空节点（有 children 但没有 data，且提取的文本为空）表示换行
         if (!child.data && !text) {

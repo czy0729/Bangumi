@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-02-16 12:26:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-16 12:38:23
+ * @Last Modified time: 2026-07-26 03:58:35
  */
 import React, { useEffect, useState } from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,9 @@ import Animated, {
   withTiming
 } from 'react-native-reanimated'
 
-export function SmoothHeightView({ minHeight, children }) {
+import type { Props } from './types'
+
+export function SmoothHeightView({ minHeight, children }: Props) {
   const height = useSharedValue(minHeight)
   const [contentHeight, setContentHeight] = useState(minHeight)
 

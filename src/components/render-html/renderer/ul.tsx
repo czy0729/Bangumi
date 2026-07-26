@@ -7,6 +7,8 @@
 import React from 'react'
 import Ul from '../ul'
 
-export function ul({ key, children }) {
+import type { BaseRendererProps } from './types'
+
+export function ul({ key, children }: BaseRendererProps) {
   return <Ul key={key}>{children}</Ul>
 }

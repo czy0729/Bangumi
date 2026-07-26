@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-13 05:32:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 03:02:17
+ * @Last Modified time: 2026-07-26 17:48:51
  */
 import React from 'react'
 import { rakuenStore, subjectStore } from '@stores'
@@ -16,7 +16,8 @@ import Mono from './mono'
 import Subject from './subject'
 import Topic from './topic'
 
-import type { Fn, ReactNode } from '@types'
+import type { Fn, MonoId, ReactNode, SubjectId, TopicId } from '@types'
+import type { ACSearchArgs, MediaArgs, PassProps } from './types'
 
 /** @todo 待优化, 安卓 Text 中一定要过滤非文字节点 */
 export function filterChildren(childrens: ReactNode[]): ReactNode[] {
@@ -24,22 +25,20 @@ export function filterChildren(childrens: ReactNode[]): ReactNode[] {
 
   const data = childrens.filter(
     item =>
-      // @ts-expect-error
-      item?.type?.displayName === 'Text'
+      React.isValidElement(item) && (item.type as { displayName?: string }).displayName === 'Text'
   )
   if (data.length) return data
 
   return childrens
-    .map(
-      item =>
-        // @ts-expect-error
-        item?.props?.src
-    )
-    .filter(item => !!item)
+    .map(item => {
+      const el = item as React.ReactElement
+      return (el?.props as { src?: string })?.src
+    })
+    .filter((item): item is string => !!item)
 }
 
 /** 获取 html 根节点文字 */
-export function getRawChildrenText(passProps: any) {
+export function getRawChildrenText(passProps: PassProps) {
   try {
     const text = passProps?.rawChildren?.[0]?.data
     if (text) return text
@@ -61,11 +60,11 @@ export function getRawChildrenText(passProps: any) {
 }
 
 /** AC 自动机猜测条目文字 */
-export function getACSearch({ style, passProps, params, onPress }) {
+export function getACSearch({ style, passProps, params, onPress }: ACSearchArgs) {
   const text = getRawChildrenText(passProps)
   if (text) {
     const navigation = navigationReference()
-    const { subjectId } = params
+    const subjectId = params.subjectId as SubjectId
     return (
       <ACText
         navigation={navigation}
@@ -79,12 +78,12 @@ export function getACSearch({ style, passProps, params, onPress }) {
 }
 
 /** 条目媒体块 */
-export async function getSubject({ passProps, params, href, onLinkPress }, render?: Fn) {
+export async function getSubject({ passProps, params, href, onLinkPress }: MediaArgs, render?: Fn) {
   try {
     const text = getRawChildrenText(passProps)
     if (!text) return
 
-    const { subjectId } = params
+    const subjectId = params.subjectId as SubjectId
     const subject = await subjectStore.getSubjectSnapshot(subjectId)
 
     // 等待列队请求媒体信息
@@ -123,12 +122,12 @@ export async function getSubject({ passProps, params, href, onLinkPress }, rende
 }
 
 /** 帖子媒体块 */
-export async function getTopic({ passProps, params, onLinkPress }, render?: Fn) {
+export async function getTopic({ passProps, params, onLinkPress }: MediaArgs, render?: Fn) {
   try {
     const text = getRawChildrenText(passProps)
     if (!text) return
 
-    const { topicId } = params
+    const topicId = params.topicId as TopicId
     await rakuenStore.init('topic')
 
     const last = getInt(topicId)
@@ -158,10 +157,10 @@ export async function getTopic({ passProps, params, onLinkPress }, render?: Fn) 
 }
 
 /** 人物媒体块 */
-export async function getMono({ passProps, params, onLinkPress }) {
+export async function getMono({ passProps, params, onLinkPress }: MediaArgs) {
   const text = getRawChildrenText(passProps)
   if (text) {
-    const { monoId } = params
+    const monoId = params.monoId as MonoId
     const { cover, name, nameCn, _loaded } = subjectStore.mono(monoId)
     if (!_loaded) {
       postTask(() => {

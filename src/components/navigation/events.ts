@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-03-07 14:45:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 02:05:11
+ * @Last Modified time: 2026-07-26 05:22:44
  */
 import { useEffect } from 'react'
 import { r } from '@utils/dev'
@@ -28,17 +28,17 @@ export function NavigationEvents({
       const unsubscribe = navigation.addListener('focus', () => {
         if (typeof onWillFocus === 'function') onWillFocus()
         if (typeof onDidFocus === 'function') onDidFocus()
-      })
+      }) as () => void
       return unsubscribe
     }
   }, [navigation, onWillFocus, onDidFocus])
 
   useEffect(() => {
     if (onWillBlur || onDidBlur) {
-      const unsubscribe = navigation.addListener('focus', () => {
+      const unsubscribe = navigation.addListener('blur', () => {
         if (typeof onWillBlur === 'function') onWillBlur()
         if (typeof onDidBlur === 'function') onDidBlur()
-      })
+      }) as () => void
       return unsubscribe
     }
   }, [navigation, onWillBlur, onDidBlur])

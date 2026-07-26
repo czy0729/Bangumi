@@ -1,10 +1,11 @@
 /*
  * @Author: czy0729
  * @Date: 2022-07-30 15:52:14
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-07-30 15:52:14
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-07-26 17:40:48
  */
 import type { TextStyle, WithViewStyles } from '@types'
+import type { PassProps } from './a/types'
 
 export type Props = WithViewStyles<{
   /** 基本字体样式 */
@@ -32,8 +33,23 @@ export type Props = WithViewStyles<{
   katakana?: boolean
 
   /** 复写内嵌链接点击回调 */
-  onLinkPress?: (href?: string) => any
+  onLinkPress?: (href?: string) => void
 
   /** 框架不支持图片的时候, 点击图片后回调 */
-  onImageFallback?: (src?: string) => any
+  onImageFallback?: (src?: string) => void
 }>
+
+/** react-native-render-html 自定义渲染器回调类型 */
+export type Renderer = (
+  /** 当前 HTML 标签的属性对象 */
+  attrs: Record<string, string>,
+
+  /** 已渲染的子节点 */
+  children: React.ReactNode,
+
+  /** 转换后的 CSS 样式（未使用） */
+  _css: Record<string, string | number>,
+
+  /** render-html 透传参数 */
+  passProps: PassProps
+) => JSX.Element | null

@@ -7,10 +7,12 @@
 import React from 'react'
 import QuoteText from '../quote-text'
 
-export function q({ key, children }) {
+import type { BaseRendererProps } from './types'
+
+export function q({ key, children }: BaseRendererProps) {
   return <QuoteText key={key}>{children}</QuoteText>
 }
 
-export function blockquote({ key, children }) {
+export function blockquote({ key, children }: BaseRendererProps) {
   return <QuoteText key={key}>{children}</QuoteText>
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-22 15:23:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 03:03:41
+ * @Last Modified time: 2026-07-26 07:00:39
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -14,7 +14,9 @@ import { Text } from '../../text'
 import { Touchable } from '../../touchable'
 import { memoStyles } from './styles'
 
-function LinkImage({ style, src }) {
+import type { Props } from './types'
+
+function LinkImage({ style, src }: Props) {
   if (typeof src !== 'string') return null
 
   const styles = memoStyles()

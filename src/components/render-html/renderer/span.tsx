@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-14 07:18:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-02 06:18:13
+ * @Last Modified time: 2026-07-26 07:15:45
  */
 import React from 'react'
 import { rakuenStore } from '@stores'
@@ -15,6 +15,8 @@ import MaskText from '../mask-text'
 import TagText from '../tag-text'
 import { formatStyles } from '../utils'
 
+import type { SpanRendererProps } from './types'
+
 export function span({
   key,
   style,
@@ -23,8 +25,10 @@ export function span({
   baseFontStyle,
   rawChildren,
   children
-}) {
-  if (typeof style === 'string' && style.includes('font-size:0px')) return null
+}: SpanRendererProps) {
+  if (typeof style !== 'string') return children
+
+  if (style.includes('font-size:0px')) return null
 
   try {
     // 暂时没有对样式混合情况作出正确判断, 以重要程度优先(剧透 > 删除 > 隐藏 > 其他)
@@ -98,7 +102,7 @@ export function span({
       const target = rawChildren?.[0]
       const text = target?.data || ''
       if (text) {
-        const { fontSize } = formatStyles(style)
+        const { fontSize } = formatStyles(style) as { fontSize?: number }
         return (
           <EmojiText
             index={Number(text)}

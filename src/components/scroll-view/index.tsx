@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-10 20:03:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-07 20:07:34
+ * @Last Modified time: 2026-07-26 05:02:48
  */
 import React, { useEffect, useRef } from 'react'
 import { Animated, ScrollView as RNScrollView } from 'react-native'
@@ -46,7 +46,7 @@ export const ScrollView = observer(
     r(COMPONENT)
 
     /** ScrollView 实例引用，用于 ScrollToTop 组件调用 scrollTo */
-    const scrollViewEl = useRef(null)
+    const scrollViewEl = useRef<RNScrollView['scrollTo'] | null>(null)
 
     /** 滚动起始 Y 坐标，用于计算滑动距离是否超过阈值 */
     const scrollStartY = useRef(0)

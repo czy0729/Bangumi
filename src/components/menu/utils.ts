@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-16 00:31:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-17 12:51:52
+ * @Last Modified time: 2026-07-26 05:51:52
  */
 import { WEB } from '@constants'
 
@@ -21,6 +21,6 @@ export function platformFix(title: string) {
 }
 
 /** 排除重复的 string 项 */
-export function removeDuplicateStrings(data: any[] | readonly any[]) {
-  return [...new Set(data.filter((item: any) => typeof item === 'string'))]
+export function removeDuplicateStrings(data: unknown[] | readonly unknown[]) {
+  return [...new Set(data.filter((item: unknown): item is string => typeof item === 'string'))]
 }

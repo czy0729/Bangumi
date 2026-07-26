@@ -17,12 +17,10 @@ export type Props = Expand<
     animated?: boolean
 
     /** 连接 ref.scrollTo */
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    forwardRef?: (scrollTo: ScrollTo, scrollViewRef?: ScrollView) => any
+    forwardRef?: (scrollTo: ScrollTo, scrollViewRef?: ScrollView) => void
 
     /** @deprecated 连接 ref.scrollTo */
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    connectRef?: (scrollTo: ScrollTo, scrollViewRef?: ScrollView) => any
+    connectRef?: (scrollTo: ScrollTo, scrollViewRef?: ScrollView) => void
 
     /** 是否显示左右溢出遮罩（仅水平模式有效） */
     showMask?: boolean

@@ -9,5 +9,6 @@ import type { ViewProps } from 'react-native'
 
 export type Props = ViewProps &
   PropsWithChildren<{
+    /** CSS 类名 */
     className?: string
   }>

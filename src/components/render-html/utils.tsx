@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-02 06:47:23
+ * @Last Modified time: 2026-07-26 17:16:55
  */
 import { _, rakuenStore, subjectStore, systemStore } from '@stores'
 import { cheerio, HTMLDecode, sleep } from '@utils'
@@ -14,11 +14,11 @@ import { IOS, URL_FEEDBACK, WEB } from '@constants'
 import { BGM_MAP, getBgmFontFamily } from '../bgm-text'
 import { COMPONENT, PAD_FONT_ZISE_INCREASE, PAD_LINE_HEIGHT_INCREASE, REGS } from './ds'
 
-import type { TextStyle } from '@types'
+import type { MonoId, TextStyle, TopicId } from '@types'
 
 /** 处理 html 格式 */
 export function formatHtml(
-  html = '',
+  html: string = '',
   baseFontStyle: TextStyle,
   matchLink: boolean,
   katakanaResult: Record<string, string>
@@ -29,7 +29,7 @@ export function formatHtml(
 
     if (!WEB) {
       // 把小电视表情替换成客户端自定义的字体文字
-      $('img[smileid]').replaceWith((_index: number, element: any) => {
+      $('img[smileid]').replaceWith((_index, element) => {
         const $img = cheerio(element)
         const alt = $img.attr('alt') || ''
         let finalIndex: number
@@ -47,20 +47,21 @@ export function formatHtml(
           }
 
           if (finalIndex) {
-            const emoji = BGM_MAP[finalIndex]
+            const emoji: string | undefined = (BGM_MAP as Record<number, string | undefined>)[
+              finalIndex
+            ]
             if (emoji) {
               const fontFamily = getBgmFontFamily(finalIndex)
               const isLg = finalIndex >= 600
 
               const { fontSize, lineHeight } = fixedBaseFontStyle(baseFontStyle)
               const bigEmojiSize = `fontSize${rakuenStore.setting.bigEmojiSize}`
+              const emojiSize = _[bigEmojiSize] as { fontSize: number; lineHeight: number }
               const styles = [
                 `font-family:${fontFamily}`,
                 'user-select:all',
-                fontSize > 0 ? `font-size:${isLg ? _[bigEmojiSize].fontSize : fontSize}px` : '',
-                lineHeight > 0
-                  ? `line-height:${isLg ? _[bigEmojiSize].lineHeight : lineHeight}px`
-                  : ''
+                fontSize > 0 ? `font-size:${isLg ? emojiSize.fontSize : fontSize}px` : '',
+                lineHeight > 0 ? `line-height:${isLg ? emojiSize.lineHeight : lineHeight}px` : ''
               ]
                 .filter(Boolean)
                 .join(';')
@@ -77,7 +78,7 @@ export function formatHtml(
       })
 
       // 暂时处理一下 BMO
-      $('span.bmo').replaceWith((_index: number, element: any) => {
+      $('span.bmo').replaceWith((_index, element) => {
         const $span = cheerio(element)
         const code = $span.attr('data-code')
         if (code) return `<span class="bmo" data-code="${code}">${code}</span>`
@@ -124,7 +125,7 @@ export function fixedBaseFontStyle(baseFontStyle: TextStyle = {}) {
 
 /** 字符串样式转换成 RN 样式 */
 export function formatStyles(styleStr: string) {
-  const rnStyle: { [key: string]: any } = {}
+  const rnStyle: Record<string, string | number> = {}
   if (!styleStr) return rnStyle
 
   styleStr.split(';').forEach(item => {
@@ -307,7 +308,7 @@ function getEffectiveTextLength(html: string) {
 }
 
 /** 存放等待发起获取媒体信息的 id */
-const IDS = []
+const IDS: { type: string; id: string }[] = []
 
 /** IDS 的 Set 索引，用于 O(1) 去重检查 */
 const IDS_SET = new Set<string>()
@@ -334,11 +335,7 @@ export async function fetchMediaQueue(
     const _id = String(id).split('#')[0]
 
     const key = getMediaKey(type, _id)
-    if (
-      IDS.length <= 16 &&
-      !IDS_SET.has(key) &&
-      !LOADED_IDS.has(key)
-    ) {
+    if (IDS.length <= 16 && !IDS_SET.has(key) && !LOADED_IDS.has(key)) {
       IDS.push({ type, id: _id })
       IDS_SET.add(key)
     }
@@ -359,17 +356,17 @@ export async function fetchMediaQueue(
         const result = await subjectStore.fetchSubjectSnapshot(item.id)
         onLoaded(result)
       } else if (item.type === 'topic') {
-        const result = await rakuenStore.fetchTopicSnapshot(item.id)
+        const result = await rakuenStore.fetchTopicSnapshot(item.id as TopicId)
         onLoaded(result)
       } else if (item.type === 'mono') {
-        await subjectStore.fetchMono(item.id)
+        await subjectStore.fetchMono(item.id as MonoId)
       }
 
       await sleep()
       loading = false
 
       fetchMediaQueue()
-    } catch (error) {
+    } catch {
       loading = false
     }
   }
@@ -390,7 +387,7 @@ function getIncreaseLineHeight(lineHeight: number) {
 /** 去除 q 里面的图片 (非常特殊的情况, 无法预测, 安卓 Text 里面不能包含其他元素) */
 function removeQuote(html: string) {
   if (!IOS && html.includes('<q>')) {
-    html = html.replace(REGS.q, (_match, q) => {
+    html = html.replace(REGS.q, (_match: string, q: string) => {
       let _q = q.replace(REGS.img, ' img')
 
       // 暂时没办法处理像 </smal... 结尾这样的情况
@@ -527,8 +524,8 @@ function hackMatchMediaLink(html: string) {
   return htmlValue
 }
 
-function fixedHtml(html = '') {
-  return html.replace(/class="smile"\s+alt="\(bgm\d+\)"/g, m => {
+function fixedHtml(html: string = '') {
+  return html.replace(/class="smile"\s+alt="\(bgm\d+\)"/g, (m: string) => {
     // m is like 'class="smile"   alt="(bgm124)"'
     return m.replace(/\s+alt=/, ' alt=')
   })

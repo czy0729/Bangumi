@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-12 09:06:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-09 18:35:45
+ * @Last Modified time: 2026-07-26 04:10:16
  */
 import React, { useEffect, useMemo, useState } from 'react'
 import { observer } from 'mobx-react'
@@ -45,7 +45,7 @@ function Skeleton({ style, uri, type, textOnly, placeholder, loaded }: Props) {
     const timer = setTimeout(() => {
       setShowSkeleton(false)
       loadedUriCache.set(uriStr, true)
-    }, 6400)
+    }, 12000)
 
     return () => clearTimeout(timer)
   }, [shouldSkipSkeleton, uriStr])

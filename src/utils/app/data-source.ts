@@ -698,22 +698,21 @@ export function getMonoCoverSmall(url: string): string {
 }
 
 /** 修复远程图片地址 */
-export function fixedRemoteImageUrl(url: any) {
+export function fixedRemoteImageUrl<T>(url: T): T
+export function fixedRemoteImageUrl(url: unknown) {
   if (typeof url !== 'string' || !url) return url
 
-  let value = url
+  let value: string = url.replace(/http:\/\//g, 'https://')
 
   // 协议
-  if (value.indexOf('https:') === -1 && value.indexOf('http:') === -1) {
+  if (!value.startsWith('https://')) {
     value = `https:${value}`
   }
 
-  // fixed: 2022-09-27, 去除 cf 无缘无故添加的前缀
-  // 类似 /cdn-cgi/mirage/xxx-xxx-1800/1280/(https://abc.com/123.jpg | img/smiles/tv/15.fig)
-  value = value.replace(/\/cdn-cgi\/mirage\/[^/]+\/\d+\//g, '/').replace('http://', 'https://')
-
   // 带有服务器 r/800 前缀的必须是 l 大小的图片
-  if (/\/r\/\d+\//.test(value)) value = value.replace(/\/(g|s|m|c)\//, '/l/')
+  if (/\/r\/\d+\//.test(value)) {
+    value = value.replace(/\/(g|s|m|c)\//, '/l/')
+  }
 
   return value
 }

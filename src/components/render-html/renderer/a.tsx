@@ -7,6 +7,8 @@
 import React from 'react'
 import A from '../a'
 
+import type { ARendererProps } from './types'
+
 export function a({
   key,
   attrs,
@@ -16,7 +18,7 @@ export function a({
   maxWidth,
   onPress,
   children
-}) {
+}: ARendererProps) {
   return (
     <A
       key={key}

@@ -5,5 +5,6 @@
  * @Last Modified time: 2026-03-19 03:00:28
  */
 export type Props = {
+  /** 排名数值 */
   value: string | number
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-01 19:28:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 01:53:48
+ * @Last Modified time: 2026-07-26 05:40:55
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -26,7 +26,7 @@ export const Mesume = observer(({ style, size = 96, index }: MesumeProps) => {
     <Component id='component-mesume'>
       <Image
         style={style}
-        src={ASSETS_MUSUMES[currentIndex]}
+        src={ASSETS_MUSUMES[currentIndex] as string | number}
         resizeMode='contain'
         size={size}
         placeholder={false}
