@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:16:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-23 21:32:50
+ * @Last Modified time: 2026-07-27 01:06:05
  */
 import { isObservableArray } from 'mobx'
 import { DEV, FROZEN_ARRAY, FROZEN_OBJECT } from '@constants'
@@ -571,7 +571,7 @@ export function matchBgmLink(url: string = ''):
 }
 
 /** 自动判断封面 CDN 地址 */
-export function matchCoverUrl(src: any, noDefault?: boolean, prefix?: string) {
+export function matchCoverUrl<T>(src: T, noDefault?: boolean, prefix?: string): T | string {
   if (typeof src !== 'string') return src
 
   const { cdn, cdnOrigin } = getSetting()
@@ -600,7 +600,8 @@ export function matchCoverUrl(src: any, noDefault?: boolean, prefix?: string) {
 }
 
 /** 获取中质量 bgm 图片 */
-export function getCoverMedium(src: any = '', mini: boolean = false) {
+export function getCoverMedium<T>(src?: T, mini?: boolean): T | string
+export function getCoverMedium(src: unknown = '', mini: boolean = false) {
   // 角色图片因为是对头部划图的, 不要处理
   // 用户图床也没有其他质量
   if (

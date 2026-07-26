@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-13 19:46:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-02 06:23:04
+ * @Last Modified time: 2026-07-27 01:04:44
  */
 import React, { useEffect, useMemo, useState } from 'react'
 import { Text } from 'react-native'
@@ -27,6 +27,7 @@ export {
 } from './ds'
 export { getBgmMiddleFrame, getBgmFontFamily } from './utils'
 
+import type { TextStyle } from '@types'
 import type { Props as BgmTextProps } from './types'
 export type { BgmTextProps }
 
@@ -47,7 +48,7 @@ export const BgmText = observer(
     // 获取基础字符串 (raw)
     const raw = useMemo(() => {
       if (typeof children === 'string') return children
-      const fallback = BGM_MAP[Number(index)] ?? ''
+      const fallback = (BGM_MAP as Record<number, string | undefined>)[Number(index)] ?? ''
       return typeof fallback === 'string' ? fallback : ''
     }, [children, index])
 
@@ -85,7 +86,7 @@ export const BgmText = observer(
           styles.text,
           Number(index) >= 645 && styles.textMusume,
           Number(index) >= 724 && styles.textBlake,
-          size && _[`fontSize${Math.floor(size)}`],
+          size && (_[`fontSize${Math.floor(size)}`] as TextStyle),
           lineHeight !== undefined && {
             lineHeight: Math.floor(
               lineHeight <= 2 ? lineHeight * size : lineHeight * _.lineHeightRatio

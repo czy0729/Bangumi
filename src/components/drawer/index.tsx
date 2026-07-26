@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-05-13 14:39:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-18 04:48:43
+ * @Last Modified time: 2026-07-27 07:27:39
  */
 import React, { Suspense, useEffect, useRef } from 'react'
 import { Animated } from 'react-native'
@@ -19,6 +19,7 @@ import { memoStyles } from './styles'
 import type { Props as DrawerProps } from './types'
 export type { DrawerProps }
 
+/** 抽屉 */
 export const Drawer = observer(({ style, show, onToggle, children }: DrawerProps) => {
   r(COMPONENT)
 

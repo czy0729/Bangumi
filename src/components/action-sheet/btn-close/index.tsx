@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-11-04 17:57:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-18 03:43:58
+ * @Last Modified time: 2026-07-26 18:47:57
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -13,6 +13,7 @@ import { Text } from '../../text'
 import { Touchable } from '../../touchable'
 import { memoStyles } from './styles'
 
+import type { ViewStyle } from '@types'
 import type { Props } from '../types'
 
 function BtnClose({ onClose }: Pick<Props, 'onClose'>) {
@@ -21,7 +22,7 @@ function BtnClose({ onClose }: Pick<Props, 'onClose'>) {
   return (
     <Touchable style={styles.close} onPress={onClose}>
       <SafeAreaBottom
-        style={_.ios(styles.btnContainer, undefined)}
+        style={_.ios(styles.btnContainer, undefined) as ViewStyle}
         type={_.ios('height', 'paddingBottom')}
       >
         <Flex style={styles.btn} justify='center'>

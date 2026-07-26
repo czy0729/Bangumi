@@ -1,19 +1,35 @@
-// @ts-nocheck
 /*
  * @Fork https://github.com/oblador/react-native-collapsible/blob/f8c873290cffa8609e33a64be45be9a2d7a9de0d/Collapsible.js
  * @Author: czy0729
  * @Date: 2024-11-21 12:19:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 19:46:02
+ * @Last Modified time: 2026-07-27 02:12:09
  */
 import React, { Component } from 'react'
 import { Animated, Easing } from 'react-native'
+
+import type { EasingFunction } from 'react-native'
 
 import type { CollapsibleProps } from 'react-native-collapsible'
 
 const ANIMATED_EASING_PREFIXES = ['easeInOut', 'easeOut', 'easeIn'] as const
 
-export default class Collapsible extends Component<CollapsibleProps, any> {
+type EasingModifier = 'in' | 'out' | 'inOut'
+
+type CollapsibleState = {
+  measuring: boolean
+  measured: boolean
+  height: Animated.Value
+  contentHeight: number
+  animating: boolean
+}
+
+type CollapsibleInstance = {
+  measure?: (callback: (x: number, y: number, width: number, height: number) => void) => void
+  getNode?: () => CollapsibleInstance
+}
+
+export default class Collapsible extends Component<CollapsibleProps, CollapsibleState> {
   static defaultProps = {
     align: 'top',
     collapsed: true,
@@ -25,7 +41,7 @@ export default class Collapsible extends Component<CollapsibleProps, any> {
     renderChildrenCollapsed: true
   }
 
-  constructor(props) {
+  constructor(props: CollapsibleProps) {
     super(props)
     this.state = {
       measuring: false,
@@ -36,14 +52,14 @@ export default class Collapsible extends Component<CollapsibleProps, any> {
     }
   }
 
-  static getDerivedStateFromProps(props) {
+  static getDerivedStateFromProps(props: CollapsibleProps): Partial<CollapsibleState> | null {
     if (!props.collapsed) {
       return { measured: false }
     }
     return null
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: CollapsibleProps): void {
     if (prevProps.collapsed !== this.props.collapsed) {
       this.setState({ measured: false }, () => this._componentDidUpdate(prevProps))
     } else {
@@ -51,11 +67,15 @@ export default class Collapsible extends Component<CollapsibleProps, any> {
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount(): void {
     this.unmounted = true
   }
 
-  _componentDidUpdate(prevProps) {
+  private unmounted?: boolean
+  private _animation?: Animated.CompositeAnimation
+  private contentHandle: CollapsibleInstance | null = null
+
+  _componentDidUpdate(prevProps: CollapsibleProps): void {
     if (prevProps.collapsed !== this.props.collapsed) {
       this._toggleCollapsed(this.props.collapsed)
     } else if (this.props.collapsed && prevProps.collapsedHeight !== this.props.collapsedHeight) {
@@ -63,13 +83,11 @@ export default class Collapsible extends Component<CollapsibleProps, any> {
     }
   }
 
-  contentHandle = null
-
-  _handleRef = ref => {
+  _handleRef = (ref: CollapsibleInstance | null): void => {
     this.contentHandle = ref
   }
 
-  _measureContent(callback) {
+  _measureContent(callback: (height: number) => void): void {
     this.setState(
       {
         measuring: true
@@ -84,13 +102,13 @@ export default class Collapsible extends Component<CollapsibleProps, any> {
               () => callback(this.props.collapsedHeight)
             )
           } else {
-            let ref
+            let ref: CollapsibleInstance
             if (typeof this.contentHandle.measure === 'function') {
               ref = this.contentHandle
             } else {
               ref = this.contentHandle.getNode()
             }
-            ref.measure((x, y, width, height) => {
+            ref.measure((_x: number, _y: number, _width: number, height: number) => {
               this.setState(
                 {
                   measuring: false,
@@ -106,7 +124,7 @@ export default class Collapsible extends Component<CollapsibleProps, any> {
     )
   }
 
-  _toggleCollapsed(collapsed) {
+  _toggleCollapsed(collapsed: boolean): void {
     if (collapsed) {
       this._transitionToHeight(this.props.collapsedHeight)
     } else if (!this.contentHandle) {
@@ -121,24 +139,26 @@ export default class Collapsible extends Component<CollapsibleProps, any> {
     }
   }
 
-  _transitionToHeight(height) {
+  _transitionToHeight(height: number): void {
     const { duration } = this.props
-    let easing = this.props.easing
+    let easing = this.props.easing as string | EasingFunction
     if (typeof easing === 'string') {
-      let prefix
+      let prefix: string
       let found = false
       for (let i = 0; i < ANIMATED_EASING_PREFIXES.length; i++) {
         prefix = ANIMATED_EASING_PREFIXES[i]
         if (easing.substr(0, prefix.length) === prefix) {
           easing = easing.substr(prefix.length, 1).toLowerCase() + easing.substr(prefix.length + 1)
           prefix = prefix.substr(4, 1).toLowerCase() + prefix.substr(5)
-          easing = Easing[prefix](Easing[easing || 'ease'])
+          easing = (Easing[prefix as EasingModifier] as (fn: EasingFunction) => EasingFunction)(
+            Easing[(easing || 'ease') as keyof typeof Easing] as EasingFunction
+          )
           found = true
           break
         }
       }
       if (!found) {
-        easing = Easing[easing]
+        easing = Easing[easing as keyof typeof Easing] as EasingFunction
       }
       if (!easing) {
         throw new Error('Invalid easing type "' + this.props.easing + '"')
@@ -153,8 +173,9 @@ export default class Collapsible extends Component<CollapsibleProps, any> {
       useNativeDriver: false,
       toValue: height ? height : 0,
       duration,
-      easing
-    }).start(() => {
+      easing: easing as EasingFunction
+    })
+    this._animation.start(() => {
       if (this.unmounted) {
         return
       }
@@ -162,12 +183,12 @@ export default class Collapsible extends Component<CollapsibleProps, any> {
         if (this.unmounted) {
           return
         }
-        this.props.onAnimationEnd()
+        this.props.onAnimationEnd?.()
       })
     })
   }
 
-  _handleLayoutChange = event => {
+  _handleLayoutChange = (event: { nativeEvent: { layout: { height: number } } }): void => {
     const contentHeight = event.nativeEvent.layout.height
     if (
       this.state.animating ||
@@ -187,10 +208,10 @@ export default class Collapsible extends Component<CollapsibleProps, any> {
     const { height, contentHeight, measuring, measured, animating } = this.state
     const hasKnownHeight = !measuring && (measured || collapsed)
     const style = hasKnownHeight && {
-      overflow: 'hidden',
-      height: height
+      overflow: 'hidden' as const,
+      height: height as unknown as number
     }
-    const contentStyle = {}
+    const contentStyle: Record<string, unknown> = {}
     if (measuring) {
       contentStyle.position = 'absolute'
       contentStyle.opacity = 0

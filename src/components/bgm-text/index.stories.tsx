@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-06 11:46:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-06 12:08:34
+ * @Last Modified time: 2026-07-27 01:07:30
  */
 import React from 'react'
 import { Flex } from '@components/flex'
@@ -35,6 +35,7 @@ export const BgmText = () => (
 
 const styles = _.create({
   item: {
+    // eslint-disable-next-line bangumi/forbid-computed-in-create
     width: _.window.contentWidth * 0.16,
     height: _.window.contentWidth * 0.16
   }

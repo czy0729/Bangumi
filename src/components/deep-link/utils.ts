@@ -13,24 +13,20 @@ const MAX_RETRIES = 3
 export function navigate(url: string) {
   if (!url) return
 
-  const callback = (navigationRef: any) => {
-    appNavigate(
-      url,
-      navigationRef,
-      {},
-      {
-        id: '其他.Linking',
-        data: undefined
-      },
-      false
-    )
-  }
-
   const attemptNavigation = (retryCount = 0) => {
     const navigation = navigationReference()
 
     if (navigation) {
-      callback(navigation)
+      appNavigate(
+        url,
+        navigation,
+        {},
+        {
+          id: '其他.Linking',
+          data: undefined
+        },
+        false
+      )
     } else if (retryCount < MAX_RETRIES) {
       setTimeout(() => attemptNavigation(retryCount + 1), NAVIGATION_RETRY_DELAY)
     }

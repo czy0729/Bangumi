@@ -10,7 +10,7 @@ import { logger } from '../dev'
 import useMount from './useMount'
 
 export default function useInitialURL() {
-  const [url, setUrl] = useState(null)
+  const [url, setUrl] = useState<string | null>(null)
   const [processing, setProcessing] = useState(true)
 
   useMount(() => {

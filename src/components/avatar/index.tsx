@@ -71,7 +71,7 @@ export const Avatar = observer(
           event,
           src: avatarSrc,
           name,
-          params
+          params: params as Record<string, unknown>
         }),
       [onPress, navigation, userId, event, avatarSrc, name, params]
     )

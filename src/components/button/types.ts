@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-08-12 05:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-18 15:39:22
+ * @Last Modified time: 2026-07-27 01:10:02
  */
-import type { TextStyle, Fn, WithViewStyles } from '@types'
+import type { ReactNode, TextStyle, WithViewStyles } from '@types'
+import type { GestureResponderEvent } from 'react-native'
+import type { TouchableHandlePress } from '../touchable/types'
 
 export type Props = WithViewStyles<{
   /** 文字重置样式 */
@@ -42,7 +44,7 @@ export type Props = WithViewStyles<{
   bold?: boolean
 
   /** 放在文字右边 */
-  extra?: any
+  extra?: ReactNode
 
   /** 点击缩放动画 */
   animate?: boolean
@@ -54,11 +56,11 @@ export type Props = WithViewStyles<{
   'data-title'?: string
 
   /** 点击回调 */
-  onPress?: Fn
+  onPress?: TouchableHandlePress
 
   /** 长按回调 */
-  onLongPress?: Fn
+  onLongPress?: (evt: GestureResponderEvent) => void
 
   /** 文字 */
-  children?: any
+  children?: ReactNode
 }>

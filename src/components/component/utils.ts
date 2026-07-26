@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-11-09 08:31:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-10 07:11:54
+ * @Last Modified time: 2026-07-27 05:22:24
  */
 import { StyleSheet } from 'react-native'
 import { Text } from '../text'
 
+import type React from 'react'
 import type { ViewStyle } from '@types'
 import type { Props } from './types'
 
@@ -18,7 +19,7 @@ const PROPERTY_MAPPINGS = [
 ] as const
 
 /** React.createElement 有部分 react-native 中的样式写法不支持, 需要转换 */
-export function transformStyles(style: ViewStyle = {}, Component?: any) {
+export function transformStyles(style: ViewStyle = {}, Component?: React.ElementType) {
   const styles = StyleSheet.flatten(style)
 
   PROPERTY_MAPPINGS.forEach(({ original, properties }) => {
@@ -52,7 +53,7 @@ export function convertToDashCase(input: string) {
 /** [DEV] 获取组件在 vscode 的路径 */
 export function getVscodeFullPathToFile(id: Props['id']) {
   let fullPathToFile = `vscode://file/Users/chen/Bangumi32/src`
-  const pathMapping = {
+  const pathMapping: Record<string, string> = {
     'component-': '/component/',
     'base-': '/screens/_/base/',
     'item-': '/screens/_/item/',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-18 04:26:01
+ * @Last Modified time: 2026-07-27 01:10:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -55,7 +55,7 @@ export const Button = observer(
 
     if (type) {
       wrapStyle.push(styles[type])
-      textStyle.push(styles[`text${titleCase(type)}`])
+      textStyle.push(styles[`text${titleCase(type)}`] as TextStyle)
     }
 
     if (radius) {
@@ -78,7 +78,7 @@ export const Button = observer(
           textStyle.push(styles.textSm)
         }
       } else {
-        textStyle.push(styles[textSize])
+        textStyle.push(styles[textSize] as TextStyle)
       }
     }
 

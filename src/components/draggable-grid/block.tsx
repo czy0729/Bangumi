@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2026-01-22 22:22:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-16 19:37:53
+ * @Last Modified time: 2026-07-27 07:26:13
  */
 import React from 'react'
 import { Animated, TouchableWithoutFeedback } from 'react-native'
 import { stl } from '@utils/utils'
 
-import type { BlockProps } from './types'
+import type { BlockWrapperProps } from './types'
 
 export function Block({
   style,
@@ -17,7 +17,7 @@ export function Block({
   children,
   panHandlers,
   delayLongPress
-}: BlockProps) {
+}: BlockWrapperProps) {
   return (
     <Animated.View
       style={stl(

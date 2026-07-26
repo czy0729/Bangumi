@@ -54,7 +54,7 @@ export type Navigation = {
   popToTop: (arg0?: any) => any
 
   /** 获取根部路由状态 */
-  getRootState: (arg0?: any) => any
+  getRootState: () => { index: number } | undefined
 
   /** 获取路由状态 */
   getState: () => AnyObject<{

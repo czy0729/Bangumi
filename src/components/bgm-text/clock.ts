@@ -2,16 +2,23 @@
  * @Author: czy0729
  * @Date: 2026-03-28 21:56:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-29 00:34:37
+ * @Last Modified time: 2026-07-27 00:57:23
  */
 import { AppState } from 'react-native'
 import { IOS } from '@constants'
 
 type Listener = (clock: number) => void
 
-let clock = 0
-let lastTime = 0
+/** 订阅者列表 */
 const listeners = new Set<Listener>()
+
+/** 时钟滴答计数 */
+let clock = 0
+
+/** 上一帧时间戳 */
+let lastTime = 0
+
+/** requestAnimationFrame id */
 let rafId: number | null = null
 
 function loop(currentTime: number) {

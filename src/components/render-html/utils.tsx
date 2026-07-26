@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-26 17:16:55
+ * @Last Modified time: 2026-07-27 01:05:11
  */
 import { _, rakuenStore, subjectStore, systemStore } from '@stores'
 import { cheerio, HTMLDecode, sleep } from '@utils'
@@ -47,9 +47,7 @@ export function formatHtml(
           }
 
           if (finalIndex) {
-            const emoji: string | undefined = (BGM_MAP as Record<number, string | undefined>)[
-              finalIndex
-            ]
+            const emoji = (BGM_MAP as Record<number, string | undefined>)[finalIndex]
             if (emoji) {
               const fontFamily = getBgmFontFamily(finalIndex)
               const isLg = finalIndex >= 600

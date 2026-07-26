@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-09 16:46:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-19 21:37:51
+ * @Last Modified time: 2026-07-27 07:08:03
  */
 import { getCover400, matchCoverUrl } from '@utils'
 import { IMG_DEFAULT, WEB } from '@constants'
@@ -12,10 +12,11 @@ import type { CoverPrefix, CoverSize, Props } from './types'
 /** 修正封面图地址 */
 export function getCoverSrc(src: Props['src'], width: number, cdn?: boolean, noDefault?: boolean) {
   if (src && typeof src !== 'string') return src
+  if (typeof src !== 'string') return IMG_DEFAULT
 
   const { prefix, size } = getCoverPramas(width)
-  return (getCover400(cdn !== false ? matchCoverUrl(src, noDefault, prefix) : src, size) ||
-    IMG_DEFAULT) as Props['src']
+  const url = cdn !== false ? matchCoverUrl(src, noDefault, prefix) : src
+  return getCover400(url, size) || IMG_DEFAULT
 }
 
 /** 相册模式强制大图 */

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-20 12:10:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-18 04:45:33
+ * @Last Modified time: 2026-07-27 07:00:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,6 +16,7 @@ import { Squircle } from '../../squircle'
 import { memoStyles } from './styles'
 
 import type { ViewStyle } from '@types'
+import type { Props as CoverProps } from '../types'
 
 function Game({
   containerStyle,
@@ -30,7 +31,20 @@ function Game({
   width,
   height,
   ...other
-}) {
+}: Pick<
+  CoverProps,
+  | 'containerStyle'
+  | 'bodyStyle'
+  | 'angleStyle'
+  | 'imageStyle'
+  | 'src'
+  | 'imageViewerSrc'
+  | 'textOnly'
+  | 'fallback'
+  | 'size'
+  | 'width'
+  | 'height'
+>) {
   const styles = memoStyles()
 
   // 游戏为 NS 卡带状

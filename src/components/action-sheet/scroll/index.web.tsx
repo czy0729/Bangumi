@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-11-04 17:47:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-05 05:25:27
+ * @Last Modified time: 2026-07-26 18:49:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,14 @@ import { BTN_HEIGHT } from '../ds'
 import { ScrollView } from '../../scroll-view'
 import { memoStyles } from './styles'
 
-function Scroll({ contentContainerStyle, height, scrollEnabled = true, children }) {
+import type { Props } from '../types'
+
+function Scroll({
+  contentContainerStyle,
+  height,
+  scrollEnabled = true,
+  children
+}: Pick<Props, 'contentContainerStyle' | 'height' | 'scrollEnabled' | 'children'>) {
   const styles = memoStyles()
 
   if (scrollEnabled) {

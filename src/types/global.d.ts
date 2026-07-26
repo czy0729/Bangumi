@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-25 17:33:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 06:43:47
+ * @Last Modified time: 2026-07-27 06:49:35
  */
 
 /** 以下类型仅按需补充以规避类型错误，非完整类型声明 (仅为防止 RN 编译报错) */
@@ -86,7 +86,10 @@ declare global {
     /** history 对象 */
     history: {
       /** 替换历史记录 */
-      replaceState(data: any, title: string, url?: string | null): void
+      replaceState(data: unknown, title: string, url?: string | null): void
+
+      /** 推送历史记录 */
+      pushState(data: unknown, title: string, url?: string | null): void
 
       /** 返回上一页 */
       back(): void

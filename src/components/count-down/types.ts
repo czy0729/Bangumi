@@ -10,6 +10,7 @@ import type { TextProps } from '../text'
 export type Props = Override<
   Omit<TextProps, 'children'>,
   {
+    /** 结束时间戳 */
     end: number
   }
 >

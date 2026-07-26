@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-28 02:06:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-06 00:18:59
+ * @Last Modified time: 2026-07-27 07:12:10
  */
 import { Image as RNImage } from 'react-native'
 import { _, systemStore } from '@stores'
@@ -153,12 +153,7 @@ export function getDevStyles(src: any, fallback: boolean = false, size: number) 
 }
 
 /** 计算自适应尺寸 */
-export function getAutoSize(
-  width: number,
-  height: number,
-  autoSize: number,
-  autoHeight: number
-) {
+export function getAutoSize(width: number, height: number, autoSize: number, autoHeight: number) {
   let w: number
   let h: number
 
@@ -180,7 +175,12 @@ export function getAutoSize(
 }
 
 /** 回滚 bgm 原始封面 */
-export function getRecoveryBgmCover(src: any, width: number, height: number, size: number) {
+export function getRecoveryBgmCover(
+  src: Props['src'],
+  width: number,
+  height: number,
+  size: number
+): Props['src'] {
   if (typeof src !== 'string') return src
 
   let path = src.split('/pic/')?.[1] || ''

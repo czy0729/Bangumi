@@ -15,7 +15,7 @@ export type Props = Override<
     style?: ViewStyle
 
     /** 强制传递给图片的样式 */
-    imageStyle?: ImageStyle
+    imageStyle?: ImageStyle | ViewStyle | ViewStyle[]
 
     /** 图片地址 */
     src?: ImageSource | string
