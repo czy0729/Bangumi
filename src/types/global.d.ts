@@ -2,11 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-05-25 17:33:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-27 06:49:35
+ * @Last Modified time: 2026-07-27 09:32:38
  */
 
 /** 以下类型仅按需补充以规避类型错误，非完整类型声明 (仅为防止 RN 编译报错) */
 declare global {
+  /** 最小 DOM 元素类型 (仅 web 平台) */
+  interface DOMElement {
+    src: string
+    style: Record<string, string>
+    onload: (() => void) | null
+    onerror: (() => void) | null
+  }
+
   interface Global {
     __DEV__: boolean
   }
@@ -132,10 +140,17 @@ declare global {
     btoa: (data: string) => string
 
     /** 交叉观察器 */
-    IntersectionObserver: new (callback: (...args: any[]) => void, options?: any) => any
+    IntersectionObserver: new (
+      callback: (entries: Array<{ isIntersecting: boolean; target: object }>) => void,
+      options?: { threshold?: number | number[] }
+    ) => {
+      observe(target: object): void
+      unobserve(target: object): void
+      disconnect(): void
+    }
 
     /** 图片构造器 */
-    Image: new (...args: any[]) => any
+    Image: new (width?: number, height?: number) => DOMElement
 
     /** URL 构造函数 */
     URL: new (url: string, base?: string) => {

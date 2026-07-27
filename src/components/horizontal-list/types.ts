@@ -10,6 +10,9 @@ import type { SubjectTypeCn, ViewStyle, WithViewStyles } from '@types'
 
 export type WithId = {
   id?: string | number
+
+  /** 封面图 */
+  image?: string
 }
 
 /** 条目类型中文 */
@@ -17,7 +20,6 @@ export type TypeCn = SubjectTypeCn | '角色' | ''
 
 /** 条目数据基础类型 */
 export type ItemData = WithId & {
-  image?: string
   name?: string
   desc?: string
   reason?: string

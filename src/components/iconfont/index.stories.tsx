@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-05 15:50:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-23 05:53:25
+ * @Last Modified time: 2026-07-27 09:23:13
  */
 import React from 'react'
 import { AppIcons, IoniconsIcons, MaterialIcons } from '@components/@'
@@ -76,6 +76,7 @@ export const Ionicons = () => (
 
 const styles = _.create({
   item: {
+    // eslint-disable-next-line bangumi/forbid-computed-in-create
     width: (_.window.width - 4) * 0.2,
     height: (_.window.width - 4) * 0.2,
     paddingHorizontal: _.xs,

@@ -72,7 +72,7 @@ export type Props = Override<
     cache?: boolean
 
     /** 图片请求头 */
-    headers?: object
+    headers?: Record<string, string>
 
     /** 开发模式, 强制不显示图片 */
     textOnly?: boolean

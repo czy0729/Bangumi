@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-08-01 06:12:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-30 07:24:03
+ * @Last Modified time: 2026-07-27 09:08:57
  */
 import React, { useMemo } from 'react'
 import { ScrollView, View } from 'react-native'
@@ -20,24 +20,27 @@ import { Touchable } from '../../touchable'
 import { BGM_EMOJIS_MAP } from './ds'
 import { memoStyles } from './styles'
 
-function Content({
-  keyboardHeight,
-  history,
-  replyHistory,
-  lockHistory,
-  showTextarea,
-  showBgm,
-  showReplyHistory,
-  emojisGroupSelectedIndex,
-  onChange,
-  onSelectBgm,
-  onLockHistory,
-  onEmojisGroupChange
-}) {
+import type { Props, EmojisItem } from './types'
+
+function Content(props: Props) {
+  const {
+    keyboardHeight,
+    history,
+    replyHistory,
+    lockHistory,
+    showTextarea,
+    showBgm,
+    showReplyHistory,
+    emojisGroupSelectedIndex,
+    onChange,
+    onSelectBgm,
+    onLockHistory,
+    onEmojisGroupChange
+  } = props
   const sortedReplyHistory = useMemo(() => {
     if (!replyHistory) return []
 
-    return (replyHistory as string[])
+    return replyHistory
       .slice()
       .sort((a, b) => desc(lockHistory === a ? 1 : 0, lockHistory === b ? 1 : 0))
   }, [replyHistory, lockHistory])
@@ -87,7 +90,7 @@ function Content({
         </Flex>
 
         <Flex style={styles.bgms} wrap='wrap'>
-          {(history as string[]).map(id => {
+          {history.map(id => {
             const numId = Number(id)
 
             return (
@@ -100,7 +103,7 @@ function Content({
           })}
         </Flex>
 
-        {emojisData.map(({ title, data, desc }) => (
+        {emojisData.map(({ title, data, desc }: EmojisItem) => (
           <View key={title} style={_.mt.sm}>
             <Text style={_.container.wind} type='sub' size={12}>
               by {title}

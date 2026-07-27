@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-07-29 04:25:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-30 01:29:30
+ * @Last Modified time: 2026-07-27 08:25:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,6 +20,7 @@ import SourceText from './source-text'
 import { memoStyles } from './styles'
 
 import type { SafeAreaBottomProps } from '../../safe-area-bottom'
+import type { Props } from './types'
 
 function Textarea({
   forwardRef,
@@ -40,7 +41,7 @@ function Textarea({
   onAddSymbolText,
   onToggleSource,
   onToggleSourceText
-}) {
+}: Props) {
   const { bottom } = useSafeAreaInsets()
 
   const styles = memoStyles()

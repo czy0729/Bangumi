@@ -11,6 +11,8 @@ import { Flex } from '../../flex'
 import Btn from './btn'
 import { memoStyles } from './styles'
 
+import type { Props } from './types'
+
 function ToolBar({
   simple,
   showBgm,
@@ -21,7 +23,7 @@ function ToolBar({
   onHideReplyHistory,
   onShowBgm,
   onShowReplyHistory
-}) {
+}: Props) {
   if (!(showTextarea || showBgm)) return null
 
   const styles = memoStyles()

@@ -8,7 +8,7 @@ import React from 'react'
 import { Image as RNImage } from 'react-native'
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
-import { getTimestamp, omit, pick } from '@utils'
+import { getTimestamp, omit } from '@utils'
 import { logger, r } from '@utils/dev'
 import { applyLainProxy } from '@utils/proxy'
 import { EVENT, HOST_CDN_AVATAR, IOS, WEB } from '@constants'
@@ -54,7 +54,7 @@ export { RNImage }
 
 // @ts-ignore
 import type { ImageErrorEvent } from 'react-native'
-import type { AnyObject, Fn, TimerRef } from '@types'
+import type { Fn, TimerRef } from '@types'
 import type { Props as ImageProps, State } from './types'
 export type { ImageProps }
 
@@ -94,7 +94,7 @@ export const Image = observer(
     private _errorCount = 0
 
     /** 短间隔重试定时器 */
-    private _timeoutId = null
+    private _timeoutId: TimerRef = null
 
     /** 是否已获取远程图片宽高 */
     private _getSized = false
@@ -121,13 +121,13 @@ export const Image = observer(
     private _retryTimer: TimerRef = null
 
     /** omit 结果缓存，src 不变时复用 */
-    private _passProps: AnyObject = null
+    private _passProps: Partial<ImageProps> | null = null
     private _passPropsSrc: ImageProps['src'] = null
 
     /** headers 缓存 */
-    private _headers: AnyObject = null
+    private _headers: Record<string, string> | null = null
     private _headersSrc: ImageProps['src'] = undefined
-    private _headersProps: AnyObject = undefined
+    private _headersProps: Record<string, string> | undefined = undefined
 
     /** dev 模式 onLongPress 缓存 */
     private _devLongPress: Fn = null
@@ -494,7 +494,7 @@ export const Image = observer(
     }
 
     // ==================== 指数退避重试 ====================
-    componentDidUpdate(_prevProps: any, prevState: { error: any }) {
+    componentDidUpdate(_prevProps: Readonly<ImageProps>, prevState: Readonly<State>) {
       if (!prevState.error && this.state.error) {
         this.scheduleRetry()
       }
@@ -572,7 +572,7 @@ export const Image = observer(
     }
 
     /** 请求头：lain 域名自动加 UA */
-    get headers(): AnyObject {
+    get headers(): Record<string, string> {
       const { src, headers } = this.props
       if (this._headersSrc === src && this._headersProps === headers && this._headers) {
         return this._headers
@@ -745,14 +745,12 @@ export const Image = observer(
               JSON.stringify(
                 {
                   _size: `${Math.floor(this._size / 1024)} kb`,
-                  ...pick(this as any, [
-                    '_errorCount',
-                    '_timeoutId',
-                    '_getSized',
-                    '_fallbacked',
-                    '_recoveried',
-                    '_commited'
-                  ]),
+                  _errorCount: this._errorCount,
+                  _timeoutId: this._timeoutId,
+                  _getSized: this._getSized,
+                  _fallbacked: this._fallbacked,
+                  _recoveried: this._recoveried,
+                  _commited: this._commited,
                   ...this.props,
                   ...this.state
                 },

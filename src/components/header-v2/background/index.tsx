@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-23 00:51:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-09 05:19:35
+ * @Last Modified time: 2026-07-27 09:19:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,6 +15,7 @@ import { IOS } from '@constants'
 import { COMPONENT } from './ds'
 
 import type { WithViewStyles } from '@types'
+
 const BLUR = false
 
 function Background({ style }: WithViewStyles) {

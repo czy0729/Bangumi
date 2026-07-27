@@ -88,7 +88,9 @@ export function runAfter(fn: () => any, postTask: boolean = false) {
 }
 
 /** 若有后续样式返回数组否则返回第一参数 (用于防止组件重渲染) */
-export function stl(...styles: (ViewStyle | TextStyle | ImageStyle | false | null | undefined)[]): ViewStyle | ViewStyle[] {
+export function stl(
+  ...styles: (ViewStyle | TextStyle | ImageStyle | false | null | undefined)[]
+): ViewStyle | ViewStyle[] {
   const filteredStyles = styles.filter(Boolean) as ViewStyle[]
   return filteredStyles.length === 1 ? filteredStyles[0] : filteredStyles
 }
@@ -204,21 +206,14 @@ export async function queue(fetchs: (() => any)[] = [], num: number = 2) {
 }
 
 /** 对象中选择指定 key */
-export function pick<T extends Record<string, any>, K extends keyof T>(
-  obj: T,
-  arr: K[]
-): Pick<T, K> {
+export function pick<T extends object, K extends keyof T>(obj: T, arr: K[]) {
   return arr.reduce((acc, curr) => (curr in obj && (acc[curr] = obj[curr]), acc), {} as Pick<T, K>)
 }
 
 /** 对象中选择排除 key */
-export function omit<T extends Record<string, any>, K extends keyof T>(
-  obj: T,
-  keys: K[]
-): Omit<T, K> {
-  return Object.keys(obj).reduce((acc, key) => {
-    if (keys.includes(key as K)) return acc
-
+export function omit<T extends object, K extends keyof T>(obj: T, keys: K[]) {
+  return (Object.keys(obj) as (keyof T)[]).reduce((acc, key) => {
+    if ((keys as (keyof T)[]).includes(key)) return acc
     return { ...acc, [key]: obj[key] }
   }, {} as Omit<T, K>)
 }

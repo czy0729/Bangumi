@@ -8,9 +8,9 @@ const I64BIT_TABLE =
   'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-'.split('')
 
 /** 缓存结果 */
-const cacheMap = new Map()
+const cacheMap = new Map<string, string>()
 
-export default function hash(input: any) {
+export default function hash(input: string) {
   if (!input) return ''
 
   if (input && cacheMap.has(input)) return cacheMap.get(input)

@@ -14,7 +14,7 @@ import { HOST_BGM_STATIC, HOST_CDN, HOST_IMAGE, IOS, WEB } from '@constants'
 import { getSkeletonColor } from '../skeleton'
 import { CACHE_KEY_404, CACHE_KEY_451, CACHE_KEY_TIMEOUT, OSS_BGM_EMOJI_PREFIX } from './ds'
 
-import type { AnyObject } from '@types'
+import type { EventType, ImageStyle, ViewStyle } from '@types'
 import type { Props, State } from './types'
 
 /** 记录 451 (OSS 鉴定为敏感) 的图片 */
@@ -69,13 +69,13 @@ export function setError451(src: string) {
 }
 
 /** 检查 451 */
-export function checkError451(src: string): boolean {
+export function checkError451(src: Props['src']): boolean {
   if (!memo451 || typeof src !== 'string') return false
   return memo451.has(hash(src))
 }
 
 /** 记录 404 */
-export function setError404(src: string) {
+export function setError404(src: Props['src']) {
   if (!memo404 || typeof src !== 'string') return false
 
   const id = hash(src)
@@ -87,7 +87,7 @@ export function setError404(src: string) {
 }
 
 /** 检查 404 */
-export function checkError404(src: string): boolean {
+export function checkError404(src: Props['src']): boolean {
   if (!memo404 || typeof src !== 'string') return false
   return memo404.has(hash(src))
 }
@@ -110,18 +110,18 @@ export function checkErrorTimeout(src: Props['src']): boolean {
 }
 
 /** 本地是否已标记错误 */
-export function checkLocalError(src: any) {
+export function checkLocalError(src: Props['src']): boolean {
   return checkBgmEmoji(src) || checkError451(src) || checkError404(src)
 }
 
 /** 是否 bgm 未本地化表情 */
-export function checkBgmEmoji(src: string): boolean {
+export function checkBgmEmoji(src: Props['src']): boolean {
   if (typeof src !== 'string') return false
   return src.includes(OSS_BGM_EMOJI_PREFIX)
 }
 
 /** 开发调试样式 */
-export function getDevStyles(src: any, fallback: boolean = false, size: number) {
+export function getDevStyles(src: Props['src'], fallback: boolean = false, size: number) {
   if (typeof src !== 'string') return undefined
 
   if (fallback) {
@@ -201,7 +201,19 @@ export function getRecoveryBgmCover(
 }
 
 /** ImageViewer 回调 */
-export function imageViewerCallback({ imageViewerSrc, uri, src, headers, event }) {
+export function imageViewerCallback({
+  imageViewerSrc,
+  uri,
+  src,
+  headers,
+  event
+}: {
+  imageViewerSrc: Props['imageViewerSrc']
+  uri: State['uri']
+  src: Props['src']
+  headers: Record<string, string>
+  event?: EventType
+}) {
   return () => {
     let imageSrc = imageViewerSrc
     if (typeof imageSrc === 'string' && !imageSrc.startsWith('http')) imageSrc = undefined
@@ -222,7 +234,9 @@ export function imageViewerCallback({ imageViewerSrc, uri, src, headers, event }
 }
 
 /** 修复远程图片地址 */
-export function fixedRemoteImageUrl(url: any) {
+export function fixedRemoteImageUrl(url: string): string
+export function fixedRemoteImageUrl(url: Props['src']): Props['src']
+export function fixedRemoteImageUrl(url: Props['src']): Props['src'] {
   if (typeof url !== 'string' || url.startsWith('./')) return url
 
   if (!url.startsWith('http')) return `https:${url}`
@@ -274,8 +288,8 @@ export function computeImageStyles(
   dev: boolean,
   fallbacked: boolean,
   _size: number,
-  styles: AnyObject
-) {
+  styles: Record<string, ViewStyle>
+): { container: ViewStyle; image: ImageStyle } {
   const {
     style,
     imageStyle,
@@ -293,8 +307,8 @@ export function computeImageStyles(
     src
   } = props
   const { width: w, height: h, animFinished } = state
-  const container: any[] = []
-  const image: any[] = []
+  const container: ViewStyle[] = []
+  const image: ViewStyle[] = []
 
   // 以 state 里面的 width 和 height 优先
   if (autoSize) {
@@ -332,14 +346,14 @@ export function computeImageStyles(
       const s = {
         borderRadius,
         overflow: 'hidden'
-      }
+      } as const
       container.push(s)
       image.push(s)
     } else {
       const s = {
         borderRadius: radius,
         overflow: 'hidden'
-      }
+      } as const
       container.push(s)
       image.push(s)
     }
@@ -377,7 +391,7 @@ export function computeImageStyles(
 
   return {
     container: _.flatten(container),
-    image: _.flatten(image)
+    image: _.flatten(image) as ImageStyle
   }
 }
 
@@ -392,7 +406,11 @@ export function clearErrorTimeout(src?: string): boolean {
 }
 
 /** 探测 magma CDN 状态码, 决定回退还是重试 */
-export function probeMagmaCdn(src: string, headers: AnyObject, onStatus: (code: number) => void) {
+export function probeMagmaCdn(
+  src: string,
+  headers: Record<string, string>,
+  onStatus: (code: number) => void
+) {
   if (IOS) {
     const request = new XMLHttpRequest()
     request.withCredentials = false
@@ -410,7 +428,7 @@ export function probeMagmaCdn(src: string, headers: AnyObject, onStatus: (code: 
       src,
       headers,
       () => {},
-      (error: any) => {
+      error => {
         const errorStr = String(error)
         if (errorStr.includes('code=451')) {
           onStatus(451)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-04 05:24:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-18 05:21:27
+ * @Last Modified time: 2026-07-27 09:12:43
  */
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,7 @@ import { getFlexValue } from './utils'
 import type { ViewStyle } from 'react-native'
 import type { Props as FlexProps } from './types'
 
+/** Flex 布局 */
 function Flex({
   style,
   direction = 'row',

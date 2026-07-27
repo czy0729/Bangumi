@@ -4,24 +4,26 @@
  * @Author: czy0729
  * @Date: 2022-04-13 04:14:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-18 06:26:28
+ * @Last Modified time: 2026-07-27 08:03:33
  */
 import pLimit from 'p-limit'
 import { getItem, setItem } from './utils'
 import { CACHE_MAP, LAZY_SET_STORAGE_INTERVAL, LAZY_SET_STORAGE_SIZE } from './ds'
 
+import type { TimerRef } from '@types'
+
 const DEV_LOG = false
 
-let setStorageInterval: any
+let setStorageInterval: TimerRef
 if (setStorageInterval) clearInterval(setStorageInterval)
 
 /** 读取数据 */
-export async function getStorage(key: string) {
+export async function getStorage<T = unknown>(key: string) {
   try {
     if (!key) return null
 
     const data = await getItem(key)
-    return JSON.parse(data)
+    return JSON.parse(data) as T | null
   } catch (error) {
     return null
   }

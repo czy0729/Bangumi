@@ -10,12 +10,14 @@ import { Text } from '../../../../text'
 import { Touchable } from '../../../../touchable'
 import { styles } from './styles'
 
-function Marks({ marks = [], showSource, showSourceText, onAddSymbolText }) {
+import type { Props } from './types'
+
+function Marks({ marks = [], showSource, showSourceText, onAddSymbolText }: Props) {
   if (!marks?.length) return null
 
   return (
     <>
-      {(marks as string[])
+      {marks
         .filter((_, index) => {
           if (!showSourceText) return index < (showSource ? 3 : 10)
           return index < (showSource ? 2 : 10)

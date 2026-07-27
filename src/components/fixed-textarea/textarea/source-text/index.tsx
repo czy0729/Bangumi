@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-07-30 18:21:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-14 20:43:30
+ * @Last Modified time: 2026-07-27 08:24:44
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -17,6 +17,8 @@ import Count from './count'
 import Marks from './marks'
 import { styles } from './styles'
 
+import type { Props } from './types'
+
 function SourceText({
   source,
   marks,
@@ -27,7 +29,7 @@ function SourceText({
   onAddSymbolText,
   onToggleSource,
   onToggleSourceText
-}) {
+}: Props) {
   if (!source || !showTextarea) return null
 
   return (

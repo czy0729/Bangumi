@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 14:43:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-29 17:33:23
+ * @Last Modified time: 2026-07-27 09:32:30
  */
 import React, { useEffect, useRef, useState } from 'react'
 import { Image as RNImage } from 'react-native'
@@ -12,11 +12,28 @@ import { DOGE_CDN_IMG_DEFAULT, IMG_DEFAULT } from '@constants'
 import { Component } from '../../../components'
 import './index.scss'
 
+import type { ImageProps as RNImageProps, ViewStyle } from 'react-native'
+
 const memo = new Map<string, boolean>()
 memo.set(DOGE_CDN_IMG_DEFAULT, true)
 
-export default function Image({ style, source, autoSize, autoHeight, fadeDuration, ...props }) {
-  const ref = useRef(null)
+type Props = Omit<RNImageProps, 'source' | 'style'> & {
+  style?: ViewStyle
+  source: { uri?: string; headers?: Record<string, string> }
+  autoSize?: number | boolean
+  autoHeight?: number
+  fadeDuration?: number
+}
+
+export default function Image({
+  style,
+  source,
+  autoSize,
+  autoHeight,
+  fadeDuration,
+  ...props
+}: Props) {
+  const ref = useRef<{ querySelector(selectors: string): DOMElement | null } | null>(null)
   const { uri, headers } = source
   const lazyloaded = memo.has(uri)
   const [opacity, setOpacity] = useState(lazyloaded ? 1 : 0)
@@ -78,7 +95,7 @@ export default function Image({ style, source, autoSize, autoHeight, fadeDuratio
     return (
       <img
         style={stl({
-          ..._.flatten(style || {}),
+          ..._.flatten(style || ({} as ViewStyle)),
           width: autoSize || style?.width || 'auto',
           height: autoHeight || style?.height || 'auto'
         })}
@@ -124,7 +141,7 @@ export async function clearCache() {
   // void
 }
 
-function preloadImage(src: string, onLoaded: Function) {
+function preloadImage(src: string, onLoaded: () => void) {
   let image = new window.Image()
   image.src = src
 

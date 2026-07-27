@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-08-01 05:47:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-18 05:03:24
+ * @Last Modified time: 2026-07-27 09:08:22
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -16,6 +16,11 @@ import { Touchable } from '../../../touchable'
 import { BTN_ICONS, BTN_TEXT } from './ds'
 import { styles } from './styles'
 
+import type { Props } from './types'
+
+const isBtnText = (v: string): v is (typeof BTN_TEXT)[number] =>
+  (BTN_TEXT as readonly string[]).includes(v)
+
 function Btn({
   text,
   symbol,
@@ -26,7 +31,7 @@ function Btn({
   onHideReplyHistory,
   onShowReplyHistory,
   onAddSymbolText
-}) {
+}: Props) {
   const textSize = _.window.width < 375 ? 10 : 11
 
   // BGM
@@ -76,11 +81,11 @@ function Btn({
     )
   }
 
-  const iconName = BTN_ICONS[text]
+  const iconName = BTN_ICONS[text as keyof typeof BTN_ICONS]
 
   return (
     <Touchable
-      style={stl(styles.btn, BTN_TEXT.includes(iconName) && styles.text)}
+      style={stl(styles.btn, iconName && isBtnText(iconName) && styles.text)}
       onPress={() => {
         text === '图床' ? open(HOST_IMAGE_UPLOAD_RYMK) : onAddSymbolText(symbol)
       }}

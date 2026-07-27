@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-12 08:32:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-09 18:27:32
+ * @Last Modified time: 2026-07-27 10:25:41
  */
 import React from 'react'
 import Animated, {
@@ -18,7 +18,9 @@ import { DOGE_CDN_IMG_DEFAULT, IOS } from '@constants'
 import { IMAGE_FADE_DURATION } from '../ds'
 import Image from '../image'
 
+import type { ImageProps, ImageURISource } from 'react-native'
 import type { Props } from './types'
+
 const memo = new Map<string, boolean>()
 memo.set(DOGE_CDN_IMG_DEFAULT, true)
 
@@ -35,28 +37,27 @@ function Remote({
   ...other
 }: Props) {
   const opacity = useSharedValue(fadeDuration === 0 ? 1 : 0)
-
   const animatedStyle = useAnimatedStyle(() => ({
     opacity: opacity.value
   }))
 
-  const passProps: any = {
-    ...other,
-    style,
-    source: {
-      headers: {
-        ...headers,
-        'Cache-Control': 'max-age=31536000'
-      },
-      uri,
-      cache: IOS ? 'force-cache' : 'immutable'
+  const source = {
+    headers: {
+      ...headers,
+      'Cache-Control': 'max-age=31536000'
     },
+    uri,
+    cache: (IOS ? 'force-cache' : 'immutable') as ImageURISource['cache'],
+    ...(!IOS && priority ? { priority } : {})
+  }
+  const passProps = {
+    ...other,
+    style: style as ImageProps['style'],
+    source,
     fadeDuration: 0,
     onLoadEnd
   }
-  if (!IOS && priority) passProps.source.priority = priority
 
-  // 判定是否跳过动画
   const skipAnimation = !systemStore.setting.imageFadeIn || memo.has(uri) || fadeDuration === 0
   if (skipAnimation) return <Image {...passProps} />
 

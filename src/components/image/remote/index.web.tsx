@@ -9,16 +9,25 @@ import { observer } from 'mobx-react'
 import { IOS } from '@constants'
 import Image from '../image'
 
-import type { AnyObject } from '@types'
+import type { ImageProps, ImageURISource } from 'react-native'
+import type { Props } from './types'
 
-function Remote({ style, headers, uri, onError, onLoadEnd, ...other }) {
-  const source: AnyObject = {
-    headers,
-    uri
+function Remote({ style, headers, uri, onError, onLoadEnd, ...other }: Props) {
+  const source = {
+    headers: headers as ImageURISource['headers'],
+    uri,
+    ...(IOS ? { cache: 'force-cache' as const } : {})
   }
-  if (IOS) source.cache = 'force-cache'
 
-  return <Image {...other} style={style} source={source} onError={onError} onLoadEnd={onLoadEnd} />
+  return (
+    <Image
+      {...other}
+      style={style as ImageProps['style']}
+      source={source}
+      onError={onError}
+      onLoadEnd={onLoadEnd}
+    />
+  )
 }
 
 export default observer(Remote)

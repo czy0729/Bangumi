@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-30 07:05:41
+ * @Last Modified time: 2026-07-27 08:08:37
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -26,15 +26,15 @@ import {
   SOURCE_TEXT
 } from './ds'
 
-import type { TextInput } from 'react-native'
-import type { Props as FixedTextareaProps } from './types'
+import type { TextInput, TextInputSelectionChangeEvent } from 'react-native'
+import type { Props as FixedTextareaProps, State } from './types'
 export type { FixedTextareaProps }
 
 /** 内置键盘切换中、英文高度会变化, 因为各种原因，后续就一直用最大的那个值作为高度 */
 let maxKeyboardHeight = 0
 
 /** 带表情的回复框 */
-class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
+class FixedTextareaComponent extends React.Component<FixedTextareaProps, State> {
   static defaultProps: FixedTextareaProps = {
     marks: [],
     placeholder: '',
@@ -47,11 +47,11 @@ class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
     onSubmit: FROZEN_FN
   }
 
-  state = {
-    value: this.props.value,
+  state: State = {
+    value: this.props.value ?? '',
     selection: {
-      start: this.props.value.length,
-      end: this.props.value.length
+      start: (this.props.value ?? '').length,
+      end: (this.props.value ?? '').length
     },
     showBgm: false,
     showKeyboardSpacer: false,
@@ -82,12 +82,12 @@ class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
         lockHistory,
         emojisGroupSelectedIndex
       ] = await Promise.all([
-        getStorage(`${NAMESPACE}|showSource`),
-        getStorage(`${NAMESPACE}|showSourceText`),
-        getStorage(NAMESPACE),
-        getStorage(`${NAMESPACE}|replyHistory`),
-        getStorage(`${NAMESPACE}|lockHistory`),
-        getStorage(`${NAMESPACE}|emojisGroupSelectedIndex`)
+        getStorage<boolean>(`${NAMESPACE}|showSource`),
+        getStorage<boolean>(`${NAMESPACE}|showSourceText`),
+        getStorage<string>(NAMESPACE),
+        getStorage<string[]>(`${NAMESPACE}|replyHistory`),
+        getStorage<string>(`${NAMESPACE}|lockHistory`),
+        getStorage<number>(`${NAMESPACE}|emojisGroupSelectedIndex`)
       ])
 
       this.setState({
@@ -101,7 +101,7 @@ class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
     } catch {}
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps: { value: any; cursorEnd: any }) {
+  UNSAFE_componentWillReceiveProps(nextProps: { value?: string; cursorEnd?: number }) {
     const { value, cursorEnd } = nextProps
     if (value !== this.state.value) {
       if (cursorEnd !== this.props.cursorEnd) {
@@ -222,7 +222,7 @@ class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
   }
 
   /** 光标改变回调 */
-  onSelectionChange = (event: any) => {
+  onSelectionChange = (event: TextInputSelectionChangeEvent) => {
     const selection = event.nativeEvent.selection
     this.setState({
       selection
