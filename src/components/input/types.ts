@@ -35,13 +35,13 @@ export type Props = Override<
     placeholderTextColor?: ColorValue
 
     /** 文字改变回调（待废弃，使用 onTextChange 代替） */
-    onChange?: (evt: { nativeEvent: { text: string } }) => any
+    onChange?: (evt: { nativeEvent: { text: string } }) => void
 
     /** 文字改变回调 */
-    onChangeText?: (text: string) => any
+    onChangeText?: (text: string) => void
 
     /** TextInput focus 时, 当键盘遮住时的回调 (deltaY 代表键盘与输入框遮盖的滚动差) */
-    onScrollIntoViewIfNeeded?: (deltaY: number) => any
+    onScrollIntoViewIfNeeded?: (deltaY: number) => void
   }
 >
 

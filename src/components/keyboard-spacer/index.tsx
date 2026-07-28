@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-13 00:04:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 01:38:18
+ * @Last Modified time: 2026-07-28 11:05:20
  */
 import React, { Component } from 'react'
 import { Dimensions, Keyboard, LayoutAnimation, UIManager, View } from 'react-native'
@@ -12,6 +12,7 @@ import { IOS } from '@constants'
 import { COMPONENT, DEFAULT_ANIMATION } from './ds'
 import { styles } from './styles'
 
+import type { EmitterSubscription, KeyboardEvent, LayoutAnimationConfig } from 'react-native'
 import type { Props as KeyboardSpacerProps } from './types'
 export type { KeyboardSpacerProps }
 
@@ -31,7 +32,7 @@ export const KeyboardSpacer = class KeyboardSpacerComponent extends Component<Ke
     onToggle: () => null
   }
 
-  private _listeners = null
+  private _listeners: EmitterSubscription[] | null = null
 
   state = {
     keyboardSpace: 0
@@ -52,19 +53,18 @@ export const KeyboardSpacer = class KeyboardSpacerComponent extends Component<Ke
     } catch {}
   }
 
-  updateKeyboardSpace = event => {
+  updateKeyboardSpace = (event: KeyboardEvent) => {
     if (!event.endCoordinates) return
 
     const { animate } = this.props
     if (animate) {
-      let animationConfig: any = DEFAULT_ANIMATION
-      if (IOS) {
-        animationConfig = LayoutAnimation.create(
-          event.duration,
-          LayoutAnimation.Types[event.easing],
-          LayoutAnimation.Properties.opacity
-        )
-      }
+      const animationConfig: LayoutAnimationConfig = IOS
+        ? LayoutAnimation.create(
+            event.duration!,
+            LayoutAnimation.Types[event.easing],
+            LayoutAnimation.Properties.opacity
+          )
+        : DEFAULT_ANIMATION
       LayoutAnimation.configureNext(animationConfig)
     }
 
@@ -74,23 +74,22 @@ export const KeyboardSpacer = class KeyboardSpacerComponent extends Component<Ke
       {
         keyboardSpace: value
       },
-      this.props.onToggle(true, value)
+      () => this.props.onToggle(true, value)
     )
   }
 
-  resetKeyboardSpace = event => {
+  resetKeyboardSpace = (event: KeyboardEvent) => {
     this.props.onToggle(false, 0)
 
     const { animate } = this.props
     if (animate) {
-      let animationConfig: any = DEFAULT_ANIMATION
-      if (IOS) {
-        animationConfig = LayoutAnimation.create(
-          event.duration,
-          LayoutAnimation.Types[event.easing],
-          LayoutAnimation.Properties.opacity
-        )
-      }
+      const animationConfig: LayoutAnimationConfig = IOS
+        ? LayoutAnimation.create(
+            event.duration!,
+            LayoutAnimation.Types[event.easing],
+            LayoutAnimation.Properties.opacity
+          )
+        : DEFAULT_ANIMATION
       LayoutAnimation.configureNext(animationConfig)
     }
 

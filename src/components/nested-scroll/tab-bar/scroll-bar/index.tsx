@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-27 16:35:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 02:05:29
+ * @Last Modified time: 2026-07-28 16:22:42
  */
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { ScrollView } from 'react-native'
@@ -60,7 +60,7 @@ function ScrollBar({ style, page, children, ...props }: ScrollBarProps) {
       onLayout={onLayout}
       {...props}
     >
-      {React.cloneElement(children as any, { onTabsLayout })}
+      {React.isValidElement(children) ? React.cloneElement(children, { onTabsLayout }) : children}
     </ScrollView>
   )
 }

@@ -2,17 +2,10 @@
  * @Author: czy0729
  * @Date: 2025-08-09 16:07:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-25 12:26:26
+ * @Last Modified time: 2026-07-28 11:05:20
  */
-import type { EventType, NavigationPushType, Override, Paths } from '@types'
+import type { EventType, ExtractParams, Override, Paths } from '@types'
 import type { TouchableProps } from '../touchable'
-
-type ExtractParams<P extends Paths> = NavigationPushType extends (
-  path: P,
-  params?: infer Params
-) => any
-  ? Params
-  : never
 
 /** 公共字段 */
 type BaseProps<T extends Paths> = Override<

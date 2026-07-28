@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-04 21:21:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 12:00:54
+ * @Last Modified time: 2026-07-28 16:56:52
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -12,7 +12,8 @@ import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { Component } from '../../component'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props as StorybookListProps } from './types'
+
+import type { Props as StorybookListProps } from './types'
 
 /** [WEB] 单页面列表容器 */
 export const StorybookList = ({ style, wind, space, children, ...other }: StorybookListProps) => {

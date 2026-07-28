@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-07 23:02:20
+ * @Last Modified time: 2026-07-28 11:31:24
  */
 import type { ImageSourcePropType } from 'react-native'
 import type {
@@ -17,7 +17,7 @@ import type {
 } from '@constants/model/types'
 import type * as Screens from '@screens'
 import type { Id, MonoId, PersonId, SubjectId, TopicId, UserId } from './bangumi'
-import type { AnyObject, Fn } from './utils'
+import type { Fn } from './utils'
 
 /** 所有页面路径名 */
 export type Paths = keyof typeof Screens
@@ -30,17 +30,17 @@ export type Paths = keyof typeof Screens
 type Route<Path extends Paths, Params = undefined> = (
   path: Path,
   params?: Params extends undefined ? undefined : Params
-) => any
+) => void
 
 /** 获取页面路由参数 */
-export type GetRouteParams<R> = R extends (path: any, params?: infer P) => any
+export type GetRouteParams<R> = R extends (path: Paths, params?: infer P) => void
   ? P extends undefined
     ? {}
     : P
   : {}
 
-/** 路由和参数约束 */
-export type NavigationPushType = RouteActions &
+/** 所有 Route* 类型的交集，仅用于参数提取（不含泛型兜底） */
+type _RouteOverloads = RouteActions &
   RouteAnime &
   RouteAuth &
   RouteAward &
@@ -99,8 +99,22 @@ export type NavigationPushType = RouteActions &
   RouteWenku &
   RouteWordCloud &
   RouteWorks &
-  RouteZone &
-  ((path: Paths) => any)
+  RouteZone
+
+/** 路由参数查询表（具体映射，非延迟条件类型） */
+type _RouteParams = {
+  [P in Paths]: _RouteOverloads extends (path: P, params?: infer Params) => void
+    ? Params extends undefined
+      ? undefined
+      : Params
+    : never
+}
+
+/** 获取指定路由的参数类型（可用于泛型路径，不会延迟） */
+export type ExtractParams<P extends Paths> = _RouteParams[P]
+
+/** 路由和参数约束 */
+export type NavigationPushType = <P extends Paths>(path: P, params?: ExtractParams<P>) => void
 
 export type RouteReviews = Route<
   'Reviews',
@@ -139,51 +153,51 @@ export type RouteChannel = (
   params: {
     type?: SubjectType
   }
-) => any
+) => void
 
 export type RouteTips = (
   path: 'Tips',
   params: {
     key?: string
   }
-) => any
+) => void
 
-export type RouteAuth = (path: 'Auth') => any
+export type RouteAuth = (path: 'Auth') => void
 
 export type RouteAnime = (
   path: 'Anime',
   params: {
     _tags?: string[]
   }
-) => any
+) => void
 
 export type RouteManga = (
   path: 'Manga',
   params: {
     _tags?: string[]
   }
-) => any
+) => void
 
 export type RouteWenku = (
   path: 'Wenku',
   params: {
     _tags?: string[]
   }
-) => any
+) => void
 
 export type RouteGame = (
   path: 'Game',
   params: {
     _tags?: string[]
   }
-) => any
+) => void
 
 export type RouteHentai = (
   path: 'Hentai',
   params: {
     _tags?: string[]
   }
-) => any
+) => void
 
 export type RouteUserTimeline = Route<
   'UserTimeline',
@@ -211,7 +225,7 @@ export type RoutePic = (
     /** 目标关键字没有结果后, 追加的尝试关键字 */
     keywords?: string[]
   }
-) => any
+) => void
 
 export type RouteSay = Route<
   'Say',
@@ -440,7 +454,7 @@ export type RouteWebBrowser = (
     /** 是否允许手势, 可用于避免在填写表单时手滑退出页面 (default=true) */
     gestureEnabled?: boolean
   }
-) => any
+) => void
 
 export type RouteZone = Route<
   'Zone',
@@ -674,10 +688,10 @@ export type RouteEpisodes = Route<
     filterEps?: number
 
     /** 预览图 (因浏览器跨域, clien only) */
-    epsThumbs?: any[]
+    epsThumbs?: string[]
 
     /** 预览图请求头 (clien only) */
-    epsThumbsHeader?: AnyObject
+    epsThumbsHeader?: Record<string, string>
   }
 >
 
@@ -761,9 +775,9 @@ export type RouteInformation = (
     /** AI 相关 */
     ai?: boolean
   }
-) => any
+) => void
 
-export type RouteProxyHelp = (path: 'ProxyHelp') => any
+export type RouteProxyHelp = (path: 'ProxyHelp') => void
 
 export type RouteLike = Route<
   'Like',
@@ -783,7 +797,7 @@ export type RouteShare = (
     _content: string
     _detail: string
   }
-) => any
+) => void
 
 export type RouteAward = (
   path: 'Award',
@@ -791,7 +805,7 @@ export type RouteAward = (
     /** 年鉴网络地址 */
     uri: string
   }
-) => any
+) => void
 
 export type RouteSetting = (
   path: 'Setting',
@@ -799,7 +813,7 @@ export type RouteSetting = (
     /** 进入页面后展开子菜单 */
     open?: string
   }
-) => any
+) => void
 
 export type RoutePreview = Route<
   'Preview',
@@ -850,7 +864,7 @@ export type RouteMilestone = Route<
   }
 >
 
-export type RouteTinygrail = (path: `Tinygrail${string}`, params?: Record<string, any>) => any
+export type RouteTinygrail = (path: `Tinygrail${string}`, params?: Record<string, unknown>) => void
 
 export type RouteTinygrailCharaAssets = Route<
   'TinygrailCharaAssets',

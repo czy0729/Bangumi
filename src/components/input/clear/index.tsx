@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-11 11:20:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 01:24:11
+ * @Last Modified time: 2026-07-28 10:24:36
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -12,7 +12,9 @@ import { Iconfont } from '../../iconfont'
 import { Touchable } from '../../touchable'
 import { styles } from './styles'
 
-function Clear({ color, onPress }) {
+import type { Props } from './types'
+
+function Clear({ colorClear: color, onPress }: Props) {
   if (IOS) return null
 
   return (

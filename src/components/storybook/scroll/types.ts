@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-11-08 21:53:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 11:22:53
+ * @Last Modified time: 2026-07-28 16:58:13
  */
-import { Fn, ReactNode, ViewStyle } from '@types'
+import type { Fn, ReactNode, ViewStyle } from '@types'
 
 export type Props = {
   style?: ViewStyle

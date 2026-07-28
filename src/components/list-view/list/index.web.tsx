@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-30 04:24:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 01:45:51
+ * @Last Modified time: 2026-07-28 15:42:18
  */
 import React, { useCallback, useMemo, useRef } from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,7 @@ import { styles } from './styles'
 import type { ReactNode } from '@types'
 import type { ListPropsWeb } from './types'
 
-function List({
+function List<ItemT>({
   contentContainerStyle,
   keyExtractor,
   sections,
@@ -31,7 +31,7 @@ function List({
   inverted,
   onFooterRefresh,
   onScroll
-}: ListPropsWeb) {
+}: ListPropsWeb<ItemT>) {
   const pending = useRef(false)
 
   const handleFooterRefresh = useCallback(async () => {
@@ -49,7 +49,7 @@ function List({
     () =>
       React.isValidElement(ListHeaderComponent) ? (
         ListHeaderComponent
-      ) : ListHeaderComponent ? (
+      ) : typeof ListHeaderComponent === 'function' ? (
         <ListHeaderComponent />
       ) : null,
     [ListHeaderComponent]
@@ -57,17 +57,17 @@ function List({
 
   let content: ReactNode
   if (sections) {
-    content = sections.map((section: any, index: number) => (
+    content = sections.map((section: { title: string; data: ItemT[] }, index: number) => (
       <View key={`section-${index}`} style={_.container.block}>
         {renderSectionHeader({ section })}
-        {(section.data || [])
-          .map((item: any) => {
+        {section.data
+          .map((item: ItemT) => {
             const element = renderItem({
               item,
               section
             })
 
-            if (element) {
+            if (React.isValidElement(element)) {
               const key =
                 typeof keyExtractor === 'function'
                   ? `section-item-${keyExtractor(item, index)}`
@@ -77,19 +77,19 @@ function List({
                 key
               })
             }
-            return null
+            return element ?? null
           })
-          .filter((item: any) => !!item)}
+          .filter(Boolean)}
       </View>
     ))
   } else {
     content = data
-      .map((item: any, index: number) => {
+      .map((item: ItemT, index: number) => {
         const element = renderItem({
           item,
           index
         })
-        if (element) {
+        if (React.isValidElement(element)) {
           const key =
             typeof keyExtractor === 'function'
               ? `list-item-${keyExtractor(item, index)}`
@@ -99,7 +99,7 @@ function List({
             key
           })
         }
-        return null
+        return element ?? null
       })
       .filter(item => !!item)
   }

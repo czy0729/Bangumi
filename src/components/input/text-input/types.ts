@@ -4,9 +4,8 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2024-05-31 16:10:55
  */
-import type { TextInputProps } from 'react-native'
-import type { Fn } from '@types'
+import type { TextInput as RNTextInput, TextInputProps } from 'react-native'
 
 export type Props = TextInputProps & {
-  forwardRef: Fn
+  forwardRef: (ref: RNTextInput) => void
 }

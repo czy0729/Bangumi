@@ -21,7 +21,7 @@ import { Touchable } from '../touchable'
 import { ACTION_SHEET_DS, COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-import type { Props as ImageViewerProps } from './types'
+import type { ImageUrl, Props as ImageViewerProps } from './types'
 export type { ImageViewerProps }
 
 /**
@@ -43,7 +43,7 @@ export const ImageViewer = observer(
     const styles = memoStyles()
 
     const proxyImageUrls = useMemo(
-      () =>
+      (): ImageUrl[] =>
         imageUrls.map(item => ({
           ...item,
           url: applyLainProxy(item.url),
@@ -66,7 +66,7 @@ export const ImageViewer = observer(
       if (typeof onCancel === 'function') onCancel()
     }, [onCancel])
 
-    const handleRenderMenus = useCallback((url: string, cancel: any) => {
+    const handleRenderMenus = useCallback((url: string, cancel: () => void): null => {
       if (typeof url === 'string' && url.includes(HOST_DOGE)) return null
 
       if (IOS) {
@@ -85,7 +85,8 @@ export const ImageViewer = observer(
     }, [])
 
     const handleMenus = useCallback(() => {
-      const currentUrl = proxyImageUrls[selectedIndex]?._url || proxyImageUrls[selectedIndex]?.url
+      const currentUrl: string =
+        proxyImageUrls[selectedIndex]?._url || proxyImageUrls[selectedIndex]?.url || ''
       return handleRenderMenus(currentUrl, onCancel)
     }, [proxyImageUrls, selectedIndex, handleRenderMenus, onCancel])
 
@@ -103,7 +104,7 @@ export const ImageViewer = observer(
     )
 
     const handleRenderImage = useCallback(
-      (p: any) => {
+      (p: { source?: { uri?: string }; style?: { width?: number; height?: number } }) => {
         if (!(p?.style?.width || p?.style?.height)) return null
 
         return (

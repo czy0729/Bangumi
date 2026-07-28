@@ -2,18 +2,24 @@
  * @Author: czy0729
  * @Date: 2023-08-11 17:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-26 18:00:00
+ * @Last Modified time: 2026-07-28 13:45:00
  */
-import type { FlatListProps } from 'react-native'
-import type { AnyObject, Fn, Override, ReactNode } from '@types'
-import type { Props as ListViewProps } from '../types'
+import type { ComponentType } from 'react'
+import type {
+  FlatListProps,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  ViewStyle
+} from 'react-native'
+import type { Override, ReactNode } from '@types'
+import type { FlatListRef, Props as ListViewProps } from '../types'
 
 /** 原生端列表组件属性，基于 ListViewProps 扩展 */
 export type ListProps<ItemT> = Override<
   ListViewProps<ItemT>,
   {
     /** 连接列表引用，绑定滚动方法 */
-    connectRef?: Fn
+    connectRef?: (ref: FlatListRef) => void
 
     /** 列表数据 */
     data?: ItemT[]
@@ -31,7 +37,7 @@ export type BaseProps<ItemT> = Override<
     data?: ItemT[]
 
     /** 分组数据 */
-    sections?: any[]
+    sections?: ListViewProps<ItemT>['sections']
 
     /** 是否移除屏幕外的子视图以优化性能 */
     removeClippedSubviews: boolean
@@ -51,18 +57,18 @@ export type BaseProps<ItemT> = Override<
 >
 
 /** Web 端列表组件属性 */
-export type ListPropsWeb = {
+export type ListPropsWeb<ItemT = unknown> = {
   /** 内容容器样式 */
-  contentContainerStyle?: AnyObject
+  contentContainerStyle?: ViewStyle
 
   /** 条目唯一标识提取函数 */
-  keyExtractor?: (item: any, index: number) => string
+  keyExtractor?: (item: ItemT, index: number) => string
 
   /** 分组数据（SectionList 模式） */
-  sections?: any[]
+  sections?: ListViewProps<ItemT>['sections']
 
   /** 列表数据 */
-  data: any[]
+  data: ItemT[]
 
   /** 分页信息 */
   pagination?: {
@@ -80,13 +86,17 @@ export type ListPropsWeb = {
   showFooter?: boolean
 
   /** 列表头部组件 */
-  ListHeaderComponent?: any
+  ListHeaderComponent?: ComponentType<{}> | ReactNode
 
   /** 渲染分组头部 */
-  renderSectionHeader?: Fn
+  renderSectionHeader?: (info: { section: { title: string; data: ItemT[] } }) => ReactNode
 
   /** 渲染单个条目 */
-  renderItem: Fn
+  renderItem: (info: {
+    item: ItemT
+    index?: number
+    section?: { title: string; data: ItemT[] }
+  }) => ReactNode
 
   /** 底部区域内容 */
   renderFooter?: ReactNode
@@ -95,8 +105,8 @@ export type ListPropsWeb = {
   inverted?: boolean
 
   /** 底部加载回调 */
-  onFooterRefresh?: Fn
+  onFooterRefresh?: () => void
 
   /** 滚动事件回调 */
-  onScroll?: Fn
+  onScroll?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void
 }

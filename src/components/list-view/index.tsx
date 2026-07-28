@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-04 06:06:38
+ * @Last Modified time: 2026-07-28 12:46:39
  */
 import React, { forwardRef, useCallback, useMemo } from 'react'
 import { RefreshControl } from 'react-native'
@@ -28,7 +28,7 @@ import {
 export { FooterEmptyData, FooterFailure, FooterNoMoreData, FooterRefreshing } from './footer'
 
 import type { Props as ListViewProps, ListViewScrollMethods, RenderListProps } from './types'
-import type { AnyObject, ListEmpty } from '@types'
+import type { ListEmpty, ReactNode, Sections } from '@types'
 export type {
   ListViewInstance,
   ListViewScrollMethods,
@@ -199,10 +199,13 @@ const ListViewComponent = forwardRef(function ListViewComponent<ItemT>(
     const renderProps: RenderListProps<ItemT> = {
       ...restProps,
       sectionKey,
-      sections: rawSections,
-      data
+      sections: rawSections
     }
-    const passProps: AnyObject = { ...renderProps }
+    const passProps = { ...renderProps } as Omit<RenderListProps<ItemT>, 'data'> & {
+      pagination?: ListEmpty<ItemT>['pagination']
+      renderFooter?: ReactNode
+      onFooterRefresh?: () => void
+    }
 
     // 合并滚动回调，确保滑动保护始终生效
     passProps.scrollEventThrottle = SCROLL_THRESHOLD
@@ -213,19 +216,16 @@ const ListViewComponent = forwardRef(function ListViewComponent<ItemT>(
     mergeScrollCallback(passProps, 'onScrollEndDrag', onScrollEndDrag)
     mergeScrollCallback(passProps, 'onMomentumScrollEnd', onMomentumScrollEnd)
 
-    if (sectionKey || rawSections) {
-      passProps.sections = sections
-    } else {
-      passProps.data = list
-    }
-
     if (WEB) {
       passProps.pagination = data.pagination
       passProps.renderFooter = renderFooter()
       passProps.onFooterRefresh = onFooterRefresh
     }
 
-    return <List {...commonProps} {...passProps} />
+    if (sectionKey || rawSections) {
+      return <List {...commonProps} {...passProps} sections={sections as Sections<ItemT>} />
+    }
+    return <List {...commonProps} {...passProps} data={list as ItemT[]} />
   }, [
     restProps,
     sectionKey,

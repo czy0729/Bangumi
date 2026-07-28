@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-28 07:39:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-12 01:33:52
+ * @Last Modified time: 2026-07-28 16:30:30
  */
 import type { PropsWithChildren } from 'react'
 import type { ReactNode, ViewStyle, WithViewStyles } from '@types'
@@ -37,7 +37,7 @@ export type Props<Data extends PopoverData> = PropsWithChildren<
         pageX?: number
         pageY?: number
       }
-    ) => any
+    ) => void
 
     /** 菜单长按选择 (不推荐使用) */
     // onLongPress?: (title?: Data[number]) => any

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-08 04:16:57
+ * @Last Modified time: 2026-07-28 10:28:06
  */
 import React from 'react'
 import { Keyboard, TouchableWithoutFeedback, View } from 'react-native'
@@ -18,13 +18,14 @@ import { COMPONENT, INPUT_LINE_HEIGHT } from './ds'
 import { memoStyles } from './styles'
 
 import type {
+  EmitterSubscription,
   TextInput as RNTextInput,
+  FocusEvent,
   TextInputProps,
   TextInputSubmitEditingEvent
 } from 'react-native'
 import type { Override } from '@types'
 import type { Props as InputProps, State } from './types'
-
 export type { InputProps }
 
 /**
@@ -58,9 +59,9 @@ export const Input = observer(
 
     keyboardHeight: number = 0
 
-    keyboardDidShowListener = null
+    keyboardDidShowListener: EmitterSubscription | null = null
 
-    keyboardDidHideListener = null
+    keyboardDidHideListener: EmitterSubscription | null = null
 
     componentDidMount() {
       const { autoFocus, onScrollIntoViewIfNeeded } = this.props
@@ -88,7 +89,7 @@ export const Input = observer(
       } catch {}
     }
 
-    UNSAFE_componentWillReceiveProps({ value }) {
+    UNSAFE_componentWillReceiveProps({ value }: InputProps) {
       this.setState({
         value
       })
@@ -122,7 +123,7 @@ export const Input = observer(
       } catch {}
     }
 
-    onFocus = (evt: any) => {
+    onFocus = (evt: FocusEvent) => {
       const { onFocus, onScrollIntoViewIfNeeded } = this.props
       if (typeof onFocus === 'function') onFocus(evt)
 
@@ -195,7 +196,7 @@ export const Input = observer(
       const props: Override<
         Partial<TextInputProps>,
         {
-          forwardRef: any
+          forwardRef: (ref: RNTextInput) => RNTextInput
         }
       > = {
         forwardRef: this.forwardRef,
@@ -237,7 +238,9 @@ export const Input = observer(
                 <TextInput multiline {...this.passProps} {...this.overrideProps} />
               </View>
             </TouchableWithoutFeedback>
-            {showClear && !!this.state.value && <Clear color={colorClear} onPress={this.onClear} />}
+            {showClear && !!this.state.value && (
+              <Clear colorClear={colorClear} onPress={this.onClear} />
+            )}
           </Component>
         )
       }
@@ -250,7 +253,9 @@ export const Input = observer(
             {...this.overrideProps}
             onSubmitEditing={this.onSubmitEditing}
           />
-          {showClear && !!this.state.value && <Clear color={colorClear} onPress={this.onClear} />}
+          {showClear && !!this.state.value && (
+            <Clear colorClear={colorClear} onPress={this.onClear} />
+          )}
         </Component>
       )
     }

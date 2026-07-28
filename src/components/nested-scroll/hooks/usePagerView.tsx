@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-27 15:42:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-13 16:14:43
+ * @Last Modified time: 2026-07-28 16:15:20
  */
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { Animated, Platform } from 'react-native'
@@ -15,7 +15,13 @@ import type {
   PageScrollStateChangedNativeEvent
 } from 'react-native-pager-view'
 
-export function usePagerView({ initialPage = 0, onIndexChange }) {
+export function usePagerView({
+  initialPage = 0,
+  onIndexChange
+}: {
+  initialPage?: number
+  onIndexChange?: (position: number) => void
+}) {
   const pagerRef = useRef<PagerView>(null)
   const [activePage, setActivePage] = useState(initialPage)
   const [isIdle, setIdle] = useState(true)

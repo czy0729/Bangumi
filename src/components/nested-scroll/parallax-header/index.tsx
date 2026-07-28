@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-27 15:48:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 02:05:12
+ * @Last Modified time: 2026-07-28 16:20:18
  */
 import React from 'react'
 import { Animated, ImageBackground, useWindowDimensions, View } from 'react-native'
@@ -81,7 +81,11 @@ function ParallaxHeader({
       >
         {imageSource ? (
           <AnimatedImageBackground
-            key={String(imageSource?.uri)}
+            key={
+              typeof imageSource === 'object' && !Array.isArray(imageSource)
+                ? String(imageSource?.uri)
+                : String(imageSource)
+            }
             style={backgroundStyle}
             source={imageSource}
             blurRadius={blurRadius}

@@ -9,7 +9,7 @@ import type { AppIcons, IoniconsIcons, MaterialIcons } from '@components/@'
 import type { SITES } from '@constants'
 import type { EventKeys } from '@constants/events'
 import type { Id, SubjectId, UserId } from './bangumi'
-import type { NavigationPushType, Paths } from './route'
+import type { ExtractParams, Paths } from './route'
 import type { AnyObject, DeepPartial, Expand, Override, ViewStyle } from './utils'
 
 /** 图标 (iOS Style) */
@@ -39,10 +39,10 @@ export type IconfontNames =
 /** react-navigation 路由对象 */
 export type Navigation = {
   /** 前进 */
-  push: NavigationPushType
+  push: <P extends Paths>(path: P, params?: ExtractParams<P>) => void
 
   /** 跳转到 */
-  navigate: NavigationPushType
+  navigate: <P extends Paths>(path: P, params?: ExtractParams<P>) => void
 
   /** 替换 */
   replace: (path: Paths, params?: object) => any

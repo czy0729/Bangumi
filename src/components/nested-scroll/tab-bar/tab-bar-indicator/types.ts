@@ -7,6 +7,9 @@
 import type { Animated, StyleProp, ViewStyle } from 'react-native'
 
 export interface Props {
+  /** 指示器样式 */
   style?: StyleProp<ViewStyle>
+
+  /** 指示器水平偏移插值 */
   scrollX: Animated.AnimatedInterpolation<number>
 }

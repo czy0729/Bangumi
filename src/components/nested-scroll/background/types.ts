@@ -8,6 +8,9 @@ import type { PropsWithChildren } from 'react'
 import type { Animated } from 'react-native'
 
 export type Props = PropsWithChildren<{
+  /** 背景高度 */
   height: number
+
+  /** 滚动偏移插值 */
   scroll: Animated.AnimatedInterpolation<number>
 }>

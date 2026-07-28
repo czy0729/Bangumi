@@ -168,9 +168,9 @@ export function showActionSheet(
 /** 显示 ImageViewer */
 export function showImageViewer(
   imageUrls: readonly {
-    url?: any
-    _url?: any
-    headers?: object
+    url?: string
+    _url?: string
+    headers?: Record<string, string>
   }[] = [],
   index: number = 0,
   mini: boolean = false,

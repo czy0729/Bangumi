@@ -6,8 +6,14 @@
  */
 import type { WithViewStyles } from '@types'
 
+/** 键盘占位组件 */
 export type Props = WithViewStyles<{
+  /** 顶部间距 */
   topSpacing?: number
+
+  /** 是否启用动画 */
   animate?: boolean
-  onToggle?: (toggle?: boolean, keyboardSpace?: number) => any
+
+  /** 键盘状态变化回调 */
+  onToggle?: (toggle?: boolean, keyboardSpace?: number) => void
 }>
