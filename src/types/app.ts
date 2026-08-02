@@ -3,13 +3,13 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-13 22:45:35
+ * @Last Modified time: 2026-07-28 17:33:48
  */
 import type { AppIcons, IoniconsIcons, MaterialIcons } from '@components/@'
 import type { SITES } from '@constants'
 import type { EventKeys } from '@constants/events'
 import type { Id, SubjectId, UserId } from './bangumi'
-import type { ExtractParams, Paths } from './route'
+import type { NavigationPushType, Paths } from './route'
 import type { AnyObject, DeepPartial, Expand, Override, ViewStyle } from './utils'
 
 /** 图标 (iOS Style) */
@@ -36,22 +36,32 @@ export type IconfontNames =
   | 'yuque'
   | 'github'
 
+/** react-navigation 事件对象 */
+export type NavigationEvent = {
+  type: string
+  target?: string
+  canPreventDefault?: boolean
+  defaultPrevented?: boolean
+  data?: unknown
+  preventDefault?: () => void
+}
+
 /** react-navigation 路由对象 */
 export type Navigation = {
   /** 前进 */
-  push: <P extends Paths>(path: P, params?: ExtractParams<P>) => void
+  push: NavigationPushType
 
   /** 跳转到 */
-  navigate: <P extends Paths>(path: P, params?: ExtractParams<P>) => void
+  navigate: NavigationPushType
 
   /** 替换 */
-  replace: (path: Paths, params?: object) => any
+  replace: (path: Paths, params?: object) => void
 
   /** 后退 */
-  goBack: (arg0?: any) => any
+  goBack: () => void
 
   /** 出栈到顶 */
-  popToTop: (arg0?: any) => any
+  popToTop: () => void
 
   /** 获取根部路由状态 */
   getRootState: () => { index: number } | undefined
@@ -66,19 +76,22 @@ export type Navigation = {
   }>
 
   /** 动态设置路由参数 */
-  setOptions: (params?: object) => any
+  setOptions: (params?: object) => void
 
   /** 订阅 */
-  addListener: (eventType: string, callback: (any) => any) => any
+  addListener: (
+    eventType: string,
+    callback: (event?: NavigationEvent) => void
+  ) => { remove: () => void }
 
   /** 触发订阅事件 */
-  emit: (params?: object) => any
+  emit: (event: NavigationEvent) => void
 
   /** @deprecated 获取参数 */
-  getParam?: (arg0?: any) => any
+  getParam?: <T = unknown>(key: string, defaultValue?: T) => T | undefined
 
   /** @deprecated 设置参数 */
-  setParams?: (arg0?: any) => any
+  setParams?: (params: object) => void
 
   /** 获取当前路由信息 */
   getCurrentRoute?: () => {
@@ -127,10 +140,10 @@ export type EventType = {
 }
 
 /** 允许配置 readonly 的数组 */
-export type ListArray<T = any> = T extends readonly any[] ? readonly T[number][] : T[]
+export type ListArray<T = unknown> = T extends readonly unknown[] ? readonly T[number][] : T[]
 
 /** 列表对象 */
-export type ListEmpty<T = any> = Expand<{
+export type ListEmpty<T = unknown> = Expand<{
   list: ListArray<T>
   pagination?: {
     page: number
@@ -143,16 +156,16 @@ export type ListEmpty<T = any> = Expand<{
 
 /** T: 传入 state 的所有 keys, 约束把所有 key 都可以通过 this[key] 访问 */
 export type StoreConstructor<T extends Record<string, unknown>> = {
-  [K in keyof T]: any
+  [K in keyof T]: T[K]
 } & {
   state: T
 }
 
 /** @todo */
-export type StoreType = any
+export type StoreType = unknown
 
 /** @todo */
-export type StoreInstance = any
+export type StoreInstance = unknown
 
 /** 允许显示的源头 */
 export type Sites = (typeof SITES)[number]
@@ -166,7 +179,7 @@ export type Origin = DeepPartial<{
     string,
     {
       active: 0 | 1
-      sort: any
+      sort: number
     }
   >
   custom: Record<
@@ -176,7 +189,7 @@ export type Origin = DeepPartial<{
       uuid: string
       name: string
       url: string
-      sort: any
+      sort: number
       active: 0 | 1
     }[]
   >
@@ -235,7 +248,7 @@ export type WithEvent<T> = Override<
 >
 
 /** 携带容器样式 */
-export type WithViewStyles<T = any> = Override<
+export type WithViewStyles<T = unknown> = Override<
   T,
   {
     /** 容器样式 */
