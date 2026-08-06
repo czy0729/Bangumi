@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-07-05 00:49:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-05 00:53:43
+ * @Last Modified time: 2026-08-07 05:22:42
  */
 import { computed } from 'mobx'
 
@@ -15,11 +15,16 @@ import type { IComputedValue } from 'mobx'
  * - 缓存 computed 实例（避免重复创建）
  * - 支持默认参数 / 可选参数
  */
-export function computedFn<F extends (...args: any[]) => any>(fn: F): F {
-  const cache = new Map<string, IComputedValue<any>>()
+export function computedFn<Args extends unknown[], Ret>(
+  fn: (...args: Args) => Ret
+): (...args: Args) => Ret {
+  type FnArgs = Args
+  type FnReturn = Ret
+
+  const cache = new Map<string, IComputedValue<FnReturn>>()
   const paramCount = fn.length
 
-  function createKey(args: any[]) {
+  function createKey(args: readonly unknown[]): string {
     return args
       .map(v => {
         if (v === undefined) return '__u'
@@ -29,15 +34,11 @@ export function computedFn<F extends (...args: any[]) => any>(fn: F): F {
       .join('\u0001')
   }
 
-  const wrapped = function (this: any, ...args: any[]) {
-    let aligned = args
+  const wrapped = function (this: unknown, ...args: FnArgs) {
+    const aligned: unknown[] = [...args]
 
-    if (paramCount > 0) {
-      if (aligned.length < paramCount) {
-        aligned = aligned.concat(new Array(paramCount - aligned.length).fill(undefined))
-      } else if (aligned.length > paramCount) {
-        aligned = aligned.slice(0, paramCount)
-      }
+    if (paramCount > 0 && aligned.length < paramCount) {
+      aligned.push(...new Array<undefined>(paramCount - aligned.length).fill(undefined))
     }
 
     const key = createKey(aligned)
@@ -58,5 +59,5 @@ export function computedFn<F extends (...args: any[]) => any>(fn: F): F {
     return computedFnInstance.get()
   }
 
-  return wrapped as unknown as F
+  return wrapped as unknown as (...args: Args) => Ret
 }
