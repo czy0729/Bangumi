@@ -33,7 +33,7 @@ type Route<Path extends Paths, Params = undefined> = (
 ) => void
 
 /** 获取页面路由参数 */
-export type GetRouteParams<R> = R extends (path: Paths, params?: infer P) => void
+export type GetRouteParams<R> = R extends (path: infer _Path, params?: infer P) => void
   ? P extends undefined
     ? {}
     : P

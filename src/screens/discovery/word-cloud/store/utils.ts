@@ -10,6 +10,7 @@ import { FILTER_CV, FILTER_TAGS } from './ds'
 import type { SubjectId, SubjectType } from '@types'
 import type { CollectionsV0Item, CutList, CutType, SnapshotSubjectsItem } from '../types'
 
+/** 去除 HTML 标签后的纯文本 */
 export function getPlainText(str: string, max?: number) {
   if (!str || typeof str !== 'string') return str
 
@@ -19,6 +20,7 @@ export function getPlainText(str: string, max?: number) {
   return str
 }
 
+/** 去除 Bangumi 楼中回复的 slogan */
 export function removeSlogan(str: string, max?: number) {
   if (!str || typeof str !== 'string') return str
 
@@ -30,6 +32,7 @@ export function removeSlogan(str: string, max?: number) {
   return str
 }
 
+/** 去除文本中的链接与特殊字符 */
 export function removeSpec(str: string) {
   if (!str || typeof str !== 'string') return str
 
@@ -58,6 +61,7 @@ const staffSet = new Set([
   '主演'
 ])
 
+/** 根据分词类型生成词云数据 */
 export function getSubjectCutList(
   cutType: CutType = '标签',
   subCutType: string = '',

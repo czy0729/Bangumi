@@ -10,7 +10,7 @@ import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { _, useStore } from '@stores'
 import { MAX_PAGE } from '../../ds'
-import RNWordCloud from '../react-native-wordcloud'
+import WordCloud from '../wordcloud'
 import { getWords } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -45,7 +45,7 @@ function Cavans() {
         </Text>
       )}
       {!!list.length && (
-        <RNWordCloud
+        <WordCloud
           key={String(_loaded)}
           style={_.mt.md}
           options={{

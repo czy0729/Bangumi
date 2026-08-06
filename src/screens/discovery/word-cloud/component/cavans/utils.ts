@@ -4,6 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-29 19:10:52
  */
+import type { CutList } from '../../types'
+
 const COLORS = [
   'rgba(255, 255, 255, 0.9)',
   'rgba(255, 255, 255, 0.75)',
@@ -12,7 +14,7 @@ const COLORS = [
   'rgba(255, 255, 255, 0.3)'
 ] as const
 
-export function getWords(result: [string, string][], max: 40 | 60 | 80 = 60) {
+export function getWords(result: CutList, max: 40 | 60 | 80 = 60) {
   return result
     .map((item, index) => ({
       text: item[0],

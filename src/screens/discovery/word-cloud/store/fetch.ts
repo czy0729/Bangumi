@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-26 16:05:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-29 18:00:23
+ * @Last Modified time: 2026-08-06 09:58:13
  */
 import dayjs from 'dayjs'
 import { rakuenStore, subjectStore, usersStore } from '@stores'
@@ -14,7 +14,10 @@ import { D, DEV, MODEL_SUBJECT_TYPE } from '@constants'
 import Computed from './computed'
 import { COLLECTION_STATUS } from './ds'
 
+import type { Loaded } from '@types'
 import type { Collection } from '@utils/fetch.v0/types'
+import type { CutList } from '../types'
+import type { ResultData } from '@utils/kv/type'
 
 export default class Fetch extends Computed {
   /** 分词快照 */
@@ -28,8 +31,14 @@ export default class Fetch extends Computed {
     }
 
     try {
-      const snapshot = await get(this.snapshotId)
-
+      const snapshot = await get<
+        ResultData<{
+          data: {
+            list: CutList
+            _loaded: Loaded
+          }
+        }>
+      >(this.snapshotId)
       if (snapshot?.data?._loaded && snapshot?.data?.list?.length) {
         if (now - Number(snapshot.data._loaded) <= D) {
           this.setState({
@@ -51,7 +60,11 @@ export default class Fetch extends Computed {
     if (!this.id || this.userId) return false
 
     try {
-      const trend = await get(this.trendId)
+      const trend = await get<
+        ResultData<{
+          value: number
+        }>
+      >(this.trendId)
       if (typeof trend?.value === 'number') {
         this.setState({
           trend: Number(trend.value + 1) || 1
@@ -110,7 +123,7 @@ export default class Fetch extends Computed {
   fetchCollectionV0 = async (refresh: boolean = false) => {
     const { collections, subjectType } = this.state
     const subjectTypeValue = MODEL_SUBJECT_TYPE.getValue(subjectType)
-    const key = `${this.userId}|${subjectType}`
+    const key = `${this.userId}|${subjectType}` as const
     if (!refresh && collections[key]?.length) return false
 
     this.setState({

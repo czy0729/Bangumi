@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-07 22:06:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-29 17:56:57
+ * @Last Modified time: 2026-08-06 09:46:28
  */
 import { computed } from 'mobx'
 import { rakuenStore, subjectStore, usersStore, userStore } from '@stores'
@@ -13,8 +13,8 @@ import { getPlainText, removeSlogan, removeSpec } from './utils'
 import State from './state'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
 
-import type { CoverCrt, SubjectId } from '@types'
-import type { CollectionsV0Item, SelectedCommentItem, SnapshotId, TrendId } from '../types'
+import type { SubjectId } from '@types'
+import type { SnapshotId, TrendId, CollectionsV0Item, SelectedCommentItem } from '../types'
 
 export default class Computed extends State {
   /** 本地化 */
@@ -48,13 +48,13 @@ export default class Computed extends State {
   }
 
   /** 快照 ID */
-  @computed get snapshotId(): SnapshotId {
-    return `extract_${String(this.id).replace(/\//g, '_')}`
+  @computed get snapshotId() {
+    return `extract_${String(this.id).replace(/\//g, '_')}` as SnapshotId
   }
 
   /** 趋势 ID */
-  @computed get trendId(): TrendId {
-    return `trend_${String(this.id).replace(/\//g, '_')}`
+  @computed get trendId() {
+    return `trend_${String(this.id).replace(/\//g, '_')}` as TrendId
   }
 
   /** 页面唯一命名空间 */
@@ -277,7 +277,7 @@ export default class Computed extends State {
     id?: number
     name?: string
     nameJP?: string
-    image?: CoverCrt<'g'> | ''
+    image?: string
     desc?: string
     actorId?: number
   } {

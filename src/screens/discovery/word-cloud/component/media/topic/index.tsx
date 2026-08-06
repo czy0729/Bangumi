@@ -27,13 +27,15 @@ function Topic() {
     .join(' · ')
 
   const Component = IOS ? BlurView : View
-  const passProps: any = {
-    style: styles.container
-  }
-  if (IOS) {
-    passProps.tint = BLURVIEW_TINT_DARK
-    passProps.intensity = 64
-  }
+  const passProps = IOS
+    ? {
+        style: styles.container,
+        tint: BLURVIEW_TINT_DARK,
+        intensity: 64
+      }
+    : {
+        style: styles.container
+      }
 
   return (
     <Component {...passProps}>
