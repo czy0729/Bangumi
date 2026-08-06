@@ -13,10 +13,13 @@ import Fetch from './fetch'
 import { getSubjectCutList } from './utils'
 import { EXCLUDE_STATE, FILTER_WORD } from './ds'
 
-import type { SubjectId, SubjectTypeCn } from '@types'
+import type { SubjectId, SubjectTypeCn, TimerRef } from '@types'
 import type { CutType, SnapshotSubjectsItem } from '../types'
 
 export default class Action extends Fetch {
+  /** 分词防抖计时器 */
+  genTimer: TimerRef = null
+
   /** 批量获取吐槽 */
   batchSubjectThenCut = async (refresh: boolean = false) => {
     if (this.state.fetching) return
@@ -45,15 +48,34 @@ export default class Action extends Fetch {
       fetching: 1
     })
     try {
-      const data = await this.fetchSubjectComments(true)
-      const pageTotal = data?.[this.subjectId]?.pagination?.pageTotal || 0
-      for (let i = 2; i <= Math.min(MAX_PAGE, pageTotal); i += 1) {
-        this.setState({
-          fetching: i
-        })
-        await this.fetchSubjectComments()
+      const pages: number[] = []
+      if (refresh || !this.subjectComments._loaded) {
+        // 强制刷新或无缓存: 拉第 1 页重置, 再并发补剩余页
+        const data = await this.fetchSubjectComments(true)
+        const pageTotal = data?.[this.subjectId]?.pagination?.pageTotal || 0
+        for (let i = 2; i <= Math.min(MAX_PAGE, pageTotal); i += 1) pages.push(i)
+      } else {
+        // 部分缓存: 从当前已加载页继续拉取, 避免重复请求
+        const { pagination } = this.subjectComments
+        const pageTotal = pagination.pageTotal || pagination.page + 1
+        for (let i = pagination.page + 1; i <= Math.min(MAX_PAGE, pageTotal); i += 1) pages.push(i)
       }
-    } catch {}
+
+      if (pages.length) {
+        const base = this.subjectComments.pagination.page || 1
+        this.setState({
+          fetching: base
+        })
+        await this.fetchSubjectCommentsBatch(pages, done => {
+          this.setState({
+            fetching: base + done
+          })
+        })
+      }
+    } catch (error) {
+      this.error('batchSubjectThenCut', error)
+    }
+
     this.setState({
       fetching: 0
     })
@@ -140,9 +162,12 @@ export default class Action extends Fetch {
     this.save()
   }
 
-  /** 计算条目本地分词 */
+  /** 计算条目本地分词 (防抖: 快速切换类型/年份只重算一次) */
   genSubjectCut = () => {
-    setTimeout(() => {
+    if (this.genTimer) clearTimeout(this.genTimer)
+
+    this.genTimer = setTimeout(() => {
+      this.genTimer = null
       this.setState({
         user: {
           [this.userId]: {

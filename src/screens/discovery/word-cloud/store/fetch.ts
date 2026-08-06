@@ -6,7 +6,7 @@
  */
 import dayjs from 'dayjs'
 import { rakuenStore, subjectStore, usersStore } from '@stores'
-import { cnjp, feedback, getTimestamp, info } from '@utils'
+import { cnjp, feedback, getTimestamp, info, queue } from '@utils'
 import { request } from '@utils/fetch.v0'
 import { API_COLLECTIONS } from '@utils/fetch.v0/ds'
 import { get, update } from '@utils/kv'
@@ -50,7 +50,9 @@ export default class Fetch extends Computed {
           return this.state.data.list.length >= 20
         }
       }
-    } catch {}
+    } catch (error) {
+      this.error('fetchSnapshot', error)
+    }
 
     return false
   }
@@ -67,7 +69,7 @@ export default class Fetch extends Computed {
       >(this.trendId)
       if (typeof trend?.value === 'number') {
         this.setState({
-          trend: Number(trend.value + 1) || 1
+          trend: Number(trend.value) + 1
         })
       } else {
         this.setState({
@@ -85,7 +87,9 @@ export default class Fetch extends Computed {
         true,
         true
       )
-    } catch {}
+    } catch (error) {
+      this.error('fetchTrend', error)
+    }
 
     return false
   }
@@ -99,6 +103,22 @@ export default class Fetch extends Computed {
         version: false
       },
       refresh
+    )
+  }
+
+  /** 批量获取条目留言 (并发拉取指定页) */
+  fetchSubjectCommentsBatch = async (
+    pages: number[],
+    onProgress?: (done: number) => void
+  ) => {
+    return subjectStore.fetchSubjectCommentsBatch(
+      {
+        subjectId: this.subjectId,
+        interest_type: '',
+        version: false
+      },
+      pages,
+      onProgress
     )
   }
 
@@ -132,21 +152,49 @@ export default class Fetch extends Computed {
 
     const list: Collection['data'] = []
     try {
-      for (const item of COLLECTION_STATUS) {
-        for (let i = 1; i <= item.page; i += 1) {
+      // 阶段一: 并发拉取每个状态的第一页, 确认各状态 total
+      const firstPages = (await queue(
+        COLLECTION_STATUS.map(item => async () => {
           const response = await request<Collection>(
-            API_COLLECTIONS(this.userId, subjectTypeValue, i, 100, item.value),
+            API_COLLECTIONS(this.userId, subjectTypeValue, 1, 100, item.value),
             undefined,
             {
               timeout: 8000,
               onError: () => {}
             }
           )
-          if (Array.isArray(response?.data)) list.push(...response.data)
-          if ((response?.offset || 0) + (response?.limit || 100) >= (response?.total || 100)) break
+          return {
+            item,
+            response
+          }
+        }),
+        3
+      )) || []
+
+      // 阶段二: 根据 total 并发补拉剩余页
+      const restTasks: Array<() => Promise<void>> = []
+      firstPages.forEach(({ item, response }) => {
+        if (Array.isArray(response?.data)) list.push(...response.data)
+
+        const { total = 100, limit = 100 } = response || {}
+        const maxPage = Math.min(item.page, Math.ceil(total / limit))
+        for (let i = 2; i <= maxPage; i += 1) {
+          restTasks.push(async () => {
+            const next = await request<Collection>(
+              API_COLLECTIONS(this.userId, subjectTypeValue, i, 100, item.value),
+              undefined,
+              {
+                timeout: 8000,
+                onError: () => {}
+              }
+            )
+            if (Array.isArray(next?.data)) list.push(...next.data)
+          })
         }
-      }
+      })
+      await queue(restTasks, 3)
     } catch (error) {
+      this.error('fetchCollectionV0', error)
       info('部分请求发生错误, 请重试')
     }
 

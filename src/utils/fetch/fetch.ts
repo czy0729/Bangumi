@@ -103,6 +103,8 @@ const lastFetchHtml: Record<string, number> = {}
  *  - 拦截瞬间多次完全同样的请求
  *  - args.url 开头带叹号!代表不携带授权信息
  */
+export async function fetchHTML(args: FetchHTMLArgs & { raw: true }): Promise<Response>
+export async function fetchHTML(args: FetchHTMLArgs & { raw?: false }): Promise<string>
 export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
   const {
     method = 'GET',

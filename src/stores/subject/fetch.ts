@@ -430,6 +430,73 @@ export default class Fetch extends Computed {
     return data
   }
 
+  /** 批量获取指定页留言, 页码升序合并入库 (防并发出队, 默认并发 3) */
+  fetchSubjectCommentsBatch = async (
+    args: {
+      subjectId: SubjectId
+      interest_type: '' | RatingStatus
+      version: boolean
+    },
+    pages: number[],
+    onProgress?: (done: number) => void
+  ) => {
+    const { subjectId, interest_type, version } = args || {}
+
+    const STATE_KEY = `subjectComments${getInt(subjectId)}` as const
+    const ITEM_KEY = subjectId
+
+    const { list: existingList } = this.subjectComments(subjectId)
+    if (!pages.length) return this.subjectComments(subjectId)
+
+    let done = 0
+    const results = (await queue(
+      pages.map(page => async () => {
+        try {
+          const html = await fetchHTML({
+            url: HTML_SUBJECT_COMMENTS(subjectId, page, interest_type, version)
+          })
+          const { likes, version: hasVersion, ...next } = cheerioSubjectComments(html)
+          timelineStore.updateLikes(likes)
+
+          return {
+            page,
+            list: next.list,
+            pagination: next.pagination,
+            version: hasVersion
+          }
+        } catch (error) {
+          this.error('fetchSubjectCommentsBatch', error)
+          return null
+        } finally {
+          done += 1
+          onProgress?.(done)
+        }
+      }),
+      3
+    )) || []
+    const success = results.filter(
+      (item): item is Exclude<(typeof results)[number], null> => item !== null
+    )
+    success.sort((a, b) => a.page - b.page)
+    if (!success.length) return this.subjectComments(subjectId)
+
+    const last = success[success.length - 1]
+    this.setState({
+      [STATE_KEY]: {
+        [ITEM_KEY]: {
+          ...this.subjectComments(subjectId),
+          list: [...existingList, ...success.flatMap(item => item.list)],
+          pagination: last.pagination,
+          version: last.version,
+          _loaded: getTimestamp()
+        }
+      }
+    })
+    this.save(STATE_KEY)
+
+    return this.subjectComments(subjectId)
+  }
+
   /** 章节内容 */
   fetchEpFormHTML = async (epId: EpId) => {
     // -------------------- 请求HTML --------------------
