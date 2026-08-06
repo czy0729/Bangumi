@@ -17,6 +17,7 @@
 android.zip
 android_/
 dist/
+ext/
 gradle.properties
 ios.zip
 ios_/

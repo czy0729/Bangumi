@@ -23,6 +23,8 @@
       "@_/*": ["src/screens/_/*"],
       "@assets": ["src/assets"],
       "@assets/*": ["src/assets/*"],
+      "@bgm": ["src/assets/images/bgm"],
+      "@bgm/*": ["src/assets/images/bgm/*"],
       "@components": ["src/components"],
       "@components/*": ["src/components/*"],
       "@constants": ["src/constants"],
@@ -42,8 +44,7 @@
       "@src": ["src"],
       "@src/*": ["src/*"],
       "@": ["./"],
-      "@/*": ["./*"],
-      "react-native-realtimeblurview": ["src/types/react-native-realtimeblurview.d.ts"]
+      "@/*": ["./*"]
     }
   },
   "include": ["src", "types"],
