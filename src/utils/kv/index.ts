@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-23 01:47:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-11 05:45:07
+ * @Last Modified time: 2026-08-06 09:39:45
  */
 import Constants from 'expo-constants'
 import { WEB } from '@constants/device'
@@ -327,13 +327,13 @@ export async function search(q: string, withMessage: boolean = false): Promise<R
 
 /**
  * 分词
- * @returns [关键词, 权重整数数字的字符串][]
+ * @returns [关键词, 权重小数字符串][]
  * */
 export async function extract(q: string) {
   if (isDevtoolsOpen()) return Promise.reject('denied')
 
   try {
-    const { data } = await axios({
+    const { data } = await axios<string>({
       method: 'post',
       url: `${HOST}/v1/jieba/extract`,
       headers: HEADERS,
@@ -349,7 +349,7 @@ export async function extract(q: string) {
         weight: number
       }[]
     >(data)
-    return response.map(item => [item.word, item.weight.toFixed(0)]) as [string, string][]
+    return response.map(item => [item.word, item.weight.toFixed(3)]) as [string, string][]
   } catch (error) {
     err('extract', error)
   }
