@@ -26,6 +26,9 @@ export const MAX_ERROR_COUNT = 1
 /** 重试间隔 */
 export const RETRY_DISTANCE = 1000
 
+/** magma CDN 探测超时, 超过则视为挂起直接回退 */
+export const MAGMA_PROBE_TIMEOUT = 3000
+
 /** magma 域名图片后缀 */
 export const OSS_MEGMA_PREFIX = '/bgm_poster' // bgm_poster | bgm_thumb
 

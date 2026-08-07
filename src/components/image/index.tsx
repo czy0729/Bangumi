@@ -52,7 +52,6 @@ import { memoStyles } from './styles'
 // 项目中若需要使用原本的 RN Image Component，也需在这里引入以便统一管理
 export { RNImage }
 
-// @ts-ignore
 import type { ImageErrorEvent } from 'react-native'
 import type { Fn, TimerRef } from '@types'
 import type { Props as ImageProps, State } from './types'
@@ -416,6 +415,9 @@ export const Image = observer(
                 this.recoveryToBgmCover()
               } else if (code === 404) {
                 setError404(src)
+                this.recoveryToBgmCover()
+              } else if (code === -1) {
+                // 探测超时（CDN 挂起）, 直接回退 bgm 原图, 不持久化标记
                 this.recoveryToBgmCover()
               } else {
                 this._timers.push(

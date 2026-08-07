@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-11-29 17:34:54
  */
-import type { ColorValue, ImageProps } from 'react-native'
+import type { ColorValue, ImageErrorEvent, ImageProps } from 'react-native'
 import type { EventType, Fn, ImageSource, ImageStyle, Override, ViewStyle } from '@types'
 import type { SkeletonProps } from '../skeleton'
 
@@ -102,7 +102,7 @@ export type Props = Override<
     onLongPress?: Fn
 
     /** 图片加载失败回调 */
-    onError?: Fn
+    onError?: (evt?: ImageErrorEvent) => void
   }
 >
 

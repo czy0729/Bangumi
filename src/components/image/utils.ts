@@ -12,7 +12,13 @@ import hash from '@utils/thirdParty/hash'
 import ImageCacheManager from '@utils/thirdParty/image-cache-manager'
 import { HOST_BGM_STATIC, HOST_CDN, HOST_IMAGE, IOS, WEB } from '@constants'
 import { getSkeletonColor } from '../skeleton'
-import { CACHE_KEY_404, CACHE_KEY_451, CACHE_KEY_TIMEOUT, OSS_BGM_EMOJI_PREFIX } from './ds'
+import {
+  CACHE_KEY_404,
+  CACHE_KEY_451,
+  CACHE_KEY_TIMEOUT,
+  MAGMA_PROBE_TIMEOUT,
+  OSS_BGM_EMOJI_PREFIX
+} from './ds'
 
 import type { EventType, ImageStyle, ViewStyle } from '@types'
 import type { Props, State } from './types'
@@ -221,8 +227,8 @@ export function imageViewerCallback({
     showImageViewer([
       {
         headers,
-        url: imageSrc || uri,
-        _url: imageSrc || src
+        url: (imageSrc || uri) as string,
+        _url: (imageSrc || src) as string
       }
     ])
 
@@ -415,11 +421,21 @@ export function probeMagmaCdn(
     const request = new XMLHttpRequest()
     request.withCredentials = false
 
-    request.onreadystatechange = function () {
-      if (this.readyState === 4) {
-        onStatus(this.status)
-      }
+    let settled = false
+    const done = (code: number) => {
+      if (settled) return
+      settled = true
+      onStatus(code)
     }
+
+    request.onreadystatechange = function () {
+      if (this.readyState === 4) done(this.status)
+    }
+    // CDN 挂起（如 VPN 下 NSFW 图被墙）时不再卡死, 标记超时
+    request.ontimeout = function () {
+      done(-1)
+    }
+    request.timeout = MAGMA_PROBE_TIMEOUT
 
     request.open('get', src, true)
     request.send(null)
