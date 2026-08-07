@@ -7,19 +7,19 @@
 import { logger } from '../dev'
 
 /** info */
-export function log(method: string, ...others: any[]) {
+export function log(method: string, ...others: unknown[]) {
   logger.info(`@utils/kv/${method}`, ...others)
 }
 
 /** err */
-export function err(method: string, ...others: any[]) {
+export function err(method: string, ...others: unknown[]) {
   logger.error(`@utils/kv/${method}`, ...others)
 }
 
 export function splitAndKeepPunctuation(str: string) {
   // 首先，使用正则表达式分割字符串，保留分隔符
   const parts = str.split(/(。|！|？)/)
-  const result = []
+  const result: string[] = []
 
   for (let i = 0; i < parts.length; i++) {
     // 如果是分隔符，将前一个元素和分隔符合并，然后添加到结果数组

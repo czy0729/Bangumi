@@ -4,14 +4,14 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-06-02 08:27:34
  */
-export type Result<T = any> = Record<any, any> & {
+export type Result<T = unknown> = Record<string, unknown> & {
   code: 200 | 400
   data: T
   ts?: number
   message?: string
 }
 
-export type ResultData<T = any> = T & {
+export type ResultData<T = unknown> = T & {
   ts?: number
 }
 
@@ -108,5 +108,22 @@ export type GenerateType =
   | 'ep'
   | 'character'
   | 'person'
+
+export type ResultCompletions = {
+  choices?: {
+    message?: {
+      content?: string
+    }
+  }[]
+}
+
+export type ResultGenerate = {
+  text?: string
+}
+
+export type ResultPicListResponse = {
+  success?: boolean
+  files?: ResultPicList
+}
 
 
