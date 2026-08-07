@@ -36,6 +36,7 @@ import type {
   CommentsItemWithSub,
   Likes,
   NotifyItem,
+  PrivacyValue,
   RakuenItem,
   ReviewsItem,
   Topic,
@@ -238,7 +239,7 @@ export function cheerioTopic(html: string) {
       avatar: getCoverSmall(matchAvatar($('div.postTopic span.avatarNeue').attr('style'))),
       floor,
       formhash: $('input[name=formhash]').attr('value') || '',
-      likeType: $('a.like_dropdown').data('like-type') || LIKE_TYPE_RAKUEN,
+      likeType: String($('a.like_dropdown').data('like-type') || LIKE_TYPE_RAKUEN),
       group: $group.text().trim().replace(/\n/g, '') || $group.attr('title') || '',
       groupHref: $group.attr('href') || '',
       groupThumb: getCoverSmall($('a.avatar > img.avatar').attr('src')) || '',
@@ -523,10 +524,10 @@ export function cheerioPrivacy(html: string) {
   })
 
   const privacy: typeof STATE.privacy = {
-    'privacy_set[1]': $('select[name="privacy_set[1]"]').val() || '0',
-    'privacy_set[30]': $('select[name="privacy_set[30]"]').val() || '0',
-    'privacy_set[20]': $('select[name="privacy_set[20]"]').val() || '0',
-    'privacy_set[21]': $('select[name="privacy_set[21]"]').val() || '0'
+    'privacy_set[1]': ($('select[name="privacy_set[1]"]').val() || '0') as PrivacyValue,
+    'privacy_set[30]': ($('select[name="privacy_set[30]"]').val() || '0') as PrivacyValue,
+    'privacy_set[20]': ($('select[name="privacy_set[20]"]').val() || '0') as PrivacyValue,
+    'privacy_set[21]': ($('select[name="privacy_set[21]"]').val() || '0') as PrivacyValue
   }
 
   return {

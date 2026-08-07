@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-20 20:38:26
+ * @Last Modified time: 2026-08-08 01:47:28
  */
 import { urlStringify } from '@utils/utils'
 import { HOST, URL_ZHINAN } from '../constants'
@@ -183,7 +183,12 @@ export const HTML_BLOG_LIST = (type: string = '', page: number = 1) =>
  * @param {*} page
  * @param {*} legacy 是否精准匹配
  */
-export const HTML_SEARCH = (text: string, cat: SearchCat, page: number = 1, legacy = '') => {
+export const HTML_SEARCH = (
+  text: string,
+  cat: SearchCat,
+  page: number = 1,
+  legacy: '' | '1' = ''
+) => {
   const [type, _cat] = String(cat).split('_')
   return `${HOST}/${type}_search/${text}?cat=${_cat}&page=${page}&legacy=${legacy ? 1 : 0}`
 }

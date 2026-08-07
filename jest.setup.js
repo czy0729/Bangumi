@@ -34,6 +34,7 @@ jest.mock(
       __dirname + '/src/utils/utils/relative-time'
     )
     const { htmlMatch } = require(__dirname + '/src/utils/html/match')
+    const { cEach, cPagination, cText } = require(__dirname + '/src/utils/html/parse')
 
     return {
       cData: ($el, key) => $el.attr(key) || '',
@@ -42,16 +43,15 @@ jest.mock(
       cHas: $el => $el.length > 0,
       cHasClass: ($el, className) => $el.hasClass(className),
       cHtml: $el => $el.html() || '',
-      cEach: ($el, callback) => {
-        $el.each((index, element) => callback(cheerio(element), index))
-      },
+      cEach,
       cMap: ($el, callback) =>
         $el
           .map((index, element) => callback(cheerio(element), index))
           .get()
           .filter(Boolean),
       cParse: (html, start, end) => cheerio(htmlMatch(html, start, end)),
-      cText: $el => $el.text().trim(),
+      cText,
+      cPagination,
       cheerio,
       htmlMatch,
       getCoverSmall: (str = '') => str || '',

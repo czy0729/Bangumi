@@ -30,7 +30,7 @@ import {
 } from '@utils'
 import { HOST } from '@constants'
 
-import type { Id, MonoId, Override, SubjectId, SubjectTypeValue, UserId } from '@types'
+import type { Cover, Id, MonoId, Override, SubjectId, SubjectTypeValue, UserId } from '@types'
 import type { Likes } from '../rakuen/types'
 import type {
   EpStatus,
@@ -44,6 +44,7 @@ import type {
   SubjectCatalogs,
   SubjectCatalogsItem,
   SubjectComments,
+  SubjectCommentsItem,
   SubjectFromHTML,
   Wiki
 } from './types'
@@ -217,7 +218,7 @@ export function cheerioSubjectComments(html: string): Override<
       page,
       pageTotal
     },
-    list:
+    list: (
       $('#comment_box .item')
         .map((index: number, element: any) => {
           const $row = cheerio(element)
@@ -242,7 +243,8 @@ export function cheerioSubjectComments(html: string): Override<
             mainName: $subject.text().trim()
           }
         })
-        .get() || [],
+        .get() || []
+    ) as SubjectCommentsItem[],
     likes,
     version: !!$('#SecTab a.chiiBtn').attr('href')
   }
@@ -434,12 +436,12 @@ export function cheerioWikiCovers(html: string): Wiki['covers'] {
         const $user = $li.find('.tip_j a.l')
         return safeObject({
           id: index,
-          cover: $li.find('img.grid').attr('src'),
+          cover: $li.find('img.grid').attr('src') as Cover<'m'>,
           userId: $user.attr('href').replace('/user/', ''),
           userName: $user.text().trim()
         })
       })
-      .get() || []
+      .get() || ([] as Wiki['covers'])
   )
 }
 

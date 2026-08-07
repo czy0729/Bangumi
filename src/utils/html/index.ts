@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-07 07:48:24
+ * @Last Modified time: 2026-08-08 09:30:00
  */
-import cheerioRN from 'cheerio-without-node-native'
 import { DEV } from '@src/config'
 import { logger } from '../dev'
+import type { Cheerio } from 'cheerio-without-node-native'
 import HTMLParser from '../thirdParty/html-parser'
 import { safeObject } from '../utils'
 import { htmlMatch } from './match'
+import { cheerio, cText, DECODE_SPECIAL_CHARS, removeCF } from './parse'
 
+export { cEach, cPagination, cText, cheerio, HTMLDecode, removeCF } from './parse'
 export * from './match'
 
 /** 去除 HTML */
@@ -24,15 +26,6 @@ export function removeHTMLTag(str: any, removeAllSpace: boolean = true): string 
 
   return _str.replace(/ /gi, '') // 去掉
 }
-
-const DECODE_SPECIAL_CHARS = {
-  '&amp;': '&',
-  '&lt;': '<',
-  '&gt;': '>',
-  '&nbsp;': ' ',
-  '&#39;': "'",
-  '&quot;': '"'
-} as const
 
 /** 解码十进制或十六进制数字 HTML 实体（如 emoji） */
 export function decodeNumericHTMLEntity(match: string, value: string, radix: number): string {
@@ -61,13 +54,6 @@ export function decodeHTMLEntities(str: string = ''): string {
     .replace(/&#(\d+);/g, (match, dec) => {
       return decodeNumericHTMLEntity(match, dec, 10)
     })
-}
-
-/** HTML 反转义 */
-export function HTMLDecode(str: string = ''): string {
-  if (str.length === 0) return ''
-
-  return str.replace(/(&amp;|&lt;|&gt;|&nbsp;|&#39;|&quot;)/g, match => DECODE_SPECIAL_CHARS[match])
 }
 
 const ENCODE_SPECIAL_CHARS = {
@@ -231,91 +217,9 @@ export function findTreeNode(children: any, cmd: string = '', defaultValue?) {
   return _find
 }
 
-/** 去除 cloudfare 乱插的 dom */
-export function removeCF(HTML: string = ''): string {
-  return HTML.replace(
-    /<script[^>]*>([\s\S](?!<script))*?<\/script>|<noscript[^>]*>([\s\S](?!<script))*?<\/noscript>|style="display:none;visibility:hidden;"/g,
-    ''
-  ).replace(/data-cfsrc/g, 'src')
-}
-
-/** cheerio.load */
-export function cheerio(
-  target: any,
-  remove: boolean | object = true,
-  decodeEntities: boolean = false
-) {
-  if (typeof target === 'string') {
-    // 需要优化内容
-    if (target.indexOf('<!DOCTYPE html>') === 0) {
-      if (DEV) {
-        logger.info(
-          '@utils/html/cheerio',
-          'need match',
-          target.match(/<title>(.*?)<\/title>/g)?.[0]
-        )
-      }
-    }
-
-    if (remove) {
-      return cheerioRN.load(removeCF(target), {
-        decodeEntities
-      })
-    }
-    return cheerioRN.load(target, {
-      decodeEntities
-    })
-  }
-
-  return cheerioRN(target)
-}
-
 /** 裁剪 HTML 后 cheerio 解析（替代 $ 避免命名冲突） */
 export function cParse(html: string, start: string, end: string, removeScript: boolean = true) {
   return cheerio(htmlMatch(html, start, end, removeScript))
-}
-
-/**
- * 获取清理后的文本内容
- * @param $el cheerio 对象
- * @param matchRawTextNode 是否只匹配一级文本节点
- * @param cleanWhitespace 是否去除换行并合并多个空格
- */
-export function cText(
-  $el: any,
-  matchRawTextNode: boolean = false,
-  cleanWhitespace: boolean = false
-): string {
-  if (DEV && !$el?.text) {
-    logger.warn('@utils/html/cText', '$el 不是有效的 cheerio 对象')
-  }
-
-  try {
-    let text = ''
-
-    // 过滤出文本节点
-    if (matchRawTextNode) {
-      text = $el
-        .contents()
-        .filter(function () {
-          return this.nodeType === 3
-        })
-        .text()
-    } else {
-      text = $el.text()
-    }
-
-    let result = HTMLDecode(text || '').trim()
-    if (cleanWhitespace) {
-      result = result
-        .replace(/[\r\n]+/g, ' ')
-        .replace(/\s+/g, ' ')
-        .trim()
-    }
-    return result
-  } catch (error) {
-    return ''
-  }
 }
 
 /** cheerio.attr(key) */
@@ -362,7 +266,7 @@ export function cHtml($el: any): string {
 }
 
 /** cheerio.map */
-export function cMap<T>($el: any, callback: ($ele: any, index?: number) => T): T[] {
+export function cMap<T>($el: any, callback: ($ele: Cheerio, index?: number) => T): T[] {
   if (DEV && !$el?.map) {
     logger.warn('@utils/html/cMap', '$el 不是有效的 cheerio 对象')
   }
@@ -381,24 +285,11 @@ export function cMap<T>($el: any, callback: ($ele: any, index?: number) => T): T
   }
 }
 
-/** cheerio.each */
-export function cEach($el: any, callback: ($ele: any, index?: number) => void) {
-  if (DEV && !$el?.each) {
-    logger.warn('@utils/html/cEach', '$el 不是有效的 cheerio 对象')
-  }
-
-  try {
-    $el.each((index: number, ele: any) => {
-      callback(cheerio(ele), index)
-    })
-  } catch {}
-}
-
 /**
  * cheerio.find.eq
  *  - 切勿使用 cFind($, ...)
  * */
-export function cFind($el: any, selector: string, index: number | 'last' = 0) {
+export function cFind($el: any, selector: string, index: number | 'last' = 0): Cheerio {
   if (DEV && !$el?.find) {
     logger.warn('@utils/html/cFind', '$el 不是有效的 cheerio 对象')
   }
@@ -411,7 +302,7 @@ export function cFind($el: any, selector: string, index: number | 'last' = 0) {
 }
 
 /** cheerio.find */
-export function cList($el: any, selector: string) {
+export function cList($el: any, selector: string): Cheerio {
   if (DEV && !$el?.find) {
     logger.warn('@utils/html/cList', '$el 不是有效的 cheerio 对象')
   }
@@ -461,45 +352,6 @@ export function cHasClass($el: any, className: string) {
     return $el.hasClass(className)
   } catch (error) {
     return false
-  }
-}
-
-/**
- * cheerio 查找最大页码、当前页码
- *  - 只适用于 bgm.tv
- * */
-export function cPagination($: any) {
-  if (DEV && !$?.find) {
-    logger.warn('@utils/html/cPagination', '$ 不是有效的 cheerio 对象')
-  }
-
-  let pageTotal = 1
-  let page = 1
-
-  try {
-    // 先看是否存在 .p_edge
-    const edgeText = cText($('#multipage .p_edge'))
-    if (edgeText) {
-      // 形如 "( 1 / 20 )"
-      const match = edgeText.match(/\/\s*(\d+)/)
-      if (match) pageTotal = parseInt(match[1], 10)
-    } else {
-      // 否则取所有分页数字
-      const pages: number[] = []
-      cEach($('#multipage .p, #multipage .p_cur'), $row => {
-        const num = parseInt(cText($row))
-        if (!isNaN(num)) pages.push(num)
-      })
-      if (pages.length > 0) pageTotal = Math.max(...pages)
-    }
-
-    const current = parseInt(cText($('#multipage .p_cur')))
-    if (!isNaN(current)) page = current
-  } catch {}
-
-  return {
-    pageTotal,
-    page
   }
 }
 

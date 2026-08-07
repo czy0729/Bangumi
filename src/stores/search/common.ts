@@ -2,36 +2,29 @@
  * @Author: czy0729
  * @Date: 2020-10-23 10:49:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-10 11:53:33
+ * @Last Modified time: 2026-08-08 09:30:00
  */
-import {
-  cData,
-  cFind,
-  cHas,
-  cheerio,
-  cMap,
-  cPagination,
-  cText,
-  HTMLDecode,
-  htmlMatch
-} from '@utils'
+import { cData, cFind, cHas, cheerio, cMap, cPagination, cParse, cText, HTMLDecode } from '@utils'
 
 import type { SearchItem } from './types'
 
+/** 条目搜索结果 */
 export function cheerioSearch(html: string) {
-  const $ = cheerio(htmlMatch(html, '<div id="columnSearchB', '<div id="footer'))
+  const $ = cParse(html, '<div id="columnSearchB', '<div id="footer')
+  const $items = $('#browserItemList .item')
   return {
     pagination: cPagination($),
-    list: cMap($('#browserItemList .item'), $row => {
+    list: cMap($items, $row => {
       const $a = cFind($row, 'h3 a.l')
+      const $rateInfo = cFind($row, '.rateInfo')
       return {
         id: cData($a, 'href'),
         cover: cData(cFind($row, 'img.cover'), 'src'),
         name: cText(cFind($row, 'h3 small.grey')),
         nameCn: cText($a),
         tip: cText(cFind($row, 'p.info')),
-        score: cText(cFind($row, '.rateInfo .fade')),
-        total: cText(cFind($row, '.rateInfo .tip_j')),
+        score: cText(cFind($rateInfo, '.fade')),
+        total: cText(cFind($rateInfo, '.tip_j')),
         rank: cText(cFind($row, '.rank'), true),
         type: cData(cFind($row, 'h3 span.ll'), 'class').match(/subject_type_(\d+)/)?.[1] || '',
         collected: cHas(cFind($row, '.collectModify')),
@@ -41,18 +34,19 @@ export function cheerioSearch(html: string) {
   }
 }
 
+/** 人物搜索结果 */
 export function cheerioSearchMono(html: string) {
-  const $ = cheerio(htmlMatch(html, '<div id="columnSearchB', '<div id="footer'))
+  const $ = cParse(html, '<div id="columnSearchB', '<div id="footer')
   return {
     pagination: cPagination($),
     list: cMap($('.light_odd'), $row => {
       const $a = cFind($row, 'h2 a.l')
-      const [name = '', nameCn = ''] = cText($a).split('/')
+      const [name = '', ...nameCnParts] = cText($a).split('/')
       return {
         id: cData($a, 'href'),
         cover: cData(cFind($row, 'img.avatar'), 'src'),
         name: name.trim(),
-        nameCn: nameCn.trim(),
+        nameCn: nameCnParts.join('/').trim(),
         tip: cText(cFind($row, '.prsn_info')),
         score: '',
         total: '',

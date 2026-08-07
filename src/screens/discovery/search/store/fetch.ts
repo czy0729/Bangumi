@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-06-03 11:43:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-30 17:09:58
+ * @Last Modified time: 2026-08-08 01:49:24
  */
 import { Keyboard } from 'react-native'
 import { collectionStore, searchStore } from '@stores'
@@ -37,14 +37,7 @@ export default class Fetch extends Computed {
     }
 
     try {
-      const data = await searchStore.fetchSearch(
-        {
-          cat,
-          legacy,
-          text: value
-        },
-        refresh
-      )
+      const data = await searchStore.fetchSearch(value, cat, legacy, refresh)
       Keyboard.dismiss()
 
       // 延迟获取收藏中的条目的具体收藏状态
