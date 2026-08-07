@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 11:11:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-09 07:18:20
+ * @Last Modified time: 2026-08-07 08:05:16
  */
 import {
   cData,
@@ -53,7 +53,7 @@ export function cheerioTimeline(
     } catch (error) {
       return null
     }
-  }).filter((item): item is TimelineItem => !!item?.id)
+  }).filter((item): item is TimelineItem => !!item?.id && !!item.id.split('|')[1])
 
   let likes: Likes = {}
   try {
@@ -65,7 +65,7 @@ export function cheerioTimeline(
         .replace(/'/g, '"')
         .replace(/([{,]\s*)(\w+)(\s*:)/g, '$1"$2"$3')
         .replace(/,\s*([}\]])/g, '$1')
-      likes = JSON.parse(raw)
+      likes = JSON.parse(raw) as Likes
     }
   } catch {}
 
@@ -73,7 +73,7 @@ export function cheerioTimeline(
     list,
     pagination: {
       page,
-      pageTotal: scopeCn === '全站' ? 1 : list.length ? 100 : page
+      pageTotal: list.length ? (scopeCn === '全站' ? 1 : 100) : page
     },
     likes
   }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 05:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-25 18:31:01
+ * @Last Modified time: 2026-08-07 06:11:26
  */
 module.exports = {
   root: true,
@@ -50,6 +50,10 @@ module.exports = {
       env: {
         jest: true,
         node: true
+      },
+      rules: {
+        '@typescript-eslint/no-unsafe-assignment': 0,
+        '@typescript-eslint/no-unsafe-return': 0
       }
     }
   ],

@@ -30,6 +30,10 @@ jest.mock(
     const cheerioRN = require('cheerio-without-node-native')
     const cheerio = target =>
       typeof target === 'string' ? cheerioRN.load(target) : cheerioRN(target)
+    const { lastDate, relativeEnToEpoch, relativeToEpoch } = require(
+      __dirname + '/src/utils/utils/relative-time'
+    )
+    const { htmlMatch } = require(__dirname + '/src/utils/html/match')
 
     return {
       cData: ($el, key) => $el.attr(key) || '',
@@ -46,10 +50,10 @@ jest.mock(
           .map((index, element) => callback(cheerio(element), index))
           .get()
           .filter(Boolean),
-      cParse: (html, start, end) => cheerio(html.substring(html.indexOf(start), html.indexOf(end))),
+      cParse: (html, start, end) => cheerio(htmlMatch(html, start, end)),
       cText: $el => $el.text().trim(),
       cheerio,
-      htmlMatch: (html, start, end) => html.substring(html.indexOf(start), html.indexOf(end)),
+      htmlMatch,
       getCoverSmall: (str = '') => str || '',
       HTMLDecode: (str = '') => str || '',
       HTMLToTree: () => ({ children: [] }),
@@ -60,21 +64,9 @@ jest.mock(
           .trim(),
       matchAvatar: (str = '') => str.match(/url\(['"]?(.*?)['"]?\)/)?.[1] || '',
       matchUserId: (str = '') => (str || '').substring(str.lastIndexOf('/') + 1),
-      relativeEnToEpoch: (time, _loaded) => {
-        const clean = time.replace(/^\.\.\./, '').trim()
-        if (!clean.includes('ago')) return undefined
-        const relative = clean.replace(/\s*ago$/, '').trim()
-        let offset = 0
-        const d = relative.match(/(\d+)\s*d(?!\w)/)
-        if (d) offset += parseInt(d[1]) * 86400
-        const h = relative.match(/(\d+)\s*h/)
-        if (h) offset += parseInt(h[1]) * 3600
-        const m = relative.match(/(\d+)\s*m(?!\w)/)
-        if (m) offset += parseInt(m[1]) * 60
-        const s = relative.match(/(\d+)\s*s/)
-        if (s) offset += parseInt(s[1])
-        return offset > 0 ? _loaded - offset : undefined
-      },
+      lastDate,
+      relativeToEpoch,
+      relativeEnToEpoch,
       safeObject: (object = {}) => object,
       trim: (str = '') => (str || '').trim()
     }

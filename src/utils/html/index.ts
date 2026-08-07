@@ -2,13 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-13 06:36:05
+ * @Last Modified time: 2026-08-07 07:48:24
  */
 import cheerioRN from 'cheerio-without-node-native'
 import { DEV } from '@src/config'
 import { logger } from '../dev'
 import HTMLParser from '../thirdParty/html-parser'
 import { safeObject } from '../utils'
+import { htmlMatch } from './match'
+
+export * from './match'
 
 /** 去除 HTML */
 export function removeHTMLTag(str: any, removeAllSpace: boolean = true): string {
@@ -101,15 +104,6 @@ export function HTMLTrim(str: any = '', deep?: boolean) {
     .replace(/\n+|\s\s\s*|\t/g, '')
     .replace(/"class="/g, '" class="')
     .replace(/> </g, '><')
-}
-
-/** 匹配指定范围 html, 若没有匹配到返回原 html */
-export function htmlMatch(html: string, start: string, end: string, removeScript: boolean = true) {
-  if (!html || !start || !end) return html || ''
-
-  if (removeScript) html = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/g, '')
-
-  return html.match(new RegExp(start + '[\\s\\S]+' + end, 'g'))?.[0] || html || ''
 }
 
 /**
