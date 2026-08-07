@@ -16,8 +16,9 @@ import { memoStyles } from './styles'
 
 import type { SearchCatCn } from '@types'
 import type { Ctx } from '../../types'
+import type { Props } from './types'
 
-function Legacy({ onFocus }) {
+function Legacy({ onFocus }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const handleSelect = useCallback(

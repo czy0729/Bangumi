@@ -16,8 +16,9 @@ import { memoStyles } from './styles'
 
 import type { SearchCatCn } from '@types'
 import type { Ctx } from '../../types'
+import type { Props } from './types'
 
-function SearchBar({ iptRef }) {
+function SearchBar({ iptRef }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   const handleSubmitEditing = useCallback(() => {

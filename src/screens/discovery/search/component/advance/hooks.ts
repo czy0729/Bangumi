@@ -7,8 +7,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { SEARCH_SUBSTRINGS } from '@stores/calendar/onair'
 import { asc, desc, ensureCacheLimit, t2s } from '@utils'
+import { logger } from '@utils/dev'
 import { decode, get } from '@utils/protobuf'
 import { loadJSON } from '@assets/json'
+import { COMPONENT } from './ds'
 
 import type { JSONMono } from '@assets/json/types'
 import type { SearchCat, SubjectId } from '@types'
@@ -41,6 +43,17 @@ const indexingStatus: Partial<Record<SearchCat, 'none' | 'indexing' | 'done'>> =
   subject_2: 'none'
 }
 
+/** 各分类原始数据的 key 缓存, 避免降级匹配时每次按键全量 Object.keys */
+const rawKeys: Partial<Record<SearchCat, string[]>> = {}
+
+type IndexMeta = {
+  sortedKeys: SubjectTitle[]
+  idMap: Record<SubjectTitle, SubjectId>
+}
+
+/** 索引构建完成后一次性预计算的排序 key 与标题→id 映射 */
+const indexMeta: Partial<Record<SearchCat, IndexMeta>> = {}
+
 let buildGeneration = 0
 let mono: (JSONMono[number] & { norm: string })[] = []
 
@@ -48,14 +61,19 @@ let mono: (JSONMono[number] & { norm: string })[] = []
  * 条目联想搜索 Hook
  * @param cat 搜索分类
  * @param value 搜索关键字
+ * @param enabled 是否启用匹配（联想区不可见时跳过搜索匹配，索引构建不受影响）
  */
-export function useResult(cat: SearchCat, value: string) {
+export function useResult(cat: SearchCat, value: string, enabled: boolean) {
   const [result, setResult] = useState<SubjectTitle[]>([])
   const [isReady, setIsReady] = useState(false)
   const substrings = useRef<Record<SubjectTitle, SubjectId>>({})
 
   // 初始化与分类切换：负责静态资源加载与异步索引构建
+  // 注意: 只依赖 cat, 不依赖 enabled。索引构建是模块级单例的一次性后台工作,
+  // 若随联想区显示状态 (showAdvance) 反复启停, 会误杀进行中的分片构建导致永久降级
   useEffect(() => {
+    if (cat === 'mono_all') return
+
     let active = true
     const gen = ++buildGeneration
 
@@ -66,14 +84,13 @@ export function useResult(cat: SearchCat, value: string) {
       await ensureRawLoaded(cat)
       if (!active) return
 
-      const currentStatus = indexingStatus[cat] || 'none'
-
-      if (currentStatus === 'done') {
-        setIsReady(true)
-        return
+      // 若上次构建被新代际误杀 (状态卡 indexing 但索引未落地), 重置后重建, 避免永久降级
+      if (indexingStatus[cat] === 'indexing' && !indexMeta[cat]) {
+        logger.warn(`${COMPONENT}/useResult`, cat, '索引卡住，重置并重建')
+        indexingStatus[cat] = 'none'
       }
 
-      if (currentStatus === 'none') {
+      if (indexingStatus[cat] === 'none') {
         indexingStatus[cat] = 'indexing'
 
         // 接收构建结果，若中途被新代际覆盖则返回 false
@@ -87,7 +104,8 @@ export function useResult(cat: SearchCat, value: string) {
       }
     }
 
-    setIsReady((indexingStatus[cat] || 'none') === 'done')
+    // 同步就绪判断: 索引落地即就绪 (indexingStatus 与 indexMeta 总是同步写入)
+    setIsReady(!!indexMeta[cat])
     init()
 
     return () => {
@@ -97,6 +115,13 @@ export function useResult(cat: SearchCat, value: string) {
 
   // 执行搜索逻辑：根据索引就绪状态，选择高效率匹配或临时降级匹配
   useEffect(() => {
+    if (!enabled) return
+
+    if (cat === 'mono_all') {
+      setResult([])
+      return
+    }
+
     if (value.length < 2) {
       setResult([])
       return
@@ -115,11 +140,12 @@ export function useResult(cat: SearchCat, value: string) {
     }
 
     const indexed = indexedStores[cat] || {}
-    const hasIndex = Object.keys(indexed).length > 0
+    const meta = indexMeta[cat]
+    const hasIndex = !!meta
 
     if (hasIndex) {
-      // 索引就绪：执行全量规范化匹配与精准排序
-      const keys = Object.keys(indexed).sort((a, b) => asc(a.length, b.length))
+      // 索引就绪：遍历预排序 key, 命中 MAX_LEN 即停, 避免每次按键全量排序
+      const keys = meta.sortedKeys
       const list: SubjectTitle[] = []
 
       for (const k of keys) {
@@ -128,8 +154,8 @@ export function useResult(cat: SearchCat, value: string) {
       }
       list.sort((a, b) => desc(indexed[a].id, indexed[b].id))
 
-      // 保持最新的映射关系，确保 UI 点击时能查到正确的 ID
-      substrings.current = Object.fromEntries(Object.entries(indexed).map(([k, v]) => [k, v.id]))
+      // 直接引用预构建的标题→id 映射, 避免每次按键全量重建
+      substrings.current = meta.idMap
 
       ensureCacheLimit(MEMO, 50)
       MEMO.set(memoKey, list)
@@ -137,7 +163,7 @@ export function useResult(cat: SearchCat, value: string) {
     } else {
       // 降级模式：索引未就绪时执行低成本的基础文本包含检查
       const raw = rawStores[cat] || {}
-      const keys = Object.keys(raw)
+      const keys = rawKeys[cat] || Object.keys(raw)
       const list: SubjectTitle[] = []
 
       for (const k of keys) {
@@ -145,13 +171,13 @@ export function useResult(cat: SearchCat, value: string) {
         if (k.toLocaleUpperCase().includes(q)) list.push(k)
       }
 
-      // 降级时强行同步当前分类的原始映射表，防止点击时 ID 丢失
-      substrings.current = { ...raw }
+      // 降级时直接引用当前分类的原始映射表 (title→id), 防止点击时 ID 丢失
+      substrings.current = raw
 
       setResult(list)
     }
     // isReady 的变更标志着后台高效索引已就绪，需触发搜索逻辑切换至高性能路径
-  }, [cat, value, isReady])
+  }, [cat, value, isReady, enabled])
 
   return {
     result,
@@ -162,11 +188,14 @@ export function useResult(cat: SearchCat, value: string) {
 /**
  * 人物/单行本联想搜索 Hook
  * @param value 搜索关键字
+ * @param enabled 是否启用匹配（非人物分类时跳过匹配）
  */
-export function useMonoResult(value: string) {
+export function useMonoResult(value: string, enabled: boolean) {
   const [result, setResult] = useState<JSONMono>([])
 
   useEffect(() => {
+    if (!enabled) return
+
     if (value.length < 1) {
       setResult([])
       return
@@ -205,7 +234,7 @@ export function useMonoResult(value: string) {
         setResult(list)
       } catch {}
     })()
-  }, [value])
+  }, [value, enabled])
 
   return result
 }
@@ -226,15 +255,23 @@ function normalizeSearch(value: string) {
 function buildIndexAsync(cat: SearchCat, gen: number): Promise<boolean> {
   const raw = rawStores[cat] || {}
   const entries = Object.entries(raw)
-  if (!entries.length) return Promise.resolve(false)
+  if (!entries.length) {
+    logger.warn(`${COMPONENT}/buildIndexAsync`, cat, '跳过，无原始数据')
+    return Promise.resolve(false)
+  }
+
+  logger.log(`${COMPONENT}/buildIndexAsync`, cat, `开始构建，共 ${entries.length} 条`)
 
   const index: SubStrings = {}
   let offset = 0
+  let lastProgress = 0
+  const startTime = Date.now()
 
   return new Promise(resolve => {
     function processChunk() {
       // 防重入：若代际已落后（用户切换了分类），回传 false 废弃当前链路
       if (gen !== buildGeneration) {
+        logger.warn(`${COMPONENT}/buildIndexAsync`, cat, '被新代际覆盖，已终止')
         resolve(false)
         return
       }
@@ -248,11 +285,31 @@ function buildIndexAsync(cat: SearchCat, gen: number): Promise<boolean> {
 
       if (offset < entries.length) {
         setTimeout(processChunk, 16)
+
+        const progress = Math.floor((offset / entries.length) * 100)
+        if (progress >= lastProgress + 25) {
+          lastProgress = progress
+          logger.log(`${COMPONENT}/buildIndexAsync`, cat, `${progress}%`)
+        }
       } else {
         if (gen === buildGeneration) {
           indexedStores[cat] = index
+
+          // 一次性预计算: 按键长升序的 key 与标题→id 映射, 供搜索热路径直接使用
+          const sortedKeys = Object.keys(index)
+          sortedKeys.sort((a, b) => asc(a.length, b.length))
+          const idMap: Record<SubjectTitle, SubjectId> = {}
+          for (const title of sortedKeys) idMap[title] = index[title].id
+          indexMeta[cat] = { sortedKeys, idMap }
+
+          logger.success(
+            `${COMPONENT}/buildIndexAsync`,
+            cat,
+            `构建完成，耗时 ${Date.now() - startTime}ms`
+          )
           resolve(true)
         } else {
+          logger.warn(`${COMPONENT}/buildIndexAsync`, cat, '被新代际覆盖，已终止')
           resolve(false)
         }
       }
@@ -265,23 +322,30 @@ function buildIndexAsync(cat: SearchCat, gen: number): Promise<boolean> {
  * 确保指定分类的静态原始数据已加载到内存中
  */
 async function ensureRawLoaded(cat: SearchCat) {
-  if (Object.keys(rawStores[cat] || {}).length) return
-
   const key: SearchCat =
     cat === 'subject_1' || cat === 'subject_4' || cat === 'subject_6' ? cat : 'subject_2'
 
+  // 按实际落库分类判断, 防止 subject_all/subject_3/user/catalog 等共用 subject_2 的分类重复加载
+  if (Object.keys(rawStores[key] || {}).length) return
+
   if (key === 'subject_1') {
     rawStores.subject_1 = await loadJSON('substrings/book')
+    rawKeys.subject_1 = Object.keys(rawStores.subject_1)
+    logger.success(`${COMPONENT}/ensureRawLoaded`, cat, key, `${rawKeys.subject_1.length} 条`)
     return
   }
 
   if (key === 'subject_4') {
     rawStores.subject_4 = await loadJSON('substrings/game')
+    rawKeys.subject_4 = Object.keys(rawStores.subject_4)
+    logger.success(`${COMPONENT}/ensureRawLoaded`, cat, key, `${rawKeys.subject_4.length} 条`)
     return
   }
 
   if (key === 'subject_6') {
     rawStores.subject_6 = await loadJSON('substrings/real')
+    rawKeys.subject_6 = Object.keys(rawStores.subject_6)
+    logger.success(`${COMPONENT}/ensureRawLoaded`, cat, key, `${rawKeys.subject_6.length} 条`)
     return
   }
 
@@ -301,4 +365,6 @@ async function ensureRawLoaded(cat: SearchCat) {
     ...(await loadJSON('substrings/anime')),
     ...(await loadJSON('substrings/alias'))
   }
+  rawKeys.subject_2 = Object.keys(rawStores.subject_2)
+  logger.success(`${COMPONENT}/ensureRawLoaded`, cat, key, `${rawKeys.subject_2.length} 条`)
 }

@@ -93,7 +93,7 @@ export type DeepPartial<T> = {
 export type ValueOf<T> = T[keyof T]
 
 /** 任意函数 */
-export type Fn = (...args: any[]) => any
+export type Fn = (...args: unknown[]) => unknown
 
 /** 选择函数 */
 export type SelectFn = <T, K>(arg1: T, arg2: K) => T | K
