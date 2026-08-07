@@ -10,7 +10,9 @@ import { Flex, Highlight, Katakana, Text } from '@components'
 import { cnjp, getVisualLength } from '@utils'
 import { styles } from './styles'
 
-function Title({ name, nameCn, comments, highlight }) {
+import type { Props } from './types'
+
+function Title({ name, nameCn, comments, highlight }: Props) {
   const top = cnjp(nameCn, name)
   const bottom = cnjp(name, nameCn)
 

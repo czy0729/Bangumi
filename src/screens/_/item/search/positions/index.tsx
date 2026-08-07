@@ -10,7 +10,9 @@ import { Flex } from '@components'
 import { _ } from '@stores'
 import { Tag } from '../../../base'
 
-function Postions({ position }) {
+import type { Props } from './types'
+
+function Postions({ position }: Props) {
   return (
     <Flex style={_.mt.sm} wrap='wrap'>
       {position.map((item: string) => (

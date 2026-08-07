@@ -11,7 +11,9 @@ import { _ } from '@stores'
 import { Rank, Stars } from '../../../base'
 import { styles } from './styles'
 
-function Rating({ rank, score, total }) {
+import type { Props } from './types'
+
+function Rating({ rank, score, total }: Props) {
   return (
     <Flex style={_.mt.md}>
       <Rank value={rank} />

@@ -14,8 +14,9 @@ import { Manage as ManageComp } from '../../../base'
 import { styles } from './styles'
 
 import type { CollectionStatus } from '@types'
+import type { Props } from './types'
 
-function Manage({ subjectId, collection, typeCn, name, nameCn, screen }) {
+function Manage({ subjectId, collection, typeCn, name, nameCn, screen }: Props) {
   return (
     <View style={styles.manage}>
       <ManageComp

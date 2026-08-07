@@ -10,7 +10,9 @@ import { Flex } from '@components'
 import { stl } from '@utils'
 import { styles } from './styles'
 
-function Content({ tip, comments, position, isMusic, children }) {
+import type { Props } from './types'
+
+function Content({ tip, comments, position, isMusic, children }: Props) {
   const justify = tip || position ? 'between' : 'start'
 
   return (

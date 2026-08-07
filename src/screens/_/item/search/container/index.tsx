@@ -11,6 +11,8 @@ import { getCoverSrc } from '@components/cover/utils'
 import { appNavigate, stl } from '@utils'
 import { memoStyles } from './styles'
 
+import type { Props } from './types'
+
 function Container({
   navigation,
   style,
@@ -23,8 +25,9 @@ function Container({
   typeCn,
   event,
   children
-}) {
+}: Props) {
   const styles = memoStyles()
+
   return (
     <Touchable
       style={stl(styles.container, style)}

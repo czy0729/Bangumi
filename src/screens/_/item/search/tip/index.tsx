@@ -11,7 +11,9 @@ import { _ } from '@stores'
 import { HTMLDecode, stl } from '@utils'
 import { styles } from './styles'
 
-function Tip({ tip, isMusic }) {
+import type { Props } from './types'
+
+function Tip({ tip, isMusic }: Props) {
   return (
     <Text
       style={stl(styles.tip, isMusic && _.mt.xs)}

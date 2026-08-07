@@ -10,7 +10,9 @@ import { Cover as CoverComp } from '@components'
 import { x18 } from '@utils'
 import { InView } from '../../../base'
 
-function Cover({ index, width, height, cover, subjectId, typeCn, isMono }) {
+import type { Props } from './types'
+
+function Cover({ index, width, height, cover, subjectId, typeCn, isMono }: Props) {
   return (
     <InView
       style={{
