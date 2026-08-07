@@ -6,6 +6,7 @@
  */
 import { useCallback, useState } from 'react'
 import { uiStore } from '@stores'
+import { CLICK_LOCK_MS } from './ds'
 
 import type { GestureResponderEvent } from 'react-native'
 import type { Fn } from '@types'
@@ -23,10 +24,11 @@ export function useCallOnceInInterval(onPress: Fn) {
       /**
        * 这里一定不能用 requestAnimationFrame
        * 会出现一种情况, 比如图片加载很慢, 一直在现实骨架屏动画, 会一直被延迟执行点击, 产生假死现象
+       * 微任务比 setTimeout(0) 更快, 且不受 rAF 渲染队列阻塞
        * */
       const { pageX, pageY } = event.nativeEvent
 
-      setTimeout(() => {
+      Promise.resolve().then(() => {
         onPress({
           pageX,
           pageY
@@ -34,8 +36,8 @@ export function useCallOnceInInterval(onPress: Fn) {
 
         setTimeout(() => {
           setDisabled(false)
-        }, 400)
-      }, 0)
+        }, CLICK_LOCK_MS)
+      })
     },
     [onPress]
   )

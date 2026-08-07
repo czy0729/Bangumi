@@ -12,7 +12,7 @@ import { r } from '@utils/dev'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { ScrollToTop } from '../scroll-to-top'
 import { Mask, useMask } from './mask'
-import { COMPONENT, SCROLL_IDLE_MS, SCROLL_THRESHOLD } from './ds'
+import { COMPONENT, SCROLL_IDLE_MS, SCROLL_RELEASE_MS, SCROLL_THRESHOLD } from './ds'
 
 import type { NativeSyntheticEvent, NativeScrollEvent } from 'react-native'
 import type { TimerRef } from '@types'
@@ -149,7 +149,7 @@ export const ScrollView = observer(
       scrollEndTimer.current = setTimeout(() => {
         scrollLocked.current = false
         uiStore.setScrolling(false)
-      }, 100)
+      }, SCROLL_RELEASE_MS)
       userOnScrollEndDrag?.(e)
     }
 
@@ -160,7 +160,7 @@ export const ScrollView = observer(
       scrollEndTimer.current = setTimeout(() => {
         scrollLocked.current = false
         uiStore.setScrolling(false)
-      }, 100)
+      }, SCROLL_RELEASE_MS)
       userOnMomentumScrollEnd?.(e)
     }
 

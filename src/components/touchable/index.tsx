@@ -50,6 +50,8 @@ export const Touchable = observer(
         <TouchableWithoutFeedback
           style={style}
           hitSlop={hitSlop}
+          delayPressIn={delayPressIn}
+          delayPressOut={delayPressOut}
           disabled={disabled || handleDisabled}
           useRN={useRN}
           onPress={handlePress}
@@ -64,6 +66,8 @@ export const Touchable = observer(
       <TouchableOpacity
         style={style}
         hitSlop={hitSlop}
+        delayPressIn={delayPressIn}
+        delayPressOut={delayPressOut}
         disabled={disabled || handleDisabled}
         useRN={useRN}
         onPress={handlePress}
