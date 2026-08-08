@@ -29,6 +29,7 @@ import type { TranslateResult, UserId } from '@types'
 import type {
   GenerateType,
   Result,
+  ResultAvatarHistory,
   ResultCollectList,
   ResultCompletions,
   ResultGenerate,
@@ -748,4 +749,34 @@ export async function recommendTopics(
   }
 
   return null
+}
+
+/** 历史头像 */
+export async function avatarHistory(username: UserId): Promise<ResultAvatarHistory | null> {
+  if (isDevtoolsOpen()) return Promise.reject('denied')
+
+  try {
+    const { data } = await axios<ResultAvatarHistory>({
+      method: 'get',
+      url: `${HOST_RY_MK}/search/users/${username}/avatars`
+    })
+
+    if (data?.history?.length) return data
+  } catch (error) {
+    err('avatarHistory', error)
+  }
+
+  return null
+}
+
+/** 历史头像图片地址 */
+export function avatarImageUrl(url?: string): string {
+  let originalUrl = String(url || '')
+  if (!originalUrl) return ''
+
+  if (originalUrl.startsWith('//')) originalUrl = `https:${originalUrl}`
+
+  if (/_[\w-]+\.(jpg|jpeg|png|gif|webp)$/i.test(originalUrl.split('?')[0])) return originalUrl
+
+  return `${HOST_RY_MK}/search/avatar/proxy?url=${encodeURIComponent(originalUrl)}`
 }

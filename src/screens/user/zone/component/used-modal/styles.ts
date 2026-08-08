@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-22 09:30:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-21 04:49:41
+ * @Last Modified time: 2026-08-08 00:00:00
  */
 import { _ } from '@stores'
 
@@ -15,27 +15,5 @@ export const memoStyles = _.memoStyles(() => ({
   },
   content: {
     paddingHorizontal: _.sm
-  },
-  avatars: {
-    minHeight: _.r(40),
-    paddingVertical: _.sm,
-    marginTop: _.sm
-  },
-  names: {
-    height: _.r(240),
-    paddingVertical: _.sm
-  },
-  loading: {
-    height: _.r(200)
-  },
-  item: {
-    paddingVertical: _.sm
-  },
-  date: {
-    width: _.r(80)
-  },
-  empty: {
-    marginTop: -_.md,
-    height: '100%'
   }
 }))

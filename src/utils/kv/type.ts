@@ -126,4 +126,16 @@ export type ResultPicListResponse = {
   files?: ResultPicList
 }
 
+/** 历史头像项 */
+export type AvatarHistoryItem = {
+  avatar_url?: string
+  captured_at?: number
+}
+
+/** 历史头像结果 */
+export type ResultAvatarHistory = {
+  history: AvatarHistoryItem[]
+  total?: number
+}
+
 

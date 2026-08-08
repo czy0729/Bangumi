@@ -37,7 +37,7 @@ function Extra() {
 
   return (
     <>
-      <UsedModal $={$} visible={$.state.visible} defaultAvatar={$.src} />
+      <UsedModal visible={$.state.visible} defaultAvatar={$.src} />
       <RemarkModal />
       <MesumeChat
         show={chatModalVisible}
