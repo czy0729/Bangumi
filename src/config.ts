@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-21 16:02:29
+ * @Last Modified time: 2026-08-08 21:24:36
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
 
-import type { Paths } from '@types'
+import type { Configs } from '@types'
 
 /** ==================== 开发调试时用配置 ==================== */
 /** 是否开发模式 */
@@ -65,35 +65,44 @@ export const HOST_PROXY = 'http://192.168.31.87:3000'
 const CONFIGS: Configs = {
   initialRouteName: DEV ? 'HomeTab' : 'HomeTab',
   initialRouteParams: {
-    // subjectId: 467461 // anime: 296870, music: 302514, book: 267358, game: 283730
-    // topicId: 'group/438017' // group/366561
-    // userId: 'koyuki' // 456208, 419012, 'lilyurey', 'imagebuilder183'
-    // monoId: 'character/109775' // character/70323 person/5745
+    // subjectId: 552533
+    // topicId: 'group/438017'
+    // userId: 'lilyurey'
+    // monoId: 'character/109775'
     // id: 68522148
     // ids: [72649, 59610, 59611, 72648, 72650, 72651, 72652, 74522, 75203, 75207]
-    // blogId: 295515 // 294448
+    // blogId: 295515
     // catalogId: 34360
-    // groupId: 'boring' // fillgrids
+    // groupId: 'boring'
     // jp: 'ようこそ実力至上主義の教室へ',
     // cn: '无职转生 ～在异世界认真地活下去～'
     // userName: 'sukaretto'
-    // from: 'tinygrail',
-    // form: 'lottery', // lottery
-    // message: '彩票刮刮乐共获得： #20391「双叶杏」64股 #70900「神原骏河」36股',
+    // from: 'tinygrail'
+    // form: 'lottery'
+    // message: '彩票刮刮乐共获得： #20391「双叶杏」64股 #70900「神原骏河」36股'
     // name: '绫香·沙条',
     // keywords: ['アヤカ・サジョウ', 'Fate/strange Fake']
     // tag: '水树奈奈'
-    // type: 'anime' // 'anime'
-    // uri: 'https://bgm.tv/award/2019',
+    // type: 'anime'
+    // uri: 'https://bgm.tv/award/2019'
   }
 }
 
-export default CONFIGS
+// 本地开发覆盖（src/config.local.ts 为 gitignored 文件，不入库）
+try {
+  const localConfigs = require('./config.local') as {
+    enabled?: boolean
+    initialRouteName?: Configs['initialRouteName']
+    initialRouteParams?: Configs['initialRouteParams']
+  }
+  if (localConfigs?.enabled) {
+    if (localConfigs.initialRouteName) CONFIGS.initialRouteName = localConfigs.initialRouteName
+    if (localConfigs.initialRouteParams)
+      CONFIGS.initialRouteParams = localConfigs.initialRouteParams
+  }
+} catch {}
 
-type Configs = {
-  initialRouteName: Paths | 'HomeTab'
-  initialRouteParams: any
-}
+export default CONFIGS
 
 /** ==================== 下方配置通常不修改 ==================== */
 /** 日志级别 (开发用): 2 所有, 1 只输出错误和警告, 0 不输出 */
