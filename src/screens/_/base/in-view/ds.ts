@@ -4,7 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-05-15 11:50:31
  */
+import { _ } from '@stores'
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'InView')
+
+/** 提前渲染的 y 轴距离 */
+export const preDistance = Math.floor(_.window.height * 0.5)
