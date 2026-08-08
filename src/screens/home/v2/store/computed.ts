@@ -19,8 +19,6 @@ import {
   WEB
 } from '@constants'
 import {
-  calcSortWeightClient,
-  calcSortWeightOnair,
   formatCountRight,
   getCollection,
   getCurrentOnAir,
@@ -29,7 +27,6 @@ import {
   getLastWatchedSort,
   getNextWatchEp,
   getOnlineOrigins,
-  getSeasonKey,
   getSubjectFilterName,
   getTabs,
   getTopMap,
@@ -39,12 +36,12 @@ import {
   isOnairNextDay,
   isOnairToday,
   matchFilter,
-  sortByWeightAndTop
+  sortByIds
 } from './utils'
 import State from './state'
 import { INIT_ITEM, NAMESPACE, PAGE_LIMIT_GRID, PAGE_LIMIT_LIST } from './ds'
 
-import type { UserCollections } from '@stores/collection/types'
+import type { UserCollections, UserCollectionsItem } from '@stores/collection/types'
 import type { UserCollection } from '@stores/user/types'
 import type { UserCollectionItem } from '@utils/fetch.v0/types'
 import type {
@@ -186,87 +183,30 @@ export default class Computed extends State {
    *  - 未完结新番还有未看
    *  - 默认排序
    */
-  sortList = computedFn((list: UserCollectionItem[]) => {
-    if (!list?.length) return freeze([]) as UserCollectionItem[]
+  sortList = (list: UserCollectionItem[]) => {
+    return this.sortListByIds(list.map(item => item.subject_id))
+  }
 
-    const topMap = this.topMap
+  /**
+   * 按 subjectId 集合排序并缓存
+   * 缓存 key 为原始类型数组(String 后单射), 内部读取均走 observable, 依赖变化自动重算
+   */
+  sortListByIds = computedFn((ids: SubjectId[]) => {
+    const list = ids.map(id => this.collectionMap[id]).filter(Boolean) as UserCollectionItem[]
 
-    // 网页顺序: 不需要处理
-    if (
-      systemStore.setting.homeSorting ===
-      MODEL_SETTING_HOME_SORTING.getValue<SettingHomeSorting>('网页')
-    ) {
-      return freeze(
-        list
-          .slice()
-          .map(item => [item, topMap[item.subject_id] || 0] as [UserCollectionItem, number])
-          .sort(([, a], [, b]) => desc(a, b))
-          .map(([item]) => item)
-      )
-    }
-
-    try {
-      // 计算每一个条目看过章节的数量
-      const weightMap: Record<number, number> = {}
-
-      // 放送顺序: 本季优先, 其次 CDN 放送中, 其次星期顺序
-      if (this.sortOnAir) {
-        const day = new Date().getDay()
-        list.forEach(item => {
-          const { subject_id: subjectId } = item
-          const { weekDay, isOnair } = this.onAirCustom(subjectId)
-          const { air = 0 } = calendarStore.onAir[subjectId] || {}
-          weightMap[subjectId] = calcSortWeightOnair({
-            weekDay,
-            isOnair,
-            day,
-            hasNewEp: this.hasNewEp(subjectId),
-            seasonKey: getSeasonKey(item.subject?.air_date),
-            air,
-            epsCount: item.subject?.eps_count
-          })
-        })
-        return freeze(sortByWeightAndTop(list, weightMap, topMap))
-      }
-
-      // 客户端顺序：按 seasonKey 分组（越近越大） > 放送中/未看/默认
-      list.forEach(item => {
-        const { subject_id: subjectId } = item
-        const watchedCount = this.watchedCount(subjectId)
-
-        // air 代表该条目放送到哪一集
-        const { air = 0 } = calendarStore.onAir[subjectId] || {}
-        weightMap[subjectId] = calcSortWeightClient({
-          isToday: this.isToday(subjectId),
-          isNextDay: this.isNextDay(subjectId),
-          air,
-          watchedCount,
-          hasNewEp: this.hasNewEp(subjectId),
-          seasonKey: getSeasonKey(item.subject?.air_date),
-          epsCount: item.subject?.eps_count
-        })
-      })
-      return freeze(sortByWeightAndTop(list, weightMap, topMap))
-    } catch {}
-
-    return freeze(
-      list
-        .slice()
-        .map(
-          item =>
-            [item, topMap[item.subject_id] || 0, this.isToday(item.subject_id)] as [
-              UserCollectionItem,
-              number,
-              boolean
-            ]
-        )
-        .sort(([, t1, d1], [, t2, d2]) => {
-          const r1 = desc(t1, t2)
-          if (r1 !== 0) return r1
-          return desc(d1, d2)
-        })
-        .map(([item]) => item)
-    )
+    return sortByIds(list, {
+      topMap: this.topMap,
+      isWeb:
+        systemStore.setting.homeSorting ===
+        MODEL_SETTING_HOME_SORTING.getValue<SettingHomeSorting>('网页'),
+      sortOnAir: this.sortOnAir,
+      getAir: subjectId => calendarStore.onAir[subjectId]?.air || 0,
+      onAirCustom: subjectId => this.onAirCustom(subjectId),
+      hasNewEp: subjectId => this.hasNewEp(subjectId),
+      isToday: subjectId => this.isToday(subjectId),
+      isNextDay: subjectId => this.isNextDay(subjectId),
+      watchedCount: subjectId => this.watchedCount(subjectId)
+    })
   })
 
   /** 当前列表有过滤 */
@@ -306,7 +246,7 @@ export default class Computed extends State {
       ...this.rawGames,
       list: this.filteredGames
         .slice()
-        .map(item => [item, topMap[item.id] || 0])
+        .map(item => [item, topMap[item.id] || 0] as [UserCollectionsItem, number])
         .sort(([, a], [, b]) => desc(a, b))
         .map(([item]) => item)
     }) as UserCollections

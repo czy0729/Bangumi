@@ -16,7 +16,9 @@ function Tags({ value }) {
   if (!value || typeof value !== 'string') return null
 
   const { tags: selected } = $.state.query
-  const tags = value.split(' ').sort((a, b) => desc(selected.includes(a), selected.includes(b)))
+  const tags = value
+    .split(' ')
+    .sort((a, b) => desc(selected.includes(a) ? 1 : 0, selected.includes(b) ? 1 : 0))
   return <CompTags value={tags} />
 }
 

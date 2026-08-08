@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2026-05-11 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-18 04:23:23
+ * @Last Modified time: 2026-08-08 22:17:43
  */
 import { systemStore, userStore } from '@stores'
-import { desc, findLastIndex, getPinYinFilterValue, x18 } from '@utils'
+import { desc, findLastIndex, freeze, getPinYinFilterValue, x18 } from '@utils'
 import { getOriginConfig } from '@src/screens/user/origin-setting/utils'
 import { TABS_ITEM } from '../ds'
 
+import type { OriginItem } from '@src/screens/user/origin-setting/utils'
 import type { UserProgress } from '@stores/user/types'
 import type { Ep } from '@stores/subject/types'
 import type { UserCollectionItem } from '@utils/fetch.v0/types'
-import type { SubjectId } from '@types'
+import type { Origin, SubjectId } from '@types'
 import type { Tabs } from '../types'
 
 /** 获取置顶映射 */
@@ -31,7 +32,7 @@ export function getEpsNoSp(eps: readonly Ep[] | undefined) {
 /** 获取排除 SP 章节的数量 */
 export function getEpsCount(
   subject: { eps?: readonly Ep[]; eps_count?: number },
-  filterZero = true
+  filterZero: boolean = true
 ) {
   try {
     if (subject?.eps && typeof subject.eps === 'object') {
@@ -90,8 +91,8 @@ export function isOnairNextDay(weekDay: number, isOnair: boolean) {
 
 /** 获取从今天到下次放送的天数（1-6，跨周处理） */
 export function getDaysUntilNext(weekDay: number): number {
-  const today = new Date().getDay()  // 0-6 (Sun-Sat)
-  const wd = weekDay === 7 ? 0 : weekDay  // store 1-7(7=Sun) → JS 0-6(0=Sun)
+  const today = new Date().getDay() // 0-6 (Sun-Sat)
+  const wd = weekDay === 7 ? 0 : weekDay // store 1-7(7=Sun) → JS 0-6(0=Sun)
   if (wd > today) return wd - today
   return 7 - today + wd
 }
@@ -121,15 +122,16 @@ export function calcSortWeightOnair(options: {
   const { weekDay, isOnair, hasNewEp, seasonKey = 0, air, epsCount } = options
 
   // 看完下沉优先: 已沉底的条目不参与放送中排序, 走 APP 逻辑落到同季最下方
-  if (systemStore.setting.homeSortSink && !hasNewEp) return calcSortWeightClient({
-    isToday: false,
-    isNextDay: false,
-    air: air || 0,
-    watchedCount: 0,
-    hasNewEp,
-    seasonKey,
-    epsCount
-  })
+  if (systemStore.setting.homeSortSink && !hasNewEp)
+    return calcSortWeightClient({
+      isToday: false,
+      isNextDay: false,
+      air: air || 0,
+      watchedCount: 0,
+      hasNewEp,
+      seasonKey,
+      epsCount
+    })
 
   if (isOnair) {
     let timingWeight = 1
@@ -166,15 +168,7 @@ export function calcSortWeightClient(options: {
   seasonKey?: number
   epsCount?: number
 }) {
-  const {
-    isToday,
-    isNextDay,
-    air,
-    watchedCount,
-    hasNewEp,
-    seasonKey = 0,
-    epsCount
-  } = options
+  const { isToday, isNextDay, air, watchedCount, hasNewEp, seasonKey = 0, epsCount } = options
 
   const seasonBoost = seasonKey * 10_000_000
 
@@ -223,6 +217,110 @@ export function sortByWeightAndTop(
       return desc(w1, w2)
     })
     .map(([item]) => item)
+}
+
+/**
+ * 按列表排序（网页 / 放送 / 客户端顺序）
+ * 优先度从上到下: 放送中还有未看 > 放送中没未看 > 明天放送还有未看 > 明天放送没未看 > 未完结新番还有未看 > 默认
+ * */
+export function sortByIds(
+  list: UserCollectionItem[],
+  options: {
+    topMap: Record<SubjectId, number>
+    isWeb: boolean
+    sortOnAir: boolean
+    getAir: (subjectId: SubjectId) => number
+    onAirCustom: (subjectId: SubjectId) => { weekDay: number; isOnair: boolean }
+    hasNewEp: (subjectId: SubjectId) => boolean
+    isToday: (subjectId: SubjectId) => boolean
+    isNextDay: (subjectId: SubjectId) => boolean
+    watchedCount: (subjectId: SubjectId) => number
+  }
+): UserCollectionItem[] {
+  const {
+    topMap,
+    isWeb,
+    sortOnAir,
+    getAir,
+    onAirCustom,
+    hasNewEp,
+    isToday,
+    isNextDay,
+    watchedCount
+  } = options
+
+  if (!list?.length) return freeze([]) as UserCollectionItem[]
+
+  // 网页顺序: 不需要处理
+  if (isWeb) {
+    return freeze(
+      list
+        .slice()
+        .map(item => [item, topMap[item.subject_id] || 0] as [UserCollectionItem, number])
+        .sort(([, a], [, b]) => desc(a, b))
+        .map(([item]) => item)
+    ) as UserCollectionItem[]
+  }
+
+  try {
+    // 计算每一个条目看过章节的数量
+    const weightMap: Record<number, number> = {}
+
+    // 放送顺序: 本季优先, 其次 CDN 放送中, 其次星期顺序
+    if (sortOnAir) {
+      const day = new Date().getDay()
+      list.forEach(item => {
+        const { subject_id: subjectId } = item
+        const { weekDay, isOnair } = onAirCustom(subjectId)
+        const air = getAir(subjectId)
+        weightMap[subjectId] = calcSortWeightOnair({
+          weekDay,
+          isOnair,
+          day,
+          hasNewEp: hasNewEp(subjectId),
+          seasonKey: getSeasonKey(item.subject?.air_date),
+          air,
+          epsCount: item.subject?.eps_count
+        })
+      })
+      return freeze(sortByWeightAndTop(list, weightMap, topMap)) as UserCollectionItem[]
+    }
+
+    // 客户端顺序：按 seasonKey 分组（越近越大） > 放送中/未看/默认
+    list.forEach(item => {
+      const { subject_id: subjectId } = item
+      const air = getAir(subjectId)
+      weightMap[subjectId] = calcSortWeightClient({
+        isToday: isToday(subjectId),
+        isNextDay: isNextDay(subjectId),
+        air,
+        watchedCount: watchedCount(subjectId),
+        hasNewEp: hasNewEp(subjectId),
+        seasonKey: getSeasonKey(item.subject?.air_date),
+        epsCount: item.subject?.eps_count
+      })
+    })
+    return freeze(sortByWeightAndTop(list, weightMap, topMap)) as UserCollectionItem[]
+  } catch {}
+
+  return freeze(
+    list
+      .slice()
+      .map(
+        item =>
+          [item, topMap[item.subject_id] || 0, isToday(item.subject_id)] as [
+            UserCollectionItem,
+            number,
+            boolean
+          ]
+      )
+      .sort(([, t1, d1], [, t2, d2]) => {
+        const r1 = desc(t1, t2)
+        if (r1 !== 0) return r1
+        return desc(Number(d1), Number(d2))
+      })
+      .map(([item]) => item)
+  ) as UserCollectionItem[]
 }
 
 /** 获取 Tabs 配置 */
@@ -336,9 +434,8 @@ export function formatCountRight(current: number | string, total: number | strin
 }
 
 /** 获取在线源头数据 */
-export function getOnlineOrigins(type: number | string, origin: any) {
-  const data: any[] = []
-
+export function getOnlineOrigins(type: number | string, origin: Origin) {
+  const data: OriginItem[] = []
   if (Number(type) === 2) {
     getOriginConfig(origin, 'anime')
       .filter(item => item.active)

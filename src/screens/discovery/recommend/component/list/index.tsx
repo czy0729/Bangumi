@@ -34,7 +34,9 @@ function List() {
         onScroll={$.onScroll}
       >
         {SORT.slice()
-          .sort((a, b) => desc(!!data[a.key]?.length, !!data[b.key]?.length))
+          .sort((a, b) =>
+            desc(data[a.key]?.length ? 1 : 0, data[b.key]?.length ? 1 : 0)
+          )
           .map(item => (
             <View key={item.key} style={_.mv.md}>
               <Text style={_.ml.md} size={20} bold>
