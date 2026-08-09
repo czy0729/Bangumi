@@ -22,6 +22,41 @@ component-name/
 - 样式合并用 `stl()` 工具函数
 - 组件包裹 `<Component id='...'>` 调试壳
 
+## 复合组件（子组件独立文件夹）
+
+当组件拆分出多个子组件时（如 `hold-menu`、`action-sheet`），每个子组件独立成文件夹，文件夹内 `index.tsx` 用 `export default` 导出组件，私有样式放该文件夹的 `styles.ts`，专属逻辑抽成 `useXxx.ts` 自定义 hooks：
+
+```
+hold-menu/
+├── index.tsx           # 入口, 导出默认组件与外部类型
+├── context.ts / ds.ts / types.ts / utils.ts   # 共享模块
+├── provider/
+│   ├── index.tsx           # default export
+│   ├── useMenuController.ts
+│   └── styles.ts
+├── hold-item/
+│   ├── index.tsx           # default export
+│   ├── useItemAnimation.ts
+│   ├── useItemGesture.ts
+│   └── styles.ts
+├── menu/
+│   ├── index.tsx           # default export
+│   ├── useMenuAnimation.ts
+│   ├── styles.ts
+│   └── menu-item/          # 更深层的私有子组件同理
+│       └── index.tsx       # default export
+└── backdrop/
+    ├── index.tsx           # default export
+    └── styles.ts
+```
+
+- 子组件一律 `export default`，hooks 用具名导出
+- 组件内部声明用 `function XComponent(...)`，再 `const X = memo(XComponent)` 导出；仅对外入口组件用 `observer()` 包裹（如 `HoldMenuProvider`）
+- 子组件内不写 `r(COMPONENT)` 调试调用；`ds.ts` 在无使用时不导出 `COMPONENT`
+- 子组件 Props 类型提取到各自文件夹 `./types.ts`，每个 key 带 `/** ... */` 注释，回调字段放 type 末尾
+- 跨组件引用优先 `@components/*` 别名，避免深层相对路径（`../../../`）
+- 共享常量/类型/工具仍放组件根目录（`ds.ts`/`types.ts`/`utils.ts`）
+
 ## 类型定义规范
 
 - **使用 `type` 而不是 `interface`** 定义 Props
@@ -39,8 +74,9 @@ component-name/
 
 ## 样式规范
 
-- 样式使用 `_.memoStyles()` 创建
-- 导出名称统一为 `memoStyles`
+- 无主题依赖的样式用 `_.create()` 创建，导出名称统一为 `styles`，消费端 `import { styles } from './styles'`
+- 依赖主题（样式值使用 `_.select()`）才用 `_.memoStyles()` 创建，导出名称统一为 `memoStyles`
+- 若 `memoStyles` 内没有任何 computed theme 值（如 `_.select`），会触发 `bangumi/require-computed-in-memo-styles` 警告，应改用 `_.create`
 - 组件内部样式放在组件目录下的 `styles.ts` 中
 - 共享样式放在上层目录的 `styles.ts` 中
 - 样式数组必须用 `stl()` 包裹：
