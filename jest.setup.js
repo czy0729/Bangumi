@@ -36,6 +36,42 @@ jest.mock(
     const { htmlMatch } = require(__dirname + '/src/utils/html/match')
     const { cEach, cPagination, cText } = require(__dirname + '/src/utils/html/parse')
 
+    function desc(a, b, fn) {
+      const _a = typeof fn === 'function' ? fn(a) : a
+      const _b = typeof fn === 'function' ? fn(b) : b
+      if (typeof _a === 'string' && typeof _b === 'string') {
+        return _a < _b ? 1 : _a > _b ? -1 : 0
+      }
+      if (_a === _b) return 0
+      if (_a > _b) return -1
+      return 1
+    }
+    function freeze(val) {
+      return Object.freeze(val)
+    }
+    function getOnAir(onAir, onAirUser) {
+      function getSafeValue(key, ...sources) {
+        for (const s of sources) {
+          if (s?.[key] !== undefined && s[key] !== '') return s[key]
+        }
+        return undefined
+      }
+      function isNull(v) {
+        return v === undefined || v === '' || v === null
+      }
+      const timeJP = getSafeValue('timeJP', onAir, onAirUser)
+      const timeCN = getSafeValue('timeCN', onAir, onAirUser)
+      const time = isNull(timeCN) ? timeJP : timeCN
+      const weekDayJP = getSafeValue('weekDayJP', onAir, onAirUser)
+      const weekDayCN = getSafeValue('weekDayCN', onAir, onAirUser)
+      const weekDay = isNull(weekDayCN) ? weekDayJP : weekDayCN
+      const isOnair = !!(weekDay !== undefined && weekDay !== '' && (timeCN || timeJP))
+      const h = typeof time === 'string' ? time.slice(0, 2) : ''
+      const m = typeof time === 'string' ? time.slice(2, 4) : ''
+      const isCustom = !!onAirUser?._loaded
+      return { weekDay, h, m, isOnair, isExist: weekDay !== undefined && weekDay !== '', isCustom }
+    }
+
     return {
       cData: ($el, key) => $el.attr(key) || '',
       cFind: ($el, selector, index = 0) =>
@@ -68,6 +104,12 @@ jest.mock(
       relativeToEpoch,
       relativeEnToEpoch,
       safeObject: (object = {}) => object,
+      desc,
+      freeze,
+      getOnAir,
+      findLastIndex: () => -1,
+      getPinYinFilterValue: () => '',
+      x18: () => false,
       trim: (str = '') => (str || '').trim()
     }
   },
@@ -77,6 +119,41 @@ jest.mock(
 jest.mock('@utils/fetch', () => ({ fetchHTML: jest.fn() }), { virtual: true })
 
 jest.mock('@utils/crypto', () => ({ default: { get: () => [] } }), { virtual: true })
+
+jest.mock(
+  '@stores',
+  () => {
+    // mutable cell for dynamic homeSortSink
+    const state = { homeSortSink: false }
+    global.__mockStoreState__ = state
+    return {
+      systemStore: {
+        setting: {
+          homeSorting: '',
+          get homeSortSink() {
+            return global.__mockStoreState__.homeSortSink
+          }
+        }
+      },
+      userStore: {
+        userProgress: () => ({})
+      },
+      _: {
+        r: v => v,
+        window: { width: 375, height: 812 }
+      }
+    }
+  },
+  { virtual: true }
+)
+
+jest.mock(
+  '@src/screens/user/origin-setting/utils',
+  () => ({
+    getOriginConfig: jest.fn()
+  }),
+  { virtual: true }
+)
 
 jest.mock('@utils/thirdParty/html-entities-decoder', () => ({ default: (str = '') => str }), {
   virtual: true

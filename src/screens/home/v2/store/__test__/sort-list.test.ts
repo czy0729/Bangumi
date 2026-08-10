@@ -2,70 +2,8 @@
  * @Author: czy0729
  * @Date: 2026-08-08 12:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-08 21:34:41
+ * @Last Modified time: 2026-08-10 07:43:12
  */
-jest.mock(
-  '@stores',
-  () => {
-    // mutable cell for dynamic homeSortSink
-    const state = { homeSortSink: false }
-    ;(global as any).__mockStoreState__ = state
-    return {
-      systemStore: {
-        setting: {
-          homeSorting: '',
-          get homeSortSink() {
-            return (global as any).__mockStoreState__.homeSortSink
-          }
-        }
-      },
-      userStore: {
-        userProgress: () => ({})
-      },
-      _: {
-        r: (v: any) => v,
-        window: { width: 375, height: 812 }
-      }
-    }
-  },
-  { virtual: true }
-)
-
-jest.mock(
-  '@utils',
-  () => {
-    function desc(a: any, b: any, fn?: (item: any) => any): 0 | 1 | -1 {
-      const _a = typeof fn === 'function' ? fn(a) : a
-      const _b = typeof fn === 'function' ? fn(b) : b
-      if (typeof _a === 'string' && typeof _b === 'string') {
-        return _a < _b ? 1 : _a > _b ? -1 : 0
-      }
-      if (_a === _b) return 0
-      if (_a > _b) return -1
-      return 1
-    }
-    function freeze<T>(val: T): T {
-      return Object.freeze(val) as T
-    }
-    return {
-      desc,
-      freeze,
-      findLastIndex: () => -1,
-      getPinYinFilterValue: () => '',
-      x18: () => false
-    }
-  },
-  { virtual: true }
-)
-
-jest.mock(
-  '@src/screens/user/origin-setting/utils',
-  () => ({
-    getOriginConfig: jest.fn()
-  }),
-  { virtual: true }
-)
-
 import { getTopMap, sortByIds } from '../utils'
 
 import type { SubjectId } from '@types'
@@ -181,6 +119,22 @@ describe('sortByIds: 放送顺序 (sortOnAir)', () => {
       sortOnAir: true
     })
     expect(result.map(item => item.subject_id)).toEqual([502, 501])
+  })
+
+  it('[回归] 星期天: 周日放送 > 周六放送', () => {
+    jest.spyOn(Date.prototype, 'getDay').mockReturnValue(0)
+    const items = [
+      makeItem(901, { air_date: '2026-04', eps_count: 12 }),
+      makeItem(902, { air_date: '2026-04', eps_count: 12 })
+    ]
+    const result = sortByIds(items, {
+      ...ctxByMap({
+        901: { onAirCustom: { weekDay: 6, isOnair: true }, hasNewEp: true, air: 5 },
+        902: { onAirCustom: { weekDay: 7, isOnair: true }, hasNewEp: true, air: 5 }
+      }),
+      sortOnAir: true
+    })
+    expect(result.map(item => item.subject_id)).toEqual([902, 901])
   })
 })
 

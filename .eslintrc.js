@@ -14,6 +14,7 @@ module.exports = {
   ignorePatterns: [
     '/components/@/*',
     '/eslint-rules',
+    '/ext',
     '/node_modules',
     '/src/utils/thirdParty/*',
     'babel.config.js',

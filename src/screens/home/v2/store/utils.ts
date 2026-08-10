@@ -79,14 +79,15 @@ export function getLastWatchedIndex(eps: Ep[], userProgress: UserProgress) {
 export function isOnairToday(weekDay: number, isOnair: boolean) {
   if (!isOnair) return false
   const day = new Date().getDay()
-  return weekDay === day
+  return (weekDay === 7 ? 0 : weekDay) === day
 }
 
 /** 判断是否明天放送 */
 export function isOnairNextDay(weekDay: number, isOnair: boolean) {
   if (!isOnair) return false
   const day = new Date().getDay()
-  return day === 6 ? weekDay === 0 : day === weekDay - 1
+  const wd = weekDay === 7 ? 0 : weekDay
+  return day === 6 ? wd === 0 : day === wd - 1
 }
 
 /** 获取从今天到下次放送的天数（1-6，跨周处理） */
