@@ -102,7 +102,6 @@
     "react-native-safe-area-context": "4.4.1",
     "react-native-safe-area-view": "^1.1.1",
     "react-native-screens": "~3.18.0",
-    "react-native-shimmer-placeholder": "^2.0.9",
     "react-native-smb": "^0.2.4",
     "react-native-tab-view": "2.14.3",
     "react-native-text-ticker": "^1.14.0",

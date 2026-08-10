@@ -2,26 +2,22 @@
  * @Author: czy0729
  * @Date: 2023-03-11 17:17:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 03:10:42
+ * @Last Modified time: 2026-08-11 00:50:00
  */
 import React from 'react'
 import { View } from 'react-native'
-import { createShimmerPlaceholder } from 'react-native-shimmer-placeholder'
 import { observer } from 'mobx-react'
-import { LinearGradient } from 'expo-linear-gradient'
-import { _ } from '@stores'
 import { r } from '@utils/dev'
 import { WEB } from '@constants'
-import { getSkeletonColor } from './utils'
-import { COMPONENT, SHIMMER_COLORS, SHIMMER_COLORS_DARK, SHIMMER_COLORS_TINYGRAIL_DARK } from './ds'
+import { Shimmer } from './shimmer'
+import { getShimmerColors, getSkeletonColor } from './utils'
+import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 export { getSkeletonColor }
 
 import type { Props as SkeletonProps } from './types'
 export type { SkeletonProps }
-
-const ShimmerPlaceholder = createShimmerPlaceholder(LinearGradient)
 
 /** 骨架屏渐变动画 */
 export const Skeleton = observer(
@@ -38,22 +34,11 @@ export const Skeleton = observer(
       return null
     }
 
+    const colors = shimmerColors || getShimmerColors(type)
+
     return (
-      <View style={styles.skeleton} pointerEvents='none' removeClippedSubviews>
-        <ShimmerPlaceholder
-          visible={false}
-          width={width}
-          height={height}
-          shimmerColors={
-            shimmerColors ||
-            _.select(
-              SHIMMER_COLORS,
-              type === 'tinygrail' ? SHIMMER_COLORS_TINYGRAIL_DARK : SHIMMER_COLORS_DARK
-            )
-          }
-          duration={duration}
-          isInteraction={false}
-        />
+      <View style={styles.skeleton} pointerEvents='none'>
+        <Shimmer width={width} height={height} colors={colors} duration={duration} />
       </View>
     )
   }
