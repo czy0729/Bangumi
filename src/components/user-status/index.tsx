@@ -5,17 +5,12 @@
  * @Last Modified time: 2026-03-19 14:42:08
  */
 import React from 'react'
-import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { systemStore, userStore } from '@stores'
-import { getTimestamp, stl } from '@utils'
 import { r } from '@utils/dev'
-import { D, D3, D7 } from '@constants'
-import { Component } from '../component'
-import { Flex } from '../flex'
+import UserStatusView from './user-status-view'
 import { getUserStatus } from './utils'
 import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
 
 export { getUserStatus }
 
@@ -27,34 +22,16 @@ export const UserStatus = observer(
   ({ style, last, userId, mini = false, children }: UserStatusProps) => {
     r(COMPONENT)
 
+    // 传了 last 直接短路, 不读任何 store; 否则从 userStore 按 userId 取在线时间
     const lastTS = last || (systemStore.setting.onlineStatus ? userStore.onlines(userId) : 0)
+
+    // 无在线记录时不用包一层徽标, 原样渲染 children 即可
     if (!lastTS) return <>{children}</>
 
-    const now = getTimestamp()
-    const distance = now - lastTS
-    if (distance > D7) return <>{children}</>
-
-    const styles = memoStyles()
-
     return (
-      <Component id='component-user-status'>
-        <View>
-          {children}
-          <Flex
-            style={stl(styles.wrap, mini && styles.wrapMini, style)}
-            justify='center'
-            pointerEvents='none'
-          >
-            <View
-              style={stl(
-                styles.badge,
-                mini && styles.badgeMini,
-                distance >= D3 ? styles.badgeDisabled : distance >= D && styles.badgeWarning
-              )}
-            />
-          </Flex>
-        </View>
-      </Component>
+      <UserStatusView lastTS={lastTS} style={style} mini={mini}>
+        {children}
+      </UserStatusView>
     )
   }
 )

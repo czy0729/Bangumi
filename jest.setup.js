@@ -172,7 +172,10 @@ jest.mock(
       MODEL_RAKUEN_NEW_FLOOR_STYLE: model('角标'),
       MODEL_RAKUEN_SCOPE: model('全局聚合'),
       MODEL_RAKUEN_SCROLL_DIRECTION: model('右侧'),
-      MODEL_RAKUEN_TYPE: model('全部')
+      MODEL_RAKUEN_TYPE: model('全部'),
+      D: 86400,
+      D3: 259200,
+      D7: 604800
     }
   },
   { virtual: true }

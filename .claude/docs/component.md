@@ -77,6 +77,7 @@ hold-menu/
 - 无主题依赖的样式用 `_.create()` 创建，导出名称统一为 `styles`，消费端 `import { styles } from './styles'`
 - 依赖主题（样式值使用 `_.select()`）才用 `_.memoStyles()` 创建，导出名称统一为 `memoStyles`
 - 若 `memoStyles` 内没有任何 computed theme 值（如 `_.select`），会触发 `bangumi/require-computed-in-memo-styles` 警告，应改用 `_.create`
+- `memoStyles()` 不是 Hook，可放在组件内任何位置；若有早退分支（如无条件直接 `return` 场景），应放到早退之后，避免无渲染时也生成样式（Hook 如 `useMemo`/`useState` 必须保持在早退之前，遵守 Rules of Hooks）
 - 组件内部样式放在组件目录下的 `styles.ts` 中
 - 共享样式放在上层目录的 `styles.ts` 中
 - 样式数组必须用 `stl()` 包裹：
