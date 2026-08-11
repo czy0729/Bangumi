@@ -64,6 +64,8 @@ export const ScrollView = observer(
       return () => {
         if (scrollEndTimer.current) clearTimeout(scrollEndTimer.current)
         if (scrollIdleTimer.current) clearTimeout(scrollIdleTimer.current)
+        // 卸载时强制释放全局滚动锁, 防止收起中的滚动容器(如 ActionSheet 下拉)卡死全局点击
+        uiStore.setScrolling(false)
       }
     }, [])
 

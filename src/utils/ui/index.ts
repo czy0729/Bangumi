@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 06:03:24
+ * @Last Modified time: 2026-08-12 06:44:28
  */
 import { Alert, Clipboard, findNodeHandle, NativeModules, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'
@@ -14,6 +14,10 @@ import { syncS2T, syncSystemStore } from '../async'
 import { log } from './utils'
 
 import type { Fn } from '@types'
+import type {
+  ActionSheetConfig,
+  ActionSheetConfigOptions
+} from '@components/action-sheet/api/types'
 
 /**
  * Loading 指示器
@@ -142,20 +146,23 @@ export function info(
 }
 
 /**
- * @deprecated 显示 ActionSheet
- * https://rn.mobile.ant.design/components/action-sheet-cn/
+ * 显示 ActionSheet
  */
 export function showActionSheet(
-  options = [] as string[] | readonly string[],
-  callback = FROZEN_FN,
-  // @ts-expect-error
-  { title, message, cancelButtonIndex, destructiveButtonIndex } = {}
+  options: string[] | readonly string[] = [],
+  callback: Fn = FROZEN_FN,
+  { title, message, cancelButtonIndex, destructiveButtonIndex }: ActionSheetConfigOptions = {}
 ) {
-  require('@components/action-sheet/api').AntmActionSheet.showActionSheetWithOptions(
+  const { ActionSheetStatic } = require('@components/action-sheet/api') as {
+    ActionSheetStatic: {
+      showActionSheetWithOptions: (config: ActionSheetConfig, callback: Fn) => void
+    }
+  }
+  ActionSheetStatic.showActionSheetWithOptions(
     {
       title,
       message,
-      options,
+      options: [...options],
       cancelButtonIndex,
       destructiveButtonIndex
     },

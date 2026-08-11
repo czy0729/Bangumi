@@ -9,36 +9,36 @@ import type { ReactNode } from '@types'
 import type { ScrollViewProps } from '../scroll-view'
 
 export type Props = PropsWithChildren<{
-  /** 连接组件内部 ScrollView.scrollTo */
+  /** 连接组件内部 ScrollView 的 scrollTo 方法 */
   forwardRef?: ScrollViewProps['forwardRef']
 
-  /** 容器样式 */
+  /** 滚动内容区容器样式 */
   contentContainerStyle?: ScrollViewProps['contentContainerStyle']
 
-  /** 是否显示 */
+  /** 是否显示, 默认 false */
   show?: boolean
 
-  /** 高度，不会超过屏幕高度的 88% */
+  /** 面板高度, 不会超过屏幕高度的 88%, 默认 480 */
   height?: number
 
-  /** 标题 */
+  /** 标题, 传入 ReactNode 时按节点渲染 */
   title?: string | ReactNode
 
-  /** 标题左侧 */
+  /** 标题左侧自定义内容 */
   titleLeft?: ReactNode
 
-  /** 是否包裹 ScrollView */
+  /** 内容是否包裹 ScrollView 支持滚动, 默认 true */
   scrollEnabled?: boolean
 
-  /** 是否包裹 Portal */
+  /** 是否通过 Portal 挂载到全局, 默认 true */
   usePortal?: boolean
 
-  /** 标题点击回调函数 */
+  /** 标题点击回调 */
   onTitlePress?: () => void
 
-  /** 关闭回调函数 */
+  /** 关闭回调 */
   onClose?: () => void
 
-  /** ScrollView.onScroll */
+  /** 滚动回调 */
   onScroll?: ScrollViewProps['onScroll']
 }>

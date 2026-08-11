@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-11 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-11 18:31:32
+ * @Last Modified time: 2026-08-12 06:24:31
  */
 import React, { forwardRef, useCallback, useImperativeHandle, useState } from 'react'
 import { ActionSheetIOS, Platform, Share, Text, TouchableHighlight, View } from 'react-native'
@@ -10,23 +10,26 @@ import { observer } from 'mobx-react'
 import { syncThemeStore } from '@utils/async'
 import { IOS } from '@constants/constants'
 import { androidTextFixedStyle } from '@styles'
-import { ModalView } from '../modal-view'
-import { Portal } from '../portal'
-import { memoStyles } from './api-styles'
+import { ModalView } from '@components/modal-view'
+import { Portal } from '@components/portal'
+import { memoStyles } from './styles'
+
+import type { ShareActionSheetIOSOptions, ShareContent, ShareOptions } from 'react-native'
+import type { ActionSheetCallback, ActionSheetConfig } from './types'
 
 let instance: { close: () => void } | null = null
 
 /**
- * 静态 ActionSheet 调用入口 (废弃中), Android 端通过 ModalView 弹出
+ * 静态 ActionSheet 调用入口, Android 端通过 ModalView 弹出
  */
-export const AntmActionSheet = {
-  showActionSheetWithOptions(config: any, callback: any) {
+export const ActionSheetStatic = {
+  showActionSheetWithOptions(config: ActionSheetConfig, callback: ActionSheetCallback) {
     if (Platform.OS === 'ios') {
       ActionSheetIOS.showActionSheetWithOptions(config, callback)
       return
     }
 
-    const key = Portal.add(
+    const key: number = Portal.add(
       <AndroidActionSheet
         visible
         ref={ref => (instance = ref)}
@@ -36,35 +39,28 @@ export const AntmActionSheet = {
         config={config}
         callback={callback}
       />
-    )
+    ) as number
   },
 
-  showShareActionSheetWithOptions(config: any, failureCallback: any, successCallback: any) {
-    const content: any = {}
-    const options: any = {}
-    content.message = config.message
-    if (config.title) {
-      content.title = config.title
-      options.dialogTitle = config.title
-    }
-    if (config.url) {
-      content.url = config.url
-    }
-    if (config.excludedActivityTypes) {
-      options.excludedActivityTypes = config.excludedActivityTypes
-    }
-    if (config.tintColor) {
-      options.tintColor = config.tintColor
+  showShareActionSheetWithOptions(
+    config: ShareActionSheetIOSOptions,
+    failureCallback?: (error: Error) => void,
+    successCallback?: (success: boolean, method?: string) => void
+  ) {
+    const { message, url, excludedActivityTypes } = config
+    const content: ShareContent = url ? { message, url } : { message: message || '' }
+    const options: ShareOptions = {
+      excludedActivityTypes
     }
     Share.share(content, options)
       .then(result => {
         if (result.action === Share.sharedAction) {
-          if (successCallback) successCallback(true, result.activityType)
+          if (successCallback) successCallback(true, result.activityType ?? undefined)
         } else if (result.action === Share.dismissedAction) {
           if (successCallback) successCallback(false)
         }
       })
-      .catch(error => {
+      .catch((error: Error) => {
         if (failureCallback) failureCallback(error)
       })
   },
@@ -74,7 +70,7 @@ export const AntmActionSheet = {
   }
 }
 
-export default AntmActionSheet
+export default ActionSheetStatic
 
 export const AndroidActionSheet = observer(
   forwardRef(function AndroidActionSheet(
@@ -85,11 +81,11 @@ export const AndroidActionSheet = observer(
       callback
     }: {
       visible?: boolean
-      config: any
+      config: ActionSheetConfig
       onAnimationEnd?: (visible: boolean) => void
-      callback?: (index: number) => void
+      callback?: ActionSheetCallback
     },
-    ref
+    ref: React.Ref<{ close: () => void }>
   ) {
     const [show, setShow] = useState(!!visible)
     const _ = syncThemeStore()
@@ -156,7 +152,6 @@ export const AndroidActionSheet = observer(
 
     return (
       <ModalView
-        animationDuration={200}
         animateAppear
         visible={show}
         onAnimationEnd={onAnimationEnd}

@@ -13,6 +13,7 @@ import { _ } from '@stores'
 import { feedback, stl } from '@utils'
 import { IOS } from '@constants'
 import { BTN_HEIGHT, DRAG_THRESHOLD } from '../ds'
+import { shouldCloseOnDragEnd, shouldShowDragHint } from '../utils'
 import { ScrollView } from '../../scroll-view'
 import { Text } from '../../text'
 import { memoStyles } from './styles'
@@ -51,21 +52,15 @@ function Scroll({
     (e: ScrollEvent) => {
       scrollY.current = e.nativeEvent.contentOffset.y
       const dragDistance = e.nativeEvent.contentOffset.y - dragStartY.current
+      const showHint = shouldShowDragHint(dragStartY.current, dragDistance, DRAG_THRESHOLD)
 
-      // 仅当用户从顶部开始下拉时显示提示
-      // scrollY.current <= 0 表示内容已经滚到顶部
-      // dragDistance < 0 表示用户向下拖动
-      if (dragStartY.current <= 0 && dragDistance < 0) {
-        if (-dragDistance > DRAG_THRESHOLD) {
-          if (!dragHint) {
-            setDragHint('松手收起')
-            feedback(true)
-          }
-        } else {
-          if (dragHint) setDragHint('')
+      if (showHint) {
+        if (!dragHint) {
+          setDragHint('松手收起')
+          feedback(true)
         }
-      } else {
-        if (dragHint) setDragHint('')
+      } else if (dragHint) {
+        setDragHint('')
       }
 
       onScroll?.(e)
@@ -75,7 +70,7 @@ function Scroll({
   const handleScrollEndDrag = useCallback(
     (e: ScrollEvent) => {
       const dragDistance = e.nativeEvent.contentOffset.y - dragStartY.current
-      if (scrollY.current <= 0 && dragDistance < -DRAG_THRESHOLD) {
+      if (shouldCloseOnDragEnd(scrollY.current, dragDistance, DRAG_THRESHOLD)) {
         onClose?.()
       }
     },
