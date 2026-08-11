@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2026-08-11 10:00:00
- * @Last Modified by:   czy0729
- * @Last Modified time: 2026-08-11 10:00:00
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-08-12 05:34:19
  */
 import { syncThemeStore } from '@utils/async'
 import { window } from '@styles'
@@ -10,18 +10,20 @@ import { window } from '@styles'
 const _ = syncThemeStore()
 
 export const styles = _.create({
-  maxHeight: {
-    maxHeight: window.height
+  body: {
+    maxHeight: window.height,
+    paddingTop: 4,
+    paddingHorizontal: 16,
+    paddingBottom: 16
   },
   title: {
-    paddingHorizontal: 24
+    paddingHorizontal: 36
   },
-  body: {},
-  closeWrap: {
+  close: {
     position: 'absolute',
-    top: 0,
-    left: 24,
     zIndex: 1,
+    top: 20,
+    left: 16,
     width: 36,
     height: 36,
     marginTop: -10,

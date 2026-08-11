@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 15:54:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-23 21:50:02
+ * @Last Modified time: 2026-08-12 05:35:36
  */
 import { _ } from '@stores'
 
@@ -13,7 +13,7 @@ export const memoStyles = _.memoStyles(() => ({
     paddingTop: _.device(_.md + 2, 28),
     paddingHorizontal: _.device(0, _.sm),
     marginTop: _.isSmallDevice ? -24 : 0,
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
+    // backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
     borderRadius: _.radiusMd
   },
   container: {

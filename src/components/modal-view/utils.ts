@@ -16,9 +16,9 @@ export function getPosition(
   return animationType === 'slide-down' ? -screenHeight : screenHeight
 }
 
-/** fade 模式缩放 */
+/** fade 模式缩放: 隐藏态微缩小, 材质到达 (ui-spec 6.6) */
 export function getScale(visible: boolean): number {
-  return visible ? 1 : 1.05
+  return visible ? 1 : 0.98
 }
 
 /** 遮罩/内容透明度 */

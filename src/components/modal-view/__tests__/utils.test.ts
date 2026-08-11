@@ -32,8 +32,8 @@ describe('getScale', () => {
     expect(getScale(true)).toBe(1)
   })
 
-  it('隐藏放大到 1.05', () => {
-    expect(getScale(false)).toBe(1.05)
+  it('隐藏微缩小到 0.98 (材质到达)', () => {
+    expect(getScale(false)).toBe(0.98)
   })
 })
 

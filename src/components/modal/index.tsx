@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-11-05 22:03:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-11 10:00:00
+ * @Last Modified time: 2026-08-12 05:32:05
  */
 import React, { Suspense, useEffect } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import BlurView from './blur-view'
+import { feedback } from '@utils'
+import { syncThemeStore } from '@utils/async'
+import { r } from '@utils/dev'
+import { Flex } from '../flex'
 import { Iconfont } from '../iconfont'
 import { ModalView } from '../modal-view'
 import { Text } from '../text'
 import { Touchable } from '../touchable'
-import { Flex } from '../flex'
-import { feedback } from '@utils'
-import { r } from '@utils/dev'
-import { syncThemeStore } from '@utils/async'
+import BlurView from './blur-view'
 import { ModalFixed } from './fixed'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
@@ -47,36 +47,33 @@ export const Modal = observer(
 
     return (
       <ModalView
-        style={style}
         visible={visible}
         focus={focus}
         animationType='fade'
         maskClosable={maskClosable}
         onClose={onClose}
       >
-        <View style={styles.maxHeight}>
-          <View style={styles.title}>
-            {!!title && (
-              <Text type={type} size={16} numberOfLines={5}>
-                {title}
-              </Text>
-            )}
+        <BlurView style={style}>
+          <View style={styles.body}>
+            <View style={styles.title}>
+              {!!title && (
+                <Text type={type} size={16} align='center' numberOfLines={2}>
+                  {title}
+                </Text>
+              )}
+            </View>
+            <Suspense>{children}</Suspense>
           </View>
-          <BlurView>
-            <View style={styles.body}>
-              <Suspense>{children}</Suspense>
-            </View>
-          </BlurView>
-          {!!onClose && (
-            <View style={styles.closeWrap}>
-              <Touchable style={styles.touch} onPress={onClose}>
-                <Flex style={styles.btn} justify='center'>
-                  <Iconfont name='md-close' color={_.colorIcon} size={14} />
-                </Flex>
-              </Touchable>
-            </View>
-          )}
-        </View>
+        </BlurView>
+        {!!onClose && (
+          <View style={styles.close}>
+            <Touchable style={styles.touch} onPress={onClose}>
+              <Flex style={styles.btn} justify='center'>
+                <Iconfont name='md-close' color={_.colorIcon} size={24} />
+              </Flex>
+            </Touchable>
+          </View>
+        )}
       </ModalView>
     )
   }

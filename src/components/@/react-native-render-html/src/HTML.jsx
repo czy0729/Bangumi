@@ -561,7 +561,7 @@ export default class HTML extends PureComponent {
 
           const classStyles = _getElementClassStyles(attribs, classesStyles)
 
-          let textElement: false | JSX.Element = false
+          let textElement = false
           if (data) {
             let styles = StyleSheet.flatten(
               stl(
