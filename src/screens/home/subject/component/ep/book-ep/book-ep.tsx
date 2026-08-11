@@ -6,7 +6,7 @@
  */
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
-import Progress from '@ant-design/react-native/lib/progress'
+import Progress from '@components/progress-bar'
 import { Button, Flex, Heatmap, Input, Text } from '@components'
 import { SectionTitle } from '@_'
 import { _ } from '@stores'

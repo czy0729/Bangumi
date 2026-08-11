@@ -88,3 +88,13 @@ hold-menu/
   // ✅ 正确
   <Text style={stl(_.mt.sm, style)}>
   ```
+
+## ant-design 组件迁移
+
+`src/components/@/ant-design` 已删除，原组件迁移到 `src/components/<name>`，遵循上述目录结构与规范（函数组件 + observer() + reanimated）：
+
+- 纯逻辑抽到 `utils.ts`（如 `normalPercent`、`getUpdatedIndex`、`getPosition`），测试写 `__tests__/utils.test.ts`
+- **动画核心组件**独立成目录（如 `modal-view`），负责 Portal、遮罩、进出场动画（`withTiming`/`withSpring`），对外 UI 组件在之上组合（见 `modal/`）
+- 需要静态 API 的组件用 `api.tsx` 提供命令式入口，通过 `Portal.add` 挂载（见 `action-sheet/api.tsx` 的 `AntmActionSheet`）
+- 迁移后由旧路径 `@components/@/ant-design/x` 改为 `@components/x` 引用
+- 渲染类测试因环境 `react-test-renderer` 版本漂移不可用，逻辑测试改测纯函数（`__tests__/utils.test.ts`）

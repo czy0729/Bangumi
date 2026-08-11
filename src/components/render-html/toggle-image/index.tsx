@@ -7,7 +7,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
+import ActivityIndicator from '@components/activity-indicator'
 import { _, rakuenStore } from '@stores'
 import { fixedRemoteImageUrl, getStorage, open, setStorage, stl } from '@utils'
 import hash from '@utils/thirdParty/hash'

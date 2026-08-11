@@ -6,9 +6,7 @@
  */
 import { Alert, Clipboard, findNodeHandle, NativeModules, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'
-import Portal from '@ant-design/react-native/lib/portal'
-import { AntmActionSheet } from '@components/@/ant-design/action-sheet'
-import { Toast } from '@components/toast'
+import Portal from '@components/portal'
 import { IOS } from '@constants/constants'
 import { WEB } from '@constants/device'
 import { FROZEN_FN } from '@constants/init'
@@ -28,7 +26,7 @@ export function loading(text: string = 'Loading...', time: number = 0, delay: nu
   let toastId: number
   let timerId: any = setTimeout(() => {
     timerId = null
-    toastId = Toast.loading(syncS2T(text), time, () => {
+    toastId = require('@components/toast').Toast.loading(syncS2T(text), time, () => {
       if (toastId) Portal.remove(toastId)
     })
   }, delay)
@@ -140,7 +138,7 @@ export function info(
   onClose: Fn = FROZEN_FN,
   mask: boolean = false
 ) {
-  Toast.info(syncS2T(content), duration, onClose, mask)
+  require('@components/toast').Toast.info(syncS2T(content), duration, onClose, mask)
 }
 
 /**
@@ -153,7 +151,7 @@ export function showActionSheet(
   // @ts-expect-error
   { title, message, cancelButtonIndex, destructiveButtonIndex } = {}
 ) {
-  AntmActionSheet.showActionSheetWithOptions(
+  require('@components/action-sheet/api').AntmActionSheet.showActionSheetWithOptions(
     {
       title,
       message,

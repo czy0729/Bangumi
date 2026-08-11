@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-01-13 22:06:38
  */
-import Provider from '@ant-design/react-native/lib/provider'
+import Provider from '@components/provider'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { AppCommon } from '@_/base/app-common'
 import theme from '@styles/theme'

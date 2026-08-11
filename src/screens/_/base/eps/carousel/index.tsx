@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import AntCarousel from '@ant-design/react-native/lib/carousel'
+import AntCarousel from '@components/carousel'
 import { FROZEN_ARRAY } from '@constants'
 import NormalButtons from '../normal-buttons'
 import { memoStyles, paginationStyles } from './styles'
@@ -18,7 +18,6 @@ function Carousel({ props, epsGroup = FROZEN_ARRAY }: Props) {
   const styles = memoStyles()
 
   return (
-    // @ts-expect-error
     <AntCarousel
       style={styles.carousel}
       styles={paginationStyles}

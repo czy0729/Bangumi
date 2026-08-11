@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import TextareaItem from '@ant-design/react-native/lib/textarea-item'
+import TextareaItem from '@components/textarea-item'
 import { Cover, Flex, Iconfont, Input, Text } from '@components'
 import { _, collectionStore, uiStore } from '@stores'
 import { getAction, HTMLDecode } from '@utils'

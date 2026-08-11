@@ -25,7 +25,6 @@
     "react-native-reanimated": "3.6.0"
   },
   "dependencies": {
-    "@ant-design/react-native": "3.1.3",
     "@expo/vector-icons": "^13.0.0",
     "@gorhom/portal": "1.0.14",
     "@react-native-async-storage/async-storage": "1.18.2",

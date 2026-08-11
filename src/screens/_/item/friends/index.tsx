@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import Progress from '@ant-design/react-native/lib/progress'
+import Progress from '@components/progress-bar'
 import { Avatar, Component, Flex, Link, Text, UserStatus } from '@components'
 import { _ } from '@stores'
 import { r } from '@utils/dev'

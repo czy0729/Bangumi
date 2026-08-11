@@ -7,7 +7,7 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import { Modal, View } from 'react-native'
 import { observer } from 'mobx-react'
-import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
+import ActivityIndicator from '@components/activity-indicator'
 import { RNImageViewer } from '@components/@'
 import { open, showActionSheet, stl } from '@utils'
 import { logger, r } from '@utils/dev'

@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import Portal from '@ant-design/react-native/lib/portal'
+import Portal from '@components/portal'
 import { _, systemStore } from '@stores'
 import { r } from '@utils/dev'
 import { IOS, WSA } from '@constants'

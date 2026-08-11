@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
+import ActivityIndicator from '@components/activity-indicator'
 import { Flex, ScrollView, Text, Touchable } from '@components'
 import { _, subjectStore, userStore } from '@stores'
 import { stl } from '@utils'

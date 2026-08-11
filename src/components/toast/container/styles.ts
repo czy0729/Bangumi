@@ -2,9 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-07-09 08:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-09 08:54:12
+ * @Last Modified time: 2026-08-11 10:00:00
  */
 import { StyleSheet } from 'react-native'
+import { syncThemeStore } from '@utils/async'
+
+const _ = syncThemeStore()
 
 export const styles = StyleSheet.create({
   container: {
@@ -25,3 +28,35 @@ export const styles = StyleSheet.create({
     alignItems: 'center'
   }
 })
+
+export const memoStyles = _.memoStyles(() => ({
+  innerContainer: {
+    backgroundColor: 'transparent'
+  },
+  innerWrap: {
+    alignItems: 'center',
+    backgroundColor: _.select('rgba(0, 0, 0, 0.8)', 'rgba(0, 0, 0, 0.85)'),
+    minWidth: 100
+  },
+  iconToast: {
+    borderRadius: _.radiusLg,
+    padding: _.lg
+  },
+  textToast: {
+    borderRadius: _.radiusSm,
+    paddingVertical: _.md,
+    paddingHorizontal: _.lg
+  },
+  content: {
+    color: 'white',
+    fontSize: _.fontSize(15)
+  },
+  image: {
+    marginBottom: _.xs
+  },
+  centering: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: _.md
+  }
+}))

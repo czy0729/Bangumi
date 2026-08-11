@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-06-17 19:54:36
  */
 import React, { useCallback, useEffect, useState } from 'react'
-import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
+import ActivityIndicator from '@components/activity-indicator'
 import { Flex, Iconfont, Input, RNImage, Text, Touchable } from '@components'
 import { ItemSetting } from '@_'
 import { _ } from '@stores'
