@@ -9,13 +9,11 @@ import { LogBox } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { enableScreens } from 'react-native-screens'
-import Provider from '@components/provider'
-import { DeepLink, DEV, HoldMenuProvider } from '@components'
+import { DeepLink, DEV, HoldMenuProvider, Provider } from '@components'
 import { AppCommon } from '@_'
 import { _ } from '@stores'
 import { useCachedResources, useObserver, useOrientation } from '@utils/hooks'
 import NaviteStacks from '@src/navigations/native-stacks'
-import theme from '@styles/theme'
 
 LogBox.ignoreAllLogs(true)
 
@@ -40,8 +38,7 @@ export default function App() {
     return (
       <GestureHandlerRootView style={_.container.plain}>
         <SafeAreaProvider style={_.container.flex}>
-          {/* @ts-ignore */}
-          <Provider theme={theme}>
+          <Provider>
             <HoldMenuProvider>
               <NaviteStacks isLoadingComplete={isLoadingComplete} />
             </HoldMenuProvider>
