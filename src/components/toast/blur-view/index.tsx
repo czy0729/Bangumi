@@ -10,6 +10,7 @@ import { observer } from 'mobx-react'
 import { BlurView as ExpoBlurView } from 'expo-blur'
 import { syncSystemStore, syncThemeStore } from '@utils/async'
 import { BLURVIEW_TINT_DARK, BLURVIEW_TINT_LIGHT } from './ds'
+import { memoStyles } from './styles'
 
 import type { BlurTint } from 'expo-blur'
 import type { Props } from './types'
@@ -17,22 +18,7 @@ import type { Props } from './types'
 function BlurView({ style, children }: Props) {
   const _ = syncThemeStore()
   const systemStore = syncSystemStore()
-
-  const styles = _.create({
-    blurView: {
-      // eslint-disable-next-line bangumi/forbid-computed-in-create
-      backgroundColor: _.select('rgba(255, 255, 255, 0.4)', 'rgba(255, 255, 255, 0.08)'),
-      borderRadius: _.radiusMd,
-      overflow: 'hidden'
-    },
-    view: {
-      backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2),
-      borderRadius: _.radiusSm,
-      borderWidth: _.select(_.hairlineWidth, 0),
-      borderColor: _.colorBorder,
-      overflow: 'hidden'
-    }
-  })
+  const styles = memoStyles()
 
   if (systemStore.blurToast) {
     return (

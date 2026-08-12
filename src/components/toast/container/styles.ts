@@ -2,18 +2,17 @@
  * @Author: czy0729
  * @Date: 2024-07-09 08:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-11 10:00:00
+ * @Last Modified time: 2026-08-12 07:23:25
  */
-import { StyleSheet } from 'react-native'
 import { syncThemeStore } from '@utils/async'
 
 const _ = syncThemeStore()
 
-export const styles = StyleSheet.create({
+export const memoStyles = _.memoStyles(() => ({
   container: {
     position: 'absolute',
     zIndex: 1999,
-    top: 80,
+    top: _.sm,
     right: 0,
     bottom: 0,
     left: 0,
@@ -26,33 +25,22 @@ export const styles = StyleSheet.create({
     flexWrap: 'nowrap',
     justifyContent: 'flex-start',
     alignItems: 'center'
-  }
-})
-
-export const memoStyles = _.memoStyles(() => ({
+  },
   innerContainer: {
     backgroundColor: 'transparent'
   },
   innerWrap: {
     alignItems: 'center',
-    backgroundColor: _.select('rgba(0, 0, 0, 0.8)', 'rgba(0, 0, 0, 0.85)'),
-    minWidth: 100
+    minWidth: 100,
+    backgroundColor: _.select('rgba(0, 0, 0, 0.8)', 'rgba(0, 0, 0, 0.85)')
   },
   iconToast: {
-    borderRadius: _.radiusLg,
-    padding: _.lg
+    padding: _.lg,
+    borderRadius: _.radiusLg
   },
   textToast: {
-    borderRadius: _.radiusSm,
-    paddingVertical: _.md,
-    paddingHorizontal: _.lg
-  },
-  content: {
-    color: 'white',
-    fontSize: _.fontSize(15)
-  },
-  image: {
-    marginBottom: _.xs
+    padding: _.md,
+    borderRadius: _.radiusSm
   },
   centering: {
     alignItems: 'center',
