@@ -4,9 +4,16 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2026-08-11 10:00:00
  */
-import { allocateKey, applyQueue, mergePush, mountPortal, unmountPortal, updatePortal } from '../utils'
+import {
+  allocateKey,
+  applyQueue,
+  mergePush,
+  mountPortal,
+  unmountPortal,
+  updatePortal
+} from '../utils'
 
-import type { Manager } from '../types'
+import type { Manager, QueueAction } from '../types'
 
 function createMockManager() {
   const calls: string[] = []
@@ -91,21 +98,21 @@ describe('mergePush', () => {
   })
 
   it('已有 mount 时原地替换为新操作, 保持队列长度', () => {
-    const queue = [{ type: 'mount', key: 1, children: null }]
+    const queue: QueueAction[] = [{ type: 'mount', key: 1, children: null }]
     const next = mergePush(queue, { type: 'update', key: 1, children: 'new' })
     expect(next).toHaveLength(1)
     expect(next[0]).toMatchObject({ type: 'update', key: 1 })
   })
 
   it('同 key 的 update 替换之前的 update, 保持队列长度', () => {
-    const queue = [{ type: 'update', key: 2, children: 'a' }]
+    const queue: QueueAction[] = [{ type: 'update', key: 2, children: 'a' }]
     const next = mergePush(queue, { type: 'update', key: 2, children: 'b' })
     expect(next).toHaveLength(1)
     expect(next[0]).toMatchObject({ children: 'b' })
   })
 
   it('不同 key 的操作依次追加', () => {
-    const queue = [{ type: 'mount', key: 1, children: null }]
+    const queue: QueueAction[] = [{ type: 'mount', key: 1, children: null }]
     const next = mergePush(queue, { type: 'unmount', key: 2 })
     expect(next).toHaveLength(2)
     expect(next[1]).toMatchObject({ type: 'unmount', key: 2 })

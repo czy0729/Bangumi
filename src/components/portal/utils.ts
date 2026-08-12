@@ -25,7 +25,11 @@ export function mountPortal(manager: Manager, children: ReactNode): number {
 }
 
 /** 更新已挂载门户内容, key 为空时忽略 */
-export function updatePortal(manager: Manager, key: number | null | undefined, children: ReactNode): void {
+export function updatePortal(
+  manager: Manager,
+  key: number | null | undefined,
+  children: ReactNode
+): void {
   if (key === null || key === undefined) return
   manager.update(key, children)
 }
