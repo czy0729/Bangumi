@@ -4,8 +4,9 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2026-08-11 10:00:00
  */
-import type { ReactNode } from 'react'
 import { Children } from 'react'
+
+import type { ReactNode } from '@types'
 
 /** 统计自动播放所需的数组子元素个数, 空数组时按 1 处理 (组件层无 children 会提前 return null, 不产生空页) */
 export function getChildrenCount(children?: ReactNode): number {
@@ -63,7 +64,25 @@ export function getUpdatedIndex(
 }
 
 /** 自动播放 / 下一页的滚动偏移 (infinite 模式整体右移一页) */
-export function getNextOffset(currentIndex: number, count: number, infinite: boolean, step: number): number {
+export function getNextOffset(currentIndex: number, infinite: boolean, step: number): number {
   const diff = (infinite ? 1 : 0) + currentIndex + 1
   return diff * step
+}
+
+/** 根据滚动偏移计算当前可见页 (窗口化渲染依据) */
+export function getVisibleIndex(offset: number, step: number): number {
+  if (!step || step <= 0) return 0
+  return Math.round(offset / step)
+}
+
+/** 是否在渲染窗口内 (当前页 ± 缓冲页) */
+export function isInWindow(
+  index: number,
+  visibleIndex: number,
+  buffer: number,
+  length: number
+): boolean {
+  const start = Math.max(visibleIndex - buffer, 0)
+  const end = Math.min(visibleIndex + buffer, length - 1)
+  return index >= start && index <= end
 }

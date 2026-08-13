@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2026-08-11 10:00:00
+ * @Date: 2026-08-12 10:00:00
  * @Last Modified by:   czy0729
- * @Last Modified time: 2026-08-11 10:00:00
+ * @Last Modified time: 2026-08-12 10:00:00
  */
 import { syncThemeStore } from '@utils/async'
 
@@ -11,16 +11,18 @@ const _ = syncThemeStore()
 export const memoStyles = _.memoStyles(() => ({
   pagination: {
     position: 'absolute',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: -8
   },
   paginationX: {
+    right: 0,
     bottom: 10,
-    left: 0,
-    right: 0
+    left: 0
   },
   paginationY: {
-    right: 10,
     top: 0,
+    right: 10,
     bottom: 0
   },
   pointStyle: {
@@ -33,7 +35,7 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.colorDesc
   },
   spaceStyle: {
-    marginHorizontal: _.xs,
-    marginVertical: _.xs / 2
+    marginVertical: _.xs / 2,
+    marginHorizontal: _.xs
   }
 }))

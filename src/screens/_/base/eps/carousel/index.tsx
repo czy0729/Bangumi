@@ -7,10 +7,10 @@
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import AntCarousel from '@components/carousel'
+import { Carousel as CarouselComp } from '@components'
 import { FROZEN_ARRAY } from '@constants'
 import NormalButtons from '../normal-buttons'
-import { memoStyles, paginationStyles } from './styles'
+import { memoStyles } from './styles'
 
 import type { Props } from './types'
 
@@ -18,9 +18,8 @@ function Carousel({ props, epsGroup = FROZEN_ARRAY }: Props) {
   const styles = memoStyles()
 
   return (
-    <AntCarousel
+    <CarouselComp
       style={styles.carousel}
-      styles={paginationStyles}
       dotStyle={styles.dot}
       dotActiveStyle={styles.dotActive}
       infinite={false}
@@ -33,7 +32,7 @@ function Carousel({ props, epsGroup = FROZEN_ARRAY }: Props) {
             <NormalButtons props={props} eps={eps} />
           </View>
         ))}
-    </AntCarousel>
+    </CarouselComp>
   )
 }
 

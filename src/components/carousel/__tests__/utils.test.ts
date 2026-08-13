@@ -11,7 +11,9 @@ import {
   getChildrenCount,
   getInitialIndex,
   getNextOffset,
-  getUpdatedIndex
+  getUpdatedIndex,
+  getVisibleIndex,
+  isInWindow
 } from '../utils'
 
 describe('getChildrenCount', () => {
@@ -28,9 +30,7 @@ describe('getChildrenCount', () => {
   })
 
   it('数组返回长度', () => {
-    expect(
-      getChildrenCount([React.createElement(Text), React.createElement(Text)])
-    ).toBe(2)
+    expect(getChildrenCount([React.createElement(Text), React.createElement(Text)])).toBe(2)
   })
 })
 
@@ -102,13 +102,64 @@ describe('getUpdatedIndex', () => {
 
 describe('getNextOffset', () => {
   const step = 100
-  const count = 4
 
   it('非 infinite 从第 0 页到第 1 页', () => {
-    expect(getNextOffset(0, count, false, step)).toBe(100)
+    expect(getNextOffset(0, false, step)).toBe(100)
   })
 
   it('infinite 模式整体右移一页', () => {
-    expect(getNextOffset(0, count, true, step)).toBe(200)
+    expect(getNextOffset(0, true, step)).toBe(200)
+  })
+})
+
+describe('getVisibleIndex', () => {
+  const step = 100
+
+  it('偏移量恰为整页返回该页', () => {
+    expect(getVisibleIndex(200, step)).toBe(2)
+  })
+
+  it('偏移量超过半页向上取整', () => {
+    expect(getVisibleIndex(150, step)).toBe(2)
+  })
+
+  it('偏移量未过半页向下取整', () => {
+    expect(getVisibleIndex(149, step)).toBe(1)
+  })
+
+  it('step 为 0 或负数返回 0 (尺寸未就绪)', () => {
+    expect(getVisibleIndex(200, 0)).toBe(0)
+    expect(getVisibleIndex(200, -100)).toBe(0)
+  })
+
+  it('偏移量 0 返回 0 (初始第一页)', () => {
+    expect(getVisibleIndex(0, step)).toBe(0)
+  })
+})
+
+describe('isInWindow', () => {
+  const length = 5
+
+  it('第 0 页渲染 [0, 1] (缓冲 1 页)', () => {
+    expect(isInWindow(0, 0, 1, length)).toBe(true)
+    expect(isInWindow(1, 0, 1, length)).toBe(true)
+    expect(isInWindow(2, 0, 1, length)).toBe(false)
+  })
+
+  it('中间页渲染 [index-1, index+1]', () => {
+    expect(isInWindow(1, 2, 1, length)).toBe(true)
+    expect(isInWindow(2, 2, 1, length)).toBe(true)
+    expect(isInWindow(3, 2, 1, length)).toBe(true)
+    expect(isInWindow(0, 2, 1, length)).toBe(false)
+  })
+
+  it('末页渲染 [length-2, length-1] (不越界)', () => {
+    expect(isInWindow(3, 4, 1, length)).toBe(true)
+    expect(isInWindow(4, 4, 1, length)).toBe(true)
+  })
+
+  it('缓冲 0 时仅渲染当前页', () => {
+    expect(isInWindow(2, 2, 0, length)).toBe(true)
+    expect(isInWindow(1, 2, 0, length)).toBe(false)
   })
 })

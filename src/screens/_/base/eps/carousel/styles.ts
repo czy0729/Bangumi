@@ -11,6 +11,7 @@ export const memoStyles = _.memoStyles(() => ({
     height: 232
   },
   dot: {
+    marginTop: -8,
     backgroundColor: _.colorPlain,
     borderWidth: 1,
     borderColor: _.colorDesc
@@ -19,10 +20,3 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.colorDesc
   }
 }))
-
-export const paginationStyles = _.create({
-  // eslint-disable-next-line bangumi/no-unused-style-key
-  pagination: {
-    marginLeft: -10
-  }
-})

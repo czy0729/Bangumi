@@ -6,6 +6,6 @@
  */
 import { logger } from '../dev'
 
-export function log(method: string, ...others: any[]) {
+export function log(method: string, ...others: unknown[]) {
   logger.log(`@utils/utils/${method}`, ...others)
 }

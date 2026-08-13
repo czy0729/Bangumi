@@ -26,24 +26,26 @@ import type { AnyObject, Fn, TimerRef, ViewStyle, TextStyle, ImageStyle } from '
  * @param defaultProps 默认属性
  * @returns 添加默认属性后的组件
  */
-export function setDefaultProps<T extends ComponentType<any>>(
+export function setDefaultProps<T extends ComponentType<AnyObject>>(
   Component: T,
-  defaultProps?: Record<string, any>
+  defaultProps?: AnyObject
 ) {
-  // @ts-expect-error
-  const componentRender = Component.render
+  // 注入内部 render 方法, 类型上不属于公共 API
+  const internal = Component as ComponentType<AnyObject> & {
+    render?: (props: AnyObject, ref: AnyObject) => AnyObject
+  }
+  const componentRender = internal.render
   if (!componentRender) {
-    Component.defaultProps = defaultProps
+    internal.defaultProps = defaultProps
     return Component
   }
 
-  // @ts-expect-error
-  Component.render = function (props: { style: any }, ref: any) {
+  internal.render = function (props: { style: AnyObject }, ref: AnyObject) {
     props = {
       ...defaultProps,
       ...props,
       style: [defaultProps?.style, props?.style]
-    }
+    } as typeof props
     return componentRender.call(this, props, ref)
   }
 
