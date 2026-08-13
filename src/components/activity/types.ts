@@ -8,7 +8,7 @@ export type Props = {
   /** 指示器大小 */
   size?: 'large' | 'small'
 
-  /** 是否在屏幕中间生成Portal容器显示 */
+  /** 是否在屏幕中间生成 Portal 容器显示 */
   toast?: boolean
 
   /** 指示器颜色 */

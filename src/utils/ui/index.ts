@@ -2,22 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-12 06:44:28
+ * @Last Modified time: 2026-08-12 07:30:47
  */
 import { Alert, Clipboard, findNodeHandle, NativeModules, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'
-import Portal from '@components/portal'
+import { Portal } from '@components/portal'
 import { IOS } from '@constants/constants'
 import { WEB } from '@constants/device'
 import { FROZEN_FN } from '@constants/init'
 import { syncS2T, syncSystemStore } from '../async'
 import { log } from './utils'
 
-import type { Fn } from '@types'
-import type {
-  ActionSheetConfig,
-  ActionSheetConfigOptions
-} from '@components/action-sheet/api/types'
+import type { ActionSheetConfig, ActionSheetConfigOptions } from '@components/action-sheet'
+import type { Fn, TimerRef } from '@types'
 
 /**
  * Loading 指示器
@@ -28,9 +25,12 @@ import type {
  */
 export function loading(text: string = 'Loading...', time: number = 0, delay: number = 1000) {
   let toastId: number
-  let timerId: any = setTimeout(() => {
+  let timerId: TimerRef = setTimeout(() => {
     timerId = null
-    toastId = require('@components/toast').Toast.loading(syncS2T(text), time, () => {
+    const { Toast } = require('@components/toast') as {
+      Toast: { loading: (content: string, duration: number, onClose: () => void) => number }
+    }
+    toastId = Toast.loading(syncS2T(text), time, () => {
       if (toastId) Portal.remove(toastId)
     })
   }, delay)
@@ -64,9 +64,9 @@ export function feedback(light?: boolean) {
 /** 确定框 */
 export function confirm(
   content: string,
-  onPress = FROZEN_FN,
-  title = '警告',
-  onCancelPress = FROZEN_FN,
+  onPress: () => void = FROZEN_FN,
+  title: string = '警告',
+  onCancelPress: () => void = FROZEN_FN,
   confirmText: string = '确定',
   cancelText: string = '取消'
 ) {
@@ -139,10 +139,13 @@ export function alert(content: string, title: string = '提示') {
 export function info(
   content: string | number = '网络错误',
   duration: number = 2.4,
-  onClose: Fn = FROZEN_FN,
+  onClose: () => void = FROZEN_FN,
   mask: boolean = false
 ) {
-  require('@components/toast').Toast.info(syncS2T(content), duration, onClose, mask)
+  const { Toast } = require('@components/toast') as {
+    Toast: { info: (content: string, duration: number, onClose: () => void, mask: boolean) => void }
+  }
+  Toast.info(syncS2T(String(content)), duration, onClose, mask)
 }
 
 /**
@@ -153,7 +156,7 @@ export function showActionSheet(
   callback: Fn = FROZEN_FN,
   { title, message, cancelButtonIndex, destructiveButtonIndex }: ActionSheetConfigOptions = {}
 ) {
-  const { ActionSheetStatic } = require('@components/action-sheet/api') as {
+  const { ActionSheetStatic } = require('@components/action-sheet') as {
     ActionSheetStatic: {
       showActionSheetWithOptions: (config: ActionSheetConfig, callback: Fn) => void
     }
@@ -195,11 +198,12 @@ export function closeImageViewer() {
 export function androidDayNightToggle(isDark?: boolean) {
   if (IOS || WEB) return
 
-  NativeModules.DayNight.setDarkMode(isDark ? 2 : 1)
+  const DayNight = NativeModules.DayNight as { setDarkMode: (mode: number) => void }
+  DayNight.setDarkMode(isDark ? 2 : 1)
 }
 
 /** 复制到剪贴板 */
-export function copy(val: any, message: boolean | string = true, ms?: number) {
+export function copy(val: string | number, message: boolean | string = true, ms?: number) {
   const string = String(val)
   Clipboard.setString(string)
 
@@ -214,35 +218,61 @@ export function copy(val: any, message: boolean | string = true, ms?: number) {
 }
 
 /** ScrollView 中滑动到 View 的位置 */
-export function scrollToView(viewRef: any, scrollViewRef: any, callback?: Fn) {
+export function scrollToView(
+  viewRef: {
+    measure: (
+      callback: (
+        x: number,
+        y: number,
+        width: number,
+        height: number,
+        pageX: number,
+        pageY: number
+      ) => void
+    ) => void
+    measureLayout: (
+      relativeToNativeNode: unknown,
+      onSuccess: (
+        x: number,
+        y: number,
+        width: number,
+        height: number,
+        pageX: number,
+        pageY: number
+      ) => void
+    ) => void
+  },
+  scrollViewRef: {
+    scrollTo: (options: { y: number; animated: boolean }) => void
+  },
+  callback?: () => void
+) {
   if (!viewRef || !scrollViewRef) return false
 
-  if (IOS || WEB) {
-    viewRef.measure((_x: number, y: number) => {
-      scrollViewRef.scrollTo({
-        y,
-        animated: true
-      })
+  const scrollTo = (y: number) => {
+    scrollViewRef.scrollTo({
+      y,
+      animated: true
+    })
 
-      if (typeof callback === 'function') {
-        setTimeout(() => {
-          callback()
-        }, 240)
-      }
+    if (typeof callback === 'function') {
+      setTimeout(() => {
+        callback()
+      }, 240)
+    }
+  }
+
+  if (IOS || WEB) {
+    viewRef.measure((_x, y) => {
+      scrollTo(y)
     })
   } else {
-    viewRef.measureLayout(findNodeHandle(scrollViewRef), (_x: number, y: number) => {
-      scrollViewRef.scrollTo({
-        y,
-        animated: true
-      })
-
-      if (typeof callback === 'function') {
-        setTimeout(() => {
-          callback()
-        }, 240)
+    viewRef.measureLayout(
+      findNodeHandle(scrollViewRef as unknown as React.Component) as number,
+      (_x, y) => {
+        scrollTo(y)
       }
-    })
+    )
   }
 
   return true

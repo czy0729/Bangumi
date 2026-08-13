@@ -22,8 +22,11 @@ import Scroll from './scroll'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+export { ActionSheetStatic } from './api'
+
 import type { Props as ActionSheetProps } from './types'
 export type { ActionSheetProps }
+export type { ActionSheetConfig, ActionSheetConfigOptions } from './api'
 
 /** 动作面板 */
 export const ActionSheet = observer(

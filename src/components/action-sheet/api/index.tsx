@@ -10,12 +10,13 @@ import { observer } from 'mobx-react'
 import { syncThemeStore } from '@utils/async'
 import { IOS } from '@constants/constants'
 import { androidTextFixedStyle } from '@styles'
-import { ModalView } from '@components/modal-view'
-import { Portal } from '@components/portal'
+import { ModalView } from '../../modal-view'
+import { Portal } from '../../portal'
 import { memoStyles } from './styles'
 
 import type { ShareActionSheetIOSOptions, ShareContent, ShareOptions } from 'react-native'
 import type { ActionSheetCallback, ActionSheetConfig } from './types'
+export type { ActionSheetCallback, ActionSheetConfig, ActionSheetConfigOptions } from './types'
 
 let instance: { close: () => void } | null = null
 
@@ -39,7 +40,7 @@ export const ActionSheetStatic = {
         config={config}
         callback={callback}
       />
-    ) as number
+    )
   },
 
   showShareActionSheetWithOptions(

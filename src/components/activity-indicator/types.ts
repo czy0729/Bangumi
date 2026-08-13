@@ -4,7 +4,9 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2026-08-11 10:00:00
  */
-export type Props = {
+import type { WithViewStyles } from '@types'
+
+export type Props = WithViewStyles<{
   /** 是否显示, 默认 true */
   animating?: boolean
 
@@ -19,7 +21,4 @@ export type Props = {
 
   /** 提示文字 */
   text?: string
-
-  /** 容器样式 */
-  style?: object
-}
+}>

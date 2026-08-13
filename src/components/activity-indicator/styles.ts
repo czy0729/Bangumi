@@ -8,15 +8,15 @@ import { syncThemeStore } from '@utils/async'
 
 const _ = syncThemeStore()
 
-export const memoStyles = _.memoStyles(() => ({
+export const styles = _.create({
   container: {
     position: 'absolute',
+    zIndex: 1999,
     top: 0,
-    left: 0,
-    bottom: 0,
     right: 0,
-    backgroundColor: 'transparent',
-    zIndex: 1999
+    bottom: 0,
+    left: 0,
+    backgroundColor: 'transparent'
   },
   innerContainer: {
     flex: 1,
@@ -32,19 +32,12 @@ export const memoStyles = _.memoStyles(() => ({
     borderRadius: _.radiusMd,
     backgroundColor: 'rgba(0, 0, 0, 0.8)'
   },
-  tip: {
-    color: _.colorDesc,
-    fontSize: _.fontSize14,
+  text: {
     marginLeft: _.sm
-  },
-  toast: {
-    color: '#fff',
-    fontSize: _.fontSize14,
-    marginTop: _.sm
   },
   spinner: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center'
   }
-}))
+})

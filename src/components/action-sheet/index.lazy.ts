@@ -8,3 +8,4 @@ import { lazy } from 'react'
 
 export const ActionSheet = lazy(() => import('./index'))
 export type { Props as ActionSheetProps } from './types'
+export type { ActionSheetConfig, ActionSheetCallback } from './api'
