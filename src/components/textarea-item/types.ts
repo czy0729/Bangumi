@@ -4,7 +4,12 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2026-08-11 10:00:00
  */
-import type { TextInputProps } from 'react-native'
+import type {
+  NativeSyntheticEvent,
+  TextInputContentSizeChangeEvent,
+  TextInputProps
+} from 'react-native'
+import type { TextStyle } from '@types'
 
 export type Props = {
   /** 是否随内容自动增高 */
@@ -25,6 +30,27 @@ export type Props = {
   /** 行数, 默认 1 */
   rows?: number
 
-  /** 容器样式 */
-  style?: object
+  /** 文本域样式 */
+  style?: TextStyle
 } & Omit<TextInputProps, 'onChange'>
+
+/** 文本输入内容变化事件 */
+export type TextareaChangeEvent = NativeSyntheticEvent<{ text: string }>
+
+/** useTextareaItem 选项 */
+export type UseTextareaItemOptions = {
+  /** 受控值 */
+  value?: string
+
+  /** 是否随内容自动增高 */
+  autoHeight?: boolean
+
+  /** 固定高度 (按行数估算) */
+  itemHeight: number
+
+  /** 输入变化回调 */
+  onChange?: (text: string) => void
+
+  /** 内容尺寸变化回调 */
+  onContentSizeChange?: (e: TextInputContentSizeChangeEvent) => void
+}
