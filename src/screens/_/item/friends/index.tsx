@@ -7,8 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import Progress from '@components/progress-bar'
-import { Avatar, Component, Flex, Link, Text, UserStatus } from '@components'
+import { Avatar, Component, Flex, Link, ProgressBar, Text, UserStatus } from '@components'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
 import { EVENT } from '@constants'
@@ -81,7 +80,7 @@ export const ItemFriends = observer(
                 onHold={onHold}
                 dropped={dropped}
               />
-              <Progress
+              <ProgressBar
                 style={styles.progress}
                 barStyle={styles.bar}
                 wrapWidth={wrapWidth}

@@ -4,4 +4,7 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2026-08-11 10:00:00
  */
-export const COMPONENT = 'ModalView'
+import { rc } from '@utils/dev'
+import { COMPONENT as PARENT } from '../ds'
+
+export const COMPONENT = rc(PARENT, 'ModalView')

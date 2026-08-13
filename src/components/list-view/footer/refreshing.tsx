@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import ActivityIndicator from '@components/activity-indicator'
+import { ActivityIndicator } from '../../activity-indicator'
 import { Flex } from '../../flex'
 import { Text } from '../../text'
 import { memoStyles } from './styles'

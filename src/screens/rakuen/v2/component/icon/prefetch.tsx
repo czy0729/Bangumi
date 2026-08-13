@@ -6,8 +6,7 @@
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import ActivityIndicator from '@components/activity-indicator'
-import { Flex, Text, Touchable } from '@components'
+import { ActivityIndicator, Flex, Text, Touchable } from '@components'
 import { IconTabsHeader } from '@_'
 import { _, useStore } from '@stores'
 import { confirm } from '@utils'

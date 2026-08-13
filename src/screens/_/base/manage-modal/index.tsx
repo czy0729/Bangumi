@@ -7,8 +7,7 @@
 import React from 'react'
 import { BackHandler } from 'react-native'
 import { observer } from 'mobx-react'
-import ActivityIndicator from '@components/activity-indicator'
-import { Component, Flex, Modal, Text } from '@components'
+import { ActivityIndicator, Component, Flex, Modal, Text } from '@components'
 import { _, collectionStore, subjectStore, systemStore, userStore } from '@stores'
 import { getInt } from '@stores/subject'
 import {

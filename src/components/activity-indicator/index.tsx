@@ -19,41 +19,43 @@ export type { ActivityIndicatorProps }
 /**
  * 加载指示器, 支持 toast 居中遮罩与行内 spinner 两种模式
  */
-function ActivityIndicator({
-  style,
-  animating = true,
-  color = 'gray',
-  size = 'small',
-  toast = false,
-  text
-}: ActivityIndicatorProps) {
-  r(COMPONENT)
+export const ActivityIndicator = observer(
+  ({
+    style,
+    animating = true,
+    color = 'gray',
+    size = 'small',
+    toast = false,
+    text
+  }: ActivityIndicatorProps) => {
+    r(COMPONENT)
 
-  if (!animating) return null
+    if (!animating) return null
 
-  if (toast) {
-    return (
-      <View style={stl(styles.container, style)}>
-        <View style={styles.innerContainer}>
-          <View style={styles.wrapper}>
-            <RNActivityIndicator color={color} size='large' />
-            {!!text && (
-              <Text style={styles.text} type='__plain__'>
-                {text}
-              </Text>
-            )}
+    if (toast) {
+      return (
+        <View style={stl(styles.container, style)}>
+          <View style={styles.innerContainer}>
+            <View style={styles.wrapper}>
+              <RNActivityIndicator color={color} size='large' />
+              {!!text && (
+                <Text style={styles.text} type='__plain__'>
+                  {text}
+                </Text>
+              )}
+            </View>
           </View>
         </View>
+      )
+    }
+
+    return (
+      <View style={stl(styles.spinner, style)}>
+        <RNActivityIndicator color={color} size={size} />
+        {!!text && <Text style={styles.text}>{text}</Text>}
       </View>
     )
   }
+)
 
-  return (
-    <View style={stl(styles.spinner, style)}>
-      <RNActivityIndicator color={color} size={size} />
-      {!!text && <Text style={styles.text}>{text}</Text>}
-    </View>
-  )
-}
-
-export default observer(ActivityIndicator)
+export default ActivityIndicator

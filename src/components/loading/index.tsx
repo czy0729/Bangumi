@@ -14,25 +14,25 @@ import { Component } from '../component'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-import type { ActivityIndicatorProps, ILoading } from './types'
-export type { ILoading, ActivityIndicatorProps }
+import type { Props as LoadingProps, ILoading } from './types'
+export type { LoadingProps, ILoading }
 
 /** Loading (原始) */
-const Raw = observer(({ color, size = 'large' }: ActivityIndicatorProps) => {
+const Raw = observer(({ color, size = 'large' }: LoadingProps) => {
   r(COMPONENT)
 
   return <ActivityIndicator color={color || _.colorSub} size={size} />
 })
 
 /** Loading (中) */
-const Normal = observer(({ color, size = 'small' }: ActivityIndicatorProps) => {
+const Normal = observer(({ color, size = 'small' }: LoadingProps) => {
   r(COMPONENT)
 
   return <ActivityIndicator color={color || _.colorSub} size={size} />
 })
 
 /** Loading (中) */
-const Medium = observer(({ style, color, size = 'small' }: ActivityIndicatorProps) => {
+const Medium = observer(({ style, color, size = 'small' }: LoadingProps) => {
   r(COMPONENT)
 
   return (
@@ -43,7 +43,7 @@ const Medium = observer(({ style, color, size = 'small' }: ActivityIndicatorProp
 })
 
 /** Loading (小) */
-const Mini = observer(({ style, color, size = 'small' }: ActivityIndicatorProps) => {
+const Mini = observer(({ style, color, size = 'small' }: LoadingProps) => {
   r(COMPONENT)
 
   return (
@@ -54,12 +54,12 @@ const Mini = observer(({ style, color, size = 'small' }: ActivityIndicatorProps)
 })
 
 /** Loading */
-const Loading: ILoading = observer(({ style, spinnerStyle, color, size = 'large', children }) => {
+const Loading: ILoading = observer(({ style, color, size = 'large', children }) => {
   r(COMPONENT)
 
   return (
     <Component id='component-loading' style={stl(_.container.column, styles.loading, style)}>
-      <Raw spinnerStyle={spinnerStyle} color={color || _.colorSub} size={size} />
+      <Raw color={color || _.colorSub} size={size} />
       {children}
     </Component>
   )

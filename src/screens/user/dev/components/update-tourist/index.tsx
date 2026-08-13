@@ -5,8 +5,7 @@
  * @Last Modified time: 2026-06-17 19:54:36
  */
 import React, { useCallback, useEffect, useState } from 'react'
-import ActivityIndicator from '@components/activity-indicator'
-import { Flex, Iconfont, Input, RNImage, Text, Touchable } from '@components'
+import { ActivityIndicator, Flex, Iconfont, Input, RNImage, Text, Touchable } from '@components'
 import { ItemSetting } from '@_'
 import { _ } from '@stores'
 import { info } from '@utils'

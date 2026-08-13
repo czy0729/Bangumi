@@ -6,9 +6,9 @@
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import ActivityIndicator from '@components/activity-indicator'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
+import { ActivityIndicator } from '../activity-indicator'
 import { COMPONENT } from './ds'
 
 import type { Props as ActivityProps } from './types'

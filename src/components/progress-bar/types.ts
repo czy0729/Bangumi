@@ -4,15 +4,15 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2026-08-11 10:00:00
  */
-export type Props = {
+import type { ViewStyle } from 'react-native'
+import type { WithViewStyles } from '@types'
+
+export type Props = WithViewStyles<{
   /** 进度 0-100 */
   percent?: number
 
-  /** 外层容器样式 */
-  style?: object
-
   /** 进度条样式 */
-  barStyle?: object
+  barStyle?: ViewStyle
 
   /** 已测量的容器宽度, 传入后不再使用 onLayout 测量 */
   wrapWidth?: number
@@ -25,4 +25,4 @@ export type Props = {
 
   /** 进入时宽度 0 → 目标值动画 */
   appearTransition?: boolean
-}
+}>

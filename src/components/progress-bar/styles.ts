@@ -4,14 +4,12 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2026-08-11 10:00:00
  */
-import { syncThemeStore } from '@utils/async'
-
-const _ = syncThemeStore()
+import { _ } from '@stores'
 
 export const styles = _.create({
   progressOuter: {
-    backgroundColor: 'rgba(0, 0, 0, 0.08)',
-    flex: 1
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.08)'
   },
   progressBar: {
     borderBottomWidth: 4,

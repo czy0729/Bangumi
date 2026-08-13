@@ -6,8 +6,7 @@
  */
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
-import Progress from '@components/progress-bar'
-import { Button, Flex, Heatmap, Input, Text } from '@components'
+import { Button, Flex, Heatmap, Input, ProgressBar, Text } from '@components'
 import { SectionTitle } from '@_'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
@@ -91,7 +90,7 @@ const BookEp = memo(
             />
             {!!totalNumber && Number(totalNumber) !== 0 && (
               <Flex style={styles.progressWrap}>
-                <Progress
+                <ProgressBar
                   style={styles.progress}
                   barStyle={styles.bar}
                   percent={
