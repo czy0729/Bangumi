@@ -6,34 +6,19 @@
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
-import * as Device from 'expo-device'
 import { IOS } from '@constants/constants'
 import {
   PAD,
   PAD_LEVEL_1,
   PAD_LEVEL_2,
-  RATIO,
   STORYBOOK_HEIGHT,
   STORYBOOK_WIDTH,
   WEB,
   WSA
 } from '@constants/device'
+import { IS_IOS_5_6_7_8, isPad, ratio } from './device'
 
-/** iPhone 非全面屏系列 */
-export const IS_IOS_5_6_7_8 =
-  !!String(Device.modelName).match(/iPhone (5|6|7|8|SE)/gi) ||
-  !!(String(Device.modelName).match(/iPhone/gi) && Constants.statusBarHeight <= 24) ||
-  (IOS && Constants.statusBarHeight === 20)
-
-// -------------------- 设备 --------------------
-/** 是否平板 */
-export const isPad = !!PAD
-
-/** 平板放大比例 */
-export const ratio = RATIO
-
-/** 平板设备统一放大单位 */
-export const padIncrease = PAD === 2 ? 4 : 2
+export * from './device'
 
 // -------------------- 统一布局单位 --------------------
 export const {

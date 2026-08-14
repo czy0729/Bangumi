@@ -21,7 +21,6 @@ import {
 } from '@utils/hooks'
 import { WSA } from '@constants'
 import NativeStacks from '@src/navigations/native-stacks'
-import theme from '@styles/theme'
 import { ANDROID_DEV_MENU } from './config'
 
 enableScreens(true)
@@ -58,8 +57,7 @@ export default function App() {
   return (
     <GestureHandlerRootView style={_.container.flex}>
       <SafeAreaProvider style={_.container.flex}>
-        {/* @ts-ignore */}
-        <Provider theme={theme}>
+        <Provider>
           <NativeStacks isLoadingComplete={isLoadingComplete} />
           {isLoadingComplete && (
             <Suspense>

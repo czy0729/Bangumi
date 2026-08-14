@@ -10,7 +10,6 @@ import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
-import t from '@styles/theme'
 import { Text } from '../text'
 import { useTextareaItem } from './hooks'
 import { fixControlledValue, getHeightByRows } from './utils'
@@ -50,7 +49,7 @@ export const TextareaItem = observer(
 
     const styles = memoStyles()
 
-    const itemHeight = getHeightByRows(rows, t.list_item_height)
+    const itemHeight = getHeightByRows(rows, 44)
     const { inputCount, height, handleChange, handleContentSizeChange } = useTextareaItem({
       value,
       autoHeight,
