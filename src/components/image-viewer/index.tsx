@@ -2,26 +2,26 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 22:36:55
+ * @Last Modified time: 2026-08-14 19:29:31
  */
-import React, { useCallback, useEffect, useMemo, useRef } from 'react'
+import React, { useCallback } from 'react'
 import { Modal, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { RNImageViewer } from '@components/@'
-import { open, showActionSheet, stl } from '@utils'
-import { logger, r } from '@utils/dev'
-import { applyLainProxy } from '@utils/proxy'
-import { FROZEN_FN, HOST_DOGE, IOS } from '@constants'
+import { stl } from '@utils'
+import { r } from '@utils/dev'
+import { FROZEN_FN } from '@constants'
 import { Component } from '../component'
 import { ActivityIndicator } from '../activity-indicator'
 import { Iconfont } from '../iconfont'
 import { Image } from '../image'
 import { Text } from '../text'
 import { Touchable } from '../touchable'
-import { ACTION_SHEET_DS, COMPONENT } from './ds'
+import { useImageMenus, useImageUrlProxy, useImageVisibleLog } from './hooks'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-import type { ImageUrl, Props as ImageViewerProps } from './types'
+import type { Props as ImageViewerProps } from './types'
 export type { ImageViewerProps }
 
 /**
@@ -42,53 +42,14 @@ export const ImageViewer = observer(
 
     const styles = memoStyles()
 
-    const proxyImageUrls = useMemo(
-      (): ImageUrl[] =>
-        imageUrls.map(item => ({
-          ...item,
-          url: applyLainProxy(item.url),
-          _url: item._url ? applyLainProxy(item._url) : item._url
-        })),
-      [imageUrls]
-    )
-
-    const prevVisible = useRef(false)
-    useEffect(() => {
-      if (visible && !prevVisible.current) {
-        logger.success(COMPONENT, { urls: proxyImageUrls })
-      }
-      prevVisible.current = visible
-    }, [visible, proxyImageUrls])
-
-    const selectedIndex = index
+    const proxyImageUrls = useImageUrlProxy(imageUrls)
+    useImageVisibleLog(visible, proxyImageUrls)
 
     const handleRequestClose = useCallback(() => {
       if (typeof onCancel === 'function') onCancel()
     }, [onCancel])
 
-    const handleRenderMenus = useCallback((url: string, cancel: () => void): null => {
-      if (typeof url === 'string' && url.includes(HOST_DOGE)) return null
-
-      if (IOS) {
-        // 不想涉及到权限问题, 暂时用浏览器打开图片来处理
-        showActionSheet(ACTION_SHEET_DS, (i: number) => {
-          if (i === 0) open(url)
-        })
-      } else {
-        // @issue 安卓的 ActionSheet 在这个 Viewer 的下面
-        cancel?.()
-        showActionSheet(ACTION_SHEET_DS, (i: number) => {
-          if (i === 0) open(url)
-        })
-      }
-      return null
-    }, [])
-
-    const handleMenus = useCallback(() => {
-      const currentUrl: string =
-        proxyImageUrls[selectedIndex]?._url || proxyImageUrls[selectedIndex]?.url || ''
-      return handleRenderMenus(currentUrl, onCancel)
-    }, [proxyImageUrls, selectedIndex, handleRenderMenus, onCancel])
+    const handleMenus = useImageMenus(proxyImageUrls, index, onCancel)
 
     const handleRenderIndicator = useCallback(
       (currentIndex: number, allSize: number) => {
@@ -138,7 +99,7 @@ export const ImageViewer = observer(
             <View style={stl(styles.viewerContainer, mini && styles.viewerMini)}>
               <RNImageViewer
                 style={styles.viewer}
-                index={selectedIndex}
+                index={index}
                 imageUrls={proxyImageUrls}
                 backgroundColor='transparent'
                 enableSwipeDown={!mini}

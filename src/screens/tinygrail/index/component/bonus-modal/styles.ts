@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-07 14:09:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 16:12:40
+ * @Last Modified time: 2026-08-14 22:02:33
  */
 import { _ } from '@stores'
 
@@ -10,8 +10,7 @@ export const memoStyles = _.memoStyles(() => ({
   modal: {
     width: _.window.width - 2 * _.wind,
     maxWidth: 400,
-    backgroundColor: _.select(_.__colorBg__, _.colorTinygrailContainer),
-    borderRadius: _.radiusMd
+    backgroundColor: _.select(_.__colorBg__, _.colorTinygrailContainer)
   },
   wrap: {
     width: '100%',

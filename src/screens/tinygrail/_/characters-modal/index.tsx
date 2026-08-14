@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-18 03:40:16
+ * @Last Modified time: 2026-08-14 21:42:57
  */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { observer } from 'mobx-react'
@@ -13,15 +13,15 @@ import { useBackHandler, useMount } from '@utils/hooks'
 import { FROZEN_FN, LIST_EMPTY, M2 } from '@constants'
 import Bottom from './bottom'
 import Content from './content'
-import Information from './information'
 import LeftList from './left-list'
 import Modal from './modal'
 import RightList from './right-list'
 import { assets, charge, getLocal, lv, refine, rk, setLocal } from './utils'
 
+export { ITEMS_TYPE, ITEMS_USED, ITEMS_NOTIFY } from './ds'
+
 import type { ListEmpty, Loaded } from '@types'
 import type { PickItem, Props } from './types'
-export { ITEMS_TYPE, ITEMS_USED, ITEMS_NOTIFY } from './ds'
 
 function CharactersModal({
   visible,
@@ -269,7 +269,10 @@ function CharactersModal({
         .sort((a, b) => a.rate - b.rate)
     } else if (itemType.isStarDust) {
       const dataCopy = isTemple
-        ? { ...tinygrailStore.temple(tinygrailStore.hash), list: [...tinygrailStore.temple(tinygrailStore.hash).list] }
+        ? {
+            ...tinygrailStore.temple(tinygrailStore.hash),
+            list: [...tinygrailStore.temple(tinygrailStore.hash).list]
+          }
         : {
             ...tinygrailStore.myCharaAssets.chara,
             list: [...tinygrailStore.myCharaAssets.chara.list]
@@ -467,7 +470,8 @@ function CharactersModal({
       const isStale = (loaded: Loaded) => (refresh ? true : !loaded || now - Number(loaded) > M2)
       await queue(
         [
-          isStale(tinygrailStore.temple(tinygrailStore.hash)._loaded) && (() => tinygrailStore.fetchTemple()),
+          isStale(tinygrailStore.temple(tinygrailStore.hash)._loaded) &&
+            (() => tinygrailStore.fetchTemple()),
           isStale(tinygrailStore.myCharaAssets.chara._loaded) &&
             (() => tinygrailStore.fetchMyCharaAssets()),
           isStale(tinygrailStore.msrc._loaded) && (() => tinygrailStore.fetchList('msrc')),
@@ -586,7 +590,7 @@ function CharactersModal({
           )}
         </Flex.Item>
       </Content>
-      <Information title={title} onClose={handleClose} />
+
       <Bottom
         leftSelected={leftSelected}
         rightSelected={rightSelected}

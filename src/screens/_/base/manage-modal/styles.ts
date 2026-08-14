@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 15:54:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-12 05:35:36
+ * @Last Modified time: 2026-08-14 22:00:55
  */
 import { _ } from '@stores'
 
@@ -10,11 +10,7 @@ export const memoStyles = _.memoStyles(() => ({
   modal: {
     width: _.r(_.window.width - 2 * (_.wind - 4)),
     maxWidth: _.device(408, 560),
-    paddingTop: _.device(_.md + 2, 28),
-    paddingHorizontal: _.device(0, _.sm),
-    marginTop: _.isSmallDevice ? -24 : 0,
-    // backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
-    borderRadius: _.radiusMd
+    marginTop: _.isSmallDevice ? -24 : 0
   },
   container: {
     minHeight: _.device(380, 448),

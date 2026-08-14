@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-05 22:03:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-12 05:32:05
+ * @Last Modified time: 2026-08-14 21:08:18
  */
 import React, { Suspense, useEffect } from 'react'
 import { View } from 'react-native'
@@ -32,6 +32,7 @@ export const Modal = observer(
     visible,
     title,
     type = 'title',
+    right,
     focus,
     maskClosable = true,
     onClose,
@@ -55,25 +56,28 @@ export const Modal = observer(
       >
         <BlurView style={style}>
           <View style={styles.body}>
-            <View style={styles.title}>
-              {!!title && (
-                <Text type={type} size={16} align='center' numberOfLines={2}>
-                  {title}
-                </Text>
-              )}
-            </View>
+            <Flex style={styles.head}>
+              <View style={styles.side}>
+                {!!onClose && (
+                  <Touchable style={styles.touch} onPress={onClose}>
+                    <Flex style={styles.btn} justify='center'>
+                      <Iconfont name='md-close' color={_.colorIcon} size={23} />
+                    </Flex>
+                  </Touchable>
+                )}
+              </View>
+              <Flex.Item>
+                {!!title && (
+                  <Text type={type} size={16} align='center' numberOfLines={2}>
+                    {title}
+                  </Text>
+                )}
+              </Flex.Item>
+              <View style={styles.side}>{right}</View>
+            </Flex>
             <Suspense>{children}</Suspense>
           </View>
         </BlurView>
-        {!!onClose && (
-          <View style={styles.close}>
-            <Touchable style={styles.touch} onPress={onClose}>
-              <Flex style={styles.btn} justify='center'>
-                <Iconfont name='md-close' color={_.colorIcon} size={24} />
-              </Flex>
-            </Touchable>
-          </View>
-        )}
       </ModalView>
     )
   }

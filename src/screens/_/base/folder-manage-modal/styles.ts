@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 13:38:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-17 11:50:00
+ * @Last Modified time: 2026-08-14 21:06:58
  */
 import { _ } from '@stores'
 
@@ -20,12 +20,6 @@ export const memoStyles = _.memoStyles(() => ({
   },
   list: {
     paddingBottom: Math.floor(_.window.height * 0.4)
-  },
-  create: {
-    position: 'absolute',
-    zIndex: 1,
-    top: -31,
-    right: 12
   },
   divider: {
     marginVertical: _.md,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-11 17:29:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-21 21:19:29
+ * @Last Modified time: 2026-08-14 21:34:18
  */
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
@@ -75,7 +75,19 @@ function LinkModal() {
 
   return (
     <>
-      <Modal style={styles.modal} visible={visible} title='剪贴板' onClose={$.toggleLinkModal}>
+      <Modal
+        style={styles.modal}
+        visible={visible}
+        title='剪贴板'
+        right={
+          <Touchable onPress={handleOpen}>
+            <Text size={14} type='sub'>
+              预设
+            </Text>
+          </Touchable>
+        }
+        onClose={$.toggleLinkModal}
+      >
         <View style={styles.container}>
           <Text size={13} bold>
             可能由于权限问题，未能在剪贴板中匹配到链接，请手动粘贴或输入
@@ -96,13 +108,6 @@ function LinkModal() {
               <Text size={13}>提交</Text>
             </Touchable>
           </Flex>
-        </View>
-        <View style={styles.info}>
-          <Touchable onPress={handleOpen}>
-            <Text size={14} type='sub'>
-              预设
-            </Text>
-          </Touchable>
         </View>
       </Modal>
 

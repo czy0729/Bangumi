@@ -180,7 +180,7 @@ export const ManageModal = observer(
             tags: tag.join(' '),
             comment
           }
-          if (this.state.status === '') state.status = newStatus.type
+          if (this.state.status === '') state.status = newStatus.type as State['status']
           if (privacy !== undefined) state.privacy = privacy
 
           // 如果用户输入过评论，无论如何先保存草稿

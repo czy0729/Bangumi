@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 16:51:54
+ * @Last Modified time: 2026-08-14 21:07:02
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
@@ -40,8 +40,9 @@ import {
 } from './ds'
 import { memoStyles } from './styles'
 
+import type { EventData } from '@utils/track/type'
 import type { CatalogsItem } from '@stores/users/types'
-import type { AnyObject, Id } from '@types'
+import type { Id } from '@types'
 import type {
   CatalogDetail,
   CatalogDetailItem,
@@ -61,7 +62,8 @@ import type {
   Props as FolderManageModalProps,
   SortOrder,
   SortType,
-  State
+  State,
+  TextareaRef
 } from './types'
 export type { FolderManageModalProps }
 
@@ -97,10 +99,10 @@ export const FolderManageModal = observer(
 
     formhash: string
 
-    textareaRef: any
+    textareaRef?: TextareaRef
 
-    forwardRef: HandleForwardRef = (ref: any) => {
-      this.textareaRef = ref
+    forwardRef: HandleForwardRef = ref => {
+      if (ref) this.textareaRef = ref
     }
 
     async componentDidMount() {
@@ -255,7 +257,7 @@ export const FolderManageModal = observer(
     }
 
     /** track */
-    t(value: string, other: AnyObject = {}) {
+    t(value: string, other: EventData = {}) {
       t('其他.管理目录', {
         subjectId: this.props.id,
         value,
@@ -674,14 +676,12 @@ export const FolderManageModal = observer(
       if (this.state.edit || this.state.create) return null
 
       return (
-        <View style={this.styles.create}>
-          <IconTouchable
-            name='md-add'
-            size={24}
-            color={_.colorSub}
-            onPress={() => this.onCreate(true)}
-          />
-        </View>
+        <IconTouchable
+          name='md-add'
+          size={24}
+          color={_.colorSub}
+          onPress={() => this.onCreate(true)}
+        />
       )
     }
 
@@ -793,9 +793,9 @@ export const FolderManageModal = observer(
             style={this.styles.modal}
             visible={this.state.visible}
             title={this.props.title}
+            right={this.renderBtnCreate()}
             onClose={this.props.onClose}
           >
-            {this.renderBtnCreate()}
             {this.renderList()}
           </Modal>
         </Component>
