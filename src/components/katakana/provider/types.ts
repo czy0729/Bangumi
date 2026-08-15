@@ -48,7 +48,4 @@ export type Matches = {
 
   /** 罗马音是否加粗 */
   bold?: TextProps['bold']
-
-  /** 罗马音对齐方式 */
-  align?: 'center' | 'left'
 }

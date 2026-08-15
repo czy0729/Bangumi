@@ -4,8 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-15 07:37:05
  */
-import { useCallback, useMemo, useRef, useState } from 'react'
-import { getMeasuredMatches } from './utils'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { LINE_HEIGHT_INCREASE } from '../ds'
+import { getMeasuredMatches, shouldIncreaseLineHeight } from './utils'
 
 import type { TextLayoutEvent, TextLayoutLine } from 'react-native'
 import type { Matches } from './types'
@@ -14,11 +15,14 @@ import type { Matches } from './types'
  * 片假名测量控制器, 由 Provider 消费
  *  - 收集匹配到的片假名, 并通过真实渲染 Text 的 onTextLayout 测量每行坐标
  *  - 按行内比例推算每个片假名出现的位置
+ *  - 仅首行有罗马音时无需撑高整段文字 (lineHeightIncrease 收敛为 0)
+ * @param fullLineHeight 满行高态 (带 LINE_HEIGHT_INCREASE) 的行高, 用于行高收敛后的上移补偿
  */
-export function useKatakanaController() {
+export function useKatakanaController(size: number, baseSize: number, fullLineHeight: number) {
   const [matches, setMatches] = useState<Matches[]>([])
   const [lines, setLines] = useState<TextLayoutLine[]>([])
   const linesRef = useRef('')
+  const [lineHeightIncrease, setLineHeightIncrease] = useState(LINE_HEIGHT_INCREASE)
 
   /** 收到匹配信号后, 记录片假名, 相同的只记录首个 */
   const onKatakana = useCallback(({ jp, en }: { jp: string; en: string }) => {
@@ -40,10 +44,20 @@ export function useKatakanaController() {
   }, [])
 
   /** 根据行坐标推算每个片假名出现的位置 */
-  const measured = useMemo(() => getMeasuredMatches(matches, lines), [matches, lines])
+  const measured = useMemo(
+    () => getMeasuredMatches(matches, lines, size, baseSize, fullLineHeight),
+    [matches, lines, size, baseSize, fullLineHeight]
+  )
+
+  /** 测量完成后决定是否仍需要撑高行高 (仅首行有罗马音时收敛为 0) */
+  useEffect(() => {
+    if (!lines.length) return
+    setLineHeightIncrease(shouldIncreaseLineHeight(measured) ? LINE_HEIGHT_INCREASE : 0)
+  }, [measured, lines])
 
   return {
     measured,
+    lineHeightIncrease,
     onKatakana,
     onTextLayout
   }

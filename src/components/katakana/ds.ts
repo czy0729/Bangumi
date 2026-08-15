@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-12 11:47:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 16:43:19
+ * @Last Modified time: 2026-08-15 09:07:39
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
@@ -25,8 +25,8 @@ export const SIZE_DEFAULT = 14
 /** 罗马音相对基底文本减去的字号 */
 export const SIZE_SUBTRACT = 6
 
-/** 非首行罗马音额外上移的距离 */
-export const NON_FIRST_LINE_TOP_OFFSET = 2
+/** 罗马音字符平均宽度估算系数 (水平布局重叠判定/贴边用) */
+export const ROMAJI_WIDTH_RATIO = 0.55
 
 /** 悬浮层翻译请求的防抖间隔 (毫秒) */
 export const TRANSLATE_INTERVAL = 6400
