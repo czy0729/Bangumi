@@ -2,15 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-05-02 22:54:50
  * @Last Modified by:   czy0729
- * @Last Modified time: 2024-05-02 22:54:50
+ * @Last Modified time: 2026-08-15 05:30:00
  */
-import type { Fn } from '@types'
 import type { TextProps } from '../text'
 
 export type Props = TextProps
 
-export type Context = {
-  active: boolean
+export type KatakanaContextValue = {
+  /** 是否启动 (强制 active 或设置开启) */
+  enabled: boolean
+
+  /** 额外增加的行高 (用于给罗马音留出悬浮空间) */
   lineHeightIncrease: number
-  onKatakana: Fn
+
+  /** 匹配到片假名并翻译完成后回调 */
+  onKatakana: (data: { jp: string; en: string }) => void
 }

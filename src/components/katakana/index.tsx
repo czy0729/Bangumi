@@ -2,26 +2,22 @@
  * @Author: czy0729
  * @Date: 2020-06-16 13:53:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 01:37:44
+ * @Last Modified time: 2026-08-15 07:45:41
  */
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext, useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { systemStore } from '@stores'
 import { r } from '@utils/dev'
 import { Text } from '../text'
-import { KatakanaProvider } from './provider'
-import { getCache, matchKatakanas, translate } from './utils'
+import { KatakanaContext } from './context'
+import { useKatakanaTranslate } from './hooks'
+import KatakanaProvider from './provider'
+import { getKatakanaText } from './utils'
 import { COMPONENT } from './ds'
 
 import type { KatakanaProviderProps } from './provider'
-import type { Context, Props as KatakanaProps } from './types'
+import type { Props as KatakanaProps } from './types'
 export type { KatakanaProviderProps, KatakanaProps }
-
-let inited: boolean
-;(async () => {
-  await getCache()
-  inited = true
-})()
 
 /**
  * [实验性] 片假名终结者在片 (假名上方显示罗马音)
@@ -32,84 +28,26 @@ let inited: boolean
  *  - 短时间合并多个翻译请求
  *  - 富文本内文字支持
  */
-const Katakana = class KatakanaComponent extends React.Component<KatakanaProps> {
-  /** 片假名终结者包裹容器 */
-  static Provider: typeof KatakanaProvider
+function KatakanaComponent({ children, ...props }: KatakanaProps) {
+  const { enabled, lineHeightIncrease, onKatakana } = useContext(KatakanaContext)
+  const text = useMemo(() => getKatakanaText(children), [children])
+  const isOn = enabled || systemStore.setting.katakana
 
-  static contextTypes = {
-    active: PropTypes.bool,
-    lineHeightIncrease: PropTypes.number,
-    onKatakana: PropTypes.func
-  }
+  useKatakanaTranslate(isOn, text, onKatakana)
 
-  componentDidMount() {
-    this.init()
-  }
+  r(COMPONENT)
 
-  UNSAFE_componentWillReceiveProps() {
-    this.init()
-  }
-
-  init = () => {
-    if (!this.isOn) return
-
-    if (inited) {
-      this.translate()
-    } else {
-      setTimeout(() => {
-        this.init()
-      }, 200)
-    }
-  }
-
-  translate = async () => {
-    const { children } = this.props
-    if (!children || !(typeof children === 'string' || Array.isArray(children))) return
-
-    const match = matchKatakanas(this.text)
-    if (!match) return
-
-    match.forEach((jp, index: number) =>
-      translate(jp, (cache: { [x: string]: any }) => {
-        const en = cache[jp]
-        if (en) {
-          const { onKatakana } = this.context as Context
-          if (onKatakana) {
-            setTimeout(() => {
-              onKatakana({
-                jp,
-                en
-              })
-            }, 40 * (index + 1))
-          }
-        }
-      })
-    )
-  }
-
-  get text() {
-    const { children } = this.props
-    if (typeof children === 'string') return children
-
-    if (Array.isArray(children)) return children.map((item: any) => item || '').join('')
-
-    return ''
-  }
-
-  get isOn() {
-    return (this.context as Context).active || systemStore.setting.katakana
-  }
-
-  render() {
-    r(COMPONENT)
-
-    return (
-      <Text {...this.props} lineHeightIncrease={(this.context as Context).lineHeightIncrease} />
-    )
-  }
+  return (
+    <Text {...props} lineHeightIncrease={lineHeightIncrease}>
+      {children}
+    </Text>
+  )
 }
 
-Katakana.Provider = KatakanaProvider
+const Katakana = Object.assign(observer(KatakanaComponent), {
+  Provider: KatakanaProvider
+})
 
 export { Katakana }
+
 export default Katakana

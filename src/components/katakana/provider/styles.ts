@@ -7,14 +7,6 @@
 import { _ } from '@stores'
 
 export const styles = _.create({
-  measure: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 0,
-    left: 0,
-    width: '100%',
-    opacity: 0
-  },
   katakana: {
     position: 'absolute',
     zIndex: 10

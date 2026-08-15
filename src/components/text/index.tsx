@@ -7,7 +7,6 @@
 import React from 'react'
 import { Text as RNText } from 'react-native'
 import { observer } from 'mobx-react'
-import PropTypes from 'prop-types'
 import { systemStore } from '@stores'
 import { r } from '@utils/dev'
 import { WEB } from '@constants'
@@ -16,33 +15,30 @@ import { COMPONENT, TEXT_STATIC_PROPS } from './ds'
 
 export { getTextStyle, setComponentsDefaultProps }
 
-import type { Context, Props as TextProps, TextType } from './types'
+import type { Props as TextProps, TextType } from './types'
 export type { TextType, TextProps }
 
 /** 统一封装文字 */
-function TextComp(
-  {
-    forwardRef,
-    style,
-    overrideStyle,
-    type,
-    size,
-    lineHeight,
-    lineHeightIncrease,
-    align,
-    bold,
-    underline,
-    shadow,
-    shrink,
-    selectable = WEB,
-    noWrap,
-    s2t = true,
-    spacing = true,
-    children,
-    ...other
-  }: TextProps,
-  { lineHeightIncrease: contextLineHeightIncrease }: Context = {}
-) {
+function TextComp({
+  forwardRef,
+  style,
+  overrideStyle,
+  type,
+  size,
+  lineHeight,
+  lineHeightIncrease,
+  align,
+  bold,
+  underline,
+  shadow,
+  shrink,
+  selectable = WEB,
+  noWrap,
+  s2t = true,
+  spacing = true,
+  children,
+  ...other
+}: TextProps) {
   r(COMPONENT)
 
   let content = children
@@ -58,7 +54,7 @@ function TextComp(
         type,
         size,
         lineHeight,
-        lineHeightIncrease: contextLineHeightIncrease || lineHeightIncrease,
+        lineHeightIncrease,
         align,
         bold,
         underline,
@@ -74,10 +70,6 @@ function TextComp(
       {content}
     </RNText>
   )
-}
-
-TextComp.contextTypes = {
-  lineHeightIncrease: PropTypes.number
 }
 
 export const Text = observer(TextComp)

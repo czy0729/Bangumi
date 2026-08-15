@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-20 11:42:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-05 22:29:19
+ * @Last Modified time: 2026-08-15 06:24:29
  */
 import React, { useCallback, useRef } from 'react'
 import { observer } from 'mobx-react'
@@ -69,7 +69,7 @@ function Katakana({ navigation, filter }: WithNavigation<WithFilterProps>) {
             onScrollIntoViewIfNeeded={handleScrollIntoViewIfNeeded}
           />
         )}
-        {!IOS && shows.katakana && <AppKatakana filter={filter} />}
+        {shows.katakana && <AppKatakana filter={filter} />}
         {shows.cnFirst && systemStore.setting.katakana && <CnFirst filter={filter} sub />}
         {shows.webhook && <Webhook navigation={navigation} filter={filter} setFalse={setFalse} />}
       </ActionSheet>

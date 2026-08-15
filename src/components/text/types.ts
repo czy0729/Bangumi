@@ -83,8 +83,3 @@ export type Props = Override<
     spacing?: boolean
   }
 >
-
-export type Context = {
-  /** 额外增加的行高 (主要用于 「片假名终结者」) */
-  lineHeightIncrease?: number
-}
