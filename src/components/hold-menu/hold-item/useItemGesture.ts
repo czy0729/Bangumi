@@ -6,7 +6,7 @@
  */
 import { useCallback, useMemo } from 'react'
 import { Gesture } from 'react-native-gesture-handler'
-import { scheduleOnRN } from 'react-native-worklets'
+import { scheduleOnRN } from '@utils'
 import { useHoldMenu } from '../context'
 import type { ItemGestureProps } from './types'
 

@@ -12,7 +12,7 @@ import {
   useSharedValue,
   withTiming
 } from 'react-native-reanimated'
-import { scheduleOnRN } from 'react-native-worklets'
+import { scheduleOnRN } from '@utils'
 import { resolveEasing } from './utils'
 
 import type { LayoutChangeEvent } from 'react-native'

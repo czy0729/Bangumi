@@ -6,7 +6,7 @@
  */
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { interpolate, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
-import { scheduleOnRN } from 'react-native-worklets'
+import { scheduleOnRN } from '@utils'
 import { _ } from '@stores'
 import { useBackHandler } from '@utils/hooks'
 

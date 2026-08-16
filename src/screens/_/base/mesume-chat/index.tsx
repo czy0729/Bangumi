@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2025-02-02 17:26:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-16 10:00:00
+ * @Last Modified time: 2026-08-17 01:22:56
  */
 import React, { useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
-import { scheduleOnRN } from 'react-native-worklets'
 import { observer } from 'mobx-react'
 import { Accordion, Flex, Mask, Text } from '@components'
 import { _ } from '@stores'
-import { stl } from '@utils'
+import { scheduleOnRN, stl } from '@utils'
 import { r } from '@utils/dev'
 import AvatarPanel from './avatar-panel'
 import { useMesumeChat } from './hooks'

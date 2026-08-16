@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2026-08-12 10:00:00
- * @Last Modified by:   czy0729
- * @Last Modified time: 2026-08-12 10:00:00
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-08-17 01:23:10
  */
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Dimensions } from 'react-native'
@@ -13,7 +13,7 @@ import {
   useSharedValue,
   withTiming
 } from 'react-native-reanimated'
-import { scheduleOnRN } from 'react-native-worklets'
+import { scheduleOnRN } from '@utils'
 import { IOS } from '@constants/constants'
 import { PAD } from '@constants/device'
 import { getFocusMargin, getOpacity, getPosition, getScale } from './utils'

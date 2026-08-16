@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2026-08-12 07:20:00
- * @Last Modified by:   czy0729
- * @Last Modified time: 2026-08-12 07:20:00
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-08-17 01:23:05
  */
 import { useCallback, useEffect, useRef, useState } from 'react'
 import {
@@ -12,7 +12,7 @@ import {
   withDelay,
   withTiming
 } from 'react-native-reanimated'
-import { scheduleOnRN } from 'react-native-worklets'
+import { scheduleOnRN } from '@utils'
 
 import type { ToastType } from '../types'
 

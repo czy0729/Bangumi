@@ -7,10 +7,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
-import { scheduleOnRN } from 'react-native-worklets'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import { stl } from '@utils'
+import { scheduleOnRN, stl } from '@utils'
 import { r } from '@utils/dev'
 import { COMPONENT, DURATION, MIN_HEIGHT } from './ds'
 

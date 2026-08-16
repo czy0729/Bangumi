@@ -15,7 +15,7 @@ import {
   withSpring,
   withTiming
 } from 'react-native-reanimated'
-import { scheduleOnRN } from 'react-native-worklets'
+import { scheduleOnRN } from '@utils'
 import {
   HOLD_ITEM_SCALE_DOWN_DURATION,
   HOLD_ITEM_SCALE_DOWN_VALUE,
