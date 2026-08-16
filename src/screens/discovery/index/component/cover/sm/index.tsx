@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:44:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-24 04:23:23
+ * @Last Modified time: 2026-08-16 07:42:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -68,8 +68,7 @@ function CoverSm({ title, src, cn, data }: Props) {
           </Text>
           <View style={_.mt.xs}>
             <Katakana.Provider
-              itemStyle={styles.itemStyle}
-              itemSecondStyle={styles.itemSecondStyle}
+              firstLineStyle={_.mt.sm}
               type='__plain__'
               size={11}
               numberOfLines={2}

@@ -11,7 +11,9 @@ import { Avatar as AvatarComp, UserStatus } from '@components'
 import { AVATAR_WIDTH } from '../ds'
 import { memoStyles } from './styles'
 
-function Avatar({ navigation, p1Text, userId, avatarSrc, event }) {
+import type { Props } from './types'
+
+function Avatar({ navigation, p1Text, userId, avatarSrc, event }: Props) {
   const styles = memoStyles()
 
   return (

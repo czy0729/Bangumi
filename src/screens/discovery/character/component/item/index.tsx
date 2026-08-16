@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-17 07:12:39
+ * @Last Modified time: 2026-08-16 07:59:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -52,11 +52,13 @@ function Item({ index, id, avatar, name }: Props) {
         <View style={styles.cover}>
           <Image {...imageProps} />
         </View>
-        <Katakana.Provider style={_.mt.sm} size={11} numberOfLines={2} align='center'>
-          <Katakana size={11} numberOfLines={2} align='center' bold>
-            {HTMLDecode(name)}
-          </Katakana>
-        </Katakana.Provider>
+        <View style={_.mt.sm}>
+          <Katakana.Provider firstLineStyle={_.mt.xs} size={11} numberOfLines={2} align='center'>
+            <Katakana size={11} numberOfLines={2} align='center' bold>
+              {HTMLDecode(name)}
+            </Katakana>
+          </Katakana.Provider>
+        </View>
       </Touchable>
     </View>
   )

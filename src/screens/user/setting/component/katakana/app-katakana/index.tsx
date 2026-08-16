@@ -2,18 +2,17 @@
  * @Author: czy0729
  * @Date: 2024-04-23 05:24:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-23 05:27:39
+ * @Last Modified time: 2026-08-16 07:54:34
  */
 import React from 'react'
-import { observer } from 'mobx-react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Katakana as KText, Text } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
-import { styles } from './styles'
 
 import type { WithFilterProps } from '../../../types'
 
@@ -57,7 +56,7 @@ function AppKatakana({ filter }: WithFilterProps) {
         }}
       >
         <View style={_.mt.sm}>
-          <KText.Provider itemStyle={styles.katakana} size={12} lineHeight={20} active>
+          <KText.Provider type='sub' size={12} lineHeight={20} active>
             <KText type='sub' size={12} lineHeight={20} bold>
               魔法少女まどか☆マギカ
             </KText>

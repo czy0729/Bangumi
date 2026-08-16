@@ -12,9 +12,6 @@ export type KatakanaContextValue = {
   /** 是否启动 (强制 active 或设置开启) */
   enabled: boolean
 
-  /** 额外增加的行高 (用于给罗马音留出悬浮空间) */
-  lineHeightIncrease: number
-
   /** 匹配到片假名并翻译完成后回调 */
   onKatakana: (data: { jp: string; en: string }) => void
 }

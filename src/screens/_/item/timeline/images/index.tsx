@@ -16,7 +16,9 @@ import { AVATAR_COVER_WIDTH } from '../ds'
 import { matchSubjectId } from '../utils'
 import { styles } from './styles'
 
-function Images({ type, image, p3Text, p3Url, onNavigate }) {
+import type { Props } from './types'
+
+function Images({ type, image, p3Text, p3Url, onNavigate }: Props) {
   const images = image.map((item: string, index: number) => {
     const isAvatar = !String(!!p3Url.length && p3Url[0]).includes('subject')
 

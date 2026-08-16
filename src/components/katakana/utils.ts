@@ -125,6 +125,7 @@ async function fetchTranslations(jps: string[]) {
         parsed.trans_result.forEach(item => {
           memo[item.src] = item.dst
           dirty.add(item.src)
+          logger.log(`${COMPONENT}/translate`, '翻译完成', item.src, '=>', item.dst)
         })
         save()
       }

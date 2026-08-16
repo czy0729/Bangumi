@@ -10,6 +10,7 @@ import { EVENT, FROZEN_FN } from '@constants'
 import { COMPONENT as PARENT } from '../ds'
 
 import type { BlogId, RakuenNewFloorStyleCn, TopicId } from '@types'
+import type { LikesUsers } from '../../base/likes/types'
 import type { Props } from './types'
 
 export const COMPONENT = rc(PARENT, 'ItemPost')
@@ -61,7 +62,7 @@ export const DEFAULT_PROPS = {
   newFloorStyle: '角标' as RakuenNewFloorStyleCn,
   event: EVENT as Props['event'],
   onJumpTo: FROZEN_FN,
-  onLikesLongPress: FROZEN_FN,
+  onLikesLongPress: FROZEN_FN as (list: LikesUsers, emoji: number) => void,
   onShowFixedTextare: FROZEN_FN,
   onToggleExpand: FROZEN_FN
 } as const

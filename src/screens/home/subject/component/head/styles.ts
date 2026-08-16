@@ -26,9 +26,6 @@ export const memoStyles = _.memoStyles(() => ({
     top: _.r(28),
     opacity: 0.6
   },
-  katakana: {
-    marginTop: -4
-  },
   duration: {
     paddingVertical: 2,
     paddingHorizontal: 4,

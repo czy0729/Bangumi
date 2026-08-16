@@ -4,7 +4,7 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2022-06-17 20:20:46
  */
-export function matchSubjectId(url = '') {
+export function matchSubjectId(url: string = '') {
   if (typeof url !== 'string') return 0
 
   const match = url.match(/\d+/)

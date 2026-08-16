@@ -5,13 +5,19 @@
  * @Last Modified time: 2026-07-25 08:45:25
  */
 import type { rakuenStore } from '@stores'
-import type { BlogId, Fn, Id, SubjectId, TopicId, ViewStyle } from '@types'
+import type { BlogId, Id, SubjectId, TopicId, ViewStyle } from '@types'
 
 type LikesList = ReturnType<typeof rakuenStore.likesList>
 
+/** 贴贴用户 */
+export type LikesUsers = {
+  username: string
+  nickname: string
+}[]
+
 /** 贴贴列表项 */
 export type LikesItem = NonNullable<LikesList>[number] & {
-  users?: { username: string; nickname: string }[]
+  users?: LikesUsers
 }
 
 export type Props = {
@@ -46,10 +52,10 @@ export type Props = {
   }
 
   /** 点击按钮 */
-  onPress?: Fn
+  onPress?: (list: LikesUsers, emoji: number) => void
 
   /** 长按按钮 */
-  onLongPress?: Fn
+  onLongPress?: (list: LikesUsers, emoji: number) => void
 
   /** Storybook 模拟数据 */
   storybook?: {

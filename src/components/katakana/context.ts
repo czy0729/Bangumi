@@ -11,6 +11,5 @@ import type { KatakanaContextValue } from './types'
 
 export const KatakanaContext = createContext<KatakanaContextValue>({
   enabled: false,
-  lineHeightIncrease: 0,
   onKatakana: FROZEN_FN
 })

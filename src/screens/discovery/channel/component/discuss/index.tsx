@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-04 20:01:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 07:28:45
+ * @Last Modified time: 2026-08-16 08:03:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -65,11 +65,13 @@ function Discuss() {
                       )}
                     </Text>
 
-                    <Katakana.Provider style={_.mt.sm} itemStyle={styles.katakanas} size={12}>
-                      <Katakana type='sub' size={12}>
-                        {findSubjectCn(item.subjectName)}
-                      </Katakana>
-                    </Katakana.Provider>
+                    <View style={_.mt.sm}>
+                      <Katakana.Provider firstLineStyle={_.mt.xs} type='sub' size={12}>
+                        <Katakana type='sub' size={12}>
+                          {findSubjectCn(item.subjectName)}
+                        </Katakana>
+                      </Katakana.Provider>
+                    </View>
                   </Flex.Item>
 
                   <View style={styles.side}>

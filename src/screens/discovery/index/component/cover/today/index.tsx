@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 00:14:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-24 04:22:36
+ * @Last Modified time: 2026-08-16 07:44:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -70,8 +70,7 @@ function CoverToday({ data }: Props) {
           </Text>
           <View style={_.mt.xs} pointerEvents='none'>
             <Katakana.Provider
-              itemStyle={styles.itemStyle}
-              itemSecondStyle={styles.itemSecondStyle}
+              firstLineStyle={_.mt.sm}
               type='__plain__'
               size={_.device(10, 12)}
               numberOfLines={2}

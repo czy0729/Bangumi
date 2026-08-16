@@ -10,13 +10,29 @@ import { Katakana, Text } from '@components'
 import { Name } from '../../../base'
 import P3 from '../p3'
 
-function P({ image, p1Text, p1Url, p2Text, p3Text, p3Url, p4Text, userId, avatarSrc, onNavigate }) {
+import type { Props } from './types'
+
+function P({
+  image,
+  p1Text,
+  p1Url,
+  p2Text,
+  p3Text,
+  p3Url,
+  p4Text,
+  userId,
+  avatarSrc,
+  onNavigate
+}: Props) {
   // 是否渲染第一行
   const hasPosition = !!(p1Text || p2Text || p3Text?.length || p4Text)
   if (!hasPosition) return null
 
+  const url = String(p3Url?.[0] || '')
+  const isSubject = url.includes('/subject/') && !url.includes('/ep/')
+
   return (
-    <Katakana.Provider lineHeight={16} numberOfLines={8}>
+    <Katakana.Provider type={isSubject ? 'main' : 'title'} lineHeight={16} numberOfLines={8}>
       {!!p1Text && (
         <Name
           userId={userId}

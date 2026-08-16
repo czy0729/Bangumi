@@ -2,22 +2,13 @@
  * @Author: czy0729
  * @Date: 2026-08-15 07:37:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-15 07:40:24
+ * @Last Modified time: 2026-08-16 06:38:15
  */
 import React from 'react'
 import { getStorage, setStorage } from '@utils'
 import { baiduTranslate } from '@utils/fetch'
 import { loadJSON } from '@assets/json'
 import { getCache, getKatakanaText, matchKatakanas, translate, translateAll } from '../utils'
-
-jest.mock('@constants', () => ({ FROZEN_FN: () => {} }))
-jest.mock('@utils/fetch', () => ({ baiduTranslate: jest.fn(), fetchHTML: jest.fn() }))
-jest.mock('@utils', () => ({ getStorage: jest.fn(), setStorage: jest.fn() }))
-jest.mock('@utils/dev', () => ({
-  rc: (_parent, name) => String(name),
-  logger: { log: jest.fn(), success: jest.fn(), warn: jest.fn(), error: jest.fn(), yellow: jest.fn() }
-}))
-jest.mock('@assets/json', () => ({ loadJSON: jest.fn() }))
 
 const loadJSONMock = loadJSON as jest.Mock
 const getStorageMock = getStorage as jest.Mock
@@ -74,6 +65,11 @@ describe('getKatakanaText', () => {
 
   it('空内容返回空字符串', () => {
     expect(getKatakanaText(null)).toBe('')
+  })
+
+  it('函数组件内部文本无法提取 (撑高决策不依赖文本提取)', () => {
+    const Func = () => React.createElement('b', null, 'カトゥン')
+    expect(getKatakanaText(React.createElement(Func))).toBe('')
   })
 })
 

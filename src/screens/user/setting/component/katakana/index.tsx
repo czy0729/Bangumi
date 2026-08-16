@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-20 11:42:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-15 06:24:29
+ * @Last Modified time: 2026-08-16 07:53:15
  */
 import React, { useCallback, useRef } from 'react'
 import { observer } from 'mobx-react'
@@ -11,7 +11,6 @@ import { ItemSetting } from '@_'
 import { systemStore } from '@stores'
 import { r } from '@utils/dev'
 import { useBoolean } from '@utils/hooks'
-import { IOS } from '@constants'
 import { getShows } from '../../utils'
 import CnFirst from '../custom/cn-first'
 import AppKatakana from './app-katakana'
@@ -57,7 +56,7 @@ function Katakana({ navigation, filter }: WithNavigation<WithFilterProps>) {
         forwardRef={handleForwardRef}
         show={state}
         title={TEXTS.other.hd}
-        height={IOS || filter ? 480 : 760}
+        height={filter ? 480 : 760}
         onClose={setFalse}
       >
         {shows.origin && (

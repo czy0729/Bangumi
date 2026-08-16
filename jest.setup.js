@@ -18,9 +18,13 @@ jest.mock(__dirname + '/src/utils/dev', () => ({
   globalLog: jest.fn(),
   globalWarn: jest.fn(),
   rerender: jest.fn(),
+  rc: (_parent, name) => String(name),
   logger: {
+    log: jest.fn(),
+    success: jest.fn(),
     warn: jest.fn(),
-    error: jest.fn()
+    error: jest.fn(),
+    yellow: jest.fn()
   }
 }))
 
@@ -110,15 +114,22 @@ jest.mock(
       findLastIndex: () => -1,
       getPinYinFilterValue: () => '',
       x18: () => false,
-      trim: (str = '') => (str || '').trim()
+      trim: (str = '') => (str || '').trim(),
+      getStorage: jest.fn(),
+      setStorage: jest.fn()
     }
   },
   { virtual: true }
 )
 
-jest.mock('@utils/fetch', () => ({ fetchHTML: jest.fn() }), { virtual: true })
+jest.mock('@utils/fetch', () => ({
+  fetchHTML: jest.fn(),
+  baiduTranslate: jest.fn()
+}), { virtual: true })
 
 jest.mock('@utils/crypto', () => ({ default: { get: () => [] } }), { virtual: true })
+
+jest.mock('@assets/json', () => ({ loadJSON: jest.fn() }))
 
 jest.mock(
   '@stores',
@@ -167,6 +178,7 @@ jest.mock(
     })
     return {
       LIST_EMPTY: { list: [], pagination: { page: 0, pageTotal: 0 } },
+      FROZEN_FN: () => {},
       MODEL_BIG_EMOJI_SIZE: model('中'),
       MODEL_RAKUEN_AUTO_LOAD_IMAGE: model('0.2m'),
       MODEL_RAKUEN_NEW_FLOOR_STYLE: model('角标'),

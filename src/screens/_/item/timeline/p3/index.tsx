@@ -12,8 +12,10 @@ import { feedback, findSubjectCn, getCoverMedium, HTMLDecode } from '@utils'
 import { t } from '@utils/fetch'
 import { matchSubjectId } from '../utils'
 
-function P3({ image, p3Text, p3Url, onNavigate }) {
-  let nodes = null
+import type { Props } from './types'
+
+function P3({ image, p3Text, p3Url, onNavigate }: Props) {
+  let nodes: React.ReactElement[] | null = null
 
   if (p3Text.length > 1) {
     nodes = []
@@ -68,7 +70,7 @@ function P3({ image, p3Text, p3Url, onNavigate }) {
     const isSubject = !!String(!!p3Url.length && url).includes('/subject/') && !url.includes('/ep/')
     const subjectId = isSubject ? matchSubjectId(!!p3Url.length && url) : 0
 
-    nodes = (
+    nodes = [
       <Katakana
         type={isSubject ? 'main' : 'title'}
         lineHeight={16}
@@ -100,7 +102,7 @@ function P3({ image, p3Text, p3Url, onNavigate }) {
       >
         {isSubject ? findSubjectCn(!!p3Text.length && text, subjectId) : !!p3Text.length && text}
       </Katakana>
-    )
+    ]
   }
 
   return nodes

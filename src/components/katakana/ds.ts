@@ -33,6 +33,3 @@ export const TRANSLATE_INTERVAL = 6400
 
 /** 百度单次请求字符上限, 分批发送避免超限 */
 export const BAIDU_BATCH_LIMIT = 1800
-
-/** 截断行判定系数: 行顶超出 numberOfLines * 字号 * 该系数视为被截断 */
-export const NUMBER_OF_LINES_OVERFLOW_RATIO = 1.2

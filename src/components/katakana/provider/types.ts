@@ -4,12 +4,15 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-15 06:14:28
  */
-import type { Override, TextStyle } from '@types'
+import type { Override, TextStyle, ViewStyle } from '@types'
 import type { TextProps } from '../../text'
 
 export type Props = Override<
   TextProps,
   {
+    /** 容器样式: 罗马音仅出现在首行时生效 */
+    firstLineStyle?: ViewStyle
+
     /** 罗马音通用样式 */
     itemStyle?: TextStyle
 
@@ -33,6 +36,12 @@ export type Matches = {
 
   /** 所在行行顶 y 坐标 */
   top?: number
+
+  /** 单词在可见文本内是否不完整 (剩余部分被 numberOfLines 截断) */
+  truncated?: boolean
+
+  /** 所在行是否为 numberOfLines 截断的最后可见行 (该行之后的行均不可见) */
+  lastLine?: boolean
 
   /** 行内偏移比例换算出的水平位置 */
   left?: number

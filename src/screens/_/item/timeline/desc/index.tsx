@@ -13,9 +13,20 @@ import { appNavigate, feedback, findSubjectCn, getCoverMedium } from '@utils'
 import { t } from '@utils/fetch'
 import { styles } from './styles'
 
-function Desc({ navigation, subject, subjectId, image, comment, replyContent, replyCount, event }) {
+import type { Props } from './types'
+
+function Desc({
+  navigation,
+  subject,
+  subjectId,
+  image,
+  comment,
+  replyContent,
+  replyCount,
+  event
+}: Props) {
   const { id, data = {} } = event
-  const text = comment || replyContent || replyCount
+  const text = String(comment || replyContent || replyCount || '')
 
   return (
     <>

@@ -8,6 +8,7 @@ import { _ } from '@stores'
 import { EVENT, FROZEN_FN } from '@constants'
 
 import type { BlogId, EventType, Navigation, RakuenNewFloorStyleCn, TopicId, UserId } from '@types'
+import type { LikesUsers } from '../../../base/likes/types'
 import type { Props } from '../types'
 import type { memoStyles } from './styles'
 
@@ -47,7 +48,7 @@ export const DEFAULT_PROPS = {
   newFloorStyle: '角标' as RakuenNewFloorStyleCn,
   event: EVENT as EventType,
   onJumpTo: FROZEN_FN,
-  onLikesLongPress: FROZEN_FN,
+  onLikesLongPress: FROZEN_FN as (list: LikesUsers, emoji: number) => void,
   onShowFixedTextare: FROZEN_FN
 }
 

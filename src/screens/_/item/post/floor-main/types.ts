@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-03-20 05:33:41
  */
 import type { BlogId, Fn, Override, TopicId } from '@types'
+import type { LikesUsers } from '../../../base/likes/types'
 import type { Props as ComponentProps } from '../types'
 
 export type Props = Override<
@@ -35,7 +36,7 @@ export type Props = Override<
     topicId: TopicId | BlogId
     translate: string
     url: string
-    onLikesLongPress: Fn
+    onLikesLongPress: (list: LikesUsers, emoji: number) => void
     onShowFixedTextare: Fn
   }
 >

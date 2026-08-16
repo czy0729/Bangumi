@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-10 08:09:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 22:22:07
+ * @Last Modified time: 2026-08-16 07:33:32
  */
 import { _ } from '@stores'
 
@@ -31,11 +31,5 @@ export const memoStyles = _.memoStyles(() => ({
     bottom: _.md,
     left: _._wind - 2,
     opacity: 0.92
-  },
-  itemStyle: {
-    marginTop: -13
-  },
-  itemSecondStyle: {
-    marginTop: 2
   }
 }))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-05 22:10:46
+ * @Last Modified time: 2026-08-16 07:46:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -40,7 +40,7 @@ const HeaderTitle = memo(
     const el = (
       <>
         <View style={styles.title}>
-          <Katakana.Provider style={styles.itemStyle} {...textProps}>
+          <Katakana.Provider {...textProps}>
             <Katakana {...textProps}>
               {top}
               {!!titleLabel && (

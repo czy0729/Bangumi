@@ -2,38 +2,69 @@
  * @Author: czy0729
  * @Date: 2024-05-03 07:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-15 07:37:20
+ * @Last Modified time: 2026-08-16 09:00:00
  */
+import { getLineHeightCompensation, layoutLineItems } from './layout'
+import { charWidthSum, getCharWidth } from './measure'
+
 import type { TextLayoutLine } from 'react-native'
-import { NUMBER_OF_LINES_OVERFLOW_RATIO, ROMAJI_WIDTH_RATIO } from '../ds'
 import type { Matches } from './types'
+import type { MeasuredItem } from './layout'
 
-/**
- * 根据行坐标与字体度量推算每个片假名出现的位置
- *  - 垂直: 字体度量已占满整个行盒 (asc + desc = height), 罗马音槽位即 cap 顶上方
- *    (asc - cap) 的空间, 故罗马音底边锚定在该槽位处:
- *    top = capTop - ((asc - desc) + (asc - cap)) * size / baseSize
- *  - 行高收敛为 0 时 (仅首行有罗马音), 基底文字随 reported ascender 上移,
- *    需按行高差比例补偿罗马音上移, 满行高态自动为 0
- *  - 水平: 按行内字符占比换算片假名盒, 罗马音宽度按字符数估算;
- *    单匹配居中 (超出所在行边界则贴边), 多匹配重叠时在片假名跨距内均匀分布
- *  - 度量缺失时 (如 web) 回退为 line.y - size
- */
-export function getMeasuredMatches(
-  matches: Matches[],
-  lines: TextLayoutLine[],
-  size: number,
-  baseSize: number,
-  fullLineHeight: number = 0
-): Matches[] {
-  if (!matches.length || !lines.length) return []
+/** 匹配解析结果: 词在某行的位置 */
+type Res = {
+  match: Matches
+  lineIndex: number
+  offset: number
+  prefixLength: number
+}
 
-  const measured = matches
+/** 像素跨度 */
+type Span = { lineIndex: number; left: number; right: number }
+
+/** 所在行是否为 numberOfLines 截断的最后可见行 (该行之后的行均不可见) */
+function isLastLine(lineIndex: number, numberOfLines?: number): boolean {
+  return numberOfLines !== undefined && lineIndex + 1 >= numberOfLines
+}
+
+/** 词完整在行内时, 词尾超出可见范围视为被省略号截断 */
+function wholeWordTruncated(res: Res, lines: TextLayoutLine[], numberOfLines?: number): boolean {
+  return (
+    isLastLine(res.lineIndex, numberOfLines) &&
+    res.offset + res.prefixLength >= lines[res.lineIndex].text.length
+  )
+}
+
+/** 计算词在可见文本内是否不完整 */
+function resolveTruncated(res: Res, lines: TextLayoutLine[], numberOfLines?: number): boolean {
+  if (res.prefixLength === res.match.jp.length) return wholeWordTruncated(res, lines, numberOfLines)
+  const suffix = res.match.jp.slice(res.prefixLength)
+  const nextLine = lines[res.lineIndex + 1]
+  const nextVisible = !!(
+    nextLine && res.lineIndex + 1 < (numberOfLines ?? Number.POSITIVE_INFINITY)
+  )
+  return !!suffix && !(nextVisible && nextLine?.text.startsWith(suffix))
+}
+
+/** 位置对应的像素跨度 (按视觉宽度等比) */
+function pixelSpan(res: Res, lines: TextLayoutLine[]): Span {
+  const l = lines[res.lineIndex]
+  const total = charWidthSum(l.text, 0, l.text.length)
+  return {
+    lineIndex: res.lineIndex,
+    left: l.x + (total ? (charWidthSum(l.text, 0, res.offset) / total) * l.width : 0),
+    right:
+      l.x + (total ? (charWidthSum(l.text, 0, res.offset + res.prefixLength) / total) * l.width : 0)
+  }
+}
+
+/** 初次解析: 命中完整词所在行, 或跨行/截断时取最长前缀所在行 */
+function resolveInitialPositions(matches: Matches[], lines: TextLayoutLine[]): Res[] {
+  return matches
     .map(match => {
       let lineIndex = lines.findIndex(line => line.text.includes(match.jp))
       let prefixLength = match.jp.length
       if (lineIndex === -1) {
-        // 单词被换行截断: 找以最长前缀结尾的行 (单词起始行)
         for (let p = match.jp.length - 1; p > 0; p -= 1) {
           const prefix = match.jp.slice(0, p)
           lineIndex = lines.findIndex(line => line.text.endsWith(prefix))
@@ -44,39 +75,196 @@ export function getMeasuredMatches(
         }
         if (lineIndex === -1) return null
       }
-
-      const line = lines[lineIndex]
-      const jpOnLine = match.jp.slice(0, prefixLength)
-      const offset = line.text.indexOf(jpOnLine)
-      const length = line.text.length
-      const hasMetrics =
-        typeof line.ascender === 'number' &&
-        typeof line.capHeight === 'number' &&
-        typeof line.descender === 'number'
-      const top = hasMetrics
-        ? line.y +
-          line.ascender -
-          line.capHeight -
-          ((2 * line.ascender - line.descender - line.capHeight) * size) / baseSize -
-          getLineHeightCompensation(line, fullLineHeight)
-        : line.y - size
-      return {
-        ...match,
-        lineIndex,
-        top,
-        boxLeft: line.x + (length ? (offset / length) * line.width : 0),
-        boxWidth: (length ? prefixLength / length : 1) * line.width,
-        lineX: line.x,
-        lineWidth: line.width
-      } as Matches & { boxLeft: number; boxWidth: number; lineX: number }
+      const offset = lines[lineIndex].text.indexOf(match.jp.slice(0, prefixLength))
+      if (offset === -1) return null
+      return { match, lineIndex, offset, prefixLength } as Res
     })
-    .filter(
-      (item): item is Matches & { boxLeft: number; boxWidth: number; lineX: number } => !!item
+    .filter((res): res is Res => !!res)
+}
+
+/**
+ * 长词优先认领可见跨度, 避免子串命中同一位置 (如 'ムリ' 命中 'ムリムリ' 内部);
+ * 被认领的匹配重新解析到下一个未被占用的出现位置
+ */
+function resolveNonOverlapping(initial: Res[], lines: TextLayoutLine[]): Res[] {
+  const claimed: Span[] = []
+  const isCovered = (span: Span) =>
+    claimed.some(
+      c => c.lineIndex === span.lineIndex && c.left <= span.left && span.right <= c.right
     )
 
-  type MeasuredItem = Matches & { boxLeft: number; boxWidth: number; lineX: number }
+  /** 认领匹配的可见跨度, 跨行词连后缀所在行开头一并认领 */
+  const claim = (res: Res) => {
+    claimed.push(pixelSpan(res, lines))
+    const suffix = res.match.jp.slice(res.prefixLength)
+    if (!suffix) return
+    const nextLine = lines[res.lineIndex + 1]
+    if (nextLine?.text.startsWith(suffix)) {
+      const nextTotal = charWidthSum(nextLine.text, 0, nextLine.text.length)
+      claimed.push({
+        lineIndex: res.lineIndex + 1,
+        left: nextLine.x,
+        right:
+          nextLine.x +
+          (nextTotal
+            ? (charWidthSum(nextLine.text, 0, suffix.length) / nextTotal) * nextLine.width
+            : 0)
+      })
+    }
+  }
+
+  /** 词的全部出现位置 (行内完整 + 跨行前缀), 按阅读顺序 */
+  const findAllOccurrences = (match: Matches): Res[] => {
+    const all: Res[] = []
+    lines.forEach((l, lineIndex) => {
+      let idx = l.text.indexOf(match.jp)
+      while (idx !== -1) {
+        all.push({ match, lineIndex, offset: idx, prefixLength: match.jp.length })
+        idx = l.text.indexOf(match.jp, idx + 1)
+      }
+      for (let p = match.jp.length - 1; p > 0; p -= 1) {
+        const prefix = match.jp.slice(0, p)
+        const suffix = match.jp.slice(p)
+        if (l.text.endsWith(prefix) && lines[lineIndex + 1]?.text.startsWith(suffix)) {
+          all.push({ match, lineIndex, offset: l.text.length - p, prefixLength: p })
+          break
+        }
+      }
+    })
+    return all
+  }
+
+  const kept: Res[] = []
+  const ordered = [...initial].sort((a, b) => b.match.jp.length - a.match.jp.length)
+  ordered.forEach(res => {
+    if (!isCovered(pixelSpan(res, lines))) {
+      claim(res)
+      kept.push(res)
+      return
+    }
+    const next = findAllOccurrences(res.match).find(next => !isCovered(pixelSpan(next, lines)))
+    if (next) {
+      claim(next)
+      kept.push(next)
+    }
+  })
+  return kept
+}
+
+/** 每视觉宽度单位对应的像素: 用完整行校准, numberOfLines=1 无完整行时回退基底字号 */
+function computePixelPerUnit(
+  lines: TextLayoutLine[],
+  numberOfLines: number | undefined,
+  baseSize: number
+): number {
+  if (numberOfLines === undefined) return baseSize
+  const fullLine = lines.findIndex((l, i) => {
+    if (i + 1 >= numberOfLines) return false
+    const total = charWidthSum(l.text, 0, l.text.length)
+    return l.text.length > 0 && total > 0 && l.width > 0
+  })
+  if (fullLine === -1) return baseSize
+  return lines[fullLine].width / charWidthSum(lines[fullLine].text, 0, lines[fullLine].text.length)
+}
+
+/** 行在可见宽度内可容纳的字符数 (iOS 截断行 text 为完整剩余文本, 仅部分可见) */
+function visibleCharsOfLine(line: TextLayoutLine, pixelPerUnit: number): number {
+  let count = 0
+  let width = 0
+  for (let i = 0; i < line.text.length; i += 1) {
+    const next = width + getCharWidth(line.text[i])
+    if (next * pixelPerUnit > line.width) break
+    width = next
+    count += 1
+  }
+  return count
+}
+
+/**
+ * 测量单个匹配项
+ *  - 截断行的完整剩余文本中, 词起点超出可见宽度的部分完全不可见, 返回 null
+ *  - 垂直按字体度量锚定, 水平按视觉宽度等比换算片假名盒
+ */
+function measureItem(
+  res: Res,
+  lines: TextLayoutLine[],
+  size: number,
+  baseSize: number,
+  fullLineHeight: number,
+  numberOfLines: number | undefined,
+  pixelPerUnit: number
+): MeasuredItem | null {
+  const line = lines[res.lineIndex]
+  const total = charWidthSum(line.text, 0, line.text.length)
+  if (
+    isLastLine(res.lineIndex, numberOfLines) &&
+    res.offset >= visibleCharsOfLine(line, pixelPerUnit)
+  ) {
+    return null
+  }
+  const hasMetrics =
+    typeof line.ascender === 'number' &&
+    typeof line.capHeight === 'number' &&
+    typeof line.descender === 'number'
+  const top = hasMetrics
+    ? line.y +
+      line.ascender -
+      line.capHeight -
+      ((2 * line.ascender - line.descender - line.capHeight) * size) / baseSize -
+      getLineHeightCompensation(line, fullLineHeight)
+    : line.y - size
+  return {
+    ...res.match,
+    lineIndex: res.lineIndex,
+    truncated: resolveTruncated(res, lines, numberOfLines),
+    lastLine: isLastLine(res.lineIndex, numberOfLines),
+    top,
+    boxLeft: line.x + (total ? (charWidthSum(line.text, 0, res.offset) / total) * line.width : 0),
+    boxWidth: total
+      ? (charWidthSum(line.text, res.offset, res.offset + res.prefixLength) / total) * line.width
+      : 0,
+    lineX: line.x,
+    lineWidth: line.width
+  }
+}
+
+/**
+ * 根据行坐标与字体度量推算每个片假名出现的位置
+ *  - 垂直: 字体度量已占满整个行盒 (asc + desc = height), 罗马音槽位即 cap 顶上方
+ *    (asc - cap) 的空间, 故罗马音底边锚定在该槽位处:
+ *    top = capTop - ((asc - desc) + (asc - cap)) * size / baseSize
+ *  - 行高收敛为 0 时 (仅首行有罗马音), 基底文字随 reported ascender 上移,
+ *    需按行高差比例补偿罗马音上移, 满行高态自动为 0
+ *  - 水平: 按行内视觉宽度占比换算片假名盒, 罗马音宽度按字符数估算;
+ *    单匹配居中 (超出所在行边界则贴边), 多匹配重叠时在片假名跨距内均匀分布
+ *  - 度量缺失时 (如 web) 回退为 line.y - size
+ */
+export function getMeasuredMatches(
+  matches: Matches[],
+  lines: TextLayoutLine[],
+  size: number,
+  baseSize: number,
+  fullLineHeight: number = 0,
+  numberOfLines?: number
+): Matches[] {
+  if (!matches.length || !lines.length) return []
+
+  const initial = resolveInitialPositions(matches, lines)
+  const kept = resolveNonOverlapping(initial, lines)
+  const pixelPerUnit = computePixelPerUnit(lines, numberOfLines, baseSize)
+
   const groups = new Map<number, MeasuredItem[]>()
-  measured.forEach(item => {
+  kept.forEach(res => {
+    const item = measureItem(
+      res,
+      lines,
+      size,
+      baseSize,
+      fullLineHeight,
+      numberOfLines,
+      pixelPerUnit
+    )
+    if (!item) return
     const group = groups.get(item.lineIndex)
     if (group) group.push(item)
     else groups.set(item.lineIndex, [item])
@@ -94,72 +282,14 @@ export function getMeasuredMatches(
   return result
 }
 
-/** 估算罗马音宽度 */
-function getRomajiWidth(en: string, size: number) {
-  return en.length * size * ROMAJI_WIDTH_RATIO
-}
-
 /**
- * 行高收敛补偿
- *  - 满行高态: fullLineHeight === line.height, 补偿为 0
- *  - 收敛态 (仅首行有罗马音): 行盒变矮, RN 按 reported ascender 抬高基底文字,
- *    顶部被削去的行高 (fullLineHeight - line.height) 按 asc/height 比例分摊上移量,
- *    罗马音需同样上移才能贴合
+ * 判断某片段罗马音是否应渲染
+ *  - numberOfLines 截断时 onTextLayout 返回的 lines 仅含可见行,
+ *    行索引在可见行数内的都应渲染, 水平位置由 layoutLineItems 居中/贴边自适应
  */
-function getLineHeightCompensation(line: TextLayoutLine, fullLineHeight: number) {
-  const reduce = Math.max(0, fullLineHeight - line.height)
-  if (!reduce || !line.height) return 0
-  return (line.ascender / line.height) * reduce
-}
-
-/**
- * 行内罗马音水平布局
- *  - 单匹配: 居中, 超出所在行边界则贴边
- *  - 多匹配: 各自居中无重叠则保持; 有重叠则在片假名跨距内均匀分布 (space-between)
- */
-function layoutLineItems(
-  items: (Matches & { boxLeft: number; boxWidth: number; lineX: number })[],
-  size: number
-): number[] {
-  const frameLeft = items[0].lineX
-  const frameRight = items[0].lineX + items[0].lineWidth
-  const romajiWidth = (item: (typeof items)[number]) => getRomajiWidth(item.en, size)
-  const center = (item: (typeof items)[number]) =>
-    item.boxLeft + (item.boxWidth - romajiWidth(item)) / 2
-  const clamp = (left: number, width: number) =>
-    Math.max(frameLeft, Math.min(left, frameRight - width))
-
-  if (items.length === 1) return [clamp(center(items[0]), romajiWidth(items[0]))]
-
-  const centered = items.map(center)
-  const overlapped = centered.some(
-    (left, index) =>
-      index < items.length - 1 && left + romajiWidth(items[index]) > centered[index + 1]
-  )
-  if (!overlapped) return items.map((item, index) => clamp(centered[index], romajiWidth(item)))
-
-  const spanLeft = items[0].boxLeft
-  const spanRight = items[items.length - 1].boxLeft + items[items.length - 1].boxWidth
-  const total = items.reduce((sum, item) => sum + romajiWidth(item), 0)
-  const lefts: number[] = []
-  if (items.length === 2) {
-    lefts.push(spanLeft, spanRight - romajiWidth(items[1]))
-  } else {
-    const gap = (spanRight - spanLeft - total) / (items.length - 1)
-    let cursor = spanLeft
-    items.forEach(item => {
-      lefts.push(cursor)
-      cursor += romajiWidth(item) + gap
-    })
-  }
-  return lefts.map((left, index) => clamp(left, romajiWidth(items[index])))
-}
-
-/** 判断某片段罗马音是否应渲染 (numberOfLines 截断时, 超出可见范围的应过滤) */
-export function shouldRenderKatakana(item: Matches, size: number, numberOfLines?: number) {
-  if (numberOfLines === 1) return item.lineIndex === 0
-  if (!numberOfLines || item.lineIndex === 0) return true
-  return (item.top || 0) <= numberOfLines * size * NUMBER_OF_LINES_OVERFLOW_RATIO
+export function shouldRenderKatakana(item: Matches, _size: number, numberOfLines?: number) {
+  if (!numberOfLines) return true
+  return (item.lineIndex || 0) < numberOfLines
 }
 
 /** 判断是否需要撑高整段文字: 仅首行有罗马音时不需要 */

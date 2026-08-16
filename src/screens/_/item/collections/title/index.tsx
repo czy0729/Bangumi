@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-08 16:32:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 05:21:26
+ * @Last Modified time: 2026-08-16 08:07:36
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -53,7 +53,7 @@ function Title({ name, nameCn, filter, numberOfLines }) {
         </Katakana>
       </Katakana.Provider>
       {hasName && right !== left && (
-        <Katakana.Provider size={sizeBottom} lineHeight={13} bold numberOfLines={1}>
+        <Katakana.Provider type='sub' size={sizeBottom} lineHeight={13} bold numberOfLines={1}>
           <Katakana type='sub' size={sizeBottom} lineHeight={13} bold>
             {right}
           </Katakana>

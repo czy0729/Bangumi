@@ -29,7 +29,7 @@ export type { KatakanaProviderProps, KatakanaProps }
  *  - 富文本内文字支持
  */
 function KatakanaComponent({ children, ...props }: KatakanaProps) {
-  const { enabled, lineHeightIncrease, onKatakana } = useContext(KatakanaContext)
+  const { enabled, onKatakana } = useContext(KatakanaContext)
   const text = useMemo(() => getKatakanaText(children), [children])
   const isOn = enabled || systemStore.setting.katakana
 
@@ -37,11 +37,7 @@ function KatakanaComponent({ children, ...props }: KatakanaProps) {
 
   r(COMPONENT)
 
-  return (
-    <Text {...props} lineHeightIncrease={lineHeightIncrease}>
-      {children}
-    </Text>
-  )
+  return <Text {...props}>{children}</Text>
 }
 
 const Katakana = Object.assign(observer(KatakanaComponent), {

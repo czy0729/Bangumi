@@ -9,8 +9,8 @@ import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { systemStore } from '@stores'
 import { stl } from '@utils'
-import { SIZE_DEFAULT, SIZE_MIN, SIZE_SUBTRACT, LINE_HEIGHT_INCREASE } from '../ds'
-import { Text } from '../../text'
+import { LINE_HEIGHT_INCREASE, SIZE_DEFAULT, SIZE_MIN, SIZE_SUBTRACT } from '../ds'
+import { LineHeightIncreaseContext, Text } from '../../text'
 import { computedLineHeight } from '../../text/utils'
 import { KatakanaContext } from '../context'
 import { useKatakanaController } from './hooks'
@@ -26,7 +26,7 @@ export type { KatakanaProviderProps }
  *  - 无需额外逐字符测量层
  */
 export const KatakanaProvider = observer(
-  ({ active = false, children, itemStyle, itemSecondStyle, ...other }: KatakanaProviderProps) => {
+  ({ active = false, children, firstLineStyle, itemStyle, itemSecondStyle, ...other }: KatakanaProviderProps) => {
     const enabled = active || systemStore.setting.katakana
     const numberOfLines = other.numberOfLines
     const baseSize = other.size || SIZE_DEFAULT
@@ -35,14 +35,13 @@ export const KatakanaProvider = observer(
     const { measured, lineHeightIncrease, onKatakana, onTextLayout } = useKatakanaController(
       size,
       baseSize,
-      fullLineHeight
+      fullLineHeight,
+      numberOfLines
     )
     const increase = enabled ? lineHeightIncrease : 0
+    const hasOnlyFirstLineRomaji = measured.length > 0 && measured.every(item => (item.lineIndex || 0) === 0)
 
-    const contextValue = useMemo(
-      () => ({ enabled, lineHeightIncrease: increase, onKatakana }),
-      [enabled, increase, onKatakana]
-    )
+    const contextValue = useMemo(() => ({ enabled, onKatakana }), [enabled, onKatakana])
 
     /** 渲染悬浮的罗马音 */
     const renderKatakanas = () => {
@@ -65,7 +64,7 @@ export const KatakanaProvider = observer(
               itemStyle,
               !isLineFirst && itemSecondStyle
             )}
-            type={item.type}
+            type={other.type || item.type}
             size={size}
             lineHeight={size}
             numberOfLines={1}
@@ -83,11 +82,13 @@ export const KatakanaProvider = observer(
 
     return (
       <KatakanaContext.Provider value={contextValue}>
-        <View>
+        <View style={hasOnlyFirstLineRomaji ? firstLineStyle : undefined}>
           {renderKatakanas()}
-          <Text {...other} lineHeightIncrease={increase} onTextLayout={onTextLayout}>
-            {children}
-          </Text>
+          <LineHeightIncreaseContext.Provider value={increase}>
+            <Text {...other} onTextLayout={onTextLayout}>
+              {children}
+            </Text>
+          </LineHeightIncreaseContext.Provider>
         </View>
       </KatakanaContext.Provider>
     )

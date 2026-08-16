@@ -18,11 +18,16 @@ import type { Matches } from './types'
  *  - 仅首行有罗马音时无需撑高整段文字 (lineHeightIncrease 收敛为 0)
  * @param fullLineHeight 满行高态 (带 LINE_HEIGHT_INCREASE) 的行高, 用于行高收敛后的上移补偿
  */
-export function useKatakanaController(size: number, baseSize: number, fullLineHeight: number) {
+export function useKatakanaController(
+  size: number,
+  baseSize: number,
+  fullLineHeight: number,
+  numberOfLines?: number
+) {
   const [matches, setMatches] = useState<Matches[]>([])
   const [lines, setLines] = useState<TextLayoutLine[]>([])
   const linesRef = useRef('')
-  const [lineHeightIncrease, setLineHeightIncrease] = useState(LINE_HEIGHT_INCREASE)
+  const [lineHeightIncrease, setLineHeightIncrease] = useState(0)
 
   /** 收到匹配信号后, 记录片假名, 相同的只记录首个 */
   const onKatakana = useCallback(({ jp, en }: { jp: string; en: string }) => {
@@ -45,8 +50,8 @@ export function useKatakanaController(size: number, baseSize: number, fullLineHe
 
   /** 根据行坐标推算每个片假名出现的位置 */
   const measured = useMemo(
-    () => getMeasuredMatches(matches, lines, size, baseSize, fullLineHeight),
-    [matches, lines, size, baseSize, fullLineHeight]
+    () => getMeasuredMatches(matches, lines, size, baseSize, fullLineHeight, numberOfLines),
+    [matches, lines, size, baseSize, fullLineHeight, numberOfLines]
   )
 
   /** 测量完成后决定是否仍需要撑高行高 (仅首行有罗马音时收敛为 0) */

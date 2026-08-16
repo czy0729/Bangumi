@@ -9,17 +9,6 @@ import { getMeasuredMatches, shouldIncreaseLineHeight, shouldRenderKatakana } fr
 
 import type { TextLayoutLine } from 'react-native'
 
-jest.mock('@utils/dev', () => ({
-  rc: (_parent, name) => String(name),
-  logger: {
-    log: jest.fn(),
-    success: jest.fn(),
-    warn: jest.fn(),
-    error: jest.fn(),
-    yellow: jest.fn()
-  }
-}))
-
 /** 估算罗马音宽度 */
 const rw = (en: string, size: number) => en.length * size * ROMAJI_WIDTH_RATIO
 
@@ -118,11 +107,8 @@ describe('getMeasuredMatches', () => {
     ]
     const result = getMeasuredMatches([{ jp: 'ワンピース', en: 'One Piece' }], wrapped, 8, 14)[0]
     expect(result.lineIndex).toBe(0)
-    // 盒 [10+2/5*100, 3/5*100]
-    expect(result.left).toBeCloseTo(
-      10 + (2 / 5) * 100 + ((3 / 5) * 100 - rw('One Piece', 8)) / 2,
-      5
-    )
+    // 后缀 'ース' 不在次行开头, 单词不完整, 靠右对齐到前缀末尾 (盒 [10+2/5*100, 3/5*100] 右界)
+    expect(result.left).toBeCloseTo(10 + 100 - rw('One Piece', 8), 5)
     expect(result.width).toBeCloseTo((3 / 5) * 100, 5)
   })
 
@@ -181,6 +167,163 @@ describe('getMeasuredMatches', () => {
       14
     )[0]
     expect(result).toMatchObject({ jp: 'アニメ', en: 'Anime', type: 'title', bold: true })
+  })
+
+  it('三行标题第三行行尾被 numberOfLines 截断时仍能测量并渲染', () => {
+    // 标题三行, 第三行 (lineIndex=2) 行尾片假名 'ワンピース' 被截断为可见前缀 'ワンピ'
+    const truncated = [
+      makeLine({ x: 10, y: 20, width: 100, text: 'アニメとゲーム' }),
+      makeLine({ x: 10, y: 40, width: 100, text: '音楽を' }),
+      makeLine({ x: 10, y: 60, width: 100, text: '毎日のワンピ' })
+    ]
+    const result = getMeasuredMatches([{ jp: 'ワンピース', en: 'One Piece' }], truncated, 8, 14)[0]
+    expect(result.lineIndex).toBe(2)
+    // 后缀 'ース' 无下一行承接, 单词不完整, 靠右对齐到第三行行尾
+    expect(result.left).toBeCloseTo(10 + 100 - rw('One Piece', 8), 5)
+    expect(shouldRenderKatakana(result, 8, 3)).toBe(true)
+  })
+
+  it('后缀跨到被 numberOfLines 截断的不可见行时靠右对齐', () => {
+    // 标题 3 行, 但 onTextLayout 返回 4 行 (第 4 行实际不可见), 'パーティーメンバー' 后缀 'ー' 落第 4 行开头
+    const truncated = [
+      makeLine({ x: 10, y: 20, width: 100, text: '信じていた仲間達にダンジョン奥地で殺さ' }),
+      makeLine({ x: 10, y: 40, width: 100, text: 'れかけたがギフト『無限ガチャ』でレベル9999' }),
+      makeLine({ x: 10, y: 60, width: 100, text: 'の仲間達を手に入れて元パーティーメンバ' }),
+      makeLine({ x: 10, y: 80, width: 100, text: 'ーと世界に復讐＆『ざまぁ！』します！' })
+    ]
+    const result = getMeasuredMatches(
+      [{ jp: 'パーティーメンバー', en: 'Member party' }],
+      truncated,
+      8,
+      14,
+      0,
+      3
+    )[0]
+    expect(result.lineIndex).toBe(2)
+    expect(result.truncated).toBe(true)
+    expect(result.left).toBeCloseTo(10 + 100 - rw('Member party', 8), 5)
+  })
+
+  it('词完整出现在被 numberOfLines 截断的最后可见行行尾时靠右对齐', () => {
+    // 3 行 lines 即可见行 (iOS 截断行 text 为完整文本), 词 'パーティーメンバー' 完整在第三行行尾
+    const truncated = [
+      makeLine({ x: 10, y: 20, width: 100, text: '信じていた仲間達にダンジョン奥地で殺さ' }),
+      makeLine({ x: 10, y: 40, width: 100, text: 'れかけたがギフト『無限ガチャ』でレベル9999' }),
+      makeLine({ x: 10, y: 60, width: 100, text: 'の仲間達を手に入れて元パーティーメンバー' })
+    ]
+    const result = getMeasuredMatches(
+      [{ jp: 'パーティーメンバー', en: 'Member party' }],
+      truncated,
+      8,
+      14,
+      0,
+      3
+    )[0]
+    expect(result.lineIndex).toBe(2)
+    expect(result.truncated).toBe(true)
+    expect(result.left).toBeCloseTo(10 + 100 - rw('Member party', 8), 5)
+  })
+
+  it('词完整在最后可见行行尾且 lines 含不可见后续行时靠右对齐', () => {
+    // onTextLayout 返回 4 行 (第 4 行不可见), 第三行 text 为完整文本含完整词
+    const truncated = [
+      makeLine({ x: 10, y: 20, width: 100, text: '信じていた仲間達にダンジョン奥地で殺さ' }),
+      makeLine({ x: 10, y: 40, width: 100, text: 'れかけたがギフト『無限ガチャ』でレベル9999' }),
+      makeLine({ x: 10, y: 60, width: 100, text: 'の仲間達を手に入れて元パーティーメンバー' }),
+      makeLine({ x: 10, y: 80, width: 100, text: 'ーと世界に復讐＆『ざまぁ！』します！' })
+    ]
+    const result = getMeasuredMatches(
+      [{ jp: 'パーティーメンバー', en: 'Member party' }],
+      truncated,
+      8,
+      14,
+      0,
+      3
+    )[0]
+    expect(result.lineIndex).toBe(2)
+    expect(result.truncated).toBe(true)
+    expect(result.left).toBeCloseTo(10 + 100 - rw('Member party', 8), 5)
+  })
+
+  it('词完整在最后可见行行中 (词后内容被省略号覆盖) 时靠右对齐到行尾', () => {
+    // iOS 截断行 text 为完整剩余文本, 词完整但词尾之后内容实际被省略号覆盖,
+    // 视觉上词在行尾, 靠右对齐到可见行尾
+    const truncated = [
+      makeLine({ x: 10, y: 20, width: 100, text: '信じていた仲間達にダンジョン奥地で殺され' }),
+      makeLine({ x: 10, y: 40, width: 100, text: 'かけたがギフト『無限ガチャ』でレベル 9999' }),
+      makeLine({
+        x: 10,
+        y: 60,
+        width: 100,
+        text: 'の仲間達を手に入れて元パーティーメンバーと世界に復讐＆『ざまぁ！』します！'
+      })
+    ]
+    const result = getMeasuredMatches(
+      [{ jp: 'パーティーメンバー', en: 'Member party' }],
+      truncated,
+      8,
+      14,
+      0,
+      3
+    )[0]
+    expect(result.lineIndex).toBe(2)
+    expect(result.truncated).toBe(false)
+    expect(result.lastLine).toBe(true)
+    expect(result.left).toBeCloseTo(10 + 100 - rw('Member party', 8), 5)
+  })
+
+  it('numberOfLines=1 时完整剩余文本中超出可见宽度的词不渲染', () => {
+    // iOS 截断行 text 为完整剩余文本 (含多行内容), 但仅首行可见; 词起点超出可见宽度的部分不可见
+    const single = makeLine({ x: 10, y: 20, width: 100, text: 'アニメとゲームワンピースナルト' })
+    const result = getMeasuredMatches(
+      [
+        { jp: 'アニメ', en: 'Anime' },
+        { jp: 'ゲーム', en: 'Game' },
+        { jp: 'ワンピース', en: 'One Piece' },
+        { jp: 'ナルト', en: 'Naruto' }
+      ],
+      [single],
+      8,
+      14,
+      0,
+      1
+    )
+    // 可见宽度约 7 字 (100 / 14), 仅行首的 アニメ/ゲーム 保留
+    expect(result.map(item => item.jp)).toEqual(['アニメ', 'ゲーム'])
+  })
+
+  it('numberOfLines=1 时文本未超行则全部渲染', () => {
+    const single = makeLine({ x: 10, y: 20, width: 100, text: 'アニメ' })
+    const result = getMeasuredMatches([{ jp: 'アニメ', en: 'Anime' }], [single], 8, 14, 0, 1)
+    expect(result.map(item => item.jp)).toEqual(['アニメ'])
+  })
+
+  it('子串命中同一跨度时被认领, 重新解析到下一个未占用位置', () => {
+    // 'ムリムリ' 跨行 (首行行尾 'ムリ' + 次行行头 'ムリ'),
+    // 'ムリ' 初次命中首行同一跨度被认领, 重新解析到次行 'ムリじゃなかった' 里的 'ムリ'
+    const lines = [
+      makeLine({ x: 10, y: 20, width: 100, text: 'わたしが恋人になれるわけないじゃん、ムリ' }),
+      makeLine({ x: 10, y: 40, width: 100, text: 'ムリ！（※ムリじゃなかった!?）' })
+    ]
+    const result = getMeasuredMatches(
+      [
+        { jp: 'ムリムリ', en: 'Perilla' },
+        { jp: 'ムリ', en: 'Muli' }
+      ],
+      lines,
+      8,
+      14
+    )
+    expect(result).toHaveLength(2)
+    expect(result[0]).toMatchObject({ jp: 'ムリムリ', lineIndex: 0 })
+    // 盒 [100, 110], 罗马音宽 30.8 超盒, 居中后贴行右边界
+    expect(result[0].left).toBeCloseTo(10 + 100 - rw('Perilla', 8), 5)
+    expect(result[1]).toMatchObject({ jp: 'ムリ', lineIndex: 1 })
+    // 行视觉宽度 14 (ゃ/っ/!? 计 0.5), 盒 [10+5/14*100, +2/14*100], 罗马音宽 17.6, 居中
+    expect(result[1].left).toBeCloseTo(
+      10 + (5 / 14) * 100 + ((2 / 14) * 100 - rw('Muli', 8)) / 2,
+      5
+    )
   })
 })
 
@@ -296,13 +439,12 @@ describe('shouldRenderKatakana', () => {
     expect(shouldRenderKatakana({ ...base, lineIndex: 0, top: 0 }, 14, 3)).toBe(true)
   })
 
-  it('非首行在截断阈值内渲染', () => {
-    // 阈值 = 3 * 14 * 1.2 = 50.4, top=40 在范围内
-    expect(shouldRenderKatakana({ ...base, lineIndex: 1, top: 40 }, 14, 3)).toBe(true)
+  it('被 numberOfLines 截断的可见行仍渲染', () => {
+    // 第三行 (lineIndex=2) 是可见的最后一行, 行尾片假名被截断也应显示罗马音
+    expect(shouldRenderKatakana({ ...base, lineIndex: 2, top: 54 }, 14, 3)).toBe(true)
   })
 
-  it('非首行超出截断阈值不渲染', () => {
-    // top=60 > 50.4, 视为被 numberOfLines 截断
-    expect(shouldRenderKatakana({ ...base, lineIndex: 1, top: 60 }, 14, 3)).toBe(false)
+  it('行索引超出可见行数不渲染', () => {
+    expect(shouldRenderKatakana({ ...base, lineIndex: 3, top: 60 }, 14, 3)).toBe(false)
   })
 })

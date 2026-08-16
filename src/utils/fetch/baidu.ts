@@ -83,7 +83,8 @@ export async function baiduTranslate(query: string, to = 'zh') {
         from: 'auto',
         to,
         sign
-      })}`
+      })}`,
+      showLog: false
     })
 
     const { trans_result } = JSON.parse(_response)
