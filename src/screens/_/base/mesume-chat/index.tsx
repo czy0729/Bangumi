@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2025-02-02 17:26:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-17 01:22:56
+ * @Last Modified time: 2026-08-17 06:04:09
  */
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { observer } from 'mobx-react'
@@ -12,6 +12,7 @@ import { Accordion, Flex, Mask, Text } from '@components'
 import { _ } from '@stores'
 import { scheduleOnRN, stl } from '@utils'
 import { r } from '@utils/dev'
+import { useBackHandler } from '@utils/hooks'
 import AvatarPanel from './avatar-panel'
 import { useMesumeChat } from './hooks'
 import ToolBar from './tool-bar'
@@ -44,6 +45,17 @@ export const MesumeChat = observer(
     })
 
     const styles = memoStyles()
+
+    /** 安卓退后: 展开时先收起, 收起后放行默认退后行为 */
+    const handleBackAndroid = useCallback(() => {
+      if (show) {
+        onClose()
+        return true
+      }
+
+      return false
+    }, [onClose, show])
+    useBackHandler(handleBackAndroid)
 
     const [maskVisible, setMaskVisible] = useState(show)
     const maskOpacity = useSharedValue(show ? 1 : 0)
