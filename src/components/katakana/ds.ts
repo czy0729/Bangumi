@@ -25,6 +25,9 @@ export const SIZE_DEFAULT = 14
 /** 罗马音相对基底文本减去的字号 */
 export const SIZE_SUBTRACT = 6
 
+/** 罗马音底部压入假名顶的深度 (Android 锚定行盒顶用) */
+export const ROMAJI_OVERLAP = 3
+
 /** 罗马音字符平均宽度估算系数 (水平布局重叠判定/贴边用) */
 export const ROMAJI_WIDTH_RATIO = 0.55
 

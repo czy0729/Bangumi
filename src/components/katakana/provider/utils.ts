@@ -4,7 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-16 09:00:00
  */
-import { getLineHeightCompensation, layoutLineItems } from './layout'
+import { layoutLineItems } from './layout'
+import { computeRomajiTop } from './anchor'
 import { charWidthSum, getCharWidth } from './measure'
 
 import type { TextLayoutLine } from 'react-native'
@@ -207,11 +208,7 @@ function measureItem(
     typeof line.capHeight === 'number' &&
     typeof line.descender === 'number'
   const top = hasMetrics
-    ? line.y +
-      line.ascender -
-      line.capHeight -
-      ((2 * line.ascender - line.descender - line.capHeight) * size) / baseSize -
-      getLineHeightCompensation(line, fullLineHeight)
+    ? computeRomajiTop(line, size, baseSize, fullLineHeight)
     : line.y - size
   const boxLeft = line.x + (total ? (charWidthSum(line.text, 0, res.offset) / total) * line.width : 0)
   const boxWidth = total
@@ -234,9 +231,8 @@ function measureItem(
 
 /**
  * 根据行坐标与字体度量推算每个片假名出现的位置
- *  - 垂直: 字体度量已占满整个行盒 (asc + desc = height), 罗马音槽位即 cap 顶上方
- *    (asc - cap) 的空间, 故罗马音底边锚定在该槽位处:
- *    top = capTop - ((asc - desc) + (asc - cap)) * size / baseSize
+ *  - 垂直: 罗马音垂直锚定按平台拆分 (computeRomajiTop), iOS 按字体度量锚定槽位,
+ *    Android 锚定稳定的行盒顶 line.y, 避免逐行度量漂移导致罗马音被遮盖
  *  - 行高收敛为 0 时 (仅首行有罗马音), 基底文字随 reported ascender 上移,
  *    需按行高差比例补偿罗马音上移, 满行高态自动为 0
  *  - 水平: 按行内视觉宽度占比换算片假名盒, 罗马音宽度按字符数估算;

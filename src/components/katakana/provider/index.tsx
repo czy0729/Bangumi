@@ -8,6 +8,7 @@ import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { systemStore } from '@stores'
+import { IOS } from '@constants'
 import { stl } from '@utils'
 import { LINE_HEIGHT_INCREASE, SIZE_DEFAULT, SIZE_MIN, SIZE_SUBTRACT } from '../ds'
 import { LineHeightIncreaseContext, Text } from '../../text'
@@ -80,15 +81,18 @@ export const KatakanaProvider = observer(
       return <Text {...other}>{children}</Text>
     }
 
+    const katakanas = renderKatakanas()
+
     return (
       <KatakanaContext.Provider value={contextValue}>
         <View style={hasOnlyFirstLineRomaji ? firstLineStyle : undefined}>
-          {renderKatakanas()}
+          {IOS ? katakanas : null}
           <LineHeightIncreaseContext.Provider value={increase}>
             <Text {...other} onTextLayout={onTextLayout}>
               {children}
             </Text>
           </LineHeightIncreaseContext.Provider>
+          {!IOS ? katakanas : null}
         </View>
       </KatakanaContext.Provider>
     )
