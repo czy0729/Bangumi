@@ -14,6 +14,8 @@ export type MeasuredItem = Matches & {
   boxLeft: number
   boxWidth: number
   lineX: number
+  /** 该行是否为 numberOfLines 截断行 (行内存在不可见内容) */
+  lineTruncated: boolean
 }
 
 /**
@@ -33,7 +35,7 @@ export function getLineHeightCompensation(line: TextLayoutLine, fullLineHeight: 
  * 行内罗马音水平布局
  *  - 完整词: 居中, 超出所在行边界则贴边
  *  - 被截断的词: 靠右对齐到可见前缀末尾
- *  - 最后可见行的最后一个词: 靠右对齐到行尾 (iOS 截断行 text 为完整剩余文本,
+ *  - 最后可见行中词尾超出可见宽度的词: 靠右对齐到行尾 (iOS 截断行 text 为完整剩余文本,
  *    词尾之后的内容实际已被省略号覆盖, 视觉上词在行尾)
  *  - 多匹配: 各自居中无重叠则保持; 有重叠则在片假名跨距内均匀分布 (space-between)
  */
@@ -44,7 +46,7 @@ export function layoutLineItems(items: MeasuredItem[], size: number): number[] {
   const clamp = (left: number, width: number) =>
     Math.max(frameLeft, Math.min(left, frameRight - width))
   const place = (item: MeasuredItem, index: number, arr: MeasuredItem[]) => {
-    if (item.lastLine && index === arr.length - 1) {
+    if (item.lineTruncated && index === arr.length - 1) {
       return clamp(frameRight - romajiWidth(item), romajiWidth(item))
     }
     if (item.truncated) {
@@ -76,7 +78,7 @@ export function layoutLineItems(items: MeasuredItem[], size: number): number[] {
       cursor += romajiWidth(item) + gap
     })
   }
-  if (items[items.length - 1].lastLine) {
+  if (items[items.length - 1].lineTruncated) {
     lefts[items.length - 1] = frameRight - romajiWidth(items[items.length - 1])
   }
   return lefts.map((left, index) => clamp(left, romajiWidth(items[index])))

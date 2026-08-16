@@ -26,11 +26,9 @@ export const Mask = observer(({ style, linear, onPress }: MaskProps) => {
   return (
     <Component id='component-mask'>
       {linear ? (
-        <LinearGradient
-          style={stl(styles.linear, style)}
-          colors={_.select(LIGHT_THEME, DARK_THEME)}
-          pointerEvents='none'
-        />
+        <Animated.View style={stl(styles.linear, style)} pointerEvents='none'>
+          <LinearGradient style={styles.linearInner} colors={_.select(LIGHT_THEME, DARK_THEME)} />
+        </Animated.View>
       ) : (
         <Animated.View style={stl(styles.mask, style)} pointerEvents='none' />
       )}

@@ -32,12 +32,17 @@ const SMALL_KANA = new Set([
   'ヮ'
 ])
 
+/** 半角空格在 CJK 行内的视觉宽度占比 (实测明显窄于半角, 偏大会使空格后的罗马音整体偏左) */
+const SPACE_WIDTH = 0.25
+
 /**
  * 单字符视觉宽度
  *  - 全宽 (汉字/普通假名/全角符号/长音符) 计 1
  *  - 半宽 (ASCII/半角片假名/小假名/中点) 计 0.5
+ *  - 半角空格/不换行空格 计 SPACE_WIDTH
  */
 export function getCharWidth(ch: string): number {
+  if (ch === ' ' || ch === '\u00A0') return SPACE_WIDTH
   const code = ch.charCodeAt(0)
   if (code < 0x80) return 0.5
   if (code >= 0xff61 && code <= 0xff9f) return 0.5

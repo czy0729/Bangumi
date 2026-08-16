@@ -2,9 +2,16 @@
  * @Author: czy0729
  * @Date: 2025-02-16 06:30:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-16 06:40:59
+ * @Last Modified time: 2026-08-16 10:00:00
  */
 import { _ } from '@stores'
+import { rc } from '@utils/dev'
+import { COMPONENT as PARENT } from '../ds'
+
+export const COMPONENT = rc(PARENT, 'MesumeChat')
+
+/** 蒙层淡入淡出时长 */
+export const ANIMATED_DURATION = 320
 
 export const MUSUME_CONFIG = {
   bangumi: {
@@ -24,4 +31,4 @@ export const MUSUME_CONFIG = {
   }
 } as const
 
-export const MUSUME_DATA = Object.keys(MUSUME_CONFIG)
+export const MUSUME_DATA = Object.keys(MUSUME_CONFIG) as (keyof typeof MUSUME_CONFIG)[]

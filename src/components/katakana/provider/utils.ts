@@ -213,16 +213,20 @@ function measureItem(
       ((2 * line.ascender - line.descender - line.capHeight) * size) / baseSize -
       getLineHeightCompensation(line, fullLineHeight)
     : line.y - size
+  const boxLeft = line.x + (total ? (charWidthSum(line.text, 0, res.offset) / total) * line.width : 0)
+  const boxWidth = total
+    ? (charWidthSum(line.text, res.offset, res.offset + res.prefixLength) / total) * line.width
+    : 0
+  const lastLine = isLastLine(res.lineIndex, numberOfLines)
   return {
     ...res.match,
     lineIndex: res.lineIndex,
     truncated: resolveTruncated(res, lines, numberOfLines),
-    lastLine: isLastLine(res.lineIndex, numberOfLines),
+    lastLine,
+    lineTruncated: lastLine && visibleCharsOfLine(line, pixelPerUnit) < line.text.length,
     top,
-    boxLeft: line.x + (total ? (charWidthSum(line.text, 0, res.offset) / total) * line.width : 0),
-    boxWidth: total
-      ? (charWidthSum(line.text, res.offset, res.offset + res.prefixLength) / total) * line.width
-      : 0,
+    boxLeft,
+    boxWidth,
     lineX: line.x,
     lineWidth: line.width
   }

@@ -20,6 +20,9 @@ export const styles = _.create({
     bottom: 0,
     left: 0
   },
+  linearInner: {
+    flex: 1
+  },
   press: {
     position: 'absolute',
     zIndex: 3,

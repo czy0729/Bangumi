@@ -298,6 +298,14 @@ describe('getMeasuredMatches', () => {
     expect(result.map(item => item.jp)).toEqual(['アニメ'])
   })
 
+  it('numberOfLines=1 未截断时单词居中于片假名盒而非贴行尾', () => {
+    // 修复: 仅行被截断 (存在不可见内容) 时最后词才贴行尾, 未截断短行单词应居中
+    const single = makeLine({ x: 10, y: 20, width: 100, text: 'ランス10' })
+    const result = getMeasuredMatches([{ jp: 'ランス', en: 'Lance' }], [single], 8, 14, 0, 1)[0]
+    // 盒 [10, 10+3/4*100], Lance 居中于盒
+    expect(result.left).toBeCloseTo(10 + ((3 / 4) * 100 - rw('Lance', 8)) / 2, 5)
+  })
+
   it('子串命中同一跨度时被认领, 重新解析到下一个未占用位置', () => {
     // 'ムリムリ' 跨行 (首行行尾 'ムリ' + 次行行头 'ムリ'),
     // 'ムリ' 初次命中首行同一跨度被认领, 重新解析到次行 'ムリじゃなかった' 里的 'ムリ'
