@@ -7,7 +7,6 @@
 export { HoldMenuProvider, HoldItem } from './react-native-hold-menu'
 export { RNImageViewer } from './react-native-image-zoom-viewer'
 export { RNRenderHTML, rendererA } from './react-native-render-html'
-export { SceneMap, TabBar, TabView } from './react-native-tab-view'
 
 export { default as Icons } from './vector-icons/AntDesign'
 export { default as Ionicons } from './vector-icons/Ionicons'

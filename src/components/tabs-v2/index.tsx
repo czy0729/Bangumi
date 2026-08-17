@@ -6,18 +6,16 @@
  */
 import React, { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
-import { SceneMap, TabBar, TabView } from '@components/@'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
 import { Component } from '../component'
 import { Flex } from '../flex'
+import { SceneMap, TabBar, TabView } from '../tab-view'
 import { Text } from '../text'
 import { ANDROID_RIPPLE, COMPONENT } from './ds'
 import { memoStyles, W_INDICATOR } from './styles'
-
-export { TabView, TabBar, SceneMap }
 
 import type { Props as TabsV2Props, Route } from './types'
 export type { TabsV2Props }

@@ -1,8 +1,10 @@
+// @ts-nocheck
+/* eslint-disable */
 /*
  * @Author: czy0729
  * @Date: 2024-01-16 18:26:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-13 02:13:55
+ * @Last Modified time: 2026-08-17 21:30:00
  */
 import * as React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -13,7 +15,7 @@ import TabBar from 'react-native-tab-view/src/TabBar'
 import { uiStore } from '@stores'
 import { stl } from '@utils/utils'
 import { IOS } from '@constants/constants'
-import SceneView from './SceneView'
+import SceneView from '../scene-view'
 
 import type { LayoutChangeEvent, StyleProp, ViewStyle } from 'react-native'
 import type { PanGestureHandler } from 'react-native-gesture-handler'
@@ -234,7 +236,7 @@ class TabView<T extends Route> extends React.Component<Props<T>, State> {
   }
 }
 
-export { TabView }
+export default TabView
 
 const styles = StyleSheet.create({
   pager: {

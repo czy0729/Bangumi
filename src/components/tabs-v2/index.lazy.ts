@@ -7,6 +7,6 @@
 import { lazy } from 'react'
 
 export const TabsV2 = lazy(() => import('./index'))
-export { SceneMap, TabBar, TabView } from '@components/@'
+export { SceneMap, TabBar, TabView } from '../tab-view'
 
 export type { Props as TabsV2Props } from './types'

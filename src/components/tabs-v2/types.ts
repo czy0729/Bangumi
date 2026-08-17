@@ -60,4 +60,7 @@ export type Props<T extends Route> = WithViewStyles<{
 
   /** Tab 切换回调 */
   onChange?: (index: number) => void
+
+  /** 手势方向判定阈值, 竖向主导需 |dy| > ratio * |dx|。大于 1 时水平滑动更跟手, 默认 1.5 */
+  directionLockRatio?: number
 }>

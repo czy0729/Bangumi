@@ -1,0 +1,171 @@
+diff --git a/node_modules/react-native-pager-view/android/src/fabric/java/com/reactnativepagerview/PagerViewViewManager.kt b/node_modules/react-native-pager-view/android/src/fabric/java/com/reactnativepagerview/PagerViewViewManager.kt
+index f6a284b..5afa45a 100644
+--- a/node_modules/react-native-pager-view/android/src/fabric/java/com/reactnativepagerview/PagerViewViewManager.kt
++++ b/node_modules/react-native-pager-view/android/src/fabric/java/com/reactnativepagerview/PagerViewViewManager.kt
+@@ -76,6 +76,7 @@ class PagerViewViewManager : ViewGroupManager<NestedScrollableHost>(), RNCViewPa
+             )
+         }
+         host.addView(vp)
++        DirectionAwarePagerHelper.attach(vp)
+         return host
+     }
+ 
+@@ -154,6 +155,13 @@ class PagerViewViewManager : ViewGroupManager<NestedScrollableHost>(), RNCViewPa
+         }
+     }
+ 
++    @ReactProp(name = "directionLockRatio", defaultFloat = 1.5f)
++    fun setDirectionLockRatio(view: NestedScrollableHost?, value: Float) {
++        if (view != null) {
++            PagerViewViewManagerImpl.setDirectionLockRatio(view, value)
++        }
++    }
++
+     @ReactProp(name = "overdrag")
+     override fun setOverdrag(view: NestedScrollableHost?, value: Boolean) {
+         return
+diff --git a/node_modules/react-native-pager-view/android/src/main/java/com/reactnativepagerview/DirectionAwarePagerHelper.kt b/node_modules/react-native-pager-view/android/src/main/java/com/reactnativepagerview/DirectionAwarePagerHelper.kt
+new file mode 100644
+index 0000000..2029bf1
+--- /dev/null
++++ b/node_modules/react-native-pager-view/android/src/main/java/com/reactnativepagerview/DirectionAwarePagerHelper.kt
+@@ -0,0 +1,63 @@
++package com.reactnativepagerview
++
++import android.view.MotionEvent
++import android.view.ViewConfiguration
++import androidx.recyclerview.widget.RecyclerView
++import androidx.viewpager2.widget.ViewPager2
++import kotlin.math.abs
++
++/**
++ * 修复横向 ViewPager2 内嵌垂直滚动列表时, 竖直滑动被 pager 抢走的问题。
++ *
++ * 根因: RecyclerView 拦截手势只判断本方向单轴位移是否超过 touchSlop,
++ * 不判断手势整体方向。横向 pager 只要 |dx| > touchSlop 就会抢走手势,
++ * 即使用户主要是在垂直滑动 (手指稍有横向漂移即触发, 列表滑到底时尤其明显)。
++ *
++ * 修复: 记录手势起点, 第一次超过 touchSlop 时判定主导方向。
++ * 竖向主导时通过 requestDisallowInterceptTouchEvent 让 pager 不再拦截后续事件,
++ * 事件直达子列表, 不会锁死手势。
++ */
++object DirectionAwarePagerHelper {
++  fun attach(viewPager: ViewPager2) {
++    if (viewPager.orientation != ViewPager2.ORIENTATION_HORIZONTAL) return
++    val recycler = viewPager.getChildAt(0) as RecyclerView
++    val touchSlop = ViewConfiguration.get(viewPager.context).scaledTouchSlop
++    var startX = 0f
++    var startY = 0f
++    var decided = false
++
++    recycler.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
++      override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
++        when (e.actionMasked) {
++          MotionEvent.ACTION_DOWN -> {
++            startX = e.x
++            startY = e.y
++            decided = false
++          }
++          MotionEvent.ACTION_MOVE -> {
++            if (!decided) {
++              val dx = e.x - startX
++              val dy = e.y - startY
++              if (abs(dx) > touchSlop || abs(dy) > touchSlop) {
++                decided = true
++                // 竖向主导时设置 disallow 标志, pager 从下一个 move 起不再拦截,
++                // 事件直接交给子列表; UP/CANCEL 时系统自动清除该标志。
++                // directionLockRatio: 判定方向的比例阈值, 竖向主导需 |dy| > ratio * |dx|。
++                // ratio > 1 时水平滑动更跟手, 轻微的纵向漂移不会误锁。
++                val ratio = (viewPager.parent as? NestedScrollableHost)?.directionLockRatio ?: 1.5f
++                if (abs(dy) > ratio * abs(dx)) {
++                  rv.requestDisallowInterceptTouchEvent(true)
++                }
++              }
++            }
++          }
++        }
++        return false
++      }
++
++      override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {}
++
++      override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {}
++    })
++  }
++}
+\ No newline at end of file
+diff --git a/node_modules/react-native-pager-view/android/src/main/java/com/reactnativepagerview/NestedScrollableHost.kt b/node_modules/react-native-pager-view/android/src/main/java/com/reactnativepagerview/NestedScrollableHost.kt
+index 91d9946..7205fcf 100644
+--- a/node_modules/react-native-pager-view/android/src/main/java/com/reactnativepagerview/NestedScrollableHost.kt
++++ b/node_modules/react-native-pager-view/android/src/main/java/com/reactnativepagerview/NestedScrollableHost.kt
+@@ -24,6 +24,7 @@ class NestedScrollableHost : FrameLayout {
+   constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+   public var initialIndex: Int? = null
+   public var didSetInitialIndex = false
++  public var directionLockRatio: Float = 1.5f
+   private var touchSlop = 0
+   private var initialX = 0f
+   private var initialY = 0f
+diff --git a/node_modules/react-native-pager-view/android/src/main/java/com/reactnativepagerview/PagerViewViewManagerImpl.kt b/node_modules/react-native-pager-view/android/src/main/java/com/reactnativepagerview/PagerViewViewManagerImpl.kt
+index 0abf668..8f55586 100644
+--- a/node_modules/react-native-pager-view/android/src/main/java/com/reactnativepagerview/PagerViewViewManagerImpl.kt
++++ b/node_modules/react-native-pager-view/android/src/main/java/com/reactnativepagerview/PagerViewViewManagerImpl.kt
+@@ -132,6 +132,10 @@ object PagerViewViewManagerImpl {
+         }
+     }
+ 
++    fun setDirectionLockRatio(host: NestedScrollableHost, value: Float) {
++        host.directionLockRatio = value
++    }
++
+     fun setPageMargin(host: NestedScrollableHost, margin: Int) {
+         val pager = getViewPager(host)
+         val pageMargin = PixelUtil.toPixelFromDIP(margin.toDouble()).toInt()
+diff --git a/node_modules/react-native-pager-view/android/src/paper/java/com/reactnativepagerview/PagerViewViewManager.kt b/node_modules/react-native-pager-view/android/src/paper/java/com/reactnativepagerview/PagerViewViewManager.kt
+index 2a093a6..64f3c8d 100644
+--- a/node_modules/react-native-pager-view/android/src/paper/java/com/reactnativepagerview/PagerViewViewManager.kt
++++ b/node_modules/react-native-pager-view/android/src/paper/java/com/reactnativepagerview/PagerViewViewManager.kt
+@@ -66,6 +66,7 @@ class PagerViewViewManager : ViewGroupManager<NestedScrollableHost>() {
+             eventDispatcher.dispatchEvent(PageSelectedEvent(host.id, vp.currentItem))
+         }
+         host.addView(vp)
++        DirectionAwarePagerHelper.attach(vp)
+         return host
+     }
+ 
+@@ -120,6 +121,11 @@ class PagerViewViewManager : ViewGroupManager<NestedScrollableHost>() {
+         PagerViewViewManagerImpl.setOverScrollMode(host, value)
+     }
+ 
++    @ReactProp(name = "directionLockRatio", defaultFloat = 1.5f)
++    fun setDirectionLockRatio(host: NestedScrollableHost, value: Float) {
++        PagerViewViewManagerImpl.setDirectionLockRatio(host, value)
++    }
++
+     @ReactProp(name = "layoutDirection")
+     fun setLayoutDirection(host: NestedScrollableHost, value: String) {
+         PagerViewViewManagerImpl.setLayoutDirection(host, value)
+diff --git a/node_modules/react-native-pager-view/lib/typescript/PagerViewNativeComponent.d.ts b/node_modules/react-native-pager-view/lib/typescript/PagerViewNativeComponent.d.ts
+index 2f7661a..4d45b45 100644
+--- a/node_modules/react-native-pager-view/lib/typescript/PagerViewNativeComponent.d.ts
++++ b/node_modules/react-native-pager-view/lib/typescript/PagerViewNativeComponent.d.ts
+@@ -21,6 +21,7 @@ export interface NativeProps extends ViewProps {
+     overScrollMode?: WithDefault<'auto' | 'always' | 'never', 'auto'>;
+     overdrag?: WithDefault<boolean, false>;
+     keyboardDismissMode?: WithDefault<'none' | 'on-drag', 'none'>;
++    directionLockRatio?: WithDefault<Double, 1.5>;
+     onPageScroll?: DirectEventHandler<OnPageScrollEventData>;
+     onPageSelected?: DirectEventHandler<OnPageSelectedEventData>;
+     onPageScrollStateChanged?: DirectEventHandler<OnPageScrollStateChangedEventData>;
+diff --git a/node_modules/react-native-pager-view/src/PagerViewNativeComponent.ts b/node_modules/react-native-pager-view/src/PagerViewNativeComponent.ts
+index f102aa9..3395728 100644
+--- a/node_modules/react-native-pager-view/src/PagerViewNativeComponent.ts
++++ b/node_modules/react-native-pager-view/src/PagerViewNativeComponent.ts
+@@ -32,6 +32,7 @@ export interface NativeProps extends ViewProps {
+   overScrollMode?: WithDefault<'auto' | 'always' | 'never', 'auto'>;
+   overdrag?: WithDefault<boolean, false>;
+   keyboardDismissMode?: WithDefault<'none' | 'on-drag', 'none'>;
++  directionLockRatio?: WithDefault<Double, 1.5>;
+   onPageScroll?: DirectEventHandler<OnPageScrollEventData>;
+   onPageSelected?: DirectEventHandler<OnPageSelectedEventData>;
+   onPageScrollStateChanged?: DirectEventHandler<OnPageScrollStateChangedEventData>;
