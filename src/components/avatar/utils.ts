@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-05-14 07:14:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-26 19:56:13
+ * @Last Modified time: 2026-08-18 07:40:43
  */
 import { _, systemStore, usersStore, userStore } from '@stores'
 import { getCover400, getCoverMedium, getTimestamp, navigationReference } from '@utils'
@@ -26,7 +26,7 @@ import type { Props } from './types'
 const TS = Math.floor(getTimestamp() / 604800)
 
 /** 大质量头像 */
-const USER_LARGE = `${HOST_IMAGE}/pic/user/l/`
+const USER_LARGE = `${HOST_IMAGE}/pic/user/l/` as const
 
 /**
  * 判断是否自己的头像, 若是不走 CDN, 保证最新
@@ -201,13 +201,13 @@ export function fixedHD<T>(src: T): T | string {
 export function fixedAll<T>(src: T, size: number): T | string {
   if (typeof src !== 'string') return src
 
-  let _src: string = fixedLarge(src)
-  _src = fixedSize(_src)
-  _src = fixedHD(_src)
-  _src = getCDNAvatar(_src, size >= 100 ? 'bgm_poster_200' : 'bgm_poster_100')
+  let result: string = fixedLarge(src)
+  result = fixedSize(result)
+  result = fixedHD(result)
+  result = getCDNAvatar(result, size >= 100 ? 'bgm_poster_200' : 'bgm_poster_100')
 
   // 有时候 Avatar 组件也会被条目封面传入使用, 需要避免使用大图
-  return getCover400(_src, size >= 100 ? 200 : 100)
+  return getCover400(result, size >= 100 ? 200 : 100)
 }
 
 /** 获取头像 API 跳转后的地址 */

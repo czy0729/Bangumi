@@ -5,6 +5,11 @@
 
 // 全局 mock，避免每个测试文件重复声明
 jest.mock('expo-asset', () => ({}))
+jest.mock('expo-constants', () => ({
+  appOwnership: 'expo',
+  statusBarHeight: 0,
+  getWebViewUserAgentAsync: jest.fn()
+}))
 jest.mock('expo-haptics', () => ({}))
 jest.mock('mobx', () => ({
   isObservableArray: () => false
@@ -95,6 +100,10 @@ jest.mock(
       cheerio,
       htmlMatch,
       getCoverSmall: (str = '') => str || '',
+      getCoverMedium: src => src,
+      getCover400: src => src,
+      getTimestamp: () => 1000000,
+      navigationReference: jest.fn(),
       HTMLDecode: (str = '') => str || '',
       HTMLToTree: () => ({ children: [] }),
       HTMLTrim: (str = '') =>
@@ -124,8 +133,22 @@ jest.mock(
 
 jest.mock('@utils/fetch', () => ({
   fetchHTML: jest.fn(),
-  baiduTranslate: jest.fn()
+  baiduTranslate: jest.fn(),
+  t: jest.fn()
 }), { virtual: true })
+
+jest.mock('@utils/proxy', () => ({
+  applyProxy: jest.fn(url => url),
+  logProxy: jest.fn(),
+  applyProxyToAxiosConfig: jest.fn(config => config),
+  axiosWithProxy: jest.fn(),
+  axiosWithProxyRedirect: jest.fn(),
+  applyLainProxy: jest.fn(url => url)
+}), { virtual: true })
+
+jest.mock('@utils/async', () => ({ syncUserStore: jest.fn() }), { virtual: true })
+
+jest.mock('@utils/thirdParty', () => ({ axios: jest.fn() }), { virtual: true })
 
 jest.mock('@utils/crypto', () => ({ default: { get: () => [] } }), { virtual: true })
 
@@ -177,6 +200,13 @@ jest.mock(
       getValue: () => label
     })
     return {
+      HOST_IMAGE: '//lain.bgm.tv',
+      HOST_CDN_AVATAR: 'https://cdn.example.com',
+      IMG_AVATAR_DEFAULT: 'IMG_AVATAR_DEFAULT',
+      IMG_DEFAULT: 'IMG_DEFAULT',
+      UA: 'UA',
+      URL_DEFAULT_AVATAR: '/icon.jpg',
+      URL_DEFAULT_MONO: '/info_only.png',
       LIST_EMPTY: { list: [], pagination: { page: 0, pageTotal: 0 } },
       FROZEN_FN: () => {},
       MODEL_BIG_EMOJI_SIZE: model('中'),
