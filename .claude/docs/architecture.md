@@ -26,12 +26,19 @@
 │   └── assets/             # 图片、字体、JSON 数据
 ├── android/                # Android 原生工程
 ├── ios/                    # iOS 原生工程
-├── packages/               # 构建脚本（android/ios/ipa/web）
+├── packages/               # 多环境构建目录（android/ios/ipa/web，含各环境独立 package.json、node_modules、patches）
 ├── web/                    # IPA 构建、更新日志
-├── patches/                # patch-package 补丁
+├── patches/                # patch-package 补丁（当前环境的运行时镜像，由 packages/env.js 切换时自动同步）
 ├── [deprecated]/           # 废弃代码
 └── test/                   # 测试数据
 ```
+
+## 多环境切换（yarn env）
+
+- 通过 `yarn env [ios | android | ipa | web]` 切换开发环境，脚本见 `packages/env.js`
+- 各环境独立维护 `packages/{env}/package.json`、`node_modules`、`patches/`
+- 切换时：备份当前环境配置到 `packages/{当前env}/`，恢复目标环境配置到根目录
+- **patches 同步**：备份时根目录 `patches/` 同步到 `packages/{当前env}/patches/`，恢复时 `packages/{目标env}/patches/` 同步到根目录 `patches/`。因此根目录 `patches/` 始终是当前环境的补丁镜像，补丁只需在各环境目录维护一处
 
 ## 路径别名
 

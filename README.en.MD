@@ -112,7 +112,7 @@ After 4+ years of iteration, both this project and the original Expo setup have 
 
 To fully leverage Expo's streamlined debugging on iOS, no third-party libraries unsupported by Expo are used. On Android, maximum performance is prioritized, so it has been ejected from Expo and uses many third-party performance libraries as replacements.
 
-To debug locally, do not install packages at the root. Instead, go to `./packages/[target-env]/`, install with `yarn`, then run `yarn env [xxx]` to switch to the target environment. Refer to the root `package.json` for available commands. The typical local dev command is `yarn dev`.
+To debug locally, do not install packages at the root. Instead, go to `./packages/[target-env]/`, install with `yarn`, then run `yarn env [xxx]` to switch to the target environment. Refer to the root `package.json` for available commands. The typical local dev command is `yarn dev`. See [packages/README.md](packages/README.md) for details on environment switching and patch management.
 
 If things don't run, don't struggle too much — it's recommended to set up all prerequisites using the official workflow before running this project. Windows and macOS environments differ quite a bit; refer to the [Expo](https://github.com/expo/expo) documentation.
 

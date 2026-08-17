@@ -37,7 +37,8 @@ const ROOT_PATHS = {
   packageJson: './package.json',
   nodeModules: './node_modules',
   babelConfig: './babel.config.js',
-  appJson: './app.json'
+  appJson: './app.json',
+  patches: './patches'
 }
 
 /** 平台特定配置 */
@@ -92,6 +93,38 @@ function hasPlugin(plugins, pluginName) {
  */
 function getPluginName(plugin) {
   return Array.isArray(plugin) ? plugin[0] : plugin
+}
+
+/**
+ * 同步 patches 目录
+ *
+ * 将源目录（根 patches 或 packages/{env}/patches）的全部补丁文件
+ * 复制到目标目录（先清空目标目录），保证两处内容一致
+ * @param {string} srcDir - 源补丁目录
+ * @param {string} dstDir - 目标补丁目录
+ */
+function syncPatches(srcDir, dstDir) {
+  if (!fs.existsSync(srcDir)) return
+
+  // 目标目录不存在则创建
+  if (!fs.existsSync(dstDir)) {
+    fs.mkdirSync(dstDir, { recursive: true })
+  }
+
+  // 清空目标目录
+  for (const file of fs.readdirSync(dstDir)) {
+    const filePath = path.join(dstDir, file)
+    if (fs.statSync(filePath).isFile() && file.endsWith('.patch')) {
+      fs.unlinkSync(filePath)
+    }
+  }
+
+  // 复制源目录补丁到目标目录
+  for (const file of fs.readdirSync(srcDir)) {
+    if (file.endsWith('.patch')) {
+      fs.copyFileSync(path.join(srcDir, file), path.join(dstDir, file))
+    }
+  }
 }
 
 // ==================== 配置更新函数 ====================
@@ -206,6 +239,7 @@ function updateAppJson(target) {
 function backupCurrentEnv(currentEnv) {
   const currentPackageJson = `./packages/${currentEnv}/package.json`
   const currentNodeModules = `./packages/${currentEnv}/node_modules`
+  const currentPatches = `./packages/${currentEnv}/patches`
 
   // 备份 package.json
   fs.copyFileSync(ROOT_PATHS.packageJson, currentPackageJson)
@@ -216,6 +250,10 @@ function backupCurrentEnv(currentEnv) {
     fs.renameSync(ROOT_PATHS.nodeModules, currentNodeModules)
     log('backup', `node_modules -> packages/${currentEnv}/`)
   }
+
+  // 备份 patches（将根目录当前补丁同步回当前环境）
+  syncPatches(ROOT_PATHS.patches, currentPatches)
+  log('backup', `patches -> packages/${currentEnv}/`)
 }
 
 /**
@@ -228,6 +266,7 @@ function backupCurrentEnv(currentEnv) {
 function restoreTargetEnv(targetEnv) {
   const targetPackageJson = `./packages/${targetEnv}/package.json`
   const targetNodeModules = `./packages/${targetEnv}/node_modules`
+  const targetPatches = `./packages/${targetEnv}/patches`
 
   // 恢复 package.json
   if (fs.existsSync(targetPackageJson)) {
@@ -240,6 +279,10 @@ function restoreTargetEnv(targetEnv) {
     fs.renameSync(targetNodeModules, ROOT_PATHS.nodeModules)
     log('restore', `packages/${targetEnv}/node_modules -> 根目录`)
   }
+
+  // 恢复 patches（将目标环境补丁同步到根目录）
+  syncPatches(targetPatches, ROOT_PATHS.patches)
+  log('restore', `packages/${targetEnv}/patches -> 根目录`)
 }
 
 // ==================== 脚本入口 ====================
