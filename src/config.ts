@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-08 21:24:36
+ * @Last Modified time: 2026-08-17 07:31:54
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
@@ -91,14 +91,19 @@ const CONFIGS: Configs = {
 // 本地开发覆盖（src/config.local.ts 为 gitignored 文件，不入库）
 try {
   const localConfigs = require('./config.local') as {
-    enabled?: boolean
-    initialRouteName?: Configs['initialRouteName']
-    initialRouteParams?: Configs['initialRouteParams']
+    default: {
+      enabled: boolean
+      initialRouteName: Configs['initialRouteName']
+      initialRouteParams: Configs['initialRouteParams']
+    }
   }
-  if (localConfigs?.enabled) {
-    if (localConfigs.initialRouteName) CONFIGS.initialRouteName = localConfigs.initialRouteName
-    if (localConfigs.initialRouteParams)
-      CONFIGS.initialRouteParams = localConfigs.initialRouteParams
+  if (localConfigs.default.enabled) {
+    if (localConfigs.default.initialRouteName) {
+      CONFIGS.initialRouteName = localConfigs.default.initialRouteName
+    }
+    if (localConfigs.default.initialRouteParams) {
+      CONFIGS.initialRouteParams = localConfigs.default.initialRouteParams
+    }
   }
 } catch {}
 

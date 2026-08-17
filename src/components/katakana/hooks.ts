@@ -5,14 +5,9 @@
  * @Last Modified time: 2026-08-15 05:50:00
  */
 import { useEffect } from 'react'
-import { getCache, matchKatakanas, translate } from './utils'
+import { ensureCacheReady, matchKatakanas, translate } from './utils'
 
 import type { KatakanaContextValue } from './types'
-
-let inited = false
-const cacheReady: Promise<void> = getCache().then(() => {
-  inited = true
-})
 
 /** 匹配片假名并请求翻译, 翻译完成后通过 onKatakana 上报给 Provider */
 export function useKatakanaTranslate(
@@ -39,11 +34,7 @@ export function useKatakanaTranslate(
       )
     }
 
-    if (inited) {
-      init()
-    } else {
-      cacheReady.then(init)
-    }
+    ensureCacheReady().then(init)
 
     return () => {
       cancelled = true

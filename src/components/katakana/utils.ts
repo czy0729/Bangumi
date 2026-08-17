@@ -57,6 +57,20 @@ export async function getCache() {
   return true
 }
 
+let inited = false
+let cacheReady: Promise<void> | null = null
+
+/** 惰性初始化: 首次启用片假名时才加载字典与持久化, 关闭时零加载开销 */
+export function ensureCacheReady(): Promise<void> {
+  if (inited) return Promise.resolve()
+  if (!cacheReady) {
+    cacheReady = getCache().then(() => {
+      inited = true
+    })
+  }
+  return cacheReady
+}
+
 /**
  * 与预生成字典 katakana.json 的抽取正则保持一致 (见 web/test/jsonl/katakana/raw.js)
  *  - 整段匹配包括 ・ 与 ー, 使 ソードアート・オンライン 这类片段能直接命中字典
@@ -202,6 +216,8 @@ export async function translate(
   // jp 不是字符串直接抛弃
   if (typeof jp !== 'string') return
 
+  await ensureCacheReady()
+
   // 命中字典 (整词或拆分后的子片段) 马上回调
   const resolved = resolvePhrase(jp)
   if (resolved.length) {
@@ -223,6 +239,8 @@ export async function translateAll(str: string) {
   try {
     const match = matchKatakanas(str)
     if (!match) return null
+
+    await ensureCacheReady()
 
     const misses = match.filter(jp => !memo[jp])
     if (misses.length) {

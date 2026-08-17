@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-12 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-17 01:23:10
+ * @Last Modified time: 2026-08-17 06:56:54
  */
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Dimensions } from 'react-native'
@@ -34,7 +34,8 @@ const DURATION_MASK = 250
  * 模态框进出场动画 hook
  *
  * 按 ui-spec 动效规范:
- * - 进入/退出同路径, opacity + scale 用 withTiming 同步材质化 (同曲线同时长, 无分层感)
+ * - 进入/退出同路径, opacity + scale 用 withTiming 同步材质化 (同曲线同时长, 无分层感),
+ *   fade 缩放出现从 1.05 回落正常, 出场从正常放大到 1.05
  * - 遮罩纯 opacity 淡入, 时长略短于表面
  * - 只动画 transform / opacity
  */

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-11 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-14 21:17:41
+ * @Last Modified time: 2026-08-17 07:39:44
  */
 import { syncThemeStore } from '@utils/async'
 import { window } from '@styles'
@@ -21,10 +21,6 @@ export const styles = _.create({
   side: {
     width: 36,
     marginTop: -1
-  },
-  touch: {
-    borderRadius: 20,
-    overflow: 'hidden'
   },
   btn: {
     width: 36,

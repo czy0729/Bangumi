@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2026-08-11 10:00:00
- * @Last Modified by:   czy0729
- * @Last Modified time: 2026-08-11 10:00:00
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-08-17 06:56:46
  */
 /** slide 模式定位: 隐藏时从屏外进入, 显示时为 0 */
 export function getPosition(
@@ -16,9 +16,9 @@ export function getPosition(
   return animationType === 'slide-down' ? -screenHeight : screenHeight
 }
 
-/** fade 模式缩放: 隐藏态微缩小, 材质到达 (ui-spec 6.6) */
+/** fade 模式缩放: 出现从放大态 (1.05) 回落到正常, 出场从正常放大到 1.05, 进出同路径 */
 export function getScale(visible: boolean): number {
-  return visible ? 1 : 0.98
+  return visible ? 1 : 1.05
 }
 
 /** 遮罩/内容透明度 */

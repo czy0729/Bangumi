@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-05 22:03:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-14 21:08:18
+ * @Last Modified time: 2026-08-17 07:36:29
  */
 import React, { Suspense, useEffect } from 'react'
 import { View } from 'react-native'
@@ -59,7 +59,7 @@ export const Modal = observer(
             <Flex style={styles.head}>
               <View style={styles.side}>
                 {!!onClose && (
-                  <Touchable style={styles.touch} onPress={onClose}>
+                  <Touchable onPress={onClose}>
                     <Flex style={styles.btn} justify='center'>
                       <Iconfont name='md-close' color={_.colorIcon} size={23} />
                     </Flex>

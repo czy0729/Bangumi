@@ -30,8 +30,8 @@ export type { KatakanaProviderProps, KatakanaProps }
  */
 function KatakanaComponent({ children, ...props }: KatakanaProps) {
   const { enabled, onKatakana } = useContext(KatakanaContext)
-  const text = useMemo(() => getKatakanaText(children), [children])
   const isOn = enabled || systemStore.setting.katakana
+  const text = useMemo(() => (isOn ? getKatakanaText(children) : ''), [isOn, children])
 
   useKatakanaTranslate(isOn, text, onKatakana)
 

@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2026-08-11 10:00:00
- * @Last Modified by:   czy0729
- * @Last Modified time: 2026-08-11 10:00:00
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-08-17 06:56:36
  */
 import { getFocusMargin, getOpacity, getPosition, getScale } from '../utils'
 
@@ -32,8 +32,8 @@ describe('getScale', () => {
     expect(getScale(true)).toBe(1)
   })
 
-  it('隐藏微缩小到 0.98 (材质到达)', () => {
-    expect(getScale(false)).toBe(0.98)
+  it('隐藏放大到 1.05 (正常到放大)', () => {
+    expect(getScale(false)).toBe(1.05)
   })
 })
 
