@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-01 12:03:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-26 01:46:03
+ * @Last Modified time: 2026-08-18 16:30:00
  */
 import { Text, TextInput } from 'react-native'
 import { _ } from '@stores'
@@ -59,6 +59,13 @@ export function formatSpacing(children: TextProps['children']): ReactNode {
   return children
 }
 
+/**
+ * getTextStyle 结果缓存
+ *  - 外层以 memoStyles 返回的 styles 引用为 key, theme 变化时引用改变, 缓存自然失效
+ *  - 内层以非引用参数组合为 key, 无 style / overrideStyle 时命中返回同一数组引用
+ */
+const textStyleCache = new WeakMap<object, Map<string, TextStyle[]>>()
+
 /** 计算文字样式 */
 export function getTextStyle({
   style,
@@ -75,6 +82,30 @@ export function getTextStyle({
   noWrap = false
 }: Partial<TextProps>) {
   const styles = memoStyles()
+
+  // 有引用类型参数无法作 key, 跳过缓存
+  // fontSizeAdjust / lineHeightRatio / letterSpacing 是 theme 可变值, 纳入 key 保证失效
+  let cacheKey: string | undefined
+  if (!style && !overrideStyle) {
+    cacheKey = [
+      type,
+      size,
+      lineHeight,
+      lineHeightIncrease,
+      align,
+      bold,
+      underline,
+      shadow,
+      shrink,
+      noWrap,
+      _.fontSizeAdjust,
+      _.lineHeightRatio,
+      _.letterSpacing
+    ].join('-')
+    const themeCache = textStyleCache.get(styles)
+    if (themeCache?.has(cacheKey)) return themeCache.get(cacheKey)!
+  }
+
   const textStyle: TextProps['style'][] = [styles.base]
 
   if (type) textStyle.push(styles[type])
@@ -113,6 +144,15 @@ export function getTextStyle({
   textStyle.push(styles.text)
   if (bold) textStyle.push(styles.bold)
   if (overrideStyle) textStyle.push(overrideStyle)
+
+  if (cacheKey) {
+    let themeCache = textStyleCache.get(styles)
+    if (!themeCache) {
+      themeCache = new Map()
+      textStyleCache.set(styles, themeCache)
+    }
+    themeCache.set(cacheKey, textStyle)
+  }
 
   return textStyle
 }

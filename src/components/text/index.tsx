@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-05-01 11:46:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-25 05:43:09
+ * @Last Modified time: 2026-08-18 16:30:00
  */
 import React, { useContext } from 'react'
-import { Text as RNText } from 'react-native'
 import { observer } from 'mobx-react'
 import { systemStore } from '@stores'
 import { r } from '@utils/dev'
 import { WEB } from '@constants'
 import { LineHeightIncreaseContext } from './context'
+import TextContent from './text-content'
 import { formatS2T, formatSpacing, getTextStyle, setComponentsDefaultProps } from './utils'
-import { COMPONENT, TEXT_STATIC_PROPS } from './ds'
+import { COMPONENT } from './ds'
 
 export { getTextStyle, setComponentsDefaultProps }
 export { LineHeightIncreaseContext } from './context'
@@ -50,8 +50,8 @@ function TextComp({
   if (spacing && systemStore.setting.spacing) content = formatSpacing(content)
 
   return (
-    <RNText
-      ref={forwardRef}
+    <TextContent
+      forwardRef={forwardRef}
       style={getTextStyle({
         style,
         overrideStyle,
@@ -67,12 +67,9 @@ function TextComp({
         noWrap
       })}
       selectable={selectable}
-      numberOfLines={0}
+      content={content}
       {...other}
-      {...TEXT_STATIC_PROPS}
-    >
-      {content}
-    </RNText>
+    />
   )
 }
 
