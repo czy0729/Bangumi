@@ -10,11 +10,13 @@ import { TabView } from '@components'
 import { BlurViewTab } from '@_'
 import { _, useStore } from '@stores'
 import { renderTabBar } from './utils'
-import { COMPONENT_MAIN } from './ds'
+import { COMPONENT_MAIN, INITIAL_LAYOUT } from './ds'
 
 import type { Ctx } from '../../types'
+import type { TabProps } from './types'
 
-function Tab({ renderScene }) {
+/** Tab 主体 */
+function Tab({ renderScene }: TabProps) {
   const { $ } = useStore<Ctx>(COMPONENT_MAIN)
 
   const { length } = $.tabs
@@ -25,6 +27,7 @@ function Tab({ renderScene }) {
   return (
     <TabView
       key={_.orientation}
+      initialLayout={INITIAL_LAYOUT}
       lazy
       lazyPreloadDistance={1}
       navigationState={$.navigationState}

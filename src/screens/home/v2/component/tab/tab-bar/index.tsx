@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-26 03:40:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 07:40:42
+ * @Last Modified time: 2026-08-19 05:34:12
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -10,11 +10,15 @@ import { TabBar as TabViewTabBar } from '@components'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
 import { useInsets } from '@utils/hooks'
-import TabBarLabel from '../tab-bar-label'
+import { stl } from '@utils/utils'
+import { renderLabel } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function TabBar(props) {
+import type { Props } from './types'
+
+/** Tab 栏 */
+function TabBar(props: Props) {
   r(COMPONENT)
 
   const { headerHeight } = useInsets()
@@ -25,25 +29,12 @@ function TabBar(props) {
   return (
     <TabViewTabBar
       {...props}
-      style={[
-        styles.tabBar,
-        {
-          top: headerHeight
-        }
-      ]}
-      tabStyle={[
-        styles.tab,
-        {
-          width: W_TAB
-        }
-      ]}
+      style={stl(styles.tabBar, { top: headerHeight })}
+      tabStyle={stl(styles.tab, { width: W_TAB })}
       labelStyle={styles.label}
-      indicatorStyle={[
-        styles.indicator,
-        {
-          marginLeft: (W_TAB - styles.indicator.width) / 2
-        }
-      ]}
+      indicatorStyle={stl(styles.indicator, {
+        marginLeft: (W_TAB - styles.indicator.width) / 2
+      })}
       pressOpacity={1}
       pressColor='transparent'
       scrollEnabled
@@ -53,7 +44,3 @@ function TabBar(props) {
 }
 
 export default observer(TabBar)
-
-function renderLabel({ route, focused }) {
-  return <TabBarLabel route={route} focused={focused} />
-}

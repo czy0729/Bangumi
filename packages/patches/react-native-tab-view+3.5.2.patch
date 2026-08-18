@@ -1,0 +1,114 @@
+diff --git a/node_modules/react-native-tab-view/src/PagerViewAdapter.tsx b/node_modules/react-native-tab-view/src/PagerViewAdapter.tsx
+index cb7073e..17730e8 100644
+--- a/node_modules/react-native-tab-view/src/PagerViewAdapter.tsx
++++ b/node_modules/react-native-tab-view/src/PagerViewAdapter.tsx
+@@ -40,6 +40,7 @@ export function PagerViewAdapter<T extends Route>({
+   onIndexChange,
+   onSwipeStart,
+   onSwipeEnd,
++  onSwipeSettle,
+   children,
+   style,
+   animationEnabled,
+@@ -97,6 +98,9 @@ export function PagerViewAdapter<T extends Route>({
+     const { pageScrollState } = state.nativeEvent;
+ 
+     switch (pageScrollState) {
++      case 'settling':
++        onSwipeSettle?.();
++        return;
+       case 'idle':
+         onSwipeEnd?.();
+         return;
+diff --git a/node_modules/react-native-tab-view/src/PanResponderAdapter.tsx b/node_modules/react-native-tab-view/src/PanResponderAdapter.tsx
+index dbe7ed6..88aeb60 100644
+--- a/node_modules/react-native-tab-view/src/PanResponderAdapter.tsx
++++ b/node_modules/react-native-tab-view/src/PanResponderAdapter.tsx
+@@ -63,7 +63,8 @@ export function PanResponderAdapter<T extends Route>({
+ }: Props<T>) {
+   const { routes, index } = navigationState;
+ 
+-  const panX = useAnimatedValue(0);
++  // 同步初始化 panX，避免冷启动首帧 position 错误导致 indicator/内容跳动
++  const panX = useAnimatedValue(-index * layout.width);
+ 
+   const listenersRef = React.useRef<Listener[]>([]);
+ 
+@@ -164,6 +164,8 @@ export function PanResponderAdapter<T extends Route>({
+     }
+ 
+     panX.stopAnimation();
++    // 动画被打断时 finished 为 false, onIndexChange 不会触发, pendingIndex 会残留毒化后续手势
++    pendingIndexRef.current = undefined;
+     // @ts-expect-error: _value is private, but docs use it as well
+     panX.setOffset(panX._value);
+   };
+@@ -173,12 +175,13 @@ export function PanResponderAdapter<T extends Route>({
+     gestureState: PanResponderGestureState
+   ) => {
+     const diffX = I18nManager.isRTL ? -gestureState.dx : gestureState.dx;
++    const currentIndex = currentIndexRef.current;
+ 
+     if (
+       // swiping left
+-      (diffX > 0 && index <= 0) ||
++      (diffX > 0 && currentIndex <= 0) ||
+       // swiping right
+-      (diffX < 0 && index >= routes.length - 1)
++      (diffX < 0 && currentIndex >= routes.length - 1)
+     ) {
+       return;
+     }
+@@ -187,9 +190,9 @@ export function PanResponderAdapter<T extends Route>({
+       // @ts-expect-error: _offset is private, but docs use it as well
+       const position = (panX._offset + diffX) / -layout.width;
+       const next =
+-        position > index ? Math.ceil(position) : Math.floor(position);
++        position > currentIndex ? Math.ceil(position) : Math.floor(position);
+ 
+-      if (next !== index) {
++      if (next !== currentIndex) {
+         listenersRef.current.forEach((listener) => listener(next));
+       }
+     }
+diff --git a/node_modules/react-native-tab-view/src/TabBarIndicator.tsx b/node_modules/react-native-tab-view/src/TabBarIndicator.tsx
+index f84b07d2a9b085bde0b432bafa891e3769e0ae81..25de2bdc6a0c78b5a8c87a78124c3a014b2e4060 100644
+--- a/node_modules/react-native-tab-view/src/TabBarIndicator.tsx
++++ b/node_modules/react-native-tab-view/src/TabBarIndicator.tsx
+@@ -93,5 +93,10 @@ export function TabBarIndicator<T extends Route>({
+   const { routes } = navigationState;
+ 
++  // 冷启动布局未就绪时不渲染，避免 left% 兜底与 transform 切换产生错误位置闪动
++  if (!layout.width) {
++    return null;
++  }
++
+   const transform = [];
+ 
+   if (layout.width) {
+diff --git a/node_modules/react-native-tab-view/src/TabBarItem.tsx b/node_modules/react-native-tab-view/src/TabBarItem.tsx
+index c1c0d77..1d73da9 100644
+--- a/node_modules/react-native-tab-view/src/TabBarItem.tsx
++++ b/node_modules/react-native-tab-view/src/TabBarItem.tsx
+@@ -244,7 +244,10 @@ const TabBarItemInternal = <T extends Route>({
+       onLongPress={onLongPress}
+       style={[styles.pressable, tabContainerStyle]}
+     >
+-      <View pointerEvents="none" style={[styles.item, tabStyle]}>
++      <View
++        // pointerEvents="none"
++        style={[styles.item, tabStyle]}
++      >
+         {icon}
+         {label}
+         {badge != null ? <View style={styles.badge}>{badge}</View> : null}
+diff --git a/node_modules/react-native-tab-view/src/types.tsx b/node_modules/react-native-tab-view/src/types.tsx
+index 339067d..7e1aaac 100644
+--- a/node_modules/react-native-tab-view/src/types.tsx
++++ b/node_modules/react-native-tab-view/src/types.tsx
+@@ -56,4 +56,5 @@ export type PagerProps = Omit<
+   animationEnabled?: boolean;
+   onSwipeStart?: () => void;
+   onSwipeEnd?: () => void;
++  onSwipeSettle?: () => void;
+ };

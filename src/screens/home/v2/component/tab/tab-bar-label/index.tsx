@@ -11,7 +11,10 @@ import { r } from '@utils/dev'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function TabBarLabel({ focused, route }) {
+import type { Props } from './types'
+
+/** Tab 标签 */
+function TabBarLabel({ focused, route }: Props) {
   r(COMPONENT)
 
   return (

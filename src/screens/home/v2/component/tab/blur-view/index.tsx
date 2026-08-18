@@ -12,6 +12,7 @@ import { COMPONENT } from './ds'
 
 import type { PropsWithChildren } from 'react'
 
+/** 首页毛玻璃背景容器 */
 function BlurView({ children }: PropsWithChildren) {
   r(COMPONENT)
 
