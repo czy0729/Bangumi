@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 14:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-25 06:20:07
+ * @Last Modified time: 2026-08-19 07:38:29
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -12,6 +12,7 @@ import { stl } from '@utils'
 import { r } from '@utils/dev'
 import Ionicons from './ionicons'
 import Material from './material'
+import { getAppIconName, getIconFamily } from './utils'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
@@ -41,7 +42,9 @@ export const Iconfont = observer(
       ...other
     } as const
 
-    if (name.indexOf('md-') === 0) {
+    const family = getIconFamily(name)
+
+    if (family === 'material') {
       return (
         <Material
           style={stl(shadowStyle, style)}
@@ -52,7 +55,7 @@ export const Iconfont = observer(
       )
     }
 
-    if (name.indexOf('ios-') === 0) {
+    if (family === 'ionicons') {
       return (
         <Ionicons
           style={stl(shadowStyle, style)}
@@ -73,7 +76,7 @@ export const Iconfont = observer(
           shadowStyle,
           style
         )}
-        name={(name.includes('icon') ? name : `icon-${name}`) as AppIconsNames}
+        name={getAppIconName(name) as AppIconsNames}
         {...commonProps}
       />
     )

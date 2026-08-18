@@ -21,13 +21,13 @@ function Ionicons({ style, name, size = 20, lineHeight, color, ...other }: Props
     <Icons
       style={stl(
         {
-          height: size + _.fontSizeAdjust,
-          lineHeight: (lineHeight || size) + _.fontSizeAdjust
+          height: size,
+          lineHeight: lineHeight || size
         },
         style
       )}
       name={name}
-      size={size + _.fontSizeAdjust}
+      size={size}
       color={color || _.colorIcon}
       {...other}
     />

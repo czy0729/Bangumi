@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-03 19:27:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-25 06:21:44
+ * @Last Modified time: 2026-08-19 07:37:00
  */
 import type {
   AppIconsNames,
@@ -16,14 +16,18 @@ import type {
 
 export type { AppIconsNames, IoniconsIconsNames, MaterialIconsNames, IconfontNames }
 
+/** 图标家族 */
+export type IconFamily = 'material' | 'ionicons' | 'app'
+
+/** Iconfont 图标属性 */
 export type Props = {
   /** 图标当成文字一样使用 */
   style?: TextStyle
 
-  /** 图标名字，MaterialIcons 系列用 'md-' 开头，iOS 系列用 'ios-' 开头 */
+  /** 图标名，Material 系列用 'md-' 开头，iOS 系列用 'ios-' 开头 */
   name: '' | 'bgm' | 'home' | 'trophy' | IconfontNames
 
-  /** 大小，默认 22 */
+  /** 图标大小，默认 22 */
   size?: number
 
   /** 行高，默认等于 size */
