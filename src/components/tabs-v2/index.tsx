@@ -2,20 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-09-24 16:31:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-26 02:30:54
+ * @Last Modified time: 2026-08-18 10:00:00
  */
-import React, { useCallback, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { observer } from 'mobx-react'
-import { _ } from '@stores'
-import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
 import { Component } from '../component'
-import { Flex } from '../flex'
-import { SceneMap, TabBar, TabView } from '../tab-view'
-import { Text } from '../text'
-import { ANDROID_RIPPLE, COMPONENT } from './ds'
-import { memoStyles, W_INDICATOR } from './styles'
+import { TabView } from '../tab-view'
+import { useRenderScene, useRenderTabBar, useTabWidth } from './hooks'
+import { COMPONENT } from './ds'
 
 import type { Props as TabsV2Props, Route } from './types'
 export type { TabsV2Props }
@@ -38,69 +34,27 @@ export const TabsV2 = observer(
   }: TabsV2Props<T>) => {
     r(COMPONENT)
 
-    const renderScene = useMemo(() => {
-      const map: Record<string, () => JSX.Element> = {}
-      routes.forEach((route, index) => {
-        if (route.key) {
-          map[route.key] = () => renderItem(route, index)
-        }
-      })
-
-      return SceneMap(map)
-    }, [renderItem, routes])
-
-    const tabWidth = useMemo(() => {
-      const length = tabBarLength ?? routes.length
-      return length >= 10 ? _.window.width / 3.6 : _.window.width / length
-    }, [routes.length, tabBarLength])
-
-    const styles = memoStyles()
-
-    const handleRenderLabel = useCallback(
-      ({ route, focused }: { route: Route; focused: boolean }) => (
-        <Flex style={styles.labelText} justify='center'>
-          <Text style={textColor && { color: textColor }} type='title' size={13} bold={focused}>
-            {route.title}
-          </Text>
-        </Flex>
-      ),
-      [styles, textColor]
-    )
+    const renderScene = useRenderScene(routes, renderItem)
+    const tabWidth = useTabWidth(routes, tabBarLength)
+    const navigationState = useMemo(() => ({ index: page, routes }), [page, routes])
+    const renderTabBar = useRenderTabBar({
+      tabWidth,
+      backgroundColor,
+      borderBottomColor,
+      underlineColor,
+      renderLabel,
+      textColor
+    })
 
     return (
       <Component id='component-tabs'>
         <TabView
           lazy={lazy}
           lazyPreloadDistance={0}
-          navigationState={{
-            index: page,
-            routes
-          }}
+          navigationState={navigationState}
           renderScene={renderScene}
           onIndexChange={onChange}
-          renderTabBar={props => (
-            // @ts-expect-error
-            <TabBar
-              {...props}
-              style={stl(
-                styles.tabBar,
-                backgroundColor && { backgroundColor },
-                borderBottomColor && { borderBottomColor }
-              )}
-              tabStyle={stl(styles.tab, { width: tabWidth })}
-              labelStyle={styles.label}
-              indicatorStyle={stl(
-                styles.indicator,
-                { marginLeft: (tabWidth - W_INDICATOR) / 2 },
-                underlineColor && { backgroundColor: underlineColor }
-              )}
-              pressOpacity={1}
-              pressColor='transparent'
-              scrollEnabled
-              android_ripple={ANDROID_RIPPLE}
-              renderLabel={renderLabel ?? handleRenderLabel}
-            />
-          )}
+          renderTabBar={renderTabBar}
           {...other}
         />
       </Component>

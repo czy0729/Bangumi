@@ -104,6 +104,7 @@ hold-menu/
 ## hooks 规范
 
 - 逻辑优先抽到 `hooks.ts` 自定义 hooks，组件体只做「hook 返回值组合 + 渲染」
+- 含 JSX 的 hook 文件用 `.tsx` 扩展名（如 `tabs-v2/hooks.tsx` 的 `useRenderTabBar`），纯逻辑 hooks 用 `.ts`
 - 一类状态机 / 一组回调封装一个 hook（如 `useScrollLock`），参数与返回值类型放 `./types.ts`（`useXxxOptions`）
 - 对外暴露的回调一律 `useCallback` 稳定引用，按真实依赖声明 deps
 - **渲染期不直读 `ref.current`**：ref 在渲染后才赋值，渲染期直读会得到 `null`。需要传给下层组件使用的值应暴露成「调用时懒读取 ref」的稳定函数（如 `useScrollViewRef` 返回 `scrollTo` 而非裸 ref）

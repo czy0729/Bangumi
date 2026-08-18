@@ -2,26 +2,55 @@
  * @Author: czy0729
  * @Date: 2022-08-19 05:07:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-25 05:13:41
+ * @Last Modified time: 2026-08-18 10:00:00
  */
-import type { ColorValue, ReactNode, WithViewStyles } from '@types'
+import type { ReactNode } from 'react'
+import type { ColorValue, WithViewStyles } from '@types'
+import type { SceneRendererProps } from '@components/tab-view'
+import type { OverrideNavigationState } from '@components/tab-view'
 
 /** Tab 路由数据 */
 export type Route = {
   /** 路由唯一标识 */
-  key?: string
+  key: string
 
   /** 路由标题 */
   title?: string
 }
 
-/** Tab 标签数据 */
-type Label<T extends Route> = {
+/** Tab 标签渲染参数 */
+export type Label<T extends Route> = {
   /** 路由数据 */
-  route?: T
+  route: T
 
   /** 是否选中 */
-  focused?: boolean
+  focused: boolean
+}
+
+/** TabBar 渲染参数 */
+export type TabBarSceneProps<T extends Route> = SceneRendererProps & {
+  navigationState: OverrideNavigationState<T>
+}
+
+/** 渲染 TabBar 参数 */
+export type UseRenderTabBarOptions<T extends Route> = {
+  /** Tab 宽度 */
+  tabWidth: number
+
+  /** TabBar 背景色 */
+  backgroundColor?: ColorValue
+
+  /** TabBar 底部边框颜色 */
+  borderBottomColor?: ColorValue
+
+  /** 选中指示器颜色 */
+  underlineColor?: ColorValue
+
+  /** 自定义渲染 Tab 标签 */
+  renderLabel?: (item: Label<T>) => ReactNode
+
+  /** Tab 文字颜色 */
+  textColor?: ColorValue
 }
 
 export type Props<T extends Route> = WithViewStyles<{
@@ -60,7 +89,4 @@ export type Props<T extends Route> = WithViewStyles<{
 
   /** Tab 切换回调 */
   onChange?: (index: number) => void
-
-  /** 手势方向判定阈值, 竖向主导需 |dy| > ratio * |dx|。大于 1 时水平滑动更跟手, 默认 1.5 */
-  directionLockRatio?: number
 }>

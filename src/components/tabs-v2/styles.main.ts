@@ -27,9 +27,6 @@ export const memoStyles = _.memoStyles(() => ({
   label: {
     padding: 0
   },
-  labelText: {
-    width: '100%'
-  },
   indicator: {
     width: W_INDICATOR,
     height: 4,

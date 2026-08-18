@@ -10,4 +10,5 @@ import { default as TabView } from './tab-view'
 export { TabView }
 export default TabView
 
-export type { TabBarProps } from 'react-native-tab-view'
+export type { SceneRendererProps, TabBarProps } from 'react-native-tab-view'
+export type { OverrideNavigationState } from './tab-view/types'
