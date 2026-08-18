@@ -1,0 +1,26 @@
+diff --git a/node_modules/path-posix/index.js b/node_modules/path-posix/index.js
+index d88ebde..8c79d07 100644
+--- a/node_modules/path-posix/index.js
++++ b/node_modules/path-posix/index.js
+@@ -20,7 +20,6 @@
+ // USE OR OTHER DEALINGS IN THE SOFTWARE.
+ 
+ 'use strict';
+-var util = require('util');
+ var isString = function (x) {
+   return typeof x === 'string';
+ };
+@@ -221,9 +220,12 @@ posix.extname = function(path) {
+   return posixSplitPath(path)[3];
+ };
+ 
++function isObject(obj) {
++  return typeof obj === 'object' && obj !== null;
++}
+ 
+ posix.format = function(pathObject) {
+-  if (!util.isObject(pathObject)) {
++  if (!isObject(pathObject)) {
+     throw new TypeError(
+         "Parameter 'pathObject' must be an object, not " + typeof pathObject
+     );

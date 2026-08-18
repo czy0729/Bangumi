@@ -1,0 +1,39 @@
+diff --git a/node_modules/@storybook/preview-web/dist/cjs/UrlStore.js b/node_modules/@storybook/preview-web/dist/cjs/UrlStore.js
+index a8df139..7b30ae9 100644
+--- a/node_modules/@storybook/preview-web/dist/cjs/UrlStore.js
++++ b/node_modules/@storybook/preview-web/dist/cjs/UrlStore.js
+@@ -102,7 +102,7 @@ var setPath = function setPath(selection) {
+   });
+   var _document$location$ha = document.location.hash,
+       hash = _document$location$ha === void 0 ? '' : _document$location$ha;
+-  document.title = selection.storyId;
++  // document.title = selection.storyId;
+   history.replaceState({}, '', "".concat(document.location.pathname).concat(query).concat(hash));
+ };
+ 
+diff --git a/node_modules/@storybook/preview-web/dist/esm/UrlStore.js b/node_modules/@storybook/preview-web/dist/esm/UrlStore.js
+index 00619d8..0b0f51a 100644
+--- a/node_modules/@storybook/preview-web/dist/esm/UrlStore.js
++++ b/node_modules/@storybook/preview-web/dist/esm/UrlStore.js
+@@ -72,7 +72,7 @@ export var setPath = function setPath(selection) {
+   });
+   var _document$location$ha = document.location.hash,
+       hash = _document$location$ha === void 0 ? '' : _document$location$ha;
+-  document.title = selection.storyId;
++  // document.title = selection.storyId;
+   history.replaceState({}, '', "".concat(document.location.pathname).concat(query).concat(hash));
+ };
+ 
+diff --git a/node_modules/@storybook/preview-web/dist/modern/UrlStore.js b/node_modules/@storybook/preview-web/dist/modern/UrlStore.js
+index 6e4a59c..1f20cdb 100644
+--- a/node_modules/@storybook/preview-web/dist/modern/UrlStore.js
++++ b/node_modules/@storybook/preview-web/dist/modern/UrlStore.js
+@@ -50,7 +50,7 @@ export const setPath = selection => {
+   const {
+     hash = ''
+   } = document.location;
+-  document.title = selection.storyId;
++  // document.title = selection.storyId;
+   history.replaceState({}, '', `${document.location.pathname}${query}${hash}`);
+ };
+ 

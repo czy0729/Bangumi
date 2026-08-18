@@ -98,9 +98,10 @@ function getPluginName(plugin) {
 /**
  * 同步 patches 目录
  *
- * 将源目录（根 patches 或 packages/{env}/patches）的全部补丁文件
- * 复制到目标目录（先清空目标目录），保证两处内容一致
- * @param {string} srcDir - 源补丁目录
+ * 将所有补丁统一管理在 `packages/patches/`，各环境目录（含根 `patches/`）
+ * 仅保留指向该目录的**符号链接**。本函数按源目录的补丁集合，在目标目录
+ * 重建指向 `packages/patches/` 的符号链接（保持各环境各自的补丁子集）。
+ * @param {string} srcDir - 源补丁目录（决定补丁子集）
  * @param {string} dstDir - 目标补丁目录
  */
 function syncPatches(srcDir, dstDir) {
@@ -114,15 +115,16 @@ function syncPatches(srcDir, dstDir) {
   // 清空目标目录
   for (const file of fs.readdirSync(dstDir)) {
     const filePath = path.join(dstDir, file)
-    if (fs.statSync(filePath).isFile() && file.endsWith('.patch')) {
+    if (file.endsWith('.patch')) {
       fs.unlinkSync(filePath)
     }
   }
 
-  // 复制源目录补丁到目标目录
+  // 按源目录的补丁集合，重建指向 packages/patches/ 的符号链接
+  const canonicalDir = path.resolve(__dirname, 'patches')
   for (const file of fs.readdirSync(srcDir)) {
     if (file.endsWith('.patch')) {
-      fs.copyFileSync(path.join(srcDir, file), path.join(dstDir, file))
+      fs.symlinkSync(path.relative(dstDir, path.join(canonicalDir, file)), path.join(dstDir, file))
     }
   }
 }

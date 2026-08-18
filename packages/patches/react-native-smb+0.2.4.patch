@@ -1,0 +1,17 @@
+diff --git a/node_modules/react-native-smb/android/src/main/java/com/reactlibrarysmbbodaghi/RNSmbModule.java b/node_modules/react-native-smb/android/src/main/java/com/reactlibrarysmbbodaghi/RNSmbModule.java
+index 63096ef..ee02d70 100644
+--- a/node_modules/react-native-smb/android/src/main/java/com/reactlibrarysmbbodaghi/RNSmbModule.java
++++ b/node_modules/react-native-smb/android/src/main/java/com/reactlibrarysmbbodaghi/RNSmbModule.java
+@@ -27,8 +27,10 @@ import android.Manifest;
+ import android.app.Activity;
+ import android.content.pm.PackageManager;
+ import android.os.Environment;
+-import android.support.v4.app.ActivityCompat;
+-import android.support.v4.content.ContextCompat;
++// import android.support.v4.app.ActivityCompat;
++// import android.support.v4.content.ContextCompat;
++import androidx.core.app.ActivityCompat;
++import androidx.core.content.ContextCompat;
+ import android.util.Log;
+ import android.widget.Toast;
+ import android.text.TextUtils;

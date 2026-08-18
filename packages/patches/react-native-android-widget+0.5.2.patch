@@ -1,0 +1,64 @@
+diff --git a/node_modules/react-native-android-widget/android/src/main/java/com/reactnativeandroidwidget/RNWidget.java b/node_modules/react-native-android-widget/android/src/main/java/com/reactnativeandroidwidget/RNWidget.java
+index b45392a..11a858b 100644
+--- a/node_modules/react-native-android-widget/android/src/main/java/com/reactnativeandroidwidget/RNWidget.java
++++ b/node_modules/react-native-android-widget/android/src/main/java/com/reactnativeandroidwidget/RNWidget.java
+@@ -142,7 +142,8 @@ public class RNWidget {
+             (int) System.currentTimeMillis(),
+             intent,
+             PendingIntent.FLAG_CANCEL_CURRENT
+-                | PendingIntent.FLAG_MUTABLE
++            | PendingIntent.FLAG_UPDATE_CURRENT //
++            // | PendingIntent.FLAG_MUTABLE
+         );
+         widgetView.setOnClickPendingIntent(button, pendingIntent);
+     }
+@@ -227,7 +228,9 @@ public class RNWidget {
+         widgetListItemClickIntent.setAction(appContext.getPackageName() + ".WIDGET_LIST_ITEM_CLICK");
+         widgetListItemClickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
+         return PendingIntent.getBroadcast(appContext, 0, widgetListItemClickIntent,
+-            PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
++            PendingIntent.FLAG_UPDATE_CURRENT
++            // | PendingIntent.FLAG_MUTABLE
++        );
+     }
+ 
+     private String convertBitmapToBase64(Bitmap bitmap) {
+diff --git a/node_modules/react-native-android-widget/android/src/main/java/com/reactnativeandroidwidget/RNWidgetBackgroundTaskService.java b/node_modules/react-native-android-widget/android/src/main/java/com/reactnativeandroidwidget/RNWidgetBackgroundTaskService.java
+index 6fde5e6..b656747 100644
+--- a/node_modules/react-native-android-widget/android/src/main/java/com/reactnativeandroidwidget/RNWidgetBackgroundTaskService.java
++++ b/node_modules/react-native-android-widget/android/src/main/java/com/reactnativeandroidwidget/RNWidgetBackgroundTaskService.java
+@@ -27,8 +27,8 @@ public class RNWidgetBackgroundTaskService extends HeadlessJsTaskService {
+             Notification notification = new NotificationCompat.Builder(getApplicationContext(), "widget")
+                 .setContentTitle("Running Widget Action")
+                 .setTicker("run")
+-                .setSilent(true)
+-                .setOngoing(true)
++                // .setSilent(true)
++                // .setOngoing(true)
+                 .build();
+             startForeground(1, notification);
+         }
+diff --git a/node_modules/react-native-android-widget/android/src/main/java/com/reactnativeandroidwidget/RNWidgetProvider.java b/node_modules/react-native-android-widget/android/src/main/java/com/reactnativeandroidwidget/RNWidgetProvider.java
+index 9d0fef8..c2026e9 100644
+--- a/node_modules/react-native-android-widget/android/src/main/java/com/reactnativeandroidwidget/RNWidgetProvider.java
++++ b/node_modules/react-native-android-widget/android/src/main/java/com/reactnativeandroidwidget/RNWidgetProvider.java
+@@ -100,7 +100,8 @@ public class RNWidgetProvider extends AppWidgetProvider {
+ 
+     private void executeJs(Context context, Intent backgroundTaskIntent, int widgetId) {
+         // Android 12+
+-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
++        // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
++        if (Build.VERSION.SDK_INT >= 31) {
+             addClickToUpdateOverlay(context, backgroundTaskIntent, widgetId);
+         } else {
+             startBackgroundTask(context, backgroundTaskIntent);
+@@ -121,7 +122,8 @@ public class RNWidgetProvider extends AppWidgetProvider {
+             (int) System.currentTimeMillis(),
+             intent,
+             PendingIntent.FLAG_CANCEL_CURRENT
+-                | PendingIntent.FLAG_MUTABLE
++            | PendingIntent.FLAG_UPDATE_CURRENT //
++            // | PendingIntent.FLAG_MUTABLE
+         );
+         clickableView.setOnClickPendingIntent(R.id.rn_widget_placeholder_click_to_update, pendingIntent);
+ 
