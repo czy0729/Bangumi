@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-06-06 16:53:31
  */
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import {
   Extrapolation,
   interpolate,
@@ -55,8 +55,12 @@ export function useMask(color: readonly [string, string, string]) {
 
   // 3色渐变：opaque → 低alpha过渡 → 全透明
   // 避免 2 色线性插值在接近透明时 RGB 残留导致的"脏边"断层
-  const rgb = (color || _.colorPlainRaw).join()
-  const maskColors = [`rgba(${rgb}, 1)`, `rgba(${rgb}, 0.06)`, `rgba(${rgb}, 0)`] as const
+  // 用 useMemo 稳定引用, 否则 memo(MaskGradient) 因 colors 每次新建而失效
+  const maskColors = useMemo(() => {
+    const rgb = (color || _.colorPlainRaw).join()
+    return [`rgba(${rgb}, 1)`, `rgba(${rgb}, 0.06)`, `rgba(${rgb}, 0)`] as const
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [color, _.colorPlainRaw])
 
   return {
     leftMaskStyle,

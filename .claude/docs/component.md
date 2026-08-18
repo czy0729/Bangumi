@@ -6,12 +6,12 @@
 
 ```
 component-name/
-├── index.tsx       # 主组件（函数组件 + observer()）
-├── types.ts        # 类型定义（导出为 Props）
+├── index.tsx       # 主组件（函数组件 + observer()），只编排 hook 返回值 + 渲染
+├── types.ts        # 所有类型定义（Props + hook 参数 + 事件类型 + 内部类型别名）
 ├── styles.ts       # StyleSheet + memoStyles()
 ├── hooks.ts        # 组件专属 hooks
-├── utils.ts        # 工具函数
-└── ds.ts           # 调试常量
+├── utils.ts        # 工具函数（纯函数，供逻辑测试）
+└── ds.ts           # 常量（调试常量 / 模块级常量）
 ```
 
 ## 关键模式
@@ -41,7 +41,7 @@ component-name/
 
 ## 复合组件（子组件独立文件夹）
 
-当组件拆分出多个子组件时（如 `hold-menu`、`action-sheet`），每个子组件独立成文件夹，文件夹内 `index.tsx` 用 `export default` 导出组件，私有样式放该文件夹的 `styles.ts`，专属逻辑抽成 `useXxx.ts` 自定义 hooks：
+当组件拆分出多个子组件时（如 `hold-menu`、`scroll-view/mask`），每个子组件独立成文件夹，文件夹内 `index.tsx` 用 `export default` 导出组件，私有样式放该文件夹的 `styles.ts`，专属逻辑抽成 `useXxx.ts` 自定义 hooks：
 
 ```
 hold-menu/
@@ -68,9 +68,11 @@ hold-menu/
 ```
 
 - 子组件一律 `export default`，hooks 用具名导出
-- 组件内部声明用 `function XComponent(...)`，再 `const X = memo(XComponent)` 导出；仅对外入口组件用 `observer()` 包裹（如 `HoldMenuProvider`）
+- 组件直接以真实名称声明 `function X(...)`，末尾 `export default memo(X)` 包裹导出，**不要多包一层**（不做 `function XComponent` + `const X = memo(XComponent)` 的中间命名）；仅对外入口组件用 `observer()` 包裹（如 `HoldMenuProvider`）
+- **例外**：子组件若**直接读取可观察值**（`_` 主题值、store 字段），按「observer 与 memo 的选择」规则应改用 `observer()`——如 `scroll-view/mask` 读取 `_.isPad`/`_.wind`/`_._wind` 故用 `observer(Mask)`
 - 子组件内不写 `r(COMPONENT)` 调试调用；`ds.ts` 在无使用时不导出 `COMPONENT`
 - 子组件 Props 类型提取到各自文件夹 `./types.ts`，每个 key 带 `/** ... */` 注释，回调字段放 type 末尾
+- **模块级常量放该文件夹的 `ds.ts`**：非调试用途的常量（如 `GRADIENT_DIRECTION`）也放 `ds.ts`，避免散落在组件体内每次渲染新建对象
 - 跨组件引用优先 `@components/*` 别名，避免深层相对路径（`../../../`）
 - 共享常量/类型/工具仍放组件根目录（`ds.ts`/`types.ts`/`utils.ts`）
 
@@ -80,6 +82,10 @@ hold-menu/
 - 导出名称统一为 `Props`
 - style 使用 `WithViewStyles` 类型
 - children 使用 `PropsWithChildren`
+- **所有类型一律放 `./types.ts`**：Props、hook 参数类型（`useXxxOptions`）、事件类型、内部类型别名都收进 `types.ts`，不写在 hooks.ts / 组件体内
+- **优先 `Pick` 上层类型**：下层组件 Props / hook 参数能从上层的 `Props` Pick 就不重复定义（`Pick<Props, 'a' | 'b'>`）；只有语义或必选性不同（如上层可选、本层必填）才保留本地定义
+- **共享类型别名抽到最上层**：跨层复用的字面量类型抽具名别名（如 `MaskColors = readonly [string, string, string]`）放根 `types.ts`，逐层 `import type` 复用，不重复字面量
+- 每个类型字段带 `/** ... */` 注释，回调字段放 type 末尾
 - 示例：
   ```typescript
   // types.ts
@@ -87,7 +93,20 @@ hold-menu/
   import type { WithViewStyles } from '@types'
 
   export type Props = PropsWithChildren<WithViewStyles<{}>>
+
+  /** 遮罩渐变色 [左, 中, 右] */
+  export type MaskColors = readonly [string, string, string]
+
+  /** 水平渐隐遮罩参数 */
+  export type UseHorizontalMaskOptions = Pick<Props, 'horizontal' | 'showMask'>
   ```
+
+## hooks 规范
+
+- 逻辑优先抽到 `hooks.ts` 自定义 hooks，组件体只做「hook 返回值组合 + 渲染」
+- 一类状态机 / 一组回调封装一个 hook（如 `useScrollLock`），参数与返回值类型放 `./types.ts`（`useXxxOptions`）
+- 对外暴露的回调一律 `useCallback` 稳定引用，按真实依赖声明 deps
+- **渲染期不直读 `ref.current`**：ref 在渲染后才赋值，渲染期直读会得到 `null`。需要传给下层组件使用的值应暴露成「调用时懒读取 ref」的稳定函数（如 `useScrollViewRef` 返回 `scrollTo` 而非裸 ref）
 
 ## 样式规范
 
@@ -105,6 +124,11 @@ hold-menu/
   // ✅ 正确
   <Text style={stl(_.mt.sm, style)}>
   ```
+
+## 禁止用 ts 抑制注释掩盖类型错误
+
+- 不使用 `// @ts-ignore` / `@ts-expect-error` 掩盖**可修复**的类型错误，从根因解决
+- 例：`LinearGradient.colors` 期望可变的 `string[]`，传入 `readonly` 元组报错时应 `[...colors]` 展开为可变数组，而不是加抑制注释
 
 ## ant-design 组件迁移
 

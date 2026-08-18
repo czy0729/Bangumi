@@ -4,16 +4,27 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-06-07 20:08:01
  */
-import type { ScrollView, ScrollViewProps } from 'react-native'
+import type {
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  ScrollView,
+  ScrollViewProps
+} from 'react-native'
 import type { Expand } from '@types'
 
+/** 滚动到指定坐标 */
 export type ScrollTo = (params: { x?: number; y?: number; animated?: boolean }) => void
 
+/** 遮罩渐变色 [左, 中, 右] */
+export type MaskColors = readonly [string, string, string]
+
+/** 通用 ScrollView 组件 Props */
 export type Props = Expand<
   ScrollViewProps & {
     /** 是否启用点击顶部滚动到顶（安卓 only） */
     scrollToTop?: boolean
 
+    /** 是否启用动画滚动组件 */
     animated?: boolean
 
     /** 连接 ref.scrollTo */
@@ -28,7 +39,34 @@ export type Props = Expand<
     /** 左右溢出遮罩宽度 */
     maskWidth?: number
 
-    /** 遮罩颜色 */
-    maskColors?: readonly [string, string, string]
+    /** 遮罩渐变色, 默认读主题色 */
+    maskColors?: MaskColors
   }
 >
+
+/** ScrollView 原生滚动事件 */
+export type ScrollEvent = NativeSyntheticEvent<NativeScrollEvent>
+
+/** 全局滚动锁状态机参数 */
+export type ScrollLockOptions = {
+  /** 滚动回调 */
+  onScroll?: (e: ScrollEvent) => void
+
+  /** 开始拖动回调 */
+  onScrollBeginDrag?: (e: ScrollEvent) => void
+
+  /** 结束拖动回调 */
+  onScrollEndDrag?: (e: ScrollEvent) => void
+
+  /** 惯性滚动结束回调 */
+  onMomentumScrollEnd?: (e: ScrollEvent) => void
+}
+
+/** 水平渐隐遮罩参数 */
+export type UseHorizontalMaskOptions = Pick<
+  Props,
+  'horizontal' | 'showMask' | 'maskColors' | 'onContentSizeChange'
+>
+
+/** ScrollView ref 回调参数 */
+export type UseScrollViewRefOptions = Pick<Props, 'scrollToTop' | 'forwardRef' | 'connectRef'>

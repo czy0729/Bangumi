@@ -6,19 +6,20 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import Animated from 'react-native-reanimated'
-import { LinearGradient } from 'expo-linear-gradient'
+import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import { PAD } from '@constants'
+import { IOS, PAD } from '@constants'
+import MaskGradient from './gradient'
+import { getMaskWidthValue } from './utils'
 import { DEFAULT_MASK_WIDTH } from './ds'
 import { styles } from './styles'
 
+export { useMask } from './use-mask'
+
 import type { Props } from './types'
 
-const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient)
-
 /** 左右滚动遮罩容器 */
-export function Mask({
+function Mask({
   showMask = true,
   maskWidth = DEFAULT_MASK_WIDTH,
   maskColors,
@@ -27,18 +28,13 @@ export function Mask({
   onLayout,
   children
 }: Props) {
-  // @ts-ignore
-  const rightColors = [...maskColors].reverse()
-
-  /**
-   * 遮罩层宽度
-   *  - 若 maskWidth >= DEFAULT_MASK_WIDTH 则认为是占满横屏的组件，需要补偿倍率宽度
-   *  - _.wind - _._wind 为平板设备两侧预留间距，在手机上永远为 0
-   */
-  const maskWidthValue =
-    maskWidth +
-    _.device(0, maskWidth >= DEFAULT_MASK_WIDTH ? (_.wind - _._wind) * (PAD + 1) : 0) +
-    _.ios(0, 24)
+  const maskWidthValue = getMaskWidthValue(maskWidth, {
+    isPad: _.isPad,
+    wind: _.wind,
+    contentWind: _._wind,
+    padMultiplier: PAD,
+    isIOS: IOS
+  })
 
   return (
     <View onLayout={onLayout}>
@@ -46,33 +42,18 @@ export function Mask({
 
       {showMask && (
         <>
-          <AnimatedLinearGradient
-            style={[
-              styles.leftMask,
-              leftMaskStyle,
-              {
-                width: maskWidthValue
-              }
-            ]}
+          <MaskGradient
+            positionStyle={styles.leftMask}
+            animatedStyle={leftMaskStyle}
             colors={maskColors}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            pointerEvents='none'
+            width={maskWidthValue}
           />
-
-          <AnimatedLinearGradient
-            style={[
-              styles.rightMask,
-              rightMaskStyle,
-              {
-                width: maskWidthValue
-              }
-            ]}
-            // @ts-ignore
-            colors={rightColors}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            pointerEvents='none'
+          <MaskGradient
+            positionStyle={styles.rightMask}
+            animatedStyle={rightMaskStyle}
+            colors={maskColors}
+            width={maskWidthValue}
+            reverse
           />
         </>
       )}
@@ -80,4 +61,4 @@ export function Mask({
   )
 }
 
-export { useMask } from './use-mask'
+export default observer(Mask)
