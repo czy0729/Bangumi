@@ -22,6 +22,23 @@ component-name/
 - 样式合并用 `stl()` 工具函数
 - 组件包裹 `<Component id='...'>` 调试壳
 
+## observer 与 memo 的选择
+
+组件级包裹方式取决于组件是否**直接读取可观察值**（store / 主题）：
+
+- **读取可观察值**（如 `systemStore.setting.xxx`、`_` 主题值）→ 包裹 `observer()`。`observer` 内部是「`React.memo` 浅比较 + 可观察值追踪」，能响应 store 变化，是 `memo` 的超集。
+- **纯转发 props、不读任何 store** → 包裹 `memo()`。不读取可观察值时 `observer` 退化为纯 `memo` 行为，`memo` 更轻（不引入 mobx 追踪依赖）。
+
+判断标准：组件体（含调用的派生计算）是否出现 `systemStore.*`、`_`、`userStore.*` 等可观察值读取。例如：
+
+- `cover/cover-image` 只把 props 转发给 `Image`/`Squircle`（各自是 `observer`），用 `memo`
+- `cover/disc` 读取 `_.radiusSm`，用 `observer`
+
+要点：
+
+- `memo` 浅比较对字符串/数字按**值**比较（稳定生效），对对象按**引用**比较——传内联对象会让任何 memo 失效，样式应传 `styles.xxx` 稳定引用
+- 若组件未来可能直接读 store，直接先用 `observer` 亦无性能代价
+
 ## 复合组件（子组件独立文件夹）
 
 当组件拆分出多个子组件时（如 `hold-menu`、`action-sheet`），每个子组件独立成文件夹，文件夹内 `index.tsx` 用 `export default` 导出组件，私有样式放该文件夹的 `styles.ts`，专属逻辑抽成 `useXxx.ts` 自定义 hooks：

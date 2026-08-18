@@ -14,7 +14,7 @@ import { Squircle } from '../../squircle'
 import { memoStyles } from './styles'
 
 import type { ViewStyle } from '@types'
-import type { Props as CoverProps } from '../types'
+import type { Props } from './types'
 
 function Book({
   containerStyle,
@@ -28,19 +28,7 @@ function Book({
   width,
   height,
   ...other
-}: Pick<
-  CoverProps,
-  | 'containerStyle'
-  | 'bodyStyle'
-  | 'imageStyle'
-  | 'src'
-  | 'imageViewerSrc'
-  | 'textOnly'
-  | 'fallback'
-  | 'size'
-  | 'width'
-  | 'height'
->) {
+}: Props) {
   const styles = memoStyles()
 
   // 书籍为书本状

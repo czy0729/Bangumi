@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-20 10:11:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-27 06:59:35
+ * @Last Modified time: 2026-08-18 08:29:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,7 @@ import { Squircle } from '../../squircle'
 import { memoStyles } from './styles'
 
 import type { ViewStyle } from '@types'
-import type { Props as CoverProps } from '../types'
+import type { Props } from './types'
 
 function Disc({
   imageStyle,
@@ -29,19 +29,7 @@ function Disc({
   height,
   radius,
   ...other
-}: Pick<
-  CoverProps,
-  | 'imageStyle'
-  | 'angleStyle'
-  | 'src'
-  | 'imageViewerSrc'
-  | 'textOnly'
-  | 'fallback'
-  | 'size'
-  | 'width'
-  | 'height'
-  | 'radius'
->) {
+}: Props) {
   const styles = memoStyles()
 
   // 音乐为矩形唱片装, 长宽取短的

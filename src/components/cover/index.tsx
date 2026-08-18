@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-27 07:12:14
+ * @Last Modified time: 2026-08-18 08:30:00
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -11,10 +11,9 @@ import { systemStore } from '@stores'
 import { r } from '@utils/dev'
 import { HOST_BGM_STATIC, IMG_DEFAULT } from '@constants'
 import { Component } from '../component'
-import { Image } from '../image'
-import { Squircle } from '../squircle'
 import Book from './book'
 import Catalog from './catalog'
+import CoverImage from './cover-image'
 import Disc from './disc'
 import Game from './game'
 import TextOnly from './text-only'
@@ -47,30 +46,28 @@ export const Cover = observer(
   }: CoverProps) => {
     r(COMPONENT)
 
-    if (
-      // 修正受限内容封面
-      src === '/img/no_icon_subject.png' ||
-      // 修正部分不规范维基数据
-      src === `${HOST_BGM_STATIC}/r/200/pic/cover/l/`
-    ) {
-      src = IMG_DEFAULT
-    }
+    // 修正受限内容封面与部分不规范维基数据
+    const fixedSrc =
+      src === '/img/no_icon_subject.png' || src === `${HOST_BGM_STATIC}/r/200/pic/cover/l/`
+        ? IMG_DEFAULT
+        : src
 
     const { width, radius } = other
     const coverWidth = width || size
     const coverHeight = height || size
+
     if (textOnly) {
       return (
         <TextOnly width={coverWidth} height={coverHeight} radius={radius} onPress={other.onPress} />
       )
     }
 
-    let coverSrc = getCoverSrc(src, coverWidth, cdn, noDefault)
+    const coverSrcRaw = getCoverSrc(fixedSrc, coverWidth, cdn, noDefault)
 
     // 能使已确定不能成功加载的图片, 使用回滚路径尽早渲染
-    if (checkLocalError(coverSrc)) {
-      coverSrc = getRecoveryBgmCover(coverSrc, coverWidth, coverHeight, size)
-    }
+    const coverSrc = checkLocalError(coverSrcRaw)
+      ? getRecoveryBgmCover(coverSrcRaw, coverWidth, coverHeight, size)
+      : coverSrcRaw
 
     const passProps = {
       ...other,
@@ -84,59 +81,33 @@ export const Cover = observer(
 
     // 封面拟物
     if (useType || systemStore.setting.coverThings) {
+      const imageProps = { ...passProps, imageStyle: style, width }
+
       if (type === '音乐') {
-        return (
-          <Disc
-            {...passProps}
-            imageStyle={style}
-            angleStyle={angleStyle}
-            width={width}
-            radius={radius}
-          />
-        )
+        return <Disc {...imageProps} angleStyle={angleStyle} radius={radius} />
       }
 
       if (type === '书籍') {
-        return (
-          <Book
-            {...passProps}
-            containerStyle={containerStyle}
-            bodyStyle={bodyStyle}
-            imageStyle={style}
-            width={width}
-          />
-        )
+        return <Book {...imageProps} containerStyle={containerStyle} bodyStyle={bodyStyle} />
       }
 
       if (type === '游戏') {
         return (
           <Game
-            {...passProps}
+            {...imageProps}
             containerStyle={containerStyle}
             bodyStyle={bodyStyle}
             angleStyle={angleStyle}
-            imageStyle={style}
-            width={width}
           />
         )
       }
 
-      if (type === '目录') return <Catalog {...passProps} imageStyle={style} width={width} />
-    }
-
-    if (radius) {
-      return (
-        <Component id='component-cover' data-type='subject'>
-          <Squircle width={coverWidth} height={coverHeight} radius={radius}>
-            <Image {...passProps} style={style} radius={0} />
-          </Squircle>
-        </Component>
-      )
+      if (type === '目录') return <Catalog {...imageProps} />
     }
 
     return (
       <Component id='component-cover' data-type='subject'>
-        <Image {...passProps} style={style} />
+        <CoverImage {...passProps} style={style} radius={radius} />
       </Component>
     )
   }
