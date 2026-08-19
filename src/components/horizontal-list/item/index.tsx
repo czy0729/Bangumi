@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-06-06 17:40:38
  */
-import React from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
@@ -36,26 +36,17 @@ function Item<T extends ItemData>({
   const typeCnValue = getTypeCn(item.name, item.desc, typeCn, relationTypeCn)
   const isMusic = typeCnValue === '音乐'
   const w = _.r(isMusic ? width * 1.16 : width)
+  const marginLeft = isFirst ? null : _.r(isMusic ? 16 : 12)
+
+  const style = useMemo(() => stl({ width: w }, marginLeft && { marginLeft }), [w, marginLeft])
+
+  const handlePress = useCallback(() => {
+    onPress?.(item, typeCn)
+  }, [item, typeCn, onPress])
 
   return (
-    <View
-      style={stl(
-        {
-          width: w
-        },
-        !isFirst && {
-          marginLeft: _.r(isMusic ? 16 : 12)
-        }
-      )}
-    >
-      <Touchable
-        animate
-        scale={0.9}
-        hitSlop={HIT_SLOP}
-        onPress={() => {
-          onPress?.(item, typeCn)
-        }}
-      >
+    <View style={style}>
+      <Touchable animate scale={0.9} hitSlop={HIT_SLOP} onPress={handlePress}>
         <Cover
           size={w}
           height={_.r(height)}

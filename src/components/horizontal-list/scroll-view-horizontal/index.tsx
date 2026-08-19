@@ -2,19 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-11-08 00:47:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-07 20:07:08
+ * @Last Modified time: 2026-08-19 08:01:18
  */
-import React from 'react'
-import { observer } from 'mobx-react'
+import React, { memo } from 'react'
 import { ScrollView } from '../../scroll-view'
 
-import type { ScrollViewProps } from '../../scroll-view'
+import type { Props } from './types'
 
-function ScrollViewHorizontal({
-  children,
-  contentContainerStyle,
-  ...other
-}: Omit<ScrollViewProps, 'horizontal'>) {
+/** 横向滚动容器 */
+function ScrollViewHorizontal({ children, contentContainerStyle, ...other }: Props) {
   return (
     <ScrollView
       contentContainerStyle={contentContainerStyle}
@@ -28,4 +24,4 @@ function ScrollViewHorizontal({
   )
 }
 
-export default observer(ScrollViewHorizontal)
+export default memo(ScrollViewHorizontal)

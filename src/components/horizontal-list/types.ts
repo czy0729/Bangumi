@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-06-07 20:25:03
  */
 import type { ReactNode } from 'react'
-import type { TextProps } from 'react-native'
+import type { NativeScrollEvent, NativeSyntheticEvent, TextProps } from 'react-native'
 import type { SubjectTypeCn, ViewStyle, WithViewStyles } from '@types'
 
 export type WithId = {
@@ -83,3 +83,21 @@ export type Props<T extends WithId = ItemData> = WithViewStyles<{
   /** item 描述点击回调 */
   onSubPress?: (payload: T) => void
 }>
+
+/** 水平列表逻辑参数 */
+export type UseHorizontalListOptions<T extends WithId> = Pick<
+  Props<T>,
+  'data' | 'sortData' | 'initialRenderNums' | 'scrolled' | 'onEndReachedOnce'
+>
+
+/** 水平列表逻辑返回值 */
+export type UseHorizontalListResult<T extends WithId> = {
+  /** 是否已滚动 */
+  scrolled: boolean
+
+  /** 待渲染数据 */
+  memoData: T[]
+
+  /** 滚动回调 */
+  handleScroll: (evt: NativeSyntheticEvent<NativeScrollEvent>) => void
+}

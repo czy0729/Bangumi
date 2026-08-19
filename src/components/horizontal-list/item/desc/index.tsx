@@ -43,4 +43,4 @@ function Desc<T extends ItemData>({ item, typeCn, onPress }: Props<T>) {
   )
 }
 
-export default observer(Desc) as <T extends ItemData>(props: Props<T>) => React.JSX.Element
+export default observer(Desc)
