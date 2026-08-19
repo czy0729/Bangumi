@@ -7,52 +7,65 @@
 import type { ReactNode, TextStyle, ViewStyle, ColorValue } from '@types'
 import type { TrackProps } from '../track'
 
+/** HeaderV2 组件属性 */
 export type Props = {
-  /** 是否透明 */
+  /** 透明头部, 隐藏标题并使用透明背景 */
   transparent?: boolean
 
-  /** 头部背景样式 */
+  /** 头部背景容器样式 */
   backgroundStyle?: ViewStyle
 
-  /** 是否锁定, 模式不为空时有效 */
+  /** @deprecated 未使用, 保留以兼容旧调用 */
   fixed?: boolean
 
-  /** 标题 */
+  /** 标题文字 */
   title?: string
 
-  /** [WEB] 若有此值, 页面标题以此优先 */
+  /** [WEB] 页面标题, 有值时优先于 title */
   domTitle?: string
 
-  /** 统计参数: [url 地址, 对应页面 key] */
+  /** 埋点参数: [URL 地址, 页面 key] */
   hm?: TrackProps['hm']
 
-  /** 统计别名 */
+  /** 埋点别名, 便于日志区分页面 */
   alias?: string
 
-  /** 文字颜色 (包括退后按钮) */
+  /** 文字颜色 (包括返回按钮箭头) */
   color?: ColorValue
 
-  /** 左侧 element */
+  /** @deprecated 未使用, 保留以兼容旧调用 */
   headerLeft?: ReactNode
 
-  /** 模式为 'transition' 时有效, 代替 title 显示 */
+  /** @deprecated 未使用, 保留以兼容旧调用 */
   headerTitle?: ReactNode
 
-  /** 标题容器样式 */
+  /** 标题容器 (Flex) 样式 */
   headerTitleStyle?: ViewStyle
 
-  /** 标题文字大小 (默认：16) */
+  /** 标题文字大小 (默认 16) */
   headerTitleSize?: number
 
-  /** 标题对齐 */
+  /** 标题对齐方式, 默认居中 */
   headerTitleAlign?: 'center' | 'left'
 
-  /** 标题为文字时, 可以追加在标题后方的节点 */
+  /** 追加在标题文字之后的节点 */
   headerTitleAppend?: ReactNode
 
-  /** 标题文字节点样式 */
+  /** 标题文字样式 */
   headerTitleTextStyle?: TextStyle
 
-  /** 右侧 element */
+  /** 右侧节点渲染函数 */
   headerRight?: () => ReactNode
+}
+
+/** HeaderV2 头部逻辑参数 */
+export type UseHeaderV2Options = Pick<Props, 'headerRight' | 'headerTitleAlign' | 'headerTitleStyle'>
+
+/** HeaderV2 头部逻辑返回值 */
+export type UseHeaderV2Result = {
+  /** 按设备适配的标题对齐 */
+  headerTitleAlignValue: 'center' | 'left'
+
+  /** 按设备适配的标题容器样式 */
+  headerTitleStyleValue?: ViewStyle
 }

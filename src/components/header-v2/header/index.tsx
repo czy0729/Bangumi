@@ -2,18 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-03-23 00:51:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-14 20:50:40
+ * @Last Modified time: 2026-08-19 17:24:33
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { stl } from '@utils'
-import { r } from '@utils/dev'
 import { useInsets } from '@utils/hooks'
 import { Flex } from '../../flex'
 import { Text } from '../../text'
 import Back from '../back'
 import Background from '../background'
-import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 import type { Props } from './types'
@@ -30,8 +28,6 @@ function Header({
   headerTitleTextStyle,
   headerRight
 }: Props) {
-  r(COMPONENT)
-
   const { headerHeight, statusBarHeight } = useInsets()
 
   return (

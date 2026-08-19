@@ -2,30 +2,33 @@
  * @Author: czy0729
  * @Date: 2023-12-04 15:42:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-25 12:32:47
+ * @Last Modified time: 2026-08-19 17:24:48
  */
 import type { PropsWithChildren } from 'react'
-import type { ColorValue, IconfontNames, ViewStyle, WithViewStyles } from '@types'
+import type { IconfontNames, Override, ViewStyle, WithViewStyles } from '@types'
 import type { PopoverData } from '../../popover'
+import type { Props as ComponentProps } from '../types'
 
 export type Props<Data extends PopoverData> = PropsWithChildren<
-  WithViewStyles<{
-    /** 图标名字 */
-    name?: IconfontNames
+  WithViewStyles<
+    Override<
+      Pick<ComponentProps, 'color'>,
+      {
+        /** 图标名字 */
+        name?: IconfontNames
 
-    /** 图标大小 */
-    size?: number
+        /** 图标大小 */
+        size?: number
 
-    /** 图标颜色 */
-    color?: ColorValue
+        /** Popover data */
+        data?: Data
 
-    /** Popover data */
-    data?: Data
+        /** 菜单样式 */
+        menuStyle?: ViewStyle
 
-    /** 菜单样式 */
-    menuStyle?: ViewStyle
-
-    /** Popover onSelect */
-    onSelect?: (title?: Data[number], index?: number) => any
-  }>
+        /** Popover onSelect */
+        onSelect?: (title?: Data[number], index?: number) => void
+      }
+    >
+  >
 >

@@ -14,7 +14,7 @@ import { Touchable } from '../../touchable'
 import { COMPONENT, HIT_SLOP } from './ds'
 import { styles } from './styles'
 
-import type { Props } from './type'
+import type { Props } from './types'
 
 function Back({ style, color, onPress }: Props) {
   const navigation = useNavigation(COMPONENT)

@@ -8,13 +8,11 @@ import React from 'react'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
-import { r } from '@utils/dev'
 import { FROZEN_FN, IOS } from '@constants'
 import { Flex } from '../../flex'
 import { Iconfont } from '../../iconfont'
 import { Menu } from '../../menu'
 import { Popover as PopoverComp } from '../../popover'
-import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 import type { PopoverData } from '../../popover'
@@ -31,8 +29,6 @@ function Popover<Data extends PopoverData>({
   children,
   ...other
 }: Props<Data>) {
-  r(COMPONENT)
-
   const commonProps = {
     style: stl(styles.touch, style),
     placement: 'bottom',

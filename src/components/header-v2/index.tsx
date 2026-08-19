@@ -4,14 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-05-16 02:16:45
  */
-import React, { useEffect } from 'react'
+import React from 'react'
 import { observer } from 'mobx-react'
-import { _ } from '@stores'
-import { useNavigation } from '@utils/hooks'
+import { Component } from '../component'
 import { Track } from '../track'
 import Header from './header'
+import { useHeaderV2 } from './hooks'
 import HeaderV2Popover from './popover'
-import { COMPONENT } from './ds'
 
 export { HeaderV2Popover }
 
@@ -34,41 +33,28 @@ export const HeaderV2 = observer(
     headerTitleTextStyle,
     headerRight
   }: HeaderV2Props) => {
-    const navigation = useNavigation(COMPONENT)
-
-    useEffect(() => {
-      navigation.setOptions({
-        headerShown: false,
-        headerTransparent: false,
-        headerShadowVisible: false,
-        headerRight
-      })
-    }, [navigation, headerRight])
+    const { headerTitleAlignValue, headerTitleStyleValue } = useHeaderV2({
+      headerRight,
+      headerTitleAlign,
+      headerTitleStyle
+    })
 
     return (
-      <>
+      <Component id='component-header-v2'>
         <Header
           style={backgroundStyle}
           transparent={transparent}
           title={title}
           color={color}
-          headerTitleAlign={_.device(headerTitleAlign, 'center')}
-          headerTitleStyle={_.device(
-            headerTitleStyle,
-            _.flatten([
-              headerTitleStyle,
-              {
-                paddingRight: 0
-              }
-            ])
-          )}
+          headerTitleAlign={headerTitleAlignValue}
+          headerTitleStyle={headerTitleStyleValue}
           headerTitleSize={headerTitleSize}
           headerTitleAppend={headerTitleAppend}
           headerTitleTextStyle={headerTitleTextStyle}
           headerRight={headerRight}
         />
         <Track title={title} domTitle={domTitle} hm={hm} alias={alias} />
-      </>
+      </Component>
     )
   }
 )
