@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-01 17:26:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-05 20:32:33
+ * @Last Modified time: 2026-08-20 00:00:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -34,19 +34,24 @@ export const UserStatusAvatar = observer(
     const navigationRef = useNavigation(COMPONENT) || navigation
 
     const styles = memoStyles()
+
+    const elAvatar = (
+      <Avatar
+        navigation={navigationRef}
+        userId={userId}
+        name={userName}
+        src={avatar}
+        size={size}
+        radius={radius}
+        event={event}
+        onPress={onPress}
+      />
+    )
+
     if (like) {
       return (
         <View style={style}>
-          <Avatar
-            navigation={navigationRef}
-            userId={userId}
-            name={userName}
-            src={avatar}
-            size={size}
-            radius={radius}
-            event={event}
-            onPress={onPress}
-          />
+          {elAvatar}
           <Iconfont style={styles.favor} name='md-favorite' color={_.colorMain} size={12} />
         </View>
       )
@@ -55,16 +60,7 @@ export const UserStatusAvatar = observer(
     return (
       <View style={style}>
         <UserStatus userId={userId} mini={mini}>
-          <Avatar
-            navigation={navigationRef}
-            userId={userId}
-            name={userName}
-            src={avatar}
-            size={size}
-            radius={radius}
-            event={event}
-            onPress={onPress}
-          />
+          {elAvatar}
         </UserStatus>
       </View>
     )

@@ -8,16 +8,25 @@ import type { ImageProps } from '@components'
 import type { EventType, UserId, WithNavigation, WithViewStyles } from '@types'
 
 export type Props = WithNavigation<
-  WithViewStyles<{
-    /** 是否显示追踪爱心图标 */
-    like?: boolean
-    userId: UserId
-    userName: string
-    avatar: ImageProps['src']
-    size?: ImageProps['size']
-    radius?: ImageProps['radius']
-    mini?: boolean
-    event?: EventType
-    onPress?: ImageProps['onPress']
-  }>
+  WithViewStyles<
+    {
+      /** 是否显示追踪爱心图标 */
+      like?: boolean
+
+      /** 用户 ID */
+      userId: UserId
+
+      /** 用户名 */
+      userName: string
+
+      /** 头像地址 */
+      avatar: ImageProps['src']
+
+      /** 是否使用迷你尺寸的用户状态 */
+      mini?: boolean
+
+      /** 埋点事件 */
+      event?: EventType
+    } & Pick<ImageProps, 'size' | 'radius' | 'onPress'>
+  >
 >

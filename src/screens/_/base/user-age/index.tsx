@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2025-01-25 11:02:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 20:32:40
+ * @Last Modified time: 2026-08-20 00:00:00
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Component, Flex, Text } from '@components'
-import { systemStore } from '@stores'
 import { stl } from '@utils'
 import { getAge } from '@utils/app/ages'
 import { r } from '@utils/dev'
+import { getUserAgeText } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
@@ -25,14 +25,7 @@ export const UserAge = observer(({ style, value, avatar }: UserAgeProps) => {
   if (age === null) return null
 
   const styles = memoStyles()
-  let text = !age || age == 0 ? '最近' : age
-  if (text !== '最近') {
-    if (systemStore.setting.userAgeType === 'month' && Number(age) < 1) {
-      text = `${Math.floor(Number(age) * 12)}月`
-    } else {
-      text += '年'
-    }
-  }
+  const text = getUserAgeText(age)
 
   return (
     <Component id='base-user-age'>

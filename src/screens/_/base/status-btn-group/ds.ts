@@ -15,5 +15,8 @@ export const SPRING_CONFIG = {
   damping: IOS ? 35 : 20,
 
   /** 弹簧刚度，值越大，回弹越快 */
-  stiffness: IOS ? 300 : 200
+  stiffness: IOS ? 300 : 200,
+
+  /** 质量，越小越轻快 */
+  mass: IOS ? 0.9 : 1
 } as const

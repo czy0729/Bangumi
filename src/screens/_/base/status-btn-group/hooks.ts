@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-08 21:07:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-21 16:52:40
+ * @Last Modified time: 2026-08-20 00:00:00
  */
 import { useCallback, useEffect, useState } from 'react'
 import {
@@ -53,15 +53,16 @@ export function useStatusBtnGroup(value: Props['value']) {
     useSharedValue(index === activeIndex.value ? 1 : 0)
   )
 
-  /** 白天主题, 按钮非选定下文字为黑色, 选定为白色 */
-  const getButtonStyle = (index: number) => {
-    return useAnimatedStyle(() => {
-      const color = interpolateColor(buttonColors[index].value, [0, 1], ['#000', '#fff'])
+  // COLLECTION_STATUS 长度恒定, 循环内调用 hooks 的调用顺序稳定, 故可安全使用
+  const buttonStyles = buttonColors.map(color =>
+    useAnimatedStyle(() => {
+      const textColor = interpolateColor(color.value, [0, 1], ['#000', '#fff'])
       return {
-        color
+        color: textColor
       }
     })
-  }
+  )
+
   const setActiveButton = useCallback(
     (index: number) => {
       buttonColors.forEach((color, i) => {
@@ -108,9 +109,16 @@ export function useStatusBtnGroup(value: Props['value']) {
   }, [activeIndex, animate, setActiveButton, value])
 
   return {
+    /** 活动块样式 */
     blockStyle,
-    getButtonStyle,
+
+    /** 各按钮文字动画样式 */
+    buttonStyles,
+
+    /** 计算活动块宽度 */
     handleContainerLayout,
+
+    /** 按钮点击处理 */
     handleButtonPress
   }
 }

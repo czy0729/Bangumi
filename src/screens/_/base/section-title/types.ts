@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-03-19 20:25:16
  */
 import type { PropsWithChildren } from 'react'
-import type { Fn, IconfontNames, ReactNode, WithViewStyles } from '@types'
+import type { IconfontNames, ReactNode, WithViewStyles } from '@types'
 
 export type Props = PropsWithChildren<
   WithViewStyles<{
@@ -22,6 +22,6 @@ export type Props = PropsWithChildren<
     splitStyles?: boolean
 
     /** 标题点击回调 */
-    onPress?: Fn
+    onPress?: () => void
   }>
 >

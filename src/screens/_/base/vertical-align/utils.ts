@@ -4,13 +4,14 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-06-14 17:28:10
  */
+
 /** 扩大行高以尽量能完整显示文字 */
 export function calcStyles(lineHeight: number) {
   const value = lineHeight * 2
   return {
     lineHeight: value,
     marginBottom: Math.floor(lineHeight / 2) * -1
-  }
+  } as const
 }
 
 /** 去除特殊文字 */

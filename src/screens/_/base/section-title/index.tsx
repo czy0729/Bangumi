@@ -2,19 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-04-10 15:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 20:25:33
+ * @Last Modified time: 2026-08-20 00:00:00
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component, Flex, Iconfont, Text, Touchable } from '@components'
-import { _, systemStore } from '@stores'
-import { stl } from '@utils'
+import { _ } from '@stores'
 import { r } from '@utils/dev'
+import { getSplitStyles } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-import type { ReactNode } from '@types'
 import type { Props as SectionTitleProps } from './types'
 export type { SectionTitleProps }
 
@@ -24,34 +23,7 @@ export const SectionTitle = observer(
     r(COMPONENT)
 
     const styles = memoStyles()
-
-    let splitStylesTitle: ReactNode = null
-    let splitStylesUnderline: ReactNode = null
-    if (splitStyles) {
-      const { subjectSplitStyles } = systemStore.setting
-      const value = String(subjectSplitStyles || '')
-      if (value.startsWith('title-')) {
-        const styleMap = {
-          main: styles.titleMain,
-          warning: styles.titleWarning,
-          primary: styles.titlePrimary,
-          success: styles.titleSuccess
-        }
-        const styleKey = value.split('-')?.[1] || 'main'
-        const selectedStyle = styleMap[styleKey] || styles.titleMain
-        splitStylesTitle = <View style={stl(styles.title, selectedStyle)} />
-      } else if (value.startsWith('underline-')) {
-        const styleMap = {
-          main: styles.underlineMain,
-          warning: styles.underlineWarning,
-          primary: styles.underlinePrimary,
-          success: styles.underlineSuccess
-        }
-        const styleKey = value.split('-')?.[1] || 'main'
-        const selectedStyle = styleMap[styleKey] || styles.underlineMain
-        splitStylesUnderline = <View style={stl(styles.underline, selectedStyle)} />
-      }
-    }
+    const { splitStylesTitle, splitStylesUnderline } = getSplitStyles(splitStyles)
 
     const titleEl = onPress ? (
       <Touchable style={styles.touch} onPress={onPress}>

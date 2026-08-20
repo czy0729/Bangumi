@@ -4,6 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-08-24 11:13:38
  */
+import { _ } from '@stores'
+
+import type { TextType } from '@components'
 import type { Props } from './types'
 
 export function getType(value: Props['value']) {
@@ -55,5 +58,25 @@ export function getType(value: Props['value']) {
 
     default:
       return ''
+  }
+}
+
+/** 计算标签类型和对应的文字类型 */
+export function getTagType(type: Props['type'], value: Props['value']) {
+  const tagType = type || getType(value) || _.select('plain', 'desc')
+  const isActive = tagType.includes('Active')
+  const textType = (
+    isActive ? _.select('plain', 'desc') : _.select('sub', tagType === 'plain' ? 'sub' : tagType)
+  ) as TextType
+
+  return {
+    /** 标签主题类型 */
+    tagType,
+
+    /** 是否激活状态 */
+    isActive,
+
+    /** 文字类型 */
+    textType
   }
 }

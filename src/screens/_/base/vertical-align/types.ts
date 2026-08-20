@@ -14,6 +14,9 @@ export type Props = Override<
     text: string
 
     /** 通知需要优化的回调, 使用去除的方式代替修正行高 */
-    onHit?: (removeSpecText: string) => any
+    onHit?: (removeSpecText: string) => void
   }
 >
+
+/** useVerticalAlignDetection 参数 */
+export type UseVerticalAlignDetectionParams = Pick<Props, 'text' | 'onHit'>

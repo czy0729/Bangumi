@@ -8,5 +8,5 @@ import type { WithViewStyles } from '@types'
 
 export type Props = WithViewStyles<{
   /** 评分 */
-  value: number
+  value?: number
 }>

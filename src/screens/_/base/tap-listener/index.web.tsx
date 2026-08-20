@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-02 22:47:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 06:24:50
+ * @Last Modified time: 2026-08-21 00:00:00
  */
 import { useEffect } from 'react'
 import { Component } from '@components'
@@ -10,7 +10,10 @@ import { _, uiStore } from '@stores'
 import { r } from '@utils/dev'
 import { COMPONENT } from './ds'
 
-export const TapListener = ({ children }) => {
+import type { Props as TapListenerProps } from './types'
+export type { TapListenerProps }
+
+export const TapListener = ({ children }: TapListenerProps) => {
   r(COMPONENT)
 
   useEffect(() => {

@@ -5,13 +5,17 @@
  * @Last Modified time: 2026-03-19 20:24:23
  */
 import type { PropsWithChildren } from 'react'
-import type { TextType } from '@components'
+import type { TextProps, TextType } from '@components'
 import type { ReactNode, WithViewStyles } from '@types'
 
 export type Props = PropsWithChildren<
-  WithViewStyles<{
-    type?: TextType
-    size?: number
-    right?: ReactNode
-  }>
+  WithViewStyles<
+    {
+      /** 文字类型 */
+      type?: TextType
+
+      /** 右侧额外内容 */
+      right?: ReactNode
+    } & Pick<TextProps, 'size'>
+  >
 >

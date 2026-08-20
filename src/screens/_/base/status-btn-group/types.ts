@@ -14,5 +14,5 @@ export type Props = WithViewStyles<{
   action?: SubjectActions
 
   /** 选择回调, 实际使用 CollectionStatus */
-  onSelect?: (value?: CollectionStatus | RatingStatus) => any
+  onSelect?: (value?: CollectionStatus | RatingStatus) => void
 }>

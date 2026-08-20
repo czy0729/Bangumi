@@ -24,7 +24,7 @@ export const Notice = observer(({ style, children, ...other }: NoticeProps) => {
 
   return (
     <Component id='base-notice' style={stl(styles.notice, style)}>
-      <Text size={12} lineHeight={WEB ? 14 : 12} type='sub' {...other}>
+      <Text type='sub' size={12} lineHeight={WEB ? 14 : 12} {...other}>
         {children}
       </Text>
     </Component>

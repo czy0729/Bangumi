@@ -10,10 +10,6 @@ export const styles = _.create({
   setting: {
     width: '100%',
     paddingLeft: _.xs,
-    marginTop: _.md,
-    marginBottom: _.sm
-  },
-  opacity: {
-    opacity: 0.5
+    marginTop: 10
   }
 })

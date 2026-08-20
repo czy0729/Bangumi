@@ -7,7 +7,12 @@
 import type { TextStyle, UserId } from '@types'
 
 export type Props = {
+  /** 自定义样式 */
   style?: TextStyle
+
+  /** 用户 ID */
   value: UserId
+
+  /** 头像地址 */
   avatar: string
 }

@@ -8,13 +8,17 @@ import React, { useRef } from 'react'
 import { View } from 'react-native'
 import { logger } from '@utils/dev'
 
+import type { ComponentType } from 'react'
+
 /**
  * 高度变动监控 HOC
  * @param WrappedComponent 原始业务组件
- * @param componentName 组件名称（用于日志输出）
  */
-export function withLayoutTrace(WrappedComponent: any) {
-  return (props: any) => {
+export function withLayoutTrace<P extends object>(WrappedComponent: ComponentType<P>) {
+  const typedComponent = WrappedComponent as { displayName?: string; name?: string }
+  const componentName = typedComponent.displayName || typedComponent.name || 'Anonymous'
+
+  return (props: P) => {
     const lastHeight = useRef(0)
     const isFirstLayout = useRef(true)
 
@@ -25,10 +29,6 @@ export function withLayoutTrace(WrappedComponent: any) {
 
           // 只有当高度发生非首次的、显著的变化时才记录
           if (!isFirstLayout.current && Math.abs(lastHeight.current - height) > 0.1) {
-            // 使用正则从 String(WrappedComponent.type) 中提取函数名
-            const componentName =
-              String(WrappedComponent.type).match(/function\s+([a-zA-Z0-9_$]+)/)?.[1] || 'Anonymous'
-
             if (lastHeight.current) {
               logger.error(
                 'withLayoutTrace',

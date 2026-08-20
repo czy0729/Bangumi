@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-19 20:29:12
  */
-import React from 'react'
+import React, { useMemo } from 'react'
 import Animated from 'react-native-reanimated'
 import { observer } from 'mobx-react'
 import { Component, Flex, getTextStyle, Touchable } from '@components'
@@ -18,6 +18,7 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { Props as StatusBtnGroupProps } from './types'
+import type { TextStyle } from '@types'
 export type { StatusBtnGroupProps }
 
 /** 条目状态选择按钮组 */
@@ -25,18 +26,26 @@ export const StatusBtnGroup = observer(
   ({ style, value = '', action = '看', onSelect = FROZEN_FN }: StatusBtnGroupProps) => {
     r(COMPONENT)
 
-    const { blockStyle, getButtonStyle, handleContainerLayout, handleButtonPress } =
+    const { blockStyle, buttonStyles, handleContainerLayout, handleButtonPress } =
       useStatusBtnGroup(value)
 
     const styles = memoStyles()
+
+    const { s2t: s2tEnabled } = systemStore.setting
+    const labels = useMemo(
+      () =>
+        COLLECTION_STATUS.map(item => {
+          const text = item.label.replace('看', action)
+          return s2tEnabled ? s2t(text) : text
+        }),
+      [action, s2tEnabled]
+    )
 
     return (
       <Component id='base-status-btn-group'>
         <Flex style={stl(styles.group, style)} onLayout={handleContainerLayout}>
           <Animated.View style={[styles.block, blockStyle]} />
           {COLLECTION_STATUS.map((item, index) => {
-            const text = item.label.replace('看', action)
-
             return (
               <Flex.Item key={item.label}>
                 <Touchable
@@ -51,14 +60,14 @@ export const StatusBtnGroup = observer(
                   <Flex style={styles.btn} justify='center'>
                     <Animated.Text
                       style={getTextStyle({
-                        style: _.select(getButtonStyle(index), undefined),
+                        style: _.select(buttonStyles[index], undefined) as TextStyle,
                         type: '__plain__'
                       })}
                       suppressHighlighting
                       textBreakStrategy='simple'
                       android_hyphenationFrequency='none'
                     >
-                      {systemStore.setting.s2t ? s2t(text) : text}
+                      {labels[index]}
                     </Animated.Text>
                   </Flex>
                 </Touchable>
