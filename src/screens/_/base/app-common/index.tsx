@@ -5,7 +5,6 @@
  * @Last Modified time: 2026-03-19 15:17:08
  */
 import React, { Suspense } from 'react'
-import { toJS } from 'mobx'
 import { observer } from 'mobx-react'
 import { Component, Heatmap, ImageViewer } from '@components'
 import { systemStore, uiStore } from '@stores'
@@ -31,7 +30,6 @@ export const AppCommon = observer(() => {
       <Component id='base-app-common'>
         <ImageViewer
           {...systemStore.imageViewer}
-          imageUrls={toJS(systemStore.imageViewer.imageUrls)}
           onCancel={systemStore.closeImageViewer}
         />
         <Popable {...uiStore.popableSubject} />

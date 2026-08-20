@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-14 19:29:31
+ * @Last Modified time: 2026-08-20 04:47:39
  */
 import React, { useCallback } from 'react'
 import { Modal, View } from 'react-native'
 import { observer } from 'mobx-react'
-import { RNImageViewer } from '@components/@'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
@@ -18,15 +17,16 @@ import { Image } from '../image'
 import { Text } from '../text'
 import { Touchable } from '../touchable'
 import { useImageMenus, useImageUrlProxy, useImageVisibleLog } from './hooks'
+import ZoomPager from './zoom-pager'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+import type { RenderImageProps } from './zoom-pager/types'
 import type { Props as ImageViewerProps } from './types'
 export type { ImageViewerProps }
 
 /**
  * 图片相册查看器
- * @doc https://github.com/ascoders/react-native-image-viewer
  */
 export const ImageViewer = observer(
   ({
@@ -65,12 +65,14 @@ export const ImageViewer = observer(
     )
 
     const handleRenderImage = useCallback(
-      (p: { source?: { uri?: string }; style?: { width?: number; height?: number } }) => {
+      (p: RenderImageProps) => {
         if (!(p?.style?.width || p?.style?.height)) return null
+
+        const source = typeof p?.source === 'object' ? p?.source?.uri : undefined
 
         return (
           <Image
-            src={p?.source?.uri}
+            src={source}
             width={p?.style?.width}
             height={p?.style?.height}
             headers={proxyImageUrls?.[0]?.headers}
@@ -97,7 +99,7 @@ export const ImageViewer = observer(
               <ActivityIndicator />
             </View>
             <View style={stl(styles.viewerContainer, mini && styles.viewerMini)}>
-              <RNImageViewer
+              <ZoomPager
                 style={styles.viewer}
                 index={index}
                 imageUrls={proxyImageUrls}

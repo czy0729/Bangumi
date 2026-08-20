@@ -5,7 +5,6 @@
  * @Last Modified time: 2026-08-12 06:33:09
  */
 export { HoldMenuProvider, HoldItem } from './react-native-hold-menu'
-export { RNImageViewer } from './react-native-image-zoom-viewer'
 export { RNRenderHTML, rendererA } from './react-native-render-html'
 
 export { default as Icons } from './vector-icons/AntDesign'

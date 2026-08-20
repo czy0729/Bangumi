@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-21 08:49:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-27 09:13:16
+ * @Last Modified time: 2026-08-20 04:47:20
  */
 /** 图片数据 */
 export type ImageUrl = {

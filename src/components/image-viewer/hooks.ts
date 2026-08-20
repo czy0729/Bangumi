@@ -1,10 +1,11 @@
 /*
  * @Author: czy0729
  * @Date: 2026-08-14 19:27:55
- * @Last Modified by:   czy0729
- * @Last Modified time: 2026-08-14 19:27:55
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-08-20 04:47:29
  */
 import { useCallback, useEffect, useMemo, useRef } from 'react'
+import { toJS } from 'mobx'
 import { open, showActionSheet } from '@utils'
 import { logger } from '@utils/dev'
 import { HOST_DOGE, IOS } from '@constants'
@@ -13,9 +14,9 @@ import { ACTION_SHEET_DS, COMPONENT } from './ds'
 
 import type { ImageUrl } from './types'
 
-/** 图片地址统一套代理并缓存 */
+/** 图片地址先剥离 observable 再统一套代理, 并按数组引用缓存 (防止父组件每次渲染传入新数组导致图片重置) */
 export function useImageUrlProxy(imageUrls: ImageUrl[]): ImageUrl[] {
-  return useMemo(() => getProxyImageUrls(imageUrls), [imageUrls])
+  return useMemo(() => getProxyImageUrls(toJS(imageUrls)), [imageUrls])
 }
 
 /** 首次打开时输出调试日志 */
