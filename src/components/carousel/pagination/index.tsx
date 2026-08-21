@@ -7,6 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
+import { feedback } from '@utils'
 import Dot from './dot'
 import { memoStyles } from './styles'
 
@@ -37,7 +38,14 @@ function Pagination({
         styles={styles}
         dotStyle={dotStyle}
         dotActiveStyle={dotActiveStyle}
-        onPress={onDotPress ? () => onDotPress(i) : undefined}
+        onPress={
+          onDotPress
+            ? () => {
+                onDotPress(i)
+                feedback(true)
+              }
+            : undefined
+        }
       />
     )
   }

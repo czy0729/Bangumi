@@ -19,7 +19,7 @@ export const styles = _.create({
     marginHorizontal: -2
   },
   side: {
-    width: 36,
+    minWidth: 36,
     marginTop: -1
   },
   btn: {

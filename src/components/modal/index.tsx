@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-11-05 22:03:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-17 07:36:29
+ * @Last Modified time: 2026-08-22 05:22:11
  */
-import React, { Suspense, useEffect } from 'react'
+import React, { Suspense, useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { feedback } from '@utils'
+import { feedback, stl } from '@utils'
 import { syncThemeStore } from '@utils/async'
 import { r } from '@utils/dev'
 import { Flex } from '../flex'
@@ -22,6 +22,7 @@ import { styles } from './styles'
 
 export { ModalFixed }
 
+import type { LayoutChangeEvent } from 'react-native'
 import type { Props as ModalProps } from './types'
 export type { ModalProps }
 
@@ -42,6 +43,13 @@ export const Modal = observer(
 
     const _ = syncThemeStore()
 
+    // 右插槽实际宽度, 镜像到左侧使标题在任意插槽内容宽度下都保持水平居中
+    const [rightWidth, setRightWidth] = useState(0)
+    const handleRightLayout = useCallback((e: LayoutChangeEvent) => {
+      const { width } = e.nativeEvent.layout
+      setRightWidth(prev => (prev === width ? prev : width))
+    }, [])
+
     useEffect(() => {
       if (visible) feedback(true)
     }, [visible])
@@ -57,7 +65,7 @@ export const Modal = observer(
         <BlurView style={style}>
           <View style={styles.body}>
             <Flex style={styles.head}>
-              <View style={styles.side}>
+              <View style={stl(styles.side, rightWidth > 36 && { width: rightWidth })}>
                 {!!onClose && (
                   <Touchable onPress={onClose}>
                     <Flex style={styles.btn} justify='center'>
@@ -73,7 +81,9 @@ export const Modal = observer(
                   </Text>
                 )}
               </Flex.Item>
-              <View style={styles.side}>{right}</View>
+              <View style={styles.side} onLayout={!!right ? handleRightLayout : undefined}>
+                {right}
+              </View>
             </Flex>
             <Suspense>{children}</Suspense>
           </View>

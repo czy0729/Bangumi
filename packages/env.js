@@ -104,12 +104,69 @@ function getPluginName(plugin) {
  * @param {string} srcDir - 源补丁目录（决定补丁子集）
  * @param {string} dstDir - 目标补丁目录
  */
+/**
+ * 判断路径是否为指向补丁库的有效符号链接
+ * @param {string} filePath - 待检查路径
+ * @param {string} canonicalDir - 补丁库目录
+ * @returns {boolean}
+ */
+function isCanonicalPatchLink(filePath, canonicalDir) {
+  try {
+    return (
+      fs.lstatSync(filePath).isSymbolicLink() &&
+      fs.existsSync(filePath) &&
+      path.dirname(fs.realpathSync(filePath)) === canonicalDir
+    )
+  } catch (e) {
+    return false
+  }
+}
+
+/**
+ * 同步 patches 目录
+ *
+ * 将所有补丁统一管理在 `packages/patches/`，各环境目录（含根 `patches/`）
+ * 仅保留指向该目录的**符号链接**。本函数按源目录的补丁集合，在目标目录
+ * 重建指向 `packages/patches/` 的符号链接（保持各环境各自的补丁子集）。
+ *
+ * 源目录中不在补丁库内的实体补丁（如 patch-package 直接生成在根 `patches/`
+ * 的新补丁）会先收编进补丁库再重建链接，避免后续清空目标目录时丢失唯一副本；
+ * 已失效的符号链接（对应补丁已从库中删除）直接清理。
+ * @param {string} srcDir - 源补丁目录（决定补丁子集）
+ * @param {string} dstDir - 目标补丁目录
+ */
 function syncPatches(srcDir, dstDir) {
   if (!fs.existsSync(srcDir)) return
 
   // 目标目录不存在则创建
   if (!fs.existsSync(dstDir)) {
     fs.mkdirSync(dstDir, { recursive: true })
+  }
+
+  const canonicalDir = path.resolve(__dirname, 'patches')
+  if (!fs.existsSync(canonicalDir)) {
+    fs.mkdirSync(canonicalDir, { recursive: true })
+  }
+
+  // 收编非库内实体补丁 / 清理失效链接
+  for (const file of fs.readdirSync(srcDir)) {
+    if (!file.endsWith('.patch')) continue
+
+    const srcPath = path.join(srcDir, file)
+    if (isCanonicalPatchLink(srcPath, canonicalDir)) continue
+
+    let stat = null
+    try {
+      stat = fs.statSync(srcPath)
+    } catch (e) {}
+
+    if (stat && stat.isFile()) {
+      fs.copyFileSync(srcPath, path.join(canonicalDir, file))
+      log('sync', `收编补丁到补丁库: ${file}`)
+    } else {
+      fs.unlinkSync(srcPath)
+      log('sync', `清理失效补丁链接: ${path.join(srcDir, file)}`)
+    }
   }
 
   // 清空目标目录
@@ -121,10 +178,16 @@ function syncPatches(srcDir, dstDir) {
   }
 
   // 按源目录的补丁集合，重建指向 packages/patches/ 的符号链接
-  const canonicalDir = path.resolve(__dirname, 'patches')
   for (const file of fs.readdirSync(srcDir)) {
-    if (file.endsWith('.patch')) {
+    if (!file.endsWith('.patch')) continue
+    if (!fs.existsSync(path.join(canonicalDir, file))) continue
+
+    try {
       fs.symlinkSync(path.relative(dstDir, path.join(canonicalDir, file)), path.join(dstDir, file))
+    } catch (e) {
+      // Windows 无符号链接权限等场景降级为复制
+      fs.copyFileSync(path.join(canonicalDir, file), path.join(dstDir, file))
+      log('sync', `符号链接创建失败, 降级为复制: ${file}`)
     }
   }
 }

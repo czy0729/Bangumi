@@ -16,14 +16,6 @@ export const memoStyles = _.memoStyles(() => ({
   focus: {
     marginTop: -Math.floor(_.window.height * 0.56)
   },
-  information: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 0,
-    right: 0,
-    marginTop: -30,
-    marginRight: 10
-  },
   bottom: {
     height: 40,
     marginBottom: _.sm,
