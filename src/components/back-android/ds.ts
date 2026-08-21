@@ -8,3 +8,6 @@ import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'BackAndroid')
+
+/** 两次退后间隔阈值（毫秒），用于「再按一次退出」 */
+export const EXIT_THRESHOLD = 2000

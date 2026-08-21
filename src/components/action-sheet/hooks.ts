@@ -6,8 +6,8 @@
  */
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { interpolate, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
-import { scheduleOnRN } from '@utils'
 import { _ } from '@stores'
+import { scheduleOnRN } from '@utils'
 import { useBackHandler } from '@utils/hooks'
 
 /** 动画时长 (ms) */
@@ -83,5 +83,20 @@ export const useActionSheet = (show: boolean, onClose?: () => void, height = 480
     opacity: progress.value
   }))
 
-  return { showValue, handleClose, calcHeight, contentStyle, maskStyle }
+  return {
+    /** 是否处于展示态 */
+    showValue,
+
+    /** 关闭并处理收起动画 */
+    handleClose,
+
+    /** 计算内容高度（用于进出场位移） */
+    calcHeight,
+
+    /** 内容容器进出场动画样式 */
+    contentStyle,
+
+    /** 遮罩进出场动画样式 */
+    maskStyle
+  }
 }

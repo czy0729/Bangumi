@@ -91,5 +91,14 @@ export const useAccordionAnimation = ({
     []
   )
 
-  return { show, animatedStyles, handleLayout }
+  return {
+    /** 是否渲染子内容（展开态为 true） */
+    show,
+
+    /** 内容容器的进出场动画样式 */
+    animatedStyles,
+
+    /** 内容布局回调，测量高度 */
+    handleLayout
+  }
 }

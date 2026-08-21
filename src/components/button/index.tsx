@@ -2,23 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-27 01:10:29
+ * @Last Modified time: 2026-08-21 09:00:30
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { _ } from '@stores'
-import { stl, titleCase } from '@utils'
+import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { Component } from '../component'
 import { Activity } from '../activity'
 import { Flex } from '../flex'
 import { Text } from '../text'
 import { Touchable } from '../touchable'
+import { getButtonStyles } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-import type { TextStyle, ViewStyle } from '@types'
 import type { Props as ButtonProps } from './types'
 export type { ButtonProps }
 
@@ -45,46 +44,11 @@ export const Button = observer(
     r(COMPONENT)
 
     const styles = memoStyles()
-
-    const wrapStyle: ViewStyle[] = [styles.button]
-    const textStyle: TextStyle[] = [styles.text]
-    let textBold = false
-    if (shadow && !_.isDark && (type === 'plain' || type === 'ghostPlain')) {
-      wrapStyle.push(styles.shadow)
-    }
-
-    if (type) {
-      wrapStyle.push(styles[type])
-      textStyle.push(styles[`text${titleCase(type)}`] as TextStyle)
-    }
-
-    if (radius) {
-      wrapStyle.push(styles.radius)
-    }
-
-    if (size) {
-      const textSize = `text${titleCase(size)}`
-      wrapStyle.push(styles[size])
-
-      if (textSize === 'textSm') {
-        textBold = true
-
-        if (
-          (typeof children === 'string' || typeof children === 'number') &&
-          String(children).length >= 5
-        ) {
-          textStyle.push(styles.textXs)
-        } else {
-          textStyle.push(styles.textSm)
-        }
-      } else {
-        textStyle.push(styles[textSize] as TextStyle)
-      }
-    }
-
-    if (style) {
-      wrapStyle.push(style)
-    }
+    const { wrapStyle, textStyle, textBold } = getButtonStyles(
+      styles,
+      { type, size, shadow, radius, style },
+      children
+    )
 
     const elContent = (
       <Flex justify='center'>
@@ -96,12 +60,7 @@ export const Button = observer(
           <>
             {!!children && (
               <Text
-                style={stl(
-                  // 部分安卓机不写具体 width 会导致文字显示不全
-                  size === 'sm' && styles.androidFixed,
-                  textStyle,
-                  styleText
-                )}
+                style={stl(size === 'sm' && styles.androidFixed, textStyle, styleText)}
                 align='center'
                 bold={textBold || bold}
                 selectable={false}
@@ -116,26 +75,17 @@ export const Button = observer(
       </Flex>
     )
 
-    if (!loading && onPress) {
-      const passProps = {
-        id: 'component-button' as const
-      }
-      if (dataTitle) passProps['data-title'] = dataTitle
-
-      return (
-        <Component {...passProps}>
+    return (
+      <Component id='component-button' {...(dataTitle ? { 'data-title': dataTitle } : {})}>
+        {!loading && onPress ? (
           <Touchable animate={animate} onPress={onPress} onLongPress={onLongPress} {...other}>
             <View style={wrapStyle}>{elContent}</View>
           </Touchable>
-        </Component>
-      )
-    }
-
-    return (
-      <Component id='component-button'>
-        <View style={wrapStyle} {...other}>
-          {elContent}
-        </View>
+        ) : (
+          <View style={wrapStyle} {...other}>
+            {elContent}
+          </View>
+        )}
       </Component>
     )
   }

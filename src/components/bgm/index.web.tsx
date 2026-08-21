@@ -4,41 +4,36 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-18 04:13:41
  */
-import React from 'react'
-import { observer } from 'mobx-react'
+import React, { memo } from 'react'
 import { r } from '@utils/dev'
-import { HOST } from '@constants'
 import { Component } from '../component'
 import { Image } from '../image'
+import { getBgmMap } from './utils'
 import { COMPONENT } from './ds'
 import './index.scss'
 
 import type { Props as BgmProps } from './types'
 export type { BgmProps }
 
+let bgm: Record<string, string>
+
 /** BGM 表情 */
-export const Bgm = observer(({ index = 1, size = 20, ...other }: BgmProps) => {
+export const Bgm = memo(({ index = 1, size = 20, ...other }: BgmProps) => {
   r(COMPONENT)
 
-  if (!bgm) init()
+  if (!bgm) bgm = getBgmMap()
 
   return (
     <Component id='component-bgm'>
-      <Image src={bgm[index]} resizeMode='contain' size={size} placeholder={false} {...other} />
+      <Image
+        src={bgm[String(index)]}
+        resizeMode='contain'
+        size={size}
+        placeholder={false}
+        {...other}
+      />
     </Component>
   )
 })
 
 export default Bgm
-
-let bgm: {
-  [x: string]: string
-}
-
-function init() {
-  bgm = {}
-  for (let i = 1; i <= 102; i += 1) {
-    bgm[i.toString()] = `${HOST}/img/smiles/tv/${i.toString().padStart(2, '0')}.gif` as const
-  }
-  return bgm
-}

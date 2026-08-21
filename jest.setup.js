@@ -125,7 +125,11 @@ jest.mock(
       x18: () => false,
       trim: (str = '') => (str || '').trim(),
       getStorage: jest.fn(),
-      setStorage: jest.fn()
+      setStorage: jest.fn(),
+      titleCase: str => {
+        const [first = '', ...rest] = String(str || '')
+        return `${first.toUpperCase()}${rest.join('')}`
+      }
     }
   },
   { virtual: true }

@@ -181,17 +181,40 @@ export const useCarousel = ({
   }, [handleAutoplay])
 
   return {
+    /** 外部绑定到 ScrollView 的 ref */
     scrollRef,
+
+    /** 当前激活的页码索引 */
     current,
+
+    /** 当前可见窗口的索引 (窗口化渲染依据) */
     visibleIndex,
+
+    /** 是否正在滚动中 */
     isScrolling,
+
+    /** 自动播放是否已结束 (非无限模式滚到最后一项后为真) */
     autoplayEnd,
+
+    /** 当前滚动偏移量 ref, 用于计算翻页方向及无限模式回跳 */
     offsetRef,
+
+    /** 滚动中实时回调, 更新可见窗口 */
     handleScroll,
+
+    /** 滚动开始回调, 标记滚动状态并触发 onScrollBeginDrag */
     handleScrollBegin,
+
+    /** 滚动结束回调, 计算目标页并触发 afterChange / onMomentumScrollEnd */
     handleScrollEnd,
+
+    /** 布局回调, 完成初始定位与宽度同步 */
     handleLayout,
+
+    /** 点击分页圆点跳转到对应页 */
     handleDotPress,
+
+    /** 安全更新 current 与 visibleIndex 的封装方法 */
     setCurrentSafe
   }
 }
