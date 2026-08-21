@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-21 06:55:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 07:29:54
+ * @Last Modified time: 2026-08-22 00:00:00
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -21,6 +21,8 @@ function List({ title }: Props) {
   const styles = memoStyles()
   const numColumns = _.isMobileLanscape ? 9 : _.device(4, 5)
 
+  // 网格模式暂不启用 estimatedItemHeight：FlatList numColumns>1 时 getItemLayout 按「行」索引调用，
+  // 现有高度缓存按条目索引存储会整体错位，需按行改造后才支持（components/list-view/hooks/useItemHeights）
   return (
     <PaginationList2
       key={`${_.orientation}${numColumns}`}

@@ -1,14 +1,10 @@
 /*
  * @Author: czy0729
  * @Date: 2024-01-06 01:29:51
- * @Last Modified by:   czy0729
- * @Last Modified time: 2024-01-06 01:29:51
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-08-22 09:00:00
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'Cover')
-
-export const ITEM_HEIGHT = 142
-
-export const ITEM_HEIGHT_COMPACT = 100

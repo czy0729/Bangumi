@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-21 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-21 16:30:00
+ * @Last Modified time: 2026-08-22 00:00:00
  */
 import { useCallback, useRef } from 'react'
 import { buildOffsets, getItemLayout as calcItemLayout } from '../list/utils'
@@ -11,7 +11,7 @@ import type { MutableRefObject } from 'react'
 
 /**
  * 列表条目高度缓存
- * - heights 按 data 顺序平行存储，onLayout 测量后写回（不触发重渲染）
+ * - heights 按 data 顺序平行存储，onLayout 测量后写回（不触发重渲染），无效的 0 高度测量会被丢弃
  * - offsets 为高度前缀和缓存，测量写回或数据变化时标记脏，下次查询惰性重建一次，
  *   使 getItemLayout 单次调用为 O(1)（FlatList 滚动期间高频调用）
  * - 提供 getItemLayout，供 FlatList 在挂载期直接读取真实/预估高度，减少测量开销
@@ -53,7 +53,8 @@ export function useItemHeights(
 
   const setHeight = useCallback(
     (index: number, height: number) => {
-      if (!enabled) return
+      // 0 高度是无效测量（如 iOS 未激活 Tab 渲染 null 的空 cell），丢弃以免污染缓存
+      if (!enabled || height <= 0) return
       if (index >= 0 && index < heights.current.length) {
         if (heights.current[index] !== height) {
           heights.current[index] = height
