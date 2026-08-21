@@ -2,37 +2,33 @@
  * @Author: czy0729
  * @Date: 2026-06-29 07:08:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-29 07:08:58
+ * @Last Modified time: 2026-08-21 15:00:00
  */
 import { useMemo } from 'react'
 
-import type { ListEmpty, MaybeReadonly, Sections } from '@types'
+import type { UseListDataOptions } from './types'
 
 /**
  * 列表数据计算 hook
  * 只接收具体字段，不依赖整个 props 引用
  */
-export function useListData<ItemT extends Record<string, any>>({
-  data,
-  sectionKey,
-  sections: rawSections
-}: {
-  data: MaybeReadonly<ListEmpty<ItemT>>
-  sectionKey?: string
-  sections?: Sections<any>
-}) {
+export function useListData<ItemT>(options: UseListDataOptions<ItemT>) {
+  const { data, sectionKey, sections: rawSections } = options
+
+  /** 归一化为普通数组，规避 MaybeReadonly 的只读深层类型 */
+  const list = useMemo(() => (data?.list || []) as ItemT[], [data?.list])
+
   /** 计算分组数据（SectionList 模式） */
   const sections = useMemo(() => {
     if (rawSections) return rawSections.slice()
-    if (!sectionKey || !data?.list) return []
+    if (!sectionKey || !list.length) return []
 
     const computedSections: { title: string; data: ItemT[] }[] = []
-    // 显式声明索引字典，避免隐式 any 报错
     const sectionsMap: Record<string, number> = {}
 
-    data.list.forEach(item => {
-      // 通过类型约束 ItemT extends Record<string, any> 确保索引操作安全
-      const title = String(item[sectionKey] ?? '')
+    list.forEach(item => {
+      // 通过断言获取分组键，避免对 ItemT 施加索引签名约束
+      const title = String((item as Record<string, unknown>)[sectionKey] ?? '')
 
       if (sectionsMap[title] === undefined) {
         sectionsMap[title] = computedSections.length
@@ -46,9 +42,7 @@ export function useListData<ItemT extends Record<string, any>>({
     })
 
     return computedSections
-  }, [data?.list, sectionKey, rawSections])
-
-  const list = data?.list || []
+  }, [list, sectionKey, rawSections])
 
   return {
     sections,

@@ -4,10 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-23 06:09:17
  */
-import type { HandleBlockRef, HandleScrollIntoViewIfNeeded } from '../../types'
+import type { HandleBlockRef, HandleForwardRef, HandleScrollIntoViewIfNeeded } from '../../types'
 
 export type Props = {
-  forwardRef: any
+  forwardRef: HandleForwardRef
   onScrollIntoViewIfNeeded: HandleScrollIntoViewIfNeeded
   onBlockRef: HandleBlockRef
 }

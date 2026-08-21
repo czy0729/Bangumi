@@ -9,6 +9,7 @@ import { uiStore } from '@stores'
 import { SCROLL_IDLE_MS, SCROLL_THRESHOLD } from '../ds'
 
 import type { NativeScrollEvent, NativeSyntheticEvent } from 'react-native'
+import type { MergeHandler } from './types'
 
 /**
  * 滚动保护 hook
@@ -75,22 +76,25 @@ export function useScrollProtection() {
     scrollEndTimerRef.current = setTimeout(resetScrollState, 100)
   }, [resetScrollState])
 
-  /** * 合并滚动回调，确保滑动保护始终生效
+  /**
+   * 合并滚动回调，确保滑动保护始终生效
    * 优化点：规范泛型和更安全的判断逻辑，剔除未定义的任意对象类型
+   * - K 的映射类型约束将 key 收窄到「函数类型的属性」，排除 Animated.event 等非函数值
    */
   const mergeScrollCallback = useCallback(
-    <T extends Record<string, any>, K extends keyof T>(
+    <T extends object, K extends { [P in keyof T]: T[P] extends Function ? P : never }[keyof T]>(
       passProps: T,
       key: K,
-      internal: (...args: any[]) => void
+      internal: MergeHandler<T, K>
     ) => {
       const userHandler = passProps[key]
 
       if (typeof userHandler === 'function') {
-        passProps[key] = ((...args: any[]) => {
-          internal(...args)
-          userHandler(...args)
-        }) as unknown as T[K]
+        const handler = (...args: Parameters<MergeHandler<T, K>>) => {
+          ;(internal as (...args: Parameters<MergeHandler<T, K>>) => void)(...args)
+          ;(userHandler as (...args: Parameters<MergeHandler<T, K>>) => void)(...args)
+        }
+        passProps[key] = handler as unknown as T[K]
       } else if (userHandler == null) {
         // 只有在用户没传，且不是 AnimatedEvent 的时候才赋值
         passProps[key] = internal as unknown as T[K]

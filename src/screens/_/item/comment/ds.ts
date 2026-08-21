@@ -8,7 +8,8 @@ import { rc } from '@utils/dev'
 import { EVENT } from '@constants'
 import { COMPONENT as PARENT } from '../ds'
 
-import type { CollectionStatusCn, EventType, Fn, SubjectId, UserId, ViewStyle } from '@types'
+import type { CollectionStatusCn, EventType, SubjectId, UserId, ViewStyle } from '@types'
+import type { ItemCommentOnSelect } from './types'
 import type { memoStyles } from './styles'
 
 export const COMPONENT = rc(PARENT, 'ItemComment')
@@ -33,7 +34,9 @@ export const DEFAULT_PROPS = {
   popoverData: undefined as string[] | readonly string[],
   like: false,
   subjectCommentSplit: false,
-  onSelect: undefined as Fn
+  onSelect: undefined as ItemCommentOnSelect
 }
 
 export const REG_SPLIT = /(?!\/(?:[A-Za-z0-9]{1,2}\/)+)(?:\s*\/\s*)+/g
+
+export const ITEM_COMMENT_HEIGHT = 74

@@ -58,5 +58,3 @@ export const POPOVER_DATA = {
     TEXT_MENU_MANAGE_TRACK
   ]
 } as const
-
-export const ITEM_HEIGHT = 100

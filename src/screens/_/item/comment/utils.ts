@@ -9,7 +9,7 @@
  * 由于爬出的 html 做了去除空格操作
  * 还原本来有操作的时间字符串
  */
-export function formatTime(str = '') {
+export function formatTime(str: string = '') {
   if (str.indexOf('ago') === -1) {
     // date
     const { length } = str

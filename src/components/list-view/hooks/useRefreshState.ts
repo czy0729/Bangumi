@@ -10,20 +10,14 @@ import { REFRESH_STATE } from '../ds'
 
 import type { MaybeReadonly, ListEmpty } from '@types'
 import type { RefreshState } from '../types'
+import type { UseRefreshStateOptions } from './types'
 
 /**
  * 刷新状态管理 hook
  * 只接收具体字段，不依赖整个 props 引用
  */
-export function useRefreshState<ItemT>({
-  data,
-  onHeaderRefresh: rawOnHeaderRefresh,
-  onFooterRefresh: rawOnFooterRefresh
-}: {
-  data: MaybeReadonly<ListEmpty<ItemT>>
-  onHeaderRefresh?: () => Promise<void> | void
-  onFooterRefresh?: () => void
-}) {
+export function useRefreshState<ItemT>(options: UseRefreshStateOptions<ItemT>) {
+  const { data, onHeaderRefresh: rawOnHeaderRefresh, onFooterRefresh: rawOnFooterRefresh } = options
   const [refreshState, setRefreshState] = useState<RefreshState>(REFRESH_STATE.Idle)
 
   /** 安全守卫：追踪组件是否依然挂载，防止异步回调引发内存泄漏或状态竞态 */

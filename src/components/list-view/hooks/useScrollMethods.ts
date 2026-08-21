@@ -32,7 +32,9 @@ export function useScrollMethods(ref?: React.Ref<ListViewScrollMethods>) {
     rawListRef.current = listRef
 
     const methods = methodsRef.current
-    const nestedRef = listRef._wrapperListRef?._listRef
+    const nestedRef = listRef._wrapperListRef?._listRef as
+      | Partial<ListViewScrollMethods>
+      | undefined
 
     // 批量映射方法名与其优先级的获取逻辑
     const keys: Exclude<keyof ListViewScrollMethods, 'getInnerRef'>[] = [
@@ -46,7 +48,11 @@ export function useScrollMethods(ref?: React.Ref<ListViewScrollMethods>) {
     keys.forEach(key => {
       const targetFn = listRef[key] ?? nestedRef?.[key]
       if (typeof targetFn === 'function') {
-        methods[key] = (params: any) => targetFn.call(listRef[key] ? listRef : nestedRef, params)
+        methods[key] = (params: unknown) =>
+          (targetFn as (...args: unknown[]) => void).call(
+            listRef[key] ? listRef : nestedRef,
+            params
+          )
       }
     })
   }, [])

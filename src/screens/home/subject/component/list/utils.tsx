@@ -14,6 +14,7 @@ export function renderItem({ item, index }: RenderItem<SubjectCommentsItem>) {
   return (
     <Item
       index={index}
+      id={item.id}
       action={item.action}
       avatar={item.avatar}
       comment={item.comment}

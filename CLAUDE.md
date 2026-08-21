@@ -2,6 +2,17 @@
 
 bgm.tv (Bangumi) 第三方客户端，React Native (Expo SDK 54) 项目。作者: czy0729
 
+## ⛔ 最高优先级：只改不动暂存区
+
+未经用户**当次明确要求**，绝对禁止执行任何修改暂存区或版本历史的操作：
+
+- 禁止 `git add`、`git commit`、`git push`
+- 禁止 `git stash`、`git restore --staged`、`git rm --cached` 等一切触碰索引的命令
+- 所有改动只停留在工作区（unstaged），暂存与否完全由用户自己决定
+- 用户要求"审查暂存代码"时，只读 diff 并给结论，不得顺手把修正并入暂存区
+
+违反此条比代码写得差更严重。
+
 ## 通用
 
 - 优先选择编辑而非重写整个文件

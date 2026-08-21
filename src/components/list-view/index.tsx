@@ -2,33 +2,29 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-28 12:46:39
+ * @Last Modified time: 2026-08-21 12:30:00
  */
-import React, { forwardRef, useCallback, useMemo } from 'react'
-import { RefreshControl } from 'react-native'
+import React, { forwardRef, useCallback, useRef } from 'react'
 import { observer } from 'mobx-react'
-import { _ } from '@stores'
-import { date, simpleTime } from '@utils'
 import { r } from '@utils/dev'
-import { LIST_EMPTY, WEB } from '@constants'
+import { LIST_EMPTY } from '@constants'
 import { ErrorBoundary } from '../error-boundary'
-import Footer from './footer'
-import { useListData, useRefreshState, useScrollMethods, useScrollProtection } from './hooks'
-import List from './list'
 import {
-  COMPONENT,
-  DEFAULT_MAX_TO_RENDER_PER_BATCH,
-  DEFAULT_PROPS,
-  DEFAULT_UPDATE_CELLS_BATCHING_PERIOD,
-  DEFAULT_WINDOW_SIZE,
-  REFRESH_STATE,
-  SCROLL_THRESHOLD
-} from './ds'
+  useListCommonProps,
+  useListData,
+  useRefreshState,
+  useRenderFooter,
+  useRenderList,
+  useRenderRefreshControl,
+  useScrollMethods,
+  useScrollProtection
+} from './hooks'
+import { COMPONENT, DEFAULT_PROPS } from './ds'
 
 export { FooterEmptyData, FooterFailure, FooterNoMoreData, FooterRefreshing } from './footer'
 
-import type { Props as ListViewProps, ListViewScrollMethods, RenderListProps } from './types'
-import type { ListEmpty, ReactNode, Sections } from '@types'
+import type { Props as ListViewProps, ListViewScrollMethods } from './types'
+import type { ListArray, ListEmpty } from '@types'
 export type {
   ListViewInstance,
   ListViewScrollMethods,
@@ -61,6 +57,10 @@ const ListViewComponent = forwardRef(function ListViewComponent<ItemT>(
     refreshControlProps = DEFAULT_PROPS.refreshControlProps,
     style,
     optimize = DEFAULT_PROPS.optimize,
+    maxToRenderPerBatch,
+    updateCellsBatchingPeriod,
+    estimatedItemHeight,
+    itemHeightKey,
     showFooter = DEFAULT_PROPS.showFooter,
     showMesume = DEFAULT_PROPS.showMesume,
     progressViewOffset,
@@ -73,18 +73,33 @@ const ListViewComponent = forwardRef(function ListViewComponent<ItemT>(
     footerEmptyDataText = DEFAULT_PROPS.footerEmptyDataText,
     footerFailureText = DEFAULT_PROPS.footerFailureText,
     footerNoMoreDataComponent,
-    // footerNoMoreDataText = DEFAULT_PROPS.footerNoMoreDataText,
     footerRefreshingText = DEFAULT_PROPS.footerRefreshingText,
     footerTextType = DEFAULT_PROPS.footerTextType,
     ...restProps
   } = props
 
   /** hooks 只接收具体字段，不依赖整个 props 引用 */
-  const { refreshState, onHeaderRefresh, onFooterRefresh, onEndReached } = useRefreshState<ItemT>({
+  const {
+    refreshState,
+    onHeaderRefresh: runHeaderRefresh,
+    onFooterRefresh,
+    onEndReached
+  } = useRefreshState<ItemT>({
     data,
     onHeaderRefresh: rawOnHeaderRefresh,
     onFooterRefresh: rawOnFooterRefresh
   })
+
+  /**
+   * 头部刷新「成功」结束视为整批替换数据（分页回到第 1 页），自增代号使高度缓存全部重建为预估高度；
+   * 同实体追加分页代号不变，保留已测量高度。
+   * 刷新失败（回调 reject、数据未替换）时不自增，避免白丢已测高度
+   */
+  const cacheGenerationRef = useRef(0)
+  const onHeaderRefresh = useCallback(async () => {
+    await runHeaderRefresh()
+    cacheGenerationRef.current += 1
+  }, [runHeaderRefresh])
 
   const { onScrollBeginDrag, onScroll, onScrollEndDrag, onMomentumScrollEnd, mergeScrollCallback } =
     useScrollProtection()
@@ -97,53 +112,16 @@ const ListViewComponent = forwardRef(function ListViewComponent<ItemT>(
     sections: rawSections
   })
 
-  /** 渲染下拉刷新控制 */
-  const renderRefreshControl = useCallback(() => {
-    if (!rawOnHeaderRefresh) return null
-
-    return (
-      <RefreshControl
-        enabled={!!rawOnHeaderRefresh}
-        refreshing={refreshState === REFRESH_STATE.HeaderRefreshing}
-        title={data._loaded ? `上次刷新时间: ${simpleTime(date(String(data._loaded)))}` : undefined}
-        colors={[_.colorMain]}
-        titleColor={_.colorSub}
-        tintColor={_.colorSub}
-        progressViewOffset={progressViewOffset}
-        progressBackgroundColor={_.select(_.colorPlain, _._colorDarkModeLevel2)}
-        onRefresh={onHeaderRefresh}
-        {...refreshControlProps}
-      />
-    )
-  }, [
+  const renderRefreshControl = useRenderRefreshControl({
     rawOnHeaderRefresh,
     refreshState,
     data,
     progressViewOffset,
     refreshControlProps,
     onHeaderRefresh
-  ])
+  })
 
-  /** 渲染列表底部（加载状态、空数据等） */
-  const renderFooter = useCallback(() => {
-    const { pagination, _filter } = data
-
-    return (
-      <Footer
-        filterText={_filter}
-        footerEmptyDataComponent={footerEmptyDataComponent}
-        footerEmptyDataText={footerEmptyDataText}
-        footerFailureText={footerFailureText}
-        footerNoMoreDataComponent={footerNoMoreDataComponent}
-        footerRefreshingText={footerRefreshingText}
-        footerTextType={footerTextType}
-        page={pagination?.page}
-        pageTotal={pagination?.pageTotal}
-        refreshState={refreshState}
-        showMesume={showMesume}
-      />
-    )
-  }, [
+  const renderFooter = useRenderFooter({
     data,
     refreshState,
     footerEmptyDataComponent,
@@ -153,85 +131,32 @@ const ListViewComponent = forwardRef(function ListViewComponent<ItemT>(
     footerRefreshingText,
     footerTextType,
     showMesume
-  ])
+  })
 
-  /** 获取通用属性（样式、刷新控制、优化参数等） */
-  const commonProps = useMemo(
-    () => ({
-      style,
-      connectRef,
-      ListHeaderComponentStyle: _.container.block,
-      ListFooterComponentStyle: _.container.block,
-      ListFooterComponent: showFooter
-        ? ListFooterComponent || renderFooter()
-        : ListFooterComponent ?? null,
-      refreshing: refreshState === REFRESH_STATE.HeaderRefreshing,
-      refreshControl: renderRefreshControl(),
-      onRefresh: rawOnHeaderRefresh ? onHeaderRefresh : undefined,
-      onEndReached: rawOnFooterRefresh ? onEndReached : undefined,
-      onEndReachedThreshold: 0.3,
-      maxToRenderPerBatch: optimize ? DEFAULT_MAX_TO_RENDER_PER_BATCH : undefined,
-      updateCellsBatchingPeriod: optimize ? DEFAULT_UPDATE_CELLS_BATCHING_PERIOD : undefined,
-      initialNumToRender: initialNumToRender || 10,
-      windowSize: optimize ? DEFAULT_WINDOW_SIZE : undefined,
-      showsHorizontalScrollIndicator: false,
-      showsVerticalScrollIndicator: false
-    }),
-    [
-      style,
-      connectRef,
-      showFooter,
-      ListFooterComponent,
-      refreshState,
-      renderRefreshControl,
-      renderFooter,
-      rawOnHeaderRefresh,
-      onHeaderRefresh,
-      rawOnFooterRefresh,
-      onEndReached,
-      optimize,
-      initialNumToRender
-    ]
-  )
+  const commonProps = useListCommonProps({
+    style,
+    connectRef,
+    showFooter,
+    ListFooterComponent,
+    renderFooter,
+    refreshState,
+    renderRefreshControl,
+    rawOnHeaderRefresh,
+    onHeaderRefresh,
+    rawOnFooterRefresh,
+    onEndReached,
+    maxToRenderPerBatch,
+    optimize,
+    updateCellsBatchingPeriod,
+    initialNumToRender
+  })
 
-  /** 渲染列表主体 */
-  const renderList = useCallback(() => {
-    const renderProps: RenderListProps<ItemT> = {
-      ...restProps,
-      sectionKey,
-      sections: rawSections
-    }
-    const passProps = { ...renderProps } as Omit<RenderListProps<ItemT>, 'data'> & {
-      pagination?: ListEmpty<ItemT>['pagination']
-      renderFooter?: ReactNode
-      onFooterRefresh?: () => void
-    }
-
-    // 合并滚动回调，确保滑动保护始终生效
-    passProps.scrollEventThrottle = SCROLL_THRESHOLD
-    passProps.scrollIndicatorInsets =
-      passProps.scrollIndicatorInsets ?? DEFAULT_PROPS.scrollIndicatorInsets
-    mergeScrollCallback(passProps, 'onScrollBeginDrag', onScrollBeginDrag)
-    mergeScrollCallback(passProps, 'onScroll', onScroll)
-    mergeScrollCallback(passProps, 'onScrollEndDrag', onScrollEndDrag)
-    mergeScrollCallback(passProps, 'onMomentumScrollEnd', onMomentumScrollEnd)
-
-    if (WEB) {
-      passProps.pagination = data.pagination
-      passProps.renderFooter = renderFooter()
-      passProps.onFooterRefresh = onFooterRefresh
-    }
-
-    if (sectionKey || rawSections) {
-      return <List {...commonProps} {...passProps} sections={sections as Sections<ItemT>} />
-    }
-    return <List {...commonProps} {...passProps} data={list as ItemT[]} />
-  }, [
+  const renderList = useRenderList<ItemT>({
     restProps,
     sectionKey,
     rawSections,
     data,
-    list,
+    list: list as ListArray<ItemT>,
     sections,
     mergeScrollCallback,
     onScrollBeginDrag,
@@ -239,9 +164,14 @@ const ListViewComponent = forwardRef(function ListViewComponent<ItemT>(
     onScrollEndDrag,
     onMomentumScrollEnd,
     commonProps,
+    estimatedItemHeight,
+    itemHeightKey:
+      itemHeightKey === undefined
+        ? cacheGenerationRef.current
+        : `${itemHeightKey}#${cacheGenerationRef.current}`,
     renderFooter,
     onFooterRefresh
-  ])
+  })
 
   return <ErrorBoundary>{renderList()}</ErrorBoundary>
 })

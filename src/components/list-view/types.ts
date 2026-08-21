@@ -86,6 +86,24 @@ export type Props<ItemT = unknown> = Override<
     /** 是否开启预设的通用长列表优化（降低 maxToRenderPerBatch / windowSize 等） */
     optimize?: boolean
 
+    /** 每批渲染的最大条目数，覆盖 optimize 预设值（用于按列表摊薄挂载） */
+    maxToRenderPerBatch?: number
+
+    /** 更新批次的时间间隔（毫秒），覆盖 optimize 预设值 */
+    updateCellsBatchingPeriod?: number
+
+    /**
+     * 条目预估高度，提供后开启 getItemLayout + 高度缓存，减少挂载期测量；
+     * 此时 ListHeaderComponent 需为稳定引用（内联函数组件会导致 header 子树反复 remount）
+     */
+    estimatedItemHeight?: number
+
+    /**
+     * 高度缓存重置标识，变化时整体重建为预估高度（用于切换到不同实体）；
+     * 头部刷新结束视为整批替换数据，缓存会自动重建；追加分页保留已测量高度
+     */
+    itemHeightKey?: string | number
+
     /** @deprecated 点击列表顶部区域自动回顶（Android 专用） */
     scrollToTop?: boolean
 

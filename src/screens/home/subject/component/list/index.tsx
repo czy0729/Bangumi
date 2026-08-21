@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:41:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-20 00:13:53
+ * @Last Modified time: 2026-08-21 10:22:00
  */
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { FooterEmptyData, ListView } from '@components'
+import { ITEM_COMMENT_HEIGHT } from '@_'
 import { _, systemStore, useStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { TEXT_18X } from '@constants'
@@ -17,6 +18,7 @@ import { COMPONENT, REFRESH_CONTROL_PROPS } from './ds'
 
 import type { Ctx } from '../../types'
 import type { Props } from './types'
+
 function List({ forwardRef, onScrollIntoViewIfNeeded, onBlockRef }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
@@ -51,6 +53,8 @@ function List({ forwardRef, onScrollIntoViewIfNeeded, onBlockRef }: Props) {
       data={$.subjectComments}
       scrollEventThrottle={20}
       initialNumToRender={1}
+      estimatedItemHeight={ITEM_COMMENT_HEIGHT}
+      itemHeightKey={$.subjectId}
       refreshControlProps={REFRESH_CONTROL_PROPS}
       ListHeaderComponent={elHeader}
       renderItem={renderItem}

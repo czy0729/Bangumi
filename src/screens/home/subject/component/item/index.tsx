@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-07-08 07:35:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-23 17:00:13
+ * @Last Modified time: 2026-08-21 10:21:46
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { InView, ItemComment } from '@_'
+import { InView, ITEM_COMMENT_HEIGHT, ItemComment } from '@_'
 import { _, rakuenStore, systemStore, useStore } from '@stores'
 import { getIsBlockedUser } from '@utils'
-import { COMPONENT, ITEM_HEIGHT, POPOVER_DATA } from './ds'
+import { COMPONENT, POPOVER_DATA } from './ds'
 import { styles } from './styles'
 
 import type { Id, UserId } from '@types'
@@ -19,6 +19,7 @@ import type { Props } from './types'
 
 function Item({
   index,
+  id,
   time,
   avatar,
   userId,
@@ -55,7 +56,7 @@ function Item({
   if (!$.state.scrolled) return <View style={styles.item} />
 
   return (
-    <InView key={userId} y={InView.y(index, ITEM_HEIGHT, _.window.height)}>
+    <InView key={id} y={InView.y(index, ITEM_COMMENT_HEIGHT, _.window.height)}>
       <ItemComment
         time={time}
         avatar={avatar}

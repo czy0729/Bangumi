@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-11-30 04:24:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-28 14:43:28
+ * @Last Modified time: 2026-08-21 12:00:00
  */
-import React from 'react'
 import { FlatList, SectionList } from 'react-native'
 import { observer } from 'mobx-react'
 import EnteringExiting from '../entering-exiting'
+import { useEstimatedItemHeight } from '../hooks'
 import { AnimatedFlatList, AnimatedSectionList } from './ds'
 
 import type { BaseProps, ListProps } from './types'
@@ -19,8 +19,19 @@ function List<ItemT>({
   sectionKey,
   sections,
   data,
+  estimatedItemHeight,
+  itemHeightKey,
   ...other
 }: ListProps<ItemT>) {
+  // hook 必须在所有条件 early return 之前调用，enabled 内部已做守卫
+  const heightProps = useEstimatedItemHeight({
+    enabled: !!estimatedItemHeight && !sections && !skipEnteringExitingAnimations,
+    dataLength: (data as ItemT[])?.length ?? 0,
+    estimate: estimatedItemHeight ?? 0,
+    resetKey: itemHeightKey,
+    header: other.ListHeaderComponent
+  })
+
   const baseProps = {
     ...other,
     ref: connectRef,
@@ -50,8 +61,9 @@ function List<ItemT>({
   }
 
   const ListComponent = animated ? AnimatedFlatList : FlatList
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return <ListComponent {...(baseProps as any)} data={data} />
+  return <ListComponent {...(baseProps as any)} data={data} {...heightProps} />
 }
 
 export default observer(List)

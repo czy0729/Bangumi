@@ -13,6 +13,8 @@ import Item from './item'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+export { ITEM_COMMENT_HEIGHT } from './ds'
+
 import type { CollectionStatusCn } from '@types'
 import type { Props as ItemCommentProps } from './types'
 export type { ItemCommentProps }

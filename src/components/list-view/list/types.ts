@@ -5,13 +5,8 @@
  * @Last Modified time: 2026-07-28 13:45:00
  */
 import type { ComponentType } from 'react'
-import type {
-  FlatListProps,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-  ViewStyle
-} from 'react-native'
-import type { Override, ReactNode } from '@types'
+import type { FlatListProps, NativeScrollEvent, NativeSyntheticEvent } from 'react-native'
+import type { Override, ReactNode, ViewStyle } from '@types'
 import type { FlatListRef, Props as ListViewProps } from '../types'
 
 /** 原生端列表组件属性，基于 ListViewProps 扩展 */
@@ -23,6 +18,12 @@ export type ListProps<ItemT> = Override<
 
     /** 列表数据 */
     data?: ItemT[]
+
+    /** 条目预估高度，提供后开启 getItemLayout + 高度缓存（仅 FlatList 生效） */
+    estimatedItemHeight?: number
+
+    /** 高度缓存重置标识，变化时整体重建为预估高度（含 ListView 头部刷新代号） */
+    itemHeightKey?: string | number
   }
 >
 

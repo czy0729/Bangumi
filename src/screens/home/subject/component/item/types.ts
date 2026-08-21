@@ -10,6 +10,7 @@ import type { WithIndex } from '@types'
 export type Props = WithIndex<
   Pick<
     SubjectCommentsItem,
+    | 'id'
     | 'action'
     | 'avatar'
     | 'comment'

@@ -4,7 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-11 16:56:26
  */
-import type { Fn, UserId } from '@types'
+import type { UserId } from '@types'
+import type { ItemCommentOnSelect } from '../types'
 
 export type Props = {
   data: readonly string[]
@@ -13,5 +14,5 @@ export type Props = {
   userName: string
   comment: string
   relatedId: string | number
-  onSelect: Fn
+  onSelect: ItemCommentOnSelect
 }

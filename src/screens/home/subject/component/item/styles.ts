@@ -4,11 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-05-20 04:29:15
  */
+import { ITEM_COMMENT_HEIGHT } from '@_'
 import { _ } from '@stores'
-import { ITEM_HEIGHT } from './ds'
 
 export const styles = _.create({
   item: {
-    height: ITEM_HEIGHT
+    minHeight: ITEM_COMMENT_HEIGHT
   }
 })
