@@ -8,7 +8,7 @@ import urllib.request
 OWNER = "czy0729"
 REPO = "Bangumi"
 
-SOURCE_URL = f"https://raw.githubusercontent.com/{OWNER}/{REPO}/main/alt_store.json"
+SOURCE_URL = f"https://raw.githubusercontent.com/{OWNER}/{REPO}/master/alt_store.json"
 
 ICON_URL = (
     "https://raw.githubusercontent.com/"
@@ -45,24 +45,23 @@ def download_text(url):
         return r.read().decode("utf-8")
 
 
-def main():
-    parser = argparse.ArgumentParser()
+def version_key(version):
+    parts = []
 
-    parser.add_argument("--version", required=True)
-    parser.add_argument("--output", required=True)
+    for part in version.split("."):
+        try:
+            parts.append(int(part))
+        except ValueError:
+            parts.append(0)
 
-    args = parser.parse_args()
+    return parts
 
-    tag = f"upstream-{args.version}"
 
-    release = github_json(
-        f"https://api.github.com/repos/{OWNER}/{REPO}/releases/tags/{tag}"
-    )
-
+def find_assets(assets):
     ipa = None
     sha = None
 
-    for asset in release["assets"]:
+    for asset in assets:
         name = asset["name"]
 
         if name.endswith(".ipa"):
@@ -71,53 +70,82 @@ def main():
         elif name.endswith(".ipa.sha256"):
             sha = asset
 
-    if ipa is None:
-        raise RuntimeError("IPA asset not found")
+    return ipa, sha
 
-    if sha is None:
-        raise RuntimeError("SHA256 asset not found")
 
-    sha256 = download_text(sha["browser_download_url"]).split()[0]
+def collect_versions(current_version):
+    versions = []
+    page = 1
 
-    version_entry = {
-        "version": args.version,
-        "buildVersion": "1",
-        "date": release["published_at"],
-        "downloadURL": ipa["browser_download_url"],
-        "size": ipa["size"],
-        "sha256": sha256,
-        "localizedDescription": (
-            release["body"] if release["body"] else f"Upstream {args.version}"
-        ),
+    while page <= 10:
+        releases = github_json(
+            f"https://api.github.com/repos/{OWNER}/{REPO}/releases"
+            f"?per_page=100&page={page}"
+        )
+
+        for release in releases:
+            tag = release.get("tag_name", "")
+
+            if not tag.startswith("upstream-") or release.get("draft"):
+                continue
+
+            version = tag[len("upstream-"):]
+
+            ipa, sha = find_assets(release.get("assets", []))
+
+            if ipa is None or sha is None:
+                print(f"Skipping {tag}: missing IPA or SHA256 asset")
+                continue
+
+            sha256 = download_text(sha["browser_download_url"]).split()[0]
+
+            body = release.get("body")
+
+            versions.append(
+                {
+                    "version": version,
+                    "buildVersion": "1",
+                    "date": release["published_at"],
+                    "downloadURL": ipa["browser_download_url"],
+                    "size": ipa["size"],
+                    "sha256": sha256,
+                    "localizedDescription": (
+                        body if body else f"Upstream {version}"
+                    ),
+                }
+            )
+
+        if len(releases) < 100:
+            break
+
+        page += 1
+
+    if not any(v["version"] == current_version for v in versions):
+        raise RuntimeError(
+            f"Release with IPA and SHA256 assets not found for upstream-{current_version}"
+        )
+
+    versions.sort(key=lambda v: version_key(v["version"]), reverse=True)
+
+    return versions
+
+
+def main():
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument("--version", required=True)
+    parser.add_argument("--output", required=True)
+
+    args = parser.parse_args()
+
+    versions = collect_versions(args.version)
+
+    source = {
+        "name": "Bangumi",
+        "identifier": "tv.bangumi.czy0729",
+        "sourceURL": SOURCE_URL,
+        "apps": [{**APP, "versions": versions}],
     }
-
-    # Load existing source if available
-    if os.path.exists(args.output):
-        with open(args.output, "r") as f:
-            source = json.load(f)
-
-        versions = source.get("apps", [{}])[0].get("versions", [])
-
-    else:
-        source = {
-            "name": "Bangumi",
-            "identifier": "tv.bangumi.czy0729",
-            "sourceURL": SOURCE_URL,
-            "apps": [{**APP, "versions": []}],
-        }
-
-        versions = []
-
-    # Remove existing version if it already exists
-    versions = [v for v in versions if v.get("version") != args.version]
-
-    # Add new version
-    versions.append(version_entry)
-
-    # Sort newest first
-    versions.sort(key=lambda x: x.get("version", ""), reverse=True)
-
-    source["apps"][0]["versions"] = versions
 
     with open(args.output, "w") as f:
         json.dump(source, f, indent=2, ensure_ascii=False)

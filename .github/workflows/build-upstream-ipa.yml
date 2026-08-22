@@ -70,6 +70,24 @@ jobs:
             exit 1
           fi
 
+          while IFS= read -r -d '' link; do
+            target="$(readlink -f "$link")"
+            if [ -n "$target" ] && [ -e "$target" ]; then
+              rm "$link"
+              cp "$target" "$link"
+            else
+              echo "::warning::Broken symlink in upstream source: $link"
+            fi
+          done < <(find "$source_dir" -type l -print0)
+
+          for patch_file in "$source_dir"/packages/ipa/patches/*.patch; do
+            [ -e "$patch_file" ] || continue
+            if ! head -n1 "$patch_file" | grep -qE '^(---|\*\*\*|diff |Index:)'; then
+              echo "::error::Patch does not look like a valid diff: $patch_file"
+              exit 1
+            fi
+          done
+
           source_dir="$(cd "$source_dir" && pwd -P)"
           echo "SOURCE_DIR=$source_dir" >> "$GITHUB_ENV"
 
@@ -302,3 +320,31 @@ jobs:
           FORCE_REBUILD: ${{ github.event.inputs.force == 'true' }}
           TAG: ${{ steps.upstream.outputs.tag }}
         run: node .github/scripts/upstream-ipa.mjs upload --tag "$TAG" --ipa "$IPA_PATH" --sha "$SHA_PATH"
+
+      - name: Update alt_store.json
+        if: steps.upstream.outputs.should_build == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.upstream.outputs.tag }}
+        run: |
+          set -euo pipefail
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git fetch --depth=1 origin master
+          git reset --hard origin/master
+
+          python3 .github/scripts/generate-altstore.py \
+            --version "$TAG" \
+            --output alt_store.json
+
+          git add alt_store.json
+
+          if git diff --cached --quiet; then
+            echo "alt_store.json already up to date."
+            exit 0
+          fi
+
+          git commit -m "chore: update AltStore source $TAG"
+          git push origin HEAD:master

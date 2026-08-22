@@ -1,7 +1,7 @@
 {
   "name": "Bangumi",
   "identifier": "tv.bangumi.czy0729",
-  "sourceURL": "https://raw.githubusercontent.com/czy0729/Bangumi/main/alt_store.json",
+  "sourceURL": "https://raw.githubusercontent.com/czy0729/Bangumi/master/alt_store.json",
   "apps": [
     {
       "name": "Bangumi",
@@ -10,6 +10,15 @@
       "iconURL": "https://raw.githubusercontent.com/czy0729/Bangumi/master/src/assets/images/foreground.png",
       "localizedDescription": "Bangumi for iOS",
       "versions": [
+        {
+          "version": "8.38.2",
+          "buildVersion": "1",
+          "date": "2026-08-09T09:31:57Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/upstream-8.38.2/Bangumi-8.38.2-unsigned.ipa",
+          "size": 23267912,
+          "sha256": "662f4fdd2b46c2a4570ffd722a2c715d7573ce448ebed92d7fa34e7c0a3332a1",
+          "localizedDescription": "Automated unsigned IPA build for upstream Bangumi tag `8.38.2`.\n\nSource: https://github.com/czy0729/Bangumi/tree/8.38.2\n\nSource archive: https://github.com/czy0729/Bangumi/archive/refs/tags/8.38.2.zip\n\nThe IPA is intentionally unsigned and should be signed by your sideloading tool or a later signing workflow.\n\nBuild run: https://github.com/czy0729/Bangumi/actions/runs/31305679439"
+        },
         {
           "version": "8.38.0",
           "buildVersion": "1",
@@ -29,13 +38,103 @@
           "localizedDescription": "Automated unsigned IPA build for upstream Bangumi tag `8.37.3`.\n\nSource: https://github.com/czy0729/Bangumi/tree/8.37.3\n\nSource archive: https://github.com/czy0729/Bangumi/archive/refs/tags/8.37.3.zip\n\nThe IPA is intentionally unsigned and should be signed by your sideloading tool or a later signing workflow.\n\nBuild run: https://github.com/czy0729/Bangumi/actions/runs/29823557690"
         },
         {
-          "version": "8.36.4",
+          "version": "8.37.0",
+          "buildVersion": "1",
+          "date": "2026-07-14T10:41:34Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/upstream-8.37.0/Bangumi-8.37.0-unsigned.ipa",
+          "size": 23240280,
+          "sha256": "bfffca59db11759a2367453a73d4cc3bc8e1b6627b343c57876e62c74ea2f976",
+          "localizedDescription": "Automated unsigned IPA build for upstream Bangumi tag `8.37.0`.\n\nSource: https://github.com/czy0729/Bangumi/tree/8.37.0\n\nSource archive: https://github.com/czy0729/Bangumi/archive/refs/tags/8.37.0.zip\n\nThe IPA is intentionally unsigned and should be signed by your sideloading tool or a later signing workflow.\n\nBuild run: https://github.com/czy0729/Bangumi/actions/runs/29325058318"
+        },
+        {
+          "version": "8.36.5",
           "buildVersion": "1",
           "date": "2026-07-05T11:10:11Z",
           "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/upstream-8.36.5/Bangumi-8.36.5-unsigned.ipa",
           "size": 23060321,
           "sha256": "55ae3223467d52b8980c6066e4e795befd35072c060a8453bea109e3639c53dc",
           "localizedDescription": "Automated unsigned IPA build for upstream Bangumi tag `8.36.5`.\n\nSource: https://github.com/czy0729/Bangumi/tree/8.36.5\n\nSource archive: https://github.com/czy0729/Bangumi/archive/refs/tags/8.36.5.zip\n\nThe IPA is intentionally unsigned and should be signed by your sideloading tool or a later signing workflow.\n\nBuild run: https://github.com/czy0729/Bangumi/actions/runs/28738239886"
+        },
+        {
+          "version": "8.35.2",
+          "buildVersion": "1",
+          "date": "2026-06-23T16:46:29Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/upstream-8.35.2/Bangumi-8.35.2-unsigned.ipa",
+          "size": 23040371,
+          "sha256": "db9bc0e30e1b5dfbfd7bd723c06b84af960eca393e709a9b656063b1d5a5f292",
+          "localizedDescription": "Automated unsigned IPA build for upstream Bangumi tag `8.35.2`.\n\nSource: https://github.com/czy0729/Bangumi/tree/8.35.2\n\nSource archive: https://github.com/czy0729/Bangumi/archive/refs/tags/8.35.2.zip\n\nThe IPA is intentionally unsigned and should be signed by your sideloading tool or a later signing workflow.\n\nBuild run: https://github.com/czy0729/Bangumi/actions/runs/28040906264"
+        },
+        {
+          "version": "8.35.1",
+          "buildVersion": "1",
+          "date": "2026-06-22T14:32:26Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/upstream-8.35.1/Bangumi-8.35.1-unsigned.ipa",
+          "size": 23038369,
+          "sha256": "4aef52236197e22d4c36ef71fd9bd0b3d3773779cc87061e14f1d92a776b4e8b",
+          "localizedDescription": "Automated unsigned IPA build for upstream Bangumi tag `8.35.1`.\n\nSource: https://github.com/czy0729/Bangumi/tree/8.35.1\n\nSource archive: https://github.com/czy0729/Bangumi/archive/refs/tags/8.35.1.zip\n\nThe IPA is intentionally unsigned and should be signed by your sideloading tool or a later signing workflow.\n\nBuild run: https://github.com/czy0729/Bangumi/actions/runs/27959286541"
+        },
+        {
+          "version": "8.34.3",
+          "buildVersion": "1",
+          "date": "2026-06-10T11:34:40Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/upstream-8.34.3/Bangumi-8.34.3-unsigned.ipa",
+          "size": 34340897,
+          "sha256": "63e81a30d571b42f67dd94cf4cb1b44f2740ea5ca0ec03acaab6c648119182fe",
+          "localizedDescription": "Automated unsigned IPA build for upstream Bangumi tag `8.34.3`.\n\nSource: https://github.com/czy0729/Bangumi/tree/8.34.3\n\nSource archive: https://github.com/czy0729/Bangumi/archive/refs/tags/8.34.3.zip\n\nThe IPA is intentionally unsigned and should be signed by your sideloading tool or a later signing workflow.\n\nBuild run: https://github.com/czy0729/Bangumi/actions/runs/27272675204"
+        },
+        {
+          "version": "8.34.1",
+          "buildVersion": "1",
+          "date": "2026-06-03T08:23:14Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/upstream-8.34.1/Bangumi-8.34.1-unsigned.ipa",
+          "size": 34334537,
+          "sha256": "6f5d0252b53e99e05594f30ada34d2839804604af7b46f028a191005d2b5ca25",
+          "localizedDescription": "Automated unsigned IPA build for upstream Bangumi tag `8.34.1`.\n\nSource: https://github.com/czy0729/Bangumi/tree/8.34.1\n\nSource archive: https://github.com/czy0729/Bangumi/archive/refs/tags/8.34.1.zip\n\nThe IPA is intentionally unsigned and should be signed by your sideloading tool or a later signing workflow.\n\nBuild run: https://github.com/czy0729/Bangumi/actions/runs/26872068472"
+        },
+        {
+          "version": "8.33.5",
+          "buildVersion": "1",
+          "date": "2026-05-24T10:34:01Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/upstream-8.33.5/Bangumi-8.33.5-unsigned.ipa",
+          "size": 34297980,
+          "sha256": "0eb55af6a805b6e22e078329e95adde0456edd76d91519c5e46f96e1cbdb0ca6",
+          "localizedDescription": "Automated unsigned IPA build for upstream Bangumi tag `8.33.5`.\n\nSource: https://github.com/czy0729/Bangumi/tree/8.33.5\n\nSource archive: https://github.com/czy0729/Bangumi/archive/refs/tags/8.33.5.zip\n\nThe IPA is intentionally unsigned and should be signed by your sideloading tool or a later signing workflow.\n\nBuild run: https://github.com/czy0729/Bangumi/actions/runs/26358621861"
+        },
+        {
+          "version": "8.33.3",
+          "buildVersion": "1",
+          "date": "2026-05-18T12:20:26Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/upstream-8.33.3/Bangumi-8.33.3-unsigned.ipa",
+          "size": 34295962,
+          "sha256": "c94f20baea1217e64a84a1c44c1808e4d69b14e37a451c1d804c5aa590806bca",
+          "localizedDescription": "Automated unsigned IPA build for upstream Bangumi tag `8.33.3`.\n\nSource: https://github.com/czy0729/Bangumi/tree/8.33.3\n\nSource archive: https://github.com/czy0729/Bangumi/archive/refs/tags/8.33.3.zip\n\nThe IPA is intentionally unsigned and should be signed by your sideloading tool or a later signing workflow.\n\nBuild run: https://github.com/czy0729/Bangumi/actions/runs/26032318627"
+        },
+        {
+          "version": "8.33.2",
+          "buildVersion": "1",
+          "date": "2026-05-16T15:51:33Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/upstream-8.33.2/Bangumi-8.33.2-unsigned.ipa",
+          "size": 34287027,
+          "sha256": "55a4f12ce78300ce25fb6155b53a6290506c8d9125d8d0d8c45e764e4e3d2274",
+          "localizedDescription": "Automated unsigned IPA build for upstream Bangumi tag `8.33.2`.\n\nSource: https://github.com/czy0729/Bangumi/tree/8.33.2\n\nSource archive: https://github.com/czy0729/Bangumi/archive/refs/tags/8.33.2.zip\n\nThe IPA is intentionally unsigned and should be signed by your sideloading tool or a later signing workflow.\n\nBuild run: https://github.com/czy0729/Bangumi/actions/runs/25966003733"
+        },
+        {
+          "version": "8.33.0",
+          "buildVersion": "1",
+          "date": "2026-05-16T09:12:42Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/upstream-8.33.0/Bangumi-8.33.0-unsigned.ipa",
+          "size": 34287254,
+          "sha256": "737ecafeded7a42263302edaf497e2cc24a535b4b19979ca49e95d6cacd173fa",
+          "localizedDescription": "Automated unsigned IPA build for upstream Bangumi tag `8.33.0`.\n\nSource: https://github.com/czy0729/Bangumi/tree/8.33.0\n\nSource archive: https://github.com/czy0729/Bangumi/archive/refs/tags/8.33.0.zip\n\nThe IPA is intentionally unsigned and should be signed by your sideloading tool or a later signing workflow.\n\nBuild run: https://github.com/czy0729/Bangumi/actions/runs/25957964364"
+        },
+        {
+          "version": "8.32.3",
+          "buildVersion": "1",
+          "date": "2026-04-28T10:51:52Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/upstream-8.32.3/Bangumi-8.32.3-unsigned.ipa",
+          "size": 34199282,
+          "sha256": "ef6fc3986ae6036c68b74854e13cea041b769adcc1b8d77efee50da96b0955f2",
+          "localizedDescription": "Automated unsigned IPA build for upstream Bangumi tag `8.32.3`.\n\nSource: https://github.com/czy0729/Bangumi/tree/8.32.3\n\nSource archive: https://github.com/czy0729/Bangumi/archive/refs/tags/8.32.3.zip\n\nThe IPA is intentionally unsigned and should be signed by your sideloading tool or a later signing workflow.\n\nBuild run: https://github.com/czy0729/Bangumi/actions/runs/25047910651"
         }
       ]
     }
