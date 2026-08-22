@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-23 21:15:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-06 15:11:39
+ * @Last Modified time: 2026-08-22 08:56:16
  */
 import { WEB } from '@constants'
 
@@ -23,5 +23,8 @@ export const IGNORE_ITEMS = [
 /** 特殊符号 */
 export const REG_SPEC = / |-|，|。|！|？|：|；|、|～|・|《|〈|（|「|&|~|:|“|!|;|,|·|'|\*|\?|\.|\+/
 
-/** 分片初始化时间间隔 */
+/** 首片构建前的延迟, 避开启动渲染高峰 */
 export const TRIE_INIT_DISTANCE = WEB ? 200 : 2000
+
+/** 每片的词数 */
+export const TRIE_CHUNK_SIZE = 2000

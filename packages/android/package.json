@@ -61,7 +61,6 @@
     "expo-web-browser": "12.3.2",
     "hoist-non-react-statics": "2.5.0",
     "json2csv": "5.0.7",
-    "lazy-aho-corasick": "1.2.2",
     "lodash.isequal": "4.5.0",
     "lodash.pickby": "4.6.0",
     "lodash.transform": "4.6.0",

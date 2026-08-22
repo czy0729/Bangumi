@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:30:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-27 06:03:25
+ * @Last Modified time: 2026-08-22 08:02:29
  */
 import { _ } from '@stores'
 import { LIST_EMPTY } from '@constants'
@@ -10,7 +10,14 @@ import { COMPONENT } from '../ds'
 
 import type { CompletionItem, Loaded, RatingStatus, Sites, TranslateResult } from '@types'
 import type { DlsiteImage, VndbScreenshot } from '@utils/thirdParty/dlsite-vndb'
-import type { AnitabiData, EpsData, RecData, SubjectCommentValue, SubjectSnapshot, VideoItem } from '../types'
+import type {
+  AnitabiData,
+  EpsData,
+  RecData,
+  SubjectCommentValue,
+  SubjectSnapshot,
+  VideoItem
+} from '../types'
 
 /** 唯一命名空间 */
 export const NAMESPACE = `Screen${COMPONENT}` as const
@@ -21,7 +28,7 @@ export const RESET_STATE = {
   fixed: false,
 
   /** 可视范围底部 y */
-  visibleBottom: Math.floor(_.window.height * 2),
+  visibleBottom: Math.floor(_.window.height * 3),
 
   /** 当前页面实例是否在路由栈中 (用于退出页面后马上拦截剩余的请求) */
   focused: false,

@@ -48,6 +48,14 @@ export const RenderHtml = observer(
       katakanaResult: {}
     }
 
+    /** formatHtml / 分片 / 各片配置的结果缓存, deps 全等时直接复用 */
+    private formatMemo = {
+      deps: [] as unknown[],
+      htmlValue: '',
+      fragments: [] as string[],
+      configs: [] as ReturnType<RenderHtmlComponent['generateConfig']>[]
+    }
+
     async componentDidMount() {
       if (this.props.katakana && systemStore.setting.katakana) {
         const katakanaResult = await translateAll(this.props.html)
@@ -207,26 +215,54 @@ export const RenderHtml = observer(
         matchLink,
         splitLength,
         onLinkPress,
+        onImageFallback,
         ...other
       } = this.props
-      const htmlValue = formatHtml(
+
+      // 依赖值必须在缓存判断前无条件读取, 否则 mobx 追踪不到, 设置变化后不会重渲染
+      const bigEmojiSize = rakuenStore.setting.bigEmojiSize
+      const s2t = systemStore.setting.s2t
+      const flattenedBaseStyle = _.flatten([this.defaultBaseFontStyle, baseFontStyle])
+
+      const deps: unknown[] = [
         html,
-        _.flatten([this.defaultBaseFontStyle, baseFontStyle]),
         matchLink,
+        splitLength,
+        bigEmojiSize,
+        s2t,
+        JSON.stringify(flattenedBaseStyle),
+        linkStyle,
+        _.colorMain,
+        _.window.width,
+        autoShowImage,
+        onImageFallback,
+        imagesMaxWidth,
         katakanaResult
-      )
+      ]
+      const memo = this.formatMemo
+      const hit =
+        memo.deps.length === deps.length && memo.deps.every((dep, index) => dep === deps[index])
+
+      if (!hit) {
+        memo.deps = deps
+        memo.htmlValue = formatHtml(html, flattenedBaseStyle, matchLink, katakanaResult) || ''
+        memo.fragments = memo.htmlValue ? splitHtmlByEmoji(memo.htmlValue, splitLength) : []
+        memo.configs = memo.fragments.map(item => this.generateConfig(item))
+      }
+
+      const { htmlValue, fragments, configs } = memo
       if (!htmlValue) return null
 
       return (
         <ErrorBoundary style={style}>
           <Component id='component-render-html' style={style}>
-            {splitHtmlByEmoji(htmlValue, splitLength).map((item, index) => (
+            {fragments.map((item, index) => (
               <RNRenderHTML
                 key={String(index)}
                 containerStyle={styles.container}
                 html={item}
                 onLinkPress={this.onLinkPress}
-                {...this.generateConfig(item)}
+                {...configs[index]}
                 {...other}
               />
             ))}

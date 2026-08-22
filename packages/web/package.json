@@ -61,7 +61,6 @@
     "hoist-non-react-statics": "2.5.0",
     "idb": "^7.1.1",
     "json2csv": "^5.0.7",
-    "lazy-aho-corasick": "^1.2.2",
     "lodash": "^4.17.4",
     "lodash.isequal": "^4.5.0",
     "lodash.pickby": "^4.6.0",

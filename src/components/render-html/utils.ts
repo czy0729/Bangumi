@@ -507,19 +507,47 @@ function hackMatchMediaLink(html: string) {
     const acData = acSearch(removeHTMLTag(htmlNoTags))
     if (Array.isArray(acData) && acData.length) {
       const substrings = getSubStrings()
-      acData.forEach((item, index) => {
-        htmlValue = htmlValue.replace(item, `##${index}##`)
-      })
-      acData.forEach((item, index) => {
-        htmlValue = htmlValue.replace(
-          `##${index}##`,
-          `<a href="https://App/Subject/subjectId:${substrings[item]}">${item}</a>`
-        )
-      })
+
+      // acData 已按长度降序, alternation 会优先匹配更长的词
+      const reg = new RegExp(acData.map(escapeRegExp).join('|'), 'g')
+      htmlValue = replaceOutsideTags(htmlValue, reg, match =>
+        substrings[match]
+          ? `<a href="https://App/Subject/subjectId:${substrings[match]}">${match}</a>`
+          : match
+      )
     }
   }
 
   return htmlValue
+}
+
+/**
+ * 跳过标签与已有链接区域, 只对其中的文本段做替换
+ * - 词条若匹配进原有标签属性 (如时间戳 2022/7/5 命中 22/7), 插入的 <a> 会破坏属性引号配对, 导致解析出畸形节点
+ */
+function replaceOutsideTags(
+  html: string,
+  reg: RegExp,
+  replacer: (match: string) => string
+) {
+  const zoneReg = /<a\s[^>]*>[\s\S]*?<\/a>|<[^>]*>/gi
+  let result = ''
+  let last = 0
+  let zone: RegExpExecArray | null
+
+  while ((zone = zoneReg.exec(html))) {
+    result += html.slice(last, zone.index).replace(reg, replacer)
+    result += zone[0]
+    last = zone.index + zone[0].length
+  }
+  result += html.slice(last).replace(reg, replacer)
+
+  return result
+}
+
+/** 转义正则特殊字符 */
+function escapeRegExp(str: string) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
 
 function fixedHtml(html: string = '') {

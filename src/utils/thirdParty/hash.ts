@@ -4,16 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-03-23 19:40:34
  */
-const I64BIT_TABLE =
-  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-'.split('')
+const I64BIT_TABLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-'.split('')
 
-/** 缓存结果 */
-const cacheMap = new Map<string, string>()
-
+/** djb2 哈希, 微秒级, 无需缓存 (缓存反而会以原文体积为代价常驻内存) */
 export default function hash(input: string) {
   if (!input) return ''
-
-  if (input && cacheMap.has(input)) return cacheMap.get(input)
 
   let hash = 5381
   let i = input.length - 1
@@ -30,6 +25,5 @@ export default function hash(input: string) {
     retValue += I64BIT_TABLE[value & 0x3f]
   } while ((value >>= 6))
 
-  cacheMap.set(input, retValue)
   return retValue
 }
