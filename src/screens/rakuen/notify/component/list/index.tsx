@@ -7,6 +7,7 @@
 import React, { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { ListView } from '@components'
+import { ITEM_NOTIFY_HEIGHT } from '@_'
 import { useStore } from '@stores'
 import { keyExtractor, renderNotifyItem, renderPmInItem } from './utils'
 import { COMPONENT } from './ds'
@@ -21,6 +22,7 @@ function List({ id }: Props) {
   const sharedProps = {
     keyExtractor,
     contentContainerStyle: styles.contentContainerStyle,
+    estimatedItemHeight: ITEM_NOTIFY_HEIGHT,
     scrollEventThrottle: 16,
     onScroll: $.onScroll
   } as const

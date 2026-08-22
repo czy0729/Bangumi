@@ -8,16 +8,15 @@ import React from 'react'
 import { Loading } from '@components'
 import { PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
-import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import { Ctx } from '../../types'
+import { ITEM_HEIGHT } from '../item/ds'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
 
-function List() {
-  r(COMPONENT)
+import type { Ctx } from '../../types'
 
-  const { $ } = useStore<Ctx>()
+function List() {
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => {
     const { data } = $.state
@@ -28,6 +27,7 @@ function List() {
         keyExtractor={keyExtractor}
         contentContainerStyle={_.container.bottom}
         skipEnteringExitingAnimations={10}
+        estimatedItemHeight={ITEM_HEIGHT}
         data={data.list}
         limit={20}
         renderItem={renderItem}

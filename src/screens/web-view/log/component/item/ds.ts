@@ -8,3 +8,6 @@ import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'Item')
+
+/** 项高度 */
+export const ITEM_HEIGHT = 64

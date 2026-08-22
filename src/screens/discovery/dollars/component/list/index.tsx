@@ -10,6 +10,7 @@ import { PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
+import { ITEM_HEIGHT } from '../item/ds'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
 
@@ -26,6 +27,7 @@ function List() {
       contentContainerStyle={_.container.bottom}
       {...SCROLL_VIEW_RESET_PROPS}
       skipEnteringExitingAnimations={10}
+      estimatedItemHeight={ITEM_HEIGHT}
       scrollEventThrottle={16}
       data={$.dollars.list}
       renderItem={renderItem}

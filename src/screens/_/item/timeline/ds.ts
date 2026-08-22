@@ -17,7 +17,7 @@ export const COMPONENT = rc(PARENT, 'ItemTimeline')
 
 export const COMPONENT_MAIN = rc(COMPONENT)
 
-export const ITEM_HEIGHT = 84
+export const ITEM_TIMELINE_HEIGHT = 112
 
 export const AVATAR_WIDTH = 40
 

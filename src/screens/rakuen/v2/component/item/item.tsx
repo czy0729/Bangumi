@@ -53,7 +53,7 @@ const Item = memo(
             <Touchable animate onPress={onPress}>
               <Flex align='start'>
                 <UserStatus userId={userId}>
-                  <InView style={styles.inView} index={index} y={ITEM_HEIGHT * index + 1}>
+                  <InView style={styles.inView} index={index} y={InView.y(index, ITEM_HEIGHT)}>
                     <Avatar
                       src={src}
                       name={userName}

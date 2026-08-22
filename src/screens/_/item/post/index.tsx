@@ -17,6 +17,8 @@ import { isBlockUser, isSpecFloor } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+export { ITEM_POST_HEIGHT } from './ds'
+
 import type { Ctx, Props as ItemPostProps } from './types'
 export type { ItemPostProps }
 

@@ -4,16 +4,16 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-22 02:59:39
  */
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { ListView, Loading } from '@components'
 import { Login } from '@_'
-import { _, userStore, useStore } from '@stores'
-import { useInsets } from '@utils/hooks'
+import { userStore, useStore } from '@stores'
 import i18n from '@constants/i18n'
-import { H_TABBAR } from '../../ds'
+import { ITEM_HEIGHT } from '../item/ds'
+import { useListStyle } from './hooks'
 import { keyExtractor, renderItem } from './utils'
-import { COMPONENT, ENTERING_EXITING_ANIMATIONS_NUM } from './ds'
+import { COMPONENT, ENTERING_EXITING_ANIMATIONS_NUM, INITIAL_NUM_TO_RENDER } from './ds'
 
 import type { Ctx } from '../../types'
 import type { HandleRef, Props } from './types'
@@ -21,15 +21,7 @@ import type { HandleRef, Props } from './types'
 function List({ index }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  const { headerHeight } = useInsets()
-
-  const contentContainerStyle = useMemo(
-    () => ({
-      paddingTop: headerHeight + H_TABBAR,
-      paddingBottom: _.bottom
-    }),
-    [headerHeight]
-  )
+  const style = useListStyle()
 
   const handleRef = useCallback<HandleRef>(
     ref => {
@@ -52,11 +44,12 @@ function List({ index }: Props) {
       ref={handleRef}
       skipEnteringExitingAnimations={ENTERING_EXITING_ANIMATIONS_NUM}
       keyExtractor={keyExtractor}
-      contentContainerStyle={contentContainerStyle}
-      progressViewOffset={contentContainerStyle.paddingTop}
+      contentContainerStyle={style}
+      progressViewOffset={style.paddingTop}
       data={rakuen}
       renderItem={renderItem}
-      initialNumToRender={16}
+      initialNumToRender={INITIAL_NUM_TO_RENDER}
+      estimatedItemHeight={ITEM_HEIGHT}
       scrollEventThrottle={16}
       onScroll={$.onScroll}
       onHeaderRefresh={$.onHeaderRefresh}

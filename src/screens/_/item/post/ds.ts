@@ -17,6 +17,8 @@ export const COMPONENT = rc(PARENT, 'ItemPost')
 
 export const COMPONENT_MAIN = rc(COMPONENT)
 
+export const ITEM_POST_HEIGHT = 90
+
 const AVATAR_WIDTH = 32
 
 export const IMAGES_MAX_WIDTH = _.window.width - 2 * _.wind - AVATAR_WIDTH - _.sm

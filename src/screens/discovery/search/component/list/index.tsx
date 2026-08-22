@@ -7,6 +7,7 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { ListView } from '@components'
+import { ITEM_SEARCH_HEIGHT } from '@_'
 import { useStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { renderItem } from './utils'
@@ -25,6 +26,7 @@ function List() {
       keyExtractor={keyExtractor}
       contentContainerStyle={styles.contentContainerStyle}
       data={$.search}
+      estimatedItemHeight={ITEM_SEARCH_HEIGHT}
       keyboardDismissMode='on-drag'
       renderItem={renderItem}
       onScroll={$.onScroll}

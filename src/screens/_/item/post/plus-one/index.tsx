@@ -62,7 +62,7 @@ function ItemPlusOne({
               event={event}
             />
           </UserStatus>
-          <Name style={_.ml.xs} userId={userId} size={10} bold>
+          <Name style={styles.name} userId={userId} size={10} bold numberOfLines={1}>
             {userName}
           </Name>
           <UserLabel isAuthor={isAuthor} isFriend={isFriend} isLayer={isLayer} lineHeight={10} />

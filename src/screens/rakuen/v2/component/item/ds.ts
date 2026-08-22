@@ -19,7 +19,7 @@ export const COMPONENT_MAIN = rc(COMPONENT)
 export const LIMIT_HEAVY = _.device(12, 20)
 
 /** 项高度 */
-export const ITEM_HEIGHT = 60
+export const ITEM_HEIGHT = 64
 
 /** 回复数少于的数字, 判断为广告姬 */
 export const AD_REPLIES_COUNT = 4

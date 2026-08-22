@@ -16,7 +16,7 @@ export const COMPONENT = rc(PARENT, 'ItemCollections')
 
 export const COMPONENT_MAIN = rc(COMPONENT)
 
-export const ITEM_HEIGHT = 156
+export const ITEM_COLLECTIONS_HEIGHT = 152
 
 export const COVER_WIDTH = Math.floor(IMG_WIDTH * 1.1)
 

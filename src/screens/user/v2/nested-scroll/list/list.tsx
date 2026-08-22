@@ -6,6 +6,7 @@
  */
 import React, { useCallback, useMemo } from 'react'
 import { ListView } from '@components'
+import { ITEM_COLLECTIONS_HEIGHT } from '@_'
 import { keyExtractor } from '@utils'
 import { memo } from '@utils/decorators'
 import { FROZEN_FN } from '@constants'
@@ -68,6 +69,7 @@ const List = memo(
         nestedScrollEnabled
         data={data}
         numColumns={numColumns}
+        estimatedItemHeight={list ? ITEM_COLLECTIONS_HEIGHT : 0}
         keyboardDismissMode='on-drag'
         scrollEventThrottle={16}
         ListHeaderComponent={elListHeaderComponent}

@@ -24,8 +24,9 @@ function List<ItemT>({
   ...other
 }: ListProps<ItemT>) {
   // hook 必须在所有条件 early return 之前调用，enabled 内部已做守卫
+  // 进出场动画列表同样支持实测高度缓存, heightProps 会透传给 EnteringExiting
   const heightProps = useEstimatedItemHeight({
-    enabled: !!estimatedItemHeight && !sections && !skipEnteringExitingAnimations,
+    enabled: !!estimatedItemHeight && !sections,
     dataLength: (data as ItemT[])?.length ?? 0,
     estimate: estimatedItemHeight ?? 0,
     resetKey: itemHeightKey,
@@ -47,6 +48,8 @@ function List<ItemT>({
       <EnteringExiting
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         {...(baseProps as any)}
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        {...(heightProps as any)}
         data={data}
         skipEnteringExitingAnimations={skipEnteringExitingAnimations}
         renderItem={other.renderItem}

@@ -15,6 +15,8 @@ import Item from './item'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+export { ITEM_TIMELINE_HEIGHT } from './ds'
+
 import type { Props as ItemTimelineProps } from './types'
 export type { ItemTimelineProps }
 

@@ -6,7 +6,7 @@
  */
 import React, { useCallback } from 'react'
 import { ListView } from '@components'
-import { PaginationList2 } from '@_'
+import { ITEM_POST_HEIGHT, PaginationList2 } from '@_'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils'
 import { memo } from '@utils/decorators'
@@ -45,6 +45,7 @@ const List = memo(
       progressViewOffset: _.ios(STATUS_BAR_HEIGHT, 0),
       removeClippedSubviews: true,
       renderItem: handleRenderItem,
+      estimatedItemHeight: ITEM_POST_HEIGHT,
       viewabilityConfig: VIEWABILITY_CONFIG,
       onViewableItemsChanged,
       onScroll,

@@ -21,6 +21,8 @@ import Title from './title'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+export { ITEM_SEARCH_HEIGHT } from './ds'
+
 import type { Props as ItemSearchProps } from './types'
 export type { ItemSearchProps }
 

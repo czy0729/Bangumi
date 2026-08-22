@@ -8,3 +8,5 @@ import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'ItemSearch')
+
+export const ITEM_SEARCH_HEIGHT = 184

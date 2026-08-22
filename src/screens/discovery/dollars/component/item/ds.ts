@@ -9,4 +9,4 @@ import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'Item')
 
-export const ITEM_HEIGHT = 64
+export const ITEM_HEIGHT = 94

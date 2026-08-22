@@ -11,6 +11,8 @@ import Item from './item'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+export { ITEM_COLLECTIONS_HEIGHT } from './ds'
+
 import type { Props as ItemCollectionsProps } from './types'
 export type { ItemCollectionsProps }
 

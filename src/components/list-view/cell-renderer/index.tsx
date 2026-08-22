@@ -7,8 +7,8 @@
 import { useState } from 'react'
 import { View } from 'react-native'
 import { DEV } from '@constants'
-import { Text } from '../../text'
 import { styles } from '../styles'
+import { Text } from '../../text'
 
 import type { LayoutChangeEvent } from 'react-native'
 import type { CellRendererFactoryProps, CellRendererProps } from './types'

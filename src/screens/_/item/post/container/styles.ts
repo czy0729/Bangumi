@@ -5,10 +5,12 @@
  * @Last Modified time: 2024-01-23 19:51:35
  */
 import { _ } from '@stores'
+import { ITEM_POST_HEIGHT } from '../ds'
 
 export const memoStyles = _.memoStyles(() => ({
   item: {
     width: _.window.width,
+    minHeight: ITEM_POST_HEIGHT,
     paddingTop: 12,
     paddingBottom: 12,
     paddingHorizontal: _.wind

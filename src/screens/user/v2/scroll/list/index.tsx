@@ -8,6 +8,7 @@ import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { ListView } from '@components'
+import { ITEM_COLLECTIONS_HEIGHT } from '@_'
 import { _, systemStore, useStore } from '@stores'
 import { getKeyString, keyExtractor } from '@utils'
 import { MODEL_COLLECTION_STATUS, USE_NATIVE_DRIVER } from '@constants'
@@ -114,6 +115,7 @@ function List({ page, title, scrollY, onScroll, onRefreshOffset }: Props) {
       data={userCollections}
       numColumns={numColumns}
       progressViewOffset={_.parallaxImageHeight + 32}
+      estimatedItemHeight={list ? ITEM_COLLECTIONS_HEIGHT : 0}
       keyboardDismissMode='on-drag'
       renderItem={handleRenderItem}
       ListHeaderComponent={ListHeaderComponent}

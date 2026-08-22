@@ -5,8 +5,12 @@
  * @Last Modified time: 2026-06-06 05:48:44
  */
 import { _ } from '@stores'
+import { ITEM_COLLECTIONS_HEIGHT } from './ds'
 
 export const memoStyles = _.memoStyles(() => ({
+  item: {
+    minHeight: ITEM_COLLECTIONS_HEIGHT
+  },
   wrap: {
     paddingVertical: _.md,
     paddingRight: _.wind

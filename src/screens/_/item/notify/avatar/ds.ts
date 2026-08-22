@@ -8,5 +8,3 @@ import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'Avatar')
-
-export const ITEM_HEIGHT = 64

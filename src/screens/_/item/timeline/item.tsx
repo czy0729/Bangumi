@@ -22,7 +22,7 @@ import {
   COMPONENT_MAIN,
   DEFAULT_PROPS,
   HIDDEN_DS,
-  ITEM_HEIGHT,
+  ITEM_TIMELINE_HEIGHT,
   LIKES_OFFSETS
 } from './ds'
 
@@ -117,7 +117,7 @@ const Item = memo(
     const rightCoverIsMusic = !rightCoverIsAvatar && type === '音乐'
     const showImages = image.length >= 3
 
-    const y = ITEM_HEIGHT * (index + 2)
+    const y = InView.y(index, ITEM_TIMELINE_HEIGHT)
 
     return (
       <Flex style={style} align='start'>

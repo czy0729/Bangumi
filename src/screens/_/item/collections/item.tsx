@@ -22,7 +22,7 @@ import Likes from './likes'
 import Manage from './manage'
 import Tip from './tip'
 import Title from './title'
-import { COMPONENT_MAIN, DEFAULT_PROPS, ITEM_HEIGHT } from './ds'
+import { COMPONENT_MAIN, DEFAULT_PROPS, ITEM_COLLECTIONS_HEIGHT } from './ds'
 
 const Item = memo(
   ({
@@ -110,14 +110,14 @@ const Item = memo(
     )
 
     return (
-      <Component id='item-collections' data-key={id}>
+      <Component style={styles.item} id='item-collections' data-key={id}>
         <Container active={active}>
           <Flex style={styles.wrap} align='start'>
             <Cover
               index={index}
               subjectId={subjectId}
               cover={cover}
-              y={InView.y(index - 1, ITEM_HEIGHT, inViewY)}
+              y={InView.y(index - 1, ITEM_COLLECTIONS_HEIGHT, inViewY)}
               type={type}
               onPress={handleNavigate}
             />

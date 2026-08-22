@@ -16,6 +16,8 @@ import Extra from './extra'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+export { ITEM_NOTIFY_HEIGHT } from './ds'
+
 import type { Props as ItemNotifyProps } from './types'
 export type { ItemNotifyProps }
 

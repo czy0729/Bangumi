@@ -87,7 +87,7 @@ function Item({ index, id, avatar, nickname, msg, color }: WithIndex<DollarsItem
     <Flex style={styles.item} align='start'>
       <Flex style={styles.avatar} direction='column'>
         <UserStatus userId={userId}>
-          <InView style={styles.inView} y={ITEM_HEIGHT * (index + 1)}>
+          <InView style={styles.inView} y={InView.y(index, ITEM_HEIGHT)}>
             <UserStatus userId={userId}>
               <Avatar
                 src={src}

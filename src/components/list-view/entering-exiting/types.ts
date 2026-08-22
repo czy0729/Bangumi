@@ -4,13 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-06-26 18:00:00
  */
-import type { ListRenderItem } from 'react-native'
-import type { FlatListPropsWithLayout } from 'react-native-reanimated'
+import type { FlatListProps, ListRenderItem } from 'react-native'
 import type { Override } from '@types'
 
-/** 进场出场动画列表组件属性，基于 Reanimated FlatList 扩展 */
+/** 进出场动画列表组件属性，基于 RN FlatList 扩展 */
 export type Props<ItemT> = Override<
-  FlatListPropsWithLayout<ItemT>,
+  Omit<FlatListProps<ItemT>, 'renderItem'>,
   {
     /** 列表数据 */
     data: ItemT[]

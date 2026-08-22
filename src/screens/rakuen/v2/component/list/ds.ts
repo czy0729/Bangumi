@@ -10,3 +10,6 @@ import { COMPONENT as PARENT } from '../ds'
 export const COMPONENT = rc(PARENT, 'List')
 
 export const ENTERING_EXITING_ANIMATIONS_NUM = 10
+
+/** 首次渲染条数 */
+export const INITIAL_NUM_TO_RENDER = 16

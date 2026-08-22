@@ -22,6 +22,10 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.colorBg,
     borderRadius: _.radiusSm
   },
+  name: {
+    maxWidth: 80,
+    marginLeft: _.xs
+  },
   html: {
     marginLeft: _.sm,
     opacity: 0.64

@@ -7,7 +7,7 @@
 import React, { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { ListView, Loading } from '@components'
-import { Login } from '@_'
+import { ITEM_TIMELINE_HEIGHT, Login } from '@_'
 import { _, uiStore, userStore, useStore } from '@stores'
 import { useInsets } from '@utils/hooks'
 import { IOS, MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE, PAD } from '@constants'
@@ -84,6 +84,7 @@ function List({ title }: Props) {
       progressViewOffset={contentContainerStyle.paddingTop}
       data={timeline}
       renderItem={handleRenderItem}
+      estimatedItemHeight={ITEM_TIMELINE_HEIGHT}
       scrollEventThrottle={16}
       overScrollMode='never'
       onScrollBeginDrag={handleScrollBeginDrag}
