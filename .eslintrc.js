@@ -96,7 +96,11 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': [
       2,
       {
-        ignoreRestSiblings: true
+        ignoreRestSiblings: true,
+        caughtErrors: 'none',
+
+        /** factory 实例仅用于 typeof 导出类型（如 const f = factory(Store)） */
+        varsIgnorePattern: '^f$'
       }
     ],
 
