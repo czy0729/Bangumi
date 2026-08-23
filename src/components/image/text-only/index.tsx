@@ -4,8 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-18 19:06:52
  */
-import React from 'react'
-import { observer } from 'mobx-react'
+import React, { memo } from 'react'
 import { Flex } from '../../flex'
 import { Text } from '../../text'
 import { styles } from './styles'
@@ -20,4 +19,4 @@ function TextOnly({ style }: WithViewStyles) {
   )
 }
 
-export default observer(TextOnly)
+export default memo(TextOnly)

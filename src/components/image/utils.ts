@@ -2,26 +2,27 @@
  * @Author: czy0729
  * @Date: 2022-05-28 02:06:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-27 07:12:10
+ * @Last Modified time: 2026-08-24 02:52:40
  */
 import { Image as RNImage } from 'react-native'
-import { _, systemStore } from '@stores'
+import { _ } from '@stores'
 import { getCover400, getStorage, setStorage, showImageViewer } from '@utils'
 import { t } from '@utils/fetch'
 import hash from '@utils/thirdParty/hash'
 import ImageCacheManager from '@utils/thirdParty/image-cache-manager'
 import { HOST_BGM_STATIC, HOST_CDN, HOST_IMAGE, IOS, WEB } from '@constants'
-import { getSkeletonColor } from '../skeleton'
+import { getSkeletonColor } from '../skeleton/utils'
 import {
   CACHE_KEY_404,
   CACHE_KEY_451,
   CACHE_KEY_TIMEOUT,
+  DEFAULT_HEADERS,
   MAGMA_PROBE_TIMEOUT,
   OSS_BGM_EMOJI_PREFIX
 } from './ds'
 
-import type { EventType, ImageStyle, ViewStyle } from '@types'
-import type { Props, State } from './types'
+import type { EventType, ImageStyle, TimerRef, ViewStyle } from '@types'
+import type { ComputeImageStylesOptions, Props, State } from './types'
 
 /** 记录 451 (OSS 鉴定为敏感) 的图片 */
 let memo451: Map<string, boolean>
@@ -124,6 +125,22 @@ export function checkLocalError(src: Props['src']): boolean {
 export function checkBgmEmoji(src: Props['src']): boolean {
   if (typeof src !== 'string') return false
   return src.includes(OSS_BGM_EMOJI_PREFIX)
+}
+
+/** 计算请求头：lain 域名自动加 Referer */
+export function computeHeaders(
+  src: Props['src'],
+  headers?: Record<string, string>
+): Record<string, string> {
+  const isLain = typeof src === 'string' && src.includes('lain.')
+
+  if (headers) {
+    if (isLain) return { ...DEFAULT_HEADERS, ...(headers || {}) }
+    return { ...headers }
+  }
+
+  if (isLain) return DEFAULT_HEADERS
+  return {}
 }
 
 /** 开发调试样式 */
@@ -277,24 +294,36 @@ export function getLocalCacheStatic(src: string) {
   return memoLocal.get(id)
 }
 
-/** 用于下载超时, 默认 10s */
-export function timeoutPromise() {
-  return new Promise((_resolve, reject) => {
-    setTimeout(() => {
+/** 用于下载超时, 默认 10s, 竞速结束后调用 clear 取消底层定时器 */
+export function timeoutPromise(timeout: number = 10000) {
+  let timerId: TimerRef = null
+
+  const promise = new Promise((_resolve, reject) => {
+    timerId = setTimeout(() => {
       reject('download timed out')
-    }, 10000)
+    }, timeout)
   })
+
+  return {
+    promise,
+    /** 取消底层定时器, 避免 Promise.race 胜出后定时器仍触发 unhandled rejection */
+    clear: () => {
+      if (timerId) clearTimeout(timerId)
+      timerId = null
+    }
+  }
+}
+
+/** 指数退避重试间隔, 上限 1 小时 */
+export function getNextRetryDelay(attempt: number) {
+  return Math.min(3000 * Math.pow(2, attempt), 3600000)
 }
 
 /** 计算图片实际样式 */
 export function computeImageStyles(
   props: Props,
   state: State,
-  borderRadius: number,
-  dev: boolean,
-  fallbacked: boolean,
-  _size: number,
-  styles: Record<string, ViewStyle>
+  options: ComputeImageStylesOptions
 ): { container: ViewStyle; image: ImageStyle } {
   const {
     style,
@@ -312,6 +341,8 @@ export function computeImageStyles(
     skeletonType,
     src
   } = props
+  const { borderRadius, dev, devEventText, fallbacked, fileSize, hairlineWidth, isDark, styles } =
+    options
   const { width: w, height: h, animFinished } = state
   const container: ViewStyle[] = []
   const image: ViewStyle[] = []
@@ -335,7 +366,7 @@ export function computeImageStyles(
   }
 
   // 若边框等于 hairlineWidth 且有影子就不显示边框
-  if (border && !(border === _.hairlineWidth && shadow)) {
+  if (border && !(border === hairlineWidth && shadow)) {
     image.push(
       typeof border === 'string'
         ? {
@@ -348,29 +379,20 @@ export function computeImageStyles(
 
   // 圆角
   if (radius) {
-    if (typeof radius === 'boolean') {
-      const s = {
-        borderRadius,
-        overflow: 'hidden'
-      } as const
-      container.push(s)
-      image.push(s)
-    } else {
-      const s = {
-        borderRadius: radius,
-        overflow: 'hidden'
-      } as const
-      container.push(s)
-      image.push(s)
-    }
+    const s = {
+      borderRadius: typeof radius === 'boolean' ? borderRadius : radius,
+      overflow: 'hidden'
+    } as const
+    container.push(s)
+    image.push(s)
   }
 
   /**
    * 以下特殊情况不显示阴影
-   * _.isDark 黑暗模式没必要显示阴影
-   * systemStore.devEvent 安卓下当有阴影, 层级会被提高, 导致遮挡卖点分析的可视化文字
+   * 暗色模式没必要显示阴影
+   * 安卓下当有阴影, 层级会被提高, 导致遮挡卖点分析的可视化文字
    */
-  if (shadow && !_.isDark && !(!IOS && systemStore.devEvent.text)) {
+  if (shadow && !isDark && !devEventText) {
     container.push(shadow === 'lg' ? styles.shadowLg : styles.shadow)
   }
 
@@ -392,7 +414,7 @@ export function computeImageStyles(
   }
 
   if (dev) {
-    image.push(getDevStyles(src, fallbacked, _size))
+    image.push(getDevStyles(src, fallbacked, fileSize))
   }
 
   return {
@@ -409,6 +431,14 @@ export function clearErrorTimeout(src?: string): boolean {
   memoTimeout.delete(id)
   setStorage(CACHE_KEY_TIMEOUT, Object.fromEntries(memoTimeout))
   return true
+}
+
+/** 解析 magma CDN 探测错误码 */
+export function parseCdnProbeError(error: unknown): 451 | 404 | 0 {
+  const errorStr = String(error)
+  if (errorStr.includes('code=451')) return 451
+  if (errorStr.includes('code=404')) return 404
+  return 0
 }
 
 /** 探测 magma CDN 状态码, 决定回退还是重试 */
@@ -445,14 +475,7 @@ export function probeMagmaCdn(
       headers,
       () => {},
       error => {
-        const errorStr = String(error)
-        if (errorStr.includes('code=451')) {
-          onStatus(451)
-        } else if (errorStr.includes('code=404')) {
-          onStatus(404)
-        } else {
-          onStatus(0)
-        }
+        onStatus(parseCdnProbeError(error))
       }
     )
   }
