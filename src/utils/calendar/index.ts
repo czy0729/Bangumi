@@ -2,42 +2,34 @@
  * @Author: czy0729
  * @Date: 2021-07-10 16:08:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-17 05:32:37
+ * @Last Modified time: 2026-08-24 00:25:23
  */
 import dayjs from 'dayjs'
 import * as Calendar from 'expo-calendar'
 import { IOS } from '@constants/constants'
+import { formatCalendarDate, parseReleaseDate } from './utils'
+import { CALENDAR_NAME, CALENDAR_TITLE } from './ds'
 
-const CALENDAR_TITLE = 'Bangumi番组计划'
+/** 缓存的应用日历 id */
+let lastCalendarId = ''
 
-const CALENDAR_NAME = 'bangumi app calendar'
-
-let lastCalendarId: string
+/** 进行中的查找/创建日历请求, 用于并发调用去重 */
+let pendingEnsureCalendarId: Promise<string> | null
 
 /**
  * https://docs.expo.dev/versions/latest/sdk/calendar/#calendarrequestcalendarpermissionsasync
  */
-export async function calendarEventsRequestPermissions() {
+export async function calendarEventsRequestPermissions(): Promise<
+  'denied' | 'restricted' | 'authorized' | 'undetermined'
+> {
   const { status } = await Calendar.requestCalendarPermissionsAsync()
 
   // 由于是先适配的安卓，这边接口参考安卓导出
-  if (status === 'granted') {
-    // 随便检查有没有创建过日历
-    if (!lastCalendarId) {
-      const calendars = await Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT)
-      if (Array.isArray(calendars)) {
-        const calendar = calendars.find(item => item.title === CALENDAR_TITLE)
-        if (!calendar) {
-          lastCalendarId = await createCalendar()
-        } else {
-          lastCalendarId = calendar.id
-        }
-      }
-    }
-    return 'authorized'
-  }
+  if (status !== 'granted') return 'undetermined'
 
-  return 'undetermined' as 'denied' | 'restricted' | 'authorized' | 'undetermined'
+  // 授权后确保应用日历存在, 并发调用共享同一次查找/创建流程
+  await ensureCalendarId()
+  return 'authorized'
 }
 
 /**
@@ -50,19 +42,24 @@ export async function calendarEventsSaveEvent(
     startDate = undefined,
     endDate = undefined,
     notes = undefined
+  }: {
+    startDate?: string
+    endDate?: string
+    notes?: string
   } = {}
 ): Promise<string | boolean> {
   const status = await calendarEventsRequestPermissions()
   if (status !== 'authorized' || !lastCalendarId) return false
 
   try {
-    return Calendar.createEventAsync(lastCalendarId, {
+    return await Calendar.createEventAsync(lastCalendarId, {
       title,
       startDate,
       endDate,
       notes
     })
   } catch (error) {
+    // 日历可能已被用户在系统端删除, 清空缓存以便下次重新查找/创建
     lastCalendarId = ''
     return ''
   }
@@ -76,34 +73,10 @@ export async function calendarGetEventsAsync(): Promise<string[]> {
 
   const events = await Calendar.getEventsAsync(
     [lastCalendarId],
-    new Date(dayjs().subtract(8, 'hours').format('YYYY-MM-DDTHH:mm:ss.000[Z]')),
-    new Date(dayjs().subtract(8, 'hours').add(6, 'month').format('YYYY-MM-DDTHH:mm:ss.000[Z]'))
+    new Date(formatCalendarDate(dayjs())),
+    new Date(formatCalendarDate(dayjs().add(6, 'month')))
   )
   return events.map(item => item.title)
-}
-
-async function getDefaultCalendarSource() {
-  const defaultCalendar = await Calendar.getDefaultCalendarAsync()
-  return defaultCalendar.source
-}
-
-async function createCalendar() {
-  const defaultCalendarSource = IOS
-    ? await getDefaultCalendarSource()
-    : { isLocalAccount: true, name: CALENDAR_NAME }
-  const newCalendarID = await Calendar.createCalendarAsync({
-    title: CALENDAR_TITLE,
-    color: 'pink',
-    entityType: Calendar.EntityTypes.EVENT,
-    // @ts-expect-error
-    sourceId: defaultCalendarSource.id,
-    // @ts-expect-error
-    source: defaultCalendarSource,
-    name: CALENDAR_NAME,
-    ownerAccount: 'personal',
-    accessLevel: Calendar.CalendarAccessLevel.OWNER
-  })
-  return newCalendarID
 }
 
 /** 保存游戏发售日期到日历 */
@@ -113,30 +86,70 @@ export async function calendarEventsSaveGameReleaseDate(
   region: string,
   notes?: string
 ): Promise<string | boolean> {
-  const status = await calendarEventsRequestPermissions()
-  if (status !== 'authorized') return false
+  const parsed = parseReleaseDate(date)
 
-  try {
-    // 支持多种日期格式:
-    // 1998年11月21日, 2004-04-28, 2004-04-28(PC)
-    let dateStr = date.replace(/(\d{4})年(\d{1,2})月(\d{1,2})日?/, '$1-$2-$3')
-    // 去除可能的平台后缀，如 (PC)
-    dateStr = dateStr.replace(/\(.+\)$/, '').trim()
-    const eventTitle = region ? `${title} (${region})` : title
+  // 无法解析出发售日期时不写入日历
+  if (!parsed) return false
 
-    const startDate = dayjs(`${dateStr}T00:00:00`)
-    const endDate = dayjs(`${dateStr}T23:59:59`)
+  const eventTitle = region ? `${title} (${region})` : title
 
-    const format = 'YYYY-MM-DDTHH:mm:ss.000[Z]'
-    const sDate = startDate.subtract(8, 'hours').format(format)
-    const eDate = endDate.subtract(8, 'hours').format(format)
+  // 全天事件: 当天 00:00 ~ 23:59
+  return calendarEventsSaveEvent(eventTitle, {
+    startDate: formatCalendarDate(dayjs(`${parsed}T00:00:00`)),
+    endDate: formatCalendarDate(dayjs(`${parsed}T23:59:59`)),
+    notes
+  })
+}
 
-    return calendarEventsSaveEvent(eventTitle, {
-      startDate: sDate,
-      endDate: eDate,
-      notes
-    })
-  } catch (error) {
-    return false
+/** 测试用: 重置模块内部缓存的日历 id 与并发请求状态 */
+export function resetCalendarCacheForTest() {
+  lastCalendarId = ''
+  pendingEnsureCalendarId = null
+}
+
+async function ensureCalendarId(): Promise<string> {
+  if (lastCalendarId) return lastCalendarId
+  if (pendingEnsureCalendarId) return pendingEnsureCalendarId
+
+  const task = (async () => {
+    const calendars = await Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT)
+    // 接口异常返回非数组时视作无同名日历, 走创建流程兜底
+    const existed = Array.isArray(calendars)
+      ? calendars.find(item => item.title === CALENDAR_TITLE)
+      : undefined
+    lastCalendarId = existed ? existed.id : await createCalendar()
+    return lastCalendarId
+  })()
+  pendingEnsureCalendarId = task
+
+  // 结束后释放引用: 成功时后续调用走 lastCalendarId 短路, 失败时允许下次重试
+  const onSettled = () => {
+    if (pendingEnsureCalendarId === task) pendingEnsureCalendarId = null
   }
+  task.then(onSettled, onSettled)
+
+  return task
+}
+
+async function getDefaultCalendarSource(): Promise<Calendar.Source> {
+  const defaultCalendar = await Calendar.getDefaultCalendarAsync()
+  return defaultCalendar.source
+}
+
+async function createCalendar(): Promise<string> {
+  // 安卓本地账户来源无 type 字段, 与 expo 类型定义不完全一致
+  const source: Calendar.Source = IOS
+    ? await getDefaultCalendarSource()
+    : ({ isLocalAccount: true, name: CALENDAR_NAME } as Calendar.Source)
+
+  return Calendar.createCalendarAsync({
+    title: CALENDAR_TITLE,
+    color: 'pink',
+    entityType: Calendar.EntityTypes.EVENT,
+    sourceId: source.id,
+    source,
+    name: CALENDAR_NAME,
+    ownerAccount: 'personal',
+    accessLevel: Calendar.CalendarAccessLevel.OWNER
+  })
 }
