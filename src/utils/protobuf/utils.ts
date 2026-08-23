@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-12-13 20:00:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 19:14:20
+ * @Last Modified time: 2026-08-23 21:54:28
  */
 import { DEV, LOG_LEVEL } from '@src/config'
 import { logger } from '../dev'
 
-import type { DataAssets, Get } from './types'
+import type { Data, DataAssets } from './types'
 
 /** 缓存结果 */
-export const cacheMap = new Map<string, any>()
+export const cacheMap = new Map<string, unknown>()
 
 /** 锁定 */
 export const lockMap = new Map<string, boolean>()
@@ -23,17 +23,17 @@ const logMap = new Map<string, boolean>()
  *  - 否则检查锁定, 若没锁定返回 true, 示意继续执行
  *  - 若锁定了返回等待 Promise
  * */
-export function checkCache(name: DataAssets) {
-  if (cacheMap.has(name)) return cacheMap.get(name)
+export function checkCache<T extends DataAssets>(name: T): Data[T] | true | Promise<Data[T]> {
+  if (cacheMap.has(name)) return cacheMap.get(name) as Data[T]
 
   if (!lockMap.has(name)) {
     lockMap.set(name, true)
   } else {
-    const waitingPromise = new Promise(resolve => {
+    const waitingPromise = new Promise<Data[T]>(resolve => {
       const interval = setInterval(() => {
         if (!lockMap.get(name)) {
           clearInterval(interval)
-          resolve(cacheMap.get(name))
+          resolve(cacheMap.get(name) as Data[T])
         }
       }, 800)
     })
@@ -44,22 +44,26 @@ export function checkCache(name: DataAssets) {
 }
 
 /** 获取数据 */
-export const get: Get = (name: DataAssets) => {
+export function get<T extends DataAssets>(name: T): Data[T] {
   const data = cacheMap.get(name)
   if (DEV && LOG_LEVEL >= 1) {
     if (!logMap.has(name)) {
-      logger.log('@utils/protobuf/get', name, data?.length || 0)
+      logger.log(
+        '@utils/protobuf/get',
+        name,
+        (data as { length?: number } | undefined)?.length || 0
+      )
     }
     logMap.set(name, true)
   }
-  return data
+  return data as Data[T]
 }
 
 /** 是否 Promise */
-export function isPromise(obj: any) {
+export function isPromise<T = unknown>(obj: unknown): obj is Promise<T> {
   return (
     !!obj &&
     (typeof obj === 'object' || typeof obj === 'function') &&
-    typeof obj.then === 'function'
+    typeof (obj as Promise<T>).then === 'function'
   )
 }

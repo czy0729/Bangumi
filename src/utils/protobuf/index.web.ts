@@ -8,7 +8,7 @@ import protobuf, { Reader } from 'protobufjs'
 import { logger } from '../dev'
 import { cacheMap, checkCache, get, isPromise, lockMap } from './utils'
 
-import type { Decode } from './types'
+import type { Data, DataAssets } from './types'
 
 export { get }
 
@@ -17,46 +17,40 @@ export { get }
  *  - 同时多个同样的请求, 只会触发第一次请求, 后到的会持续等待到 promise 返回
  *  - 请求过的结果会缓存
  * */
-export const decode: Decode = name => {
+export const decode = async <T extends DataAssets>(name: T): Promise<Data[T]> => {
   const result = checkCache(name)
-  if (isPromise(result) || result !== true) return result
 
-  return new Promise((resolve, reject) => {
-    const protoFile = `assets/proto/${name}/proto/index.proto`
-    fetch(protoFile)
-      .then(response => response.text())
-      .then(text => {
-        const { root } = protobuf.parse(text)
-        const message = root.lookupType('Payload')
+  // 并发等待中: 复用同一个等待 Promise
+  if (isPromise<Data[T]>(result)) return result
 
-        const binFile = `assets/proto/${name}/bin/index.bin`
-        fetch(binFile)
-          .then(response => response.arrayBuffer())
-          .then(arrayBuffer => {
-            const reader = Reader.create(new Uint8Array(arrayBuffer))
-            const decodedMessage = message.decode(reader)
-            const { payload } = message.toObject(decodedMessage, {
-              longs: Number,
-              enums: Number,
-              bytes: String
-            })
+  // 命中缓存
+  if (result !== true) return result
 
-            cacheMap.set(name, payload)
-            lockMap.set(name, false)
+  try {
+    const protoResponse = await fetch(`assets/proto/${name}/proto/index.proto`)
+    const text = await protoResponse.text()
 
-            logger.log('@utils/protobuf/decode', name, payload?.length)
-            resolve(payload)
-          })
-          .catch(() => {
-            reject('Error loading bin file')
-          })
-          .finally(() => {
-            lockMap.set(name, false)
-          })
-      })
-      .catch(() => {
-        reject('Error loading proto file')
-        lockMap.set(name, false)
-      })
-  })
+    const { root } = protobuf.parse(text)
+    const message = root.lookupType('Payload')
+
+    const binResponse = await fetch(`assets/proto/${name}/bin/index.bin`)
+    const arrayBuffer = await binResponse.arrayBuffer()
+
+    const decodedMessage = message.decode(Reader.create(new Uint8Array(arrayBuffer)))
+    const { payload } = message.toObject(decodedMessage, {
+      longs: Number,
+      enums: Number,
+      bytes: String
+    }) as { payload: Data[T] }
+
+    cacheMap.set(name, payload)
+    logger.log('@utils/protobuf/decode', name, (payload as { length?: number }).length)
+
+    return payload
+  } catch (error) {
+    logger.log('@utils/protobuf/decode', 'Error decode file', name)
+    throw 'Error decode file'
+  } finally {
+    lockMap.set(name, false)
+  }
 }

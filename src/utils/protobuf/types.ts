@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-09 00:44:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-28 13:49:36
+ * @Last Modified time: 2026-08-23 21:12:37
  */
 import type { Item as ADVFingerItem } from '@utils/subject/adv/types'
 import type { Item as AnimeFingerItem } from '@utils/subject/anime/types'
@@ -12,9 +12,9 @@ import type { BangumiData, Id } from '@types'
 
 export type DataAssets = 'bangumi-data' | 'anime' | 'manga' | 'game' | 'adv' | 'catalog'
 
-export type Decode = <T extends DataAssets>(name: T) => Promise<any>
+export type Decode = <T extends DataAssets>(name: T) => Promise<Data[T]>
 
-type CalalogFingerItem = {
+type CatalogFingerItem = {
   i: Id
   d: string
   l: string
@@ -31,13 +31,13 @@ type CalalogFingerItem = {
   ep?: number
 }
 
-type Data = {
+export type Data = {
   'bangumi-data': BangumiData
   anime: AnimeFingerItem[]
   manga: MangaFingerItem[]
   game: GameFingerItem[]
   adv: ADVFingerItem[]
-  catalog: CalalogFingerItem[]
+  catalog: CatalogFingerItem[]
 }
 
 export type Get = <T extends DataAssets>(name: T) => Data[T]

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-07 21:42:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-13 21:44:58
+ * @Last Modified time: 2026-08-23 21:53:49
  */
 import { toByteArray } from 'base64-js'
 import { Asset } from 'expo-asset'
@@ -11,51 +11,54 @@ import { logger } from '../dev'
 import { FileSystem } from '../thirdParty/file-system'
 import { cacheMap, checkCache, get, isPromise, lockMap } from './utils'
 
-import type { DataAssets, Decode } from './types'
-
 export { get }
+
+import type { Data, DataAssets } from './types'
 
 /**
  * 解码数据
  *  - 同时多个同样的请求只执行第一次
  *  - 完整保持你原逻辑
  */
-export const decode: Decode = async name => {
+export const decode = async <T extends DataAssets>(name: T): Promise<Data[T]> => {
   const result = checkCache(name)
-  if (isPromise(result) || result !== true) return result
 
-  return new Promise(async (resolve, reject) => {
-    try {
-      const text = await loadProtoFile(name)
-      if (!text) throw new Error('Error loading proto file')
+  // 并发等待中: 复用同一个等待 Promise
+  if (isPromise<Data[T]>(result)) return result
 
-      const { root } = protobuf.parse(text)
-      const message = root.lookupType('Payload')
+  // 命中缓存
+  if (result !== true) return result
 
-      const base64String = await loadBinFile(name)
-      if (!base64String) throw new Error('Error loading bin file')
+  try {
+    const text = await loadProtoFile(name)
+    if (!text) throw new Error('Error loading proto file')
 
-      const uint8Array = new Uint8Array(toByteArray(base64String))
-      const reader = new Reader(uint8Array)
-      const decodedMessage = message.decode(reader)
+    const { root } = protobuf.parse(text)
+    const message = root.lookupType('Payload')
 
-      const { payload } = message.toObject(decodedMessage, {
-        longs: Number,
-        enums: Number,
-        bytes: String
-      })
+    const base64String = await loadBinFile(name)
+    if (!base64String) throw new Error('Error loading bin file')
 
-      cacheMap.set(name, payload)
-      lockMap.set(name, false)
-      logger.log('@utils/protobuf/decode', name, payload?.length)
+    const uint8Array = new Uint8Array(toByteArray(base64String))
+    const reader = new Reader(uint8Array)
+    const decodedMessage = message.decode(reader)
 
-      resolve(payload)
-    } catch (error) {
-      lockMap.set(name, false)
-      logger.log('@utils/protobuf/decode', 'Error decode file', name)
-      reject('Error decode file')
-    }
-  })
+    const { payload } = message.toObject(decodedMessage, {
+      longs: Number,
+      enums: Number,
+      bytes: String
+    }) as { payload: Data[T] }
+
+    cacheMap.set(name, payload)
+    lockMap.set(name, false)
+    logger.log('@utils/protobuf/decode', name, (payload as { length?: number }).length)
+
+    return payload
+  } catch (error) {
+    lockMap.set(name, false)
+    logger.log('@utils/protobuf/decode', 'Error decode file', name)
+    throw 'Error decode file'
+  }
 }
 
 /** 读取本地 .proto */
@@ -91,36 +94,40 @@ async function loadBinFile(name: DataAssets) {
 }
 
 // 惰性 require，按需加载对应的 proto/bin
-function getProtoModule(name: DataAssets) {
+function getProtoModule(name: DataAssets): number {
   switch (name) {
     case 'bangumi-data':
-      return require('@assets/proto/bangumi-data/proto/index.proto')
+      return require('@assets/proto/bangumi-data/proto/index.proto') as number
     case 'anime':
-      return require('@assets/proto/anime/proto/index.proto')
+      return require('@assets/proto/anime/proto/index.proto') as number
     case 'manga':
-      return require('@assets/proto/manga/proto/index.proto')
+      return require('@assets/proto/manga/proto/index.proto') as number
     case 'game':
-      return require('@assets/proto/game/proto/index.proto')
+      return require('@assets/proto/game/proto/index.proto') as number
     case 'adv':
-      return require('@assets/proto/adv/proto/index.proto')
+      return require('@assets/proto/adv/proto/index.proto') as number
     case 'catalog':
-      return require('@assets/proto/catalog/proto/index.proto')
+      return require('@assets/proto/catalog/proto/index.proto') as number
+    default:
+      throw new Error(`Unknown data assets name: ${name}`)
   }
 }
 
-function getBinModule(name: DataAssets) {
+function getBinModule(name: DataAssets): number {
   switch (name) {
     case 'bangumi-data':
-      return require('@assets/proto/bangumi-data/bin/index.bin')
+      return require('@assets/proto/bangumi-data/bin/index.bin') as number
     case 'anime':
-      return require('@assets/proto/anime/bin/index.bin')
+      return require('@assets/proto/anime/bin/index.bin') as number
     case 'manga':
-      return require('@assets/proto/manga/bin/index.bin')
+      return require('@assets/proto/manga/bin/index.bin') as number
     case 'game':
-      return require('@assets/proto/game/bin/index.bin')
+      return require('@assets/proto/game/bin/index.bin') as number
     case 'adv':
-      return require('@assets/proto/adv/bin/index.bin')
+      return require('@assets/proto/adv/bin/index.bin') as number
     case 'catalog':
-      return require('@assets/proto/catalog/bin/index.bin')
+      return require('@assets/proto/catalog/bin/index.bin') as number
+    default:
+      throw new Error(`Unknown data assets name: ${name}`)
   }
 }

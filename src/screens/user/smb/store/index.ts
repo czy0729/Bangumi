@@ -32,10 +32,10 @@ class ScreenSmb extends Action {
 
     await queue([
       () => smbStore.init('data'),
-      () => subjectStore.initSubjectV2(this.subjectIds),
+      () => subjectStore.initSubjectV2(this.subjectIds).then(() => true),
       () => collectionStore.init('collection'),
       () => collectionStore.init('collectionStatus'),
-      () => decode('bangumi-data')
+      () => decode('bangumi-data').then(() => true)
     ])
     this.cacheList()
     this.setState({
