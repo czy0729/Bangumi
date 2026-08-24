@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /*
  * @Author: czy0729
  * @Date: 2021-07-10 16:08:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-03 10:00:00
+ * @Last Modified time: 2026-08-24 21:55:00
  */
 import { PermissionsAndroid, Platform } from 'react-native'
 import RNFS from 'react-native-fs'
@@ -11,26 +10,29 @@ import RNFetchBlob from 'rn-fetch-blob'
 import CameraRoll from '@react-native-community/cameraroll'
 import { FROZEN_FN } from '@constants/init'
 
-import type { Fn } from '@types'
+import type { OnFail, OnSuccess } from './types'
 
-/** 保存 base64 图片到本地 (iOS，安卓空实现) */
+/** 保存 base64 图片到本地 (iOS 空实现) */
 export async function saveBase64ImageToShareSheet(
   _base64Img: string,
-  _success: Fn = FROZEN_FN,
-  _fail: Fn = FROZEN_FN
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _success: OnSuccess = FROZEN_FN,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _fail: OnFail = FROZEN_FN
 ) {}
 
 /**
  * 将 Base64 格式的图片保存至系统相册
- * * @param base64Img - Base64 编码的图片字符串
+ *
+ * @param base64Img - Base64 编码的图片字符串
  * @param success - 成功回调函数
  * @param fail - 失败回调函数
  * @returns 是否触发保存流程或写入结果的 Promise
  */
 export async function saveBase64ImageToCameraRoll(
   base64Img: string,
-  success: Fn = FROZEN_FN,
-  fail: Fn = FROZEN_FN
+  success: OnSuccess = FROZEN_FN,
+  fail: OnFail = FROZEN_FN
 ) {
   if (!(await hasAndroidPermission())) return false
 
@@ -58,9 +60,10 @@ export async function saveBase64ImageToCameraRoll(
 
 /**
  * 检查并请求 Android 存储权限
- * * - Android 13 (API 33) 及以上系统：相册写入无需 WRITE_EXTERNAL_STORAGE 权限，直接返回 true
+ * - Android 13 (API 33) 及以上系统：相册写入无需 WRITE_EXTERNAL_STORAGE 权限，直接返回 true
  * - Android 12 及以下系统：检查并动态请求 WRITE_EXTERNAL_STORAGE 权限
- * * @returns 权限是否验证通过
+ *
+ * @returns 权限是否验证通过
  */
 async function hasAndroidPermission() {
   if (Platform.OS === 'android' && Platform.Version >= 33) {
