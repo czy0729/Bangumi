@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-10-06 16:42:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-16 16:24:08
+ * @Last Modified time: 2026-08-24 18:42:37
  */
 import React, { useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { SceneMap } from '@components'
 import { BlurViewTab } from '@_'
 import { r } from '@utils/dev'
@@ -49,4 +50,4 @@ function TabWrap({ keys }: Props) {
   )
 }
 
-export default TabWrap
+export default observer(TabWrap)

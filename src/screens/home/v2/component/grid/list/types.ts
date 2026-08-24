@@ -4,8 +4,6 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2025-10-08 00:30:32
  */
-import type { TabsLabel } from '../../../types'
+import type { Props as GridProps } from '../types'
 
-export type Props = {
-  title: TabsLabel
-}
+export type Props = Pick<GridProps, 'title'>

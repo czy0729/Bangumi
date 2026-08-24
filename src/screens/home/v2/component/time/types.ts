@@ -5,5 +5,6 @@
  * @Last Modified time: 2025-10-09 05:57:19
  */
 export type Props = {
+  /** 收藏时间 */
   value: string
 }

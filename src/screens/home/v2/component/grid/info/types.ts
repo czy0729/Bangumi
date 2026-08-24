@@ -7,9 +7,18 @@
 import type { Subject, SubjectId } from '@types'
 
 export type Props = {
+  /** 条目 Id */
   subjectId?: SubjectId
+
+  /** 条目部分数据 */
   subject?: Partial<Subject>
+
+  /** 已看集数 */
   epStatus?: string | number
+
+  /** 提示文案 */
   tip?: string
+
+  /** 收藏时间 (游戏才有) */
   time?: string
 }

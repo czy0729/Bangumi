@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:20:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-21 00:39:13
+ * @Last Modified time: 2026-08-24 18:44:03
  */
 import { collectionStore, subjectStore, systemStore, timelineStore, userStore } from '@stores'
 import { getTimestamp, queue } from '@utils'
+import { logger } from '@utils/dev'
 import { decode } from '@utils/protobuf'
 import {
   H1,
@@ -15,7 +16,7 @@ import {
   MODEL_SUBJECT_TYPE
 } from '@constants'
 import Computed from './computed'
-import { EXCLUDE_STATE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE } from './ds'
 
 import type { UserCollectionItem } from '@utils/fetch.v0/types'
 import type { CollectionsOrder, CollectionStatus, SubjectId, SubjectType } from '@types'
@@ -92,10 +93,16 @@ export default class Fetch extends Computed {
       })
     }
 
-    await queue(fetchs, 2)
-    this.setState({
-      progress: EXCLUDE_STATE.progress
-    })
+    try {
+      await queue(fetchs, 2)
+    } catch (error) {
+      // 任一请求失败不能中断队列, 否则 progress.fetching 永久为 true, 后续刷新会被拦截
+      logger.error(NAMESPACE, 'fetchSubjectsQueue', error)
+    } finally {
+      this.setState({
+        progress: EXCLUDE_STATE.progress
+      })
+    }
 
     return true
   }
@@ -137,6 +144,9 @@ export default class Fetch extends Computed {
     return queue(
       collectionTimelines.map(userName => () => timelineStore.fetchCollectionTimelines(userName)),
       1
-    )
+    ).catch(error => {
+      logger.error(NAMESPACE, 'fetchCollectionTimelines', error)
+      return false
+    })
   }
 }

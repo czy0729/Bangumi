@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-12 15:58:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 07:14:44
+ * @Last Modified time: 2026-08-24 19:36:23
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
@@ -43,7 +43,7 @@ function Filter({ title, length }: Props) {
         <Flex style={styles.icon} justify='center' pointerEvents='none'>
           {$.state.progress.fetching && (
             <View style={styles.loading}>
-              <Loading.Medium color={_.colorIcon} size={16} />
+              <Loading.Medium color={_.colorIcon} />
             </View>
           )}
           {length ? (

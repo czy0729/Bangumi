@@ -8,8 +8,15 @@ import type { SubjectId } from '@types'
 import type { TabsLabel } from '../../../types'
 
 export type Props = {
+  /** 条目 Id */
   subjectId: SubjectId
+
+  /** 当前 Tab 标题 */
   title: TabsLabel
+
+  /** 日文名 */
   name: string
+
+  /** 中文名 */
   name_cn: string
 }

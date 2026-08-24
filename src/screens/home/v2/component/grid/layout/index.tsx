@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-20 11:15:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-17 05:16:42
+ * @Last Modified time: 2026-08-24 18:42:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -42,7 +42,7 @@ function Layout({ title }: Props) {
    */
   if (title === '全部' && !find && systemStore.setting.showGame) {
     const gameMap = new Map(
-      (list as UserCollectionsItem[])
+      (list as unknown as UserCollectionsItem[])
         .filter(item => item.id != null)
         .map(item => [String(item.id), item])
     )

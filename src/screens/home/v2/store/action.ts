@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:23:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-03 19:01:23
+ * @Last Modified time: 2026-08-24 18:42:58
  */
 import { getCoverSrc } from '@components/cover/utils'
 import { collectionStore, userStore } from '@stores'
@@ -43,6 +43,7 @@ import {
 } from '@constants'
 import { replaceOriginUrl } from '../../../user/origin-setting/utils'
 import Fetch from './fetch'
+import { resolveWatchedSort } from './utils'
 import {
   EXCLUDE_STATE,
   NAMESPACE,
@@ -262,9 +263,14 @@ export default class Action extends Fetch {
     }
   }
 
-  /** 页面筛选文字变化 */
-  onFilterChange = debounce((filter: string) => {
-    const { page } = this.state
+  /** 页面筛选文字变化 (页码取输入时刻捕获, 避免防抖触发前切换 Tab 记错页) */
+  onFilterChange = (filter: string) => {
+    this._onFilterChangeDebounced(filter, this.state.page)
+  }
+
+  /** 筛选防抖提交 */
+  private _onFilterChangeDebounced = debounce((...args: unknown[]) => {
+    const [filter, page] = args as [string, number]
     this.setState({
       filter: filter.trim(),
       filterPage: page
@@ -543,31 +549,7 @@ export default class Action extends Fetch {
     const eps = (this.eps(subjectId) || [])
       .slice()
       .sort((a, b) => asc(a, b, item => item.sort || 0))
-    let sort: number
-
-    // 从小于 10 开始的番剧都认为是非多季番, 直接使用正常 sort 去更新
-    if (eps?.[0]?.sort < 10) {
-      sort = Math.max(item.sort, 0)
-    } else {
-      // 因 this.eps 是分页后的结果, 所以需要从原始数据中获取
-      const eps = this.epsNoSp(subjectId)
-
-      // 多季度非 1 开始的番 (如巨人第三季) 不能直接使用 sort,
-      // 需要把 sp 去除后使用当前 item.sort 查找 index
-      if (eps?.[0]?.sort > 10) {
-        sort = eps.findIndex(i => i.sort === item.sort)
-      } else {
-        // 正常的多章节番剧
-        sort = eps.find(i => i.sort === item.sort)?.sort
-      }
-    }
-
-    if (sort === -1) {
-      sort = item.sort
-    } else if (this.epsNoSp(subjectId)?.[0]?.sort !== 1) {
-      // 原始章节第一个不是从 1 开始的, 才需要 +1
-      sort += 1
-    }
+    const sort = resolveWatchedSort(eps, this.epsNoSp(subjectId), item.sort)
 
     // [待迁移] 老 API 不支持任何 NSFW 的修改
     if (this.subject(subjectId)?.v0) {

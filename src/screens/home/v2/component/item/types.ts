@@ -8,8 +8,13 @@ import type { Override, Subject, SubjectId } from '@types'
 import type { TabsLabel } from '../../types'
 
 export type Props = {
+  /** 列表索引 */
   index: number
+
+  /** 条目 Id */
   subjectId: SubjectId
+
+  /** 条目部分数据 */
   subject: Partial<
     Override<
       Subject,
@@ -19,6 +24,8 @@ export type Props = {
       }
     >
   >
+
+  /** 当前 Tab 标题 */
   title?: TabsLabel
 
   /** 看到多少集 */

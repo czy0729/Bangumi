@@ -417,6 +417,41 @@ export function getVisibleEps(eps: Ep[], userProgress: UserProgress, maxLength: 
   return eps.slice(Math.max(0, index - maxLength + 1), index + maxLength - 1)
 }
 
+/** 解析「看到」批量更新需要提交的集数 */
+export function resolveWatchedSort(
+  displayEps: readonly Ep[],
+  allEps: readonly Ep[],
+  itemSort: number
+) {
+  const firstDisplaySort = displayEps?.[0]?.sort
+  const firstAllSort = allEps?.[0]?.sort
+  let sort: number | undefined
+
+  // 从小于 10 开始的番剧都认为是非多季番, 直接使用正常 sort 去更新
+  if (firstDisplaySort < 10) {
+    sort = Math.max(itemSort, 0)
+  } else {
+    // 因 displayEps 是分页后的结果, 所以需要从原始数据中获取
+
+    // 多季度非 1 开始的番 (如巨人第三季) 不能直接使用 sort,
+    // 需要把 sp 去除后使用当前 itemSort 查找 index
+    if (firstAllSort > 10) {
+      const index = allEps.findIndex(i => i.sort === itemSort)
+      sort = index === -1 ? undefined : index
+    } else {
+      // 正常的多章节番剧
+      sort = allEps.find(i => i.sort === itemSort)?.sort
+    }
+  }
+
+  // 查找失败回退当前章节的 sort, 不能让 NaN 参与提交
+  if (sort === undefined || sort === -1) return itemSort
+
+  // 原始章节第一个不是从 1 开始的, 才需要 +1
+  if (firstAllSort !== 1) return sort + 1
+  return sort
+}
+
 /** 格式化章节显示数字 */
 export function formatCountRight(current: number | string, total: number | string) {
   // 二季度的番剧，首集非 1 开始的需要从所有章节里面获取最大集数

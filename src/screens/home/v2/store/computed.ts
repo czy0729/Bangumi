@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:14:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-21 00:38:23
+ * @Last Modified time: 2026-08-24 18:43:54
  */
 import { computed } from 'mobx'
 import { _, calendarStore, collectionStore, subjectStore, systemStore, userStore } from '@stores'
@@ -134,16 +134,26 @@ export default class Computed extends State {
   /** 列表当前数据 */
   currentCollection = computedFn((title: TabsLabel) => {
     const key = `${NAMESPACE}|${title}`
+    const isFetching = this.state.progress.fetching
 
-    // 优先检查缓存
-    if (this.state.progress.fetching) {
+    // 列队刷新收藏状态期间优先返回快照, 避免队列中数据逐步变化导致列表闪烁
+    if (isFetching) {
       const cachedData = CacheManager.get<UserCollection>(key)
       if (cachedData) return cachedData
     }
 
-    // 游戏特殊处理
-    if (title === '游戏') return CacheManager.set<UserCollections>(key, this.games)
+    // 游戏的数据源和结构都不一样, 需要单独处理
+    const data =
+      title === '游戏' ? (this.games as unknown as UserCollection) : this.computeCollection(title)
 
+    // 快照仅在刷新期间写入, 内部是 toJS 深拷贝, 常规路径跳过以省掉整表克隆开销
+    if (isFetching) CacheManager.set(key, data)
+
+    return data
+  })
+
+  /** 计算 Tab 收藏数据 (类型过滤 + 文字过滤 + 排序) */
+  computeCollection(title: TabsLabel) {
     // 基础数据
     const data = {
       ...this.collection
@@ -171,8 +181,8 @@ export default class Computed extends State {
 
     if (WEB) data.list = data.list.slice(0, 50)
 
-    return CacheManager.set(key, data)
-  })
+    return data
+  }
 
   /**
    * 列表排序（优先度从上到下）
@@ -212,7 +222,7 @@ export default class Computed extends State {
   /** 当前列表有过滤 */
   isFilter = computedFn((title: TabsLabel) => {
     const { filterPage } = this.state
-    if (filterPage >= 0 && filterPage <= this.tabs.length) {
+    if (filterPage >= 0 && filterPage < this.tabs.length) {
       return this.tabs[filterPage]?.title === title && !!this.state.filter
     }
 

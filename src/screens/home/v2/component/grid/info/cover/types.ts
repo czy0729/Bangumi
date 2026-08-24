@@ -7,7 +7,12 @@
 import type { Fn, Subject, SubjectId } from '@types'
 
 export type Props = {
+  /** 条目 Id */
   subjectId: SubjectId
+
+  /** 条目部分数据 */
   subject: Partial<Subject>
+
+  /** 点击回调 */
   onPress?: Fn
 }

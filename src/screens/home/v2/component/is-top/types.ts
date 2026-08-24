@@ -7,6 +7,9 @@
 import type { SubjectId, ViewStyle } from '@types'
 
 export type Props = {
+  /** 容器样式 */
   style?: ViewStyle
+
+  /** 条目 Id */
   subjectId: SubjectId
 }

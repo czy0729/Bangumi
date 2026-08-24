@@ -139,6 +139,53 @@ export default observer(Info)
 
 > 页面和子组件统一使用命名函数 + 底部导出 `export default observer(Xxx)` 的分体写法。
 
+## 子组件 Props 类型规范
+
+子组件 `types.ts` 的 `Props` 按以下优先级编写：
+
+### 1. 能从上层 Pick 则 Pick
+
+结构与父级类型一致或为其子集时，用 `Pick` 派生，不重复声明：
+
+```ts
+// grid/list/types.ts
+import type { Props as GridProps } from '../types'
+
+export type Props = Pick<GridProps, 'title'>
+```
+
+交叉写入的自有 key 单独加注释：
+
+```ts
+// empty/types.ts
+import type { Props as ListProps } from '../list/types'
+
+export type Props = Pick<ListProps, 'title'> & {
+  /** 当前列表条目数 */
+  length: number
+}
+```
+
+### 2. 不能 Pick 则保留手写，key 必须有字段注释
+
+父级为可选字段 / 子级要求必传、或子级接收展平标量等无法 Pick 时，保留手写类型；每个自写 key 都要有 `/** */` 字段注释。**不要**写「为何不 Pick」之类的类型级说明注释：
+
+```ts
+import type { SubjectId } from '@types'
+
+export type Props = {
+  /** 条目 Id */
+  subjectId: SubjectId
+
+  /** 已看集数 */
+  epStatus: string | number
+}
+```
+
+### 3. 格式
+
+首个字段的注释可紧贴 `{`，后续字段的注释与上一个字段之间必须空一行（与全局声明注释规则一致）。
+
 ## 代码风格要求
 
 1. **必须使用 `function` 声明**：页面组件和子组件必须使用 `function` 关键字声明，不要使用箭头函数 `const Xxx = () => {}`

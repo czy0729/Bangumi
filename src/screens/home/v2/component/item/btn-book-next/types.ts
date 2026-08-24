@@ -7,7 +7,12 @@
 import type { SubjectId } from '@types'
 
 export type Props = {
+  /** 条目 Id */
   subjectId: SubjectId
+
+  /** 已看集数 */
   epStatus: string | number
+
+  /** 已看卷数 */
   volStatus: string | number
 }

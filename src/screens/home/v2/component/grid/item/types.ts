@@ -7,14 +7,20 @@
 import type { Override, Subject, SubjectId } from '@types'
 
 export type Props = {
+  /** 条目部分数据 */
   subject?: Partial<
     Override<
       Subject,
       {
+        /** 收藏时间 (游戏才有) */
         time?: string
       }
     >
   >
+
+  /** 条目 Id */
   subjectId?: SubjectId
+
+  /** 已看集数 */
   epStatus?: string | number
 }

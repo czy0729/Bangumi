@@ -7,6 +7,9 @@
 import type { SubjectId, SubjectTypeCn } from '@types'
 
 export type Props = {
+  /** 条目 Id */
   subjectId: SubjectId
+
+  /** 条目类型 */
   typeCn: SubjectTypeCn
 }

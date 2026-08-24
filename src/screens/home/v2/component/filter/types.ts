@@ -4,9 +4,9 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2025-03-17 08:58:28
  */
-import type { TabsLabel } from '../../types'
+import type { Props as ListProps } from '../list/types'
 
-export type Props = {
-  title: TabsLabel
+export type Props = Pick<ListProps, 'title'> & {
+  /** 当前列表条目数 */
   length: number
 }

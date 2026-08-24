@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-02 22:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 17:58:15
+ * @Last Modified time: 2026-08-24 18:50:44
  */
 import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
@@ -29,7 +29,7 @@ function Header() {
 
   const handleItemPress = useCallback(
     (item: MenuItem) => {
-      if (!IGNORE_PATHS.includes(item.key as any)) {
+      if (!IGNORE_PATHS.includes(item.key)) {
         if (item.key === 'Search') {
           navigation.push('Search', {
             type: $.searchType

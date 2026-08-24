@@ -9,6 +9,7 @@ import type { UserCollectionItem } from '@stores/user/types'
 import type { TabsLabel } from '../../types'
 
 export type Props = {
+  /** 当前 Tab 标题 */
   title: TabsLabel
 }
 

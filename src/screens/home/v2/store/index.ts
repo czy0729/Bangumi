@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:26:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-21 05:19:14
+ * @Last Modified time: 2026-08-24 18:45:04
  */
 import * as Device from 'expo-device'
 import { _, systemStore, userStore } from '@stores'
@@ -41,7 +41,9 @@ export default class ScreenHomeV2 extends Action {
       inited = true
 
       postTask(() => {
-        this.initFetch()
+        this.initFetch().catch(error => {
+          logger.error(NAMESPACE, 'initFetch', error)
+        })
       }, 4000)
     }
 
@@ -80,7 +82,15 @@ export default class ScreenHomeV2 extends Action {
 
     // 需要全刷新数据
     if (flag) {
-      if (await this.initQueue()) {
+      let queued: boolean
+      try {
+        queued = await this.initQueue()
+      } catch (error) {
+        logger.error(NAMESPACE, 'initQueue', error)
+        return true
+      }
+
+      if (queued) {
         this.fetchCollectionTimelines()
         return true
       }
@@ -98,7 +108,13 @@ export default class ScreenHomeV2 extends Action {
             info('重新授权成功')
             t('其他.重新授权')
 
-            const result = await this.initQueue()
+            let result: boolean
+            try {
+              result = await this.initQueue()
+            } catch (error) {
+              logger.error(NAMESPACE, 'initQueue', error)
+              result = true
+            }
             this.fetchCollectionTimelines()
             return result
           }
@@ -109,7 +125,9 @@ export default class ScreenHomeV2 extends Action {
     } else {
       // 不需要全刷新也至少刷新首屏
       const result = await this.fetchCollectionTimelines()
-      this.initQueue(6)
+      this.initQueue(6).catch(error => {
+        logger.error(NAMESPACE, 'initQueue', error)
+      })
       return result
     }
 

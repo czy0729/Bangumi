@@ -7,6 +7,9 @@
 import type { SubjectId } from '@types'
 
 export type Props = {
+  /** 条目 Id */
   subjectId: SubjectId
+
+  /** 是否列表第一项 */
   isFirst: boolean
 }

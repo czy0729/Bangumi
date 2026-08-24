@@ -8,5 +8,6 @@ import type { PropsWithChildren } from 'react'
 import type { SubjectId } from '@types'
 
 export type Props = PropsWithChildren<{
+  /** 条目 Id */
   subjectId: SubjectId
 }>
