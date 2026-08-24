@@ -2,108 +2,33 @@
  * @Author: czy0729
  * @Date: 2023-03-10 14:02:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-29 07:29:55
+ * @Last Modified time: 2026-08-24 10:00:00
  */
-import { observable, runInAction } from 'mobx'
-import { axios } from '@utils/thirdParty'
 import { getMonoCoverSmall, getSubjectCoverCommon } from '../app'
-import { syncSystemStore } from '../async'
 import { removeHTMLTag } from '../html'
-import { getTimestamp, runAfter } from '../utils'
 
-import type { WebHooksTypes, SubjectType as WebHooksSubjectType } from './types'
+import type {
+  Catalog,
+  Group,
+  RawCatalog,
+  RawGroup,
+  RawMono,
+  RawSubject,
+  RawUser,
+  Subject,
+  SubjectType as WebHooksSubjectType,
+  User,
+  WebHookDataMap
+} from './types'
 
-export const logs = observable<{
-  label: string
-  content: string
-  ts: number
-}>([])
-
-const MAX_LENGTH = 16
-
-/** 钩子 */
-export const webhook: WebHooksTypes = (type: string, data: any) => {
-  if (!type) return false
-
-  try {
-    const systemStore = syncSystemStore()
-    if (!systemStore.setting.webhook) return false
-
-    // 保证这种低优先级的操作在 UI 响应之后再执行
-    runAfter(async () => {
-      try {
-        const { webhookUrl } = systemStore.setting
-        let url = webhookUrl || `https://postman-echo.com/post`
-        if (url.indexOf('http://') !== 0 && url.indexOf('https://') !== 0) {
-          url = `http://${url}`
-        }
-
-        const params = {
-          method: 'post',
-          url,
-          data: {
-            type,
-            data: data || {}
-          }
-        } as const
-
-        runInAction(() => {
-          logs.unshift({
-            label: 'POST',
-            content: JSON.stringify(params, null, 2),
-            ts: getTimestamp()
-          })
-          if (logs.length > MAX_LENGTH) logs.pop()
-        })
-
-        const res = await axios(params)
-        const content: any = {
-          status: res?.status
-        }
-        if (typeof res?.data === 'object') {
-          content.data = res.data
-        } else {
-          content._response = res?.request?._response
-        }
-
-        runInAction(() => {
-          logs.unshift({
-            label: 'RESULT',
-            content: JSON.stringify(content, null, 2),
-            ts: getTimestamp()
-          })
-          if (logs.length > MAX_LENGTH) logs.pop()
-        })
-      } catch (error) {
-        runInAction(() => {
-          logs.unshift({
-            label: 'ERROR',
-            content: error?.message || '',
-            ts: getTimestamp()
-          })
-          if (logs.length > MAX_LENGTH) logs.pop()
-        })
-      }
-    })
-  } catch (error) {
-    runInAction(() => {
-      logs.unshift({
-        label: 'ERROR',
-        content: 'unknow error',
-        ts: getTimestamp()
-      })
-      if (logs.length > MAX_LENGTH) logs.pop()
-    })
-  }
-}
-
-export function getSubject(subject: any) {
+/** 归一化条目信息 */
+export function getSubject(subject: RawSubject): Subject {
   return {
     id: Number(subject?.id || 0),
     image: getSubjectCoverCommon(subject?.images?.common || ''),
     name: subject?.name || '',
     name_cn: subject?.name_cn || '',
-    type: Number(subject?.type) as WebHooksSubjectType,
+    type: (Number(subject?.type) || 0) as WebHooksSubjectType,
     rating: {
       rank: subject?.rank || 0,
       total: subject?.rating?.total || 0,
@@ -113,7 +38,8 @@ export function getSubject(subject: any) {
   }
 }
 
-export function getUserInfo(userInfo: any) {
+/** 归一化用户信息 */
+export function getUserInfo(userInfo: RawUser): User {
   return {
     id: userInfo?.id || 0,
     username: userInfo?.username || '',
@@ -123,16 +49,19 @@ export function getUserInfo(userInfo: any) {
   }
 }
 
-export function getMono(mono: any) {
+/** 归一化人物信息 (字段原样透传, 可能含 undefined) */
+export function getMono(mono: RawMono): WebHookDataMap['mono']['mono'] {
   return {
-    id: mono?.id,
+    // 调用方保证为 person/{id} 或 character/{id} 形式
+    id: mono?.id as WebHookDataMap['mono']['mono']['id'],
     name: mono?.name,
     name_cn: mono?.nameCn,
     cover: getMonoCoverSmall(mono?.cover)
   }
 }
 
-export function getGroup(group: any) {
+/** 归一化小组信息 */
+export function getGroup(group: RawGroup): Group {
   return {
     id: group?.id || '',
     title: group?.title || '',
@@ -142,7 +71,8 @@ export function getGroup(group: any) {
   }
 }
 
-export function getCatalog(catalog: any) {
+/** 归一化目录信息 */
+export function getCatalog(catalog: RawCatalog): Catalog {
   return {
     id: catalog?.id || '',
     title: catalog?.title || '',
