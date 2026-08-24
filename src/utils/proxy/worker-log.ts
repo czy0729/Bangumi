@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-06-20 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-20 22:46:46
+ * @Last Modified time: 2026-08-25 06:59:47
  */
 
 export type LogType = 'host' | 'api' | 'lain'
@@ -26,4 +26,9 @@ export function addWorkerLog(level: WorkerLog['level'], message: string, type: L
 /** 获取所有 Worker 代理日志 */
 export function getWorkerLogs(): WorkerLog[] {
   return [...logs]
+}
+
+/** 清空所有 Worker 代理日志 */
+export function clearWorkerLogs() {
+  logs.length = 0
 }
