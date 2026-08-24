@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:00:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-03 18:52:10
+ * @Last Modified time: 2026-08-25 05:12:59
  */
 import React, { Suspense } from 'react'
-import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
-import { _, systemStore, useStore } from '@stores'
+import { systemStore, useStore } from '@stores'
 import { TITLE_LIKE } from '../../ds'
+import BlockAnchor from '../block-anchor'
 import Split from '../split'
 import Like from './like'
 import { COMPONENT } from './ds'
@@ -25,11 +25,7 @@ function LikeWrap({ onBlockRef }: Props) {
   return (
     <Suspense fallback={null}>
       <Component id='screen-subject-like'>
-        <View
-          ref={ref => onBlockRef(ref, TITLE_LIKE)}
-          style={_.container.layout}
-          collapsable={false}
-        />
+        <BlockAnchor title={TITLE_LIKE} onBlockRef={onBlockRef} />
 
         <Like
           navigation={navigation}

@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-10-21 13:06:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:25:51
+ * @Last Modified time: 2026-08-25 05:12:51
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Link, Text } from '@components'
 import { systemStore, useStore } from '@stores'
+import { COMPONENT_PREVIEW } from './ds'
 import styles from './styles'
 
 import type { Ctx } from '../../types'
 
 function IconPreview({ data, headers }) {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT_PREVIEW)
 
   if (!systemStore.setting.showThumbs) return null
 

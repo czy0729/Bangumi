@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-26 05:09:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-03 19:02:17
+ * @Last Modified time: 2026-08-25 05:14:33
  */
 import React, { Suspense } from 'react'
-import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
-import { _, systemStore, useStore } from '@stores'
+import { systemStore, useStore } from '@stores'
 import { TITLE_TOPIC } from '../../ds'
+import BlockAnchor from '../block-anchor'
 import Split from '../split'
 import Topic from './topic'
 import { COMPONENT } from './ds'
@@ -26,11 +26,7 @@ function TopicWrap({ onBlockRef }: Props) {
   return (
     <Suspense fallback={null}>
       <Component id='screen-subject-topic'>
-        <View
-          ref={ref => onBlockRef(ref, TITLE_TOPIC)}
-          style={_.container.layout}
-          collapsable={false}
-        />
+        <BlockAnchor title={TITLE_TOPIC} onBlockRef={onBlockRef} />
 
         <Topic
           navigation={navigation}

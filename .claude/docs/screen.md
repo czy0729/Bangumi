@@ -205,6 +205,23 @@ return <Header title='标题' hm={HM} headerRight={handleHeaderRight} />
 6. **埋点 `t()` 置后**：先执行核心业务逻辑（如 alert、导航），后执行 `t()` 埋点调用
 7. **页面子组件放 `component/` 目录**：除 header 外的页面私有子组件必须放在 `component/` 目录下，不要与页面根目录平级
 
+## 页面区块（component/xxx/）双组件模式
+
+滚动密集页面（如条目页）的区块采用 Wrap + 内容组件两层结构，配合 React.lazy 分包，是 `observer` 通则的**合法例外**：
+
+```
+component/ep/
+├── index.tsx     # EpWrap: function + useStore + observer；读 show* 守卫显隐、组装数据、注册 ref
+├── ep.lazy.ts    # export default lazy(() => import('./ep')) —— 代码分割
+├── ep.tsx        # 内容组件: memo(function Ep(...) {...}, DEFAULT_PROPS, COMPONENT_MAIN)
+└── ds.ts         # COMPONENT_MAIN = rc(COMPONENT)、DEFAULT_PROPS(含 FROZEN_FN 兜底)
+```
+
+- Wrap 是 store 连接点：早退（模块隐藏）、派生选择逻辑都在这层
+- 内容组件保持 **props 驱动 + memo 浅比较**，不接 store；由上层保证 props 引用稳定
+- 区块锚点统一用 `component/block-anchor`（`<BlockAnchor title={TITLE_X} onBlockRef={onBlockRef} />`），不要手写 `useCallback` + `<View ref collapsable>` 样板
+- 新增区块遵循此模式；不要把内容组件改成 observer 直连 store（会破坏浅比较优化）
+
 ## 页面内组件规范（components/）
 
 页面内纯 UI 小组件放在 `components/` 目录，不访问 Store：

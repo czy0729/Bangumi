@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:41:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-21 10:22:00
+ * @Last Modified time: 2026-08-25 05:13:05
  */
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import { keyExtractor } from '@utils'
 import { TEXT_18X } from '@constants'
 import HeaderComponent from '../header-component'
 import { renderItem } from './utils'
-import { COMPONENT, REFRESH_CONTROL_PROPS } from './ds'
+import { COMPONENT, refreshControlProps } from './ds'
 
 import type { Ctx } from '../../types'
 import type { Props } from './types'
@@ -55,7 +55,7 @@ function List({ forwardRef, onScrollIntoViewIfNeeded, onBlockRef }: Props) {
       initialNumToRender={1}
       estimatedItemHeight={ITEM_COMMENT_HEIGHT}
       itemHeightKey={$.subjectId}
-      refreshControlProps={REFRESH_CONTROL_PROPS}
+      refreshControlProps={refreshControlProps()}
       ListHeaderComponent={elHeader}
       renderItem={renderItem}
       footerEmptyDataComponent={elFooterEmpty}

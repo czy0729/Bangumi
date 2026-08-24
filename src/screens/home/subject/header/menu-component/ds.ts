@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-01-03 00:08:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-17 16:20:44
+ * @Last Modified time: 2026-08-25 05:14:51
  */
 import { cnjp, copy, open } from '@utils'
+import { rc } from '@utils/dev'
 import {
   TEXT_MENU_APP,
   TEXT_MENU_COPY_LINK,
@@ -15,8 +16,11 @@ import {
   URL_ABOUT,
   WEB
 } from '@constants'
+import { COMPONENT as PARENT } from '../ds'
 
 import type { Ctx } from '../../types'
+
+export const COMPONENT = rc(PARENT, 'MenuComponent')
 
 const MENU_DS = [
   TEXT_MENU_COPY_LINK,

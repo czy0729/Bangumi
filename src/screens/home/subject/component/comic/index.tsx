@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:02:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-03 19:40:18
+ * @Last Modified time: 2026-08-25 05:11:01
  */
 import React, { Suspense } from 'react'
-import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
-import { _, useStore } from '@stores'
+import { useStore } from '@stores'
 import { TITLE_COMIC } from '../../ds'
+import BlockAnchor from '../block-anchor'
 import Split from '../split'
 import Comic from './comic'
 import { COMPONENT } from './ds'
@@ -25,11 +25,7 @@ function ComicWrap({ onBlockRef }: Props) {
   return (
     <Suspense fallback={null}>
       <Component id='screen-subject-comic'>
-        <View
-          ref={ref => onBlockRef(ref, TITLE_COMIC)}
-          style={_.container.layout}
-          collapsable={false}
-        />
+        <BlockAnchor title={TITLE_COMIC} onBlockRef={onBlockRef} />
 
         <Comic navigation={navigation} subjectId={$.subjectId} comic={$.comic} />
 

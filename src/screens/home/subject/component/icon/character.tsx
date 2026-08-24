@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2021-01-16 20:00:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:18:48
+ * @Last Modified time: 2026-08-25 05:11:50
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Link, Text } from '@components'
 import { systemStore, useStore } from '@stores'
+import { COMPONENT_CHARACTER } from './ds'
 import styles from './styles'
 
 import type { Ctx } from '../../types'
 
 function IconCharacter() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT_CHARACTER)
 
   if (!systemStore.setting.showCharacter) return null
 

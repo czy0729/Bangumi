@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-24 07:42:46
+ * @Last Modified time: 2026-08-25 05:12:33
  */
 import React, { Suspense, useMemo } from 'react'
-import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
-import { _, systemStore, useStore } from '@stores'
+import { systemStore, useStore } from '@stores'
 import { cnjp } from '@utils'
 import { TITLE_INFO } from '../../ds'
+import BlockAnchor from '../block-anchor'
 import Split from '../split'
 import Info from './info'
 import { processHtml } from './utils'
@@ -30,11 +30,7 @@ function InfoWrap({ onBlockRef }: Props) {
   return (
     <Suspense fallback={null}>
       <Component id='screen-subject-info'>
-        <View
-          ref={ref => onBlockRef(ref, TITLE_INFO)}
-          style={_.container.layout}
-          collapsable={false}
-        />
+        <BlockAnchor title={TITLE_INFO} onBlockRef={onBlockRef} />
 
         <Info
           navigation={navigation}

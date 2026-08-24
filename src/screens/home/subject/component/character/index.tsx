@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-03 16:59:40
+ * @Last Modified time: 2026-08-25 05:10:58
  */
 import React, { Suspense } from 'react'
-import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
-import { _, systemStore, useStore } from '@stores'
+import { systemStore, useStore } from '@stores'
 import { TITLE_CHARACTER } from '../../ds'
+import BlockAnchor from '../block-anchor'
 import Split from '../split'
 import Character from './character'
 import { COMPONENT } from './ds'
@@ -25,11 +25,7 @@ function CharacterWrap({ onBlockRef }: Props) {
   return (
     <Suspense fallback={null}>
       <Component id='screen-subject-character'>
-        <View
-          ref={ref => onBlockRef(ref, TITLE_CHARACTER)}
-          style={_.container.layout}
-          collapsable={false}
-        />
+        <BlockAnchor title={TITLE_CHARACTER} onBlockRef={onBlockRef} />
 
         <Character
           navigation={navigation}

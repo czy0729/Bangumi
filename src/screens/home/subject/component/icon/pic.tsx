@@ -8,12 +8,13 @@ import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Link, Text } from '@components'
 import { monoStore, useStore } from '@stores'
+import { COMPONENT_PIC } from './ds'
 import styles from './styles'
 
 import type { Ctx } from '../../types'
 
 function IconPic() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT_PIC)
 
   const picTotals = $.subjectKeywords.map(item => Number(monoStore.picTotal(item) || 0))
   let maxIndex = findMaxIndex(picTotals)

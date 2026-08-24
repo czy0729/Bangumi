@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:35:48
+ * @Last Modified time: 2026-08-25 05:14:13
  */
 import React, { useMemo } from 'react'
-import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
-import { _, systemStore, useStore } from '@stores'
+import { systemStore, useStore } from '@stores'
 import { cnjp } from '@utils'
 import { TITLE_SUMMARY } from '../../ds'
+import BlockAnchor from '../block-anchor'
 import Split from '../split'
 import Summary from './summary'
 import { COMPONENT } from './ds'
@@ -28,11 +28,7 @@ function SummaryWrap({ onBlockRef }: Props) {
 
   return (
     <Component id='screen-subject-summary'>
-      <View
-        ref={ref => onBlockRef(ref, TITLE_SUMMARY)}
-        style={_.container.layout}
-        collapsable={false}
-      />
+      <BlockAnchor title={TITLE_SUMMARY} onBlockRef={onBlockRef} />
       <Summary
         navigation={navigation}
         styles={memoStyles()}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 20:53:49
+ * @Last Modified time: 2026-08-25 05:13:57
  */
 import React, { Suspense } from 'react'
 import { observer } from 'mobx-react'
@@ -17,7 +17,7 @@ import { styles } from './styles'
 import type { SubjectFromHtmlRelationsItem } from '@stores/subject/types'
 import type { Ctx } from '../../types'
 
-function SeriewWrap({ size }: { size: number }) {
+function SeriesWrap({ size }: { size: number }) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const { showRelation } = systemStore.setting
@@ -103,4 +103,4 @@ function SeriewWrap({ size }: { size: number }) {
   )
 }
 
-export default observer(SeriewWrap)
+export default observer(SeriesWrap)

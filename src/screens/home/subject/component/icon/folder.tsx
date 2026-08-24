@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-27 10:43:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:22:44
+ * @Last Modified time: 2026-08-25 05:12:45
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -10,12 +10,13 @@ import { Flex, Heatmap, Text } from '@components'
 import { FolderManageModal, IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { SHARE_MODE } from '@constants'
+import { COMPONENT_FOLDER } from './ds'
 import { styles } from './styles'
 
 import type { Ctx } from '../../types'
 
 function IconFolder() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT_FOLDER)
 
   if (SHARE_MODE) return null
 

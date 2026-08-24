@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-10-28 15:10:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 21:21:15
+ * @Last Modified time: 2026-08-25 05:10:54
  */
 import React, { Suspense } from 'react'
-import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
-import { _, systemStore, useStore } from '@stores'
+import { systemStore, useStore } from '@stores'
 import { TITLE_CATALOG } from '../../ds'
+import BlockAnchor from '../block-anchor'
 import Split from '../split'
 import Catalog from './catalog'
 import { COMPONENT } from './ds'
@@ -26,11 +26,7 @@ function CatalogWrap({ onBlockRef }: Props) {
   return (
     <Suspense fallback={null}>
       <Component id='screen-subject-catalog'>
-        <View
-          ref={ref => onBlockRef(ref, TITLE_CATALOG)}
-          style={_.container.layout}
-          collapsable={false}
-        />
+        <BlockAnchor title={TITLE_CATALOG} onBlockRef={onBlockRef} />
         <Catalog
           styles={memoStyles()}
           showCatalog={systemStore.setting.showCatalog}

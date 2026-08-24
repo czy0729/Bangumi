@@ -8,12 +8,13 @@ import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Heatmap, Iconfont, Text, Touchable } from '@components'
 import { _, userStore, useStore } from '@stores'
+import { COMPONENT_WENKU } from './ds'
 import styles from './styles'
 
 import type { Ctx } from '../../types'
 
 function IconWenku() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT_WENKU)
 
   if (userStore.isLimit || !$.source?.wenkuId) return null
 

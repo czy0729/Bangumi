@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-16 11:46:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-16 07:49:30
+ * @Last Modified time: 2026-08-25 05:11:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,6 +16,7 @@ import {
   getVisualLength,
   info,
   sliceByVisualLength,
+  stl,
   toFixed
 } from '@utils'
 import { memo } from '@utils/decorators'
@@ -106,12 +107,9 @@ const Head = memo(
       <>
         {showRelease && (
           <Text
-            style={[
-              styles.release,
-              {
-                left: leftOffset
-              }
-            ]}
+            style={stl(styles.release, {
+              left: leftOffset
+            })}
             type='__plain__'
             size={10}
             bold
@@ -121,13 +119,10 @@ const Head = memo(
         )}
         <View style={styles.topLine} />
         <View
-          style={[
-            styles.content,
-            {
-              minHeight: imageHeight - _.r(20),
-              paddingLeft: leftOffset
-            }
-          ]}
+          style={stl(styles.content, {
+            minHeight: imageHeight - _.r(20),
+            paddingLeft: leftOffset
+          })}
         >
           <View
             style={{

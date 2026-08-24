@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-27 06:54:52
+ * @Last Modified time: 2026-08-25 05:11:21
  */
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
@@ -20,6 +20,8 @@ import type { Props } from './types'
 
 function HeadWrap({ onBlockRef }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
+
+  const handleBlockRef = useCallback((ref: View) => onBlockRef(ref, TITLE_HEAD), [onBlockRef])
 
   const { statusBarHeight } = useInsets()
 
@@ -53,7 +55,7 @@ function HeadWrap({ onBlockRef }: Props) {
   return (
     <Component id='screen-subject-head'>
       <View
-        ref={ref => onBlockRef(ref, TITLE_HEAD)}
+        ref={handleBlockRef}
         style={{
           paddingTop: _.r(statusBarHeight) + _.device(_.ios(2, 16), 24),
           marginTop: _.ios(_.r(statusBarHeight) + 48, -80)

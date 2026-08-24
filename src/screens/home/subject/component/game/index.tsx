@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:28:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-27 07:35:14
+ * @Last Modified time: 2026-08-25 05:11:13
  */
 import React, { useCallback, useMemo } from 'react'
-import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component, Expand, Flex, Iconfont, Text } from '@components'
 import { InView, Popover, PreventTouchPlaceholder, SectionTitle } from '@_'
 import { _, systemStore, useStore } from '@stores'
 import { open, stl } from '@utils'
 import { TITLE_GAME } from '../../ds'
+import BlockAnchor from '../block-anchor'
 import IconHidden from '../icon/hidden'
 import IconPS from '../icon/ps'
 import Split from '../split'
@@ -72,16 +72,12 @@ function Game({ onBlockRef }: Props) {
 
   return (
     <Component id='screen-subject-game'>
-      <View
-        ref={ref => onBlockRef(ref, TITLE_GAME)}
-        style={_.container.layout}
-        collapsable={false}
-      />
+      <BlockAnchor title={TITLE_GAME} onBlockRef={onBlockRef} />
 
       <InView style={stl(_.mt.lg, !showGameInfo && _.short)}>
         {shouldWrapExpand ? <Expand ratio={1.6}>{elContent}</Expand> : elContent}
 
-        <Flex style={[_.container.wind, _.mt.sm]}>
+        <Flex style={stl(_.container.wind, _.mt.sm)}>
           <Popover style={_.mr.sm} data={memoData} onSelect={handleSelect}>
             <Flex>
               <Text type='sub' lineHeight={22}>

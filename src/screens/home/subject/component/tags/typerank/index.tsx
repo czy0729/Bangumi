@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-10-31 14:40:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:37:05
+ * @Last Modified time: 2026-08-25 05:14:21
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -17,7 +17,7 @@ function Typerank({ tag }: { tag: string }) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   let text: string
-  let percent: number
+  let percent = 0
 
   if (!exist($.subjectTypeValue, tag)) {
     text = '--'

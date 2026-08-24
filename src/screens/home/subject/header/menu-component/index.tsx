@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-02-04 07:04:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-25 20:54:08
+ * @Last Modified time: 2026-08-25 05:14:55
  */
 import React, { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
@@ -11,14 +11,14 @@ import { useStore } from '@stores'
 import { open } from '@utils'
 import { t } from '@utils/fetch'
 import { TEXT_MENU_BROWSER, withSplit } from '@constants'
-import { MENU_ACTIONS, MENU_DS } from './ds'
+import { COMPONENT, MENU_ACTIONS, MENU_DS } from './ds'
 import { styles } from './styles'
 
 import type { Ctx } from '../../types'
 import type { Props } from './types'
 
 function MenuComponent({ color }: Props) {
-  const { $, navigation } = useStore<Ctx>()
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   const memoData = useMemo(
     () => [`${TEXT_MENU_BROWSER}${withSplit($.subjectId)}` as const, ...MENU_DS] as const,

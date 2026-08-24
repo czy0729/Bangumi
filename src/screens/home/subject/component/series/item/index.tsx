@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-24 19:20:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 20:54:41
+ * @Last Modified time: 2026-08-25 05:13:49
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -13,12 +13,13 @@ import { x18 } from '@utils'
 import { t } from '@utils/fetch'
 import { IMG_DEFAULT } from '@constants'
 import { COVER_HEIGHT, COVER_WIDTH } from '../ds'
+import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 import type { Ctx } from '../../../types'
 
 function Item({ from, data }) {
-  const { $, navigation } = useStore<Ctx>()
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   const _from = `系列${from}`
 

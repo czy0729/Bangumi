@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-07-03 07:18:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-12 21:07:27
+ * @Last Modified time: 2026-08-25 05:10:49
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -10,6 +10,7 @@ import { Cover, Flex, Link, Text } from '@components'
 import { fixedAll } from '@components/avatar/utils'
 import { _, systemStore, useStore } from '@stores'
 import { HTMLDecode, x18 } from '@utils'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { SubjectFromHtmlCatalogItem } from '@stores/subject/types'
@@ -17,7 +18,7 @@ import type { WithItem } from '@types'
 import type { Ctx } from '../../../types'
 
 function Item({ item }: WithItem<SubjectFromHtmlCatalogItem>) {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   const styles = memoStyles()
   const title = HTMLDecode(item.title)

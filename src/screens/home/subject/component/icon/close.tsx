@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-16 19:14:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:19:02
+ * @Last Modified time: 2026-08-25 05:12:40
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -12,6 +12,7 @@ import { _, useStore } from '@stores'
 import { confirm, info } from '@utils'
 import { SHARE_MODE } from '@constants'
 import i18n from '@constants/i18n'
+import { COMPONENT_CLOSE } from './ds'
 import { styles } from './styles'
 
 import type { Ctx } from '../../types'
@@ -24,7 +25,7 @@ const HIT_SLOP = {
 } as const
 
 function IconClose() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT_CLOSE)
 
   if (SHARE_MODE) return null
 

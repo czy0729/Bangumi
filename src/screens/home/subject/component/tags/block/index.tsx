@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-19 09:04:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:36:09
+ * @Last Modified time: 2026-08-25 05:14:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -38,7 +38,7 @@ function Block({ path, tags }: Props) {
 
   return (
     <>
-      <Flex style={[styles.item, styles.disabled]}>
+      <Flex style={stl(styles.item, styles.disabled)}>
         <Text size={13} type='sub'>
           第三方标签
         </Text>

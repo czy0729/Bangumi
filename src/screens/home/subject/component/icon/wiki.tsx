@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2021-07-12 13:36:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:31:32
+ * @Last Modified time: 2026-08-25 05:12:29
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Link, Text } from '@components'
 import { systemStore, useStore } from '@stores'
+import { COMPONENT_WIKI } from './ds'
 import styles from './styles'
 
 import type { Ctx } from '../../types'
 
 function IconWiki() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT_WIKI)
 
   if (!systemStore.setting.showInfo) return null
 

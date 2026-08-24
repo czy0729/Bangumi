@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-03 22:27:42
+ * @Last Modified time: 2026-08-25 05:14:25
  */
 import React from 'react'
-import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
-import { _, systemStore, useStore } from '@stores'
+import { systemStore, useStore } from '@stores'
 import { TITLE_TAGS } from '../../ds'
+import BlockAnchor from '../block-anchor'
 import Split from '../split'
 import Tags from './tags'
 import { COMPONENT } from './ds'
@@ -27,11 +27,7 @@ function TagsWrap({ onBlockRef }: Props) {
 
   return (
     <Component id='screen-subject-tags'>
-      <View
-        ref={ref => onBlockRef(ref, TITLE_TAGS)}
-        style={_.container.layout}
-        collapsable={false}
-      />
+      <BlockAnchor title={TITLE_TAGS} onBlockRef={onBlockRef} />
 
       <Tags
         styles={styles}

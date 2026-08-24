@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-03 21:58:47
+ * @Last Modified time: 2026-08-25 05:11:09
  */
 import React, { useMemo } from 'react'
-import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
-import { _, subjectStore, systemStore, useStore } from '@stores'
+import { subjectStore, systemStore, useStore } from '@stores'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { TITLE_DISC, TITLE_EP } from '../../ds'
+import BlockAnchor from '../block-anchor'
 import Split from '../split'
 import BookEp from './book-ep'
 import Disc from './disc'
@@ -33,11 +33,7 @@ function EpWrap({ onBlockRef, onScrollIntoViewIfNeeded }: Props) {
 
   return (
     <Component id='screen-subject-ep'>
-      <View
-        ref={ref => onBlockRef(ref, typeCn === '音乐' ? TITLE_DISC : TITLE_EP)}
-        style={_.container.layout}
-        collapsable={false}
-      />
+      <BlockAnchor title={typeCn === '音乐' ? TITLE_DISC : TITLE_EP} onBlockRef={onBlockRef} />
 
       {typeCn === '书籍' ? (
         <BookEp onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded} />

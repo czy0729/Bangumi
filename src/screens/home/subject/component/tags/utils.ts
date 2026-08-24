@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-10-31 16:05:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-26 20:02:16
+ * @Last Modified time: 2026-08-25 05:14:24
  */
 import { getJSON, loadJSON } from '@assets/json'
 
@@ -54,8 +54,13 @@ export function calc(type: SubjectType, key: string, value: number) {
     typerankData = getJSON('typerank/real')
   }
 
-  const arr = typerankData[key]
-  if (value <= Number(typerankData[key][0])) return 99
+  const arr = typerankData?.[key]
+  if (!arr?.length) return 1
+
+  if (value <= Number(arr[0])) {
+    cacheMap.set(cacheKey, 99)
+    return 99
+  }
 
   let index = 0
   for (let i = 0; i < arr.length; i += 1) {
@@ -64,6 +69,6 @@ export function calc(type: SubjectType, key: string, value: number) {
   }
 
   const percent = Math.max(Math.min(Math.floor((1 - index / arr.length) * 100), 99), 1)
-  cacheMap.set(key, percent)
+  cacheMap.set(cacheKey, percent)
   return percent
 }

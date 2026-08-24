@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-05-18 03:52:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:38:28
+ * @Last Modified time: 2026-08-25 05:15:05
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { WEB } from '@constants'
+import { COMPONENT } from './ds'
 
 import type { Ctx } from '../../types'
 
 function PopToTop() {
-  const { $, navigation } = useStore<Ctx>()
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   if (!WEB) {
     try {

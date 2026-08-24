@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-21 20:54:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:37:27
+ * @Last Modified time: 2026-08-25 05:14:30
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -21,7 +21,7 @@ import type { Props } from './types'
 function Preview({ item, index, thumbs, epsThumbsHeader }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  if (!systemStore.setting.showCharacter) return null
+  if (!systemStore.setting.showThumbs) return null
 
   return (
     <Touchable
@@ -38,7 +38,6 @@ function Preview({ item, index, thumbs, epsThumbsHeader }: Props) {
       }}
     >
       <Image
-        key={item}
         style={stl(styles.image, !index && styles.side)}
         src={item}
         headers={epsThumbsHeader}

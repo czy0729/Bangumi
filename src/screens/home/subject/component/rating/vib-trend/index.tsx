@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-02-14 04:45:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-03 22:55:38
+ * @Last Modified time: 2026-08-25 05:13:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -52,7 +52,7 @@ function VibTrend() {
       <Flex.Item key={score}>
         {isActiveVIB && (
           <Text
-            style={[styles.typeScoreText, { marginBottom: 16 }]}
+            style={stl(styles.typeScoreText, { marginBottom: 16 })}
             type='warning'
             size={8}
             bold

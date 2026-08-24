@@ -69,30 +69,31 @@ function FlipBtn({ animate, btnText, rating, privacy, last, onAnimated, onPress 
     }
   }, [animate, beforeProps, defaultProps, activeRef, onAnimated])
 
-  const createAnimatedStyle = (isBefore: boolean) =>
-    useAnimatedStyle(() => {
-      const rotate = IOS
-        ? '0deg'
-        : isBefore
-        ? activeRef.value
-          ? '90deg'
-          : '0deg'
-        : activeRef.value
-        ? '0deg'
-        : '90deg'
+  const beforeStyle = useAnimatedStyle(() => {
+    const rotate = IOS ? '0deg' : activeRef.value ? '90deg' : '0deg'
 
-      return {
-        opacity: withTiming(isBefore ? 1 - activeRef.value : activeRef.value, ANIMATED_CONFIG),
-        transform: [
-          { perspective: PERSPECTIVE },
-          { rotateX: withTiming(rotate, ANIMATED_CONFIG) },
-          { translateY: withTiming(-activeRef.value * height, ANIMATED_CONFIG) }
-        ]
-      } as const
-    })
+    return {
+      opacity: withTiming(1 - activeRef.value, ANIMATED_CONFIG),
+      transform: [
+        { perspective: PERSPECTIVE },
+        { rotateX: withTiming(rotate, ANIMATED_CONFIG) },
+        { translateY: withTiming(-activeRef.value * height, ANIMATED_CONFIG) }
+      ]
+    } as const
+  })
 
-  const beforeStyle = createAnimatedStyle(true)
-  const afterStyle = createAnimatedStyle(false)
+  const afterStyle = useAnimatedStyle(() => {
+    const rotate = IOS ? '0deg' : activeRef.value ? '0deg' : '90deg'
+
+    return {
+      opacity: withTiming(activeRef.value, ANIMATED_CONFIG),
+      transform: [
+        { perspective: PERSPECTIVE },
+        { rotateX: withTiming(rotate, ANIMATED_CONFIG) },
+        { translateY: withTiming(-activeRef.value * height, ANIMATED_CONFIG) }
+      ]
+    } as const
+  })
 
   return (
     <View style={styles.container}>

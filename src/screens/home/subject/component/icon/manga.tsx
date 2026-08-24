@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2021-01-16 17:31:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:25:08
+ * @Last Modified time: 2026-08-25 05:12:10
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Heatmap, Iconfont, Text, Touchable } from '@components'
 import { _, userStore, useStore } from '@stores'
+import { COMPONENT_MANGA } from './ds'
 import styles from './styles'
 
 import type { Ctx } from '../../types'
 
 function IconManga() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT_MANGA)
 
   if (userStore.isLimit || !$.source?.mangaId) return null
 

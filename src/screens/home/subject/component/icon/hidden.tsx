@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-20 14:44:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:24:57
+ * @Last Modified time: 2026-08-25 05:12:07
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -10,12 +10,13 @@ import { Heatmap } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { confirm, info } from '@utils'
+import { COMPONENT_HIDDEN } from './ds'
 import { styles } from './styles'
 
 import type { Ctx } from '../../types'
 
 function IconHidden({ name, value }) {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT_HIDDEN)
 
   if (!name || !value) return null
 
@@ -31,7 +32,7 @@ function IconHidden({ name, value }) {
         })
       }}
     >
-      <Heatmap id='条目.删除收藏' />
+      <Heatmap id='条目.展开收起功能块' />
     </IconTouchable>
   )
 }

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:28:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-03 17:02:57
+ * @Last Modified time: 2026-08-25 05:14:10
  */
 import React, { Suspense } from 'react'
-import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
-import { _, systemStore, useStore } from '@stores'
+import { systemStore, useStore } from '@stores'
 import { TITLE_STAFF } from '../../ds'
+import BlockAnchor from '../block-anchor'
 import Split from '../split'
 import Staff from './staff'
 import { COMPONENT } from './ds'
@@ -25,11 +25,7 @@ function StaffWrap({ onBlockRef }: Props) {
   return (
     <Suspense fallback={null}>
       <Component id='screen-subject-staff'>
-        <View
-          ref={ref => onBlockRef(ref, TITLE_STAFF)}
-          style={_.container.layout}
-          collapsable={false}
-        />
+        <BlockAnchor title={TITLE_STAFF} onBlockRef={onBlockRef} />
 
         <Staff
           navigation={navigation}

@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-07-06 12:46:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:29:14
+ * @Last Modified time: 2026-08-25 05:12:26
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
+import { COMPONENT_VERSION } from './ds'
 import { styles } from './styles'
 
 import type { Ctx } from '../../types'
 
 function IconVersion() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT_VERSION)
 
   if (!$.subjectComments.version) return null
 

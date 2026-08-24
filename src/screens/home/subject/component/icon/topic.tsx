@@ -10,10 +10,11 @@ import { Flex, Iconfont, Link, Text } from '@components'
 import { systemStore, useStore } from '@stores'
 import styles from './styles'
 
+import { COMPONENT_TOPIC } from './ds'
 import type { Ctx } from '../../types'
 
 function IconTopic() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT_TOPIC)
 
   if (!systemStore.setting.showTopic) return null
 

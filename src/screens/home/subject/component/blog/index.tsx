@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:36:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-03 18:32:45
+ * @Last Modified time: 2026-08-25 05:09:55
  */
 import React, { Suspense } from 'react'
-import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
-import { _, systemStore, useStore } from '@stores'
+import { systemStore, useStore } from '@stores'
 import { TITLE_BLOG } from '../../ds'
+import BlockAnchor from '../block-anchor'
 import Split from '../split'
 import Blog from './blog'
 import { COMPONENT } from './ds'
@@ -26,11 +26,7 @@ function BlogWrap({ onBlockRef }: Props) {
   return (
     <Suspense fallback={null}>
       <Component id='screen-subject-blog'>
-        <View
-          ref={ref => onBlockRef(ref, TITLE_BLOG)}
-          style={_.container.layout}
-          collapsable={false}
-        />
+        <BlockAnchor title={TITLE_BLOG} onBlockRef={onBlockRef} />
 
         <Blog
           navigation={navigation}

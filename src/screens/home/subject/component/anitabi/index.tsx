@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-01-12 06:38:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 22:59:18
+ * @Last Modified time: 2026-08-25 02:34:17
  */
 import React, { Suspense } from 'react'
-import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
-import { _, systemStore, useStore } from '@stores'
+import { systemStore, useStore } from '@stores'
 import { TITLE_ANITABI } from '../../ds'
+import BlockAnchor from '../block-anchor'
 import Split from '../split'
 import Anitabi from './anitabi'
 import { COMPONENT } from './ds'
@@ -26,12 +26,7 @@ function AnitabiWrap({ onBlockRef }: Props) {
   return (
     <Suspense fallback={null}>
       <Component id='screen-subject-anitabi'>
-        <View
-          ref={ref => onBlockRef(ref, TITLE_ANITABI)}
-          style={_.container.layout}
-          collapsable={false}
-        />
-
+        <BlockAnchor title={TITLE_ANITABI} onBlockRef={onBlockRef} />
         <Anitabi
           styles={memoStyles()}
           showAnitabi={systemStore.setting.showAnitabi}
@@ -39,7 +34,6 @@ function AnitabiWrap({ onBlockRef }: Props) {
           data={$.state.anitabi}
           onSwitchBlock={$.onSwitchBlock}
         />
-
         <Split />
       </Component>
     </Suspense>

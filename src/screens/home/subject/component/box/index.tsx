@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-04-03 19:37:45
  */
 import React from 'react'
-import { View } from 'react-native'
+
 import { observer } from 'mobx-react'
 import { Component } from '@components'
 import { _, systemStore, userStore, useStore } from '@stores'
@@ -15,6 +15,7 @@ import Box from './box'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+import BlockAnchor from '../block-anchor'
 import type { Ctx } from '../../types'
 import type { Props } from './types'
 
@@ -23,11 +24,7 @@ function BoxWrap({ onBlockRef }: Props) {
 
   return (
     <Component id='screen-subject-box'>
-      <View
-        ref={ref => onBlockRef(ref, TITLE_BOX)}
-        style={_.container.layout}
-        collapsable={false}
-      />
+      <BlockAnchor title={TITLE_BOX} onBlockRef={onBlockRef} />
 
       <Box
         styles={memoStyles()}

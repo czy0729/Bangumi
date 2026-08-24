@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-08 23:40:54
+ * @Last Modified time: 2026-08-25 05:11:24
  */
 import React, { useEffect, useMemo, useState } from 'react'
 import { observer } from 'mobx-react'
@@ -13,7 +13,7 @@ import { IOS } from '@constants'
 import Bg from '../bg'
 import Head from '../head'
 import Loading from '../loading'
-import { BottomEls, COMPONENT, DEFERRED_INDICES, TopEls } from './ds'
+import { BottomEls, COMPONENT, TopEls } from './ds'
 
 import type { Ctx } from '../../types'
 import type { Props } from './types'
@@ -28,15 +28,14 @@ function HeaderComponent(props: Props) {
     return () => clearTimeout(timer)
   }, [])
 
-  // 按原顺序渲染 TopEls，但延迟组件在动画完成后才渲染
+  // 按原顺序渲染 TopEls，但 defer 区块在动画完成后才渲染
   const elTop = useMemo(
     () =>
-      TopEls.map((item, index) => {
-        // 如果是延迟组件且还没到时间，返回 null 占位
-        if (DEFERRED_INDICES.includes(index as any) && !showDeferred) {
+      TopEls.map(({ el, defer }, index) => {
+        if (defer && !showDeferred) {
           return null
         }
-        return renderWithErrorBoundary(item, index, props)
+        return renderWithErrorBoundary(el, index, props)
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [showDeferred]

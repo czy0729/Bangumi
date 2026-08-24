@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2021-01-16 19:42:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:18:33
+ * @Last Modified time: 2026-08-25 05:11:49
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Heatmap, Iconfont, Link, Text } from '@components'
 import { useStore } from '@stores'
 import { cnjp } from '@utils'
+import { COMPONENT_CATALOG } from './ds'
 import styles from './styles'
 
 import type { Ctx } from '../../types'
 
 function IconCatalog() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT_CATALOG)
 
   return (
     <Link

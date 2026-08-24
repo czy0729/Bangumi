@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-12 13:36:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 07:00:18
+ * @Last Modified time: 2026-08-25 05:13:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -54,12 +54,9 @@ const Chart = memo(
                       })}
                     />
                     <Text
-                      style={[
-                        styles.count,
-                        {
-                          bottom: height
-                        }
-                      ]}
+                      style={stl(styles.count, {
+                        bottom: height
+                      })}
                       type={isActive ? 'warning' : 'sub'}
                       size={10}
                       align='center'

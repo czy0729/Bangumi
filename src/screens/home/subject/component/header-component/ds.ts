@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-16 10:35:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-03 22:53:35
+ * @Last Modified time: 2026-08-25 05:11:25
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
@@ -31,10 +31,20 @@ import TrackComment from '../track-comment'
 
 export const COMPONENT = rc(PARENT, 'HeaderComponent')
 
-export const TopEls = [Lock, Box, Ep, SMB, Tags, Summary, Thumbs, Info] as const
-
-// 需要延迟渲染的组件索引（Lock=0, SMB=3, Thumbs=6, Info=7）
-export const DEFERRED_INDICES = [0, 3, 6, 7] as const
+/**
+ * 顶部区块 (按渲染顺序)
+ * @defer 为 true 的区块在切页动画完成后才渲染
+ */
+export const TopEls = [
+  { el: Lock, defer: true },
+  { el: Box, defer: false },
+  { el: Ep, defer: false },
+  { el: SMB, defer: true },
+  { el: Tags, defer: false },
+  { el: Summary, defer: false },
+  { el: Thumbs, defer: true },
+  { el: Info, defer: true }
+] as const
 
 export const BottomEls = [
   Game,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-17 07:31:54
+ * @Last Modified time: 2026-08-24 20:28:44
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
@@ -34,7 +34,7 @@ export const INVIEW_SHOW = false
 export const ANDROID_DEV_MENU = true
 
 /** 是否不显示图片 (开发用) false 是为了打包后的 apk 稳定显示图片 */
-export const TEXT_ONLY = DEV ? DEV : false
+export const TEXT_ONLY = DEV ? !DEV : false
 
 /** ==================== 代理配置 ==================== */
 /** ECH 代理功能开关 (默认关闭，需在设置中手动开启) */

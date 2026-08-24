@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-08-12 13:34:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:32:58
+ * @Last Modified time: 2026-08-25 05:13:38
  */
 import React, { Suspense } from 'react'
-import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
-import { _, systemStore, useStore } from '@stores'
+import { systemStore, useStore } from '@stores'
 import { TITLE_RATING } from '../../ds'
+import BlockAnchor from '../block-anchor'
 import Split from '../split'
 import Rating from './rating'
 import { COMPONENT } from './ds'
@@ -26,11 +26,7 @@ function RatingWrap({ onBlockRef }: Props) {
   return (
     <Suspense fallback={null}>
       <Component id='screen-subject-rating'>
-        <View
-          ref={ref => onBlockRef(ref, TITLE_RATING)}
-          style={_.container.layout}
-          collapsable={false}
-        />
+        <BlockAnchor title={TITLE_RATING} onBlockRef={onBlockRef} />
         <Rating
           styles={memoStyles()}
           showRating={systemStore.setting.showRating}

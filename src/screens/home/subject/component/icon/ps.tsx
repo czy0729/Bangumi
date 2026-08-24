@@ -2,19 +2,25 @@
  * @Author: czy0729
  * @Date: 2021-01-17 01:32:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-26 23:38:03
+ * @Last Modified time: 2026-08-25 05:12:14
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Heatmap, Iconfont, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
+import { COMPONENT_PS } from './ds'
 
 import type { Ctx } from '../../types'
 
 function IconPS() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT_PS)
 
-  if (!$.isPS || $.state.externalScreenshots.vndb.length || $.state.externalScreenshots.dlsite.length) return null
+  if (
+    !$.isPS ||
+    $.state.externalScreenshots.vndb.length ||
+    $.state.externalScreenshots.dlsite.length
+  )
+    return null
 
   return (
     <Touchable onPress={$.toPSNINE}>

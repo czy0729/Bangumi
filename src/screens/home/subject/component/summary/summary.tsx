@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-05 21:59:02
+ * @Last Modified time: 2026-08-25 05:14:14
  */
 import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
@@ -78,8 +78,8 @@ const Summary = memo(
           <View>
             {results.length ? (
               <>
-                {results.map((item, index) => (
-                  <View key={index} style={_.mt.sm}>
+                {results.map(item => (
+                  <View key={`${item.src}|${item.dst}`} style={_.mt.sm}>
                     {!!item.src && (
                       <Text style={_.mt.md} type='sub' size={12} lineHeight={14} selectable>
                         {item.src.trim()}
@@ -91,7 +91,7 @@ const Summary = memo(
                   </View>
                 ))}
                 {systemStore.translateEngine === 'gemini' && (
-                  <Text style={[_.mt.sm, _.mr.sm]} type='sub' size={10} bold align='right'>
+                  <Text style={stl(_.mt.sm, _.mr.sm)} type='sub' size={10} bold align='right'>
                     by ✨Gemini
                   </Text>
                 )}

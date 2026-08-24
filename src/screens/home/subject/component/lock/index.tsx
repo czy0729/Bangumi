@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-12-28 15:16:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:32:30
+ * @Last Modified time: 2026-08-25 05:13:16
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Component, Flex, Mesume, Text } from '@components'
 import { _, useStore } from '@stores'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
 
 function Lock() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   if (!$.lock) return null
 

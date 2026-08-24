@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2025-02-04 07:09:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:31:43
+ * @Last Modified time: 2026-08-25 05:11:34
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Image, Link } from '@components'
 import { _, useStore } from '@stores'
 import { GROUP_THUMB_MAP } from '@assets/images'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { Ctx } from '../../../types'
 
 function WordCloud() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   const styles = memoStyles()
 

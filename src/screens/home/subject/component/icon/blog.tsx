@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2021-07-15 19:15:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:18:19
+ * @Last Modified time: 2026-08-25 05:11:47
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Link, Text } from '@components'
 import { systemStore, useStore } from '@stores'
+import { COMPONENT_BLOG } from './ds'
 import styles from './styles'
 
 import type { Ctx } from '../../types'
 
 function IconBlog() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT_BLOG)
 
   if (!systemStore.setting.showBlog) return null
 

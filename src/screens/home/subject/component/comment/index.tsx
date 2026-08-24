@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-08-14 16:22:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:03:28
+ * @Last Modified time: 2026-08-25 05:11:05
  */
 import React, { Suspense } from 'react'
-import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
 import { _, systemStore, useStore } from '@stores'
-import { stl } from '@utils'
 import { TITLE_COMMENT } from '../../ds'
+import BlockAnchor from '../block-anchor'
 import Comment from './comment'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -27,11 +26,7 @@ function CommentWrap({ onBlockRef }: Props) {
   return (
     <Suspense fallback={null}>
       <Component id='screen-subject-comment'>
-        <View
-          ref={ref => onBlockRef(ref, TITLE_COMMENT)}
-          style={stl(_.container.layout, hidden && _.mt.lg)}
-          collapsable={false}
-        />
+        <BlockAnchor title={TITLE_COMMENT} onBlockRef={onBlockRef} style={hidden && _.mt.lg} />
         {!hidden && (
           <Comment
             styles={memoStyles()}

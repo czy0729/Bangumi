@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-07 02:01:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:34:50
+ * @Last Modified time: 2026-08-25 05:14:03
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -13,12 +13,13 @@ import { IOS, WEB } from '@constants'
 import IconHidden from '../icon/hidden'
 import IconSMB from '../icon/smb'
 import Split from '../split'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
 
 function SMB() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   if (WEB || IOS) return null
 

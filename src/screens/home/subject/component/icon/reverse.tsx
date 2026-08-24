@@ -9,12 +9,13 @@ import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { IconReverse as IconComp } from '@_'
 import { _, useStore } from '@stores'
+import { COMPONENT_REVERSE } from './ds'
 import { styles } from './styles'
 
 import type { Ctx } from '../../types'
 
 function IconReverse() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT_REVERSE)
 
   return (
     <IconComp

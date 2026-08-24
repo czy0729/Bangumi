@@ -15,6 +15,30 @@ State → Computed → Fetch → Action
 
 每个 store 目录包含：`index.ts`、`state.ts`、`computed.ts`、`fetch.ts`、`action.ts`、`common.ts`（解析器）、`init.ts`（初始状态）、`types.ts`
 
+## 大文件二次拆分（链式中间类）
+
+单文件超过 400 行红线时，按领域切成子目录中的中间类文件，继承链接力，对外导出不变：
+
+```
+store/
+├── computed.ts          # 聚合入口: export default class Computed extends Derived {}
+├── computed/
+│   ├── base.ts          # extends State
+│   ├── meta.ts          # extends Base
+│   └── ...
+├── fetch.ts             # 核心请求, extends fetch/extend
+└── fetch/
+    ├── oss.ts           # extends Computed
+    └── ...
+```
+
+规则：
+- 中间类文件只做「方法搬家」，函数体逐字不变；被调用者所在类必须位于调用者祖先方向（链序 = 依赖序）
+- 每个新文件自带裁剪后的 import 子集，基类导入指向上一环（`import Oss from './oss'`）
+- 纯函数工具拆为目录 + `index.ts` 再导出（如 `store/utils/`），消费方 `from './utils'` 零改动
+
+已应用：`home/subject/store`（computed/ fetch/ action/ utils/ 四组）
+
 ## 18 个 Domain Store
 
 | Store | 职责 |

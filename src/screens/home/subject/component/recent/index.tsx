@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-20 21:27:00
+ * @Last Modified time: 2026-08-25 05:13:43
  */
 import React, { Suspense } from 'react'
-import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
-import { _, systemStore, useStore } from '@stores'
+import { systemStore, useStore } from '@stores'
 import { TITLE_RECENT } from '../../ds'
+import BlockAnchor from '../block-anchor'
 import Split from '../split'
 import Recent from './recent'
 import { COMPONENT } from './ds'
@@ -27,11 +27,7 @@ function RecentWrap({ onBlockRef }: Props) {
   return (
     <Suspense fallback={null}>
       <Component id='screen-subject-recent'>
-        <View
-          ref={ref => onBlockRef(ref, TITLE_RECENT)}
-          style={_.container.layout}
-          collapsable={false}
-        />
+        <BlockAnchor title={TITLE_RECENT} onBlockRef={onBlockRef} />
 
         <Recent
           navigation={navigation}
