@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-24 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-24 03:14:50
+ * @Last Modified time: 2026-08-25 15:38:23
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Image as RNImage } from 'react-native'
@@ -10,6 +10,7 @@ import { systemStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { logger } from '@utils/dev'
 import { applyLainProxy } from '@utils/proxy'
+import { invalidate } from '@utils/thirdParty/image-cache-manager'
 import { IOS, WEB } from '@constants'
 import {
   checkErrorTimeout,
@@ -23,6 +24,7 @@ import {
   getNextRetryDelay,
   getRecoveryBgmCover,
   probeMagmaCdn,
+  removeLocalCache,
   setError404,
   setError451,
   setErrorTimeout,
@@ -311,8 +313,13 @@ export function useImageLoader(props: ImageProps, headers: Record<string, string
 
       const errorInfo = String(evt?.nativeEvent?.error || '')
 
-      // 本地文件损坏: 重新下载
+      // 本地文件损坏: 移除内存命中记录与磁盘索引, 回退远端地址重新下载
       if (errorInfo.includes('The file')) {
+        if (typeof src === 'string') {
+          const fixedSrc = applyLainProxy(fixedRemoteImageUrl(src))
+          removeLocalCache(fixedSrc)
+          invalidate(fixedSrc)
+        }
         setUri(fixedRemoteImageUrl(propsRef.current.src))
       } else {
         commitError(`error: onError [${errorInfo}]`)

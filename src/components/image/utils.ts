@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-05-28 02:06:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-24 02:52:40
+ * @Last Modified time: 2026-08-25 15:38:25
  */
 import { Image as RNImage } from 'react-native'
 import { _ } from '@stores'
 import { getCover400, getStorage, setStorage, showImageViewer } from '@utils'
 import { t } from '@utils/fetch'
 import hash from '@utils/thirdParty/hash'
-import ImageCacheManager from '@utils/thirdParty/image-cache-manager'
+import ImageCacheManager, { scheduleCleanup } from '@utils/thirdParty/image-cache-manager'
 import { HOST_BGM_STATIC, HOST_CDN, HOST_IMAGE, IOS, WEB } from '@constants'
 import { getSkeletonColor } from '../skeleton/utils'
 import {
@@ -285,6 +285,10 @@ export async function getLocalCache(src: string, headers?: Record<string, string
     : { path: src, size: 0 }
 
   if (result) memoLocal.set(id, result)
+
+  // 首次实际使用文件缓存时, 顺带调度一次启动后的 LRU 清理
+  if (IOS) scheduleCleanup()
+
   return result
 }
 
@@ -292,6 +296,11 @@ export async function getLocalCache(src: string, headers?: Record<string, string
 export function getLocalCacheStatic(src: string) {
   const id = hash(src)
   return memoLocal.get(id)
+}
+
+/** 本地文件已损坏或被系统清理时, 移除内存命中记录以便下次重新检查磁盘 */
+export function removeLocalCache(src: string) {
+  memoLocal.delete(hash(src))
 }
 
 /** 用于下载超时, 默认 10s, 竞速结束后调用 clear 取消底层定时器 */

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-24 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-24 02:50:06
+ * @Last Modified time: 2026-08-25 15:38:38
  */
 jest.mock('@stores', () => {
   const colors = {
@@ -55,7 +55,8 @@ jest.mock('@utils/thirdParty/image-cache-manager', () => ({
   __esModule: true,
   default: {
     get: jest.fn(() => ({ getPath: async () => null }))
-  }
+  },
+  scheduleCleanup: jest.fn()
 }))
 
 import { showImageViewer } from '@utils'
