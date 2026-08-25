@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-06-02 01:30:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-07 22:28:41
+ * @Last Modified time: 2026-08-26 06:38:49
  */
 import { _ } from '@stores'
 
@@ -14,6 +14,9 @@ export const memoStyles = _.memoStyles(() => ({
     borderRadius: _.radiusXs,
     borderWidth: _.hairlineWidth,
     borderColor: _.colorBorder
+  },
+  previewOpen: {
+    paddingHorizontal: 6
   },
   notice: {
     marginHorizontal: _._wind

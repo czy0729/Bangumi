@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-05-15 05:31:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 22:27:51
+ * @Last Modified time: 2026-08-26 07:32:44
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -74,7 +74,7 @@ export const RecommendTopic = observer(
                   </Touchable>
                 ) : (
                   <Flex style={styles.loadMore} justify='center'>
-                    <Text type='sub' size={13}>
+                    <Text type='sub' size={11} bold>
                       {footerNoMoreText}
                     </Text>
                   </Flex>

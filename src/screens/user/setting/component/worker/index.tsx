@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-05-30 12:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-21 06:12:28
+ * @Last Modified time: 2026-08-26 06:38:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -66,6 +66,15 @@ function Worker({ navigation, filter, open }: Props) {
 
   const styles = memoStyles()
 
+  /** 打开页内浏览器验证代理地址 (WebView 会保留 cookie) */
+  const openProxyInBrowser = (url: string) => {
+    const normalized = url.startsWith('http') ? url : `https://${url}`
+    setFalse()
+    setTimeout(() => {
+      navigation.push('WebBrowser', { url: normalized, title: '验证代理' })
+    }, 320)
+  }
+
   /** 渲染代理输入框 */
   const renderProxyInput = (
     show: boolean,
@@ -106,6 +115,14 @@ function Worker({ navigation, filter, open }: Props) {
                     {!!value && ` → ${value}`}
                   </Text>
                 </Flex.Item>
+                {!!value && (
+                  <IconTouchable
+                    style={styles.previewOpen}
+                    name='md-link'
+                    size={16}
+                    onPress={() => openProxyInBrowser(value)}
+                  />
+                )}
                 <PingButton status={pingData.status} ms={pingData.ms} onPress={onPing} />
               </Flex>
             }

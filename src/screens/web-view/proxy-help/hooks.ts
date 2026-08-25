@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-06-02 06:25:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-19 05:59:28
+ * @Last Modified time: 2026-08-26 07:30:36
  */
 import { useCallback, useState } from 'react'
 import { info } from '@utils'
@@ -10,6 +10,7 @@ import { get, searchGroupTopics, update } from '@utils/kv'
 
 import type { RecommendTopicItem } from '@utils/kv/type'
 import type { ListEmpty } from '@types'
+import type { SearchGroupTopicsSnapshot } from './types'
 
 const LIMIT = 20
 
@@ -34,21 +35,21 @@ export function useProxyHelpPage() {
 
   const handleSearch = useCallback(async (currentOffset: number) => {
     setLoading(true)
+
     try {
       // 首次加载时检查快照
       if (currentOffset === 0) {
-        const snapshot = await get('search_group_topics_反代')
+        const snapshot = await get<SearchGroupTopicsSnapshot>('search_group_topics_反代')
         if (snapshot?.data?.length) {
           setData({
             list: snapshot.data,
-            pagination: snapshot.pagination || {
+            pagination: {
               page: 1,
               pageTotal: 1
             }
           })
           setOffset(snapshot.data.length)
           setLoading(false)
-          return
         }
       }
 
@@ -118,11 +119,22 @@ export function useProxyHelpPage() {
   }, [handleSearch, loading, offset])
 
   return {
+    /** 是否显示补充说明弹层 */
     visible,
+
+    /** 是否正在加载 */
     loading,
+
+    /** 帖子列表数据 */
     data,
+
+    /** 隐藏补充说明弹层 */
     handleHide,
+
+    /** 显示补充说明弹层并触发首次加载 */
     handleShow,
+
+    /** 加载更多帖子 */
     handleLoadMore
   }
 }
