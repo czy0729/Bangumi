@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-07 10:00:00
+ * @Last Modified time: 2026-08-25 18:12:30
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -92,28 +92,30 @@ export const ItemSearch = observer(
               isMono={isMono}
             />
 
-            <Content tip={tip} comments={comments} position={hasPositions} isMusic={isMusic}>
-              <Flex style={styles.title} align='start'>
-                <Flex.Item>
-                  <Title name={name} nameCn={nameCn} comments={comments} highlight={highlight} />
-                </Flex.Item>
+            <Flex.Item>
+              <Content tip={tip} comments={comments} position={hasPositions} isMusic={isMusic}>
+                <Flex style={styles.title} align='start'>
+                  <Flex.Item>
+                    <Title name={name} nameCn={nameCn} comments={comments} highlight={highlight} />
+                  </Flex.Item>
 
-                {showManage && !isMono && (
-                  <Manage
-                    subjectId={subjectId}
-                    collection={collection}
-                    typeCn={typeCn}
-                    name={name}
-                    nameCn={nameCn}
-                    screen={screen}
-                  />
-                )}
-              </Flex>
+                  {showManage && !isMono && (
+                    <Manage
+                      subjectId={subjectId}
+                      collection={collection}
+                      typeCn={typeCn}
+                      name={name}
+                      nameCn={nameCn}
+                      screen={screen}
+                    />
+                  )}
+                </Flex>
 
-              {!!tip && <Tip tip={tip} isMusic={isMusic} />}
-              {hasPositions && <Postions position={position} />}
-              <Rating rank={rank} score={score} total={total} />
-            </Content>
+                {!!tip && <Tip tip={tip} isMusic={isMusic} />}
+                {hasPositions && <Postions position={position} />}
+                <Rating rank={rank} score={score} total={total} />
+              </Content>
+            </Flex.Item>
           </Flex>
         </Container>
 
