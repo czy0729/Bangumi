@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-03-14 15:51:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 15:17:08
+ * @Last Modified time: 2026-08-25 20:05:18
  */
 import React, { Suspense } from 'react'
 import { observer } from 'mobx-react'
-import { Component, Heatmap, ImageViewer } from '@components'
+import { BackAndroid, Component, DEV, Heatmap, ImageViewer } from '@components'
 import { systemStore, uiStore } from '@stores'
 import { r } from '@utils/dev'
 import { useGlobalMount, useKeepAwake } from '@utils/hooks'
-import { WEB } from '@constants'
+import { ANDROID, WEB } from '@constants'
+import { ANDROID_DEV_MENU } from '@src/config'
 import { LikesGrid } from '../likes-grid'
 import { LikesUsers } from '../likes-users'
 import { ListenClipboard } from '../listen-clipboard'
@@ -28,10 +29,7 @@ export const AppCommon = observer(() => {
   return (
     <Suspense>
       <Component id='base-app-common'>
-        <ImageViewer
-          {...systemStore.imageViewer}
-          onCancel={systemStore.closeImageViewer}
-        />
+        <ImageViewer {...systemStore.imageViewer} onCancel={systemStore.closeImageViewer} />
         <Popable {...uiStore.popableSubject} />
         <LikesGrid {...uiStore.likesGrid} />
         <LikesUsers {...uiStore.likesUsers} onClose={uiStore.closeLikesUsers} />
@@ -40,8 +38,10 @@ export const AppCommon = observer(() => {
           onSubmit={uiStore.submitManageModal}
           onClose={uiStore.closeManageModal}
         />
-        {!WEB && <ListenClipboard />}
         <Heatmap.Control />
+        {!WEB && <ListenClipboard />}
+        {ANDROID && <BackAndroid />}
+        {ANDROID_DEV_MENU && <DEV />}
       </Component>
     </Suspense>
   )

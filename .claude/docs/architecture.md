@@ -13,7 +13,7 @@
 
 ```
 ├── src/                    # 主源码
-│   ├── App.tsx             # 入口（平台拆分: App.android.tsx）
+│   ├── App.tsx             # 统一入口（平台差异用 ANDROID 常量分流, 不再拆分 App.android.tsx）
 │   ├── config.ts           # 开发标志、代理、初始路由
 │   ├── components/         # ~80+ 可复用 UI 组件
 │   ├── screens/            # 所有页面模块（~100+）
