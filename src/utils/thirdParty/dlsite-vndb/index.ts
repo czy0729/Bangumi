@@ -2,14 +2,17 @@
  * @Author: czy0729
  * @Date: 2026-05-24 12:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-27 06:01:18
+ * @Last Modified time: 2026-08-25 22:08:56
  */
 import { logger } from '../../dev'
 import { axios } from '../index'
-import { HOST_DLSITE, HOST_VNDB } from './ds'
+import { HOST_DLSITE, HOST_VNDB, MAX_SAMPLE_COUNT, PROBE_BATCH_SIZE } from './ds'
 
 import type { DlsiteImage, VndbScreenshot, VndbVnResult } from './types'
 export type { DlsiteImage, VndbScreenshot }
+
+/** 日志标签 */
+const TAG = '@utils/thirdParty/dlsite-vndb'
 
 /** 从 infobox HTML 中提取 VNDB ID */
 export function extractVndbId(rawInfo: string): string | null {
@@ -46,7 +49,7 @@ export async function fetchVndbData(vndbId: string): Promise<{
   lengthMinutes: number
 } | null> {
   try {
-    logger.purple('@utils/thirdParty/dlsite-vndb', 'fetchVndbData', { vndbId })
+    logger.info(TAG, 'fetchVndbData', { vndbId })
     const { data } = await axios<{ results: VndbVnResult[] }>({
       method: 'post',
       url: `${HOST_VNDB}/kana/vn`,
@@ -63,7 +66,7 @@ export async function fetchVndbData(vndbId: string): Promise<{
 
     return {
       screenshots: vn.screenshots || [],
-      lengthMinutes: vn.length_minutes
+      lengthMinutes: vn.length_minutes || 0
     }
   } catch {
     return null
@@ -76,36 +79,73 @@ export async function fetchVndbScreenshots(vndbId: string): Promise<VndbScreensh
   return result?.screenshots || []
 }
 
-/** 探测 DLsite 可用图片（使用 fetch HEAD 请求） */
-export async function probeDlsiteImages(dlsiteId: string): Promise<DlsiteImage[]> {
+/** 单组 sample 的成对探测结果 */
+type SamplePairResult = {
+  ok: boolean
+  url: string
+}
+
+/** 会话级探测缓存: 并发去重 + 负结果复用 (跨天缓存由上层 KV 负责) */
+const probeCache = new Map<string, Promise<DlsiteImage[]>>()
+
+/**
+ * 探测 DLsite 可用图片 (HEAD 请求)
+ * 主图先行; sample 按 PROBE_BATCH_SIZE 分批并发, 批内 smpa/smp 成对并行,
+ * 收录按 n 升序且遇首个双缺失即停, 输出与旧串行实现完全一致
+ */
+export function probeDlsiteImages(dlsiteId: string): Promise<DlsiteImage[]> {
+  let pending = probeCache.get(dlsiteId)
+  if (!pending) {
+    pending = doProbeDlsiteImages(dlsiteId)
+    probeCache.set(dlsiteId, pending)
+    // 失败不缓存失败态, 允许下次重新探测
+    pending.catch(() => probeCache.delete(dlsiteId))
+  }
+
+  return pending
+}
+
+async function doProbeDlsiteImages(dlsiteId: string): Promise<DlsiteImage[]> {
   const images: DlsiteImage[] = []
 
   // 先尝试主图
   const mainUrl = buildDlsiteImageUrl(dlsiteId, '_img_main.webp')
 
-  logger.purple('@utils/thirdParty/dlsite-vndb', 'probeDlsiteImages', { dlsiteId })
+  logger.info(TAG, 'probeDlsiteImages', { dlsiteId })
   if (!(await tryProbe(mainUrl))) return images
   images.push({ url: mainUrl })
 
-  // 依次探测 sample 图片
-  for (let n = 1; n <= 20; n++) {
-    const smpaUrl = buildDlsiteImageUrl(dlsiteId, `_img_smpa${n}.webp`)
-    if (await tryProbe(smpaUrl)) {
-      images.push({ url: smpaUrl })
-      continue
-    }
+  // 分批并发探测 sample 图片
+  for (let start = 1; start <= MAX_SAMPLE_COUNT; start += PROBE_BATCH_SIZE) {
+    const end = Math.min(start + PROBE_BATCH_SIZE - 1, MAX_SAMPLE_COUNT)
 
-    const smpUrl = buildDlsiteImageUrl(dlsiteId, `_img_smp${n}.webp`)
-    if (await tryProbe(smpUrl)) {
-      images.push({ url: smpUrl })
-      continue
+    const tasks: Promise<SamplePairResult>[] = []
+    for (let n = start; n <= end; n++) {
+      tasks.push(probeSamplePair(dlsiteId, n))
     }
+    const batchResults = await Promise.all(tasks)
 
-    // 两种格式都不存在，停止探测
-    break
+    // 按序收录, 遇到双缺失即停止 (批内已发出的后续请求结果丢弃)
+    for (let i = 0; i < batchResults.length; i++) {
+      const result = batchResults[i]
+      if (!result.ok) return images
+
+      images.push({ url: result.url })
+    }
   }
 
   return images
+}
+
+/** 成对探测一组 sample, smpa 优先于 smp */
+async function probeSamplePair(dlsiteId: string, n: number): Promise<SamplePairResult> {
+  const smpaUrl = buildDlsiteImageUrl(dlsiteId, `_img_smpa${n}.webp`)
+  if (await tryProbe(smpaUrl)) return { ok: true, url: smpaUrl }
+
+  const smpUrl = buildDlsiteImageUrl(dlsiteId, `_img_smp${n}.webp`)
+  if (await tryProbe(smpUrl)) return { ok: true, url: smpUrl }
+
+  return { ok: false, url: '' }
 }
 
 async function tryProbe(url: string): Promise<boolean> {

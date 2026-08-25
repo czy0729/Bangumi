@@ -19,18 +19,6 @@ jest.mock('@src/config', () => ({
   DEV: false
 }))
 
-jest.mock('../../dev', () => ({
-  __esModule: true,
-  logger: {
-    log: jest.fn(),
-    info: jest.fn(),
-    success: jest.fn(),
-    warn: jest.fn(),
-    error: jest.fn(),
-    yellow: jest.fn()
-  }
-}))
-
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mockSetStorage = jest.fn((_key: string, _data: unknown) => Promise.resolve())
 const mockStorageMap = new Map<string, unknown>()

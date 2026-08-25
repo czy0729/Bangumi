@@ -2,20 +2,12 @@
  * @Author: czy0729
  * @Date: 2026-08-25 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 16:52:03
+ * @Last Modified time: 2026-08-25 00:00:00
  */
-jest.mock('@utils/dev', () => ({
-  logger: {
-    log: jest.fn(),
-    info: jest.fn(),
-    success: jest.fn(),
-    warn: jest.fn(),
-    error: jest.fn()
-  }
-}))
 
 /** 缩小上限常量以便在单测中触发数量超限淘汰 */
 jest.mock('../ds', () => ({
+  __esModule: true,
   BASE_DIR: '/cache/expo-image-cache/',
   LEGACY_BASE_DIR: '/legacy-cache/expo-image-cache/',
   MAX_CACHE_FILES: 2,

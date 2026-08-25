@@ -18,18 +18,6 @@ jest.mock('@src/config', () => ({
   DEV: false
 }))
 
-jest.mock('../../dev', () => ({
-  __esModule: true,
-  logger: {
-    log: jest.fn(),
-    info: jest.fn(),
-    success: jest.fn(),
-    warn: jest.fn(),
-    error: jest.fn(),
-    yellow: jest.fn()
-  }
-}))
-
 const mockFetch = jest.fn()
 
 jest.mock('../../fetch', () => ({

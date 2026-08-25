@@ -18,18 +18,27 @@ jest.mock('@constants/device', () => ({
   WEB: false
 }))
 
+// 完整覆盖 src/utils/dev 全部导出, 测试文件无需再局部 mock;
+// 需断言日志时直接 import { logger } from '@utils/dev' (mock 按 resolved 路径注册, 相对路径导入同样生效)
 jest.mock(__dirname + '/src/utils/dev', () => ({
   __esModule: true,
   globalLog: jest.fn(),
   globalWarn: jest.fn(),
   rerender: jest.fn(),
+  r: jest.fn(),
   rc: (_parent, name) => String(name),
+  now: () => '00:00:00',
+  ll: jest.fn(),
+  log: jest.fn(),
+  fill: (str = '') => String(str),
   logger: {
     log: jest.fn(),
+    info: jest.fn(),
     success: jest.fn(),
     warn: jest.fn(),
     error: jest.fn(),
-    yellow: jest.fn()
+    yellow: jest.fn(),
+    purple: jest.fn()
   }
 }))
 

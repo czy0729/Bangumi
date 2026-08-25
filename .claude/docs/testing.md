@@ -11,6 +11,7 @@
   - Promise 永远挂起：缺少 reject/resolve 路径、错误时等待者未通知
   - 异常处理：`async executor` 反模式、空 catch 吞掉错误
   - 边界情况：switch 无 default、空值/undefined 未处理
+- **不要在测试文件里局部 mock `@utils/dev`**：jest.setup.js 已按 resolved 路径全局注册完整 mock（含全部导出与 logger 七个方法），相对路径导入同样生效；需要断言日志时直接 `import { logger } from '@utils/dev'` 后对 jest.fn 断言
 
 # cheerio HTML 解析测试规范
 

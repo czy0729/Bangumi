@@ -6,16 +6,6 @@ jest.mock('../../utils', () => ({
   safeObject: (obj: any) => obj
 }))
 
-jest.mock('../../dev', () => ({
-  logger: {
-    log: jest.fn(),
-    info: jest.fn(),
-    success: jest.fn(),
-    warn: jest.fn(),
-    error: jest.fn()
-  }
-}))
-
 import {
   $,
   cData,
