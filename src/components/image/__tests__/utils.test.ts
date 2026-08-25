@@ -83,7 +83,8 @@ import {
   setError404,
   setError451,
   setErrorTimeout,
-  timeoutPromise
+  timeoutPromise,
+  withDefaults
 } from '../utils'
 
 import type { EventType } from '@types'
@@ -586,5 +587,68 @@ describe('computeImageStyles', () => {
   it("shadow='lg' 走大阴影样式", () => {
     const res = computeImageStyles(mkProps({ shadow: 'lg' }), mkState(), mkOptions())
     expect(res.container).toMatchObject(baseStyles.shadowLg)
+  })
+})
+
+describe('withDefaults', () => {
+  const DEFAULTS = {
+    autoSize: 0,
+    placeholder: true,
+    priority: 'normal',
+    size: 40,
+    skeleton: true
+  } as const
+
+  it('属性缺失或为 undefined 时使用默认值', () => {
+    const res = withDefaults<ImageProps>({ src: 'a.jpg' }, DEFAULTS)
+    expect(res).toEqual({
+      autoSize: 0,
+      placeholder: true,
+      priority: 'normal',
+      size: 40,
+      skeleton: true,
+      src: 'a.jpg'
+    })
+  })
+
+  it('显式传入的有效值不被覆盖', () => {
+    const res = withDefaults<ImageProps>(
+      { size: 100, placeholder: false, priority: 'high' },
+      DEFAULTS
+    )
+    expect(res.size).toBe(100)
+    expect(res.placeholder).toBe(false)
+    expect(res.priority).toBe('high')
+  })
+
+  it('显式传 undefined 不覆盖默认值 (对齐旧版 defaultProps)', () => {
+    // 回归用例: CoverImage 会把未传的 size 以 undefined 显式透传,
+    // 对象展开默认值会被覆盖导致图片丢失宽高
+    const res = withDefaults<ImageProps>(
+      { size: undefined, width: 219, height: 306 },
+      DEFAULTS
+    )
+    expect(res.size).toBe(40)
+    expect(res.width).toBe(219)
+    expect(res.height).toBe(306)
+  })
+
+  it('不修改原 props 与 defaults 对象', () => {
+    const props = { size: undefined }
+    const defaults = { ...DEFAULTS }
+
+    withDefaults<ImageProps>(props, defaults)
+
+    expect(props).toEqual({ size: undefined })
+    expect(defaults).toEqual(DEFAULTS)
+  })
+
+  it('computeImageStyles 在默认值恢复后能算出宽高', () => {
+    const merged = withDefaults<ImageProps>(
+      { src: 'https://lain.bgm.tv/pic/cover/l/x.jpg', width: 219, height: 306, size: undefined },
+      { size: 40 }
+    )
+    const res = computeImageStyles(mkProps(merged), mkState(), mkOptions())
+    expect(res.image).toMatchObject({ width: 219, height: 306 })
   })
 })

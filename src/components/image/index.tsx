@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-24 02:57:48
+ * @Last Modified time: 2026-08-25 19:23:26
  */
 import React, { useMemo } from 'react'
 import { Image as RNImage } from 'react-native'
@@ -23,7 +23,7 @@ import Placeholder from './placeholder'
 import Remote from './remote'
 import Skeleton from './skeleton'
 import TextOnly from './text-only'
-import { computeImageStyles, imageViewerCallback } from './utils'
+import { computeImageStyles, imageViewerCallback, withDefaults } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
@@ -71,8 +71,10 @@ const OMIT_KEYS: (keyof ImageProps)[] = [
 export const Image = observer(function Image(baseProps: ImageProps) {
   r(COMPONENT)
 
-  // React 18 起 FC 的 defaultProps 已废弃, 改为解构默认值
-  const props = {
+  // React 18 起 FC 的 defaultProps 已废弃, 改为手动合并默认值;
+  // 需逐键判断 undefined 而非对象展开: 上游(如 Cover)会显式传 size: undefined,
+  // 展开写法会覆盖默认值导致图片丢失宽高 (与旧版 defaultProps 行为对齐)
+  const props = withDefaults(baseProps, {
     autoSize: 0,
     border: false,
     borderWidth: _.hairlineWidth,
@@ -85,10 +87,9 @@ export const Image = observer(function Image(baseProps: ImageProps) {
     shadow: false,
     size: 40,
     textOnly: TEXT_ONLY,
-    priority: 'normal' as const,
-    skeleton: true,
-    ...baseProps
-  }
+    priority: 'normal',
+    skeleton: true
+  })
   const {
     src,
     size,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-28 02:06:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 15:38:25
+ * @Last Modified time: 2026-08-25 19:23:20
  */
 import { Image as RNImage } from 'react-native'
 import { _ } from '@stores'
@@ -326,6 +326,24 @@ export function timeoutPromise(timeout: number = 10000) {
 /** 指数退避重试间隔, 上限 1 小时 */
 export function getNextRetryDelay(attempt: number) {
   return Math.min(3000 * Math.pow(2, attempt), 3600000)
+}
+
+/**
+ * 合并默认值, 仅当属性值为 undefined 时使用默认值
+ * 与 React defaultProps 语义一致; 不能用对象展开默认值代替,
+ * 上游可能显式传 undefined (如 Cover 的 size), 展开会覆盖默认值导致图片丢失宽高
+ */
+export function withDefaults<T extends object>(props: T, defaults: Partial<T>): T {
+  const result = { ...props } as unknown as Record<string, unknown>
+  const source = defaults as unknown as Record<string, unknown>
+
+  Object.keys(source).forEach(key => {
+    if (result[key] === undefined) {
+      result[key] = source[key]
+    }
+  })
+
+  return result as unknown as T
 }
 
 /** 计算图片实际样式 */
