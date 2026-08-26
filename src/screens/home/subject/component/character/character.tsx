@@ -27,7 +27,7 @@ const Character = memo(
     showCharacter = true,
     subjectId = 0,
     crt,
-    crtCounts = FROZEN_OBJECT,
+    crtCounts = FROZEN_OBJECT as Record<string, number>,
     subjectName,
     onSwitchBlock = FROZEN_FN
   }) => {

@@ -2,11 +2,16 @@
  * @Author: czy0729
  * @Date: 2025-03-25 18:22:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-25 18:31:18
+ * @Last Modified time: 2026-08-27 04:43:53
  */
+import type { ImageSource } from '@types'
 
 /** 由于 NSFW 条目的角色数据是从别的地方拿来拼装的, 需要手动排序 */
-export function getSortValue(item: { roleName: string; desc: string; image: any }): number {
+export function getSortValue(item: {
+  roleName: string
+  desc: string
+  image: ImageSource | string
+}): number {
   const text = item.roleName || item.desc
   const priorityMap: Record<string, number> = {
     主角: 4,

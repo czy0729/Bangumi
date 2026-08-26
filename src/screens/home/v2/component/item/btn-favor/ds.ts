@@ -7,4 +7,4 @@
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
 
-export const COMPONENT = rc(PARENT, 'BtnEpNext')
+export const COMPONENT = rc(PARENT, 'BtnFavor')

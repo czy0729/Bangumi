@@ -12,6 +12,7 @@ import type { RenderItem, SubjectTypeValue } from '@types'
 import type { TabsLabel } from '../../types'
 import type { ItemType } from './types'
 
+/** 列表 key 提取 */
 export function keyExtractor(item: ItemType) {
   return String('subject_id' in item ? item.subject_id : item.id)
 }

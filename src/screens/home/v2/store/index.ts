@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:26:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-24 18:45:04
+ * @Last Modified time: 2026-08-27 03:49:57
  */
 import * as Device from 'expo-device'
 import { _, systemStore, userStore } from '@stores'
@@ -185,7 +185,7 @@ export default class ScreenHomeV2 extends Action {
         d: {
           brand: Device.brand,
           year: Device.deviceYearClass,
-          id: Device.modelId,
+          id: String(Device.modelId),
           name: Device.modelName,
           os: Device.osVersion,
           mem: `${Math.floor(Device.totalMemory / 1000 / 1000 / 1000)}G`
@@ -238,10 +238,6 @@ export default class ScreenHomeV2 extends Action {
     try {
       const { page } = this.state
       if (typeof this.scrollToIndex[page] === 'function') {
-        t('其他.刷新到顶', {
-          screen: 'Home'
-        })
-
         this.scrollToIndex[page]({
           animated: true,
           index: 0,
@@ -252,6 +248,10 @@ export default class ScreenHomeV2 extends Action {
         }, 400)
 
         this.onHeaderRefresh()
+
+        t('其他.刷新到顶', {
+          screen: 'Home'
+        })
       }
     } catch (error) {
       logger.error(NAMESPACE, 'onRefreshThenScrollTop', error)

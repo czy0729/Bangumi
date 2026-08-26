@@ -12,7 +12,12 @@ import store from './store'
 import type { NavigationProps } from '@types'
 import type { Ctx } from './types'
 
-/** 进度页面逻辑 */
+/**
+ * 进度页面逻辑
+ *
+ * 首页为常驻 Tab 页，刻意不使用 onEnterComplete/onLeaveComplete + unmount 模式：
+ * 离开页面不清理 store，返回时通过 onFocus 重走 init()
+ */
 export function useHomePage(props: NavigationProps) {
   const context = useInitStore<Ctx['$']>(props, store)
   const { id, $, navigation } = context

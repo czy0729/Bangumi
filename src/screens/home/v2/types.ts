@@ -14,6 +14,8 @@ export type Ctx = WithNavigation<{
   $: InstanceType<typeof Store>
 }>
 
+export type Params = {}
+
 export type Tabs = (typeof TABS_ITEM)[keyof typeof TABS_ITEM][]
 
 export type TabsKeys = Tabs[number]['key']

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:16:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-26 22:04:58
+ * @Last Modified time: 2026-08-27 04:28:14
  */
 import { isObservableArray } from 'mobx'
 import { DEV, FROZEN_ARRAY, FROZEN_OBJECT } from '@constants'
@@ -719,9 +719,14 @@ export function fixedRemoteImageUrl(url: unknown) {
   return value
 }
 
-/** 获取颜色 type */
-export function getType(label: string, defaultType: string = 'plain') {
-  return TYPE_MAP[label] || defaultType
+/** TYPE_MAP 值联合 */
+export type TypeMapValue = (typeof TYPE_MAP)[keyof typeof TYPE_MAP]
+
+/** 获取颜色 type (未命中时返回默认 'plain') */
+export function getType<T extends string>(label: string, defaultType: T): TypeMapValue | T
+export function getType(label: string): TypeMapValue
+export function getType(label: string, defaultType?: string) {
+  return TYPE_MAP[label as keyof typeof TYPE_MAP] || defaultType || 'plain'
 }
 
 /** 获取评分中文 */

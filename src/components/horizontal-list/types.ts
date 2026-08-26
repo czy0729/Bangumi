@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-08-28 15:45:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-07 20:25:03
+ * @Last Modified time: 2026-08-27 04:37:05
  */
 import type { ReactNode } from 'react'
 import type { NativeScrollEvent, NativeSyntheticEvent, TextProps } from 'react-native'
-import type { SubjectTypeCn, ViewStyle, WithViewStyles } from '@types'
+import type { ImageSource, SubjectTypeCn, ViewStyle, WithViewStyles } from '@types'
 
 export type WithId = {
   id?: string | number
 
-  /** 封面图 */
-  image?: string
+  /** 封面图 (URL 字符串或本地静态资源) */
+  image?: ImageSource | string
 }
 
 /** 条目类型中文 */

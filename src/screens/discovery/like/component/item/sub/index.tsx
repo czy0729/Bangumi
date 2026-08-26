@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-11 15:57:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-14 14:37:33
+ * @Last Modified time: 2026-08-27 04:28:48
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -13,6 +13,7 @@ import { MODEL_COLLECTION_STATUS } from '@constants'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+import type { TextType } from '@components'
 import type { Ctx } from '../../../types'
 import type { Props } from './types'
 
@@ -63,7 +64,7 @@ function Sub({ name, relates, action }: Props) {
                 }}
               >
                 {!!status && (
-                  <Text size={10} type={getType(status)} lineHeight={13}>
+                  <Text type={getType(status) as TextType} size={10} lineHeight={13}>
                     {`${status.replace('看', action)} `}
                   </Text>
                 )}
