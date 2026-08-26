@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:27:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-05 20:34:21
+ * @Last Modified time: 2026-08-27 00:51:51
  */
 import { LIST_EMPTY } from '@constants'
 import { MODEL_RATING_STATUS } from '@constants/model'
@@ -19,6 +19,7 @@ import type {
   SubjectType,
   UserId
 } from '@types'
+import type { Vib } from './types'
 import type {
   ComputedRating,
   EpStatus,
@@ -308,7 +309,7 @@ const STATE = {
       anidbTotal: 0,
       _loaded: 0 as Loaded
     }
-  },
+  } as Record<SubjectId, Vib>,
 
   /** r18 */
   nsfw: {

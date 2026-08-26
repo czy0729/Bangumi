@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 05:15:20
+ * @Last Modified time: 2026-08-26 23:54:05
  */
 import { StatusBar } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
@@ -27,16 +27,16 @@ import { COMPONENT } from '../../ds'
 import { replaceOriginUrl } from '../../../../user/origin-setting/utils'
 import Fetch from '../fetch'
 
-import type { Id, Navigation, ScrollEvent } from '@types'
+import type { Id, Navigation, ScrollEvent, TimerRef } from '@types'
 import type { OriginItem } from '../../../../user/origin-setting/utils'
 import type { EpsItem } from '../../types'
 
 /** 条目交互与导航 */
 export default class Ui extends Fetch {
-  private _updateStatusBarTimeoutId = null
+  private _updateStatusBarTimeoutId: TimerRef = null
 
   /** 更新状态栏主题色 */
-  updateStatusBar = (fixed: boolean) => {
+  updateStatusBar = (fixed?: boolean) => {
     if (this._updateStatusBarTimeoutId) return
 
     this._updateStatusBarTimeoutId = setTimeout(() => {
@@ -137,8 +137,8 @@ export default class Ui extends Fetch {
       // 匹配用户自定义源头
       if (!url) {
         const find = this.onlineOrigins
-          .filter(item => typeof item === 'object')
-          .find((item: OriginItem) => item.name === key)
+          .filter((item): item is OriginItem => typeof item === 'object')
+          .find(item => item.name === key)
         if (find) {
           if (key === '萌番组' && find.id) {
             copy(this.cn || this.jp)
@@ -234,7 +234,7 @@ export default class Ui extends Fetch {
     }, 400)
   }
 
-  private _flipTimeoutId = null
+  private _flipTimeoutId: TimerRef = null
 
   /** Eps 状态按钮做动画前, 需要先设置开启 */
   prepareEpsFlip = () => {
@@ -341,21 +341,21 @@ export default class Ui extends Fetch {
         // @todo 逻辑比较复杂, 暂时不处理 Ep 偏移
         const { epsData } = this.state
         const { eps = [] } = this.subject
-        const site: any = this.onlinePlayActionSheetData[index]
+        const siteName = this.onlinePlayActionSheetData[index] as (typeof SITES)[number]
         let epIndex: number
-        if (SITES.includes(site)) {
+        if (SITES.includes(siteName)) {
           if (isSp) {
             url = getBangumiUrl({
               id: item.id,
-              site
+              site: siteName
             })
           } else {
             epIndex = eps.filter(item => item.type === 0).findIndex(i => i.id === item.id)
             url =
-              epsData[site][epIndex] ||
+              epsData[siteName][epIndex] ||
               getBangumiUrl({
                 id: item.id,
-                site
+                site: siteName
               })
           }
         }

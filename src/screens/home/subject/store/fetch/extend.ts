@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 01:33:15
+ * @Last Modified time: 2026-08-26 21:35:33
  */
 import { monoStore, otaStore, subjectStore, systemStore, userStore } from '@stores'
 import { getStorage, getTimestamp, optimize, postTask, queue, setStorage } from '@utils'
@@ -12,6 +12,7 @@ import { get, update } from '@utils/kv'
 import { API_ANITABI, D1, D7, DEV, WEB } from '@constants'
 import Game from './game'
 
+import type { Vib } from '@stores/subject/types'
 import type { AnitabiData } from '../../types'
 
 /** 一次启动内第三方请求频率限制 */
@@ -36,8 +37,8 @@ export default class Extend extends Game {
     const now = getTimestamp()
     const snapshotId = `anitabi_${this.subjectId}` as const
     try {
-      const snapshot = await get(snapshotId)
-      if (optimize(snapshot, D7)) {
+      const snapshot = await get<AnitabiData>(snapshotId)
+      if (snapshot && optimize(snapshot, D7)) {
         this.setState({
           anitabi: {
             ...snapshot,
@@ -64,7 +65,7 @@ export default class Extend extends Game {
         const { _response } = await xhrCustom({
           url: API_ANITABI(this.subjectId)
         })
-        const data: AnitabiData = _response.length ? JSON.parse(_response) : {}
+        const data = (_response.length ? JSON.parse(_response) : {}) as AnitabiData
         if (data?.litePoints?.length) {
           anitabi = {
             ...data,
@@ -108,10 +109,10 @@ export default class Extend extends Game {
 
     const snapshotId = `vib_${this.subjectId}`
     try {
-      const snapshot = await get(snapshotId)
-      if (snapshot?._loaded && getTimestamp() - Number(snapshot?._loaded) <= D1) {
+      const snapshot = await get<Vib>(snapshotId)
+      if (snapshot && getTimestamp() - Number(snapshot._loaded || 0) <= D1) {
         subjectStore.updateVIB(this.subjectId, snapshot)
-        if (!snapshot?.avg) {
+        if (!snapshot.avg) {
           postTask(() => {
             subjectStore.fetchVIB(this.subjectId)
           }, 0)

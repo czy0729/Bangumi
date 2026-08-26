@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-08 09:30:00
+ * @Last Modified time: 2026-08-26 22:33:53
  */
 import { DEV } from '@src/config'
 import { logger } from '../dev'
-import type { Cheerio } from 'cheerio-without-node-native'
 import HTMLParser from '../thirdParty/html-parser'
 import { safeObject } from '../utils'
 import { htmlMatch } from './match'
@@ -14,6 +13,8 @@ import { cheerio, cText, DECODE_SPECIAL_CHARS, removeCF } from './parse'
 
 export { cEach, cPagination, cText, cheerio, HTMLDecode, removeCF } from './parse'
 export * from './match'
+
+import type { Cheerio } from 'cheerio-without-node-native'
 
 /** 去除 HTML */
 export function removeHTMLTag(str: any, removeAllSpace: boolean = true): string {
@@ -73,23 +74,24 @@ export function HTMLEncode(str: string = ''): string {
 }
 
 /** HTML 压缩 */
-export function HTMLTrim(str: any = '', deep?: boolean) {
+export function HTMLTrim<T>(str: T, deep?: boolean) {
   if (typeof str !== 'string') return str
 
+  const s = str as string
   if (deep) {
-    return removeCF(str)
+    return removeCF(s)
       .replace(/<!--.*?-->/gi, '')
       .replace(/\/\*.*?\*\//gi, '')
       .replace(/[ ]+</gi, '<')
       .replace(/\n+|\s\s\s*|\t/g, '')
       .replace(/"class="/g, '" class="')
-      .replace(/> </g, '><')
+      .replace(/> </g, '><') as T
   }
 
-  return removeCF(str)
+  return removeCF(s)
     .replace(/\n+|\s\s\s*|\t/g, '')
     .replace(/"class="/g, '" class="')
-    .replace(/> </g, '><')
+    .replace(/> </g, '><') as T
 }
 
 /**

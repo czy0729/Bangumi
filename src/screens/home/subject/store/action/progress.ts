@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 01:32:55
+ * @Last Modified time: 2026-08-26 09:34:10
  */
 import { subjectStore, userStore } from '@stores'
 import { getInt } from '@stores/subject'
@@ -185,9 +185,9 @@ export default class Progress extends Collection {
   }
 
   /** 书籍 +1 按钮, 将 chap 或 vol 自增后提交 → doUpdateEp */
-  doUpdateNext = async (name: string | number) => {
+  doUpdateNext = async (name: 'chap' | 'vol') => {
     const { chap, vol } = this.state
-    const next = String(parseInt(this.state[name] || 0) + 1)
+    const next = String(Number(this.state[name] || 0) + 1)
     const query = {
       subjectId: this.subjectId,
       chap,

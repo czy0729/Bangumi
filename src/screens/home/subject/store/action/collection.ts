@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-23 07:12:34
+ * @Last Modified time: 2026-08-26 09:02:03
  */
 import { collectionStore, userStore } from '@stores'
 import { confirm, feedback, info } from '@utils'
@@ -17,7 +17,6 @@ import type { EpStatus, Id, RatingStatus } from '@types'
 
 /** 收藏管理 */
 export default class Collection extends Social {
-  // -------------------- action --------------------
   /** 管理收藏 */
   doUpdateCollection = async (values: Parameters<typeof collectionStore.doUpdateCollection>[0]) => {
     try {

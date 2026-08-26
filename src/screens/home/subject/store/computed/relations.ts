@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 05:15:28
+ * @Last Modified time: 2026-08-26 20:59:22
  */
 import { computed } from 'mobx'
 import { rakuenStore, subjectStore, systemStore, usersStore, userStore } from '@stores'
@@ -172,7 +172,7 @@ export default class Relations extends Meta {
   @computed get friendsRating() {
     const { doings, collections } = this.rawFriendsRating
     const result = mapFriendsRating(doings, collections, this.action)
-    return result.length > 0 ? result : freeze([])
+    return freeze(result.length > 0 ? result : [])
   }
 
   /** 吐槽数量 */

@@ -89,7 +89,7 @@ export type RawSubject = {
     score?: number
   }
   eps_count?: number | ''
-  eps?: RawEp[]
+  eps?: readonly RawEp[]
 }
 
 /** 归一化前的原始章节 */

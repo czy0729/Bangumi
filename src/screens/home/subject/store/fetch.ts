@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 05:15:45
+ * @Last Modified time: 2026-08-26 23:04:25
  */
 import {
   collectionStore,
@@ -18,8 +18,8 @@ import { xhrCustom } from '@utils/fetch'
 import { CDN_EPS, CDN_REC, D7, H1, M5, SITES } from '@constants'
 import Extend from './fetch/extend'
 
-import type { UserId } from '@types'
-import type { RecData } from '../types'
+import type { Sites, UserId } from '@types'
+import type { EpsData, RecData, RecDataItem } from '../types'
 
 /** 条目核心数据请求 */
 export default class Fetch extends Extend {
@@ -107,7 +107,7 @@ export default class Fetch extends Extend {
     const userIds = systemStore.setting[`comment${titleCase(this.subjectTypeValue)}`]
     if (!userIds?.length) return false
 
-    const fetchs = []
+    const fetchs: (() => void)[] = []
     const now = getTimestamp()
     userIds.forEach(userId => {
       const collection = collectionStore.usersSubjectCollection(userId, this.subjectId)
@@ -136,7 +136,7 @@ export default class Fetch extends Extend {
 
     const epsData = {
       _loaded: getTimestamp()
-    }
+    } as EpsData
 
     try {
       const { _response } = await xhrCustom({
@@ -144,8 +144,16 @@ export default class Fetch extends Extend {
       })
 
       SITES.forEach(item => (epsData[item] = {}))
-      JSON.parse(_response).eps.forEach((item: any, index: number) => {
-        item.sites.forEach((i: any) => {
+      const { eps } = JSON.parse(_response) as {
+        eps: {
+          sites: {
+            site: Sites
+            url: string
+          }[]
+        }[]
+      }
+      eps.forEach((item, index) => {
+        item.sites.forEach(i => {
           if (SITES.includes(i.site)) epsData[i.site][index] = i.url
         })
       })
@@ -173,8 +181,8 @@ export default class Fetch extends Extend {
         url: CDN_REC(this.subjectId)
       })
 
-      const data = JSON.parse(_response)
-      if (Array.isArray(data) && data?.length) recData.data = data
+      const data = JSON.parse(_response) as RecDataItem[]
+      if (Array.isArray(data) && data.length) recData.data = data
     } catch (error) {
       logger.error(this.namespace, 'fetchRec', error)
     }

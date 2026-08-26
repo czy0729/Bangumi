@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:30:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-22 08:02:29
+ * @Last Modified time: 2026-08-26 20:52:51
  */
 import { _ } from '@stores'
 import { LIST_EMPTY } from '@constants'
@@ -57,7 +57,7 @@ export const EXCLUDE_STATE = {
   vol: '' as string | number,
 
   /** 吐槽分数分组 */
-  filterScores: [],
+  filterScores: [] as (string | number)[],
 
   /** 翻译缓存 */
   translateResult: [] as TranslateResult,
@@ -128,7 +128,7 @@ export const STATE = {
   } as RecData,
 
   /** 缩略图 */
-  epsThumbs: [],
+  epsThumbs: [] as string[],
 
   /** 缩略图请求 header */
   epsThumbsHeader: {} as {
@@ -228,7 +228,7 @@ export const SORT_RELATION_DESC = {
   游戏: 40,
   三次元: 30,
   其他: -10
-} as const
+} satisfies Record<string, number>
 
 /** 完全隐藏一个模块 */
 export const NON_SHOW = [false, false] as const

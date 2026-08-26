@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 01:33:12
+ * @Last Modified time: 2026-08-26 08:55:04
  */
 import { cnjp, open } from '@utils'
 import { t } from '@utils/fetch'
@@ -142,6 +142,4 @@ export default class Actions extends Share {
       return
     }
   }
-
-  /** @deprecated 屏蔽用户 */
 }

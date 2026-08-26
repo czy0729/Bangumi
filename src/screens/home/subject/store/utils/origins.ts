@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2026-08-25 01:33:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 05:15:37
+ * @Last Modified time: 2026-08-26 12:16:52
  */
 import { subjectStore, systemStore, userStore } from '@stores'
 import { ON_AIR } from '@stores/calendar/onair'
-import { isArray } from '@utils'
 import { findADV } from '@utils/subject/adv'
 import { ANIME_TAGS, findAnime } from '@utils/subject/anime'
 import { findGame, GAME_CATE } from '@utils/subject/game'
@@ -17,9 +16,11 @@ import { NON_SHOW } from '../ds'
 import { getOriginConfig } from '../../../../user/origin-setting/utils'
 
 import type { Collection } from '@types'
+import type { EpsData } from '../../types'
+import type { OriginItem } from '../../../../user/origin-setting/utils'
 
 /** 获取有效的播放源列表 */
-export function getValidPlaySources(epsData: Record<string, any>) {
+export function getValidPlaySources(epsData: EpsData) {
   const validSources = SITES.filter(item => {
     const sourceData = epsData[item]
     return sourceData && Object.keys(sourceData).length > 0
@@ -35,7 +36,7 @@ export function getOnlineOrigins(options: {
   sites: readonly { site: string }[]
 }) {
   const { type, nsfw, tags, sites } = options
-  const data: any[] = []
+  const data: (OriginItem | string)[] = []
 
   if (type === '动画') {
     if (userStore.isLogin) {
@@ -89,7 +90,7 @@ export function getAnimeTags(
   if (!animeInfo && !calendarInfo) return null
 
   let animeInfoTags: string[]
-  if (isArray(animeInfo?.t)) {
+  if (animeInfo?.t) {
     animeInfoTags = animeInfo.t.map(item => ANIME_TAGS[item]).filter(item => !!item)
   }
   if (!animeInfoTags && !calendarInfo) return null
@@ -143,7 +144,7 @@ export function getGameTags(
 ) {
   if (!gameInfo || gameInfo.isADV) return null
   const tags = gameInfo.ta || []
-  return tags.map(item => GAME_CATE[item])
+  return tags.map(item => GAME_CATE[item as number])
 }
 
 /** 获取第三方漫画信息 */

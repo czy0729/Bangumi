@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 01:33:02
+ * @Last Modified time: 2026-08-26 20:25:33
  */
 import { computed } from 'mobx'
 import { calendarStore, collectionStore, subjectStore, userStore } from '@stores'
@@ -50,12 +50,12 @@ export default class Base extends State {
   }
 
   /** 开发调试 */
-  log(...arg: any) {
+  log(...arg: unknown[]) {
     logger.info(this.namespace, ...arg)
   }
 
   /** 开发调试 */
-  warn(...arg: any) {
+  warn(...arg: unknown[]) {
     logger.warn(this.namespace, ...arg)
   }
 

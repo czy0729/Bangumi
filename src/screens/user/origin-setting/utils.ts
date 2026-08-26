@@ -9,7 +9,7 @@
  * @Author: czy0729
  * @Date: 2022-03-22 17:49:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-23 20:40:13
+ * @Last Modified time: 2026-08-26 12:06:47
  */
 import { toJS } from 'mobx'
 import { desc, getTimestamp } from '@utils'
@@ -25,7 +25,7 @@ import {
   SITES_WENKU
 } from './ds'
 
-import type { Origin, SubjectId } from '@types'
+import type { ImageSource, Origin, SubjectId } from '@types'
 import type { Keys } from './types'
 
 export type OriginItem = {
@@ -34,7 +34,7 @@ export type OriginItem = {
   name: string
   url: string
   sort: number
-  icon?: string
+  icon?: string | ImageSource
   active: number
   desc?: string
 }
@@ -47,7 +47,7 @@ export function getBaseOriginConfig(): Record<Keys, OriginItem[]> {
         id: 'anime|age',
         name: 'AGE动漫',
         url: `${SITE_AGEFANS()}/search?query=[CN]&page=1`,
-        icon: require('@assets/images/icon/agefans.png'),
+        icon: require('@assets/images/icon/agefans.png') as ImageSource,
         sort: 0,
         active: 1
       },
@@ -166,7 +166,7 @@ export function replaceOriginUrl(
       ALBUM_DECODE: String(item.ALBUM || '')
     } as const
 
-    return url.replace(/\[([A-Z_]+)\]/g, (_, key) => {
+    return url.replace(/\[([A-Z_]+)\]/g, (_: string, key: string) => {
       const val = replacements[key] ?? ''
 
       // 如果 key 以 _DECODE 结尾，直接返回原值，否则执行编码

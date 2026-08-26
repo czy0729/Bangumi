@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-23 10:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-07 18:57:53
+ * @Last Modified time: 2026-08-26 11:32:30
  */
 import Crypto from '@utils/crypto'
 import { WEB } from '../device'
@@ -258,8 +258,8 @@ export const TEXT_BADGES = {
   purple: '🟣'
 } as const
 
-export const TEXT_NEWS_GC = Crypto.get('U2FsdGVkX18vV4hUPCdJbY/D2eIpYRzHSc1F5GyFbc0=')
+export const TEXT_NEWS_GC = Crypto.get<string>('U2FsdGVkX18vV4hUPCdJbY/D2eIpYRzHSc1F5GyFbc0=')
 
-export const TEXT_NEWS_YM = Crypto.get('U2FsdGVkX19ZRKL0sfshJetA8MSbBGcTu0sbE3TWi+M=')
+export const TEXT_NEWS_YM = Crypto.get<string>('U2FsdGVkX19ZRKL0sfshJetA8MSbBGcTu0sbE3TWi+M=')
 
-export const TEXT_NEWS_GS = Crypto.get('U2FsdGVkX18v+G1pp2YBAyzerWroRX+iJZUp875Sz8k=')
+export const TEXT_NEWS_GS = Crypto.get<string>('U2FsdGVkX18v+G1pp2YBAyzerWroRX+iJZUp875Sz8k=')

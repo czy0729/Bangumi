@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 01:32:44
+ * @Last Modified time: 2026-08-26 10:09:15
  */
 import { toJS } from 'mobx'
 import {
@@ -259,7 +259,7 @@ export default class Social extends Actions {
 
     const now = getTimestamp()
     if (!this.currentChatValues.length) {
-      const data = await get(id)
+      const data = await get<{ data: CompletionItem[] }>(id)
       if (Array.isArray(data?.data) && data.data.length) {
         this.setState({
           chat: {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 05:15:18
+ * @Last Modified time: 2026-08-26 10:08:52
  */
 import { systemStore } from '@stores'
 import {
@@ -30,7 +30,7 @@ import { CDN_OSS_SUBJECT, HOST, HOST_CDN, URL_SPA } from '@constants'
 import Menus from './menus'
 
 import type { EpsItem } from '../../types'
-import type { Navigation } from '@types'
+import type { Navigation, TranslateResult } from '@types'
 
 /** 分享与日历导出 */
 export default class Share extends Menus {
@@ -222,7 +222,9 @@ export default class Share extends Menus {
       const response = await baiduTranslate(text)
       hide()
 
-      const { trans_result: result } = JSON.parse(response)
+      const { trans_result: result } = JSON.parse(response) as {
+        trans_result: TranslateResult
+      }
       if (Array.isArray(result)) {
         this.setState(
           stateKey === 'translateResult'
@@ -283,7 +285,9 @@ export default class Share extends Menus {
       const response = await baiduTranslate(this.summary)
       hide()
 
-      const { trans_result: translateResult } = JSON.parse(response)
+      const { trans_result: translateResult } = JSON.parse(response) as {
+        trans_result: TranslateResult
+      }
       if (Array.isArray(translateResult)) {
         this.setState({
           translateResult

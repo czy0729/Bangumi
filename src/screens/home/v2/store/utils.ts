@@ -76,24 +76,28 @@ export function getLastWatchedIndex(eps: Ep[], userProgress: UserProgress) {
 }
 
 /** 判断是否今天放送 */
-export function isOnairToday(weekDay: number, isOnair: boolean) {
+export function isOnairToday(weekDay: string | number, isOnair: boolean) {
   if (!isOnair) return false
   const day = new Date().getDay()
-  return (weekDay === 7 ? 0 : weekDay) === day
+  const n = Number(weekDay)
+  const wd = n === 7 ? 0 : n
+  return wd === day
 }
 
 /** 判断是否明天放送 */
-export function isOnairNextDay(weekDay: number, isOnair: boolean) {
+export function isOnairNextDay(weekDay: string | number, isOnair: boolean) {
   if (!isOnair) return false
   const day = new Date().getDay()
-  const wd = weekDay === 7 ? 0 : weekDay
+  const n = Number(weekDay)
+  const wd = n === 7 ? 0 : n
   return day === 6 ? wd === 0 : day === wd - 1
 }
 
 /** 获取从今天到下次放送的天数（1-6，跨周处理） */
-export function getDaysUntilNext(weekDay: number): number {
+export function getDaysUntilNext(weekDay: string | number): number {
   const today = new Date().getDay() // 0-6 (Sun-Sat)
-  const wd = weekDay === 7 ? 0 : weekDay // store 1-7(7=Sun) → JS 0-6(0=Sun)
+  const n = Number(weekDay)
+  const wd = n === 7 ? 0 : n // store 1-7(7=Sun) → JS 0-6(0=Sun)
   if (wd > today) return wd - today
   return 7 - today + wd
 }
@@ -112,7 +116,7 @@ export function getSeasonKey(airDate: string | undefined): number {
  *
  *  层级: 放送中(巨量boost) >>> 非放送中(seasonKey > 未看 > 默认) */
 export function calcSortWeightOnair(options: {
-  weekDay: number
+  weekDay: string | number
   isOnair: boolean
   day: number
   hasNewEp: boolean
@@ -231,7 +235,7 @@ export function sortByIds(
     isWeb: boolean
     sortOnAir: boolean
     getAir: (subjectId: SubjectId) => number
-    onAirCustom: (subjectId: SubjectId) => { weekDay: number; isOnair: boolean }
+    onAirCustom: (subjectId: SubjectId) => { weekDay: string | number; isOnair: boolean }
     hasNewEp: (subjectId: SubjectId) => boolean
     isToday: (subjectId: SubjectId) => boolean
     isNextDay: (subjectId: SubjectId) => boolean

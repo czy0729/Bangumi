@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:16:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 00:52:40
+ * @Last Modified time: 2026-08-26 22:04:58
  */
 import { isObservableArray } from 'mobx'
 import { DEV, FROZEN_ARRAY, FROZEN_OBJECT } from '@constants'
@@ -646,7 +646,8 @@ export function getCoverSmall(
 }
 
 /** 获取高质量 bgm 图片 */
-export function getCoverLarge(src: any = '', size: 200 | 400 = 400) {
+export function getCoverLarge<T>(src?: T, size?: 200 | 400): T | string
+export function getCoverLarge(src: unknown = '', size: 200 | 400 = 400) {
   if (
     typeof src !== 'string' ||
     src === '' ||
@@ -775,15 +776,15 @@ export function getCookie(cookies = '', name: string) {
  */
 export function unzipBangumiData(
   item: {
-    id?: any
-    s?: any
+    id?: Id
+    s?: Record<string, number>
     j?: string
     c?: string
     t?: string
   } = {}
 ) {
   const sites: {
-    site: 'bangumi' | 'bilibili' | 'qq' | 'iqiyi' | 'acfun' | 'youku'
+    site: (typeof SITE_MAP)[keyof typeof SITE_MAP] | 'bangumi'
     id: string
   }[] = [
     {
@@ -791,12 +792,12 @@ export function unzipBangumiData(
       id: String(item.id)
     }
   ]
-  Object.keys(item.s || {}).forEach(s =>
+  Object.keys(item.s || {}).forEach((s: string) => {
     sites.push({
-      site: SITE_MAP[s],
+      site: SITE_MAP[s as keyof typeof SITE_MAP],
       id: String(item.s[s])
     })
-  )
+  })
 
   return {
     title: item.j,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:02:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-20 10:46:21
+ * @Last Modified time: 2026-08-26 15:07:29
  */
 import { computed } from 'mobx'
 import { deepClone, getTimestamp, toLocal } from '@utils'
@@ -13,7 +13,7 @@ import State from './state'
 
 import type { StoreConstructor, SubjectId } from '@types'
 import type { STATE } from './init'
-import type { CalendarItemFlat } from './types'
+import type { CalendarItemFlat, OnAirUser } from './types'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   /** 发现页信息聚合 */
@@ -113,8 +113,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 用户自定义放送时间 */
   private _onAirUser = computedFn((subjectId: SubjectId) => {
-    const { onAirUser } = this.state
-    return onAirUser[subjectId] || INIT_USER_ONAIR_ITEM
+    return (this.state.onAirUser[subjectId] || INIT_USER_ONAIR_ITEM) as OnAirUser
   })
 
   onAirUser(subjectId: SubjectId) {

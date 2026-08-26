@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:19:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-01 05:32:37
+ * @Last Modified time: 2026-08-26 12:14:55
  */
 import { Alert, BackHandler } from 'react-native'
 import { ON_AIR } from '@stores/calendar/onair'
@@ -154,8 +154,8 @@ export function getUserIdFromAvatar(src: string) {
 
 /** 获取本地每日放送数据 */
 export function getOnAirItem(subjectId: SubjectId): {
-  weekDayCN: number
-  timeCN: string
+  weekDayCN?: number | string
+  timeCN?: string
   type?: string
   tag?: string
   origin?: string

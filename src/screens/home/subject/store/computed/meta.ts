@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 05:15:27
+ * @Last Modified time: 2026-08-26 20:41:03
  */
 import { computed } from 'mobx'
 import { _, monoStore, subjectStore } from '@stores'
@@ -26,7 +26,8 @@ import {
 import Base from './base'
 
 import type { Collection, Sites, TranslateResult } from '@types'
-import type { Crt, RecDataItem } from '../../types'
+import type { Crt, CrtMapSource, RecDataItem, PersonsMapSource, StaffMapSource } from '../../types'
+
 /** 元信息与来源派生 */
 export default class Meta extends Base {
   /** 筛选章节构造数据, 每 100 章节一个选项 */
@@ -197,7 +198,7 @@ export default class Meta extends Base {
 
   /** 关联人物（映射后） */
   @computed get crt() {
-    return freeze(mapCrt(this.rawCrt as any)) as Crt[]
+    return freeze(mapCrt(this.rawCrt as CrtMapSource)) as Crt[]
   }
 
   /** 原始制作人员数据 */
@@ -219,9 +220,9 @@ export default class Meta extends Base {
   @computed get staff() {
     const { type, data } = this.rawStaff
     if (type === 'persons') {
-      return freeze(mapPersons(data as any))
+      return freeze(mapPersons(data as PersonsMapSource))
     }
-    return freeze(mapStaff(data as any))
+    return freeze(mapStaff(data as StaffMapSource))
   }
 
   /** 原始关联条目数据 */

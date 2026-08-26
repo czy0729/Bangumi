@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2026-08-25 01:33:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 05:15:36
+ * @Last Modified time: 2026-08-26 20:53:02
  */
 import { systemStore, userStore } from '@stores'
 import { desc, getTimestamp, lastDate } from '@utils'
 import { HOST, HOST_NAME, IMG_INFO_ONLY, URL_DEFAULT_AVATAR } from '@constants'
 import { SORT_RELATION_DESC } from '../ds'
 
-import type { DeepReadonly } from '@types'
 import type { BoardItem, ReviewsItem } from '@stores/rakuen/types'
-import type { Crt, Staff, SubjectFromHtmlRelationsItem } from '@stores/subject/types'
+import type { SubjectFromHtmlRelationsItem } from '@stores/subject/types'
+import type { DeepReadonly } from '@types'
+import type { CrtMapSource, PersonsMapSource, StaffMapSource } from '../../types'
 
 /** 转换关联人物数据格式 */
-export function mapCrt(list: DeepReadonly<Crt[]>) {
+export function mapCrt(list: CrtMapSource) {
   return list.map(({ id, images, name, name_cn, role_name, actors = [] }) => ({
     id,
     image: images?.grid || IMG_INFO_ONLY,
@@ -28,7 +29,7 @@ export function mapCrt(list: DeepReadonly<Crt[]>) {
 }
 
 /** 转换制作人员数据格式 */
-export function mapStaff(list: DeepReadonly<Staff[]>) {
+export function mapStaff(list: StaffMapSource) {
   return list.map(({ id, images, name, name_cn: nameCn, jobs = [] }) => ({
     id,
     image: images?.grid || IMG_INFO_ONLY,
@@ -40,15 +41,7 @@ export function mapStaff(list: DeepReadonly<Staff[]>) {
 }
 
 /** 转换网页抓取的人员数据格式 */
-export function mapPersons(
-  list: readonly {
-    id: string
-    cover?: string
-    nameCn?: string
-    name?: string
-    position?: string
-  }[]
-) {
+export function mapPersons(list: PersonsMapSource) {
   return list.map(item => ({
     id: item.id.replace('/person/', ''),
     image: item.cover || IMG_INFO_ONLY,
@@ -57,6 +50,12 @@ export function mapPersons(
     nameJP: item.name.trim(),
     desc: item.position
   }))
+}
+
+/** 获取关联条目排序权重, 未收录的类型返回 0 */
+function getRelationSortWeight(str: string): number {
+  const weight = SORT_RELATION_DESC[str as keyof typeof SORT_RELATION_DESC]
+  return typeof weight === 'number' ? weight : 0
 }
 
 /** 转换关联条目数据格式并排序 */
@@ -68,7 +67,7 @@ export function mapRelations(list: readonly SubjectFromHtmlRelationsItem[]) {
       name: item.title,
       desc: item.type
     }))
-    .sort((a, b) => desc(SORT_RELATION_DESC[a.desc] || 0, SORT_RELATION_DESC[b.desc] || 0))
+    .sort((a, b) => desc(getRelationSortWeight(a.desc), getRelationSortWeight(b.desc)))
 }
 
 /** 按类型查找关联条目 */

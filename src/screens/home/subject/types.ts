@@ -2,13 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-07-04 15:40:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-13 12:07:38
+ * @Last Modified time: 2026-08-26 20:40:04
  */
 import type { View } from 'react-native'
 import type { ImageProps, ListViewScrollMethods } from '@components'
-import type { Ep, SubjectComments, SubjectFromHTML } from '@stores/subject/types'
+import type {
+  Crt as SourceCrt,
+  Ep,
+  Staff as SourceStaff,
+  SubjectComments,
+  SubjectFromHTML
+} from '@stores/subject/types'
 import type {
   Collection,
+  DeepReadonly,
   Expand,
   GetRouteParams,
   Id,
@@ -141,14 +148,14 @@ export type AnitabiData = {
 }
 
 export type EpsItem = Partial<{
-  url: any
+  url: string
   id: Id
   sort: number
-  name: any
-  name_cn: any
-  duration: any
-  airdate: any
-  desc: any
+  name: string
+  name_cn: string
+  duration: string
+  airdate: string
+  desc: string
   type: number
 }>
 
@@ -161,3 +168,18 @@ export type VideoItem = {
   result_type: string
   title: string
 }
+
+/** mapCrt 入参 */
+export type CrtMapSource = DeepReadonly<SourceCrt[]>
+
+/** mapStaff 入参 */
+export type StaffMapSource = DeepReadonly<SourceStaff[]>
+
+/** mapPersons 入参 (网页抓取的人员数据) */
+export type PersonsMapSource = readonly {
+  id: string
+  cover?: string
+  nameCn?: string
+  name?: string
+  position?: string
+}[]

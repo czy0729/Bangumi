@@ -2,13 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 05:15:32
+ * @Last Modified time: 2026-08-26 21:47:08
  */
 import { subjectStore } from '@stores'
 import { getTimestamp, omit, postTask } from '@utils'
 import { get, update } from '@utils/kv'
 import { D1, D7 } from '@constants'
 import Computed from '../computed'
+
+import type { ResultData } from '@utils/kv/type'
+import type { SubjectCommentValue, SubjectSnapshot, VideoItem } from '../../types'
 
 /** 条目 OSS 预数据 (云端缓存下载与上传) */
 export default class Oss extends Computed {
@@ -17,7 +20,7 @@ export default class Oss extends Computed {
     if (this.subjectFormHTML._loaded && (this.cn || this.jp)) return
 
     try {
-      const data = await get(`subject_${this.subjectId}`)
+      const data = await get<ResultData<SubjectSnapshot>>(`subject_${this.subjectId}`)
 
       // 云端没有数据存在, 本地计算后上传
       if (!data) {
@@ -47,7 +50,7 @@ export default class Oss extends Computed {
     if (this.state.comments._loaded) return
 
     try {
-      const data = await get(`comments_${this.subjectId}`)
+      const data = await get<ResultData<SubjectCommentValue>>(`comments_${this.subjectId}`)
 
       // 云端没有数据存在, 本地计算后上传
       if (!data) {
@@ -70,7 +73,13 @@ export default class Oss extends Computed {
   /** 下载预数据 */
   getThirdParty = async () => {
     try {
-      const data = await get(`douban_${this.subjectId}`)
+      const data = await get<
+        ResultData<{
+          videos?: VideoItem[]
+          epsThumbs?: string[]
+          epsThumbsHeader?: { Referer?: string }
+        }>
+      >(`douban_${this.subjectId}`)
       if (!data) return true
 
       const { ts, videos = [], epsThumbs = [], epsThumbsHeader = {} } = data

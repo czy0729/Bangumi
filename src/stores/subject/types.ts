@@ -369,6 +369,17 @@ export type SubjectSnapshot = {
   _loaded: number
 }
 
+/** VIB 等评分数据 */
+export type Vib = {
+  total: number
+  avg: number
+  mal: number
+  malTotal: number
+  anidb: number
+  anidbTotal: number
+  _loaded: Loaded
+}
+
 /** 包含条目的目录项 */
 export type SubjectCatalogsItem = {
   id: Id

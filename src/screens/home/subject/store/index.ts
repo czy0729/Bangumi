@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 05:15:47
+ * @Last Modified time: 2026-08-26 23:53:50
  */
 import { _, collectionStore, rakuenStore, subjectStore, userStore } from '@stores'
 import { getTimestamp } from '@utils'
@@ -41,7 +41,7 @@ export default class ScreenSubject extends Action {
       this.fetchSubjectFromOSS()
       if (!needRefresh) return true
 
-      await queue([
+      await queue<unknown>([
         // 手动刷新全局条目收藏状态
         () => collectionStore.fetchCollectionStatusQueue([this.subjectId]),
         () => this.onHeaderRefresh()
@@ -60,7 +60,7 @@ export default class ScreenSubject extends Action {
   /** 访问快照, 加速未缓存条目首屏数据渲染 */
   onHeaderRefresh = async () => {
     /** ==================== 收藏核心数据 ==================== */
-    queue(
+    queue<unknown>(
       [
         () => this.withFocus(() => this.fetchCollection(), 'fetchCollection', !SHARE_MODE),
         () =>
@@ -82,7 +82,7 @@ export default class ScreenSubject extends Action {
     const data = (await this.fetchSubject()) as ApiSubjectResponse
 
     /** ==================== 条目次要数据 ==================== */
-    await queue(
+    await queue<unknown>(
       [
         () => this.withFocus(() => this.fetchSubjectFromHTML(), 'fetchSubjectFromHTML'),
         () => this.withFocus(() => this.fetchThirdParty(data), 'fetchThirdParty')
@@ -92,7 +92,7 @@ export default class ScreenSubject extends Action {
 
     /** ==================== 非必要扩展数据 ==================== */
     setTimeout(() => {
-      queue(
+      queue<unknown>(
         [
           () => this.withFocus(() => this.fetchSnapshot(), 'fetchSnapshot'),
           () => this.withFocus(() => this.fetchGameDuration(), 'fetchGameDuration')
@@ -103,7 +103,7 @@ export default class ScreenSubject extends Action {
 
     await this.waitUntilScrolled()
 
-    queue(
+    queue<unknown>(
       [
         () => this.withFocus(() => this.fetchAnitabi(), 'fetchAnitabi'),
         () => this.withFocus(() => this.fetchRec(), 'fetchRec'),

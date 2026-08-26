@@ -24,3 +24,8 @@ export type HltbResult = {
   mainExtra: string
   completionist: string
 }
+
+/** KV 缓存的游戏通关时长 (含 VNDB 时长) */
+export type HltbCache = HltbResult & {
+  vndb?: string
+}

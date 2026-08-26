@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 02:59:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-24 06:42:44
+ * @Last Modified time: 2026-08-26 22:50:15
  */
 import { computed } from 'mobx'
 import { computedFn } from '@utils/computed-fn'
@@ -22,7 +22,13 @@ import type {
   UserId
 } from '@types'
 import type { STATE } from './init'
-import type { Collection, UserCollections, UserCollectionsMap, UserCollectionsTags } from './types'
+import type {
+  Collection,
+  UserCollections,
+  UserCollectionsMap,
+  UserCollectionsTags,
+  UsersSubjectCollection
+} from './types'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   // -------------------- 纯计算 (直接 computedFn) --------------------
@@ -111,10 +117,8 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 特定用户特定条目的收藏信息 */
   private _usersSubjectCollection = computedFn((username: UserId, subjectId: SubjectId) => {
-    return (
-      this.state.usersSubjectCollection[`${username}|${subjectId}`] ||
-      DEFAULT_USERS_SUBJECT_COLLECTION
-    )
+    return (this.state.usersSubjectCollection[`${username}|${subjectId}`] ||
+      DEFAULT_USERS_SUBJECT_COLLECTION) as UsersSubjectCollection
   })
 
   // -------------------- 导出方法 (分离 init) --------------------

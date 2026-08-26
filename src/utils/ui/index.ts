@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-12 07:30:47
+ * @Last Modified time: 2026-08-26 10:00:02
  */
 import { Alert, Clipboard, findNodeHandle, NativeModules, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'
@@ -14,7 +14,7 @@ import { syncS2T, syncSystemStore } from '../async'
 import { log } from './utils'
 
 import type { ActionSheetConfig, ActionSheetConfigOptions } from '@components/action-sheet'
-import type { Fn, TimerRef } from '@types'
+import type { TimerRef } from '@types'
 
 /**
  * Loading 指示器
@@ -153,12 +153,15 @@ export function info(
  */
 export function showActionSheet(
   options: string[] | readonly string[] = [],
-  callback: Fn = FROZEN_FN,
+  callback: (index: number) => void = () => {},
   { title, message, cancelButtonIndex, destructiveButtonIndex }: ActionSheetConfigOptions = {}
 ) {
   const { ActionSheetStatic } = require('@components/action-sheet') as {
     ActionSheetStatic: {
-      showActionSheetWithOptions: (config: ActionSheetConfig, callback: Fn) => void
+      showActionSheetWithOptions: (
+        config: ActionSheetConfig,
+        callback: (index: number) => void
+      ) => void
     }
   }
   ActionSheetStatic.showActionSheetWithOptions(

@@ -17,11 +17,13 @@ export function isNull(value: any) {
 /** 返回安全信息 */
 export function getSafeValue(
   key: string | number,
-  onAir: { [x: string]: any },
-  onAirUser: { [x: string]: any }
-) {
+  onAir: Record<string, unknown>,
+  onAirUser: Record<string, unknown>
+): string | number | undefined {
   const userValue = onAirUser?.[key]
-  return isNull(userValue) ? onAir?.[key] : userValue
+  return isNull(userValue)
+    ? (onAir?.[key] as string | number | undefined)
+    : (userValue as string | number | undefined)
 }
 
 /** 参数转成字符串 */

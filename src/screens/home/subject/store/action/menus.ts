@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 01:32:54
+ * @Last Modified time: 2026-08-26 08:56:01
  */
 import { calendarStore, systemStore, userStore } from '@stores'
 import { cnjp, feedback, info, open } from '@utils'
@@ -211,6 +211,4 @@ export default class Menus extends Ui {
       subjectId: this.subjectId
     })
   }
-
-  /** 自定义跳转菜单回调 */
 }

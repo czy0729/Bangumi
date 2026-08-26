@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-04-06 05:46:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-21 01:04:58
+ * @Last Modified time: 2026-08-26 12:16:26
  */
 import { ONAIR_2025S3 } from './2025S3'
 import { ONAIR_2025S4 } from './2025S4'
 import { ONAIR_2026S1 } from './2026S1'
 import { ONAIR_2026S2 } from './2026S2'
 import { ONAIR_2026S3 } from './2026S3'
+
+import type { OnAirItem } from './types'
 
 /** 每日放送元数据 */
 export const ON_AIR = {
@@ -17,7 +19,7 @@ export const ON_AIR = {
   ...ONAIR_2026S1,
   ...ONAIR_2026S2,
   ...ONAIR_2026S3
-} as const
+} as Record<string, OnAirItem>
 
 /** 搜索页额外预搜索数据 */
 export const SEARCH_SUBSTRINGS = {

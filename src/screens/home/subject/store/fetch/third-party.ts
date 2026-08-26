@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 05:15:33
+ * @Last Modified time: 2026-08-26 22:16:28
  */
 import { getBangumiUrl, HTMLDecode, HTMLTrim, postTask, unzipBangumiData } from '@utils'
 import { search as searchMV } from '@utils/bilibili'
@@ -12,6 +12,8 @@ import { xhrCustom } from '@utils/fetch'
 import { decode, get as protoGet } from '@utils/protobuf'
 import { DEV, HOST_AC, HOST_AC_API, HOST_AC_M, WEB } from '@constants'
 import Oss from './oss'
+
+import type { Sites, DeepPartial } from '@types'
 
 /** 一次启动内第三方请求频率限制 */
 const GLOBAL_FETCH_LIMIT = DEV ? 1 : 8
@@ -44,7 +46,7 @@ export default class ThirdParty extends Oss {
       unzipItem = unzipBangumiData(item)
       this.setState({
         bangumiInfo: {
-          sites: unzipItem.sites as any,
+          sites: unzipItem.sites as { site: Sites; id: string }[],
           type: unzipItem.type
         }
       })
@@ -111,7 +113,10 @@ export default class ThirdParty extends Oss {
             const { _response } = await xhrCustom({
               url: `${HOST_AC_API}/pgc/web/season/section?season_id=${seasonId}`
             })
-            const { message, result } = JSON.parse(_response)
+            const { message, result } = JSON.parse(_response) as {
+              message: string
+              result?: { main_section?: { episodes: { cover: string }[] } }
+            }
             if (message === 'success' && result?.main_section?.episodes) {
               const thumbs = result.main_section.episodes.map(
                 (item: { cover: string }) =>
@@ -165,7 +170,7 @@ export default class ThirdParty extends Oss {
           if (match) {
             const thumbs = match
               .map((item: string) => `https:${item.replace(/(data-jpg-img="|")/g, '')}`)
-              .filter((_item: any, index: number) => !!index)
+              .filter((_item: string, index: number) => !!index)
 
             allThumbs.push(...thumbs)
             thumbsHeader = { Referer: 'https://www.iqiyi.com/' }
@@ -200,7 +205,7 @@ export default class ThirdParty extends Oss {
 
       const [trailer, preview] = await Promise.all([getTrailer(doubanId), getPreview(doubanId)])
 
-      const updates: Record<string, any> = {}
+      const updates: DeepPartial<typeof this.state> = {}
       if (trailer.data.length) {
         updates.videos = trailer.data
         updates.epsThumbsHeader = { Referer: trailer.referer }
@@ -232,7 +237,7 @@ export default class ThirdParty extends Oss {
         getPreview(doubanId, 'game')
       ])
 
-      const updates: Record<string, any> = {}
+      const updates: DeepPartial<typeof this.state> = {}
       if (videos.data.length) {
         updates.videos = videos.data
         updates.epsThumbsHeader = { Referer: videos.referer }

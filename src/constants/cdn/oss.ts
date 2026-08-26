@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-05-23 07:22:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-24 05:44:23
+ * @Last Modified time: 2026-08-26 09:54:33
  */
 import { syncSystemStore } from '@utils/async'
 import Crypto from '@utils/crypto'
@@ -25,7 +25,7 @@ const OTA_SUBJECT_HASH_VERSION = '@cdn|oss-subject-hash|version|210720'
 const OTA_SUBJECT_HASH_DATA = '@cdn|oss-subject-hash|data|210720'
 
 /** @deprecated */
-let cacheSubject = {}
+let cacheSubject: Record<string, string> = {}
 
 /** @deprecated */
 let hashSubjectOTA = {}
@@ -91,7 +91,7 @@ export const initHashSubjectOTA = async () => {
 export const getHashSubjectOTA = () => hashSubjectOTA
 
 /** @deprecated 条目封面 CDN */
-export const CDN_OSS_SUBJECT = (src: any, cdnOrigin?: 'OneDrive' | 'fastly') => {
+export const CDN_OSS_SUBJECT = <T>(src: T, cdnOrigin?: 'OneDrive' | 'fastly'): T | string => {
   if (typeof src !== 'string') return src
   if (cacheSubject[src]) return cacheSubject[src]
 

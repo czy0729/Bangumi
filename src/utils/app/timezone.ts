@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:58:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-23 09:49:55
+ * @Last Modified time: 2026-08-26 13:43:27
  */
 import dayjs from 'dayjs'
 import { calendarEventsRequestPermissions, calendarEventsSaveEvent } from '../calendar'
@@ -12,17 +12,7 @@ import { getSafeValue, isNull } from './utils'
 import { YEAR } from './ds'
 
 /** 云端 onAir 和自定义 onAir 组合判断 */
-export function getOnAir(
-  onAir: {
-    [x: string]: any
-  },
-  onAirUser: {
-    [x: string]: any
-    weekDayCN?: string | number
-    timeCN?: string | number
-    _loaded?: any
-  }
-) {
+export function getOnAir(onAir: Record<string, unknown>, onAirUser: Record<string, unknown>) {
   const timeJP = getSafeValue('timeJP', onAir, onAirUser)
   const timeCN = getSafeValue('timeCN', onAir, onAirUser)
   const time = isNull(timeCN) ? timeJP : timeCN
@@ -64,13 +54,15 @@ export function getOnAir(
 }
 
 /** 统一逻辑, 获取放送日函数 */
-export function getWeekDay(item: { weekDayCN?: any; weekDayJP?: any } = {}) {
+export function getWeekDay(
+  item: { weekDayCN?: string | number; weekDayJP?: string | number } = {}
+) {
   const weekDay = item?.weekDayCN == 0 ? item?.weekDayCN : item?.weekDayCN || item?.weekDayJP
   return weekDay === '' ? '' : weekDay
 }
 
 /** 修正和缩略 ago 时间 */
-export function correctAgo(time = '') {
+export function correctAgo(time: string = '') {
   let _time = time.replace('...', '')
   if (_time.indexOf(' ago') === -1) _time = _time.replace('ago', ' ago')
   return _time.includes('-')

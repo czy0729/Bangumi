@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 01:33:17
+ * @Last Modified time: 2026-08-26 22:15:26
  */
 import { getTimestamp, optimize, postTask } from '@utils'
 import { get, update } from '@utils/kv'
@@ -10,6 +10,10 @@ import { fetchVndbData, probeDlsiteImages } from '@utils/thirdParty/dlsite-vndb'
 import { hltb } from '@utils/thirdParty/hltb'
 import { D1 } from '@constants'
 import ThirdParty from './third-party'
+
+import type { DlsiteImage, VndbScreenshot } from '@utils/thirdParty/dlsite-vndb'
+import type { HltbCache } from '@utils/thirdParty/hltb/types'
+import type { DeepPartial } from '@types'
 
 /** 游戏扩展数据 (VNDB/DLsite 截图 / 通关时长) */
 export default class Game extends ThirdParty {
@@ -25,8 +29,8 @@ export default class Game extends ThirdParty {
 
     // 收集 VNDB 和 DLsite 的结果
     const results: {
-      vndb?: { screenshots: any[]; duration?: string }
-      dlsite?: { images: any[] }
+      vndb?: { screenshots: VndbScreenshot[]; duration?: string }
+      dlsite?: { images: DlsiteImage[] }
     } = {}
 
     const promises: Promise<void>[] = []
@@ -38,8 +42,8 @@ export default class Game extends ThirdParty {
           const hltbKey = `hltb_${this.subjectId}` as const
 
           try {
-            const cache = await get(cacheKey)
-            const hltbCache = await get(hltbKey)
+            const cache = await get<{ data?: VndbScreenshot[] }>(cacheKey)
+            const hltbCache = await get<HltbCache>(hltbKey)
             if (Array.isArray(cache?.data) && cache.data.length && hltbCache?.vndb) {
               results.vndb = { screenshots: cache.data, duration: hltbCache.vndb }
               return
@@ -76,7 +80,7 @@ export default class Game extends ThirdParty {
           const cacheKey = `dlsite_${this.subjectId}` as const
 
           try {
-            const cache = await get(cacheKey)
+            const cache = await get<{ data?: DlsiteImage[] }>(cacheKey)
             if (Array.isArray(cache?.data) && cache.data.length) {
               results.dlsite = { images: cache.data }
               return
@@ -100,7 +104,7 @@ export default class Game extends ThirdParty {
     await Promise.all(promises)
 
     // 统一更新状态
-    const updates: Record<string, any> = {
+    const updates: DeepPartial<typeof this.state> = {
       externalScreenshots: {
         _loaded: now
       }
@@ -148,7 +152,7 @@ export default class Game extends ThirdParty {
     // 查询缓存
     const cacheKey = `hltb_${this.subjectId}` as const
     try {
-      const cache = await get(cacheKey)
+      const cache = await get<HltbCache>(cacheKey)
       if (cache?.mainStory) {
         this.setState({
           gameDuration: {
