@@ -168,6 +168,16 @@ jobs:
             'expo-file-system/legacy',
             'expo-file-system',
           )
+          replaceInFile(
+            'src/utils/worklets/index.ts',
+            "(require('react-native-worklets') as typeof import('react-native-worklets')).scheduleOnRN",
+            'reanimatedScheduleOnRN',
+          )
+          replaceInFile(
+            'src/utils/worklets/index.ts',
+            "(require('react-native-worklets') as typeof import('react-native-worklets')).scheduleOnUI",
+            'reanimatedScheduleOnUI',
+          )
 
           fs.appendFileSync(process.env.GITHUB_ENV, `APP_VERSION=${appVersion}\n`)
           NODE
