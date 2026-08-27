@@ -80,7 +80,7 @@ jobs:
             fi
           done < <(find "$source_dir" -type l -print0)
 
-          for patch_file in "$source_dir"/packages/ipa/patches/*.patch; do
+          for patch_file in "$source_dir"/packages/ios/patches/*.patch; do
             [ -e "$patch_file" ] || continue
             if ! head -n1 "$patch_file" | grep -qE '^(---|\*\*\*|diff |Index:)'; then
               echo "::error::Patch does not look like a valid diff: $patch_file"
@@ -91,13 +91,11 @@ jobs:
           source_dir="$(cd "$source_dir" && pwd -P)"
           echo "SOURCE_DIR=$source_dir" >> "$GITHUB_ENV"
 
-      - name: Prepare IPA source
+      - name: Prepare Expo 54 source
         if: steps.upstream.outputs.should_build == 'true'
         run: |
           set -euo pipefail
           cd "$SOURCE_DIR"
-
-          node packages/env.js ipa
 
           node <<'NODE'
           const fs = require('fs')
@@ -110,76 +108,99 @@ jobs:
             fs.writeFileSync(path, `${JSON.stringify(value, null, 2)}\n`)
           }
 
-          function replaceInFile(path, from, to) {
-            if (!fs.existsSync(path)) return
-            const original = fs.readFileSync(path, 'utf8')
-            const patched = original.replace(from, to)
-            if (patched !== original) {
-              fs.writeFileSync(path, patched)
-              console.log(`Patched ${path}`)
-            }
-          }
-
           const pkg = readJson('package.json')
           pkg.dependencies ||= {}
-          if (!pkg.dependencies['expo-speech']) {
-            pkg.dependencies['expo-speech'] = '~13.0.1'
+          if (pkg.dependencies['@react-native-community/blur'] !== '4.4.1') {
+            pkg.dependencies['@react-native-community/blur'] = '4.4.1'
             writeJson('package.json', pkg)
-            console.log('Added expo-speech for the IPA dependency set')
+            console.log('Updated react-native-blur for React Native 0.81')
           }
 
           const appJson = readJson('app.json')
-          const plugins = appJson.expo?.plugins
-          if (Array.isArray(plugins)) {
-            const filtered = plugins.filter(plugin => {
-              if (plugin === 'expo-web-browser') return false
-              return !(Array.isArray(plugin) && plugin[0] === 'expo-web-browser')
-            })
-
-            if (filtered.length !== plugins.length) {
-              appJson.expo.plugins = filtered
-              writeJson('app.json', appJson)
-              console.log('Removed expo-web-browser config plugin for Expo 52 IPA builds')
-            }
-          }
-
           const appVersion = appJson.expo?.version
           if (!appVersion) {
             throw new Error('app.json is missing expo.version')
           }
 
-          replaceInFile(
-            'src/utils/thirdParty/open-cc/module.ts',
-            [
-              "import * as OpenCC from 'opencc-js/core'",
-              "import CN from 'opencc-js/from/cn'",
-              "import HK from 'opencc-js/to/hk'",
-              "import TW from 'opencc-js/to/tw'",
-            ].join('\n'),
-            [
-              "import * as OpenCC from 'opencc-js/dist/esm-lib/core'",
-              "import CN from 'opencc-js/dist/esm-lib/from/cn'",
-              "import HK from 'opencc-js/dist/esm-lib/to/hk'",
-              "import TW from 'opencc-js/dist/esm-lib/to/tw'",
-            ].join('\n'),
-          )
-          replaceInFile(
-            'src/utils/thirdParty/file-system/index.ts',
-            'expo-file-system/legacy',
-            'expo-file-system',
-          )
-          replaceInFile(
-            'src/utils/worklets/index.ts',
-            "(require('react-native-worklets') as typeof import('react-native-worklets')).scheduleOnRN",
-            'reanimatedScheduleOnRN',
-          )
-          replaceInFile(
-            'src/utils/worklets/index.ts',
-            "(require('react-native-worklets') as typeof import('react-native-worklets')).scheduleOnUI",
-            'reanimatedScheduleOnUI',
-          )
+          appJson.expo.userInterfaceStyle = 'automatic'
+          appJson.expo.ios ||= {}
+          appJson.expo.ios.entitlements ||= {}
+          appJson.expo.ios.entitlements['aps-environment'] = 'development'
+          appJson.expo.ios.infoPlist ||= {}
+          Object.assign(appJson.expo.ios.infoPlist, {
+            NSAppTransportSecurity: {
+              NSAllowsArbitraryLoads: true,
+              NSAllowsArbitraryLoadsInWebContent: true,
+              NSExceptionDomains: {
+                'bangumi-app-assets.5t5.top': {
+                  NSExceptionAllowsInsecureHTTPLoads: true,
+                  NSExceptionRequiresForwardSecrecy: false,
+                  NSIncludesSubdomains: true,
+                },
+              },
+            },
+            UISupportedInterfaceOrientations: ['UIInterfaceOrientationPortrait'],
+            'UISupportedInterfaceOrientations~ipad': [
+              'UIInterfaceOrientationLandscapeLeft',
+              'UIInterfaceOrientationLandscapeRight',
+              'UIInterfaceOrientationPortrait',
+              'UIInterfaceOrientationPortraitUpsideDown',
+            ],
+          })
+          writeJson('app.json', appJson)
 
           fs.appendFileSync(process.env.GITHUB_ENV, `APP_VERSION=${appVersion}\n`)
+          NODE
+
+      - name: Install JavaScript dependencies
+        if: steps.upstream.outputs.should_build == 'true'
+        run: |
+          set -euo pipefail
+          cd "$SOURCE_DIR"
+
+          corepack enable
+          corepack prepare yarn@1.22.22 --activate
+          yarn --version
+          yarn install --ignore-engines --ignore-scripts --network-timeout 600000
+          ./node_modules/.bin/patch-package --patch-dir packages/ios/patches || echo "::warning::Some iOS patch-package patches did not apply; continuing for iOS build."
+
+      - name: Generate Expo 54 iOS project
+        if: steps.upstream.outputs.should_build == 'true'
+        run: |
+          set -euo pipefail
+          cd "$SOURCE_DIR"
+
+          ./node_modules/.bin/expo prebuild --platform ios --clean --no-install
+
+          node <<'NODE'
+          const fs = require('fs')
+          const path = 'ios/Bangumi/AppDelegate.swift'
+          let source = fs.readFileSync(path, 'utf8')
+
+          if (!source.includes('import Foundation')) {
+            source = source.replace('import Expo\n', 'import Expo\nimport Foundation\n')
+          }
+
+          if (!source.includes('bnm_image_cache')) {
+            const marker = '    let delegate = ReactNativeDelegate()'
+            const cacheSetup = [
+              '    let imageCache = URLCache(',
+              '      memoryCapacity: 50 * 1024 * 1024,',
+              '      diskCapacity: 200 * 1024 * 1024,',
+              '      diskPath: "bnm_image_cache"',
+              '    )',
+              '    URLCache.shared = imageCache',
+              '',
+              marker,
+            ].join('\n')
+
+            if (!source.includes(marker)) {
+              throw new Error(`Unable to locate AppDelegate launch marker in ${path}`)
+            }
+            source = source.replace(marker, cacheSetup)
+          }
+
+          fs.writeFileSync(path, source)
           NODE
 
           app_version="$(node -p "require('./app.json').expo.version")"
@@ -194,18 +215,6 @@ jobs:
           } > ios/.xcode.env.local
           echo "NODE_BINARY=$node_binary" >> "$GITHUB_ENV"
           echo "Using Node for Xcode scripts: $node_binary"
-
-      - name: Install JavaScript dependencies
-        if: steps.upstream.outputs.should_build == 'true'
-        run: |
-          set -euo pipefail
-          cd "$SOURCE_DIR"
-
-          corepack enable
-          corepack prepare yarn@1.22.22 --activate
-          yarn --version
-          yarn install --ignore-engines --ignore-scripts --network-timeout 600000
-          ./node_modules/.bin/patch-package --patch-dir packages/ipa/patches || echo "::warning::Some IPA patch-package patches did not apply; continuing for iOS build."
 
       - name: Install CocoaPods dependencies
         if: steps.upstream.outputs.should_build == 'true'
@@ -235,6 +244,7 @@ jobs:
             -configuration Release \
             -sdk iphoneos \
             -destination generic/platform=iOS \
+            IPHONEOS_DEPLOYMENT_TARGET=15.1 \
             CODE_SIGN_IDENTITY= \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
@@ -294,6 +304,9 @@ jobs:
           bundle_version="$(plutil -extract CFBundleShortVersionString raw -o - "$info_plist")"
           app_version="$(node -p "require(process.env.SOURCE_DIR + '/app.json').expo.version")"
           embedded_version="$(node -p "JSON.parse(require('fs').readFileSync(process.env.RUNNER_TEMP + '/Bangumi-app.config', 'utf8')).version")"
+          expo_version="$(node -p "require(process.env.SOURCE_DIR + '/node_modules/expo/package.json').version")"
+          react_native_version="$(node -p "require(process.env.SOURCE_DIR + '/node_modules/react-native/package.json').version")"
+          new_arch_enabled="$(plutil -extract RCTNewArchEnabled raw -o - "$info_plist")"
 
           if [ "$bundle_version" != "$app_version" ]; then
             echo "::error::Bundle version $bundle_version does not match app.json version $app_version."
@@ -304,6 +317,28 @@ jobs:
             echo "::error::Embedded Expo config version $embedded_version does not match app.json version $app_version."
             exit 1
           fi
+
+          if [[ "$expo_version" != 54.* ]]; then
+            echo "::error::Expected Expo 54, found $expo_version."
+            exit 1
+          fi
+
+          if [[ "$react_native_version" != 0.81.* ]]; then
+            echo "::error::Expected React Native 0.81, found $react_native_version."
+            exit 1
+          fi
+
+          if [ "$new_arch_enabled" != "true" ]; then
+            echo "::error::Expected the React Native new architecture to be enabled."
+            exit 1
+          fi
+
+          if ! grep -q -- '- RNWorklets (' "$SOURCE_DIR/ios/Podfile.lock"; then
+            echo "::error::RNWorklets is missing from the generated iOS Pods."
+            exit 1
+          fi
+
+          echo "Validated Expo $expo_version, React Native $react_native_version, and RNWorklets."
 
           app_path="$SOURCE_DIR/ios/build/Build/Products/Release-iphoneos/Bangumi.app"
           set +e
