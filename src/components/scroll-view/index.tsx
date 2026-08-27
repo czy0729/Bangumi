@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-10 20:03:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-26 05:02:48
+ * @Last Modified time: 2026-08-27 20:39:17
  */
 import React, { useCallback } from 'react'
 import { Animated, ScrollView as RNScrollView } from 'react-native'
@@ -30,6 +30,8 @@ export const ScrollView = observer(
     showMask,
     maskWidth,
     maskColors,
+    leftMaskStyle: userLeftMaskStyle,
+    rightMaskStyle: userRightMaskStyle,
 
     // 此属性对于 iOS 需要有默认值, 否则会出现首次渲染滚动条位置不正确的问题
     scrollIndicatorInsets = {
@@ -52,6 +54,12 @@ export const ScrollView = observer(
       handleOnScroll: handleMaskOnScroll,
       handleOnContentSizeChange
     } = useHorizontalMask({ horizontal, showMask, maskColors, onContentSizeChange })
+
+    /** 外部附加样式与内部 opacity 动画样式合并 (动画始终生效) */
+    const leftMaskStyles = userLeftMaskStyle ? [leftMaskStyle, userLeftMaskStyle] : leftMaskStyle
+    const rightMaskStyles = userRightMaskStyle
+      ? [rightMaskStyle, userRightMaskStyle]
+      : rightMaskStyle
 
     const { ref, scrollTo } = useScrollViewRef({ scrollToTop, forwardRef, connectRef })
 
@@ -109,8 +117,8 @@ export const ScrollView = observer(
       <Mask
         showMask={showMaskValue}
         maskWidth={maskWidth}
-        leftMaskStyle={leftMaskStyle}
-        rightMaskStyle={rightMaskStyle}
+        leftMaskStyle={leftMaskStyles}
+        rightMaskStyle={rightMaskStyles}
         maskColors={resolvedMaskColors}
         onLayout={handleLayout}
       >

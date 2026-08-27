@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 05:22:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-27 06:02:10
+ * @Last Modified time: 2026-08-27 20:47:57
  */
 import React, { useCallback } from 'react'
 import { observer } from 'mobx-react'
@@ -35,6 +35,8 @@ export const Likes = observer(
     offsets,
     limit = LIMIT,
     storybook,
+    leftMaskStyle,
+    rightMaskStyle,
     onPress,
     onLongPress
   }: LikesProps) => {
@@ -87,7 +89,13 @@ export const Likes = observer(
 
     return (
       <Component id='base-likes'>
-        <ScrollView style={style} contentContainerStyle={styles.container} horizontal>
+        <ScrollView
+          style={style}
+          contentContainerStyle={styles.container}
+          horizontal
+          leftMaskStyle={leftMaskStyle}
+          rightMaskStyle={rightMaskStyle}
+        >
           {showCreateBtn && (
             <Touchable animate hitSlop={HIT_SLOP} onPress={handleOpenGrid}>
               <Flex style={styles.item} justify='center'>

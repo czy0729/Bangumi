@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-16 07:26:57
+ * @Last Modified time: 2026-08-27 20:56:52
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -178,6 +178,7 @@ const Item = memo(
 
               <Likes
                 style={styles.likes}
+                rightMaskStyle={styles.rightMask}
                 show
                 topicId={like.mainId}
                 id={like.relatedId}

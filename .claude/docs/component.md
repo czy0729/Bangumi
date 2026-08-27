@@ -102,8 +102,7 @@ hold-menu/
 
 - **使用 `type` 而不是 `interface`** 定义 Props
 - 导出名称统一为 `Props`
-- style 使用 `WithViewStyles` 类型
-- children 使用 `PropsWithChildren`
+- style / children 等样式与路由类型优先从 `@types` 引入（见 [code-style.md](../code-style.md) 类型规范）：`WithViewStyles<>` 组合 style、`WithNavigation<>` 组合导航、`ViewStyle`/`TextStyle` 用宽口径别名、children 用 React 的 `PropsWithChildren<>`
 - **所有类型一律放 `./types.ts`**：Props、hook 参数类型（`useXxxOptions`）、事件类型、内部类型别名都收进 `types.ts`，不写在 hooks.ts / 组件体内
 - **优先 `Pick` 上层类型**：下层组件 Props / hook 参数能从上层的 `Props` Pick 就不重复定义（`Pick<Props, 'a' | 'b'>`）；只有语义或必选性不同（如上层可选、本层必填）才保留本地定义
 - **共享类型别名抽到最上层**：跨层复用的字面量类型抽具名别名（如 `MaskColors = readonly [string, string, string]`）放根 `types.ts`，逐层 `import type` 复用，不重复字面量

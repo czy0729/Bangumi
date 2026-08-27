@@ -36,6 +36,9 @@ export function applyProxy(
   const { workerProxyDisabled, workerProxy, workerSecret, workerProxyDirect, workerApiProxy } =
     syncSystemStore().setting
 
+  // 0. 无效入参直接返回 (业务请求链路存在 url 为空的场景)
+  if (!url) return { url, headers: { ...headers }, proxyType: '' }
+
   // 1. ECH 代理运行时, OkHttp 已走本地代理, 无需 URL 替换
   if (isEchProxyRunning()) return { url, headers: { ...headers }, proxyType: 'ech' }
 

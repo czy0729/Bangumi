@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-25 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 10:00:00
+ * @Last Modified time: 2026-08-27 19:27:01
  */
 import { API_HOST, API_HOST_BACKUP } from '@constants/api'
 import { HOST_IMAGE } from '@constants/constants'
@@ -25,6 +25,9 @@ export function applyLainProxy(url: string) {
 
   // 全局禁用代理时直接返回原始 URL
   if (workerProxyDisabled) return url
+
+  // 无效入参直接返回 (调用链存在 bg/avatar 全空的取值路径)
+  if (!url) return url
 
   // api.bgm.tv 的 redirect 图片 (如 avatar) 走 API proxy
   if (workerApiProxy && (url.includes(API_HOST) || url.includes(API_HOST_BACKUP))) {

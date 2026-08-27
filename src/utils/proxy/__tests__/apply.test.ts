@@ -68,6 +68,14 @@ beforeEach(() => {
 })
 
 describe('applyProxy', () => {
+  it('空入参 (undefined / 空串) 直接原样返回, 不触发 includes 崩溃', () => {
+    setSetting({ workerProxy: WORKER, workerApiProxy: API_PROXY })
+
+    expect(applyProxy(undefined as never).url).toBeUndefined()
+    expect(applyProxy(null as never).url).toBeNull()
+    expect(applyProxy('').url).toBe('')
+  })
+
   it('ECH 代理运行时原样返回并标记 ech', () => {
     getEchMock().mockReturnValue(true)
 

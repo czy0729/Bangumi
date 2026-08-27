@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 06:13:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 06:50:17
+ * @Last Modified time: 2026-08-27 20:15:06
  */
 import { _ } from '@stores'
 
@@ -10,7 +10,7 @@ export const memoStyles = _.memoStyles(() => ({
   container: {
     height: 48,
     paddingTop: _.sm,
-    paddingRight: _.sm * 2
+    paddingRight: _.lg
   },
   item: {
     height: 28,

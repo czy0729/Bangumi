@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-12 10:52:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-07 20:08:01
+ * @Last Modified time: 2026-08-27 20:39:52
  */
 import type {
   NativeScrollEvent,
@@ -10,7 +10,7 @@ import type {
   ScrollView,
   ScrollViewProps
 } from 'react-native'
-import type { Expand } from '@types'
+import type { Expand, ViewStyle } from '@types'
 
 /** 滚动到指定坐标 */
 export type ScrollTo = (params: { x?: number; y?: number; animated?: boolean }) => void
@@ -41,6 +41,12 @@ export type Props = Expand<
 
     /** 遮罩渐变色, 默认读主题色 */
     maskColors?: MaskColors
+
+    /** 左侧遮罩附加样式 (与内部 opacity 滚动动画合并, 动画始终生效) */
+    leftMaskStyle?: ViewStyle
+
+    /** 右侧遮罩附加样式 */
+    rightMaskStyle?: ViewStyle
   }
 >
 

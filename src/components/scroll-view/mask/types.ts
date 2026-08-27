@@ -2,12 +2,17 @@
  * @Author: czy0729
  * @Date: 2026-06-06 16:46:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-26 05:08:26
+ * @Last Modified time: 2026-08-27 20:47:49
  */
 import type { PropsWithChildren } from 'react'
-import type { LayoutChangeEvent, ViewStyle } from 'react-native'
+import type { LayoutChangeEvent, ViewStyle as RNViewStyle } from 'react-native'
 import type { AnimatedStyle } from 'react-native-reanimated'
-import type { MaskColors, Props as ScrollViewProps } from '@components/scroll-view/types'
+import type { MaskColors, Props as ScrollViewProps } from '../types'
+
+import type { ViewStyle } from '@types'
+
+/** 遮罩动画样式: 内部 opacity 动画样式, 或与外部附加样式的数组合并 */
+export type MaskStyle = AnimatedStyle<RNViewStyle> | ViewStyle
 
 export type Props = PropsWithChildren<
   Pick<ScrollViewProps, 'showMask' | 'maskWidth'> & {
@@ -15,10 +20,10 @@ export type Props = PropsWithChildren<
     maskColors: MaskColors
 
     /** 左侧遮罩动画样式 */
-    leftMaskStyle: AnimatedStyle<ViewStyle>
+    leftMaskStyle: MaskStyle
 
     /** 右侧遮罩动画样式 */
-    rightMaskStyle: AnimatedStyle<ViewStyle>
+    rightMaskStyle: MaskStyle
 
     /** 布局回调 */
     onLayout: (e: LayoutChangeEvent) => void

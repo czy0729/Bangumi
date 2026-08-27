@@ -71,6 +71,18 @@ beforeEach(() => {
 })
 
 describe('applyLainProxy', () => {
+  it('空入参 (undefined / 空串) 直接原样返回, 不触发 includes 崩溃', () => {
+    setSetting({
+      workerApiProxy: 'https://my-api.example.com',
+      workerLainProxy: LAIN_PROXY,
+      workerLainSecret: 'k1'
+    })
+
+    expect(applyLainProxy(undefined as never)).toBeUndefined()
+    expect(applyLainProxy(null as never)).toBeNull()
+    expect(applyLainProxy('')).toBe('')
+  })
+
   it('ECH 代理运行时原样返回', () => {
     getEchMock().mockReturnValue(true)
     setSetting({ workerLainProxy: LAIN_PROXY })

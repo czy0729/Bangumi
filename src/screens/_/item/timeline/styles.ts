@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 20:17:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-24 12:41:32
+ * @Last Modified time: 2026-08-27 20:56:47
  */
 import { _ } from '@stores'
 
@@ -42,5 +42,8 @@ export const memoStyles = _.memoStyles(() => ({
   },
   likes: {
     minWidth: _.window.contentWidth - 2 * _.sm
+  },
+  rightMask: {
+    right: -_._wind
   }
 }))
