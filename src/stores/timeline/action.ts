@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 16:37:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-06 18:33:06
+ * @Last Modified time: 2026-08-27 05:20:12
  */
 import { getTimestamp } from '@utils'
 import { xhr } from '@utils/fetch'
@@ -191,7 +191,7 @@ export default class Action extends Fetch {
       type: number
       value: string
     },
-    id: number,
+    id: Id,
     formhash: string,
     callback?: Fn,
     userInfo?: {
@@ -294,7 +294,7 @@ export default class Action extends Fetch {
 
     xhr(
       {
-        url: API_TOPIC_COMMENT_LIKE(item.type, item.main_id, id, item.value, formhash)
+        url: API_TOPIC_COMMENT_LIKE(item.type, item.main_id, Number(id), item.value, formhash)
       },
       responseText => {
         try {

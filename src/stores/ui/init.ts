@@ -2,9 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-03-20 04:47:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-04 16:47:46
+ * @Last Modified time: 2026-08-27 05:19:42
  */
-import type { CollectionStatus, Id, RatingStatus, SubjectActions, SubjectId, TopicId } from '@types'
+import type {
+  BlogId,
+  CollectionStatus,
+  Id,
+  RatingStatus,
+  SubjectActions,
+  SubjectId,
+  TopicId
+} from '@types'
 
 /** 命名空间 */
 export const NAMESPACE = 'UI'
@@ -66,7 +74,7 @@ export const STATE = {
   flip: {
     animate: false,
     subjectId: 0 as SubjectId | 0,
-    topicId: 0 as TopicId | 0,
+    topicId: 0 as TopicId | BlogId | SubjectId | 0,
     floorId: 0 as Id | 0,
     key: 0
   }

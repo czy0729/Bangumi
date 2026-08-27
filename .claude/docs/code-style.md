@@ -8,6 +8,15 @@
 - `/** */` 块注释上面如果有内容（非空白行），必须空一行隔开
 - 类型定义中，每个属性的 `/** */` 注释前也需要空一行，仅首个属性（上方为 `{`）可紧贴
 - **hooks 返回对象时，每个 key 都必须加 `/** */` 注释**（返回 `as const` 或条件提前返回的对象同样适用）
+- **函数参数说明写在函数头 JSDoc 的 `@param name 说明` 中（不带类型标注，类型由 TS 提供）**，不在签名内联给参数写 `/** */`。先例见 `constants/api/tinygrail.ts`：
+  ```typescript
+  /**
+   * 创建冰山委托
+   *
+   * @param monoId 条目 Id
+   */
+  export const iceberg = (monoId: MonoId) => {}
+  ```
 
 # 类型规范
 

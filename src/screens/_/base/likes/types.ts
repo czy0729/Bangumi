@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-04-05 14:59:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-25 08:45:25
+ * @Last Modified time: 2026-08-27 05:16:41
  */
 import type { rakuenStore } from '@stores'
-import type { BlogId, Id, SubjectId, TopicId, ViewStyle } from '@types'
+import type { BlogId, Id, SubjectId, TopicId, WithViewStyles } from '@types'
 
 type LikesList = ReturnType<typeof rakuenStore.likesList>
 
@@ -20,9 +20,7 @@ export type LikesItem = NonNullable<LikesList>[number] & {
   users?: LikesUsers
 }
 
-export type Props = {
-  style?: ViewStyle
-
+export type Props = WithViewStyles<{
   /** 初始渲染是否显示全部 */
   show?: boolean
 
@@ -61,4 +59,11 @@ export type Props = {
   storybook?: {
     likesList: LikesList
   }
-}
+}>
+
+/** 传给贴贴翻转组件和按钮的属性 */
+export type LikesPassProps = Pick<
+  Props,
+  'topicId' | 'id' | 'formhash' | 'onPress' | 'onLongPress'
+> &
+  LikesItem

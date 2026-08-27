@@ -349,7 +349,7 @@ export default class Action extends Computed {
   }
 
   /** 设置允许全局开启翻转动画 */
-  preFlipLikes = (topicId: TopicId, floorId: number) => {
+  preFlipLikes = (topicId: TopicId | BlogId | SubjectId, floorId: Id) => {
     this.setState({
       flip: {
         animate: true,

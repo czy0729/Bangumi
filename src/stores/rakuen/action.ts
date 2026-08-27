@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:31:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-03 00:06:20
+ * @Last Modified time: 2026-08-27 05:20:14
  */
 import { confirm, getTimestamp, info } from '@utils'
 import { syncSystemStore, syncUserStore } from '@utils/async'
@@ -23,12 +23,14 @@ import Fetch from './fetch'
 
 import type { RakuenReplyType } from '@constants/html/types'
 import type {
+  BlogId,
   Fn,
   Id,
   RakuenAutoLoadImage,
   RakuenNewFloorStyle,
   RakuenScrollDirection,
   RakuenSubExpand,
+  SubjectId,
   TopicId,
   TopicType,
   UserId
@@ -131,9 +133,9 @@ export default class Action extends Fetch {
       type: number
       value: string
     },
-    floorId: number,
+    floorId: Id,
     formhash: string,
-    topicId: TopicId,
+    topicId: TopicId | BlogId | SubjectId,
     callback?: Fn,
     userInfo?: {
       username: string
@@ -226,7 +228,7 @@ export default class Action extends Fetch {
 
     xhr(
       {
-        url: API_TOPIC_COMMENT_LIKE(item.type, item.main_id, floorId, item.value, formhash)
+        url: API_TOPIC_COMMENT_LIKE(item.type, item.main_id, Number(floorId), item.value, formhash)
       },
       responseText => {
         try {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-01 05:34:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 17:04:51
+ * @Last Modified time: 2026-08-27 05:23:44
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -10,22 +10,19 @@ import { Bgm, BgmText, Flex, Text, Touchable } from '@components'
 import { rakuenStore, timelineStore, uiStore, userStore } from '@stores'
 import { stl } from '@utils'
 import { t } from '@utils/fetch'
-import { LIKE_TYPE_SAY, LIKE_TYPE_TIMELINE, WEB } from '@constants'
+import { WEB } from '@constants'
 import { HIT_SLOP } from '../ds'
 import { getLikesGridEmoji } from '../../likes-grid/utils'
+import { isTimelineLike } from '../utils'
 import { memoStyles } from './styles'
 
-function Btn({ topicId, id, formhash, onPress, onLongPress, ...item }) {
+import type { LikesPassProps } from '../types'
+
+/** 贴贴按钮 */
+function Btn({ topicId, id, formhash, onPress, onLongPress, ...item }: LikesPassProps) {
   const styles = memoStyles()
 
-  const {
-    // emoji: emojiRaw,
-    type: typeRaw,
-    users = [],
-    value,
-    selected,
-    total
-  } = item
+  const { type: typeRaw, users = [], value, selected, total } = item
   const emoji = getLikesGridEmoji(value)
   const type = Number(typeRaw)
 
@@ -36,14 +33,20 @@ function Btn({ topicId, id, formhash, onPress, onLongPress, ...item }) {
     }
     if (!formhash) return
 
+    const params = {
+      main_id: Number(item.main_id),
+      type,
+      value
+    }
+
     uiStore.preFlipLikes(topicId, id)
 
     setTimeout(() => {
       const afterFlip = () => setTimeout(() => uiStore.afterFlip(), 800)
 
-      if (type === LIKE_TYPE_TIMELINE || type === LIKE_TYPE_SAY) {
+      if (isTimelineLike(type)) {
         timelineStore.doLike(
-          item as any,
+          params,
           id,
           formhash,
           () => {
@@ -61,7 +64,7 @@ function Btn({ topicId, id, formhash, onPress, onLongPress, ...item }) {
       }
 
       rakuenStore.doLike(
-        item as any,
+        params,
         id,
         formhash,
         topicId,

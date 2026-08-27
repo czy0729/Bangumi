@@ -14,7 +14,7 @@ export const props = {
     likesList: [
       { type: 8, main_id: 379975, value: '54', total: '3', emoji: '15' },
       { type: 8, main_id: 379975, value: '118', total: '2', emoji: '79' },
-      { type: 8, main_id: 379975, value: '118', total: '2', emoji: '79' },
+      { type: 8, main_id: 379975, value: '127', total: '2', emoji: '87' },
       { type: 8, main_id: 379975, value: '85', total: '1', emoji: '46' }
     ]
   }

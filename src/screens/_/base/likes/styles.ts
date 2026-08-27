@@ -8,8 +8,9 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   container: {
+    height: 48,
     paddingTop: _.sm,
-    height: 48
+    paddingRight: _.sm * 2
   },
   item: {
     height: 28,

@@ -39,6 +39,28 @@ component-name/
 - `memo` 浅比较对字符串/数字按**值**比较（稳定生效），对对象按**引用**比较——传内联对象会让任何 memo 失效，样式应传 `styles.xxx` 稳定引用
 - 若组件未来可能直接读 store，直接先用 `observer` 亦无性能代价
 
+## observer 组件内不要用 useMemo 缓存 store 派生数据
+
+两个机制的冲突：
+
+1. `observer()` 追踪渲染期（含 `useMemo` 回调执行期间）的所有可观察值读取，store 变化时通过自身订阅触发组件重渲染
+2. `useMemo` 按 **deps 引用浅比较**决定重算——而 deps 只能写组件 props / 局部变量
+
+结果：把「调用 store 方法的派生计算」包进 `useMemo` 后，store 更新（如点赞乐观更新）→ observer 正常触发重渲染 → 但 deps 未变 → **返回缓存里的旧数据，UI 停留在过期状态**。且被追踪的可观察源藏在调用链深处（如 `rakuenStore.likesList()` 内部读取），deps 无法枚举完整。
+
+规则：
+
+- ❌ 不写：
+  ```tsx
+  const likesList = useMemo(() => rakuenStore.likesList(topicId, id) || [], [topicId, id])
+  ```
+- ✅ 正确：store 派生数据**每次渲染直接计算**，失效交给 observer 细粒度追踪（这也是全局规范「不使用 useMemo」的同一原因）
+  ```tsx
+  const likesList = rakuenStore.likesList(topicId, id) || []
+  ```
+- 派生计算本身很廉价，真正的开销在子树渲染——全局依赖 `observer()` 自动优化即可；仅在 screen.md「页面区块双组件模式」等例外场景才引入 `memo`
+- 纯事件回调（`useCallback`）不受此限制，正常使用
+
 ## 复合组件（子组件独立文件夹）
 
 当组件拆分出多个子组件时（如 `hold-menu`、`scroll-view/mask`），每个子组件独立成文件夹，文件夹内 `index.tsx` 用 `export default` 导出组件，私有样式放该文件夹的 `styles.ts`，专属逻辑抽成 `useXxx.ts` 自定义 hooks：
