@@ -2,12 +2,16 @@
  * @Author: czy0729
  * @Date: 2024-10-11 22:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-04 05:42:37
+ * @Last Modified time: 2026-08-29 04:54:00
  */
 import React from 'react'
 import Item from '../item'
 
-export function renderItem({ item, index }) {
+import type { MilestoneItemData } from '../../types'
+import type { RenderItem } from '@types'
+
+/** 渲染单个条目 */
+export function renderItem({ item, index }: RenderItem<MilestoneItemData>) {
   return <Item item={item} index={index} />
 }
 

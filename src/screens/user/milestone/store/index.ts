@@ -2,16 +2,28 @@
  * @Author: czy0729
  * @Date: 2024-10-10 11:54:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-24 06:49:29
+ * @Last Modified time: 2026-08-29 04:56:27
  */
 import { COLLECTION_STATUS, COLLECTIONS_ORDERBY, SUBJECT_TYPE } from '@constants'
-import { LIMIT, NUM_COLUMNS, NUMBER_OF_LINES, SUB_TITLE } from '../ds'
+import { LIMIT, NUM_COLUMNS, NUMBER_OF_LINES } from '../ds'
 import Action from './action'
+import { isSubTitle, parseBool } from './utils'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
 
 import type { STATE } from './ds'
 
-export default class ScreenWordCloud extends Action {
+/** 布尔类型的路由参数 */
+const BOOL_PARAMS = [
+  'radius',
+  'autoHeight',
+  'cnFirst',
+  'starsFull',
+  'starsColor',
+  'nsfw',
+  'lastTime'
+] as const
+
+export default class ScreenMilestone extends Action {
   init = async () => {
     const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
     this.setState({
@@ -37,16 +49,9 @@ export default class ScreenWordCloud extends Action {
 
       /** options */
       numColumns,
-      radius,
-      autoHeight,
-      cnFirst,
       numberOfLines,
       subTitle,
       extraTitle,
-      starsFull,
-      starsColor,
-      nsfw,
-      lastTime,
       limit
     } = this.params
 
@@ -77,92 +82,36 @@ export default class ScreenWordCloud extends Action {
     if (
       typeof numColumns === 'string' &&
       numColumns &&
-      NUM_COLUMNS.find(item => item === String(numColumns))
+      (NUM_COLUMNS as readonly string[]).includes(numColumns)
     ) {
       data.numColumns = Number(numColumns)
-    }
-
-    if (typeof radius === 'string') {
-      if (radius === 'true') {
-        data.radius = true
-      } else if (radius === 'false') {
-        data.radius = false
-      }
-    }
-
-    if (typeof autoHeight === 'string') {
-      if (autoHeight === 'true') {
-        data.autoHeight = true
-      } else if (autoHeight === 'false') {
-        data.autoHeight = false
-      }
-    }
-
-    if (typeof cnFirst === 'string') {
-      if (cnFirst === 'true') {
-        data.cnFirst = true
-      } else if (cnFirst === 'false') {
-        data.cnFirst = false
-      }
     }
 
     if (typeof numberOfLines === 'string') {
       if (numberOfLines === '无') {
         data.numberOfLines = 0
-      } else if (NUMBER_OF_LINES.includes(numberOfLines as any)) {
+      } else if ((NUMBER_OF_LINES as readonly string[]).includes(numberOfLines)) {
         data.numberOfLines = Number(numberOfLines) || 0
       }
     }
 
-    if (typeof subTitle === 'string' && SUB_TITLE.includes(subTitle as any)) {
-      data.subTitle = subTitle as any
-    }
+    if (typeof subTitle === 'string' && isSubTitle(subTitle)) data.subTitle = subTitle
 
-    if (typeof extraTitle === 'string' && SUB_TITLE.includes(extraTitle as any)) {
-      data.extraTitle = extraTitle as any
-    }
+    if (typeof extraTitle === 'string' && isSubTitle(extraTitle)) data.extraTitle = extraTitle
 
-    if (typeof starsFull === 'string') {
-      if (starsFull === 'true') {
-        data.starsFull = true
-      } else if (starsFull === 'false') {
-        data.starsFull = false
-      }
-    }
-
-    if (typeof starsColor === 'string') {
-      if (starsColor === 'true') {
-        data.starsColor = true
-      } else if (starsColor === 'false') {
-        data.starsColor = false
-      }
-    }
-
-    if (typeof nsfw === 'string') {
-      if (nsfw === 'true') {
-        data.nsfw = true
-      } else if (nsfw === 'false') {
-        data.nsfw = false
-      }
-    }
-
-    if (typeof lastTime === 'string') {
-      if (lastTime === 'true') {
-        data.lastTime = true
-      } else if (lastTime === 'false') {
-        data.lastTime = false
-      }
-    }
+    BOOL_PARAMS.forEach(key => {
+      const value = parseBool(this.params[key])
+      if (value !== undefined) data[key] = value
+    })
 
     if (typeof limit === 'string') {
       if (limit === '不限') {
         data.limit = 0
-      } else if (LIMIT.includes(limit as any)) {
+      } else if ((LIMIT as readonly string[]).includes(limit)) {
         data.limit = Number(limit) || 0
       }
     }
 
-    // cleanQuery()
     if (Object.keys(data).length) this.save()
 
     return data

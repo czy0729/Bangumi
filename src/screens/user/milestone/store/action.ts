@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-10-10 11:54:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-24 07:08:31
+ * @Last Modified time: 2026-08-29 04:55:56
  */
 import { MODEL_COLLECTION_STATUS, MODEL_SUBJECT_TYPE } from '@constants'
 import Fetch from './fetch'
 
-import type { CollectionsOrder, CollectionStatusCn, SubjectTypeCn } from '@types'
+import type { CollectionsOrder, CollectionStatusCn, DeepPartial, SubjectTypeCn } from '@types'
 import type { ORDER_DS } from '../ds'
 import type { STATE } from './ds'
 
@@ -67,17 +67,17 @@ export default class Action extends Fetch {
     this.save()
   }
 
-  setOptions = (key: keyof typeof STATE, value?: any) => {
+  setOptions = (key: keyof typeof STATE, value?: boolean | number | string) => {
     if (typeof value !== 'undefined') {
       this.setState({
         [key]: value
-      })
+      } as DeepPartial<typeof STATE>)
     } else {
       const prev = this.state[key]
       if (typeof prev === 'boolean') {
         this.setState({
           [key]: !prev
-        })
+        } as DeepPartial<typeof STATE>)
       }
     }
     this.save()

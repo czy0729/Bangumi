@@ -1,12 +1,15 @@
 /*
  * @Author: czy0729
- * @Date: 2024-10-11 06:04:07
+ * @Date: 2026-08-29 04:52:57
  * @Last Modified by:   czy0729
- * @Last Modified time: 2024-10-11 06:04:07
+ * @Last Modified time: 2026-08-29 04:52:57
  */
-import type { UserCollectionsItem } from '@stores/collection/types'
+import type { MilestoneItemData } from '../../types'
 
 export type Props = {
-  item: UserCollectionsItem
-  index: number
+  /** 列表条目（含预计算数据） */
+  item: MilestoneItemData
+
+  /** 索引 */
+  index?: number
 }

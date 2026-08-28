@@ -2,27 +2,32 @@
  * @Author: czy0729
  * @Date: 2024-10-12 19:56:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-04 21:45:00
+ * @Last Modified time: 2026-08-29 04:56:42
  */
 import { getTimestamp, getVisualLength, HTMLDecode, lastDate } from '@utils'
-import { WEB } from '@constants'
+import { SUB_TITLE } from '../ds'
 
 import type { UserCollectionsItem } from '@stores/collection/types'
-import type { MilestoneItemData } from '../types'
+import type { MilestoneItemData, SubTitle } from '../types'
 
-const KEEP = ['id', 'viewMode', 'userId']
+/**
+ * 解析路由布尔参数
+ *
+ * @param value 路由参数原始值
+ */
+export function parseBool(value: unknown): boolean | undefined {
+  if (value === 'true') return true
+  if (value === 'false') return false
+  return undefined
+}
 
-export function cleanQuery() {
-  if (typeof window === 'undefined' || !WEB) return
-
-  const url = new window.URL(window.location.href)
-  const params = new window.URLSearchParams(url.search)
-  const newParams = new window.URLSearchParams()
-  for (const [key, value] of params) {
-    if (KEEP.includes(key)) newParams.append(key, value)
-  }
-  url.search = newParams.toString()
-  window.history.replaceState({}, '', url.toString())
+/**
+ * 判断是否为合法的第二行 / 第三行显示模式
+ *
+ * @param value 路由参数原始值
+ */
+export function isSubTitle(value: string): value is SubTitle {
+  return (SUB_TITLE as readonly string[]).includes(value)
 }
 
 /**
@@ -57,8 +62,11 @@ export function filterByScore(list: UserCollectionsItem[], score: string): UserC
 
 /**
  * 解析描述字段，提取有效部分
+ *
+ * @param tip 描述原文
+ * @param subjectType 条目类型
  */
-function parseTip(tip: string, subjectType: string): string {
+export function parseTip(tip: string, subjectType: string): string {
   if (!tip || !tip.includes('/')) return ''
 
   const parts = tip

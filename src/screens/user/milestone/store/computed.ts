@@ -2,14 +2,17 @@
  * @Author: czy0729
  * @Date: 2024-10-10 11:54:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-04 21:45:00
+ * @Last Modified time: 2026-08-29 04:56:05
  */
 import { computed } from 'mobx'
 import { collectionStore, usersStore, userStore } from '@stores'
 import { getSPAParams, omit } from '@utils'
 import { HTML_USER_COLLECTIONS, URL_SPA } from '@constants'
-import State from './state'
 import { filterByCover, filterByScore, precomputeItems } from './utils'
+import State from './state'
+
+import type { UserCollections } from '@stores/collection/types'
+import type { MilestoneItemData } from '../types'
 
 export default class Computed extends State {
   @computed get userId() {
@@ -40,7 +43,8 @@ export default class Computed extends State {
     )
   }
 
-  @computed get data() {
+  /** 列表渲染数据, list 恒为预计算数据 */
+  @computed get data(): Omit<UserCollections, 'list' | '_list'> & { list: MilestoneItemData[] } {
     const { limit, nsfw, score, subjectType } = this.state
     let { list } = this.collections
 

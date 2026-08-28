@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-11 05:10:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 00:33:26
+ * @Last Modified time: 2026-08-29 04:52:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,19 +12,19 @@ import { Stars } from '@_'
 import { _, useStore } from '@stores'
 import { getVisualLength, stl } from '@utils'
 import { IMG_SUBJECT_ONLY, MODEL_SUBJECT_TYPE } from '@constants'
+import { getExtraText } from './utils'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 import type { ImageProps } from '@components'
-import type { Ctx, MilestoneItemData } from '../../types'
+import type { Ctx, SubTitle } from '../../types'
 import type { Props } from './types'
 
 function Item({ item, index }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   // 使用预计算的数据
-  const { titleDecoded, titleVisualLength, timeStr, parsedTime, parsedTimeNoYear, tipParsed } =
-    item as MilestoneItemData
+  const { titleDecoded, titleVisualLength } = item
 
   const numberOfLines = Number($.state.numberOfLines) || 0
   let titleText = ''
@@ -32,33 +32,8 @@ function Item({ item, index }: Props) {
     titleText = $.state.cnFirst ? item.nameCn || item.name : item.name || item.nameCn
   }
 
-  let subTitleText = ''
-  if ($.state.subTitle === '序号') {
-    subTitleText = `#${index + 1}`
-  } else if ($.state.subTitle === '时间') {
-    if ($.state.lastTime) {
-      subTitleText = parsedTime
-      if (subTitleText.includes('年')) subTitleText = parsedTimeNoYear
-    } else {
-      subTitleText = timeStr
-    }
-  } else if ($.state.subTitle === '描述') {
-    if (tipParsed) subTitleText = tipParsed
-  }
-
-  let extraTitleText = ''
-  if ($.state.extraTitle === '序号') {
-    extraTitleText = `#${index + 1}`
-  } else if ($.state.extraTitle === '时间') {
-    if ($.state.lastTime) {
-      extraTitleText = parsedTime
-      if (extraTitleText.includes('年')) extraTitleText = parsedTimeNoYear
-    } else {
-      extraTitleText = timeStr
-    }
-  } else if ($.state.extraTitle === '描述') {
-    if (tipParsed) extraTitleText = tipParsed
-  }
+  const subTitleText = getExtraText($.state.subTitle, index ?? 0, item, $.state.lastTime)
+  const extraTitleText = getExtraText($.state.extraTitle, index ?? 0, item, $.state.lastTime)
 
   const numColumns = Number($.state.numColumns)
   let size = 12
@@ -87,6 +62,33 @@ function Item({ item, index }: Props) {
     imageProps.width = width
     imageProps.height = $.state.subjectType === 'music' ? width : Math.floor(width * 1.34)
   }
+
+  /** 渲染第二行 / 第三行的文本与评分星星 */
+  const renderSub = (mode: SubTitle, text: string) => (
+    <>
+      {!!text && (
+        <Text
+          style={styles.sub}
+          type='sub'
+          size={size - (getVisualLength(text) >= 16 ? 2 : 0)}
+          numberOfLines={4}
+          bold
+          align='center'
+        >
+          {text}
+        </Text>
+      )}
+      {!!(mode === '评分' && item.score) && (
+        <Stars
+          style={stl(styles.stars, $.state.starsFull && styles.starsFull)}
+          value={item.score}
+          simple={!$.state.starsFull}
+          color={$.state.starsColor ? undefined : _.colorSub}
+          hideScore={false}
+        />
+      )}
+    </>
+  )
 
   return (
     <Flex
@@ -151,48 +153,8 @@ function Item({ item, index }: Props) {
               {title}
             </Text>
           )}
-          {!!subTitleText && (
-            <Text
-              style={styles.sub}
-              type='sub'
-              size={size - (getVisualLength(subTitleText) >= 16 ? 2 : 0)}
-              numberOfLines={4}
-              bold
-              align='center'
-            >
-              {subTitleText}
-            </Text>
-          )}
-          {!!($.state.subTitle === '评分' && item.score) && (
-            <Stars
-              style={stl(styles.stars, $.state.starsFull && styles.starsFull)}
-              value={item.score}
-              simple={!$.state.starsFull}
-              color={$.state.starsColor ? undefined : _.colorSub}
-              hideScore={false}
-            />
-          )}
-          {!!extraTitleText && (
-            <Text
-              style={styles.sub}
-              type='sub'
-              size={size - (getVisualLength(extraTitleText) >= 16 ? 2 : 0)}
-              numberOfLines={4}
-              bold
-              align='center'
-            >
-              {extraTitleText}
-            </Text>
-          )}
-          {!!($.state.extraTitle === '评分' && item.score) && (
-            <Stars
-              style={stl(styles.stars, $.state.starsFull && styles.starsFull)}
-              value={item.score}
-              simple={!$.state.starsFull}
-              color={$.state.starsColor ? undefined : _.colorSub}
-              hideScore={false}
-            />
-          )}
+          {renderSub($.state.subTitle, subTitleText)}
+          {renderSub($.state.extraTitle, extraTitleText)}
         </Flex>
       </Touchable>
     </Flex>

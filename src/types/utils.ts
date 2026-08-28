@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-04 16:16:22
+ * @Last Modified time: 2026-08-29 04:49:36
  */
 import type React from 'react'
 import type {
@@ -95,10 +95,11 @@ export type ValueOf<T> = T[keyof T]
 /** 任意函数 */
 export type Fn = (...args: unknown[]) => unknown
 
+/** 检测是否为 any 类型 */
+export type IfAny<T, Y, N> = 0 extends 1 & T ? Y : N
+
 /** 选择函数 */
-// IfAny 条件返回实测与全部实现 (theme/action.ts×6, computed.ts×1) 不兼容, 且 strictNullChecks 关闭下
-// 调用点本就无需断言, 故保持 T | K; K = T 默认值保留
-export type SelectFn = <T, K = T>(arg1: T, arg2: K) => T | K
+export type SelectFn = <T, K = T>(arg1: T, arg2: K) => IfAny<T, K, IfAny<K, T, T | K>>
 
 /** 获取本地 state 的类型 */
 export type LocalState<T extends object, K extends object> = Expand<Omit<T, keyof K>>

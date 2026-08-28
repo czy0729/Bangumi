@@ -7,14 +7,6 @@
 import { _ } from '@stores'
 
 export const styles = _.create({
-  switch: {
-    marginRight: -4,
-    transform: [
-      {
-        scale: 0.8
-      }
-    ]
-  },
   segmentedControl: {
     height: 32,
     marginVertical: _.xs
