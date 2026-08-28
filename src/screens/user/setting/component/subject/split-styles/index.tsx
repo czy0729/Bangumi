@@ -45,7 +45,6 @@ function SplitStyles({ filter }: WithFilterProps) {
 
   const label = MODEL_SETTING_SUBJECT_SPLIT_STYLES.getLabel(value)
 
-  const STYLE_KEYS = ['main', 'warning', 'primary', 'success'] as const
   const styleMap: Record<
     SettingSubjectSplitStyles,
     {
@@ -57,19 +56,15 @@ function SplitStyles({ filter }: WithFilterProps) {
     off: { lineStyle: styles.off },
     'line-1': { lineStyle: styles.line1 },
     'line-2': { lineStyle: styles.line2 },
-    ...Object.fromEntries(
-      STYLE_KEYS.map(key => [
-        `title-${key}`,
-        { titleStyle: styles[`title${key.charAt(0).toUpperCase() + key.slice(1)}`] }
-      ])
-    ),
-    ...Object.fromEntries(
-      STYLE_KEYS.map(key => [
-        `underline-${key}`,
-        { underlineStyle: styles[`underline${key.charAt(0).toUpperCase() + key.slice(1)}`] }
-      ])
-    )
-  } as any
+    'title-main': { titleStyle: styles.titleMain },
+    'title-warning': { titleStyle: styles.titleWarning },
+    'title-primary': { titleStyle: styles.titlePrimary },
+    'title-success': { titleStyle: styles.titleSuccess },
+    'underline-main': { underlineStyle: styles.underlineMain },
+    'underline-warning': { underlineStyle: styles.underlineWarning },
+    'underline-primary': { underlineStyle: styles.underlinePrimary },
+    'underline-success': { underlineStyle: styles.underlineSuccess }
+  }
 
   const renderBlock = (text: string, ts?: object, us?: object) => (
     <View>

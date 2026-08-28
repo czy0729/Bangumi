@@ -49,7 +49,7 @@ function Timezone({ filter }: WithFilterProps) {
     }
   }, [])
   const updateTimezone = useCallback(
-    value => {
+    (value: string) => {
       userStore.doUpdateUserSetting(
         {
           ...setting,

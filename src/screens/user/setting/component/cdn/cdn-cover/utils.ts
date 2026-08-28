@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-04-21 17:43:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-06 20:57:22
+ * @Last Modified time: 2026-08-28 01:38:47
  */
-import { systemStore, userStore } from '@stores'
+import { systemStore } from '@stores'
 import { info } from '@utils'
-import { APP_ADVANCE_CDN } from '@constants'
-import advanceJSON from '@assets/json/advance.json'
+import { checkAdvanceCDN } from '../utils'
 
 export function waitToResetCDN() {
   setTimeout(() => {
@@ -16,29 +15,7 @@ export function waitToResetCDN() {
   }, 60 * 1000 * 10)
 }
 
+/** 检查当前用户的打赏记录是否支持无限制开启高级 CDN (调用方已做过 advance 前置检查) */
 export async function checkAdvance() {
-  const { myId, myUserId } = userStore
-  if (myId || myUserId) {
-    const value = advanceJSON[myId] || advanceJSON[myUserId]
-    if (value == 1) {
-      info('你是老打赏用户或特殊关照用户，无限制开启')
-      return true
-    }
-
-    const [, amount] = String(value).split('|')
-    if (Number(amount || 0) >= APP_ADVANCE_CDN) return true
-  }
-
-  // 获取历史打赏金额
-  const value = await systemStore.fetchAdvanceDetail()
-  if (value == 1) {
-    info('你是老打赏用户或特殊关照用户，无限制开启')
-    return true
-  }
-
-  const [, amount] = String(value).split('|')
-  if (Number(amount || 0) >= APP_ADVANCE_CDN) return true
-
-  info(`历史打赏为 ${amount || 0}，不足条件 ${APP_ADVANCE_CDN}`)
-  return false
+  return checkAdvanceCDN('你是老打赏用户或特殊关照用户，无限制开启')
 }

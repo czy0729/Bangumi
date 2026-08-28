@@ -1,8 +1,9 @@
+/* eslint-disable */
 /*
  * @Author: czy0729
  * @Date: 2024-01-28 12:41:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-25 04:40:50
+ * @Last Modified time: 2026-08-28 06:15:38
  */
 import { useState } from 'react'
 import { userStore } from '@stores'
@@ -10,6 +11,8 @@ import { date } from '@utils'
 import { read } from '@utils/db'
 import { useMount } from '@utils/hooks'
 import { get } from '@utils/kv'
+
+import type { ResultData } from '@utils/kv/type'
 
 /** 检测云端是否有上传过设置数据 */
 export function useCloud() {
@@ -20,7 +23,7 @@ export function useCloud() {
         const { id } = userStore.userInfo
         if (!id) return
 
-        const data = await get(`setting_${id}`)
+        const data = await get<ResultData>(`setting_${id}`)
         if (data) {
           setText(date('y/m/d H:i', data?.ts))
           return

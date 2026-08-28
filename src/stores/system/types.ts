@@ -2,12 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-01-30 23:04:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-22 23:19:50
+ * @Last Modified time: 2026-08-28 00:33:21
  */
 import type { Loaded, UserId } from '@types'
 import type { INIT_SETTING, LOADED } from './init'
 
 export type CacheKey = keyof typeof LOADED
+
+/**
+ * 打赏记录值
+ *  - "渠道|金额" 字符串 (如 "a|15")
+ *  - 1: 老用户或特殊关照标记
+ */
+export type Advance = string | number
 
 /**
  * - true 显示

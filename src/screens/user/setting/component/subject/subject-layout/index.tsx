@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-25 03:51:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-09 19:24:38
+ * @Last Modified time: 2026-08-28 03:18:44
  */
 import React, { useState } from 'react'
 import { View } from 'react-native'
@@ -50,9 +50,13 @@ function SubjectLayout({ filter }: WithFilterProps) {
       </Flex>
 
       <View key={String(key)}>
-        {Object.keys(DATA).map(item => {
+        {(Object.keys(DATA) as (keyof typeof DATA)[]).map(item => {
           const title = DATA[item]
-          const value = systemStore.setting[item]
+
+          // showEp / showComic 不是 Setting 的键, 不支持隐藏:
+          // 读路径恒为 undefined; 写路径 setSetting 仍会把这两个非 schema 键写入 setting 并持久化 (历史行为)
+          const value =
+            item === 'showEp' || item === 'showComic' ? undefined : systemStore.setting[item]
           const selectedIndex = value === -1 ? 2 : value ? 0 : 1
 
           return (
@@ -86,7 +90,7 @@ function SubjectLayout({ filter }: WithFilterProps) {
                       })
 
                       const _value = label === '显示' ? true : label === '折叠' ? false : -1
-                      systemStore.setSetting(item as any, _value)
+                      systemStore.setSetting(item, _value)
                     }}
                   />
                 )

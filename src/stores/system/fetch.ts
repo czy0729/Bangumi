@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:15:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-22 23:37:55
+ * @Last Modified time: 2026-08-28 01:10:29
  */
 import Constants from 'expo-constants'
 import { getTimestamp, info } from '@utils'
@@ -20,6 +20,7 @@ import Computed from './computed'
 import { getData } from './utils'
 
 import type { ResponseGHReleases } from '@types'
+import type { Advance } from './types'
 
 let userAgent = ''
 
@@ -93,25 +94,28 @@ export default class Fetch extends Computed {
   }
 
   /** 请求自己的打赏信息 */
-  fetchAdvanceDetail = async () => {
+  fetchAdvanceDetail = async (): Promise<Advance | false | 0> => {
     const { myId, myUserId } = userStore
     if (!myId && !myUserId) return false
 
+    this.log('fetchAdvanceDetail')
+
+    const STATE_KEY = 'advanceDetail'
+
     try {
       const data = await getData()
-      const value = {
+      const value: Record<string, Advance> & { _loaded: number } = {
         ...advanceJSON,
         ...data,
         _loaded: getTimestamp()
       }
 
-      const key = 'advanceDetail'
       this.setState({
-        [key]: value
+        [STATE_KEY]: value
       })
-      this.save(key)
+      this.save(STATE_KEY)
 
-      return value[myId] || value[myUserId]
+      return value[myId] || value[myUserId] || 0
     } catch (error) {
       this.error('fetchAdvanceDetail', error)
     }

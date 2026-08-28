@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-04-25 03:42:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-12 19:18:35
+ * @Last Modified time: 2026-08-28 05:39:05
  */
 import React from 'react'
 import i18n from '@constants/i18n'
-import { WithFilterProps } from '../../../types'
 import { LAYOUT_VALUES, TEXTS } from '../ds'
 import ItemSettingSegmented from '../../item-setting-segmented'
 import { THUMB } from './ds'
+
+import type { WithFilterProps } from '../../../types'
 
 /** 自定义放送时间块 */
 function ShowCustomOnair({ filter }: WithFilterProps) {

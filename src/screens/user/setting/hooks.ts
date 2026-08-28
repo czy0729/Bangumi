@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-04-19 16:42:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-04 14:26:43
+ * @Last Modified time: 2026-08-27 23:41:46
  */
 import { useCallback, useRef, useState } from 'react'
 import { systemStore, userStore } from '@stores'
 import { feedback, scrollToView } from '@utils'
 import { useMount, useRunAfter } from '@utils/hooks'
 
+import type { ScrollView, View } from 'react-native'
+import type { ScrollTo } from '@components'
 import type { Setting } from '@stores/system/types'
 import type { NavigationProps } from '@types'
 import type { Params, SetSettingKeys, SwitchSettingKeys } from './types'
@@ -22,10 +24,10 @@ export function useSettingPage({ navigation, route }: NavigationProps<Params>) {
   const [open, setOpen] = useState('')
 
   /** ScrollView.ref */
-  const scrollViewRef = useRef<any>(null)
+  const scrollViewRef = useRef<ScrollView | null>(null)
 
-  /** 子组件的 ref */
-  const blockRefs = useRef<any>({})
+  /** Block 容器 View 实例引用集合 */
+  const blockRefs = useRef<Record<string, View | null>>({})
 
   useRunAfter(() => {
     systemStore.fetchAdvance()
@@ -51,12 +53,12 @@ export function useSettingPage({ navigation, route }: NavigationProps<Params>) {
     open,
 
     /** 收集 ScrollView.ref */
-    forwardRef: useCallback((_scrollTo: any, ref: any) => {
-      scrollViewRef.current = ref
+    forwardRef: useCallback((_scrollTo: ScrollTo, ref?: ScrollView | null) => {
+      scrollViewRef.current = ref ?? null
     }, []),
 
-    /** 收集子组件的 ref */
-    onBlockRef: useCallback((ref: any, component: string) => {
+    /** 收集 Block 容器 View 的 ref */
+    onBlockRef: useCallback((ref: View | null, component: string) => {
       setTimeout(() => {
         blockRefs.current[component] = ref
       }, 0)

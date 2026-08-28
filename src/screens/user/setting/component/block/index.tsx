@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 18:26:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-24 06:13:08
+ * @Last Modified time: 2026-08-27 23:49:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,15 +19,13 @@ function Block({ style, title, onBlockRef, children, ...other }: Props) {
 
   const styles = memoStyles()
 
+  /** children 为多个元素时加内边距 (单个元素由具体组件自控间距) */
+  const isGrouped = Array.isArray(children) && children.length > 1
+
   return (
     <View
       ref={title && onBlockRef ? ref => onBlockRef(ref, title) : undefined}
-      style={stl(
-        styles.block,
-        // @ts-expect-error
-        children?.length > 1 && styles.padding,
-        style
-      )}
+      style={stl(styles.block, isGrouped && styles.padding, style)}
       {...other}
     >
       {children}

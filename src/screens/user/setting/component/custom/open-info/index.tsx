@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2024-04-19 20:00:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-19 20:01:25
+ * @Last Modified time: 2026-08-28 01:51:09
  */
-
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro } from '@components'

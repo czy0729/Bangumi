@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-07-10 10:55:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-24 18:12:10
+ * @Last Modified time: 2026-08-28 02:49:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import { memoStyles } from './styles'
 
 import type { Props } from './types'
 
-function Item({ filter, label, value, show, onPress }: Props) {
+function Item<T = string>({ filter, label, value, show, onPress }: Props<T>) {
   const styles = memoStyles()
 
   return (
@@ -36,4 +36,4 @@ function Item({ filter, label, value, show, onPress }: Props) {
   )
 }
 
-export default observer(Item)
+export default observer(Item) as <T>(props: Props<T>) => React.JSX.Element

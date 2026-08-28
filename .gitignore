@@ -13,6 +13,7 @@
 # ----------------------------------------------------------------------------
 .claude/settings.local.json
 .opencode/
+.zcode/
 \[auth\]/
 \[deprecated\]/
 android.zip

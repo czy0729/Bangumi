@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-05 04:47:34
+ * @Last Modified time: 2026-08-28 01:11:07
  */
 import {
   IOS,
   MENU_MAP,
   MODEL_SETTING_CDN_ORIGIN,
+  MODEL_SETTING_HOME_ANIME_INFO_INLINE,
   MODEL_SETTING_HOME_COUNT_VIEW,
   MODEL_SETTING_HOME_GRID_COVER_LAYOUT,
   MODEL_SETTING_HOME_LAYOUT,
-  MODEL_SETTING_HOME_ANIME_INFO_INLINE,
   MODEL_SETTING_HOME_SORTING,
   MODEL_SETTING_INITIAL_PAGE,
   MODEL_SETTING_LIVE2D_MODEL,
@@ -29,6 +29,7 @@ import { radiusMd } from '@styles'
 import type { MUSUME_PROMPT } from '@utils/kv/ds'
 import type { EventKeys, MenuItem, Paths, SettingLive2DScale } from '@types'
 import type {
+  Advance,
   HomeRenderTabs,
   HomeTabs,
   LayoutValue,
@@ -515,8 +516,8 @@ export const STATE = {
   advance: false,
 
   /** 高级会员详情 */
-  advanceDetail: {
-    _loaded: 0
+  advanceDetail: {} as Record<string, Advance> & {
+    _loaded: number
   },
 
   /** 基本设置 */

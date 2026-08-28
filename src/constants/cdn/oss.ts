@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-05-23 07:22:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-26 09:54:33
+ * @Last Modified time: 2026-08-28 01:38:20
  */
 import { syncSystemStore } from '@utils/async'
 import Crypto from '@utils/crypto'
@@ -143,17 +143,17 @@ export { CDN_MAGMA }
 const REG_COVER = /\/(c|l)\//
 
 /** MAGMA CDN */
-export const CDN_OSS_MAGMA_POSTER = (
-  src: any = '',
+export const CDN_OSS_MAGMA_POSTER = <T>(
+  src?: T,
   prefix: 'bgm_poster_100' | 'bgm_poster_200' | 'bgm_poster' | string = 'bgm_poster'
-) => {
+): T | string => {
   if (
     typeof src !== 'string' ||
     src === '' ||
     !REG_COVER.test(src) ||
     /\/(photo|user|icon)\/|_(crt|prsn)_/.test(src)
   ) {
-    return src
+    return src as T
   }
 
   const poster = src.split(REG_COVER)?.[2] || ''
@@ -163,8 +163,8 @@ export const CDN_OSS_MAGMA_POSTER = (
 }
 
 /** MAGMA MONO CDN */
-export const CDN_OSS_MAGMA_MONO = (src: any = '') => {
-  if (typeof src !== 'string' || src === '') return src
+export const CDN_OSS_MAGMA_MONO = <T>(src?: T): T | string => {
+  if (typeof src !== 'string' || src === '') return src as T
 
   const mono = (src.split('.jpg')?.[0] || '').split('/pic/')?.[1] || ''
   if (!mono || !initCDN()) return src
@@ -173,8 +173,8 @@ export const CDN_OSS_MAGMA_MONO = (src: any = '') => {
 }
 
 /** MAGMA PIC CDN */
-export const CDN_OSS_MAGMA_PIC = (src: any = '') => {
-  if (typeof src !== 'string' || src === '' || !src.includes('/pic/')) return src
+export const CDN_OSS_MAGMA_PIC = <T>(src?: T): T | string => {
+  if (typeof src !== 'string' || src === '' || !src.includes('/pic/')) return src as T
 
   const pic = (src.split('.jpg')?.[0] || '').split('/pic/')?.[1] || ''
   if (!pic || !initCDN()) return src

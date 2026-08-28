@@ -15,8 +15,9 @@ import Block from '../../../block'
 import { memoStyles } from './styles'
 
 import type { TrackIds } from '@stores/system/types'
+import type { Props } from './types'
 
-function BlockItem({ navigation, item, setFalse }) {
+function BlockItem({ navigation, item, setFalse }: Props) {
   const [keyword, setKeyword] = useState('')
 
   const handleChange = useCallback((text: string) => {

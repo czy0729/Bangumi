@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-22 04:40:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-24 18:09:23
+ * @Last Modified time: 2026-08-28 02:23:59
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
@@ -13,10 +13,10 @@ import { t } from '@utils/fetch'
 import { useBoolean } from '@utils/hooks'
 import { MENU_MAP } from '@constants'
 import Btn from './btn'
+import { getMenu } from './utils'
 import { CUSTOM_BTN_DEFAULT, CUSTOM_BTN_KEYS } from './ds'
 import { memoStyles } from './styles'
 
-import type { MenuItem } from '@types'
 import type { SettingKeys } from './types'
 
 function CustomBtn() {
@@ -62,16 +62,16 @@ function CustomBtn() {
     <>
       <Flex style={styles.btns}>
         <Btn
-          item={(MENU_MAP[homeTopExtraCustom] || CUSTOM_BTN_DEFAULT) as MenuItem}
+          item={getMenu(homeTopExtraCustom)}
           onPress={() => handlePress('homeTopExtraCustom', homeTopExtraCustom || '')}
         />
         <View style={styles.split} />
         <Btn
-          item={(MENU_MAP[homeTopLeftCustom] || CUSTOM_BTN_DEFAULT) as MenuItem}
+          item={getMenu(homeTopLeftCustom)}
           onPress={() => handlePress('homeTopLeftCustom', homeTopLeftCustom || '')}
         />
         <Btn
-          item={(MENU_MAP[homeTopRightCustom] || CUSTOM_BTN_DEFAULT) as MenuItem}
+          item={getMenu(homeTopRightCustom)}
           onPress={() => handlePress('homeTopRightCustom', homeTopRightCustom || '')}
         />
       </Flex>
@@ -82,12 +82,13 @@ function CustomBtn() {
         </Text>
         <Flex style={_.mt.md} wrap='wrap' justify='center'>
           <Btn
-            item={CUSTOM_BTN_DEFAULT as MenuItem}
+            item={CUSTOM_BTN_DEFAULT}
             active={current.key === ''}
             onPress={() => handleSelectBtn('')}
           />
           {CUSTOM_BTN_KEYS.map(key => {
             const item = MENU_MAP[key]
+            if (!item) return null
 
             return (
               <Btn

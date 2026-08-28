@@ -18,7 +18,7 @@ import type { Props } from './types'
 /** 日志控制台 */
 function LogConsole({ title, logs, showFilters = false, typeFilters }: Props) {
   const filters = typeFilters || WORKER_TYPE_FILTERS
-  const defaultActiveTypes = new Set(filters.map((f: { key: string }) => f.key))
+  const defaultActiveTypes = new Set(filters.map(f => f.key))
   const [activeTypes, setActiveTypes] = useState<Set<string>>(defaultActiveTypes)
 
   const toggleType = (type: string) => {
@@ -77,12 +77,12 @@ function LogConsole({ title, logs, showFilters = false, typeFilters }: Props) {
               {/* 等级前缀 */}
               <Text
                 style={{
-                  color: LEVEL_COLORS[log.level as keyof typeof LEVEL_COLORS],
+                  color: LEVEL_COLORS[log.level],
                   ...styles.level
                 }}
                 size={10}
               >
-                {LEVEL_PREFIX[log.level as keyof typeof LEVEL_PREFIX]}
+                {LEVEL_PREFIX[log.level]}
               </Text>
 
               {/* 消息 */}

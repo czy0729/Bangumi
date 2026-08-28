@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-26 10:00:02
+ * @Last Modified time: 2026-08-27 23:45:30
  */
 import { Alert, Clipboard, findNodeHandle, NativeModules, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'
@@ -13,6 +13,7 @@ import { FROZEN_FN } from '@constants/init'
 import { syncS2T, syncSystemStore } from '../async'
 import { log } from './utils'
 
+import type { View } from 'react-native'
 import type { ActionSheetConfig, ActionSheetConfigOptions } from '@components/action-sheet'
 import type { TimerRef } from '@types'
 
@@ -223,27 +224,8 @@ export function copy(val: string | number, message: boolean | string = true, ms?
 /** ScrollView 中滑动到 View 的位置 */
 export function scrollToView(
   viewRef: {
-    measure: (
-      callback: (
-        x: number,
-        y: number,
-        width: number,
-        height: number,
-        pageX: number,
-        pageY: number
-      ) => void
-    ) => void
-    measureLayout: (
-      relativeToNativeNode: unknown,
-      onSuccess: (
-        x: number,
-        y: number,
-        width: number,
-        height: number,
-        pageX: number,
-        pageY: number
-      ) => void
-    ) => void
+    measure: View['measure']
+    measureLayout: View['measureLayout']
   },
   scrollViewRef: {
     scrollTo: (options: { y: number; animated: boolean }) => void

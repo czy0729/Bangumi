@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-05-06 05:15:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-06 19:02:13
+ * @Last Modified time: 2026-08-28 06:00:15
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,9 @@ import { confirm, info } from '@utils'
 import Block from '../../../block'
 import { memoStyles } from './styles'
 
-function BlockItem({ navigation, setFalse }) {
+import type { Props } from './types'
+
+function BlockItem({ navigation, setFalse }: Props) {
   const [keyword, setKeyword] = useState('')
 
   const handleChange = useCallback((text: string) => {

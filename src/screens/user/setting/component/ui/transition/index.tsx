@@ -25,7 +25,7 @@ function Transition({ filter }: WithFilterProps) {
   const styles = memoStyles()
 
   const label = MODEL_SETTING_TRANSITION.getLabel(value)
-  const genItemProps = (key: string) => {
+  const genItemProps = (key: Exclude<keyof typeof TEXTS.transition, 'setting'>) => {
     const { title } = TEXTS.transition[key]
     return {
       itemStyle: styles.item,

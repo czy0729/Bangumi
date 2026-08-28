@@ -2,24 +2,22 @@
  * @Author: czy0729
  * @Date: 2025-04-11 16:35:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-12 19:08:33
+ * @Last Modified time: 2026-08-28 02:59:40
  */
-import { SetSettingKeys } from '../../types'
+import type { Setting } from '@stores/system/types'
+import type { SetSettingKeys } from '../../types'
 
-export type Props = {
+export type Props<T extends SetSettingKeys = SetSettingKeys> = {
   /** 设置项 */
-  setting: SetSettingKeys
+  setting: T
 
   /** Segmented 选项 */
-  values:
-    | {
-        label: string
-        value: any
-      }[]
-    | readonly {
-        label: string
-        value: any
-      }[]
+  values: readonly {
+    label: string
+
+    /** 选项值, 类型跟随 setting 对应的设置值 */
+    value: Setting[T]
+  }[]
 
   /** 设置项过滤 */
   filter: string

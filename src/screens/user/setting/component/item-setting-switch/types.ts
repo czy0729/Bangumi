@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2025-04-11 16:35:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-12 18:46:05
+ * @Last Modified time: 2026-08-28 05:28:28
  */
-import { SwitchSettingKeys } from '../../types'
+import type { SwitchSettingKeys } from '../../types'
 
 export type Props = {
   /** 设置项 */

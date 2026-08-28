@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 07:09:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-03 20:29:53
+ * @Last Modified time: 2026-08-28 06:01:21
  */
 import { _ } from '@stores'
 
@@ -19,12 +19,12 @@ export const styles = _.create({
   },
   fontStyleCustom: {
     marginTop: _.xs,
-    fontFamily: _.ios(undefined, ''),
+    fontFamily: _.ios<string, string>(undefined, ''),
     fontWeight: 'normal'
   },
   fontStyleBoldCustom: {
     marginTop: _.xs,
-    fontFamily: _.ios(undefined, ''),
+    fontFamily: _.ios<string, string>(undefined, ''),
     fontWeight: 'bold'
   }
 })

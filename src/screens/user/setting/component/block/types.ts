@@ -4,13 +4,15 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-24 05:48:11
  */
-import type { ViewProps } from 'react-native'
+import type { View, ViewProps } from 'react-native'
 import type { Override } from '@types'
 
 export type Props = Override<
   ViewProps,
   {
     title?: string
-    onBlockRef?: (ref: any, component: string) => void
+
+    /** 收集容器 View 实例, 用于页内定位 */
+    onBlockRef?: (ref: View | null, component: string) => void
   }
 >

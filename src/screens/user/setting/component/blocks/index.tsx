@@ -44,7 +44,7 @@ function Blocks({ navigation, filter }: WithNavigation<WithFilterProps>) {
         <View style={styles.container}>
           <RakuenBlocks
             navigation={navigation}
-            onNavigate={(path: any, params: any) => {
+            onNavigate={(path, params) => {
               setFalse()
               setTimeout(() => {
                 navigation.push(path, params)

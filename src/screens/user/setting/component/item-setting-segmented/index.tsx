@@ -13,20 +13,18 @@ import commonStyles from '../../styles'
 import { useAsyncSetSetting } from '../../hooks'
 import { getYuqueThumbs } from '../../utils'
 
+import type { SetSettingKeys } from '../../types'
 import type { Props } from './types'
 
-function ItemSettingSegmented({
+function ItemSettingSegmented<T extends SetSettingKeys>({
   setting,
   values,
   filter = '',
   thumb,
   hd = '',
   information = ''
-}: Props) {
-  const memoValues: string[] = useMemo(
-    () => values.map((item: { label: any }) => item.label),
-    [values]
-  )
+}: Props<T>) {
+  const memoValues: string[] = useMemo(() => values.map(item => item.label), [values])
 
   const { value, handleSet } = useAsyncSetSetting(setting)
   const handleSyncPress = useCallback(
@@ -70,4 +68,6 @@ function ItemSettingSegmented({
   )
 }
 
-export default observer(ItemSettingSegmented)
+export default observer(ItemSettingSegmented) as <T extends SetSettingKeys>(
+  props: Props<T>
+) => React.JSX.Element

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:16:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-27 04:28:14
+ * @Last Modified time: 2026-08-28 01:38:59
  */
 import { isObservableArray } from 'mobx'
 import { DEV, FROZEN_ARRAY, FROZEN_OBJECT } from '@constants'
@@ -571,7 +571,11 @@ export function matchBgmLink(url: string = ''):
 }
 
 /** 自动判断封面 CDN 地址 */
-export function matchCoverUrl<T>(src: T, noDefault?: boolean, prefix?: string): T | string {
+export function matchCoverUrl<T>(
+  src: T,
+  noDefault?: boolean,
+  prefix?: string
+): T | string | number {
   if (typeof src !== 'string') return src
 
   const { cdn, cdnOrigin } = getSetting()
@@ -582,9 +586,10 @@ export function matchCoverUrl<T>(src: T, noDefault?: boolean, prefix?: string): 
 
   /** magma 高级会员图片源 */
   if (cdn && cdnOrigin === 'magma' && typeof src === 'string' && src.includes(HOST_IMAGE)) {
-    if (src.includes('/pic/crt/')) return CDN_OSS_MAGMA_MONO(src) || fallback
+    const _src: string = src
+    if (_src.includes('/pic/crt/')) return CDN_OSS_MAGMA_MONO(_src) || fallback
 
-    return CDN_OSS_MAGMA_POSTER(getCoverMedium(src), prefix) || fallback
+    return CDN_OSS_MAGMA_POSTER(getCoverMedium(_src), prefix) || fallback
   }
 
   /** @deprecated 旧免费 CDN 源头, 国内已全部失效 */
