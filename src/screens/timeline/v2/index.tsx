@@ -6,8 +6,9 @@
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import { Component, Page } from '@components'
-import { TapListener } from '@_'
+import { Component } from '@components/component'
+import { Page } from '@components/page'
+import { TapListener } from '@_/base/tap-listener'
 import { StoreContext } from '@stores'
 import Extra from './component/extra'
 import Tab from './component/tab'

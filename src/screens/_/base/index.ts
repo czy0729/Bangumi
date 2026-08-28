@@ -4,7 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-05-26 19:22:37
  */
-export * from './app-common'
+// 挂 lazy 变体, 避免经 barrel 引用导致 eager 版在启动链被求值 (App.tsx 已直连 index.lazy)
+export * from './app-common/index.lazy'
 export * from './auth'
 export * from './avatar'
 export * from './blur-view'

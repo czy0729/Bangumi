@@ -6,8 +6,8 @@
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import { Component } from '@components'
-import { Auth } from '@_'
+import { Component } from '@components/component'
+import { Auth } from '@_/base/auth'
 import { StoreContext } from '@stores'
 import Extra from './component/extra'
 import Modal from './component/modal'

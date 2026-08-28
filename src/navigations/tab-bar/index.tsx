@@ -6,8 +6,9 @@
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import { Flex, SafeAreaBottom } from '@components'
-import { BlurView } from '@_'
+import { Flex } from '@components/flex'
+import { SafeAreaBottom } from '@components/safe-area-bottom'
+import { BlurView } from '@_/base/blur-view'
 import { _ } from '@stores'
 import { IOS } from '@constants'
 import { routesConfig } from './config'

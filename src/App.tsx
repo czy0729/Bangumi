@@ -9,16 +9,17 @@ import { LogBox, StatusBar } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { enableScreens } from 'react-native-screens'
-import { DeepLink, HoldMenuProvider, Provider } from '@components'
-import { AppCommon } from '@_'
+// 入口直连子模块, 避免 @components / @utils / @constants barrel 被启动链全量求值
+import { DeepLink } from '@components/deep-link'
+import { HoldMenuProvider } from '@components/hold-menu'
+import { Provider } from '@components/provider'
+import { AppCommon } from '@_/base/app-common/index.lazy'
 import { _ } from '@stores'
-import {
-  useCachedResources,
-  useErrorHandlerAndroid,
-  useOrientationSync,
-  useWSALayout
-} from '@utils/hooks'
-import { ANDROID } from '@constants'
+import useCachedResources from '@utils/hooks/useCachedResources'
+import useErrorHandlerAndroid from '@utils/hooks/useErrorHandlerAndroid'
+import useOrientationSync from '@utils/hooks/useOrientationSync'
+import useWSALayout from '@utils/hooks/useWSALayout'
+import { ANDROID } from '@constants/constants/env'
 import NativeStacks from '@src/navigations/native-stacks'
 
 // iOS 侧载情况下, App 切出或者休眠后返回, 滑动退后会卡死, 暂不使用这个优化; 安卓开启以节省重叠页面的内存占用

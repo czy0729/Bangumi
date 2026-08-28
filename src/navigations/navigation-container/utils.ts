@@ -6,7 +6,7 @@
  */
 import { useEffect, useRef } from 'react'
 import { enableScreens } from 'react-native-screens'
-import { devLog } from '@components'
+import { devLog } from '@components/dev/utils'
 import { IOS } from '@constants/constants'
 import { DEV, IOS_IPA } from '@src/config'
 

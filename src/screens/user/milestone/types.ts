@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-04 07:32:20
  */
-import type { UserCollectionsItem } from '@stores/collection'
+import type { UserCollectionsItem } from '@stores/collection/types'
 import type { GetRouteParams, RouteMilestone, WithNavigation } from '@types'
 import type Store from './store'
 import type { SUB_TITLE } from './ds'

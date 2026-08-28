@@ -41,6 +41,7 @@ jest.mock('../../skeleton/utils', () => ({
 }))
 
 jest.mock('@utils', () => ({
+  ...jest.requireActual('@utils/cache'),
   getCover400: (src, size) => `${src}?size=${size}`,
   getStorage: jest.fn(),
   setStorage: jest.fn(),

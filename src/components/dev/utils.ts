@@ -13,6 +13,9 @@ import type { LogEntry } from './types'
 
 export const logs = observable.array<LogEntry>([])
 
+/** 滑动窗口上限, 防止开发会话中无限累积占内存 */
+const LOGS_LIMIT = 50
+
 /** 调试窗口打印 (手机实机开发用) */
 export function devLog(...args: unknown[]) {
   if (!DEV && !syncSystemStore().state.dev) return
@@ -28,6 +31,8 @@ export function devLog(...args: unknown[]) {
             data: typeof data === 'object' ? JSON.stringify(data, null, 4) : String(data)
           })
         })
+
+      if (logs.length > LOGS_LIMIT) logs.splice(LOGS_LIMIT)
     })
   }, 40)
 }

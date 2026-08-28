@@ -6,7 +6,7 @@
  */
 import { Image as RNImage } from 'react-native'
 import { _ } from '@stores'
-import { getCover400, getStorage, setStorage, showImageViewer } from '@utils'
+import { ensureCacheLimit, getCover400, getStorage, setStorage, showImageViewer } from '@utils'
 import { t } from '@utils/fetch'
 import hash from '@utils/thirdParty/hash'
 import ImageCacheManager, { scheduleCleanup } from '@utils/thirdParty/image-cache-manager'
@@ -41,6 +41,9 @@ const memoLocal = new Map<
     size?: number
   }
 >()
+
+/** 内存级缓存上限, 防止长会话中随浏览图片数无限增长 */
+const MEMO_LOCAL_LIMIT = 500
 
 /** 初始化 */
 ;(async () => {
@@ -284,7 +287,10 @@ export async function getLocalCache(src: string, headers?: Record<string, string
     ? await ImageCacheManager.get(src, { headers }).getPath()
     : { path: src, size: 0 }
 
-  if (result) memoLocal.set(id, result)
+  if (result) {
+    memoLocal.set(id, result)
+    ensureCacheLimit(memoLocal, MEMO_LOCAL_LIMIT)
+  }
 
   // 首次实际使用文件缓存时, 顺带调度一次启动后的 LRU 清理
   if (IOS) scheduleCleanup()

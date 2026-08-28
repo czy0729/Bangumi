@@ -6,7 +6,7 @@
  */
 import { useEffect } from 'react'
 import { _ } from '@stores'
-import { postTask } from '@utils'
+import { postTask } from '@utils/scheduler'
 import { WSA } from '@constants'
 import useDimensions from './useDimensions'
 

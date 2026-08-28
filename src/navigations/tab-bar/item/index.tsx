@@ -5,7 +5,10 @@
  * @Last Modified time: 2025-11-13 12:20:38
  */
 import React from 'react'
-import { Flex, Iconfont, Text, Touchable } from '@components'
+import { Flex } from '@components/flex'
+import { Iconfont } from '@components/iconfont'
+import { Text } from '@components/text'
+import { Touchable } from '@components/touchable'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { WSA } from '@constants'

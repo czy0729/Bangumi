@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-06-11 16:26:28
  */
-import { getStorage, getTimestamp, setStorage } from '@utils'
+import { getStorage, getTimestamp, postTask, setStorage } from '@utils'
 
 const NAMESPACE = 'Global'
 
@@ -13,11 +13,12 @@ export const APP_PARAMS = {
   /** 上一次启动时间戳 */
   lastBoot: 0
 }
-;(async () => {
+// 挪出启动高峰, 避免模块求值时占用 AsyncStorage bridge
+postTask(async () => {
   const KEY_LAST_BOOT = `${NAMESPACE}|lastBoot`
   APP_PARAMS.lastBoot = (await getStorage(KEY_LAST_BOOT)) || 0
   setStorage(KEY_LAST_BOOT, getTimestamp())
-})()
+})
 
 /** 显示 state init */
 export const LOG_INIT = false

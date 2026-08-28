@@ -5,8 +5,6 @@
  * @Last Modified time: 2026-08-27 23:45:30
  */
 import { Alert, Clipboard, findNodeHandle, NativeModules, Vibration } from 'react-native'
-import * as Haptics from 'expo-haptics'
-import { Portal } from '@components/portal'
 import { IOS } from '@constants/constants'
 import { WEB } from '@constants/device'
 import { FROZEN_FN } from '@constants/init'
@@ -16,6 +14,19 @@ import { log } from './utils'
 import type { View } from 'react-native'
 import type { ActionSheetConfig, ActionSheetConfigOptions } from '@components/action-sheet'
 import type { TimerRef } from '@types'
+
+/**
+ * expo-haptics 与 Portal 组件较重, 函数内懒加载
+ * - haptics: Android 启动链不再求值 (iOS 经 hold-menu 仍在链上, 已在该处单独懒加载)
+ * - Portal: 打断 utils→components 反向耦合, 双向均不再强制全量求值
+ */
+function syncPortal(): typeof import('@components/portal')['Portal'] {
+  return (require('@components/portal') as typeof import('@components/portal')).Portal
+}
+
+function syncHaptics(): typeof import('expo-haptics') {
+  return require('expo-haptics') as typeof import('expo-haptics')
+}
 
 /**
  * Loading 指示器
@@ -32,13 +43,13 @@ export function loading(text: string = 'Loading...', time: number = 0, delay: nu
       Toast: { loading: (content: string, duration: number, onClose: () => void) => number }
     }
     toastId = Toast.loading(syncS2T(text), time, () => {
-      if (toastId) Portal.remove(toastId)
+      if (toastId) syncPortal().remove(toastId)
     })
   }, delay)
 
   return () => {
     if (timerId !== null) clearTimeout(timerId)
-    if (toastId) Portal.remove(toastId)
+    if (toastId) syncPortal().remove(toastId)
   }
 }
 
@@ -52,6 +63,7 @@ export function feedback(light?: boolean) {
   log('feedback', 'vibration', light ? 'light' : '')
 
   if (IOS) {
+    const Haptics = syncHaptics()
     if (light) {
       Haptics.selectionAsync()
     } else {

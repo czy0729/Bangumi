@@ -4,8 +4,16 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-15 14:17:07
  */
-import { t2s } from '../thirdParty/cn-char'
-import { getPinYinFirstCharacter } from '../thirdParty/pinyin'
+/** 拼音表体积较大 (~47KB), 函数内懒加载以移出启动求值链 */
+function syncGetPinYinFirstCharacter(): typeof import('../thirdParty/pinyin')['getPinYinFirstCharacter'] {
+  return (require('../thirdParty/pinyin') as typeof import('../thirdParty/pinyin'))
+    .getPinYinFirstCharacter
+}
+
+/** 简繁字典含顶层 Map 构建, 同步懒加载以移出启动求值链 */
+function syncT2s(): typeof import('../thirdParty/cn-char')['t2s'] {
+  return (require('../thirdParty/cn-char') as typeof import('../thirdParty/cn-char')).t2s
+}
 
 /** 缓存结果 */
 const getPinyinCacheMap = new Map<string, string>()
@@ -28,7 +36,7 @@ export function getPinYin(title: string) {
     }
   }
 
-  const pinyin = getPinYinFirstCharacter(str, str.length).replace(/ /g, '') || ''
+  const pinyin = syncGetPinYinFirstCharacter()(str, str.length).replace(/ /g, '') || ''
   getPinyinCacheMap.set(str, pinyin)
 
   return {
@@ -57,6 +65,7 @@ export function getPinYinFilterValue(title: string, filter: string) {
       if (index !== -1) value = str.slice(index, index + filter.length)
     }
   } else if (!value) {
+    const t2s = syncT2s()
     const _title = t2s(title.toLocaleUpperCase())
     const _filter = t2s(filter)
     if (_title.includes(_filter.toLocaleUpperCase())) {

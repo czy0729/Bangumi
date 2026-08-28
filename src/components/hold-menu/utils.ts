@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-09 07:28:50
  */
-import * as Haptics from 'expo-haptics'
 import { _ } from '@stores'
 import {
   MENU_GAP,
@@ -82,21 +81,26 @@ export const getMenuPosition = (params: MenuOpenParams, paddingBottom: number) =
   }
 }
 
+/** expo-haptics 较重, 函数内懒加载以移出启动求值链 (HoldMenuProvider iOS 启动必经) */
+function syncHaptics(): typeof import('expo-haptics') {
+  return require('expo-haptics') as typeof import('expo-haptics')
+}
+
 /** 触发反馈 */
 export function hapticFeedback(style: HapticFeedbackStyle) {
   switch (style) {
     case 'Selection':
-      Haptics.selectionAsync()
+      syncHaptics().selectionAsync()
       break
     case 'Light':
     case 'Medium':
     case 'Heavy':
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle[style])
+      syncHaptics().impactAsync(syncHaptics().ImpactFeedbackStyle[style])
       break
     case 'Success':
     case 'Warning':
     case 'Error':
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType[style])
+      syncHaptics().notificationAsync(syncHaptics().NotificationFeedbackType[style])
       break
     default:
   }

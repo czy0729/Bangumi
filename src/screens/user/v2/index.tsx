@@ -6,8 +6,10 @@
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import { Component, Page } from '@components'
-import { BlurViewBottomTab, BlurViewRoot, Login } from '@_'
+import { Component } from '@components/component'
+import { Page } from '@components/page'
+import { BlurViewBottomTab, BlurViewRoot } from '@_/base/blur-view-layout'
+import { Login } from '@_/base/login'
 import { _, StoreContext, userStore } from '@stores'
 import { ANDROID } from '@constants'
 import Extra from './component/extra'

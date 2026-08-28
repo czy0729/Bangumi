@@ -4,11 +4,21 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-08 09:30:00
  */
-import cheerioRN from 'cheerio-without-node-native'
 import { DEV } from '@src/config'
 import { logger } from '../dev'
 
-import type { Cheerio, CheerioElement } from 'cheerio-without-node-native'
+import type { Cheerio, CheerioElement, CheerioStatic } from 'cheerio-without-node-native'
+
+/**
+ * cheerio 体积较大 (436KB), 函数内懒加载以延迟其求值
+ * - 本文件内的调用点是真实延迟; 其他文件的静态 import (stores/user/action 等 5 处)
+ *   依赖 inlineRequires 将 require 内联进使用函数, 使用点全在函数内故同样延迟
+ */
+function syncCheerioRN(): CheerioStatic {
+  // 兼容两种模块形态: 原始 CJS 导出本身即函数, 或经 babel interop 后挂在 default 上
+  const mod = require('cheerio-without-node-native') as { default?: CheerioStatic } & CheerioStatic
+  return mod.default || mod
+}
 
 export const DECODE_SPECIAL_CHARS: Record<string, string> = {
   '&amp;': '&',
@@ -53,16 +63,16 @@ export function cheerio(
     }
 
     if (remove) {
-      return cheerioRN.load(removeCF(target), {
+      return syncCheerioRN().load(removeCF(target), {
         decodeEntities
       })
     }
-    return cheerioRN.load(target, {
+    return syncCheerioRN().load(target, {
       decodeEntities
     })
   }
 
-  return cheerioRN(target)
+  return syncCheerioRN()(target)
 }
 
 /**

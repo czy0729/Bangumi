@@ -7,22 +7,23 @@
 import { useState } from 'react'
 import { loadAsync } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
-import { devLog } from '@components/dev'
+import { devLog } from '@components/dev/utils'
 import { setComponentsDefaultProps } from '@components/text/utils'
 import Stores, { systemStore } from '@stores'
-import { postTask } from '@utils'
+import { postTask } from '@utils/scheduler'
 import { logger } from '@utils/dev'
 import { restoreEchProxy, setupEchLifecycle } from '@utils/proxy/ech'
 import { bootApp } from '../app'
 import useMount from './useMount'
 
 async function loadBaseFonts() {
+  // Metro 资源 require 返回资源注册表 ID (number), 属 FontSource 的合法形态
   await loadAsync({
-    bgm: require('@assets/fonts/BgmV3_1.ttf')
+    bgm: require('@assets/fonts/BgmV3_1.ttf') as number
   })
   await loadAsync({
-    bgm2: require('@assets/fonts/BgmV3_2.ttf'),
-    bgm3: require('@assets/fonts/BgmV3_3.ttf')
+    bgm2: require('@assets/fonts/BgmV3_2.ttf') as number,
+    bgm3: require('@assets/fonts/BgmV3_3.ttf') as number
   })
 
   return true
@@ -39,8 +40,8 @@ export async function loadAppFonts() {
   // 经 pyftsubset 子集化裁剪至 ~3MB，仅保留 GB2312 一级+二级常用字 (6,763 字)
   // 如需更新字表或重新生成，见 web/fontmin/subset.sh
   await loadAsync({
-    rhrm: require('@assets/fonts/ResourceHanRoundedCN-Medium.min.ttf'),
-    rhrb: require('@assets/fonts/ResourceHanRoundedCN-Bold.min.ttf')
+    rhrm: require('@assets/fonts/ResourceHanRoundedCN-Medium.min.ttf') as number,
+    rhrb: require('@assets/fonts/ResourceHanRoundedCN-Bold.min.ttf') as number
   })
 
   return true

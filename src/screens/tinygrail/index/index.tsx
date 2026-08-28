@@ -6,8 +6,8 @@
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import { Component } from '@components'
-import { StatusBarPlaceholder } from '@_'
+import { Component } from '@components/component'
+import { StatusBarPlaceholder } from '@_/base/status-bar-placeholder'
 import { StoreContext } from '@stores'
 import TinygrailPage from '@tinygrail/_/page'
 import TinygrailStarsLogs from '@tinygrail/_/stars-logs'
