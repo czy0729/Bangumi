@@ -1,1 +1,10 @@
-{}
+{
+  "ignore_dirs": [
+    "dist",
+    "web",
+    "ios",
+    "android",
+    "packages",
+    "metro-cache"
+  ]
+}
