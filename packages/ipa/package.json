@@ -87,7 +87,6 @@
     "react-native-calendar-events": "^2.2.0",
     "react-native-device-info": "^8.4.8",
     "react-native-exception-handler": "^2.10.8",
-    "react-native-expo-image-cache": "4.1.0",
     "react-native-fast-image": "8.5.11",
     "react-native-fs": "2.18.0",
     "react-native-gesture-handler": "2.21.2",

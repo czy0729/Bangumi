@@ -8,7 +8,6 @@
 import { useState } from 'react'
 import { userStore } from '@stores'
 import { date } from '@utils'
-import { read } from '@utils/db'
 import { useMount } from '@utils/hooks'
 import { get } from '@utils/kv'
 
@@ -26,13 +25,7 @@ export function useCloud() {
         const data = await get<ResultData>(`setting_${id}`)
         if (data) {
           setText(date('y/m/d H:i', data?.ts))
-          return
         }
-
-        const { content } = await read({
-          path: `setting/${id}.json`
-        })
-        setText(`${((content?.length || 0) / 1000).toFixed(1)} kb`)
       } catch {}
     }, 2400)
   })

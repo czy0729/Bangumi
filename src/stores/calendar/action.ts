@@ -5,12 +5,13 @@
  * @Last Modified time: 2023-04-24 14:07:22
  */
 import { toJS } from 'mobx'
-import { read } from '@utils/db'
 import { get, update } from '@utils/kv'
 import UserStore from '../user'
 import Fetch from './fetch'
 
+import type { ResultData } from '@utils/kv/type'
 import type { SubjectId } from '@types'
+import type { OnAirUser } from './types'
 
 export default class Action extends Fetch {
   /** 更新用户自定义放送时间 */
@@ -52,19 +53,14 @@ export default class Action extends Fetch {
   /** 恢复到云端的用户自定义放送数据 */
   downloadSetting = async () => {
     const { id } = UserStore.userInfo
-    let onAirUser: typeof this.state.onAirUser
+    let onAirUser: Record<SubjectId, OnAirUser>
 
     try {
-      const data = await get(`onair_user_${id}`)
+      const data = await get<ResultData<Record<SubjectId, OnAirUser>>>(`onair_user_${id}`)
       if (data) {
         onAirUser = data
       } else {
-        const data = await read({
-          path: `onair-user/${id}.json`
-        })
-        if (!data?.content) return false
-
-        onAirUser = JSON.parse(data.content)
+        return false
       }
     } catch (error) {
       return false

@@ -5,7 +5,6 @@
  * @Last Modified time: 2026-05-05 20:34:17
  */
 import CryptoJS from 'crypto-js'
-import { read } from '@utils/db'
 import { get, update } from '@utils/kv'
 import { APP_ID } from '@constants'
 import UserStore from '../user'
@@ -111,11 +110,6 @@ export default class Action extends Fetch {
       const data = await get(`origin_${id}`)
       if (typeof data?.content === 'string') {
         content = data.content
-      } else {
-        const data = await read({
-          path: `origin/${id}.json`
-        })
-        if (typeof data?.content === 'string') content = data.content
       }
     } catch (error) {
       return false

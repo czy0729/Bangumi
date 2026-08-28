@@ -5,7 +5,6 @@
  * @Last Modified time: 2026-05-05 20:35:02
  */
 import { confirm, info, titleCase } from '@utils'
-import { read } from '@utils/db'
 import { get, update } from '@utils/kv'
 import {
   APP_ADVANCE_CDN,
@@ -268,12 +267,7 @@ export default class Actions extends Fetch {
       if (data) {
         setting = data
       } else {
-        const data = await read({
-          path: `setting/${id}.json`
-        })
-        if (!data?.content) return false
-
-        setting = JSON.parse(data.content)
+        return false
       }
     } catch (error) {
       return false

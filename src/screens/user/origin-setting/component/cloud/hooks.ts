@@ -7,9 +7,10 @@
 import { useState } from 'react'
 import { userStore } from '@stores'
 import { date } from '@utils'
-import { read } from '@utils/db'
 import { useMount } from '@utils/hooks'
 import { get } from '@utils/kv'
+
+import type { ResultData } from '@utils/kv/type'
 
 /** 检测云端是否有上传过源头数据 */
 export function useCloud() {
@@ -21,16 +22,10 @@ export function useCloud() {
         const { id } = userStore.userInfo
         if (!id) return
 
-        const data = await get(`origin_${id}`)
+        const data = await get<ResultData>(`origin_${id}`)
         if (data) {
           setText(date('y-m-d H:i', data?.ts))
-          return
         }
-
-        const { content } = await read({
-          path: `origin/${id}.json`
-        })
-        setText(`${((content?.length || 0) / 1000).toFixed(1)} kb`)
       } catch {}
     }, 2400)
   })
