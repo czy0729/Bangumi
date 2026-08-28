@@ -53,7 +53,7 @@ function log<P extends AnyObject>(prev: P, next: P, devRerenderKey?: string) {
 
   if (unsameKeys.length) {
     if (prev[unsameKeys[0]] === 'object') {
-      log(prev[unsameKeys[0]], next[unsameKeys[0]], devRerenderKey)
+      log(prev[unsameKeys[0]] as Record<string, unknown>, next[unsameKeys[0]] as Record<string, unknown>, devRerenderKey)
       return
     }
 

@@ -10,7 +10,7 @@ export const memoStyles = _.memoStyles(() => ({
   // ------------------- base style -------------------
   base: {
     includeFontPadding: false,
-    textAlignVertical: _.web(undefined, 'center') as 'center'
+    textAlignVertical: _.web(undefined, 'center')
   },
   text: _.fontStyle,
   bold: _.fontBoldStyle,

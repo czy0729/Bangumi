@@ -56,7 +56,7 @@ export const Link = observer(<T extends Paths>(props: LinkProps<T>) => {
       onPress?.(evt)
 
       if (appNavigate) {
-        navigate(path, navigation, resolvedParams)
+        navigate(path, navigation, resolvedParams as Record<string, unknown>)
       } else {
         if (path.startsWith('https://')) {
           open(path)

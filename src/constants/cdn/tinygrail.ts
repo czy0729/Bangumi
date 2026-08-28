@@ -26,7 +26,7 @@ export const initXsbRelationOTA = async () => {
 
   // 云版本
   // 版本没有 OTA 高需要重新请求数据
-  const version = (await getStorage(OTA_XSB_RELATION_VERSION)) || VERSION_TINYGRAIL
+  const version = ((await getStorage(OTA_XSB_RELATION_VERSION)) || VERSION_TINYGRAIL) as string
   const data = (await getStorage(OTA_XSB_RELATION_DATA)) || {
     name: {},
     data: {},
@@ -36,15 +36,15 @@ export const initXsbRelationOTA = async () => {
   const ota = getOTA()
   const needUpdate =
     (!xsbRelationLoaded && !Object.keys(xsbRelationOTA.data).length) ||
-    parseInt(ota.VERSION_TINYGRAIL) > parseInt(version)
+    parseInt(ota.VERSION_TINYGRAIL as string) > parseInt(version)
 
   // 没缓存也要请求数据
-  if (needUpdate || !Object.keys(data.data).length) {
+  if (needUpdate || !Object.keys((data as typeof xsbRelationOTA).data).length) {
     try {
       xsbRelationLoaded = true
 
       const version =
-        parseInt(ota.VERSION_TINYGRAIL) > parseInt(VERSION_TINYGRAIL)
+        parseInt(ota.VERSION_TINYGRAIL as string) > parseInt(VERSION_TINYGRAIL)
           ? ota.VERSION_TINYGRAIL
           : VERSION_TINYGRAIL
       const { _response } = await xhrCustom({
@@ -63,7 +63,7 @@ export const initXsbRelationOTA = async () => {
 
   // 有缓存直接返回
   xsbRelationLoaded = true
-  xsbRelationOTA = data
+  xsbRelationOTA = data as typeof xsbRelationOTA
 }
 
 /** 获取小圣杯关联角色数据 */

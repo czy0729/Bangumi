@@ -18,7 +18,6 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { Props as StatusBtnGroupProps } from './types'
-import type { TextStyle } from '@types'
 export type { StatusBtnGroupProps }
 
 /** 条目状态选择按钮组 */
@@ -60,7 +59,7 @@ export const StatusBtnGroup = observer(
                   <Flex style={styles.btn} justify='center'>
                     <Animated.Text
                       style={getTextStyle({
-                        style: _.select(buttonStyles[index], undefined) as TextStyle,
+                        style: _.select(buttonStyles[index], undefined),
                         type: '__plain__'
                       })}
                       suppressHighlighting

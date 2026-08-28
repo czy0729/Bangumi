@@ -8,4 +8,4 @@ export type CustemCompareFn<P = Record<string, unknown>> = (
   targetProps?: P,
   prevProps?: P,
   nextProps?: P
-) => boolean | object
+) => boolean | Record<string, unknown>

@@ -11,6 +11,6 @@ import type { DimensionValue } from 'react-native'
 export const styles = _.create({
   bg: {
     ..._.absoluteFill,
-    height: _.web('100vh', '100%') as DimensionValue
+    height: _.web('100vh' as DimensionValue, '100%')
   }
 })

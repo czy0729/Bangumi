@@ -9,7 +9,7 @@ import { _ } from '@stores'
 export const styles = _.create({
   mask: {
     flex: 1,
-    height: _.web('100%', undefined) as '100%',
+    height: _.web('100%', undefined),
     backgroundColor: 'rgba(0, 0, 0, 0.64)'
   },
   linear: {

@@ -13,7 +13,6 @@ import { r } from '@utils/dev'
 import { COMPONENT } from '../ds'
 import { BLURVIEW_TINT_DARK, BLURVIEW_TINT_LIGHT } from '../../blur-view'
 
-import type { BlurTint } from 'expo-blur'
 import type { HardwareTextureBlurViewProps } from '../type'
 
 /** 毛玻璃模糊层, 渲染实际高斯模糊效果 */
@@ -32,7 +31,7 @@ export const HardwareTextureBlurView = ({
           },
           containerStyle
         )}
-        tint={_.select(BLURVIEW_TINT_LIGHT, BLURVIEW_TINT_DARK) as BlurTint}
+        tint={_.select(BLURVIEW_TINT_LIGHT, BLURVIEW_TINT_DARK)}
         intensity={100}
       />
     </Animated.View>

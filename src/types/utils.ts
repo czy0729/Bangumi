@@ -50,7 +50,7 @@ export type ColorValue = RNColorValue
 /** 图片 uri */
 export type ImageSource = ImageProps['source']
 
-export type DeepReadonly<T> = T extends (...args: any[]) => any
+export type DeepReadonly<T> = T extends (...args: unknown[]) => unknown
   ? T
   : T extends Array<infer U>
   ? ReadonlyArray<DeepReadonly<U>>
@@ -59,7 +59,7 @@ export type DeepReadonly<T> = T extends (...args: any[]) => any
   : T
 
 /** 只读 */
-export type ReadonlyResult<T> = T extends (...args: any[]) => infer R
+export type ReadonlyResult<T> = T extends (...args: unknown[]) => infer R
   ? DeepReadonly<R>
   : DeepReadonly<T>
 
@@ -96,25 +96,34 @@ export type ValueOf<T> = T[keyof T]
 export type Fn = (...args: unknown[]) => unknown
 
 /** 选择函数 */
-export type SelectFn = <T, K>(arg1: T, arg2: K) => T | K
+// IfAny 条件返回实测与全部实现 (theme/action.ts×6, computed.ts×1) 不兼容, 且 strictNullChecks 关闭下
+// 调用点本就无需断言, 故保持 T | K; K = T 默认值保留
+export type SelectFn = <T, K = T>(arg1: T, arg2: K) => T | K
 
 /** 获取本地 state 的类型 */
 export type LocalState<T extends object, K extends object> = Expand<Omit<T, keyof K>>
 
 /** React Component Interface */
-export type IReactComponent<T = any> =
+// 默认 any: 裸用等效 any, 否则 FC<必选 props> 在 strictFunctionTypes 下逆变不兼容 ob/ob/c 等全部装饰器调用点
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type IReactComponent<T extends object = any> =
   | React.FunctionComponent<T>
   | React.ComponentClass<T>
   | React.ClassicComponentClass<T>
 
 /** ref */
-export type Ref<T = any> = React.MutableRefObject<T | null>
+export type Ref<T = unknown> = React.MutableRefObject<T | null>
 
 /** 取 Model 联合类型 */
-export type ModelValueOf<T extends readonly any[], K extends string = 'value'> = T[number][K]
+export type ModelValueOf<
+  T extends readonly Record<string, unknown>[],
+  K extends string = 'value'
+> = T[number][K]
 
 /** 普通对象 */
-export type AnyObject<T = any> = Record<string, any> & T
+// 默认 T = any 时与 any 求交坍缩为 any, 即裸 AnyObject 保持等效 any; 值收窄需先适配全库数百处读取点
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type AnyObject<T extends object = any> = Record<string, any> & T
 
 /** 取数组项 */
 export type InferArray<T> = T extends (infer S)[] ? S : never
@@ -186,4 +195,4 @@ export type RenderSection<T, K> = {
 export type Keys<T extends object> = keyof T
 
 /** 取数组所有项 */
-export type Values<T extends readonly any[]> = T[number]
+export type Values<T extends readonly unknown[]> = T[number]

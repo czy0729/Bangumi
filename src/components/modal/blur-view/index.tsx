@@ -12,11 +12,9 @@ import { syncSystemStore, syncThemeStore } from '@utils/async'
 import { BLURVIEW_TINT_DARK, BLURVIEW_TINT_LIGHT } from '../../blur-view/ds'
 import { memoStyles } from './styles'
 
-import type { BlurTint } from 'expo-blur'
 import type { Props } from './types'
 
 const _ = syncThemeStore()
-
 const systemStore = syncSystemStore()
 
 function BlurView({ style, intensity = 100, children }: Props) {
@@ -26,7 +24,7 @@ function BlurView({ style, intensity = 100, children }: Props) {
     return (
       <ExpoBlurView
         style={[styles.blurView, style]}
-        tint={_.select(BLURVIEW_TINT_LIGHT, BLURVIEW_TINT_DARK) as BlurTint}
+        tint={_.select(BLURVIEW_TINT_LIGHT, BLURVIEW_TINT_DARK)}
         intensity={intensity}
       >
         {children}

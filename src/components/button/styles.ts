@@ -131,7 +131,7 @@ export const memoStyles = _.memoStyles(() => ({
   },
   radius: {
     borderRadius: _.radiusSm + 2,
-    overflow: _.ios(undefined, 'hidden') as 'hidden'
+    overflow: _.ios(undefined, 'hidden')
   },
   loading: {
     opacity: 0.64,

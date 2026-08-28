@@ -25,13 +25,13 @@ export const initHashAvatarOTA = async () => {
   if (hashAvatarLoaded) return
 
   // 云端: 版本没有 OTA 高需要重新请求数据
-  const version = (await getStorage(OTA_AVATAR_HASH_VERSION)) || VERSION_OSS
+  const version = ((await getStorage(OTA_AVATAR_HASH_VERSION)) || VERSION_OSS) as string
   const data = (await getStorage(OTA_AVATAR_HASH_DATA)) || {}
 
   const ota = getOTA()
   const needUpdate =
     (!hashAvatarLoaded && !Object.keys(data).length) ||
-    parseInt(ota.VERSION_OSS) > parseInt(version)
+    parseInt(ota.VERSION_OSS as string) > parseInt(version)
 
   // 没缓存也要请求数据
   if (needUpdate || !Object.keys(data).length) {
@@ -63,7 +63,7 @@ export const initHashAvatarOTA = async () => {
   hashAvatarLoaded = true
   hashAvatarOTA = {
     ...hashAvatarOTA,
-    ...data
+    ...(data as Record<string, unknown>)
   }
   cacheAvatar = {}
 }

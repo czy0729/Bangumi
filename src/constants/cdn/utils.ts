@@ -18,9 +18,9 @@ export function getOTA(): AnyObject {
 }
 
 /** 自动判断需要使用的版本号 */
-export function getVersion(key: string, version: any) {
+export function getVersion(key: string, version: string) {
   const ota = getOTA()
-  return parseInt(ota[key]) > parseInt(version) ? ota[key] : version
+  return parseInt(ota[key] as string) > parseInt(version) ? ota[key] : version
 }
 
 /** repo 的目录显示文件数量有限, 所以根据 subjectId 每 100 划分为一个目录 */

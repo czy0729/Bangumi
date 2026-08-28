@@ -39,13 +39,13 @@ export const initHashSubjectOTA = async () => {
 
   // 云版本
   // 版本没有 OTA 高需要重新请求数据
-  const version = (await getStorage(OTA_SUBJECT_HASH_VERSION)) || VERSION_OSS
+  const version = ((await getStorage(OTA_SUBJECT_HASH_VERSION)) || VERSION_OSS) as string
   const data = (await getStorage(OTA_SUBJECT_HASH_DATA)) || {}
 
   const ota = getOTA()
   const needUpdate =
     (!hashSubjectLoaded && !Object.keys(data).length) ||
-    parseInt(ota.VERSION_OSS) > parseInt(version)
+    parseInt(ota.VERSION_OSS as string) > parseInt(version)
 
   // 没缓存也要请求数据
   if (needUpdate || !Object.keys(data).length) {
@@ -82,7 +82,7 @@ export const initHashSubjectOTA = async () => {
   hashSubjectLoaded = true
   hashSubjectOTA = {
     ...hashSubjectOTA,
-    ...data
+    ...(data as Record<string, unknown>)
   }
   cacheSubject = {}
 }
@@ -107,7 +107,7 @@ export const CDN_OSS_SUBJECT = <T>(src: T, cdnOrigin?: 'OneDrive' | 'fastly'): T
   if (_hash in hashSubjectOTA) {
     const ota = getOTA()
     const version =
-      parseInt(ota.VERSION_OSS) > parseInt(VERSION_OSS) ? ota.VERSION_OSS : VERSION_OSS
+      parseInt(ota.VERSION_OSS as string) > parseInt(VERSION_OSS) ? ota.VERSION_OSS : VERSION_OSS
 
     const path = _hash.slice(0, 1).toLocaleLowerCase()
     let cdnSrc

@@ -13,7 +13,6 @@ import { Text } from '../../text'
 import { Touchable } from '../../touchable'
 import { memoStyles } from './styles'
 
-import type { ViewStyle } from '@types'
 import type { Props } from '../types'
 
 function BtnClose({ onClose }: Pick<Props, 'onClose'>) {
@@ -22,7 +21,7 @@ function BtnClose({ onClose }: Pick<Props, 'onClose'>) {
   return (
     <Touchable style={styles.close} onPress={onClose}>
       <SafeAreaBottom
-        style={_.ios(styles.btnContainer, undefined) as ViewStyle}
+        style={_.ios(styles.btnContainer, undefined)}
         type={_.ios('height', 'paddingBottom')}
       >
         <Flex style={styles.btn} justify='center'>
