@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2026-08-12 06:40:00
  * @Last Modified by:   czy0729
- * @Last Modified time: 2026-08-12 06:40:00
+ * @Last Modified time: 2026-08-30 00:00:00
  */
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import { NavigationContext } from '@react-navigation/native'
 import { interpolate, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { _ } from '@stores'
 import { scheduleOnRN } from '@utils'
@@ -18,6 +19,8 @@ export const useActionSheet = (show: boolean, onClose?: () => void, height = 480
   const progress = useSharedValue(show ? 1 : 0)
   const [showValue, setShow] = useState(show)
   const closingRef = useRef(false)
+
+  const navigation = useContext(NavigationContext)
 
   const calcHeight = Math.min(
     Math.floor(height * _.device(1, 1.4)) || Math.floor(_.window.height * 0.5),
@@ -40,9 +43,12 @@ export const useActionSheet = (show: boolean, onClose?: () => void, height = 480
   const handleShow = useCallback(() => {
     if (showValue) return
 
+    // 强制归零后再挂载: 收起时 UI 线程的归零动画可能被丢弃而残留 1,
+    // 残留会让面板以展开态挂载且 withTiming(1) 从 1 到 1 无动画
+    progress.value = 0
     setShow(true)
     requestAnimationFrame(() => animateTo(1))
-  }, [animateTo, showValue])
+  }, [animateTo, progress, showValue])
 
   const handleClose = useCallback(() => {
     if (!showValue || closingRef.current) return
@@ -65,7 +71,12 @@ export const useActionSheet = (show: boolean, onClose?: () => void, height = 480
   }, [show, handleShow, handleClose])
 
   useBackHandler(() => {
-    if (!showValue) return false
+    // Android 的 hardwareBackPress 是全局广播, 被覆盖屏也会收到,
+    // 只在所属 screen 聚焦时响应, 避免在新页面按返回时误关本页面板
+    if (!showValue || !navigation?.isFocused()) return false
+
+    // 收起动画进行中不吞返回键, 放行让页面正常返回
+    if (closingRef.current) return false
 
     handleClose()
     return true
