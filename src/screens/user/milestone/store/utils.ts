@@ -91,12 +91,17 @@ export function parseTip(tip: string, subjectType: string): string {
 /**
  * 预计算 Item 数据
  * 在 data getter 中调用，避免 Item 渲染时重复计算
+ *
+ * @param item 收藏条目
+ * @param subjectType 条目类型
+ * @param cnFirst 是否标题中文优先
  */
 export function precomputeItemData(
   item: UserCollectionsItem,
-  subjectType: string
+  subjectType: string,
+  cnFirst: boolean
 ): MilestoneItemData {
-  const titleRaw = item.nameCn || item.name
+  const titleRaw = cnFirst ? item.nameCn || item.name : item.name || item.nameCn
   const titleDecoded = HTMLDecode(titleRaw)
   const titleVisualLength = getVisualLength(titleDecoded)
 
@@ -123,7 +128,8 @@ export function precomputeItemData(
  */
 export function precomputeItems(
   list: UserCollectionsItem[],
-  subjectType: string
+  subjectType: string,
+  cnFirst: boolean
 ): MilestoneItemData[] {
-  return list.map(item => precomputeItemData(item, subjectType))
+  return list.map(item => precomputeItemData(item, subjectType, cnFirst))
 }

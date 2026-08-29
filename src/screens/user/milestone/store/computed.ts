@@ -45,7 +45,7 @@ export default class Computed extends State {
 
   /** 列表渲染数据, list 恒为预计算数据 */
   @computed get data(): Omit<UserCollections, 'list' | '_list'> & { list: MilestoneItemData[] } {
-    const { limit, nsfw, score, subjectType } = this.state
+    const { cnFirst, limit, nsfw, score, subjectType } = this.state
     let { list } = this.collections
 
     // 分步过滤，每步返回新数组
@@ -58,7 +58,7 @@ export default class Computed extends State {
     }
 
     // 预计算 Item 所需数据，避免渲染时重复计算
-    const precomputed = precomputeItems(list, subjectType)
+    const precomputed = precomputeItems(list, subjectType, cnFirst)
 
     return {
       ...this.collections,

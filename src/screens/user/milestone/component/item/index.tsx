@@ -23,14 +23,10 @@ import type { Props } from './types'
 function Item({ item, index }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
-  // 使用预计算的数据
+  // 使用预计算的数据 (titleDecoded 已跟随 cnFirst 设置)
   const { titleDecoded, titleVisualLength } = item
 
   const numberOfLines = Number($.state.numberOfLines) || 0
-  let titleText = ''
-  if (numberOfLines) {
-    titleText = $.state.cnFirst ? item.nameCn || item.name : item.name || item.nameCn
-  }
 
   const subTitleText = getExtraText($.state.subTitle, index ?? 0, item, $.state.lastTime)
   const extraTitleText = getExtraText($.state.extraTitle, index ?? 0, item, $.state.lastTime)
@@ -43,8 +39,8 @@ function Item({ item, index }: Props) {
     size -= 2
   }
 
-  // 使用预计算的 titleDecoded 和 titleVisualLength
-  const title = titleDecoded || titleText
+  // 行数 = 无 时不显示标题
+  const title = numberOfLines ? titleDecoded : ''
   let titleSize = size
   if ($.state.titleAutoSize) {
     if (titleVisualLength >= 20) {
