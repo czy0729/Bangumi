@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-22 16:38:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-30 06:40:48
+ * @Last Modified time: 2026-08-30 03:05:00
  */
 import { toJS } from 'mobx'
 import cheerio from 'cheerio-without-node-native'
@@ -31,7 +31,10 @@ import RakuenStore from '../rakuen'
 import Fetch from './fetch'
 import { INIT_ACCESS_TOKEN, INIT_USER_COOKIE, INIT_USER_INFO } from './init'
 
-import type { EpId, EpStatus, SubjectId } from '@types'
+import type { ProxyAxiosResponse } from '@utils/proxy/types'
+import type { EpId, EpStatus, Fn, SubjectId } from '@types'
+import type { STATE } from './init'
+import type { AccessToken } from './types'
 
 export default class Action extends Fetch {
   /** 登出 */
@@ -52,7 +55,7 @@ export default class Action extends Fetch {
   }
 
   /** 更新 accessToken */
-  updateAccessToken = (accessToken: any = INIT_ACCESS_TOKEN) => {
+  updateAccessToken = (accessToken: AccessToken = INIT_ACCESS_TOKEN) => {
     this.clearState('accessToken', {})
     this.setState({
       accessToken: {
@@ -86,7 +89,7 @@ export default class Action extends Fetch {
   }
 
   /** 手动更新登录用户信息 */
-  updateUserInfo = (userInfo: any) => {
+  updateUserInfo = (userInfo: (typeof STATE)['userInfo']) => {
     this.setState({
       userInfo
     })
@@ -214,8 +217,8 @@ export default class Action extends Fetch {
       subjectId: SubjectId
       formhash: string
     },
-    success?: () => any,
-    fail?: () => any
+    success?: (responseText?: string, request?: XMLHttpRequest) => unknown,
+    fail?: Fn
   ) => {
     const { subjectId, formhash } = config || {}
 
@@ -238,8 +241,8 @@ export default class Action extends Fetch {
       chat?: 'on'
       submit?: '发送' | '回复'
     },
-    success?: () => any,
-    fail?: () => any
+    success?: (responseText?: string, request?: XMLHttpRequest) => unknown,
+    fail?: Fn
   ) => {
     return xhr(
       {
@@ -261,8 +264,8 @@ export default class Action extends Fetch {
       timeoffsetnew: string
       show_nsfw_subject: boolean | number
     },
-    success?: (responseText?: string, request?: any) => any,
-    fail?: (request?: any) => any
+    success?: (responseText?: string, request?: XMLHttpRequest) => unknown,
+    fail?: Fn
   ) => {
     return xhr(
       {
@@ -277,36 +280,53 @@ export default class Action extends Fetch {
     )
   }
 
-  /** 当前获取 access_token 重试次数 */
-  private _oauthRetryCount: number = 0
-
   /** 存放 loading.hide */
-  private _hide: any
+  private _hide: (() => void) | null = null
 
   /** 重新授权次数 */
   private _reOauthCount: number = 0
 
   /** 获取授权表单码 */
   reOauth = async () => {
-    if (this._reOauthCount < 2) {
-      this._hide = loading('正在重新授权...')
-      this._reOauthCount += 1
-    }
+    try {
+      if (this._reOauthCount < 2) {
+        this._hide = loading('正在重新授权...')
+        this._reOauthCount += 1
+      }
 
-    const { data } = await axiosWithProxy<any>(
-      axios,
-      {
-        method: 'get',
-        url: `${HOST}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
-        headers: {
-          'User-Agent': this.userCookie.userAgent,
-          Cookie: this.userCookie.cookie
-        }
-      },
-      true
-    )
-    const formhash = cheerio.load(data)('input[name=formhash]').attr('value')
-    return this.authorize(formhash)
+      const { data } = await axiosWithProxy<ProxyAxiosResponse<string>>(
+        axios,
+        {
+          method: 'get',
+          url: `${HOST}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
+          headers: {
+            'User-Agent': this.userCookie.userAgent,
+            Cookie: this.userCookie.cookie
+          }
+        },
+        true
+      )
+      const formhash = cheerio
+        .load(data || '')('input[name=formhash]')
+        .attr('value')
+      return await this.authorize(formhash)
+    } catch (error) {
+      // 失败必须隐藏授权 loading, 否则它会永远挂在界面上 (原本只在成功路径隐藏)
+      if (typeof this._hide === 'function') {
+        this._hide()
+        this._hide = null
+      }
+
+      // 响应状态码失败 (如 cookie 失效后 bgm 返回 4xx), 提示重新登录, 保留现有登录信息不清除
+      const status = Number((error as TypeError)?.message)
+      if (Number.isFinite(status) && status >= 400) {
+        info('重新授权失败，请重新登录')
+        return false
+      }
+
+      info('重新授权失败，请检查网络后重试')
+      return false
+    }
   }
 
   /** 授权获取 code */
@@ -334,27 +354,12 @@ export default class Action extends Fetch {
     )
 
     const code = redirectUrl?.split('=').slice(1).join('=')
-
-    try {
-      return this.getAccessToken(code)
-    } catch (error) {
-      this._oauthRetryCount += 1
-      if (this._oauthRetryCount >= 6) {
-        if (typeof this._hide === 'function') {
-          this._hide()
-          this._hide = null
-        }
-        info('重新授权失败，请重新登录')
-        this.logout()
-        return false
-      }
-      return this.getAccessToken(code)
-    }
+    return this.getAccessToken(code)
   }
 
   /** code 获取 access_token */
   getAccessToken = async (code: string) => {
-    const { status, data } = await axiosWithProxy<any>(
+    const { status, data } = await axiosWithProxy<ProxyAxiosResponse<AccessToken>>(
       axios,
       {
         method: 'post',
@@ -377,11 +382,10 @@ export default class Action extends Fetch {
       true
     )
 
-    if (status !== 200) {
-      throw new TypeError(status)
+    if (status !== 200 || !data) {
+      throw new TypeError(String(status))
     }
 
-    this._oauthRetryCount = 0
     if (typeof this._hide === 'function') {
       this._hide()
       this._hide = null

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-25 12:45:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-08 04:29:43
+ * @Last Modified time: 2026-08-30 00:00:00
  */
 import type { CollectionStatus, CollectionStatusValue } from '@constants/model/types'
 import type {
@@ -19,6 +19,16 @@ import type {
   UrlSubject,
   UserId
 } from '@types'
+
+/** 授权信息 */
+export type AccessToken = {
+  access_token: string
+  expires_in: number
+  token_type: string
+  scope: string | null
+  user_id: number
+  refresh_token: string
+}
 
 /** 在看的收藏项 (进度页面) */
 export type UserCollectionItem = {

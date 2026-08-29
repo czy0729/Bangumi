@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 06:22:12
+ * @Last Modified time: 2026-08-30 03:03:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import Constants from 'expo-constants'
 import { Component, KeyboardSpacer } from '@components'
 import { Notice, StatusBarPlaceholder } from '@_'
 import { _, rakuenStore, usersStore, userStore } from '@stores'
+import { INIT_ACCESS_TOKEN } from '@stores/user/init'
 import { confirm, feedback, getStorage, getTimestamp, info, setStorage, urlStringify } from '@utils'
 import { logger } from '@utils/dev'
 import { hm, queue, t } from '@utils/fetch'
@@ -29,6 +30,7 @@ import Notify from './component/notify'
 import Preview from './component/preview'
 import { AUTH_RETRY_COUNT, NAMESPACE, UA_EKIBUN_BANGUMI_APP } from './ds'
 
+import type { AccessToken } from '@stores/user/types'
 import type { NavigationProps } from '@types'
 
 /** 账号密码登录 */
@@ -57,7 +59,7 @@ class LoginV2 extends React.Component<NavigationProps> {
     chii_auth?: string
   } = {}
   private _code = ''
-  private _accessToken = {}
+  private _accessToken: AccessToken = INIT_ACCESS_TOKEN
   private _retryCount = 0
   private _codeRef = null
 
