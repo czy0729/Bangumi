@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-05-30 12:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-26 06:38:18
+ * @Last Modified time: 2026-08-29 20:28:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,8 +10,7 @@ import { observer } from 'mobx-react'
 import { ActionSheet, Divider, Flex, SwitchPro, Text } from '@components'
 import { IconTouchable, ItemSetting, ItemSettingBlock, Notice } from '@_'
 import { _ } from '@stores'
-import { r } from '@utils/dev'
-import { useBoolean } from '@utils/hooks'
+import { useBoolean, useNavigation } from '@utils/hooks'
 import { ANDROID, API_HOST, HOST, HOST_BGM_STATIC, IOS } from '@constants'
 import { ECH_PROXY_ENABLED } from '@src/config'
 import commonStyles from '../../styles'
@@ -27,8 +26,8 @@ import { memoStyles } from './styles'
 import type { PingStatus, Props } from './types'
 
 /** 网络设置 */
-function Worker({ navigation, filter, open }: Props) {
-  r(COMPONENT)
+function Worker({ filter, open }: Props) {
+  const navigation = useNavigation(COMPONENT)
 
   const { state, setTrue, setFalse } = useBoolean(open)
   const shows = getShows(filter, TEXTS)

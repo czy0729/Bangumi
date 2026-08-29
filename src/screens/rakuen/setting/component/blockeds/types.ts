@@ -4,9 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-28 00:28:01
  */
-import type { UserId, WithNavigation } from '@types'
+import type { UserId } from '@types'
 
-export type Props = WithNavigation<{
+export type Props = {
   /** 点击记录时的导航回调 (当前仅跳转用户空间) */
   onNavigate?: (path: 'Zone', params: { userId: UserId }) => void
-}>
+}

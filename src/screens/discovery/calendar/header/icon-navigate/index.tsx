@@ -2,22 +2,22 @@
  * @Author: czy0729
  * @Date: 2026-03-21 15:29:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-21 16:43:08
+ * @Last Modified time: 2026-08-29 06:40:39
  */
 import React, { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { IconTouchable } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { date, feedback, getTimestamp } from '@utils'
-import { r } from '@utils/dev'
 import { PREV_DAY_HOUR } from '../../ds'
 import { getItemTime } from '../../utils'
 import { COMPONENT, ITEM_HEIGHT, SECTION_HEIGHT } from './ds'
 
+import type { Ctx } from '../../types'
 import type { Props } from './types'
 
-function IconNavigate({ $, onScrollToOffset }: Props) {
-  r(COMPONENT)
+function IconNavigate({ onScrollToOffset }: Props) {
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   const sections = $.sections
   const handleNavigate = useCallback(() => {

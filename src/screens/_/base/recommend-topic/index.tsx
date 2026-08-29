@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2026-05-15 05:31:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-26 07:32:44
+ * @Last Modified time: 2026-08-29 06:39:45
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { ActionSheet, Flex, Loading, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
+import { useNavigation } from '@utils/hooks'
 import { IconTouchable } from '../../icon'
 import { Notice } from '../notice'
 import Item from './item'
@@ -21,7 +22,6 @@ export type { RecommendTopicProps }
 /** 推荐帖子列表 */
 export const RecommendTopic = observer(
   ({
-    navigation,
     title = '相似帖子',
     visible,
     loading,
@@ -34,6 +34,7 @@ export const RecommendTopic = observer(
     onLoadMore
   }: RecommendTopicProps) => {
     r(COMPONENT)
+    const navigation = useNavigation()
 
     const { list, pagination } = data
     const { page, pageTotal } = pagination
@@ -52,13 +53,7 @@ export const RecommendTopic = observer(
             {!!list.length ? (
               <>
                 {list.map(item => (
-                  <Item
-                    key={item.id}
-                    {...item}
-                    navigation={navigation}
-                    openWebBrowser={openWebBrowser}
-                    onClose={onHide}
-                  />
+                  <Item key={item.id} {...item} openWebBrowser={openWebBrowser} onClose={onHide} />
                 ))}
                 {hasMore ? (
                   <Touchable style={styles.loadMore} onPress={onLoadMore}>

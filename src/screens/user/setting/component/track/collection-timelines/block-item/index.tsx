@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-05-06 05:15:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-28 05:59:43
+ * @Last Modified time: 2026-08-29 20:23:44
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
@@ -11,12 +11,14 @@ import { Flex, Iconfont, Input, Text, Touchable } from '@components'
 import { UserStatusAvatar } from '@_'
 import { _, systemStore, timelineStore, usersStore, userStore } from '@stores'
 import { confirm, info } from '@utils'
+import { useNavigation } from '@utils/hooks'
 import Block from '../../../block'
 import { memoStyles } from './styles'
 
 import type { Props } from './types'
 
-function BlockItem({ navigation, setFalse }: Props) {
+function BlockItem({ setFalse }: Props) {
+  const navigation = useNavigation()
   const [keyword, setKeyword] = useState('')
 
   const handleChange = useCallback((text: string) => {

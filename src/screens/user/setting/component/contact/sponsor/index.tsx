@@ -8,14 +8,16 @@ import React from 'react'
 import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { ItemSetting } from '@_'
+import { useNavigation } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import { TEXTS } from '../ds'
 
-import type { WithNavigation } from '@types'
 import type { WithFilterProps } from '../../../types'
 
 /** 赞助者 */
-function Sponsor({ navigation, filter }: WithNavigation<WithFilterProps>) {
+function Sponsor({ filter }: WithFilterProps) {
+  const navigation = useNavigation()
+
   return (
     <ItemSetting
       arrow

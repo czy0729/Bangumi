@@ -2,23 +2,22 @@
  * @Author: czy0729
  * @Date: 2022-01-21 17:11:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-24 18:24:57
+ * @Last Modified time: 2026-08-29 20:22:44
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { ItemSetting } from '@_'
-import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
+import { useNavigation } from '@utils/hooks'
 import { getShows } from '../../utils'
 import { COMPONENT, TEXTS } from './ds'
 
-import type { WithNavigation } from '@types'
 import type { WithFilterProps } from '../../types'
 
 /** 超展开 */
-function Rakuen({ navigation, filter }: WithNavigation<WithFilterProps>) {
-  r(COMPONENT)
+function Rakuen({ filter }: WithFilterProps) {
+  const navigation = useNavigation(COMPONENT)
 
   const shows = getShows(filter, TEXTS)
   if (!shows) return null

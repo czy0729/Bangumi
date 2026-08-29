@@ -7,22 +7,20 @@
 import React, { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { HeaderV2, HeaderV2Popover } from '@components'
-import { useStore } from '@stores'
 import { open } from '@utils'
+import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { HTML_GROUP_MINE, TEXT_MENU_BROWSER } from '@constants'
 import Extra from '../component/extra'
 import { COMPONENT, DATA, HM } from './ds'
 
-import type { Ctx } from '../types'
-
 function Header() {
-  const { $ } = useStore<Ctx>(COMPONENT)
+  r(COMPONENT)
 
   const handleHeaderRight = useCallback(
     () => (
       <>
-        <Extra $={$} />
+        <Extra />
         <HeaderV2Popover
           data={DATA}
           onSelect={title => {
@@ -37,7 +35,7 @@ function Header() {
         />
       </>
     ),
-    [$]
+    []
   )
 
   return <HeaderV2 title='小组' headerTitleAlign='left' hm={HM} headerRight={handleHeaderRight} />

@@ -21,7 +21,7 @@ import { memoStyles } from './styles'
 import type { Props } from './types'
 
 /** 屏蔽 */
-function Blockeds({ navigation, onNavigate }: Props) {
+function Blockeds({ onNavigate }: Props) {
   r(COMPONENT)
 
   const handleDelete = useCallback((item: string) => {
@@ -32,7 +32,7 @@ function Blockeds({ navigation, onNavigate }: Props) {
 
   return (
     <View style={styles.container}>
-      <BlockedUsers navigation={navigation} onNavigate={onNavigate} />
+      <BlockedUsers onNavigate={onNavigate} />
       <BlockedKeyword />
       <Block>
         <Tip>屏蔽小组 / 条目（对帖子所属小组名生效）</Tip>

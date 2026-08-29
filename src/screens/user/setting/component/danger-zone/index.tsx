@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 18:08:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-03 16:01:08
+ * @Last Modified time: 2026-08-29 20:16:31
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -21,11 +21,10 @@ import Settings from './settings'
 import ShowNSFWSubject from './show-nsfw-subject'
 import { COMPONENT, TEXTS } from './ds'
 
-import type { WithNavigation } from '@types'
 import type { WithFilterProps } from '../../types'
 
 /** 谨慎操作 */
-function DangerZone({ navigation, filter }: WithNavigation<WithFilterProps>) {
+function DangerZone({ filter }: WithFilterProps) {
   r(COMPONENT)
 
   const { state, setTrue, setFalse } = useBoolean(false)
@@ -55,7 +54,7 @@ function DangerZone({ navigation, filter }: WithNavigation<WithFilterProps>) {
         height={filter ? 480 : 720}
         onClose={setFalse}
       >
-        {shows.logout && <Logout navigation={navigation} filter={filter} setFalse={setFalse} />}
+        {shows.logout && <Logout filter={filter} setFalse={setFalse} />}
         {shows.settings && <Settings filter={filter} />}
         {shows.networdServices && <NetworkServices filter={filter} />}
         {shows.showNSFWSubject && <ShowNSFWSubject filter={filter} />}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-11 23:02:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-09 05:44:36
+ * @Last Modified time: 2026-08-29 06:42:16
  */
 import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
@@ -52,7 +52,7 @@ function Header() {
   const handleHeaderRight = useCallback(
     () => (
       <Flex>
-        <IconFavor $={$} />
+        <IconFavor />
         <HeaderV2Popover
           data={DATA}
           onSelect={title => {

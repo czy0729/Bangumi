@@ -13,7 +13,7 @@ import BlockItem from './block-item'
 
 import type { Props } from './types'
 
-function Topic({ navigation, filter, setFalse }: Props) {
+function Topic({ filter, setFalse }: Props) {
   return (
     <>
       <ItemSetting
@@ -25,7 +25,7 @@ function Topic({ navigation, filter, setFalse }: Props) {
         ])}
         {...TEXTS.topic}
       />
-      <BlockItem navigation={navigation} setFalse={setFalse} />
+      <BlockItem setFalse={setFalse} />
     </>
   )
 }

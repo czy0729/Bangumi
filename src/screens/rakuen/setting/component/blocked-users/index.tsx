@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-31 19:17:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-25 15:20:58
+ * @Last Modified time: 2026-08-29 20:39:20
  */
 import React, { useCallback, useState } from 'react'
 import { observer } from 'mobx-react'
@@ -17,10 +17,11 @@ import { handleBlockUser, handleDeleteBlockUser } from './utils'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
+import type { BlockedUsersItem } from '@stores/rakuen/types'
 import type { Props } from './types'
 
 /** 用户绝交 */
-function BlockedUsers({ navigation, onNavigate }: Props) {
+function BlockedUsers({ onNavigate }: Props) {
   r(COMPONENT)
 
   const [keyword, setKeyword] = useState('')
@@ -39,8 +40,7 @@ function BlockedUsers({ navigation, onNavigate }: Props) {
       <Tip>与以下用户绝交（不再看到用户的所有话题、评论、日志、私信、提醒）</Tip>
       {userStore.isWebLogin ? (
         <>
-          <History
-            navigation={navigation}
+          <History<BlockedUsersItem>
             data={rakuenStore.blockedUsers.list}
             onNavigate={onNavigate}
             onDelete={handleDeleteBlockUser}

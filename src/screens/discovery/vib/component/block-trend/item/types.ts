@@ -4,11 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-05-16 14:10:17
  */
-import { Navigation } from '@types'
-import { ItemTrend } from '../../../types'
+import type { ItemTrend } from '../../../types'
 
 export type Props = {
-  navigation: Navigation
   item: ItemTrend
   index: number
 }

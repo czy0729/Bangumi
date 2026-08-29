@@ -7,14 +7,14 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { SegmentedControl } from '@components'
-import { r } from '@utils/dev'
+import { useStore } from '@stores'
 import { COMPONENT, TYPE_DS } from './ds'
 import { styles } from './styles'
 
 import type { Ctx } from '../../types'
 
-function Extra({ $ }: Ctx) {
-  r(COMPONENT)
+function Extra() {
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   const { type, _loaded } = $.state
   if (!_loaded) return null

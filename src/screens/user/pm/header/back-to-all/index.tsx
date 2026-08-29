@@ -7,14 +7,13 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { IconTouchable } from '@_'
-import { _ } from '@stores'
-import { r } from '@utils/dev'
+import { _, useStore } from '@stores'
 import { COMPONENT } from './ds'
 
 import type { Ctx } from '../../types'
 
-function BackToAll({ $ }: Ctx) {
-  r(COMPONENT)
+function BackToAll() {
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   if (!$.state.thread) return null
 

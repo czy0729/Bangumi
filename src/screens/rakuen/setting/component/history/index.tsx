@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:28:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 20:45:50
+ * @Last Modified time: 2026-08-29 20:57:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,25 +11,23 @@ import { Expand, Flex, Iconfont, Text, Touchable } from '@components'
 import { Avatar } from '@_'
 import { _, rakuenStore, systemStore } from '@stores'
 import { stl } from '@utils'
-import { r } from '@utils/dev'
+import { useNavigation } from '@utils/hooks'
 import { API_AVATAR, FROZEN_FN } from '@constants'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-import type { BlockedUsersItem } from '@stores/rakuen/types'
 import type { UserId } from '@types'
-import type { Props } from './types'
+import type { HistoryItem, Props } from './types'
 
 /** 屏蔽列表 */
-function History({
-  navigation,
+function History<T extends HistoryItem = HistoryItem>({
   style,
   data,
   showAvatar = false,
   onNavigate,
   onDelete = FROZEN_FN
-}: Props) {
-  r(COMPONENT)
+}: Props<T>) {
+  const navigation = useNavigation(COMPONENT)
 
   if (!data.length) {
     return (
@@ -48,7 +46,7 @@ function History({
   return (
     <View style={stl(styles.container, style)}>
       <Expand ratio={1.6} linearGradientColor={_.select(_.colorPlainRaw, _.colorBgRaw)}>
-        {data.map((item: string | BlockedUsersItem) => {
+        {data.map(item => {
           let userId: UserId = ''
           let text = ''
           if (typeof item === 'object') {

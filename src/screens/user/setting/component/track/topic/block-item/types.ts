@@ -6,4 +6,4 @@
  */
 import type { Props as ParentProps } from '../types'
 
-export type Props = Pick<ParentProps, 'navigation' | 'setFalse'>
+export type Props = Pick<ParentProps, 'setFalse'>

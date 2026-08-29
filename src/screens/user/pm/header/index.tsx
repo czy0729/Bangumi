@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-19 11:16:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-08 04:25:32
+ * @Last Modified time: 2026-08-29 19:13:38
  */
 import React, { useCallback } from 'react'
 import { observer } from 'mobx-react'
@@ -18,17 +18,17 @@ import { styles } from './styles'
 import type { Ctx } from '../types'
 
 function Header() {
-  const { $, navigation } = useStore<Ctx>(COMPONENT)
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   const handleHeaderRight = useCallback(
     () => (
       <>
-        <BackToAll $={$} />
-        <ScrollNavButtons $={$} />
-        <RelatedPM $={$} navigation={navigation} />
+        <BackToAll />
+        <ScrollNavButtons />
+        <RelatedPM />
       </>
     ),
-    [$, navigation]
+    []
   )
 
   return (

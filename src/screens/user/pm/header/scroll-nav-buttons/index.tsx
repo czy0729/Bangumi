@@ -2,19 +2,18 @@
  * @Author: czy0729
  * @Date: 2025-07-22 20:36:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-06 02:11:58
+ * @Last Modified time: 2026-08-29 19:13:32
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { IconTouchable } from '@_'
-import { _ } from '@stores'
-import { r } from '@utils/dev'
+import { _, useStore } from '@stores'
 import { COMPONENT } from './ds'
 
 import type { Ctx } from '../../types'
 
-function ScrollNavButtons({ $ }: Ctx) {
-  r(COMPONENT)
+function ScrollNavButtons() {
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   if ($.threads?.length < 2 && ($.pmList?.list?.length ?? 0) < 8) return null
 

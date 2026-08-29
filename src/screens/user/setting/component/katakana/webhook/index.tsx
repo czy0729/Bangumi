@@ -8,13 +8,16 @@ import React from 'react'
 import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { ItemSetting } from '@_'
+import { useNavigation } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import { TEXTS } from '../ds'
 
 import type { Props } from './types'
 
 /** Webhook */
-function Webhook({ navigation, filter, setFalse }: Props) {
+function Webhook({ filter, setFalse }: Props) {
+  const navigation = useNavigation()
+
   return (
     <ItemSetting
       arrow

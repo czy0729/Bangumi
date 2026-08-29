@@ -2,18 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-07-27 05:24:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-09 01:07:57
+ * @Last Modified time: 2026-08-29 21:18:51
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { ItemSearch } from '@_'
-import { collectionStore, useStore } from '@stores'
+import { collectionStore } from '@stores'
+import { useNavigation } from '@utils/hooks'
 import { COMPONENT, EVENT } from './ds'
 
-import type { Ctx } from '../../../types'
-
 function List({ item, index, id, typeCn }) {
-  const { navigation } = useStore<Ctx>(COMPONENT)
+  const navigation = useNavigation(COMPONENT)
 
   return (
     <ItemSearch

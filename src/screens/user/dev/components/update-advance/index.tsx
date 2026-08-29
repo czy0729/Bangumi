@@ -12,14 +12,16 @@ import { ItemSetting } from '@_'
 import { _ } from '@stores'
 import { getData } from '@stores/system/utils'
 import { info } from '@utils'
-import { useMount } from '@utils/hooks'
+import { useMount, useNavigation } from '@utils/hooks'
 import { get, update } from '@utils/kv'
 import { PAYTYPE_DS } from './ds'
 import { memoStyles } from './styles'
 
-import type { Fn, Navigation } from '@types'
+import type { Fn } from '@types'
 
-function UpdateAdvance({ navigation, onScrollTo }: { navigation: Navigation; onScrollTo?: Fn }) {
+function UpdateAdvance({ onScrollTo }: { onScrollTo?: Fn }) {
+  const navigation = useNavigation()
+
   const [show, setShow] = useState(true)
   const [uid, setUid] = useState('')
   const [val, setVal] = useState('10')

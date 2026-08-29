@@ -5,25 +5,25 @@
  * @Last Modified time: 2025-04-13 18:38:28
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { HeaderV2 } from '@components'
-import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { _ } from '@stores'
+import { r } from '@utils/dev'
 import Label from '../component/label'
 import { COMPONENT, HM } from './ds'
 
-import type { Ctx } from '../types'
-
 function Header() {
-  const { $ } = useStore<Ctx>()
+  r(COMPONENT)
+
   return (
     <HeaderV2
       title='通天塔'
       headerTitleAlign='left'
       backgroundStyle={_.container.tinygrail}
       hm={HM}
-      headerRight={() => <Label $={$} />}
+      headerRight={() => <Label />}
     />
   )
 }
 
-export default ob(Header, COMPONENT)
+export default observer(Header)

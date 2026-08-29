@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-05-15 05:31:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-07 05:21:56
+ * @Last Modified time: 2026-08-29 06:39:48
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,7 @@ import { _ } from '@stores'
 import { open } from '@utils'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
+import { useNavigation } from '@utils/hooks'
 import { HOST } from '@constants'
 import { parseUrlHighlight } from './utils'
 import { memoStyles } from './styles'
@@ -21,7 +22,6 @@ import type { TopicId } from '@types'
 import type { Props } from './types'
 
 function Item({
-  navigation,
   id,
   title,
   reply_count,
@@ -35,6 +35,7 @@ function Item({
   onClose
 }: Props) {
   r('RecommendTopicItem')
+  const navigation = useNavigation()
 
   const handleAvatarPress = useCallback(() => {
     onClose()

@@ -2,21 +2,20 @@
  * @Author: czy0729
  * @Date: 2024-10-15 04:24:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-16 21:50:40
+ * @Last Modified time: 2026-08-29 21:20:50
  */
 import React, { useCallback, useState } from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Input as InputComp } from '@components'
 import { IconTouchable } from '@_'
-import { _, useStore } from '@stores'
+import { _ } from '@stores'
 import { info } from '@utils'
+import { useNavigation } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-import type { Ctx } from '../../types'
-
 function Input() {
-  const { navigation } = useStore<Ctx>(COMPONENT)
+  const navigation = useNavigation(COMPONENT)
   const [username, setUsername] = useState('')
 
   const handleChange = useCallback(

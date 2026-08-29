@@ -9,6 +9,7 @@ import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { ItemSetting } from '@_'
 import { _ } from '@stores'
+import { useNavigation } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import { URL_PRIVACY } from '@constants'
 import { TEXTS } from '../ds'
@@ -16,7 +17,9 @@ import { TEXTS } from '../ds'
 import type { Props } from './types'
 
 /** 隐私保护政策 */
-function Privacy({ navigation, filter, setFalse }: Props) {
+function Privacy({ filter, setFalse }: Props) {
+  const navigation = useNavigation()
+
   return (
     <ItemSetting
       style={_.mt.xs}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-06 00:17:22
+ * @Last Modified time: 2026-08-29 20:32:52
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -29,11 +29,11 @@ import Timeline from './component/timeline'
 import Timezone from './component/timezone'
 import Tinygrail from './component/tinygrail'
 import Tip from './component/tip'
-import Worker from './component/worker'
 import Track from './component/track'
 import UI from './component/ui'
 import User from './component/user'
 import Version from './component/version'
+import Worker from './component/worker'
 import Zhinan from './component/zhinan'
 import Header from './header'
 import { useSettingPage } from './hooks'
@@ -44,7 +44,7 @@ import type { Params } from './types'
 
 /** 设置 */
 function Setting(props: NavigationProps<Params>) {
-  const { navigation, filter, setFilter, open, forwardRef, onBlockRef } = useSettingPage(props)
+  const { filter, setFilter, open, forwardRef, onBlockRef } = useSettingPage(props)
 
   return (
     <Component id='screen-setting'>
@@ -70,10 +70,10 @@ function Setting(props: NavigationProps<Params>) {
             <Theme filter={filter} />
             <UI filter={filter} />
             <Custom filter={filter} />
-            <CDN navigation={navigation} filter={filter} />
-            <Blocks navigation={navigation} filter={filter} />
-            <Track navigation={navigation} filter={filter} open={open === 'Track'} />
-            <Katakana navigation={navigation} filter={filter} />
+            <CDN filter={filter} />
+            <Blocks filter={filter} />
+            <Track filter={filter} open={open === 'Track'} />
+            <Katakana filter={filter} />
           </Block>
 
           <Block title='module' onBlockRef={onBlockRef}>
@@ -82,7 +82,7 @@ function Setting(props: NavigationProps<Params>) {
             <Discovery filter={filter} open={open === 'Discovery'} />
             <Timeline filter={filter} />
             <Home filter={filter} />
-            <Rakuen navigation={navigation} filter={filter} />
+            <Rakuen filter={filter} />
             <User filter={filter} open={open === 'User'} />
             <Tinygrail filter={filter} open={open === 'Tinygrail'} />
             <Subject filter={filter} open={open === 'Subject'} />
@@ -91,8 +91,8 @@ function Setting(props: NavigationProps<Params>) {
 
           <Block>
             <Tip>相关</Tip>
-            <Contact navigation={navigation} filter={filter} />
-            <Zhinan navigation={navigation} filter={filter} />
+            <Contact filter={filter} />
+            <Zhinan filter={filter} />
           </Block>
 
           <Block>
@@ -100,16 +100,16 @@ function Setting(props: NavigationProps<Params>) {
             <Storage filter={filter} />
             <System filter={filter} />
             <Timezone filter={filter} />
-            <Worker navigation={navigation} filter={filter} open={open === 'Worker'} />
-            <DangerZone navigation={navigation} filter={filter} />
+            <Worker filter={filter} open={open === 'Worker'} />
+            <DangerZone filter={filter} />
           </Block>
 
           <Lasttime />
-          <Dev navigation={navigation} />
+          <Dev />
         </ScrollView>
       </Page>
 
-      <Header navigation={navigation} />
+      <Header />
     </Component>
   )
 }

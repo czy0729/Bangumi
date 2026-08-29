@@ -23,7 +23,7 @@ function Header() {
   const handleHeaderRight = useCallback(
     () => (
       <>
-        <Filter $={$} />
+        <Filter />
         <HeaderV2Popover
           data={DATA}
           onSelect={title => {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-06-02 06:25:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-21 05:12:03
+ * @Last Modified time: 2026-08-29 20:33:07
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -16,10 +16,8 @@ import SubTitle from './components/sub-title'
 import { useProxyHelpPage } from './hooks'
 import { COMPONENT, HM } from './ds'
 
-import type { NavigationProps } from '@types'
-
 /** 代理补充说明 */
-function ProxyHelp({ navigation }: NavigationProps) {
+function ProxyHelp() {
   const { visible, loading, data, handleHide, handleShow, handleLoadMore } = useProxyHelpPage()
 
   return (
@@ -139,7 +137,6 @@ function ProxyHelp({ navigation }: NavigationProps) {
           </Text>
 
           <RecommendTopic
-            navigation={navigation}
             title='帖子搜索'
             visible={visible}
             loading={loading}

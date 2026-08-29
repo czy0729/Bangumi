@@ -5,10 +5,10 @@
  * @Last Modified time: 2025-12-23 01:51:31
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page, ScrollView } from '@components'
 import { InView } from '@_'
 import { _, StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import BlockNew from './component/block-new'
 import BlockTrend from './component/block-trend'
 import Pagination from './component/pagination'
@@ -21,47 +21,42 @@ import type { NavigationProps } from '@types'
 
 /** 评分月刊 */
 const VIB = (props: NavigationProps) => {
-  const { id, navigation, data, index, loaded, handleSelect, handleForwardRef, handleScroll } =
+  const { id, data, index, loaded, handleSelect, handleForwardRef, handleScroll } =
     useVIBPage(props)
 
-  return useObserver(() => {
-    const styles = memoStyles()
-    const current = data[index]
+  const styles = memoStyles()
 
-    return (
-      <Component id='screen-vib'>
-        <StoreContext.Provider value={id}>
-          <Page loaded={loaded}>
-            <HeaderPlaceholder />
-            <ScrollView
-              forwardRef={handleForwardRef}
-              contentContainerStyle={styles.contentContainerStyle}
-              onScroll={handleScroll}
-            >
-              <Title
-                text={`${current.title} (${current.desc})`.replace('日到', '至')}
-                size='primary'
-              />
-              {current.data.map((item, index) => {
-                const Component = index ? BlockTrend : BlockNew
-                return (
-                  <InView key={item.title} style={_.mt.lg} y={_.window.height * (index + 1)}>
-                    <Component navigation={navigation} title={item.title} data={item.data} />
-                  </InView>
-                )
-              })}
-              <Pagination data={data} index={index} onSelect={handleSelect} />
-            </ScrollView>
-          </Page>
-          <Header
-            navigation={navigation}
-            data={data.map(item => item.title)}
-            onSelect={handleSelect}
-          />
-        </StoreContext.Provider>
-      </Component>
-    )
-  })
+  const current = data[index]
+
+  return (
+    <Component id='screen-vib'>
+      <StoreContext.Provider value={id}>
+        <Page loaded={loaded}>
+          <HeaderPlaceholder />
+          <ScrollView
+            forwardRef={handleForwardRef}
+            contentContainerStyle={styles.contentContainerStyle}
+            onScroll={handleScroll}
+          >
+            <Title
+              text={`${current.title} (${current.desc})`.replace('日到', '至')}
+              size='primary'
+            />
+            {current.data.map((item, index) => {
+              const Component = index ? BlockTrend : BlockNew
+              return (
+                <InView key={item.title} style={_.mt.lg} y={_.window.height * (index + 1)}>
+                  <Component title={item.title} data={item.data} />
+                </InView>
+              )
+            })}
+            <Pagination data={data} index={index} onSelect={handleSelect} />
+          </ScrollView>
+        </Page>
+        <Header data={data.map(item => item.title)} onSelect={handleSelect} />
+      </StoreContext.Provider>
+    </Component>
+  )
 }
 
-export default VIB
+export default observer(VIB)

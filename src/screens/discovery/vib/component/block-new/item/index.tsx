@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-04 05:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 22:15:07
+ * @Last Modified time: 2026-08-29 21:19:39
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -10,16 +10,16 @@ import { Flex, Text, Touchable } from '@components'
 import { Rank } from '@_'
 import { _, uiStore } from '@stores'
 import { feedback, findSubjectJp, HTMLDecode } from '@utils'
-import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
+import { useNavigation } from '@utils/hooks'
 import { IOS } from '@constants'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 import type { Props } from './types'
 
-function Item({ navigation, item, index }: Props) {
-  r(COMPONENT)
+function Item({ item, index }: Props) {
+  const navigation = useNavigation(COMPONENT)
 
   const jp = findSubjectJp(item.title, item.id)
 

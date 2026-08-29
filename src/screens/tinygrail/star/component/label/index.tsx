@@ -7,15 +7,14 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { SegmentedControl } from '@components'
-import { _ } from '@stores'
-import { r } from '@utils/dev'
+import { _, useStore } from '@stores'
 import { COMPONENT, LABEL_DS } from './ds'
 import { styles } from './styles'
 
 import type { Ctx } from '../../types'
 
-function Label({ $ }: Ctx) {
-  r(COMPONENT)
+function Label() {
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   const { _loaded, label } = $.state
   if (!_loaded) return null

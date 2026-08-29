@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-11 01:55:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-21 16:03:03
+ * @Last Modified time: 2026-08-29 06:41:22
  */
 import React, { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
@@ -24,7 +24,7 @@ function Header({ onScrollToOffset }) {
   const handleHeaderRight = useCallback(
     () => (
       <>
-        <IconNavigate $={$} onScrollToOffset={onScrollToOffset} />
+        <IconNavigate onScrollToOffset={onScrollToOffset} />
         <HeaderV2Popover
           data={memoData}
           onSelect={title => {

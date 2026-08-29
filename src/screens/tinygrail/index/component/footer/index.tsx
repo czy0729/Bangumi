@@ -2,23 +2,22 @@
  * @Author: czy0729
  * @Date: 2021-05-04 16:25:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-20 17:56:43
+ * @Last Modified time: 2026-08-29 21:20:17
  */
 import React, { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { Popover } from '@_'
-import { _, systemStore, useStore } from '@stores'
+import { _, systemStore } from '@stores'
 import { alert, feedback, info, open } from '@utils'
 import { t } from '@utils/fetch'
+import { useNavigation } from '@utils/hooks'
 import { APP_ID_SAY_TINYGRAIL, WEB } from '@constants'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-import type { Ctx } from '../../types'
-
 function Footer() {
-  const { navigation } = useStore<Ctx>(COMPONENT)
+  const navigation = useNavigation(COMPONENT)
 
   const memoMenu = useMemo(() => {
     const jump = (to: any, params: any = {}, title: string) => {

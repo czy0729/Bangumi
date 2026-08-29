@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-21 17:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-24 05:39:41
+ * @Last Modified time: 2026-08-29 20:07:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,7 @@ import { IconTouchable, ItemSettingBlock } from '@_'
 import { _, systemStore, userStore } from '@stores'
 import { confirm } from '@utils'
 import { t } from '@utils/fetch'
+import { useNavigation } from '@utils/hooks'
 import { APP_ADVANCE_CDN, MODEL_SETTING_CDN_ORIGIN } from '@constants'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
@@ -22,7 +23,8 @@ import { checkAdvance, waitToResetCDN } from './utils'
 import type { SettingCDNOrigin, SettingCDNOriginCn } from '@types'
 import type { Props } from './types'
 
-function CDNCover({ navigation, filter, setFalse }: Props) {
+function CDNCover({ filter, setFalse }: Props) {
+  const navigation = useNavigation()
   const { value, handleSwitch } = useAsyncSwitchSetting('cdn')
 
   const origin = MODEL_SETTING_CDN_ORIGIN.getLabel<SettingCDNOriginCn>(

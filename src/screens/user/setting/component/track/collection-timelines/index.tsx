@@ -13,7 +13,7 @@ import BlockItem from './block-item'
 
 import type { Props } from './types'
 
-function CollectionTimelines({ navigation, filter, setFalse }: Props) {
+function CollectionTimelines({ filter, setFalse }: Props) {
   return (
     <>
       <ItemSetting
@@ -26,7 +26,7 @@ function CollectionTimelines({ navigation, filter, setFalse }: Props) {
         ])}
         {...TEXTS.collectionTimelines}
       />
-      <BlockItem navigation={navigation} setFalse={setFalse} />
+      <BlockItem setFalse={setFalse} />
     </>
   )
 }

@@ -2,18 +2,21 @@
  * @Author: czy0729
  * @Date: 2025-07-24 02:26:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-08 04:27:51
+ * @Last Modified time: 2026-08-29 19:13:13
  */
 import React, { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { Flex, HeaderV2Popover, Text } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { open } from '@utils'
 import { TEXT_MENU_BROWSER, TEXT_MENU_SPLIT, TEXT_NEW_TOPIC } from '@constants'
+import { COMPONENT } from './ds'
 
 import type { Ctx } from '../../types'
 
-function RelatedPM({ $, navigation }: Ctx) {
+function RelatedPM() {
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
+
   const { threads, url, userId, pmDetail, onThreadChange } = $
   const isNewPM = !!userId
   const {

@@ -6,21 +6,25 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { ob } from '@utils/decorators'
+import { observer } from 'mobx-react'
+import { r } from '@utils/dev'
 import Title from '../title'
 import Item from './item'
 import { COMPONENT } from './ds'
-import { Props } from './types'
 
-function BlockTrend({ style, navigation, title, data }: Props) {
+import type { Props } from './types'
+
+function BlockTrend({ style, title, data }: Props) {
+  r(COMPONENT)
+
   return (
     <View style={style}>
       <Title text={title} />
       {data.map((item, index) => (
-        <Item key={item.id} navigation={navigation} item={item} index={index} />
+        <Item key={item.id} item={item} index={index} />
       ))}
     </View>
   )
 }
 
-export default ob(BlockTrend, COMPONENT)
+export default observer(BlockTrend)

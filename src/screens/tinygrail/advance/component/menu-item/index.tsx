@@ -9,11 +9,13 @@ import { observer } from 'mobx-react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { stl } from '@utils'
 import { t } from '@utils/fetch'
+import { useNavigation } from '@utils/hooks'
 import { memoStyles } from './styles'
 
 import type { Props } from './types'
 
-function MenuItem({ navigation, style, pathname, title, icon }: Props) {
+function MenuItem({ style, pathname, title, icon }: Props) {
+  const navigation = useNavigation()
   const styles = memoStyles()
 
   return (

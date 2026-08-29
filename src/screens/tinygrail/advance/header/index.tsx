@@ -7,12 +7,13 @@ import { observer } from 'mobx-react'
 import { IconHeader } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
+import { useNavigation } from '@utils/hooks'
 import TinygrailHeader from '@tinygrail/_/header'
 import { HM } from './ds'
 
-import type { WithNavigation } from '@types'
+function Header() {
+  const navigation = useNavigation()
 
-function Header({ navigation }: WithNavigation) {
   const handleHeaderRight = useCallback(
     () => (
       <IconHeader

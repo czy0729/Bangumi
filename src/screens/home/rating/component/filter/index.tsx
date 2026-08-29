@@ -8,14 +8,14 @@ import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Heatmap, SegmentedControl } from '@components'
-import { r } from '@utils/dev'
+import { useStore } from '@stores'
 import { COMPONENT, DATA } from './ds'
 import { styles } from './styles'
 
 import type { Ctx } from '../../types'
 
-function Filter({ $ }: Ctx) {
-  r(COMPONENT)
+function Filter() {
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   const { _loaded, isFriend } = $.state
   if (!_loaded) return null

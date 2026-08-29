@@ -2,22 +2,21 @@
  * @Author: czy0729
  * @Date: 2026-05-18 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-18 21:20:06
+ * @Last Modified time: 2026-08-29 06:42:59
  */
 import React, { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { IconTouchable } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { feedback } from '@utils'
-import { r } from '@utils/dev'
 import { getDividerIndex } from '../../component/list/utils'
 import { COMPONENT, ITEM_HEIGHT } from './ds'
 
 import type { Recents } from '@stores/users/types'
 import type { Ctx } from '../../types'
 
-function IconNavigate({ $ }: Ctx) {
-  r(COMPONENT)
+function IconNavigate() {
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   const handleNavigate = useCallback(() => {
     const list = $.list('recents') as Recents

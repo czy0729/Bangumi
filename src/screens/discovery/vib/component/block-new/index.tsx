@@ -6,24 +6,28 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { asc } from '@utils'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import Title from '../title'
 import Item from './item'
 import { COMPONENT } from './ds'
-import { Props } from './types'
 
-function BlockNew({ style, navigation, title, data }: Props) {
+import type { Props } from './types'
+
+function BlockNew({ style, title, data }: Props) {
+  r(COMPONENT)
+
   return (
     <View style={style}>
       <Title text={title} />
       {data
         .sort((a, b) => asc(Number(a.value1), Number(b.value1)))
         .map((item, index) => (
-          <Item key={item.id} navigation={navigation} item={item} index={index} />
+          <Item key={item.id} item={item} index={index} />
         ))}
     </View>
   )
 }
 
-export default ob(BlockNew, COMPONENT)
+export default observer(BlockNew)

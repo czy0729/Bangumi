@@ -8,13 +8,16 @@ import React from 'react'
 import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { ItemSetting } from '@_'
+import { useNavigation } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import { TEXTS } from '../ds'
 
 import type { Props } from './types'
 
 /** 自定义源头 */
-function OriginSetting({ navigation, filter, setFalse }: Props) {
+function OriginSetting({ filter, setFalse }: Props) {
+  const navigation = useNavigation()
+
   return (
     <ItemSetting
       arrow

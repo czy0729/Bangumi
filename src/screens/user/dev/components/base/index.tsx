@@ -9,11 +9,12 @@ import { observer } from 'mobx-react'
 import { Switch, Text, Touchable } from '@components'
 import { IconTouchable, ItemSetting } from '@_'
 import { _, systemStore, userStore } from '@stores'
+import { useNavigation } from '@utils/hooks'
 import { styles } from './styles'
 
-import type { NavigationProps } from '@types'
+function Base() {
+  const navigation = useNavigation()
 
-function Base({ navigation }: NavigationProps) {
   const { dev, devEvent } = systemStore.state
 
   const elFt = useMemo(

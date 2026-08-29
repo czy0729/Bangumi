@@ -11,13 +11,15 @@ import { Flex, Iconfont, Input, Text, Touchable } from '@components'
 import { UserStatusAvatar } from '@_'
 import { _, subjectStore, systemStore, usersStore, userStore } from '@stores'
 import { confirm, info, titleCase } from '@utils'
+import { useNavigation } from '@utils/hooks'
 import Block from '../../../block'
 import { memoStyles } from './styles'
 
 import type { TrackIds } from '@stores/system/types'
 import type { Props } from './types'
 
-function BlockItem({ navigation, item, setFalse }: Props) {
+function BlockItem({ item, setFalse }: Props) {
+  const navigation = useNavigation()
   const [keyword, setKeyword] = useState('')
 
   const handleChange = useCallback((text: string) => {

@@ -5,9 +5,8 @@
  * @Last Modified time: 2026-08-28 01:58:44
  */
 import type { SubjectType } from '@constants/model/types'
-import type { WithNavigation } from '@types'
 
-export type Props = WithNavigation<{
+export type Props = {
   /** 条目类型菜单项 */
   item: {
     label: SubjectType
@@ -18,4 +17,4 @@ export type Props = WithNavigation<{
 
   /** 关闭 ActionSheet */
   setFalse: () => void
-}>
+}

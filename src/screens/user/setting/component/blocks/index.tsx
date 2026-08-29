@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-14 03:18:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 00:27:27
+ * @Last Modified time: 2026-08-29 20:06:04
  */
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
@@ -10,19 +10,17 @@ import { observer } from 'mobx-react'
 import { ActionSheet } from '@components'
 import { ItemSetting } from '@_'
 import { rakuenStore, userStore } from '@stores'
-import { r } from '@utils/dev'
-import { useBoolean } from '@utils/hooks'
+import { useBoolean, useNavigation } from '@utils/hooks'
 import RakuenBlocks from '../../../../rakuen/setting/component/blockeds'
 import { getShows } from '../../utils'
 import { COMPONENT, TEXTS } from './ds'
 import { memoStyles } from './styles'
 
-import type { WithNavigation } from '@types'
 import type { WithFilterProps } from '../../types'
 
 /** 屏蔽 */
-function Blocks({ navigation, filter }: WithNavigation<WithFilterProps>) {
-  r(COMPONENT)
+function Blocks({ filter }: WithFilterProps) {
+  const navigation = useNavigation(COMPONENT)
 
   const { state, setTrue, setFalse } = useBoolean(false)
   const shows = getShows(filter, TEXTS)
@@ -43,7 +41,6 @@ function Blocks({ navigation, filter }: WithNavigation<WithFilterProps>) {
       <ActionSheet show={state} title={TEXTS.blocks.hd} height={760} onClose={setFalse}>
         <View style={styles.container}>
           <RakuenBlocks
-            navigation={navigation}
             onNavigate={(path, params) => {
               setFalse()
               setTimeout(() => {

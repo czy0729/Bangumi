@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-14 03:18:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 00:20:29
+ * @Last Modified time: 2026-08-29 20:27:41
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -17,19 +17,15 @@ import Topic from './topic'
 import { COMPONENT, TEXTS } from './ds'
 import { memoStyles } from './styles'
 
-import type { WithNavigation } from '@types'
 import type { WithFilterProps } from '../../types'
 
 /** 追踪 */
 function Track({
-  navigation,
   filter,
   open
-}: WithNavigation<
-  WithFilterProps<{
-    open: boolean
-  }>
->) {
+}: WithFilterProps<{
+  open: boolean
+}>) {
   r(COMPONENT)
 
   const { state, setTrue, setFalse } = useBoolean(open)
@@ -49,11 +45,9 @@ function Track({
         height={760}
         onClose={setFalse}
       >
-        {shows.collectionTimelines && (
-          <CollectionTimelines navigation={navigation} filter={filter} setFalse={setFalse} />
-        )}
-        {shows.comment && <Comment navigation={navigation} filter={filter} setFalse={setFalse} />}
-        {shows.topic && <Topic navigation={navigation} filter={filter} setFalse={setFalse} />}
+        {shows.collectionTimelines && <CollectionTimelines filter={filter} setFalse={setFalse} />}
+        {shows.comment && <Comment filter={filter} setFalse={setFalse} />}
+        {shows.topic && <Topic filter={filter} setFalse={setFalse} />}
       </ActionSheet>
     </>
   )

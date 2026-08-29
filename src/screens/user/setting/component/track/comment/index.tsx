@@ -14,7 +14,7 @@ import BlockItem from './block-item'
 
 import type { Props } from './types'
 
-function Comment({ navigation, filter, setFalse }: Props) {
+function Comment({ filter, setFalse }: Props) {
   return (
     <>
       <ItemSetting
@@ -27,7 +27,7 @@ function Comment({ navigation, filter, setFalse }: Props) {
         {...TEXTS.comment}
       />
       {SUBJECT_TYPE.map(item => (
-        <BlockItem key={item.label} navigation={navigation} item={item} setFalse={setFalse} />
+        <BlockItem key={item.label} item={item} setFalse={setFalse} />
       ))}
     </>
   )

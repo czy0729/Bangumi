@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 10:32:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-24 05:41:38
+ * @Last Modified time: 2026-08-29 20:06:58
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -19,11 +19,10 @@ import ImageSkeleton from './image-skeleton'
 import IOSImageCache from './ios-image-cache'
 import { COMPONENT, TEXTS } from './ds'
 
-import type { WithNavigation } from '@types'
 import type { WithFilterProps } from '../../types'
 
 /** 图片 */
-function CDN({ navigation, filter }: WithNavigation<WithFilterProps>) {
+function CDN({ filter }: WithFilterProps) {
   r(COMPONENT)
 
   const { state, setTrue, setFalse } = useBoolean(false)
@@ -40,9 +39,7 @@ function CDN({ navigation, filter }: WithNavigation<WithFilterProps>) {
         height={filter || WEB ? 440 : 640}
         onClose={setFalse}
       >
-        {!WEB && shows.cover && (
-          <CDNCover navigation={navigation} filter={filter} setFalse={setFalse} />
-        )}
+        {!WEB && shows.cover && <CDNCover filter={filter} setFalse={setFalse} />}
         {shows.imageSkeleton && <ImageSkeleton filter={filter} />}
         {shows.imageFadeIn && <ImageFadeIn />}
         {!WEB && shows.test && <CDNTest filter={filter} />}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-11-13 07:49:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-14 13:18:57
+ * @Last Modified time: 2026-08-29 21:19:05
  */
 import React, { useCallback, useState } from 'react'
 import { observer } from 'mobx-react'
@@ -10,10 +10,11 @@ import { Flex, Input as InputComp } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { info } from '@utils'
+import { useNavigation } from '@utils/hooks'
+import { COMPONENT } from './ds'
 
-import type { WithNavigation } from '@types'
-
-function Input({ navigation }: WithNavigation) {
+function Input() {
+  const navigation = useNavigation(COMPONENT)
   const [username, setUsername] = useState('')
 
   const handleChange = useCallback(

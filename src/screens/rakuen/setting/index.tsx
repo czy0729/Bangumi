@@ -19,10 +19,8 @@ import Header from './header'
 import { useRakuenSettingPage } from './hooks'
 import { styles } from './styles'
 
-import type { NavigationProps } from '@types'
-
 /** 超展开设置 */
-function RakuenSetting({ navigation }: NavigationProps) {
+function RakuenSetting() {
   const { handleScroll } = useRakuenSettingPage()
 
   return (
@@ -36,7 +34,7 @@ function RakuenSetting({ navigation }: NavigationProps) {
           <Slider />
           <Media />
           <Base />
-          <Blockeds navigation={navigation} />
+          <Blockeds />
         </ScrollView>
       </Page>
       <Header />

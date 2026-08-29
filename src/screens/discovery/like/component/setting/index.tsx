@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-13 05:32:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-14 13:18:15
+ * @Last Modified time: 2026-08-29 21:19:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,21 +10,17 @@ import { observer } from 'mobx-react'
 import { ActionSheet, Divider, Flex, SwitchPro, Text } from '@components'
 import { IconTouchable, Notice } from '@_'
 import { _, systemStore } from '@stores'
-import { r } from '@utils/dev'
-import { useBoolean } from '@utils/hooks'
+import { useBoolean, useNavigation } from '@utils/hooks'
 import { REASONS, REASONS_INFO } from '../../ds'
 import Input from '../input'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-import type { WithNavigation } from '@types'
-
-function Setting({ navigation, length }: WithNavigation<{ length: number }>) {
-  r(COMPONENT)
+function Setting({ length }: { length: number }) {
+  const navigation = useNavigation(COMPONENT)
+  const { state, setTrue, setFalse } = useBoolean(false)
 
   const styles = memoStyles()
-
-  const { state, setTrue, setFalse } = useBoolean(false)
 
   const { likeCollected, likeRec } = systemStore.setting
 
@@ -61,7 +57,7 @@ function Setting({ navigation, length }: WithNavigation<{ length: number }>) {
           大模型推导结果，只是在本地进行的一些很简单规则累加计算。所以只要你收藏、打分越多，数据就会越多。
         </Notice>
 
-        <Input navigation={navigation} />
+        <Input />
         <Divider />
 
         <View style={_.container.wind}>

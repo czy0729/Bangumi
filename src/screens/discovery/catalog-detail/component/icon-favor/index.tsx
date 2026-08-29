@@ -2,21 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-01-06 16:50:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-10 01:06:54
+ * @Last Modified time: 2026-08-29 06:41:49
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Heatmap, Text } from '@components'
 import { IconHeader } from '@_'
-import { _ } from '@stores'
-import { r } from '@utils/dev'
+import { _, useStore } from '@stores'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 import type { Ctx } from '../../types'
 
-function IconFavor({ $ }: Ctx) {
-  r(COMPONENT)
+function IconFavor() {
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   if (!($.detail.joinUrl || $.detail.byeUrl)) return null
 

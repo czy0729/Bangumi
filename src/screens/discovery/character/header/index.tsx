@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-12 22:46:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-17 07:11:38
+ * @Last Modified time: 2026-08-29 21:17:34
  */
 import React, { useCallback } from 'react'
 import { observer } from 'mobx-react'
@@ -22,21 +22,19 @@ function Header() {
   const handleHeaderRight = useCallback(
     () => (
       <>
-        <IconNavigate $={$} />
+        <IconNavigate />
         <HeaderV2Popover
           data={DATA}
           onSelect={title => {
-            if (title === TEXT_MENU_BROWSER) {
-              if (this.title === '人物近况') {
-                open(`${HOST}/mono/update`)
-              } else {
-                open($.url)
-              }
-
-              t('收藏的人物.右上角菜单', {
-                key: title
-              })
+            if ($.title === '人物近况') {
+              open(`${HOST}/mono/update`)
+            } else if (title === TEXT_MENU_BROWSER) {
+              open($.url)
             }
+
+            t('收藏的人物.右上角菜单', {
+              key: title
+            })
           }}
         />
       </>

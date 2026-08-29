@@ -10,16 +10,14 @@ import TinygrailPage from '@tinygrail/_/page'
 import Menus from './component/menus'
 import Header from './header'
 
-import type { NavigationProps } from '@types'
-
 /** 高级功能 */
-function TinygrailAdvance({ navigation }: NavigationProps) {
+function TinygrailAdvance() {
   return (
     <>
       <TinygrailPage>
-        <Menus navigation={navigation} />
+        <Menus />
       </TinygrailPage>
-      <Header navigation={navigation} />
+      <Header />
     </>
   )
 }

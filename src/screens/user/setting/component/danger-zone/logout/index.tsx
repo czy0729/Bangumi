@@ -9,13 +9,16 @@ import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { ItemSetting } from '@_'
 import Stores, { _ } from '@stores'
+import { useNavigation } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import { TEXTS } from '../ds'
 
 import type { Props } from './types'
 
 /** 登出 */
-function Logout({ navigation, filter, setFalse }: Props) {
+function Logout({ filter, setFalse }: Props) {
+  const navigation = useNavigation()
+
   return (
     <ItemSetting
       style={_.mt.xs}

@@ -7,12 +7,15 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { ItemSetting } from '@_'
+import { useNavigation } from '@utils/hooks'
 import { TEXTS } from '../ds'
 
 import type { Props } from './types'
 
 /** 特色功能 */
-function Tips({ navigation, filter, setFalse }: Props) {
+function Tips({ filter, setFalse }: Props) {
+  const navigation = useNavigation()
+
   return (
     <ItemSetting
       arrow

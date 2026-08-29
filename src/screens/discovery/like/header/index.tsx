@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-07-13 07:17:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-14 12:53:52
+ * @Last Modified time: 2026-08-29 06:47:38
  */
 import React, { useCallback } from 'react'
 import { observer } from 'mobx-react'
@@ -16,7 +16,7 @@ import { COMPONENT, HM } from './ds'
 import type { Ctx } from '../types'
 
 function Header() {
-  const { $, navigation } = useStore<Ctx>(COMPONENT)
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   const { list, type } = $.state
   const length = list?.[type]?.length
@@ -32,10 +32,10 @@ function Header() {
             onPress={$.onHeaderRefresh}
           />
         )}
-        <Setting navigation={navigation} length={length} />
+        <Setting length={length} />
       </>
     ),
-    [$, length, navigation]
+    [$, length]
   )
 
   const { userId } = $.params

@@ -11,7 +11,7 @@ import { ActionSheet, Flex, SegmentedControl, SwitchPro, Text, Touchable } from 
 import { BreathingLight, ItemSetting } from '@_'
 import { _, systemStore } from '@stores'
 import { t } from '@utils/fetch'
-import { useBoolean, useMount } from '@utils/hooks'
+import { useBoolean, useMount, useNavigation } from '@utils/hooks'
 import { API_MK_STATUS_HOST, MODEL_SETTING_SERVER_STATUS } from '@constants'
 import commonStyles from '../../styles'
 import { useAsyncSetSetting, useAsyncSwitchSetting } from '../../hooks'
@@ -19,9 +19,9 @@ import { getYuqueThumbs } from '../../utils'
 import { DATA } from './ds'
 import { styles } from './styles'
 
-import type { WithNavigation } from '@types'
+function Status() {
+  const navigation = useNavigation()
 
-function Status({ navigation }: WithNavigation) {
   const { value: serverStatus, handleSet } = useAsyncSetSetting('serverStatus')
   const { value: serverStatusBreathing, handleSwitch } =
     useAsyncSwitchSetting('serverStatusBreathing')

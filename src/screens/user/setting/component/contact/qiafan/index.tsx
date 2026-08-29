@@ -9,14 +9,16 @@ import { observer } from 'mobx-react'
 import { Heatmap, Text } from '@components'
 import { ItemSetting } from '@_'
 import { _, systemStore, userStore } from '@stores'
+import { useNavigation } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import { TEXT_UPDATE_QIAFAN } from '@constants'
 
-import type { WithNavigation } from '@types'
 import type { WithFilterProps } from '../../../types'
 
 /** 投食🍚 */
-function Qiafan({ navigation, filter }: WithNavigation<WithFilterProps>) {
+function Qiafan({ filter }: WithFilterProps) {
+  const navigation = useNavigation()
+
   let amount = 0
   if (systemStore.advance) {
     amount = systemStore.advanceAmount(userStore.myUserId, userStore.myId)

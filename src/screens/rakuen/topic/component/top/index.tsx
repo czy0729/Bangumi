@@ -22,7 +22,7 @@ import { memoStyles } from './styles'
 import type { Ctx } from '../../types'
 
 function Top() {
-  const { $, navigation } = useStore<Ctx>(COMPONENT)
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   const styles = memoStyles()
 
@@ -47,7 +47,6 @@ function Top() {
         )}
         {$.isTopic && (
           <RecommendTopic
-            navigation={navigation}
             visible={$.state.recommendVisible}
             loading={$.state.recommendLoading}
             data={$.state.recommendTopics}

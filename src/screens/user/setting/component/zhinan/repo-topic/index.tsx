@@ -9,13 +9,16 @@ import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { ItemSetting } from '@_'
 import { appNavigate } from '@utils'
+import { useNavigation } from '@utils/hooks'
 import { URL_FEEDBACK } from '@constants'
 import { TEXTS } from '../ds'
 
 import type { Props } from './types'
 
 /** 项目帖子 */
-function RepoTopic({ navigation, filter, setFalse }: Props) {
+function RepoTopic({ filter, setFalse }: Props) {
+  const navigation = useNavigation()
+
   return (
     <ItemSetting
       arrow

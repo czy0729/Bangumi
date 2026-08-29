@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-04 05:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-02 09:55:53
+ * @Last Modified time: 2026-08-29 21:19:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,15 +11,20 @@ import { _, uiStore } from '@stores'
 import { feedback, findSubjectJp, HTMLDecode } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { useNavigation } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props } from './types'
 
-function Item({ navigation, item, index }: Props) {
+import type { Props } from './types'
+
+function Item({ item, index }: Props) {
+  const navigation = useNavigation(COMPONENT)
+
   const jp = findSubjectJp(item.title, item.id)
   const up = item.value.includes('+')
   let value: string | number = Math.abs(Number(item.value))
   if (item.value.includes('.')) value = value.toFixed(2)
+
   return (
     <Flex style={styles.item} align='start'>
       <Text size={13} lineHeight={20}>

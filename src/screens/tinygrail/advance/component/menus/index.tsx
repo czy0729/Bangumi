@@ -10,51 +10,27 @@ import { Flex } from '@components'
 import MenuItem from '../menu-item'
 import { memoStyles } from './styles'
 
-import type { WithNavigation } from '@types'
-
-function Menus({ navigation }: WithNavigation) {
+function Menus() {
   const styles = memoStyles()
 
   return (
     <Flex style={styles.section} wrap='wrap'>
       <MenuItem
         style={styles.bid}
-        navigation={navigation}
         title='买入推荐'
         pathname='TinygrailAdvanceAsk'
         icon='md-add-circle-outline'
       />
       <MenuItem
         style={styles.ask}
-        navigation={navigation}
         title='卖出推荐'
         pathname='TinygrailAdvanceBid'
         icon='md-remove-circle-outline'
       />
-      <MenuItem
-        navigation={navigation}
-        title='拍卖推荐'
-        pathname='TinygrailAdvanceAuction'
-        icon='md-gavel'
-      />
-      <MenuItem
-        navigation={navigation}
-        title='拍卖推荐 B'
-        pathname='TinygrailAdvanceAuction2'
-        icon='md-gavel'
-      />
-      <MenuItem
-        navigation={navigation}
-        title='低价股'
-        pathname='TinygrailAdvanceState'
-        icon='md-attach-money'
-      />
-      <MenuItem
-        navigation={navigation}
-        title='资金分析'
-        pathname='TinygrailTree'
-        icon='md-insert-chart-outlined'
-      />
+      <MenuItem title='拍卖推荐' pathname='TinygrailAdvanceAuction' icon='md-gavel' />
+      <MenuItem title='拍卖推荐 B' pathname='TinygrailAdvanceAuction2' icon='md-gavel' />
+      <MenuItem title='低价股' pathname='TinygrailAdvanceState' icon='md-attach-money' />
+      <MenuItem title='资金分析' pathname='TinygrailTree' icon='md-insert-chart-outlined' />
     </Flex>
   )
 }

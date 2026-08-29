@@ -7,13 +7,15 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { ItemSetting } from '@_'
+import { useNavigation } from '@utils/hooks'
 import { TEXTS } from '../ds'
 
-import type { WithNavigation } from '@types'
 import type { WithFilterProps } from '../../../types'
 
 /** 更新内容 */
-function Versions({ navigation, filter }: WithNavigation<WithFilterProps>) {
+function Versions({ filter }: WithFilterProps) {
+  const navigation = useNavigation()
+
   return (
     <ItemSetting
       arrow

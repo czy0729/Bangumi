@@ -4,11 +4,9 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2026-07-24 17:22:07
  */
-import type { WithNavigation } from '@types'
 import type { WithFilterProps } from '../../../types'
 
-export type Props = WithNavigation<
-  WithFilterProps<{
-    setFalse: () => void
-  }>
->
+export type Props = WithFilterProps<{
+  /** 关闭弹层 */
+  setFalse: () => void
+}>

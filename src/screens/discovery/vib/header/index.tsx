@@ -2,16 +2,20 @@
  * @Author: czy0729
  * @Date: 2024-05-04 18:58:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 08:11:07
+ * @Last Modified time: 2026-08-29 21:20:06
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { HeaderV2, HeaderV2Popover } from '@components'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { useNavigation } from '@utils/hooks'
 import { COMPONENT, HM, TEXT_GROUP } from './ds'
-import { Props } from './types'
 
-function Header({ navigation, data, onSelect }: Props) {
+import type { Props } from './types'
+
+function Header({ data, onSelect }: Props) {
+  const navigation = useNavigation(COMPONENT)
+
   return (
     <HeaderV2
       title='VIB 数据月刊'
@@ -46,4 +50,4 @@ function Header({ navigation, data, onSelect }: Props) {
   )
 }
 
-export default ob(Header, COMPONENT)
+export default observer(Header)

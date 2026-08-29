@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-20 11:42:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-16 07:53:15
+ * @Last Modified time: 2026-08-29 20:17:36
  */
 import React, { useCallback, useRef } from 'react'
 import { observer } from 'mobx-react'
@@ -20,11 +20,10 @@ import Webhook from './webhook'
 import { COMPONENT, TEXTS } from './ds'
 
 import type { ScrollTo } from '@components'
-import type { WithNavigation } from '@types'
 import type { WithFilterProps } from '../../types'
 
 /** 其他 (之前是翻译, 已合并大部分功能于此项) */
-function Katakana({ navigation, filter }: WithNavigation<WithFilterProps>) {
+function Katakana({ filter }: WithFilterProps) {
   r(COMPONENT)
 
   const { state, setTrue, setFalse } = useBoolean(false)
@@ -59,9 +58,7 @@ function Katakana({ navigation, filter }: WithNavigation<WithFilterProps>) {
         height={filter ? 480 : 760}
         onClose={setFalse}
       >
-        {shows.origin && (
-          <OriginSetting navigation={navigation} filter={filter} setFalse={setFalse} />
-        )}
+        {shows.origin && <OriginSetting filter={filter} setFalse={setFalse} />}
         {shows.engine && (
           <TranslateEngine
             filter={filter}
@@ -70,7 +67,7 @@ function Katakana({ navigation, filter }: WithNavigation<WithFilterProps>) {
         )}
         {shows.katakana && <AppKatakana filter={filter} />}
         {shows.cnFirst && systemStore.setting.katakana && <CnFirst filter={filter} sub />}
-        {shows.webhook && <Webhook navigation={navigation} filter={filter} setFalse={setFalse} />}
+        {shows.webhook && <Webhook filter={filter} setFalse={setFalse} />}
       </ActionSheet>
     </>
   )

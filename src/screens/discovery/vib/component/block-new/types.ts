@@ -4,12 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-05-16 14:07:20
  */
-import { Navigation, ViewStyle } from '@types'
-import { ItemNew } from '../../types'
+import type { WithViewStyles } from '@types'
+import type { ItemNew } from '../../types'
 
-export type Props = {
-  style?: ViewStyle
-  navigation: Navigation
+export type Props = WithViewStyles<{
   title: string
   data: ItemNew[]
-}
+}>

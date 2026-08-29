@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 16:36:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-24 06:15:46
+ * @Last Modified time: 2026-08-29 20:15:32
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -14,11 +14,10 @@ import Sponsor from './sponsor'
 import Versions from './versions'
 import { COMPONENT, TEXTS } from './ds'
 
-import type { WithNavigation } from '@types'
 import type { WithFilterProps } from '../../types'
 
 /** 联系 */
-function Contact({ navigation, filter }: WithNavigation<WithFilterProps>) {
+function Contact({ filter }: WithFilterProps) {
   r(COMPONENT)
 
   const shows = getShows(filter, TEXTS)
@@ -27,10 +26,10 @@ function Contact({ navigation, filter }: WithNavigation<WithFilterProps>) {
 
   return (
     <>
-      {shows.say && <Feedback navigation={navigation} filter={filter} />}
-      {shows.qiafan && <Qiafan navigation={navigation} filter={filter} />}
-      {shows.advance && <Sponsor navigation={navigation} filter={filter} />}
-      {shows.versions && <Versions navigation={navigation} filter={filter} />}
+      {shows.say && <Feedback filter={filter} />}
+      {shows.qiafan && <Qiafan filter={filter} />}
+      {shows.advance && <Sponsor filter={filter} />}
+      {shows.versions && <Versions filter={filter} />}
     </>
   )
 }

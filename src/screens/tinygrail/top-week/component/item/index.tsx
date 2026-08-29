@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2025-07-28 21:43:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-16 04:50:02
+ * @Last Modified time: 2026-08-29 21:20:26
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Avatar, Flex, Text, Touchable } from '@components'
 import { Rate } from '@_'
-import { _, useStore } from '@stores'
+import { _ } from '@stores'
 import { alert, formatNumber, stl, tinygrailOSS, titleCase } from '@utils'
 import { t } from '@utils/fetch'
+import { useNavigation } from '@utils/hooks'
 import { M } from '@constants'
 import TinygrailStatus from '@tinygrail/_/status'
 import { COMPONENT } from './ds'
@@ -18,7 +19,6 @@ import { memoStyles } from './styles'
 
 import type { TextType } from '@components'
 import type { TinygrailTopWeekItem } from '@stores/tinygrail/types'
-import type { Ctx } from '../../types'
 
 /** 每周萌王项目 */
 function Item({
@@ -35,7 +35,7 @@ function Item({
   type,
   typeChange
 }: TinygrailTopWeekItem) {
-  const { navigation } = useStore<Ctx>(COMPONENT)
+  const navigation = useNavigation(COMPONENT)
 
   const styles = memoStyles()
 

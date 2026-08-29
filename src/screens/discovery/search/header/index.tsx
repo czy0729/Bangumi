@@ -17,12 +17,12 @@ import { COMPONENT, DATA } from './ds'
 import type { Ctx } from '../types'
 
 function Header() {
-  const { $, navigation } = useStore<Ctx>(COMPONENT)
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   const handleHeaderRight = useCallback(
     () => (
       <>
-        <T2S $={$} navigation={navigation} />
+        <T2S />
         <HeaderV2Popover
           data={DATA}
           onSelect={title => {
@@ -37,7 +37,7 @@ function Header() {
         />
       </>
     ),
-    [$, navigation]
+    [$]
   )
 
   return <HeaderV2 title='搜索' hm={$.hm} headerRight={handleHeaderRight} />
