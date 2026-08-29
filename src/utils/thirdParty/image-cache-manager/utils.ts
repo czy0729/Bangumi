@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-17 17:24:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 15:39:49
+ * @Last Modified time: 2026-08-30 05:46:01
  */
 import SHA1 from 'crypto-js/sha1'
 import { logger } from '@utils/dev'
@@ -13,7 +13,7 @@ import { BASE_DIR, LEGACY_BASE_DIR, MAX_CACHE_FILES, MAX_CACHE_SIZE, TMP_TTL } f
 import type { CacheFile, DownloadOptions } from './type'
 
 /** 日志标签 */
-const TAG = 'ImageCache'
+const TAG = '@utils/image-cache'
 
 /** 下载并发上限 */
 const DOWNLOAD_CONCURRENCY = 3
@@ -110,7 +110,10 @@ export class CacheEntry {
         if (!result || result.status !== 200) {
           counters.failures += 1
           this.loading = undefined
-          logger.error(TAG, 'download failed', result?.status ?? '-', shortName(this.uri))
+          logger.error(TAG, 'download failed', {
+            status: result?.status ?? '-',
+            uri: shortName(this.uri)
+          })
           return undefined
         }
 
@@ -127,7 +130,7 @@ export class CacheEntry {
       } catch (error) {
         counters.failures += 1
         this.loading = undefined
-        logger.error(TAG, 'download error', shortName(this.uri), String(error))
+        logger.error(TAG, 'download error', { uri: shortName(this.uri) }, error)
         throw error
       }
     })
@@ -382,14 +385,8 @@ export async function cleanupCache() {
       overflow.forEach(item => index.delete(item.uri.slice(BASE_DIR.length)))
     }
 
-    logger.warn(
-      TAG,
-      `hits=${counters.hits} write=${counters.writes} failed=${counters.failures}`,
-      obsoleteUris.length
-        ? `cleanup removed=${obsoleteUris.length} kept=${index.size}`
-        : 'cleanup none'
-    )
+    logger.warn(TAG, 'counters', counters)
   } catch (error) {
-    logger.error(TAG, 'cleanup error', String(error))
+    logger.error(TAG, 'cleanup error', error)
   }
 }

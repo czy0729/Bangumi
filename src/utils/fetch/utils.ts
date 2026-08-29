@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-02 00:29:31
+ * @Last Modified time: 2026-08-30 04:37:40
  */
 import pLimit from 'p-limit'
 import { WEB } from '@constants/device'
@@ -10,6 +10,8 @@ import { syncSystemStore, syncUserStore } from '../async'
 import { logger } from '../dev'
 import { isDevtoolsOpen } from '../dom'
 import { urlStringify } from '../utils'
+
+const TAG = '@utils/fetch'
 
 /** 接口某些字段为空返回 null, 影响到 es6 函数初始值的正常使用, 统一处理成空字符串 */
 export function safe(data: { [x: string]: any }) {
@@ -89,11 +91,11 @@ export function buildCookieHeaders(
 }
 
 /** info */
-export function log(method: string, ...others: any[]) {
-  logger.log(`@utils/fetch/${method}`, ...others)
+export function log(method: string, ...others: unknown[]) {
+  logger.log(TAG, method, ...others)
 }
 
 /** err */
-export function err(method: string, ...others: any[]) {
-  logger.error(`@utils/fetch/${method}`, ...others)
+export function err(method: string, ...others: unknown[]) {
+  logger.error(TAG, method, ...others)
 }

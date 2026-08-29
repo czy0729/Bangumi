@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-23 01:47:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-08 05:40:46
+ * @Last Modified time: 2026-08-30 05:33:32
  */
 import Constants from 'expo-constants'
 import { WEB } from '@constants/device'
@@ -104,11 +104,11 @@ export async function gets<
 
     const response = Crypto.get<Result<Record<Keys[number], T | null>>>(data)
     if (response?.code === 200) {
-      log('gets', keys.slice(0, 8), keys.length)
+      log('gets', { keys: keys.slice(0, 8), length: keys.length })
       return response.data
     }
   } catch (error) {
-    err('gets', error, keys.slice(0, 8), keys.length)
+    err('gets', { keys: keys.slice(0, 8), length: keys.length }, error)
   }
 
   return null
@@ -140,9 +140,9 @@ export async function update(
     if (UPDATE_CACHE_MAP.has(finger)) return
 
     UPDATE_CACHE_MAP.set(finger, true)
-    log('update', key, finger)
+    log('update', { key, finger })
   } else {
-    log('update', key)
+    log('update', { key })
   }
 
   const payload =
@@ -162,7 +162,7 @@ export async function update(
 
     return Crypto.get(data)
   } catch (error) {
-    err('update', error, key)
+    err('update', { key }, error)
   }
 
   return null
@@ -576,7 +576,7 @@ export async function generate(
     }
     if (customPrompt) body.customPrompt = customPrompt
 
-    log('generate', body)
+    log('generate', { body })
     const { data } = await axios<ResultGenerate>({
       method: 'post',
       url: `${HOST_RY_MK_AI}/generate`,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-13 00:32:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-19 21:22:52
+ * @Last Modified time: 2026-08-30 05:55:44
  */
 import { HOST, IOS, VERSION_GITHUB_RELEASE } from '@constants/constants'
 import { WEB } from '@constants/device'
@@ -88,7 +88,7 @@ export function t(desc: EventKeys, eventData?: EventData) {
           currentUrl,
           currentTitle
         )
-        log('t', desc, eventData)
+        log('t', { id: desc, data: eventData })
       }
     } catch {}
   })

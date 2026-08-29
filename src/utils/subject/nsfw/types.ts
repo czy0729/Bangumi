@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2024-07-19 21:31:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-06 06:16:26
+ * @Last Modified time: 2026-08-30 05:57:26
  */
 import type { Loaded } from '@types'
+import type { NSFW_SORT, NSFW_TYPE } from './ds'
 
 export type Finger = string
 
 export type Query = {
-  type: any
-  year: any
-  sort: any
+  type?: (typeof NSFW_TYPE)[number]
+  year?: string | number
+  sort?: (typeof NSFW_SORT)[number]
 }
 
 export type Item = {

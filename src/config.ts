@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-24 20:28:44
+ * @Last Modified time: 2026-08-30 05:41:11
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
@@ -16,7 +16,7 @@ export const DEV = __DEV__ || window?.CONFIG_TYPE === 'DEVELOPMENT'
 /** ==================== 常用配置 ==================== */
 /** 观察组件 */
 const rerenderShow = 'ZZZ.'
-const rerenderNotShow = []
+const rerenderNotShow: string[] = []
 
 /** 观察组件 rerender 用 (开发用) */
 export const RERENDER_SHOW = new RegExp(rerenderShow.replace(/\./g, '\\.')) // /Rakuen\.(.+?)\.Main/

@@ -172,7 +172,7 @@ export async function devGetUsersInfo() {
     items.map((userId, index) => async () => {
       try {
         const data = await usersStore.fetchUsers(userId)
-        logger.info(`devGetUsersInfo ${index} / ${items.length}`)
+        logger.info('devGetUsersInfo', `${index} / ${items.length}`)
 
         USERS_MAP[userId] = {
           n: data.userName

@@ -10,7 +10,7 @@ import { DEV } from '@src/config'
 export const RERENDER_LOG_COUNT = 0
 
 export const RERENDER_MEMO = {
-  data: {}
+  data: {} as Record<string, number>
 }
 
 if (DEV && !RERENDER_LOG_COUNT) {

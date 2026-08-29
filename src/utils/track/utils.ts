@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-29 20:01:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-19 21:24:36
+ * @Last Modified time: 2026-08-30 05:54:08
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
@@ -181,6 +181,8 @@ function eventToUrl(
   return `/${name}`
 }
 
-export function log(method: string, ...others: any[]) {
-  logger.yellow(`@utils/track/${method}`, ...others.filter(Boolean))
+const TAG = '@utils/track'
+
+export function log(method: string, ...others: unknown[]) {
+  logger.yellow(TAG, method, ...others.filter(Boolean))
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-07 21:42:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-23 21:53:49
+ * @Last Modified time: 2026-08-30 05:48:22
  */
 import { toByteArray } from 'base64-js'
 import { Asset } from 'expo-asset'
@@ -14,6 +14,8 @@ import { cacheMap, checkCache, get, isPromise, lockMap } from './utils'
 export { get }
 
 import type { Data, DataAssets } from './types'
+
+const TAG = '@utils/protobuf'
 
 /**
  * 解码数据
@@ -51,12 +53,12 @@ export const decode = async <T extends DataAssets>(name: T): Promise<Data[T]> =>
 
     cacheMap.set(name, payload)
     lockMap.set(name, false)
-    logger.log('@utils/protobuf/decode', name, (payload as { length?: number }).length)
+    logger.log(TAG, 'decode', { name, length: (payload as { length?: number }).length })
 
     return payload
   } catch (error) {
     lockMap.set(name, false)
-    logger.log('@utils/protobuf/decode', 'Error decode file', name)
+    logger.log(TAG, 'decode', 'Error decode file', { name })
     throw 'Error decode file'
   }
 }
@@ -71,7 +73,7 @@ async function loadProtoFile(name: DataAssets) {
     const response = await fetch(asset.localUri)
     return response.text()
   } catch (error) {
-    logger.log('@utils/protobuf/loadProtoFile', 'Error loading proto file', name)
+    logger.log(TAG, 'loadProtoFile', 'Error loading proto file', { name })
     return ''
   }
 }
@@ -88,7 +90,7 @@ async function loadBinFile(name: DataAssets) {
       encoding: FileSystem.EncodingType.Base64
     })
   } catch (error) {
-    logger.log('@utils/protobuf/loadBinFile', 'Error loading bin file', name)
+    logger.log(TAG, 'loadBinFile', 'Error loading bin file', { name })
     return ''
   }
 }

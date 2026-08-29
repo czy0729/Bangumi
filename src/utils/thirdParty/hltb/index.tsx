@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-05-26 04:55:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-26 23:52:13
+ * @Last Modified time: 2026-08-30 05:16:08
  */
 import Constants from 'expo-constants'
 import { logger } from '../../dev'
@@ -10,6 +10,8 @@ import { similar } from '../../utils'
 import { HOST } from './ds'
 
 import type { HltbGame, HltbResult, SearchToken } from './types'
+
+const TAG = '@utils/thirdParty/hltb'
 
 let userAgent = ''
 let searchToken: SearchToken
@@ -49,7 +51,7 @@ export async function hltb(gameName: string): Promise<HltbResult | null> {
       [tokenData.hpKey]: tokenData.hpVal
     }
 
-    logger.purple('@utils/thirdParty/hltb', 'hltb', { gameName })
+    logger.purple(TAG, 'search', { gameName })
     const resp = await fetch(`${HOST}/api/bleed`, {
       method: 'POST',
       headers: {

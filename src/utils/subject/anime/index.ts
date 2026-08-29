@@ -9,7 +9,7 @@ import { decode, get } from '../../protobuf'
 import { ANIME_OFFICIAL_MAP, ANIME_TAGS_MAP, REG_SEASONS, SORT } from './ds'
 
 import type { SubjectId } from '@types'
-import type { Finger, Item, Query, SearchResult, UnzipItem } from './types'
+import type { CompressedItem, Finger, Item, Query, SearchResult, UnzipItem } from './types'
 
 export {
   ANIME_AREA,
@@ -61,7 +61,7 @@ export function findAnime(id: SubjectId): Item {
 /** @deprecated 根据条目 ID 查询一项 */
 export function find(id: SubjectId): UnzipItem {
   init()
-  return unzip(getData().find(item => item.i == id))
+  return unzip(getData().find(item => item.i == id) as unknown as CompressedItem | undefined)
 }
 
 /** 只返回下标数组对象 */
@@ -169,15 +169,15 @@ export function search(query: Query, max: number = 500): SearchResult {
 }
 
 /** @deprecated 转换压缩数据的 key 名 */
-export function unzip(item: any): UnzipItem {
+export function unzip(item: CompressedItem | undefined): UnzipItem {
   return {
     id: item?.id || 0,
     ageId: item?.a || 0,
     type: item?.ty || 'TV',
     area: item?.ar || 'jp',
     status: item?.st || '完结',
-    official: item?.o || '',
-    tags: item?.t || '',
+    official: item?.o?.join(' ') || '',
+    tags: item?.t?.join(' ') || '',
     ep: item?.e || '',
     cn: item?.c || '',
     jp: item?.j || '',
@@ -259,7 +259,7 @@ export function guess(
       // .filter(item => !skipIds.includes(item.id))
       .filter((_item, index) => index < 500)
       .map(item => ({
-        ...unzip(data[item[0]]),
+        ...unzip(data[item[0]] as unknown as CompressedItem),
         rate: item[1]
       }))
   )

@@ -2,26 +2,30 @@
  * @Author: czy0729
  * @Date: 2022-09-20 01:25:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-17 05:40:58
+ * @Last Modified time: 2026-08-30 05:57:33
  */
 import type { Loaded } from '@types'
+import type { WENKU_ANIME, WENKU_AUTHOR, WENKU_CATE, WENKU_STATUS } from './ds'
 
 export type Finger = string
 
 export type Query = {
-  sort: any
-  year: any
-  first: any
-  status: any
-  tags: any
-  anime: any
-  cate: any
-  author: any
+  sort?: string
+  year?: string | number
+  first?: string
+  status?: (typeof WENKU_STATUS)[number]
+  tags?: string[]
+  anime?: (typeof WENKU_ANIME)[number]
+  cate?: (typeof WENKU_CATE)[number]
+  author?: (typeof WENKU_AUTHOR)[number]
 }
 
 export type Item = {
   /** SubjectId */
   i: number
+
+  /** wenku8 id */
+  w?: number
 
   /** 首字 */
   f?: string
@@ -34,6 +38,15 @@ export type Item = {
 
   /** 作者 */
   a?: number
+
+  /** 当前章节 */
+  e?: string
+
+  /** 标题, v7.1 后中文与日文合并以减少容量 */
+  t?: string
+
+  /** 封面 */
+  o?: string
 
   /** 开始连载时间 */
   b: string
@@ -68,58 +81,58 @@ export type Item = {
 
 export type UnzipItem = {
   /** SubjectId */
-  id: any
+  id: number
 
   /** wenku8 id */
-  wenkuId: any
+  wenkuId: number
 
   /** 原先 1 表示已结束, 大部分都是 1, 所以现在 1 改为连载中 */
-  status: any
+  status: number
 
   /** 是否动画化 */
-  anime: any
+  anime: number
 
   /** 作者 */
-  author: any
+  author: string
 
   /** 当前章节 */
-  ep: any
+  ep: string
 
   /** 标题, v7.1 后中文与日文合并以减少容量 */
-  cn: any
+  cn: string
 
   /** 封面 */
-  image: any
+  image: string
 
   /** 开始连载时间 */
-  begin: any
+  begin: string
 
   /** 最后更新时间 */
-  update: any
+  update: string
 
   /** 所属文库方 */
-  cate: any
+  cate: string
 
   /** 热度 */
-  hot: any
+  hot: number
 
   /** 上升趋势 */
-  up: any
+  up: number
 
   /** 文字量 (万) */
-  len: any
+  len: number
 
   /** 分数 */
-  score: any
+  score: number
 
   /** 排名 */
-  rank: any
+  rank: number
 
   /** 打分人数 */
-  total: any
+  total: number
 
   /** 分类 */
-  tags: any
+  tags: number[]
 }
 
 export type SearchResult = {

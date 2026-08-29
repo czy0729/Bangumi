@@ -1,17 +1,19 @@
-/* eslint-disable no-console */
 /*
  * @Author: czy0729
  * @Date: 2026-06-17 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-22 05:08:58
+ * @Last Modified time: 2026-08-30 04:38:30
  */
 import { AppState, Platform } from 'react-native'
 import { syncSystemStore } from '@utils/async'
+import { logger } from '@utils/dev'
 import { ECH_PROXY_ENABLED } from '@src/config'
 import { nativeDisable, nativeEnable, nativeGetLogs, nativeGetStatus } from './native'
 
 import type { EchProxyConfig, EchProxyLog, EchProxyStatus } from './types'
 export type { EchProxyConfig, EchProxyLog, EchProxyStatus }
+
+const TAG = '@utils/proxy/ech'
 
 /** 当前代理端口, 0 表示未启用 */
 let _port = 0
@@ -44,7 +46,7 @@ export async function enableEchProxy(config: EchProxyConfig = {}): Promise<numbe
     }
     return _port
   } catch (e) {
-    console.warn('[ECH] enable failed:', e)
+    logger.warn(TAG, 'enable failed', e)
     // 失败时回滚 native server, 防止残留
     try {
       await nativeDisable()
@@ -64,7 +66,7 @@ export async function disableEchProxy(): Promise<void> {
   try {
     await nativeDisable()
   } catch (e) {
-    console.warn('[ECH] disable failed:', e)
+    logger.warn(TAG, 'disable failed', e)
   } finally {
     _port = 0
     _running = false
@@ -132,7 +134,6 @@ export function setupEchLifecycle(): void {
 
     const setting = syncSystemStore()?.setting
     if (!setting?.echProxyEnabled) return
-
     ;(async () => {
       const status = await syncEchProxyStatus()
       if (!status.running || status.port <= 0) {

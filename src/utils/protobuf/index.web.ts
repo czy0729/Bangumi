@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-07 21:42:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-07 23:25:29
+ * @Last Modified time: 2026-08-30 05:11:54
  */
 import protobuf, { Reader } from 'protobufjs'
 import { logger } from '../dev'
@@ -11,6 +11,8 @@ import { cacheMap, checkCache, get, isPromise, lockMap } from './utils'
 import type { Data, DataAssets } from './types'
 
 export { get }
+
+const TAG = '@utils/protobuf'
 
 /**
  * 解码数据
@@ -44,11 +46,11 @@ export const decode = async <T extends DataAssets>(name: T): Promise<Data[T]> =>
     }) as { payload: Data[T] }
 
     cacheMap.set(name, payload)
-    logger.log('@utils/protobuf/decode', name, (payload as { length?: number }).length)
+    logger.log(TAG, 'decode', name, (payload as { length?: number }).length)
 
     return payload
   } catch (error) {
-    logger.log('@utils/protobuf/decode', 'Error decode file', name)
+    logger.log(TAG, 'decode', 'Error decode file', name)
     throw 'Error decode file'
   } finally {
     lockMap.set(name, false)

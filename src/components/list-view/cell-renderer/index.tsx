@@ -22,7 +22,8 @@ function CellRenderer({ setHeight, estimate }: CellRendererFactoryProps) {
   return function CellRendererComponent(props: CellRendererProps) {
     const { index, children, style, onLayout } = props
     const [measured, setMeasured] = useState(0)
-    const mismatch = !!measured && measured !== estimate
+    // 容忍 1px 以内的亚像素偏差（安卓测量值常有小数属正常现象），仅对显著差异报警
+    const mismatch = !!measured && Math.abs(measured - estimate) > 1
     return (
       <View
         style={style}
@@ -44,7 +45,7 @@ function CellRenderer({ setHeight, estimate }: CellRendererFactoryProps) {
             ]}
           >
             <Text type='__plain__' size={10}>
-              {`默认 ${estimate} · 实测 ${measured || '…'}`}
+              {`默认 ${estimate} · 实测 ${measured ? Math.round(measured) : '…'}`}
             </Text>
           </View>
         )}

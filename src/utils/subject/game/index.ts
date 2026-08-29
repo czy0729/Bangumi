@@ -23,7 +23,7 @@ import {
 } from './ds'
 
 import type { SubjectId } from '@types'
-import type { Finger, Item, Query, SearchResult, UnzipItem } from './types'
+import type { CompressedItem, Finger, GameUnzipItem, Item, Query, SearchResult } from './types'
 
 export {
   GAME_CATE,
@@ -71,9 +71,9 @@ export function findGame(id: SubjectId): Item {
 }
 
 /** @deprecated根据条目 id 查询一项 */
-export function find(id: SubjectId): UnzipItem {
+export function find(id: SubjectId): GameUnzipItem {
   init()
-  return unzip(getData().find(item => item.i == id))
+  return unzip(getData().find(item => item.i == id) as unknown as CompressedItem | undefined)
 }
 
 /** 只返回下标数组对象 */
@@ -166,18 +166,18 @@ export function search(query: Query): SearchResult {
 }
 
 /** @deprecated转换压缩数据的 key 名 */
-export function unzip(item: any): any {
+export function unzip(item: CompressedItem | undefined): GameUnzipItem {
   return {
     id: item?.id || 0,
     length: item?.l || 0,
     title: item?.t || '',
     sub: item?.s || '',
     cover: item?.c || '',
-    tag: item?.ta || [],
-    lang: item?.lg || [],
-    dev: item?.d || [],
-    publish: item?.p || [],
-    platform: item?.pl || [],
+    tag: item?.ta?.map(String) || [],
+    lang: item?.lg?.map(String) || [],
+    dev: item?.d?.map(String) || [],
+    publish: item?.p?.map(String) || [],
+    platform: item?.pl?.map(String) || [],
     time: item?.en || '',
     timeCn: item?.cn || '',
     score: item?.sc || 0,

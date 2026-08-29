@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-22 03:34:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-17 05:39:55
+ * @Last Modified time: 2026-08-30 05:56:10
  */
 import { getTimestamp } from '../../index'
 import { decode, get } from '../../protobuf'
@@ -18,7 +18,7 @@ import {
 } from './ds'
 
 import type { SubjectId } from '@types'
-import type { Finger, Item, Query, SearchResult, UnzipItem } from './types'
+import type { CompressedItem, Finger, Item, Query, SearchResult, UnzipItem } from './types'
 
 export { ADV_COLLECTED, ADV_DEV, ADV_DEV_MAP, ADV_FIRST, ADV_SORT, ADV_YEAR }
 
@@ -55,7 +55,7 @@ export function findADV(id: SubjectId): Item {
 /** @deprecated 根据条目 id 查询一项 */
 export function find(id: SubjectId): UnzipItem {
   init()
-  return unzip(getData().find(item => item.i == id))
+  return unzip(getData().find(item => item.i == id) as unknown as CompressedItem | undefined)
 }
 
 /** 只返回下标数组对象 */
@@ -135,13 +135,13 @@ export function search(query: Query): SearchResult {
 }
 
 /** @deprecated 转换压缩数据的 key 名 */
-export function unzip(item: any): UnzipItem {
+export function unzip(item: CompressedItem | undefined): UnzipItem {
   return {
     id: item?.id || 0,
     length: item?.l || 0,
     title: item?.t || '',
     cover: item?.c || '',
-    dev: item?.d || [],
+    dev: item?.d || 0,
     time: item?.en || '',
     score: item?.sc || 0,
     rank: item?.r || 0,

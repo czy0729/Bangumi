@@ -2,18 +2,20 @@
  * @Author: czy0729
  * @Date: 2023-12-14 12:12:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-19 21:18:33
+ * @Last Modified time: 2026-08-30 04:38:03
  */
 import { logger } from '../dev'
 
+const TAG = '@utils/kv'
+
 /** info */
 export function log(method: string, ...others: unknown[]) {
-  logger.info(`@utils/kv/${method}`, ...others)
+  logger.info(TAG, method, ...others)
 }
 
 /** err */
 export function err(method: string, ...others: unknown[]) {
-  logger.error(`@utils/kv/${method}`, ...others)
+  logger.error(TAG, method, ...others)
 }
 
 export function splitAndKeepPunctuation(str: string) {

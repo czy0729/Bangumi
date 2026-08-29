@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-26 22:33:53
+ * @Last Modified time: 2026-08-30 05:11:17
  */
 import { DEV } from '@src/config'
 import { logger } from '../dev'
@@ -15,6 +15,8 @@ export { cEach, cPagination, cText, cheerio, HTMLDecode, removeCF } from './pars
 export * from './match'
 
 import type { Cheerio } from 'cheerio-without-node-native'
+
+const TAG = '@utils/html'
 
 /** 去除 HTML */
 export function removeHTMLTag(str: any, removeAllSpace: boolean = true): string {
@@ -243,7 +245,7 @@ export function cData(
     | `data-${string}`
 ): string {
   if (DEV && !$el?.attr && !$el?.data) {
-    logger.warn('@utils/html/cData', '$el 不是有效的 cheerio 对象')
+    logger.warn(TAG, 'cData', '$el 不是有效的 cheerio 对象')
   }
 
   try {
@@ -257,7 +259,7 @@ export function cData(
 /** HTMLTrim(cheerio.html(key)) */
 export function cHtml($el: any): string {
   if (DEV && !$el?.html) {
-    logger.warn('@utils/html/cHtml', '$el 不是有效的 cheerio 对象')
+    logger.warn(TAG, 'cHtml', '$el 不是有效的 cheerio 对象')
   }
 
   try {
@@ -270,7 +272,7 @@ export function cHtml($el: any): string {
 /** cheerio.map */
 export function cMap<T>($el: any, callback: ($ele: Cheerio, index?: number) => T): T[] {
   if (DEV && !$el?.map) {
-    logger.warn('@utils/html/cMap', '$el 不是有效的 cheerio 对象')
+    logger.warn(TAG, 'cMap', '$el 不是有效的 cheerio 对象')
   }
 
   try {
@@ -293,7 +295,7 @@ export function cMap<T>($el: any, callback: ($ele: Cheerio, index?: number) => T
  * */
 export function cFind($el: any, selector: string, index: number | 'last' = 0): Cheerio {
   if (DEV && !$el?.find) {
-    logger.warn('@utils/html/cFind', '$el 不是有效的 cheerio 对象')
+    logger.warn(TAG, 'cFind', '$el 不是有效的 cheerio 对象')
   }
 
   try {
@@ -306,7 +308,7 @@ export function cFind($el: any, selector: string, index: number | 'last' = 0): C
 /** cheerio.find */
 export function cList($el: any, selector: string): Cheerio {
   if (DEV && !$el?.find) {
-    logger.warn('@utils/html/cList', '$el 不是有效的 cheerio 对象')
+    logger.warn(TAG, 'cList', '$el 不是有效的 cheerio 对象')
   }
 
   try {
@@ -319,7 +321,7 @@ export function cList($el: any, selector: string): Cheerio {
 /** cheerio.filter */
 export function cFilter($el: any, match: string) {
   if (DEV && !$el?.filter) {
-    logger.warn('@utils/html/cFilter', '$el 不是有效的 cheerio 对象')
+    logger.warn(TAG, 'cFilter', '$el 不是有效的 cheerio 对象')
   }
 
   try {
@@ -334,7 +336,7 @@ export function cFilter($el: any, match: string) {
 /** cheerio.length > 0 */
 export function cHas($el: any) {
   if (DEV && $el?.length === undefined) {
-    logger.warn('@utils/html/cHas', '$el 不是有效的 cheerio 对象')
+    logger.warn(TAG, 'cHas', '$el 不是有效的 cheerio 对象')
   }
 
   try {
@@ -347,7 +349,7 @@ export function cHas($el: any) {
 /** cheerio.hasClass */
 export function cHasClass($el: any, className: string) {
   if (DEV && !$el?.hasClass) {
-    logger.warn('@utils/html/cHasClass', '$el 不是有效的 cheerio 对象')
+    logger.warn(TAG, 'cHasClass', '$el 不是有效的 cheerio 对象')
   }
 
   try {

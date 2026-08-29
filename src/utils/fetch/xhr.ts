@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:21:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-21 00:08:44
+ * @Last Modified time: 2026-08-30 05:52:24
  */
 import { applyProxy, logProxy } from '@utils/proxy'
 import { HOST, HOST_CDN, HOST_NAME } from '@constants/constants'
@@ -52,7 +52,7 @@ export function xhr(
       success(this.responseText, this)
     } else {
       fail(this)
-      err('xhr', 'fail:', requestUrl)
+      err('xhr', 'fail:', { requestUrl })
     }
   }.bind(request)
 
@@ -97,7 +97,11 @@ export function xhrCustom(args: XHRCustomArgs): Promise<{ _response: string }> {
         return
       }
 
-      err('xhrCustom', 'error:', this.status, requestUrl, this._response || this.responseText)
+      err('xhrCustom', 'error:', {
+        status: this.status,
+        requestUrl,
+        responseText: this._response || this.responseText
+      })
       if (this.status === 404 || this.status === 500) {
         reject(new TypeError(String(this.status)))
       }
@@ -132,7 +136,7 @@ export function xhrCustom(args: XHRCustomArgs): Promise<{ _response: string }> {
       : null
     request.send(body)
 
-    if (showLog) log('xhrCustom', requestUrl)
+    if (showLog) log('xhrCustom', { requestUrl })
   })
 }
 

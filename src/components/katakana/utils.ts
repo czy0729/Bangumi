@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-06 20:48:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-15 07:59:57
+ * @Last Modified time: 2026-08-30 04:54:50
  */
 import { Children, isValidElement } from 'react'
 import { getStorage, setStorage } from '@utils'
@@ -28,7 +28,7 @@ export async function getCache() {
     katakanaJSON = await loadJSON('katakana')
   } catch (error) {
     // 字典加载失败时保留默认 memo, 退化为纯百度翻译
-    logger.error(`${COMPONENT}/getCache`, '字典加载失败', error)
+    logger.error(COMPONENT, 'getCache', '字典加载失败', error)
     return true
   }
 
@@ -42,7 +42,8 @@ export async function getCache() {
       ...storage
     }
     logger.success(
-      `${COMPONENT}/getCache`,
+      COMPONENT,
+      'getCache',
       `字典 ${Object.keys(katakanaJSON).length} 条, 合并持久化 ${Object.keys(storage).length} 条`
     )
   } catch (error) {
@@ -139,7 +140,7 @@ async function fetchTranslations(jps: string[]) {
         parsed.trans_result.forEach(item => {
           memo[item.src] = item.dst
           dirty.add(item.src)
-          logger.log(`${COMPONENT}/translate`, '翻译完成', item.src, '=>', item.dst)
+          logger.log(COMPONENT, 'translate', '翻译完成', item.src, '=>', item.dst)
         })
         save()
       }
@@ -222,14 +223,14 @@ export async function translate(
   const resolved = resolvePhrase(jp)
   if (resolved.length) {
     resolved.forEach(item => {
-      logger.log(`${COMPONENT}/translate`, '命中字典', item.jp, '=>', item.en)
+      logger.log(COMPONENT, 'translate', '命中字典', item.jp, '=>', item.en)
       cb(item)
     })
     return
   }
 
   // 未命中, 加入队列请求百度翻译
-  logger.yellow(`${COMPONENT}/translate`, '未命中, 入队百度', jp)
+  logger.yellow(COMPONENT, 'translate', '未命中, 入队百度', jp)
   pushQueue(jp, cb)
   scheduleFlush()
 }

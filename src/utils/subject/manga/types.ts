@@ -2,25 +2,35 @@
  * @Author: czy0729
  * @Date: 2022-09-22 06:34:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-23 21:54:08
+ * @Last Modified time: 2026-08-30 05:57:19
  */
 import type { Loaded, SubjectId } from '@types'
+import type { MANGA_STATUS } from './ds'
 
 export type Finger = string
 
 export type Query = {
-  year: any
-  end: any
-  update: any
-  status: any
-  tags: any
-  author: any
-  sort: any
+  year?: string | number
+  end?: string | number
+  update?: string | number
+  status?: (typeof MANGA_STATUS)[number]
+  tags?: string[]
+  author?: string
+  sort?: string
 }
 
 export type Item = {
   /** 条目 ID */
   i: SubjectId
+
+  /** mox id */
+  m?: number
+
+  /** 标题 */
+  t?: string
+
+  /** 封面 */
+  c?: string
 
   /** 评分 */
   s?: number

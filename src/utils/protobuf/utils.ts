@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-12-13 20:00:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-23 21:54:28
+ * @Last Modified time: 2026-08-30 05:12:21
  */
 import { DEV, LOG_LEVEL } from '@src/config'
 import { logger } from '../dev'
 
 import type { Data, DataAssets } from './types'
+
+const TAG = '@utils/protobuf/utils'
 
 /** 缓存结果 */
 export const cacheMap = new Map<string, unknown>()
@@ -48,11 +50,7 @@ export function get<T extends DataAssets>(name: T): Data[T] {
   const data = cacheMap.get(name)
   if (DEV && LOG_LEVEL >= 1) {
     if (!logMap.has(name)) {
-      logger.log(
-        '@utils/protobuf/get',
-        name,
-        (data as { length?: number } | undefined)?.length || 0
-      )
+      logger.log(TAG, 'get', name, (data as { length?: number } | undefined)?.length || 0)
     }
     logMap.set(name, true)
   }

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-09-07 14:38:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-01 10:15:30
+ * @Last Modified time: 2026-08-30 04:35:43
  */
 import { _ } from '@stores'
 import { COMPONENT } from '../ds'
 
 import type { Loaded } from '@types'
 
-export const NAMESPACE = `Scree${COMPONENT}`
+export const NAMESPACE = `Screen${COMPONENT}`
 
 export const RESET_STATE = {
   /** 可视范围底部 y */

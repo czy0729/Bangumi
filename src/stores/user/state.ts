@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-21 20:52:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-24 02:53:40
+ * @Last Modified time: 2026-08-30 05:21:20
  */
 import { observable } from 'mobx'
 import { postTask, titleCase } from '@utils'
@@ -42,11 +42,11 @@ export default class State extends Store<typeof STATE> {
     return this.setStorage(key, undefined, this._namespace)
   }
 
-  log = (...arg: any) => {
+  log = (...arg: unknown[]) => {
     logger.log(`${titleCase(this._namespace)}Store`, ...arg)
   }
 
-  error = (...arg: any) => {
+  error = (...arg: unknown[]) => {
     logger.error(`${titleCase(this._namespace)}Store`, ...arg)
   }
 }

@@ -2,13 +2,16 @@
  * @Author: czy0729
  * @Date: 2023-11-01 13:41:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-12 03:03:34
+ * @Last Modified time: 2026-08-30 04:38:41
  */
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { MMKV } from 'react-native-mmkv'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { logger } from '@utils/dev'
 import { DEV } from '@src/config'
 
 const mmkv = new MMKV({ id: 'bangumi-storage' })
+
+const TAG = '@utils/storage/mmkv'
 
 let ENABLE_MMKV = true
 
@@ -99,7 +102,6 @@ export function setMMKVEnabled(enabled: boolean) {
   if (DEV) log('setMMKVEnabled', enabled ? 'enabled' : 'disabled')
 }
 
-function log(method: string, ...others: any[]) {
-  // eslint-disable-next-line no-console
-  if (DEV) console.info('🟣', `[MMKV/${method}]`.padEnd(36), ...others)
+function log(method: string, ...others: unknown[]) {
+  logger.purple(TAG, method, ...others)
 }

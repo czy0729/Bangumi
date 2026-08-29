@@ -2,12 +2,15 @@
  * @Author: czy0729
  * @Date: 2021-08-09 01:49:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-24 07:42:03
+ * @Last Modified time: 2026-08-30 04:36:32
  */
 import isEqual from 'lodash.isequal'
+import { logger } from '@utils/dev'
 import { WEB } from '@constants'
 
 import type { AnyObject } from '@types'
+
+const TAG = '@utils/decorators/memo'
 
 /** 封装通用 React.memo 的第二参数, 注意返回 true 代表不更新, false 代表强制更新 */
 export function memoCompare<P extends AnyObject>(
@@ -53,26 +56,29 @@ function log<P extends AnyObject>(prev: P, next: P, devRerenderKey?: string) {
 
   if (unsameKeys.length) {
     if (prev[unsameKeys[0]] === 'object') {
-      log(prev[unsameKeys[0]] as Record<string, unknown>, next[unsameKeys[0]] as Record<string, unknown>, devRerenderKey)
+      log(
+        prev[unsameKeys[0]] as Record<string, unknown>,
+        next[unsameKeys[0]] as Record<string, unknown>,
+        devRerenderKey
+      )
       return
     }
 
     // 不打印 styles, 没意义
     if (unsameKeys[0]) {
       if (unsameKeys[0] === 'styles') {
-        console.info('[update]', unsameKeys[0], '\n')
+        logger.info(TAG, 'update', unsameKeys[0])
         return
       }
 
-      console.info(
-        '[update]',
+      logger.info(
+        TAG,
+        'update',
         devRerenderKey,
-        '\n',
         `${unsameKeys[0]}:`,
         JSON.stringify(prev[unsameKeys[0]]),
         '=>',
-        JSON.stringify(next[unsameKeys[0]]),
-        '\n'
+        JSON.stringify(next[unsameKeys[0]])
       )
     }
   }

@@ -171,26 +171,26 @@ export function find(id: SubjectId): UnzipItem {
 }
 
 /** @deprecated 转换压缩数据的 key 名 */
-export function unzip(item: any) {
+export function unzip(item: Item | undefined): UnzipItem {
   return {
     id: item?.i || 0,
     wenkuId: item?.w || 0,
     status: item?.v || 0,
     anime: item?.m || 0,
-    author: item?.a || '',
+    author: item?.a ? String(item.a) : '',
     ep: item?.e || '',
     cn: item?.t || '',
     // jp: item?.j || '',
     image: item?.o || '',
     begin: item?.b || '',
     update: item?.u || '',
-    cate: item?.c || '',
+    cate: item?.c ? String(item.c) : '',
     hot: item?.h || 0,
     up: item?.p || 0,
-    len: item?.l || '',
+    len: item?.l || 0,
     score: item?.s || 0,
     rank: item?.r || 0,
     total: item?.k || 0,
-    tags: item?.j || 0
+    tags: item?.j || []
   }
 }

@@ -23,6 +23,7 @@ import {
 import type { SubjectId } from '@types'
 import type { Finger, Item, Query, SearchResult, UnzipItem } from './types'
 
+
 export {
   HENTAI_BODY,
   HENTAI_CHARA,
@@ -143,7 +144,7 @@ export function search(query: Query): SearchResult {
 }
 
 /** @deprecated 转换压缩数据的 key 名 */
-export function unzip(item: any): UnzipItem {
+export function unzip(item: Item | undefined): UnzipItem {
   return {
     id: item?.id || 0,
     hId: item?.h || 0,

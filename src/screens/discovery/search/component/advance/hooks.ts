@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-09 04:22:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-02 05:00:00
+ * @Last Modified time: 2026-08-30 04:55:28
  */
 import { useEffect, useRef, useState } from 'react'
 import { SEARCH_SUBSTRINGS } from '@stores/calendar/onair'
@@ -86,7 +86,7 @@ export function useResult(cat: SearchCat, value: string, enabled: boolean) {
 
       // 若上次构建被新代际误杀 (状态卡 indexing 但索引未落地), 重置后重建, 避免永久降级
       if (indexingStatus[cat] === 'indexing' && !indexMeta[cat]) {
-        logger.warn(`${COMPONENT}/useResult`, cat, '索引卡住，重置并重建')
+        logger.warn(COMPONENT, 'useResult', cat, '索引卡住，重置并重建')
         indexingStatus[cat] = 'none'
       }
 
@@ -256,11 +256,11 @@ function buildIndexAsync(cat: SearchCat, gen: number): Promise<boolean> {
   const raw = rawStores[cat] || {}
   const entries = Object.entries(raw)
   if (!entries.length) {
-    logger.warn(`${COMPONENT}/buildIndexAsync`, cat, '跳过，无原始数据')
+    logger.warn(COMPONENT, 'buildIndexAsync', cat, '跳过，无原始数据')
     return Promise.resolve(false)
   }
 
-  logger.log(`${COMPONENT}/buildIndexAsync`, cat, `开始构建，共 ${entries.length} 条`)
+  logger.log(COMPONENT, 'buildIndexAsync', cat, `开始构建，共 ${entries.length} 条`)
 
   const index: SubStrings = {}
   let offset = 0
@@ -271,7 +271,7 @@ function buildIndexAsync(cat: SearchCat, gen: number): Promise<boolean> {
     function processChunk() {
       // 防重入：若代际已落后（用户切换了分类），回传 false 废弃当前链路
       if (gen !== buildGeneration) {
-        logger.warn(`${COMPONENT}/buildIndexAsync`, cat, '被新代际覆盖，已终止')
+        logger.warn(COMPONENT, 'buildIndexAsync', cat, '被新代际覆盖，已终止')
         resolve(false)
         return
       }
@@ -289,7 +289,7 @@ function buildIndexAsync(cat: SearchCat, gen: number): Promise<boolean> {
         const progress = Math.floor((offset / entries.length) * 100)
         if (progress >= lastProgress + 25) {
           lastProgress = progress
-          logger.log(`${COMPONENT}/buildIndexAsync`, cat, `${progress}%`)
+          logger.log(COMPONENT, 'buildIndexAsync', cat, `${progress}%`)
         }
       } else {
         if (gen === buildGeneration) {
@@ -303,13 +303,14 @@ function buildIndexAsync(cat: SearchCat, gen: number): Promise<boolean> {
           indexMeta[cat] = { sortedKeys, idMap }
 
           logger.success(
-            `${COMPONENT}/buildIndexAsync`,
+            COMPONENT,
+            'buildIndexAsync',
             cat,
             `构建完成，耗时 ${Date.now() - startTime}ms`
           )
           resolve(true)
         } else {
-          logger.warn(`${COMPONENT}/buildIndexAsync`, cat, '被新代际覆盖，已终止')
+          logger.warn(COMPONENT, 'buildIndexAsync', cat, '被新代际覆盖，已终止')
           resolve(false)
         }
       }
@@ -331,21 +332,21 @@ async function ensureRawLoaded(cat: SearchCat) {
   if (key === 'subject_1') {
     rawStores.subject_1 = await loadJSON('substrings/book')
     rawKeys.subject_1 = Object.keys(rawStores.subject_1)
-    logger.success(`${COMPONENT}/ensureRawLoaded`, cat, key, `${rawKeys.subject_1.length} 条`)
+    logger.success(COMPONENT, 'ensureRawLoaded', cat, key, `${rawKeys.subject_1.length} 条`)
     return
   }
 
   if (key === 'subject_4') {
     rawStores.subject_4 = await loadJSON('substrings/game')
     rawKeys.subject_4 = Object.keys(rawStores.subject_4)
-    logger.success(`${COMPONENT}/ensureRawLoaded`, cat, key, `${rawKeys.subject_4.length} 条`)
+    logger.success(COMPONENT, 'ensureRawLoaded', cat, key, `${rawKeys.subject_4.length} 条`)
     return
   }
 
   if (key === 'subject_6') {
     rawStores.subject_6 = await loadJSON('substrings/real')
     rawKeys.subject_6 = Object.keys(rawStores.subject_6)
-    logger.success(`${COMPONENT}/ensureRawLoaded`, cat, key, `${rawKeys.subject_6.length} 条`)
+    logger.success(COMPONENT, 'ensureRawLoaded', cat, key, `${rawKeys.subject_6.length} 条`)
     return
   }
 
@@ -366,5 +367,5 @@ async function ensureRawLoaded(cat: SearchCat) {
     ...(await loadJSON('substrings/alias'))
   }
   rawKeys.subject_2 = Object.keys(rawStores.subject_2)
-  logger.success(`${COMPONENT}/ensureRawLoaded`, cat, key, `${rawKeys.subject_2.length} 条`)
+  logger.success(COMPONENT, 'ensureRawLoaded', cat, key, `${rawKeys.subject_2.length} 条`)
 }

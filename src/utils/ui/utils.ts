@@ -6,6 +6,8 @@
  */
 import { logger } from '../dev'
 
+const TAG = '@utils/ui'
+
 export function log(method: string, ...others: unknown[]) {
-  logger.success(`@utils/ui/${method}`, ...others)
+  logger.success(TAG, method, ...others)
 }

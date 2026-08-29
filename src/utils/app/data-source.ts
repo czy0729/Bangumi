@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:16:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-28 01:38:59
+ * @Last Modified time: 2026-08-30 05:17:59
  */
 import { isObservableArray } from 'mobx'
 import { DEV, FROZEN_ARRAY, FROZEN_OBJECT } from '@constants'
@@ -171,7 +171,7 @@ export function optimize(data: any, s = 60) {
   const diff = getTimestamp() - Number(data?._loaded || 0)
   const isPrevent = diff < s
   if (isPrevent) {
-    logger.warn('@utils/optimize', diff, s, Object.keys(data).slice(0, 5))
+    logger.warn('@utils/app', 'optimize', diff, s, Object.keys(data).slice(0, 5))
   }
 
   return isPrevent

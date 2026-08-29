@@ -160,7 +160,7 @@ export function search(query: Query, max: number = 500): SearchResult {
 }
 
 /** @deprecated 转换压缩数据的 key 名 */
-export function unzip(item: any): UnzipItem {
+export function unzip(item: Item | undefined): UnzipItem {
   return {
     id: item?.i || 0,
     mid: item?.m || 0,
@@ -170,8 +170,8 @@ export function unzip(item: any): UnzipItem {
     rank: item?.r || 0,
     total: item?.l || 0,
     ep: item?.e || '',
-    author: item?.a || '',
-    cates: item?.b || '',
+    author: item?.a ? String(item.a) : '',
+    cates: item?.b?.join(' ') || '',
     publish: item?.p || '',
     update: item?.d || '',
     status: item?.u ? 1 : 0,

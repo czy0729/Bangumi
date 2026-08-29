@@ -223,7 +223,7 @@ export function appNavigate(
     )
     return true
   } catch (error) {
-    logger.error('utils/app', 'appNavigate')
+    logger.error('@utils/app', 'appNavigate')
     return false
   }
 }

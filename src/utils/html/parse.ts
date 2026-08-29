@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2026-08-08 09:30:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-08 09:30:00
+ * @Last Modified time: 2026-08-30 05:11:37
  */
 import { DEV } from '@src/config'
 import { logger } from '../dev'
 
 import type { Cheerio, CheerioElement, CheerioStatic } from 'cheerio-without-node-native'
+
+const TAG = '@utils/html'
 
 /**
  * cheerio 体积较大 (436KB), 函数内懒加载以延迟其求值
@@ -54,11 +56,7 @@ export function cheerio(
     // 需要优化内容
     if (target.indexOf('<!DOCTYPE html>') === 0) {
       if (DEV) {
-        logger.info(
-          '@utils/html/cheerio',
-          'need match',
-          target.match(/<title>(.*?)<\/title>/g)?.[0]
-        )
+        logger.info(TAG, 'cheerio', 'need match', target.match(/<title>(.*?)<\/title>/g)?.[0])
       }
     }
 
@@ -87,7 +85,7 @@ export function cText(
   cleanWhitespace: boolean = false
 ): string {
   if (DEV && !$el?.text) {
-    logger.warn('@utils/html/cText', '$el 不是有效的 cheerio 对象')
+    logger.warn(TAG, 'cText', '$el 不是有效的 cheerio 对象')
   }
 
   try {
@@ -121,7 +119,7 @@ export function cText(
 /** cheerio.each */
 export function cEach($el: Cheerio, callback: ($ele: Cheerio, index?: number) => void) {
   if (DEV && !$el?.each) {
-    logger.warn('@utils/html/cEach', '$el 不是有效的 cheerio 对象')
+    logger.warn(TAG, 'cEach', '$el 不是有效的 cheerio 对象')
   }
 
   try {
@@ -137,7 +135,7 @@ export function cEach($el: Cheerio, callback: ($ele: Cheerio, index?: number) =>
  * */
 export function cPagination($: Cheerio) {
   if (DEV && !$?.find) {
-    logger.warn('@utils/html/cPagination', '$ 不是有效的 cheerio 对象')
+    logger.warn(TAG, 'cPagination', '$ 不是有效的 cheerio 对象')
   }
 
   let pageTotal = 1

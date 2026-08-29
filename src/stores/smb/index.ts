@@ -7,6 +7,7 @@
 import { computed, observable } from 'mobx'
 import store from '@utils/store'
 import { DEV } from '@constants'
+import { logger } from '@utils/dev'
 import { LOG_INIT } from '../ds'
 import { LOADED, NAMESPACE, STATE } from './init'
 
@@ -22,7 +23,7 @@ class SMBStore extends store<typeof STATE> implements StoreConstructor<typeof ST
   init = (key: CacheKey) => {
     if (!key || this._loaded[key]) return true
 
-    if (DEV && LOG_INIT) console.info('SMBStore /', key)
+    if (DEV && LOG_INIT) logger.info('SMBStore', key)
 
     this._loaded[key] = true
     return this.readStorage([key], NAMESPACE)

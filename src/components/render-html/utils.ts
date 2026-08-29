@@ -347,7 +347,7 @@ export async function fetchMediaQueue(
     LOADED_IDS.add(getMediaKey(item.type, item.id))
 
     try {
-      logger.log(`${COMPONENT}/utils/fetchMediaQueue`, IDS, item)
+      logger.log(COMPONENT, 'utils/fetchMediaQueue', IDS, item)
 
       loading = true
       if (item.type === 'subject') {

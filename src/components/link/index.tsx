@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-08-09 16:05:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-28 12:31:25
+ * @Last Modified time: 2026-08-30 05:59:09
  */
 import React, { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
@@ -71,7 +71,7 @@ export const Link = observer(<T extends Paths>(props: LinkProps<T>) => {
 
       handleEvent()
 
-      logger.purple(COMPONENT, appNavigate ? 'appNavigate' : 'to', path)
+      logger.purple(COMPONENT, appNavigate ? 'appNavigate' : 'to', { path })
     },
     [disabled, onPress, appNavigate, path, handleEvent, navigation, resolvedParams]
   )

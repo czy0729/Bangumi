@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-30 08:46:30
+ * @Last Modified time: 2026-08-30 06:06:29
  */
 import { WEB } from '@constants/device'
 import { DEV, LOG_LEVEL, RERENDER_NOT_SHOW, RERENDER_SHOW } from '@src/config'
@@ -12,7 +12,7 @@ import { RERENDER_LOG_COUNT, RERENDER_MEMO } from './ds'
 import type { AnyObject, Join } from '@types'
 
 /** @deprecated 调试查看组件 re-render 情况 */
-export function rerender(key: string, ...other: any[]) {
+export function rerender(key: string, ...other: unknown[]) {
   if (
     !DEV ||
     !key ||
@@ -54,7 +54,7 @@ export function rc<A extends string, B extends string = 'Main'>(
 }
 
 /** 调试查看组件 re-render 情况 */
-export function r(key: string, ...other: any[]) {
+export function r(key: string, ...other: unknown[]) {
   if (
     !DEV ||
     !key ||
@@ -93,8 +93,8 @@ export function now() {
   return `${now.getHours()}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`
 }
 
-const _collectLogKeys = {}
-const _collectLogItems = []
+const _collectLogKeys: Record<string | number, boolean> = {}
+const _collectLogItems: AnyObject[] = []
 let _collectIndex = 0
 
 /** 收集项数据, 到达一定数目后打印 */
@@ -123,10 +123,15 @@ export function ll(item: AnyObject, key: string | number, limit: number = 12) {
  * @param {String} key   消息键
  * @param {Any}    value 消息值
  */
-export function log(type: any = '', key: any = '', value: any = '', ...other) {
+export function log(
+  type: unknown = '',
+  key: unknown = '',
+  value: unknown = '',
+  ...other: unknown[]
+) {
   if (LOG_LEVEL === 0) return
 
-  const res: any[] = [type]
+  const res: unknown[] = [type]
   if (key !== undefined) res.push('\n', key)
   if (value !== undefined) res.push('\n', value)
   if (other && other.length) res.push('\n', other)
@@ -135,12 +140,12 @@ export function log(type: any = '', key: any = '', value: any = '', ...other) {
 }
 
 /** 全局 log, 能打印循环引用 */
-export function globalLog(value: any, space: string | number) {
+export function globalLog(value: unknown, space: string | number) {
   logger.log(JSON.stringify(value, handleCircular(), space))
 }
 
 /** 全局警告 */
-export function globalWarn(key: any, method: any) {
+export function globalWarn(key: unknown, method: unknown) {
   if (!DEV) return
   log(`\x1b[40m\x1b[33m[${key}] ${method}\x1b[0m`)
 }
@@ -166,48 +171,41 @@ const TEXT_BADGES = {
   purple: '🟣'
 } as const
 
-const PAD_LENGTH = 36
+const PAD_LENGTH = 26
+
+/** 对 others 第一个元素做 padEnd 对齐 */
+function padOthersFirst(others: unknown[]): unknown[] {
+  if (!others.length) return others
+  return [String(others[0]).padEnd(PAD_LENGTH - 8), ...others.slice(1)]
+}
+
+/** 内部打印统一入口 */
+function print(badge: string, method: string, ...others: unknown[]) {
+  if (DEV) {
+    // eslint-disable-next-line no-console
+    console.info(badge, `[${method}]`.padEnd(PAD_LENGTH), ...padOthersFirst(others))
+  }
+}
 
 export const logger = {
   /** ⚪ */
-  log(method: string, ...others: any[]) {
-    // eslint-disable-next-line no-console
-    if (DEV) console.info(TEXT_BADGES.plain, `[${method}]`.padEnd(PAD_LENGTH), ...others)
-  },
+  log: (method: string, ...others: unknown[]) => print(TEXT_BADGES.plain, method, ...others),
 
   /** 🔵 */
-  info(method: string, ...others: any[]) {
-    // eslint-disable-next-line no-console
-    if (DEV) console.info(TEXT_BADGES.primary, `[${method}]`.padEnd(PAD_LENGTH), ...others)
-  },
+  info: (method: string, ...others: unknown[]) => print(TEXT_BADGES.primary, method, ...others),
 
   /** 🟢 */
-  success(method: string, ...others: any[]) {
-    // eslint-disable-next-line no-console
-    if (DEV) console.info(TEXT_BADGES.success, `[${method}]`.padEnd(PAD_LENGTH), ...others)
-  },
+  success: (method: string, ...others: unknown[]) => print(TEXT_BADGES.success, method, ...others),
 
   /** 🟠 */
-  warn(method: string, ...others: any[]) {
-    // eslint-disable-next-line no-console
-    if (DEV) console.info(TEXT_BADGES.warning, `[${method}]`.padEnd(PAD_LENGTH), ...others)
-  },
+  warn: (method: string, ...others: unknown[]) => print(TEXT_BADGES.warning, method, ...others),
 
   /** 🔴 */
-  error(method: string, ...others: any[]) {
-    // eslint-disable-next-line no-console
-    if (DEV) console.info(TEXT_BADGES.danger, `[${method}]`.padEnd(PAD_LENGTH), ...others)
-  },
+  error: (method: string, ...others: unknown[]) => print(TEXT_BADGES.danger, method, ...others),
 
   /** 🟡 */
-  yellow(method: string, ...others: any[]) {
-    // eslint-disable-next-line no-console
-    if (DEV) console.info(TEXT_BADGES.yellow, `[${method}]`.padEnd(PAD_LENGTH), ...others)
-  },
+  yellow: (method: string, ...others: unknown[]) => print(TEXT_BADGES.yellow, method, ...others),
 
   /** 🟣 */
-  purple(method: string, ...others: any[]) {
-    // eslint-disable-next-line no-console
-    if (DEV) console.info(TEXT_BADGES.purple, `[${method}]`.padEnd(PAD_LENGTH), ...others)
-  }
+  purple: (method: string, ...others: unknown[]) => print(TEXT_BADGES.purple, method, ...others)
 } as const

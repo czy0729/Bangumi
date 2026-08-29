@@ -2,16 +2,19 @@
  * @Author: czy0729
  * @Date: 2023-04-14 17:37:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 06:31:48
+ * @Last Modified time: 2026-08-30 04:36:58
  */
 import { useRef } from 'react'
+import { logger } from '@utils/dev'
 import { WEB } from '@constants/device'
 import { FROZEN_FN } from '@constants/init'
 import { isDevtoolsOpen } from './devtools'
 
+export { isDevtoolsOpen }
+
 import type { Fn } from '@types'
 
-export { isDevtoolsOpen }
+const TAG = '@utils/dom'
 
 /** 是否手机环境 */
 export function isMobile() {
@@ -133,7 +136,6 @@ export function measurePerformance(func: Fn, count: number = 10) {
     const endTime = performance.now()
     const executionTime = endTime - startTime
 
-    // eslint-disable-next-line no-console
-    console.info(func, `函数执行耗时：${Math.floor(executionTime)} 毫秒`)
+    logger.info(TAG, func, `函数执行耗时：${Math.floor(executionTime)} 毫秒`)
   }, 0)
 }

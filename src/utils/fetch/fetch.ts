@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:36:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-02 00:29:23
+ * @Last Modified time: 2026-08-30 05:51:52
  */
 import { applyProxy, logProxy } from '@utils/proxy'
 import { API_HOST, API_V0 } from '@constants/api'
@@ -40,7 +40,7 @@ export async function fetchAPI(args: FetchAPIArgs): Promise<any> {
   const { accessToken } = syncUserStore()
   if (accessToken.access_token) {
     if (WEB && url.includes(API_HOST) && !url.includes(API_V0)) {
-      log('fetchAPI', 'fetchAPI ignored token:', url)
+      log('fetchAPI', 'fetchAPI ignored token:', { url })
     } else {
       config.headers.Authorization = `${accessToken.token_type} ${accessToken.access_token}`
     }
@@ -166,12 +166,12 @@ export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
 
   try {
     const response = await fetch(requestUrl, requestConfig)
-    if (!isGet) log('fetchHTML', method, 'success', requestUrl, requestConfig, response)
+    if (!isGet) log('fetchHTML', method, 'success', { requestUrl, requestConfig, response })
 
     // @ts-expect-error fetch polyfill 类型问题
     return raw ? response : await response.text()
   } catch (error) {
-    err('fetchHTML', 'catch error:', requestUrl, error)
+    err('fetchHTML', 'catch error:', { requestUrl }, error)
     throw error
   } finally {
     hideCb?.()
