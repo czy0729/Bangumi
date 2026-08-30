@@ -6,8 +6,13 @@
  */
 import { useEffect, useRef } from 'react'
 
-export default function usePrevious(value) {
-  const ref = useRef()
+/**
+ * 获取上一次渲染的值, 首次渲染返回 `undefined`
+ *
+ * @param value 需要追踪的值
+ */
+export default function usePrevious<T>(value: T): T | undefined {
+  const ref = useRef<T>()
   useEffect(() => {
     ref.current = value
   })

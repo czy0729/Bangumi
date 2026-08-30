@@ -8,7 +8,11 @@ import { useState, useEffect } from 'react'
 import useIsFocusedApp from './useIsFocusedApp'
 import { runAfter } from '../../utils'
 
-function useIsFocused() {
+/**
+ * 自定义 Hook，用于获取当前页面焦点状态
+ *  - blur 时延迟到切页动画后再隐藏, focus 时马上显示
+ */
+function useIsFocused(): boolean {
   const isFocused = useIsFocusedApp()
   const [show, setShow] = useState(isFocused)
 

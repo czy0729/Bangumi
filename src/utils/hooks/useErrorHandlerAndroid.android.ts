@@ -13,7 +13,12 @@ import { getTimestamp } from '../date'
 import { err } from '../fetch'
 import { update } from '../kv'
 
-export default function useErrorHandlerAndroid() {
+/**
+ * Android 全局异常处理
+ *  - JS 异常: 记录堆栈到本地并弹窗提示重启
+ *  - Native 异常: 交给系统默认处理 (FROZEN_FN 占位)
+ */
+export default function useErrorHandlerAndroid(): void {
   useEffect(() => {
     setJSExceptionHandler(errorHandler)
     setNativeExceptionHandler(FROZEN_FN)

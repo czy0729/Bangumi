@@ -16,7 +16,7 @@ import { restoreEchProxy, setupEchLifecycle } from '@utils/proxy/ech'
 import { bootApp } from '../app'
 import useMount from './useMount'
 
-async function loadBaseFonts() {
+async function loadBaseFonts(): Promise<boolean> {
   // Metro 资源 require 返回资源注册表 ID (number), 属 FontSource 的合法形态
   await loadAsync({
     bgm: require('@assets/fonts/BgmV3_1.ttf') as number
@@ -29,9 +29,10 @@ async function loadBaseFonts() {
   return true
 }
 
-let loadAppFontsLoaded: boolean
+let loadAppFontsLoaded = false
 
-export async function loadAppFonts() {
+/** 加载思源幼圆子集字体 (已加载过直接返回) */
+export async function loadAppFonts(): Promise<boolean> {
   if (loadAppFontsLoaded) return true
 
   loadAppFontsLoaded = true
@@ -49,7 +50,12 @@ export async function loadAppFonts() {
 
 type LoadingResult = 0 | 1 | 2 | 3 | 99
 
-export default function useCachedResources() {
+/**
+ * 保持启动屏并初始化 APP 资源 (Stores / 字体 / ECH 代理等)
+ *
+ * @returns 加载进度: `0` 初始化中 / `1` Stores 完成 / `2` bgm 字体已派发 / `3` 全部完成 / `99` 异常
+ */
+export default function useCachedResources(): LoadingResult {
   // 保持启动屏
   SplashScreen.preventAutoHideAsync()
 

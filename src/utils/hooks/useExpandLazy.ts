@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-01-30 09:26:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-19 22:13:29
+ * @Last Modified time: 2026-08-30 08:43:36
  */
 import { useCallback, useState } from 'react'
 
 /**
  * 用于展开块初次进入时, 减少渲染看不见的区域
- * @param {array} data 待折叠数据
- * @param {number} lazyRenderedCount 默认展示数据条数
+ *
+ * @param data 待折叠数据
+ * @param lazyRenderedCount 默认展示数据条数
  */
 export default function useExpandLazy<T extends readonly U[], U = T[number]>(
   data: readonly U[] = [],
@@ -24,7 +25,10 @@ export default function useExpandLazy<T extends readonly U[], U = T[number]>(
   }, [setExpand])
 
   return {
+    /** 实际渲染的列表 (未展开时为前 `lazyRenderedCount` 条) */
     list,
+
+    /** 展开完整列表 */
     onExpand: handleExpand
   }
 }

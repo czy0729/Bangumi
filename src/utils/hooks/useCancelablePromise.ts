@@ -7,10 +7,21 @@
  */
 import { useRef, useEffect } from 'react'
 
-export function makeCancelable(promise) {
+/** 可取消的 Promise 包装对象 */
+type CancelablePromise<T> = {
+  /** 取消后 reject(new Error('isCanceled')), 否则与传入 Promise 同结果 */
+  promise: Promise<T>
+  cancel: () => void
+}
+
+/** Promise 包装工厂签名 */
+type CancelableFactory = <T>(promise: Promise<T>) => CancelablePromise<T>
+
+/** 包装 Promise 使其支持取消 */
+export function makeCancelable<T>(promise: Promise<T>): CancelablePromise<T> {
   let isCanceled = false
 
-  const wrappedPromise = new Promise((resolve, reject) => {
+  const wrappedPromise = new Promise<T>((resolve, reject) => {
     promise
       .then(val => (isCanceled ? reject(new Error('isCanceled')) : resolve(val)))
       .catch(error => (isCanceled ? reject(new Error('isCanceled')) : reject(error)))
@@ -24,7 +35,13 @@ export function makeCancelable(promise) {
   }
 }
 
-export default function useCancelablePromise(cancelable = makeCancelable) {
+/**
+ * 组件卸载时自动取消内部未完成的 Promise, 防止卸载后继续 setState
+ *
+ * @param cancelable Promise 包装工厂, 默认 `makeCancelable`
+ * @returns cancellablePromise 用于包装需要在卸载时自动取消的 Promise
+ */
+export default function useCancelablePromise(cancelable: CancelableFactory = makeCancelable) {
   const emptyPromise = Promise.resolve(true)
 
   // test if the input argument is a cancelable promise generator
@@ -32,7 +49,7 @@ export default function useCancelablePromise(cancelable = makeCancelable) {
     throw new Error('promise wrapper argument must provide a cancel() function')
   }
 
-  const promises = useRef<any>()
+  const promises = useRef<CancelablePromise<unknown>[]>()
 
   useEffect(() => {
     promises.current = promises.current || []
@@ -42,11 +59,14 @@ export default function useCancelablePromise(cancelable = makeCancelable) {
     }
   }, [])
 
-  function cancellablePromise(p) {
-    const cPromise = cancelable(p)
+  function cancellablePromise<T>(promise: Promise<T>): Promise<T> {
+    const cPromise = cancelable(promise)
     promises.current.push(cPromise)
     return cPromise.promise
   }
 
-  return { cancellablePromise }
+  return {
+    /** 包装需在卸载时自动取消的 Promise */
+    cancellablePromise
+  }
 }

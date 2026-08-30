@@ -6,4 +6,5 @@
  */
 import { useFocusEffect } from '@react-navigation/native'
 
+/** 页面聚焦时执行回调 (原样导出 react-navigation 的实现, 回调返回函数时作为失焦清理执行) */
 export default useFocusEffect

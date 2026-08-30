@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-01 13:57:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-17 05:38:32
+ * @Last Modified time: 2026-08-30 08:44:05
  */
 import { useCallback, useState } from 'react'
 import { systemStore } from '@stores'
@@ -24,7 +24,10 @@ export function useAsyncSwitchSetting(key: BooleanKeys<Setting>) {
   }, [key, value])
 
   return {
+    /** 当前设置值 (乐观更新, 实际写入延迟 40ms) */
     value,
+
+    /** 切换设置 */
     handleSwitch
   }
 }
@@ -45,7 +48,10 @@ export function useAsyncSetSetting<T extends NonBooleanKeys<Setting>>(key: T) {
   )
 
   return {
+    /** 当前设置值 (乐观更新, 实际写入延迟 40ms) */
     value,
+
+    /** 更新设置 */
     handleSet
   }
 }

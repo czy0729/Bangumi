@@ -9,6 +9,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { IOS, PAD, WEB, WSA } from '@constants'
 import { IS_IOS_5_6_7_8, tabBarHeight } from '@styles/layout'
 
+import type { EdgeInsets } from 'react-native-safe-area-context'
+
 /** 最大头部高度 */
 const MAX_HEADER_HEIGHT = WEB ? 48 : 80
 

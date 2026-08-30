@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2020-06-04 16:41:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 12:11:09
+ * @Last Modified time: 2026-08-30 08:44:14
  */
 import { useCallback, useMemo, useState } from 'react'
 
 /**
  * 自定义 Hook 用于在两种状态值之间切换（例如：开关）。
  *
- * @param {boolean} defaultValue - 默认状态值
- * @param {boolean} [reverseValue] - 可选的反向状态值，如果未提供则默认为与defaultValue相反的值
+ * @param defaultValue 默认状态值
+ * @param reverseValue 可选的反向状态值，如果未提供则默认为与defaultValue相反的值
  *
- * @returns {Object} 包含当前状态值（state），切换状态函数（toggle），设置默认值的函数（setLeft），和设置反向值的函数（setRight）
+ * @returns 包含当前状态值（state），切换状态函数（toggle），设置默认值的函数（setLeft），和设置反向值的函数（setRight）
  */
 export default function useToggle(defaultValue: boolean, reverseValue?: boolean) {
   const [state, setState] = useState<boolean>(defaultValue)
@@ -50,9 +50,16 @@ export default function useToggle(defaultValue: boolean, reverseValue?: boolean)
   }, [reverseValueOrigin])
 
   return {
+    /** 当前状态值 */
     state,
+
+    /** 切换状态; 传入参数时直接设置为指定值, 否则在默认值与反向值之间切换 */
     toggle,
+
+    /** 设置为默认值 */
     setLeft,
+
+    /** 设置为反向值 */
     setRight
   }
 }

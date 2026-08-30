@@ -11,7 +11,13 @@ const TITLE = 'Bangumi 番组计划'
 
 const TITLE_BOTTOM_TABS = ['发现', '时间胶囊', '超展开', '搜索'] as const
 
-export default function useDomTitle(title: string) {
+/**
+ * 自定义 Hook，用于设置 Web 页面标题 (非 web 平台为空操作)
+ *  - 底部 Tab 页面标题保持默认, 其余页面为 `${title} | ${TITLE}`
+ *
+ * @param title 页面标题
+ */
+export default function useDomTitle(title: string): void {
   useEffect(() => {
     if (!WEB) return
 

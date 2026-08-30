@@ -17,8 +17,11 @@ import { PAD } from '@constants/device'
 
 import type { OrientationChangeEvent } from 'expo-screen-orientation'
 
+/** 屏幕方向 */
+type OrientationResult = 'LANDSCAPE' | 'PORTRAIT'
+
 /** 默认锁竖屏, 并且监听屏幕方向 */
-export default function useOrientation() {
+export default function useOrientation(): OrientationResult {
   const [screenOrientation, setScreenOrientation] = useState(Orientation.PORTRAIT_UP)
 
   useEffect(() => {

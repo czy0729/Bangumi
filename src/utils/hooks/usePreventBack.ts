@@ -13,10 +13,10 @@ import type { Fn } from '@types'
 
 /**
  * 防止误触退出页面的自定义 Hook
- * @param {object} options - 配置选项
- * @param {boolean} [options.enabled=true] - 是否启用防止误触
- * @param {Function} [options.onBack] - 自定义返回处理函数
- * @param {string} [options.message] - Android 返回键提示信息（仅 Android 有效）
+ *
+ * @param options.enabled 是否启用防止误触, 默认 `true`
+ * @param options.onBack 自定义返回处理函数
+ * @param options.message Android 返回键提示信息 (仅 Android 有效)
  */
 const usePreventBack = ({
   enabled = true,

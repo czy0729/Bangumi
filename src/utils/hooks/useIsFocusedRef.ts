@@ -7,7 +7,12 @@
 import { useEffect, useRef } from 'react'
 import useIsFocusedApp from './useIsFocusedApp'
 
-function useIsFocusedRef() {
+import type { MutableRefObject } from 'react'
+
+/**
+ * 自定义 Hook，用于获取当前页面焦点状态的 ref, 供回调和 worklet 中读取最新值
+ */
+function useIsFocusedRef(): MutableRefObject<boolean> {
   const isFocused = useIsFocusedApp()
   const isFocusedRef = useRef(isFocused)
   useEffect(() => {

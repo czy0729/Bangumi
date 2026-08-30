@@ -7,7 +7,10 @@
 import { useEffect, useState } from 'react'
 import { Keyboard } from 'react-native'
 
-function useKeyboard() {
+/**
+ * 自定义 Hook，用于获取键盘高度，键盘收起时返回 `0`
+ */
+function useKeyboard(): number {
   const [keyboardHeight, setKeyboardHeight] = useState(0)
 
   useEffect(() => {

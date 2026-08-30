@@ -6,4 +6,5 @@
  */
 import { useObserver } from 'mobx-react'
 
+/** 订阅被访问的 observable, 使组件在数据变化时重新渲染 (原样导出 mobx-react 的实现) */
 export default useObserver

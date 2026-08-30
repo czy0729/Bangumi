@@ -10,9 +10,9 @@ import { FROZEN_FN } from '@constants/init'
 /**
  * 自定义 Hook，用于在组件挂载时执行传入的函数。
  *
- * @param {() => void} [fn=FROZEN_FN] - 可选的函数，默认为 `FROZEN_FN`，即空函数
+ * @param fn 可选的函数，默认为 `FROZEN_FN`，即空函数; 返回函数时作为卸载清理执行
  */
-export default function useMount(fn: () => void = FROZEN_FN) {
+export default function useMount(fn: () => void = FROZEN_FN): void {
   useEffect(() => {
     const result = fn()
     if (typeof result === 'function') return result

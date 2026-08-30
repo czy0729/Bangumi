@@ -2,24 +2,49 @@
  * @Author: czy0729
  * @Date: 2020-11-10 16:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-20 12:28:07
+ * @Last Modified time: 2026-08-30 08:44:00
  */
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
+
+/** 分页列表结构 (与 fetch 层列表模型一致) */
+type PagerList<ItemT> = {
+  list: ItemT[]
+  _list?: ItemT[]
+  _loaded?: boolean
+  pagination?: {
+    page: number
+    pageTotal: number
+  }
+}
 
 const INIT_LIMIT = 20
 
-export default function usePager(list, finger, limit = INIT_LIMIT) {
+/**
+ * 将长列表按 `limit` 切片做前端分页, 调用 `next` 展示下一页
+ *
+ * @param list fetch 层返回的列表数据
+ * @param finger 变化后重新计算分页的标识 (如下拉刷新计数)
+ * @param limit 每页条数, 默认 `20`
+ */
+export default function usePager<ItemT>(
+  list: PagerList<ItemT>,
+  finger: unknown,
+  limit: number = INIT_LIMIT
+) {
   const [state, setState] = useState(pageList(list, limit))
   useEffect(() => {
     if (list._loaded) setState(pageList(list, limit))
   }, [finger, limit, list])
   return {
+    /** 分页后的列表数据 */
     list: state,
+
+    /** 展示下一页 */
     next: () => setState(pageList(state, limit))
   }
 }
 
-function pageList(list, limit) {
+function pageList<ItemT>(list: PagerList<ItemT>, limit: number): PagerList<ItemT> {
   if (!list?._list?.length && list.list.length <= limit) {
     return {
       ...list,

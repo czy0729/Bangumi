@@ -6,4 +6,8 @@
  */
 import { useAnimatedSensor } from 'react-native-reanimated'
 
+/**
+ * 基于设备传感器数据创建动画 (iOS / Web)
+ *  - 使用 reanimated 公开的 hook; Android 端使用内部 API 的自实现版本, 见 useAnimatedSensor.android.ts
+ */
 export default useAnimatedSensor

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-01-30 09:26:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-20 21:28:15
+ * @Last Modified time: 2026-08-30 08:43:43
  */
 import { useCallback, useState } from 'react'
 import { _ } from '@stores'
@@ -27,8 +27,13 @@ export default function useHorizontalLazy<T extends readonly U[], U = T[number]>
   )
 
   return {
+    /** 实际渲染的列表 (未滚动过时为前 `lazyRenderedCount` 条) */
     list,
+
+    /** 是否已滚动过 (滚动后渲染完整列表) */
     scrolled,
+
+    /** 滚动监听, 已滚动过后返回 `undefined` 不再监听 */
     onScroll: scrolled ? undefined : handleScroll
   }
 }
