@@ -11,7 +11,7 @@ import { AVATARS, BGS } from './ds'
 export function randomAvatars(n: number = 15) {
   const min = 0
   const max = AVATARS.length
-  const arr = []
+  const arr: number[] = []
 
   while (arr.length < n) {
     const index = Math.floor(Math.random() * (max - min) + min)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-06-17 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-17 10:00:00
+ * @Last Modified time: 2026-08-30 07:09:08
  */
 
 /** ECH 代理配置 */
@@ -39,4 +39,25 @@ export type EchProxyLog = {
 
   /** 日志消息 */
   message: string
+}
+
+/** ECH 代理模块接口 */
+export interface EchProxyModuleType {
+  /** 启用 ECH 代理 */
+  enable(config: { port: number; dns: string }): Promise<number>
+
+  /** 禁用 ECH 代理 */
+  disable(): Promise<void>
+
+  /** 获取 ECH 代理状态 */
+  getStatus(): Promise<EchProxyStatus>
+
+  /** 设置 OkHttp 代理 */
+  setOkHttpProxy(port: number): Promise<void>
+
+  /** 清除 OkHttp 代理 */
+  clearOkHttpProxy(): Promise<void>
+
+  /** 获取 ECH 代理日志 */
+  getLogs(): Promise<EchProxyLog[]>
 }

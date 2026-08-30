@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:18:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-05 20:35:02
+ * @Last Modified time: 2026-08-30 07:57:38
  */
 import { confirm, info, titleCase } from '@utils'
 import { get, update } from '@utils/kv'
@@ -25,7 +25,6 @@ import Fetch from './fetch'
 import { INIT_IMAGE_VIEWER, INIT_SETTING, INIT_SUBJECT_LAYOUT } from './init'
 
 import type {
-  EventKeys,
   SettingCDNOrigin,
   SettingHomeCountView,
   SettingHomeCountViewCn,
@@ -442,7 +441,7 @@ export default class Actions extends Fetch {
   private _track = 0
 
   /** 内部统计 */
-  track = (eventId: EventKeys) => {
+  track = (eventId: string) => {
     const key = 't'
     const value = this.state[key][eventId]
     this.setState({

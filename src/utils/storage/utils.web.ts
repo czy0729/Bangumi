@@ -3,9 +3,11 @@
  * @Author: czy0729
  * @Date: 2023-11-01 13:41:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-01 14:23:26
+ * @Last Modified time: 2026-08-30 07:59:21
  */
 import { openDB } from 'idb'
+
+import type { IDBUpgradeDB } from 'idb'
 
 const DB_NAME = 'bangumi-pro-db'
 const STORE_NAME = 'bangumi-pro-store'
@@ -14,14 +16,14 @@ let db: Awaited<ReturnType<typeof openDB>>
 /** 打开 IndexedDB 数据库 */
 const openDatabase = () =>
   openDB(DB_NAME, 1, {
-    upgrade(db) {
+    upgrade(db: IDBUpgradeDB) {
       // 创建对象存储空间
       db.createObjectStore(STORE_NAME)
     }
   })
 
 /** 将数据存储到 IndexedDB 中 */
-export const setItem = async (key: string, value: any) => {
+export const setItem = async (key: string, value: unknown) => {
   if (!db) db = await openDatabase()
   const tx = db.transaction(STORE_NAME, 'readwrite')
   const store = tx.objectStore(STORE_NAME)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-13 00:32:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-30 05:55:44
+ * @Last Modified time: 2026-08-30 07:59:59
  */
 import { HOST, IOS, VERSION_GITHUB_RELEASE } from '@constants/constants'
 import { WEB } from '@constants/device'
@@ -72,7 +72,7 @@ export function t(desc: EventKeys, eventData?: EventData) {
 
   postTask(() => {
     try {
-      const eventId = events[desc]
+      const eventId = events[desc as keyof typeof events]
       if (eventId) {
         _s().track(eventId)
 
@@ -95,6 +95,8 @@ export function t(desc: EventKeys, eventData?: EventData) {
 }
 
 /** @deprecated with Evt */
+// 泛型约束需 any 而非 unknown: strictFunctionTypes 下 unknown[] 会拒绝带具体类型参数的函数
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function withT<T extends (...args: any[]) => any>(
   fn: T,
   desc: EventKeys,
@@ -115,7 +117,7 @@ export function withT<T extends (...args: any[]) => any>(
     } else {
       cb()
     }
-    return result
+    return result as ReturnType<T>
   }) as T
 }
 

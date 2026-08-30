@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-07 06:41:00
+ * @Last Modified time: 2026-08-30 08:01:43
  */
 import { Linking } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -18,7 +18,7 @@ export * from '../date'
 export * from './relative-time'
 
 import type { ComponentType } from 'react'
-import type { AnyObject, Fn, TimerRef, ViewStyle, TextStyle, ImageStyle } from '@types'
+import type { TimerRef, ViewStyle, TextStyle, ImageStyle } from '@types'
 
 /**
  * 全局强制组件设置默认参数
@@ -26,13 +26,13 @@ import type { AnyObject, Fn, TimerRef, ViewStyle, TextStyle, ImageStyle } from '
  * @param defaultProps 默认属性
  * @returns 添加默认属性后的组件
  */
-export function setDefaultProps<T extends ComponentType<AnyObject>>(
+export function setDefaultProps<T extends ComponentType<Record<string, unknown>>>(
   Component: T,
-  defaultProps?: AnyObject
+  defaultProps?: Record<string, unknown>
 ) {
   // 注入内部 render 方法, 类型上不属于公共 API
-  const internal = Component as ComponentType<AnyObject> & {
-    render?: (props: AnyObject, ref: AnyObject) => AnyObject
+  const internal = Component as ComponentType<Record<string, unknown>> & {
+    render?: (props: Record<string, unknown>, ref: unknown) => unknown
   }
   const componentRender = internal.render
   if (!componentRender) {
@@ -40,12 +40,12 @@ export function setDefaultProps<T extends ComponentType<AnyObject>>(
     return Component
   }
 
-  internal.render = function (props: { style: AnyObject }, ref: AnyObject) {
+  internal.render = function (props: Record<string, unknown>, ref: unknown) {
     props = {
       ...defaultProps,
       ...props,
       style: [defaultProps?.style, props?.style]
-    } as typeof props
+    } as Record<string, unknown>
     return componentRender.call(this, props, ref)
   }
 
@@ -53,16 +53,19 @@ export function setDefaultProps<T extends ComponentType<AnyObject>>(
 }
 
 /** 深拷贝 */
-export function deepClone<T extends AnyObject>(obj: T): T {
+export function deepClone<T extends object>(obj: T): T {
   if (obj === null || typeof obj !== 'object') {
     return obj
   }
 
-  const clone = Array.isArray(obj) ? [] : {}
+  const clone: Record<string, unknown> | unknown[] = Array.isArray(obj) ? [] : {}
   for (const key in obj) {
     if (Object.prototype.hasOwnProperty.call(obj, key)) {
-      // @ts-expect-error
-      clone[key] = deepClone(obj[key])
+      if (Array.isArray(clone)) {
+        clone[Number(key)] = deepClone((obj as Record<string, unknown>)[key] as object)
+      } else {
+        clone[key] = deepClone((obj as Record<string, unknown>)[key] as object)
+      }
     }
   }
 
@@ -74,12 +77,12 @@ export function deepClone<T extends AnyObject>(obj: T): T {
  * @param value 待判断的值
  * @returns 如果是非空对象则返回 true, 否则返回 false
  */
-export function isObject(value: any): boolean {
+export function isObject(value: unknown): boolean {
   return typeof value === 'object' && !!value
 }
 
 /** 缩短 runAfterInteractions */
-export function runAfter(fn: () => any, postTask: boolean = false) {
+export function runAfter(fn: () => void, postTask: boolean = false) {
   if (postTask) {
     setTimeout(() => {
       requestAnimationFrame(fn)
@@ -99,18 +102,16 @@ export function stl(
 }
 
 /** 节流 */
-export function throttle(callback: (arg?: any) => void, delay = 400) {
+export function throttle<T>(callback: (arg?: T) => void, delay: number = 400) {
   let timeoutID: TimerRef
   let lastExec = 0
 
-  return function (this: any, ...args: any[]) {
+  return function (this: unknown, ...args: [T?]) {
     const context = this
     const elapsed = Date.now() - lastExec
 
     function exec() {
       lastExec = Date.now()
-
-      // @ts-expect-error
       callback.apply(context, args)
     }
     clearTimeout(timeoutID)
@@ -124,17 +125,19 @@ export function throttle(callback: (arg?: any) => void, delay = 400) {
 }
 
 /** 防抖 */
-export function debounce(fn: Fn, ms = 320): typeof fn {
+// 泛型约束需 any 而非 unknown: strictFunctionTypes 下 unknown[] 会拒绝带具体类型参数的函数
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function debounce<T extends (...args: any[]) => any>(fn: T, ms: number = 320): T {
   let timeout: TimerRef = null
 
-  return function (this: any, ...args: any[]) {
+  return function (this: unknown, ...args: unknown[]) {
     const context = this
     clearTimeout(timeout)
 
     timeout = setTimeout(() => {
       fn.apply(context, args)
     }, ms)
-  }
+  } as T
 }
 
 /**
@@ -169,7 +172,7 @@ export function compare(a: string, b: string) {
  */
 export function asc(a: number | string, b: number | string): 0 | 1 | -1
 export function asc<T, K extends number | string>(a: T, b: T, fn: (item: T) => K): 0 | 1 | -1
-export function asc(a: any, b: any, fn?: (item: any) => number | string): 0 | 1 | -1 {
+export function asc(a: unknown, b: unknown, fn?: (item: unknown) => number | string): 0 | 1 | -1 {
   const _a = typeof fn === 'function' ? fn(a) : a
   const _b = typeof fn === 'function' ? fn(b) : b
   if (typeof _a === 'string' && typeof _b === 'string') return compare(_b, _a)
@@ -187,7 +190,7 @@ export function asc(a: any, b: any, fn?: (item: any) => number | string): 0 | 1 
  */
 export function desc(a: number | string, b: number | string): 0 | 1 | -1
 export function desc<T, K extends number | string>(a: T, b: T, fn: (item: T) => K): 0 | 1 | -1
-export function desc(a: any, b: any, fn?: (item: any) => number | string): 0 | 1 | -1 {
+export function desc(a: unknown, b: unknown, fn?: (item: unknown) => number | string): 0 | 1 | -1 {
   const _a = typeof fn === 'function' ? fn(a) : a
   const _b = typeof fn === 'function' ? fn(b) : b
   if (typeof _a === 'string' && typeof _b === 'string') return compare(_a, _b)
@@ -227,7 +230,11 @@ export function omit<T extends object, K extends keyof T>(obj: T, keys: K[]) {
 const INTERCEPTOR_FINGERPRINTS: Record<string, true> = {}
 
 /** 拦截器, 若拦截中返回 true */
-export function interceptor(key: string = '', obj: AnyObject = {}, distance: number = 800) {
+export function interceptor(
+  key: string = '',
+  obj: Record<string, unknown> = {},
+  distance: number = 800
+) {
   const fingerprint = `${key}|${JSON.stringify(obj)}`
 
   // 检查指纹是否存在于记录中
@@ -246,12 +253,12 @@ export function interceptor(key: string = '', obj: AnyObject = {}, distance: num
 }
 
 /** 安全 toFixed */
-export function toFixed(value: any, num: number = 2) {
+export function toFixed(value: number | string, num: number = 2) {
   return Number(value || 0).toFixed(num)
 }
 
 /** 安全对象 (用于把请求中的 null 换成 undefined, 减少 ?. 语法出错) */
-export function safeObject<T extends Record<string, any>>(object: T = {} as T): T {
+export function safeObject<T extends Record<string, unknown>>(object: T = {} as T): T {
   return Object.fromEntries(
     Object.entries(object).map(([key, value]) => [key, value === null ? undefined : value])
   ) as T
@@ -286,7 +293,7 @@ export function open(url: string, encode: boolean = false): boolean {
 
 /** url 字符串化 */
 export function urlStringify(
-  data?: Record<string, any>,
+  data?: Record<string, string | number | boolean>,
   encode: boolean = true,
   sort: boolean = false
 ): string {
@@ -332,7 +339,7 @@ export function toLocalTimeStr(chinaTimeStr: string, format: string = 'Y-m-d H:i
  * @param format 日期格式字符串，默认为 'Y-m-d'
  * @returns 指定格式的日期字符串
  */
-export function parseIOS8601(isostr: string, format = 'Y-m-d'): string {
+export function parseIOS8601(isostr: string, format: string = 'Y-m-d'): string {
   if (!isostr) return ''
 
   const [year, month, day, hour, minute, second] = isostr.trim().match(/\d+/g) ?? []
@@ -395,7 +402,7 @@ export function titleCase<S extends string>(str: S): Capitalize<S> {
 }
 
 /** @deprecated 颜色过渡 */
-export function gradientColor(startRGB: any[], endRGB: any[], step: number) {
+export function gradientColor(startRGB: number[], endRGB: number[], step: number) {
   const startR = startRGB[0]
   const startG = startRGB[1]
   const startB = startRGB[2]
@@ -406,12 +413,12 @@ export function gradientColor(startRGB: any[], endRGB: any[], step: number) {
   const sG = (endG - startG) / step
   const sB = (endB - startB) / step
 
-  const colorArr = []
+  const colorArr: string[] = []
   for (let i = 0; i < step; i += 1) {
     // 计算每一步的hex值
-    const rgb = `rgb(${parseInt(sR * i + startR)}, ${parseInt(sG * i + startG)}, ${parseInt(
-      sB * i + startB
-    )})`
+    const rgb = `rgb(${parseInt(String(sR * i + startR))}, ${parseInt(
+      String(sG * i + startG)
+    )}, ${parseInt(String(sB * i + startB))})`
     colorArr.push(rgb)
   }
   return colorArr
@@ -444,7 +451,7 @@ export function random(start: number, end: number) {
  * @param {*} n   保留多少位小数
  * @param {*} xsb 是否 xsb 模式
  */
-export function formatNumber(s: string | number, n: number = 2, xsb?: boolean) {
+export function formatNumber(s: string | number, n: number = 2, xsb?: boolean): string {
   if (xsb) {
     if (Number(s) >= B) return `${formatNumber((s as number) / B, 1)}亿`
     if (Number(s) >= M) return `${formatNumber((s as number) / M, 1)}万`
@@ -501,7 +508,7 @@ export function calculateMedian(data: [price: number, count: number][]): number 
 
   // 4. 遍历累计数量，定位中位数
   let cumulativeCount = 0
-  const medianValues = []
+  const medianValues: number[] = []
   for (const [price, count] of data) {
     cumulativeCount += count
     // 检查是否覆盖中位数位置
@@ -520,7 +527,7 @@ export function calculateMedian(data: [price: number, count: number][]): number 
 }
 
 /** 清除搜索关键字的特殊字符 */
-export function cleanQ(str: any) {
+export function cleanQ(str: unknown) {
   return String(str).replace(/['!"#$%&\\'()*+,./:;<=>?@[\\\]^`{|}~']/g, ' ')
 }
 
@@ -578,7 +585,11 @@ export function factory<T>(type: { new (): T }): T {
 }
 
 /** findLastIndex */
-export function findLastIndex(arr: any[] | readonly any[], callback: any, thisArg?: any) {
+export function findLastIndex<T>(
+  arr: T[] | readonly T[],
+  callback: (item: T, index: number, array: T[] | readonly T[]) => boolean,
+  thisArg?: unknown
+) {
   for (let index = arr.length - 1; index >= 0; index--) {
     const value = arr[index]
     if (callback.call(thisArg, value, index, arr)) {

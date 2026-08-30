@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-02-06 07:38:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-06 07:47:47
+ * @Last Modified time: 2026-08-30 07:01:55
  */
 
 /** 限流器 */
@@ -10,7 +10,7 @@ export class TaskQueue {
   private running = 0
   private queue: (() => void)[] = []
 
-  constructor(private limit = 2) {}
+  constructor(private limit: number = 2) {}
 
   run<T>(task: () => Promise<T>): Promise<T> {
     return new Promise<T>((resolve, reject) => {

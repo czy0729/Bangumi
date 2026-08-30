@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-29 20:01:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-30 05:54:08
+ * @Last Modified time: 2026-08-30 06:43:49
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
@@ -25,7 +25,7 @@ import {
   WEBSITE_TINGRAIL
 } from './ds'
 
-import type { AnyObject, EventKeys } from '@types'
+import type { EventKeys } from '@types'
 import type { EventData } from './type'
 
 export function xhr(si: string, u: string) {
@@ -53,14 +53,12 @@ export async function umami(
   website?: string,
   referrer?: string
 ) {
-  if (interceptor('umami', arguments)) return
+  if (interceptor('umami', { url, title, website, referrer })) return
 
   const _url = url.replace(HOST, '')
   if (WEB) {
     const url = _url.split('?')?.[0]
-
-    // @ts-ignore
-    window.umami.track((props: any) => ({
+    window.umami.track((props: Record<string, unknown>) => ({
       ...props,
       website: website || (url.includes('tinygrail') ? WEBSITE_TINGRAIL : WEBSITE),
       url,
@@ -85,14 +83,12 @@ export async function umamiEvent(
   title: string = ''
 ) {
   // 由于已经合并了页面浏览量的计算, 所以此旧事件忽略
-  if (/\.查看$/g.test(eventId) || interceptor('umamiEvent', arguments)) return
+  if (/\.查看$/g.test(eventId) || interceptor('umamiEvent', { eventId, data, url, title })) return
 
   const _url = url.replace(HOST, '')
   if (WEB) {
     const url = _url.split('?')?.[0]
-
-    // @ts-ignore
-    window.umami.track((props: any) => ({
+    window.umami.track((props: Record<string, unknown>) => ({
       ...props,
       website: url.includes('tinygrail') ? WEBSITE_TINGRAIL : WEBSITE,
       url,
@@ -116,7 +112,7 @@ async function umamiXhr(payload: {
   title: string
   url: string
   name?: EventKeys
-  data?: AnyObject
+  data?: EventData
   website?: string
   referrer?: string
 }) {
@@ -144,7 +140,7 @@ async function umamiXhr(payload: {
   }
 
   if (data.name && data.website === WEBSITE) {
-    data.url = eventToUrl(data.name, data.data)
+    data.url = eventToUrl(data.name)
     data.website = WEBSITE_EVENT_V2
     delete data.name
     delete data.data
@@ -169,11 +165,7 @@ export function getReferer(beforeKey?: string) {
   return `https://${referrre.join('_')}.com`
 }
 
-function eventToUrl(
-  name: EventKeys = '',
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _data: AnyObject = {}
-) {
+function eventToUrl(name: EventKeys = '') {
   // return `/${name}?${urlStringify({
   //   e: events[name] || '',
   //   ...data

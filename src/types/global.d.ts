@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-25 17:33:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-27 09:32:38
+ * @Last Modified time: 2026-08-30 06:47:48
  */
 
 /** 以下类型仅按需补充以规避类型错误，非完整类型声明 (仅为防止 RN 编译报错) */
@@ -27,22 +27,22 @@ declare global {
   var __DEV__: boolean
 
   /** [DEV] 全局覆写 log, 能打印循环引用 */
-  function log(value: any, space?: any): void
+  function log(value: unknown, space?: unknown): void
 
   /** [DEV] 全局覆写 warn */
   function warn(key: string, method?: string): void
 
   /** [DEV] 调试查看组件 re-render 次数 */
-  function rerender(key: string, ...other: any[]): void
+  function rerender(key: string, ...other: unknown[]): void
 
   /** 生产环境不需要, 强制设为空值 */
   namespace console {
-    function warn(...args: any[]): void
-    function error(...args: any[]): void
-    function info(...args: any[]): void
-    function log(...args: any[]): void
-    function debug(...args: any[]): void
-    function assert(...args: any[]): void
+    function warn(...args: unknown[]): void
+    function error(...args: unknown[]): void
+    function info(...args: unknown[]): void
+    function log(...args: unknown[]): void
+    function debug(...args: unknown[]): void
+    function assert(...args: unknown[]): void
   }
 
   /** 全局 window 类型声明 */
@@ -50,10 +50,10 @@ declare global {
     CONFIG_TYPE?: 'DEVELOPMENT'
 
     /** window 自身 */
-    self: any
+    self: unknown
 
     /** 顶层 window */
-    top: any
+    top: unknown
 
     /** 文档 */
     document: {
@@ -70,13 +70,21 @@ declare global {
       }
 
       /** 选择元素 */
-      querySelector: (selectors: string) => any
+      querySelector: (selectors: string) => unknown
 
       /** 添加事件监听 */
-      addEventListener: (type: string, listener: (event: any) => void, options?: any) => void
+      addEventListener: (
+        type: string,
+        listener: (event: unknown) => void,
+        options?: unknown
+      ) => void
 
       /** 移除事件监听 */
-      removeEventListener: (type: string, listener: (event: any) => void, options?: any) => void
+      removeEventListener: (
+        type: string,
+        listener: (event: unknown) => void,
+        options?: unknown
+      ) => void
     }
 
     /** 文档当前位置 */
@@ -113,13 +121,13 @@ declare global {
     }
 
     /** 派发事件 */
-    dispatchEvent: (event: any) => boolean
+    dispatchEvent: (event: unknown) => boolean
 
     /** 弹窗 */
-    alert: (message?: any) => void
+    alert: (message?: unknown) => void
 
     /** 确认弹窗 */
-    confirm: (message?: any) => boolean
+    confirm: (message?: unknown) => boolean
 
     /** 调度器 */
     scheduler: {
@@ -130,7 +138,7 @@ declare global {
           priority?: 'user-blocking' | 'user-visible' | 'background'
           signal?: AbortSignal
         }
-      ) => Promise<any>
+      ) => Promise<unknown>
     }
 
     /** 打开新页面 */
@@ -147,6 +155,11 @@ declare global {
       observe(target: object): void
       unobserve(target: object): void
       disconnect(): void
+    }
+
+    /** Umami 统计 */
+    umami: {
+      track: (callback: (props: Record<string, unknown>) => Record<string, unknown>) => void
     }
 
     /** 图片构造器 */
@@ -173,14 +186,14 @@ declare global {
     PopStateEvent: new (
       type: string,
       eventInitDict?: {
-        state?: any
+        state?: unknown
         bubbles?: boolean
         cancelable?: boolean
         composed?: boolean
       }
     ) => {
       type: string
-      state: any
+      state: unknown
       bubbles: boolean
       cancelable: boolean
       composed: boolean
@@ -194,13 +207,13 @@ declare var global: typeof globalThis & {
   __DEV__: boolean
 
   /** [DEV] 全局覆写 log, 能打印循环引用 */
-  log(value: any, space?: any): void
+  log(value: unknown, space?: unknown): void
 
   /** [DEV] 全局覆写 warn */
   warn(key: string, method?: string): void
 
   /** [DEV] 调试查看组件 re-render 次数 */
-  rerender(key: string, ...other: any[]): void
+  rerender(key: string, ...other: unknown[]): void
 }
 
 export {}

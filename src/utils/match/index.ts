@@ -2,27 +2,27 @@
  * @Author: czy0729
  * @Date: 2019-08-08 11:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-13 05:22:54
+ * @Last Modified time: 2026-08-30 07:59:00
  */
 import { pad } from '../utils'
 
 import type { UserId } from '@types'
 
 /** 缓存结果 */
-const cacheMap = new Map<string, any>()
+const cacheMap = new Map<string, unknown>()
 
 /** 匹配 */
-function match(
+function match<T>(
   str: string = '',
-  fn: (str: string) => any,
+  fn: (str: string) => T,
   namespace: string = '',
-  errorValue: any = ''
-) {
+  errorValue: T = '' as unknown as T
+): T {
   try {
-    if (!str || typeof fn !== 'function') return ''
+    if (!str || typeof fn !== 'function') return '' as T
 
     const key = `${namespace}|${str}`
-    if (cacheMap.has(key)) return cacheMap.get(key)
+    if (cacheMap.has(key)) return cacheMap.get(key) as T
 
     const result = fn(str) || errorValue
     cacheMap.set(key, result)
@@ -89,12 +89,15 @@ export function matchStar(str: string = ''): string {
 }
 
 /** 匹配字符串中第一个 bgm 地址 */
-export function matchBgmUrl(str: string = '', returnAll: boolean = false): string {
+export function matchBgmUrl(str: string, returnAll: true): string[]
+export function matchBgmUrl(str: string, returnAll?: false): string
+export function matchBgmUrl(str: string = '', returnAll: boolean = false): string | string[] {
   return match(
     str,
     str => {
-      const matchs =
-        str.match(/https?:\/\/(bangumi\.tv|bgm\.tv|chii\.in)((\w|=|\?|\.|\/|&|-)+)/g) || []
+      const matchs = (str.match(
+        /https?:\/\/(bangumi\.tv|bgm\.tv|chii\.in)((\w|=|\?|\.|\/|&|-)+)/g
+      ) || []) as string[]
       return returnAll ? matchs : matchs[0] || ''
     },
     `${matchBgmUrl}${returnAll ? 'returnAll' : ''}`,

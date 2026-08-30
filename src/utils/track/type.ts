@@ -22,5 +22,5 @@ export type HMQuery = {
 }
 
 export type EventData = {
-  [key: string]: string | number | boolean | any[]
+  [key: string]: string | number | boolean | unknown[]
 }

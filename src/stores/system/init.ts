@@ -27,7 +27,7 @@ import { IOS_IMAGE_CACHE_V2 } from '@src/config'
 import { radiusMd } from '@styles'
 
 import type { MUSUME_PROMPT } from '@utils/kv/ds'
-import type { EventKeys, MenuItem, Paths, SettingLive2DScale } from '@types'
+import type { MenuItem, Paths, SettingLive2DScale } from '@types'
 import type {
   Advance,
   HomeRenderTabs,
@@ -555,8 +555,8 @@ export const STATE = {
   /** @deprecated 用于在 bangumi-oss ota hash 更新后, 强制刷新 APP 内所有封面 */
   hashSubjectOTALoaded: 0,
 
-  /** 内部统计, 用于确认某个功能是否第一次使用 */
-  t: {} as Record<EventKeys, number>
+  /** 内部统计, 用于确认某个功能是否第一次使用, 键为埋点 ID (如 'Anime.to') */
+  t: {} as Record<string, number>
 }
 
 export const LOADED = {

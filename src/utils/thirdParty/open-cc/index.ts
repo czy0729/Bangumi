@@ -3,11 +3,13 @@
  * @Author: czy0729
  * @Date: 2024-04-13 16:32:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-19 22:26:42
+ * @Last Modified time: 2026-08-30 06:57:45
  */
 import { getSetting } from '../../app'
 import hash from '../hash'
 import { CN, HK, OpenCC, TW } from './module'
+
+import type { ConverterFactoryArgument } from 'opencc-js/core'
 
 const memoCache = {
   hk: new Map<string, string>(),
@@ -26,9 +28,10 @@ function containsChinese(str: string): boolean {
 }
 
 /** 兼容 ESM ([[STPhrases, STCharacters]]) 和 UMD ([STPhrases, STCharacters]) 格式 */
-function normalizeDictGroups(groups: unknown[]): unknown[][] {
-  if (Array.isArray(groups[0]) && typeof groups[0][0] === 'string') return groups as unknown[][]
-  return [groups]
+function normalizeDictGroups(groups: unknown): readonly ConverterFactoryArgument[] {
+  const arr = groups as readonly (readonly [readonly [string, string]])[]
+  if (Array.isArray(arr[0]) && typeof arr[0][0] === 'string') return arr
+  return [arr]
 }
 
 /** 简转繁 */

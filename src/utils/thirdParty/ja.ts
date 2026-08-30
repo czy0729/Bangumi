@@ -2,10 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-11-20 16:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-19 09:12:30
+ * @Last Modified time: 2026-08-30 06:51:38
  */
 import { get } from '@utils/protobuf'
 import { getJSON } from '@assets/json'
+
+import type { SubjectId } from '@types'
 
 const REPLACEMENTS = {
   1: 'i',
@@ -28,28 +30,31 @@ let jaDataKeys: string[] = []
 export function findJA(input: string) {
   if (memo.has(input)) return memo.get(input)
 
-  const jaData: Record<string, number> = getJSON('thirdParty/ja.min')
-  const jaDataAddon: Record<string, number> = getJSON('thirdParty/ja.addon')
+  const jaData: Record<string, SubjectId> = getJSON('thirdParty/ja.min')
+  const jaDataAddon: Record<string, SubjectId> = getJSON('thirdParty/ja.addon')
 
   const input1 = cleaned(input)
   let subjectId = jaData[input1] || jaDataAddon[input1]
   if (subjectId) {
-    memo.set(input, subjectId)
-    return subjectId
+    const id = Number(subjectId)
+    memo.set(input, id)
+    return id
   }
 
   const input2 = cleaned2(input)
   subjectId = jaData[input2] || jaDataAddon[input2]
   if (subjectId) {
-    memo.set(input, subjectId)
-    return subjectId
+    const id = Number(subjectId)
+    memo.set(input, id)
+    return id
   }
 
   const input3 = cleaned3(input)
   subjectId = jaData[input3] || jaDataAddon[input3]
   if (subjectId) {
-    memo.set(input, subjectId)
-    return subjectId
+    const id = Number(subjectId)
+    memo.set(input, id)
+    return id
   }
 
   /**
@@ -61,8 +66,9 @@ export function findJA(input: string) {
   const inputCn = _input1.replace(/[^\u4e00-\u9fa5]/g, '')
   subjectId = jaData[inputCn] || jaDataAddon[inputCn]
   if (subjectId) {
-    memo.set(input, subjectId)
-    return subjectId
+    const id = Number(subjectId)
+    memo.set(input, id)
+    return id
   }
 
   // 在 bangumi-data 中找
@@ -87,16 +93,18 @@ export function findJA(input: string) {
   let input4 = cleaned4(input)
   subjectId = jaData[input4] || jaDataAddon[input4]
   if (subjectId) {
-    memo.set(input, subjectId)
-    return subjectId
+    const id = Number(subjectId)
+    memo.set(input, id)
+    return id
   }
 
   if (/(\d)$/.test(input4)) {
     input4 = input4.replace(/(\d)$/g, (match, number) => REPLACEMENTS[number] || match)
     subjectId = jaData[input4] || jaDataAddon[input4]
     if (subjectId) {
-      memo.set(input, subjectId)
-      return subjectId
+      const id = Number(subjectId)
+      memo.set(input, id)
+      return id
     }
   }
 
@@ -104,29 +112,33 @@ export function findJA(input: string) {
   const input5 = cleaned5(input)
   subjectId = jaData[input5] || jaDataAddon[input5]
   if (subjectId) {
-    memo.set(input, subjectId)
-    return subjectId
+    const id = Number(subjectId)
+    memo.set(input, id)
+    return id
   }
 
   const input6 = cleaned6(input)
   subjectId = jaData[input6] || jaDataAddon[input6]
   if (subjectId) {
-    memo.set(input, subjectId)
-    return subjectId
+    const id = Number(subjectId)
+    memo.set(input, id)
+    return id
   }
 
   const input7 = cleaned7(input)
   subjectId = jaData[input7] || jaDataAddon[input7]
   if (subjectId) {
-    memo.set(input, subjectId)
-    return subjectId
+    const id = Number(subjectId)
+    memo.set(input, id)
+    return id
   }
 
   const input8 = cleaned8(input)
   subjectId = jaData[input8] || jaDataAddon[input8]
   if (subjectId) {
-    memo.set(input, subjectId)
-    return subjectId
+    const id = Number(subjectId)
+    memo.set(input, id)
+    return id
   }
 
   const input9 = input2.replace(/s$/g, '')
@@ -141,8 +153,9 @@ export function findJA(input: string) {
     if (find) {
       subjectId = jaData[find]
       if (subjectId) {
-        memo.set(input, subjectId)
-        return subjectId
+        const id = Number(subjectId)
+        memo.set(input, id)
+        return id
       }
     }
   }
@@ -154,8 +167,9 @@ export function findJA(input: string) {
       if (find) {
         subjectId = jaData[find]
         if (subjectId) {
-          memo.set(input, subjectId)
-          return subjectId
+          const id = Number(subjectId)
+          memo.set(input, id)
+          return id
         }
       }
     }
