@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-26 16:06:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-29 17:56:51
+ * @Last Modified time: 2026-08-31 07:36:24
  */
 import { getTimestamp, info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
@@ -10,7 +10,7 @@ import { extract, gets, update } from '@utils/kv'
 import { D, MODEL_SUBJECT_TYPE } from '@constants'
 import { MAX_PAGE } from '../ds'
 import Fetch from './fetch'
-import { getSubjectCutList } from './utils'
+import { getSubjectCutList, rebuildSnapshotSubjects } from './utils'
 import { EXCLUDE_STATE, FILTER_WORD } from './ds'
 
 import type { SubjectId, SubjectTypeCn, TimerRef } from '@types'
@@ -115,48 +115,13 @@ export default class Action extends Fetch {
     this.setState({
       fetchingCollections: true
     })
-    const data: Record<`subject_${SubjectId}`, SnapshotSubjectsItem> = await gets(
+    // [gets 泛型] picker 类型为 keyof T, T 无推断来源需显式给出
+    const data = await gets<SnapshotSubjectsItem, keyof SnapshotSubjectsItem>(
       subjectIds.map(item => `subject_${item}`),
       ['id', 'name', 'name_cn', 'image', 'tags', 'character', 'staff', 'rating', 'rank']
     )
-    const subjects: Record<SubjectId, SnapshotSubjectsItem> = {}
-    Object.entries(data).forEach(([key, value]) => {
-      if (value) {
-        // 因为数据有冗余, 有必要主动重新构建
-        subjects[value.id] = {
-          id: value.id,
-          image: typeof value.image === 'string' ? value.image : '',
-          name: value.name,
-          name_cn: value.name_cn,
-          rank: value.rank,
-          tags: value.tags,
-          character: (value.character || []).map(item => ({
-            id: item.id,
-            name: item.name,
-            nameJP: item.nameJP,
-            image: typeof item.image === 'string' ? item.image : '',
-            desc: item.desc,
-            actorId: item.actorId
-          })),
-          staff: (value.staff || []).map(item => ({
-            id: item.id,
-            name: item.name,
-            nameJP: item.nameJP,
-            image: typeof item.image === 'string' ? item.image : '',
-            desc: item.desc
-          })),
-          _loaded: now
-        }
-      } else {
-        // 就算没有快照也需要合并, 能避免重复请求
-        const subjectId = (Number(key.replace('subject_', '')) || 0) as SubjectId
-        subjects[subjectId] = {
-          _loaded: now
-        }
-      }
-    })
     this.setState({
-      subjects,
+      subjects: rebuildSnapshotSubjects(data || {}, now),
       fetchingCollections: false
     })
     this.save()

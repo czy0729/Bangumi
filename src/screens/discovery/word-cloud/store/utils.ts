@@ -2,13 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-09-29 18:22:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-29 17:57:14
+ * @Last Modified time: 2026-08-31 07:34:39
  */
 import { cnjp, HTMLDecode, removeHTMLTag, t2s } from '@utils'
 import { FILTER_CV, FILTER_TAGS } from './ds'
 
-import type { SubjectId, SubjectType } from '@types'
-import type { CollectionsV0Item, CutList, CutType, SnapshotSubjectsItem } from '../types'
+import type { Id, SubjectId, SubjectType, UserId } from '@types'
+import type {
+  CollectionsV0Item,
+  CutList,
+  CutType,
+  SelectedCommentItem,
+  SnapshotSubjectsItem
+} from '../types'
 
 /** 去除 HTML 标签后的纯文本 */
 export function getPlainText(str: string, max?: number) {
@@ -49,6 +55,99 @@ export function removeSpec(str: string) {
   )
 }
 
+/** 词频计数, 首次出现记 first (默认等于 weight), 之后每次累加 weight */
+function count(
+  temp: Record<string, number>,
+  name: string,
+  weight: number = 1,
+  first: number = weight
+) {
+  if (temp[name]) {
+    temp[name] += weight
+  } else {
+    temp[name] = first
+  }
+}
+
+/** 映射选中的吐槽 */
+export function mapSelectedComment(
+  item: {
+    /** 吐槽 ID */
+    id: Id
+
+    /** 头像 */
+    avatar: string
+
+    /** 用户 ID */
+    userId: UserId
+
+    /** 用户名 */
+    userName: string
+
+    /** 时间 */
+    time: string
+  },
+  message: string,
+
+  /** 楼层 / 操作信息 */
+  action?: string
+): SelectedCommentItem {
+  return {
+    id: item.id,
+    avatar: item.avatar,
+    userId: item.userId,
+    userName: HTMLDecode(item.userName),
+    comment: removeSlogan(getPlainText(message)),
+    time: item.time,
+    action
+  }
+}
+
+/** 由 kv 快照重建条目数据, 剔除冗余字段; kv 未命中时值为 null, 仅合并 _loaded 避免重复请求 */
+export function rebuildSnapshotSubjects(
+  data: Record<string, SnapshotSubjectsItem | null | undefined>,
+  now: number
+): Record<SubjectId, SnapshotSubjectsItem> {
+  const subjects: Record<SubjectId, SnapshotSubjectsItem> = {}
+  Object.entries(data).forEach(([key, value]) => {
+    if (value) {
+      // 因为数据有冗余, 有必要主动重新构建
+      subjects[value.id] = {
+        id: value.id,
+        image: typeof value.image === 'string' ? value.image : '',
+        name: value.name,
+        name_cn: value.name_cn,
+        rank: value.rank,
+        tags: value.tags,
+        character: (value.character || []).map(item => ({
+          id: item.id,
+          name: item.name,
+          nameJP: item.nameJP,
+          image: typeof item.image === 'string' ? item.image : '',
+          desc: item.desc,
+          actorId: item.actorId
+        })),
+        staff: (value.staff || []).map(item => ({
+          id: item.id,
+          name: item.name,
+          nameJP: item.nameJP,
+          image: typeof item.image === 'string' ? item.image : '',
+          desc: item.desc
+        })),
+        _loaded: now
+      }
+    } else {
+      // 就算没有快照也需要合并, 能避免重复请求
+      const subjectId = (Number(key.replace('subject_', '')) || 0) as SubjectId
+      subjects[subjectId] = {
+        _loaded: now
+      }
+    }
+  })
+
+  return subjects
+}
+
 const staffSet = new Set([
   '原作',
   '导演',
@@ -79,12 +178,7 @@ export function getSubjectCutList(
       if (subCutType === '个人') {
         collections.forEach(i => {
           i.tags.forEach(tag => {
-            const name = t2s(tag)
-            if (temp[name]) {
-              temp[name] += 1
-            } else {
-              temp[name] = 1
-            }
+            count(temp, t2s(tag))
           })
         })
       } else {
@@ -101,13 +195,8 @@ export function getSubjectCutList(
             return
           }
 
-          const name = t2s(i.name)
           const value = i.meta ? 2 : 1
-          if (temp[name]) {
-            temp[name] += value
-          } else {
-            temp[name] = value + 1
-          }
+          count(temp, t2s(i.name), value, value + 1)
         })
       }
     } else if (cutType === '制作人员') {
@@ -126,22 +215,13 @@ export function getSubjectCutList(
         }
 
         const value = staffSet.has(i.desc) ? 2 : 1
-        if (temp[name]) {
-          temp[name] += value
-        } else {
-          temp[name] = value + 1
-        }
+        count(temp, name, value, value + 1)
       })
     } else if (cutType === '声优') {
       subject.character?.forEach(i => {
         if (!i.desc || FILTER_CV.includes(i.desc)) return
 
-        const name = i.desc
-        if (temp[name]) {
-          temp[name] += 1
-        } else {
-          temp[name] = 1
-        }
+        count(temp, i.desc)
       })
     } else if (cutType === '排名') {
       const { rank } = subject
@@ -158,11 +238,7 @@ export function getSubjectCutList(
         name = ' N/A '
       }
 
-      if (temp[name]) {
-        temp[name] += 1
-      } else {
-        temp[name] = 1
-      }
+      count(temp, name)
     }
   })
 

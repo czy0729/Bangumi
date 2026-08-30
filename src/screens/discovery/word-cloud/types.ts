@@ -74,6 +74,9 @@ export type SnapshotSubjectsItem = {
   /** 排名 */
   rank?: number
 
+  /** 评分 */
+  rating?: number
+
   /** 公共标签 */
   tags?: {
     /** 标签名 */
@@ -130,6 +133,27 @@ export type SnapshotSubjectsItem = {
 
   /** 本地化时间 */
   _loaded?: Loaded
+}
+
+/** 点击词云后选中的角色 */
+export type SelectedMono = {
+  /** 角色 / 人员 ID */
+  id?: number
+
+  /** 中文名 */
+  name?: string
+
+  /** 日文名 */
+  nameJP?: string
+
+  /** 头像 */
+  image?: string
+
+  /** 职位 */
+  desc?: string
+
+  /** 声优 ID */
+  actorId?: number
 }
 
 /** 选中的吐槽 */

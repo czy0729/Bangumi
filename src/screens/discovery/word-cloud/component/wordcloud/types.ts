@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-07-16 22:08:23
  */
 import type { LayoutChangeEvent } from 'react-native'
-import type { SpaceType } from './util'
+import type { SpaceType } from './utils'
 import type { TextStyle, ViewStyle } from '@types'
 
 /** 词云单词 */

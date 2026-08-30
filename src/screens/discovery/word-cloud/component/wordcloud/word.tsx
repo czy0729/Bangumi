@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import Text from './text'
-import { getRandomColor } from './util'
+import { getRandomColor } from './utils'
 
 import type { LayoutChangeEvent } from 'react-native'
 import type { TextStyle } from '@types'

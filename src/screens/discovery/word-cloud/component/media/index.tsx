@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2024-09-28 16:32:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-23 01:58:33
+ * @Last Modified time: 2026-08-31 07:32:49
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { HeaderPlaceholder, Touchable } from '@components'
 import { _, useStore } from '@stores'
+import { t } from '@utils/fetch'
 import { WEB } from '@constants'
 import Mono from './mono'
 import Subject from './subject'
 import Topic from './topic'
 import User from './user'
-import { COMPONENT } from './ds'
+import { COMPONENT, WEB_ROUTE_MAP } from './ds'
 
-import type { ReactNode } from '@types'
+import type { Paths, ReactNode } from '@types'
 import type { Ctx } from '../../types'
 
 function Media() {
@@ -38,33 +39,17 @@ function Media() {
     el = (
       <Touchable
         onPress={() => {
-          if ($.subjectId) {
-            navigation.push('Subject', {
-              subjectId: $.subjectId
-            })
-            return
-          }
+          const key = Object.keys(WEB_ROUTE_MAP).find(item => $[item]) as keyof typeof WEB_ROUTE_MAP
+          if (!key) return
 
-          if ($.topicId) {
-            navigation.push('Topic', {
-              topicId: $.topicId
-            })
-            return
-          }
+          const route = WEB_ROUTE_MAP[key]
+          const params = { [key]: $[key] }
+          ;(navigation.push as (path: Paths, params?: object) => void)(route, params)
 
-          if ($.monoId) {
-            navigation.push('Mono', {
-              monoId: $.monoId
-            })
-            return
-          }
-
-          if ($.userId) {
-            navigation.push('Zone', {
-              userId: $.userId
-            })
-            return
-          }
+          t('词云.跳转', {
+            to: route,
+            ...params
+          })
         }}
       >
         {el}

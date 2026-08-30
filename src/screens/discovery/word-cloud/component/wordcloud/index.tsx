@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-09-27 02:45:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-06 09:05:35
+ * @Last Modified time: 2026-08-31 07:33:57
  */
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
 import { createSpace } from './space'
 import Text from './text'
-import { spaceTypes } from './util'
+import { spaceTypes } from './utils'
 import { createWord } from './word'
 import { DEFAULT_OPTIONS } from './ds'
 import { styles } from './styles'
@@ -75,42 +75,38 @@ function WordCloud({ style, options = DEFAULT_OPTIONS, onPress }: Props) {
     [updateSpaceIdArray]
   )
 
-  const updateTextPosition = useCallback(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    (word: Word, top: number, left: number, _transform: boolean = false) => {
-      // Update the styles of the word view
-      const textStyle = {
-        position: 'absolute',
-        left: Math.ceil(left),
-        top: Math.ceil(top),
-        fontSize: word.font,
-        lineHeight: Math.ceil(word.font * 1.1),
-        color: word.color
-      } as TextStyle
+  const updateTextPosition = useCallback((word: Word, top: number, left: number) => {
+    // Update the styles of the word view
+    const textStyle = {
+      position: 'absolute',
+      left: Math.ceil(left),
+      top: Math.ceil(top),
+      fontSize: word.font,
+      lineHeight: Math.ceil(word.font * 1.1),
+      color: word.color
+    } as TextStyle
 
-      setWords(prevState =>
-        prevState.map(prevWord => {
-          if (prevWord !== word) return prevWord
+    setWords(prevState =>
+      prevState.map(prevWord => {
+        if (prevWord !== word) return prevWord
 
-          return {
-            ...prevWord,
-            view:
-              (prevWord.view && (
-                <Text
-                  key={word.text}
-                  style={textStyle}
-                  onPress={() => onPressRef.current?.(word.text)}
-                >
-                  {word.text}
-                </Text>
-              )) ||
-              null
-          }
-        })
-      )
-    },
-    []
-  )
+        return {
+          ...prevWord,
+          view:
+            (prevWord.view && (
+              <Text
+                key={word.text}
+                style={textStyle}
+                onPress={() => onPressRef.current?.(word.text)}
+              >
+                {word.text}
+              </Text>
+            )) ||
+            null
+        }
+      })
+    )
+  }, [])
 
   const placeFirstWord = useCallback(
     (word: Word) => {
@@ -274,8 +270,7 @@ function WordCloud({ style, options = DEFAULT_OPTIONS, onPress }: Props) {
               updateTextPosition(
                 word,
                 obj.y + yMul * w + (w - h) / 2,
-                obj.x + xMul * h - (w - h) / 2,
-                true
+                obj.x + xMul * h - (w - h) / 2
               )
 
               if (Math.random() * 2 > 1) {
@@ -362,14 +357,6 @@ function WordCloud({ style, options = DEFAULT_OPTIONS, onPress }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const draw = useCallback(() => {
-    if (words.length === 0) return null
-
-    return words.map(word => {
-      return word.view
-    })
-  }, [words])
-
   return (
     <View
       style={{
@@ -379,9 +366,9 @@ function WordCloud({ style, options = DEFAULT_OPTIONS, onPress }: Props) {
         ...(style as object)
       }}
     >
-      {draw()}
+      {words.map(word => word.view)}
     </View>
   )
 }
 
-export default WordCloud
+export default memo(WordCloud)

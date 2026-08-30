@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-26 18:30:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-29 17:47:15
+ * @Last Modified time: 2026-08-31 07:32:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,8 +10,7 @@ import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { _, useStore } from '@stores'
 import { MAX_PAGE } from '../../ds'
-import WordCloud from '../wordcloud'
-import { getWords } from './utils'
+import Canvas from './canvas'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
@@ -34,7 +33,6 @@ function Cavans() {
     )
   }
 
-  const isCollection = !!$.userId
   const { fetching } = $.state
 
   return (
@@ -45,17 +43,12 @@ function Cavans() {
         </Text>
       )}
       {!!list.length && (
-        <WordCloud
+        <Canvas
           key={String(_loaded)}
+          list={list}
+          container={styles.container}
           style={_.mt.md}
-          options={{
-            words: getWords(list),
-            verticalEnabled: false,
-            minFont: isCollection ? 12 : 14,
-            maxFont: isCollection ? 34 : 68,
-            fontOffset: 4,
-            ...styles.container
-          }}
+          isCollection={!!$.userId}
           onPress={$.onWordPress}
         />
       )}

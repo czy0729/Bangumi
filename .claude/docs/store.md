@@ -37,7 +37,7 @@ store/
 - 每个新文件自带裁剪后的 import 子集，基类导入指向上一环（`import Oss from './oss'`）
 - 纯函数工具拆为目录 + `index.ts` 再导出（如 `store/utils/`），消费方 `from './utils'` 零改动
 
-已应用：`home/subject/store`（computed/ fetch/ action/ utils/ 四组）、`home/v2/store`（computed/ action/ utils/ 三组）
+已应用：`home/subject/store`（computed/ fetch/ action/ utils/ 四组）、`home/v2/store`（computed/ action/ utils/ 三组）、`discovery/word-cloud/store`（computed/ 一组：base/meta/comment/collection）
 
 ## 18 个 Domain Store
 

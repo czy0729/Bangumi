@@ -4,13 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-11-29 17:55:28
  */
-import React, { useMemo } from 'react'
-import { View } from 'react-native'
+import React from 'react'
 import { observer } from 'mobx-react'
 import { PaginationList } from '@_'
 import { useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { NUM_COLUMNS } from '../ds'
+import { EL_PLACEHOLDER, NUM_COLUMNS } from '../ds'
 import { renderItem } from './utils'
 import { styles } from './styles'
 
@@ -18,8 +17,6 @@ import type { Ctx } from '../../../types'
 
 function Subjects() {
   const { $ } = useStore<Ctx>()
-
-  const elPlaceholder = useMemo(() => <View />, [])
 
   if (!$.selectedSubjects.length) return null
 
@@ -33,8 +30,8 @@ function Subjects() {
       numColumns={NUM_COLUMNS}
       renderItem={renderItem}
       removeClippedSubviews={false}
-      footerEmptyDataComponent={elPlaceholder}
-      footerNoMoreDataComponent={elPlaceholder}
+      footerEmptyDataComponent={EL_PLACEHOLDER}
+      footerNoMoreDataComponent={EL_PLACEHOLDER}
       onScroll={$.onScroll}
     />
   )

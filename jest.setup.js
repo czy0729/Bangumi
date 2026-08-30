@@ -51,6 +51,7 @@ jest.mock(
     const { lastDate, relativeEnToEpoch, relativeToEpoch } = require(
       __dirname + '/src/utils/utils/relative-time'
     )
+    const { t2s } = require(__dirname + '/src/utils/thirdParty/cn-char')
     const { htmlMatch } = require(__dirname + '/src/utils/html/match')
     const { cEach, cPagination, cText } = require(__dirname + '/src/utils/html/parse')
 
@@ -114,6 +115,18 @@ jest.mock(
       getTimestamp: () => 1000000,
       navigationReference: jest.fn(),
       HTMLDecode: (str = '') => str || '',
+      removeHTMLTag: (str, removeAllSpace = true) => {
+        const _str = String(str)
+          .replace(/<\/?[^>]*>/g, '')
+          .replace(/[ | ]*\n/g, '\n')
+          .replace(/\n[\s| | ]*\r/g, '\n')
+
+        if (!removeAllSpace) return _str
+
+        return _str.replace(/ /gi, '')
+      },
+      cnjp: (cn, jp) => (cn || jp || ''),
+      t2s,
       HTMLToTree: () => ({ children: [] }),
       HTMLTrim: (str = '') =>
         (str || '')
@@ -212,6 +225,12 @@ jest.mock(
     const model = label => ({
       getValue: () => label
     })
+    // 与 src/constants/model/utils.ts 的 Model 语义一致
+    const model2 = data => ({
+      getLabel: value => data.find(i => i.value == value || i.title == value)?.label || false,
+      getValue: label => data.find(i => i.label == label || i.title == label)?.value || false,
+      getTitle: label => data.find(i => i.label == label || i.value == label)?.title || false
+    })
     return {
       HOST_IMAGE: '//lain.bgm.tv',
       HOST_CDN_AVATAR: 'https://cdn.example.com',
@@ -225,6 +244,13 @@ jest.mock(
       LIKE_TYPE_RAKUEN: 8,
       LIKE_TYPE_TIMELINE: 40,
       LIKE_TYPE_SAY: 50,
+      MODEL_COLLECTION_STATUS: model2([
+        { label: '想看', value: 'wish', title: '1' },
+        { label: '看过', value: 'collect', title: '2' },
+        { label: '在看', value: 'do', title: '3' },
+        { label: '搁置', value: 'on_hold', title: '4' },
+        { label: '抛弃', value: 'dropped', title: '5' }
+      ]),
       MODEL_BIG_EMOJI_SIZE: model('中'),
       MODEL_RAKUEN_AUTO_LOAD_IMAGE: model('0.2m'),
       MODEL_RAKUEN_NEW_FLOOR_STYLE: model('角标'),
