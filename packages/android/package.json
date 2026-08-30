@@ -73,7 +73,7 @@
     "patch-package": "7.0.2",
     "postinstall-postinstall": "2.1.0",
     "prop-types": "15.8.1",
-    "protobufjs": "7.2.5",
+    "protobufjs": "^8.8.0",
     "react": "18.2.0",
     "react-native": "0.72.10",
     "react-native-android-widget": "0.5.2",

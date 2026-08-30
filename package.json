@@ -22,6 +22,7 @@
     "make:ipa": "sudo node web/ipa.js",
     "test": "jest --detectOpenHandles",
     "test:watch": "jest --watch --forceExit",
+    "pb:verify": "node scripts/pb-verify.js",
     "lint:styles": "npx eslint 'src/**/styles.ts'",
     "lint:imports": "npx eslint 'src/**/*.{ts,tsx}' --quiet --config eslint-rules/.eslintrc.check-imports.js"
   },
@@ -82,7 +83,7 @@
     "patch-package": "6.4.7",
     "postinstall-postinstall": "2.1.0",
     "prop-types": "15.8.1",
-    "protobufjs": "^7.2.5",
+    "protobufjs": "^8.8.0",
     "react": "19.1.0",
     "react-native": "0.81.4",
     "react-native-actions-shortcuts": "^1.0.1",
