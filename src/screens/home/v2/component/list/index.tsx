@@ -7,7 +7,7 @@
 import React, { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { Loading } from '@components'
-import { PaginationList2 } from '@_'
+import { PaginationList } from '@_'
 import { systemStore, useStore } from '@stores'
 import { MODEL_SETTING_HOME_ANIME_INFO_INLINE, MODEL_SETTING_HOME_LAYOUT } from '@constants'
 import Grid from '../grid/index.lazy'
@@ -51,7 +51,7 @@ function ListWrap({ title = '全部' }: Props) {
     systemStore.setting.homeAnimeInfoInline
 
   return (
-    <PaginationList2
+    <PaginationList
       keyExtractor={keyExtractor}
       forwardRef={handleForwardRef}
       contentContainerStyle={style}

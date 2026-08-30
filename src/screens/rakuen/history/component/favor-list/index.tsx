@@ -7,7 +7,7 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { SegmentedControl } from '@components'
-import { PaginationList2 } from '@_'
+import { PaginationList } from '@_'
 import { _, useStore } from '@stores'
 import { DS } from '../../ds'
 import { keyExtractor, renderItem } from './utils'
@@ -33,7 +33,7 @@ function FavorList() {
         selectedIndex={DS.findIndex(item => item === type)}
         onValueChange={$.onValueChange}
       />
-      <PaginationList2
+      <PaginationList
         keyExtractor={keyExtractor}
         contentContainerStyle={_.container.bottom}
         data={$.list}

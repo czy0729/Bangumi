@@ -6,7 +6,7 @@
  */
 import React, { useMemo } from 'react'
 import { observer } from 'mobx-react'
-import { PaginationList2 } from '@_'
+import { PaginationList } from '@_'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { TEXT_18X } from '@constants/text'
@@ -40,7 +40,7 @@ function List() {
 
   // --- Render ---
   return (
-    <PaginationList2
+    <PaginationList
       key={`${$.state.layout}|${memoNumColumns}`}
       keyExtractor={keyExtractor}
       contentContainerStyle={_.container.bottom}

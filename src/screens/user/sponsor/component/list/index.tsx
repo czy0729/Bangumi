@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import { PaginationList2 } from '@_'
+import { PaginationList } from '@_'
 import { useStore } from '@stores'
 // import { TEXT_UPDATE_SPONSOR } from '@constants'
 import { LIST } from '../../ds'
@@ -33,7 +33,7 @@ function List() {
   // )
 
   return (
-    <PaginationList2
+    <PaginationList
       keyExtractor={keyExtractor}
       contentContainerStyle={styles.container}
       data={LIST}

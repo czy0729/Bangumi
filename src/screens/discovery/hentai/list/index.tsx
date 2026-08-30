@@ -7,7 +7,7 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Loading } from '@components'
-import { Filter, PaginationList2 } from '@_'
+import { Filter, PaginationList } from '@_'
 import { _ } from '@stores'
 import { ADVANCE_LIMIT, filterDS } from '../ds'
 import Item from '../item'
@@ -65,10 +65,10 @@ class List extends React.Component<Ctx> {
 
     const numColumns = $.isList ? undefined : this.num
     return (
-      <PaginationList2
+      <PaginationList
         key={`${layout}${numColumns}`}
         keyExtractor={keyExtractor}
-        connectRef={this.connectRef}
+        forwardRef={this.connectRef}
         contentContainerStyle={_.container.bottom}
         numColumns={numColumns}
         data={$.list}

@@ -7,7 +7,7 @@
 import React, { useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { Loading } from '@components'
-import { PaginationList2 } from '@_'
+import { PaginationList } from '@_'
 import { _, useStore } from '@stores'
 import Filter from '../filter'
 import { keyExtractor, renderItem } from './utils'
@@ -38,7 +38,7 @@ function List() {
   const numColumns = $.isList ? undefined : _.portrait(_.device(3, 4), 5)
 
   return (
-    <PaginationList2
+    <PaginationList
       key={`${layout}${numColumns}`}
       forwardRef={$.forwardRef}
       keyExtractor={keyExtractor}

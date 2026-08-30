@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import { PaginationList2 as PaginationList } from '@_'
+import { PaginationList } from '@_'
 import { _, useStore } from '@stores'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'

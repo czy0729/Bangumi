@@ -5,7 +5,7 @@
  * @Last Modified time: 2025-03-07 17:05:34
  */
 import React from 'react'
-import { PaginationList2 } from '@_'
+import { PaginationList } from '@_'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
@@ -16,7 +16,7 @@ import { COMPONENT } from './ds'
 function List() {
   const { $ } = useStore<Ctx>()
   return (
-    <PaginationList2
+    <PaginationList
       forwardRef={$.forwardRef}
       keyExtractor={keyExtractor}
       style={_.container.wind}

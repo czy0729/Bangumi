@@ -6,7 +6,7 @@
  */
 import React, { useCallback } from 'react'
 import { Loading } from '@components'
-import { PaginationList2 } from '@_'
+import { PaginationList } from '@_'
 import { _, useStore } from '@stores'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
@@ -26,7 +26,7 @@ function List({ id }: { id: TabsKey }) {
     if (!list._loaded) return <Loading style={_.container.flex} color={_.colorTinygrailText} />
 
     return (
-      <PaginationList2
+      <PaginationList
         {...TINYGRAIL_LIST_PROPS}
         data={list.list}
         limit={24}

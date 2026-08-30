@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Loading } from '@components'
-import { PaginationList2 } from '@_'
+import { PaginationList } from '@_'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { ob } from '@utils/decorators'
@@ -25,7 +25,7 @@ function List() {
   }
 
   return (
-    <PaginationList2
+    <PaginationList
       style={_.container.flex}
       contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}

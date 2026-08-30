@@ -7,7 +7,7 @@
 import React, { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { Loading } from '@components'
-import { PaginationList2 } from '@_'
+import { PaginationList } from '@_'
 import { _, useStore } from '@stores'
 import ItemAdvance from '@tinygrail/_/item-advance'
 import { TINYGRAIL_LIST_PROPS } from '@tinygrail/styles'
@@ -38,7 +38,7 @@ function List() {
   if (!_loaded) return <Loading style={_.container.flex} color={_.colorTinygrailText} />
 
   return (
-    <PaginationList2
+    <PaginationList
       {...TINYGRAIL_LIST_PROPS}
       data={list}
       limit={25}

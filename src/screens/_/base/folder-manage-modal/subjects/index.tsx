@@ -10,7 +10,7 @@ import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils'
-import { PaginationList2 } from '../../pagination-list-2'
+import { PaginationList } from '../../pagination-list'
 import { renderItem } from './utils'
 import { memoStyles } from './styles'
 
@@ -78,7 +78,7 @@ function Subjects({
   }
 
   return (
-    <PaginationList2
+    <PaginationList
       keyExtractor={keyExtractor}
       style={styles.subjects}
       data={list}

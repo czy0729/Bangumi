@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import { PaginationList2 } from '@_'
+import { PaginationList } from '@_'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
@@ -20,7 +20,7 @@ function List() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   return (
-    <PaginationList2
+    <PaginationList
       forwardRef={$.forwardRef}
       keyExtractor={keyExtractor}
       style={_.container.wind}

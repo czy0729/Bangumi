@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import { PaginationList2 } from '@_'
+import { PaginationList } from '@_'
 import { _, systemStore, useStore } from '@stores'
 import { memoStyles } from '../styles'
 import { keyExtractor, renderItem } from './utils'
@@ -24,7 +24,7 @@ function List({ title }: Props) {
   // 网格模式暂不启用 estimatedItemHeight：FlatList numColumns>1 时 getItemLayout 按「行」索引调用，
   // 现有高度缓存按条目索引存储会整体错位，需按行改造后才支持（components/list-view/hooks/useItemHeights）
   return (
-    <PaginationList2
+    <PaginationList
       key={`${_.orientation}${numColumns}`}
       keyExtractor={keyExtractor}
       contentContainerStyle={styles.contentContainerStyle}

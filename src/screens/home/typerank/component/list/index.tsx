@@ -7,7 +7,7 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Empty } from '@components'
-import { PaginationList2 } from '@_'
+import { PaginationList } from '@_'
 import { _, useStore } from '@stores'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
@@ -21,7 +21,7 @@ function List() {
   if (!ids.length) return <Empty text='此标签没有足够的列表数据' />
 
   return (
-    <PaginationList2
+    <PaginationList
       keyExtractor={keyExtractor}
       contentContainerStyle={_.container.bottom}
       data={ids}

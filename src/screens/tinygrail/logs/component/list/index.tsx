@@ -6,7 +6,7 @@
  */
 import React, { useMemo } from 'react'
 import { Flex, Text, Touchable } from '@components'
-import { PaginationList2 } from '@_'
+import { PaginationList } from '@_'
 import { _, useStore } from '@stores'
 import { feedback } from '@utils'
 import { useObserver } from '@utils/hooks'
@@ -44,7 +44,7 @@ function List({ title = '全部' }: Props) {
     return (
       <>
         {title === '道具' && <ItemsFilter />}
-        <PaginationList2
+        <PaginationList
           {...TINYGRAIL_LIST_PROPS}
           data={createFilteredData($.balance, title).list}
           limit={50}

@@ -5,7 +5,7 @@
  * @Last Modified time: 2025-10-24 15:27:21
  */
 import React from 'react'
-import { PaginationList2 } from '@_'
+import { PaginationList } from '@_'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { keyExtractor, renderItem } from './utils'
@@ -23,7 +23,7 @@ function Chat({ forwardRef }: Props) {
     const { list } = $.say
 
     return (
-      <PaginationList2
+      <PaginationList
         key={list.length}
         forwardRef={forwardRef}
         keyExtractor={keyExtractor}

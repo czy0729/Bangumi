@@ -7,7 +7,7 @@
 import React, { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { SegmentedControl } from '@components'
-import { PaginationList2 } from '@_'
+import { PaginationList } from '@_'
 import { _, useStore } from '@stores'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT, DS } from './ds'
@@ -37,7 +37,7 @@ function HotList() {
         selectedIndex={DS.findIndex(item => item === collectRankSort)}
         onValueChange={$.onCollectRankSortChange}
       />
-      <PaginationList2
+      <PaginationList
         keyExtractor={keyExtractor}
         contentContainerStyle={_.container.bottom}
         data={$.collectRank}

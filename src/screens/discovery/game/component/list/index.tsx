@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Loading } from '@components'
-import { PaginationList2 } from '@_'
+import { PaginationList } from '@_'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import Filter from '../filter'
@@ -28,7 +28,7 @@ function List() {
 
   const numColumns = $.isList ? undefined : _.portrait(_.device(3, 4), 5)
   return (
-    <PaginationList2
+    <PaginationList
       key={`${$.state.layout}${numColumns}`}
       keyExtractor={keyExtractor}
       forwardRef={$.forwardRef}

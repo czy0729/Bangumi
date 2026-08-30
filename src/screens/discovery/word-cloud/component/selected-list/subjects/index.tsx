@@ -7,7 +7,7 @@
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { PaginationList2 } from '@_'
+import { PaginationList } from '@_'
 import { useStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { NUM_COLUMNS } from '../ds'
@@ -24,7 +24,7 @@ function Subjects() {
   if (!$.selectedSubjects.length) return null
 
   return (
-    <PaginationList2
+    <PaginationList
       keyExtractor={keyExtractor}
       style={styles.scrollView}
       contentContainerStyle={styles.container}

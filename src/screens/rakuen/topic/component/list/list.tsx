@@ -6,7 +6,7 @@
  */
 import React, { useCallback } from 'react'
 import { ListView } from '@components'
-import { ITEM_POST_HEIGHT, PaginationList2 } from '@_'
+import { ITEM_POST_HEIGHT, PaginationList } from '@_'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils'
 import { memo } from '@utils/decorators'
@@ -58,7 +58,7 @@ const List = memo(
       return <ListView {...passProps} ref={forwardRef} data={data} />
     }
 
-    return <PaginationList2 {...passProps} forwardRef={forwardRef} data={list} limit={24} />
+    return <PaginationList {...passProps} forwardRef={forwardRef} data={list} limit={24} />
   },
   DEFAULT_PROPS,
   COMPONENT_MAIN

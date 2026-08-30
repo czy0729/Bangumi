@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import { PaginationList2 } from '@_'
+import { PaginationList } from '@_'
 import { useStore } from '@stores'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
@@ -20,7 +20,7 @@ function List() {
   const styles = memoStyles()
 
   return (
-    <PaginationList2
+    <PaginationList
       keyExtractor={keyExtractor}
       contentContainerStyle={styles.contentContainerStyle}
       data={$.list}

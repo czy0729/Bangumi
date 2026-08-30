@@ -5,7 +5,7 @@
  * @Last Modified time: 2025-12-23 02:10:14
  */
 import React, { useMemo } from 'react'
-import { PaginationList2 } from '@_'
+import { PaginationList } from '@_'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { useInsets, useObserver } from '@utils/hooks'
@@ -23,7 +23,7 @@ function List() {
   const elInfo = useMemo(() => <Info />, [])
 
   return useObserver(() => (
-    <PaginationList2
+    <PaginationList
       keyExtractor={keyExtractor}
       contentContainerStyle={_.container.bottom}
       data={$.list}

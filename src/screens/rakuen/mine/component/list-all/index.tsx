@@ -6,7 +6,7 @@
  */
 import React, { useMemo } from 'react'
 import { observer } from 'mobx-react'
-import { PaginationList2 } from '@_'
+import { PaginationList } from '@_'
 import { _, useStore } from '@stores'
 import { getJSON } from '@assets/json'
 import Filter from '../filter'
@@ -29,7 +29,7 @@ function ListAll() {
   return (
     <>
       <Filter />
-      <PaginationList2
+      <PaginationList
         contentContainerStyle={_.container.list}
         data={filter ? memoFilterData : data}
         numColumns={2}

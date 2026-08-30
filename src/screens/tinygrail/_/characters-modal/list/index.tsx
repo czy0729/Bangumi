@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import { PaginationList2 } from '@_'
+import { PaginationList } from '@_'
 import { TINYGRAIL_LIST_PROPS } from '@tinygrail/styles'
 import { styles } from './styles'
 
@@ -18,7 +18,7 @@ function List({ data, renderItem }: Props) {
   const { list, _loaded } = data
 
   return (
-    <PaginationList2
+    <PaginationList
       {...TINYGRAIL_LIST_PROPS}
       style={styles.list}
       data={list}

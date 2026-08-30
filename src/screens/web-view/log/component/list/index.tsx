@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Loading } from '@components'
-import { PaginationList2 } from '@_'
+import { PaginationList } from '@_'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { ITEM_HEIGHT } from '../item/ds'
@@ -23,7 +23,7 @@ function List() {
     if (!data.list.length) return <Loading />
 
     return (
-      <PaginationList2
+      <PaginationList
         keyExtractor={keyExtractor}
         contentContainerStyle={_.container.bottom}
         skipEnteringExitingAnimations={10}

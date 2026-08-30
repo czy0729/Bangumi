@@ -6,7 +6,7 @@
  */
 import React, { useCallback } from 'react'
 import { observer } from 'mobx-react'
-import { PaginationList2 } from '@_'
+import { PaginationList } from '@_'
 import { _, tinygrailStore, useStore } from '@stores'
 import { queue } from '@utils'
 import { TINYGRAIL_LIST_PROPS } from '@tinygrail/_/ds'
@@ -63,7 +63,7 @@ function List({ id }: Props) {
   )
 
   return (
-    <PaginationList2
+    <PaginationList
       {...TINYGRAIL_LIST_PROPS}
       key={`${_.orientation}${numColumns}`}
       keyExtractor={keyExtractor}

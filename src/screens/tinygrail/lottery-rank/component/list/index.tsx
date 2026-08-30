@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-02-07 09:11:02
  */
 import React from 'react'
-import { PaginationList2 } from '@_'
+import { PaginationList } from '@_'
 import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { keyExtractor, renderItem } from './utils'
@@ -17,7 +17,7 @@ function List() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   return useObserver(() => (
-    <PaginationList2
+    <PaginationList
       key={$.state.sort}
       keyExtractor={keyExtractor}
       contentContainerStyle={_.container.bottom}

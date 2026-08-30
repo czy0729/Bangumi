@@ -6,7 +6,7 @@
  */
 import React, { useMemo } from 'react'
 import { observer } from 'mobx-react'
-import { PaginationList2 } from '@_'
+import { PaginationList } from '@_'
 import { _, useStore } from '@stores'
 import ToolBar from '../tool-bar'
 import { renderItem } from './utils'
@@ -24,7 +24,7 @@ function List() {
   return (
     <>
       {fixed && elToolBar}
-      <PaginationList2
+      <PaginationList
         key={$.state.sort}
         contentContainerStyle={_.container.bottom}
         data={$.data}

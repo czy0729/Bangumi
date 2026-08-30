@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import { PaginationList2 } from '@_'
+import { PaginationList } from '@_'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { renderItem } from './utils'
@@ -20,7 +20,7 @@ function List() {
   if (!$.state._loaded) return null
 
   return (
-    <PaginationList2
+    <PaginationList
       key={$.state.type}
       keyExtractor={keyExtractor}
       contentContainerStyle={_.container.bottom}
