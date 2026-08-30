@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-20 16:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-30 06:51:38
+ * @Last Modified time: 2026-08-30 21:45:36
  */
 import { get } from '@utils/protobuf'
 import { getJSON } from '@assets/json'
@@ -30,7 +30,7 @@ let jaDataKeys: string[] = []
 export function findJA(input: string) {
   if (memo.has(input)) return memo.get(input)
 
-  const jaData: Record<string, SubjectId> = getJSON('thirdParty/ja.min')
+  const jaData: Record<string, SubjectId> = get('ja')
   const jaDataAddon: Record<string, SubjectId> = getJSON('thirdParty/ja.addon')
 
   const input1 = cleaned(input)

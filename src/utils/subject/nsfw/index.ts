@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-07-19 21:46:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-06 06:16:31
+ * @Last Modified time: 2026-08-30 21:45:14
  */
+import { decode } from '@utils/protobuf'
 import { MODEL_SUBJECT_TYPE } from '@constants'
-import { loadJSON } from '@assets/json'
 import { getTimestamp } from '../../index'
 import { SORT } from '../anime'
 import { NSFW_COLLECTED, NSFW_SORT, NSFW_TYPE, NSFW_YEAR } from './ds'
@@ -27,7 +27,7 @@ function getData() {
 export async function init() {
   if (loaded) return
 
-  nsfw = await loadJSON('thirdParty/nsfw.min')
+  nsfw = await decode('nsfw')
   loaded = true
 }
 

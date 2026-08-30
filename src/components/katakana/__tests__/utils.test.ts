@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2026-08-15 07:37:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-16 06:38:15
+ * @Last Modified time: 2026-08-30 21:42:50
  */
 import React from 'react'
 import { getStorage, setStorage } from '@utils'
 import { baiduTranslate } from '@utils/fetch'
-import { loadJSON } from '@assets/json'
+import { decode } from '@utils/protobuf'
 import { getCache, getKatakanaText, matchKatakanas, translate, translateAll } from '../utils'
 
-const loadJSONMock = loadJSON as jest.Mock
+jest.mock('@utils/protobuf', () => ({ decode: jest.fn() }))
+
+const decodeMock = decode as jest.Mock
 const getStorageMock = getStorage as jest.Mock
 const setStorageMock = setStorage as jest.Mock
 const baiduTranslateMock = baiduTranslate as jest.Mock
@@ -76,7 +78,7 @@ describe('getKatakanaText', () => {
 describe('getCache', () => {
   beforeEach(async () => {
     jest.clearAllMocks()
-    loadJSONMock.mockResolvedValue({ アニメ: 'Anime' })
+    decodeMock.mockResolvedValue({ アニメ: 'Anime' })
     getStorageMock.mockResolvedValue({ テスト: 'Test' })
     baiduTranslateMock.mockImplementation(defaultBaidu)
     await getCache()
@@ -93,7 +95,7 @@ describe('getCache', () => {
   })
 
   it('字典加载失败时优雅降级, 不抛错', async () => {
-    loadJSONMock.mockRejectedValue(new Error('load fail'))
+    decodeMock.mockRejectedValue(new Error('load fail'))
     await expect(getCache()).resolves.toBe(true)
   })
 
@@ -117,7 +119,7 @@ describe('translate', () => {
   afterEach(() => jest.useRealTimers())
 
   it('整词命中字典立即回调', async () => {
-    loadJSONMock.mockResolvedValue({ アニメ: 'Anime' })
+    decodeMock.mockResolvedValue({ アニメ: 'Anime' })
     await getCache()
     const cb = jest.fn()
     await translate('アニメ', cb)
@@ -126,7 +128,7 @@ describe('translate', () => {
   })
 
   it('整词未命中时拆分命中子片段', async () => {
-    loadJSONMock.mockResolvedValue({ オンライン: 'On-line', テスト: 'Test' })
+    decodeMock.mockResolvedValue({ オンライン: 'On-line', テスト: 'Test' })
     await getCache()
     const cb = jest.fn()
     await translate('オンライン・テスト', cb)
@@ -138,7 +140,7 @@ describe('translate', () => {
 
   it('未命中片段走防抖队列, 到点统一翻译', async () => {
     jest.useFakeTimers()
-    loadJSONMock.mockResolvedValue({})
+    decodeMock.mockResolvedValue({})
     await getCache()
     const cb = jest.fn()
     translate('ミス', cb)
@@ -153,7 +155,7 @@ describe('translate', () => {
 describe('translateAll 与全局队列', () => {
   beforeEach(async () => {
     jest.clearAllMocks()
-    loadJSONMock.mockResolvedValue({})
+    decodeMock.mockResolvedValue({})
     getStorageMock.mockResolvedValue({})
     baiduTranslateMock.mockImplementation(defaultBaidu)
     await getCache()
@@ -166,14 +168,14 @@ describe('translateAll 与全局队列', () => {
   })
 
   it('命中字典不请求百度', async () => {
-    loadJSONMock.mockResolvedValue({ アニメ: 'Anime' })
+    decodeMock.mockResolvedValue({ アニメ: 'Anime' })
     await getCache()
     await translateAll('アニメ')
     expect(baiduTranslateMock).not.toHaveBeenCalled()
   })
 
   it('返回整词到英文映射', async () => {
-    loadJSONMock.mockResolvedValue({ アニメ: 'Anime' })
+    decodeMock.mockResolvedValue({ アニメ: 'Anime' })
     await getCache()
     const result = await translateAll('アニメとゲーム')
     expect(result).toMatchObject({ アニメ: 'Anime', ゲーム: 'EN:ゲーム' })
@@ -203,7 +205,7 @@ describe('translateAll 与全局队列', () => {
   })
 
   it('save 只持久化新增翻译', async () => {
-    loadJSONMock.mockResolvedValue({ アニメ: 'Anime' })
+    decodeMock.mockResolvedValue({ アニメ: 'Anime' })
     await getCache()
     await translateAll('ミス')
     expect(setStorageMock).toHaveBeenCalled()
@@ -211,7 +213,7 @@ describe('translateAll 与全局队列', () => {
   })
 
   it('多次翻译累积持久化, 后一次不覆盖前一次', async () => {
-    loadJSONMock.mockResolvedValue({})
+    decodeMock.mockResolvedValue({})
     await getCache()
     await translateAll('ミス')
     await translateAll('ワード')
@@ -228,7 +230,7 @@ describe('translateAll 与全局队列', () => {
   })
 
   it('单片段超过批量上限不会死循环, 强制入批翻译', async () => {
-    loadJSONMock.mockResolvedValue({})
+    decodeMock.mockResolvedValue({})
     await getCache()
     const long = 'ア'.repeat(2000)
     const result = await translateAll(long)

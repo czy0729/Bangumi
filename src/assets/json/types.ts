@@ -10,21 +10,17 @@ type Substring = `substrings/${'anime' | 'book' | 'game' | 'real' | 'alias' | 'a
 
 type TypeRank = `typerank/${SubjectType}`
 
-type TypeRankIds = `typerank/${SubjectType}-ids`
+// anime-ids 已迁移到 protobuf (见 @utils/protobuf), 仅其余类型保留 JSON
+type TypeRankIds = `typerank/${Exclude<SubjectType, 'anime'>}-ids`
 
 export type JSONPath =
   | Substring
   | TypeRank
   | TypeRankIds
-  | 'katakana'
   | 'group'
-  | 'mono'
   | 'nsfw_id_distribution'
-  | 'thirdParty/ja.min'
   | 'thirdParty/ja.addon'
-  | 'thirdParty/d.min'
   | 'thirdParty/h.min'
-  | 'thirdParty/nsfw.min'
   | 'thirdParty/wenku.min'
 
 export type JSONSubString = Record<string, SubjectId>
@@ -104,15 +100,10 @@ export type JSONData = Expand<
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     [K in TypeRankIds]: JSONTypeRankIds
   } & {
-    katakana: JSONKatakana
     group: JSONGroup
-    mono: JSONMono
     nsfw_id_distribution: number[]
-    'thirdParty/ja.min': JSONJA
     'thirdParty/ja.addon': JSONJA
-    'thirdParty/d.min': JSONDouban
     'thirdParty/h.min': JSONHentai
-    'thirdParty/nsfw.min': JSONNSFW
     'thirdParty/wenku.min': JSONWenku
   }
 >

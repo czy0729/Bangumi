@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-09-16 14:13:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-16 14:17:38
+ * @Last Modified time: 2026-08-30 21:43:47
  */
 import { desc, feedback, getTimestamp, info, sleep } from '@utils'
 import { queue, t, xhrCustom } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
+import { decode } from '@utils/protobuf'
 import { HOST_DB_M } from '@constants'
 import i18n from '@constants/i18n'
-import { loadJSON } from '@assets/json'
 import { HOST_API, LOADED, LOADED_TOTAL_EPS } from '../ds'
 import Computed from './computed'
 import { EXCLUDE_STATE } from './ds'
@@ -44,7 +44,7 @@ export default class Fetch extends Computed {
         }
       })
       const { interests = [], total } = JSON.parse(_response) as DoubanCollection
-      const doubanData = await loadJSON('thirdParty/d.min')
+      const doubanData = await decode('d')
       interests.forEach(item => {
         this.collections.push({
           id: item.subject?.id,

@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+message Nsfw {
+  int32 i = 1;
+  string d = 2;
+  float s = 3;
+  int32 r = 4;
+  int32 l = 5;
+  int32 c = 6;
+  int32 t = 7;
+  int32 e = 8;
+}
+
+message Payload {
+  repeated Nsfw payload = 1;
+}

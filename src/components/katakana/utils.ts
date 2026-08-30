@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-05-06 20:48:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-30 04:54:50
+ * @Last Modified time: 2026-08-30 21:42:33
  */
 import { Children, isValidElement } from 'react'
 import { getStorage, setStorage } from '@utils'
 import { logger } from '@utils/dev'
 import { baiduTranslate } from '@utils/fetch'
+import { decode } from '@utils/protobuf'
 import { FROZEN_FN } from '@constants'
-import { loadJSON } from '@assets/json'
 import { BAIDU_BATCH_LIMIT, CACHE_KEY, COMPONENT, TRANSLATE_INTERVAL } from './ds'
 
 import type { JSONKatakana } from '@assets/json/types'
@@ -25,7 +25,7 @@ let persisted: JSONKatakana = {}
 export async function getCache() {
   let katakanaJSON: JSONKatakana = {}
   try {
-    katakanaJSON = await loadJSON('katakana')
+    katakanaJSON = await decode('katakana')
   } catch (error) {
     // 字典加载失败时保留默认 memo, 退化为纯百度翻译
     logger.error(COMPONENT, 'getCache', '字典加载失败', error)

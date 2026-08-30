@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+// Record<条目名(罗马音/日文), SubjectId>
+message Pair {
+  string k = 1;
+  int32 v = 2;
+}
+
+message Payload {
+  repeated Pair payload = 1;
+}

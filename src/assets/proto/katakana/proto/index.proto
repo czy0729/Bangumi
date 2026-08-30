@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+// Record<片假名, 罗马字/英文>
+message Pair {
+  string k = 1;
+  string v = 2;
+}
+
+message Payload {
+  repeated Pair payload = 1;
+}

@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-06-10 15:07:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-14 14:24:48
+ * @Last Modified time: 2026-08-30 21:43:00
  */
 import { systemStore } from '@stores'
 import { desc } from '@utils'
+import { decode } from '@utils/protobuf'
 import { MODEL_COLLECTION_STATUS } from '@constants'
 import { loadJSON } from '@assets/json'
 import { REASONS, TIME_PATTERN } from './ds'
@@ -14,7 +15,7 @@ import type { CollectionStatusCn, SubjectId, SubjectType } from '@types'
 import type { CollectionsItem } from './types'
 
 /** 推荐值 */
-export function calc(item: CollectionsItem, length = 1, extraScore = 0) {
+export function calc(item: CollectionsItem, length: number = 1, extraScore: number = 0) {
   const { likeRec } = systemStore.setting
   const { rate, rank, score, ep, comment, private: _private, diff, rec } = item
   const type = MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(item.type)
@@ -257,7 +258,8 @@ export async function getTyperankRelates(
   if (!collections.length) return [relates, subjectIds] as const
 
   try {
-    const typerank = await loadJSON(`typerank/${type}-ids`)
+    const typerank =
+      type === 'anime' ? await decode('anime-ids') : await loadJSON(`typerank/${type}-ids`)
     collections.forEach(item => {
       const tags = (item.tags || []).filter(
         item => !FILTER_TAG.has(item) && !TIME_PATTERN.test(item)

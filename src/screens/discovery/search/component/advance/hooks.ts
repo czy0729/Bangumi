@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-09 04:22:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-30 04:55:28
+ * @Last Modified time: 2026-08-30 21:43:27
  */
 import { useEffect, useRef, useState } from 'react'
 import { SEARCH_SUBSTRINGS } from '@stores/calendar/onair'
@@ -215,7 +215,7 @@ export function useMonoResult(value: string, enabled: boolean) {
     ;(async () => {
       try {
         if (!mono.length) {
-          const raw = await loadJSON('mono')
+          const raw = await decode('mono')
           mono = raw.map(item => ({
             ...item,
             norm: normalizeSearch(item.n)

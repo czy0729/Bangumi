@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-11-04 15:48:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-17 12:51:01
+ * @Last Modified time: 2026-08-30 21:43:37
  */
+import { decode, get } from '@utils/protobuf'
 import { getJSON, loadJSON } from '@assets/json'
 import { TABS } from './ds'
 
@@ -14,6 +15,7 @@ export function getType(page: number = 0) {
 }
 
 export async function loadTyperankIdsData(type: SubjectType) {
+  if (type === 'anime') return decode('anime-ids')
   return await loadJSON(`typerank/${type}-ids`)
 }
 
@@ -21,7 +23,7 @@ export async function loadTyperankIdsData(type: SubjectType) {
 export function getTyperankNums(type: SubjectType, tag: string) {
   let typerankData: Record<string, SubjectId[]>
   if (type === 'anime') {
-    typerankData = getJSON('typerank/anime-ids')
+    typerankData = get('anime-ids')
   } else if (type === 'book') {
     typerankData = getJSON('typerank/book-ids')
   } else if (type === 'game') {

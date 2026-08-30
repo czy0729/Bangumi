@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+message Mono {
+  int32 i = 1;
+  string n = 2;
+  string c = 3;
+  int32 r = 4;
+  int32 p = 5;
+}
+
+message Payload {
+  repeated Mono payload = 1;
+}
