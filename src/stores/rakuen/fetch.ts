@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:26:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-22 20:14:09
+ * @Last Modified time: 2026-08-31 05:34:27
  */
 import { getTimestamp, HTMLTrim } from '@utils'
+import { getBucketId } from '@utils/bucket'
 import { fetchHTML, xhr, xhrCustom } from '@utils/fetch'
 import { get, groupTopics } from '@utils/kv'
 import {
@@ -42,7 +43,6 @@ import {
 } from './common'
 import Computed from './computed'
 import { DEFAULT_SCOPE, DEFAULT_TYPE, INIT_TOPIC } from './init'
-import { getInt } from './utils'
 
 import type {
   Id,
@@ -105,18 +105,11 @@ export default class Fetch extends Computed {
     const _loaded = getTimestamp()
 
     const stateKey = topicId
-    const topicKey = 'topic'
-    const last = getInt(topicId)
+    const last = getBucketId(topicId)
     const commentsKey = `comments${last}` as const
-    const likesKey = 'likes'
+    const likesKey = `likes${last}` as const
 
     this.setState({
-      [topicKey]: {
-        [stateKey]: {
-          ...topic,
-          _loaded
-        }
-      },
       [commentsKey]: {
         [stateKey]: {
           list: comments,
@@ -132,10 +125,12 @@ export default class Fetch extends Computed {
         [stateKey]: likes
       }
     })
-
-    this.save(topicKey)
     this.save(commentsKey)
     this.save(likesKey)
+    this.saveTopicBucket(topicId, {
+      ...topic,
+      _loaded
+    })
     this.updateGroupThumb(topic.group, topic.groupThumb)
 
     return {
@@ -170,6 +165,9 @@ export default class Fetch extends Computed {
 
   /** 装载云端帖子缓存数据 */
   fetchTopicFromOSS = async (topicId: TopicId) => {
+    // 桶可能尚未读回, 先同步 init 再判新鲜度, 避免守卫失效导致 OSS 旧数据回写
+    await this.init(`topic${getBucketId(topicId)}`)
+
     const now = getTimestamp()
     const topic = this.topic(topicId)
 
@@ -185,8 +183,7 @@ export default class Fetch extends Computed {
       const { ts, topic, comments } = data
       if (typeof topic === 'object' && typeof comments === 'object') {
         const stateKey = topicId
-        const topicKey = 'topic'
-        const last = getInt(topicId)
+        const last = getBucketId(topicId)
         const commentsKey = `comments${last}` as const
 
         if (comments?.list?.[0]?.floor) {
@@ -199,13 +196,6 @@ export default class Fetch extends Computed {
         }
 
         this.setState({
-          [topicKey]: {
-            [stateKey]: {
-              ...INIT_TOPIC,
-              ...topic,
-              _loaded: ts
-            }
-          },
           [commentsKey]: {
             [stateKey]: {
               list: comments?.list || [],
@@ -218,8 +208,12 @@ export default class Fetch extends Computed {
             }
           }
         })
-        this.save(topicKey)
         this.save(commentsKey)
+        this.saveTopicBucket(topicId, {
+          ...INIT_TOPIC,
+          ...topic,
+          _loaded: ts
+        })
         return true
       }
     } catch {}

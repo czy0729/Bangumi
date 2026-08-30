@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:15:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 20:13:45
+ * @Last Modified time: 2026-08-31 05:25:13
  */
 import { observable } from 'mobx'
 import { postTask, titleCase } from '@utils'
+import { getBucketId } from '@utils/bucket'
 import { logger } from '@utils/dev'
 import Store from '@utils/store'
 import { LOADED, NAMESPACE, STATE } from './init'
-import { getInt } from './utils'
 
 import type { SubjectId } from '@types'
 
@@ -47,7 +47,7 @@ export default class State extends Store<typeof STATE> {
 
   initSubjectV2 = async (subjectIds: SubjectId[]) => {
     const keys = {}
-    subjectIds.forEach(subjectId => (keys[`subjectV2${getInt(subjectId)}`] = true))
+    subjectIds.forEach(subjectId => (keys[`subjectV2${getBucketId(subjectId)}`] = true))
 
     const cacheKeys = Object.keys(keys).filter(item => !this._loaded[item])
     await this.readStorage(cacheKeys, NAMESPACE)

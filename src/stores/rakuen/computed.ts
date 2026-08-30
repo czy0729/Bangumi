@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:24:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-17 23:30:50
+ * @Last Modified time: 2026-08-31 05:28:21
  */
 import { computed } from 'mobx'
 import { desc } from '@utils'
+import { getBucketId } from '@utils/bucket'
 import { computedFn } from '@utils/computed-fn'
 import { LIST_EMPTY } from '@constants'
 import { DEFAULT_SCOPE, DEFAULT_TYPE, INIT_GROUP_INFO, INIT_READED_ITEM, INIT_TOPIC } from './init'
-import { getInt } from './utils'
 import State from './state'
 
 import type {
@@ -110,22 +110,25 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 帖子历史查看信息 */
   private _readed = computedFn((topicId: TopicId) => {
-    return (this.state.readed[topicId] || INIT_READED_ITEM) as Readed
+    const last = getBucketId(topicId)
+    return (this.state?.[`readed${last}`]?.[topicId] || INIT_READED_ITEM) as Readed
   })
 
   /** 帖子内容 */
   private _topic = computedFn((topicId: TopicId) => {
-    return (this.state.topic[topicId] || INIT_TOPIC) as Topic
+    const last = getBucketId(topicId)
+    return (this.state?.[`topic${last}`]?.[topicId] || INIT_TOPIC) as Topic
   })
 
   /** 帖子回复表情 */
   private _likes = computedFn((topicId: TopicId | BlogId | SubjectId) => {
-    return (this.state.likes[topicId] || {}) as Likes
+    const last = getBucketId(topicId)
+    return (this.state?.[`likes${last}`]?.[topicId] || {}) as Likes
   })
 
   /** 帖子回复, 合并 comments 0-999 */
   private _comments = computedFn((topicId: TopicId) => {
-    const last = getInt(topicId)
+    const last = getBucketId(topicId)
     const STATE_KEY = `comments${last}` as const
     return (this.state?.[STATE_KEY]?.[topicId] || LIST_EMPTY) as Comments
   })
@@ -223,42 +226,6 @@ export default class Computed extends State implements StoreConstructor<typeof S
     return this.state.formhash
   }
 
-  /** 收藏的帖子 */
-  @computed get favorTopic() {
-    this.init('favor', true)
-    this.init('topic', true)
-    this.init('cloudTopic', true)
-
-    const { favor, topic, cloudTopic } = this.state
-    const data = {
-      ...cloudTopic,
-      _favor: favor
-    }
-
-    Object.keys(topic)
-      .filter(topicId => {
-        // 不知道哪里有问题, 有时会出现 undefined 的 key 值, 过滤掉
-        if (!topicId.includes('group/') || topicId.includes('undefined')) return false
-        return this.favor(topicId as TopicId)
-      })
-      .sort((a, b) => desc(String(b), String(a)))
-      .forEach(topicId => {
-        const target = topic[topicId] || cloudTopic[topicId]
-        if (target) {
-          data[topicId] = {
-            topicId,
-            avatar: target.avatar || '',
-            userName: target.userName || '',
-            title: target.title || '',
-            group: target.group || '',
-            time: target.time || '',
-            userId: target.userId || 0
-          }
-        }
-      })
-    return data
-  }
-
   /** 绝交用户 ID, 替代旧的 rakuenStore.setting.blockUserIds */
   @computed get blockUserIds() {
     const { list } = this.state.blockedUsers
@@ -277,25 +244,25 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 帖子历史查看信息 */
   readed(topicId: TopicId) {
-    this.init('readed', true)
+    this.init(`readed${getBucketId(topicId)}`, true)
     return this._readed(topicId)
   }
 
   /** 帖子内容 */
   topic(topicId: TopicId) {
-    this.init('topic', true)
+    this.init(`topic${getBucketId(topicId)}`, true)
     return this._topic(topicId)
   }
 
   /** 帖子回复表情 */
   likes(topicId: TopicId | BlogId | SubjectId) {
-    this.init('likes', true)
+    this.init(`likes${getBucketId(topicId)}`, true)
     return this._likes(topicId)
   }
 
   /** 帖子回复, 合并 comments 0-999 */
   comments(topicId: TopicId) {
-    const last = getInt(topicId)
+    const last = getBucketId(topicId)
     this.init(`comments${last}`, true)
     return this._comments(topicId)
   }

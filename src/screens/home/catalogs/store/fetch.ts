@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-11-09 06:39:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-04 20:13:38
+ * @Last Modified time: 2026-08-31 05:16:58
  */
 import { discoveryStore, subjectStore } from '@stores'
 import { getTimestamp, HTMLDecode, removeHTMLTag } from '@utils'
+import { getBucketId } from '@utils/bucket'
 import { queue } from '@utils/fetch'
 import { get, update } from '@utils/kv'
 import { D7 } from '@constants'
@@ -41,6 +42,9 @@ export default class Fetch extends Computed {
 
   /** 目录详情 */
   fetchCatalogDetail = async (id: Id) => {
+    // 桶可能尚未读回, 先同步 init 再判 _loaded, 避免守卫失效重复抓取
+    await discoveryStore.init(`catalogDetail${getBucketId(id, 2)}`)
+
     if (
       discoveryStore.catalogDetail(id)._loaded ||
       discoveryStore.catalogDetailFromOSS(id)._loaded

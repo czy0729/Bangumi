@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-22 00:20:22
+ * @Last Modified time: 2026-08-31 05:15:23
  */
 import React from 'react'
 import { BackHandler } from 'react-native'
 import { observer } from 'mobx-react'
 import { ActivityIndicator, Component, Flex, Modal, Text } from '@components'
 import { _, collectionStore, subjectStore, systemStore, userStore } from '@stores'
-import { getInt } from '@stores/subject'
 import {
   alert,
   confirm,
@@ -22,6 +21,7 @@ import {
   setStorage,
   sleep
 } from '@utils'
+import { getBucketId } from '@utils/bucket'
 import { logger, r } from '@utils/dev'
 import { FROZEN_FN, H, IOS, MODEL_PRIVATE, MODEL_SUBJECT_TYPE } from '@constants'
 import i18n from '@constants/i18n'
@@ -329,7 +329,7 @@ export const ManageModal = observer(
       }
 
       // 通常在列表项中
-      const last = getInt(subjectId)
+      const last = getBucketId(subjectId)
       const STATE_KEY = `subjectFormHTML${last}` as const
       await subjectStore.init(STATE_KEY)
 

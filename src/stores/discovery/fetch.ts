@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:47:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-21 05:34:18
+ * @Last Modified time: 2026-08-31 05:21:30
  */
 import { cheerio, feedback, getTimestamp } from '@utils'
+import { getBucketId } from '@utils/bucket'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
 import { get, gets } from '@utils/kv'
 import {
@@ -29,7 +30,6 @@ import {
 } from './common'
 import Computed from './computed'
 import { DEFAULT_TYPE, INIT_CATALOG_ITEM } from './init'
-import { getInt } from './utils'
 
 import type { Id, SubjectType } from '@types'
 import type { CatalogDetailFromOSS, CatalogType, FetchBlogArgs } from './types'
@@ -260,7 +260,7 @@ export default class Fetch extends Computed {
         url: HTML_CATALOG_DETAIL(id)
       })
 
-      const last = getInt(id)
+      const last = getBucketId(id, 2)
       const FINAL_STATE_KEY = `catalogDetail${last}` as const
       this.setState({
         [FINAL_STATE_KEY]: {

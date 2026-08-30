@@ -13,7 +13,8 @@ import calendarStore from './calendar'
 import collectionStore from './collection'
 import rakuenStore from './rakuen'
 import smbStore from './smb'
-import subjectStore, { getInt } from './subject'
+import subjectStore from './subject'
+import { getBucketId } from '@utils/bucket'
 import systemStore from './system'
 import themeStore from './theme'
 import tinygrailStore from './tinygrail'
@@ -75,7 +76,7 @@ class GlobalStores {
       /** ==================== subjectStoreKeys ==================== */
       await queue(
         userStore.collection.list.map(
-          item => () => subjectStore.init(`subject${getInt(item.subject_id as SubjectId)}`)
+          item => () => subjectStore.init(`subject${getBucketId(item.subject_id as SubjectId)}`)
         ),
         4
       )

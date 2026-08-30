@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:38:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-05 20:34:17
+ * @Last Modified time: 2026-08-31 05:24:11
  */
 import CryptoJS from 'crypto-js'
+import { getBucketId } from '@utils/bucket'
 import { get, update } from '@utils/kv'
 import { APP_ID } from '@constants'
 import UserStore from '../user'
 import Fetch from './fetch'
-import { getInt, getSubjectSnapshot } from './utils'
+import { getSubjectSnapshot } from './utils'
 
 import type { Actions, Origin, SubjectId, SubjectType, UserId } from '@types'
 import type { SubjectSnapshot } from './types'
@@ -38,7 +39,7 @@ export default class Action extends Fetch {
     }
 
     if (!flag) {
-      const last = getInt(subjectId)
+      const last = getBucketId(subjectId)
       const key = `subject${last}` as const
       await this.init(key)
 

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-06-05 19:42:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-01 11:58:33
+ * @Last Modified time: 2026-08-31 05:19:08
  */
 import { rakuenStore } from '@stores'
-import { getInt } from '@stores/rakuen/utils'
 import { getTimestamp, queue } from '@utils'
+import { getBucketId } from '@utils/bucket'
 import { logger } from '@utils/dev'
 import { collectRank } from '@utils/kv'
 import { H12 } from '@constants'
@@ -44,7 +44,7 @@ export default class Fetch extends Computed {
     )
     await queue(
       topicIds.map(topicId => () => {
-        const last = getInt(topicId)
+        const last = getBucketId(topicId)
         const key = `comments${last}` as const
         return rakuenStore.init(key)
       })

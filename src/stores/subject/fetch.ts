@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:33:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-21 23:47:33
+ * @Last Modified time: 2026-08-31 05:24:52
  */
 import { getTimestamp, HTMLTrim, omit, queue } from '@utils'
+import { getBucketId } from '@utils/bucket'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
 import { get } from '@utils/kv'
@@ -49,7 +50,7 @@ import {
   INIT_SUBJECT_FROM_CDN_ITEM,
   INIT_SUBJECT_V2
 } from './init'
-import { getInt, mapV0Episodes } from './utils'
+import { mapV0Episodes } from './utils'
 
 import type { EpId, MonoId, RatingStatus, ResponseV0Episodes, SubjectId } from '@types'
 import type { STATE } from './init'
@@ -67,7 +68,7 @@ export default class Fetch extends Computed {
     subjectId: SubjectId,
     responseGroup: 'small' | 'medium' | 'large' = 'large'
   ): Promise<ApiSubjectResponse> => {
-    const last = getInt(subjectId)
+    const last = getBucketId(subjectId)
     const STATE_KEY = `subject${last}` as const
     const ITEM_KEY = subjectId
 
@@ -122,6 +123,9 @@ export default class Fetch extends Computed {
 
   /** 网页获取条目信息 */
   fetchSubjectFromHTML = async (subjectId: SubjectId, autoPrevent: boolean = true) => {
+    // 桶可能尚未读回, 先同步 init, 避免读回竞态覆盖本次写入
+    await this.init(`subjectFormHTML${getBucketId(subjectId)}`)
+
     const STATE_KEY = 'subjectFormHTML'
     const ITEM_KEY = subjectId
 
@@ -131,7 +135,7 @@ export default class Fetch extends Computed {
         autoPrevent
       })
 
-      const STATE_KEY_FINAL = `subjectFormHTML${getInt(subjectId)}` as const
+      const STATE_KEY_FINAL = `subjectFormHTML${getBucketId(subjectId)}` as const
       this.setState({
         [STATE_KEY_FINAL]: {
           [ITEM_KEY]: {
@@ -163,7 +167,7 @@ export default class Fetch extends Computed {
       await this.initSubjectV2([subjectId])
       const data: any = await request(`${API_HOST}/v0/subjects/${subjectId}?responseGroup=small`)
 
-      const key = `subjectV2${getInt(subjectId)}` as `subjectV2${number}`
+      const key = `subjectV2${getBucketId(subjectId)}` as `subjectV2${number}`
       const now = getTimestamp()
       if (!data?.id) {
         this.setState({
@@ -213,6 +217,9 @@ export default class Fetch extends Computed {
 
   /** 装载云端条目缓存数据 */
   fetchSubjectFromOSS = async (subjectId: SubjectId) => {
+    // 桶可能尚未读回, 先同步 init 再判新鲜度, 避免守卫失效导致 OSS 旧数据回写
+    await this.init(`subject${getBucketId(subjectId)}`)
+
     const now = getTimestamp()
     const subject = this.subject(subjectId)
 
@@ -411,7 +418,7 @@ export default class Fetch extends Computed {
     timelineStore.updateLikes(likes)
 
     if (isReverse) next.list.reverse()
-    const last = getInt(subjectId)
+    const last = getBucketId(subjectId)
     const key = `subjectComments${last}` as const
     const data = {
       [subjectId]: {
@@ -442,38 +449,39 @@ export default class Fetch extends Computed {
   ) => {
     const { subjectId, interest_type, version } = args || {}
 
-    const STATE_KEY = `subjectComments${getInt(subjectId)}` as const
+    const STATE_KEY = `subjectComments${getBucketId(subjectId)}` as const
     const ITEM_KEY = subjectId
 
     const { list: existingList } = this.subjectComments(subjectId)
     if (!pages.length) return this.subjectComments(subjectId)
 
     let done = 0
-    const results = (await queue(
-      pages.map(page => async () => {
-        try {
-          const html = await fetchHTML({
-            url: HTML_SUBJECT_COMMENTS(subjectId, page, interest_type, version)
-          })
-          const { likes, version: hasVersion, ...next } = cheerioSubjectComments(html)
-          timelineStore.updateLikes(likes)
+    const results =
+      (await queue(
+        pages.map(page => async () => {
+          try {
+            const html = await fetchHTML({
+              url: HTML_SUBJECT_COMMENTS(subjectId, page, interest_type, version)
+            })
+            const { likes, version: hasVersion, ...next } = cheerioSubjectComments(html)
+            timelineStore.updateLikes(likes)
 
-          return {
-            page,
-            list: next.list,
-            pagination: next.pagination,
-            version: hasVersion
+            return {
+              page,
+              list: next.list,
+              pagination: next.pagination,
+              version: hasVersion
+            }
+          } catch (error) {
+            this.error('fetchSubjectCommentsBatch', error)
+            return null
+          } finally {
+            done += 1
+            onProgress?.(done)
           }
-        } catch (error) {
-          this.error('fetchSubjectCommentsBatch', error)
-          return null
-        } finally {
-          done += 1
-          onProgress?.(done)
-        }
-      }),
-      3
-    )) || []
+        }),
+        3
+      )) || []
     const success = results.filter(
       (item): item is Exclude<(typeof results)[number], null> => item !== null
     )

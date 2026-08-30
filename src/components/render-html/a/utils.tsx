@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-05-13 05:32:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-26 17:48:51
+ * @Last Modified time: 2026-08-31 05:08:00
  */
 import React from 'react'
 import { rakuenStore, subjectStore } from '@stores'
-import { getInt } from '@stores/rakuen/utils'
 import { navigationReference, postTask } from '@utils'
+import { getBucketId } from '@utils/bucket'
 import { logger } from '@utils/dev'
 import { IOS, WEB } from '@constants'
 import { fetchMediaQueue } from '../utils'
@@ -128,11 +128,11 @@ export async function getTopic({ passProps, params, onLinkPress }: MediaArgs, re
     if (!text) return
 
     const topicId = params.topicId as TopicId
-    await rakuenStore.init('topic')
+    const last = getBucketId(topicId)
 
-    const last = getInt(topicId)
-    const key = `comments${last}` as const
-    await rakuenStore.init(key)
+    // 同步读取前先确保两个桶已读回 (访问器内的 init 是异步懒读, 等不到)
+    await rakuenStore.init(`comments${last}`)
+    await rakuenStore.init(`topic${last}`)
 
     const topic = rakuenStore.topic(topicId)
     if (!topic?._loaded) {

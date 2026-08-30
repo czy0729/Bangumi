@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-06-04 15:31:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-03 20:38:09
+ * @Last Modified time: 2026-08-31 05:17:47
  */
 import { computed } from 'mobx'
 import { rakuenStore, systemStore, userStore } from '@stores'
 import { desc } from '@utils'
+import { getBucketId } from '@utils/bucket'
 import { computedFn } from '@utils/computed-fn'
 import State from './state'
 import { COMMENT_LIMIT, COMMENT_LIMIT_ADVANCE } from './ds'
@@ -15,12 +16,26 @@ import type { CommentsItemWithSub, Topic } from '@stores/rakuen/types'
 import type { Id, Sections, TopicId } from '@types'
 import type { TopicItem } from '../types'
 
+/**
+ * rakuenStore.state 的 topic 分桶视图
+ *  - state 的模板索引 key 经 store 类链深层解析后为 error type, 收口为显式类型
+ * */
+function getTopicBucket(last: number): Record<TopicId, Topic> {
+  const state = rakuenStore.state as unknown as Record<`topic${number}`, Record<TopicId, Topic>>
+  return state[`topic${last}`] || {}
+}
+
 export default class Computed extends State {
-  /** 需要把 rakuenStore.state.topic 和 rakuenStore.state.cloudTopic key 值合并计算 */
+  /** 需要把 rakuenStore 分桶 topic 与 cloudTopic key 值合并计算 */
   @computed get keys() {
-    const { topic, cloudTopic } = rakuenStore.state
+    const { cloudTopic } = rakuenStore.state
+    const topicKeys: string[] = []
+    for (let i = 0; i < 1000; i += 1) {
+      topicKeys.push(...Object.keys(getTopicBucket(i)))
+    }
+
     return (
-      Array.from(new Set([...Object.keys(topic), ...Object.keys(cloudTopic)]))
+      Array.from(new Set([...topicKeys, ...Object.keys(cloudTopic)]))
         // 正则已覆盖 group/ 和 undefined key 的过滤
         .filter(topicId => /^group\/\d+$/.test(topicId))
         .sort((a, b) => desc(parseInt(a.split('/')?.[1]), parseInt(b.split('/')?.[1]))) as TopicId[]
@@ -33,7 +48,8 @@ export default class Computed extends State {
     const map: Record<string, number> = {}
 
     this.keys.forEach(item => {
-      const target: Topic = rakuenStore.state.topic[item] || rakuenStore.state.cloudTopic[item]
+      const last = getBucketId(item)
+      const target: Topic = getTopicBucket(last)[item] || rakuenStore.state.cloudTopic[item]
       if (!target?.title || target?.title === 'undefined') return
 
       const title = (target.time || '').split(' ')[0]
@@ -54,8 +70,9 @@ export default class Computed extends State {
   }
 
   /** 是否收藏 */
-  isFavor = computedFn((topicId: TopicId) => {
-    return rakuenStore.favorV2(topicId)
+  isFavor = computedFn((topicId: TopicId): boolean => {
+    // favorV2 经 computedFn 深层类型解析为 error type, 显式收口
+    return rakuenStore.favorV2(topicId) as boolean
   })
 
   /** 收藏键值数组 */

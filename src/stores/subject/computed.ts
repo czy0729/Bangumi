@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:15:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-05 20:34:20
+ * @Last Modified time: 2026-08-31 05:24:40
  */
 import { computed } from 'mobx'
 import { x18 } from '@utils'
+import { getBucketId } from '@utils/bucket'
 import { computedFn } from '@utils/computed-fn'
 import { LIST_EMPTY } from '@constants'
 import {
@@ -20,7 +21,6 @@ import {
   INIT_SUBJECT_WIKI,
   STATE
 } from './init'
-import { getInt } from './utils'
 import State from './state'
 
 import type {
@@ -54,11 +54,17 @@ import type {
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   // -------------------- 纯计算 (直接 computedFn) --------------------
   /** 条目 (new api), 合并 subjectV2 0-999 */
-  subjectV2 = computedFn((subjectId: SubjectId = 0) => {
-    const last = getInt(subjectId)
+  private _subjectV2 = computedFn((subjectId: SubjectId = 0) => {
+    const last = getBucketId(subjectId)
     const STATE_KEY = `subjectV2${last}` as const
     return (this.state?.[STATE_KEY]?.[subjectId] || INIT_SUBJECT_V2) as SubjectV2
   })
+
+  /** 条目 (new api), 懒读回对应桶 */
+  subjectV2(subjectId: SubjectId = 0) {
+    this.init(`subjectV2${getBucketId(subjectId)}`, true)
+    return this._subjectV2(subjectId)
+  }
 
   /** @deprecated 条目 (CDN) */
   subjectFormCDN = computedFn((subjectId: SubjectId = 0) => {
@@ -208,14 +214,14 @@ export default class Computed extends State implements StoreConstructor<typeof S
   // -------------------- 有副作用 (分离 init + computedFn) --------------------
   /** 条目, 合并 subject 0-999 */
   private _subject = computedFn((subjectId: SubjectId = 0) => {
-    const last = getInt(subjectId)
+    const last = getBucketId(subjectId)
     const STATE_KEY = `subject${last}` as const
     return (this.state?.[STATE_KEY]?.[subjectId] || INIT_SUBJECT) as Subject
   })
 
   /** 条目 (HTML), 合并 subjectFormHTML 0-999 */
   private _subjectFormHTML = computedFn((subjectId: SubjectId = 0) => {
-    const last = getInt(subjectId)
+    const last = getBucketId(subjectId)
     const STATE_KEY = `subjectFormHTML${last}` as const
     return (this.state?.[STATE_KEY]?.[subjectId] || INIT_SUBJECT_FROM_HTML_ITEM) as SubjectFromHTML
   })
@@ -227,7 +233,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 条目吐槽箱, 合并 subjectComments 0-999 */
   private _subjectComments = computedFn((subjectId: SubjectId = 0) => {
-    const last = getInt(subjectId)
+    const last = getBucketId(subjectId)
     const STATE_KEY = `subjectComments${last}` as const
     return (this.state?.[STATE_KEY]?.[subjectId] || LIST_EMPTY) as SubjectComments
   })
@@ -282,14 +288,14 @@ export default class Computed extends State implements StoreConstructor<typeof S
   // -------------------- 导出方法 (分离 init) --------------------
   /** 条目, 合并 subject 0-999 */
   subject(subjectId: SubjectId = 0) {
-    const last = getInt(subjectId)
+    const last = getBucketId(subjectId)
     this.init(`subject${last}`, true)
     return this._subject(subjectId)
   }
 
   /** 条目 (HTML), 合并 subjectFormHTML 0-999 */
   subjectFormHTML(subjectId: SubjectId = 0) {
-    const last = getInt(subjectId)
+    const last = getBucketId(subjectId)
     this.init(`subjectFormHTML${last}`, true)
     return this._subjectFormHTML(subjectId)
   }
@@ -302,7 +308,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 条目吐槽箱, 合并 subjectComments 0-999 */
   subjectComments(subjectId: SubjectId = 0) {
-    const last = getInt(subjectId)
+    const last = getBucketId(subjectId)
     this.init(`subjectComments${last}`, true)
     return this._subjectComments(subjectId)
   }

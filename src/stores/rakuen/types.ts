@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-01 04:41:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-20 21:38:50
+ * @Last Modified time: 2026-08-31 05:23:47
  */
 import type {
   CoverGroup,
@@ -17,7 +17,12 @@ import type {
 } from '@types'
 import type { INIT_SETTING, LOADED } from './init'
 
-export type CacheKey = keyof typeof LOADED | `comments${number}`
+export type CacheKey =
+  | keyof typeof LOADED
+  | `comments${number}`
+  | `topic${number}`
+  | `likes${number}`
+  | `readed${number}`
 
 /** 0: 全部, 1: 我的好友, 2: 不接收 */
 export type PrivacyValue = '0' | '1' | '2'

@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-05-16 19:56:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-16 23:02:45
+ * @Last Modified time: 2026-08-31 05:19:56
  */
 import { rakuenStore } from '@stores'
 import { confirm, feedback, info, updateVisibleBottom } from '@utils'
+import { getBucketId } from '@utils/bucket'
 import { logger } from '@utils/dev'
 import { t } from '@utils/fetch'
 import {
@@ -197,33 +198,34 @@ export default class Action extends Fetch {
   }
 
   /** 获取未读帖子的id */
-  getUnreadTopicIds = (list: any[] = []) => {
-    const { topic } = rakuenStore.state
+  getUnreadTopicIds = async (list: any[] = []) => {
     const ids = []
-    list.forEach(item => {
+    for (const item of list) {
       try {
         // 需要检查回复数是否小于LIMIT_TOPIC_PUSH
         // replies: (+1)
         const count = parseInt(String(item.replies || '0').replace(/\(\+|\)/g, ''))
         if (count <= LIMIT_TOPIC_PUSH) {
-          const id = String(item.href).replace('/rakuen/topic/', '')
-          if (!topic[id]) {
+          const id = String(item.href).replace('/rakuen/topic/', '') as TopicId
+          // 桶可能尚未读回, 先同步 init 再判, 避免已缓存帖子被误判未读
+          await rakuenStore.init(`topic${getBucketId(id)}`)
+          if (!rakuenStore.topic(id)._loaded) {
             ids.push(id)
           }
         }
       } catch (error) {
         // do nothing
       }
-    })
+    }
     return ids
   }
 
   /** 预读取未读帖子内容 */
-  prefetchConfirm = () => {
+  prefetchConfirm = async () => {
     const { page } = this.state
     const type = this.type(page)
     const { list } = this.rakuen(type)
-    const ids = this.getUnreadTopicIds(list)
+    const ids = await this.getUnreadTopicIds(list)
 
     if (!ids.length) {
       info('当前没有未读取数据的帖子')

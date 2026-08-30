@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-02 00:27:19
+ * @Last Modified time: 2026-08-31 05:23:29
  */
+import { removeItem } from '@utils/storage/utils'
 import {
   LIST_EMPTY,
   MODEL_BIG_EMOJI_SIZE,
@@ -239,15 +240,6 @@ const STATE = {
   /** 超展开列表 */
   rakuen: {} as Record<`${RakuenScope}|${RakuenType | RakuenTypeMono | RakuenTypeGroup}`, Rakuen>,
 
-  /** 帖子历史查看信息 */
-  readed: {} as Record<TopicId, Readed>,
-
-  /** 帖子内容 */
-  topic: {} as Record<TopicId, Topic>,
-
-  /** 帖子回复表情 */
-  likes: {} as Record<TopicId, Likes>,
-
   /** @deprecated 帖子内容CDN自维护数据 (用于帖子首次渲染加速) */
   topicFormCDN: {} as Record<TopicId, Topic>,
 
@@ -355,12 +347,32 @@ const STATE = {
  * 也能减少每次写入本地储存的量
  * @date 2023/03/24
  */
-for (let i = 0; i < 1000; i += 1) {
+export const BUCKET_COUNT = 1000
+
+for (let i = 0; i < BUCKET_COUNT; i += 1) {
   /** 帖子回复 */
   STATE[`comments${i}`] = {} as Record<TopicId, Comments>
+
+  /** 帖子内容 */
+  STATE[`topic${i}`] = {} as Record<TopicId, Topic>
+
+  /** 帖子回复表情 */
+  STATE[`likes${i}`] = {} as Record<TopicId, Likes>
+
+  /** 帖子历史查看信息 */
+  STATE[`readed${i}`] = {} as Record<TopicId, Readed>
 }
 
 export { STATE }
+
+// 分桶改造后清理旧版未分片的 3 个 key (帖子缓存与已读标记均为可再生数据, 不迁移)
+setTimeout(() => {
+  ;['topic', 'likes', 'readed'].forEach(key => {
+    Promise.resolve()
+      .then(() => removeItem(`${NAMESPACE}|${key}|state`))
+      .catch(() => {})
+  })
+}, 0)
 
 export const LOADED = {
   blockedTrack: false,
@@ -377,12 +389,9 @@ export const LOADED = {
   groupInfo: false,
   groupThumb: false,
   hot: false,
-  likes: false,
   mine: false,
   notify: false,
   privacy: false,
   rakuen: false,
-  readed: false,
-  setting: false,
-  topic: false
+  setting: false
 }

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:45:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-10 05:45:37
+ * @Last Modified time: 2026-08-31 05:20:45
  */
 import { computed } from 'mobx'
+import { getBucketId } from '@utils/bucket'
 import { computedFn } from '@utils/computed-fn'
 import { LIST_EMPTY } from '@constants'
 import { INIT_CATALOG_ITEM, INIT_CATELOG_DETAIL_ITEM, INIT_CHANNEL } from './init'
-import { getInt } from './utils'
 import State from './state'
 
 import type { Id, StoreConstructor, SubjectType } from '@types'
@@ -56,7 +56,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 目录详情 */
   private _catalogDetail = computedFn((id: Id) => {
-    const last = getInt(id)
+    const last = getBucketId(id, 2)
     const STATE_KEY = `catalogDetail${last}` as const
     return (this.state?.[STATE_KEY]?.[id] || INIT_CATELOG_DETAIL_ITEM) as CatalogDetail
   })
@@ -109,7 +109,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 目录详情 */
   catalogDetail(id: Id) {
-    const last = getInt(id)
+    const last = getBucketId(id, 2)
     this.init(`catalogDetail${last}`, true)
     return this._catalogDetail(id)
   }

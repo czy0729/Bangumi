@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-28 22:04:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-05 15:34:22
+ * @Last Modified time: 2026-08-31 05:20:23
  */
 import { collectionStore, smbStore, subjectStore } from '@stores'
 import { sleep } from '@utils'
@@ -35,7 +35,8 @@ class ScreenSmb extends Action {
       () => subjectStore.initSubjectV2(this.subjectIds).then(() => true),
       () => collectionStore.init('collection'),
       () => collectionStore.init('collectionStatus'),
-      () => decode('bangumi-data').then(() => true)
+      () => decode('bangumi-data').then(() => true),
+      () => decode('ja').then(() => true)
     ])
     this.cacheList()
     this.setState({

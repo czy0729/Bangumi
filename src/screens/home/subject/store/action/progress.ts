@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-26 09:34:10
+ * @Last Modified time: 2026-08-31 05:17:24
  */
 import { subjectStore, userStore } from '@stores'
-import { getInt } from '@stores/subject'
 import { asc, confirm, info } from '@utils'
+import { getBucketId } from '@utils/bucket'
 import { logger } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { webhookEp } from '@utils/webhooks'
@@ -243,7 +243,7 @@ export default class Progress extends Collection {
 
   /** 标记「看过」时自动填满全部集数 (动画取 totalEps, 书籍取 totalChap/totalVol) → doUpdateEp */
   autoCompleteEps = async () => {
-    const last = getInt(this.subjectId)
+    const last = getBucketId(this.subjectId)
     const STATE_KEY = `subjectFormHTML${last}` as const
     await subjectStore.init(STATE_KEY)
 

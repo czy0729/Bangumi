@@ -6,13 +6,8 @@
  */
 import { HOST } from '@constants'
 
-import type { ResponseV0Episodes, SubjectId } from '@types'
+import type { ResponseV0Episodes } from '@types'
 import type { SubjectSnapshot } from './types'
-
-export function getInt(subjectId: SubjectId) {
-  const str = String(subjectId)
-  return Number(str.slice(str.length - 3, str.length))
-}
 
 export function getSubjectSnapshot(
   air_date = '',

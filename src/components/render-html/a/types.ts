@@ -2,9 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-09-27 23:40:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-26 15:56:47
+ * @Last Modified time: 2026-08-31 05:13:31
  */
 import type { Fn, ReactNode, TextStyle } from '@types'
+
+/** a 点击回调 */
+export type OnPress = (navigation?: null, href?: string, payload?: { _cn?: string }) => void
 
 export type Props = {
   /** a 文字样式 */
@@ -19,7 +22,7 @@ export type Props = {
   passProps?: PassProps
 
   /** 点击回调 */
-  onPress?: (navigation?: null, href?: string) => void
+  onPress?: OnPress
 
   /** 通常是文字或者嵌套的 a */
   children?: ReactNode | ReactNode[]
@@ -55,7 +58,7 @@ export type ACSearchArgs = {
   params: Record<string, string>
 
   /** 点击回调 */
-  onPress?: (navigation?: null, href?: string) => void
+  onPress?: OnPress
 }
 
 /** getSubject / getTopic / getMono 公共参数 */
