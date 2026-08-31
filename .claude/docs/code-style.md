@@ -3,6 +3,11 @@
 - 一个文件没必要不超过 400 行，超了就拆
 - 嵌套没必要不要超过 4 层
 
+# 提交描述规范
+
+- 格式为 `- [功能块] xxx`（功能块如 文档 / 组件 / 重构 / 依赖 / 词云 等，取自最近提交惯例）
+- 尽量简洁，用自然语言概括改动本身，不关心代码层面细节
+
 # 注释规范
 
 - **文件头注释框：元信息之后空一行写文件职责描述**，描述紧贴 `*/` 收尾，可多行（续行与首行对齐）。新建文件一律带上；存量文件未带的不必回填，编辑该文件时顺手补即可。先例见 `src/utils/protobuf/index.ts`：
@@ -56,8 +61,7 @@
 
 # React Native 规范
 
-- **触摸事件必须在同步代码中提取数据**：React Native 的触摸事件（如 `onTouchMove`、`onTouchStart`、`onTouchEnd`）使用合成事件（Synthetic Event），事件对象会被重用和回收。如果在 `requestAnimationFrame`、`setTimeout`、`Promise` 等异步回调中访问 `e.nativeEvent.touches`，事件对象可能已被回收导致 `Cannot read property 'touches' of null` 错误。
-  - ✅ 正确：在同步代码中提取所需数据，然后在异步回调中使用提取的数据
+- **触摸事件必须在同步代码中提取数据**：RN 触摸事件（`onTouchMove` 等）的合成事件对象会被重用回收，在 `requestAnimationFrame` / `setTimeout` / `Promise` 等异步回调中访问 `e.nativeEvent.touches` 会得到 `null`。先同步提取，再进异步回调：
   ```typescript
   const handleTouchMove = useCallback((e: any) => {
     const touch = e.nativeEvent?.touches?.[0]
@@ -65,15 +69,7 @@
     const { pageX, pageY } = touch  // 同步提取
 
     requestAnimationFrame(() => {
-      // 使用已提取的 pageX, pageY
-    })
-  }, [])
-  ```
-  - ❌ 错误：在异步回调中直接访问事件对象
-  ```typescript
-  const handleTouchMove = useCallback((e: any) => {
-    requestAnimationFrame(() => {
-      const touch = e.nativeEvent?.touches?.[0]  // 事件可能已被回收
+      // 使用已提取的 pageX, pageY（此处再读 e.nativeEvent 已被回收）
     })
   }, [])
   ```

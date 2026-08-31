@@ -152,13 +152,10 @@ hold-menu/
 - 不使用 `// @ts-ignore` / `@ts-expect-error` 掩盖**可修复**的类型错误，从根因解决
 - 例：`LinearGradient.colors` 期望可变的 `string[]`，传入 `readonly` 元组报错时应 `[...colors]` 展开为可变数组，而不是加抑制注释
 
-## ant-design 组件迁移
+## 动画 / 静态 API 组件
 
-`src/components/@/ant-design` 已删除，原组件迁移到 `src/components/<name>`，遵循上述目录结构与规范（函数组件 + observer() + reanimated）：
+原 ant-design 系组件（现位于 `src/components/<name>`）遵循的模式：
 
-- 纯逻辑抽到 `utils.ts`（如 `normalPercent`、`getUpdatedIndex`、`getPosition`），测试写 `__tests__/utils.test.ts`
-- **动画核心组件**独立成目录（如 `modal-view`），负责 Portal、遮罩、进出场动画（`withTiming`/`withSpring`），对外 UI 组件在之上组合（见 `modal/`）
-- **动画核心组件的动画逻辑抽 `hooks.ts`**（如 `modal-view/hooks.ts` 的 `useModalAnimation`）：shared values + `scheduleOnRN` 桥接 `onAnimationEnd` 回调、稳定 `useCallback` 引用，JSX 拆 Mask/Content 子组件组合（镜像 `collapsible/hooks.ts`）
+- **动画核心组件**独立成目录（如 `modal-view`），负责 Portal、遮罩、进出场动画（`withTiming`/`withSpring`），对外 UI 组件在之上组合（见 `modal/`）；动画逻辑抽 `hooks.ts`（如 `useModalAnimation`）：shared values + `scheduleOnRN` 桥接 `onAnimationEnd` 回调、稳定 `useCallback` 引用，JSX 拆 Mask/Content 子组件组合（镜像 `collapsible/hooks.ts`）
 - 需要静态 API 的组件用 `api.tsx` 提供命令式入口，通过 `Portal.add` 挂载（见 `action-sheet/api.tsx` 的 `AntmActionSheet`）
-- 迁移后由旧路径 `@components/@/ant-design/x` 改为 `@components/x` 引用
-- 渲染类测试因环境 `react-test-renderer` 版本漂移不可用，逻辑测试改测纯函数（`__tests__/utils.test.ts`）
+- 纯逻辑抽到 `utils.ts`（如 `normalPercent`、`getUpdatedIndex`、`getPosition`），测试写 `__tests__/utils.test.ts`；渲染类测试因 `react-test-renderer` 版本漂移不可用，逻辑测试一律测纯函数

@@ -1,5 +1,7 @@
 # 页面（Screen）规范
 
+> 全局风格规则（observer 包裹、`import type`、样式数组 `stl()` 等）见 [code-style.md](./code-style.md)，本文不重复。
+
 ## 目录结构
 
 ```
@@ -15,8 +17,8 @@ screen-name/
 │   ├── fetch.ts        # Fetch extends Computed，异步请求
 │   ├── action.ts       # Action extends Fetch，业务逻辑
 │   └── ds.ts           # NAMESPACE / RESET_STATE / EXCLUDE_STATE / STATE
-├── header/
-│   ├── index.tsx       # 页面头部组件
+├── header/             # 页面头部组件（独立目录，不内联在 index.tsx）
+│   ├── index.tsx
 │   ├── ds.ts
 │   └── styles.ts
 ├── component/          # 页面私有子组件（访问 Store）
@@ -135,9 +137,7 @@ function Info() {
 export default observer(Info)
 ```
 
-所有组件统一用 `observer()` 包裹，不使用 `useObserver` 或 `ob`。
-
-> 页面和子组件统一使用命名函数 + 底部导出 `export default observer(Xxx)` 的分体写法。
+页面和子组件统一使用命名函数声明 + 底部 `export default observer(Xxx)` 导出。
 
 ## 子组件 Props 类型规范
 
@@ -186,13 +186,9 @@ export type Props = {
 
 首个字段的注释可紧贴 `{`，后续字段的注释与上一个字段之间必须空一行（与全局声明注释规则一致）。
 
-## 代码风格要求
+## 页面风格要求
 
-1. **必须使用 `function` 声明**：页面组件和子组件必须使用 `function` 关键字声明，不要使用箭头函数 `const Xxx = () => {}`
-2. **必须使用 `observer`**：页面组件必须使用 `observer()` 包裹导出，不要使用 `useObserver` hook 和旧封装的 `ob`
-3. **必须使用 `import type`**：仅用于类型的位置必须使用 `import type { ... }` 语法
-4. **header 组件独立**：页面头部（TinygrailHeader / Header）应独立放在 `header/` 目录，不要内联在 index.tsx 中
-5. **回调使用 `useCallback`**：headerRight 必须用 `useCallback` 包裹
+- headerRight 等回调用 `useCallback` 包裹：
 
 ```tsx
 const handleHeaderRight = useCallback(
@@ -202,8 +198,8 @@ const handleHeaderRight = useCallback(
 
 return <Header title='标题' hm={HM} headerRight={handleHeaderRight} />
 ```
-6. **埋点 `t()` 置后**：先执行核心业务逻辑（如 alert、导航），后执行 `t()` 埋点调用
-7. **页面子组件放 `component/` 目录**：除 header 外的页面私有子组件必须放在 `component/` 目录下，不要与页面根目录平级
+
+- 埋点 `t()` 置后：先执行核心业务逻辑（如 alert、导航），后执行 `t()` 埋点调用
 
 ## 页面区块（component/xxx/）双组件模式
 
@@ -224,63 +220,4 @@ component/ep/
 
 ## 页面内组件规范（components/）
 
-页面内纯 UI 小组件放在 `components/` 目录，不访问 Store：
-
-```
-components/
-└── collapse/
-    ├── index.tsx
-    ├── types.ts
-    └── styles.ts   # 可选
-```
-
-### 类型定义
-
-使用 `WithViewStyles` 和 `PropsWithChildren`：
-
-```ts
-// types.ts
-import type { PropsWithChildren } from 'react'
-import type { WithViewStyles } from '@types'
-
-export type Props = PropsWithChildren<WithViewStyles<{}>>
-```
-
-### 样式数组
-
-使用 `stl()` 包裹样式数组（处理 falsy 值）：
-
-```tsx
-import { stl } from '@utils'
-
-// ❌ 错误
-<Text style={[_.mt.sm, style]}>
-
-// ✅ 正确
-<Text style={stl(_.mt.sm, style)}>
-```
-
-### 组件写法
-
-使用命名函数 + 底部 `export default observer()` 导出：
-
-```tsx
-import React from 'react'
-import { observer } from 'mobx-react'
-import { Text } from '@components'
-import { _ } from '@stores'
-import { stl } from '@utils'
-
-import type { Props } from './types'
-
-/** 组件描述 */
-function Xxx({ style, children }: Props) {
-  return (
-    <Text style={stl(_.mt.sm, style)} size={14} lineHeight={18}>
-      {children}
-    </Text>
-  )
-}
-
-export default observer(Xxx)
-```
+纯 UI 小组件放 `components/`，不访问 Store（这是它与 `component/` 下子组件的唯一区别）。目录结构、类型定义（`PropsWithChildren<WithViewStyles<{}>>`）、样式（`stl()`）、命名函数 + `export default observer()` 写法均同 [component.md](./component.md)。
