@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2026-08-12 06:40:00
- * @Last Modified by:   czy0729
- * @Last Modified time: 2026-08-30 00:00:00
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-09-01 07:26:10
  */
 import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { NavigationContext } from '@react-navigation/native'
@@ -15,7 +15,14 @@ import { useBackHandler } from '@utils/hooks'
 const DURATION = 240
 
 /** 动作面板显示/收起动画状态 */
-export const useActionSheet = (show: boolean, onClose?: () => void, height = 480) => {
+export const useActionSheet = (
+  show: boolean,
+  onClose?: () => void,
+  height = 480,
+
+  /** 面板背景色, 收进 animated style 由 Reanimated 管理, 避免动画中 re-render 时静态背景被丢帧 */
+  contentBg?: string
+) => {
   const progress = useSharedValue(show ? 1 : 0)
   const [showValue, setShow] = useState(show)
   const closingRef = useRef(false)
@@ -43,9 +50,10 @@ export const useActionSheet = (show: boolean, onClose?: () => void, height = 480
   const handleShow = useCallback(() => {
     if (showValue) return
 
-    // 强制归零后再挂载: 收起时 UI 线程的归零动画可能被丢弃而残留 1,
-    // 残留会让面板以展开态挂载且 withTiming(1) 从 1 到 1 无动画
-    progress.value = 0
+    // 仅当残留展开态 (收起归零动画被丢弃, progress 停在 ≈1) 时才归零;
+    // 无条件归零会在 showValue 更新前的二次触发/竞态下把进行中的动画拽回 0 重播
+    if (progress.value > 0.99) progress.value = 0
+
     setShow(true)
     requestAnimationFrame(() => animateTo(1))
   }, [animateTo, progress, showValue])
@@ -87,7 +95,8 @@ export const useActionSheet = (show: boolean, onClose?: () => void, height = 480
       {
         translateY: interpolate(progress.value, [0, 1], [calcHeight, 0])
       }
-    ]
+    ],
+    backgroundColor: contentBg
   }))
 
   const maskStyle = useAnimatedStyle(() => ({

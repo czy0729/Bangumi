@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-25 03:23:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-30 00:00:00
+ * @Last Modified time: 2026-09-01 07:13:33
  */
 import React, { Suspense } from 'react'
 import { View } from 'react-native'
@@ -49,7 +49,9 @@ export const ActionSheet = observer(
     const { showValue, handleClose, calcHeight, contentStyle, maskStyle } = useActionSheet(
       show,
       onClose,
-      height
+      height,
+      // 与 styles.content.backgroundColor 同值: Reanimated 每帧重算, 动画中 re-render 不会丢背景
+      _.select(_.colorPlain, _._colorDarkModeLevel1)
     )
 
     if (!showValue) return null

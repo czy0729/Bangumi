@@ -9,6 +9,7 @@ import { syncSystemStore, syncUserStore } from '@utils/async'
 import { fetchHTML, xhr } from '@utils/fetch'
 import { collect, collectList, get, is, update } from '@utils/kv'
 import { getBucketId } from '@utils/bucket'
+import { plainClone } from '@utils/store/utils'
 import {
   API_TOPIC_COMMENT_LIKE,
   APP_ADVANCE_TRACK_COMMENT,
@@ -157,7 +158,7 @@ export default class Action extends Fetch {
         const fId = String(floorId)
         const targetValue = String(item.value)
 
-        const topicLikes = JSON.parse(JSON.stringify(this.likes(ITEM_KEY) || {}))
+        const topicLikes = plainClone(this.likes(ITEM_KEY) || {})
 
         // 获取当前楼层 (floorId) 的 reactions 列表
         const currentReactions = topicLikes[fId] || {}

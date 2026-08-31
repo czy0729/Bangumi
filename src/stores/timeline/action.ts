@@ -6,6 +6,7 @@
  */
 import { getTimestamp } from '@utils'
 import { xhr } from '@utils/fetch'
+import { plainClone } from '@utils/store/utils'
 import {
   API_CONNECT,
   API_TOPIC_COMMENT_LIKE,
@@ -217,7 +218,7 @@ export default class Action extends Fetch {
         const rawData = this.likes(idKey) || {}
 
         // 如果 rawData 已经包含 idKey，就取里面的，否则取它自己
-        const currentReactions = JSON.parse(JSON.stringify(rawData[idKey] || rawData))
+        const currentReactions = plainClone(rawData[idKey] || rawData)
 
         // 查找当前是否已经有选中的 value (互斥逻辑)
         let prevSelectedValue = null
