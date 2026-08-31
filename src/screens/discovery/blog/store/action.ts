@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-09 03:18:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-09 03:54:22
+ * @Last Modified time: 2026-08-31 21:37:07
  */
 import { info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
@@ -92,7 +92,7 @@ export default class Action extends Fetch {
   }
 
   /** 页码输入框改变 */
-  onChange = ({ nativeEvent }) => {
+  onChange = ({ nativeEvent }: { nativeEvent: { text: string } }) => {
     const { text } = nativeEvent
     const { ipt } = this.state
     this.setState({

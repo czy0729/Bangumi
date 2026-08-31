@@ -2,56 +2,36 @@
  * @Author: czy0729
  * @Date: 2024-05-03 22:42:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-23 01:51:31
+ * @Last Modified time: 2026-08-31 20:13:55
+ *
+ * 评分月刊页面: 编排 useVIBPage 与列表 / 头部
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import { Component, HeaderPlaceholder, Page, ScrollView } from '@components'
-import { InView } from '@_'
-import { _, StoreContext } from '@stores'
-import BlockNew from './component/block-new'
-import BlockTrend from './component/block-trend'
-import Pagination from './component/pagination'
-import Title from './component/title'
+import { Component, HeaderPlaceholder, Page } from '@components'
+import { StoreContext } from '@stores'
+import List from './component/list'
 import Header from './header'
 import { useVIBPage } from './hooks'
-import { memoStyles } from './styles'
 
 import type { NavigationProps } from '@types'
 
 /** 评分月刊 */
-const VIB = (props: NavigationProps) => {
-  const { id, data, index, loaded, handleSelect, handleForwardRef, handleScroll } =
-    useVIBPage(props)
-
-  const styles = memoStyles()
-
-  const current = data[index]
+function VIB(props: NavigationProps) {
+  const { id, data, index, loaded, handleSelect, scrollToRef, handleScroll } = useVIBPage(props)
 
   return (
     <Component id='screen-vib'>
       <StoreContext.Provider value={id}>
         <Page loaded={loaded}>
           <HeaderPlaceholder />
-          <ScrollView
-            forwardRef={handleForwardRef}
-            contentContainerStyle={styles.contentContainerStyle}
+          <List
+            data={data}
+            index={index}
+            scrollToRef={scrollToRef}
+            onSelect={handleSelect}
             onScroll={handleScroll}
-          >
-            <Title
-              text={`${current.title} (${current.desc})`.replace('日到', '至')}
-              size='primary'
-            />
-            {current.data.map((item, index) => {
-              const Component = index ? BlockTrend : BlockNew
-              return (
-                <InView key={item.title} style={_.mt.lg} y={_.window.height * (index + 1)}>
-                  <Component title={item.title} data={item.data} />
-                </InView>
-              )
-            })}
-            <Pagination data={data} index={index} onSelect={handleSelect} />
-          </ScrollView>
+          />
         </Page>
         <Header data={data.map(item => item.title)} onSelect={handleSelect} />
       </StoreContext.Provider>

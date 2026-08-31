@@ -45,7 +45,8 @@
 # 代码风格（全局）
 
 - 所有组件统一用 `observer()` 包裹，**不使用** `useObserver` 或 `ob`
-- 不使用 React.memo / useMemo，依赖 MobX observer() 自动优化
+- 性能优化推荐依赖 MobX observer() 自动追踪，默认不手写 React.memo / useMemo
+  - store 派生数据每次渲染直接计算即可，useMemo 缓存 store 派生值可能滞留旧数据（原因见 component.md「observer 组件内不要用 useMemo 缓存 store 派生数据」）
   - **例外**：滚动密集页面的区块内容组件（见 screen.md「页面区块双组件模式」）使用项目封装的 `memo(props, DEFAULT_PROPS, COMPONENT_MAIN)` + props 驱动；此类组件内部的 useMemo 若服务于稳定引用可保留
 - useCallback 用于稳定引用
 - **`use*` 函数禁止在条件提前返回之后调用**：`if (...) return null` 之后不要再调用任何 `use*` 函数（含纯函数），避免日后函数内引入真实 hook 时触发 Rules of Hooks 崩溃。提前返回应放在所有 `use*` 调用之后

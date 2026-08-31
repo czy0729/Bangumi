@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-16 13:09:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-23 01:52:51
+ * @Last Modified time: 2026-08-31 20:13:48
  */
 import { useCallback, useRef, useState } from 'react'
 import { uiStore, useInitStore } from '@stores'
@@ -10,11 +10,12 @@ import { usePageLifecycle } from '@utils/hooks'
 import store from './store'
 import { getData, initBangumiData } from './utils'
 
+import type { ListViewInstance } from '@components'
 import type { NavigationProps, ScrollEvent } from '@types'
 import type { Ctx, Data } from './types'
 
 let fetched = false
-let memo = null
+let memo: Data | null = null
 
 /** 评分月刊页面逻辑 */
 export function useVIBPage(props: NavigationProps) {
@@ -23,7 +24,7 @@ export function useVIBPage(props: NavigationProps) {
 
   const [loaded, setLoaded] = useState(fetched)
   const [index, setIndex] = useState(0)
-  const [data, setData] = useState<Data>(memo || require('@assets/json/vib.json'))
+  const [data, setData] = useState<Data>(memo || (require('@assets/json/vib.json') as Data))
   const callback = async () => {
     if (fetched) return true
 
@@ -37,25 +38,20 @@ export function useVIBPage(props: NavigationProps) {
     fetched = true
   }
 
-  const scrollToRef = useRef(null)
+  const scrollToRef = useRef<ListViewInstance | null>(null)
   const handleSelect = useCallback(
     (index: number) => {
       setIndex(index)
       setTimeout(() => {
-        if (typeof scrollToRef.current === 'function') {
-          scrollToRef.current({
-            x: 0,
-            y: 0,
-            animated: true,
-            duration: 640
-          })
-        }
+        scrollToRef.current?.scrollToOffset({
+          offset: 0,
+          animated: true
+        })
       }, 40)
     },
     [setIndex]
   )
 
-  const handleForwardRef = useCallback((fn: any) => (scrollToRef.current = fn), [scrollToRef])
   const handleScroll = useCallback(
     (event: ScrollEvent) => {
       $.onScroll(event)
@@ -85,8 +81,8 @@ export function useVIBPage(props: NavigationProps) {
     loaded,
     data,
     index,
+    scrollToRef,
     handleSelect,
-    handleForwardRef,
     handleScroll
   }
 }

@@ -2,21 +2,26 @@
  * @Author: czy0729
  * @Date: 2024-05-04 19:28:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-01 15:30:25
+ * @Last Modified time: 2026-08-31 20:14:26
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Touchable } from '@components'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import Title from '../title'
 import { COMPONENT } from './ds'
-import { Props } from './types'
+
+import type { Props } from './types'
 
 function Pagination({ data, index, onSelect }: Props) {
+  r(COMPONENT)
+
   const { length } = data
   const prev = index >= length - 1 ? -1 : index + 1
   const next = index <= 0 ? -1 : index - 1
+
   return (
     <Flex style={_.mt.lg}>
       {prev !== -1 && (
@@ -50,4 +55,4 @@ function Pagination({ data, index, onSelect }: Props) {
   )
 }
 
-export default ob(Pagination, COMPONENT)
+export default observer(Pagination)

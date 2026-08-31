@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-22 15:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-30 05:09:51
+ * @Last Modified time: 2026-08-31 22:02:22
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,8 +15,10 @@ import { EVENT } from '@constants'
 import { Tag } from '../../base'
 import { InView } from '../../base/in-view'
 import BtnPopover from './btn-popover'
-import { COMPONENT, IMG_HEIGHT, IMG_WIDTH, ITEM_HEIGHT } from './ds'
+import { COMPONENT, IMG_HEIGHT, IMG_WIDTH, ITEM_BLOG_HEIGHT } from './ds'
 import { memoStyles } from './styles'
+
+export { ITEM_BLOG_HEIGHT }
 
 import type { Props as ItemBlogProps } from './types'
 export type { ItemBlogProps }
@@ -77,7 +79,7 @@ export const ItemBlog = observer(
         <View style={stl(styles.item, style)}>
           <Flex style={stl(styles.main, isReaded && styles.readed)} align='start'>
             {hasCover && (
-              <InView style={styles.inView} y={ITEM_HEIGHT * (index + 1)}>
+              <InView style={styles.inView} y={InView.y(index, ITEM_BLOG_HEIGHT)}>
                 <Link {...linkProps}>
                   <Cover
                     src={cover}

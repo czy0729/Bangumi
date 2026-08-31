@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-05-04 05:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-29 21:19:50
+ * @Last Modified time: 2026-08-31 20:14:19
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { _, uiStore } from '@stores'
 import { feedback, findSubjectJp, HTMLDecode } from '@utils'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
 import { COMPONENT } from './ds'
@@ -80,4 +80,4 @@ function Item({ item, index }: Props) {
   )
 }
 
-export default ob(Item, COMPONENT)
+export default observer(Item)

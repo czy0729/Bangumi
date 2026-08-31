@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-05-03 22:44:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-29 07:18:35
+ * @Last Modified time: 2026-08-31 20:14:07
  */
 import { decode } from '@utils/protobuf'
 import { axios } from '@utils/thirdParty'
 import { URL_SOURCE } from './ds'
 
-import type { Fn } from '@types'
+import type { Data } from './types'
 
 /** 新增表 */
 export function getNewSubjects(data: string) {
@@ -56,18 +56,18 @@ export function getTrendSubjects(data: string) {
   return []
 }
 
-export async function initBangumiData(callback: Fn) {
+export async function initBangumiData(callback: () => void) {
   await decode('bangumi-data')
   callback()
 }
 
-export async function getData() {
+export async function getData(): Promise<Data> {
   try {
-    const { data } = await axios({
+    const { data }: { data: unknown } = await axios({
       method: 'get',
       url: URL_SOURCE
     })
-    if (Array.isArray(data)) return data
+    if (Array.isArray(data)) return data as Data
   } catch {}
 
   return []
